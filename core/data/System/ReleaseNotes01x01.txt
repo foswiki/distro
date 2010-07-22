@@ -8,15 +8,33 @@ Marked sections needing updates for 1.1 with ***UPDATE ME***
 
 ---++ Foswiki - The Free and Open Source Wiki
 
-Foswiki is an enterprise collaboration and information sharing tool targeted for professional use in many types of organizations: from small businesses to multi-nationals, from one-product open source groups, to worldwide research networks.
+Foswiki is an enterprise collaboration and information sharing tool targeted 
+for professional use in many types of organizations: from small businesses to 
+multi-nationals, from one-product open source groups, to worldwide research networks.
 
-Foswiki is a wiki: fundamentally, a website with editable web pages. It looks like a normal web site but it encourages contributions, edits, updates, questions, and answers from its users. It's a powerful way of enabling a community to communicate asynchronously using intranet and public internet websites. Foswiki is simple to learn and use. It aims to provide a transparent way for you to publish and exchange your ideas with others over the web and eliminates the one-webmaster syndrome of outdated intranet content.
+Foswiki is a wiki: fundamentally, a website with editable web pages. It looks 
+like a normal web site but it encourages contributions, edits, updates, questions, 
+and answers from its users. It's a powerful way of enabling a community to 
+communicate asynchronously using intranet and public internet websites. 
+Foswiki is simple to learn and use. It aims to provide a transparent way 
+for you to publish and exchange your ideas with others over the web and 
+eliminates the one-webmaster syndrome of outdated intranet content.
 
-Foswiki is a structured wiki with tools that enable users without programming skills to build powerful yet simple applications to process information and support workflows. Developers can extend the functionality of Foswiki with plugins.
+Foswiki is a structured wiki with tools that enable users without programming 
+skills to build powerful yet simple applications to process information and 
+support workflows. Developers can extend the functionality of Foswiki with plugins.
 
-Foswiki is the old TWiki project under a new name. Restrictions on the use of the TWiki brand resulted in many of its developers continuing the project under the new Foswiki name. Foswiki is backwards compatible with all content from older TWiki installations. Foswiki 1.1 ships with a !TWikiCompatibilityPlugin installed and activated by default, thus enabling most extensions made for TWiki to work under Foswiki.
+Foswiki is the old TWiki project under a new name. Restrictions on the use 
+of the TWiki brand resulted in many of its developers continuing the project 
+under the new Foswiki name. Foswiki is backwards compatible with all content 
+from older TWiki installations. Foswiki 1.1 ships with a !TWikiCompatibilityPlugin 
+installed and activated by default, thus enabling most extensions 
+made for TWiki to work under Foswiki.
 
-Since the start of the Foswiki project there have been several releases of TWiki, However there have been very few functionality changes, and the useful changes have all been tracked in Foswiki, so topics and wiki applications supported by TWiki should also work with Foswiki.
+Since the start of the Foswiki project there have been several releases of TWiki, 
+However there have been very few functionality changes, and the useful changes 
+have all been tracked in Foswiki, so topics and wiki applications 
+supported by TWiki should also work with Foswiki.
 
 Foswiki is released under the GNU General Public License.
 
@@ -48,12 +66,35 @@ See ReleaseNotes01x00 for detailed information about changes in that release.
 
 ---++ Important Changes since Foswiki 1.0.9
 
-Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. We have also worked to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements.
+Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, 
+with the goal of making it easier to plug in work from other projects, such 
+as jQuery, !KinoSearch, Solr and others. We have also worked to improve 
+the definition of internal APIs to allow other not-yet-written modules, 
+such as store implementations, to plug in. Most of these modifications 
+should be invisible to the end user and the admin, but are important to 
+position Foswiki for the next generation of improvements.
 
 ---+++ Powerful new =QUERY= macro
-A number of new features have been added with the goal of improving support for wiki applications. These include the powerful new =QUERY= macro, which supports formatted access to formfields and other meta-data in topics using the same syntax as is used in =IF= and =SEARCH= statements.
+A number of new features have been added with the goal of improving support 
+for wiki applications. These include the powerful new =QUERY= macro, 
+which supports formatted access to formfields and other meta-data in 
+topics using the same syntax as is used in =IF= and =SEARCH= statements.
 
-The existing =META= macro has been deprecated (it is still available, but use is discouraged and it will be removed at some point in the future), joining the already-deprecated =METASEARCH=.
+The existing =META= macro has been deprecated (it is still available, 
+but use is discouraged and it will be removed at some point in the future), 
+joining the already-deprecated =METASEARCH=.
+
+---+++ Re-architecting of the SEARCH macro
+To improve the speed, consistency and extendability of the most complex 
+and important Macro, we've started to separate the generation of search results
+from the outputing of FormattedSearch. The most significant user facing 
+improvements are speed and reliability changes - with many more unit tests written
+to ensure future compatibility.
+
+---+++ FOREACH macro
+The extraction of the FormattedSearch system has made it possible to provide a 
+Macro that allows users to render a comma separated list into any =header=, 
+=footer=, =format= style.
 
 ---+++ Testing configuration variables in %IF
 Prior to 1.1, %IF could be used to test the value of any configuration
@@ -68,21 +109,37 @@ well as the topic text and form.
 
 ---+++ Tailoring of user registration made easier.
 
-The topic System.UserRegistration has been enhanced so it now determines whether a custom user registration page exists in %USERSWEB%, and includes it if it does; otherwise it includes DefaultUserRegistration.
+The topic System.UserRegistration has been enhanced so it now determines 
+whether a custom user registration page exists in %USERSWEB%, and 
+includes it if it does; otherwise it includes DefaultUserRegistration.
 
-This means that your tailored version in %USERSWEB% web will not be overwritten by future upgrades.
+This means that your tailored version in %USERSWEB% web will not be 
+overwritten by future upgrades.
 
-You can create a custom version of the UserRegistration form by first copying the topic DefaultUserRegistration to !UserRegistration in %USERSWEB% web. This will ensure that your changes will remain intact next time you upgrade.
+You can create a custom version of the UserRegistration form by first 
+copying the topic DefaultUserRegistration to !UserRegistration in 
+%USERSWEB% web. This will ensure that your changes will remain intact next time you upgrade.
 
-A couple of common fields are hidden from normal view to make the registration page as simple as possible. You can unhide those fields on the page by removing =EXCLUDED_= from the =INCLUDE= tags).
+A couple of common fields are hidden from normal view to make the 
+registration page as simple as possible. You can unhide those fields 
+on the page by removing =EXCLUDED_= from the =INCLUDE= tags).
 
 ---+++ Easy tailoring of reset/change password and change email forms
 
-The topics %SYSTEMWEB%.ResetPassword and %SYSTEMWEB%.ChangePassword now only show the change forms when Foswiki is managing the passwords (the =configure= setting ={PasswordManager}= set to a manager that handles setting of passwords).
+The topics %SYSTEMWEB%.ResetPassword and %SYSTEMWEB%.ChangePassword now 
+only show the change forms when Foswiki is managing the passwords 
+(the =configure= setting ={PasswordManager}= set to a manager that handles setting of passwords).
 
-If the {PasswordManager} does not support password changing, the ChangePassword and ResetPassword topics will show a simple message. This message is defined iby the preference =CHANGEPASSWORDDISABLEDMESSAGE= in %SYSTEMWEB%.DefaultPreferences. You can redefine this setting by copying it to %USERSWEB%.SitePreferences and change it to include a link to the password management website of your organisation.
+If the {PasswordManager} does not support password changing, 
+the ChangePassword and ResetPassword topics will show a simple message. 
+This message is defined iby the preference =CHANGEPASSWORDDISABLEDMESSAGE= 
+in %SYSTEMWEB%.DefaultPreferences. You can redefine this setting by copying 
+it to %USERSWEB%.SitePreferences and change it to include a link to the 
+password management website of your organisation.
 
-ChangeEmailAddress will now guide the user to define the email address in the user topic when the PasswordManager does not handle hidden email addresses, so you should not need to tailor this topic any longer.
+ChangeEmailAddress will now guide the user to define the email address 
+in the user topic when the PasswordManager does not handle hidden email addresses, 
+so you should not need to tailor this topic any longer.
 
 ---+++ Logging of access failures
 Configure and TemplateLogin now log authentication failures to the event logs:
@@ -106,6 +163,11 @@ Because of prior inconsistencies in the files distributed with Foswiki and
 TWiki core and extensions, migration of older Foswiki or TWiki installs may
 see excessive errors reported by configure.  You are recommended to correct the
 file system permissions. 
+
+---+++ Newer modern Icon set for DocumentGraphics.
+To celebrate our new look, project and momentum, Foswiki now has a new ICON set 
+to update the one shipped for the last 10 years. Using the FamFamFam icon set, 
+augmented with icons from other leading graphic artists.
 
 ---+++ Notes for extension authors
 ---++++ API Enhancements
