@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1264672217" format="1.1" reprev="1.9" version="1.9"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1279640925" format="1.1" reprev="9" version="10"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -57,6 +57,7 @@ using jQuery with Foswiki.
    * [[http://jqapi.com][Alternative jQuery Documentation and API Browser]]
    * [[http://docs.jquery.com/Using_jQuery_with_Other_Libraries][Using jQuery with other libraries]]
    * [[http://docs.jquery.com/Plugins][Plugin repository]]
+   * [[http://www.learningjquery.com/2010/07/great-ways-to-learn-jquery][Great Ways to Learn jQuery]]
 
 ---++ Macros
 

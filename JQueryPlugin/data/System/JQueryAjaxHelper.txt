@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1257417130" format="1.1" reprev="1.7" version="1.7"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1278410441" format="1.1" reprev="8" version="8"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %TOC%
@@ -17,6 +17,7 @@ to fetch properties of dynamically populate jquery.autocomplete enabled input bo
    * =INPUT_NAME=: name of text input field
    * =INPUT_VALUE=: preselected value
    * =EXCLUDE=: exclude expression to filter out unwanted topics, see the docu of the =excludetopic= parameter in VarSEARCH
+
 ---++++ Implementation
 <verbatim class="tml">
 %STARTSECTION{"topicselector"}%<!-- topicselector  -->
@@ -29,7 +30,7 @@ to fetch properties of dynamically populate jquery.autocomplete enabled input bo
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <h3 >Select a topic:</h3>
-%INCLUDE{"%TOPIC%" section="topicselector" INPUT_NAME="newtopic1" EXCLUDE="FamFamFamMint*"}%
+%INCLUDE{"%TOPIC%" section="topicselector" INPUT_NAME="newtopic" EXCLUDE="FamFamFamMint*"}%
 </div>
 </div>
 </form>
@@ -40,6 +41,7 @@ to fetch properties of dynamically populate jquery.autocomplete enabled input bo
    * =INPUT_NAME=: name of text input field
    * =INPUT_VALUE=: preselected value
    * =EXCLUDE=: exclude expression to filter out unwanted topics, see the docu of the =excludetopic= parameter in VarSEARCH
+
 ---++++ Implementation
 <verbatim class="tml">
 %STARTSECTION{"webselector"}%<!-- webselector  -->
@@ -57,29 +59,46 @@ to fetch properties of dynamically populate jquery.autocomplete enabled input bo
 </div>
 </form>
 
-
 ---+++ Jump box
 
 ---++++ Parameters
    * =INPUT_NAME=: name of text input field, defaults to jumpbox
    * =GLOBAL=: toggle search for topics in all webs on/off, defaults to off
 
----++++ Implementattion
+---++++ Implementation
 <verbatim class="tml">
 %STARTSECTION{"jumpbox"}%<!-- jumpbox -->
-<input type="text" class="foswikiInputField" name="%IF{"defined INPUT_NAME" then="%INPUT_NAME%" else="jumpbox"}%" id="%IF{"defined INPUT_NAME" then="%INPUT_NAME%" else="jumpbox"}%" autocomplete="off" size="60" />
+<input type="text" class="foswikiInputField jqJumpBox {%IF{
+  "$GLOBAL = 'on'"
+  then="global: true, baseweb:'all', format:'$web.$topic'"
+  else="global: false, baseweb:'%BASEWEB%', format:'$topic'"
+}%}" name="%IF{"defined INPUT_NAME" then="%INPUT_NAME%" else="jumpbox"}%" autocomplete="off" size="60" />
+%ADDTOZONE{"body"
+  tag="jumpbox::js"
+  section="jumpbox::js"
+  requires="JQUERYPLUGIN::AUTOCOMPLETE"
+}%
+<!-- //jumpbox -->%ENDSECTION{"jumpbox"}%
+</verbatim>
+
+<verbatim class="tml">
+%STARTSECTION{"jumpbox::js"}%<literal>
 <script type="text/javascript">
-(function($){
-  $(function(){
-    $("#%IF{"defined INPUT_NAME" then="%INPUT_NAME%" else="jumpbox"}%").autocomplete(
-      "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;contenttype=text/plain;skin=text;%IF{"'%GLOBAL%' = 'on'" then="baseweb=all;format=$web/$topic" else="baseweb=%BASEWEB%;format=$topic"}%"
+jQuery(function($){
+  $(".jqJumpBox").each(function() {
+    var $this = $(this);
+    var opts = $.extend({}, $this.metadata());
+    $this.autocomplete(
+      "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;contenttype=text/plain;skin=text"+
+      ";baseweb="+opts.baseweb+
+      ";format="+opts.format
     ).result(function(event, item) {
-      window.location.href="%SCRIPTURLPATH{"view"}%/%IF{"'%GLOBAL%' != 'on'" then="%BASEWEB%/"}%"+item;
+      window.location.href="%SCRIPTURLPATH{"view"}%/"+(opts.global?opts.baseweb:'')+item;
     });
   });
-})(jQuery);
+});
 </script>
-<!-- //jumpbox -->%ENDSECTION{"jumpbox"}%
+</literal>%ENDSECTION{"jumpbox::js"}%
 </verbatim>
 
 ---++++ Test
@@ -91,7 +110,6 @@ to fetch properties of dynamically populate jquery.autocomplete enabled input bo
 </div>
 </div>
 </form>
-
 
 <form>
 <div class="foswikiFormSteps">
@@ -106,31 +124,41 @@ to fetch properties of dynamically populate jquery.autocomplete enabled input bo
 ---++++ Parameters
    * =INPUT_NAME=: name of text input field
    * =INPUT_VALUE=: preselected user
-   * =MULTIPLE=: true/false - select multiple users
 
 ---++++ Implementation
 <verbatim class="tml">
 %STARTSECTION{"userselector"}%<!-- userselector -->
-<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="off" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+<input type="text" class="foswikiInputField jqUserSelector" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="off" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+%ADDTOZONE{"body"
+  tag="userselector::js"
+  section="userselector::js"
+  requires="JQUERYPLUGIN::AUTOCOMPLETE"
+}%
+<!-- //userselector -->%ENDSECTION{"userselector"}%
+</verbatim>
+
+<verbatim class="tml">
+%STARTSECTION{"userselector::js"}%<literal>
 <script type="text/javascript">
-(function($){
-  $(function(){
-    $("#%INPUT_NAME%").autocomplete(
-      "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user_fast;contenttype=text/plain;skin=text",
-      {
-        autoFill:false,
-        selectFirst:false,
-        scrollHeight:250,
-        %IF{"not isempty MULTIPLE" then="multiple: true," else="/* single select */"}%
-        formatItem: function(row, index, max, search) {
-          return "<table width='100%'><tr><td width='60px'><img width='50' src='"+row[2]+"' /></td><td>"+row[0]+"<br />"+row[1]+"</td></tr></table>";
-        }
+jQuery(function($){
+  $(".jqUserSelector").each(function() {
+    var $this = $(this);
+    var opts = $.extend({
+      autoFill:false,
+      selectFirst:false,
+      scrollHeight:250,
+      formatItem: function(row, index, max, search) {
+        return "<table width='100%'><tr><td width='60px'><img width='50' src='"+row[2]+"' /></td><td>"+row[0]+"<br />"+row[1]+"</td></tr></table>";
       }
+    }, $this.metadata());
+    $this.autocomplete(
+      "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user_fast;contenttype=text/plain;skin=text", 
+      opts
     );
   });
-})(jQuery);
+});
 </script>
-<!-- //userselector -->%ENDSECTION{"userselector"}%
+</literal>%ENDSECTION{"userselector::js"}%
 </verbatim>
 
 ---++++ Test
@@ -138,7 +166,7 @@ to fetch properties of dynamically populate jquery.autocomplete enabled input bo
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <h3 >Find user:</h3>
-%INCLUDE{"%TOPIC%" section="userselector" INPUT_NAME="user"}%
+%INCLUDE{"%TOPIC%" section="userselector" INPUT_NAME="user" MULTI="true"}%
 </div>
 </div>
 </form>
@@ -180,7 +208,7 @@ Needs Foswik:Extensions/FlexWebListPlugin
 ---++++ Url parameters
    * =q=: search term substring typed so far
    * =limit=: number of search results to return, defaults to 10
-  
+
 ---++++ Implementation
 <verbatim class="tml">
 %STARTSECTION{"web"}%%FLEXWEBLIST{
@@ -222,7 +250,6 @@ Needs Foswik:Extensions/FlexWebListPlugin
    web="%USERSWEB%"
 }%%ENDSECTION{"user_fast"}%
 </verbatim>
-
 
 ---++ Misc
 

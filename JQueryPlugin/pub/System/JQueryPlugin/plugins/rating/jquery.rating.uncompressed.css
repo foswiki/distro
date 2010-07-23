@@ -12,6 +12,10 @@ div.star-rating{background:transparent!important;overflow:hidden!important}
 /* END jQuery.Rating Plugin CSS */
 .jqRating {
   line-height:inherit;
+  display:none;
+}
+.jqInitedRating {
+  display:block;
 }
 .jqRatingTip {
   margin-left:1em;
