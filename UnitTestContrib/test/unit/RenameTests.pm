@@ -1274,7 +1274,8 @@ sub test_rename_attachment_no_dest_topic {
 }
 
 # Check that an attachment in meta-data but not on the disc can be renamed
-sub test_rename_attachment_not_on_disc {
+# Test disabled by CDot because of Item9352
+sub do_not_test_rename_attachment_not_on_disc {
     my $this = shift;
 
     my $stream = new File::Temp( UNLINK => 0 );
