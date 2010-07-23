@@ -100,7 +100,7 @@ sub _action_removeUserFromGroup {
 #TODO: what about rgb(), hsl()&hsla(), html 5, there's also rgba()??
 sub _isValidHTMLColor {
     my $c = shift;
-    return $c =~ m/^(#[0-9a-f]{6}|transparent|peru|fuscia|seagreen|olivedrab|
+    return $c =~ m/^(\#[0-9a-f]{6}|transparent|peru|fuscia|seagreen|olivedrab|
                     honeydew|khaki|indigo|cyan|springgreen|darkorange|orange|
                     mediumturquoise|chocolate|moccasin|antiquewhite|whitesmoke|
                     gray|maroon|deepskyblue|purple|mistyrose|darkslateblue|
