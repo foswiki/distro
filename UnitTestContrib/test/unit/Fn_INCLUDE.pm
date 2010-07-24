@@ -241,7 +241,7 @@ THIS
     $this->assert_str_equals( "Have you any socks?\nYes sir, yes sir", $text );
 }
 
-# INCLUDE{"" pattern="blah"}% that does not match should return nothing
+# INCLUDE{"" pattern="(blah)"}% that does not match should return nothing
 sub test_patternNoMatch {
     my $this          = shift;
     my $includedTopic = "TopicToInclude";
@@ -281,6 +281,44 @@ THIS
       $this->{test_topicObject}->expandMacros(
         "%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\".*\"}%");
     $this->assert_str_equals( "", $text );
+}
+
+sub test_docInclude {
+    my $this = shift;
+
+    my $class = 'Foswiki::IncludeHandlers::doc';
+    my $text = $this->{test_topicObject}->expandMacros("%INCLUDE{doc:$class}%");
+    my $expected = <<"EXPECTED";
+
+---+ package Foswiki::IncludeHandlers::doc
+
+This package is designed to be lazy-loaded when Foswiki sees
+an INCLUDE macro with the doc: protocol. It implements a single
+method INCLUDE.
+
+EXPECTED
+    $this->assert_str_equals( $expected, $text );
+
+    # Add a pattern
+    $text =
+      $this->{test_topicObject}->expandMacros(
+        "%INCLUDE{\"doc:$class\" pattern=\"(Foswiki .*protocol)\"}%");
+    $expected = "Foswiki sees\nan INCLUDE macro with the doc: protocol";
+    $this->assert_str_equals( $expected, $text );
+
+    # A pattern with no ()'s
+    $text =
+      $this->{test_topicObject}->expandMacros(
+        "%INCLUDE{\"doc:$class\" pattern=\"Foswiki .*protocol\"}%");
+    $expected = '';
+    $this->assert_str_equals( $expected, $text );
+
+    # A pattern that does not match
+    $text =
+      $this->{test_topicObject}->expandMacros(
+        "%INCLUDE{\"doc:$class\" pattern=\"(cabbage.*avocado)\" warn=\"no\"}%");
+    $expected = '';
+    $this->assert_str_equals( $expected, $text );
 }
 
 1;
