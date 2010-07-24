@@ -811,7 +811,12 @@ sub addUserToGroup {
 
 #TODO: need to amend the intopic Set :/ but for now, this is all we have (its not trivial as we need to support multi-line Set's, and this needs to happen in Meta::getEmbeddedFormat
         $groupTopicObject->putKeyed( 'PREFERENCE',
-            { name => 'GROUP', title => 'GROUP', value => $membersString } );
+            {  
+                type => 'Set', 
+                name => 'GROUP', 
+                title => 'GROUP', 
+                value => $membersString
+             } );
 
         my $text = $groupTopicObject->text() || '';
         $text =~ s/Set GROUP = .*\n   \*/%GROUP%\n   */os;
@@ -843,6 +848,7 @@ sub addUserToGroup {
         $groupTopicObject->putKeyed(
             'PREFERENCE',
             {
+                type => 'Set',
                 name  => 'GROUP',
                 title => 'GROUP',
                 value => $usersObj->getWikiName($cuid)
