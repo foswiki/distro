@@ -758,6 +758,14 @@ cuid _cannot_  be a groupname
 
 =cut
 
+#TODO: move this to somewhere sane.
+our $GroupEditingUI = '%INCLUDE{"%USERSWEB%.WikiGroups"
+         section="changegroup"
+         groupname="%TOPIC%"
+         allowschange="%GROUPINFO{"%TOPIC%" format="$allowschange" limit="1"}%"
+         HIDECHANGE="show"
+       }%';
+
 sub addUserToGroup {
     my ( $this, $cuid, $Group, $create ) = @_;
     $Group = Foswiki::Sandbox::untaint( $Group,
@@ -819,7 +827,7 @@ sub addUserToGroup {
              } );
 
         my $text = $groupTopicObject->text() || '';
-        $text =~ s/Set GROUP = .*\n   \*/%GROUP%\n   */os;
+        $text =~ s/Set GROUP = .*\n   \*/$GroupEditingUI\n   */os;
         $groupTopicObject->text($text);
 
         $groupTopicObject->save( -author => $user );
@@ -855,7 +863,7 @@ sub addUserToGroup {
             }
         );
         my $text = $groupTopicObject->text() || '';
-        $text =~ s/Set GROUP = .*\n   \*/%GROUP%\n   */os;
+        $text =~ s/Set GROUP = .*\n   \*/$GroupEditingUI\n   */os;
         $groupTopicObject->text($text);
 
         #TODO: should also consider securing the new topic?
