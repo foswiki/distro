@@ -10,9 +10,11 @@
 }%
 </verbatim>
 
-_Zones_ are specific places in the output HTML that are marked in the source templates using the [[VarRENDERZONE][RENDERZONE]] macro. Zones are used to collect various materials together, such as Javascript and CSS, that must be included in the output HTML in a specific order, and in a specific place. By default, skins define two zones, =head= and =body= which are in the HEAD tag and at the end of the BODY tag respectively.
+_Zones_ are specific places in the output HTML that are marked in the source templates using the [[VarRENDERZONE][RENDERZONE]] macro. Zones are used to collect various materials together, such as Javascript and CSS, that must be included in the output HTML in a specific order, and in a specific place. Each =ADDTOZONE= call can be identified by a _unique identifier_, and you can state dependencies on other identifiers. In this way you can constrain the order in which they are expanded in the output.
 
-Each =ADDTOZONE= call can be identified by a _unique identifier_, and you can state dependencies on other identifiers. In this way you can constraint the order in which the text added by each call is expanded in the output.
+There are always at least two zones, =head= and =body= - see [[#HeadAndBody][below]] for more information on how to use these standard zones. You can create as many additional zones as you like. Interesting use cases in wiki applications:
+   * create a =sidebar= zone to add widgets
+   * create a =toolbar= zone to add buttons icons
 
 Parameters:
    * ="zone"= optional, comma-separated list of the names of zones that
@@ -25,12 +27,25 @@ Parameters:
      defaults to the default section between STARTINCLUDE and
      STOPINCLUDE
 
-Note that using =topic= and =section= is actually a short form of 
+Using =topic= and =section= is actually a short form of 
 <verbatim class="tml">
 %ADDTOZONE{
    "myzone"
    text="$percntINCLUDE{\"topic\" section=\"section\" warn=\"off\"}$percnt"
 }%
 </verbatim>
+
+#HeadAndBody
+*How to use the =head= and =body= zones*
+
+Notionally the =head= and =body= zones correspond to the end of the HTML =&lt;HEAD&gt; tag and the end of the BODY tag respectively. Normally you should add CSS (and other HTML =&lt;HEAD&gt; content, such as =meta=) to the =head= zone, and Javascript to the =body= zone. There is a setting in =configure=, ={OptimizePageLayout}=, that controls what happens next. First, dependencies between the individual =ADDTOZONE= statements are resolved *within each zone*. Then, if ={OptimizePageLayout}= is enabled, the =head= content is added to the =&lt;HEAD&gt;, and the =body= content is added to the BODY. However, if ={OptimizePageLayout}= is _disabled_ (the default), both the =head= and =body= zones will be added to the HTML =&lt;HEAD&gt;.
+
+For this reason you must be careful to:
+   1 Only add HTML to the body zone _that is also legal in the =&lt;HEAD&gt;_
+   1 Ensure that no =head= content (and no inline Javascript) depends on =body= content. Any such dependency will be _silently ignored_.
+   1 Make sure that all inline JavaScript code in the topic (if it is allowed)
+     is added to the page using
+     =%<nop>ADDTOZONE{"body"...requires="library-tag"}%=
+     with the appropriate library-tag to guarantee a correct load order.
 
 See also [[VarRENDERZONE][RENDERZONE]]

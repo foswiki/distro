@@ -254,7 +254,7 @@ Rename a topic or an attachment.
 | *Parameter* | *Description* | *Default* |
 | =attachment= | Attachment to move | =none= |
 | =currentwebonly= | if defined, searches current web only for links to this topic | |
-| =newattachment= | (Optional) new name for attachment | =none= |
+| =newattachment= | New name for attachment | =attachment=, if given |
 | =newtopic= | new topic name | |
 | =newweb= | new web name | |
 | =nonwikiword= | if defined, a non-wikiword is acceptable for the new topic name | |

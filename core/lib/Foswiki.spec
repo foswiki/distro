@@ -564,8 +564,8 @@ $Foswiki::cfg{INCLUDE}{AllowURLs} = $FALSE;
 # **BOOLEAN**
 # Used to disallow the use of SCRIPT and LITERAL tags in topics by removing
 # them from the body of topics during rendering.
-# <font color="red">This setting is now DEPRECATED</font> - use SafeWikiPlugin
-# instead.
+# <font color="red">This setting is fundamentally unsafe and is now
+# DEPRECATED</font> - use SafeWikiPlugin instead.
 $Foswiki::cfg{AllowInlineScript} = $TRUE;
 
 # **BOOLEAN EXPERT**
@@ -1065,16 +1065,18 @@ $Foswiki::cfg{HttpCompress} = $FALSE;
 
 #---++ HTML Page Layout
 # **BOOLEAN EXPERT**
-# Enable heuristics to optimize the HTML layout by placing all JavaScript files
-# at the bottom of the page, while leaving all CSS files at the top. Note, that
-# you will need to load JavaScript files using <code>%ADDTOZONE{"body" ...}%</code>
-# for content that should participate in this optimization step. Similarly, all
-# CSS files should be added to the page using <code>%ADDTOZONE{"head" ...}%</code>.
-# Note also, that placing JavaScript library files at the bottom of the page, JavaScript
-# code within the topic content area might potentially break when it relys on those libraries
-# being loaded before. So please make sure all JavaScript code is added to the page
-# using <code>%ADDTOZONE{"body"...requires="library-tag"}%</code> with the appropriate library tag
-# to guarantee a correct linear order of the files being loaded by the browser.
+# If this option is disabled then Foswiki will move all
+# <code>%ADDTOZONE{"body"...}%</code> statements to the end of the
+# HTML &lt;HEAD&gt; tag (immediately after the content added by
+# <code>%ADDTOZONE{"head"...}%</code>). If the option is enabled, then
+# <code>%ADDTOZONE{"body"...}%</code> statements are added to the end of
+# the &lt;BODY&gt; tag instead. This optimises the performance of browsers.
+# <strong>Warning</strong> enabling the optimisation might
+# <u>break</u> topics if Javascript code within the topic content has
+# a dependency on other code being loaded in the body zone. See
+# System.VarADDTOZONE for more information. There may also
+# be problems with plugins which post-process body content, such as
+# SafeWikiPlugin. 
 $Foswiki::cfg{OptimizePageLayout} = $FALSE;
 
 #---++ Cache

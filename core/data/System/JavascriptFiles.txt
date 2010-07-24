@@ -5,7 +5,7 @@
 Foswiki will work without Javascript being present in the browser, but the
 user experience is significantly improved if it is enabled.
 
-Foswiki Javascript support comprises a number of base Javascript files,
+Foswiki Javascript support includes a number of base Javascript files,
 attached to this topic, that provide support for features in the basic screens,
 and are used by most skins. These files are automatically included as required
 by skins.
@@ -14,7 +14,13 @@ These files are gradually being phased out in favour of the !JQueryPlugin
 which uses the industry-standard JQuery framework to provide high quality
 user interface components.
 
-*Related Topics:* SkinTemplates, [[Skins]]
+You can use Javascript in the body of topics, but you are highly recommended
+to use the [[VarADDTOZONE][%<nop>ADDTOZONE{"body" ...}%]] macro if you do so.
+Bear in mind that inline Javascript represents a significant security risk to
+Foswiki sites, and sites vulnerable to hackers should seriously consider
+installing the =SafeWikiPlugin= to control it.
+
+*Related Topics:* SkinTemplates, [[Skins]], [[VarADDTOZONE][ADDTOZONE]]
 <!--
    * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
 -->
