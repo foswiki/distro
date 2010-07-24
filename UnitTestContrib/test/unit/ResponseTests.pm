@@ -11,9 +11,24 @@ use Foswiki::Response;
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
+
+    $this->{_saved}->{AllowRedirectUrl} = $Foswiki::cfg{AllowRedirectUrl};
+    $this->{_saved}->{DefaultUrlHost} = $Foswiki::cfg{DefaultUrlHost};
+    $this->{_saved}->{PermittedRedirectHostUrls} = $Foswiki::cfg{PermittedRedirectHostUrls};
+
     $Foswiki::cfg{AllowRedirectUrl} = 0;
     $Foswiki::cfg{DefaultUrlHost} = 'http://wiki.server';
     $Foswiki::cfg{PermittedRedirectHostUrls} = 'http://other.wiki';
+}
+
+sub tear_down {
+    my $this = shift;
+
+    $Foswiki::cfg{AllowRedirectUrl} = $this->{_saved}->{AllowRedirectUrl};
+    $Foswiki::cfg{DefaultUrlHost} = $this->{_saved}->{DefaultUrlHost};
+    $Foswiki::cfg{PermittedRedirectHostUrls} = $this->{_saved}->{PermittedRedirectHostUrls};
+
+    $this->SUPER::tear_down();
 }
 
 sub test_empty_new {
