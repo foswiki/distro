@@ -408,7 +408,7 @@ sub _action_editSettings {
         my $name  = $field->{name};
         my $value = $field->{value};
         $settings .= '   * '
-          . ( ( $field->{type} eq 'Local' ) ? 'Local' : 'Set' ) . ' '
+          . ( ( defined($field->{type}) and $field->{type} eq 'Local' ) ? 'Local' : 'Set' ) . ' '
           . $name . ' = '
           . $value . "\n";
     }
