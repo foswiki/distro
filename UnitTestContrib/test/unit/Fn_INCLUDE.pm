@@ -179,22 +179,24 @@ THIS
 }
 
 sub test_singlequoted_params {
-    my $this          = shift;
+    my $this = shift;
     my $text =
-      $this->{test_topicObject}->expandMacros(
-"%INCLUDE{'Oneweb.SomeTopic' section='suction'}%"
-      );
-    $this->assert_str_equals( "<span class='foswikiAlert'>
+      $this->{test_topicObject}
+      ->expandMacros( "%INCLUDE{'Oneweb.SomeTopic' section='suction'}%" );
+    $this->assert_str_equals(
+        "<span class='foswikiAlert'>
    Warning: Can't INCLUDE '<nop>'Oneweb.SomeTopic' section='suction'', path is empty or contains illegal characters. 
-</span>", $text );
+</span>", $text
+    );
 
     $text =
-      $this->{test_topicObject}->expandMacros(
-'%INCLUDE{"I can\'t beleive its not butter"}%'
-      );
-    $this->assert_str_equals( "<span class='foswikiAlert'>
+      $this->{test_topicObject}
+      ->expandMacros( '%INCLUDE{"I can\'t beleive its not butter"}%' );
+    $this->assert_str_equals(
+        "<span class='foswikiAlert'>
    Warning: Can't INCLUDE '<nop>I can't beleive its not butter', path is empty or contains illegal characters. 
-</span>", $text );
+</span>", $text
+    );
 }
 
 sub test_fullPattern {
@@ -213,9 +215,9 @@ THIS
     $inkyDink->save();
     my $text =
       $this->{test_topicObject}->expandMacros(
-        "%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"^.*?(Have.*sir).*\"}%");
-    $this->assert_str_equals( "Have you any socks?\nYes sir, yes sir", $text )
-      ;
+"%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"^.*?(Have.*sir).*\"}%"
+      );
+    $this->assert_str_equals( "Have you any socks?\nYes sir, yes sir", $text );
 }
 
 sub test_pattern {
@@ -234,9 +236,9 @@ THIS
     $inkyDink->save();
     my $text =
       $this->{test_topicObject}->expandMacros(
-        "%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"(Have.*sir)\"}%");
-    $this->assert_str_equals( "Have you any socks?\nYes sir, yes sir", $text )
-      ;
+"%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"(Have.*sir)\"}%"
+      );
+    $this->assert_str_equals( "Have you any socks?\nYes sir, yes sir", $text );
 }
 
 # INCLUDE{"" pattern="blah"}% that does not match should return nothing
@@ -257,8 +259,7 @@ THIS
     my $text =
       $this->{test_topicObject}->expandMacros(
         "%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"(blah)\"}%");
-    $this->assert_str_equals( "", $text )
-      ;
+    $this->assert_str_equals( "", $text );
 }
 
 # INCLUDE{"" pattern="blah"}% that does not capture should return nothing
@@ -279,8 +280,7 @@ THIS
     my $text =
       $this->{test_topicObject}->expandMacros(
         "%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\".*\"}%");
-    $this->assert_str_equals( "", $text )
-      ;
+    $this->assert_str_equals( "", $text );
 }
 
 1;
