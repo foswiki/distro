@@ -11,7 +11,13 @@ See [[VarADDTOZONE][ADDTOZONE]] for an explanation of _zones_.
 Parameters:
    * ="zone"= required, name of the zone
    * =header="..."= optional, prefix format string
-   * =format="..."= optional, format string for each item added to the zone, defaults to =$item=.
+   * =format="..."= optional, format string for each item added to the zone, defaults to =$item=. Tokens:
+      * =$id= - =id= of the [[VarADDTOZONE][ADDTOZONE]] call within the =zone= currently being rendered.
+      * =$item= - text of the [[VarADDTOZONE][ADDTOZONE]] call within the =zone= currently being rendered.
+      * =$zone= - the ="zone"= currently being rendered.
+      * =$missing= - if the [[VarADDTOZONE][ADDTOZONE]] call being rendered required any =id= which was not found, then =$missing= is the =missingtoken= parameter; empty string otherwise.
+      * =$missingids= - comma separated list of ids that were required by the [[VarADDTOZONE][ADDTOZONE]] call currently being rendered but weren't found within this =zone=.
+   * =missingtoken="..."= optional, this will be the string assigned to the =$missing= format token for use in the =format= parameter. Defaults to ="$missingids"=
    * =chomp="on"= remove leading and trailing whitespace from formatted items, can be useful for pretty-printing and compression.
    * =footer="..."= optional, suffix format string
    * =separator="..."= optional, put between each item of a zone
@@ -22,6 +28,8 @@ Supports the [[FormatTokens][standard format tokens]] in the =format= and =separ
 in the zone or not.
 
 =head= and =body= are _built-in_ zones - there is no corresponding =RENDERZONE=
-required in the templates.
+required in the templates, they will be rendered automatically.
+
+%ICON{"info"}% Zones are flushed when rendered; they may only be rendered once
 
 See also [[VarADDTOZONE][ADDTOZONE]] for more information on zones.

@@ -7,9 +7,9 @@ use warnings;
 sub ADDTOZONE {
     my ( $this, $params, $topicObject ) = @_;
 
-    my $zones    = $params->{_DEFAULT} || $params->{zone} || 'head';
-    my $tag      = $params->{tag}      || '';
-    my $topic    = $params->{topic}    || '';
+    my $zones = $params->{_DEFAULT} || $params->{zone} || 'head';
+    my $id    = $params->{id}       || $params->{tag}  || '';
+    my $topic = $params->{topic}    || '';
     my $section  = $params->{section}  || '';
     my $requires = $params->{requires} || '';
     my $text     = $params->{text}     || '';
@@ -28,7 +28,7 @@ sub ADDTOZONE {
     }
 
     foreach my $zone ( split( /\s*,\s*/, $zones ) ) {
-        $this->addToZone( $zone, $tag, $text, $requires );
+        $this->addToZone( $zone, $id, $text, $requires );
     }
 
     return '';

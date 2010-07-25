@@ -10,42 +10,74 @@
 }%
 </verbatim>
 
-_Zones_ are specific places in the output HTML that are marked in the source templates using the [[VarRENDERZONE][RENDERZONE]] macro. Zones are used to collect various materials together, such as Javascript and CSS, that must be included in the output HTML in a specific order, and in a specific place. Each =ADDTOZONE= call can be identified by a _unique identifier_, and you can state dependencies on other identifiers. In this way you can constrain the order in which they are expanded in the output.
+_Zones_ are specific places in the output HTML that are marked with occurances of the [[VarRENDERZONE][RENDERZONE]] macro. Zones are used to collect various content together, such as Javascript and CSS markup that must be included in the output HTML in a specific order, and in a specific place.
 
-There are always at least two zones, =head= and =body= - see [[#HeadAndBody][below]] for more information on how to use these standard zones. You can create as many additional zones as you like. Interesting use cases in wiki applications:
-   * create a =sidebar= zone to add widgets
-   * create a =toolbar= zone to add buttons icons
+You can create as many zones in addition to the standard [[#HeadAndBody][ =head= and =body= ]] zones as you like. Interesting use cases in wiki applications:
+   * Create a =sidebar= zone to add widgets,
+   * Create a =toolbar= zone to add buttons icons
 
-Parameters:
-   * ="zone"= optional, comma-separated list of the names of zones that
-   the content should be added to. Defaults to =head=.
-   * =tag="id"= optional, =unique identifier= for this =ADDTOZONE= call, to be used in =requires= in other =ADDTOZONE= calls,
-   * =requires="..."= comma-separated list of =unique identifiers= for other =ADDTOZONE= calls that must be expanded before the text from this call.
-   * =text="..."= optional, text to be added to the named zone, mutually exclusive with =topic=
-   * =topic="..."= optional, full qualified web-topic name that contains the text to be added, mutually exclusive with =text=
+[[%TOPIC%][ADDTOZONE]] adds content identified with the =id= parameter to =zone=, which will later be expanded with [[VarRENDERZONE][RENDERZONE]]. =id= identifiers are unique within the zone that they are added to. An [[%TOPIC%][ADDTOZONE]] call may ensure that its content appears _after_ the text of some other [[%TOPIC%][ADDTOZONE]] calls by specifying their =ids= in the =requires= parameter. =requires= may only list =ids= within the =zone= being added to, except for the special case of =head= and =body= zones when ={OptimizePageLayout}= is not set (the default - [[#HeadAndBody][read more]]).
+
+*Parameters:*
+   * ="zone"= optional, comma-separated list of the names of zones that the content should be added to. Defaults to =head=.
+   * =id= optional, =identifier= for the text being added with the =ADDTOZONE= call, to be used in the =requires= parameter of other =ADDTOZONE= calls.
+      * %ICON{"info"}% Multiple =ADDTOZONE= calls with the same =id= parameter will simply overwrite the earlier =ADDTOZONE= call.
+   * =requires="..."= optional, comma separated string of =ids= of text within this =zone= that should be expanded before this call.
+      * %ICON{"info"}% Foswiki only resolves ordering dependencies within a zone.
+   * =text="..."= optional, text to be added to the named zone, mutually exclusive with =topic=.
+   * =topic="..."= optional, full qualified =web.topic= name that contains the text to be added, mutually exclusive with =text=.
    * =section="..."= optional, section of the =topic= to be added,
-     defaults to the default section between STARTINCLUDE and
-     STOPINCLUDE
-
-Using =topic= and =section= is actually a short form of 
-<verbatim class="tml">
+     defaults to the default section between [[VarSTARTINCLUDE][STARTINCLUDE]] and [[VarSTOPINCLUDE][STOPINCLUDE]].<br/>
+      * %ICON{"info"}% Using =topic= and =section= is actually a short form of 
+      <verbatim class="tml">
 %ADDTOZONE{
    "myzone"
    text="$percntINCLUDE{\"topic\" section=\"section\" warn=\"off\"}$percnt"
-}%
-</verbatim>
+}%</verbatim>
 
 #HeadAndBody
-*How to use the =head= and =body= zones*
+---+++ How to use the =head= and =body= zones
 
-Notionally the =head= and =body= zones correspond to the end of the HTML =&lt;HEAD&gt; tag and the end of the BODY tag respectively. Normally you should add CSS (and other HTML =&lt;HEAD&gt; content, such as =meta=) to the =head= zone, and Javascript to the =body= zone. There is a setting in =configure=, ={OptimizePageLayout}=, that controls what happens next. First, dependencies between the individual =ADDTOZONE= statements are resolved *within each zone*. Then, if ={OptimizePageLayout}= is enabled, the =head= content is added to the =&lt;HEAD&gt;, and the =body= content is added to the BODY. However, if ={OptimizePageLayout}= is _disabled_ (the default), both the =head= and =body= zones will be added to the HTML =&lt;HEAD&gt;.
+Notionally the =head= and =body= zones correspond to the end of the HTML =&lt;HEAD&gt;= tag and the end of the =&lt;BODY&gt;= tag respectively. Normally you should add CSS (and other HTML =&lt;HEAD&gt;= content, such as =&lt;META&gt;=) to the =head= zone, and Javascript to the =body= zone. There is a setting in =configure=, ={OptimizePageLayout}=, that controls what happens next.
 
-For this reason you must be careful to:
-   1 Only add HTML to the body zone _that is also legal in the =&lt;HEAD&gt;_
-   1 Ensure that no =head= content (and no inline Javascript) depends on =body= content. Any such dependency will be _silently ignored_.
-   1 Make sure that all inline JavaScript code in the topic (if it is allowed)
-     is added to the page using
-     =%<nop>ADDTOZONE{"body"...requires="library-tag"}%=
-     with the appropriate library-tag to guarantee a correct load order.
+First, dependencies between the individual =ADDTOZONE= statements are resolved *within each zone*. Then, if ={OptimizePageLayout}= is enabled, the =head= content is added to the =&lt;HEAD&gt;,= and the =body= content is added to the =&lt;BODY&gt;=. However, if ={OptimizePageLayout}= is disabled (the default), both the =head= and =body= zones will be added to the HTML =&lt;HEAD&gt;=.
+
+For this reason, consideration needs to be given to the way =head= and =body= zones are behaving with your Foswiki configuration, dictated by the ={OptimizePageLayout}= setting.
+---++++ Working with ={OptimizePageLayout}= disabled (default)
+   * Be aware that in this mode, =body= is an alias for =head= - no =body= zone is ever populated.
+   * Only add HTML to the body zone _that is also legal in the =&lt;HEAD&gt;=._
+
+---++++ Working with ={OptimizePageLayout}= enabled
+   * Ensure that no =head= content (and no inline Javascript) depends on =body= content, or vice-versa. Any such dependency will be _ignored_, however, the HTML comment decoration which normally appears after each id's text in the rendered HTML will contain a small informative text to aid debugging<br/> *Example* <br/>
+   <verbatim class="tml">%ADDTOZONE{
+   "head"
+   text="
+   <script type='text/javascript'>
+      alert('test');
+   </script>"
+   requires="some-id-that-exists-in-body"
+   id="MY::TEST"
+}%</verbatim><br/> *Result*
+   <verbatim class="html">
+<script type='text/javascript'>
+   alert('test');
+</script>
+<!-- MY::TEST required id(s) that were missing from head zone: some-id-that-exists-in-body --></verbatim>
+   By contrast, as explained earlier - when ={OptimizePageLayout}= is disabled (default) - Foswiki is able resolve such dependencies successfully.
+
+---+++ Example: Adding Javascript to a page
+   * Make sure that all inline Javascript code in the topic (if it is allowed)
+     is added to the page using =%<nop>ADDTOZONE{"body"...requires="library-id"}%=
+     with the appropriate library-id to guarantee a correct load order. For example, jQuery code should be added as follows:
+     %JQREQUIRE{"chili"}%<verbatim class="js">
+     %JQREQUIRE{"shake"}%%ADDTOZONE{
+         "body"
+         id="MyApp::ShakePart"
+         text="
+         <script type='text/javascript'>
+            jQuery('#something').shake(3, 10, 180);
+         </script>"
+         requires="JQUERYPLUGIN::SHAKE"
+     }%</verbatim> where "MyApp::ShakePart" is a unique =id= to identify the text added to body; and =JQUERYPLUGIN::SHAKE= signifies that the content added with this identifier should appear beforehand.
 
 See also [[VarRENDERZONE][RENDERZONE]]

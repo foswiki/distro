@@ -137,16 +137,17 @@ BEGIN {
             $Error::Debug = 1;    # verbose stack traces, please
         }
         else {
+
             # ASSERTs are soft, so warnings are not errors
             # but ASSERTs are enabled. This is useful for tracking down
             # problems that only manifest on production servers.
-            # Consequently, this is only useful when 
+            # Consequently, this is only useful when
             # $cfg{WarningsAreErrors} is NOT enabled
             $Error::Debug = 0;    # no verbose stack traces
         }
     }
     else {
-        $Error::Debug = 0;    # no verbose stack traces
+        $Error::Debug = 0;        # no verbose stack traces
     }
 
     # DO NOT CHANGE THE FORMAT OF $VERSION
@@ -210,8 +211,8 @@ BEGIN {
         LANGUAGE     => sub { $_[0]->i18n->language(); },
         LANGUAGES    => undef,
         MAKETEXT     => undef,
-        META         => undef, # deprecated
-        METASEARCH   => undef, # deprecated
+        META         => undef,                              # deprecated
+        METASEARCH   => undef,                              # deprecated
         NOP =>
 
           # Remove NOP tag in template topics but show content.
@@ -380,12 +381,13 @@ BEGIN {
     }
 
     if ( defined $Foswiki::cfg{Site}{CharSet} ) {
+
         # Ensure the auto-encoding in CGI uses the correct character set.
         # CGI defaults to iso-8859-1, and has a special exception for
         # iso-8859-1 and windows1252 in CGI::escapeHTML which breaks
         # UTF-8 content. See Item758. Get this wrong, and CGI will
         # fail to encode certain UTF-8 characters correctly.
-        CGI::charset($Foswiki::cfg{Site}{CharSet});
+        CGI::charset( $Foswiki::cfg{Site}{CharSet} );
     }
 
     $macros{CHARSET} = sub {
@@ -3205,25 +3207,43 @@ sub expandMacros {
 
 =begin TML
 
----++ ObjectMethod addToZone( $zone, $tag, $data, $requires )
+---++ ObjectMethod addToZone($zone, $id, $data, $requires)
 
-Add =$data= to the named zone of the page currently being generated.
+Add =$data= identified as =$id= to =$zone=, which will later be expanded (with
+renderZone() - implements RENDERZONE). =$ids= are unique within the zone that
+they are added - dependencies between =$ids= in different zones will not be
+resolved, except for the special case of =head= and =body= zones when
+{OptimizePageLayout} is not set.
+
+In this case, =body= is treated as an alias to =head= so that dependencies
+between these two zones may be resolved.
+
+   * =$zone=       - name of zone to add to
+   * =$id=        - identifier for the =$data= being added
+   * =$data=       - text to be added to the zone
+   * =$requires=   - comma separated string of =$id= identifiers of the text
+                     within this =$zone= that should precede this =$data=
 
 Implements ADDTOZONE
 
 =cut
 
 sub addToZone {
-    my ( $this, $zone, $tag, $data, $requires ) = @_;
+    my ( $this, $zone, $id, $data, $requires ) = @_;
 
     return unless $data;    # don't add empty or even undef stuff
+      # When {OptimizePageLayout} is NOT set, treat all adds to body zone as adds
+      # to head zone instead for compatibility with ADDTOHEAD usage that has
+      # requirements that exist in the body zone. See ZoneTests/Item9317
+    if ( $zone eq 'body' and not $Foswiki::cfg{OptimizePageLayout} ) {
+        $zone = 'head';
+    }
     $requires ||= '';
-
     $this->{$zone} ||= {};
 
     # get a random one
-    unless ($tag) {
-        $tag = int( rand(10000) ) + 1;
+    unless ($id) {
+        $id = int( rand(10000) ) + 1;
     }
 
     # get zone, or create record
@@ -3236,24 +3256,28 @@ sub addToZone {
     foreach my $req ( split( /\s*,\s*/, $requires ) ) {
         unless ( $thisZone->{$req} ) {
             $thisZone->{$req} = {
-                tag      => $req,
-                requires => [],
-                text     => '',
+                id        => $req,
+                requires  => [],
+                text      => '',
+                populated => 0
             };
         }
         push( @requires, $thisZone->{$req} );
     }
 
     # store record within zone
-    my $record = $thisZone->{$tag};
-    unless ($record) {
-        $record = { tag => $tag };
-        $thisZone->{$tag} = $record;
+    my $zoneID = $thisZone->{$id};
+    unless ($zoneID) {
+        $zoneID = { id => $id };
+        $thisZone->{$id} = $zoneID;
     }
 
     # override previous properties
-    $record->{requires} = \@requires;
-    $record->{text}     = $data;
+    $zoneID->{requires}  = \@requires;
+    $zoneID->{text}      = $data;
+    $zoneID->{populated} = 1;
+
+    return;
 }
 
 sub _renderZoneById {
@@ -3273,6 +3297,19 @@ sub _renderZoneById {
     return _renderZone( $this, $zone, $params, $topicObject );
 }
 
+sub _getMissingRequiredZoneIDs {
+    my ($zoneID) = @_;
+    my @missingIDs;
+
+    foreach my $requiredZoneID ( @{ $zoneID->{requires} } ) {
+        if ( not $requiredZoneID->{populated} ) {
+            push( @missingIDs, $requiredZoneID->{id} );
+        }
+    }
+
+    return join( ', ', @missingIDs );
+}
+
 sub _renderZone {
     my ( $this, $zone, $params, $topicObject ) = @_;
 
@@ -3280,7 +3317,9 @@ sub _renderZone {
     $params->{header} ||= '';
     $params->{footer} ||= '';
     $params->{chomp}  ||= 'off';
-    $params->{format} = '$item <!-- $tag -->'
+    $params->{missingformat} =
+      'required id(s) that were missing from $zone zone: $missingids ';
+    $params->{format} = '$item <!-- $id $missing-->'
       unless defined $params->{format};
     $params->{separator} = '$n' unless defined $params->{separator};
 
@@ -3300,26 +3339,36 @@ sub _renderZone {
     # algorithm runs in linear time.
     my %visited;
     my @total;
-    foreach my $v ( values %{ $this->{_zones}{$zone} } ) {
-        _visit( $v, \%visited, \@total );
+    foreach my $zoneID ( values %{ $this->{_zones}{$zone} } ) {
+        _visitZoneID( $zoneID, \%visited, \@total );
     }
 
     # kill a zone once it has been rendered
     undef $this->{_zones}{$zone};
-    my @result = ();
+    my @result        = ();
+    my $missingformat = $params->{missingformat};
     foreach my $item (@total) {
-        my $text = $item->{text};
+        my $text          = $item->{text};
+        my $missingids    = _getMissingRequiredZoneIDs($item);
+        my $missingformat = $params->{missingformat};
+        if ( not $missingids ) {
+            $missingformat = '';
+        }
         if ( $params->{'chomp'} ) {
             $text =~ s/^\s+//g;
             $text =~ s/\s+$//g;
         }
-#        ASSERT($text, "No content for zone tag $item->{tag} in zone $zone")
-#          if DEBUG;
+
+      #        ASSERT($text, "No content for zone id $item->{id} in zone $zone")
+      #          if DEBUG;
         next unless $text;
-        my $tag = $item->{tag} || '';
+        my $id = $item->{id} || '';
         my $line = $params->{format};
         $line =~ s/\$item\b/$text/g;
-        $line =~ s/\$tag\b/$tag/g;
+        $line =~ s/\$id\b/$id/g;
+        $line =~ s/\$missing\b/$missingformat/g;
+        $line =~ s/\$missingids\b/$missingids/g;
+        $line =~ s/\$zone\b/$zone/g;
         $line = expandStandardEscapes($line);
         next unless $line;
         push @result, $line if $line;
@@ -3339,14 +3388,16 @@ sub _renderZone {
     return $result;
 }
 
-sub _visit {
-    my ( $v, $visited, $list ) = @_;
-    return if $visited->{$v};
-    $visited->{$v} = 1;
-    foreach my $r ( @{ $v->{requires} } ) {
-        _visit( $r, $visited, $list );
+sub _visitZoneID {
+    my ( $zoneID, $visited, $list ) = @_;
+    return if $visited->{$zoneID};
+    $visited->{$zoneID} = 1;
+    foreach my $requiredZoneID ( @{ $zoneID->{requires} } ) {
+        _visitZoneID( $requiredZoneID, $visited, $list );
     }
-    push( @$list, $v );
+    push( @{$list}, $zoneID );
+
+    return;
 }
 
 =begin TML
