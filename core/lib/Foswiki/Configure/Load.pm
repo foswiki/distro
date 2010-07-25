@@ -61,10 +61,7 @@ sub readConfig {
     for my $file (qw( Foswiki.spec LocalSite.cfg)) {
         unless ( my $return = do $file ) {
             my $errorMessage;
-            if ($!) {
-                $errorMessage = "Could not read $file, have you configured Foswiki yet? $!";
-            }
-            elsif ($@) {
+            if ($@) {
                 $errorMessage = "Could not parse $file: $@";
             }
             elsif ( not defined $return ) {
