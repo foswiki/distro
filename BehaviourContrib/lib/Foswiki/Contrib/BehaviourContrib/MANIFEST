@@ -1,6 +1,5 @@
 pub/System/BehaviourContrib/behaviour_src.js 0644
 pub/System/BehaviourContrib/behaviour.js 0644
-pub/System/BehaviourContrib/behaviour.compressed_src.js 0644
-pub/System/BehaviourContrib/behaviour.compressed.js 0644
+pub/System/BehaviourContrib/behaviour.js.gz 0644
 data/System/BehaviourContrib.txt 0644
 lib/Foswiki/Contrib/BehaviourContrib.pm 0644

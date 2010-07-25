@@ -576,18 +576,6 @@ This is useful if both the show and the hide button take the same arguments.
    * Related: [[#VarTWISTYTOGGLE][TWISTYTOGGLE]]
 </div>
 
----++ Working with other Javascript libraries
-
-If you want to use a different Javascript library than the default Foswiki Javascripts, add to the skin path:
-   * =jquery= to use [[http://jquery.com/][JQuery]] 
-      * For example, append to the url: =?skin=jquery,nat= %BR%
-      or write: =Set SKIN = jquery,nat=
-      * For this, Foswiki:Extensions/JQueryPlugin needs to be installed
-   * =dojo= to use [[http://jquery.com/][JQuery]] 
-      * For example, append to the url: =?skin=dojo,pattern= %BR%
-      or write: =Set SKIN = dojo,pattern=
-      * For this, Foswiki:Extensions/DojoToolkitContrib needs to be installed
-
 #PluginSettings
 ---++ Plugin Settings
 

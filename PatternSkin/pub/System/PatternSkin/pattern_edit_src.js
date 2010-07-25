@@ -65,7 +65,7 @@ Pattern.Edit = {
 		}
 	}
 
-}
+};
 
 var patternEditPageRules = {
 	'span.patternButtonFontSelector' : function(el) {

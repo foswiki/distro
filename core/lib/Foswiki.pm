@@ -734,10 +734,10 @@ sub writeCompletePage {
             # incorporated into the foswikilib.js because that module
             # is conditionally loaded under the control of the
             # templates, and we have to be *sure* it gets loaded.
-            my $src = DEBUG() ? '_src' : '';
-            $this->addToZone( 'head', 'FOSWIKI STRIKE ONE', <<STRIKEONE);
+            my $src = $this->{prefs}->getPreference('FWSRC') || '';
+            $this->addToZone( 'head', 'JavascriptFiles/strikeone', <<JS );
 <script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/JavascriptFiles/strikeone$src.js"></script>
-STRIKEONE
+JS
             $usingStrikeOne = 1;
         }
 
@@ -3319,7 +3319,8 @@ sub _renderZone {
     $params->{chomp}  ||= 'off';
     $params->{missingformat} =
       'required id(s) that were missing from $zone zone: $missingids ';
-    $params->{format} = '$item <!-- $id $missing-->'
+    $params->{format} = '$item <!--$id $missing-->'
+
       unless defined $params->{format};
     $params->{separator} = '$n' unless defined $params->{separator};
 
@@ -3358,9 +3359,9 @@ sub _renderZone {
             $text =~ s/^\s+//g;
             $text =~ s/\s+$//g;
         }
+        # ASSERT($text, "No content for zone id $item->{id} in zone $zone")
+        # if DEBUG;
 
-      #        ASSERT($text, "No content for zone id $item->{id} in zone $zone")
-      #          if DEBUG;
         next unless $text;
         my $id = $item->{id} || '';
         my $line = $params->{format};

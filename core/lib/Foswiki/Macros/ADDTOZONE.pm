@@ -4,6 +4,8 @@ package Foswiki;
 use strict;
 use warnings;
 
+use Assert;
+
 sub ADDTOZONE {
     my ( $this, $params, $topicObject ) = @_;
 
@@ -31,7 +33,7 @@ sub ADDTOZONE {
         $this->addToZone( $zone, $id, $text, $requires );
     }
 
-    return '';
+    return (DEBUG) ? "<!--A2Z:$id-->" : '';
 }
 
 1;

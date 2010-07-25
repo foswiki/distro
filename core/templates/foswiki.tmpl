@@ -1,40 +1,100 @@
-%TMPL:INCLUDE{"css"}%
-%TMPL:DEF{"sep"}%<span class="foswikiSeparator"> | </span>%TMPL:END%
-%TMPL:DEF{"titlesep"}% &lt; %TMPL:END%
-%TMPL:DEF{"LOG_IN"}%Log In%TMPL:END%
-%TMPL:DEF{"LOG_OUT"}%Log Out%TMPL:END%
-
-%TMPL:DEF{"nonwikiwordwarning"}%<p class="foswikiAllowNonWikiWord"><input type="checkbox" id="nonwikiword" name="nonwikiword" %IF{"$ 'URLPARAM{nonwikiword}'='on'" then="checked=\"checked\""}% /><label for="nonwikiword">%MAKETEXT{"Allow non <nop>WikiWord for the new topic name"}%</label><br />%TMPL:P{"nonwikiwordhelp"}%</p>%TMPL:END%
-
-%TMPL:DEF{"nonwikiwordhelp"}% %MAKETEXT{"It's usually best to choose a <a target='WikiWord' class='foswikiPopUp' href='[_1]' rel='nofollow'>WikiWord</a> for the new topic name, otherwise automatic linking may not work. Characters not allowed in topic names, such as spaces will automatically be removed." args="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WikiWord"}%%TMPL:END%
-
-%TMPL:DEF{"nonwikiwordallowed"}%<input type="hidden" name="nonwikiword" value="%URLPARAM{"nonwikiword" default="on"}%" />%TMPL:END%
-
-%TMPL:DEF{"nonwikiword"}%%IF{"$HIDE_NON_WIKI_WORD_WARNINGS!='on'" then="$percntTMPL:P{$quotnonwikiwordwarning$quot}$percnt" else="$percntTMPL:P{$quotnonwikiwordallowed$quot}$percnt"}%%TMPL:END%
-
-%TMPL:DEF{"htmldoctype"}%<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="%LANG%" lang="%LANG%">%TMPL:END%
-
-%TMPL:DEF{"meta:preferences"}%%FOREACH{"%EXPORTEDPREFERENCES%" 
+%{
+This is the "master template" file for Foswiki. The definitions are used in
+other templates, such as view.tmpl, which in turn define a number of macros
+that are instantiated at the end of this file.
+---------------------------------------------------
+Handy macro for including JS from system paths
+}%%TMPL:DEF{"LIBJS"}%%ADDTOZONE{
+ "body"
+ tag="%id%"
+ text="<script type=\"text/javascript\" src=\"%PUBURLPATH%/%SYSTEMWEB%/%id%%FWSRC%.js\"></script>"
+ requires="%requires%"}%%TMPL:END%%{
+---------------------------------------------------
+Requires for each of the foswiki library JS components. These are not used by
+the base templates, but are provided for fancier skins.
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikilib"}%%{
+}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikilib" requires=""}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiString"}%
+%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiString" requires="JavascriptFiles/foswikilib"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiStringUnicodeChars"}%
+%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiStringUnicodeChars" requires="JavascriptFiles/foswikiString"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiWindow"}%%{
+}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiWindow" requires="JavascriptFiles/foswikilib"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiEvent"}%%{
+}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiEvent" requires="JavascriptFiles/foswikilib"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiHTML"}%%{
+}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiHTML" requires="JavascriptFiles/foswikilib"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiCSS"}%%{
+}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiCSS" requires="JavascriptFiles/foswikilib,JavascriptFiles/foswikiArray"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiForm"}%%{
+}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiForm" requires="JavascriptFiles/foswikiString,JavascriptFiles/foswikiCSS"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiPref"}%%{
+}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiPref" requires=""}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiStyles"}%%{
+}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiStyles" requires=""}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswiki_edit"}%%{
+}%%TMPL:P{"JavascriptFiles/foswikiPref"}%%TMPL:P{"JavascriptFiles/foswikiCSS"}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswiki_edit" requires="JavascriptFiles/foswikilib,JavascriptFiles/foswikiPref,JavascriptFiles/foswikiCSS"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswiki_renamebase"}%%{
+}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswiki_renamebase" requires=""}%%TMPL:END%%{
+---------------------------------------------------
+Done here because BehaviourContrib doesn't define any templates
+}%%TMPL:DEF{"BehaviourContrib/behaviour"}%%{
+}%%TMPL:P{"LIBJS" id="BehaviourContrib/behaviour" requires=""}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:INCLUDE{"css"}%%{
+---------------------------------------------------
+}%%TMPL:DEF{"sep"}%<span class="foswikiSeparator"> | </span>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"titlesep"}% &lt; %TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"LOG_IN"}%Log In%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"LOG_OUT"}%Log Out%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"nonwikiwordwarning"}%<p class="foswikiAllowNonWikiWord"><input type="checkbox" id="nonwikiword" name="nonwikiword" %IF{"$ 'URLPARAM{nonwikiword}'='on'" then="checked=\"checked\""}% /><label for="nonwikiword">%MAKETEXT{"Allow non <nop>WikiWord for the new topic name"}%</label><br />%TMPL:P{"nonwikiwordhelp"}%</p>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"nonwikiwordhelp"}% %MAKETEXT{"It's usually best to choose a <a target='WikiWord' class='foswikiPopUp' href='[_1]' rel='nofollow'>WikiWord</a> for the new topic name, otherwise automatic linking may not work. Characters not allowed in topic names, such as spaces will automatically be removed." args="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WikiWord"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"nonwikiwordallowed"}%<input type="hidden" name="nonwikiword" value="%URLPARAM{"nonwikiword" default="on"}%" />%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"nonwikiword"}%%IF{"$HIDE_NON_WIKI_WORD_WARNINGS!='on'" then="$percntTMPL:P{$quotnonwikiwordwarning$quot}$percnt" else="$percntTMPL:P{$quotnonwikiwordallowed$quot}$percnt"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"htmldoctype"}%<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="%LANG%" lang="%LANG%">%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"meta:preferences"}%%FOREACH{"%EXPORTEDPREFERENCES%" 
   format="<meta name=\"foswiki.$topic\" content=\"$percntENCODE{\"$percnt$topic$percnt\"}$percnt\" /><!--$topic-->"
   separator="
 "
 }%
-%TMPL:END%
-
-%TMPL:DEF{"script"}%%TMPL:P{"script:skinbase"}%%TMPL:P{"script:skintemplate"}%%TMPL:P{"script:topictemplate"}%%TMPL:END%
-
-%TMPL:DEF{"script:skinbase"}%%TMPL:END%
-
-%TMPL:DEF{"script:skintemplate"}%%TMPL:END%
-%TMPL:DEF{"script:topictemplate"}%%TMPL:END%
-
-%TMPL:DEF{"windowtitle"}%<title>%TMPL:P{"titleaction"}% <nop>%BASETOPIC%%TMPL:P{"titlesep"}%%BASEWEB%%TMPL:P{"titlesep"}%<nop>%WIKITOOLNAME%</title>%TMPL:END%
-
-%{ Item2476: Put IE8 into compatibility mode to work around slow, erratic textarea }%
-%TMPL:DEF{"ie8compatibilitymode"}%%IF{"$EDIT_FORCE_IE8_COMPATIBILITYMODE='on'" then="<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\"/>"}%%TMPL:END%
-
-%TMPL:DEF{"head"}%<head>
+%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"script"}%%TMPL:P{"script:skinbase"}%%TMPL:P{"script:skintemplate"}%%TMPL:P{"script:topictemplate"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"script:skinbase"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"script:skintemplate"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"script:topictemplate"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"windowtitle"}%<title>%TMPL:P{"titleaction"}% <nop>%BASETOPIC%%TMPL:P{"titlesep"}%%BASEWEB%%TMPL:P{"titlesep"}%<nop>%WIKITOOLNAME%</title>%TMPL:END%%{
+---------------------------------------------------
+Item2476: Put IE8 into compatibility mode to work around slow, erratic textarea }%
+%TMPL:DEF{"ie8compatibilitymode"}%%IF{"$EDIT_FORCE_IE8_COMPATIBILITYMODE='on'" then="<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\"/>"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"head"}%<head>
 	%TMPL:P{"windowtitle"}%
         %TMPL:P{context="edit" then="ie8compatibilitymode"}%
 	<meta http-equiv="Content-Type" content="text/html; charset=%CHARSET%" /> <meta name="robots" content="noindex" /> %HTTP_EQUIV_ON_VIEW%
@@ -45,25 +105,27 @@
     <base href="%SCRIPTURL{%SCRIPTNAME%}%/%WEB%/%TOPIC%"></base>
 	%TMPL:P{"script"}%
 	%TMPL:P{"defaultstyle"}%
-</head>%TMPL:END%
-
-%TMPL:DEF{"titleaction"}%%TMPL:END%
-
-%TMPL:DEF{"webaction"}%%TMPL:END%
-
-%TMPL:DEF{"bodyclassname"}%%TMPL:END%
-
-%TMPL:DEF{"bodystart"}%<body class="%TMPL:P{"bodyclassname"}%"><div class="foswikiPage">
-#PageTop %TMPL:END%
-%TMPL:DEF{"bodyend"}%</div><!--/foswikiPage-->
-</body></html>%TMPL:END%
-
-%TMPL:DEF{"broadcastmessage"}%%IF{"defined BROADCASTMESSAGE and $BROADCASTMESSAGE != ''" then="$percntTMPL:P{$quotbroadcastmessage:contents$quot}$percnt"}%%TMPL:END%
-%TMPL:DEF{"broadcastmessage:contents"}%<div class="foswikiBroadcastMessage"> %BROADCASTMESSAGE% </div>%TMPL:END%
-
-%TMPL:DEF{"attachments"}%%TMPL:END%
-
-%TMPL:DEF{"standardheader"}%
+</head>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"titleaction"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"webaction"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"bodyclassname"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"bodystart"}%<body class="%TMPL:P{"bodyclassname"}%"><div class="foswikiPage">
+#PageTop %TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"bodyend"}%</div><!--/foswikiPage-->
+</body></html>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"broadcastmessage"}%%IF{"defined BROADCASTMESSAGE and $BROADCASTMESSAGE != ''" then="$percntTMPL:P{$quotbroadcastmessage:contents$quot}$percnt"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"broadcastmessage:contents"}%<div class="foswikiBroadcastMessage"> %BROADCASTMESSAGE% </div>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"attachments"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"standardheader"}%
 <div style="margin:0 0 0 0em; padding:3px; background-color:%WEBBGCOLOR%">
 <div>
 <div class="foswikiLeft" style="padding-right:2em;"><noautolink><a href="%WEBLOGOURL%" rel='nofollow'><img src="%WEBLOGOIMG%" border="0" alt="%WEBLOGOALT%" /></a></noautolink></div>
@@ -71,70 +133,86 @@
 <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%HOMETOPIC%">%WEB%</a> &gt; %META{"parent" nowebhome="on" suffix=" &gt;"}% <b>%TOPIC%</b> %TMPL:P{"titleaction"}%</div>
 <div class="foswikiRight foswikiSmall">%WIKITOOLNAME% webs: %WIKIWEBLIST% &nbsp; %TMPL:P{"login"}%</div><br class="foswikiClear" /></div>
 <form name="main" action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%" method="post">
-%TMPL:P{"webaction"}%</form></div>%TMPL:END%
-
-%TMPL:DEF{"simpleheader"}%
+%TMPL:P{"webaction"}%</form></div>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"simpleheader"}%
 <div style="margin:0 0 0 0em; padding:3px; background-color:%WEBBGCOLOR%">
 <div><div class="foswikiLeft"  style="padding-right:2em;"><noautolink><img src="%WEBLOGOIMG%" border="0" alt="%WEBLOGOALT%" /></noautolink></div>
-<div class="foswikiLeft"> %WEB%&nbsp; %TOPIC% %TMPL:P{"titleaction"}%</div><br class="foswikiClear" /> </div></div>%TMPL:P{"headerhelp"}%%TMPL:END%
-
-%TMPL:DEF{"copyright"}%<div class="foswikiCopyright">%WEBCOPYRIGHT%</div>%TMPL:END%
-
-%TMPL:DEF{"footernote"}%%TMPL:END%
-%TMPL:DEF{"content"}%%TMPL:END%
-%TMPL:DEF{"contentwrapper"}%%TMPL:P{"content"}%%TMPL:END%
-
-%TMPL:DEF{"standardfooter"}%#PageBottom
-%TMPL:P{"footernote"}%%TMPL:P{"copyright"}%%TMPL:END%
-
-%TMPL:DEF{"canceltopicaction"}%[[%WEB%.%TOPIC%][%MAKETEXT{"Cancel"}%]]%TMPL:END%
-%TMPL:DEF{"oktopicaction"}%[[%WEB%.%TOPIC%][%MAKETEXT{"OK"}%]]%TMPL:END%
-%TMPL:DEF{"gobacktopicaction"}%<a href="#" onclick="history.go(-1); return false;">%MAKETEXT{"Go back"}%</a>%TMPL:END%
-%TMPL:DEF{"topicaction"}%<div class="foswikiTopicActions" >%TMPL:P{"topicactionbuttons"}%</div>%TMPL:END%
-%TMPL:DEF{"topicactionbuttons"}%%TMPL:P{"canceltopicaction"}%%TMPL:END%
-
-%TMPL:DEF{"topicinfo"}%<div class="foswikiTopicInfo" style="background:%WEBBGCOLOR%">
-%TMPL:P{"topicaction"}%</div>%TMPL:END%
-
-%TMPL:DEF{"main"}%<div class="foswikiMain">%TMPL:P{"simpleheader"}%
-%TMPL:P{"pagetitlestylewrapper"}%%TMPL:P{"contentwrapper"}%
-%TMPL:P{"standardfooter"}%</div>%TMPL:END%
-
-%{ container displayed just above the topic text: }%
-%TMPL:DEF{"contentheader"}%%TMPL:END%
-%TMPL:DEF{"contentheaderstylewrapper"}%<div class="foswikiContentHeader">%TMPL:P{"contentheader"}%</div>%TMPL:END%
-
-%{ container displayed just below the topic text: }%
-%TMPL:DEF{"contentfooter"}%%TMPL:END%
-%TMPL:DEF{"contentfooterstylewrapper"}%<div class="foswikiContentFooter">%TMPL:P{"contentfooter"}%</div>%TMPL:END%
-
-%TMPL:DEF{"revisions"}%<a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="%MAKETEXT{"View total topic history"}%" accesskey="H" rel="nofollow">%MAKETEXT{"&History"}%</a>: %REVISIONS% %TMPL:END%
-
-%TMPL:DEF{"login"}%%TMPL:P{context="can_login" then="login_actions"}%%TMPL:END%
-
-%TMPL:DEF{"login_actions"}%%IF{"context authenticated" then='<strong>%MAKETEXT{"Hello [_1]!" args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]"}%</strong> %LOGOUT%' else='%LOGIN% %MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]'}%%TMPL:END%
-
-%{ app-style page layout }%
-%{ additional style }%
-%TMPL:DEF{"templatestyle"}%%TMPL:END%
-
-%{ title string in page: }%%TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}%%TMPL:END%
-%TMPL:DEF{"pagetitlestylewrapper"}%<h1>%TMPL:P{"pagetitle"}%</h1>%TMPL:END%
-
-%{ formatting macros }%
-%{ webListIndent - used in WEBLIST }%
-%TMPL:DEF{"webListIndent"}%<span class='foswikiWebIndent'></span>%TMPL:END%
-%{ icon:image - uses double quotes required for legacy reasons :/  }%
-%TMPL:DEF{"icon:image"}%<span class="foswikiIcon"><img src="%URL%" width="%WIDTH%" height="%HEIGHT%" alt="%ALT%" /></span>%TMPL:END%
-%TMPL:DEF{"icon:image_singlequote"}%<span class='foswikiIcon'><img src='%URL%' width='%WIDTH%' height='%HEIGHT%' alt='%ALT%' /></span>%TMPL:END%
-
-%{ support for default skin's webtopiclist }%
-%TMPL:DEF{"defaultwebtopiclist"}%[[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />%TMPL:END%
-%TMPL:DEF{"webtopiclist"}%%IF{"defined 'WEBTOPICLIST'" 
+<div class="foswikiLeft"> %WEB%&nbsp; %TOPIC% %TMPL:P{"titleaction"}%</div><br class="foswikiClear" /> </div></div>%TMPL:P{"headerhelp"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"copyright"}%<div class="foswikiCopyright">%WEBCOPYRIGHT%</div>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"footernote"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"content"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"contentwrapper"}%%TMPL:P{"content"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"standardfooter"}%#PageBottom
+%TMPL:P{"footernote"}%%TMPL:P{"copyright"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"canceltopicaction"}%[[%WEB%.%TOPIC%][%MAKETEXT{"Cancel"}%]]%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"oktopicaction"}%[[%WEB%.%TOPIC%][%MAKETEXT{"OK"}%]]%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"gobacktopicaction"}%<a href="#" onclick="history.go(-1); return false;">%MAKETEXT{"Go back"}%</a>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"topicaction"}%<div class="foswikiTopicActions" >%TMPL:P{"topicactionbuttons"}%</div>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"topicactionbuttons"}%%TMPL:P{"canceltopicaction"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"topicinfo"}%<div class="foswikiTopicInfo" style="background:%WEBBGCOLOR%">
+%TMPL:P{"topicaction"}%</div>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"main"}%<div class="foswikiMain">%TMPL:P{"simpleheader"}%%{
+---------------------------------------------------
+}%%TMPL:P{"pagetitlestylewrapper"}%%TMPL:P{"contentwrapper"}%%{
+---------------------------------------------------
+}%%TMPL:P{"standardfooter"}%</div>%TMPL:END%%{
+---------------------------------------------------
+Container displayed just above the topic text: }%
+%TMPL:DEF{"contentheader"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"contentheaderstylewrapper"}%<div class="foswikiContentHeader">%TMPL:P{"contentheader"}%</div>%TMPL:END%%{
+---------------------------------------------------
+Container displayed just below the topic text: }%
+%TMPL:DEF{"contentfooter"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"contentfooterstylewrapper"}%<div class="foswikiContentFooter">%TMPL:P{"contentfooter"}%</div>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"revisions"}%<a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="%MAKETEXT{"View total topic history"}%" accesskey="H" rel="nofollow">%MAKETEXT{"&History"}%</a>: %REVISIONS% %TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"login"}%%TMPL:P{context="can_login" then="login_actions"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"login_actions"}%%IF{"context authenticated" then='<strong>%MAKETEXT{"Hello [_1]!" args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]"}%</strong> %LOGOUT%' else='%LOGIN% %MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]'}%%TMPL:END%%{
+---------------------------------------------------
+app-style page layout
+additional style
+%TMPL:DEF{"templatestyle"}%%TMPL:END%%{
+---------------------------------------------------
+title string in page:
+}%%TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"pagetitlestylewrapper"}%<h1>%TMPL:P{"pagetitle"}%</h1>%TMPL:END%%{
+---------------------------------------------------
+formatting macros
+webListIndent - used in WEBLIST
+}%%TMPL:DEF{"webListIndent"}%<span class='foswikiWebIndent'></span>%TMPL:END%%{
+---------------------------------------------------
+icon:image - uses double quotes required for legacy reasons :/ 
+}%%TMPL:DEF{"icon:image"}%<span class="foswikiIcon"><img src="%URL%" width="%WIDTH%" height="%HEIGHT%" alt="%ALT%" /></span>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"icon:image_singlequote"}%<span class='foswikiIcon'><img src='%URL%' width='%WIDTH%' height='%HEIGHT%' alt='%ALT%' /></span>%TMPL:END%%{
+---------------------------------------------------
+support for default skin's webtopiclist
+}%%TMPL:DEF{"defaultwebtopiclist"}%[[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"webtopiclist"}%%IF{"defined 'WEBTOPICLIST'" 
   then="$percntWEBTOPICLIST$percnt" 
   else="$percntTMPL:P{\"defaultwebtopiclist\"}$percnt"
-}%%TMPL:END%
-
-%{ the bit that controls the output _SHOULD_ be last in the foswiki.SKIN.tmpl file. }%
-%TMPL:P{"htmldoctype"}%%TMPL:P{"head"}%%TMPL:P{"bodystart"}%%TMPL:P{"main"}%%TMPL:P{"bodyend"}%
+}%%TMPL:END%%{
+---------------------------------------------------
+The bit that controls the output _SHOULD_ be last in the foswiki.SKIN.tmpl
+file.
+}%%TMPL:P{"htmldoctype"}%%TMPL:P{"head"}%%TMPL:P{"bodystart"}%%TMPL:P{"main"}%%TMPL:P{"bodyend"}%
 %{ REQUIRED: comment after output definition to filter out newlines }%

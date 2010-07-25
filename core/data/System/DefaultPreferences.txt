@@ -387,7 +387,17 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
    * Formatting of revision comparison: =sequential=, =sidebyside= or =debug=
       * Set DIFFRENDERSTYLE = sequential
-   
+
+   * Debug settings for use by Javascript and CSS authors
+      * Set FWSRC = 
+      * Set FWCOMPRESSED = .compressed
+      * Set FWUNCOMPRESSED = 
+
+   * Redefine these as follows for debugging:
+      * #Set FWSRC = _src
+      * #Set FWCOMPRESSED = .uncompressed
+      * #Set FWUNCOMPRESSED = .uncompressed
+
 ---++ Access Control Settings
 
    * No-one (except admins) should change this topic

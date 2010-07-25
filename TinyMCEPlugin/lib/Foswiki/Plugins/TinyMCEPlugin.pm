@@ -190,10 +190,10 @@ META
         }
     };
     unless ($behaving) {
-        Foswiki::Func::addToHEAD( 'BEHAVIOURCONTRIB', <<'SCRIPT' );
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour.js">
-</script>
-SCRIPT
+        Foswiki::Func::addToZone(
+            'body', 'BehaviourContrib/behaviour',
+            '<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour%FWSRC%.js"></script>'
+           );
     }
 
     # URL-encode the version number to include in the .js URLs, so that

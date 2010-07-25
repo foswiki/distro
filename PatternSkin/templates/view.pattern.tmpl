@@ -8,9 +8,8 @@
 
 %TMPL:DEF{"script:skintemplate"}%%IF{"defined raw" then='%TMPL:P{"script:skintemplate:viewraw"}%'}%%TMPL:END%
 
-%TMPL:DEF{"script:skintemplate:viewraw"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswiki_edit.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/pattern_edit.js"></script>%TMPL:END%
+%TMPL:DEF{"script:skintemplate:viewraw"}%%TMPL:P{"JavascriptFiles/foswikiPref"}%
+%TMPL:P{"PatternSkin/pattern_edit"}%%TMPL:END%
 
 %{ DEPRECATED: formattop, formatbottom, attachmentsattop and attachmentsatbottom }%
 %{ compatibility transition older than 4.2: }%

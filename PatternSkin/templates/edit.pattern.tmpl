@@ -6,12 +6,10 @@
 
 %TMPL:DEF{"script:skintemplate"}%%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1'" then='$percntTMPL:P{\"script:skintemplate:edit\"}$percnt'}%%TMPL:END%
 
-%TMPL:DEF{"script:skintemplate:edit"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswiki_edit.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/pattern_edit.js"></script>
-<script type="text/javascript">
+%TMPL:DEF{"script:skintemplate:edit"}%%TMPL:P{"PatternSkin/pattern_edit"}%
+%ADDTOZONE{"body" tag="edit.pattern.tmpl" text="<script type=\"text/javascript\">
 foswiki.Event.addLoadEvent(initForm);
-</script>%TMPL:END%
+</script>" requires="JavascriptFiles/foswikilib,PatternSkin/pattern_edit"}%%TMPL:END%
 
 
 %TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="edithelp" mode="div" remember="on" showlink="&#9658; %MAKETEXT{"Edit help"}%" hidelink="&#9660; %MAKETEXT{"Edit help"}%" linkclass="foswikiButton patternTwistyButton"}%</div><!--//patternTop-->%TMPL:END%

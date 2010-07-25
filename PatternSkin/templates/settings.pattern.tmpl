@@ -1,10 +1,10 @@
 %TMPL:INCLUDE{"settings"}%
-%TMPL:DEF{"script:skintemplate"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswiki_edit.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/pattern_edit.js"></script>
-<script>
-foswiki.Event.addLoadEvent(initForm);
-</script>%TMPL:END%
+%TMPL:DEF{"script:skintemplate"}%%TMPL:P{"JavascriptFiles/foswikiPref"}%
+%TMPL:P{"JavascriptFiles/foswiki_edit"}%
+%TMPL:P{"LIBJS" id="PatternSkin/pattern_edit" requires="JavascriptFiles/foswiki_edit"}%
+%ADDTOZONE{"body" tag="settings.pattern.tmpl" text="<script>
+foswiki.Event.addLoadEvent(initForm);//settings.pattern.tmpl
+</script>" requires="JavascriptFiles/foswikilib,JavascriptFiles/foswiki_edit"}%%TMPL:END%
 
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"(set preferences)"}% %TMPL:END%
 

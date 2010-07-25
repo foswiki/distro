@@ -5,34 +5,37 @@
 %{"hide page top controls"}%
 %TMPL:DEF{"top"}%%TMPL:END%
 
-%TMPL:DEF{"script:topictemplate"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiString.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiStringUnicodeChars.js"></script>
-<script type="text/javascript">
+%TMPL:DEF{"script:topictemplate"}%
+%TMPL:P{"JavascriptFiles/foswikiStringUnicodeChars"}%
+%TMPL:P{"LIBJS" id="PatternSkin/webtopiccreator.js" requires="BehaviourContrib/behaviour,JavascriptFiles/foswikiHTML,JavascriptFiles/foswikiString,JavascriptFiles/foswikiCSS"}%
+%ADDTOZONE{"body"
+ tag="PatternSkinWebCreateNewTopicTemplate.txt"
+ text="
+<script type=\"text/javascript\">
 //<![CDATA[
 function openTemplateWindow () {
     var window = foswiki.Window.openPopup(
-        "%SCRIPTURL{view}%/",
+        '$percntSCRIPTURL{view}$percnt/',
             {
-                topic:"WebTemplateTopics",
-                web:"%SYSTEMWEB%",
-                template:"viewplain",
-                attributes:"resizable=1,scrollbars=1,status=1,toolbar=1",
-                urlparams:"web=%BASEWEB%"
+                topic:'WebTemplateTopics',
+                web:'$percntSYSTEMWEB$percnt',
+                template:'viewplain',
+                attributes:'resizable=1,scrollbars=1,status=1,toolbar=1',
+                urlparams:'web=$percntBASEWEB$percnt'
             }
         );
     return false;
 }
 function getQueryUrl() {
-	return "%SCRIPTURLPATH{view}%/%BASEWEB%/%BASETOPIC%?%QUERYSTRING%;pickparent=1"
+	return '$percntSCRIPTURLPATH{view}$percnt/$percntBASEWEB$percnt/$percntBASETOPIC$percnt?$percntQUERYSTRING$percnt;pickparent=1'
 }
 /* Localized texts */
-var TEXT_FEEDBACK_HEADER = "%MAKETEXT{"Topic will be named: "}%";
+var TEXT_FEEDBACK_HEADER = '$percntMAKETEXT{Topic will be named: }$percnt';
 /* Url params */
-var URL_PICK_PARENT = "%URLPARAM{"pickparent"}%";
-var URL_TEMPLATE = "%URLPARAM{"template"}%";
+var URL_PICK_PARENT = '$percntURLPARAM{pickparent}$percnt';
+var URL_TEMPLATE = '$percntURLPARAM{template}$percnt';
 //]]>
-</script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/webtopiccreator.js"></script>%TMPL:END%
+</script>" requires="JavascriptFiles/foswikiWindow"}%%TMPL:END%
 
 %TMPL:DEF{"formstartstep"}%%TMPL:P{"formstart"}%
 <div class="foswikiFormSteps">%TMPL:END%

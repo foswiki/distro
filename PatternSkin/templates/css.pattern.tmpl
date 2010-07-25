@@ -46,7 +46,7 @@ pre {
 %TMPL:END%
 
 
-%TMPL:DEF{"styles:javascript_affected"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiStyles.js"></script>%TMPL:END%
+%TMPL:DEF{"styles:javascript_affected"}%%TMPL:P{"JavascriptFiles/foswikiStyles"}%%TMPL:END%
 
 
 %TMPL:DEF{"styles:deprecated"}%%IF{ "defined WEBHEADERART and $ WEBHEADERART != ''" then='#patternTopBarContents { background-image:url(%WEBHEADERART%); background-repeat:no-repeat;}'}%

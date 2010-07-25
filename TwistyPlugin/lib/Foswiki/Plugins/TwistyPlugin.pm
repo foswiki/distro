@@ -23,8 +23,6 @@ our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
 
-our $pluginName = 'TwistyPlugin';
-
 my $TWISTYPLUGIN_COOKIE_PREFIX  = "TwistyPlugin_";
 my $TWISTYPLUGIN_CONTENT_HIDDEN = 0;
 my $TWISTYPLUGIN_CONTENT_SHOWN  = 1;
@@ -36,7 +34,7 @@ sub initPlugin {
     # check for Plugins.pm versions
     if ( $Foswiki::Plugins::VERSION < 1.1 ) {
         Foswiki::Func::writeWarning(
-            "Version mismatch between $pluginName and Plugins.pm");
+            "Version mismatch between TwistyPlugin and Plugins.pm");
         return 0;
     }
 
@@ -82,11 +80,16 @@ sub _addHeader {
     return if $doneHeader;
     $doneHeader = 1;
 
-    # Untaint is required if use locale is on
-    Foswiki::Func::loadTemplate(
-        Foswiki::Sandbox::untaintUnchecked( lc($pluginName) ) );
-    my $header = Foswiki::Func::expandTemplate('twisty:header');
-    Foswiki::Func::expandCommonVariables($header);
+    Foswiki::Func::loadTemplate( 'twistyplugin' );
+    my $lib = '';
+
+    if (Foswiki::Func::getContext()->{JQueryPluginEnabled}) {
+        $lib = '.jquery';
+    }
+
+    my $header = Foswiki::Func::expandTemplate("TwistyPlugin/twisty$lib")
+      . Foswiki::Func::expandTemplate("TwistyPlugin/twisty$lib.css");
+    return Foswiki::Func::expandCommonVariables($header);
 }
 
 sub _TWISTYSHOW {

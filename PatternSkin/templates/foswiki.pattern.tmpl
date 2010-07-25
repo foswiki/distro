@@ -1,5 +1,13 @@
-%TMPL:INCLUDE{"foswiki"}%%TMPL:INCLUDE{"viewtopicactionbuttons"}%%TMPL:INCLUDE{"viewbottombar"}%
-%TMPL:DEF{"sep"}%<span class='foswikiSeparator'>&nbsp;|&nbsp;</span>%TMPL:END%
+%TMPL:INCLUDE{"foswiki"}%%{
+---------------------------------------------------
+}%%TMPL:DEF{"PatternSkin/pattern_edit"}%%{
+}%%TMPL:P{"JavascriptFiles/foswiki_edit"}%%TMPL:P{"LIBJS" id="PatternSkin/pattern_edit" requires="JavascriptFiles/foswiki_edit"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:INCLUDE{"viewtopicactionbuttons"}%%{
+---------------------------------------------------
+}%%TMPL:INCLUDE{"viewbottombar"}%%{
+---------------------------------------------------
+}%%TMPL:DEF{"sep"}%<span class='foswikiSeparator'>&nbsp;|&nbsp;</span>%TMPL:END%
 %TMPL:DEF{"LOG_IN"}%%MAKETEXT{"Log In"}%%TMPL:END%
 %TMPL:DEF{"LOG_OUT"}%%MAKETEXT{"Log Out"}%%TMPL:END%
 
@@ -44,14 +52,17 @@
 
 %TMPL:P{"script"}%%TMPL:P{"defaultstyle"}%</head>%TMPL:END%
 
-%TMPL:DEF{"script:skinbase"}%<!--BEHAVIOURCONTRIB--><script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour.compressed.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikilib.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiWindow.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiEvent.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiHTML.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiCSS.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiForm.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/pattern.js"></script>%TMPL:END%
+%TMPL:DEF{"script:skinbase"}%%{
+}%%TMPL:P{"LIBJS" id="BehaviourContrib/behaviour" requires=""}%%{
+}%%TMPL:P{"JavascriptFiles/foswikilib"}%%{
+}%%TMPL:P{"JavascriptFiles/foswikiString"}%%{
+}%%TMPL:P{"JavascriptFiles/foswikiWindow"}%%{
+}%%TMPL:P{"JavascriptFiles/foswikiEvent"}%%{
+}%%TMPL:P{"JavascriptFiles/foswikiHTML"}%%{
+}%%TMPL:P{"JavascriptFiles/foswikiCSS"}%%{
+}%%TMPL:P{"JavascriptFiles/foswikiForm"}%%{
+}%%TMPL:P{"JavascriptFiles/foswikiPref"}%%{
+}%%TMPL:P{"LIBJS" id="PatternSkin/pattern" requires="JavascriptFiles/foswikilib,JavascriptFiles/foswikiPref,JavascriptFiles/foswikiCSS,JavascriptFiles/foswikiEvent,BehaviourContrib/behaviour"}%%TMPL:END%
 
 %TMPL:DEF{"bodystart"}%<body class="%TMPL:P{"bodyclassname"}%">
 #PageTop%TMPL:END%

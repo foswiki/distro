@@ -206,31 +206,31 @@ sub addHEAD {
     my $base = '%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib';
     eval {
         require Foswiki::Contrib::BehaviourContrib;
-        if ( defined(&Foswiki::Contrib::BehaviourContrib::addHEAD) ) {
-            Foswiki::Contrib::BehaviourContrib::addHEAD();
-        }
-        else {
-            Foswiki::Func::addToHEAD( 'BEHAVIOURCONTRIB',
-'<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour.compressed.js"></script>'
-            );
-        }
+        Foswiki::Contrib::BehaviourContrib::addHEAD();
     };
-    my $head = <<HERE;
+    my $css = <<HERE;
 <style type='text/css' media='all'>
-  \@import url('$base/calendar-$style.css');
-  .calendar {z-index:2000;}
+ \@import url('$base/calendar-$style.css');
+ .calendar {z-index:2000;}
 </style>
-<script type='text/javascript' src='$base/calendar.js'></script>
-<script type='text/javascript' src='$base/lang/calendar-$lang.js'></script>
 HERE
-    Foswiki::Func::addToHEAD( 'JSCALENDARCONTRIB', $head );
+    Foswiki::Func::addToZone( 'head', 'JSCalendarContrib/css', $css );
+
+    Foswiki::Func::addToZone(
+        'body', 'JSCalendarContrib/calendar',
+        "<script type='text/javascript' src='$base/calendar.js'></script>");
+
+    Foswiki::Func::addToZone(
+        'body', 'JSCalendarContrib/calendar-lang',
+        "<script type='text/javascript' src='$base/lang/calendar-$lang.js'></script>",
+        'JSCalendarContrib/calendar');
 
     # Add the setup separately; there might be different setups required
     # in a single HTML page.
-    $head = <<HERE;
-<script type='text/javascript' src='$base/$setup.js'></script>
-HERE
-    Foswiki::Func::addToHEAD( 'JSCALENDARCONTRIB_' . $setup, $head );
+    Foswiki::Func::addToZone(
+        'body', "JSCalendarContrib/$setup",
+        "<script type='text/javascript' src='$base/$setup.js'></script>"
+       );
 }
 
 1;

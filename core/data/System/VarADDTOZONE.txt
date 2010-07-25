@@ -42,7 +42,8 @@ Notionally the =head= and =body= zones correspond to the end of the HTML =&lt;HE
 
 First, dependencies between the individual =ADDTOZONE= statements are resolved *within each zone*. Then, if ={OptimizePageLayout}= is enabled, the =head= content is added to the =&lt;HEAD&gt;,= and the =body= content is added to the =&lt;BODY&gt;=. However, if ={OptimizePageLayout}= is disabled (the default), both the =head= and =body= zones will be added to the HTML =&lt;HEAD&gt;=.
 
-For this reason, consideration needs to be given to the way =head= and =body= zones are behaving with your Foswiki configuration, dictated by the ={OptimizePageLayout}= setting.
+For this reason, consideration needs to be given to the way =head= and =body= zones are behaving with your Foswiki configuration, dictated by the ={OptimizePageLayout}= setting
+
 ---++++ Working with ={OptimizePageLayout}= disabled (default)
    * Be aware that in this mode, =body= is an alias for =head= - no =body= zone is ever populated.
    * Only add HTML to the body zone _that is also legal in the =&lt;HEAD&gt;=._
@@ -80,4 +81,5 @@ For this reason, consideration needs to be given to the way =head= and =body= zo
          requires="JQUERYPLUGIN::SHAKE"
      }%</verbatim> where "MyApp::ShakePart" is a unique =id= to identify the text added to body; and =JQUERYPLUGIN::SHAKE= signifies that the content added with this identifier should appear beforehand.
 
-See also [[VarRENDERZONE][RENDERZONE]]
+See also [[VarRENDERZONE][RENDERZONE]],
+[[http://foswiki.org/Development/UsingADDTOZONE][Using ADDTOZONE]]

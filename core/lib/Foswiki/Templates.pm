@@ -225,7 +225,7 @@ sub readTemplate {
                 'attention',
                 def    => 'no_such_template',
                 params => [
-                    $name.join(';',caller),
+                    $name,
                     # More info for overridable templates
                     ($name =~ /^(view|edit)$/) ? $name.'_TEMPLATE' : '' ]
                );

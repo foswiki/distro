@@ -28,15 +28,10 @@ sub commonTagsHandler {
 =cut
 
 sub addHEAD {
-    my $base = '%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib';
-    my $USE_SRC =
-      Foswiki::Func::getPreferencesValue('BEHAVIOURCONTRIB_DEBUG')
-      ? '_src'
-      : '';
-    my $head = <<HERE;
-<script type='text/javascript' src='$base/behaviour$USE_SRC.js'></script>
-HERE
-    Foswiki::Func::addToHEAD( 'BEHAVIOURCONTRIB', $head );
+    Foswiki::Func::addToZone(
+        'body', 'BehaviourContrib/behaviour',
+        '<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour%FWSRC%.js"></script>'
+       );
 }
 
 1;
