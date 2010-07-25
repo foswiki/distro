@@ -1,12 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev: 16686 $"}%
 %META:TOPICPARENT{name="WikiGroups"}%
----+ Nobody Group
-
-   * Member list:
-      * Set GROUP = 
-   * Persons/group who can change the list:
-      * Set ALLOWTOPICCHANGE = AdminGroup
 
 Used to prevent dangerous actions e.g. renaming [[%SYSTEMWEB%.DefaultPreferences][DefaultPreferences]] - put !NobodyGroup as the only group allowed to rename a topic and it can't be renamed.
 
-*Related topics:* [[%WIKIUSERSTOPIC%]], [[WikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
+%META:PREFERENCE{name="GROUP" title="GROUP" value=""}%
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="GroupView"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%

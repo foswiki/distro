@@ -1,11 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev: 16686 $"}%
 %META:TOPICPARENT{name="WikiGroups"}%
----+!! <nop>%URLPARAM{"topic"}%
 
-   * Member list (comma-separated list):
-      * Set GROUP = %WIKIUSERNAME%
-   * Persons/group who can change the list:
-      * Set ALLOWTOPICCHANGE = %URLPARAM{"topic"}%
-
-*%MAKETEXT{"Related topics:"}%* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%USERSWEB%.WikiGroups][WikiGroups]]
+Edit this topic to add a description to the %URLPARAM{"topic"}%
 

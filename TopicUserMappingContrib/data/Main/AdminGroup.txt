@@ -1,12 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WikiGroups"}%
----+ Administrator Group
-
-
-   * Member list (comma-separated list):
-      * Set GROUP =
-   * Persons/group who can change the list:
-      * Set ALLOWTOPICCHANGE = AdminGroup
 
 %INCLUDE{"%USERSWEB%.AdminUser" section="sudo_login"}%
 
@@ -26,5 +19,6 @@ If you haven't previously set up an administrator, follow these steps:
 <sticky></div></sticky>
 %IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="-->"}%
 
----
-*Related topics:* [[%WIKIUSERSTOPIC%]], [[AdminUser]], [[WikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
+%META:PREFERENCE{name="GROUP" title="GROUP" value=""}%
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="GroupView"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%

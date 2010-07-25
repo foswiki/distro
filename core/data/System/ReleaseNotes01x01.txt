@@ -96,6 +96,14 @@ The extraction of the FormattedSearch system has made it possible to provide a
 Macro that allows users to render a comma separated list into any =header=, 
 =footer=, =format= style.
 
+---+++ %USERSWEB%.WikiGroups and groups have add&remove user interface
+!WikiGroups are now be edited using a much simpler HTML form and additional API's 
+have been added to the UserMappers to allow these Forms to also be used for 
+non-Foswiki user and group backends.
+
+With some configuration, Foswiki can also add users to groups on registration - 
+either automatically, or allowing the users to select groups to join.
+
 ---+++ Testing configuration variables in %IF
 Prior to 1.1, %IF could be used to test the value of any configuration
 variable (those defined in =configure=). This represented a security risk, so

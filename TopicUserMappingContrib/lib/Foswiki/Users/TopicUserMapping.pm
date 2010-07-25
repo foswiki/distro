@@ -825,6 +825,13 @@ sub addUserToGroup {
                 title => 'GROUP', 
                 value => $membersString
              } );
+        $groupTopicObject->putKeyed( 'PREFERENCE',
+            {  
+                type => 'Set', 
+                name => 'VIEW_TEMPLATE', 
+                title => 'VIEW_TEMPLATE', 
+                value => 'GroupView'
+             } );
 
         my $text = $groupTopicObject->text() || '';
         $text =~ s/Set GROUP = .*\n   \*/$GroupEditingUI\n   */os;
@@ -861,6 +868,14 @@ sub addUserToGroup {
                 title => 'GROUP',
                 value => $usersObj->getWikiName($cuid)
             }
+        );
+        $groupTopicObject->putKeyed( 'PREFERENCE',
+            {  
+                type => 'Set', 
+                name => 'VIEW_TEMPLATE', 
+                title => 'VIEW_TEMPLATE', 
+                value => 'GroupView'
+             } 
         );
         my $text = $groupTopicObject->text() || '';
         $text =~ s/Set GROUP = .*\n   \*/$GroupEditingUI\n   */os;
