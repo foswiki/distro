@@ -28,3 +28,5 @@
 
 
 %TMPL:DEF{FORM:display:footer:editlink}%%TMPL:P{context="inactive" then="inactive_form" else="active_form"}%%TMPL:END% 
+
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%

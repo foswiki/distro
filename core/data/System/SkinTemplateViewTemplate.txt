@@ -1,0 +1,11 @@
+%TMPL:INCLUDE{"view"}%
+
+%TMPL:DEF{"content"}%<div class="foswikiTopicText">
+---+!! %NOP%%TOPIC% is a Skin Template
+
+So should not be viewed directly. Use %TMPL:P{"raw_link"}% to see the Template source.
+
+*%MAKETEXT{"Related topics:"}%* [[%SYSTEMWEB%.SkinTemplates][Skin Templates]]
+
+#TopicEnd
+</div>%TMPL:END%
