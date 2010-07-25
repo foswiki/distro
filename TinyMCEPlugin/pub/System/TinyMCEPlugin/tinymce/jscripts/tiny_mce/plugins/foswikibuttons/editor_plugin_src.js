@@ -25,6 +25,7 @@
         init: function (ed, url) {
             this.formats = ed.getParam('foswikibuttons_formats');
             this.format_names = [];
+            this.recipe_names = [];
 
             jQuery.each(this.formats, function (key, value) {
                 ed.plugins.foswikibuttons.format_names.push(key);
@@ -34,6 +35,8 @@
             ed.onInit.add(function (editor) {
                 this.plugins.foswikibuttons._registerFormats(editor, 
                 this.plugins.foswikibuttons.formats);
+
+                this.plugins.foswikibuttons._contextMenuVerbatimClasses(editor);
             });
 
             this._setupTTButton(ed, url);
@@ -286,7 +289,52 @@
 
             return true;
 
+        },
+
+        _contextMenuVerbatimClasses: function (ed) {
+            ed.plugins.foswikibuttons.recipe_names = new Array('tml', 'html', 'js');
+            var recipes = {};
+            for (var i = 0; i < ed.plugins.foswikibuttons.recipe_names.length; i++) {
+                var key = ed.plugins.foswikibuttons.recipe_names[i];
+                recipes[key] = { "block" : "pre", "remove" : "all", classes : 'TMLverbatim ' + key };
+            }
+            ed.formatter.register(recipes);
+            jQuery.each(recipes, function (key, value) {
+                ed.plugins.foswikibuttons.recipe_names.push(key);
+            });
+            if (ed && ed.plugins.contextmenu) {
+                ed.plugins.contextmenu.onContextMenu.add(function(th, m, e) {
+                    var sm, se = ed.selection, el = se.getNode() || ed.getBody();
+
+                    if (el.nodeName == 'PRE' && el.className.indexOf('TMLverbatim') != -1) {
+                        var selectedFormats = ed.formatter.matchAll(ed.plugins.foswikibuttons.recipe_names);
+                        var current = '';
+                        if (selectedFormats.length > 0) {
+                            current = '(' + selectedFormats[0] + ')';
+                        }
+                        sm = m.addMenu({title : 'jQuery chili' + current });
+                        
+                        jQuery.each(recipes, function (name, format) {
+                            sm.add({title : '&lt;verbatim class="' + name + '"&gt;', cmd : 'foswikiVerbatimClass', value : name });
+                        });
+                        sm.add({title : '&lt;verbatim&gt;', cmd : 'foswikiVerbatimClass', value : '' });
+                    }
+                });
+            }
+
+            ed.addCommand('foswikiVerbatimClass', function(ui, val) {
+                // First, remove all existing formats.
+                jQuery.each(recipes, function (name, format) {
+                    ed.formatter.remove(name);
+                });
+                if (val) {
+                    // Now apply the format.
+                    ed.formatter.apply(val);
+                }
+            });
+            return;
         }
+
     });
 
     // Register plugin
