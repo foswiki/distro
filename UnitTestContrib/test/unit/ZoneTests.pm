@@ -1,8 +1,10 @@
 package ZoneTests;
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
 
 use strict;
+use warnings;
+
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 sub new {
     my $self = shift()->SUPER::new(@_);
@@ -21,6 +23,8 @@ sub test_1 {
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result = $this->{session}->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
+
+    return;
 }
 
 sub test_2 {
@@ -36,6 +40,8 @@ sub test_2 {
     my $result =
       $this->{session}->_renderZone( "test", { format => '$item $tag' } );
     $this->assert_equals( $expect, $result );
+
+    return;
 }
 
 sub test_3 {
@@ -53,6 +59,8 @@ sub test_3 {
 
     $result = $this->{session}->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( '', $result );
+
+    return;
 }
 
 sub test_4 {
@@ -69,6 +77,8 @@ sub test_4 {
       $this->{session}
       ->_renderZone( "test", { format => 'item=$item tag=$tag' } );
     $this->assert_equals( $expect, $result );
+
+    return;
 }
 
 sub test_5 {
@@ -94,6 +104,8 @@ sub test_5 {
     $this->assert_equals( $expect, $result2 );
 
     $this->assert_equals( $result1, $result2 );
+
+    return;
 }
 
 sub test_6 {
@@ -111,6 +123,8 @@ HERE
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result = $this->{session}->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
+
+    return;
 }
 
 sub test_7 {
@@ -128,6 +142,8 @@ HERE
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result = $this->{session}->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
+
+    return;
 }
 
 sub test_8 {
@@ -147,6 +163,8 @@ HERE
       $this->{session}
       ->_renderZone( "test", { format => '$item', separator => "" } );
     $this->assert_equals( $expect, $result );
+
+    return;
 }
 
 sub test_9 {
@@ -164,6 +182,8 @@ HERE
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result = $this->{session}->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
+
+    return;
 }
 
 sub test_10 {
@@ -182,6 +202,8 @@ HERE
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result = $this->{session}->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
+
+    return;
 }
 
 sub test_11 {
@@ -196,8 +218,12 @@ HERE
     my $expect = "item=text1 tag=tag1";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone( "test", { format => 'item=$item tag=$tag' } );
+    my $result =
+      $this->{session}
+      ->_renderZone( "test", { format => 'item=$item tag=$tag' } );
     $this->assert_equals( $expect, $result );
+
+    return;
 }
 
 sub test_12 {
@@ -212,8 +238,12 @@ HERE
     my $expect = "item=text1 tag=tag1";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone( "test", { format => 'item=$item tag=$tag' } );
+    my $result =
+      $this->{session}
+      ->_renderZone( "test", { format => 'item=$item tag=$tag' } );
     $this->assert_equals( $expect, $result );
+
+    return;
 }
 
 sub test_13 {
@@ -226,8 +256,10 @@ sub test_13 {
     my $expect = "text <!-- tag -->";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone( "test");
+    my $result = $this->{session}->_renderZone("test");
     $this->assert_equals( $expect, $result );
+
+    return;
 }
 
 sub test_addToHEAD_compatibility_1 {
@@ -243,9 +275,10 @@ HERE
     my $expect = "text2\ntext1";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone(
-        "head", { format => '$item' } );
+    my $result = $this->{session}->_renderZone( "head", { format => '$item' } );
     $this->assert_equals( $expect, $result );
+
+    return;
 }
 
 sub test_addToHEAD_compatibility_2 {
@@ -261,10 +294,10 @@ HERE
     my $expect = "text2\ntext1";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone(
-        "head", { format => '$item' } );
+    my $result = $this->{session}->_renderZone( "head", { format => '$item' } );
     $this->assert_equals( $expect, $result );
+
+    return;
 }
 
 1;
-
