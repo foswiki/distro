@@ -107,3 +107,5 @@
 <!-- //changegroup -->%ENDSECTION{"changegroup"}%
 </verbatim>
 %TMPL:END%
+
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%
