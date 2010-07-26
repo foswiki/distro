@@ -330,18 +330,25 @@ sub test_Unoptimized_HEAD_merged_with_BODY {
 
     my $tml = <<'HERE';
 %ADDTOHEAD{               "head1" text="text1" requires="head2"}%
+%ADDTOZONE{zone="head" id="head2" text="this-text-will-be-ignored"}%
 %ADDTOZONE{zone="head" id="head2" text="text2"}%
 %ADDTOZONE{"body"      id="body3" text="text3" requires="body4"}%
 %ADDTOZONE{zone="body" id="body4" text="text4" requires="head2"}%
-%ADDTOHEAD{               "head5" text="text5" requires="body4"}%
+%ADDTOHEAD{               "head5" text="text5" requires="body4,body3,body6"}%
+%ADDTOZONE{zone="body" id="body6" text="text6" requires="head2,something-missing"}%
+%ADDTOZONE{zone="head" id="misc7" text="head::misc7"}%
+%ADDTOZONE{zone="body" id="misc7" text="body::misc7"}%
 HERE
     my $expect = <<'HERE';
 HEAD:
+head::misc7 <!-- misc7 -->
 text2 <!-- head2 -->
 text1 <!-- head1 -->
 text4 <!-- body4 -->
 text3 <!-- body3 -->
+text6 <!-- body6 required id(s) that were missing from body zone: something-missing -->
 text5 <!-- head5 -->
+body::misc7 <!-- misc7 -->
 BODY:
 HERE
     chomp($expect);
@@ -366,19 +373,26 @@ sub test_Optimized_HEAD_split_from_BODY {
 
     my $tml = <<'HERE';
 %ADDTOHEAD{               "head1" text="text1" requires="head2"}%
+%ADDTOZONE{zone="head" id="head2" text="this-text-will-be-ignored"}%
 %ADDTOZONE{zone="head" id="head2" text="text2"}%
 %ADDTOZONE{"body"      id="body3" text="text3" requires="body4"}%
 %ADDTOZONE{zone="body" id="body4" text="text4" requires="head2"}%
-%ADDTOHEAD{               "head5" text="text5" requires="body4"}%
+%ADDTOHEAD{               "head5" text="text5" requires="body4,body3,body6"}%
+%ADDTOZONE{zone="body" id="body6" text="text6" requires="head2,something-missing"}%
+%ADDTOZONE{zone="head" id="misc7" text="head::misc7"}%
+%ADDTOZONE{zone="body" id="misc7" text="body::misc7"}%
 HERE
     my $expect = <<'HERE';
 HEAD:
+head::misc7 <!-- misc7 -->
 text2 <!-- head2 -->
 text1 <!-- head1 -->
-text5 <!-- head5 required id(s) that were missing from head zone: body4 -->
+text5 <!-- head5 required id(s) that were missing from head zone: body4, body3, body6 -->
 BODY:
+body::misc7 <!-- misc7 -->
 text4 <!-- body4 required id(s) that were missing from body zone: head2 -->
 text3 <!-- body3 -->
+text6 <!-- body6 required id(s) that were missing from body zone: head2, something-missing -->
 HERE
     chomp($expect);
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
@@ -400,17 +414,22 @@ sub test_legacy_tag_param_compatibility {
     my $webName   = $this->{test_web};
     my $tml = <<'HERE';
 %ADDTOHEAD{                "head1" text="text1" requires="head2"}%
+%ADDTOZONE{zone="head" id="head2" text="this-text-will-be-ignored"}%
 %ADDTOZONE{zone="head" tag="head2" text="text2"}%
 %ADDTOZONE{"body"      tag="body3" text="text3" requires="body4"}%
 %ADDTOZONE{zone="body" tag="body4" text="text4" requires="head2"}%
 %ADDTOHEAD{                "head5" text="text5" requires="body4"}%
+%ADDTOZONE{zone="head" id="misc7" text="head::misc7"}%
+%ADDTOZONE{zone="body" id="misc7" text="body::misc7"}%
 HERE
     my $expect = <<'HERE';
 HEAD:
+head::misc7 <!-- misc7 -->
 text2 <!-- head2 -->
 text1 <!-- head1 -->
 text5 <!-- head5 required id(s) that were missing from head zone: body4 -->
 BODY:
+body::misc7 <!-- misc7 -->
 text4 <!-- body4 required id(s) that were missing from body zone: head2 -->
 text3 <!-- body3 -->
 HERE

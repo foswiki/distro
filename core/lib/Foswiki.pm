@@ -3235,9 +3235,6 @@ sub addToZone {
       # When {OptimizePageLayout} is NOT set, treat all adds to body zone as adds
       # to head zone instead for compatibility with ADDTOHEAD usage that has
       # requirements that exist in the body zone. See ZoneTests/Item9317
-    if ( $zone eq 'body' and not $Foswiki::cfg{OptimizePageLayout} ) {
-        $zone = 'head';
-    }
     $requires ||= '';
     $this->{$zone} ||= {};
 
@@ -3256,10 +3253,12 @@ sub addToZone {
     foreach my $req ( split( /\s*,\s*/, $requires ) ) {
         unless ( $thisZone->{$req} ) {
             $thisZone->{$req} = {
-                id        => $req,
-                requires  => [],
-                text      => '',
-                populated => 0
+                id              => $req,
+                zone            => $zone,
+                requires        => [],
+                missingrequires => [],
+                text            => '',
+                populated       => 0
             };
         }
         push( @requires, $thisZone->{$req} );
@@ -3273,9 +3272,11 @@ sub addToZone {
     }
 
     # override previous properties
-    $zoneID->{requires}  = \@requires;
-    $zoneID->{text}      = $data;
-    $zoneID->{populated} = 1;
+    $zoneID->{zone}            = $zone;
+    $zoneID->{requires}        = \@requires;
+    $zoneID->{missingrequires} = [];
+    $zoneID->{text}            = $data;
+    $zoneID->{populated}       = 1;
 
     return;
 }
@@ -3299,15 +3300,8 @@ sub _renderZoneById {
 
 sub _getMissingRequiredZoneIDs {
     my ($zoneID) = @_;
-    my @missingIDs;
 
-    foreach my $requiredZoneID ( @{ $zoneID->{requires} } ) {
-        if ( not $requiredZoneID->{populated} ) {
-            push( @missingIDs, $requiredZoneID->{id} );
-        }
-    }
-
-    return join( ', ', @missingIDs );
+    return join( ', ', @{ $zoneID->{missingrequires} } );
 }
 
 sub _renderZone {
@@ -3340,12 +3334,28 @@ sub _renderZone {
     # algorithm runs in linear time.
     my %visited;
     my @total;
-    foreach my $zoneID ( values %{ $this->{_zones}{$zone} } ) {
-        _visitZoneID( $zoneID, \%visited, \@total );
+    my @zoneIDs = values %{ $this->{_zones}{$zone} };
+
+    # When {OptimizePageLayout} is NOT set, try to treat head and body
+    # zones as merged for compatibility with ADDTOHEAD usage where requirements
+    # have been moved to the body zone. See ZoneTests/Item9317
+    if ( not $Foswiki::cfg{OptimizePageLayout} and $zone eq 'head' ) {
+        @zoneIDs = ( @zoneIDs, values %{ $this->{_zones}{body} } );
+        foreach my $zoneID (@zoneIDs) {
+            $this->_visitZoneID( $zoneID, \%visited, \@total );
+        }
+        undef $this->{_zones}{'head'};
+        undef $this->{_zones}{'body'};
+    }
+    else {
+        foreach my $zoneID (@zoneIDs) {
+            $this->_visitZoneID( $zoneID, \%visited, \@total );
+        }
+
+        # kill a zone once it has been rendered
+        undef $this->{_zones}{$zone};
     }
 
-    # kill a zone once it has been rendered
-    undef $this->{_zones}{$zone};
     my @result        = ();
     my $missingformat = $params->{missingformat};
     foreach my $item (@total) {
@@ -3359,6 +3369,7 @@ sub _renderZone {
             $text =~ s/^\s+//g;
             $text =~ s/\s+$//g;
         }
+
         # ASSERT($text, "No content for zone id $item->{id} in zone $zone")
         # if DEBUG;
 
@@ -3369,7 +3380,7 @@ sub _renderZone {
         $line =~ s/\$id\b/$id/g;
         $line =~ s/\$missing\b/$missingformat/g;
         $line =~ s/\$missingids\b/$missingids/g;
-        $line =~ s/\$zone\b/$zone/g;
+        $line =~ s/\$zone\b/$item->{zone}/g;
         $line = expandStandardEscapes($line);
         next unless $line;
         push @result, $line if $line;
@@ -3390,11 +3401,46 @@ sub _renderZone {
 }
 
 sub _visitZoneID {
-    my ( $zoneID, $visited, $list ) = @_;
+    my ( $this, $zoneID, $visited, $list ) = @_;
+
     return if $visited->{$zoneID};
+
     $visited->{$zoneID} = 1;
+
     foreach my $requiredZoneID ( @{ $zoneID->{requires} } ) {
-        _visitZoneID( $requiredZoneID, $visited, $list );
+        my $zoneIDToVisit;
+
+        if (    not $Foswiki::cfg{OptimizePageLayout}
+            and not $requiredZoneID->{populated} )
+        {
+
+            # Compatibility mode, where we are trying to treat head and body
+            # zones as merged, and a required ZoneID isn't populated. Try
+            # opposite zone to see if it exists there instead. Item9317
+            if ( $requiredZoneID->{zone} eq 'head' ) {
+                $zoneIDToVisit = $this->{_zones}{body}{ $requiredZoneID->{id} };
+            }
+            else {
+                $zoneIDToVisit = $this->{_zones}{head}{ $requiredZoneID->{id} };
+            }
+            if ( not $zoneIDToVisit->{populated} ) {
+
+                # Oops, the required ZoneID doesn't exist there either; reset
+                $zoneIDToVisit = $requiredZoneID;
+            }
+        }
+        else {
+            $zoneIDToVisit = $requiredZoneID;
+        }
+        $this->_visitZoneID( $zoneIDToVisit, $visited, $list );
+
+        if ( not $zoneIDToVisit->{populated} ) {
+
+            # Finally, we got to here and the required ZoneID just cannot be
+            # found in either head or body (or other) zones, so record it for
+            # diagnostic purposes ($missingids format token)
+            push( @{ $zoneID->{missingrequires} }, $zoneIDToVisit->{id} );
+        }
     }
     push( @{$list}, $zoneID );
 
