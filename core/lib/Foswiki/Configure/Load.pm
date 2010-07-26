@@ -63,15 +63,18 @@ sub readConfig {
             my $errorMessage;
             if ($@) {
                 $errorMessage = "Could not parse $file: $@";
+                print STDERR "$errorMessage \n";
             }
             elsif ( not defined $return ) {
+                print STDERR "Could not 'do' $file: $! \n - This might be okay if file LocalSite.cfg does not exist in a new installation.\n";
                 unless ( $! == 2 && $file eq 'LocalSite.cfg' ) {
 
                     # LocalSite.cfg doesn't exist, which is OK
                     $errorMessage = "Could not do $file: $!";
                 }
             }
-            elsif ( not $return ) {
+            elsif ( not $return eq '1') {
+                print STDERR "Running file $file returned  unexpected results: $return \n";
                 $errorMessage = "Could not run $file" unless $return;
             }
             if ($errorMessage) {
