@@ -395,6 +395,7 @@ HERE
 
 sub test_legacy_tag_param_compatibility {
     my $this = shift;
+    $this->_setOptimizePageLayout(1);
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $tml = <<'HERE';

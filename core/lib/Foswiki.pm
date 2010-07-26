@@ -3319,7 +3319,7 @@ sub _renderZone {
     $params->{chomp}  ||= 'off';
     $params->{missingformat} =
       'required id(s) that were missing from $zone zone: $missingids ';
-    $params->{format} = '$item <!--$id $missing-->'
+    $params->{format} = '$item <!-- $id $missing-->'
 
       unless defined $params->{format};
     $params->{separator} = '$n' unless defined $params->{separator};
