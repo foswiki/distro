@@ -124,6 +124,8 @@ sub run {
     }
 
     my $localSiteCfg = $INC{'LocalSite.cfg'};
+    die "LocalSite.cfg is not loaded - Check permissions or run configure\n" unless defined $localSiteCfg;
+
     my $lastMTime = ( stat $localSiteCfg )[9];
 
     while ( $r->Accept() >= 0 ) {
