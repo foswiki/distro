@@ -3334,7 +3334,6 @@ sub _renderZone {
     # algorithm runs in linear time.
     my %visited;
     my @total;
-    my @zoneIDs = values %{ $this->{_zones}{$zone} };
 
     # When {OptimizePageLayout} is NOT set, try to treat head and body
     # zones as merged for compatibility with ADDTOHEAD usage where requirements
@@ -3342,7 +3341,11 @@ sub _renderZone {
     if ( not $Foswiki::cfg{OptimizePageLayout}
         and ( $zone eq 'head' or $zone eq 'body' ) )
     {
-        @zoneIDs = ( @zoneIDs, values %{ $this->{_zones}{body} } );
+        my @zoneIDs = (
+            values %{ $this->{_zones}{head} },
+            values %{ $this->{_zones}{body} }
+        );
+
         foreach my $zoneID (@zoneIDs) {
             $this->_visitZoneID( $zoneID, \%visited, \@total );
         }
@@ -3350,6 +3353,8 @@ sub _renderZone {
         undef $this->{_zones}{'body'};
     }
     else {
+        my @zoneIDs = values %{ $this->{_zones}{$zone} };
+
         foreach my $zoneID (@zoneIDs) {
             $this->_visitZoneID( $zoneID, \%visited, \@total );
         }
