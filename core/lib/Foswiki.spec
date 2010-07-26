@@ -1290,6 +1290,8 @@ $Foswiki::cfg{UsersWebName} = 'Main';
 # of file names. The first file on this list that is found is taken to be the
 # requested template file. The file names can either be absolute file names
 # ending in ".tmpl" or a topic name in a Foswiki web.
+# See 'Security and usability' in System.SkinTemplates for advice on
+# setting this path for increased security.
 $Foswiki::cfg{TemplatePath} = '$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl, $Foswiki::cfg{TemplateDir}/$name.$skin.tmpl, $web.$skinSkin$nameTemplate, $Foswiki::cfg{SystemWebName}.$skinSkin$nameTemplate, $Foswiki::cfg{TemplateDir}/$web/$name.tmpl, $Foswiki::cfg{TemplateDir}/$name.tmpl, $web.$nameTemplate, $Foswiki::cfg{SystemWebName}.$nameTemplate';
 
 # **STRING 120 EXPERT**
