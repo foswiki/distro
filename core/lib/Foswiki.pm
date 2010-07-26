@@ -3339,9 +3339,7 @@ sub _renderZone {
     # When {OptimizePageLayout} is NOT set, try to treat head and body
     # zones as merged for compatibility with ADDTOHEAD usage where requirements
     # have been moved to the body zone. See ZoneTests/Item9317
-    if ( not $Foswiki::cfg{OptimizePageLayout}
-        and ( $zone eq 'head' or $zone eq 'body' ) )
-    {
+    if ( not $Foswiki::cfg{OptimizePageLayout} and $zone eq 'head' ) {
         @zoneIDs = ( @zoneIDs, values %{ $this->{_zones}{body} } );
         foreach my $zoneID (@zoneIDs) {
             $this->_visitZoneID( $zoneID, \%visited, \@total );

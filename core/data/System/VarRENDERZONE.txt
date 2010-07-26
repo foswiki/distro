@@ -9,11 +9,7 @@
 See [[VarADDTOZONE][ADDTOZONE]] for an explanation of _zones_.
 
 Parameters:
-   * ="zone"= required, name of the zone.
-      * %ICON{"info"}% If ={OptimizePageLayout}= is *not* enabled in
-         [[%SCRIPTURL{"configure"}%/configure][configure]] (the default),
-         =%<nop>RENDERZONE{"head"}%= will expand both =head= and =body=
-         zone content. =%<nop>RENDERZONE{"body"}%= will be empty. 
+   * ="zone"= required, name of the zone
    * =header="..."= optional, prefix format string
    * =format="..."= optional, format string for each item added to the zone, default:
    <pre>$item &lt;!-- $id $missing--&gt;</pre>Tokens:
