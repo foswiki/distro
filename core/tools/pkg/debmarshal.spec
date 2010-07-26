@@ -10,6 +10,7 @@ foswiki-core-autoviewtemplateplugin
 foswiki-core-commentplugin
 foswiki-core-edittableplugin
 foswiki-core-emptyplugin
+foswiki-core-famfamfamcontrib
 foswiki-core-historyplugin
 foswiki-core-interwikiplugin
 foswiki-core-jqueryplugin
