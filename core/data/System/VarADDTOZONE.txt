@@ -45,7 +45,14 @@ First, dependencies between the individual =ADDTOZONE= statements are resolved *
 For this reason, consideration needs to be given to the way =head= and =body= zones are behaving with your Foswiki configuration, dictated by the ={OptimizePageLayout}= setting
 
 ---++++ Working with ={OptimizePageLayout}= disabled (default)
-   * Be aware that in this mode, =body= is an alias for =head= - no =body= zone is ever populated.
+   * Be aware that in this mode, =body= and =head= are separate zones
+     when adding to them, but merged as one when you call
+     [[VarRENDERZONE][RENDERZONE]]. This allows an ADDTOZONE to the
+     =head= to successfully require an =id= that has been added to the
+     =body=.
+      * %ICON{"info"}% =%<nop>RENDERZONE{"head"}%= will expand *both*
+         =head= and =body= zone content. =%<nop>RENDERZONE{"body"}%= will
+         be empty.
    * Only add HTML to the body zone _that is also legal in the =&lt;HEAD&gt;=._
 
 ---++++ Working with ={OptimizePageLayout}= enabled
