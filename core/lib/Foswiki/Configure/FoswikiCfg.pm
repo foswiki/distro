@@ -334,7 +334,7 @@ sub startVisit {
         }
 
         # Substitute any existing value, or append if not there
-        unless ( $this->{content} =~ s/\$(Foswiki::)?cfg$keys\s*=.*?;\n/$txt/s )
+        unless ( $this->{content} =~ s/^\s*?\$(Foswiki::)?cfg$keys\s*=.*?;\n/$txt/s )
         {
             $this->{content} .= $txt;
         }
