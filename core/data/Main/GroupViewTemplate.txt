@@ -11,7 +11,7 @@
          twisty="off"
        }%
 ---+++ Persons/group who can change the list:
-%ALLOWTOPICCHANGE%
+%QUERY{"'%USERSWEB%.%TOPIC%'/preferences[name='ALLOWTOPICCHANGE'].value"}%
 
 *%MAKETEXT{"Related topics:"}%* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%USERSWEB%.WikiGroups][WikiGroups]]
 
@@ -69,11 +69,17 @@
 -->
 %STARTSECTION{"changegroup"}%<!-- changegroup -->
 <div class='foswikiRight'>
-%TWISTYBUTTON{
+%IF{
+  "'%USERSWEB%.%groupname%'/preferences[name='GROUP'] AND
+  '%USERSWEB%.%groupname%'/preferences[name='VIEW_TEMPLATE'] AND
+  '%USERSWEB%.%groupname%'/preferences[name='ALLOWTOPICCHANGE']
+  " 
+  then="" 
+  else="upgrade"
+}%%TWISTYBUTTON{
   id="%groupname%_add"
   link="<img src='%ICONURLPATH{"plus"}%' />"
-}%
-%TWISTYBUTTON{
+}%%TWISTYBUTTON{
   id="%groupname%_remove"
   link="<img src='%ICONURLPATH{"minus"}%' />"
 }%
