@@ -74,7 +74,8 @@
   <div class='foswikiFormStep foswikiFormLast'>
      <h2>%MAKETEXT{"Add user"}%:</h2>
      <strong>%MAKETEXT{"Name"}%:</strong>
-     <input type="text" name="username" value="" size="20" class="foswikiInputField" />
+%JQREQUIRE{"autocomplete"}%
+     <input type="text" name="username" value="" size="20" class="foswikiInputField" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;contenttype=text/plain;skin=text;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%"/>
      <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Submit"}%" />
   </div>
 </form>
