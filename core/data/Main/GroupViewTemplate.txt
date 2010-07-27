@@ -8,7 +8,7 @@
          section="rendergroup"
          groupname="%TOPIC%"
          allowschange="%GROUPINFO{"%TOPIC%" format="$allowschange" limit="1"}%"
-         showchange="show"
+         twisty="off"
        }%
 ---+++ Persons/group who can change the list:
 %ALLOWTOPICCHANGE%
@@ -24,7 +24,7 @@
 ---+++ Named INCLUDE sections for use in both Group topics and the WikiGroups list
 <verbatim>
 <!--
-  parameters: groupname, allowschange, showchange
+  parameters: groupname, allowschange, twisty
 -->
 %STARTSECTION{"rendergroup"}%<!-- rendergroup -->
 %GROUPINFO{"%groupname%"
@@ -32,9 +32,8 @@
   separator=", "
 }%<!-- list of members// -->
 %INCLUDE{"%WEB%.%TOPIC%"
-  section="%IF{"'%allowschange%' = '1'" then="changegroup" else="nochange"}%"
+  section="%IF{"'%allowschange%' = '1'" then="changegroup%IF{"'%twisty%' = 'off'" then="notwisty"}%" else="nochange"}%"
   groupname="%groupname%"
-  showchange="%showchange%"
 }% 
 <div class='foswikiClear'></div>
 <!-- //rendergroup -->%ENDSECTION{"rendergroup"}%
@@ -51,21 +50,54 @@
 <!--
   parameters: groupname
 -->
+%STARTSECTION{"changegroupnotwisty"}%<!-- changegroupnotwisty -->
+%INCLUDE{"%WEB%.%TOPIC%"
+  section="group_add"
+  groupname="%groupname%"
+}%
+%INCLUDE{"%WEB%.%TOPIC%"
+  section="group_remove"
+  groupname="%groupname%"
+}%
+<!-- //changegroupnotwisty -->%ENDSECTION{"changegroupnotwisty"}%
+</verbatim>
+
+
+<verbatim>
+<!--
+  parameters: groupname
+-->
 %STARTSECTION{"changegroup"}%<!-- changegroup -->
 <div class='foswikiRight'>
 %TWISTYBUTTON{
   id="%groupname%_add"
   link="<img src='%ICONURLPATH{"plus"}%' />"
-  start="%showchange%"
 }%
 %TWISTYBUTTON{
   id="%groupname%_remove"
   link="<img src='%ICONURLPATH{"minus"}%' />"
-  start="%showchange%"
 }%
 </div>
 %TWISTYTOGGLE{id="%groupname%_add"}%
+%INCLUDE{"%WEB%.%TOPIC%"
+  section="group_add"
+  groupname="%groupname%"
+}%
+%ENDTWISTYTOGGLE%
+%TWISTYTOGGLE{id="%groupname%_remove"}%
+%INCLUDE{"%WEB%.%TOPIC%"
+  section="group_remove"
+  groupname="%groupname%"
+}%
+%ENDTWISTYTOGGLE%
+<!-- //changegroup -->%ENDSECTION{"changegroup"}%
+</verbatim>
 
+<verbatim>
+<!--
+  parameters: groupname
+-->
+%STARTSECTION{"group_add"}%<!-- group_add -->
 <sticky>
 <div class='foswikiFormSteps'>
   <form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST"> 
@@ -80,10 +112,14 @@
   </div>
 </form>
 </div></sticky>
+<!-- //group_add -->%ENDSECTION{"group_add"}%
+</verbatim>
 
-%ENDTWISTYTOGGLE%
-%TWISTYTOGGLE{id="%groupname%_remove"}%
-
+<verbatim>
+<!--
+  parameters: groupname
+-->
+%STARTSECTION{"group_remove"}%<!-- group_remove -->
 %GROUPINFO{
    "%groupname%"
    header="<div class='foswikiFormSteps'>
@@ -103,10 +139,9 @@
       </div>"
    separator="$n"
 }%
-
-%ENDTWISTYTOGGLE%
-<!-- //changegroup -->%ENDSECTION{"changegroup"}%
+<!-- //group_remove -->%ENDSECTION{"group_remove"}%
 </verbatim>
+
 %TMPL:END%
 
 %META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%
