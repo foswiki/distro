@@ -170,24 +170,10 @@ tweaking of the Foswiki code.
 HERE
 }
 
-# Get web server's user and group info
-use vars qw($WebServer_uid $WebServer_gid);
-$WebServer_uid = $WebServer_gid = '';
+# Get web server's user
+our $WebServer_uid = '';
 
 eval { $WebServer_uid = getlogin() || getpwuid($>) || ''; };
-
-eval {
-    $WebServer_gid = join( ',', map { lc( getgrgid($_) ) } split( ' ', $( ) );
-};
-if ($@) {
-
-    # Try to use Cygwin's 'id' command - may be on the path, since Cygwin
-    # is probably installed to supply ls, egrep, etc - if it isn't, give
-    # up.
-    # Run command without stderr output, to avoid CGI giving error.
-    # Get names of primary and other groups.
-    $WebServer_gid = lc(qx(sh -c '( id -un ; id -gn) 2>/dev/null' 2>nul ));
-}
 
 my $localLibFailure;
 
@@ -283,20 +269,16 @@ $| = 1;    # no buffering on STDOUT
 package Foswiki;
 
 # We keep the actual config, and the default from Foswiki.spec, separate
-use vars qw( %cfg $defaultCfg );
+my( %cfg, $defaultCfg );
 
 # Declared in Foswiki to support checkers
-use vars qw( $query );
+our $query = new CGI;
 
 # 'constants' used in Foswiki.spec
-use vars qw( $TRUE $FALSE );
-$TRUE  = 1;
-$FALSE = 0;
+my $TRUE  = 1;
+my $FALSE = 0;
 our $badLSC;
-
 our $time         = time();
-
-our $query = new CGI;
 
 my $url = $query->url();
 my $action = $query->param('action') || 'Configure';
@@ -335,14 +317,21 @@ if ( $action eq 'resource' ) {
     exit 0;
 }
 
-# Load all the bits of the configure module that we explicitly use
-# The loadBasicModule does some extra analysis on errors.
-#foreach my $module (
-#  )
-#{
-#    ::_loadBasicModule($module);
-#}
+# Get web server's group info
+$::WebServer_gid = '';
+eval {
+    $::WebServer_gid = join( ',', map { lc( getgrgid($_) ) } split( ' ', $( ) );
+};
+if ($@) {
 
+    # Try to use Cygwin's 'id' command - may be on the path, since Cygwin
+    # is probably installed to supply ls, egrep, etc - if it isn't, give
+    # up.
+    # Run command without stderr output, to avoid CGI giving error.
+    # Get names of primary and other groups.
+    # This is down here because it takes 30s to execute on Strawberry perl
+    $::WebServer_gid = lc(qx(sh -c '( id -un ; id -gn) 2>/dev/null' 2>nul ));
+}
 
 ###########################################################
 # From this point on we shouldn't have any more "fatal" (to configure)
