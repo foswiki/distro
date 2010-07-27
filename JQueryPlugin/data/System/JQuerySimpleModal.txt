@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1259584432" format="1.1" reprev="1.3" version="1.3"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1280240227" format="1.1" reprev="4" version="4"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"simplemodal"
@@ -48,17 +48,54 @@ overlayCss and/or containerCss options.
 
 ---++ Examples
 
-<verbatim class="js">
-$('<div>my data</div>').modal({options});
-$('#myDiv').modal({options});
-jQueryObject.modal({options});
-</verbatim>
+%JQREQUIRE{"simplemodal"}%
+%JQICON{"bin"}% <a href="#" class="jqSimpleModal {data:'#helpText'}">Delete</a>: opens a modal dialog located in the #helpText div.
 
+%JQICON{"bin"}% <a href="#" class="jqSimpleModal {url:'%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?skin=text;section=helpText'}">Delete (async)</a>: opens a modal dialog with content loaded asynchronously from a named section of a topic.
 
-<verbatim class="js">
-$.modal('<div>my data</div>', {options});
-$.modal('my data', {options});
-$.modal($('#myDiv'), {options});
-$.modal(jQueryObject, {options});
-$.modal(document.getElementById('myDiv'), {options});
-</verbatim>
+%STARTSECTION{"helpText"}%
+<div id="helpText" class="foswikiPage foswikiHidden">
+<div style="width:600px; height:400px; overflow:auto;margin-bottom:1em">
+---+!! Delete?
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mattis nisl
+ venenatis augue. Nullam lacinia dapibus enim. Duis ut enim at neque viverra
+ vestibulum. Nullam blandit massa non tellus. Integer eget justo. Maecenas
+ vitae nisl nec justo pellentesque adipiscing. Cras nulla. Phasellus interdum
+ mi dapibus nisi. Suspendisse sodales leo ac dui. Duis rhoncus neque sed felis.
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+
+ Aenean neque lectus, gravida nec, egestas at, scelerisque quis, lectus.
+ Suspendisse potenti. Morbi id urna at magna tristique mollis. Praesent
+ fermentum sollicitudin turpis. Sed tincidunt gravida est. Morbi non nibh
+ ullamcorper lorem consequat tristique. Ut rutrum, diam dignissim congue
+ tristique, mauris velit tristique velit, sed laoreet dui mi at ante. In dictum
+ massa et quam. Aenean imperdiet elit ut sem. Quisque tincidunt tortor at
+ augue. Praesent eu nunc non dolor sagittis euismod. In semper porttitor
+ tellus. 
+
+ Sed fermentum justo nec lorem. Morbi augue. Sed tristique semper velit. Nulla
+ facilisi. Maecenas fermentum. In massa magna, egestas non, lobortis dictum,
+ feugiat vel, eros. Vivamus cursus accumsan enim. Duis vestibulum ipsum. Proin
+ at ligula et est vehicula fringilla. Integer tortor risus, porttitor quis,
+ posuere sed, sagittis non, sapien.  Donec ornare imperdiet eros. Sed id neque
+ et tellus porta commodo. Integer non neque. Morbi porttitor nisi ultricies
+ lectus. Suspendisse potenti. Vestibulum ornare tellus vulputate ligula. Nam
+ faucibus volutpat nisi. Morbi rhoncus enim ut dolor. Donec congue posuere dui.
+ Aliquam mi nunc, lobortis eu, pulvinar et, aliquet vitae, diam. Aliquam in
+ tortor. Nam egestas imperdiet lectus. Morbi vitae neque. Praesent pellentesque
+ dignissim lacus. Proin neque. Phasellus fermentum sagittis dolor. Nulla enim. 
+
+ In hac habitasse platea dictumst. Etiam sit amet tortor in mi laoreet
+ tincidunt. Aliquam cursus pharetra neque. Vivamus pellentesque lacus ac risus.
+ Nam aliquet molestie enim. Maecenas blandit, tortor nec tincidunt lacinia,
+ tortor velit venenatis velit, et commodo leo tortor nec est. Proin at mi. Ut
+ magna est, venenatis et, eleifend sit amet, vulputate eu, mi. Suspendisse sed
+ arcu at orci scelerisque lobortis. Sed venenatis pede quis nibh. Vivamus at
+ nulla. Etiam congue. Ut eu eros. Nullam tempor rutrum massa.
+
+</div>
+%BUTTON{"%MAKETEXT{"Yes, Delete"}%" icon="tick" class="jqSimpleModalOK"}%
+%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross" class="jqSimpleModalCancel foswikiRight"}%
+%CLEAR%
+</div>
+%ENDSECTION{"helpText"}%
