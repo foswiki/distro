@@ -1,3 +1,4 @@
+/* SMELL: duplicate of twisty.css */
 .twistyHidden { display:none; }
 .twistyMakeHidden {} /* reserved */
 .twistyMakeVisible { display:none; }
@@ -12,7 +13,8 @@ span.twistyContent {}
 .twistyInited1 { /* behavior class: state is set to shown */ }
 .twistyInited0 { /* behavior class: state is set to hidden */ }
 
-/* These styles are available in Foswiki, but provided here for older TWiki versions: */
+/* These styles are standard in Foswiki, but are provided here so the
+plugin can be used with TWiki */
 .foswikiMakeVisible,
 .foswikiMakeVisibleInline,
 .foswikiMakeVisibleBlock {

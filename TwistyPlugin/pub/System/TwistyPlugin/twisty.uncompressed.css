@@ -11,3 +11,11 @@
 .twistyStartShow { /* behavior class */ }
 .twistyInited1 { /* behavior class: state is set to shown */ }
 .twistyInited0 { /* behavior class: state is set to hidden */ }
+
+/* These styles are standard in Foswiki, but are provided here so the
+plugin can be used with TWiki */
+.foswikiMakeVisible,
+.foswikiMakeVisibleInline,
+.foswikiMakeVisibleBlock {
+	display:none; /* will be made visible with javascript */
+}
