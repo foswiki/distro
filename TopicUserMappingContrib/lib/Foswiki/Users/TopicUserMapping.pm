@@ -758,14 +758,6 @@ cuid _cannot_  be a groupname
 
 =cut
 
-#TODO: move this to somewhere sane.
-our $GroupEditingUI = '%INCLUDE{"%USERSWEB%.WikiGroups"
-         section="changegroup"
-         groupname="%TOPIC%"
-         allowschange="%GROUPINFO{"%TOPIC%" format="$allowschange" limit="1"}%"
-         HIDECHANGE="show"
-       }%';
-
 sub addUserToGroup {
     my ( $this, $cuid, $Group, $create ) = @_;
     $Group = Foswiki::Sandbox::untaint( $Group,
@@ -834,7 +826,7 @@ sub addUserToGroup {
              } );
 
         my $text = $groupTopicObject->text() || '';
-        $text =~ s/Set GROUP = .*\n   \*/$GroupEditingUI\n   */os;
+        $text =~ s/   * Set GROUP = .*\n   \*//os;
         $groupTopicObject->text($text);
 
         $groupTopicObject->save( -author => $user );
@@ -857,8 +849,7 @@ sub addUserToGroup {
         #expand the GroupTemplate as best we can.
         $this->{session}->{request}
           ->param( -name => 'topic', -value => $groupName );
-        $groupTopicObject->text(
-            $groupTopicObject->expandNewTopic( $groupTopicObject->text() ) );
+        $groupTopicObject->expandNewTopic();
 
         $groupTopicObject->putKeyed(
             'PREFERENCE',
@@ -877,9 +868,6 @@ sub addUserToGroup {
                 value => 'GroupView'
              } 
         );
-        my $text = $groupTopicObject->text() || '';
-        $text =~ s/Set GROUP = .*\n   \*/$GroupEditingUI\n   */os;
-        $groupTopicObject->text($text);
 
         #TODO: should also consider securing the new topic?
         $groupTopicObject->saveAs( $groupWeb, $groupName, -author => $user );
