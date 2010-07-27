@@ -5,25 +5,29 @@
     $dialog.modal(opts); 
 
     // OK button
-    $(".jqSimpleModalOK", $dialog).click(function(e) {
-      $.log("SM: clicked ok");
-      $.modal.close(); 
-      if (typeof(opts.onSubmit) == 'function') { 
-        opts.onSubmit($dialog); 
-      } 
-      e.preventDefault();
-      return false; 
+    $(".jqSimpleModalOK:not(.jqInitedSimpleModalOK)", $dialog).each(function() {
+      $(this).addClass("jqInitedSimpleModalOK").click(function(e) {
+        $.log("SM: clicked ok");
+        $.modal.close(); 
+        if (typeof(opts.onSubmit) == 'function') { 
+          opts.onSubmit($dialog); 
+        } 
+        e.preventDefault();
+        return false; 
+      });
     });
 
     // Cancel button
-    $(".jqSimpleModalCancel", $dialog).click(function(e) {
-      $.log("SM: clicked cancel");
-      $.modal.close(); 
-      if (typeof(opts.onCancel) == 'function') { 
-        opts.onCancel($dialog); 
-      } 
-      e.preventDefault();
-      return false; 
+    $(".jqSimpleModalCancel:not(.jqInitedSimpleModalCancel)", $dialog).each(function() {
+      $(this).addClass("jqInitedSimpleModalCancel").click(function(e) {
+        $.log("SM: clicked cancel");
+        $.modal.close(); 
+        if (typeof(opts.onCancel) == 'function') { 
+          opts.onCancel($dialog); 
+        } 
+        e.preventDefault();
+        return false; 
+      }); 
     }); 
   } 
 
