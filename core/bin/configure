@@ -269,7 +269,7 @@ $| = 1;    # no buffering on STDOUT
 package Foswiki;
 
 # We keep the actual config, and the default from Foswiki.spec, separate
-my( %cfg, $defaultCfg );
+my ( %cfg, $defaultCfg );
 
 # Declared in Foswiki to support checkers
 our $query = new CGI;
@@ -278,7 +278,7 @@ our $query = new CGI;
 my $TRUE  = 1;
 my $FALSE = 0;
 our $badLSC;
-our $time         = time();
+our $time = time();
 
 my $url = $query->url();
 my $action = $query->param('action') || 'Configure';
@@ -287,8 +287,8 @@ our $DEFAULT_FIELD_WIDTH_NO_CSS = '40';
 
 # Handle serving an resource embedded in the configure page, before generating
 # any other output
-::_loadBasicModule( 'Foswiki::Configure::Util' );
-::_loadBasicModule( 'Foswiki::Configure::TemplateParser' );
+::_loadBasicModule('Foswiki::Configure::Util');
+::_loadBasicModule('Foswiki::Configure::TemplateParser');
 if ( $action eq 'resource' ) {
     my $resource = $query->param('resource');
     $resource =~ /^([-\w]+\.\w+)$/;    # filter-in and untaint
@@ -305,7 +305,7 @@ if ( $action eq 'resource' ) {
         }
 
         my $parser = Foswiki::Configure::TemplateParser->new;
-        my $text = $parser->getResource($resource);
+        my $text   = $parser->getResource($resource);
 
         # SMELL: this call is correct, but causes a perl error
         # on some versions of CGI.pm
@@ -404,16 +404,26 @@ sub log {
 # Load all the bits of the configure module that we explicitly use
 # The loadBasicModule does some extra analysis on errors.
 foreach my $module (
-    'Cwd',                               'Data::Dumper',
-    'File::Copy',                        'File::Temp',
-    'Foswiki::Configure::Checker',       'Foswiki::Configure::Item',
-    'Foswiki::Configure::Load',          'Foswiki::Configure::Pluggable',
-    'Foswiki::Configure::Root',          'Foswiki::Configure::Section',
-    'Foswiki::Configure::Type',          'Foswiki::Configure::Types::BOOLEAN',
-    'Foswiki::Configure::Types::NUMBER', 'Foswiki::Configure::Types::SELECT',
-    'Foswiki::Configure::Types::STRING', 'Foswiki::Configure::FoswikiCfg',
-    'Foswiki::Configure::UI',            'Foswiki::Configure::UIs::Section',
-    'Foswiki::Configure::Value',         'Foswiki::Configure::Valuer',
+    'Cwd',
+    'Data::Dumper',
+    'File::Copy',
+    'File::Temp',
+    'Foswiki::Configure::Checker',
+    'Foswiki::Configure::Item',
+    'Foswiki::Configure::Load',
+    'Foswiki::Configure::Pluggable',
+    'Foswiki::Configure::Root',
+    'Foswiki::Configure::Section',
+    'Foswiki::Configure::Type',
+    'Foswiki::Configure::Types::BOOLEAN',
+    'Foswiki::Configure::Types::NUMBER',
+    'Foswiki::Configure::Types::SELECT',
+    'Foswiki::Configure::Types::STRING',
+    'Foswiki::Configure::FoswikiCfg',
+    'Foswiki::Configure::UI',
+    'Foswiki::Configure::UIs::Section',
+    'Foswiki::Configure::Value',
+    'Foswiki::Configure::Valuer',
     'Foswiki::Configure::GlobalControls',
   )
 {
@@ -427,7 +437,7 @@ _dispatchContents();
 # End of the main program; the rest is all subs
 
 sub _dispatchContents {
-    my $stub    = new Foswiki::Configure::Item();
+    my $stub = new Foswiki::Configure::Item();
 
     # This call will define $Foswiki::defaultCfg by loading .spec files
     my $sanityUI = Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
@@ -541,8 +551,7 @@ sub _screenAuthorize {
         }
     );
 
-    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
-        $html);
+    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
     print $html;
 }
 
@@ -587,16 +596,17 @@ sub _screenFeedback {
         }
     );
 
-    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
-        $contentTemplate);
+    Foswiki::Configure::UI::getTemplateParser()
+      ->cleanupTemplateResidues($contentTemplate);
 
     # If this pass created the LocalSite.cfg, need to rerun the sanity check
     # to re-establish that the configuration is valid
-    if ( $badLSC ) {
-        my $stub    = new Foswiki::Configure::Item();
+    if ($badLSC) {
+        my $stub = new Foswiki::Configure::Item();
+
         # This call will define $Foswiki::defaultCfg by loading .spec files
-        my $sanityUI = Foswiki::Configure::UI::loadChecker(
-            'BasicSanity', $stub );
+        my $sanityUI =
+          Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
 
         my $sanityStatement = $sanityUI->check();
         $badLSC = $sanityUI->lscIsBad();
@@ -619,7 +629,7 @@ sub _actionFindMoreExtensions {
 
     my @script     = File::Spec->splitdir( $ENV{SCRIPT_NAME} );
     my $scriptName = pop(@script);
-    $scriptName =~ s/.*[\/\\]//;               # Fix for Item3511, on Win XP
+    $scriptName =~ s/.*[\/\\]//;    # Fix for Item3511, on Win XP
 
     my $contentTemplate =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('extensions');
@@ -649,8 +659,7 @@ sub _actionFindMoreExtensions {
         }
     );
 
-    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
-        $html);
+    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
     print $html;
 }
 
@@ -659,8 +668,7 @@ sub _actionManageExtensions {
 
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
-    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
-        $html);
+    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
     print $html;
 
     my $root = new Foswiki::Configure::Root();
@@ -668,12 +676,14 @@ sub _actionManageExtensions {
     if ( !Foswiki::Configure::UI::authorised() ) {
         $ui = _checkLoadUI( 'AUTH', $root );
         return 1 unless $ui;
-# SMELL: this doesn't work - should invoke _screenAuthorize, surely?
+
+        # SMELL: this doesn't work - should invoke _screenAuthorize, surely?
         print $ui->ui( 0, 'Install ' . ( $query->param('extension') || '' ) );
     }
     else {
         $ui = _checkLoadUI( 'EXTEND', $root );
         return 1 unless $ui;
+
         # Warning: the 'install' method uses print for rapid feedback
         print $ui->install();
     }
@@ -688,13 +698,12 @@ sub _actionManageExtensions {
     Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
-            'frontpageUrl'  => $frontpageUrl,
-            'configureUrl'  => $url,
+            'frontpageUrl' => $frontpageUrl,
+            'configureUrl' => $url,
         }
     );
 
-    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
-        $html);
+    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
     print $html;
 }
 
@@ -706,8 +715,9 @@ sub _actionConfigure {
 
     my $contents    = '';
     my $isFirstTime = $badLSC;
+
     #allow debugging of checker's guesses by showing the entire UI
-    $isFirstTime = 0 if ($query->param('DEBUG'));
+    $isFirstTime = 0 if ( $query->param('DEBUG') );
 
     Foswiki::Configure::UI::reset($isFirstTime);
 
@@ -720,7 +730,7 @@ sub _actionConfigure {
     # Load special sections used as placeholders
 
     my $intro = 'Foswiki::Configure::Checkers::'
-      .($isFirstTime ? 'Welcome' : 'Introduction');
+      . ( $isFirstTime ? 'Welcome' : 'Introduction' );
     eval "require $intro";
     Carp::confess $@ if $@;
 
@@ -729,6 +739,7 @@ sub _actionConfigure {
 
     my $oscfg = $Config::Config{osname};
     if ($oscfg) {
+
         # See if this platform has special detection or checking requirements
         my $osospecial = "Foswiki::Configure::Checkers::$oscfg";
         eval "require $osospecial";
@@ -780,13 +791,12 @@ sub _actionConfigure {
     Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
-            'time' => $time,     # use time to make sure we never allow cacheing
-            'formAction'          => $scriptName,
+            'time' => $time,    # use time to make sure we never allow cacheing
+            'formAction' => $scriptName,
         }
     );
 
-    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues(
-        $html);
+    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
     print $html;
 }
 
