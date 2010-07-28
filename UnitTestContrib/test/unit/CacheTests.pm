@@ -132,13 +132,13 @@ sub verify_view {
     $one =~ s/^.*?\n\n+//s;
     $one =~ s/value=['"]\??[a-fA-F0-9]{32}['"]/value=vkey/gs;
     $one =~ s/([?;&]t=)\d+/${1}0/g;
-    $one =~ s/<meta.*?foswiki\.SERVERTIME:".*?>//gi;
+    $one =~ s/<meta[^>]*?foswiki\.SERVERTIME"[^>]*?>//gi;
 
     $two =~ s/\r//g;
     $two =~ s/^.*?\n\n+//s;
     $two =~ s/value=['"]\??[a-fA-F0-9]{32}['"]/value=vkey/gs;
     $two =~ s/([?;&]t=)\d+/${1}0/g;
-    $one =~ s/<meta.*?foswiki\.SERVERTIME:".*?>//gi;
+    $two =~ s/<meta[^>]*?foswiki\.SERVERTIME"[^>]*?>//gi;
 
     $this->assert_html_equals($one, $two);
 }
