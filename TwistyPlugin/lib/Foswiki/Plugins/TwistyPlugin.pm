@@ -416,12 +416,14 @@ sub _wrapInContentHtmlClose {
 
 sub _wrapInContainerHideIfNoJavascripOpen {
     my ($mode) = @_;
-    return '<' . $mode . ' class="twistyPlugin foswikiMakeVisibleInline">';
+    my $inlineOrBlock = ($mode eq 'div')?'Block':'Inline';
+    return '<' . $mode . ' class="twistyPlugin foswikiMakeVisible'.$inlineOrBlock.'">';
 }
 
 sub _wrapInContainerDivIfNoJavascripClose {
     my ($mode) = @_;
-    return '</' . $mode . '><!--/twistyPlugin foswikiMakeVisibleInline-->';
+    my $inlineOrBlock = ($mode eq 'div')?'Block':'Inline';
+    return '</' . $mode . '><!--/twistyPlugin foswikiMakeVisible'.$inlineOrBlock.'-->';
 }
 
 1;
