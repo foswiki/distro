@@ -128,17 +128,14 @@ sub verify_view {
 
 
     # Massage the HTML for comparison
-    $one =~ s/\r//g;
-    $one =~ s/^.*?\n\n+//s;
-    $one =~ s/value=['"]\??[a-fA-F0-9]{32}['"]/value=vkey/gs;
-    $one =~ s/([?;&]t=)\d+/${1}0/g;
-    $one =~ s/<meta[^>]*?foswiki\.SERVERTIME"[^>]*?>//gi;
-
-    $two =~ s/\r//g;
-    $two =~ s/^.*?\n\n+//s;
-    $two =~ s/value=['"]\??[a-fA-F0-9]{32}['"]/value=vkey/gs;
-    $two =~ s/([?;&]t=)\d+/${1}0/g;
-    $two =~ s/<meta[^>]*?foswiki\.SERVERTIME"[^>]*?>//gi;
+    for( $one, $two ) {
+        $this->assert( s/\r//g, 'Failed to remove \r' );
+        $this->assert( s/^.*?\n\n+//s, 'Failed to remove HTTP headers' );
+        $this->assert( s/value=['"]\??[a-fA-F0-9]{32}['"]/value=vkey/gs,
+        'Failed to replace all value=key with dummy key "vkey"' );
+        $this->assert( s/([?;&]t=)\d+/${1}0/g, 'Failed to replace timestamp in page URL with dummy (0)' );
+        $this->assert( s/<meta[^>]*?foswiki\.SERVERTIME"[^>]*?>//gi, 'Failed to remove SERVERTIME meta tag' );
+    }
 
     $this->assert_html_equals($one, $two);
 }
