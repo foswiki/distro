@@ -212,8 +212,7 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  24 Nov 2006 | 1.016: Arthur Clemens: Added new attribute =cellborder=.  |
 |  25 Oct 2006 | 1.015: Arthur Clemens: Added support for background colors of sorted column. Columns can be unsorted - sorting order is now: sort ascending, sort descending, unsort. Added attributes =headervalign= and =datavalign=. |
 |  16 Aug 2006 | Michael Daum: Added CSS support for even/odd table rows |
-|  13 Dec 2005 | Arthur Clemens: Added support for =id=, =summary= and =captione solid';
-$TABLE_FRAME->{box}    = 'border-style:solid';= |
+|  13 Dec 2005 | Arthur Clemens: Added support for =id=, =summary= and =captione solid' |
 |  05 Mar 2005 | 1.014: Crawford Currie eliminated deprecated handlers for Dakar |
 |  01 Aug 2004 | Arthur Clemens: Added CSS support for first column and ascending/descending table headers |
 |  21 Mar 2004 | PTh: Internal change: Fixed reference to unofficial variable |
