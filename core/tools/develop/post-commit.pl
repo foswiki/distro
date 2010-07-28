@@ -89,7 +89,7 @@ s/^(%META:FIELD.*name="Checkins".*value=")(.*?)(".*%)$/$1._add($2, $rev, \$chang
         {
             $text .= "\n" unless $text =~ /\n$/s;
             $text .=
-"%META:FIELD{name=\"Checkins\" attributes=\"\" title=\"Checkins\" value=\"TWikirev:$rev\"}%\n";
+"%META:FIELD{name=\"Checkins\" attributes=\"\" title=\"Checkins\" value=\"Foswikirev:$rev\"}%\n";
             $changed = 1;
         }
 
