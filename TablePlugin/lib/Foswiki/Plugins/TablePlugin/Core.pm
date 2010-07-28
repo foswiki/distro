@@ -1504,7 +1504,6 @@ sub emitTable {
 
         if ($writingSortLinks) {
             $writingSortLinks = 0;
-            $sortLinksWritten = 1;
         }
 
         # assign css class names to tr
@@ -1567,6 +1566,8 @@ sub emitTable {
             # reset data color count to start with first color after
             # each table heading
             $dataColorCount = 0;
+        } else {
+            $sortLinksWritten = 1;
         }
 
         $rowCount++;
