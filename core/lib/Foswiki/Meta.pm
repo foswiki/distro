@@ -1490,18 +1490,21 @@ sub renderFormFieldForDisplay {
     my $fname = $this->getFormName();
     if ($fname) {
         require Foswiki::Form;
+        my $result;
         try {
             my $form =
               new Foswiki::Form( $this->{_session}, $this->{_web}, $fname );
             my $field = $form->getField($name);
             if ($field) {
-                return $field->renderForDisplay( $format, $value, $attrs );
+                $result = $field->renderForDisplay( $format, $value, $attrs );
             }
         }
         catch Foswiki::OopsException with {
 
             # Form not found, ignore
         };
+
+        return $result if defined $result;
     }
 
     # Form or field wasn't found, do your best!
