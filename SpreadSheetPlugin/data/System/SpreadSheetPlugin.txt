@@ -771,7 +771,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  21 Jul 2010: | Foswikitask:Item5163: prevent misrendering of empty rows |
+|  21 Jul 2010: | Foswikitask:Item5163: prevent misrendering of empty rows, Foswikitask:Item9400: correct $LIST for cells containing commas, as per doc |
 |  29 Dec 2009: | Foswikitask:Item2301: added =$nop= to $LISTJOIN() for better empty parameter |
 |  10 Nov 2009: | Added unit tests |
 |  27 Oct 2009: | Foswikitask:Item2301: Fixed $LISTJOIN() to accept an empty separator |

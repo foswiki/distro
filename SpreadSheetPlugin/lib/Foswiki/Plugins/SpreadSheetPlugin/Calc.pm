@@ -1351,7 +1351,7 @@ sub getList {
         else {
 
             # list item
-            $list[ $#list + 1 ] = $_;
+            push( @list, split(/\s*,\s*/, $_ ));
         }
     }
     return @list;
