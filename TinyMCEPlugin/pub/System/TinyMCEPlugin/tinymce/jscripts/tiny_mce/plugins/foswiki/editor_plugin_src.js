@@ -32,6 +32,7 @@
     tinymce.create('tinymce.plugins.Foswiki', {
 
         init: function (ed, url) {
+            ed.plugins.foswiki._disableAutoSaveOnBadIEs(ed);
             ed.onInit.add(function (ed) {
                 ed.plugins.foswiki._fixAdvancedTheme(ed);
                 if (ed.plugins.autosave &&
@@ -60,6 +61,25 @@
                     theme_url: this.url
                 });
             };
+        },
+
+        /* Item9263: IECollections' IE6 doesn't support userData. Disable on
+        ** these browsers
+         */
+        _disableAutoSaveOnBadIEs: function (ed) {
+            if (jQuery.browser.msie && ed.plugins.autosave) {
+                ed.getElement().style.behavior = "url('#default#userData')";
+                if (typeof(ed.getElement().load) === 'undefined') {
+                    ed.plugins.autosave.setupStorage = function () {};
+                    ed.plugins.autosave.removeDraft = function () {};
+                    ed.plugins.autosave.restoreDraft = function () {};
+                    ed.plugins.autosave.storeDraft = function () {};
+                    ed.onInit.add(function (ed) {
+                        ed.controlManager.controls[ed.id + '_restoredraft'].remove();
+                        ed.controlManager.controls[ed.id + '_restoredraft'].destroy();
+                    });
+                }
+            }
         },
 
         /* EXTRA SMELL: Item1952 - moxiecode ship a stripped-down autosave plugin
