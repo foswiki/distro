@@ -16,14 +16,14 @@ Parameters:
          zone content. =%<nop>RENDERZONE{"body"}%= will be empty. 
    * =header="..."= optional, prefix format string
    * =format="..."= optional, format string for each item added to the zone, default:
-   <pre>$item &lt;!-- $id $missing--&gt;</pre>Tokens:
+   <verbatim class="tml">$item <!--<literal> $id $missing</literal>--></verbatim>Tokens:
       * =$id= - =id= of the [[VarADDTOZONE][ADDTOZONE]] call within the =zone= currently being rendered.
       * =$item= - text of the [[VarADDTOZONE][ADDTOZONE]] call within the =zone= currently being rendered.
       * =$zone= - the ="zone"= currently being rendered.
       * =$missing= - if the [[VarADDTOZONE][ADDTOZONE]] call being rendered required any =id= which was not found, then =$missing= is the =missingtoken= parameter; empty string otherwise.
       * =$missingids= - comma separated list of ids that were required by the [[VarADDTOZONE][ADDTOZONE]] call currently being rendered but weren't found within this =zone=.
    * =missingtoken="..."= optional, this will be the string assigned to the =$missing= format token for use in the =format= parameter. Default:
-   <pre>required id(s) that were missing from $zone zone: $missingids</pre>
+   <verbatim class="tml">required id(s) that were missing from $zone zone: $missingids</verbatim>
    * =chomp="on"= remove leading and trailing whitespace from formatted items, can be useful for pretty-printing and compression.
    * =footer="..."= optional, suffix format string
    * =separator="..."= optional, put between each item of a zone
@@ -38,4 +38,4 @@ required in the templates, they will be rendered automatically.
 
 %ICON{"info"}% Zones are flushed when rendered; they may only be rendered once
 
-See also [[VarADDTOZONE][ADDTOZONE]] for more information on zones.
+See also [[VarADDTOZONE][ADDTOZONE]] for more information on zones. %JQREQUIRE{"chili"}%

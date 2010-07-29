@@ -12,7 +12,7 @@
 
 _Zones_ are specific places in the output HTML that are marked with occurances of the [[VarRENDERZONE][RENDERZONE]] macro. Zones are used to collect various content together, such as Javascript and CSS markup that must be included in the output HTML in a specific order, and in a specific place.
 
-You can create as many zones in addition to the standard [[#HeadAndBody][ =head= and =body= ]] zones as you like. Interesting use cases in wiki applications:
+You may create as many zones in addition to the standard [[#HeadAndBody][ =head= and =body= ]] zones as you like. Interesting use cases in wiki applications:
    * Create a =sidebar= zone to add widgets,
    * Create a =toolbar= zone to add buttons icons
 
@@ -86,7 +86,7 @@ For this reason, consideration needs to be given to the way =head= and =body= zo
             jQuery('#something').shake(3, 10, 180);
          </script>"
          requires="JQUERYPLUGIN::SHAKE"
-     }%</verbatim> where "MyApp::ShakePart" is a unique =id= to identify the text added to body; and =JQUERYPLUGIN::SHAKE= signifies that the content added with this identifier should appear beforehand.
+     }%</verbatim> where "MyApp::ShakePart" is a unique =id= to identify the text added to body; and =JQUERYPLUGIN::SHAKE= signifies that the content added with that identifier should appear beforehand.
 
 See also [[VarRENDERZONE][RENDERZONE]],
 [[http://foswiki.org/Development/UsingADDTOZONE][Using ADDTOZONE]]

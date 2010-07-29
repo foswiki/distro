@@ -3215,14 +3215,21 @@ they are added - dependencies between =$ids= in different zones will not be
 resolved, except for the special case of =head= and =body= zones when
 {OptimizePageLayout} is not set.
 
-In this case, =body= is treated as an alias to =head= so that dependencies
-between these two zones may be resolved.
+In this case, they are treated as separate zones when adding to them, but as
+one merged zone when rendering, Ie. A call to render either =head= or =body=
+zones will actually render both zones in this one call. Both zones are undef'd
+afterward to avoid double rendering of content from either zone, Eg. to support
+proper behaviour when =head= and =body= are rendered with separate calls even
+when ={OptimizePageLayout}= is not set. See ZoneTests/Item9317
 
-   * =$zone=       - name of zone to add to
+This behaviour allows an addToZone('head') call to require an id that has been
+added to =body= only.
+
+   * =$zone=      - name of zone to add to
    * =$id=        - identifier for the =$data= being added
-   * =$data=       - text to be added to the zone
-   * =$requires=   - comma separated string of =$id= identifiers of the text
-                     within this =$zone= that should precede this =$data=
+   * =$data=      - text to be added to the zone
+   * =$requires=  - comma separated string of =$id= identifiers of the text
+                    within this =$zone= that should precede this =$data=
 
 Implements ADDTOZONE
 
@@ -3231,12 +3238,7 @@ Implements ADDTOZONE
 sub addToZone {
     my ( $this, $zone, $id, $data, $requires ) = @_;
 
-    return unless $data;    # don't add empty or even undef stuff
-      # When {OptimizePageLayout} is NOT set, treat all adds to body zone as adds
-      # to head zone instead for compatibility with ADDTOHEAD usage that has
-      # requirements that exist in the body zone. See ZoneTests/Item9317
     $requires ||= '';
-    $this->{$zone} ||= {};
 
     # get a random one
     unless ($id) {
@@ -3308,13 +3310,13 @@ sub _renderZone {
     my ( $this, $zone, $params, $topicObject ) = @_;
 
     return '' unless $zone && $this->{_zones}{$zone};
+
     $params->{header} ||= '';
     $params->{footer} ||= '';
     $params->{chomp}  ||= 'off';
     $params->{missingformat} =
       'required id(s) that were missing from $zone zone: $missingids ';
-    $params->{format} = '$item <!-- $id $missing-->'
-
+    $params->{format} = '$item <!--<literal> $id $missing</literal>-->'
       unless defined $params->{format};
     $params->{separator} = '$n' unless defined $params->{separator};
 
@@ -3389,7 +3391,6 @@ sub _renderZone {
         $line =~ s/\$missingids\b/$missingids/g;
         $line =~ s/\$zone\b/$item->{zone}/g;
         $line = expandStandardEscapes($line);
-        next unless $line;
         push @result, $line if $line;
     }
 
