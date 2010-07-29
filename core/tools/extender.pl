@@ -105,8 +105,12 @@ unless ( &$check_perl_module('Foswiki::Merge') ) {
     _stop("Can't find Foswiki: $@");
 }
 
-# Use the CLI engine
+# Use the CLI engine, and change to minimal mapper and password manager
+# so that configure can run if the authentication contribs have problems
 $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
+$Foswiki::cfg{PasswordManager} = 'none';
+$Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
+
 unless ( eval { require Foswiki } ) {
     _stop("Can't load Foswiki: $@");
 }

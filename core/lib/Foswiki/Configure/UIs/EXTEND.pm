@@ -84,6 +84,12 @@ sub _install {
     # Load up a new Foswiki session so that the install can checkin
     # topics and attchments that are under revision control.
     my $user    = $Foswiki::cfg{AdminUserLogin};
+
+    # Temporarily override the password and mapping manager
+    # So configure can still work if LDAP or other extensions are not functional
+    $Foswiki::cfg{PasswordManager} = 'none';
+    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
+
     my $session = new Foswiki($user);
     require Foswiki::Configure::Package;
 
