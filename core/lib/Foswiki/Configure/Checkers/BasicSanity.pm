@@ -88,6 +88,7 @@ HERE
     elsif ( -e $this->{LocalSiteDotCfg} ) {
         eval { Foswiki::Configure::Load::readConfig(1); };
         if ($@) {
+            $this->{errors}++;
             $result .= <<HERE;
 Existing configuration file has a problem
 that is causing a Perl error - the following message(s) was generated:
@@ -98,6 +99,7 @@ HERE
             $this->{badLSC} = 1;
         }
         elsif ( !-w $this->{LocalSiteDotCfg} ) {
+            $this->{errors}++;
             $result .= <<HERE;
 Cannot write to existing configuration file
 $this->{LocalSiteDotCfg} is not writable.
@@ -106,6 +108,7 @@ Check the file permissions.
 HERE
         }
         elsif ( ( my $mess = $this->_checkCfg( \%Foswiki::cfg ) ) ) {
+            $this->{errors}++;
             $result .= <<HERE;
 The existing configuration file
 $this->{LocalSiteDotCfg} doesn't seem to contain a good configuration
@@ -123,6 +126,7 @@ HERE
         my $errs = $this->checkCanCreateFile( $this->{LocalSiteDotCfg} );
 
         if ($errs) {
+        $this->{errors}++;
             $result .= <<HERE;
 Configuration file $this->{LocalSiteDotCfg} does not exist, and I cannot
 write a new configuration file due to these errors:

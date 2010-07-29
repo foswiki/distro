@@ -278,6 +278,7 @@ our $query = new CGI;
 my $TRUE  = 1;
 my $FALSE = 0;
 our $badLSC;
+our $insane;
 our $time = time();
 
 my $url = $query->url();
@@ -445,12 +446,14 @@ sub _dispatchContents {
     # Perform the check
     my $sanityStatement = $sanityUI->check();
     $badLSC = $sanityUI->lscIsBad();
+    $insane = $sanityUI->insane();
 
     # This is the dispatcher; $action is the name of the action to perform,
     # this is concatenated to _action to determine the name of the procedure.
     # Dispatcher methods return a boolean to indicate whether to generate a
     # link back to the main page at the end.
-    if ( $sanityUI->insane() || $query->param('abort') ) {
+
+    if ( $insane && $query->param('abort') ) {
         print $sanityStatement;
     }
     else {
@@ -461,7 +464,7 @@ sub _dispatchContents {
         die "Undefined action $action" unless defined(&$method);
 
         no strict 'refs';
-        &$method();
+        &$method( $sanityStatement );
         use strict 'refs';
     }
 }
@@ -710,11 +713,15 @@ sub _actionManageExtensions {
 # This is the default screen
 sub _actionConfigure {
 
-    # If coming from the save action, pick up the messages
-    my $saveMsgs = shift;
+    my $saveMsgs;
+    # If coming from the save action, or insane, pick up the messages
+    if ($insane) {
+       $saveMsgs = "<h1>INTERNAL ERROR - PROCEED WITH CAUTION</h1>";
+       }
+    $saveMsgs .= shift;
 
     my $contents    = '';
-    my $isFirstTime = $badLSC;
+    my $isFirstTime = $badLSC && !$insane;
 
     #allow debugging of checker's guesses by showing the entire UI
     $isFirstTime = 0 if ( $query->param('DEBUG') );
