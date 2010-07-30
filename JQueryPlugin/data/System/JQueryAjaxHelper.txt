@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" comment="reprev" date="1278410441" format="1.1" reprev="8" version="8"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1280483117" format="1.1" reprev="8" version="8"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 <!--
 Hidden form definition
@@ -157,7 +157,7 @@ jQuery(function($){
       ";baseweb="+opts.baseweb+
       ";format="+opts.format
     ).result(function(event, item) {
-      window.location.href="%SCRIPTURLPATH{"view"}%/"+(opts.global?opts.baseweb:'')+item;
+      window.location.href="%SCRIPTURLPATH{"view"}%/"+(opts.global?'':opts.baseweb+'/')+item;
     });
   });
 });
@@ -374,4 +374,4 @@ Foswiki:Extensions.DBCachePlugin implementation of the [[#User_selector][user se
 </verbatim>
 
 %META:FORM{name="JQueryAjaxHelper"}%
-%META:FIELD{name="Example" title="Example Field" value="example field value"}%
+%META:FIELD{name="Example" attributes="" title="Example" value="example field value"}%
