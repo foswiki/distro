@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1258383569" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1280485478" format="1.1" reprev="3" version="3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"textboxlist"
@@ -17,6 +17,7 @@ This plugin adds a new formfield type =textboxlist= to DataForms.
 ---++ Examples
 %JQREQUIRE{"textboxlist"}%
 
+---+++ Tagging
 <form>
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep">
@@ -32,3 +33,53 @@ This plugin adds a new formfield type =textboxlist= to DataForms.
   </div>
 </div>
 </form>
+
+---+++ Tagging with autocomplete suggestions
+
+Note, that you will need Foswiki:Extensions.FilterPlugin to run the example successfully. 
+
+<form>
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+    <h3>Tags:</h3>
+    <input class="foswikiInputField jqTextboxList {autocomplete:'%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=data;skin=text'}" id="example" size='42'  />
+    <div class="foswikiFormDescription">
+      Tags are suggested as you type.
+    </div>
+  </div>
+</div>
+</form>
+
+---++ Backend Implementation
+<verbatim class="tml">
+%STARTSECTION{"data"}%%FORMATLIST{
+  "
+    admin
+    backup
+    bash
+    emulation
+    games
+    irc
+    linux
+    mercurial
+    patches
+    perl
+    php
+    python
+    site
+    surfing
+    tag
+    test
+    foswiki
+    web
+    wiki
+    windows
+    windsurfing
+    wine
+  "
+  split="\n"
+  format=" $1 "
+  separator="$n"
+  include=".*%URLPARAM{"q"}%.*"
+}%%ENDSECTION{"data"}%
+</verbatim>
