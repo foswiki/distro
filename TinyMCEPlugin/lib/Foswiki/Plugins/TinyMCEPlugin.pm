@@ -150,7 +150,7 @@ sub beforeEditHandler {
 
     require Foswiki::Plugins::WysiwygPlugin;
 
-    $mess = Foswiki::Plugins::WysiwygPlugin::notWysiwygEditable( $_[0] );
+    $mess = Foswiki::Plugins::WysiwygPlugin::notWysiwygEditable($text);
     if ($mess) {
         if ( defined &Foswiki::Func::setPreferencesValue ) {
             Foswiki::Func::setPreferencesValue( 'EDITOR_MESSAGE',
@@ -177,23 +177,23 @@ sub beforeEditHandler {
     $metainit =~ s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
 
     # <meta> tags really do have to be in the head!
-    Foswiki::Func::addToHEAD( 'tinyMCE::Meta', <<"META" );
+    Foswiki::Func::addToHEAD( 'TINYMCEPLUGIN_INIT_ENCODED', <<"META" );
 <meta name="foswiki.TINYMCEPLUGIN_INIT_ENCODED" content="$metainit" />
 META
 
     my $behaving;
-    eval {
+    my $behaving_eval = eval {
         require Foswiki::Contrib::BehaviourContrib;
         if ( defined(&Foswiki::Contrib::BehaviourContrib::addHEAD) ) {
             Foswiki::Contrib::BehaviourContrib::addHEAD();
             $behaving = 1;
         }
+        1;
     };
-    unless ($behaving) {
-        Foswiki::Func::addToZone(
-            'body', 'BehaviourContrib/behaviour',
-            '<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour%FWSRC%.js"></script>'
-           );
+    unless ( $behaving_eval && $behaving ) {
+        Foswiki::Func::addToZone( 'body', 'BehaviourContrib/behaviour',
+'<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour%FWSRC%.js"></script>'
+        );
     }
 
     # URL-encode the version number to include in the .js URLs, so that
@@ -212,8 +212,8 @@ META
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>
 SCRIPT
 
-    Foswiki::Func::addToZone( 'body', 'tinyMCE', $scripts,
-        'tinyMCE::Meta, JQUERYPLUGIN::FOSWIKI' );
+    Foswiki::Func::addToZone( 'body', 'TinyMCEPlugin', $scripts,
+        'JQUERYPLUGIN::FOSWIKI' );
 
     # See %SYSTEMWEB%.IfStatements for a description of this context id.
     Foswiki::Func::getContext()->{textareas_hijacked} = 1;
