@@ -11,7 +11,7 @@
 			  _match: /(<!--\[[^\]]*\]>)([\w\W]*?)(<!\[[^\]]*\]-->)/
 			, _replace: function( all, open, content, close ) {
 				return "<span class='ie_style'>" + this.x( open ) + "</span>" 
-					  + this.x( content, '//style' ) 
+					  + this.x( content, '/_main' ) 
 					  + "<span class='ie_style'>" + this.x( close ) + "</span>";
 			}
 			, _style: "color: DarkSlateGray; font-weight: bold;"
@@ -21,19 +21,15 @@
 			, _style: "color: #4040c2;"
 		}
 		, script: { 
-			  _match: /(<script\s+[^>]*>)([\w\W]*?)(<\/script\s*>)/
-			, _replace: function( all, open, content, close ) { 
-				  return this.x( open, '//tag_start' ) 
-					  + this.x( content, 'js' ) 
-					  + this.x( close, '//tag_end' );
+			  _match: /<script\s+[^>]*>[\w\W]*?<\/script\s*>/
+			, _replace: function( all ) { 
+				  return this.x( all, 'html' ); 
 			} 
 		}
-		, style: { 
-			  _match: /(<style\s+[^>]*>)([\w\W]*?)(<\/style\s*>)/
-			, _replace: function( all, open, content, close ) { 
-				  return this.x( open, '//tag_start' ) 
-					  + this.x( content, 'css' ) 
-					  + this.x( close, '//tag_end' );
+		, style: {
+			  _match: /<style\s+[^>]*>[\w\W]*?<\/style\s*>/
+			, _replace: function( all ) { 
+				  return this.x( all, 'html' ); 
 			} 
 		}
 		// matches a starting tag of an element (with attrs)
@@ -42,7 +38,7 @@
 			  _match: /(<\w+)((?:[?%]>|[\w\W])*?)(\/>|>)/ 
 			, _replace: function( all, open, content, close ) { 
 				  return "<span class='tag_start'>" + this.x( open ) + "</span>" 
-					  + this.x( content, '/tag_attrs' ) 
+					  + this.x( content, '/_main' )
 					  + "<span class='tag_start'>" + this.x( close ) + "</span>";
 			}
 			, _style: "color: navy; font-weight: bold;"
@@ -57,123 +53,105 @@
 			  _match: /&(?:\w+|#[0-9]+|#x[0-9a-fA-F]+);/ 
 			, _style: "color: blue;"
 		}
-                // tml variable
-                , tml_variable: {
-                  _match: /(?:%|\$perce?nt)[a-zA-Z][a-zA-Z0-9_:]*(?:%|\$perce?nt)/,
-                  _style: "color:#ff0000;"
-                }
-                , tml_tag: {
-                  _match: /((?:%|\$perce?nt)[a-zA-Z][a-zA-Z0-9_:]*{|}(?:%|\$perce?nt))/,
-                  _replace: "<span class='tml_variable'>$1</span>"
-                }
-                , tml_glue_tag_start: {
-                  _match: /\n(%~~)( *[a-zA-Z][a-zA-Z0-9_:]*{)?/,
-                  _replace: "\n<span class='tml_glue'>$1</span><span class='tml_variable'>$2</span>"
-                }
-                , tml_glue_tag_end: {
-                  _match: /\n(~~~)( *}%)/,
-                  _replace: "\n<span class='tml_glue'>$1</span><span class='tml_variable'>$2</span>"
-                }
-                // glue
-                , tml_glue: {
-                  _match: /\n(#~~|~~~|\*~~)/,
-                  _replace: "\n<span class='tml_glue'>$1</span>",
-                  _style: "background:#ddd; color:green; font-weight:bold;"
-                }
-                // wikilink
-                , tml_wikilink: {
-                  _match: /\[\[.*?(\]\[.*?)?\]\]/,
-                  _style: "text-decoration:underline"
-                }
-                // headings
-                , tml_headings: {
-                  _match: /---[\+#]+(!!)?/,
-                  _style: "color:#4040c2; font-weight:bold;"
-                }
-                // tml_attrs
-                , tml_attrs_single_quoted: { 
-                    _match: /([\w-]+)=(\\*')((?:\\.|[^'])*?)\2/ 
+				// tml variable
+				, tml_variable: {
+				  _match: /(%|\$perce?nt)([a-zA-Z][a-zA-Z0-9_:]*)(%|\$perce?nt)/,
+				  _replace: "<span class='tml_variable'>$1<!-- -->$2<!-- -->$3</span>",
+				  _style: "color:#ff0000;"
+				}
+				, tml_tag_start: {
+				  //SMELL: Doesn't cater for _DEFAULT with single quotes
+				  _match: /((?:%|\$perce?nt)[a-zA-Z][a-zA-Z0-9_:]*{)([ \t\n]*)(?:(\\*")((?:\\[^%]|%[a-zA-Z][a-zA-Z0-9_:]*%|[^}"]%(?![a-zA-Z])|[^%"])*?)\3)?/,
+				  _replace: function( all, start, spacing, quote, value ) {
+					  var _DEFAULT = '';
+					  if (quote) {
+						  _DEFAULT = "<span class='attr_value'>"
+							  + this.x( quote, '/tml_attrs' )
+							  + this.x( value, '/_main' )
+							  + this.x( quote, '/tml_attrs' )
+							  + "</span>";
+					  }
+					  return "<span class='tml_variable'>"
+						  + start
+						  + "</span>"
+						  + spacing
+						  + _DEFAULT;
+				  }
+				}
+				, tml_tag_end: {
+				  _match: /(}(?:%|\$perce?nt))/,
+				  _replace: "<span class='tml_variable'>$1</span>"
+				}
+				, tml_glue_tag_start: {
+				  _match: /\n(%~~)( *[a-zA-Z][a-zA-Z0-9_:]*{)?/,
+				  _replace: "\n<span class='tml_glue'>$1</span><span class='tml_variable'>$2</span>"
+				}
+				, tml_glue_tag_end: {
+				  _match: /\n(~~~)( *}%)/,
+				  _replace: "\n<span class='tml_glue'>$1</span><span class='tml_variable'>$2</span>"
+				}
+				// glue
+				, tml_glue: {
+				  _match: /\n(~~~|\*~~)/,
+				  _replace: "\n<span class='tml_glue'>$1</span>",
+				  _style: "background:#ddd; color:green; font-weight:bold;"
+				}
+				, tml_glue_comment: {
+				  _match: /\n(#~~)(.*)/,
+				  _replace: "\n<span class='tml_glue'>$1</span><span class='comment'>$2</span>",
+				}
+				// wikilink
+				, tml_wikilink: {
+				  _match: /(\[\[)(.*?(?:\]\[.*?)?)(\]\])/,
+				  _replace: function( all, open, content, close ) {
+					  return "<span class='tml_wikilink'>"
+						  + open
+						  + this.x( content, '/_main' )
+						  + close
+						  + "</span>";
+				  },
+				  _style: "text-decoration:underline"
+				}
+				// headings
+				, tml_headings: {
+				  _match: /---[\+#]+(!!)?/,
+				  _style: "color:#4040c2; font-weight:bold;"
+				}
+				// tml_attrs
+				, tml_attrs_single_quoted: { 
+				  _match: /([\w-]+)=(\\*')((?:\\[^%]|%[a-zA-Z][a-zA-Z0-9_:]*%|[^}']%(?![a-zA-Z])|[^%'])*?)\2/ 
 				  , _replace: function( all, name, quote, value ) {
 						return "<span class='attr_name'>" + name + "</span>="
+							  + "<span class='attr_value'>"
 							  + this.x( quote, '/tml_attrs' ) 
-							  + "<span class='attr_value'>" + this.x( value, '/tml_attrs' ) + "</span>"
-							  + this.x( quote, '/tml_attrs' );  
+							  + this.x( value, '/_main' )
+							  + this.x( quote, '/tml_attrs' )
+							  + "</span>";
 				  }
-                  , _style: { attr_name:  "color: green;", attr_value: "color: maroon; background:#f2e6e6;" }
-                }
-                , tml_attrs_double_quoted: { 
-                    _match: /([\w-]+)=(\\*")((?:\\.|[^"])*?)\2/ 
+				  , _style: { attr_name:  "color: green;", attr_value: "color: maroon;", "attr_value:hover": "background:#fceff8;"}
+				}
+				, tml_attrs_double_quoted: { 
+				  _match: /([\w-]+)=(\\*")((?:\\[^%]|%[a-zA-Z][a-zA-Z0-9_:]*%|[^}"]%(?![a-zA-Z])|[^%"])*?)\2/ 
 				  , _replace: function( all, name, quote, value ) {
 						return "<span class='attr_name'>" + name + "</span>="
+							  + "<span class='attr_value'>"
 							  + this.x( quote, '/tml_attrs' ) 
-							  + "<span class='attr_value'>" + this.x( value, '/tml_attrs' ) + "</span>"
-							  + this.x( quote, '/tml_attrs' );  
+							  + this.x( value, '/_main' )
+							  + this.x( quote, '/tml_attrs' )
+							  + "</span>";
 				  }
-                }
-                // pseudo vars used in format strings
-                , tml_pseudovars: {
-                  _match: /\$formfield\(.*?\)|\$expand\(.*?\)|\$formatTime\(.*?\)|\\"|(\$[a-z]+(\([^()]\))?)/,
-                  _style: "color:orangered;"
-                }
-	}
-	, tag_attrs: {
-		// matches a name/value pair
-		attr: {
-			// before in $1, name in $2, between in $3, value in $4
-			  _match: /(\W*?)([\w-]+)(\s*=\s*)((?:\'[^\']*(?:\\.[^\']*)*\')|(?:\\?\"[^\"]*(?:\\.[^\"]*)*\\?\"))/ 
-			, _replace: "$1<span class='attr_name'>$2</span>$3<span class='attr_value'>$4</span>"
-			, _style: { attr_name:  "color: green;", attr_value: "color: maroon;" }
-		}
+				}
+				// pseudo vars used in format strings
+				, tml_pseudovars: {
+				  _match: /\$formfield\(.*?\)|\$expand\(.*?\)|\$formatTime\(.*?\)|\\"|(\$[a-z]+(\([^()]\))?)/,
+				  _style: "color:orangered;"
+				}
 	}
 	, tml_attrs: {
-		// matches a starting tag of an element (with attrs)
-		// like "<div ... >" or "<img ... />"
-		  tag_start: { 
-			  _match: /(<\w+)((?:[?%]>|[\w\W])*?)(\/>|>)/ 
-			, _replace: function( all, open, content, close ) { 
-				  return "<span class='tag_start'>" + this.x( open ) + "</span>" 
-					  + this.x( content, '/tag_attrs' ) 
-					  + "<span class='tag_start'>" + this.x( close ) + "</span>";
-			}
-			, _style: "color: navy; font-weight: bold;"
-		} 
-		// matches an ending tag
-		// like "</div>"
-		, tag_end: { 
-			  _match: /<\/\w+\s*>|\/>/ 
-			, _style: "color: navy; font-weight: bold;"
-		}
-		, entity: { 
-			  _match: /&(?:\w+|#[0-9]+|#x[0-9a-fA-F]+);/ 
-			, _style: "color: blue;"
-		}
-                // pseudo vars used in format strings
-                , tml_pseudovars: {
-                  _match: /\$formfield\(.*?\)|\$expand\(.*?\)|\$formatTime\(.*?\)|\\"|(\$[a-z]+(\([^()]\))?)/,
-                }
-                // wikilink
-                , tml_wikilink: {
-                  _match: /\[\[.*?(\]\[.*?)?\]\]/,
-                }
-                // tml_attrs
-                , tml_attrs_single_quoted: { 
-                    _match: /([\w-]+)=(\\*')((?:\\.|[^'])*?)\2/ 
-				  , _replace: function( all, name, quote, value ) {
-						return "<span class='attr_name'>" + name + "</span>="
-							  + this.x( quote, '/tml_attrs' ) 
-							  + "<span class='attr_value'>" + this.x( value, '/tml_attrs' ) + "</span>"
-							  + this.x( quote, '/tml_attrs' );  
-				  }
-                }
-                , tml_attrs_double_quoted: { 
-                    _match: /([\w-]+)=(\\*")((?:\\.|[^"])*?)\2/ 
-				  , _replace: function( all, name, quote, value ) {
-						return "<span class='attr_name'>" + name + "</span>="
-							  + this.x( quote, '/tml_attrs' ) 
-							  + "<span class='attr_value'>" + this.x( value, '/tml_attrs' ) + "</span>"
-							  + this.x( quote, '/tml_attrs' );  
-				  }
-                }
+				// pseudo vars used in format strings
+				 tml_pseudovars: {
+				  _match: /\\+["']/,
+				}
 
 	}
 }
