@@ -26,7 +26,7 @@ The editor uses a translator module to convert from Foswiki Topic Markup Languag
 *NOTES:*
    * This plugin comes pre-installed on Foswiki. You should only need to re-install if there is an upgrade to the plugin.
    * It requires the very latest revision of WysiwygPlugin
-   * When installed, it *replaces* the old "textarea" editor. You may still access the plaintext editor with the "Wiki Text" button provided in the toolbar, however this does not necessarily give you the original raw/wiki text version of the topic content. To bypass the TML to HTML conversion process entirely, use the Edit WikiText link provided by the default Foswiki skin at the bottom of the page.
+   * When installed, it *replaces* the old "textarea" editor. You may still access the plaintext editor with the "Wiki Text" button provided in the toolbar, however this does not necessarily give you the original raw/wiki text version of the topic content. To bypass the TML to HTML conversion process entirely, use the =Edit wiki text= link provided by the default Foswiki skin at the bottom of the page.
 
 First follow the installation instructions to install the Plugin:
 
