@@ -1323,22 +1323,29 @@ Get the currently requested skin path
 sub getSkin {
     my $this = shift;
 
-    my $skinpath = $this->{prefs}->getPreference('SKIN') || '';
+    my @skinpath;
 
-    if ( $this->{request} ) {
-        my $resurface = $this->{request}->param('skin');
-        $skinpath = $resurface if $resurface;
+    my $dermis = $this->{request}
+      ? $this->{request}->param('skin') : '';
+    $dermis ||= $this->{prefs}->getPreference('SKIN');
+
+    if (defined $dermis && $dermis =~ /([$regex{mixedAlphaNum}.,\s]+)/o) {
+        # Implicit untaint ok - validated
+        $dermis = $1;
+        push(@skinpath, split(/[,\s]+/, $dermis));
     }
 
-    my $epidermis = $this->{prefs}->getPreference('COVER');
-    $skinpath = $epidermis . ',' . $skinpath if $epidermis;
-
-    if ( $this->{request} ) {
-        $epidermis = $this->{request}->param('cover');
-        $skinpath = $epidermis . ',' . $skinpath if $epidermis;
+    my $epidermis = $this->{request}
+      ? $this->{request}->param('cover')
+      : $this->{prefs}->getPreference('COVER');
+    if (defined $epidermis
+          && $epidermis =~ /([$regex{mixedAlphaNum}.,\s]+)/o) {
+        # Implicit untaint ok - validated
+        $epidermis = $1;
+        push(@skinpath, split(/,\w]+/, $epidermis));
     }
 
-    return $skinpath;
+    return join(',', @skinpath);
 }
 
 =begin TML

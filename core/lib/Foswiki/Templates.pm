@@ -329,10 +329,9 @@ sub _readTemplateFile {
 
     #print STDERR "SKIN path is $skins\n";
 
-    # SMELL: not i18n-friendly (can't have accented characters in skin name)
+    # SMELL: not i18n-friendly (can't have accented characters in template name)
     # zap anything suspicious
     $name  =~ s/[^A-Za-z0-9_,.\/]//go;
-    $skins =~ s/[^A-Za-z0-9_,.]//go;
 
     # if the name ends in .tmpl, then this is an explicit include from
     # the templates directory. No further searching required.
