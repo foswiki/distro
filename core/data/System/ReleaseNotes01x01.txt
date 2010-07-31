@@ -62,7 +62,9 @@ To improve the speed, consistency and extendability of the most complex  and imp
 The extraction of the FormattedSearch system has made it possible to provide a  Macro that allows users to render a comma separated list into any =header=,  =footer=, =format= style.
 
 ---+++ %USERSWEB%.WikiGroups and groups have add&remove user interface
-!WikiGroups are now be edited using a much simpler HTML form and additional API's  have been added to the UserMappers to allow these Forms to also be used for  non-Foswiki user and group backends.
+!WikiGroups are now be edited using a much simpler HTML form.
+
+For developers additional API's have been added to the Foswiki code to allow these Forms to also be used for non-Foswiki user and group backends.
 
 With some configuration, Foswiki can also add users to groups on registration -  either automatically, or allowing the users to select groups to join.
 
@@ -88,10 +90,10 @@ The topics %SYSTEMWEB%.ResetPassword and %SYSTEMWEB%.ChangePassword now  only sh
 
 If the {PasswordManager} does not support password changing,  the ChangePassword and ResetPassword topics will show a simple message.  This message is defined iby the preference =CHANGEPASSWORDDISABLEDMESSAGE=  in %SYSTEMWEB%.DefaultPreferences. You can redefine this setting by copying  it to %USERSWEB%.SitePreferences and change it to include a link to the  password management website of your organisation.
 
-ChangeEmailAddress will now guide the user to define the email address  in the user topic when the PasswordManager does not handle hidden email addresses,  so you should not need to tailor this topic any longer.
+ChangeEmailAddress will now guide the user to define the email address  in the user topic when the !PasswordManager does not handle hidden email addresses,  so you should not need to tailor this topic any longer.
 
 ---+++ Logging of access failures
-Configure and TemplateLogin now log authentication failures to the event logs:
+Configure and !TemplateLogin now log authentication failures to the event logs:
 
    * =working/logs/configure.log=
    * =working/logs/events.log=
@@ -107,7 +109,7 @@ The configuration tool =bin/configure= now performs extensive checks of file sys
 Because of prior inconsistencies in the files distributed with Foswiki and TWiki core and extensions, migration of older Foswiki or TWiki installs may see excessive errors reported by configure.  You are recommended to correct the file system permissions. 
 
 ---+++ Newer modern Icon set for DocumentGraphics.
-To celebrate our new look, project and momentum, Foswiki now has a new ICON set  to update the one shipped for the last 10 years. Using the FamFamFam icon set,  augmented with icons from other leading graphic artists.
+To celebrate our new look, project and momentum, Foswiki now has a new ICON set  to update the one shipped for the last 10 years. Using the !FamFamFam icon set,  augmented with icons from other leading graphic artists.
 
 ---+++ Table Plugin has been improved.
 HTML formatting has been replaced by pure CSS rendering. You can however enable inline markup HTML, in addition to the CSS markup, by setting the new parameter =inlinemarkup= to "on". This is useful if your users often copy/paste content of topics containing tables into HTML formatted emails or Office documents.
