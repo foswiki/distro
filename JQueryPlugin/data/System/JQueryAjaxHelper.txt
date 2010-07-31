@@ -92,6 +92,12 @@ loads the =topic= section of this topic, which expands to the topic list.
 ---++ Web selector
 Select from a list of webs, using =jquery.autocomplete=.
 
+__Note:__ there is currently no way to filter a list of webs in the
+default Foswiki core, so this example returns the same list of
+webs on every call, which is obviously inefficient. If autocompletion
+of web names is required, you are recommended to use the
+!FlexWebListPlugin as [[#FlexWebList][described below]].
+
 ---+++ Client section
 *INCLUDE Parameters*
    * =INPUT_NAME=: name of text input field
@@ -103,9 +109,6 @@ Select from a list of webs, using =jquery.autocomplete=.
 </verbatim>
 
 ---+++ Server section
-*URL parameters*
-   * =q=: search term substring typed so far
-   * =limit=: number of search results to return, defaults to 10
 <verbatim class="tml">
 %STARTSECTION{"web"}%%WEBLIST{
   format="<nop>$name"
@@ -347,9 +350,13 @@ expand a TML expression in the given scope
 The following implementations of some of the server sections depend on the
 installation of optional extensions.
 
+#FlexWebList
 ---+++ =web_flex=
 Foswiki:Extensions.FlexWebListPlugin implementation of the web selector
 server section. Use in place of the [[#Web_selector][ =web= selector]] server section.
+*URL parameters*
+   * =q=: search term substring typed so far
+   * =limit=: number of search results to return, defaults to 10
 <verbatim class="tml">
 %STARTSECTION{"web_flex"}%%FLEXWEBLIST{
   include="%URLPARAM{"q" default="does not exist"}%.*"
