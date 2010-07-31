@@ -256,6 +256,10 @@ sub _parseAttributes {
     # table attributes
     # some will be used for css styling as well
 
+    _storeAttribute( 'generateInlineMarkup',
+        Foswiki::Func::isTrue( $inParams->{inlinemarkup} ),
+        $inCollection ) if defined $inParams->{inlinemarkup};
+            
     # sort attributes
     if ($modeSpecific) {
         my $sort = Foswiki::Func::isTrue( $inParams->{sort} || 'on' );
@@ -292,10 +296,6 @@ sub _parseAttributes {
     }
 
     if ($modeSpecific) {
-
-        _storeAttribute( 'generateInlineMarkup',
-            Foswiki::Func::isTrue( $inParams->{inlinemarkup} ),
-            $inCollection );
 
         _storeAttribute( 'summary', $inParams->{summary}, $inCollection );
         my $id = $inParams->{id}
