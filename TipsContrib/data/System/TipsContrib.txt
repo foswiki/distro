@@ -42,6 +42,7 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  31 Jul 2010: | Foswikitask:Item9415 - Documentation updates |
 |  14 Apr 2010: | Fix the "Add tip for plugin" form; Fix styles; Set correct parent on a new custom tip |
 |  16 Dec 2008: | Foswiki version |
 |  04 Jan 2007: | Performance improvement |

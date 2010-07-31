@@ -4,7 +4,7 @@
 
 Use the SlideShowPlugin to convert a topic with headings and bullets into a slideshow presentation.
 
-This Plugin is useful for organizations that already have lots of content in Foswiki: It is easy to create a web based presentation that contains many links to related content and to show live data of Foswiki applications. The Plugin does not try to compete with the bells and whistles of the other presentation program, but the markup of Foswiki and other Plugins like Foswiki:Extensions/ChartPlugin, Foswiki:Extensions.GaugePlugin, Foswiki:Extensions.SpreadSheetPlugin, Foswiki:Extensions.FoswikiDrawPlugin can be used to create an appealing presentation.
+This Plugin is useful for organizations that already have lots of content in Foswiki: It is easy to create a web based presentation that contains many links to related content and to show live data of Foswiki applications. The Plugin does not try to compete with the bells and whistles of the other presentation program, but the markup of Foswiki and other Plugins like Foswiki:Extensions/ChartPlugin, Foswiki:Extensions.GaugePlugin, Foswiki:Extensions.SpreadSheetPlugin, Foswiki:Extensions.JHotDrawPlugin can be used to create an appealing presentation.
 
 [[SlideShowPlugin][More Information...]]
 

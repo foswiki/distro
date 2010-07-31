@@ -8,7 +8,7 @@
 
 ---++ Introduction
 
-There is already a defacto standard for presentations, why this plugin? This plugin makes sense for organizations that do already have lots of content in Foswiki: It is easy to create a web based presentation that contains many links to related content. The plugin does not try to compete with the bells and whistles of the other presentation program, but the markup of Foswiki and other plugins like Foswiki:Extensions/ChartPlugin, Foswiki:Extensions/GaugePlugin, Foswiki:Extensions/SpreadSheetPlugin, Foswiki:Extensions/FoswikiDrawPlugin can be used to create appealing presentations.
+There is already a defacto standard for presentations, why this plugin? This plugin makes sense for organizations that do already have lots of content in Foswiki: It is easy to create a web based presentation that contains many links to related content. The plugin does not try to compete with the bells and whistles of the other presentation program, but the markup of Foswiki and other plugins like Foswiki:Extensions/ChartPlugin, Foswiki:Extensions/GaugePlugin, Foswiki:Extensions/SpreadSheetPlugin, Foswiki:Extensions/JHotDrawPlugin can be used to create appealing presentations.
 
 Any topic with headings can be converted into a slideshow. Each slide starts with a ="---++"= heading. There are two modes to view a topic:
 
@@ -128,6 +128,7 @@ The part between the rulers defines the default format of a slide:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  31 Jul 2010: | Foswikitask:Item9415 - Documentation updates |
 |  17 Jun 2009: | 2.0 Arthur Clemens: optimize to default template and CSS to make the plugin work with older templates. |
 |  31 Mar 2009: | [[Foswiki:Main.GilmarSantosJr][GilmarSantosJr]]: [[Foswiki:Tasks/Item1401]] - Make it work in persistent environments |
 |  18 Feb 2009: | Fixed =HIDECOMMENTS= to really hide the comment if value is =on= - otherwise the comment is shown in the comments section; added customizable =COMMENTS_LABEL= for all non-English speaking people. Updated default template and css; cleaned up code: now uses a =cover= instead of a =skin= so the style of the installed skin is used (unless redefined in the css file); use a custom template; when in slideshow mode, hide topic text; removed extraneously generated spaces; improved error messages; from the button "End presentation" link back to the start button. |

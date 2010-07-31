@@ -102,7 +102,7 @@ topics in the current web.
 There are a number of external to Foswiki ways to require authentication before viewing any part of the wiki (apache rewrites, apache auth, proxying, etc).
 Or, you can use =configure= to set the *EXPERT* setting ={AuthScripts}= to contain _all_ the scripts in the =foswiki/bin= directory.
 
-However, it can be desirable to default all your created webs to exclude WikiGuest by default, and then to open up only some topics, or some webs for guest users.
+However, it can be desirable to default all your created webs to exclude %USERSWEB%.WikiGuest by default, and then to open up only some topics, or some webs for guest users.
 
 This can be acheived by setting the =DENYWEBVIEW= setting (as below) in the %LOCALSITEPREFS% topic, and then 'un-setting' it for specific Web's or topics.
 
@@ -266,8 +266,8 @@ Use the following setup to provide unrestricted viewing access to open webs, wit
       * *Note:* =DENYWEBVIEW= is evaluated before =ALLOWWEBVIEW=. Access is denied if the authenticated person is in the =DENYWEBVIEW= list, or not in the =ALLOWWEBVIEW= list. Access is granted if =DENYWEBVIEW= and =ALLOWWEBVIEW= are not defined.
 
 ---+++ Show control settings
-You can list the access controls affecting a topic using the =%<nop>SHOWPREFERENCE% macro in the topic, thus:
-<verbatim>
+You can list the access controls affecting a topic using the [[VarSHOWPREFERENCE][%<nop>SHOWPREFERENCE{}%]] macro in the topic, thus:
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 %SHOWPREFERENCE{"DENYWEBVIEW,ALLOWWEBVIEW,DENYWEBCHANGE,ALLOWWEBCHANGE,DENYWEBRENAME,ALLOWWEBRENAME"}%
 </verbatim>
 For this topic, this displays:

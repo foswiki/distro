@@ -45,7 +45,7 @@ our $basedir;
 our $buildpldir;
 our $libpath;
 
-our $RELEASE = "27 May 2010";
+our $RELEASE = "31 Jul 2010";
 our $VERSION = '$Rev$';
 
 our $SHORTDESCRIPTION = 'Automates build and packaging process, including installer generation, for extension modules.';

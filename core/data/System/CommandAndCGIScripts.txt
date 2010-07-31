@@ -19,7 +19,7 @@ In the CGI environment parameters are passed to the scripts via the URL and URL 
 You *must* be have the =bin= directory on the perl path to run the scripts from the command line. To avoid issues with file permissions, run the scripts as the web server user such as =nobody= or =www=.
 
 Parameters are passed on the command line using '-name' - for example,
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="bash">
 $ cd /usr/local/foswiki/bin
 $ save -topic MyWeb.MyTopic -user admin -action save -text "New text of the topic"
 </verbatim>
@@ -301,12 +301,12 @@ Note that for Plugins to register REST handlers, they must be enabled in =config
 
 ---++++ Retrieving passed values
 Additional parameters can be recovered via the query object in the =$session=, for example with the url:
-<verbatim>
+<verbatim class="html">
 http://my.host/bin/rest/MyPlugin/update?web=foo
 </verbatim>
 
 The url parameters can be processed using:
-<verbatim>
+<verbatim class="perl">
 my $query = $session->{request};
 my $web = $query->{param}->{web}[0];
 </verbatim>
@@ -362,11 +362,11 @@ Merging is only enabled if the topic text comes from =text= and =originalrev= is
 Form field values are passed in parameters named 'field' - for example, if I have a field =Status= the parameter name is =Status=.
 
 *%X% Note:* The =save= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =save= script via a form action. Example:
-<pre>
-&lt;form name="new" action="%<nop>SCRIPTURLPATH{save}%/Sandbox/" method="post"&gt;
+<verbatim class="html">
+<form name="new" action="%<nop>SCRIPTURLPATH{save}%/Sandbox/" method="post">
     ...
-&lt;/form&gt;
-</pre>
+</form>
+</verbatim>
 It is not possible to call =save= from an =&lt;a href ...&gt;= link.
 
 ---+++ =search=

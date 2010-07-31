@@ -174,7 +174,7 @@ installation and testing. However they are *not* checked in.
 The easiest way to use compressed sources is to select the version your code is
 to use based on a switch when you include the headers. For example, you can
 use the =DEBUG= global from the =Assert= module:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="perl">
 use Assert; # Standard Foswiki ASSERT module
 ...
 my $pack = DEBUG ? '.uncompressed' : '.compressed';
@@ -255,7 +255,7 @@ extensions will work in TWiki after this transformation, and for others it
 can be used as a launchpad for further manual mapping steps.
 
 Example,
-<verbatim>
+<verbatim class="bash">
 $ cd EditRowPlugin/lib/Foswiki/Plugins/EditRowPlugin
 $ perl build.pl twiki
 Created data/TWiki/EditRowPlugin.txt
@@ -480,7 +480,7 @@ For example, the POSTINSTALL script might look for an obsolete file from
 a previous install, map it to the correct location for this installation, and
 delete it if it exists.
 
-<verbatim>
+<verbatim class="perl">
     my $this = shift;   # Get the object instance passed to the routine
     if ($this) {        # Verify that you are running in the new environment
         # Map the standard location to the absolute location on this
@@ -577,16 +577,17 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
-|  27 May 2010 | Foswiki:Tasks.Item8810: improve generated manifest Foswiki:Tasks.Item9071: correct corruption of field values in target_upload |
-|  30 Mar 2010 | Foswiki:Tasks.Item8804: Improve support for alternate Extension repositories.  Foswiki:Development/EasierMirroringOfExtensionRepositories |
-|  11 Feb 2010 | Foswiki:Tasks.Item8468: Fixed incorrect link at the top of Extension topic - Foswiki:Main.AndrewJones |
-|  9 Feb 2010 | Foswiki:Tasks.Item8490: Handle 200 or 400 from GET bin/login |
-|  13 Sep 2009 | Foswiki:Tasks.Item8272: Improve handling of compression targets |
-|  21 Jul 2009 | Foswiki:Tasks.Item1840: check result of login attempt during perl build.pl upload |
-|  20 Mar 2009 | Foswiki:Tasks.Item1338: added SHA1 checksum generation; Foswiki:Tasks.Item1192 remove more T(m)Wiki cruft; added support for new Support structure to template - Foswiki:Main.WillNorris |
-|  5 Mar 2009 | Foswiki:Tasks.Item1198: Improved support for %<nop>$VERSION% (made it much more accurate) and changed the generated date format to ISO. Also added support for %<nop>$RELEASE%, an optional release identifier taken from the master perl module. |
-|  15 Feb 2009 | Foswiki:Tasks.Item1079: Added twiki target |
-|  31 Jan 2009 | Macro expansion works even in non-english locales (Foswiki:Tasks.Item924) |
+|  31 Jul 2010: | Foswikitask:Item9415: Documentation updates |
+|  27 May 2010 | Foswikitask:Item8810: improve generated manifest Foswikitask:Item9071: correct corruption of field values in target_upload |
+|  30 Mar 2010 | Foswikitask:Item8804: Improve support for alternate Extension repositories.  Foswiki:Development/EasierMirroringOfExtensionRepositories |
+|  11 Feb 2010 | Foswikitask:Item8468: Fixed incorrect link at the top of Extension topic - Foswiki:Main.AndrewJones |
+|  9 Feb 2010 | Foswikitask:Item8490: Handle 200 or 400 from GET bin/login |
+|  13 Sep 2009 | Foswikitask:Item8272: Improve handling of compression targets |
+|  21 Jul 2009 | Foswikitask:Item1840: check result of login attempt during perl build.pl upload |
+|  20 Mar 2009 | Foswikitask:Item1338: added SHA1 checksum generation; Foswikitask:Item1192 remove more T(m)Wiki cruft; added support for new Support structure to template - Foswiki:Main.WillNorris |
+|  5 Mar 2009 | Foswikitask:Item1198: Improved support for %<nop>$VERSION% (made it much more accurate) and changed the generated date format to ISO. Also added support for %<nop>$RELEASE%, an optional release identifier taken from the master perl module. |
+|  15 Feb 2009 | Foswikitask:Item1079: Added twiki target |
+|  31 Jan 2009 | Macro expansion works even in non-english locales (Foswikitask:Item924) |
 |  03 Dec 2008 | Re-release for Foswiki; copyright assigned to Foswiki Contributors |
 
 %META:FILEATTACHMENT{name="logo.gif" comment="logo" attr="h" path="logo.gif"}%

@@ -28,21 +28,21 @@ Write =%<nop>COMMENT{<i>attributes</i>}%= anywhere in a topic.
 
 ---++++ Location relative to <code>%COMMENT</code> tag
 The default _location_ is the =%COMMENT= tag itself. For example:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 %COMMENT{type="below"}%
 </verbatim>
 will add comments in the current topic, directly below the =%COMMENT= tag.
 
 ---++++ Location relative to an anchor
 The =target= attribute may specify a web, and may also specify an anchor within the target topic; for example, 
-<verbatim>
+<verbatim class="tml">
 %COMMENT{type="above" target="%MAINWEB%.PersonalRemarks#InsertHere"}%
 </verbatim>
 This uses a standard in-topic anchor as the insertion location. See %SYSTEMWEB%.TextFormattingRules for more about Foswiki anchors.
 
 ---++++ Location relative to an arbitrary text string
 Getting more sophisticated, you can also specify a regular expression for the target location using the =location= parameter. The target topic is searched for the regular expression, and the comment inserted relative to the string that the search matched. For example,
-<verbatim>
+<verbatim class="tml">
 %COMMENT{type="above" location="Flights of Fancy"}%
 </verbatim>
 will place comments above the first occurence of the string =Flights of Fancy= in the current topic.
@@ -96,8 +96,13 @@ This allows for several levels of customisation:
 
 You can also define a *comment template in a topic*, by passing the topic location with =templatetopic=. For example:
 <blockquote>
-<verbatim>
-%COMMENT{type="blogpost" templatetopic="BlogPostCommentTemplate" target="%TOPIC%" button="Add comment" }%
+<verbatim class="tml">
+%COMMENT{
+   type="blogpost"
+   templatetopic="BlogPostCommentTemplate"
+   target="%TOPIC%"
+   button="Add comment"
+}%
 </verbatim>
 
 =templatetopic= accepts =topic= or =web.topic= syntax. See an example in [[Sandbox.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
@@ -109,7 +114,7 @@ You can also define a *comment template in a topic*, by passing the topic locati
 ---+++ Customisation example
 Provide both a =PROMPT= and an =OUTPUT= definition:
 
-<verbatim>
+<verbatim class="tml">
 %TMPL:DEF{PROMPT:myComment}%%TMPL:P{promptbox}%%TMPL:END%
 %TMPL:DEF{OUTPUT:myComment}%%TMPL:P{outputoneliner}%%POS:TOP%
 %TMPL:END%
@@ -117,7 +122,7 @@ Provide both a =PROMPT= and an =OUTPUT= definition:
 
 Call your custom comment with:
 
-<verbatim>
+<verbatim class="tml">
 %COMMENT{type="myComment"}%
 </verbatim>
 
@@ -129,17 +134,17 @@ Only the input fields of the form need be defined. The plugin automatically gene
 #MoreAttrs
 ---++++ Providing attribute values
 If an attribute is given to the =%COMMENT= tag that is not one of the [[#StandardAttrs][standard attributes]], then that attribute is taken as the name of a parameter to be expanded in the =PROMPT= template. Expressions in the template of the form <code>%</code><i>param</i><code>|</code><i>default</i><code>%</code> (e.g. <code>%rows|3%</code>, <code>%button|Push me%</code>) are expanded to the values given in the <code>%COMMENT</code>. For example, if the =PROMPT= template 'example' contains:
-<pre>
-&lt;textarea rows=%rows|3% cols="%cols|50%" value="%tval|Rubbish%">
-</pre>
+<verbatim class="tml">
+<textarea rows="%rows|3%" cols="%cols|50%" value="%tval|Rubbish%">
+</verbatim>
 and the %COMMENT tag is:
-<pre>
-%<nop>COMMENT{type="example" cols="75"}%
-</pre>
+<verbatim class="tml">
+%COMMENT{type="example" cols="75"}%
+</verbatim>
 then the template will be expanded as
-<pre>
-&lt;textarea rows="3" cols="75" value="Rubbish">
-</pre>
+<verbatim class="tml">
+<textarea rows="3" cols="75" value="Rubbish">
+</verbatim>
 
 ---++++ Special macros
 As well as support for all the usual macros in templates, the following special macros are supported in the =PROMPT= definition:
@@ -159,7 +164,7 @@ As well as support for all the usual macros in templates, the following special 
 | =comment_nopost= | As passed to %COMMENT |
 | =comment_templatetopic= | As passed to %COMMENT |
 Note that =comment_location= overrides =comment_anchor=, and both override =comment_index=. Example, shows an "I Approve" button that adds your approval signature to the end of the topic:
-<verbatim>
+<verbatim class="tml">
 <form method="post" action="%SCRIPTURL{save}%/%WEB%/%TOPIC%">
 <input type="submit" value="I Approve" />
 <input type="hidden" name="comment_action" value="save" />
@@ -175,7 +180,7 @@ Write a custom form in a topic.
    * In %COMMENT use parameter =templatetopic= to point to the topic with the form template
 
 Example form:
-<verbatim>
+<verbatim class="tml">
 %TMPL:DEF{FORM:example}%
 <form method="post" action="%SCRIPTURL{save}%/%BASEWEB%/%BASETOPIC%" enctype="application/x-www-form-urlencoded" name="examplecomment" id="examplecomment">
 <input type="hidden" name="redirectto" value="%BASEWEB%.%BASETOPIC%" />
@@ -185,8 +190,14 @@ Example form:
 </verbatim>
 
 Example comment:
-<verbatim>
-%COMMENT{noform="on" type="example" templatetopic="Sandbox.CommentPluginTemplateExample" target="%TOPIC%" button="Add comment" }%
+<verbatim class="tml">
+%COMMENT{
+   noform="on"
+   type="example"
+   templatetopic="Sandbox.CommentPluginTemplateExample"
+   target="%TOPIC%"
+   button="Add comment"
+}%
 </verbatim>
 
 ---+++ The =OUTPUT= template
@@ -240,6 +251,7 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  31 Jul 2010 | Foswikitask:Item9415 - Documentation updates |
 |  27 May 2010 | Moved example topic Sandbox.CommentPluginExamples to Sandbox web. | 
 |  24 Feb 2010 | Foswikitask:Item8611 - block comments resulting from calls to saveTopic from within an afterSaveHandler |
 |  12 Sep 2009 | Foswikitask:Item8269 - Targeting anchors broken by Item727 is fixed. |

@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 our $VERSION          = '$Rev$';
-our $RELEASE          = '4.3';
+our $RELEASE          = '4.3.1';
 our $SHORTDESCRIPTION = 'User management using data stored in topics';
 
 __END__

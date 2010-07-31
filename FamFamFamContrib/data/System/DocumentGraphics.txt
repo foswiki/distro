@@ -518,7 +518,7 @@ eg:
 ---++++ create a Skin Template for your icons
 Either =foswiki/templates/icons.mybook.tmpl= on the filesystem, or create a topic called =IconsMybookSkinTemplate= in the %SYSTEMWEB% web 
 (or if the icon modifications are local to a web, the topic can be created in just that web).
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 %{ replace the book Icon }%
 %{ the output of %ICONURL{book}% }%
 %TMPL:DEF{"iconurl:book"}%http://someother.corp.server/My-book-company-logo.png%TMPL:END%
@@ -535,9 +535,10 @@ Either =foswiki/templates/icons.mybook.tmpl= on the filesystem, or create a topi
 
 </verbatim>
 ---++++ add =mybook= to your SKIN setting
-<verbatim>
-   * SKIN=mybook,pattern
-</verbatim>
+Assuming PatternSkin is your skin
+<pre class="tml">
+&nbsp;&nbsp;&nbsp;* Set SKIN = mybook, pattern
+</pre>
 
 This allows you to create non-image 'ICONS', specify images from other servers, and add Icons in a foswiki Extension.
 

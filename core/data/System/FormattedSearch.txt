@@ -121,32 +121,64 @@ Here are some samples of formatted searches. The SearchPatternCookbook has other
 
 *Write this:*
 
-=%<nop>SEARCH{ "VarREMOTE" scope="topic" nosearch="on" nototal="on" header="| <nop>*Topic* | <nop>*Summary* |" format="| [<nop>[$topic]] | $summary |"  footer="| <nop>*Topics found* | <nop>*$ntopics* |"  }%=
+<verbatim class="tml">%SEARCH{
+   "VarREMOTE"
+   scope="topic"
+   nosearch="on"
+   nototal="on"
+   header="| *Topic* | *Summary* |"
+   format="| [[$topic]] | $summary |"
+   footer="| *Topics found* | *$ntopics* |"
+}%</verbatim>
 
 *To get this:*
 
-%SEARCH{ "VarREMOTE" scope="topic" nosearch="on" nototal="on" header="| *Topic* | *Summary* |" format="| [[$topic]] | $summary |"  footer="| *Topics found* | *$ntopics* |"  }%
+%SEARCH{
+   "VarREMOTE"
+   scope="topic"
+   nosearch="on"
+   nototal="on"
+   header="| *Topic* | *Summary* |"
+   format="| [[$topic]] | $summary |"
+   footer="| *Topics found* | *$ntopics* |"
+}%
 
 ---+++ Table showing form field values of topics with a form
 
 In a web where there is a form that contains a =Topic<nop>Classification= field, an =Operating<nop>System= field and an =Os<nop>Version= field we could write:
 
-=| <nop>*Topic:*<nop> | <nop>*<nop>OperatingSystem:*<nop> | <nop>*<nop>OsVersion:*<nop> |= <br />
-=%<nop>SEARCH{ "[T]opicClassification.*?value=\"[P]ublicFAQ\"" scope="text" type="regex" nosearch="on" nototal="on" format="| [<nop>[$topic]] | $formfield(<nop>OperatingSystem) | $formfield(<nop>OsVersion) |" }%=
+<verbatim class="tml">
+| *Topic:* | *!OperatingSystem:* | *!OsVersion:* |
+%SEARCH{
+   "[T]opicClassification.*?value=\"[P]ublicFAQ\""
+   scope="text"
+   type="regex"
+   nosearch="on"
+   nototal="on"
+   format="| [[$topic]] | $formfield(OperatingSystem) | $formfield(OsVersion) |"
+}%</verbatim>
 
-To get this:
+To get this (simulated):
 
-<table border="1" cellspacing="0" cellpadding="1">
-<tr>
- <th bgcolor="#99CCCC"> <strong>Topic:</strong> </th>
- <th bgcolor="#99CCCC"> <strong>OperatingSystem:</strong> </th>
- <th bgcolor="#99CCCC"> <strong>OsVersion:</strong> </th></tr>
-<tr>
- <td>  <a href="%SCRIPTURLPATH{"view"}%/Sandbox/IncorrectDllVersionW32PTH10DLL">IncorrectDllVersionW32PTH10DLL</a>  </td><td>  <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsWin">OsWin</a>  </td><td>  95/98  </td></tr>
-<tr>
- <td>  <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WinDoze95Crash">WinDoze95Crash</a>  </td>
- <td>  <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsWin">OsWin</a>  </td>
- <td>  95  </td></tr>
+<table border="1" rules="none" class="foswikiTable" >
+<thead>
+  <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+    <th> <strong>Topic:</strong> </th>
+    <th> <strong>OperatingSystem:</strong> </th>
+    <th> <strong>OsVersion:</strong> </th></tr>
+</thead>
+<tbody>
+  <tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+    <td>  <a href="%SCRIPTURLPATH{"view"}%/Sandbox/IncorrectDllVersionW32PTH10DLL">IncorrectDllVersionW32PTH10DLL</a>  </td>
+    <td>  <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsWin">OsWin</a>  </td>
+    <td>  95/98  </td>
+  </tr>
+  <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+     <td>  <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WinDoze95Crash">WinDoze95Crash</a>  </td>
+     <td>  <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsWin">OsWin</a>  </td>
+     <td>  95  </td>
+  </tr>
+</tbody>
 </table>
 
 
@@ -154,98 +186,246 @@ To get this:
 
 *Write this:*
 
-=%<nop>SEARCH{ "\*Back to:\* <nop>FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [<nop>[$topic][Answer...]]" footer="Found $ntopics FAQ topics" }%=
+<verbatim class="tml">
+%SEARCH{
+   "\*Back to:\* FrequentlyAskedQuestions"
+   scope="text"
+   type="regex"
+   nosearch="on"
+   nototal="on"
+   header="FAQs:"
+   format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]"
+   footer="Found $ntopics FAQ topics"
+}%</verbatim>
 
 *To get this:*
 
-%SEARCH{ "\*Back to:\* FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]" footer="Found $ntopics FAQ topics" }%
-
+%SEARCH{
+   "\*Back to:\* FrequentlyAskedQuestions"
+   scope="text"
+   type="regex"
+   nosearch="on"
+   nototal="on"
+   header="FAQs:"
+   format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]"
+   footer="Found $ntopics FAQ topics"
+}%
 
 ---+++ Nested Search
 
-Search can be nested. For example, search for some topics, then form a new search for each topic found in the first search. The idea is to build the nested search string using a formatted search in the first search.
+Search, as with almost any TML expression, may be nested. For example, search for some topics, then form a new search for each topic found in the first search. The idea is to build the nested search string using a formatted search in the first search.
 
-Here is an example. Let's search for all topics that contain the word "culture" (first search), and let's find out where each topic found is linked from (second search).
+The key to understanding nested expressions in Foswiki is to understand that macros are expanded "inside-out, left-to-right". For example:
+<verbatim class="tml">
+%MACRO1{
+   something="%MACRO2{
+      somethingelse="%MACRO3%, %MACRO4%"
+   }%"
+}%
+</verbatim>
 
-   * First search:
-      * =%<nop>SEARCH{ "culture" format="   * $topic is referenced by: (list all references)" nosearch="on" nototal="on" }%=
-   * Second search. For each hit we want this search:
-      * =%<nop>SEARCH{ "(topic found in first search)" format="$topic" nosearch="on" nototal="on" separator=", " }%=
-   * Now let's nest the two. We need to escape the second search, e.g. the first search will build a valid second search string. Note that we escape the second search so that it does not get evaluated prematurely by the first search:
-      * Use =$percent= to escape the leading percent of the second search
-      * Use =\"= to escape the double quotes
-      * Use =$dollar= to escape the =$= of =$topic=
-      * Use =$nop= to escape the =}%= sequence
+The macros are expanded in this order: MACRO3, MACRO4, MACRO2, MACRO1.
+
+Consider the following example. Let's search for all topics that contain the word "culture" (first search), and let's find out where each topic found is linked from (second search).
+
+*First search:*
+   <verbatim class="tml">
+%SEARCH{
+   "culture"
+   nosearch="on"
+   nototal="on"
+   format="   * $topic is referenced by: (list all references)"
+}%</verbatim>
+
+*Second search:*
+
+For each hit, we want this search:
+   <verbatim class="tml">
+%SEARCH{
+   "(topic found in first search)"
+   nosearch="on"
+   nototal="on"
+   format="$topic"
+   separator=", "
+}%</verbatim>
+
+Now let's nest the two.
+---++++ Method 1 (traditional)
+The second search cannot be placed directly into the format string of the first, because of the "inside-out, left-to-right" macro expansion behaviour discussed earlier. It must be delayed so that the outer search is evaluated first. To do this, we need to escape the second search, i.e. let the first search build a series of searches using the second search.
+   * Use =$percent= to escape (delay) the second search's [[VarSEARCH][SEARCH]] macro
+   * Use =\"= to escape the double quotes
+   * Use =$dollar= to escape the =$= of =$topic=
 
 *Write this:*
-
-=%<nop>SEARCH{ "culture" format="   * $topic is referenced by:$n      * $percentSEARCH{ \"$topic\" format=\"$dollartopic\" nosearch=\"on\" nototal=\"on\" separator=\", \" }$nop%" nosearch="on" nototal="on" }%=
+<verbatim class="tml">
+%SEARCH{
+   "culture"
+   nosearch="on"
+   nototal="on"
+   format="\
+   * $topic is referenced by:
+      * $percentSEARCH{
+         \"$topic\"
+         nosearch=\"on\"
+         nototal=\"on\"
+         format=\"$dollartopic\"
+         separator=\", \"
+      }$percent"
+}%
+</verbatim>
 
 *To get this:*
+%SEARCH{
+   "culture"
+   nosearch="on"
+   nototal="on"
+   format="\
+   * $topic is referenced by:
+      * $percentSEARCH{
+         \"$topic\"
+         nosearch=\"on\"
+         nototal=\"on\"
+         format=\"$dollartopic\"
+         separator=\", \"
+      }$percent"
+}%
 
-%SEARCH{ "culture" format="   * $topic is referenced by:$n      * $percentSEARCH{ \"$topic\" format=\"$dollartopic\" nosearch=\"on\" nototal=\"on\" separator=\", \" }$nop%" nosearch="on" nototal="on" }%
+---++++ Method 2 (recommended)
+Nested expressions can be difficult to write correctly, and are difficult to troubleshoot when they go wrong.
 
-*Note:* Nested search can be slow, especially if you nest more then 3 times. Nesting is limited to 16 levels. For each new nesting level you need to "escape the escapes", e.g. write =$dollarpercentSEARCH{= for level three, =$dollardollarpercentSEARCH{= for level four, etc.
+The recommended approach is to make use of the [[VarSTARTSECTION][STARTSECTION]]/[[VarENDSECTION][ENDSECTION]] feature of the [[VarINCLUDE][INCLUDE]] macro. Instead of nesting the second search expression directly inside the format string of the first, the second search is written as a separate stand-alone section of a topic which is INCLUDEd into the format string of the first.
+
+*Write this:*
+<verbatim class="tml">
+%SEARCH{
+   "culture"
+   nosearch="on"
+   nototal="on"
+   format="\
+   * $topic is referenced by:
+      * $percentINCLUDE{\"%TOPIC%\" section=\"mysearch\" thetopic=\"$topic\"}$percent"
+}%
+
+<!-- HTML comment to hide this section from the user
+%STARTSECTION{"mysearch"}%%SEARCH{
+   "%thetopic%"
+   nosearch="on"
+   nototal="on"
+   format="$topic"
+   separator=", "
+}%%ENDSECTION{"mysearch"}%
+-->
+</verbatim>
+
+%ICON{"info"}% Output will be the same as for the first method
+
+<blockquote>%ICON{"warning"}% Nested search can be slow, especially if you nest more then 3 times. Nesting is limited to 16 levels.
+
+When using the traditional method for nesting macros, each new nesting level must "escape the escapes", e.g. write =$dollarpercentSEARCH{= for level three, =$dollardollarpercentSEARCH{= for level four, etc. Therefore it is strongly advised to use the sectional include method instead, which avoids this kind of difficult and error-prone syntax.</blockquote>
 
 ---+++ Most recently changed pages
 
 *Write this:*
-
-=%<nop>SEARCH{ "\.*" scope="topic" type="regex" nosearch="on" nototal="on" order="modified" reverse="on"  format="| [<nop>[$topic]] | $wikiusername  | $date |" limit="7" }%=
+<verbatim class="tml">
+%SEARCH{
+   "1"
+   type="query"
+   nosearch="on"
+   nototal="on"
+   order="modified"
+   reverse="on"
+   limit="7"
+   format="| [[$topic]] | $wikiusername  | $date |"
+}%</verbatim>
 
 *To get this:*
-
-%SEARCH{ "\.*" scope="topic" type="regex" nosearch="on" nototal="on" order="modified" reverse="on"  format="| [[$topic]] | $wikiusername  | $date |" limit="7" }%
+%SEARCH{
+   "1"
+   type="query"
+   nosearch="on"
+   nototal="on"
+   order="modified"
+   reverse="on"
+   limit="7"
+   format="| [[$topic]] | $wikiusername  | $date |"
+}%
 
 ---+++ Search with conditional output
 
-A regular expression search is flexible, but there are limitations. For example, you cannot show all topics that are up to exactly one week old, or create a report that shows all records with invalid form fields or fields within a certain range, etc. You need some additional logic to format output based on a condition:
-   1. Specify a search which returns more hits then you need
-   1. For each search hit apply a spreadsheet formula to determine if the hit is needed
-   1. If needed, format and output the result
-   1. Else supress the search hit
-
-This requires the Foswiki:Extensions.SpreadSheetPlugin. The following example shows all topics that are up to exactly one week old.
+Sometimes it may be desirable for each hit to be displayed differently depending on some criteria. For example, maybe you want to list 20 topics modified in 2009, but decorate the hits which are children of UserDocumentationCategory with an %ICON{"info"}% icon.
+   1. Specify a search which returns the hits you need
+   1. For each search hit, test the condition that will influence the output using a nested [[VarIF][IF]] [[IfStatements][statement]]
 
 *Write this:*
-
-=%<nop>CALC{$SET(weekold, $TIMEADD($TIME(), -7, day))}%= %BR%
-=%<nop>SEARCH{ "." scope="topic" type="regex" nosearch="on" nototal="on" order="modified" reverse="on" format="$percentCALC{$IF($TIME($date) &lt; $GET(weekold), &lt;nop&gt;, | [<nop>[$topic]] | $wikiusername | $date | $rev |)}$percent" limit="100" }%=
-
-   * The first line sets the =weekold= variable to the serialized date of exactly one week ago
-   * The SEARCH has a deferred CALC. The =$percent= makes sure that the CALC gets executed once for each search hit
-   * The CALC compares the date of the topic with the =weekold= date
-   * If topic is older, a =&lt;nop&gt;= is returned, which gets removed at the end of the rendering process
-   * Otherwise, the search hit is formatted and returned
-
+<verbatim class="tml">
+%SEARCH{
+   "info.date >= d2n('2009-01-01') AND info.date <= d2n('2009-12-31')"
+   type="query"
+   limit="20"
+   format="   * $percentICON{
+      \"$percentIF{
+         \"'$topic'/parent.name='UserDocumentationCategory'\"
+         then=\"info\"
+         else=\"gear\"
+      }$percent\"
+   }$percent [[$topic]]"
+}%</verbatim>
+<blockquote>
+%ICON{"info"}% *Details:*
+   * The SEARCH has a deferred [[VarICON][ICON]]. The =$percent= ensures that ICON is evaluated once for each search hit
+   * The [[VarICON][ICON]] contains an [[VarIF][IF]], which again is deferred with the =$percent= token and will also be evaluated for each SEARCH hit. Additionally, the "inside-out, left-to-right" rule discussed earlier means that this IF expression will be evaluated before [[VarICON][ICON]].
+   * If =$topic= is a child of UserDocumentationCategory, the =info= icon is used; otherwise, =gear=.
+</blockquote>
 *To get this:*
-
-%CALC{$SET(weekold, $TIMEADD($TIME(), -7, day))}%
-%SEARCH{ "'1'" scope="topic" type="query" nosearch="on" nototal="on" order="modified" reverse="on" format="$percentCALC{$IF($TIME($date) < $GET(weekold), <nop>, | [[$topic]] | $wikiusername | $date | $rev |)}$percent" limit="100" }%
+%SEARCH{
+   "info.date >= d2n('2009-01-01') AND info.date <= d2n('2009-12-31')"
+   type="query"
+   limit="20"
+   format="   * $percentICON{
+      \"$percentIF{
+         \"'$topic'/parent.name='UserDocumentationCategory'\"
+         then=\"info\"
+         else=\"gear\"
+      }$percent\"
+   }$percent [[$topic]]"
+}%
 
 ---+++ Embedding search forms to return a formatted result
 
-Use an HTML form and an embedded formatted search on the same topic. You can link them together with an =%<nop>URLPARAM{"..."}%= macro. Example:
+Use an HTML form and an embedded formatted search on the same topic. You can link them together with an [[VarURLPARAM][URLPARAM]] macro. Example:
 
 *Write this:*
-
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 <form action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%">
 Find Topics: 
-<input type="text" name="q" size="32" value="%URLPARAM{"q" encode="entity"}%" />&nbsp;<input type="submit" class="foswikiSubmit" value="Search" />
+<input type="text" name="q" size="32"\
+  value="%URLPARAM{"q" encode="entity"}%" />&nbsp;<input\
+  type="submit" class="foswikiSubmit" value="Search" />
 </form>
 Result:
-%SEARCH{ search="%URLPARAM{"q" encode="quote"}%" type="keyword" format="   * $web.$topic: %BR% $summary" nosearch="on" }%
+%SEARCH{
+   "%URLPARAM{"q" encode="quote"}%"
+   type="keyword"
+   nosearch="on"
+   format="   * $web.$topic: %BR% $summary"
+}%
 </verbatim>
 
+#FormSearchExample
 *To get this:*
-
-<form action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%">
+<form action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%#FormSearchExample">
 Find Topics: 
-<input type="text" name="q" size="32" value="%URLPARAM{"q" encode="entity"}%" />&nbsp;<input type="submit" class="foswikiSubmit" value="Search" />
+<input type="text" name="q" size="32"\
+  value="%URLPARAM{"q" encode="entity"}%" />&nbsp;<input\
+  type="submit" class="foswikiSubmit" value="Search" />
 </form>
 Result:
-%SEARCH{ search="%URLPARAM{"q" encode="quote"}%" type="keyword" format="   * $web.$topic: %BR% $summary" nosearch="on" }%
+%SEARCH{
+   "%URLPARAM{"q" encode="quote"}%"
+   type="keyword"
+   nosearch="on"
+   format="   * $web.$topic: %BR% $summary"
+}%
 
 ---
 *Related Topics:* UserDocumentationCategory, SearchHelp, [[%SYSTEMWEB%.Macros#VarSEARCH][Macros#VarSEARCH]], SearchPatternCookbook, RegularExpression

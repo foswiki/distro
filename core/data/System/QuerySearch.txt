@@ -171,5 +171,11 @@ Find all topics that have a field 'Threat' set to 'Amber' and 'cold virus' somew
 <verbatim>
 %SEARCH{"Threat='Amber' AND text ~ '*cold virus*'" type="query"}%
 </verbatim>
-
+Find all topics newer than one week old
+<verbatim class="tml">
+%SEARCH{
+   "info.date >= %CALC{"$TIMEADD($TIME(), -7, day)"}%"
+   type="query"
+}%
+</verbatim>
 __Related Topics:__ SearchHelp, VarSEARCH, FormattedSearch, Foswiki:System/QuerySearchPatternCookbook

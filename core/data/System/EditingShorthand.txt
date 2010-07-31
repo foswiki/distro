@@ -43,7 +43,7 @@ You can create a table of contents with the [[VarTOC][%<nop>TOC%]] macro. If you
 
 %X% Empty headings are allowed, but won't appear in the table of contents.
 </td><td>
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 ---++ Sushi
 ---+++ Maguro
 ---+++!! Not in TOC
@@ -60,7 +60,7 @@ You can create a table of contents with the [[VarTOC][%<nop>TOC%]] macro. If you
  *Bold Text:* %BR%
  Words get shown in *bold* by enclosing them in =*= asterisks.
 </td><td>
-<verbatim>
+<verbatim class="tml">
 *Bold*
 </verbatim>
 </td><td>
@@ -73,7 +73,7 @@ You can create a table of contents with the [[VarTOC][%<nop>TOC%]] macro. If you
  *Italic Text:* %BR%
  Words get shown in _italic_ by enclosing them in =_= underscores.
 </td><td>
-<verbatim>
+<verbatim class="tml">
 _Italic_
 </verbatim>
 </td><td>
@@ -86,7 +86,7 @@ _Italic_
  *Bold Italic:* %BR%
  Words get shown in __bold italic__ by enclosing them in =__= double-underscores.
 </td><td>
-<verbatim>
+<verbatim class="tml">
 __Bold italic__
 </verbatim>
 </td><td>
@@ -99,7 +99,7 @@ __Bold italic__
  *Fixed Font:* %BR%
  Words get shown in =fixed font= by enclosing them in =<nop>=<nop>= equal signs.
 </td><td>
-<verbatim>
+<verbatim class="tml">
 =Fixed font=
 </verbatim>
 </td><td>
@@ -113,7 +113,7 @@ __Bold italic__
  *Bold Fixed Font:* %BR%
  Words get shown in ==bold fixed font== by enclosing them in ==<nop>== double equal signs.
 </td><td>
-<verbatim>
+<verbatim class="tml">
 ==Bold fixed==
 </verbatim>
 </td><td>
@@ -128,7 +128,7 @@ with normal punctuation, such as commas and full stops.
 
 %X% Make sure there is no space between the text and the indicators.
 </td><td>
-<verbatim>
+<verbatim class="tml">
 _This works_,
 _this does not _
 </verbatim>
@@ -145,7 +145,7 @@ _this does not _
 %T% =verbatim= tags disable HTML code. Use =&lt;pre&gt;= and =&lt;/pre&gt;= tags instead if you want the HTML code within the tags to be interpreted.%BR% %BR%
 %X% Preferences settings (* Set NAME = value) are set within verbatim tags.
 </td><td>
-<verbatim>
+<verbatim class="java">
 <verbatim>
 class CatAnimal {
   void purr() {
@@ -155,7 +155,7 @@ class CatAnimal {
 </verbatim>
 </verbatim>
 </td><td>
-<verbatim>
+<verbatim class="java">
 class CatAnimal {
   void purr() {
     <code here>
@@ -169,7 +169,7 @@ class CatAnimal {
  *Separator (Horizontal Rule):* %BR%
 Three or more three dashes at the beginning of a line..
 </td><td>
-<verbatim>
+<verbatim class="tml">
 -------
 </verbatim>
 </td><td>
@@ -183,7 +183,7 @@ Three or more three dashes at the beginning of a line..
 Multiple of three spaces, an asterisk, and another space.%BR% %BR%
 %H% For all the list types, you can break a list item over several lines by indenting lines after the first one by *at least 3 spaces*.
 </td><td>
-<verbatim>
+<verbatim class="tml">
    * level 1
       * level 2
    * back on 1
@@ -214,7 +214,7 @@ Multiple of three spaces, a type character, a dot, and another space. Several ty
 | I. | Uppercase Roman Numerals | I, II, III, IV... |
 | i. | Lowercase Roman Numerals | i, ii, iii, iv... |
 </td><td>
-<verbatim>
+<verbatim class="tml">
    1. Sushi
    1. Dim Sum
    1. Fondue
@@ -247,7 +247,7 @@ Multiple of three spaces, a type character, a dot, and another space. Several ty
  *Definition List:* %BR%
  Three spaces, a dollar sign, the term, a colon, a space, followed by the definition.
 </td><td>
-<verbatim>
+<verbatim class="tml">
    $ Sushi: Japan
    $ Dim Sum: S.F.
 </verbatim>
@@ -272,7 +272,7 @@ Each row of the table is a line containing of one or more cells. Each cell start
    * Use =%<nop>CARET%= or =&amp;#94;= to add =&#94;= characters in tables.
 %T% The %SYSTEMWEB%.TablePlugin provides the =|^|= multiple-span row functionality and additional rendering features
 </td><td>
-<verbatim>
+<verbatim class="tml">
 | *L* | *C* | *R* |
 | A2 |  B2  |  C2 |
 | A3 |  B3  |  C3 |
@@ -311,7 +311,7 @@ To link to a topic in a subweb write =Otherweb.Subweb.TopicName=.%BR%
 
 It's generally a good idea to use the [[%SYSTEMWEB%.Macros][macros]] %<nop>SYSTEMWEB% and %<nop>USERSWEB% instead of %SYSTEMWEB% and %USERSWEB%.
 </td><td>
-<verbatim>
+<verbatim class="tml">
 WebStatistics
 
 Sandbox.WebNotify
@@ -336,7 +336,7 @@ Sandbox.%HOMETOPIC%
  *<nop>Acronym  Links:* %BR%
  <nop>Words that are all capitals will produce a link automatically _only_ if the topic aready exists!. 
 </td><td>
-<verbatim>
+<verbatim class="tml">
 ACRONYM
 
 System.ACRONYM
@@ -353,7 +353,7 @@ System.ACRONYM
  *Anchors:* %BR%
  You can define a reference inside a topic (called an anchor name) and link to that. To *define* an anchor write =#AnchorName= at the beginning of a line. The anchor name must be a WikiWord of no more than 32 characters. To *link to* an anchor name use the =[<nop>[MyTopic#MyAnchor]]= syntax. You can omit the topic name if you want to link within the same topic.
 </td><td>
-<verbatim>
+<verbatim class="tml">
 [[WikiWord#NotThere]]
 
 [[#MyAnchor][Jump]]
@@ -380,7 +380,7 @@ Text within the brackets may contain optional spaces; the topic name is formed b
 %BR%
 %T% To "escape" double square brackets that would otherwise make a link, prefix the leading left square bracket with an exclamation point.
 </td><td>
-<verbatim>
+<verbatim class="tml">
 [[wiki syntax]]
 
 [[Sandbox.My unspaced topic]]
@@ -405,7 +405,7 @@ escaped:
 The rules described under *Forced Links* apply for internal link references.
  %BR% %T% Anchor names can be added as well, to create a link to a specific place in a topic.
 </td><td>
-<verbatim>
+<verbatim class="tml">
 [[WikiSyntax][wiki syntax]]
 
 [[http://gnu.org][GNU]]
@@ -422,7 +422,7 @@ The rules described under *Forced Links* apply for internal link references.
  *Prevent a Link:* %BR%
  Prevent a WikiWord from being linked by prepending it with an exclamation point.
 </td><td>
-<verbatim>
+<verbatim class="tml">
 !SunOS
 </verbatim>
 </td><td>
@@ -435,7 +435,7 @@ The rules described under *Forced Links* apply for internal link references.
  You can disable automatic linking of WikiWords by surrounding text with =&lt;noautolink&gt;= and =&lt;/noautolink&gt;= tags.%BR%
 %H% It is possible to turn off all auto-linking with a NOAUTOLINK preferences setting.
 </td><td>
-<verbatim>
+<verbatim class="tml">
  <noautolink>
  RedHat & SuSE
  </noautolink>
@@ -452,7 +452,7 @@ The rules described under *Forced Links* apply for internal link references.
 *Mailto Links:* %BR%
 E-mail addresses are linked automatically. To create e-mail links that have more descriptive link text, specify subject lines or message bodies, or omit the e-mail address, you can write =[<nop>[mailto:user@domain][descriptive text]]=.
 </td><td>
-<verbatim>
+<verbatim class="tml">
 a@b.com
 
 [[mailto:a@b.com]\
@@ -502,13 +502,13 @@ a@b.com
  is HTML that WYSIWYG would normally filter out or modify). Protected
  content appears as plain text in the WYSIWYG editor.
 </td><td>
-<pre>
-&lt;sticky&gt;
-&lt;div&gt;
+<verbatim class="tml">
+<sticky>
+<div>
 This div is required
-&lt;/div&gt;
-&lt;/sticky&gt;
-</pre>
+</div>
+</sticky>
+</verbatim>
 </td>
 <td>
 <sticky>

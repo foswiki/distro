@@ -11,7 +11,7 @@ use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
 our $VERSION = '$Rev$';
-our $RELEASE = '27 May 2010';
+our $RELEASE = '31 Jul 2010';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;

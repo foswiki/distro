@@ -49,7 +49,7 @@ We want this form to define that the topics are viewed with =ViewFormAtTopTempla
 
 Below this we place the two sections that defines the templates to be used. Note that you must ommit the ...Template from the template names.
 
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 %STARTSECTION{"viewtemplate"}%ViewFormAtTopTemplate%ENDSECTION{"edittemplate"}%
 
 %STARTSECTION{"edittemplate"}%EditPurchaseRequest%ENDSECTION{"edittemplate"}% 
@@ -78,14 +78,15 @@ The following settings can be defined in configure
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  06 Oct 2009: | Item2213: Plugin got better documentation. No change in behaviour. |
-|  20 Aug 2009: | Item8248: added forward-compatibility for newer Foswikis (MD) |
-|  27 Dec 2008: | Item196: moved to Foswiki namespace |
-|  15 Nov 2008: | Item196: minor doc changes |
-|  11 Jul 2008: | Item5770: try to derive the EDIT_TEMPLATE of a new topic using the <nop>WebTopicEditTemplate (MD) |
-|  03 Jul 2008: | Item5747: fixed normalizing web part of form names (MD) |
+|  31 Jul 2010: | Foswikitask:Item9415: Documentation updates |
+|  06 Oct 2009: | Foswikitask:Item2213: Plugin got better documentation. No change in behaviour. |
+|  20 Aug 2009: | Foswikitask:Item8248: added forward-compatibility for newer Foswikis (MD) |
+|  27 Dec 2008: | Foswikitask:Item196: moved to Foswiki namespace |
+|  15 Nov 2008: | Foswikitask:Item196: minor doc changes |
+|  11 Jul 2008: | TWikibug:Item5770: try to derive the EDIT_TEMPLATE of a new topic using the <nop>WebTopicEditTemplate (MD) |
+|  03 Jul 2008: | TWikibug:Item5747: fixed normalizing web part of form names (MD) |
 |  13 Nov 2007: | added EDIT_TEMPLATE, speed improvements, docu (MD) |
-|  29 Oct 2007: | Item4904: made specification of view template skin agnostic, \
+|  29 Oct 2007: | TWikibug:Item4904: made specification of view template skin agnostic, \
                   fixed view templates in subwebs (MD) |
 |  04 Sep 2007: | Added build script and installer, minor doc changes |
 |  05 Jun 2007: | Initial version |

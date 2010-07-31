@@ -39,12 +39,12 @@ is unsupported and they may be removed in future Foswiki versions.
 In the table below, the expression marked type 'String' are intended for
 use within character classes (i.e. for use within square brackets inside
 a regular expression), for example:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="perl">
    my $isCapitalizedWord =
      ( $s =~ /[$Foswiki::regex{upperAlpha}][$Foswiki::regex{mixedAlpha}]+/ );
 </verbatim>
 Those expressions marked type 'RE' are precompiled regular expressions that can be used outside square brackets. For example:
-<verbatim>
+<verbatim class="perl">
    my $isWebName = ( $s =~ m/$Foswiki::regex{webNameRegex}/ );
 </verbatim>
 
@@ -202,18 +202,18 @@ Some extensions have setup requirements that are best integrated into =configure
 
 ---+++ Structure of a <code>Config.spec</code> file
 The =Config.spec= file for a plugin starts with a line that declares what section the configuration should appear in. The standard for all extensions is:
-<verbatim>
+<verbatim class="tml">
 # ---+ Extensions
 </verbatim>
 Next we have a sub-heading for the configuration specific to this extension,
 and the actual configuration options:
-<verbatim>
+<verbatim class="tml">
 # ----++ BathPlugin
 # This plugin senses the level of water in your bath, and ensures the plug
 # is not removed while the water is still warm.
 </verbatim> 
 This is followed by one or more configuration items. Each configuration item has a _type_, a _description_ and a _default_. For example:
-<verbatim>
+<verbatim class="perl">
 # **SELECT Plastic,Rubber,Metal**
 # Select the plug type
 $Foswiki::cfg{BathPlugin}{PlugType} = 'Plastic';
@@ -227,7 +227,7 @@ $Foswiki::cfg{BathPlugin}{ChainLength} = '30';
 $Foswiki::cfg{BathPlugin}{TempSensorEnabled} = '1';
 </verbatim>
 The type (e.g. =**SELECT**= ) tells =configure= to how to prompt for the value. It also tells configure how to do some basic checking on the value you actually enter. All the comments between the type and the configuration item are taken as part of the description. The configuration item itself defines the default value for the configuration item. The above spec defines the configuration items =$Foswiki::cfg{BathPlugin}{PlugType}=, =$Foswiki::cfg{BathPlugin}{ChainLength}=, and =$Foswiki::cfg{BathPlugin}{TempSensorEnabled}= for use in your plugin. For example,
-<verbatim>
+<verbatim class="perl">
 if( $Foswiki::cfg{BathPlugin}{TempSensorEnabled} && $curTemperature > 50 ) {
     die "The bathwater is too hot for comfort";
 }
@@ -235,7 +235,7 @@ if( $Foswiki::cfg{BathPlugin}{TempSensorEnabled} && $curTemperature > 50 ) {
 You can use other =$Foswiki::cfg= values in other settings,
 but you must be sure they are only evaluated under program control, and
 not when this file is parsed by perl. For example:
-<verbatim>
+<verbatim class="perl">
 $Foswiki::cfg{BathPlugin}{MyBath} = "$Foswiki::cfg{PubDir}/enamel.gif"; # BAD
 # Perl will interpolate variables in double-quotes, so $Foswiki::cfg{PubDir}
 # will be evaluated at configuration time, which will make reconfiguration
@@ -291,7 +291,7 @@ Organizations typically do not upgrade to the latest Foswiki for many months. Ho
 *%T% Tip:* Plugins can be written to be compatible with older and newer Foswiki releases. This can be done also for plugins using unofficial Foswiki internal functions of an earlier release that no longer work on the latest Foswiki codebase. 
 Here is an example; the Foswiki:Support.PluginsSupplement has more details.
 
-<verbatim>
+<verbatim class="perl">
     if( $Foswiki::Plugins::VERSION >= 1.1 ) {
         @webs = Foswiki::Func::getListOfWebs( 'user,public' );
     } else {
@@ -309,7 +309,7 @@ Updated plugins may still need to define deprecated handlers for compatibility w
 
 This is done by defining a map from the handler name to the =Foswiki::Plugins= version _in which the handler was first deprecated_. For example, if we need to define the =endRenderingHandler= for compatibility with =Foswiki::Plugins= versions before 1.1, we would add this to the plugin:
 
-<verbatim>
+<verbatim class="perl">
 package Foswiki::Plugins::SinkPlugin;
 use vars qw( %FoswikiCompatibility );
 $FoswikiCompatibility{endRenderingHandler} = 1.1;

@@ -5,11 +5,11 @@ A ClassMethod is a method that must be called relative to the containing class o
 ---+ package Telecoms
 ---++ ClassMethod new()
 
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="perl">
 my $mobile = new Telecoms();
 </verbatim>
 or
-<verbatim>
+<verbatim class="perl">
 my $mobile = Telecoms->new();
 </verbatim>
 

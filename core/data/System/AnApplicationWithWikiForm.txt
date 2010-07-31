@@ -18,7 +18,7 @@ Step by step:
 See [[DataForms][Data Form]], specifically the section [[DataForms#DefiningForm][Defining a form]]
 
 As an example we will create the topic "ReadingForm" with these contents:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 | *Name*   | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
 | Title    | text   | 80     |          | Book or article title | |
 | Category | select | 1      | ,Interesting,Remarkable,So-so | How you rate this reading material | |
@@ -39,7 +39,7 @@ Now we will create an HTML form that does this automatically.
 HTML forms have nothing to do with data forms, except that they are a way to create topics with pre-defined values.
 
 Example HTML form:
-<verbatim>
+<verbatim class="tml">
 <form action="%SCRIPTURLPATH{edit}%/%WEB%/" method="post">
 Name of the new topic: %BR%
 <input type="text" name="topic" class="foswikiInputField" size="32" />
@@ -60,7 +60,7 @@ Title of article or book: %BR%
 VarSEARCH has more information on creating searches.
 
 To list all topics that have a form named !ReadingForm:
-<verbatim>
+<verbatim class="tml">
 %SEARCH{
 type="query"
 "TestForm"
@@ -70,7 +70,7 @@ format="   * [[$web.$topic][$formfield(Title)]]"
 </verbatim>
 
 To list all topics where the author is named "Auden":
-<verbatim>
+<verbatim class="tml">
 %SEARCH{
 type="query"
 "TestForm[name='Author'].value='Auden'"

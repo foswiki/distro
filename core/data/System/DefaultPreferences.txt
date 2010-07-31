@@ -110,13 +110,13 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Format of file link when the *link* check box is checked: (can be overwritten by user preferences)
       * %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets).
 <!-- verbatim tag required to prevent error in Apache log; does not suppress Set -->
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
       * Set ATTACHEDFILELINKFORMAT = \n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment
 </verbatim>
 
    * Format of images when the *link* check box is checked: (can be overwritten by user preferences)
       * %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==$size== to ==width="..." height="..."== attribute of ==img== tag; ==\t== to tab and ==\n== to linefeed (3 spaces for bullets).
-<verbatim>
+<verbatim class="tml">
       * Set ATTACHEDIMAGEFORMAT = \n   * $comment: <br />\n     <img src="%ATTACHURLPATH%/$fileurl" alt="$filename" $size />
 </verbatim>
 
@@ -214,7 +214,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
      Note: Plugin authors can extend this list in their =initPlugin=
      using the following simple code fragment. Say you want to add
      'MYPREF' to the list:
-     <verbatim>
+     <verbatim class="perl">
     my $pref = Foswiki::Func::getPreferencesValue('EXPORTEDPREFERENCES')||'';
     my @list = split(/[,\s]+/, $pref);
     unless (grep { /^MYPREF$/ } @list) {
@@ -257,7 +257,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 ---+++ TinyMCEPlugin
    * Topic containing a [[VarSECTION][section]] named =INIT= which will hold the default initialisation parameters for the !TinyMCE editor.
       * #Set TINYMCEPLUGIN_INIT_TOPIC = %SYSTEMWEB%.TinyMCEPlugin
-      * Not actually set in this topic because this same default will be set by the plugin if missing
+         * %ICON{"info"}% _Not set in this topic, the plugin assumes this value if missing_
 
 ---+++ Legacy support
    * Support for legacy "EDITTOPIC", used to be hard-coded, now replaced by TMPL:P conditional instantiation
@@ -343,7 +343,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * %SILVER% *Set SILVER = looks like this* %ENDCOLOR%
       * <span style='background : #808080;'>%WHITE% *Set WHITE = looks like this (with gray background)* %ENDCOLOR%</span>
       * The following color settings are enclosed in verbatim tags to avoid incorrect nesting of XHTML tags:
-<verbatim>
+<verbatim class="tml">
       * Set YELLOW = <font color="#ffff00">
       * Set ORANGE = <font color="#ff6600">
       * Set RED = <font color="#ff0000">

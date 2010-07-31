@@ -6,12 +6,12 @@ comment	@# @;
 
 
 1.2
-date	2007.11.07.15.06.41;	author TWikiContributor;	state Exp;
+date	2007.11.07.15.06.41;	author ProjectContributor;	state Exp;
 branches;
 next	1.1;
 
 1.1
-date	2007.11.07.15.06.41;	author TWikiContributor;	state Exp;
+date	2007.11.07.15.06.41;	author ProjectContributor;	state Exp;
 branches;
 next	;
 
@@ -26,7 +26,7 @@ log
 @none
 @
 text
-@%META:TOPICINFO{author="TWikiContributor" date="1194448001" format="1.1" version="1.2"}%
+@%META:TOPICINFO{author="ProjectContributor" date="1194448001" format="1.1" version="1.2"}%
 ---+ This is the title
 
 Here is a changed paragraph. Lorem Ipsum dolor sit amet, conecteur adipiscing felix elit.
@@ -48,7 +48,7 @@ Here is a changed paragraph. Lorem Ipsum dolor sit amet, conecteur adipiscing fe
 
 Here is a paragraph. Pellentesque velit. Aliquam era volutpat. Duis sagittis nibh sed justo.
 
--- Main.TWikiContributor
+-- Main.ProjectContributor
 @
 
 
@@ -59,7 +59,7 @@ log
 text
 @d1 2
 a2 2
-%META:TOPICINFO{author="TWikiContributor" date="1144954837" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1144954837" format="1.1" version="1.2"}%
 ---+ This is the new title
 d4 1
 a4 1
@@ -78,5 +78,5 @@ a21 1
 Here is a new paragraph. Pellentesque velit. Aliquam era volutpat. Duis sagittis nibh sed justo.
 d23 1
 a23 1
--- Main.TWikiContributor - 13 Apr 2006
+-- Main.ProjectContributor - 13 Apr 2006
 @

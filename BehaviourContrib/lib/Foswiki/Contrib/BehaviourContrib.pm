@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.5';
+our $RELEASE = '1.6';
 our $SHORTDESCRIPTION =
 "'Behaviour' Javascript event library to create javascript based interactions that degrade well when javascript is not available";
 

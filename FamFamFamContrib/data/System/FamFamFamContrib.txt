@@ -22,9 +22,9 @@ __This Contrib is part of the foswiki 1.1 release__
 To replace the _Edit_, _Attach_ topic action buttons with icons, pre-pend your =SKIN= setting with =famfamfam=.
 
 eg
-<verbatim>
-   * Set SKIN=famfamfam,pattern
-</verbatim>
+%JQREQUIRE{"chili"}%<pre class="tml">
+&nbsp;&nbsp;&nbsp;* Set SKIN=famfamfam,pattern
+</pre>
 
 ---++ Examples (if installed)
 
@@ -68,6 +68,7 @@ eg
 |  License: | [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] |
 |  Contrib Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  Jul 2010: | Foswikitask:Item9415 - Documentation updates |
 |  Apr 2010: | finish finding matching icons for all the legacy icon names - readying for 1.1 release |
 |  Mar 2010: | include into foswiki 1.1 core and make it the default =ICONTOPIC= |
 |  Jan 2010: | fix DocumentGraphics to be gif's because the foswiki 1.0 core is hardcoded to use gif |

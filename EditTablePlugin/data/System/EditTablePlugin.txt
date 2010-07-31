@@ -69,7 +69,7 @@ It is also possible to place the edit button inside a cell instead of default lo
 
 ---++ Examples
 
-Line before table: =%<nop>EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, one, two, three, four | radio, 3,:-),:-I,:-( | label, 0, %<nop>SERVERTIME{"$day $mon $year $hour:$min"}% |" changerows="on" }%=
+Line before table: <verbatim class="tml">%EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, one, two, three, four | radio, 3,:-),:-I,:-( | label, 0, %SERVERTIME{"$day $mon $year $hour:$min"}% |" changerows="on" }%</verbatim>
 %EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, one, two, three, four | radio, 3,:-),:-I,:-( | label, 0, %SERVERTIME{"$day $mon $year $hour:$min"}% |" changerows="on" }%
 |*Nr*|*Text field*|*Drop down*|*Mood*|*Timestamp*|
 | 1 | hello table | one | :-) | 26 Jun 2002 12:30 |
@@ -117,21 +117,8 @@ If this plugin is installed you will see an *[&nbsp;Edit&nbsp;table&nbsp;]* butt
 
 The following example shows a simple table with key/value rows. The default edit field type for the value column is a text field. This is overloaded by a selector for the Gender, and a date picker for the DOB. This is typically used by Foswiki applications where new topics with tables are created based on a template topic.
 
-<table style="background:#f2f2f2;" cellpadding="6">
-<tr>
-<th>
-You type:
-</th>
-<th>
-You get:
-</th>
-<th>
-Table in edit mode:
-</th>
-</tr>
-<tr>
-<td valign="top">
-<verbatim>
+*You type:*
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 %TABLE{"headerrows="1"}%
 %EDITTABLE{ format="| label | text, 40 |" changerows="off" }%
 |*Key*|*Value*|
@@ -140,7 +127,16 @@ Table in edit mode:
 | DOB: | 1999/12/31 %EDITCELL{date, 10}% |
 | City: | New York |
 </verbatim>
-</td>
+<table style="background:#f2f2f2;" cellpadding="6">
+<tr>
+<th>
+You get:
+</th>
+<th>
+Table in edit mode:
+</th>
+</tr>
+<tr>
 <td valign="top">
 <img src="%ATTACHURLPATH%/ScreenshotEditCell1.gif" alt="EDITCELL Example in view mode" width="150" height="172" />
 </td>
@@ -177,6 +173,7 @@ Note: Texts inside =%<nop>MAKETEXT{}%= are translated into other languages.
    * You cannot put two =%<nop>EDITTABLE{}%= statements on the same line in the source
    * You can include %-vars now in select values, by quoting them with &lt;nop&gt;, as in %&lt;nop&gt;X% for %<nop>X%, say for instance:
      <br /> =select,1,%&lt;nop&gt;X%,%&lt;nop&gt;Y%=
+   * The =%<nop>EDITTABLE{}%= macro may not be split over multiple lines
 
 
 
@@ -198,6 +195,7 @@ Test if the Plugin is correctly installed:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  31 Jul 2010: | 4.35: Paul Harvey: Foswikitask:Item9415 - Documentation updates |
 |  23 Dec 2009: | 4.34: Arthur Clemens: Fixed a problem that the button "Delete last row" would remove newly added rows. |
 |  16 Sep 2009: | 4.33: Kenneth Lavrsen: Removed debug alert when deleting rows |
 |  13 Sep 2009: | 4.32: Arthur Clemens: Fix possible sorting issue on edit screen when no TABLE tag is present. |

@@ -18,7 +18,7 @@ use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION
   $pluginName $NO_PREFS_IN_TOPIC );
 
 $VERSION           = '$Rev$';
-$RELEASE           = '2009-09-06';
+$RELEASE           = '2010-07-31';
 $SHORTDESCRIPTION  = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
 $NO_PREFS_IN_TOPIC = 1;
 

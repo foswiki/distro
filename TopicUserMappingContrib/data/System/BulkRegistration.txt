@@ -35,7 +35,7 @@ This table is a template for user data that will be written to the new user topi
 
 ---+++ Example format
 The following should be inserted into your %REGISTERTOPIC% as a table. This is the most simple format:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 <noautolink>
 %EDITTABLE{}%
 | FirstName | LastName | Email | WikiName |
@@ -68,7 +68,7 @@ If you use the %SYSTEMWEB%.UserForm then ensure that it contains all the fields 
 
 ---++++ Customized table example
 Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
-<verbatim>
+<verbatim class="tml">
 <noautolink>
 %EDITTABLE{}%
 | FirstName | LastName | Email | WikiName | CustomFieldThis | SomeOtherRandomField | WhateverYouLike |

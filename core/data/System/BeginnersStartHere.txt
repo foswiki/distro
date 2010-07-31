@@ -364,7 +364,7 @@ Here's a brief description of some of the more common plugins, together with the
    * Slide<nop>ShowPlugin: *Create web based presentations* based on topics with headings <code>%SLIDESHOWSTART...</code>
    * Spread<nop>SheetPlugin: Add *spreadsheet calculations* like "$SUM( $ABOVE() )" to tables located in Foswiki topics <code>%CALC...</code>
    * Table<nop>Plugin: Control *presentation and sorting of tables* <code>%TABLE...</code>
-   * TWiki<nop>DrawPlugin: Add *quick sketches* to pages <code>%DRAWING...</code>
+   * JHot<nop>DrawPlugin: Add *quick sketches* to pages <code>%DRAWING...</code>
 The following plugins are installed on this Foswiki: %ACTIVATEDPLUGINS%
 
 There are many other plugins, see http://foswiki.org/Extensions/WebHome

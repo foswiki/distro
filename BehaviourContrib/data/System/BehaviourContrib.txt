@@ -22,7 +22,7 @@ That's why I came up with Behaviour - my solution to unobtrusive javascript beha
 
 Behaviour lets you use CSS selectors to specify elements to add javascript events to. This means that instead of writing:
 
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="html">
 <li>
     <a onclick="this.parentNode.removeChild(this)" href="#">
         Click me to delete me
@@ -32,7 +32,7 @@ Behaviour lets you use CSS selectors to specify elements to add javascript event
 
 You can use:
 
-<verbatim>
+<verbatim class="html">
 <ul id="example">
     <li>
         <a href="/someurl">Click me to delete me</a>
@@ -42,7 +42,7 @@ You can use:
 
 And then use css selectors to select that element and add javascript functions to it.
 
-<verbatim>
+<verbatim class="js">
 var myrules = {
     '#example li' : function(el){
         el.onclick = function(){
@@ -61,12 +61,12 @@ Behaviour.register(myrules);
 ---++ Usage
 Include the javascript file:
 
-<verbatim>
+<verbatim class="tml">
 <script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/BehaviourContrib/behaviour.js"></script>
 </verbatim>
 
 In your code you create a "rules" object, with sub-objects for each html element class name or id:
-<verbatim>
+<verbatim class="js">
 var myrules = {
     '.classname' : function(element) {
         // element event
@@ -86,7 +86,7 @@ var myrules = {
 
 Or use nested identifiers:
 
-<verbatim>
+<verbatim class="js">
 var myrules = {
     '.menu li a' : function(element) {
         element.onclick = function() {
@@ -98,7 +98,7 @@ var myrules = {
 
 Apply the rules with:
 
-<verbatim>
+<verbatim class="js">
 Behaviour.register(myrules);
 </verbatim>
 
@@ -107,7 +107,7 @@ Behaviour.register(myrules);
 ---+++ Example
 If we have a 'normal' link to a web hometopic: [[%SYSTEMWEB%.%HOMETOPIC%][Web Home]], we can use javascript to make it open a popup window. When javascript is not available the link behaviour defaults to opening the page in the current window.
 
-<verbatim>
+<verbatim class="js">
 <div id="demoblock" style="padding:1em; width:100px; text-align:center;">
 MOUSE OVER ME
 </div>
@@ -229,7 +229,7 @@ Behaviour.register(myrules);
 ---+++ Leaking danger
 Behaviour code leaks memory on Windows Explorer prior to version 7. To prevent leaking, set the element variable to =null=:
 
-<verbatim>
+<verbatim class="js">
 var myrules = {
     'table.test td' : function(element) {
         element.onmouseover = function() {
@@ -272,6 +272,7 @@ You can also set the global [[%SYSTEMWEB%.PreferenceSettings][preference setting
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- specify latest version first -->&nbsp; |
+|  31 Jul 2010 | 1.6 Minor documentation updates for Foswiki 1.1.0. |
 |  20 Sep 2009 | 1.5 Minor documentation updates for Foswiki 1.0.7. No functional changes |
 |  03 Dec 2008 | 1.4 Foswiki release version. |
 |  17 Oct 2007 | 1.3 Replaced "faster code" by other code from Dean Edwards, [[ packed by http://groups.google.com/group/behaviour/browse_thread/thread/85137977bedf5ed/3cf3ba8065d41a8c#3cf3ba8065d41a8c][Raymond Irving]]. |

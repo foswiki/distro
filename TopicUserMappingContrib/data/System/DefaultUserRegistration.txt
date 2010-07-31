@@ -57,7 +57,7 @@ Other sections define the fields and extra info text.
 <input type="hidden" name="action" value="register" />
 </form>
 </div>
-%ADDTOZONE{"head" tag="UserRegistrationStyle"
+%ADDTOZONE{"head" id="UserRegistrationStyle"
 text="<style type='text/css' media='all'>
 .registration .foswikiFormSteps {
 	margin:.5em 0 1em 0;

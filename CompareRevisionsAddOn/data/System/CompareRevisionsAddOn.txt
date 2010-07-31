@@ -12,13 +12,13 @@ differences in the content of the page).
 
 Furthermore, the differences between the revisions are shown as close as possible. If necessary, this means that different words are marked instead of whole lines or even paragraphs.
 
-The differences may be shown in two formats, either side-by-side or as an interwoven output of the old and new revision (like it is done in  Word or !StarOffice/!OpenOffice):
+The differences may be shown in two formats, either side-by-side or as an interwoven output of the old and new revision (like it is done in  Word or !OpenOffice):
 
    * Screenshot of interwoven output: <br />
-     <div class="twikiImage"><img src="%ATTACHURLPATH%/interweave.png" alt="interweave.png" width='714' height='366' /></div>
+     <div class="twikiImage"><img src="%ATTACHURLPATH%/interweave.png" alt="interweave.png" width='582' height='327' /></div>
 
    * Screenshot of side-by-side output: <br />
-     <div class="twikiImage"><img src="%ATTACHURLPATH%/sidebyside.png" alt="sidebyside.png" width='714' height='584' /></div>
+     <div class="twikiImage"><img src="%ATTACHURLPATH%/sidebyside.png" alt="sidebyside.png" width='582' height='565' /></div>
 
 These screenshots have been taken from Sandbox.CompareRevisionsAddOnDemoTopic.
 
@@ -56,7 +56,7 @@ format.
 
 The templates itself are broken into 7 parts
 
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 template for start of page
 %REPEAT%
 template for unchanged section 
@@ -165,6 +165,7 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  31 Jul 2010 | Paul Harvey: Foswikitask:Item9415 - Documentation updates |
 |  19 Sep 2009 | Kenneth Lavrsen: Expert settings in plugins makes configure fail to save. Using the hidden (H) setting instead which is much better anyway as this is not a setting to be altered by a user. |
 |  18 Sep 2009 | Kenneth Lavrsen: Expert settings in plugins makes configure fail to save. Settings therefore un-experted again |
 |  12 Sep 2009 | Kenneth Lavrsen: Fixed problem with tables always showing up as changed even when they were not |

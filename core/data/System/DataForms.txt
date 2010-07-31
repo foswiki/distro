@@ -27,12 +27,13 @@ A form definition specifies the fields in a form. A form definition is simply a 
    1. Save the topic _(you can later choose to [[#EnablingForms][enable/disable]] individual forms)_.
 
 <blockquote>
-*Example:* %BR%
-=| <nop>*Name* | <nop>*Type* | <nop>*Size* | <nop>*Values* | <nop>*Tooltip message* | <nop>*Attributes* |= %BR%
-=| !TopicClassification | select | 1 | !NoDisclosure, !PublicSupported, !PublicFAQ | blah blah... | &nbsp; |= %BR%
-=| !OperatingSystem | checkbox | 3 | !OsHPUX, !OsLinux, !OsSolaris, !OsWin | blah blah... | &nbsp; |= %BR%
-=| !OsVersion | text | 16 | | blah blah... | &nbsp; |=
+*Example:*
+%JQREQUIRE{"chili"}%<verbatim class="tml">| *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+| TopicClassification | select | 1 | NoDisclosure, PublicSupported, PublicFAQ | blah blah... | |
+| OperatingSystem | checkbox | 3 | OsHPUX, OsLinux, OsSolaris, OsWin | blah blah... | |
+| OsVersion | text | 16 | | blah blah... | |</verbatim>
 
+*Preview:*
 | *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
 | <a href="%SCRIPTURLPATH{"view"}%/Sandbox/TopicClassification"><nop>TopicClassification</a> | select |  1  | <a href="%SCRIPTURLPATH{"view"}%/Sandbox/NoDisclosure"><nop>NoDisclosure</a>, <a href="%SCRIPTURLPATH{"view"}%/Sandbox/PublicSupported"><nop>PublicSupported</a>, <a href="%SCRIPTURLPATH{"view"}%/Sandbox/PublicFAQ"><nop>PublicFAQ</a> | blah blah... | &nbsp; |
 | <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OperatingSystem"><nop>OperatingSystem</a> | checkbox |  3  | <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsHPUX"><nop>OsHPUX</a>, <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsLinux"><nop>OsLinux</a>, <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsSolaris"><nop>OsSolaris</a>, <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsWin"><nop>OsWin</a> | blah blah... | &nbsp; |
@@ -49,20 +50,20 @@ You can also retrieve possible values for =select=, =checkbox= or =radio= types 
 *Example:*
 
    * In the <nop>WebForm topic, define the form:
-     <br />
      | *Name* | *Type* | *Size* | *Values*  | *Tooltip message* | *Attributes* |
      | <nop>TopicClassification | select | 1 |    | blah blah... | &nbsp; |
      | <nop>OperatingSystem | checkbox | 3 |    | blah blah... | &nbsp; |
      | <nop>OsVersion | text | 16 |    | blah blah... | &nbsp; |
-     <br />
+     <br/>
      %X% Leave the ==Values== field *blank*.
 
    * Then in the <nop>TopicClassification topic, define the possible values:
-     <br />
-     =| <nop>*Name*            |= %BR%
-     =| <nop>NoDisclosure      |= %BR%
-     =| Public Supported  |= %BR%
-     =| Public FAQ        |= %BR%
+     <br /><verbatim class="tml">
+| *Name*            |
+| NoDisclosure      |
+| Public Supported  |
+| Public FAQ        |
+</verbatim> *Preview:*
      | *Name* |
      | <nop>NoDisclosure |
      | Public Supported |
@@ -71,9 +72,17 @@ You can also retrieve possible values for =select=, =checkbox= or =radio= types 
 
 Field values can also be set using the result of expanding other macros. For example,
 
-<blockquote>
-=%<nop>SEARCH{"Office$" scope="topic" web="%<nop>USERSWEB%" nonoise="on" type="regex" format="$web.$topic" separator=", " }%=
-</blockquote>
+<verbatim class="tml">
+%SEARCH{
+   "Office$"
+   scope="topic"
+   web="%USERSWEB%"
+   nonoise="on"
+   type="regex"
+   format="$web.$topic"
+   separator=", "
+}%
+</verbatim>
 
 When used in the value field of the form definition, this will find all topic names in the %USERSWEB% web which end in "Office" and use them as the legal field values.
 
@@ -97,7 +106,7 @@ Forms have to be enabled for each individual web. The ==WEBFORMS== setting in We
       * checkbox: ==namevalue=1==, ex: ==?ColorRed=1==. <br /> 
         Boxes with a tick must be specified.
       * Example: This will add a textfield for the new topic name and a "Create"-Button to your topic. When the button is pressed, the topic editor will open with the form "MyForm" already attached to the new topic.
-       <verbatim>
+       <verbatim class="tml">
     <form name="newtopic" action="%SCRIPTURLPATH{"edit"}%/%WEB%/">
        <input type="hidden" name="formtemplate" value="MyForm" />
        New topic name <input type="text" name="topic" size="40" />
@@ -105,7 +114,7 @@ Forms have to be enabled for each individual web. The ==WEBFORMS== setting in We
     </form>
        </verbatim>
    * *%X% Note:* You can create a topic in one step, without going through the edit screen. To do that, specify the =save= script instead of the =edit= script in the form action. When you specify the =save= script you must to use the "post" method. Example:
-       <verbatim>
+       <verbatim class="tml">
     <form name="newtopic" action="%SCRIPTURLPATH{"save"}%/%WEB%/" method="post">
        .....
     </form>
@@ -147,7 +156,7 @@ The ==Type==, ==Size== and ==Value== fields describe the legal values for this f
       * There are two modifiers that can be applied to the =select= type:
          * =select+multi= turns multiselect on for the select, to allow Shift+Click and Ctrl+Click to select (or deselect) multiple items.
          * =select+values= allows the definition of values that are different to the displayed text. For example:
-         <pre>| Field 9 | select+values | 5 | One, Two=2, Three=III, Four | Various values formats |</pre> shows <select size="2"><option>One</option><option>Two</option><option>Three</option><option>Four</option></select> but the values or options =Two= and =Three= are =2= and =III= respectively.<br />
+         <pre class="tml">| Field 9 | select+values | 5 | One, Two=2, Three=III, Four | Various values formats |</pre> shows <select size="2"><option>One</option><option>Two</option><option>Three</option><option>Four</option></select> but the values or options =Two= and =Three= are =2= and =III= respectively.<br />
       You can combine these modifiers e.g. =select+multi+values=
    * ==Type== =text= specifies a one-line text field. =Size= specifies the text box width in number of characters. =Value= is the initial (default) content when a new topic is created with this form definition.
    * ==Type== =textarea= specifies a multi-line text box. The =Size= field should specify columns x rows, e.g. =80x6=; default size is 40x5. As for =text=, the =Value= field specifies the initial text
@@ -160,7 +169,7 @@ The ==Type==, ==Size== and ==Value== fields describe the legal values for this f
    * An attribute =M= indicates that this field is mandatory. The topic cannot be saved unless a value is provided for this field. If the field is found empty during topic save, an error is raised and the user is redirected to an =oops= page. Mandatory fields are indicated by an asterisks next to the field name.
 
 For example, a simple form just supporting entry of a name and a date would look as follows:
-<verbatim>
+<verbatim class="tml">
 | *Name* | *Type* | *Size* |
 | Name   | text   | 80     |
 | Date   | date   | 30     |
@@ -186,7 +195,7 @@ For example, a simple form just supporting entry of a name and a date would look
 
 ---+++ Values in other topics
 As described above, you can also retrieve possible values for select, checkbox or radio types from other topics. For example, if you have a rows defined like this:
-<verbatim>
+<verbatim class="tml">
 | *Name*                 | *Type* | *Size* |
 | AeroplaneManufacturers | select |        |
 </verbatim>
@@ -195,7 +204,7 @@ the Foswiki will look for the topic !AeroplaneManufacturers to get the possible 
 The !AeroplaneManufacturers topic must contain a table, where each row of the table describes a possible value. The table only requires one column, ==Name==. Other columns may be present, but are ignored.
 
 For example:
-<verbatim>
+<verbatim class="tml">
 | *Name* |
 | Routan |
 | Focke-Wulf |
