@@ -2,23 +2,28 @@
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Javascript
 
-Foswiki will work without Javascript being present in the browser, but the
-user experience is significantly improved if it is enabled.
+Foswiki will work without Javascript enabled in the browser:
+   * When performing read-only actions, Eg. =view=, =rdiff=
+   * If ={Validation}{Method}= is set to anything other than =strikeone= in
+   [[%SCRIPTURLPATH{"configure"}%][configure]], write/update actions such as
+   =edit= and =save= will work also
+
+User experience is significantly improved if it is enabled.
 
 Foswiki Javascript support includes a number of base Javascript files,
 attached to this topic, that provide support for features in the basic screens,
 and are used by most skins. These files are automatically included as required
 by skins.
 
-These files are gradually being phased out in favour of the !JQueryPlugin
+These files are gradually being phased out in favour of JQueryPlugin
 which uses the industry-standard JQuery framework to provide high quality
 user interface components.
 
-You can use Javascript in the body of topics, but you are highly recommended
+You can use Javascript in the body of topics, but it is highly recommended
 to use the [[VarADDTOZONE][%<nop>ADDTOZONE{"body" ...}%]] macro if you do so.
 Bear in mind that inline Javascript represents a significant security risk to
 Foswiki sites, and sites vulnerable to hackers should seriously consider
-installing the =SafeWikiPlugin= to control it.
+installing the Foswiki:Extensions.SafeWikiPlugin to control it.
 
 *Related Topics:* SkinTemplates, [[Skins]], [[VarADDTOZONE][ADDTOZONE]]
 <!--

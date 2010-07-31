@@ -53,36 +53,36 @@ Users may further customize the specific content they will receive using the fol
 
 Examples:
 Subscribe Daisy to all changes to topics in this web.
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
    * daisy.cutter@flowers.com
 </verbatim>
 Subscribe Daisy to all changes to topics that start with =Web=.
-<verbatim>
+<verbatim class="tml">
    * daisy.cutter@flowers.com : Web*
 </verbatim>
 Subscribe Daisy to changes to topics starting with =Petal=, and their immediate children, !WeedKillers and children to a depth of 3, and all topics that match start with =Pretty= and end with =Flowers= e.g. =PrettyPinkFlowers=
-<verbatim>
+<verbatim class="tml">
    * DaisyCutter: Petal* (1) WeedKillers (3) Pretty*Flowers
 </verbatim>
 Subscribe !StarTrekFan to changes to all topics that start with =Star= *except* those that end in =Wars=, =sInTheirEyes= or =shipTroopers=.
-<verbatim>
+<verbatim class="tml">
    * StarTrekFan: Star* - *Wars - *sInTheirEyes - *shipTroopers
 </verbatim>
 Subscribe Daisy to the full content of !NewsLetter whenever it has changed
-<verbatim>
+<verbatim class="tml">
    * daisy@flowers.com: NewsLetter?
 </verbatim>
 Subscribe buttercup to !NewsLetter and its immediate children, even if it hasn't changed.
-<verbatim>
+<verbatim class="tml">
    * buttercup@flowers.com: NewsLetter! (1)
 </verbatim>
 Subscribe !GardenGroup (which includes Petunia) to all changed topics under !AllnewsLetters to a depth of 3. Then unsubscribe Petunia from the !ManureNewsLetter, which she would normally get as a member of GardenGroup:
-<verbatim>
+<verbatim class="tml">
    * GardenGroup: AllNewsLetters? (3)
    * petunia@flowers.com: - ManureNewsLetter
 </verbatim>
 Subscribe =IT:admins= (a non-Foswiki group defined by an alternate user mapping) to all changes to Web* topics.
-<verbatim>
+<verbatim class="tml">
    * 'IT:admins' : Web*
 </verbatim>
 
@@ -90,16 +90,16 @@ A user may be listed many times in the <nop>%NOTIFYTOPIC% topic. Where a user ha
 
 If a _group_ is listed for notification, the group will be recursively expanded to the e-mail addresses of all members.
 
-__%X% Warning: Because an email address is not linked to a user name, there is no way for Foswiki to check access controls for subscribers identified by email addresses. A subscriber identified by an email address alone will only be sent change notifications if the topic they are subscribed to is readable by guest users. You can limit what email addresses can be used in %<nop>NOTIFYTOPIC%, or even block use of emails altogther, using the ={MailerContrib}{EmailFilterIn} setting in =configure=.
+<blockquote> *%X% Warning:* Because an email address is not linked to a user name, there is no way for Foswiki to check access controls for subscribers identified by email addresses. A subscriber identified by an email address alone will only be sent change notifications if the topic they are subscribed to is readable by guest users. You can limit what email addresses can be used in %<nop>NOTIFYTOPIC%, or even block use of emails altogther, using the ={MailerContrib}{EmailFilterIn} setting in =configure=.</blockquote>
 
-__%T% Tip:__ List names in alphabetical order to make it easier to find the names.
+<blockquote> *%T% Tip:* List names in alphabetical order to make it easier to find the names.</blockquote>
 %STOPINCLUDE%
 
 In the future it is intended that individual users will be able to control the frequency with which they are notified of topic changes, by changing a schedule specification in their home topic. However at present, the notification schedule is controlled by the frequency of activation of the mailer.
 
 Note that when using the "news mode" =!= or =?= specifiers the entire topic text is mailed out as HTML. The =newsletter= template is used to generate the content in this mail, using whatever skin is selected in the topic being mailed.
 
-In addition, the %<nop>STARTPUBLISH% and %<nop>STOPPUBLISH% markers used by Foswiki:Extensions.PublishPlugin to delimit the text to be published are respected in news mode.
+In addition, the =%<nop>STARTPUBLISH%= and =%<nop>STOPPUBLISH%= markers used by Foswiki:Extensions.PublishPlugin to delimit the text to be published are respected in news mode.
 
 ---++ Foswiki/Contrib/MailerContrib code library
 The second part of the module is a code library that provides the services for other applications to modify the subscription topics through a clean, well documented API. This allows (for example) plugin developers to add (for example) a "Register me for this newsletter" button to their pages. Developers should refer to [[%SCRIPTURL{view}%/System/PerlDoc?module=Foswiki::Contrib::MailerContrib::WebNotify][the documentation for the !WebNotify class]] as their starting point.
@@ -108,7 +108,7 @@ The second part of the module is a code library that provides the services for o
 %$INSTALL_INSTRUCTIONS%
    * To make sure the installation was successful, run the =mailnotify= script from the command line, with no parameters. In this case it will print out what it would have done to =STDOUT=.
 *Additional settings*
-   * You can change the regular expression that matches email addresses in <nop>%NOTIFYTOPIC% using the ={MailerContrib}{EmailFilterIn} setting in =configure=. This allows you to limit the domains to which emails can be sent, or even block email addresses altogether.
+   * You can change the regular expression that matches email addresses in =%<nop>NOTIFYTOPIC%= using the ={MailerContrib}{EmailFilterIn}= setting in =configure=. This allows you to limit the domains to which emails can be sent, or even block email addresses altogether.
 
 %H% If you plan to use the "run from the web" feature, you *must* run =configure= and save at least once after installing for the first time.
 
@@ -149,19 +149,19 @@ If you choose to setup the cron by editing the system wide /etc/crontab file the
 </blockquote>
 
 For example, assuming Foswiki was installed at =/usr/local/foswiki=, this cron entry:
-<verbatim>
+<verbatim class="bash">
 0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -q Public Private
 </verbatim>
 will generate change notifications for the =Public= and =Private= webs every night at midnight.
-<verbatim>
+<verbatim class="bash">
 0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -q -Sandbox
 </verbatim>
 will generate change notifications for all webs, except the =Sandbox= web.
-<verbatim>
+<verbatim class="bash">
 0 0 * * 0 cd /usr/local/foswiki && perl -I bin tools/mailnotify -nochanges
 </verbatim>
 will generate newsletters from *all* webs every week on midnight Saturday but will not process the non-newsletter subscriptions.
-<verbatim>
+<verbatim class="bash">
 0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -nonews
 </verbatim>
 will generate change notifications for all webs every night at midnight but will not process the newsletter subscriptions.
@@ -226,12 +226,12 @@ Here are the steps
 
 First we create a file =templates/mailnotify.customnotify.tmpl= which only contains these two lines
 
-<verbatim>
+<verbatim class="tml">
 %TMPL:INCLUDE{"mailnotify"}%
 %TMPL:INCLUDE{"WebNotifyCustom"}%
 </verbatim>
 
-In the webs where you want the topic defined mail format we add the setting =* Set SKIN = customnotify,pattern= (assuming pattern is the normal skin)
+In the webs where you want the topic defined mail format we add the setting <verbatim class="tml">   * Set SKIN = customnotify,pattern</verbatim> (assuming pattern is the normal skin)
 
 And we create a topic in the web called !WebNotifyCustomTemplate which contains the entire mailnotify template you want to use. Simply copy the content from =templates/mailnotify.tmpl= to this template and do the tailoring.
 
@@ -249,6 +249,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  31 Jul 2010 | Foswikitask:Item9415: Documentation updates |
 |  9 Jul 2010 | Foswikitask:Item9261: split of the plugin more completely to make configuration cleaner. No functional changes. |
 |  18 Dec 2009 | Foswikitask:Item2511: make a new tiny plugin module, to reduce load time for when the mailer isn't used in a request |
 |  8 Dec 2009 | Foswikitask:Item8316: Added REST handler, Foswikitask:Item2473: Foswikitask:Item2480: doc & dead code tidy-ups |

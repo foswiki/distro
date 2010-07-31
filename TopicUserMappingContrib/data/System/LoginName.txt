@@ -12,13 +12,13 @@ Look in %USERSWEB%.WikiUsers - if your name is followed by a dash and a word, us
 
 e.g.
 
-   * !WikiGuest - guest - 05 Sep 2004
+   * !WikiGuest - guest - 05 Sep 2008
 
 Would mean that !WikiGuest would log in using the login name 'guest'
 
 If, on the other hand, if your entry is like this:
 
-   * !WikiGuest - 05 Sep 2004
+   * !WikiGuest - 05 Sep 2008
 
 Then you would log in using your WikiName, in this case 'WikiGuest'
 

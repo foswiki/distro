@@ -22,18 +22,20 @@ The calendar is able to display a time-picker, in addition to the default date-p
 ---+++ Using the Calendar in user forms
 You can also use the calendar directly in your own hand-built forms, without
 having to write any code. Just add this inline in the topic text:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 %INCLUDE{"%SYSTEMWEB%/JSCalendarContribInline"}%
 </verbatim>
 Then, to display a calendar icon next to a text input field:
-<verbatim>
+<verbatim class="tml">
 <input type="text" id="cal_val_here" />
-<input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif" onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
+<input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
+       onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
 </verbatim>
 If the contrib is installed, you will see such a field here:
 %INCLUDE{"%SYSTEMWEB%/JSCalendarContribInline"}%
 <input type="text" id="cal_val_here" />
-<input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif" onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
+<input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
+       onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -62,6 +64,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 | Change History: | |
 |  Warning | Do not merge trunk version of this contrib to release branch. It is currently not compatible.  |
+|  31 Jul 2010 | Foswikitask:Item9415 - Documentation updates |
 |  03 Apr 2010 | Added possibility of local configuration of the calendar (Foswiki:Main.AntonioTerceiro).|
 |  01 Apr 2010 | Calendar displays the built-in Time-Picker if the optional format string contains time format specifiers (Foswiki:Main.RaulFRodriguez) |
 |  09 Jan 2010 | Adding the Config.spec file with the 3 settings so that people do not have to manually create the file. |

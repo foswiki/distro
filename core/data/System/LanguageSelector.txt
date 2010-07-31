@@ -8,10 +8,23 @@ Note: this dropdown is only shown if localization is enabled.%BR%
 Test: %IF{"context i18n_enabled" then='<span style="color:green; font-weight:bold;">localization is enabled</span>' else='<span style="color:red; font-weight:bold;">localization is not enabled</span>'}% %BR%
 
 Usage:
-<verbatim>
-%INCLUDE{%SYSTEMWEB%.LanguageSelector}%
+%JQREQUIRE{"chili"}%<verbatim class="tml">
+%INCLUDE{"%SYSTEMWEB%.LanguageSelector"}%
 </verbatim>
 
 Result:
-
-%STARTINCLUDE%%IF{"context i18n_enabled" then='<form name="changeLanguage" action="%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%" method="get"><select name="language" class="foswikiSelect" onchange="document.changeLanguage.submit()">%LANGUAGES{format="<option $marker value=\"$langtag\">$langname</option>" selection="%LANGUAGE%" separator=" "}%</select><input type="hidden" name="template" value="oopslanguagechanged" /><noscript><input class="foswikiButton" type="submit" value="%MAKETEXT{"Change language"}%" /></noscript></form>'}%%STOPINCLUDE%
+%STARTINCLUDE%%IF{
+   "context i18n_enabled"
+   then="<form name='changeLanguage'\
+      action='%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%' method='get'>
+      <select name='language' class='foswikiSelect' onchange='document.changeLanguage.submit()'>
+      %LANGUAGES{
+         format="<option $marker value='$langtag'>$langname</option>"
+         selection="%LANGUAGE%"
+         separator=" "
+         marker="selected='selected'"
+     }%</select>
+     <input type='hidden' name='template' value='oopslanguagechanged' />
+     <noscript><input class='foswikiButton' type='submit' value='%MAKETEXT{"Change language"}%' />
+     </noscript></form>"
+}%%STOPINCLUDE%

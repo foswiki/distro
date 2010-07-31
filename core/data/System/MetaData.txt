@@ -25,7 +25,7 @@ To keep everything together in one place, meta-data (Foswiki-generated or from [
 
 <blockquote>
 *Example of core meta-data*
-<pre>
+%JQREQUIRE{"chili"}%<pre class="tml">
 %<nop>META:TOPICINFO{version="6" date="976762663" author="LastEditor" format="1.0"}%
    text of the topic
 %<nop>META:TOPICMOVED{from="Real.SecretAgents" to="Hollywood.SecretAgents"
@@ -64,7 +64,7 @@ Note that the *version and date fields are advisory only* and cannot be trusted.
 
 This only exists if the topic has been moved. If a topic is moved more than once, only the most recent META:TOPICMOVED meta datum exists in the topic. Older ones can to be found in the topic history.
 
-=%<nop>META:TOPICMOVED{from="Real.SecretAgents" to="Hollywood.SecretAgents" by="CoverUp" date="976762680"}%=
+<pre class="tml">%<nop>META:TOPICMOVED{from="Real.SecretAgents" to="Hollywood.SecretAgents" by="CoverUp" date="976762680"}%</pre>
 
 |  *Key*  |  *Comment*          |
 | from%REG% | Full name, i.e., web.topic |

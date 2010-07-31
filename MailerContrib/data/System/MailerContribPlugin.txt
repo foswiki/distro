@@ -1,4 +1,4 @@
----+! %TOPIC%
+---+ %TOPIC%
 
 This is a 'mini' plugin that provides a =rest= handler for invoking the
 mail notification process via an HTTP request (e.g. from the browser).

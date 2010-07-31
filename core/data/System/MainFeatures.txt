@@ -1,27 +1,150 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WebHome"}%
----+ Main Features
+---+!! What makes Foswiki the ideal collaboration tool?
+<div class="explanation explanationBg">
+---++ Foswiki is...
+<table cellpadding="0" cellspacing="0" class="explanationTable">
+<tr>
+<td class="panel">
+<p>
+Wiki
+</p>
+</td>
+<td class="plus"><div class="plusGraphicOuter"><div class="plusGraphic"></div></div></td>
+<td class="panel">
+<p>
+Structured Data
+</p>
+</td>
+<td class="plus"><div class="plusGraphicOuter"><div class="plusGraphic"></div></div></td>
+<td class="panel">
+<p>
+Programmable Pages
+</p>
+</td>
+</tr>
+<tr>
+<td class="note">
+   * Share knowledge
+   * Edit pages collaboratively
+   * If needed, protect pages with flexible access controls
+   * Versioned documents and attachments with revision history
+   * Enterprise LDAP integration
+</td>
+<td></td>
+<td class="note">
+   * Store data in pages
+   * Use advanced search to extract data
+   * Create applications: status boards, to-do lists, inventory systems, employee handbooks, bug trackers
+   * [[Foswiki:Support.WhatIsStructuredDataInFoswiki][Read more]] about structured data in Foswiki
+</td>
+<td></td>
+<td class="note">
+   * Users can create applications using Excel-like macros - built-in or from numerous extensions
+   * Extract and display data in different formats: tabular, graphical, XML
+   * Combine with Web APIs like Google Maps to create mashups
+</td>
+</tr>
+</table>
+</div>
+<p class="summary">
+Foswiki is an open, programmable collaboration platform <br />
+[[Foswiki:About.UseFor][See how Foswiki is used for enterprise &raquo;]]
+</p>
+<div class="yui-g explanation">
+	<div class="yui-g first">
+		<div class="yui-u first">
+%INCLUDE{"%BASETOPIC%" section="col1"}%
+		</div>
+		<div class="yui-u">
+%INCLUDE{"%BASETOPIC%" section="col2"}%
+		</div>
+	</div>
+	<div class="yui-g">
+		<div class="yui-u first">
+%INCLUDE{"%BASETOPIC%" section="col3"}%
+		</div>
+		<div class="yui-u">
+%INCLUDE{"%BASETOPIC%" section="col4"}%
+		</div>
+	</div>
+</div>
 
-   * *Any web browser:* Edit existing pages or create new pages by using any web browser. There is no need to upload pages.
-   * *Edit link:* To edit a page, simply click on the ==Edit== link at the top or bottom of the page.
-   * *Auto links:* Web pages are [[WikiWord][linked automatically]]. You do not need to learn HTML commands to link pages.
-   * *Text formatting:* Simple, powerful and easy-to-learn [[WikiSyntax][text formatting rules]]. Basically you write text like you would write an e-mail.
-   * *Webs:* Pages are grouped into [[%SYSTEMWEB%.SiteMap][webs]] (or collections). This allows you to set up separate collaboration groups.
-   * *Search:* [[WebSearch][Full text search]] with/without regular expressions. See a sample [[%SCRIPTURLPATH{"search"}%/%SYSTEMWEB%/?scope=text&search=learn][search result]].
-   * *E-mail notification:* Get [[WebChangesAlert][automatically notified]] when something has changed in a web.
-   * *Structured content:* Use DataForms to classify and categorize unstructured web pages and to create simple workflow systems.
-   * *File attachments:* [[FileAttachment][Upload]] and download any file as an attachment to a page by using your browser. This is similar to file attachments in an e-mail, but it happens on web pages.
-   * *Revision control:* All changes to pages and attachments are tracked. Retrieve previous page revisions; compare differences; find out who changed what and when.
-   * *Access control:* Define groups and impose fine-grained read and write [[AccessControl][access restrictions]] based on groups and users.
-   * *Macros:* Use [[macros]] to dynamically compose your pages. This allows you for example to include other pages, or show a search result embedded in a page.
-   * *Plugins:* Easily install program enhancements using external [[Plugins][plug-in modules]]. Developers can create plug-ins in Perl using the Foswiki Plugin API.
-   * *Templates and skins:* A flexible [[SkinTemplates][templating system]] separates program logic and presentation. [[Skins]] override template headers and footers; page content is unaffected.
-   * *Managing pages:* Individual pages can be renamed, moved and deleted through the browser.
-   * *Managing users:* Web-based [[UserRegistration][user registration]] and [[ChangePassword][change of password]].
-   * *Statistics:* Extract statistics of webs. Find out most popular pages and top contributors.
-   * *Preferences:* Multiple levels of preferences: DefaultPreferences for site-level, WebPreferences for each web, user level preferences, individual topics etc.
-   * *[[SimultaneousEdits][Simultaneous page editing]]:* 
-   * *Referred-By:* Find the pages that contain links to a topic.
+<verbatim class="foswikiHidden">
+%STARTSECTION{"col1"}%---++ Our pick of features
+   * Runs on Linux, Mac OS X, Windows (even stand alone on a USB Stick), also available as easy-to-setup software appliance for VMware or !VirtualBox
+   * Localized interfaces in 20 languages
+   * [[System.TinyMCEPlugin][Best in class WYSIWYG text editor]]
+   * [[Foswiki:About.Security][Best in class security]], including protection against Cross-Site Request Forgery
+   * Modern architecture that supports fastcgi, modperl, httpd stand alone and load balancing
+   * [[%SYSTEMWEB%.DevelopingPlugins][Powerful Plugin API]] enables a thriving community delivering [[Foswiki:Extensions][hundreds of extensions]]
+   * Enterprise LDAP support
+%ENDSECTION{"col1"}%
+
+%STARTSECTION{"col2"}%---++ Reasons for choosing Foswiki
+   * [[Foswiki:About.ReasonsToUseFoswiki][Our top reasons to use Foswiki]]
+   * [[Foswiki:About.UseFor][How Foswiki is being used]]
+   * [[Foswiki:About.ExampleSites][Examples of sites running Foswiki]]
+   * [[Foswiki:About.Security][Foswiki security overview]]
+   * [[Foswiki:About.MediaFaq][Media FAQ]] - Q&A's on Foswiki
+   * [[Foswiki:About.WhyThisFork][Why this fork?]] - a short history of Foswiki's origins
+   * Foswiki is the work of an active community that commits updates on a daily base and [[irc://irc.freenode.net/foswiki][is available on IRC]] for help and chatting
+   * [[Foswiki:Support.WikiConsultants][List of Foswiki consultants]] - Foswiki community members who can help installing and customizing your installation
+%ENDSECTION{"col2"}%
+
+%STARTSECTION{"col3"}%---++ Created by the community
+Foswiki is supported by a large number of volunteers who enjoy creating the best and most versatile Enterprise collaboration platform for free. We are always looking for fresh blood!
+   * [[Foswiki:Community.HowYouCanHelp][How You Can Help]]
+   * [[Foswiki:Community.WebHome][Community homepage]]
+   * Foswiki is being developed by task teams for [[Foswiki:Community.ReleaseTaskTeam][Release]], [[Foswiki:Community.SecurityTaskTeam][Security]], [[Foswiki:Community.UserExperienceTaskTeam][User Experience]], [[Foswiki:Community.TranslationTaskTeam][Translation]], [[Foswiki:Community.WysiwygTaskTeam][WYSIWYG editor]], [[Foswiki:Community.WebsiteFacilitatorTaskTeam][Website facilitator]], [[Foswiki:Community.DocumentationTaskTeam][Documentation]], [[Foswiki:Community.InfrastructureTaskTeam][Infrastructure]], [[Foswiki:Community.MarketingTaskTeam][Marketing]]
+%ENDSECTION{"col3"}%
+
+%STARTSECTION{"col4"}%---++ How the project is progressing
+   * [[Foswiki:About.ProjectUpdate][Project update]] 
+   * [[http://blog.foswiki.org][Foswiki Blog]]
+   * [[Foswiki:About.FoswikiInTheNews][Foswiki in the news]]
+   * [[Foswiki:System.SiteChanges][Site activity of the last 24 hours]]
+   * [[http://trac.foswiki.org/timeline/][Overview of committed code changes]]
+%ENDSECTION{"col4"}%
+</verbatim>
+
+%ADDTOZONE{
+    "head"
+    id="%SYSTEMWEB%/MainFeatures::CSS"
+    text="<link rel='stylesheet' type='text/css' href='%ATTACHURLPATH%/grids-min.css'/>
+        <style type='text/css' media='all'>
+            .explanation {padding:2em;}
+            .explanationBg {background:#fff url('%PUBURL%/%WEB%/%TOPIC%/grad_bg_table.png') repeat-x 0 0;}
+            .explanation h2 {margin-top:0;}
+            .explanation ul {list-style-type:square; margin:0; padding:0 0 0 1em;}
+            .explanation li {margin:.15em 0;}
+            .explanationTable {width:100%;}
+            .explanationTable td {text-align:center;}
+            .explanationTable td.panel {background:#fff; border:1px solid #b1b1b1; font-size:150%; font-weight:normal; color:#333; padding:1.5em 1em; vertical-align:middle; width:33%; }
+            .explanationTable td.plus {border:none; width:8px;}
+            .explanationTable td.panel p {margin:0em;}
+            .explanationTable td.panel hr {height:2px; background-color:#eee; border-color:#eee;}
+            .explanationTable td.note {width:33%; padding-top:.5em; padding-right:1em; vertical-align:top; text-align:left; color:#333;}
+            .explanationTable td.note ul {list-style-type:square; margin:0; padding:0 0 0 1em;}
+            .explanationTable td.note li {margin:.15em 0;}
+            .plusGraphicOuter {position:relative; width:62px; height:62px; margin:-14px;}
+            .plusGraphic {width:62px; height:62px; background-image:url('%PUBURL%/%WEB%/%TOPIC%/icon_plus.png');
+            background-repeat:no-repeat;}
+            .summary {margin:0 0 1em 0; padding:1em 0 0 0; font-size:1.55em; line-height:1.2em; color:#444; text-align:center; border-top:1px dashed #ccc;}
+            .summary a:link, .summary a:visited {text-decoration:underline;}
+            .category {height:1%; margin:0 0 1em 0; padding:0 0 1em 0; border-bottom:1px solid #ccc;}
+            .category p {margin:0 0 0.75em 0;}
+            .category .text {float:left; padding:0 2em .5em 60px; margin-right:2em; border-right:1px dotted #ddd; width:40%;}
+            .category .examples { float:left; }
+            .category .examples ul {list-style-type:square; margin:0; padding:0 0 0 1em;}
+            .category h3 { color:black; font-size:1.1em; font-weight:bold; margin:.5em 0; }
+            .icon_collaboration {background:#fff url('%PUBURL%/%WEB%/%TOPIC%/icon_world.png') no-repeat 0 0;}
+            .icon_knowledge {background:#fff url('%PUBURL%/%WEB%/%TOPIC%/icon_bulb.png') no-repeat 0 0;}
+            .icon_projects {background:#fff url('%PUBURL%/%WEB%/%TOPIC%/icon_projects.png') no-repeat 0 0;}
+            .icon_documents {background:#fff url('%PUBURL%/%WEB%/%TOPIC%/icon_documents.png') no-repeat 0 0;}
+            .icon_social {background:#fff url('%PUBURL%/%WEB%/%TOPIC%/icon_social.png') no-repeat 0 0;}
+        </style>"
+}%
 
 ---
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory

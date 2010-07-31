@@ -1,22 +1,69 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252719915" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
+
+#SettingPrefs
+#PreferencesMacros
 ---++!! Help on Preferences
-   * A _preference setting_ lets you define a simple [[%SYSTEMWEB%.Macros][macro]] that can be expanded in your output.
+   * A _preference setting_ lets you define a simple [[%SYSTEMWEB%.Macros][macro]] that can be expanded in your output. Preference settings do not accept any parameters.
    * A preference setting looks like this: <br /> =3 or 6 spaces * Set NAME = value= <br /> Example:
-      * S<nop>et WEBBGCOLOR = #FFFFC0
+   %JQREQUIRE{"chili"}%<verbatim class="tml">   * Set WEBBGCOLOR = #FFFFC0</verbatim>
    * A preferences setting can be disabled with a # sign. Remove the # sign to enable a local customisation. Example:%BR%
-      * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser
+   <verbatim class="tml">   * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser</verbatim>
    * Macros defined using preference settings are expanded by enclosing the name in percent signs. Example:
       * When you write =%WEB<nop>BGCOLOR%=, it gets expanded to =%WEBBGCOLOR%=
-   * The sequential order of the preference settings is significant. i.e. set =<nop>WEBCOPYRIGHT= before =<nop>WIKIWEBMASTER= since =%<nop>WEBCOPYRIGHT%= uses the =%<nop>WIKIWEBMASTER%= setting.
    * You can introduce your own preference settings and use them in your topics and templates.
    * A preference settings is always taken from the most current topic revision, even when accessing previous revisions of a topic.
    * Preferences can be defined in a number of places:
-      1 %SYSTEMWEB%.DefaultPreferences
+      1 %SYSTEMWEB%.DefaultPreferences (Foswiki upgrades overwrite this topic)
       1 %USERSWEB%.SitePreferences
-      1 Parent webs !WebPreferences
+      1 Sub-webs inherit the !WebPreferences of their parent
       1 !WebPreferences
-      1 In user topics
+      1 In user topics, if the user has one (yours is [[%WIKIUSERNAME%]])
       1 In (some) plugin documentation topics
-      1 In topics
-   * Preference settings can be _finalised_, which means they can't be redefined
+      1 In the topic being accessed
+
+<blockquote>%ICON{"info"}% =Set= statements which occur at higher-numbered locations override settings of the same name at lower numbered levels, _unless the macro was listed in a FINALPREFERENCES setting (finalised) at a lower-numbered level._ In this case, the macro is locked to the value at that level; =Set= statements at higher-numbered levels are ignored.</blockquote>
+
+If you are setting a preference and using it in the same topic, note that Foswiki reads all the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] from the saved version of the topic before it displays anything.  This means you can use a macro anywhere in the topic, even if you set it somewhere inconspicuous near the end. *But beware:*  it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.
+
+Also note that Foswiki always reads the setting from the most current topic revision, so viewing older revisions of a topic can show unexpected results.
+
+The syntax for setting macros is the same anywhere: <br /> =[multiple of 3 spaces] * [space] Set [space] MACRONAME [space] = [space] value=
+<blockquote>
+*Examples:*
+   * ==<nop>Set MACRONAME = value==
+      * ==<nop>Set MACRONAME = value==
+</blockquote>
+Spaces between the = sign and the value will be ignored. You can split a value over several lines by indenting following lines with spaces - as long as you don't try to use * as the first character on the following line.
+<blockquote>
+*Example:*
+<pre>
+   * <nop>Set MACRONAME = value starts here
+     and continues here
+</pre>
+</blockquote>
+
+Whatever you include in your Macro will be expanded on display, exactly as if it had been entered directly.
+
+<blockquote>
+*Example: Create a custom logo macro* <br />
+   * To place a logo anywhere in a web by typing ==%<nop>MYLOGO%==, define the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] on the web's WebPreferences topic, and upload a logo file, ex: =mylogo.gif=. You can upload by [[FileAttachment][attaching the file]] to WebPreferences, or, to avoid clutter, to any other topic in the same web, e.g. =LogoTopic=. Sample preference setting in WebPreferences:
+      * ==<nop>Set MYLOGO = %<nop>PUBURL%/%<nop>WEB%/LogoTopic/mylogo.gif==
+</blockquote>
+
+You can also set [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in a topic by clicking the link =Edit topic preference settings= under =More topic actions=. Preferences set in this manner are known as 'meta' preferences and are not visible in the topic text, but take effect nevertheless.
+
+---+++ Access Control Settings
+
+These are special types of preference settings to control access to content. AccessControl explains these security settings in detail.
+
+---+++ Local values for preferences
+Certain topics (user, plugin, web, site and default preferences topics) have a problem; macros defined in those topics can have two meanings. For example, consider a user topic. A user may want to use a double-height edit box when they are editing their home topic - but *only* when editing their home topic. The rest of the time, they want to have a normal edit box. This separation is achieved using =Local= in place of =Set= in the macro definition. For example, if the user sets the following in their home topic:
+<verbatim class="tml">
+   * Set EDITBOXHEIGHT = 10
+   * Local EDITBOXHEIGHT = 20
+</verbatim>
+Then, when they are editing any other topic, they will get a 10 high edit box. However, when they are editing their home topic they will get a 20 high edit box.
+=Local= can be used wherever a preference needs to take a different value depending on where the current operation is being performed.
+
+Use this powerful feature with great care! =%<nop>ALLVARIABLES%= can be used to get a listing of the values of all macros in their evaluation order, so you can see macro scope if you get confused.

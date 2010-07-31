@@ -52,7 +52,7 @@ To change the user's WikiName:
      that the list is in proper alphabetical order.
    * Recreate the old topic with a pointer to the new topic, so that links
      in other webs work properly. Example content:%BR%
-     =%<nop>M% Jane Smith is now known as !JaneMiller=
+     %JQREQUIRE{"chili"}%<verbatim class="tml">%M% Jane Smith is now known as JaneMiller</verbatim>
 
 If external authentication is used and you want to change the login name:
    * The login name needs to be changed in the authentication server (e.g.
@@ -98,7 +98,7 @@ Because there are default =.tmpl= files in the =templates= dir, this cannot use 
 These template files have a specific format that matches the raw format of emails sent via SMTP,
 so be careful and test your changes. It is easiest to start by copying the default templates:
 
-<verbatim>
+<verbatim class="bash">
 cd templates
 cp registernotify.tmpl registernotify.myskin.tmpl
 cp registerconfirm.tmpl registerconfirm.myskin.tmpl
@@ -111,10 +111,13 @@ From this point on, your myskin templates will be used for the registration emai
 To make it possible for users to modify the email contents, you could use a parameterized =%<nop>INCLUDE%=
 statement in your customized version, eg:
 
-<verbatim>
+<verbatim class="tml">
 From: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
 To: %FIRSTLASTNAME% <%EMAILADDRESS%>
-Subject: %MAKETEXT{"[_1] - Registration for [_2] ([_3])" args="%WIKITOOLNAME%, %WIKINAME%, %EMAILADDRESS%"}%
+Subject: %MAKETEXT{
+   "[_1] - Registration for [_2] ([_3])"
+   args="%WIKITOOLNAME%, %WIKINAME%, %EMAILADDRESS%"
+}%
 MIME-Version: 1.0
 Content-Type: text/plain; charset=%CHARSET%
 Content-Transfer-Encoding: 8bit
@@ -129,7 +132,7 @@ Content-Transfer-Encoding: 8bit
    * *note the use of %<nop>WIKINAME%, %<nop>FIRSTLASTNAME%, %<nop>EMAILADDRESS% passed in from the INCLUDE so that the topic below is similar to the original template*
 
 and then create a topic %NOP%%USERSWEB%.RegisterNotifyEmail:
-<verbatim>
+<verbatim class="tml">
 Welcome to %WIKITOOLNAME%.
 
 %MAKETEXT{"Your personal [_1] topic is located at [_2]. You can customize it as you like:" args="%WIKITOOLNAME%, %SCRIPTURL{"view"}%/%USERSWEB%/%WIKINAME%"}%
