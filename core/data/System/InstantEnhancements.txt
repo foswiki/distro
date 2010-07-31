@@ -63,11 +63,11 @@ You may find it easier to write shorthand graphic notation. You can create your 
 A macro name may be one letter, like =Y=, or may be longer like =HELP=, =WARN= etc. You can also add your own images, e.g. a =NEW=, or a =ASK= to ask question.
 
 For instance, if we want to write =%<nop>DOWN%= instead of =%<nop>ICON{"arrowbdown"}%=, define the new macro like this:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
    * Set DOWN = %ICON{"arrowbdown"}%
 </verbatim>
 Or if you have a custom image to use, attach this to [[%LOCALSITEPREFS%]] and write:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
    * Set DOWN = <img src="%ATTACHURL%/my_image.gif" border="0" alt="DOWN" width="16" height="16" />
 </verbatim>
 
@@ -114,62 +114,85 @@ When you have a fair bit of formatting work - for example, compiling new info pa
 
 ---+++ Personal directory of topics you're involved in
 
-Here's how you can create your own personal directory of topics you've contributed to recently. Copy the text below (between *Start Copy* and *End Copy*) and paste it into your personal page (%WIKIUSERNAME%). You can add other webs to search by duplicating one of the web subsections and editing the string {web ="webname"} in the search parameters to refer to the specific web you want to search. This script would also work for a group.
+Here's how you can create your own personal directory of topics you've contributed to recently (assuming that your [[VarWIKIUSERNAME][username]] is present on topics that you contribute to). Copy the text below and paste it into your personal page (%WIKIUSERNAME%). You can add other webs to search by duplicating one of the web subsections and editing the string {web ="webname"} in the search parameters to refer to the specific web you want to search.
 
-*Start Copy*
-<verbatim>
+<verbatim class="tml">
 *Here's a list of topics I've been involved in recently:*
 
 ---++++ Project Web
-
-%SEARCH{ "%TOPIC%" web="Project" scope="text" nosearch="on" nosummary="on" noheader="on" nototal="on" order="modified" reverse="on" limit="20"}%
-
+%SEARCH{
+   "%TOPIC%"
+   web="Project"
+   scope="text"
+   nonoise="on"
+   order="modified"
+   reverse="on"
+   limit="20"
+}%
 </verbatim>
-*End Copy*
 
-The [[VarSEARCH][SEARCH macro]] has many more formatting options.
+Read the [[VarSEARCH][SEARCH documentation]] for more about [[VarSEARCH][SEARCH]].
 
 ---+++ Recently changed pages 
 Here are the last 15 changed pages, formatted into a neat table.
 
-<verbatim>
-<table>
-%SEARCH{ "'1'" scope="topic" type="query" nosearch="on" nototal="on" order="modified" reverse="on"  format="<tr><td>  [[$topic][$topic]] </td><td>  $wikiusername  </td><td> $date  </td></tr>" limit="15" }%
-</table>
+<verbatim class="tml">
+%SEARCH{
+   "1"
+   type="query"
+   nonoise="on"
+   order="modified"
+   reverse="on"
+   limit="15"
+   header="| *Topic* | *User* | *Date* |"
+   format="|  [[$web.$topic][$topic]] | $wikiusername | $date  |"
+}%
 </verbatim>
 
 ---++ Hidden Edit Lock for Individual Topics
 
 When you're creating main gateway pages, you may want to temporarily (or permanently) restrict editing to yourself or a limited group of people. You can do this with a Preference setting that includes one or more users and groups. Only auhorized users will be able to use ==Edit==.
-   * *Example:* ==Set ALLOWTOPICCHANGE = <nop>%USERSWEB%.UserName, <nop>%USERSWEB%.GroupName==
+   * *Example:* <verbatim class="tml">   * Set ALLOWTOPICCHANGE = %USERSWEB%.UserName, %USERSWEB%.GroupName</verbatim>
    * %T% *To hide the setting:* Use HTML comment tags - put ==&lt;!--== on the line _above the setting, and ==--&gt;== on the line below.
 
 ---++ Change the Default Logo
 
 If you want to change the logo per web, simply attach a new logo.gif to the web's <nop>WebPreferences, and change the logo's filename by overriding the name using WEBLOGONAME in <nop>WebPreferences:  
-   * =Set WEBLOGONAME = filename.gif=
+<verbatim class="tml">   * Set WEBLOGONAME = filename.gif</verbatim>
 
 Other cusomtisations are possible using =WEBLOGOIMG=, =WEBLOGOURL=, and =WEBLOGOALT= (they mirror the =WIKILOGO*= macros, but are applied to each web, rather than to the %<nop>WIKITOOLNAME%-based references)
 
 If you'd like to have the same customised logo for all the webs, make these changes in %LOCALSITEPREFS% instead of each web's <nop>WebPreferences, e.g.,
-   * =Set WEBLOGOIMG = %<nop>PUBURLPATH%/%USERSWEB%/WebPreferences/mylogo.gif=
+<verbatim class="tml">   * Set WEBLOGOIMG = %PUBURLPATH%/%USERSWEB%/WebPreferences/mylogo.gif</verbatim>
 
 ---++ Customize Topic Classification Forms
 
 With a simple one or two-line default topic form available for every topic  - in *Edit* mode, click the ==[Add]== button, and select the form if it isn't already enabled. Then, click the title to get to the actual form, ==[Edit]==, and carefully change values, probably basic page classifications. You'll get some increased value, and hands-on experience with DataForms, without having to read up about them first. %X% *(add the corresponding search per category - copy a default and change)*
 
+---++ Customize The Left Navigation Bar
+<blockquote>%ICON{"info"}% This advice applies to sites using the default PatternSkin</blockquote>
+
+Customize the contents of the WebLeftBar topic, which does not exist by default - read PatternSkinCustomization for details. Each web has its own WebLeftBar that may include important topics for that web, or link to an important topic for the overall site.
+
+<blockquote>%T% Also check PatternSkinCustomization to learn how to customise the WebTopBar</blockquote>
 
 ---++ Add Your Favorite <nop>JavaScript Features
 
-You're no doubt familiar or better with HTML, JS, and "webmastering". Without getting into the [[skin templates]] system yet, you can easily edit the ==view.pattern.tmpl== (if you are using default pattern skin) (in the =templates= directory) for some dramatic effects. The top of the template is mostly regular HTML with some macros. Open up some space in the ==&lt;head&gt;== area, and you can drop in reliable <nop>JavaScripts - a pop-up window script, for example - or tag it as an external script.
+You're no doubt familiar or better with HTML, JS, and "webmastering". To add custom javascript and/or css to the page, the [[VarADDTOZONE][ADDTOZONE]] macro is used. Without getting into the [[skin templates]] system just yet, the easiest place to put [[VarADDTOZONE][ADDTOZONE]] macros is in some topic that is used by your site skin for every page view, such as the WebLeftBar if using the default PatternSkin.
 
-   * %T% Obviously, you can do the same - place a link to an external stylesheet as well. If you set values for standard HTML tags, you can control a good deal of the type size, style and color with out adding CSS tags. *example*
+To add in-line javascript, read the [[VarADDTOZONE#ExampleAddingJS][javascript example]].
 
-%X% Depending on what you load up, you may change the overall cross-browser compatibility - however be careful that your site does not look beat up in various other browsers. The scripts you choose will determine compatibility.
+Alternatively, make use of the =LIBJS= template, which simplifies the process of adding .js files to the page:
+<verbatim class="tml">
+%TMPL:P{"LIBJS" id="MyJQueryPlugin/jquery.myplugin" requires="JQUERYPLUGIN"}%
+</verbatim>
 
----++ Customize The Left Navigation Bar
+This assumes that there is a file named [[%PUBURLPATH%/%SYSTEMWEB%/MyJQueryPlugin/jquery.myplugin%FWSRC%.js]]
 
-Customize the contents of the WebLeftBar for each web to include important topics for that web, or to link to an important topic for the overall site. Each web has its own WebLeftBar page. (This is specific to the PatternSkin.) 
+---+++ Adding CSS
+See [[VarADDTOZONE][ADDTOZONE]]'s [[VarADDTOZONE#ExampleAddingCSS][CSS example]]
+
+%X% Depending on what you load up, you may change the overall cross-browser compatibility - be careful that your site does not look beat up in various other browsers. The scripts and CSS features you choose will determine compatibility.
 
 ----
 *Related Topics:* AdminDocumentationCategory

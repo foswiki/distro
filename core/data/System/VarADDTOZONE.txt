@@ -73,20 +73,32 @@ For this reason, consideration needs to be given to the way =head= and =body= zo
 <!-- MY::TEST required id(s) that were missing from head zone: some-id-that-exists-in-body --></verbatim>
    By contrast, as explained earlier - when ={OptimizePageLayout}= is disabled (default) - Foswiki is able resolve such dependencies successfully.
 
+#ExampleAddingJS
 ---+++ Example: Adding Javascript to a page
    * Make sure that all inline Javascript code in the topic (if it is allowed)
      is added to the page using =%<nop>ADDTOZONE{"body"...requires="library-id"}%=
      with the appropriate library-id to guarantee a correct load order. For example, jQuery code should be added as follows:
      %JQREQUIRE{"chili"}%<verbatim class="js">
-     %JQREQUIRE{"shake"}%%ADDTOZONE{
-         "body"
-         id="MyApp::ShakePart"
-         text="
-         <script type='text/javascript'>
-            jQuery('#something').shake(3, 10, 180);
-         </script>"
-         requires="JQUERYPLUGIN::SHAKE"
-     }%</verbatim> where "MyApp::ShakePart" is a unique =id= to identify the text added to body; and =JQUERYPLUGIN::SHAKE= signifies that the content added with that identifier should appear beforehand.
+%JQREQUIRE{"shake"}%%ADDTOZONE{
+   "body"
+   id="MyApp::ShakePart"
+   text="
+   <script type='text/javascript'>
+      jQuery('#something').shake(3, 10, 180);
+   </script>"
+   requires="JQUERYPLUGIN::SHAKE"
+}%</verbatim> where "MyApp::ShakePart" is a unique =id= to identify the text added to body; and =JQUERYPLUGIN::SHAKE= signifies that the content added with that identifier should appear beforehand.
 
+#ExampleAddingCSS
+---+++ Example: Adding CSS to a page
+<verbatim class="tml">
+%ADDTOZONE{"head"
+   id="MyCSS"
+   text="
+      <style type='text/css' media='all'>
+         @import url('%PUBURLPATH%/%SYSTEMWEB%/MyCSS/foo.css');
+      </style>"
+}%
+</verbatim>
 See also [[VarRENDERZONE][RENDERZONE]],
 [[http://foswiki.org/Development/UsingADDTOZONE][Using ADDTOZONE]]

@@ -213,7 +213,7 @@ To get this (simulated):
 
 ---+++ Nested Search
 
-Search, as with almost any TML expression, may be nested. For example, search for some topics, then form a new search for each topic found in the first search. The idea is to build the nested search string using a formatted search in the first search.
+[[VarSEARCH][SEARCH]], as with many TML macros, may be nested. For example: search for some topics in an initial (outer) search, and for each of them apply a second (inner) search. The idea is to use the outer search to build a series of inner seraches.
 
 #InsideOutLeftToRight
 The key to understanding nested expressions in Foswiki is to understand that macros are expanded "inside-out, left-to-right". For example:
@@ -227,9 +227,9 @@ The key to understanding nested expressions in Foswiki is to understand that mac
 
 The macros are expanded in this order: MACRO3, MACRO4, MACRO2, MACRO1.
 
-Consider the following example. Let's search for all topics that contain the word "culture" (first search), and let's find out where each topic found is linked from (second search).
+Consider the following example. Let's search for all topics that contain the word "culture" (outer search), and find out where each topic found is linked from (inner search).
 
-*First search:*
+*Initial (outer) search:*
    <verbatim class="tml">
 %SEARCH{
    "culture"
@@ -238,12 +238,12 @@ Consider the following example. Let's search for all topics that contain the wor
    format="   * $topic is referenced by: (list all references)"
 }%</verbatim>
 
-*Second search:*
+*Second (inner) search:*
 
 For each hit, we want this search:
    <verbatim class="tml">
 %SEARCH{
-   "(topic found in first search)"
+   "(topic found in outer search)"
    nosearch="on"
    nototal="on"
    format="$topic"
@@ -252,8 +252,8 @@ For each hit, we want this search:
 
 Now let's nest the two.
 ---++++ Method 1 (traditional)
-The second search cannot be placed directly into the format string of the first, because of the "inside-out, left-to-right" macro expansion behaviour discussed earlier. It must be delayed so that the outer search is evaluated first. To do this, we need to escape the second search, i.e. let the first search build a series of searches using the second search.
-   * Use =$percent= to escape (delay) the second search's [[VarSEARCH][SEARCH]] macro
+The inner search cannot be placed directly into the format string of the outer, because of the "inside-out, left-to-right" macro expansion behaviour [[#InsideOutLeftToRight][discussed earlier]]. It must be delayed so that the outer search is evaluated first. To do this, we need to escape the inner search, i.e. let the outer search build a series of searches comprised of the inner search.
+   * Use =$percent= to escape (delay) the inner search's [[VarSEARCH][SEARCH]] macro
    * Use =\"= to escape the double quotes
    * Use =$dollar= to escape the =$= of =$topic=
 
@@ -294,7 +294,7 @@ The second search cannot be placed directly into the format string of the first,
 ---++++ Method 2 (recommended)
 Nested expressions can be difficult to write correctly, and are difficult to troubleshoot when they go wrong.
 
-The recommended approach is to make use of the [[VarSTARTSECTION][STARTSECTION]]/[[VarENDSECTION][ENDSECTION]] feature of the [[VarINCLUDE][INCLUDE]] macro. Instead of nesting the second search expression directly inside the format string of the first, the second search is written as a separate stand-alone section of a topic which is INCLUDEd into the format string of the first.
+The recommended approach is to make use of the [[VarSTARTSECTION][STARTSECTION]]/[[VarENDSECTION][ENDSECTION]] feature of the [[VarINCLUDE][INCLUDE]] macro. Instead of nesting the inner search expression directly inside the format string of the outer, the inner search is written as a separate stand-alone section of a topic which is INCLUDEd into the format string of the outer.
 
 *Write this:*
 <verbatim class="tml">
@@ -307,7 +307,8 @@ The recommended approach is to make use of the [[VarSTARTSECTION][STARTSECTION]]
       * $percentINCLUDE{\"%TOPIC%\" section=\"mysearch\" thetopic=\"$topic\"}$percent"
 }%
 
-<!-- HTML comment to hide this section from the user
+<!-- HTML comment to hide this section from the user. verbatim prevents the section being evaluated
+<verbatim>
 %STARTSECTION{"mysearch"}%%SEARCH{
    "%thetopic%"
    nosearch="on"
@@ -315,12 +316,13 @@ The recommended approach is to make use of the [[VarSTARTSECTION][STARTSECTION]]
    format="$topic"
    separator=", "
 }%%ENDSECTION{"mysearch"}%
+</verbatim>
 -->
 </verbatim>
 
 %ICON{"info"}% Output will be the same as for the first method
 
-<blockquote>%ICON{"warning"}% Nested search can be slow, especially if you nest more then 3 times. Nesting is limited to 16 levels.
+<blockquote>%ICON{"warning"}% Nested search can be slow, especially if you nest more then 3 deep. Nesting is limited to 16 levels.
 
 When using the traditional method for nesting macros, each new nesting level must "escape the escapes", e.g. write =$dollarpercentSEARCH{= for level three, =$dollardollarpercentSEARCH{= for level four, etc. Therefore it is strongly advised to use the sectional include method instead, which avoids this kind of difficult and error-prone syntax.</blockquote>
 
