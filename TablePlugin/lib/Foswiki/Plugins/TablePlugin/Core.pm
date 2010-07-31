@@ -131,11 +131,12 @@ BEGIN {
 
 sub _initDefaults {
     _debug('_initDefaults');
-    $defaultAttrs                  = {};
-    $defaultAttrs->{headerrows}    = 1;
-    $defaultAttrs->{footerrows}    = 0;
-    $defaultAttrs->{class}         = 'foswikiTable';
-    $defaultAttrs->{sortAllTables} = $sortTablesInText;
+    $defaultAttrs = {
+        headerrows    => 1,
+        footerrows    => 0,
+        class         => 'foswikiTable',
+        sortAllTables => $sortTablesInText,
+    };
 
     _parseDefaultAttributes(
         %{Foswiki::Plugins::TablePlugin::pluginAttributes} );
@@ -291,6 +292,11 @@ sub _parseAttributes {
     }
 
     if ($modeSpecific) {
+
+        _storeAttribute( 'generateInlineMarkup',
+            Foswiki::Func::isTrue( $inParams->{inlinemarkup} ),
+            $inCollection );
+
         _storeAttribute( 'summary', $inParams->{summary}, $inCollection );
         my $id = $inParams->{id}
           || 'table'
@@ -447,8 +453,7 @@ sub _convertStringToDate {
 
     my $date = undef;
 
-    if ( $text =~ /^\s*-?[0-9]+(\.[0-9])*\s*$/ )
-    {
+    if ( $text =~ /^\s*-?[0-9]+(\.[0-9])*\s*$/ ) {
         _debug("\t this is a number");
     }
     else {
@@ -595,6 +600,21 @@ sub _processTableRow {
               _appendColNumberCssClass( $attr->{class}, $colCount );
         }
 
+        # html attribute: (column) width
+        if ( $combinedTableAttrs->{generateInlineMarkup}
+            && defined $combinedTableAttrs->{columnWidthsListRef} )
+        {
+            my @columnWidths = @{ $combinedTableAttrs->{columnWidthsListRef} };
+            if (   defined $columnWidths[$colCount]
+                && $columnWidths[$colCount]
+                && $span <= 2 )
+            {
+                $attr->{width} = $columnWidths[$colCount];
+            }
+        }
+
+        # END html attribute
+
         if (/^(\s|<[^>]*>)*\^(\s|<[^>]*>)*$/) {    # row span above
             $rowspan[$colCount]++;
             push @row, { text => $value, type => 'Y' };
@@ -642,6 +662,33 @@ sub _processTableRow {
             if (/^\s*\*(.*)\*\s*$/) {
                 $value = $1;
                 $type  = 'th';
+
+                # html attribute: align
+                if ( $combinedTableAttrs->{generateInlineMarkup}
+                    && defined $combinedTableAttrs->{headerAlignListRef} )
+                {
+                    my @headerAlign =
+                      @{ $combinedTableAttrs->{headerAlignListRef} };
+                    if (@headerAlign) {
+                        my $align =
+                          @headerAlign[ $colCount % ( $#headerAlign + 1 ) ];
+                        $attr->{align} = $align;
+                    }
+                }
+
+                # END html attribute
+
+                # html attribute: valign
+                if ( $combinedTableAttrs->{generateInlineMarkup} ) {
+                    if ( defined $combinedTableAttrs->{headerVAlign} ) {
+                        $attr->{valign} = $combinedTableAttrs->{headerVAlign};
+                    }
+                    elsif ( defined $combinedTableAttrs->{vAlign} ) {
+                        $attr->{valign} = $combinedTableAttrs->{vAlign};
+                    }
+                }
+
+                # END html attribute
             }
             else {
                 if (/^\s*(.*?)\s*$/) {    # strip white spaces
@@ -649,6 +696,33 @@ sub _processTableRow {
                 }
                 $value = $_;
                 $type  = 'td';
+
+                # html attribute: align
+                if ( $combinedTableAttrs->{generateInlineMarkup}
+                    && defined $combinedTableAttrs->{dataAlignListRef} )
+                {
+                    my @dataAlign =
+                      @{ $combinedTableAttrs->{dataAlignListRef} };
+                    if (@dataAlign) {
+                        my $align =
+                          @dataAlign[ $colCount % ( $#dataAlign + 1 ) ];
+                        $attr->{align} = $align;
+                    }
+                }
+
+                # END html attribute
+
+                # html attribute: valign
+                if ( $combinedTableAttrs->{generateInlineMarkup} ) {
+                    if ( defined $combinedTableAttrs->{dataVAlign} ) {
+                        $attr->{valign} = $combinedTableAttrs->{dataVAlign};
+                    }
+                    elsif ( defined $combinedTableAttrs->{vAlign} ) {
+                        $attr->{valign} = $combinedTableAttrs->{vAlign};
+                    }
+                }
+
+                # END html attribute
             }
 
             push @row, { text => $value, attrs => $attr, type => $type };
@@ -1185,6 +1259,19 @@ sub _addHeadStyles {
     }
 }
 
+=pod
+
+_getInlineMarkupStyle( $id, @styles ) -> $text
+
+Creates an inline HTML markup
+
+=cut
+
+sub _getInlineMarkupStyle {
+    my ( $inId, @inStyles ) = @_;
+
+}
+
 sub _writeStyleToHead {
     my ( $inId, $inStyles ) = @_;
 
@@ -1264,7 +1351,7 @@ sub emitTable {
     # count the number of cols to prevent looping over non-existing columns
     my $maxCols = 0;
 
-    #Flush out any remaining rowspans
+    # Flush out any remaining rowspans
     for ( my $i = 0 ; $i < @rowspan ; $i++ ) {
         if ( defined( $rowspan[$i] ) && $rowspan[$i] ) {
             my $nRows = scalar(@curTable);
@@ -1412,6 +1499,15 @@ sub emitTable {
             if ( $type eq 'th' ) {
                 $headerCellCount++;
 
+                # html attribute: bgcolor
+                if ( $combinedTableAttrs->{generateInlineMarkup}
+                    && defined $combinedTableAttrs->{headerBg} )
+                {
+                    $attr->{bgcolor} = $combinedTableAttrs->{headerBg};
+                }
+
+                # END html attribute
+
                 if ($isSorted) {
                     if ( $currentSortDirection ==
                         $SORT_DIRECTION->{'ASCENDING'} )
@@ -1423,6 +1519,17 @@ sub emitTable {
                     {
                         $tableAnchor = $CHAR_SORT_DESCENDING;
                     }
+
+                    # html attribute: (sorted header cell) bgcolor
+                    # overrides earlier set bgcolor
+                    if ( $combinedTableAttrs->{generateInlineMarkup}
+                        && defined $combinedTableAttrs->{headerBgSorted} )
+                    {
+                        $attr->{bgcolor} =
+                          $combinedTableAttrs->{headerBgSorted};
+                    }
+
+                    # END html attribute
                 }
 
                 if (   defined $sortCol
@@ -1436,12 +1543,22 @@ sub emitTable {
                       . $tableAnchor;
                 }
 
+                # html attribute: headercolor (font style)
+                if ( $combinedTableAttrs->{generateInlineMarkup}
+                    && defined $combinedTableAttrs->{headerColor} )
+                {
+                    my $fontStyle =
+                      { color => $combinedTableAttrs->{headerColor} };
+                    $cell = CGI::font( $fontStyle, $cell );
+                }
+
+                # END html attribute
+
     # just allow this table to be sorted.
     #                if (   $sortThisTable
     #                    && $rowCount == $combinedTableAttrs->{headerrows} - 1 )
                 if ( $sortThisTable && !$sortLinksWritten ) {
                     $writingSortLinks = 1;
-                    my $debugText      = '';
                     my $linkAttributes = {
                         href => $url
                           . 'sortcol='
@@ -1453,17 +1570,13 @@ sub emitTable {
                         rel   => 'nofollow',
                         title => 'Sort by this column'
                     };
+
                     if ( $cell =~ /\[\[|href/o ) {
-                        $cell .=
-                            $debugText . ' '
-                          . CGI::a( $linkAttributes, $CHAR_SORT_BOTH )
+                        $cell .= CGI::a( $linkAttributes, $CHAR_SORT_BOTH )
                           . $tableAnchor;
                     }
                     else {
-                        $cell =
-                            $debugText
-                          . CGI::a( $linkAttributes, $cell )
-                          . $tableAnchor;
+                        $cell = CGI::a( $linkAttributes, $cell ) . $tableAnchor;
                     }
                 }
 
@@ -1471,6 +1584,46 @@ sub emitTable {
             else {
 
                 $type = 'td' unless $type eq 'Y';
+
+                # html attribute: bgcolor
+                if ( $combinedTableAttrs->{generateInlineMarkup} ) {
+                    if ( $isSorted
+                        && defined $combinedTableAttrs->{dataBgSortedListRef} )
+                    {
+                        my @dataBg =
+                          @{ $combinedTableAttrs->{dataBgSortedListRef} };
+                        unless ( $dataBg[0] =~ /none/i ) {
+                            $attr->{bgcolor} =
+                              $dataBg[ $dataColorCount % ( $#dataBg + 1 ) ];
+                        }
+                    }
+                    elsif ( defined $combinedTableAttrs->{dataBgListRef} ) {
+                        my @dataBg = @{ $combinedTableAttrs->{dataBgListRef} };
+                        unless ( $dataBg[0] =~ /none/i ) {
+                            $attr->{bgcolor} =
+                              $dataBg[ $dataColorCount % ( $#dataBg + 1 ) ];
+                        }
+                    }
+                }
+
+                # END html attribute
+
+                # html attribute: datacolor (font style)
+                if ( $combinedTableAttrs->{generateInlineMarkup}
+                    && defined $combinedTableAttrs->{dataColorListRef} )
+                {
+                    my @dataColor =
+                      @{ $combinedTableAttrs->{dataColorListRef} };
+                    my $color =
+                      $dataColor[ $dataColorCount % ( $#dataColor + 1 ) ];
+                    unless ( $color =~ /^(none)$/i ) {
+                        my $cellAttrs = { color => $color };
+                        $cell = CGI::font( $cellAttrs, ' ' . $cell . ' ' );
+                    }
+                }
+
+                # END html attribute
+
             }    ###if( $type eq 'th' )
 
             if ($isSorted) {

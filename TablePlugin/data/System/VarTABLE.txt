@@ -18,6 +18,7 @@
      | =id=               | Unique table identifier string, used for targeting a table with CSS. | =tableN= (where N is the table order number on the page)  | =id="userTable"= |
      | =summary=          | Table summary used by screen readers: A summary of what the table presents. It should provide an orientation for someone who listens to the table. | <span class="foswikiGrayText">unspecified</span> | =summary="List of subscribed users"= |
      | =caption=          | Table caption: A title that will be displayed just above the table.| <span class="foswikiGrayText">unspecified</span> | =caption="Users"= |
+     | =inlinemarkup=     | Set to "on" to generate inline markup HTML (in addition to the CSS markup); useful if you need to copy the table, for instance to paste the table into an email). | <span class="foswikiGrayText">unspecified</span> | =inlinemarkup="on"= |
 
 ---++++ Attributes for table sorting
 %TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
