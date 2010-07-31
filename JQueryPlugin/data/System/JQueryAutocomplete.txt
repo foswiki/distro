@@ -11,7 +11,7 @@
 
 %STARTSECTION{"summary"}%
 Autocomplete an input field to enable users quickly finding and selecting some
-value, leveraging searching and filtering.
+value from a set provided by the server.
 By giving an autocompleted field focus or entering something into it, the
 plugin starts searching for matching entries and displays a list of values to
 choose from. By entering more characters, the user can filter down the list to
@@ -27,16 +27,42 @@ into Foswiki.
 ---++ Usage
 
 Autocompletion is activated for HTML input elements whose ==autocomplete== attribute value does not equal =off=.
-It can either be list of candidate values, or an url in which case candidate values are queried from an ajax backend.
-The current input prefix is provided via the =q= urlparameter. The backend must return a list of matching values
+It can either be list of candidate values, or an URL, in which case candidate values are queried from an AJAX backend.
+The current input prefix is provided via the =q= URL parameter. The backend must return a list of matching values
 separated by newlines.
 
----++ Examples
+---++ Example
 %JQREQUIRE{"autocomplete"}%
 
-This example queries candidate values from a simple ajax backend using the wiki application in the =data= section of this topic. Note, that you will need Foswiki:Extensions.FilterPlugin to run the example successfully.
+This example queries candidate values from a simple AJAX backend using the
+wiki application in the =data= section of this topic.
 
 See also JQueryTextboxList
+
+First, here's the set of values we want to pick from:
+   * backup
+   * bash
+   * emulation
+   * games
+   * irc
+   * linux
+   * mercurial
+   * patches
+   * perl
+   * php
+   * python
+   * site
+   * surfing
+   * tag
+   * test
+   * foswiki
+   * web
+   * wiki
+   * windows
+   * windsurfing
+   * wine
+
+Here's the code that the client browser runs:
 
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep">
@@ -48,36 +74,62 @@ See also JQueryTextboxList
   </div>
 </div>
 
----++ Backend Implementation
+And here's the section of this topic that provides the data:
+'%SEARCH{
+ "^   \* (%ENCODE{"%URLPARAM{"q"}%" old="$comma, " new="|,"}%).*$"
+ web="%WEB%"
+ topic="%TOPIC%"
+ type="regex"
+ multiple="on"
+ nonoise="on"
+ format=" $pattern(.*?\* ([^ \n]*).*) "
+ separator="$n"
+}%'
 <verbatim class="tml">
-%STARTSECTION{"data"}%%FORMATLIST{
-  "
-    admin
-    backup
-    bash
-    emulation
-    games
-    irc
-    linux
-    mercurial
-    patches
-    perl
-    php
-    python
-    site
-    surfing
-    tag
-    test
-    foswiki
-    web
-    wiki
-    windows
-    windsurfing
-    wine
-  "
-  split="\n"
-  format=" $1 "
-  separator="$n"
-  include=".*%URLPARAM{"q"}%.*"
-}%%ENDSECTION{"data"}%
+%STARTSECTION{"data"}%%SEARCH{
+ "^   \* (%ENCODE{"%URLPARAM{"q"}%" old="$comma, " new="|,"}%).*$"
+ web="%WEB%"
+ topic="%TOPIC%"
+ type="regex"
+ multiple="on"
+ nonoise="on"
+ format=" $pattern(.*?\* ([^ ]*).*) "
+ separator="$n"
+}%
+%ENDSECTION{"data"}%
+</verbatim>
+
+---++ Alternative implementation using !FilterPlugin
+
+If you don't have Foswiki 1.1, you can use the
+Foswiki:Extensions.FilterPluginwhich has the capability to filter a list
+based on a regular expression passed from Javascript.
+
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+    <h3>Enter tags:</h3>
+    <input class="foswikiInputField {multiple:true, matchCase:false, matchSubset:true, minChars:1}" id="example" size='42' autocomplete="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=data_fp;skin=text" />
+    <div class="foswikiFormDescription">
+      Tags are suggested as you type. Separate multiple tags using a comma (,).
+    </div>
+  </div>
+</div>
+
+<verbatim class="tml">
+%STARTSECTION{"data_fp"}%%FORMATLIST{
+ "%SEARCH{
+  "^   \* %URLPARAM{"q"}%.*$"
+  web="%WEB%"
+  topic="%TOPIC%"
+  type="regex"
+  multiple="on"
+  nonoise="on"
+  format=" $pattern(.*?\* ([^ ]*).*) "
+  separator=","
+ }%"
+ split=","
+ format=" $1 "
+ separator="$n"
+ include=".*%URLPARAM{"q"}%.*"
+}%%ENDSECTION{"data_fp"}%
 </verbatim>

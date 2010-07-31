@@ -254,7 +254,7 @@ jQuery(function($){
 </form>
 
 ---++ Query fetcher
-Perform a =[[VarQUERY][%<nop>QUERY]] asynchronously (requires Foswiki 1.1
+Perform a =[[VarQUERY][%<nop>QUERY]]= asynchronously (requires Foswiki 1.1
 or later).
 
 ---+++ Client section
