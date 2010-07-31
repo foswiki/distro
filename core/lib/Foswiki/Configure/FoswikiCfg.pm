@@ -320,18 +320,19 @@ sub _pusht {
 
 =begin TML
 
----++ StaticMethod save($root, $valuer, $logger)
+---++ StaticMethod save($root, $valuer, $logger, $insane)
    * $root is a Foswiki::Configure::Root
    * $valuer is a Foswiki::Configure::Valuer
    * $logger an object that implements a logChange($keys,$value) method,
      called to record the changes.
+   * $insane set to true if existing LocalSite.cfg should be overwritten
 
 Generate .cfg file format output
 
 =cut
 
 sub save {
-    my ( $root, $valuer, $logger ) = @_;
+    my ( $root, $valuer, $logger, $insane ) = @_;
 
     # Object used to act as a visitor to hold the output
     my $this = new Foswiki::Configure::FoswikiCfg();
@@ -348,7 +349,8 @@ sub save {
         $lsc =~ s/Foswiki\.spec/LocalSite.cfg/;
     }
 
-    if ( open( F, '<', $lsc ) ) {
+    if ( !$insane && -f $lsc ) {
+        open( F, '<', $lsc ); 
         local $/ = undef;
         $this->{content} = <F>;
         close(F);

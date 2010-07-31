@@ -575,6 +575,7 @@ sub _screenFeedback {
     my $ui = _checkLoadUI( 'UPDATE', $root );
     return '' unless $ui;
 
+    $ui->setInsane() if $insane;
     $ui->commitChanges( $root, $valuer, \%updated );
 
     undef $ui;
@@ -604,6 +605,7 @@ sub _screenFeedback {
 
     # If this pass created the LocalSite.cfg, need to rerun the sanity check
     # to re-establish that the configuration is valid
+    my $sanityStatement = '';
     if ($badLSC) {
         my $stub = new Foswiki::Configure::Item();
 
@@ -611,13 +613,14 @@ sub _screenFeedback {
         my $sanityUI =
           Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
 
-        my $sanityStatement = $sanityUI->check();
+        $sanityStatement = $sanityUI->check();
         $badLSC = $sanityUI->lscIsBad();
+        $insane = $sanityUI->insane();
     }
 
     # Pass control to the mainline configure screen, passing along the
     # results of the save
-    _actionConfigure($contentTemplate);
+    _actionConfigure($sanityStatement . $contentTemplate);
 }
 
 # Invoked by "find more extensions" button in the Extensions section
@@ -713,15 +716,15 @@ sub _actionManageExtensions {
 # This is the default screen
 sub _actionConfigure {
 
-    my $saveMsgs;
+    my $messages;
     # If coming from the save action, or insane, pick up the messages
     if ($insane) {
-       $saveMsgs = "<h1>INTERNAL ERROR - PROCEED WITH CAUTION</h1>";
+       $messages = "<h1>INTERNAL ERROR - PROCEED WITH CAUTION</h1>";
        }
-    $saveMsgs .= shift;
+    $messages .= shift;
 
     my $contents    = '';
-    my $isFirstTime = $badLSC && !$insane;
+    my $isFirstTime = $badLSC;
 
     #allow debugging of checker's guesses by showing the entire UI
     $isFirstTime = 0 if ( $query->param('DEBUG') );
@@ -777,7 +780,7 @@ sub _actionConfigure {
     return '' unless $ui;
 
     # Set the save messages into the introduction panel if any.
-    $ui->lastSave($saveMsgs) if ($saveMsgs);
+    $ui->messages($messages) if ($messages);
 
     # Visit the model and generate
     $ui->{controls} = new Foswiki::Configure::GlobalControls();

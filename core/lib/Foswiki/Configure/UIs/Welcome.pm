@@ -21,6 +21,7 @@ our @ISA = ('Foswiki::Configure::UIs::Section');
 sub renderHtml {
     my ( $this, $section, $root ) = @_;
 
+    my $messages = $root->messages();
     my $parser   = Foswiki::Configure::TemplateParser->new;
     my $contents = $parser->getResource(
         'welcome.html',
@@ -28,7 +29,8 @@ sub renderHtml {
         USERSWEB      => $Foswiki::cfg{UsersWebName},
         SCRIPTURLPATH => $Foswiki::cfg{ScriptUrlPath},
         SCRIPTSUFFIX  => $Foswiki::cfg{ScriptSuffix},
-        ADMINGROUP    => $Foswiki::cfg{SuperAdminGroup}
+        ADMINGROUP    => $Foswiki::cfg{SuperAdminGroup},
+        MESSAGES      => $messages
     );
 
     # do not simply return the contents as we want to have

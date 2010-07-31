@@ -32,28 +32,28 @@ sub new {
 
     my $this = $class->SUPER::new(@_);
     $this->{tabs} = [];
-    $this->{lastsave} = 
-     '';    # Set to contain the results of the prior save, for display on next iteration
+    $this->{message} = 
+     '';    # Set to contain the results of the prior save, or other messages to display on next iteration
 
     return $this;
 }
 
 =begin TML
 
----++ ObjectMethod lastSave($msg)
+---++ ObjectMethod messages($message)
 
-Set and retrieve the save results from the previous save operation.
+Set and retrieve the messages from the previous operation. Also passes through sanity errors.
 
 If called with a message, sets and returns the message, otherwise just returns the message
 
 =cut
 
-sub lastSave {
-    my ( $this, $savemsg ) = @_;
-    if (defined $savemsg && $savemsg ) {
-       $this->{lastsave} = $savemsg;
+sub messages {
+    my ( $this, $message ) = @_;
+    if (defined $message && $message ) {
+       $this->{message} = $message;
        }
-    return $this->{lastsave};
+    return $this->{message};
 }
 
 =begin TML

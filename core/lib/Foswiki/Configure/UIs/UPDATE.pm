@@ -19,6 +19,20 @@ our @ISA = ('Foswiki::Configure::UI');
 
 use Foswiki::Configure::FoswikiCfg ();
 
+my $insane;   # Set if existing config is not usable.
+
+=begin TML
+
+---++ ObjectMethod setInsane()
+
+Set status to insane if existing configuration is not usable
+
+=cut
+
+sub setInsane {
+   $insane = 1;
+   }
+
 =begin TML
 
 ---++ ObjectMethod commitChanges()
@@ -42,7 +56,7 @@ sub commitChanges {
     $this->{addr} = $Foswiki::query->remote_addr() || $ENV{REMOTE_ADDR} || '';
 
     # Pass ourselves as log listener
-    Foswiki::Configure::FoswikiCfg::save( $root, $valuer, $this );
+    Foswiki::Configure::FoswikiCfg::save( $root, $valuer, $this, $insane );
 
     if ( $this->{log} && defined( $Foswiki::cfg{Log}{Dir} ) ) {
 

@@ -94,7 +94,9 @@ Existing configuration file has a problem
 that is causing a Perl error - the following message(s) was generated:
 <pre>$@</pre>
 You can continue, but configure will not pick up any of the existing
-settings from this file unless you correct the perl error.
+settings from this file and your previous configuration will be lost.
+Manually edit and correct your <tt>$this->{LocalSiteDotCfg}</tt> file if you
+wish to preserve your prior configuration.
 HERE
             $this->{badLSC} = 1;
         }
@@ -114,8 +116,10 @@ The existing configuration file
 $this->{LocalSiteDotCfg} doesn't seem to contain a good configuration
 for Foswiki. The following problems were found:<br>
 $mess
-You are recommended to repair these problems manually, or delete
-$this->{LocalSiteDotCfg} and start the configuration process again.
+You can continue, but configure will not pick up any of the existing
+settings from this file and your previous configuration will be lost.
+Manually edit and correct your <tt>$this->{LocalSiteDotCfg}</tt> file if you
+wish to preserve your prior configuration.
 HERE
         }
 
@@ -138,11 +142,6 @@ HERE
         else {
             $result .= <<HERE;
 Could not find existing configuration file <code>$this->{LocalSiteDotCfg}</code>.
-<h3>Are you running configure for the first time?</h3>
-Please fill in the required paths in the
-'General path settings' section and click 'Save changes' to save before returning to configure to complete configuration.
-<h3>Did you save the configuration before?</h3>
-Please check for the existence of <code>lib/LocalSite.cfg</code>, and make sure the webserver user can read it.
 HERE
             $this->{badLSC} = 1;
         }
