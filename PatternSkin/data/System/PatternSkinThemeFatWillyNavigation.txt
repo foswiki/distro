@@ -3,32 +3,79 @@
 ---+!! <nop>PatternSkin theme: Foswiki "Fat Willy" Site Skin - Navigation
 
 Include main navigation with:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 %INCLUDE{"PatternSkinThemeFatWillyNavigation" section="main"}%
 </verbatim>
 
 Include meta navigation with:
-<verbatim>
+<verbatim class="tml">
 %INCLUDE{"PatternSkinThemeFatWillyNavigation" section="meta"}%
 </verbatim>
 
 
 ---++ Include sections
-<verbatim>
+<verbatim class="tml">
 %STARTSECTION{"main"}%<div id="patternTopBarButtons"><ul>
-%INCLUDE{"%TOPIC%" section="topbarbutton" ID="" DESTWEB="Home" DESTTOPIC="WebHome" LABEL="Home"}%
-%INCLUDE{"%TOPIC%" section="topbarbutton" ID="" DESTWEB="About" DESTTOPIC="WebHome" LABEL="About"}%
-%INCLUDE{"%TOPIC%" section="topbarbutton" ID="" DESTWEB="System" DESTTOPIC="WebHome" LABEL="Documentation"}%
-%INCLUDE{"%TOPIC%" section="topbarbutton" ID="" DESTWEB="Extensions" DESTTOPIC="WebHome" LABEL="Extensions"}%
-%INCLUDE{"%TOPIC%" section="topbarbutton" ID="" DESTWEB="Support" DESTTOPIC="WebHome" LABEL="Support"}%
-%INCLUDE{"%TOPIC%" section="topbarbutton" ID="" DESTWEB="Community" DESTTOPIC="WebHome" LABEL="Community"}%
-%INCLUDE{"%TOPIC%" section="topbarbutton" ID="" DESTWEB="Development" DESTTOPIC="WebHome" LABEL="Development"}%
-%INCLUDE{"%TOPIC%" section="topbarbutton" ID="" DESTWEB="Download" DESTTOPIC="WebHome" LABEL="Download"}%
+%INCLUDE{
+    "%TOPIC%" section="topbarbutton"
+    ID="" DESTWEB="Home" DESTTOPIC="WebHome" LABEL="Home"
+}%
+%INCLUDE{
+    "%TOPIC%" section="topbarbutton"
+    ID="" DESTWEB="About" DESTTOPIC="WebHome" LABEL="About"
+}%
+%INCLUDE{
+    "%TOPIC%" section="topbarbutton"
+    ID="" DESTWEB="System" DESTTOPIC="WebHome" LABEL="Documentation"
+}%
+%INCLUDE{
+    "%TOPIC%" section="topbarbutton"
+    ID="" DESTWEB="Extensions" DESTTOPIC="WebHome" LABEL="Extensions"
+}%
+%INCLUDE{
+    "%TOPIC%" section="topbarbutton"
+    ID="" DESTWEB="Support" DESTTOPIC="WebHome" LABEL="Support"
+}%
+%INCLUDE{
+    "%TOPIC%" section="topbarbutton"
+    ID="" DESTWEB="Community" DESTTOPIC="WebHome" LABEL="Community"
+}%
+%INCLUDE{
+    "%TOPIC%" section="topbarbutton"
+    ID="" DESTWEB="Development" DESTTOPIC="WebHome" LABEL="Development"
+}%
+%INCLUDE{
+    "%TOPIC%" section="topbarbutton"
+    ID="" DESTWEB="Download" DESTTOPIC="WebHome" LABEL="Download"
+}%
 </ul><br class="foswikiClear" /></div>%ENDSECTION{"main"}%
 
 
-%STARTSECTION{"topbarbutton"}%<li%IF{"'$ID' and '%ID%'!=''" then=" id=\"%ID%\""}%><a href="%SCRIPTURL{"view"}%/%DESTWEB%/%DESTTOPIC%" class="%IF{"'%DESTWEB%'='%WEB%'" then="active" else="inactive"}%">%LABEL%</a></li>%ENDSECTION{"topbarbutton"}%
+%STARTSECTION{"topbarbutton"}%<li%IF{
+    "'$ID' and '%ID%'!=''"
+    then=" id=\"%ID%\""
+}%><a href="%SCRIPTURL{"view"}%/%DESTWEB%/%DESTTOPIC%" class="%IF{
+    "'%DESTWEB%'='%WEB%'"
+    then="active"
+    else="inactive"
+}%">%LABEL%</a></li>%ENDSECTION{"topbarbutton"}%
 
 
-%STARTSECTION{"meta"}%<div id="foswikisiteUserBar"><ul>%IF{"context authenticated" then='<li>%MAKETEXT{"Hello [_1]" args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]"}%</li>'}%%IF{"$ LOGOUT != ''" then='<li>%LOGOUT%</li>'}%%IF{"$ LOGIN != '' and not context authenticated" then='<li>You are visiting this site as: [[%WIKIUSERNAME%][%WIKINAME%]]</li><li>%LOGIN% %IF{"context registration_supported AND context registration_enabled" then="%MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]"}%</li>'}%<li>[[%USERSWEB%.WikiUsers][Users]]</li></ul></div>%ENDSECTION{"meta"}%
+%STARTSECTION{"meta"}%<div id="foswikisiteUserBar"><ul>%IF{
+    "context authenticated"
+    then='<li>%MAKETEXT{
+        "Hello [_1]"
+        args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]"
+    }%</li>'
+}%%IF{
+    "$ LOGOUT != ''"
+    then='<li>%LOGOUT%</li>'
+}%%IF{
+    "$ LOGIN != '' and not context authenticated"
+    then='<li>You are visiting this site as: [[%WIKIUSERNAME%][%WIKINAME%]]</li>
+        <li>%LOGIN% %IF{
+            "context registration_supported AND context registration_enabled"
+            then="%MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]"
+        }%</li>'
+}%<li>[[%USERSWEB%.WikiUsers][Users]]</li></ul></div>%ENDSECTION{"meta"}%
 </verbatim>

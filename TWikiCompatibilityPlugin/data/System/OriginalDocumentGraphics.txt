@@ -9,11 +9,9 @@ This is the Foswiki icon library. The graphics can be used in topics and by web 
 ---++ Usage
 
 Default notation:
-<blockquote>
-<code>%<nop>ICON{help}%</code> results in: %ICON{help}%
+%JQREQUIRE{"chili"}%<code class="tml">%<nop>ICON{"help"}%</code> results in: %ICON{"help"}%
 
 Note that =ICON{}= assumes a GIF image of 16 x 16 pixels. Use a HTML =img= tag with  =%<nop>ICONURL{}%= for image with other sizes. See the tables below for copy-paste examples.
-</blockquote>
 
 Other usage: [[%TOPIC%#Usage_extended][see below]].
 
@@ -391,7 +389,7 @@ Shorthand notation:
 <blockquote>
 In [[%USERSWEB%.SitePreferences!]] set a macro for an ICON, for example:
 
-=<nop>   * Set H = %<nop>ICON{help}%=
+<verbatim class="tml">   * Set H = %ICON{help}%</verbatim>
 
 Now you can use the icon by writing =%<nop>H%=
 

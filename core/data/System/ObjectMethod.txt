@@ -8,12 +8,12 @@ An ObjectMethod is a method that must be called relative to a previous construct
 
 must be called something like this
 
-<verbatim>
+<verbatim class="tml">
 my $mobile = new Telecoms();
 $mobile->phone( "home" );
 </verbatim>
 or you can pass the object in as a parameter if you need to:
-<verbatim>
+<verbatim class="tml">
 Telecoms::phone( $mobile, "home" );
 </verbatim>
 

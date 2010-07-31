@@ -17,7 +17,7 @@ Test table:
 
 <div class="foswikiHelp">
 This line loads the extra style definition:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
    * Set USERSTYLEURL = %ATTACHURLPATH%/edittable.css
 </verbatim>
 You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePreferences, in WebPreferences, in your user topic or on a single page.

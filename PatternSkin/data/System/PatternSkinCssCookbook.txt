@@ -23,7 +23,7 @@ Have a look at PatternSkinColorSettings.
    * Create a new topic that will contain your new CSS files
    * Attach 3 new style sheets to the topic
    * Point the CSS [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files:
-<pre>
+<pre class="tml">
       * <nop>Set FOSWIKI_LAYOUT_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
       * <nop>Set FOSWIKI_STYLE_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
       * <nop>Set FOSWIKI_COLORS_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/colors.css
@@ -35,13 +35,13 @@ Overriding default CSS is done with 3 [[%SYSTEMWEB%.PreferenceSettings][preferen
    * Create a new topic that will contain your new CSS files
    * Attach 1, 2 or 3 new style sheets to the topic, dependent on your CSS setup (if you don't change much, you might as well put everything in one CSS file, layout, margins and colors)
    * Point the CSS [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files (below the =USERXXXURL= preferences):
-<pre>
+<pre class="tml">
       * <nop>Set USERLAYOUTURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
       * <nop>Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
       * <nop>Set USERCOLORSURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/colors.css
  </pre>
    * If you use only little CSS and you've only attached one file, write:
-<pre>
+<pre class="tml">
       * Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
  </pre>
 
@@ -72,7 +72,7 @@ The height of the top bar is defined in =theme= CSS files. The default height in
 
 <blockquote>
 This is the complete style definition to set the height of the top bar:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="html">
 #patternTopBar,
 #patternClearHeaderCenter,
 #patternClearHeaderLeft,

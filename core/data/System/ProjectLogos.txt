@@ -19,7 +19,13 @@ The logo can be changed by redefining the =WIKILOGOIMG= [[%SYSTEMWEB%.Preference
 
 If you use the official artwork on your own site you must link back to Foswiki.org. Use this HTML (with any logo file on this page):
 
-=&lt;a href="http://foswiki.org/"&gt;&lt;img src="%<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" border="0" /&gt;&lt;/a&gt;=
+%JQREQUIRE{"chili"}%<verbatim class="tml">
+<a href="http://foswiki.org/">
+<img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif"\
+    alt="This site is powered by Foswiki"\
+    title="This site is powered by Foswiki"\
+    border="0" />
+</a></verbatim>
 
 If you create your own skin you are encouraged to add this small logo at the bottom of your skin.
 

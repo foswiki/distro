@@ -7,7 +7,7 @@ Try and make sure robots don't spam contributor names
 
 ---+ Project Contributor
 
-%INCLUDE{"%ATTACHURL%/AUTHORS"}%
+%$FOSWIKIAUTHORS%
 
 *Note:* Please contact us at http://foswiki.org if you contributed to Foswiki and your name is not on this list!
 

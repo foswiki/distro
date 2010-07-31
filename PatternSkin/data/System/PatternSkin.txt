@@ -104,12 +104,12 @@ Check these [[%SYSTEMWEB%.PreferenceSettings][preference settings]] here:
    * SKIN = %SKIN%
 
 If =FOSWIKI_LAYOUT_URL= or =FOSWIKI_STYLE_URL= don't give a value or point to non-existing files, check in %SYSTEMWEB%.DefaultPreferences and in %USERSWEB%.SitePreferences that the following preferences do exist and that they are set to on:
-<pre>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
    * %SYSTEMWEB%.PatternSkin settings:
-      * <nop>Set FOSWIKI_LAYOUT_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkinTheme/layout.css
-      * <nop>Set FOSWIKI_STYLE_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkinTheme/style.css
-      * <nop>Set FOSWIKI_COLORS_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkinTheme/colors.css
-</pre>
+      * Set FOSWIKI_LAYOUT_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/layout.css
+      * Set FOSWIKI_STYLE_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/style.css
+      * Set FOSWIKI_COLORS_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/colors.css
+</verbatim>
 
 *NOTE:* customization of these values should be done in [[%USERSWEB%.SitePreferences]]
 
@@ -154,6 +154,7 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  31 Jul 2010: | v.5.3.1 - Documentation updates |
 |  27 May 2010: | v.5.3 - Added "flexible width" column styles. |
 |  05 Apr 2010: | v.5.2 - Visual update. |
 |  04 Apr 2010: | v.5.1 - Added Foswiki site skin as theme, including horizontal navigation topic; see PatternSkinHorizontalNavigationExample. |

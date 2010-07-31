@@ -7,31 +7,44 @@
 
 <div class="foswikiHelp">
 This line loads the extra style definition:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
    * Set USERSTYLEURL=%ATTACHURLPATH%/notopbar.css
 </verbatim>
 You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePreferences, in WebPreferences, in your user topic or on a single page.
 </div>
 
 Add the dynamic link to the logo image to the topic text:
-<verbatim>
+<verbatim class="tml">
 <style type="text/css" media="all">
-#patternSideBar { background-image:url("%PUBURLPATH%/%WEB%/%WEBPREFSTOPIC%/logo.gif"); }
+    #patternSideBar { background-image:url("%PUBURLPATH%/%WEB%/%WEBPREFSTOPIC%/logo.gif"); }
 </style>
 </verbatim>
 <div class="foswikiHelp">
 %ICON{info}% If you don't write this overloading style in a template and use an external =.css= file, you need to set the image to the absolute url:
-<pre>
-&lt;style type="text/css" media="all">
-#patternSideBar { background-image:url("<nop>%PUBURLPATH%/<nop>%WEB%/<nop>%WEBPREFSTOPIC%/logo.gif"); }
-&lt;/style>
-</pre>
+<verbatim class="tml">
+%ADDTOZONE{
+    "head"
+    id="%SYSTEMWEB%/PatternSkinCssCookbookNoTopBar::CSS"
+    text="
+        <style type='text/css' media='all'>
+            #patternSideBar {
+                background-image:url('%PUBURLPATH%/%WEB%/%WEBPREFSTOPIC%/logo.gif');
+            }
+        </style>"
+}%
+</verbatim>
 You can always write a =&lt;style>= in a topic - all current browsers support this - but the page won't validate as valid XHTML.
 </div>
 
-<style type="text/css" media="all">
-#patternSideBar { background-image:url("%PUBURLPATH%/%WEB%/%WEBPREFSTOPIC%/logo.gif"); }
-</style>
-
+%ADDTOZONE{
+    "head"
+    id="%SYSTEMWEB%/PatternSkinCssCookbookNoTopBar::CSS"
+    text="
+        <style type='text/css' media='all'>
+            #patternSideBar {
+                background-image:url('%PUBURLPATH%/%WEB%/%WEBPREFSTOPIC%/logo.gif');
+            }
+        </style>"
+}%
 
 %META:FILEATTACHMENT{name="notopbar.css" attachment="notopbar.css" attr="" comment="" date="1130024123" path="notopbar.css" size="395" stream="notopbar.css" user="ProjectContributor" version="1"}%

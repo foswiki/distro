@@ -2,27 +2,71 @@
 ---+!! <nop>PatternSkin horizontal navigation example
 
 Include main navigation with:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 %INCLUDE{"HorizontalNavigationExample" section="main"}%
 </verbatim>
 
 Include meta navigation with:
-<verbatim>
+<verbatim class="tml">
 %INCLUDE{"HorizontalNavigationExample" section="meta"}%
 </verbatim>
 
 
 ---++ Include sections
-<verbatim>
+<verbatim class="tml">
 %STARTSECTION{"main"}%<div id="patternTopBarButtons"><ul>
-%INCLUDE{"%TOPIC%" section="topbarbutton" ID="" DESTWEB="%USERSWEB%" DESTTOPIC="WebHome" LABEL="%USERSWEB%"}%
-%INCLUDE{"%TOPIC%" section="topbarbutton" ID="" DESTWEB="%SYSTEMWEB%" DESTTOPIC="WebHome" LABEL="%SYSTEMWEB%"}%
-%INCLUDE{"%TOPIC%" section="topbarbutton" ID="" DESTWEB="Sandbox" DESTTOPIC="WebHome" LABEL="Sandbox"}%
+%INCLUDE{
+    "%TOPIC%"
+    section="topbarbutton"
+    ID=""
+    DESTWEB="%USERSWEB%"
+    DESTTOPIC="WebHome"
+    LABEL="%USERSWEB%"
+}%
+%INCLUDE{
+    "%TOPIC%"
+    section="topbarbutton"
+    ID=""
+    DESTWEB="%SYSTEMWEB%"
+    DESTTOPIC="WebHome"
+    LABEL="%SYSTEMWEB%"
+}%
+%INCLUDE{
+    "%TOPIC%"
+    section="topbarbutton"
+    ID=""
+    DESTWEB="Sandbox"
+    DESTTOPIC="WebHome"
+    LABEL="Sandbox"
+}%
 </ul><br class="foswikiClear" /></div>%ENDSECTION{"main"}%
 
 
-%STARTSECTION{"topbarbutton"}%<li%IF{"'$ID' and '%ID%'!=''" then=" id=\"%ID%\""}%><a href="%SCRIPTURL{"view"}%/%DESTWEB%/%DESTTOPIC%" class="%IF{"'%DESTWEB%'='%WEB%'" then="active" else="inactive"}%">%LABEL%</a></li>%ENDSECTION{"topbarbutton"}%
+%STARTSECTION{"topbarbutton"}%<li%IF{
+    "'$ID' and '%ID%'!=''"
+    then=" id=\"%ID%\""}%>
+<a href="%SCRIPTURL{"view"}%/%DESTWEB%/%DESTTOPIC%" class="%IF{
+    "'%DESTWEB%'='%WEB%'"
+    then="active"
+    else="inactive"
+}%">%LABEL%</a></li>%ENDSECTION{"topbarbutton"}%
 
 
-%STARTSECTION{"meta"}%<div id="foswikisiteUserBar"><ul>%IF{"context authenticated" then='<li>%MAKETEXT{"Hello [_1]" args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]"}%</li>'}%%IF{"$ LOGOUT != ''" then='<li>%LOGOUT%</li>'}%%IF{"$ LOGIN != '' and not context authenticated" then='<li>You are visiting this site as: [[%WIKIUSERNAME%][%WIKINAME%]]</li><li>%LOGIN% %IF{"context registration_supported AND context registration_enabled" then="%MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]"}%</li>'}%<li>[[%USERSWEB%.WikiUsers][Users]]</li></ul></div>%ENDSECTION{"meta"}%
+%STARTSECTION{"meta"}%<div id="foswikisiteUserBar"><ul>%IF{
+    "context authenticated"
+    then='<li>%MAKETEXT{
+        "Hello [_1]"
+        args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]"
+    }%</li>'
+}%%IF{
+    "$ LOGOUT != ''"
+    then='<li>%LOGOUT%</li>'
+}%%IF{
+    "$ LOGIN != '' and not context authenticated"
+    then='<li>You are visiting this site as: [[%WIKIUSERNAME%][%WIKINAME%]]</li>
+        <li>%LOGIN% %IF{
+            "context registration_supported AND context registration_enabled"
+            then="%MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]"
+        }%</li>'
+}%<li>[[%USERSWEB%.WikiUsers][Users]]</li></ul></div>%ENDSECTION{"meta"}%
 </verbatim>

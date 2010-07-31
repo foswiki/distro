@@ -1,4 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252721427" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
+%IF{
+    "'%URLPARAM{"module"}%'=''"
+    then="No module was specified. Check [[DevelopingPlugins][Developing plugins]] and [[Foswiki:Development.DevelopersBible][Developer's Bible]] for more information."
+}%
 ---+!! %URLPARAM{module}%
 %INCLUDE{"doc:%URLPARAM{module}%" level="1"}%
