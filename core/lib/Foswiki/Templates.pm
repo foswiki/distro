@@ -416,7 +416,8 @@ sub _readTemplateFile {
 
                 # Could also use $Skin, $Web, $Name to indicate uppercase
                 $userdir  = 1;
-                $skin     = ucfirst($skin);
+                # Again untainting when using ucfirst
+                $skin     = Foswiki::Sandbox::untaintUnchecked( ucfirst($skin) );
                 $webName  = $userdirweb;
                 $tmplName = $userdirname;
             }
