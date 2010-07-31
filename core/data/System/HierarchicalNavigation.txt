@@ -16,7 +16,7 @@ Two sections are defined:
    
 ---+++ Displaying the Parent - Current - Children block
 <blockquote>
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 %INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="all"}%
 </verbatim>
 </blockquote>
@@ -25,7 +25,7 @@ generates:
 %INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="all"}%
 
 
-When included in !WebLeftBar (using default Pattern skin) this is styled to:
+When included in !WebLeftBar (using default PatternSkin) this is styled to:
 
 <div id="patternSideBarContents">
 %INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="all"}%
@@ -33,7 +33,7 @@ When included in !WebLeftBar (using default Pattern skin) this is styled to:
 
 ---+++ Displaying child topics
 <blockquote>
-<verbatim>
+<verbatim class="tml">
 *Child topics:*
 %INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="children"}%
 </verbatim>
@@ -50,29 +50,29 @@ When included in !WebLeftBar (using default Pattern skin) this is styled to:
 </div>
 
 <verbatim style="display:none;">
-%STARTSECTION{name="all"}%<div class="foswikiHierarchicalNavigation">
+%STARTSECTION{"all"}%<div class="foswikiHierarchicalNavigation">
 <ul>
 %SEARCH{
-"parent"
-type="query"
-topic="%BASETOPIC%"
-web="%BASEWEB%"
-nonoise="on"
-format="<li class='foswikiParentTopic'><img src='%ICONURL{parent_gray}%' width='16' height='16' alt='' border='0' /> [[$web.$parent][$parent]]</li>"
+   "parent"
+   type="query"
+   topic="%BASETOPIC%"
+   web="%BASEWEB%"
+   nonoise="on"
+   format="<li class='foswikiParentTopic'>$percentICON{parent_gray}$percent [[$web.$parent][$parent]]</li>"
 }%
 <li class='foswikiCurrentTopic' style='font-weight:bold;'><nop>%BASETOPIC%</li>%INCLUDE{"%TOPIC%" section="childlist"}%
 </ul>
-</div><!--/foswikiHierarchicalNavigation-->%ENDSECTION{name="all"}%
+</div><!--/foswikiHierarchicalNavigation-->%ENDSECTION{"all"}%
 
-%STARTSECTION{name="children"}%<div class="foswikiHierarchicalNavigation">
+%STARTSECTION{"children"}%<div class="foswikiHierarchicalNavigation">
 <ul>%INCLUDE{"%TOPIC%" section="childlist"}%</ul>
-</div><!--/foswikiHierarchicalNavigation-->%ENDSECTION{name="children"}%</div>%ENDSECTION{name="children"}%
+</div><!--/foswikiHierarchicalNavigation-->%ENDSECTION{"children"}%
 
-%STARTSECTION{name="childlist"}%%SEARCH{
-"parent.name='%BASETOPIC%'"
-web="%BASEWEB%"
-type="query"
-nonoise="on"
-format="<li class='childTopic'><img src='%ICONURL{line_ur_gray}%' width='16' height='16' alt='' border='0' /> [[$web.$topic][$topic]]</li>"
-}%%ENDSECTION{name="childlist"}%
+%STARTSECTION{"childlist"}%%SEARCH{
+   "parent.name='%BASETOPIC%'"
+   web="%BASEWEB%"
+   type="query"
+   nonoise="on"
+   format="<li class='childTopic'>$percentICON{line_ur_gray}$percent [[$web.$topic][$topic]]</li>"
+}%%ENDSECTION{"childlist"}%
 </verbatim>

@@ -79,6 +79,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 09 Feb 2009 (V1.5) |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  31 Jul 2010: | 1.6 Paul Harvey: Foswikitask:Item9415 - Documentation updates | 
 |  09 Feb 2009: | 1.5 Kenneth Lavrsen: Small cosmetic updates. Changed the author name to non liked to avoid bogus links to Main.loginname. Changed some CSS names to Foswiki that I missed in 1.4 |
 |  08 Dec 2008: | 1.4 Kenneth Lavrsen: Changed the author to myself. !JChristophFuchs is the original author but announced in 2006 that he no longer maintains this plugin. So now I officially take the task as maintainer. Plugin is changed to Foswiki namespace and tested and works under Foswiki 1.0.0 | 
 |  09 Dec 2007: | 1.3 Kenneth Lavrsen: Restored the features that were lost in revision 1.1 including: Showing comments made by !RevCommentPlugin, selection of render styles "interweave" and "side by side" provided by !CompareRevisionsAddOn, and link to rdiff history. Restored compatibility with TWiki-4.1 which means removing the dependency of 4.2 only CSS feature. Updated the default rev format to 4.X format. |

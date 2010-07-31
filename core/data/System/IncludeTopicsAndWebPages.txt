@@ -2,13 +2,27 @@
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
 
-Use the =%<nop>INCLUDE{...}%= macro to embed the content of another topic or web page inside a topic. The whole content or only parts of a page can be included. If needed, set a proxy server with the {PROXY}{HOST} and {PROXY}{PORT} settings in [[%SCRIPTURLPATH{"configure"}%][configure]].
+The [[VarINCLUDE][%<nop>INCLUDE{...}%]] macro embeds the content of the specified topic at the place where the [[VarINCLUDE][INCLUDE]] is used. The whole content or only parts of of a page can be included.
+<blockquote>
+   * %ICON{"warning"}% If permitted in [[%SCRIPTURLPATH{"configure"}%][configure]], content from any arbitrary URL may be included also. This is disabled by default because it may be used for malicious purposes, especially on public installations.
+   * %ICON{"info"}% If your web server connects to the internet via a proxy server, ={PROXY}{HOST}= and ={PROXY}{PORT}= settings should be set in [[%SCRIPTURLPATH{"configure"}%][configure]].
+</blockquote>
 
 %TOC%
 
 ---++ Syntax Example
 
-=%<nop>INCLUDE{ "page" pattern="reg-exp" rev="2" warn="off" section="clients" PARAMETER1="value" PARAMETER2="Some value"}%=
+%JQREQUIRE{"chili"}%<verbatim class="tml">
+%INCLUDE{
+   "page"
+   pattern="reg-exp"
+   rev="2"
+   warn="off"
+   section="clients"
+   PARAMETER1="value"
+   PARAMETER2="Some value"
+}%
+</verbatim>
 
 The =pattern= parameter is optional and allows you to extract some parts of a web page. Specify a %SYSTEMWEB%.RegularExpression that contains the text you want to keep in parenthesis. It may be helpful for the pattern to match more than just the text you wish to keep, e.g. =pattern="Some prefix(Start here.*?to here)"=. If needed, the pattern may even scan from start (='^'=) to end and match the whole topic, e.g. =pattern="^.*?(from here.*?to here).*"=.
 
@@ -18,49 +32,49 @@ The example parameters PARAMETER1 and PARAMETER2 will be defined as macros withi
 
 VarINCLUDE explains the other parameters.
 
-*Note:* All text of a topic is included unless it contains a =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%=, or you specify a =section= parameter and/or a =pattern= parameter. A pattern will only search between =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%=.
+<blockquote> %ICON{"info"}% All text of a topic is included unless it contains a [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]], or you specify a =section= parameter (see [[VarSTARTSECTION][STARTSECTION]] and [[VarENDSECTION][ENDSECTION]]) and/or a =pattern= parameter. A pattern will only search between =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%= or within the =section= specified.</blockquote>
 
 ---++ Usage Examples
 
 ---+++ 1. Display regression test results
-<pre>
-  &lt;pre&gt;
-  %<nop>INCLUDE{"http://domain/~qa/v1.1/REDTest.log.txt"}%
-  &lt;/pre&gt;
-</pre>
+<verbatim class="tml">
+  <pre>
+  %INCLUDE{"http://domain/~qa/v1.1/REDTest.log.txt"}%
+  </pre>
+</verbatim>
 
 ---+++ 2. Display foswiki.org's frequently asked questions
 
    * You type:
-<pre>
-  %<nop>INCLUDE{"http://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
-</pre>
+<verbatim class="tml">
+  %INCLUDE{"http://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
+</verbatim>
 
    * You get:
 %INCLUDE{"http://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
 
-*Note:* Including URLs is disabled by default as it presents a security risk. It may be enabled via [[%SCRIPTURLPATH{"configure"}%][configure]]. _Only enable this if you understand the risk_.
+<blockquote>%ICON{"warning"}% Including URLs is disabled by default as it presents a security risk. It may be enabled via [[%SCRIPTURLPATH{"configure"}%][configure]]. _Only enable this if you understand the risk_.</blockquote>
 
 ---+++ 3. Include a topic
 
    * You type:
-<pre>
-  %<nop>INCLUDE{%<nop>SYSTEMWEB%.TipsOfTheDayInclude}%
-</pre>
+<verbatim class="tml">
+  %INCLUDE{"%SYSTEMWEB%.TipsOfTheDayInclude"}%
+</verbatim>
 
    * You get:
-%INCLUDE{%SYSTEMWEB%.TipsOfTheDayInclude}%
+%INCLUDE{"%SYSTEMWEB%.TipsOfTheDayInclude"}%
 
 ---+++ 4. Include a topic !MyTopic with two parameters
 
 You include the topic with this line
-<verbatim>
-  %INCLUDE{ "MyTopic" BETTER="apples" WORSE="Oranges"}%
+<verbatim class="tml">
+  %INCLUDE{"MyTopic" BETTER="apples" WORSE="Oranges"}%
 </verbatim>
 
 An example of a very simple !MyTopic could contain
 
-<verbatim>
+<verbatim class="tml">
    * I like %BETTER% better than %WORSE%.
 </verbatim> 
 

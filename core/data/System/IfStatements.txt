@@ -7,7 +7,7 @@ The =%<nop>IF%= construct gives Foswiki the power to include content in topics b
 %TOC%
 
 ---++ Syntax
-=%<nop>IF{"CONDITION" then="THEN" else="ELSE"}%=
+%JQREQUIRE{"chili"}%<verbatim class="tml">%IF{"CONDITION" then="THEN" else="ELSE"}%</verbatim>
 
 In the example above, if CONDITION evaluates to TRUE, then THEN will be included in the topic; otherwise ELSE will be included.
 
@@ -27,47 +27,85 @@ The basic syntax of a condition is the same as [[QuerySearch][the syntax used fo
 ---+++ Examples
 
 1. Macro defined or not
-<verbatim>
-%IF{"defined 'WIKINAME'" then="WIKINAME is defined" else="WIKINAME is not defined"}%
+<verbatim class="tml">
+%IF{
+   "defined 'WIKINAME'"
+   then="WIKINAME is defined"
+   else="WIKINAME is not defined"
+}%
 </verbatim>
 
 2. Compare macro definition
-<verbatim>
-You are %IF{ "$ WIKINAME='WikiGuest' and not defined 'OPEN_DAY'" then="not" }% allowed to
-%IF{ "context view" then="view" else="edit"}% this Foswiki today.
+<verbatim class="tml">
+You are %IF{
+   "$ WIKINAME='WikiGuest' and not defined 'OPEN_DAY'"
+   then="not"
+}% allowed to
+%IF{
+   "context view"
+   then="view"
+   else="edit"
+}% this Foswiki today.
 </verbatim>
 
 3. URL parameter
-<verbatim>
-%IF{ "defined 'search'" then="Search: $percentURLPARAM{search}$percent" else="No search passed in"}%
+<verbatim class="tml">
+%IF{
+   "defined 'search'"
+   then="Search: $percentURLPARAM{search}$percent"
+   else="No search passed in"
+}%
 </verbatim>
 
 4. Range test on URL parameter
-<verbatim>
-url param t is %IF{ "0 < $ t and $ t < 1000" then="in" else="out of"}% range.
+<verbatim class="tml">
+url param t is %IF{
+   "0 < $ t and $ t < 1000"
+   then="in"
+   else="out of"
+}% range.
 </verbatim>
 
 5. Text comparison of URL parameter
-<verbatim>
-%IF{ "$'URLPARAM{scope}'='text'" then="Plain text search" }% 
+<verbatim class="tml">
+%IF{
+   "$'URLPARAM{scope}'='text'"
+   then="Plain text search"
+}% 
 </verbatim>
 
 6. Configuration item set or not (item must be one of  %FOREACH{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}%)
-<verbatim>
-User details are %IF{ "{AntiSpam}{HideUserDetails}" then="hidden" else="shown" }%
+<verbatim class="tml">
+User details are %IF{
+   "{AntiSpam}{HideUserDetails}"
+   then="hidden"
+   else="shown"
+}%
 </verbatim>
 expands to:
-User details are %IF{ "{AntiSpam}{HideUserDetails}" then="hidden" else="shown" }%
+User details are %IF{
+   "{AntiSpam}{HideUserDetails}"
+   then="hidden"
+   else="shown"
+}%
 
 7. Plugin enabled test
-<verbatim>
-TablePlugin is %IF{ "context TablePluginEnabled" then="enabled" else="disabled" }%.
+<verbatim class="tml">
+TablePlugin is %IF{
+   "context TablePluginEnabled"
+   then="enabled"
+   else="disabled"
+}%.
 </verbatim>
 expands to: %BR%
-TablePlugin is %IF{ "context TablePluginEnabled" then="enabled" else="disabled" }%.
+TablePlugin is %IF{
+   "context TablePluginEnabled"
+   then="enabled"
+   else="disabled"
+}%.
 
 8. Check access permissions
-<verbatim>
+<verbatim class="tml">
 You %IF{"'%TOPIC%' allows 'change'" then="can" else="cannot"}% change this topic.
 You %IF{"'Sandbox.TestTopic' allows 'change'" then="can" else="cannot"}% change Sandbox.TestTopic.
 You %IF{"'Sandbox' allows 'change'" then="can" else="cannot"}% change Sandbox web
@@ -78,7 +116,7 @@ You %IF{"'Sandbox.TestTopic' allows 'change'" then="can" else="cannot"}% change 
 You %IF{"'Sandbox' allows 'change'" then="can" else="cannot"}% change Sandbox web
 
 9. Check topic existance
-<verbatim>
+<verbatim class="tml">
 Topic Sandbox.TestTopic %IF{"istopic 'Sandbox.TestTopic'" then="exists" else="does not exist"}%
 Web Sandbox.TestTopic %IF{"isweb 'Sandbox'" then="exists" else="does not exist"}%
 </verbatim>
@@ -87,11 +125,19 @@ Topic Sandbox.TestTopic %IF{"istopic 'Sandbox.TestTopic'" then="exists" else="do
 Web Sandbox.TestTopic %IF{"isweb 'Sandbox'" then="exists" else="does not exist"}%
 
 10. Group membership
-<verbatim>
-You %IF{"'%USERNAME%' ingroup 'AdminGroup'" then="are an admin" else="are a normal user"}% 
+<verbatim class="tml">
+You are %IF{
+   "'%USERNAME%' ingroup 'AdminGroup'"
+   then="an admin"
+   else="a normal user"
+}% 
 </verbatim>
 expands to: %BR%
-You %IF{"'%USERNAME%' ingroup 'AdminGroup'" then="are an admin" else="are a normal user"}% 
+You are %IF{
+   "'%USERNAME%' ingroup 'AdminGroup'"
+   then="an admin"
+   else="a normal user"
+}% 
 
 *Configuration items* are defined in [[%SCRIPTURLPATH{"configure"}%][configure]]. You cannot see the value of a configuration item, you can only see if the item is set or not.
 
@@ -143,21 +189,36 @@ Note that while the [[QuerySearch][query syntax]] can be used to access form fie
 
 ---+++ Examples
 Display the value of a form field if the topic has form field "Summary":
-<verbatim>
-%FORMFIELD{"%IF{"'%TOPIC%'/Summary" then="Summary"}%"}%
+<verbatim class="tml">
+%FORMFIELD{
+   "%IF{
+      "'%TOPIC%'/Summary"
+      then="Summary"
+   }%"
+}%
 </verbatim>
+<blockquote>%ICON{"info"}% The [[VarIF][IF]] macro is expanded before [[VarFORMFIELD][FORMFIELD]]. [[FormattedSearch#InsideOutLeftToRight][Read more]]</blockquote>
 
 Test if the topic has attachments:
-<verbatim>
-%IF{"'%TOPIC%'/attachments" then="has attachments"}%
+<verbatim class="tml">
+%IF{
+   "'%TOPIC%'/attachments"
+   then="has attachments"
+}%
 </verbatim>
 
 Test if the topic has an attachment with 'receipt' or 'Receipt' in the name:
-<verbatim>
-%IF{"'%TOPIC%'/attachments[lc(name)~'*receipt*']" then="has 'receipt' attachment"}%
+<verbatim class="tml">
+%IF{
+   "'%TOPIC%'/attachments[lc(name)~'*receipt*']"
+   then="has 'receipt' attachment"
+}%
 </verbatim>
 
 Test if a topic text contains a certain word:
-<verbatim>
-%IF{"'%SYSTEMWEB%.WebHome'/lc(text)~'*welcome*'" then="contains 'welcome'"}%
+<verbatim class="tml">
+%IF{
+   "'%SYSTEMWEB%.WebHome'/lc(text)~'*welcome*'"
+   then="contains 'welcome'"
+}%
 </verbatim>

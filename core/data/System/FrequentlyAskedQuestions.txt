@@ -4,15 +4,23 @@
 
 This is a real FAQ, and also a demo of an easily implemented knowledge-base solution. To see how it's done, [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=on][view the source of this topic]].
 
-%SEARCH{ "[B]ack to:\* FrequentlyAskedQuestions" casesensitive="on" type="regex" nosearch="on" nototal="on" format="   * $pattern(.*---\+\+ FAQ:\s*([^\n]*).*) [[$topic][Answer]]"}%
+%SEARCH{
+   "[B]ack to:\* FrequentlyAskedQuestions"
+   casesensitive="on"
+   type="regex"
+   nosearch="on"
+   nototal="on"
+   format="   * $pattern(.*---\+\+ FAQ:\s*([^\n]*).*) [[$topic][Answer]]"
+}%
 
----++ Submit a new FAQ
+---++ More FAQs
 
 %X% These topics are for frequently asked questions *including* answers; please ask support questions in the Foswiki:Support web.
-New FAQ topics are based on the FaqTemplate.
+
+More FAQs are available at Foswiki:Support.FAQ. Please consider also submitting there so that your work may help others.
 
 <form action="%SCRIPTURL{"edit"}%/%WEB%/" method="post">
-New FAQ topic: &nbsp; (Use a name in WikiNotation) <br />
+New FAQ topic (based on FaqTemplate): &nbsp; (Use a name in WikiNotation) <br />
 <input type="text" name="topic" size="32" />
 <input type="hidden" name="onlywikiname" value="on" />
 <input type="hidden" name="templatetopic" value="FaqTemplate" />

@@ -71,7 +71,7 @@ If Foswiki stops working after you applied a change in access permissions and yo
 
 ---+++ Configure the locations of the Perl executable and the Foswiki modules
 
-*Make sure the Foswiki scripts can be executed by the web server.* The default location of Perl is =/usr/bin/perl=. *If it's somewhere else*, change the path to Perl in the first line of each script (you may have to give yourself write permission first) in the =bin= and =tools= directories. You can use the =tools/rewriteshbang.pl= script to do this; for example:<verbatim>
+*Make sure the Foswiki scripts can be executed by the web server.* The default location of Perl is =/usr/bin/perl=. *If it's somewhere else*, change the path to Perl in the first line of each script (you may have to give yourself write permission first) in the =bin= and =tools= directories. You can use the =tools/rewriteshbang.pl= script to do this; for example:%JQREQUIRE{"chili"}%<verbatim class="bash">
    cd /path/to/foswiki/bin
    /path/to/perl ../tools/rewriteshbang.pl
    # At the prompt, enter the full path to the perl executable, including
@@ -508,7 +508,7 @@ It is highly recommended that you configure Foswiki by using your browser to acc
 
 Perform the following steps to manually configure Foswiki:
    * Copy the file =lib/Foswiki.spec= to =lib/LocalSite.cfg=
-   * Remove the # in front of the following settings, and ensure that they are set to the correct values:<sticky><verbatim>
+   * Remove the # in front of the following settings, and ensure that they are set to the correct values:<sticky><verbatim class="perl">
    $Foswiki::cfg{DefaultUrlHost}
    $Foswiki::cfg{ScriptUrlPath}
    $Foswiki::cfg{PubUrlPath}
@@ -517,7 +517,7 @@ Perform the following steps to manually configure Foswiki:
    $Foswiki::cfg{DataDir}
    $Foswiki::cfg{LocalesDir}
    $Foswiki::cfg{OS}</verbatim></sticky>
-   * Make sure the following settings are defined:<sticky><verbatim>
+   * Make sure the following settings are defined:<sticky><verbatim class="perl">
    $Foswiki::cfg{LoginManager}
    $Foswiki::cfg{WebMasterEmail}
    $Foswiki::cfg{SMTP}{MAILHOST}

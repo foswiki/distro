@@ -16,7 +16,7 @@
 | Template Topics | Set the default content for new _topics_. [[SkinTemplates][Details...]] |
 | Topic | The content of a Wiki _page_, consisting of text, an optional _form_ and optional _attachments_. It has a WikiName that's unique within its _web_. [[TopicsAndWebs][Details...]] |
 | Web | A collection of _topics_ under a common name. Various features, like search, access privileges, Plugin availability, template design, can be controlled on a web-wide basis. [[ManagingWebs][Details...]] |
-
+%STOPINCLUDE%
 ---
 *Related Topics:* UserDocumentationCategory
 

@@ -215,6 +215,7 @@ To get this (simulated):
 
 Search, as with almost any TML expression, may be nested. For example, search for some topics, then form a new search for each topic found in the first search. The idea is to build the nested search string using a formatted search in the first search.
 
+#InsideOutLeftToRight
 The key to understanding nested expressions in Foswiki is to understand that macros are expanded "inside-out, left-to-right". For example:
 <verbatim class="tml">
 %MACRO1{
