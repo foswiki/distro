@@ -61,12 +61,21 @@ To improve the speed, consistency and extendability of the most complex  and imp
 ---+++ FOREACH macro
 The extraction of the FormattedSearch system has made it possible to provide a  Macro that allows users to render a comma separated list into any =header=,  =footer=, =format= style.
 
----+++ %USERSWEB%.WikiGroups and groups have add&remove user interface
+---+++ %USERSWEB%.WikiGroups have add & remove user interface
 !WikiGroups are now be edited using a much simpler HTML form.
 
 For developers additional API's have been added to the Foswiki code to allow these Forms to also be used for non-Foswiki user and group backends.
 
 With some configuration, Foswiki can also add users to groups on registration -  either automatically, or allowing the users to select groups to join.
+
+---+++ TinyMCEPlugin updates
+TinyMCEPlugin has been updated to the latest 3.3.x release from Moxiecode. Additionally, some improvements to the Foswiki integration have been made, such as:
+   * Smarter attach dialogue
+   * Background autosave feature has been enabled (saves to local browser storage at 3 minute intervals)
+   * New context (right-click) menu:
+      * Set syntax highlighting classes on verbatim blocks
+      * table rows/columns may be duplicated, cells merged/split
+   * Customisation via the =TINYMCEPLUGIN_INIT= variable has been improved. [[TinyMCEPlugin#UpgradeFrom01x00][Read the upgrade advice]] if you are upgrading a Foswiki installation which uses a custom =TINYMCEPLUGIN_INIT= preference setting.
 
 ---+++ Testing configuration variables in %IF
 Prior to 1.1, %IF could be used to test the value of any configuration variable (those defined in =configure=). This represented a security risk, so now only those variables listed in ={AccessibleCFG}= may be accessed this way. Note that ={AccessibleCFG}= also controls which variables are visible in =%SEARCH{type="query"= and the new =%QUERY= macro.

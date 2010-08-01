@@ -36,6 +36,7 @@ First follow the installation instructions to install the Plugin:
    * *Enable* the TinyMCEPlugin in =configure=.
    * *Click* on edit of any topic.
 
+#UpgradeFrom01x00
 ---++ Preferences
 The default configuration of TinyMCEPlugin should prove sufficient for most users. The !TinyMCE editor itself is customised through a Javascript object holding a substantial number of initialisation parameters. In previous versions of TinyMCEPlugin, a text string making up the Javascript object was held in an ordinary Foswiki [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT= which should be removed and replaced with =TINYMCEPLUGIN_INIT_TOPIC= (described below) in most circumstances.
 

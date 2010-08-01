@@ -58,7 +58,7 @@
 *You get: (if installed)*
 </th></tr>
 <tr><td valign="top" bgcolor="#EEEEEE">
-<pre>
+%JQREQUIRE{"chili"}%<pre class="tml">
 %<nop>RENDERLIST{"thread"}%
    * one
       * one.a
@@ -154,7 +154,7 @@
 
 </td></tr>
 <tr><td valign="top" bgcolor="#EEEEEE">
-<pre>
+<pre class="tml">
 %<nop>RENDERLIST{"org"}%
    * one
       * one.a
@@ -248,7 +248,7 @@
 
 </td></tr>
 <tr><td valign="top" bgcolor="#EEEEEE">
-<pre>
+<pre class="tml">
 %<nop>RENDERLIST{ "org" focus="one.b" }%
    * one
       * one.a
@@ -345,6 +345,7 @@ Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] c
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  01 Aug 2010: | 2.2.1: Paul Harvey. Documentation updates - Foswikitask:Item9415 |
 |  20 Sep 2009: | 2.2: Crawford Currie. Moved default themes out of plugin topic for efficiency. |
 |  16 Dec 2008: | 2.1: Kenneth Lavrsen. Foswiki version |
 |  15 Jan 2008: | 2.0: Kenneth Lavrsen. No more reporting warnings in the error log when a render list starts at deeper level than 1 | 

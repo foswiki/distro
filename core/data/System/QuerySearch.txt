@@ -63,7 +63,7 @@ Most things at the top level of the plan - =META:TOPICPARENT=, =META:TOPICINFO= 
 It's a bit clumsy having to type =META:FILEATTACHMENT= every time you want to refer to the array of attachments in a topic, so there are some predefined aliases that make it a bit less typing:
    * =attachments= means the same as =META:FILEATTACHMENT=
    * =info= means the same as =META:TOPICINFO=
-   * =parent= means the same as =META:TOPICPARENT=
+   * =parent= means the same as =META:TOPICPARENT=. *Note:* =parent= is itself a map; use =parent.name= to access the name of the parent topic
    * =moved= means the same as =META:TOPICMOVED=
    * =form= means the same as =META:FORM=, so to test if a topic has a form named 'UserForm' you test for ="form.name ~ '*.UserForm'"=
    * =fields= means the same as =META:FIELD=, You can also use the name of the form (the value of =form.name= e.g. =PersonForm=)
@@ -152,30 +152,27 @@ A query matches if the query returns one or more values when it is applied to th
 
 ---+++ Search examples
 Find all topics that are children of this topic in the current web
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 %SEARCH{"parent.name = '%TOPIC%'" web="%WEB%" type="query"}%
 </verbatim>
 Find all topics that have an attachment called 'grunge.gif'
-<verbatim>
+<verbatim class="tml">
 %SEARCH{"attachments[name='grunge.gif']" type="query"}%
 </verbatim>
 Find all topics that have form =ColourForm= where the form field 'Shades' is 'green' or 'yellow' but not 'brown'
-<verbatim>
+<verbatim class="tml">
 %SEARCH{"(lc(Shades)='green' OR lc(Shades)='yellow') AND NOT(lc(Shades) ~ 'brown')" type="query"}%
 </verbatim>
 Find all topics that have PNG attachments that have been added since 26th March 2007
-<verbatim>
+<verbatim class="tml">
 %SEARCH{"attachments[name ~ '*.png' AND date >= d2n('2007-03-26')]" type="query"}%
 </verbatim>
 Find all topics that have a field 'Threat' set to 'Amber' and 'cold virus' somewhere in the topic text.
-<verbatim>
+<verbatim class="tml">
 %SEARCH{"Threat='Amber' AND text ~ '*cold virus*'" type="query"}%
 </verbatim>
 Find all topics newer than one week old
 <verbatim class="tml">
-%SEARCH{
-   "info.date >= %CALC{"$TIMEADD($TIME(), -7, day)"}%"
-   type="query"
-}%
+%SEARCH{"info.date >= %CALC{"$TIMEADD($TIME(), -7, day)"}%" type="query"}%
 </verbatim>
 __Related Topics:__ SearchHelp, VarSEARCH, FormattedSearch, Foswiki:System/QuerySearchPatternCookbook
