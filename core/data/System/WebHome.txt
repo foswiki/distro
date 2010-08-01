@@ -18,7 +18,7 @@ Foswiki is a flexible, powerful, secure, yet simple web-based collaboration plat
    * [[MainFeatures][Main Features]] of Foswiki
    * [[ReferenceManual][Reference Manual]] - documentation for system administrators
    * [[AdminToolsCategory][Admin Tools]] - manage the Foswiki site
-   * [[ReleaseNotes01x00][Release Notes for 1.0]] - describes what's new in this release
+   * [[ReleaseNotes01x01][Release Notes for 1.1]] - describes what's new in this release
 
 ---++ <nop>%WEB% Web Utilities
    * WebTopicList - all topics in alphabetical order
