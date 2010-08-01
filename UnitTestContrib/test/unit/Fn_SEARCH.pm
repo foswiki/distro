@@ -542,6 +542,35 @@ sub verify_footer_with_ntopics_empty_format {
     $this->assert_str_equals( "Total found: 3", $result );
 }
 
+sub verify_nofinalnewline {
+    my $this = shift;
+
+    # nofinalnewline="off"
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"name~\'OkTopic\'" type="query"  nonoise="on" format="$topic" nofinalnewline="off"}%'
+      );
+
+    $this->assert_str_equals( "OkTopic\n", $result );
+    
+    # nofinalnewline="on"
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"name~\'OkTopic\'" type="query"  nonoise="on" format="$topic" nofinalnewline="on"}%'
+      );
+
+    $this->assert_str_equals( "OkTopic", $result );
+
+    # nofinalnewline should default be on
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"name~\'OkTopic\'" type="query"  nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_str_equals( "OkTopic", $result );
+
+}
+
 sub verify_regex_match {
     my $this = shift;
 
