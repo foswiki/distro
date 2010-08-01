@@ -13,6 +13,7 @@ sub check {
     unless ( $Foswiki::cfg{PubUrlPath} && $Foswiki::cfg{PubUrlPath} ne 'NOT SET' ) {
         my $guess = $Foswiki::cfg{ScriptUrlPath};
         $guess =~ s/bin$/pub/;
+        $guess = '/pub' unless ($guess);
         $Foswiki::cfg{PubUrlPath} = $guess;
         return $this->guessed(0);
     }
