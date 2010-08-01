@@ -380,16 +380,6 @@ BEGIN {
         setlocale( &LC_COLLATE, $Foswiki::cfg{Site}{Locale} );
     }
 
-    if ( defined $Foswiki::cfg{Site}{CharSet} ) {
-
-        # Ensure the auto-encoding in CGI uses the correct character set.
-        # CGI defaults to iso-8859-1, and has a special exception for
-        # iso-8859-1 and windows1252 in CGI::escapeHTML which breaks
-        # UTF-8 content. See Item758. Get this wrong, and CGI will
-        # fail to encode certain UTF-8 characters correctly.
-        CGI::charset( $Foswiki::cfg{Site}{CharSet} );
-    }
-
     $macros{CHARSET} = sub {
         $Foswiki::cfg{Site}{CharSet} || CGI::charset();
     };
@@ -1623,6 +1613,16 @@ sub new {
 
     $query ||= new Foswiki::Request();
     my $this = bless( { sandbox => 'Foswiki::Sandbox' }, $class );
+    
+    if ( defined $Foswiki::cfg{Site}{CharSet} ) {
+
+        # Ensure the auto-encoding in CGI uses the correct character set.
+        # CGI defaults to iso-8859-1, and has a special exception for
+        # iso-8859-1 and windows1252 in CGI::escapeHTML which breaks
+        # UTF-8 content. See Item758. Get this wrong, and CGI will
+        # fail to encode certain UTF-8 characters correctly.
+        CGI::charset( $Foswiki::cfg{Site}{CharSet} );
+    }
 
     $this->{request}  = $query;
     $this->{cgiQuery} = $query;    # for backwards compatibility in contribs
