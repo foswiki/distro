@@ -56,6 +56,7 @@ my $UPLOADSITESUFFIX        = '';
 my $UPLOADSITEBUGS          = 'http://foswiki.org/Tasks';
 my $UPLOADSITEEXTENSIONSWEB = "Extensions";
 my $DEFAULTCUSTOMERDB       = "$ENV{HOME}/customerDB";
+my $FOSWIKIAUTHORSFILE      = 'core/AUTHORS';
 
 my $GLACIERMELT = 10;    # number of seconds to sleep between uploads,
                          # to reduce average load on server
@@ -217,6 +218,7 @@ sub new {
         if ( open( $fh, "<", $this->{pm} ) ) {
             local $/;
             my $text = <$fh>;
+            close $fh;
             if ( $text =~ /\$RELEASE\s*=\s*(['"])(.*?)\1/s ) {
                 $this->{RELEASE} = $2;
             }
@@ -358,6 +360,12 @@ sub new {
 
     local $/;
     $this->{INSTALL_INSTRUCTIONS} = <DATA>;
+    # Item9416: Implements %$FOSWIKIAUTHORS%. Depends on $/ = undef
+    $FOSWIKIAUTHORSFILE = _findRelativeTo($this->{basedir}, $FOSWIKIAUTHORSFILE);
+    open my $authorsfile, '<', $FOSWIKIAUTHORSFILE
+        or die "Couldn't open $FOSWIKIAUTHORSFILE";
+    $this->{FOSWIKIAUTHORS} = <$authorsfile>;
+    close $authorsfile;
 
     my $config = $this->_loadConfig();
     my $rep    = $config->{repositories}->{ $this->{project} };
