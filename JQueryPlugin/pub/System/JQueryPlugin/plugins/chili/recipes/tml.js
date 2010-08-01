@@ -110,7 +110,7 @@
 						  + close
 						  + "</span>";
 				  },
-				  _style: "text-decoration:underline"
+				  _style: "padding-bottom: 1px; border-bottom-style: solid; border-bottom-color: #b5b5d1; border-bottom-width: 1px;"
 				}
 				// headings
 				, tml_headings: {
