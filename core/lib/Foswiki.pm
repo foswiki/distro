@@ -1623,7 +1623,7 @@ sub new {
         # fail to encode certain UTF-8 characters correctly.
         # Note we cannot call CGI::charset in begin block. We must have
         # the CGI object created because otherwise Perl 5.8 versions of
-        # CGI will looe things like its temp files.
+        # CGI will lose things like its temp files.
         CGI::charset( $Foswiki::cfg{Site}{CharSet} );
     }
 
