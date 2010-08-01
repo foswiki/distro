@@ -175,13 +175,13 @@ sub TOC {
         # Prevent WikiLinks
         $text =~ s/\[\[.*?\]\[(.*?)\]\]/$1/g;    # '[[...][...]]'
         $text =~ s/\[\[(.*?)\]\]/$1/ge;          # '[[...]]'
-        $text =~ s/([\s\(])($Foswiki::regex{webNameRegex})\.
+        $text =~ s/(^|[\s\(])($Foswiki::regex{webNameRegex})\.
                    ($Foswiki::regex{wikiWordRegex})/$1<nop>$3/gox;
-        $text =~ s/([\s\(])($Foswiki::regex{wikiWordRegex})/$1<nop>$2/gox;
-        $text =~ s/([\s\(])($Foswiki::regex{abbrevRegex})/$1<nop>$2/go;
+        $text =~ s/(^|[\s\(])($Foswiki::regex{wikiWordRegex})/$1<nop>$2/gox;
+        $text =~ s/(^|[\s\(])($Foswiki::regex{abbrevRegex})/$1<nop>$2/go;
 
         # Special case: 'Site:page' Interwiki link
-        $text =~ s/([\s\-\*\(])
+        $text =~ s/(^|[\s\-\*\(])
                    ([$Foswiki::regex{mixedAlphaNum}]+\:)/$1<nop>$2/gox;
 
         # Prevent manual links
