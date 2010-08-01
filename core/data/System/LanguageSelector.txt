@@ -15,16 +15,24 @@ Usage:
 Result:
 %STARTINCLUDE%%IF{
    "context i18n_enabled"
-   then="<form name='changeLanguage'\
-      action='%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%' method='get'>
-      <select name='language' class='foswikiSelect' onchange='document.changeLanguage.submit()'>
-      %LANGUAGES{
-         format="<option $marker value='$langtag'>$langname</option>"
+   then="$percentINCLUDE{\"%TOPIC%\" section=\"selector\"}$percent"
+}%%STOPINCLUDE%
+
+<!-- <verbatim class="tml">
+%STARTSECTION{"selector"}%<form name="changeLanguage"\
+    action="%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%" method="get">
+    <select name="language" class="foswikiSelect"\
+        onchange="document.changeLanguage.submit()">
+    %LANGUAGES{
+         format="<option $marker value=\"$langtag\">$langname</option>"
          selection="%LANGUAGE%"
          separator=" "
-         marker="selected='selected'"
-     }%</select>
-     <input type='hidden' name='template' value='oopslanguagechanged' />
-     <noscript><input class='foswikiButton' type='submit' value='%MAKETEXT{"Change language"}%' />
-     </noscript></form>"
-}%%STOPINCLUDE%
+         marker="selected=\"selected\""
+    }%</select>
+    <input type="hidden" name="template" value="oopslanguagechanged" />
+    <noscript>
+        <input class="foswikiButton" type="submit"\
+            value="%MAKETEXT{"Change language"}%" />
+    </noscript>
+</form>%ENDSECTION{"selector"}%
+</verbatim> -->
