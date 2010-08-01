@@ -1621,6 +1621,9 @@ sub new {
         # iso-8859-1 and windows1252 in CGI::escapeHTML which breaks
         # UTF-8 content. See Item758. Get this wrong, and CGI will
         # fail to encode certain UTF-8 characters correctly.
+        # Note we cannot call CGI::charset in begin block. We must have
+        # the CGI object created because otherwise Perl 5.8 versions of
+        # CGI will loose things like its temp files.
         CGI::charset( $Foswiki::cfg{Site}{CharSet} );
     }
 
