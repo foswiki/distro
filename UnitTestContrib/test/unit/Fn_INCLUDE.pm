@@ -170,4 +170,128 @@ THIS
     $this->assert_str_equals($handledTopicText, $text."\n");    #add \n because handleCommonTags removes it :/
 }
 
+sub test_fullPattern {
+    my $this          = shift;
+    my $includedTopic = "TopicToInclude";
+    my $topicText     = <<THIS;
+Baa baa black sheep
+Have you any socks?
+Yes sir, yes sir
+But only in acrylic
+THIS
+
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $this->{other_web},
+        $includedTopic, $topicText);
+    my $text =
+      $this->{twiki}->handleCommonTags(
+"%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"^.*?(Have.*sir).*\"}%",
+        $this->{test_web}, $this->{test_topic});
+    $this->assert_str_equals( "Have you any socks?\nYes sir, yes sir", $text );
+}
+
+sub test_pattern {
+    my $this          = shift;
+    my $includedTopic = "TopicToInclude";
+    my $topicText     = <<THIS;
+Baa baa black sheep
+Have you any socks?
+Yes sir, yes sir
+But only in acrylic
+THIS
+
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $this->{other_web},
+        $includedTopic, $topicText);
+    my $text =
+      $this->{twiki}->handleCommonTags(
+"%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"(Have.*sir)\"}%",
+        $this->{test_web}, $this->{test_topic});
+    $this->assert_str_equals( "Have you any socks?\nYes sir, yes sir", $text );
+}
+
+# INCLUDE{"" pattern="(blah)"}% that does not match should return nothing
+sub test_patternNoMatch {
+    my $this          = shift;
+    my $includedTopic = "TopicToInclude";
+    my $topicText     = <<THIS;
+Baa baa black sheep
+Have you any socks?
+Yes sir, yes sir
+But only in acrylic
+THIS
+
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $this->{other_web},
+        $includedTopic, $topicText);
+    my $text =
+      $this->{twiki}->handleCommonTags(
+        "%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"(blah)\"}%",
+        $this->{test_web}, $this->{test_topic});
+    $this->assert_str_equals( "", $text );
+}
+
+# INCLUDE{"" pattern="blah"}% that does not capture should return nothing
+sub test_patternNoCapture {
+    my $this          = shift;
+    my $includedTopic = "TopicToInclude";
+    my $topicText     = <<THIS;
+Baa baa black sheep
+Have you any socks?
+Yes sir, yes sir
+But only in acrylic
+THIS
+
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $this->{other_web},
+        $includedTopic, $topicText);
+    my $text =
+      $this->{twiki}->handleCommonTags(
+        "%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\".*\"}%",
+        $this->{test_web}, $this->{test_topic});
+    $this->assert_str_equals( "", $text );
+}
+
+sub test_docInclude {
+    my $this = shift;
+
+    my $class = 'Foswiki::IncludeHandlers::doc';
+    my $text = $this->{twiki}->handleCommonTags("%INCLUDE{doc:$class}%",
+        $this->{test_web}, $this->{test_topic});
+    my $expected = <<"EXPECTED";
+
+---+ package Foswiki::IncludeHandlers::doc
+
+This package is designed to be lazy-loaded when Foswiki sees
+an INCLUDE macro with the doc: protocol. It implements a single
+method INCLUDE.
+
+EXPECTED
+    $this->assert_str_equals( $expected, $text );
+
+    # Add a pattern
+    $text =
+      $this->{twiki}->handleCommonTags(
+        "%INCLUDE{\"doc:$class\" pattern=\"(Foswiki .*protocol)\"}%",
+        $this->{test_web}, $this->{test_topic});
+    $expected = "Foswiki sees\nan INCLUDE macro with the doc: protocol";
+    $this->assert_str_equals( $expected, $text );
+
+    # A pattern with no ()'s
+    $text =
+      $this->{twiki}->handleCommonTags(
+        "%INCLUDE{\"doc:$class\" pattern=\"Foswiki .*protocol\"}%",
+        $this->{test_web}, $this->{test_topic});
+    $expected = '';
+    $this->assert_str_equals( $expected, $text );
+
+    # A pattern that does not match
+    $text =
+      $this->{twiki}->handleCommonTags(
+        "%INCLUDE{\"doc:$class\" pattern=\"(cabbage.*avocado)\" warn=\"no\"}%",
+        $this->{test_web}, $this->{test_topic});
+    $expected = '';
+    $this->assert_str_equals( $expected, $text );
+}
+
 1;
