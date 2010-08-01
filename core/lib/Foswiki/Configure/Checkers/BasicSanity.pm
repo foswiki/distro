@@ -93,8 +93,8 @@ HERE
 Existing configuration file has a problem
 that is causing a Perl error - the following message(s) was generated:
 <pre>$@</pre>
-You can continue, but configure will not pick up any of the existing
-settings from this file and your previous configuration will be lost.
+<b>You can continue, but configure will not pick up any of the existing
+settings from this file and your previous configuration will be lost.</b>
 Manually edit and correct your <tt>$this->{LocalSiteDotCfg}</tt> file if you
 wish to preserve your prior configuration.
 HERE
@@ -116,8 +116,8 @@ The existing configuration file
 $this->{LocalSiteDotCfg} doesn't seem to contain a good configuration
 for Foswiki. The following problems were found:<br>
 $mess
-You can continue, but configure will not pick up any of the existing
-settings from this file and your previous configuration will be lost.
+<b>You can continue, but configure will not pick up any of the existing
+settings from this file and your previous configuration will be lost.</b>
 Manually edit and correct your <tt>$this->{LocalSiteDotCfg}</tt> file if you
 wish to preserve your prior configuration.
 HERE
