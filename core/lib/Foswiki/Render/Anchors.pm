@@ -142,6 +142,10 @@ sub make {
     $text =~ s/&lt;/</g;
     $text =~ s/&gt;/>/g;
 
+    # strip out potential links so they don't get rendered.
+    # remove double bracket link   
+    $text =~ s/\[(?:\[.*?\])?\[(.*?)\]\s*\]/$1/g;
+
     # remove HTML tags and entities
     $text =~ s/<\/?[a-zA-Z][^>]*>//gi;
     $text =~ s/&#?[a-zA-Z0-9]+;//g;
