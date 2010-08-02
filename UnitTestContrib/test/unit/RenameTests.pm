@@ -42,6 +42,10 @@ $this->{test_web}.OldTopic 2
 3 $this->{test_web}.OldTopic more
 OldTopic 4
 5 OldTopic
+6 !OldTopic
+6A <nop>OldTopic
+6B <nop> OldTopic
+6C ! OldTopic
 7 (OldTopic)
 8 [[$this->{test_web}.OldTopic]]
 9 [[OldTopic]]
@@ -575,6 +579,10 @@ $this->{test_web}.NewTopic 2
 3 $this->{test_web}.NewTopic more
 NewTopic 4
 5 NewTopic
+6 !OldTopic
+6A <nop>OldTopic
+6B <nop> NewTopic
+6C ! NewTopic
 7 (NewTopic)
 8 [[$this->{test_web}.NewTopic]]
 9 [[NewTopic]]
@@ -606,6 +614,10 @@ $this->{test_web}.NewTopic 2
 3 $this->{test_web}.NewTopic more
 NewTopic 4
 5 NewTopic
+6 !OldTopic
+6A <nop>OldTopic
+6B <nop> NewTopic
+6C ! NewTopic
 7 (NewTopic)
 8 [[$this->{test_web}.NewTopic]]
 9 [[NewTopic]]
@@ -638,6 +650,10 @@ $this->{test_web}.NewTopic 2
 3 $this->{test_web}.NewTopic more
 $this->{test_web}.NewTopic 4
 5 $this->{test_web}.NewTopic
+6 !OldTopic
+6A <nop>OldTopic
+6B <nop> $this->{test_web}.NewTopic
+6C ! $this->{test_web}.NewTopic
 7 ($this->{test_web}.NewTopic)
 8 [[$this->{test_web}.NewTopic]]
 9 [[$this->{test_web}.NewTopic]]
@@ -698,6 +714,10 @@ $this->{new_web}.OldTopic 2
 3 $this->{new_web}.OldTopic more
 OldTopic 4
 5 OldTopic
+6 !OldTopic
+6A <nop>OldTopic
+6B <nop> OldTopic
+6C ! OldTopic
 7 (OldTopic)
 8 [[$this->{new_web}.OldTopic]]
 9 [[OldTopic]]
@@ -729,6 +749,10 @@ $this->{new_web}.OldTopic 2
 3 $this->{new_web}.OldTopic more
 OldTopic 4
 5 OldTopic
+6 !OldTopic
+6A <nop>OldTopic
+6B <nop> OldTopic
+6C ! OldTopic
 7 (OldTopic)
 8 [[$this->{new_web}.OldTopic]]
 9 [[OldTopic]]
@@ -761,6 +785,10 @@ $this->{new_web}.OldTopic 2
 3 $this->{new_web}.OldTopic more
 $this->{new_web}.OldTopic 4
 5 $this->{new_web}.OldTopic
+6 !OldTopic
+6A <nop>OldTopic
+6B <nop> $this->{new_web}.OldTopic
+6C ! $this->{new_web}.OldTopic
 7 ($this->{new_web}.OldTopic)
 8 [[$this->{new_web}.OldTopic]]
 9 [[$this->{new_web}.OldTopic]]

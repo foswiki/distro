@@ -1798,7 +1798,12 @@ sub getReferenceRE {
             if ( $options{interweb} ) {
 
                 # Require web specifier
-                $re = "$bow$matchWeb\\.$topic$eow";
+                if ( $options{grep} ) {
+                    $re = "$bow$matchWeb\\.$topic$eow";
+                    }
+                else {
+                        $re = "$STARTWW$matchWeb\\.$topic$ENDWW";
+                    }
                 if ($sot) {
 
                     # match spaced out in squabs only
@@ -1813,7 +1818,13 @@ sub getReferenceRE {
 
                     # Bit of jigger-pokery at the front to avoid matching
                     # subweb specifiers
-                    $re = "(($back\[^./])|^)$bow($matchWeb\\.)?$topic$eow";
+                    if ( $options{grep} ) {
+                        $re = "(($back\[^./])|^)$bow($matchWeb\\.)?$topic$eow";
+                        }
+                    else {
+                        $re = "$STARTWW($matchWeb\\.)?$topic$ENDWW";
+                        }
+
                     if ($sot) {
 
                         # match spaced out in squabs only
