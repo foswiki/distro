@@ -52,13 +52,11 @@ names and also Web names.   The following mapping is performed:
    * =TemplateDir=
    * =ToolsDir=
    * =LocalesDir=
+   * =ScriptDir=
 
 ---+++ Other 
    * =ScriptSuffix=
    * =MimeTypesFileName=
-
----+++ NOT Handled
-   * bin directory is assumed to be bin
 
 =cut
 
@@ -133,10 +131,9 @@ sub mapTarget {
     }
     elsif ( $file =~ s#^locale/#$Foswiki::cfg{LocalesDir}/# ) {
     }
-    elsif ( $file =~ s#^(bin/\w+)$#$root$1$Foswiki::cfg{ScriptSuffix}# ) {
+    elsif ( $file =~ s#^bin/(\w+)$#$Foswiki::cfg{ScriptDir}$1$Foswiki::cfg{ScriptSuffix}# ) {
 
         #This makes a couple of bad assumptions
-        #1. that the foswiki's bin dir _is_ called bin
         #2. that any file going into there _is_ a script - making installing the
         #   .htaccess file via this machanism impossible
         #3. that softlinks are not in use (same issue below)

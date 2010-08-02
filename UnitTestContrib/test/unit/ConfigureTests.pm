@@ -531,10 +531,10 @@ sub test_Util_mapTarget {
 # Remap bin directory and script suffix -  WebPrefsTopicName - default WebPreferences
 
     $Foswiki::cfg{ScriptSuffix} = '.pl';
-    $Foswiki::cfg{ScriptDir}    = 'C:/asdf/bin/';
+    $Foswiki::cfg{ScriptDir}    = 'C:/asdf/cgi-bin/';
     $file                       = 'bin/compare';
     $results = Foswiki::Configure::Util::mapTarget( "C:/asdf/", "$file" );
-    $this->assert_str_equals( "C:/asdf/bin/compare.pl", $results );
+    $this->assert_str_equals( "C:/asdf/cgi-bin/compare.pl", $results );
 
     # Remap the data/mime.types file location
 

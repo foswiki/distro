@@ -88,13 +88,15 @@ my $check_perl_module = sub {
     return $available{$module};
 };
 
-unless ( -d 'lib' && -d 'bin' && -e 'bin/setlib.cfg' ) {
+unless ( -d 'lib' && -d 'data' && -e 'lib/LocalSite.cfg' ) {
     _stop(  'This installer must be run from the root directory'
           . ' of a Foswiki installation' );
 }
 
+my $bindir = getScriptDir('lib/LocalSite.cfg');
+
 # read setlib.cfg
-chdir('bin');
+chdir($bindir);
 require 'setlib.cfg';
 chdir($installationRoot);
 
@@ -484,6 +486,50 @@ sub _validatePerlModule {
       . $module . "\n"
       if $replacements;
     return $module;
+}
+
+=begin TML
+
+---++ StaticMethod getScriptDir( )
+This routine will recover the Script Directory from LocalSite.cfg
+without processing the entire file.  
+
+=cut
+
+sub getScriptDir {
+
+    my $lscFile = shift;
+
+    #  - Single-quoted string
+    my $reSqString = qr{
+          \'
+          ([^\']+)
+          \'
+        }x;
+
+    #  - Double-quoted string
+    my $reDqString = qr{
+          \"
+          ([^\"]+)
+          \"
+        }x;
+
+    my $reBinDir = qr{
+      ^\s*\$Foswiki::cfg\{ScriptDir\}                           # Variable
+      \s*=\s*                                                   # Equal sign - optional spaces
+      (?: (?:$reSqString) | (?:$reDqString) )                   # delimited value
+      \s*;\s*$                                                  # ending bracket
+    }msx;
+
+    local $/ = '';
+    open( my $fh, '<',
+      $lscFile )
+      || die 'Unable to open LocalSite.cfg';
+    my $cfgfile = <$fh>;
+    close($fh);
+    $cfgfile =~ m/$reBinDir/;
+    return $1;
+
 }
 
 #
