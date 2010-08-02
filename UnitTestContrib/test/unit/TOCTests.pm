@@ -238,7 +238,8 @@ sub test_TOC_SpecialCharacters {
         ['TEST_60', '---+ TEST <', 'Less-than'],                     # Less-than
         ['Test_40_41_123_125_91_93_45_43_33_60_62_126_36', '---+ Test (){}[]_-+!<>~$', 'Complex 1'],
         ['Test_60_40_41_123_125_91_93_45_43_33_62_126_36', '---+ Test <(){}[]_-+!>~$', 'Complex 2'],
-
+        ['Linkword', '---++ [[Linkword]]', 'Squarebracket'],
+        ['WikiWord', '---++ [[WikiWord]]', 'Squarebracket with wikiword'],
     );
     foreach my $set (@comparisons) {
         my $expected = $set->[0];
