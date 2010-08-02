@@ -14,8 +14,8 @@ use warnings;
 use Assert;
 use Error qw(:try);
 
-use Foswiki::Time    ();
-use Foswiki::Sandbox ();
+use Foswiki::Time            ();
+use Foswiki::Sandbox         ();
 use Foswiki::Render::Anchors ();
 
 # Used to generate unique placeholders for when we lift blocks out of the
@@ -405,7 +405,7 @@ sub _makeAnchorHeading {
     my $html =
         '<nop><h' 
       . $level . '>'
-      . $anchors->makeHTMLTarget( $text ) . ' '
+      . $anchors->makeHTMLTarget($text) . ' '
       . $text . ' </h'
       . $level . '>';
 
@@ -497,8 +497,8 @@ SMELL: why is this available to Func?
 =cut
 
 sub internalLink {
-    my ( $this, $web, $topic, $linkText, $anchor, $linkIfAbsent,
-         $keepWebPrefix, $hasExplicitLinkLabel, $params )
+    my ( $this, $web, $topic, $linkText, $anchor, $linkIfAbsent, $keepWebPrefix,
+        $hasExplicitLinkLabel, $params )
       = @_;
 
     # SMELL - shouldn't it be callable by Foswiki::Func as well?
@@ -549,8 +549,9 @@ sub internalLink {
 
 # TODO: this should be overridable by plugins.
 sub _renderWikiWord {
-    my ( $this, $web, $topic, $linkText, $anchor,
-         $linkIfAbsent, $keepWebPrefix, $params ) = @_;
+    my ( $this, $web, $topic, $linkText, $anchor, $linkIfAbsent, $keepWebPrefix,
+        $params )
+      = @_;
     my $session = $this->{session};
     my $topicExists = $session->topicExists( $web, $topic );
 
@@ -573,8 +574,7 @@ sub _renderWikiWord {
         $this->{session}->{cache}->addDependency( $web, $topic )
           if $Foswiki::cfg{Cache}{Enabled};
 
-        return _renderExistingWikiWord(
-            $this, $web, $topic, $linkText, $anchor,
+        return _renderExistingWikiWord( $this, $web, $topic, $linkText, $anchor,
             $params );
     }
     if ($linkIfAbsent) {
@@ -724,6 +724,7 @@ sub _escapeAutoLinks {
     my $text = shift;
 
     if ($text) {
+
         # WikiWords, TLAs, and email addresses
         $text =~ s/(?<=[\s\(])
                    (
@@ -734,6 +735,7 @@ sub _escapeAutoLinks {
                        )
                    | $Foswiki::regex{emailAddrRegex}
                    )/<nop>$1/gox;
+
         # Explicit links
         $text =~ s/($Foswiki::regex{linkProtocolPattern}):(?=\S)/$1<nop>:/go;
     }
@@ -752,21 +754,24 @@ sub _handleSquareBracketedLink {
 
     my $hasExplicitLinkLabel = 0;
 
-    if (defined($text)) {
+    if ( defined($text) ) {
+
         # [[$link][$text]]
         $hasExplicitLinkLabel = 1;
-        $text = _escapeAutoLinks( $text );
+        $text                 = _escapeAutoLinks($text);
     }
 
     if ( $link =~ m#^($Foswiki::regex{linkProtocolPattern}:|/)# ) {
+
         # Explicit external [[http://$link]] or [[http://$link][$text]]
         # or explicit absolute [[/$link]] or [[/$link][$text]]
 
-        if ( !defined( $text ) && $link =~ /^(\S+)\s+(.*)$/ ) {
+        if ( !defined($text) && $link =~ /^(\S+)\s+(.*)$/ ) {
+
             # Legacy case of '[[URL anchor display text]]' link
             # implicit untaint is OK as we are just recycling topic content
             $link = $1;
-            $text = _escapeAutoLinks( $2 );
+            $text = _escapeAutoLinks($2);
         }
 
         return _externalLink( $this, $link, $text );
@@ -779,7 +784,7 @@ sub _handleSquareBracketedLink {
         $params = $1;
     }
 
-    $text = _escapeAutoLinks( $link ) unless defined $text;
+    $text = _escapeAutoLinks($link) unless defined $text;
 
     # Extract '#anchor'
     # $link =~ s/(\#[a-zA-Z_0-9\-]*$)//;
@@ -847,10 +852,10 @@ sub _externalLink {
         }
         if ( $Foswiki::cfg{AntiSpam}{HideUserDetails} ) {
 
-            # Much harder obfuscation scheme. For link text we only encode '@'
-            # See also http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item2928
-            # and http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3430
-            # before touching this
+          # Much harder obfuscation scheme. For link text we only encode '@'
+          # See also http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item2928
+          # and http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3430
+          # before touching this
             $url =~ s/(\W)/'&#'.ord($1).';'/ge;
             if ($text) {
                 $text =~ s/\@/'&#'.ord('@').';'/ge;
@@ -864,7 +869,7 @@ sub _externalLink {
 
     # Item5787: if a URL has spaces, escape them so the URL has less
     # chance of being broken by later rendering.
-    $url =~ s/ /%20/g; 
+    $url =~ s/ /%20/g;
 
     # SMELL: Can't use CGI::a here, because it encodes ampersands in
     # the link, and those have already been encoded once in the
@@ -1116,7 +1121,7 @@ sub getRenderedVersion {
     # clear the set of unique anchornames in order to inhibit
     # the 'relabeling' of anchor names if the same topic is processed
     # more than once, cf. explanation in expandMacros()
-    my $anchors = $this->getAnchorNames( $topicObject );
+    my $anchors = $this->getAnchorNames($topicObject);
     $anchors->clear();
 
     # '#WikiName' anchors. Don't attempt to make these unique; renaming
@@ -1168,7 +1173,7 @@ sub getRenderedVersion {
         # Lists and paragraphs
         if ( $line =~ m/^\s*$/ ) {
             unless ( $tableRow || $isFirst ) {
-                $line = '<p />'; # SMELL: should be <p></p>
+                $line = '<p />';    # SMELL: should be <p></p>
             }
             $isList = 0;
         }
@@ -1590,8 +1595,7 @@ sub renderRevisionInfo {
     my $value = $format || 'r$rev - $date - $time - $wikiusername';
 
     # nop if there are no format tokens
-    return $value unless $value =~
-      /\$
+    return $value unless $value =~ /\$
        (comment|date|day|dow|email|epoch|hou|http|iso|longdate
        |min|mo|rcs|rev|sec|time|topic|tz|username|wday|web|week
        |wikiname|wikiusername|ye)/x;
@@ -1800,10 +1804,10 @@ sub getReferenceRE {
                 # Require web specifier
                 if ( $options{grep} ) {
                     $re = "$bow$matchWeb\\.$topic$eow";
-                    }
+                }
                 else {
-                        $re = "$STARTWW$matchWeb\\.$topic$ENDWW";
-                    }
+                    $re = "$STARTWW$matchWeb\\.$topic$ENDWW";
+                }
                 if ($sot) {
 
                     # match spaced out in squabs only
@@ -1820,10 +1824,10 @@ sub getReferenceRE {
                     # subweb specifiers
                     if ( $options{grep} ) {
                         $re = "(($back\[^./])|^)$bow($matchWeb\\.)?$topic$eow";
-                        }
+                    }
                     else {
                         $re = "$STARTWW($matchWeb\\.)?$topic$ENDWW";
-                        }
+                    }
 
                     if ($sot) {
 
@@ -1958,7 +1962,6 @@ sub protectFormFieldValue {
     return $value;
 }
 
-
 =begin TML
 
 ---++ ObjectMethod getAnchors( $topicObject ) -> $set
@@ -1979,10 +1982,10 @@ Returns an object of type Foswiki::Render::Anchors.
 sub getAnchorNames {
     my ( $this, $topicObject ) = @_;
     my $id = $topicObject->getPath();
-    my $a = $this->{_anchorNames}{ $id };
+    my $a  = $this->{_anchorNames}{$id};
     unless ($a) {
         $a = new Foswiki::Render::Anchors();
-        $this->{_anchorNames}{ $id } = $a;
+        $this->{_anchorNames}{$id} = $a;
     }
     return $a;
 }
