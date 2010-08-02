@@ -240,6 +240,8 @@ sub test_TOC_SpecialCharacters {
         ['Test_60_40_41_123_125_91_93_45_43_33_62_126_36', '---+ Test <(){}[]_-+!>~$', 'Complex 2'],
         ['Linkword', '---++ [[Linkword]]', 'Squarebracket'],
         ['WikiWord', '---++ [[WikiWord]]', 'Squarebracket with wikiword'],
+        ['WikiWord_is_first', '---++ WikiWord is first', 'WikiWord is first'],
+        ['System.WikiWord_is_first', '---++ System.WikiWord is first', 'WikiWord is first'],
     );
     foreach my $set (@comparisons) {
         my $expected = $set->[0];
@@ -280,7 +282,8 @@ sub test_TOC_makeAnchorName {
         ['Test_40_41_123_125_91_93_45_43_33_60_62_126_36', 'Test (){}[]_-+!<>~$', 'Complex 1'],
         ['Test_60_40_41_123_125_91_93_45_43_33_62_126_36', 'Test <(){}[]_-+!>~$', 'Complex 2'],
         ['Linkword', '[[Linkword]]', 'Squarebracket'],
-        ['WikiWord', '[[WikiWord]]', 'Squarebracket with wikiword'],
+        ['WikiWord_is_first', 'WikiWord is first', 'WikiWord is first'],
+        ['System.WikiWord_is_first', 'System.WikiWord is first', 'WikiWord is first'],
     );
     foreach my $set (@comparisons) {
         my $expected = $set->[0];
