@@ -3,6 +3,6 @@
 
 Edit this topic to add a description to the %URLPARAM{"topic"}%
 
-%META:PREFERENCE{name="GROUP" title="GROUP" value="AdminUser, SvenDowideit, RegistrationAgent"}%
+%META:PREFERENCE{name="GROUP" title="GROUP" value="AdminUser, RegistrationAgent"}%
 %META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="GroupView"}%
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="%URLPARAM{"topic"}%"}%
