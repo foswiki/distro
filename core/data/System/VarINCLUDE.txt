@@ -7,14 +7,13 @@
      | *Parameter:* | *Description:* | *Default:* |
      | ="SomeTopic"= | The name of a topic located in the current web, i.e. =%<nop>INCLUDE{"WebNotify"}%= | |
      | ="Web.Topic"= | A topic in another web, i.e. =%<nop>INCLUDE{"%SYSTEMWEB%.SiteMap"}%= | |
-     | ="doc:Foswiki::..." level="3" | Generates the embedded documentation in the given perl module. The optional =level= parameter lets you define the base level for headings in the included text. |
      | =pattern="..."= |Include a subset of a topic or a web page. Specify a RegularExpression that contains the text you want to keep in parenthesis, e.g. =pattern="(from here.*?to here)"=. IncludeTopicsAndWebPages has more. | none |
      | =rev="2"= | Include a previous topic revision; N/A for URLs | top revision |
      | =warn="off"= | Warn if topic include fails: Fail silently (if =off=); output default warning (if set to =on=); else, output specific text (use =$topic= for topic name) | =%<nop>INCLUDEWARNING%= [[DefaultPreferences][preferences]] setting |
      | =section="name"= | Includes only the specified named section, as defined in the included topic by the [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION]] and [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarENDSECTION][ENDSECTION]] macros. Nothing is shown if the named section does not exists. =section=""= is equivalent to not specifying a section | |
      | =PARONE="val 1"%BR% PARTWO="val 2"= | Any other parameter will be defined as a macro within the scope of the included topic. The example parameters on the left will result in =%<nop>PARONE%= and =%<nop>PARTWO%= being defined within the included topic. | |
    * Examples: See IncludeTopicsAndWebPages
-   * Related: [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarBASETOPIC][BASETOPIC]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarBASEWEB][BASEWEB]], [[#VarINCLUDEURL][INCLUDE("URL")]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDINGWEB][INCLUDINGWEB]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTARTINCLUDE][STARTINCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTOPINCLUDE][STOPINCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarENDSECTION][ENDSECTION]]
+   * Related: [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarBASETOPIC][BASETOPIC]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarBASEWEB][BASEWEB]], [[#VarINCLUDEURL][INCLUDE("URL")]], [[#VarINCLUDEdoc][INCLUDE("doc:")]] ,[[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDINGWEB][INCLUDINGWEB]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTARTINCLUDE][STARTINCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTOPINCLUDE][STOPINCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarENDSECTION][ENDSECTION]]
 #VarINCLUDEURL
 ---+++ INCLUDE{"url"} -- include a web page
    * Syntax: =%<nop>INCLUDE{"http://..." ...}%=  (See also the topic form of =%<nop>INCLUDE%=)
@@ -41,4 +40,6 @@
      | *Parameter:* | *Description:* | *Default:* |
      | ="doc:..."= | A full qualified Foswiki module, i.e. =%<nop>INCLUDE{"doc:Foswiki::Func"}%=.  The module must be found on the Foswiki lib path | |
    * Examples: See [[System/PerlDoc?module=Foswiki::Func][System/PerlDoc?module=Foswiki::Func]]
+   * Related: [[#VarINCLUDE][INCLUDE("topic")]] [[#VarINCLUDEURL][INCLUDE("URL")]]
+
 
