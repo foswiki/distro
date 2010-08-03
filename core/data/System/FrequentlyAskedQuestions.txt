@@ -1,40 +1,122 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+ Frequently Asked Questions
 
-This is a real FAQ, and also a demo of an easily implemented knowledge-base solution. To see how it's done, [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=on][view the source of this topic]].
+This is a real FAQ, and also a demo of an easily implemented knowledge-base solution. You may view the code for the <a class="twistyExpandAll" href="#CreatorCode">topic creator</a> or [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=on][raw text of the whole topic]] to see how it was done.
+%TWISTY{showlink="Summary of the pieces used..."}%
+   * [[FAQTemplate]] is used to populate new FAQ topics with their default content
+   * [[BasicForm]] is the [[DataForms]] definition used on the FAQ topics. Also implements autocomplete function for the !RelatedTopics field
+   * [[BasicViewTemplate]] controls how BasicForm topics look when viewed
+   * [[BasicEditTemplate]] controls how BasicForm topics look when edited
+   * [[AutoViewTemplatePlugin]] activates BasicViewTemplate and BasicEditTemplate for topics that have BasicForm attached to them
+   * [[JQueryWikiWord]] "wikifies" the free-text Title field into a valid WikiWord topic name, prefixed with FAQ
+   * [[JQueryTextboxList]] for autocomplete functionality on the !RelatedTopics field
+   * [[VarJQREQUIRE][JQREQUIRE]] activates jQuery javascript plugins in the browser
+   * [[VarADDTOZONE][ADDTOZONE]] inserts in-line javascript to the appropriate place in the rendered page
+   * [[VarURLPARAM][URLPARAM]] is used to relay the autocomplete request from the web browser into a part of a [[VarSEARCH][SEARCH]] query
+   * [[VarSEARCH][SEARCH]] On this topic, displays all topics with BasicForm attached that have !TopicClassification set to =FrequentlyAskedQuestion=. In the BasicForm topic, [[VarSEARCH][SEARCH]] generates the suggested list of topics for a given autocomplete request
+   * [[VarMAKETEXT][MAKETEXT]] will try to use a translation appropriate for the logged-in user's language preference for the string given to it
+   * [[VarINCLUDE][INCLUDE]] allows topics to re-use content from other topics
+   * [[VarSTARTSECTION][STARTSECTION]]/ENDSECTION allows [[VarINCLUDE][INCLUDE]] to include specific parts of a topic
+   * [[TwistyPlugin][TWISTY]] allows hidden content such as this
+---
+%ENDTWISTY%
 
 %SEARCH{
-   "[B]ack to:\* FrequentlyAskedQuestions"
-   casesensitive="on"
-   type="regex"
-   nosearch="on"
-   nototal="on"
-   format="   * $pattern(.*---\+\+ FAQ:\s*([^\n]*).*) [[$topic][Answer]]"
+   "form.name='BasicForm' AND TopicClassification='FrequentlyAskedQuestion'"
+   type="query"
+   nonoise="on"
+   format="   * $formfield(TopicSummary) [[$topic][Answer]]"
+   footer="$ntopics FAQs found"
 }%
 
 ---++ More FAQs
+<blockquote class="foswikiHelp">%X% These topics are for frequently asked questions *including* answers; please ask support questions in the Foswiki:Support web.</blockquote>
 
-%X% These topics are for frequently asked questions *including* answers; please ask support questions in the Foswiki:Support web.
+%INCLUDE{"%TOPIC%" section="creator"}%
 
-More FAQs are available at Foswiki:Support.FAQ. Please consider also submitting there so that your work may help others.
+#CreatorCode
+%TWISTY{showlink="Show topic creator code..."}%%JQREQUIRE{"chili"}%
+<verbatim class="tml">%STARTSECTION{"creator"}%%JQREQUIRE{"wikiword"}%
+<form action="%SCRIPTURL{"edit"}%/%WEB%/" method="post" id='newfaqform'>
+New FAQ topic (based on FAQTemplate)
+| %MAKETEXT{"FAQ"}%   | <input type="text" id="faqsummary" name="TopicSummary"\
+                               size="32" value="I did this ..., how do I ..." />          |
+| %MAKETEXT{"Title"}% | <input type="text" id="faqtopic" name="topic"\
+                               size="32" value="Explanation of ..." />               |
+|                     | <input type="submit" style="float: right;"\
+                               class="foswikiSubmit" value="%MAKETEXT{"Create"}%" /> |
 
-<form action="%SCRIPTURL{"edit"}%/%WEB%/" method="post">
-New FAQ topic (based on FaqTemplate): &nbsp; (Use a name in WikiNotation) <br />
-<input type="text" name="topic" size="32" />
-<input type="hidden" name="onlywikiname" value="on" />
-<input type="hidden" name="templatetopic" value="FaqTemplate" />
-<input type="hidden" name="topicparent" value="%TOPIC%" />
-<input type="submit" class="foswikiSubmit" value="Create Topic" />
+    <input type="hidden" name="onlywikiname" value="on" />
+    <input type="hidden" name="templatetopic" value="FAQTemplate" />
+    <input type="hidden" name="formtemplate" value="BasicForm" />
+    <input type="hidden" name="TopicClassification" value="FrequentlyAskedQuestion" />
+    <input type="hidden" id="faqtopictitle" name="TopicTitle" value="" />
+    <input type="hidden" name="topicparent" value="%TOPIC%" />
+    <input type="hidden" name="redirectto" value="%WEB%.%TOPIC%" />
 </form>
+%JQREQUIRE{"wikiword"}%%ADDTOZONE{
+    "body"
+    id="%WEB%/%TOPIC%::FAQCreator"
+    requires="JQUERYPLUGIN::WIKIWORD"
+    text="
+<script type='text/javascript'>
+    jQuery(document).ready(function($) {
+        var faqtopic_default   = 'Explanation of ...',
+            faqsummary_default = 'I did this ..., how do I ...';
+
+        function _clearDefaultTextOnFocus (selector, text) {
+            // If focus is shifted to the input box, clear the example text
+            $(selector).focus(
+                function () {
+                    if ($(selector).val() === text) {
+                        $(selector).val('');
+                    }
+                }
+            );
+        };
+
+        function _setDefaultTextOnBlur (selector, text) {
+            $(selector).blur(
+                function () {
+                    if (!$(selector).val()) {
+                        $(selector).val(text);
+                    }
+                }
+            );
+        }
+
+        // Use the entered FAQ title to form a valid WikiWord topic name
+        $('#newfaqform').submit(
+            function () {
+                // Actually, the title was entered into the topic name field,
+                // this should allow the form to work without javascript
+                $('#faqtopictitle').val($('#faqtopic').val());
+                // .wikiword takes a selector whose value is used to build a
+                // valid wikiword. See System.JQueryWikiWord
+                $('#faqtopic').wikiword('#faqtopic', {\"prefix\" : \"FAQ\"});
+
+                return;
+            }
+        );
+        _clearDefaultTextOnFocus ('#faqtopic', faqtopic_default);
+        _clearDefaultTextOnFocus ('#faqsummary', faqsummary_default);
+        _setDefaultTextOnBlur('#faqtopic', faqtopic_default);
+        _setDefaultTextOnBlur('#faqsummary', faqsummary_default);
+    });
+</script>"
+}%%ENDSECTION{"creator"}%
+</verbatim>
+%ENDTWISTY%
 
 ---++ More sources...
 
 Other places where you can find answers to your questions:
 
+   * More FAQs are available at Foswiki:Support.FAQ
+      <blockquote class="foswikiHelp">%ICON{"info"}% If you create your own FAQs, please consider sharing them at Foswiki:Support.FAQ so that your work may benefit others.</blockquote>
    * CompleteDocumentation: All you need to know to install and configure Foswiki
    * TwentyMinuteTutorial: Get a jump start on using this wiki 
    * GoodStyle: Things to consider when changing text
    * WikiSyntax, TextFormattingRules: A quick one-two guide to Foswiki shorthand basics
    * If you can't find an answer, ask a question - post it in the Foswiki:Support web
-

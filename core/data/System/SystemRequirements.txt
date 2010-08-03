@@ -27,7 +27,7 @@ The default package requires [[http://www.gnu.org/software/rcs/rcs.html][RCS (Re
 A complete list of the required and optional Perl modules can be found in =lib/DEPENDENCIES=.
 
 Most of them will probably already be available in your installation. You can check version numbers with the =configure= script, or if you're still trying to get to that point, check from the command line like this:
-<verbatim>
+<verbatim class="perl">
 perl -e 'use FileHandle; print $FileHandle::VERSION."\n"'
 </verbatim>
 
@@ -37,8 +37,9 @@ perl -e 'use FileHandle; print $FileHandle::VERSION."\n"'
 
 The [[InstallationGuide][standard installation]] has relatively low browser requirements:
 
-   * HTML 4 compliant
+   * XHTML 1.0 Transitional compliant
    * Cookies, if persistent sessions are required
+   * Javascript, for edit/save/upload functionality <blockquote class="foswikiHelp">%ICON{"tip"}% Change ={ValidationMethod}{Method}= from =strikeone= to =embedded= in [[%SCRIPTURLPATH{"configure"}%][configure]] to allow non-javascript browsers to edit/save/upload</blockquote>
 
 CSS and Javascript are used in most skins. Some skins will require more recent releases of browsers. The default skin is tested on IE 6, 7, Safari 3.0, and recent Mozilla based browsers (such as Firefox).
 

@@ -28,6 +28,30 @@ To use a macro type its name. For example,
    * Macros are expanded relative to the topic they are _used_ in, not the topic they are _defined_ in
    * Type =%<nop>ALLVARIABLES%= to get a full listing of all macros defined for a particular topic
 
+---+++ Order of expansion
+The following describes only these types of macros:
+   * Most built-in Foswiki macros. The following are notable exceptions: [[VarCALC][CALC]], [[VarSTARTSECTION][STARTSECTION]]/ENDSECTION, [[VarSTARTINCLUDE][STARTINCLUDE]]/STOPINCLUDE
+   * Preference variables
+   * Macros registered by most plugins, using the so-called [[PerlDoc?module=Foswiki::Func#registerTagHandler][registerTagHandler()]]
+
+But *not* plugins which rely on [[PerlDoc?module=Foswiki::Func#commonTagsHandler][commonTagsHandler()]]
+
+%STARTSECTION{"insideoutlefttoright"}%
+#InsideOutLeftToRight
+The key to understanding nested expressions in Foswiki is to understand that macros are expanded "inside-out, left-to-right". For example:
+<verbatim class="tml">
+%MACRO1{
+   something="%MACRO2{
+      somethingelse="%MACRO3%, %MACRO4%"
+   }%"
+}%
+</verbatim>
+
+The macros are expanded in this order: MACRO3, MACRO4, MACRO2, MACRO1.
+%ENDSECTION{"insideoutlefttoright"}%
+
+See also: [[FormattedSearch#NestedSearchExample][FormattedSearch]]
+
 ---++ Macro Names
 Macro names must start with a letter. The following characters can be letters, numbers and the underscore '_'. Letters may be upper or lower-case, E.g. =%<nop>MYVAR%=, =%<nop>MyVar%=, =%<nop>My2ndVar%=, and =%<nop>My_Var%= are all separate, valid macro names (macros are case sensitive  - =%<nop>MyVAR%= and =%<nop>MYVAR%= are not the same).
 

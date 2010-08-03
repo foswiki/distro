@@ -703,7 +703,7 @@ You need to escape the CALC so that it executes once per search hit. This can be
 
 To repeat the same formula in all cells of a table row define the formula once in a preferences setting and use that in the CALC. The preferences setting can be hidden in HTML comments. Example:
 
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 <!--
    * Set MYFORMULA = $EVAL($SUBSTITUTE(...etc...))
 -->
@@ -726,7 +726,7 @@ To repeat the same formula in all cells of a table row define the formula once i
 
 The last row is defined as:
 
-<verbatim>
+<verbatim class="tml">
 | Total: %CALC{"$ROW(-2)"}% \ 
   | %CALC{"$COUNTITEMS( R2:C$COLUMN()..R$ROW(-1):C$COLUMN() )"}% | . \ 
   | %CALC{"$COUNTITEMS( R2:C$COLUMN()..R$ROW(-1):C$COLUMN() )"}% \ 
@@ -771,6 +771,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  04 Aug 2010: | Foswikitask:Item9415: Minor documentation updates |
 |  21 Jul 2010: | Foswikitask:Item5163: prevent misrendering of empty rows, Foswikitask:Item9400: correct $LIST for cells containing commas, as per doc |
 |  29 Dec 2009: | Foswikitask:Item2301: added =$nop= to $LISTJOIN() for better empty parameter |
 |  10 Nov 2009: | Added unit tests |

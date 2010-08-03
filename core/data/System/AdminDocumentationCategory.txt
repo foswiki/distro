@@ -12,7 +12,7 @@
    $ [[DefaultPreferences]] : This topic defines site-level settings that apply to all users and webs on this site. Use this as a read-only topic. Always apply your local settings to %USERSWEB%.SitePreferences
    $ [[DefaultUserRegistration]] : This topic defines the default user registration page. If a custom user registration page exists in %USERSWEB% web this will be used instead of this default. See the hidden comment in [[UserRegistration]] how to create a custom registration page
    $ [[EnhancementRequests]] : A brief description how to raise enhancement requests for Foswiki
-   $ [[GnuGeneralPublicLicense]] : Brief explanation of GPL - the license under which Foswiki is distributed
+   $ [[FAQGnuGeneralPublicLicense]] : Brief explanation of GPL - the license under which Foswiki is distributed
    $ [[HierarchicalNavigation]] : Navigation block that displays the current topic, its parent and children (if any). This is intended to be included in other topics, for example in a side navigation bar 
    $ [[InstallationGuide]] : This guide describes the steps for manually installing Foswiki
    $ [[InstantEnhancements]] : Description of quick enhancements aimed at improving and customising your Foswiki
@@ -37,7 +37,7 @@
    $ [[ReleaseHistory]] : Complete list of all releases of Foswiki
    $ [[ReleaseNotes01x00]] : Release note for all Foswiki 1.0.X releases including lists of all enhancements and bugfixes
    $ [[ReleaseNotes01x01]] : Release note for all Foswiki 1.1.X releases including lists of all enhancements and bugfixes
-   $ [[SearchDoesNotWork]] : Description of a possible root cause in case no searches work
+   $ [[FAQSearchDoesNotWork]] : Description of a possible root cause in case no searches work
    $ [[SiteMap]] : An overview of all the webs incl links to search, recent changes, and notifications. Mainly targetted for the administrators but can also be useful for the users
    $ [[SiteTools]] : Describes the utilities for searching, navigation, and monitoring site activity. It describes WebNotify, to e-mail alerts when topics are edited, and WebStatistics, to generate detailed activity reports. It also describes how to use the RSS and Atom feeds. Mainly targetted for the administrator
    $ [[Skins]] : An introduction to skins and skin development

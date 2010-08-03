@@ -34,7 +34,7 @@ Manual sections in separate pages:
    * *Appendices*
       * [[ReleaseHistory][A: Development Timeline]]
       * [[AppendixEncodeURLsWithUTF8][B: Encode URLs With UTF8]]
-      * [[CascadingStyleSheets][C: Cascading Style Sheets]]
+      * [[AppendixCascadingStyleSheets][C: Cascading Style Sheets]]
 
  %T% *ADMINS:* In less than an hour, you can read through and customize the [[UsersGuide][User's Guide]] to reflect the exact feature set enabled on your own site. See also other enhancement pages: 
    * InstantEnhancements: Simple tips (using just browser, no install needed) and quick (max couple of minutes).

@@ -34,7 +34,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * List this web in the %SYSTEMWEB%.SiteMap:
       * If yes, set SITEMAPLIST to =on=, do not set NOSEARCHALL, and add the "what" and "use to..." description for the site map. Make sure to list only links that include the name of the web, e.g. <nop>%WEB%.Topic links.
       * Set SITEMAPLIST = on
-      * Set WEBSUMMARY = %IF{"defined SITEMAPWHAT" then="$percntSITEMAPWHAT$percnt"}% %IF{"defined SITEMAPUSETO" then="$percntSITEMAPUSETO$percnt"}%
+      * Set WEBSUMMARY = %IF{"defined SITEMAPWHAT" then="$percentSITEMAPWHAT$percent"}% %IF{"defined SITEMAPUSETO" then="$percentSITEMAPUSETO$percent"}%
 
    * Copyright notice:
       * Set WEBCOPYRIGHT = <span class="foswikiRight"> <a href="http://foswiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif" alt="%MAKETEXT{"This site is powered by Foswiki"}%" title="%MAKETEXT{"This site is powered by Foswiki"}%" border="0" /></a></span>%MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}%

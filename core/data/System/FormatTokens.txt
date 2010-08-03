@@ -3,7 +3,7 @@
 ---++ Formatting Tokens
 
 Foswiki defines some standard special tokens that can be used to replace characters in some parameters - notably those to FormattedSearch and IfStatements - to defer evaluation of the parameter until later. These special tokens are often called "escapes", because they allow the character to "escape" from its normal meaning. 
-%STARTINCLUDE%| =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= |
+%STARTINCLUDE%| =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= <blockquote>%ICON{"warning"}% Most macros accept parameter strings split over multiple lines. This is much more readable, and strongly preferred over =$n= tokens. If you are familiar with [[VarSTARTSECTION][sectional includes]], you might also consider [[FormattedSearch#NestedSectionalInclude][nested sectional includes]] to hold the newline content outside of the parameter string entirely.</blockquote> |
 | =$nop= or =$nop()= | Is a "no operation". This token gets removed; useful for nested search |
 | =$quot= | Double quote (="=) (\" also works) |
 | =$percent= | Percent sign (=%=) (=$percnt= also works) |

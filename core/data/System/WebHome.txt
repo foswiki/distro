@@ -28,7 +28,7 @@ Foswiki is a flexible, powerful, secure, yet simple web-based collaboration plat
    * WebStatistics - listing popular topics and top contributors
    * WebPreferences - preferences of this web
 
-Foswiki is developed as Free Software under the [[GnuGeneralPublicLicense][GNU/GPL]]. Get the latest version from [[Foswiki:Download][Foswiki.org downloads]].
+Foswiki is developed as Free Software under the [[FAQGnuGeneralPublicLicense][GNU/GPL]]. Get the latest version from [[Foswiki:Download][Foswiki.org downloads]].
 
 
 This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*

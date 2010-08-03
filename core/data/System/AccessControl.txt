@@ -279,11 +279,11 @@ For this topic, this displays:
 
 Alternatively, place them in HTML comment markers, but this exposes the access setting during ordinary editing.
 
-<blockquote>
+%JQREQUIRE{"chili"}%<pre class="tml">
 ==&lt;!--== <br />
 ==&nbsp;  * Set <nop>DENYTOPICCHANGE = %USERSWEB%.<nop>SomeGroup== <br />
 ==--&gt;==
-</blockquote>
+</pre>
 
 %STOPINCLUDE%
 

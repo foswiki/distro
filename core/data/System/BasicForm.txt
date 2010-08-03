@@ -4,4 +4,12 @@
 | TopicClassification | select | 1 | | Classify a topic | |
 | Topic Summary | text | 80 | | Short summary of feature/bug/idea | |
 | Interested Parties | text | 80 | | Use for tracking and show key interested people | |
-| Related Topics | text | 80 | | Please add links to related topics | |
+| Related Topics | textboxlist | 80 | %SCRIPTURL{"view"}%/%WEB%/%TOPIC%?contenttype=text/plain;skin=text;section=topics | Please add links to related topics | |
+
+%JQREQUIRE{"chili"}%<verbatim class="tml">
+%STARTSECTION{"topics"}%<noautolink>%SEARCH{
+    "lc(name)=~lc('.*%URLPARAM{"q"}%.*')"
+    type="query"
+    nonoise="on"
+    format="$topic"
+}%</noautolink>%ENDSECTION{"topics"}%</verbatim>

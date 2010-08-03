@@ -4,8 +4,8 @@
 -->
 %IF{
 "istopic '%USERSWEB%.%TOPIC%'"
-then="$percntINCLUDE{$quot%USERSWEB%.%TOPIC%$quot NOREGISTRATION=$quot%NOREGISTRATION%$quot}$percnt" 
-else="$percntINCLUDE{$quot%SYSTEMWEB%.Default%TOPIC%$quot REGISTRATION_DISABLED=$quot%REGISTRATION_DISABLED%$quot}$percnt"
+then="$percentINCLUDE{$quot%USERSWEB%.%TOPIC%$quot NOREGISTRATION=$quot%NOREGISTRATION%$quot}$percent" 
+else="$percentINCLUDE{$quot%SYSTEMWEB%.Default%TOPIC%$quot REGISTRATION_DISABLED=$quot%REGISTRATION_DISABLED%$quot}$percent"
 }%
 <!--
 The section above looks whether a custom user registration page exists in %USERSWEB% and includes it if it does; otherwise it includes DefaultUserRegistration.

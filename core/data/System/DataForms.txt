@@ -16,7 +16,7 @@ Typical steps to build an application based on Foswiki forms:
    1. Build an HTML form to create new topics based on that template topic
    1. Build a FormattedSearch to list topics that share the same form
 
-For a step by step tutorial, see AnApplicationWithWikiForm.
+For a step by step tutorial, see FAQAnApplicationWithWikiForm.
 
 #FormDefinition
 ---++ Defining a form
@@ -235,4 +235,4 @@ The best way to search in form data is using the structured query language in th
 %STOPINCLUDE%
 
 ---
-*Related Topics:* DeveloperDocumentationCategory, TemplateTopics, AnApplicationWithWikiForm
+*Related Topics:* DeveloperDocumentationCategory, TemplateTopics, FAQAnApplicationWithWikiForm

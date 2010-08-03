@@ -55,7 +55,7 @@
 </div>
 </form>
 
-%IF{"$'URLPARAM{viewtheme}'" then='$percntINCLUDE{$quot%BASETOPIC%$quot section=$quotstoresettings$quot}$percnt'}%
+%IF{"$'URLPARAM{viewtheme}'" then='$percentINCLUDE{$quot%BASETOPIC%$quot section=$quotstoresettings$quot}$percent'}%
 
 <verbatim class="foswikiHidden">
 %STARTSECTION{"storesettings"}%

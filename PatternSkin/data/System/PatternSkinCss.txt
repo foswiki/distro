@@ -17,7 +17,7 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
 ---++ Naming conventions
 
    * All !PatternSkin specific classes have the prefix =pattern=: patternEditPage, patternTopicAction, etcetera. 
-   * Foswiki specific classes (emitted by the Foswiki engine) have the prefix =foswiki=: foswikiButton, foswikiToc, etcetera. See for a complete list CascadingStyleSheets.
+   * Foswiki specific classes (emitted by the Foswiki engine) have the prefix =foswiki=: foswikiButton, foswikiToc, etcetera. See for a complete list AppendixCascadingStyleSheets.
    * Positional containers are referred by id, for instance =#patternSideBar=.
 
 ---++ Namespaces

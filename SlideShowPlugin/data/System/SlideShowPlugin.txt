@@ -108,13 +108,15 @@ Just customize the attached slideshow.css file to improve the view
 
 ---+++ Current default template
 The part between the rulers defines the default format of a slide:
-<verbatim>
-%STARTINCLUDE%<div class="slideshowToolbar"> Page %SLIDENUM% of %SLIDEMAX% </div>
-<div class="slideshowHeader"> %SLIDENAVALL%
-<h1>%SLIDETITLE%</h1>
-</div>
-<div class="slideshowContent"> %SLIDETEXT% </div>
-<div class="slideshowFooter"> %SLIDECOMMENT% </div>%STOPINCLUDE%
+%JQREQUIRE{"chili"}%<verbatim class="tml">
+%STARTINCLUDE%
+    <div class="slideshowToolbar"> Page %SLIDENUM% of %SLIDEMAX% </div>
+    <div class="slideshowHeader"> %SLIDENAVALL%
+        <h1>%SLIDETITLE%</h1>
+    </div>
+    <div class="slideshowContent"> %SLIDETEXT% </div>
+    <div class="slideshowFooter"> %SLIDECOMMENT% </div>
+%STOPINCLUDE%
 </verbatim>
 
 ---++ Plugin installation instructions

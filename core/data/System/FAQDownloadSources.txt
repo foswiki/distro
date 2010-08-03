@@ -1,0 +1,14 @@
+%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
+Foswiki is distributed under the GnuGeneralPublicLicense. You can get the sources in several ways:
+   * Official releases may be downloaded from http://foswiki.org/Download
+   * Latest developments may be checked out from the svn repository at http://svn.foswiki.org
+   * Review commits and browse the svn repository at http://trac.foswiki.org
+
+%META:FORM{name="BasicForm"}%
+%META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="DownloadSources" to="FaqDownloadSources"}%
+%META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Get Foswiki"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="I would like to install Foswiki on my server. Can I get the source?"}%
+%META:FIELD{name="InterestedParties" attributes="" title="Interested Parties" value=""}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="AdminDocumentationCategory"}%

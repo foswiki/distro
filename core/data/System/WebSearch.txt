@@ -1,12 +1,12 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WebHome"}%
-%IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quotsearch$quot}$percnt"}%
+%IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotsearch$quot}$percent"}%
 
-%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quotsearchadvanced$quot}$percnt"}%
+%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotsearchadvanced$quot}$percent"}%
 
-%IF{"$'URLPARAM{tab}'='az'" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quotaz$quot}$percnt"}%
+%IF{"$'URLPARAM{tab}'='az'" then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotaz$quot}$percent"}%
 
-%IF{"$'URLPARAM{tab}'='help'" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quothelp$quot}$percnt"}%
+%IF{"$'URLPARAM{tab}'='help'" then="$percentINCLUDE{$quot%TOPIC%$quot section=$quothelp$quot}$percent"}%
 
 <verbatim class="foswikiHidden">
 
@@ -50,7 +50,7 @@ link="<strong>%MAKETEXT{"Search options"}%</strong>"
 showimgleft="%ICONURLPATH{toggleopen}%"
 hideimgleft="%ICONURLPATH{toggleclose}%"
 }%
-%IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'=''" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quotoptionssimple$quot}$percnt"}%%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quotoptionsadvanced$quot}$percnt"}%
+%IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'=''" then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotoptionssimple$quot}$percent"}%%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotoptionsadvanced$quot}$percent"}%
 %ENDTWISTY%
 </div>
 <div class="foswikiFormStep foswikiLast">
@@ -143,7 +143,7 @@ hideimgleft="%ICONURLPATH{toggleclose}%"
 
 
 %STARTSECTION{"searchresults"}%%IF{"$'URLPARAM{search}'!=''" then='<h2>Search results</h2>
-$percntINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$percnt'}%
+$percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$percent'}%
 %SEARCH{
 "%URLPARAM{"search" encode="quote"}%"
 type="%URLPARAM{"type" default="word"}%"
@@ -167,7 +167,7 @@ zeroresults="%IF{ "defined search and $search!=''" then="on" else="off" }%"
 %STARTSECTION{"searchfeedlink"}% <a href='%SCRIPTURL{"view"}%/%BASEWEB%/WebRss?search=%URLPARAM{"search" encode="url"}%;type=%IF{"'%URLPARAM{"regex"}%'='on' OR '%URLPARAM{"type"}%'='regex'" then="regex" else="word"}%;excludetopic=%URLPARAM{"excludetopic" encode="url" default="%TOPIC%,WebHome,WebStatistics"}%;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%'>%MAKETEXT{"Get notified on changes on this search"}%</a>%ENDSECTION{"searchfeedlink"}%
 
 
-%STARTSECTION{"querysearchexample"}%%IF{"$'URLPARAM{search}'!=''" then='$percntINCLUDE{$quot%TOPIC%$quot section=$quot_querysearchexample$quot}$percnt'}%%ENDSECTION{"querysearchexample"}%
+%STARTSECTION{"querysearchexample"}%%IF{"$'URLPARAM{search}'!=''" then='$percentINCLUDE{$quot%TOPIC%$quot section=$quot_querysearchexample$quot}$percent'}%%ENDSECTION{"querysearchexample"}%
 
 
 %STARTSECTION{"_querysearchexample"}%<p /><div class="foswikiHelp">
@@ -182,7 +182,7 @@ zeroresults="%IF{ "defined search and $search!=''" then="on" else="off" }%"
 </div>%ENDSECTION{"_querysearchexample"}%
 
 
-%STARTSECTION{"searchbyletterlink"}%%IF{"$'URLPARAM{searchletter}'='%letter%'" then="%letter%" else="<a href='%SCRIPTURLPATH{"search"}%/%BASEWEB%/%TOPIC%?scope=topic&amp;type=regex&amp;search=%5E%letter%;$percntINCLUDE{$quot%TOPIC%$quot section=$quotsearchparamsadvanced$quot}$percnt;searchletter=%letter%;tab=az'>%letter%</a>"}%%ENDSECTION{"searchbyletterlink"}%
+%STARTSECTION{"searchbyletterlink"}%%IF{"$'URLPARAM{searchletter}'='%letter%'" then="%letter%" else="<a href='%SCRIPTURLPATH{"search"}%/%BASEWEB%/%TOPIC%?scope=topic&amp;type=regex&amp;search=%5E%letter%;$percentINCLUDE{$quot%TOPIC%$quot section=$quotsearchparamsadvanced$quot}$percent;searchletter=%letter%;tab=az'>%letter%</a>"}%%ENDSECTION{"searchbyletterlink"}%
 
 
 %STARTSECTION{"az"}%%INCLUDE{"%TOPIC%" section="title"}%
@@ -193,7 +193,7 @@ zeroresults="%IF{ "defined search and $search!=''" then="on" else="off" }%"
 %MAKETEXT{"List topics that start with the letter:"}% %INCLUDE{"%TOPIC%" section="letterlist"}%
 </div>
 </div>
-%IF{"$'URLPARAM{searchletter}'" then="$percntINCLUDE{$quot%TOPIC%$quot section=$quotsearchresults$quot}$percnt$percntINCLUDE{$quot%TOPIC%$quot section=$quotquerysearchexample$quot}$percnt"}%</div>%ENDSECTION{"az"}%
+%IF{"$'URLPARAM{searchletter}'" then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotsearchresults$quot}$percent$percentINCLUDE{$quot%TOPIC%$quot section=$quotquerysearchexample$quot}$percent"}%</div>%ENDSECTION{"az"}%
 
 %STARTSECTION{"letterlist"}%<div class="foswikiHorizontalList foswikiUnvisited">
 <ul>

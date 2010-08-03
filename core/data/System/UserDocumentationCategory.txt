@@ -6,10 +6,10 @@
    $ [[ACRONYM]] : An acronym is an abbreviation that is typically made up of the first letter or letters of a phrase. An acronym of 3 or more letters will be automatically linked only if a topic of that name already exists in the Web
    $ [[BeginnersStartHere]] : This is a short introductory training course for Foswiki beginners
    $ [[DataForms]] : Data forms allow you to add structured data to topics. The data stored in the form fields can be used to search and filter topics. The combination of structured data and search queries are the base for building database applications
-   $ [[DeleteOrRenameAnAttachment]] : How to delete or rename a file attachment
-   $ [[DeleteOrRenameATopic]] : How to delete or rename a topic
+   $ [[FAQDeleteOrRenameAnAttachment]] : How to delete or rename a file attachment
+   $ [[FAQDeleteOrRenameATopic]] : How to delete or rename a topic
    $ [[DocumentGraphics]] : This is a Foswiki icon library. The graphics can be used in topics and by web applications
-   $ [[EditDoesNotIncreaseTheRevision]] : Explanation why editing and saving a topic does not always increase the revision
+   $ [[FAQEditDoesNotIncreaseTheRevision]] : Explanation why editing and saving a topic does not always increase the revision
    $ [[EditTablePlugin]] : Edit tables using edit fields, date pickers and drop down boxes
    $ [[FileAttachment]] : Each topic can have one or more files of any type attached to it by using the Attach screen to upload (or download) files from your local PC.
    $ [[FileAttribute]] : Description of the hidden attribute for file attachments
@@ -39,7 +39,7 @@
    $ [[SearchPatternCookbook]] : A cookbook with many examples how to use the powerful SEARCH feature in wiki applications. See examples of both regular expression searches, query searches, and the use of formatted output
    $ [[ShortcutMacros]] : A list of macros that can be used as shortcuts for longer sequences of characters, to either save typing or to easily allow line breaks in format strings and the like
    $ [[ShortHand]] : A fast-track guide to shorthand/wiki syntax basics
-   $ [[SimultaneousEdits]] : Description of what happens if two users try to edit the same topic simultaneously
+   $ [[FAQSimultaneousEdits]] : Description of what happens if two users try to edit the same topic simultaneously
    $ [[SmiliesPlugin]] : Smilies are common in e-mail messages and bulletin board posts. They are used to convey an emotion, such as a smile :<nop>-) or a frown :<nop>-( . This plugin automatically converts certain smilies to a nice small icon. This topic lists the smilies supported
    $ [[SpreadSheetPlugin]] : Foswiki Spreadsheet Plugin adds spreadsheet capabilities to Foswiki topics and many functions for manipulating numbers and text. See this topic for a full list of all the many functions in the CALC Macro
    $ [[TablePlugin]] : Table plugin enables control of the formatting of table incl column widths, styles, sorting etc.
@@ -54,7 +54,7 @@
    $ [[UsingHTML]] : How to use HTML in topics
    $ [[WebLeftBarCookbook]] : Instructions and tips how to use personal left bars
    $ [[WelcomeGuest]] : A short introduction to a Foswiki based website
-   $ [[WhatIsWikiWiki]] : An explanation of this !WikiWiki thing
+   $ [[FAQWhatIsWikiWiki]] : An explanation of this !WikiWiki thing
    $ [[WikiCulture]] : Wiki - culture, concepts and principles
    $ [[WikiName]] : An introduction to the term WikiName
    $ [[WikiSyntax]] : Easy to learn rules for editing text

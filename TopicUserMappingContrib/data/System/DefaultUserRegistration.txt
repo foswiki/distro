@@ -52,7 +52,7 @@ Other sections define the fields and extra info text.
 		</div>
 	</div>
 	%INCLUDE{"%TOPIC%" section="EXCLUDED_privacyInformation" warn="off"}%
-%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percntBLACKLISTPLUGIN{action=$quotmagic$quot}$percnt" />' else='<!-- -->'}%
+%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percentBLACKLISTPLUGIN{action=$quotmagic$quot}$percent" />' else='<!-- -->'}%
 <input type="hidden" name="topic" value="%TOPIC%" />
 <input type="hidden" name="action" value="register" />
 </form>
@@ -189,21 +189,21 @@ enable by setting =REGISTRATIONGROUPTYPE= in the %USERSWEB%.DefaultPreferences t
 			format="$name"
 			separator=","
 		}%"}%"
-	header="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quot%IF{
+	header="$percentINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quot%IF{
 						"'%REGISTRATIONGROUPTYPE%' = 'automatic'" 
 						then="hidden"
 					}%rendergroupheader$quot multiple=$quot%IF{
 						"'%REGISTRATIONGROUPTYPE%' = 'multiple'" 
 						then="Groups" 
 						else="Group"
-					}%$quot}$percnt"
-	footer="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupfooter$quot}$percnt"
+					}%$quot}$percent"
+	footer="$percentINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupfooter$quot}$percent"
 	zeroresults="<!-- no groups available -->"
-	format="$percntINCLUDE{$quot%WEB%.%TOPIC%$quot
+	format="$percentINCLUDE{$quot%WEB%.%TOPIC%$quot
 		section=$quotrendergroup$quot
 		groupname=$quot$topic$quot
 		inputtype=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="hidden"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'one'" then="radio"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="checkbox"}%$quot
-       }$percnt"
+       }$percent"
       separator=" "
 }%%ENDSECTION{"extraField_groups"}%
 

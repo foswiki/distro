@@ -15,7 +15,8 @@ Three parameters can be used to specify a customized search result:
 
 ---+++ 1. =header="..."= parameter
 
-Use the header parameter to specify the header of a search result. It should correspond to the format of the format parameter. This parameter is optional. <br /> Example: =header="| <nop>*Topic:*<nop> | <nop>*Summary:*<nop> |"=
+Use the header parameter to specify the header of a search result. It should correspond to the format of the format parameter. This parameter is optional.
+*Example:* <verbatim class="tml">header="| *Topic:* | *Summary:* |"</verbatim>
 
 Format tokens that can be used in the header string:
 
@@ -24,13 +25,14 @@ Format tokens that can be used in the header string:
 | =$ntopics= | Number of topics found in current web. Will be 0 (zero). |
 | =$nhits= | Number of hits if =multiple="on"=. Will be 0 (zero). |
 | =$pager= | pager control - can be optionally customised using the =pagerformat= below |
-%INCLUDE{FormatTokens}%
+%INCLUDE{"FormatTokens"}%
 
-   * %X% Note that if the separator parameter for SEARCH is not defined a newline is added after the header.
+<blockquote class="foswikiHelp">%X% Note that if the separator parameter for SEARCH is not defined a newline is added after the header.</blockquote>
 
 ---+++ 2. =footer="..."= parameter
 
-Use the footer parameter to specify the footer of a search result. It should correspond to the format of the format parameter. This parameter is optional. <br /> Example: =footer="| <nop>*Topic*<nop> | <nop>*Summary*<nop> |"=
+Use the footer parameter to specify the footer of a search result. It should correspond to the format of the format parameter. This parameter is optional.
+*Example:* <verbatim class="tml">footer="| *Total:* | *$nhits* |"</verbatim>
 
 Format tokens that can be used in the footer string:
 
@@ -41,13 +43,14 @@ Format tokens that can be used in the footer string:
 | =$pager= | pager control - can be optionally customised using the =pagerformat= below |
 %INCLUDE{FormatTokens}%
 
-   * %X% Note that if the separator parameter for SEARCH is not defined a newline is added after the last search result.
+<blockquote class="foswikiHelp">%X% Note that if the separator parameter for SEARCH is not defined a newline is added after the last search result.</blockquote>
 
 ---+++ 3. =pagerformat="..."= parameter
 
 Use the pagerformat parameter to customise the appearance of the paging control. 
 It should correspond to the format of the format parameter. 
-This parameter is optional. <br /> Example: =pagerformat="Page $showpage of $numberofpages [[$nexturl][next page]]"=
+This parameter is optional.
+*Example:* <verbatim class="tml">pagerformat="Page $showpage of $numberofpages [[$nexturl][next page]]"</verbatim>
 
 Format tokens that can be used in the pagerformat string:
 
@@ -66,7 +69,7 @@ Format tokens that can be used in the pagerformat string:
 ---+++ 4. =format="..."= parameter
 
 Use the format parameter to specify the format of one search hit.
-<br /> Example: =format="| $topic | $summary |"=
+*Example:* <verbatim class="tml">format="| $topic | $summary |"</verbatim>
 
 Format tokens that can be used in the format string:
 
@@ -101,7 +104,7 @@ Format tokens that can be used in the format string:
 | =$changes= | Summary of changes between latest rev and previous rev |
 | =$changes(n)= | Summary of changes between latest rev and rev n |
 | =$formname= | The name of the form attached to the topic; empty if none |
-| =$formfield(name)= | The field value of a form field; for example, =$formfield(<nop>TopicClassification)= would get expanded to =PublicFAQ=. This applies only to topics that have a [[DataForms][DataForm]]. For multi-line textfields new lines are replace by an HTML &lt;br /&gt; |
+| =$formfield(name)= | The field value of a form field; for example, if FAQWhatIsWikiWiki was a search hit, =$formfield(<nop>TopicClassification)= would get expanded to =%QUERY{"'WhatIsWikiWiki'/TopicClassification"}%=. This applies only to topics that have a [[DataForms][DataForm]]. For multi-line textfields new lines are replace by an HTML &lt;br /&gt; |
 | =$formfield(name, 10)= | Form field value, "<tt>- </tt>" hyphenated each 10 characters |
 | =$formfield(name, 20, -&lt;br /&gt;)= | Form field value, hyphenated each 20 characters with separator "<tt>-&lt;br /&gt;</tt>" |
 | =$formfield(name, 30, ...)= | Form field value, shortended to 30 characters with "<tt>...</tt>" indication |
@@ -116,18 +119,17 @@ Format tokens that can be used in the format string:
 
 Here are some samples of formatted searches. The SearchPatternCookbook has other examples, such as [[SearchPatternCookbook#SearchUsernames][creating a picklist of usernames]], [[SearchPatternCookbook#SearchTopicChildren][searching for topic children]] and more.
 
-#SearchBulletList
----+++ Bullet list showing topic name and summary
+#SearchTable
+---+++ Search showing topic name and summary
 
 *Write this:*
 
 <verbatim class="tml">%SEARCH{
    "VarREMOTE"
    scope="topic"
-   nosearch="on"
-   nototal="on"
-   header="| *Topic* | *Summary* |"
-   format="| [[$topic]] | $summary |"
+   nonoise="on"
+   header="| *Topic*        | *Summary*  |"
+   format="| [[$topic]]     | $summary   |"
    footer="| *Topics found* | *$ntopics* |"
 }%</verbatim>
 
@@ -136,10 +138,9 @@ Here are some samples of formatted searches. The SearchPatternCookbook has other
 %SEARCH{
    "VarREMOTE"
    scope="topic"
-   nosearch="on"
-   nototal="on"
-   header="| *Topic* | *Summary* |"
-   format="| [[$topic]] | $summary |"
+   nonoise="on"
+   header="| *Topic*        | *Summary*  |"
+   format="| [[$topic]]     | $summary   |"
    footer="| *Topics found* | *$ntopics* |"
 }%
 
@@ -150,11 +151,9 @@ In a web where there is a form that contains a =Topic<nop>Classification= field,
 <verbatim class="tml">
 | *Topic:* | *!OperatingSystem:* | *!OsVersion:* |
 %SEARCH{
-   "[T]opicClassification.*?value=\"[P]ublicFAQ\""
-   scope="text"
-   type="regex"
-   nosearch="on"
-   nototal="on"
+   "TopicClassification~'FrequentlyAskedQuestion'"
+   type="query"
+   nonoise="on"
    format="| [[$topic]] | $formfield(OperatingSystem) | $formfield(OsVersion) |"
 }%</verbatim>
 
@@ -181,60 +180,26 @@ To get this (simulated):
 </tbody>
 </table>
 
-
 ---+++ Extract some text from a topic using regular expression
+The following example makes use of the =$pattern()= token to extract the first level-1 heading for each topic:
 
-*Write this:*
+%INCLUDE{"SearchPatternCookbook" section="Headings"}%
 
-<verbatim class="tml">
-%SEARCH{
-   "\*Back to:\* FrequentlyAskedQuestions"
-   scope="text"
-   type="regex"
-   nosearch="on"
-   nototal="on"
-   header="FAQs:"
-   format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]"
-   footer="Found $ntopics FAQ topics"
-}%</verbatim>
-
-*To get this:*
-
-%SEARCH{
-   "\*Back to:\* FrequentlyAskedQuestions"
-   scope="text"
-   type="regex"
-   nosearch="on"
-   nototal="on"
-   header="FAQs:"
-   format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]"
-   footer="Found $ntopics FAQ topics"
-}%
-
+#NestedSearch
 ---+++ Nested Search
 
 [[VarSEARCH][SEARCH]], as with many TML macros, may be nested. For example: search for some topics in an initial (outer) search, and for each of them apply a second (inner) search. The idea is to use the outer search to build a series of inner seraches.
 
-#InsideOutLeftToRight
-The key to understanding nested expressions in Foswiki is to understand that macros are expanded "inside-out, left-to-right". For example:
-<verbatim class="tml">
-%MACRO1{
-   something="%MACRO2{
-      somethingelse="%MACRO3%, %MACRO4%"
-   }%"
-}%
-</verbatim>
+%INCLUDE{"Macros" section="insideoutlefttoright"}%
 
-The macros are expanded in this order: MACRO3, MACRO4, MACRO2, MACRO1.
-
+#NestedSearchExample
 Consider the following example. Let's search for all topics that contain the word "culture" (outer search), and find out where each topic found is linked from (inner search).
 
 *Initial (outer) search:*
    <verbatim class="tml">
 %SEARCH{
    "culture"
-   nosearch="on"
-   nototal="on"
+   nonoise="on"
    format="   * $topic is referenced by: (list all references)"
 }%</verbatim>
 
@@ -244,14 +209,14 @@ For each hit, we want this search:
    <verbatim class="tml">
 %SEARCH{
    "(topic found in outer search)"
-   nosearch="on"
-   nototal="on"
+   nonoise="on"
    format="$topic"
    separator=", "
 }%</verbatim>
 
 Now let's nest the two.
----++++ Method 1 (traditional)
+#NestingWithEscapes
+---++++ Method 1 (nesting with escapes)
 The inner search cannot be placed directly into the format string of the outer, because of the "inside-out, left-to-right" macro expansion behaviour [[#InsideOutLeftToRight][discussed earlier]]. It must be delayed so that the outer search is evaluated first. To do this, we need to escape the inner search, i.e. let the outer search build a series of searches comprised of the inner search.
    * Use =$percent= to escape (delay) the inner search's [[VarSEARCH][SEARCH]] macro
    * Use =\"= to escape the double quotes
@@ -261,14 +226,13 @@ The inner search cannot be placed directly into the format string of the outer, 
 <verbatim class="tml">
 %SEARCH{
    "culture"
-   nosearch="on"
-   nototal="on"
+   nonoise="on"
+   limit="5"
    format="\
    * $topic is referenced by:
       * $percentSEARCH{
          \"$topic\"
-         nosearch=\"on\"
-         nototal=\"on\"
+         nonoise=\"on\"
          format=\"$dollartopic\"
          separator=\", \"
       }$percent"
@@ -278,20 +242,20 @@ The inner search cannot be placed directly into the format string of the outer, 
 *To get this:*
 %SEARCH{
    "culture"
-   nosearch="on"
-   nototal="on"
+   nonoise="on"
+   limit="5"
    format="\
    * $topic is referenced by:
       * $percentSEARCH{
          \"$topic\"
-         nosearch=\"on\"
-         nototal=\"on\"
+         nonoise=\"on\"
          format=\"$dollartopic\"
          separator=\", \"
       }$percent"
 }%
 
----++++ Method 2 (recommended)
+#NestedSectionalInclude
+---++++ Method 2 (nesting with sectional includes)
 Nested expressions can be difficult to write correctly, and are difficult to troubleshoot when they go wrong.
 
 The recommended approach is to make use of the [[VarSTARTSECTION][STARTSECTION]]/[[VarENDSECTION][ENDSECTION]] feature of the [[VarINCLUDE][INCLUDE]] macro. Instead of nesting the inner search expression directly inside the format string of the outer, the inner search is written as a separate stand-alone section of a topic which is INCLUDEd into the format string of the outer.
@@ -300,19 +264,21 @@ The recommended approach is to make use of the [[VarSTARTSECTION][STARTSECTION]]
 <verbatim class="tml">
 %SEARCH{
    "culture"
-   nosearch="on"
-   nototal="on"
+   nonoise="on"
+   limit="5"
    format="\
    * $topic is referenced by:
       * $percentINCLUDE{\"%TOPIC%\" section=\"mysearch\" thetopic=\"$topic\"}$percent"
 }%
 
-<!-- HTML comment to hide this section from the user. verbatim prevents the section being evaluated
+<!-- HTML comment to hide this section from the user and web browser's DOM.
+     verbatim prevents the section being evaluated. Alternatively, sections
+     like this can be placed into dedicated utility topics which may hold
+     many such re-usable pieces of your wiki application
 <verbatim>
 %STARTSECTION{"mysearch"}%%SEARCH{
    "%thetopic%"
-   nosearch="on"
-   nototal="on"
+   nonoise="on"
    format="$topic"
    separator=", "
 }%%ENDSECTION{"mysearch"}%
@@ -322,9 +288,11 @@ The recommended approach is to make use of the [[VarSTARTSECTION][STARTSECTION]]
 
 %ICON{"info"}% Output will be the same as for the first method
 
-<blockquote>%ICON{"warning"}% Nested search can be slow, especially if you nest more then 3 deep. Nesting is limited to 16 levels.
+<blockquote class="foswikiHelp">%ICON{"warning"}% Nested search can be slow, especially if you nest more then 3 deep. Nesting is limited to 16 levels.
 
-When using the traditional method for nesting macros, each new nesting level must "escape the escapes", e.g. write =$dollarpercentSEARCH{= for level three, =$dollardollarpercentSEARCH{= for level four, etc. Therefore it is strongly advised to use the sectional include method instead, which avoids this kind of difficult and error-prone syntax.</blockquote>
+When nesting with escapes, each new nesting level must "escape the escapes", e.g. write =$dollarpercentSEARCH{= for level three, =$dollardollarpercentSEARCH{= for level four, etc.
+
+Therefore the sectional include method is strongly recommended to avoid this kind of difficult syntax.</blockquote>
 
 ---+++ Most recently changed pages
 
@@ -333,8 +301,7 @@ When using the traditional method for nesting macros, each new nesting level mus
 %SEARCH{
    "1"
    type="query"
-   nosearch="on"
-   nototal="on"
+   nonoise="on"
    order="modified"
    reverse="on"
    limit="7"
@@ -345,8 +312,7 @@ When using the traditional method for nesting macros, each new nesting level mus
 %SEARCH{
    "1"
    type="query"
-   nosearch="on"
-   nototal="on"
+   nonoise="on"
    order="modified"
    reverse="on"
    limit="7"
@@ -373,7 +339,7 @@ Sometimes it may be desirable for each hit to be displayed differently depending
       }$percent\"
    }$percent [[$topic]]"
 }%</verbatim>
-<blockquote>
+<blockquote class="foswikiHelp">
 %ICON{"info"}% *Details:*
    * The SEARCH has a deferred [[VarICON][ICON]]. The =$percent= ensures that ICON is evaluated once for each search hit
    * The [[VarICON][ICON]] contains an [[VarIF][IF]], which again is deferred with the =$percent= token and will also be evaluated for each SEARCH hit. Additionally, the "inside-out, left-to-right" rule discussed earlier means that this IF expression will be evaluated before [[VarICON][ICON]].
@@ -405,6 +371,7 @@ Find Topics:
   value="%URLPARAM{"q" encode="entity"}%" />&nbsp;<input\
   type="submit" class="foswikiSubmit" value="Search" />
 </form>
+
 Result:
 %SEARCH{
    "%URLPARAM{"q" encode="quote"}%"
@@ -422,6 +389,7 @@ Find Topics:
   value="%URLPARAM{"q" encode="entity"}%" />&nbsp;<input\
   type="submit" class="foswikiSubmit" value="Search" />
 </form>
+
 Result:
 %SEARCH{
    "%URLPARAM{"q" encode="quote"}%"

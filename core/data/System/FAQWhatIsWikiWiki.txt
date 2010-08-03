@@ -1,0 +1,11 @@
+%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
+A set of pages of information that are open and free for anyone to edit as they wish. They are stored in a server and managed using some software. The system creates cross-reference hyperlinks between pages automatically.
+
+%META:FORM{name="BasicForm"}%
+%META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="WhatIsWikiWiki" to="FaqWhatIsWikiWiki"}%
+%META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Definition of %22WikiWiki%22"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="So what is this <nop>WikiWiki thing exactly?"}%
+%META:FIELD{name="InterestedParties" attributes="" title="Interested Parties" value=""}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="WelcomeGuest, GoodStyle, WikiSyntax, FrequentlyAskedQuestions, WikiCulture, WabiSabi"}%

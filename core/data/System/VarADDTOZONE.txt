@@ -32,7 +32,7 @@ You may create as many zones in addition to the standard [[#HeadAndBody][ =head=
       <verbatim class="tml">
 %ADDTOZONE{
    "myzone"
-   text="$percntINCLUDE{\"topic\" section=\"section\" warn=\"off\"}$percnt"
+   text="$percentINCLUDE{\"topic\" section=\"section\" warn=\"off\"}$percent"
 }%</verbatim>
 
 #HeadAndBody

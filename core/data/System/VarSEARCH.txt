@@ -40,7 +40,17 @@
                       _Note:_ the default pager (when =pagerformat= is not defined) requires the parameters to the SEARCH to not change while paging, as it uses =$previousurl= and =$nexturl= which use a hash of the Macro's parameters to override the value of =showpage=. If you use time variable parameters, you will need to define your own =pagerformat=. | ="off"= |
      | =pagerformat="text"= | Custom format results: see *[[FormattedSearch]]* for usage &amp; examples | filled from skin template |
      | =groupby="none"= | _Warning: this option is liable to change dramatically (and potentially incompatibly) in the next major release of foswiki._ Setting to ="none"= applies only to multi-web SEARCHs, and means the =header= and =footer= are only output _once_ - at the beginning and end of the list of results, and the =order= parameter is applied over the entire set of results (this setting removes the legacy that results are always partitioned by web) see %SYSTEMWEB%.SiteChanges for an example. | ="web"= |
-   * Example: =%<nop>SEARCH{"wiki" web="%USERSWEB%" scope="topic"}%=
-   * Example with format: =%<nop>SEARCH{"FAQ" scope="topic" nosearch="on" nototal="on" header="| *Topic: * | *Summary: * |" format="<nop>| $topic | $summary |"}%= _(displays results in a table with header - [[FormattedSearch][details]])_
-   * %T% If the Foswiki:Extensions.TablePlugin is installed, you may put a =%<nop>TABLE{}%= macro just before the =%<nop>SEARCH{}%= to alter the output of a search.  Example: =%<nop>TABLE{ tablewidth="90%" }%=
-   * Related: FormattedSearch, QuerySearch, SearchHelp, SearchPatternCookbook, RegularExpression, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPICLIST][TOPICLIST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBLIST][WEBLIST]]
+
+   * *Example:* %JQREQUIRE{"chili"}%<verbatim class="tml">%SEARCH{"wiki" web="%USERSWEB%" scope="topic"}%</verbatim>
+   * *Example with format:* <verbatim class="tml">
+%SEARCH{
+    "FAQ"
+    nototal="nonoise"
+    header="| *Topic: * | *Summary: * |"
+    format="| $topic    | $summary    |"
+}%</verbatim> _(displays results in a table with header - [[FormattedSearch#SearchTable][details]])_
+
+<blockquote class="foswikiHelp">%T% The appearance of the table emitted by the [[VarSEARCH][SEARCH]] may be controlled with TablePlugin's =%<nop>TABLE{}%= macro placed just before the =%<nop>SEARCH{}%=.  Example: =%<nop>TABLE{ tablewidth="90%" }%= </blockquote>
+
+---
+*Related topics:* FormattedSearch, QuerySearch, SearchHelp, SearchPatternCookbook, RegularExpression, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPICLIST][TOPICLIST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBLIST][WEBLIST]]

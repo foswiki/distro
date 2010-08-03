@@ -35,12 +35,10 @@ See also: SearchHelp for help; [[%SYSTEMWEB%.Macros][Macros]] and FormattedSearc
 To check for the most recently edited topics while on-site, use the WebChanges link, usually located in the toolbar. It lists the most recently modified topics, newest first, along with the first couple of lines of the page content.
 
 This is simply a preset =SEARCH=. The number of topics listed by the =limit= parameter.:
-<blockquote>
-<pre>
-%<nop>SEARCH{ ".*" web="%BASEWEB%" type="regex" nosearch="on" order="modified"%BR% reverse="on" 
+<verbatim class="tml">
+%SEARCH{ "1" web="%BASEWEB%" type="query" nosearch="on" order="modified"%BR% reverse="on" 
 limit="50" }%
-</pre>
-</blockquote>
+</verbatim>
 
 #WebRssAndAtom
 ---++ <nop>WebRss and <nop>WebAtom - news feeds on recent changes
@@ -51,11 +49,9 @@ You can point your news reader at WebRss and WebAtom to find out what is new in 
 ---++ <nop>WebIndex - list of topics
 
 WebIndex lists all web topics in alphabetical order, with the first couple of lines of text. This is simply a preset =SEARCH=:
-<blockquote>
-<pre>
-%<nop>SEARCH{ "\.*" scope="topic" type="regex" nosearch="on" }%
-</pre>
-</blockquote>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
+%SEARCH{"1" scope="topic" type="query" nosearch="on" }%
+</verbatim>
 
 #WebStatistics
 ---++ <nop>WebStatistics - site statistics
@@ -74,7 +70,7 @@ You can generate a listing manually, or on an automated schedule, of visits to i
       * *NOTE:* =geturl.pl= will do a CGI request as the <nop>WikiGuest user, so if you use this workaround, the !WebStatistics topics you are updating will have to be writable by <nop>WikiGuest.
 
 When running from the command line or a cron job, you can pass parameters to the script like this:
-<verbatim>
+<verbatim class="bash">
 ./statistics -logdate 200605 -webs Userweb,Sandbox
 </verbatim>
 
@@ -138,10 +134,10 @@ You can use an external mail program, such as ==sendmail==, if the =Net::SMTP= m
 ---+++ Setting the automatic e-mail schedule
 
 *For Unix platforms:* Edit the =cron= table so that =mailnotify= is called in an interval of your choice. Please consult =man crontab= of how to modify the table that schedules program execution at certain intervals. Example:
-<pre>
+<verbatim class="bash">
 % crontab -e
 0 1 * * * (cd /path/to/bin; ./mailnotify -q)
-</pre>
+</verbatim>
 The above line will run mailnotify nightly at 01:00. The =-q= switch suppresses all normal output.
 
 *For ISP installations:* Many ISPs don't allow hosted accounts direct cron access, as it's often used for things that can heavily load the server. Workaround scripts are available.

@@ -43,7 +43,11 @@ You can override the default settings for the plugin by defining the following [
 -->
 | *Preference* | *Meaning* | *Default* |
 | =SMILIESPLUGIN_TOPIC= | The name of the topic containing your Smilies. Use format =web.topic=. | %SYSTEMWEB%.SmiliesPlugin |
-| =SMILIESPLUGIN_FORMAT= | The way the _emoticon_ is displayed. You can use ==$emoticon== (e.g. =:<nop>D=), ==$url== (e.g. =%<nop>ATTACHURL%/biggrin.gif=) and ==$tooltip== (e.g. ="big grin"=). | =&lt;img src="$url" alt="$tooltip" title="$tooltip" border="0" /&gt;= |
+| =SMILIESPLUGIN_FORMAT= | The way the _emoticon_ is displayed. You can use ==$emoticon== (e.g. =:<nop>D=), ==$url== (e.g. =%<nop>ATTACHURL%/biggrin.gif=) and ==$tooltip== (e.g. ="big grin"=). | %JQREQUIRE{"chili"}%<verbatim class="tml"><img
+    src="$url"
+    alt="$tooltip"
+    title="$tooltip"
+    border="0" /></verbatim> |
 
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
@@ -57,6 +61,7 @@ You can override the default settings for the plugin by defining the following [
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  04 Aug 2010: | Foswikitask:Item9415 - Minor documentation updates |
 |  20 Sep 2009: | Small documentation update. Included with Foswiki 1.0.7 |
 |  13 Jan 2009: | Removed default preferences from this topic |
 |  04 Jan 2009: | Foswiki version - Fixed the use of SMILIESPLUGIN_TOPIC so you can create your own smily collection that does not get overwritten when upgrading Foswiki |

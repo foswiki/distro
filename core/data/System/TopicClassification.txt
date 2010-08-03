@@ -3,6 +3,4 @@
 | SupportQuestion |
 | FrequentlyAskedQuestion |
 | SupplementalDoc |
-| ExtensionHub |
-| WikiConsultantTopic |
 | AdminTopic |

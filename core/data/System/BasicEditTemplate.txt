@@ -1,0 +1,12 @@
+%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%{ Include the default edit templates from your current SKIN and COVER paths
+
+}%%TMPL:INCLUDE{"edit"}%%{
+
+    Define the formtop container to display the form
+
+}%%TMPL:DEF{"formtop"}%%TMPL:P{"form"}%%TMPL:END%%{
+
+    Define the formbottom container to be empty
+
+}%%TMPL:DEF{"formbottom"}%%TMPL:END%

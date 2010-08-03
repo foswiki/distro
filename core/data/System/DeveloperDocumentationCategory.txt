@@ -6,7 +6,7 @@
 
 _Topics for normal users that want to develop Foswiki applications_
 
-   $ [[AnApplicationWithWikiForm]] : A simple example of a Foswiki application using data forms and a submission page made with an HTML form
+   $ [[FAQAnApplicationWithWikiForm]] : A simple example of a Foswiki application using data forms and a submission page made with an HTML form
    $ [[JQueryPlugin]] : !JQueryPlugin enables the use of the jQuery Javascript library in wiki applications and is used by many plugins to create the user interfaces
    $ [[AutoViewTemplatePlugin]] : This plugin enables using special view and edit templates depending on the data form used on the topics
    $ [[CommandAndCGIScripts]] : These scripts are located in the bin and tools directories. This topic describes the interfaces to some of those scripts
@@ -41,7 +41,7 @@ _Topics for normal users that want to develop Foswiki applications_
 _Topics for programmers that which to design new skins and develop new extensions for Foswiki_
 
    $ [[AppendixEncodeURLsWithUTF8]] : Use internationalised characters within WikiWords and attachment names
-   $ [[CascadingStyleSheets]] : Listing of CSS class names emitted from Foswiki core code and standard extensions
+   $ [[AppendixCascadingStyleSheets]] : Listing of CSS class names emitted from Foswiki core code and standard extensions
    $ [[ClassMethod]] : A ClassMethod is a method that must be called relative to the containing class object
    $ [[Contribs]] : A short introduction to Contribs. Contribs are Extensions to Foswiki that are not plugins
    $ [[ContributedAddOns]] : A short introduction to Add-Ons. Add-Ons add functionality with extensions that are not based on the Foswiki scripts

@@ -1,9 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
----++ FAQ:
-How can I create a simple data form based application?
-
----++ Answer:
 This answer assumes you have basic knowledge about [[DataForms][Data Forms]].
 
 Using the steps below, you will create:
@@ -81,8 +77,10 @@ format="   * [[$web.$topic][$formfield(Title)]]"
 </div>
 </div>
 
-*Back to:* FrequentlyAskedQuestions
-
----
-*Related Topics:* UserDocumentationCategory
-
+%META:FORM{name="BasicForm"}%
+%META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="AnApplicationWithWikiForm" to="FaqAnApplicationWithWikiForm"}%
+%META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Creating applications with DataForms"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="How can I create a simple data form based application?"}%
+%META:FIELD{name="InterestedParties" attributes="" title="Interested Parties" value=""}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="UserDocumentationCategory"}%

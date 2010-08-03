@@ -23,10 +23,10 @@
       nototal="on"
       nosearch="on"
       format="<div class='foswikiFormStep'>
-          <div class='siteMapWebColor' style='background-color:$percntVAR{\"WEBBGCOLOR\" web=\"$web\"}$percnt'>
+          <div class='siteMapWebColor' style='background-color:$percentVAR{\"WEBBGCOLOR\" web=\"$web\"}$percent'>
             <div class='sitemapWebSummary'>
               <strong>[[$web.%HOMETOPIC%][$web]]:</strong> 
-              $percntEXPAND{\"$dollarpercntWEBSUMMARY$dollarpercnt\" scope=\"$web.$topic\"}$percnt
+              $percentEXPAND{\"$dollarpercentWEBSUMMARY$dollarpercent\" scope=\"$web.$topic\"}$percent
               <ul>
                 <li>[[$web.%HOMETOPIC%][<img src='%ICONURL{home}%' alt='Home of $web' width='16' height='16' border='0' /> - %MAKETEXT{"Home"}%]]</li>
                 <li>[[$web.WebSearch][<img src='%ICONURL{searchtopic}%' alt='Search $web' width='16' height='16' border='0' /> - %MAKETEXT{"Search"}%]]</li>

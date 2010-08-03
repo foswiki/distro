@@ -30,7 +30,7 @@ Most skins, even those that look radically different to the default, use this la
 
 If you use PatternSkin as your starting point, and you want to modify the layout, colors or even the templates to suit your own needs, have a look first at the topics PatternSkinCustomization and PatternSkinCssCookbook. These topics also provide practical instructions how to create custom skin template files.
 
-*%X% Note:* Don't call your skin =text= or =rss= as these two skin names have reserved meanings, see below at [[#HardCodedSkins][hard-coded meanings]].
+<blockquote class="foswikiHelp"> *%X% Note:* Don't call your skin =text= or =rss= as these two skin names have reserved meanings, see below at [[#HardCodedSkins][hard-coded meanings]].</blockquote>
 
 The following template names are used for Foswiki screens, and are referenced in the Foswiki core code. If a skin doesn't define its own version of a template file, then Foswiki will fall back to the next skin in the skin path, or finally, to the default version of the template file.
 
@@ -82,7 +82,7 @@ The following template names are used for Foswiki screens, and are referenced in
 
 You can use recursion in the TMPL:INCLUDE chain. For example, if =view.tmpl= contains =%<nop>TMPL:INCLUDE{"foswiki"}%=, the templating system will include the next SKIN in the skin path.
 To create a customisation of the Pattern skin, where you _only_ want to remove the edit & WYSIWYG buttons from the =view= screen, you create only a =view.yourlocal.tmpl=:
-<verbatim>
+%JQREQUIRE{"chili"}%<verbatim class="tml">
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"edit_topic_link"}%%TMPL:END%
 %TMPL:DEF{"edit_wysiwyg_link"}%%TMPL:END%
@@ -123,12 +123,21 @@ You can use [[SkinTemplates#TemplateMacros][template directives]], ordinary [[ma
 
 CSS files are gererally attachments to the skin topic that are included in the skin templates - in the case of PatternSkin in the template =css.pattern.tmpl=.
 
-   * General documentation of CSS classes: CascadingStyleSheets
+   * General documentation of CSS classes: AppendixCascadingStyleSheets
    * To see how CSS is used in the default Foswiki skin, see: PatternSkin
    * If you write a complete new skin, this is the syntax to use in a template file:
-<verbatim>
-<style type='text/css' media='all'>@import url('%PUBURLPATH%/%SYSTEMWEB%/MySkin/mystyle.css');</style>
+<verbatim class="tml">
+%ADDTOZONE{
+    "head"
+    id="MySkin/mystyle"
+    text="
+        <style type='text/css' media='all'>
+            @import url('%PUBURLPATH%/%SYSTEMWEB%/MySkin/mystyle.css');
+        </style>"
+}%
 </verbatim>
+
+See [[VarADDTOZONE][ADDTOZONE]]
 
 ---++ Skin parts
 
@@ -212,7 +221,11 @@ See Foswiki:Extensions/SkinPackagingHowTo and Foswiki:Extensions/SkinDeveloperFA
 
 For your own skin you are encouraged to show a small 80x31 pixel <a href="http://foswiki.org/"><img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif" alt="This site is powered by Foswiki" width="80" height="15" title="This site is powered by Foswiki" border="0" /></a> logo at the bottom of your skin:
 
-=&lt;a href="http://foswiki.org/"&gt;&lt;img src="%<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif" alt="This site is powered by Foswiki" width="80" height="15" title="This site is powered by Forwiki" border="0" /&gt;&lt;/a&gt;=
+%JQREQUIRE{"chili"}%<verbatim class="tml"><a href="http://foswiki.org/">
+     <img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif"\
+          alt="This site is powered by Foswiki" width="80" height="15"\
+          title="This site is powered by Forwiki" border="0" />
+</a></verbatim>
 
 The standard %WIKITOOLNAME% skins show the logo in the =%<nop>WEBCOPYRIGHT%=.
 
