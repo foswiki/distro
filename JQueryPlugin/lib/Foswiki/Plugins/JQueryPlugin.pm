@@ -19,8 +19,8 @@ use vars qw(
   $NO_PREFS_IN_TOPIC
 );
 
-$VERSION           = '$Rev: 20090710 (2009-07-10) $';
-$RELEASE           = '3.70';
+$VERSION           = '$Rev: 20090710 (2010-08-01) $';
+$RELEASE           = '3.71';
 $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 

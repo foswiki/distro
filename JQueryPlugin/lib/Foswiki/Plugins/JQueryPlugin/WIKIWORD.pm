@@ -34,6 +34,7 @@ sub new {
             author     => 'Michael Daum',
             homepage   => 'http://michaeldaumconsulting.com',
             javascript => [ 'jquery.wikiword.js', 'jquery.wikiword.init.js' ],
+            dependencies => [ 'livequery' ]
         ),
         $class
     );

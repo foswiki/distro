@@ -1,0 +1,7 @@
+%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+| *Name:*| *Type:* | *Size:* | *Values:* | *Tooltip message:* | *Attributes* |
+| <nop>TopicTitle  | text | 80 | | | H |
+| TopicClassification | select | 1 | | Classify a topic | |
+| Topic Summary | text | 80 | | Short summary of feature/bug/idea | |
+| Interested Parties | text | 80 | | Use for tracking and show key interested people | |
+| Related Topics | text | 80 | | Please add links to related topics | |
