@@ -1,11 +1,13 @@
 # See bottom of file for license and copyright information
 package Foswiki::Users::ApacheHtpasswdUser;
-use base 'Foswiki::Users::Password';
-
-use Apache::Htpasswd;
-use Assert;
 use strict;
-use Foswiki::Users::Password;
+use warnings;
+
+use Foswiki::Users::Password ();
+our @ISA = ('Foswiki::Users::Password');
+
+use Apache::Htpasswd ();
+use Assert;
 use Error qw( :try );
 
 =begin TML
@@ -27,8 +29,15 @@ sub new {
     my ( $class, $session ) = @_;
 
     my $this = $class->SUPER::new($session);
-    $this->{apache} =
-      new Apache::Htpasswd( { passwdFile => $Foswiki::cfg{Htpasswd}{FileName} } );
+    $this->{apache} = new Apache::Htpasswd(
+        { passwdFile => $Foswiki::cfg{Htpasswd}{FileName} } );
+    unless ( -e $Foswiki::cfg{Htpasswd}{FileName} ) {
+        # apache doesn't create the file, so need to init it
+        my $F;
+        open( $F, '>', $Foswiki::cfg{Htpasswd}{FileName} ) || die $!;
+        print $F "";
+        close($F);
+    }
 
     return $this;
 }
@@ -124,7 +133,7 @@ sub setPassword {
     my ( $this, $login, $newPassU, $oldPassU ) = @_;
     ASSERT($login) if DEBUG;
 
-    if ( defined($oldPassU) ) {
+    if ( defined($oldPassU) && $oldPassU ne '1') {
         my $ok = 0;
         try {
             $ok = $this->{apache}->htCheckPassword( $login, $oldPassU );
@@ -138,7 +147,11 @@ sub setPassword {
 
     my $added = 0;
     try {
-        $added = $this->{apache}->htpasswd( $login, $newPassU, $oldPassU );
+        if ( defined($oldPassU) && $oldPassU eq '1') {
+            $added = $this->{apache}->htpasswd( $login, $newPassU, { 'overwrite' => 1} );
+        } else {
+            $added = $this->{apache}->htpasswd( $login, $newPassU, $oldPassU );
+        }
         $this->{error} = undef;
     }
     catch Error::Simple with {
@@ -190,28 +203,28 @@ sub setEmails {
 }
 
 1;
-__DATA__
-# Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
-# Foswiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
-#
-# Additional copyrights apply to some or all of the code in this
-# file as follows:
-#
-# Copyright (C) 2004-2007 TWiki Contributors. All Rights Reserved.
-# TWiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# As per the GPL, removal of this notice is prohibited.
+__END__
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 2004-2007 TWiki Contributors. All Rights Reserved.
+TWiki Contributors are listed in the AUTHORS file in the root
+of this distribution.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.
