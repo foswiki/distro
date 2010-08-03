@@ -133,7 +133,7 @@ sub setPassword {
     my ( $this, $login, $newPassU, $oldPassU ) = @_;
     ASSERT($login) if DEBUG;
 
-    if ( defined($oldPassU) ) {
+    if ( defined($oldPassU) && $oldPassU ne '1') {
         my $ok = 0;
         try {
             $ok = $this->{apache}->htCheckPassword( $login, $oldPassU );
@@ -147,7 +147,11 @@ sub setPassword {
 
     my $added = 0;
     try {
-        $added = $this->{apache}->htpasswd( $login, $newPassU, $oldPassU );
+        if ( defined($oldPassU) && $oldPassU eq '1') {
+            $added = $this->{apache}->htpasswd( $login, $newPassU, { 'overwrite' => 1} );
+        } else {
+            $added = $this->{apache}->htpasswd( $login, $newPassU, $oldPassU );
+        }
         $this->{error} = undef;
     }
     catch Error::Simple with {
