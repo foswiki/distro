@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="PaulHarvey" date="1276745465" format="1.1" version="2"}%
 ---+!! <nop>%WEB% Web Preferences
 
 %TOC%
@@ -11,10 +11,10 @@
 
 ---++ Wiki application settings
 
-   * WebTopicEditTemplate
-      * default template for new topics in this web, if this topic does not exist,  [[%SYSTEMWEB%.WebTopicEditTemplate][site-level default template]] will be used
+   * WebTopicEditTemplate 
+      * default template for new topics in this web, if this topic does not exist, [[%SYSTEMWEB%.WebTopicEditTemplate][site-level default template]] will be used
 
-   * Set WEBFORMS =
+   * Set WEBFORMS = TestForm 
       * Comma separated list of forms that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information.
 
 ---++ Access control
@@ -27,7 +27,6 @@ Users or groups who are allowed to view, change and rename topics in the <nop>%W
    * Set ALLOWWEBCHANGE = 
    * Set DENYWEBRENAME = 
    * Set ALLOWWEBRENAME = 
-
 Users or groups allowed to change or rename this <nop>%TOPIC% topic
 
    * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
