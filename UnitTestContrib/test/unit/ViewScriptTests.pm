@@ -17,6 +17,33 @@ my $topic1 = <<'HERE';
 CONTENT
 HERE
 
+my $topic2 = <<'HERE';
+----
+WikiWord %BR%
+!ExclamationEscape <br />
+<nop>NopEscape 
+%RED% <pre> adsf </pre> <verbatim> qwerty </verbatim
+<p>A Paragraph </p>
+#anchor
+<a href="http://blah.com/">asdf</a>
+<noautolink>
+NotTOAutoLink
+</noautolink>
+----
+HERE
+
+my $topic2meta = '%META:TOPICINFO{author="BaseUserMapping_666" comment="" date="[0-9]{10,10}" format="1.1" version="1"}%\n'; 
+my $topic2metaQ = $topic2meta; 
+$topic2metaQ =~ s/"/&quot;/g; 
+
+my $topic2txtarea = '<textarea name=""  rows="22" cols="70" readonly="readonly" style="width:99%" id="topic" class="foswikiTextarea foswikiTextareaRawView">';
+
+my $topic2rawON = $topic2;
+$topic2rawON =~ s/</&lt;/g;
+$topic2rawON =~ s/>/&gt;/g;
+$topic2rawON =~ s/"/&quot;/g;
+$topic2rawON .= '</textarea>';
+
 my $templateTopicContent1 = <<'HERE';
 pretemplate%STARTTEXT%pre%TEXT%post%ENDTEXT%posttemplate
 HERE
@@ -64,6 +91,13 @@ sub set_up {
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic1',
         $topic1, undef );
     $meta->save();
+
+    $topic = 'TestTopic2';
+    $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic2',
+        $topic2, undef );
+    $meta->save();
+
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         'ViewoneTemplate', $templateTopicContent1, undef );
@@ -151,7 +185,7 @@ sub set_up {
 }
 
 sub setup_view {
-    my ( $this, $web, $topic, $tmpl ) = @_;
+    my ( $this, $web, $topic, $tmpl, $parm ) = @_;
     my $query = new Unit::Request(
         {
             webName   => [$web],
@@ -176,6 +210,58 @@ sub setup_view {
     $text =~ s/\r//g;
     $text =~ s/^.*?\n\n+//s;    # remove CGI header
     return $text;
+}
+
+sub setup_rawview {
+    my ( $this, $web, $topic, $tmpl, $raw ) = @_;
+    my $query = new Unit::Request(
+        {
+            webName   => [$web],
+            topicName => [$topic],
+            template  => [$tmpl],
+            raw       => [$raw],
+        }
+    );
+    $query->path_info("/$web/$topic");
+    $query->method('POST');
+    $fatwilly = new Foswiki( $this->{test_user_login}, $query );
+    my ($text) = $this->capture(
+        sub {
+            no strict 'refs';
+            &$UI_FN($fatwilly);
+            use strict 'refs';
+            $Foswiki::engine->finalize( $fatwilly->{response},
+                $fatwilly->{request} );
+        }
+    );
+
+    $fatwilly->finish();
+    $text =~ s/\r//g;
+    $text =~ s/(^.*?\n\n+)//s;    # remove CGI header
+    return ($text, $1);
+}
+
+# This test verifies the rendering of the various raw views      
+sub test_render_raw {
+    my $this = shift;
+    my $text;
+    my $hdr;
+
+    ($text, $hdr) = $this->setup_rawview( $this->{test_web}, 'TestTopic2', 'viewfour', 'text');
+    $this->assert_equals( "$topic2", $text, "Unexpected output from raw=text"  );
+    $this->assert_matches( qr#text/plain;#, $hdr, "raw=text should return text/plain - got $hdr");
+
+    ($text, $hdr) = $this->setup_rawview( $this->{test_web}, 'TestTopic2', 'viewfour', 'all');
+    $this->assert_matches( qr#$topic2meta$topic2#, $text, "Unexpected output from raw=all"  );
+    $this->assert_matches( qr#text/plain;#, $hdr, "raw=all should return text/plain - got $hdr");
+
+    ($text,$hdr) = $this->setup_rawview( $this->{test_web}, 'TestTopic2', 'viewfour', 'on');
+    $this->assert_matches( qr#.*$topic2txtarea$topic2rawON.*#, $text, "Unexpected output from raw=on"  );
+    $this->assert_matches( qr#text/html;#, $hdr, "raw=on should return text/html - got $hdr");
+
+    ($text, $hdr) = $this->setup_rawview( $this->{test_web}, 'TestTopic2', 'viewfour', 'debug');
+    $this->assert_matches( qr#.*$topic2txtarea$topic2metaQ$topic2rawON.*#, $text, "Unexpected output from raw=debug" );
+    $this->assert_matches( qr#text/html;#, $hdr, "raw=debug should return text/html - got $hdr");
 }
 
 # This test verifies the handling of preamble (the text following
