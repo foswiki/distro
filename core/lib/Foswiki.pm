@@ -739,28 +739,31 @@ JS
               $cgis, $context, $usingStrikeOne )/gei;
     }
 
-    # render zones
-    $text =~
+    if ($contentType ne 'text/plain') {
+
+        # render zones
+        $text =~
 s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this, $1)/ge;
 
-    # get the head zone ones again and insert it at </head>
-    my $headZone = _renderZone( $this, 'head', { chomp => "on" } ) || '';
-    $text =~ s!(</head>)!$headZone\n$1!i if $headZone;
+        # get the head zone ones again and insert it at </head>
+        my $headZone = _renderZone( $this, 'head', { chomp => "on" } ) || '';
+        $text =~ s!(</head>)!$headZone\n$1!i if $headZone;
 
-    # get the body zone ones again and insert it at </body>
-    my $bodyZone = _renderZone( $this, 'body', { chomp => "on" } ) || '';
+        # get the body zone ones again and insert it at </body>
+        my $bodyZone = _renderZone( $this, 'body', { chomp => "on" } ) || '';
 
-    # in compatibility mode all body material is still appended to the head
-    if ($bodyZone) {
-        unless ( $Foswiki::cfg{OptimizePageLayout} ) {
-            $text =~ s!(</head>)!$bodyZone\n$1!i;
+        # in compatibility mode all body material is still appended to the head
+        if ($bodyZone) {
+            unless ( $Foswiki::cfg{OptimizePageLayout} ) {
+                $text =~ s!(</head>)!$bodyZone\n$1!i;
+            }
+            else {
+                $text =~ s!(</body>)!$bodyZone\n$1!i;
+            }
         }
-        else {
-            $text =~ s!(</body>)!$bodyZone\n$1!i;
-        }
+
+        chomp($text);
     }
-
-    chomp($text);
 
     # SMELL: can't compute; faking content-type for backwards compatibility;
     # any other information might become bogus later anyway
@@ -771,38 +774,40 @@ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this,
 
     # cache final page, but only view
     my $cachedPage;
-    if ( $Foswiki::cfg{Cache}{Enabled}
-        && ( $this->inContext('view') || $this->inContext('rest') ) )
-    {
-        $cachedPage = $this->{cache}->cachePage( $contentType, $text );
-        $this->{cache}->renderDirtyAreas( \$text ) if $cachedPage->{isDirty};
-    }
-    else {
-
-        # remove <dirtyarea> tags
-        $text =~ s/<\/?dirtyarea[^>]*>//go;
-    }
-
-    # Remove <nop> and <noautolink> tags
-    $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
-
-    # Check that the templates specified clean HTML
-    if (DEBUG) {
-
-        # When tracing is enabled in Foswiki::Templates, then there will
-        # always be a <!--bodyend--> after </html>. So we need to disable
-        # this check.
-        require Foswiki::Templates;
-        if (   !Foswiki::Templates->TRACE
-            && $contentType =~ m#text/html#
-            && $text =~ m#</html>(.*?\S.*)$#s )
+    if ($contentType ne 'text/plain') {
+        if ( $Foswiki::cfg{Cache}{Enabled}
+            && ( $this->inContext('view') || $this->inContext('rest') ) )
         {
+            $cachedPage = $this->{cache}->cachePage( $contentType, $text );
+            $this->{cache}->renderDirtyAreas( \$text ) if $cachedPage->{isDirty};
+        }
+        else {
+
+            # remove <dirtyarea> tags
+            $text =~ s/<\/?dirtyarea[^>]*>//go;
+        }
+
+        # Remove <nop> and <noautolink> tags
+        $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
+
+        # Check that the templates specified clean HTML
+        if (DEBUG) {
+
+            # When tracing is enabled in Foswiki::Templates, then there will
+            # always be a <!--bodyend--> after </html>. So we need to disable
+            # this check.
+            require Foswiki::Templates;
+            if (   !Foswiki::Templates->TRACE
+                && $contentType =~ m#text/html#
+                && $text =~ m#</html>(.*?\S.*)$#s )
+            {
             ASSERT( 0, <<BOGUS );
 Junk after </html>: $1. Templates may be bogus
 - Check for excess blank lines at ends of .tmpl files
 -  or newlines after %TMPL:INCLUDE
 - You can enable TRACE in Foswiki::Templates to help debug
 BOGUS
+            }
         }
     }
 
