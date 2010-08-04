@@ -14,7 +14,7 @@
    * WebTopicEditTemplate 
       * default template for new topics in this web, if this topic does not exist, [[%SYSTEMWEB%.WebTopicEditTemplate][site-level default template]] will be used
 
-   * Set WEBFORMS = TestForm 
+   * Set WEBFORMS =
       * Comma separated list of forms that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information.
 
 ---++ Access control
