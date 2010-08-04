@@ -3220,17 +3220,17 @@ sub expandMacros {
 ---++ ObjectMethod addToZone($zone, $id, $data, $requires)
 
 Add =$data= identified as =$id= to =$zone=, which will later be expanded (with
-renderZone() - implements RENDERZONE). =$ids= are unique within the zone that
+renderZone() - implements =%<nop>RENDERZONE%=). =$ids= are unique within the zone that
 they are added - dependencies between =$ids= in different zones will not be
 resolved, except for the special case of =head= and =body= zones when
-{OptimizePageLayout} is not set.
+={OptimizePageLayout}= is not set.
 
 In this case, they are treated as separate zones when adding to them, but as
-one merged zone when rendering, Ie. A call to render either =head= or =body=
+one merged zone when rendering, i.e. a call to render either =head= or =body=
 zones will actually render both zones in this one call. Both zones are undef'd
-afterward to avoid double rendering of content from either zone, Eg. to support
+afterward to avoid double rendering of content from either zone, e.g. to support
 proper behaviour when =head= and =body= are rendered with separate calls even
-when ={OptimizePageLayout}= is not set. See ZoneTests/Item9317
+when ={OptimizePageLayout}= is not set. See ZoneTests/Item9317.
 
 This behaviour allows an addToZone('head') call to require an id that has been
 added to =body= only.
@@ -3238,10 +3238,10 @@ added to =body= only.
    * =$zone=      - name of zone to add to
    * =$id=        - identifier for the =$data= being added
    * =$data=      - text to be added to the zone
-   * =$requires=  - comma separated string of =$id= identifiers of the text
+   * =$requires=  - comma-separated string of =$id= identifiers of the text
                     within this =$zone= that should precede this =$data=
 
-Implements ADDTOZONE
+Implements =%<nop>ADDTOZONE%=.
 
 =cut
 
