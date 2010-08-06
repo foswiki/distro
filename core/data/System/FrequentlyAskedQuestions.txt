@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+ Frequently Asked Questions
 
-This is a real FAQ, and also a demo of an easily implemented knowledge-base solution. You may view the code for the <a class="twistyExpandAll" href="#CreatorCode">topic creator</a> or [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=on][raw text of the whole topic]] to see how it was done.
+This is a real FAQ, and also a demo of an easily implemented knowledge-base solution. You may view the code for the <a class="twistyExpandAll" href="#CreatorCode">topic creator</a> or [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=on][raw text of the whole topic]] to see how it was done.
 %TWISTY{showlink="Summary of the pieces used..."}%
    * [[FAQTemplate]] is used to populate new FAQ topics with their default content
    * [[BasicForm]] is the [[DataForms]] definition used on the FAQ topics. Also implements autocomplete function for the !RelatedTopics field
@@ -23,11 +23,13 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
 %ENDTWISTY%
 
 %SEARCH{
-   "form.name='BasicForm' AND TopicClassification='FrequentlyAskedQuestion'"
-   type="query"
-   nonoise="on"
-   format="   * $formfield(TopicSummary) [[$topic][Answer]]"
-   footer="$ntopics FAQs found"
+    "form.name~'*BasicForm' AND TopicClassification='FrequentlyAskedQuestion'"
+    type="query"
+    nonoise="on"
+    web="%SYSTEMWEB%,%USERSWEB%"
+    header="$n()---++ Results from [[$web.WebHome][$web]] web"
+    format="   * $formfield(TopicSummary) [[$web.$topic][Answer]]"
+    footer="$ntopics FAQs found$n"
 }%
 
 ---++ More FAQs
@@ -38,7 +40,7 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
 #CreatorCode
 %TWISTY{showlink="Show topic creator code..."}%%JQREQUIRE{"chili"}%
 <verbatim class="tml">%STARTSECTION{"creator"}%%JQREQUIRE{"wikiword"}%
-<form action="%SCRIPTURL{"edit"}%/%WEB%/" method="post" id='newfaqform'>
+<form action="%SCRIPTURLPATH{"edit"}%/%USERSWEB%/" method="post" id='newfaqform'>
 New FAQ topic (based on FAQTemplate)
 | %MAKETEXT{"FAQ"}%   | <input type="text" id="faqsummary" name="TopicSummary"\
                                size="32" value="I did this ..., how do I ..." />          |
@@ -48,8 +50,8 @@ New FAQ topic (based on FAQTemplate)
                                class="foswikiSubmit" value="%MAKETEXT{"Create"}%" /> |
 
     <input type="hidden" name="onlywikiname" value="on" />
-    <input type="hidden" name="templatetopic" value="FAQTemplate" />
-    <input type="hidden" name="formtemplate" value="BasicForm" />
+    <input type="hidden" name="templatetopic" value="%SYSTEMWEB%.FAQTemplate" />
+    <input type="hidden" name="formtemplate" value="%SYSTEMWEB%.BasicForm" />
     <input type="hidden" name="TopicClassification" value="FrequentlyAskedQuestion" />
     <input type="hidden" id="faqtopictitle" name="TopicTitle" value="" />
     <input type="hidden" name="topicparent" value="%TOPIC%" />

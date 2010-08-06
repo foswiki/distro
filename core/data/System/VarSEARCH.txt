@@ -45,7 +45,7 @@
    * *Example with format:* <verbatim class="tml">
 %SEARCH{
     "FAQ"
-    nototal="nonoise"
+    nonoise="on"
     header="| *Topic: * | *Summary: * |"
     format="| $topic    | $summary    |"
 }%</verbatim> _(displays results in a table with header - [[FormattedSearch#SearchTable][details]])_
