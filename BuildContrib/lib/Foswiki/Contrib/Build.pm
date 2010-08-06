@@ -1782,26 +1782,6 @@ sub target_upload {
 
     my $to = $this->{project};
 
-    my $topicText;
-    local $/ = undef;    # set to read to EOF
-    if ( open( IN_FILE, '<', $this->{basedir} . '/' . $to . '.txt' ) ) {
-        print "Basing new topic on "
-          . $this->{basedir} . '/'
-          . $to . '.txt' . "\n";
-        $topicText = <IN_FILE>;
-        close(IN_FILE);
-    }
-    else {
-        warn 'Failed to open base topic: ' . $!;
-        $topicText = <<END;
-Release $to
-END
-        print "Basing new topic on some default text:\n$topicText\n";
-    }
-    my @attachments;
-    $topicText =~ s/%META:FILEATTACHMENT(.*)%/
-      push(@attachments, $1);''/ge;
-
     while (1) {
         print <<END;
 Preparing to upload to:
@@ -1870,12 +1850,33 @@ END
     # Ask what the user wants to upload
     my $doUploadArchivesAndInstallers = ask( "Do you want to upload the archives and installers?", 1 );
 
+    #need the topic at this point.
+    $this->build('release');
+    my $topicText;
+    my $baseTopic = $this->{basedir} . '/' . $to . '.txt';
+    local $/ = undef;    # set to read to EOF
+    if ( open( IN_FILE, '<', $baseTopic ) ) {
+        print "Basing new topic on "
+          . $baseTopic . "\n";
+        $topicText = <IN_FILE>;
+        close(IN_FILE);
+    }
+    else {
+        warn 'Failed to open base topic('.$baseTopic.'): ' . $!;
+        $topicText = <<END;
+Release $to
+END
+        print "Basing new topic on some default text:\n$topicText\n";
+    }
+    my @attachments;
+    $topicText =~ s/%META:FILEATTACHMENT(.*)%/
+      push(@attachments, $1);''/ge;
+
     my $doUploadAttachments = scalar(@attachments)
       && ask( "Do you want to upload the attachments?", 1 );
 
     # No more questions after this point
 
-    $this->build('release');
 
     $this->_login($userAgent, $user, $pass);
 
