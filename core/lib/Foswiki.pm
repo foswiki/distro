@@ -1319,25 +1319,33 @@ sub getSkin {
     my $this = shift;
 
     my @skinpath;
+    my $skins;
 
-    my $dermis = $this->{request}
-      ? $this->{request}->param('skin') : '';
-    $dermis ||= $this->{prefs}->getPreference('SKIN');
-
-    if (defined $dermis && $dermis =~ /([$regex{mixedAlphaNum}.,\s]+)/o) {
-        # Implicit untaint ok - validated
-        $dermis = $1;
-        push(@skinpath, split(/[,\s]+/, $dermis));
+    if ($this->{request}) {
+        $skins = $this->{request}->param('cover');
+        if (defined $skins
+              && $skins =~ /([$regex{mixedAlphaNum}.,\s]+)/o) {
+            # Implicit untaint ok - validated
+            $skins = $1;
+            push(@skinpath, split(/,\s]+/, $skins));
+        }
     }
 
-    my $epidermis = $this->{request}
-      ? $this->{request}->param('cover')
-      : $this->{prefs}->getPreference('COVER');
-    if (defined $epidermis
-          && $epidermis =~ /([$regex{mixedAlphaNum}.,\s]+)/o) {
+    $skins = $this->{prefs}->getPreference('COVER');
+    if (defined $skins
+          && $skins =~ /([$regex{mixedAlphaNum}.,\s]+)/o) {
         # Implicit untaint ok - validated
-        $epidermis = $1;
-        push(@skinpath, split(/,\w]+/, $epidermis));
+        $skins = $1;
+        push(@skinpath, split(/[,\s]+/, $skins));
+    }
+
+    $skins = $this->{request} ? $this->{request}->param('skin') : undef;
+    $skins = $this->{prefs}->getPreference('SKIN') unless defined $skins;
+
+    if (defined $skins && $skins =~ /([$regex{mixedAlphaNum}.,\s]+)/o) {
+        # Implicit untaint ok - validated
+        $skins = $1;
+        push(@skinpath, split(/[,\s]+/, $skins));
     }
 
     return join(',', @skinpath);
