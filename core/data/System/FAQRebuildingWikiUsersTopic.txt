@@ -53,4 +53,4 @@ Assuming your wiki is configured to use %SYSTEMWEB%.TopicUserMappingContrib, the
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="How can I re-build my %25USERSWEB%25.WikiUsers topic?"}%
 %META:FIELD{name="InterestedParties" attributes="" title="Interested Parties" value=""}%
-%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="Foswiki:Support.Faq27, System.TopicUserMappingContrib, Main.WikiUsers"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="Foswiki:Support.Faq27, %25SYSTEMWEB%25.TopicUserMappingContrib, %25USERSWEB%25.WikiUsers, %25SYSTEMWEB%25.AdminDocumentationCategory"}%

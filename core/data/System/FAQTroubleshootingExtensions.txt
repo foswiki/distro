@@ -41,4 +41,4 @@ htmldoc,0,external,Obtain from http://www.htmldoc.org/software.php
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="A plugin I installed is not working. How can I troubleshoot it?"}%
 %META:FIELD{name="InterestedParties" attributes="" title="Interested Parties" value=""}%
-%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="Foswiki:Support.Faq31, %25SYSTEMWEB%25.InstalledPlugins"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="Foswiki:Support.Faq31, %25SYSTEMWEB%25.InstalledPlugins, %25SYSTEMWEB%25.AdminDocumentationCategory"}%
