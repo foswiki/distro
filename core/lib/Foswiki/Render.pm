@@ -1738,6 +1738,8 @@ sub forEachLine {
       * =interweb= - if true, then fully web-qualified references are required.
       * =grep= - if true, generate a GNU-grep compatible RE instead of the
         default Perl RE.
+      * =nosot= - If true, do not generate "Spaced out text" match
+      * =template= - If true, match for template setting and strip Template suffix from topic name
       * =url= - if set, generates an expression that will match a Foswiki
         URL that points to the web/topic, instead of the default which
         matches topic links in plain text.
@@ -1790,20 +1792,26 @@ sub getReferenceRE {
     else {
         if ( defined($topic) ) {
 
+          my $sot;
+          unless ( $options{nosot} ) {
             # Work out spaced-out version (allows lc first chars on words)
-            my $sot = Foswiki::spaceOutWikiWord( $topic, ' *' );
+            $sot = Foswiki::spaceOutWikiWord( $topic, ' *' );
             if ( $sot ne $topic ) {
                 $sot =~ s/\b([a-zA-Z])/'['.uc($1).lc($1).']'/ge;
             }
             else {
                 $sot = undef;
             }
+          }
 
             if ( $options{interweb} ) {
 
                 # Require web specifier
                 if ( $options{grep} ) {
                     $re = "$bow$matchWeb\\.$topic$eow";
+                }
+                elsif ( $options{template} ) {
+                    ($topic) = $topic =~ m/(.*)Template$/;
                 }
                 else {
                     $re = "$STARTWW$matchWeb\\.$topic$ENDWW";

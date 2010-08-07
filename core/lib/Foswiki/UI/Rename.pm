@@ -839,8 +839,15 @@ sub _replaceTopicReferences {
     }
 
     my $re = Foswiki::Render::getReferenceRE( $oldWeb, $oldTopic );
-
     $text =~ s/($re)/_doReplace($1, $newWeb, $repl)/ge;
+
+    # Do any references for Templates
+    if ( $oldTopic =~ m/(.*)Template$/ ) {
+        $re = Foswiki::Render::getReferenceRE( $oldWeb, $1,
+        nosot    => 1
+        );
+        print STDERR "Using #$re# on $oldWeb.$oldTopic \n";
+    }
 
     # Now URL form
     $repl = "/$newWeb/$newTopic";
@@ -1306,6 +1313,18 @@ sub _getReferringTopics {
             interweb => $interWeb,
             url      => 1
           );
+        # If the topic is a Template,  search for set or meta that references it
+        if ($om->topic() =~ m/(.*)Template$/) {
+            my $refre = '(VIEW|EDIT)_TEMPLATE.*';
+            $refre .= Foswiki::Render::getReferenceRE(
+                $om->web(), $1,
+                grep     => 1,
+                nosot    => 1,
+                interweb => $interWeb,
+              );
+            print STDERR "Looking for template references ($refre) \n";
+            $searchString .= '|' . $refre
+        }
 
         my $matches =
           Foswiki::Func::searchInWebContent( $searchString, $searchWeb, undef,
