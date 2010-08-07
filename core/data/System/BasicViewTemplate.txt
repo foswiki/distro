@@ -17,7 +17,7 @@
 
 %TEXT%
 
-*Back to:* %META{"parent" dontrecurse="on"}%
+*Back to:* [[%SYSTEMWEB%.%FORMFIELD{"TopicClassification"}%][%FORMFIELD{"TopicClassification"}%]]
 ----
 *Related Topics:* %FORMFIELD{"RelatedTopics"}%%TMPL:END%%{
 

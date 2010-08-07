@@ -1,0 +1,44 @@
+%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
+Some questions to answer:
+   * Perhaps the plugin is installed, but did you remember to enable it in configure?
+   * Did the installer mention any missing dependencies? Examine the Dependencies section of the plugin's System topic to determine if your environment has all the necessary dependencies: other Plugins/Contribs, perl libraries, 3rd-party software, etc.
+      * Note that you can have the installer re-check dependencies by executing it with the "dependencies" option from the server:
+      %JQREQUIRE{"chili"}%<verbatim class="bash">cd /path/to/my/foswiki/
+$  perl GenPDFAddOn_installer dependencies
+CGI,>=0,cpan,May be required for lib/Foswiki/Contrib/GenPDF.pm
+Data::Dumper,>=0,cpan,May be required for lib/Foswiki/Contrib/GenPDF.pm
+Error,>=0,cpan,May be required for lib/Foswiki/Contrib/GenPDF.pm
+File::Temp,>=0,cpan,May be required for lib/Foswiki/Contrib/GenPDF.pm
+htmldoc,0,external,Obtain from http://www.htmldoc.org/software.php
+</verbatim>
+   * Check [[%SYSTEMWEB%.InstalledPlugins]] and look against your plugin to see if it is listed.
+      * If it is listed, then it must be enabled in configure.
+      * If there is an initialisation error, it will be shown and hopefully provides a clue on how to fix the problem.
+   * Are you using a persistent perl environment such as Foswiki:Extensions.FastCGIEngineContrib or Foswiki:Extensions.ModPerlEngineContrib? Perhaps you need to restart your web server (apache, for example) so that the latest =LocalSite.cfg= changes may take effect
+   * Are there any clues in the webserver's error log?
+   * Are there any clues in Foswiki's warn log (on Foswiki 1.0.x, =data/warnYYYYMM.txt= - on Foswiki 1.1.x, default is =working/logs/error.log=)?
+   * Perhaps the problem isn't with Foswiki itself (ie. not a problem with the plugin's perl code), but some interaction with the web server and/or web browser
+      * Are there any javascript errors reported by the web browser?
+         * Sometimes javascript libraries may be loaded in the wrong order. This might be due to the new [[%SYSTEMWEB%.VarADDTOZONE][ADDTOZONE]] feature - not all plugins have been updated to work properly. If you are on Foswiki 1.0.x, you must have the latest version of [[%SYSTEMWEB%.JQueryPlugin][JQueryPlugin]] and Foswiki:Extensions.ZonePlugin installed. In Configure, disabling ={OptimizePageLayout}= can help.
+         * Sometimes javascript libraries aren't correctly received by the web browser. You may wish to check your webserver's error log for 404 not found, 403 unauthorised etc. errors on your Foswiki's =pub= directory, Eg. =%PUBURL%/%SYSTEMWEB%= <br/>
+         If the web server's error logs aren't readily accessible, a web browser may be used instead. Using [[http://www.getfirefox.com][Firefox]] for example, the [[http://www.getfirebug.com][Firebug]] debugging plugin can show files that failed to download in the 'net' panel. The failed files should be shown in red (eg. 404 not found, 403, 400, etc. errors). This might lead you to check filesystem permissions and perhaps webserver access controls.
+
+----
+
+---++ Other resources
+   * Check the "Tasks" page for your plugin - perhaps the issue is already known. You can check progress on the resolution and perhaps learn of some work-around. If the plugin is named [[Foswiki:Extensions.EmptyPlugin][EmptyPlugin]], then its tasks page will be at [[Foswiki:Tasks.EmptyPlugin]].
+   * Browse existing support requests in the [[Foswiki:Support.WebHome][Support web]] to see if the problem you are having has an FAQ for it, or perhaps another user has worked through the same issue before as a support question. As with the Tasks system, if Foswiki:Extensions.EmptyPlugin has existing Support questions filed against it, they should be available at [[Foswiki:Support.EmptyPlugin]]
+
+---++ Getting Help
+   * [[Foswiki:Community.InternetRelayChat][#foswiki IRC]] on freenode
+   * [[Foswiki:Support.SupportQuestions][Ask a support question]]
+   * [[Foswiki:Community.MailingLists][foswiki-discuss mailing list]]
+   * [[Foswiki:Support.WikiConsultants][Commercial (paid) support]]
+
+%META:FORM{name="System.BasicForm"}%
+%META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Troubleshooting Extensions"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="A plugin I installed is not working. How can I troubleshoot it?"}%
+%META:FIELD{name="InterestedParties" attributes="" title="Interested Parties" value=""}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="Foswiki:Support.Faq31, %25SYSTEMWEB%25.InstalledPlugins"}%

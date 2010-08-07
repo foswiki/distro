@@ -1,17 +1,18 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252718098" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="%25SYSTEMWEB%25.UserToolsCategory"}%
+%STARTSECTION{"header"}%
 ---+ List of <nop>%WIKITOOLNAME% users
 
 Below is a list of users with accounts. If you want to edit topics or see protected areas of the site then you can get added to the list by registering: fill out the form in %SYSTEMWEB%.UserRegistration. 
 
 If you forget your password, %SYSTEMWEB%.ResetPassword will get a new one sent to you.
 
-%INCLUDE{"UserListHeader"}%
+%INCLUDE{"UserListHeader" warn="off"}%
 
 ----
 #ListStart
 [[#A][A]] [[#B][B]] [[#C][C]] [[#D][D]] [[#E][E]] [[#F][F]] [[#G][G]] [[#H][H]] [[#I][I]] [[#J][J]] [[#K][K]] [[#L][L]] [[#M][M]] [[#N][N]] [[#O][O]] [[#P][P]] [[#Q][Q]] [[#R][R]] [[#S][S]] [[#T][T]] [[#U][U]] [[#V][V]] [[#W][W]] [[#X][X]] [[#Y][Y]] [[#Z][Z]]
-
+%ENDSECTION{"header"}%
    * A - <a name="A">- - - -</a>
    * B - <a name="B">- - - -</a>
    * C - <a name="C">- - - -</a>
@@ -42,7 +43,7 @@ If you forget your password, %SYSTEMWEB%.ResetPassword will get a new one sent t
    * X - <a name="X">- - - -</a>
    * Y - <a name="Y">- - - -</a>
    * Z - <a name="Z">- - - -</a>
-
+%STARTSECTION{"footer"}%
 *%X% Note:* There are four default system users:
    * *ProjectContributor* - placeholder for a Foswiki developer, and is used in documentation
    * *WikiGuest* - guest user, used as a fallback if the user can't be identified
@@ -52,3 +53,4 @@ If you forget your password, %SYSTEMWEB%.ResetPassword will get a new one sent t
 ---
 *Access Control:*
    * Set ALLOWTOPICCHANGE = RegistrationAgent
+%ENDSECTION{"footer"}%
