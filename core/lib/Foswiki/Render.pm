@@ -1740,6 +1740,7 @@ sub forEachLine {
         default Perl RE.
       * =nosot= - If true, do not generate "Spaced out text" match
       * =template= - If true, match for template setting and strip Template suffix from topic name
+      * =in_noautolink= - Only match explicit (squabbed) WikiWords.   Used in <noautolink> blocks
       * =url= - if set, generates an expression that will match a Foswiki
         URL that points to the web/topic, instead of the default which
         matches topic links in plain text.
@@ -1780,7 +1781,7 @@ sub getReferenceRE {
     my $squabo = "($back\\[\\[)";
     my $squabc = "($forward\\][][])";
 
-    my $re;
+    my $re = '';
 
     if ( $options{url} ) {
 
@@ -1792,17 +1793,18 @@ sub getReferenceRE {
     else {
         if ( defined($topic) ) {
 
-          my $sot;
-          unless ( $options{nosot} ) {
-            # Work out spaced-out version (allows lc first chars on words)
-            $sot = Foswiki::spaceOutWikiWord( $topic, ' *' );
-            if ( $sot ne $topic ) {
-                $sot =~ s/\b([a-zA-Z])/'['.uc($1).lc($1).']'/ge;
+            my $sot;
+            unless ( $options{nosot} ) {
+
+                # Work out spaced-out version (allows lc first chars on words)
+                $sot = Foswiki::spaceOutWikiWord( $topic, ' *' );
+                if ( $sot ne $topic ) {
+                    $sot =~ s/\b([a-zA-Z])/'['.uc($1).lc($1).']'/ge;
+                }
+                else {
+                    $sot = undef;
+                }
             }
-            else {
-                $sot = undef;
-            }
-          }
 
             if ( $options{interweb} ) {
 
@@ -1812,12 +1814,17 @@ sub getReferenceRE {
                 }
                 elsif ( $options{template} ) {
                     ($topic) = $topic =~ m/(.*)Template$/;
+                    # Regex to lookback match Set statement
+                }
+                elsif ( $options{in_noautolink} ) {
+                    $re = "$squabo$matchWeb\\.$topic$squabc";
                 }
                 else {
                     $re = "$STARTWW$matchWeb\\.$topic$ENDWW";
                 }
-                if ($sot) {
 
+                # Matching of spaced out topic names.
+                if ($sot) {
                     # match spaced out in squabs only
                     $re .= "|$squabo$matchWeb\\.$sot$squabc";
                 }
@@ -1833,6 +1840,9 @@ sub getReferenceRE {
                     if ( $options{grep} ) {
                         $re = "(($back\[^./])|^)$bow($matchWeb\\.)?$topic$eow";
                     }
+                    elsif ( $options{in_noautolink} ) {
+                        $re = "$squabo($matchWeb\\.)?$topic$squabc";
+                    }
                     else {
                         $re = "$STARTWW($matchWeb\\.)?$topic$ENDWW";
                     }
@@ -1846,8 +1856,8 @@ sub getReferenceRE {
                 else {
 
                     # Non-wikiword; require web specifier or squabs
-                    $re = "(($back\[^./])|^)$bow$matchWeb\\.$topic$eow";
-                    $re .= "|$squabo$topic$squabc";
+                    $re = "$squabo$topic$squabc";
+                    $re .= "|(($back\[^./])|^)$bow$matchWeb\\.$topic$eow" unless ($options{in_noautolink});
                 }
             }
         }
@@ -1856,28 +1866,53 @@ sub getReferenceRE {
             # Searching for a web
             if ( $options{interweb} ) {
 
-                # web name used to refer to a topic
-                $re =
+                if ( $options{in_noautolink}) {
+                    # web name used to refer to a topic
+                    $re =
+                    $squabo
+                  . $matchWeb
+                  . "(\.[$Foswiki::regex{mixedAlphaNum}]+)"
+                  . $squabc;
+                } else {
+                    $re =
                     $bow
                   . $matchWeb
                   . "(\.[$Foswiki::regex{mixedAlphaNum}]+)"
                   . $eow;
+               }
             }
             else {
 
                 # most general search for a reference to a topic or subweb
                 # note that Foswiki::UI::Rename::_replaceWebReferences()
                 # uses $1 from this regex
-                $re =
-                    $bow
-                  . $matchWeb
-                  . "(([\/\.][$Foswiki::regex{upperAlpha}]"
-                  . "[$Foswiki::regex{mixedAlphaNum}_]*)*"
-                  . "\.[$Foswiki::regex{mixedAlphaNum}]+)"
-                  . $eow;
+                if ( $options{in_noautolink}) {
+                    $re =
+                        $squabo
+                      . $matchWeb
+                      . "(([\/\.][$Foswiki::regex{upperAlpha}]"
+                      . "[$Foswiki::regex{mixedAlphaNum}_]*)*"
+                      . "\.[$Foswiki::regex{mixedAlphaNum}]+)"
+                      . $squabc;
+                } else {
+                    $re =
+                        $bow
+                      . $matchWeb
+                      . "(([\/\.][$Foswiki::regex{upperAlpha}]"
+                      . "[$Foswiki::regex{mixedAlphaNum}_]*)*"
+                      . "\.[$Foswiki::regex{mixedAlphaNum}]+)"
+                      . $eow;
+                }
             }
         }
     }
+    #my $optsx = '';
+    #$optsx .= "NOSOT=$options{nosot} " if ($options{nosot});
+    #$optsx .= "GREP=$options{grep} " if ($options{grep});
+    #$optsx .= "URL=$options{url} " if ($options{url});
+    #$optsx .= "INNOAUTOLINK=$options{in_noautolink} " if ($options{in_noautolink});
+    #$optsx .= "INTERWEB=$options{interweb} " if ($options{interweb});
+    #print STDERR "ReferenceRE returns $re $optsx  \n";
     return $re;
 }
 

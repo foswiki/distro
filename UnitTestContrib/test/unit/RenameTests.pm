@@ -69,6 +69,8 @@ pre $this->{test_web}.OldTopic
 </pre>
 <noautolink>
 protected $this->{test_web}.OldTopic
+rename [[OldTopic]]
+rename [[$this->{test_web}.OldTopic]]
 </noautolink>
 THIS
 
@@ -606,6 +608,8 @@ pre $this->{test_web}.NewTopic
 </pre>
 <noautolink>
 protected $this->{test_web}.OldTopic
+rename [[NewTopic]]
+rename [[$this->{test_web}.NewTopic]]
 </noautolink>
 THIS
     $this->check( $this->{test_web}, 'OtherTopic', undef, <<THIS, 2 );
@@ -641,6 +645,8 @@ pre $this->{test_web}.NewTopic
 </pre>
 <noautolink>
 protected $this->{test_web}.OldTopic
+rename [[NewTopic]]
+rename [[$this->{test_web}.NewTopic]]
 </noautolink>
 THIS
 
@@ -677,6 +683,8 @@ pre $this->{test_web}.NewTopic
 </pre>
 <noautolink>
 protected $this->{test_web}.OldTopic
+rename [[$this->{test_web}.NewTopic]]
+rename [[$this->{test_web}.NewTopic]]
 </noautolink>
 THIS
 }
@@ -741,6 +749,8 @@ pre $this->{new_web}.OldTopic
 </pre>
 <noautolink>
 protected $this->{test_web}.OldTopic
+rename [[OldTopic]]
+rename [[$this->{new_web}.OldTopic]]
 </noautolink>
 THIS
     $this->check( $this->{new_web}, 'OtherTopic', undef, <<THIS, 5 );
@@ -776,6 +786,8 @@ pre $this->{new_web}.OldTopic
 </pre>
 <noautolink>
 protected $this->{test_web}.OldTopic
+rename [[OldTopic]]
+rename [[$this->{new_web}.OldTopic]]
 </noautolink>
 THIS
 
@@ -812,6 +824,8 @@ pre $this->{new_web}.OldTopic
 </pre>
 <noautolink>
 protected $this->{test_web}.OldTopic
+rename [[$this->{new_web}.OldTopic]]
+rename [[$this->{new_web}.OldTopic]]
 </noautolink>
 THIS
 }
@@ -1051,6 +1065,10 @@ $this->{test_web}.Notrenamedweb.Subweb
 $this->{test_web}/Notrenamedweb/Subweb
 $vue/$this->{test_web}/Renamedweb/WebHome
 $vue/$this->{test_web}/Renamedweb/SubwebWebHome
+<noautolink>
+$this->{test_web}.Renamedweb.Subweb
+[[$this->{test_web}.Renamedweb.Subweb]]
+</noautolink>
 CONTENT
     $m->save();
 
@@ -1093,6 +1111,12 @@ CONTENT
     $this->assert_str_equals(
         "$vue/$this->{test_web}/Notrenamedweb/Renamedweb/SubwebWebHome",
         $lines[5] );
+    $this->assert_str_equals(
+        "$this->{test_web}.Renamedweb.Subweb",
+        $lines[7] );
+    $this->assert_str_equals(
+        "[[$this->{test_web}/Notrenamedweb/Renamedweb.Subweb]]",
+        $lines[8] );
 }
 
 # Move a root web, ensuring that static links are re-pointed
@@ -1116,6 +1140,10 @@ $this->{test_web}.Subweb
 $this->{test_web}/Subweb
 $vue/Renamed$this->{test_web}/WebHome
 $vue/Renamed$this->{test_web}/SubwebWebHome
+<noautolink>
+Renamed$this->{test_web}.Subweb
+[[Renamed$this->{test_web}.Subweb]]
+</noautolink>
 CONTENT
     $m->save();
 
@@ -1166,6 +1194,12 @@ EOF
     $this->assert_str_equals(
         "$vue/$this->{test_web}/Renamed$this->{test_web}/SubwebWebHome",
         $lines[5] );
+    $this->assert_str_equals(
+        "Renamed$this->{test_web}.Subweb",
+        $lines[7] );
+    $this->assert_str_equals(
+        "[[$this->{test_web}/Renamed$this->{test_web}.Subweb]]",
+        $lines[8] );
 }
 
 sub test_rename_attachment {

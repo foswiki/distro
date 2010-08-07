@@ -601,7 +601,7 @@ sub _renameWeb {
     # update referrers.  We need to do this before moving,
     # because there might be topics inside the newWeb which need updating.
     _updateReferringTopics( $session, $refs, \&_replaceWebReferences,
-        { oldWeb => $oldWeb, newWeb => $newWeb } );
+        { oldWeb => $oldWeb, newWeb => $newWeb, noautolink => 1 } );
 
     # Now, we can move the web.
     try {
@@ -780,6 +780,11 @@ sub _moveTopicOrAttachment {
             newTopic  => $to->topic,
             inWeb     => $to->web,
             fullPaths => 0,
+
+            # Process noautolink blocks. forEachLine will set in_noautolink when
+            # processing links in a noautolink block.  getReferenceRE will force
+            # squabbed links when in_noautolink is set.
+            noautolink => 1,
         };
         $text =
           $session->renderer->forEachLine( $text, \&_replaceTopicReferences,
@@ -814,6 +819,8 @@ sub _moveTopicOrAttachment {
 #   * =newTopic= => Topic of new reference
 #   * =inWeb= => the web which the text we are presently processing resides in
 #   * =fullPaths= => optional, if set forces all links to full web.topic form
+#   * =noautolink= => Set to process links in noautolink blocks
+#   * =in_noautolink= => Set by calling forEachLine if inside a noautolink block
 sub _replaceTopicReferences {
     my ( $text, $args ) = @_;
 
@@ -838,7 +845,7 @@ sub _replaceTopicReferences {
         $repl = $newWeb . '.' . $repl;
     }
 
-    my $re = Foswiki::Render::getReferenceRE( $oldWeb, $oldTopic );
+    my $re = Foswiki::Render::getReferenceRE( $oldWeb, $oldTopic, %$args );
     $text =~ s/($re)/_doReplace($1, $newWeb, $repl)/ge;
 
     # Do any references for Templates
@@ -875,6 +882,7 @@ sub _doReplace {
 # \%options contains:
 #   * =oldWeb= => Web of reference to replace
 #   * =newWeb= => Web of new reference
+#   * =noautolink => 1  -  Process noautolink blocks as well.
 sub _replaceWebReferences {
     my ( $text, $args ) = @_;
 
@@ -889,12 +897,14 @@ sub _replaceWebReferences {
 
     # Replace stand-alone web references with $MARKER, to
     # prevent matching $newWeb as a URL fragment in the second RE
-    my $re = Foswiki::Render::getReferenceRE( $oldWeb, undef );
+    my $re = Foswiki::Render::getReferenceRE( $oldWeb, undef, %$args );
     $text =~ s/$re/$MARKER$1/g;
 
     # Now do URLs.
-    $re = Foswiki::Render::getReferenceRE( $oldWeb, undef, url => 1 );
+    $args->{url} = 1;
+    $re = Foswiki::Render::getReferenceRE( $oldWeb, undef, %$args );
     $text =~ s#$re#/$newWeb/#g;
+    $args->{url} = 0;
 
     # Finally do the marker.
     $text =~ s/$MARKER/$newWeb/g;
@@ -929,6 +939,11 @@ sub _replaceWebInternalReferences {
         newWeb => $from->web,
 
         #newTopic => will be filled in by _replaceInternalRefs
+
+        # Process noautolink blocks. forEachLine will set in_noautolink when
+        # processing links in a noautolink block.  getReferenceRE will force
+        # squabbed links when in_noautolink is set.
+        autolink => 1,
     };
 
     my $text = $to->text();
