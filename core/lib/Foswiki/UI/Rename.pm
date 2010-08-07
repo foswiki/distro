@@ -1337,8 +1337,9 @@ sub _getReferringTopics {
                 nosot    => 1,
                 interweb => $interWeb,
               );
-            print STDERR "Looking for template references ($refre) \n";
             $searchString .= '|' . $refre
+            #SMELL:  Still needs code to change the template references.
+            # - this finds the topic with the references.
         }
 
         my $matches =

@@ -1814,6 +1814,7 @@ sub getReferenceRE {
                 }
                 elsif ( $options{template} ) {
                     ($topic) = $topic =~ m/(.*)Template$/;
+                    # SMELL:  Incomplete - need
                     # Regex to lookback match Set statement
                 }
                 elsif ( $options{in_noautolink} ) {
