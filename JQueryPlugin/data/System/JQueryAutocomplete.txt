@@ -102,7 +102,7 @@ And here's the section of this topic that provides the data:
 ---++ Alternative implementation using !FilterPlugin
 
 If you don't have Foswiki 1.1, you can use the
-Foswiki:Extensions.FilterPluginwhich has the capability to filter a list
+Foswiki:Extensions.FilterPlugin which has the capability to filter a list
 based on a regular expression passed from Javascript.
 
 <div class="foswikiFormSteps">
@@ -117,19 +117,32 @@ based on a regular expression passed from Javascript.
 
 <verbatim class="tml">
 %STARTSECTION{"data_fp"}%%FORMATLIST{
- "%SEARCH{
-  "^   \* %URLPARAM{"q"}%.*$"
-  web="%WEB%"
-  topic="%TOPIC%"
-  type="regex"
-  multiple="on"
-  nonoise="on"
-  format=" $pattern(.*?\* ([^ ]*).*) "
-  separator=","
- }%"
- split=","
+" 
+  backup
+  bash
+  emulation
+  games
+  irc
+  linux
+  mercurial
+  patches
+  perl
+  php
+  python
+  site
+  surfing
+  tag
+  test
+  foswiki
+  web
+  wiki
+  windows
+  windsurfing
+  wine
+"
+ include=".*%URLPARAM{"q"}%.*"
+ split="\n"
  format=" $1 "
  separator="$n"
- include=".*%URLPARAM{"q"}%.*"
 }%%ENDSECTION{"data_fp"}%
 </verbatim>
