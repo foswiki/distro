@@ -16,12 +16,12 @@ You can use browser-based controls to change a name of a topic, move it to anoth
 
    1. *Select* the ==[More actions]== link (normally located in an action toolbar at the top or bottom of page) on the topic to be changed. Then, in the new screen, click ==[Rename, move or delete this topic]==. You can now rename and/or move/delete in one operation:
       * *Move/Delete:* Select the target web if other than the current web - choose =Trash= to [[#DeleteTopic][delete a topic]].
-      * *Rename:* Enter the new topic name - default is current name %BR%
-      %X% You'll be warned if any of the topics to be affected are locked (being edited), or if there is a name conflict.
+      * *Rename:* Enter the new topic name - default is current name
+      <blockquote class="foswikiHelp">%X% You'll be warned if any of the topics to be affected are locked (being edited), or if there is a name conflict.</blockquote>
    1. *Prevent updates* by unchecking individual items on the list of referring links - these topics will NOT to be updated with the new name (by default, *only links in the same web* will be updated).
    1. *Click* on ==[Rename]==: the topic will be renamed and links to the topic updated as requested.
       * If any of the referring pages are locked then they will be listed: you can correct these later by again pressing ==[Rename]==.
-      * %H% There is a *Put back* feature that allows you to undo a ==rename/move/delete== action - an instruction line and an undo link will appear at the bottom of the modified topic. This allows you to revert from the _last modification only_.
+      <blockquote class="foswikiHelp">%H% There is a *Put back* feature that allows you to undo a ==rename/move/delete== action - an instruction line and an undo link will appear at the bottom of the modified topic. This allows you to revert from the _last modification only_.</blockquote>
 
 #CopyTopic
 ---++ How to copy a topic
@@ -37,9 +37,10 @@ Deleted topics are moved to a special ==Trash== web - they are NOT physically er
 
 The =Trash= web should be be cleared periodically, by archiving (saving) the text and RCS files if required (recommended), then deleting them from the =Trash= directory. 
 
-   * %X% This can only be done from on the server, not through the browser. 
-      * %T% Since simple FTP access to the ==Trash== directory is all that is required for maintenance, it is possible to grant =Trash= admin privileges to multiple users, while strictly limiting server access. 
+<blockquote class="foswikiHelp">%X% This can only be done from on the server, not through the browser. 
 
+%T% Since simple FTP access to the ==Trash== directory is all that is required for maintenance, it is possible to grant =Trash= admin privileges to multiple users, while strictly limiting server access. 
+</blockquote>
 ---++ Redirecting from an old topic
 
 The default "new topic" screen tells the user when a topic being created

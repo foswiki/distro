@@ -109,7 +109,7 @@ Used for logging in when Web Server authentication is being used (e.g. !ApacheLo
 ---+++ =manage=
 Performs a range of management functions.
 
-*%X% Note:* The =manage= script can only be called via the HTTP POST method. Make sure you specify =method="post"= if you call the =manage= script via a form action. It is not possible to call =manage= from an =&lt;a href ...&gt;= link.
+<blockquote class="foswikiHelp"> *%X% Note:* The =manage= script can only be called via the HTTP POST method. Make sure you specify =method="post"= if you call the =manage= script via a form action. It is not possible to call =manage= from an =&lt;a href ...&gt;= link.</blockquote>
 
 | *Parameter* | *Description* | *Default* |
 | =action= | One of =create=, =createweb=, =changePassword=, =resetPassword=, =bulkRegister=, =deleteUserAccount=, =editSettings=, =saveSettings=, =restoreRevision= | none |
@@ -220,7 +220,7 @@ context diffs.
 | *Parameter* | *Description* | *Default* |
 | =action= | =register= or =verify= or =approve= | |
 
-*%X% Note:* The =register= script can only be called via the HTTP POST method except when the action is =verify=. Make sure you specify =method="post"= if you call the =register= script via a form action. It is not possible to call =register= from an =&lt;a href ...&gt;= link. The =verify= action is an exception as it is used to verify registration by clicking a href link from an email.
+<blockquote class="foswikiHelp"> *%X% Note:* The =register= script can only be called via the HTTP POST method except when the action is =verify=. Make sure you specify =method="post"= if you call the =register= script via a form action. It is not possible to call =register= from an =&lt;a href ...&gt;= link. The =verify= action is an exception as it is used to verify registration by clicking a href link from an email.</blockquote>
 
 | *Parameter* | *Description* |
 | =addtogroups= | Accepts a comma-separated list of group names to add the user to. |
@@ -260,7 +260,7 @@ Rename a topic or an attachment.
 | =nonwikiword= | if defined, a non-wikiword is acceptable for the new topic name | |
 | =template= | template for error when an attachment doesn't exist, =deleteattachment= for when deleting an attachment | |
 
-*%X% Note:* The =rename= script can only be called via the HTTP POST method. Make sure you specify =method="post"= if you call the =rename= script via a form action. It is not possible to call =rename= from an =&lt;a href ...&gt;= link.
+<blockquote class="foswikiHelp"> *%X% Note:* The =rename= script can only be called via the HTTP POST method. Make sure you specify =method="post"= if you call the =rename= script via a form action. It is not possible to call =rename= from an =&lt;a href ...&gt;= link.</blockquote>
 
 ---+++ =resetpasswd=
 This script is _deprecated_. Its functions are covered by the =manage= script.
@@ -278,7 +278,7 @@ REST scripts that require a topic context must use the standard =topic= paramete
 
 The function is free to use any other query parameters for its own purposes.
 
-%X% The =rest= script should *always* require authentication in any site that has logins. Otherwise there is a risk of opening up major security holes. So make sure you add it to the list of authenticated scripts if you are using =ApacheLogin=.
+<blockquote class="foswikiHelp"> %X% The =rest= script should *always* require authentication in any site that has logins. Otherwise there is a risk of opening up major security holes. So make sure you add it to the list of authenticated scripts if you are using =ApacheLogin=.</blockquote>
 
 ---++++ Invocation Examples
 
@@ -361,13 +361,13 @@ Merging is only enabled if the topic text comes from =text= and =originalrev= is
 
 Form field values are passed in parameters named 'field' - for example, if I have a field =Status= the parameter name is =Status=.
 
-*%X% Note:* The =save= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =save= script via a form action. Example:
+<blockquote class="foswikiHelp"> *%X% Note:* The =save= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =save= script via a form action. Example:
 <verbatim class="html">
-<form name="new" action="%<nop>SCRIPTURLPATH{save}%/Sandbox/" method="post">
+<form name="new" action="%SCRIPTURLPATH{save}%/Sandbox/" method="post">
     ...
 </form>
 </verbatim>
-It is not possible to call =save= from an =&lt;a href ...&gt;= link.
+It is not possible to call =save= from an =&lt;a href ...&gt;= link.</blockquote>
 
 ---+++ =search=
 This cgi script has been deprecated. When called, it will redirect to the WebSearch topic, and the parameters will be passed on.
@@ -413,7 +413,7 @@ Uploads an attachment to a topic. The HTTP request is expected to be in =multipa
    * You can use a tool like =curl= to upload files from the command line using this script.
    * You can call upload easily from !XmlHttpRequest in Javascript.
 
-*%X% Note:* The =upload= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =upload= script via a form action. It is not possible to call =upload= from an =&lt;a href ...&gt;= link.
+<blockquote class="foswikiHelp"> *%X% Note:* The =upload= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =upload= script via a form action. It is not possible to call =upload= from an =&lt;a href ...&gt;= link.</blockquote>
 
 ---+++ =view=
 Used for viewing topics.
@@ -429,7 +429,7 @@ Used for viewing topics.
 | =section= | Allows to view only a part of the topic delimited by a named section (see %SYSTEMWEB%.VarSTARTSECTION). If the given section is not present, no topic content is displayed. | |
 | =template= | Allows you to specify a different skin template, overriding the 'view' template the view script would normally use. The default template is =view=. For example, you could specify [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit][%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit]]. This is mainly useful when you have specialised templates for a Wiki Application. | |
 
-%X% For historical reasons, the view script has a special interpretation of the =text= skin. This skin cannot be redefined.
+<blockquote class="foswikiHelp"> %X% For historical reasons, the view script has a special interpretation of the =text= skin. This skin cannot be redefined.</blockquote>
 
 ---+++ =viewfile=
 Used for viewing attachments. Normally, a site will publish the attachments (=pub=) directory using a URL. However if it contains sensitive information, you will want to protect attachments using [[AccessControl][AccessControls]]. In this case, you can use the =viewfile= script to give access to attachments while still checking access controls.

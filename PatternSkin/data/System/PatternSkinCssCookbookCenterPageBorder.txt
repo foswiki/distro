@@ -30,7 +30,7 @@ background-image:url("%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/striped_pageshadow.gi
 <verbatim class="html">
 <style type="text/css" media="all">
     #patternScreen {
-        background-image:url("%<nop>ATTACHURLPATH%/gradient_page.gif");
+        background-image:url("%ATTACHURLPATH%/gradient_page.gif");
         background-repeat:repeat-x;
     }
 </style>

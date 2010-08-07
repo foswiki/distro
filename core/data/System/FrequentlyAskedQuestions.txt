@@ -116,7 +116,7 @@ New FAQ topic (based on FAQTemplate)
 Other places where you can find answers to your questions:
 
    * More FAQs are available at Foswiki:Support.FAQ
-      <blockquote class="foswikiHelp">%ICON{"info"}% If you create your own FAQs, please consider sharing them at Foswiki:Support.FAQ so that your work may benefit others.</blockquote>
+      <blockquote class="foswikiHelp">%H% If you create your own FAQs, please consider sharing them at Foswiki:Support.FAQ so that your work may benefit others.</blockquote>
    * CompleteDocumentation: All you need to know to install and configure Foswiki
    * TwentyMinuteTutorial: Get a jump start on using this wiki 
    * GoodStyle: Things to consider when changing text

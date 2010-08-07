@@ -6,7 +6,7 @@ These quick enhancements are aimed at improving and customising your Foswiki.  N
 
 Many of these tips are based on setting some special [[WebPreferencesHelp][preferences]].
 
-%S% We recommend implementing at least *some* of these enhancements *right after installation* to get a taste for what is possible.  Some of these tips and enhancements _should_ be implemented before or during initial roll-out.
+<blockquote class="foswikiHelp"> %S% We recommend implementing at least *some* of these enhancements *right after installation* to get a taste for what is possible.  Some of these tips and enhancements _should_ be implemented before or during initial roll-out.</blockquote>
 
 This may spark your imagination to *really* customize your site so that it's optimal for *your* users.  Slightly more advanced customization tips can be found in Foswiki:Support.SupplementalDocuments.
 
@@ -152,8 +152,9 @@ Here are the last 15 changed pages, formatted into a neat table.
 ---++ Hidden Edit Lock for Individual Topics
 
 When you're creating main gateway pages, you may want to temporarily (or permanently) restrict editing to yourself or a limited group of people. You can do this with a Preference setting that includes one or more users and groups. Only auhorized users will be able to use ==Edit==.
-   * *Example:* <verbatim class="tml">   * Set ALLOWTOPICCHANGE = %USERSWEB%.UserName, %USERSWEB%.GroupName</verbatim>
-   * %T% *To hide the setting:* Use HTML comment tags - put ==&lt;!--== on the line _above the setting, and ==--&gt;== on the line below.
+
+*Example:* <verbatim class="tml">   * Set ALLOWTOPICCHANGE = %USERSWEB%.UserName, %USERSWEB%.GroupName</verbatim>
+<blockquote class="foswikiHelp"> %T% *To hide the setting:* Use HTML comment tags - put ==&lt;!--== on the line _above the setting, and ==--&gt;== on the line below.</blockquote>
 
 ---++ Change the Default Logo
 
@@ -170,11 +171,11 @@ If you'd like to have the same customised logo for all the webs, make these chan
 With a simple one or two-line default topic form available for every topic  - in *Edit* mode, click the ==[Add]== button, and select the form if it isn't already enabled. Then, click the title to get to the actual form, ==[Edit]==, and carefully change values, probably basic page classifications. You'll get some increased value, and hands-on experience with DataForms, without having to read up about them first. %X% *(add the corresponding search per category - copy a default and change)*
 
 ---++ Customize The Left Navigation Bar
-<blockquote>%ICON{"info"}% This advice applies to sites using the default PatternSkin</blockquote>
+<blockquote class="foswikiHelp">%H% This advice applies to sites using the default PatternSkin</blockquote>
 
 Customize the contents of the WebLeftBar topic, which does not exist by default - read PatternSkinCustomization for details. Each web has its own WebLeftBar that may include important topics for that web, or link to an important topic for the overall site.
 
-<blockquote>%T% Also check PatternSkinCustomization to learn how to customise the WebTopBar</blockquote>
+<blockquote class="foswikiHelp">%T% Also check PatternSkinCustomization to learn how to customise the WebTopBar</blockquote>
 
 ---++ Add Your Favorite <nop>JavaScript Features
 
@@ -192,7 +193,7 @@ This assumes that there is a file named [[%PUBURLPATH%/%SYSTEMWEB%/MyJQueryPlugi
 ---+++ Adding CSS
 See [[VarADDTOZONE][ADDTOZONE]]'s [[VarADDTOZONE#ExampleAddingCSS][CSS example]]
 
-%X% Depending on what you load up, you may change the overall cross-browser compatibility - be careful that your site does not look beat up in various other browsers. The scripts and CSS features you choose will determine compatibility.
+<blockquote class="foswikiHelp"> %X% Depending on what you load up, you may change the overall cross-browser compatibility - be careful that your site does not look beat up in various other browsers. The scripts and CSS features you choose will determine compatibility.</blockquote>
 
 ----
 *Related Topics:* AdminDocumentationCategory

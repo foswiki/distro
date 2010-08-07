@@ -25,7 +25,7 @@ Edit this topic, and change the color as you like.
 </div>
 </div>
 
-%ICON{"info"}% For more help on customizing styles, see [[PatternSkinCustomization]].
+<blockquote class="foswikiHelp">%H% For more help on customizing styles, see [[PatternSkinCustomization]].</blockquote>
 
 ---++!! Color preference settings
 %TOC%

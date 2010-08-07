@@ -40,7 +40,7 @@ A form definition specifies the fields in a form. A form definition is simply a 
 | <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsVersion"><nop>OsVersion</a> | text |  16  | | blah blah... | &nbsp; |
 </blockquote>
 
-%X% Do *not* use the field name =undefined= (or any variant of that name, such as !UnDefined), as that name is reserved for use in search queries.
+<blockquote class="foswikiHelp"> %X% Do *not* use the field name =undefined= (or any variant of that name, such as !UnDefined), as that name is reserved for use in search queries.</blockquote>
 
 See [[#FormStructure][structure of a form]] for full details of what types are available and what all the columns mean.
 
@@ -54,8 +54,7 @@ You can also retrieve possible values for =select=, =checkbox= or =radio= types 
      | <nop>TopicClassification | select | 1 |    | blah blah... | &nbsp; |
      | <nop>OperatingSystem | checkbox | 3 |    | blah blah... | &nbsp; |
      | <nop>OsVersion | text | 16 |    | blah blah... | &nbsp; |
-     <br/>
-     %X% Leave the ==Values== field *blank*.
+     <blockquote class="foswikiHelp"> %X% Leave the ==Values== field *blank*.</blockquote>
 
    * Then in the <nop>TopicClassification topic, define the possible values:
      <br /><verbatim class="tml">
@@ -113,18 +112,18 @@ Forms have to be enabled for each individual web. The ==WEBFORMS== setting in We
        <input type="submit" class="foswikiSubmit" value="Create" />
     </form>
        </verbatim>
-   * *%X% Note:* You can create a topic in one step, without going through the edit screen. To do that, specify the =save= script instead of the =edit= script in the form action. When you specify the =save= script you must to use the "post" method. Example:
+<blockquote class="foswikiHelp"> *%X% Note:* You can create a topic in one step, without going through the edit screen. To do that, specify the =save= script instead of the =edit= script in the form action. When you specify the =save= script you must to use the "post" method. Example:
        <verbatim class="tml">
     <form name="newtopic" action="%SCRIPTURLPATH{"save"}%/%WEB%/" method="post">
        .....
     </form>
        </verbatim>
-   * %H% The =edit= and =save= scripts understand many more parameters, see CommandAndCGIScripts#edit and CommandAndCGIScripts#save for details.
+%H% The =edit= and =save= scripts understand many more parameters, see CommandAndCGIScripts#edit and CommandAndCGIScripts#save for details.
 
-   * *%T% Tip:* For Wiki Applications you can [[TemplateTopics#AutomaticallyGeneratedTopicname][automatically generate unique topicnames]].
+*%T% Tip:* For Wiki Applications you can [[TemplateTopics#AutomaticallyGeneratedTopicname][automatically generate unique topicnames]].
 
-   * *%X% Note:* Initial values will *not* be set in the form of a new topic if you _only_ use the formtemplate parameter.
-
+*%X% Note:* Initial values will *not* be set in the form of a new topic if you _only_ use the formtemplate parameter.
+</blockquote>
 ---++ Changing a form
    * You can change a form definition, and Foswiki will try to make sure you don't lose any data from the topics that use that form. 
 

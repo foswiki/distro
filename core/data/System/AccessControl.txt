@@ -23,7 +23,7 @@ As a *collaboration guideline*, create broad-based Groups (for more and varied i
 ---++ Permissions settings of the webs on this Foswiki site
 %INCLUDE{SitePermissions}%
 
-%H% Above table comes from SitePermissions
+<blockquote class="foswikiHelp">%H% Above table comes from SitePermissions</blockquote>
 
 ---++ Authentication vs. Access Control
 
@@ -48,9 +48,9 @@ In standard Foswiki a user can create an account in UserRegistration. The follow
 
 The default visitor name is %USERSWEB%.WikiGuest. This is the non-authenticated user.
 
-%X% Your local Foswiki may have an alternate user mapping manager installed
+<blockquote class="foswikiHelp">%X% Your local Foswiki may have an alternate user mapping manager installed
 which doesn't support user registration. Check with your Wiki administrator
-if you are in doubt.
+if you are in doubt.</blockquote>
 
 #ManagingGroups
 ---+++ Managing Groups
@@ -67,7 +67,7 @@ The GROUP setting is a comma-separated list of users and/or other groups. Exampl
 The =ALLOWTOPICCHANGE= setting defines who is allowed to change the group topic; it is a comma delimited list of users and groups. You typically want to restrict that to the members of the group itself, so it should contain the name of the topic. This prevents users not in the group from editing the topic to give themselves or others access. For example, for the <nop>KasabianGroup topic write:
    * ==Set <nop>ALLOWTOPICCHANGE = %USERSWEB%.<nop>KasabianGroup==
 
-%X% Foswiki has strict formatting rules. Make sure you have three spaces, an asterisk, and an extra space in front of any access control rule.
+<blockquote class="foswikiHelp">%X% Foswiki has strict formatting rules. Make sure you have three spaces, an asterisk, and an extra space in front of any access control rule.</blockquote>
 
 #SuperAdminGroup
 ---+++ The Super Admin Group
@@ -92,11 +92,11 @@ topics in the current web.
    * Restricting CHANGE blocks creating new topics, changing topics or attaching files.
    * Restricting RENAME prevents renaming of topics within a web.
    
-%X% *There is an important distinction between CHANGE access and RENAME access.* A user can CHANGE a topic, but thanks to version control their changes cannot be lost (the history of the topic before the change is recorded). However if a topic or web is renamed, that history may be lost. Typically a site will only give RENAME access to administrators and content owners.
+<blockquote class="foswikiHelp">%X% *There is an important distinction between CHANGE access and RENAME access.* A user can CHANGE a topic, but thanks to version control their changes cannot be lost (the history of the topic before the change is recorded). However if a topic or web is renamed, that history may be lost. Typically a site will only give RENAME access to administrators and content owners.
 
 %X% Be warned that some plugins may not respect access permissions.
 
-%I% [[Macros#FinalMacros][FINALPREFERENCES]] affects access controls, allowing you to prevent changes to access control settings while still allowing edit access to topics. 
+%I% [[Macros#FinalMacros][FINALPREFERENCES]] affects access controls, allowing you to prevent changes to access control settings while still allowing edit access to topics.</blockquote>
 
 ---+++ Controlling default access to the entire Wiki.
 There are a number of external to Foswiki ways to require authentication before viewing any part of the wiki (apache rewrites, apache auth, proxying, etc).
@@ -137,7 +137,7 @@ Creation and renaming of sub-webs is controlled by the WEBCHANGE setting on the 
       * ==Set <nop>DENYTOPICRENAME = &lt; comma-delimited list of users and groups &gt;==
       * ==Set <nop>ALLOWTOPICRENAME = &lt; comma-delimited list of users and groups &gt;==
 
-%X% *Caution!* Settings are always taken from the latest (current) revision of a topic.  If older revisions of a topic had more restrictive access controls, they will not be used when accessing the older revision.
+<blockquote class="foswikiHelp">%X% *Caution!* Settings are always taken from the latest (current) revision of a topic.  If older revisions of a topic had more restrictive access controls, they will not be used when accessing the older revision.</blockquote>
 
 Remember when opening up access to specific topics within a restricted web that other topics in the web - for example, the !WebLeftBar - may also be accessed when viewing the topics. The message you get when you are denied access should tell you what topic you were not permitted to access.
 
@@ -149,9 +149,9 @@ Remember when opening up access to specific topics within a restricted web that 
 
 The same rules apply to ALLOWTOPICCHANGE/DENYTOPICCHANGE and APPLYTOPICRENAME/DENYTOPICRENAME. Setting ALLOWTOPICCHANGE or ALLOWTOPICRENAME to en empty value means the same as not defining it. Setting DENYTOPICCHANGE or DENYTOPICRENAME to an empty value means that anyone can edit or rename the topic.
 
-%X% If the same setting is defined multiple times the last one overrides the previous. They are not OR'ed together.
+<blockquote class="foswikiHelp">%X% If the same setting is defined multiple times the last one overrides the previous. They are not OR'ed together.
 
-%X% _The setting to an empty has caused confusion and great debate and it has been decided that the empty setting syntax will be replaced by something which is easier to understand in a later version of Foswiki. A method to upgrade will be provided. Please read the release notes carefully when you upgrade._
+%X% _Setting to an empty value has caused confusion and great debate and it has been decided that the empty setting syntax will be replaced by something which is easier to understand in a later version of Foswiki. A method to upgrade will be provided. Please read the release notes carefully when you upgrade._ </blockquote>
 
 See "How Foswiki evaluates ALLOW/DENY settings" below for more on how ALLOW and DENY interacts.
 
@@ -172,7 +172,7 @@ The easiest way to apply the same access control rules for attachments as apply 
 
 That way all the controls that apply to the topic also apply to attachments to the topic. Other types of webserver have similar support.
 
-%X% Images embedded in topics will load much slower since each image will be delivered by the =viewfile= script.
+<blockquote class="foswikiHelp">%X% Images embedded in topics will load much slower since each image will be delivered by the =viewfile= script.</blockquote>
 
 #RootWebs
 ---+++ Controlling who can manage top-level webs
@@ -187,7 +187,7 @@ Note that you do *not* require =ROOTCHANGE= access to rename an existing top-lev
 
 When deciding whether to grant access, Foswiki evaluates the following rules in order (read from the top of the list; if the logic arrives at *PERMITTED* or *DENIED* that applies immediately and no more rules are applied). You need to read the rules bearing in mind that VIEW, CHANGE and RENAME access may be granted/denied separately.
 
-%X% Settings are only read from the most current (latest) revision of a topic.  Settings from older revisions are never used, even when viewing an older revision with the =rdiff= script
+<blockquote class="foswikiHelp">%X% Settings are only read from the most current (latest) revision of a topic.  Settings from older revisions are never used, even when viewing an older revision with the =rdiff= script</blockquote>
 
    1 If the user is an [[#SuperAdminGroup][administrator]]
       * access is *PERMITTED*.
@@ -195,7 +195,7 @@ When deciding whether to grant access, Foswiki evaluates the following rules in 
       * people in the list will be *DENIED*.
    1 If DENYTOPIC is set to _empty_ ( i.e. <tt>Set DENYTOPIC =</tt> )
       * access is *PERMITTED* _i.e_ no-one is denied access to this topic.%BR%
-        %X% *Attention:* Use this with caution. This is *deprecated* and will likely change in the next release.
+        <blockquote class="foswikiHelp">%X% *Attention:* Use this with caution. This is *deprecated* and will likely change in the next release.</blockquote>
    1 If ALLOWTOPIC is set
       1 people in the list are *PERMITTED*
       1 everyone else is *DENIED*
@@ -222,11 +222,11 @@ Examples: Topic A includes topic B
 Another way of hiding webs is to keep them hidden by not publishing the URL and by preventing the ==all webs== search option from accessing obfuscated webs. Do so by setting the ==NOSEARCHALL== setting in %WEBPREFSTOPIC%:
    * ==Set <nop>NOSEARCHALL = on== 
 
-%T%  Setting <nop>NOSEARCHALL to __any__ value other than the empty string will hide a web.  Setting ==<nop>NOSEARCHALL = off== will have the same effect as setting it to ==on==
+<blockquote class="foswikiHelp">%T%  Setting <nop>NOSEARCHALL to __any__ value other than the empty string will hide a web.  Setting ==<nop>NOSEARCHALL = off== will have the same effect as setting it to ==on== </blockquote>
 
 This setup can be useful to hide a new web until content its ready for deployment, or to hide view access restricted webs.
 
-%X% Obfuscating a web without view access control is *very* insecure, as anyone who knows the URL can access the web.
+<blockquote class="foswikiHelp">%X% Obfuscating a web without view access control is *very* insecure, as anyone who knows the URL can access the web.</blockquote>
 
 ---+++ Restrict Access to a whole Foswiki site
 

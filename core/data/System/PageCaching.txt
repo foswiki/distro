@@ -19,7 +19,7 @@ Sometimes caching complete pages is too coarse-grained. There may be parts of a 
 </verbatim>
 ensures that the cache will never store the time, forcing it to be re-computed every time the page is served.
 
-%X% Use of dirty areas will defeat compression of the pages that use them, so should be used sparingly.
+<blockquote class="foswikiHelp">%X% Use of dirty areas will defeat compression of the pages that use them, so should be used sparingly.</blockquote>
 ---+++ Refreshing the cache
 Sometimes it is necessary to force a cache refresh from the client. To support this Foswiki provides the =refresh= parameter, which works with all scripts that produce cacheable output. You may force the current topic to be recomputed by specifying =refresh=on=. The complete cache for all topics can be cleared using =refresh=all=. 
 

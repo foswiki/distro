@@ -33,7 +33,7 @@ Add the dynamic link to the logo image to the topic text:
         </style>"
 }%
 </verbatim>
-You can always write a =&lt;style>= in a topic - all current browsers support this - but the page won't validate as valid XHTML.
+Always write in-line =&lt;style&gt;= tags using the above [[VarADDTOZONE][ADDTOZONE]] example to ensure the style tags are added inside the =&lt;head&gt;= and not the =&lt;body&gt;= - otherwise the page won't validate as valid XHTML.
 </div>
 
 %ADDTOZONE{

@@ -148,7 +148,7 @@ For example, let's say we are viewing a topic in web =Sandbox= and are searching
    6 =templates/function.tmpl= _(rule 6)_
    7 =Sandbox.FunctionTemplate= _(rule 7)_
    8 =System.FunctionTemplate= _(rule 8)_
-:skull: _this usage is supported *for compatibility only* and is *deprecated*. Store web-specific templates in topics instead._
+<blockquote class="foswikiHelp">%X% :skull: _This usage is supported *for compatibility only* and is *deprecated*. Store web-specific templates in topics instead._ </blockquote>
 
 When a skin name or template name is used to build a topic name, the first character is automatically capitalised.
 
@@ -213,7 +213,7 @@ Note that the trace annotations may make your output look strange. However
 you can usually "view source" in the browser to see what was generated (or
 you may be able to run the script from the command-line e.g. =cd bin; perl -T -I . view topic=MyWeb.MyTopic skin=mynewskin=).
 
-%I% Don't forget to switch the trace mode off again when you are finished!
+<blockquote class="foswikiHelp">%I% Don't forget to switch the trace mode off again when you are finished!</blockquote>
 
 ---+++ Overview of the default templates
 

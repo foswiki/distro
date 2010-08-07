@@ -7,8 +7,8 @@ _Register users on your Foswiki site; change/reset/install passwords; remove use
 
 %TOC%
 
-%X% Some of the features below may be disabled, depending on your Foswiki
-configuration.
+<blockquote class="foswikiHelp"> %X% Some of the features below may be disabled, depending on your Foswiki
+configuration.</blockquote>
 
 ---++ Authentication and Access Control
 
@@ -129,7 +129,7 @@ Content-Transfer-Encoding: 8bit
     EMAILADDRESS="%EMAILADDRESS%"
 }%
 </verbatim>
-   * *note the use of %<nop>WIKINAME%, %<nop>FIRSTLASTNAME%, %<nop>EMAILADDRESS% passed in from the INCLUDE so that the topic below is similar to the original template*
+<blockquote class="foswikiHelp"> %H% *Note* the use of %<nop>WIKINAME%, %<nop>FIRSTLASTNAME%, %<nop>EMAILADDRESS% passed in from the INCLUDE so that the topic below is similar to the original template</blockquote>
 
 and then create a topic %NOP%%USERSWEB%.RegisterNotifyEmail:
 <verbatim class="tml">
@@ -153,7 +153,7 @@ Your Wiki Admin
 %FORMDATA%
 
 </verbatim>
-   * *remember to secure the topic appropriately to prevent attackers from getting emailed sensitive passwords.*
+<blockquote class="foswikiHelp">%X% *Remember* to secure the topic appropriately to prevent attackers from getting emailed sensitive passwords.</blockquote>
 
 ---
 *Related Topics:* AdminDocumentationCategory

@@ -120,6 +120,7 @@ Field specifiers and constants are combined using _operators_ to create queries.
 | =OR= | Combine two subqueries |
 | =()= | Bracketed subquery |
 
+<blockquote class="foswikiHelp">
 %I% The same operators are supported by the [[VarIF][%IF]] and [[VarQUERY][%QUERY]] macros.
 
 %I% You can get the current time for date comparisons using SpreadSheetPlugin, thus: =%<nop>CALC{"$TIME()"}%=
@@ -127,7 +128,7 @@ Field specifiers and constants are combined using _operators_ to create queries.
 %I% If you want to know if a field is undefined (has never been given a value) then you can compare it with =undefined= (this requires that no field called =undefined= exists in the form).
  
 %I% In the operators (<code>&#61; !&#61; ~ &#61;~ &lt; &gt; &lt&#61; &gt&#61; NOT AND OR</code>) an undefined operand is treated the same as numerical 0. For =lc uc d2n= an undefined operand will give an undefined result. For =length= and undefined operand will give a result of 0.
-
+</blockquote>
 ---++ Text and Meta Text
 There are two fields that contain the topic text, =text= and =metatext=. =text= just contains the raw text of the topic, as you would see if you viewed the topic raw. =metatext= contains the text of the topic with MetaData embedded. This can be useful when you want to generate output based on processing meta-data.
 

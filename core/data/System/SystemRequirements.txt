@@ -39,7 +39,7 @@ The [[InstallationGuide][standard installation]] has relatively low browser requ
 
    * XHTML 1.0 Transitional compliant
    * Cookies, if persistent sessions are required
-   * Javascript, for edit/save/upload functionality <blockquote class="foswikiHelp">%ICON{"tip"}% Change ={ValidationMethod}{Method}= from =strikeone= to =embedded= in [[%SCRIPTURLPATH{"configure"}%][configure]] to allow non-javascript browsers to edit/save/upload</blockquote>
+   * Javascript, for edit/save/upload functionality <blockquote class="foswikiHelp">%T% Change ={ValidationMethod}{Method}= from =strikeone= to =embedded= in [[%SCRIPTURLPATH{"configure"}%][configure]] to allow non-javascript browsers to edit/save/upload</blockquote>
 
 CSS and Javascript are used in most skins. Some skins will require more recent releases of browsers. The default skin is tested on IE 6, 7, Safari 3.0, and recent Mozilla based browsers (such as Firefox).
 

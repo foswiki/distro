@@ -21,14 +21,14 @@ You may create as many zones in addition to the standard [[#HeadAndBody][ =head=
 *Parameters:*
    * ="zone"= optional, comma-separated list of the names of zones that the content should be added to. Defaults to =head=.
    * =id= optional, =identifier= for the text being added with the =ADDTOZONE= call, to be used in the =requires= parameter of other =ADDTOZONE= calls.
-      * %ICON{"info"}% Multiple =ADDTOZONE= calls with the same =id= parameter will simply overwrite the earlier =ADDTOZONE= call.
+      * %H% Multiple =ADDTOZONE= calls with the same =id= parameter will simply overwrite the earlier =ADDTOZONE= call.
    * =requires="..."= optional, comma separated string of =ids= of text within this =zone= that should be expanded before this call.
-      * %ICON{"info"}% Foswiki only resolves ordering dependencies within a zone.
+      * %H% Foswiki only resolves ordering dependencies within a zone.
    * =text="..."= optional, text to be added to the named zone, mutually exclusive with =topic=.
    * =topic="..."= optional, full qualified =web.topic= name that contains the text to be added, mutually exclusive with =text=.
    * =section="..."= optional, section of the =topic= to be added,
      defaults to the default section between [[VarSTARTINCLUDE][STARTINCLUDE]] and [[VarSTOPINCLUDE][STOPINCLUDE]].<br/>
-      * %ICON{"info"}% Using =topic= and =section= is actually a short form of 
+      * %H% Using =topic= and =section= is actually a short form of 
       <verbatim class="tml">
 %ADDTOZONE{
    "myzone"
@@ -50,7 +50,7 @@ For this reason, consideration needs to be given to the way =head= and =body= zo
      [[VarRENDERZONE][RENDERZONE]]. This allows an ADDTOZONE to the
      =head= to successfully require an =id= that has been added to the
      =body=.
-      * %ICON{"info"}% =%<nop>RENDERZONE{"head"}%= will expand *both*
+      * %H% =%<nop>RENDERZONE{"head"}%= will expand *both*
          =head= and =body= zone content. =%<nop>RENDERZONE{"body"}%= will
          be empty.
    * Only add HTML to the body zone _that is also legal in the =&lt;HEAD&gt;=._

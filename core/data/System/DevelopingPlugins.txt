@@ -22,9 +22,9 @@ In addition the following global variables may be referred to:
    * =$Foswiki::Plugins::SESSION= - reference to =Foswiki= singleton object
    * =$Foswiki::cfg= - reference to configuration hash
    * =$Foswiki::regex= - see [[#StReEx][Standard Regular Expressions]], below
-%I% Foswiki:Development.GettingStarted  is the starting point for more comprehensive documentation on developing for Foswiki.
+<blockquote class="foswikiHelp">%I% Foswiki:Development.GettingStarted  is the starting point for more comprehensive documentation on developing for Foswiki.</blockquote>
 
-*Note* the APIs are available to all extensions, but rely on a
+*Note:* the APIs are available to all extensions, but rely on a
 =Foswiki= singleton object having been created before the APIs can be used.
 This will only be a problem if you are writing an extension that doesn't
 use the standard initialisation sequence.
@@ -288,8 +288,8 @@ The plugin interface ([[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Fu
 
 Organizations typically do not upgrade to the latest Foswiki for many months. However, many administrators still would like to install the latest versions of a plugin on their older Foswiki installation. This need is fulfilled if plugins are maintained in a compatible manner. 
 
-*%T% Tip:* Plugins can be written to be compatible with older and newer Foswiki releases. This can be done also for plugins using unofficial Foswiki internal functions of an earlier release that no longer work on the latest Foswiki codebase. 
-Here is an example; the Foswiki:Support.PluginsSupplement has more details.
+<blockquote class="foswikiHelp"> *%T% Tip:* Plugins can be written to be compatible with older and newer Foswiki releases. This can be done also for plugins using unofficial Foswiki internal functions of an earlier release that no longer work on the latest Foswiki codebase. 
+Here is an example; the Foswiki:Support.PluginsSupplement has more details.</blockquote>
 
 <verbatim class="perl">
     if( $Foswiki::Plugins::VERSION >= 1.1 ) {

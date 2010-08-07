@@ -18,8 +18,10 @@ The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on ali
    * Each entry must be of format: <br /> ==| External site alias | URL | Tooltip help text |==.
    * Site aliases must start with an upper case letter and may contain alphanumeric letters.
    * The URL and Tooltip Text may contain optional ==$page== fromatting tokens; the token gets expanded to the page name.
-   * %H% For Foswiki and TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>Foswikisite:Webname/<nop>SomePage==
-      * Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
+<blockquote class="foswikiHelp">%H% For Foswiki and TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>Foswiki:Webname/<nop>SomePage==
+
+Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
+</blockquote>
 
 ---++ <nop>%TOPIC% Settings
 

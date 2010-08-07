@@ -197,7 +197,7 @@ Display the value of a form field if the topic has form field "Summary":
    }%"
 }%
 </verbatim>
-<blockquote>%ICON{"info"}% The [[VarIF][IF]] macro is expanded before [[VarFORMFIELD][FORMFIELD]]. [[FormattedSearch#InsideOutLeftToRight][Read more]]</blockquote>
+<blockquote>%H% The [[VarIF][IF]] macro is expanded before [[VarFORMFIELD][FORMFIELD]]. [[FormattedSearch#InsideOutLeftToRight][Read more]]</blockquote>
 
 Test if the topic has attachments:
 <verbatim class="tml">

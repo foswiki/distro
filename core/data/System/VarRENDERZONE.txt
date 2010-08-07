@@ -10,7 +10,7 @@ See [[VarADDTOZONE][ADDTOZONE]] for an explanation of _zones_.
 
 Parameters:
    * ="zone"= required, name of the zone.
-      * %ICON{"info"}% If ={OptimizePageLayout}= is *not* enabled in
+      * %H% If ={OptimizePageLayout}= is *not* enabled in
          [[%SCRIPTURL{"configure"}%/configure][configure]] (the default),
          =%<nop>RENDERZONE{"head"}%= will expand both =head= and =body=
          zone content. =%<nop>RENDERZONE{"body"}%= will be empty. 
@@ -36,6 +36,6 @@ in the zone or not.
 =head= and =body= are _built-in_ zones - there is no corresponding =RENDERZONE=
 required in the templates, they will be rendered automatically.
 
-%ICON{"info"}% Zones are flushed when rendered; they may only be rendered once
+%H% Zones are flushed when rendered; they may only be rendered once
 
 See also [[VarADDTOZONE][ADDTOZONE]] for more information on zones. %JQREQUIRE{"chili"}%

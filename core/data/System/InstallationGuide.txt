@@ -367,10 +367,10 @@ Plugins are activated in the _Plugins_ section of the =configure= page. In addit
 
 ---++++ Removing (uninstalling) extensions
 
-%X% Caution:  When removing an extension, no dependency checking is performed.
+<blockquote class="foswikiHelp"> %X% Caution:  When removing an extension, no dependency checking is performed.
    * Dependencies are not removed
    * Other Extensions dependent on the removed extension may become non-operational.
-
+</blockquote>
 The web and command line interfaces can also be used to uninstall extensions.  When an extension is remove, the following occurs:
    * The =_installer= package is used to recover the manifest.  If it cannot be found locally, it will be downloaded from the configured extension repository
    * A backup of the previously installed files per the manifest will be taken to the =configure/working/backup= directory
@@ -525,6 +525,6 @@ Perform the following steps to manually configure Foswiki:
 %STOPINCLUDE%
 
 ---
- *Related Topics:* AdminDocumentationCategory, Foswiki:Support.SupplementalDocuments
+ *Related Topics:* [[AdminDocumentationCategory]], Foswiki:Support.SupplementalDocuments
 
 TWiki is a registered trademark of Peter Thoeny.

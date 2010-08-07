@@ -17,7 +17,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 #DefaultWebPreferences
 ---++ Default Web Preferences
 
-%X% *NOTE:* These are just defaults; don't change them here. Instead, add them to the !WebPreferences topic in each web
+<blockquote calss="foswikiHelp"> %X% *NOTE:* These are just defaults; don't change them here. Instead, add them to the !WebPreferences topic in each web</blockquote>
 
 
    * Web-specific background color: (is overwritten by web preferences)
@@ -75,7 +75,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
 ---++ Default User Settings
 
-%X% *NOTE:* They are typically redefined in topics of individual %USERSWEB%.WikiUsers
+<blockquote class="foswikiHelp"> %X% *NOTE:* They are typically redefined in topics of individual %USERSWEB%.WikiUsers</blockquote>
 
    * Show tool-tip topic info on mouse-over of WikiWord links. Setting can be on, off, or customized. An empty setting or off setting disables the tool-tips (for better performance). The setting can contain $summary to show the topic summary, $date for the last change date, $rev for the revision, $username for the login name of the last editor, $wikiname for the <nop>WikiName, $wikiusername for <nop>%USERSWEB%.WikiName, $topic for the topic name, and $web for the web name
       * Set LINKTOOLTIPINFO = off
@@ -108,15 +108,15 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set ATTACHLINKBOX =
 
    * Format of file link when the *link* check box is checked: (can be overwritten by user preferences)
-      * %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets).
-<!-- verbatim tag required to prevent error in Apache log; does not suppress Set -->
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+   <blockquote class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets).</blockquote>
+   <!-- verbatim tag required to prevent error in Apache log; does not suppress Set -->
+   %JQREQUIRE{"chili"}%<verbatim class="tml">
       * Set ATTACHEDFILELINKFORMAT = \n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment
 </verbatim>
 
    * Format of images when the *link* check box is checked: (can be overwritten by user preferences)
-      * %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==$size== to ==width="..." height="..."== attribute of ==img== tag; ==\t== to tab and ==\n== to linefeed (3 spaces for bullets).
-<verbatim class="tml">
+      <blockquote class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==$size== to ==width="..." height="..."== attribute of ==img== tag; ==\t== to tab and ==\n== to linefeed (3 spaces for bullets).</blockquote>
+      <verbatim class="tml">
       * Set ATTACHEDIMAGEFORMAT = \n   * $comment: <br />\n     <img src="%ATTACHURLPATH%/$fileurl" alt="$filename" $size />
 </verbatim>
 
@@ -187,7 +187,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
 ---+++ HTTP-<nop>EQUIV Settings
 
-   * %T% *NOTE:* Changing cache behaviour with these settings should not be necessary and may cause cache-related problems. These settings do not affect proxy caches.
+<blockquote class="foswikiHelp"> %T% *NOTE:* Changing cache behaviour with these settings should not be necessary and may cause cache-related problems. These settings do not affect proxy caches.</blockquote>
    * *NOTE:* The current values of these preferences are not displayed in view mode (values are <code>&lt;link&gt;</code>-tags).
 
    * ==http-equiv== meta tags for ==view==, ==rdiff==, ==attach==, ==search*== scripts:
@@ -257,7 +257,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 ---+++ TinyMCEPlugin
    * Topic containing a [[VarSECTION][section]] named =INIT= which will hold the default initialisation parameters for the !TinyMCE editor.
       * #Set TINYMCEPLUGIN_INIT_TOPIC = %SYSTEMWEB%.TinyMCEPlugin
-         * %ICON{"info"}% _Not set in this topic, the plugin assumes this value if missing_
+         <blockquote class="foswikiHelp"> %H% _Not set in this topic, the plugin assumes this value if missing_ </blockquote>
 
 ---+++ Legacy support
    * Support for legacy "EDITTOPIC", used to be hard-coded, now replaced by TMPL:P conditional instantiation
@@ -417,8 +417,9 @@ You can introduce new [[PreferenceSettings][preference settings]] and use them i
    * Preferences are used as [[%SYSTEMWEB%.Macros][Macros]] by enclosing the name in percent signs: ==%==. Example:
       * When you write ==%WEB<nop>BGCOLOR%==, it gets expanded to =%WEBBGCOLOR%= .
 
-   * %X% The sequential order of the [[PreferenceSettings][preference settings]] is significant. Define preferences that use other preferences FIRST. For example, set ==<nop>WEBCOPYRIGHT== before ==<nop>WIKIWEBMASTER== since the copyright notice uses the Wiki administrator e-mail address.
-   * %X% In order to protect your custom preferences from being overwritten when upgrading the [[%SYSTEMWEB%.%TOPIC%]] topic, it is recommended that all custom settings are defined in [[%USERSWEB%.%TOPIC%]].
+<blockquote class="foswikiHelp"> %X% The sequential order of the [[PreferenceSettings][preference settings]] is significant. Define preferences that use other preferences FIRST. For example, set ==<nop>WEBCOPYRIGHT== before ==<nop>WIKIWEBMASTER== since the copyright notice uses the Wiki administrator e-mail address.
+
+%X% In order to protect your custom preferences from being overwritten when upgrading the [[%SYSTEMWEB%.%TOPIC%]] topic, it is recommended that all custom settings are defined in [[%USERSWEB%.%TOPIC%]].</blockquote>
 
 ---++ Protected System Settings
 

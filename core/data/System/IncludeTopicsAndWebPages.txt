@@ -3,9 +3,10 @@
 ---+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
 
 The [[VarINCLUDE][%<nop>INCLUDE{...}%]] macro embeds the content of the specified topic at the place where the [[VarINCLUDE][INCLUDE]] is used. The whole content or only parts of of a page can be included.
-<blockquote>
-   * %ICON{"warning"}% If permitted in [[%SCRIPTURLPATH{"configure"}%][configure]], content from any arbitrary URL may be included also. This is disabled by default because it may be used for malicious purposes, especially on public installations.
-   * %ICON{"info"}% If your web server connects to the internet via a proxy server, ={PROXY}{HOST}= and ={PROXY}{PORT}= settings should be set in [[%SCRIPTURLPATH{"configure"}%][configure]].
+<blockquote class="foswikiHelp">
+%H% If permitted in [[%SCRIPTURLPATH{"configure"}%][configure]], content from any arbitrary URL may be included also. This is disabled by default because it may be used for malicious purposes, especially on public installations.
+
+%H% If your web server connects to the internet via a proxy server, ={PROXY}{HOST}= and ={PROXY}{PORT}= settings should be set in [[%SCRIPTURLPATH{"configure"}%][configure]].
 </blockquote>
 
 %TOC%
@@ -32,7 +33,7 @@ The example parameters PARAMETER1 and PARAMETER2 will be defined as macros withi
 
 VarINCLUDE explains the other parameters.
 
-<blockquote> %ICON{"info"}% All text of a topic is included unless it contains a [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]], or you specify a =section= parameter (see [[VarSTARTSECTION][STARTSECTION]] and [[VarENDSECTION][ENDSECTION]]) and/or a =pattern= parameter. A pattern will only search between =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%= or within the =section= specified.</blockquote>
+<blockquote class="foswikiHelp"> %H% All text of a topic is included unless it contains a [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]], or you specify a =section= parameter (see [[VarSTARTSECTION][STARTSECTION]] and [[VarENDSECTION][ENDSECTION]]) and/or a =pattern= parameter. A pattern will only search between =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%= or within the =section= specified.</blockquote>
 
 ---++ Usage Examples
 
@@ -53,7 +54,7 @@ VarINCLUDE explains the other parameters.
    * You get:
 %INCLUDE{"http://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
 
-<blockquote>%ICON{"warning"}% Including URLs is disabled by default as it presents a security risk. It may be enabled via [[%SCRIPTURLPATH{"configure"}%][configure]]. _Only enable this if you understand the risk_.</blockquote>
+<blockquote class="foswikiHelp">%X% Including URLs is disabled by default as it presents a security risk. It may be enabled via [[%SCRIPTURLPATH{"configure"}%][configure]]. _Only enable this if you understand the risk_.</blockquote>
 
 ---+++ 3. Include a topic
 

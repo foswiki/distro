@@ -85,7 +85,6 @@ You need to skip the header row. Use this search:
 </verbatim>
 
 Which renders as:
-<verbatim class="tml">
 <select>
     %SEARCH{
         "^\|[^\*\|]*\|"
@@ -96,7 +95,6 @@ Which renders as:
         format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
     }%
 </select>
-</verbatim>
 
 <!-- ============================== -->
 #SearchFormClassification

@@ -76,7 +76,7 @@ The following template names are used for Foswiki screens, and are referenced in
    
 =foswiki.tmpl= is a master template conventionally used by other templates, but not used directly by code.
 
-*%X% Note:* Make sure templates do not end with a newline. Any newline will expand to an empty =&lt;p /&gt;= in the generated html. It will produce invalid html, and may break the page layout. 
+<blockquote class="foswikiHelp"> *%X% Note:* Make sure templates do not end with a newline. Any newline will expand to an empty =&lt;p /&gt;= in the generated html. It will produce invalid html, and may break the page layout. </blockquote>
 
 ---+++ Partial customisation, or adding in new features to an existing skin
 

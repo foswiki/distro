@@ -17,9 +17,10 @@ Put your local templates into %SYSTEMWEB%.UserCommentsTemplate (create if it doe
 
 ---++ Template definitions
 
-%X% Note that the use of URLPARAM in the templates should be done in a way that prevents Cross Site Scripting attacks. The safest is to let URLPARAM encode the unsafe characters (default) but this prevents the user from entering Foswiki macros in the comment input fields. It is however safe to use encode="off" when the following rules are observed.
+<blockquote class="foswikiHelp"> %X% Note that the use of URLPARAM in the templates should be done in a way that prevents Cross Site Scripting attacks. The safest is to let URLPARAM encode the unsafe characters (default) but this prevents the user from entering Foswiki macros in the comment input fields. It is however safe to use encode="off" when the following rules are observed.
    * The encode="off" option for URLPARAM is only used in this topic within verbatim tags to prevent this topic from being an XSS attack vector.
    * The encode="off" option is only used in OUTPUT defs and never in the PROMPT.
+</blockquote>
    
 ---+++ Templates used in rest of file
 Generic prompt box used by other templates

@@ -387,7 +387,7 @@ where
       * =external= or any other value is reported but ignored. 
    * description is a short description of the module and where to get it. If it begins with the word =Optional= then the dependency will not be automatically resolved.
 
-%X% Dependencies of type =cpan= or =perl= will be executed in an =eval= %statement to compare the VERSION and RELEASE strings.  
+<blockquote class="foswikiHelp">%X% Dependencies of type =cpan= or =perl= will be executed in an =eval= statement to compare the VERSION and RELEASE strings.  </blockquote>
 
 The installer script written by the build process uses the dependency type to decide how to install dependant modules. 'cpan' means 'get the module from CPAN' and 'perl' means 'get the module from the Plugins web on Foswiki.org' (or whatever other repositories the admin has specified using =$FOSWIKI_PACKAGES= or =$PLUGINS_URL=).
 
@@ -465,11 +465,11 @@ If the script needs to report to the installer, it should return the message
 as a simple string ending with a newline.  It will be presented as a verbatim block to the web
 install, or as inline text for the shell installation.
 
-%X% Caution:  The pre/post scripts should not assume the standard installation
+<blockquote class="foswikiHelp">%X% Caution:  The pre/post scripts should not assume the standard installation
 directories or topics when used to remove or otherwise manipulate files in the
 installation.   You can use the Utility function =mapTarget= to find the
 correct file location for the current install.  See
-[[System.PerlDoc?module=Foswiki::Configure::Util][PerlDoc for Foswiki::Configure::Util]]
+[[System.PerlDoc?module=Foswiki::Configure::Util][PerlDoc for Foswiki::Configure::Util]]</blockquote>
 
 Also, as the file to be removed is most likely not listed in the manifest,
 it will not be backed up during the install.  So use caution removing files

@@ -15,5 +15,5 @@ Macros are fully expanded _before_ any of the text formatting rules are applied.
 
 *Documentation Graphics:* There are many graphics available to use in your topics. Use =%<nop>ICON{"help"}%=, =%<nop>ICON{"tip"}%=, and =%<nop>ICON{"warning"}%= to get: %H%, %T%, and %X%, respectively. DocumentGraphics lists them all.
 
-%ICON{"tip"}% To "escape" a macro, prefix it with an exclamation mark. Write: =!%<nop>SOMEMACRO%= to get: !%SOMEMACRO%.
+<blockquote class="foswikiHelp"> %T% To prevent a macro from expanding, prefix it with an exclamation mark. Write: =!%<nop>SOMEMACRO%= to get: !%SOMEMACRO%. Alternatively, you may also see: =%&lt;nop&gt;SOMEMACRO%= </blockquote>
 %STOPINCLUDE%

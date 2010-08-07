@@ -129,7 +129,7 @@ reduce bandwidth and speed up interactive performance.
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
-   * %X% For Foswiki versions before 1.1, this plugin requires the Foswiki:Extensions.ZonePlugin to be installed. The !ZonePlugin is *not* required for Foswiki 1.1 or later.
+<blockquote class="foswikiHelp"> %X% For Foswiki versions before 1.1, this plugin requires the Foswiki:Extensions.ZonePlugin to be installed. The !ZonePlugin is *not* required for Foswiki 1.1 or later.</blockquote>
 
 ---++ Plugin Info
 |  Author(s): | Michael Daum |

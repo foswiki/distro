@@ -109,7 +109,7 @@ You can also define a *comment template in a topic*, by passing the topic locati
 </blockquote>
 
 
-%X% Templates are picked up by following the [[SkinTemplates#FindingTemplates][standard rules for locating template files]]. Note that you can use =%TMPL:INCLUDE= to include other files of templates. %BR%
+<blockquote class="foswikiHelp"> %X% Templates are picked up by following the [[SkinTemplates#FindingTemplates][standard rules for locating template files]]. Note that you can use =%TMPL:INCLUDE= to include other files of templates.</blockquote>
 
 ---+++ Customisation example
 Provide both a =PROMPT= and an =OUTPUT= definition:

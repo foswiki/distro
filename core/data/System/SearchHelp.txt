@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="WebSearch"}%
 ---+!! Search Help
 %STARTINCLUDE%
-<blockquote class="foswikiHelp">%T% %MAKETEXT{"TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal =\"web service\"=, but not =\"shampoo\"=, write:"}% <code>soap wsdl "web service" -shampoo</code></blockquote>
+<blockquote class="foswikiHelp">%T% %MAKETEXT{"TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal =\"web service\"=, but not =\"shampoo\"=, write:"}% =soap wsdl "web service" -shampoo= </blockquote>
 
 There are two search pages; WebSearch offers basic search features, while
 WebSearchAdvanced offers more control over searches.
