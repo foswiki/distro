@@ -65,7 +65,7 @@ our $RELEASE;
 our $TRUE  = 1;
 our $FALSE = 0;
 our $engine;
-our $TranslationToken = "\0";
+our $TranslationToken = "\3";
 
 # Used by takeOut/putBack blocks
 our $BLOCKID = 0;
@@ -739,7 +739,7 @@ JS
               $cgis, $context, $usingStrikeOne )/gei;
     }
 
-    if ($contentType ne 'text/plain') {
+    if ( $contentType ne 'text/plain' ) {
 
         # render zones
         $text =~
@@ -774,12 +774,13 @@ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this,
 
     # cache final page, but only view
     my $cachedPage;
-    if ($contentType ne 'text/plain') {
+    if ( $contentType ne 'text/plain' ) {
         if ( $Foswiki::cfg{Cache}{Enabled}
             && ( $this->inContext('view') || $this->inContext('rest') ) )
         {
             $cachedPage = $this->{cache}->cachePage( $contentType, $text );
-            $this->{cache}->renderDirtyAreas( \$text ) if $cachedPage->{isDirty};
+            $this->{cache}->renderDirtyAreas( \$text )
+              if $cachedPage->{isDirty};
         }
         else {
 
@@ -801,7 +802,7 @@ s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this,
                 && $contentType =~ m#text/html#
                 && $text =~ m#</html>(.*?\S.*)$#s )
             {
-            ASSERT( 0, <<BOGUS );
+                ASSERT( 0, <<BOGUS );
 Junk after </html>: $1. Templates may be bogus
 - Check for excess blank lines at ends of .tmpl files
 -  or newlines after %TMPL:INCLUDE
@@ -1321,34 +1322,39 @@ sub getSkin {
     my @skinpath;
     my $skins;
 
-    if ($this->{request}) {
+    if ( $this->{request} ) {
         $skins = $this->{request}->param('cover');
-        if (defined $skins
-              && $skins =~ /([$regex{mixedAlphaNum}.,\s]+)/o) {
+        if ( defined $skins
+            && $skins =~ /([$regex{mixedAlphaNum}.,\s]+)/o )
+        {
+
             # Implicit untaint ok - validated
             $skins = $1;
-            push(@skinpath, split(/,\s]+/, $skins));
+            push( @skinpath, split( /,\s]+/, $skins ) );
         }
     }
 
     $skins = $this->{prefs}->getPreference('COVER');
-    if (defined $skins
-          && $skins =~ /([$regex{mixedAlphaNum}.,\s]+)/o) {
+    if ( defined $skins
+        && $skins =~ /([$regex{mixedAlphaNum}.,\s]+)/o )
+    {
+
         # Implicit untaint ok - validated
         $skins = $1;
-        push(@skinpath, split(/[,\s]+/, $skins));
+        push( @skinpath, split( /[,\s]+/, $skins ) );
     }
 
     $skins = $this->{request} ? $this->{request}->param('skin') : undef;
     $skins = $this->{prefs}->getPreference('SKIN') unless defined $skins;
 
-    if (defined $skins && $skins =~ /([$regex{mixedAlphaNum}.,\s]+)/o) {
+    if ( defined $skins && $skins =~ /([$regex{mixedAlphaNum}.,\s]+)/o ) {
+
         # Implicit untaint ok - validated
         $skins = $1;
-        push(@skinpath, split(/[,\s]+/, $skins));
+        push( @skinpath, split( /[,\s]+/, $skins ) );
     }
 
-    return join(',', @skinpath);
+    return join( ',', @skinpath );
 }
 
 =begin TML
@@ -1626,7 +1632,7 @@ sub new {
 
     $query ||= new Foswiki::Request();
     my $this = bless( { sandbox => 'Foswiki::Sandbox' }, $class );
-    
+
     if ( defined $Foswiki::cfg{Site}{CharSet} ) {
 
         # Ensure the auto-encoding in CGI uses the correct character set.
