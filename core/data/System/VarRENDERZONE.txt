@@ -10,11 +10,6 @@ See [[VarADDTOZONE][ADDTOZONE]] for an explanation of _zones_.
 
 Parameters:
    * ="zone"= required, name of the zone.
-      * %H% If ={OptimizePageLayout}= is *not* enabled in
-         [[%SCRIPTURL{"configure"}%/configure][configure]] (the default),
-         =%<nop>RENDERZONE{"head"}%= will expand both =head= and =body=
-         zone content. =%<nop>RENDERZONE{"body"}%= will be empty. 
-   * =header="..."= optional, prefix format string
    * =format="..."= optional, format string for each item added to the zone, default:
    <verbatim class="tml">$item <!--<literal> $id $missing</literal>--></verbatim>Tokens:
       * =$id= - =id= of the [[VarADDTOZONE][ADDTOZONE]] call within the =zone= currently being rendered.
@@ -25,17 +20,23 @@ Parameters:
    * =missingtoken="..."= optional, this will be the string assigned to the =$missing= format token for use in the =format= parameter. Default:
    <verbatim class="tml">required id(s) that were missing from $zone zone: $missingids</verbatim>
    * =chomp="on"= remove leading and trailing whitespace from formatted items, can be useful for pretty-printing and compression.
-   * =footer="..."= optional, suffix format string
+   * =header="..."= optional, prepended to the output
+   * =footer="..."= optional, appended to the output
    * =separator="..."= optional, put between each item of a zone
-
 Supports the [[FormatTokens][standard format tokens]] in the =format= and =separator= (but *not* in the =header= or =footer=).
 
-=header= and =footer= are output irrespective of whether there is any content
-in the zone or not.
-
-=head= and =body= are _built-in_ zones - there is no corresponding =RENDERZONE=
-required in the templates, they will be rendered automatically.
-
-%H% Zones are flushed when rendered; they may only be rendered once
+__Notes:__
+   * =header= and =footer= are output irrespective of whether there is any
+     content in the zone or not.
+   * Zones are cleared after being rendered; they are only ever rendered once.
+   * =head= and =body= are _automatic zones_. They don't require a
+     corresponding =RENDERZONE= anywhere in the templates - they are
+     automatically inserted before the =&lt;/head&gt;= and =&lt;/body&gt;=
+     of the output HTML page.
+   * If ={OptimizePageLayout}= is *disabled* in
+     [[%SCRIPTURL{"configure"}%/configure][configure]] (the default),
+     then the content of both the =head= *and* the =body= zones will
+     be inserted where the =head= zone is expanded, and nothing will be
+     inserted where the =&lt;/body&gt;= zone is expanded.
 
 See also [[VarADDTOZONE][ADDTOZONE]] for more information on zones. %JQREQUIRE{"chili"}%

@@ -10,7 +10,7 @@
 }%
 </verbatim>
 
-_Zones_ are specific places in the output HTML that are marked with occurances of the [[VarRENDERZONE][RENDERZONE]] macro. Zones are used to collect various content together, such as Javascript and CSS markup that must be included in the output HTML in a specific order, and in a specific place.
+_Zones_ are specific places in the output HTML that are marked by calls to the [[VarRENDERZONE][RENDERZONE]] macro. Zones are used to collect various content together, such as Javascript and CSS, that must be included in the output HTML in a specific order, and in a specific place.
 
 You may create as many zones in addition to the standard [[#HeadAndBody][ =head= and =body= ]] zones as you like. Interesting use cases in wiki applications:
    * Create a =sidebar= zone to add widgets,
@@ -38,25 +38,45 @@ You may create as many zones in addition to the standard [[#HeadAndBody][ =head=
 #HeadAndBody
 ---+++ How to use the =head= and =body= zones
 
-Notionally the =head= and =body= zones correspond to the end of the HTML =&lt;HEAD&gt;= tag and the end of the =&lt;BODY&gt;= tag respectively. Normally you should add CSS (and other HTML =&lt;HEAD&gt;= content, such as =&lt;META&gt;=) to the =head= zone, and Javascript to the =body= zone. There is a setting in =configure=, ={OptimizePageLayout}=, that controls what happens next.
+When an HTML page is loaded by a browser, most browsers automatically request
+Javascript from a URL as soon as it is encountered in the page, and then wait
+for a response from the server before continuing. When a page loads a lot of
+Javascript (as is often the case when using UI libraries such
+as jQuery) you can get a "blank screen" effect in the browser while this
+URL is downloaded. To avoid this effect, you can usually move Javascript
+loading to the end of the HTML page, so that the "visuals" of the page are
+loaded first, giving the user something to admire while the Javascript loads.
+
+Foswiki makes this move easy to manage by providing the =head= and =body=
+zones. These are _automatic_ zones - they do not require a
+corresponding =RENDERZONE=.
+
+Notionally the =head= and =body= zones correspond to a point just before the HTML =&lt;/HEAD&gt;= tag and a point just before the =&lt;/BODY&gt;= tag respectively. Normally you should add CSS (and other HTML =&lt;HEAD&gt;= content, such as =&lt;META&gt;=) to the =head= zone, and Javascript to the =body= zone. There is a setting in =configure=, ={OptimizePageLayout}=, that controls what happens next.
 
 First, dependencies between the individual =ADDTOZONE= statements are resolved *within each zone*. Then, if ={OptimizePageLayout}= is enabled, the =head= content is added to the =&lt;HEAD&gt;,= and the =body= content is added to the =&lt;BODY&gt;=. However, if ={OptimizePageLayout}= is disabled (the default), both the =head= and =body= zones will be added to the HTML =&lt;HEAD&gt;=.
 
-For this reason, consideration needs to be given to the way =head= and =body= zones are behaving with your Foswiki configuration, dictated by the ={OptimizePageLayout}= setting
+For this reason, consideration needs to be given to the way =head= and =body= zones behave with your Foswiki configuration, as dictated by the ={OptimizePageLayout}= setting.
 
 ---++++ Working with ={OptimizePageLayout}= disabled (default)
-   * Be aware that in this mode, =body= and =head= are separate zones
-     when adding to them, but merged as one when you call
-     [[VarRENDERZONE][RENDERZONE]]. This allows an ADDTOZONE to the
-     =head= to successfully require an =id= that has been added to the
-     =body=.
-      * %H% =%<nop>RENDERZONE{"head"}%= will expand *both*
-         =head= and =body= zone content. =%<nop>RENDERZONE{"body"}%= will
-         be empty.
-   * Only add HTML to the body zone _that is also legal in the =&lt;HEAD&gt;=._
+If your pages rely on Javascript running to "finish" the layout of the page,
+then you may want to disable ={OptimizePageLayout}= to prevent flickering
+during loading.
+
+In this mode, both =head= and =body= zone content will be expanded in the
+=&lt;HEAD&gt;=. Nothing will be inserted in the =&lt;BODY&gt;=.
+
+In this mode, the =body= and =head= are separate zones
+when adding to them, but merged as one when you call
+[[VarRENDERZONE][RENDERZONE]]. This allows an ADDTOZONE to the
+=head= to successfully require an =id= that has been added to the =body=.
+
+Only add content to the =body= zone _that is also legal in the =&lt;HEAD&gt;=.
 
 ---++++ Working with ={OptimizePageLayout}= enabled
-   * Ensure that no =head= content (and no inline Javascript) depends on =body= content, or vice-versa. Any such dependency will be _ignored_, however, the HTML comment decoration which normally appears after each id's text in the rendered HTML will contain a small informative text to aid debugging<br/> *Example* <br/>
+If your pages exhibit the "blank screen" effect during load due to requests
+for large Javascript files, you can enable ={OptimizePageLayout}=.
+
+You must ensure that no =head= content (and no inline Javascript) depends on =body= content, or vice-versa. Any such dependency will be _ignored_. However, the HTML comment decoration which normally appears after each id's text in the rendered HTML will contain a small informative text to aid debugging<br/> *Example* <br/>
    <verbatim class="tml">%ADDTOZONE{
    "head"
    text="
@@ -71,7 +91,11 @@ For this reason, consideration needs to be given to the way =head= and =body= zo
    alert('test');
 </script>
 <!-- MY::TEST required id(s) that were missing from head zone: some-id-that-exists-in-body --></verbatim>
-   By contrast, as explained earlier - when ={OptimizePageLayout}= is disabled (default) - Foswiki is able resolve such dependencies successfully.
+   By contrast, as explained earlier, when ={OptimizePageLayout}= is disabled (default), Foswiki is able resolve such dependencies successfully.
+
+Note that if you *do* have an explicit call to =%<nop>RENDERZONE{"head"}%= in
+your templates then the content expanded at that point will be the same content
+as would be inserted before the =&lt;/HEAD&gt;=.
 
 #ExampleAddingJS
 ---+++ Example: Adding Javascript to a page

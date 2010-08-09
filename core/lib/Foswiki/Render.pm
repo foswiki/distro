@@ -18,8 +18,8 @@ use Foswiki::Time            ();
 use Foswiki::Sandbox         ();
 use Foswiki::Render::Anchors ();
 
-# Used to generate unique placeholders for when we lift blocks out of the
-# text during rendering.
+# Counter used to generate unique placeholders for when we lift blocks
+# (such as <verbatim> out of the text during rendering.
 our $placeholderMarker = 0;
 
 # Limiting lookbehind and lookahead for wikiwords and emphasis.
@@ -27,15 +27,25 @@ our $placeholderMarker = 0;
 our $STARTWW = qr/^|(?<=[\s\(])/m;
 our $ENDWW   = qr/$|(?=[\s,.;:!?)])/m;
 
-# marker used to tage the start of a table
+# Note: the following marker sequences are used in text to mark things that
+# have been hoisted or need to be marked for further processing. The strings
+# are carefully chosen so that they (1) are not normally present in written
+# text and (2) they do not combine with other characters to form valid
+# wide-byte characters. A subset of the 7-bit control characters is used
+# (codepoint < 0x07). Warning: the RENDERZONE_MARKER in Foswiki.pm uses \3
+
+# Marker used to indicate the start of a table
 our $TABLEMARKER = "\0\1\2TABLE\2\1\0";
 
 # Marker used to indicate table rows that are valid header/footer rows
 our $TRMARK = "is\1all\1th";
 
+# General purpose marker used to mark escapes inthe text; for example, we
+# use it to mark hoisted blocks, such as verbatim blocks.
 our $REMARKER = "\0";
 
-our $DEFAULT_NEWLINKFORMAT = <<'NLF';
+# Default format for a link to a non-existant topic
+use constant DEFAULT_NEWLINKFORMAT => <<'NLF';
 <span class="foswikiNewLink">$text<a href="%SCRIPTURLPATH{"edit"}%/$web/$topic?topicparent=%WEB%.%TOPIC%" rel="nofollow" title="%MAKETEXT{"Create this topic"}%">?</a></span>
 NLF
 
@@ -87,7 +97,7 @@ sub _newLinkFormat {
     unless ( $this->{NEWLINKFORMAT} ) {
         $this->{NEWLINKFORMAT} =
              $this->{session}->{prefs}->getPreference('NEWLINKFORMAT')
-          || $DEFAULT_NEWLINKFORMAT;
+          || DEFAULT_NEWLINKFORMAT;
     }
     return $this->{NEWLINKFORMAT};
 }

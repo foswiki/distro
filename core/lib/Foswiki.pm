@@ -65,7 +65,14 @@ our $RELEASE;
 our $TRUE  = 1;
 our $FALSE = 0;
 our $engine;
-our $TranslationToken = "\3";
+
+# Note: the following marker is used in text to mark RENDERZONE
+# macros that have been hoisted from the source text of a page. It is
+# carefully chosen so that it is (1) not normally present in written
+# text (2) does not combine with other characters to form valid
+# wide-byte characters and (3) does not conflict with other markers used
+# by Foswiki/Render.pm
+our $RENDERZONE_MARKER = "\3";
 
 # Used by takeOut/putBack blocks
 our $BLOCKID = 0;
@@ -741,28 +748,7 @@ JS
 
     if ( $contentType ne 'text/plain' ) {
 
-        # render zones
-        $text =~
-s/${TranslationToken}RENDERZONE{(.*?)}${TranslationToken}/_renderZoneById($this, $1)/ge;
-
-        # get the head zone ones again and insert it at </head>
-        my $headZone = _renderZone( $this, 'head', { chomp => "on" } ) || '';
-        $text =~ s!(</head>)!$headZone\n$1!i if $headZone;
-
-        # get the body zone ones again and insert it at </body>
-        my $bodyZone = _renderZone( $this, 'body', { chomp => "on" } ) || '';
-
-        # in compatibility mode all body material is still appended to the head
-        if ($bodyZone) {
-            unless ( $Foswiki::cfg{OptimizePageLayout} ) {
-                $text =~ s!(</head>)!$bodyZone\n$1!i;
-            }
-            else {
-                $text =~ s!(</body>)!$bodyZone\n$1!i;
-            }
-        }
-
-        chomp($text);
+        $text = $this->_renderZones( $text );
     }
 
     # SMELL: can't compute; faking content-type for backwards compatibility;
@@ -3239,17 +3225,17 @@ sub expandMacros {
 ---++ ObjectMethod addToZone($zone, $id, $data, $requires)
 
 Add =$data= identified as =$id= to =$zone=, which will later be expanded (with
-renderZone() - implements =%<nop>RENDERZONE%=). =$ids= are unique within the zone that
-they are added - dependencies between =$ids= in different zones will not be
-resolved, except for the special case of =head= and =body= zones when
-={OptimizePageLayout}= is not set.
+renderZone() - implements =%<nop>RENDERZONE%=). =$ids= are unique within
+the zone that they are added - dependencies between =$ids= in different zones 
+will not be resolved, except for the special case of =head= and =body= zones
+when ={OptimizePageLayout}= is disabled.
 
 In this case, they are treated as separate zones when adding to them, but as
 one merged zone when rendering, i.e. a call to render either =head= or =body=
 zones will actually render both zones in this one call. Both zones are undef'd
-afterward to avoid double rendering of content from either zone, e.g. to support
+afterward to avoid double rendering of content from either zone, to support
 proper behaviour when =head= and =body= are rendered with separate calls even
-when ={OptimizePageLayout}= is not set. See ZoneTests/Item9317.
+when ={OptimizePageLayout}= is not set. See ZoneTests/explicit_RENDERZONE*.
 
 This behaviour allows an addToZone('head') call to require an id that has been
 added to =body= only.
@@ -3335,9 +3321,11 @@ sub _getMissingRequiredZoneIDs {
     return join( ', ', @{ $zoneID->{missingrequires} } );
 }
 
+# This private function is used in ZoneTests
 sub _renderZone {
     my ( $this, $zone, $params, $topicObject ) = @_;
 
+    # Check the zone is defined and has not already been rendered
     return '' unless $zone && $this->{_zones}{$zone};
 
     $params->{header} ||= '';
@@ -3390,7 +3378,9 @@ sub _renderZone {
             $this->_visitZoneID( $zoneID, \%visited, \@total );
         }
 
-        # kill a zone once it has been rendered
+        # kill a zone once it has been rendered, to prevent it being
+        # added twice (e.g. by duplicate %RENDERZONEs or by automatic
+        # zone expansion in the head or body)
         undef $this->{_zones}{$zone};
     }
 
@@ -3482,6 +3472,43 @@ sub _visitZoneID {
     push( @{$list}, $zoneID );
 
     return;
+}
+
+# This private function is used in ZoneTests
+sub _renderZones {
+    my ( $this, $text ) = @_;
+
+    # Render zones that were pulled out by Foswiki/Macros/RENDERZONE.pm
+    # NOTE: once a zone has been rendered it is cleared, so cannot
+    # be rendered again.
+
+    $text =~ s/${RENDERZONE_MARKER}RENDERZONE{(.*?)}${RENDERZONE_MARKER}/
+      _renderZoneById($this, $1)/geo;
+
+    # get the head zone and insert it at the end of the </head>
+    # *if it has not already been rendered*
+    my $headZone = _renderZone( $this, 'head', { chomp => "on" } );
+    $text =~ s!(</head>)!$headZone\n$1!i if $headZone;
+
+    # get the body zone and insert it at the end of the </body>
+    # *if it has not already been rendered*
+    my $bodyZone = _renderZone( $this, 'body', { chomp => "on" } );
+
+    if ($bodyZone) {
+        # Unless optimize mode is enabled, or the body zone has been
+        # explicitly expanded by %RENDERZONE{"body"}%, the body zone
+        # is appended to the head.
+        unless ( $Foswiki::cfg{OptimizePageLayout} ) {
+            $text =~ s!(</head>)!$bodyZone\n$1!i;
+        }
+        else {
+            $text =~ s!(</body>)!$bodyZone\n$1!i;
+        }
+    }
+
+    chomp($text);
+
+    return $text;
 }
 
 =begin TML

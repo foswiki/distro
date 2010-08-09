@@ -3,12 +3,15 @@ package ZoneTests;
 use strict;
 use warnings;
 
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use FoswikiTestCase;
+our @ISA = qw( FoswikiTestCase );
 
 sub new {
-    my $self = shift()->SUPER::new(@_);
-    return $self;
+    my $class = shift;
+    my $this = $class->SUPER::new(@_);
+    $this->{test_web}   = 'Temporary' . $class . 'TestWeb';
+    $this->{test_topic} = 'TestTopic' . $class;
+    return $this;
 }
 
 sub set_up {
@@ -16,12 +19,20 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    # Disable JQueryPlugin, which adds noise to body zone
+    # Disable plugins whiich add noise
     $Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled} = 0;
-    $this->{session}->finish();
-    $this->{session} = Foswiki::new('Foswiki');
+    $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 0;
 
-    return;
+    my $query = new Unit::Request("");
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+
+    $this->{session}           = new Foswiki( undef, $query );
+    $this->{request}           = $query;
+    $this->{response}          = new Unit::Response();
+
+    $this->{test_topicObject} = Foswiki::Meta->new(
+        $this->{session},    $this->{test_web},
+        $this->{test_topic}, "BLEEGLE\n");
 }
 
 sub test_1 {
@@ -405,6 +416,77 @@ HERE
     $this->assert_equals( $expect, $result );
 
     return;
+}
+
+sub test_explicit_RENDERZONE_no_optimization {
+    my $this = shift;
+    $this->_setOptimizePageLayout(0);
+
+    my $tml = <<'HERE';
+<head>
+%RENDERZONE{"head"}%
+<!--end of rendered head-->
+%ADDTOZONE{"head" id="head1" text="head_1"}%
+%ADDTOZONE{"body" id="body1" text="body_1" requires="head1"}%
+</head>
+<body>
+%RENDERZONE{"body"}%
+<!--body-->
+</body>
+HERE
+
+    my $expect = <<'HERE';
+<head>
+head_1 <!-- head1 -->
+body_1 <!-- body1 -->
+<!--end of rendered head-->
+<!--A2Z:head1-->
+<!--A2Z:body1-->
+</head>
+<body>
+
+<!--body-->
+</body>
+HERE
+    chomp($expect);
+    $tml = $this->{test_topicObject}->expandMacros( $tml );
+    my $result = $this->{session}->_renderZones( $tml );
+    $this->assert_str_equals($expect, $result);
+}
+
+sub test_explicit_RENDERZONE_with_optimization {
+    my $this = shift;
+    $this->_setOptimizePageLayout(1);
+
+    my $tml = <<'HERE';
+<head>
+%RENDERZONE{"head"}%
+<!--end of rendered head-->
+%ADDTOZONE{"head" id="head1" text="head_1"}%
+%ADDTOZONE{"body" id="body1" text="body_1" requires="head1"}%
+</head>
+<body>
+%RENDERZONE{"body"}%
+<!--body-->
+</body>
+HERE
+
+    my $expect = <<'HERE';
+<head>
+head_1 <!-- head1 -->
+<!--end of rendered head-->
+<!--A2Z:head1-->
+<!--A2Z:body1-->
+</head>
+<body>
+body_1 <!-- body1 required id(s) that were missing from body zone: head1 -->
+<!--body-->
+</body>
+HERE
+    chomp($expect);
+    $tml = $this->{test_topicObject}->expandMacros( $tml );
+    my $result = $this->{session}->_renderZones( $tml );
+    $this->assert_str_equals($expect, $result);
 }
 
 sub test_legacy_tag_param_compatibility {

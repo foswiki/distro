@@ -23,9 +23,9 @@ sub RENDERZONE {
     };
 
     return
-        $Foswiki::TranslationToken
+        $Foswiki::RENDERZONE_MARKER
       . "RENDERZONE{$id}"
-      . $Foswiki::TranslationToken;
+      . $Foswiki::RENDERZONE_MARKER;
 }
 
 1;
