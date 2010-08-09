@@ -1345,7 +1345,7 @@ sub getSkin {
     }
 
     $skins = $this->{request} ? $this->{request}->param('skin') : undef;
-    $skins = $this->{prefs}->getPreference('SKIN') unless defined $skins;
+    $skins = $this->{prefs}->getPreference('SKIN') unless $skins;
 
     if ( defined $skins && $skins =~ /([$regex{mixedAlphaNum}.,\s]+)/o ) {
 
