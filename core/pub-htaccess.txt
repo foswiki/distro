@@ -38,6 +38,8 @@ php_flag engine off
 AddType text/plain .shtml .php .php3 .phtml .phtm .pl .py .cgi
 
 #for TWikiCompatibility - or even to make 'attachment not found's more user friendly
+# - This statement must be tailored with the {ScriptUrlPath}.  See
+# bin/.htaccess.txt for details.
 ErrorDocument 404 /foswiki/bin/viewfile
 
 #add an Expires header that is sufficiently in the future that the browser does not even ask if its uptodate
