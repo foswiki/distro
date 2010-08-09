@@ -3,15 +3,35 @@
 # Controls access to Foswiki scripts - to make Apache use it, rename this
 # file to '.htaccess' and REPLACE THE FOLLOWING STRINGS WHEREVER YOU SEE
 # THEM IN THIS FILE WITH PATHS SPECIFIC TO YOUR INSTALLATION.
-# Most required values can be seen in the Path Settings section of
-# =configure=.
+# Most required values have corresponding items in the  Path Settings section of
+# configure.
 #
-# Replace {DataDir} with the value from =configure=
-# Replace {DefaultUrlHost} with the value from =configure=
-# Replace {ScriptUrlPath} with the value from =configure=
+# Replace {DataDir} with the full path of the Topic files store (file path, not
+# URL) e.g. /usr/local/foswiki/data   Do not include a trailing slash.  Do not
+# include the { or } in the results.
+#
+# Example:   "Change all"  {DataDir} /var/www/foswiki/data
+#   AuthUserFile {DataDir}/.htpasswd      becomes
+#   AuthUserFile /var/www/foswiki/data/.htpasswd
+#
+# Replace {DefaultUrlHost} with the root of all Foswiki URLs e.g.
+# http://myhost.com:123.  This is only used for htdigest authentication and
+# can be ignored in most installations.  Do not include a trailing slash
+#
+# Replace {ScriptUrlPath} with the 'cgi-bin' part of URLs used
+# to access the Foswiki bin  directory e.g. '/foswiki/cgi-bin'
+#
+# Note:  The combined {DefaultUrlHost}{ScriptUrlPath} will be used as the URL prefix:
+# to access the foswiki scripts.  For example, to access the /view script:
+#    http://myhost.com:123/foswiki/cgi-bin/view
+#    {DefaultUrlHost     }{ScriptUrlPath }/view
+#
 # Replace {Administrators} with a space-separated list of the login
 # name(s) of the person(s) allowed to run the configure script
 # e.g. admin configure root superhero
+#
+# When this file has been completely tailored, complete your configuration at:
+# {DefaultUrlHost}{ScriptUrlPath}/configure
 
 # We set an environment variable called anonymous_spider
 # Setting a BrowserMatchNoCase to ^$ is important. It prevents Foswiki from
