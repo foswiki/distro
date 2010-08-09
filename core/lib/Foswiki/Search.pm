@@ -509,7 +509,7 @@ sub loadTemplates {
         }
 
         unless ($noFooter) {
-            $params->{footer} |= $afterText;
+            $params->{footer} ||= $afterText;
         }
     }
 
@@ -521,9 +521,9 @@ sub loadTemplates {
     else {
         $repeatText =~ s/%TEXTHEAD%/\$summary(searchcontext)/go;
     }
-    $params->{format} |= $repeatText;
+    $params->{format} ||= $repeatText;
 
-    $params->{footercounter} |= $tmplNumber;
+    $params->{footercounter} ||= $tmplNumber;
 
     return $tmplSearch;
 }
