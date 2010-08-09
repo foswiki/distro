@@ -29,18 +29,18 @@ All parameters require a value, even if that is the empty string.
 All the scripts accept a number of common parameters. The first two components of the URL after the script name are taken as the web and the topic, respectively. Standard URL parameters are:
 
 | *Parameter* | *Description* | *Default* |
-| =cover= | Specifies temporary skin path to prepend to the skin path for this script only (see [[Skins]]) | |
-| =debugenableplugins= | During debugging it can be useful to selectively disable all but a subset of plugins. This parameter allows the caller to specify a comma-separated list of plugins that should be enabled. |
-| =foswikioriginalquery= | The original query that was being made before a redirect for validation was required. |
-| =foswiki_redirect_cache= | Foswiki sometimes caches long lists of parameters that must survive over a sequence of browser redirects. This parameter identifies one of these caches. The parameter value is a "magic number" that uniquely idenitifies a file =working/tmp= directory. These files have a very short lifetime, and are destroyed when the cache is read. |
-| =logout= | requests the LoginManager to log the current user out (this happens at the begining of the request so will terminate any other operation requested) |
-| =refresh= | If the Foswiki page cache is in use, setting this parameter will invalidate the cache. Valid values are =on= and =all=. See PageCaching for more information on the page cache. |
-| =response= | Used as part of the request validation process. |
-| =skin= | Overrides the default skin path (see [[Skins]]) | |
+| =cover= | Specifies temporary skin path to prepend to the skin path for this script only (see [[Skins]]) | none |
+| =debugenableplugins= | During debugging it can be useful to selectively disable all but a subset of plugins. This parameter allows the caller to specify a comma-separated list of plugins that should be enabled. | |
+| =foswikioriginalquery= | The original query that was being made before a redirect for user confirmation was required. | |
+| =foswiki_redirect_cache= | Foswiki sometimes caches long lists of parameters that must survive over a sequence of browser redirects. This parameter identifies one of these caches. The parameter value is a "magic number" that uniquely idenitifies a file in the =working/tmp= directory. These files have a very short lifetime, and are destroyed when the cache is read. | |
+| =logout= | requests the LoginManager to log the current user out (this happens at the begining of the request so will terminate any other operation requested) | |
+| =refresh= | If the Foswiki page cache is in use, setting this parameter will invalidate the cache. Valid values are =on= and =all=. See PageCaching for more information on the page cache. | |
+| =response= | Used as part of the request validation process. | |
+| =skin= | Overrides the default skin path (see [[Skins]]) | value of the SKIN preference |
 | =t= | While the =t= parameter is not actively used by any scripts, it is used when building links to scripts such as =edit=, to ensure that each edit link is unique. This stops the browser from trying to use a cached reply from a previous call to the script. | generally set to current time, in seconds |
 | =topic= | Overrides the web.topic path given in the URL (specify Web.<nop>TopicName) | |
 | =user= | Command-line only; set the name of the user performing the action. Note: this usage is inherently insecure, as it bypasses webserver login constraints. For this reason only authorised users should be allowed to execute scripts from the command line. | |
-| =validation_key= | part of cross-site scripting protection. Any request sent from browsers that might change data stored on the server must carry a key that indentifies the course of the request. |
+| =validation_key= | part of cross-site scripting protection. Any request sent from browsers that might change data stored on the server must carry a key that indentifies the source of the request. | |
 
 ---+++ =attach=
 Despite the name, this script doesn't actually attach a file to a topic - for that, use =upload=. This script is part of the transactions sequence executed when a file is uploaded from the browser. it just generates the "new attachment" page for a topic.

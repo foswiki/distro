@@ -16,7 +16,7 @@ Topic text is not affected by the choice of skin, though a skin can be defined t
 
 ---++ Changing the default skin
 
-%WIKITOOLNAME% by default ships with the skin PatternSkin activated. You can set the skin for the whole site, a single web or topic, or for each user individually, by setting the SKIN setting to the name of a skin. If the skin you select doesn't exist, then %WIKITOOLNAME% will pick up the default templates.
+%WIKITOOLNAME% by default ships with the PatternSkin activated. You can set the skin for the whole site, a single web or topic, for each user individually, or even per request - see [[#Activating_Skins][Activating Skins]] below for more details.
 
 ---++ Defining Skins
 
@@ -235,27 +235,41 @@ You can try out all installed skins in the SkinBrowser.
 
 ---++ Activating Skins
 
-Foswiki uses a _skin search path_, which lets you combine skins additively. The skin path is defined using a combination of [[macros]] and URL parameters.
+Foswiki uses a _skin search path_, which lets you combine skins additively. The skin path is defined using a combination of [[preference settings]] and URL parameters.
 
 Foswiki works by asking for a template for a particular function - for example, 'view'. The detail of how templates are searched for is described in SkinTemplates, but in summary, the templates directory is searched for a file called <code>view.</code><i>skin</i><code>.tmpl</code>, where _skin_ is the name of the skin e.g. =pattern=. If no template is found, then the fallback is to use =view.tmpl=. Each skin on the path is searched for in turn. For example, if you have set the skin path to =local,pattern= then =view.local.tmpl= will be searched for first, then =view.pattern.tmpl= and finally =view.tmpl=.
 
-The basic skin is defined by a =SKIN= setting:
-
+The basic skin is defined by the =SKIN= preference:
    * =Set SKIN = catskin, bearskin=
 
-You can also add a parameter to the URL, such as =?skin=catskin,bearskin=:
-
+You can override this using  add a parameter to the URL, such as
+=?skin=catskin,bearskin=:
    * %SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=catskin,bearskin
 
-Setting =SKIN= (or the =?skin= parameter in the URL) replaces the existing skin path setting, for the current page only. You can also _extend_ the existing skin path as well, using _covers_.
+Setting the =?skin= parameter in the URL replaces the existing skin path setting for the current request only.
 
+You can also _extend_ the existing skin path as well, using _covers_.
    * =Set COVER = ruskin=
 
-This pushes a different skin to the front of the skin search path (so for our example above, that final skin path will be =ruskin, catskin, bearskin=). There is also an equivalent =cover= URL parameter. The difference between setting =SKIN= vs. =COVER= is that if the chosen template is not found (e.g., for included templates), =SKIN= will fall back onto the next skin in line, or the default skin, if only one skin was present, while =COVER= will always fall back onto the current skin.
+This pushes a different skin to the front of the skin search path, so the final skin path will be =ruskin, catskin, bearskin=.
 
-An example would be invoking the printable mode, which is achieved by applying =?cover=print=. The =view.print.tmpl= simply invokes the =viewprint= template for the current skin which then can appropriately include all other used templates for the current skin. If the printable mode were applied by using =SKIN=, all skins would have the same printable appearance.
+There is also a =cover= URL parameter that can be used to push yet more skin names in front of the =COVER= preference.
 
-The full skin path is built up as follows: =SKIN= setting (or =?skin= if it is set), then =COVER= setting is added, then =?cover=.
+So the final value of the skin path is given by:
+   1 value of the =cover= url parameter
+   2 value of the =COVER= preference
+   3 value of the =skin= url parameter, if it is non-null
+   4 value of the =SKIN= preference, if the =skin= url parameter is not given
+
+For example, if we have
+   * <nop>Set SKIN = muscle,bone
+   * <nop>Set COVER = epidermis
+and a URL with the parameter =?cover=hair,dermis= then the final skin path will
+be =hair=, =dermis=, =epidermis=, =muscle=, =bone=.
+
+Or we might specify a =skin= url parameter, =?skin=flesh=. With the same preferences this will set the skin path =epidermis=, =flesh=.
+
+Note that you cannot use the =cover= url parameter to _remove_ a skin applied by the =COVER= preference. Once a =COVER= preference is defined, it is always applied.
 
 #HardCodedSkins
 ---++ Hard-Coded Skins
