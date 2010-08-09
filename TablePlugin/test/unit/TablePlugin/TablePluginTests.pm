@@ -229,12 +229,12 @@ sub test_doubleTheadandTfootTableusingTablePlugin {
 <table id="table$this->{test_topic}$tableCount" class="foswikiTable" rules="none" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-				<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" title="Sort by this column">a</a> </th>
-				<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=$tableCount;up=0#sorted_table" title="Sort by this column">b</a> </th>
+				<th class="foswikiTableCol0 foswikiFirstCol"> a </th>
+				<th class="foswikiTableCol1 foswikiLastCol"> b </th>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-				<th class="foswikiTableCol0 foswikiFirstCol"> c </th>
-				<th class="foswikiTableCol1 foswikiLastCol"> c </th>
+				<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" title="Sort by this column">c</a> </th>
+				<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=$tableCount;up=0#sorted_table" title="Sort by this column">d</a> </th>
 		</tr>
 	</thead>
 	<tfoot>
@@ -254,7 +254,7 @@ EXPECTED
     my $actual = <<ACTUAL;
 %TABLE{headerrows="2" footerrows="1"}%
 | *a* | *b* |
-| *c* | *c* |
+| *c* | *d* |
 | 2 | 3 |
 | *ok* | *bad* |
 ACTUAL

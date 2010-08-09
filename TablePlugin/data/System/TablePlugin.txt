@@ -80,6 +80,11 @@ Click on column heading text to sort by a column. Initial column will be sorted 
    * Number is digits, with optional decimal point
    * Otherwise treated as text
 
+If you specify =headerrows=, then the row with the sort links is the row
+closest to the data (the last row in the header). If you do not specify
+=headerrows=, the first row that has a heading in the first column is the
+sort row. To sort by the first _footer_ row, set =headerrows="0"=.
+
 ---++++ Sorting example
 %TABLE{databg="#ffc" databgsorted="#fc3" headerbg="#903" headerbgsorted="#600" initsort="1"}%
 | *Number* | *Decimal* | *Alpha* | *Date* |
@@ -173,6 +178,7 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  9 Aug 2010 | 1.125: Crawford Currie: Item8303: fixed sorting with multiple headers |
 |  31 Jul 2010 | 1.124: Arthur Clemens: Added attribute =inlinemarkup= to optionally add HTML markup for better copy/pasting. |
 |  05 Apr 2010 | 1.123: New default colors. |
 |  13 Mar 2010 | 1.122: Arthur Clemens: Fixed sorting of columns with mixed data types: numbers, dates, strings, empty cells. |

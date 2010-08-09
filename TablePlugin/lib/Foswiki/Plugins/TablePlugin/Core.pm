@@ -1450,8 +1450,9 @@ sub emitTable {
     my $singleIndent     = "\n\t";
     my $doubleIndent     = "\n\t\t";
     my $tripleIndent     = "\n\t\t\t";
+    # Only *one* row of the table has sort links, and it will either
+    # be the last row in the header or the first row in the footer.
     my $sortLinksWritten = 0;
-    my $writingSortLinks = 0;
 
     foreach my $row (@curTable) {
         my $rowtext  = '';
@@ -1461,6 +1462,7 @@ sub emitTable {
         # update the data color count
         my $headerCellCount = 0;
         my $numberOfCols    = scalar(@$row);
+        my $writingSortLinks = 0;
 
         foreach my $fcell (@$row) {
 
@@ -1554,10 +1556,10 @@ sub emitTable {
 
                 # END html attribute
 
-    # just allow this table to be sorted.
-    #                if (   $sortThisTable
-    #                    && $rowCount == $combinedTableAttrs->{headerrows} - 1 )
-                if ( $sortThisTable && !$sortLinksWritten ) {
+                if ( $sortThisTable
+                       && (!$combinedTableAttrs->{headerrows}
+                             || $rowCount == $combinedTableAttrs->{headerrows} - 1)
+                         && ($writingSortLinks || !$sortLinksWritten)) {
                     $writingSortLinks = 1;
                     my $linkAttributes = {
                         href => $url
@@ -1630,6 +1632,10 @@ sub emitTable {
                 $attr->{class} = _appendSortedCssClass( $attr->{class} );
             }
 
+            if ($writingSortLinks) {
+                $sortLinksWritten = 1;
+            }
+
             my $isLastRow = ( $rowCount == $numberOfRows - 1 );
             if ( $attr->{rowspan} ) {
                 $isLastRow =
@@ -1654,11 +1660,6 @@ sub emitTable {
             $rowtext .= "$tripleIndent" . &$fn( $attr, " $cell " );
             use strict 'refs';
         }    # foreach my $fcell ( @$row )
-
-        if ($writingSortLinks) {
-            $writingSortLinks = 0;
-            $sortLinksWritten = 1;
-        }
 
         # assign css class names to tr
         # based on settings: dataBg, dataBgSorted
