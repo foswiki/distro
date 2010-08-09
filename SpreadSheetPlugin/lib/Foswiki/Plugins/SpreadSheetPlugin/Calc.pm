@@ -507,7 +507,8 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     }
     elsif ( $theFunc eq "RIGHT" ) {
         $i      = $rPos + 1;
-        $result = "R$i:C$cPos..R$i:C32000";
+        my $c   = $cPos + 2;
+        $result = "R$i:C$c..R$i:C32000";
 
     }
     elsif ( $theFunc eq "DEF" ) {

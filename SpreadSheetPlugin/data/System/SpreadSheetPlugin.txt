@@ -735,7 +735,7 @@ The last row is defined as:
 
 Above table is created manually. Another Plugin could build the table dynamically, e.g. by pulling data out of a bug tracking system. The Spreadsheet Plugin can be used to display table data statistics.
 
----++ Plugin Settings
+---++ Settings
 
 You can override some default settings in the plugin by setting the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
 
@@ -760,17 +760,18 @@ to the east of Greenwich. The setting is present for compatibility. | 0 |
 
 Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DONTSPACE= preference for historical reasons.
 
----++ Plugin Installation Instructions
+---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
    * Test if the "Total" in the first table in this topic is correct.
 
----++ Plugin Info
+---++ Info
 
-|  Copyright: | Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2009 Foswiki Contributors  |
+|  Copyright: | Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2010 Foswiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  09 Aug 2010: | Foswikitask:Item1998: fix for $RIGHT |
 |  04 Aug 2010: | Foswikitask:Item9415: Minor documentation updates |
 |  21 Jul 2010: | Foswikitask:Item5163: prevent misrendering of empty rows, Foswikitask:Item9400: correct $LIST for cells containing commas, as per doc |
 |  29 Dec 2009: | Foswikitask:Item2301: added =$nop= to $LISTJOIN() for better empty parameter |
@@ -823,7 +824,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  01 Jun 2001: | Fixed insecure dependencies for $MIN() and $MAX() |
 |  16 Apr 2001: | Fixed div by 0 bug in $AVERAGE() |
 |  17 Mar 2001: | Initial version with $ABOVE(), $AVERAGE(), $COLUMN(), $COUNTITEMS(), $EVAL(), $INT(), $LEFT(), $LOWER(), $MAX(), $MIN(), $ROW(), $SUM(), $T(), $UPPER() |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
