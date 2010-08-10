@@ -2159,12 +2159,12 @@ sub redirectCgiQuery {
 
 ---+++ addToZone( $zone, $tag, $data, $requires )
 
-Adds =$data= to the HTML header (the <head> tag).
-This is useful for Plugins that want to include some javascript custom css.
-   * =$zone= - name of the area where to add the data to; special zones are "body" and "head"
-   * =$tag= - unique ID to prevent the same HTML from being duplicated. Plugins should use a prefix to prevent name clashes (e.g EDITTABLEPLUGIN_JSCALENDAR)
-   * =$data= - the HTML to be added to the <head> section. The HTML must be valid in a HEAD tag - no checks are performed.
-   * =requires= optional, comma-separated list of id's of other head blocks this one depends on.
+Direct interface to %<nop>ADDTOZONE (see %SYSTEMWEB%.VarADDTOZONE)
+
+   * =$zone= - name of the zone
+   * =$tag= - unique ID
+   * =$data= - the content.
+   * =requires= optional, comma-separated list of id's of other zones this one depends on.
 
 All macros present in =$data= will be expanded before being inserted into the =<head>= section.
 
