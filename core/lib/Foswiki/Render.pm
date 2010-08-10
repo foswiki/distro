@@ -1749,7 +1749,7 @@ sub forEachLine {
       * =grep= - if true, generate a GNU-grep compatible RE instead of the
         default Perl RE.
       * =nosot= - If true, do not generate "Spaced out text" match
-      * =template= - If true, match for template setting and strip Template suffix from topic name
+      * =template= - If true, match for template setting in Set/Local statement
       * =in_noautolink= - Only match explicit (squabbed) WikiWords.   Used in <noautolink> blocks
       * =url= - if set, generates an expression that will match a Foswiki
         URL that points to the web/topic, instead of the default which
@@ -1823,9 +1823,8 @@ sub getReferenceRE {
                     $re = "$bow$matchWeb\\.$topic$eow";
                 }
                 elsif ( $options{template} ) {
-                    ($topic) = $topic =~ m/(.*)Template$/;
-                    # SMELL:  Incomplete - need
-                    # Regex to lookback match Set statement
+                    # $1 is used in replace.  Can't use lookbehind because of variable length restriction
+                    $re = '('.$Foswiki::regex{setRegex}.'(?:VIEW|EDIT)_TEMPLATE\s*=\s*)('.$matchWeb.'\\.'.$topic.')\s*$';
                 }
                 elsif ( $options{in_noautolink} ) {
                     $re = "$squabo$matchWeb\\.$topic$squabc";
@@ -1850,6 +1849,10 @@ sub getReferenceRE {
                     # subweb specifiers
                     if ( $options{grep} ) {
                         $re = "(($back\[^./])|^)$bow($matchWeb\\.)?$topic$eow";
+                    }
+                    elsif ( $options{template} ) {
+                        # $1 is used in replace.  Can't use lookbehind because of variable length restriction
+                        $re = '('.$Foswiki::regex{setRegex}.'(?:VIEW|EDIT)_TEMPLATE\s*=\s*)'."($matchWeb\\.)?$topic".'\s*$';
                     }
                     elsif ( $options{in_noautolink} ) {
                         $re = "$squabo($matchWeb\\.)?$topic$squabc";

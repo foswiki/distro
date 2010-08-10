@@ -850,10 +850,28 @@ sub _replaceTopicReferences {
 
     # Do any references for Templates
     if ( $oldTopic =~ m/(.*)Template$/ ) {
-        $re = Foswiki::Render::getReferenceRE( $oldWeb, $1,
-        nosot    => 1
-        );
-        print STDERR "Using #$re# on $oldWeb.$oldTopic \n";
+        my $ot = $1;
+        # Only if the rename is also to a template, otherwise give up.
+        if ($repl =~ m/(.*)Template$/) {
+            my $nt = $1;
+
+            # Handle META Preference settings
+            if ( $nt && $args->{_type} && $args->{_type} eq 'PREFERENCE' && $args->{_key} eq 'value' ) {
+                $re = Foswiki::Render::getReferenceRE( $oldWeb, $ot,
+                  nosot => 1
+                );
+                $text =~ s/($re)/_doReplace($1, $newWeb, $nt)/ge;
+                }
+
+            # Handle Set/Local statements inline
+            $re = Foswiki::Render::getReferenceRE( $oldWeb, $ot,
+              nosot    => 1,
+              template => 1
+            );
+            # SMELL:  This will rewrite qualified topic names to be unqualified
+            # But regex is matching too much to use the _doReplace routine
+            $text =~ s/$re/$1$nt/g;
+        }
     }
 
     # Now URL form
@@ -1338,8 +1356,6 @@ sub _getReferringTopics {
                 interweb => $interWeb,
               );
             $searchString .= '|' . $refre
-            #SMELL:  Still needs code to change the template references.
-            # - this finds the topic with the references.
         }
 
         my $matches =
@@ -1392,7 +1408,7 @@ sub _updateReferringTopics {
             $options->{inWeb} = $itemWeb;
             my $text =
               $renderer->forEachLine( $topicObject->text(), $fn, $options );
-            $topicObject->forEachSelectedValue( qw/^(FIELD|FORM|TOPICPARENT)$/,
+            $topicObject->forEachSelectedValue( qw/^(FIELD|FORM|PREFERENCE|TOPICPARENT)$/,
                 undef, $fn, $options );
             $topicObject->text($text);
             $topicObject->save( minor => 1 );
