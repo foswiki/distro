@@ -1,8 +1,6 @@
 /* buttons */
-.foswikiTopic a.jqButton,
-.foswikiTopic a.jqButton:hover,
-.patternTopic a.jqButton,
-.patternTopic a.jqButton:hover,
+.foswikiTopic .jqButton,
+.foswikiTopic .jqButton:hover,
 .jqButton:hover,
 .jqButton {
   background-color:transparent;
@@ -15,32 +13,28 @@
   float:left;
   height:23px;
   padding:0px;
-  color:black;
+  color:#000;
   font-size:13px;
   white-space:nowrap;
 }
-.foswikiTopic a.jqButton,
-.patternTopic a.jqButton,
-.foswikiTopic a.jqButton:hover,
-.patternTopic a.jqButton:hover,
+.foswikiTopic .jqButton,
+.foswikiTopic .jqButton:hover,
 .jqButton {
   margin:0px 8px 0px 0px;
 }
 
-.foswikiTopic a.jqButton.foswikiRight,
-.foswikiTopic a.jqButton.foswikiRight:hover,
-.patternTopic a.jqButton.foswikiRight,
-.patternTopic a.jqButton.foswikiRight:hover,
+.foswikiTopic .jqButton.foswikiRight,
+.foswikiTopic .jqButton.foswikiRight:hover,
 .jqButton.foswikiRight:hover,
 .jqButton.foswikiRight {
   float:right;
   margin:0px 0px 0px 8px;
 }
 
-.foswikiTopic a.jqButton:link:hover,
-.foswikiTopic a.jqButton:hover,
-.patternTopic a.jqButton:link:hover,
-.patternTopic a.jqButton:hover,
+.foswikiTopic .jqButton:link:hover,
+.foswikiTopic .jqButton:hover,
+.jqButtonSimple:hover,
+.jqButton.simple:hover,
 .jqButton:hover {
   color:red;
 }
@@ -58,9 +52,13 @@
   /* ie 6 */
   _margin:0px 1px 0px 0px;
 }
+.jqButton.simple {
+  color:inherit;
+}
 .jqButtonSimple span,
 .jqButton.simple span {
   padding:0px;
+  text-decoration:underline;
 }
 .jqButtonSimple span span,
 .jqButton.simple span span {
@@ -83,9 +81,9 @@
 .jqButton.green { background-image:url(btn_green_right.gif); }
 .jqButton.green span { background-image:url(btn_green_left.gif); }
 .jqButton.simple,
-.jqButton.simple span { background-image:none; }
+.jqButton.simple span,
 .jqButtonSimple,
-.jqButtonSimple,
+.jqButton.simple:hover,
 .jqButtonSimple:hover,
 .jqButtonSimple span { background-image:none; }
 .jqButton.right,
