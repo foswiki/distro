@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1281421776" format="1.1" reprev="4" version="4"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+ Frequently Asked Questions
 
@@ -22,92 +22,63 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
 ---
 %ENDTWISTY%
 
+---++ List of FAQs
+%TWISTY{link="%BUTTON{"%MAKETEXT{"Create new FAQ topic"}%" icon="add" class="simple"}%%CLEAR%" mode="div"}%
+
+%INCLUDE{"%TOPIC%" section="creator"}%
+%ENDTWISTY%
+
 %SEARCH{
     "form.name~'*BasicForm' AND TopicClassification='FrequentlyAskedQuestion'"
     type="query"
     nonoise="on"
     web="%SYSTEMWEB%,%USERSWEB%"
-    header="$n()---++ Results from [[$web.WebHome][$web]] web"
     format="   * $formfield(TopicSummary) [[$web.$topic][Answer]]"
-    footer="$ntopics FAQs found$n"
+    header="$n$n<span class='foswikiAlert'>$ntopics</span> FAQs found in [[$web.WebHome][$web]] web$n$n"
 }%
 
 ---++ More FAQs
 <blockquote class="foswikiHelp">%X% These topics are for frequently asked questions *including* answers; please ask support questions in the Foswiki:Support web.</blockquote>
 
-%INCLUDE{"%TOPIC%" section="creator"}%
-
 #CreatorCode
 %TWISTY{showlink="Show topic creator code..."}%%JQREQUIRE{"chili"}%
-<verbatim class="tml">%STARTSECTION{"creator"}%%JQREQUIRE{"wikiword"}%
-<form action="%SCRIPTURLPATH{"edit"}%/%USERSWEB%/" method="post" id='newfaqform'>
-New FAQ topic (based on FAQTemplate)
-| %MAKETEXT{"FAQ"}%   | <input type="text" id="faqsummary" name="TopicSummary"\
-                               size="32" value="I did this ..., how do I ..." />          |
-| %MAKETEXT{"Title"}% | <input type="text" id="faqtopic" name="topic"\
-                               size="32" value="Explanation of ..." />               |
-|                     | <input type="submit" style="float: right;"\
-                               class="foswikiSubmit" value="%MAKETEXT{"Create"}%" /> |
-
-    <input type="hidden" name="onlywikiname" value="on" />
-    <input type="hidden" name="templatetopic" value="%SYSTEMWEB%.FAQTemplate" />
-    <input type="hidden" name="formtemplate" value="%SYSTEMWEB%.BasicForm" />
-    <input type="hidden" name="TopicClassification" value="FrequentlyAskedQuestion" />
-    <input type="hidden" id="faqtopictitle" name="TopicTitle" value="" />
-    <input type="hidden" name="topicparent" value="%TOPIC%" />
-    <input type="hidden" name="redirectto" value="%WEB%.%TOPIC%" />
+<verbatim class="tml">
+%STARTSECTION{"creator"}%<!-- creator -->
+<form action="%SCRIPTURLPATH{"edit"}%/%USERSWEB%/" id='newfaqform'>
+<input type="hidden" name="t" value="%GMTIME{"$epoch"}%" />
+<input type="hidden" name="onlywikiname" value="on" />
+<input type="hidden" name="onlynewtopic" value="on" />
+<input type="hidden" name="templatetopic" value="%SYSTEMWEB%.FAQTemplate" />
+<input type="hidden" name="formtemplate" value="%SYSTEMWEB%.BasicForm" />
+<input type="hidden" name="TopicClassification" value="FrequentlyAskedQuestion" />
+<input type="hidden" name="topic" class="jqWikiWord {source:'#faqsummary', prefix:'FAQ'}" />
+<input type="hidden" name="topicparent" value="%TOPIC%" />
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+    <h2>Create a new FAQ topic</h2>
+  </div>
+  <div class="foswikiFormStep">
+    <h3>%MAKETEXT{"Title"}%:</h3>
+    <input type="text" class="foswikiInputField" id="faqsummary" name="TopicTitle" size="32" />
+    <div class="foswikiFormDescription foswikiGrayText">
+      Give this FAQ a descriptive title, e.g. "Explanation of ..." 
+    </div>
+  </div>
+  <div class="foswikiFormStep">
+    <h3>%MAKETEXT{"Question"}%:</h3>
+    <input type="text" class="foswikiInputField" id="faqsummary" name="TopicSummary" size="32" value="" />
+    <div class="foswikiFormDescription foswikiGrayText">
+      Summarize your question in a few simple words, e.g. "I did this ..., how do I ..."
+    </div>
+  </div>
+  <div class="foswikiFormStep foswikiFormButtons">
+    %BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" type="submit"}%
+    %CLEAR%
+  </div>
+</div>
 </form>
-%JQREQUIRE{"wikiword"}%%ADDTOZONE{
-    "body"
-    id="%WEB%/%TOPIC%::FAQCreator"
-    requires="JQUERYPLUGIN::WIKIWORD"
-    text="
-<script type='text/javascript'>
-    jQuery(document).ready(function($) {
-        var faqtopic_default   = 'Explanation of ...',
-            faqsummary_default = 'I did this ..., how do I ...';
-
-        function _clearDefaultTextOnFocus (selector, text) {
-            // If focus is shifted to the input box, clear the example text
-            $(selector).focus(
-                function () {
-                    if ($(selector).val() === text) {
-                        $(selector).val('');
-                    }
-                }
-            );
-        };
-
-        function _setDefaultTextOnBlur (selector, text) {
-            $(selector).blur(
-                function () {
-                    if (!$(selector).val()) {
-                        $(selector).val(text);
-                    }
-                }
-            );
-        }
-
-        // Use the entered FAQ title to form a valid WikiWord topic name
-        $('#newfaqform').submit(
-            function () {
-                // Actually, the title was entered into the topic name field,
-                // this should allow the form to work without javascript
-                $('#faqtopictitle').val($('#faqtopic').val());
-                // .wikiword takes a selector whose value is used to build a
-                // valid wikiword. See System.JQueryWikiWord
-                $('#faqtopic').wikiword('#faqtopic', {\"prefix\" : \"FAQ\"});
-
-                return;
-            }
-        );
-        _clearDefaultTextOnFocus ('#faqtopic', faqtopic_default);
-        _clearDefaultTextOnFocus ('#faqsummary', faqsummary_default);
-        _setDefaultTextOnBlur('#faqtopic', faqtopic_default);
-        _setDefaultTextOnBlur('#faqsummary', faqsummary_default);
-    });
-</script>"
-}%%ENDSECTION{"creator"}%
+%JQREQUIRE{"wikiword"}%
+<!-- //creator -->%ENDSECTION{"creator"}%
 </verbatim>
 %ENDTWISTY%
 
