@@ -69,14 +69,17 @@
 -->
 %STARTSECTION{"changegroup"}%<!-- changegroup -->
 <div class='foswikiRight'>
-%IF{
+%INCLUDE{"%WEB%.%TOPIC%"
+  section="%IF{
   "'%USERSWEB%.%groupname%'/preferences[name='GROUP'] AND
-  '%USERSWEB%.%groupname%'/preferences[name='VIEW_TEMPLATE'] AND
-  '%USERSWEB%.%groupname%'/preferences[name='ALLOWTOPICCHANGE']
+  '%USERSWEB%.%groupname%'/form.name ~ '*GroupForm'
   " 
-  then="" 
-  else="upgrade"
-}%%TWISTYBUTTON{
+  then="nochange" 
+  else="group_upgrade"
+}%"
+  groupname="%groupname%"
+}%
+%TWISTYBUTTON{
   id="%groupname%_add"
   link="<img src='%ICONURLPATH{"plus"}%' />"
 }%%TWISTYBUTTON{
@@ -97,6 +100,23 @@
 }%
 %ENDTWISTYTOGGLE%
 <!-- //changegroup -->%ENDSECTION{"changegroup"}%
+</verbatim>
+
+<verbatim>
+<!--
+  parameters: groupname
+-->
+%STARTSECTION{"group_upgrade"}%<!-- group_upgrade -->
+<sticky>
+<div class='foswikiFormSteps'>
+  <form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST"> 
+  <input type="hidden" name="groupname" value="%groupname%"/> 
+  <input type="hidden" name="action" value="addUserToGroup"/>
+  <input type="hidden" name="create" value="1"/>
+  <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"upgrade"}%" />
+</form>
+</div></sticky>
+<!-- //group_add -->%ENDSECTION{"group_upgrade"}%
 </verbatim>
 
 <verbatim>

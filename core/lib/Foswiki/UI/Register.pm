@@ -174,7 +174,7 @@ sub bulkRegister {
     }
 
     # Validate
-    Foswiki::UI::checkValidationKey( $session );
+    Foswiki::UI::checkValidationKey($session);
 
     #-- Read the topic containing the table of people to be registered
     my $meta = Foswiki::Meta->load( $session, $web, $topic );
@@ -604,18 +604,45 @@ sub addUserToGroup {
 
     my $groupName = $query->param('groupname');
     my $create = Foswiki::isTrue( $query->param('create'), 0 );
+    if ( !$groupName or $groupName eq '' ) {
+        throw Foswiki::OopsException( 'attention',
+            def => 'no_group_specified_for_add_to_group' );
+    }
+
     if (   ( $#userNames < 0 )
         or ( $userNames[0] eq '' ) )
     {
+
+    #if $create is set, and there are no users in the list, and the group exists
+    #then we're trying to upgrade the user topic.
+    #I'm not sure what other mappers might make of this..
+        if ( $create and Foswiki::Func::isGroup($groupName) ) {
+            try {
+                Foswiki::Func::addUserToGroup( undef, $groupName, $create );
+            }
+            catch Error::Simple with {
+                my $e = shift;
+
+                # Log the error
+                $session->logger->log( 'warning',
+                    "catch: Failed to upgrade $groupName " . $e->stringify() );
+            };
+
+            throw Foswiki::OopsException(
+                'attention',
+                status => 200,
+                def    => 'group_upgraded',
+                web    => $web,
+                topic  => $topic,
+                params => [$groupName]
+            );
+        }
+
         throw Foswiki::OopsException( 'attention',
             def => 'no_users_to_add_to_group' );
     }
     if ( $#userNames == 0 ) {
         @userNames = split( /,\s*/, $userNames[0] );
-    }
-    if ( !$groupName or $groupName eq '' ) {
-        throw Foswiki::OopsException( 'attention',
-            def => 'no_group_specified_for_add_to_group' );
     }
 
     # TODO: SMELL: if you create a new group, make sure __you__ are the
@@ -778,7 +805,7 @@ sub _complete {
 
     $data->{WikiName} =
       Foswiki::Sandbox::untaint( $data->{WikiName},
-                                 \&Foswiki::Sandbox::validateTopicName );
+        \&Foswiki::Sandbox::validateTopicName );
     throw Error::Simple('Bad WikiName') unless $data->{WikiName};
 
     if ( !exists $data->{LoginName} ) {
@@ -805,13 +832,13 @@ sub _complete {
             push(
                 @{ $data->{form} },
                 { name => 'Password', value => $data->{Password} }
-               );
+            );
         }
 
         my $cUID = $users->addUser(
             $data->{LoginName}, $data->{WikiName},
             $data->{Password},  $data->{Email}
-           );
+        );
         my $log = _createUserTopic( $session, $data );
         $users->setEmails( $cUID, $data->{Email} );
 
@@ -824,7 +851,7 @@ sub _complete {
         if ( Foswiki::Func::isGuest($regoAgent) ) {
             $session->{user} =
               $session->{users}->getCanonicalUserID(
-                  $Foswiki::cfg{Register}{RegistrationAgentWikiName} );
+                $Foswiki::cfg{Register}{RegistrationAgentWikiName} );
 
             # SECURITY ISSUE:
             # When upgrading an existing Wiki, the RegistrationUser is
@@ -835,13 +862,13 @@ sub _complete {
             if ( !$enableAddToGroup ) {
 
                 # TODO: should really tell the user too?
-                $session->logger->log(
-                    'warning',
-                    'Registration failed: can\'t add user to groups ('
+                $session->logger->log( 'warning',
+                        'Registration failed: can\'t add user to groups ('
                       . $data->{AddToGroups}
-                        . ' because '
-                          . $Foswiki::cfg{Register}{RegistrationAgentWikiName}
-                            . 'is in the ' .$Foswiki::cfg{SuperAdminGroup});
+                      . ' because '
+                      . $Foswiki::cfg{Register}{RegistrationAgentWikiName}
+                      . 'is in the '
+                      . $Foswiki::cfg{SuperAdminGroup} );
             }
         }
 
@@ -875,8 +902,8 @@ sub _complete {
     # Plugin to do some other post processing of the user.
     # for legacy, (callback to set cookies - now should use LoginHandler)
     $session->{plugins}
-      ->dispatch( 'registrationHandler', $session->{webName},
-                  $data->{WikiName}, $data->{LoginName}, $data );
+      ->dispatch( 'registrationHandler', $session->{webName}, $data->{WikiName},
+        $data->{LoginName}, $data );
 
     my $status;
     my $safe2login = 1;
@@ -914,14 +941,19 @@ sub _complete {
     # When upgrading an existing Wiki, the RegistrationUser is
     # in the AdminGroup. So disable the automatic login if the agent is
     # still admin.
-    my $guestUID = $session->{users}->getCanonicalUserID(
-        $Foswiki::cfg{DefaultUserLogin});
-    my $regUID = $session->{users}->getCanonicalUserID( 
-        $Foswiki::cfg{Register}{RegistrationAgentWikiName});
-    if ( $safe2login
-         && ($session->{user} eq $guestUID
-             || $session->{user} eq $regUID
-                && !$session->{users}->isAdmin($regUID))) {
+    my $guestUID =
+      $session->{users}->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} );
+    my $regUID =
+      $session->{users}->getCanonicalUserID(
+        $Foswiki::cfg{Register}{RegistrationAgentWikiName} );
+    if (
+        $safe2login
+        && (   $session->{user} eq $guestUID
+            || $session->{user} eq $regUID
+            && !$session->{users}->isAdmin($regUID) )
+      )
+    {
+
         # let the client session know that we're logged in. (This probably
         # eliminates the need for the registrationHandler call above,
         # but we'll leave them both in here for now.)
@@ -1081,7 +1113,7 @@ sub _getRegFormAsTopicContent {
 sub _emailRegistrationConfirmations {
     my ( $session, $data ) = @_;
 
-    my $template = $session->templates->readTemplate( 'registernotify' );
+    my $template = $session->templates->readTemplate('registernotify');
     my $email =
       _buildConfirmationEmail( $session, $data, $template,
         $Foswiki::cfg{Register}{HidePasswd} );
@@ -1097,25 +1129,22 @@ sub _emailRegistrationConfirmations {
 
             if ( $session->{users}->removeUser($cUID) ) {
                 $template =
-                  $session->templates->readTemplate(
-                      'registerfailedremoved' );
+                  $session->templates->readTemplate('registerfailedremoved');
             }
             else {
                 $template =
-                  $session->templates->readTemplate(
-                     'registerfailednotremoved' );
+                  $session->templates->readTemplate('registerfailednotremoved');
             }
         }
         catch Error::Simple with {
 
             # Most Mapping Managers don't support removeUser, unfortunately
             $template =
-              $session->templates->readTemplate( 'registerfailednoremove' );
+              $session->templates->readTemplate('registerfailednoremove');
         };
     }
     else {
-        $template =
-          $session->templates->readTemplate( 'registernotifyadmin' );
+        $template = $session->templates->readTemplate('registernotifyadmin');
     }
 
     $email = _buildConfirmationEmail( $session, $data, $template, 1 );
@@ -1236,8 +1265,8 @@ sub _validateRegistration {
         ( ( $users->userExists($user) ) )
         &&
 
-          # user has an entry in the mapping system
-          # (if AllowLoginName == off, then entry is automatic)
+        # user has an entry in the mapping system
+        # (if AllowLoginName == off, then entry is automatic)
         (
             ( !$Foswiki::cfg{Register}{AllowLoginName} )
             || $session->topicExists( $Foswiki::cfg{UsersWebName},

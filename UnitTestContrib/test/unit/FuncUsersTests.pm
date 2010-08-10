@@ -340,10 +340,13 @@ sub verify_isAnAdmin {
 
         next if ( $this->noUsersRegistered() && ( $u eq 'UserA' ) );
 
-        if (   $u eq $Foswiki::cfg{AdminUserWikiName}
+        if (
+            $u eq $Foswiki::cfg{AdminUserWikiName}
+
 #having rego agent an admin pretty much defeats the purpose of not making WikiGuest admin
 #            || $u eq $Foswiki::cfg{Register}{RegistrationAgentWikiName}
-            || $u eq 'UserA' )
+            || $u eq 'UserA'
+          )
         {
             $this->assert( $sadmin, $u );
         }
@@ -1353,8 +1356,9 @@ sub verify_topic_meta_usermapping {
     my $readMeta = Foswiki::Meta->load( $this->{session}, $web, $topic );
     my $info = $readMeta->getRevisionInfo();
     $this->assert_equals( $info->{author}, $cUID, "$info->{author}=$cUID" );
-    my $revinfo = Foswiki::Func::expandCommonVariables(
-      '%REVINFO{format="$wikiname"}%', $topic, $web, $readMeta );
+    my $revinfo =
+      Foswiki::Func::expandCommonVariables( '%REVINFO{format="$wikiname"}%',
+        $topic, $web, $readMeta );
 
     #Task:Item6000
     $this->assert_equals( $revinfo, 'Asdf3Poiu', 'Asdf3Poiu' );
@@ -1397,7 +1401,7 @@ sub verify_addToGroup {
     $this->assert( $Foswiki::Plugins::SESSION->{user} );
 
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
-    $this->assert( !Foswiki::Func::addUserToGroup('UserZ',  'ZeeGroup') );
+    $this->assert( !Foswiki::Func::addUserToGroup( 'UserZ', 'ZeeGroup' ) );
 
     # Force a re-read
     $this->{session}->finish();
@@ -1407,20 +1411,20 @@ sub verify_addToGroup {
 
     #TODO: need to test who the topic was saved by
 
-    $this->assert( Foswiki::Func::addUserToGroup('UserZ',  'ZeeGroup', 1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'UserZ', 'ZeeGroup', 1 ) );
 
     # Force a re-read
     $this->{session}->finish();
-    $this->{session} = new Foswiki();
+    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
     $Foswiki::Plugins::SESSION = $this->{session};
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
 
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
-    $this->assert( Foswiki::Func::addUserToGroup( 'UserA' , 'ZeeGroup') );
+    $this->assert( Foswiki::Func::addUserToGroup( 'UserA', 'ZeeGroup' ) );
 
     # Force a re-read
     $this->{session}->finish();
-    $this->{session} = new Foswiki();
+    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
     $Foswiki::Plugins::SESSION = $this->{session};
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
 
@@ -1448,14 +1452,14 @@ sub verify_addToGroup {
     $this->assert(
         !Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
     $this->assert(
-        !Foswiki::Func::addUserToGroup('WiseGuyDoesntExist', 'ZeeGroup' ) );
+        !Foswiki::Func::addUserToGroup( 'WiseGuyDoesntExist', 'ZeeGroup' ) );
 
     # Force a re-read
     $this->{session}->finish();
     $this->{session} = new Foswiki();
     $Foswiki::Plugins::SESSION = $this->{session};
     $this->assert(
-        !Foswiki::Func::isGroupMember('WiseGuyDoesntExist', 'ZeeGroup') );
+        !Foswiki::Func::isGroupMember( 'WiseGuyDoesntExist', 'ZeeGroup' ) );
 }
 
 sub DISABLEDverify_addGroupToGroup {
@@ -1464,8 +1468,8 @@ sub DISABLEDverify_addGroupToGroup {
     return if ( $this->noUsersRegistered() );
 
     #test nested groups
-    $this->assert( Foswiki::Func::addUserToGroup('UserB', 'TeeGroup',    1 ) );
-    $this->assert( Foswiki::Func::addUserToGroup('ZeeGroup', 'TeeGroup', 1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'UserB',    'TeeGroup', 1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'ZeeGroup', 'TeeGroup', 1 ) );
 
     # Force a re-read
     $this->{session}->finish();
@@ -1484,12 +1488,21 @@ sub verify_removeFromGroup {
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserB' ) );
     $this->assert(
-        !Foswiki::Func::isGroupMember('WiseGuyDoesntExist' , 'ZeeGroup') );
+        !Foswiki::Func::isGroupMember( 'WiseGuyDoesntExist', 'ZeeGroup' ) );
 
-    $this->assert( Foswiki::Func::addUserToGroup('UserZ',  'ZeeGroup', 1 ) );
-    $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
-    $this->assert( Foswiki::Func::addUserToGroup('UserA',  'ZeeGroup', 1 ) );
-    $this->assert( Foswiki::Func::addUserToGroup('UserB', 'ZeeGroup',  1 ) );
+    $this->assert(
+        Foswiki::Func::addUserToGroup(
+            $Foswiki::Plugins::SESSION->{user},
+            'ZeeGroup', 1
+        )
+    );
+
+    $this->assert( Foswiki::Func::addUserToGroup( 'UserZ', 'ZeeGroup', 1 ) );
+
+    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
+    $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'UserA', 'ZeeGroup', 1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'UserB', 'ZeeGroup', 1 ) );
 
     # Force a re-read
     $this->{session}->finish();
@@ -1499,9 +1512,9 @@ sub verify_removeFromGroup {
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserB' ) );
     $this->assert(
-        !Foswiki::Func::isGroupMember('WiseGuyDoesntExist', 'ZeeGroup' ) );
+        !Foswiki::Func::isGroupMember( 'WiseGuyDoesntExist', 'ZeeGroup' ) );
 
-    $this->assert( Foswiki::Func::removeUserFromGroup('UserA', 'ZeeGroup' ) );
+    $this->assert( Foswiki::Func::removeUserFromGroup( 'UserA', 'ZeeGroup' ) );
     $this->assert(
         !Foswiki::Func::removeUserFromGroup( 'WiseGuyDoesntExist', 'ZeeGroup' )
     );
@@ -1524,9 +1537,9 @@ sub DISABLEDverify_removeFromGroup {
     return if ( $this->noUsersRegistered() );
 
     #test nested groups
-    $this->assert( Foswiki::Func::addUserToGroup( 'UserB',   'TeeGroup',  1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'UserB',    'TeeGroup', 1 ) );
     $this->assert( Foswiki::Func::addUserToGroup( 'UserC',    'TeeGroup', 1 ) );
-    $this->assert( Foswiki::Func::addUserToGroup('ZeeGroup', 'TeeGroup',  1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'ZeeGroup', 'TeeGroup', 1 ) );
 
     # Force a re-read
     $this->{session}->finish();
@@ -1535,7 +1548,7 @@ sub DISABLEDverify_removeFromGroup {
     $this->assert( Foswiki::Func::isGroupMember( 'TeeGroup', 'UserB' ) );
     $this->assert( Foswiki::Func::isGroupMember( 'TeeGroup', 'UserA' ) );
 
-    $this->assert( !Foswiki::Func::removeUserFromGroup( 'UserA' , 'TeeGroup') )
+    $this->assert( !Foswiki::Func::removeUserFromGroup( 'UserA', 'TeeGroup' ) )
       ;    #can't remove user as they come from a subgroup..
     $this->assert( Foswiki::Func::removeUserFromGroup( 'UserB', 'TeeGroup' ) );
 
@@ -1548,7 +1561,7 @@ sub DISABLEDverify_removeFromGroup {
     $this->assert( Foswiki::Func::isGroupMember( 'TeeGroup', 'UserC' ) );
 
     $this->assert(
-        Foswiki::Func::removeUserFromGroup('ZeeGroup' , 'TeeGroup') );
+        Foswiki::Func::removeUserFromGroup( 'ZeeGroup', 'TeeGroup' ) );
 
     # Force a re-read
     $this->{session}->finish();
@@ -1564,53 +1577,40 @@ sub DISABLEDverify_removeFromGroup {
 #http://foswiki.org/Tasks/Item1936
 sub verify_topic_meta_usermapping_Item1936 {
     my $this = shift;
-    
-    my $users = $this->{session}->{users};
-    
-    #this sort of issue is what this setting was supposed to make more obvious
-	#$Foswiki::cfg{RenderLoggedInButUnknownUsers} = 1;
 
-    
-	$this->assert_null(Foswiki::Func::getCanonicalUserID('NonExistantUser'));
-	$users->getWikiName( 'NonExistantUser' );
-	$this->assert_null(Foswiki::Func::getCanonicalUserID('NonExistantUser'));
-    
+    my $users = $this->{session}->{users};
+
+    #this sort of issue is what this setting was supposed to make more obvious
+    #$Foswiki::cfg{RenderLoggedInButUnknownUsers} = 1;
+
+    $this->assert_null( Foswiki::Func::getCanonicalUserID('NonExistantUser') );
+    $users->getWikiName('NonExistantUser');
+    $this->assert_null( Foswiki::Func::getCanonicalUserID('NonExistantUser') );
+
 }
 
 #http://foswiki.org/Tasks/
 sub verify_unregisteredUser_display {
     my $this = shift;
-    
-    my $users = $this->{session}->{users};
-    
-    #this sort of issue is what this setting was supposed to make more obvious
-	#$Foswiki::cfg{RenderLoggedInButUnknownUsers} = 1;
 
-	$this->assert_equals(
-			$users->getWikiName( 'NonExistantUser' ),
-			'NonExistantUser',
-			'wikiword wikiname');
-	$this->assert_equals(
-			$users->getLoginName( 'NonExistantUser' ),
-			undef,
-			'wikiword wikiname');
-	$this->assert_equals(
-			$users->getCanonicalUserID( 'NonExistantUser' ),
-			undef,
-			'wikiword wikiname');
-    
-	$this->assert_equals(
-			$users->getWikiName( 'user_name' ),
-			'user_name',
-			'wikiword wikiname');
-	$this->assert_equals(
-			$users->getLoginName( 'user_name' ),
-			undef,
-			'wikiword wikiname');
-	$this->assert_equals(
-			$users->getCanonicalUserID( 'user_name' ),
-			undef,
-			'wikiword wikiname');
+    my $users = $this->{session}->{users};
+
+    #this sort of issue is what this setting was supposed to make more obvious
+    #$Foswiki::cfg{RenderLoggedInButUnknownUsers} = 1;
+
+    $this->assert_equals( $users->getWikiName('NonExistantUser'),
+        'NonExistantUser', 'wikiword wikiname' );
+    $this->assert_equals( $users->getLoginName('NonExistantUser'),
+        undef, 'wikiword wikiname' );
+    $this->assert_equals( $users->getCanonicalUserID('NonExistantUser'),
+        undef, 'wikiword wikiname' );
+
+    $this->assert_equals( $users->getWikiName('user_name'),
+        'user_name', 'wikiword wikiname' );
+    $this->assert_equals( $users->getLoginName('user_name'),
+        undef, 'wikiword wikiname' );
+    $this->assert_equals( $users->getCanonicalUserID('user_name'),
+        undef, 'wikiword wikiname' );
 }
 
 1;

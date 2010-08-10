@@ -304,7 +304,6 @@ sub addUser {
 
         unless ( $this->{passwords}->setPassword( $login, $password ) == 1 ) {
 
-           #print STDERR "\n Failed to add user:  ".$this->{passwords}->error();
             throw Error::Simple(
                 'Failed to add user: ' . $this->{passwords}->error() );
         }
@@ -595,9 +594,9 @@ sub eachGroupMember {
     my $this  = shift;
     my $group = shift;
 
-    if (Scalar::Util::tainted($group)) {
-        $group = Foswiki::Sandbox::untaint(
-            $group, \&Foswiki::Sandbox::validateTopicName);
+    if ( Scalar::Util::tainted($group) ) {
+        $group = Foswiki::Sandbox::untaint( $group,
+            \&Foswiki::Sandbox::validateTopicName );
     }
 
     return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} )
@@ -783,54 +782,41 @@ sub addUserToGroup {
       . ") to $groupName\n"
       if DEBUG;
 
-    if (
-        $usersObj->isGroup($groupName)
+    my $membersString = '';
+    my $allowChangeString;
+    my $groupTopicObject;
 
-        #        and ( $this->{session}
-        #            ->topicExists( $groupWeb, $groupName ) )
-      )
-    {
-        if ( $usersObj->isInGroup( $cuid, $groupName ) ) {
+    if ( $usersObj->isGroup($groupName) ) {
 
-#TODO: not sure this is the right thing to do - it might make more sense to not expand the nested groups, and add a user if they're not listed here, that way we are able to not worry about subgroups changing.
+       #if you set create for a group that exists, use that to force an upgrade.
+        if ( ( not $create ) and $usersObj->isInGroup( $cuid, $groupName ) ) {
+
+            #TODO: not sure this is the right thing to do -
+            #it might make more sense to not expand the nested groups,
+            #and add a user if they're not listed here,
+            #that way we are able to not worry about subgroups changing.
             return 1;    #user already in group, nothing to do
         }
-        my $groupTopicObject =
+        $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $groupWeb, $groupName );
 
         if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
 
             #can't change topic.
-            print STDERR "eee: $user does not have change access?\n" if DEBUG;
             return 0;
         }
 
-        my $membersString = $groupTopicObject->getPreference('GROUP') || '';
-        $membersString .= ', ' if ( $membersString ne '' );
-        $membersString .= $usersObj->getWikiName($cuid);
+        $membersString = $groupTopicObject->getPreference('GROUP') || '';
+        if ( $create and !defined($cuid) ) {
 
-#TODO: need to amend the intopic Set :/ but for now, this is all we have (its not trivial as we need to support multi-line Set's, and this needs to happen in Meta::getEmbeddedFormat
-        $groupTopicObject->putKeyed( 'PREFERENCE',
-            {  
-                type => 'Set', 
-                name => 'GROUP', 
-                title => 'GROUP', 
-                value => $membersString
-             } );
-        $groupTopicObject->putKeyed( 'PREFERENCE',
-            {  
-                type => 'Set', 
-                name => 'VIEW_TEMPLATE', 
-                title => 'VIEW_TEMPLATE', 
-                value => 'GroupView'
-             } );
+            #upgrade group topic.
+            $this->_writeGroupTopic(
+                $groupTopicObject, $groupWeb, $groupName,
+                $membersString,    $allowChangeString
+            );
 
-        my $text = $groupTopicObject->text() || '';
-        $text =~ s/   * Set GROUP = .*\n   \*//os;
-        $groupTopicObject->text($text);
-
-        $groupTopicObject->save( -author => $user );
-        return 1;
+            return 1;
+        }
     }
     else {
 
@@ -843,7 +829,7 @@ sub addUserToGroup {
             )
           );
 
-        my $groupTopicObject =
+        $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $groupWeb, 'GroupTemplate' );
 
         #expand the GroupTemplate as best we can.
@@ -851,33 +837,106 @@ sub addUserToGroup {
           ->param( -name => 'topic', -value => $groupName );
         $groupTopicObject->expandNewTopic();
 
+        $allowChangeString = $groupName;
+    }
+    $membersString .= ', ' if ( $membersString ne '' );
+    my $wikiName = $usersObj->getWikiName($cuid);
+    $membersString .= $wikiName;
+
+    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
+    #push(@{$this->{eachGroupMember}->{$groupName}}, $cuid);
+
+    $this->_writeGroupTopic(
+        $groupTopicObject, $groupWeb, $groupName,
+        $membersString,    $allowChangeString
+    );
+
+    #reparse groups brute force :/
+    _getListOfGroups( $this, 1 ) if ($create);
+    return 1;
+}
+
+#start by just writing the new form.
+sub _writeGroupTopic {
+    my $this              = shift;
+    my $groupTopicObject  = shift;
+    my $groupWeb          = shift;
+    my $groupName         = shift;
+    my $membersString     = shift;
+    my $allowChangeString = shift;
+
+    my $text = $groupTopicObject->text() || '';
+
+#TODO: do an attempt to convert existing old style topics - compare to 'normal' GroupTemplate? (I'm hoping to keep any user added descriptions for the group
+    if (   ( $groupTopicObject->getFormName() eq '' )
+        or ( $text =~ /^---\+!! <nop>.*$/ )
+        or ( $text =~ /^(\t|   )+\* Set GROUP = .*$/ )
+        or ( $text =~ /^(\t|   )+\* Member list \(comma-separated list\):$/ )
+        or ( $text =~ /^(\t|   )+\* Persons\/group who can change the list:$/ )
+        or ( $text =~ /^(\t|   )+\* Set ALLOWTOPICCHANGE = .*$/ )
+        or ( $text =~ /^\*%MAKETEXT{"Related topics:"}%.*$/ ) )
+    {
+        if ( !defined($allowChangeString) ) {
+            $allowChangeString =
+              $groupTopicObject->getPreference('ALLOWTOPICCHANGE') || '';
+        }
+
+        $text =~ s/^---\+!! <nop>.*$//s;
+        $text =~ s/^(\t|   )+\* Set GROUP = .*$//s;
+        $text =~ s/^(\t|   )+\* Member list \(comma-separated list\):$//s;
+        $text =~ s/^(\t|   )+\* Persons\/group who can change the list:$//s;
+        $text =~ s/^(\t|   )+\* Set ALLOWTOPICCHANGE = .*$//s;
+        $text =~ s/^\*%MAKETEXT{"Related topics:"}%.*$//s;
+
+        $text .= "\nEdit this topic to add a description to the $groupName\n";
+
+#TODO: consider removing the VIEW_TEMPLATE that only very few people should ever have...
+    }
+
+    $groupTopicObject->text($text);
+
+    $groupTopicObject->putKeyed(
+        'PREFERENCE',
+        {
+            type  => 'Set',
+            name  => 'GROUP',
+            title => 'GROUP',
+            value => $membersString
+        }
+    );
+    if ( defined($allowChangeString) ) {
         $groupTopicObject->putKeyed(
             'PREFERENCE',
             {
-                type => 'Set',
-                name  => 'GROUP',
-                title => 'GROUP',
-                value => $usersObj->getWikiName($cuid)
+                type  => 'Set',
+                name  => 'ALLOWTOPICCHANGE',
+                title => 'ALLOWTOPICCHANGE',
+                value => $allowChangeString
             }
         );
-        $groupTopicObject->putKeyed( 'PREFERENCE',
-            {  
-                type => 'Set', 
-                name => 'VIEW_TEMPLATE', 
-                title => 'VIEW_TEMPLATE', 
-                value => 'GroupView'
-             } 
-        );
-
-        #TODO: should also consider securing the new topic?
-        $groupTopicObject->saveAs( $groupWeb, $groupName, -author => $user );
-
-        #reparse groups brute force :/
-        _getListOfGroups( $this, 1 );
-
-        return 1;
     }
-    die 'not sure how we got here';
+    if ( $groupTopicObject->getFormName() eq '' ) {
+
+#%META:FORM{name="%25SYSTEMWEB%25.GroupForm"}%
+#%META:FIELD{name="UserMapping" attributes="M" title="<nop>UserMapping" value="BaseUserMapping"}%
+#TODO: mmm,why am i not upgrading using the GroupTemplate
+        $groupTopicObject->putKeyed( 'FORM',
+            { name => '%SYSTEMWEB%.GroupForm', } );
+        $groupTopicObject->putKeyed(
+            'FIELD',
+            {
+                name       => 'UserMapping',
+                attributes => 'MH',
+                title      => '<nop>UserMapping',
+                value      => 'TopicUserMapping'
+            }
+        );
+    }
+
+    #TODO: should also consider securing the new topic?
+    my $user = $this->{session}->{user};
+    $groupTopicObject->saveAs( $groupWeb, $groupName, -author => $user );
+
 }
 
 =begin TML
@@ -904,14 +963,16 @@ sub removeUserFromGroup {
       )
     {
         if ( !$usersObj->isInGroup( $cuid, $groupName ) ) {
+
             return 1;    #user not in group - done
         }
         my $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
             $groupName );
-        return 0
-          if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) )
-          ;              #can't change topic.
+        if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
+
+            return 0;    #can't change topic.
+        }
 
         my $WikiName  = $usersObj->getWikiName($cuid);
         my $LoginName = $usersObj->getLoginName($cuid);
@@ -921,16 +982,17 @@ sub removeUserFromGroup {
         foreach my $ident ( split( /[\,\s]+/, $membersString ) ) {
             next if ( $ident eq $WikiName );
             next if ( $ident eq $LoginName );
+            next if ( $ident eq $cuid );
             push( @l, $ident );
         }
         $membersString = join( ', ', @l );
 
-#TODO: need to amend the intopic Set :/ but for now, this is all we have (its not trivial as we need to support multi-line Set's, and this needs to happen in Meta::getEmbeddedFormat
-        $groupTopicObject->putKeyed( 'PREFERENCE',
-            { name => 'GROUP', title => 'GROUP', value => $membersString } );
-        $groupTopicObject->save();
+        $this->_writeGroupTopic( $groupTopicObject, $groupWeb, $groupTopic,
+            $membersString );
+
         return 1;
     }
+
     return 0;
 }
 
