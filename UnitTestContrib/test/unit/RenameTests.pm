@@ -165,6 +165,120 @@ THIS
       Foswiki::Meta->new( $this->{session}, $this->{new_web},
         $Foswiki::cfg{HomeTopicName}, 'junk' );
     $topicObject->save();
+
+    # Topic text for template rename tests that contains all references.
+    my $origTemplateRefs = <<THIS;
+ $this->{test_web}.OldView
+ $this->{test_web}.OldViewTemplate
+   * Set VIEW_TEMPLATE = OldView
+   * Local VIEW_TEMPLATE = OldView
+      * Set VIEW_TEMPLATE = OldViewTemplate
+      * Local VIEW_TEMPLATE = OldViewTemplate
+   * Set EDIT_TEMPLATE = OldView
+      * Local EDIT_TEMPLATE = OldView
+   * Set VIEW_TEMPLATE = $this->{test_web}.OldView
+   * Local VIEW_TEMPLATE = $this->{test_web}.OldView
+      * Set VIEW_TEMPLATE = $this->{test_web}.OldViewTemplate
+      * Local VIEW_TEMPLATE = $this->{test_web}.OldViewTemplate
+   * Set EDIT_TEMPLATE = $this->{test_web}.OldView
+      * Local EDIT_TEMPLATE = $this->{test_web}.OldView
+   * Set VIEW_TEMPLATE = $this->{new_web}.OldView
+   * Set SOME_TEMPLATE = $this->{new_web}.OldView
+   * Set SOME_TEMPLATE = $this->{new_web}.OldViewTemplate
+THIS
+
+    $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TmplRefTopic',
+      $origTemplateRefs );
+    $meta->putKeyed(
+        'PREFERENCE',
+        {
+            name  => "VIEW_TEMPLATE",
+            title => "VIEW_TEMPLATE",
+            type  => "Set",
+            value => "$this->{test_web}.OldView"
+        }
+    );
+    $meta->putKeyed(
+        'PREFERENCE',
+        {
+            name  => "EDIT_TEMPLATE",
+            title => "EDIT_TEMPLATE",
+            type  => "Set",
+            value => "OldView"
+        }
+    );
+    $meta->save();
+
+    $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TmplRefTopic2',
+      $origTemplateRefs );
+    $meta->putKeyed(
+        'PREFERENCE',
+        {
+            name  => "VIEW_TEMPLATE",
+            title => "VIEW_TEMPLATE",
+            type  => "Set",
+            value => "$this->{test_web}.OldViewTemplate"
+        }
+    );
+    $meta->putKeyed(
+        'PREFERENCE',
+        {
+            name  => "EDIT_TEMPLATE",
+            title => "EDIT_TEMPLATE",
+            type  => "Set",
+            value => "OldViewTemplate"
+        }
+    );
+    $meta->save();
+
+    $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TmplRefMeta1',
+      "Meta Only" );
+    $meta->putKeyed(
+        'PREFERENCE',
+        {
+            name  => "VIEW_TEMPLATE",
+            title => "VIEW_TEMPLATE",
+            type  => "Set",
+            value => "$this->{test_web}.OldViewTemplate"
+        }
+    );
+    $meta->save();
+
+    $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TmplRefMeta2',
+      "Meta Only" );
+    $meta->putKeyed(
+        'PREFERENCE',
+        {
+            name  => "VIEW_TEMPLATE",
+            title => "VIEW_TEMPLATE",
+            type  => "Set",
+            value => "OldView"
+        }
+    );
+    $meta->save();
+
+    $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TmplRefMeta3',
+      "Meta Only" );
+    $meta->putKeyed(
+        'PREFERENCE',
+        {
+            name  => "EDIT_TEMPLATE",
+            title => "EDIT_TEMPLATE",
+            type  => "Set",
+            value => "OldView"
+        }
+    );
+    $meta->save();
+
+    $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OldViewTemplate',
+      "Template" );
+    $meta->save();
 }
 
 sub tear_down {
@@ -254,6 +368,131 @@ sub checkReferringTopics {
               . join( ',', @r ) );
     }
     $this->assert_equals( 0, $j );
+}
+
+# Test referemces to a template topic
+sub test_referringTemplateThisWeb {
+    my $this = shift;
+
+    $this->checkReferringTopics(
+        $this->{test_web},
+        'OldViewTemplate',
+        0,
+        [
+            "$this->{test_web}.TmplRefTopic", "$this->{test_web}.TmplRefTopic2",
+            "$this->{test_web}.TmplRefMeta1", "$this->{test_web}.TmplRefMeta2",
+            "$this->{test_web}.TmplRefMeta3"
+        ]
+    );
+}
+
+# Test referemces to a template topic
+sub test_renameTemplateThisWeb {
+    my $this = shift;
+
+    my $query = new Unit::Request(
+        {
+            action           => ['rename'],
+            newweb           => [ $this->{test_web} ],
+            newtopic         => ['NewViewTemplate'],
+            referring_topics => [
+               "$this->{test_web}.TmplRefTopic", "$this->{test_web}.TmplRefTopic2",
+               "$this->{test_web}.TmplRefMeta1", "$this->{test_web}.TmplRefMeta2",
+               "$this->{test_web}.TmplRefMeta3"
+            ],
+            topic => 'OldViewTemplate'
+        }
+    );
+
+    $this->{session}->finish();
+
+    # The topic in the path should not matter
+    $query->path_info("/$this->{test_web}/SanityCheck");
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->captureWithKey( rename => $UI_FN, $this->{session} );
+
+    $this->assert(
+        $this->{session}->topicExists( $this->{test_web}, 'NewViewTemplate' ) );
+    $this->assert(
+        !$this->{session}->topicExists( $this->{test_web}, 'OldViewTemplate' ) );
+    # All of the topics refer to the new template
+    $this->checkReferringTopics(
+        $this->{test_web},
+        'NewViewTemplate',
+        0,
+        [
+            "$this->{test_web}.TmplRefTopic", "$this->{test_web}.TmplRefTopic2",
+            "$this->{test_web}.TmplRefMeta1", "$this->{test_web}.TmplRefMeta2",
+            "$this->{test_web}.TmplRefMeta3"
+        ]
+    );
+
+    # Nothing except the template itself refers to the old template
+    $this->checkReferringTopics(
+        $this->{test_web},
+        'OldViewTemplate',
+        0,
+        [
+            "$this->{test_web}.NewViewTemplate"
+        ]
+    );
+
+    my $m =
+      Foswiki::Meta->load( $this->{session}, "$this->{test_web}",
+        'TmplRefTopic' );
+    my @lines = split( /\n/, $m->text() );
+    $this->assert_str_equals(
+        " $this->{test_web}.OldView",
+        $lines[0] );
+    $this->assert_str_equals(
+        " $this->{test_web}.NewViewTemplate" ,
+        $lines[1] );
+    $this->assert_str_equals(
+        "   * Set VIEW_TEMPLATE = NewView",
+        $lines[2] );
+    $this->assert_str_equals(
+        "   * Local VIEW_TEMPLATE = NewView",
+        $lines[3] );
+    $this->assert_str_equals(
+        "      * Set VIEW_TEMPLATE = NewViewTemplate",
+        $lines[4] );
+    $this->assert_str_equals(
+        "      * Local VIEW_TEMPLATE = NewViewTemplate",
+        $lines[5] );
+    $this->assert_str_equals(
+        "   * Set EDIT_TEMPLATE = NewView",
+        $lines[6] );
+    $this->assert_str_equals(
+        "      * Local EDIT_TEMPLATE = NewView",
+        $lines[7] );
+    $this->assert_str_equals(
+        "   * Set VIEW_TEMPLATE = NewView",
+        $lines[8] );
+    $this->assert_str_equals(
+        "   * Local VIEW_TEMPLATE = NewView",
+        $lines[9] );
+    $this->assert_str_equals(
+        "      * Set VIEW_TEMPLATE = $this->{test_web}.NewViewTemplate",
+        $lines[10] );
+    $this->assert_str_equals(
+        "      * Local VIEW_TEMPLATE = $this->{test_web}.NewViewTemplate",
+        $lines[11] );
+    $this->assert_str_equals(
+        "   * Set EDIT_TEMPLATE = NewView",
+        $lines[12] );
+    $this->assert_str_equals(
+        "      * Local EDIT_TEMPLATE = NewView",
+        $lines[13] );
+    $this->assert_str_equals(
+        "   * Set VIEW_TEMPLATE = $this->{new_web}.OldView",
+        $lines[14] );
+    $this->assert_str_equals(
+        "   * Set SOME_TEMPLATE = $this->{new_web}.OldView",
+        $lines[15] );
+    $this->assert_str_equals(
+        "   * Set SOME_TEMPLATE = $this->{new_web}.OldViewTemplate",
+        $lines[16] );
 }
 
 # Test references to a topic in this web
