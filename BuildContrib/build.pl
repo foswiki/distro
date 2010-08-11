@@ -37,10 +37,16 @@ unless ( -e "$scriptDir/build.pl" ) {
     }
 }
 
-my $call = './build.pl '.$arg.' '.$target;
-print "calling build.pl in $scriptDir\n" if ($arg eq '-v');
-
 use Cwd;
+if (!defined($ENV{FOSWIKI_LIBS})) {
+	#seeing as we're in the core dir... lets try.
+	print "Guessing FOSWIKI_LIBS setting as ".cwd().'/core/lib'."\n";
+	$ENV{FOSWIKI_LIBS} = cwd().'/core/lib';
+}
+
+my $call = './build.pl '.$arg.' '.$target;
+print "calling '$call' in $scriptDir\n" if ($arg eq '-v');
+
 chdir($scriptDir);
 print `$call`;
 
