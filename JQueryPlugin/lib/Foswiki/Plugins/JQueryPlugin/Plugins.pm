@@ -214,10 +214,7 @@ sub expandVariables {
         $val = '' unless defined $val;
         $format =~ s/\$$key\b/$val/g;
     }
-    $format =~ s/\$percnt/\%/go;
-    $format =~ s/\$nop//g;
-    $format =~ s/\$n/\n/go;
-    $format =~ s/\$dollar/\$/go;
+    $format = Foswiki::Func::decodeFormatTokens($format);
 
     return $format;
 }
