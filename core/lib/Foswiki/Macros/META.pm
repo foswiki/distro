@@ -4,14 +4,11 @@ package Foswiki;
 use strict;
 use warnings;
 
-# DEPRECATED - use QUERY
-# Poor-man's content access.
+# See System.VarMETA
+# Before calling, ensure the topicObject is loaded with the version of the
+# topic you intend to display!
 sub META {
     my ( $this, $params, $topicObject ) = @_;
-
-    # Force a load of the latest. Some day we'll support content access to
-    # old revs... maybe
-    $topicObject->reload(0) unless $topicObject->latestIsLoaded();
 
     my $option = $params->{_DEFAULT} || '';
 
