@@ -181,21 +181,6 @@ sub beforeEditHandler {
 <meta name="foswiki.TINYMCEPLUGIN_INIT_ENCODED" content="$metainit" />
 META
 
-    my $behaving;
-    my $behaving_eval = eval {
-        require Foswiki::Contrib::BehaviourContrib;
-        if ( defined(&Foswiki::Contrib::BehaviourContrib::addHEAD) ) {
-            Foswiki::Contrib::BehaviourContrib::addHEAD();
-            $behaving = 1;
-        }
-        1;
-    };
-    unless ( $behaving_eval && $behaving ) {
-        Foswiki::Func::addToZone( 'body', 'BehaviourContrib/behaviour',
-'<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour%FWSRC%.js"></script>'
-        );
-    }
-
     # URL-encode the version number to include in the .js URLs, so that
     # the browser re-fetches the .js when this plugin is upgraded.
     my $encodedVersion = $VERSION;

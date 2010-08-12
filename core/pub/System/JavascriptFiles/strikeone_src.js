@@ -237,16 +237,27 @@ var StrikeOne = {
         return null;
     },
 
-    /**
-     * If JS is available this will be run during the onLoad.
-     * The parts of the message in validate.tmpl that are to be shown when
-     * JS is available must be surrounded with a DIV that has the css class
-     * 's1js_available' (meaning "show this when js is available").
-     * Sections that must be shown when JS is *not* available use <noscript>.
-     * It is done this way because inline <script> tags may be taken out
-     * by security.
-     */
     pcd: function() {
+    }
+};
+
+/**
+ * The parts of the message in validate.tmpl that are to be shown when
+ * JS is available must be surrounded with a DIV that has the css class
+ * 's1js_available' (meaning "show this when js is available").
+ * Sections that must be shown when JS is *not* available use
+ * <noscript>.
+ * It is done this way because inline <script> tags may be taken out
+ * by security.
+ */
+if (typeof jQuery != "undefined") {
+    jQuery(document).ready(
+        function($) {
+            $('.s1js_available').show();
+        });
+} else {
+    var oldonload = window.onload;
+    window.onload = function() {
         // Use the browser getElementsByClassName implementation if available
         if (document.getElementsByClassName != null) {
             var js_ok = document.getElementsByClassName('s1js_available');
@@ -261,20 +272,8 @@ var StrikeOne = {
                     divs[i].style.display = 'inline';
             }
         }
-    }
-};
-
-/**
- * Staple the onload handler into the chain. This duplicates foswiki.Event,
- * but is done separately here so that strikeone can stand alone.
- */
-if (typeof window.onload != 'function') {
-    window.onload = StrikeOne.pcd;
-} else {
-    var oldonload = window.onload;
-    window.onload = function() {
-        StrikeOne.pcd();
-        oldonload();
+        if (typeof oldonload == 'function')
+            oldonload();
     };
 }
 

@@ -3,8 +3,8 @@
 %TMPL:P{"JavascriptFiles/foswiki_edit"}%
 %TMPL:P{"LIBJS" id="PatternSkin/pattern_edit" requires="JavascriptFiles/foswiki_edit"}%
 %ADDTOZONE{"body" tag="settings.pattern.tmpl" text="<script>
-foswiki.Event.addLoadEvent(initForm);//settings.pattern.tmpl
-</script>" requires="JavascriptFiles/foswikilib,JavascriptFiles/foswiki_edit"}%%TMPL:END%
+jQuery(document).ready(function($) { foswiki.Edit.initForm() });
+</script>" requires="JQUERYPLUGIN"}%%TMPL:END%
 
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"(set preferences)"}% %TMPL:END%
 

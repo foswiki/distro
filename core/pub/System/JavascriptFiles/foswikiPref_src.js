@@ -23,15 +23,14 @@ Based on code written by Bill Dortch, hIdaho Design <bdortch@hidaho.com>
 */
 
 /**
- * Cookie Functions -- "Night of the Living Cookie" Version (25-Jul-96)
+ * Store preferences in cookies.
+ * Based on "Night of the Living Cookie" Version (25-Jul-96)
  * The preferred way for reading and writing cookies is using getPref
  * and setPref, otherwise the limit of 20 cookies per domain is reached
  * soon. See http://foswiki.org/Support/DataStorageInUserCookie
+ *
+ * Requires: foswikilib
  */
-
-var foswiki; 
-if (foswiki == undefined)
-    foswiki = {};
 
 foswiki.Pref = {
 	

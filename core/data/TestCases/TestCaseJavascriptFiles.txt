@@ -547,9 +547,6 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 
 <button class="foswikiButton testopenPopup">Test open window</button>
 
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/BehaviourContrib/behaviour.compressed.js"></script>
-
-
 <script language="javascript">
 /*<![CDATA[*/
 	function openPopup() {
@@ -585,17 +582,15 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
     	assertNull("No url passed should result in null", win);
     }
 
-	//openPopup();
-	
-	var myrules = {
-	   '.testopenPopup' : function(el) {
-		  el.onclick = function() {
-			 openPopup();
-			 return false;
-		  }
-	   }
-	};
-	Behaviour.register(myrules);
+    jQuery(document).ready(
+        function($) {
+            $('.testopenPopup').click(
+               function(e) {
+                   openPopup();
+                   return false;
+               });
+	    });
+
 /*]]>*/
 </script>
 

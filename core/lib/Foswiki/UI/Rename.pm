@@ -1119,7 +1119,7 @@ sub _newTopicOrAttachmentScreen {
                     CGI::input(
                         {
                             type    => 'checkbox',
-                            class   => 'foswikiCheckBox',
+                            class   => 'foswikiCheckBox foswikiGlobalCheckable',
                             name    => 'referring_topics',
                             value   => $entry,
                             checked => 'checked'
@@ -1143,7 +1143,7 @@ sub _newTopicOrAttachmentScreen {
                 CGI::input(
                     {
                         type    => 'checkbox',
-                        class   => 'foswikiCheckBox',
+                        class   => 'foswikiCheckBox foswikiGlobalCheckable',
                         name    => 'referring_topics',
                         value   => $entry,
                         checked => 'checked'
@@ -1237,7 +1237,7 @@ sub _newWebScreen {
             CGI::input(
                 {
                     type    => 'checkbox',
-                    class   => 'foswikiCheckBox',
+                    class   => 'foswikiCheckBox foswikiGlobalCheckable',
                     name    => 'referring_topics',
                     value   => $entry,
                     checked => 'checked'
@@ -1259,7 +1259,7 @@ sub _newWebScreen {
             CGI::input(
                 {
                     type    => 'checkbox',
-                    class   => 'foswikiCheckBox',
+                    class   => 'foswikiCheckBox foswikiGlobalCheckable',
                     name    => 'referring_topics',
                     value   => $entry,
                     checked => 'checked'

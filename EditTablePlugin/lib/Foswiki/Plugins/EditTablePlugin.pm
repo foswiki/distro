@@ -176,7 +176,8 @@ sub addViewModeHeadersToHead {
 @import url("%PUBURL%/%SYSTEMWEB%/EditTablePlugin/edittable.css");
 </style>
 EOF
-    Foswiki::Func::addToHEAD( 'EDITTABLEPLUGIN', $header );
+    Foswiki::Func::addToZone(
+        'head', 'EditTablePlugin/edittable.css', $header );
 }
 
 =begin TML
@@ -191,9 +192,6 @@ sub addEditModeHeadersToHead {
     return
       if !$usesJavascriptInterface && ( $paramJavascriptInterface ne 'on' );
 
-    require Foswiki::Contrib::BehaviourContrib;
-    Foswiki::Contrib::BehaviourContrib::addHEAD();
-
     $editModeHeaderDone = 1;
 
     my $formName = "edittable$tableNr";
@@ -203,14 +201,13 @@ sub addEditModeHeadersToHead {
     $header .= "\n"
       . '<meta name="EDITTABLEPLUGIN_EditTableUrl" content="'
       . $ASSET_URL . '" />';
-    $header .= <<'EOF';
-<style type="text/css" media="all">
-@import url("%PUBURL%/%SYSTEMWEB%/EditTablePlugin/edittable.css");
-</style>
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/EditTablePlugin/edittable.js"></script>
-EOF
 
-    Foswiki::Func::addToHEAD( 'EDITTABLEPLUGIN', $header );
+    Foswiki::Func::addToZone(
+        'head', 'EditTablePlugin/Meta', $header );
+    addViewModeHeadersToHead();
+    Foswiki::Func::addToZone( 'body', 'EditTablePlugin/edittable.js', <<JS);
+<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/EditTablePlugin/edittable.js"></script>
+JS
 }
 
 =begin TML
@@ -228,7 +225,7 @@ sub addJavaScriptInterfaceDisabledToHead {
 '<meta name="EDITTABLEPLUGIN_NO_JAVASCRIPTINTERFACE_EditTableId" content="'
       . $tableId . '" />';
     $header .= "\n";
-    Foswiki::Func::addToHEAD( 'EDITTABLEPLUGIN_NO_JAVASCRIPTINTERFACE',
+    Foswiki::Func::addToZone( 'head', 'EDITTABLEPLUGIN_NO_JAVASCRIPTINTERFACE',
         $header );
 }
 

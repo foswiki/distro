@@ -1,107 +1,107 @@
+/*
 
-var Pattern;
-if (!Pattern) Pattern = {};
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Pattern.Edit = {
+Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
 
-	EDIT_PREF_NAME:"Edit",
-	EDITBOX_PREF_FONTSTYLE_ID:"TextareaFontStyle",
-	EDITBOX_FONTSTYLE_MONO:"mono",
-	EDITBOX_FONTSTYLE_PROPORTIONAL:"proportional",
-	EDITBOX_FONTSTYLE_MONO_CLASSNAME:"patternButtonFontSelectorMonospace",
-	EDITBOX_FONTSTYLE_PROPORTIONAL_CLASSNAME:"patternButtonFontSelectorProportional",
-	
-	buttons:{"font":null,"enlarge":null, "shrink":null},
-	
-	setFontStyleState:function(el, inShouldUpdateEditBox, inButtonState) {			
-		var pref  = foswiki.Pref.getPref(Pattern.Edit.EDIT_PREF_NAME + Pattern.Edit.EDITBOX_PREF_FONTSTYLE_ID);
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
 
-		if (!pref || (pref != Pattern.Edit.EDITBOX_FONTSTYLE_PROPORTIONAL && pref != Pattern.Edit.EDITBOX_FONTSTYLE_MONO)) pref = Pattern.Edit.EDITBOX_FONTSTYLE_PROPORTIONAL;
-	
-		// toggle
-		var newPref = (pref == Pattern.Edit.EDITBOX_FONTSTYLE_PROPORTIONAL) ? Pattern.Edit.EDITBOX_FONTSTYLE_MONO : Pattern.Edit.EDITBOX_FONTSTYLE_PROPORTIONAL;
-		
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-		
-		var prefCssClassName = (pref == Pattern.Edit.EDITBOX_FONTSTYLE_MONO) ? Pattern.Edit.EDITBOX_FONTSTYLE_MONO_CLASSNAME : Pattern.Edit.EDITBOX_FONTSTYLE_PROPORTIONAL_CLASSNAME;
-		
-		var toggleCssClassName = (newPref == Pattern.Edit.EDITBOX_FONTSTYLE_MONO) ? Pattern.Edit.EDITBOX_FONTSTYLE_MONO_CLASSNAME : Pattern.Edit.EDITBOX_FONTSTYLE_PROPORTIONAL_CLASSNAME;		
-			
-		if (inButtonState && inButtonState == 'over') {
-			if (foswiki.CSS.hasClass(el, prefCssClassName)) foswiki.CSS.removeClass(el, prefCssClassName);
-			if (!foswiki.CSS.hasClass(el, toggleCssClassName)) foswiki.CSS.addClass(el, toggleCssClassName);
-		} else if (inButtonState && inButtonState == 'out') {
-			if (foswiki.CSS.hasClass(el, toggleCssClassName)) foswiki.CSS.removeClass(el, toggleCssClassName);
-			if (!foswiki.CSS.hasClass(el, prefCssClassName)) foswiki.CSS.addClass(el, prefCssClassName);
-		}
-		
-		if (inShouldUpdateEditBox) {
-			Pattern.Edit.setEditBoxFontStyle(newPref);
-		}
-		
-		return false;
-	},
-	
-	setEditBoxFontStyle:function(inFontStyle) {
-		if (inFontStyle == Pattern.Edit.EDITBOX_FONTSTYLE_MONO) {
-			foswiki.CSS.replaceClass(document.getElementById(EDITBOX_ID), EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE, EDITBOX_FONTSTYLE_MONO_STYLE);
-			foswiki.Pref.setPref(PREF_NAME + Pattern.Edit.EDITBOX_PREF_FONTSTYLE_ID, inFontStyle);
-			return;
-		}
-		if (inFontStyle == Pattern.Edit.EDITBOX_FONTSTYLE_PROPORTIONAL) {
-			foswiki.CSS.replaceClass(document.getElementById(EDITBOX_ID), EDITBOX_FONTSTYLE_MONO_STYLE, EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE);
-			foswiki.Pref.setPref(PREF_NAME + Pattern.Edit.EDITBOX_PREF_FONTSTYLE_ID, inFontStyle);
-			return;
-		}
-	},
-	
-	initTextAreaStyles:function (inNames) {
-		var i, ilen=inNames.length;
-		for (i=0; i<ilen; ++i) {
-			var button = Pattern.Edit.buttons[inNames[i]];
-			if (button != null) {
-				Pattern.Edit.buttons[inNames[i]].style.display = 'inline';
-			}
-		}
-	}
+As per the GPL, removal of this notice is prohibited.
 
-};
+*/
 
-var patternEditPageRules = {
-	'span.patternButtonFontSelector' : function(el) {
-		el.style.display = 'none';
-		Pattern.Edit.buttons["font"] = el;
-		Pattern.Edit.setFontStyleState(el, false, 'out');
-		el.onclick = function(){
-			return Pattern.Edit.setFontStyleState(el, true);
-		}
-		el.onmouseover = function() {
-			return Pattern.Edit.setFontStyleState(el, false, 'over');
-		}
-		el.onmouseout = function() {
-			return Pattern.Edit.setFontStyleState(el, false, 'out');
-		}
-	},
-	'span.patternButtonEnlarge' : function(el) {
-		el.style.display = 'none';
-		Pattern.Edit.buttons["enlarge"] = el;
-		el.onclick = function(){
-			return changeEditBox(1);
-		}
-	},
-	'span.patternButtonShrink' : function(el) {
-		el.style.display = 'none';
-		Pattern.Edit.buttons["shrink"] = el;
-		el.onclick = function(){
-			return changeEditBox(-1);
-		}
-	}
-};
-Behaviour.register(patternEditPageRules);
+// Requires foswiki_edit.js and JQUERYPLUGIN
 
-function patternInitTextArea() {
-	initTextArea();
-	Pattern.Edit.initTextAreaStyles(["font", "enlarge", "shrink"]);
+var EDITBOX_FONTSTYLE_MONO_CLASSNAME =
+    "patternButtonFontSelectorMonospace";
+var EDITBOX_FONTSTYLE_PROPORTIONAL_CLASSNAME =
+    "patternButtonFontSelectorProportional";
+
+var PatternEditFontStyle;
+
+// Controls the state of the font change button
+function PatternEditFontState(jel, buttonState) {
+
+    var pref = foswiki.Edit.getFontStyle();
+   
+    var newPref;
+    var prefCssClassName;
+    var toggleCssClassName;
+
+    if (pref == EDITBOX_FONTSTYLE_PROPORTIONAL) {
+        newPref = EDITBOX_FONTSTYLE_MONO;
+        prefCssClassName = EDITBOX_FONTSTYLE_PROPORTIONAL_CLASSNAME;
+        toggleCssClassName = EDITBOX_FONTSTYLE_MONO_CLASSNAME;
+    } else {
+        newPref = EDITBOX_FONTSTYLE_PROPORTIONAL;
+        prefCssClassName = EDITBOX_FONTSTYLE_MONO_CLASSNAME;
+        toggleCssClassName = EDITBOX_FONTSTYLE_PROPORTIONAL_CLASSNAME;		
+    }
+        
+    if (buttonState == 'over') {
+        jel.removeClass(prefCssClassName)
+            .addClass(toggleCssClassName);
+    } else if (buttonState == 'out') {
+        jel.removeClass(toggleCssClassName)
+            .addClass(prefCssClassName);
+    }
+    
+    return newPref;
 }
 
-foswiki.Event.addLoadEvent(patternInitTextArea, false);
+// Not sure the hide() and show() is strictly necessary, but the pre-jq
+// version did it so retained.
+jQuery(document).ready(
+    function($) {
+        $('span.patternButtonFontSelector')
+            .hide()
+            .click(
+                function(e) {
+                    var newPref = PatternEditFontState($(this), '');
+                    foswiki.Edit.setFontStyle(newPref);
+                    return false;
+                })
+            .mouseover(
+                function(e) {
+                    PatternEditFontState($(this), 'over');
+                    return false;
+                })
+            .mouseout(
+                function (e) {
+                    PatternEditFontState($(this), 'out');
+                    return false;
+                })
+            .each(
+                function(index, el) {
+                    PatternEditFontState($(el), 'out');
+                });
+
+        $('span.patternButtonEnlarge')
+            .hide()
+            .click(
+                function() {
+                    return foswiki.Edit.changeEditBox(1);
+                });
+
+        $('span.patternButtonShrink')
+            .hide()
+            .click(
+                function(){
+                    return foswiki.Edit.changeEditBox(-1);
+                });
+        foswiki.Edit.initTextArea();
+
+        $('span.patternButtonShrink').show();
+        $('span.patternButtonEnlarge').show();
+        $('span.patternButtonFontSelector').show();
+    });

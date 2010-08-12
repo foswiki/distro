@@ -204,10 +204,7 @@ sub addHEAD {
       || $Foswiki::cfg{JSCalendarContrib}{lang}
       || 'en';
     my $base = '%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib';
-    eval {
-        require Foswiki::Contrib::BehaviourContrib;
-        Foswiki::Contrib::BehaviourContrib::addHEAD();
-    };
+
     my $css = <<HERE;
 <style type='text/css' media='all'>
  \@import url('$base/calendar-$style.css');

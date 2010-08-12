@@ -20,12 +20,9 @@ As per the GPL, removal of this notice is prohibited.
 
 */
 
-var foswiki;
-if (foswiki == undefined)
-    foswiki = {};
-
 /**
  * Support for string manipulation
+ * Requires: foswikilib
  */
 
 foswiki.String = {

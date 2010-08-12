@@ -37,7 +37,7 @@ Foswiki is released under the GNU General Public License.
 Foswiki 1.1 is shipped with the following:
 
    * *Plugins:* !AutoViewTemplatePlugin, !CommentPlugin, !EditTablePlugin, !EmptyPlugin, !HistoryPlugin, !InterwikiPlugin, !JQueryPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !WysiwygPlugin
-   * *Contribs:* !BehaviourContrib, !CompareRevisionsAddOn, !FamFamFamContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib
+   * *Contribs:* !CompareRevisionsAddOn, !FamFamFamContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib
    * *Skins:* !PatternSkin
    * *Compatibility support* - !TWikiCompatibilityPlugin
 
@@ -49,6 +49,20 @@ See ReleaseNotes01x00 for detailed information about changes in that release.
 ---++ Important Changes since Foswiki 1.0.9
 
 Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code,  with the goal of making it easier to plug in work from other projects, such  as jQuery, !KinoSearch, Solr and others. We have also worked to improve  the definition of internal APIs to allow other not-yet-written modules,  such as store implementations, to plug in. Most of these modifications  should be invisible to the end user and the admin, but are important to  position Foswiki for the next generation of improvements.
+
+---+++ Adoption of Javascript standards
+From Foswiki 1.1 the industry-standard
+[[http://jquery.com][jQuery Javascript user interface framework]] has been
+more closely
+integrated, with the existing !JQueryPlugin being included into the core
+distribution. Reflecting the move to jQuery, the !BehaviourContrib
+has been removed from the core distribution, though it is still available
+for download from Foswiki.org. The default !PatternSkin now depends on this
+framework.
+
+Also added are the new =ADDTOZONE= and =RENDERZONE= macros that manage
+dependencies between Javascript modules, making use of this sophisticated
+toolset much easier.
 
 ---+++ Powerful new =QUERY= macro
 A number of new features have been added with the goal of improving support  for wiki applications. These include the powerful new =QUERY= macro,  which supports formatted access to formfields and other meta-data in  topics using the same syntax as is used in =IF= and =SEARCH= statements.
@@ -71,16 +85,16 @@ For developers additional API's have been added to the Foswiki code to allow the
 With some configuration, Foswiki can also add users to groups on registration -  either automatically, or allowing the users to select groups to join.
 
 ---+++ TinyMCEPlugin updates
-TinyMCEPlugin has been updated to the latest 3.3.x release from Moxiecode. Additionally, some improvements to the Foswiki integration have been made, such as:
+TinyMCEPlugin has been updated to the latest 3.3.x release from Moxiecode. Additionally, several improvements to the Foswiki integration have been made, such as:
    * Smarter attach dialogue
    * Background autosave feature has been enabled (saves to local browser storage at 3 minute intervals)
    * New context (right-click) menu:
       * Set syntax highlighting classes on verbatim blocks
       * table rows/columns may be duplicated, cells merged/split
-   * Customisation via the =TINYMCEPLUGIN_INIT= variable has been improved. [[TinyMCEPlugin#UpgradeFrom01x00][Read the upgrade advice]] if you are upgrading a Foswiki installation which uses a custom =TINYMCEPLUGIN_INIT= preference setting.
+   * Customisation via the =TINYMCEPLUGIN_INIT= preference has been improved. [[TinyMCEPlugin#UpgradeFrom01x00][Read the upgrade advice]] if you are upgrading a Foswiki installation which uses a custom =TINYMCEPLUGIN_INIT= preference setting.
 
 ---+++ Testing configuration variables in %IF
-Prior to 1.1, %IF could be used to test the value of any configuration variable (those defined in =configure=). This represented a security risk, so now only those variables listed in ={AccessibleCFG}= may be accessed this way. Note that ={AccessibleCFG}= also controls which variables are visible in =%SEARCH{type="query"= and the new =%QUERY= macro.
+Prior to 1.1, =%<nop>IF= could be used to test the value of any configuration variable (those defined in =configure=). This represented a security risk, so now only those variables listed in ={AccessibleCFG}= may be accessed this way. Note that ={AccessibleCFG}= also controls which variables are visible in =%SEARCH{type="query"= and the new =%<nop>QUERY= macro.
 
 ---+++ "Copy topic" now copies attachments
 The "Copy Topic" function in "More topic actions" now copies attachments as well as the topic text and form.

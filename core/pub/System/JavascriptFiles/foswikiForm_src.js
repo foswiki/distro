@@ -21,22 +21,18 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
 
-Based on code written by:
-  Matthew Eernisse (mde@fleegix.org),
-  Mark Pruett (mark.pruett@comcast.net),
-  Craig Anderson (craig@sitepoint.com)
-
-Original js filename: formdata2querystring.js (Version 1.3)
-
 */
 
 /**
- * Requires foswikiCSS.js and foswikiString.js
+ * Support for JS control of fields in an HTML form.
+ * Based on code written by:
+ *   Matthew Eernisse (mde@fleegix.org),
+ *   Mark Pruett (mark.pruett@comcast.net),
+ *   Craig Anderson (craig@sitepoint.com)
+ * Original js filename: formdata2querystring.js (Version 1.3)
+ *
+ * Requires foswikilib, foswikiCSS.js and foswikiString.js
  */
-
-var foswiki;
-if (foswiki == undefined)
-    foswiki = {};
 
 foswiki.Form = {
 	
@@ -255,3 +251,18 @@ foswiki.Form = {
 		foswiki.CSS.addClass(el, "foswikiInputFieldBeforeFocus");
 	}
 };
+
+if (typeof jQuery != "undefined") {
+    jQuery(document).ready(
+        function($) {
+            // Controls for the "check all" buttons in the rename screen
+            $(".foswikiCheckAllOn").click(
+                function(e) {
+                    $(".foswikiGlobalCheckable").attr("checked", "checked");
+                });
+            $(".foswikiCheckAllOff").click(
+                function(e) {
+                    $(".foswikiGlobalCheckable").removeAttr("checked");
+                });
+        });
+}

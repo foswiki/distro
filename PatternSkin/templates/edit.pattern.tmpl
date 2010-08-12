@@ -8,8 +8,8 @@
 
 %TMPL:DEF{"script:skintemplate:edit"}%%TMPL:P{"PatternSkin/pattern_edit"}%
 %ADDTOZONE{"body" tag="edit.pattern.tmpl" text="<script type=\"text/javascript\">
-foswiki.Event.addLoadEvent(initForm);
-</script>" requires="JavascriptFiles/foswikilib,PatternSkin/pattern_edit"}%%TMPL:END%
+jQuery(document).ready(function($) { foswiki.Edit.initForm() });
+</script>" requires="JQUERYPLUGIN"}%%TMPL:END%
 
 
 %TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="edithelp" mode="div" remember="on" showlink="&#9658; %MAKETEXT{"Edit help"}%" hidelink="&#9660; %MAKETEXT{"Edit help"}%" linkclass="foswikiButton patternTwistyButton"}%</div><!--//patternTop-->%TMPL:END%

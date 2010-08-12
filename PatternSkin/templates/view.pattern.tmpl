@@ -6,10 +6,9 @@
 
 %TMPL:DEF{"bodyclassname"}%patternViewPage%IF{"defined raw" then=" patternRawViewPage"}%%TMPL:END%
 
-%TMPL:DEF{"script:skintemplate"}%%IF{"defined raw" then='%TMPL:P{"script:skintemplate:viewraw"}%'}%%TMPL:END%
+%TMPL:DEF{"script:skintemplate"}%%IF{"defined raw" then="$percntTMPL:P{$quotscript:skintemplate:viewraw$quot}$percnt"}%%TMPL:END%
 
-%TMPL:DEF{"script:skintemplate:viewraw"}%%TMPL:P{"JavascriptFiles/foswikiPref"}%
-%TMPL:P{"PatternSkin/pattern_edit"}%%TMPL:END%
+%TMPL:DEF{"script:skintemplate:viewraw"}%%TMPL:P{"JavascriptFiles/foswikiPref"}%%TMPL:P{"PatternSkin/pattern_edit"}%%TMPL:END%
 
 %{ DEPRECATED: formattop, formatbottom, attachmentsattop and attachmentsatbottom }%
 %{ compatibility transition older than 4.2: }%

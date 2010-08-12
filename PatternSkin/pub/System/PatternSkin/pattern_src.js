@@ -1,119 +1,107 @@
-var Pattern = {
 
-	metaTags:[],
-	searchResultsCount:0,
-	
-	createActionFormStepSign:function(el) {
-		var newEl = foswiki.HTML.insertBeforeElement(
-			el,
-			'span',
-			'&#9658;'
-		);
-		newEl.className = 'foswikiActionFormStepSign';
-	},
+jQuery(document).ready(
+    function ($) {
+        // Mark a form step with a hoopy styled character
+        $(".foswikiFormStep h3").each(
+            function(index, el) {
+                $(el).before(
+                    '<span class="foswikiActionFormStepSign">&#9658;</span>'
+                    );
+            });
 
-	/**
-	Creates a attachment counter in the attachment table twisty.
-	*/
-	setAttachmentCount:function(inAttachmentContainer) {		
-		
-		var headers = foswiki.getElementsByClassName(inAttachmentContainer, 'patternAttachmentHeader', 'h3');
-		if (headers != undefined) {
-			var count = inAttachmentContainer.getElementsByTagName("tr").length - 1;
-			var countStr = " " + "<span class='patternSmallLinkToHeader'>" + ' '  + count + "<\/span>";
-			if (headers[0]) {
-				headers[0].innerHTML += countStr;
-			}
-			if (headers[1]) {
-				headers[1].innerHTML += countStr;
-			}
-		}
-	},
-	
-	addSearchResultsCounter:function(el) {
-		var count = foswiki.HTML.getHtmlOfElement(el);
-		Pattern.searchResultsCount += parseInt(count);
-	},
-	
-	displayTotalSearchResultsCount:function(el) {
-		// write result count
-		if (Pattern.searchResultsCount != 0) {
-			var text = " " + TEXT_NUM_TOPICS + " <b>" + Pattern.searchResultsCount + " <\/b>";
-			foswiki.HTML.setHtmlOfElement(el, text);
-		}
-	},
-	
-	displayModifySearchLink:function() {
-		var linkContainer = document.getElementById('foswikiModifySearchContainer');
-		if (linkContainer != null) {
-			if (Pattern.searchResultsCount > 0) {
-				var linkText=' <a href="#" onclick="location.hash=\'foswikiSearchForm\'; return false;"><span class="foswikiLinkLabel foswikiSmallish">' + TEXT_MODIFY_SEARCH + '</span></a>';
-				foswiki.HTML.setHtmlOfElement(linkContainer, linkText);
-			}
-		}
-	}
-}
+        $("input#jumpFormField")
+            .each(
+                function(index, el) {
+                    foswiki.Form.initBeforeFocusText(
+                        el, foswiki.getMetaTag('TEXT_JUMP'));
+                })
+            .focus(
+                function() {
+                    foswiki.Form.clearBeforeFocusText(this);
+                })
+            .blur(
+                function() {
+                    foswiki.Form.restoreBeforeFocusText(this);
+                });
 
-var patternRules = {
-	'.foswikiFormStep h3' : function(el) {
-		Pattern.createActionFormStepSign(el);
-	},
-	'input#jumpFormField' : function(el) {
-		foswiki.Form.initBeforeFocusText(el,TEXT_JUMP);
-		el.onfocus = function() {
-			foswiki.Form.clearBeforeFocusText(this);
-		}
-		el.onblur = function() {
-			foswiki.Form.restoreBeforeFocusText(this);
-		}
-	},
-	'input#quickSearchBox' : function(el) {
-		foswiki.Form.initBeforeFocusText(el,TEXT_SEARCH);
-		el.onfocus = function() {
-			foswiki.Form.clearBeforeFocusText(this);
-		}
-		el.onblur = function() {
-			foswiki.Form.restoreBeforeFocusText(this);
-		}
-	},
-	'.foswikiAttachments' : function(el) {
-		Pattern.setAttachmentCount(el);
-	},
-	'body.patternEditPage' : function(el) {
-		foswiki.Event.addLoadEvent(initForm, false); // call after Behaviour
-	},
-	'.foswikiSearchResultCount span' : function(el) {
-		Pattern.addSearchResultsCounter(el);
-	},
-	'#foswikiNumberOfResultsContainer' : function(el) {
-		Pattern.displayTotalSearchResultsCount(el);
-	},
-	'form#foswikiWebSearchForm':function(el) {
-		Pattern.displayModifySearchLink();
-	},
-	'a.foswikiPopUp':function(el) {
-		el.onclick = function() {
-			foswiki.Window.openPopup(el.href, {template:"viewplain"});
-			return false;
-		}
-	},
-	'input.foswikiFocus':function(el) {
-		el.focus();
-	},
-	'input.foswikiChangeFormButton':function(el) {
-		el.onclick = function() {
-			suppressSaveValidation();
-		}
-	}
-};
-Behaviour.register(patternRules);
+        $('input#quickSearchBox')
+            .each(
+                function(index, el) {
+                    foswiki.Form.initBeforeFocusText(el,
+                        foswiki.getMetaTag('TEXT_SEARCH'));
+                })
+            .focus(
+                function() {
+                    foswiki.Form.clearBeforeFocusText(this);
+                })
+            .blur(
+                function() {
+                    foswiki.Form.restoreBeforeFocusText(this);
+                });
 
-var initForm; // in case initForm is not defined (f.e. when TinyMCE is used and foswiki_edit.js is not loaded
-var TEXT_JUMP = foswiki.getMetaTag('TEXT_JUMP');
-var TEXT_SEARCH = foswiki.getMetaTag('TEXT_SEARCH');
-var TEXT_NUM_TOPICS = foswiki.getMetaTag('TEXT_NUM_TOPICS');
-var TEXT_MODIFY_SEARCH = foswiki.getMetaTag('TEXT_MODIFY_SEARCH');
-var SCRIPTURLPATH = foswiki.getMetaTag('SCRIPTURLPATH');
-var SCRIPTSUFFIX = foswiki.getMetaTag('SCRIPTSUFFIX');
-var WEB = foswiki.getMetaTag('WEB');
-var TOPIC = foswiki.getMetaTag('WEBTOPIC');
+        // Create an attachment counter in the attachment table twisty.
+        $('.foswikiAttachments')
+            .each(
+                function(index, el) {
+	                var count = $(el).children('tr').length - 1;
+                    var countStr = " <span class='patternSmallLinkToHeader'> "
+                        + count + "<\/span>";
+                    $(el).children('.patternAttachmentHeader h3').each(
+                        function(index, el) {
+                            $(el).append(countStr);
+                        });
+                }
+            );
+
+        var searchResultsCount = 0;
+
+        // Search page handling
+        $('.foswikiSearchResultCount span').each(
+            function(index, el) {
+                searchResultsCount += parseInt(el.innerHTML);
+            });
+
+        if (searchResultsCount > 0) {
+            $('#foswikiNumberOfResultsContainer').each(
+                function(index, el) {
+                    // write result count
+                    var text = " " + foswiki.getMetaTag('TEXT_NUM_TOPICS') +
+                        " <b>" + searchResultsCount + " </b>";
+                    el.innerHTML = text;
+                });
+
+            if ($('form#foswikiWebSearchForm').length) {
+                $('#foswikiModifySearchContainer').each(
+                    function(index, el) {
+                        el.innerHTML =
+                            ' <a href="#"><span class="foswikiLinkLabel foswikiSmallish">'
+                            + foswiki.getMetaTag('TEXT_MODIFY_SEARCH')
+                            + '</span></a>';
+                        $(el).children('a').click(
+                            function(e) {
+                                this.location.hash = 'foswikiSearchForm';
+                                return false;
+                            });
+                    });
+            }
+        }
+
+        $('a.foswikiPopUp').click(
+            function(e) {
+//                foswiki.Window.openPopup(this.href, {template:"viewplain"});
+                return false;
+            });
+
+        $('input.foswikiFocus').each(
+            function(index, el) {
+                el.focus();
+            });
+
+        $('input.foswikiChangeFormButton').click(
+            function(e) {
+                suppressSaveValidation();
+            });
+
+		if (foswiki && foswiki.Edit)
+            foswiki.Edit.initForm();
+	});

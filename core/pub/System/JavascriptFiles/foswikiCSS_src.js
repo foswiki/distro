@@ -22,10 +22,10 @@ Author: Arthur Clemens
 
 */
 
-var foswiki;
-if (foswiki == undefined)
-    foswiki = {};
-
+/**
+ * Functions for manipulating class attributes.
+ * Requires: foswikilib
+ */
 foswiki.CSS = {
     
 	/**
@@ -110,8 +110,6 @@ foswiki.CSS = {
 	},
     
     // PRIVATE
-    // See: foswiki.Array.indexOf
-    // Function copied here to prevent extra dependency on foswiki.Array.
 	_indexOf:function(inArray, el) {
 		if (!inArray || inArray.length == undefined) return null;
 		var i, ilen = inArray.length;
