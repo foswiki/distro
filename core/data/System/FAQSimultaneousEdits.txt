@@ -4,7 +4,7 @@ Foswiki allows multiple simultaneous edits of the same topic, and then merges th
 
 Foswiki will warn if you attempt to edit a topic that someone else is editing. It will also warn if a merge was required during a save.
 
-%META:FORM{name="BasicForm"}%
+%META:FORM{name="FAQForm"}%
 %META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="SimultaneousEdits" to="FaqSimultaneousEdits"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="How simultaneous edits are handled in Foswiki"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%

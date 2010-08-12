@@ -1,7 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107572800" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
----+ Comment box with !CommentPlugin 
-
 The CommentPlugin allows users to quickly post comments to a page without an edit/preview/save cycle. 
 
 Write =%<nop>COMMENT{ attributes }%= or simply =%<nop>COMMENT%= anywhere in a Foswiki topic.
@@ -13,4 +11,6 @@ Example:
 
 [[CommentPlugin][More Information...]]
 
-[[TipsOfTheDay][See More Tips...]]
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Comment box with !CommentPlugin"}%

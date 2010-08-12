@@ -1,7 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107572937" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
----+ !SpreadSheetPlugin for dynamic content
-
 Over 60 formulae are available through the SpreadSheetPlugin.
 
 For Example:
@@ -24,4 +22,6 @@ to get:
 
 [[SpreadSheetPlugin][More Information...]]
 
-[[TipsOfTheDay][See More Tips...]]
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="!SpreadSheetPlugin for dynamic content"}%

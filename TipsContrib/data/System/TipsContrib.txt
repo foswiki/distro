@@ -37,12 +37,13 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 
 ---++ Contrib Info
 
-|  Copyright  | Copyright (C) 2005-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  |
+|  Copyright  | Copyright (C) 2010 [[ProjectContributor][Foswiki Contributors]]<br/>\
+                Copyright (C) 2005-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  31 Jul 2010: | Foswikitask:Item9415 - Documentation updates |
+|  07 Aug 2010: | Foswikitask:Item9415 - Documentation updates; converted to use DataForms |
 |  14 Apr 2010: | Fix the "Add tip for plugin" form; Fix styles; Set correct parent on a new custom tip |
 |  16 Dec 2008: | Foswiki version |
 |  04 Jan 2007: | Performance improvement |

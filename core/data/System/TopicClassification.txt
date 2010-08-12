@@ -4,3 +4,4 @@
 | FrequentlyAskedQuestion |
 | SupplementalDoc |
 | AdminTopic |
+| TipOfTheDay |

@@ -4,7 +4,7 @@ The same topic revision will be used when you save a topic again within a certai
 
 %SYSTEMWEB%.PatternSkin offers the ability to [[ForceNewRevision][force a new revision]] during save.
 
-%META:FORM{name="BasicForm"}%
+%META:FORM{name="FAQForm"}%
 %META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="EditDoesNotIncreaseTheRevision" to="FaqEditDoesNotIncreaseTheRevision"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Explanation of Foswiki's =repRev= feature"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%

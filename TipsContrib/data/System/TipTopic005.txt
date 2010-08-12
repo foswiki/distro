@@ -1,7 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107569013" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
----+ Re-parenting a topic
-
 The breadcrumb displayed with a particular Foswiki topic is constructed with a topic's *Parent*. On the footer to each page there is a link called *More*.  Within this page there is a topic action that will allow you to select a new parent for the page. 
 
 To re-parent a page:
@@ -11,4 +9,6 @@ To re-parent a page:
 
 You will notice that the breadcrumb will now reflect the new parent.
 
-[[TipsOfTheDay][See More Tips...]]
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Re-parenting a topic"}%

@@ -1,7 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107569291" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
----+ Linking to a file attachment
-
 One can create a link to a file attachment using one of the =%<nop>ATTACHURL%= or =%<nop>PUBURL%= macros.
 
 =%<nop>ATTACHURL%= is the full URL for attachments in the current topic. For example:
@@ -12,4 +10,6 @@ To link to a file attachment in another topic, use the =%<nop>PUBURL%= macro.  F
 
 =%<nop>PUBURL%/%<nop>WEB%/OtherTopic/image.gif=
 
-[[TipsOfTheDay][See More Tips...]]
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Linking to a file attachment"}%

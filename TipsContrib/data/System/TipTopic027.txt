@@ -1,12 +1,11 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107573410" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
----+ Custom rendered bullets
-
 The RenderListPlugin can render bulleted lists in a variety of different ways. 
 
 Use =%<nop>RENDERLIST{ parameters }%= before any bulleted list.
 
 [[RenderListPlugin][More Information...]]
 
-[[TipsOfTheDay][See More Tips...]]
-
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Custom rendered bullets"}%

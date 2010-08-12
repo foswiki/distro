@@ -8,7 +8,7 @@ Click on ==[Manage]== on the file in the FileAttachment table, then in the *Upda
 
 %H% *For system administrators*: To remove an attachment permanently move it to the Trash.<nop>TrashAttachment topic, then with file-level access, delete the file attachment and its =,v= repository file manually from =pub/Trash/TrashAttachment=.
 
-%META:FORM{name="BasicForm"}%
+%META:FORM{name="FAQForm"}%
 %META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="DeleteOrRenameAnAttachment" to="FaqDeleteOrRenameAnAttachment"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Deleting and renaming attachments"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%

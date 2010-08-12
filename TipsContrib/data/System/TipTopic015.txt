@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107570760" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
----+ Breadcrumb 
-
 The breadcrumb of a topic shows you page hierarchy. It is constructed using a topic's parent setting. 
 
-[[TipsOfTheDay][See More Tips...]]
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Breadcrumb"}%

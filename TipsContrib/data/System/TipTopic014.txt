@@ -1,7 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107570696" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
----+ File attachments
-
 One can attach files to any topic. The action of attaching a file to a topic is similar to attaching a file to an e-mail. The link to attach a file is located at the end of the topic. 
 
 Features:
@@ -12,5 +10,6 @@ Features:
    * "manage" link to see older revisions and to change properties
 
 [[FileAttachment][More Information...]]
-
-[[TipsOfTheDay][See More Tips...]]
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="File attachments"}%

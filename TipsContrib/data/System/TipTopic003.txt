@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107568683" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
----+ Raw Text link
-
 At the bottom of the page next to *Edit* and *Attach*, there is a *Raw Text* link that allows one to easily see how the Foswiki topic looks in its raw form. This allows you to see and copy raw text without the need to edit and lock a topic.
 
-[[TipsOfTheDay][See More Tips...]]
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Raw Text link"}%

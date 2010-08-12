@@ -1,7 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107569826" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
----+ Server side include
-
 To include the contents of a web page or Foswiki topic, use =%<nop>INCLUDE{"page"}%=.
 
 Examples:
@@ -9,4 +7,6 @@ Examples:
    * =%<nop>INCLUDE{"%SYSTEMWEB%.WebHome"}%=
    * =%<nop>INCLUDE{"WebHome"}%=
 
-[[TipsOfTheDay][See More Tips...]]
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Server side include"}%

@@ -1,7 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107572730" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
----+ Control table attributes with !TablePlugin
-
 The TablePlugin gives extra control of table display:
    * Allows sorting
    * Changing table properties like border width, cell spacing and cell padding
@@ -16,4 +14,6 @@ To change table characteristics place =%<nop>TABLE{...}%= before the table.
 
 [[TablePlugin][More Information...]]
 
-[[TipsOfTheDay][See More Tips...]]
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Control table attributes with !TablePlugin"}%

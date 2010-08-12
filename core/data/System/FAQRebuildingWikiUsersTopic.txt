@@ -48,7 +48,7 @@ Assuming your wiki is configured to use %SYSTEMWEB%.TopicUserMappingContrib, the
 <input type="submit" value="Update %USERSWEB%.<nop>WikiUsers"/> </form>
 </sticky>
 
-%META:FORM{name="System.BasicForm"}%
+%META:FORM{name="FAQForm"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Rebuilding WikiUsers topic"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="How can I re-build my %25USERSWEB%25.WikiUsers topic?"}%

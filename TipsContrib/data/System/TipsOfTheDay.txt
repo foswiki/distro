@@ -4,9 +4,16 @@
 
 These are all tips of the day. They are located in the %SYSTEMWEB% web (official distribution tips) and %USERSWEB% web (custom tips).
 
-%SEARCH{ "^[Custom]*TipTopic[0-9A-Z]" web="%SYSTEMWEB%, %MAINWEB%" topic="*TipTopic*" scope="topic" type="regex" casesensitive="on" nosearch="on" nototal="on" format="   * [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()   $summary(noheader, 100)$n()$percentCALC{$SETM(total, +1)}$percent"}%
-
-Total: %CALC{$GET(total)}% tips
+%SEARCH{
+    "form.name~'*TipOfTheDayForm'"
+    web="%SYSTEMWEB%, %MAINWEB%"
+    type="query"
+    nonoise="on"
+    header="$n()---++ Results from [[$web.WebHome][$web]] web"
+    format="   * [[$web.$topic][$formfield(TopicSummary)]]:
+    $summary(noheader, 100)"
+    footer="Total: $nhits tips"
+}%
 
 ---
 *See also:* [[TipsOfTheDayAdmin][Tips Of The Day Administration]]

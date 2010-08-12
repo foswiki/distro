@@ -5,16 +5,16 @@
 This is a real FAQ, and also a demo of an easily implemented knowledge-base solution. You may view the code for the <a class="twistyExpandAll" href="#CreatorCode">topic creator</a> or [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=on][raw text of the whole topic]] to see how it was done.
 %TWISTY{showlink="Summary of the pieces used..."}%
    * [[FAQTemplate]] is used to populate new FAQ topics with their default content
-   * [[BasicForm]] is the [[DataForms]] definition used on the FAQ topics. Also implements autocomplete function for the !RelatedTopics field
-   * [[BasicViewTemplate]] controls how BasicForm topics look when viewed
-   * [[BasicEditTemplate]] controls how BasicForm topics look when edited
-   * [[AutoViewTemplatePlugin]] activates BasicViewTemplate and BasicEditTemplate for topics that have BasicForm attached to them
+   * [[FAQForm]] is the [[DataForms]] definition used on the FAQ topics. Also implements autocomplete function for the !RelatedTopics field
+   * [[FAQViewTemplate]] controls how [[FAQForm]] topics look when viewed
+   * [[FAQEditTemplate]] controls how [[FAQForm]] topics look when edited
+   * [[AutoViewTemplatePlugin]] activates FAQViewTemplate and FAQEditTemplate for topics that have [[FAQForm]] attached to them
    * [[JQueryWikiWord]] "wikifies" the free-text Title field into a valid WikiWord topic name, prefixed with FAQ
    * [[JQueryTextboxList]] for autocomplete functionality on the !RelatedTopics field
    * [[VarJQREQUIRE][JQREQUIRE]] activates jQuery javascript plugins in the browser
    * [[VarADDTOZONE][ADDTOZONE]] inserts in-line javascript to the appropriate place in the rendered page
    * [[VarURLPARAM][URLPARAM]] is used to relay the autocomplete request from the web browser into a part of a [[VarSEARCH][SEARCH]] query
-   * [[VarSEARCH][SEARCH]] On this topic, displays all topics with BasicForm attached that have !TopicClassification set to =FrequentlyAskedQuestion=. In the BasicForm topic, [[VarSEARCH][SEARCH]] generates the suggested list of topics for a given autocomplete request
+   * [[VarSEARCH][SEARCH]] On this topic, displays all topics with [[FAQForm]] attached that have !TopicClassification set to =FrequentlyAskedQuestion=. In the [[FAQForm]] topic, [[VarSEARCH][SEARCH]] generates the suggested list of topics for a given autocomplete request
    * [[VarMAKETEXT][MAKETEXT]] will try to use a translation appropriate for the logged-in user's language preference for the string given to it
    * [[VarINCLUDE][INCLUDE]] allows topics to re-use content from other topics
    * [[VarSTARTSECTION][STARTSECTION]]/ENDSECTION allows [[VarINCLUDE][INCLUDE]] to include specific parts of a topic
@@ -29,7 +29,7 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
 %ENDTWISTY%
 
 %SEARCH{
-    "form.name~'*BasicForm' AND TopicClassification='FrequentlyAskedQuestion'"
+    "form.name~'*FAQForm'"
     type="query"
     nonoise="on"
     web="%SYSTEMWEB%,%USERSWEB%"

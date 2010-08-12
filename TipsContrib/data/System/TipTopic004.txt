@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107568818" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
----+ E-mail alert of topic changes
-
 Subscribing to WebNotify will enable Foswiki to send you details of changes made on topics in a certain web. You can choose to be notified of changes in an entire web or just a subset of topics in a web. Each web has its own WebNotify subscription. 
 
-[[TipsOfTheDay][See More Tips...]]
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="E-mail alert of topic changes"}%

@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107568431" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
----+ <nop>WebChanges to see recent activity
-
 Each Foswiki web has a WebChanges topic that lists recent activity from all editors of the web. This page can be useful when looking for recently contributed content of a colleague.
 
-[[TipsOfTheDay][See More Tips...]]
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="WebChanges to see recent activity"}%

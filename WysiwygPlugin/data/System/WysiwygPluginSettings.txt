@@ -2,7 +2,7 @@
 ---+ Settings for WysiwygPlugin that are common to most editor integrations
 %STARTINCLUDE%
 ---++++ WYSIWYG_EXCLUDE - Prevent WYSIWYG editing 
-%X% This is not supported currently by the !TinyMCE Editor.  This setting is not used.
+<blockquote class="foswikiHelp">%X% This is not supported currently by the !TinyMCE Editor.  This setting is not used.</blockquote>
 
 The *global* [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =WYSIWYG_EXCLUDE= can be set to make the plugin sensitive to what is in a topic, before allowing it to be edited. You can set it up to veto an edit if the topic contains:
    * =html= - HTML tags (e.g. =&lt;div&gt;=, not including &lt;br&gt;), or 
@@ -23,7 +23,8 @@ useful when you have styling or alignment information in tags that must be
 preserved.
 
 This [[%SYSTEMWEB%.PreferenceSettings][preference setting]] is used to tell the translator which attributes, when present
-on a tag, make it "stick" i.e. block conversion back to TML. <blockquote>For example, setting it to
+on a tag, make it "stick" i.e. block conversion back to TML.
+<blockquote class="foswikiHelp">%H% For example, setting it to
 =table=background,lang;tr=valign= will stop the translator from trying to
 convert any =table= tag that has =background= or =lang= attributes, and any
 =tr= tag that has a =valign= attribute back to Foswiki =| table | column |=
@@ -48,7 +49,7 @@ The default setting for this preference are hard coded in the plugin.  If you
 wish to change the settings, the following list is the default setting coded
 in the plugin:
 <pre class="tml">
-   * Set WYSIWYGPLUGIN_STICKYBITS = %INCLUDE{"%TOPIC%" section="WYSIWYG_STICKYBITS"}%
+&nbsp;&nbsp;&nbsp;* Set WYSIWYGPLUGIN_STICKYBITS = %INCLUDE{"%TOPIC%" section="WYSIWYGPLUGIN_STICKYBITS"}%
 </pre>%JQREQUIRE{"chili"}%<!--
 %STARTSECTION{"WYSIWYGPLUGIN_STICKYBITS"}%
         .*=id,lang,title,dir,on.*;
