@@ -7,12 +7,11 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 %TOC%
 
 ---++ Summary of Contents
-   * Set on =TipTopic= topics providing brief lessons on Foswiki features. See %SYSTEMWEB%.TipsTopics.
-   * Set of topics for creating and managing =TipTopicXXX= topics. See %SYSTEMWEB%.TipsOfTheDayAdmin.
+   * Set of =TipTopic= topics providing brief lessons on Foswiki features. See %SYSTEMWEB%.TipsOfTheDay.
+   * Set of topics for creating and managing =TipTopicXXX= topics. See %SYSTEMWEB%.TipsOfTheDay.
 
 ---++ Detailed Documentation
-   * See %SYSTEMWEB%.TipsOfTheDayAdmin for instructions on managing and displaying tips.
-   * See %SYSTEMWEB%.TipsOfTheDayAddNew for instructions for adding new custom tips.
+   * See %SYSTEMWEB%.TipsOfTheDay for instructions on adding, managing and displaying tips.
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -28,12 +27,9 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 
 ---++ Installation Instructions
 
-*Note:* You do not need to install anything on the browser to use this contrib package. The following instructions are for the administrator who installs the package on the server where Foswiki is running.
-
-   * Download the ZIP file from the Plugin web (see below)
-   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
-     | *File:* | *Description:* |
-     %$MANIFEST%
+%$INSTALL_INSTRUCTIONS%
+| *File:* | *Description:* |
+%$MANIFEST%
 
 ---++ Contrib Info
 

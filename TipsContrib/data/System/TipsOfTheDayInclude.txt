@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1167969723" format="1.0" version="$Rev$"}%
-%META:TOPICPARENT{name="TipsOfTheDayAdmin"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Tips Of the Day Include
 
 This Page randomly picks a _tip of the day_ to display. The %HOMETOPIC% includes the part between the horizontal rules.
@@ -23,4 +23,4 @@ This Page randomly picks a _tip of the day_ to display. The %HOMETOPIC% includes
 %STOPINCLUDE%
 
 ---
-*See also:* TipsOfTheDay, TipsOfTheDayAdmin
+*See also:* TipsOfTheDay
