@@ -34,6 +34,7 @@ When the following macros are used in a template topic, they automatically get e
 | =%<nop>GMTIME{...}%= | Formatted date/time. See VarGMTIME |
 | =%<nop>NOP%= | A no-operation macro that gets removed. Useful to prevent a SEARCH from hitting an edit template topic; also useful to escape a variable, such as =%<nop>URLPA%<nop>NOP%RAM{...}%= escaping URLPARAM |
 | =%<nop>STARTSECTION{type="templateonly"}%%BR%...%BR%%<nop>ENDSECTION{type="templateonly"}%= | Text that gets removed when a new topic based on the template topic is created. See notes below. |
+| =%<nop>STARTSECTION{type="expandvariables"}%%BR%...%BR%%<nop>ENDSECTION{type="expandvariables"}%= | All Foswiki macros in this section type are expanded when a new topic based on the template topic is created. Otherwise only the macros listed here are expanded. |
 | =%<nop>SERVERTIME%= | Date/time. See VarSERVERTIME |
 | =%<nop>SERVERTIME{...}%= | Formatted date/time. See VarSERVERTIME |
 | =%<nop>USERNAME%= | Login name of user who is instantiating the new topic, e.g. %USERNAME% |
@@ -41,6 +42,7 @@ When the following macros are used in a template topic, they automatically get e
 | =%<nop>WIKINAME%= | WikiName of user who is creating the new topic, e.g. <nop>%WIKINAME% |
 | =%<nop>WIKIUSERNAME%= | User name of user who is creating the new topic, e.g. <nop>%WIKIUSERNAME% |
 
+---+++ Macro notes:
 =%<nop>STARTSECTION{type="templateonly"}%%BR%...%BR%%<nop>ENDSECTION{type="templateonly"}%= markers are used to embed text that you _do not_ want expanded when a new topic based on the template topic is created. For example, you might want to write in the template topic:
 <pre>
 %<nop>STARTSECTION{type="templateonly"}%
@@ -52,7 +54,7 @@ This will restrict who can edit the template topic, but will get removed when a 
 
 =%<nop>NOP%= can be used to prevent expansion of [[macros]] that would otherwise be expanded during topic creation e.g. escape =%<nop>SERVERTIME%= with =%<nop>SER%<nop>NOP%VERTIME%=.
 
-All other macros are unchanged, e.g. are carried over "as is" into the new topic.
+All other macros are unchanged, e.g. are carried over "as is" into the new topic, _unless they are contained within a %<nop>STARTSECTION{type="expandvariables"}% section._
 
 ---++ Specifying a form
 When you create a new topic based on a template topic, you often want the new topic to have a form attached to it. You can attach a form to the template topic, in which case it will automatically be copied into the new topic.
