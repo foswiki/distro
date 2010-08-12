@@ -65,6 +65,7 @@ our $RELEASE;
 our $TRUE  = 1;
 our $FALSE = 0;
 our $engine;
+our $TranslationToken = "\0";  # Do not deprecate - used in many plugins
 
 # Note: the following marker is used in text to mark RENDERZONE
 # macros that have been hoisted from the source text of a page. It is
