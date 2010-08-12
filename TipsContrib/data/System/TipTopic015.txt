@@ -1,7 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107570760" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107570760" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
-The breadcrumb of a topic shows you page hierarchy. It is constructed using a topic's parent setting. 
+The breadcrumb of a topic shows you page hierarchy. It is constructed using a topic's parent setting; for example, the breadcrumb on this page looks like %META{"parent"}%
 
 %META:FORM{name="TipOfTheDayForm"}%
-%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Breadcrumb"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="HierarchicalNavigation, TipTopic005"}%

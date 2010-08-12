@@ -1,4 +1,5 @@
 data/System/SmiliesPlugin.txt 0644
+data/System/TipTopic1ForSmiliesPlugin.txt 0644
 lib/Foswiki/Plugins/SmiliesPlugin.pm 0444
 pub/System/SmiliesPlugin/biggrin.gif 0644
 pub/System/SmiliesPlugin/confused.gif 0644

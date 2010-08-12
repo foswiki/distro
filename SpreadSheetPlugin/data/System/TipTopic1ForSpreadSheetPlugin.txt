@@ -1,0 +1,26 @@
+%META:TOPICINFO{author="ProjectContributor" date="1107572937" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
+Over 80 formulae are available through the SpreadSheetPlugin.
+
+For Example:
+   * =$AVERAGE()=
+   * =$IF()=
+   * =$REPLACE()=
+   * =$TIME()=
+
+A formula can be placed anywhere in a topic, not just in tables.
+
+Example:
+
+To space out WikiWords, write: 
+%JQREQUIRE{"chili"}%<verbatim class="tml">%CALC{"$PROPERSPACE(WikiGuest)"}%</verbatim>
+*Result:*
+
+%CALC{"$PROPERSPACE(WikiGuest)"}%
+
+See [[SpreadSheetPlugin]] for more information
+
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="!SpreadSheetPlugin for dynamic content"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="SpreadSheetPlugin"}%

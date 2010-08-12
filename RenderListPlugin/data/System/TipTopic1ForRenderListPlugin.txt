@@ -1,0 +1,12 @@
+%META:TOPICINFO{author="ProjectContributor" date="1107573410" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
+RenderListPlugin can render bulleted lists in a variety of different ways. 
+
+Use =%<nop>RENDERLIST{ parameters }%= before any bulleted list.
+
+See [[RenderListPlugin]] for more information
+
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Custom rendered bullets"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="RenderListPlugin"}%

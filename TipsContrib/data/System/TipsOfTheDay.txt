@@ -9,10 +9,10 @@ These are all tips of the day. They are located in the %SYSTEMWEB% web (official
     web="%SYSTEMWEB%, %MAINWEB%"
     type="query"
     nonoise="on"
-    header="$n()---++ Results from [[$web.WebHome][$web]] web"
+    header="$n()---++ Tips in [[$web.WebHome][$web]] web"
     format="   * [[$web.$topic][$formfield(TopicSummary)]]:
     $summary(noheader, 100)"
-    footer="Total: $nhits tips"
+    footer="$nhits topic(s)$n"
 }%
 
 ---

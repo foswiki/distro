@@ -1,9 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107571155" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107571155" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 To embed a search in a topic, use the =%<nop>SEARCH{ &lt;parameters&gt; }%= macro. The search macro is used by many Foswiki based applications.
 
-[[Macros#VarSEARCH][More Information...]]
+See [[VarSEARCH]] for more information
 
 %META:FORM{name="TipOfTheDayForm"}%
-%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Inline search"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="VarSEARCH, FormattedSearch, QuerySearch"}%

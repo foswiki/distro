@@ -1,15 +1,13 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107569291" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107569291" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
-One can create a link to a file attachment using one of the =%<nop>ATTACHURL%= or =%<nop>PUBURL%= macros.
-
-=%<nop>ATTACHURL%= is the full URL for attachments in the current topic. For example:
-
-=%<nop>ATTACHURL%/image.gif=
-
-To link to a file attachment in another topic, use the =%<nop>PUBURL%= macro.  For example:
-
-=%<nop>PUBURL%/%<nop>WEB%/OtherTopic/image.gif=
+A link to a file attachment may be created in a few different ways:
+   1 If using the WYSIWYG editor (TinyMCEPlugin), use the attach (paperclip) toolbar button to select an attachment on the "Insert link to attachment" tab and then press the "Insert link" button
+   1 Use the =%<nop>ATTACHURL%= macro (see [[VarATTACHURL]]). This is the full URL for attachments in the current topic. For example:
+   %JQREQUIRE{"chili"}%<verbatim class="tml">%ATTACHURL%/image.gif</verbatim>
+   1 To link to a file attachment in another topic, use the =%<nop>PUBURL%= macro (see [[VarPUBURL]]).  For example: 
+   <verbatim class="tml">%PUBURL%/%WEB%/OtherTopic/image.gif</verbatim>
 
 %META:FORM{name="TipOfTheDayForm"}%
-%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Linking to a file attachment"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="TinyMCEPlugin, VarATTACHURL, VarPUBURL"}%

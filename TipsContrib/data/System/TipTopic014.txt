@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107570696" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107570696" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
-One can attach files to any topic. The action of attaching a file to a topic is similar to attaching a file to an e-mail. The link to attach a file is located at the end of the topic. 
+Files can be attached to any topic. The action of attaching a file to a topic is similar to attaching a file to an e-mail - use the *Attach* link in the footer of any topic viewed with the default PatternSkin. 
 
 Features:
    * Browse file to upload
@@ -9,7 +9,8 @@ Features:
    * Version control
    * "manage" link to see older revisions and to change properties
 
-[[FileAttachment][More Information...]]
+See [[FileAttachment]] for more information
 %META:FORM{name="TipOfTheDayForm"}%
-%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="File attachments"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="FileAttachment"}%

@@ -1,14 +1,17 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107569013" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107569013" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
-The breadcrumb displayed with a particular Foswiki topic is constructed with a topic's *Parent*. On the footer to each page there is a link called *More*.  Within this page there is a topic action that will allow you to select a new parent for the page. 
+The breadcrumbs ([[Contribs]] &gt; [[TipsContrib]] &gt; [[TipsOfTheDay]], for example) of any topic is constructed automatically in Foswiki by following the set topic parent. In the footer of a topic viewed with the default PatternSkin is a *More topic actions* link which will allow you to select a new parent for the page. 
 
-To re-parent a page:
-   1 Select a new topic from the list of topics to be the topic's parent
-   1 Click on the *Edit* button below the list of topics
-   1 Click on the *Save* button
+To re-parent a topic:
+   1 Click *More topic actions* on the topic you wish to re-parent
+   1 Navigate to *Set new topic parent*
+   1 Click *Pick from a list*
+   1 Select a new parent from the list
+   1 Click on the *Set new parent* button
 
 You will notice that the breadcrumb will now reflect the new parent.
 
 %META:FORM{name="TipOfTheDayForm"}%
-%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Re-parenting a topic"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="HierarchicalNavigation, MetaData"}%

@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1167690020" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1167690020" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
-Foswiki has four levels of preferences settings:
+Foswiki has several levels of preferences settings. See PreferenceSettings for a full list and more information:
    1 Site-level settings: %WIKIPREFSTOPIC%
       * Site name, proxy settings, access control, skin
    1 Web-level settings: located in each Web, e.g. %WEBPREFSTOPIC% topic
@@ -12,5 +12,6 @@ Foswiki has four levels of preferences settings:
 Preferences can be overridden by the next level down.
 
 %META:FORM{name="TipOfTheDayForm"}%
-%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Preference settings"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="PreferenceSettings"}%

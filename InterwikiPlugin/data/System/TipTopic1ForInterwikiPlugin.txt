@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1107571474" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
+The InterwikiPlugin automatically links =ExternalSite:Page= text to external sites based on aliases defined in the InterWikis topic. This enables flexible shortcuts to long URLs.
+
+See [[InterwikiPlugin]] for more information
+
+%META:FORM{name="TipOfTheDayForm"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="!InterwikiPlugin links"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="InterwikiPlugin, InterWikis"}%

@@ -1,12 +1,16 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107569826" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107569826" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 To include the contents of a web page or Foswiki topic, use =%<nop>INCLUDE{"page"}%=.
 
 Examples:
-   * =%<nop>INCLUDE{"http://www.google.com/"}%=
-   * =%<nop>INCLUDE{"%SYSTEMWEB%.WebHome"}%=
-   * =%<nop>INCLUDE{"WebHome"}%=
+%JQREQUIRE{"chili"}%<verbatim class="tml">
+%INCLUDE{"%SYSTEMWEB%.WebHome"}%
+%INCLUDE{"WebHome"}%
+</verbatim>
+This example requires ={INCLUDE}{AllowURLs}= enabled in [[%SCRIPTURLPATH{"configure"}%][configure]] (disabled by default for security reasons):
+<verbatim class="tml">%INCLUDE{"http://www.google.com/"}%</verbatim>
 
 %META:FORM{name="TipOfTheDayForm"}%
-%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipTopic"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Server side include"}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="VarINCLUDE"}%

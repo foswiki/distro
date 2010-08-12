@@ -67,9 +67,6 @@ data/System/AdminSkillsAssumptions.txt 0644
 data/System/AdminToolsCategory.txt 0644
 data/System/AppendixEncodeURLsWithUTF8.txt 0644
 data/System/AppendixCascadingStyleSheets.txt 0644
-data/System/BasicForm.txt 0644
-data/System/BasicEditTemplate.txt 0644
-data/System/BasicViewTemplate.txt 0644
 data/System/BeginnersStartHere.txt 0644
 data/System/BookView.txt 0644
 data/System/BumpyWord.txt 0644
@@ -92,8 +89,9 @@ data/System/FAQDeleteOrRenameATopic.txt 0644
 data/System/FAQDeleteOrRenameAnAttachment.txt 0644
 data/System/FAQDownloadSources.txt 0644
 data/System/FAQEditDoesNotIncreaseTheRevision.txt 0644
+data/System/FAQEditTemplate.txt 0644
+data/System/FAQForm.txt 0644
 data/System/FAQGnuGeneralPublicLicense.txt 0644
-data/System/FAQRebuildingWikiUsersTopic.txt 0644
 data/System/FAQSearchDoesNotWork.txt 0644
 data/System/FAQSimultaneousEdits.txt 0644
 data/System/FAQTemplate.txt 0644
