@@ -1,20 +1,20 @@
-%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1281421776" format="1.1" reprev="4" version="4"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+ Frequently Asked Questions
 
 This is a real FAQ, and also a demo of an easily implemented knowledge-base solution. You may view the code for the <a class="twistyExpandAll" href="#CreatorCode">topic creator</a> or [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=on][raw text of the whole topic]] to see how it was done.
-%TWISTY{showlink="Summary of the pieces used..." mode="div"}%
+%TWISTY{showlink="Summary of the pieces used..."}%
    * [[FAQTemplate]] is used to populate new FAQ topics with their default content
-   * [[FAQForm]] is the [[DataForms]] definition used on the FAQ topics. Also implements autocomplete function for the !RelatedTopics field
-   * [[FAQViewTemplate]] controls how [[FAQForm]] topics look when viewed
-   * [[FAQEditTemplate]] controls how [[FAQForm]] topics look when edited
-   * [[AutoViewTemplatePlugin]] activates FAQViewTemplate and FAQEditTemplate for topics that have [[FAQForm]] attached to them
+   * [[BasicForm]] is the [[DataForms]] definition used on the FAQ topics. Also implements autocomplete function for the !RelatedTopics field
+   * [[BasicViewTemplate]] controls how BasicForm topics look when viewed
+   * [[BasicEditTemplate]] controls how BasicForm topics look when edited
+   * [[AutoViewTemplatePlugin]] activates BasicViewTemplate and BasicEditTemplate for topics that have BasicForm attached to them
    * [[JQueryWikiWord]] "wikifies" the free-text Title field into a valid WikiWord topic name, prefixed with FAQ
    * [[JQueryTextboxList]] for autocomplete functionality on the !RelatedTopics field
    * [[VarJQREQUIRE][JQREQUIRE]] activates jQuery javascript plugins in the browser
    * [[VarADDTOZONE][ADDTOZONE]] inserts in-line javascript to the appropriate place in the rendered page
    * [[VarURLPARAM][URLPARAM]] is used to relay the autocomplete request from the web browser into a part of a [[VarSEARCH][SEARCH]] query
-   * [[VarSEARCH][SEARCH]] On this topic, displays all topics with [[FAQForm]] attached that have !TopicClassification set to =FrequentlyAskedQuestion=. In the [[FAQForm]] topic, [[VarSEARCH][SEARCH]] generates the suggested list of topics for a given autocomplete request
+   * [[VarSEARCH][SEARCH]] On this topic, displays all topics with BasicForm attached that have !TopicClassification set to =FrequentlyAskedQuestion=. In the BasicForm topic, [[VarSEARCH][SEARCH]] generates the suggested list of topics for a given autocomplete request
    * [[VarMAKETEXT][MAKETEXT]] will try to use a translation appropriate for the logged-in user's language preference for the string given to it
    * [[VarINCLUDE][INCLUDE]] allows topics to re-use content from other topics
    * [[VarSTARTSECTION][STARTSECTION]]/ENDSECTION allows [[VarINCLUDE][INCLUDE]] to include specific parts of a topic
@@ -24,10 +24,24 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
 
 ---++ List of FAQs
 %TWISTY{link="%BUTTON{"%MAKETEXT{"Create new FAQ topic"}%" icon="add" class="simple"}%%CLEAR%" mode="div"}%
+
 %INCLUDE{"%TOPIC%" section="creator"}%
 %ENDTWISTY%
+
+%SEARCH{
+    "form.name~'*BasicForm' AND TopicClassification='FrequentlyAskedQuestion'"
+    type="query"
+    nonoise="on"
+    web="%SYSTEMWEB%,%USERSWEB%"
+    format="   * $formfield(TopicSummary) [[$web.$topic][Answer]]"
+    header="$n$n<span class='foswikiAlert'>$ntopics</span> FAQs found in [[$web.WebHome][$web]] web$n$n"
+}%
+
+---++ More FAQs
+<blockquote class="foswikiHelp">%X% These topics are for frequently asked questions *including* answers; please ask support questions in the Foswiki:Support web.</blockquote>
+
 #CreatorCode
-%TWISTY{showlink="Show code..."}%%JQREQUIRE{"chili"}%
+%TWISTY{showlink="Show topic creator code..."}%%JQREQUIRE{"chili"}%
 <verbatim class="tml">
 %STARTSECTION{"creator"}%<!-- creator -->
 <form action="%SCRIPTURLPATH{"edit"}%/%USERSWEB%/" id='newfaqform'>
@@ -35,7 +49,7 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
 <input type="hidden" name="onlywikiname" value="on" />
 <input type="hidden" name="onlynewtopic" value="on" />
 <input type="hidden" name="templatetopic" value="%SYSTEMWEB%.FAQTemplate" />
-<input type="hidden" name="formtemplate" value="%SYSTEMWEB%.FAQForm" />
+<input type="hidden" name="formtemplate" value="%SYSTEMWEB%.BasicForm" />
 <input type="hidden" name="TopicClassification" value="FrequentlyAskedQuestion" />
 <input type="hidden" name="topic" class="jqWikiWord {source:'#faqsummary', prefix:'FAQ'}" />
 <input type="hidden" name="topicparent" value="%TOPIC%" />
@@ -45,7 +59,7 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
   </div>
   <div class="foswikiFormStep">
     <h3>%MAKETEXT{"Title"}%:</h3>
-    <input type="text" class="foswikiInputField" id="faqtitle" name="TopicTitle" size="32" />
+    <input type="text" class="foswikiInputField" id="faqsummary" name="TopicTitle" size="32" />
     <div class="foswikiFormDescription foswikiGrayText">
       Give this FAQ a descriptive title, e.g. "Explanation of ..." 
     </div>
@@ -67,20 +81,6 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
 <!-- //creator -->%ENDSECTION{"creator"}%
 </verbatim>
 %ENDTWISTY%
-
-
-%SEARCH{
-    "form.name~'*FAQForm'"
-    type="query"
-    nonoise="on"
-    web="%SYSTEMWEB%,%USERSWEB%"
-    header="$n()FAQs in [[$web.%HOMETOPIC%][$web]] web"
-    format="   * $formfield(TopicSummary) [[$web.$topic][Answer]]"
-    footer="$ntopics topic(s)$n"
-}%
-
----++ More FAQs
-<blockquote class="foswikiHelp">%X% These topics are for frequently asked questions *including* answers; please ask support questions in the Foswiki:Support web.</blockquote>
 
 ---++ More sources...
 

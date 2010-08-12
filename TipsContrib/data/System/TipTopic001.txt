@@ -1,8 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107568372" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107568372" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
-The go box (also called jump box) allows you to jump from page to page and search for documents.  If you do not know the entire name of the topic you are looking for, a partial name in the GoBox will perform a literal search. 
+---+ The Go Box as a browser
 
-%META:FORM{name="TipOfTheDayForm"}%
-%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
-%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="The Go Box as a browser"}%
-%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="PatternSkin, GoBox"}%
+The go box (also called jump box) is not only a tool to allow you to jump from page to page, you can use the Go Box to search for documents.  If you do not know the entire name of the Foswiki topic you are looking, partially putting in the topic name in the GoBox will result in a literal search in the Foswiki topics. 
+
+[[TipsOfTheDay][See More Tips...]]

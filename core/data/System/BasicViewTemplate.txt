@@ -1,11 +1,11 @@
 %META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="FAQForm"}%
+%META:TOPICPARENT{name="BasicForm"}%
 %{ Include the default view templates from your current SKIN and COVER paths
 
 }%%TMPL:INCLUDE{"view"}%%{
 
     Override the content template DEFinition. This normally just contains %TEXT%,
-    but we add some more here to help decorate all the [[FAQForm]] topics in the
+    but we add some more here to help decorate all the BasicForm topics in the
     same way
 
 }%%TMPL:DEF{"content"}%
@@ -23,6 +23,6 @@
 
     Re-define the form DEFinition to be empty; the contents of the from data
     have already been displayed above so it wouldn't make much sense to show all
-    that again at the bottom of each [[FAQForm]] topic
+    that again at the bottom of each BasicForm topic
 
 }%%TMPL:DEF{"form"}%%TMPL:END%

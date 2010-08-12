@@ -1,56 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107567165" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TipsOfTheDay"}%
-<div style="float: right; width: 15em;">
----+++ Focus Box Example
-%INCLUDE{"TipsOfTheDayInclude" warn="off" }%
-</div>
----++ List of Tips
-%SEARCH{
-    "form.name~'*TipOfTheDayForm'"
-    type="query"
-    nonoise="on"
-    web="%SYSTEMWEB%,%USERSWEB%"
-    header="$n()---+++ Tips in [[$web.WebHome][$web]] web"
-    format="   * [[$web.$topic][$formfield(TopicSummary)]]:
-        $summary(noheader, 100)"
-    footer="$ntopics topic(s)$n"
-}%
----++ Adminstrative Pages
-   * [[TipsOfTheDayInclude]] - This topic generates the random tip to display. It gets included into the focus box example.
-   * [[TipsOfTheDayTemplate]] - Template for new Tips
-%TWISTY{link="%BUTTON{"%MAKETEXT{"Create new Tip topic"}%" icon="add" class="simple"}%%CLEAR%" mode="div"}%
-%INCLUDE{"%TOPIC%" section="creator"}%
-%ENDTWISTY%
-<!-- <verbatim class="tml">
-%STARTSECTION{"creator"}%<!-- creator -->
-<form action="%SCRIPTURLPATH{"edit"}%/%USERSWEB%/" id='newtipform'>
-<input type="hidden" name="t" value="%GMTIME{"$epoch"}%" />
-<input type="hidden" name="onlywikiname" value="on" />
-<input type="hidden" name="onlynewtopic" value="on" />
-<input type="hidden" name="templatetopic" value="%SYSTEMWEB%.TipsOfTheDayTemplate" />
-<input type="hidden" name="formtemplate" value="%SYSTEMWEB%.TipOfTheDayForm" />
-<input type="hidden" name="TopicClassification" value="TipOfTheDay" />
-<input type="hidden" name="topic" value="TipTopicAUTOINC0" />
-<input type="hidden" name="topicparent" value="%TOPIC%" />
-<div class="foswikiFormSteps">
-  <div class="foswikiFormStep">
-    <h2>Create a new Tip topic</h2>
-  </div>
-  <div class="foswikiFormStep">
-    <h3>%MAKETEXT{"Summary"}%:</h3>
-    <input type="text" class="foswikiInputField" id="tipsummary" name="TopicSummary" size="32" value="" />
-    <div class="foswikiFormDescription foswikiGrayText">
-      Summarize the tip in a few simple words, e.g. "Use ... to ..."
-    </div>
-  </div>
-  <div class="foswikiFormStep foswikiFormButtons">
-    %BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" type="submit"}%
-    %CLEAR%
-  </div>
-</div>
-</form>
-%JQREQUIRE{"wikiword"}%
-<!-- //creator -->
-%ENDSECTION{"creator"}%
-</verbatim>
--->
+%META:TOPICINFO{author="ProjectContributor" date="1107567082" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="TipsContrib"}%
+---+ Tips Of The Day
+
+These are all tips of the day. They are located in the %SYSTEMWEB% web (official distribution tips) and %USERSWEB% web (custom tips).
+
+%SEARCH{ "^[Custom]*TipTopic[0-9A-Z]" web="%SYSTEMWEB%, %MAINWEB%" topic="*TipTopic*" scope="topic" type="regex" casesensitive="on" nosearch="on" nototal="on" format="   * [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()   $summary(noheader, 100)$n()$percentCALC{$SETM(total, +1)}$percent"}%
+
+Total: %CALC{$GET(total)}% tips
+
+---
+*See also:* [[TipsOfTheDayAdmin][Tips Of The Day Administration]]

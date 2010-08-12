@@ -1,8 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107569130" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107569130" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
-=%<nop>TOC%= automatically creates a table of contents based on the headings present in the topic. To exclude a heading from a =%<nop>TOC%= add =!!= to the end of the heading markup, e.g. write =---+!!= for a =---+= heading.
+---+ Creating a Table of Contents
 
-%META:FORM{name="TipOfTheDayForm"}%
-%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
-%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Creating a Table of Contents"}%
-%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="VarTOC"}%
+=%<nop>TOC%= will automatically create a table of contents for a topic based on the headers of the topic. To exclude a heading from a =%<nop>TOC%= add =!!= to the end of the syntax for a header, e.g. write =---+!!= for a =---+= heading.
+
+[[TipsOfTheDay][See More Tips...]]

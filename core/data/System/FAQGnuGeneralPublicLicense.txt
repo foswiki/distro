@@ -6,7 +6,7 @@ Foswiki is distributed under the GNU General Public License, see FAQDownloadSour
    * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
    * See the GNU General Public License for more details, published at http://www.gnu.org/copyleft/gpl.html
 
-%META:FORM{name="FAQForm"}%
+%META:FORM{name="BasicForm"}%
 %META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="GnuGeneralPublicLicense" to="FaqGnuGeneralPublicLicense"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Foswiki software license"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%

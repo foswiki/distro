@@ -1,10 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107570894" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107570894" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
-Skins overlay regular templates with alternate layouts (and styles). You can use Skins to change the look of a Foswiki topic, for example, the layout of the header and footer. Rendered text between header and footer does not change. You can also use Skins to define an alternate view, like a view optimized for printing.
+---+ Foswiki Skins 
+
+Skins overlay regular templates with alternate header/footer layouts. You can use Skins to change the look of a Foswiki topic, for example, the layout of the header and footer. Rendered text between header and footer does not change. You can also use Skins to define an alternate view, like a view optimized for printing.
 
 To see the installed [[Skins]], see SkinBrowser.
 
-%META:FORM{name="TipOfTheDayForm"}%
-%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
-%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Foswiki Skins "}%
-%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="[[Skins]], SkinBrowser, PatternSkin"}%
+[[TipsOfTheDay][See More Tips...]]

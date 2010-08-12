@@ -5,7 +5,7 @@ Foswiki is distributed under the GnuGeneralPublicLicense. You can get the source
    * Latest developments may be checked out from the svn repository at http://svn.foswiki.org
    * Review commits and browse the svn repository at http://trac.foswiki.org
 
-%META:FORM{name="FAQForm"}%
+%META:FORM{name="BasicForm"}%
 %META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="DownloadSources" to="FaqDownloadSources"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Get Foswiki"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%

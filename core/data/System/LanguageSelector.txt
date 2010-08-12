@@ -20,19 +20,19 @@ Result:
 
 <!-- <verbatim class="tml">
 %STARTSECTION{"selector"}%<form name="changeLanguage"\
-   action="%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%" method="get">
-   <select name="language" class="foswikiSelect"\
-      onchange="document.changeLanguage.submit()">
-   %LANGUAGES{
-      format="<option $marker value=\"$langtag\">$langname</option>"
-      selection="%LANGUAGE%"
-      separator=" "
-      marker="selected='selected'"
-   }%</select>
-   <input type="hidden" name="template" value="oopslanguagechanged" />
-   <noscript>
-      <input class="foswikiButton" type="submit"\
-         value="%MAKETEXT{"Change language"}%" />
-   </noscript>\
+    action="%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%" method="get">
+    <select name="language" class="foswikiSelect"\
+        onchange="document.changeLanguage.submit()">
+    %LANGUAGES{
+         format="<option $marker value=\"$langtag\">$langname</option>"
+         selection="%LANGUAGE%"
+         separator=" "
+         marker="selected=\"selected\""
+    }%</select>
+    <input type="hidden" name="template" value="oopslanguagechanged" />
+    <noscript>
+        <input class="foswikiButton" type="submit"\
+            value="%MAKETEXT{"Change language"}%" />
+    </noscript>
 </form>%ENDSECTION{"selector"}%
 </verbatim> -->

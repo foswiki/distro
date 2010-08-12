@@ -1,0 +1,16 @@
+%META:TOPICINFO{author="ProjectContributor" date="1119349748" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="TipsContrib"}%
+---+ Tips
+
+Tips are tips and hints contributed by users. Use this form to search for tips. You can contribute new tips [[TipsOfTheDayAddNew][here]].
+
+<form action="%SCRIPTURL%/view%SCRIPTSUFFIX%/%WEB%/%TOPIC%">
+Search (perl regular expression): <input name="searchfor" type="text" value="%URLPARAM{"searchfor" default="Enter search keywords here"}%" size="100" />
+</form>
+%SEARCH{ "%URLPARAM{"searchfor" encode="quote" default="search results go here"}%" topic="*TipTopic*" type="keyword" web="%SYSTEMWEB%, %USERSWEB%" format="   * [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()   $summary(noheader, 100)$n()$percentCALC{$SETM(total, +1)}$percent"}%
+
+Total: %CALC{$GET(total)}% tips
+
+---
+*See also:* [[TipsOfTheDayAdmin][Tips Of The Day Administration]]
+

@@ -44,7 +44,7 @@ When the following macros are used in a template topic, they automatically get e
 
 ---+++ Macro notes:
 =%<nop>STARTSECTION{type="templateonly"}%%BR%...%BR%%<nop>ENDSECTION{type="templateonly"}%= markers are used to embed text that you _do not_ want expanded when a new topic based on the template topic is created. For example, you might want to write in the template topic:
-%JQREQUIRE{"chili"}%<pre class="tml">
+<pre>
 %<nop>STARTSECTION{type="templateonly"}%
 This template topic can only be changed by:
    * Set <nop>ALLOWTOPICCHANGE = <nop>%USERSWEB%.AdminGroup
@@ -74,7 +74,7 @@ For some applications it is useful to be able to automatically generate unique t
    * =DocIDAUTOINC10001= - start with =DocID10001=, =DocID10002=, ... (sorts properly up to 99999; auto-links)
 
 Example link to create a new topic:%BR%
-<verbatim class="tml">
+<verbatim>
 [[%SCRIPTURLPATH{edit}%/%WEB%/BugIDAUTOINC00001?templatetopic=BugTemplate;topicparent=%TOPIC%;t=%SERVERTIME{"$day$hour$min$sec"}%][Create new item]]
 </verbatim>
 
@@ -93,7 +93,7 @@ Here is an example for creating new topics (in the Sandbox web) based on a speci
 
 The above form asks for a topic name. A hidden input tag named ==templatetopic== specifies ExampleTopicTemplate as the template topic to use. Here is the HTML source of the form:
 
-<pre class="tml">
+<pre>
 &lt;form name="new" action="%<nop>SCRIPTURLPATH{edit}%/Sandbox/" method="post"&gt;
    * New example topic:
      &lt;input type="text" name="topic" value="ExampleTopicAUTOINC0001" size="30" /&gt;
@@ -105,19 +105,17 @@ The above form asks for a topic name. A hidden input tag named ==templatetopic==
 &lt;/form&gt;
 </pre>
 
-<blockquote class="foswikiHelp"> *%X% Note:* You can create a topic in one step, without going through the edit screen. To do that, specify the =save= script instead of the =edit= script in the form action. When you specify the save script you must use the "post" method.
-
-*Example:*
-<pre class="tml">
+*%X% Note:* You can create a topic in one step, without going through the edit screen. To do that, specify the =save= script instead of the =edit= script in the form action. When you specify the save script you must use the "post" method. Example:
+<pre>
 &lt;form name="new" action="%<nop>SCRIPTURLPATH{save}%/Sandbox/" method="post"&gt;
     ...
 &lt;/form&gt;
-</pre></blockquote>
+</pre>
 
 See CommandAndCGIScripts#edit for details of the parameters that the =edit= script understands.
 
-<blockquote class="foswikiHelp">%T% You can use the =%<nop>WIKIUSERNAME%= and =%<nop>DATE%= macros in your template topics to include the signature of the person creating a new topic. The macros are expanded into fixed text when a new topic is created. The standard signature is: <br />
-==-- %<nop>WIKIUSERNAME% - %<nop>DATE%== </blockquote>
+%T% You can use the =%<nop>WIKIUSERNAME%= and =%<nop>DATE%= macros in your template topics to include the signature of the person creating a new topic. The macros are expanded into fixed text when a new topic is created. The standard signature is: <br />
+==-- %<nop>WIKIUSERNAME% - %<nop>DATE%==
 
 ---++ Using absolute vs relative URLs in templates
 

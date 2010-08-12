@@ -1,0 +1,27 @@
+%META:TOPICINFO{author="ProjectContributor" date="1107572937" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
+---+ !SpreadSheetPlugin for dynamic content
+
+Over 60 formulae are available through the SpreadSheetPlugin.
+
+For Example:
+   * =$AVERAGE()=
+   * =$IF()=
+   * =$REPLACE()=
+   * =$TIME()=
+
+A formula can be placed anywhere in a topic. not just in a Foswiki table.
+
+Example:
+
+To space out WikiWords, write: 
+
+=%<nop>CALC{"$PROPERSPACE(<nop>WikiGuest)"}%= 
+
+to get:
+
+=%CALC{"$PROPERSPACE(WikiGuest)"}%=
+
+[[SpreadSheetPlugin][More Information...]]
+
+[[TipsOfTheDay][See More Tips...]]

@@ -1,5 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107571231" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107571231" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
+---+ Commenting with hidden text
+
 To hide sections of a Foswiki topic, use HTML comments. 
 
 Example comment within a sentence:
@@ -7,14 +9,12 @@ Example comment within a sentence:
 =Visible &lt;!--- and hidden ---&gt; text=
 
 Example spanning multiple lines:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim>
 <!--
    * Useful to hide settings:
       * Set EXAMPLE = This is hidden
 -->
 </verbatim>
 
-%META:FORM{name="TipOfTheDayForm"}%
-%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
-%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Commenting with hidden text"}%
-%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="WikiSyntax, TextFormattingRules"}%
+
+[[TipsOfTheDay][See More Tips...]]

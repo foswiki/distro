@@ -20,14 +20,14 @@ Attributes are defined as a =TABLEATTRIBUTES= [[%SYSTEMWEB%.PreferenceSettings][
 Table attributes can be set in different ways. In top down order:
    1 As default preference in [[%SCRIPTURL{"configure"}%/#TablePlugin$Extensions][Configure]].
    1 As preference in a topic: =TABLEPLUGIN_TABLEATTRIBUTES=: =Set TABLEPLUGIN_TABLEATTRIBUTES = tableborder="0" cellpadding="1" ...=
-   1 As parameters to the =TABLE= macro: <pre class="tml">%<nop>TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%</pre>
+   1 As parameters to the =TABLE= macro: =%<nop>TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%=
 
 The preference =TABLEPLUGIN_TABLEATTRIBUTES = ...= competely overrides previous preferences (for example in <nop>%MAINWEB%.SitePreferences or Configure):
-%JQREQUIRE{"chili"}%<pre class="tml">
+<pre>
    * <nop>Set TABLEPLUGIN_TABLEATTRIBUTES = cellpadding="0" <span class="foswikiGrayText">&lt;&lt;&lt; this will remove previously set preferences and leave only 1 attribute</span>
 </pre>
 If you pass =%<nop>TABLE{...}%= parameters, you partially override previously set preferences:
-<pre class="tml">
+<pre>
    * %<nop>TABLE{datacolor="#f00"}% <span class="foswikiGrayText">&lt;&lt;&lt; this will only change the data color attribute</span>
 </pre>
 
@@ -38,7 +38,7 @@ The setting =disableallsort= is normally not used as a TABLE or TABLEATTRIBUTES 
 
 ---+++ Use of %<nop>TABLE{...}%
 
-Line before table: <pre class="tml">%<nop>TABLE{ sort="on" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" headerbg="#D5CCB1" headercolor="#666" databg="#FAF0D4, #F3DFA8" headerrows="2" footerrows="1" }%</pre>
+Line before table: =%<nop>TABLE{ sort="on" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" headerbg="#D5CCB1" headercolor="#666" databg="#FAF0D4, #F3DFA8" headerrows="2" footerrows="1" }%=
 
 %TABLE{ sort="on" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" headerbg="#D5CCB1" headercolor="#666" databg="#FAF0D4, #F3DFA8" headerrows="2" footerrows="1" }%
 | *Table with two Header Rows and Footer Row* ||||||
@@ -96,35 +96,35 @@ sort row. To sort by the first _footer_ row, set =headerrows="0"=.
 
 Table cells with a single caret indicate follow-up rows of multi-row spans. For example,
 
-<verbatim class="tml">
-| One One   | One Two | One Three   |
-| ^         | Two Two | Two Three   |
-| Three One | ^       | Three Three |
+<verbatim>
+| One One | One Two | One Three |
+| ^ | Two Two | Two Three |
+| Three One | ^ | Three Three |
 </verbatim>
 
 Results in:
-| One One   | One Two | One Three   |
-| ^         | Two Two | Two Three   |
-| Three One | ^       | Three Three |
+| One One | One Two | One Three |
+| ^ | Two Two | Two Three |
+| Three One | ^ | Three Three |
 
 ---+++ Col spans
 Col spans can be achieved by writing table cell separators without contents or spacing:
-<verbatim class="tml">
+<verbatim>
 %TABLE{tablerules="cols"}%
-| *Mammals*                     ||
+| *Mammals* ||
 | Monotremes | Echidna, Platypus |
-| Marsupials | Kangaroo, Koala   |
-| Placentals                    ||
-| Fish (to write)               ||
+| Marsupials | Kangaroo, Koala |
+| Placentals ||
+| Fish (to write) ||
 </verbatim>
 
 Results in:
 %TABLE{tablerules="cols"}%
-| *Mammals*                     ||
+| *Mammals* ||
 | Monotremes | Echidna, Platypus |
-| Marsupials | Kangaroo, Koala   |
-| Placentals                    ||
-| Fish (to write)               ||
+| Marsupials | Kangaroo, Koala |
+| Placentals ||
+| Fish (to write) ||
 
 ---++ <nop>%TOPIC% Global Settings
 
@@ -178,8 +178,7 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  11 Aug 2010 | 1.126: Paul Harvey: Foswikitask:Item9415 - added TML syntax highlighting to documentation |
-|  09 Aug 2010 | 1.125: Crawford Currie: Item8303: fixed sorting with multiple headers |
+|  9 Aug 2010 | 1.125: Crawford Currie: Item8303: fixed sorting with multiple headers |
 |  31 Jul 2010 | 1.124: Arthur Clemens: Added attribute =inlinemarkup= to optionally add HTML markup for better copy/pasting. |
 |  05 Apr 2010 | 1.123: New default colors. |
 |  13 Mar 2010 | 1.122: Arthur Clemens: Fixed sorting of columns with mixed data types: numbers, dates, strings, empty cells. |

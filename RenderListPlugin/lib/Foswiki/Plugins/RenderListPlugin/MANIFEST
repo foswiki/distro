@@ -1,5 +1,4 @@
 data/System/RenderListPlugin.txt 0644
-data/System/TipTopic1ForRenderListPlugin.txt 0644
 data/System/VarRENDERLIST.txt 0644
 lib/Foswiki/Plugins/RenderListPlugin.pm 0444
 pub/System/RenderListPlugin/doc.gif 0644

@@ -8,7 +8,7 @@ Frequently Asked Questions of the TinyMCEPlugin integration.
 
 ---++ Q: The editor takes over the standard edit screen. That's OK, but how do I get access to the old (textarea) editor?
 A: Foswiki has a 'Edit Wiki Text' link on most screens that gives you access to the plain text editor, so this question is moot. In addition to this there are three ways to temporarily disable !TinyMCE:
-   1 Add =;nowysiwyg=1= to the end of the edit URL to disable it for a single edit,
+   1 Add=;nowysiwyg=1= to the end of the edit URL to disable it for a single edit,
    2 =Set NOWYSIWYG = 1= in a web, topic, or personal preferences page to disable the editor for a web, topic or user,
    3 =Set WYSIWYG_EXCLUDE= as described in WysiwygPlugin to disable the editor subject to certain content (e.g. Foswiki macros, pure Code.HTML etc) being in the page. This can also be set on a web, topic, or personal basis.
 

@@ -1,5 +1,4 @@
 # Release manifest for TopicUserMappingContrib
-data/System/FAQRebuildingWikiUsersTopic.txt 0644 Documentation
 data/System/TopicUserMappingContrib.txt 0644 Documentation
 lib/Foswiki/Contrib/TopicUserMappingContrib.pm 0444 Perl module
 lib/Foswiki/Users/TopicUserMapping.pm 0444 Perl module

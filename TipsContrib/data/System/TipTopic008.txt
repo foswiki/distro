@@ -1,17 +1,16 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107569481" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107569481" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
+---+ Escaping Foswiki rendering
+
 Use the verbatim tag to surround code excerpts and other formatted text with =&lt;verbatim&gt;= and =&lt;/verbatim&gt;= tags. Each tag must be on a line by itself. 
 
 For Example:
 
-%JQREQUIRE{"chili"}%<verbatim class="tml">
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<pre>
+&lt;verbatim&gt;
 | *Header1* | *Header1* |
 | Data1     | Data2     |
-</verbatim>
-</verbatim>
+&lt;/verbatim&gt;
+</pre>
 
-%META:FORM{name="TipOfTheDayForm"}%
-%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="TipOfTheDay"}%
-%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="Escaping Foswiki rendering"}%
-%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="WikiSyntax, TextFormattingRules, JQueryChili"}%
+[[TipsOfTheDay][See More Tips...]]
