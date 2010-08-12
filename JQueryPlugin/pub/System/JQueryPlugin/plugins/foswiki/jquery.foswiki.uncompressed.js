@@ -150,5 +150,14 @@ if (foswiki.preferences === undefined) {
   for (var pref in mapping) {
     foswiki[mapping[pref]] = foswiki.getPreference(pref);
   }
-
+	
 })(jQuery);
+
+// document ready
+(function($) {$(function() {
+  if (true) { // set the MakeVisibles and MakeHiddens
+    $(".foswikiMakeVisible, .foswikiMakeVisibleInline").css("display", "inline");
+    $(".foswikiMakeVisibleBlock").css("display", "block");
+    $(".foswikiMakeHidden").css("display", "none");
+  }
+});}(jQuery));
