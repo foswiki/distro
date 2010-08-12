@@ -470,6 +470,10 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 .foswikiActionFormStepSign {
 	display:none;
 }
+.foswikiLast {
+	border-bottom:none;
+}
+
 .foswikiToc {
 	margin:1em 0;
 	padding:.3em 0 .6em 0;
