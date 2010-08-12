@@ -21,6 +21,10 @@ As per the GPL, removal of this notice is prohibited.
 */
 
 /**
+
+THIS FILE IS NO LONGER USED BY FOSWIKI. IT WILL BE REMOVED IN A
+FUTURE RELEASE.
+
  * Support for rename screen.
  */
 

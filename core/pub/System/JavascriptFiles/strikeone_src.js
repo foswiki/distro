@@ -262,14 +262,14 @@ if (typeof jQuery != "undefined") {
         if (document.getElementsByClassName != null) {
             var js_ok = document.getElementsByClassName('s1js_available');
             for (i = 0; i < js_ok.length; i++)
-                js_ok[i].style.display = 'inline';
+                js_ok[i].style.display = '';
         } else {
             // We *could* use the one in foswikilib.js, but that would mean
             // a dependency, plus it is less efficient than this.....
             var divs = document.getElementsByTagName('DIV');
             for (var i = 0; i < divs.length; i++) {
                 if (/\bs1js_available\b/.test(divs[i].className))
-                    divs[i].style.display = 'inline';
+                    divs[i].style.display = '';
             }
         }
         if (typeof oldonload == 'function')
