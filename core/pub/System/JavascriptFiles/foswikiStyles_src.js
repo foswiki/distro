@@ -20,11 +20,6 @@ As per the GPL, removal of this notice is prohibited.
 
 */
 
-// styles:javascript_affected
-document.write('<style type="text/css" media="all">'
-+ '.foswikiMakeVisible{display:inline;}'
-+ '.foswikiMakeVisibleInline{display:inline;}'
-+ '.foswikiMakeVisibleBlock{display:block;}'
-+ '.foswikiMakeHidden{display:none;}'
-+ '<\/style>');
-
+/*
+THIS FILE IS NO LONGER BEING USED
+*/
