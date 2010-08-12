@@ -9,7 +9,7 @@
 
    * Set WEBBGCOLOR = #FFD8AA
    * Set SITEMAPLIST = on
-   * Set WEBSUMMARY = Discover Foswiki details, and how to start your own site.
+   * Set WEBSUMMARY = Discover the details, and how to start your own site with Foswiki - The Free and Open Source Wiki.
 
 ---++ TOC settings
 

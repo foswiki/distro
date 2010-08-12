@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1138082878" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WebHome"}%
 <title>%WIKITOOLNAME%'s <nop>%WEB% web</title>
-<subtitle>The Sandbox Web of Foswiki. Foswiki is the Free and Open Source Wiki.</subtitle>
+<subtitle>%MAKETEXT{"The [_1] web of [_2]." args="<nop>%WEB%,<nop>%WIKITOOLNAME%"}% <nop>%WEBSUMMARY%</subtitle>
 %INCLUDE{"%SYSTEMWEB%.WebAtomBase"}% <!--
    * Set SKIN = rssatom
    * Set COVER = rssatom
