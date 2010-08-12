@@ -1,1 +1,0 @@
-/usr/local/src/git.foswiki.org/TipsContrib/data/System/TipOfTheDayEditTemplate.txt
