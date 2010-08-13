@@ -6,8 +6,12 @@
 _Special text strings expand on the fly to display user data or system info_
 
 Macros are text strings in one of two forms:
-   1 <verbatim class="tml">%MACRONAME%</verbatim>
-   1 %JQREQUIRE{"chili"}%<verbatim class="tml">%MACRONAME{ parameter="value" }%</verbatim>
+
+%JQREQUIRE{"chili"}%
+<verbatim class="tml">
+%MACRONAME%
+%MACRONAME{ parameter="value" }%
+</verbatim>
 
 These expand into content whenever a topic is rendered for viewing. There are two types of macros:
    1 [[PreferenceSettings][Preference settings]]: May be defined and modified by the user

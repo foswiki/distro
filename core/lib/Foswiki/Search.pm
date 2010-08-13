@@ -865,7 +865,8 @@ sub formatResults {
 
                 my $processedheader = $header;
 
-#because $pager contains more $ntopics like format strings, it needs to be expanded first.
+                # because $pager contains more $ntopics like format
+                # strings, it needs to be expanded first.
                 $processedheader =
                   $this->formatCommon( $processedheader, \%pager_formatting );
                 $processedheader =

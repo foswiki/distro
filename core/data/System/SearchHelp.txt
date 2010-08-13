@@ -4,17 +4,20 @@
 %STARTINCLUDE%
 <blockquote class="foswikiHelp">%T% %MAKETEXT{"TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal =\"web service\"=, but not =\"shampoo\"=, write:"}% =soap wsdl "web service" -shampoo= </blockquote>
 
-There are two search pages; WebSearch offers basic search features, while
-WebSearchAdvanced offers more control over searches.
+Foswiki has powerful features to support searching your content. At the
+most basic level, the WebSearch page offers interactive searching. The
+general overview here also applies to the incredibly useful
+[[VarSEARCH][SEARCH]] macro, that lets you embed custom searches in your
+own topics.
 
 %TOC%
 
----++ Entering a search
-By default searches are keyword based like in a typical search engine:
+---++ Keyword search
+By default searches are *keyword* based like in a typical search engine:
    * Specify word(s) you want to find
    * Multiple words form an *AND* search, =intranet web service= returns all pages that have the three words anywhere in the page
-   * Optionally specify plus signs for *AND* search, like =intranet +web +service=
-   * Enclose words in double quotes to form a *literal search*, like ="web service"=
+   * Optionally specify plus signs for an *AND* search, like =intranet +web +service=
+   * Enclose words in double quotes to perform a *literal search*, like ="web service"=
    * Specify a minus sign to *exclude* a word, like =soap -shampoo=
    * Use double quotes if you want to search for a leading minus sign, like ="-nowarn"=
    * *Stop words* are excluded from a keyword search:
@@ -27,10 +30,9 @@ Query searches help you search the contents of forms attached to your topics, as
 
 ---++ Regular expression search
 Regular expression search searches for a set of regular expression patterns:
-   * Patterns are separated by semicolons
-   * An AND search is performed for the list of patterns
-   * An exclamation point preceeding a pattern indicates an AND NOT search; use it to exclude a pattern, like =!web service=
-   * If you want to search for a semicolon or an exclamation point, escape them with a leading backslash, like =\!shampoo=
+   * Patterns are separated by semicolons. Semicolon means "AND*.
+   * An exclamation mark preceding a pattern indicates an AND NOT search; use it to exclude a pattern, like =!web service=
+   * If you want to search for a semicolon or an exclamation mark, escape them with a leading backslash, like =\!shampoo=
    * *Example:* To search for all topics that contain ="SOAP"=, ="WSDL"=, a literal ="web service"=, but not ="shampoo"=,%BR% enter this: =soap;wsdl;web service;!shampoo=
 
 ---++ Formatted Searches

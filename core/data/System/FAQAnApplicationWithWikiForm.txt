@@ -53,29 +53,29 @@ Title of article or book: %BR%
 <div class="foswikiFormStep">
 ---+++!! Create a query search   
 
-VarSEARCH has more information on creating searches.
-
 To list all topics that have a form named !ReadingForm:
 <verbatim class="tml">
 %SEARCH{
-type="query"
-"TestForm"
-nonoise="on"
-format="   * [[$web.$topic][$formfield(Title)]]"
+ type="query"
+ "form.name = 'ReadingForm'"
+ nonoise="on"
+ format="   * [[$web.$topic][$formfield(Title)]]"
 }%
 </verbatim>
 
-To list all topics where the author is named "Auden":
+To list all topics where the author name ends in "Auden":
 <verbatim class="tml">
 %SEARCH{
-type="query"
-"TestForm[name='Author'].value='Auden'"
-nonoise="on"
-format="   * [[$web.$topic][$formfield(Title)]]"
+ type="query"
+ "form.name = 'ReadingForm' AND Author ~ '*Auden'"
+ nonoise="on"
+ format="   * [[$web.$topic][$formfield(Title)]]"
 }%
 </verbatim>
 </div>
 </div>
+
+VarSEARCH has more information on creating searches.
 
 %META:FORM{name="BasicForm"}%
 %META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="AnApplicationWithWikiForm" to="FaqAnApplicationWithWikiForm"}%

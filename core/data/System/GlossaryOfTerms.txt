@@ -9,11 +9,10 @@
 | Macro | Text strings of the form =%<nop>MACRO{}%= that are expanded into text, images, or any other type of embedded content; there are _system macros_ coded into the core, and more can be defined by Plugins. See [[Macros][Details...]] |
 | Page | A rendered web page. A page is composed of the _template/skin_ decoration and _topic_ content. |
 | Plugin | Prepackaged server-side extension that adds all sorts of additional functions. [[Plugins][Details...]] |
-| Plugin API | The standard interface for creating _Plugins_ and add-on programs that ensure a perfect integration. [[DevelopingPlugins][Details...]] |
 | Preference | One of the site-wide, _web_ and single user-level [[%SYSTEMWEB%.PreferenceSettings][preference settings]] |
 | Site | An end-user installation accessible via the web. |
-| Skin Templates | Skins define the header/footer layout of _pages_; topic text is not affected. Skins are typically enabled site-wide or per _web_. [[Skins][Details...]] |
-| Template Topics | Set the default content for new _topics_. [[SkinTemplates][Details...]] |
+| Skin | Skins define the header/footer layout of _pages_; topic text is not affected. Skins are typically enabled site-wide or per _web_. [[Skins][Details...]] |
+| Template | [[Template Topics]] set the default content for new _topics_. [[Skin Templates]] define how pages are rendered |
 | Topic | The content of a Wiki _page_, consisting of text, an optional _form_ and optional _attachments_. It has a WikiName that's unique within its _web_. [[TopicsAndWebs][Details...]] |
 | Web | A collection of _topics_ under a common name. Various features, like search, access privileges, Plugin availability, template design, can be controlled on a web-wide basis. [[ManagingWebs][Details...]] |
 %STOPINCLUDE%

@@ -21,7 +21,8 @@ _Documentation for users._
       * [[TopicsAndWebs][Topics and Webs]]:An introduction to topics and webs
       * [[GlossaryOfTerms][Glossary Of Terms]]: A simple glossary of terms
       * [[FrequentlyAskedQuestions][Frequently Asked Questions]]: The first things people ask<p />
-      * Frequent users should also browse the full [[ReferenceManual][Reference Manual]]!
+   * *Full Reference*
+      * The full [[ReferenceManual][Reference Manual]] is always available.
 
 
    * *Help on [[Plugins]]*

@@ -129,6 +129,12 @@ Move unwanted Attachments to web =Trash=, topic =TrashAttachment=.
       1. ==[Edit]== topic and write text: =%<nop>ATTACHURL%/Smile.gif=
       1. ==[Preview]==: text appears as %ATTACHURL%/Smile.gif, an image.
 
+---++ Securing Attachments
+In most installations, attachments are not secured. Anyone can read them if they know the name of the web, topic and attachment.
+
+To secure attachments, you have to control access to the attachments through
+the =viewfile= script, which requires a change in your web server configuration. To see how to configure Apache to do this, see http://foswiki.org/Support/ApacheConfigGenerator#Attachments
+
 ---++ Examples
 Following you will find some examples of screens and tables related to this topic and referenced throughout the previous text. The appearance of these tables might vary, depending on what [[Skins][skin]] is used on your Foswiki installation.
 
@@ -179,12 +185,6 @@ Describe the file so other people know what it is.
 </div><!-- /foswikiFormStep--><div class="foswikiFormStep foswikiLast"><input type="submit" class="foswikiButton" name="changeproperties" value='Change comment and properties only' /></div><!-- /foswikiFormStep-->
 </div><!-- /foswikiFormSteps-->
 <a name="topic-actions"> </a><div class="patternTopicActions"><div class="patternTopicAction" style="margin-top:-1px;"><span class="patternActionButtons"> <input type="submit" class="foswikiSubmit" value='Upload file' /> or <a href="#FileAttachmentControls" title='Back to topic' accesskey='c' rel='nofollow'><span class='foswikiAccessKey'>C</span>ancel</a></span></div></div><!--/patternTopicActions-->
-
-
----++ Known Issues
-
-   * Unlike topics, attachments are not locked during editing. As a workaround, you can change the comment to indicate an attachment file is being worked on - the comment on the specific version isn't lost, it's there when you list all versions of the attachment.
-   * Attachments are not secured. Anyone can read them if they know the name of the web, topic and attachment.
 
 %ENDSECTION{"UserGuide"}%
 %STOPINCLUDE%

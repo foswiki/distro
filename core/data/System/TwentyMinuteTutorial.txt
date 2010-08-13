@@ -18,7 +18,8 @@ A Foswiki site is divided into webs; each one usually represents one area of col
    * Follow the WikiWord link and learn what it is.
 
    * If you know the name of a topic, you can jump directly to it by typing its name into the __Jump__ field on the top of a page. Type =WebSearch= to jump to the search page.
-   * You can search each web. Enter a search string into the __Search__ field on the top of a page. Foswiki searches for an exact match; optionally, you can also use RegularExpressions.
+   * You can search each web. Enter a search string into the __Search__ field on the top of a page. Foswiki searches for an exact match
+   * Advanced Search lets you select different search types, including database-style [[QuerySearch][Queries]] and even RegularExpressions.
 
 %T% Do not confuse the __Jump__ field with the __Search__ field.
 
@@ -33,7 +34,7 @@ To edit topics, you need to have a Foswiki account.
 ---++ 5. Test the page controls...
 The control strips at the top and/or bottom of the page have a collection of icons or links that allow you to take various actions. Different skins show different links, but most will have some or all of the following: 
 
-   * ==[Edit]== - edit an existing topic (discussed later) using an editor that resembles a normal text editor
+   * ==[Edit]== - edit an existing topic (discussed later)
    * ==[Attach]== - attach files to a topic (discussed later)
    * ==[Print version]== - goes to a stripped down version of the page, good for printing
    * ==[History]== - topics are under revision control - =History= shows you the complete change history of the topic, for example, who changed what and when

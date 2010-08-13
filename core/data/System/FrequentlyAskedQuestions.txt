@@ -23,27 +23,30 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
 %ENDTWISTY%
 
 ---++ List of FAQs
-%TWISTY{link="%BUTTON{"%MAKETEXT{"Create new FAQ topic"}%" icon="add" class="simple"}%%CLEAR%" mode="div"}%
-
-%INCLUDE{"%TOPIC%" section="creator"}%
-%ENDTWISTY%
-
+<!-- This search looks in the %SYSTEMWEB% and %USERSWEB% for FAQ topics, which
+ are recognised because they have the form 'BasicForm' and are classified
+ as type 'FrequentlyAskedQuestion' -->
 %SEARCH{
     "form.name~'*BasicForm' AND TopicClassification='FrequentlyAskedQuestion'"
     type="query"
     nonoise="on"
     web="%SYSTEMWEB%,%USERSWEB%"
     format="   * $formfield(TopicSummary) [[$web.$topic][Answer]]"
-    header="$n$n<span class='foswikiAlert'>$ntopics</span> FAQs found in [[$web.WebHome][$web]] web$n$n"
+    header="$n$n()FAQ topics found in [[$web.WebHome][$web]] web:$n$n"
 }%
 
 ---++ More FAQs
-<blockquote class="foswikiHelp">%X% These topics are for frequently asked questions *including* answers; please ask support questions in the Foswiki:Support web.</blockquote>
+You can create your own local FAQ topics specific to your site. If you create your own FAQs, please consider sharing them at Foswiki:Support.FAQ so that your work may benefit others.
 
-#CreatorCode
-%TWISTY{showlink="Show topic creator code..."}%%JQREQUIRE{"chili"}%
-<verbatim class="tml">
-%STARTSECTION{"creator"}%<!-- creator -->
+%X% These topics are for frequently asked questions *including* answers. Do *not* use this to ask support questions!
+
+%TWISTY{
+ link="%BUTTON{"%MAKETEXT{"Create new FAQ topic"}%"
+  icon="add"
+  class="simple"}%%CLEAR%"
+ mode="div"
+}%
+<!-- This is the form that implements the FAQ creator -->
 <form action="%SCRIPTURLPATH{"edit"}%/%USERSWEB%/" id='newfaqform'>
 <input type="hidden" name="t" value="%GMTIME{"$epoch"}%" />
 <input type="hidden" name="onlywikiname" value="on" />
@@ -77,19 +80,16 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
   </div>
 </div>
 </form>
-%JQREQUIRE{"wikiword"}%
-<!-- //creator -->%ENDSECTION{"creator"}%
-</verbatim>
 %ENDTWISTY%
+%JQREQUIRE{"wikiword"}%
 
 ---++ More sources...
 
 Other places where you can find answers to your questions:
 
    * More FAQs are available at Foswiki:Support.FAQ
-      <blockquote class="foswikiHelp">%H% If you create your own FAQs, please consider sharing them at Foswiki:Support.FAQ so that your work may benefit others.</blockquote>
    * CompleteDocumentation: All you need to know to install and configure Foswiki
    * TwentyMinuteTutorial: Get a jump start on using this wiki 
    * GoodStyle: Things to consider when changing text
    * WikiSyntax, TextFormattingRules: A quick one-two guide to Foswiki shorthand basics
-   * If you can't find an answer, ask a question - post it in the Foswiki:Support web
+   * If you can't find an answer, ask a question - post it in the Foswiki:Support web, or ask on IRC at irc://irc.freenode.net/foswiki

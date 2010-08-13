@@ -27,12 +27,3 @@ Some useful articles and books around collaboration and the Wiki technology in p
    * Book: The Knowing-Doing Gap: How Smart Companies Turn Knowledge into Action; by Jeffrey Pfeffer and Robert I. Sutton; Harvard Business School Pr; ISBN:1578511240
 
    * Book: Survival of the Smartest: Managing Information for Rapid Action and World-Class Performance; by Haim Mendelson, Johannes Ziegler; Wiley; ISBN:0471295604
-
----++ Extreme Programming
-
-   * Book: Extreme Programming Examined; by Giancarlo Succi and Michele Marchesi; Addison-Wesley Pub Co; ISBN:0201710404
-
-   * Book: Extreme Programming in Practice; by James W. Newkirk and Robert C. Martin; Addison-Wesley Pub Co; ISBN:0201709376
-
-   * Book: Extreme Programming Explored; by William C. Wake and Bill Wake; Addison-Wesley Pub Co; ISBN:0201733978
-
