@@ -7,7 +7,7 @@
 ---++ Appearance
 
    * Set WEBBGCOLOR = #FF0099
-   * Set WEBSUMMARY = Place for trashed topics and attachments.
+   * Set WEBSUMMARY = %MAKETEXT{"Place for trashed topics and attachments."}%
    * Set NOSEARCHALL = on
 
 ---++ Access control

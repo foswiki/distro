@@ -9,7 +9,7 @@
    * Set WEBBGCOLOR = #FFEFA6
       * web-specific background color, <span style='background-color: %WEBBGCOLOR%'> current color </span>
    * Set SITEMAPLIST = on
-   * Set WEBSUMMARY = Welcome to <nop>%WIKITOOLNAME% ... meet people on this site
+   * Set WEBSUMMARY = %MAKETEXT{"Welcome to [_1] ... meet people on this site" args="<nop>%WIKITOOLNAME%"}% 
 
 ---++ Wiki application settings
 

@@ -27,14 +27,14 @@ The WebRss topic in each web contains the following text:
 &lt;channel rdf:about="%<nop>SCRIPTURL{"view"}%/%<nop>BASEWEB%">
   &lt;title>%<nop>WIKITOOLNAME%'s &lt;nop>%<nop>BASEWEB% web&lt;/title>
   &lt;link>%<nop>SCRIPTURL{"view"}%/%<nop>BASEWEB%&lt;/link>
-  &lt;description>(the description of the web). Foswiki, the Free and Open-Source Wiki.&lt;/description>
+  &lt;description>&lt;literal>%<nop>MAKETEXT{"The [_1] web of [_2]." args="<nop>%<nop>WEB%,<nop>%<nop>WIKITOOLNAME%"}% <nop>%<nop>WEBSUMMARY%&lt;/literal>&lt;/description>
 %<nop>INCLUDE{"%SYSTEMWEB%.WebRssBase"}% &lt;!--
    * Set <nop>SKIN = rss
    * Set <nop>COVER = rss
 -->
 </pre>
 -----
-
+*Note:* The description is expanded from the %<nop>WEB%, %<nop>WIKITOOLNAME% and %<nop>WEBSUMMARY% macros.  These *must* expand to plain text with no links or html markup. &lt;literal> is used to avoid links if the web name or any of the macros expand to include WikiWords or other markup.
 
 The part below is included by each <nop>WebRss topic:
 

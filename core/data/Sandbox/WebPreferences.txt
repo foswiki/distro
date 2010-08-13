@@ -6,7 +6,7 @@
 ---++ Appearance
 
    * Set WEBBGCOLOR = #B9DAFF
-   * Set WEBSUMMARY = Sandbox test area to experiment in an unrestricted hands-on web. 
+   * Set WEBSUMMARY = %MAKETEXT{"Sandbox test area to experiment in an unrestricted hands-on web."}%
    * Set SITEMAPLIST = on
 
 ---++ Wiki application settings

@@ -9,7 +9,7 @@ There are several ways to find out what's new in each web:
    1. Subscribed in WebNotify get notified of recent changes by e-mail
    1. Use a news readers such as Foswiki:Extensions.HeadlinesPlugin to display the recent changes
       * The source can be a RSS 1.0 feed (WebRss) or ATOM 1.0 feed (WebAtom)
-      * Learn more at WebRssBase and Foswiki::Support.SupplementalDocuments
+      * Learn more at WebRssBase and Foswiki:Support.SupplementalDocuments
 
 ---++ ATOM Feed Usage
 
@@ -26,14 +26,14 @@ The WebAtom topic in each web contains the following text:
 -----
 <pre>
 &lt;title>&lt;nop>%<nop>WIKITOOLNAME%'s &lt;nop>%<nop>BASEWEB% web&lt;/title>
-&lt;subtitle>(the description of the web, plain text with no markup and no wikiwords). Foswiki is the Free and Open Source Wiki.&lt;/subtitle>
+&lt;subtitle>&lt;literal>%MAKETEXT{"The [_1] web of [_2]." args="<nop>%<nop>WEB%,<nop>%<nop>WIKITOOLNAME%"}% <nop>%<nop>WEBSUMMARY%&lt;/literal>&lt;/subtitle>
 %<nop>INCLUDE{"%<nop>SYSTEMWEB%.WebAtomBase"}% &lt;!--
    * Set <nop>SKIN = rssatom
    * Set <nop>COVER = rssatom
 --&gt;
 </pre>
 -----
-
+*Note:* The subtitle is expanded from the %<nop>WEB%, %<nop>WIKITOOLNAME% and %<nop>WEBSUMMARY% macros.  These *must* expand to plain text with no links or html markup. &lt;literal> is used to avoid links if the web name or any of the macros expand to include WikiWords or other markup.
 
 Below part is included by each <nop>WebAtom topic:
 

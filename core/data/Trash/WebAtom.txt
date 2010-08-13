@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 <title>%WIKITOOLNAME%'s <nop>%WEB% web</title>
-<subtitle>%MAKETEXT{"The [_1] web of [_2]." args="<nop>%WEB%,<nop>%WIKITOOLNAME%"}% <nop>%WEBSUMMARY%</subtitle>
+<subtitle><literal>%MAKETEXT{"The [_1] web of [_2]." args="<nop>%WEB%,<nop>%WIKITOOLNAME%"}% <nop>%WEBSUMMARY%</literal></subtitle>
 %INCLUDE{"%SYSTEMWEB%.WebAtomBase"}% <!--
    * Set SKIN = rssatom
    * Set COVER = rssatom
