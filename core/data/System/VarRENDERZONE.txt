@@ -23,11 +23,12 @@ Parameters:
    * =header="..."= optional, prepended to the output
    * =footer="..."= optional, appended to the output
    * =separator="..."= optional, put between each item of a zone
-Supports the [[FormatTokens][standard format tokens]] in the =format= and =separator= (but *not* in the =header= or =footer=).
+Supports the [[FormatTokens][standard format tokens]] in all parameters.
 
 __Notes:__
-   * =header= and =footer= are output irrespective of whether there is any
-     content in the zone or not.
+   * =header= and =footer= are *not* output if there is no content in the
+     zone (nothing has been ADDTOZONEd). However they *are* output if the
+     output is the empty string (at least one ADDTOZONE has been processed).
    * Zones are cleared after being rendered; they are only ever rendered once.
    * =head= and =body= are _automatic zones_. They don't require a
      corresponding =RENDERZONE= anywhere in the templates - they are

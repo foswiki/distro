@@ -13,7 +13,7 @@ Macros are text strings in one of two forms:
 %MACRONAME{ parameter="value" }%
 </verbatim>
 
-These expand into content whenever a topic is rendered for viewing. There are two types of macros:
+These usually expand into content when a topic is rendered for viewing. There are two types of macros:
    1 [[PreferenceSettings][Preference settings]]: May be defined and modified by the user
    1 Registered macros: Defined by the system or by Plugins (for example, the SpreadSheetPlugin introduces a =%<nop>CALC{}%= macro)
 

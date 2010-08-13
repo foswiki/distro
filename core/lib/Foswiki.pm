@@ -3316,12 +3316,6 @@ sub _renderZoneById {
     return _renderZone( $this, $zone, $params, $topicObject );
 }
 
-sub _getMissingRequiredZoneIDs {
-    my ($zoneID) = @_;
-
-    return join( ', ', @{ $zoneID->{missingrequires} } );
-}
-
 # This private function is used in ZoneTests
 sub _renderZone {
     my ( $this, $zone, $params, $topicObject ) = @_;
@@ -3333,10 +3327,10 @@ sub _renderZone {
     $params->{footer} ||= '';
     $params->{chomp}  ||= 'off';
     $params->{missingformat} =
-      'required id(s) that were missing from $zone zone: $missingids ';
-    $params->{format} = '$item <!--<literal> $id $missing</literal>-->'
+      '$id: requires= missing ids: $missingids';
+    $params->{format} = '$item<!--<literal>$missing</literal>-->'
       unless defined $params->{format};
-    $params->{separator} = '$n' unless defined $params->{separator};
+    $params->{separator} = '$n()' unless defined $params->{separator};
 
     unless ( defined $topicObject ) {
         $topicObject =
@@ -3385,15 +3379,17 @@ sub _renderZone {
         undef $this->{_zones}{$zone};
     }
 
+    # nothing rendered for a zone with no ADDTOZONE calls
+    return '' unless scalar(@total) > 0;
+
     my @result        = ();
     my $missingformat = $params->{missingformat};
     foreach my $item (@total) {
         my $text          = $item->{text};
-        my $missingids    = _getMissingRequiredZoneIDs($item);
-        my $missingformat = $params->{missingformat};
-        if ( not $missingids ) {
-            $missingformat = '';
-        }
+        my @missingids    = @{ $item->{missingrequires} };
+        my $missingformat = ( scalar(@missingids) )
+          ? $params->{missingformat} : '';
+
         if ( $params->{'chomp'} ) {
             $text =~ s/^\s+//g;
             $text =~ s/\s+$//g;
@@ -3405,21 +3401,24 @@ sub _renderZone {
         next unless $text;
         my $id = $item->{id} || '';
         my $line = $params->{format};
+        if (scalar(@missingids)) {
+            $line =~ s/\$missing\b/$missingformat/g;
+            $line =~ s/\$missingids\b/join(', ', @missingids)/ge;
+        } else {
+            $line =~ s/\$missing\b/\$id/g;
+        }
         $line =~ s/\$item\b/$text/g;
         $line =~ s/\$id\b/$id/g;
-        $line =~ s/\$missing\b/$missingformat/g;
-        $line =~ s/\$missingids\b/$missingids/g;
         $line =~ s/\$zone\b/$item->{zone}/g;
         $line = expandStandardEscapes($line);
         push @result, $line if $line;
     }
 
-    $params->{separator} = expandStandardEscapes( $params->{separator} );
-
     my $result =
-        $params->{header}
-      . join( $params->{separator}, @result )
-      . $params->{footer};
+        expandStandardEscapes(
+            $params->{header}
+              . join( $params->{separator}, @result )
+                . $params->{footer} );
 
     # delay rendering the zone until now
     $result = $topicObject->expandMacros($result);

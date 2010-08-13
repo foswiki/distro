@@ -277,7 +277,7 @@ sub test_13 {
     my $webName   = $this->{test_web};
 
     my $tml    = '%ADDTOZONE{zone="test" text="text" id="id"}%';
-    my $expect = "text <!-- id -->";
+    my $expect = "text<!--id-->";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result = $this->{session}->_renderZone("test");
@@ -352,14 +352,14 @@ sub test_Unoptimized_HEAD_merged_with_BODY {
 HERE
     my $expect = <<'HERE';
 HEAD:
-head::misc7 <!-- misc7 -->
-text2 <!-- head2 -->
-text1 <!-- head1 -->
-text4 <!-- body4 -->
-text3 <!-- body3 -->
-text6 <!-- body6 required id(s) that were missing from body zone: something-missing -->
-text5 <!-- head5 -->
-body::misc7 <!-- misc7 -->
+head::misc7<!--misc7-->
+text2<!--head2-->
+text1<!--head1-->
+text4<!--body4-->
+text3<!--body3-->
+text6<!--body6: requires= missing ids: something-missing-->
+text5<!--head5-->
+body::misc7<!--misc7-->
 BODY:
 HERE
     chomp($expect);
@@ -395,15 +395,15 @@ sub test_Optimized_HEAD_split_from_BODY {
 HERE
     my $expect = <<'HERE';
 HEAD:
-head::misc7 <!-- misc7 -->
-text2 <!-- head2 -->
-text1 <!-- head1 -->
-text5 <!-- head5 required id(s) that were missing from head zone: body4, body3, body6 -->
+head::misc7<!--misc7-->
+text2<!--head2-->
+text1<!--head1-->
+text5<!--head5: requires= missing ids: body4, body3, body6-->
 BODY:
-body::misc7 <!-- misc7 -->
-text4 <!-- body4 required id(s) that were missing from body zone: head2 -->
-text3 <!-- body3 -->
-text6 <!-- body6 required id(s) that were missing from body zone: head2, something-missing -->
+body::misc7<!--misc7-->
+text4<!--body4: requires= missing ids: head2-->
+text3<!--body3-->
+text6<!--body6: requires= missing ids: head2, something-missing-->
 HERE
     chomp($expect);
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
@@ -437,8 +437,8 @@ HERE
 
     my $expect = <<'HERE';
 <head>
-head_1 <!-- head1 -->
-body_1 <!-- body1 -->
+head_1<!--head1-->
+body_1<!--body1-->
 <!--end of rendered head-->
 <!--A2Z:head1-->
 <!--A2Z:body1-->
@@ -473,13 +473,13 @@ HERE
 
     my $expect = <<'HERE';
 <head>
-head_1 <!-- head1 -->
+head_1<!--head1-->
 <!--end of rendered head-->
 <!--A2Z:head1-->
 <!--A2Z:body1-->
 </head>
 <body>
-body_1 <!-- body1 required id(s) that were missing from body zone: head1 -->
+body_1<!--body1: requires= missing ids: head1-->
 <!--body-->
 </body>
 HERE
@@ -506,14 +506,14 @@ sub test_legacy_tag_param_compatibility {
 HERE
     my $expect = <<'HERE';
 HEAD:
-head::misc7 <!-- misc7 -->
-text2 <!-- head2 -->
-text1 <!-- head1 -->
-text5 <!-- head5 required id(s) that were missing from head zone: body4 -->
+head::misc7<!--misc7-->
+text2<!--head2-->
+text1<!--head1-->
+text5<!--head5: requires= missing ids: body4-->
 BODY:
-body::misc7 <!-- misc7 -->
-text4 <!-- body4 required id(s) that were missing from body zone: head2 -->
-text3 <!-- body3 -->
+body::misc7<!--misc7-->
+text4<!--body4: requires= missing ids: head2-->
+text3<!--body3-->
 HERE
     chomp($expect);
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
@@ -526,6 +526,32 @@ HERE
     $this->assert_equals( $expect, $result );
 
     return;
+}
+
+sub test_header_footer_separator {
+    my $this = shift;
+
+    my $tml = <<'HERE';
+<sausage>%RENDERZONE{"sausage" header="mash" footer="gravy"}%</sausage>
+<egg>%RENDERZONE{"egg" header="toast$percent" footer="$percentpepper" separator="$quot"}%</egg>
+<empty>%RENDERZONE{"empty" header="toast$percent" footer="$percentpepper" separator="$quot"}%</empty>
+%ADDTOZONE{"egg" id="chicken" text="chicken" requires="boiling"}%
+%ADDTOZONE{"egg" id="XXXX" text="rooster" requires="chicken"}%
+%ADDTOZONE{"empty" id="null" text=""}%
+HERE
+
+    my $expect = <<'HERE';
+<sausage></sausage>
+<egg>toast%chicken<!--chicken: requires= missing ids: boiling-->"rooster<!--XXXX-->%pepper</egg>
+<empty>toast%%pepper</empty>
+<!--A2Z:chicken-->
+<!--A2Z:XXXX-->
+<!--A2Z:null-->
+HERE
+    chomp($expect);
+    $tml = $this->{test_topicObject}->expandMacros( $tml );
+    my $result = $this->{session}->_renderZones( $tml );
+    $this->assert_str_equals($expect, $result);
 }
 
 1;

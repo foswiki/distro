@@ -22,8 +22,7 @@ You may create as many zones in addition to the standard [[#HeadAndBody][ =head=
    * ="zone"= optional, comma-separated list of the names of zones that the content should be added to. Defaults to =head=.
    * =id= optional, =identifier= for the text being added with the =ADDTOZONE= call, to be used in the =requires= parameter of other =ADDTOZONE= calls.
       * %H% Multiple =ADDTOZONE= calls with the same =id= parameter will simply overwrite the earlier =ADDTOZONE= call.
-   * =requires="..."= optional, comma separated string of =ids= of text within this =zone= that should be expanded before this call.
-      * %H% Foswiki only resolves ordering dependencies within a zone.
+   * =requires="..."= optional, comma separated string of =ids= of text within this =zone= that this content should follow when the zone is rendered.
    * =text="..."= optional, text to be added to the named zone, mutually exclusive with =topic=.
    * =topic="..."= optional, full qualified =web.topic= name that contains the text to be added, mutually exclusive with =text=.
    * =section="..."= optional, section of the =topic= to be added,
@@ -34,6 +33,8 @@ You may create as many zones in addition to the standard [[#HeadAndBody][ =head=
    "myzone"
    text="$percentINCLUDE{\"topic\" section=\"section\" warn=\"off\"}$percent"
 }%</verbatim>
+
+__Note:__ Foswiki uses the =requires= parameter to resolve the _ordering_ of dependencies within a zone. It does *not* work across zones. If you have an id in =requires= that cannot be resolved during sorting, then =RENDERZONE= will generate an HTML comment to mark the problem.
 
 #HeadAndBody
 ---++++ How to use the =head= and =body= zones
