@@ -9,7 +9,7 @@
 
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"([_1] login)" args="<nop>%WIKITOOLNAME%"}%%TMPL:END%
 
-%TMPL:DEF{"title"}%<h2>%MAKETEXT{"Please enter your username and password"}%</h2>%TMPL:END%
+%TMPL:DEF{"title"}%<h2>%MAKETEXT{"Log on with your username and password"}%</h2>%TMPL:END%
 
 %TMPL:DEF{"titlestep"}%<div class="foswikiFormStep">
 %TMPL:P{"title"}%
@@ -25,7 +25,7 @@
 
 %TMPL:DEF{"error"}%%MAKETEXT{"Error: [_1]" args="%ERROR%"}%%TMPL:END%
 
-%TMPL:DEF{"authrealm"}%%AUTHREALM%%TMPL:END%
+%TMPL:DEF{"authrealm"}%%MAKETEXT{"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[[_1]][Register]] if you do not have an account yet." args="%SYSTEMWEB%.UserRegistration"}%%TMPL:END%
 
 %TMPL:DEF{"formstart"}%<form action='%SCRIPTURLPATH{"login"}%%PATH_INFO%' name='loginform' method='post'>%TMPL:END%
 
