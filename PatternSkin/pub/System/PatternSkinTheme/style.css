@@ -769,18 +769,12 @@ html>body #patternSideBarContents li { /* Mozilla */
 }
 .patternTopicAction {
 	line-height:1.5em;
-	padding:.4em 10px; /*S5*/
-	border-width:1px 0 0 0;
-	border-style:solid;
+	padding:.4em 20px; /*S5*/
 	height:1%; /* for IE */
 }
 .patternOopsPage .patternTopicActions,
 .patternEditPage .patternTopicActions {
 	margin:2em 0 0 0;
-}
-.patternAttachPage .patternTopicAction,
-.patternRenamePage .patternTopicAction {
-	padding-left:20px;
 }
 .patternActionButtons a:link,
 .patternActionButtons a:visited {
@@ -802,7 +796,8 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternInfo {
 	margin:1em 0 0 0;
 }
-.patternHomePath {
+.patternHomePath,
+.patternInfo {
 	font-size:94%;
 }
 .patternHomePath .patternRevInfo {

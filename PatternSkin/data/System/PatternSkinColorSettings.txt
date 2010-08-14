@@ -126,7 +126,7 @@ Edit this topic, and change the color as you like.
 ---++++ ATTACHMENT_AND_FORM_BACKGROUND Attachment, form
    * Local ATTACHMENT_AND_FORM_BACKGROUND = #f0f0ee
 ---++++ TOPIC_ACTION_BACKGROUND Topic action row
-   * Local TOPIC_ACTION_BACKGROUND = #eaf5fb
+   * Local TOPIC_ACTION_BACKGROUND = #fafafa
 ---++++ DIFF_HEADER_BACKGROUND Diff header (dark gray)
    * Local DIFF_HEADER_BACKGROUND = #ccc
 ---++++ NOTIFICATION_BACKGROUND Info, broadcast message and notifications
@@ -564,7 +564,12 @@ a:visited .foswikiAccessKey {
 a:hover .foswikiAccessKey {
    color:inherit;
 }
-.foswikiImage img {
+.foswikiImage {
+	background-color:%MAIN_TEXT_BACKGROUND%;
+}
+.foswikiImage img,
+.foswikiImage a:link img,
+.foswikiImage a:visited img {
    border-color:%IMAGE_BORDER%;
    background-color:%MAIN_TEXT_BACKGROUND%;
 }
@@ -572,7 +577,7 @@ a:hover .foswikiAccessKey {
    background-color:transparent;
 }
 .foswikiImage a:hover img {
-   border-color:%LINK_BACKGROUND_HOVER%;
+   border-color:%LINK_TEXT_HOVER%;
 }
 .foswikiSeparator {
    color:%SEPARATOR%;

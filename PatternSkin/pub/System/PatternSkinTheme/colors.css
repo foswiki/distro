@@ -118,6 +118,7 @@ h2, h3, h4, h5, h6 {
 .foswikiTopic a:hover {
    color:#06c;
 }
+.foswikiTopic .foswikiUnvisited a:link,
 .foswikiTopic .foswikiUnvisited a:visited {
    color:#06c;
 }
@@ -356,7 +357,12 @@ a:visited .foswikiAccessKey {
 a:hover .foswikiAccessKey {
    color:inherit;
 }
-.foswikiImage img {
+.foswikiImage {
+   background-color:#fff;
+}
+.foswikiImage img,
+.foswikiImage a:link img,
+.foswikiImage a:visited img {
    border-color:#eee;
    background-color:#fff;
 }
@@ -364,7 +370,8 @@ a:hover .foswikiAccessKey {
    background-color:transparent;
 }
 .foswikiImage a:hover img {
-   border-color:transparent;
+   border-color:#06c;
+   background-color:#fff;
 }
 .foswikiSeparator {
    color:#ccc;
@@ -417,12 +424,9 @@ a:hover .foswikiAccessKey {
 }
 
 .patternTopicActions {
-   background-color:#eaf5fb;
+   background-color:#fafafa;
    color:#000;
    border-color:#dfdfdf;
-}
-.patternTopicAction {
-   border-color:#fff;
 }
 .patternActionButtons a:link,
 .patternActionButtons a:visited,

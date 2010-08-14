@@ -15,7 +15,8 @@
 	display:inline;
 	margin:0;
 }
-.foswikiClear {
+.foswikiClear,
+.foswikiFormStep p.foswikiClear {
 	/* to clean up floats */
 	margin:0;
 	padding:0;

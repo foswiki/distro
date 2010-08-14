@@ -77,7 +77,6 @@ This is the complete style definition to set the height of the top bar:
 #patternClearHeaderCenter,
 #patternClearHeaderLeft,
 #patternClearHeaderRight,
-#patternTopBarContentsOuter,
 #patternTopBarContents {
 	height:64px; /* top bar height; make room for header columns */
 	overflow:hidden;

@@ -221,8 +221,7 @@ and add:
 %TMPL:DEF{"topbardimensions"}%#patternTopBar,
 #patternClearHeaderCenter,
 #patternClearHeaderLeft,
-#patternClearHeaderRight,
-#patternTopBarContentsOuter {
+#patternClearHeaderRight {
    height:0px;
 }%TMPL:END%
 </verbatim></blockquote>

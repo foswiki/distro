@@ -23,7 +23,6 @@ Overrides global settings in layout.css, style.css and colors.css
 #patternClearHeaderCenter,
 #patternClearHeaderLeft,
 #patternClearHeaderRight,
-#patternTopBarContentsOuter,
 #patternTopBarContents {
 	height:90px; /* top bar height; make room for header columns */
 	overflow:hidden;

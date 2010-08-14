@@ -429,7 +429,6 @@ th
 #patternClearHeaderCenter,
 #patternClearHeaderLeft,
 #patternClearHeaderRight,
-#patternTopBarContentsOuter,
 #patternTopBarContents,
 #patternTopBarContentsWrapper {
 	height:90px; /* top bar height; make room for header columns */
