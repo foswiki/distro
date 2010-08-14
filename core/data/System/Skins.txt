@@ -242,13 +242,13 @@ Foswiki works by asking for a template for a particular function - for example, 
 The basic skin is defined by the =SKIN= preference:
    * =Set SKIN = catskin, bearskin=
 
-You can override this using  add a parameter to the URL, such as
+You can override this using the URL parameter =skin=, such as
 =?skin=catskin,bearskin=:
    * %SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=catskin,bearskin
 
 Setting the =?skin= parameter in the URL replaces the existing skin path setting for the current request only.
 
-You can also _extend_ the existing skin path as well, using _covers_.
+You can also _extend_ the existing skin path using _covers_:
    * =Set COVER = ruskin=
 
 This pushes a different skin to the front of the skin search path, so the final skin path will be =ruskin, catskin, bearskin=.
