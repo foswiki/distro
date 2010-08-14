@@ -237,6 +237,7 @@ table.configureSectionValues .foswikiInputField,
 table.configureSectionValues .foswikiTextarea {
     font-family: "Bitstream Vera Sans Mono", "Andale Mono","Courier New",monospace;
     font-size:94%;
+    width:80%;
 }
 
 /* WARN and ERROR */
@@ -255,9 +256,7 @@ table.configureSectionValues div.foswikiAlert {
 	padding-left:3em;
 }
 div.configureInfoText {
-	border:1px solid #e6e6e6;
-	margin:.5em 0 .7em 0;
-	padding:7px 1em;
+	margin:.5em 0;
 	color:green;
 }
 div.configureError,

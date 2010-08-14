@@ -1249,7 +1249,7 @@ $Foswiki::cfg{TrashWebName} = 'Trash';
 # you are doing!)
 $Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 
-# **STRING 40 EXPERT**
+# **STRING 70 EXPERT**
 # Web.TopicName of the site-level local preferences topic. If this topic
 # exists, any settings in it will <b>override</b> settings in
 # {SitePrefsTopicName}.<br />
@@ -1282,7 +1282,7 @@ $Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
 # you are doing!)
 $Foswiki::cfg{UsersWebName} = 'Main';
 
-# **STRING 120 EXPERT**
+# **STRING 70x10 EXPERT**
 # A comma-separated list of generic file name templates, containing
 # placeholders <code>$name</code> (the template name), <code>$web</code>
 # (the web), and <code>$skin</code> (the skin(s))

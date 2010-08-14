@@ -218,7 +218,7 @@ function initDefaultLink(inLink) {
 
 	/* set link label states */
 	inLink.setDefaultLinkText = 'use default';
-	inLink.undoDefaultLinkText = 'undo';
+	inLink.undoDefaultLinkText = 'use stored value';
 	
 	/* set defaults */
 	inLink.title = '';
