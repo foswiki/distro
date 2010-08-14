@@ -16,7 +16,7 @@ You may create as many zones in addition to the standard [[#HeadAndBody][ =head=
    * Create a =sidebar= zone to add widgets,
    * Create a =toolbar= zone to add buttons icons
 
-[[%TOPIC%][ADDTOZONE]] adds content identified with the =id= parameter to =zone=, which will later be expanded with [[VarRENDERZONE][RENDERZONE]]. =id= identifiers are unique within the zone that they are added to. An [[%TOPIC%][ADDTOZONE]] call may ensure that its content appears _after_ the text of some other [[%TOPIC%][ADDTOZONE]] calls by specifying their =ids= in the =requires= parameter. =requires= may only list =ids= within the =zone= being added to, except for the special case of =head= and =body= zones when ={OptimizePageLayout}= is not set (the default - [[#HeadAndBody][read more]]).
+[[%TOPIC%][ADDTOZONE]] adds content identified with the =id= parameter to =zone=, which will later be expanded with [[VarRENDERZONE][RENDERZONE]]. =id= identifiers are unique within the zone that they are added to. An [[%TOPIC%][ADDTOZONE]] call may ensure that its content appears _after_ the text of some other [[%TOPIC%][ADDTOZONE]] calls by specifying their =ids= in the =requires= parameter. =requires= may only list =ids= within the =zone= being added to, except for the special case of =head= and =body= zones when [[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][OptimizePageLayout]] is not set (the default - [[#HeadAndBody][read more]]).
 
 *Parameters:*
    * ="zone"= optional, comma-separated list of the names of zones that the content should be added to. Defaults to =head=.
@@ -52,15 +52,15 @@ Foswiki makes this move easy to manage by providing the =head= and =body=
 zones. These are _automatic_ zones - they do not require a
 corresponding =RENDERZONE=.
 
-Notionally the =head= and =body= zones correspond to a point just before the HTML =&lt;/HEAD&gt;= tag and a point just before the =&lt;/BODY&gt;= tag respectively. Normally you should add CSS (and other HTML =&lt;HEAD&gt;= content, such as =&lt;META&gt;=) to the =head= zone, and Javascript to the =body= zone. There is a setting in =configure=, ={OptimizePageLayout}=, that controls what happens next.
+Notionally the =head= and =body= zones correspond to a point just before the HTML =&lt;/HEAD&gt;= tag and a point just before the =&lt;/BODY&gt;= tag respectively. Normally you should add CSS (and other HTML =&lt;HEAD&gt;= content, such as =&lt;META&gt;=) to the =head= zone, and Javascript to the =body= zone. The setting [[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][OptimizePageLayout]] in Configure controls what happens next.
 
-First, dependencies between the individual =ADDTOZONE= statements are resolved *within each zone*. Then, if ={OptimizePageLayout}= is enabled, the =head= content is added to the =&lt;HEAD&gt;,= and the =body= content is added to the =&lt;BODY&gt;=. However, if ={OptimizePageLayout}= is disabled (the default), both the =head= and =body= zones will be added to the HTML =&lt;HEAD&gt;=.
+First, dependencies between the individual =ADDTOZONE= statements are resolved *within each zone*. Then, if [[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][OptimizePageLayout]] is enabled, the =head= content is added to the =&lt;HEAD&gt;,= and the =body= content is added to the =&lt;BODY&gt;=. However, if ={OptimizePageLayout}= is disabled (the default), both the =head= and =body= zones will be added to the HTML =&lt;HEAD&gt;=.
 
 For this reason, consideration needs to be given to the way =head= and =body= zones behave with your Foswiki configuration, as dictated by the ={OptimizePageLayout}= setting.
 
 ---+++++ Working with ={OptimizePageLayout}= disabled (default)
 If your pages rely on Javascript running to "finish" the layout of the page,
-then you may want to disable ={OptimizePageLayout}= to prevent flickering
+then you may want to disable [[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][OptimizePageLayout]] to prevent flickering
 during loading.
 
 In this mode, both =head= and =body= zone content will be expanded in the
@@ -75,7 +75,7 @@ Only add content to the =body= zone _that is also legal in the =&lt;HEAD&gt;=.
 
 ---+++++ Working with ={OptimizePageLayout}= enabled
 If your pages exhibit the "blank screen" effect during load due to requests
-for large Javascript files, you can enable ={OptimizePageLayout}=.
+for large Javascript files, you can enable [[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][OptimizePageLayout]].
 
 You must ensure that no =head= content (and no inline Javascript) depends on =body= content, or vice-versa. Any such dependency will be _ignored_. However, the HTML comment decoration which normally appears after each id's text in the rendered HTML will contain a small informative text to aid debugging<br/> *Example* <br/>
    <verbatim class="tml">%ADDTOZONE{
@@ -92,7 +92,7 @@ You must ensure that no =head= content (and no inline Javascript) depends on =bo
    alert('test');
 </script>
 <!-- MY::TEST required id(s) that were missing from head zone: some-id-that-exists-in-body --></verbatim>
-   By contrast, as explained earlier, when ={OptimizePageLayout}= is disabled (default), Foswiki is able resolve such dependencies successfully.
+   By contrast, as explained earlier, when [[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][OptimizePageLayout]] is disabled (default), Foswiki is able resolve such dependencies successfully.
 
 Note that if you *do* have an explicit call to =%<nop>RENDERZONE{"head"}%= in
 your templates then the content expanded at that point will be the same content
