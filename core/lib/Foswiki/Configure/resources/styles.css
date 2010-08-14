@@ -233,9 +233,6 @@ table.configureSectionValues th,
 table.configureNestedTable th {
 	width:25%;
 }
-table p {
-	margin:0 0 1em 0;
-}
 table.configureSectionValues .foswikiInputField,
 table.configureSectionValues .foswikiTextarea {
     font-family: "Bitstream Vera Sans Mono", "Andale Mono","Courier New",monospace;
@@ -290,6 +287,11 @@ a.configureOk:visited {
 }
 .configureInfo {
 	color:green;
+}
+.configureInfo,
+.configureInfo span {
+	word-wrap:break-word;
+	word-break:break-all;
 }
 div.configureInfo {
 	margin:.5em 0;

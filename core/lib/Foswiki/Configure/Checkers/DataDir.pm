@@ -15,7 +15,7 @@ sub check {
     $this->{excessPerms} = 0;
 
     my $e = $this->guessMajorDir( 'DataDir', 'data' );
-
+    
     # Don't check directories against {RCS} permissions on Windows
     my $dirchk =
       ( $Foswiki::cfg{OS} eq 'WINDOWS' )
@@ -31,7 +31,7 @@ sub check {
       ? $this->NOTE(
 "File checking limit $Foswiki::cfg{PathCheckLimit} reached, checking stopped - see expert options"
       )
-      : $this->NOTE("File count - $this->{filecount} ");
+      : $this->NOTE("File count: $this->{filecount} ");
 
     # Also check that all rcs files are readable
     $e2 .= $this->checkTreePerms( $Foswiki::cfg{DataDir}, "r", qr/\.txt$/ );
@@ -39,9 +39,10 @@ sub check {
     my $dperm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
     my $fperm = sprintf( '%04o', $Foswiki::cfg{RCS}{filePermission} );
 
+    my $singularOrPlural = $this->{fileErrors} == 1 ? "$this->{fileErrors} directory or file has insufficient permissions." : "$this->{fileErrors} directories or files have insufficient permissions.";
     if ( $this->{fileErrors} ) {
         $e .= $this->ERROR(<<ERRMSG)
-$this->{fileErrors} directories or files have insufficient permissions. Insufficient permissions
+$singularOrPlural Insufficient permissions
 could prevent Foswiki or the web server from accessing or updating the files.
 Verify that the Store expert settings of {RCS}{filePermission} ($fperm) and {RCS}{dirPermission} ($dperm)
 are set correctly for your environment and correct the file permissions listed below.
