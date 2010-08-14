@@ -2,67 +2,87 @@
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ Developer Documentation
 
+%TOC%
+
 ---++ Application Developer Topics
+Topics for normal users that want to develop Foswiki applications.
 
-_Topics for normal users that want to develop Foswiki applications_
+---+++ Reference
+   $ [[ReferenceManual]] : Documentation for webmasters, system administrators, project managers, team leaders, and all other users of Foswiki 
 
-   $ [[FAQAnApplicationWithWikiForm]] : A simple example of a Foswiki application using data forms and a submission page made with an HTML form
-   $ [[JQueryPlugin]] : !JQueryPlugin enables the use of the jQuery Javascript library in wiki applications and is used by many plugins to create the user interfaces
-   $ [[AutoViewTemplatePlugin]] : This plugin enables using special view and edit templates depending on the data form used on the topics
+---+++ Background on core functionalities
    $ [[CommandAndCGIScripts]] : These scripts are located in the bin and tools directories. This topic describes the interfaces to some of those scripts
-   $ [[CommentPlugin]] : Comment Plugin lets users quickly post comments to a page without an edit/preview/save cycle. The comment forms can be customized and form very advanced user interface for application development
-   $ [[CommentPluginTemplate]] : This topic is used by the CommentPlugin as a template file
-   $ [[CountryList]] : List of countries used in the [[UserForm]]. Can also be used in Foswiki applications
    $ [[DataForms]] : Data forms allow you to add structured data to topics. The data stored in the form fields can be used to search and filter topics. The combination of structured data and search queries are the base for building database applications
-   $ [[DocumentGraphics]] : This is a Foswiki icon library. The graphics can be used in topics and by web applications
-   $ [[EditTablePlugin]] : Edit tables using edit fields, date pickers and drop down boxes
-   $ [[ExampleTopicTemplate]] : An example used in [[TemplateTopics]] illustrating how to create a new topic based on a specific template topic  
    $ [[FormattedSearch]] : Foswiki's inline search feature allows flexible formatting of search result. This is a key feature for most Foswiki applications
    $ [[FormatTokens]] : Description of the format tokens such as $n, $quot, $percent etc used in [[FormattedSearch]] and a few other macros.
-   $ [[HierarchicalNavigation]] : Navigation block that displays the current topic, its parent and children (if any). This is intended to be included in other topics, for example in a side navigation bar 
    $ [[IfStatements]] : The =%<nop>IF%= construct gives Foswiki the power to include content in topics based on the value of simple expressions
    $ [[IncludeTopicsAndWebPages]] : Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
-   $ [[InstalledPlugins]] : List of the plugins currently installed and enabled in this Foswiki site
-   $ [[JSCalendarContrib]] : Enables smart Javascript calender for text entry fields. Users can add calendar directly in their own hand-built forms, without having to write any code. 
-   $ [[PlainSkin]] : The plain skin is used to get the rendered topic text without any page decoration such as side, top or bottom bars. The text is shown without any markup styles. It can be used to display topic content inside an IFRAME.
    $ [[QuerySearch]] : Query searches help you search the contents of forms attached to your topics, as well as the values of other meta-data attached to the topic using simple query language
-   $ [[ReferenceManual]] : Documentation for webmasters, system administrators, project managers, team leaders, and all other users of Foswiki 
    $ [[RegularExpression]] : A short introduction to regular expressions
    $ [[SearchHelp]] : An introduction to searching
-   $ [[SearchPatternCookbook]] : A cookbook with many examples how to use the powerful SEARCH feature in wiki applications. See examples of both regular expression searches, query searches, and the use of formatted output
    $ [[SkinTemplates]] : Skin templates are used when composing the output from all actions, such as view, edit, and preview. This allows you to change the look and feel of all pages by editing just a few template files. This topic describes the special template directives. Both for Skin developers and for advanced wiki application development.
    $ [[TemplateTopics]] : Template topics are topics that define the default text for new topics. A basic feature is most wiki applications.
-   $ [[WebLeftBarExample]] : This topic defines the default left bar in PatternSkin. Each web has its own left bar. If you need to change it please read in PatternSkin how to tailor the bars so they do not get overwritten when you upgrade Foswiki
    $ [[WebTemplateTopics]] : A brief introduction to topic template and a list of templates in this web
 
 
+---+++ Extensions, working with extensions
+   $ [[JQueryPlugin]] : !JQueryPlugin enables the use of the jQuery Javascript library in wiki applications and is used by many plugins to create the user interfaces
+   $ [[AutoViewTemplatePlugin]] : This plugin enables using special view and edit templates depending on the data form used on the topics
+   $ [[CommentPlugin]] : Comment Plugin lets users quickly post comments to a page without an edit/preview/save cycle. The comment forms can be customized and form very advanced user interface for application development
+   $ [[CommentPluginTemplate]] : This topic is used by the CommentPlugin as a template file
+   $ [[EditTablePlugin]] : Edit tables using edit fields, date pickers and drop down boxes
+   $ [[JSCalendarContrib]] : Enables smart Javascript calender for text entry fields. Users can add calendar directly in their own hand-built forms, without having to write any code. 
+   $ [[PlainSkin]] : The plain skin is used to get the rendered topic text without any page decoration such as side, top or bottom bars. The text is shown without any markup styles. It can be used to display topic content inside an IFRAME.
+
+---+++ Utilities
+   $ [[CountryList]] : List of countries used in the [[UserForm]]. Can also be used in Foswiki applications
+   $ [[DocumentGraphics]] : This is a Foswiki icon library. The graphics can be used in topics and by web applications
+   $ [[HierarchicalNavigation]] : Navigation block that displays the current topic, its parent and children (if any). This is intended to be included in other topics, for example in a side navigation bar 
+   $ [[InstalledPlugins]] : List of the plugins currently installed and enabled in this Foswiki site
+
+---+++ Example topics and applications
+   $ [[FAQAnApplicationWithWikiForm]] : A simple example of a Foswiki application using data forms and a submission page made with an HTML form
+   $ [[ExampleTopicTemplate]] : An example used in [[TemplateTopics]] illustrating how to create a new topic based on a specific template topic  
+   $ [[SearchPatternCookbook]] : A cookbook with many examples how to use the powerful SEARCH feature in wiki applications. See examples of both regular expression searches, query searches, and the use of formatted output
+   $ [[WebLeftBarExample]] : This topic defines the default left bar in PatternSkin. Each web has its own left bar. If you need to change it please read in PatternSkin how to tailor the bars so they do not get overwritten when you upgrade Foswiki
+
+
+
 ---++ Core, Skin, and Extensions Developer Topics
+Topics for programmers that which to design new skins and develop new extensions for Foswiki.
 
-_Topics for programmers that which to design new skins and develop new extensions for Foswiki_
-
-   $ [[AppendixEncodeURLsWithUTF8]] : Use internationalised characters within WikiWords and attachment names
-   $ [[AppendixCascadingStyleSheets]] : Listing of CSS class names emitted from Foswiki core code and standard extensions
-   $ [[ClassMethod]] : A ClassMethod is a method that must be called relative to the containing class object
+---+++ Reference
+   $ [[ReferenceManual]] : Documentation for webmasters, system administrators, project managers, team leaders, and all other users of Foswiki 
+   $ [[DevelopingPlugins]] : An introduction to developing Plugins
    $ [[Contribs]] : A short introduction to Contribs. Contribs are Extensions to Foswiki that are not plugins
    $ [[ContributedAddOns]] : A short introduction to Add-Ons. Add-Ons add functionality with extensions that are not based on the Foswiki scripts
-   $ [[DevelopingPlugins]] : An introduction to developing Plugins
-   $ [[InstalledPlugins]] : List of the plugins currently installed and enabled in this Foswiki site. Developers can see any code errors in the plugins which is very useful during development
+   $ [[Skins]] : An introduction to skins and skin development
+   $ [[PerlDoc]] : This topic is a helper topic that enables displaying the inline documentation of the Foswiki perl modules. It is used in the [[DevelopingPlugins]] topic
+
+---+++ Background on functionalities
+   $ [[AppendixEncodeURLsWithUTF8]] : Use internationalised characters within WikiWords and attachment names
+   $ [[AppendixCascadingStyleSheets]] : Listing of CSS class names emitted from Foswiki core code and standard extensions
    $ [[JavascriptFiles]] : Foswiki Javascript support comprises a number of base Javascript files, attached to this topic, that provide support for features in the basic screens, and are used by most skins. 
-   $ [[LanguageSelector]] : Language selection dropdown. To be included where a language selection is needed, for instance in the top bar or left bar
+   $ [[SkinTemplates]] : Skin templates are used when composing the output from all actions, such as view, edit, and preview. This allows you to change the look and feel of all pages by editing just a few template files. This topic describes the special template directives. Both for Skin developers and for advanced wiki application development.
    $ [[MetaData]] : Additional data, Foswiki-generated or from [[DataForms][forms]], may be embedded in the topic text using =META:= macros
+   $ [[ClassMethod]] : A ClassMethod is a method that must be called relative to the containing class object
    $ [[ObjectMethod]] : An ObjectMethod is a method that must be called relative to a previous constructed object of the class type
+   $ [[StaticMethod]] : A StaticMethod is a method in a package that can be called without reference to an object of the package type
+
+---+++ Utilities
+   $ [[InstalledPlugins]] : List of the plugins currently installed and enabled in this Foswiki site. Developers can see any code errors in the plugins which is very useful during development
+   $ [[LanguageSelector]] : Language selection dropdown. To be included where a language selection is needed, for instance in the top bar or left bar
+
+---+++ Skins and extensions
    $ [[PatternSkin]] : This is the default skin that Foswiki is shipped with. This topic is the entry point for selecting themes and doing tailoring of how your Foswiki installation looks like
    $ [[PatternSkinCss]] : This page is a reference for all CSS classes used in PatternSkin.
    $ [[PatternSkinCssCookbook]] : Cookbook for how to alter the appearance of !PatternSkin using CSS. This includes how to change the color scheme, hide the left bar, change the height of the top bar, removing the top bar, etc.
    $ [[PatternSkinCustomization]] : How to customize the apperance of PatternSkin using templates. This includes how to change the site logos, how to change the features of the top and side bars, and how to hide certain user interface elements depending who the user is.
    $ [[PatternSkinElements]] : This topic shows the most common elements that you can change in the PatternSkin. Use this topic to see the result of your changes to CSS.
    $ [[PatternSkinWebCreateNewTopicTemplate]] : This is a template topic that defines the design and look of the page you use to create a new topic in PatternSkin
-   $ [[PerlDoc]] : This topic is a helper topic that enables displaying the inline documentation of the Foswiki perl modules. It is used in the [[DevelopingPlugins]] topic
    $ [[PrintSkin]] : The print skin, used for printable pages with a small footer. Other skins, such as PatternSkin, may introduce their own print skin. 
-   $ [[ReferenceManual]] : Documentation for webmasters, system administrators, project managers, team leaders, and all other users of Foswiki 
-   $ [[Skins]] : An introduction to skins and skin development
-   $ [[SkinTemplates]] : Skin templates are used when composing the output from all actions, such as view, edit, and preview. This allows you to change the look and feel of all pages by editing just a few template files. This topic describes the special template directives. Both for Skin developers and for advanced wiki application development.
-   $ [[StaticMethod]] : A StaticMethod is a method in a package that can be called without reference to an object of the package type
+
+---+++ Other
    $ [[TopicDoesNotExistViewTemplate]] : This template topic defines the look of the page shown when the user has tried to view a topic that does not exist
 
 More in-depth developer documentation can be found in the [[Foswiki:Support.SupplementalDocuments][supplemental documentation]].
