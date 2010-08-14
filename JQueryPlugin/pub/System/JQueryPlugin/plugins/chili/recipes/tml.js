@@ -128,7 +128,7 @@
 							  + this.x( quote, '/tml_attrs' )
 							  + "</span>";
 				  }
-				  , _style: { attr_name:  "color: green;", attr_value: "color: maroon;", "attr_value:hover": "background:#fceff8;"}
+				  , _style: { attr_name:  "color: green;", attr_value: "color: maroon;"}
 				}
 				, tml_attrs_double_quoted: { 
 				  _match: /([\w-]+)=(\\*")((?:\\[^%]|%[a-zA-Z][a-zA-Z0-9_:]*%|[^}"]%(?![a-zA-Z])|[^%"])*?)\2/ 
