@@ -163,7 +163,7 @@ sub _renameTopicOrAttachment {
                             $newTopic,
                             $attachment,
                             $session->i18n->maketext(
-                                'Attachment does not exist')
+                                'Attachment does not exist.')
                         ]
                     );
                 }
@@ -196,7 +196,7 @@ sub _renameTopicOrAttachment {
                         $newTopic,
                         $newAttachment,
                         $session->i18n->maketext(
-                            'Attachment already exists in new topic')
+                            'An attachment with the same name already exists in this topic.')
                     ]
                 );
             }
