@@ -284,7 +284,7 @@ our $time = time();
 my $url = $query->url();
 my $action = $query->param('action') || 'Configure';
 
-our $DEFAULT_FIELD_WIDTH_NO_CSS = '40';
+our $DEFAULT_FIELD_WIDTH_NO_CSS = '70';
 
 # Handle serving an resource embedded in the configure page, before generating
 # any other output
