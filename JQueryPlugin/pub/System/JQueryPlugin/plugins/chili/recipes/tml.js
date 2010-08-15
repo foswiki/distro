@@ -53,6 +53,33 @@
 			  _match: /&(?:\w+|#[0-9]+|#x[0-9a-fA-F]+);/ 
 			, _style: "color: blue;"
 		}
+		, trailing_whitespace: {
+			  _match: /([ \t]+)(\n)/
+			, _replace: "<span class='trailing_whitespace'>$1</span>$2"
+			, _style: "background-color: #CCCCCC;"
+		}
+		, set: { // only oneline setting for now
+			  _match: /((?:^|\n)(?:   |\t)+)(\* )(Set|Local)([^=]+)(=)(.*?)([ \t]*)(?=\n|$)/
+			, _replace: function( all, leading_space, bullet, verb, name, equals, value, trailing_whitespace ) {
+				var ws = '';
+				if (trailing_whitespace.length > 0) {
+					ws = "<span class='trailing_whitespace'>"
+						+ trailing_whitespace
+						+ "</span>";
+				}
+				return leading_space
+					+ "<span class='tag_start'>"
+					+ bullet
+					+ verb
+					+ "</span>"
+					+ "<span class='tml_variable'>"
+					+ name
+					+ "</span>"
+					+ equals
+					+ value
+					+ ws;
+			}
+		}
 				// tml variable
 				, tml_variable: {
 				  _match: /(%|\$perce?nt)([a-zA-Z][a-zA-Z0-9_:]*)(%|\$perce?nt)/,
