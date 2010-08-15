@@ -25,6 +25,10 @@ As per the GPL, removal of this notice is prohibited.
  * Requires: foswikilib
  */
 
+var foswiki;
+if (foswiki == undefined)
+    foswiki = {};
+    
 foswiki.String = {
 		
 	/**

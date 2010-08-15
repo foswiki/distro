@@ -23,6 +23,10 @@ As per the GPL, removal of this notice is prohibited.
 
 */
 
+var foswiki;
+if (foswiki == undefined)
+    foswiki = {};
+    
 /**
  * Support for JS control of fields in an HTML form.
  * Based on code written by:
@@ -33,7 +37,6 @@ As per the GPL, removal of this notice is prohibited.
  *
  * Requires foswikilib, foswikiCSS.js and foswikiString.js
  */
-
 foswiki.Form = {
 	
 	KEYVALUEPAIR_DELIMITER : ";",

@@ -32,6 +32,10 @@ Based on code written by Bill Dortch, hIdaho Design <bdortch@hidaho.com>
  * Requires: foswikilib
  */
 
+var foswiki;
+if (foswiki == undefined)
+    foswiki = {};
+    
 foswiki.Pref = {
 	
 	FOSWIKI_PREF_COOKIE_NAME:"FOSWIKIPREF",

@@ -22,6 +22,10 @@ Author: Arthur Clemens
 
 */
 
+var foswiki;
+if (foswiki == undefined)
+    foswiki = {};
+    
 /**
  * Functions for manipulating class attributes.
  * Requires: foswikilib

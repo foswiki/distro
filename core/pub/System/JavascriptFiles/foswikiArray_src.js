@@ -20,14 +20,13 @@ As per the GPL, removal of this notice is prohibited.
 
 */
 
-/**
- * Array utility functions.
- */
-
 var foswiki;
 if (foswiki == undefined)
     foswiki = {};
 
+/**
+ * Array utility functions.
+ */
 foswiki.Array = {
     
 	/**
