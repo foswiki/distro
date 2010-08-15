@@ -102,18 +102,17 @@ if (!foswiki) foswiki = {};
             if (!ref) {
                 ref = new foswiki.TwistyPlugin.Storage();
             }
-            var classValue = $(e).attr('class');
-            if (classValue.match(/\btwistyRememberSetting\b/)) 
+            if ($(e).hasClass('twistyRememberSetting')) 
                 ref.saveSetting = true;
-            if (classValue.match(/\btwistyForgetSetting\b/)) 
+            if ($(e).hasClass('twistyForgetSetting')) 
                 ref.clearSetting = true;
-            if (classValue.match(/\btwistyStartShow\b/)) 
+            if ($(e).hasClass('twistyStartShow')) 
                 ref.startShown = true;
-            if (classValue.match(/\btwistyStartHide\b/)) 
+            if ($(e).hasClass('twistyStartHide')) 
                 ref.startHidden = true;
-            if (classValue.match(/\btwistyFirstStartShow\b/)) 
+            if ($(e).hasClass('twistyFirstStartShow'))
                 ref.firstStartShown = true;
-            if (classValue.match(/\btwistyFirstStartHide\b/)) 
+            if ($(e).hasClass('twistyFirstStartHide')) 
                 ref.firstStartHidden = true;
 
             ref.name = name;
@@ -190,13 +189,12 @@ if (!foswiki) foswiki = {};
         if (ref.show && ref.hide && ref.toggle) {
             // all Twisty elements present
 
-            var classValue = $(e).attr('class');
-            if (classValue.match(/\btwistyInited1\b/)) {
+            if ($(e).hasClass('twistyInited1')) {
                 ref.state = foswiki.TwistyPlugin.CONTENT_SHOWN;
                 this._update(ref, false);
                 return ref;
             }
-            if (classValue.match(/\btwistyInited0\b/)) {
+            if ($(e).hasClass('twistyInited0')) {
                 ref.state = foswiki.TwistyPlugin.CONTENT_HIDDEN;
                 this._update(ref, false);
                 return ref;
