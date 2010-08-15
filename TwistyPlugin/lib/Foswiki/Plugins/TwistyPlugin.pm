@@ -76,6 +76,7 @@ sub _setDefaults {
       || Foswiki::Func::getPluginPreferencesValue('TWISTYREMEMBER')
       || '';
 
+    return;
 }
 
 sub _addHeader {
@@ -101,7 +102,7 @@ sub _TWISTYSHOW {
     _setDefaults();
 
     my $mode = $params->{'mode'} || $prefMode;
-    my $btn = _twistyBtn( 'show', @_ );
+    my $btn = _twistyBtn( 'show', $session, $params, $theTopic, $theWeb );
     return Foswiki::Func::decodeFormatTokens(
         _wrapInButtonHtml( $btn, $mode ) );
 }
@@ -110,7 +111,7 @@ sub _TWISTYHIDE {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
     _setDefaults();
     my $mode = $params->{'mode'} || $prefMode;
-    my $btn = _twistyBtn( 'hide', @_ );
+    my $btn = _twistyBtn( 'hide', $session, $params, $theTopic, $theWeb );
     return Foswiki::Func::decodeFormatTokens(
         _wrapInButtonHtml( $btn, $mode ) );
 }
@@ -120,8 +121,8 @@ sub _TWISTYBUTTON {
     _setDefaults();
 
     my $mode = $params->{'mode'} || $prefMode;
-    my $btnShow = _twistyBtn( 'show', @_ );
-    my $btnHide = _twistyBtn( 'hide', @_ );
+    my $btnShow = _twistyBtn( 'show', $session, $params, $theTopic, $theWeb );
+    my $btnHide = _twistyBtn( 'hide', $session, $params, $theTopic, $theWeb );
     my $prefix = $params->{'prefix'} || '';
     my $suffix = $params->{'suffix'} || '';
     my $btn    = $prefix . $btnShow . $btnHide . $suffix;
@@ -138,7 +139,7 @@ sub _TWISTY {
         $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
     }
     $params->{'id'} .= ++$twistyCount;
-    return _TWISTYBUTTON(@_) . _TWISTYTOGGLE(@_);
+    return _TWISTYBUTTON($session, $params, $theTopic, $theWeb) . _TWISTYTOGGLE($session, $params, $theTopic, $theWeb);
 }
 
 sub _TWISTYTOGGLE {
@@ -202,7 +203,12 @@ sub _twistyBtn {
     if ( !defined $id || $id eq '' ) {
         return '';
     }
-    my $idTag = $id . $twistyControlState if ($twistyControlState) || '';
+    my $idTag;
+    if ($twistyControlState) {
+        $idTag = $id . $twistyControlState;
+    } else {
+        $idTag = '';
+    }
 
     my $defaultLink =
       ( $twistyControlState eq 'show' ) ? $prefShowLink : $prefHideLink;
@@ -384,7 +390,7 @@ sub _readCookie {
     return '' if !$idTag;
 
     # which state do we use?
-    my $cgi    = new CGI;
+    my $cgi    = CGI->new();
     my $cookie = $cgi->cookie('FOSWIKIPREF');
     my $tag    = $idTag;
     $tag =~ s/^(.*)(hide|show|toggle)$/$1/go;
