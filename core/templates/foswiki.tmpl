@@ -90,7 +90,7 @@ Item2476: Put IE8 into compatibility mode to work around slow, erratic textarea 
 	<link rel="alternate" href="%SCRIPTURL{edit}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%" type="application/x-wiki" title="edit %BASETOPIC%" />
 	<meta name="description" content="%TOPIC%" />
 	%TMPL:P{"meta:preferences"}%
-    <base href="%SCRIPTURL{%SCRIPTNAME%}%/%WEB%/%TOPIC%"></base>
+    <base href="%SCRIPTURL{%SCRIPTNAME%}%/%WEB%/%TOPIC%" /><!--[if IE]></base><![endif]-->
 	%TMPL:P{"script"}%
 	%TMPL:P{"defaultstyle"}%
 </head>%TMPL:END%%{
