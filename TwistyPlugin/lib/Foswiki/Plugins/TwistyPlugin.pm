@@ -42,8 +42,8 @@ sub initPlugin {
     $doneHeader   = 0;
     $twistyCount  = 0;
 
-    Foswiki::Plugins::JQueryPlugin::registerPlugin('twisty',
-        'Foswiki::Plugins::TwistyPlugin::TWISTY');
+    Foswiki::Plugins::JQueryPlugin::registerPlugin( 'twisty',
+        'Foswiki::Plugins::TwistyPlugin::TWISTY' );
     Foswiki::Func::registerTagHandler( 'TWISTYSHOW',      \&_TWISTYSHOW );
     Foswiki::Func::registerTagHandler( 'TWISTYHIDE',      \&_TWISTYHIDE );
     Foswiki::Func::registerTagHandler( 'TWISTYBUTTON',    \&_TWISTYBUTTON );
@@ -83,13 +83,15 @@ sub _addHeader {
     return if $doneHeader;
     $doneHeader = 1;
 
-    if (Foswiki::Func::getContext()->{JQueryPluginEnabled}) {
+    if ( Foswiki::Func::getContext()->{JQueryPluginEnabled} ) {
         Foswiki::Plugins::JQueryPlugin::createPlugin('twisty');
-    } else {
+    }
+    else {
         my $header;
-        Foswiki::Func::loadTemplate( 'twistyplugin' );
+        Foswiki::Func::loadTemplate('twistyplugin');
 
-        $header = Foswiki::Func::expandTemplate("TwistyPlugin/twisty")
+        $header =
+            Foswiki::Func::expandTemplate("TwistyPlugin/twisty")
           . Foswiki::Func::expandTemplate("TwistyPlugin/twisty.css");
         Foswiki::Func::expandCommonVariables($header);
     }
@@ -139,7 +141,8 @@ sub _TWISTY {
         $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
     }
     $params->{'id'} .= ++$twistyCount;
-    return _TWISTYBUTTON($session, $params, $theTopic, $theWeb) . _TWISTYTOGGLE($session, $params, $theTopic, $theWeb);
+    return _TWISTYBUTTON( $session, $params, $theTopic, $theWeb )
+      . _TWISTYTOGGLE( $session, $params, $theTopic, $theWeb );
 }
 
 sub _TWISTYTOGGLE {
@@ -206,7 +209,8 @@ sub _twistyBtn {
     my $idTag;
     if ($twistyControlState) {
         $idTag = $id . $twistyControlState;
-    } else {
+    }
+    else {
         $idTag = '';
     }
 
@@ -348,8 +352,8 @@ sub _createHtmlProperties {
     if ( !$isTrigger ) {
         push( @classList, 'twistyContent' );
 
-        if ( not ($state eq $TWISTYPLUGIN_CONTENT_SHOWN) ) {
-            push( @propList, 'style="display: none;"' );
+        if ( not( $state eq $TWISTYPLUGIN_CONTENT_SHOWN ) ) {
+            push( @propList,  'style="display: none;"' );
             push( @classList, 'foswikiMakeHidden' );
         }
     }
@@ -425,14 +429,22 @@ sub _wrapInContentHtmlClose {
 
 sub _wrapInContainerHideIfNoJavascripOpen {
     my ($mode) = @_;
-    my $inlineOrBlock = ($mode eq 'div')?'Block':'Inline';
-    return '<' . $mode . ' class="twistyPlugin foswikiMakeVisible'.$inlineOrBlock.'">';
+    my $inlineOrBlock = ( $mode eq 'div' ) ? 'Block' : 'Inline';
+    return
+        '<' 
+      . $mode
+      . ' class="twistyPlugin foswikiMakeVisible'
+      . $inlineOrBlock . '">';
 }
 
 sub _wrapInContainerDivIfNoJavascripClose {
     my ($mode) = @_;
-    my $inlineOrBlock = ($mode eq 'div')?'Block':'Inline';
-    return '</' . $mode . '><!--/twistyPlugin foswikiMakeVisible'.$inlineOrBlock.'-->';
+    my $inlineOrBlock = ( $mode eq 'div' ) ? 'Block' : 'Inline';
+    return
+        '</' 
+      . $mode
+      . '><!--/twistyPlugin foswikiMakeVisible'
+      . $inlineOrBlock . '-->';
 }
 
 1;
