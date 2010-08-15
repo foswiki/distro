@@ -15,20 +15,3 @@
 }%%TMPL:P{"LIBJS" id="TwistyPlugin/twisty" requires="JavascriptFiles/foswikilib,JavascriptFiles/foswikiPref,JavascriptFiles/foswikiCSS"}%
 
 %TMPL:END%
-
-%TMPL:DEF{"TwistyPlugin/twisty.jquery"}%
-%TMPL:P{"JavascriptFiles/foswikiPref"}%%{
-}%%ADDTOZONE{
- "body"
- tag="TwistyPlugin/twisty"
- text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/TwistyPlugin/twisty.jquery%FWUNCOMPRESSED%.js'></script>"
- requires="JavascriptFiles/foswikiPref,JQUERYPLUGIN::FOSWIKI"}%
-%TMPL:END%
-
-%TMPL:DEF{"TwistyPlugin/twisty.jquery.css"}%
-%ADDTOZONE{
-  "head"
-  tag="TwistyPlugin/twisty.css"
-  text="<link rel='stylesheet' type='text/css' media='all' href='%PUBURL%/%SYSTEMWEB%/TwistyPlugin/twisty%FWUNCOMPRESSED%.css' />"
-}%
-%TMPL:END%

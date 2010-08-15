@@ -18,7 +18,7 @@ use vars qw( @modes $doneHeader $doneDefaults $twistyCount
 
 our $VERSION = '$Rev$';
 
-our $RELEASE = '1.5.8';
+our $RELEASE = '1.6.0';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -42,6 +42,8 @@ sub initPlugin {
     $doneHeader   = 0;
     $twistyCount  = 0;
 
+    Foswiki::Plugins::JQueryPlugin::registerPlugin('twisty',
+        'Foswiki::Plugins::TwistyPlugin::TWISTY');
     Foswiki::Func::registerTagHandler( 'TWISTYSHOW',      \&_TWISTYSHOW );
     Foswiki::Func::registerTagHandler( 'TWISTYHIDE',      \&_TWISTYHIDE );
     Foswiki::Func::registerTagHandler( 'TWISTYBUTTON',    \&_TWISTYBUTTON );
@@ -80,16 +82,18 @@ sub _addHeader {
     return if $doneHeader;
     $doneHeader = 1;
 
-    Foswiki::Func::loadTemplate( 'twistyplugin' );
-    my $lib = '';
-
     if (Foswiki::Func::getContext()->{JQueryPluginEnabled}) {
-        $lib = '.jquery';
+        Foswiki::Plugins::JQueryPlugin::createPlugin('twisty');
+    } else {
+        my $header;
+        Foswiki::Func::loadTemplate( 'twistyplugin' );
+
+        $header = Foswiki::Func::expandTemplate("TwistyPlugin/twisty")
+          . Foswiki::Func::expandTemplate("TwistyPlugin/twisty.css");
+        Foswiki::Func::expandCommonVariables($header);
     }
 
-    my $header = Foswiki::Func::expandTemplate("TwistyPlugin/twisty$lib")
-      . Foswiki::Func::expandTemplate("TwistyPlugin/twisty$lib.css");
-    return Foswiki::Func::expandCommonVariables($header);
+    return;
 }
 
 sub _TWISTYSHOW {
@@ -283,6 +287,7 @@ sub _createHtmlProperties {
     $startHidden = 1 if ( $start eq 'hide' );
     my $startShown;
     $startShown = 1 if ( $start eq 'show' );
+    my @propList = ();
 
     _setDefaults();
     my $remember = $params->{'remember'} || $prefRemember;
@@ -334,14 +339,13 @@ sub _createHtmlProperties {
 
     # assume content should be hidden
     # unless explicitly said otherwise
-    my $shouldHideContent = 1;
     if ( !$isTrigger ) {
         push( @classList, 'twistyContent' );
 
-        if ( $state eq $TWISTYPLUGIN_CONTENT_SHOWN ) {
-            $shouldHideContent = 0;
+        if ( not ($state eq $TWISTYPLUGIN_CONTENT_SHOWN) ) {
+            push( @propList, 'style="display: none;"' );
+            push( @classList, 'foswikiMakeHidden' );
         }
-        push( @classList, 'foswikiMakeHidden' ) if $shouldHideContent;
     }
 
     # deprecated
@@ -358,7 +362,6 @@ sub _createHtmlProperties {
     # let javascript know we have set the state already
     push( @classList, 'twistyInited' . $state );
 
-    my @propList = ();
     push( @propList, 'id="' . $idTag . '"' );
     my $classListString = join( " ", @classList );
     push( @propList, 'class="' . $classListString . '"' );
