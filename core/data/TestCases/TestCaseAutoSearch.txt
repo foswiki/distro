@@ -95,10 +95,10 @@ Same as last test
 ---++ Expected
 <!-- expected expand rex ALLWEBS -->
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 
-<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> 
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/FAQWhatIsWikiWiki"><b>FAQWhatIsWikiWiki</b></a> 
 <div class="foswikiSummary"></div></div> 
 <div class="foswikiBottomRow"> 
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/FAQWhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
 </div> 
 </div><div class="foswikiSearchResult"><div class="foswikiTopRow"> 
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> 
