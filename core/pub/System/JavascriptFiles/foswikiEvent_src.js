@@ -23,10 +23,6 @@ see http://simonwillison.net/2004/May/26/addLoadEvent/
 
 */
 
-var foswiki;
-if (foswiki == undefined)
-    foswiki = {};
-
 foswiki.Event = {
 
 	/**

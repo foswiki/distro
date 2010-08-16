@@ -23,10 +23,6 @@ As per the GPL, removal of this notice is prohibited.
 
 */
 
-var foswiki;
-if (foswiki == undefined)
-    foswiki = {};
-    
 /**
  * Support for JS control of fields in an HTML form.
  * Based on code written by:

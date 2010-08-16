@@ -21,11 +21,8 @@ As per the GPL, removal of this notice is prohibited.
 */
 
 /**
- * HTML utility functions.
- */
-var foswiki;
-if (foswiki == undefined)
-    foswiki = {};
+* HTML utility functions.
+*/
 
 foswiki.HTML = {
 

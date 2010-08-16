@@ -20,10 +20,6 @@ As per the GPL, removal of this notice is prohibited.
 
 */
 
-var foswiki;
-if (foswiki == undefined)
-    foswiki = {};
-
 foswiki.Window = {
 	
 	POPUP_WINDOW_WIDTH : 600,
