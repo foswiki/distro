@@ -13,7 +13,7 @@ use CGI::Cookie   ();
 use strict;
 use warnings;
 
-use vars qw( @modes $doneHeader $doneDefaults $twistyCount
+use vars qw( @modes $doneHeader $doneDefaults
   $prefMode $prefShowLink $prefHideLink $prefRemember);
 
 our $VERSION = '$Rev$';
@@ -40,7 +40,6 @@ sub initPlugin {
 
     $doneDefaults = 0;
     $doneHeader   = 0;
-    $twistyCount  = 0;
 
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'twisty',
         'Foswiki::Plugins::TwistyPlugin::TWISTY' );
@@ -140,7 +139,7 @@ sub _TWISTY {
     if ( !defined $id || $id eq '' ) {
         $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
     }
-    $params->{'id'} .= ++$twistyCount;
+    $params->{'id'} .= int( rand(10000) ) + 1;
     return _TWISTYBUTTON( $session, $params, $theTopic, $theWeb )
       . _TWISTYTOGGLE( $session, $params, $theTopic, $theWeb );
 }

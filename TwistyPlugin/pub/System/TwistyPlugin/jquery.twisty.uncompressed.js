@@ -258,26 +258,29 @@ if (!foswiki) foswiki = {};
      */
     $(function() {
           // Hide anything so marked
-          $(".twistyStartHide").hide();
+          $(".twistyStartHide").livequery(function() {
+            $(this).hide();
+          });
 
           // SMELL: this is a mess; what do all these classes do?
           // Where are they documented?
-          $(".twistyTrigger, .twistyContent").removeClass(
-              "twistyMakeHidden foswikiMakeHidden foswikiMakeVisible "
-              + "foswikiMakeVisibleBlock foswikiMakeVisibleInline "
-              + "twistyHidden").each(
-                  function() {
-                      foswiki.TwistyPlugin.init(this);
-                  });
-          $(".twistyExpandAll").click(
-              function() {
-                  foswiki.TwistyPlugin.toggleAll(
-                      foswiki.TwistyPlugin.CONTENT_SHOWN);
-              });
-          $(".twistyCollapseAll").click(
-              function() {
-                  foswiki.TwistyPlugin.toggleAll(
-                      foswiki.TwistyPlugin.CONTENT_HIDDEN);
-              });
+          $(".twistyTrigger, .twistyContent").livequery(function() {
+            $(this).removeClass(
+              "twistyMakeHidden foswikiMakeHidden foswikiMakeVisible " +
+              "foswikiMakeVisibleBlock foswikiMakeVisibleInline " +
+              "twistyHidden");
+            foswiki.TwistyPlugin.init(this);
+          });
+
+          $(".twistyExpandAll").livequery(function() {
+            $(this).click(function() {
+              foswiki.TwistyPlugin.toggleAll(foswiki.TwistyPlugin.CONTENT_SHOWN);
+            });
+          });
+          $(".twistyCollapseAll").livequery(function() {
+            $(this).click(function() {
+              foswiki.TwistyPlugin.toggleAll(foswiki.TwistyPlugin.CONTENT_HIDDEN);
+            });
+          });
       });
 })(jQuery);
