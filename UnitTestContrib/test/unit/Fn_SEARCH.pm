@@ -3623,7 +3623,6 @@ FOOT(4,4)Main.WebChanges
 FOOT(1,1)
 ..prev=0, 1, next=2, numberofpages=3, pagesize=5, prevurl=, nexturl=$viewTopicUrl?SEARCHe9863b5d7ec27abeb8421578b0747c25=2..
 EXPECT
-    $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 
     $result = $this->{test_topicObject}->expandMacros(
@@ -3652,7 +3651,6 @@ Sandbox.WebHome
 FOOT(2,2)
 ..prev=1, 2, next=3, numberofpages=3, pagesize=5, prevurl=$viewTopicUrl?SEARCHc5ceccfcec96473a9efe986cf3597eb1=1, nexturl=$viewTopicUrl?SEARCHc5ceccfcec96473a9efe986cf3597eb1=3..
 EXPECT
-    $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 }
 
@@ -4122,5 +4120,56 @@ sub verify_orderTopic {
     $this->assert_str_equals( "QueryTopic (Pedro),QueryTopicTwo (John),QueryTopicThree (Jason),OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic ()", $result );
 
 }
+
+sub test_Item9269 {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"does not matc[h]" 
+  type="regex" 
+  zeroresults="$dollarweb=$web" 
+  format="dummy" 
+}%'
+      );
+
+    $this->assert_str_equals( '$web=TemporarySEARCHTestWebSEARCH', $result );
+    
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{".*" 
+  limit="1" 
+  type="regex" 
+  nonoise="on"
+  header="header: $dollarweb=$web%BR%" 
+  format="format: $dollarweb=$web%BR%" 
+  footer="footer: $dollarweb=$web" 
+}%'
+      );
+
+    $this->assert_str_equals( 'header: $web=TemporarySEARCHTestWebSEARCH<br />
+format: $web=TemporarySEARCHTestWebSEARCH<br />
+footer: $web=TemporarySEARCHTestWebSEARCH', $result );
+   
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{".*"
+  type="regex"
+  nonoise="on"
+  format="   1 $topic"
+  pager="on"
+  pagesize="10"
+  pagerformat="pagerformat: $dollarweb=$web"
+}%'
+      );
+
+    $this->assert_str_equals( '   1 OkATopic
+   1 OkBTopic
+   1 OkTopic
+   1 TestTopicSEARCH
+   1 WebPreferences
+pagerformat: $web=TemporarySEARCHTestWebSEARCH', $result );
+}
+
 
 1;

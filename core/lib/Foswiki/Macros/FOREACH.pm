@@ -56,7 +56,7 @@ sub FOREACH {
         }
         my ( $ttopics, $searchResult, $tmplTail ) =
           $this->search->formatResults( undef, $listIterator, $params );
-        $s = $searchResult;
+        $s  = Foswiki::expandStandardEscapes($searchResult);
     }
     catch Error::Simple with {
         my $message = (DEBUG) ? shift->stringify() : shift->{-text};

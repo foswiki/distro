@@ -362,9 +362,10 @@ sub searchWeb {
 
 #foswiki 1.1 Feature Proposal: SEARCH needs an alt parameter in case of zero results
 
+
           #TODO: extract & merge with extraction of footer processing code below
-                my $result =
-                  Foswiki::expandStandardEscapes( $params{zeroresults} );
+                my $result = $params{zeroresults};
+
                 $result =~ s/\$web/$baseWeb/gos;    # expand name of web
                 $result =~ s/([^\n])$/$1\n/os;      # add new line at end
 
@@ -376,8 +377,9 @@ sub searchWeb {
                 #legacy SEARCH counter support
                 $result =~ s/%NTOPICS%/0/go;
 
-                #$result = $this->formatCommon( $result, \%pager_formatting );
+                $result = Foswiki::expandStandardEscapes($result);
                 $result =~ s/\n$//os;               # remove trailing new line
+                
 
                 return $result;
             }
@@ -410,6 +412,8 @@ sub searchWeb {
     return if ( defined $params{_callback} );
 
     my $searchResult = join( '', @{ $params{_cbdata} } );
+
+    $searchResult = Foswiki::expandStandardEscapes($searchResult);
 
     # Remove trailing separator or new line if nofinalnewline parameter is set
     my $noFinalNewline = Foswiki::isTrue( $params{nofinalnewline}, 1 );
@@ -665,7 +669,6 @@ sub formatResults {
           || $session->templates->expandTemplate('SEARCH:pager');
         $pager_control =
           $this->formatCommon( $pager_control, \%pager_formatting );
-        $pager_control = Foswiki::expandStandardEscapes($pager_control);
         $pager_formatting{'\$pager'} = sub { return $pager_control; };
     }
 
@@ -814,12 +817,10 @@ sub formatResults {
                             $processedfooter =
                               $this->formatCommon( $processedfooter,
                                 \%pager_formatting );
-                            $processedfooter =
-                              Foswiki::expandStandardEscapes($processedfooter);
                             $processedfooter =~ s/\$web/$lastWebProcessed/gos
                               ;    # expand name of web
-                            $processedfooter =~
-                              s/([^\n])$/$1\n/os;    # add new line at end
+#                            $processedfooter =~
+#                              s/([^\n])$/$1\n/os;    # add new line at end
                                                      # output footer of $web
 
                             $processedfooter =~ s/\$ntopics/$ntopics/gs;
@@ -832,8 +833,8 @@ sub formatResults {
                             $processedfooter =
                               $this->formatCommon( $processedfooter,
                                 \%pager_formatting );
-                            $processedfooter =~
-                              s/\n$//os;    # remove trailing new line
+#                            $processedfooter =~
+#                              s/\n$//os;    # remove trailing new line
 
                             $justdidHeaderOrFooter = 1;
                             &$callback( $cbdata, $processedfooter );
@@ -869,8 +870,6 @@ sub formatResults {
                 # strings, it needs to be expanded first.
                 $processedheader =
                   $this->formatCommon( $processedheader, \%pager_formatting );
-                $processedheader =
-                  Foswiki::expandStandardEscapes($processedheader);
                 $processedheader =~ s/\$web/$web/gos;      # expand name of web
                 
                 # add new line after the header unless separator is defined
@@ -1009,9 +1008,8 @@ sub formatResults {
 
 #because $pager contains more $ntopics like format strings, it needs to be expanded first.
         $footer = $this->formatCommon( $footer, \%pager_formatting );
-        $footer = Foswiki::expandStandardEscapes($footer);
         $footer =~ s/\$web/$web/gos;      # expand name of web
-        $footer =~ s/([^\n])$/$1\n/os;    # add new line at end
+#        $footer =~ s/([^\n])$/$1\n/os;    # add new line at end
 
         # output footer of $web
         $footer =~ s/\$ntopics/$ntopics/gs;
@@ -1021,7 +1019,7 @@ sub formatResults {
         #legacy SEARCH counter support
         $footer =~ s/%NTOPICS%/$ntopics/go;
 
-        $footer =~ s/\n$//os;             # remove trailing new line
+#        $footer =~ s/\n$//os;             # remove trailing new line
 
         &$callback( $cbdata, $footer );
     }
@@ -1166,7 +1164,6 @@ sub formatResult {
                 $out =~ s/([^\n])$/$1\n/s;
             }
         }
-        $out = Foswiki::expandStandardEscapes($out);
     }
 
 #see http://foswiki.org/Tasks/Item2371 - needs unit test exploration
