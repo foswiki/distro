@@ -40,7 +40,8 @@ sub new {
     );
     # The jquery plugin code is using 'sub-cookies' within the FOSWIKIPREF
     # cookie.
-    Foswiki::Func::expandTemplate('JavascriptFiles/foswikiPref');
+    my $foswikiPrefs = Foswiki::Func::expandTemplate('JavascriptFiles/foswikiPref');
+    Foswiki::Func::expandCommonVariables($foswikiPrefs);
 
     return $this;
 }
