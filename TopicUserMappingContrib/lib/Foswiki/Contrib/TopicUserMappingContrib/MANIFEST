@@ -1,6 +1,5 @@
 # Release manifest for TopicUserMappingContrib
 data/System/TopicUserMappingContrib.txt 0644 Documentation
-data/System/FAQRebuildingWikiUsersTopic.txt 0644 Documentation
 lib/Foswiki/Contrib/TopicUserMappingContrib.pm 0444 Perl module
 lib/Foswiki/Users/TopicUserMapping.pm 0444 Perl module
 lib/Foswiki/Contrib/TopicUserMappingContrib/Config.spec
@@ -11,8 +10,7 @@ data/Main/UserListHeader.txt 0644
 data/Main/NobodyGroup.txt 0644
 data/Main/UserList.txt 0644
 data/Main/UserListByDateJoined.txt 0644
-data/Main/AdminGroup.txt 0644 Wiki compatible admin group
-data/Main/AdminGroup.txt 0644
+data/Main/AdminGroup.txt 0644 Wiki internal admin group
 data/Main/UserHomepageHeader.txt 0644
 data/Main/UserListByLocation.txt 0644
 data/Main/GroupTemplate.txt 0644
@@ -22,6 +20,7 @@ data/System/UserRegistration.txt 0644
 data/System/UsersTemplate.txt 0644 Default template for a new WikiUsers topic
 data/System/ChangeEmailAddress.txt 0644
 data/System/BulkResetPassword.txt 0644
+data/System/GroupForm.txt 0644 Default form attached to a group topic
 data/System/UserSetting.txt 0644
 data/System/UserForm.txt 0644 Default form attached to a user topic
 data/System/UserFormHelp.txt 0644 Included help topic
