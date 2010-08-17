@@ -14,7 +14,7 @@ my $TEST_WEB_NAME = 'TemporaryTwistyFormattingTestWeb';
 my %mangledIDs;
 
 sub new {
-    my ($class, @args) = @_;
+    my ( $class, @args ) = @_;
     my $self = $class->SUPER::new( 'TwistyFormatting', @args );
 
     return $self;
@@ -53,11 +53,11 @@ sub _mangleID {
     my ($id) = @_;
     my $mangledID = $mangledIDs{$id};
 
-    if (not defined $mangledID) {
-        $mangledID = scalar(keys(%mangledIDs)) + 1;
+    if ( not defined $mangledID ) {
+        $mangledID = scalar( keys(%mangledIDs) ) + 1;
         $mangledIDs{$id} = $mangledID;
     }
-    
+
     return $mangledID;
 }
 
@@ -68,7 +68,8 @@ sub test_TWISTY_mode_default {
 %TWISTY{}%content%ENDTWISTY%
 SOURCE
 
-    my $expected = '<span class="twistyPlugin foswikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a> </span></span><!--/twistyPlugin foswikiMakeVisibleInline--><span class="twistyPlugin"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent foswikiMakeHidden twistyInited" style="display: none;">content</span></span><!--/twistyPlugin-->';
+    my $expected =
+'<span class="twistyPlugin foswikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a> </span></span><!--/twistyPlugin foswikiMakeVisibleInline--><span class="twistyPlugin"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent foswikiMakeHidden twistyInited" style="display: none;">content</span></span><!--/twistyPlugin-->';
 
     $this->do_test( $expected, $source );
 
@@ -158,7 +159,7 @@ EXPECTED
 }
 
 sub test_TWISTY_with_icons {
-    my $this           = shift;
+    my $this            = shift;
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
 
     my $source = <<'SOURCE';
@@ -242,8 +243,9 @@ EXPECTED
 }
 
 sub test_TWISTY_escaped_variable {
-    my $this           = shift;
-    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
+    my $this = shift;
+    my $pubUrlSystemWeb =
+      Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     my $source = <<'SOURCE';
 %TWISTY{link="$percntY$percnt"}%content%ENDTWISTY%
@@ -299,8 +301,8 @@ sub test_twistyInSubWeb {
     my $testWebSubWebPath = $this->{test_web} . '/SubWeb';
     my $webObject = Foswiki::Meta->new( $this->{session}, $testWebSubWebPath );
     $webObject->populateNewWeb();
-    my $testTopic         = 'TwistyTestTopic';
-    my $source            = <<'SOURCE';
+    my $testTopic = 'TwistyTestTopic';
+    my $source    = <<'SOURCE';
 %TWISTY{
 showlink="Show..."
 hidelink="Hide"
