@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
+package TwistyPluginTests;
 use strict;
 use warnings;
 
 # tests for basic formatting
-
-package TwistyPluginTests;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
@@ -15,7 +14,9 @@ my $TEST_WEB_NAME = 'TemporaryTwistyFormattingTestWeb';
 my %mangledIDs;
 
 sub new {
-    my $self = shift()->SUPER::new( 'TwistyFormatting', @_ );
+    my ($class, @args) = @_;
+    my $self = $class->SUPER::new( 'TwistyFormatting', @args );
+
     return $self;
 }
 
@@ -24,6 +25,8 @@ sub set_up {
 
     %mangledIDs = ();
     $this->SUPER::set_up();
+
+    return;
 }
 
 # This formats the text up to immediately before <nop>s are removed, so we
@@ -40,6 +43,8 @@ sub do_test {
     $actual =~ s/(\d+)(show|hide|toggle)/_mangleID($1).$2/ge;
 
     $this->assert_html_equals( $expected, $actual );
+
+    return;
 }
 
 # Convert the random IDs into sequential ones, so that we have some hope of
@@ -66,6 +71,8 @@ SOURCE
     my $expected = '<span class="twistyPlugin foswikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#"><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a> </span></span><!--/twistyPlugin foswikiMakeVisibleInline--><span class="twistyPlugin"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent foswikiMakeHidden twistyInited" style="display: none;">content</span></span><!--/twistyPlugin-->';
 
     $this->do_test( $expected, $source );
+
+    return;
 }
 
 sub test_TWISTY_mode_div {
@@ -80,6 +87,8 @@ SOURCE
 EXPECTED
 
     $this->do_test( $expected, $source );
+
+    return;
 }
 
 sub test_TWISTY_mode_default_with_id {
@@ -94,6 +103,8 @@ SOURCE
 EXPECTED
 
     $this->do_test( $expected, $source );
+
+    return;
 }
 
 sub test_TWISTY_2_instances_with_id {
@@ -110,6 +121,8 @@ SOURCE
 EXPECTED
 
     $this->do_test( $expected, $source );
+
+    return;
 }
 
 sub test_TWISTYSHOW {
@@ -124,6 +137,8 @@ SOURCE
 EXPECTED
 
     $this->do_test( $expected, $source );
+
+    return;
 }
 
 sub test_TWISTYBUTTON {
@@ -138,6 +153,8 @@ SOURCE
 EXPECTED
 
     $this->do_test( $expected, $source );
+
+    return;
 }
 
 sub test_TWISTY_with_icons {
@@ -178,6 +195,8 @@ EXPECTED3
     $expected =~ s/src="\n/src="/go;
 
     $this->do_test( $expected, $source );
+
+    return;
 }
 
 sub test_TWISTY_remember {
@@ -218,6 +237,8 @@ my twisty content
 EXPECTED
 
     $this->do_test( $expected, $source );
+
+    return;
 }
 
 sub test_TWISTY_escaped_variable {
@@ -248,6 +269,8 @@ EXPECTED3
     $expected =~ s/src="\n/src="/go;
 
     $this->do_test( $expected, $source );
+
+    return;
 }
 
 sub test_TWISTY_param_linkclass {
@@ -264,12 +287,14 @@ contents
 EXPECTED
 
     $this->do_test( $expected, $source );
+
+    return;
 }
 
 sub test_twistyInSubWeb {
     my $this = shift;
     $this->{session}->finish();
-    $this->{session} = new Foswiki();
+    $this->{session} = Foswiki->new();
 
     my $testWebSubWebPath = $this->{test_web} . '/SubWeb';
     my $webObject = Foswiki::Meta->new( $this->{session}, $testWebSubWebPath );
@@ -298,6 +323,8 @@ my twisty content
 EXPECTED
 
     $this->do_test( $expected, $source, $testWebSubWebPath, $testTopic );
+
+    return;
 }
 
 1;
