@@ -214,7 +214,11 @@ function initDefaultLink(inLink) {
 	inLink.type = type;
 	
 	/* retrieve value from title tag */
-	inLink.defaultValue = unescape(inLink.title);
+	if (inLink.type == 'OCTAL') {
+		inLink.defaultValue = 0+parseInt(unescape(inLink.title)).toString(8);
+	} else {
+		inLink.defaultValue = unescape(inLink.title);
+	}
 
 	/* set link label states */
 	inLink.setDefaultLinkText = 'use default';
@@ -274,8 +278,13 @@ function resetToDefaultValue (inLink, inFormType, inName, inValue) {
 		elem.checked = value;
 	} else {
 		/* including type='text'  */
-		oldValue = elem.value;
-		elem.value = value;
+		if (inLink.type == 'OCTAL') {
+			oldValue = 0+parseInt(elem.value).toString(8);
+			elem.value = 0+parseInt(value).toString(8);
+		} else {
+			oldValue = elem.value;
+			elem.value = value;
+		}
 	}
 	
 	var label = $('.configureDefaultValueLinkLabel', inLink)[0];
