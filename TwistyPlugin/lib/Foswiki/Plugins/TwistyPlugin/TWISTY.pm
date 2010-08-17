@@ -28,19 +28,22 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             $session,
-            name       => 'Twisty',
-            version    => '1.6.0',
-            author     => 'Rafael Alvarez, Michael Daum, Arthur Clemens',
-            homepage   => 'http://foswiki.org/Extensions/TwistyPlugin',
-            puburl     => '%PUBURLPATH%/%SYSTEMWEB%/TwistyPlugin',
-            javascript => ['jquery.twisty.js'],
-            css        => ['jquery.twisty.css']
+            name         => 'Twisty',
+            version      => '1.6.0',
+            author       => 'Rafael Alvarez, Michael Daum, Arthur Clemens',
+            homepage     => 'http://foswiki.org/Extensions/TwistyPlugin',
+            puburl       => '%PUBURLPATH%/%SYSTEMWEB%/TwistyPlugin',
+            dependencies => ['livequery'],
+            javascript   => ['jquery.twisty.js'],
+            css          => ['jquery.twisty.css']
         ),
         $class
     );
+
     # The jquery plugin code is using 'sub-cookies' within the FOSWIKIPREF
     # cookie.
-    my $foswikiPrefs = Foswiki::Func::expandTemplate('JavascriptFiles/foswikiPref');
+    my $foswikiPrefs =
+      Foswiki::Func::expandTemplate('JavascriptFiles/foswikiPref');
     Foswiki::Func::expandCommonVariables($foswikiPrefs);
 
     return $this;
