@@ -22,6 +22,14 @@ sub new {
     return $self;
 }
 
+# This particular test makes perl chew several hundred megabytes underl 5.10.0
+# Devel::Leak::Object does not report any particular problems with this test.
+# This test is run in a separate process to be able to reclaim that memory
+# after the test is complete.
+sub run_in_new_process {
+    return 1;
+}
+
 sub set_up {
     my $this = shift;
 
