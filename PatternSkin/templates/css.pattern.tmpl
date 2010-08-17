@@ -11,7 +11,7 @@
 %TMPL:P{"styles:custom_skin"}%%IF{ "$ USERLAYOUTURL or $ USERSTYLEURL or $ USERCOLORSURL" then="$percntTMPL:P{$quotstyles:user_defined$quot}$percnt"}%%TMPL:P{"styles:dynamic"}%%TMPL:END%
 
 
-%TMPL:DEF{"styles:print"}%<style type="text/css" media="all">
+%TMPL:DEF{"styles:print"}%<style type="text/css" media="print">
 	@import url("%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/print.css");
 </style>%TMPL:END%
 
