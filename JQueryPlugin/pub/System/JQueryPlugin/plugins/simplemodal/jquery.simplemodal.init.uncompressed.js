@@ -32,7 +32,7 @@
   } 
 
   var defaults = {
-    persist:true,
+    persist:false,
     close:false, 
     onShow: function() { 
       $(window).trigger("resize.simplemodal"); 

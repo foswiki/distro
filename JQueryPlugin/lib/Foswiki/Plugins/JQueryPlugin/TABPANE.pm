@@ -83,6 +83,7 @@ sub handleTab {
     my $afterHandler     = $params->{after}     || '';
     my $afterLoadHandler = $params->{afterload} || '';
     my $url              = $params->{url}       || '';
+    my $container        = $params->{container} || '';
     my $tabClass         = $params->{id}        || '';
     my $height           = $params->{height};
     my $width            = $params->{width};
@@ -103,6 +104,9 @@ sub handleTab {
 
         #    $afterLoadHandler =~ s/'/\\'/go;
         push @metaData, "afterLoadHandler: function() {$afterLoadHandler}";
+    }
+    if ($container) {
+        push @metaData, "container: '$container'";
     }
     if ($url) {
         push @metaData, "url: '$url'";

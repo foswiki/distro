@@ -112,6 +112,17 @@ $.tabpane = {
       $newContainer.height(oldHeight);
     }
 
+    var $innerContainer = $newContainer;
+    var isInnerContainer = false;
+    if(typeof(data.container) != "undefined") {
+      $innerContainer = $newContainer.find(data.container);
+      if ($innerContainer.length) {
+	isInnerContainer = true;
+      } else {
+	$innerContainer = $newContainer;
+      }
+    }
+
     function _finally () {
       
       var effect = 'none';
@@ -122,7 +133,7 @@ $.tabpane = {
       // adjust height of the current tab
       if (thisOpts.autoMaxExpand) {
         if(thisOpts.animate && effect != 'none') {
-          $newContainer.css({opacity:0.0}).animate({
+          $innerContainer.css({opacity:0.0}).animate({
             opacity: 1.0
           }, 300);
         }
@@ -131,16 +142,25 @@ $.tabpane = {
         // animate height
         if (thisOpts.animate) {
           $newContainer.height('auto');
-          var newHeight = $newContainer.height();
           if (effect != 'none') {
-            $newContainer.height(oldHeight).css({opacity:0.0}).animate({
-              opacity: 1.0,
-              height: newHeight
-            }, 300, effect, function() {
-              $newContainer.height('auto');
-            });
-          } else {
-            $newContainer.height('auto');
+            var newHeight = $newContainer.height();
+            if (isInnerContainer) {
+              $newContainer.height(oldHeight).animate({
+                height: newHeight
+              }, 300, effect, function() {
+                $newContainer.height('auto');
+              });
+              $innerContainer.css({opacity:0.0}).animate({
+                opacity: 1.0
+              }, 300, effect);
+            } else {
+              $newContainer.height(oldHeight).css({opacity:0.0}).animate({
+                opacity: 1.0,
+                height: newHeight
+              }, 300, effect, function() {
+                $newContainer.height('auto');
+              });
+            }
           }
         }
       }
@@ -156,8 +176,7 @@ $.tabpane = {
 
     // async loader
     if (typeof(data.url) != "undefined") {
-        
-      $newContainer.load(data.url, undefined, function() {
+      $innerContainer.load(data.url, undefined, function() {
         if (typeof(data.afterLoadHandler) == "function") {
           //jQuery.log("after load handler "+command);
           data.afterLoadHandler.call(this, oldTabId, newTabId);

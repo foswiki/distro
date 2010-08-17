@@ -150,14 +150,18 @@ if (foswiki.preferences === undefined) {
   for (var pref in mapping) {
     foswiki[mapping[pref]] = foswiki.getPreference(pref);
   }
+
+  // document ready
+  $(function() {
+    $(".foswikiMakeVisible, .foswikiMakeVisibleInline").livequery(function() {
+      $(this).css("display", "inline");
+    });
+    $(".foswikiMakeVisibleBlock").livequery(function() {
+      $(this).css("display", "block");
+    });
+    $(".foswikiMakeHidden").livequery(function() {
+      $(this).css("display", "none");
+    });
+  });
 	
 })(jQuery);
-
-// document ready
-(function($) {$(function() {
-  if (true) { // set the MakeVisibles and MakeHiddens
-    $(".foswikiMakeVisible, .foswikiMakeVisibleInline").css("display", "inline");
-    $(".foswikiMakeVisibleBlock").css("display", "block");
-    $(".foswikiMakeHidden").css("display", "none");
-  }
-});}(jQuery));

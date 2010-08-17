@@ -13,4 +13,5 @@
      | url | link from where to load the content of the tab asynchronously when selecting this tab; the result of the addressed handler will replace the content area; if no url is set the content of the TAB ... ENDTAB area will be show on select | |
      | width | width of the tab area | auto |
      | height | height of the tab area | auto |
+     | container | element where ajax content will be loaded; this is only used together with =url= | |
    * Related: [[VarENDTAB]], [[VarTABPANE]], [[VarENDTABPANE]], JQueryPlugin, JQueryTabpane
