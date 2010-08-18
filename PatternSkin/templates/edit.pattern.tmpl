@@ -30,15 +30,15 @@
 %TMPL:DEF{"action_buttons"}%%TMPL:P{"button_save"}%&nbsp;%TMPL:P{"button_quietsave"}%&nbsp;%TMPL:P{"button_checkpoint"}% %TMPL:P{"button_preview"}% %MAKETEXT{"or"}% %TMPL:P{"button_cancel"}%%TMPL:END%
 
 
-%TMPL:DEF{"button_save"}%<input type="submit" class="foswikiSubmit" name="action_save" id="save" %MAKETEXT{"value='Save' accesskey='s'"}% />%TMPL:END%
+%TMPL:DEF{"button_save"}%<input type="submit" class="foswikiSubmit" name="action_save" id="save" value="%MAKETEXT{"Save"}%" accesskey="s" />%TMPL:END%
 
-%TMPL:DEF{"button_quietsave"}%<input type="submit" class="foswikiButton" name="action_quietsave" id="quietsave" %MAKETEXT{"value='Quiet save' accesskey='q'"}% />%TMPL:END%
+%TMPL:DEF{"button_quietsave"}%<input type="submit" class="foswikiButton" name="action_quietsave" id="quietsave" value="%MAKETEXT{"Quiet save"}%" accesskey="q" />%TMPL:END%
 
-%TMPL:DEF{"button_checkpoint"}%<input type="submit" class="foswikiButton" name="action_checkpoint" id="checkpoint" %MAKETEXT{"value='Save and Continue' accesskey='k'"}% />%TMPL:END%
+%TMPL:DEF{"button_checkpoint"}%<input type="submit" class="foswikiButton" name="action_checkpoint" id="checkpoint" value="%MAKETEXT{"Save and Continue"}%" accesskey="k" />%TMPL:END%
 
-%TMPL:DEF{"button_preview"}%<input type="submit" class="foswikiButton" name="action_preview" id="preview" %MAKETEXT{"value='Preview' accesskey='p'"}% />%TMPL:END%
+%TMPL:DEF{"button_preview"}%<input type="submit" class="foswikiButton" name="action_preview" id="preview" value="%MAKETEXT{"Preview"}%" accesskey="p" />%TMPL:END%
 
-%TMPL:DEF{"button_cancel"}%<input type="submit" class="foswikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}%" />%TMPL:END%
+%TMPL:DEF{"button_cancel"}%<input type="submit" class="foswikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' value="%MAKETEXT{"Cancel"}%" accesskey="c" />%TMPL:END%
 
 
 %TMPL:DEF{"actionbuttons_help"}%<div class="patternSaveHelp">%TMPL:P{"accesskeys_help"}%</div><!--/patternSaveHelp-->%TMPL:END%
