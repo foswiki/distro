@@ -22,7 +22,7 @@ A test pass will generate an appropriate plain text message in the browser. A te
 ---+ Syntax
 
 In your testcase topic, enter the golden HTML surrounded by structured HTML comments:
-<verbatim>
+<verbatim class="tml">
 <!-- expected -->
 ...your golden HTML...
 <!-- /expected -->
@@ -36,7 +36,7 @@ The golden HTML should be what you expect to be rendered in the final output.
 Anything else you put into an =expected= tag will be output if there are any test failures, so you can add random text to help identify which =expected= block failed - for example <code>&lt;!-- expected TESTEYESIGHT --&gt;</code>
 
 You specify your actual test markup in the same way:
-<verbatim>
+<verbatim class="tml">
 <!-- actual -->
 <!-- /actual -->
 </verbatim>
@@ -73,4 +73,4 @@ Some notes about the comparison process:
 |  Perl Version: | 5.8 |
 
 __Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
-m
+<!-- %JQREQUIRE{"chili"}% -->

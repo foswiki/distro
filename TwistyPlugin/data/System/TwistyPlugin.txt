@@ -26,7 +26,7 @@ A Twisty consists of 3 elements:
    
 The typical !TwistyPlugin triad will look like this (pseudo code):
 
-<verbatim>
+<verbatim class="tml">
 %TWISTYSHOW{}% %TWISTYHIDE{}%
 (there may be other things between buttons and content)
 %TWISTYTOGGLE{}% my content %ENDTWISTYTOGGLE%
@@ -36,7 +36,7 @@ The typical !TwistyPlugin triad will look like this (pseudo code):
 
 The Twisty triad is conveniently packed into shorthand =%<nop>TWISTY{some parameters}% Collapsing content %<nop>ENDTWISTY%=:
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{}%
 my twisty content
 %ENDTWISTY%
@@ -54,13 +54,13 @@ You may have noticed that no parameters are passed to =%<nop>TWISTY{}%= but the 
 ---+++ Twisty with icons
 We will use =mode="div"= to put the collapsing content below the button (the default mode is ="span"=).
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-mode="div"
-showlink="Show..."
-hidelink="Hide"
-showimgleft="%ICONURLPATH{toggleopen-small}%"
-hideimgleft="%ICONURLPATH{toggleclose-small}%"
+    mode="div"
+    showlink="Show..."
+    hidelink="Hide"
+    showimgleft="%ICONURLPATH{toggleopen-small}%"
+    hideimgleft="%ICONURLPATH{toggleclose-small}%"
 }%
 my twisty content
 %ENDTWISTY%
@@ -79,13 +79,13 @@ hideimgleft="%ICONURLPATH{toggleclose-small}%"
 %ENDTWISTY%
 
 To put icons at the right side, write
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-mode="div"
-showlink="Show&nbsp;"
-hidelink="Hide&nbsp;"
-showimgright="%ICONURLPATH{toggleopen-small}%"
-hideimgright="%ICONURLPATH{toggleclose-small}%"
+    mode="div"
+    showlink="Show&nbsp;"
+    hidelink="Hide&nbsp;"
+    showimgright="%ICONURLPATH{toggleopen-small}%"
+    hideimgright="%ICONURLPATH{toggleclose-small}%"
 }%
 my twisty content
 %ENDTWISTY%
@@ -107,11 +107,11 @@ hideimgright="%ICONURLPATH{toggleclose-small}%"
 To store the last state in a FOSWIKIPREF cookie, add the parameter =remember="on"=.%BR%
 To test this, reload the page after toggling.
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-showlink="Show..."
-hidelink="Hide"
-remember="on"
+    showlink="Show..."
+    hidelink="Hide"
+    remember="on"
 }%
 my twisty content
 %ENDTWISTY%
@@ -127,39 +127,39 @@ remember="on"
 
 If a Twisty state has been stored in a FOSWIKIPREF cookie before, it can be cleared by using =remember="off"=:
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-showlink="Show..."
-hidelink="Hide"
-remember="off"
+    showlink="Show..."
+    hidelink="Hide"
+    remember="off"
 }%
 my twisty content
 %ENDTWISTY%
 </verbatim>
 
 %TWISTY{
-showlink="Show..."
-hidelink="Hide"
-remember="off"
+    showlink="Show..."
+    hidelink="Hide"
+    remember="off"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
 
 *NOTE:* Twisty ids are generated automatically. If you need control over exactly _which_ Twisty should be remembered, add the parameter =id=:
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-id="currentCustomerList"
-showlink="Show..."
-hidelink="Hide"
-remember="on"
+    id="currentCustomerList"
+    showlink="Show..."
+    hidelink="Hide"
+    remember="on"
 }%
 my customer list
 %ENDTWISTY%
 </verbatim>
 
 Note that =id= sets a sitewide cookie. To create a unique id, add topic or web macros:
-<verbatim>
+<verbatim class="tml">
 id="%WEB%_%TOPIC%_currentCustomerList"
 </verbatim>
 
@@ -168,40 +168,40 @@ id="%WEB%_%TOPIC%_currentCustomerList"
 ---+++ Make it obey
 To let the Twisty start with its content folded open, add parameter =start="show"=. 
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-showlink="Show..."
-hidelink="Hide"
-start="show"
+    showlink="Show..."
+    hidelink="Hide"
+    start="show"
 }%
 my twisty content
 %ENDTWISTY%
 </verbatim>
 
 %TWISTY{
-showlink="Show..."
-hidelink="Hide"
-start="show"
+    showlink="Show..."
+    hidelink="Hide"
+    start="show"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
 
 Likewise use =start="hide"= to start with hidden content.
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-showlink="Show..."
-hidelink="Hide"
-start="hide"
+    showlink="Show..."
+    hidelink="Hide"
+    start="hide"
 }%
 my twisty content
 %ENDTWISTY%
 </verbatim>
 
 %TWISTY{
-showlink="Show..."
-hidelink="Hide"
-start="hide"
+    showlink="Show..."
+    hidelink="Hide"
+    start="hide"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
@@ -212,20 +212,20 @@ start="hide"
 To let the Twisty start with its content folded open the first time the visitor sees the Twisty, add the parameter =firststart="show"=.
 If =remember="on"= is used, subsequential visits to the page will display the Twisty according the cookie setting.
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-showlink="Show..."
-hidelink="Hide"
-firststart="show"
+    showlink="Show..."
+    hidelink="Hide"
+    firststart="show"
 }%
 my twisty content
 %ENDTWISTY%
 </verbatim>
 
 %TWISTY{
-showlink="Show..."
-hidelink="Hide"
-firststart="show"
+    showlink="Show..."
+    hidelink="Hide"
+    firststart="show"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
@@ -237,20 +237,20 @@ You can use Twisty to show interface elements that should only be visible with !
 
 Put the "JavaScript content" in an almost bare bones Twisty. Write =showlink="" hidelink=""= to not display any default link texts.
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-link=""
-noscript="hide"
-start="show"
+    link=""
+    noscript="hide"
+    start="show"
 }%
 <input type="submit" class="foswikiButton" value="You surely have !JavaScript" />
 %ENDTWISTY%
 </verbatim>
 
 %TWISTY{
-link=""
-noscript="hide"
-start="show"
+    link=""
+    noscript="hide"
+    start="show"
 }%
 <input type="submit" class="foswikiButton" value="You surely have !JavaScript" />
 %ENDTWISTY%
@@ -261,18 +261,18 @@ When !JavaScript is off, the button should be invisible.
 
 This code will show the button when !JavaScript is off:
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-link=""
-start="show"
+    link=""
+    start="show"
 }%
 <input type="submit" class="foswikiButton" value="You might have !JavaScript" />
 %ENDTWISTY%
 </verbatim>
 
 %TWISTY{
-link=""
-start="show"
+    link=""
+    start="show"
 }%
 <input type="submit" class="foswikiButton" value="You might have !JavaScript" />
 %ENDTWISTY%
@@ -282,12 +282,12 @@ start="show"
 ---+++ Styling the Twisty
 Use parameter =class= to style the content div or class:
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-mode="div"
-showlink="Show..."
-hidelink="Hide"
-class="foswikiHelp"
+    mode="div"
+    showlink="Show..."
+    hidelink="Hide"
+    class="foswikiHelp"
 }%
 my twisty content
 %ENDTWISTY%
@@ -295,10 +295,10 @@ my twisty content
 
 Generates: %BR%
 %TWISTY{
-mode="div"
-showlink="Show..."
-hidelink="Hide"
-class="foswikiHelp"
+    mode="div"
+    showlink="Show..."
+    hidelink="Hide"
+    class="foswikiHelp"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
@@ -307,12 +307,12 @@ class="foswikiHelp"
 ---+++ Styling the Twisty link or button
 Use parameter =linkclass= to style the twisty links:
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-mode="div"
-showlink="Show..."
-hidelink="Hide"
-linkclass="foswikiButton"
+    mode="div"
+    showlink="Show..."
+    hidelink="Hide"
+    linkclass="foswikiButton"
 }%
 my twisty content
 %ENDTWISTY%
@@ -332,14 +332,14 @@ linkclass="foswikiButton"
 ---+++ Twisty headers
 To be able to use header tags like =&lt;h2&lt;=, use the properties =prefix= and =suffix=. Because we have identical show and hide links we can use the shorthand property =link=.
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-prefix="<h4>"
-mode="div"
-link="Twisty Header"
-showimgleft="%ICONURLPATH{toggleopen}%"
-hideimgleft="%ICONURLPATH{toggleclose}%"
-suffix="</h4>"
+    prefix="<h4>"
+    mode="div"
+    link="Twisty Header"
+    showimgleft="%ICONURLPATH{toggleopen}%"
+    hideimgleft="%ICONURLPATH{toggleclose}%"
+    suffix="</h4>"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
@@ -348,23 +348,23 @@ suffix="</h4>"
 Will create:
 
 %TWISTY{
-prefix="<h4>"
-mode="div"
-link="Twisty Header"
-showimgleft="%ICONURLPATH{toggleopen}%"
-hideimgleft="%ICONURLPATH{toggleclose}%"
-suffix="</h4>"
+    prefix="<h4>"
+    mode="div"
+    link="Twisty Header"
+    showimgleft="%ICONURLPATH{toggleopen}%"
+    hideimgleft="%ICONURLPATH{toggleclose}%"
+    suffix="</h4>"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
 
 If you don't use images, there is an easier way to create a twisty header:
 
-<verbatim>
+<verbatim class="tml">
 %TWISTY{
-mode="div"
-showlink="<h4>&#9658; Details</h4>"
-hidelink="<h4>&#9660; Details</h4>"
+    mode="div"
+    showlink="<h4>&#9658; Details</h4>"
+    hidelink="<h4>&#9660; Details</h4>"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
@@ -373,9 +373,9 @@ hidelink="<h4>&#9660; Details</h4>"
 Will create:
 
 %TWISTY{
-mode="div"
-showlink="<h4>&#9658; Details</h4>"
-hidelink="<h4>&#9660; Details</h4>"
+    mode="div"
+    showlink="<h4>&#9658; Details</h4>"
+    hidelink="<h4>&#9660; Details</h4>"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
@@ -384,8 +384,9 @@ hidelink="<h4>&#9660; Details</h4>"
 
 You can toggle all Twisties on or off at once by putting a link or button on the page with class =twistyExpandAll= or =twistyCollapseAll=.
 
-<verbatim>
-<button class="twistyExpandAll foswikiButton">Expand all</button> &nbsp; <button class="twistyCollapseAll foswikiButton">Collapse all</button>
+<verbatim class="tml">
+<button class="twistyExpandAll foswikiButton">Expand all</button>
+<button class="twistyCollapseAll foswikiButton">Collapse all</button>
 </verbatim>
 
 Creates these controls:
@@ -395,7 +396,7 @@ Creates these controls:
 
 When you want to use links, write:
 
-<verbatim>
+<verbatim class="tml">
 #VarTOGGLE
 
 <a href="#TOGGLE" class="twistyExpandAll">Expand all</a> &nbsp; 
@@ -423,13 +424,13 @@ The format tokens are the same as with %SYSTEMWEB%.FormattedSearch:
 
 
 For example, to show an icon inside the link, do not write:
-<verbatim>
+<verbatim class="tml">
 link="%Y%"
 </verbatim>
 
 but use format tokens:
 
-<verbatim>
+<verbatim class="tml">
 link="$percentY$percent"
 </verbatim>
 
@@ -446,13 +447,13 @@ my twisty content
 
 Or a more complex example using %SYSTEMWEB%.SpreadSheetPlugin; do not write:
 
-<verbatim>
+<verbatim class="tml">
 link="Count: (%CALC{"$GET(infoCount)"}%)"
 </verbatim>
 
 but use format tokens:
 
-<verbatim>
+<verbatim class="tml">
 link="Count: ($percentCALC{$quot$dollarGET(infoCount)$quot}$percent)"
 </verbatim>
 
@@ -485,7 +486,9 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
-|  15 Aug 2010 | 1.6.0 Foswiki:Tasks.Item9422: Implement as JQueryPlugin::Plugin; emit =display: none= style on hidden twisties to avoid relying on CSS/JS |
+|  15 Aug 2010 | 1.6.0<br/>\
+ Foswikitask:Item9422: Implement as JQueryPlugin::Plugin; emit =display: none= style on hidden twisties to avoid relying on CSS/JS<br/>\
+ Foswikitask:Item9415: Documentation changes<br/> |
 |  27 Jul 2010 | 1.5.6 Foswiki:Tasks.Item9387: Fixed jQuery JS |
 |  13 Mar 2010 | 1.5.5 Fixed id generated in subwebs. |
 |  12 Feb 2010 | 1.5.4 Fixed jquery twisties, improved templates structure |
@@ -510,3 +513,4 @@ You can override some default settings in the plugin by setting the following [[
 |  Dependencies: | None |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
+<!-- %JQREQUIRE{"chili"}% -->

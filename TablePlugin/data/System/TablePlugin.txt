@@ -23,11 +23,11 @@ Table attributes can be set in different ways. In top down order:
    1 As parameters to the =TABLE= macro: =%<nop>TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%=
 
 The preference =TABLEPLUGIN_TABLEATTRIBUTES = ...= competely overrides previous preferences (for example in <nop>%MAINWEB%.SitePreferences or Configure):
-<pre>
+<pre class="tml">
    * <nop>Set TABLEPLUGIN_TABLEATTRIBUTES = cellpadding="0" <span class="foswikiGrayText">&lt;&lt;&lt; this will remove previously set preferences and leave only 1 attribute</span>
 </pre>
 If you pass =%<nop>TABLE{...}%= parameters, you partially override previously set preferences:
-<pre>
+<pre class="tml">
    * %<nop>TABLE{datacolor="#f00"}% <span class="foswikiGrayText">&lt;&lt;&lt; this will only change the data color attribute</span>
 </pre>
 
@@ -38,7 +38,7 @@ The setting =disableallsort= is normally not used as a TABLE or TABLEATTRIBUTES 
 
 ---+++ Use of %<nop>TABLE{...}%
 
-Line before table: =%<nop>TABLE{ sort="on" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" headerbg="#D5CCB1" headercolor="#666" databg="#FAF0D4, #F3DFA8" headerrows="2" footerrows="1" }%=
+Line before table: <pre class="tml">%<nop>TABLE{ sort="on" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" headerbg="#D5CCB1" headercolor="#666" databg="#FAF0D4, #F3DFA8" headerrows="2" footerrows="1" }%</pre>
 
 %TABLE{ sort="on" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" headerbg="#D5CCB1" headercolor="#666" databg="#FAF0D4, #F3DFA8" headerrows="2" footerrows="1" }%
 | *Table with two Header Rows and Footer Row* ||||||
@@ -96,7 +96,7 @@ sort row. To sort by the first _footer_ row, set =headerrows="0"=.
 
 Table cells with a single caret indicate follow-up rows of multi-row spans. For example,
 
-<verbatim>
+<verbatim class="tml">
 | One One | One Two | One Three |
 | ^ | Two Two | Two Three |
 | Three One | ^ | Three Three |
@@ -109,7 +109,7 @@ Results in:
 
 ---+++ Col spans
 Col spans can be achieved by writing table cell separators without contents or spacing:
-<verbatim>
+<verbatim class="tml">
 %TABLE{tablerules="cols"}%
 | *Mammals* ||
 | Monotremes | Echidna, Platypus |
@@ -178,7 +178,8 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  9 Aug 2010 | 1.125: Crawford Currie: Item8303: fixed sorting with multiple headers |
+|  18 Aug 2010 | 1.126: Paul harvey: Foswikitask:Item9415: minor documentation changes |
+|  09 Aug 2010 | 1.125: Crawford Currie: Foswikitask:Item8303: fixed sorting with multiple headers |
 |  31 Jul 2010 | 1.124: Arthur Clemens: Added attribute =inlinemarkup= to optionally add HTML markup for better copy/pasting. |
 |  05 Apr 2010 | 1.123: New default colors. |
 |  13 Mar 2010 | 1.122: Arthur Clemens: Fixed sorting of columns with mixed data types: numbers, dates, strings, empty cells. |
@@ -186,8 +187,8 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  17 Sep 2009 | 1.120: Arthur Clemens: Added =include= parameter. |
 |  16 Sep 2009 | 1.110: Arthur Clemens: Added attributes =headerrules= and =datarules=. Fixed potential bug where Explorer won't render more than 20 table CSS tags. Fix sorting on IP addresses. |
 |  13 Sep 2009 | 1.100: Arthur Clemens: Removed HTML formatting in favor of a pure CSS rendering. Code refactoring and bug fixes: \
-%BB% Fixed a bug that ignored =cellspacing= (Item8270). \
-%BB% Sorting is now possible with multiple header rows (Item8122). \
+%BB% Fixed a bug that ignored =cellspacing= (Foswikitask:Item8270). \
+%BB% Sorting is now possible with multiple header rows (Foswikitask:Item8122). \
 %BB% Fixed sorting of dates prior to 1970. |
 |  21 Sep 2009 | 1.043: Kenneth Lavrsen: Added check for valid value for initsort. Ignore if it is not a number. |
 |  12 Sep 2009 | 1.042: Kenneth Lavrsen: Added a new API call initialiseWhenRender which plugins like !CompareRevisionsAddOn can use to reset the table counters between two renderings of the same topic |
@@ -234,4 +235,4 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  07 Oct 2001 | JT: Initial version |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
-
+<!-- %JQREQUIRE{"chili"}% -->

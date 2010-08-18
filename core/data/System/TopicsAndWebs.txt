@@ -90,8 +90,8 @@ A primary purpose of Foswiki is to make it incredibly easy for you to add and ed
 
    * *To add a new topic*: the simplest way is to type a new WikiName in an existing topic, while you're in edit mode. When the topic is saved, the new name will appear highlighted, with a *?* at the end: click the *?* and a new edit window appears. Enter, preview and save as usual. The new topic now exists.
       * Go back to the topic where you started, and you'll see the *?* has disappeared, and your WikiWord name is now a regular link. Type it anywhere on any topic in that web, and it will be turned into a link.
-      * %H% *One little links rule: each topic, and its WikiWord link, belong to one unique web only.* To link _between_ webs, you must first enter the topic's web name. <br />
-         *Example:* This is %TOPIC%, in the ==%WEB%== web, so that's all you need to type on any topic in this web. But to link to <nop>%TOPIC% from a topic in the ==%USERSWEB%== web, you have to type ==%SYSTEMWEB%.<nop>%TOPIC%== - ==Webname.<nop>TopicName==. It's easy.
+   <blockquote class="foswikiHelp">%H% *One little links rule: each topic, and its WikiWord link, belong to one unique web only.* To link _between_ webs, you must first enter the topic's web name. <br />
+   *Example:* This is %TOPIC%, in the ==%WEB%== web, so that's all you need to type on any topic in this web. But to link to <nop>%TOPIC% from a topic in the ==%USERSWEB%== web, you have to type ==%SYSTEMWEB%.<nop>%TOPIC%== - ==Webname.<nop>TopicName==. It's easy.</blockquote>
 
 Another way to add a topic is to type a new topic name in the Go box or an unknown topic URL.  You can type in either a WikiName to create the topic in the current web or <nop>Web.TopicName to create a topic in a different web than the current page.  Topics created with the Go box or URLs do not have parent meta-data defined.
 
@@ -154,7 +154,7 @@ You can rename, move and delete individual topics by clicking ==More== on the co
       * Any problems are listed - take note, and you can fix them later.
       * If a linked topic can't be updated (it may be locked because someone's editing it), an alert will appear. You can update missed topics later by again pressing ==Rename/move==.
 
-*%H% Note:* Deleting means moving a topic to the Trash web. Since all webs share the one Trash, name conflicts may come up.
+<blockquote class="foswikiHelp">%H% *Note:* Deleting means moving a topic to the Trash web. Since all webs share the one Trash, name conflicts may come up.</blockquote>
 
 #RevisionRollback
 ---++ Reviewing and Reverting
@@ -167,6 +167,7 @@ RCS revision control automatically saves all topic changes. To look at earlier v
    1 Either paste in the portion of the topic you wish to reclaimed or replace the entire text with the text you copied from the earlier version.
    1 Save the topic.
 See: [[CompleteDocumentation#Managing_Topics][ManagingTopics]] for more details.
+<!-- %JQREQUIRE{"chili"}% -->
 
 ---
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory

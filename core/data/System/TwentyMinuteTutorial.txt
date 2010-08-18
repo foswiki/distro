@@ -21,7 +21,7 @@ A Foswiki site is divided into webs; each one usually represents one area of col
    * You can search each web. Enter a search string into the __Search__ field on the top of a page. Foswiki searches for an exact match
    * Advanced Search lets you select different search types, including database-style [[QuerySearch][Queries]] and even RegularExpressions.
 
-%T% Do not confuse the __Jump__ field with the __Search__ field.
+<blockquote class="foswikiHelp">%T% Do not confuse the __Jump__ field with the __Search__ field.</blockquote>
 
 ---++ 3. Open a private account...
 To edit topics, you need to have a Foswiki account. 
@@ -122,7 +122,7 @@ There are different ways of formatting text:
 
 That's it! You're now equipped with all the Foswiki essentials. You are ready to roll.
 
-%H% When first using Foswiki, it will probably seem strange to be able to change other people's postings - we're used to *separating* individual messages, with e-mail, message boards, non-Wiki collaboration platforms. __Don't worry about it.__ You can't accidentally delete important stuff - you can always check previous versions, and restore them, if necessary, if you want to undo any changes. After a short while, it'll become second-nature and you'll expect it everywhere!
+<blockquote class="foswikiHelp">%H% When first using Foswiki, it will probably seem strange to be able to change other people's postings - we're used to *separating* individual messages, with e-mail, message boards, non-Wiki collaboration platforms. __Don't worry about it.__ You can't accidentally delete important stuff - you can always check previous versions, and restore them, if necessary, if you want to undo any changes. After a short while, it'll become second-nature and you'll expect it everywhere!</blockquote>
 
 __Related Topics:__ UserDocumentationCategory, TopicsAndWebs, ShortHand
 %STOPINCLUDE% 

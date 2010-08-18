@@ -48,7 +48,7 @@ The default setting for this preference are hard coded in the plugin.  If you
 wish to change the settings, the following list is the default setting coded
 in the plugin:
 <pre class="tml">
-   * Set WYSIWYGPLUGIN_STICKYBITS = %INCLUDE{"%TOPIC%" section="WYSIWYG_STICKYBITS"}%
+   * Set WYSIWYGPLUGIN_STICKYBITS = %INCLUDE{"%TOPIC%" section="WYSIWYGPLUGIN_STICKYBITS"}%
 </pre>%JQREQUIRE{"chili"}%<!--
 %STARTSECTION{"WYSIWYGPLUGIN_STICKYBITS"}%
         .*=id,lang,title,dir,on.*;
