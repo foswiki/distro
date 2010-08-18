@@ -14,25 +14,24 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
 <input type="hidden" name="create" value="1"/>
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep ">
-    <h3>%MAKETEXT{"Name"}%:</h3>
+    <h3>%MAKETEXT{"Group name"}%</h3>
     <input type="text" name="groupname" size="30" class="foswikiInputField"/> 
     <div class="foswikiFormDescription">
       *Note:* 
-      A group topic name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and *must* end in =...Group=. 
+      A group name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and *must* end in =...Group=. 
       New topics are based on [[GroupTemplate]]
     </div>
   </div>
   <div class="foswikiFormStep">
-    <h3>%MAKETEXT{"Members"}%:</h3>
+    <h3>%MAKETEXT{"Members"}%</h3>
     <input type="text" name="username" value="" size="60" class="foswikiInputField" />
-    <div class="foswikiFormDescription">Comma separated list (You will be added to the group automatically to allow you to continue to manage the new group.)</div>
+    <div class="foswikiFormDescription">Comma separated list. You will be added to the group automatically to allow you to continue to manage the new group.</div>
   </div>
   <div class="foswikiFormStep">
-    <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Submit"}%"/>
+    <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Create group"}%"/>
   </div>
-  <div class="foswikiFormStep foswikiFormLast">
----
-    <div class="foswikiFormDescription">
+  <div class="foswikiFormStep foswikiLast">
+    <div class="foswikiFormDescription foswikiHelp">
 *IMPORTANT NOTE:* Think twice before restricting write access to a web or a topic, because an open system where everybody can contribute is the essence of [[%SYSTEMWEB%.WikiCulture][WikiCulture]]. Experience shows that unrestricted write access works very well because:
    * There is enough peer pressure to post only appropriate content.
    * Content does not get lost because topics are under revision control.
