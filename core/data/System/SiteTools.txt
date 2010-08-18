@@ -119,17 +119,23 @@ Foswiki generates an event log which is used by the statistics script
 
 Outgoing mail is required for UserRegistration and for [[#WebNotify][recent changes alert]].
 
-Foswiki will use the ==Net::SMTP== module if it is installed on your system. Set this with the ==SMTPMAILHOST== [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
+The preferred place to configure e-mail is in the =bin/configure= tool (=LocalSite.cfg=).  The configure tool fully documents these setting.  Mail settings are found in the "Mail and Proxies" tab. Foswiki will use the ==Net::SMTP== module if it is installed on your system. 
 
 The notify e-mail uses the default =changes.tmpl= template, or a skin if activated by a [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
 
-mailnotify also relies on two hidden files in each =data/Web= directory: =.changes= and =.mailnotify.= Make sure both are writable by your web server process. =.changes= contains a list of changes; go ahead and make this empty. =.mailnotify= contains a timestamp of the last time notification was done.
+=mailnotify= also relies on a hidden file in each =data/Web= directory: =.changes= and a file with the Web name (one per web) in the =working/work_areas/MailerContrib/= directory. Make sure both are writable by your web server process. =.changes= contains a list of changes;  The file in the =working/work_areas/MailerContrib/= directory  contains a timestamp of the last time notification was done for the web.  Both files are automatically created as needed.
 
-You can use an external mail program, such as ==sendmail==, if the =Net::SMTP= module is not installed. Set the program path in =={MailProgram}== in [[%SCRIPTURLPATH{"configure"}%][configure]].
+---++++ Legacy and current configuration
 
-!   * %H% Net::SMTP can be easily disabled (if there is an installation error) by setting the ==SMTPMAILHOST== [[%SYSTEMWEB%.PreferenceSettings][preference setting]] to an empty value.
+%X% *Caution:* Older versions of Foswiki, and especially TWiki migrations might configure e-mail in the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] topic.  Make sure you delete that setting if you are using a SitePreferences topic from a previous release of Foswiki. 
 
-   * %T% You can set a separate ==SMTPSENDERHOST== [[%SYSTEMWEB%.PreferenceSettings][preference setting]] to define the mail sender host (some SMTP installations require this).
+%TABLE{sort="off"}%
+| *Parameter* | *[[%SCRIPTURLPATH{"configure"}%][configure]]<br/>(Current)* | *[[%SYSTEMWEB%.PreferenceSettings][preference settings]]<br/>(Legacy)* | *Default* | *Description* |
+| Global enable | ={EnableEmail}= | _n/a_ | =enabled= | Globally enable/disable email support. |
+| Extermal mail program | ={MailProgram}=  | _n/a_ | ='/usr/sbin/sendmail -t -oi -oeq'= | E-mail program used when Net:SMTP is unavailable |
+| Mail relay host | ={SMTP}{MAILHOST}= | =SMTPMAILHOST= | _not set_ | Destination SMTP Server used to receive and relay email. Net::SMTP is disabled if this is not set. |
+| Mail sending hostname | ={SMTP}{SENDERHOST}= | =SMTPSENDERHOST= | _not set_ | Hostname used to identify sender.  Some SMTP configurations will require this. |
+| SMTP Password | ={SMTP}{Password}= | _not supported_ | _not set_ |
 
 ---+++ Setting the automatic e-mail schedule
 
