@@ -18,7 +18,8 @@ sub REVINFO {
     my $rev = Foswiki::Store::cleanUpRevID( $params->{rev} || $cgiRev || '' );
 
     ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
-    if ( $web ne $topicObject->web || $topic ne $topicObject->topic ) {
+    my $loadedRev = $topicObject->getLoadedRev();
+    if ( $web ne $topicObject->web || $topic ne $topicObject->topic || $loadedRev ne $rev) {
         $topicObject = Foswiki::Meta->new( $this, $web, $topic );
         unless ( $topicObject->haveAccess('VIEW') ) {
             return $this->inlineAlert( 'alerts', 'access_denied', $web,
