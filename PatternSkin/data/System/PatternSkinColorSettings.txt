@@ -573,6 +573,7 @@ a:hover .foswikiAccessKey {
    border-color:%IMAGE_BORDER%;
    background-color:%MAIN_TEXT_BACKGROUND%;
 }
+#patternTopBar .foswikiImage,
 #patternTopBar .foswikiImage img {
    background-color:transparent;
 }
