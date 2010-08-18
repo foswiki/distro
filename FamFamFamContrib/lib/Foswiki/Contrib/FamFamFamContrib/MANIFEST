@@ -686,6 +686,12 @@ pub/System/DocumentGraphics/up.gif
 pub/System/DocumentGraphics/up.png
 pub/System/DocumentGraphics/useractive.gif
 pub/System/DocumentGraphics/useractive.png
+pub/System/DocumentGraphics/useradd.gif
+pub/System/DocumentGraphics/useradd.png
+pub/System/DocumentGraphics/userdelete.gif
+pub/System/DocumentGraphics/userdelete.png
+pub/System/DocumentGraphics/useredit.gif
+pub/System/DocumentGraphics/useredit.png
 pub/System/DocumentGraphics/userinactive.gif
 pub/System/DocumentGraphics/userinactive.png
 pub/System/DocumentGraphics/uweb-bo12.gif

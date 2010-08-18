@@ -155,6 +155,9 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | group | %ICON{group}% | Group |  =%<nop>ICON{group}%= |
 | useractive | %ICON{useractive}% | Active user |  =%<nop>ICON{useractive}%= |
 | userinactive | %ICON{userinactive}% | Inactive user |  =%<nop>ICON{userinactive}%= |
+| useradd | %ICON{useradd}% | Add user |  =%<nop>ICON{useradd}%= |
+| userdelete | %ICON{userdelete}% | Delete user |  =%<nop>ICON{userdelete}%= |
+| useredit | %ICON{useredit}% | Edit user |  =%<nop>ICON{useredit}%= |
 | building | %ICON{building}% | Building |  =%<nop>ICON{building}%= |
 | buildings | %ICON{buildings}% | Buildings |  =%<nop>ICON{buildings}%= |
 | logout | %ICON{logout}% | Log out |  =%<nop>ICON{logout}%= |
@@ -819,6 +822,12 @@ The social media icons are from  [[http://icondock.com/free/vector-social-media-
 %META:FILEATTACHMENT{name="updated.png" attr="h" comment="" date="1169565034" path="updated.png" size="401" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="useractive.png" attr="h" comment="" date="1193349525" path="useractive.png" size="158" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="userinactive.png" attr="h" comment="" date="1193349525" path="userinactive.png" size="158" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="useradd.png" attr="h" comment="" date="1193349525" path="useradd.png" size="158" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="useradd.gif" attr="h" comment="" date="1193349525" path="useradd.gif" size="158" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="userdelete.png" attr="h" comment="" date="1193349525" path="userdelete.png" size="158" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="userdelete.gif" attr="h" comment="" date="1193349525" path="userdelete.gif" size="158" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="useredit.png" attr="h" comment="" date="1193349525" path="useredit.png" size="158" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="useredit.gif" attr="h" comment="" date="1193349525" path="useredit.gif" size="158" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="uweb-bo.png" attr="h" comment="" date="1193349525" path="uweb-bo.png" size="158" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="uweb-bo12.png" attr="h" comment="" date="1193349525" path="uweb-bo12.png" size="890" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="uweb-g.png" attr="h" comment="" date="1193349525" path="uweb-g.png" size="999" user="ProjectContributor" version=""}%
