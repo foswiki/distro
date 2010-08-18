@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 That is often an indication that <nop>%WIKITOOLNAME% can't find the =egrep= and =fgrep= commands on your system. Check the ={RCS}{EgrepCmd}= and ={RCS}{FgrepCmd}= settings in [[%SCRIPTURLPATH{"configure"}%][configure]].
 
-%META:FORM{name="BasicForm"}%
+%META:FORM{name="FAQForm"}%
 %META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="SearchDoesNotWork" to="FaqSearchDoesNotWork"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Fixing broken =%25<nop>SEARCH%7b%7d%25= caused by faulty configuration."}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%

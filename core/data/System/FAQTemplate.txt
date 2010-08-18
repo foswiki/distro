@@ -3,4 +3,4 @@
 The answer is...
 
 -- %WIKIUSERNAME% - %DATE% <br />
-%META:FORM{name="BasicForm"}%
+%META:FORM{name="FAQForm"}%

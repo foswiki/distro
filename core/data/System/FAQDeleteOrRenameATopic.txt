@@ -10,7 +10,7 @@ Click ==[More]== on the control bar at the bottom of the page you want to change
 
 %H% *For site administrators*: To remove a topic permanently move it to the Trash web, then with file-level access, delete the =.txt= and =.txt,v= files manually from =data/Trash=.
 
-%META:FORM{name="BasicForm"}%
+%META:FORM{name="FAQForm"}%
 %META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="DeleteOrRenameATopic" to="FaqDeleteOrRenameATopic"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Deleting and renaming topics"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
