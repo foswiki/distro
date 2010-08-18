@@ -24,9 +24,10 @@ use vars qw( $VERSION $RELEASE $REVISION $debug $pluginName );
 
 $VERSION = '$Rev$';
 
-$RELEASE = '1.006 (09 Oct 2009)';
+$RELEASE = '1.007 (18 Aug 2010)';
 
-$REVISION = '1.006'; #Paul Harvey# added redirectto parameter
+$REVISION = '1.007'; #Paul Harvey# fix plugin code to only require JSCalendarContrib once
+#$REVISION = '1.006'; #Paul Harvey# added redirectto parameter
 #$REVISION = '1.005'; #Daniel Rohde# fixed performance problem
 #$REVISION = '1.004'; #Kenneth Lavrsen# Fixed a bug that causes JSCalendarContrib to stack overflow. Fix includes changing to official API way to add JSCalendar.
 #$REVISION = '1.003'; #Kenneth Lavrsen# Changed to Foswiki name space
@@ -44,6 +45,7 @@ sub initPlugin {
         Foswiki::Func::writeWarning( "Version mismatch between $pluginName and Plugins.pm" );
         return 0;
     }
+    _requireJSCalendarContrib();
 
     # Plugin correctly initialized
     return 1;
@@ -60,7 +62,7 @@ sub commonTagsHandler {
 	$_[0] =~ s/\%STARTRENDERFORMLAYOUT(.*?)STOPRENDERFORMLAYOUT\%//sg;
 }
 
-sub postRenderingHandler {
+sub _requireJSCalendarContrib {
     # do not uncomment, use $_[0], $_[1]... instead
     #my $text = shift;
     #

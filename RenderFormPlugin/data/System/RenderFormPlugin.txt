@@ -215,6 +215,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | V1.004 (31 Jan 2009) |
 |  Change History: | <!-- versions below in reverse order --> |
+|  V1.007 (18 Aug 2010): | Foswiki:Main.PaulHarvey: fixed plugin code to require JSCalendarContrib only once |
 |  V1.006 (09 Oct 2009): | Foswiki:Main.PaulHarvey: added redirectto parameter |
 |  V1.005 (13 Feb 2009): | Foswiki:Main.DanielRohde: fixed performance problems |
 |  V1.004 (31 Jan 2009): | Foswiki:Main.KennethLavrsen: Foswikitask:Item907 Fixed a bug that causes JSCalendarContrib to stack overflow. Fix includes changing to official API way to add JSCalendar. |
