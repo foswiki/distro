@@ -3,13 +3,9 @@
 %TMPL:DEF{"logo"}%%TMPL:END%
 %TMPL:DEF{"bottombar"}%%TMPL:END%
 
+%TMPL:DEF{"script:skintemplate"}%%TMPL:P{"script:skintemplate:edit"}%%TMPL:END%
 
-%TMPL:DEF{"script:skintemplate"}%%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1'" then='$percntTMPL:P{\"script:skintemplate:edit\"}$percnt'}%%TMPL:END%
-
-%TMPL:DEF{"script:skintemplate:edit"}%%TMPL:P{"PatternSkin/pattern_edit"}%
-%ADDTOZONE{"body" tag="edit.pattern.tmpl" text="<script type=\"text/javascript\">
-jQuery(document).ready(function($) { foswiki.Edit.initForm() });
-</script>" requires="JQUERYPLUGIN"}%%TMPL:END%
+%TMPL:DEF{"script:skintemplate:edit"}%%TMPL:P{"PatternSkin/pattern_edit"}%%TMPL:END%
 
 
 %TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="edithelp" mode="div" remember="on" showlink="&#9658; %MAKETEXT{"Edit help"}%" hidelink="&#9660; %MAKETEXT{"Edit help"}%" linkclass="foswikiButton patternTwistyButton"}%</div><!--//patternTop-->%TMPL:END%
@@ -19,7 +15,7 @@ jQuery(document).ready(function($) { foswiki.Edit.initForm() });
 
 
 %TMPL:DEF{"formstart"}%<div class="foswikiFormHolder" id="formHolder">
-<form name="main" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post" onsubmit="return validateMandatoryFields(event)">%TMPL:END%
+<form name="main" class="foswikiEditForm" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post">%TMPL:END%
 
 
 %TMPL:DEF{"revCommentPluginOptions"}%%IF{ "context RevCommentPluginEnabled" then="<div class='revComment'><label for='comment'>Summary of changes</label> <input class='foswikiInputField' type='text' style='width:50%' name='comment' id='comment' /> <a target='RevComment' class='foswikiPopUp' href='%SCRIPTURL{"view"}%/%SYSTEMWEB%/RevComment' rel='nofollow'>%MAKETEXT{"help"}%</a></div><!--/revComment-->" else=""}%%TMPL:END%
@@ -42,7 +38,7 @@ jQuery(document).ready(function($) { foswiki.Edit.initForm() });
 
 %TMPL:DEF{"button_preview"}%<input type="submit" class="foswikiButton" name="action_preview" id="preview" %MAKETEXT{"value='Preview' accesskey='p'"}% />%TMPL:END%
 
-%TMPL:DEF{"button_cancel"}%<input type="submit" class="foswikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}% onclick="suppressSaveValidation()" />%TMPL:END%
+%TMPL:DEF{"button_cancel"}%<input type="submit" class="foswikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}%" />%TMPL:END%
 
 
 %TMPL:DEF{"actionbuttons_help"}%<div class="patternSaveHelp">%TMPL:P{"accesskeys_help"}%</div><!--/patternSaveHelp-->%TMPL:END%
@@ -59,7 +55,7 @@ jQuery(document).ready(function($) { foswiki.Edit.initForm() });
 %TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="edithelp" mode="div" remember="on" noscript="hide"}%<div class="foswikiHelp">%TMPL:P{"help"}%%TMPL:P{"actionbuttons_help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
 
 
-%TMPL:DEF{"textarea"}%<div class="patternEditTopic"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%' onkeydown='handleKeyDown(event)'>%TEXT%</textarea>%TMPL:P{"sig_textareabuttons"}%</div><!--/patternEditTopic-->%TMPL:END%
+%TMPL:DEF{"textarea"}%<div class="patternEditTopic"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%'>%TEXT%</textarea>%TMPL:P{"sig_textareabuttons"}%</div><!--/patternEditTopic-->%TMPL:END%
 
 
 %TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1' or $NOWYSIWYG='1'" then='%TMPL:P{"textareabuttons"}%'}%%TMPL:P{"sig"}%<br class="foswikiClear" /></div><!-- /patternSigLine-->%TMPL:END%

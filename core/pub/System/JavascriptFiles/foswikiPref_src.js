@@ -303,9 +303,5 @@ foswiki.Pref = {
 		if (skew > 0) {	// Except on the Mac - ahead of its time
 			inDate.setTime(inDate.getTime() - skew);
 		}
-	},
-
-    // Set to true to suppress mandatory field validation on save
-    // (see foswiki_edit.js)
-    validateSuppressed : false
+	}
 };

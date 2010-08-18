@@ -7,8 +7,9 @@
 
 %TMPL:DEF{"script:topictemplate"}%
 %TMPL:P{"JavascriptFiles/foswikiStringUnicodeChars"}%
+%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiStringUnicodeChars" requires="JavascriptFiles/foswikiString"}%
 %TMPL:P{"LIBJS" id="JavascriptFiles/foswikiWindow" requires="JavascriptFiles/foswikilib"}%
-%TMPL:P{"LIBJS" id="PatternSkin/webtopiccreator" requires="JavascriptFiles/foswikiHTML,JavascriptFiles/foswikiString,JavascriptFiles/foswikiCSS"}%
+%TMPL:P{"LIBJS" id="PatternSkin/webtopiccreator" requires="JavascriptFiles/foswikiString"}%
 %ADDTOZONE{"body"
  tag="PatternSkinWebCreateNewTopicTemplate.txt"
  text="

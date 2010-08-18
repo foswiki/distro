@@ -20,9 +20,12 @@ As per the GPL, removal of this notice is prohibited.
 
 */
 
-/**
- * Array utility functions.
+/*
+ * Array extensions.
+ * *Not used by core Foswiki* - kept for compatibility only.
+ * Requires JavascriptFiles/foswikilib
  */
+
 foswiki.Array = {
     
 	/**

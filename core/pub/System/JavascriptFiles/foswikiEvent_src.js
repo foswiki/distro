@@ -23,6 +23,10 @@ see http://simonwillison.net/2004/May/26/addLoadEvent/
 
 */
 
+/*
+ * Event handling.
+ * *Not used by core Foswiki* - kept for compatibility only.
+ */
 foswiki.Event = {
 
 	/**

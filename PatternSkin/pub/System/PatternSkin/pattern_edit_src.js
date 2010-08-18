@@ -20,88 +20,88 @@ As per the GPL, removal of this notice is prohibited.
 
 */
 
-// Requires foswiki_edit.js and JQUERYPLUGIN
+// Requires JavascriptFiles/foswiki_edit
 
 var EDITBOX_FONTSTYLE_MONO_CLASSNAME =
     "patternButtonFontSelectorMonospace";
 var EDITBOX_FONTSTYLE_PROPORTIONAL_CLASSNAME =
     "patternButtonFontSelectorProportional";
 
-var PatternEditFontStyle;
-
 // Controls the state of the font change button
-function PatternEditFontState(jel, buttonState) {
+(function($) {
+    foswiki.Edit.toggleFontStateControl = function(jel, buttonState) {
 
-    var pref = foswiki.Edit.getFontStyle();
-   
-    var newPref;
-    var prefCssClassName;
-    var toggleCssClassName;
-
-    if (pref == EDITBOX_FONTSTYLE_PROPORTIONAL) {
-        newPref = EDITBOX_FONTSTYLE_MONO;
-        prefCssClassName = EDITBOX_FONTSTYLE_PROPORTIONAL_CLASSNAME;
-        toggleCssClassName = EDITBOX_FONTSTYLE_MONO_CLASSNAME;
-    } else {
-        newPref = EDITBOX_FONTSTYLE_PROPORTIONAL;
-        prefCssClassName = EDITBOX_FONTSTYLE_MONO_CLASSNAME;
-        toggleCssClassName = EDITBOX_FONTSTYLE_PROPORTIONAL_CLASSNAME;		
-    }
+        var pref = foswiki.Edit.getFontStyle();
         
-    if (buttonState == 'over') {
-        jel.removeClass(prefCssClassName)
+        var newPref;
+        var prefCssClassName;
+        var toggleCssClassName;
+
+        if (pref == EDITBOX_FONTSTYLE_PROPORTIONAL) {
+            newPref = EDITBOX_FONTSTYLE_MONO;
+            prefCssClassName = EDITBOX_FONTSTYLE_PROPORTIONAL_CLASSNAME;
+            toggleCssClassName = EDITBOX_FONTSTYLE_MONO_CLASSNAME;
+        } else {
+            newPref = EDITBOX_FONTSTYLE_PROPORTIONAL;
+            prefCssClassName = EDITBOX_FONTSTYLE_MONO_CLASSNAME;
+            toggleCssClassName = EDITBOX_FONTSTYLE_PROPORTIONAL_CLASSNAME;		
+        }
+        
+        if (buttonState == 'over') {
+            jel.removeClass(prefCssClassName)
             .addClass(toggleCssClassName);
-    } else if (buttonState == 'out') {
-        jel.removeClass(toggleCssClassName)
+        } else if (buttonState == 'out') {
+            jel.removeClass(toggleCssClassName)
             .addClass(prefCssClassName);
+        }
+        
+        return newPref;
     }
-    
-    return newPref;
-}
 
-// Not sure the hide() and show() is strictly necessary, but the pre-jq
-// version did it so retained.
-jQuery(document).ready(
-    function($) {
-        $('span.patternButtonFontSelector')
-            .hide()
-            .click(
-                function(e) {
-                    var newPref = PatternEditFontState($(this), '');
-                    foswiki.Edit.setFontStyle(newPref);
-                    return false;
-                })
-            .mouseover(
-                function(e) {
-                    PatternEditFontState($(this), 'over');
-                    return false;
-                })
-            .mouseout(
-                function (e) {
-                    PatternEditFontState($(this), 'out');
-                    return false;
-                })
-            .each(
-                function(index, el) {
-                    PatternEditFontState($(el), 'out');
-                });
-
-        $('span.patternButtonEnlarge')
-            .hide()
-            .click(
-                function() {
-                    return foswiki.Edit.changeEditBox(1);
-                });
-
-        $('span.patternButtonShrink')
-            .hide()
-            .click(
-                function(){
-                    return foswiki.Edit.changeEditBox(-1);
-                });
-        foswiki.Edit.initTextArea();
-
-        $('span.patternButtonShrink').show();
-        $('span.patternButtonEnlarge').show();
-        $('span.patternButtonFontSelector').show();
-    });
+    // Not sure the hide() and show() is strictly necessary, but the pre-jq
+    // version did it so retained.
+    $(document).ready(
+        function($) {
+            $('span.patternButtonFontSelector')
+                .hide()
+                .click(
+                    function(e) {
+                        var newPref = foswiki.Edit.toggleFontStateControl(
+                            $(this), '');
+                        foswiki.Edit.setFontStyle(newPref);
+                        return false;
+                    })
+                .mouseover(
+                    function(e) {
+                        foswiki.Edit.toggleFontStateControl($(this), 'over');
+                        return false;
+                    })
+                .mouseout(
+                    function (e) {
+                        foswiki.Edit.toggleFontStateControl($(this), 'out');
+                        return false;
+                    })
+                .each(
+                    function(index, el) {
+                        foswiki.Edit.toggleFontStateControl($(el), 'out');
+                    });
+            
+            $('span.patternButtonEnlarge')
+                .hide()
+                .click(
+                    function() {
+                        return foswiki.Edit.changeEditBox(1);
+                    });
+            
+            $('span.patternButtonShrink')
+                .hide()
+                .click(
+                    function(){
+                        return foswiki.Edit.changeEditBox(-1);
+                    });
+            
+            $('span.patternButtonShrink').show();
+            $('span.patternButtonEnlarge').show();
+            $('span.patternButtonFontSelector').show();
+        });
+})(jQuery);

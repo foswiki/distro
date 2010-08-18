@@ -1,46 +1,56 @@
-var webtopiccreatorrules = {
-	'form#newtopicform' : function(el) {
-		// start with a check
-		canSubmit(el,false);
-		el.onsubmit = function () {
-			return canSubmit(this,true);
-		}
-	},
-	'input#topic' : function(el) {
-		// focus input field
-		el.focus();
-		el.onkeyup = function() {
-			//alert("onkeyup topic");
-			canSubmit(this.form,false);
-		}
-		el.onchange = function() {
-			canSubmit(this.form,false);
-		}
-		el.onblur = function() {
-			canSubmit(this.form,true);
-		}
-	},
-	'input#nonwikiword' : function(el) {
-		el.onchange = function() {
-			canSubmit(this.form,false);
-		}
-		el.onmouseup = function() {
-			canSubmit(this.form,false);
-		}
-	},
-	'a#pickparent' : function(el) {
-		el.onclick = function() {
-			return passFormValuesToNewLocation(getQueryUrl());
-		}
-	},
-	'a#viewtemplates' : function(el) {
-		el.onclick = function() {
-			openTemplateWindow();
-			return false;
-		}
-	}
-};
-Behaviour.register(webtopiccreatorrules);
+(function($) {
+    $(document).ready(
+        function() {
+            $('form#newtopicform').each(
+                function(index, el) {
+                    // start with a check
+                    canSubmit(el,false);
+                }).submit(
+                    function () {
+                        return canSubmit(this,true);
+                    });
+
+            $('input#topic')
+                .each(
+                    function(index, el) {
+                        // focus input field
+                        el.focus();
+                    })
+                .keyup(
+                    function(e) {
+                        //alert("onkeyup topic");
+                        canSubmit(this.form,false);
+                    })
+                .change(
+                    function(e) {
+                        canSubmit(this.form,false);
+                    })
+                .blur(
+                    function(e) {
+                        canSubmit(this.form,true);
+                    });
+
+            $('input#nonwikiword')
+                .change(
+                    function() {
+                        canSubmit(this.form,false);
+                    })
+                .mouseup(
+                    function() {
+                        canSubmit(this.form,false);
+                    });
+            $('a#pickparent')
+                .click(
+                    function(
+                        return passFormValuesToNewLocation(getQueryUrl());
+                        });
+            $('a#viewtemplates').click(
+                function() {
+                    openTemplateWindow();
+                    return false;
+                });
+        });
+})(jQuery);
 
 /**
 Checks if the entered topic name is a valid WikiWord.
@@ -62,7 +72,7 @@ function canSubmit(inForm, inShouldConvertInput) {
 	if (inputForTopicName.length == 0) {
 		disableSubmit(inForm.submit);
 		/* Update feedback field */
-		foswiki.HTML.setHtmlOfElementWithId("webTopicCreatorFeedback", "");
+		$("#webTopicCreatorFeedback").html("");
 		return false;
 	}
 	
@@ -99,9 +109,9 @@ function canSubmit(inForm, inShouldConvertInput) {
 	if (wikiWordName != inputForTopicName) {
 		feedbackHeader = "<strong>" + TEXT_FEEDBACK_HEADER + "</strong>";
 		feedbackText = feedbackHeader + wikiWordName;
-		foswiki.HTML.setHtmlOfElementWithId("webTopicCreatorFeedback", feedbackText);
+		$("#webTopicCreatorFeedback").html(feedbackText);
 	} else {
-		foswiki.HTML.setHtmlOfElementWithId("webTopicCreatorFeedback", "");
+		$("#webTopicCreatorFeedback").html("");
 	}
 	
 	if (foswiki.String.isWikiWord(wikiWordName) || userAllowsNonWikiWord) {

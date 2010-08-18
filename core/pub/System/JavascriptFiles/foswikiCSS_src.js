@@ -24,6 +24,7 @@ Author: Arthur Clemens
 
 /**
  * Functions for manipulating class attributes.
+ * *Not used by core Foswiki* - kept for compatibility only.
  * Requires: foswikilib
  */
 foswiki.CSS = {

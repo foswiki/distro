@@ -99,9 +99,8 @@ jQuery(document).ready(
 
         $('input.foswikiChangeFormButton').click(
             function(e) {
-                suppressSaveValidation();
+                if (foswiki.Edit)
+                    foswiki.Edit.validateSuppressed = true;
             });
 
-		if (foswiki && foswiki.Edit)
-            foswiki.Edit.initForm();
 	});

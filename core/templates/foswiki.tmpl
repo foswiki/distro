@@ -20,26 +20,13 @@ JQUERYPLUGIN is not a hard requirement, but it must sort earlier.
 }%%TMPL:DEF{"JavascriptFiles/foswikiString"}%
 %TMPL:P{"LIBJS" id="JavascriptFiles/foswikiString" requires="JavascriptFiles/foswikilib"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"JavascriptFiles/foswikiStringUnicodeChars"}%
 %TMPL:P{"LIBJS" id="JavascriptFiles/foswikiStringUnicodeChars" requires="JavascriptFiles/foswikilib,JavascriptFiles/foswikiString"}%%TMPL:END%%{
----------------------------------------------------
-}%%TMPL:DEF{"JavascriptFiles/foswikiHTML"}%%{
-}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiHTML" requires="JavascriptFiles/foswikilib"}%%TMPL:END%%{
----------------------------------------------------
-}%%TMPL:DEF{"JavascriptFiles/foswikiArray"}%%{
-}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiArray" requires="JavascriptFiles/foswikilib"}%%TMPL:END%%{
----------------------------------------------------
-}%%TMPL:DEF{"JavascriptFiles/foswikiCSS"}%%{
-}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiCSS" requires="JavascriptFiles/foswikilib"}%%TMPL:END%%{
----------------------------------------------------
-}%%TMPL:DEF{"JavascriptFiles/foswikiForm"}%%{
-}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiForm" requires="JavascriptFiles/foswikilib,JavascriptFiles/foswikiString,JavascriptFiles/foswikiCSS"}%%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"JavascriptFiles/foswikiPref"}%%{
 }%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiPref" requires="JavascriptFiles/foswikilib"}%%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"JavascriptFiles/foswiki_edit"}%%{
-}%%TMPL:P{"JavascriptFiles/foswikiPref"}%%TMPL:P{"JavascriptFiles/foswikiCSS"}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswiki_edit" requires="JavascriptFiles/foswikilib,JavascriptFiles/foswikiPref,JavascriptFiles/foswikiCSS"}%%TMPL:END%%{
+}%%TMPL:P{"JavascriptFiles/foswikiPref"}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswiki_edit" requires="JavascriptFiles/foswikilib,JavascriptFiles/foswikiPref"}%%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:INCLUDE{"css"}%%{
 ---------------------------------------------------

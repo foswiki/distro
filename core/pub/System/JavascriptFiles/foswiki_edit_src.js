@@ -21,8 +21,8 @@ As per the GPL, removal of this notice is prohibited.
 */
 
 /**
- * Support for the "raw text" editor. Requires the 'foswiki' object
- * to exist, but does *not* require JQueryPlugin.
+ * Support for the "raw text" editor.
+ * Requires JavascriptFiles/foswikilib, JQUERYPLUGIN
  */
 
 var EDITBOX_ID = "topic";
@@ -37,22 +37,12 @@ var EDITBOX_FONTSTYLE_PROPORTIONAL       = "proportional";
 var EDITBOX_FONTSTYLE_MONO_STYLE         = "foswikiEditboxStyleMono";
 var EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE = "foswikiEditboxStyleProportional";
 
-foswiki.Edit = {
-    textareaInited: false,
-    fontStyle: null,
-
-    getFontStyle: function() {
-        var pref = foswiki.Edit.fontStyle;
-        if (!pref)
-            pref = foswiki.Pref.getPref(EDITBOX_PREF_FONTSTYLE_ID);
-
-        if (!pref || (pref != EDITBOX_FONTSTYLE_PROPORTIONAL
-                      && pref != EDITBOX_FONTSTYLE_MONO))
-            pref = EDITBOX_FONTSTYLE_PROPORTIONAL;
-
-        foswiki.Edit.fontStyle = pref;
-        return pref;
-    },
+(function($) {
+    foswiki.Edit = {
+        textareaInited: false,
+        fontStyle: null,
+        validateSuppressed: false,
+    };
 
     /**
      * Sets the font style of the edit box and the signature box. The change
@@ -60,80 +50,40 @@ foswiki.Edit = {
      * @param inFontStyle: either EDITBOX_FONTSTYLE_MONO or
      *  EDITBOX_FONTSTYLE_PROPORTIONAL
      */
-    setFontStyle: function(inFontStyle) {
+    foswiki.Edit.getFontStyle = function() {
+        if (foswiki.Edit.fontStyle)
+            return foswiki.Edit.fontStyle;
+        
+        var pref = foswiki.Pref.getPref(EDITBOX_PREF_FONTSTYLE_ID);
+        
+        if (!pref || (pref != EDITBOX_FONTSTYLE_PROPORTIONAL
+                      && pref != EDITBOX_FONTSTYLE_MONO))
+            pref = EDITBOX_FONTSTYLE_PROPORTIONAL;
+        
+        return pref;
+    };
+    
+    /**
+     * Sets the font style of the edit box and the signature box. The change
+     *  is written to a cookie.
+     * @param inFontStyle: either EDITBOX_FONTSTYLE_MONO or
+     *  EDITBOX_FONTSTYLE_PROPORTIONAL
+     */
+    foswiki.Edit.setFontStyle = function(inFontStyle) {
         if (inFontStyle == EDITBOX_FONTSTYLE_MONO) {
-            foswiki.CSS.replaceClass(
-                document.getElementById(EDITBOX_ID),
-                EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE,
+            $('#' + EDITBOX_ID).removeClass(
+                EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE).addClass(
                 EDITBOX_FONTSTYLE_MONO_STYLE);
         }
         if (inFontStyle == EDITBOX_FONTSTYLE_PROPORTIONAL) {
-            foswiki.CSS.replaceClass(
-                document.getElementById(EDITBOX_ID),
-                EDITBOX_FONTSTYLE_MONO_STYLE,
+            $('#' + EDITBOX_ID).removeClass(
+                EDITBOX_FONTSTYLE_MONO_STYLE).addClass(
                 EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE);
         }
         foswiki.Edit.fontStyle = inFontStyle;
         foswiki.Pref.setPref(EDITBOX_PREF_FONTSTYLE_ID, inFontStyle);
-    },
-
-    initForm: function() {
-        try {
-            document.main.text.focus();
-        } catch (er) {
-        };
-        foswiki.Edit.initTextArea();
-        foswiki.Edit.initTextAreaHeight();
-        foswiki.Edit.initTextAreaStyles();
-    },
-
-    /**
-     * Sets the height of the edit box to height read from cookie.
-     */
-    initTextAreaHeight: function() {
-        var pref = foswiki.Pref.getPref(EDITBOX_PREF_ROWS_ID);
-        if (pref)
-            foswiki.Edit.setEditBoxHeight( parseInt(pref) );
-    },
-
-    /**
-     */
-    initTextArea: function () {
-        if (!foswiki.Edit.textareaInited) {
-            foswiki.Edit.initTextAreaHeight();
-            foswiki.Edit.initTextAreaFontStyle();
-            foswiki.Edit.textareaInited = true;
-        }
-    },
-
-    /**
-     * Hook for plugins.
-     */
-    initTextAreaStyles: function() {},
-
-    /**
-     * Sets the font style (monospace or proportional space) of the edit
-     *  box to style read from cookie.
-     */
-    initTextAreaFontStyle: function() {
-        var pref  = foswiki.Edit.getFontStyle();
-        if (pref)
-            foswiki.Edit.setFontStyle( pref );
-    },
-
-    /**
-     * Disables the use of ESCAPE in the edit box, because some browsers
-     *  will interpret this as cancel and will remove all changes.
-     */
-    handleKeyDown: function(e) {
-        if (!e)
-            e = window.event;
-        var code;
-        if (e.keyCode)
-            code = e.keyCode;
-        return (code != 27) // ESC
-    },
-    
+    };
+            
     /**
      * Changes the height of the editbox textarea.
      * param inDirection : -1 (decrease) or 1 (increase).
@@ -141,72 +91,91 @@ foswiki.Edit = {
      *  will become EDITBOX_MIN_ROWCOUNT.
      * Each change is written to a cookie.
      */
-    changeEditBox: function(inDirection) {
-        var rowCount = document.getElementById(EDITBOX_ID).rows;
+    foswiki.Edit.changeEditBox = function(inDirection) {
+        var rowCount = $('#' +  EDITBOX_ID).attr('rows');
         rowCount += (inDirection * EDITBOX_CHANGE_STEP_SIZE);
         rowCount = (rowCount < EDITBOX_MIN_ROWCOUNT)
         ? EDITBOX_MIN_ROWCOUNT : rowCount;
-        foswiki.Edit.setEditBoxHeight(rowCount);
-        foswiki.Pref.setPref(EDITBOX_PREF_ROWS_ID, rowCount);
+        $('#' + EDITBOX_ID).attr('rows', rowCount);
+                foswiki.Pref.setPref(EDITBOX_PREF_ROWS_ID, rowCount);
         return false;
-    },
-    
-    /**
-     * Sets the height of the exit box text area.
-     * param inRowCount: the number of rows
-     */
-    setEditBoxHeight: function(inRowCount) {
-        var el = document.getElementById(EDITBOX_ID);
-        if (el) {
-            el.rows = inRowCount;
-        }
-    },
-   
-    /**
-     *  Provided for use by editors that need to validate form elements before
-     *  navigating away
-     */
-    validateMandatoryFields: function(event) {
-        if (foswiki.Pref.validateSuppressed) {
+    };
+
+    foswiki.Edit.validateMandatoryFields = function() {
+        // Provided for use by editors that need to
+        // validate form elements before navigating away
+        if (foswiki.Edit.validateSuppressed)
             return true;
-        }
-        var ok = true;
-        var els = foswiki.getElementsByClassName(
-            document, 'foswikiMandatory', 'select');
-        for (var j = 0; j < els.length; j++) {
-            var one = false;
-            for (var k = 0; k < els[j].options.length; k++) {
-                if (els[j].options[k].selected) {
-                    one = true;
-                    break;
+        
+        var alerts = [];
+        $('select.foswikiMandatory').each(
+            function(index, el) {
+                var one = false;
+                for (var k = 0; k < el.options.length; k++) {
+                    if (el.options[k].selected) {
+                        one = true;
+                        break;
+                    }
                 }
-            }
-            if (!one) {
-                alert("The required form field '" + els[j].name +
-                      "' has no value.");
-                ok = false;
-            }
-        }
-        var taglist = new Array('input', 'textarea');
-        for (var i = 0; i < taglist.length; i++) {
-            els = foswiki.getElementsByClassName(
-                document, 'foswikiMandatory', taglist[i]);
-            for (var j = 0; j < els.length; j++) {
-                if (els[j].value == null || els[j].value.length == 0) {
-                    alert("The required form field '" + els[j].name +
-                          "' has no value.");
-                    ok = false;
+                if (!one)
+                    alerts.push("The required form field '"
+                                + el.name +
+                                "' has no value.");
+            });
+
+        $('textarea.foswikiMandatory, input.foswikiMandatory').each(
+            function(index, el) {
+                if (el.value == null || el.value.length == 0) {
+                    alerts.push("The required form field '"
+                                + el.name +
+                                "' has no value.");
                 }
-            }
-        }
-        return ok;
-    },
-    
-    /**
-     * Used to dynamically set validation suppression, depending
-     * on which submit button is pressed (i.e. call this on 'Cancel').
-     */
-    suppressSaveValidation: function() {
-        foswiki.Pref.validateSuppressed = true;
+            });
+
+        if (alerts.length > 0) {
+            alert(alerts.join("\n"));
+            return false;
+        } else
+            return true;
     }
-};
+
+    $(document).ready(
+        function($) {
+            
+            try {
+                document.main.text.focus();
+            } catch (er) {
+            };
+            
+            var pref = foswiki.Pref.getPref(EDITBOX_PREF_ROWS_ID);
+            if (pref)
+                $('#' + EDITBOX_ID).attr('rows', parseInt(pref) );
+            
+            // Set the font style (monospace or proportional space) of the edit
+            // box to the style read from cookie.
+            var pref  = foswiki.Edit.getFontStyle();
+            foswiki.Edit.setFontStyle(pref);
+
+            $('.foswikiEditForm').submit(
+                function() {
+                    return foswiki.Edit.validateMandatoryFields();
+                });
+
+            $('.foswikiTextarea').keydown(
+                function(e) {
+                    // Disables the use of ESCAPE in the edit box, because some
+                    // browsers will interpret this as cancel and will remove
+                    // all changes.
+                    var code;
+                    if (e.keyCode)
+                        code = e.keyCode;
+                    return (code != 27); // ESC
+                });
+
+            $('.foswikiButtonCancel').click(
+                function(e) {
+                    // Used to dynamically set validation suppression
+                    foswiki.Edit.validateSuppressed = true;
+                });
+        });
+})(jQuery);

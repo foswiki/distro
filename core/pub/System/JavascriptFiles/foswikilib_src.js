@@ -129,3 +129,19 @@ var foswiki = {
         return hits;
     }
 };
+
+(function($) {
+    $(document).ready(
+        function($) {
+            // Controls for the "check all" buttons in the rename screen
+            // Formerly in foswikiForm.js
+            $(".foswikiCheckAllOn").click(
+                function(e) {
+                    $(".foswikiGlobalCheckable").attr("checked", "checked");
+                });
+            $(".foswikiCheckAllOff").click(
+                function(e) {
+                    $(".foswikiGlobalCheckable").removeAttr("checked");
+                });
+        });
+})(jQuery);

@@ -139,7 +139,7 @@ foswiki.Window = {
 	}
 };
 
-// Unfortunate global function required because so many translated
+// Unfortunate global function kept because so many translated
 // strings use it
 function launchWindow(inWeb, inTopic) {
     foswiki.Window.openPopup(foswiki.getPreference('SCRIPTURLPATH')+'/view'+

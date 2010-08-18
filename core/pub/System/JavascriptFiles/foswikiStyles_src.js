@@ -21,5 +21,5 @@ As per the GPL, removal of this notice is prohibited.
 */
 
 /*
-THIS FILE IS NO LONGER BEING USED
-*/
+ * *Not used by core Foswiki* - kept for compatibility only.
+ */

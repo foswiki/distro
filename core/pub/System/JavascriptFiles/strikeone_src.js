@@ -52,7 +52,7 @@ var md5 = {
         var c = -1732584194;
         var d =  271733878;
 
-        for(var i = 0; i < x.length; i += 16) {
+        for (var i = 0; i < x.length; i += 16) {
             var olda = a;
             var oldb = b;
             var oldc = c;
