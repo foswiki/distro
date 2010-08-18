@@ -288,7 +288,7 @@ The recommended approach is to make use of the [[VarSTARTSECTION][STARTSECTION]]
 
 %H% Output will be the same as for the first method
 
-<blockquote class="foswikiHelp">%X% Nested search can be slow, especially if you nest more then 3 deep. Nesting is limited to 16 levels.
+<blockquote class="foswikiHelp">%X% Nested search can be slow, especially if you nest more than 3 levels deep. Nesting is limited to 16 levels.
 
 When nesting with escapes, each new nesting level must "escape the escapes", e.g. write =$dollarpercentSEARCH{= for level three, =$dollardollarpercentSEARCH{= for level four, etc.
 
