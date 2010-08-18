@@ -8,7 +8,6 @@
 .jqTab {
   display:none; /* switched on by plugin */
   border:1px solid #BDBEC5;
-  clear:both;
   padding:0px;
   margin:0px;
 }
@@ -23,12 +22,11 @@ ul.jqTabGroup {
   padding:0px !important;
   list-style:none;
   display:block;
+  float:left;
   _padding-top:1px !important; /* IE6 fix */
 }
-*:first-child+html 
-ul.jqTabGroup { /* IE7 fix */
-  padding-top:1px !important; 
-  height:23px; /* IE8compatibility mode fix */
+*:first-child+html ul.jqTabGroup { /* IE7 fix */
+  height:23px;
 }
 ul.jqTabGroup li {
   background-color: transparent;
@@ -56,6 +54,7 @@ ul.jqTabGroup a {
   background-position:left top !important; 
   color:black;
   float:left;
+  display:block;
   margin:0px 0px 0px 0px !important;
   padding:4px 8px 0px 18px !important;
   height:25px;

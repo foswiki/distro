@@ -41,6 +41,7 @@ $.tabpane = {
    
         // create tab group
         var $tabContainer = $thisPane;
+        $('<span class="foswikiClear"></span>').prependTo($thisPane);
         var $tabGroup = $('<ul class="jqTabGroup"></ul>').prependTo($thisPane);
 
         // get all headings and create tabs
