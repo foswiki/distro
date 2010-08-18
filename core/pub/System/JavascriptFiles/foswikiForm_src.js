@@ -25,8 +25,6 @@ As per the GPL, removal of this notice is prohibited.
 
 /**
  * Support for JS control of fields in an HTML form.
- * *Not used by core Foswiki* - kept for compatibility only.
- * Requires JavascriptFiles/foswikilib
  *
  * Based on code written by:
  *   Matthew Eernisse (mde@fleegix.org),
