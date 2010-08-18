@@ -65,7 +65,7 @@ our $RELEASE;
 our $TRUE  = 1;
 our $FALSE = 0;
 our $engine;
-our $TranslationToken = "\0";  # Do not deprecate - used in many plugins
+our $TranslationToken = "\0";    # Do not deprecate - used in many plugins
 
 # Note: the following marker is used in text to mark RENDERZONE
 # macros that have been hoisted from the source text of a page. It is
@@ -749,7 +749,7 @@ JS
 
     if ( $contentType ne 'text/plain' ) {
 
-        $text = $this->_renderZones( $text );
+        $text = $this->_renderZones($text);
     }
 
     # SMELL: can't compute; faking content-type for backwards compatibility;
@@ -3326,9 +3326,8 @@ sub _renderZone {
     $params->{header} ||= '';
     $params->{footer} ||= '';
     $params->{chomp}  ||= 'off';
-    $params->{missingformat} =
-      '$id: requires= missing ids: $missingids';
-    $params->{format} = '$item<!--<literal>$missing</literal>-->'
+    $params->{missingformat} = '$id: requires= missing ids: $missingids';
+    $params->{format}        = '$item<!--<literal>$missing</literal>-->'
       unless defined $params->{format};
     $params->{separator} = '$n()' unless defined $params->{separator};
 
@@ -3385,10 +3384,10 @@ sub _renderZone {
     my @result        = ();
     my $missingformat = $params->{missingformat};
     foreach my $item (@total) {
-        my $text          = $item->{text};
-        my @missingids    = @{ $item->{missingrequires} };
-        my $missingformat = ( scalar(@missingids) )
-          ? $params->{missingformat} : '';
+        my $text       = $item->{text};
+        my @missingids = @{ $item->{missingrequires} };
+        my $missingformat =
+          ( scalar(@missingids) ) ? $params->{missingformat} : '';
 
         if ( $params->{'chomp'} ) {
             $text =~ s/^\s+//g;
@@ -3401,10 +3400,11 @@ sub _renderZone {
         next unless $text;
         my $id = $item->{id} || '';
         my $line = $params->{format};
-        if (scalar(@missingids)) {
+        if ( scalar(@missingids) ) {
             $line =~ s/\$missing\b/$missingformat/g;
             $line =~ s/\$missingids\b/join(', ', @missingids)/ge;
-        } else {
+        }
+        else {
             $line =~ s/\$missing\b/\$id/g;
         }
         $line =~ s/\$item\b/$text/g;
@@ -3413,12 +3413,10 @@ sub _renderZone {
         $line = expandStandardEscapes($line);
         push @result, $line if $line;
     }
-
     my $result =
-        expandStandardEscapes(
-            $params->{header}
-              . join( $params->{separator}, @result )
-                . $params->{footer} );
+      expandStandardEscapes( $params->{header}
+          . join( $params->{separator}, @result )
+          . $params->{footer} );
 
     # delay rendering the zone until now
     $result = $topicObject->expandMacros($result);
@@ -3491,10 +3489,15 @@ sub _renderZones {
     $text =~ s!(</head>)!$headZone\n$1!i if $headZone;
 
     # get the body zone and insert it at the end of the </body>
-    # *if it has not already been rendered*
-    my $bodyZone = _renderZone( $this, 'body', { chomp => "on" } );
+    # SMELL: Item9480 - can't trust that _renderzone(head) above has truly
+    # flushed both body and head zones empty when {OptimizePageLayout} = 0.
+    my $bodyZone;
+    if ( $Foswiki::cfg{OptimizePageLayout} ) {
+        _renderZone( $this, 'body', { chomp => "on" } );
+    }
 
     if ($bodyZone) {
+
         # Unless optimize mode is enabled, or the body zone has been
         # explicitly expanded by %RENDERZONE{"body"}%, the body zone
         # is appended to the head.
