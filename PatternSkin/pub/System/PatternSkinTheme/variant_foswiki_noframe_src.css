@@ -17,9 +17,9 @@ Overrides global settings in layout.css, style.css and colors.css
 #patternClearHeaderLeft,
 #patternClearHeaderRight,
 #patternTopBarContents {
-	height:90px; /* top bar height; make room for header columns */
+	height:75px; /* top bar height; make room for header columns */
 	overflow:hidden;
 }
-#foswikiLogo {
-	margin-top:1em;
+#patternTopBarContents {
+	padding-top:8px;
 }

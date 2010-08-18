@@ -29,6 +29,11 @@ data/System/WebLeftBarWebsList.txt 0644
 data/System/WebTopBarExample.txt 0644
 data/Trash/WebLeftBarExample.txt 0644
 lib/Foswiki/Contrib/PatternSkin.pm 0444
+pub/System/PatternSkin/header1.gif 0644
+pub/System/PatternSkin/header2.gif 0644
+pub/System/PatternSkin/header3.gif 0644
+pub/System/PatternSkin/header4.gif 0644
+pub/System/PatternSkin/header5.gif 0644
 pub/System/PatternSkin/pattern_edit.js 0644
 pub/System/PatternSkin/pattern_edit.js.gz 0644
 pub/System/PatternSkin/pattern_edit_src.js 0644
