@@ -25,18 +25,24 @@ sub set_up {
     $this->{target_topic} = "$this->{test_topic}Target";
     my $webObject = Foswiki::Meta->new( $this->{session}, $this->{target_web} );
     $webObject->populateNewWeb();
+
+    return;
 }
 
 sub tear_down {
     my $this = shift;
     $this->removeWeb( $this->{target_web} );
     $this->SUPER::tear_down();
+
+    return;
 }
 
 sub writeTopic {
     my ( $this, $web, $topic, $text ) = @_;
     my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, $text );
     $meta->save();
+
+    return;
 }
 
 sub trim {
@@ -90,18 +96,18 @@ sub inputTest {
     my $commentref = '%COMMENT{' . $sattrs . ' refmark="here"}%';
 
     # Build the target topic
-    my $sample = <<HERE;
+    my $sample = <<"HERE";
 TopOfTopic
 %COMMENT{$sattrs}%
 HERE
     if ($anchor) {
-        $sample .= <<HERE;
+        $sample .= <<"HERE";
 BeforeAnchor
 $anchor
 AfterAnchor
 HERE
     }
-    $sample .= <<HERE;
+    $sample .= <<"HERE";
 BeforeLocation
 HereIsTheLocation
 AfterLocation
@@ -204,7 +210,7 @@ HERE
 
     # Compose the query
     my $comm  = "This is the comment";
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             'comment_action' => 'save',
             'comment_type'   => $type,
@@ -222,7 +228,7 @@ HERE
         $query->param( -name => 'comment_index', -value => $eidx );
     }
 
-    my $session = new Foswiki( $Foswiki::cfg{DefaultUserLoginName}, $query );
+    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLoginName}, $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
@@ -260,50 +266,68 @@ HERE
                 $text );
         }
     }
+
+    return;
 }
 
 sub test_above {
     my $this = shift;
     $this->inputTest( "above", undef, undef, undef, undef, 0 );
+
+    return;
 }
 
 sub test_below {
     my $this = shift;
     $this->inputTest( "below", undef, undef, undef, undef, 0 );
+
+    return;
 }
 
 sub test_targetTopic {
     my $this = shift;
     $this->inputTest( "bottom", undef, $this->{target_topic}, undef, undef, 0 );
+
+    return;
 }
 
 sub test_targetWebTopic {
     my $this = shift;
     $this->inputTest( "bottom", $this->{target_web}, $this->{target_topic},
         undef, undef, 0 );
+
+    return;
 }
 
 sub test_targetWebTopicAnchorTop {
     my $this = shift;
     $this->inputTest( "top", $this->{target_web}, $this->{target_topic},
         "TargetAnchor", undef, 0 );
+
+    return;
 }
 
 sub test_targetWebTopicAnchorBottom {
     my $this = shift;
     $this->inputTest( "bottom", $this->{target_web}, $this->{target_topic},
         "TargetAnchor", undef, 0 );
+
+    return;
 }
 
 sub test_location {
     my $this = shift;
     $this->inputTest( "below", undef, undef, undef, "HereIsTheLocation", 0 );
+
+    return;
 }
 
 sub test_LocationRE {
     my $this = shift;
 
     $this->inputTest( "above", undef, undef, undef, "^He.*on\$", 0 );
+
+    return;
 }
 
 sub test_reverseCompat {
@@ -321,10 +345,12 @@ sub test_reverseCompat {
         , $this->{test_topic}, $this->{test_web}, \$pidx, "The Message", "",
         "bottom" );
     $html = removeEscapes($html);
-    $this->assert_matches( qr/form [^>]*name=\"after0\"/,      $html );
-    $this->assert_matches( qr/rows=\"99\"/,                    $html );
-    $this->assert_matches( qr/cols=\"104\"/,                   $html );
+    $this->assert_matches( qr/form [^>]*name=\"after0\"/,        $html );
+    $this->assert_matches( qr/rows=\"99\"/,                      $html );
+    $this->assert_matches( qr/cols=\"104\"/,                     $html );
     $this->assert_matches( qr/type=\"submit\"\s+value=\"HoHo\"/, $html );
+
+    return;
 }
 
 sub test_locationOverridesAnchor {
@@ -341,12 +367,14 @@ sub test_locationOverridesAnchor {
     );
     $this->assert_matches( qr/<input ([^>]*name="comment_location".*?)\s*\/>/,
         $html );
+
+    return;
 }
 
 sub test_nopost {
     my $this = shift;
 
-    my $sample = <<HERE;
+    my $sample = <<"HERE";
 before
 %COMMENT{nopost="on"}%
 after
@@ -362,7 +390,7 @@ HERE
 
     # Compose the query
     my $comm  = "This is the comment";
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             'comment_action' => 'save',
             'comment_type'   => 'above',
@@ -372,7 +400,7 @@ HERE
     );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    my $session = new Foswiki( $Foswiki::cfg{DefaultUserLoginName}, $query );
+    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLoginName}, $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
@@ -384,12 +412,14 @@ HERE
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
     $this->assert_str_equals( $sample, $text );
+
+    return;
 }
 
 sub test_remove {
     my $this = shift;
 
-    my $sample = <<HERE;
+    my $sample = <<"HERE";
 before
 %COMMENT{remove="on"}%
 after
@@ -405,7 +435,7 @@ HERE
 
     # Compose the query
     my $comm  = "This is the comment";
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             'comment_action' => 'save',
             'comment_type'   => 'above',
@@ -416,7 +446,7 @@ HERE
     );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    my $session = new Foswiki( $Foswiki::cfg{DefaultUserLoginName}, $query );
+    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLoginName}, $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
@@ -428,18 +458,20 @@ HERE
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
     $this->assert_str_equals(
-        <<HERE,
+        <<'HERE',
 before
 
 after
 HERE
         $text
     );
+
+    return;
 }
 
 sub test_default {
     my $this   = shift;
-    my $sample = <<HERE;
+    my $sample = <<'HERE';
 before
 %COMMENT{remove="on"}%
 after
@@ -450,12 +482,14 @@ HERE
         'default="wibble"', $this->{test_web}, $this->{test_topic}, \$pidx,
         undef, "", "bottom" );
     $this->assert_matches( qr#>wibble</textarea>#, $html );
+
+    return;
 }
 
 sub test_targetWebTopicAboveAnchor_Missing_Item727 {
     my $this = shift;
 
-    my $sample = <<HERE;
+    my $sample = <<'HERE';
 before
 %COMMENT{type="above" cols="100" target="%INCLUDINGTOPIC%#LatestComment"}%
 after
@@ -471,7 +505,7 @@ HERE
 
     # Compose the query
     my $comm  = "This is the comment";
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             'comment_action' => 'save',
             'comment_type'   => 'above',
@@ -481,7 +515,7 @@ HERE
     );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    my $session = new Foswiki( $Foswiki::cfg{DefaultUserLoginName}, $query );
+    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLoginName}, $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
@@ -494,8 +528,7 @@ HERE
     $text =~ s/^%META.*?\n//gm;
     $text = removeEscapes($text);
     my $date = Foswiki::Time::formatTime( time(), '$day $mon $year' );
-    $this->assert_str_equals(
-        <<"HERE", $text);
+    $this->assert_str_equals( <<"HERE", $text );
 before
 
 
@@ -505,12 +538,14 @@ This is the comment
 %COMMENT{type="above" cols="100" target="%INCLUDINGTOPIC%#LatestComment"}%
 after
 HERE
+
+    return;
 }
 
 sub test_targetWebTopicBelowAnchor_Missing_Item727 {
     my $this = shift;
 
-    my $sample = <<HERE;
+    my $sample = <<'HERE';
 before
 %COMMENT{type="below" target="%INCLUDINGTOPIC%#LatestComment"}%
 after
@@ -527,7 +562,7 @@ HERE
 
     # Compose the query
     my $comm  = "This is the comment";
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             'comment_action' => 'save',
             'comment_type'   => 'below',
@@ -538,7 +573,7 @@ HERE
     );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    my $session = new Foswiki( $Foswiki::cfg{DefaultUserLoginName}, $query );
+    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLoginName}, $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
@@ -552,7 +587,7 @@ HERE
     $text = removeEscapes($text);
     my $date = Foswiki::Time::formatTime( time(), '$day $mon $year' );
     $this->assert_str_equals(
-        <<HERE,
+        <<"HERE",
 before
 %COMMENT{type="below" target="%INCLUDINGTOPIC%#LatestComment"}%
    * This is the comment -- TemporaryCommentPluginTestsUsersWeb.WikiGuest - $date
@@ -560,6 +595,8 @@ after
 HERE
         $text
     );
+
+    return;
 }
 
 1;
