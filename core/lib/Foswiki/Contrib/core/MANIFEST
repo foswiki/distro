@@ -815,6 +815,8 @@ pub/System/JavascriptFiles/foswiki.js 0644
 pub/System/JavascriptFiles/foswikiArray_src.js 0644
 pub/System/JavascriptFiles/foswikiCSS_src.js 0644
 pub/System/JavascriptFiles/foswikiEvent_src.js 0644
+pub/System/JavascriptFiles/foswikiForm.js 0644
+pub/System/JavascriptFiles/foswikiForm.js.gz 0644
 pub/System/JavascriptFiles/foswikiForm_src.js 0644
 pub/System/JavascriptFiles/foswikiHTML_src.js 0644
 pub/System/JavascriptFiles/foswikiPref.js 0644
