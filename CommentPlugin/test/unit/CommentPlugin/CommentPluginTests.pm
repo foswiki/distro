@@ -45,6 +45,14 @@ sub trim {
     return $s;
 }
 
+sub removeEscapes {
+    my ($string) = @_;
+
+    $string =~ s/\\[\r\n]//g;
+
+    return $string;
+}
+
 # Not a test, a helper.
 sub inputTest {
     my ( $this, $type, $web, $topic, $anchor, $location ) = @_;
@@ -108,6 +116,7 @@ HERE
         $this->{test_web}, $this->{test_topic}, \$pidx, "The Message", "",
         "bottom" );
 
+    $html = removeEscapes($html);
     $this->assert( $pidx == $eidx + 1, $html );
 
     $this->assert( scalar( $html =~ s/^<form(.*?)>//sio ) );
@@ -311,10 +320,11 @@ sub test_reverseCompat {
         "rows=99 cols=104 mode=after button=HoHo id=sausage",
         , $this->{test_topic}, $this->{test_web}, \$pidx, "The Message", "",
         "bottom" );
+    $html = removeEscapes($html);
     $this->assert_matches( qr/form [^>]*name=\"after0\"/,      $html );
     $this->assert_matches( qr/rows=\"99\"/,                    $html );
     $this->assert_matches( qr/cols=\"104\"/,                   $html );
-    $this->assert_matches( qr/type=\"submit\" value=\"HoHo\"/, $html );
+    $this->assert_matches( qr/type=\"submit\"\s+value=\"HoHo\"/, $html );
 }
 
 sub test_locationOverridesAnchor {
@@ -482,9 +492,10 @@ HERE
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
+    $text = removeEscapes($text);
     my $date = Foswiki::Time::formatTime( time(), '$day $mon $year' );
     $this->assert_str_equals(
-        <<HERE,
+        <<"HERE", $text);
 before
 
 
@@ -494,8 +505,6 @@ This is the comment
 %COMMENT{type="above" cols="100" target="%INCLUDINGTOPIC%#LatestComment"}%
 after
 HERE
-        $text
-    );
 }
 
 sub test_targetWebTopicBelowAnchor_Missing_Item727 {
@@ -512,6 +521,7 @@ HERE
       Foswiki::Plugins::CommentPlugin::Comment::_handleInput( 'remove="on"',
         $this->{test_web}, $this->{test_topic}, \$pidx, "The Message", "",
         "bottom" );
+    $html = removeEscapes($html);
     $this->assert_matches(
         qr/<input type="hidden" name="comment_remove" value="99"/, $html );
 
@@ -539,6 +549,7 @@ HERE
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
+    $text = removeEscapes($text);
     my $date = Foswiki::Time::formatTime( time(), '$day $mon $year' );
     $this->assert_str_equals(
         <<HERE,
