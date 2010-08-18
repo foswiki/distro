@@ -19,7 +19,7 @@ sub REVINFO {
 
     ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
     my $loadedRev = $topicObject->getLoadedRev();
-    if ( $web ne $topicObject->web || $topic ne $topicObject->topic || $loadedRev ne $rev) {
+    if ( $web ne $topicObject->web || $topic ne $topicObject->topic || !defined($loadedRev) || $loadedRev ne $rev) {
         $topicObject = Foswiki::Meta->new( $this, $web, $topic );
         unless ( $topicObject->haveAccess('VIEW') ) {
             return $this->inlineAlert( 'alerts', 'access_denied', $web,
