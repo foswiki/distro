@@ -2157,16 +2157,22 @@ sub redirectCgiQuery {
 
 =begin TML
 
----+++ addToZone( $zone, $tag, $data, $requires )
+---+++ addToZone( $zone, $id, $data, $requires )
 
 Direct interface to %<nop>ADDTOZONE (see %SYSTEMWEB%.VarADDTOZONE)
 
    * =$zone= - name of the zone
-   * =$tag= - unique ID
+   * =$id= - unique ID
    * =$data= - the content.
-   * =requires= optional, comma-separated list of id's of other zones this one depends on.
+   * =requires= optional, comma-separated list of =$id= identifiers that should
+     precede the content
 
 All macros present in =$data= will be expanded before being inserted into the =<head>= section.
+
+<blockquote class="foswikiHelp">%X%
+*Note:* Read the developer supplement at Foswiki:Development.AddToZoneFromPluginHandlers if you are
+calling =addToZone()= from a rendering or macro/tag-related plugin handler
+</blockquote>
 
 Examples:
 <verbatim>

@@ -3241,11 +3241,16 @@ when ={OptimizePageLayout}= is not set. See ZoneTests/explicit_RENDERZONE*.
 This behaviour allows an addToZone('head') call to require an id that has been
 added to =body= only.
 
-   * =$zone=      - name of zone to add to
-   * =$id=        - identifier for the =$data= being added
-   * =$data=      - text to be added to the zone
-   * =$requires=  - comma-separated string of =$id= identifiers of the text
-                    within this =$zone= that should precede this =$data=
+   * =$zone=      - name of the zone
+   * =$id=        - unique identifier
+   * =$data=      - content
+   * =$requires=  - optional, comma-separated string of =$id= identifiers
+                    that should precede the content
+
+<blockquote class="foswikiHelp">%X%
+*Note:* Read the developer supplement at Foswiki:Development.AddToZoneFromPluginHandlers if you
+are calling =addToZone()= from a rendering or macro/tag-related plugin handler
+</blockquote>
 
 Implements =%<nop>ADDTOZONE%=.
 

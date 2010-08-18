@@ -289,6 +289,10 @@ removed from the text (though all other blocks such as &lt;pre> and
 *NOTE:* meta-data is _not_ embedded in the text passed to this
 handler. Use the =$meta= object.
 
+*NOTE:* Read the developer supplement at
+Foswiki:Development.AddToZoneFromPluginHandlers if you are calling
+=addToZone()= from this handler
+
 *Since:* $Foswiki::Plugins::VERSION 2.0
 
 =cut
@@ -329,6 +333,10 @@ handler.
 
 *NOTE:* This handler is not separately called on included topics.
 
+*NOTE:* Read the developer supplement at
+Foswiki:Development.AddToZoneFromPluginHandlers if you are calling
+=addToZone()= from this handler
+
 =cut
 
 #sub beforeCommonTagsHandler {
@@ -357,6 +365,10 @@ rendering of a topic.
 
 *NOTE:* meta-data is _not_ embedded in the text passed to this
 handler.
+
+*NOTE:* Read the developer supplement at
+Foswiki:Development.AddToZoneFromPluginHandlers if you are calling
+=addToZone()= from this handler
 
 =cut
 
@@ -415,6 +427,10 @@ it may be called several times during the rendering of a topic.
 *NOTE:* meta-data is _not_ embedded in the text passed to this
 handler.
 
+*NOTE:* Read the developer supplement at
+Foswiki:Development.AddToZoneFromPluginHandlers if you are calling
+=addToZone()= from this handler
+
 Since Foswiki::Plugins::VERSION = '2.0'
 
 =cut
@@ -438,6 +454,10 @@ it may be called several times during the rendering of a topic.
 
 *NOTE:* meta-data is _not_ embedded in the text passed to this
 handler.
+
+*NOTE:* Read the developer supplement at
+Foswiki:Development.AddToZoneFromPluginHandlers if you are calling
+=addToZone()= from this handler
 
 Since Foswiki::Plugins::VERSION = '2.0'
 
