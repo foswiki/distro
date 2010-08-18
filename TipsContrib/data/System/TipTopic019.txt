@@ -9,12 +9,12 @@ Example comment within a sentence:
 =Visible &lt;!--- and hidden ---&gt; text=
 
 Example spanning multiple lines:
-<verbatim>
+<verbatim class="tml">
 <!--
    * Useful to hide settings:
       * Set EXAMPLE = This is hidden
 -->
 </verbatim>
-
+<!-- %JQREQUIRE{"chili"}% -->
 
 [[TipsOfTheDay][See More Tips...]]

@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Edit tables with !EditTablePlugin
  
-The EditTablePlugin allows you to edit tables using edit fields and drop down boxes. Tables have an [ Edit table ] button if preceeded by an =%<nop>EDITTABLE{...}%= macro. Each column can be a text field, a drop down box, a date field, etc. Multiple tables per topic are editable, but only one at a time can be edited.
+EditTablePlugin allows you to edit tables using edit fields and drop down boxes. Tables have an <input type="image" alt="Edit this table" src="%PUBURLPATH%/%SYSTEMWEB%/EditTablePlugin/edittable.gif" class="editTableEditImageButton"> button if preceeded by an =%<nop>EDITTABLE{...}%= macro. Each column can be a text field, a drop down box, a date field, etc. Multiple tables per topic are editable, but only one at a time can be edited.
 
 Example:
 

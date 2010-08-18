@@ -2,6 +2,6 @@
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ E-mail alert of topic changes
 
-Subscribing to WebNotify will enable Foswiki to send you details of changes made on topics in a certain web. You can choose to be notified of changes in an entire web or just a subset of topics in a web. Each web has its own WebNotify subscription. 
+Subscribing to WebNotify will enable Foswiki to send you details of changes made on topics in a certain web. You can choose to be notified of changes in an entire web or just a subset of topics in a web. Each web has its own WebNotify topic to manage subscriptions. Alternatively, Foswiki:Extensions.SubscribePlugin provides one-click subscription from any viewed topic.
 
 [[TipsOfTheDay][See More Tips...]]

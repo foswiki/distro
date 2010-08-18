@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Preference settings
 
-Foswiki has four levels of preferences settings:
+Foswiki has several levels of preferences settings. See PreferenceSettings for a full list and more information:
    1 Site-level settings: %WIKIPREFSTOPIC%
       * Site name, proxy settings, access control, skin
    1 Web-level settings: located in each Web, e.g. %WEBPREFSTOPIC% topic

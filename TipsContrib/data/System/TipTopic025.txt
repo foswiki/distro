@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ !SpreadSheetPlugin for dynamic content
 
-Over 60 formulae are available through the SpreadSheetPlugin.
+Over 80 formulae are available through the SpreadSheetPlugin.
 
 For Example:
    * =$AVERAGE()=
@@ -16,7 +16,7 @@ Example:
 
 To space out WikiWords, write: 
 
-=%<nop>CALC{"$PROPERSPACE(<nop>WikiGuest)"}%= 
+<!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">%CALC{"$PROPERSPACE(WikiGuest)"}%</verbatim>
 
 to get:
 

@@ -5,8 +5,9 @@
 To include the contents of a web page or Foswiki topic, use =%<nop>INCLUDE{"page"}%=.
 
 Examples:
-   * =%<nop>INCLUDE{"http://www.google.com/"}%=
-   * =%<nop>INCLUDE{"%SYSTEMWEB%.WebHome"}%=
-   * =%<nop>INCLUDE{"WebHome"}%=
+<!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">%INCLUDE{"%SYSTEMWEB%.WebHome"}%
+%INCLUDE{"WebHome"}%</verbatim>
+This example requires ={INCLUDE}{AllowURLs}= enabled in [[%SCRIPTURLPATH{"configure"}%][configure]] (disabled by default for security reasons):
+<verbatim class="tml">%INCLUDE{"http://www.google.com/"}%</verbatim> 
 
 [[TipsOfTheDay][See More Tips...]]

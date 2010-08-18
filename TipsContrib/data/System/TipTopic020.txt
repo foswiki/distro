@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ !InterwikiPlugin links
 
-The InterwikiPlugin automatically links =ExternalSite:Page= text to external sites based on aliases defined in the InterWikis topic. This enables people to "shortcut" long URLs.
+The InterwikiPlugin automatically links =ExternalSite:Page= text to external sites based on aliases defined in the InterWikis topic. This enables flexible shortcuts to long URLs.
 
 [[InterwikiPlugin][More information...]]
 

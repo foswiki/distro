@@ -2,6 +2,6 @@
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ <nop>WebChanges to see recent activity
 
-Each Foswiki web has a WebChanges topic that lists recent activity from all editors of the web. This page can be useful when looking for recently contributed content of a colleague.
+Each Foswiki web has a WebChanges topic that lists recent activity from all editors of the web. This can be useful when looking for a colleague's recently contributed content, for example. Recent changes may also be viewed with your favourite news feed reader using the WebRss or WebAtom topics. Additionally, WebNotify may be used to subscribe to changes via E-mail. 
 
 [[TipsOfTheDay][See More Tips...]]

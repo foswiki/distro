@@ -2,6 +2,6 @@
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Raw Text link
 
-At the bottom of the page next to *Edit* and *Attach*, there is a *Raw Text* link that allows one to easily see how the Foswiki topic looks in its raw form. This allows you to see and copy raw text without the need to edit and lock a topic.
+At the bottom of each page among the action links (assuming use of the default PatternSkin), there is a *View wiki text* link which shows how a topic looks in its raw WikiSyntax form. This allows you to view and copy raw text without having to edit.
 
 [[TipsOfTheDay][See More Tips...]]

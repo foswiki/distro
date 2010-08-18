@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Custom rendered bullets
 
-The RenderListPlugin can render bulleted lists in a variety of different ways. 
+RenderListPlugin can render bulleted lists in a variety of different ways. 
 
 Use =%<nop>RENDERLIST{ parameters }%= before any bulleted list.
 

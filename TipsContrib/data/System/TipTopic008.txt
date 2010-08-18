@@ -6,7 +6,7 @@ Use the verbatim tag to surround code excerpts and other formatted text with =&l
 
 For Example:
 
-<pre>
+<!-- %JQREQUIRE{"chili"}% --><pre class="tml">
 &lt;verbatim&gt;
 | *Header1* | *Header1* |
 | Data1     | Data2     |

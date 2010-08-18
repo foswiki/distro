@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Foswiki Skins 
 
-Skins overlay regular templates with alternate header/footer layouts. You can use Skins to change the look of a Foswiki topic, for example, the layout of the header and footer. Rendered text between header and footer does not change. You can also use Skins to define an alternate view, like a view optimized for printing.
+Skins overlay regular templates with alternate layouts (and styles). You can use Skins to change the look of a Foswiki topic, for example, the layout of the header and footer. Rendered text between header and footer does not change. You can also use Skins to define an alternate view, like a view optimized for printing.
 
 To see the installed [[Skins]], see SkinBrowser.
 

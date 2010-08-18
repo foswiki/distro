@@ -2,11 +2,11 @@
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Revision control
 
-Foswiki has "Soft security" - anyone can change anything, but changes are logged.  There is a complete audit trail:
+In Foswiki, assuming appropriate AccessControls, anyone can change anything but those changes are logged.  There is a complete audit trail with record of:
    * Version
    * Date of last revision
    * Person who made change
-is recorded. At the footer of each topic one can click on previous versions. One can also see the differences between revisions by clicking on the <u>&gt;</u> sign located between revisions of a topic.
+The default PatternSkin offers access to previous versions using the *History* link in the footer of any viewed topic. Differences between revisions can also be reviewed by clicking on the ==&gt;== symbols located between the revision numbers depicting the versions available.
 
 
 [[TipsOfTheDay][See More Tips...]]

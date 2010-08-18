@@ -2,6 +2,6 @@
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Breadcrumb 
 
-The breadcrumb of a topic shows you page hierarchy. It is constructed using a topic's parent setting. 
+The breadcrumb of a topic shows you page hierarchy. It is constructed using a topic's parent setting; for example, the breadcrumb on this page looks like %META{"parent"}%
 
 [[TipsOfTheDay][See More Tips...]]
