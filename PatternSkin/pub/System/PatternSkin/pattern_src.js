@@ -9,36 +9,6 @@ jQuery(document).ready(
                     );
             });
 
-        $("input#jumpFormField")
-            .each(
-                function(index, el) {
-                    foswiki.Form.initBeforeFocusText(
-                        el, foswiki.getMetaTag('TEXT_JUMP'));
-                })
-            .focus(
-                function() {
-                    foswiki.Form.clearBeforeFocusText(this);
-                })
-            .blur(
-                function() {
-                    foswiki.Form.restoreBeforeFocusText(this);
-                });
-
-        $('input#quickSearchBox')
-            .each(
-                function(index, el) {
-                    foswiki.Form.initBeforeFocusText(el,
-                        foswiki.getMetaTag('TEXT_SEARCH'));
-                })
-            .focus(
-                function() {
-                    foswiki.Form.clearBeforeFocusText(this);
-                })
-            .blur(
-                function() {
-                    foswiki.Form.restoreBeforeFocusText(this);
-                });
-
         // Create an attachment counter in the attachment table twisty.
         $('.foswikiAttachments')
             .each(

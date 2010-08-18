@@ -153,10 +153,11 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 #BehaviourClasses
 ---+++ Behaviour classes
 Markers to invoke behaviour with unobtrusive !JavaScript.
-|=.foswikiPopUp=                    | Behaviour marker so a popup-window can be invoked |
-|=.foswikiFocus=                    | Behaviour marker so a field can be given input focus |
-|=.foswikiChangeFormButton=         | "Replace form" button; clicking calls !JavaScript function =suppressSaveValidation=  |
-|=#foswikiNumberOfResultsContainer= | Container identifier to write the number of search results into |
+|=.foswikiPopUp=                         | Behaviour marker so a popup-window can be invoked |
+|=.foswikiFocus=                         | Behaviour marker so a field can be given input focus |
+|=.foswikiChangeFormButton=              | "Replace form" button; clicking calls !JavaScript function =suppressSaveValidation=  |
+|=#foswikiNumberOfResultsContainer=      | Container identifier to write the number of search results into |
+|=input[type="text"].foswikiDefaultText= | Behaviour marker so the field will contain default text that disappears when clicked into. The visual style is set with =foswikiInputFieldBeforeFocus= and =foswikiInputFieldFocus=. The default text is provided by the =title= attribute of the form field. |
 
 ---+++ Other classes
 |=.foswikiWebIndent=                | Used by =%<nop>WEBLIST%= to indent sub-web names |

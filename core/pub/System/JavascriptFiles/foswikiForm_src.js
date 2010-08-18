@@ -228,8 +228,7 @@ As per the GPL, removal of this notice is prohibited.
             if (el.FP_defaultValue == el.value) {
                 el.value = "";
             }
-            $(el).addClass("foswikiInputFieldFocus")
-            .removeClass(el, "foswikiInputFieldBeforeFocus");
+            $(el).addClass("foswikiInputFieldFocus").removeClass("foswikiInputFieldBeforeFocus");
         },
         
         /**
@@ -256,3 +255,21 @@ As per the GPL, removal of this notice is prohibited.
     };
     
 })(jQuery);
+
+jQuery(document).ready(
+    function ($) {
+    	$('input[type="text"].foswikiDefaultText')
+            .each(
+            	function(index, el) {
+                    foswiki.Form.initBeforeFocusText(this, this.title);
+                })
+            .focus(
+                function() {
+                    foswiki.Form.clearBeforeFocusText(this);
+                })
+            .blur(
+                function() {
+                    foswiki.Form.restoreBeforeFocusText(this);
+                });
+    }
+);
