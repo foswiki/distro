@@ -25,9 +25,6 @@ ul.jqTabGroup {
   float:left;
   _padding-top:1px !important; /* IE6 fix */
 }
-*:first-child+html ul.jqTabGroup { /* IE7 fix */
-  height:23px;
-}
 ul.jqTabGroup li {
   background-color: transparent;
   background-image: url('tab_right.png') !important;
@@ -37,6 +34,7 @@ ul.jqTabGroup li {
   float:left;
   padding:0px 3px 0px 0px !important;
   margin:0px 4px -1px 0px !important;
+  *margin:5px 4px -6px 0px!important; /* IE7 */
   height:29px;
   line-height:100%;
   list-style:none !important;
