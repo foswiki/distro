@@ -245,8 +245,8 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set USERCOLORSURL =
 
    * Top bar background image and color
-      * Set WEBHEADERART = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/top_bar_gradient.png
-      * Set WEBHEADERBGCOLOR = #e8f3f7
+      * Set WEBHEADERART = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/header5.gif
+      * Set WEBHEADERBGCOLOR = #ffffff
 
 ---+++ Skin icons
 
