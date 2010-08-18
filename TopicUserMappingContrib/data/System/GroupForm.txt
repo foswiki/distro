@@ -1,8 +1,0 @@
-%META:TOPICINFO{author="ProjectContributor" date="1280318941" format="1.1" version="2"}%
-This topic defines the %SYSTEMWEB%.DataForms that is used for foswiki 1.1 %USERSWEB%.WikiGroups.
-
-| *Name* | *Type* | *Size* |
-| <nop>UserMapping   | text   | 80     |
-
-%META:FORM{name="%25SYSTEMWEB%25.GroupForm"}%
-%META:FIELD{name="UserMapping" attributes="MH" title="<nop>UserMapping" value="BaseUserMapping"}%

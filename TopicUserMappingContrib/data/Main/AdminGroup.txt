@@ -19,7 +19,5 @@ If you haven't previously set up an administrator, follow these steps:
 <sticky></div></sticky>
 %IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="-->"}%
 
-%META:FORM{name="%25SYSTEMWEB%25.GroupForm"}%
-%META:FIELD{name="UserMapping" attributes="MH" title="<nop>UserMapping" value="BaseUserMapping"}%
 %META:PREFERENCE{name="GROUP" title="GROUP" value=""}%
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%

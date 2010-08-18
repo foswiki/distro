@@ -20,7 +20,6 @@ data/System/UserRegistration.txt 0644
 data/System/UsersTemplate.txt 0644 Default template for a new WikiUsers topic
 data/System/ChangeEmailAddress.txt 0644
 data/System/BulkResetPassword.txt 0644
-data/System/GroupForm.txt 0644 Default form attached to a group topic
 data/System/UserSetting.txt 0644
 data/System/UserForm.txt 0644 Default form attached to a user topic
 data/System/UserFormHelp.txt 0644 Included help topic

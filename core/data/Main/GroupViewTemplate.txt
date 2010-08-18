@@ -72,7 +72,7 @@
 %INCLUDE{"%WEB%.%TOPIC%"
   section="%IF{
   "'%USERSWEB%.%groupname%'/preferences[name='GROUP'] AND
-  '%USERSWEB%.%groupname%'/form.name ~ '*GroupForm'
+  '%USERSWEB%.%groupname%'/preferences[name='VIEW_TEMPLATE'].value = 'GroupView'
   " 
   then="nochange" 
   else="group_upgrade"

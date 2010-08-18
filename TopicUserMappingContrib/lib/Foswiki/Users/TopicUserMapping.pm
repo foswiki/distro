@@ -868,7 +868,8 @@ sub _writeGroupTopic {
     my $text = $groupTopicObject->text() || '';
 
 #TODO: do an attempt to convert existing old style topics - compare to 'normal' GroupTemplate? (I'm hoping to keep any user added descriptions for the group
-    if (   ( $groupTopicObject->getFormName() eq '' )
+    if ( ( !defined $groupTopicObject->getPreference('VIEW_TEMPLATE')
+             or $groupTopicObject->getPreference('VIEW_TEMPLATE') ne 'GroupView' )
         or ( $text =~ /^---\+!! <nop>.*$/ )
         or ( $text =~ /^(\t|   )+\* Set GROUP = .*$/ )
         or ( $text =~ /^(\t|   )+\* Member list \(comma-separated list\):$/ )
@@ -915,24 +916,15 @@ sub _writeGroupTopic {
             }
         );
     }
-    if ( $groupTopicObject->getFormName() eq '' ) {
-
-#%META:FORM{name="%25SYSTEMWEB%25.GroupForm"}%
-#%META:FIELD{name="UserMapping" attributes="M" title="<nop>UserMapping" value="BaseUserMapping"}%
-#TODO: mmm,why am i not upgrading using the GroupTemplate
-        $groupTopicObject->putKeyed( 'FORM',
-            { name => '%SYSTEMWEB%.GroupForm', } );
-        $groupTopicObject->putKeyed(
-            'FIELD',
-            {
-                name       => 'UserMapping',
-                attributes => 'MH',
-                title      => '<nop>UserMapping',
-                value      => 'TopicUserMapping'
-            }
-        );
-    }
-
+    $groupTopicObject->putKeyed(
+        'PREFERENCE',
+        {
+            type  => 'Set',
+            name  => 'VIEW_TEMPLATE',
+            title => 'VIEW_TEMPLATE',
+            value => 'GroupView'
+        }
+    );
     #TODO: should also consider securing the new topic?
     my $user = $this->{session}->{user};
     $groupTopicObject->saveAs( $groupWeb, $groupName, -author => $user );
