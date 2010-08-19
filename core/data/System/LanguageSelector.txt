@@ -34,5 +34,5 @@ Result:
         <input class="foswikiButton" type="submit"\
             value="%MAKETEXT{"Change language"}%" />
     </noscript>
-</form>%ENDSECTION{"selector"}%
+ </form>%ENDSECTION{"selector"}%
 </verbatim> -->
