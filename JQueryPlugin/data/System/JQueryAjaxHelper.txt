@@ -54,7 +54,7 @@ loads the =topic= section of this topic, which expands to the topic list.
      =excludetopic= parameter in VarSEARCH
 <verbatim class="tml">
 %STARTSECTION{"topicselector"}%<!-- topicselector  -->
-<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;contenttype=text/plain;skin=text;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
 <!-- //topicselector -->%ENDSECTION{"topicselector"}%
 </verbatim>
 
@@ -104,7 +104,7 @@ of web names is required, you are recommended to use the
    * =INPUT_VALUE=: preselected value
 <verbatim class="tml">
 %STARTSECTION{"webselector"}%<!-- webselector  -->
-<input type="text" class="foswikiInputField {matchCase:true}" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=web;contenttype=text/plain;skin=text;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+<input type="text" class="foswikiInputField {matchCase:true}" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=web;skin=text;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
 <!-- //webselector -->%ENDSECTION{"webselector"}%
 </verbatim>
 
@@ -156,7 +156,7 @@ jQuery(function($){
     var $this = $(this);
     var opts = $.extend({}, $this.metadata());
     $this.autocomplete(
-      "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;contenttype=text/plain;skin=text"+
+      "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text"+
       ";baseweb="+opts.baseweb+
       ";format="+opts.format
     ).result(function(event, item) {
@@ -221,7 +221,7 @@ jQuery(function($){
       }
     }, $this.metadata());
     $this.autocomplete(
-      "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;contenttype=text/plain;skin=text", 
+      "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text", 
       opts
     );
   });
@@ -274,7 +274,7 @@ or later).
 <script type=\"text/javascript\">
 jQuery(function($){
   $(\"#%ID%\").click(function() {
-     $.get(\"%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=query;source=%SOURCE%;query=%QUERY%;contenttype=text/plain;skin=text\",
+     $.get(\"%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=query;source=%SOURCE%;query=%QUERY%;skin=text\",
          function(data) {
              // This is the function that will be executed when the
              // data is fetched
