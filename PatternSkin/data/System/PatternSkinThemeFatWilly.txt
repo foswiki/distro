@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin theme: Foswiki "Fat Willy" Site Skin
 
----++ View theme
+---++ Test this theme
 <!--
    * Local FOSWIKI_LAYOUT_URL = %URLPARAM{"layout" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/layout.css"}%
    * Local FOSWIKI_STYLE_URL = %URLPARAM{"style" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/style.css"}%

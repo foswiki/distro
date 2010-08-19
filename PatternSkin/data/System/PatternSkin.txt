@@ -29,6 +29,20 @@ Do you want to keep these settings?
 %ENDSECTION{"copysettings"}%
 -->
 
+---+++ Other styling options
+   1 Set =WEBHEADERART= (currently: =%WEBHEADERART%=)
+      * Test [[%TOPIC%?webheaderart=%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/header1.gif][header1]]
+      * Test [[%TOPIC%?webheaderart=%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/header2.gif][header2]]
+      * Test [[%TOPIC%?webheaderart=%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/header3.gif][header3]]
+      * Test [[%TOPIC%?webheaderart=%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/header4.gif][header4]]
+      * Test [[%TOPIC%?webheaderart=%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/header5.gif][header5]]
+      * Test [[%TOPIC%?webheaderart=][(none)]] 
+   1 Set =WEBBGCOLOR= (currently: =%WEBBGCOLOR%=)
+   
+Set these variables site wide in [[%USERSWEB%.SitePreferences]].
+<!--
+   * Local WEBHEADERART = %URLPARAM{"webheaderart" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/header5.gif"}%
+-->
 
 ---++ Screenshot
 
@@ -154,6 +168,7 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  19 Aug 2010: | v.5.4 - Version for Foswiki 1.1. |
 |  31 Jul 2010: | v.5.3.1 - Documentation updates |
 |  27 May 2010: | v.5.3 - Added "flexible width" column styles. |
 |  05 Apr 2010: | v.5.2 - Visual update. |
