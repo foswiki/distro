@@ -110,6 +110,7 @@ use warnings;
 use Error qw(:try);
 use Assert;
 use Errno 'EINTR';
+use Scalar::Util ();
 
 our $reason;
 our $VERSION = '$Rev$';
@@ -3132,9 +3133,9 @@ sub summariseChanges {
 
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
-    $nrev = $this->getLatestRev() unless $nrev;
+    $nrev = $this->getLatestRev() unless $nrev and _looks_like_number($nrev);
 
-    $orev = $nrev - 1 unless defined($orev);
+    $orev = $nrev - 1 unless defined($orev) and _looks_like_number($orev) and $nrev >= $orev;
 
     ASSERT( $orev >= 0 ) if DEBUG;
     ASSERT( $nrev >= $orev ) if DEBUG;
@@ -3567,6 +3568,15 @@ sub dataDecode {
 
     $datum =~ s/%([\da-f]{2})/chr(hex($1))/gei;
     return $datum;
+}
+
+sub _looks_like_number {
+    if (0 and $] >= 5.008001) {
+        return Scalar::Util::looks_like_number( $_[0] );
+    }
+    else {
+        return (defined $_[0] && $_[0] =~ /^\s*[+-]?\d+\s*$/);
+    }
 }
 
 1;
