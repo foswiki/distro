@@ -7,8 +7,8 @@
 %INCLUDE{"%USERSWEB%.GroupViewTemplate"
          section="rendergroup"
          groupname="%TOPIC%"
-         allowschange="%GROUPINFO{"%TOPIC%" format="$allowschange" limit="1"}%"
          twisty="on"
+         twistyalign="left"
        }%
 
 *%MAKETEXT{"Related topics:"}%* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%USERSWEB%.WikiGroups][WikiGroups]]
@@ -22,7 +22,7 @@
 ---++ Named INCLUDE sections for use in both Group topics and the WikiGroups list
 <verbatim>
 <!--
-  parameters: groupname, allowschange, twisty
+  parameters: groupname, twisty
 -->
 %STARTSECTION{"rendergroup"}%<!-- rendergroup -->
 %GROUPINFO{"%groupname%"
@@ -30,7 +30,13 @@
   separator=", "
 }%<!-- list of members// -->
 %INCLUDE{"%WEB%.%TOPIC%"
-  section="%IF{"'%allowschange%' = '1'" then="changegroup%IF{"'%twisty%' = 'off'" then="notwisty"}%" else="nochange"}%"
+  section="%IF{
+    "istopic '%USERSWEB%.%groupname%' AND 
+     '%USERSWEB%.%groupname%' allows 'change'
+    " 
+    then="changegroup%IF{"'%twisty%' = 'off'" then="notwisty"}%" 
+    else="nochange"
+  }%"
   groupname="%groupname%"
 }% 
 <div class='foswikiClear'></div>
@@ -66,17 +72,7 @@
   parameters: groupname
 -->
 %STARTSECTION{"changegroup"}%<!-- changegroup -->
-<div class='foswikiRight'>
-%INCLUDE{"%WEB%.%TOPIC%"
-  section="%IF{
-  "'%USERSWEB%.%groupname%'/preferences[name='GROUP'] AND
-  '%USERSWEB%.%groupname%'/preferences[name='VIEW_TEMPLATE'].value = 'GroupView'
-  " 
-  then="nochange" 
-  else="group_upgrade"
-}%"
-  groupname="%groupname%"
-}%
+<div class="%IF{"'%twistyalign%' != 'left'" then="foswikiRight"}%">
 %TWISTYBUTTON{
   id="%groupname%_add"
   link=" <img src='%ICONURLPATH{"useradd"}%' alt='%MAKETEXT{"Add user..."}%' title='%MAKETEXT{"Add user..."}%' />"
@@ -85,6 +81,19 @@
   link=" <img src='%ICONURLPATH{"userdelete"}%' alt='%MAKETEXT{"Remove user..."}%' title='%MAKETEXT{"Remove user..."}%' />"
 }%
 </div>
+%CLEAR%
+%INCLUDE{"%WEB%.%TOPIC%"
+  section="%IF{"
+    not istopic '%USERSWEB%.%groupname%' OR (
+       '%USERSWEB%.%groupname%'/preferences[name='GROUP'] AND
+       '%USERSWEB%.%groupname%'/preferences[name='VIEW_TEMPLATE'].value = 'GroupView'
+    )
+  " 
+  then="nochange" 
+  else="group_upgrade"
+}%"
+  groupname="%groupname%"
+}%
 %TWISTYTOGGLE{id="%groupname%_add" mode="div"}%
 %INCLUDE{"%WEB%.%TOPIC%"
   section="group_add"
@@ -106,12 +115,17 @@
   parameters: groupname
 -->
 %STARTSECTION{"group_upgrade"}%<!-- group_upgrade -->
-<sticky><form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
+<sticky>
+<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
   <input type="hidden" name="groupname" value="%groupname%"/>
   <input type="hidden" name="action" value="addUserToGroup"/>
   <input type="hidden" name="create" value="1"/>
-  <input class="foswikiButton foswikiSmall" type="submit" value="%MAKETEXT{"Upgrade group topic"}%" />
-</form></sticky>
+  <input class="foswikiButton" type="submit" value="%MAKETEXT{"Upgrade group topic"}%" />
+</form>
+
+<div class="foswikiGrayText">
+%X% %MAKETEXT{"When clicking on "Upgrade" the format of this group topic will be adjusted to the new format."}%
+</div></sticky>
 <!-- //group_upgrade -->%ENDSECTION{"group_upgrade"}%
 </verbatim><verbatim>
 <!--
@@ -125,7 +139,7 @@
   <div class='foswikiFormStep foswikiLast'>
      <h3>%MAKETEXT{"Add a user to this group"}%</h3>
 %JQREQUIRE{"autocomplete"}%
-     <input type="text" name="username" value="" size="40" class="foswikiInputField foswikiDefaultText" title="%MAKETEXT{Name of user}%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;contenttype=text/plain;skin=text;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%"/> <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Add user"}%" />
+     <input type="text" name="username" value="" size="40" class="foswikiInputField foswikiDefaultText" title="%MAKETEXT{Name of user}%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%"/> <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Add user"}%" />
   </div>
 </div>
 </form></sticky>
