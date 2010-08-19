@@ -922,11 +922,13 @@ sub verify_duplicateActivation {
     otherwise {
         $this->assert( 0, "expected an oops redirect" );
     };
+    # Read the verification code before finish()'ing the session
+    my $debugVerificationCode = $this->{session}->{DebugVerificationCode};
     $this->{session}->finish();
 
     # For verification process everything including finish(), so don't just
     # call verifyEmails
-    my $code = shift || $this->{session}->{DebugVerificationCode};
+    my $code = shift || $debugVerificationCode;
     $query = new Unit::Request(
         {
             'code'   => [$code],
