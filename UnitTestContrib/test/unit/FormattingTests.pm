@@ -78,6 +78,39 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
+# Item8694
+sub test_Item8694 {
+    my $this     = shift;
+
+    # Need to exlude formatting markup from acceptable topic names for some of these tests to work
+    my $saveNameFilter = $Foswiki::cfg{NameFilter};
+    $Foswiki::cfg{NameFilter} = '[\\s\\*?~^\\$@%`"\'_=&;|<>\\[\\]\\x00-\\x1f]';
+
+    my $expected = <<EXPECTED;
+<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><strong>Web</strong> <nop>Home</a>
+<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink">Web <strong>Home</strong></a>
+<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><code>Web</code> <strong>Home</strong></a>
+<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><em>Web</em> <code><b>Home</b></code></a>
+<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><em>Novus <nop>Foo</em></a>
+<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><em>Web <nop>Home</em></a>
+<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><code><b>Web <nop>Home</b></code></a>
+<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><em>Novus <nop>Foo</em> (<nop>Some <nop>Author, 2000)</a>
+EXPECTED
+
+    my $actual = <<ACTUAL;
+[[*Web* Home]]
+[[Web *Home*]]
+[[WebHome][=Web= *Home*]]
+[[WebHome][_Web_ ==Home==]]
+[[WebHome][_Novus Foo_]]
+[[_Web Home_]]
+[[==Web Home==]]
+[[WebHome][_Novus Foo_ (Some Author, 2000)]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+    $Foswiki::cfg{NameFilter} = $saveNameFilter;
+}
+
 # [[WikiWord]]
 sub test_squabbedWikiword {
     my $this     = shift;

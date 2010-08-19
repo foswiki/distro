@@ -795,6 +795,12 @@ sub _handleSquareBracketedLink {
     }
 
     $text = _escapeAutoLinks($link) unless defined $text;
+    $text =~ s/${STARTWW}==(\S+?|\S[^\n]*?\S)==$ENDWW/_fixedFontText($1,1)/gem;
+    $text =~ s/${STARTWW}__(\S+?|\S[^\n]*?\S)
+               __$ENDWW/<strong><em>$1<\/em><\/strong>/gmx;
+    $text =~ s/${STARTWW}\*(\S+?|\S[^\n]*?\S)\*$ENDWW/<strong>$1<\/strong>/gm;
+    $text =~ s/${STARTWW}\_(\S+?|\S[^\n]*?\S)\_$ENDWW/<em>$1<\/em>/gm;
+    $text =~ s/${STARTWW}\=(\S+?|\S[^\n]*?\S)\=$ENDWW/_fixedFontText($1,0)/gem;
 
     # Extract '#anchor'
     # $link =~ s/(\#[a-zA-Z_0-9\-]*$)//;
