@@ -29,7 +29,7 @@
 
 Base class that implements mod_perl2 execution mode.
 
-Refer to Foswiki::Engine documentation for explanation about methos below.
+Refer to the Foswiki::Engine documentation for further information.
 
 =cut
 
