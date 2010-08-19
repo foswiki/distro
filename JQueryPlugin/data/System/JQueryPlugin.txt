@@ -138,7 +138,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  19 Aug 2010: | (3.71) add JQueryWikiWord dependency on JQueryLiveQuery; \
+|  19 Aug 2010: | (3.71) JQueryLiveQuery now loads by default; \
                   removed JQueryBgiframe and JQueryEasing plugins from default plugins |
 |  02 Jul 2010: | (3.70) removed outdated spinner and ifixpng plugins; \
                   improved documentation; \
