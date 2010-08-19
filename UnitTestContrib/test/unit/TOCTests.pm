@@ -236,6 +236,9 @@ sub test_TOC_SpecialCharacters {
         ['TEST_60_62', '---+ TEST <>', 'Null tag'],                 # Less / greater than.
         ['TEST_62', '---+ TEST >', 'Greater-than'],                     # Greater-than
         ['TEST_60', '---+ TEST <', 'Less-than'],                     # Less-than
+        ['TEST_92x', '---+ TEST \x', 'Backslash'],
+        ['TEST_38_38', '---+ TEST & &amp;', 'Ampersand'],
+        ['Entities', '---+ Entities &#65; &#x41; &copy;', 'Entities'],
         ['Test_40_41_123_125_91_93_45_43_33_60_62_126_36', '---+ Test (){}[]_-+!<>~$', 'Complex 1'],
         ['Test_60_40_41_123_125_91_93_45_43_33_62_126_36', '---+ Test <(){}[]_-+!>~$', 'Complex 2'],
         ['Linkword', '---++ [[Linkword]]', 'Squarebracket'],
