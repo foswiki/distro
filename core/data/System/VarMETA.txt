@@ -15,20 +15,22 @@ Parameters:
       * =title="..."= to show a title - only if attachments are displayed.
       * =template="..."= to use a custom template for the rendering of 
         attachments; default =attachtables= is used.
-   * ="moved"= - generate details of any topic moves
+   * ="moved"= - if a topic was moved or renamed, generates a message with details and a revert link
+      * =prefix="..."=: Prefix that goes before the moved message, but only if the message is generated, default =""=.
+      * =suffix="..."=: Prefix that goes after the moved message, but only if the message is generated, default =""=.
    * ="parent"= - display details of ancestor topics
       * =dontrecurse="on"=: By default recurses up tree, this has some cost.
         Equivalent to =depth=1=
       * =depth="..."=: Return only the specified ancestor.
       * =nowebhome="on"=: Suppress <nop>%HOMETOPIC%.
-      * =prefix="..."=: Prefix that goes before parents, but only if there
-        are parents, default =""=.
       * =format="..."=: Format string used to display each parent topic
         where =$web= expands to the web name, and =$topic= expands to the
         topic name; default: ="[<nop>[$web.$topic][$topic]]"=
+      * =separator="..."=: Separator between parents; default =" &gt; "=
+      * =prefix="..."=: Prefix that goes before parents, but only if there
+        are parents, default =""=.
       * =suffix="..."=: Suffix, only appears if there are parents; default
         =""=.
-      * =separator="..."=: Separator between parents; default =" &gt; "=
    * ="formfield"= - display the value of a single form field
       * =name="..."=: name of the field.
       * =newline="..."=: by default, each newline character will be
