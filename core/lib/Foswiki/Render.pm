@@ -186,7 +186,9 @@ sub renderMoved {
     my ( $this, $topicObject, $params ) = @_;
     my $text  = '';
     my $moved = $topicObject->get('TOPICMOVED');
-
+    my $prefix = $params->{prefix} || '';
+    my $suffix = $params->{suffix} || '';
+    
     if ($moved) {
         my ( $fromWeb, $fromTopic ) =
           $this->{session}
@@ -233,7 +235,7 @@ sub renderMoved {
             )
         ) . $putBack;
     }
-    return $text;
+    return "$prefix$text$suffix";
 }
 
 # Add a list item, of the given type and indent depth. The list item may
