@@ -78,6 +78,9 @@ body.patternPrintPage,
 html>body .patternPrintPage pre {
 	overflow:visible !important;
 }
+.foswikiTopic {
+        overflow:visible;
+}
 
 /*Some rules about Page breaks */
 .patternPrintPage h1, .patternPrintPage h2, .patternPrintPage h3, .patternPrintPage h4, .patternPrintPage h5, .patternPrintPage h6 {
