@@ -148,7 +148,7 @@ if (!foswiki) foswiki = {};
         jQuery(elem).animate({
               height:'toggle', 
                     opacity:'toggle'
-                    }, 'fast');
+                    }, 0);
     };
 
     /**
