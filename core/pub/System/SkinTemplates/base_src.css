@@ -39,14 +39,20 @@
 	font-size:1.3em;
 	line-height:1.5em;
 }
-.foswikiBroadcastMessage {
-	background-color:#ff0;
+.foswikiBroadcastMessage,
+.foswikiNotification {
+	background-color:#fff7e7;
 	padding:.25em .5em;
 	margin:0 0 1em 0;
 }
 .foswikiBroadcastMessage b,
 .foswikiBroadcastMessage strong {
 	color:#f00;
+}
+.foswikiMessage {
+	padding:.5em 10px;
+	background-color:#fff7e7;
+	border:none;
 }
 .foswikiAlert,
 .foswikiAlert code {

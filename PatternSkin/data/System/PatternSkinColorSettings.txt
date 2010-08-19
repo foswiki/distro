@@ -192,7 +192,7 @@ Edit this topic, and change the color as you like.
 ---++++ FORM_BORDER Form (same as foswikiTable border)
    * Local FORM_BORDER = #cfcfcf
 ---++++ ACTIVE_FORM_BACKGROUND Edit form, form steps
-   * Local ACTIVE_FORM_BACKGROUND = #f5f5f3
+   * Local ACTIVE_FORM_BACKGROUND = #f0f0ee
 ---++++ FORMFIELD_ACTIVE Active form field
    * Local FORMFIELD_ACTIVE = #ebf5fa
 ---++++ FORM_HEADER_TEXT Header text on form background
@@ -523,6 +523,9 @@ table.foswikiFormTable {
 .foswikiNotification {
    background-color:%NOTIFICATION_BACKGROUND%;
    border-color:%NOTIFICATION_BORDER%;
+}
+.foswikiMessage {
+   background-color:%NOTIFICATION_BACKGROUND%;
 }
 #foswikiLogin .patternLoginNotification {
    background-color:%MAIN_TEXT_BACKGROUND%;

@@ -703,7 +703,10 @@ table.foswikiFormTable
 {
 	padding:1em 20px;
 }
-
+.foswikiMessage {
+	padding:.5em 20px;
+	border:none;
+}
 .foswikiCheckbox,
 .foswikiRadioButton
 {
@@ -1249,17 +1252,6 @@ table.foswikiFormTable
 {
 	margin:.5em 0 0;
 	text-align:right;
-}
-
-.patternMoved
-{
-	margin:1em 0;
-}
-
-.patternMoved i,
-.patternMoved em
-{
-	font-style:normal;
 }
 
 .patternNoViewPage #patternMainContents,

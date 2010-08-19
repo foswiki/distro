@@ -319,6 +319,9 @@ table.foswikiFormTable {
    background-color:#fff7e7;
    border-color:#fbad17;
 }
+.foswikiMessage {
+   background-color:#fff7e7;
+}
 #foswikiLogin .patternLoginNotification {
    background-color:#fff;
    border-color:#f00;

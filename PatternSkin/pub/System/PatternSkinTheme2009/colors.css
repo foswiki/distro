@@ -332,6 +332,9 @@ table.foswikiFormTable th.foswikiFormTableHRow font {
 .foswikiNotification {
    border:2px solid #ffdf4c;
 }
+.foswikiMessage {
+   background-color:#ffe67b;
+}
 #foswikiLogin .patternLoginNotification {
    background-color:#fff;
    border-color:#f00;

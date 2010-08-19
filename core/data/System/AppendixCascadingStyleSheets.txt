@@ -33,6 +33,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=li.foswikiLast=                | Last element of a horizontal list  |
 |=.foswikiBroadcastMessage=      | Site-wide message block; contents set in %SYSTEMWEB%.DefaultPreferences; custom set in %USERSWEB%.SitePreferences  |
 |=.foswikiNotification=          | Temporary alert, for instance after user actions; used as wrapper around =%<nop>FLASHNOTE%=  |
+|=.foswikiMessage=               | Permanent/semi-permanent message. |
 |=.foswikiContentHeader=         | Optional container around text placed above topic text  |
 |=.foswikiContentFooter=         | Optional container around text placed below topic text  |
 |=.foswikiFooterNote=            | Text below topic text; for instance with parent or "topic moved" message |

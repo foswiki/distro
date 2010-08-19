@@ -541,6 +541,10 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 .foswikiBroadcastMessage {
 	margin:0 0 1.25em 0;
 }
+.foswikiMessage {
+	padding:.5em 10px;
+	border:none;
+}
 .foswikiHelp {
 	padding:1em;
 	margin:.25em 0 0 0;
@@ -829,13 +833,6 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternHomePath .patternRevInfo {
 	font-size:94%;
 	white-space:nowrap;
-}
-.patternMoved {
-	margin:1em 0;
-}
-.patternMoved i,
-.patternMoved em {
-	font-style:normal;
 }
 .patternTopicFooter {
 	margin:1em 0 0 0;

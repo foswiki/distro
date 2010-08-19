@@ -366,6 +366,9 @@ table.foswikiFormTable
 {
 	border-color:#090;
 }
+.foswikiMessage {
+   background-color:#d9f5d9;
+}
 
 .foswikiDiffAddedHeader,
 tr.foswikiDiffDebug .foswikiDiffAddedMarker,

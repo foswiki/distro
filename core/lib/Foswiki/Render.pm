@@ -226,13 +226,10 @@ sub renderMoved {
                 $this->{session}->i18n->maketext('put it back')
               );
         }
-        $text = CGI::i(
-            {},
-            $this->{session}->i18n->maketext(
-                "[_1] moved from [_2] on [_3] by [_4]",
+        $text = $this->{session}->i18n->maketext(
+                "[_1] was renamed or moved from [_2] on [_3] by [_4]",
                 "<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",
                 $date, $by
-            )
         ) . $putBack;
     }
     return "$prefix$text$suffix";
