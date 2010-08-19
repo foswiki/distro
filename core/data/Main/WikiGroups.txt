@@ -50,7 +50,7 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
                <th>%MAKETEXT{"Members"}%**</th>
              </tr>$n" 
    format="<tr>
-     <td valign='top'> $percntIF{\"not istopic '$name'\" then=\"<nop>\"}$percnt$name</td>
+     <td valign='top'> $percntIF{\"not istopic '$name'\" then=\"<nop>\" else=\"%USERSWEB%.\"}$percnt$name</td>
      <td valign='top'> 
        $percntINCLUDE{\"%USERSWEB%.GroupViewTemplate\"
          section=\"rendergroup\"
