@@ -4179,5 +4179,22 @@ footer: $web=TemporarySEARCHTestWebSEARCH', $result );
 pagerformat: $web=TemporarySEARCHTestWebSEARCH', $result );
 }
 
+sub test_Item9502 {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"1"
+  type="query"
+  web="%WEB%"
+  topic="%TOPIC%"
+  nonoise="on"
+  format="FOO $changes(x)"
+}%'
+      );
+
+    $this->assert_matches( qr/^FOO /, $result );
+}
+
 
 1;
