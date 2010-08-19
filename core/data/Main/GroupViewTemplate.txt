@@ -3,7 +3,7 @@
 %TMPL:DEF{"content"}%<div class="foswikiTopicText">
 ---+!! %NOP%%TOPIC%
 %TEXT%
----++ %MAKETEXT{"Members"}%:
+---++ %MAKETEXT{"Members"}%
 %INCLUDE{"%USERSWEB%.GroupViewTemplate"
          section="rendergroup"
          groupname="%TOPIC%"
@@ -39,7 +39,7 @@
   }%"
   groupname="%groupname%"
 }% 
-<div class='foswikiClear'></div>
+<p class='foswikiClear' />
 <!-- //rendergroup -->%ENDSECTION{"rendergroup"}%
 </verbatim>
 
@@ -124,7 +124,7 @@
 </form>
 
 <div class="foswikiGrayText">
-%X% %MAKETEXT{"When clicking on "Upgrade" the format of this group topic will be adjusted to the new format."}%
+%ICON{"info"}% %MAKETEXT{"Upgrade will adjust the format of this group topic to the new format with user management options"}%
 </div></sticky>
 <!-- //group_upgrade -->%ENDSECTION{"group_upgrade"}%
 </verbatim><verbatim>
@@ -157,14 +157,12 @@
      <input type='hidden' name='groupname' value='%groupname%' />
      <input type='hidden' name='action' value='removeUserFromGroup' />
      <div class='foswikiFormSteps'>
-     <div class='foswikiFormStep'>
+     <div class='foswikiFormStep foswikiLast'>
      <h3>%MAKETEXT{"Remove users from this group"}%</h3>$n"
    format="<label style='display:block'>
       <input type='checkbox' name='username' value='$wikiname' /> <nop>$wikiname
       </label>"
-   footer="</div>
-      <div class='foswikiFormStep foswikiLast'>
-        <input type='submit' class='foswikiSubmit' value='%MAKETEXT{"Remove selected users"}%' />
+   footer="<input type='submit' class='foswikiSubmit' value='%MAKETEXT{"Remove selected users"}%' />
       </div>
       </form>
       </div>"
