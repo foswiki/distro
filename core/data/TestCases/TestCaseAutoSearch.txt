@@ -302,7 +302,7 @@ Same as last test
 <div class="foswikiSearchResultCount">Number of topics: <span>1</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:@REX([a-z]+|\#[0-9a-fA-F]{6})"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">nop System Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set SITEMAPLIST = on * Set WEBSUMMARY = Discover Foswiki details, and how to start your ...</div></div> 
+<div class="foswikiSummary">nop System Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set SITEMAPLIST = on * Set WEBSUMMARY = TOC settings * Set TOC_HIDE_IF_INCLUDED ...</div></div> 
 <div class="foswikiBottomRow"> 
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
 </div> 
@@ -335,7 +335,7 @@ Same as last test
 <div class="foswikiSearchResultCount">Number of topics: <span>1</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:@REX([a-z]+|\#[0-9a-fA-F]{6})"><b>Results from System web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">nop System Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set SITEMAPLIST = on * Set WEBSUMMARY = Discover Foswiki details, and how to start your ...</div></div> 
+<div class="foswikiSummary">nop System Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set SITEMAPLIST = on * Set WEBSUMMARY = TOC settings * Set TOC_HIDE_IF_INCLUDED ...</div></div> 
 <div class="foswikiBottomRow"> 
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
 </div> 
@@ -351,7 +351,7 @@ Same as last test
 <div class="foswikiSearchResultCount">Number of topics: <span>1</span></div><h4 class="foswikiSearchResultsHeader" style="border-color:@REX([a-z]+|\#[0-9a-fA-F]{6})"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a> 
-<div class="foswikiSummary">nop Sandbox Web Preferences Appearance * Set WEBBGCOLOR = #B9DAFF * Set WEBSUMMARY = Sandbox test area to experiment in an unrestricted hands on web. * ...</div></div> 
+<div class="foswikiSummary">nop Sandbox Web Preferences Appearance * Set WEBBGCOLOR = #B9DAFF * Set WEBSUMMARY = * Set SITEMAPLIST = on Wiki application settings * WebTopicEditTemplate ...</div></div> 
 <div class="foswikiBottomRow"> 
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span> 
 </div> 
