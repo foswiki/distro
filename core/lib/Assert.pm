@@ -34,7 +34,9 @@ Exporter::export_tags(qw(NDEBUG DEBUG));
 sub ASSERTS_ON  { 1 }            # CONSTANT
 sub ASSERTS_OFF { 0 }            # CONSTANT
 
-sub noop { return $_[0] }
+# Provides the same return value and the same context
+# for its parameters as the real TAINT and UNTAINTED
+sub noop($) { return $_[0] }
 
 our $soft = 0;
 
