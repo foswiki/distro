@@ -49,6 +49,8 @@ Designed by: Crawford Currie
 <li> <a href="?@URLPARAMS#H1_60_33_45_452_45_45_62">H1 <!--2--></a>
 <ul>
 <li> <a href="?@URLPARAMS#H2_AN1">H2</a>
+</li>
+<li> <a href="?@URLPARAMS#across_two_lines">across two lines</a>
 <ul>
 <li>
 <ul>
@@ -90,6 +92,9 @@ Some more text
 text
 ---++ H2
 The rest
+---++ across \
+two lines
+not special
 
 ---#!! Ignore me H1
 ---#### Don't ignore %NOTOC% except this

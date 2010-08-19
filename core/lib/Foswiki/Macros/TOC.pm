@@ -108,6 +108,12 @@ sub TOC {
     # Extract anchor targets. This has to generate *identical* anchor
     # targets to normal rendering.
 
+    # Normal rendering does some processing before generating anchor
+    # targts. Do that processing here because it does affect the
+    # anchor names.
+    $text =~ s/\r//g;
+    $text =~ s/\\\n//gs;
+
     # clear the set of unique anchornames in order to inhibit
     # the 'relabeling' of anchor names if the same topic is processed
     # more than once, cf. explanation in expandMacros()

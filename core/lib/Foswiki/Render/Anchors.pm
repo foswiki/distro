@@ -138,9 +138,10 @@ sub make {
     # which for some reason are encoded when building the anchor, but
     # un-encoded when building the link.
     #
-    # Convert < and > back from entity
+    # Convert &, < and > back from entity
     $text =~ s/&lt;/</g;
     $text =~ s/&gt;/>/g;
+    $text =~ s/&amp;/&/g;
 
     # strip out potential links so they don't get rendered.
     # remove double bracket link   
