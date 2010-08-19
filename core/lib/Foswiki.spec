@@ -473,6 +473,13 @@ $Foswiki::cfg{Register}{EnableNewUserRegistration} = $TRUE;
 $Foswiki::cfg{Register}{NeedVerification} = $FALSE;
 
 # **BOOLEAN EXPERT**
+# Controls whether the user password has to be entered twice on the
+# registration page or not. The default is to require confirmation. If
+# true, the same password must be provided in the Twk1Password and
+# Twk1Confirm inputs.
+$Foswiki::cfg{Register}{RequirePasswordConfirmation} = $TRUE;
+
+# **BOOLEAN EXPERT**
 # Hide password in registration email to the <em>user</em>
 # Note that Foswiki sends administrators a separate confirmation.
 $Foswiki::cfg{Register}{HidePasswd} = $TRUE;
@@ -549,7 +556,7 @@ $Foswiki::cfg{SafeEnvPath} = '';
 # and %QUERY{}%. Extensions can push into this array to extend the set. This is done as
 # a filter in because while the bulk of configuration items are quite innocent,
 # it's better to be a bit paranoid.
-$Foswiki::cfg{AccessibleCFG} = [ qw( {ScriptSuffix} {LoginManager} {AuthScripts} {LoginNameFilterIn} {AdminUserLogin} {AdminUserWikiName} {SuperAdminGroup} {UsersTopicName} {AuthRealm} {MinPasswordLength} {Register}{AllowLoginName} {Register}{EnableNewUserRegistration} {Register}{NeedVerification} {Register}{RegistrationAgentWikiName} {AllowInlineScript} {DenyDotDotInclude} {UploadFilter} {NameFilter} {AccessibleCFG} {AntiSpam}{EmailPadding} {AntiSpam}{HideUserDetails} {AntiSpam}{RobotsAreWelcome} {Stats}{TopViews} {Stats}{TopContrib} {Stats}{TopicName} {UserInterfaceInternationalisation} {UseLocale} {Site}{Locale} {Site}{CharSet} {DisplayTimeValues} {DefaultDateFormat} {Site}{LocaleRegexes} {UpperNational} {LowerNational} {PluralToSingular} {EnableHierarchicalWebs} {WebMasterEmail} {WebMasterName} {NotifyTopicName} {SystemWebName} {TrashWebName} {SitePrefsTopicName} {LocalSitePreferences} {HomeTopicName} {WebPrefsTopicName} {UsersWebName} {TemplatePath} {LinkProtocolPattern} {NumberOfRevisions} {MaxRevisionsInADiff} {ReplaceIfEditedAgainWithin} {LeaseLength} {LeaseLengthLessForceful} {Plugins}{WebSearchPath} {PluginsOrder} {Cache}{Enabled} {Validation}{Method} ) ];
+$Foswiki::cfg{AccessibleCFG} = [ '{ScriptSuffix}', '{LoginManager}', '{AuthScripts}', '{LoginNameFilterIn}', '{AdminUserLogin}', '{AdminUserWikiName}', '{SuperAdminGroup}', '{UsersTopicName}', '{AuthRealm}', '{MinPasswordLength}', '{Register}{AllowLoginName}', '{Register}{EnableNewUserRegistration}', '{Register}{NeedVerification}', '{Register}{RegistrationAgentWikiName}', '{AllowInlineScript}', '{DenyDotDotInclude}', '{UploadFilter}', '{NameFilter}', '{AccessibleCFG}', '{AntiSpam}{EmailPadding}', '{AntiSpam}{HideUserDetails}', '{AntiSpam}{RobotsAreWelcome}', '{Stats}{TopViews}', '{Stats}{TopContrib}', '{Stats}{TopicName}', '{UserInterfaceInternationalisation}', '{UseLocale}', '{Site}{Locale}', '{Site}{CharSet}', '{DisplayTimeValues}', '{DefaultDateFormat}', '{Site}{LocaleRegexes}', '{UpperNational}', '{LowerNational}', '{PluralToSingular}', '{EnableHierarchicalWebs}', '{WebMasterEmail}', '{WebMasterName}', '{NotifyTopicName}', '{SystemWebName}', '{TrashWebName}', '{SitePrefsTopicName}', '{LocalSitePreferences}', '{HomeTopicName}', '{WebPrefsTopicName}', '{UsersWebName}', '{TemplatePath}', '{LinkProtocolPattern}', '{NumberOfRevisions}', '{MaxRevisionsInADiff}', '{ReplaceIfEditedAgainWithin}', '{LeaseLength}', '{LeaseLengthLessForceful}', '{Plugins}{WebSearchPath}', '{PluginsOrder}', '{Cache}{Enabled}', '{Validation}{Method}', '{Register}{RequirePasswordConfirmation}' ];
 
 # **BOOLEAN**
 # Allow %INCLUDE of URLs. This is disabled by default, because it is possible
