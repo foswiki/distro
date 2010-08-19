@@ -10,8 +10,8 @@
 	Sizes
 	----------------------------------------
 	S1 line-height											1.5em
-	S2 somewhat smaller font size							94%
-	S3 small font size, foswikiSmall							font-size:86%; line-height:110%;
+	S2 somewhat smaller font size							font-size:94%
+	S3 small font size, foswikiSmall						font-size:86%; line-height:110%;
 	S4 horizontal bar padding (h2, patternTop)				5px
 	S5 form and attachment padding							10px
 	S6 left margin left bar									1em
@@ -316,10 +316,6 @@ a.foswikiSubmit:visited:active {
 	border-style:solid;
 	border-width:2px;
 }
-.foswikiAttachments,
-.foswikiForm {
-	height:1%; /* for IE */
-}
 .foswikiTable h2, .foswikiFormTable h2,
 .foswikiTable h3, .foswikiFormTable h3,
 .foswikiTable h4, .foswikiFormTable h4,
@@ -433,7 +429,6 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	border-style:solid;
 }
 .foswikiFormStep {
-	height:100%; /* for IE */
 	line-height:140%;
 	padding:.75em 20px;
 	border-width:0 0 1px 0;
@@ -473,7 +468,6 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 .foswikiLast {
 	border-bottom:none;
 }
-
 .foswikiToc {
 	margin:1em 0;
 	padding:.3em 0 .6em 0;
@@ -532,7 +526,6 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	margin:0 0 1.25em 0;
 }
 .foswikiHelp {
-	height:1%; /* for IE */
 	padding:1em;
 	margin:.25em 0 0 0;
 }
@@ -675,8 +668,6 @@ a:hover .foswikiAccessKey {
    text-decoration:none;
 }
 #patternSideBarContents .patternLeftBarPersonal {
-	height:1%; /* for IE */
-	width:100%; /* for IE */
 	padding:0 1em .75em 1em;
 	margin:0 -1em .75em -1em; /*S6*/
 	border-style:none none solid none;
@@ -767,7 +758,6 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternTopicAction {
 	line-height:1.5em;
 	padding:.4em 20px; /*S5*/
-	height:1%; /* for IE */
 }
 .patternOopsPage .patternTopicActions,
 .patternEditPage .patternTopicActions {
@@ -844,37 +834,6 @@ html>body #patternSideBarContents li { /* Mozilla */
 	width:80%;
 }
 
-/*
-.foswikiWebSearchForm form {
-	width:100%;
-}
-.foswikiWebSearchForm div,
-.foswikiWebSearchForm fieldset {
-	padding:1em;
-}
-.foswikiWebSearchForm fieldset {
-	border-width:2px 0 0 0;
-	border-style:solid;
-}
-.foswikiWebSearchForm fieldset label {
-	font-weight:bold;
-	font-size:100%;
-	margin:0;
-	padding:0;
-}
-
-.foswikiWebSearchForm fieldset p {
-	margin:0 0 0 3em;
-	padding:.25em 0;
-}
-.foswikiWebSearchForm fieldset hr {
-	margin:0 3em;
-}
-.foswikiWebSearchForm fieldset p label {
-	font-weight:normal;
-}
-*/
-
 /*	-----------------------------------------------------------
 	Search results
 	styles and overridden styles used in search.pattern.tmpl
@@ -895,7 +854,6 @@ h3.foswikiSearchResultsHeader,
 h4.foswikiSearchResultsHeader {
 	border-width:3px;
 	border-style:none none solid none;
-	height:1%; /* for IE */
 	font-weight:bold;
 }
 .patternSearchResults h3 {
@@ -1014,7 +972,6 @@ h4.foswikiSearchResultsHeader {
 .patternSigLine {
 	margin:.5em 0 0 0;
 	border-style:none;
-	height:1%; /* for IE */
 }
 .foswikiAddFormButton {
 	float:right;
@@ -1056,7 +1013,6 @@ h4.foswikiSearchResultsHeader {
 	border-style:solid;
 	margin:0 0 1.5em 0;
 	padding:2em;
-	height:1%; /* for IE */
 }
 
 /* attach.pattern.tmpl */

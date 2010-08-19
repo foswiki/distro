@@ -10,8 +10,8 @@
 	Sizes
 	----------------------------------------
 	S1 line-height											1.5em
-	S2 somewhat smaller font size							94%
-	S3 small font size, foswikiSmall							font-size:86%; line-height:110%;
+	S2 somewhat smaller font size							font-size:94%
+	S3 small font size, foswikiSmall						font-size:86%; line-height:110%;
 	S4 horizontal bar padding (h2, patternTop)				5px
 	S5 form and attachment padding							20px
 	S6 left margin left bar									1em
@@ -279,12 +279,6 @@ a.foswikiSubmit:visited:active {
 .foswikiTable .tableSortIcon {
 	margin:0 0 0 5px;
 }
-
-/*
-.foswikiTable th.foswikiFirstCol {
-	border-left-style:none;
-}
-*/
 .foswikiTable a:link,
 .foswikiTable a:visited {
 	text-decoration:underline;
@@ -309,7 +303,7 @@ a.foswikiSubmit:visited:active {
 }
 
 /*	-----------------------------------------------------------
-	TWiki styles
+	Foswiki styles
 	-----------------------------------------------------------	*/
 
 #foswikiLogin {
@@ -330,7 +324,6 @@ a.foswikiSubmit:visited:active {
 .foswikiForm {
 	margin:1em 0;
 	padding:1px; /* fixes disappearing borders because of overflow:auto; in foswikiForm */
-	height:1%; /* for IE */
 }
 .foswikiTable h2, .foswikiFormTable h2,
 .foswikiTable h3, .foswikiFormTable h3,
@@ -445,7 +438,6 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	border-style:solid;
 }
 .foswikiFormStep {
-	height:100%; /* for IE */
 	line-height:140%;
 	padding:1em 40px;
 	border-width:0 0 1px 0;
@@ -550,7 +542,6 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	margin:0 0 1.25em 0;
 }
 .foswikiHelp {
-	height:1%; /* for IE */
 	padding:1em;
 	margin:.25em 0 0 0;
 	border-style:solid;
@@ -690,19 +681,6 @@ a:hover .foswikiAccessKey {
 #patternSideBarContents a:visited {
 	text-decoration:none;
 }
-/*
-#patternSideBarContents .patternLeftBarPersonal a:link,
-#patternSideBarContents .patternLeftBarPersonal a:visited {
-	text-decoration:underline;
-}
-#patternSideBarContents .patternLeftBarPersonal ul a:link,
-#patternSideBarContents .patternLeftBarPersonal ul a:visited {
-	text-decoration:none;
-}
-#patternSideBarContents .patternLeftBarPersonal ul a:hover {
-	text-decoration:underline;
-}
-*/
 #patternSideBarContents ul {
 	padding:0;
 	margin:0;
@@ -719,21 +697,11 @@ a:hover .foswikiAccessKey {
 }
 #patternSideBarContents .patternLeftBarPersonal,
 #patternSideBarContents .patternWebIndicator {
-	height:1%; /* for IE */
-	width:100%; /* for IE */
 	padding:0 1em .75em 1em;
 	margin:0 -1em .75em -1em; /*S6*/
 	border-style:none none solid none;
 	border-width:1px;
 }
-/*
-#patternSideBarContents ul li a:link,
-#patternSideBarContents ul li a:visited {
-	display:block;
-	margin:0 -1em 0 -1em;
-	padding:.2em 1em;
-}
-*/
 .patternWebIndicator a {
 	font-size:1.1em;
 	font-weight:bold;
@@ -826,7 +794,6 @@ html>body #patternSideBarContents li { /* Mozilla */
 	padding:.4em 20px; /*S5*/
 	border-width:1px 0 0 0;
 	border-style:solid;
-	height:1%; /* for IE */
 }
 .patternOopsPage .patternTopicActions,
 .patternEditPage .patternTopicActions {
@@ -878,7 +845,17 @@ html>body #patternSideBarContents li { /* Mozilla */
 }
 
 /* WebSearch, WebSearchAdvanced */
+.foswikiWebSearchForm form {
+	width:100%;
+}
+.foswikiWebSearchForm ul {
+	list-style:none;
+	margin-top:0;
+}
+
 #foswikiSearchTable {
+	width:100%;
+	margin:.5em 0;
 	background:none;
 	border-bottom:0;
 } 
@@ -917,7 +894,6 @@ h4.patternSearchResultsHeader {
 	display:block;
 	border-width:0 0 1px 0;
 	border-style:solid;
-	height:1%; /* for IE */
 	font-weight:bold;
 }
 .patternSearchResults h3 {
@@ -955,6 +931,13 @@ h4.patternSearchResultsHeader {
 	padding:0 1px;
 	font-weight:bold;
 }
+.foswikiSummary,
+.foswikiSearchResult .foswikiBottomRow {
+	font-size:86%; /*S3*/
+}
+.foswikiSearchResult .foswikiSummary .foswikiAlert {
+	font-weight:normal;
+}
 .patternSearchResults .foswikiHelp {
 	display:block;
 	width:auto;
@@ -972,9 +955,7 @@ h4.patternSearchResultsHeader {
 .patternSearchResultCount {
 	margin:1em 0 3em 0;
 }
-.patternSearched {
-	display:block;
-}
+.patternSearched {}
 
 
 /* Search results in book view format */
@@ -1047,7 +1028,6 @@ h4.patternSearchResultsHeader {
 .patternSigLine {
 	margin:.5em 0 0 0;
 	border-style:none;
-	height:1%; /* for IE */
 }
 .foswikiAddFormButton {
 	float:right;
@@ -1089,7 +1069,6 @@ h4.patternSearchResultsHeader {
 	border-style:solid;
 	margin:0 0 1.5em 0;
 	padding:2em;
-	height:1%; /* for IE */
 }
 
 /* attach.pattern.tmpl */
