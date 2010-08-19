@@ -23,11 +23,11 @@ root, a web, or a topic.
 
 A loaded object may be constructed by calling the =load= constructor, or
 a previously constructed object may be converted to 'loaded' state by
-calling =reload=.
+calling =loadVersion=. Once an object is loaded with a specific revision, it
+cannot be reloaded.
 
 Unloaded objects return undef from =getLoadedRev=, or the loaded revision
-otherwise. =reload= allows you to load different revisions of the same
-topic.
+otherwise.
 
 An unloaded object can be populated through calls to =text($text)=, =put=
 and =putKeyed=. Such an object can be saved using =save()= to create a new
@@ -71,6 +71,13 @@ on the key name. For the above example, it looks like this:
 It is maintained on the fly by the methods of this module, which makes it
 important *not* to write new data directly into the structure, but *always*
 to go through the methods exported from here.
+
+As required by the contract with Foswiki::Store, version numbers are required
+to be positive, non-zero integers. When passing in version numbers, 0, 
+undef and '' are treated as referring to the *latest* (most recent)
+revision of the object. Version numbers are required to increase (later
+version numbers are greater than earlier) but are *not* required to be
+sequential.
 
 This module also includes some methods to support embedding meta-data for
 topics directly in topic text, a la the traditional Foswiki store
@@ -178,7 +185,7 @@ sub registerMETA {
 
 =begin TML
 
----++ ClassMethod new($session, $web, $topic)
+---++ ClassMethod new($session, $web, $topic [, $text])
    * =$session= - a Foswiki object (e.g. =$Foswiki::Plugins::SESSION=)
    * =$web=, =$topic= - the pathname of the object. If both are undef,
      this object is a handle for the root container. If $topic is undef,
@@ -189,7 +196,8 @@ sub registerMETA {
 Construct a new, empty object. This method is used to create lightweight
 handles for store objects, especially in cases where the full content of
 the actual object will *not* be loaded. If you need to interact with the
-existing content of the stored object, use the =load= method instead.
+existing content of the stored object, use the =load= method to load
+the content.
 
 =cut
 
@@ -228,20 +236,89 @@ sub new {
 
     # Preferences cache object. We store a pointer, rather than looking
     # up the name each time, because we want to be able to invalidate the
-    # loaded preferences if this object is reloaded with a different rev
-    # (and therefore different prefs). The preferences cache does not take
-    # topic revs into account.
+    # loaded preferences if this object is loaded.
     #$this->{_preferences} = undef;
 
     $this->{FILEATTACHMENT} = [];
 
     if ( defined $text ) {
+        # User supplied topic body forces us to consider this as the
+        # latest rev
         ASSERT( defined($web),   'web is not defined' )   if DEBUG;
         ASSERT( defined($topic), 'topic is not defined' ) if DEBUG;
         $this->setEmbeddedStoreForm($text);
+        $this->{_latestIsLoaded} = 1;
     }
 
     return $this;
+}
+
+=begin TML
+
+---++ ClassMethod load($session, $web, $topic, $rev)
+
+This constructor will load (or otherwise fetch) the meta-data for a
+named web/topic.
+   * =$rev= - revision to load. If undef, 0, '' or > max available rev, will
+     load the latest rev.
+
+This method is functionally identical to:
+<verbatim>
+$this = Foswiki::Meta->new( $session, $web, $topic );
+$this->loadVersion( $rev );
+</verbatim>
+
+WARNING: see notes on revision numbers under =getLoadedRev=
+
+---++ ObjectMethod load($rev) -> $metaObject
+
+Load an unloaded meta-data object with a given version of the data.
+Once loaded, the object is locked to that revision.
+
+   * =$rev= - revision to load. If undef, 0, '' or > max available rev, will
+     load the latest rev.
+
+WARNING: see notes on revision numbers under =getLoadedRev=
+
+=cut
+
+sub load {
+    my $proto = shift;
+    my $this;
+    my $rev;
+
+    if (ref($proto)) {
+        # Existing unloaded object
+        ASSERT(!$this->{_loadedRev}) if DEBUG;
+        $this = $proto;
+        $rev  = shift;
+    } else {
+        (my $session, my $web, my $topic, $rev ) = @_;
+        $this = $proto->new( $session, $web, $topic );
+    }
+    $this->loadVersion($rev);
+
+    return $this;
+}
+
+=begin TML
+
+---++ ObjectMethod unload()
+
+Return the object to an unloaded state. This method should be used
+with the greatest of care, as it resets the load state of the object,
+which may have surprising effects on other code that shares the object.
+
+=cut
+
+sub unload {
+    my $this = shift;
+    $this->{_loadedRev} = undef;
+    $this->{_latestIsLoaded} = undef;
+    $this->{_text} = undef;
+    $this->{_preferences}->finish() if defined $this->{_preferences};
+    undef $this->{_preferences};
+    $this->{_preferences} = undef;
 }
 
 =begin TML
@@ -257,12 +334,10 @@ gets called before an object you have created goes out of scope.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
+    $this->unload();
     undef $this->{_indices};
     undef $this->{_web};
     undef $this->{_topic};
-    undef $this->{_text};
-    $this->{_preferences}->finish() if defined $this->{_preferences};
-    undef $this->{_preferences};
     undef $this->{_session};
 }
 
@@ -550,9 +625,9 @@ sub populateNewWeb {
         while ( $it->hasNext() ) {
             my $topic = $it->next();
             next unless ( $sys || $topic =~ /^Web/ );
-            my $topicObject =
-              $this->load( $this->{_session}, $templateWeb, $topic );
-            $topicObject->saveAs( $this->{_web}, $topic, (forcenewrevision => 1) );
+            my $to = Foswiki::Meta->load(
+                $this->{_session}, $templateWeb, $topic );
+            $to->saveAs( $this->{_web}, $topic, (forcenewrevision => 1) );
         }
     }
 
@@ -560,7 +635,7 @@ sub populateNewWeb {
     # we are creating a new web here.
     if ($opts) {
         my $prefsTopicObject =
-          $this->load( $this->{_session}, $this->{_web},
+          Foswiki::Meta->load( $this->{_session}, $this->{_web},
             $Foswiki::cfg{WebPrefsTopicName} );
         my $text = $prefsTopicObject->text;
         foreach my $key ( keys %$opts ) {
@@ -736,80 +811,48 @@ sub eachChange {
 
 =begin TML
 
----++ StaticMethod load($session, $web, $topic, $rev) -> $meta
+---++ ObjectMethod loadVersion($rev) -> $version
 
-This method will load (or otherwise fetch) the meta-data for a named web/topic.
+Load the object from the store. The object must not be already loaded
+with a different rev (verified by an ASSERT)
 
-This method is functionally identical to:
-<verbatim>
-$this = Foswiki::Meta->new( $session, $web, $topic );
-$this->reload( $rev );
-</verbatim>
+See =getLoadedRev= to determine what revision is currently being viewed.
+   * =$rev= - revision to load. If undef, 0, '' or > max available rev, will
+     load the latest rev.
 
-WARNING: see notes on revision numbers under =getLoadedRev=
-
-=cut
-
-sub load {
-    my ( $class, $session, $web, $topic, $rev ) = @_;
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
-    my $this = new( $class, $session, $web, $topic );
-    $this->reload($rev);
-
-    return $this;
-}
-
-=begin TML
-
----++ ObjectMethod reload($rev)
-
-Reload the object from the store; perhaps because we haven't loaded it yet,
-or we are looking at a different rev. See =getLoadedRev= to determine what
-revision is currently being viewed.
-   * =$rev= - revision to load. If 0 or > max available rev, will reload the
-     latest rev. If undef, will reload the currently loaded rev or, if no rev
-     is currently loaded, will load the latest rev.
+Returns the version identifier for the loaded revision.
 
 WARNING: see notes on revision numbers under =getLoadedRev=
 
 =cut
 
-sub reload {
+sub loadVersion {
     my ( $this, $rev ) = @_;
     return unless $this->{_topic};
-    if ( defined $rev ) {
-        $rev ||= 0;
-        ASSERT( $rev =~ /^\d+$/, "bad rev $rev" ) if DEBUG;
+
+    # If no specific rev was requested, check that the latest rev is
+    # loaded.
+    if (!defined $rev || !$rev) {
+        # Trying to load the latest
+        return if $this->{_latestIsLoaded};
+        ASSERT(!defined($this->{_loadedRev})) if DEBUG;
     }
-    else {
-        $rev = $this->{_loadedRev};    # if any
+    elsif (defined($this->{_loadedRev})) {
+        # Cannot load a different rev into an already-loaded
+        # Foswiki::Meta object
+        $rev = -1 unless defined $rev;
+        ASSERT(0, "Attempt to reload $rev over version $this->{_loadedRev}");
     }
 
-    foreach my $field ( keys %$this ) {
-        next if $field =~ /^_(web|topic|session)/;
-        $this->{$field} = undef;
-    }
-    $this->{FILEATTACHMENT} = [];
-    $this->{_loadedRev} = $this->{_session}->{store}->readTopic( $this, $rev );
-
-    # If the topic was not found on disk, then there is no text to load and
-    # _text will be undef. If we leave it that way, then ->text will force
-    # a reload again, so _text must be given a value.
+    # Is it already loaded?
+    return if ($rev && $this->{_loadedRev} && $rev == $this->{_loadedRev});
+    ($this->{_loadedRev}, $this->{_latestIsLoaded})
+      = $this->{_session}->{store}->readTopic( $this, $rev );
+    # Make sure text always has a value once loadVersion has been called
+    # once.
     $this->{_text} = '' unless defined $this->{_text};
 
-    if ( defined $this->{_loadedRev} ) {
-
-        # Make sure it's a simple integer
-        ASSERT(
-            $this->{_loadedRev} =~ /^\d+$/,
-            "bad loaded rev $this->{_loadedRev}"
-        ) if DEBUG;
-
-        $this->{_preferences}->finish() if defined $this->{_preferences};
-        $this->{_preferences} = undef;
-
-        $this->addDependency();
-    }
+    $this->addDependency();
 }
 
 =begin TML
@@ -819,7 +862,7 @@ sub reload {
 Get/set the topic body text. If $text is undef, gets the value, if it is
 defined, sets the value to that and returns the new text.
 
-Be Warned - it can return undef - when a topic exists but has no topicText.
+Be warned - it can return undef - when a topic exists but has no topicText.
 
 =cut
 
@@ -834,7 +877,7 @@ sub text {
 
         # Lazy load. Reload with no params will reload the _loadedRev,
         # or load the latest if that is not defined.
-        $this->reload() unless defined( $this->{_text} );
+        $this->loadVersion() unless defined( $this->{_text} );
     }
     return $this->{_text};
 }
@@ -1246,7 +1289,8 @@ sub getRev1Info {
     unless ( defined $info->{$attr} ) {
         my $ri = $info->{rev1info};
         unless ($ri) {
-            my $tmp = $this->load( $this->{_session}, $web, $topic, 1 );
+            my $tmp = Foswiki::Meta->load(
+                $this->{_session}, $web, $topic, 1 );
             $info->{rev1info} = $ri = $tmp->getRevisionInfo();
         }
 
@@ -1555,11 +1599,10 @@ sub haveAccess {
     my ( $this, $mode, $cUID ) = @_;
     $mode ||= 'VIEW';
     $cUID ||= $this->{_session}->{user};
-    if ( defined $this->{_topic} && !defined $this->{_text} ) {
+    if ( defined $this->{_topic} && !defined $this->{_loadedRev} ) {
 
-        # Lazy load the text, by reloading the _loadedRev or loading the latest
-        # if that is not defined.
-        $this->reload();
+        # Lazy load the latest version.
+        $this->loadVersion();
     }
     my $session = $this->{_session};
     undef $reason;
@@ -1682,8 +1725,8 @@ Save the current object, invoking appropriate plugin handlers
 
 =cut
 
-# SMELL: arguably save should only be permitted if the loaded rev of the object is the same as the
-# latest rev.
+# SMELL: arguably save should only be permitted if the loaded rev of
+# the object is the same as the latest rev.
 sub save {
     my $this = shift;
     ASSERT( scalar(@_) % 2 == 0 ) if DEBUG;
@@ -1790,8 +1833,8 @@ Returns the saved revision number.
 
 =cut
 
-# SMELL: arguably save should only be permitted if the loaded rev of the object is the same as the
-# latest rev.
+# SMELL: arguably save should only be permitted if the loaded rev
+# of the object is the same as the latest rev.
 sub saveAs {
     my $this = shift;
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
@@ -1953,8 +1996,8 @@ object $to. %opts may include:
 
 =cut
 
-# SMELL: arguably move should only be permitted if the loaded rev of the object is the same as the
-# latest rev.
+# will assert false if the loaded rev of the object is not
+# the latest rev.
 sub move {
     my ( $this, $to, %opts ) = @_;
     ASSERT( $this->{_web}, 'this is not a movable object' ) if DEBUG;
@@ -1972,29 +2015,34 @@ sub move {
         $to->_atomicLock($cUID);
 
         # Ensure latest rev is loaded
-        $this->reload(0) unless $this->latestIsLoaded();
+        my $from;
+        if ($this->latestIsLoaded()) {
+            $from = $this;
+        } else {
+            $from = $this->load();
+        }
 
         # Clear outstanding leases. We assume that the caller has checked
         # that the lease is OK to kill.
-        $this->clearLease() if $this->getLease();
+        $from->clearLease() if $from->getLease();
         try {
-            $this->put(
+            $from->put(
                 'TOPICMOVED',
                 {
-                    from => $this->getPath(),
+                    from => $from->getPath(),
                     to   => $to->getPath(),
                     date => time(),
                     by   => $cUID,
                 }
             );
-            $this->save();    # to save the metadata change
-            $this->{_session}->{store}->moveTopic( $this, $to, $cUID );
-            $to->reload(0);
+            $from->save();    # to save the metadata change
+            $from->{_session}->{store}->moveTopic( $from, $to, $cUID );
+            $to->loadVersion();
         }
         finally {
-            $this->_atomicUnlock($cUID);
+            $from->_atomicUnlock($cUID);
             $to->_atomicUnlock($cUID);
-            $this->fireDependency();
+            $from->fireDependency();
             $to->fireDependency();
         };
 
@@ -2178,7 +2226,7 @@ sub latestIsLoaded {
     my $this = shift;
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
-
+    return $this->{_latestIsLoaded} if defined $this->{_latestIsLoaded};
     return defined $this->{_loadedRev}
       && $this->{_loadedRev} == $this->getLatestRev();
 }
@@ -2544,7 +2592,7 @@ sub attach {
         }
 
         # Force reload of the latest version
-        $this->reload(0) unless $this->latestIsLoaded();
+        $this = $this->load() unless $this->latestIsLoaded();
 
         my $error;
         try {
@@ -2730,11 +2778,11 @@ sub moveAttachment {
 
     my $newName = $opts{new_name} || $name;
 
+    # Make sure we have latest revs
+    $this = $this->load() unless $this->latestIsLoaded();
+
     $this->_atomicLock($cUID);
     $to->_atomicLock($cUID);
-
-    # Make sure we have latest revs
-    $this->reload(0) unless $this->latestIsLoaded();
 
     try {
         $this->{_session}->{store}
@@ -2756,7 +2804,7 @@ sub moveAttachment {
           $this->{_session}->{users}->getLoginName($cUID);
         $fileAttachment->{movedto}   = $to->getPath() . '.' . $newName;
         $fileAttachment->{movedwhen} = time();
-        $to->reload(0) unless $to->latestIsLoaded();
+        $to->loadVersion();
         $to->putKeyed( 'FILEATTACHMENT', $fileAttachment );
 
         if ( $this->getPath() eq $to->getPath() ) {
@@ -2814,24 +2862,29 @@ sub copyAttachment {
 
     my $newName = $opts{new_name} || $name;
 
-    $this->_atomicLock($cUID);
+    # Make sure we have latest revs
+    my $from;
+    if ( $this->latestIsLoaded() ) {
+        $from = $this;
+    } else {
+        $from = $this->load();
+    }
+
+    $from->_atomicLock($cUID);
     $to->_atomicLock($cUID);
 
-    # Make sure we have latest revs
-    $this->reload(0) unless $this->latestIsLoaded();
-
     try {
-        $this->{_session}->{store}
-          ->copyAttachment( $this, $name, $to, $newName, $cUID );
+        $from->{_session}->{store}
+          ->copyAttachment( $from, $name, $to, $newName, $cUID );
 
         # Add file attachment to new topic by copying the old one
-        my $fileAttachment = { %{$this->get( 'FILEATTACHMENT', $name )} };
+        my $fileAttachment = { %{$from->get( 'FILEATTACHMENT', $name )} };
         $fileAttachment->{name} = $newName;
 
-        $to->reload(0) unless $to->latestIsLoaded();
+        $to->loadVersion() unless $to->latestIsLoaded();
         $to->putKeyed( 'FILEATTACHMENT', $fileAttachment );
 
-        if ( $this->getPath() eq $to->getPath() ) {
+        if ( $from->getPath() eq $to->getPath() ) {
             $to->remove( 'FILEATTACHMENT', $name );
         }
 
@@ -2843,8 +2896,8 @@ sub copyAttachment {
     }
     finally {
         $to->_atomicUnlock($cUID);
-        $this->_atomicUnlock($cUID);
-        $this->fireDependency();
+        $from->_atomicUnlock($cUID);
+        $from->fireDependency();
         $to->fireDependency();
     };
 
@@ -3140,7 +3193,9 @@ sub summariseChanges {
     ASSERT( $orev >= 0 ) if DEBUG;
     ASSERT( $nrev >= $orev ) if DEBUG;
 
-    $this->reload($nrev);
+    unless (defined $this->{_loadedRev} && $this->{_loadedRev} eq $nrev) {
+        $this = $this->load($nrev);
+    }
 
     my $ntext = '';
     if ( $this->haveAccess('VIEW') ) {

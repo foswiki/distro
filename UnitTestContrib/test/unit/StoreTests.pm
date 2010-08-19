@@ -150,9 +150,10 @@ sub test_CreateSimpleMetaTopic {
     # Clear out stuff that blocks assert_deep_equals
     $meta->remove('TOPICINFO');
     $readMeta->remove('TOPICINFO');
-    $meta->{_preferences} = $meta->{_session} = $readMeta->{_session} = undef;
-    $meta->{_preferences} = $meta->{_loadedRev} = $readMeta->{_loadedRev} =
-      undef;
+    foreach my $m ($meta, $readMeta) {
+        $m->{_preferences} = $m->{_session} =
+          $m->{_latestIsLoaded} = $m->{_loadedRev} = undef;
+    }
     $this->assert_deep_equals( $meta, $readMeta );
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
     $webObject->removeFromStore();

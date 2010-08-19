@@ -38,6 +38,13 @@ employed to reinforce the encapsulation of a "path" in a meta object, and
 also to allow the store to modify META fields in the object, something it
 would be unable to do if passed $web, $topic.
 
+Version numbers are required to be positive, non-zero integers. When
+passing in version numbers to the methods of a store implementation, 0, 
+undef and '' are treated as referring to the *latest* (most recent)
+revision of the object. Version numbers are required to increase (later
+version numbers are greater than earlier) but are *not* required to be
+sequential.
+
 =cut
 
 package Foswiki::Store;
@@ -149,7 +156,7 @@ __END__
 
 =begin TML
 
----++ ObjectMethod readTopic($topicObject, $version) -> $rev
+---++ ObjectMethod readTopic($topicObject, $version) -> ($rev, $isLatest)
    * =$topicObject= - Foswiki::Meta object
    * =$version= - revision identifier, or undef
 Reads the given version of a topic, and populates the $topicObject.
@@ -157,7 +164,9 @@ If the =$version= is undef, then reads the most recent version.
 
 Returns the version identifier of the topic that was actually read. If
 the topic does not exist in the store, or $version refers to a version
-that does not exist, then return undef.
+that does not exist, then $rev is undef. $isLatest should be set to
+perl true if the version loaded (or not loaded) is the latest available
+version.
 
 =cut
 
@@ -368,7 +377,8 @@ sub getRevisionDiff {
 
 Get revision info of a topic or attachment.
    * =$topicObject= Topic object, required
-   * =$rev= revision number. If 0, undef, or out-of-range, will get info about the most recent revision.
+   * =$rev= revision number. If 0, undef, or out-of-range, will get info
+     about the most recent revision.
    * =$attachment= (optional) attachment filename; undef for a topic
 Return %info with at least:
 | date | in epochSec |

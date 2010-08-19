@@ -541,7 +541,7 @@ sub _delLastRevision {
     my $numRevisions = $this->{head};
     return unless $numRevisions;
     $numRevisions--;
-    my $lastText = $this->getRevision($numRevisions);
+    my ($lastText) = $this->getRevision($numRevisions);
     $this->{revs}[$numRevisions]->{text} = $lastText;
     $this->{head} = $numRevisions;
     Foswiki::Store::VC::Handler::saveFile( $this, $this->{file}, $lastText );
@@ -555,8 +555,8 @@ sub revisionDiff {
     my ( $this, $rev1, $rev2, $contextLines ) = @_;
     my @list;
     _ensureProcessed($this);
-    my $text1 = $this->getRevision($rev1);
-    my $text2 = $this->getRevision($rev2);
+    my ($text1) = $this->getRevision($rev1);
+    my ($text2) = $this->getRevision($rev2);
 
     my $lNew = _split($text1);
     my $lOld = _split($text2);
@@ -655,17 +655,18 @@ sub getRevision {
 
     _ensureProcessed($this);
 
-    return $this->SUPER::getRevision($version) if $this->{state} eq 'nocommav';
+    return $this->SUPER::getRevision($version)
+      if $this->{state} eq 'nocommav';
 
     my $head = $this->{head};
-    $this->SUPER::getRevision($version) unless $head;
+    return $this->SUPER::getRevision($version) unless $head;
     if ( $version == $head ) {
-        return $this->{revs}[$version]->{text};
+        return ($this->{revs}[$version]->{text}, 1);
     }
     $version = $head if $version > $head;
     my $headText = $this->{revs}[$head]->{text};
     my $text     = _split($headText);
-    return _patchN( $this, $text, $head - 1, $version );
+    return (_patchN( $this, $text, $head - 1, $version ), 0);
 }
 
 # Apply reverse diffs until we reach our target rev

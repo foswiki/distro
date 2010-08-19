@@ -1113,7 +1113,6 @@ THIS
 
     my $ss = '/view' . $Foswiki::cfg{ScriptSuffix}.'/';
     $ss =  $Foswiki::cfg{ScriptUrlPaths}{view}.'/' if (defined $Foswiki::cfg{ScriptUrlPaths}{view} );
-
     $this->assert_matches(
         qr([lL]ocation:\s+$ss$this->{test_web}/UpperCase)s, $text );
     $this->check( $this->{test_web}, 'UpperCase', $topicObject, <<THIS, 100 );

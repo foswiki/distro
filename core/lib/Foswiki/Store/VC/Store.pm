@@ -74,6 +74,7 @@ sub readTopic {
 
     ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
     my $handler = $this->getHandler($topicObject);
+    my $isLatest = 0;
 
     # check that the requested revision actually exists
     if ( defined $version ) {
@@ -82,8 +83,8 @@ sub readTopic {
         }
     }
 
-    my $text = $handler->getRevision($version);
-    return undef unless defined $text;
+    (my $text, $isLatest) = $handler->getRevision($version);
+    return (undef, $isLatest) unless defined $text;
 
     $text =~ s/\r//g;    # Remove carriage returns
     $topicObject->setEmbeddedStoreForm($text);
@@ -104,6 +105,7 @@ sub readTopic {
 
         # No revision from any other source; must be latest
         $gotRev = $handler->getLatestRevisionID();
+        ASSERT(defined $gotRev) if DEBUG;
     }
 
     # Add attachments that are new from reading the pub directory.
@@ -139,7 +141,7 @@ sub readTopic {
           if @validAttachmentsFound;
     }
 
-    return $gotRev;
+    return ($gotRev, $isLatest);
 }
 
 sub moveAttachment {

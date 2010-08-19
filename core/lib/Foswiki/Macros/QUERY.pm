@@ -12,17 +12,23 @@ sub QUERY {
     my $expr = $params->{_DEFAULT};
     $expr = '' unless defined $expr;
     my $style = lc( $params->{style} || '' );
+    my $rev = $params->{rev};
 
-    # force-reload latest revision
+    # FORMFIELD does its own caching.
+    # Either the home-made cache there should go into Meta so that both
+    # FORMFIELD and QUERY benefit, or the store should be made a lot smarter.
 
-    # SMELL: 
-    #
-    # Every call to Meta::latestIsLoaded() costs one fork of rlog (when using rcs backend)
-    # This makes QUERY a lot slower than FORMFIELD which does its own caching.
-    # This self-made cache there should go into Meta so that both FORMFIELD and
-    # QUERY benefit both from each other.
-
-    $topicObject->reload(0) unless $topicObject->latestIsLoaded();
+    if (defined $rev) {
+        my $crev = $topicObject->getLoadedRev();
+        if (defined $crev && $crev != $rev) {
+            $topicObject = Foswiki::Meta->load(
+                $topicObject->session,
+                $topicObject->web, $topicObject->topic, $rev);
+        }
+    } elsif (!$topicObject->latestIsLoaded()) {
+        # load latest rev
+        $topicObject = $topicObject->load();
+    }
 
     # Recursion block.
     $this->{evaluatingEval} ||= {};

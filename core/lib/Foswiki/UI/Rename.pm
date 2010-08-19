@@ -758,9 +758,11 @@ sub _moveTopicOrAttachment {
             );
         };
 
-        # Force reload of new object, as it's been moved
-        delete $to->{_loadedRev};
-        $to->reload;
+        # Force reload of new object, as it's been moved. This is safe
+        # because the $to object is entirely local to the code in this
+        # package.
+        $to->unload();
+        $to->load();
 
         if ( $from->web ne $to->web ) {
 

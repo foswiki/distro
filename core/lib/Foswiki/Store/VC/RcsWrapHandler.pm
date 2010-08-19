@@ -219,13 +219,17 @@ sub getRevision {
     unless ( $version && -e $this->{rcsFile} ) {
 
         # Get the latest rev from the cache
-        return $this->SUPER::getRevision($version);
+        return ($this->SUPER::getRevision($version));
     }
 
     # We've been asked for an explicit rev. The rev might be outside the
     # range of revs in RCS. RCS will return the latest, though it reports
     # the rev retrieved to STDERR (no use to us, as we have no access
     # to STDERR)
+
+    # SMELL: we need to determine if the rev we are returning is the latest.
+    # co prints the retrieved revision, but unfortunately it prints it
+    # to STDERR, which the Sandbox can't retrieve.
 
     my $tmpfile;
     my $tmpRevFile;
@@ -249,11 +253,22 @@ sub getRevision {
         $file = $tmpfile;
         $coCmd =~ s/-p%REVISION/-r%REVISION/;
     }
-    my ( $text, $status ) = Foswiki::Sandbox->sysCommand(
+    my ( $text, $status, $stderr ) = Foswiki::Sandbox->sysCommand(
         $coCmd,
         REVISION => '1.' . $version,
         FILENAME => $file
     );
+
+    # The loaded version is reported on STDERR
+    my $isLatest = 0;
+    if (defined $stderr
+          && $stderr =~ /revision 1\.(\d+)/s) {
+        $isLatest = ($version >= $1);
+    }
+    # otherwise we will have to resort to numRevisions to tell if
+    # this is the latest rev, which is expensive. By returning false
+    # for isLatest we will force a reload upstairs if the latest rev
+    # is required.
 
     if ($tmpfile) {
         $text = Foswiki::Store::VC::Handler::readFile( $this, $tmpfile );
@@ -261,7 +276,7 @@ sub getRevision {
         unlink Foswiki::Sandbox->untaintUnchecked($tmpRevFile);
     }
 
-    return $text;
+    return ($text, $isLatest);
 }
 
 # implements VC::Handler

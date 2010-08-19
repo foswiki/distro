@@ -449,12 +449,12 @@ sub _safeDie {
 
 =begin TML
 
----++ StaticMethod sysCommand( $class, $template, %params ) -> ( $data, $exit )
+---++ StaticMethod sysCommand( $class, $template, %params ) -> ( $data, $exit, $stderr )
 
 Invokes the program described by =$template=
 and =%params=, and returns the output of the program and an exit code.
-STDOUT is returned. STDERR is THROWN AWAY. $class is also ignored, and
-is only present for compatibility.
+STDOUT is returned. STDERR is returned *if possible* (or is undef if not).
+$class is ignored, and is only present for compatibility.
 
 The caller has to ensure that the invoked program does not react in a
 harmful way to the passed arguments. =sysCommand= merely
@@ -504,6 +504,9 @@ sub sysCommand {
     my $path  = $1;
     my $pTmpl = $2;
     my $cmd;
+    # Writing to a cache file is the only way I can find of redirecting
+    # STDERR.
+    my $stderrCache = File::Spec->tmpdir() . '/' . $$ . '.stderr';
 
     # Item5449: A random key known by both parent and child.
     # Used to make it possible that the parent detects when
@@ -544,15 +547,8 @@ sub sysCommand {
 
             # Child - run the command
             untie(*STDERR);
-            if (TRACE) {
-                my $log = File::Spec->tmpdir() . '/foswiki_sandbox.log';
-                open( STDERR, '>>', $log )
-                  || die "Can't kill STDERR: '$!'";
-            }
-            else {
-                open( STDERR, '>', File::Spec->devnull() )
-                  || die "Can't kill STDERR: '$!'";
-            }
+            open( STDERR, '>', $stderrCache )
+              || die "Can't redirect STDERR: '$!'";
 
             unless ( exec( $path, @args ) ) {
                 syswrite( STDOUT, $key . ": $!\n" );
@@ -611,15 +607,9 @@ sub sysCommand {
 
             open( STDOUT, ">&=", fileno($writeHandle) ) or die;
 
-            if (TRACE) {
-                my $log = File::Spec->tmpdir() . '/foswiki_sandbox.log';
-                open( STDERR, '>>', $log )
-                  || die "Can't redirect STDERR: $!";
-            }
-            else {
-                open( STDERR, '>', File::Spec->devnull() )
-                  || die "Can't kill STDERR: $!";
-            }
+            open( STDERR, '>', $stderrCache )
+              || die "Can't kill STDERR: $!";
+
             unless ( exec( $path, @args ) ) {
                 syswrite( STDOUT, $key . ": $!\n" );
                 exit($key);
@@ -663,14 +653,10 @@ sub sysCommand {
         }
 
         open( my $oldStderr, '>&STDERR' ) || die "Can't steal STDERR: $!";
-        if (TRACE) {
-            my $log = File::Spec->tmpdir() . '/foswiki_sandbox.log';
-            open( STDERR, '>>', $log )
-              || die "Can't redirect STDERR: $!";
-        }
-        else {
-            open( STDERR, '>', File::Spec->devnull() );
-        }
+
+        open( STDERR, '>', $stderrCache )
+          || die "Can't redirect STDERR: $!";
+
         $data = `$cmd`;
 
         # restore STDERR
@@ -693,7 +679,16 @@ sub sysCommand {
         $data ||= '';
         print STDERR $cmd, ' -> ', $data, "\n";
     }
-    return ( $data, $exit );
+
+    my $stderr;
+    if ( open( $handle, '<', $stderrCache )) {
+        local $/;
+        $stderr = <$handle>;
+        close( $handle );
+    }
+    unlink($stderrCache);
+
+    return ( $data, $exit, $stderr );
 }
 
 1;

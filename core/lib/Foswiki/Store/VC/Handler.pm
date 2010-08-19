@@ -416,11 +416,12 @@ sub moveWeb {
 
 =begin TML
 
----++ ObjectMethod getRevision($version) -> $text
+---++ ObjectMethod getRevision($version) -> ($text, $isLatest)
 
    * =$version= if 0 or undef, or out of range (version number > number of revs) will return the latest revision.
 
-Get the text of the given revision.
+Get the text of the given revision, and a flag indicating if this is the
+most recent revision.
 
 Designed to be overridden by subclasses, which can call up to this method
 if the main file revision is required.
@@ -430,9 +431,9 @@ if the main file revision is required.
 sub getRevision {
     my ($this) = @_;
     if ( -e $this->{file} ) {
-        return readFile( $this, $this->{file} );
+        return (readFile( $this, $this->{file} ), 1 );
     }
-    return undef;
+    return (undef, 1);
 }
 
 =begin TML
@@ -484,7 +485,7 @@ sub restoreLatestRevision {
     my ( $this, $cUID ) = @_;
 
     my $rev  = $this->getLatestRevisionID();
-    my $text = $this->getRevision($rev);
+    my ($text) = $this->getRevision($rev);
 
     # If there is no ,v, create it
     unless ( -e $this->{rcsFile} ) {

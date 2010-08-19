@@ -198,8 +198,7 @@ sub _webQuery {
 
             # this 'lazy load' will become useful when @$topics becomes
             # an infoCache
-            $meta->reload() unless ( $meta->getLoadedRev() );
-            next unless ( $meta->getLoadedRev() );
+            $meta = $meta->load() unless ( $meta->latestIsLoaded() );
             print STDERR "Processing $topic\n"
               if Foswiki::Query::Node::MONITOR_EVAL();
             my $match = $query->evaluate( tom => $meta, data => $meta );

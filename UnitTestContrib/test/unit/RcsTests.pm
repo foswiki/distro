@@ -130,22 +130,28 @@ sub verify_RepRev {
     my $rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
     $rcs->addRevisionFromText( "there was a man\n\n",
         "in once", "JohnTalintyre" );
-    $this->assert_equals( "there was a man\n\n", $rcs->getRevision(1) );
+    my ($text) = $rcs->getRevision(1);
+    $this->assert_equals( "there was a man\n\n", $text );
     $this->assert_equals( 1,                     $rcs->numRevisions() );
 
     $rcs->replaceRevision( "there was a cat\n",
         "1st replace", "NotJohnTalintyre", time() );
     $this->assert_equals( 1,                   $rcs->numRevisions() );
-    $this->assert_equals( "there was a cat\n", $rcs->getRevision(1) );
+    ($text) = $rcs->getRevision(1);
+    $this->assert_equals( "there was a cat\n", $text );
     $rcs->addRevisionFromText( "and now this\n\n\n", "2nd entry", "J1" );
     $this->assert_equals( 2,                    $rcs->numRevisions() );
-    $this->assert_equals( "there was a cat\n",  $rcs->getRevision(1) );
-    $this->assert_equals( "and now this\n\n\n", $rcs->getRevision(2) );
+    ($text) = $rcs->getRevision(1);
+    $this->assert_equals( "there was a cat\n",  $text );
+    ($text) = $rcs->getRevision(2);
+    $this->assert_equals( "and now this\n\n\n", $text );
 
     $rcs->replaceRevision( "then this", "2nd replace", "J2", time() );
     $this->assert_equals( 2,                   $rcs->numRevisions );
-    $this->assert_equals( "there was a cat\n", $rcs->getRevision(1) );
-    $this->assert_equals( "then this",         $rcs->getRevision(2) );
+    ($text) = $rcs->getRevision(1);
+    $this->assert_equals( "there was a cat\n", $text );
+    ($text) = $rcs->getRevision(2);
+    $this->assert_equals( "then this",         $text );
 }
 
 sub verify_RepRev2839 {
@@ -154,22 +160,28 @@ sub verify_RepRev2839 {
 
     my $rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
     $rcs->addRevisionFromText( "there was a man", "in once", "JohnTalintyre" );
-    $this->assert_equals( "there was a man", $rcs->getRevision(1) );
+    my ($text) = $rcs->getRevision(1);
+    $this->assert_equals( "there was a man", $text );
     $this->assert_equals( 1,                 $rcs->numRevisions() );
 
     $rcs->replaceRevision( "there was a cat",
         "1st replace", "NotJohnTalintyre", time() );
     $this->assert_equals( 1,                 $rcs->numRevisions() );
-    $this->assert_equals( "there was a cat", $rcs->getRevision(1) );
+    ($text) = $rcs->getRevision(1);
+    $this->assert_equals( "there was a cat", $text );
     $rcs->addRevisionFromText( "and now this", "2nd entry", "J1" );
     $this->assert_equals( 2,                 $rcs->numRevisions() );
-    $this->assert_equals( "there was a cat", $rcs->getRevision(1) );
-    $this->assert_equals( "and now this",    $rcs->getRevision(2) );
+    ($text) = $rcs->getRevision(1);
+    $this->assert_equals( "there was a cat", $text );
+    ($text) = $rcs->getRevision(2);
+    $this->assert_equals( "and now this",    $text );
 
     $rcs->replaceRevision( "then this", "2nd replace", "J2", time() );
     $this->assert_equals( 2,                 $rcs->numRevisions );
-    $this->assert_equals( "there was a cat", $rcs->getRevision(1) );
-    $this->assert_equals( "then this",       $rcs->getRevision(2) );
+    ($text) = $rcs->getRevision(1);
+    $this->assert_equals( "there was a cat", $text );
+    ($text) = $rcs->getRevision(2);
+    $this->assert_equals( "then this",       $text );
 }
 
 # Tests locking - Wrap only
@@ -380,7 +392,7 @@ sub checkGetRevision {
 
     $this->assert_equals( scalar(@$revs), $rcs->numRevisions() );
     for ( my $i = 1 ; $i <= scalar(@$revs) ; $i++ ) {
-        my $text = $rcs->getRevision($i);
+        my ($text) = $rcs->getRevision($i);
         $this->assert_str_equals( $revs->[ $i - 1 ],
             $text, "rev " . $i . ": expected '$revs->[$i-1]', got '$text'" );
     }
@@ -409,9 +421,9 @@ sub verify_GetBinaryRevision {
 
     $rcs = $class->new( new StoreStub, $testWeb, $topic, $attachment );
 
-    my $text = $rcs->getRevision(1);
+    my ($text) = $rcs->getRevision(1);
     $this->assert_str_equals( $atttext1, $text );
-    $text = $rcs->getRevision(2);
+    ($text) = $rcs->getRevision(2);
     $this->assert_str_equals( $atttext2, $text );
 }
 
@@ -492,7 +504,7 @@ sub verify_RevAtTime {
     $rcs->addRevisionFromText( "Rev2\n", '', "RcsWrapper", 2000 );
     $rcs = $class->new( new StoreStub, $testWeb, 'AtTime', "" );
 
-    my $r = $rcs->getRevisionAtTime(500);
+    my ($r) = $rcs->getRevisionAtTime(500);
     $this->assert_equals( 1, $r );
     $r = $rcs->getRevisionAtTime(1500);
     $this->assert_equals( 2, $r );
@@ -569,17 +581,17 @@ sub verify_MissingVrestoreRev {
     $this->assert_equals( 1, $info->{version} );
     $this->assert_equals( 1, $rcs->numRevisions() );
 
-    my $text = $rcs->getRevision(0);
+    my ($text) = $rcs->getRevision(0);
     $this->assert_matches( qr/^Rev 1/, $text );
 
-    $text = $rcs->getRevision(1);
+    ($text) = $rcs->getRevision(1);
     $this->assert_matches( qr/^Rev 1/, $text );
 
     $rcs->restoreLatestRevision("ArtForger");
 
     $this->assert( -e "$file,v" );
 
-    $text = $rcs->getRevision(0);
+    ($text) = $rcs->getRevision(0);
     $this->assert_matches( qr/^Rev 1/, $text );
 
     unlink($file);
@@ -602,17 +614,17 @@ sub verify_MissingVrepRev {
     $this->assert_equals( 1, $info->{version} );
     $this->assert_equals( 1, $rcs->numRevisions() );
 
-    my $text = $rcs->getRevision(0);
+    my ($text) = $rcs->getRevision(0);
     $this->assert_matches( qr/^Rev 1/, $text );
 
-    $text = $rcs->getRevision(1);
+    ($text) = $rcs->getRevision(1);
     $this->assert_matches( qr/^Rev 1/, $text );
 
     $rcs->replaceRevision( "2", "no way", "me", time() );
 
     $this->assert( -e "$file,v" );
 
-    $text = $rcs->getRevision(0);
+    ($text) = $rcs->getRevision(0);
     $this->assert_matches( qr/^2/, $text );
 
     unlink($file);
@@ -633,38 +645,38 @@ sub verify_MissingVdelRev {
     $this->assert_equals( 1, $info->{version} );
     $this->assert_equals( 1, $rcs->numRevisions() );
 
-    my $text = $rcs->getRevision(0);
+    my ($text) = $rcs->getRevision(0);
     $this->assert_matches( qr/^Rev 1/, $text );
 
-    $text = $rcs->getRevision(1);
+    ($text) = $rcs->getRevision(1);
     $this->assert_matches( qr/^Rev 1/, $text );
 
-    $text = $rcs->getRevision(2);
+    ($text) = $rcs->getRevision(2);
     $this->assert_matches( qr/^Rev 1/, $text );
 
     $rcs->addRevisionFromText( "Rev 2", "more", "idiot", time() );
     $this->assert( -e "$file,v" );
 
-    $text = $rcs->getRevision(1);
+    ($text) = $rcs->getRevision(1);
     $this->assert_matches( qr/^Rev 1/, $text );
 
-    $text = $rcs->getRevision(2);
+    ($text) = $rcs->getRevision(2);
     $this->assert_matches( qr/^Rev 2/, $text );
 
-    $text = $rcs->getRevision(0);
+    ($text) = $rcs->getRevision(0);
     $this->assert_matches( qr/^Rev 2/, $text );
 
     $rcs->deleteRevision();
 
     $this->assert( -e "$file,v" );
 
-    $text = $rcs->getRevision(0);
+    ($text) = $rcs->getRevision(0);
     $this->assert_matches( qr/^Rev 1/, $text );
 
-    $text = $rcs->getRevision(1);
+    ($text) = $rcs->getRevision(1);
     $this->assert_matches( qr/^Rev 1/, $text );
 
-    $text = $rcs->getRevision(2);
+    ($text) = $rcs->getRevision(2);
     $this->assert_matches( qr/^Rev 1/, $text );
 
     unlink($file);
@@ -706,16 +718,16 @@ HERE
     $rcs->addRevisionFromText( $rev3, "more", "idiot", time() );
 
     $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
-    my $text = $rcs->getRevision(1);
+    my ($text) = $rcs->getRevision(1);
     if ( $Foswiki::cfg{OS} eq 'WINDOWS' ) {
         $text =~ s/\r\n/\n/sg;
     }
     $this->assert_equals( $rev1, $text );
     $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
-    $text = $rcs->getRevision(2);
+    ($text) = $rcs->getRevision(2);
     $this->assert_equals( $rev2, $text );
     $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
-    $text = $rcs->getRevision(3);
+    ($text) = $rcs->getRevision(3);
     $this->assert_equals( $rev3, $text );
 }
 
@@ -724,16 +736,16 @@ sub verify_Item3122 {
 
     my $rcs = $class->new( new StoreStub, $testWeb, 'Item3122', 'itme3122' );
     $rcs->addRevisionFromText( "new", "more", "idiot", time() );
-    my $text = $rcs->getRevision(1);
+    my ($text) = $rcs->getRevision(1);
     $this->assert_equals( "new", $text );
     $rcs = $class->new( new StoreStub, $testWeb, 'Item3122', 'itme3122' );
     my $fh;
     $this->assert( open( $fh, "<$Foswiki::cfg{TempfileDir}/itme3122" ), $! );
     $rcs->addRevisionFromStream( $fh, "more", "idiot", time() );
     close($fh);
-    $text = $rcs->getRevision(1);
+    ($text) = $rcs->getRevision(1);
     $this->assert_equals( "new", $text );
-    $text = $rcs->getRevision(2);
+    ($text) = $rcs->getRevision(2);
     $this->assert_equals( "old", $text );
 }
 

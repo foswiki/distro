@@ -1617,7 +1617,7 @@ sub renderRevisionInfo {
 
     my $users = $this->{session}->{users};
     if ($rrev) {
-        $topicObject->reload($rrev)
+        $topicObject = $topicObject->load($rrev)
           unless $rrev == ( $topicObject->getLoadedRev() || 0 );
     }
     my $info = $topicObject->getRevisionInfo();

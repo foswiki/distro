@@ -3,8 +3,15 @@
 #VarQUERY
 ---+++ QUERY -- get the value of meta-data
    * Uses the query syntax described in [[System.QuerySearch][QuerySearch]] to get information about meta-data.
-   * Syntax: =%<nop>QUERY{ "query" [ style="perl|json" ] }%=
+   * Syntax: =%<nop>QUERY{ "query" }%=
    * See !QuerySearch for more details of how to write queries
+   * Parameters:
+      * =style="stylename"= - set the output format (see below)
+      * =rev="version"= - operate on the given version of the current topic.
+        Note that this will _only_ affect simple queries that refer to the
+        current topic, such as =form.name=. More complex queries that use
+        searches or indirection to refer to other topics always use the
+        *latest* version of those topics.
    * Examples:
       * %<nop>QUERY{"form.name"}% gets the name of the form in the current topic
       * %<nop>QUERY{"fields[name='Firstname'].value"}% gets the value of the 'Firstname' form field in the current topic

@@ -202,7 +202,7 @@ sub init_edit {
         }
 
         # Reload $topicObject with the right revision
-        $topicObject->reload($revision);
+        $topicObject = $topicObject->load($revision);
     }
 
     my $templateWeb = $web;

@@ -1217,6 +1217,7 @@ END
         "Please me, let me go",
         $topic, $this->{test_web}
     );
+    # Supplied text should override text from topic
     $this->assert($access);
 
     # make sure meta overrides text, as documented - Item2953

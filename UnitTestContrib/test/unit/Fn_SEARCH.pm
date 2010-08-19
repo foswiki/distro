@@ -1,10 +1,10 @@
-use strict;
-use warnings;
-
 # tests for the correct expansion of SEARCH
 # SMELL: this test is pathetic, becase SEARCH has dozens of untested modes
 
 package Fn_SEARCH;
+
+use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );

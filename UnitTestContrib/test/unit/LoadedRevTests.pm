@@ -25,16 +25,16 @@ sub new {
 }
 
 # Topic has not been saved. Loaded rev should be undef *even after
-# a reload*
+# a load*
 sub test_phantom_topic {
     my $this = shift;
     my $topicObject =
       Foswiki::Meta->new(
           $this->{session}, $this->{test_web}, "PhantomTopic");
     $this->assert_equals(undef, $topicObject->getLoadedRev());
-    $topicObject->reload();
+    $topicObject->load();
     $this->assert_equals(undef, $topicObject->getLoadedRev());
-    $topicObject->reload(1);
+    $topicObject->load(1);
     $this->assert_equals(undef, $topicObject->getLoadedRev());
 
     $topicObject =
@@ -43,7 +43,7 @@ sub test_phantom_topic {
     $this->assert_equals(undef, $topicObject->getLoadedRev());
 }
 
-# Topic has been saved. Loaded rev should be defined after a reload,
+# Topic has been saved. Loaded rev should be defined after a load,
 # and if an out-of-range rev is loaded, it should be reigned back
 # to the valid range.
 sub test_good_topic {
@@ -66,7 +66,7 @@ sub test_good_topic {
           $this->{session}, $this->{test_web}, "GoodTopic");
     $this->assert_equals(undef, $topicObject->getLoadedRev());
 
-    $topicObject->reload();
+    $topicObject->load();
     $this->assert_equals(1, $topicObject->getLoadedRev());
 
     $topicObject =
@@ -126,7 +126,10 @@ WHEE
           $this->{session}, $this->{test_web}, "NoCommaV");
     $this->assert_equals(3, $topicObject->getLoadedRev());
 
-    $topicObject->reload(3);
+    $topicObject =
+      Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, "NoCommaV");
+    $topicObject->load(3);
     # We asked for an out-of-range version; even though that's the rev no
     # in the topic, it deosn't exist as a version so the loaded rev
     # should rewind to the "true" version.
@@ -135,19 +138,19 @@ WHEE
     # Reload out-of-range
     $topicObject = Foswiki::Meta->new(
         $this->{session}, $this->{test_web}, "NoCommaV");
-    $topicObject->reload(4);
+    $topicObject->load(4);
     $this->assert_equals(1, $topicObject->getLoadedRev());
 
     # Reload undef
     $topicObject = Foswiki::Meta->new(
         $this->{session}, $this->{test_web}, "NoCommaV");
-    $topicObject->reload();
+    $topicObject->load();
     $this->assert_equals(3, $topicObject->getLoadedRev());
 
     # Reload 0
     $topicObject = Foswiki::Meta->new(
         $this->{session}, $this->{test_web}, "NoCommaV");
-    $topicObject->reload(0);
+    $topicObject->load(0);
     $this->assert_equals(1, $topicObject->getLoadedRev());
 }
 
@@ -189,20 +192,24 @@ SICK
     $this->assert_equals(1, $topicObject->getLoadedRev());
     $this->assert_matches(qr/knights who say Ni/, $topicObject->text());
 
-    # Now if we reload the latest, we will see a rev number of
+    # Now if we load the latest, we will see a rev number of
     # 1, but if we load any other rev we should see a correct rev
     # number
 
-    # Reload explicit number
-    $topicObject->reload(1);
+    # load explicit number
+    $topicObject = Foswiki::Meta->load(
+        $this->{session}, $this->{test_web}, "BorkedTOPICINFO", 1);
     $this->assert_equals(1, $topicObject->getLoadedRev());
     $this->assert_matches(qr/elderberries/, $topicObject->text());
 
-    $topicObject->reload(2);
+    $topicObject = Foswiki::Meta->load(
+        $this->{session}, $this->{test_web}, "BorkedTOPICINFO", 2);
     $this->assert_equals(2, $topicObject->getLoadedRev());
     $this->assert_matches(qr/lovely muck/, $topicObject->text());
 
-    $topicObject->reload(3); # reload latest rev
+    # load latest rev
+    $topicObject = Foswiki::Meta->load(
+        $this->{session}, $this->{test_web}, "BorkedTOPICINFO", 3);
     $this->assert_equals(2, $topicObject->getLoadedRev());
     $this->assert_matches(qr/lovely muck/, $topicObject->text());
 
