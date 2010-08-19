@@ -3,15 +3,13 @@
 %TMPL:DEF{"content"}%<div class="foswikiTopicText">
 ---+!! %NOP%%TOPIC%
 %TEXT%
----+++ Member list (comma-separated list):
+---++ %MAKETEXT{"Members"}%:
 %INCLUDE{"%USERSWEB%.GroupViewTemplate"
          section="rendergroup"
          groupname="%TOPIC%"
          allowschange="%GROUPINFO{"%TOPIC%" format="$allowschange" limit="1"}%"
-         twisty="off"
+         twisty="on"
        }%
----+++ Persons/group who can change the list:
-%QUERY{"'%USERSWEB%.%TOPIC%'/preferences[name='ALLOWTOPICCHANGE'].value"}%
 
 *%MAKETEXT{"Related topics:"}%* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%USERSWEB%.WikiGroups][WikiGroups]]
 
@@ -21,7 +19,7 @@
 %TMPL:DEF{"topicactionbuttons__"}%%TMPL:END%
 
 %TMPL:DEF{Named_sections_for_INCLUDE}%
----+++ Named INCLUDE sections for use in both Group topics and the WikiGroups list
+---++ Named INCLUDE sections for use in both Group topics and the WikiGroups list
 <verbatim>
 <!--
   parameters: groupname, allowschange, twisty
@@ -87,16 +85,17 @@
   link=" <img src='%ICONURLPATH{"userdelete"}%' alt='%MAKETEXT{"Remove user..."}%' title='%MAKETEXT{"Remove user..."}%' />"
 }%
 </div>
-%TWISTYTOGGLE{id="%groupname%_add"}%
+%TWISTYTOGGLE{id="%groupname%_add" mode="div"}%
 %INCLUDE{"%WEB%.%TOPIC%"
   section="group_add"
   groupname="%groupname%"
 }%
 %ENDTWISTYTOGGLE%
-%TWISTYTOGGLE{id="%groupname%_remove"}%
+%TWISTYTOGGLE{id="%groupname%_remove" mode="div"}%
 %INCLUDE{"%WEB%.%TOPIC%"
   section="group_remove"
   groupname="%groupname%"
+  mode="div"
 }%
 %ENDTWISTYTOGGLE%
 <!-- //changegroup -->%ENDSECTION{"changegroup"}%
@@ -107,23 +106,29 @@
   parameters: groupname
 -->
 %STARTSECTION{"group_upgrade"}%<!-- group_upgrade -->
-<sticky><form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post"><input type="hidden" name="groupname" value="%groupname%"/><input type="hidden" name="action" value="addUserToGroup"/><input type="hidden" name="create" value="1"/><input class="foswikiButton foswikiSmall" type="submit" value="%MAKETEXT{"Upgrade group topic"}%" /></form></sticky><!-- //group_add -->%ENDSECTION{"group_upgrade"}%
+<sticky><form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
+  <input type="hidden" name="groupname" value="%groupname%"/>
+  <input type="hidden" name="action" value="addUserToGroup"/>
+  <input type="hidden" name="create" value="1"/>
+  <input class="foswikiButton foswikiSmall" type="submit" value="%MAKETEXT{"Upgrade group topic"}%" />
+</form></sticky>
+<!-- //group_upgrade -->%ENDSECTION{"group_upgrade"}%
 </verbatim><verbatim>
 <!--
   parameters: groupname
 -->
 %STARTSECTION{"group_add"}%<!-- group_add --><sticky>
-<div class='foswikiFormSteps' style='margin:.5em 0;'>
-  <form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST"> 
-  <input type="hidden" name="groupname" value="%groupname%"/> 
-  <input type="hidden" name="action" value="addUserToGroup"/>
+<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST"> 
+<input type="hidden" name="groupname" value="%groupname%"/> 
+<input type="hidden" name="action" value="addUserToGroup"/>
+<div class='foswikiFormSteps'>
   <div class='foswikiFormStep foswikiLast'>
      <h3>%MAKETEXT{"Add a user to this group"}%</h3>
 %JQREQUIRE{"autocomplete"}%
      <input type="text" name="username" value="" size="40" class="foswikiInputField foswikiDefaultText" title="%MAKETEXT{Name of user}%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;contenttype=text/plain;skin=text;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%"/> <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Add user"}%" />
   </div>
-</form>
-</div></sticky>
+</div>
+</form></sticky>
 <!-- //group_add -->%ENDSECTION{"group_add"}%
 </verbatim>
 
@@ -134,10 +139,10 @@
 %STARTSECTION{"group_remove"}%<!-- group_remove -->
 %GROUPINFO{
    "%groupname%"
-   header="<div class='foswikiFormSteps' style='margin:.5em 0;'>
-     <form action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='POST' >
+   header="<form action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='POST' >
      <input type='hidden' name='groupname' value='%groupname%' />
      <input type='hidden' name='action' value='removeUserFromGroup' />
+     <div class='foswikiFormSteps'>
      <div class='foswikiFormStep'>
      <h3>%MAKETEXT{"Remove users from this group"}%</h3>$n"
    format="<label style='display:block'>
