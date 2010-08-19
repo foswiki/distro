@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="BaseUserMapping_333" comment="save topic" date="1282246509" format="1.1" reprev="3" version="3"}%
 %META:TOPICPARENT{name="WikiGroups"}%
 
 %INCLUDE{"%USERSWEB%.AdminUser" section="sudo_login"}%
 
 %IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="<!--"}%
-<sticky><div style="background-color:yellow"></sticky>
+<sticky><div class="foswikiNotification"></sticky>
 *How to add the first administrator* %BR%
 If you haven't previously set up an administrator, follow these steps:
    1 Authenticate as the internal administrator:
@@ -19,5 +19,8 @@ If you haven't previously set up an administrator, follow these steps:
 <sticky></div></sticky>
 %IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="-->"}%
 
-%META:PREFERENCE{name="GROUP" title="GROUP" value=""}%
+Edit this topic to add a description to the AdminGroup
+
+%META:PREFERENCE{name="GROUP" title="GROUP" type="Set" value=""}%
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="GroupView"}%
