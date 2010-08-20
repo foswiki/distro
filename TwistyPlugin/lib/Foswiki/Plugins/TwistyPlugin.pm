@@ -57,6 +57,9 @@ sub initPlugin {
 
 sub _exportAnimationSpeed {
     my $exported = Foswiki::Func::getPreferencesValue('EXPORTEDPREFERENCES');
+    my $pref = Foswiki::Func::getPreferencesValue('TWISTYANIMATIONSPEED')
+      || Foswiki::Func::getPluginPreferencesValue('TWISTYANIMATIONSPEED')
+      || '0';
 
     # As per Item8924; "push" TWISTYANIMATIONSPEED onto EXPORTEDPREFERENCES so
     # that it may be used in the client JS with
@@ -64,9 +67,10 @@ sub _exportAnimationSpeed {
     my @list = split( /[,\s]+/, $exported );
     unless ( grep { /^TWISTYANIMATIONSPEED$/ } @list ) {
         push( @list, 'TWISTYANIMATIONSPEED' );
+        Foswiki::Func::setPreferencesValue( 'EXPORTEDPREFERENCES',
+            join( ',', @list ) );
     }
-    Foswiki::Func::setPreferencesValue( 'EXPORTEDPREFERENCES',
-        join( ',', @list ) );
+    Foswiki::Func::setPreferencesValue('TWISTYANIMATIONSPEED', $pref);
 
     return;
 }
