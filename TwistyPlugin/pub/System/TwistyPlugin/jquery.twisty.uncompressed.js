@@ -145,10 +145,16 @@ if (!foswiki) foswiki = {};
      */
     foswiki.TwistyPlugin.showAnimation = 
         foswiki.TwistyPlugin.hideAnimation = function (elem) {
+        var speed = foswiki.getPreference('TWISTYANIMATIONSPEED') || 0;
+        // .getPreference() returns a string or null, but .animate() wants an
+        // integer or a string
+        if (RegExp(/^\d+$/).test(speed)) {
+            speed = parseInt(speed);
+        }
         jQuery(elem).animate({
               height:'toggle', 
                     opacity:'toggle'
-                    }, 0);
+                    }, speed);
     };
 
     /**

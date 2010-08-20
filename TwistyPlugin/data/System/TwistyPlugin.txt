@@ -470,6 +470,7 @@ You can override some default settings in the plugin by setting the following [[
 | =TWISTYHIDELINK= | For example: =Close= | %MAKETEXT{"Close"}% |
 | =TWISTYMODE= | Either =div= or =span= | =span= |
 | =TWISTYREMEMBER= | Either =on= or =off=. If set to =on= all Twisty states will be stored in a FOSWIKIPREF cookie; if set to =off= the FOSWIKIPREF cookie will be cleared | not specified |
+| =TWISTYANIMATIONSPEED= | Speed of animation: 'fast', 'slow', or integer milliseconds | =0= (no animation) |
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -486,7 +487,7 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
-|  19 Aug 2010 | 1.6.2 Foswikitask:Item9499: Disable animations on show/hide transitions. |
+|  20 Aug 2010 | 1.6.1 Foswikitask:Item9499: Added configuration option to set on show/hide transition animation speed. Default to no animation. |
 |  15 Aug 2010 | 1.6.0<br/>\
  Foswikitask:Item9422: Implement as JQueryPlugin::Plugin; emit =display: none= style on hidden twisties to avoid relying on CSS/JS<br/>\
  Foswikitask:Item9415: Documentation changes<br/> |

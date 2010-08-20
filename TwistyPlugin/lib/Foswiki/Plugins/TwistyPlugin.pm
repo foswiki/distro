@@ -18,7 +18,7 @@ use vars qw( @modes $doneHeader $doneDefaults
 
 our $VERSION = '$Rev$';
 
-our $RELEASE = '1.6.2';
+our $RELEASE = '1.6.1';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -40,6 +40,7 @@ sub initPlugin {
 
     $doneDefaults = 0;
     $doneHeader   = 0;
+    _exportAnimationSpeed();
 
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'twisty',
         'Foswiki::Plugins::TwistyPlugin::TWISTY' );
@@ -52,6 +53,22 @@ sub initPlugin {
     Foswiki::Func::registerTagHandler( 'ENDTWISTYTOGGLE', \&_ENDTWISTYTOGGLE );
 
     return 1;
+}
+
+sub _exportAnimationSpeed {
+    my $exported = Foswiki::Func::getPreferencesValue('EXPORTEDPREFERENCES');
+
+    # As per Item8924; "push" TWISTYANIMATIONSPEED onto EXPORTEDPREFERENCES so
+    # that it may be used in the client JS with
+    # foswiki.getPreference('TWISTYANIMATIONSPEED')
+    my @list = split( /[,\s]+/, $exported );
+    unless ( grep { /^TWISTYANIMATIONSPEED$/ } @list ) {
+        push( @list, 'TWISTYANIMATIONSPEED' );
+    }
+    Foswiki::Func::setPreferencesValue( 'EXPORTEDPREFERENCES',
+        join( ',', @list ) );
+
+    return;
 }
 
 sub _setDefaults {
