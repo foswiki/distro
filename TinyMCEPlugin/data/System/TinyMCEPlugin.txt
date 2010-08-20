@@ -105,8 +105,8 @@ Below is the default configuration. If it is to be modified, it should be copied
     "Heading 6" : { "block" : "h6",  "remove" : "all" },
     "VERBATIM"  : { "block" : "pre", "remove" : "all", "attributes" : { "class" : "TMLverbatim" } }, 
     "LITERAL"   : { "block" : "div", "remove" : "all", "attributes" : { "class" : "WYSIWYG_LITERAL" } },
-    "Protect on save" : { "block" : "div", "remove" : "all", "attributes" : { "class" : "WYSIWYG_PROTECTED" }, "selector" : "*" },
-    "Protect forever" : { "block" : "div", "remove" : "all", "attributes" : { "class" : "WYSIWYG_STICKY" }, "selector" : "*" }
+    "Protect on save" : { "block" : "div", "remove" : "all", "attributes" : { "class" : "WYSIWYG_PROTECTED" } },
+    "Protect forever" : { "block" : "div", "remove" : "all", "attributes" : { "class" : "WYSIWYG_STICKY" } }
 },
 "paste_create_paragraphs" : true,
 "paste_create_linebreaks" : false,

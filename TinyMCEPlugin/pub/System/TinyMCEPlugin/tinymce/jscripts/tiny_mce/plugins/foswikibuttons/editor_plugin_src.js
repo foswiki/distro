@@ -34,8 +34,6 @@
         ** button state update*/
         nodeChangeEventFrequency: 500,
 
-        _lastButtonUpdateNode: null,
-
         init: function (ed, url) {
             this.formats = ed.getParam('foswikibuttons_formats');
             this.format_names = [];
