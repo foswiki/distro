@@ -92,6 +92,10 @@ Below is the default configuration. If it is to be modified, it should be copied
 },
 "theme_advanced_toolbar_align" : "left",
 "foswikibuttons_formats" : {
+    /* Use 'attributes : { class : "foo" }' instead of 'classes: "foo"'
+     * because this is how it's done in the default advanced theme shipped
+     * with TinyMCE which seems to be a few ms faster on cursor movement
+     */
     "Normal" : { "remove" : "all" },
     "Heading 1" : { "block" : "h1",  "remove" : "all" },
     "Heading 2" : { "block" : "h2",  "remove" : "all" },
@@ -99,10 +103,10 @@ Below is the default configuration. If it is to be modified, it should be copied
     "Heading 4" : { "block" : "h4",  "remove" : "all" },
     "Heading 5" : { "block" : "h5",  "remove" : "all" },
     "Heading 6" : { "block" : "h6",  "remove" : "all" },
-    "VERBATIM"  : { "block" : "pre", "remove" : "all", "classes" : "TMLverbatim" }, 
-    "LITERAL"   : { "block" : "div", "remove" : "all", "classes" : "WYSIWYG_LITERAL" },
-    "Protect on save" : { "block" : "div", "remove" : "all", "classes" : "WYSIWYG_PROTECTED" },
-    "Protect forever" : { "block" : "div", "remove" : "all", "classes" : "WYSIWYG_STICKY" }
+    "VERBATIM"  : { "block" : "pre", "remove" : "all", "attributes" : { "class" : "TMLverbatim" } }, 
+    "LITERAL"   : { "block" : "div", "remove" : "all", "attributes" : { "class" : "WYSIWYG_LITERAL" } },
+    "Protect on save" : { "block" : "div", "remove" : "all", "attributes" : { "class" : "WYSIWYG_PROTECTED" }, "selector" : "*" },
+    "Protect forever" : { "block" : "div", "remove" : "all", "attributes" : { "class" : "WYSIWYG_STICKY" }, "selector" : "*" }
 },
 "paste_create_paragraphs" : true,
 "paste_create_linebreaks" : false,
@@ -285,7 +289,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  ?? Aug 2010 | Foswikitask:Item9236: Enable contextmenu !TinyMCE plugin, allows table row/column copy & paste<br/>\
                  Foswikitask:Item9263: Fix autosave breaking on IECollections' IE6<br/>\
-                 Foswikitask:Item9424: Use non-jQuery build to avoid IE8 resizing quirks on jquery-1.3.2 |
+                 Foswikitask:Item9424: Use non-jQuery build to avoid IE8 resizing quirks on jquery-1.3.2<br/>\
+                 Foswikitask:Item9427: Only update button state if cursor has been idle &gt; 500ms, improves cursor movement responsiveness in &gt;250KiB documents on IE/slow PCs |
 |  01 Jul 2010 | Foswikitask:Item9221: Fix colour formatting problem and JS error transitioning to fullscreen<br/>\
                  Foswikitask:Item9222: Fix autosave implementation compatibility with Foswiki 1.0.x JQueryPlugin<br/>\
                  Foswikitask:Item9234: Upgrade to !TinyMCE 3.3.8 |

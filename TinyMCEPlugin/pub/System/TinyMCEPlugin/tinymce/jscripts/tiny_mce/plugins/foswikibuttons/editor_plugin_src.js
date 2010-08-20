@@ -1,5 +1,6 @@
 /*
   Copyright (C) 2007-2009 Crawford Currie http://c-dot.co.uk
+  Copyright (C) 2010 Foswiki Contributors http://foswiki.org
   All Rights Reserved.
 
   This program is free software; you can redistribute it and/or
@@ -21,6 +22,19 @@
     tinymce.create('tinymce.plugins.FoswikiButtons', {
         /* Foswiki formats listbox */
         formats_listbox: null,
+        /* Remembers which node was last calculated for button state */
+        _lastButtonUpdateNode: null,
+        /* Flag to indicate there's a setTimeout waiting to fire a
+        ** _tryNodeChangeEvent() */
+        _nodeChangeEventScheduled: null,
+        /* Flag to indicate that the pending setTimeout waiting to fire a
+        ** _tryNodeChangeEvent(), should be deferred */
+        _deferNodeChangeEvent: null,
+        /* setTimeout interval governing cursor idle time required to fire a
+        ** button state update*/
+        nodeChangeEventFrequency: 500,
+
+        _lastButtonUpdateNode: null,
 
         init: function (ed, url) {
             this.formats = ed.getParam('foswikibuttons_formats');
@@ -254,16 +268,140 @@
             return;
         },
 
+        /*
+         * *IF YOU MAKE CHANGES HERE*, consider netbook/mobile users who need
+         * every spare CPU cycle.
+         * 
+         * _nodeChange() is fired *very* frequently, on every cursor movement
+         * for example. So expensive operations are deferred until the cursor
+         * has settled for some time period this.nodeChangeEventFrequency (500ms)
+         */
         _nodeChange: function (ed, cm, node, collapsed) {
-            var selectedFormats = ed.formatter.matchAll(
+            var selectedFormats, listbox;
+            
+            if (typeof(node) !== 'object') {
+                return;
+            } else if (!collapsed) {
+                // !collapsed means a selection; always update button state if
+                // there is a selection. 
+                //this._updateButtonState(ed, cm, node, collapsed);
+            } else if (node !== this._lastButtonUpdateNode) {
+                // Only update button state if it wasn't already calculated for
+                // this node already on a previous call.
+                //this._updateButtonState(ed, cm, node, collapsed);
+
+                // Remember the node
+                this._lastButtonUpdateNode = node;
+            }
+            /* comment the following line and un-comment the line after that to
+            ** do reliable performance analysis of _updateButtonState(). See
+            ** Item9427 */
+            this._scheduleNodeChangeEvent(ed, cm, node, collapsed);
+            //_updateButtonState(ed, cm, node, collapsed);
+
+            return true;
+
+        },
+
+        /* Schedule a _tryNodeChangeEvent() call, unless one is already
+         * scheduled. In that case, defer that next call, because this means
+         * the cursor hasn't settled for long enough. _tryNodeChangeEvent()
+         * will re-schedule itself instead of calling _doUpdateButtonState()
+         * when it does eventually fire.
+         */
+        _scheduleNodeChangeEvent: function (ed, cm, node, collapsed) {
+            var that = this;
+
+            if (this._nodeChangeEventScheduled) {
+                // defer the next update and keep blocking; cursor is still moving
+                this._deferNodeChangeEvent = true;
+            } else {
+                this._deferNodeChangeEvent = false;
+                this._nodeChangeEventScheduled = true;
+                setTimeout(function () {
+                    that._tryNodeChangeEvent(that, ed, cm, node, collapsed);
+
+                    return;
+                }, this.nodeChangeEventFrequency);
+            }
+
+            return;
+        },
+
+        /* If this event is to be deferred, "re-set the clock and wait
+        ** another 500ms" - otherwise, finally, just do it
+         */
+        _tryNodeChangeEvent: function (that, ed, cm, node, collapsed) {
+            if (that._deferNodeChangeEvent) {
+                that._deferNodeChangeEvent = false;
+                that._nodeChangeEventScheduled = false;
+                that._scheduleNodeChangeEvent(ed, cm, node, collapsed);
+            } else {
+                /* Call expensive nodeChange stuff from here
+                 * If we got to here, the cursor has been idle for > 500ms
+                 *
+                 * Additionally, the node and collapsed args are no longer
+                 * relevant since the setTimeout was set. Use
+                 * ed.selection.getNode() and ed.selection.isCollapsed() instead
+                 */
+                that._doUpdateButtonState(ed, cm);
+                that._nodeChangeEventScheduled = false;
+            }
+
+            return;
+        },
+
+        /* This is a wrapper to _updateButtonState(). It tries to avoid
+        ** updating the button state if the cursor has only moved within the
+        ** textNode of a given node; ie. if the cursor is still inside the same
+        ** node as the last time the button state was calculated, then there is
+        ** no need to update it yet again.
+         */
+        _doUpdateButtonState: function (ed, cm) {
+            var selectedFormats, listbox, node = ed.selection.getNode(),
+                collapsed = ed.selection.isCollapsed();
+            if (!collapsed) {
+                // !collapsed means a selection; always update button state if
+                // there is a selection. 
+                this._updateButtonState(ed, cm)
+            } else if (node !== this._lastButtonUpdateNode) {
+                // Only update button state if it wasn't already calculated for
+                // this node already on a previous call.
+                this._updateButtonState(ed, cm, node, collapsed);
+
+                // Remember the node
+                this._lastButtonUpdateNode = node;
+            }
+        },
+
+        /* Item9427: Slow cursor movement in IEs on large, >250KiB documents
+         *           Please read perf results and test method on that task
+         *           if you make changes here, to compare before/after. A fast
+         *           PC with a decent browser performs nothing like IE7 on a
+         *           netbook
+         *
+         * _updateButtonState() is only called when the cursor has not moved
+         * for 500ms or more.
+         */
+        _updateButtonState: function (ed, cm, node, collapsed) {
+            var selectedFormats, listbox;
+
+            selectedFormats = ed.formatter.matchAll(
                 ed.plugins.foswikibuttons.format_names),
             listbox = cm.get(ed.id + '_foswikiformat');
 
-            if (typeof(node) !== 'object') {
-                return;
-            }
+            return true;
 
-            if (collapsed) { // Disable the buttons
+        },
+
+        _updateButtonState: function (ed, cm, node, collapsed) {
+            var selectedFormats, listbox;
+
+/*            selectedFormats = ed.formatter.matchAll(
+                ed.plugins.foswikibuttons.format_names),
+            listbox = cm.get(ed.id + '_foswikiformat');*/
+
+/*            if (collapsed) { // Disable the buttons
                 cm.setDisabled('colour', true);
                 cm.setDisabled('tt', true);
             } else { // A selection means the buttons should be active.
@@ -280,15 +418,12 @@
                 cm.setActive('colour', true);
             } else {
                 cm.setActive('colour', false);
-            }
-            if (selectedFormats.length > 0) {
+            }*/
+/*            if (selectedFormats.length > 0) {
                 listbox.select(selectedFormats[0]);
             } else {
                 listbox.select('Normal');
-            }
-
-            return true;
-
+            }*/
         },
 
         _contextMenuVerbatimClasses: function (ed) {
