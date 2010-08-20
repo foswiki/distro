@@ -279,17 +279,6 @@
             
             if (typeof(node) !== 'object') {
                 return;
-            } else if (!collapsed) {
-                // !collapsed means a selection; always update button state if
-                // there is a selection. 
-                //this._updateButtonState(ed, cm, node, collapsed);
-            } else if (node !== this._lastButtonUpdateNode) {
-                // Only update button state if it wasn't already calculated for
-                // this node already on a previous call.
-                //this._updateButtonState(ed, cm, node, collapsed);
-
-                // Remember the node
-                this._lastButtonUpdateNode = node;
             }
             /* comment the following line and un-comment the line after that to
             ** do reliable performance analysis of _updateButtonState(). See
@@ -388,18 +377,7 @@
                 ed.plugins.foswikibuttons.format_names),
             listbox = cm.get(ed.id + '_foswikiformat');
 
-            return true;
-
-        },
-
-        _updateButtonState: function (ed, cm, node, collapsed) {
-            var selectedFormats, listbox;
-
-/*            selectedFormats = ed.formatter.matchAll(
-                ed.plugins.foswikibuttons.format_names),
-            listbox = cm.get(ed.id + '_foswikiformat');*/
-
-/*            if (collapsed) { // Disable the buttons
+            if (collapsed) { // Disable the buttons
                 cm.setDisabled('colour', true);
                 cm.setDisabled('tt', true);
             } else { // A selection means the buttons should be active.
@@ -416,12 +394,14 @@
                 cm.setActive('colour', true);
             } else {
                 cm.setActive('colour', false);
-            }*/
-/*            if (selectedFormats.length > 0) {
+            }
+            if (selectedFormats.length > 0) {
                 listbox.select(selectedFormats[0]);
             } else {
                 listbox.select('Normal');
-            }*/
+            }
+
+            return true;
         },
 
         _contextMenuVerbatimClasses: function (ed) {
