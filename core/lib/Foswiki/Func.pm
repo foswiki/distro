@@ -1217,7 +1217,9 @@ sub createWeb {
     }
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    my $rootObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION );
+    my ($parentWeb) = $web =~ m#(.*)/[^/]+$#;
+
+    my $rootObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $parentWeb );
     unless ( $rootObject->haveAccess('CHANGE') ) {
         throw Foswiki::AccessControlException( 'CHANGE',
             $Foswiki::Plugins::SESSION->{user},
@@ -1225,7 +1227,7 @@ sub createWeb {
     }
 
     my $baseObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $baseweb );
-    unless ( $baseObject->haveAccess('CHANGE') ) {
+    unless ( $baseObject->haveAccess('VIEW') ) {
         throw Foswiki::AccessControlException( 'VIEW',
             $Foswiki::Plugins::SESSION->{user},
             $web, '', $Foswiki::Meta::reason );

@@ -47,6 +47,64 @@ sub tear_down {
     $this->SUPER::tear_down();
 }
 
+sub test_Item9318 {
+    my $this = shift;
+    use Error qw( :try );
+    use Foswiki::AccessControlException;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
+
+    Foswiki::Func::saveTopicText(
+        $this->{test_web}, 'WebPreferences', <<END,
+\t* Set DENYWEBCHANGE = $Foswiki::cfg{DefaultUserWikiName}
+END
+    );
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
+
+    # Verify that create of a root web is denied by default user.
+    try {
+        Foswiki::Func::createWeb("Blahweb");
+    } catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert_matches( qr/access not allowed on root/, $e, "Unexpected error $e");
+    };
+    $this->assert(! Foswiki::Func::webExists($this->{test_web}."$this->{test_web}/Blahsub"), "Test should not have created the web");
+
+    # Verify that create of a sub web is denied by default user if denied in webPreferences.
+    try {
+        Foswiki::Func::createWeb("$this->{test_web}/Blahsub");
+    } catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert_matches( qr/Access to CHANGE TemporaryFuncTestWebFunc\/Blahsub. for BaseUserMapping_666 is denied. access denied on web/, $e, "Unexpected error $e");
+    };
+    $this->assert(! Foswiki::Func::webExists("$this->{test_web}/Blahsub"), "Test should not have created the web");
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
+
+    Foswiki::Func::saveTopicText(
+        $this->{test_web}, 'WebPreferences', <<END,
+\t* Set ALLOWWEBCHANGE = $Foswiki::cfg{DefaultUserWikiName}
+END
+    );
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
+
+    # Verify that create of a sub web is allowed by default user if allowed in webPreferences.
+    try {
+        Foswiki::Func::createWeb("$this->{test_web}/Blahsub");
+    } catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert("Unexpected error $e");
+    };
+    $this->assert( Foswiki::Func::webExists("$this->{test_web}/Blahsub"), "Test should have created the web");
+}
+
 sub test_Item9021 {
     my $this = shift;
     use Error qw( :try );
@@ -129,26 +187,34 @@ sub test_moveWeb {
 
 sub test_getViewUrl {
     my $this = shift;
+    my $ss;
 
-    my $ss = 'view' . $Foswiki::cfg{ScriptSuffix};
+    if (defined $Foswiki::cfg{ScriptUrlPaths}{view} ) {
+        $ss = $Foswiki::cfg{ScriptUrlPaths}{view};
+        }
+    else {
+        $ss = 'view' . $Foswiki::cfg{ScriptSuffix};
+        }
+
+    $ss .= '/' if ($ss);
 
     # relative to specified web
     my $result = Foswiki::Func::getViewUrl( $this->{users_web}, "WebHome" );
-    $this->assert_matches( qr!/$ss/$this->{users_web}/WebHome!, $result );
+    $this->assert_matches( qr!/$ss$this->{users_web}/WebHome!, $result );
 
     # relative to web in path_info
     $result = Foswiki::Func::getViewUrl( "", "WebHome" );
-    $this->assert_matches( qr!/$ss/$this->{test_web}/WebHome!, $result );
+    $this->assert_matches( qr!/$ss$this->{test_web}/WebHome!, $result );
 
     $Foswiki::Plugins::SESSION =
       new Foswiki( undef,
         new Unit::Request( { topic => "Sausages.AndMash" } ) );
 
     $result = Foswiki::Func::getViewUrl( "Sausages", "AndMash" );
-    $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
+    $this->assert_matches( qr!/${ss}Sausages/AndMash!, $result );
 
     $result = Foswiki::Func::getViewUrl( "", "AndMash" );
-    $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
+    $this->assert_matches( qr!/${ss}Sausages/AndMash!, $result );
     $Foswiki::Plugins::SESSION->finish();
 }
 
