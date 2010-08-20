@@ -47,7 +47,7 @@ sub tear_down {
     $this->SUPER::tear_down();
 }
 
-sub test_Item9318 {
+sub test_createWeb_permissions {
     my $this = shift;
     use Error qw( :try );
     use Foswiki::AccessControlException;
@@ -72,7 +72,7 @@ END
         my $e = shift;
         $this->assert_matches( qr/access not allowed on root/, $e, "Unexpected error $e");
     };
-    $this->assert(! Foswiki::Func::webExists($this->{test_web}."$this->{test_web}/Blahsub"), "Test should not have created the web");
+    $this->assert(! Foswiki::Func::webExists("Blahweb"), "Test should not have created the web");
 
     # Verify that create of a sub web is denied by default user if denied in webPreferences.
     try {
