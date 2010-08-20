@@ -398,6 +398,7 @@ sub _prepare {
 
     $text = $topicObject->expandMacros($text);
     $text = $topicObject->renderTML($text);
+    $text =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois;
 
     if ($minimalist) {
         $text =~ s/<img [^>]*>//gi;    # remove image tags

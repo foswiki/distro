@@ -19,10 +19,10 @@ HERE
 
 my $topic2 = <<'HERE';
 ----
-WikiWord %BR%
+MissingWikiWord %BR%
 !ExclamationEscape <br />
 <nop>NopEscape 
-%RED% <pre> adsf </pre> <verbatim> qwerty </verbatim
+%RED% <pre> adsf </pre> <verbatim> qwerty </verbatim>
 <p>A Paragraph </p>
 #anchor
 <a href="http://blah.com/">asdf</a>
@@ -185,41 +185,15 @@ sub set_up {
 }
 
 sub setup_view {
-    my ( $this, $web, $topic, $tmpl, $parm ) = @_;
-    my $query = new Unit::Request(
-        {
-            webName   => [$web],
-            topicName => [$topic],
-            template  => [$tmpl],
-        }
-    );
-    $query->path_info("/$web/$topic");
-    $query->method('POST');
-    $fatwilly = new Foswiki( $this->{test_user_login}, $query );
-    my ($text) = $this->capture(
-        sub {
-            no strict 'refs';
-            &$UI_FN($fatwilly);
-            use strict 'refs';
-            $Foswiki::engine->finalize( $fatwilly->{response},
-                $fatwilly->{request} );
-        }
-    );
-
-    $fatwilly->finish();
-    $text =~ s/\r//g;
-    $text =~ s/^.*?\n\n+//s;    # remove CGI header
-    return $text;
-}
-
-sub setup_rawview {
-    my ( $this, $web, $topic, $tmpl, $raw ) = @_;
+    my ( $this, $web, $topic, $tmpl, $raw, $ctype, $skin ) = @_;
     my $query = new Unit::Request(
         {
             webName   => [$web],
             topicName => [$topic],
             template  => [$tmpl],
             raw       => [$raw],
+            contenttype => [$ctype],
+            skin       => [$skin],
         }
     );
     $query->path_info("/$web/$topic");
@@ -235,10 +209,12 @@ sub setup_rawview {
         }
     );
 
+    my $editUrl = $fatwilly->getScriptUrl('0', 'edit', $this->{test_web}, '' );
+
     $fatwilly->finish();
     $text =~ s/\r//g;
     $text =~ s/(^.*?\n\n+)//s;    # remove CGI header
-    return ($text, $1);
+    return ($text, $1, $editUrl);
 }
 
 # This test verifies the rendering of the various raw views      
@@ -247,49 +223,78 @@ sub test_render_raw {
     my $text;
     my $hdr;
 
-    ($text, $hdr) = $this->setup_rawview( $this->{test_web}, 'TestTopic2', 'viewfour', 'text');
+    ($text, $hdr) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'text');
     $this->assert_equals( "$topic2", $text, "Unexpected output from raw=text"  );
-    $this->assert_matches( qr#text/plain;#, $hdr, "raw=text should return text/plain - got $hdr");
+    $this->assert_matches( qr#^Content-Type: text/plain;#ms, $hdr, "raw=text should return text/plain - got $hdr");
 
-    ($text, $hdr) = $this->setup_rawview( $this->{test_web}, 'TestTopic2', 'viewfour', 'all');
+    ($text, $hdr) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'all');
     $this->assert_matches( qr#$topic2meta$topic2#, $text, "Unexpected output from raw=all"  );
-    $this->assert_matches( qr#text/plain;#, $hdr, "raw=all should return text/plain - got $hdr");
+    $this->assert_matches( qr#^Content-Type: text/plain;#ms, $hdr, "raw=all should return text/plain - got $hdr");
 
-    ($text,$hdr) = $this->setup_rawview( $this->{test_web}, 'TestTopic2', 'viewfour', 'on');
+    ($text,$hdr) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'on');
     $this->assert_matches( qr#.*$topic2txtarea$topic2rawON.*#, $text, "Unexpected output from raw=on"  );
-    $this->assert_matches( qr#text/html;#, $hdr, "raw=on should return text/html - got $hdr");
+    $this->assert_matches( qr#^Content-Type: text/html;#ms, $hdr, "raw=on should return text/html - got $hdr");
 
-    ($text, $hdr) = $this->setup_rawview( $this->{test_web}, 'TestTopic2', 'viewfour', 'debug');
+    ($text, $hdr) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'debug');
     $this->assert_matches( qr#.*$topic2txtarea$topic2metaQ$topic2rawON.*#, $text, "Unexpected output from raw=debug" );
-    $this->assert_matches( qr#text/html;#, $hdr, "raw=debug should return text/html - got $hdr");
+    $this->assert_matches( qr#^Content-Type: text/html;#ms, $hdr, "raw=debug should return text/html - got $hdr");
 }
 
+
+# This test verifies the rendering of the text/plain
+sub test_render_textplain {
+    my $this = shift;
+    my $text;
+    my $hdr;
+    my $editUrl;
+
+    ($text, $hdr, $editUrl) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', '', 'text/plain', 'text');
+    $editUrl =~ s/WebHome/MissingWikiWord/;
+
+    my $topic2plain = <<HERE;
+pretemplate<hr />
+<span class="foswikiNewLink">MissingWikiWord<a href="$editUrl?topicparent=TemporaryViewScriptTestWebViewScript.TestTopic2" rel="nofollow" title="Create this topic">?</a></span> <br />
+ExclamationEscape <br />
+NopEscape 
+<font color="#ff0000"> <pre> adsf </pre> <pre> qwerty </pre>
+<p>A Paragraph </p>
+#anchor
+<a href="http://blah.com/">asdf</a>
+NotTOAutoLink
+<hr />posttemplate
+HERE
+    chomp $topic2plain;
+    $this->assert_matches( qr#^Content-Type: text/plain;#ms, $hdr, "contenttype=text/plain should return text/plain - got $hdr");
+    $this->assert_does_not_match( qr#<(noautolink|nop)>#, $text, "autolink or nop found in text skin" );
+    $this->assert_equals( "$topic2plain", $text, "Unexpected output from contentype=text/plain skin=text"  );
+
+}
 # This test verifies the handling of preamble (the text following
 # %STARTTEXT%) and postamble (the text between %TEXT% and %ENDTEXT%).
 sub test_prepostamble {
     my $this = shift;
     my $text;
 
-    $text = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewone' );
+    ($text) = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewone' );
     $text =~ s/\n+$//s;
     $this->assert_equals(
         'pretemplatepreCONTENT
 postposttemplate', $text
     );
 
-    $text = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewtwo' );
+    ($text) = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewtwo' );
     $this->assert_equals(
         'pretemplateCONTENT
 postposttemplate', $text
     );
 
-    $text = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewthree' );
+    ($text) = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewthree' );
     $this->assert_equals( 'pretemplatepreCONTENTposttemplate', $text );
 
-    $text = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewfour' );
+    ($text) = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewfour' );
     $this->assert_equals( 'pretemplateCONTENTposttemplate', $text );
 
-    $text = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewfive' );
+    ($text) = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewfive' );
     $this->assert_equals( 'pretemplateposttemplate', $text );
 }
 
