@@ -29,7 +29,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name         => 'Button',
-            version      => '1.1',
+            version      => '1.2',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'BUTTON',
@@ -66,14 +66,13 @@ sub handleButton {
     my $theTitle       = $params->{title};
     my $theIconName    = $params->{icon} || '';
     my $theAccessKey   = $params->{accesskey};
-    my $theId          = $params->{id};
+    my $theId          = $params->{id} || '';
     my $theClass       = $params->{class} || '';
     my $theStyle       = $params->{style} || '';
     my $theTarget      = $params->{target};
     my $theType        = $params->{type} || 'button';
 
-    $theId = 'jqButton' . Foswiki::Plugins::JQueryPlugin::Plugins::getRandom()
-      unless defined $theId;
+    $theId = "id='$theId'" if $theId;
 
     my $theIcon;
     $theIcon =
@@ -99,24 +98,28 @@ sub handleButton {
               Foswiki::Func::normalizeWebTopicName( $theWeb, $theTarget );
             $url = Foswiki::Func::getViewUrl( $web, $topic );
         }
-        $theOnClick .= ";window.location.href='$url';";
+        $theOnClick .= ";window.location.href=\"$url\";";
     }
 
     if ( $theType eq 'submit' ) {
-        $theOnClick .= ";jQuery(this).parents('form:first').submit();";
+        $theOnClick .= ';jQuery(this).parents("form:first").submit();';
     }
     if ( $theType eq 'save' ) {
         $theOnClick .=
-";var form = jQuery(this).parents('form:first'); if(typeof(foswikiStrikeOne) == 'function') foswikiStrikeOne(form[0]); form.submit();";
+';var form = jQuery(this).parents("form:first"); if(typeof(foswikiStrikeOne) == "function") foswikiStrikeOne(form[0]); form.submit();';
     }
     if ( $theType eq 'reset' ) {
-        $theOnClick .= ";jQuery(this).parents('form:first').resetForm();";
+        $theOnClick .= ';jQuery(this).parents("form:first").resetForm();';
         Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
     }
     if ( $theType eq 'clear' ) {
-        $theOnClick .= ";jQuery(this).parents('form:first').clearForm();";
+        $theOnClick .= ';jQuery(this).parents("form:first").clearForm();';
         Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
     }
+
+    my @class = ();
+    push @class, 'jqButton';
+    push @class, $theClass if $theClass;
 
     my @callbacks = ();
     if ($theOnClick) {
@@ -128,11 +131,17 @@ sub handleButton {
       if $theOnMouseOver;
     push @callbacks, "onmouseout:function(){$theOnMouseOut}" if $theOnMouseOut;
 
-    my $callbacks = join( ', ', @callbacks );
-    $callbacks = 'data="{' . $callbacks . '}"' if $callbacks;
+    if (@callbacks) {
+        my $callbacks = '{' . join( ', ', @callbacks ) . '}';
 
-    my $result =
-"<a id='$theId' class='jqButton $theClass' $callbacks href='$theHref'";
+        # entity encode
+        $callbacks =~
+          s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_])/'&#'.ord($1).';'/ge;
+        push @class, $callbacks;
+    }
+    my $class = join( ' ', @class );
+
+    my $result = "<a $theId class='$class' href='$theHref'";
     $result .= " accesskey='$theAccessKey' " if $theAccessKey;
     $result .= " title='$theTitle' "         if $theTitle;
     $result .= " style='$theStyle' "         if $theStyle;

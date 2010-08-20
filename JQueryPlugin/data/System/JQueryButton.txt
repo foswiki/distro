@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1258378459" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="micha" comment="save topic" date="1282309264" format="1.1" reprev="2" version="3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"button"
@@ -24,9 +24,9 @@ theme roller. This is independent.
 ---++ Examples
 
 %BUTTON{"%MAKETEXT{"OK"}%" icon="tick" onclick="alert($(this).text());"}%
-%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross" onclick="return false"}%
-%BUTTON{"%MAKETEXT{"Info"}%" icon="information" onclick="return false"}%
-%BUTTON{"%MAKETEXT{"Add"}%" icon="add" onclick="return false"}%
-%BUTTON{"%MAKETEXT{"Delete"}%" icon="delete" onclick="return false"}%
-%BUTTON{"%MAKETEXT{"Globe"}%" icon="world_key" onclick="return false"}%
+%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross" onclick="alert($(this).text());"}%
+%BUTTON{"%MAKETEXT{"Info"}%" icon="information" onclick="alert($(this).text());"}%
+%BUTTON{"%MAKETEXT{"Add"}%" icon="add" onclick="alert($(this).text());"}%
+%BUTTON{"%MAKETEXT{"Delete"}%" icon="delete" onclick="alert($(this).text());"}%
+%BUTTON{"%MAKETEXT{"Globe"}%" icon="world_key" onclick="alert('foo')"}%
 %CLEAR%
