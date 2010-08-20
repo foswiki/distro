@@ -14,61 +14,64 @@
 // global debug switch ... add DEBUG = true; somewhere after jquery.debug.js is loaded to turn debugging on
 var DEBUG = true;
 (function($) {
-// shamelessly ripped off from http://getfirebug.com/
-if (!("console" in window)){
-	var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
-	// create the logging div
-        $('body').append('<div id="DEBUG"><ol></ol></div>');
-	// attach a function to each of the console methods
-	window.console = {};
-	for (var i = 0; i < names.length; ++i){
-		window.console[names[i]] = function(msg){ 
-                  var $debug = $("#DEBUG"); 
-                  $debug.find('ol').append( '<li>' + msg + '</li>' ); 
-                  $debug.scrollTop($debug[0].scrollHeight); 
-                };
-	}
-}
+  
+  if (!("console" in window)){
+    $(function() {
+            var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
+            // create the logging div
+            var $list = $("<ol></ol>");
+            var $debug = $('<div id="DEBUG"></div>').appendTo("body");
+            $debug.append($list);
+            // attach a function to each of the console methods
+            window.console = {};
+            for (var i = 0; i < names.length; ++i){
+                    window.console[names[i]] = function(msg){ 
+                      $list.append( '<li>' + msg + '</li>' ); 
+                      $debug.scrollTop($debug[0].scrollHeight); 
+                    };
+            }
+    });
+  }
 
-/*
- * debug
- * Simply loops thru each jquery item and logs it
- */
-$.fn.debug = function() {
-	return this.each(function(){
-		$.log(this);
-	});
-};
+  /*
+   * debug
+   * Simply loops thru each jquery item and logs it
+   */
+  $.fn.debug = function() {
+          return this.each(function(){
+                  $.log(this);
+          });
+  };
 
-/*
- * log
- * Send it anything, and it will add a line to the logging console.
- * If a console is defined, it simple send the item to it.
- * If not, it creates a string representation of the html element (if message is an object), or just uses the supplied value (if not an object).
- */
-$.log = function(message){
-	// only if debugging is on
-	if( window.DEBUG ){
-		// if there's no console, build a debug line from the actual html element if it's an object, or just send the string
-		var str = message;
-		if(!("console" in window)){
-			if( typeof(message) == 'object' ){
-				if (message.nodeName) {
-					str = '&lt;';	
-					str += message.nodeName.toLowerCase();
-					for( var i = 0; i < message.attributes.length; i++ ){
-						str += ' ' + message.attributes[i].nodeName.toLowerCase() + '="' + message.attributes[i].nodeValue + '"';
-                                        }
-					str += '&gt;';
-                                } else {
-					for(var key in message) { 
-                                          str += key + " : " + (message[key]) + ", "; 
-                                        }	
-				}
-				
-			}
-		}
-		console.debug(str);
-	}
-};
+  /*
+   * log
+   * Send it anything, and it will add a line to the logging console.
+   * If a console is defined, it simple send the item to it.
+   * If not, it creates a string representation of the html element (if message is an object), or just uses the supplied value (if not an object).
+   */
+  $.log = function(message){
+          // only if debugging is on
+          if( window.DEBUG ){
+                  // if there's no console, build a debug line from the actual html element if it's an object, or just send the string
+                  var str = message;
+                  if(!("console" in window)){
+                          if( typeof(message) == 'object' ){
+                                  if (message.nodeName) {
+                                          str = '&lt;';	
+                                          str += message.nodeName.toLowerCase();
+                                          for( var i = 0; i < message.attributes.length; i++ ){
+                                                  str += ' ' + message.attributes[i].nodeName.toLowerCase() + '="' + message.attributes[i].nodeValue + '"';
+                                          }
+                                          str += '&gt;';
+                                  } else {
+                                          for(var key in message) { 
+                                            str += key + " : " + (message[key]) + ", "; 
+                                          }	
+                                  }
+                                  
+                          }
+                  }
+                  console.debug(str);
+          }
+  };
 })(jQuery);
