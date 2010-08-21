@@ -9,6 +9,15 @@
 %TMPL:DEF{"pagetitle"}%%MAKETEXT{"Move attachment"}% [[%ATTACHURL%/%ENCODE{"%FILENAME%"}%][%FILENAME%]]%TMPL:END%
 
 
+%TMPL:DEF{"renameformsteps"}%<div class="foswikiFormSteps">
+<div class="foswikiFormStep">%TMPL:P{"changefrom"}%</div>
+<div class="foswikiFormStep">%TMPL:P{"toweb"}%</div>
+<div class="foswikiFormStep">%TMPL:P{"totopic"}%</div>
+<div class="foswikiFormStep">%TMPL:P{"toattachment"}%</div>
+%TMPL:P{"searchresultsstep"}%</div>%TMPL:END%
+
+
+
 %TMPL:DEF{"movewebhelp"}%%TMPL:END%
 
 
@@ -19,12 +28,20 @@
 %TMPL:DEF{"newweb"}%<p><select class="foswikiSelect" name="newweb" onchange="if (document.rename.newweb.value == 'Trash') { document.rename.newtopic.value = 'TrashAttachment'; }"> %WEBLIST{"<option $marker value=$qname>$name</option>" webs="%TRASHWEB%,public" selection="%WEB%" separator=" "}%  </select><input type="hidden" name="attachment" value="%FILENAME%" /></p>%TMPL:END%
 
 
-%TMPL:DEF{"towebtitle"}%---+++ %MAKETEXT{"Move attachment to web:"}%%TMPL:END%
+%TMPL:DEF{"towebtitle"}%---+++ %MAKETEXT{"Move to web:"}%%TMPL:END%
 
 
 %TMPL:DEF{"newtopic"}%<p><input name="newtopic" class="foswikiInputField" value="" size="36" /><input type="hidden" name="nonwikiword" value="on" /></p>%TMPL:P{"namehelp"}%%TMPL:END%
 
-%TMPL:DEF{"newattachment"}%<p><input name="newattachment" class="foswikiInputField" value="%URLPARAM{"attachment"}%" size="36" /><input type="hidden" name="nonwikiword" value="on" /></p>%TMPL:P{"attachmenthelp"}%%TMPL:END%
+
+%TMPL:DEF{"toattachmenttitle"}%---+++ %MAKETEXT{"Attachment name:"}% %TMPL:END%
+
+%TMPL:DEF{"toattachment"}%
+%TMPL:P{"toattachmenttitle"}%
+<p>%TMPL:P{"newattachment"}%%TMPL:P{"newattachmenthelp"}%</p>%TMPL:END%
+
+
+%TMPL:DEF{"newattachment"}%<p><input name="newattachment" class="foswikiInputField" value="%URLPARAM{"attachment"}%" size="80" /><input type="hidden" name="nonwikiword" value="on" /></p>%TMPL:P{"attachmenthelp"}%%TMPL:END%
 
 
 %TMPL:DEF{"notes"}%
