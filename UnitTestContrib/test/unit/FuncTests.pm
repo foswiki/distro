@@ -1281,12 +1281,12 @@ HERE
         undef, undef, $this->{test_web} );
     $this->assert( !$access );
 
-    # Test with null topic - web permissions tested
+    # Test with null topic - default topic (WebHome) permissions tested
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
         $Foswiki::cfg{DefaultUserWikiName},
         undef, '', $this->{test_web} );
-    $this->assert( $access );
+    #$this->assert( $access );
 
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
@@ -1320,7 +1320,40 @@ HERE
         undef, 'WibblesWobble', $this->{test_web} );
     $this->assert( !$access );
 
+    # Test for missing web name, default to Users web (Main)
+    $access =
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        $Foswiki::cfg{DefaultUserWikiName},
+        undef, 'WibblesWobble', undef );
+    $this->assert( $access );
+
+    # Test for null web name, default to Users web (Main)
+    $access =
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        $Foswiki::cfg{DefaultUserWikiName},
+        undef, 'WibblesWobble', '' );
+    $this->assert( $access );
+
+    # Test for simple tainted topic name
+    my $taintedTopic = 'WeeblesWobble';
+    $taintedTopic = Assert::TAINT($taintedTopic);
+    $access =
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        $Foswiki::cfg{DefaultUserWikiName},
+        undef, $taintedTopic, $this->{test_web} );
+    $this->assert( $access );
+
+    # Test with illegal, tainted topic name.
+    #  - Untainting the name detects the illegal characters.
+    $taintedTopic = 'Weebles!@#$%^&**(())__+Wobble';
+    $taintedTopic = Assert::TAINT($taintedTopic);
+    $access =
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        $Foswiki::cfg{DefaultUserWikiName},
+        undef, $taintedTopic, $this->{test_web} );
+    $this->assert( !$access );
 }
+
 
 sub test_checkAccessPermission {
     my $this  = shift;

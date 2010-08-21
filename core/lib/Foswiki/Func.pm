@@ -1067,7 +1067,8 @@ Check access permission for a topic based on the
    * =$type=     - Access type, required, e.g. ='VIEW'=, ='CHANGE'=.
    * =$id=  - WikiName of remote user, required, e.g. ="RickShaw"=.
      $id may also be a login name.
-     If =$id= is '', 0 or =undef= then access is *always permitted*.
+     If =$id= is '', 0 or =undef= then access is *always permitted*.  This is used
+     by other functions if the caller should be able to bypass access checks.
    * =$text=     - Topic text, optional. If 'perl false' (undef, 0 or ''),
      topic =$web.$topic= is consulted. =$text= may optionally contain embedded
      =%META:PREFERENCE= tags. Provide this parameter if:
@@ -1076,8 +1077,14 @@ Check access permission for a topic based on the
       1 You already have the topic text in hand, and want to help avoid
         having to read it again,
       1 You are providing a =$meta= parameter.
-   * =$topic=    - Topic name, required, e.g. ='PrivateStuff'=
+   * =$topic=    - Topic name, optional, e.g. ='PrivateStuff'=, '' or =undef=
+      * If undefined, the Web preferences are checked.
+      * If null, the default (WebHome) topic is checked.
+      * If topic specified but does not exist, the web preferences are checked, 
+      allowing the caller to determine 
+      _"If the topic existed, would the operation be permitted"._
    * =$web=      - Web name, required, e.g. ='Sandbox'=
+      * If missing, the default Users Web (Main) is used.
    * =$meta=     - Meta-data object, as returned by =readTopic=. Optional.
      If =undef=, but =$text= is defined, then access controls will be parsed
      from =$text=. If defined, then metadata embedded in =$text= will be
@@ -1095,11 +1102,15 @@ in =ThatWeb.ThisTopic=, then a call to =checkAccessPermission('SPIN', 'IncyWincy
 =cut
 
 sub checkAccessPermission {
-    my ( $type, $user, $text, $topic, $web, $meta ) = @_;
+    my ( $type, $user, $text, $inTopic, $inWeb, $meta ) = @_;
     return 1 unless ($user);
 
-    ($web, $topic) = _checkWTA($web, $topic);
-    return 0 unless defined $web ;
+    my ($web, $topic) = _checkWTA($inWeb, $inTopic);
+    return 0 unless defined $web ;  #Web name is illegal.
+    if (defined $inTopic) {
+        my $top = $topic;
+        return 0 unless (defined $topic);  #Topic name is illegal
+    }
 
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     $text = undef unless $text;
