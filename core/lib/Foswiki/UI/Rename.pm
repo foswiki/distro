@@ -1110,11 +1110,13 @@ sub _newTopicOrAttachmentScreen {
     if ( !$attachment ) {
         my $refs;
         my $search = '';
+        my $resultCount = 0;
         if ($currentWebOnly) {
             $search = $session->i18n->maketext('(skipped)');
         }
         else {
             $refs = _getReferringTopics( $session, $from, 1 );
+            $resultCount += keys %$refs;
             foreach my $entry ( sort keys %$refs ) {
                 $search .= CGI::div(
                     { class => 'foswikiTopRow' },
@@ -1137,7 +1139,7 @@ sub _newTopicOrAttachmentScreen {
         $tmpl =~ s/%GLOBAL_SEARCH%/$search/o;
 
         $refs = _getReferringTopics( $session, $from, 0 );
-
+        $resultCount += keys %$refs;
         $search = '';
         foreach my $entry ( sort keys %$refs ) {
             $search .= CGI::div(
@@ -1158,6 +1160,7 @@ sub _newTopicOrAttachmentScreen {
             $search = ( $session->i18n->maketext('(none)') );
         }
         $tmpl =~ s/%LOCAL_SEARCH%/$search/go;
+        $tmpl =~ s/%SEARCH_COUNT%/$resultCount/go;
     }
 
     $tmpl = $from->expandMacros($tmpl);
@@ -1231,8 +1234,10 @@ sub _newWebScreen {
 
     my $refs;
     my $search = '';
-
+    my $resultCount = 0;
+    
     $refs = ${$infoRef}{referring}{refs1};
+    $resultCount += keys %$refs;
     foreach my $entry ( sort keys %$refs ) {
         $search .= CGI::div(
             { class => 'foswikiTopRow' },
@@ -1254,6 +1259,7 @@ sub _newWebScreen {
     $tmpl =~ s/%GLOBAL_SEARCH%/$search/o;
 
     $refs   = $infoRef->{referring}{refs0};
+    $resultCount += keys %$refs;
     $search = '';
     foreach my $entry ( sort keys %$refs ) {
         $search .= CGI::div(
@@ -1274,7 +1280,8 @@ sub _newWebScreen {
         $search = ( $session->i18n->maketext('(none)') );
     }
     $tmpl =~ s/%LOCAL_SEARCH%/$search/go;
-
+	$tmpl =~ s/%SEARCH_COUNT%/$resultCount/go;
+	
     my $fromWebHome =
       new Foswiki::Meta( $session, $from->web, $Foswiki::cfg{HomeTopicName} );
     $tmpl = $fromWebHome->expandMacros($tmpl);
