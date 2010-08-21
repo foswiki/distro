@@ -572,6 +572,11 @@ a:hover .foswikiAccessKey {
 	vertical-align:text-bottom;
 	border:0;
 }
+.foswikiAllowNonWikiWord {
+	border-width:1px;
+	border-style:solid;
+	padding:.5em 10px;
+}
 
 /*	-----------------------------------------------------------
 	Pattern skin specific elements

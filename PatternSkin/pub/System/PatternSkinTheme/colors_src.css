@@ -17,7 +17,7 @@
 #patternMain { /* don't set a background here; use patternOuter */ }
 #patternOuter {
    background:none;
-   border-color:#dadada;
+   border-color:#eee;
 }
 #patternSideBar,
 #patternWrapper {
@@ -383,6 +383,9 @@ a:hover .foswikiAccessKey {
 .foswikiHorizontalList ul li {
 	border-color:#aaa;
 }
+.foswikiAllowNonWikiWord {
+	border-color:#eee;
+}
 
 /*   -----------------------------------------------------------
    Pattern skin specific elements
@@ -420,7 +423,7 @@ a:hover .foswikiAccessKey {
 }
 #patternSideBarContents .patternLeftBarPersonal,
 #patternSideBarContents .patternWebIndicator {
-    border-color:#dadada;
+    border-color:#eee;
 }
 #patternSideBarContents b,
 #patternSideBarContents strong {
@@ -430,7 +433,7 @@ a:hover .foswikiAccessKey {
 .patternTopicActions {
    background-color:#fafafa;
    color:#000;
-   border-color:#eeeeee;
+   border-color:#eee;
 }
 .patternActionButtons a:link,
 .patternActionButtons a:visited,

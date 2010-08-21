@@ -144,7 +144,7 @@ Edit this topic, and change the color as you like.
 ---++++ ATTACHMENT_AND_FORM_BORDER Attachment, form
    * Local ATTACHMENT_AND_FORM_BORDER = #fff
 ---++++ LAYOUT_ELEMENT_BORDER Main layout elements (neutral tone)
-   * Local LAYOUT_ELEMENT_BORDER = #dadada
+   * Local LAYOUT_ELEMENT_BORDER = #eee
 ---++++ IMAGE_BORDER Image border
    * Local IMAGE_BORDER = #eee
 ---++++ FORM_STEP_BORDER Form step border
@@ -152,7 +152,7 @@ Edit this topic, and change the color as you like.
 ---++++ NOTIFICATION_BORDER Notification messages
    * Local NOTIFICATION_BORDER = #fbad17
 ---++++ TOPIC_ACTION_BORDER Topic action border
-   * Local TOPIC_ACTION_BORDER = #eeeeee
+   * Local TOPIC_ACTION_BORDER = #eee
 
 ---++++ Table colors
 ---+++++ TABLE_DATA_BACKGROUND Table data background
@@ -587,6 +587,9 @@ a:hover .foswikiAccessKey {
 .foswikiHorizontalList ul li {
 	border-color:%SEPARATOR%;
 }
+.foswikiAllowNonWikiWord {
+	border-color:%LAYOUT_ELEMENT_BORDER%;
+}
 
 /*   -----------------------------------------------------------
    Pattern skin specific elements
@@ -624,7 +627,7 @@ a:hover .foswikiAccessKey {
 }
 #patternSideBarContents .patternLeftBarPersonal,
 #patternSideBarContents .patternWebIndicator {
-    border-color:#dadada;
+    border-color:%LAYOUT_ELEMENT_BORDER%;
 }
 #patternSideBarContents b,
 #patternSideBarContents strong {
