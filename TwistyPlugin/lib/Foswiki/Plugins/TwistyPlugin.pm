@@ -56,7 +56,8 @@ sub initPlugin {
 }
 
 sub _exportAnimationSpeed {
-    my $exported = Foswiki::Func::getPreferencesValue('EXPORTEDPREFERENCES');
+    my $exported = Foswiki::Func::getPreferencesValue('EXPORTEDPREFERENCES')
+      || '';
     my $pref = Foswiki::Func::getPreferencesValue('TWISTYANIMATIONSPEED')
       || Foswiki::Func::getPluginPreferencesValue('TWISTYANIMATIONSPEED')
       || '0';
