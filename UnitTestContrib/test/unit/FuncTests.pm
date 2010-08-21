@@ -56,11 +56,10 @@ sub test_createWeb_permissions {
     $this->{session}->finish();
     $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
 
-    Foswiki::Func::saveTopicText(
-        $this->{test_web}, 'WebPreferences', <<END,
+    Foswiki::Func::saveTopicText( $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName}, <<HERE);
 \t* Set DENYWEBCHANGE = $Foswiki::cfg{DefaultUserWikiName}
-END
-    );
+HERE
 
     $this->{session}->finish();
     $this->{session} = new Foswiki();
@@ -1248,6 +1247,81 @@ sub test_normalizeWebTopicName {
         'Wibble.Web2.Topic' );
     $this->assert_str_equals( 'Wibble/Web2', $w );
     $this->assert_str_equals( 'Topic',       $t );
+}
+
+sub test_checkWebAccessPermission {
+    my $this  = shift;
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
+
+    Foswiki::Func::saveTopicText( $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName}, <<HERE);
+\t* Set DENYWEBCHANGE = $Foswiki::cfg{DefaultUserWikiName}
+HERE
+
+    Foswiki::Func::saveTopicText( $this->{test_web},
+        'WeeblesWobble', <<HERE);
+\t* Set ALLOWTOPICCHANGE = $Foswiki::cfg{DefaultUserWikiName}
+HERE
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
+
+    $Foswiki::Plugins::SESSION = $this->{session};
+
+    # Test with undefined topic - web permissions tested
+    my $access =
+      Foswiki::Func::checkAccessPermission( 'VIEW',
+        $Foswiki::cfg{DefaultUserWikiName},
+        undef, undef, $this->{test_web} );
+    $this->assert( $access );
+
+    $access =
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        $Foswiki::cfg{DefaultUserWikiName},
+        undef, undef, $this->{test_web} );
+    $this->assert( !$access );
+
+    # Test with null topic - web permissions tested
+    $access =
+      Foswiki::Func::checkAccessPermission( 'VIEW',
+        $Foswiki::cfg{DefaultUserWikiName},
+        undef, '', $this->{test_web} );
+    $this->assert( $access );
+
+    $access =
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        $Foswiki::cfg{DefaultUserWikiName},
+        undef, '', $this->{test_web} );
+    $this->assert( !$access );
+
+    # Test with valid topic - web permissions overridden by topic
+    $access =
+      Foswiki::Func::checkAccessPermission( 'VIEW',
+        $Foswiki::cfg{DefaultUserWikiName},
+        undef, 'WeeblesWobble', $this->{test_web} );
+    $this->assert( $access );
+
+    $access =
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        $Foswiki::cfg{DefaultUserWikiName},
+        undef, 'WeeblesWobble', $this->{test_web} );
+    $this->assert( $access );
+
+    # Test with invalid topic - web permissions applied (Item2380)
+    $access =
+      Foswiki::Func::checkAccessPermission( 'VIEW',
+        $Foswiki::cfg{DefaultUserWikiName},
+        undef, 'WibblesWobble', $this->{test_web} );
+    $this->assert( $access );
+
+    $access =
+      Foswiki::Func::checkAccessPermission( 'CHANGE',
+        $Foswiki::cfg{DefaultUserWikiName},
+        undef, 'WibblesWobble', $this->{test_web} );
+    $this->assert( !$access );
+
 }
 
 sub test_checkAccessPermission {

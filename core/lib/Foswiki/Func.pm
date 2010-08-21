@@ -1099,7 +1099,7 @@ sub checkAccessPermission {
     return 1 unless ($user);
 
     ($web, $topic) = _checkWTA($web, $topic);
-    return 0 unless defined $web && defined $topic;
+    return 0 unless defined $web ;
 
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     $text = undef unless $text;
