@@ -1136,7 +1136,7 @@ sub formatResult {
             $out =~ s/\$summary(?:\(([^\)]*)\))?/
               $topicObject->summariseText( $1, $text, $searchOptions )/ges;
             $out =~ s/\$changes(?:\(([^\)]*)\))?/
-              $topicObject->summariseChanges($1, $revNum)/ges;
+              $topicObject->summariseChanges(Foswiki::Store::cleanUpRevID($1), $revNum)/ges;
             $out =~ s/\$formfield\(\s*([^\)]*)\s*\)/
               displayFormField( $topicObject, $1 )/ges;
             $out =~ s/\$parent\(([^\)]*)\)/

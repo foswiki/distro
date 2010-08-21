@@ -117,7 +117,6 @@ use warnings;
 use Error qw(:try);
 use Assert;
 use Errno 'EINTR';
-use Scalar::Util ();
 
 our $reason;
 our $VERSION = '$Rev$';
@@ -845,6 +844,7 @@ sub loadVersion {
     }
 
     # Is it already loaded?
+    ASSERT( !($rev) or $rev =~ /^\s*\d+\s*/ ) if DEBUG; # looks like a number
     return if ($rev && $this->{_loadedRev} && $rev == $this->{_loadedRev});
     ($this->{_loadedRev}, $this->{_latestIsLoaded})
       = $this->{_session}->{store}->readTopic( $this, $rev );
@@ -3186,10 +3186,13 @@ sub summariseChanges {
 
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
-    $nrev = $this->getLatestRev() unless $nrev and _looks_like_number($nrev);
+    $nrev = $this->getLatestRev() unless $nrev;
 
-    $orev = $nrev - 1 unless defined($orev) and _looks_like_number($orev) and $nrev >= $orev;
+    ASSERT( $nrev =~ /^\s*\d+\s*/ ) if DEBUG; # looks like a number
 
+    $orev = $nrev - 1 unless defined($orev);
+
+    ASSERT( $orev =~ /^\s*\d+\s*/ ) if DEBUG; # looks like a number
     ASSERT( $orev >= 0 ) if DEBUG;
     ASSERT( $nrev >= $orev ) if DEBUG;
 
@@ -3623,15 +3626,6 @@ sub dataDecode {
 
     $datum =~ s/%([\da-f]{2})/chr(hex($1))/gei;
     return $datum;
-}
-
-sub _looks_like_number {
-    if (0 and $] >= 5.008001) {
-        return Scalar::Util::looks_like_number( $_[0] );
-    }
-    else {
-        return (defined $_[0] && $_[0] =~ /^\s*[+-]?\d+\s*$/);
-    }
 }
 
 1;
