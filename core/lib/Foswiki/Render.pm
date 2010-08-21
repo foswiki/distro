@@ -232,7 +232,8 @@ sub renderMoved {
                 $date, $by
         ) . $putBack;
     }
-    return "$prefix$text$suffix";
+    $text = "$prefix$text$suffix" if $text;
+    return $text;
 }
 
 # Add a list item, of the given type and indent depth. The list item may
