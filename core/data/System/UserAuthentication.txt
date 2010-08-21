@@ -76,14 +76,14 @@ Does exactly what it says on the tin. Forget about authentication to make your s
       1 Navigate to the =Login= tab on the =Security and Authentication= panel. Select the =Foswiki::LoginManager::TemplateLogin= login manager.
       1 Navigate to the =Passwords= tab. Select the appropriate =PasswordManager= for your system - the default is =Foswiki::Users::HtPasswdUser=.
       <blockquote class="foswikiHelp">%H% There is also an EXPERT configure setting ={TemplateLogin}{PreventBrowserRememberingPassword}= that you can set to prevent Browsers from remembering username and passwords if you are concerned about public terminal usage.</blockquote>
-   1 Verify that registration works by registering yourself with the [[%SYSTEMWEB%.UserRegistration]] topic. If there are problems, try these troubleshooting tips: %IF{
+%STARTSECTION{"TESTING"}%   1 Verify that registration works by registering yourself with the [[%SYSTEMWEB%.UserRegistration]] topic. If there are problems, try these troubleshooting tips: %IF{
       "'%INSTALLGUIDE%'='1'"
       then="$n      1 If you are reading this from the INSTALL.html file, you can enter [[%SYSTEMWEB%.UserRegistration]] into the 'Jump' box in the top right of any Foswiki page."}%
       1 %STARTSECTION{"SMTPNOTE"}%*Note:* A standard Foswiki installation will not allow any new registrations unless there is a working SMTP configuration%ENDSECTION{"SMTPNOTE"}%
       1 If your !PasswordManager is =HtPasswdUser= (the default), check the =.htpasswd= file is being updated correctly with a new entry. If not, check ={Htpasswd}{FileName}= is correct (under =Security and Authentication= on the =Password= tab in =configure=), and that the webserver user has write permission.
    1 Create a new topic (in [[Sandbox.WebHome][Sandbox]] web for example) to confirm that authentication works.
    1 *Add users to the %USERSWEB%.AdminGroup*. Edit the %USERSWEB%.AdminGroup topic in the %USERSWEB% web to include users that should have administrator status. Read [[InstallationGuide#DefineAdminUser][defining adminstrator user(s)]] for more information.
-   <blockquote class="foswikiHelp"> %X% *This is a very important step*, as users in this group can access _all_ topics, independent of %WIKITOOLNAME% access controls.</blockquote>
+   <blockquote class="foswikiHelp"> %X% *This is a very important step*, as users in this group can access _all_ topics, independent of %WIKITOOLNAME% access controls.</blockquote>%ENDSECTION{"TESTING"}%
 
 AccessControl has more information on setting up access controls.
 
