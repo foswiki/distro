@@ -225,19 +225,19 @@ sub test_render_raw {
 
     ($text, $hdr) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'text');
     $this->assert_equals( "$topic2", $text, "Unexpected output from raw=text"  );
-    $this->assert_matches( qr#^Content-Type: text/plain;#ms, $hdr, "raw=text should return text/plain - got $hdr");
+    $this->assert_matches( qr#^Content-Type: text/plain#ms, $hdr, "raw=text should return text/plain - got $hdr");
 
     ($text, $hdr) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'all');
     $this->assert_matches( qr#$topic2meta$topic2#, $text, "Unexpected output from raw=all"  );
-    $this->assert_matches( qr#^Content-Type: text/plain;#ms, $hdr, "raw=all should return text/plain - got $hdr");
+    $this->assert_matches( qr#^Content-Type: text/plain#ms, $hdr, "raw=all should return text/plain - got $hdr");
 
     ($text,$hdr) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'on');
     $this->assert_matches( qr#.*$topic2txtarea$topic2rawON.*#, $text, "Unexpected output from raw=on"  );
-    $this->assert_matches( qr#^Content-Type: text/html;#ms, $hdr, "raw=on should return text/html - got $hdr");
+    $this->assert_matches( qr#^Content-Type: text/html#ms, $hdr, "raw=on should return text/html - got $hdr");
 
     ($text, $hdr) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'debug');
     $this->assert_matches( qr#.*$topic2txtarea$topic2metaQ$topic2rawON.*#, $text, "Unexpected output from raw=debug" );
-    $this->assert_matches( qr#^Content-Type: text/html;#ms, $hdr, "raw=debug should return text/html - got $hdr");
+    $this->assert_matches( qr#^Content-Type: text/html#ms, $hdr, "raw=debug should return text/html - got $hdr");
 }
 
 
@@ -264,7 +264,7 @@ NotTOAutoLink
 <hr />posttemplate
 HERE
     chomp $topic2plain;
-    $this->assert_matches( qr#^Content-Type: text/plain;#ms, $hdr, "contenttype=text/plain should return text/plain - got $hdr");
+    $this->assert_matches( qr#^Content-Type: text/plain#ms, $hdr, "contenttype=text/plain should return text/plain - got $hdr");
     $this->assert_does_not_match( qr#<(noautolink|nop)>#, $text, "autolink or nop found in text skin" );
     $this->assert_equals( "$topic2plain", $text, "Unexpected output from contentype=text/plain skin=text"  );
 

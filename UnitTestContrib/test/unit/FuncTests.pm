@@ -195,25 +195,23 @@ sub test_getViewUrl {
         $ss = 'view' . $Foswiki::cfg{ScriptSuffix};
         }
 
-    $ss .= '/' if ($ss);
-
     # relative to specified web
     my $result = Foswiki::Func::getViewUrl( $this->{users_web}, "WebHome" );
-    $this->assert_matches( qr!/$ss$this->{users_web}/WebHome!, $result );
+    $this->assert_matches( qr!$ss/$this->{users_web}/WebHome!, $result );
 
     # relative to web in path_info
     $result = Foswiki::Func::getViewUrl( "", "WebHome" );
-    $this->assert_matches( qr!/$ss$this->{test_web}/WebHome!, $result );
+    $this->assert_matches( qr!$ss/$this->{test_web}/WebHome!, $result );
 
     $Foswiki::Plugins::SESSION =
       new Foswiki( undef,
         new Unit::Request( { topic => "Sausages.AndMash" } ) );
 
     $result = Foswiki::Func::getViewUrl( "Sausages", "AndMash" );
-    $this->assert_matches( qr!/${ss}Sausages/AndMash!, $result );
+    $this->assert_matches( qr!${ss}/Sausages/AndMash!, $result );
 
     $result = Foswiki::Func::getViewUrl( "", "AndMash" );
-    $this->assert_matches( qr!/${ss}Sausages/AndMash!, $result );
+    $this->assert_matches( qr!${ss}/Sausages/AndMash!, $result );
     $Foswiki::Plugins::SESSION->finish();
 }
 
