@@ -1286,7 +1286,7 @@ HERE
       Foswiki::Func::checkAccessPermission( 'VIEW',
         $Foswiki::cfg{DefaultUserWikiName},
         undef, '', $this->{test_web} );
-    #$this->assert( $access );
+    $this->assert( $access );
 
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
