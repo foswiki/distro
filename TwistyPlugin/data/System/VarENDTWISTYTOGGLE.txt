@@ -1,0 +1,14 @@
+%META:TOPICINFO{author="ProjectContributor" date="1195487956" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+
+#VarENDTWISTYTOGGLE
+---+++ ENDTWISTYTOGGLE
+*The Twisty closure*
+   * Syntax: =%<nop>ENDTWISTYTOGGLE%=
+      * Will end the most inner unclosed Twisty Toggle section, using the proper tag
+   * Example: =%<nop>ENDTWISTYTOGGLE%=
+   * Related: [[#VarTWISTYTOGGLE][TWISTYTOGGLE]]
+
+
+   * Related: [[VarENDTWISTY][TWISTY]], [[VarTWISTY][ENDTWISTY]], [[VarTWISTYBUTTON][TWISTYBUTTON]], [[VarTWISTYTOGGLE][TWISTYTOGGLE]], [[VarENDTWISTYTOGGLE][ENDTWISTYTOGGLE]], [[VarTWISTYSHOW][TWISTYSHOW]], [[VarTWISTYHIDE][TWISTYHIDE]]
+

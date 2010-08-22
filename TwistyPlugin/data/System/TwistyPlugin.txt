@@ -460,6 +460,13 @@ link="Count: ($percentCALC{$quot$dollarGET(infoCount)$quot}$percent)"
 
 ---++ Syntax
 %INCLUDE{VarTWISTY}%
+%INCLUDE{VarENDTWISTYTOGGLE}%
+%INCLUDE{VarENDTWISTY}%
+%INCLUDE{VarTWISTYBUTTON}%
+%INCLUDE{VarTWISTYHIDE}%
+%INCLUDE{VarTWISTYSHOW}%
+%INCLUDE{VarTWISTYTOGGLE}%
+
 
 #PluginSettings
 ---++ Plugin Settings

@@ -1,5 +1,11 @@
 data/System/TwistyPlugin.txt 0644
 data/System/VarTWISTY.txt 0644
+data/System/VarENDTWISTYTOGGLE.txt 0644
+data/System/VarENDTWISTY.txt 0644
+data/System/VarTWISTYBUTTON.txt 0644
+data/System/VarTWISTYHIDE.txt 0644
+data/System/VarTWISTYSHOW.txt 0644
+data/System/VarTWISTYTOGGLE.txt 0644
 lib/Foswiki/Plugins/TwistyPlugin.pm 0644
 lib/Foswiki/Plugins/TwistyPlugin/TWISTY.pm 0644
 pub/System/TwistyPlugin/twisty.js 0644

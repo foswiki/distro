@@ -1,0 +1,19 @@
+%META:TOPICINFO{author="ProjectContributor" date="1195487956" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+
+#VarTWISTYBUTTON
+---++++ TWISTYBUTTON
+*Shorthand version for TWISTYSHOW &amp; TWISTYHIDE*
+This is useful if both the show and the hide button take the same arguments.
+   * Supported parameters: all parameters supported by [[#VarTWISTYSHOW][TWISTY]], except for =noscript= and =class= (only used for 'toggle' content)
+   * Parameter differences:
+      * =mode=: button mode defaults to span
+   * Syntax: =%<nop>TWISTYBUTTON{id="myid" ... }%=
+   * Supported parameters:
+    | *Parameter* | *Value* | *Description* | *Remark* |
+    | =mode= | ="div"= or ="span"= | Specify if the *Twisty button* will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. | optional, defaults to =&lt;span&gt;= |
+   * Example: =%<nop>TWISTYBUTTON{id="myid" link="more"}%%<nop>TWISTYTOGGLE{id="myid"}%content%<nop>ENDTWISTYTOGGLE%=
+
+
+   * Related: [[VarENDTWISTY][TWISTY]], [[VarTWISTY][ENDTWISTY]], [[VarTWISTYBUTTON][TWISTYBUTTON]], [[VarTWISTYTOGGLE][TWISTYTOGGLE]], [[VarENDTWISTYTOGGLE][ENDTWISTYTOGGLE]], [[VarTWISTYSHOW][TWISTYSHOW]], [[VarTWISTYHIDE][TWISTYHIDE]]
+

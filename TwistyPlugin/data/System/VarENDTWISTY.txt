@@ -1,0 +1,11 @@
+%META:TOPICINFO{author="ProjectContributor" date="1195487956" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+
+#VarENDTWISTY
+---+++ ENDTWISTY
+*Twisty closure, complements the opening TWISTY tag.*
+   * Syntax: =%<nop>ENDTWISTY%=
+
+
+   * Related: [[VarENDTWISTY][TWISTY]], [[VarTWISTY][ENDTWISTY]], [[VarTWISTYBUTTON][TWISTYBUTTON]], [[VarTWISTYTOGGLE][TWISTYTOGGLE]], [[VarENDTWISTYTOGGLE][ENDTWISTYTOGGLE]], [[VarTWISTYSHOW][TWISTYSHOW]], [[VarTWISTYHIDE][TWISTYHIDE]]
+
