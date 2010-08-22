@@ -8,10 +8,10 @@
 %TMPL:DEF{"pagehelp"}%%TMPL:P{"notes"}%%TMPL:END%
 
 
-%TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}% [[%TOPIC%]]%TMPL:END%
+%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Rename or move [_1]" args="[[%TOPIC%]]"}%%TMPL:END%
 
 
-%TMPL:DEF{"changefromtitle"}%---++ %MAKETEXT{"Change from:"}% 
+%TMPL:DEF{"changefromtitle"}%---++ %MAKETEXT{"Change from"}% 
 <nop>%WEB%.%TOPIC%%TMPL:END%
 
 %TMPL:DEF{"changefrom"}%
@@ -19,49 +19,47 @@
 %TMPL:END%
 
 
-%TMPL:DEF{"towebtitle"}%---+++ %MAKETEXT{"To web:"}% %TMPL:END%
+%TMPL:DEF{"towebtitle"}%---+++ %MAKETEXT{"To web"}% %TMPL:END%
 
 %TMPL:DEF{"toweb"}%
 %TMPL:P{"towebtitle"}%
 <p>%TMPL:P{"newweb"}%%TMPL:P{"newwebhelp"}%</p>%TMPL:END%
 
 
-%TMPL:DEF{"totopictitle"}%---+++ %MAKETEXT{"To topic:"}% %TMPL:END%
+%TMPL:DEF{"totopictitle"}%---+++ %MAKETEXT{"To topic"}% %TMPL:END%
 
 %TMPL:DEF{"totopic"}%
 %TMPL:P{"totopictitle"}%
 %TMPL:P{"newtopic"}%%TMPL:P{"newtopichelp"}%%TMPL:END%
 
-%TMPL:DEF{"toattachmenttitle"}%---+++ %MAKETEXT{"To attachment:"}% %TMPL:END%
 
-%TMPL:DEF{"toattachment"}%
-%TMPL:P{"toattachmenttitle"}%
-<p>%TMPL:P{"newattachment"}%%TMPL:P{"newattachmenthelp"}%</p>%TMPL:END%
-
-
-%TMPL:DEF{"renameformsteps"}%%TMPL:P{"changefrom"}%%TMPL:P{"toweb"}%%TMPL:P{"totopic"}%%TMPL:P{"toattachment"}%%TMPL:P{"searchresultsstep"}%%TMPL:END%
+%TMPL:DEF{"renameformsteps"}%<div class="foswikiFormSteps">
+<div class="foswikiFormStep">%TMPL:P{"changefrom"}%</div>
+<div class="foswikiFormStep">%TMPL:P{"toweb"}%</div>
+<div class="foswikiFormStep">%TMPL:P{"totopic"}%</div>%TMPL:P{"searchresultsstep"}%</div>%TMPL:END%
 
 
 %TMPL:DEF{"checkuncheck"}%%TMPL:END%
 
 
-%TMPL:DEF{"updatenote"}%%MAKETEXT{"Checked topics will be updated to point to the new topic location."}%%TMPL:END%
+%TMPL:DEF{"updatenote"}%%IF{"'%SEARCH_COUNT%'=0" then='%MAKETEXT{"No topics to update."}%' else='%MAKETEXT{"Checked topics will be updated to point to the new topic location."}%'}%%TMPL:END%
 
 
-%TMPL:DEF{"searchresultsstep"}%%TMPL:P{"searchresults"}%%TMPL:END%
-
-
-%TMPL:DEF{"searchresults"}%
+%TMPL:DEF{"searchresultsstep"}%<div class="foswikiFormStep foswikiLast">
 ---+++ %MAKETEXT{"Update links"}%
-*%TMPL:P{"updatenote"}%*
-
----++++ %MAKETEXT{"Change links in topics that refer to [_1] in the [_2] Web:" args="[[%TOPIC%]], <nop>%WEB%"}%
+%TMPL:P{"updatenote"}% %IF{"'%SEARCH_COUNT%'=0" then='<!--'}%
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+---++++ %MAKETEXT{"Change links in topics that refer to [_1] in the [_2] Web:" args="<nop>%TOPIC%, <nop>%WEB%"}%
 %LOCAL_SEARCH%
-
----++++ %MAKETEXT{"Change links in topics that refer to [_1] in any Web:" args="[[%WEB%.%TOPIC%]]"}%
+</div>
+<div class="foswikiFormStep foswikiLast">
+---++++ %MAKETEXT{"Change links in topics that refer to [_1] in any Web:" args="<nop>%WEB%.%TOPIC%"}%
 %GLOBAL_SEARCH%
+</div>
+</div>
 %TMPL:P{"checkuncheck"}%
-%TMPL:END%
+</div>%IF{"'%SEARCH_COUNT%'=0" then='-->'}%%TMPL:END%
 
 
 %TMPL:DEF{"notes"}%%TMPL:P{"notegethelp"}%%TMPL:END%

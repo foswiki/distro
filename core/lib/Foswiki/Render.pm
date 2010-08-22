@@ -215,15 +215,11 @@ sub renderMoved {
                         )
                     ),
                     href => $this->{session}->getScriptUrl(
-                        0, 'rename', $topicObject->web, $topicObject->topic,
-                        newweb      => $fromWeb,
-                        newtopic    => $fromTopic,
-                        confirm     => 'on',
-                        nonwikiword => 'checked'
+                        0, 'rename', $topicObject->web, $topicObject->topic
                     ),
                     rel => 'nofollow'
                 },
-                $this->{session}->i18n->maketext('put it back')
+                $this->{session}->i18n->maketext('Put it back...')
               );
         }
         $text = $this->{session}->i18n->maketext(
