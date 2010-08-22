@@ -214,7 +214,7 @@ sub verify_rename {
     print FILE "Test her attachment to me\n";
     close(FILE);
     $user = $testUser2;
-    $this->{session}->{userName} = $user;
+    $this->{session}->{user} = $user;
     $meta->attach(
         name => $attachment,
         user => $user,
