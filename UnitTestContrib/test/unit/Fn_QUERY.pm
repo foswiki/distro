@@ -191,11 +191,42 @@ PONG
         $this->assert_matches(qr/Perl JSON module is not available/, $result );
     } else {
         # Good JSON
-        $this->assert_equals( <<THIS, $result );
-"Woo"
-["whatsnot.gif","World.gif"]
-[{"date":"1266942905","version":"1","name":"whatsnot.gif","size":"4586"},{"date":"1266943219","version":"1","name":"World.gif","size":"2486"}]
-THIS
+        # The keys are not sorted in the JSON output, so a string comparison
+        # that passes on one machine will fail on another.
+        # So we have to convert the JSON to perl and do a deep-comparison
+        # against a perl data structure. 
+
+        my @perlExpected = (
+            "Woo",
+            [
+                "whatsnot.gif",
+                "World.gif"
+            ],
+            [
+                {
+                    "date" => "1266942905",
+                    "version" => "1",
+                    "name" => "whatsnot.gif",
+                    "size" => "4586"
+                },
+                {
+                    "date" => "1266943219",
+                    "version" => "1",
+                    "name" => "World.gif",
+                    "size" => "2486"
+                }
+            ]
+        );
+
+        #
+        my @result = split /\n/, $result;
+        $this->assert_num_equals( scalar(@perlExpected), scalar(@result) );
+        my $json = JSON->new->allow_nonref;
+        for my $index ( 0 .. $#perlExpected ) {
+            my $perlResult = $json->decode( $result[$index] );
+
+            $this->assert_deep_equals( $perlExpected[$index], $perlResult );
+        }
     }
 }
 
