@@ -4,7 +4,12 @@
 # file to '.htaccess' and REPLACE THE FOLLOWING STRINGS WHEREVER YOU SEE
 # THEM IN THIS FILE WITH PATHS SPECIFIC TO YOUR INSTALLATION.
 # Most required values have corresponding items in the  Path Settings section of
-# configure.
+# configure.   The following 4 strings must be updated:
+#
+# {DataDir}
+# {DefaultUrlHost}
+# {ScriptUrlPath}
+# {Administrators}
 #
 # Replace {DataDir} with the full path of the Topic files store (file path, not
 # URL) e.g. /usr/local/foswiki/data   Do not include a trailing slash.  Do not
@@ -29,6 +34,8 @@
 # Replace {Administrators} with a space-separated list of the login
 # name(s) of the person(s) allowed to run the configure script
 # e.g. admin configure root superhero
+# Note that these users must typically be added to .htpasswd manually if
+# Foswiki is not operational enough to register the users.
 #
 # When this file has been completely tailored, complete your configuration at:
 # {DefaultUrlHost}{ScriptUrlPath}/configure
@@ -101,6 +108,8 @@ Options ExecCGI FollowSymLinks
 # The configure script is designed for administrators only.
 # The script itself and the information it reveals can be abused by
 # attackers if not properly protected against public access.
+#  - ErrorDocument should point to apache default - redirecting to a Foswiki 
+#    script may not be functional yet.
 <FilesMatch "configure.*">
 	SetHandler cgi-script
 	Order Deny,Allow
@@ -108,6 +117,7 @@ Options ExecCGI FollowSymLinks
 	Allow from 127.0.0.1, 192.168.1.10
 	Require user {Administrators}
 	Satisfy Any
+	ErrorDocument 401 default
 </FilesMatch>
 
 # These are scripts that might change content. The regular expression uses ".*"
