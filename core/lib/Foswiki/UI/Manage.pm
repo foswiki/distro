@@ -329,39 +329,7 @@ sub _action_create {
       Foswiki::Func::normalizeWebTopicName( $session->{webName},
         $query->param('topic') );
 
-    # Validate topic name
-    $newTopic = Foswiki::Sandbox::untaint(
-        $newTopic,
-        sub {
-            my ($topic) = @_;
-            unless ($topic) {
-                throw Foswiki::OopsException(
-                    'attention',
-                    web    => $newWeb,
-                    topic  => $newTopic,
-                    def    => 'empty_topic_name',
-                    params => undef
-                );
-            }
-            unless (
-                Foswiki::isValidTopicName(
-                    $topic, Foswiki::isTrue( $query->param('nonwikiword') )
-                )
-              )
-            {
-                throw Foswiki::OopsException(
-                    'attention',
-                    web    => $newWeb,
-                    topic  => $newTopic,
-                    def    => 'not_wikiword',
-                    params => [$newTopic]
-                );
-            }
-            return $topic;
-        }
-    );
-
-    # Validate web name
+    # Validate web name first so it can be used in topic oops.
     $newWeb = Foswiki::Sandbox::untaint(
         $newWeb,
         sub {
@@ -376,6 +344,38 @@ sub _action_create {
                 );
             }
             return $web;
+        }
+    );
+
+    # Validate topic name
+    $newTopic = Foswiki::Sandbox::untaint(
+        $newTopic,
+        sub {
+            my ($topic) = @_;
+            unless ($topic) {
+                throw Foswiki::OopsException(
+                    'attention',
+                    web    => $newWeb,
+                    topic  => $topic,
+                    def    => 'empty_topic_name',
+                    params => undef
+                );
+            }
+            unless (
+                Foswiki::isValidTopicName(
+                    $topic, Foswiki::isTrue( $query->param('nonwikiword') )
+                )
+              )
+            {
+                throw Foswiki::OopsException(
+                    'attention',
+                    web    => $newWeb,
+                    topic  => $topic,
+                    def    => 'not_wikiword',
+                    params => [$topic]
+                );
+            }
+            return $topic;
         }
     );
 
