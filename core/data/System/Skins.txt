@@ -151,25 +151,10 @@ The box also understands URLs, e.g. you can type =http://www.google.com/= to jum
 Here is an example form that has a select box and the "Go" box for illustration purposes. You need to have <nop>JavaScript enabled for this to work:
 
 <form name="sample" action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%">
-<table border="0" cellpadding="5" bgcolor="#DDDDDD"><tr><td colspan="2">
-Bare bones header, for demo only
-</td></tr><tr><td>
-Navigate:
-</td><td>
-<select name="sel" onchange="this.form.topic.value=this.options[this.selectedIndex].value; this.form.submit()">
-<option selected="selected" value="">...</option>
-<option value="http://foswiki.org/">Intranet home</option>
-<option value="%USERSWEB%.%WIKIUSERSTOPIC%">Employee index</option>
-<option value="%USERSWEB%.%HOMETOPIC%">%USERSWEB% web</option>
-<option value="%SYSTEMWEB%.%HOMETOPIC%">%SYSTEMWEB% web</option>
-<option value="http://www.google.com/">Google</option>
-<option value="http://www.yahoo.com/">Yahoo!</option>
-</select>
-</td></tr><tr><td>
-Jump:
-</td><td>
-<input type="text" name="topic" size="16" />
-</td></tr></table>
+%TABLE{databg="#ffffff" tableframe="box" tablerules="none"}%
+| Bare bones header, for demo only ||
+| Navigate: | <select class="foswikiSelect" name="sel" onchange="this.form.topic.value=this.options[this.selectedIndex].value; this.form.submit()"><option selected="selected" value="">choose</option><option value="http://foswiki.org/">Intranet home</option><option value="%USERSWEB%.%WIKIUSERSTOPIC%">Employee index</option><option value="%USERSWEB%.%HOMETOPIC%">%USERSWEB% web</option><option value="%SYSTEMWEB%.%HOMETOPIC%">%SYSTEMWEB% web</option><option value="http://www.google.com/">Google</option><option value="http://www.yahoo.com/">Yahoo!</option></select> |
+| Jump: | <input class="foswikiInputField" type="text" name="topic" size="16" /> |
 </form> 
 
 *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous, ={AllowRedirectUrl}=).
@@ -219,13 +204,17 @@ The =ATTACH:row= macros are expanded for each file in the attachment table, usin
 
 See Foswiki:Extensions/SkinPackagingHowTo and Foswiki:Extensions/SkinDeveloperFAQ
 
-For your own skin you are encouraged to show a small 80x31 pixel <a href="http://foswiki.org/"><img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif" alt="This site is powered by Foswiki" width="80" height="15" title="This site is powered by Foswiki" border="0" /></a> logo at the bottom of your skin:
+For your own skin you are encouraged to show a small 88x31 pixel logo at the bottom of your skin:
 
 %JQREQUIRE{"chili"}%<verbatim class="tml"><a href="http://foswiki.org/">
      <img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif"\
           alt="This site is powered by Foswiki" width="80" height="15"\
           title="This site is powered by Forwiki" border="0" />
 </a></verbatim>
+
+Generating:
+
+<a href="http://foswiki.org/"><img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif" alt="This site is powered by Foswiki" width="88" height="31" title="This site is powered by Foswiki" border="0" /></a>
 
 The standard %WIKITOOLNAME% skins show the logo in the =%<nop>WEBCOPYRIGHT%=.
 
