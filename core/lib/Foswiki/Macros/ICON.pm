@@ -10,6 +10,7 @@ use Foswiki::Macros::ICONURL ();
 # _ICONSPACE to reference the meta object of the %ICONTOPIC%,
 # _EXT2ICON to record the mapping of file extensions to icon names
 # _KNOWNICON to record the mapping for icons already used
+# _ICONSTEMPLATE to reference the 'icons' template
 
 # Maps from a "filename or extension" to the path of the
 # attachment that contains the image for that file type.
