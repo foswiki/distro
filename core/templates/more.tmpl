@@ -102,8 +102,8 @@
 <h3>%MAKETEXT{"Select topic parent"}%</h3>
 <p>%IF{"defined pickparent" then="<select name='topicparent' size='10' class='foswikiSelect' tabindex='12'>$percntTOPICLIST{$quot<option $marker value='$name'>$name</option>$quot separator=$quot$quot selection=$quot$percntMETASEARCH{type=$quotparent$quot}$percnt}$percnt<option value=$quotnone$quot>$percntMAKETEXT{$quot(no parent, orphaned topic)$quot}$percnt</option></select>" else="<input type='text' name='topicparent' size='30' class='foswikiInputField' />&nbsp;<span class='foswikiUnvisited'><a href='$percntSCRIPTURLPATH{view}$percnt/$percntWEB$percnt/$percntTOPIC$percnt?template=more;$percntQUERYSTRING$percnt;pickparent=1#SetParent'>%MAKETEXT{"Pick from a list"}%</a></span>"}%</p>
 </div>
-<div class="foswikiFormStep foswikiLast">
-<input type='submit' class='foswikiButton' value='%MAKETEXT{"Set new parent"}%' />
+<div class="foswikiFormStep">
+<p><input type='submit' class='foswikiButton' value='%MAKETEXT{"Set new parent"}%' /></p>
 </div>
 </div>
 </form>%TMPL:END%
