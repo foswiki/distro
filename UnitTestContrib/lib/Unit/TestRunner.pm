@@ -16,8 +16,14 @@ use Devel::Symdump;
 use Error qw(:try);
 use File::Spec;
 
-#use Devel::Leak::Object qw{ GLOBAL_bless };
-#$Devel::Leak::Object::TRACKSOURCELINES = 1;
+sub CHECKLEAK {0}
+BEGIN {
+    if (CHECKLEAK) {
+        eval "use Devel::Leak::Object qw{ GLOBAL_bless };";
+        die $@ if $@;
+        $Devel::Leak::Object::TRACKSOURCELINES = 1;
+    }
+}
 
 sub new {
     my $class = shift;
@@ -359,7 +365,7 @@ sub runOne {
     }
     foreach my $test (@tests) {
 
-        #Devel::Leak::Object::checkpoint();
+        Devel::Leak::Object::checkpoint() if CHECKLEAK;
         print "\t$test\n";
         $action .= "\n# $test\n    ";
         $tester->set_up();
