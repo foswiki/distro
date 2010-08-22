@@ -2039,6 +2039,7 @@ sub finish {
     #    print STDERR "\t$i\n" unless defined $macros{$i};
     #}
     $_->finish() foreach values %{ $this->{forms} };
+    undef $this->{forms};
     $this->{plugins}->finish() if $this->{plugins};
     undef $this->{plugins};
     $this->{users}->finish() if $this->{users};
@@ -2070,7 +2071,10 @@ sub finish {
 
     undef $this->{_zones};
     undef $this->{_renderZonePlaceholder};
+
     undef $this->{request};
+    undef $this->{cgiQuery};
+
     undef $this->{digester};
     undef $this->{urlHost};
     undef $this->{web};
@@ -2080,6 +2084,7 @@ sub finish {
     undef $this->{_ICONSPACE};
     undef $this->{_EXT2ICON};
     undef $this->{_KNOWNICON};
+    undef $this->{_ICONSTEMPLATE};
     undef $this->{context};
     undef $this->{remoteUser};
     undef $this->{requestedWebName};    # Web name before renaming
@@ -2089,6 +2094,15 @@ sub finish {
     undef $this->{response};
     undef $this->{evaluating_if};
     undef $this->{_addedToHEAD};
+    undef $this->{sandbox};
+    undef $this->{evaluatingEval};
+
+    undef $this->{DebugVerificationCode}; # from Foswiki::UI::Register
+
+    if (DEBUG) {
+        my $remaining = join ',', grep {defined $this->{$_}} keys %$this;
+        ASSERT(0, "Fields with defined values in ".ref($this)."->finish(): ". $remaining) if $remaining;
+    }
 }
 
 =begin TML
