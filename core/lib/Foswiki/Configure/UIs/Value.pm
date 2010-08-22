@@ -96,8 +96,8 @@ sub renderHtml {
         {
             $defaultDisplayValue ||= '0';
         }
-        $valueString =~ s/\'/\\'/go;
-        $valueString =~ s/\n/\\n/go;
+        #$valueString =~ s/\'/\\'/go;
+        #$valueString =~ s/\n/\\n/go;
         $valueString = $this->urlEncode($valueString);
         $resetToDefaultLinkText .= <<HERE;
 <a href='#' title='$defaultDisplayValue' class='$value->{typename} configureDefaultValueLink' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$valueString')"><span class="configureDefaultValueLinkLabel">&nbsp;</span><span class='configureDefaultValueLinkValue'>$defaultDisplayValue</span></a>

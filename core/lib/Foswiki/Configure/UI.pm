@@ -316,7 +316,7 @@ URL encode a value.
 
 sub urlEncode {
     my ( $this, $value ) = @_;
-    $value =~ s/([^0-9a-zA-Z-_.:~!*'\/])/'%'.sprintf('%02x',ord($1))/ge;
+    $value =~ s/([^0-9a-zA-Z-_.:~!*\/])/'%'.sprintf('%02x',ord($1))/ge;
     return $value;
 }
 
