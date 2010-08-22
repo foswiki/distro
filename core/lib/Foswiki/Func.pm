@@ -1546,7 +1546,7 @@ sub saveTopic {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     ( $web, $topic ) = _validateWTA( $web, $topic );
     my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic, $text );
+      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
 
     unless ( $topicObject->haveAccess('CHANGE') ) {
         throw Foswiki::AccessControlException( 'CHANGE',
@@ -1554,6 +1554,9 @@ sub saveTopic {
             $web, $topic, $Foswiki::Meta::reason );
     }
 
+    # Set the new text and meta, now that access to the existing topic
+    # is verified
+    $topicObject->text( $text );
     $topicObject->copyFrom($smeta) if $smeta;
     return $topicObject->save(%$options);
 }
