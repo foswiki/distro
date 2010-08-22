@@ -3493,25 +3493,15 @@ sub _renderZones {
     my $headZone = _renderZone( $this, 'head', { chomp => "on" } );
     $text =~ s!(</head>)!$headZone\n$1!i if $headZone;
 
-    # get the body zone and insert it at the end of the </body>
+    # Get the body zone and insert it at the end of the </body> if
+    # {OptimizePageLayout}
     # SMELL: Item9480 - can't trust that _renderzone(head) above has truly
     # flushed both body and head zones empty when {OptimizePageLayout} = 0.
-    my $bodyZone;
+    my $bodyZone = _renderZone( $this, 'body', { chomp => "on" } );
     if ( $Foswiki::cfg{OptimizePageLayout} ) {
-        _renderZone( $this, 'body', { chomp => "on" } );
-    }
-
-    if ($bodyZone) {
-
-        # Unless optimize mode is enabled, or the body zone has been
-        # explicitly expanded by %RENDERZONE{"body"}%, the body zone
-        # is appended to the head.
-        unless ( $Foswiki::cfg{OptimizePageLayout} ) {
-            $text =~ s!(</head>)!$bodyZone\n$1!i;
-        }
-        else {
-            $text =~ s!(</body>)!$bodyZone\n$1!i;
-        }
+        $text =~ s!(</body>)!$bodyZone\n$1!i;
+    } else {
+        $text =~ s!(</head>)!$bodyZone\n$1!i;
     }
 
     chomp($text);
