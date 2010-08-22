@@ -465,6 +465,10 @@ WARN
             $Foswiki::cfg{HomeTopicName} )
         {
             ( $w, $t ) = $session->normalizeWebTopicName( $web, $test );
+            # Validate topic name
+            $t = Foswiki::Sandbox::untaint(
+                $t, \&Foswiki::Sandbox::validateTopicName
+            );
             last if ( $session->topicExists( $w, $t ) );
         }
         my $viewURL = $session->getScriptUrl( 1, 'view', $w, $t );
