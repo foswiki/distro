@@ -218,10 +218,10 @@ a.foswikiButton,a.foswikiButton:hover,a.foswikiButton:link:active,a.foswikiButto
 }
 
 .foswikiNotification {
-	background-color:#fff7e7;
-	padding:1em;
-	border:1px solid #fbad17;
 	margin:1em 0;
+	padding:1em;
+	background-color:#fff7e7;
+	border:1px solid #fbad17;
 }
 .foswikiNotification,
 .foswikiNotification h2,

@@ -211,7 +211,7 @@ td {
 }
 th {
 	font-weight:normal;
-	background-color:#f1f1f1;
+	background-color:#f4f6f6;
 	white-space:nowrap;
 }
 td {
@@ -598,4 +598,15 @@ div.configureMessageBox {
 .foswikiImage a:hover img {
    border-color:#06c;
    background:#fff;
+}
+
+
+.foswikiNotificationGood {
+	margin:1em 0;
+	padding:1em;
+	background:#fff;
+	border:1px solid #91ee85;
+}
+.foswikiNotificationGood .configureChangeList {
+	margin:1em 0;
 }

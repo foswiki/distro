@@ -561,6 +561,7 @@ sub _screenAuthorize {
 # After authentication, the screen that shows the changes.
 sub _screenFeedback {
     my ($messageType) = @_;
+    
     my $valuer =
       new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
     my %updated;
@@ -779,9 +780,8 @@ sub _actionConfigure {
     my $ui = _checkLoadUI( 'Root', $root );
     return '' unless $ui;
 
-    # Set the save messages into the introduction panel if any.
-    $ui->messages($messages) if ($messages);
-
+	my $uiMessages = $messages ? $messages : undef;
+	
     # Visit the model and generate
     $ui->{controls} = new Foswiki::Configure::GlobalControls();
     $contents .= $ui->createUI( $root, $valuer );
@@ -803,6 +803,8 @@ sub _actionConfigure {
         {
             'time' => $time,    # use time to make sure we never allow cacheing
             'formAction' => $scriptName,
+            'messages' => $uiMessages,
+            'good' => $badLSC ? '' : 'Good',
         }
     );
 

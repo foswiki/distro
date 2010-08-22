@@ -595,6 +595,9 @@ $(document).ready(function() {
 			$(row).removeClass('configureExpert');
 		}
 	});
+	$("#closeMessages").click(function() {
+		$("#messages").hide();
+	});
 
 	toggleExpertsMode( getUrlParam('expert') );
 	toggleInfoMode();
