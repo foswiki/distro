@@ -265,8 +265,9 @@ Fail the test unless $got eq $expected. $message is optional.
 
 sub assert_str_equals {
     my ( $this, $expected, $got, $mess ) = @_;
-    $this->assert_not_null($expected);
-    $this->assert_not_null($got);
+    $this->assert_not_null( $expected, "Expected value may not be null" );
+    $this->assert_not_null( $got,
+        $mess || "Expected:'$expected'\n But got null value\n" );
     $this->assert( $expected eq $got,
         $mess || "Expected:'$expected'\n But got:'$got'\n" );
 }
@@ -281,8 +282,9 @@ Fail the test if $got eq $expected. $message is optional.
 
 sub assert_str_not_equals {
     my ( $this, $expected, $got, $mess ) = @_;
-    $this->assert_not_null($expected);
-    $this->assert_not_null($got);
+    $this->assert_not_null($expected, "Expected value may not be null");
+    $this->assert_not_null( $got,
+        $mess || "Expected:'$expected'\n But got null value\n" );
     $this->assert( $expected ne $got,
         $mess || "Expected:'$expected'\n And got:'$got'\n" );
 }
@@ -297,8 +299,9 @@ Fail the test if $got == $expected. $message is optional.
 
 sub assert_num_equals {
     my ( $this, $expected, $got, $mess ) = @_;
-    $this->assert_not_null($expected);
-    $this->assert_not_null($got);
+    $this->assert_not_null( $expected, "Expected value may not be null" );
+    $this->assert_not_null( $got,
+        $mess || "Expected:'$expected'\n But got null value\n" );
     $this->assert( $expected == $got,
         $mess || "Expected:'$expected'\n But got:'$got'\n" );
 }
@@ -313,8 +316,9 @@ Fail the test if $got != $expected. $message is optional.
 
 sub assert_num_not_equals {
     my ( $this, $expected, $got, $mess ) = @_;
-    $this->assert_not_null($expected);
-    $this->assert_not_null($got);
+    $this->assert_not_null( $expected, "Expected value may not be null" );
+    $this->assert_not_null( $got,
+        $mess || "Expected:'$expected'\n But got null value\n" );
     $this->assert( $expected != $got,
         $mess || "Expected:'$expected'\n But got:'$got'\n" );
 }
@@ -329,8 +333,9 @@ Fail the test unless $got =~ /$expected/. $message is optional.
 
 sub assert_matches {
     my ( $this, $expected, $got, $mess ) = @_;
-    $this->assert_not_null($expected);
-    $this->assert_not_null($got);
+    $this->assert_not_null( $expected, "Expected value may not be null" );
+    $this->assert_not_null( $got,
+        $mess || "Expected:'$expected'\n But got null value\n" );
     if ( $] < 5.010 ) {
 
         # See perl bug http://rt.perl.org/rt3/Public/Bug/Display.html?id=22354
@@ -357,8 +362,9 @@ Fail the test if $got !~ /$expected/ undef. $message is optional.
 
 sub assert_does_not_match {
     my ( $this, $expected, $got, $mess ) = @_;
-    $this->assert_not_null($expected);
-    $this->assert_not_null($got);
+    $this->assert_not_null( $expected, "Expected value may not be null" );
+    $this->assert_not_null( $got,
+        $mess || "Expected:'$expected'\n But got null value\n" );
     if ( $] < 5.010 ) {
 
         # See perl bug http://rt.perl.org/rt3/Public/Bug/Display.html?id=22354
