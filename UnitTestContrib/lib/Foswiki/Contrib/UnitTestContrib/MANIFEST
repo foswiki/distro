@@ -27,7 +27,6 @@ test/unit/ExceptionTests.pm 0644
 test/unit/ExpandMacrosTests.pm 0644
 test/unit/DependencyTests.pm 0644
 test/unit/Fn_ENCODE.pm 0644
-test/unit/Fn_FOREACH.pm 0644
 test/unit/Fn_FORMFIELD.pm 0644
 test/unit/Fn_GROUPINFO.pm 0644
 test/unit/Fn_GROUPS.pm 0644
@@ -37,6 +36,7 @@ test/unit/Fn_INCLUDE.pm 0644
 test/unit/Fn_NOP.pm 0644
 test/unit/Fn_QUERY.pm 0644
 test/unit/Fn_QUERYPARAMS.pm 0644
+test/unit/Fn_RELIST.pm 0644
 test/unit/Fn_REVINFO.pm 0644
 test/unit/Fn_SCRIPTURL.pm 0644
 test/unit/Fn_SEARCH.pm 0644

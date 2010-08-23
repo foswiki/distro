@@ -127,7 +127,7 @@ sub test_nonDelayedExpansionInline {
     my $this = shift;
 
     my $result = $this->_expand(<<'END');
-%FOREACH{"OneHump,TwoEyes,ThreeTeeth" format="%ENCODE{"%EXPAND{"%SPACEOUT{"$topic"}%"}%"}%" separator=","}%
+%RELIST{"OneHump,TwoEyes,ThreeTeeth" format="%ENCODE{"%EXPAND{"%SPACEOUT{"$topic"}%"}%"}%" separator=","}%
 END
     $this->assert_str_equals("%24topic,%24topic,%24topic\n", $result);
 }
@@ -136,7 +136,7 @@ sub test_delayedExpansionInline {
     my $this = shift;
 
     my $result = $this->_expand(<<'END');
-%FOREACH{"OneHump,TwoEyes,ThreeTeeth" format="$percntSPACEOUT{\"$topic\"}$percnt" separator=","}%
+%RELIST{"OneHump,TwoEyes,ThreeTeeth" format="$percntSPACEOUT{\"$topic\"}$percnt" separator=","}%
 END
     $this->assert_str_equals("One Hump,Two Eyes,Three Teeth\n", $result);
 }
