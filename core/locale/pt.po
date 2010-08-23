@@ -8,13 +8,15 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2008-12-28 15:21-0200\n"
-"Last-Translator: carlinhos cecconi <carlinux@terra.com.br>\n"
+"PO-Revision-Date: 2009-10-17 18:05+0200\n"
+"Last-Translator: Rui Procopio <rui.procopio@gmail.com>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"Language: pt\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:480
@@ -45,12 +47,12 @@ msgstr "%1"
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
 msgid "%1 - Registration failure for %2 (%3)"
-msgstr "%1 - Falha ao registrar %2 (%3)"
+msgstr "%1 - Falha ao registar %2 (%3)"
 
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
-msgstr "%1 - Registro de %2 (%3)"
+msgstr "%1 - Registo de %2 (%3)"
 
 #: PatternSkin/templates/view.pattern.tmpl:41
 msgid "%1 Web"
@@ -67,24 +69,24 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
-msgstr "%1 tem uma lista dos outros usuários do Foswiki."
+msgstr "%1 tem uma lista de outros utilizadores do Foswiki."
 
 #: core/templates/messages.tmpl:528
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
 msgstr ""
-"%1 está editando por %2 e seu tempo de edição preferencial ainda está ativo "
-"para outros %3."
+"%1 editou/alterou o tópico %2, e ainda faltam %3 para terminar o tempo de "
+"edição alocado"
 
 #: core/templates/registerfailednotremoved.tmpl:10
 #: core/templates/registernotifyadmin.tmpl:10
 msgid "%1 has been registered with e-mail %2"
-msgstr "%1 foi registrado com o e-mail %2"
+msgstr "%1 foi registado com o e-mail %2"
 
 #: core/templates/validate.tmpl:26
 msgid "%1 has received a suspicious change request from your browser."
-msgstr ""
+msgstr "%1 recebeu um pedido suspeito do seu browser."
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -100,12 +102,12 @@ msgstr "%1 está autenticado nesse momento"
 
 #: core/templates/messages.tmpl:433
 msgid "%1 is currently set to %2"
-msgstr "%1 atualmente tem o valor %2"
+msgstr "%1 actualmente tem o valor %2"
 
 #: core/templates/messages.tmpl:526
 #, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 está editando %2."
+msgstr "%1 está a editar %2."
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
@@ -127,7 +129,7 @@ msgstr "%1 é o tópico padrão para remover anexos"
 
 #: core/templates/messages.tmpl:534
 msgid "%1 may still be editing %2."
-msgstr "%1 pode ainda estar editando %2."
+msgstr "%1 pode ainda estar a editar %2."
 
 #: core/data/System/WebChanges.txt:3
 #, fuzzy
@@ -157,7 +159,7 @@ msgstr "O tópico %1 não existe"
 
 #: core/templates/registerfailedremoved.tmpl:10
 msgid "%1 tried to register with e-mail %2"
-msgstr "%1 tentou registrar com o e-mail %2"
+msgstr "%1 tentou registar com o e-mail %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
 #: core/lib/Foswiki/Render.pm:229
@@ -195,9 +197,8 @@ msgid "(%1 login)"
 msgstr "(%1 login)"
 
 #: core/templates/validate.tmpl:6
-#, fuzzy
 msgid "(%1 validation)"
-msgstr "(%1 login)"
+msgstr "(Validação de %1)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:3 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
@@ -362,12 +363,12 @@ msgid ""
 "before registering."
 msgstr ""
 "*Importante:* as informações fornecidas nesse formulário serão armazenadas "
-"num banco de dados no servidor do Foswiki. Este banco de dados é acessível "
+"numa base de dados no servidor do Foswiki. Esta base de dados é acessível "
 "por qualquer pessoa que tenha permissão de administrar o servidor pela web "
 "(porém as senhas serão criptografadas e os endereços de e-mail ofuscados "
 "para evitar SPAM). Seu país, ou o país onde o servidor está hospedado, pode "
-"ter Leis de Proteção de Dados disciplinando as formas de manutenção desse "
-"tipo de banco de dados. Se tiver dúvida e quiser obter detalhes sobre a "
+"ter Leis de Protecção de Dados disciplinando as formas de manutenção desse "
+"tipo de base de dados. Se tiver dúvida e quiser obter detalhes sobre a "
 "Política de Proteção de Dados desse servidor Foswiki,  contate %1 antes de "
 "se registrar."
 
@@ -1671,8 +1672,8 @@ msgstr "Esqueci minha senha"
 #: core/data/System/WebPreferences.txt:33
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
 msgstr ""
-"Idéias, solicitações, problemas com relação ao %1? <a href='%2'>Nos dê um "
-"retorno</a>"
+"Ideias, solicitações, problemas em relação ao %1? <a href='%2'>Por favor "
+"informe-nos</a>"
 
 #: core/templates/messages.tmpl:431
 #, fuzzy
@@ -1686,25 +1687,25 @@ msgstr ""
 
 #: core/templates/messages.tmpl:360
 msgid "If this line isn't present see _upgrade_ section below"
-msgstr "Se esta linha não estiver presente veja a seção _atualização_ abaixo"
+msgstr "Se esta linha não estiver presente veja a secção _actualização_ abaixo"
 
 #: core/templates/messages.tmpl:354
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr ""
-"Se esse tópico estiver faltando, crie-o, do contrário verifique-o procurando "
-"por erros."
+"Se esse tópico não existir crie-o, caso contrário verifique se o tópico tem "
+"erros."
 
 #: core/templates/messages.tmpl:448
 msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
 "correct parameters."
 msgstr ""
-"Se você estiver desenvolvendo uma aplicação Foswiki, consulte %1 para uma "
-"descrição correta dos parâmetros."
+"Se estiver a desenvolver uma aplicação Foswiki, consulte %1 para uma "
+"descrição correcta dos parâmetros."
 
 #: core/templates/validate.tmpl:41
 msgid "If you are unsure what this means, read:"
-msgstr ""
+msgstr "Se não tem a certeza do que isto quer dizer, leia:"
 
 #: core/templates/messages.tmpl:585
 msgid "If you came here by clicking on a question mark link"
@@ -1726,8 +1727,8 @@ msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
 "using your mail address %3. Contact %4 if this is in error."
 msgstr ""
-"Se você recebeu esse e-mail por engano: alguém (%1) se registrou no sítio %2 "
-"usando seu endereço de e-mail %3. Contate %4 se este erro aconteceu."
+"Se você recebeu esse e-mail por engano: alguém (%1) registrou-se no sítio %2 "
+"usando seu endereço de e-mail %3. Contacte %4 se este erro aconteceu."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "If you have any questions about registration, send an e-mail to %1."
@@ -1739,19 +1740,18 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:74
 msgid "If you have any questions, please contact %1"
-msgstr "Se você tiver qualquer dúvida, contate %1"
+msgstr "Se você tiver qualquer dúvida, contacte %1"
 
 #: core/data/System/VarMAKETEXT.txt:18
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
-msgstr "Se você tiver qualquer dúvida, contate %1."
+msgstr "Se você tiver qualquer dúvida, contacte %1."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:150
 #: core/templates/registernotify.tmpl:25
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
-"Se você não tiver registrado uma senha ainda ou se quiser restaurá-la, vá "
-"para: %1"
+"Se ainda não definiu uma senha, ou se pretende criar uma nova, vá para: %1"
 
 #: core/templates/messages.tmpl:446
 msgid ""
@@ -2355,11 +2355,11 @@ msgstr "Preferências para"
 
 #: core/templates/validate.tmpl:38
 msgid "Press Cancel otherwise."
-msgstr ""
+msgstr "Caso contrário seleccione Cancel."
 
 #: core/templates/validate.tmpl:37
 msgid "Press OK to confirm that this change was intentional."
-msgstr ""
+msgstr "Seleccione OK para confirmar que esta alteração é intencional."
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
@@ -2527,9 +2527,8 @@ msgid "Replace form..."
 msgstr "Trocar formulário..."
 
 #: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
-#, fuzzy
 msgid "Request Validation"
-msgstr "Registro"
+msgstr "Pedido de Validação"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2999,7 +2998,7 @@ msgstr "A web %1 do Foswiki, Free and Open Source Wiki."
 
 #: core/templates/messages.tmpl:440
 msgid "The =%1= script can only be called with POST method."
-msgstr ""
+msgstr "O script =%1= só pode ser chamado com o método POST"
 
 #: core/templates/messages.tmpl:163
 msgid "The Administrator has disabled new user registration."
@@ -3140,6 +3139,8 @@ msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
 msgstr ""
+"Existe o risco de alguém estar a a usar a sua identidade para mudar o "
+"conteúdo de %1 sem o seu conhecimento."
 
 #: core/templates/messages.tmpl:359
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -3235,7 +3236,7 @@ msgstr "Isto necessita que a definição do formulário esteja presente."
 
 #: core/data/System/DefaultPreferences.txt:40
 msgid "This site is powered by Foswiki"
-msgstr ""
+msgstr "Este sitio é suportado pelo Foswiki"
 
 #: core/templates/messages.tmpl:302
 msgid "This site requires at least %1 character passwords"
@@ -3555,7 +3556,7 @@ msgstr "Atenção"
 
 #: core/templates/validate.tmpl:20
 msgid "Warning! Confirmation required"
-msgstr ""
+msgstr "Aviso! Confirmação necessária "
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 msgid "Warning: 'include' topic does not exist!"
@@ -3575,9 +3576,8 @@ msgstr ""
 "contem caracteres ilegais."
 
 #: core/templates/messages.tmpl:552
-#, fuzzy
 msgid "Warning: Can't find named section %3 in topic %1.%2"
-msgstr "Aviso: tópico %1.%2 não encontrado"
+msgstr "Aviso: Secção %3 não foi encontrada no tópico %1.%2 "
 
 #: core/templates/messages.tmpl:551
 msgid "Warning: Can't find topic %1.%2"
@@ -3598,9 +3598,8 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Aviso: Esse sítio não permite %<nop>INCLUDE% de URLs"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
-#, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "AVISO: o tópico para inclusão não existe"
+msgstr "AVISO: o tópico \\'incluído\\' não existe"
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:3
 msgid "Webs"
@@ -4219,7 +4218,7 @@ msgstr "ver"
 
 #: core/templates/validate.tmpl:43
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "Porque pedimos a confirmação"
 
 #~ msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
 #~ msgstr ""
@@ -4232,7 +4231,7 @@ msgstr ""
 #~ msgstr "%1 - introdução ao Foswiki"
 
 #~ msgid "%1 - try out Foswiki on your own"
-#~ msgstr "%1 - experimente o Foswiki em seu próprio ambiente"
+#~ msgstr "%1 - experimente você mesmo o Foswiki"
 
 #~ msgid "%1 - view a short introductory presentation on Foswiki for beginners"
 #~ msgstr "%1 - veja uma pequena apresentação do Foswiki para iniciantes"
@@ -4244,10 +4243,10 @@ msgstr ""
 #~ msgstr "%1 para mudar sua senha"
 
 #~ msgid "%1 is a list of Foswiki user documentation"
-#~ msgstr "%1 é uma lista com documentação de usuário do Foswiki"
+#~ msgstr "%1 é uma lista com documentação de utilizador do Foswiki"
 
 #~ msgid "%1 lists all Foswiki user tools"
-#~ msgstr "%1 lista todas as ferramentas de usuários do Foswiki."
+#~ msgstr "%1 lista todas as ferramentas de utilizadores do Foswiki."
 
 #~ msgid "(how you log in) LoginName:"
 #~ msgstr ""
@@ -4326,8 +4325,8 @@ msgstr ""
 #~ "If you already know the name of the topic, enter the name of the topic "
 #~ "into the [[%1][Jump box]] at the top"
 #~ msgstr ""
-#~ "Se você já sabe o nome do tópico, digite o nome dele na caixa [[%1]"
-#~ "[\"Pular para:\"]] no topo da página"
+#~ "Se conhece o nome do tópico, digite-o na caixa de texto [[%1][\"Ir para:"
+#~ "\"]] no topo da página"
 
 #~ msgid "List all topics in the %1 web in alphabetical order"
 #~ msgstr "Listar todos os tópicos na web %1 em ordem alfabética"

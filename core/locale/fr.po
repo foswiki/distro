@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-23 13:55+0200\n"
+"PO-Revision-Date: 2009-07-17 14:01+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1551,7 +1551,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:157
 msgid "Get notified on changes on this search"
-msgstr "Recevoir un email lorsque le résultat de cette recherche change"
+msgstr "Etre informé lorsque le résultat de cette recherche change"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
 #, fuzzy
@@ -3696,8 +3696,8 @@ msgid ""
 msgstr ""
 "pour pouvoir réinitialiser votre mot de passe, vous *devez* avoir fourni au "
 "moins une adresse e-mail valide lors de votre inscription. Si aucune des "
-"adresses que vous avez fourni à ce moment-là n'est valide, et que vous avez "
-"oublié votre mot de passe, contactez %1."
+"adresses que vous avez fournies à ce moment-là n'est valide, et que vous "
+"avez oublié votre mot de passe, contactez %1."
 
 #: core/templates/messages.tmpl:272
 msgid "You are already registered"
@@ -4554,7 +4554,8 @@ msgstr "pourquoi il vous est demandé de confirmer"
 
 #~ msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
 #~ msgstr ""
-#~ "title='Modifier le code source de cette page' accesskey='w'>Modifier (&w)"
+#~ "title='Modifier le code source de cette page' accesskey='w'>Modifier "
+#~ "source (&w)"
 
 #~ msgid "Edit table"
 #~ msgstr "Modifier le tableau"

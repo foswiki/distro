@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-19 00:24+0200\n"
+"PO-Revision-Date: 2009-09-19 17:59+0200\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "MIME-Version: 1.0\n"
@@ -86,6 +86,8 @@ msgstr "%1 wurde mit der E-Mail %2 registriert"
 #: core/templates/validate.tmpl:26
 msgid "%1 has received a suspicious change request from your browser."
 msgstr ""
+"%1 hat eine als verdächtig eingestufte Änderungsanfrage von Ihrem Browser "
+"erhalten."
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -1554,7 +1556,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:157
 msgid "Get notified on changes on this search"
-msgstr "Bei Änderungen bezüglicher dieser Suche benachrichtigt werden"
+msgstr "Bei Änderungen bezüglich dieser Suche benachrichtigt werden"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
 #, fuzzy
@@ -1711,7 +1713,7 @@ msgstr ""
 
 #: core/templates/validate.tmpl:41
 msgid "If you are unsure what this means, read:"
-msgstr ""
+msgstr "Bei Unklarheiten können Sie hier mehr erfahren: "
 
 #: core/templates/messages.tmpl:585
 msgid "If you came here by clicking on a question mark link"
@@ -2368,11 +2370,11 @@ msgstr "Einstellungen für"
 
 #: core/templates/validate.tmpl:38
 msgid "Press Cancel otherwise."
-msgstr ""
+msgstr "Wählen Sie ansonsten Abbrechen."
 
 #: core/templates/validate.tmpl:37
 msgid "Press OK to confirm that this change was intentional."
-msgstr ""
+msgstr "Bitte bestätigen Sie mit OK, wenn diese Änderung beabsichtigt ist."
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
@@ -2457,7 +2459,7 @@ msgstr "Der Registrierungs Code kann nur einmal verwendet werden."
 
 #: core/data/System/WebSearch.txt:116
 msgid "Regular expression search"
-msgstr "Mit regulären Ausdrücke suchen"
+msgstr "Mit regulären Ausdrücken suchen"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
@@ -3161,6 +3163,8 @@ msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
 msgstr ""
+"Es besteht ein Risiko, dass jemand versucht, unter Ihrer Identität und ohne "
+"Ihr Wissen Inhalte von %1 zu ändern."
 
 #: core/templates/messages.tmpl:359
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -3579,7 +3583,7 @@ msgstr "Warnung"
 
 #: core/templates/validate.tmpl:20
 msgid "Warning! Confirmation required"
-msgstr "Verdächtige Anfrage vom Browser"
+msgstr "Achtung! Bestätigung erforderlich"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 msgid "Warning: 'include' topic does not exist!"
@@ -4248,7 +4252,7 @@ msgstr "Ansehen"
 
 #: core/templates/validate.tmpl:43
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "warum Sie zur Bestätigung aufgefordert werden"
 
 #~ msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
 #~ msgstr "%1 - komplette Foswiki Dokumentation, Schnell-Start bis Referenz"
@@ -4367,7 +4371,7 @@ msgstr ""
 #~ "[Sprung Box]] oben eingeben"
 
 #~ msgid "List all topics in the %1 web in alphabetical order"
-#~ msgstr "Auflistung aller Topics in dem %1 Web in alphabetischer Reihenfolge"
+#~ msgstr "Auflistung aller Topics im %1 Web in alphabetischer Reihenfolge"
 
 #~ msgid "Local customisations of site-wide preferences"
 #~ msgstr "Lokale Anpassungen für Seiten-weite Einstellungen"

@@ -10,13 +10,17 @@ msgstr ""
 "Project-Id-Version: ru $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-25 01:30+0400\n"
-"Last-Translator: Andrew Pantyukhin <infofarmer@FreeBSD.org>\n"
+"PO-Revision-Date: 2009-06-28 12:14+0200\n"
+"Last-Translator: Ivan Pesin <sp_ipesin@n-ix.com.ua>\n"
 "Language-Team: Russian Team <svz@latex.pereslavl.ru, falko-mail@inbox.ru, "
 "jsinx@front.ru, alex@amibel.ru, infofarmer@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 1.2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:480
@@ -596,7 +600,7 @@ msgstr "Администрирование"
 
 #: core/data/System/WebSearch.txt:64
 msgid "Advanced search"
-msgstr "Расширенный писк"
+msgstr "Расширенный поиск"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:27
 msgid ""
@@ -4280,7 +4284,7 @@ msgstr ""
 #~ msgstr "Добавит Ваше имя к списку пользователей темы %1 раздела %2."
 
 #~ msgid "Advanced Search"
-#~ msgstr "Расширенный писк"
+#~ msgstr "Расширенный поиск"
 
 #~ msgid "Changed"
 #~ msgstr "Изменено"

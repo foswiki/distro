@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-21 11:03+0200\n"
+"PO-Revision-Date: 2009-09-18 11:50+0200\n"
 "Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -97,7 +97,7 @@ msgstr "%1 是个非法的新子网名称"
 
 #: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
-msgstr "%1 已经登入"
+msgstr "%1 已经登录"
 
 #: core/templates/messages.tmpl:433
 msgid "%1 is currently set to %2"
@@ -199,7 +199,7 @@ msgstr "\"建立新主题\" 页已被移走"
 
 #: core/templates/login.tmpl:10
 msgid "(%1 login)"
-msgstr "(%1 登入)"
+msgstr "(%1 登录)"
 
 #: core/templates/validate.tmpl:6
 msgid "(%1 validation)"
@@ -280,7 +280,7 @@ msgstr "(编辑)"
 
 #: core/templates/login.tmpl:4
 msgid "(login)"
-msgstr "(登入)"
+msgstr "(登录)"
 
 #: core/templates/more.tmpl:3
 msgid "(more)"
@@ -322,7 +322,7 @@ msgstr "(修订版 %1)"
 
 #: core/templates/oopssaveerr.tmpl:7
 msgid "(save error)"
-msgstr "(存档错误)"
+msgstr "(保存错误)"
 
 #: PatternSkin/templates/settings.pattern.tmpl:6
 #: core/templates/settings.tmpl:3
@@ -1028,7 +1028,7 @@ msgstr "无法搜寻，错误: %1"
 
 #: core/templates/messages.tmpl:333
 msgid "Could not save %1."
-msgstr "%1 无法存档。"
+msgstr "%1 无法保存。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:258
 #, fuzzy
@@ -1217,7 +1217,7 @@ msgstr "子网改名 %1 到 %2 时发生错误 (%3)。请通知 %4 管理员。"
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
-msgstr "主题 %1 存档时发生版本控制错误。请通知 %2 管理员。"
+msgstr "主题 %1 保存时发生版本控制错误。请通知 %2 管理员。"
 
 #: core/templates/messages.tmpl:201
 msgid "E-mail changed successfully!"
@@ -1332,7 +1332,7 @@ msgstr "输入新用户名和密码以改变身份"
 
 #: core/templates/login.sudo.tmpl:18
 msgid "Enter the Wiki Administrator user or login as set in %1"
-msgstr "输入 Wiki 管理员或依 %1 设定登入"
+msgstr "输入 Wiki 管理员或依 %1 设定登录"
 
 #: core/templates/messages.tmpl:251
 msgid "Error registering new user"
@@ -1344,7 +1344,7 @@ msgstr "注册用户 %1 发生错误"
 
 #: core/templates/messages.tmpl:397
 msgid "Error saving topic"
-msgstr "主题存档失败"
+msgstr "主题保存失败"
 
 #: core/templates/login.tmpl:26
 msgid "Error: %1"
@@ -1372,7 +1372,7 @@ msgstr "错误"
 #: core/templates/messages.tmpl:466
 #, fuzzy
 msgid "Errors adding users to group"
-msgstr "主题存档失败"
+msgstr "主题保存失败"
 
 #: core/templates/messages.tmpl:504
 msgid "Errors removing users from groups"
@@ -1663,7 +1663,7 @@ msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
 msgstr ""
-"若您从收到的电子邮件连到这儿或只是浏览这个主题，请 [[%1][取消存档]] 并转到 %"
+"若您从收到的电子邮件连到这儿或只是浏览这个主题，请 [[%1][取消保存]] 并转到 %"
 "2。"
 
 #: core/templates/messages.tmpl:594
@@ -1761,8 +1761,8 @@ msgid ""
 "data cannot easily be merged though, so in this case you are recommended to "
 "check with %1 first."
 msgstr ""
-"继续存档和编辑也许没有问题，除非您想改变本主题附的表单内容。若 %1 _真的_在您"
-"编辑时存档，您的修改将会合并，并不会遗失任何资料。但表单资料并无法简单地合"
+"继续保存和编辑也许没有问题，除非您想改变本主题附的表单内容。若 %1 _真的_在您"
+"编辑时保存，您的修改将会合并，并不会遗失任何资料。但表单资料并无法简单地合"
 "并，所以此时建议您先检查 %1。"
 
 #: core/templates/foswiki.tmpl:46
@@ -1838,7 +1838,7 @@ msgstr "简单搜寻"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Log In"
-msgstr "登入"
+msgstr "登录"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
 msgid "Log Out"
@@ -1852,16 +1852,16 @@ msgstr "请输入您的用户名和密码"
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:160
 #, fuzzy
 msgid "Login name"
-msgstr "登入名 %1"
+msgstr "登录名 %1"
 
 #: core/templates/mailresetpassword.tmpl:12
 msgid "Login name %1"
-msgstr "登入名 %1"
+msgstr "登录名 %1"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:231
 #: core/templates/login.tmpl:69
 msgid "Logon"
-msgstr "登入"
+msgstr "登录"
 
 #: core/templates/messages.tmpl:266
 msgid "Mail to"
@@ -2272,7 +2272,7 @@ msgstr "版本"
 #: EditTablePlugin/data/System/EditTablePlugin.txt:161
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
 msgid "Quiet save"
-msgstr "快速存档"
+msgstr "快速保存"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:11
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
@@ -2461,7 +2461,7 @@ msgstr "重新输入新密码"
 
 #: core/templates/messages.tmpl:27
 msgid "Rev %1 was saved by %2, while you were still editing."
-msgstr "在您编辑期间，用户 %2 以版本 %1 存档。"
+msgstr "在您编辑期间，用户 %2 以版本 %1 保存。"
 
 #: MailerContrib/templates/mailnotify.tmpl:44
 #: MailerContrib/templates/mailnotify.tmpl:76
@@ -2489,16 +2489,16 @@ msgstr ""
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
 msgid "S = Save, C = Cancel"
-msgstr "S = 存档，C = 取消"
+msgstr "S = 保存，C = 取消"
 
 #: PatternSkin/templates/preview.pattern.tmpl:21
 msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
-msgstr "S = 存档，Q = 快速存档，K = 存档并继续编辑，D = 放弃"
+msgstr "S = 保存，Q = 快速保存，K = 保存并继续编辑，D = 放弃"
 
 #: PatternSkin/templates/edit.pattern.tmpl:47
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
-msgstr "S = 存档，Q = 快速存档，K = 存档并继续编辑，P = 预览，C = 取消"
+msgstr "S = 保存，Q = 快速保存，K = 保存并继续编辑，P = 预览，C = 取消"
 
 #: core/data/Sandbox/WebPreferences.txt:9
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
@@ -2897,7 +2897,7 @@ msgstr ""
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
-msgstr "若 %1 仅浏览到编辑页而未存档是没有问题的。"
+msgstr "若 %1 仅浏览到编辑页而未保存是没有问题的。"
 
 #: core/templates/renamebase.tmpl:73
 msgid ""
@@ -2977,7 +2977,7 @@ msgstr "两次输入的密码不相同。"
 
 #: core/templates/messages.tmpl:625
 msgid "The user %1 has already been activated, and should be able to log in."
-msgstr "用户 %1 已经启动并可登入。"
+msgstr "用户 %1 已经启动并可登录。"
 
 #: core/templates/messages.tmpl:407
 msgid "There are problems with renaming this web:"
@@ -3156,7 +3156,7 @@ msgstr "主题 %1 不存在"
 
 #: core/templates/messages.tmpl:332
 msgid "Topic Save Error"
-msgstr "主题存档错误"
+msgstr "主题保存错误"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:14
 msgid "Topic attachments"
@@ -3194,7 +3194,7 @@ msgstr "主题版本:"
 
 #: core/templates/oopssaveerr.tmpl:11
 msgid "Topic save error"
-msgstr "主题存档错误"
+msgstr "主题保存错误"
 
 #: core/data/System/WebTemplateTopics.txt:3
 msgid "Topic templates in %1 Web"
@@ -3492,8 +3492,8 @@ msgid ""
 "cannot easily be merged though, so in this case you are recommended to check "
 "with %1 first."
 msgstr ""
-"鼓励您存档后继续编辑 - 除非您想改变本主题附的表单内容。如果 %1 _真的_在您编辑"
-"时存档，您的修改将会合并，而不会有资料遗失。但表单资料无法简单合并，所以此时"
+"鼓励您保存后继续编辑 - 除非您想改变本主题附的表单内容。如果 %1 _真的_在您编辑"
+"时保存，您的修改将会合并，而不会有资料遗失。但表单资料无法简单合并，所以此时"
 "建议您先检查 %1。"
 
 #: PatternSkin/templates/view.pattern.tmpl:37
@@ -3983,15 +3983,15 @@ msgstr "value='预览' accesskey='p'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:35
 msgid "value='Quiet save' accesskey='q'"
-msgstr "value='快速存档' accesskey='q'"
+msgstr "value='快速保存' accesskey='q'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:37
 msgid "value='Save and Continue' accesskey='k'"
-msgstr "value='存档并继续编辑' accesskey='k'"
+msgstr "value='保存并继续编辑' accesskey='k'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:33
 msgid "value='Save' accesskey='s'"
-msgstr "value='存档' accesskey='s'"
+msgstr "value='保存' accesskey='s'"
 
 #: core/templates/attachtables.tmpl:48
 msgid "view"
@@ -4029,7 +4029,7 @@ msgstr "为何您被要求确认"
 #~ msgstr "%1 列出所有使用者工具"
 
 #~ msgid "(how you log in) LoginName:"
-#~ msgstr "(如何登入) LoginName:"
+#~ msgstr "(如何登录) LoginName:"
 
 #~ msgid "(identifies you to others) WikiName:"
 #~ msgstr "(变更身份) WikiName:"
@@ -4109,7 +4109,7 @@ msgstr "为何您被要求确认"
 #~ msgstr "我的连结"
 
 #~ msgid "Once registered you can login using your %1 and password."
-#~ msgstr "注册后您可以帐号 %1 和密码登入."
+#~ msgstr "注册后您可以帐号 %1 和密码登录."
 
 #~ msgid "Organisation URL:"
 #~ msgstr "组织连结:"
@@ -4216,7 +4216,7 @@ msgstr "为何您被要求确认"
 #~ msgstr "在您的用户主题中设定 %1 的参数，将可永远设定您喜好的语言。"
 
 #~ msgid "You will be able to review the copied topic before saving"
-#~ msgstr "您能在审查复制的主题后再存档"
+#~ msgstr "您能在审查复制的主题后再保存"
 
 #~ msgid ""
 #~ "You will be able to review the topic before saving it to a new revision"
