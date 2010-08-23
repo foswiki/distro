@@ -23,7 +23,7 @@ As per the GPL, removal of this notice is prohibited.
 /**
  * HTML utility functions.
  * *Not used by core Foswiki* - kept for compatibility only.
- * Requires JavascriptFiles/foswikilib
+ * Requires: JQUERYPLUGIN::FOSWIKI
  */
 
 foswiki.HTML = {

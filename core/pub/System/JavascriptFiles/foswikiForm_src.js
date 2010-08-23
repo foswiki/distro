@@ -32,7 +32,7 @@ As per the GPL, removal of this notice is prohibited.
  *   Craig Anderson (craig@sitepoint.com)
  * Original js filename: formdata2querystring.js (Version 1.3)
  *
- * Requires JavascriptFiles/foswikilib, JavascriptFiles/foswikiString
+ * Requires JQUERYPLUGIN::FOSWIKI, JavascriptFiles/foswikiString
  */
 (function($) {
     foswiki.Form = {

@@ -29,7 +29,7 @@ Based on code written by Bill Dortch, hIdaho Design <bdortch@hidaho.com>
  * and setPref, otherwise the limit of 20 cookies per domain is reached
  * soon. See http://foswiki.org/Support/DataStorageInUserCookie
  *
- * Requires: foswikilib
+ * Requires: JQUERYPLUGIN::FOSWIKI
  */
 
 foswiki.Pref = {

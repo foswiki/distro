@@ -22,7 +22,7 @@ As per the GPL, removal of this notice is prohibited.
 
 /**
  * Support for the "raw text" editor.
- * Requires JavascriptFiles/foswikilib, JQUERYPLUGIN
+ * Requires JQUERYPLUGIN::FOSWIKI
  */
 
 var EDITBOX_ID = "topic";

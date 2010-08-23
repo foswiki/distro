@@ -22,7 +22,7 @@ As per the GPL, removal of this notice is prohibited.
 
 /**
  * Support for string manipulation
- * Requires: foswikilib
+ * Requires: JQUERYPLUGIN::FOSWIKI
  */
 
 foswiki.String = {

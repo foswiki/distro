@@ -20,9 +20,9 @@ As per the GPL, removal of this notice is prohibited.
 
 */
 
-// Foswiki namespace. This is required by all other foswiki JS files. The
-// methods defined here will be overridden by the JQueryPlugin if it is
-// loaded.
+// CAUTION: foswikilib.js is DEPRECATED. it's use potentially breaks 
+// other code depending on JQueryPlugin by overriding the foswiki namespace.
+// Please use JQUERYPLUGIN::FOSWIKI instead
 var foswiki = {
 
     /**
