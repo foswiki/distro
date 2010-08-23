@@ -728,7 +728,7 @@ sub formatResults {
         if (
             ( $infoCache->isa('Foswiki::Search::ResultSet') ) or    #SEARCH
             ( $infoCache->isa('Foswiki::Search::InfoCache') )
-          )                                                         #FOREACH
+          )                                                         #RELIST
         {
             ( $web, $topic ) =
               Foswiki::Func::normalizeWebTopicName( '', $listItem );
@@ -1084,7 +1084,7 @@ sub formatResult {
         $out =~ s/$key/&{$customKeys->{$key}}()/ges;
     }
 
-    #SMELL: hack to stop non-topic based FOREACH's from doing topic code
+    #SMELL: hack to stop non-topic based RELIST's from doing topic code
     #TODO: this should be extracted into the customKeys above
     $out = $session->renderer->renderRevisionInfo( $topicObject, $revNum, $out )
       if ( defined($topic) );

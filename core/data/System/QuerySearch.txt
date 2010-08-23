@@ -76,7 +76,7 @@ Fields in this plan are referenced using a simple _field specifier_ syntax:
 | =X[<i>query</i>]= | refers to all the elements of the array =X= that match _query_. If <i>query</i> is of the form =name='Y'= then you can use the same =X.Y= syntax as is used for accessing structures. | =attachments[size>1024]=, =DocumentContainer[name!='Summary' AND value~'top secret'].value=|
 | =X[N]= | where =X= is an array and =N= is an integer number >= 0, gets the Nth element of the array =X=. If N is a floating point number, the integer part will be used as the index. Negative indices can be used to index the array from the end e.g. =attachments[-1]= to get the last attachment. | =attachments[3]= |
 | =X/Y= | accesses =Y= from the topic specified by the _value_ of =X=. =X= must evaluate to a topic name | =parent.name/(form.name='ExampleForm')= will evaluate to true if (1) the topic has a parent, (2) the parent topic has the main form type =ExampleForm=. |
-| ={X}= | expands to the value of the =configure= setting {X}, if it is accessible, or '' otherwise | only some configuration settings are available: %FOREACH{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}% |
+| ={X}= | expands to the value of the =configure= setting {X}, if it is accessible, or '' otherwise | only some configuration settings are available: RELIST{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}% |
 
 Note: at some point Foswiki may support multiple forms in the same topic. For this reason you are recommended *not* to use the =fields= shortcut when accessing form fields, but always use the name of the form instead.
 

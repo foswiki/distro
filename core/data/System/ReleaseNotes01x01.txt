@@ -74,7 +74,7 @@ point in the future).
 ---+++ Re-architecting of the SEARCH macro
 To improve the speed, consistency and extendability of the most complex  and important Macro, we've started to separate the generation of search results from the outputing of FormattedSearch. The most significant user facing  improvements are speed and reliability changes - with many more unit tests written to ensure future compatibility.
 
----+++ FOREACH macro
+---+++ RELIST macro
 The extraction of the FormattedSearch system has made it possible to provide a  Macro that allows users to render a comma separated list into any =header=,  =footer=, =format= style.
 
 ---+++ %USERSWEB%.WikiGroups have add & remove user interface

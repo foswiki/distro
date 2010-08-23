@@ -6,16 +6,17 @@ use warnings;
 
 #our $SEARCHTERMS = qr/\$(web|topic|parent|text|locked|date|isodate|rev|username|wikiname|wikiusername|createdate|createusername|createwikiname|createwikiusername|summary|changes|formname|formfield|pattern|count|ntopics|nhots|pager)\b/;
 
-sub FOREACH {
+sub RELIST {
     my ( $this, $params, $topicObject ) = @_;
 
     my @list = split( /,\s*/, $params->{_DEFAULT} || '' );
     my $s;
 
-#TODO: this is a common default that should be extracted into a 'test, default and refine' parameters for all formatResult calls
-# Note that for FOREACH we do not default adding \n after header when separator is
-# not defined. FOREACH is a new feature in 1.1 and does not need the backward
-# compatibility that SEARCH needed.
+    # TODO: this is a common default that should be extracted into a
+    # 'test, default and refine' parameters for all formatResult calls
+    # Note that for RELIST we do not default adding \n after header when
+    # separator is not defined. RELIST is a new feature in 1.1 and does
+    # not need the backward compatibility that SEARCH needed.
     $params->{separator} = '$n' unless ( defined( $params->{separator} ) );
     $params->{separator} =
       Foswiki::expandStandardEscapes( $params->{separator} );
@@ -42,7 +43,8 @@ sub FOREACH {
         }
         else {
 
-            #from Search::_makeTopicPattern (plus an added . to allow web.topic)
+            # from Search::_makeTopicPattern (plus an added . to
+            # allow web.topic)
             my @topics = map {
                 s/[^\*\_\-\+\.$Foswiki::regex{mixedAlphaNum}]//go;
                 s/\*/\.\*/go;

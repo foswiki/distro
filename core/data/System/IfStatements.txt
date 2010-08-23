@@ -74,7 +74,7 @@ url param t is %IF{
 }% 
 </verbatim>
 
-6. Configuration item set or not (item must be one of  %FOREACH{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}%)
+6. Configuration item set or not (item must be one of  %RELIST{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}%)
 <verbatim class="tml">
 User details are %IF{
    "{AntiSpam}{HideUserDetails}"

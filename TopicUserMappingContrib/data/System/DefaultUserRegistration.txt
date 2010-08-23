@@ -174,8 +174,8 @@ Only shown if the password manager supports changing the password / email.
 
 %STARTSECTION{"requiredField_password"}%<li><label for="Twk1Password"><span class="required">*</span>%MAKETEXT{"Your password"}%</label>
 <div><input type="password" id="Twk1Password" name="Twk1Password" size="40" class="foswikiInputField" value="" tabindex="6" onblur="" /></div></li>
-<li><label for="Twk1Confirm"><span class="required">*</span>%MAKETEXT{"Confirm password"}%</label>
-<div><input type="password" id="Twk1Confirm" name="Twk1Confirm" size="40" class="foswikiInputField" value="" tabindex="7" onblur="" /></div></li>%ENDSECTION{"requiredField_password"}%
+%IF{"{Register}{RequirePasswordConfirmation}" then="<li><label for=\"Twk1Confirm\"><span class=\"required\">*</span>$percntMAKETEXT{\"Confirm password\"}$percnt</label>
+<div><input type=\"password\" id=\"Twk1Confirm\" name=\"Twk1Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" tabindex=\"7\" onblur=\"\" /></div></li>"}%%ENDSECTION{"requiredField_password"}%
 
 
 
@@ -183,7 +183,7 @@ Optional field join group
 
 enable by setting =REGISTRATIONGROUPTYPE= in the %USERSWEB%.DefaultPreferences topic to automatic, one, mulitple.
      
-%STARTSECTION{"extraField_groups"}%%FOREACH{
+%STARTSECTION{"extraField_groups"}%%RELIST{
 	"%IF{"defined 'REGISTRATIONGROUPS'" then="%REGISTRATIONGROUPS%" else="%GROUPINFO{
 			show="allowchange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%"
 			format="$name"

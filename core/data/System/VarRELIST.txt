@@ -1,8 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Macros"}%
-#VarFOREACH
----+++ FOREACH{"list" format="" header="" footer="" separator=""} -- renders a comma separated list
-   * Syntax: =%<nop>FOREACH{"list"}%=
+#VarRELIST
+---+++ RELIST{"list" format="" header="" footer="" separator=""} -- rewrites a comma separated list to a different format
+   * Syntax: =%<nop>RELIST{"list"}%=
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
      | ="one, two, three"= | a text list to be expanded into the format | required |
@@ -12,8 +12,8 @@
      | =separator="n"= | separator between formatted elements | ="$n"= |
      | =type=""= | treat input list as either =topic= or =string= |  ="topic"= |
    * Examples:
-      * =%<nop>FOREACH{"one,two,three" type="string" format="   * $item"}%=
-      * =%<nop>FOREACH{"%SKIN%" header="the Skin setting is evaluated in this order:" format="   1 =$topic=" footer="   1 =default="}%=
+      * =%<nop>RELIST{"one,two,three" type="string" format="   * $item"}%=
+      * =%<nop>RELIST{"%SKIN%" header="the Skin setting is evaluated in this order:" format="   1 =$topic=" footer="   1 =default="}%=
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
 
 ---++++ Supported formatting tokens

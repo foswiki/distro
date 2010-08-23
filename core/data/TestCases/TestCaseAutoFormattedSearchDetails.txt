@@ -3,7 +3,7 @@
 ---+!! %TOPIC%
 Description: Automated formatted search tests verifying refactor of format= functionality in foswiki 1.1
 
-The major risk is the default formatting where web's are separated - for paging and FOREACH we need to turn that off.
+The major risk is the default formatting where web's are separated - for paging and RELIST we need to turn that off.
 
 [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?test=compare&debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
 
