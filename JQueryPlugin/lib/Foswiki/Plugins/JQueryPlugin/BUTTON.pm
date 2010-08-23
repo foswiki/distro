@@ -29,7 +29,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name         => 'Button',
-            version      => '1.2',
+            version      => '1.3',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'BUTTON',
@@ -67,12 +67,13 @@ sub handleButton {
     my $theIconName    = $params->{icon} || '';
     my $theAccessKey   = $params->{accesskey};
     my $theId          = $params->{id} || '';
-    my $theClass       = $params->{class} || '';
+    my $theClass       = $params->{class} || 'jqButtonDefault';
     my $theStyle       = $params->{style} || '';
     my $theTarget      = $params->{target};
     my $theType        = $params->{type} || 'button';
 
     $theId = "id='$theId'" if $theId;
+    $theClass =~ s/\b([a-z]+)\b/'jqButton'.ucfirst($1)/ge;
 
     my $theIcon;
     $theIcon =
@@ -119,7 +120,7 @@ sub handleButton {
 
     my @class = ();
     push @class, 'jqButton';
-    push @class, $theClass if $theClass;
+    push @class, $theClass;
 
     my @callbacks = ();
     if ($theOnClick) {

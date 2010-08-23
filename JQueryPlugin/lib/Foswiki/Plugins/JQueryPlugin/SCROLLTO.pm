@@ -34,6 +34,7 @@ sub new {
             author     => 'Ariel Flesler',
             homepage   => 'http://plugins.jquery.com/project/ScrollTo',
             javascript => ['jquery.scrollTo.js'],
+            dependencies => ['easing'],
         ),
         $class
     );

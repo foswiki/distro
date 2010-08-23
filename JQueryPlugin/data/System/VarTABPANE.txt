@@ -37,5 +37,6 @@
      | select | number or id of tab to select | 1 |
      | automaxexpand | resizes the tabpane to the maximum height to fit into the window | off |
      | minheight | when automaxexpand is enabled, this is the minimum size a tab is allowed to be resized | 230 |
+     | class | extra class: use =simple= for a non-3D tabpane | | 
      | animate | (on/off) enables/disables animation of switching tabs | off |
    * Related: [[VarTAB]], [[VarENDTAB]], [[VarENDTABPANE]], JQueryPlugin, JQueryTabpane

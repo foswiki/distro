@@ -15,69 +15,32 @@
   display:block;
 }
 .jqTabContents {
-  padding:8px;
+  padding:1em;
 }
 ul.jqTabGroup {
-  margin:0px !important;
-  padding:0px !important;
+  margin:0px;
+  padding:0px;
   list-style:none;
   display:block;
   float:left;
-  _padding-top:1px !important; /* IE6 fix */
 }
 ul.jqTabGroup li {
-  background-color: transparent;
-  background-image: url('tab_right.png') !important;
-  _background-image: url('tab_right.gif') !important; /* IE6 */
-  background-repeat: no-repeat !important;
-  background-position: right top !important;
+  background-repeat: no-repeat;
+  background-position: right top;
   float:left;
-  padding:0px 3px 0px 0px !important;
-  margin:0px 4px -1px 0px !important;
-  *margin:5px 4px -6px 0px!important; /* IE7 */
-  height:29px;
-  line-height:100%;
-  list-style:none !important;
+  list-style:none;
 }
-ul.jqTabGroup a:active,
 ul.jqTabGroup a:hover,
-ul.jqTabGroup a:link,
 ul.jqTabGroup a {
-  text-decoration: none !important;
+  text-decoration: none;
   white-space:nowrap;
-  background-color:transparent !important;
-  background-image: url('tab_left.png') !important;
-  _background-image: url('tab_left.gif') !important; /* IE6 */
-  background-repeat:no-repeat !important;
-  background-position:left top !important; 
-  color:black;
+  background-repeat:no-repeat;
+  background-position:left top;
   float:left;
   display:block;
-  margin:0px 0px 0px 0px !important;
-  padding:4px 8px 0px 18px !important;
-  height:25px;
-  font-size:12px;
-}
-ul.jqTabGroup a:active,
-ul.jqTabGroup a:hover,
-ul.jqTabGroup a:focus {
-  color:red !important;
-}
-ul.jqTabGroup li.current {
-  background-image: url('tab_right_on.png') !important; 
-  _background-image: url('tab_right_on.gif') !important;  /* IE 6 */
-  background-color: white;
 }
 .foswikiFormSteps ul.jqTabGroup li.current {
   background-color: inherit;
-}
-
-ul.jqTabGroup li.current a:active,
-ul.jqTabGroup li.current a:hover,
-ul.jqTabGroup li.current a {
-  background-image: url('tab_left_on.png') !important;
-  _background-image: url('tab_left_on.gif') !important; /* IE 6 */
-  color: #333;
 }
 
 .jqTabPane .fltMakeIndexWrapper {
@@ -91,3 +54,59 @@ ul.jqTabGroup li.current a {
   display: block;
 }
 
+/* default theme */
+.jqTabPaneDefault ul.jqTabGroup li {
+  background-color: transparent;
+  background-image: url('tab_right.png');
+  padding:0px 3px 0px 0px;
+  margin:0px 4px -1px 0px;
+  *margin:5px 4px -6px 0px; /* IE7 */
+  height:29px;
+}
+.jqTabPaneDefault ul.jqTabGroup a:hover,
+.jqTabPaneDefault ul.jqTabGroup a {
+  background-color:transparent;
+  background-image: url('tab_left.png');
+  color:black;
+  margin:0px 0px 0px 0px;
+  padding:4px 8px 0px 18px;
+  height:25px;
+  font-size:12px;
+  line-height:100%;
+}
+.jqTabPaneDefault ul.jqTabGroup li.current {
+  background-image: url('tab_right_on.png');
+  background-color: white;
+}
+.jqTabPaneDefault ul.jqTabGroup li.current a:hover,
+.jqTabPaneDefault ul.jqTabGroup li.current a {
+  background-image: url('tab_left_on.png');
+  color: #333;
+}
+.jqTabPaneDefault ul.jqTabGroup a:hover,
+.jqTabPaneDefault ul.jqTabGroup a:focus {
+  color:red;
+}
+
+
+/* simple theme */
+.jqTabPaneSimple ul.jqTabGroup li {
+  background:transparent;
+  margin:6px 6px -1px 0;
+  *height:30px; /* IE7 */
+}
+.jqTabPaneSimple ul.jqTabGroup li.current a {
+  background:#fff;
+  border-bottom:1px solid #fff;
+}
+.jqTabPaneSimple ul.jqTabGroup a:hover,
+.jqTabPaneSimple ul.jqTabGroup a {
+  background:#eee;
+  border: 1px solid #ccc;
+  color:inherit;
+  *color:#000; /* IE7 */
+  padding:5px 10px;
+}
+.jqTabPaneSimple ul.jqTabGroup a:hover {
+  color:red;
+}

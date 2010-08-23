@@ -160,7 +160,7 @@ if (foswiki.preferences === undefined) {
       $(this).css("display", "block");
     });
     $(".foswikiMakeHidden").livequery(function() {
-      $(this).css("display", "none");
+      $(this).hide();
     });
   });
 	

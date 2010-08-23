@@ -8,7 +8,7 @@
      | accesskey | access key used for this button | | 
      | class | extra class: use =foswikiRight= or =foswikiLeft= to specify aligment; \
                use =cyan=, =red=, =green= for different background colors; \
-               use =simple= for a non-3d-button | | 
+               use =simple= for a non-3D button | | 
      | href | url of the click target | # | 
      | icon | icon to be put on the left; note, this can be any icon attached to the  ={IconSearchPath}=; see also VarJQICON | | 
      | id | html id for this button | | 

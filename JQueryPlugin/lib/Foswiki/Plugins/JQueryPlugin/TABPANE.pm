@@ -30,13 +30,13 @@ sub new {
         $class->SUPER::new(
             $session,
             name         => 'Tabpane',
-            version      => '1.1',
+            version      => '1.2',
             author       => 'Michael Daum',
             homepage     => 'http://michaeldaumconsutling.com',
             tags         => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
             css          => ['jquery.tabpane.css'],
             javascript   => [ 'jquery.tabpane.js', 'jquery.tabpane.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
+            dependencies => [ 'metadata', 'livequery', 'easing' ],
         ),
         $class
     );
@@ -59,12 +59,15 @@ sub handleTabPane {
     my $autoMaxExpand = $params->{automaxexpand} || 'off';
     my $minHeight     = $params->{minheight}     || 230;
     my $animate       = $params->{animate}       || 'off';
+    my $class         = $params->{class}         || 'jqTabPaneDefault';
+
+    $class =~ s/\b([a-z]+)\b/'jqTabPane'.ucfirst($1)/ge;
 
     $autoMaxExpand = ( $autoMaxExpand eq 'on' ) ? 'true' : 'false';
     $animate       = ( $animate       eq 'on' ) ? 'true' : 'false';
 
     return
-"<div class=\"jqTabPane {select:'$select', autoMaxExpand:$autoMaxExpand, animate:$animate, minHeight:$minHeight}\">";
+"<div class=\"jqTabPane $class {select:'$select', autoMaxExpand:$autoMaxExpand, animate:$animate, minHeight:$minHeight}\">";
 }
 
 =begin TML

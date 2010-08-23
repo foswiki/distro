@@ -34,7 +34,6 @@
 .foswikiTopic .jqButton:link:hover,
 .foswikiTopic .jqButton:hover,
 .jqButtonSimple:hover,
-.jqButton.simple:hover,
 .jqButton:hover {
   color:red;
 }
@@ -52,16 +51,14 @@
   /* ie 6 */
   _margin:0px 1px 0px 0px;
 }
-.jqButton.simple {
+.jqButtonSimple {
   color:inherit;
 }
-.jqButtonSimple span,
-.jqButton.simple span {
+.jqButtonSimple span {
   padding:0px;
   text-decoration:underline;
 }
-.jqButtonSimple span span,
-.jqButton.simple span span {
+.jqButtonSimple span span {
   padding:0px 0px 0px 23px;
 }
 .jqButton .jqButtonIcon {
@@ -74,20 +71,18 @@
   padding:0px;
   width:1em;
 }
-.jqButton.cyan { background-image:url(btn_cyan_right.gif); }
-.jqButton.cyan span { background-image:url(btn_cyan_left.gif); }
-.jqButton.red  { background-image:url(btn_red_right.gif); }
-.jqButton.red span { background-image:url(btn_red_left.gif); }
-.jqButton.green { background-image:url(btn_green_right.gif); }
-.jqButton.green span { background-image:url(btn_green_left.gif); }
-.jqButton.simple,
-.jqButton.simple span,
+.jqButtonCyan { background-image:url(btn_cyan_right.gif); }
+.jqButtonCyan span { background-image:url(btn_cyan_left.gif); }
+.jqButtonRed  { background-image:url(btn_red_right.gif); }
+.jqButtonRed span { background-image:url(btn_red_left.gif); }
+.jqButtonGreen { background-image:url(btn_green_right.gif); }
+.jqButtonGreen span { background-image:url(btn_green_left.gif); }
 .jqButtonSimple,
-.jqButton.simple:hover,
+.jqButtonSimple span,
 .jqButtonSimple:hover,
 .jqButtonSimple span { background-image:none; }
-.jqButton.right,
-.jqButton.right:hover {
+.jqButtonRight,
+.jqButtonRight:hover {
   float:right;
 }
 
