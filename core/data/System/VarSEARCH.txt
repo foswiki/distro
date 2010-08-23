@@ -41,7 +41,7 @@
      | =pagerformat="text"= | Custom format results: see *[[FormattedSearch]]* for usage &amp; examples | filled from skin template |
      | =groupby="none"= | _Warning: this option is liable to change dramatically (and potentially incompatibly) in the next major release of foswiki._ Setting to ="none"= applies only to multi-web SEARCHs, and means the =header= and =footer= are only output _once_ - at the beginning and end of the list of results, and the =order= parameter is applied over the entire set of results (this setting removes the legacy that results are always partitioned by web) see %SYSTEMWEB%.SiteChanges for an example. | ="web"= |
 
-   * *Example:* %JQREQUIRE{"chili"}%<verbatim class="tml">%SEARCH{"wiki" web="%USERSWEB%" scope="topic"}%</verbatim>
+   * *Example:* <verbatim class="tml">%SEARCH{"wiki" web="%USERSWEB%" scope="topic"}%</verbatim>
    * *Example with format:* <verbatim class="tml">
 %SEARCH{
     "FAQ"
@@ -54,3 +54,4 @@
 
 ---
 *Related topics:* FormattedSearch, QuerySearch, SearchHelp, SearchPatternCookbook, RegularExpression, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPICLIST][TOPICLIST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBLIST][WEBLIST]]
+<!-- %JQREQUIRE{"chili"}% -->

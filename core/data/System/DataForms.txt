@@ -28,7 +28,7 @@ A form definition specifies the fields in a form. A form definition is simply a 
 
 <blockquote>
 *Example:*
-%JQREQUIRE{"chili"}%<verbatim class="tml">| *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+<verbatim class="tml">| *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
 | TopicClassification | select | 1 | NoDisclosure, PublicSupported, PublicFAQ | blah blah... | |
 | OperatingSystem | checkbox | 3 | OsHPUX, OsLinux, OsSolaris, OsWin | blah blah... | |
 | OsVersion | text | 16 | | blah blah... | |</verbatim>
@@ -235,3 +235,4 @@ The best way to search in form data is using the structured query language in th
 
 ---
 *Related Topics:* DeveloperDocumentationCategory, TemplateTopics, FAQAnApplicationWithWikiForm
+<!-- %JQREQUIRE{"chili"}% -->

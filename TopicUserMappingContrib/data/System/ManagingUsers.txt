@@ -52,7 +52,7 @@ To change the user's WikiName:
      that the list is in proper alphabetical order.
    * Recreate the old topic with a pointer to the new topic, so that links
      in other webs work properly. Example content:%BR%
-     %JQREQUIRE{"chili"}%<verbatim class="tml">%M% Jane Smith is now known as JaneMiller</verbatim>
+     <verbatim class="tml">%M% Jane Smith is now known as JaneMiller</verbatim>
 
 If external authentication is used and you want to change the login name:
    * The login name needs to be changed in the authentication server (e.g.
@@ -157,4 +157,5 @@ Your Wiki Admin
 
 ---
 *Related Topics:* AdminDocumentationCategory
+<!-- %JQREQUIRE{"chili"}% -->
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="Main.AdminGroup"}%

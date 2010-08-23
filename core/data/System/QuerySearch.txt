@@ -153,7 +153,7 @@ A query matches if the query returns one or more values when it is applied to th
 
 ---+++ Search examples
 Find all topics that are children of this topic in the current web
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 %SEARCH{"parent.name = '%TOPIC%'" web="%WEB%" type="query"}%
 </verbatim>
 Find all topics that have an attachment called 'grunge.gif'
@@ -177,3 +177,4 @@ Find all topics newer than one week old
 %SEARCH{"info.date >= %CALC{"$TIMEADD($TIME(), -7, day)"}%" type="query"}%
 </verbatim>
 __Related Topics:__ SearchHelp, VarSEARCH, FormattedSearch, Foswiki:System/QuerySearchPatternCookbook
+<!-- %JQREQUIRE{"chili"}% -->

@@ -44,7 +44,7 @@ The performance of the system depends to some extent on the number of plugins in
 %T% If you need to install an "expensive" plugin, but you only need its functionality only in a subset of your data, you can disable it elsewhere by defining the %<nop>DISABLEDPLUGINS% setting.
 
 Define =DISABLEDPLUGINS= to be a comma-separated list of names of plugins to disable. Define it in %USERSWEB%.<nop>SitePreferences to disable those plugins everywhere, in the !WebPreferences topic to disable them in an individual web, or in a topic to disable them in that topic. For example,
-%JQREQUIRE{"chili"}%<pre class="tml">
+<pre class="tml">
    * <nop>Set DISABLEDPLUGINS = SpreadSheetPlugin, EditTablePlugin
 </pre>
 
@@ -91,3 +91,4 @@ This setting defines the default value for the preference BATHPLUGIN_ELECTRIC. Y
 %STOPINCLUDE%
 ---
 *Related Topics:* DeveloperDocumentationCategory, AdminDocumentationCategory
+<!-- %JQREQUIRE{"chili"}% -->

@@ -6,7 +6,7 @@
 ---++!! Help on Preferences
    * A _preference setting_ lets you define a simple [[%SYSTEMWEB%.Macros][macro]] that can be expanded in your output. Preference settings do not accept any parameters.
    * A preference setting looks like this: <br /> =3 or 6 spaces * Set NAME = value= <br /> Example:
-   %JQREQUIRE{"chili"}%<verbatim class="tml">   * Set WEBBGCOLOR = #FFFFC0</verbatim>
+   <verbatim class="tml">   * Set WEBBGCOLOR = #FFFFC0</verbatim>
    * A preferences setting can be disabled with a # sign. Remove the # sign to enable a local customisation. Example:%BR%
    <verbatim class="tml">   * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser</verbatim>
    * Macros defined using preference settings are expanded by enclosing the name in percent signs. Example:
@@ -29,18 +29,18 @@ If you are setting a preference and using it in the same topic, note that Foswik
 Also note that Foswiki always reads the setting from the most current topic revision, so viewing older revisions of a topic can show unexpected results.
 
 The syntax for setting macros is the same anywhere: <br /> =[multiple of 3 spaces] * [space] Set [space] MACRONAME [space] = [space] value=
-<blockquote class="foswikiHelp">
+
 *Examples:*
-   * ==<nop>Set MACRONAME = value==
-      * ==<nop>Set MACRONAME = value==
-</blockquote>
+<verbatim class="tml">
+   * Set MACRONAME = value
+      * Set MACRONAME = value
+</verbatim>
 Spaces between the = sign and the value will be ignored. You can split a value over several lines by indenting following lines with spaces - as long as you don't try to use * as the first character on the following line.
 <blockquote class="foswikiHelp">
 *Example:*
-<pre>
-   * <nop>Set MACRONAME = value starts here
+<verbatim class="tml">   * Set MACRONAME = value starts here
      and continues here
-</pre>
+</verbatim>
 </blockquote>
 
 Whatever you include in your Macro will be expanded on display, exactly as if it had been entered directly.
@@ -48,7 +48,7 @@ Whatever you include in your Macro will be expanded on display, exactly as if it
 <blockquote class="foswikiHelp">
 *Example: Create a custom logo macro* <br />
    * To place a logo anywhere in a web by typing ==%<nop>MYLOGO%==, define the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] on the web's WebPreferences topic, and upload a logo file, ex: =mylogo.gif=. You can upload by [[FileAttachment][attaching the file]] to WebPreferences, or, to avoid clutter, to any other topic in the same web, e.g. =LogoTopic=. Sample preference setting in WebPreferences:
-      * ==<nop>Set MYLOGO = %<nop>PUBURL%/%<nop>WEB%/LogoTopic/mylogo.gif==
+<verbatim class="tml">   * Set MYLOGO = %PUBURL%/%WEB%/LogoTopic/mylogo.gif</verbatim>
 </blockquote>
 
 You can also set [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in a topic by clicking the link =Edit topic preference settings= under =More topic actions=. Preferences set in this manner are known as 'meta' preferences and are not visible in the topic text, but take effect nevertheless.
@@ -67,3 +67,4 @@ Then, when they are editing any other topic, they will get a 10 high edit box. H
 =Local= can be used wherever a preference needs to take a different value depending on where the current operation is being performed.
 
 Use this powerful feature with great care! =%<nop>ALLVARIABLES%= can be used to get a listing of the values of all macros in their evaluation order, so you can see macro scope if you get confused.
+<!-- %JQREQUIRE{"chili"}% -->

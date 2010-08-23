@@ -7,7 +7,7 @@ The =%<nop>IF%= construct gives Foswiki the power to include content in topics b
 %TOC%
 
 ---++ Syntax
-%JQREQUIRE{"chili"}%<verbatim class="tml">%IF{"CONDITION" then="THEN" else="ELSE"}%</verbatim>
+<verbatim class="tml">%IF{"CONDITION" then="THEN" else="ELSE"}%</verbatim>
 
 In the example above, if CONDITION evaluates to TRUE, then THEN will be included in the topic; otherwise ELSE will be included.
 
@@ -222,3 +222,4 @@ Test if a topic text contains a certain word:
    then="contains 'welcome'"
 }%
 </verbatim>
+<!-- %JQREQUIRE{"chili"}% -->

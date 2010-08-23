@@ -49,7 +49,7 @@ You can point your news reader at WebRss and WebAtom to find out what is new in 
 ---++ <nop>WebIndex - list of topics
 
 WebIndex lists all web topics in alphabetical order, with the first couple of lines of text. This is simply a preset =SEARCH=:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 %SEARCH{"1" scope="topic" type="query" nosearch="on" }%
 </verbatim>
 
@@ -164,6 +164,6 @@ The crontab command is used to schedule commands to be executed periodically.
 
 ---
 *Related Topics:* AdminDocumentationCategory, AdminToolsCategory
+<!-- %JQREQUIRE{"chili"}% -->
 
 %STOPINCLUDE%
-

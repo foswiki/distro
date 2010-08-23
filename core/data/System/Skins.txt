@@ -82,7 +82,7 @@ The following template names are used for Foswiki screens, and are referenced in
 
 You can use recursion in the TMPL:INCLUDE chain. For example, if =view.tmpl= contains =%<nop>TMPL:INCLUDE{"foswiki"}%=, the templating system will include the next SKIN in the skin path.
 To create a customisation of the Pattern skin, where you _only_ want to remove the edit & WYSIWYG buttons from the =view= screen, you create only a =view.yourlocal.tmpl=:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"edit_topic_link"}%%TMPL:END%
 %TMPL:DEF{"edit_wysiwyg_link"}%%TMPL:END%
@@ -206,7 +206,7 @@ See Foswiki:Extensions/SkinPackagingHowTo and Foswiki:Extensions/SkinDeveloperFA
 
 For your own skin you are encouraged to show a small 88x31 pixel logo at the bottom of your skin:
 
-%JQREQUIRE{"chili"}%<verbatim class="tml"><a href="http://foswiki.org/">
+<verbatim class="tml"><a href="http://foswiki.org/">
      <img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif"\
           alt="This site is powered by Foswiki" width="80" height="15"\
           title="This site is powered by Forwiki" border="0" />
@@ -269,3 +269,4 @@ Skin names starting with =rss= also have a special meaning; if one or more of th
 
 ---
 *Related Topics:* SkinTemplates, SkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory
+<!-- %JQREQUIRE{"chili"}% -->

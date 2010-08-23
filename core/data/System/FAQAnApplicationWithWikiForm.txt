@@ -14,7 +14,7 @@ Step by step:
 See [[DataForms][Data Form]], specifically the section [[DataForms#DefiningForm][Defining a form]]
 
 As an example we will create the topic "ReadingForm" with these contents:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 | *Name*   | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
 | Title    | text   | 80     |          | Book or article title | |
 | Category | select | 1      | ,Interesting,Remarkable,So-so | How you rate this reading material | |
@@ -76,6 +76,7 @@ To list all topics where the author name ends in "Auden":
 </div>
 
 VarSEARCH has more information on creating searches.
+<!-- %JQREQUIRE{"chili"}% -->
 
 %META:FORM{name="FAQForm"}%
 %META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="AnApplicationWithWikiForm" to="FaqAnApplicationWithWikiForm"}%

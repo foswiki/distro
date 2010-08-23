@@ -25,7 +25,7 @@ Features:
 
 ---++ Examples
 To enable chili add
-<verbatim>%JQREQUIRE{"chili"}%</verbatim>
+<verbatim class="tml">%JQREQUIRE{"chili"}%</verbatim>
 somewhere on the page, or add it to the default jQuery plugins in [[%SCRIPTURL{"configure"}%][configure]].
 %JQREQUIRE{"chili"}%
 

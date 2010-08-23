@@ -110,7 +110,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Format of file link when the *link* check box is checked: (can be overwritten by user preferences)
    <blockquote class="foswikiHelp"> %H% *NOTE:* Keyword ==$filename== gets expanded to filename; ==$fileurl== gets expanded to the urlencoded filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets).</blockquote>
    <!-- verbatim tag required to prevent error in Apache log; does not suppress Set -->
-   %JQREQUIRE{"chili"}%<verbatim class="tml">
+   <verbatim class="tml">
       * Set ATTACHEDFILELINKFORMAT = \n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment
 </verbatim>
 
@@ -438,3 +438,4 @@ never be attempted set or altered in any preference topic or topic settings.
 
 *Note*: Can't edit?
 [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=on][View raw topic]]
+<!-- %JQREQUIRE{"chili"}% -->

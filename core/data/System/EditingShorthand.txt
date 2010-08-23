@@ -43,7 +43,7 @@ You can create a table of contents with the [[VarTOC][%<nop>TOC%]] macro. If you
 
 %X% Empty headings are allowed, but won't appear in the table of contents.
 </td><td>
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 ---++ Sushi
 ---+++ Maguro
 ---+++!! Not in TOC
@@ -519,5 +519,6 @@ This div is required
 </td>
 </tr>
 </table>
+<!-- %JQREQUIRE{"chili"}% -->
 
 %STOPINCLUDE%

@@ -16,7 +16,7 @@ Two sections are defined:
    
 ---+++ Displaying the Parent - Current - Children block
 <blockquote>
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 %INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="all"}%
 </verbatim>
 </blockquote>
@@ -76,3 +76,4 @@ When included in !WebLeftBar (using default Pattern skin) this is styled to:
    format="<li class='childTopic'>$percentICON{line_ur_gray}$percent [[$web.$topic][$topic]]</li>"
 }%%ENDSECTION{"childlist"}%
 </verbatim>
+<!-- %JQREQUIRE{"chili"}% -->

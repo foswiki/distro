@@ -103,7 +103,7 @@ as would be inserted before the =&lt;/HEAD&gt;=.
    * Make sure that all inline Javascript code in the topic (if it is allowed)
      is added to the page using =%<nop>ADDTOZONE{"body"...requires="library-id"}%=
      with the appropriate library-id to guarantee a correct load order. For example, jQuery code should be added as follows:
-     %JQREQUIRE{"chili"}%<verbatim class="js">
+     <verbatim class="js">
 %JQREQUIRE{"shake"}%%ADDTOZONE{
    "body"
    id="MyApp::ShakePart"
@@ -127,3 +127,4 @@ as would be inserted before the =&lt;/HEAD&gt;=.
 </verbatim>
 See also [[VarRENDERZONE][RENDERZONE]],
 [[http://foswiki.org/Development/UsingADDTOZONE][Using ADDTOZONE]]
+<!-- %JQREQUIRE{"chili"}% -->

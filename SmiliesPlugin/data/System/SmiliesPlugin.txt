@@ -43,7 +43,7 @@ You can override the default settings for the plugin by defining the following [
 -->
 | *Preference* | *Meaning* | *Default* |
 | =SMILIESPLUGIN_TOPIC= | The name of the topic containing your Smilies. Use format =web.topic=. | %SYSTEMWEB%.SmiliesPlugin |
-| =SMILIESPLUGIN_FORMAT= | The way the _emoticon_ is displayed. You can use ==$emoticon== (e.g. =:<nop>D=), ==$url== (e.g. =%<nop>ATTACHURL%/biggrin.gif=) and ==$tooltip== (e.g. ="big grin"=). | %JQREQUIRE{"chili"}%<verbatim class="tml"><img
+| =SMILIESPLUGIN_FORMAT= | The way the _emoticon_ is displayed. You can use ==$emoticon== (e.g. =:<nop>D=), ==$url== (e.g. =%<nop>ATTACHURL%/biggrin.gif=) and ==$tooltip== (e.g. ="big grin"=). | <verbatim class="tml"><img
     src="$url"
     alt="$tooltip"
     title="$tooltip"
@@ -85,6 +85,7 @@ You can override the default settings for the plugin by defining the following [
 
 ---
 *Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
+<!-- %JQREQUIRE{"chili"}% -->
 
 %META:FILEATTACHMENT{name="biggrin.gif" attr="h" version="1.1"}%
 %META:FILEATTACHMENT{name="confused.gif" attr="h" version="1.1"}%

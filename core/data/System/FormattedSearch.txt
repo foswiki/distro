@@ -364,7 +364,7 @@ Sometimes it may be desirable for each hit to be displayed differently depending
 Use an HTML form and an embedded formatted search on the same topic. You can link them together with an [[VarURLPARAM][URLPARAM]] macro. Example:
 
 *Write this:*
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 <form action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%">
 Find Topics: 
 <input type="text" name="q" size="32"\
@@ -400,3 +400,4 @@ Result:
 
 ---
 *Related Topics:* UserDocumentationCategory, SearchHelp, [[%SYSTEMWEB%.Macros#VarSEARCH][Macros#VarSEARCH]], SearchPatternCookbook, RegularExpression
+<!-- %JQREQUIRE{"chili"}% -->

@@ -4,7 +4,7 @@ Some questions to answer:
    * Perhaps the plugin is installed, but did you remember to enable it in configure?
    * Did the installer mention any missing dependencies? Examine the Dependencies section of the plugin's System topic to determine if your environment has all the necessary dependencies: other Plugins/Contribs, perl libraries, 3rd-party software, etc.
       * Note that you can have the installer re-check dependencies by executing it with the "dependencies" option from the server:
-      %JQREQUIRE{"chili"}%<verbatim class="bash">cd /path/to/my/foswiki/
+      <verbatim class="bash">cd /path/to/my/foswiki/
 $  perl GenPDFAddOn_installer dependencies
 CGI,>=0,cpan,May be required for lib/Foswiki/Contrib/GenPDF.pm
 Data::Dumper,>=0,cpan,May be required for lib/Foswiki/Contrib/GenPDF.pm
@@ -35,6 +35,7 @@ htmldoc,0,external,Obtain from http://www.htmldoc.org/software.php
    * [[Foswiki:Support.SupportQuestions][Ask a support question]]
    * [[Foswiki:Community.MailingLists][foswiki-discuss mailing list]]
    * [[Foswiki:Support.WikiConsultants][Commercial (paid) support]]
+<!-- %JQREQUIRE{"chili"}% -->
 
 %META:FORM{name="System.FAQForm"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Troubleshooting Extensions"}%

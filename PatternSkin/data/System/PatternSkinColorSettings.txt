@@ -11,7 +11,7 @@ Use this topic to change the color settings of %SYSTEMWEB%.PatternSkin. When thi
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 ---+++!! Step 1
-Let %SYSTEMWEB%.PatternSkin point to the custom-made colors style sheet. In [[%USERSWEB%.SitePreferences]] copy this line: %JQREQUIRE{"chili"}%<verbatim class="tml">
+Let %SYSTEMWEB%.PatternSkin point to the custom-made colors style sheet. In [[%USERSWEB%.SitePreferences]] copy this line: <verbatim class="tml">
    * Set USERCOLORSURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/my_colors.css
 </verbatim>
 </div>
@@ -1015,3 +1015,4 @@ li.patternLogIn {
 }
 %ENDATTACH%
 </verbatim>
+<!-- %JQREQUIRE{"chili"}% -->

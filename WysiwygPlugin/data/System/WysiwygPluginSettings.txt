@@ -49,7 +49,7 @@ wish to change the settings, the following list is the default setting coded
 in the plugin:
 <pre class="tml">
    * Set WYSIWYGPLUGIN_STICKYBITS = %INCLUDE{"%TOPIC%" section="WYSIWYGPLUGIN_STICKYBITS"}%
-</pre>%JQREQUIRE{"chili"}%<!--
+</pre><!-- %JQREQUIRE{"chili"}%
 %STARTSECTION{"WYSIWYGPLUGIN_STICKYBITS"}%
         .*=id,lang,title,dir,on.*;
         A=accesskey,coords,shape,target;

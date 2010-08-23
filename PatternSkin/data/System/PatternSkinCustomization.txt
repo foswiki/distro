@@ -31,18 +31,16 @@ Let's say you want to simplify the bottom toolbar and remove all links except fo
    1 Think up a name for your skin. Let us use =myskin= for now.
    1 Create a new (empty) view template file in =/templates= called =view.myskin.tmpl=.
    1 In =view.myskin.tmpl= you write:
-   <blockquote>%JQREQUIRE{"chili"}%<verbatim class="tml">
+   <verbatim class="tml">
    %TMPL:INCLUDE{"view"}%
-   %TMPL:DEF{"top:topicactionbuttons"}%%TMPL:P{"more_link"}%%TMPL:END%</verbatim></blockquote>
+   %TMPL:DEF{"top:topicactionbuttons"}%%TMPL:P{"more_link"}%%TMPL:END%</verbatim>
    1 For testing, view any topic and append to the topic name: =?cover=myskin=. You should see an effect now.
    1 To make the changes visible on all pages, go to [[%USERSWEB%.SitePreferences]] (to keep %WIKIPREFSTOPIC% intact) and write:
-<blockquote><pre class="tml">
-   * <nop>Set COVER = myskin
-</pre>
-or write
-<pre class="tml">
-   * <nop>Set SKIN = myskin,pattern
-</pre></blockquote>
+   <pre class="tml">
+      * <nop>Set COVER = myskin</pre>
+   or write
+   <pre class="tml">
+      * <nop>Set SKIN = myskin,pattern</pre>
 
 Test by appending =?cover=myskin= to the url.
 
@@ -53,21 +51,17 @@ Test by appending =?cover=myskin= to the url.
 Template overrides can be written in a topic, a so-called _topic template_. Topic template names end with =<nop>ViewTemplate=, for instance =BlogPostViewTemplate=.
 
 Call this template by setting =VIEW_TEMPLATE=:
-<blockquote>
 <verbatim class="tml">
    * Set VIEW_TEMPLATE = BlogPostView
 </verbatim>
-</blockquote>
    * Note that you don't use the =Template= extension now
    * You can make this setting hidden by writing this in the Settings screen: go to More and then Topic Settings
 
 We can use the same example as above. In the topic you want to use as view template, for instance =<nop>OnlyMoreView=, write:
-<blockquote>
 <verbatim class="tml">
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"more_link"}%%TMPL:END%
 </verbatim>
-</blockquote>
 
 You can also test this by appending =?template=OnlyMoreView= to the url.
 
@@ -97,23 +91,23 @@ By default the logo at the top left of each web points to the image with name =l
 The [[%SYSTEMWEB%.PreferenceSettings][preference settings]] that cause this behavior are defined in [[%WIKIPREFSTOPIC%]].
 
 Redefine your custom [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):
-<blockquote><pre class="tml">
+<pre class="tml">
    * Set <nop>WEBLOGONAME = logo.gif
    * Set <nop>WEBLOGOIMG = %<nop>PUBURLPATH%/%<nop>BASEWEB%/%<nop>WEBPREFSTOPIC%/%<nop>WEBLOGONAME%
    * Set <nop>WEBLOGOURL = %<nop>SCRIPTURLPATH{"view"}%/%<nop>BASEWEB%/%<nop>HOMETOPIC%
    * Set <nop>WEBLOGOALT = Home
-</pre></blockquote>
+</pre>
 
 There are 2 ways to change the logo in a web:
 
 *Using logo.gif:*
-<blockquote>
+<blockquote class="foswikiHelp">
    * Create a new image named =logo.gif= and attach it to the web's WebPreferences topic. %SYSTEMWEB%.PatternSkin's stylesheet assumes the logo is 40px high. More about that later.
    * You can also upload the image with FTP to =/pub/YourWeb/WebPreferences/=.
    * Copy the above instructions ("Redefine your custom preference settings") and insert your logo name.
 </blockquote>
 *Using a new filename:*
-<blockquote>
+<blockquote class="foswikiHelp">
    * Attach whatever image and attach it to the web's WebPreferences topic. Then add to the WebPreferences (under _Custom web preferences_):
 <pre class="tml">
       * Set <nop>WEBLOGONAME = your-logo-name.gif-or-png
@@ -125,9 +119,9 @@ There are 2 ways to change the logo in a web:
 
 There are a bunch of site-wide logo [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%LOCALSITEPREFS%]]: =WIKILOGOIMG=, =WIKILOGOURL= and =WIKILOGOALT=.
 To change only the web logo image to site-wide, in [[%LOCALSITEPREFS%]] set:
-<blockquote><pre class="tml">
+<pre class="tml">
    * Set <nop>WEBLOGOIMG = %<nop>WIKILOGOIMG%
-</pre></blockquote>
+</pre>
 
 ---+++ My logo does not fit the top bar
 
@@ -147,18 +141,14 @@ In %SYSTEMWEB%.WebTopBar you can find the line:
 </verbatim>
 
 To search all webs, write:
-<blockquote>
 <verbatim class="tml">
 <input type="hidden" name="web" value="all" />
 </verbatim>
-</blockquote>
 
 To search a couple of webs, for instance the webs Main and System, write:
-<blockquote>
 <verbatim class="tml">
 <input type="hidden" name="web" value="Main,System" />
 </verbatim>
-</blockquote>
 
 See also: [[%SYSTEMWEB%.VarSEARCH][Search macro]]
 
@@ -172,19 +162,19 @@ _This information has moved to [[PatternSkinCssCookbook#HeightTopBar][PatternSki
 The image at the top is called "header art" - commonly the top image found on blog sites. The image that is displayed by default is set by the preference =WEBHEADERART=, defined in [[%WIKIPREFSTOPIC%]].
 
 Redefine your custom [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):
-<blockquote><pre class="tml">
+<pre class="tml">
    * <nop>Set WEBHEADERART = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/Foswiki_header.gif
    * <nop>Set WEBHEADERBGCOLOR = somehexcolor (no quotes, for example: #ffffff)
-</pre></blockquote>
+</pre>
 
 You can also set =WEBHEADERART= per web, by setting the preference in the Web's !WebPreferences.
 
 ---+++ I want to have the web color in the top bar
 
 Redefine =WEBHEADERBGCOLOR= in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):
-<blockquote><pre class="tml">
+<pre class="tml">
    * <nop>Set WEBHEADERBGCOLOR = %<nop>WEBBGCOLOR%
-</pre></blockquote>
+</pre>
 
 ---+++ I want to remove the Jump and Search boxes from the top bar 
 
@@ -210,7 +200,7 @@ Omit =%<nop>TMPL:INCLUDE{"viewtopbar"}%= to hide the top bar.
 
 Another approach is to clear the contents of module =topbar= with an empty definition. Using either a template or a topic template, write in your custom template:
 
-<blockquote><verbatim class="tml">
+<verbatim class="tml">
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"topbar"}%%TMPL:END%
 </verbatim>
@@ -224,7 +214,7 @@ and add:
 #patternClearHeaderRight {
    height:0px;
 }%TMPL:END%
-</verbatim></blockquote>
+</verbatim>
 
 *Using style sheets:* %BR%
 See PatternSkinCssCookbookNoTopBar
@@ -236,9 +226,9 @@ See PatternSkinCssCookbookNoTopBar
 
 *Using templates:* %BR%
 Omit =%<nop>TMPL:INCLUDE{"viewsidebar"}%= to hide the side bar, or in a custom template clear it using
-<blockquote><verbatim class="tml">
+<verbatim class="tml">
 %TMPL:DEF{"sidebar"}%%TMPL:END%
-</verbatim></blockquote>
+</verbatim>
 
 *Using style sheets:* %BR%
 See PatternSkinCssCookbookNoLeftBar
@@ -251,23 +241,23 @@ See PatternSkinCssCookbookNoLeftBar
 It may defy the wiki-ness of your Foswiki installation, but in certain circumstances it could be useful to hide the edit buttons from users that are not logged in, for instance for clients that have gotten viewing rights only.
 
 Using either a template or a topic template, 'empty' =top:toolbarbuttons= and =topicaction= by writing:
-<blockquote><pre class="tml">
+<pre class="tml">
 %<nop>TMPL:INCLUDE{"view"}%
 %<nop>TMPL:DEF{"top:toolbarbuttons"}%%TMPL:END%
 %<nop>TMPL:DEF{"topicaction"}%%TMPL:END%
-</pre></blockquote>
+</pre>
 
 In the user page of %USERSWEB%.WikiGuest, set the cover to
-<blockquote><pre class="tml">
+<pre class="tml">
    * <nop>Set COVER = customer
-</pre></blockquote>
+</pre>
 
 By default this topic is editable only by Wiki admins.
 
 ---+++ I want to remove the History button from the bottom
 
 All action links and buttons are defined in =viewtopicactionbuttons.tmpl=. The bottom history link is defined in DEF =action_revisions=
-<blockquote><verbatim class="tml">
+<verbatim class="tml">
 %TMPL:DEF{"topicactionbuttons"}%
 %TMPL:P{"action_activatable_edit_or_create"}%
 %TMPL:P{"action_activatable_attach"}%
@@ -278,13 +268,13 @@ All action links and buttons are defined in =viewtopicactionbuttons.tmpl=. The b
 %TMPL:P{"action_activatable_raw_edit"}%
 %TMPL:P{"activatable_more"}%
 %TMPL:END%
-</verbatim></blockquote>
+</verbatim>
 
 To hide that link, In a custom skin view template =view.myskin.tmpl= empty =action_revisions= by replacing it with an empty string:
-<blockquote><verbatim class="tml">
+<verbatim class="tml">
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"action_revisions"}%%TMPL:END%
-</verbatim></blockquote>
+</verbatim>
 
 
 ---+++ I want to put the bottom links as buttons at the top
@@ -296,17 +286,17 @@ The default definition in =view.pattern.tmpl= is:
 
 Create a new skin by creating a file =view.myskin.tmpl= in the =templates= directory. Write in it:
 
-<blockquote><verbatim class="tml">
+<verbatim class="tml">
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"history_history_link"}%%TMPL:END%
-</verbatim></blockquote>
+</verbatim>
 
 View any topic with =?skin=myskin,pattern=, or set the =SKIN= preference to =myskin,pattern=.
 
 This will remove the Edit and Attach buttons, and place a History button at the top.
 
 You will probably not just want to have the History button there. Other button include names are:
-<blockquote><verbatim class="tml">
+<verbatim class="tml">
 create_topic_link
 raw_edit_link
 view_topic_link
@@ -320,7 +310,7 @@ backlinks_link
 history_rdiff_link
 history_history_link
 raw_link
-</verbatim></blockquote>
+</verbatim>
 
 
 ---++ Other page parts
@@ -335,34 +325,31 @@ Both modules are wrapped in CSS containers:
    
 To put contents *before* the main text, use the custom skin approach as described above.%BR%
 So our custom template contains:
-<blockquote><verbatim class="tml">
+<verbatim class="tml">
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"contentheader"}%This is the text before%TMPL:END%
-</verbatim></blockquote>
+</verbatim>
 
 Use the same procedure for contents to be put *after* the topic text:
-<blockquote><verbatim class="tml">
+<verbatim class="tml">
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"contentfooter"}%This is the text after%TMPL:END%
-</verbatim></blockquote>
+</verbatim>
 
 ---+++ I want to place the form at the top
 
 Pattern skin has 2 buckets for the form: =formtop= (form at the top) and =formbottom= (form at the bottom). The default definition is:
 
-<blockquote>
 <verbatim class="tml">
 %TMPL:DEF{"formtop"}%%TMPL:END%
 %TMPL:DEF{"formbottom"}%%TMPL:P{"form"}%%TMPL:END%
 </verbatim>
-</blockquote>
 
 You simply swap the bucket contents. Using either a template or a topic template, write in your custom template:
 
-<blockquote>
 <verbatim class="tml">
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"formtop"}%%TMPL:P{"form"}%%TMPL:END%
 %TMPL:DEF{"formbottom"}%%TMPL:END%
 </verbatim>
-</blockquote>
+<!-- %JQREQUIRE{"chili"}% -->

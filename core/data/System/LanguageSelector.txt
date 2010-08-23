@@ -8,7 +8,7 @@ Note: this dropdown is only shown if localization is enabled.%BR%
 Test: %IF{"context i18n_enabled" then='<span style="color:green; font-weight:bold;">localization is enabled</span>' else='<span style="color:red; font-weight:bold;">localization is not enabled</span>'}% %BR%
 
 Usage:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 %INCLUDE{"%SYSTEMWEB%.LanguageSelector"}%
 </verbatim>
 
@@ -18,7 +18,7 @@ Result:
    then="$percentINCLUDE{\"%TOPIC%\" section=\"selector\"}$percent"
 }%%STOPINCLUDE%
 
-<!-- <verbatim class="tml">
+<!-- %JQREQUIRE{"chili"}% <verbatim class="tml">
 %STARTSECTION{"selector"}%<form name="changeLanguage"\
     action="%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%" method="get">
     <select name="language" class="foswikiSelect"\

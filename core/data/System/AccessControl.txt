@@ -267,7 +267,7 @@ Use the following setup to provide unrestricted viewing access to open webs, wit
 
 ---+++ Show control settings
 You can list the access controls affecting a topic using the [[VarSHOWPREFERENCE][%<nop>SHOWPREFERENCE{}%]] macro in the topic, thus:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 %SHOWPREFERENCE{"DENYWEBVIEW,ALLOWWEBVIEW,DENYWEBCHANGE,ALLOWWEBCHANGE,DENYWEBRENAME,ALLOWWEBRENAME"}%
 </verbatim>
 For this topic, this displays:
@@ -279,7 +279,7 @@ For this topic, this displays:
 
 Alternatively, place them in HTML comment markers, but this exposes the access setting during ordinary editing.
 
-%JQREQUIRE{"chili"}%<pre class="tml">
+<pre class="tml">
 ==&lt;!--== <br />
 ==&nbsp;  * Set <nop>DENYTOPICCHANGE = %USERSWEB%.<nop>SomeGroup== <br />
 ==--&gt;==
@@ -289,3 +289,4 @@ Alternatively, place them in HTML comment markers, but this exposes the access s
 
 ---
 *Related Topics:* AdminDocumentationCategory, UserAuthentication
+<!-- %JQREQUIRE{"chili"}% -->

@@ -19,7 +19,7 @@ The logo can be changed by redefining the =WIKILOGOIMG= [[%SYSTEMWEB%.Preference
 
 If you use the official artwork on your own site you must link back to Foswiki.org. Use this HTML (with any logo file on this page):
 
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 <a href="http://foswiki.org/">
 <img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif"\
     alt="This site is powered by Foswiki"\
@@ -35,7 +35,7 @@ The logo artwork of Foswiki.org should be used "as is" in order to get consisten
 
 You may NOT use any original artwork from Foswiki.org, nor make or use modified versions of such artwork, except under the following conditions:
    * You may use the Foswiki artwork on a web site, in product description and promotional material IF and ONLY IF such use can in no way be interpreted as anything other than an attribution. Using the Foswiki name and artwork in a manner that implies endorsement of a product or service is not allowed.
-
+<!-- %JQREQUIRE{"chili"}% -->
 
 
 %META:FILEATTACHMENT{name="favicon.ico" attachment="favicon.ico" attr="" comment="" date="1227691956" path="favicon.ico" size="1150" user="ProjectContributor" version="1"}%

@@ -39,7 +39,7 @@ is unsupported and they may be removed in future Foswiki versions.
 In the table below, the expression marked type 'String' are intended for
 use within character classes (i.e. for use within square brackets inside
 a regular expression), for example:
-%JQREQUIRE{"chili"}%<verbatim class="perl">
+<verbatim class="perl">
    my $isCapitalizedWord =
      ( $s =~ /[$Foswiki::regex{upperAlpha}][$Foswiki::regex{mixedAlpha}]+/ );
 </verbatim>
@@ -318,3 +318,4 @@ If the currently-running Foswiki version is 1.1 _or later_, then the _handler wi
 
 ---+++ TWiki<sup>&reg;</sup> Plugins
 Most plugins written for TWiki can also be run in Foswiki, by installing the !TWikiCompatibilityPlugin. See Foswiki:Extensions.TWikiCompatibilityPlugin for more information.
+<!-- %JQREQUIRE{"chili"}% -->

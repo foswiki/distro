@@ -13,7 +13,7 @@ The [[VarINCLUDE][%<nop>INCLUDE{...}%]] macro embeds the content of the specifie
 
 ---++ Syntax Example
 
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 %INCLUDE{
    "page"
    pattern="reg-exp"
@@ -85,3 +85,4 @@ The result would be
 
 ---
 *Related Topics:* VarINCLUDE, UserDocumentationCategory
+<!-- %JQREQUIRE{"chili"}% -->

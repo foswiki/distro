@@ -18,7 +18,7 @@ Parameters:
       * =$missing= - if the [[VarADDTOZONE][ADDTOZONE]] call being rendered required any =id= which was not found, then =$missing= is the =missingtoken= parameter; empty string otherwise.
       * =$missingids= - comma separated list of ids that were required by the [[VarADDTOZONE][ADDTOZONE]] call currently being rendered but weren't found within this =zone=.
    * =missingtoken="..."= optional, this will be the string assigned to the =$missing= format token for use in the =format= parameter. Default:
-   <verbatim class="tml">required id(s) that were missing from $zone zone: $missingids</verbatim>
+   <verbatim class="tml">$id: requires= missing ids: $missingids</verbatim>
    * =chomp="on"= remove leading and trailing whitespace from formatted items, can be useful for pretty-printing and compression.
    * =header="..."= optional, prepended to the output
    * =footer="..."= optional, appended to the output
@@ -40,4 +40,5 @@ __Notes:__
      be inserted where the =head= zone is expanded, and nothing will be
      inserted where the =&lt;/body&gt;= zone is expanded.
 
-See also [[VarADDTOZONE][ADDTOZONE]] for more information on zones. %JQREQUIRE{"chili"}%
+See also [[VarADDTOZONE][ADDTOZONE]] for more information on zones.
+<!-- %JQREQUIRE{"chili"}% -->

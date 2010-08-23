@@ -63,11 +63,11 @@ You may find it easier to write shorthand graphic notation. You can create your 
 A macro name may be one letter, like =Y=, or may be longer like =HELP=, =WARN= etc. You can also add your own images, e.g. a =NEW=, or a =ASK= to ask question.
 
 For instance, if we want to write =%<nop>DOWN%= instead of =%<nop>ICON{"arrowbdown"}%=, define the new macro like this:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
    * Set DOWN = %ICON{"arrowbdown"}%
 </verbatim>
 Or if you have a custom image to use, attach this to [[%LOCALSITEPREFS%]] and write:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
    * Set DOWN = <img src="%ATTACHURL%/my_image.gif" border="0" alt="DOWN" width="16" height="16" />
 </verbatim>
 
@@ -197,3 +197,4 @@ See [[VarADDTOZONE][ADDTOZONE]]'s [[VarADDTOZONE#ExampleAddingCSS][CSS example]]
 
 ----
 *Related Topics:* AdminDocumentationCategory
+<!-- %JQREQUIRE{"chili"}% -->
