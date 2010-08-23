@@ -43,7 +43,7 @@ hideimgleft="%ICONURLPATH{toggleclose}%"
 %IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'=''" then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotoptionssimple$quot}$percent"}%%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotoptionsadvanced$quot}$percent"}%
 %ENDTWISTY%
 </div>
-<div class="foswikiFormStep foswikiLast">
+<div class="foswikiFormStep">
 <input type="submit" class="foswikiSubmit" value="%MAKETEXT{"Search"}%" /> 
 </div>
 </div><!--//foswikiFormSteps-->
