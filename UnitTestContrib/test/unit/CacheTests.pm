@@ -65,6 +65,21 @@ sub NoCompress {
     $Foswiki::cfg{Cache}{Compress} = 0;
 }
 
+my %twistyIDs;
+# Convert the random IDs into sequential ones, so that we have some hope of
+# writing repeatable tests.
+sub _mangleID {
+    my ($id) = @_;
+    my $mangledID = $twistyIDs{$id};
+
+    if ( not defined $mangledID ) {
+        $mangledID = scalar( keys(%twistyIDs) ) + 1;
+        $twistyIDs{$id} = $mangledID;
+    }
+
+    return $mangledID;
+}
+
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
@@ -139,6 +154,10 @@ sub verify_view {
             s/<meta[^>]*?foswiki\.SERVERTIME"[^>]*?>//gi,
             'Failed to remove SERVERTIME meta tag'
         );
+        # There may not be TWISTY usage; so no need to assert, but IDs need
+        # to be sequential and not random.
+        %twistyIDs = ();
+        s/<(span|div)([^>]*?)(\d+?)(show|hide|toggle)([^>]*?)>/'<'.$1.$2._mangleID($3).$4.$5.'>'/ge;
     }
 
     $this->assert_html_equals( $one, $two );

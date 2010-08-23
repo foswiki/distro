@@ -40,7 +40,7 @@ sub do_test {
     $actual =
       Foswiki::Func::expandCommonVariables( $actual, $topicName, $webName );
     $actual = Foswiki::Func::renderText( $actual, $webName, $topicName );
-    $actual =~ s/(\d+)(show|hide|toggle)/_mangleID($1).$2/ge;
+    $actual =~ s/<(span|div)([^>]*?)(\d+?)(show|hide|toggle)([^>]*?)>/'<'.$1.$2._mangleID($3).$4.$5.'>'/ge;
 
     $this->assert_html_equals( $expected, $actual );
 
