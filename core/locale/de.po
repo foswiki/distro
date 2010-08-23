@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-08-23 16:11+0000\n"
+"PO-Revision-Date: 2010-08-23 19:36+0000\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "MIME-Version: 1.0\n"
@@ -118,9 +118,8 @@ msgid "%1 is not a valid form name"
 msgstr "%1 ist kein gültiger Formular-Name"
 
 #: core/templates/messages.tmpl:122
-#, fuzzy
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "'%1' ist kein gültiges %2 "
+msgstr "%1 ist kein gültiger Wert für den Parameter %2 "
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
@@ -131,7 +130,6 @@ msgid "%1 may still be editing %2."
 msgstr "%1 wird noch von %2 bearbeitet."
 
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
 msgstr "%1 aktuelle Änderungen im %2 Web"
 
@@ -139,9 +137,8 @@ msgstr "%1 aktuelle Änderungen im %2 Web"
 # $date,
 # $by)
 #: core/templates/messages.tmpl:518
-#, fuzzy
 msgid "%1 removed from the %2 group. "
-msgstr "%1 wurde durch %4 von %2 am %3 hierher verschoben"
+msgstr "%1 wurde aus der Gruppe %2 entfernt."
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -168,9 +165,8 @@ msgstr "%1 hat sich versucht mit der E-Mail %2 zu registrieren"
 # $by)
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
 #: core/lib/Foswiki/Render.pm:229
-#, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 wurde durch %4 von %2 am %3 hierher verschoben"
+msgstr "%1 wurde durch %4 von %2 auf %3 umbenannt oder verschoben."
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -185,9 +181,8 @@ msgid "&History"
 msgstr "&Historie"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:92
-#, fuzzy
 msgid "&Sequential"
-msgstr "Sequenziell"
+msgstr "&Sequenziell"
 
 #: core/templates/messages.tmpl:283
 msgid "'%1' is not a valid %2 "
@@ -219,7 +214,7 @@ msgstr "(=all= um alle Topics anzuzeigen)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
 msgid "(This message will be removed automatically)"
-msgstr ""
+msgstr "(Diese Nachricht wird automatisch entfernt)"
 
 #: core/templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
@@ -256,7 +251,7 @@ msgstr "(Änderungen)"
 #: CompareRevisionsAddOn/templates/compare.tmpl:3
 #, fuzzy
 msgid "(compare)"
-msgstr "(Mehr)"
+msgstr "(vergleichen)"
 
 #: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
@@ -357,7 +352,6 @@ msgid "*Formatting help:*"
 msgstr "*Formatierungshilfe:*"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -369,13 +363,13 @@ msgid ""
 "before registering."
 msgstr ""
 "*Wichtig:* Die in diesem Formular angegebenen Informationen werden in einer "
-"Datenbank auf dem Foswiki Server gespeichert. Auf die Datenbank hat jeder "
+"Datenbank auf dem Web Server gespeichert. Auf die Datenbank hat jeder "
 "Zugriff, der Zugriff auf den Server durch das Web hat (jedoch sind die "
 "Passwörter verschlüsselt und die E-Mail Adressen sind verfremdet, um Spam "
-"abzuwenden. Ihr Land, oder das Land in dem sich der Server befindet hat "
+"abzuwenden). Ihr Land, oder das Land in dem sich der Server befindet hat "
 "möglicherweise Datenschutzrechte, die den Betrieb einer solchen Datenbank "
-"regeln. Wenn Sie Fragen zu den Datenschutzregeln auf diesem Foswiki Server "
-"haben kontaktieren Sie bitte %1 bevor Sie sich registrieren."
+"regeln. Wenn Sie Fragen zu den Datenschutzregeln auf diesem Web Server haben "
+"kontaktieren Sie bitte %1 bevor Sie sich registrieren."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -504,21 +498,19 @@ msgstr ""
 "Sie den Verweis."
 
 #: core/data/Sandbox/WebHome.txt:32
-#, fuzzy
 msgid "A more extensive changes list is available via [[%1][Recent changes]]."
 msgstr ""
-"Eine ausführlichere Änderungsliste steht über [[%1][Aktuelle Änderungen]] "
+"Eine ausführlichere Änderungsliste ist über [[%1][Aktuelle Änderungen]] "
 "verfügbar."
 
 #: core/templates/messages.tmpl:559
-#, fuzzy
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
-"Ein neues vom System erzeugtes Passwort für den Login Namen %1 (!WikiName %"
-"2) wurde an ihre registrierte E-Mail gesendet. Falls ihre E-Mail Adresse "
+"Ein neues vom System erzeugtes Passwort für den Login Namen '%1' (!WikiName "
+"%2) wurde an ihre registrierte E-Mail gesendet. Falls ihre E-Mail Adresse "
 "nicht länger gültig ist, setzen Sie sich bitte mit %3 in Kontakt"
 
 #: core/data/System/WebTemplateTopics.txt:5
@@ -534,7 +526,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:65
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -562,11 +554,11 @@ msgstr "Aktion %1: %2."
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #, fuzzy
 msgid "Add"
-msgstr "hinzugefügt"
+msgstr "hinzufügen"
 
 #: core/data/Main/GroupViewTemplate.txt:141
 msgid "Add a user to this group"
-msgstr ""
+msgstr "Einen Benutzer der Gruppe hinzufügen"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
@@ -578,13 +570,12 @@ msgid "Add row"
 msgstr "Zeile hinzufügen"
 
 #: core/data/Main/GroupViewTemplate.txt:143
-#, fuzzy
 msgid "Add user"
-msgstr "Zeile hinzufügen"
+msgstr "Benutzer hinzufügen"
 
 #: core/data/Main/GroupViewTemplate.txt:79
 msgid "Add user..."
-msgstr ""
+msgstr "Benutzer hinzufügen..."
 
 #: core/templates/messages.tmpl:369
 #, fuzzy
@@ -617,13 +608,12 @@ msgstr ""
 "Nachdem Sie dieses Formular abgesendet haben wird ihr Passwort geändert."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
-#, fuzzy
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
 msgstr ""
 "Nachdem Sie das Formular abschickt haben erhalten Sie eine E-Mail mit Ihrem "
-"neuen *vom System generierten* Passwort und einen Verweis zu der Seite, wo "
+"neuen, vom System generierten Passwort, und einen Verweis zu der Seite, wo "
 "Sie das Passwort ändern können."
 
 #: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
@@ -643,9 +633,8 @@ msgstr ""
 "einen anderen Benutzernamen zu wählen."
 
 #: core/lib/Foswiki/UI/Rename.pm:199
-#, fuzzy
 msgid "An attachment with the same name already exists in this topic."
-msgstr "Der Anhang existiert bereits in dem neuen Topic"
+msgstr "Ein Anhang mit dem selben Namen existiert bereits in diesem Topic."
 
 #: core/templates/messages.tmpl:264
 msgid ""
@@ -678,9 +667,8 @@ msgid "Attach"
 msgstr "Anhang"
 
 #: core/templates/attach.tmpl:9
-#, fuzzy
 msgid "Attach a file"
-msgstr "Neue Datei anhängen"
+msgstr "Datei anhängen"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -709,7 +697,6 @@ msgid "Attachment delete failed"
 msgstr "Löschen des Anhangs fehlgeschlagen"
 
 #: core/lib/Foswiki/UI/Rename.pm:166
-#, fuzzy
 msgid "Attachment does not exist."
 msgstr "Anhang existiert nicht."
 
