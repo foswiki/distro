@@ -9,31 +9,31 @@ msgstr ""
 "PO-Revision-Date: 2009-06-20 22:13+0200\n"
 "Last-Translator: Lars Eik <lars.eik@gmail.com>\n"
 "Language-Team: Norwegian <LL@li.org>\n"
-"Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nb_NO\n"
 "Language: no\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:450
+#: core/lib/Foswiki/Time.pm:480
 msgid "%*(%1,day) "
 msgstr "%*(%1,dag) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:453
+#: core/lib/Foswiki/Time.pm:483
 msgid "%*(%1,hour) "
 msgstr "%*(%1,time)"
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:456
+#: core/lib/Foswiki/Time.pm:486
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minutt) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:459
+#: core/lib/Foswiki/Time.pm:489
 msgid "%*(%1,second) "
 msgstr "%*(%1,sekund) "
 
@@ -48,77 +48,46 @@ msgstr "%1"
 msgid "%1 - Registration failure for %2 (%3)"
 msgstr "%1 - Registreringsfeil for %2 (%3)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:116
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - Registreringsfeil for %2 (%3)"
 
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:68
-msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
-msgstr "%1 - komplett Foswiki dokumentasjon, Hurtigstart til Referanse"
-
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:70
-msgid "%1 - just for me"
-msgstr "%1 - bare for meg"
-
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:67
-msgid "%1 - starting points on Foswiki"
-msgstr "%1 - startpunkter for Foswiki"
-
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:69
-msgid "%1 - try out Foswiki on your own"
-msgstr "%1 - prøv Foswiki selv"
-
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:66
-msgid "%1 - view a short introductory presentation on Foswiki for beginners"
-msgstr "%1 - se en kort introduksjon om Foswiki for nybegynnere"
-
-#: core/data/System/WebChanges.txt:2
-msgid "%1 Recent Changes in %2 Web"
-msgstr "%1 Siste endringer i %2 Web"
-
-#: PatternSkin/templates/view.pattern.tmpl:43
+#: PatternSkin/templates/view.pattern.tmpl:41
 msgid "%1 Web"
 msgstr "%1 Web"
 
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:84
-msgid "%1 for changing your email address"
-msgstr "%1 for å endre din epost adresse"
+#: core/templates/messages.tmpl:480
+msgid "%1 added to the %2 group. "
+msgstr ""
 
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:83
-msgid "%1 for changing your password"
-msgstr "%1 for å endre ditt passord"
+#: core/templates/messages.tmpl:487
+msgid "%1 group topic upgraded. "
+msgstr ""
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:47
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:37
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:85
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:38
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 har en liste over andre Foswiki brukere"
 
-#: core/templates/messages.tmpl:438
+#: core/templates/messages.tmpl:528
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
 msgstr "%1 har redigert siden for %2 and leien er aktiv for ytterligere %3."
 
-#: core/templates/registerfailednotremoved.tmpl:12
+#: core/templates/registerfailednotremoved.tmpl:10
 #: core/templates/registernotifyadmin.tmpl:10
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 er registrert med epost %2"
 
-#: core/templates/validate.tmpl:16
+#: core/templates/validate.tmpl:26
 msgid "%1 has received a suspicious change request from your browser."
 msgstr "%1 har mottatt en mistenkelig endringsforespørsel fra din nettleser."
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
 msgstr "%1 hjem"
-
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:86
-msgid "%1 is a list of Foswiki user documentation"
-msgstr "%1 er en liste over Foswiki brukerdokumentasjon"
 
 #: core/templates/messages.tmpl:114
 msgid "%1 is an invalid name for a new web"
@@ -128,33 +97,45 @@ msgstr "%1 er et ugyldig navn for en ny web"
 msgid "%1 is currently logged in"
 msgstr "%1 er logget inn"
 
-#: core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:433
 msgid "%1 is currently set to %2"
 msgstr "%1 er satt til %2"
 
-#: core/templates/messages.tmpl:436
-msgid "%1 is editing %2."
+#: core/templates/messages.tmpl:526
+#, fuzzy
+msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 redigerer %2"
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 er medlem av minst en gruppe og kan ikke fjernes"
 
-#: core/templates/renameattachmentdelete.tmpl:40
+#: core/templates/messages.tmpl:126
+#, fuzzy
+msgid "%1 is not a valid form name"
+msgstr "'%1' er ikke et gyldig %2"
+
+#: core/templates/messages.tmpl:122
+#, fuzzy
+msgid "%1 is not a valid value for the %2 parameter"
+msgstr "'%1' er ikke et gyldig %2"
+
+#: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 er standard side for slettede vedlegg"
 
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:87
-msgid "%1 lists all Foswiki user tools"
-msgstr "%1 viser alle bruker verktøy"
-
-#: core/templates/messages.tmpl:444
+#: core/templates/messages.tmpl:534
 msgid "%1 may still be editing %2."
 msgstr "%1 redigerer kanskje fremdeles %2"
 
-#. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
-#: core/lib/Foswiki/Render.pm:221
-msgid "%1 moved from %2 on %3 by %4"
+#: core/data/System/WebChanges.txt:3
+#, fuzzy
+msgid "%1 recent changes in %2 Web"
+msgstr "%1 Siste endringer i %2 Web"
+
+#: core/templates/messages.tmpl:518
+#, fuzzy
+msgid "%1 removed from the %2 group. "
 msgstr "%1 flyttet fra %1 på %3 av %4"
 
 #: core/templates/messages.tmpl:22
@@ -169,15 +150,21 @@ msgstr "%1 for å tilpasse web spesifikke preferanser"
 msgid "%1 to start working on the new web"
 msgstr "%1 for å starte å bruke den nye weben"
 
-#: core/templates/messages.tmpl:510 core/templates/messages.tmpl:521
+#: core/templates/messages.tmpl:600 core/templates/messages.tmpl:611
 msgid "%1 topic does not exist"
 msgstr "%1 siden eksisterer ikke"
 
-#: core/templates/registerfailedremoved.tmpl:12
+#: core/templates/registerfailedremoved.tmpl:10
 msgid "%1 tried to register with e-mail %2"
 msgstr "%1 forsøkte å registrere med epost %2"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:9
+#. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
+#: core/lib/Foswiki/Render.pm:229
+#, fuzzy
+msgid "%1 was renamed or moved from %2 on %3 by %4"
+msgstr "%1 flyttet fra %1 på %3 av %4"
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
 msgstr "Avbryt (&c)"
 
@@ -185,19 +172,24 @@ msgstr "Avbryt (&c)"
 msgid "&Edit text"
 msgstr "R&ediger tekst"
 
-#: core/templates/foswiki.tmpl:101
+#: core/templates/foswiki.tmpl:162
 msgid "&History"
 msgstr "&Historikk"
 
-#: core/templates/messages.tmpl:273
+#: HistoryPlugin/templates/oopshistory.tmpl:92
+#, fuzzy
+msgid "&Sequential"
+msgstr "Sekvensiell"
+
+#: core/templates/messages.tmpl:283
 msgid "'%1' is not a valid %2 "
 msgstr "'%1' er ikke et gyldig %2"
 
-#: core/data/System/WebTopicCreator.txt:2
+#: core/data/System/WebTopicCreator.txt:3
 msgid "'Create New Topic' page has moved"
 msgstr "'Lag ny side' siden har flyttet"
 
-#: core/templates/login.tmpl:12
+#: core/templates/login.tmpl:10
 msgid "(%1 login)"
 msgstr "(%1 logg inn)"
 
@@ -205,21 +197,21 @@ msgstr "(%1 logg inn)"
 msgid "(%1 validation)"
 msgstr "(%1 bekreftelse)"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:6 core/templates/rdiff.tmpl:4
+#: PatternSkin/templates/rdiff.pattern.tmpl:3 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
 msgstr "(%1 vs. %2)"
 
-#: core/templates/messages.tmpl:164
+#: core/templates/messages.tmpl:172
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*Forslag:* Hva med å laste opp ditt bilde til din side?)"
 
-#: core/data/System/WebSearchAdvanced.txt:76
+#: core/data/System/WebSearch.txt:129
 msgid "(=all= to show all topics)"
 msgstr "(=alle= for å se alle sider)"
 
-#: core/data/Sandbox/WebHome.txt:9
-msgid "(Use a topic name in System.WikiNotation)"
-msgstr "(Bruk et sidenavn i System.WikiNotation)"
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
+msgid "(This message will be removed automatically)"
+msgstr ""
 
 #: core/templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
@@ -229,7 +221,7 @@ msgstr "(tilgang nektes)"
 msgid "(attach)"
 msgstr "(legg ved)"
 
-#: core/templates/backlinksweb.tmpl:3
+#: core/templates/backlinksweb.tmpl:2
 msgid "(backlinks in %1 Web)"
 msgstr "(referanser i %1 weben)"
 
@@ -237,7 +229,7 @@ msgstr "(referanser i %1 weben)"
 msgid "(backlinks in all Webs)"
 msgstr "(referanser i alle web)"
 
-#: core/templates/searchbookview.tmpl:3
+#: core/templates/searchbookview.tmpl:4
 msgid "(book view)"
 msgstr "(bokvisning)"
 
@@ -245,14 +237,18 @@ msgstr "(bokvisning)"
 msgid "(change form)"
 msgstr "(endre skjema)"
 
-#: core/templates/oopschangelanguage.tmpl:2
 #: core/templates/oopslanguagechanged.tmpl:3
 msgid "(change language)"
 msgstr "(endre språk)"
 
-#: PatternSkin/templates/changes.pattern.tmpl:4 core/templates/changes.tmpl:4
+#: PatternSkin/templates/changes.pattern.tmpl:2 core/templates/changes.tmpl:2
 msgid "(changes)"
 msgstr "(endringer)"
+
+#: CompareRevisionsAddOn/templates/compare.tmpl:3
+#, fuzzy
+msgid "(compare)"
+msgstr "(mer)"
 
 #: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
@@ -274,19 +270,11 @@ msgstr "(rediger tekst)"
 msgid "(edit)"
 msgstr "(rediger)"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:105
-msgid "(how you log in) LoginName:"
-msgstr "(hvordan du logger inn) LoginName:"
-
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:100
-msgid "(identifies you to others) WikiName:"
-msgstr "(identifiserer deg for andre) WikiName:"
-
 #: core/templates/login.tmpl:4
 msgid "(login)"
 msgstr "(innlogging)"
 
-#: core/templates/oopsmore.tmpl:3
+#: core/templates/more.tmpl:3
 msgid "(more)"
 msgstr "(mer)"
 
@@ -294,41 +282,33 @@ msgstr "(mer)"
 msgid "(move attachment)"
 msgstr "(flytt vedlegg)"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:63
+#: core/data/System/WebCreateNewTopicTemplate.txt:60
 msgid "(no parent, orphaned topic)"
 msgstr "(ingen foreldre, foreldreløs side)"
 
-#: core/lib/Foswiki/UI/Manage.pm:1126 core/lib/Foswiki/UI/Manage.pm:1159
-#: core/lib/Foswiki/UI/Manage.pm:1272 core/lib/Foswiki/UI/Manage.pm:1275
-#: core/lib/Foswiki/UI/Manage.pm:1278 core/lib/Foswiki/UI/Manage.pm:1317
-#: core/lib/Foswiki/UI/Manage.pm:1348 core/lib/Foswiki/UI/Manage.pm:847
-#: core/lib/Foswiki/UI/Manage.pm:851 core/lib/Foswiki/UI/Manage.pm:855
-#: core/lib/Foswiki/UI/Manage.pm:859
+#: core/lib/Foswiki/UI/Rename.pm:1136 core/lib/Foswiki/UI/Rename.pm:1160
+#: core/lib/Foswiki/UI/Rename.pm:1216 core/lib/Foswiki/UI/Rename.pm:1219
+#: core/lib/Foswiki/UI/Rename.pm:1222 core/lib/Foswiki/UI/Rename.pm:1257
+#: core/lib/Foswiki/UI/Rename.pm:1280 core/lib/Foswiki/UI/Rename.pm:545
+#: core/lib/Foswiki/UI/Rename.pm:549 core/lib/Foswiki/UI/Rename.pm:553
+#: core/lib/Foswiki/UI/Rename.pm:557
 msgid "(none)"
 msgstr "(ingen)"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:275
-msgid "(optional)"
-msgstr "(valgfri)"
-
-#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
+#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
 msgid "(otherwise search %1 Web only)"
 msgstr "eller søk kun i %1 web"
 
-#: PatternSkin/templates/view.pattern.tmpl:45
+#: PatternSkin/templates/view.pattern.tmpl:43
 msgid "(raw view)"
 msgstr "Rå tekst"
-
-#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:45
-msgid "(recommended)"
-msgstr "(anbefalt)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
 msgid "(rename)"
 msgstr "(navngi)"
 
-#: PatternSkin/templates/view.pattern.tmpl:45
+#: PatternSkin/templates/view.pattern.tmpl:43
 msgid "(revision %1)"
 msgstr "(revisjon %1)"
 
@@ -336,29 +316,20 @@ msgstr "(revisjon %1)"
 msgid "(save error)"
 msgstr "(lagringsfeil)"
 
-#: core/templates/searchformat.tmpl:3
-msgid "(search result)"
-msgstr "(søkeresultat)"
-
-#: PatternSkin/templates/search.pattern.tmpl:9 core/templates/search.tmpl:3
-#: core/templates/search.tmpl:6
-msgid "(search results)"
-msgstr "(søkeresultater)"
-
-#: PatternSkin/templates/settings.pattern.tmpl:10
+#: PatternSkin/templates/settings.pattern.tmpl:6
 #: core/templates/settings.tmpl:3
 msgid "(set preferences)"
 msgstr "(sett preferanser)"
 
-#: core/templates/messages.tmpl:286
+#: core/templates/messages.tmpl:296
 msgid "(single character first name)"
 msgstr "(enkelt bokstav fornavn)"
 
-#: core/templates/messages.tmpl:285
+#: core/templates/messages.tmpl:295
 msgid "(single character last name)"
 msgstr "(enkelt bokstav etternavn)"
 
-#: core/lib/Foswiki/UI/Manage.pm:1100
+#: core/lib/Foswiki/UI/Rename.pm:1115
 msgid "(skipped)"
 msgstr "(oversett)"
 
@@ -372,20 +343,21 @@ msgstr ""
 "kommentar vil kommentaren som vises til siden endres, men kommentaren som "
 "vises til et vedlegg vil vise kommentaren fra når vedlegget ble lastet opp."
 
-#: core/data/System/WikiSyntaxSummary.txt:8
+#: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*Formatting help:*"
 msgstr "*Formateringshjelp:*"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:15
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
-"database on the Foswiki server. This database is accessible to anyone who "
-"can access the server through the web (though passwords will be encrypted, "
-"and e-mail addresses will be obfuscated to help prevent spamming). Your "
-"country, or the country where the server is hosted, may have Data Protection "
-"laws governing the maintenance of such databases. If you are in doubt, you "
-"should contact %1 for details of the Data Protection Policy of this Foswiki "
-"server before registering."
+"database on the web server. This database is accessible to anyone who can "
+"access the server through the web (though passwords will be encrypted, and e-"
+"mail addresses will be obfuscated to help prevent spamming). Your country, "
+"or the country where the server is hosted, may have Data Protection laws "
+"governing the maintenance of such databases. If you are in doubt, you should "
+"contact %1 for details of the Data Protection Policy of this web server "
+"before registering."
 msgstr ""
 "*Viktig:* informasjonen fra dette skjemaet blir lagret i en database i "
 "Foswiki serveren. Denne database er tilgjengelig for alle som kan nå "
@@ -412,11 +384,11 @@ msgstr ""
 "*Egenskaper:* Kommentaren og synligheten (i.e. er vedlegg skjult) kan endres "
 "uten å laste opp en fil ved å velge \"Endre kun egenskaper; se %1."
 
-#: core/data/System/WikiSyntaxSummary.txt:9
+#: core/data/System/WikiSyntaxSummary.txt:10
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
 msgstr "*fet* skriv ord/uttrykk med stjerner: =<nop>*ditt uttrykk*="
 
-#: core/data/System/WikiSyntaxSummary.txt:10
+#: core/data/System/WikiSyntaxSummary.txt:11
 msgid ""
 "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
 "your text="
@@ -424,7 +396,7 @@ msgstr ""
 "*punktliste* 3 mellomrom, stjerne. 1 mellomrom: =&&nbsp;&&nbsp;&&nbsp;"
 "*&&nbsp;din tekst="
 
-#: core/data/System/WikiSyntaxSummary.txt:14
+#: core/data/System/WikiSyntaxSummary.txt:15
 msgid ""
 "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
 "Yahoo]]="
@@ -432,34 +404,34 @@ msgstr ""
 "*eksterne linker* =http://yahoo.com= eller =[<nop>[http://yahoo.com/][link "
 "til Yahoo]]="
 
-#: core/data/System/WikiSyntaxSummary.txt:11
+#: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
 msgstr ""
 "*overskrifter* 3 streker, 1 til 6 plusser, 1 mellomrom: =---++&&nbsp;Din "
 "Overskrift="
 
-#: core/data/System/WikiSyntaxSummary.txt:12
+#: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
 msgstr "*italic* skriv dine ord og uttrykk i underscores: =_<nop>dine ord_="
 
-#: core/data/System/WikiSyntaxSummary.txt:15
+#: core/data/System/WikiSyntaxSummary.txt:16
 msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
 msgstr "*monospaced* skriv ord i likhetstegn: =<nop>=dine ord=="
 
-#: core/data/System/WikiSyntaxSummary.txt:16
+#: core/data/System/WikiSyntaxSummary.txt:17
 msgid "*paragraphs* separate with blank line"
 msgstr "*avsnitt* separer med en blank linje"
 
-#: core/data/System/WikiSyntaxSummary.txt:13
+#: core/data/System/WikiSyntaxSummary.txt:14
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
 "*interne linker* bruk sidenavn: =%1= eller =[<nop>[%1][vår hjemmeside]]="
 
-#: core/lib/Foswiki/I18N/Extract.pm:88
+#: core/lib/Foswiki/I18N/Extract.pm:93
 msgid "..."
 msgstr "..."
 
-#: core/data/System/WebChanges.txt:8
+#: core/data/System/WebChanges.txt:9
 msgid ""
 "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
 "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
@@ -471,19 +443,19 @@ msgstr ""
 "rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> sider, <a "
 "href='%7' rel='nofollow'>alle endringer</a>"
 
-#: core/templates/oopsmore.tmpl:56
+#: core/templates/more.tmpl:89
 msgid "<em>in %1 web</em> only"
 msgstr "<em> kun i %1 web </em>"
 
-#: core/templates/oopsmore.tmpl:54
+#: core/templates/more.tmpl:87
 msgid "<em>in all public webs</em>"
 msgstr "<em> i alle offentlige web'er</em>"
 
-#: core/templates/messages.tmpl:365
+#: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "=.txt= legges til noen av filnavnene av sikkerhetshensyn"
 
-#: core/templates/messages.tmpl:493
+#: core/templates/messages.tmpl:583
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -492,7 +464,7 @@ msgstr ""
 "et område for samhandling og samarbeid. Du forsøker å %1 i en web so ikke "
 "eksisterer."
 
-#: core/templates/messages.tmpl:131
+#: core/templates/messages.tmpl:139
 msgid ""
 "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
 "=#FFFF00=."
@@ -501,11 +473,11 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:974
+#: core/lib/Foswiki/UI/Register.pm:929
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "En bekreftelses epost har blitt sent til %1"
 
-#: core/templates/messages.tmpl:497
+#: core/templates/messages.tmpl:587
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -514,15 +486,17 @@ msgstr ""
 "En link til en side i en annen web skrives som %1. Vær sikker på at navnet "
 "er stavet riktig på forrige side; fiks linken hvis nødvendig."
 
-#: core/data/Sandbox/WebHome.txt:25
-msgid "A more extensive changes list is available via [[%1][Recent Changes]]."
+#: core/data/Sandbox/WebHome.txt:32
+#, fuzzy
+msgid "A more extensive changes list is available via [[%1][Recent changes]]."
 msgstr ""
 "En mer utdypende liste over endringer er tilgjengelig på [[%1][Siste "
 "endringer]]."
 
-#: core/templates/messages.tmpl:469
+#: core/templates/messages.tmpl:559
+#, fuzzy
 msgid ""
-"A new system-generated password for your login name %1 (!WikiName %2) has "
+"A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
@@ -530,73 +504,88 @@ msgstr ""
 "registrerte epostadresse. Hvis din epostadresse ikke lenger er gyldig, ta "
 "kontakt med %3"
 
-#: core/data/System/WebTemplateTopics.txt:4
+#: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
 msgstr "En malside definerer innholdet en ny side skal ha til å begynne med."
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:20
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:21
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
 msgstr ""
 "En side med dette navnet eksisterer, men det har endret navn eller flyttet "
 "til %1."
 
+#: core/data/System/WebSearch.txt:65
+msgid "A-Z"
+msgstr ""
+
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
 msgstr "Ingen Tilgang"
 
-#: core/templates/messages.tmpl:477
+#: core/templates/messages.tmpl:567
 msgid "Access check on %1 failed"
 msgstr "Tilgangskontroll til %1 feilet"
 
-#: PatternSkin/templates/edit.pattern.tmpl:53
-#: PatternSkin/templates/preview.pattern.tmpl:22
-#: PatternSkin/templates/settings.pattern.tmpl:25
+#: PatternSkin/templates/edit.pattern.tmpl:47
+#: PatternSkin/templates/preview.pattern.tmpl:21
+#: PatternSkin/templates/settings.pattern.tmpl:21
 msgid "Access keys"
 msgstr "Hurtigtaster"
 
-#: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
+#: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
 msgstr "Valg"
 
-#: core/templates/messages.tmpl:478
+#: core/templates/messages.tmpl:568
 msgid "Action %1: %2."
 msgstr "Valg %1: %2."
+
+#: JQueryPlugin/data/System/JQueryButton.txt:29
+#, fuzzy
+msgid "Add"
+msgstr "Ny rad"
+
+#: core/data/Main/GroupViewTemplate.txt:141
+msgid "Add a user to this group"
+msgstr ""
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
 msgstr "Legg til skjema"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:163
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:981
+#: EditTablePlugin/data/System/EditTablePlugin.txt:162
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
 msgid "Add row"
 msgstr "Ny rad"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:284
-msgid "Add your name to the list of users in the %1 topic in the %2 web."
-msgstr "Legg ditt navn til listen over brukere i siden %1 i %2 web'en"
+#: core/data/Main/GroupViewTemplate.txt:143
+#, fuzzy
+msgid "Add user"
+msgstr "Ny rad"
 
-#: core/templates/messages.tmpl:353
-msgid "Adding a %1 variable in WebPreferences"
+#: core/data/Main/GroupViewTemplate.txt:79
+msgid "Add user..."
+msgstr ""
+
+#: core/templates/messages.tmpl:369
+#, fuzzy
+msgid "Adding a %1 preference in WebPreferences"
 msgstr "Legger til %1 variabel i WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
 msgstr "Admin Foswiki Bruker Autentisering"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:25
+#: PatternSkin/data/System/WebLeftBarExample.txt:26
 msgid "Admin Maintenance"
 msgstr "Admin Vedlikehold"
 
-#: core/data/System/WebSearchAdvanced.txt:3
-msgid "Advanced Search"
-msgstr "Avansert Søk"
-
-#: core/data/System/WebSearch.txt:25
+#: core/data/System/WebSearch.txt:64
 msgid "Advanced search"
 msgstr "Avansert søk"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:27
 msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
@@ -604,27 +593,28 @@ msgstr ""
 "Etter å ha bekreftet dette skjemaet vil din epost bli endret og du "
 "returnerer til dette skjemaet."
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:12
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:19
 msgid "After submitting this form your password will be changed."
 msgstr "Etter å ha bekreftet denne skjemaet blir ditt passord endret."
 
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:15
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:14
+#, fuzzy
 msgid ""
-"After submitting this form, you will receive an e-mail with your new, "
-"*system-generated* password, and a link to a page where you can change it."
+"After submitting this form, you will receive an e-mail with your new, system-"
+"generated password, and a link to a page where you can change it."
 msgstr ""
 "Etter å ha bekreftet dette skjemaet mottar du en epost med ditt nye *system-"
 "genererte* passord, og en link til en side hvor du kan endre det."
 
-#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
+#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
 msgid "All public webs"
 msgstr "Alle offentige webs"
 
-#: core/templates/foswiki.tmpl:7
+#: core/templates/foswiki.tmpl:44
 msgid "Allow non <nop>WikiWord for the new topic name"
 msgstr "Tillat ikke <nop>WikiOrd for det nye sidenavnet"
 
-#: core/templates/messages.tmpl:267
+#: core/templates/messages.tmpl:277
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
@@ -632,12 +622,17 @@ msgstr ""
 "Alternativt velg 'Tilbake' for å gå tilbake til %SYSTEMWEB%.UserRegistration "
 "og velg et annet brukernavn."
 
-#: core/templates/messages.tmpl:254
+#: core/lib/Foswiki/UI/Rename.pm:199
+#, fuzzy
+msgid "An attachment with the same name already exists in this topic."
+msgstr "Vedlegg eksisterer fra før i ny side"
+
+#: core/templates/messages.tmpl:264
 msgid ""
 "An e-mail could not be delivered. Please notify your %1 administrator, %2"
 msgstr "Epost kunne ikke sendes. Vennligst informer din %1 administrator, %2"
 
-#: core/templates/moveattachment.tmpl:29
+#: core/templates/moveattachment.tmpl:49
 msgid ""
 "An error page will be shown if either of the topics are locked by another "
 "user."
@@ -658,7 +653,12 @@ msgstr ""
 msgid "Attach"
 msgstr "Legg ved"
 
-#: PatternSkin/templates/attachnew.pattern.tmpl:4
+#: core/templates/attach.tmpl:9
+#, fuzzy
+msgid "Attach a file"
+msgstr "Legg ved ny fil"
+
+#: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
 msgid "Attach file to %1"
 msgstr "Legg ved fil til %1"
@@ -676,27 +676,40 @@ msgstr "Legg ved ny fil"
 msgid "Attachment"
 msgstr "Vedlegg"
 
-#: core/templates/messages.tmpl:527
+#: core/templates/messages.tmpl:617
 msgid "Attachment '%1' does not exist"
 msgstr "Vedlegg '%1' eksisterer ikke"
-
-#: core/lib/Foswiki/UI/Manage.pm:383
-msgid "Attachment already exists in new topic"
-msgstr "Vedlegg eksisterer fra før i ny side"
 
 #: core/templates/messages.tmpl:62
 msgid "Attachment delete failed"
 msgstr "Sletting av vedlegg feilet"
 
-#: core/lib/Foswiki/UI/Manage.pm:359
-msgid "Attachment does not exist"
+#: core/lib/Foswiki/UI/Rename.pm:166
+#, fuzzy
+msgid "Attachment does not exist."
 msgstr "Vedlegg eksisterer ikke"
+
+#: core/templates/attachtables.tmpl:42
+#, fuzzy
+msgid "Attachment history"
+msgstr "Vedlegg"
+
+#: core/lib/Foswiki/UI/RDiff.pm:63
+#, fuzzy
+msgid "Attachment metadata"
+msgstr "Flytting av vedlegg feilet"
 
 #: core/templates/messages.tmpl:54
 msgid "Attachment move failed"
 msgstr "Flytting av vedlegg feilet"
 
-#: PatternSkin/templates/attachtables.pattern.tmpl:7
+#: core/templates/moveattachment.tmpl:37
+#, fuzzy
+msgid "Attachment name:"
+msgstr "Vedlegg"
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:6
+#: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
 msgstr "Vedlegg"
 
@@ -718,7 +731,7 @@ msgstr "Vedlegg vises ikke i teksten på siden."
 msgid "Attention"
 msgstr "Oppmerksomhet"
 
-#: core/templates/attachtables.tmpl:26
+#: core/templates/attachtables.tmpl:30
 msgid "Attribute"
 msgstr "Egenskap"
 
@@ -735,20 +748,19 @@ msgstr "Tilgjengelig informasjon"
 msgid "Available form templates"
 msgstr "Tilgjengelige skjema-maler"
 
-#: core/data/System/WebTemplateTopics.txt:6
+#: core/data/System/WebTemplateTopics.txt:7
 msgid "Available templates in %1 Web:"
 msgstr "Tilgjenglige maler i %1 web'en"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:9
+#: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "Back to topic"
 msgstr "Tilbake til siden"
 
-#: core/templates/oopsmore.tmpl:52
-#: core/templates/viewtopicactionbuttons.tmpl:89
+#: core/templates/more.tmpl:85 core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "Referanser"
 
-#: core/templates/backlinksweb.tmpl:6
+#: core/templates/backlinksweb.tmpl:5
 msgid "Backlinks to %1 in %2 Web"
 msgstr "Referanser til %1 i %2 web'en"
 
@@ -756,11 +768,11 @@ msgstr "Referanser til %1 i %2 web'en"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Referanser til %1 i alle webs"
 
-#: core/templates/messages.tmpl:291
+#: core/templates/messages.tmpl:301
 msgid "Bad password"
 msgstr "Ugyldig passord"
 
-#: core/templates/messages.tmpl:126
+#: core/templates/messages.tmpl:134
 msgid "Base web %1 is missing or does not exist"
 msgstr "Basis web %1 mangler eller eksisterer ikke"
 
@@ -768,7 +780,7 @@ msgstr "Basis web %1 mangler eller eksisterer ikke"
 msgid "Bathing problem"
 msgstr "...problem..."
 
-#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:40
+#: core/data/System/WebSearch.txt:78 core/data/System/WebSearch.txt:92
 msgid "Both body and title"
 msgstr "Både innhold og tittel"
 
@@ -790,21 +802,24 @@ msgstr ""
 "ønsker at alle skal kunne se Trash web'en så fjern =ALLOWWEBVIEW= i "
 "WebPreferences."
 
-#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:557
 msgid "Can't find user %1"
 msgstr "Kan ikke finne bruker %1"
 
-#: core/templates/messages.tmpl:468
+#: core/templates/messages.tmpl:558
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr "Kan ikke finne epost adresse for %1 (nødvendig for å resette passord)"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:165
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
-#: core/templates/foswiki.tmpl:80 core/templates/validate.tmpl:37
+#: EditTablePlugin/data/System/EditTablePlugin.txt:164
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
+#: JQueryPlugin/data/System/JQueryButton.txt:27
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:109
+#: JQueryPlugin/data/System/VarBUTTON.txt:28 core/templates/foswiki.tmpl:133
+#: core/templates/validate.tmpl:51
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: PatternSkin/templates/edit.pattern.tmpl:47
+#: PatternSkin/templates/edit.pattern.tmpl:41
 msgid "Cancel editing and discard changes"
 msgstr "Avbryt redigering og forkast endringer"
 
@@ -812,7 +827,7 @@ msgstr "Avbryt redigering og forkast endringer"
 msgid "Cannot create %1 because it already exists."
 msgstr "Kan ikke lage %1 fordi den allerede eksisterer."
 
-#: core/templates/messages.tmpl:122
+#: core/templates/messages.tmpl:130
 msgid "Cannot create web %1 because it already exists"
 msgstr "Kan ikke lage web'en %1 fordi den allerede eksisterer"
 
@@ -820,50 +835,53 @@ msgstr "Kan ikke lage web'en %1 fordi den allerede eksisterer"
 msgid "Cannot rename %1 to %2 because it already exists."
 msgstr "Kan ikke navngi %1 til %2 fordi den allerede eksisterer."
 
-#: core/data/System/WebSearchAdvanced.txt:57
+#: core/data/System/WebSearch.txt:111
 msgid "Case sensitive"
 msgstr "Store/små bokstaver"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:34
+#: PatternSkin/data/System/WebLeftBarExample.txt:35
 msgid "Categories"
 msgstr "Kategorier"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:2
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
 msgstr "Endre passord"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:16
+#: core/templates/validate.tmpl:22
+msgid "Change cannot be completed"
+msgstr ""
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
 msgstr "Kun endre kommentar og egenskaper"
 
 #: core/templates/renamebase.tmpl:14
-msgid "Change from:"
+#, fuzzy
+msgid "Change from"
 msgstr "Endre fra:"
 
-#: core/data/System/LanguageSelector.txt:16
-#: core/templates/oopschangelanguage.tmpl:20
-#: core/templates/oopschangelanguage.tmpl:4
+#: core/data/System/LanguageSelector.txt:35
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Endre språk"
 
-#: core/templates/renamewebbase.tmpl:42
+#: core/templates/renamewebbase.tmpl:43
 msgid "Change links in topics that refer to !%1 in any Web:"
 msgstr "Endre linker i sider som refererer til !%1 i alle webs:"
 
-#: core/templates/renamewebbase.tmpl:39
+#: core/templates/renamewebbase.tmpl:40
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
 msgstr "Endre linker i sider som refererer til !%1 i %2 web'en:"
 
-#: core/templates/renamebase.tmpl:55
+#: core/templates/renamebase.tmpl:57
 msgid "Change links in topics that refer to %1 in any Web:"
 msgstr "Endre linker til sider som refererer til %1 i alle web:"
 
-#: core/templates/renamebase.tmpl:52
+#: core/templates/renamebase.tmpl:53
 msgid "Change links in topics that refer to %1 in the %2 Web:"
 msgstr "Endre linker i sider som refererer til %1 in %2 web'en:"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:30
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:32
 msgid "Change password"
 msgstr "Endre passord"
 
@@ -875,11 +893,7 @@ msgstr "Kun endre egenskaper"
 msgid "Change topic"
 msgstr "Endre side"
 
-#: core/templates/search.tmpl:15
-msgid "Changed"
-msgstr "Endret"
-
-#: MailerContrib/templates/mailnotify.tmpl:18 core/templates/search.tmpl:16
+#: MailerContrib/templates/mailnotify.tmpl:18
 msgid "Changed by"
 msgstr "Endret av"
 
@@ -887,31 +901,26 @@ msgstr "Endret av"
 msgid "Changed:"
 msgstr "Endret:"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:8
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:8
-#: PatternSkin/data/System/WebLeftBarExample.txt:9
-#: PatternSkin/data/Trash/WebLeftBarExample.txt:6
-#: PatternSkin/data/_default/WebLeftBar.txt:7
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
+#: MailerContrib/templates/mailnotify.tmpl:11
+#: PatternSkin/data/Main/WebLeftBarExample.txt:9
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:9
+#: PatternSkin/data/System/WebLeftBarExample.txt:10
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:7
+#: PatternSkin/data/_default/WebLeftBar.txt:8
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:8
 msgid "Changes"
 msgstr "Endringer"
 
-#. ($r2, $r1)
-#: core/lib/Foswiki/UI/RDiff.pm:532
+#. ($rLow, $rHigh)
+#: core/lib/Foswiki/UI/RDiff.pm:582
 msgid "Changes from r%1 to r%2"
 msgstr "Endinger fra r%1 til r%2"
 
-#: core/templates/messages.tmpl:413
-msgid ""
-"Check your configuration settings for {TemplateDir} and {TemplatePath}. If "
-"that's not the problem, it may be because you have a setting of %1 that is "
-"pointing to a template that doesn't exist."
+#: core/templates/messages.tmpl:429
+msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
-"Sjekk dine konfigurasjonsinnstillinger for {TemplateDir} og {TemplatePath}. "
-"Dersom det ikke er feilen kan det være at du har satt %1 til å peke til en "
-"mail som ikke eksisterer."
 
-#: core/templates/renamebase.tmpl:42 core/templates/renamedelete.tmpl:30
+#: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
 msgstr ""
 "Valgte sider vil bli oppdatert til å referere til den nye linken for siden."
@@ -920,7 +929,7 @@ msgstr ""
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "Valgte sider vil bli oppdatert til å referere til det nye web navnet."
 
-#: core/templates/oopsmore.tmpl:127
+#: core/templates/more.tmpl:188
 msgid "Child topics in %1 web"
 msgstr "Undersider i %1 web'en"
 
@@ -928,12 +937,12 @@ msgstr "Undersider i %1 web'en"
 msgid "Choose a new form for %1"
 msgstr "Velg et nytt skjema for %1"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:33
-#: core/lib/Foswiki/Form/Checkbox.pm:40
+#: PatternSkin/templates/renamebase.pattern.tmpl:22
+#: core/lib/Foswiki/Form/Checkbox.pm:43
 msgid "Clear all"
 msgstr "Tøm alle"
 
-#: core/lib/Foswiki/Render.pm:201
+#: core/lib/Foswiki/Render.pm:214
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -941,26 +950,29 @@ msgstr ""
 "Klikk for å flytte en side tilbake til tidligere lokasjon, med valgmulighet "
 "til å endre referanser."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:576
+#: TwistyPlugin/data/System/TwistyPlugin.txt:477
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:94
 msgid "Close"
 msgstr "Lukk"
 
-#: core/templates/messages.tmpl:130
+#: core/templates/messages.tmpl:138
 msgid "Color %1 has an invalid format"
 msgstr "Farge %1 har ugyldig format"
 
+#: HistoryPlugin/templates/oopshistory.tmpl:34
 #: PatternSkin/templates/attach.pattern.tmpl:45 core/templates/attach.tmpl:24
-#: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
+#: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Kommentar"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:275
-msgid "Comments:"
-msgstr "Kommentarer:"
-
-#: core/templates/oopsmore.tmpl:108
+#: HistoryPlugin/templates/oopshistory.tmpl:76 core/templates/more.tmpl:151
 msgid "Compare revisions"
 msgstr "Sammenlign versjoner"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
+#, fuzzy
+msgid "Confirm password"
+msgstr "Ditt passord:"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
@@ -978,32 +990,46 @@ msgstr ""
 msgid "Conflict"
 msgstr "Konflikt"
 
-#: core/templates/messages.tmpl:480 core/templates/messages.tmpl:486
-#: core/templates/messages.tmpl:507 core/templates/messages.tmpl:518
-#: core/templates/messages.tmpl:524 core/templates/messages.tmpl:530
-#: core/templates/messages.tmpl:539
+#: core/templates/messages.tmpl:570 core/templates/messages.tmpl:576
+#: core/templates/messages.tmpl:597 core/templates/messages.tmpl:608
+#: core/templates/messages.tmpl:614 core/templates/messages.tmpl:620
+#: core/templates/messages.tmpl:629
 msgid "Contact %1 if you have any questions."
 msgstr "Kontakt %1 dersom du har spørsmål."
 
-#: core/templates/messages.tmpl:405
+#: HistoryPlugin/templates/oopshistory.tmpl:58
+#, fuzzy
+msgid "Context:"
+msgstr "Land:"
+
+#: core/templates/messages.tmpl:421
 msgid "Continue and try to rename web?"
 msgstr "Fortsett og forsøk å navngi web?"
 
-#: core/data/System/WebTopicCreator.txt:4
+#: core/data/System/WebTopicCreator.txt:5
 msgid "Continue to create the new page"
 msgstr "Fortsett å lage ny side"
 
-#: core/templates/oopsmore.tmpl:20
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:113
 msgid ""
-"Copy text and form data to a new topic (no attachments will be copied "
-"though)."
-msgstr "Kopier tekst og skjemadata til en ny side (vedlegg kopieres ikke)."
+"Conversion to HTML for WYSIWYG editing is disabled because of the topic "
+"content."
+msgstr ""
 
-#: core/templates/oopsmore.tmpl:19 core/templates/oopsmore.tmpl:22
+#: core/templates/more.tmpl:27
+msgid "Copy this topic (and all attachments) to a new topic."
+msgstr ""
+
+#: core/templates/more.tmpl:26
 msgid "Copy topic"
 msgstr "Kopier side"
 
-#: core/data/System/DefaultPreferences.txt:42
+#: core/templates/more.tmpl:36
+#, fuzzy
+msgid "Copy topic..."
+msgstr "Kopier side"
+
+#: core/data/System/DefaultPreferences.txt:40
 msgid ""
 "Copyright &&copy; by the contributing authors. All material on this "
 "collaboration platform is the property of the contributing authors."
@@ -1011,7 +1037,7 @@ msgstr ""
 "Copyright &&copy; av de bidragende forfattere. Alt materiale i denne "
 "samarbeidsplattform er eiet av de bidragende forfattere."
 
-#: core/data/System/WebPreferences.txt:34
+#: core/data/System/WebPreferences.txt:33
 msgid ""
 "Copyright &&copy; by the contributing authors. All material on this site is "
 "the property of the contributing authors."
@@ -1019,38 +1045,35 @@ msgstr ""
 "Copyright &&copy; av de bidragende forfattere. Alt materiale i denne "
 "webløsning er eiet av de bidragende forfattere."
 
-#: core/templates/messages.tmpl:140
+#: core/templates/messages.tmpl:148
 msgid "Could not create the new web %1"
 msgstr "Kunne ikke lage ny web %1"
 
-#: core/templates/messages.tmpl:411
+#: core/templates/messages.tmpl:427
 msgid "Could not find template"
 msgstr "Kunne ikke finne mal"
 
-#: core/templates/messages.tmpl:472
+#: core/templates/messages.tmpl:562
 msgid "Could not perform search. Error was: %1"
 msgstr "Kunne ikke utføre søk. Feil var: %1"
 
-#: core/templates/messages.tmpl:323
+#: core/templates/messages.tmpl:333
 msgid "Could not save %1."
 msgstr "Kunne ikke lagre %1."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:125
-msgid "Country:"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:258
+#, fuzzy
+msgid "Country"
 msgstr "Land:"
 
-#: core/data/Sandbox/WebHome.txt:18
-msgid "Create <nop>TestTopic###"
-msgstr "Lag <nop>TestSide###"
-
-#: PatternSkin/data/Main/WebLeftBarExample.txt:5
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
-#: PatternSkin/data/_default/WebLeftBar.txt:4
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:4
+#: PatternSkin/data/Main/WebLeftBarExample.txt:6
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
+#: PatternSkin/data/_default/WebLeftBar.txt:5
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
 msgid "Create New Topic"
 msgstr "Lag Ny Side"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:43
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:49
 #: core/data/System/WebCreateNewTopicTemplate.txt:6
 msgid "Create New Topic in %1 Web"
 msgstr "Lag Ny Side i %1 web"
@@ -1059,39 +1082,43 @@ msgstr "Lag Ny Side i %1 web"
 msgid "Create a link to the attached file"
 msgstr "Lag link til vedlagte fil"
 
-#: core/data/Sandbox/WebHome.txt:16
-msgid "Create a new auto-numbered test topic:"
-msgstr "Lag en ny autonummerert testside:"
+#: core/data/Main/WikiGroups.txt:7
+#, fuzzy
+msgid "Create a new group"
+msgstr "Lag Ny Side"
 
-#: core/data/Sandbox/WebHome.txt:9
-msgid "Create a new document by name:"
-msgstr "Lag en ny side som heter:"
+#: core/data/Main/WikiGroups.txt:31
+#, fuzzy
+msgid "Create group"
+msgstr "Lag Ny Side"
 
-#: core/data/Sandbox/WebHome.txt:10
-msgid "Create by Name"
-msgstr "Lag ved Navn"
+#: core/data/System/FrequentlyAskedQuestions.txt:44
+#, fuzzy
+msgid "Create new FAQ topic"
+msgstr "Lag Ny Side"
 
-#: core/templates/messages.tmpl:505
+#: core/templates/messages.tmpl:595
 msgid "Create the topic"
 msgstr "Lag siden"
 
-#: core/data/System/DefaultPreferences.txt:320
-#: core/data/System/DefaultPreferences.txt:322
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:14
-#: core/data/System/WebCreateNewTopicTemplate.txt:67
-#: core/lib/Foswiki/Render.pm:98
+#: core/data/System/DefaultPreferences.txt:373
+#: core/data/System/DefaultPreferences.txt:375
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:15
+#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#: core/lib/Foswiki/Render.pm:49
 msgid "Create this topic"
 msgstr "Lag denne siden"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:283
-msgid ""
-"Create your personal %1 topic using your WikiName as topic name, and add the "
-"data you submitted to the topic."
-msgstr ""
-"Lag din personlige %1 side med ditt WikiNavn som sidenavn, og legg til "
-"informasjonen som du la inn på siden."
+#: core/data/Sandbox/WebHome.txt:19
+#, fuzzy
+msgid "Create topic"
+msgstr "Lag siden"
 
-#: core/templates/messages.tmpl:352
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:13
+msgid "Create your account to edit pages on this site."
+msgstr ""
+
+#: core/templates/messages.tmpl:368
 msgid "Creating a suitable Form Definition topic"
 msgstr "Lag en passende Skjemadefinisjons side"
 
@@ -1100,15 +1127,17 @@ msgstr "Lag en passende Skjemadefinisjons side"
 msgid "Current location:"
 msgstr "Gjeldende sted:"
 
-#: core/templates/oopsmore.tmpl:66
+#: core/templates/more.tmpl:99
 msgid "Current parent:"
 msgstr "gjeldende forelder:"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:23
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 msgid "Current password"
 msgstr "Gjeldende passord"
 
-#: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
+#: HistoryPlugin/templates/oopshistory.tmpl:32
+#: HistoryPlugin/templates/oopshistory.tmpl:43
+#: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Date"
 msgstr "Dato"
 
@@ -1116,17 +1145,18 @@ msgstr "Dato"
 msgid "Dear %1"
 msgstr "Kjære %1"
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:160
 msgid "Debug"
 msgstr "Debug"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:65
+#: core/data/System/WebCreateNewTopicTemplate.txt:62
 msgid "Default template"
 msgstr "Standard mal"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:24
+#: JQueryPlugin/data/System/JQueryButton.txt:30
+#: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/renameattachmentdelete.tmpl:25
-#: core/templates/renamedelete.tmpl:33 core/templates/renamedelete.tmpl:6
+#: core/templates/renamedelete.tmpl:37 core/templates/renamedelete.tmpl:6
 msgid "Delete"
 msgstr "Slett"
 
@@ -1134,16 +1164,16 @@ msgstr "Slett"
 msgid "Delete attachment"
 msgstr "slett vedlegg"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:164
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:985
+#: EditTablePlugin/data/System/EditTablePlugin.txt:163
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:983
 msgid "Delete last row"
 msgstr "Slett siste rad"
 
-#: core/templates/oopsmore.tmpl:34
+#: core/templates/more.tmpl:49
 msgid "Delete topic"
 msgstr "Slett side"
 
-#: core/templates/oopsmore.tmpl:35 core/templates/oopsmore.tmpl:37
+#: core/templates/more.tmpl:59
 msgid "Delete topic..."
 msgstr "Slett side..."
 
@@ -1151,11 +1181,11 @@ msgstr "Slett side..."
 msgid "Describe the file so other people know what it is."
 msgstr "Beskriv filen slik at andre vet hva den er."
 
-#: core/lib/Foswiki/Form.pm:286
+#: core/lib/Foswiki/Form.pm:316
 msgid "Details in separate window"
 msgstr "Detaljer i eget vindu"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:6
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:7
 msgid ""
 "Did you spell the topic name correctly? Remember, a topic name is case "
 "sensitive."
@@ -1163,13 +1193,23 @@ msgstr ""
 "Stavet du sidenavnet riktig? Husk at sidenavn skiller mellom store og små "
 "bokstaver."
 
-#: core/data/System/VarMAKETEXT.txt:19
+#: core/data/System/VarMAKETEXT.txt:21
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Ville du [[%1][sette %2's passord]]?"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:14
+#: core/templates/rdiff.tmpl:14
+#, fuzzy
+msgid "Difference Topic"
+msgstr "Differanse:"
+
+#: CompareRevisionsAddOn/templates/compare.tmpl:5
+#: PatternSkin/templates/rdiff.pattern.tmpl:11
 msgid "Difference:"
 msgstr "Differanse:"
+
+#: core/data/System/WebPreferences.txt:12
+msgid "Discover the details, and how to start your own site with Foswiki"
+msgstr ""
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
@@ -1179,7 +1219,7 @@ msgstr "Ikke glem å lagre dine endringer"
 msgid "Do not show attachment in table"
 msgstr "Ikke vis vedlegg i tabell"
 
-#: core/data/System/WebSearchAdvanced.txt:68
+#: core/data/System/WebSearch.txt:121
 msgid "Don't show:"
 msgstr "Ikke vis:"
 
@@ -1192,9 +1232,8 @@ msgstr ""
 "administrator."
 
 #: core/templates/messages.tmpl:55
-msgid ""
-"During move of attachment %1 to %2 an error was found. Please notify your %3 "
-"administrator."
+#, fuzzy
+msgid "During move of attachment =%1= to %2 an error was found."
 msgstr ""
 "Under flytting av vedlegg %1 til %2 ble feil funnet. Vennligst informer din %"
 "3 administrator."
@@ -1215,7 +1254,7 @@ msgstr ""
 "Ved navneendring av web %1 til %2 ble feil (%3) funnet. Vennligst informer "
 "din %4 administrator."
 
-#: core/templates/messages.tmpl:382 core/templates/oopssaveerr.tmpl:16
+#: core/templates/messages.tmpl:398 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
@@ -1223,13 +1262,33 @@ msgstr ""
 "Under lagring av %1 ble en feil funnet av revisjonskontroll systemet. "
 "Vennligst informer din %2 administrator."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:109
-msgid "E-mail address:"
-msgstr "Epost adresse:"
-
-#: core/templates/messages.tmpl:191
+#: core/templates/messages.tmpl:201
 msgid "E-mail changed successfully!"
 msgstr "Epost ble endret!"
+
+#: core/templates/messages.tmpl:632
+msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
+msgstr ""
+
+#: core/templates/messages.tmpl:633
+msgid "ENCODE failed - both of =old= and =new= must be given"
+msgstr ""
+
+#: core/templates/messages.tmpl:634
+msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
+msgstr ""
+
+#: core/templates/messages.tmpl:637
+msgid "EXPAND failed - access to '%PARAM1%' denied"
+msgstr ""
+
+#: core/templates/messages.tmpl:635
+msgid "EXPAND failed - no macro"
+msgstr ""
+
+#: core/templates/messages.tmpl:636
+msgid "EXPAND failed - no such topic '%PARAM1%'"
+msgstr ""
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
@@ -1243,7 +1302,11 @@ msgstr "Rediger"
 msgid "Edit Anyway"
 msgstr "Rediger allikevel"
 
-#: PatternSkin/templates/edit.pattern.tmpl:17
+#: core/templates/viewtopicactionbuttons.tmpl:61
+msgid "Edit Wiki<nop>Text"
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:11
 msgid "Edit help"
 msgstr "Redigeringshjelp"
 
@@ -1251,16 +1314,17 @@ msgstr "Redigeringshjelp"
 msgid "Edit personal data"
 msgstr "Rediger personlige data"
 
-#: core/templates/oopsmore.tmpl:14
-msgid "Edit settings for this topic"
+#: core/templates/more.tmpl:17
+#, fuzzy
+msgid "Edit settings for this topic..."
 msgstr "Rediger innstillinger for denne siden"
 
 #: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 msgid "Edit text"
 msgstr "Rediger tekst"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:160
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:969
+#: EditTablePlugin/data/System/EditTablePlugin.txt:159
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "Rediger denne tabellen"
 
@@ -1268,11 +1332,11 @@ msgstr "Rediger denne tabellen"
 msgid "Edit this topic text"
 msgstr "Rediger teksten på denne siden"
 
-#: core/templates/oopsmore.tmpl:13
+#: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Rediger preferansene for denne siden"
 
-#: core/templates/messages.tmpl:308
+#: core/templates/messages.tmpl:318
 msgid ""
 "Either the code is not valid, or you have already confirmed your "
 "registration using it."
@@ -1280,7 +1344,15 @@ msgstr ""
 "Enten er koden ugyldig eller så har du allerede bekreftet din regsitrasjon "
 "med den."
 
-#: core/templates/messages.tmpl:373
+#: core/templates/messages.tmpl:127
+msgid "Either the name is invalid, or it refers to a non-existant form."
+msgstr ""
+
+#: core/templates/messages.tmpl:123
+msgid "Either the name is invalid, or it refers to a non-existant topic."
+msgstr ""
+
+#: core/templates/messages.tmpl:389
 msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
@@ -1288,11 +1360,16 @@ msgstr ""
 "Enten har du ikke spesifisert et filnavn eller så har ikke filen du forsøke "
 "å laste opp %1 noe innhold. Du kan ikke laste opp en tom fil."
 
-#: core/lib/Foswiki/UI/Register.pm:422 core/lib/Foswiki/UI/Register.pm:461
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
+#, fuzzy
+msgid "Email address"
+msgstr "Epost adresse:"
+
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:462
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "Epost er ikke aktivert for denne Foswiki installasjonen"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:77
+#: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Enlarge edit box"
 msgstr "Forstørr redigeringsboks"
 
@@ -1304,27 +1381,27 @@ msgstr "Skriv inn nytt brukernavn og passord for å endre indentitet"
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Skriv administrators brukernavn eller brukernavn som satt i %1"
 
-#: core/templates/messages.tmpl:241
+#: core/templates/messages.tmpl:251
 msgid "Error registering new user"
 msgstr "Feil ved registrering av ny bruker"
 
-#: core/templates/messages.tmpl:232
+#: core/templates/messages.tmpl:242
 msgid "Error registering user %1"
 msgstr "Feil ved registrering av bruker %1"
 
-#: core/templates/messages.tmpl:381
+#: core/templates/messages.tmpl:397
 msgid "Error saving topic"
 msgstr "Feil ved lagring av side"
 
-#: core/templates/login.tmpl:29
+#: core/templates/login.tmpl:26
 msgid "Error: %1"
 msgstr "Feil: %1"
 
-#: core/templates/messages.tmpl:458
+#: core/templates/messages.tmpl:548
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Feil: Vedlegg til %1,%2 eksisterer ikke"
 
-#: core/templates/messages.tmpl:460
+#: core/templates/messages.tmpl:550
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
@@ -1332,62 +1409,81 @@ msgstr ""
 "Feil: Usupportert innholdstype: %1 (Må være =text/html=, =text/plain= eller "
 "=text/css=)"
 
-#: core/templates/messages.tmpl:459
+#: core/templates/messages.tmpl:549
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "Feil: Usupportert protokoll. (Må være 'http://domene/...')"
 
-#: core/templates/messages.tmpl:258
+#: core/templates/messages.tmpl:268
 msgid "Errors"
 msgstr "Feil"
 
-#: core/templates/messages.tmpl:470
+#: core/templates/messages.tmpl:466
+#, fuzzy
+msgid "Errors adding users to group"
+msgstr "Feil ved lagring av side"
+
+#: core/templates/messages.tmpl:504
+msgid "Errors removing users from groups"
+msgstr ""
+
+#: core/lib/Foswiki/Plugins.pm:366
+msgid "Failed plugins"
+msgstr ""
+
+#: core/templates/messages.tmpl:560
 msgid "Failed to include URL %1"
 msgstr "Klarte ikke å inkludere URL %1"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:21
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:26
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:90
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:34
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
 msgstr "Felter merket %1 er obligatoriske"
 
-#: core/templates/messages.tmpl:358
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:32
+#, fuzzy
+msgid "Fields marked <span class='required'>*</span> are required"
+msgstr "Felter merket %1 er obligatoriske"
+
+#: core/templates/messages.tmpl:374
 msgid "File has been uploaded with different name"
 msgstr "Filen har blitt lastet opp med annet navn"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:11
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
 msgstr "Finn liknende sider"
 
-#: core/templates/oopsmore.tmpl:53 core/templates/oopsmore.tmpl:55
+#: core/templates/more.tmpl:86 core/templates/more.tmpl:88
 msgid "Find topics that link to %1 ..."
 msgstr "Finn sider som linker til %1..."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:282
-msgid ""
-"Finish creating an account for you, so that you can start editing pages "
-"using your WikiName."
-msgstr ""
-"Lag en konto for deg slik at du kan starte å redigere sider med ditt "
-"WikiNavn."
-
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:93
-msgid "First Name:"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:138
+#, fuzzy
+msgid "First name"
 msgstr "Fornavn:"
 
-#: PatternSkin/templates/edit.pattern.tmpl:30
+#: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
 msgstr "Tving ny versjon"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:5
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:14
 msgid "Forgotten your password?"
 msgstr "Glemt passordet ditt?"
 
-#: core/templates/messages.tmpl:330
+#: core/templates/messages.tmpl:346
 msgid "Form Definition %1 missing"
 msgstr "Skjemadefinisjon %1 mangler"
 
-#: core/templates/messages.tmpl:335
+#: PatternSkin/templates/formtables.pattern.tmpl:5 core/templates/form.tmpl:9
+#: core/templates/formtables.tmpl:6
+msgid "Form data"
+msgstr ""
+
+#: core/templates/messages.tmpl:343
+#, fuzzy
+msgid "Form definition '%1' not found"
+msgstr "Skjemadefinisjon %1 mangler"
+
+#: core/templates/messages.tmpl:351
 msgid "Form definition missing"
 msgstr "Skjemadefinisjon mangler"
 
@@ -1399,18 +1495,6 @@ msgstr "Foswiki Brukerautentisering"
 msgid "Foswiki password reset for %1"
 msgstr "Foswiki passord er satt for %1"
 
-#: core/templates/oopschangelanguage.tmpl:12
-msgid ""
-"Foswiki's user interface is available in several languages. If you want to "
-"change the language for this session, choose one of the following and hit "
-"\"Change language\". Otherwise, follow the \"Cancel\" link on the bottom of "
-"the page to return to the previous topic."
-msgstr ""
-"Foswiki's brukergrensesnitt er tilgjengelig i flere språk. Hvis du ønsker å "
-"endre språket for denne sesjonen velg en av følgende og vlg så \"Endre språk"
-"\". Eller følg \"Avbryt\" linken på bunnen av siden for å komme til den "
-"forrige siden."
-
 #: core/templates/settings.tmpl:25
 msgid ""
 "Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
@@ -1419,7 +1503,7 @@ msgstr ""
 "Få hjelp om <a target='Macros' class='foswikiPopUp' href='%1' "
 "rel='nofollow'>Sette sidepreferanser</a>."
 
-#: core/templates/renamebase.tmpl:65
+#: core/templates/renamebase.tmpl:69
 msgid ""
 "Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
 "rel='nofollow'>Renaming and moving topics</a>."
@@ -1427,7 +1511,7 @@ msgstr ""
 "Få hjelp om <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
 "rel='nofollow'>Endre navn og flytting av sider</a>."
 
-#: core/templates/renamewebbase.tmpl:49
+#: core/templates/renamewebbase.tmpl:50
 msgid ""
 "Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
 "rel='nofollow'>Renaming and moving webs</a>."
@@ -1435,43 +1519,66 @@ msgstr ""
 "Få hjelp om <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
 "rel='nofollow'>Endre navn og flytting av web'er</a>."
 
-#: core/data/System/WebSearch.txt:5 core/data/System/WebSearchAdvanced.txt:5
+#: core/data/System/WebSearch.txt:157
 msgid "Get notified on changes on this search"
 msgstr "Få varsler om endringer på dette søket"
 
-#: core/templates/foswiki.tmpl:82
+#: JQueryPlugin/data/System/JQueryButton.txt:31
+#, fuzzy
+msgid "Globe"
+msgstr "Lukk"
+
+#: core/templates/foswiki.tmpl:137
 msgid "Go back"
 msgstr "Gå tilbake"
 
-#: core/templates/messages.tmpl:327
+#: core/templates/messages.tmpl:337
+#, fuzzy
 msgid ""
-"Go back in your browser and insert information for all mandatory fields."
+"Go back in your browser and insert values for all mandatory fields before "
+"saving again"
 msgstr ""
 "Gå tilbake i nettleseren din og fyll inn informasjon i alle obligatoriske "
 "felter."
 
-#: core/templates/messages.tmpl:388 core/templates/oopssaveerr.tmpl:20
+#: core/templates/messages.tmpl:404 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr "Gå tilbake i nettleseren og lagre endringene lokalt."
 
-#: core/templates/messages.tmpl:282
+#: core/templates/validate.tmpl:34
+msgid ""
+"Go back to the previous page, and enable Cookies and Javascript before "
+"trying again"
+msgstr ""
+
+#: core/templates/messages.tmpl:292
 msgid "Good examples:"
 msgstr "Gode eksempler:"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:6
+#: core/data/Main/WikiGroups.txt:49
+#, fuzzy
+msgid "Group"
+msgstr "Grupper"
+
+#: core/data/Main/WikiGroups.txt:17
+#, fuzzy
+msgid "Group name"
+msgstr "Sidenavn"
+
+#: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "Grupper"
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:3
+#: PatternSkin/data/System/WebLeftBarLogin.txt:4
 msgid "Hello %1"
 msgstr "Hallo %1"
 
-#: core/templates/foswiki.tmpl:105
+#: core/templates/foswiki.tmpl:166
 msgid "Hello %1!"
 msgstr "Hallo %1!"
 
-#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
-#: core/templates/login.tmpl:50
+#: core/data/System/WebSearch.txt:109 core/data/System/WebSearch.txt:66
+#: core/templates/login.tmpl:48
 msgid "Help"
 msgstr "Hjelp"
 
@@ -1479,13 +1586,17 @@ msgstr "Hjelp"
 msgid "Hide file"
 msgstr "Skjul fil"
 
-#: core/templates/login.tmpl:50
+#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:48
 msgid "Hide help"
 msgstr "Skjul hjelp"
 
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr "Hierarkiske Web er deaktivert, du kan ikke lage nestede web."
+
+#: core/data/System/SiteMap.txt:31
+msgid "Home"
+msgstr ""
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1495,7 +1606,7 @@ msgstr "Hva med å legge ved ditt bilde?"
 msgid "How to activate your %1 registration"
 msgstr "Hvordan aktivere din %1 registrasjon"
 
-#: core/templates/registerfailednotremoved.tmpl:14
+#: core/templates/registerfailednotremoved.tmpl:12
 msgid ""
 "However, sending a confirmation e-mail to %2 failed, suggesting that this "
 "may be a fraudulent registration.  The user '%1' could not be removed "
@@ -1504,7 +1615,7 @@ msgstr ""
 "Men bekreftelses epost til %2 feilet, indikerer at dette kan være en falsk "
 "registrering. Brukeren '%1' kunne ikke fjernes automatisk."
 
-#: core/templates/registerfailedremoved.tmpl:14
+#: core/templates/registerfailedremoved.tmpl:12
 msgid ""
 "However, sending a confirmation e-mail to %2 failed, suggesting that this "
 "maye be a fraudulent registration.  The user '%1' was removed automatically. "
@@ -1514,41 +1625,43 @@ msgstr ""
 "registrering. Brukeren '%1' ble automatisk fjernet. Du må kanskje allikevel "
 "slette brukerens personlige side."
 
-#: core/templates/messages.tmpl:360
+#: core/templates/messages.tmpl:376
 msgid ""
 "However, the filename has been changed from %1 to %2. Please make a note of "
 "it."
 msgstr "Men filnavnet har blitt endret fra %1 til %2. Vennligst noter dette."
 
-#: core/templates/login.tmpl:65
+#: core/templates/login.tmpl:63
 msgid "I forgot my password"
 msgstr "Jeg har glemt mitt passord"
 
-#: core/data/System/DefaultPreferences.txt:42
-#: core/data/System/WebPreferences.txt:34
+#: core/data/System/DefaultPreferences.txt:40
+#: core/data/System/WebPreferences.txt:33
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
 msgstr ""
 "Ideer, forespørsler, problemer angående %1? <a href='%2'>Gi tilbakemelding</"
 "a>"
 
-#: core/templates/messages.tmpl:344
+#: core/templates/messages.tmpl:431
+#, fuzzy
+msgid ""
+"If that's not the problem, it may be because you have a setting of %1 that "
+"is pointing to a template that doesn't exist."
+msgstr ""
+"Sjekk dine konfigurasjonsinnstillinger for {TemplateDir} og {TemplatePath}. "
+"Dersom det ikke er feilen kan det være at du har satt %1 til å peke til en "
+"mail som ikke eksisterer."
+
+#: core/templates/messages.tmpl:360
 msgid "If this line isn't present see _upgrade_ section below"
 msgstr ""
 "Hvis denne linjen ikke er tilstede, se _oppgradering_ avsnittet nedenfor"
 
-#: core/templates/messages.tmpl:338
+#: core/templates/messages.tmpl:354
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr "Hvis denne siden mangler, lag den, eller sjekk etter feil."
 
-#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:97
-msgid ""
-"If you already know the name of the topic, enter the name of the topic into "
-"the [[%1][Jump box]] at the top"
-msgstr ""
-"Hvis du allerede kjenner navnet på siden så skriv navnet i [[%1][Hopp "
-"feltet]] på toppen"
-
-#: core/templates/messages.tmpl:429
+#: core/templates/messages.tmpl:448
 msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
 "correct parameters."
@@ -1556,20 +1669,21 @@ msgstr ""
 "Dersom du utvikler en Foswiki applikasjon, se %1 for beskrivelse av de "
 "riktige parameterne."
 
-#: core/templates/validate.tmpl:25
+#: core/templates/validate.tmpl:41
 msgid "If you are unsure what this means, read:"
 msgstr "Hvis du er usikker på hva dette betyr, les:"
 
-#: core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:585
 msgid "If you came here by clicking on a question mark link"
 msgstr "Dersom du kom hit ved å klikke på et spørsmålstegn-link"
 
-#: core/templates/messages.tmpl:247
+#: core/templates/messages.tmpl:257
 msgid "If you don't receive a verification email within the next hour, "
 msgstr "Dersom du ikke mottar en bekreftelses epost innen en time, "
 
-#: core/templates/renameattachmentdelete.tmpl:40
-msgid "If you enter a different name, make sure the topic does  exist."
+#: core/templates/renameattachmentdelete.tmpl:41
+#, fuzzy
+msgid "If you enter a different name, make sure the topic exists."
 msgstr "Dersom du skriver et annet navn, forsikre deg om at siden eksisterer."
 
 #: core/templates/registerconfirm.tmpl:14
@@ -1582,28 +1696,28 @@ msgstr ""
 "registrert seg på %2 med denne epostadressen %3. Kontakt %4 dersom dette er "
 "feil."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:302
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "Hvis du har spørsmål om registrering send en epost til %1"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:46
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:36
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:39
-#: core/templates/login.tmpl:76
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:64
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:38
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:36
+#: core/templates/login.tmpl:74
 msgid "If you have any questions, please contact %1"
 msgstr "Dersom du har spørsmål vennligst kontakt %1"
 
-#: core/data/System/VarMAKETEXT.txt:16
+#: core/data/System/VarMAKETEXT.txt:18
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "Dersom du harspørsmål vennlighst kontakt %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:146
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:150
 #: core/templates/registernotify.tmpl:25
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr "Hvis du ikke har satt et passord enda eller vil endre det, gå til: %1"
 
-#: core/templates/messages.tmpl:427
+#: core/templates/messages.tmpl:446
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
@@ -1611,15 +1725,16 @@ msgstr ""
 "Dersom du mottok en link til denne siden i en epost eller bare vil se på "
 "denne siden, [[%1][avbryt lagring]] for å gå til %2."
 
-#: core/templates/messages.tmpl:504
+#: core/templates/messages.tmpl:594
 msgid "If you want to create the topic"
 msgstr "Dersom du ønsker å lage siden"
 
-#: core/templates/messages.tmpl:500
+#: core/templates/messages.tmpl:590
 msgid "If you would like to create this web"
 msgstr "Dersom du ønsker å lage denne web'en"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:13
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:22
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:57
 msgid ""
 "If your old e-mail addresses are all invalid (you can't receive mail there "
 "any more) and you have forgotten your password, please contact %1 for help."
@@ -1628,7 +1743,7 @@ msgstr ""
 "epost der lenger) og du har glemt ditt passord, vennligst kontakt %1 for "
 "hjelp."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:11
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
 msgid ""
 "If your user topic is not protected from changes by other people, and you "
 "don't register an e-mail address using this form, then your user account "
@@ -1642,11 +1757,11 @@ msgstr ""
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr "Bilder vil vises, andre vedlegg får en link."
 
-#: core/data/System/WebSearchAdvanced.txt:52
+#: core/data/System/WebSearch.txt:104
 msgid "In reversed order"
 msgstr "I omvendt rekkefølge"
 
-#: core/templates/messages.tmpl:363
+#: core/templates/messages.tmpl:379
 msgid ""
 "In some cases, Foswiki changes the name of the uploaded file to make it safe "
 "and accessible across all platforms:"
@@ -1654,11 +1769,11 @@ msgstr ""
 "I noen tilfeller kan Foswiki endre navn på opplastet fil for å gjøre den "
 "trygg og tilgjengelig på alle plattformer:"
 
-#: core/templates/messages.tmpl:272 core/templates/messages.tmpl:279
+#: core/templates/messages.tmpl:282 core/templates/messages.tmpl:289
 msgid "Incorrect %1"
 msgstr "Feil %1"
 
-#: core/templates/messages.tmpl:282
+#: core/templates/messages.tmpl:292
 msgid "Incorrect %1.WikiNames:"
 msgstr "Feil %1.WikiNavn:"
 
@@ -1666,20 +1781,24 @@ msgstr "Feil %1.WikiNavn:"
 msgid "Incorrect Password"
 msgstr "Feil Passord"
 
-#: core/templates/messages.tmpl:425
+#: core/templates/messages.tmpl:444
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Feil parametere til =%1= skriptet"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:6
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
-#: PatternSkin/data/System/WebLeftBarExample.txt:7
-#: PatternSkin/data/Trash/WebLeftBarExample.txt:4
-#: PatternSkin/data/_default/WebLeftBar.txt:5
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
+#: PatternSkin/data/Main/WebLeftBarExample.txt:7
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:7
+#: PatternSkin/data/System/WebLeftBarExample.txt:8
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:5
+#: PatternSkin/data/_default/WebLeftBar.txt:6
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:6
 msgid "Index"
 msgstr "Indeks"
 
-#: core/templates/messages.tmpl:367
+#: JQueryPlugin/data/System/JQueryButton.txt:28
+msgid "Info"
+msgstr ""
+
+#: core/templates/messages.tmpl:383
 msgid ""
 "International (8-bit) characters are removed (replaced by US-ASCII "
 "equivalents for Latin-1)"
@@ -1687,15 +1806,19 @@ msgstr ""
 "Internasjonale (8-bits) karakterer fjernes (erstattes av tilsvarende  US-"
 "ASCII karakterer"
 
-#: core/templates/messages.tmpl:305
+#: HistoryPlugin/templates/oopshistory.tmpl:55
+msgid "Interweave"
+msgstr ""
+
+#: core/templates/messages.tmpl:315
 msgid "Invalid Activation Code"
 msgstr "Ugyldig aktiveringskode"
 
-#: core/templates/messages.tmpl:297
+#: core/templates/messages.tmpl:307
 msgid "Invalid e-mail address"
 msgstr "Ugyldig epostadresse"
 
-#: core/templates/messages.tmpl:440
+#: core/templates/messages.tmpl:530
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -1709,7 +1832,7 @@ msgstr ""
 "flettes like enkelt så i slike tilfeller anbefales det at du sjekker med %1 "
 "først."
 
-#: core/templates/foswiki.tmpl:9
+#: core/templates/foswiki.tmpl:46
 msgid ""
 "It's usually best to choose a <a target='WikiWord' class='foswikiPopUp' "
 "href='%1' rel='nofollow'>WikiWord</a> for the new topic name, otherwise "
@@ -1731,37 +1854,42 @@ msgstr ""
 "linke til dem senere. Tegn som ikke er tillatt i webnavn blir automatisk "
 "fjernet, for eksempel mellomrom."
 
-#: PatternSkin/data/System/WebLeftBarSearch.txt:2
+#: PatternSkin/data/System/WebLeftBarSearch.txt:3
 #: PatternSkin/data/System/WebTopBarExample.txt:7
-#: PatternSkin/templates/foswiki.pattern.tmpl:37
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:18
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:19
 msgid "Jump"
 msgstr "Hopp"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:97
-msgid "Last Name:"
-msgstr "Etternavn:"
+#: core/data/System/WebSearch.txt:114
+#, fuzzy
+msgid "Keyword search"
+msgstr "Endre søk"
 
-#: core/data/System/WebSearchAdvanced.txt:50
+#: core/data/System/WebSearch.txt:102
 msgid "Last editor"
 msgstr "Siste redigerer"
 
-#: core/data/System/WebSearchAdvanced.txt:49
+#: core/data/System/WebSearch.txt:101
 msgid "Last modified time"
 msgstr "Siste endringstidspunkt"
 
-#: core/data/System/WebSearchAdvanced.txt:75
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:145
+#, fuzzy
+msgid "Last name"
+msgstr "Etternavn:"
+
+#: core/data/System/WebSearch.txt:128
 msgid "Limit results to:"
 msgstr "Begrens resultater til:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:157 core/lib/Foswiki/UI/RDiff.pm:160
+#: core/lib/Foswiki/UI/RDiff.pm:165 core/lib/Foswiki/UI/RDiff.pm:168
 msgid "Line: %1"
 msgstr "Linje: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:319
+#: core/lib/Foswiki/UI/RDiff.pm:327
 msgid "Line: %1 to %2"
 msgstr "Linje: %1 til %2"
 
@@ -1769,48 +1897,55 @@ msgstr "Linje: %1 til %2"
 msgid "Link"
 msgstr "Link"
 
-#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:98
-msgid "List all topics in the %1 web in alphabetical order"
-msgstr "List alle sider i %1 web'en i alfabetisk rekkefølge"
-
-#: core/data/System/WebSearch.txt:46 core/data/System/WebSearchAdvanced.txt:99
+#: core/data/System/WebSearch.txt:183
 msgid "List topics that start with the letter:"
 msgstr "List sider som starter med bokstaven:"
 
-#: core/data/System/WebSearchAdvanced.txt:60
+#: core/data/System/WebSearch.txt:115
 msgid "Literal search"
 msgstr "Bokstavelig søk"
 
-#: core/data/Main/SitePreferences.txt:2
-msgid "Local customisations of site-wide preferences"
-msgstr "Lokale tilpasninger av websteds preferanser"
-
-#: PatternSkin/templates/foswiki.pattern.tmpl:4
+#: PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Log In"
 msgstr "Logg Inn"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:5
+#: PatternSkin/templates/foswiki.pattern.tmpl:12
 msgid "Log Out"
 msgstr "Logg Ut"
+
+#: core/templates/login.tmpl:12
+#, fuzzy
+msgid "Log on with your username and password"
+msgstr "Vennligst skriv inn ditt brukernavn og passord"
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:160
+#, fuzzy
+msgid "Login name"
+msgstr "Innloggingsnavn %1"
 
 #: core/templates/mailresetpassword.tmpl:12
 msgid "Login name %1"
 msgstr "Innloggingsnavn %1"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:231
-#: core/templates/login.tmpl:71
+#: core/templates/login.tmpl:69
 msgid "Logon"
 msgstr "Logg på"
 
-#: core/templates/messages.tmpl:256
+#: core/templates/messages.tmpl:266
 msgid "Mail to"
 msgstr "Post til"
 
-#: core/data/System/WebSearchAdvanced.txt:56
+#: core/data/System/WebSearch.txt:108
 msgid "Make search:"
 msgstr "Lag søk:"
 
-#: core/templates/messages.tmpl:220
+#: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:26
+#: core/data/Main/WikiGroups.txt:50
+msgid "Members"
+msgstr ""
+
+#: core/templates/messages.tmpl:230
 msgid "Missing Fields"
 msgstr "Manglende Felter"
 
@@ -1818,39 +1953,41 @@ msgstr "Manglende Felter"
 msgid "Missing action command"
 msgstr "Manglende kommando"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:40
+#: PatternSkin/templates/foswiki.pattern.tmpl:46
 msgid "Modify search"
 msgstr "Endre søk"
 
-#: core/templates/oopsmore.tmpl:7
+#: core/templates/more.tmpl:7
 msgid "More Actions on Topic %1"
 msgstr "Mer Valg for Side %1"
 
-#: core/data/System/WikiSyntaxSummary.txt:17
+#: core/data/System/WikiSyntaxSummary.txt:18
 msgid "More formatting help"
 msgstr "Mer formateringshjelp"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:29
+#: PatternSkin/templates/rdiff.pattern.tmpl:26
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
 msgstr "Flere valg for siden..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:574
+#: HistoryPlugin/templates/oopshistory.tmpl:80
+#, fuzzy
+msgid "More view options:"
+msgstr "Flere valg for siden..."
+
+#: TwistyPlugin/data/System/TwistyPlugin.txt:476
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:90
 msgid "More..."
 msgstr "Mer..."
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:24
-#: core/templates/moveattachment.tmpl:35
+#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: core/templates/moveattachment.tmpl:55
 msgid "Move"
 msgstr "Flytt"
 
 #: core/templates/moveattachment.tmpl:9
 msgid "Move attachment"
 msgstr "Flytt vedlegg"
-
-#: core/templates/moveattachment.tmpl:21
-msgid "Move attachment to web:"
-msgstr "Flytt vedlegg til web:"
 
 #: core/templates/moveattachment.tmpl:6
 msgid "Move file attachment"
@@ -1860,6 +1997,7 @@ msgstr "Flytt vedlagt fil"
 msgid "Move or delete attachment"
 msgstr "Flytt eller slett vedlegg"
 
+#: core/templates/moveattachment.tmpl:31
 #: core/templates/renameattachmentdelete.tmpl:21
 msgid "Move to web:"
 msgstr "Flytt til web:"
@@ -1868,39 +2006,36 @@ msgstr "Flytt til web:"
 msgid "Move topic to web:"
 msgstr "Flytt side til web:"
 
-#: core/lib/Foswiki/UI/Manage.pm:1285
+#: core/lib/Foswiki/UI/Rename.pm:1229
 msgid "Move/Rename"
 msgstr "Flytt/Navngi"
 
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:64
-msgid "My Links"
-msgstr "Mine linker"
-
-#: core/lib/Foswiki/Search.pm:911
+#: core/lib/Foswiki/Search.pm:1111
 msgid "NEW"
 msgstr "NY"
 
-#: core/templates/oopsmore.tmpl:22
-msgid "Name of copy:"
+#: core/templates/more.tmpl:31
+#, fuzzy
+msgid "Name of copy"
 msgstr "Navn på kopi:"
 
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
 msgstr "Navn på ny web mangler"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:8
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
 msgstr "Gå til en liknende side"
 
-#: core/templates/messages.tmpl:153
+#: core/templates/messages.tmpl:161
 msgid "New User Registration disabled"
 msgstr "Registrering av ny bruker er ikke aktivert"
 
-#: core/templates/messages.tmpl:144
+#: core/templates/messages.tmpl:152
 msgid "New User Registration not supported"
 msgstr "Registrering av ny bruker er ikke supportert"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:35
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "New e-mails (space-separated list)"
 msgstr "Nye epostadresser (liste delt med mellomrom)"
 
@@ -1913,7 +2048,7 @@ msgstr "Nye eller endrede sider i %1, siden %2:"
 msgid "New parent web:"
 msgstr "Ny foreldre web:"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:24
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
 msgid "New password"
 msgstr "Nytt passord"
 
@@ -1925,31 +2060,44 @@ msgstr "Nytt sidenavn %1 er ikke et %2"
 msgid "New web name:"
 msgstr "Nytt webnavn:"
 
-#: core/templates/oopsmore.tmpl:111
+#: core/templates/more.tmpl:157
 msgid "Newer revision:"
 msgstr "Nyere versjon:"
 
-#: core/templates/oopsmore.tmpl:128
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+msgid "No GroupName specified"
+msgstr ""
+
+#: core/templates/more.tmpl:189
 msgid "No child topics"
 msgstr "Ingen undersider"
 
-#: core/templates/messages.tmpl:457
+#: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
 msgstr "Ingen tilgang til å lese %1"
 
-#: core/templates/oopsmore.tmpl:123
+#: core/templates/more.tmpl:184
 msgid "No previous revision exists."
 msgstr "Ingen tidligere versjon finnes."
 
-#: core/templates/messages.tmpl:213
+#: core/templates/renamebase.tmpl:45
+#, fuzzy
+msgid "No topics to update."
+msgstr "Flytt side til web:"
+
+#: core/templates/messages.tmpl:454 core/templates/messages.tmpl:492
+msgid "No username specified"
+msgstr ""
+
+#: core/templates/messages.tmpl:223
 msgid "No users to reset passwords for."
 msgstr "Ingen brukere å tilbakestille passordet for."
 
-#: core/templates/renamedelete.tmpl:30
+#: core/templates/renamedelete.tmpl:34
 msgid "Not recommended when deleting a topic."
 msgstr "Ikke anbefalt ved sletting av en side."
 
-#: core/templates/moveattachment.tmpl:30
+#: core/templates/moveattachment.tmpl:50
 msgid ""
 "Note that any URLs that refer to the attachment will be broken after this "
 "move."
@@ -1957,53 +2105,59 @@ msgstr ""
 "Merk at eventuelle URL'er som refererer til vedlegget ikke fungerer lenger "
 "etter denne flyttingen."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:144
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:13
-#: core/templates/messages.tmpl:310 core/templates/messages.tmpl:362
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
+#: core/templates/messages.tmpl:320 core/templates/messages.tmpl:378
 #: core/templates/registerconfirm.tmpl:13
 #: core/templates/registernotify.tmpl:22
 msgid "Note:"
 msgstr "Merk:"
 
-#: core/data/System/VarMAKETEXT.txt:13
+#: core/data/System/VarMAKETEXT.txt:15
 msgid "Notes:"
 msgstr "Merknader:"
 
-#: core/data/System/WebChangesAlert.txt:2
+#: core/data/System/WebChangesAlert.txt:3
 msgid "Notification help"
 msgstr "Varslingshjelp"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:9
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:9
-#: PatternSkin/data/System/WebLeftBarExample.txt:10
-#: PatternSkin/data/_default/WebLeftBar.txt:8
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:8
+#: PatternSkin/data/Main/WebLeftBarExample.txt:10
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:10
+#: PatternSkin/data/System/WebLeftBarExample.txt:11
+#: PatternSkin/data/_default/WebLeftBar.txt:9
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:9
+#: core/data/System/SiteMap.txt:34
 msgid "Notifications"
 msgstr "Varslinger"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:39
-#: PatternSkin/templates/searchbase.pattern.tmpl:5
-#: core/templates/search.text.tmpl:15 core/templates/searchformat.tmpl:10
+#: PatternSkin/templates/foswiki.pattern.tmpl:45
 msgid "Number of topics:"
 msgstr "antall sider:"
 
-#: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
-#: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:13 core/templates/validate.tmpl:37
+#: core/templates/search.text.tmpl:20 core/templates/searchformat.tmpl:11
+#, fuzzy
+msgid "Number of topics: %1"
+msgstr "antall sider:"
+
+#: JQueryPlugin/data/System/JQueryButton.txt:26
+#: core/templates/foswiki.tmpl:135 core/templates/messages.tmpl:181
+#: core/templates/messages.tmpl:191 core/templates/messages.tmpl:198
+#: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
+#: core/templates/validate.tmpl:51
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/oopsmore.tmpl:111
+#: core/templates/more.tmpl:157
 msgid "Older revision:"
 msgstr "Eldre versjon:"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:290
-msgid "Once registered you can login using your %1 and password."
-msgstr "Når du er registrert kan du logge inn med %1 og passord."
-
-#: core/templates/messages.tmpl:484
+#: core/templates/messages.tmpl:574
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Kun medlemmer av %1 er tillatt å gjøre denne handlingen."
+
+#: core/templates/more.tmpl:55 core/templates/more.tmpl:72
+#, fuzzy
+msgid "Only update linked topics in %1 web"
+msgstr "Undersider i %1 web'en"
 
 #: core/templates/login.tmpl:8
 msgid ""
@@ -2012,80 +2166,89 @@ msgstr ""
 "Oops: vi kunne ikke igjenkjenne deg. Forsøk igjen eller [[%1][tilbakestill "
 "ditt passord]]."
 
+#: core/templates/renamedelete.tmpl:20
+#, fuzzy
+msgid "Optionally change attachment name:"
+msgstr "Eventuelt endre sidenavn:"
+
 #: core/templates/renamedelete.tmpl:18
 msgid "Optionally change topic name:"
 msgstr "Eventuelt endre sidenavn:"
+
+#: core/templates/renameattachmentdelete.tmpl:34
+#, fuzzy
+msgid "Optionally enter a different attachment name:"
+msgstr "Eventuelt skriv et annet sidenavn:"
 
 #: core/templates/renameattachmentdelete.tmpl:32
 msgid "Optionally enter a different topic name:"
 msgstr "Eventuelt skriv et annet sidenavn:"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:122
-msgid "Organisation URL:"
-msgstr "Organisasjons URL:"
+#: core/templates/more.tmpl:160
+#, fuzzy
+msgid "Options"
+msgstr "Valg"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:119
-msgid "Organisation name:"
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:244
+#, fuzzy
+msgid "Organisation name"
 msgstr "Organisasjonsnavn:"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:270
-msgid "Other Country"
-msgstr "Annet Land"
-
-#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:96
-msgid "Other search options:"
-msgstr "Andre søkemuligheter:"
-
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:5
-msgid "Otherwise, use this form to get a new one e-mailed to you."
-msgstr "Eller bruk dette skjemaet for å få tilsendt et nytt på epost."
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:251
+#, fuzzy
+msgid "Organisation website"
+msgstr "Organisasjonsnavn:"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:226
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:34
-#: core/templates/login.tmpl:60
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
+#: core/templates/login.tmpl:58
 msgid "Password"
 msgstr "Passord"
 
-#: core/templates/messages.tmpl:174
+#: core/templates/messages.tmpl:184
 msgid "Password changed successfully!"
 msgstr "Passord ble endret!"
 
-#: core/templates/messages.tmpl:184
+#: core/templates/messages.tmpl:194
 msgid "Password could not be changed"
 msgstr "Passordet kunne ikke endres"
 
-#: core/templates/messages.tmpl:212 core/templates/messages.tmpl:216
+#: core/templates/messages.tmpl:222 core/templates/messages.tmpl:226
 msgid "Password reset failed"
 msgstr "Tilbakestilling av passord feilet"
 
-#: core/templates/messages.tmpl:226
+#: core/templates/messages.tmpl:236
 msgid "Passwords do not match"
 msgstr "Passordene er ulike"
 
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:60
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:74
-msgid "Personal Preferences"
-msgstr "Personlige Preferanser"
-
-#: core/data/System/WebCreateNewTopicTemplate.txt:63
-#: core/templates/oopsmore.tmpl:70
+#: core/data/System/WebCreateNewTopicTemplate.txt:60
+#: core/templates/more.tmpl:103
 msgid "Pick from a list"
 msgstr "Velg fra en liste"
 
-#: core/templates/messages.tmpl:133
+#: core/templates/messages.tmpl:141
 msgid "Pick one of the %1."
 msgstr "Velg en av %1."
+
+#: core/data/Trash/WebPreferences.txt:10
+#, fuzzy
+msgid "Place for trashed topics and attachments."
+msgstr "Plassholder for forkastede vedlegg"
 
 #: core/data/Trash/TrashAttachment.txt:3
 msgid "Placeholder for trashed attachments"
 msgstr "Plassholder for forkastede vedlegg"
 
-#: core/templates/messages.tmpl:269 core/templates/messages.tmpl:319
+#: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
+msgid "Please check to ensure you have permssion to modify the group."
+msgstr ""
+
+#: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
 msgid "Please contact %1 if you have any questions."
 msgstr "Vennligst kontakt %1 hvis du har spørsmål."
 
-#: core/templates/messages.tmpl:148 core/templates/messages.tmpl:157
-#: core/templates/messages.tmpl:236 core/templates/messages.tmpl:248
+#: core/templates/messages.tmpl:156 core/templates/messages.tmpl:165
+#: core/templates/messages.tmpl:246 core/templates/messages.tmpl:258
 msgid "Please contact %1."
 msgstr "Vennligst kontakt %1."
 
@@ -2093,16 +2256,12 @@ msgstr "Vennligst kontakt %1."
 msgid "Please enter the Wiki admin password"
 msgstr "Vennligst skriv inn Wiki administrator passordet"
 
-#: core/templates/login.tmpl:14
-msgid "Please enter your username and password"
-msgstr "Vennligst skriv inn ditt brukernavn og passord"
-
 #: core/templates/messages.tmpl:71 core/templates/messages.tmpl:77
 #: core/templates/messages.tmpl:83
 msgid "Please go _back_ in your browser and try a new name."
 msgstr "Vennligst gå tilbake i nettleseren og forsøk et nytt navn."
 
-#: core/templates/messages.tmpl:374
+#: core/templates/messages.tmpl:390
 msgid "Please go back in your browser and check again."
 msgstr "Vennligst gå tilbake i nettleseren og sjekk på nytt."
 
@@ -2115,11 +2274,11 @@ msgstr ""
 "eller huk av i tillat ikke-WikiOrd boksen"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
-#: core/templates/messages.tmpl:119 core/templates/messages.tmpl:123
-#: core/templates/messages.tmpl:127 core/templates/messages.tmpl:137
-#: core/templates/messages.tmpl:223 core/templates/messages.tmpl:229
-#: core/templates/messages.tmpl:276 core/templates/messages.tmpl:288
-#: core/templates/messages.tmpl:294 core/templates/messages.tmpl:302
+#: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
+#: core/templates/messages.tmpl:135 core/templates/messages.tmpl:145
+#: core/templates/messages.tmpl:233 core/templates/messages.tmpl:239
+#: core/templates/messages.tmpl:286 core/templates/messages.tmpl:298
+#: core/templates/messages.tmpl:304 core/templates/messages.tmpl:312
 #: core/templates/messages.tmpl:37 core/templates/messages.tmpl:41
 #: core/templates/messages.tmpl:59 core/templates/messages.tmpl:95
 msgid "Please go back in your browser and try again."
@@ -2138,24 +2297,28 @@ msgid ""
 "Please visit %1 to change your password to something more memorable for you."
 msgstr "Vennligst besøk %1 for å endre ditt passord til noe du husker enklere."
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:12
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
-#: PatternSkin/data/System/WebLeftBarExample.txt:13
-#: PatternSkin/data/_default/WebLeftBar.txt:11
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:11
+#: core/lib/Foswiki/Plugins.pm:397
+msgid "Plugin handlers"
+msgstr ""
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:13
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
+#: PatternSkin/data/System/WebLeftBarExample.txt:14
+#: PatternSkin/data/_default/WebLeftBar.txt:12
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:12
 msgid "Preferences"
 msgstr "Preferanser"
 
-#: PatternSkin/templates/settings.pattern.tmpl:13
+#: PatternSkin/templates/settings.pattern.tmpl:9
 #: core/templates/settings.tmpl:6
 msgid "Preferences for"
 msgstr "Preferanser for"
 
-#: core/templates/validate.tmpl:23
+#: core/templates/validate.tmpl:38
 msgid "Press Cancel otherwise."
 msgstr "Eller velg Avbryt"
 
-#: core/templates/validate.tmpl:22
+#: core/templates/validate.tmpl:37
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Velg OK for å bekrefte denne endringen."
 
@@ -2167,34 +2330,32 @@ msgstr "Problem med å fylle badet"
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: core/data/System/WebSearchAdvanced.txt:62
+#: core/lib/Foswiki/Render.pm:222
+#, fuzzy
+msgid "Put it back..."
+msgstr "tilbakestill"
+
+#: core/data/System/WebSearch.txt:117
 msgid "Query Search"
 msgstr "Query Søk"
 
-#: core/data/Main/SitePreferences.txt:7
-msgid ""
-"Quick edit of existing preferences (edit the topic text to set new "
-"preferences)"
-msgstr ""
-"Hurtigredigering av eksisterende preferanser (rediger teksten for å sette "
-"nye preferanser)"
+#: core/data/System/FrequentlyAskedQuestions.txt:71
+#, fuzzy
+msgid "Question"
+msgstr "Versjon"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:162
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:977
+#: EditTablePlugin/data/System/EditTablePlugin.txt:161
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
 msgid "Quiet save"
 msgstr "Stille lagring"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:10
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:10
-#: PatternSkin/data/System/WebLeftBarExample.txt:11
-#: PatternSkin/data/_default/WebLeftBar.txt:9
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:9
+#: PatternSkin/data/Main/WebLeftBarExample.txt:11
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
+#: PatternSkin/data/System/WebLeftBarExample.txt:12
+#: PatternSkin/data/_default/WebLeftBar.txt:10
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:10
 msgid "RSS Feed"
 msgstr "RSS Feed"
-
-#: core/templates/viewtopicactionbuttons.tmpl:61
-msgid "Raw edit"
-msgstr "Rediger rå tekst"
 
 #: core/templates/registernotify.tmpl:10
 msgid ""
@@ -2204,7 +2365,7 @@ msgstr ""
 "Les %1 for et raskt overblikk over denne samarbeidsplattformen. For å lære "
 "mer, se TwentyMinuteTutorial som er tilgjengelig fra samme sted."
 
-#: PatternSkin/templates/edit.pattern.tmpl:30
+#: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Read new revision help text in new window"
 msgstr "Les ny versjon hjelpetekst i nytt vindu"
 
@@ -2212,54 +2373,55 @@ msgstr "Les ny versjon hjelpetekst i nytt vindu"
 msgid "Read on"
 msgstr "Les videre"
 
-#: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:47
-#: core/data/System/WebSearchAdvanced.txt:100
+#: core/data/System/SiteMap.txt:33
+#, fuzzy
+msgid "Recent changes"
+msgstr "Nylig endrede sider"
+
+#: core/data/Sandbox/WebHome.txt:28
 msgid "Recently changed topics"
 msgstr "Nylig endrede sider"
 
-#: core/lib/Foswiki/UI/Manage.pm:1284
+#: HistoryPlugin/templates/oopshistory.tmpl:86
+#: core/lib/Foswiki/UI/Rename.pm:1228
 msgid "Refresh"
 msgstr "Oppdater"
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:3
-#: core/templates/foswiki.tmpl:105
+#: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
+#: PatternSkin/data/System/WebLeftBarLogin.txt:4
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
+#: core/templates/foswiki.tmpl:166
 msgid "Register"
 msgstr "Registrer"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:13
-msgid "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
-msgstr ""
-"Registrerte brukere kan [[%1][endre]] og [[%2][tilbakestille]] sine passord."
-
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:2
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
 msgstr "Registrering"
 
-#: core/templates/messages.tmpl:308
+#: core/templates/messages.tmpl:318
 msgid "Registration codes can only be used once."
 msgstr "Registreringskoder kan kun benyttes en gang."
 
-#: core/data/System/WebSearchAdvanced.txt:61
+#: core/data/System/WebSearch.txt:116
 msgid "Regular expression search"
 msgstr "Regulære uttrykk søk"
 
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:81
-msgid "Related Topics"
-msgstr "Relaterte Sider"
-
-#: TopicUserMappingContrib/data/Main/GroupTemplate.txt:9
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:43
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: core/templates/messages.tmpl:482 core/templates/messages.tmpl:489
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:45
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:43
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
+#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
+#: core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "Relaterte sider:"
 
-#: core/templates/login.tmpl:67
+#: core/templates/login.tmpl:65
 msgid "Remember me on this computer"
 msgstr "Husk meg på denne maskinen"
 
-#: core/templates/messages.tmpl:193
+#: core/templates/messages.tmpl:203
 msgid ""
 "Remember to update your user topic if you want your e-mail change to be "
 "reflected there as well."
@@ -2267,12 +2429,25 @@ msgstr ""
 "Husk å oppdatere din brukerside hvis du ønsker at epost endringen skal vises "
 "der også."
 
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:5
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
 msgstr "Husker du ditt passord?"
 
+#: core/data/Main/GroupViewTemplate.txt:166
+msgid "Remove selected users"
+msgstr ""
+
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
+msgstr "Fjern brukeren fra gruppe(ne) %1 først."
+
+#: core/data/Main/GroupViewTemplate.txt:82
+msgid "Remove user..."
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:162
+#, fuzzy
+msgid "Remove users from this group"
 msgstr "Fjern brukeren fra gruppe(ne) %1 først."
 
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
@@ -2283,26 +2458,29 @@ msgstr "Navngi"
 msgid "Rename failed"
 msgstr "NAvngivning feilet"
 
-#: core/templates/oopsmore.tmpl:43
+#: core/templates/renamebase.tmpl:11
+#, fuzzy
+msgid "Rename or move %1"
+msgstr "Navngi eller flytt side"
+
+#: core/templates/more.tmpl:68
 msgid "Rename or move topic"
 msgstr "Navngi eller flytt side"
 
-#: core/data/System/RenameWeb.txt:1
-msgid "Rename, move or delete this web:"
+#: core/templates/more.tmpl:76
+#, fuzzy
+msgid "Rename or move topic..."
+msgstr "Navngi eller flytt side"
+
+#: core/data/System/RenameWeb.txt:4
+#, fuzzy
+msgid "Rename, move or delete this web"
 msgstr "Navngi, flytt eller slett denne web'en:"
 
-#: core/templates/rename.tmpl:19 core/templates/renameconfirm.tmpl:28
+#: core/templates/rename.tmpl:21 core/templates/renameconfirm.tmpl:33
 #: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
 msgstr "Navngi/Flytt"
-
-#: core/templates/oopsmore.tmpl:44 core/templates/oopsmore.tmpl:46
-msgid "Rename/move topic..."
-msgstr "Navngi/flytt side..."
-
-#: core/data/System/RenameWeb.txt:2
-msgid "Rename/move/delete web..."
-msgstr "Navngi/flytt/slett web..."
 
 #: core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2316,41 +2494,47 @@ msgstr "Bekreft Forespørsel"
 msgid "Reset Password"
 msgstr "Tilbakestill Passord"
 
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:32
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:28
 msgid "Reset password"
 msgstr "Tilbakestill passord"
 
-#: core/templates/oopsmore.tmpl:120
-msgid "Restore"
-msgstr "Gjenopprett"
+#: core/data/System/DefaultPreferences.txt:186
+msgid "Resetting and setting password is not handled by Foswiki"
+msgstr ""
 
-#: core/templates/oopsmore.tmpl:115
+#: core/templates/more.tmpl:169
 msgid "Restore topic"
 msgstr "Gjenopprett side"
 
-#: core/templates/oopsmore.tmpl:117
+#: core/templates/more.tmpl:174
 msgid "Restore topic to revision:"
 msgstr "Gjenopprett side til versjon:"
 
-#: core/templates/oopsmore.tmpl:120
+#: core/templates/more.tmpl:177
 msgid "Restore topic to this revision"
 msgstr "Gjenopprett side til denne versjonen"
 
-#: PatternSkin/templates/searchbase.pattern.tmpl:12
+#: core/templates/more.tmpl:177
+#, fuzzy
+msgid "Restore..."
+msgstr "Gjenopprett"
+
+#: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
 msgstr "Resultater fra %1 web'en"
 
-#: core/templates/messages.tmpl:197
+#: core/templates/search.text.tmpl:4
+#, fuzzy
+msgid "Results from %1 web:"
+msgstr "Resultater fra %1 web'en"
+
+#: core/templates/messages.tmpl:207
 msgid "Return to %1."
 msgstr "Tilbake til %1."
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:25
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 msgid "Retype new password"
 msgstr "Skriv om igjen nytt passord"
-
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:115
-msgid "Retype password:"
-msgstr "Skriv om igjen passord:"
 
 #: core/templates/messages.tmpl:27
 msgid "Rev %1 was saved by %2, while you were still editing."
@@ -2361,51 +2545,65 @@ msgstr "Ver %1 ble lagret av %2, mens du fremdeles redigerte."
 msgid "Review recent changes in:"
 msgstr "Gjennomse nylige endringer i:"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:19
+#: HistoryPlugin/templates/oopshistory.tmpl:31
+#: HistoryPlugin/templates/oopshistory.tmpl:42
+#: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Versjon"
 
-#: core/templates/oopsmore.tmpl:102
+#: HistoryPlugin/templates/oopshistory.tmpl:14
+#, fuzzy
+msgid "Revision history of %1"
+msgstr "Versjonhistorikk for %1"
+
+#: core/templates/more.tmpl:137
 msgid "Revisions"
 msgstr "Versjoner"
 
-#: PatternSkin/templates/settings.pattern.tmpl:25
+#: HistoryPlugin/templates/oopshistory.tmpl:72
+msgid "Revisions %1 - %2 (out of %3)"
+msgstr ""
+
+#: PatternSkin/templates/settings.pattern.tmpl:21
 msgid "S = Save, C = Cancel"
 msgstr "S = Lagre, C = Avbryt"
 
-#: PatternSkin/templates/preview.pattern.tmpl:22
+#: PatternSkin/templates/preview.pattern.tmpl:21
 msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
 msgstr "S = Lagre, Q = Lagre stille, K = Lagre og fortsett, D = Forkast"
 
-#: PatternSkin/templates/edit.pattern.tmpl:53
+#: PatternSkin/templates/edit.pattern.tmpl:47
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr ""
 "S = Lagre, Q = Lagre stille, K = Lagre og fortsett, P = Forhåndsvis, C = "
 "Avbryt"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:161
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:973
+#: core/data/Sandbox/WebPreferences.txt:9
+msgid "Sandbox test area to experiment in an unrestricted hands-on web."
+msgstr ""
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:160
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
 msgid "Save table"
 msgstr "Lagre tabell"
 
-#: core/templates/registerfailednotremoved.tmpl:20
-#: core/templates/registerfailedremoved.tmpl:21
+#: core/templates/registerfailednotremoved.tmpl:18
+#: core/templates/registerfailedremoved.tmpl:19
 #: core/templates/registernotifyadmin.tmpl:16
 msgid "Saved to:"
 msgstr "Lagret til:"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:7
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:7
-#: PatternSkin/data/System/WebLeftBarExample.txt:8
-#: PatternSkin/data/System/WebLeftBarSearch.txt:3
+#: PatternSkin/data/Main/WebLeftBarExample.txt:8
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:8
+#: PatternSkin/data/System/WebLeftBarExample.txt:9
+#: PatternSkin/data/System/WebLeftBarSearch.txt:4
 #: PatternSkin/data/System/WebTopBarExample.txt:9
-#: PatternSkin/data/Trash/WebLeftBarExample.txt:5
-#: PatternSkin/data/_default/WebLeftBar.txt:6
-#: PatternSkin/templates/foswiki.pattern.tmpl:38
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:6
-#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
-#: core/data/_default/WebHome.txt:11
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:6
+#: PatternSkin/data/_default/WebLeftBar.txt:7
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
+#: core/data/System/SiteMap.txt:32 core/data/System/WebSearch.txt:47
+#: core/data/System/WebSearch.txt:63
 msgid "Search"
 msgstr "Søk"
 
@@ -2413,37 +2611,51 @@ msgstr "Søk"
 msgid "Search %1 Web only"
 msgstr "Søk kun i %1 web'en"
 
-#: core/templates/backlinksweb.tmpl:6
+#: core/templates/backlinksweb.tmpl:5
 msgid "Search all webs"
 msgstr "Søk i alle web"
 
-#: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:6
-#: core/templates/oopsmore.tmpl:53
+#: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:5
+#: core/templates/more.tmpl:86
 msgid "Search all webs for topics that link to here"
 msgstr "Søk i alle web for sider som linker hit"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
+#: core/data/System/WebSearch.txt:22
+#, fuzzy
+msgid "Search in %1 Web"
+msgstr "Søk kun i %1 web'en"
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search in all webs"
 msgstr "Søk i alle web"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search more topics in this web"
 msgstr "Søk flere sider i denne web'en"
 
-#: core/data/System/WebSearchAdvanced.txt:69
+#: core/data/System/WebSearch.txt:39
+#, fuzzy
+msgid "Search options"
+msgstr "Andre søkemuligheter:"
+
+#: core/templates/searchbookview.tmpl:7
+#, fuzzy
+msgid "Search result"
+msgstr "(søkeresultat)"
+
+#: core/data/System/WebSearch.txt:122
 msgid "Search string"
 msgstr "Søkestreng"
 
-#: core/templates/oopsmore.tmpl:55
+#: core/templates/more.tmpl:88
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Søk i %1 web etter sider som linker hit"
 
-#: core/data/System/WebSearch.txt:30 core/data/System/WebSearchAdvanced.txt:36
+#: core/data/System/WebSearch.txt:74 core/data/System/WebSearch.txt:88
 msgid "Search where:"
 msgstr "Søk hvor:"
 
-#: PatternSkin/templates/searchbase.pattern.tmpl:1
-#: core/templates/search.tmpl:10 core/templates/searchformat.tmpl:9
+#: core/templates/searchformat.tmpl:8
 msgid "Searched:"
 msgstr "Søkt:"
 
@@ -2457,19 +2669,25 @@ msgstr ""
 "Se %1 for en liste over eksisterende brukere eller registrer deg som ny "
 "bruker i %2."
 
-#: core/templates/messages.tmpl:331
+#: core/templates/messages.tmpl:347
 msgid "See %1 for information about Form Definitions."
 msgstr "Se %1 for informasjon om Skjemadefinisjoner"
 
-#: core/data/System/WebIndex.txt:4
+#: core/templates/messages.tmpl:472 core/templates/messages.tmpl:482
+#: core/templates/messages.tmpl:489 core/templates/messages.tmpl:510
+#: core/templates/messages.tmpl:520
+msgid "See %MAINWEB%.WikiGroups to see the result."
+msgstr ""
+
+#: core/data/System/WebIndex.txt:5
 msgid "See also the faster %1"
 msgstr "Se også den raskere %1"
 
-#: core/data/System/WebTopicList.txt:4
+#: core/data/System/WebTopicList.txt:5
 msgid "See also the verbose %1."
 msgstr "Se også den mer utførlige %1."
 
-#: core/data/System/RenameWeb.txt:3 core/data/System/WebChanges.txt:6
+#: core/data/System/WebChanges.txt:7
 msgid "See also:"
 msgstr "Se også:"
 
@@ -2481,90 +2699,87 @@ msgstr "Se under for hjelp om å redigere denne siden."
 msgid "Select"
 msgstr "Velg"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:20
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:226
+msgid "Select Wiki %1 to join"
+msgstr ""
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
 msgstr "Velg en ny local fil for å oppdatere vedlegget"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:33
+#: PatternSkin/templates/renamebase.pattern.tmpl:22
 msgid "Select all"
 msgstr "Velg alle"
 
-#: core/templates/oopsmore.tmpl:69
-msgid "Select topic parent:"
+#: HistoryPlugin/templates/oopshistory.tmpl:71
+msgid "Select an earlier (left) and a later (right) revision to compare"
+msgstr ""
+
+#: core/templates/more.tmpl:102
+#, fuzzy
+msgid "Select topic parent"
 msgstr "Velg forelder for siden:"
 
-#: PatternSkin/templates/edit.pattern.tmpl:70 core/templates/edit.tmpl:47
+#: PatternSkin/templates/edit.pattern.tmpl:64 core/templates/edit.tmpl:47
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "Velg, kopier og lim inn din signaturtekst under ditt innlegg"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:285
-msgid "Send you a confirmation of your registration by e-mail."
-msgstr "Send deg en bekreftelse på registrering på epost."
+#: core/data/System/WebSearch.txt:109
+msgid "Selections apply to search in \"text body\""
+msgstr ""
 
-#: core/templates/oopsmore.tmpl:112
+#: core/templates/more.tmpl:160
 msgid "Sequential"
 msgstr "Sekvensiell"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:34
+#: core/lib/Foswiki/Form/Checkbox.pm:37
 msgid "Set all"
 msgstr "Velg alle"
 
-#: core/templates/oopsmore.tmpl:73
+#: core/templates/more.tmpl:106
 msgid "Set new parent"
 msgstr "Sett ny forelder"
 
-#: core/templates/oopsmore.tmpl:62
+#: core/templates/more.tmpl:95
 msgid "Set new topic parent"
 msgstr "Set ny forelder for siden"
 
+#: HistoryPlugin/templates/oopshistory.tmpl:80
+#, fuzzy
+msgid "Show"
+msgstr "Vis hjelp"
+
 #: PatternSkin/templates/renamebase.pattern.tmpl:11
+#: core/data/System/WebPreferencesHelp.txt:5
 msgid "Show help"
 msgstr "Vis hjelp"
 
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:78
-msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
-msgstr "Vis tips ved mus-over %1 linker, av eller på:"
-
-#: PatternSkin/templates/foswiki.pattern.tmpl:77
+#: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Shrink edit box"
 msgstr "Krymp redigeringsboks"
 
-#: core/templates/oopsmore.tmpl:112
+#: HistoryPlugin/templates/oopshistory.tmpl:56 core/templates/more.tmpl:160
 msgid "Side by side"
 msgstr "Side ved side"
 
-#: core/data/System/WebSearchAdvanced.txt:31
-msgid "Simple search"
-msgstr "Enkelt søk"
-
-#: core/data/Main/SitePreferences.txt:4
-msgid ""
-"Site-level preferences are located in %1, however this %2 prefs topic has "
-"override priority and should be used for local customisations. This allows "
-"for easier upgrades as you don't need to worry about the shipped preferences "
-"clobbering yours. It's easier to keep a handle on if you only copy over the "
-"settings you actually change."
+#: CompareRevisionsAddOn/templates/comparesidebyside.tmpl:3
+msgid "Side-by-side comparison of revisions"
 msgstr ""
-"Overordnede preferanser for alle web finnes i %1, men denne %2 "
-"preferanseside har prioritet og bør brukes for lokale tilpasninger. Dette "
-"sørger for enklere oppgraderinger siden du ikke trenger å tenke på at "
-"installerte preferanser overskriver dine egne. Det er enklere å håndtere "
-"dersom du kun kopierer over de preferansene du faktisk har endret."
 
 #: core/templates/attachtables.tmpl:4
 msgid "Size"
 msgstr "Størrelse"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:137
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:141
 #: core/templates/registernotify.tmpl:15
 msgid "Some add schedule information and vacation notice."
 msgstr "Noen legger inn avtaler og ferievarsling."
 
-#: core/templates/messages.tmpl:366
+#: core/templates/messages.tmpl:382
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
 msgstr "Noen tegn slik som =&#126;=, =$=, =@=, =%= er fjernet"
 
-#: core/templates/messages.tmpl:311
+#: core/templates/messages.tmpl:321
 msgid ""
 "Some mail tools have an error that causes them to send the same request "
 "twice when you click on a link. It you did this, it is possible that you "
@@ -2574,7 +2789,7 @@ msgstr ""
 "ganger når du klikker på en link. Hvis dette skjedde med deg kan de hende du "
 "faktisk *er* registrert."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:136
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:140
 #: core/templates/registernotify.tmpl:14
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -2583,44 +2798,45 @@ msgstr ""
 "Noen gjør det til en personlig portal med favorittlenker, hva de jobber med, "
 "hva de liker osv."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:5
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:14
 msgid "Sorry, Registration has been temporarily disabled"
 msgstr "Beklager, Registrering er midlertidig deaktivert"
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:83
-#: TopicUserMappingContrib/data/System/BulkResetPassword.txt:17
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:13
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:16
+#: TopicUserMappingContrib/data/System/BulkResetPassword.txt:18
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
 "Beklager, passordsystemet er for øyeblikke kun med lesetilgang, vennligst "
 "kontakt %1"
 
-#: core/data/System/WebSearchAdvanced.txt:46
+#: core/data/System/WebSearch.txt:98
 msgid "Sort results by:"
 msgstr "Sorter resultater etter:"
 
-#: core/templates/messages.tmpl:364
+#: core/templates/messages.tmpl:380
 msgid "Spaces are replaced by underscores"
 msgstr "Mellomrom erstattes av lav strek"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:11
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
-#: PatternSkin/data/System/WebLeftBarExample.txt:12
-#: PatternSkin/data/_default/WebLeftBar.txt:10
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:10
+#: PatternSkin/data/Main/WebLeftBarExample.txt:12
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
+#: PatternSkin/data/System/WebLeftBarExample.txt:13
+#: PatternSkin/data/_default/WebLeftBar.txt:11
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:11
 msgid "Statistics"
 msgstr "Statistikk"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:296
-#: core/templates/messages.tmpl:207 core/templates/messages.tmpl:316
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:108
+#: JQueryPlugin/data/System/JQueryTextboxList.txt:31
+#: JQueryPlugin/data/System/JQueryValidate.txt:49
+#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: core/data/System/FrequentlyAskedQuestions.txt:78
+#: core/templates/messages.tmpl:217 core/templates/messages.tmpl:326
 msgid "Submit"
 msgstr "Send"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
-#: core/templates/registerfailednotremoved.tmpl:16
-#: core/templates/registerfailedremoved.tmpl:17
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:152
+#: core/templates/registerfailednotremoved.tmpl:14
+#: core/templates/registerfailedremoved.tmpl:15
 #: core/templates/registernotify.tmpl:18
 #: core/templates/registernotifyadmin.tmpl:12
 msgid "Submitted content:"
@@ -2632,15 +2848,23 @@ msgstr "Sendt innhold:"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Abbonner / Si opp i:"
 
-#: core/data/System/WebSearchAdvanced.txt:70
+#: core/templates/messages.tmpl:478
+msgid "Success adding users to group"
+msgstr ""
+
+#: core/templates/messages.tmpl:516
+msgid "Success removing users from group"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:123
 msgid "Summaries"
 msgstr "Sammendrag"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:77
+#: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Switch to monotype or propotional font"
 msgstr "Bytt til monotype eller proporsjonal font"
 
-#: core/data/System/WebSearch.txt:26 core/data/System/WebSearchAdvanced.txt:32
+#: core/data/System/SearchHelp.txt:5
 msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
@@ -2648,19 +2872,15 @@ msgstr ""
 "TIPS: for å søke etter alle sider som inneholder =\"SOAP\"=, =\"WSDL\"=, en "
 "streng =\"web service\"=, men ikke =\"shampoo\"=, skriv:"
 
-#: core/templates/messages.tmpl:515
+#: core/templates/messages.tmpl:605
 msgid "Template %1 does not exist"
 msgstr "Mal %1 eksisterer ikke"
 
-#: core/data/Sandbox/WebHome.txt:6
-msgid "Test Topics"
-msgstr "Test Sider"
-
-#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:38
+#: core/data/System/WebSearch.txt:76 core/data/System/WebSearch.txt:90
 msgid "Text body"
 msgstr "Tekst innhold"
 
-#: core/templates/messages.tmpl:162 core/templates/messages.tmpl:200
+#: core/templates/messages.tmpl:170 core/templates/messages.tmpl:210
 msgid "Thank you for registering"
 msgstr "Takk for at du registrerte deg"
 
@@ -2680,11 +2900,11 @@ msgstr ""
 "Takk for at du registrerte deg i %1 samarbeidsplattformen. Din "
 "bekreftelseskode er %2."
 
-#: core/templates/messages.tmpl:533
+#: core/templates/messages.tmpl:623
 msgid "That user has already been activated "
 msgstr "Den brukeren er allerede aktivert "
 
-#: core/templates/messages.tmpl:280
+#: core/templates/messages.tmpl:290
 msgid ""
 "The %1 field must be your first and last name in %2, e.g. your capitalized "
 "first and last name with spaces removed."
@@ -2692,7 +2912,7 @@ msgstr ""
 "Feltet %1 må være ditt fornavn og etternavn i %2, e.g. fornavn og etternavn "
 "med store forbokstaver og uten mellomrom."
 
-#: core/templates/messages.tmpl:274
+#: core/templates/messages.tmpl:284
 msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
 msgstr ""
 "Feltet %1 må stemme med {LoginNameFilterIn} filteret for denne webløsningen"
@@ -2701,11 +2921,12 @@ msgstr ""
 msgid "The %1 topic already exists"
 msgstr "Siden %1 finnes allerede"
 
-#: core/templates/messages.tmpl:492
+#. ($parent)
+#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:582
 msgid "The %1 web does not exist"
 msgstr "Web'en %1 finnes ikke"
 
-#: core/data/Sandbox/WebHome.txt:4
+#: core/data/Sandbox/WebHome.txt:3
 msgid ""
 "The %1 web is the sandbox you can use for testing. Everybody is welcome to "
 "add or delete some stuff. It is recommended to walk through the %2 to get a "
@@ -2717,38 +2938,59 @@ msgstr ""
 "for å få en hurtigstart med %3 verktøyet. En god tommelfinger regel er å "
 "legge til tekst på slutten av en side og signere med din %4."
 
-#: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:3
-#: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:5
+#: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
+#: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
+#: core/data/System/WebAtom.txt:4 core/data/System/WebAtomBase.txt:29
+#: core/data/System/WebRss.txt:6 core/data/Trash/WebAtom.txt:3
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
+#, fuzzy
+msgid "The %1 web of %2."
+msgstr "Web'en %1 finnes ikke"
+
+#: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
+#: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
 msgstr ""
 "%1 web'en til Foswiki, den gratis og åpen kildekode Wiki'en (Free Open "
 "Source Wiki = Foswiki)"
 
-#: core/data/Sandbox/WebRss.txt:5
-msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
-msgstr ""
-"%1 web'en til Foswiki. Foswiki er en gratis og åpen kildekode Wiki (Free "
-"Open Source Wiki = Foswiki)"
-
-#: core/templates/messages.tmpl:421
+#: core/templates/messages.tmpl:440
 msgid "The =%1= script can only be called with POST method."
 msgstr "Skriptet =%1= kan kun kalles med metoden POST."
 
-#: core/templates/messages.tmpl:155
+#: core/templates/messages.tmpl:163
 msgid "The Administrator has disabled new user registration."
 msgstr "Administratoren har deaktiver registrering av nye brukere"
 
-#: core/templates/messages.tmpl:306
+#: core/data/System/WebPreferences.txt:12
+#, fuzzy
+msgid "The Free and Open Source Wiki."
+msgstr ""
+"%1 web'en til Foswiki, den gratis og åpen kildekode Wiki'en (Free Open "
+"Source Wiki = Foswiki)"
+
+#: core/templates/messages.tmpl:316
 msgid "The activation code %1 is invalid."
 msgstr "Aktiveringskoden %1 er ugyldig."
 
-#: core/templates/moveattachment.tmpl:28
+#: core/templates/moveattachment.tmpl:48
 msgid "The attachment and any history will be moved to the new topic."
 msgstr "Vedlegget og all historikk blir flyttet til den nye siden."
 
-#: core/templates/messages.tmpl:448
+#: core/templates/moveattachment.tmpl:26
+msgid ""
+"The attachment may be renamed (by appending a number to the name) if an "
+"attachment of that name already exists in the target topic."
+msgstr ""
+
+#: core/templates/renameattachmentdelete.tmpl:43
+msgid ""
+"The attachment may have to be renamed if an attachment called '%FILENAME%' "
+"already exists in the target topic."
+msgstr ""
+
+#: core/templates/messages.tmpl:538
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -2756,7 +2998,7 @@ msgstr ""
 "Muligheten er stor for at %1 helt enkelt har gått bort fra å redigere siden "
 "uten å lagre."
 
-#: core/templates/renamebase.tmpl:69
+#: core/templates/renamebase.tmpl:73
 msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
@@ -2764,28 +3006,28 @@ msgstr ""
 "De valgte sidene blir oppdatert (et annet skjema vil vises hvor du "
 "_eventuelt_ kan navngi sider som var låst)"
 
-#: core/templates/messages.tmpl:298
+#: core/templates/messages.tmpl:308
 msgid "The e-mail address for this account is not valid."
 msgstr "Epostadressen for denne kontoen er ikke gyldig."
 
-#: core/templates/messages.tmpl:466
+#: core/templates/messages.tmpl:556
 msgid "The entry for user %1 was missing in the password system."
 msgstr "Informasjonen for bruker %1 manglet i passordsystemet."
 
-#: core/templates/messages.tmpl:359
+#: core/templates/messages.tmpl:375
 msgid "The file has been uploaded and attached properly to the %1 topic."
 msgstr "Filen har blitt lastet opp og vedlagt riktig til %1 siden."
 
-#: core/templates/messages.tmpl:395
+#: core/templates/messages.tmpl:411
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr "De følgende sidene er låst for redigering og kan ikke flyttes:"
 
-#: core/templates/messages.tmpl:401
+#: core/templates/messages.tmpl:417
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
 "De følgende sidene refererer til sider i denne web'en, men blir redigert:"
 
-#: core/templates/messages.tmpl:398
+#: core/templates/messages.tmpl:414
 msgid ""
 "The following topics refer to topics in this web, but you are denied access "
 "to them:"
@@ -2793,19 +3035,23 @@ msgstr ""
 "De følgende sidene refererer til siden i denne web'en, men du har ikke "
 "tilgang til dem:"
 
-#: core/templates/messages.tmpl:337
+#: core/templates/messages.tmpl:353
 msgid "The form should be defined in the topic %1"
 msgstr "Skjemaet skulle vært definert i siden %1"
 
-#: core/templates/messages.tmpl:446
+#: core/templates/messages.tmpl:536
 msgid "The lease on this topic expired %1 ago."
 msgstr "Leien for denne siden gikk ut for %1 siden."
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:161
+msgid "The login name you use to sign in."
+msgstr ""
 
 #: core/templates/messages.tmpl:93
 msgid "The name of the topic must not be empty."
 msgstr "Sidenavnet kan ikke være tomt."
 
-#: core/templates/moveattachment.tmpl:15
+#: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
 msgstr "Den nye siden som er valgt må finnes fra før"
 
@@ -2817,58 +3063,62 @@ msgstr "Den nye web'en er nå lagd."
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr "Passordet du skrev i *gammelt passord* feltet stemmer ikke."
 
-#: core/templates/messages.tmpl:325
+#: core/templates/messages.tmpl:335
 msgid "The required field %1 was not filled in."
 msgstr "Det obligatoriske feltet %1 var ikke fylt inn."
 
-#: core/templates/messages.tmpl:146
+#: core/templates/messages.tmpl:154
 msgid "The selected User System does not support new user registration."
 msgstr "Det valgte brukersystemet tilbyr ikke registrering av nye brukere."
 
-#: core/templates/messages.tmpl:340
+#: core/templates/messages.tmpl:356
 msgid "The topic is in an old format"
 msgstr "Siden er i et gamnmelt format"
 
-#: core/templates/messages.tmpl:227
+#: core/templates/messages.tmpl:237
 msgid "The two passwords you entered do not match."
 msgstr "De to passordene du skrev inn er ikke like-"
 
-#: core/templates/messages.tmpl:535
+#: core/templates/messages.tmpl:625
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "Brukeren %1 er allerede aktivert og burde kunne logge inn."
 
-#: core/templates/messages.tmpl:391
+#: core/templates/messages.tmpl:407
 msgid "There are problems with renaming this web:"
 msgstr "Det er problemer med å navngi denne web'en:"
 
-#: core/templates/messages.tmpl:234
+#: core/templates/messages.tmpl:244
 msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 "Det var et problem med å legge til din brukeridentitet til passordsystemet."
 
-#: core/templates/validate.tmpl:19
+#: core/templates/validate.tmpl:29
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
 msgstr ""
 
-#: core/templates/messages.tmpl:343
+#: core/templates/messages.tmpl:359
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Der burde være en linje som inkliderer %1, se for %2 (eller %3)"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:6
-msgid "This Foswiki does _not_ support new User Registration"
-msgstr "Denne Foswiki supporterer _ikke_ registrering av nye brukere"
+#: core/templates/messages.tmpl:468
+msgid "There were errors adding %1 to the %2 group. "
+msgstr ""
 
-#: core/templates/messages.tmpl:350
+#: core/templates/messages.tmpl:506
+msgid "There were errors removing %1 from the %2 group. "
+msgstr ""
+
+#: core/templates/messages.tmpl:366
 msgid "This can be automatically upgraded by:"
 msgstr "Dette kan automatisk oppgraderes ved"
 
-#: core/templates/messages.tmpl:333
+#: core/templates/messages.tmpl:349
 msgid "This could be for several reasons:"
 msgstr "Dette kan ha flere årsaker:"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:5
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
 "registered e-mails are used by Foswiki for sending you e-mails, include "
@@ -2880,9 +3130,9 @@ msgstr ""
 "meldinger om passordbytter. Disse adressene holdes hemmelig og blir *ikke* "
 "publisert noe sted på denne webløsningen."
 
-#: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:2
-#: core/data/Main/WebNotify.txt:2 core/data/Sandbox/WebNotify.txt:2
-#: core/data/System/WebNotify.txt:2 core/data/Trash/WebNotify.txt:2
+#: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
+#: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
+#: core/data/System/WebNotify.txt:3 core/data/Trash/WebNotify.txt:2
 #: core/data/_default/WebNotify.txt:2
 msgid ""
 "This is a subscription service to be automatically notified by e-mail when "
@@ -2901,8 +3151,8 @@ msgstr ""
 msgid "This is an automated e-mail from %1."
 msgstr "Dette er en automatisk epost fra %1."
 
-#: core/templates/registerfailednotremoved.tmpl:9
-#: core/templates/registerfailedremoved.tmpl:9
+#: core/templates/registerfailednotremoved.tmpl:8
+#: core/templates/registerfailedremoved.tmpl:8
 #: core/templates/registernotifyadmin.tmpl:8
 msgid "This is an automated e-mail notification of user registration in %1."
 msgstr "Dette er en automatisk epost varsling om brukerregistrering i %1."
@@ -2915,7 +3165,17 @@ msgstr ""
 "Dette er Trash. Her kan du ta tilbake slettede sider; slettede vedlegg "
 "finner du i TrashAttachment."
 
-#: core/templates/renamedelete.tmpl:24
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:115
+msgid "This is why the conversion is disabled:"
+msgstr ""
+
+#: core/templates/login.tmpl:28
+msgid ""
+"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
+"[Register]] if you do not have an account yet."
+msgstr ""
+
+#: core/templates/renamedelete.tmpl:28
 msgid ""
 "This name has been chosen so it doesn't conflict with any other topics "
 "already in the %1 web."
@@ -2923,15 +3183,15 @@ msgstr ""
 "Dette navnet har blitt valgt slik at det ikke er i konflikt med andre sider "
 "som finnes i %1 web'en."
 
-#: core/templates/messages.tmpl:348
+#: core/templates/messages.tmpl:364
 msgid "This requires the form definition to be present."
 msgstr "Dette krever at skjemadefinisjonen er tilstede."
 
-#: core/data/System/DefaultPreferences.txt:42
+#: core/data/System/DefaultPreferences.txt:40
 msgid "This site is powered by Foswiki"
 msgstr "Dette nettstedet bruker Foswiki"
 
-#: core/templates/messages.tmpl:292
+#: core/templates/messages.tmpl:302
 msgid "This site requires at least %1 character passwords"
 msgstr "Denne webløsningen krever minst %1 tegns passord"
 
@@ -2951,7 +3211,17 @@ msgstr ""
 "den andre brukerens endringer. Vennligst sjekk siden for å se om den er OK, "
 "spesielt dersom du har gjort endringer i skjemafelter."
 
-#: core/data/System/WebSearchAdvanced.txt:85
+#: core/data/System/FrequentlyAskedQuestions.txt:64
+#, fuzzy
+msgid "Title"
+msgstr "Side tittel"
+
+#: core/templates/renameconfirm.tmpl:16
+#, fuzzy
+msgid "To attachment:"
+msgstr "Side vedlegg"
+
+#: core/data/System/WebSearch.txt:164
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -2959,77 +3229,80 @@ msgstr ""
 "For å vise de ovenstående søkeresultatene i en side, kopier og lim inn "
 "følgende:"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:5
-msgid ""
-"To edit pages on this Foswiki site, you must have a registered user name and "
-"password."
-msgstr ""
-"For å redigere sider på denne Foswiki webløsningen trenger du å ha "
-"registrert et brukernavn og passord."
-
 #: core/templates/oopsleaseconflict.tmpl:20
 msgid "To edit the topic anyway, click "
 msgstr "For å redigere siden uansett, klikk "
-
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:84
-msgid "To register as a new user, simply fill out this form:"
-msgstr "For å registrere deg som ny bruker, fyll ut dette skjemaet:"
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
 msgstr "For å se om %1 er ferdig med å redigere, klikk "
 
-#: core/templates/renamebase.tmpl:29 core/templates/renameconfirm.tmpl:13
+#: core/templates/renamebase.tmpl:29
+#, fuzzy
+msgid "To topic"
+msgstr "Til side:"
+
+#: core/templates/renameconfirm.tmpl:13
 msgid "To topic:"
 msgstr "Til side:"
 
-#: core/templates/renamebase.tmpl:22 core/templates/renameconfirm.tmpl:9
+#: core/templates/renamebase.tmpl:22
+#, fuzzy
+msgid "To web"
+msgstr "Til web:"
+
+#: core/templates/renameconfirm.tmpl:9
 msgid "To web:"
 msgstr "Til web:"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:4
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:4
-#: PatternSkin/data/System/WebLeftBarExample.txt:4
-#: PatternSkin/data/Trash/WebLeftBarExample.txt:3
-#: PatternSkin/data/_default/WebLeftBar.txt:3
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:3
+#: PatternSkin/data/Main/WebLeftBarExample.txt:5
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
+#: PatternSkin/data/System/WebLeftBarExample.txt:5
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:4
+#: PatternSkin/data/_default/WebLeftBar.txt:4
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:4
 msgid "Toolbox"
 msgstr "Verktøy"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:5
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:6
 msgid "Topic %1 does not exist"
 msgstr "Side %1 finnes ikke"
 
-#: core/templates/messages.tmpl:322
+#: core/templates/messages.tmpl:332
 msgid "Topic Save Error"
 msgstr "Lagre Side Feil"
 
-#: PatternSkin/templates/attachtables.pattern.tmpl:15
+#: PatternSkin/templates/attachtables.pattern.tmpl:14
 msgid "Topic attachments"
 msgstr "Side vedlegg"
 
-#: core/templates/messages.tmpl:346
+#: core/templates/messages.tmpl:362
 msgid "Topic can not be upgraded from old style category table"
 msgstr "Siden kan ikke oppgraderes fra gammel type kategori tabell"
 
-#: core/data/System/WebSearchAdvanced.txt:48
-#: core/data/System/WebSearchAdvanced.txt:59
+#: HistoryPlugin/templates/oopshistory.tmpl:29
+#: HistoryPlugin/templates/oopshistory.tmpl:40
+#, fuzzy
+msgid "Topic history"
+msgstr "Side tittel"
+
+#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:100
 msgid "Topic name"
 msgstr "Sidenavn"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:47
-#: core/data/System/WebCreateNewTopicTemplate.txt:33
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:53
+#: core/data/System/WebCreateNewTopicTemplate.txt:34
 msgid "Topic name:"
 msgstr "Sidenavn:"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:54
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:60
 #: core/data/System/WebCreateNewTopicTemplate.txt:38
 msgid "Topic parent:"
 msgstr "Forelder til siden:"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:19
-#: PatternSkin/templates/view.pattern.tmpl:47
-#: PatternSkin/templates/view.pattern.tmpl:72 core/templates/viewprint.tmpl:14
+#: PatternSkin/templates/rdiff.pattern.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:45
+#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:14
 msgid "Topic revision:"
 msgstr "Side versjon:"
 
@@ -3037,11 +3310,11 @@ msgstr "Side versjon:"
 msgid "Topic save error"
 msgstr "Lagre side feil"
 
-#: core/data/System/WebTemplateTopics.txt:2
+#: core/data/System/WebTemplateTopics.txt:3
 msgid "Topic templates in %1 Web"
 msgstr "Side maler i %1 web'en"
 
-#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:39
+#: core/data/System/WebSearch.txt:77 core/data/System/WebSearch.txt:91
 msgid "Topic title"
 msgstr "Side tittel"
 
@@ -3049,28 +3322,19 @@ msgstr "Side tittel"
 msgid "Topic was merged"
 msgstr "Side ble flettet"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:28
-msgid "Topic will be named: "
-msgstr "Siden får navnet:"
-
-#: core/templates/search.tmpl:14
-msgid "Topics in %1 web"
-msgstr "Sider i %1 web'en"
-
 #: MailerContrib/templates/mailnotify.tmpl:14
-#: core/templates/search.text.tmpl:4
 msgid "Topics in %1 web:"
 msgstr "Sider i %1 web'en:"
 
-#: core/data/System/WebSearchAdvanced.txt:76
+#: core/data/System/WebSearch.txt:129
 msgid "Topics per web"
 msgstr "Sider pr web"
 
-#: core/templates/renamewebbase.tmpl:28
+#: core/templates/renamewebbase.tmpl:29
 msgid "Topics which are currently being edited by other users in the %1 Web:"
 msgstr "Sider som for øyeblikker blir redigert av andre brukere i %1 web'en:"
 
-#: core/templates/renamewebbase.tmpl:31
+#: core/templates/renamewebbase.tmpl:32
 msgid ""
 "Topics which refer to this web and are are currently being edited by other "
 "users:"
@@ -3078,28 +3342,20 @@ msgstr ""
 "Sider som refererer til denne web'en og som for øyeblikket blir rediger av "
 "andre brukere:"
 
-#: core/templates/renamewebbase.tmpl:34
+#: core/templates/renamewebbase.tmpl:35
 msgid ""
 "Topics which refer to this web that you do not have permission to change:"
 msgstr ""
 "Sider som refererer til denne web'en og som du ikke har rettigheter til å "
 "endre:"
 
-#: core/data/System/WebSearchAdvanced.txt:71
+#: core/data/System/WebSearch.txt:124
 msgid "Total matches"
 msgstr "Totalt treff"
 
 #: core/templates/oopsleaseconflict.tmpl:17
 msgid "Try Again"
 msgstr "Forsøk igjen"
-
-#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:76
-msgid ""
-"Uncomment preference settings to activate them (remove the #-sign). Help and "
-"details on preference settings are available in %1."
-msgstr ""
-"Fjern kommentarertegn foran preferanser for å aktivere dem (fjern # tegnet). "
-"Hjelp og detaljer for preferanser er tilgjengelige i %1."
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
@@ -3109,16 +3365,30 @@ msgstr "Ukjent user og/eller passord"
 msgid "Unrecognized action command %1"
 msgstr "Ukjent handling %1"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:4
+#: PatternSkin/templates/attachagain.pattern.tmpl:3
 msgid "Update attachment %1 on %2"
 msgstr "Oppdater vedlegg %1 på %2"
 
-#: core/templates/renamebase.tmpl:49 core/templates/renamewebbase.tmpl:26
+#: core/templates/renamebase.tmpl:49 core/templates/renamewebbase.tmpl:27
 msgid "Update links"
 msgstr "Oppdater lenker"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:28
-#: PatternSkin/templates/attachnew.pattern.tmpl:7
+#: core/data/Main/GroupViewTemplate.txt:124
+msgid "Upgrade group topic"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:128
+msgid ""
+"Upgrade will adjust the format of this group topic to the new format with "
+"user management options"
+msgstr ""
+
+#: core/templates/messages.tmpl:485
+msgid "Upgraded Group"
+msgstr ""
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:26
+#: PatternSkin/templates/attachnew.pattern.tmpl:5
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
 msgstr "Last opp fil"
@@ -3127,20 +3397,25 @@ msgstr "Last opp fil"
 msgid "Upload up to %1 KB."
 msgstr "Last opp opptil %1 KB."
 
-#: core/templates/messages.tmpl:378
+#: core/templates/messages.tmpl:394
 msgid "Uploaded file %1 exceeds limit of %2 KB"
 msgstr "Opplaster fil %1 ovestiger grense på %2 KB"
 
-#: core/templates/messages.tmpl:377
+#: core/templates/messages.tmpl:393
 msgid "Uploaded file is too big"
 msgstr "Opplastet fil er for stor"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:5
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:5
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:14
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Use %1 instead."
 msgstr "Bruk %1 i stedet."
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:61
+#: core/data/Sandbox/WebHome.txt:22
+#, fuzzy
+msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
+msgstr "(Bruk et sidenavn i System.WikiNotation)"
+
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:67
 #: core/data/System/WebCreateNewTopicTemplate.txt:43
 msgid "Use template:"
 msgstr "Bruk mal:"
@@ -3149,20 +3424,22 @@ msgstr "Bruk mal:"
 msgid "User Account %1 Deleted"
 msgstr "Brukerkonto %1 Slettet"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:15
+#: PatternSkin/data/System/WebLeftBarExample.txt:16
 msgid "User Reference"
 msgstr "Bruker Referanse"
 
+#: HistoryPlugin/templates/oopshistory.tmpl:33
+#: HistoryPlugin/templates/oopshistory.tmpl:44
 #: PatternSkin/data/System/PatternSkinElements.txt:220
-#: core/templates/login.tmpl:42
+#: core/templates/login.tmpl:40
 msgid "Username"
 msgstr "Brukernavn"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:5
+#: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "Brukere"
 
-#: core/templates/messages.tmpl:171
+#: core/templates/messages.tmpl:179
 msgid ""
 "Users with automatically generated passwords should proceed immediately to "
 "[[%1][change password]] to change their password to something memorable."
@@ -3170,27 +3447,28 @@ msgstr ""
 "Brukere med automatisk genererte passord burde øyeblikkelig gå til [[%1]"
 "[endre passord]] og endre passord til noe enklere å huske."
 
-#: core/templates/attachtables.tmpl:37
+#: core/templates/attachtables.tmpl:43
 msgid "Version"
 msgstr "Versjon"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:10
+#: PatternSkin/templates/attachagain.pattern.tmpl:9
 msgid "Version history"
 msgstr "Versjonshistorikk"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:8
+#: PatternSkin/templates/attachagain.pattern.tmpl:7
 msgid "Version history of %1"
 msgstr "Versjonhistorikk for %1"
 
-#: core/templates/oopsmore.tmpl:106
-msgid "View"
-msgstr "Vis"
-
-#: core/templates/oopsmore.tmpl:113
+#: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
 msgstr "Vis differanse"
 
-#: core/templates/oopsmore.tmpl:103
+#: core/templates/more.tmpl:163
+#, fuzzy
+msgid "View differences"
+msgstr "Vis differanse"
+
+#: core/templates/more.tmpl:138
 msgid "View previous topic revision"
 msgstr "Vis forrige versjon av siden"
 
@@ -3198,21 +3476,26 @@ msgstr "Vis forrige versjon av siden"
 msgid "View raw text without formatting"
 msgstr "Vis rå tekst uten formatering"
 
-#: core/templates/oopsmore.tmpl:105
+#: core/templates/more.tmpl:145
+#, fuzzy
+msgid "View revision"
+msgstr "Vis versjon:"
+
+#: core/templates/more.tmpl:142
 msgid "View revision:"
 msgstr "Vis versjon:"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:65
+#: core/data/System/WebCreateNewTopicTemplate.txt:62
 msgid "View templates"
 msgstr "Vis maler"
 
 #: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-#: PatternSkin/templates/rdiff.pattern.tmpl:29
+#: PatternSkin/templates/rdiff.pattern.tmpl:26
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
 msgstr "Vis side"
 
-#: core/templates/foswiki.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:162
 msgid "View total topic history"
 msgstr "Vis all side historikk"
 
@@ -3220,99 +3503,112 @@ msgstr "Vis all side historikk"
 msgid "Warning"
 msgstr "Advarsel"
 
-#: core/templates/validate.tmpl:8
+#: core/templates/validate.tmpl:20
 msgid "Warning! Confirmation required"
 msgstr "Advarsel! Bekreftelse påbudt"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:166
+#: EditTablePlugin/data/System/EditTablePlugin.txt:165
 msgid "Warning: 'include' topic does not exist!"
 msgstr "Advarsel: 'include' siden finnes ikke!"
 
-#: core/templates/messages.tmpl:463
+#: core/templates/messages.tmpl:553
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr ""
 "Advarsel: Kan ikke INCLUDE %1 flere ganger, siden er allerede inkludert. %2"
 
-#: core/templates/messages.tmpl:464
+#: core/templates/messages.tmpl:554
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
 "Advarsel: Kan ikke bruke INCLUDE '%1', stien er tom eller inneholder "
 "ulovlige tegn."
 
-#: core/templates/messages.tmpl:462
+#: core/templates/messages.tmpl:552
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr "Advarsel: Kan ikke finne navngitt seksjon %3 på side %1.%2"
 
-#: core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:551
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Advarsel: Kan ikke finne siden %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:967
+#: core/lib/Foswiki/UI/Register.pm:922
 msgid "Warning: Could not send confirmation email"
 msgstr "Advarsel: Kunne ikke sende bekreftelses epost"
 
-#: core/lib/Foswiki/UI/Register.pm:979
+#: core/lib/Foswiki/UI/Register.pm:934
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "Advarsel: Kunne ikke sende bekreftekses epost, epost er deaktivert"
 
-#: core/templates/messages.tmpl:471
+#: core/templates/messages.tmpl:561
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Advarsel: Denne webløsningen tillater ikke %<nop>INCLUDE% av URLs"
 
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:994
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Advarsel: \\'include\\' siden finnes ikke!"
 
-#: core/data/System/WebSearch.txt:3
-msgid "Web Search"
-msgstr "Websøk"
-
-#: PatternSkin/data/System/WebLeftBarWebsList.txt:2
+#: PatternSkin/data/System/WebLeftBarWebsList.txt:3
 msgid "Webs"
 msgstr "Web"
+
+#: core/data/Main/WebPreferences.txt:12
+msgid "Welcome to %1 ... meet people on this site"
+msgstr ""
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
 msgstr "Welkommen til %1 web'en"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:281
-msgid ""
-"When %1 receives the form, it will mail an account activation code to the e-"
-"mail address you gave above. Enter that activation code in the following "
-"screen, or follow the link in the e-mail, to activate your account. Once "
-"your account is activated, %1 will:"
-msgstr ""
-"Når %1 mottar skjemaet sendes en aktiveringskode for kontoen til den "
-"epostadressen du oppgav ovenfor. Skriv den aktiveringskoden i det påfølgende "
-"skjermbildet, eller følg linken i eposten for å aktivere kontoen. Når det er "
-"gjort vil %1:"
-
-#: core/templates/messages.tmpl:243
+#: core/templates/messages.tmpl:253
 msgid "While attempting to email <noautolink>%1</noautolink>."
 msgstr "Under forsøk på å sende epost <noautolink>%1</noautolink>."
 
-#: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
+#: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Who"
 msgstr "Hvem"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:59
+msgid "Whole page"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:152
+#, fuzzy
+msgid "Wiki name"
+msgstr "Sidenavn"
+
+#: core/data/System/WebSearch.txt:113
+#, fuzzy
+msgid "Word search"
+msgstr "Endre søk"
 
 #: core/templates/messages.tmpl:19
 msgid "Would you like to go to:"
 msgstr "Vil du gå til:"
 
-#: core/templates/messages.tmpl:262
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:19
+#, fuzzy
+msgid ""
+"You *must* have at least one valid registered e-mail to be able to reset "
+"your password. If none of your registered e-mail addresses is valid, and you "
+"have forgotten your password, contact %1."
+msgstr ""
+"du *må* ha minst en gyldig registrert epostadresse for å kunne tilbakestille "
+"ditt passord. Hvis ingen av dine registrerte epostadresser er gyldige, og du "
+"har glemt ditt passord, kontakt %1."
+
+#: core/templates/messages.tmpl:272
 msgid "You are already registered"
 msgstr "Du er allerede registrert"
 
-#: core/templates/messages.tmpl:165
+#: core/templates/messages.tmpl:173
 msgid "You are also listed in the %1 topic"
 msgstr "Du er også listet på %1 siden"
 
-#: core/templates/messages.tmpl:392
+#: core/templates/messages.tmpl:408
 msgid "You are denied access to the following topics in the web:"
 msgstr "Du er nektet tilgang til følgende sider i web'en:"
 
-#: core/templates/messages.tmpl:450
+#: core/templates/messages.tmpl:540
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -3325,7 +3621,7 @@ msgstr ""
 "blir dine endringer flettet og ingenting går tapt. Skjemadata kan ikke "
 "enkelt flettes, så i de tilfeller anbefales du å sjekke med %1 først."
 
-#: PatternSkin/templates/view.pattern.tmpl:39
+#: PatternSkin/templates/view.pattern.tmpl:37
 msgid "You are here:"
 msgstr "Du er her:"
 
@@ -3342,26 +3638,26 @@ msgstr ""
 "(en web som kun brukes ved opprettelse av nye web) velg et navn som starter "
 "med lav strek og kun har alfanumeriske tegn."
 
-#: core/templates/messages.tmpl:528
+#: core/templates/messages.tmpl:618
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr "Du forsøker å %1 et vedlegg som ikke eksisterer."
 
-#: core/templates/messages.tmpl:516
+#: core/templates/messages.tmpl:606
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Du forsøker å lage en side fra en mal som ikke finnes."
 
-#: core/templates/messages.tmpl:511
+#: core/templates/messages.tmpl:601
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action '%"
 "1')."
 msgstr ""
 "Du forsøker å utføre en handling på en side som ikke finnes (action '%1')."
 
-#: core/templates/messages.tmpl:522
+#: core/templates/messages.tmpl:612
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Du forsøker å endre navn på en side som ikke finnes"
 
-#: core/templates/messages.tmpl:501
+#: core/templates/messages.tmpl:591
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -3369,7 +3665,7 @@ msgstr ""
 "Du kan [[%1][lag ny web]] dersom du har tillatelser. Kontakt %2 hvis du har "
 "spørsmål."
 
-#: core/templates/messages.tmpl:135
+#: core/templates/messages.tmpl:143
 msgid ""
 "You can also use the names of the standard HTML colors (black, silver, gray, "
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
@@ -3379,7 +3675,7 @@ msgstr ""
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
 "teal, or aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:145
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:149
 #: core/templates/registernotify.tmpl:24
 msgid "You can change your password at via %1"
 msgstr "Du kan endre ditt passord via %1"
@@ -3388,25 +3684,36 @@ msgstr "Du kan endre ditt passord via %1"
 msgid "You can give this web a different name."
 msgstr "Du kan gi denne web'en et annet navn."
 
-#: core/templates/oopschangelanguage.tmpl:7
+#: core/templates/validate.tmpl:32
 msgid ""
-"You can set your favorite language permanently by setting the %1 variable in "
-"your user topic."
+"You cannot manually confirm this change because either Cookies or Javascript "
+"are disabled in your browser."
 msgstr ""
-"Du kan sette ditt favorittspråk permanent ved å sette %1 variabelen i din "
-"brukerside."
 
-#: core/templates/messages.tmpl:263
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:12
+#, fuzzy
+msgid "You cannot register on this site."
+msgstr ""
+"Du kan ikke registrere deg to ganger, navnet %1 er allerede registrert."
+
+#: core/templates/messages.tmpl:273
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr ""
 "Du kan ikke registrere deg to ganger, navnet %1 er allerede registrert."
 
-#: core/templates/messages.tmpl:150 core/templates/messages.tmpl:159
-#: core/templates/messages.tmpl:238
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
+msgid ""
+"You change your email address by setting the form field called Email in your "
+"user topic. If this form field does not exist it will look for a line like "
+"this:"
+msgstr ""
+
+#: core/templates/messages.tmpl:158 core/templates/messages.tmpl:167
+#: core/templates/messages.tmpl:248
 msgid "You have *not* been registered."
 msgstr "Du er *ikke* registrert."
 
-#: core/templates/messages.tmpl:368
+#: core/templates/messages.tmpl:384
 msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
@@ -3414,7 +3721,7 @@ msgstr ""
 "Du kan få din Wiki administrator til å endre innstillingene dersom de er "
 "hensiktsmessige for ditt miljø."
 
-#: core/templates/messages.tmpl:537
+#: core/templates/messages.tmpl:627
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -3422,7 +3729,7 @@ msgstr ""
 "Du kan ha klikket på en registrerings-bekreftelses link som du allerede har "
 "besøkt."
 
-#: core/templates/messages.tmpl:178
+#: core/templates/messages.tmpl:188
 msgid "You may need to close your browser to make this change take effect."
 msgstr ""
 "Det kan hende du må starte nettleseren på nytt for at endringen skal tre i "
@@ -3432,6 +3739,22 @@ msgstr ""
 msgid "You must pass a topic name."
 msgstr "Du må sende et sidenavn."
 
+#: core/templates/messages.tmpl:461
+msgid "You need to specify a valid Group name to add users to a Group."
+msgstr ""
+
+#: core/templates/messages.tmpl:499
+msgid "You need to specify a valid Group name to remove users from a Group."
+msgstr ""
+
+#: core/templates/messages.tmpl:456
+msgid "You need to specify a valid user to add to a Group."
+msgstr ""
+
+#: core/templates/messages.tmpl:494
+msgid "You need to specify a valid user to remove from a group."
+msgstr ""
+
 #: core/templates/registerconfirm.tmpl:11
 msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
@@ -3440,35 +3763,29 @@ msgstr ""
 "Du må nå bekrefte din epostadresse. Du kan gjøre det ved å skrive %1 i "
 "skjemaet du så når denne eposten ble sendt, eller ved å gå til %2"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:7
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
+#, fuzzy
 msgid ""
 "You really ought to register a valid e-mail address. If Foswiki can't find a "
 "registered e-mail for you in the secret database, it will look in your user "
-"topic for a line like this:"
+"topic for a form field called Email. If this form field does not exist it "
+"will look for a line like this:"
 msgstr ""
 "Du burde virkelig registrere en gyldig epostadresse. Hvis Foswiki ikke "
 "finner en registrert epostadresse for deg i den hemmelige databasen vil den "
 "lete i din personlige brukerside etter en linke som dette:"
 
-#: core/templates/oopsmore.tmpl:22
-msgid "You will be able to review the copied topic before saving"
-msgstr "Du får anledning til å se over det kopierte innholdet før du lagrer"
-
-#: core/templates/oopsmore.tmpl:120
-msgid "You will be able to review the topic before saving it to a new revision"
-msgstr "Du får anledning til å se gjennom siden før du lagrer til ny versjon"
-
-#: core/templates/messages.tmpl:355
+#: core/templates/messages.tmpl:371
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "Du må trolig spørre din administrator, %1, om å få gjøre dette."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:33
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:22
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:27
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:35
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:24
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 msgid "Your %1.LoginName"
 msgstr "Ditt %1.LoginName"
 
-#: core/templates/messages.tmpl:202
+#: core/templates/messages.tmpl:212
 msgid ""
 "Your activation code has been sent to %1.  Either click on the link in your "
 "e-mail or enter the code in the box below to activate your membership. (This "
@@ -3478,6 +3795,10 @@ msgstr ""
 "eller skriv koden inn i feltet under her for å aktivere ditt medlemskap. "
 "(Denne koden ser ut som \"DittNavn.xxxxxxxxxx\")"
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:168
+msgid "Your email address will be kept confidential."
+msgstr ""
+
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""
 "Your language will be changed to %1 from the next screen. You will be "
@@ -3486,33 +3807,47 @@ msgstr ""
 "Ditt språk blir endret fra %1 fra og med neste skjermbilde. Du sendes dit nå."
 "Hvis ikke, klikk [[%2][for å fortsette]]."
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:153
+msgid ""
+"Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%."
+"WikiName][Wiki name]]. By default it is derived from your first and last "
+"name."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:175
+#, fuzzy
+msgid "Your password"
+msgstr "Ditt passord:"
+
 #: core/templates/mailresetpassword.tmpl:13
 msgid "Your password has been changed to %1."
 msgstr "Ditt passord er endret til %1."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:114
-msgid "Your password:"
-msgstr "Ditt passord:"
-
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:134
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:138
 #: core/templates/registernotify.tmpl:12
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
 msgstr ""
 "Din personlige %1 side finner på %2. Du kan tilpasse den som du ønsker:"
 
-#: core/templates/messages.tmpl:163
+#: core/templates/messages.tmpl:171
 msgid "Your personal Foswiki topic %1 has been created"
 msgstr "Din personlige Foswiki side %1 er lagd"
 
-#: core/templates/messages.tmpl:195
+#: core/templates/messages.tmpl:205
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
 msgstr ""
 "Dine registrerte epostadresse(r) er oppdatert på <noautolink>%1</noautolink>."
 
-#: core/templates/messages.tmpl:245
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:51
+msgid ""
+"Your registered e-mails are used by Foswiki for sending you e-mails, include "
+"notifications of password changes."
+msgstr ""
+
+#: core/templates/messages.tmpl:255
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
@@ -3520,7 +3855,7 @@ msgstr ""
 "Din registrerings bekreftelses epost har enten feilet eller ligger i kø i "
 "epost systemet."
 
-#: PatternSkin/templates/edit.pattern.tmpl:70
+#: PatternSkin/templates/edit.pattern.tmpl:64
 msgid "Your signature to copy/paste"
 msgstr "Din signatur for å kopiere og lime inn"
 
@@ -3528,7 +3863,7 @@ msgstr "Din signatur for å kopiere og lime inn"
 msgid "Your signature to copy/paste:"
 msgstr "Din signatur for å kopiere og lime inn:"
 
-#: core/templates/messages.tmpl:186
+#: core/templates/messages.tmpl:196
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
@@ -3546,7 +3881,7 @@ msgstr ""
 "Din brukerside har ikke fått nytt navn. Vennligst send epost til %1 for å be "
 "om dette."
 
-#: core/templates/messages.tmpl:342
+#: core/templates/messages.tmpl:358
 msgid "[[%1][Debug topic text]]."
 msgstr "[[%1][Feilsøk sidetekst]]."
 
@@ -3557,81 +3892,91 @@ msgstr ""
 "[3 mellomrom] * [mellomrom] Set [mellomrom] VARIABELNAVN [mellomrom] = "
 "[verdi]"
 
-#: core/lib/Foswiki/I18N.pm:313
+#: core/lib/Foswiki/I18N.pm:318
 msgid "_language_name"
 msgstr "Norsk"
 
-#: core/lib/Foswiki/Access.pm:207
+#: core/lib/Foswiki/Meta.pm:1694
 msgid "access denied on root"
 msgstr "tilgang nektes til root"
 
-#: core/lib/Foswiki/Access.pm:148
+#: core/lib/Foswiki/Meta.pm:1632
 msgid "access denied on topic"
 msgstr "tilgang nektes for side"
 
-#: core/lib/Foswiki/Access.pm:181
+#: core/lib/Foswiki/Meta.pm:1667
 msgid "access denied on web"
 msgstr "tilgang nektes for web"
 
-#: core/lib/Foswiki/Access.pm:219
+#: core/lib/Foswiki/Meta.pm:1704
 msgid "access not allowed on root"
 msgstr "tilgang ikke tillatt til root"
 
-#: core/lib/Foswiki/Access.pm:168
+#: core/lib/Foswiki/Meta.pm:1651
 msgid "access not allowed on topic"
 msgstr "tilgang ikke tillatt til side"
 
-#: core/lib/Foswiki/Access.pm:194
+#: core/lib/Foswiki/Meta.pm:1679
 msgid "access not allowed on web"
 msgstr "tilgang ikke tillatt til web"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:9
+#: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "accesskey='c'"
 msgstr "hurtigtast='c'"
 
-#: core/data/_default/WebHome.txt:11
-msgid "advanced search"
-msgstr "avansert søk"
-
-#: core/data/System/WikiSyntaxSummary.txt:17
+#: core/data/System/WikiSyntaxSummary.txt:18
 msgid "and"
 msgstr "og"
+
+#: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
+msgid "by %1 "
+msgstr ""
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "endre, oppdater, tidligere versjoner, flytt, slett..."
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:33
+#: PatternSkin/templates/renamebase.pattern.tmpl:22
 msgid "checkboxes of referenced topics"
 msgstr "avkrysningsbokser med refererte sider"
 
-#: core/templates/messages.tmpl:417
+#: core/templates/messages.tmpl:435
 msgid "don't forget to check your Topic Settings"
 msgstr "ikke glem å sjekke dine Side Innstillinger"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:36
+#: HistoryPlugin/templates/oopshistory.tmpl:46
+msgid "earlier"
+msgstr ""
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
 msgid "edit"
 msgstr "rediger"
 
-#: core/templates/messages.tmpl:221
+#: core/templates/messages.tmpl:231
 msgid "fields are required."
 msgstr "felt er obligatoriske"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:36
+#: HistoryPlugin/templates/oopshistory.tmpl:46
+msgid "first"
+msgstr ""
 
 #: core/templates/attach.tmpl:3
 msgid "has more information about attaching files."
 msgstr "har mer informasjon om å legge ved filer."
 
-#: PatternSkin/templates/edit.pattern.tmpl:27
-#: PatternSkin/templates/edit.pattern.tmpl:30
+#: PatternSkin/templates/edit.pattern.tmpl:21
+#: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "help"
 msgstr "hjelp"
 
-#: core/data/System/WikiSyntaxSummary.txt:17
+#: core/data/System/WikiSyntaxSummary.txt:18
 msgid "hints on good style"
 msgstr "tips om god stil"
 
-#: core/templates/oopsmore.tmpl:106
+#: core/templates/more.tmpl:142
 msgid "in raw text format"
 msgstr "i rå tekst format"
 
@@ -3639,9 +3984,16 @@ msgstr "i rå tekst format"
 msgid "indicates mandatory fields"
 msgstr "indikerer obligatoriske felt"
 
-#: core/data/System/RenameWeb.txt:3
-msgid "looking for references in _all public webs_"
-msgstr "ser etter referanser i _alle offentlige web_"
+#: HistoryPlugin/templates/oopshistory.tmpl:36
+#: HistoryPlugin/templates/oopshistory.tmpl:46
+msgid "last"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:36
+#: HistoryPlugin/templates/oopshistory.tmpl:46
+#, fuzzy
+msgid "later"
+msgstr "Dato"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -3651,21 +4003,27 @@ msgstr "administrer"
 msgid "more..."
 msgstr "mer..."
 
+#: core/data/Main/GroupViewTemplate.txt:31
+msgid "no members"
+msgstr ""
+
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
 msgstr "nå %1"
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:3
-#: PatternSkin/templates/attachagain.pattern.tmpl:24
-#: PatternSkin/templates/attachagain.pattern.tmpl:28
-#: PatternSkin/templates/attachnew.pattern.tmpl:7
-#: PatternSkin/templates/edit.pattern.tmpl:36
-#: PatternSkin/templates/preview.pattern.tmpl:18
-#: PatternSkin/templates/settings.pattern.tmpl:22
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:105
-#: core/templates/moveattachment.tmpl:35 core/templates/preview.tmpl:18
-#: core/templates/rename.tmpl:19 core/templates/renameattachmentdelete.tmpl:25
-#: core/templates/renameconfirm.tmpl:28 core/templates/renamedelete.tmpl:33
+#: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
+#: PatternSkin/data/System/WebLeftBarLogin.txt:4
+#: PatternSkin/templates/attachagain.pattern.tmpl:22
+#: PatternSkin/templates/attachagain.pattern.tmpl:26
+#: PatternSkin/templates/attachnew.pattern.tmpl:5
+#: PatternSkin/templates/edit.pattern.tmpl:30
+#: PatternSkin/templates/preview.pattern.tmpl:17
+#: PatternSkin/templates/settings.pattern.tmpl:18
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:166
+#: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
+#: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
+#: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:37
 #: core/templates/renameweb.tmpl:32 core/templates/renamewebconfirm.tmpl:15
 msgid "or"
 msgstr "eller"
@@ -3674,22 +4032,14 @@ msgstr "eller"
 msgid "preview"
 msgstr "forhåndsvisning"
 
-#: core/lib/Foswiki/Render.pm:213
-msgid "put it back"
-msgstr "tilbakestill"
-
-#: PatternSkin/templates/searchbase.pattern.tmpl:12
-#: core/data/System/WebChanges.txt:2
+#: core/data/System/WebChanges.txt:3 core/templates/searchformat.tmpl:15
 msgid "retrieved at %1"
 msgstr "hentet %1"
 
-#: core/templates/oopsmore.tmpl:38 core/templates/oopsmore.tmpl:47
-msgid "scans links in _%1 web_ only"
-msgstr "søker lenker kun i _%1 web'en_"
-
-#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:45
-msgid "scans links in _all public webs_"
-msgstr "søker lenker i _alle offentlige web_"
+#: HistoryPlugin/templates/oopshistory.tmpl:86
+#, fuzzy
+msgid "revisions up to"
+msgstr "Versjoner"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -3709,19 +4059,25 @@ msgstr ""
 "title='Slett eller navngi denne siden; set foreldreside;vis og sammenlign "
 "versjoner' accesskey='m'>Flere valg (&m)"
 
+#: core/templates/viewtopicactionbuttons.tmpl:9
+#, fuzzy
+msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
+msgstr "title='Rediger teksten på denne siden' accesskey='e'>R&ediger"
+
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Rediger teksten på denne siden' accesskey='e'>R&ediger"
+
+#: CompareRevisionsAddOn/templates/compare.tmpl:71
+#, fuzzy
+msgid "title='Interwoven' accesskey='i'>&interwoven"
+msgstr "title='Vis side' accesskey='v'>&Vis side"
 
 #: core/templates/viewtopicactionbuttons.tmpl:21
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
 msgstr ""
 "title='Vis utskriftsvennlig versjon av siden' accesskey='p'>Utskriftsvennlig "
 "versjon (&p)"
-
-#: core/templates/viewtopicactionbuttons.tmpl:9
-msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
-msgstr "title='Rediger rå tekst på denne siden' accesskey='w'>Rå edit (&w)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:28
 msgid ""
@@ -3739,10 +4095,12 @@ msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr "title='Søk i %1 web'en for sider som linker hit' accesskey='b'>We&b"
 
-#: core/templates/viewtopicactionbuttons.tmpl:38
-msgid "title='View raw text without formatting' accesskey='r'>&Raw View"
-msgstr "title='Vis rå tekst uten formatering' accesskey='r'>&Rå Tekst"
+#: CompareRevisionsAddOn/templates/compare.tmpl:68
+#, fuzzy
+msgid "title='Side by side' accesskey='s'>&side by side"
+msgstr "title='Vis side' accesskey='v'>&Vis side"
 
+#: HistoryPlugin/templates/oopshistory.tmpl:92
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Vis side' accesskey='v'>&Vis side"
@@ -3752,51 +4110,311 @@ msgstr "title='Vis side' accesskey='v'>&Vis side"
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Vis total sidehistorikk' accesskey='h'>&Historikk"
 
-#: core/lib/Foswiki.pm:4374
+#: core/templates/viewtopicactionbuttons.tmpl:38
+#, fuzzy
+msgid "title='View without formatting' accesskey='r'>&View wiki text"
+msgstr "title='Vis rå tekst uten formatering' accesskey='r'>&Rå Tekst"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:63
+msgid "unchanged sections before and after each change"
+msgstr ""
+
+#: core/lib/Foswiki/Macros/GROUPS.pm:29
 msgid "user list truncated"
 msgstr "brukerliste forkortet"
 
-#: PatternSkin/templates/edit.pattern.tmpl:47
+#: PatternSkin/templates/edit.pattern.tmpl:41
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='Avbryt' accesskey='c'"
 
-#: PatternSkin/templates/preview.pattern.tmpl:20
+#: PatternSkin/templates/preview.pattern.tmpl:19
 msgid "value='Discard' accesskey='d'"
 msgstr "value='Forkast' accesskey='d'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:45
+#: PatternSkin/templates/edit.pattern.tmpl:39
 msgid "value='Preview' accesskey='p'"
 msgstr "value='Forhåndsvis' accesskey='p'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:41
+#: PatternSkin/templates/edit.pattern.tmpl:35
 msgid "value='Quiet save' accesskey='q'"
 msgstr "value='Lagre stille' accesskey='q'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:43
+#: PatternSkin/templates/edit.pattern.tmpl:37
 msgid "value='Save and Continue' accesskey='k'"
 msgstr "value='Lagre og fortsett' accesskey='k'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:39
+#: PatternSkin/templates/edit.pattern.tmpl:33
 msgid "value='Save' accesskey='s'"
 msgstr "value='Lagre' accesskey='s'"
 
-#: core/templates/attachtables.tmpl:42
+#: core/templates/attachtables.tmpl:48
 msgid "view"
 msgstr "vis"
 
-#: core/templates/validate.tmpl:27
+#: core/templates/validate.tmpl:43
 msgid "why you are being asked to confirm"
 msgstr "hvorfor du blir bedt om å bekrefte"
 
-#: TopicUserMappingContrib/data/System/ResetPassword.txt:22
-msgid ""
-"you *must* have at least one valid registered e-mail to be able to reset "
-"your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1."
-msgstr ""
-"du *må* ha minst en gyldig registrert epostadresse for å kunne tilbakestille "
-"ditt passord. Hvis ingen av dine registrerte epostadresser er gyldige, og du "
-"har glemt ditt passord, kontakt %1."
+#~ msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
+#~ msgstr "%1 - komplett Foswiki dokumentasjon, Hurtigstart til Referanse"
+
+#~ msgid "%1 - just for me"
+#~ msgstr "%1 - bare for meg"
+
+#~ msgid "%1 - starting points on Foswiki"
+#~ msgstr "%1 - startpunkter for Foswiki"
+
+#~ msgid "%1 - try out Foswiki on your own"
+#~ msgstr "%1 - prøv Foswiki selv"
+
+#~ msgid "%1 - view a short introductory presentation on Foswiki for beginners"
+#~ msgstr "%1 - se en kort introduksjon om Foswiki for nybegynnere"
+
+#~ msgid "%1 for changing your email address"
+#~ msgstr "%1 for å endre din epost adresse"
+
+#~ msgid "%1 for changing your password"
+#~ msgstr "%1 for å endre ditt passord"
+
+#~ msgid "%1 is a list of Foswiki user documentation"
+#~ msgstr "%1 er en liste over Foswiki brukerdokumentasjon"
+
+#~ msgid "%1 lists all Foswiki user tools"
+#~ msgstr "%1 viser alle bruker verktøy"
+
+#~ msgid "(how you log in) LoginName:"
+#~ msgstr "(hvordan du logger inn) LoginName:"
+
+#~ msgid "(identifies you to others) WikiName:"
+#~ msgstr "(identifiserer deg for andre) WikiName:"
+
+#~ msgid "(optional)"
+#~ msgstr "(valgfri)"
+
+#~ msgid "(recommended)"
+#~ msgstr "(anbefalt)"
+
+#~ msgid "(search results)"
+#~ msgstr "(søkeresultater)"
+
+#~ msgid "Add your name to the list of users in the %1 topic in the %2 web."
+#~ msgstr "Legg ditt navn til listen over brukere i siden %1 i %2 web'en"
+
+#~ msgid "Advanced Search"
+#~ msgstr "Avansert Søk"
+
+#~ msgid "Changed"
+#~ msgstr "Endret"
+
+#~ msgid "Comments:"
+#~ msgstr "Kommentarer:"
+
+#~ msgid ""
+#~ "Copy text and form data to a new topic (no attachments will be copied "
+#~ "though)."
+#~ msgstr "Kopier tekst og skjemadata til en ny side (vedlegg kopieres ikke)."
+
+#~ msgid "Create <nop>TestTopic###"
+#~ msgstr "Lag <nop>TestSide###"
+
+#~ msgid "Create a new auto-numbered test topic:"
+#~ msgstr "Lag en ny autonummerert testside:"
+
+#~ msgid "Create a new document by name:"
+#~ msgstr "Lag en ny side som heter:"
+
+#~ msgid "Create by Name"
+#~ msgstr "Lag ved Navn"
+
+#~ msgid ""
+#~ "Create your personal %1 topic using your WikiName as topic name, and add "
+#~ "the data you submitted to the topic."
+#~ msgstr ""
+#~ "Lag din personlige %1 side med ditt WikiNavn som sidenavn, og legg til "
+#~ "informasjonen som du la inn på siden."
+
+#~ msgid ""
+#~ "Finish creating an account for you, so that you can start editing pages "
+#~ "using your WikiName."
+#~ msgstr ""
+#~ "Lag en konto for deg slik at du kan starte å redigere sider med ditt "
+#~ "WikiNavn."
+
+#~ msgid ""
+#~ "Foswiki's user interface is available in several languages. If you want "
+#~ "to change the language for this session, choose one of the following and "
+#~ "hit \"Change language\". Otherwise, follow the \"Cancel\" link on the "
+#~ "bottom of the page to return to the previous topic."
+#~ msgstr ""
+#~ "Foswiki's brukergrensesnitt er tilgjengelig i flere språk. Hvis du ønsker "
+#~ "å endre språket for denne sesjonen velg en av følgende og vlg så \"Endre "
+#~ "språk\". Eller følg \"Avbryt\" linken på bunnen av siden for å komme til "
+#~ "den forrige siden."
+
+#~ msgid ""
+#~ "If you already know the name of the topic, enter the name of the topic "
+#~ "into the [[%1][Jump box]] at the top"
+#~ msgstr ""
+#~ "Hvis du allerede kjenner navnet på siden så skriv navnet i [[%1][Hopp "
+#~ "feltet]] på toppen"
+
+#~ msgid "List all topics in the %1 web in alphabetical order"
+#~ msgstr "List alle sider i %1 web'en i alfabetisk rekkefølge"
+
+#~ msgid "Local customisations of site-wide preferences"
+#~ msgstr "Lokale tilpasninger av websteds preferanser"
+
+#~ msgid "Move attachment to web:"
+#~ msgstr "Flytt vedlegg til web:"
+
+#~ msgid "My Links"
+#~ msgstr "Mine linker"
+
+#~ msgid "Once registered you can login using your %1 and password."
+#~ msgstr "Når du er registrert kan du logge inn med %1 og passord."
+
+#~ msgid "Organisation URL:"
+#~ msgstr "Organisasjons URL:"
+
+#~ msgid "Other Country"
+#~ msgstr "Annet Land"
+
+#~ msgid "Otherwise, use this form to get a new one e-mailed to you."
+#~ msgstr "Eller bruk dette skjemaet for å få tilsendt et nytt på epost."
+
+#~ msgid "Personal Preferences"
+#~ msgstr "Personlige Preferanser"
+
+#~ msgid ""
+#~ "Quick edit of existing preferences (edit the topic text to set new "
+#~ "preferences)"
+#~ msgstr ""
+#~ "Hurtigredigering av eksisterende preferanser (rediger teksten for å sette "
+#~ "nye preferanser)"
+
+#~ msgid "Raw edit"
+#~ msgstr "Rediger rå tekst"
+
+#~ msgid ""
+#~ "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
+#~ msgstr ""
+#~ "Registrerte brukere kan [[%1][endre]] og [[%2][tilbakestille]] sine "
+#~ "passord."
+
+#~ msgid "Related Topics"
+#~ msgstr "Relaterte Sider"
+
+#~ msgid "Rename/move topic..."
+#~ msgstr "Navngi/flytt side..."
+
+#~ msgid "Rename/move/delete web..."
+#~ msgstr "Navngi/flytt/slett web..."
+
+#~ msgid "Retype password:"
+#~ msgstr "Skriv om igjen passord:"
+
+#~ msgid "Send you a confirmation of your registration by e-mail."
+#~ msgstr "Send deg en bekreftelse på registrering på epost."
+
+#~ msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
+#~ msgstr "Vis tips ved mus-over %1 linker, av eller på:"
+
+#~ msgid "Simple search"
+#~ msgstr "Enkelt søk"
+
+#~ msgid ""
+#~ "Site-level preferences are located in %1, however this %2 prefs topic has "
+#~ "override priority and should be used for local customisations. This "
+#~ "allows for easier upgrades as you don't need to worry about the shipped "
+#~ "preferences clobbering yours. It's easier to keep a handle on if you only "
+#~ "copy over the settings you actually change."
+#~ msgstr ""
+#~ "Overordnede preferanser for alle web finnes i %1, men denne %2 "
+#~ "preferanseside har prioritet og bør brukes for lokale tilpasninger. Dette "
+#~ "sørger for enklere oppgraderinger siden du ikke trenger å tenke på at "
+#~ "installerte preferanser overskriver dine egne. Det er enklere å håndtere "
+#~ "dersom du kun kopierer over de preferansene du faktisk har endret."
+
+#~ msgid "Test Topics"
+#~ msgstr "Test Sider"
+
+#~ msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
+#~ msgstr ""
+#~ "%1 web'en til Foswiki. Foswiki er en gratis og åpen kildekode Wiki (Free "
+#~ "Open Source Wiki = Foswiki)"
+
+#~ msgid "This Foswiki does _not_ support new User Registration"
+#~ msgstr "Denne Foswiki supporterer _ikke_ registrering av nye brukere"
+
+#~ msgid ""
+#~ "To edit pages on this Foswiki site, you must have a registered user name "
+#~ "and password."
+#~ msgstr ""
+#~ "For å redigere sider på denne Foswiki webløsningen trenger du å ha "
+#~ "registrert et brukernavn og passord."
+
+#~ msgid "To register as a new user, simply fill out this form:"
+#~ msgstr "For å registrere deg som ny bruker, fyll ut dette skjemaet:"
+
+#~ msgid "Topic will be named: "
+#~ msgstr "Siden får navnet:"
+
+#~ msgid "Topics in %1 web"
+#~ msgstr "Sider i %1 web'en"
+
+#~ msgid ""
+#~ "Uncomment preference settings to activate them (remove the #-sign). Help "
+#~ "and details on preference settings are available in %1."
+#~ msgstr ""
+#~ "Fjern kommentarertegn foran preferanser for å aktivere dem (fjern # "
+#~ "tegnet). Hjelp og detaljer for preferanser er tilgjengelige i %1."
+
+#~ msgid "View"
+#~ msgstr "Vis"
+
+#~ msgid "Web Search"
+#~ msgstr "Websøk"
+
+#~ msgid ""
+#~ "When %1 receives the form, it will mail an account activation code to the "
+#~ "e-mail address you gave above. Enter that activation code in the "
+#~ "following screen, or follow the link in the e-mail, to activate your "
+#~ "account. Once your account is activated, %1 will:"
+#~ msgstr ""
+#~ "Når %1 mottar skjemaet sendes en aktiveringskode for kontoen til den "
+#~ "epostadressen du oppgav ovenfor. Skriv den aktiveringskoden i det "
+#~ "påfølgende skjermbildet, eller følg linken i eposten for å aktivere "
+#~ "kontoen. Når det er gjort vil %1:"
+
+#~ msgid ""
+#~ "You can set your favorite language permanently by setting the %1 variable "
+#~ "in your user topic."
+#~ msgstr ""
+#~ "Du kan sette ditt favorittspråk permanent ved å sette %1 variabelen i din "
+#~ "brukerside."
+
+#~ msgid "You will be able to review the copied topic before saving"
+#~ msgstr "Du får anledning til å se over det kopierte innholdet før du lagrer"
+
+#~ msgid ""
+#~ "You will be able to review the topic before saving it to a new revision"
+#~ msgstr ""
+#~ "Du får anledning til å se gjennom siden før du lagrer til ny versjon"
+
+#~ msgid "advanced search"
+#~ msgstr "avansert søk"
+
+#~ msgid "looking for references in _all public webs_"
+#~ msgstr "ser etter referanser i _alle offentlige web_"
+
+#~ msgid "scans links in _%1 web_ only"
+#~ msgstr "søker lenker kun i _%1 web'en_"
+
+#~ msgid "scans links in _all public webs_"
+#~ msgstr "søker lenker i _alle offentlige web_"
+
+#~ msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
+#~ msgstr "title='Rediger rå tekst på denne siden' accesskey='w'>Rå edit (&w)"
 
 #~ msgid "Edit table"
 #~ msgstr "Rediger tabell"
