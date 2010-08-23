@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-09-19 17:59+0200\n"
+"PO-Revision-Date: 2010-08-23 16:09+0000\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 1.1.0\n"
+"Language: de\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:480
@@ -63,7 +63,7 @@ msgstr "%1 wurde der Gruppe %2 hinzugefügt."
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
-msgstr ""
+msgstr "%1 Gruppen Topic aktualisiert."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
