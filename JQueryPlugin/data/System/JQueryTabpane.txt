@@ -117,6 +117,7 @@ sem elit sed lectus. Curabitur dignissim, dolor non sodales luctus, mi magna
 tincidunt tellus, at bibendum mauris magna dapibus metus. Donec et libero at
 erat bibendum blandit. Proin enim nunc, rutrum et, congue mattis, ultrices at,
 %ENDTAB%
+%ENDTABPANE%
 
 %STARTSECTION{"foo"}%
 ---+++!! Foo
