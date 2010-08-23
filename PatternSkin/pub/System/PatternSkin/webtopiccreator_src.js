@@ -17,62 +17,60 @@ foswiki.webTopicCreator = {
      */
     _canSubmit: function(inForm, inShouldConvertInput) {
 
-        var inputForTopicName = inForm.topic.value;
+        var inputName = inForm.topic.value;
         
         /* Topic names of zero length are not allowed */
-        if (inputForTopicName.length == 0) {
+        if (inputName.length == 0) {
             $(inForm.submit).addClass("foswikiSubmitDisabled")
             .attr('disabled', true);
             /* Update feedback field */
             $("#webTopicCreatorFeedback").html("");
             return false;
         }
-        var hasNonWikiWordCheck = (inForm.nonwikiword != undefined);
+
+        // Replace illegal characters in the name with spaces. This is
+        // always done, irrespective of whether we are non-wikiwording
+        // or not.
+        var nameFilterRegex = foswiki.getPreference('NAMEFILTER')
+		var re = new RegExp(nameFilterRegex, "g");
+
         var userAllowsNonWikiWord = true;
-        if (hasNonWikiWordCheck) {
-            // nonwikiword can be a radio button or a hidden input
-            userAllowsNonWikiWord = (inForm.nonwikiword.checked
-                                     || inForm.nonwikiword.value == 'on');
-        }
-        
-        /* check if current input is a valid WikiWord */
-        var noSpaceName = foswiki.webTopicCreator
-        ._removeSpacesAndPunctuation(inputForTopicName);
-        
-        /*
-          if necessary, create a WikiWord from the input name
-          (when a non-WikiWord is not allowed)
-        */
-        var wikiWordName = noSpaceName;
-        if (!userAllowsNonWikiWord) {
-            wikiWordName = foswiki.webTopicCreator._removeSpacesAndPunctuation(
-                foswiki.String.capitalize(inputForTopicName));
+        $('#nonwikiword').each(
+            function(index, el) {
+                userAllowsNonWikiWord = el.checked;
+            });
+
+        var cleanName;
+        if (userAllowsNonWikiWord) {
+            // Take out all illegal chars
+            cleanName = inputName.replace(re, "");
+            // Capitalize just the first character
+            finalName = cleanName.substr(0,1).toLocaleUpperCase()
+                + cleanName.substr(1);
+        } else {
+            // Replace illegal chars with spaces
+            cleanName = inputName.replace(re, " ");
+            // Capitalize each word in the string
+            finalName = foswiki.String.capitalize(cleanName);
+            // And remove whitespace
+            finalName = finalName.replace(/\s+/, '', 'g');
         }
 
-        if (userAllowsNonWikiWord) {
-            wikiWordName = foswiki.webTopicCreator._filterSpacesAndPunctuation(
-                inputForTopicName.substr(0,1).toLocaleUpperCase()
-                + inputForTopicName.substr(1));
-        }
         
         if (inShouldConvertInput) {
-            if (hasNonWikiWordCheck && userAllowsNonWikiWord) {
-                inForm.topic.value = wikiWordName;
-            } else {
-                inForm.topic.value = noSpaceName;
-            }
+            inForm.topic.value = finalName;
         }
         
         /* Update feedback field */
-        if (wikiWordName != inputForTopicName) {
+        if (finalName != inputName) {
             feedbackHeader = "<strong>" + TEXT_FEEDBACK_HEADER + "</strong>";
-            feedbackText = feedbackHeader + wikiWordName;
+            feedbackText = feedbackHeader + finalName;
             $("#webTopicCreatorFeedback").html(feedbackText);
         } else {
             $("#webTopicCreatorFeedback").html("");
         }
         
-        if (foswiki.String.isWikiWord(wikiWordName) || userAllowsNonWikiWord) {
+        if (foswiki.String.isWikiWord(finalName) || userAllowsNonWikiWord) {
             $(inForm.submit).removeClass("foswikiSubmitDisabled")
             .attr('disabled', false);
             return true;
