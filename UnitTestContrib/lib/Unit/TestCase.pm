@@ -518,6 +518,26 @@ sub assert_html_matches {
 
 =begin TML
 
+---+ ObjectMethod assert_json_equals($expected, $got [,$message])
+
+Fail the test unless the two JSON data structures are equivalent.
+The message is optional.
+
+=cut
+
+sub assert_json_equals { 
+    my ( $this, $expected, $got, $mess ) = @_;
+
+    require JSON;
+    my $json = JSON->new->allow_nonref;
+
+    $this->assert_deep_equals(
+        $json->decode( $expected ),
+        $json->decode( $got ),
+        $mess || "Expected:'$expected'\n But got:'$got'\n" );
+} 
+=begin TML
+
 ---+ ObjectMethod captureSTD(\&fn, ...) -> ($stdout, $stderr, $result)
 
 Invoke a function while grabbing stdout and stderr, so the output
