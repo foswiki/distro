@@ -59,7 +59,7 @@ msgstr "%1 Web"
 
 #: core/templates/messages.tmpl:480
 msgid "%1 added to the %2 group. "
-msgstr ""
+msgstr "%1 wurde der Gruppe %2 hinzugefügt."
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
