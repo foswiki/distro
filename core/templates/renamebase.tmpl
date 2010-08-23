@@ -58,8 +58,8 @@
 %GLOBAL_SEARCH%
 </div>
 </div>
-%TMPL:P{"checkuncheck"}%
-</div>%IF{"'%SEARCH_COUNT%'=0" then='-->'}%%TMPL:END%
+%TMPL:P{"checkuncheck"}%%IF{"'%SEARCH_COUNT%'=0" then='-->'}%
+</div>%TMPL:END%
 
 
 %TMPL:DEF{"notes"}%%TMPL:P{"notegethelp"}%%TMPL:END%
