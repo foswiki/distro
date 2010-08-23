@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-08-23 16:09+0000\n"
+"PO-Revision-Date: 2010-08-23 16:10+0000\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "MIME-Version: 1.0\n"
@@ -106,9 +106,8 @@ msgid "%1 is currently set to %2"
 msgstr "Der aktuelle Wert von %1 ist %2"
 
 #: core/templates/messages.tmpl:526
-#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 bearbeitet %2"
+msgstr "%1 bearbeitet [[%2][%3]]."
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
@@ -117,7 +116,7 @@ msgstr "%1 ist in mindestens einer Gruppe und konnte nicht gelöscht werden"
 #: core/templates/messages.tmpl:126
 #, fuzzy
 msgid "%1 is not a valid form name"
-msgstr "'%1' ist kein gültiges %2 "
+msgstr "%1 ist kein gültiger Formular-Name"
 
 #: core/templates/messages.tmpl:122
 #, fuzzy
