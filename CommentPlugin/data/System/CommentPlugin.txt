@@ -28,7 +28,7 @@ Write =%<nop>COMMENT{<i>attributes</i>}%= anywhere in a topic.
 
 ---++++ Location relative to <code>%COMMENT</code> tag
 The default _location_ is the =%COMMENT= tag itself. For example:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 %COMMENT{type="below"}%
 </verbatim>
 will add comments in the current topic, directly below the =%COMMENT= tag.
@@ -218,6 +218,7 @@ All the [[TemplateTopics#TemplateTopicsVars][usual macros]] that can be used in 
 ---++ Settings
 <!-- Not used by the plugin
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+%JQREQUIRE{"chili"}%
 -->
 Two [[%SYSTEMWEB%.PreferenceSettings][preference settings]] are recognised by the CommentPlugin:
 | *Preference* | *Default* | *Description* |

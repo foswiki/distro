@@ -53,7 +53,7 @@ Users may further customize the specific content they will receive using the fol
 
 Examples:
 Subscribe Daisy to all changes to topics in this web.
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
    * daisy.cutter@flowers.com
 </verbatim>
 Subscribe Daisy to all changes to topics that start with =Web=.
@@ -181,6 +181,7 @@ accessible to administrators.
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+%JQREQUIRE{"chili"}%
 -->
 ---+++ Tailoring the email format
 The changes mails sent to subscribers are based on a Foswiki template called =mailnotify=. This template must contain the following definitions. 

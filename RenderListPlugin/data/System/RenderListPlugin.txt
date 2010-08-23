@@ -58,7 +58,7 @@
 *You get: (if installed)*
 </th></tr>
 <tr><td valign="top" bgcolor="#EEEEEE">
-%JQREQUIRE{"chili"}%<pre class="tml">
+<pre class="tml">
 %<nop>RENDERLIST{"thread"}%
    * one
       * one.a
@@ -366,6 +366,7 @@ Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] c
 
 ---
 *Related Topics:* [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, Foswiki:Extensions/TreePlugin
+<!-- %JQREQUIRE{"chili"}% -->
 
 
 %META:FILEATTACHMENT{name="empty.gif" attr="h" comment="Empty 16x16 spacer" date="1070383918" path="empty.gif" size="100" user="PeterThoeny" version="1.1"}%

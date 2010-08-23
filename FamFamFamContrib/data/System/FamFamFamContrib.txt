@@ -3,6 +3,7 @@
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = 4 great free icon sets, by Mark James http://www.famfamfam.com
+%JQREQUIRE{"chili"}%
 -->
 %SHORTDESCRIPTION%
 
@@ -22,7 +23,7 @@ __This Contrib is part of the foswiki 1.1 release__
 To replace the _Edit_, _Attach_ topic action buttons with icons, pre-pend your =SKIN= setting with =famfamfam=.
 
 eg
-%JQREQUIRE{"chili"}%<pre class="tml">
+<pre class="tml">
 &nbsp;&nbsp;&nbsp;* Set SKIN=famfamfam,pattern
 </pre>
 

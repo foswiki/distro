@@ -7,7 +7,7 @@
 
 <div class="foswikiHelp">
 This line loads the extra style definition:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
    * Set USERSTYLEURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinCssCookbookCenterPageBorder/centerpageborder.css
 </verbatim>
 You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePreferences, in WebPreferences, in your user topic or on a single page.
@@ -46,6 +46,7 @@ background-repeat:repeat-x;
 #patternPageShadow {
 background-image:url("%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/striped_pageshadow.gif");
 }</style>
+<!-- %JQREQUIRE{"chili"}% -->
 
 %META:FILEATTACHMENT{name="centerpageborder.css" attr="" autoattached="1" comment="css to frame the page centered on the screen" date="1129323328" path="centerpage.css" size="259" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="gradient_page.gif" attachment="gradient_page.gif" attr="" comment="background image" date="1141771401" path="gradient_page.gif" size="3854" stream="gradient_page.gif" user="ProjectContributor" version="1"}%

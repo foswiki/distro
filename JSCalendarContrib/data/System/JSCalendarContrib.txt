@@ -22,7 +22,7 @@ The calendar is able to display a time-picker, in addition to the default date-p
 ---+++ Using the Calendar in user forms
 You can also use the calendar directly in your own hand-built forms, without
 having to write any code. Just add this inline in the topic text:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 %INCLUDE{"%SYSTEMWEB%/JSCalendarContribInline"}%
 </verbatim>
 Then, to display a calendar icon next to a text input field:
@@ -88,6 +88,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 ---
 *Related Topics:* %USERSWEB%.SitePreferences
+<!-- %JQREQUIRE{"chili"}% -->
 
 %META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" version="1"}%
 %META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%

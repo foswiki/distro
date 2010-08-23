@@ -3,7 +3,7 @@
 ---+!! <nop>PatternSkin theme: Foswiki "Fat Willy" Site Skin - Navigation
 
 Include main navigation with:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 %INCLUDE{"PatternSkinThemeFatWillyNavigation" section="main"}%
 </verbatim>
 
@@ -79,3 +79,4 @@ Include meta navigation with:
         }%</li>'
 }%<li>[[%USERSWEB%.WikiUsers][Users]]</li></ul></div>%ENDSECTION{"meta"}%
 </verbatim>
+<!-- %JQREQUIRE{"chili"}% -->

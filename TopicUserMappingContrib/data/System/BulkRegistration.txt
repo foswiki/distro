@@ -35,7 +35,7 @@ This table is a template for user data that will be written to the new user topi
 
 ---+++ Example format
 The following should be inserted into your %REGISTERTOPIC% as a table. This is the most simple format:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 <noautolink>
 %EDITTABLE{}%
 | FirstName | LastName | Email | WikiName |
@@ -84,6 +84,7 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
 }%
 <!--
       * Set NOTMODIFYABLE = %IF{"context passwords_modifyable" then="" else="DISABLED"}%
+%JQREQUIRE{"chili"}%
 -->
 <form name="bulkRegister" action="%SCRIPTURLPATH{"manage"}%/%REGISTERTOPIC%" method="post">
 <input type="hidden" name="action" value="bulkRegister" />&nbsp;

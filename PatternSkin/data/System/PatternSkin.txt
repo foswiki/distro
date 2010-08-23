@@ -118,7 +118,7 @@ Check these [[%SYSTEMWEB%.PreferenceSettings][preference settings]] here:
    * SKIN = %SKIN%
 
 If =FOSWIKI_LAYOUT_URL= or =FOSWIKI_STYLE_URL= don't give a value or point to non-existing files, check in %SYSTEMWEB%.DefaultPreferences and in %USERSWEB%.SitePreferences that the following preferences do exist and that they are set to on:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
    * %SYSTEMWEB%.PatternSkin settings:
       * Set FOSWIKI_LAYOUT_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/layout.css
       * Set FOSWIKI_STYLE_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/style.css
@@ -201,3 +201,4 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 ---++ Feedback
 
 Leave remarks, suggestions and other feedback in http://foswiki.org/Support/%TOPIC%.
+<!-- %JQREQUIRE{"chili"}% -->

@@ -24,7 +24,7 @@ Put your local templates into %SYSTEMWEB%.UserCommentsTemplate (create if it doe
    
 ---+++ Templates used in rest of file
 Generic prompt box used by other templates
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 %TMPL:DEF{promptbox}%<div class="commentPlugin commentPluginPromptBox">
 <table border="0" cellpadding="0" cellspacing="0">
   <tr valign="middle">
@@ -380,3 +380,4 @@ Post to a different topic and return to here. The comment =target= is set in the
 Including UserCommentsTemplate ("Template" gets automatically appended to the name):
 
 <verbatim class="tml">%TMPL:INCLUDE{"UserComments"}%</verbatim>
+<!-- %JQREQUIRE{"chili"}% -->

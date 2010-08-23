@@ -703,9 +703,10 @@ You need to escape the CALC so that it executes once per search hit. This can be
 
 To repeat the same formula in all cells of a table row define the formula once in a preferences setting and use that in the CALC. The preferences setting can be hidden in HTML comments. Example:
 
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 <!--
    * Set MYFORMULA = $EVAL($SUBSTITUTE(...etc...))
+%JQREQUIRE{"chili"}%
 -->
 | A | 1 | %CALC{%MYFORMULA%}% |
 | B | 2 | %CALC{%MYFORMULA%}% |

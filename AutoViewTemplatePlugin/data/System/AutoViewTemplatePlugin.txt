@@ -49,7 +49,7 @@ We want this form to define that the topics are viewed with =ViewFormAtTopTempla
 
 Below this we place the two sections that defines the templates to be used. Note that you must ommit the ...Template from the template names.
 
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 %STARTSECTION{"viewtemplate"}%ViewFormAtTopTemplate%ENDSECTION{"edittemplate"}%
 
 %STARTSECTION{"edittemplate"}%EditPurchaseRequest%ENDSECTION{"edittemplate"}% 
@@ -70,6 +70,7 @@ The following settings can be defined in configure
 ---++ Plugin Info
 <!--
    * Set SHORTDESCRIPTION = Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE
+%JQREQUIRE{"chili"}%
 -->
 |  Plugin Author: | Foswiki:Main.OliverKrueger |
 |  Copyright: | &copy; 2008-2009, Oliver Krueger |
@@ -95,4 +96,3 @@ The following settings can be defined in configure
 |  Other Dependencies: | none |
 |  Home: | Foswiki:Extensions/%TOPIC% |
 |  Support: | Foswiki:Extensions/%TOPIC% |
-

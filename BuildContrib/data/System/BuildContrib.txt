@@ -174,7 +174,7 @@ installation and testing. However they are *not* checked in.
 The easiest way to use compressed sources is to select the version your code is
 to use based on a switch when you include the headers. For example, you can
 use the =DEBUG= global from the =Assert= module:
-%JQREQUIRE{"chili"}%<verbatim class="perl">
+<verbatim class="perl">
 use Assert; # Standard Foswiki ASSERT module
 ...
 my $pack = DEBUG ? '.uncompressed' : '.compressed';
@@ -562,6 +562,7 @@ If you want your installer to do anything else then you will need to write a [[#
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+%JQREQUIRE{"chili"}%
 -->
 
 ---++ Installation Instructions

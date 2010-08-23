@@ -72,7 +72,7 @@ The height of the top bar is defined in =theme= CSS files. The default height in
 
 <blockquote>
 This is the complete style definition to set the height of the top bar:
-%JQREQUIRE{"chili"}%<verbatim class="html">
+<verbatim class="html">
 #patternTopBar,
 #patternClearHeaderCenter,
 #patternClearHeaderLeft,
@@ -107,3 +107,4 @@ See example at: PatternSkinCssCookbookEditTableStyle
 
 ---++ Style sheet documentation
 See %SYSTEMWEB%.PatternSkinCss for documentation of !PatternSkin CSS classes
+<!-- %JQREQUIRE{"chili"}% -->

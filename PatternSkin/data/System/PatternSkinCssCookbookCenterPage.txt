@@ -7,11 +7,12 @@
 
 <div class="foswikiHelp">
 This line loads the extra style definition:
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
    * Set USERSTYLEURL = %ATTACHURLPATH%/centerpage.css
 </verbatim>
 You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePreferences, in WebPreferences, in your user topic or on a single page.
 </div>
+<!-- %JQREQUIRE{"chili"}% -->
 
 
 %META:FILEATTACHMENT{name="centerpage.css" attr="" autoattached="1" comment="css to frame the page centered on the screen" date="1129323328" path="centerpage.css" size="259" user="ProjectContributor" version=""}%

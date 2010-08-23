@@ -521,7 +521,7 @@ eg:
 ---++++ create a Skin Template for your icons
 Either =foswiki/templates/icons.mybook.tmpl= on the filesystem, or create a topic called =IconsMybookSkinTemplate= in the %SYSTEMWEB% web 
 (or if the icon modifications are local to a web, the topic can be created in just that web).
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 %{ replace the book Icon }%
 %{ the output of %ICONURL{book}% }%
 %TMPL:DEF{"iconurl:book"}%http://someother.corp.server/My-book-company-logo.png%TMPL:END%
@@ -554,6 +554,7 @@ The social media icons are from  [[http://icondock.com/free/vector-social-media-
 
 ---
 *Related Topics:* [[Skins]], UserDocumentationCategory, DeveloperDocumentationCategory
+<!-- %JQREQUIRE{"chili"}% -->
 
 %META:FILEATTACHMENT{name="addon.png" attr="h" comment="" date="1169565034" path="addon.png" size="370" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="air.png" attr="h" comment="" date="1169565034" path="air.png" size="356" user="ProjectContributor" version=""}%

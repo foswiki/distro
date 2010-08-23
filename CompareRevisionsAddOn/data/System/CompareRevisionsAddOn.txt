@@ -56,7 +56,7 @@ format.
 
 The templates itself are broken into 7 parts
 
-%JQREQUIRE{"chili"}%<verbatim class="tml">
+<verbatim class="tml">
 template for start of page
 %REPEAT%
 template for unchanged section 
@@ -186,6 +186,7 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
 __Related Topic:__ %SYSTEMWEB%.ContributedAddOns
+<!-- %JQREQUIRE{"chili"}% -->
 
 %META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1144955876" path="interweave.png" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1144955876" path="sidebyside.png" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%

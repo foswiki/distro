@@ -9,7 +9,7 @@ This is the Foswiki icon library. The graphics can be used in topics and by web 
 ---++ Usage
 
 Default notation:
-%JQREQUIRE{"chili"}%<code class="tml">%<nop>ICON{"help"}%</code> results in: %ICON{"help"}%
+<code class="tml">%<nop>ICON{"help"}%</code> results in: %ICON{"help"}%
 
 Note that =ICON{}= assumes a GIF image of 16 x 16 pixels. Use a HTML =img= tag with  =%<nop>ICONURL{}%= for image with other sizes. See the tables below for copy-paste examples.
 
@@ -421,6 +421,7 @@ and that will get rendered as: %ICONURL{"toggleopen"}%
 *Related Topics:* [[Skins]], DeveloperDocumentationCategory, AdminDocumentationCategory
 
 *Contributors:* Most icons on this page were originally designed by Peter Thoeny. Many icons were recreated by Arthur Clemens.
+<!-- %JQREQUIRE{"chili"}% -->
 
 %META:FILEATTACHMENT{name="addon.gif" attr="h" comment="" date="1169565034" path="addon.gif" size="370" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="air.gif" attr="h" comment="" date="1169565034" path="air.gif" size="356" user="ProjectContributor" version=""}%
