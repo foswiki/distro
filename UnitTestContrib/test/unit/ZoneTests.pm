@@ -427,8 +427,7 @@ sub test_explicit_RENDERZONE_no_optimization {
 %RENDERZONE{"head"}%
 <!--end of rendered head-->
 %ADDTOZONE{"head" id="head1" text="head_1"}%
-%ADDTOZONE{"body" id="body1" text="body_1" requires="head1"}%
-</head>
+%ADDTOZONE{"body" id="body1" text="body_1" requires="head1"}%</head>
 <body>
 %RENDERZONE{"body"}%
 <!--body-->
@@ -467,8 +466,7 @@ sub test_explicit_RENDERZONE_with_optimization {
 </head>
 <body>
 %RENDERZONE{"body"}%
-<!--body-->
-</body>
+<!--body--></body>
 HERE
 
     my $expect = <<'HERE';
