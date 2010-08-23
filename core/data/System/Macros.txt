@@ -51,6 +51,8 @@ The key to understanding nested expressions in Foswiki is to understand that mac
 </verbatim>
 
 The macros are expanded in this order: MACRO3, MACRO4, MACRO2, MACRO1.
+
+<img src="%ATTACHURLPATH%/nested_macros.gif" width="320" height="140"/>
 %ENDSECTION{"insideoutlefttoright"}%
 
 See also: [[FormattedSearch#NestedSearchExample][FormattedSearch]]
@@ -114,3 +116,5 @@ See ShortcutMacros for a full list of predefined shortcuts.
 ---
 *Related Topics:* UserDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
+
+%META:FILEATTACHMENT{name="nested_macros.gif" attr="h" version="1.1"}%
