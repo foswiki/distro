@@ -60,7 +60,6 @@ volutpat quis, nibh.
 %RED%end of tab 1%ENDCOLOR%
 %ENDTAB%
 %ENDTABPANE% 
-%CLEAR%
 %ENDTAB%
 %TAB{"Tab 2"}%
 Donec ultrices mollis velit. Integer sed eros. Nulla venenatis laoreet leo.
@@ -95,7 +94,30 @@ sit amet sapien.  Intege
 %RED%end of tab 4%ENDCOLOR%
 %ENDTAB%
 %ENDTABPANE%
-%CLEAR%
+
+%TABPANE{class="simple" animate="on"}%
+%TAB{"Tab 1"}%
+velit. Fusce ornare nibh ut magna. Nunc sollicitudin, purus et eleifend
+consectetuer, lectus justo faucibus arcu, et cursus velit felis eu lorem. Nulla
+aliquet, turpis accumsan feugiat congue, mi arcu ultrices ligula, id ultrices
+sem elit sed lectus. Curabitur dignissim, dolor non sodales luctus, mi magna
+tincidunt tellus, at bibendum mauris magna dapibus metus. Donec et libero at
+erat bibendum blandit. Proin enim nunc, rutrum et, congue mattis, ultrices at,
+%ENDTAB%
+%TAB{"Tab 2"}%
+consectetuer, lectus justo faucibus arcu, et cursus velit felis eu lorem. Nulla
+sem elit sed lectus. Curabitur dignissim, dolor non sodales luctus, mi magna
+tincidunt tellus, at bibendum mauris magna dapibus metus. Donec et libero at
+erat bibendum blandit. Proin enim nunc, rutrum et, congue mattis, ultrices at,
+%ENDTAB%
+%TAB{"Tab 3"}%
+consectetuer, lectus justo faucibus arcu, et cursus velit felis eu lorem. Nulla
+aliquet, turpis accumsan feugiat congue, mi arcu ultrices ligula, id ultrices
+sem elit sed lectus. Curabitur dignissim, dolor non sodales luctus, mi magna
+tincidunt tellus, at bibendum mauris magna dapibus metus. Donec et libero at
+erat bibendum blandit. Proin enim nunc, rutrum et, congue mattis, ultrices at,
+%ENDTAB%
+
 %STARTSECTION{"foo"}%
 ---+++!! Foo
 %TABPANE{animate="on"}%
