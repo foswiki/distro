@@ -40,15 +40,16 @@ jQuery(function($) {
         showAnim: 'fadeIn'
       }, $this.metadata());
     $this.datepicker(options);
+    $("#ui-datepicker-div").css('z-index', 1);
   });
 });
 </script></literal>%ENDSECTION{"init"}%
 </verbatim>
 
-*Date 1:* <input type="text" size="30" name="date1" value="%GMTIME%" class="jqDatepicker" />
+*Date 1:* <input type="text" size="30" name="date1" value="%GMTIME%" class="foswikiInputField jqDatepicker" />
 
-*Date 2:* <input type="text" size="30" name="date2" value="%GMTIME%" class="jqDatepicker {dateFormat:'d M yy'}" />
+*Date 2:* <input type="text" size="30" name="date2" value="%GMTIME%" class="foswikiInputField jqDatepicker {dateFormat:'d M yy'}" />
 
-*Date 3:* <input type="text" size="30" name="date3" value="%GMTIME%" class="jqDatepicker {dateFormat:'@'}" />
+*Date 3:* <input type="text" size="30" name="date3" value="%GMTIME%" class="foswikiInputField jqDatepicker {dateFormat:'@'}" />
 
-*Date 4:* <input type="text" size="30" name="date4" value="%GMTIME%" class="jqDatepicker {dateFormat:'DD, dd-M-y'}" />
+*Date 4:* <input type="text" size="30" name="date4" value="%GMTIME%" class="foswikiInputField jqDatepicker {dateFormat:'DD, dd-M-y'}" />
