@@ -1326,12 +1326,12 @@ sub emitTable {
                 # SMELL: efficient? That's not efficient!
                 @curTable = map { $_->[0] }
                   sort { $b->[1] cmp $a->[1] }
-                  map { [ $_, lc( $_->[$sortCol]->{text} ) ] } @curTable;
+                  map { [ $_, lc( _stripHtml( $_->[$sortCol]->{text} ) ) ] } @curTable;
             }
             if ( $currentSortDirection == $sortDirection{'ASCENDING'} ) {
                 @curTable = map { $_->[0] }
                   sort { $a->[1] cmp $b->[1] }
-                  map { [ $_, lc( $_->[$sortCol]->{text} ) ] } @curTable;
+                  map { [ $_, lc( _stripHtml ( $_->[$sortCol]->{text} ) ) ] } @curTable;
             }
         }
         else {
