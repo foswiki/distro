@@ -44,6 +44,7 @@ sub guessMajorDir {
         my @root = File::Spec->splitdir($1);
         pop(@root);
         $Foswiki::cfg{$cfg} = File::Spec->catfile( @root, $dir );
+        $Foswiki::cfg{$cfg} =~ s|\\|/|g;
         $msg = $this->guessed();
     }
     unless ( $silent || -d $Foswiki::cfg{$cfg} ) {
