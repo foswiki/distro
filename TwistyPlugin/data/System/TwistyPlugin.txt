@@ -494,6 +494,7 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  25 Aug 2010 | 1.6.2 Foswikitask:Item9515: Fix compatibility with browsers running without js (content should always be shown) |
 |  20 Aug 2010 | 1.6.1 Foswikitask:Item9499: Added preference variable to set show/hide transition animation speed (default to none) |
 |  15 Aug 2010 | 1.6.0<br/>\
  Foswikitask:Item9422: Implement as JQueryPlugin::Plugin; emit =display: none= style on hidden twisties to avoid relying on CSS/JS<br/>\

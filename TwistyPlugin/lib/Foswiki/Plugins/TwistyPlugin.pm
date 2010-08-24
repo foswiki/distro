@@ -13,12 +13,12 @@ use CGI::Cookie   ();
 use strict;
 use warnings;
 
-use vars qw( @modes $doneHeader $doneDefaults
+use vars qw( @modes @ids $doneHeader $doneDefaults $doneHideWithJS
   $prefMode $prefShowLink $prefHideLink $prefRemember);
 
 our $VERSION = '$Rev$';
 
-our $RELEASE = '1.6.1';
+our $RELEASE = '1.6.2';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -40,6 +40,7 @@ sub initPlugin {
 
     $doneDefaults = 0;
     $doneHeader   = 0;
+    $doneHideWithJS = 0;
     _exportAnimationSpeed();
 
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'twisty',
@@ -74,6 +75,31 @@ sub _exportAnimationSpeed {
     Foswiki::Func::setPreferencesValue('TWISTYANIMATIONSPEED', $pref);
 
     return;
+}
+
+sub _hideWithJS {
+    my ($id) = @_;
+    my $markup = '<script type="text/javascript">';
+
+    if (not $doneHideWithJS) {
+        $doneHideWithJS = 1;
+        $markup .= <<'HERE';
+        if (typeof(foswiki) !== 'object') {
+            var foswiki = {};
+        }
+        if (typeof(foswiki.TwistyPlugin) !== 'object') {
+            foswiki.TwistyPlugin = {};
+        }
+        foswiki.TwistyPlugin.hideID = function (id) {
+            document.getElementById(id).setAttribute('style', 'display: none;');
+        };
+HERE
+    }
+    $markup .= <<"HERE";
+foswiki.TwistyPlugin.hideID("$id");</script>
+HERE
+
+    return $markup;
 }
 
 sub _setDefaults {
@@ -176,6 +202,7 @@ sub _TWISTYTOGGLE {
     my $idTag = $id . 'toggle';
     my $mode = $params->{'mode'} || $prefMode;
     unshift @modes, $mode;
+    unshift @ids, $idTag;
 
     my $isTrigger = 0;
     my $cookieState = _readCookie( $session, $idTag );
@@ -191,13 +218,14 @@ sub _TWISTYTOGGLE {
 sub _ENDTWISTYTOGGLE {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
     my $mode = shift @modes;
+    my $id = shift @ids;
 
     return
 "<span class='foswikiAlert'>woops, ordering error: got an ENDTWISTY before seeing a TWISTY</span>"
       unless $mode;
 
     my $modeTag = ($mode) ? '</' . $mode . '>' : '';
-    return $modeTag . _wrapInContentHtmlClose($mode);
+    return $modeTag . _wrapInContentHtmlClose($mode, $id);
 }
 
 sub _createId {
@@ -374,7 +402,6 @@ sub _createHtmlProperties {
         push( @classList, 'twistyContent' );
 
         if ( not( $state eq $TWISTYPLUGIN_CONTENT_SHOWN ) ) {
-            push( @propList,  'style="display: none;"' );
             push( @classList, 'foswikiMakeHidden' );
         }
     }
@@ -444,8 +471,8 @@ sub _wrapInContentHtmlOpen {
 }
 
 sub _wrapInContentHtmlClose {
-    my ($mode) = @_;
-    return "</$mode><!--/twistyPlugin-->";
+    my ($mode, $id) = @_;
+    return "</$mode>" . _hideWithJS($id) . '<!--/twistyPlugin-->';
 }
 
 sub _wrapInContainerHideIfNoJavascripOpen {
