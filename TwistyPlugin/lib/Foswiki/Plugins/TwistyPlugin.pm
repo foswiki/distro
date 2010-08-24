@@ -18,7 +18,7 @@ use vars qw( @modes @ids $doneHeader $doneDefaults $doneHideWithJS
 
 our $VERSION = '$Rev$';
 
-our $RELEASE = '1.6.2';
+our $RELEASE = '1.6.3';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
