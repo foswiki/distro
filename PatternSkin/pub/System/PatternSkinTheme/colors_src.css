@@ -288,7 +288,7 @@ table.foswikiFormTable {
    border-color:#dfdfdf;
 }
 .foswikiFormSteps {
-   background-color:#f5f5f3;
+   background-color:#fafafa;
    border-color:#dfdfdf;
 }
 .foswikiFormStep {
@@ -308,7 +308,8 @@ table.foswikiFormTable {
 .foswikiActionFormStepSign {
    color:#aaa;
 }
-.foswikiFormStep .foswikiHelp {
+.foswikiFormStep .foswikiHelp,
+.foswikiFormStep .foswikiAllowNonWikiWord {
 	background:#fff;
 }
 .foswikiToc .foswikiTocTitle {
@@ -327,7 +328,8 @@ table.foswikiFormTable {
    border-color:#f00;
 }
 .foswikiHelp {
-   background-color:#f1f8ed;
+   background-color:#d9ffd9;
+   border-color:#9c9;
 }
 .foswikiBroadcastMessage b,
 .foswikiBroadcastMessage strong {
@@ -431,7 +433,7 @@ a:hover .foswikiAccessKey {
 }
 
 .patternTopicActions {
-   background-color:#fafafa;
+   background-color:#f5f5f3;
    color:#000;
    border-color:#eee;
 }

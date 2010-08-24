@@ -126,13 +126,13 @@ Edit this topic, and change the color as you like.
 ---++++ ATTACHMENT_AND_FORM_BACKGROUND Attachment, form
    * Local ATTACHMENT_AND_FORM_BACKGROUND = #f0f0ee
 ---++++ TOPIC_ACTION_BACKGROUND Topic action row
-   * Local TOPIC_ACTION_BACKGROUND = #fafafa
+   * Local TOPIC_ACTION_BACKGROUND = #f5f5f3
 ---++++ DIFF_HEADER_BACKGROUND Diff header (dark gray)
    * Local DIFF_HEADER_BACKGROUND = #ccc
 ---++++ NOTIFICATION_BACKGROUND Info, broadcast message and notifications
    * Local NOTIFICATION_BACKGROUND = #fff7e7
 ---++++ INFO_BACKGROUND
-   * Local INFO_BACKGROUND = #f1f8ed
+   * Local INFO_BACKGROUND = #d9ffd9
 
 ---+++ Border colors
 ---++++ NEUTRAL_BORDER Info (light gray)
@@ -153,7 +153,9 @@ Edit this topic, and change the color as you like.
    * Local NOTIFICATION_BORDER = #fbad17
 ---++++ TOPIC_ACTION_BORDER Topic action border
    * Local TOPIC_ACTION_BORDER = #eee
-
+---++++ INFO_BORDER Info border
+   * Local INFO_BORDER = #9c9
+   
 ---++++ Table colors
 ---+++++ TABLE_DATA_BACKGROUND Table data background
    * Local TABLE_DATA_BACKGROUND = #f0f6f9
@@ -192,7 +194,7 @@ Edit this topic, and change the color as you like.
 ---++++ FORM_BORDER Form (same as foswikiTable border)
    * Local FORM_BORDER = #cfcfcf
 ---++++ ACTIVE_FORM_BACKGROUND Edit form, form steps
-   * Local ACTIVE_FORM_BACKGROUND = #f0f0ee
+   * Local ACTIVE_FORM_BACKGROUND = #fafafa
 ---++++ FORMFIELD_ACTIVE Active form field
    * Local FORMFIELD_ACTIVE = #ebf5fa
 ---++++ FORM_HEADER_TEXT Header text on form background
@@ -513,7 +515,8 @@ table.foswikiFormTable {
 .foswikiActionFormStepSign {
    color:%DISABLED_TEXT%;
 }
-.foswikiFormStep .foswikiHelp {
+.foswikiFormStep .foswikiHelp,
+.foswikiFormStep .foswikiAllowNonWikiWord {
 	background:%MAIN_TEXT_BACKGROUND%;
 }
 .foswikiToc .foswikiTocTitle {
@@ -533,6 +536,7 @@ table.foswikiFormTable {
 }
 .foswikiHelp {
    background-color:%INFO_BACKGROUND%;
+   border-color:%INFO_BORDER%;
 }
 .foswikiBroadcastMessage b,
 .foswikiBroadcastMessage strong {

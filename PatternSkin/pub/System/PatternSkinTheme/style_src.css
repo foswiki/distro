@@ -298,7 +298,7 @@ a.foswikiSubmit:visited:active {
 	font-family:arial, verdana, sans-serif;
 	line-height:1.5em; /*S1*/
 	/* change font size here */
-	font-size:102%;
+	font-size:103%;
 }
 .foswikiPage font {
 	line-height:135%;
@@ -429,7 +429,6 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	text-align:left;
 	border-width:1px 0 0 0;
 	border-style:solid;
-	margin:.5em 0 0 0;
 }
 .foswikiFormStep {
 	line-height:140%;
