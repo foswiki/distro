@@ -52,7 +52,106 @@ The key to understanding nested expressions in Foswiki is to understand that mac
 
 The macros are expanded in this order: MACRO3, MACRO4, MACRO2, MACRO1.
 
-<img src="%ATTACHURLPATH%/nested_macros.gif" width="320" height="140"/>
+---++++ Animated Example
+%JQREQUIRE{"CYCLE,EASING,CHILI"}%%ADDTOZONE{"body"
+  id="NestedSlideshow"
+  text="<script type='text/javascript'>
+jQuery(document).ready(function($) {
+    $('#NestedSlideshow').cycle({
+        fx:     'fade',
+        speed:  'slow',
+        timeout: 5000,
+        pager:  '#NestedSlideshowNav',
+        slideExpr: 'pre',
+        pause:  true,
+        pauseOnPagerHover: true
+    });
+});
+</script>"
+  requires="JQUERYPLUGIN::CYCLE"
+}%%ADDTOZONE{"head"
+  id="NestedSlideshow/css"
+  text="<style type='text/css'>
+    #NestedSlideshow { width: 440px; height: 249px; }
+    #NestedSlideshowNav { z-index: 50; position: absolute; bottom: 10px; }
+    #NestedSlideshowNav a { margin: 0 5px; padding: 3px 5px; border: 1px solid #ccc; background: #cff; text-decoration: none }
+    #NestedSlideshowNav a.activeSlide { background: #aaf }
+    #NestedSlideshowNav a:focus { outline: none; }
+  </style>"
+}%
+<div id="NestedSlideshow">
+    <div id="NestedSlideshowNav"></div>
+<pre class="tml">
+%<nop>INCLUDE{
+    "%<nop>QUERY{
+        "'%<nop>THETOPIC%'/%<nop>THEFIELD%"
+    }%"
+    section="Summary"
+}%
+   * Set THETOPIC = %<nop>SYSTEMWEB%.FAQWhatIsWikiWiki
+   * Set THEFIELD = TopicClassification
+</pre>
+<pre class="tml">
+%<nop>INCLUDE{
+    "%<nop>QUERY{
+        "'%<nop>SYSTEMWEB%.FAQWhatIsWikiWiki'/%<nop>THEFIELD%"
+    }%"
+    section="Summary"
+}%
+   * Set THETOPIC = %<nop>SYSTEMWEB%.FAQWhatIsWikiWiki
+   * Set THEFIELD = TopicClassification
+</pre>
+<pre class="tml">
+%<nop>INCLUDE{
+    "%<nop>QUERY{
+        "'%<nop>SYSTEMWEB%.FAQWhatIsWikiWiki'/%THEFIELD%"
+    }%"
+    section="Summary"
+}%
+   * Set THETOPIC = %<nop>SYSTEMWEB%.FAQWhatIsWikiWiki
+   * Set THEFIELD = TopicClassification
+</pre>
+<pre class="tml">
+%<nop>INCLUDE{
+    "%<nop>QUERY{
+        "'%SYSTEMWEB%.FAQWhatIsWikiWiki'/%THEFIELD%"
+    }%"
+    section="Summary"
+}%
+   * Set THETOPIC = %<nop>SYSTEMWEB%.FAQWhatIsWikiWiki
+   * Set THEFIELD = TopicClassification
+</pre>
+<pre class="tml">
+%<nop>INCLUDE{
+    "%QUERY{
+        "'%SYSTEMWEB%.FAQWhatIsWikiWiki'/%THEFIELD%"
+    }%"
+    section="Summary"
+}%
+   * Set THETOPIC = %<nop>SYSTEMWEB%.FAQWhatIsWikiWiki
+   * Set THEFIELD = TopicClassification
+</pre>
+<pre class="tml">
+%INCLUDE{
+    "%QUERY{
+        "'%SYSTEMWEB%.FAQWhatIsWikiWiki'/%THEFIELD%"
+    }%"
+    section="Summary"
+}%
+   * Set THETOPIC = %<nop>SYSTEMWEB%.FAQWhatIsWikiWiki
+   * Set THEFIELD = TopicClassification
+</pre>
+<pre class="tml">
+%INCLUDE{
+    "%QUERY{
+        "'%SYSTEMWEB%.FAQWhatIsWikiWiki'/%THEFIELD%"
+    }%"
+    section="Summary"
+}%
+   * Set THETOPIC = %SYSTEMWEB%.FAQWhatIsWikiWiki
+   * Set THEFIELD = TopicClassification
+</pre>
+</div>
 %ENDSECTION{"insideoutlefttoright"}%
 
 See also: [[FormattedSearch#NestedSearchExample][FormattedSearch]]

@@ -1,3 +1,9 @@
 %META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 %INCLUDE{"FrequentlyAskedQuestions"}%
+<!-- <verbatim class="tml"> The "Summary" section is used in an example in System.Macros.
+%STARTSECTION{"Summary"}%
+These topics are for frequently
+asked questions including answers.
+%ENDSECTION{"Summary"}%
+</verbatim> -->
