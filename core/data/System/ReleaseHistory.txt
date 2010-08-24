@@ -5,6 +5,11 @@
 
 %TOC%
 
+---++ Foswiki Release 1.0.10 - 25 Aug 2010
+
+Foswiki 1.0.10 was built 25 Aug 2010 as a patch release with more than 440 bug fixes relative to 1.0.0. 
+
+
 ---++ Foswiki Release 1.0.9 - 17 Jan 2010
 
 Foswiki 1.0.9 was built 17 Jan 2010. It is a patch release with more than 320 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bugs in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
