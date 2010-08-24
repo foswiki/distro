@@ -12,6 +12,10 @@ sub META {
 
     my $option = $params->{_DEFAULT} || '';
 
+    # make sure the topicObject is loaded
+    my $loadedRev = $topicObject->getLoadedRev();
+    $topicObject->load() unless defined $loadedRev;
+
     if ( $option eq 'form' ) {
 
         # META:FORM and META:FIELD
