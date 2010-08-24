@@ -31,12 +31,13 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             $session,
-            name       => 'UI',
-            version    => '1.7.2',
-            puburl     => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
-            author     => 'see http://jqueryui.com/about',
-            homepage   => 'http://docs.jquery.com/UI',
-            javascript => ['jquery-ui.js'],
+            name        => 'UI',
+            version     => '1.7.2',
+            puburl      => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
+            author      => 'see http://jqueryui.com/about',
+            homepage    => 'http://docs.jquery.com/UI',
+            javascript  => ['jquery-ui.js'],
+            dependencies => [ 'metadata', 'livequery' ],
         ),
         $class
     );
