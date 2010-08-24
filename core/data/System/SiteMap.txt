@@ -3,42 +3,41 @@
 ---+ <nop>%WIKITOOLNAME% Sitemap
 This table is updated automatically based on <nop>WebPreferences settings of the individual webs.
 
-%STARTINCLUDE%<noautolink><table id="sitemapTable" class="foswikiTable" width="100%" border="0" cellspacing="2" bgcolor="#ffffff" cellpadding="3">
+%STARTINCLUDE%<noautolink><div class="siteToolsSitemap"><table class="foswikiTable" width="100%" border="0" cellspacing="2" bgcolor="#ffffff" cellpadding="3">
 <tr>
-<th width="20"></th>
 <th>Web</th>
 <th>Go to</th>
 <th>Description</th>
 </tr>
-%SEARCH{ "name='%WEBPREFSTOPIC%'" web="all" scope="topic" type="query" nototal="on" nosearch="on" format=" <tr>$n <td><img src=\"%ICONURL{web-bg}%\" border=\"0\" alt=\"\" width=\"16\" height=\"16\" style=\"background-color:$pattern(.*?\* Set WEBBGCOLOR\s*=\s*([^\s]*).*)\" /></td><td> <b>[[$web.%HOMETOPIC%][$web]]</b></td>$n <td> [[$web.%HOMETOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/home.gif\" alt=\"Home of <nop>$web web\" width=\"16\" height=\"16\" border=\"0\">]]&nbsp;[[$web.WebSearch][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/searchtopic.gif\" alt=\"Search <nop>$web web\" width=\"16\" height=\"16\" border=\"0\">]]&nbsp;[[$web.WebChanges][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/recentchanges.gif\" alt=\"Recent changes in the <nop>$web web\" width=\"16\" height=\"16\" border=\"0\">]]&nbsp;[[$web.%NOTIFYTOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/notify.gif\" alt=\"Get notified of changes to the <nop>$web web\" width=\"16\" height=\"16\" border=\"0\">]]&nbsp;[[$web.%WEBPREFSTOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/wrench.gif\" alt=\"Preferences of <nop>$web web\" width=\"16\" height=\"16\" border=\"0\">]]&nbsp;[[$web.%STATISTICSTOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/statistics.gif\" alt=\"Statistics of <nop>$web web\" width=\"16\" height=\"16\" border=\"0\">]]&nbsp;[[$web.WebTopicList][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/indexlist.gif\" alt=\"Bullet list of all topics\" width=\"16\" height=\"16\" border=\"0\">]]&nbsp;[[$web.WebIndex][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/index.gif\" alt=\"Index of all topics\" width=\"16\" height=\"16\" border=\"0\">]]</td><td>$percentEXPAND{\"$dollarpercentWEBSUMMARY$dollarpercent\" scope=\"$web.$topic\"}$percent $pattern(.*?\* Set SITEMAPUSETO\s*=([^\n\r]*).*)</td></tr>" }%
+%SEARCH{ "name='%WEBPREFSTOPIC%'" web="all" scope="topic" type="query" nototal="on" nosearch="on" format="<tr><td><img src=\"%ICONURL{web-bg}%\" alt=\"\" style=\"background-color:$pattern(.*?\* Set WEBBGCOLOR\s*=\s*([^\s]*).*)\" /><b>[[$web.%HOMETOPIC%][$web]]</b></td><td>[[$web.%HOMETOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/home.gif\" alt=\"Home of $web web\" />]][[$web.WebSearch][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/searchtopic.gif\" alt=\"Search $web web\" />]][[$web.WebChanges][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/recentchanges.gif\" alt=\"Recent changes in the $web web\" />]][[$web.%NOTIFYTOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/notify.gif\" alt=\"Get notified of changes to the $web web\" />]][[$web.%WEBPREFSTOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/wrench.gif\" alt=\"Preferences of $web web\" />]][[$web.%STATISTICSTOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/statistics.gif\" alt=\"Statistics of $web web\" />]][[$web.WebTopicList][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/indexlist.gif\" alt=\"Bullet list of all topics\" />]][[$web.WebIndex][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/index.gif\" alt=\"Index of all topics\" />]]</td><td>$percentEXPAND{\"$dollarpercentWEBSUMMARY$dollarpercent\" scope=\"$web.$topic\"}$percent $pattern(.*?\* Set SITEMAPUSETO\s*=([^\n\r]*).*)</td></tr>" }%
 </table>
-<div class="sitemapLegend">
    * Legend:
-   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/home.gif" alt="Home of web" width="16" height="16" border="0"> !WebHome 
-   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/searchtopic.gif" alt="Search web" width="16" height="16" border="0"> !WebSearch
-   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/recentchanges.gif" alt="Recent changes in the web" width="16" height="16" border="0"> !WebChanges
-   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/notify.gif" alt="Get notified of changes to the web" width="16" height="16" border="0"> !WebNotify 
-   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/wrench.gif" alt="Preferences of web" width="16" height="16" border="0"> !WebPreferences 
-   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/statistics.gif" alt="Statistics of web" width="16" height="16" border="0"> !WebStatistics 
-   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/indexlist.gif" alt="Bullet list of all topics" width="16" height="16" border="0"> !WebTopicList
-   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/index.gif" alt="Index of all topics" width="16" height="16" border="0"> !WebIndex
-</div></noautolink>%ENDSECTION{"table"}%
-%STARTINCLUDE%
+   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/home.gif" alt="Home of web"/> WebHome 
+   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/searchtopic.gif" alt="Search web" />WebSearch
+   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/recentchanges.gif" alt="Recent changes in the web" />WebChanges
+   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/notify.gif" alt="Get notified of changes to the web" />WebNotify 
+   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/wrench.gif" alt="Preferences of web" />WebPreferences 
+   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/statistics.gif" alt="Statistics of web" />WebStatistics 
+   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/indexlist.gif" alt="Bullet list of all topics" />WebTopicList
+   * <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/index.gif" alt="Index of all topics" />WebIndex
+</div>
+</noautolink>
 %ADDTOZONE{"head" text="<style type='text/css'>
-#sitemapTable{}
-#sitemapTable .foswikiNewLink {}
-.sitemapLegend {
-	margin:1em 0;
+.siteToolsSitemap img {
+	width:16px;
+	height:16px;
+	border:none;
+	margin:0 .5em 0 0;
 }
-.sitemapLegend ul
+.siteToolsSitemap ul
 {
 	list-style-image:none;
 	list-style-position:outside;
 	list-style-type:none;
-	margin:0;
+	margin:1em 0;
 	padding:0;
 }
-.sitemapLegend li
+.siteToolsSitemap li
 {
 	display:inline;
 	margin:0 .5em 0 0;

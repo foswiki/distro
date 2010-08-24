@@ -7,7 +7,8 @@ Manage your whole site from one screen.
    * %ICON{wrench}% [[Site Tools]]: [[%SCRIPTURLPATH{"configure"}%][Configure]], %WIKIPREFSTOPIC%, InterWikis, [[%SYSTEMWEB%.Macros][Macros]], [[DocumentGraphics][Doc Graphics]], [[%SYSTEMWEB%.InstalledPlugins][Installed Plugins report]]
    * %ICON{persons}% Manage [[%USERSWEB%.%WIKIUSERSTOPIC%][Users]]: [[UserRegistration][Register]], [[%USERSWEB%.WikiGroups][Groups]], %SYSTEMWEB%.NewUserTemplate, %SYSTEMWEB%.UserForm, ResetPassword, ChangePassword
    * %ICON{indexlist}% Manage Content: [[ManagingTopics][Topics]], [[ManagingWebs][Webs]], YouAreHere
-   * %ICON{folder}% Webs: %INCLUDE{"SiteMap"}%
+
+%ICON{folder}% Webs: %INCLUDE{"SiteMap"}%
 
 ---++ All Admin Tools Category topics
 
