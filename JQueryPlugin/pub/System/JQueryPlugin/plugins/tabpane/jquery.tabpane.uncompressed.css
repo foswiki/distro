@@ -25,8 +25,6 @@ ul.jqTabGroup {
   float:left;
 }
 ul.jqTabGroup li {
-  background-repeat: no-repeat;
-  background-position: right top;
   float:left;
   list-style:none;
 }
@@ -34,8 +32,6 @@ ul.jqTabGroup a:hover,
 ul.jqTabGroup a {
   text-decoration: none;
   white-space:nowrap;
-  background-repeat:no-repeat;
-  background-position:left top;
   float:left;
   display:block;
 }
@@ -58,6 +54,8 @@ ul.jqTabGroup a {
 .jqTabPaneDefault ul.jqTabGroup li {
   background-color: transparent;
   background-image: url('tab_right.png');
+  background-repeat: no-repeat;
+  background-position: right top;
   padding:0px 3px 0px 0px;
   margin:0px 4px -1px 0px;
   *margin:5px 4px -6px 0px; /* IE7 */
@@ -67,6 +65,8 @@ ul.jqTabGroup a {
 .jqTabPaneDefault ul.jqTabGroup a {
   background-color:transparent;
   background-image: url('tab_left.png');
+  background-repeat: no-repeat;
+  background-position: left top;
   color:black;
   margin:0px 0px 0px 0px;
   padding:4px 8px 0px 18px;
@@ -76,11 +76,15 @@ ul.jqTabGroup a {
 }
 .jqTabPaneDefault ul.jqTabGroup li.current {
   background-image: url('tab_right_on.png');
-  background-color: white;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: right top;
 }
 .jqTabPaneDefault ul.jqTabGroup li.current a:hover,
 .jqTabPaneDefault ul.jqTabGroup li.current a {
   background-image: url('tab_left_on.png');
+  background-repeat:no-repeat;
+  background-position:left top;
   color: #333;
 }
 .jqTabPaneDefault ul.jqTabGroup a:hover,
