@@ -13,7 +13,7 @@ use CGI::Cookie   ();
 use strict;
 use warnings;
 
-use vars qw( @twistystack $doneHeader $doneDefaults $doneHideWithJS
+use vars qw( @twistystack $doneHeader $doneDefaults
   $prefMode $prefShowLink $prefHideLink $prefRemember);
 
 our $VERSION = '$Rev$';
@@ -40,7 +40,6 @@ sub initPlugin {
 
     $doneDefaults   = 0;
     $doneHeader     = 0;
-    $doneHideWithJS = 0;
     _exportAnimationSpeed();
 
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'twisty',
@@ -78,29 +77,21 @@ sub _exportAnimationSpeed {
     return;
 }
 
+# In Item9422, we were emitting style='display: none' attributes on the markup.
+# This was to avoid "jumping twisties", the time between the browser showing
+# partially-rendered page and when jquery, document.ready are available to hide
+# hidden content.
+#
+# However, this caused Item9515, non-JS users are unable to see the content
+# (should be able to see all content regardless of start="hidden").
+#
+# So now, we emit some inline script immediately after any content that should
+# be hidden. Note to self: .setAttribute doesn't work on IEs, per quirksmode.org
 sub _hideWithJS {
     my ($id) = @_;
-    my $markup = '<script type="text/javascript">';
-
-    if ( not $doneHideWithJS ) {
-        $doneHideWithJS = 1;
-        $markup .= <<'HERE';
-        if (typeof(foswiki) !== 'object') {
-            var foswiki = {};
-        }
-        if (typeof(foswiki.TwistyPlugin) !== 'object') {
-            foswiki.TwistyPlugin = {};
-        }
-        foswiki.TwistyPlugin.hideID = function (id) {
-            document.getElementById(id).setAttribute('style', 'display: none;');
-        };
+    return <<"HERE";
+<script type="text/javascript">document.getElementById("$id").style.display = 'none';</script>
 HERE
-    }
-    $markup .= <<"HERE";
-foswiki.TwistyPlugin.hideID("$id");</script>
-HERE
-
-    return $markup;
 }
 
 sub _setDefaults {

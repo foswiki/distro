@@ -66,6 +66,7 @@ sub NoCompress {
 }
 
 my %twistyIDs;
+
 # Convert the random IDs into sequential ones, so that we have some hope of
 # writing repeatable tests.
 sub _mangleID {
@@ -154,10 +155,12 @@ sub verify_view {
             s/<meta[^>]*?foswiki\.SERVERTIME"[^>]*?>//gi,
             'Failed to remove SERVERTIME meta tag'
         );
+
         # There may not be TWISTY usage; so no need to assert, but IDs need
-        # to be sequential and not random.
+        # to be sequential and not random
         %twistyIDs = ();
-        s/<(span|div)([^>]*?)(\d+?)(show|hide|toggle)([^>]*?)>/'<'.$1.$2._mangleID($3).$4.$5.'>'/ge;
+s/<(script[^>]*?>document\.getElementById\(")(\w+?)(show|hide|toggle)("\)\.style\.display = 'none';<\/script)>/'<'.$1._mangleID($2.$3).$4.'>'/ge;
+s/<(span|div)([^>]*?)(\d+?)(show|hide|toggle)([^>]*?)>/'<'.$1.$2._mangleID($3).$4.$5.'>'/ge;
     }
 
     $this->assert_html_equals( $one, $two );
