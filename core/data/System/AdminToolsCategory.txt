@@ -1,14 +1,11 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252805202" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Admin tools
-Manage your whole site from one screen.
 
    * %ICON{help}% Documentation: [[ReferenceManual][Reference Manual]]
    * %ICON{wrench}% [[Site Tools]]: [[%SCRIPTURLPATH{"configure"}%][Configure]], %WIKIPREFSTOPIC%, InterWikis, [[%SYSTEMWEB%.Macros][Macros]], [[DocumentGraphics][Doc Graphics]], [[%SYSTEMWEB%.InstalledPlugins][Installed Plugins report]]
    * %ICON{persons}% Manage [[%USERSWEB%.%WIKIUSERSTOPIC%][Users]]: [[UserRegistration][Register]], [[%USERSWEB%.WikiGroups][Groups]], %SYSTEMWEB%.NewUserTemplate, %SYSTEMWEB%.UserForm, ResetPassword, ChangePassword
    * %ICON{indexlist}% Manage Content: [[ManagingTopics][Topics]], [[ManagingWebs][Webs]], YouAreHere
-
-%ICON{folder}% Webs: %INCLUDE{"SiteMap"}%
 
 ---++ All Admin Tools Category topics
 
@@ -21,16 +18,6 @@ Manage your whole site from one screen.
    $ [[SitePermissions]] : Overview of permissions settings of the webs on this Foswiki site
    $ [[SiteTools]] : Describes the utilities for searching, navigation, and monitoring site activity. It describes WebNotify, to e-mail alerts when topics are edited, and WebStatistics, to generate detailed activity reports. It also describes how to use the RSS and Atom feeds. Mainly targetted for the administrator
    $ [[SkinBrowser]] : Skin Browser which allows you to can try out the Skins currently installed on this system
-
-
----++ Plugins
-Administrators can enable and disable plugins using [[%SCRIPTURLPATH{"configure"}%][configure]].
-%PLUGINDESCRIPTIONS%
-see also: [[Plugins]]
-
----++ Version
-   * Engine: %WIKIVERSION%
-   * Plugin API: %PLUGINVERSION{}%
 
 ---++ Related Topics
    $ [[AdminDocumentationCategory]] : List of documents relevant for the installer and administrator of the Foswiki installation
