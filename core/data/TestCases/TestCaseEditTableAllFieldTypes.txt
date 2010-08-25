@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="BaseUserMapping_333" date="1244998482" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="SvenDowideit" date="1282707559" format="1.1" version="1.2"}%
 ---+ !EditTablePlugin with a combination of all field types
 
 Description: Manual test of cell types and macro expansion in %SYSTEMWEB%.EditTablePlugin
