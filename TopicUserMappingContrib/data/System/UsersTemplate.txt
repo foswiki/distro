@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="AdminGroup" date="1178574333" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1178574333" format="1.1" version="1.1"}%
 ---+ List of <nop>%WIKITOOLNAME% users
 
 Below is a list of users with accounts. If you want to edit topics or see protected areas of the site then you can get added to the list by registering: fill out the form in %SYSTEMWEB%.UserRegistration. 
