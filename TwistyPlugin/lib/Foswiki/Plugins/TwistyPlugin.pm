@@ -41,6 +41,7 @@ sub initPlugin {
     $doneDefaults   = 0;
     $doneHeader     = 0;
     _exportAnimationSpeed();
+    _hideWithJS();
 
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'twisty',
         'Foswiki::Plugins::TwistyPlugin::TWISTY' );
@@ -88,10 +89,12 @@ sub _exportAnimationSpeed {
 # So now, we emit some inline script immediately after any content that should
 # be hidden. Note to self: .setAttribute doesn't work on IEs, per quirksmode.org
 sub _hideWithJS {
-    my ($id) = @_;
-    return <<"HERE";
-<script type="text/javascript">document.getElementById("$id").style.display = 'none';</script>
+    Foswiki::Func::addToZone('head', 'TwistyPlugin::_hideWithJS', <<'HERE');
+<style type="text/css">html.js .foswikiMakeHidden { display: none; }</style>
+<script type="text/javascript">document.documentElement.className = document.documentElement.className + ' js';</script>
 HERE
+
+    return;
 }
 
 sub _setDefaults {
@@ -193,7 +196,7 @@ sub _TWISTYTOGGLE {
     _setDefaults();
     my $idTag = $id . 'toggle';
     my $mode = $params->{'mode'} || $prefMode;
-    push( @twistystack, { mode => $mode, id => $idTag, isHidden => 0 } );
+    push( @twistystack, { mode => $mode, id => $idTag } );
 
     my $isTrigger = 0;
     my $cookieState = _readCookie( $session, $idTag );
@@ -393,7 +396,6 @@ sub _createHtmlProperties {
 
         if ( not( $state eq $TWISTYPLUGIN_CONTENT_SHOWN ) ) {
             push( @classList, 'foswikiMakeHidden' );
-            $twistystack[-1]->{isHidden} = 1;
         }
     }
 
@@ -464,9 +466,6 @@ sub _wrapInContentHtmlOpen {
 sub _wrapInContentHtmlClose {
     my ($twisty) = @_;
     my $closeTag = "</$twisty->{mode}>";
-    if ( $twisty->{isHidden} ) {
-        $closeTag .= _hideWithJS( $twisty->{id} );
-    }
     $closeTag .= '<!--/twistyPlugin-->';
 
     return $closeTag;
