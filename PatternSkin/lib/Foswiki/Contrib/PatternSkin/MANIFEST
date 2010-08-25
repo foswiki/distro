@@ -12,6 +12,7 @@ data/System/PatternSkinCssCookbookEditTableStyle.txt 0644
 data/System/PatternSkinCssCookbookFonts.txt 0644
 data/System/PatternSkinCssCookbookNoLeftBar.txt 0644
 data/System/PatternSkinCssCookbookNoTopBar.txt 0644
+data/System/PatternSkinCssCookbookSidebarBackground.txt 0644
 data/System/PatternSkinCustomization.txt 0644
 data/System/PatternSkinElements.txt 0644
 data/System/PatternSkinGraphics.txt 0644
@@ -56,6 +57,7 @@ pub/System/PatternSkinCssCookbookEditTableStyle/edittable.css 0644
 pub/System/PatternSkinCssCookbookFonts/fonts.css 0644
 pub/System/PatternSkinCssCookbookNoLeftBar/hideleftbar.css 0644
 pub/System/PatternSkinCssCookbookNoTopBar/notopbar.css 0644
+pub/System/PatternSkinCssCookbookSidebarBackground/sidebar.css 0644
 pub/System/PatternSkinTheme/bg_button_gradient.gif 0644
 pub/System/PatternSkinTheme/bg_buttoncancel_gradient.gif 0644
 pub/System/PatternSkinTheme/bg_submit_gradient.gif 0644

@@ -275,7 +275,7 @@ a.foswikiSubmit:visited:active {
 	margin:0 0 0 .25em;
 }
 
-/* TwistyContrib */
+/* TwistyPlugin */
 .twistyTrigger a:link,
 .twistyTrigger a:visited {
 	text-decoration:none;
@@ -283,6 +283,9 @@ a.foswikiSubmit:visited:active {
 .twistyTrigger a:link .foswikiLinkLabel,
 .twistyTrigger a:visited .foswikiLinkLabel {
 	text-decoration:none;
+}
+.twistyTrigger .foswikiLinkLabel {
+	margin:0 .25em;
 }
 
 /*tipsOfTheDay*/
@@ -535,6 +538,8 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 .foswikiHelp {
 	padding:1em;
 	margin:.25em 0 0 0;
+	border-width:1px;
+	border-style:solid;
 }
 .foswikiHelp ul {
 	margin-top:0;

@@ -2,7 +2,8 @@
 /* 1 */
 .foswikiTopic .editTableInput,
 .foswikiTopic .editTableTextarea {
-	font-family:arial, "Lucida Grande", verdana, sans-serif;
+	font-family:georgia,times;
+	background:#ffc;
 }
 /* 2 */
 .foswikiTopic .editTable .foswikiTable td {

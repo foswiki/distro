@@ -68,11 +68,9 @@ See example at: PatternSkinCssCookbookFonts
 #HeightTopBar
 ---+++ I want to change the height of the top bar
 
-The height of the top bar is defined in =theme= CSS files. The default height in =theme_foswiki.css= is 90px, in =theme_twiki.css= it is 64px.
-
 <blockquote>
 This is the complete style definition to set the height of the top bar:
-<verbatim class="html">
+<verbatim class="css">
 #patternTopBar,
 #patternClearHeaderCenter,
 #patternClearHeaderLeft,
@@ -91,20 +89,25 @@ Change the number from 64px to your value.
 
 ---+++ No top bar
 
-See example at: PatternSkinCssCookbookNoTopBar
+[[PatternSkinCssCookbookNoTopBar][See example]]
 
 ---+++ Centered page
 
-See example at: PatternSkinCssCookbookCenterPage
+[[PatternSkinCssCookbookCenterPage][See example]]
 
 ---+++ Centered page (with a border around the page)
 
-See example at: PatternSkinCssCookbookCenterPageBorder
+[[PatternSkinCssCookbookCenterPageBorder][See example]]
+
+---+++ Sidebar background color
+
+[[PatternSkinCssCookbookSidebarBackground][See example]]
 
 ---+++ Setting !EditTablePlugin styles
 
-See example at: PatternSkinCssCookbookEditTableStyle
+[[PatternSkinCssCookbookEditTableStyle][See example]]
 
 ---++ Style sheet documentation
-See %SYSTEMWEB%.PatternSkinCss for documentation of !PatternSkin CSS classes
+   * See %SYSTEMWEB%.PatternSkinCss for documentation of !PatternSkin CSS classes
+   * See %SYSTEMWEB%.AppendixCascadingStyleSheets for documentation of Foswiki CSS classes
 <!-- %JQREQUIRE{"chili"}% -->
