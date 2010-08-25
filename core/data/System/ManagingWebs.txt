@@ -25,12 +25,6 @@ At file level, a Web is a directory located inside the =data= directory, with te
 A number of Webs are fixed: =%SYSTEMWEB%= for documentation, =%USERSWEB%= to store user pages and site-wide preferences, =%TRASHWEB%= for the topic recycle bin. %BR%
 Other webs can be created as needed.
 
-#SiteMap
----++ Webs on this site 
-%TWISTY{showlink="&#43; Show sitemap" hidelink="&#8722; Hide sitemap" remember="on" mode="div"}%
-%INCLUDE{"SiteMap"}%
-%ENDTWISTY%
-
 #CreateNewWeb
 ---++ Create a new web
 To use this form you must be administrator.
@@ -128,7 +122,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 						</div><!--//col1-->
 						<div class="col2">
 							<p>
-								Should the new web be listed on !SiteMap (see [[#SiteMap]] above)? Even if hidden, the web will be linkable and accessible to users.
+								Should the new web be listed on !SiteMap? Even if hidden, the web will be linkable and accessible to users.
 							</p>
 						</div><!--//col2-->
 						<br class="foswikiClear" />
@@ -156,7 +150,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 						</div><!--//col1-->
 						<div class="col2">
 							<p>
-								Displayed on SiteMap and in the left bar (Pattern Skin).
+								Displayed on !SiteMap and in the left bar (Pattern Skin).
 							</p>
 						</div><!--//col2-->
 						<br class="foswikiClear" />
