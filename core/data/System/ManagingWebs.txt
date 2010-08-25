@@ -5,17 +5,16 @@
 %TOC%
 
 %ADDTOZONE{"head" text="<style type='text/css'>
-    #createWeb .foswikiFormStep {padding:15px 40px;}
     #createWeb .col1 {float:left; width:30%; margin:0 3% 0 0;}
     #createWeb .col2 {float:left; width:66%;}
     #createWeb .col1 .foswikiInputField,
     #createWeb .col1 .foswikiSelect {width:90%;}
-    #createWeb .required {font-size:80%; color:#aaa; text-transform:uppercase;}
+    #createWeb .required {font-size:80%; color:#aaa;}
     #createWeb .foswikiHelp {margin:.5em 0;}
-    #createWeb .additionalSettings {margin:1em -20px 0 -20px;}
+    #createWeb .additionalSettings {margin:.5em -10px;}
     #createWeb .additionalSettings .foswikiActionFormStepSign {display:none;}
     #createWeb .additionalSettings .foswikiFormSteps {background:#fff;}
-    #createWeb .additionalSettings .foswikiFormStep {padding:5px 20px;}
+    #createWeb .additionalSettings .foswikiFormStep {padding:5px 10px;}
     .twistyTrigger {font-weight:bold;}
 </style>"}%
 
@@ -36,7 +35,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 	<form name="admin" action="%SCRIPTURLPATH{manage}%/%WEB%/%TOPIC%" method="post">
 		<input name="newtopic" type="hidden" value="%URLPARAM{"newtopic"}%" /> <input name="action" type="hidden" value="createweb" />
 		<div class="foswikiFormStep">
-			<h3>Name of the new Web <span class="required">Required</span></h3>
+			<h3>Name of the new web <span class="required">Required</span></h3>
 			<div class="col1">
 				<p>
 					<input name="newweb" class="foswikiInputField" type="text" value="%URLPARAM{"newweb"}%" size="40" />
@@ -47,7 +46,10 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 					Naming rule: the name must start with an upper case letter, followed by upper or lower case letters or numbers. Examples: =Learn=, =<nop>SupDocs=, =KNow3=
 				</p>
 				<p>
-					If you are creating a nested web (a web inside a web), use the notation =Existingweb.Newweb=. %BR% %TWISTYBUTTON{id="infoOnNestedWebs" mode="span" showlink="&#43; More info about nested webs ..." hidelink="&#8722; Close info" remember="on"}%
+					If you are creating a nested web (a web inside a web), use the notation =Existingweb.Newweb=.
+				</p>
+				<p>
+					%TWISTYBUTTON{id="infoOnNestedWebs" mode="span" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" showlink="More info about nested webs ..." hidelink="Close info" remember="on"}%
 				</p>
 				%TWISTYTOGGLE{id="infoOnNestedWebs"}%<div class="foswikiHelp">
 					<h4>About hierarchical webs</h4>
@@ -76,7 +78,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 			<br class="foswikiClear" />
 		</div><!--//foswikiFormStep-->
 		<div class="foswikiFormStep">
-			%TWISTYBUTTON{ id="additionalSettings" showlink="&#43; Show additional settings..." hidelink="&#8722; Hide additional settings" remember="on"}%
+			%TWISTYBUTTON{ id="additionalSettings" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" showlink="Show additional settings..." hidelink="Hide additional settings" remember="on"}%
 			%TWISTYTOGGLE{ id="additionalSettings" }%
 			<div class="additionalSettings">
 				<div class="foswikiFormSteps">
@@ -93,8 +95,10 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 						</div><!--//col1-->
 						<div class="col2">
 							<p>
-								Base the new web on an existing web. %BR% 
-								%TWISTYBUTTON{id="infoOnTemplates" mode="span" showlink="&#43; More info about template webs ..." hidelink="&#8722; Close info" remember="on"}%
+								Base the new web on an existing web.
+							</p>
+							<p>
+								%TWISTYBUTTON{id="infoOnTemplates" mode="span" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%"  showlink="More info about template webs ..." hidelink="Close info" remember="on"}%
 							</p>
 							%TWISTYTOGGLE{id="infoOnTemplates"}%<div class="foswikiHelp">
 							<h4>About template webs</h4>
@@ -199,5 +203,4 @@ It is possible, though not recommended, to change the names of the webs in the d
 %X% Renaming the webs in the distribution is not recommended because it makes upgrades much more complicated.
 </blockquote>
 
----
 *Related Topics:* AdminDocumentationCategory, AdminToolsCategory 
