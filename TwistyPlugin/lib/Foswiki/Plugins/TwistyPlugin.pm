@@ -13,7 +13,7 @@ use CGI::Cookie   ();
 use strict;
 use warnings;
 
-use vars qw( @modes @ids $doneHeader $doneDefaults $doneHideWithJS
+use vars qw( @twistystack $doneHeader $doneDefaults $doneHideWithJS
   $prefMode $prefShowLink $prefHideLink $prefRemember);
 
 our $VERSION = '$Rev$';
@@ -38,8 +38,8 @@ sub initPlugin {
         return 0;
     }
 
-    $doneDefaults = 0;
-    $doneHeader   = 0;
+    $doneDefaults   = 0;
+    $doneHeader     = 0;
     $doneHideWithJS = 0;
     _exportAnimationSpeed();
 
@@ -59,7 +59,8 @@ sub initPlugin {
 sub _exportAnimationSpeed {
     my $exported = Foswiki::Func::getPreferencesValue('EXPORTEDPREFERENCES')
       || '';
-    my $pref = Foswiki::Func::getPreferencesValue('TWISTYANIMATIONSPEED')
+    my $pref =
+         Foswiki::Func::getPreferencesValue('TWISTYANIMATIONSPEED')
       || Foswiki::Func::getPluginPreferencesValue('TWISTYANIMATIONSPEED')
       || '0';
 
@@ -72,7 +73,7 @@ sub _exportAnimationSpeed {
         Foswiki::Func::setPreferencesValue( 'EXPORTEDPREFERENCES',
             join( ',', @list ) );
     }
-    Foswiki::Func::setPreferencesValue('TWISTYANIMATIONSPEED', $pref);
+    Foswiki::Func::setPreferencesValue( 'TWISTYANIMATIONSPEED', $pref );
 
     return;
 }
@@ -81,7 +82,7 @@ sub _hideWithJS {
     my ($id) = @_;
     my $markup = '<script type="text/javascript">';
 
-    if (not $doneHideWithJS) {
+    if ( not $doneHideWithJS ) {
         $doneHideWithJS = 1;
         $markup .= <<'HERE';
         if (typeof(foswiki) !== 'object') {
@@ -201,8 +202,7 @@ sub _TWISTYTOGGLE {
     _setDefaults();
     my $idTag = $id . 'toggle';
     my $mode = $params->{'mode'} || $prefMode;
-    unshift @modes, $mode;
-    unshift @ids, $idTag;
+    push( @twistystack, { mode => $mode, id => $idTag, isHidden => 0 } );
 
     my $isTrigger = 0;
     my $cookieState = _readCookie( $session, $idTag );
@@ -217,15 +217,14 @@ sub _TWISTYTOGGLE {
 
 sub _ENDTWISTYTOGGLE {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
-    my $mode = shift @modes;
-    my $id = shift @ids;
+    my $twisty = pop @twistystack;
 
     return
 "<span class='foswikiAlert'>woops, ordering error: got an ENDTWISTY before seeing a TWISTY</span>"
-      unless $mode;
+      unless $twisty->{mode};
 
-    my $modeTag = ($mode) ? '</' . $mode . '>' : '';
-    return $modeTag . _wrapInContentHtmlClose($mode, $id);
+    my $modeTag = ( $twisty->{mode} ) ? '</' . $twisty->{mode} . '>' : '';
+    return $modeTag . _wrapInContentHtmlClose($twisty);
 }
 
 sub _createId {
@@ -403,6 +402,7 @@ sub _createHtmlProperties {
 
         if ( not( $state eq $TWISTYPLUGIN_CONTENT_SHOWN ) ) {
             push( @classList, 'foswikiMakeHidden' );
+            $twistystack[-1]->{isHidden} = 1;
         }
     }
 
@@ -471,8 +471,14 @@ sub _wrapInContentHtmlOpen {
 }
 
 sub _wrapInContentHtmlClose {
-    my ($mode, $id) = @_;
-    return "</$mode>" . _hideWithJS($id) . '<!--/twistyPlugin-->';
+    my ($twisty) = @_;
+    my $closeTag = "</$twisty->{mode}>";
+    if ( $twisty->{isHidden} ) {
+        $closeTag .= _hideWithJS( $twisty->{id} );
+    }
+    $closeTag .= '<!--/twistyPlugin-->';
+
+    return $closeTag;
 }
 
 sub _wrapInContainerHideIfNoJavascripOpen {
