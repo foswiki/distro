@@ -159,7 +159,6 @@ sub verify_view {
         # There may not be TWISTY usage; so no need to assert, but IDs need
         # to be sequential and not random
         %twistyIDs = ();
-s/<(script[^>]*?>document\.getElementById\(")(\w+?)(show|hide|toggle)("\)\.style\.display = 'none';<\/script)>/'<'.$1._mangleID($2.$3).$4.'>'/ge;
 s/<(span|div)([^>]*?)(\d+?)(show|hide|toggle)([^>]*?)>/'<'.$1.$2._mangleID($3).$4.$5.'>'/ge;
     }
 
