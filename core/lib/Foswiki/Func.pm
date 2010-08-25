@@ -1515,7 +1515,6 @@ sub setTopicEditLock {
      | =dontlog= | mark this change so it doesn't appear in the statistics |
      | =minor= | True if this change is not to be notified |
      | =forcenewrevision= | force the save to increment the revision counter |
-     | =comment= | Comment relating to the save |
 For example,
 <verbatim>
 use Error qw( :try );

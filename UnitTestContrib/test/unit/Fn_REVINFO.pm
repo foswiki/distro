@@ -9,6 +9,7 @@ our @ISA = qw( FoswikiFnTestCase );
 use strict;
 use Foswiki;
 use Error qw( :try );
+use Foswiki::Time;
 
 sub new {
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
@@ -278,10 +279,56 @@ sub test_CaseSensitiveFormatString {
     $this->assert_str_equals( '$DATE', $ui );
 }
 
-# SMELL: need to test for other revs specified by the 'rev' parameter
+# test for different revs and format strings
+sub test_Item9538 {
+    my $this = shift;
 
-# SMELL: need to test for the format parameter strings:
-# $web $topic $rev $time $date $rcs $http $email $iso $sec $min $hou
-# $day $wday $dow $week $mo $ye $epoch $tz $comment
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'BlessMySoul' );
+    $topicObject->save(); # rev 1
+    $topicObject->text("Spontaneous eructation");
+    $topicObject->save(forcenewrevision => 1); # rev 2
+    $topicObject->text("Inspired delusion");
+    $topicObject->save(forcenewrevision => 1); # rev 3
+    $topicObject->text("Painful truth");
+    $topicObject->save(forcenewrevision => 1); # rev 4
+
+    my $ui = $topicObject->expandMacros(<<'OFNIVER');
+%REVINFO{"$rev" rev="1"}%
+%REVINFO{"$rev" rev="1.2"}%
+%REVINFO{"$rev" topic="BlessMySoul" rev="3"}%
+%REVINFO{"$rev" topic="BlessMySoul" rev="1.4"}%
+%REVINFO{"$rev"}%
+%REVINFO{"$web $rev" rev="0"}%
+%REVINFO{"$topic $rev" rev=""}%
+%REVINFO{"$rev" topic="BlessMySoul"}%
+OFNIVER
+    $this->assert_str_equals( <<OFNIVER, $ui );
+1
+2
+3
+4
+4
+$this->{test_web} 4
+BlessMySoul 4
+4
+OFNIVER
+
+    my $t = $topicObject->expandMacros('%REVINFO{"$epoch"}%');
+    $this->assert($t =~ /^\d+$/ && $t != 0, $t);
+
+    my $x = Foswiki::Time::formatTime($t, '$hour:$min:$sec');
+    my $y = $topicObject->expandMacros('%REVINFO{"$time"}%');
+    $x = Foswiki::Time::formatTime($t, $Foswiki::cfg{DefaultDateFormat});
+    $y = $topicObject->expandMacros('%REVINFO{"$date"}%');
+
+    foreach my $f qw(rcs http email iso longdate sec min hou day wday
+                   dow week mo ye epoch tz) {
+        my $tf = '$'.$f;
+        $x = Foswiki::Time::formatTime($t, $tf);
+        $y = $topicObject->expandMacros("%REVINFO{\"$tf\"}%");
+        $this->assert_str_equals($x, $y);
+    }
+}
 
 1;

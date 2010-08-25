@@ -1614,8 +1614,11 @@ sub renderRevisionInfo {
 
     my $users = $this->{session}->{users};
     if ($rrev) {
-        $topicObject = $topicObject->load($rrev)
-          unless $rrev == ( $topicObject->getLoadedRev() || 0 );
+        my $loadedRev = $topicObject->getLoadedRev() || 0;
+        unless ($rrev == $loadedRev) {
+            $topicObject = Foswiki::Meta->new($topicObject);
+            $topicObject->load($rrev);
+        }
     }
     my $info = $topicObject->getRevisionInfo();
 
@@ -1671,7 +1674,6 @@ sub renderRevisionInfo {
     if ( $value =~ /\$(sec|min|hou|day|wday|dow|week|mo|ye|epoch|tz)/ ) {
         $value = Foswiki::Time::formatTime( $info->{date}, $value );
     }
-    $value =~ s/\$comment/$info->{comment}/g;
     $value =~ s/\$username/$un/g;
     $value =~ s/\$wikiname/$wn/g;
     $value =~ s/\$wikiusername/$wun/g;

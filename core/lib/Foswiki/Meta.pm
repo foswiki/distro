@@ -192,16 +192,27 @@ sub registerMETA {
    * $text - optional raw text, which may include embedded meta-data. Will
      be passed to =setEmbeddedStoreForm= to initialise the object. Only valid
      if =$web= and =$topic= are defined.
-Construct a new, empty object. This method is used to create lightweight
-handles for store objects, especially in cases where the full content of
-the actual object will *not* be loaded. If you need to interact with the
-existing content of the stored object, use the =load= method to load
-the content.
+Construct a new, unloaded object. This method creates lightweight
+handles for store objects; the full content of the actual object will
+*not* be loaded. If you need to interact with the existing content of
+the stored object, use the =load= method to load the content.
+
+---++ ClassMethod new($prototype)
+
+Construct a new, unloaded object, using the session, web and topic in the
+prototype object (which must be type Foswiki::Meta).
 
 =cut
 
 sub new {
     my ( $class, $session, $web, $topic, $text ) = @_;
+
+    if ($session->isa('Foswiki::Meta')) {
+        # Prototype
+        ASSERT(!defined($web) && !defined($topic) && !defined($text))
+          if DEBUG;
+        return $class->new($session->session, $session->web, $session->topic);
+    }
 
     my $this = bless(
         {
@@ -318,6 +329,11 @@ sub unload {
     $this->{_preferences}->finish() if defined $this->{_preferences};
     undef $this->{_preferences};
     $this->{_preferences} = undef;
+    # Unload meta-data
+    foreach my $type (keys %{$this->{_indices}}) {
+        delete $this->{$type};
+    }
+    undef $this->{_indices};
 }
 
 =begin TML
@@ -334,7 +350,6 @@ gets called before an object you have created goes out of scope.
 sub finish {
     my $this = shift;
     $this->unload();
-    undef $this->{_indices};
     undef $this->{_web};
     undef $this->{_topic};
     undef $this->{_session};
@@ -1228,10 +1243,9 @@ sub setRevisionInfo {
 ---++ ObjectMethod getRevisionInfo() -> \%info
 
 Return revision info for the loaded revision in %info with at least:
-| date | in epochSec |
-| author | canonical user ID |
-| version | the revision number |
-| comment | comment in the VC system, may or may not be the same as the comment in embedded meta-data |
+   * ={date}= in epochSec
+   * ={author}= canonical user ID
+   * ={version}= the revision number
 
 =cut
 
@@ -1819,7 +1833,6 @@ Save the current topic to a store location. Only works on topics.
         even if content doesn't change.
       * =dontlog= - don't include this change in statistics
       * =minor= - don't notify this change
-      * =comment= - comment for save
       * =savecmd= - Save command (core use only)
       * =forcedate= - force the revision date to be this (core only)
       * =author= - cUID of author of change (core only - default current user)
@@ -1849,7 +1862,9 @@ sub saveAs {
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
 
-    unless ( $this->{_topic} eq $Foswiki::cfg{WebPrefsTopicName} ) {        # Don't verify for WebPreferences, as saving WebPreferences creates the web.
+    unless ( $this->{_topic} eq $Foswiki::cfg{WebPrefsTopicName} ) {
+        # Don't verify web existance for WebPreferences, as saving
+        # WebPreferences creates the web.
         unless ( $this->{_session}->{store}->webExists( $this->{_web} ) ) {
             throw Error::Simple( 'Unable to save topic '
                   . $this->{_topic}
@@ -1890,7 +1905,7 @@ sub saveAs {
         $this->setRevisionInfo(
             date => $opts{forcedate} || time(),
             author  => $cUID,
-            version => $nextRev
+            version => $nextRev,
         );
 
         my $checkSave =
