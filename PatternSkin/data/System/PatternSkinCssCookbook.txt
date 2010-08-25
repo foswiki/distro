@@ -24,10 +24,10 @@ Have a look at PatternSkinColorSettings.
    * Attach 3 new style sheets to the topic
    * Point the CSS [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files:
 <pre class="tml">
-      * <nop>Set FOSWIKI_LAYOUT_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
-      * <nop>Set FOSWIKI_STYLE_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
-      * <nop>Set FOSWIKI_COLORS_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/colors.css
- </pre>
+   * <nop>Set FOSWIKI_LAYOUT_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
+   * <nop>Set FOSWIKI_STYLE_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
+   * <nop>Set FOSWIKI_COLORS_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/colors.css
+</pre>
 
 ---+++ When you need to make small adjustments: Adding to existing CSS
 With CSS you cannot remove already defined classes, you can only add to it, or override existing styles. <br />
@@ -36,14 +36,14 @@ Overriding default CSS is done with 3 [[%SYSTEMWEB%.PreferenceSettings][preferen
    * Attach 1, 2 or 3 new style sheets to the topic, dependent on your CSS setup (if you don't change much, you might as well put everything in one CSS file, layout, margins and colors)
    * Point the CSS [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files (below the =USERXXXURL= preferences):
 <pre class="tml">
-      * <nop>Set USERLAYOUTURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
-      * <nop>Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
-      * <nop>Set USERCOLORSURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/colors.css
- </pre>
+   * <nop>Set USERLAYOUTURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
+   * <nop>Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
+   * <nop>Set USERCOLORSURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/colors.css
+</pre>
    * If you use only little CSS and you've only attached one file, write:
 <pre class="tml">
-      * Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
- </pre>
+   * Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
+</pre>
 
 Instead of setting these preferences in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]], you can set these in your home topic, or in any other topic. Setting style URL preferences in:
    * [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]]: the style is visible for all users, site-wide
