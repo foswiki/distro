@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="SvenDowideit" date="1282707679" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="BaseUserMapping_333" date="1244998571" format="1.1" version="1.2"}%
 ---+ !EditTablePlugin and text areas tests
 
 Description: Manual test textareas in %SYSTEMWEB%.EditTablePlugin. Tests that newlines in textareas are coded properly and that rendering of TML and html links is correct.
@@ -18,4 +18,4 @@ Description: Manual test textareas in %SYSTEMWEB%.EditTablePlugin. Tests that ne
 
 %EDITTABLE{format="|text,10|textarea,10x40|"}%
 | Shortinfo: | blablabla<br />there's still a bug<br />http://dr.dk<br />lurking around<br />_italic_<br />*bold* |
-| uh | blablabla<br />there's still a bug<br />http://dr.dk<br />lurking around<br />_italic_<br />*bold* |
+| | blablabla<br />there's still a bug<br />http://dr.dk<br />lurking around<br />_italic_<br />*bold* |

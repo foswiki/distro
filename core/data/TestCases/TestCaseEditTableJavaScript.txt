@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="SvenDowideit" date="1282707588" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
 ---+ !EditTablePlugin and javascript interface
 
 Description: Manual test textareas in %SYSTEMWEB%.EditTablePlugin. Tests that the javascript interface works correctly in saving all changes that are done on the screen.
@@ -18,7 +18,9 @@ Testing perl code in conjunction with the javascript interface, you may use this
 %TABLE{headerrows="1" footerrows="1"}%
 %EDITTABLE{header="| *HEADER* |"}%
 | *HEADER* |
+| do |
 | re |
+| mi |
 | *FOOTER* |
 
 
