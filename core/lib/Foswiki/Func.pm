@@ -2063,7 +2063,7 @@ sub readTemplate {
     my( $name, $skin ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     return $Foswiki::Plugins::SESSION->templates->readTemplate(
-        $name, skin => $skin, no_oops => 1) || '';
+        $name, skins => $skin, no_oops => 1) || '';
 }
 
 =begin TML
