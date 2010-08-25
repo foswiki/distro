@@ -44,7 +44,7 @@ chomp($foswikihome);
 #TODO: add a trivial and correct LocalSite.cfg
 `chmod -R 777 data pub`;
 
-`perl pseudo-install.pl -A developer`;
+`perl -wT pseudo-install.pl -A developer`;
 
 #run unit tests
 #TODO: testrunner should exit == 0 if no errors?
