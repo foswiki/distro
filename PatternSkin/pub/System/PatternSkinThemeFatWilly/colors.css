@@ -808,7 +808,9 @@ tr.foswikiDiffDebug .foswikiDiffUnchangedText
 	border-color:#ddd;
 	color:#666;
 }
-
+.patternRevInfo {
+	color:#666;
+}
 .patternLeftBarPersonal li,
 .patternLeftBarPersonal li.patternLogOut,
 .patternLeftBarPersonal li.patternLogIn

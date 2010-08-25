@@ -391,6 +391,7 @@ a:hover .foswikiAccessKey {
 #patternPage {
    background-color:#fff;
 }
+.patternRevInfo,
 .patternHomePath a:link,
 .patternHomePath a:visited {
    border-color:#ddd;
