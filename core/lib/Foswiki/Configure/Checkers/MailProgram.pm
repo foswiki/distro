@@ -31,11 +31,13 @@ sub check {
         );
         $useprog = 0;
     }
-    if ($useprog) {
-        my $val = $Foswiki::cfg{MailProgram} || '';
-        $val =~ s/\s.*$//g;
-        if ( !( -x $val ) ) {
-            $n .= $this->WARN("<tt>$val</tt> was not found. Check the path.");
+    my $val = $Foswiki::cfg{MailProgram} || '';
+    $val =~ s/\s.*$//g;
+    if ( !( -x $val ) ) {
+        if ($useprog) {
+            $n .= $this->ERROR("<tt>$val</tt> was not found (but is required). Check the path, or set the MAILHOST.");
+        } else {
+            $n .= $this->WARN("<tt>$val</tt> was not found.");
         }
     }
     return $n;

@@ -20,7 +20,7 @@ sub check {
     if ( $Foswiki::cfg{WebMasterEmail} !~
         /^([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)$/i )
     {
-        return $this->ERROR('I don\'t recognise this as a valid email address.');
+        return $this->WARN('I don\'t recognise this as a valid email address.');
     }
     return '';
 }
