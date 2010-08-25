@@ -48,7 +48,7 @@ $.tabpane = {
         var index = 1;
         $thisPane.find("> .jqTab").each(function() {
           var $this = $(this);
-          var title = $this.find('h2:first').remove().text();
+          var title = $this.find('h2:first').remove().html();
           $tabGroup.append('<li><a href="#" data="'+this.id+'">'+title+'</a></li>');
           if (index == thisOpts.select || $this.hasClass(thisOpts.select)) {
             thisOpts.currentTabId = this.id;

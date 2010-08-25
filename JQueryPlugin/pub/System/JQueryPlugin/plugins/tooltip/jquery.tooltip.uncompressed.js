@@ -154,14 +154,20 @@
 			helper.body.show();
 		} else if ( settings(this).showBody ) {
 			var parts = title.split(settings(this).showBody);
-			helper.title.html(parts.shift()).show();
-			helper.body.empty();
-			for(var i = 0, part; (part = parts[i]); i++) {
+                        helper.title.empty();
+                        helper.body.empty();
+                        if (parts.length > 1) {
+                          helper.title.html(parts.shift()).show();
+                          for(var i = 0, part; (part = parts[i]); i++) {
 				if(i > 0)
 					helper.body.append("<br/>");
 				helper.body.append(part);
-			}
+                          }
+                        } else {
+                          helper.body.html(parts.shift()).show();
+                        }
 			helper.body.hideWhenEmpty();
+			helper.title.hideWhenEmpty();
 		} else {
 			helper.title.html(title).show();
 			helper.body.hide();
@@ -216,7 +222,7 @@
 		}
 		
 		// if no current element is available, remove this listener
-		if( current == null ) {
+		if( current == undefined ) {
 			$(document.body).unbind('mousemove', update);
 			return;	
 		}

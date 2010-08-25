@@ -1,14 +1,6 @@
 /* buttons */
-.foswikiTopic .jqButton,
-.foswikiTopic .jqButton:hover,
-.jqButton:hover,
 .jqButton {
-  background-color:transparent;
-  background-image:url(btn_right.gif);
-  background-position:top right;
-  background-repeat:no-repeat;
-  text-decoration:none;
-  cursor:pointer;
+  margin:0px 8px 0px 0px;
   display:block;
   float:left;
   height:23px;
@@ -17,26 +9,31 @@
   font-size:13px;
   white-space:nowrap;
 }
-.foswikiTopic .jqButton,
-.foswikiTopic .jqButton:hover,
+.jqButton:hover,
 .jqButton {
-  margin:0px 8px 0px 0px;
+  text-decoration:none;
+  cursor:pointer;
+  background-color:transparent;
+  background-image:url(btn_right.gif);
+  background-position:top right;
+  background-repeat:no-repeat;
 }
 
-.foswikiTopic .jqButton.foswikiRight,
-.foswikiTopic .jqButton.foswikiRight:hover,
 .jqButton.foswikiRight:hover,
 .jqButton.foswikiRight {
   float:right;
   margin:0px 0px 0px 8px;
 }
 
-.foswikiTopic .jqButton:link:hover,
-.foswikiTopic .jqButton:hover,
 .jqButtonSimple:hover,
 .jqButton:hover {
   color:red;
 }
+.foswikiTopic .jqButton:hover,
+.foswikiTopic .jqButton:active { /* pattern skin */
+  color:red;
+}
+
 .jqButton span {
   background-image:url(btn_left.gif);
   background-position:top left;
@@ -71,11 +68,11 @@
   padding:0px;
   width:1em;
 }
-.jqButtonCyan { background-image:url(btn_cyan_right.gif); }
+.jqButtonCyan, .jqButtonCyan:hover { background-image:url(btn_cyan_right.gif); }
 .jqButtonCyan span { background-image:url(btn_cyan_left.gif); }
-.jqButtonRed  { background-image:url(btn_red_right.gif); }
+.jqButtonRed, .jqButtonRed:hover { background-image:url(btn_red_right.gif); }
 .jqButtonRed span { background-image:url(btn_red_left.gif); }
-.jqButtonGreen { background-image:url(btn_green_right.gif); }
+.jqButtonGreen, .jqButtonGreen:hover { background-image:url(btn_green_right.gif); }
 .jqButtonGreen span { background-image:url(btn_green_left.gif); }
 .jqButtonSimple,
 .jqButtonSimple span,

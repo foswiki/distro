@@ -162,27 +162,6 @@ if (foswiki.preferences === undefined) {
     $(".foswikiMakeHidden").livequery(function() {
       $(this).hide();
     });
-	$('a.foswikiPopUp').click(
-	function(e) {
-		// SMELL: would be a lot better looking with a jQuery
-		// popup
-		if (!this.href)
-			return false;
-
-		if (this.href.indexOf("?") > 0)
-			url = this.href + ';template=viewplain';
-		else
-			url = this.href + '?template=viewplain';
-			
-		var window = open(
-			url, '',
-			"width=600,height=480,titlebar=0,resizable,scrollbars");
-
-		if (window)
-			window.focus();
-
-		return false;
-	});
   });
 	
 })(jQuery);

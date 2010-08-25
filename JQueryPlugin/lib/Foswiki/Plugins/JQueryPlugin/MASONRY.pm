@@ -30,7 +30,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name         => 'Masonry',
-            version      => '1.0.0',
+            version      => '1.2.0',
             author       => 'David <nop>DeSandro',
             homepage     => 'http://desandro.com/resources/jquery-masonry',
             css          => ['jquery.masonry.css'],

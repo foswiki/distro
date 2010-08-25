@@ -22,6 +22,10 @@ mason fitting stones in a wall.
 <img src="%ATTACHURL%/jQuery-Masonry.jpg" alt="jQuery-Masonry.jpg" width="547" height="351" />
 
 
+See the [[http://emberapp.com/desandro/collections/jquery-masonry][jQuery Masonry Collection on Ember]] for more screenshots
+of jQuery masonry in the wild.
+
+
 ---++ Usage
 
 ---+++ <nop>JavaScript API
@@ -65,6 +69,13 @@ using JQueryMetadata.
    * resizeable: true %BR%
      Binds a Masonry call to window resizes.
      default: true
+
+   * animate: true %BR%
+    Animates layout rearrangements.
+    default: false
+
+   * animationOptions: {} %BR%
+     A map of options for animation.
 
    * appendedContent: $('.new_content') %BR%
      Additional container element for appended content.

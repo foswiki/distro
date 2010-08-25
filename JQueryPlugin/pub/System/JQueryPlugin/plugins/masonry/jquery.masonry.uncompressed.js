@@ -1,51 +1,109 @@
 /*************************************************
-**  jQuery Masonry version 1.0.0
+**  jQuery Masonry version 1.2.0
 **  copyright David DeSandro, licensed GPL & MIT
 **  http://desandro.com/resources/jquery-masonry
 **************************************************/
 ;(function($){  
 
+    /*!
+     * smartresize: debounced resize event for jQuery
+     * http://github.com/lrbabe/jquery-smartresize
+     *
+     * Copyright (c) 2009 Louis-Remi Babe
+     * Licensed under the GPL license.
+     * http://docs.jquery.com/License
+     *
+     */
+    var event = $.event,
+    	resizeTimeout;
+
+    event.special[ "smartresize" ] = {
+    	setup: function() {
+    		$( this ).bind( "resize", event.special.smartresize.handler );
+    	},
+    	teardown: function() {
+    		$( this ).unbind( "resize", event.special.smartresize.handler );
+    	},
+    	handler: function( event, execAsap ) {
+    		// Save the context
+    		var context = this,
+    			args = arguments;
+
+    		// set correct event type
+            event.type = "smartresize";
+
+    		if(resizeTimeout)
+    			clearTimeout(resizeTimeout);
+    		resizeTimeout = setTimeout(function() {
+    			jQuery.event.handle.apply( context, args );
+    		}, execAsap === "execAsap"? 0 : 100);
+    	}
+    };
+
+    $.fn.smartresize = function( fn ) {
+    	return fn ? this.bind( "smartresize", fn ) : this.trigger( "smartresize", ["execAsap"] );
+    };
+
+
+
+    // masonry code begin
     $.fn.masonry = function(options, callback) { 
 
-        function placeBrick($brick, setCount, setY, setSpan, props) {
+        function getBricks(props, opts) {
+            props.$bricks = opts.itemSelector == undefined ?
+                        opts.$brickParent.children() :
+                        opts.$brickParent.find(opts.itemSelector);
+        }
+
+        function placeBrick($brick, setCount, setY, setSpan, props, opts) {
             var shortCol = 0;
             
             for ( i=0; i < setCount; i++ ) {
                 if ( setY[i] < setY[ shortCol ] ) shortCol = i;
             }
+            
+            var position = {
+                left: props.colW * shortCol + props.posLeft,
+                top: setY[ shortCol ]
+            };
 
-            $brick.css({
-                top: setY[ shortCol ],
-                left: props.colW * shortCol + props.posLeft
-            });
+
+            if( props.masoned && opts.animate ) {
+                $brick.animate( position, {
+                    duration: opts.animationOptions.duration, 
+                    easing: opts.animationOptions.easing,
+                    complete: opts.animationOptions.complete,
+                    step: opts.animationOptions.step,
+                    queue: opts.animationOptions.queue,
+                    specialEasing: opts.animationOptions.specialEasing
+                });
+            } else {
+                $brick.css(position);
+            }
 
             for ( i=0; i < setSpan; i++ ) {
                 props.colY[ shortCol + i ] = setY[ shortCol ] + $brick.outerHeight(true) ;
             }
-        }
+        };
 
 
         function masonrySetup($wall, opts, props) {
-            if ( props.masoned && opts.appendedContent != undefined ) {
-                // if we're just dealing with appendedContent
-                props.$bricks = opts.appendedContent.find(opts.itemSelector);
+             getBricks(props, opts);
+
+            if ( opts.columnWidth == undefined) {
+                props.colW = props.masoned ?
+                        $wall.data('masonry').colW :
+                        props.$bricks.outerWidth(true);
             } else {
-                props.$bricks = opts.itemSelector == undefined ?
-                            $wall.children() :
-                            $wall.find(opts.itemSelector);
+                props.colW = opts.columnWidth;
             }
 
-            props.colW = opts.columnWidth == undefined ? 
-                        props.$bricks.outerWidth(true) : 
-                        opts.columnWidth;
-            
             props.colCount = Math.floor( $wall.width() / props.colW ) ;
             props.colCount = Math.max( props.colCount, 1 );
-            
-        }
+        };
+
 
         function masonryArrange($wall, opts, props) {
-            
             // if masonry hasn't been called before
             if( !props.masoned ) $wall.css( 'position', 'relative' );            
             
@@ -71,7 +129,7 @@
                 *  but the colCount has changed from the previous time
                 *  masonry has been called
                 */
-                for (var i= $wall.data('masonry').colCount; i < props.colCount; i++) {
+                for (i= $wall.data('masonry').colCount; i < props.colCount; i++) {
                     props.colY[i] = props.posTop;
                 };
                 
@@ -81,12 +139,13 @@
                     props.colY[i] = props.posTop;
                 }    
             }
-
+            
+            
             // layout logic
             if ( opts.singleMode ) {
                 props.$bricks.each(function(){
                     var $brick = $(this);
-                    placeBrick($brick, props.colCount, props.colY, 1, props);
+                    placeBrick($brick, props.colCount, props.colY, 1, props, opts);
                 });            
             } else {
                 props.$bricks.each(function() {
@@ -96,9 +155,10 @@
                     var colSpan = Math.ceil( $brick.outerWidth(true) / props.colW);
                     colSpan = Math.min( colSpan, props.colCount );
 
+                    
                     if ( colSpan == 1 ) {
                         // if brick spans only one column, just like singleMode
-                        placeBrick($brick, props.colCount, props.colY, 1, props);
+                        placeBrick($brick, props.colCount, props.colY, 1, props, opts);
                     } else {
                         // brick spans more than one column
 
@@ -115,7 +175,7 @@
                             }
                         }
                 
-                        placeBrick($brick, groupCount, groupY, colSpan, props);
+                        placeBrick($brick, groupCount, groupY, colSpan, props, opts);
                     }
                 }); //        /props.bricks.each(function() {
             }  //         /layout logic
@@ -125,7 +185,23 @@
             for ( i=0; i < props.colCount; i++ ) {
                 props.wallH = Math.max( props.wallH, props.colY[i] );
             }
-            $wall.height( props.wallH - props.posTop );
+            var wallCSS = { height: props.wallH - props.posTop };
+            // $wall.height( props.wallH - props.posTop );
+            if ( props.masoned && opts.animate ) {
+                $wall.animate(wallCSS, {
+                    duration: opts.animationOptions.duration, 
+                    easing: opts.animationOptions.easing,
+                    complete: opts.animationOptions.complete,
+                    step: opts.animationOptions.step,
+                    queue: opts.animationOptions.queue,
+                    specialEasing: opts.animationOptions.specialEasing
+                });
+            } else {
+                $wall.css(wallCSS);
+            }
+
+            // add masoned class first time around
+            if ( !props.masoned ) $wall.addClass('masoned');
 
             // provide props.bricks as context for the callback
             callback.call( props.$bricks );
@@ -135,14 +211,15 @@
             $wall.data('masonry', props );
 
 
-        } //  /masonryArrange function
+        }; //  /masonryArrange function
 
 
         function masonryResize($wall, opts, props) {
+            props.masoned = $wall.data('masonry') != undefined;
             var prevColCount = $wall.data('masonry').colCount;
             masonrySetup($wall, opts, props);
             if ( props.colCount != prevColCount ) masonryArrange($wall, opts, props); 
-        }
+        };
 
 
         /*
@@ -172,8 +249,19 @@
 
             //picked up from Paul Irish
             callback = callback || function(){};
+
+
+            if ( props.masoned && opts.appendedContent != undefined ) {
+                // if we're dealing with appendedContent
+                opts.$brickParent = opts.appendedContent;
+            } else {
+                opts.$brickParent = $wall;
+            }
             
-            if ( $wall.children().length > 0 ) {
+            getBricks(props, opts);
+
+
+            if ( props.$bricks.length ) {
                 // call masonry layout
                 masonrySetup($wall, opts, props);
                 masonryArrange($wall, opts, props);
@@ -181,9 +269,12 @@
                 // binding window resizing
                 var resizeOn = previousOptions.resizeable;
                 if ( !resizeOn && opts.resizeable ) {
-                    $(window).bind('resize.masonry', function() { masonryResize($wall, opts, props); } );
+                    $(window).bind('smartresize.masonry', function() { masonryResize($wall, opts, props); } );
                 }
-                if ( resizeOn && !opts.resizeable ) $(window).unbind('resize.masonry');
+                if ( resizeOn && !opts.resizeable ) $(window).unbind('smartresize.masonry');
+            } else {
+                // brickParent is empty, do nothing, go back home and eat chips
+                return this;
             }
 
         });        //        /return this.each(function()
@@ -193,13 +284,15 @@
 
     $.masonry = {
         defaults : {
-                    singleMode: false,
-                    columnWidth: undefined,
-                    itemSelector: undefined,
-                    appendedContent: undefined,
-                    saveOptions: true,
-                    resizeable: true
-                },
+            singleMode: false,
+            columnWidth: undefined,
+            itemSelector: undefined,
+            appendedContent: undefined,
+            saveOptions: true,
+            resizeable: true,
+            animate: false,
+            animationOptions: {}
+        },
         colW: undefined,
         colCount: undefined,
         colY: undefined,
@@ -208,8 +301,8 @@
         posTop: 0,
         posLeft: 0,
         options: undefined,
-        $bricks: undefined
+        $bricks: undefined,
+        $brickParent: undefined
     };
 
-
-})(jQuery);  
+})(jQuery);
