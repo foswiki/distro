@@ -1,9 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1282772512" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="PatternSkin"}%
-
 ---+!! PatternSkinCssCookbook Recipe: Hide the top bar
 
-*This recipe shows how to hide the top bar and to put the logo in the left bar.*
+*This recipe shows how to hide the top bar.*
 
 <div class="foswikiHelp">
 This line loads the extra style definition:

@@ -537,7 +537,7 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 }
 .foswikiHelp {
 	padding:1em;
-	margin:.25em 0 0 0;
+	margin:.25em 0 .5em 0;
 	border-width:1px;
 	border-style:solid;
 }

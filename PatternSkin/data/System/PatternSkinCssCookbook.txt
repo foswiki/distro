@@ -1,6 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1129333294" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1282772512" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="PatternSkin"}%
-
 ---+!! %SYSTEMWEB%.PatternSkin CSS Cookbook
 
 *Questions and answers on how to customize the default look of Foswiki for your own needs, using style sheets.* For configuring page elements, see PatternSkinCustomization.

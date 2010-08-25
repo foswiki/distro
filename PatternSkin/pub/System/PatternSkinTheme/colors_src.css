@@ -30,7 +30,7 @@
 #patternBottomBarContents,
 #patternBottomBarContents a:link,
 #patternBottomBarContents a:visited {
-   color:#777;
+   color:#a0b5c0;
 }
 #patternBottomBarContents a:hover {
    color:#06c;
@@ -82,7 +82,7 @@ h2, h3, h4, h5, h6 {
 }
 .foswikiNewLink a:link sup,
 .foswikiNewLink a:visited sup {
-   color:#777;
+   color:#a0b5c0;
    border-color:#ddd;
 }
 .foswikiNewLink a:hover sup {
@@ -184,7 +184,7 @@ select {
    background-color:#fafaf8;
 }
 .foswikiInputFieldReadOnly {
-   color:#777;
+   color:#a0b5c0;
 }
 .foswikiSelect {
    border-color:#bbb #f2f2f2 #f2f2f2 #bbb;
@@ -198,7 +198,7 @@ select {
    background-color:#fafaf8;
 }
 .foswikiInputFieldBeforeFocus {
-   color:#777;
+   color:#a0b5c0;
 }
 
 /*   -----------------------------------------------------------
@@ -219,7 +219,7 @@ select {
 
 /* TwistyContrib */
 .twistyPlaceholder {
-   color:#777;
+   color:#a0b5c0;
 }
 a:hover.twistyTrigger {
    color:#06c;
@@ -239,11 +239,11 @@ a:hover.twistyTrigger {
    -----------------------------------------------------------   */
 
 .foswikiGrayText {
-   color:#777;
+   color:#a0b5c0;
 }
 .foswikiGrayText a:link,
 .foswikiGrayText a:visited {
-   color:#777;
+   color:#a0b5c0;
 }
 .foswikiGrayText a:hover {
    color:#06c;
@@ -251,7 +251,7 @@ a:hover.twistyTrigger {
 
 table.foswikiFormTable th.foswikiFormTableHRow,
 table.foswikiFormTable td.foswikiFormTableRow {
-   color:#777;
+   color:#a0b5c0;
 }
 .foswikiEditForm {
    color:#000;
@@ -313,7 +313,7 @@ table.foswikiFormTable {
 	background:#fff;
 }
 .foswikiToc .foswikiTocTitle {
-   color:#777;
+   color:#a0b5c0;
 }
 .foswikiBroadcastMessage,
 .foswikiNotification {
@@ -353,7 +353,7 @@ table.foswikiFormTable {
 }
 .foswikiAccessKey {
    color:inherit;
-   border-color:#777;
+   border-color:#a0b5c0;
 }
 a:link .foswikiAccessKey,
 a:visited .foswikiAccessKey {
@@ -399,9 +399,10 @@ a:hover .foswikiAccessKey {
    border:none;
    color:#06c;
 }
+.patternRevInfo,
 .patternHomePath a:link,
 .patternHomePath a:visited {
-   color:#777;
+   color:#a0b5c0;
 }
 .patternHomePath:hover a:link,
 .patternHomePath:hover a:visited {
@@ -457,10 +458,10 @@ a:hover .foswikiAccessKey {
    color:#000;
 }
 .patternHelpCol {
-   color:#777;
+   color:#a0b5c0;
 }
 .patternSigLine {
-   color:#777;
+   color:#a0b5c0;
 }
 .patternEditTopic {
     background:#fafafa;
@@ -478,7 +479,7 @@ a:hover .foswikiAccessKey {
 .patternInfo,
 .patternInfo a:link,
 .patternInfo a:visited {
-	color:#777;
+	color:#a0b5c0;
 }
 .patternInfo:hover a:link,
 .patternInfo:hover a:visited,
@@ -519,7 +520,7 @@ h4.foswikiSearchResultsHeader {
    border-color:#dfdfdf;
 }
 h4.foswikiSearchResultsHeader {
-   color:#777;
+   color:#a0b5c0;
 }
 h4.foswikiSearchResultsHeader b,
 h4.foswikiSearchResultsHeader strong {
@@ -551,13 +552,13 @@ h4.foswikiSearchResultsHeader strong {
 
 .patternBookView .foswikiTopRow {
    background-color:transparent; /* set to WEBBGCOLOR in css.pattern.tmpl */
-   color:#777;
+   color:#a0b5c0;
 }
 .patternBookView .foswikiBottomRow {
    border-color:#dfdfdf;
 }
 .patternBookView .patternSearchResultCount {
-   color:#777;
+   color:#a0b5c0;
 }
 
 /* edit.pattern.tmpl */
@@ -612,7 +613,7 @@ tr.foswikiDiffDebug .foswikiDiffAddedText {
 }
 /* Unchanged */
 tr.foswikiDiffDebug .foswikiDiffUnchangedText {
-   color:#777;
+   color:#a0b5c0;
 }
 .foswikiDiffUnchangedTextContents { }
 .foswikiDiffLineNumberHeader {

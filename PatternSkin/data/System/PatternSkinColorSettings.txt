@@ -39,7 +39,7 @@ Edit this topic, and change the color as you like.
 ---++++ LIGHT_ON_DARK_TEXT Light on dark text color
    * Local LIGHT_ON_DARK_TEXT = #fff
 ---++++ GRAYED_TEXT
-   * Local GRAYED_TEXT = #777
+   * Local GRAYED_TEXT = #a0b5c0
 ---++++ GENERAL_TEXT General text (black)
    * Local GENERAL_TEXT = #000
 ---++++ H1_HEADER_TEXT Header text
@@ -605,6 +605,7 @@ a:hover .foswikiAccessKey {
    border:none;
    color:%LINK_TEXT_HOVER%;
 }
+.patternRevInfo,
 .patternHomePath a:link,
 .patternHomePath a:visited {
    color:%GRAYED_TEXT%;

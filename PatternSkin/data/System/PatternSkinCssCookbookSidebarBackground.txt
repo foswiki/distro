@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1282772512" format="1.1" version="2"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! PatternSkinCssCookbook Recipe: Sidebar background color
-To see if the background color really extends beyond the body, we make the body contents higher than the sidebar.
+To see if the background color really extends beyond the body, we make the body contents longer than the sidebar.
 
 Note that to set the background color, we set both =patternWrapper= and =patternSideBar=:
 <verbatim class="css">
@@ -20,105 +20,105 @@ You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePre
 </div>
 <!-- %JQREQUIRE{"chili"}% -->
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
-dummy content to make this page higher
+dummy content to make this page longer
 
 <!-- %JQREQUIRE{"chili"}% -->
 %META:FILEATTACHMENT{name="sidebar.css" attr="" comment="css to give the sidebar a background color" date="1282772512"}%
