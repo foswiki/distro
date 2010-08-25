@@ -885,6 +885,7 @@ None
 | [[%BUGS%/Item1701][Item1701]] | Reset password doesn't work with =ApacheHtpasswdUser.pm= |
 | [[%BUGS%/Item1728][Item1728]] | Exclamation mark nop in !form fields are not removed when not in TEXT |
 | [[%BUGS%/Item1825][Item1825]] | Wrong formatting of the Wikipedia InterWiki reference to Crontab article in System.SiteTools |
+| [[%BUGS%/Item1829][Item1829]] | Configure shouldn't crash if there is no LocalSite.cfg |
 | [[%BUGS%/Item2131][Item2131]] | All warnings causes Foswiki to throw message "Foswiki detected an internal error." with CGI 3.47 |
 | [[%BUGS%/Item2322][Item2322]] | Don't send Status 200 for non-existent pages |
 | [[%BUGS%/Item2370][Item2370]] | !TwistyPlugin generates illegal id= values when used in subwebs |
@@ -899,7 +900,10 @@ None
 | [[%BUGS%/Item8434][Item8434]] | spelling mistakes |
 | [[%BUGS%/Item8436][Item8436]] | Acronym linking is not documented |
 | [[%BUGS%/Item8483][Item8483]] | On Windows, unable to install files into bin due to incorrect path |
+| [[%BUGS%/Item8490][Item8490]] | TemplateLogin now returns 200 - Build.pm login checks for 400 |
+| [[%BUGS%/Item8500][Item8500]] | InterwikiPlugin not FastCGI safe |
 | [[%BUGS%/Item8525][Item8525]] | System.ManagingWebs does not provide defaulting of form field |
+| [[%BUGS%/Item8538][Item8538]] | Unit tests run without taint checking, and miss taint issues  |
 | [[%BUGS%/Item8553][Item8553]] | System.ManagingWebs should explain that _empty is rarely a good choice. |
 | [[%BUGS%/Item8556][Item8556]] | Local Anchors don't use relative form |
 | [[%BUGS%/Item8566][Item8566]] | TinyMCEPlugin stops working in IE when JQueryPlugin and ZonePlugin is installed. |
@@ -923,10 +927,12 @@ None
 | [[%BUGS%/Item8791][Item8791]] | ONLYIF function can never be "safe" - missing $ from regex in extender.pl |
 | [[%BUGS%/Item8820][Item8820]] | foswikiIcon missing from css documentation |
 | [[%BUGS%/Item8851][Item8851]] | TemplateLogin does not log failure and other events. |
+| [[%BUGS%/Item8865][Item8865]] | rdiff DIFFRENDERSTYLE does not work as expected |
 | [[%BUGS%/Item8874][Item8874]] | Topic System/LoginName references wrong Users list |
 | [[%BUGS%/Item8886][Item8886]] | configure Extension installer and lister is not very forgiving of errors |
 | [[%BUGS%/Item8889][Item8889]] | UI for configure | Plugins is overwhelming and presents little-used configuration options in normal mode |
 | [[%BUGS%/Item8896][Item8896]] | SpreadSheetPlugin ignores SKIPINCLUDE option |
+| [[%BUGS%/Item8903][Item8903]] | INCLUDE will return entire topic if pattern does not match |
 | [[%BUGS%/Item8967][Item8967]] | Crashes with CPAN module Net::LDAP::Constant |
 | [[%BUGS%/Item8979][Item8979]] | Dependency check fails if target module is installed, but fails to load due to missing dependencies. |
 | [[%BUGS%/Item9021][Item9021]] | Foswiki doesn't verify if the web exist when create a subweb |
@@ -937,20 +943,25 @@ None
 | [[%BUGS%/Item9101][Item9101]] | Configure::Load contains defined(%hash) |
 | [[%BUGS%/Item9127][Item9127]] | CompareRevisionsAddOn should call =HTML::Element->delete= to avoid memory leaks |
 | [[%BUGS%/Item9159][Item9159]] | Perl 5.12 deprecates defined for hash and arrays.  Configure fails on windows |
+| [[%BUGS%/Item9169][Item9169]] | core/tools/lighttpd.pl should check for the existence of /usr/share/lighttpd/create-mime.assign.pl |
 | [[%BUGS%/Item9175][Item9175]] | Bracketed links with question marks are not rendered |
 | [[%BUGS%/Item9177][Item9177]] | =RcsFile.pm= eachChange returns tainted topic names  |
 | [[%BUGS%/Item9185][Item9185]] | Checker for =ScriptSuffix= does not detect inconsistent setting |
 | [[%BUGS%/Item9274][Item9274]] | Double slash in path to CPAN/lib |
 | [[%BUGS%/Item9308][Item9308]] | InterwikiPlugin reads !InterWikis topic without checking access permissions |
 | [[%BUGS%/Item9310][Item9310]] | InterwikiPlugin used to allow ' in links |
+| [[%BUGS%/Item9321][Item9321]] | Logging of "logout" event exposed uninitialized string in Foswiki.pm logger |
 | [[%BUGS%/Item9327][Item9327]] | Documentation topic for WIKIWEBMASTER is missing |
 | [[%BUGS%/Item9331][Item9331]] | configue gets confused by commented out settings |
+| [[%BUGS%/Item9351][Item9351]] | Canonicalise list processing |
 | [[%BUGS%/Item9376][Item9376]] | can't create new web as any webbgcolor is considered invalid |
 | [[%BUGS%/Item9382][Item9382]] | Configure::Load uses $@ to report errors - should be $! |
 | [[%BUGS%/Item9417][Item9417]] | Configure guesses incorrect /pub urlpath if /bin not in path for very short URLs |
 | [[%BUGS%/Item9429][Item9429]] | !VarINCLUDE should clearly differentiate the options than only apply to URL style includes |
 | [[%BUGS%/Item9441][Item9441]] | =bin/htaccess.txt= needs to clarify the tailoring instructions |
+| [[%BUGS%/Item9489][Item9489]] | Stripper's not doing a good job |
 | [[%BUGS%/Item9536][Item9536]] | don't guess windows paths with backslash and then forcethem to change them to fowardslash |
+| [[%BUGS%/Item9542][Item9542]] | mailprogram checker in configure should error or warn if its not there. |
 
 ---++ Enhancements
 
