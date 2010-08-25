@@ -196,6 +196,7 @@ BEGIN {
         ENCODE    => undef,
         ENV       => undef,
         EXPAND    => undef,
+        FORMAT    => undef,
         FORMFIELD => undef,
         GMTIME    => sub {
             Foswiki::Time::formatTime( time(), $_[1]->{_DEFAULT} || '',
@@ -235,7 +236,6 @@ BEGIN {
         QUERYPARAMS       => undef,
         QUERYSTRING       => sub { $_[0]->{request}->queryString() },
         RELATIVETOPICPATH => undef,
-        RELIST            => undef,
         REMOTE_ADDR =>
 
           # DEPRECATED, now implemented using %ENV%

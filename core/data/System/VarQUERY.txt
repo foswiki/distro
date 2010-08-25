@@ -26,6 +26,6 @@ You can make the macro generate different output formats using the =style= param
    * =style="perl"= - generates values as Perl code strings
    * =style="json"= - generates values as JSON strings, suitable for reading by browsers.
 
-Only some configuration settings are available via QUERY: %RELIST{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}%
+Only some configuration settings are available via QUERY: %FORMAT{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}%
 
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarMETA][META]] [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%QuerySearch][QuerySearch]]

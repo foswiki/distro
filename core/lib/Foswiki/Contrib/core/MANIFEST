@@ -197,6 +197,7 @@ data/System/VarENDSECTION.txt 0644
 data/System/VarENV.txt 0644
 data/System/VarEXPAND.txt 0644
 data/System/VarFAILEDPLUGINS.txt 0644
+data/System/VarFORMAT.txt 0644
 data/System/VarFORMFIELD.txt 0644
 data/System/VarGMTIME.txt 0644
 data/System/VarGRAY.txt 0644
@@ -247,7 +248,6 @@ data/System/VarQUERY.txt 0644
 data/System/VarQUERYPARAMS.txt 0644
 data/System/VarQUERYSTRING.txt 0644
 data/System/VarRED.txt 0644
-data/System/VarRELIST.txt 0644
 data/System/VarREMOTEADDR.txt 0644
 data/System/VarREMOTEPORT.txt 0644
 data/System/VarREMOTEUSER.txt 0644
@@ -646,6 +646,7 @@ lib/Foswiki/Macros/DISPLAYDEPENDENCIES.pm 0444
 lib/Foswiki/Macros/ENCODE.pm 0444
 lib/Foswiki/Macros/ENV.pm 0444
 lib/Foswiki/Macros/EXPAND.pm 0444
+lib/Foswiki/Macros/FORMAT.pm 0444
 lib/Foswiki/Macros/FORMFIELD.pm 0444
 lib/Foswiki/Macros/GROUPINFO.pm 0444
 lib/Foswiki/Macros/GROUPS.pm 0444
@@ -665,7 +666,6 @@ lib/Foswiki/Macros/PUBURL.pm 0444
 lib/Foswiki/Macros/QUERY.pm 0444
 lib/Foswiki/Macros/QUERYPARAMS.pm 0444
 lib/Foswiki/Macros/RELATIVETOPICPATH.pm 0444
-lib/Foswiki/Macros/RELIST.pm 0444
 lib/Foswiki/Macros/REVARG.pm 0444
 lib/Foswiki/Macros/REVINFO.pm 0444
 lib/Foswiki/Macros/REVTITLE.pm 0444

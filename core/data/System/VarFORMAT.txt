@@ -1,0 +1,42 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarFORMAT
+---+++ FORMAT{"list" format="" header="" footer="" separator=""} -- format a list of objects
+   * Syntax: =%<nop>FORMAT{"list"}%=
+   * Supported parameters:
+     | *Parameter:* | *Description:* | *Default:* |
+     | ="one, two, three"= | the list to be expanded into the format | required. Currently only two types of list data are supported; topic names ( =type="topic"= ), and plain strings ( =type="string"= ). |
+     | =format="..."= | Format string. | =""= |
+     | =header="..."= | Text to come before the formated output | =""= |
+     | =footer="..."= | Text to come after the formated output | =""= |
+     | =separator="n"= | separator between formatted elements | ="$n"= |
+     | =type=""= | treat input list as either =topic= or =string= |  ="topic"= |
+   * Examples:
+      * =%<nop>FORMAT{"one,two,three" type="string" format="   * $item"}%=
+      * =%<nop>FORMAT{"%SKIN%" header="the Skin setting is evaluated in this order:" format="   1 =$topic=" footer="   1 =default="}%=
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
+
+---++++ Supported formatting tokens
+If =type="topic"= (the default) the format string can contain _any_ of the
+topic-specific format tokens
+specified in FormattedSearch (=$web=, =$topic=, =$parent=, =$text=, =$locked=,
+=$date=, =$isodate=, =$index=, =$item=, =$rev=, =$username=, =$wikiname=, =$wikiusername=,
+=$createdate=, =$createusername=, =$createwikiname=, =$createwikiusername=,
+=$summary=, =$changes=, =$formname=, =$formfield=, =$pattern=, =$count=,
+=$ntopics=, =$nhits=, =$pager=).
+In addition, the macro supports all the standard [[format tokens]].
+
+If =type="string"= then the comma separated list is treated as a list of
+strings. In this case, the format tokens =$index= and =$item= will return
+the position of the item in the list (1-based), and the item itself,
+respectively. Note that a comma can be embedded in the data using the standard
+formatting token =$comma=.
+
+The FORMAT macro is currently only of use in formatting lists of topics,
+or of simple strings. It will be extended in future releases to add the
+capability to render other object types.
+
+%I% For more sophisticated handling of string lists, consider installing
+Foswiki:Extensions.FilterPlugin.
+
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENCODE][ENCODE]], FormattedSearch

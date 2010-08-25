@@ -74,8 +74,8 @@ point in the future).
 ---+++ Re-architecting of the SEARCH macro
 To improve the speed, consistency and extendability of the most complex  and important Macro, we've started to separate the generation of search results from the outputing of FormattedSearch. The most significant user facing  improvements are speed and reliability changes - with many more unit tests written to ensure future compatibility.
 
----+++ RELIST macro
-The extraction of the FormattedSearch system has made it possible to provide a  Macro that allows users to render a comma separated list into any =header=,  =footer=, =format= style.
+---+++ FORMAT macro
+The extraction of the FormattedSearch system has made it possible to provide a  Macro that allows users to render a list of topics into any =header=,  =footer=, =format= style, using the same formatting controls as used by =[[VarSEARCH][SEARCH]]. While this macro is currently of limited use to end users, it will play an increaingly important role in the future as it is extended to format other types of object lists.
 
 ---+++ %USERSWEB%.WikiGroups have add & remove user interface
 !WikiGroups are now be edited using a much simpler HTML form.

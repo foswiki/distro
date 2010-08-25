@@ -1,8 +1,8 @@
 use strict;
 
-#test the RELIST rendering operator extracted from legacy SEARCH
+#test the FORMAT rendering operator extracted from legacy SEARCH
 
-package Fn_RELIST;
+package Fn_FORMAT;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
@@ -24,7 +24,7 @@ sub test_separator {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator=","}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator=","}%'
       );
 
     $this->assert_str_equals( "OkATopic,OkBTopic,OkTopic", $result );
@@ -35,7 +35,7 @@ sub test_perl_newline_separator {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator="'."\n".'"}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator="'."\n".'"}%'
       );
 
     $this->assert_str_equals( "OkATopic\nOkBTopic\nOkTopic", $result );
@@ -45,7 +45,7 @@ sub test_newline_separator {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator="
+'%FORMAT{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator="
 "}%'
       );
 
@@ -56,7 +56,7 @@ sub test_dollar_newline_separator {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator="$n"}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator="$n"}%'
       );
 
     $this->assert_str_equals( "OkATopic\nOkBTopic\nOkTopic", $result );
@@ -67,7 +67,7 @@ sub test_backslash_escaped_newline_separator {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator="\n"}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic" separator="\n"}%'
       );
 
     $this->assert_str_equals( "OkATopic\\nOkBTopic\\nOkTopic", $result );
@@ -80,7 +80,7 @@ sub test_separator_with_header {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic" header="RESULT:" nonoise="on" format="$topic" separator=","}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic" header="RESULT:" nonoise="on" format="$topic" separator=","}%'
       );
 
     $this->assert_str_equals(
@@ -92,7 +92,7 @@ sub test_footer_with_ntopics {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic"  nonoise="on" footer="$n()Total found: $ntopics" format="$topic"}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic"  nonoise="on" footer="$n()Total found: $ntopics" format="$topic"}%'
     );
 
     $this->assert_str_equals(
@@ -104,7 +104,7 @@ sub test_footer_with_ntopics_no_format {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic"  nonoise="on" footer="Total found: $ntopics" separator=""}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic"  nonoise="on" footer="Total found: $ntopics" separator=""}%'
     );
 
     $this->assert_str_equals( "Total found: 3", $result );
@@ -114,7 +114,7 @@ sub test_footer_with_ntopics_no_format_nonoise {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic"  nonoise="off" footer="Total found: $ntopics" separator=""}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic"  nonoise="off" footer="Total found: $ntopics" separator=""}%'
     );
 
     $this->assert_str_equals( "Total found: 3", $result );
@@ -123,7 +123,7 @@ sub test_footer_with_ntopics_no_format_nonosummary_nononoise {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic"   nosummary="off" nonoise="off" footer="Total found: $ntopics" separator=""}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic"   nosummary="off" nonoise="off" footer="Total found: $ntopics" separator=""}%'
     );
 
     $this->assert_str_equals( "Total found: 3", $result );
@@ -132,7 +132,7 @@ sub test_footer_with_ntopics_no_format_nonosummary_nonoise {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic"   nosummary="off" nonoise="on" footer="Total found: $ntopics" separator=""}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic"   nosummary="off" nonoise="on" footer="Total found: $ntopics" separator=""}%'
     );
 
     $this->assert_str_equals( "Total found: 3", $result );
@@ -143,7 +143,7 @@ sub test_footer_with_ntopics_empty_format {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic"  nonoise="on" footer="Total found: $ntopics" format="" separator=""}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic"  nonoise="on" footer="Total found: $ntopics" format="" separator=""}%'
     );
 
     $this->assert_str_equals( "Total found: 3", $result );
@@ -153,13 +153,13 @@ sub test_SEARCH_3860 {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros( <<'HERE');
-%RELIST{"OkTopic" format="$wikiname $wikiusername" nonoise="on" }%
+%FORMAT{"OkTopic" format="$wikiname $wikiusername" nonoise="on" }%
 HERE
     my $wn = $this->{session}->{users}->getWikiName( $this->{session}->{user} );
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
 
     $result = $this->{test_topicObject}->expandMacros( <<'HERE');
-%RELIST{"OkTopic" format="$createwikiname $createwikiusername" nonoise="on" }%
+%FORMAT{"OkTopic" format="$createwikiname $createwikiusername" nonoise="on" }%
 HERE
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
 }
@@ -194,7 +194,7 @@ sub test_same_topic_listed_twice {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
-'%RELIST{
+'%FORMAT{
     "OkATopic,OkBTopic,OkTopic,OkATopic"  
     nonoise="on" 
     footer="Total found: $ntopics" 
@@ -217,7 +217,7 @@ sub DISABLEtest_formatted_search_summary_with_exclamation_marks {
 
     $actual =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{"FormattedSearchTopic1" format="$summary"}%'
+'%FORMAT{"FormattedSearchTopic1" format="$summary"}%'
       );
     $actual = $this->{test_topicObject}->renderTML($actual);
     $expected =
@@ -226,7 +226,7 @@ sub DISABLEtest_formatted_search_summary_with_exclamation_marks {
 
     $actual =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{"FormattedSearchTopic1" format="$formfield(Name)"
+'%FORMAT{"FormattedSearchTopic1" format="$formfield(Name)"
 }%'
       );
     $actual   = $this->{test_topicObject}->renderTML($actual);
@@ -240,7 +240,7 @@ sub DISABLEtest_pattern {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="X$pattern(.*?BLEEGLE (.*?)blah.*)Y"}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="X$pattern(.*?BLEEGLE (.*?)blah.*)Y"}%'
       );
     $this->assert_matches( qr/Xdontmatchme\.Y/, $result );
     $this->assert_matches( qr/Xdont.matchmeY/,  $result );
@@ -254,7 +254,7 @@ sub test_badpattern {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="X$pattern(.*?BL(??{\'E\' x 2})GLE( .*?)blah.*)Y"}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="X$pattern(.*?BL(??{\'E\' x 2})GLE( .*?)blah.*)Y"}%'
       );
 
     # If (??{ is evaluated, the topics should match:
@@ -317,7 +317,7 @@ Apache is the [[http://www.apache.org/httpd/][well known web server]].
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-        '%RELIST{"Item977" format="$summary"}%');
+        '%FORMAT{"Item977" format="$summary"}%');
 
     $this->assert_str_equals( 'Apache Apache is the well known web server.',
         $result );
@@ -335,7 +335,7 @@ sub _septic {
     my $topiclist = $results ? 'OkATopic,OkBTopic,OkTopic' : '';
     my $result =
       $this->{test_topicObject}->expandMacros(
-          "%RELIST{\"$topiclist\" format=\"\$topic\" $head $foot $sep}%" );
+          "%FORMAT{\"$topiclist\" format=\"\$topic\" $head $foot $sep}%" );
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 }
@@ -506,9 +506,9 @@ EXPECT
 
 sub test_delayed_expansion {
     my $this = shift;
-eval "require Foswiki::Macros::RELIST";
+eval "require Foswiki::Macros::FORMAT";
     
-    my $result = $Foswiki::Plugins::SESSION->RELIST({
+    my $result = $Foswiki::Plugins::SESSION->FORMAT({
                                     _DEFAULT=>"WebHome,WebIndex, WebPreferences",
                                     format=>'$topic',
                                     separator=>", ",
@@ -517,7 +517,7 @@ eval "require Foswiki::Macros::RELIST";
 WebHome, WebIndex, WebPreferences
 EXPECT
 
-    $result = $Foswiki::Plugins::SESSION->RELIST({
+    $result = $Foswiki::Plugins::SESSION->FORMAT({
                                     _DEFAULT=>"WebHome,WebIndex, WebPreferences",
                                     format=>'$percentWIKINAME$percent',
                                     separator=>", ",
@@ -526,7 +526,7 @@ EXPECT
 %WIKINAME%, %WIKINAME%, %WIKINAME%
 EXPECT
 
-    $result = $Foswiki::Plugins::SESSION->RELIST({
+    $result = $Foswiki::Plugins::SESSION->FORMAT({
                                     _DEFAULT=>"WebHome,WebIndex, WebPreferences",
                                     header=>'$percentINCLUDE{Main.WebHome}$percent',
                                     footer=>'$percentINCLUDE{Main.WebHome}$percent',
@@ -544,7 +544,7 @@ sub test_not_topics {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{",+&,@:{},!!," type="string" header="HEAD " footer=" FOOT" format="$index:($item)" separator=";"}%'
+'%FORMAT{",+&,@:{},!!," type="string" header="HEAD " footer=" FOOT" format="$index:($item)" separator=";"}%'
       );
 
     $this->assert_str_equals(
@@ -552,7 +552,7 @@ sub test_not_topics {
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{"A,B,C" type="string" format="$index:($item)" separator=";"}%'
+'%FORMAT{"A,B,C" type="string" format="$index:($item)" separator=";"}%'
       );
 
     $this->assert_str_equals(
@@ -561,7 +561,7 @@ sub test_not_topics {
 #use all the topic based thingies and see what they do, so that anyone modifying this code has an idea of what they are in for.
     $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{"A,B,C" type="string" format="$index:($item) - $web, $topic, $parent, $text, $locked,
+'%FORMAT{"A,B,C" type="string" format="$index:($item) - $web, $topic, $parent, $text, $locked,
 $date, $isodate, $rev, $username, $wikiname, $wikiusername,
 $createdate, $createusername, $createwikiname, $createwikiusername,
 $summary, $changes, $formname, $formfield, $pattern, $count,
@@ -599,7 +599,7 @@ sub test_standard_escapes {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{
+'%FORMAT{
         "OkATopic,OkBTopic,OkTopic" 
         header="RESULT: $comma" 
         footer="$amp"
@@ -616,7 +616,7 @@ sub test_standard_escapes {
     #do the string version too - so long as there are no topic specific expansions, the output needs to be identical
     $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{
+'%FORMAT{
         "OkATopic,OkBTopic,OkTopic" 
         type="String"
         header="RESULT: $comma" 
@@ -638,7 +638,7 @@ sub test_Item9269 {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%RELIST{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic ($dollarntopics=$ntopics)" separator=","}%'
+'%FORMAT{"OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic ($dollarntopics=$ntopics)" separator=","}%'
       );
 
     $this->assert_str_equals( 'OkATopic ($ntopics=1),OkBTopic ($ntopics=2),OkTopic ($ntopics=3)', $result );

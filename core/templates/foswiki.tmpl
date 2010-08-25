@@ -53,8 +53,8 @@ JQUERYPLUGIN is not a hard requirement, but it must sort earlier.
 }%%TMPL:DEF{"htmldoctype"}%<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="%LANG%" lang="%LANG%">%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"meta:preferences"}%%RELIST{"%EXPORTEDPREFERENCES%" 
-  format="<meta name=\"foswiki.$topic\" content=\"$percntENCODE{\"$percnt$topic$percnt\"}$percnt\" /><!--$topic-->"
+}%%TMPL:DEF{"meta:preferences"}%%FORMAT{"%EXPORTEDPREFERENCES%" 
+  format="<meta name=\"foswiki.$topic\" content=\"$percntENCODE{\"$percnt$topic$percnt\" type=\"string\"}$percnt\" /><!--$topic-->"
   separator="
 "
 }%

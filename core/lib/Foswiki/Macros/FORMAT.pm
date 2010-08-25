@@ -6,7 +6,7 @@ use warnings;
 
 #our $SEARCHTERMS = qr/\$(web|topic|parent|text|locked|date|isodate|rev|username|wikiname|wikiusername|createdate|createusername|createwikiname|createwikiusername|summary|changes|formname|formfield|pattern|count|ntopics|nhots|pager)\b/;
 
-sub RELIST {
+sub FORMAT {
     my ( $this, $params, $topicObject ) = @_;
 
     my @list = split( /,\s*/, $params->{_DEFAULT} || '' );
@@ -14,8 +14,8 @@ sub RELIST {
 
     # TODO: this is a common default that should be extracted into a
     # 'test, default and refine' parameters for all formatResult calls
-    # Note that for RELIST we do not default adding \n after header when
-    # separator is not defined. RELIST is a new feature in 1.1 and does
+    # Note that for FORMAT we do not default adding \n after header when
+    # separator is not defined. FORMAT is a new feature in 1.1 and does
     # not need the backward compatibility that SEARCH needed.
     $params->{separator} = '$n' unless ( defined( $params->{separator} ) );
     $params->{separator} =
