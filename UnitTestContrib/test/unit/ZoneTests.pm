@@ -19,7 +19,7 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    # Disable plugins whiich add noise
+    # Disable plugins which add noise
     $Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled} = 0;
     $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled} = 0;
     $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 0;
