@@ -48,7 +48,7 @@ foreach my $entry (@$data) {
 $/ = undef;
 my $template = <DATA>;
 while (my ($email, $items) = each %send) {
-    my $list = join("\n", map { '%SCRIPTURL{view}%/Tasks/'.$_ } @$items);
+    my $list = join("\n", map { 'http://foswiki.org/Tasks/'.$_ } @$items);
     my $mail = $template;
     $mail =~ s/%EMAILTO%/$email/g;
     $mail =~ s/%TASK_LIST%/$list/g;
@@ -58,7 +58,7 @@ while (my ($email, $items) = each %send) {
 }
 1;
 __DATA__
-From: Foswiki.org
+From: tasks
 To: %EMAILTO%
 Subject: Tasks are waiting for feedback from you
 MIME-Version: 1.0
