@@ -3,23 +3,11 @@
 
 ---+!! Comment Plugin
 
-<!--
-
-   PLEASE DO NOT EDIT THIS TOPIC
-
-   It is automatically generated from the subversion repository, and any changes
-   you make will simply be overwritten the next time a release is generated.
-
-   Instead, you could check your fix in, raise a bug in the Bugs web, or mail thge author.
--->
-
-RELEASE %$RELEASE%
-
 *Comment Plugin lets users quickly post comments to a page without an edit/preview/save cycle.*
 
 %TOC{title="On this page:"}%
 
-Related topics: CommentPluginTemplates, CommentPluginExamples
+Related topics: CommentPluginTemplates, Sandbox.CommentPluginExamples
 
 ---++ Features
 
@@ -40,21 +28,21 @@ Write =%<nop>COMMENT{<i>attributes</i>}%= anywhere in a topic.
 
 ---++++ Location relative to <code>%COMMENT</code> tag
 The default _location_ is the =%COMMENT= tag itself. For example:
-<verbatim>
+<verbatim class="tml">
 %COMMENT{type="below"}%
 </verbatim>
 will add comments in the current topic, directly below the =%COMMENT= tag.
 
 ---++++ Location relative to an anchor
 The =target= attribute may specify a web, and may also specify an anchor within the target topic; for example, 
-<verbatim>
+<verbatim class="tml">
 %COMMENT{type="above" target="%MAINWEB%.PersonalRemarks#InsertHere"}%
 </verbatim>
 This uses a standard in-topic anchor as the insertion location. See %SYSTEMWEB%.TextFormattingRules for more about Foswiki anchors.
 
 ---++++ Location relative to an arbitrary text string
 Getting more sophisticated, you can also specify a regular expression for the target location using the =location= parameter. The target topic is searched for the regular expression, and the comment inserted relative to the string that the search matched. For example,
-<verbatim>
+<verbatim class="tml">
 %COMMENT{type="above" location="Flights of Fancy"}%
 </verbatim>
 will place comments above the first occurence of the string =Flights of Fancy= in the current topic.
@@ -108,20 +96,25 @@ This allows for several levels of customisation:
 
 You can also define a *comment template in a topic*, by passing the topic location with =templatetopic=. For example:
 <blockquote>
-<verbatim>
-%COMMENT{type="blogpost" templatetopic="BlogPostCommentTemplate" target="%TOPIC%" button="Add comment" }%
+<verbatim class="tml">
+%COMMENT{
+   type="blogpost"
+   templatetopic="BlogPostCommentTemplate"
+   target="%TOPIC%"
+   button="Add comment"
+}%
 </verbatim>
 
-=templatetopic= accepts =topic= or =web.topic= syntax. See an example in [[CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
+=templatetopic= accepts =topic= or =web.topic= syntax. See an example in [[Sandbox.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
 </blockquote>
 
 
-%X% Templates are picked up by following the [[SkinTemplates#FindingTemplates][standard rules for locating template files]]. Note that you can use =%TMPL:INCLUDE= to include other files of templates. %BR%
+<blockquote class="foswikiHelp"> %X% Templates are picked up by following the [[SkinTemplates#FindingTemplates][standard rules for locating template files]]. Note that you can use =%TMPL:INCLUDE= to include other files of templates.</blockquote>
 
 ---+++ Customisation example
 Provide both a =PROMPT= and an =OUTPUT= definition:
 
-<verbatim>
+<verbatim class="tml">
 %TMPL:DEF{PROMPT:myComment}%%TMPL:P{promptbox}%%TMPL:END%
 %TMPL:DEF{OUTPUT:myComment}%%TMPL:P{outputoneliner}%%POS:TOP%
 %TMPL:END%
@@ -129,7 +122,7 @@ Provide both a =PROMPT= and an =OUTPUT= definition:
 
 Call your custom comment with:
 
-<verbatim>
+<verbatim class="tml">
 %COMMENT{type="myComment"}%
 </verbatim>
 
@@ -141,17 +134,17 @@ Only the input fields of the form need be defined. The plugin automatically gene
 #MoreAttrs
 ---++++ Providing attribute values
 If an attribute is given to the =%COMMENT= tag that is not one of the [[#StandardAttrs][standard attributes]], then that attribute is taken as the name of a parameter to be expanded in the =PROMPT= template. Expressions in the template of the form <code>%</code><i>param</i><code>|</code><i>default</i><code>%</code> (e.g. <code>%rows|3%</code>, <code>%button|Push me%</code>) are expanded to the values given in the <code>%COMMENT</code>. For example, if the =PROMPT= template 'example' contains:
-<pre>
-&lt;textarea rows=%rows|3% cols="%cols|50%" value="%tval|Rubbish%">
-</pre>
+<verbatim class="tml">
+<textarea rows="%rows|3%" cols="%cols|50%" value="%tval|Rubbish%">
+</verbatim>
 and the %COMMENT tag is:
-<pre>
-%<nop>COMMENT{type="example" cols="75"}%
-</pre>
+<verbatim class="tml">
+%COMMENT{type="example" cols="75"}%
+</verbatim>
 then the template will be expanded as
-<pre>
-&lt;textarea rows="3" cols="75" value="Rubbish">
-</pre>
+<verbatim class="tml">
+<textarea rows="3" cols="75" value="Rubbish">
+</verbatim>
 
 ---++++ Special macros
 As well as support for all the usual macros in templates, the following special macros are supported in the =PROMPT= definition:
@@ -171,7 +164,7 @@ As well as support for all the usual macros in templates, the following special 
 | =comment_nopost= | As passed to %COMMENT |
 | =comment_templatetopic= | As passed to %COMMENT |
 Note that =comment_location= overrides =comment_anchor=, and both override =comment_index=. Example, shows an "I Approve" button that adds your approval signature to the end of the topic:
-<verbatim>
+<verbatim class="tml">
 <form method="post" action="%SCRIPTURL{save}%/%WEB%/%TOPIC%">
 <input type="submit" value="I Approve" />
 <input type="hidden" name="comment_action" value="save" />
@@ -187,7 +180,7 @@ Write a custom form in a topic.
    * In %COMMENT use parameter =templatetopic= to point to the topic with the form template
 
 Example form:
-<verbatim>
+<verbatim class="tml">
 %TMPL:DEF{FORM:example}%
 <form method="post" action="%SCRIPTURL{save}%/%BASEWEB%/%BASETOPIC%" enctype="application/x-www-form-urlencoded" name="examplecomment" id="examplecomment">
 <input type="hidden" name="redirectto" value="%BASEWEB%.%BASETOPIC%" />
@@ -197,8 +190,14 @@ Example form:
 </verbatim>
 
 Example comment:
-<verbatim>
-%COMMENT{noform="on" type="example" templatetopic="Sandbox.CommentPluginTemplateExample" target="%TOPIC%" button="Add comment" }%
+<verbatim class="tml">
+%COMMENT{
+   noform="on"
+   type="example"
+   templatetopic="Sandbox.CommentPluginTemplateExample"
+   target="%TOPIC%"
+   button="Add comment"
+}%
 </verbatim>
 
 ---+++ The =OUTPUT= template
@@ -218,7 +217,8 @@ All the [[TemplateTopics#TemplateTopicsVars][usual macros]] that can be used in 
 
 ---++ Settings
 <!-- Not used by the plugin
-   * Set SHORTDESCRIPTION = Quickly post comments to a page without an edit/preview/save cycle.
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+%JQREQUIRE{"chili"}%
 -->
 Two [[%SYSTEMWEB%.PreferenceSettings][preference settings]] are recognised by the CommentPlugin:
 | *Preference* | *Default* | *Description* |
@@ -247,44 +247,21 @@ Note that if you want to use the =action= template then you must also:
 Another great extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Plugin Author: | Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk inspired by the work of TWiki:Main.DavidWeller and TWiki:Main.PeterMasiar |
-|  Copyright: | &copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2009 Foswiki:%SYSTEMWEB%.ProjectContributor |
+|  Copyright: | &copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2010 Foswiki:%SYSTEMWEB%.ProjectContributor |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  31 Jul 2010 | Foswikitask:Item9415 - Documentation updates |
+|  27 May 2010 | Moved example topic Sandbox.CommentPluginExamples to Sandbox web. | 
+|  24 Feb 2010 | Foswikitask:Item8611 - block comments resulting from calls to saveTopic from within an afterSaveHandler |
 |  12 Sep 2009 | Foswikitask:Item8269 - Targeting anchors broken by Item727 is fixed. |
 |  04 Jun 2009 | Foswikitask:Item1668 - The action template used with !ActionTrackerPlugin now uses new syntax ending with %ENDACTION. This makes each action item appear on a new line. Additionally new lines are now correctly saved as html br tags and not as html encoded br tag <br /> Foswikitask:Item1640 - Templates shipped with the plugin no longer encodes the user date entered when the date is saved so that it is possible for the user to use macros. |
 |  15 Jan 2008 | Foswikitask:Item727 - data loss issue when missing anchor or location |
 |  13 Jan 2009 | Foswikitask:Item736 - Make !CommentPlugin aware of CompareRevisionsAddOn bin script. |
 |  16 Dec 2008 | Foswiki version |
-|  03 Aug 2008 | The TWiki 4.2.1 release version | 
-|  11 Apr 2008 | TWikibug:Item5518 corrected the template definition for bulletabove |
-|  05 Sep 2007 | TWikibug:Item3689 corrected =location= handling TWikibug:Item4181 added VarCOMMENT TWikibug:Item4402 corrected access check |
-|  22 Jun 2007 | Removed the long-deprecated =%TIME= (use %GMTIME instead). Minor doc changes |
-|  14021 | TWikibug:Item3755 Fixed incorrect handling of line terminators when targeting an anchor |
-|  13311 | Added option to define a comment template in any topic. Pass the topic location with =templatetopic= (either =topic= or =web.topic=). See an example in [[CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]]. |
-|  12822 | TWikibug:Item3598 minor doc fixes |
-|  12750 | TWikibug:Item3510 added a note about the changed template spec in TWiki 4.1.0. Code remains unchanged |
-|  11358 | TWikibug:Item2802 moved SHORTDESCRIPTION to .pm. Coded up TWiki:main.PankajPant's suggestions as =nopost= and =remove=. Added default text for the %COMMENT as requested by TWiki:Main.AndyGlew |
-|  11118 | TWikibug:Item2322 removed span tag around oneliner bullet output |
-|  8788 | TWikibug:Item1465  Item1577: reverted 8433 to fix inclusion of correct user templates |
-|  8787 | TWikibug:Item1573  renamed standard templates topic to avoid naming clash on Windows, where filenames are case-insensitive |
-|  8433 | TWikibug:Item1465  Fix 'TWiki.' to '%SYSTEMWEB%.'; also fixed include 'UserComments' to 'UserCommentsTemplate' (at least that is what the doc suggests) |
-|  7427 | TWikibug:Item845  removed duplicate date in default comments; stick with server time |
-|  7251 | TWikibug:Item810  fix for user template inclusion; reorganised templates to make customisation easier |
-|  5906 | TWikibug:Item143  apache warning from comment plugin when !CommentsTmpl.txt not found |
-|  5519 | !CommentPluginOnAnchorsBroken: incorporated !JacobEisinger's fix |
-|  5518 | !CommentPluginOnAnchorsBroken: incorporated !OlivierBerger's fix |
-|  5455 | On Niels Kodslo's prompting, removed the global recursion prevention that I believe is no longer needed. |
-|  5280 | Removed templates, and some minor fixes |
-|  5250 | Removed newlines from prompt box |
-|  4902 | Changed to use viewauth. Moved templates into user topics. |
-|  4901 | Added templates in user webs support |
-|  4897 | Fixes for disabling during preview; re-enabled old legacy parameters |
-|  4889 | Chopped down from !PeterMasiar version, removing several parameters, savecomment script, changing way templates are done. Major rewrite, atcherly. |
-|  4882 | Update from !PeterMasiar's 2.0 version, plus documentation and small code improvements. |
-|  4745 | 06 Mar 2002 initial commit |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  06 Mar 2002 | initial commit |
+|  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
 *Related Topics:* %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
