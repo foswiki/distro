@@ -1,6 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1141771402" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="PatternSkin"}%
-
+%META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Center the page with a border
 
 *This recipe shows how to put a border around the page, while centering the page horizontally.* The example on this page uses a gradient image as background - on top of a gray base color. You can choose to set no image of course.
