@@ -1437,6 +1437,24 @@ $Foswiki::cfg{ExtensionsRepositories} = 'Foswiki.org=(http://foswiki.org/Extensi
 # path for modules that match the Foswiki standard e.g. 
 # <code>Foswiki/Plugins/MyPlugin.pm</code> or the TWiki standard i.e. 
 # <code>TWiki/Plugins/YourPlugin.pm</code></p>
+# <p>Any plugins enabled in the configuration but not found in the <code>@INC</code>
+# path are listed at the end and are flagged as errors in the PluginsOrder check.</p>
+# **STRING 80**
+# Plugins evaluation order. If set to a comma-separated list of plugin names,
+# will change the execution order of plugins so the listed subset of plugins
+# are executed first. The default execution order is alphabetical on plugin
+# name. <br/><br/>
+#
+# If TWiki compatibility is required, TWikiCompatibilityPlugin should be the first
+# Plugin in the list.  SpreadSheetPlugin should typically be next in the list for proper operation.<br/><br/>
+#
+# Note that some other general extension environment checks are made and reported here.  Plugins
+# that are enabled but not installed and duplicate plugins in the TWiki and Foswiki libraries
+# are reported here.  Also if a TWiki plugin is enabled and the Foswik version is installed, this
+# will also be reported here.  Expand the "Expert" options to find these issues.
+#
+$Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
+
 $Foswiki::cfg{Plugins}{PreferencesPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{PreferencesPlugin}{Module} = 'Foswiki::Plugins::PreferencesPlugin';
 $Foswiki::cfg{Plugins}{SmiliesPlugin}{Enabled} = 1;
@@ -1479,22 +1497,6 @@ $Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Plugins::MailerC
 # Search path (web names) for plugin topics. Note that the session web
 # is searched last, after this list.
 $Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
-
-# **STRING 80**
-# Plugins evaluation order. If set to a comma-separated list of plugin names,
-# will change the execution order of plugins so the listed subset of plugins
-# are executed first. The default execution order is alphabetical on plugin
-# name. <br/><br/>
-#
-# If TWiki compatibility is required, TWikiCompatibilityPlugin should be the first
-# Plugin in the list.  SpreadSheetPlugin should typically be next in the list for proper operation.<br/><br/>
-#
-# Note that some other general extension environment checks are made and reported here.  Plugins 
-# that are enabled but not installed and duplicate plugins in the TWiki and Foswiki libraries
-# are reported here.  Also if a TWiki plugin is enabled and the Foswik version is installed, this
-# will also be reported here.  Expand the "Expert" options to find these issues.
-#
-$Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
 
 1;
 __END__

@@ -76,7 +76,7 @@ sub check {
             ) if ( $enabled eq 'TWiki' && $fcount > 1 );
             $e .= $this->ERROR(
                 "$mod is enabled in LocalSite.cfg but was not found in the path"
-            ) unless $found;
+            ) if (! $found && $Foswiki::cfg{Plugins}{$plug}{Enabled});
         }
     }
     return $e;

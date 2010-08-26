@@ -60,6 +60,31 @@ sub new {
         );
         $Foswiki::cfg{Plugins}{$module}{Module} ||= $modules{$module};
     }
+
+    foreach my $plug ( keys %{ $Foswiki::cfg{Plugins} } ) {
+        next unless ( $plug =~ m/Plugin$/ );
+        next unless ( $Foswiki::cfg{Plugins}{$plug}{Enabled} );
+        my $simple = $plug;
+        $simple =~ s/^.*::([^:]*)/$1/;
+        unless ($modules{$simple}) {
+            $this->addChild(
+                new Foswiki::Configure::Value(
+                    'BOOLEAN',
+                    parent   => $this,
+                    keys     => '{Plugins}{' . $plug . '}{Enabled}',
+                )
+            );
+            $this->addChild(
+                new Foswiki::Configure::Value(
+                    'STRING',
+                    parent      => $this,
+                    keys        => '{Plugins}{' . $plug . '}{Module}',
+                    expertsOnly => 1
+                )
+            );
+        }
+    }
+
     return $this;
 }
 
