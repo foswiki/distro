@@ -190,7 +190,7 @@ The following example makes use of the =$pattern()= token to extract the first l
 
 [[VarSEARCH][SEARCH]], as with many TML macros, may be nested. For example: search for some topics in an initial (outer) search, and for each of them apply a second (inner) search. The idea is to use the outer search to build a series of inner seraches.
 
-%INCLUDE{"Macros" section="insideoutlefttoright"}%
+%INCLUDE{"Macros" section="insideoutlefttoright" THETOPIC="%SYSTEMWEB%.FAQWhatIsWikiWiki" THEFIELD="TopicClassification"}%
 
 #NestedSearchExample
 Consider the following example. Let's search for all topics that contain the word "culture" (outer search), and find out where each topic found is linked from (inner search).
