@@ -108,6 +108,7 @@ Below is the default configuration. If it is to be modified, it should be copied
     "Protect on save" : { "block" : "div", "remove" : "all", "attributes" : { "class" : "WYSIWYG_PROTECTED" } },
     "Protect forever" : { "block" : "div", "remove" : "all", "attributes" : { "class" : "WYSIWYG_STICKY" } }
 },
+"foswikibuttons_cursoridletime" : 250,
 "paste_create_paragraphs" : true,
 "paste_create_linebreaks" : false,
 "paste_convert_middot_lists" : true,
@@ -209,7 +210,7 @@ These plugins are enabled by default in the standard distribution of Foswiki.
 | [[http://tinymce.moxiecode.com/js/tinymce/docs/api/index.html#class_tinymce.plugins.AutoSave.html][autosave]] | restoredraft | Saves the editor content to your web browser's local storage periodically so that it may be restored later | See =TINYMCEPLUGIN_AUTOSAVE_INTERVAL= and defaults to %INCLUDE{"%TOPIC%" section="AUTOSAVE_INTERVAL"}%; =TINYMCEPLUGIN_AUTOSAVE_RETENTION= defaults to %INCLUDE{"%TOPIC%" section="AUTOSAVE_RETENTION"}% |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/contextmenu][contextmenu]] | | Provides context (right-click) menu capability | Allows the =table= plugin to offer copy & paste of rows & columns | |
 | =foswiki= | - | Fixup !TinyMCE bugs, Foswiki integration issues | init param =foswiki_autosave_no_fixup= prevents fixup of autosave plugin if true; only works if =foswiki= is after =autosave= in the plugins list |
-| =foswikibuttons= | tt, colour, attach, hide | Provides toolbar buttons, dialogues and formatting styles for Foswiki | List of formats populated from =foswikibuttons_formats= init param |
+| =foswikibuttons= | tt, colour, attach, hide | Provides toolbar buttons, dialogues and formatting styles for Foswiki | List of formats populated from =foswikibuttons_formats= init param; ms of cursor idle time required before update of toolbar buttons/format state is set from =foswikibuttons_cursoridletime= param |
 | =foswikiimage= | image | Provides image toolbar button, dialogue for Foswiki |  |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/fullscreen][fullscreen]] | fullscreen | Provides fullscreen capability | |
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/legacyoutput][legacyoutput]] | | Maintains compatibility for =&lt;font&gt;=, =&lt;u&gt;=, =&lt;b&gt;=, =&lt;strike&gt;= etc. tags | |
@@ -290,7 +291,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  ?? Aug 2010 | Foswikitask:Item9236: Enable contextmenu !TinyMCE plugin, allows table row/column copy & paste<br/>\
                  Foswikitask:Item9263: Fix autosave breaking on IECollections' IE6<br/>\
                  Foswikitask:Item9424: Use non-jQuery build to avoid IE8 resizing quirks on jquery-1.3.2<br/>\
-                 Foswikitask:Item9427: Only update button state if cursor has been idle &gt; 500ms, improves cursor movement responsiveness in &gt;250KiB documents on IE/slow PCs |
+                 Foswikitask:Item9427: Only update button state if cursor has been idle &gt; 300ms, improves cursor movement responsiveness in &gt;250KiB documents on IE/slow PCs |
 |  01 Jul 2010 | Foswikitask:Item9221: Fix colour formatting problem and JS error transitioning to fullscreen<br/>\
                  Foswikitask:Item9222: Fix autosave implementation compatibility with Foswiki 1.0.x JQueryPlugin<br/>\
                  Foswikitask:Item9234: Upgrade to !TinyMCE 3.3.8 |

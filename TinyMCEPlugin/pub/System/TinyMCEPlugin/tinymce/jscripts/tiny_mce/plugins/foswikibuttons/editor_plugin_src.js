@@ -30,12 +30,15 @@
         /* Flag to indicate that the pending setTimeout waiting to fire a
         ** _tryNodeChangeEvent(), should be deferred */
         _deferNodeChangeEvent: null,
-        /* setTimeout interval governing cursor idle time required to fire a
-        ** button state update*/
-        nodeChangeEventFrequency: 500,
+        /* setTimeout interval governing cursor idle time required to
+        ** fire a button state update. Zero means always update. Set with
+        ** foswikibuttons_cursoridletime param */
+        nodeChangeEventFrequency: null,
 
         init: function (ed, url) {
             this.formats = ed.getParam('foswikibuttons_formats');
+            this.nodeChangeEventFrequency =
+                ed.getParam('foswikibuttons_cursoridletime');
             this.format_names = [];
             this.recipe_names = [];
 
@@ -280,11 +283,14 @@
             if (typeof(node) !== 'object') {
                 return;
             }
-            /* comment the following line and un-comment the line after that to
-            ** do reliable performance analysis of _updateButtonState(). See
-            ** Item9427 */
-            this._scheduleNodeChangeEvent(ed, cm, node, collapsed);
-            //_updateButtonState(ed, cm, node, collapsed);
+            /* Set cursoridletime param to zero to do reliable performance
+             * analysis of _updateButtonState(). See Item9427
+             */
+            if (this.nodeChangeEventFrequency) {
+                this._scheduleNodeChangeEvent(ed, cm, node, collapsed);
+            } else {
+                this._doUpdateButtonState(ed, cm, node, collapsed);
+            }
 
             return true;
 
