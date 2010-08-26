@@ -21,6 +21,7 @@ sub set_up {
 
     # Disable plugins whiich add noise
     $Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled} = 0;
+    $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled} = 0;
     $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 0;
 
     my $query = new Unit::Request("");
