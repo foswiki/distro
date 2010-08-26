@@ -40,7 +40,7 @@ link="<strong>%MAKETEXT{"Search options"}%</strong>"
 showimgleft="%ICONURLPATH{toggleopen}%"
 hideimgleft="%ICONURLPATH{toggleclose}%"
 }%
-%IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'=''" then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotoptionssimple$quot}$percent"}%%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotoptionsadvanced$quot}$percent"}%
+%IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotoptionssimple$quot}$percent"}%%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotoptionsadvanced$quot}$percent"}%
 %ENDTWISTY%
 </div>
 <div class="foswikiFormStep">
