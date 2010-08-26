@@ -2041,4 +2041,13 @@ sub test_loadTemplate {
     $this->assert_str_equals('', Foswiki::Func::loadTemplate('crud'));
 }
 
+sub test_readTemplate {
+    my $this = shift;
+    my $view = Foswiki::Func::readTemplate('view');
+    $this->assert(length($view));
+    my $print = Foswiki::Func::readTemplate('view', 'print');
+    $this->assert(length($print));
+    $this->assert($print ne $view);
+    $this->assert_str_equals('', Foswiki::Func::readTemplate('crud'));
+}
 1;
