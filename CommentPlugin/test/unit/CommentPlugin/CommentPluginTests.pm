@@ -23,15 +23,13 @@ sub set_up {
 
     $this->{target_web}   = "$this->{test_web}Target";
     $this->{target_topic} = "$this->{test_topic}Target";
-    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{target_web} );
-    $webObject->populateNewWeb();
-
-    return;
+    $this->{twiki}->{store}->createWeb(
+        $this->{twiki}->{user}, $this->{target_web});
 }
 
 sub tear_down {
     my $this = shift;
-    $this->removeWeb( $this->{target_web} );
+    $this->{twiki}->{store}->removeWeb($this->{twiki}->{user}, $this->{target_web});
     $this->SUPER::tear_down();
 
     return;
@@ -39,8 +37,9 @@ sub tear_down {
 
 sub writeTopic {
     my ( $this, $web, $topic, $text ) = @_;
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, $text );
-    $meta->save();
+    my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $web, $topic, $text, $meta );
 
     return;
 }
@@ -232,7 +231,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( save => $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $session );
 
     $text = Foswiki::Func::readTopicText( $web, $topic );
     $this->assert_matches( qr/$comm/, $text, "$web.$topic: $text" );
@@ -404,7 +403,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( save => $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $session );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
@@ -450,7 +449,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( save => $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $session );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
@@ -519,7 +518,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( save => $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $session );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
@@ -577,7 +576,7 @@ HERE
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( save => $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => \&Foswiki::UI::Save::save, $session );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
