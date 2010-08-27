@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-08-26 16:30+0000\n"
+"PO-Revision-Date: 2010-08-27 08:17+0000\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "MIME-Version: 1.0\n"
@@ -979,9 +979,8 @@ msgid "Compare revisions"
 msgstr "Vergleiche Revisionen"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
-#, fuzzy
 msgid "Confirm password"
-msgstr "Ihr Passwort:"
+msgstr "Passwort bestätigen"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
@@ -1007,9 +1006,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "Kontaktieren Sie %1, wenn Sie Fragen haben."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:58
-#, fuzzy
 msgid "Context:"
-msgstr "weiter"
+msgstr "Kontext:"
 
 #: core/templates/messages.tmpl:421
 msgid "Continue and try to rename web?"
@@ -1034,9 +1032,8 @@ msgid "Copy topic"
 msgstr "Topic kopieren"
 
 #: core/templates/more.tmpl:36
-#, fuzzy
 msgid "Copy topic..."
-msgstr "Topic kopieren"
+msgstr "Topic kopieren..."
 
 #: core/data/System/DefaultPreferences.txt:40
 msgid ""
@@ -1071,9 +1068,8 @@ msgid "Could not save %1."
 msgstr "%1 konnte nicht gespeichert werden."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:258
-#, fuzzy
 msgid "Country"
-msgstr "Land:"
+msgstr "Land"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:6
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
@@ -1092,19 +1088,17 @@ msgid "Create a link to the attached file"
 msgstr "Verweis auf die angehängte Datei erzeugen"
 
 #: core/data/Main/WikiGroups.txt:7
-#, fuzzy
 msgid "Create a new group"
-msgstr "Neues Topic anlegen"
+msgstr "Neue Gruppe anlegen"
 
 #: core/data/Main/WikiGroups.txt:31
-#, fuzzy
 msgid "Create group"
-msgstr "Neues Topic anlegen"
+msgstr "Gruppe anlegen"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:44
 #, fuzzy
 msgid "Create new FAQ topic"
-msgstr "Neues Topic anlegen"
+msgstr "Neues FAQ-Topic anlegen"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1119,9 +1113,8 @@ msgid "Create this topic"
 msgstr "Dieses Topic anlegen"
 
 #: core/data/Sandbox/WebHome.txt:19
-#, fuzzy
 msgid "Create topic"
-msgstr "Das Topic anlegen"
+msgstr "Topic anlegen"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:13
 msgid "Create your account to edit pages on this site."
