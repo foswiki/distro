@@ -2010,6 +2010,7 @@ END
     foreach my $ext qw(.zip .tgz _installer .md5 .sha1) {
         my $name = $to . $ext;
         next if $uploaded{$name};
+        next if ( defined($this->{foswikiReleaseBuild}) and ($ext eq '_installer'));
         $this->_uploadAttachment( $userAgent, $user, $pass, $to . $ext,
             $this->{basedir} . '/' . $to . $ext, '' );
         $uploaded{$name} = 1;
