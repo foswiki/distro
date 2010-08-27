@@ -13,7 +13,7 @@ This release is expected to be the final bug fixing release for foswiki 1.0, and
 
 Importantly, this release fixes an issue running configure on Perl 5.12, improves compatibility with proxy and enterprise search indexers, and updates the shipped plugins to the latest versions.
 
-It resolves a numer of issues for running foswiki on MS Windows.
+It resolves a number of issues for running foswiki on MS Windows.
 
 
 
