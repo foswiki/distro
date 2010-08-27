@@ -23,7 +23,7 @@
                 <li>clear: clears all input fields in a form this button is contained in</li>\
                 <li>reset: resets all input fields of a form to their initial value </li>\
                 <li>submit: submits the form this button is contained in</li>\
-                <li>save: same as =submit= but takes care of extra validation steps when savign a wiki topic </li>\
+                <li>save: same as =submit= but takes care of extra validation steps when saving a wiki topic </li>\
               </ul> | button | 
    * Example: <div>%BUTTON{"%MAKETEXT{"Submit"}%" click="confirm('Are your sure?')"}%%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross" target="%WEB%.%TOPIC%"}% %CLEAR%</div>
    * Related: JQueryButton
