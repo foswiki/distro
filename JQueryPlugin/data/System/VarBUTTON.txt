@@ -27,5 +27,4 @@
               </ul> | button | 
    * Example: <div>%BUTTON{"%MAKETEXT{"Submit"}%" click="confirm('Are your sure?')"}%%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross" target="%WEB%.%TOPIC%"}% %CLEAR%</div>
    * Related: JQueryButton
-   * Note: BUTTONS are floating to the left by default. Take care to add a =%<nop>CLEAR%= so that further content does not overlaoverlap with the button.
-
+   * Note: BUTTONS are floating to the left by default. Take care to add a =%<nop>CLEAR%= so that further content does not overlap with the button.
