@@ -37,6 +37,7 @@ use File::Find ();
 use File::Path ();
 use File::Temp ();
 use POSIX      ();
+use Data::Dumper ();
 use warnings;
 use Foswiki::Time;
 
@@ -44,7 +45,7 @@ our $basedir;
 our $buildpldir;
 our $libpath;
 
-our $RELEASE = "11 Feb 2010";
+our $RELEASE = "31 Jul 2010";
 our $VERSION = '$Rev$';
 
 our $SHORTDESCRIPTION = 'Automates build and packaging process, including installer generation, for extension modules.';
@@ -55,13 +56,17 @@ my $UPLOADSITESUFFIX        = '';
 my $UPLOADSITEBUGS          = 'http://foswiki.org/Tasks';
 my $UPLOADSITEEXTENSIONSWEB = "Extensions";
 my $DEFAULTCUSTOMERDB       = "$ENV{HOME}/customerDB";
+my $FOSWIKIAUTHORSFILE      = 'core/AUTHORS';
 
 my $GLACIERMELT = 10;    # number of seconds to sleep between uploads,
                          # to reduce average load on server
+my $lastUpload = 0;      # time of last upload (0 means none yet)
 
 my $targetProject;       # Foswiki or TWiki
 
 my $collector;           # general purpose handle for collecting stuff
+
+my %minifiers;           # functions used to minify
 
 # use diagnostics;
 # use Carp ();
@@ -85,14 +90,13 @@ $ENV{'LC_ALL'} = 'C';
 sub _findRelativeTo {
     my ( $startdir, $name ) = @_;
 
-    my @path = split( /\/+/, $startdir );
+    my @path = split( /[\/\\]+/, $startdir );
 
     while ( scalar(@path) > 0 ) {
         my $found = join( '/', @path ) . '/' . $name;
         return $found if -e $found;
         pop(@path);
     }
-
     #try legacy TWiki Contrib
     $startdir =~ s/\/Foswiki\//\/TWiki\//g;
     @path = split( /\/+/, $startdir );
@@ -116,7 +120,7 @@ BEGIN {
         $targetProject = 'Foswiki';
     }
     else {
-        print STDERR "Assuming this is a TWiki project\n";
+        warn "Assuming this is a TWiki project\n";
         $libpath = _findRelativeTo( $buildpldir, 'lib/TWiki' );
         $targetProject = 'TWiki';
     }
@@ -196,7 +200,7 @@ sub new {
     if ( $this->{project} =~ /Plugin$/ ) {
         $this->{libdir} .= "/$targetProject/Plugins";
     }
-    elsif ( $this->{project} =~ /(Contrib|Skin)$/ ) {
+    elsif ( $this->{project} =~ /(Contrib|Skin|AddOn)$/ ) {
         $this->{libdir} .= "/$targetProject/Contrib";
     }
 
@@ -214,6 +218,7 @@ sub new {
         if ( open( $fh, "<", $this->{pm} ) ) {
             local $/;
             my $text = <$fh>;
+            close $fh;
             if ( $text =~ /\$RELEASE\s*=\s*(['"])(.*?)\1/s ) {
                 $this->{RELEASE} = $2;
             }
@@ -315,16 +320,16 @@ sub new {
             CGI::td( { align => 'left' }, $dep->{name} )
           . CGI::td( { align => 'left' }, $v )
           . CGI::td( { align => 'left' }, $dep->{description} );
-        $deptable .= CGI::Tr($cells);
+        $deptable .= CGI::Tr({}, $cells);
     }
     $this->{RAW_DEPENDENCIES} = $rawdeps;
     $this->{DEPENDENCIES}     = 'None';
     if ($deptable) {
         my $cells =
-          CGI::th('Name') . CGI::th('Version') . CGI::th('Description');
+          CGI::th({}, 'Name') . CGI::th({}, 'Version') . CGI::th({}, 'Description');
         $this->{DEPENDENCIES} =
           CGI::table( { border => 1, class => 'foswikiTable' },
-            CGI::Tr($cells) . $deptable );
+            CGI::Tr({}, $cells) . $deptable );
     }
 
     $this->{VERSION} = $this->_get_svn_version() unless $this->{VERSION};
@@ -355,6 +360,12 @@ sub new {
 
     local $/;
     $this->{INSTALL_INSTRUCTIONS} = <DATA>;
+    # Item9416: Implements %$FOSWIKIAUTHORS%. Depends on $/ = undef
+    $FOSWIKIAUTHORSFILE = _findRelativeTo($this->{basedir}, $FOSWIKIAUTHORSFILE);
+    open my $authorsfile, '<', $FOSWIKIAUTHORSFILE
+        or die "Couldn't open $FOSWIKIAUTHORSFILE";
+    $this->{FOSWIKIAUTHORS} = <$authorsfile>;
+    close $authorsfile;
 
     my $config = $this->_loadConfig();
     my $rep    = $config->{repositories}->{ $this->{project} };
@@ -363,6 +374,9 @@ sub new {
         $this->{UPLOADTARGETSCRIPT} = $rep->{script};
         $this->{UPLOADTARGETSUFFIX} = $rep->{suffix};
         $this->{UPLOADTARGETWEB}    = $rep->{web};
+        $this->{DOWNTARGETSCRIPT} = $rep->{downscript} || $rep->{script};
+        $this->{DOWNTARGETSUFFIX} = $rep->{downsuffix} || $rep->{suffix};
+        $this->{DOWNTARGETWEB}    = $rep->{downweb} || $rep->{web};
     }
     else {
         $this->{UPLOADTARGETPUB} = $UPLOADSITEPUB
@@ -373,6 +387,13 @@ sub new {
           unless defined $this->{UPLOADTARGETSUFFIX};
         $this->{UPLOADTARGETWEB} = $UPLOADSITEEXTENSIONSWEB
           unless defined $this->{UPLOADTARGETWEB};
+
+        $this->{DOWNTARGETSCRIPT} = $UPLOADSITESCRIPT
+          unless defined $this->{DOWNTARGETSCRIPT};
+        $this->{DOWNTARGETSUFFIX} = $UPLOADSITESUFFIX
+          unless defined $this->{DOWNTARGETSUFFIX};
+        $this->{DOWNTARGETWEB} = $UPLOADSITEEXTENSIONSWEB
+          unless defined $this->{DOWNTARGETWEB};
     }
 
     return $this;
@@ -391,8 +412,11 @@ sub _loadConfig {
     use vars qw($VAR1);
 
     if ( !defined $this->{config} ) {
-        if ( -r "$ENV{HOME}/.buildcontrib" ) {
-            do "$ENV{HOME}/.buildcontrib";
+		#TODO: this really should be abstracted
+        my $configLocation = $this->{libdir};     #default to leave one in each contrib - used for windows atm
+        $configLocation = $ENV{HOME} if (defined($ENV{HOME}));
+        if ( -r "$configLocation/.buildcontrib" ) {
+            do "$configLocation/.buildcontrib";
             $this->{config} = $VAR1;
             print "Loaded config from $this->{config}->{file}\n";
         }
@@ -400,7 +424,7 @@ sub _loadConfig {
         }
         unless ( $this->{config} ) {
             $this->{config} = {
-                file         => "$ENV{HOME}/.buildcontrib",
+                file         => "$configLocation/.buildcontrib",
                 passwords    => {},
                 repositories => {},
             };
@@ -412,14 +436,13 @@ sub _loadConfig {
 # Save the config
 sub _saveConfig {
     my $this = shift;
-    require Data::Dumper;
     if ( open( F, '>', $this->{config}->{file} ) ) {
         print F Data::Dumper->Dump( [ $this->{config} ] );
         close(F);
         print "Config saved in $this->{config}->{file}\n";
     }
     else {
-        print STDERR "Could not write $this->{config}->{file}: $!";
+        warn "Could not write $this->{config}->{file}: $!";
     }
 }
 
@@ -539,7 +562,7 @@ sub _get_svn_version {
                     File::Path::mkpath($file);
                 }
                 elsif ( !-d $file ) {    # Ignore directories
-                    print STDERR
+                    warn
 "WARNING: $file is in MANIFEST, but it doesn't exist\n";
                 }
             }
@@ -602,7 +625,7 @@ sub _get_svn_version {
 
             # This is commented out because it's annoying
             # when auto-porting extensions
-            # print STDERR "WARNING: $@";
+            # warn "WARNING: $@";
             $maxd = time() unless $maxd;
             $max =
               Foswiki::Time::formatTime( $maxd, '$year$mo$day', 'gmtime' )
@@ -1056,6 +1079,44 @@ sub _deduceCompressibleSrc {
     return $from;
 }
 
+# helper functions for calling minifiers
+sub _cpanMinify {
+    my ($this, $from, $to, $fn) = @_;
+    my $f;
+    open( $f, '<', $from ) || die $!;
+    local $/ = undef;
+    my $text = <$f>;
+    close($f);
+
+    $text = &$fn($text);
+
+    if ( open( $f, '<', $to ) ) {
+        my $ot = <$f>;
+        close($f);
+        if ($text eq $ot) {
+            #warn "$to is up to date w.r.t $from\n";
+            return 1; # no changes
+        }
+    }
+
+    open( $f, '>', $to ) || die "$to: $!";
+    print $f $text;
+    close($f);
+}
+
+sub _yuiMinify {
+    my ($this, $from, $to, $type) = @_;
+    delete $ENV{'LC_ALL'};
+    my $cmd = "java -jar $basedir/tools/yuicompressor.jar --type $type $from";
+    unless ($this->{-n}) {
+        $cmd .= " -o $to";
+    }
+    #warn "$cmd\n";
+    my $out = `$cmd`;
+    $ENV{'LC_ALL'} = 'C';
+    return $out;
+}
+
 =begin TML
 
 ---++++ build_js
@@ -1073,43 +1134,37 @@ These are selected between depending on which exist on disk.
 sub build_js {
     my ( $this, $to ) = @_;
 
-    my $minifier;
-    if ( eval { require JavaScript::Minifier::XS } ) {
-        $minifier = \&JavaScript::Minifier::XS::minify;
-    }
-    elsif ( eval { require JavaScript::Minifier } ) {
-        $minifier = sub { JavaScript::Minifier::minify(input => $_[0]) };
-    }
-    else {
-        print STDERR "Cannot squish $to: $@\n";
-    }
-
-    my $from = $this->_deduceCompressibleSrc($to, 'js');
-    return 0 unless -e $from;
-
-    open( IF, '<', $from ) || die $!;
-    local $/ = undef;
-    my $text = <IF>;
-    close(IF);
-
-    $text = &{$minifier}( $text );
-
-    unless ( $this->{-n} ) {
-        if ( open( IF, '<', $to ) ) {
-            my $ot = <IF>;
-            close($ot);
-            if ($text eq $ot) {
-                #print STDERR "$to is up to date w.r.t $from\n";
-                return 1; # no changes
-            }
+    # Check for Java and the YUI compressor
+    if ( !$minifiers{js} && -e "$basedir/tools/yuicompressor.jar") {
+        # Do we have java?
+        my $info = `java -version 2>&1` || '';
+        unless ( $? ) {
+            $minifiers{js} = sub {
+                return $this->_yuiMinify(@_, 'js');
+            };
         }
-
-        open( OF, '>', $to ) || die "$to: $!";
-        print OF $text;
-        close(OF);
-        print STDERR "Generated $to from $from\n";
     }
-    return 1;
+    # If no good, try the CPAN minifiers
+    if ( !$minifiers{js} && eval { require JavaScript::Minifier::XS; 1 } ) {
+        $minifiers{js} = sub {
+            return $this->_cpanMinify(@_, \&JavaScript::Minifier::XS::minify);
+        };
+    }
+    if ( !$minifiers{js} && eval { require JavaScript::Minifier; 1 } ) {
+        $minifiers{js} = sub {
+            return $this->_cpanMinify(
+                @_,
+                sub {
+                    JavaScript::Minifier::minify(input => $_[0]);
+                });
+        };
+    }
+    if (!$minifiers{js}) {
+        warn "Cannot squish $to: no minifier found\n";
+        return;
+    }
+
+    return $this->_build_compress('js', $to);
 }
 
 =begin TML
@@ -1127,39 +1182,77 @@ Several different name mappings are supported:
 sub build_css {
     my ( $this, $to ) = @_;
 
-    my $minifier;
-    if ( eval { require CSS::Minifier::XS } ) {
-        $minifier = \&CSS::Minifier::XS::minify;
-    }
-    elsif ( eval { require CSS::Minifier } ) {
-        $minifier = sub { CSS::Minifier::minify(input => $_[0]) };
-    }
-    else {
-        print STDERR "Cannot squish $to: $@\n";
-    }
-
-    my $from = $this->_deduceCompressibleSrc($to, 'css');
-    return 0 unless -e $from;
-
-    open( IF, '<', $from ) || die $!;
-    local $/ = undef;
-    my $text = <IF>;
-    close(IF);
-
-    $text = &{$minifier}( $text );
-
-    unless ( $this->{-n} ) {
-        if ( open( IF, '<', $to ) ) {
-            my $ot = <IF>;
-            close($ot);
-            return 1 if $text eq $ot;    # no changes?
+    # Check for Java and the YUI compressor
+    if ( -e "$basedir/tools/yuicompressor.jar") {
+        # Do we have java?
+        my $info = `java -version 2>&1` || '';
+        unless ( $? ) {
+            $minifiers{css} = sub {
+                return $this->_yuiMinify(@_, 'css');
+            };
         }
-        open( OF, '>', $to ) || die "$to: $!";
-        print OF $text;
-        close(OF);
-        print STDERR "Generated $to from $from\n";
+    }
+    if ( !$minifiers{css} && eval { require CSS::Minifier::XS; 1 } ) {
+        $minifiers{css} = sub {
+            return $this->_cpanMinify(@_, \&CSS::Minifier::XS::minify);
+        };
+    }
+    if ( !$minifiers{css} && eval { require CSS::Minifier; 1 } ) {
+        $minifiers{css} = sub {
+            $this->_cpanMinify(
+                @_,
+                sub {
+                    CSS::Minifier::minify(input => $_[0]);
+                });
+        };
+    }
+
+    return $this->_build_compress('css', $to);
+}
+
+sub _needsBuilding {
+    my ($from, $to) = @_;
+
+    if (-e $to) {
+        my @fstat = stat($from);
+        my @tstat = stat($to);
+        return 0 if ($tstat[9] >= $fstat[9]);
     }
     return 1;
+}
+
+sub _build_compress {
+    my ($this, $type, $to) = @_;
+
+    if (!$minifiers{$type}) {
+        warn "Cannot squish $to: no minifier found for $type\n";
+        return;
+    }
+
+    my $from = $this->_deduceCompressibleSrc($to, $type);
+    unless (-e $from) {
+        # There may be a good reason there is no minification source;
+        # for example, it might not be a derived object.
+        #warn "Minification source for $to not found\n";
+        return;
+    }
+    if (-l $to) {
+        # BuildContrib will always override links created by pseudo-install
+        unlink($to);
+    }
+    unless (_needsBuilding($from, $to)) {
+        if ($this->{-v} || $this->{-n}) {
+            warn "$to is up-to-date\n";
+        }
+        return;
+    }
+
+    if (!$this->{-n}) {
+        &{$minifiers{$type}}( $from, $to );
+        warn "Generated $to from $from\n";
+    } else {
+        warn "Minify $from to $to\n";
+    }
 }
 
 =begin TML
@@ -1175,33 +1268,34 @@ sub build_gz {
     my ( $this, $to ) = @_;
 
     unless ( eval { require Compress::Zlib } ) {
-        print STDERR "Cannot gzip $to: $@\n";
+        warn "Cannot gzip: $@\n";
         return 0;
     }
 
     my $from = $to;
     $from =~ s/\.gz$// or return 0;
-    return 0 unless -e $from;
+    return 0 unless -e $from && _needsBuilding($from, $to);
 
-    open( IF, '<', $from ) || die $!;
+    if (-l $to) {
+        # BuildContrib will always override links created by pseudo-install
+        unlink($to);
+    }
+
+    my $f;
+    open( $f, '<', $from ) || die $!;
     local $/ = undef;
-    my $text = <IF>;
-    close(IF);
+    my $text = <$f>;
+    close($f);
 
     $text = Compress::Zlib::memGzip( $text );
 
     unless ( $this->{-n} ) {
-        if ( open( IF, '<', $to ) ) {
-            binmode IF;
-            my $ot = <IF>;
-            close($ot);
-            return 1 if $text eq $ot;    # no changes?
-        }
-        open( OF, '>', $to ) || die "$to: $!";
-        binmode OF;
-        print OF $text;
-        close(OF);
-        print STDERR "Generated $to from $from\n";
+        my $f;
+        open( $f, '>', $to ) || die "$to: $!";
+        binmode $f;
+        print $f $text;
+        close($f);
+        warn "Generated $to from $from\n";
     }
     return 1;
 }
@@ -1313,7 +1407,7 @@ sub target_tracked {
         close(F);
     }
 
-    print STDERR "Tracking code is $this->{TRACKINGCODE}\n";
+    warn "Tracking code is $this->{TRACKINGCODE}\n";
 
     push(@stageFilters,
          { RE => qr/\.pm$/, filter => 'filter_tracked_pm' });
@@ -1363,13 +1457,13 @@ sub target_stage {
             die "$basedir / $module does not exist, cannot build $module\n"
               unless ( -e "$basedir/$module" );
 
-            print STDERR "Installing $module in $this->{tmpDir}\n";
+            warn "Installing $module in $this->{tmpDir}\n";
 
             #SMELL: uses legacy TWIKI_ exports
             my $cmd =
 "export FOSWIKI_HOME=$this->{tmpDir}; export FOSWIKI_LIBS=$libs; export TWIKI_HOME=$this->{tmpDir}; export TWIKI_LIBS=$libs; cd $basedir/$module; perl build.pl handsoff_install";
 
-            #print STDERR "***** running $cmd \n";
+            #warn "***** running $cmd \n";
             print `$cmd`;
         }
     }
@@ -1445,7 +1539,7 @@ sub target_archive {
         print "MD5 checksums in $this->{basedir}/$target.md5\n";
     }
     else {
-        print STDERR
+        warn
           "WARNING: Digest::MD5 not installed; cannot generate MD5 checksum\n";
     }
 
@@ -1463,7 +1557,7 @@ sub target_archive {
         print "SHA1 checksums in $this->{basedir}/$target.sha1\n";
     }
     else {
-        print STDERR
+        warn
           "WARNING: Digest::SHA not installed; cannot generate SHA1 checksum\n";
     }
 
@@ -1476,12 +1570,12 @@ sub target_archive {
             print "$f in $this->{basedir}/$target$f\n";
         }
         else {
-            print STDERR "WARNING: no $target$f was generated\n";
+            warn "WARNING: no $target$f was generated\n";
             $warn++;
         }
     }
     if ($warn) {
-        print STDERR <<HERE;
+        warn <<HERE;
 Some release files were not generated, either because there was
 no matching source file, or because they were disabled by !option.
 HERE
@@ -1593,7 +1687,8 @@ sub target_uninstall {
 {
 
     package Foswiki::Contrib::Build::UserAgent;
-    use base qw(LWP::UserAgent);
+    use LWP::UserAgent;
+    our @ISA = qw( LWP::UserAgent );
 
     sub new {
         my ( $class, $id, $bldr ) = @_;
@@ -1681,31 +1776,11 @@ sub target_upload {
     my $this = shift;
 
     unless ( eval { require LWP } ) {
-        print STDERR 'LWP is not installed; cannot upload', "\n";
+        warn 'LWP is not installed; cannot upload', "\n";
         return 0;
     }
 
     my $to = $this->{project};
-
-    my $topicText;
-    local $/ = undef;    # set to read to EOF
-    if ( open( IN_FILE, '<', $this->{basedir} . '/' . $to . '.txt' ) ) {
-        print "Basing new topic on "
-          . $this->{basedir} . '/'
-          . $to . '.txt' . "\n";
-        $topicText = <IN_FILE>;
-        close(IN_FILE);
-    }
-    else {
-        print STDERR 'Failed to open base topic: ' . $!;
-        $topicText = <<END;
-Release $to
-END
-        print "Basing new topic on some default text:\n$topicText\n";
-    }
-    my @attachments;
-    $topicText =~ s/%META:FILEATTACHMENT(.*)%/
-      push(@attachments, $1);''/ge;
 
     while (1) {
         print <<END;
@@ -1714,6 +1789,11 @@ Web:     $this->{UPLOADTARGETWEB}
 PubDir:  $this->{UPLOADTARGETPUB}
 Scripts: $this->{UPLOADTARGETSCRIPT}
 Suffix:  $this->{UPLOADTARGETSUFFIX}
+ 
+If upload target does not exist, recover package form from:
+Web:     $this->{DOWNTARGETWEB}
+Scripts: $this->{DOWNTARGETSCRIPT}
+Suffix:  $this->{DOWNTARGETSUFFIX}
 END
 
         last if ask( "Is that correct? Answer 'n' to change", 1 );
@@ -1730,11 +1810,28 @@ END
           prompt( "Suffix", $this->{UPLOADTARGETSUFFIX} );
         $this->{UPLOADTARGETSUFFIX} = ''
           if $this->{UPLOADTARGETSUFFIX} eq 'none';
+        print "\nEnter the alternate name of the web that contains the package form\n";
+        $this->{DOWNTARGETWEB} = prompt( "Web", $this->{DOWNTARGETWEB} );
+        
+        print "Enter the full URL path to the alternate bin directory\n";
+        $this->{DOWNTARGETSCRIPT} =
+          prompt( "Scripts", $this->{DOWNTARGETSCRIPT} );
+        print
+"Enter the file suffix used on scripts in the alternate bin directory (enter 'none' for none)\n";
+        $this->{DOWNTARGETSUFFIX} =
+          prompt( "Suffix", $this->{DOWNTARGETSUFFIX} );
+        $this->{DOWNTARGETSUFFIX} = ''
+          if $this->{DOWNTARGETSUFFIX} eq 'none';
+
+
         my $rep = $this->{config}->{repositories}->{ $this->{project} } || {};
         $rep->{pub}    = $this->{UPLOADTARGETPUB};
         $rep->{script} = $this->{UPLOADTARGETSCRIPT};
         $rep->{suffix} = $this->{UPLOADTARGETSUFFIX};
         $rep->{web}    = $this->{UPLOADTARGETWEB};
+        $rep->{downscript} = $this->{DOWNTARGETSCRIPT};
+        $rep->{downsuffix} = $this->{DOWNTARGETSUFFIX};
+        $rep->{downweb}    = $this->{DOWNTARGETWEB};
         $this->{config}->{repositories}->{ $this->{project} } = $rep;
         $this->_saveConfig();
     }
@@ -1753,46 +1850,99 @@ END
     # Ask what the user wants to upload
     my $doUploadArchivesAndInstallers = ask( "Do you want to upload the archives and installers?", 1 );
 
+    #need the topic at this point.
+    $this->build('release');
+    my $topicText;
+    my $baseTopic = $this->{basedir} . '/' . $to . '.txt';
+    local $/ = undef;    # set to read to EOF
+    if ( open( IN_FILE, '<', $baseTopic ) ) {
+        print "Basing new topic on "
+          . $baseTopic . "\n";
+        $topicText = <IN_FILE>;
+        close(IN_FILE);
+    }
+    else {
+        warn 'Failed to open base topic('.$baseTopic.'): ' . $!;
+        $topicText = <<END;
+Release $to
+END
+        print "Basing new topic on some default text:\n$topicText\n";
+    }
+    my @attachments;
+    $topicText =~ s/%META:FILEATTACHMENT(.*)%/
+      push(@attachments, $1);''/ge;
+
     my $doUploadAttachments = scalar(@attachments)
       && ask( "Do you want to upload the attachments?", 1 );
 
     # No more questions after this point
 
-    $this->build('release');
 
     $this->_login($userAgent, $user, $pass);
 
     my $url =
 "$this->{UPLOADTARGETSCRIPT}/view$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/$topic";
+    my $alturl = "$this->{DOWNTARGETSCRIPT}/view$this->{DOWNTARGETSUFFIX}/$this->{DOWNTARGETWEB}/$topic";
 
     # Get the old form data and attach it to the update
     print "Downloading $topic to recover form\n";
-    my $response = $userAgent->get("$url?raw=debug");
+    my $response = $userAgent->get("$url?raw=all");
 
     my %newform;
     my $formExists = 0;
-    unless ( $response->is_success ) {
-        print 'Failed to GET old topic ', $response->request->uri,
-          ' -- ', $response->status_line, "\n";
-        $newform{formtemplate} = 'PackageForm';
-        if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
-            $newform{TopicClassification} = $1 . 'Package';
+
+    # SMELL: There appears to be no way to distinguish if Foswiki didn't
+    # find the topic and returns the topic creator form, or if the GET
+    # was successful.  Foswiki always returns 200 for the status
+    # We need a better way of handling the not-found condition. 
+    # For now, look to see if there is a newtopicform present. If found,
+    # it means that the get should be treated as a NOT FOUND.
+
+    unless ( $response->is_success()
+               && ! ($response->content() =~ m/<form name="newtopicform"/s) ) {
+        if ( ! $response->is_success ) {
+            print 'Failed to GET old topic ', $response->request->uri,
+              ' -- ', $response->status_line, "\n";
+            }
+
+        if (($this->{DOWNTARGETSCRIPT} ne $this->{UPLOADTARGETSCRIPT})
+              ||( $this->{DOWNTARGETWEB} ne $this->{UPLOADTARGETWEB})) {
+            print "Downloading $topic from $alturl to recover form\n";
+            $response = $userAgent->get("$alturl?raw=all");
+            unless ( $response->is_success ) { 
+                print 'Failed to GET old topic from Alternate location',
+                  $response->request->uri,
+                $newform{formtemplate} = 'PackageForm';
+                if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
+                    $newform{TopicClassification} = $1 . 'Package';
+                }
+            }
         }
     }
-    else {
+    if ($response->is_success()
+          && ! ($response->content() =~ m/<form name="newtopicform"/s) ) {
+        print "Recovering form from $topic\n";
+        # SMELL: would be better to use Foswiki::Meta to do this
         foreach my $line ( split( /\n/, $response->content() ) ) {
-            if ( $line =~ m/META:FIELD{name="(.*?)".*?value="(.*?)"}/ ) {
+
+            if ( $line =~ m/%META:FIELD{name="(.*?)".*?value="(.*?)"/ ) {
+                my $name = $1;
                 my $val = $2;
+
+                # URL-decode the value
+                $val =~ s/%([\da-f]{2})/chr(hex($1))/gei;
 
                 # Trim null values or we end up damaging the form
                 if ( defined $val && length($val) ) {
-                    $newform{$1} = $val;
+                    $newform{$name} = $val;
                 }
             }
-            elsif ( $line =~ /META:FORM{name=/ ) {
+            elsif ( $line =~ /META:FORM{name="PackageForm/ ) { 
+                $newform{formtemplate} = 'PackageForm';
                 $formExists = 1;
             }
         }
+
         if ( !$formExists ) {
             $newform{formtemplate} ||= 'PackageForm';
         }
@@ -1800,6 +1950,7 @@ END
             $newform{TopicClassification} ||= $1 . 'Package';
         }
     }
+
     $newform{text} = $topicText;
 
     $this->_uploadTopic( $userAgent, $user, $pass, $topic, \%newform );
@@ -1924,12 +2075,13 @@ sub _strikeone {
 
 sub _uploadTopic {
     my ( $this, $userAgent, $user, $pass, $topic, $form ) = @_;
-    
+
     # send an edit request to get a validation key
     my $response = $userAgent->get("$this->{UPLOADTARGETSCRIPT}/edit$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/$topic");
     unless ( $response->is_success ) {
-        die 'Request to edit '.$this->{UPLOADTARGETWEB}.'/'.$topic.' failed '. $response->request->uri.
-          ' -- '. $response->status_line. "\n";
+        die 'Request to edit '.$this->{UPLOADTARGETWEB}.'/'.$topic
+          .' failed '. $response->request->uri.
+            ' -- '. $response->status_line. "\n";
     }
 
     $form->{validation_key} = $this->_strikeone($userAgent, $response);
@@ -1939,8 +2091,9 @@ sub _uploadTopic {
     $form->{text} = <<EXTRA. $form->{text};
 <!--
 This topic is part of the documentation for $this->{project} and is
-automatically generated from Subversion. Do not edit it! Your edits
-will be lost the next time the topic is uploaded!
+automatically generated from Subversion. You can edit it, but if you do,
+please make sure the maintainer of the extension knows about your changes,
+otherwise your edits might be lost the next time the topic is uploaded.
 
 If you want to report an error in the topic, please raise a report at
 http://foswiki.org/Tasks/$this->{project}
@@ -1978,6 +2131,14 @@ sub _uploadAttachment {
 
 sub _postForm {
     my ( $this, $userAgent, $user, $pass, $url, $form ) = @_;
+
+    my $pause = $GLACIERMELT - (time - $lastUpload);
+    if ($pause > 0) {
+        print "Taking a ${pause}s breather after the last upload...\n";
+        sleep($pause);
+    }
+    $lastUpload = time();
+
     my $response =
       $userAgent->post( $url, $form, 'Content_Type' => 'form-data' );
 
@@ -1985,19 +2146,7 @@ sub _postForm {
       ' -- ', $response->status_line, "\n", 'Aborting', "\n",
       $response->as_string
       unless $response->is_redirect
-          && $response->headers->header('Location') !~ m{/oops|/login/};
-
-    my $sleep = $GLACIERMELT;
-    if ( $sleep > 0 ) {
-        local $| = 1;
-        print "Taking a deep breath after the upload";
-        while ( $sleep > 0 ) {
-            print '.';
-            sleep(2);
-            $sleep -= 2;
-        }
-        print "\n";
-    }
+          && $response->headers->header('Location') !~ m{/oops|/log.n/};
 }
 
 sub _unhtml {
@@ -2121,7 +2270,7 @@ sub target_installer {
                 permissions => 0770
             }
         );
-        print STDERR 'Auto-adding install script to manifest', "\n"
+        warn 'Auto-adding install script to manifest', "\n"
           if ( $this->{-v} );
     }
 
@@ -2226,7 +2375,7 @@ sub target_manifest {
     }
     require File::Find;
     $collector->{manilist} = ();
-    print STDERR "Gathering from $this->{basedir}\n";
+    warn "Gathering from $this->{basedir}\n";
 
     File::Find::find( \&_manicollect, $this->{basedir} );
     print '# DRAFT ', $manifest, ' follows:', "\n";
@@ -2250,7 +2399,9 @@ sub _manicollect {
     elsif (!-d 
         && /^\w.*\w$/
         && !/^(DEPENDENCIES|MANIFEST|(PRE|POST)INSTALL|build\.pl)$/
-        && !/$collector->{project}\.(md5|zip|tgz|txt|sha1)/ )
+        && !/\.bak$/
+        && !/^$collector->{project}_installer(\.pl)?$/
+        && !/^$collector->{project}\.(md5|zip|tgz|txt|sha1)$/ )
     {
         my $n     = $File::Find::name;
         my @a     = stat($n);
@@ -2278,9 +2429,9 @@ sub target_history {
     my $f = $this->{basedir} . '/' . $this->{topic_root} . '.txt';
 
     my $cmd = "cd $this->{basedir} && svn status";
-    print STDERR "Checking status using $cmd\n";
+    warn "Checking status using $cmd\n";
     my $log = join( "\n", grep { !/^\?/ } split( /\n/, `$cmd` ) );
-    print STDERR "WARNING:\n$log\n" if $log;
+    warn "WARNING:\n$log\n" if $log;
 
     open( IN, '<', $f ) or die "Could not open $f: $!";
 
@@ -2352,9 +2503,9 @@ sub target_history {
     if ( scalar(@history) && $history[0]->[0] =~ /^(\d+)$/ ) {
         $base = $1;
     }
-    print STDERR "Refreshing history since $base\n";
+    warn "Refreshing history since $base\n";
     $cmd = "cd $this->{basedir} && svn info -R";
-    print STDERR "Recovering version info using $cmd...\n";
+    warn "Recovering version info using $cmd...\n";
     $log = `$cmd`;
 
     # find files with revs more recent than $base
@@ -2367,7 +2518,7 @@ sub target_history {
         elsif ( $line =~ /^Last Changed Rev: (.*)$/ ) {
             die unless $curpath;
             if ( $1 > $base ) {
-                print STDERR "$curpath $1 > $base\n";
+                warn "$curpath $1 > $base\n";
                 push( @revs, $curpath );
             }
             $curpath = undef;
@@ -2375,13 +2526,13 @@ sub target_history {
     }
 
     unless ( scalar(@revs) ) {
-        print STDERR "History is up to date with svn log\n";
+        warn "History is up to date with svn log\n";
         return;
     }
 
     # Update the history
     $cmd = "cd $this->{basedir} && svn log " . join( ' && svn log ', @revs );
-    print STDERR "Updating history using $cmd...\n";
+    warn "Updating history using $cmd...\n";
     $log = `$cmd`;
     my %new;
     foreach my $line ( split( /^----+\s*/m, $log ) ) {

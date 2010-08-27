@@ -139,7 +139,7 @@ The targets you will normally use are:
 | =test= | run [[#UnitTesting][unit tests]] |
 | =release= | =build=, =pod= and package a release zip |
 | =upload= | =build=, =pod=, =release= and upload |
-| =manifest= | print a guess at the MANIFEST |
+| =manifest= | print a guess at the MANIFEST (Caution - omits the primary System/Extension.txt topic |
 | =history= | Generates a list of svn checkins with comments suitable for use in the history section of the plugin/contrib topic. |
 | =dependencies= | Find and print a best-guess dependencies list (for DEPENDENCIES) |
 
@@ -174,10 +174,10 @@ installation and testing. However they are *not* checked in.
 The easiest way to use compressed sources is to select the version your code is
 to use based on a switch when you include the headers. For example, you can
 use the =DEBUG= global from the =Assert= module:
-<verbatim>
+<verbatim class="perl">
 use Assert; # Standard Foswiki ASSERT module
 ...
-my $pack = DEBUG > '.uncompressed' : '.compressed';
+my $pack = DEBUG ? '.uncompressed' : '.compressed';
 Foswiki::Func::addToHEAD(<<SCRIPT);
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/MyPlugin/my$pack.js">
 <link rel="stylesheet" type="text/css" href="%PUBURLPATH%/%SYSTEMWEB%/MyPlugin//my$pack.css" />
@@ -227,7 +227,9 @@ sources and documentation.
 ---+++ The =upload= target
 This target builds a release, and then tries to upload it to a target repository. The target uploads all the files in the release, and also tries to upload any attachments to the extension topic (as found by scanning the topic for META:FILEATTACHMENT).
 
-You can control what server the upload is done to. This lets you - for example - set up your own corporate extensions server.
+You can control what server the upload is done to. This lets you - for example - set up your own corporate extensions server.   Note that the =upload= operation will first attempt to download the topic to recover the !PackageForm so that it can be added to the newly uploaded topic.  
+The =upload= also gives you a chance to specify an alternate download location
+to be used for !PackageForm recovery.  
 
 ---+++ The =manifest= and =dependencies= targets
 These are used when you are unsure of the correct contents of MANIFEST and DEPENDENCIES. They make a best-guess at the required contents for these files.
@@ -253,7 +255,7 @@ extensions will work in TWiki after this transformation, and for others it
 can be used as a launchpad for further manual mapping steps.
 
 Example,
-<verbatim>
+<verbatim class="bash">
 $ cd EditRowPlugin/lib/Foswiki/Plugins/EditRowPlugin
 $ perl build.pl twiki
 Created data/TWiki/EditRowPlugin.txt
@@ -374,19 +376,27 @@ name, version, type, description
 </verbatim>
 where
    * name is the name of the module,
+      * For Foswiki/TWiki/and CPAN modules, write the full module path, =Foswiki::Plugins::MyPlugin=
+      * For external modules, use a "well known" name that can be understood by other package managers. Alternative packaging like =.deb= packages can resolve these external dependencies.
    * version is the version constraint (e.g. ">1.5"),
-   * type is its type (cpan, perl, C etc) and
-   * description is a short description of the module and where to get it.
-The installer script written by the build process uses the dependency type
-to decide how to install dependant modules. 'cpan' means 'get the module
-from CPAN' and 'perl' means 'get the module from the Plugins web on Foswiki.org'
-(or whatever other repositories the admin has specified using =$FOSWIKI_PACKAGES=
-or =$PLUGINS_URL=).
+      * If version is written as =r1234=  (r followed by 1-6 digit number), the SVN release of the module will be compared, instead of the version.
+      * _Legacy dependencies - if written as a simple 4-digit number, will be assumed to be a SVN release number._
+   * type is its type (cpan, perl, or eternal)
+      * =cpan= modules should be found in the CPAN repositories. 
+      * =perl= modules include =Foswiki::= and =TWiki::= modules. 
+      * =external= or any other value is reported but ignored. 
+   * description is a short description of the module and where to get it. If it begins with the word =Optional= then the dependency will not be automatically resolved.
+
+<blockquote class="foswikiHelp">%X% Dependencies of type =cpan= or =perl= will be executed in an =eval= statement to compare the VERSION and RELEASE strings.  </blockquote>
+
+The installer script written by the build process uses the dependency type to decide how to install dependant modules. 'cpan' means 'get the module from CPAN' and 'perl' means 'get the module from the Plugins web on Foswiki.org' (or whatever other repositories the admin has specified using =$FOSWIKI_PACKAGES= or =$PLUGINS_URL=).
 
 ---+++ Calculating DEPENDENCIES
 When your module (the _depender_) depends on another module (a _dependee_), it is important to think carefully about what version of the dependee your module requires.
 
 When you are working with Foswiki modules (such as contribs and plugins) you should list the version number of the module that you tested with. Normally you will want to use a <code>&gt;</code> condition, so that more recent versions will also work. If a dependency on a Foswiki module fails (because the module isn't installed, for example) then the installer script will pull *the latest version* of the module from Foswiki.org, whether that is the required version or not. This is a limitation of the way plugins are stored on Foswiki.org.
+
+As an alternative to using the Version number, you can also compare to the SVN release number.  Write the version string as =>=r1234=.  Note that the Version number is the preferred method, and is reported to the user during the install.
 
 When you are working with CPAN modules, you need to take account of the fact that there are *two types* of CPAN modules; _built-ins_ and _add-ons_.
 
@@ -406,8 +416,8 @@ conditional. This is most useful for enabling dependencies only for certain
 versions of other modules. For example,
 <verbatim>
 File::Munge,>0,cpan,...
-ONLYIF ($File::Munge::VERSION < 1.025)
-MyPackage::FixOldFileFind, >=1.000, perl, Optional, only required if we have an old version of File::Munge.
+ONLYIF ( $Foswiki::Plugins::VERSION < 1.025)
+MyPackage::FixOldFileFind, >=1.000, perl, Optional, only required if we have an old version of Foswiki API.
 </verbatim>
 The =ONLYIF= only applies to the next dependency in the file.
 
@@ -437,13 +447,49 @@ them for your use.
 ---++ Preparing the Installer
 The installer script generated by the builder when target =release= is used is based on a template. This template is populated with lists of files and dependencies needed to make the extension-specific installer script.
 
+---+++ PRE and POST processing scripts
+
 You can extend this script by providing =PREINSTALL=, =POSTINSTALL=,
 =PREUNINSTALL=, and/or =POSTUNINSTALL= files in the module directory.
 These optional files are embedded into the template install script
 at the appropriate stage of the installation. Read
 =lib/Foswiki/Contrib/BuildContrib/TEMPLATE_installer.pl= (in the !BuildContrib)
-to see how they fit in. The POD comments in that module indicate the functions
-that are most likely to be useful to anyone writing a script extension.
+to see how they fit in.
+
+With the Foswiki 1.1 version of the install tools, these exits run as methods
+of the Configure::Package object instance for the extension, and have access
+to the package manifest and other information.  See the
+[[System.PerlDoc?module=Foswiki::Configure::Package][PerlDoc for Foswiki::Configurer::Package]] for details.  
+
+If the script needs to report to the installer, it should return the message
+as a simple string ending with a newline.  It will be presented as a verbatim block to the web
+install, or as inline text for the shell installation.
+
+<blockquote class="foswikiHelp">%X% Caution:  The pre/post scripts should not assume the standard installation
+directories or topics when used to remove or otherwise manipulate files in the
+installation.   You can use the Utility function =mapTarget= to find the
+correct file location for the current install.  See
+[[System.PerlDoc?module=Foswiki::Configure::Util][PerlDoc for Foswiki::Configure::Util]]</blockquote>
+
+Also, as the file to be removed is most likely not listed in the manifest,
+it will not be backed up during the install.  So use caution removing files
+that would be required if fallback to the prior version of the plugin is
+necessary.  
+
+For example, the POSTINSTALL script might look for an obsolete file from 
+a previous install, map it to the correct location for this installation, and
+delete it if it exists.
+
+<verbatim class="perl">
+    my $this = shift;   # Get the object instance passed to the routine
+    if ($this) {        # Verify that you are running in the new environment
+        # Map the standard location to the absolute location on this
+        # installation of Foswiki.   mapTarget is only available in Foswiki >= 1.1
+        my $mapped = Foswiki::Configure::Util::mapTarget( $this->{_rootdir}, 'tools/obsolete.pl');
+        my $count = unlink $mapped if ( -e $mapped ); # If it exists, delete it. 
+        return "Removed $mapped \n " if ($count);
+        }
+</verbatim>
 
 #UnitTesting
 ---++ Testing
@@ -476,6 +522,7 @@ The =release= target automatically expands certain tokens in =.txt= files
 and in the installer script. The following tokens are supported:
    * =%$<nop>MANIFEST%= - table of files in MANIFEST
    * =%$<nop>FILES%= - hash keyed on file name mapping to permissions i.e. 'data/System/ThsiTopic.txt' => 0664, 'lib/Foswiki/Plugins/BlahPlugin.pm' => 0775
+   * =%$<nop>FOSWIKIAUTHORS%= - contents of =core/AUTHORS=
    * =%$<nop>DEPENDENCIES%= - list of dependencies from DEPENDENCIES
    * =%$<nop>VERSION%= subversion number and the date of the most recent checkin
    * =%$<nop>RELEASE%= value of the =$RELEASE= perl global variable from your master perl module
@@ -515,6 +562,7 @@ If you want your installer to do anything else then you will need to write a [[#
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+%JQREQUIRE{"chili"}%
 -->
 
 ---++ Installation Instructions
@@ -531,13 +579,19 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
-|  11 Feb 2010 | Foswiki::Task:Item8468: Fixed incorrect link at the top of Extension topic - Foswiki:Main.AndrewJones |
-|  13 Sep 2009 | Foswiki::Task:Item8272: Improve handling of compression targets |
-|  21 Jul 2009 | Foswiki:Task:Item1840: check result of login attempt during perl build.pl upload |
-|  20 Mar 2009 | Foswiki:Task:Item1338: added SHA1 checksum generation; Foswiki:Task:Item1192 remove more T(m)Wiki cruft; added support for new Support structure to template - Foswiki:Main.WillNorris |
-|  5 Mar 2009 | Foswiki:Task:Item1198: Improved support for %<nop>$VERSION% (made it much more accurate) and changed the generated date format to ISO. Also added support for %<nop>$RELEASE%, an optional release identifier taken from the master perl module. |
-|  15 Feb 2009 | Foswiki:Task:Item1079: Added twiki target |
-|  31 Jan 2009 | Macro expansion works even in non-english locales (Foswiki:Task:Item924) |
+|  06 Aug 2010: | Foswikitask:Item9439: fix the initial uplaod problem - we were reading the topic file before it had been built |
+|  01 Aug 2010: | Foswikitask:Item9416: Add %$FOSWIKIAUTHORS% token, which pulls in =core/AUTHORS= verbatim |
+|  31 Jul 2010: | Foswikitask:Item9415: Documentation updates |
+|  27 May 2010 | Foswikitask:Item8810: improve generated manifest Foswikitask:Item9071: correct corruption of field values in target_upload |
+|  30 Mar 2010 | Foswikitask:Item8804: Improve support for alternate Extension repositories.  Foswiki:Development/EasierMirroringOfExtensionRepositories |
+|  11 Feb 2010 | Foswikitask:Item8468: Fixed incorrect link at the top of Extension topic - Foswiki:Main.AndrewJones |
+|  9 Feb 2010 | Foswikitask:Item8490: Handle 200 or 400 from GET bin/login |
+|  13 Sep 2009 | Foswikitask:Item8272: Improve handling of compression targets |
+|  21 Jul 2009 | Foswikitask:Item1840: check result of login attempt during perl build.pl upload |
+|  20 Mar 2009 | Foswikitask:Item1338: added SHA1 checksum generation; Foswikitask:Item1192 remove more T(m)Wiki cruft; added support for new Support structure to template - Foswiki:Main.WillNorris |
+|  5 Mar 2009 | Foswikitask:Item1198: Improved support for %<nop>$VERSION% (made it much more accurate) and changed the generated date format to ISO. Also added support for %<nop>$RELEASE%, an optional release identifier taken from the master perl module. |
+|  15 Feb 2009 | Foswikitask:Item1079: Added twiki target |
+|  31 Jan 2009 | Macro expansion works even in non-english locales (Foswikitask:Item924) |
 |  03 Dec 2008 | Re-release for Foswiki; copyright assigned to Foswiki Contributors |
 
 %META:FILEATTACHMENT{name="logo.gif" comment="logo" attr="h" path="logo.gif"}%
