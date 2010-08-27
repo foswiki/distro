@@ -40,7 +40,6 @@ jQuery(function($) {
         showAnim: 'fadeIn'
       }, $this.metadata());
     $this.datepicker(options);
-    $("#ui-datepicker-div").css('z-index', 1);
   });
 });
 </script></literal>%ENDSECTION{"init"}%
