@@ -154,6 +154,7 @@ END
     my $this = $class->SUPER::new( $name, "Foswiki" );
     $this->{last}     = $last;
     $this->{lastName} = $lastName;
+    $this->{foswikiReleaseBuild} = 1;
     return $this;
 }
 

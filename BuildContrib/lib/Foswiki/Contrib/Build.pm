@@ -1853,7 +1853,7 @@ END
     #need the topic at this point.
     $this->build('release');
     my $topicText;
-    my $baseTopic = $this->{basedir} . '/' . $to . '.txt';
+    my $baseTopic = $this->{basedir} . '/' . $topic . '.txt';
     local $/ = undef;    # set to read to EOF
     if ( open( IN_FILE, '<', $baseTopic ) ) {
         print "Basing new topic on "
@@ -1864,7 +1864,7 @@ END
     else {
         warn 'Failed to open base topic('.$baseTopic.'): ' . $!;
         $topicText = <<END;
-Release $to
+Release $topic
 END
         print "Basing new topic on some default text:\n$topicText\n";
     }
@@ -1955,16 +1955,18 @@ END
 
     $this->_uploadTopic( $userAgent, $user, $pass, $topic, \%newform );
 
-    # Upload any 'Var*.txt' topics published by the extension
-    my $dataDir = $this->{basedir} . '/data/System';
-    if ( opendir( DIR, $dataDir ) ) {
-        foreach my $f ( grep( /^Var\w+\.txt$/, readdir DIR ) ) {
-            if ( open( IN_FILE, '<', $this->{basedir} . '/data/System/' . $f ) )
-            {
-                %newform = ( text => <IN_FILE> );
-                close(IN_FILE);
-                $f =~ s/\.txt$//;
-                $this->_uploadTopic( $userAgent, $user, $pass, $f, \%newform );
+    if (not defined($this->{foswikiReleaseBuild})) {
+        # Upload any 'Var*.txt' topics published by the extension
+        my $dataDir = $this->{basedir} . '/data/System';
+        if ( opendir( DIR, $dataDir ) ) {
+            foreach my $f ( grep( /^Var\w+\.txt$/, readdir DIR ) ) {
+                if ( open( IN_FILE, '<', $this->{basedir} . '/data/System/' . $f ) )
+                {
+                    %newform = ( text => <IN_FILE> );
+                    close(IN_FILE);
+                    $f =~ s/\.txt$//;
+                    $this->_uploadTopic( $userAgent, $user, $pass, $f, \%newform );
+                }
             }
         }
     }
@@ -1993,7 +1995,7 @@ END
                 $name,
                 $this->{basedir}
                   . '/pub/System/'
-                  . $this->{project} . '/'
+                  . $topic . '/'
                   . $name,
                 $comment,
                 $attrs =~ /h/ ? 1 : 0
@@ -2109,14 +2111,14 @@ sub _uploadAttachment {
       = @_;
 
     # send an edit request to get a validation key
-    my $response = $userAgent->get("$this->{UPLOADTARGETSCRIPT}/edit$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/$this->{project}");
+    my $response = $userAgent->get("$this->{UPLOADTARGETSCRIPT}/edit$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/".$this->_getTopicName());
     unless ( $response->is_success ) {
-        die 'Request to edit '.$this->{UPLOADTARGETWEB}.'/'.$this->{project}.' failed '. $response->request->uri.
+        die 'Request to edit '.$this->{UPLOADTARGETWEB}.'/'.$this->_getTopicName().' failed '. $response->request->uri.
           ' -- '. $response->status_line. "\n";
     }
 
     my $url =
-"$this->{UPLOADTARGETSCRIPT}/upload$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/$this->{project}";
+"$this->{UPLOADTARGETSCRIPT}/upload$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/".$this->_getTopicName();
     my $form = [
         'filename'    => $filename,
         'filepath'    => [$filepath],
@@ -2125,7 +2127,7 @@ sub _uploadAttachment {
         'validation_key' => $this->_strikeone($userAgent, $response),
     ];
 
-    print "Uploading $this->{UPLOADTARGETWEB}/$this->{project}/$filename\n";
+    print "Uploading $this->{UPLOADTARGETWEB}/".$this->_getTopicName()."/$filename\n";
     $this->_postForm( $userAgent, $user, $pass, $url, $form );
 }
 
