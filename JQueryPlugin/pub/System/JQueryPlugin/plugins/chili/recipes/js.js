@@ -41,11 +41,11 @@ WEBSITE: http://noteslog.com/chili/
 		}
 		, brace: { 
 			  _match: /[\{\}]/
-			, _style: 'color: red; font-weight: bold;'
+			, _style: 'color: red;'
 		}
 		, statement: { 
 			  _match: /\b(with|while|var|try|throw|switch|return|if|for|finally|else|do|default|continue|const|catch|case|break)\b/
-			, _style: 'color: navy; font-weight: bold;'
+			, _style: 'color: navy;'
 		}
 		, error: { 
 			  _match: /\b(URIError|TypeError|SyntaxError|ReferenceError|RangeError|EvalError|Error)\b/
@@ -57,7 +57,7 @@ WEBSITE: http://noteslog.com/chili/
 		}
 		, property: { 
 			  _match: /\b(undefined|arguments|NaN|Infinity)\b/
-			, _style: 'color: Purple; font-weight: bold;'
+			, _style: 'color: Purple;'
 		}
 		, 'function': { 
 			  _match: /\b(parseInt|parseFloat|isNaN|isFinite|eval|encodeURIComponent|encodeURI|decodeURIComponent|decodeURI)\b/
@@ -65,7 +65,7 @@ WEBSITE: http://noteslog.com/chili/
 		}
 		, operator: {
 			  _match: /\b(void|typeof|this|new|instanceof|in|function|delete)\b/
-			, _style: 'color: RoyalBlue; font-weight: bold;'
+			, _style: 'color: RoyalBlue;'
 		}
 		, liveconnect: {
 			  _match: /\b(sun|netscape|java|Packages|JavaPackage|JavaObject|JavaClass|JavaArray|JSObject|JSException)\b/

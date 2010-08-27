@@ -14,7 +14,7 @@
 					  + this.x( content, '/_main' ) 
 					  + "<span class='ie_style'>" + this.x( close ) + "</span>";
 			}
-			, _style: "color: DarkSlateGray; font-weight: bold;"
+			, _style: "color: DarkSlateGray;"
 		}
 		, comment: { 
 			  _match: /<!--[\w\W]*?-->/ 
@@ -41,13 +41,13 @@
 					  + this.x( content, '/_main' )
 					  + "<span class='tag_start'>" + this.x( close ) + "</span>";
 			}
-			, _style: "color: navy; font-weight: bold;"
+			, _style: "color: navy;"
 		} 
 		// matches an ending tag
 		// like "</div>"
 		, tag_end: { 
 			  _match: /<\/\w+\s*>|\/>/ 
-			, _style: "color: navy; font-weight: bold;"
+			, _style: "color: navy;"
 		}
 		, entity: { 
 			  _match: /&(?:\w+|#[0-9]+|#x[0-9a-fA-F]+);/ 

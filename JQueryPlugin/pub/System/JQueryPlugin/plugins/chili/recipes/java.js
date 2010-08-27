@@ -35,7 +35,7 @@ WEBSITE: http://noteslog.com/chili/
 		}
 		, keyword: { 
 			  _match: /\b(?:while|volatile|void|try|true|transient|throws|throw|this|synchronized|switch|super|strictfp|static|short|return|public|protected|private|package|null|new|native|long|interface|int|instanceof|import|implements|if|goto|for|float|finally|final|false|extends|enum|else|double|do|default|continue|const|class|char|catch|case|byte|break|boolean|assert|abstract)\b/ 
-			, _style: "color: navy; font-weight: bold;"
+			, _style: "color: navy;"
 		}
 	}
 }

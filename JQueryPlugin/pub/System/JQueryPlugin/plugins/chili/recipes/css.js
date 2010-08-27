@@ -34,11 +34,11 @@ WEBSITE: http://noteslog.com/chili/
 		}
 		, 'class': {
 			  _match: /\.\w+/
-			, _style: "color: #CC0066; font-weight: bold;"
+			, _style: "color: #CC0066;"
 		}
 		, id:      {
 			  _match: /#\w+/
-			, _style: "color: IndianRed; font-weight: bold;"
+			, _style: "color: IndianRed;"
 		}
 		, pseudo:  {
 			  _match: /:\w+/
@@ -46,7 +46,7 @@ WEBSITE: http://noteslog.com/chili/
 		}
 		, element: {
 			  _match: /\w+/
-			, _style: "color: Purple; font-weight: bold;"
+			, _style: "color: Purple;"
 		}
 	}
 	, definition: {

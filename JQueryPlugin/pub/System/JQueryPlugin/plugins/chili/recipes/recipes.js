@@ -108,7 +108,7 @@ ChiliBook.recipes[ "php.js" ] =
 		}
 		, value: {
 			  _match: /\b(?:[Nn][Uu][Ll][Ll]|[Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])\b/ 
-			, _style: "color: gray; font-weight: bold;"
+			, _style: "color: gray;"
 		}
 		, number: {
 			  _match: /\b[+-]?(\d*\.?\d+|\d+\.?\d*)([eE][+-]?\d+)?\b/ 
@@ -128,7 +128,7 @@ ChiliBook.recipes[ "php.js" ] =
 		}
 		, keyword: {
 			  _match: /\b(?:__CLASS__|__FILE__|__FUNCTION__|__LINE__|__METHOD__|abstract|and|array|as|break|case|catch|cfunction|class|clone|const|continue|declare|default|die|do|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|eval|exception|exit|extends|extends|final|for|foreach|function|global|if|implements|include|include_once|interface|isset|list|new|old_function|or|php_user_filter|print|private|protected|public|require|require_once|return|static|switch|this|throw|try|unset|use|var|while|xor)\b/ 
-			, _style: "color: navy; font-weight: bold;"
+			, _style: "color: navy;"
 		}
 		, variable: {
 			  _match: /\$(\w+)/
@@ -160,7 +160,7 @@ ChiliBook.recipes[ "html.js" ] =
 					  + this.x( content, '//style' ) 
 					  + "<span class='ie_style'>" + this.x( close ) + "</span>";
 			}
-			, _style: "color: DarkSlateGray; font-weight: bold;"
+			, _style: "color: DarkSlateGray;"
 		}
 		, comment: { 
 			  _match: /<!--[\w\W]*?-->/ 
@@ -191,7 +191,7 @@ ChiliBook.recipes[ "html.js" ] =
 					  + this.x( content, '/tag_attrs' ) 
 					  + "<span class='tag_start'>" + this.x( close ) + "</span>";
 			}
-			, _style: "color: navy; font-weight: bold;"
+			, _style: "color: navy;"
 		} 
 		// matches an ending tag
 		// like "</div>"
@@ -250,11 +250,11 @@ ChiliBook.recipes[ "js.js" ] =
 		}
 		, brace: { 
 			  _match: /[\{\}]/
-			, _style: 'color: red; font-weight: bold;'
+			, _style: 'color: red;'
 		}
 		, statement: { 
 			  _match: /\b(with|while|var|try|throw|switch|return|if|for|finally|else|do|default|continue|const|catch|case|break)\b/
-			, _style: 'color: navy; font-weight: bold;'
+			, _style: 'color: navy;'
 		}
 		, error: { 
 			  _match: /\b(URIError|TypeError|SyntaxError|ReferenceError|RangeError|EvalError|Error)\b/
@@ -266,7 +266,7 @@ ChiliBook.recipes[ "js.js" ] =
 		}
 		, property: { 
 			  _match: /\b(undefined|arguments|NaN|Infinity)\b/
-			, _style: 'color: Purple; font-weight: bold;'
+			, _style: 'color: Purple;'
 		}
 		, 'function': { 
 			  _match: /\b(parseInt|parseFloat|isNaN|isFinite|eval|encodeURIComponent|encodeURI|decodeURIComponent|decodeURI)\b/
@@ -274,7 +274,7 @@ ChiliBook.recipes[ "js.js" ] =
 		}
 		, operator: {
 			  _match: /\b(void|typeof|this|new|instanceof|in|function|delete)\b/
-			, _style: 'color: RoyalBlue; font-weight: bold;'
+			, _style: 'color: RoyalBlue;'
 		}
 		, liveconnect: {
 			  _match: /\b(sun|netscape|java|Packages|JavaPackage|JavaObject|JavaClass|JavaArray|JSObject|JSException)\b/
@@ -311,11 +311,11 @@ ChiliBook.recipes[ "css.js" ] =
 		}
 		, 'class': {
 			  _match: /\.\w+/
-			, _style: "color: #CC0066; font-weight: bold;"
+			, _style: "color: #CC0066;"
 		}
 		, id:      {
 			  _match: /#\w+/
-			, _style: "color: IndianRed; font-weight: bold;"
+			, _style: "color: IndianRed;"
 		}
 		, pseudo:  {
 			  _match: /:\w+/
@@ -323,7 +323,7 @@ ChiliBook.recipes[ "css.js" ] =
 		}
 		, element: {
 			  _match: /\w+/
-			, _style: "color: Purple; font-weight: bold;"
+			, _style: "color: Purple;"
 		}
 	}
 	, definition: {

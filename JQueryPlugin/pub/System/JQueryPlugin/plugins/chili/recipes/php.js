@@ -103,7 +103,7 @@ WEBSITE: http://noteslog.com/chili/
 		}
 		, value: {
 			  _match: /\b(?:[Nn][Uu][Ll][Ll]|[Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])\b/ 
-			, _style: "color: gray; font-weight: bold;"
+			, _style: "color: gray;"
 		}
 		, number: {
 			  _match: /\b[+-]?(\d*\.?\d+|\d+\.?\d*)([eE][+-]?\d+)?\b/ 
@@ -123,7 +123,7 @@ WEBSITE: http://noteslog.com/chili/
 		}
 		, keyword: {
 			  _match: /\b(?:__CLASS__|__FILE__|__FUNCTION__|__LINE__|__METHOD__|abstract|and|array|as|break|case|catch|cfunction|class|clone|const|continue|declare|default|die|do|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|eval|exception|exit|extends|extends|final|for|foreach|function|global|if|implements|include|include_once|interface|isset|list|new|old_function|or|php_user_filter|print|private|protected|public|require|require_once|return|static|switch|this|throw|try|unset|use|var|while|xor)\b/ 
-			, _style: "color: navy; font-weight: bold;"
+			, _style: "color: navy;"
 		}
 		, variable: {
 			  _match: /\$(\w+)/

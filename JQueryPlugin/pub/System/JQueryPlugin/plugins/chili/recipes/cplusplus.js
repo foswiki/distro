@@ -39,7 +39,7 @@ WEBSITE: http://noteslog.com/chili/
 		}
 		, keyword : { 
 			  _match: /\b(?:while|whcar_t|volatile|void|virtual|uuid|using|union|typename|typeid|typedef|try|true|throw|thread|this|template|switch|struct|static_cast|static|sizeof|selectany|return|reinterpret_cast|register|public|protected|private|nothrow|noreturn|noinline|new|namespace|naked|mutable|inline|if|goto|friend|for|false|extern|explicit|enum|else|dynamic_cast|do|dllimport|dllexport|deprecated|delete|default|continue|const_cast|const|class|catch|case|break|__try|__finally|__exception|__declspec)\b/ 
-			, _style: "color: navy; font-weight: bold;"
+			, _style: "color: navy;"
 		}
 	}
 }

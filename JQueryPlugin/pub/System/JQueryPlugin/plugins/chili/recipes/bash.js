@@ -27,7 +27,7 @@ Copyright 2009 / Sven Vetter, Trivadis AG
 		}
 		, hexnum: {
 			  _match: /\b0[xX][\dA-Fa-f]+\b|\b[xX]([\'\"])[\dA-Fa-f]+\1/ 
-			, _style: "color: red; font-weight: bold;"
+			, _style: "color: red;"
 		}
 		, variable: {
 			  _match: /@([$.\w]+|([`\"\'])(?:(?:[^\2\\\r\n]*?(?:\2\2|\\.))*[^\2\\\r\n]*?)\2)/
@@ -36,7 +36,7 @@ Copyright 2009 / Sven Vetter, Trivadis AG
 		}
 		, keyword: {
 			  _match: /\b(?:alias|break|continue|export|for|in|case|esac|done|exit|function|if|then|else|elif|fi|do|return|local|unalias|unset|typeset|true|false|printf|pwd|let|echo|eval|bg|fg|kill|read|type|until)\b/
-			, _style: "color: navy; font-weight: bold;"
+			, _style: "color: navy;"
 		}
 		, 'function': {
 			  _match: /\b(?:cat|rm|mv|cp|cd|mkdir|rmdir|chmod|chgrp|grep|tar|sed|awk)\b/
