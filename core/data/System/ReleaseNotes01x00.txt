@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252718469" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 1.0.10 - 25 Aug 2010
+---+!! Foswiki Release 1.0.10 - 30 Aug 2010
 
 %TOC%
 
@@ -26,7 +26,7 @@ Foswiki is the old TWiki project under a new name. Restrictions on the use of th
    * Foswiki 1.0.7 was built 20 Sep 2009. It is a patch release with more than 240 bug fixes relative to 1.0.0 and some enhancements. This release fixes some serious issues introduced by the CSRF fix and the redirect cache fix in 1.0.6. Major enhancement that also fixes many annoying editor bugs is the upgrade of the !Tiny MCE editor to version 3.2.2. 
    * Foswiki 1.0.8 was built 29 Nov 2009. It is a patch release with more than 280 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevented efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded with the latest Tiny MCE editor release 3.2.7.
    * Foswiki 1.0.9 was built 17 Jan 2010. It is a patch release with more than 320 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bugs in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
-   * Foswiki 1.0.10 was built 25 Aug 2010 as a patch release with more than 440 bug fixes relative to 1.0.0. 
+   * Foswiki 1.0.10 was built 30 Aug 2010 as a patch release with more than 440 bug fixes relative to 1.0.0. 
 
 ---++ Pre-installed Extensions
 
@@ -161,6 +161,12 @@ These changes have the following consequences when upgrading from TWiki to Foswi
 Please see %SYSTEMWEB%.UpgradeGuide#CopyUsersAndCustomizations for more information.
 
 ---++ Important Changes since Foswiki 1.0.9
+This release is expected to be the final bug fixing release for foswiki 1.0, and wraps up about 70 fixes found since 1.0.9. 
+
+Importantly, this release fixes an issue running configure on Perl 5.12, improves compatibility with proxy and enterprise search indexers, and updates the shipped plugins to the latest versions.
+
+It resolves a numer of issues for running foswiki on MS Windows.
+
 
 ---++ Important Changes since Foswiki 1.0.8
 
@@ -930,7 +936,7 @@ None
 | [[%BUGS%/Item8865][Item8865]] | rdiff DIFFRENDERSTYLE does not work as expected |
 | [[%BUGS%/Item8874][Item8874]] | Topic System/LoginName references wrong Users list |
 | [[%BUGS%/Item8886][Item8886]] | configure Extension installer and lister is not very forgiving of errors |
-| [[%BUGS%/Item8889][Item8889]] | UI for configure | Plugins is overwhelming and presents little-used configuration options in normal mode |
+| [[%BUGS%/Item8889][Item8889]] | UI for configure  Plugins is overwhelming and presents little-used configuration options in normal mode |
 | [[%BUGS%/Item8896][Item8896]] | SpreadSheetPlugin ignores SKIPINCLUDE option |
 | [[%BUGS%/Item8903][Item8903]] | INCLUDE will return entire topic if pattern does not match |
 | [[%BUGS%/Item8967][Item8967]] | Crashes with CPAN module Net::LDAP::Constant |

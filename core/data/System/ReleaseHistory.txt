@@ -5,9 +5,16 @@
 
 %TOC%
 
----++ Foswiki Release 1.0.10 - 25 Aug 2010
+---++ Foswiki Release 1.0.10 - 30 Aug 2010
 
 Foswiki 1.0.10 was built 25 Aug 2010 as a patch release with more than 440 bug fixes relative to 1.0.0. 
+
+This release is expected to be the final bug fixing release for foswiki 1.0, and wraps up about 70 fixes found since 1.0.9. 
+
+Importantly, this release fixes an issue running configure on Perl 5.12, improves compatibility with proxy and enterprise search indexers, and updates the shipped plugins to the latest versions.
+
+It resolves a numer of issues for running foswiki on MS Windows.
+
 
 
 ---++ Foswiki Release 1.0.9 - 17 Jan 2010
