@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-08-23 19:36+0000\n"
+"PO-Revision-Date: 2010-08-26 16:30+0000\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "MIME-Version: 1.0\n"
@@ -249,7 +249,6 @@ msgid "(changes)"
 msgstr "(Änderungen)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:3
-#, fuzzy
 msgid "(compare)"
 msgstr "(vergleichen)"
 
@@ -552,7 +551,6 @@ msgid "Action %1: %2."
 msgstr "Aktion %1: %2."
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
-#, fuzzy
 msgid "Add"
 msgstr "hinzufügen"
 
@@ -578,7 +576,6 @@ msgid "Add user..."
 msgstr "Benutzer hinzufügen..."
 
 #: core/templates/messages.tmpl:369
-#, fuzzy
 msgid "Adding a %1 preference in WebPreferences"
 msgstr "Füge eine %1 Variable in WebPreferences hinzu"
 
@@ -701,23 +698,20 @@ msgid "Attachment does not exist."
 msgstr "Anhang existiert nicht."
 
 #: core/templates/attachtables.tmpl:42
-#, fuzzy
 msgid "Attachment history"
-msgstr "Anhänge"
+msgstr "Anhangs-Historie"
 
 #: core/lib/Foswiki/UI/RDiff.pm:63
-#, fuzzy
 msgid "Attachment metadata"
-msgstr "Verschieben des Anhangs fehlgeschlagen"
+msgstr "Anhangs Metadaten"
 
 #: core/templates/messages.tmpl:54
 msgid "Attachment move failed"
 msgstr "Verschieben des Anhangs fehlgeschlagen"
 
 #: core/templates/moveattachment.tmpl:37
-#, fuzzy
 msgid "Attachment name:"
-msgstr "Anhang"
+msgstr "Anhangs Name:"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
@@ -862,16 +856,15 @@ msgstr "Passwort ändern"
 
 #: core/templates/validate.tmpl:22
 msgid "Change cannot be completed"
-msgstr ""
+msgstr "Änderung konnte nicht vollzogen werden"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
 msgstr "Nur Kommentar und Eigenschaften ändern"
 
 #: core/templates/renamebase.tmpl:14
-#, fuzzy
 msgid "Change from"
-msgstr "Geändert von:"
+msgstr "Geändert von"
 
 #: core/data/System/LanguageSelector.txt:35
 #: core/templates/oopslanguagechanged.tmpl:5
