@@ -895,7 +895,7 @@ None
 | [[%BUGS%/Item2131][Item2131]] | All warnings causes Foswiki to throw message "Foswiki detected an internal error." with CGI 3.47 |
 | [[%BUGS%/Item2322][Item2322]] | Don't send Status 200 for non-existent pages |
 | [[%BUGS%/Item2370][Item2370]] | !TwistyPlugin generates illegal id= values when used in subwebs |
-| [[%BUGS%/Item2452][Item2452]] | Topic level preferences are never read from old revisions of a topic. |
+| [[%BUGS%/Item2452][Item2452]] | Document that topic level preferences are never read from old revisions of a topic. |
 | [[%BUGS%/Item2484][Item2484]] | Password Manager Foswiki::Users::ApacheHtpasswdUser doesn't create empty .htpasswd if none exists |
 | [[%BUGS%/Item2542][Item2542]] | empty paths in configure result in "NOT SET" |
 | [[%BUGS%/Item2618][Item2618]] | TinyMCEPlugin inserts weird HTML that breaks TML tables |
@@ -930,7 +930,7 @@ None
 | [[%BUGS%/Item8747][Item8747]] | Foswiki documentation on attachments unclear |
 | [[%BUGS%/Item8760][Item8760]] | Fix dangling links in !HierarchicalTopicNavigation |
 | [[%BUGS%/Item8785][Item8785]] | SEARCH zeroresults option works in 1.0 _but_ the docco is about as unhelpful as you can get |
-| [[%BUGS%/Item8791][Item8791]] | ONLYIF function can never be "safe" - missing $ from regex in extender.pl |
+| [[%BUGS%/Item8791][Item8791]] | ONLYIF function used for conditional dependencies when installing extensions doesn't work. |
 | [[%BUGS%/Item8820][Item8820]] | foswikiIcon missing from css documentation |
 | [[%BUGS%/Item8851][Item8851]] | TemplateLogin does not log failure and other events. |
 | [[%BUGS%/Item8865][Item8865]] | rdiff DIFFRENDERSTYLE does not work as expected |
@@ -961,11 +961,11 @@ None
 | [[%BUGS%/Item9331][Item9331]] | configue gets confused by commented out settings |
 | [[%BUGS%/Item9351][Item9351]] | Canonicalise list processing |
 | [[%BUGS%/Item9376][Item9376]] | can't create new web as any webbgcolor is considered invalid |
-| [[%BUGS%/Item9382][Item9382]] | Configure::Load uses $@ to report errors - should be $! |
+| [[%BUGS%/Item9382][Item9382]] | Improve error reporting if Foswiki is unable to read LocalSite.cfg |
 | [[%BUGS%/Item9417][Item9417]] | Configure guesses incorrect /pub urlpath if /bin not in path for very short URLs |
 | [[%BUGS%/Item9429][Item9429]] | !VarINCLUDE should clearly differentiate the options than only apply to URL style includes |
 | [[%BUGS%/Item9441][Item9441]] | =bin/htaccess.txt= needs to clarify the tailoring instructions |
-| [[%BUGS%/Item9489][Item9489]] | Stripper's not doing a good job |
+| [[%BUGS%/Item9489][Item9489]] | TablePlugin sort should strip extraneous HTML from string data before comparing. |
 | [[%BUGS%/Item9536][Item9536]] | don't guess windows paths with backslash and then forcethem to change them to fowardslash |
 | [[%BUGS%/Item9542][Item9542]] | mailprogram checker in configure should error or warn if its not there. |
 
