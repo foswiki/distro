@@ -30,3 +30,7 @@
 }
 .WYSIWYG_TT {}
 
+/* Make the text in tables the same size as normal paragraph text */
+.mceContentBody td {
+    font-size:small;
+}
