@@ -1692,7 +1692,10 @@ sub target_uninstall {
 
     sub new {
         my ( $class, $id, $bldr ) = @_;
-        my $this = $class->SUPER::new( keep_alive => 1 );
+        my $this = $class->SUPER::new(
+            keep_alive => 1,
+            # Item721: Get proxy settings from environment variables
+            env_proxy => 1 );
         $this->{domain}  = $id;
         $this->{builder} = $bldr;
         require HTTP::Cookies;
