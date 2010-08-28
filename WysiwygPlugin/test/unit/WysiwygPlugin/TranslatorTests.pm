@@ -2213,6 +2213,30 @@ GLUED
     },
     {
         exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        name => 'selfClosingTagsInsideLiteral',
+        html => <<HTML,
+<p>
+<div class="WYSIWYG_LITERAL">X<br />Y<img alt='' src='foo' /></div>
+</p>
+HTML
+        tml  => <<'GLUED',
+<literal>X<br />Y<img alt='' src='foo' /></literal>
+GLUED
+    },
+    {
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        name => 'protectedByAttributes',
+        html => <<'HTML',
+<p>
+<br id="foo" />
+</p>
+HTML
+        tml  => <<'TML',
+<br id="foo" />
+TML
+    },
+    {
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
         name => 'entityWithNoNameInsideSticky',
         tml  => <<'GLUED',
 <sticky>&#9792;</sticky>

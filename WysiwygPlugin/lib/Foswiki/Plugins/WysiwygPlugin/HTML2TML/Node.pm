@@ -73,9 +73,10 @@ sub stringify {
     my $r = '';
     if ( $this->{tag} ) {
         $r .= '<' . $this->{tag};
-        foreach my $attr ( keys %{ $this->{attrs} } ) {
+        foreach my $attr ( sort keys %{ $this->{attrs} } ) {
             $r .= " " . $attr . "='" . $this->{attrs}->{$attr} . "'";
         }
+        $r .= ' /' if $WC::SELFCLOSING{ lc($this->{tag}) };
         $r .= '>';
     }
     if ($shallow) {
@@ -88,7 +89,7 @@ sub stringify {
             $kid = $kid->{next};
         }
     }
-    if ( $this->{tag} ) {
+    if ( $this->{tag} and not $WC::SELFCLOSING{ lc($this->{tag}) } ) {
         $r .= '</' . $this->{tag} . '>';
     }
     return $r;
