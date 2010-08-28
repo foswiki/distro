@@ -674,7 +674,10 @@ pub/System/TinyMCEPlugin/tinymce/readme.md 0644
 #pub/System/TinyMCEPlugin/tinymce/tools/templates/js/shCore.js 0644
 #pub/System/TinyMCEPlugin/tinymce/tools/templates/member.xsl 0644
 pub/System/TinyMCEPlugin/unlink.gif 0644
-pub/System/TinyMCEPlugin/verbatim.gif 0644
+pub/System/TinyMCEPlugin/watermark_literal.gif 0644
+pub/System/TinyMCEPlugin/watermark_protect_forever.gif 0644
+pub/System/TinyMCEPlugin/watermark_protect_on_save.gif 0644
+pub/System/TinyMCEPlugin/watermark_verbatim.gif 0644
 pub/System/TinyMCEPlugin/wikiringlogo20x20.png 0644
 pub/System/TinyMCEPlugin/wysiwyg_src.css 0644
 pub/System/TinyMCEPlugin/wysiwyg.css 0644
