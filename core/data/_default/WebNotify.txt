@@ -5,4 +5,4 @@
    * %USERSWEB%.WikiGuest - example@your.company
 
 
-%INCLUDE{"%SYSTEMWEB%.WebChangesAlert"}%
+%INCLUDE{"%SYSTEMWEB%.WebNotifyHelp"}%

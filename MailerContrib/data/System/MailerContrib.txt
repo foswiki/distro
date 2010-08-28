@@ -30,7 +30,7 @@ Allows users to "subscribe" to regularly scheduled e-mails containing either:
 The mailer collates the changes emails so that each subscriber only receives one changes notification for all changes in all webs in the Foswiki. Furthermore, users can elect to receive just summaries of changes, or the entire content of topics that have changed.
 
 Each web can optionally contain a topic called <nop>%NOTIFYTOPIC%.
-<!-- Included by %SYSTEMWEB%.WebChangesAlert -->
+<!-- Included by %SYSTEMWEB%.WebNotifyHelp -->
 %STARTINCLUDE%
 Users subscribe to email notifications using their [[%SYSTEMWEB%.WikiName][WikiName]] or an alternative email address, and can specify the webs/topics they wish to track, Whole groups of users can also be subscribed for notification.
 

@@ -1,20 +1,4 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252721307" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WebHome"}%
-%TWISTY{showlink="&#9658; %MAKETEXT{"Notification help"}%" hidelink="&#9660; %MAKETEXT{"Notification help"}%" linkclass="foswikiButton" remember="on"}%
-<div class="foswikiHelp">
-%STARTSECTION{"includeasdocumentation"}%
----+++ Web Changes Notification Service
-
-Each Foswiki web has an automatic e-mail notification service that sends you an e-mail with links to all of the topics modified since the last alert. 
-
-%INCLUDE{"MailerContrib"}%
-
-*Note for System Administrators:* Notification is supported by an add-on to the Foswiki kernel called the !MailerContrib. See the [[%SYSTEMWEB%.MailerContrib][MailerContrib]] topic for details of how to set up this service.
-
-*Note:* If you prefer a news feed, point your reader to [[%BASEWEB%.WebRss][WebRss]] (for RSS 1.0 feeds) or [[%BASEWEB%.WebAtom][WebAtom]] (for ATOM 1.0 feeds). Learn more at [[%SYSTEMWEB%.WebRssBase][WebRssBase]] and [[%SYSTEMWEB%.WebAtomBase][WebAtomBase]], respectively.
-
----
-*Related topics:* [[%SYSTEMWEB%.WebChangesAlert][WebChangesAlert]], [[%USERSWEB%.%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
-%ENDSECTION{"includeasdocumentation"}%
-</div><!--/foswikiHelp-->
-%ENDTWISTY%
+%INCLUDE{"%SYSTEMWEB%.WebNotifyHelp"}%
+<!-- this topic is superseded by <nop>WebNotifyHelp -->

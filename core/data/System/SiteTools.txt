@@ -14,7 +14,7 @@ In particular, you have two highly configurable, automated site monitoring tools
 #WebNotify
 ---++ <nop>WebNotify - recent changes alert
 
-%INCLUDE{"WebChangesAlert" section="includeasdocumentation"}%
+%INCLUDE{"WebNotifyHelp" section="includeasdocumentation"}%
 
 #WebSearch
 ---++ <nop>WebSearch - search the site

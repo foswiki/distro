@@ -2137,7 +2137,7 @@ msgstr "Nota:"
 msgid "Notes:"
 msgstr "Annotazioni:"
 
-#: core/data/System/WebChangesAlert.txt:3
+#: core/data/System/WebNotifyHelp.txt:3
 msgid "Notification help"
 msgstr "Notifica di aiuto."
 

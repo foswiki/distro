@@ -2123,7 +2123,7 @@ msgstr "注意:"
 msgid "Notes:"
 msgstr "注意:"
 
-#: core/data/System/WebChangesAlert.txt:3
+#: core/data/System/WebNotifyHelp.txt:3
 #, fuzzy
 msgid "Notification help"
 msgstr "公告"

@@ -311,6 +311,7 @@ data/System/WebCreateNewTopicTemplate.txt 0644
 data/System/WebHome.txt 0644
 data/System/WebIndex.txt 0644
 data/System/WebNotify.txt 0644
+data/System/WebNotifyHelp.txt 0644
 data/System/WebPreferences.txt 0644
 data/System/WebPreferencesHelp.txt 0644
 data/System/WebRss.txt 0644

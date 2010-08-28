@@ -1998,7 +1998,7 @@ msgstr "Not:"
 msgid "Notes:"
 msgstr "Notlar:"
 
-#: core/data/System/WebChangesAlert.txt:2
+#: core/data/System/WebNotifyHelp.txt:2
 msgid "Notification help"
 msgstr "Bildirim Yardımı"
 

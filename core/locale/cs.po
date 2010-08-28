@@ -2111,7 +2111,7 @@ msgstr "Poznámka:"
 msgid "Notes:"
 msgstr "Poznámky:"
 
-#: core/data/System/WebChangesAlert.txt:3
+#: core/data/System/WebNotifyHelp.txt:3
 msgid "Notification help"
 msgstr "Nápověda k notifikacím"
 
