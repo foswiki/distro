@@ -132,7 +132,7 @@ Edit this topic, and change the color as you like.
 ---++++ NOTIFICATION_BACKGROUND Info, broadcast message and notifications
    * Local NOTIFICATION_BACKGROUND = #fff7e7
 ---++++ INFO_BACKGROUND
-   * Local INFO_BACKGROUND = #d9ffd9
+   * Local INFO_BACKGROUND = #e5fce1
 
 ---+++ Border colors
 ---++++ NEUTRAL_BORDER Info (light gray)
@@ -605,6 +605,7 @@ a:hover .foswikiAccessKey {
    border:none;
    color:%LINK_TEXT_HOVER%;
 }
+.patternHomePathTitle,
 .patternRevInfo,
 .patternHomePath a:link,
 .patternHomePath a:visited {

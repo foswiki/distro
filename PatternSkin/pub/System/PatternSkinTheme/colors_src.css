@@ -328,7 +328,7 @@ table.foswikiFormTable {
    border-color:#f00;
 }
 .foswikiHelp {
-   background-color:#d9ffd9;
+   background-color:#e5fce1;
    border-color:#9c9;
 }
 .foswikiBroadcastMessage b,
@@ -399,6 +399,7 @@ a:hover .foswikiAccessKey {
    border:none;
    color:#06c;
 }
+.patternHomePathTitle,
 .patternRevInfo,
 .patternHomePath a:link,
 .patternHomePath a:visited {
