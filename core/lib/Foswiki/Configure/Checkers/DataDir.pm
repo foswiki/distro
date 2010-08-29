@@ -13,6 +13,7 @@ sub check {
     $this->{filecount}  = 0;
     $this->{fileErrors} = 0;
     $this->{excessPerms} = 0;
+    $this->{missingFile} = 0;
 
     my $e = $this->guessMajorDir( 'DataDir', 'data' );
     
@@ -22,9 +23,9 @@ sub check {
       ? ''
       : 'd';
 
-    # Check readable, writable  and directories match {RCS}{dirPermissions}
+    # Check r-readable, w-writable  and d-directories match {RCS}{dirPermissions} and p-WebPreferences topic exists.
     my $e2 =
-      $this->checkTreePerms( $Foswiki::cfg{DataDir}, 'rw' . $dirchk, qr/,v$/ );
+      $this->checkTreePerms( $Foswiki::cfg{DataDir}, 'rwp' . $dirchk, qr/,v$/ );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{DataDir} );
     $e .=
       ( $this->{filecount} >= $Foswiki::cfg{PathCheckLimit} )
@@ -49,6 +50,16 @@ are set correctly for your environment and correct the file permissions listed b
 ERRMSG
     }
 
+    $singularOrPlural = $this->{missingFile} == 1 ? "$this->{missingFile} required file is missing." : "$this->{missingFile} files are missing.";
+    if ( $this->{missingFile} ) {
+        $e .= $this->WARN(<<PREFS)
+$singularOrPlural.  The web directories have been checked for a $Foswiki::cfg{WebPrefsTopicName} topic.
+If this file is missing, Foswiki will not recognize the directory as a Web and the contents will not be 
+accessible to Foswiki.  Verify that each directory is intented to be a web and either copy in a $Foswiki::cfg{WebPrefsTopicName}
+topic or remove the directory to correct the warning.
+PREFS
+    }
+
     if ( $this->{excessPerms}) {
         $e .= $this->WARN(<<PERMS);
 $this->{excessPerms} or more directories appear to have more access permission than requested in the Store configuration.
@@ -59,10 +70,13 @@ for excessive permissions in this release).
 PERMS
     }
 
-    $e .= $this->NOTE('<b>First 10 detected errors of insufficient, or excessive permissions</b> <br/> ' . $e2 ) if $e2;
+    #$e .= $this->ERROR("$Foswiki::cfg{DataDir}/$Foswiki::cfg{UsersWebName}/$Foswiki::cfg{SitePrefsTopicName}.txt 
+
+    $e .= $this->NOTE('<b>First 10 detected errors of insufficient, or excessive permissions, and all instances of missing files.</b> <br/> ' . $e2 ) if $e2;
 
     $this->{filecount}  = 0;
     $this->{fileErrors} = 0;
+    $this->{missingFile} = 0;
     $this->{excessPerms} = 0;
 
     return $e;

@@ -135,6 +135,7 @@ All failures of the basic checks are reported back to the caller.
 Enhanced checks:
    * d - Directory permission matches the permissions in {RCS}{dirPermission}
    * f - File permission matches the permission in {RCS}{filePermission}  (FUTURE)
+   * p - Verify that a WebPreferences exists for each web
 
 If > 20 enhanced errors are encountered, reporting is stopped to avoid excessive
 errors to the administrator.   The count of enhanced errors is reported back 
@@ -163,6 +164,7 @@ sub checkTreePerms {
     return '' if ( defined($filter) && $path =~ $filter && !-d $path );
 
     $this->{fileErrors}  = 0 unless ( defined $this->{fileErrors} );
+    $this->{missingFile}  = 0 unless ( defined $this->{missingFile} );
     $this->{excessPerms} = 0 unless ( defined $this->{excessPerms} );
 
     #let's ignore Subversion directories
@@ -219,6 +221,13 @@ sub checkTreePerms {
 "$path - file insufficient permission: $omode should be $operm"
                 );
             }
+        }
+    }
+
+    if ( $perms =~ /p/ && $path =~ /data\/(.+)$/ && -d $path ) {
+        unless ( -e "$path/$Foswiki::cfg{WebPrefsTopicName}.txt") {
+        $permErrs .= " $path missing $Foswiki::cfg{WebPrefsTopicName} Topic" . CGI::br();
+        $this->{missingFile}++;
         }
     }
 
