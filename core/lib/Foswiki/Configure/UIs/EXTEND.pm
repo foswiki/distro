@@ -28,13 +28,14 @@ sub ui {
               . " </pre>" );
     }
     my $arf = $repository->{pub} . $extension . '/' . $extension . $ext;
-    if (defined($this->{_repository}->{user})) { 
-        $arf .= '?username='.$this->{_repository}->{user};
-        if (defined($this->{_repository}->{pass})) {
-            $arf .= ';password='.$this->{_repository}->{pass};
+    print "<br/>Fetching $arf...<br />\n";
+    if (defined($repository->{user})) { 
+        $arf .= '?username='.$repository->{user};
+        if (defined($repository->{pass})) {
+            $arf .= ';password='.$repository->{pass};
         }
     }
-    print "<br/>Fetching $arf...<br />\n";
+
     my $response = $this->getUrl($arf);
     if ( !$response->is_error() ) {
         eval { $ar = $response->content(); };
@@ -59,6 +60,14 @@ HERE
         $ext = '.zip';
         $arf = $repository->{pub} . $extension . '/' . $extension . $ext;
         print "<br/>Fetching $arf...<br />\n";
+        if (defined($repository->{user})) { 
+            print "as ".$repository->{user}."\n";
+            $arf .= '?username='.$repository->{user};
+            if (defined($repository->{pass})) {
+                $arf .= ';password='.$repository->{pass};
+            }
+        }
+
         $response = $this->getUrl($arf);
         if ( !$response->is_error() ) {
             eval { $ar = $response->content(); };
