@@ -63,15 +63,16 @@ sub new {
 
     foreach my $plug ( keys %{ $Foswiki::cfg{Plugins} } ) {
         next unless ( $plug =~ m/Plugin$/ );
-        next unless ( $Foswiki::cfg{Plugins}{$plug}{Enabled} );
         my $simple = $plug;
         $simple =~ s/^.*::([^:]*)/$1/;
         unless ($modules{$simple}) {
+            $modules{$simple} = $plug;
             $this->addChild(
                 new Foswiki::Configure::Value(
                     'BOOLEAN',
                     parent   => $this,
                     keys     => '{Plugins}{' . $plug . '}{Enabled}',
+                    expertsOnly => !$Foswiki::cfg{Plugins}{$plug}{Enabled}
                 )
             );
             $this->addChild(
