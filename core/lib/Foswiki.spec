@@ -1263,7 +1263,7 @@ $Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 # You are <b>strongly</b> recommended to keep all your local changes in
 # a {LocalSitePreferences} topic rather than changing DefaultPreferences,
 # as it will make upgrading a lot easier.
-$Foswiki::cfg{LocalSitePreferences} = 'Main.SitePreferences';
+$Foswiki::cfg{LocalSitePreferences} = '$Foswiki::cfg{UsersWebName}.SitePreferences';
 
 # **STRING 20 EXPERT**
 # Name of main topic in a web.
