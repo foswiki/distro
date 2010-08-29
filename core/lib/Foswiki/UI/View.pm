@@ -492,6 +492,11 @@ sub viewfile {
         );
     }
 
+    # decode filename in case it is urlencoded and/or utf8, see Item9462
+    $fileName = Foswiki::urlDecode($fileName);
+    my $decodedFileName = $session->UTF82SiteCharSet($fileName);
+    $fileName = $decodedFileName if defined $decodedFileName;
+
     #print STDERR "VIEWFILE: web($webName), topic($topic), file($fileName)\n";
 
     my $rev = $session->{store}->cleanUpRevID( $query->param('rev') );
