@@ -40,8 +40,8 @@ sub check {
     my $dperm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
     my $fperm = sprintf( '%04o', $Foswiki::cfg{RCS}{filePermission} );
 
-    my $singularOrPlural = $this->{fileErrors} == 1 ? "$this->{fileErrors} directory or file has insufficient permissions." : "$this->{fileErrors} directories or files have insufficient permissions.";
     if ( $this->{fileErrors} ) {
+        my $singularOrPlural = $this->{fileErrors} == 1 ? "$this->{fileErrors} directory or file has insufficient permissions." : "$this->{fileErrors} directories or files have insufficient permissions.";
         $e .= $this->ERROR(<<ERRMSG)
 $singularOrPlural Insufficient permissions
 could prevent Foswiki or the web server from accessing or updating the files.
@@ -50,8 +50,8 @@ are set correctly for your environment and correct the file permissions listed b
 ERRMSG
     }
 
-    $singularOrPlural = $this->{missingFile} == 1 ? "$this->{missingFile} required file is missing." : "$this->{missingFile} files are missing.";
     if ( $this->{missingFile} ) {
+        my $singularOrPlural = $this->{missingFile} == 1 ? "$this->{missingFile} required file is missing." : "$this->{missingFile} files are missing.";
         $e .= $this->WARN(<<PREFS)
 $singularOrPlural.  The web directories have been checked for a $Foswiki::cfg{WebPrefsTopicName} topic.
 If this file is missing, Foswiki will not recognize the directory as a Web and the contents will not be 
@@ -69,8 +69,6 @@ are set correctly for your environment and correct the file permissions listed b
 for excessive permissions in this release).
 PERMS
     }
-
-    #$e .= $this->ERROR("$Foswiki::cfg{DataDir}/$Foswiki::cfg{UsersWebName}/$Foswiki::cfg{SitePrefsTopicName}.txt 
 
     $e .= $this->NOTE('<b>First 10 detected errors of insufficient, or excessive permissions, and all instances of missing files.</b> <br/> ' . $e2 ) if $e2;
 
