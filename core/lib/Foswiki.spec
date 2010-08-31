@@ -376,7 +376,7 @@ $Foswiki::cfg{UsersTopicName} = 'WikiUsers';
 # Authentication realm. This is
 # normally only used in md5 password encoding. You may need to change it
 # if you are sharing a password file with another application.
-$Foswiki::cfg{AuthRealm} = 'Enter your $Foswiki::cfg{SystemWebName}.LoginName. (Typically First name and last name, no space, no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit $Foswiki::cfg{SystemWebName}.UserRegistration if you do not have one.';
+$Foswiki::cfg{AuthRealm} = 'Enter your WikiName (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.';
 
 # **SELECTCLASS Foswiki::Users::*UserMapping**
 # The user mapping is used to equate login names, used with external
