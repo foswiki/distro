@@ -47,6 +47,9 @@ sub new {
     {
         print STDERR "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)\n";
         throw Error::Simple("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
+    } else {
+            print STDERR "ERROR: unknown {Htpasswd}{Encoding} setting : ".$Foswiki::cfg{Htpasswd}{Encoding}."\n";
+            throw Error::Simple("ERROR: unknown {Htpasswd}{Encoding} setting : ".$Foswiki::cfg{Htpasswd}{Encoding}."\n");
     }
     return $this;
 }
