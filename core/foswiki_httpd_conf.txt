@@ -87,6 +87,17 @@ BrowserMatch "^gsa-crawler" NO_FOSWIKI_SESSION
     AuthName 'Enter your WikiName (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
     AuthType Basic
     
+    #for htdigest password suport uncomment the following
+    #AuthDigestDomain / {DefaultUrlHost}
+    #AuthDigestFile {DataDir}/.htdigest
+    #BrowserMatch "MSIE" AuthDigestEnableQueryStringHack=On
+    #AuthDigestProvider file
+    #AuthUserFile {DataDir}/.htpasswd
+    # For "Digest" authentication to work properly, this string must match
+    # the value of configuration variable $authRealm
+    #AuthName 'Enter your WikiName (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
+    #AuthType Digest
+    
     # File to return on access control error (e.g. wrong password)
     # By convention this is the UserRegistration page, that allows users
     # to register with the Foswiki. Apache requires this to be a *local* path.
