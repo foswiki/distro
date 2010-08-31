@@ -41,6 +41,10 @@ sub new {
     $this->{error} = undef;
     if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
         require Digest::MD5;
+        if ($Foswiki::cfg{AuthRealm} =~ /\:/) {
+            print STDERR "ERROR: the AuthRealm cannot contain a ':' (colon) as it corrumpts the password file\n";
+            throw Error::Simple("ERROR: the AuthRealm cannot contain a ':' (colon) as it corrumpts the password file");
+        }
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt' ) {
     }
