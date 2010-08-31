@@ -56,6 +56,9 @@ sub new {
             print STDERR "ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010)\n";
             throw Error::Simple("ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010)");
         }
+    } else {
+            print STDERR "ERROR: unknown {Htpasswd}{Encoding} setting : ".$Foswiki::cfg{Htpasswd}{Encoding}."\n";
+            throw Error::Simple("ERROR: unknown {Htpasswd}{Encoding} setting : ".$Foswiki::cfg{Htpasswd}{Encoding}."\n");
     }
 
     return $this;
