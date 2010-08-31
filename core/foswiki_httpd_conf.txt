@@ -84,7 +84,7 @@ BrowserMatch "^gsa-crawler" NO_FOSWIKI_SESSION
 
     # Password file for Foswiki users
     AuthUserFile /var/www/foswiki/data/.htpasswd
-    AuthName 'Enter your WikiName (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
+    AuthName 'Enter your WikiName. (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
     AuthType Basic
     
     #for htdigest password suport uncomment the following
@@ -95,7 +95,7 @@ BrowserMatch "^gsa-crawler" NO_FOSWIKI_SESSION
     #AuthUserFile {DataDir}/.htpasswd
     # For "Digest" authentication to work properly, this string must match
     # the value of configuration variable $authRealm
-    #AuthName 'Enter your WikiName (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
+    #AuthName 'Enter your WikiName. (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
     #AuthType Digest
     
     # File to return on access control error (e.g. wrong password)
