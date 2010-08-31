@@ -42,6 +42,10 @@ sub new {
     if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
         require Digest::MD5;
     }
+    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt' ) {
+    }
+    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'plain' ) {
+    }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
         require Digest::SHA;
     }
