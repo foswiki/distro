@@ -145,8 +145,10 @@ Sorting has been improved so the plugin can now better handle mix of formats and
 
 ---++++ API Enhancements
 The following functions have been added to the =Foswiki::Func= API:
-
    * =copyAttachment=
+
+New parameters can be found on:
+   * =saveTopic= (ignorepermissions)
 
 ---++++ Deprecated handlers
 The following handlers have been deprecated (i.e. they are still available, but should not be used in new code and will be removed in a future release, so if you have been used them, you need to modify your code).
@@ -163,7 +165,7 @@ The =readTopicText= and =saveTopicText= functions have been deprecated. Use =rea
 __Note:__ =readTopicText= had implicit access control checks. The replacement method, =readTopic= does not, so calling code must call =checkAccessPermission= explicitly.
 
 ---++++ Refactored =Foswiki::Store= and new =Foswiki::Meta= functions
-Access checking has been moved from Store up to the Meta and Func routines. This was done to significantly improve perfomance of the Store backend.
+Access checking has been moved from Store up to the Meta and Func routines. This was done to improve perfomance of the Store backend and simplify implementation of different stores e.g. using databases.
 
 Store was never part of the Foswiki or TWiki API.  Extensions which violate this API and reference =Store::= functions directly could potentially have access that was previously blocked by Foswiki and/or may require other changes to be compatible with Foswiki 1.1.
 

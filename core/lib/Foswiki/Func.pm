@@ -1515,6 +1515,7 @@ sub setTopicEditLock {
      | =dontlog= | mark this change so it doesn't appear in the statistics |
      | =minor= | True if this change is not to be notified |
      | =forcenewrevision= | force the save to increment the revision counter |
+     | =ignorepermissions= | don't check acls |
 For example,
 <verbatim>
 use Error qw( :try );
@@ -1538,6 +1539,9 @@ In the event of an error an exception will be thrown. Callers can elect
 to trap the exceptions thrown, or allow them to propagate to the calling
 environment. May throw Foswiki::OopsException or Error::Simple.
 
+*Note:* The =ignorepermissions= option is only available in Foswiki 1.1 and
+later.
+
 =cut
 
 sub saveTopic {
@@ -1547,7 +1551,8 @@ sub saveTopic {
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
 
-    unless ( $topicObject->haveAccess('CHANGE') ) {
+    unless ( $options->{ignorepermissions}
+               || $topicObject->haveAccess('CHANGE') ) {
         throw Foswiki::AccessControlException( 'CHANGE',
             $Foswiki::Plugins::SESSION->{user},
             $web, $topic, $Foswiki::Meta::reason );

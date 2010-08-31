@@ -558,6 +558,23 @@ sub test_noauth_saveTopic {
     };
 }
 
+sub test_resaveDenied {
+    my $this = shift;
+
+    Foswiki::Func::saveTopic(
+        $this->{test_web}, $this->{test_topic}, undef, <<HEY );
+   * Set DENYTOPICCHANGE = $Foswiki::cfg{DefaultUserWikiName}
+HEY
+    Foswiki::Func::saveTopic(
+        $this->{test_web}, $this->{test_topic}, undef, <<NONNY, {ignorepermissions => 1} );
+   * Set DENYTOPICCHANGE = $Foswiki::cfg{DefaultUserWikiName}
+NONNY
+    eval {
+        Foswiki::Func::saveTopic(
+            $this->{test_web}, $this->{test_topic}, undef, "No!" );
+    };
+    $this->assert_matches(qr/AccessControlException: Access to CHANGE/, $@);
+}
 
 sub test_subweb_attachments {
     my $this = shift;
