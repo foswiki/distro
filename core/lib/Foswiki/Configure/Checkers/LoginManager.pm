@@ -36,6 +36,17 @@ will have to log in every time you access an authenticated page. To avoid
 this, you are recommended to turn {UseClientSessions} on.
 HERE
     }
+    if ( $Foswiki::cfg{LoginManager} =~ /ApacheLogin$/
+        && ($Foswiki::cfg{Htpasswd}{Encoding} eq 'md5') )
+    {
+        $e .= $this->WARN(<<'HERE');
+Combining ApacheLogin and md5 password encoding requires the foswiki 
+Authentication settings in the web server setup to be set to use Digest mode.
+This also requires the AuthName setting in the webserver 
+configuration to be the same as the foswiki AuthRealm setting.
+HERE
+    }
+
     return $e;
 }
 

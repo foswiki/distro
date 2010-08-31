@@ -431,6 +431,7 @@ lib/Foswiki/Cache/MemoryLRU.pm 0444
 lib/Foswiki/Cache.pm 0444
 lib/Foswiki/Compatibility.pm 0444
 lib/Foswiki/Configure/Checker.pm 0444
+lib/Foswiki/Configure/Checkers/AuthRealm.pm 0444
 lib/Foswiki/Configure/Checkers/AuthScripts.pm 0444
 lib/Foswiki/Configure/Checkers/AllowInlineScript.pm 0444
 lib/Foswiki/Configure/Checkers/BasicSanity.pm 0444
