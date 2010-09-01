@@ -3619,7 +3619,8 @@ sub verify_pager_on_pagerformat {
     footer="FOOT($ntopics,$nhits)"
     pager="on"
     pagerformat="$n..prev=$previouspage, $currentpage, next=$nextpage, numberofpages=$numberofpages, pagesize=$pagesize, prevurl=$previousurl, nexturl=$nexturl..$n"
-}%'
+}%
+'
     );
 
     my $expected = <<EXPECT;
@@ -3647,7 +3648,8 @@ EXPECT
     footer="FOOT($ntopics,$nhits)"
     pager="on"
     pagerformat="$n..prev=$previouspage, $currentpage, next=$nextpage, numberofpages=$numberofpages, pagesize=$pagesize, prevurl=$previousurl, nexturl=$nexturl..$n"
-}%'
+}%
+'
     );
 
     $expected = <<EXPECT;
