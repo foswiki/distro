@@ -414,8 +414,12 @@ sub getContext {
 ---+++ pushTopicContext($web, $topic)
    * =$web= - new web
    * =$topic= - new topic
-Change the Foswiki context so it behaves as if it was processing =$web.$topic=
-from now on. All the preferences will be reset to those of the new topic.
+Change the Foswiki context, adding the new topic onto the preferences stack.
+Any preferences found in =$web.$topic= will be used instead of the preferences
+previously set in the stack.   However preferences set in the prior =web.topic=
+are *not* cleared.  =$web.$topic= replaces and adds to preferences but does not
+remove preferences that it does not set.
+
 Note that if the new topic is not readable by the logged in user due to
 access control considerations, there will *not* be an exception. It is the
 duty of the caller to check access permissions before changing the topic.
