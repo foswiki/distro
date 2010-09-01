@@ -4,25 +4,95 @@
 
 use strict;
 use warnings;
-use Assert;
-use Error ':try';
 
 use Foswiki;
 use Foswiki::Plugins;
 use Foswiki::Store;
-
+use Foswiki::Attrs;
 use CGI qw( -any );
 
 package Foswiki::Plugins::CommentPlugin::Comment;
 
+# PUBLIC save the given comment.
+sub save {
+
+    #my ( $text, $topic, $web ) = @_;
+
+    my $wikiName = Foswiki::Func::getWikiName();
+    if (
+        !Foswiki::Func::checkAccessPermission(
+            'change', $wikiName, '', $_[1], $_[2]
+        )
+      )
+    {
+
+        # user has no permission to change the topic
+        throw Foswiki::OopsException(
+            'accessdenied',
+            def   => 'topic_access',
+            web   => $_[2],
+            topic => $_[1]
+        );
+    }
+    else {
+        _buildNewTopic(@_);
+    }
+}
+
 # PUBLIC STATIC convert COMMENT statements to form prompts
 sub prompt {
-    my ( $attrs, $web, $topic, $disabled ) = @_;
 
-    my $type = $attrs->remove('type')
-      || $attrs->remove('mode')
-        || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_DEFAULT_TYPE')
-          || 'above';
+    #my ( $previewing, $text, $web, $topic ) = @_;
+
+    my $defaultType =
+      Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_DEFAULT_TYPE')
+      || 'above';
+
+    my $message = '';
+
+    # Is commenting disabled?
+    my $disable = '';
+    if ( $_[0] ) {
+
+        # We are in Preview mode
+        $message = "(Edit - Preview)";
+        $disable = 'disabled';
+    }
+
+    my $idx = 0;
+    $_[1] =~
+s/%COMMENT({.*?})?%/_handleInput($1,$_[2],$_[3],\$idx,$message,$disable,$defaultType)/eg;
+}
+
+=pod
+
+Parses a templatetopic attribute and returns a "Web.Topic" string.
+
+=cut
+
+sub _getTemplateLocation {
+    my ( $attrtemplatetopic, $web ) = @_;
+
+    my $templatetopic = '';
+    my $templateweb = $web || '';
+    if ($attrtemplatetopic) {
+        my ( $templocweb, $temploctopic ) =
+          Foswiki::Func::normalizeWebTopicName( $templateweb,
+            $attrtemplatetopic );
+        $templatetopic = "$templocweb.$temploctopic";
+    }
+    return $templatetopic;
+}
+
+# PRIVATE generate an input form for a %COMMENT tag
+sub _handleInput {
+    my ( $attributes, $web, $topic, $pidx, $message, $disable, $defaultType ) =
+      @_;
+
+    $attributes =~ s/^{(.*)}$/$1/ if ($attributes);
+
+    my $attrs = new Foswiki::Attrs( $attributes, 1 );
+    my $type = $attrs->remove('type') || $attrs->remove('mode') || $defaultType;
     my $silent            = $attrs->remove('nonotify');
     my $location          = $attrs->remove('location');
     my $remove            = $attrs->remove('remove');
@@ -31,11 +101,13 @@ sub prompt {
     my $attrtemplatetopic = $attrs->remove('templatetopic') || '';
     my $templatetopic     = _getTemplateLocation( $attrtemplatetopic, $web );
 
-    my $message = $default || '';
-    $message = $disabled if $disabled;
+    $message ||= $default || '';
+    $message ||= $default || '';
+    $disable ||= '';
 
     # clean off whitespace
-    $type =~ s/\s+//;
+    $type =~ m/(\S*)/;
+    $type = $1;
 
     # Expand the template in the context of the web where the comment
     # box is (not the target of the comment!)
@@ -45,9 +117,6 @@ sub prompt {
 
     # Expand special attributes as required
     $input =~ s/%([a-z]\w+)\|(.*?)%/_expandPromptParams($1, $2, $attrs)/ieg;
-
-    # Build the endpoint before we munge the web and topic
-    my $endPoint = "$web.$topic";
 
     # see if this comment is targeted at a different topic, and
     # change the url if it is.
@@ -67,115 +136,81 @@ sub prompt {
         }
     }
 
-    # See if a save url has been defined in the template
-    my $url = Foswiki::Func::expandTemplate('save_url');
-
-    # Default it to a rest url if not
-    $url ||= Foswiki::Func::getScriptUrl('CommentPlugin', 'comment', 'rest' );
-
-    $url = '' if $disabled;
+    my $url = '';
+    if ( $disable eq '' ) {
+        $url = Foswiki::Func::getScriptUrl( $web, $topic, 'save' );
+    }
 
     my $noform = $attrs->remove('noform') || '';
     if ( $input !~ m/^%RED%/ ) {
-        $input =~ s/%DISABLED%/$disabled ? 'disabled' : '' /ge;
+        $input =~ s/%DISABLED%/$disable/g;
         $input =~ s/%MESSAGE%/$message/g;
-        my $idx = $attrs->{comment_index};
+        my $n = $$pidx + 0;
 
-        unless( $disabled ) {
+        if ( $disable eq '' ) {
             my $hiddenFields = "";
             $hiddenFields .=
-              CGI::hidden( -name => 'topic', -value => "$web.$topic");
-
+              "\n" . CGI::hidden( -name => 'comment_action', -value => 'save' );
             $hiddenFields .=
-              CGI::hidden( -name => 'comment_action', -value => 'save' );
-
-            $hiddenFields .=
-              CGI::hidden( -name => 'endPoint', -value => $endPoint );
-
-            $hiddenFields .=
-              CGI::hidden( -name => 'comment_type', -value => $type );
-
+              "\n" . CGI::hidden( -name => 'comment_type', -value => $type );
             if ( defined($silent) ) {
                 $hiddenFields .=
-                  CGI::hidden( -name => 'comment_nonotify', value => 1 );
+                  "\n" . CGI::hidden( -name => 'comment_nonotify', value => 1 );
             }
             if ($templatetopic) {
-                $hiddenFields .= 
-                  CGI::hidden(
-                      -name  => 'comment_templatetopic',
-                      -value => $templatetopic
-                     );
+                $hiddenFields .= "\n"
+                  . CGI::hidden(
+                    -name  => 'comment_templatetopic',
+                    -value => $templatetopic
+                  );
             }
             if ($location) {
-                $hiddenFields .=
-                  CGI::hidden(
-                      -name  => 'comment_location',
-                      -value => $location
-                     );
+                $hiddenFields .= "\n"
+                  . CGI::hidden(
+                    -name  => 'comment_location',
+                    -value => $location
+                  );
             }
             elsif ($anchor) {
-                $hiddenFields .=
-                  CGI::hidden( -name => 'comment_anchor', -value => $anchor );
+                $hiddenFields .= "\n"
+                  . CGI::hidden( -name => 'comment_anchor', -value => $anchor );
             }
             else {
-                $hiddenFields .=
-                  CGI::hidden( -name => 'comment_index', -value => $idx );
+                $hiddenFields .= "\n"
+                  . CGI::hidden( -name => 'comment_index', -value => $$pidx );
             }
             if ($nopost) {
-                $hiddenFields .=
-                  CGI::hidden( -name => 'comment_nopost', -value => $nopost );
+                $hiddenFields .= "\n"
+                  . CGI::hidden( -name => 'comment_nopost', -value => $nopost );
             }
             if ($remove) {
-                $hiddenFields .=
-                  CGI::hidden( -name => 'comment_remove', -value => $idx );
+                $hiddenFields .= "\n"
+                  . CGI::hidden( -name => 'comment_remove', -value => $$pidx );
             }
             $input .= $hiddenFields;
         }
-
-        # SMELL: would have been more elegant to split this into
-        # FORM:head:type and FORM:tail:type. Too late now :-(
-        my $form =
-          _getTemplate( "FORM:$type", $topic, $web, $templatetopic, 'off' );
-
-        if ( $noform || $form) {
+        if ($noform) {
+            my $form =
+              _getTemplate( "FORM:$type", $topic, $web, $templatetopic, 'off' )
+              || '';
             if ($form) {
                 $form =~ s/%COMMENTPROMPT%/$input/;
                 $input = $form;
-            } else {
-                $input = "NOFORM $form $input";
             }
-        } else {
+        }
+        unless ( $noform eq 'on' ) {
             $input = CGI::start_form(
-                -name   => $type . $idx,
-                -id     => $type . $idx,
+                -name   => $type . $n,
+                -id     => $type . $n,
                 -action => $url,
                 -method => 'post'
-               )
+              )
               . $input
-                . CGI::end_form();
+              . CGI::end_form();
         }
     }
+    $$pidx++;
     return $input;
-}
-
-=pod
-
-Parses a templatetopic attribute and returns a "Web.Topic" string.
-
-=cut
-
-sub _getTemplateLocation {
-    my ( $attrtemplatetopic, $web ) = @_;
-
-    my $templatetopic = '';
-    my $templateweb = $web || '';
-    if ($attrtemplatetopic) {
-        my ( $templocweb, $temploctopic ) =
-          Foswiki::Func::normalizeWebTopicName( $templateweb,
-                                                $attrtemplatetopic );
-        $templatetopic = "$templocweb.$temploctopic";
-    }
-    return $templatetopic;
 }
 
 # PRIVATE get the given template and do standard expansions
@@ -186,9 +221,9 @@ sub _getTemplate {
 
     # Get the templates.
     my $templateFile =
-      $templatetopic
-        || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_TEMPLATES')
-          || 'comments';
+         $templatetopic
+      || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_TEMPLATES')
+      || 'comments';
 
     my $templates = Foswiki::Func::loadTemplate($templateFile);
     if ( !$templates ) {
@@ -213,42 +248,20 @@ sub _expandPromptParams {
     return $default;
 }
 
-# PUBLIC build new topic text
-sub save {
+# PRIVATE STATIC Performs comment insertion in the topic.
+sub _buildNewTopic {
 
-    my ( $text, $web, $topic ) = @_;
-
-    my $wikiName = Foswiki::Func::getWikiName();
-
-    my $access = Foswiki::Func::checkAccessPermission(
-        $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} || 'change',
-        $wikiName, $text, $topic, $web);
-    unless ($access) {
-        # user has no permission to change the topic
-        throw Foswiki::OopsException(
-            'accessdenied',
-            def   => 'topic_access',
-            web   => $web,
-            topic => $topic
-           );
-    }
+    #my ( $text, $topic, $web ) = @_;
+    my ( $topic, $web ) = ( $_[1], $_[2] );
 
     my $query = Foswiki::Func::getCgiQuery();
     return unless $query;
 
-    # The type of the comment dictates where in the target topic it
-    # will be saved.
     my $type =
-      $query->param('comment_type')
-        || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_DEFAULT_TYPE')
-          || 'above';
-
-    # Indexing comment instances depends on macro expansion 
-    # inside-out-left-right order and INCLUDE and SECTION expansion
-    # being correctly handled. Only relevant if the comment is being
-    # inserted relative to the instance, of course.
+         $query->param('comment_type')
+      || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_DEFAULT_TYPE')
+      || 'above';
     my $index         = $query->param('comment_index') || 0;
-
     my $anchor        = $query->param('comment_anchor');
     my $location      = $query->param('comment_location');
     my $remove        = $query->param('comment_remove');
@@ -276,12 +289,17 @@ sub save {
     # by the Foswiki core, but this time without the support of the
     # methods in the core. Fortunately this will work even if there is
     # no embedded meta-data.
+    # Note: because this is Dakar, and has sensible semantics for handling
+    # the =text= parameter to =save=, there is no longer any need to re-read
+    # the topic. The text is automatically defaulted to the existing topic
+    # text if the =text= parameter isn't specified - which for comments,
+    # it isn't.
     my $premeta  = '';
     my $postmeta = '';
     my $inpost   = 0;
-    my $innerText     = '';
-    foreach my $line ( split( /\r?\n/, $text ) ) {
-        if ( $line =~ /^%META:[A-Z]+{[^}]*}%$/ ) {
+    my $text     = '';
+    foreach my $line ( split( /\r?\n/, $_[0] ) ) {
+        if ( $line =~ /^%META:[A-Z]+{[^}]*}%/ ) {
             if ($inpost) {
                 $postmeta .= $line . "\n";
             }
@@ -290,11 +308,10 @@ sub save {
             }
         }
         else {
-            $innerText .= $line . "\n";
+            $text .= $line . "\n";
             $inpost = 1;
         }
     }
-    $text = $innerText;
 
     #make sure the anchor or location exits
     if ( defined($location) and not( $text =~ /(?<!location\=\")($location)/ ) )
@@ -372,7 +389,7 @@ sub save {
         $text =~ s/(%COMMENT({.*?})?%)/_remove_nth($1,\$idx,$remove)/eg;
     }
 
-    return $premeta . $text . $postmeta;
+    $_[0] = $premeta . $text . $postmeta;
 }
 
 # PRIVATE embed output if this comment is the interesting one
