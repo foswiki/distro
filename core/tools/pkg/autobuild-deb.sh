@@ -37,8 +37,7 @@ perl -T pseudo-install.pl developer
 # JQueryPlugin needs make run to autogenerate files
 #
 cd ../JQueryPlugin/pub/System/JQueryPlugin
-FOSWIKI_ROOT=${branch}/JQueryPlugin make -n
-FOSWIKI_ROOT=${branch}/JQueryPlugin make -d
+FOSWIKI_ROOT=${branch}/JQueryPlugin make
 
 #
 # Build tarballs of source, with svn revision number embedded
