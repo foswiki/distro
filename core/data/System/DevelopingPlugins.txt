@@ -4,6 +4,27 @@
 %TOC%
 The usual way Foswiki is extended is by writing a _Plugin_. Plugins extend Foswiki by providing functions that 'listen' to events in the Foswiki core, and handling these events. These functions are called "Plugin Handlers" and they are described in depth in [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Plugins::EmptyPlugin][EmptyPlugin]] ( =lib/Foswiki/Plugins/EmptyPlugin.pm= ).
 
+---++ The 3048m view of how Foswiki works
+
+Foswiki is a web application that runs inside a web server. When the web server receives a request that it recognises as being for Foswiki, it calls one of the perl scripts in the Foswiki =bin= directory. Each of the scripts has a specific function, as described in [[command and CGI scripts]].
+
+The scripts are responsible for interpreting the parameters passed in the request, and generating a response that is sent back to the browser, usually in the form of an HTML page.
+
+Foswiki contains three _engines_ that are used by the scripts; the _template engine_, the _macro engine_, and the _TML engine_.
+
+   1 The *template engine* reads predefined templates from files on the server. These templates contain directives that are expanded by the engine to create the output HTML skeleton. One of these directives expands to the topic text.
+   1 The *macro engine* then expands the [[macros]] in the skeleton. This is also where macros registered by plugins are expanded.
+      * Macros, including those registered by plugins, are processed in a strict left-right-inside-out processing order. See [[macros]] for more details.
+      * Macros include things like searches, so this is usually the slowest part of generating a page. 
+   1 The *TML (Topic Markup Language) engine* now processes the expanded text, looking for TML constructs such as bulleted lists and tables. It generates HTML for these constructs.
+
+Once all the engines have run, the output is sent to the browser.
+
+There are several ways plugins can interact with this process.
+   1 They can *register macros* that are expanded by the macro engine. This is the simplest kind of plugin.
+   1 The can interact with various points in the rendering pipeline by implementing *handlers* (callbacks).
+   1 They can *register REST handlers* that are invoked via the =rest= script to support some form of transaction outside those supported by the standard scripts.
+
 ---++ APIs available to Extensions
 To be robust, extensions must avoid using any unpublished functionality from the Foswiki core. The following perl packages give access to features for extension authors. These APIs are not just for Plugins, they can be used in any type of extension. Click on the name of the package to see the full documentation.
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func][Foswiki::Func]]= - this is the package you will use most. This package exposes a lot of core functionality in a way that is friendly to extension writers. If you find that there are two ways of doing something - a =Foswiki::Func= way, and another call to one of the packages below, then the =Foswiki::Func= way is almost always the right way.

@@ -469,6 +469,276 @@ sub popTopicContext {
 
 =begin TML
 
+---++ Registering extensions
+
+Plugins work either by using handlers to manipulate the text being processed,
+or by registering extensions, such as new macros, scripts, or meta-data types.
+
+=cut
+
+=begin TML=
+
+---+++ registerTagHandler( $var, \&fn, $syntax )
+
+Should only be called from initPlugin.
+
+Register a function to handle a simple variable. Handles both %<nop>VAR% and 
+%<nop>VAR{...}%. Registered variables are treated the same as internal macros, 
+and are expanded at the same time. This is a _lot_ more efficient than using the =commonTagsHandler=.
+   * =$var= - The name of the variable, i.e. the 'MYVAR' part of %<nop>MYVAR%. 
+   The variable name *must* match /^[A-Z][A-Z0-9_]*$/ or it won't work.
+   * =\&fn= - Reference to the handler function.
+   * =$syntax= can be 'classic' (the default) or 'context-free'. (context-free may be removed in future)
+   'classic' syntax is appropriate where you want the variable to support classic syntax 
+   i.e. to accept the standard =%<nop>MYVAR{ "unnamed" param1="value1" param2="value2" }%= syntax, 
+   as well as an unquoted default parameter, such as =%<nop>MYVAR{unquoted parameter}%=. 
+   If your variable will only use named parameters, you can use 'context-free' syntax, 
+   which supports a more relaxed syntax. For example, 
+   %MYVAR{param1=value1, value 2, param3="value 3", param4='value 5"}%
+
+The variable handler function must be of the form:
+<verbatim>
+sub handler(\%session, \%params, $topic, $web, $topicObject)
+</verbatim>
+where:
+   * =\%session= - a reference to the session object (may be ignored)
+   * =\%params= - a reference to a Foswiki::Attrs object containing parameters. This can be used as a simple hash that maps parameter names to values, with _DEFAULT being the name for the default parameter.
+   * =$topic= - name of the topic in the query
+   * =$web= - name of the web in the query
+   * =$topicObject= - is the Foswiki::Meta object for the topic *Since* 2009-03-06
+for example, to execute an arbitrary command on the server, you might do this:
+<verbatim>
+sub initPlugin{
+   Foswiki::Func::registerTagHandler('EXEC', \&boo);
+}
+
+sub boo {
+    my( $session, $params, $topic, $web, $topicObject ) = @_;
+    my $cmd = $params->{_DEFAULT};
+
+    return "NO COMMAND SPECIFIED" unless $cmd;
+
+    my $result = `$cmd 2>&1`;
+    return $params->{silent} ? '' : $result;
+}
+</verbatim>
+would let you do this:
+=%<nop>EXEC{"ps -Af" silent="on"}%=
+
+Registered tags differ from tags implemented using the old approach (text substitution in =commonTagsHandler=) in the following ways:
+   * registered tags are evaluated at the same time as system tags, such as %SERVERTIME. =commonTagsHandler= is only called later, when all system tags have already been expanded (though they are expanded _again_ after =commonTagsHandler= returns).
+   * registered tag names can only contain alphanumerics and _ (underscore)
+   * registering a tag =FRED= defines both =%<nop>FRED{...}%= *and also* =%FRED%=.
+   * registered tag handlers *cannot* return another tag as their only result (e.g. =return '%<nop>SERVERTIME%';=). It won't work.
+
+=cut
+
+sub registerTagHandler {
+    my ( $tag, $function, $syntax ) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+
+    # $pluginContext is undefined if a contrib registers a tag handler.
+    my $pluginContext;
+    if ( caller =~ m/^Foswiki::Plugins::(\w+)/ ) {
+        $pluginContext = $1 . 'Enabled';
+    }
+
+    # Use an anonymous function so it gets inlined at compile time.
+    # Make sure we don't mangle the session reference.
+    Foswiki::registerTagHandler(
+        $tag,
+        sub {
+            my ( $session, $params, $topicObject ) = @_;
+            my $record = $Foswiki::Plugins::SESSION;
+            $Foswiki::Plugins::SESSION = $_[0];
+
+            # $pluginContext is defined for all plugins
+            # but never defined for contribs.
+            # This is convenient, because contribs cannot be disabled
+            # at run-time, either.
+            if ( defined $pluginContext ) {
+
+                # Registered tag handlers should only be called if the plugin
+                # is enabled. Disabled plugins can still have tag handlers
+                # registered in persistent environments (e.g. modperl)
+                # and also for rest handlers that disable plugins.
+                # See Item1871
+                return unless $session->inContext($pluginContext);
+            }
+
+            # Compatibility; expand $topicObject to the topic and web
+            my $result =
+              &$function( $session, $params, $topicObject->topic,
+                $topicObject->web, $topicObject );
+            $Foswiki::Plugins::SESSION = $record;
+            return $result;
+        },
+        $syntax
+    );
+}
+
+=begin TML=
+
+---+++ registerRESTHandler( $alias, \&fn, %options )
+
+Should only be called from initPlugin.
+
+Adds a function to the dispatch table of the REST interface 
+   * =$alias= - The name .
+   * =\&fn= - Reference to the function.
+   * =%options= - additional options affecting the handler
+The handler function must be of the form:
+<verbatim>
+sub handler(\%session)
+</verbatim>
+where:
+   * =\%session= - a reference to the Foswiki session object (may be ignored)
+
+From the REST interface, the name of the plugin must be used
+as the subject of the invokation.
+
+Additional options are set in the =%options= hash. These options are important
+to ensuring that requests to your handler can't be used in cross-scripting
+attacks, or used for phishing.
+   * =authenticate= - use this boolean option to require authentication for the
+     handler. If this is set, then an authenticated session must be in place
+     or the REST call will be rejected with a 401 (Unauthorized) status code.
+     By default, rest handlers do *not* require authentication.
+   * =validate= - use this boolean option to require validation of any requests
+     made to this handler. Validation is the process by which a secret key
+     is passed to the server so it can identify the origin of the request.
+     By default, requests made to REST handlers are not validated.
+   * =http_allow= use this option to specify that the HTTP methods that can
+     be used to invoke the handler. For example, =http_allow=>'POST,GET'= will
+     constrain the handler to be invoked using POST and GET, but not other
+     HTTP methods, such as DELETE. Normally you will use http_allow=>'POST'.
+     Together with authentication this is an important security tool.
+     Handlers that can be invoked using GET are vulnerable to being called
+     in the =src= parameter of =img= tags, a common method for cross-site
+     request forgery (CSRF) attacks. This option is set automatically if
+     =authenticate= is specified.
+
+---++++ Example
+
+The EmptyPlugin has the following call in the initPlugin handler:
+<verbatim>
+   Foswiki::Func::registerRESTHandler('example', \&restExample,
+     http_allow=>'GET,POST');
+</verbatim>
+
+This adds the =restExample= function to the REST dispatch table
+for the EmptyPlugin under the 'example' alias, and allows it
+to be invoked using the URL
+
+=http://server:port/bin/rest/EmptyPlugin/example=
+
+note that the URL
+
+=http://server:port/bin/rest/EmptyPlugin/restExample=
+
+(ie, with the name of the function instead of the alias) will not work.
+
+---++++ Calling REST handlers from the command-line
+The =rest= script allows handlers to be invoked from the command line. The
+script is invoked passing the parameters as described in CommandAndCGIScripts.
+If the handler requires authentication ( =authenticate=>1= ) then this can
+be passed in the username and =password= parameters.
+
+For example,
+
+=perl -wT rest /EmptyPlugin/example -username HughPugh -password trumpton=
+
+=cut
+
+sub registerRESTHandler {
+    my ( $alias, $function, %options ) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    my $plugin = caller;
+    $plugin =~ s/.*:://;    # strip off Foswiki::Plugins:: prefix
+
+    # Use an anonymous function so it gets inlined at compile time.
+    # Make sure we don't mangle the session reference.
+    require Foswiki::UI::Rest;
+    Foswiki::UI::Rest::registerRESTHandler(
+        $plugin, $alias,
+        sub {
+            my $record = $Foswiki::Plugins::SESSION;
+            $Foswiki::Plugins::SESSION = $_[0];
+            my $result = &$function(@_);
+            $Foswiki::Plugins::SESSION = $record;
+            return $result;
+        },
+        %options
+    );
+}
+
+=begin TML
+
+---+++ registerMETA($name, %syntax)
+
+Foswiki supports embedding meta-data into topics. For example,
+
+=%<nop>META:BOOK{title="Transit" author="Edmund Cooper" isbn="0-571-05724-1"}%=
+
+This meta-data is validated when it is read from the store. Meta-data
+that is not registered, or doesn't pass validation, is ignored. This
+function allows you to register a new META datum, passing the name in
+=$name=. =%syntax= is a set of optional checks that describe how to
+validate the fields of the datum.
+
+The following checks are supported:
+
+=function=>\&fn= In this case the function =fn= will be called when the
+datum is encountered, passing in the name of the macro and the
+argument hash. The function must return a non-zero/undef value if the tag
+is acceptable, or 0 otherwise. For example:
+<verbatim>
+registerMETA('BOOK', function => sub {
+    my ($name, $args) = @_;
+    # $name will be BOOK
+    return defined $args->{title};
+}
+</verbatim>
+can be used to check that =%META:BOOK{}= contains a title.
+
+=require=>[]= is used to check that a list of named parameters are present on
+the tag. For example,
+<verbatim>
+registerMETA('BOOK', require => [ 'title', 'author' ]);
+</verbatim>
+can be used to check that both =title= and =author= are present.
+
+=allow=>[]= lets you specify other optional parameters that are allowed
+on the tag. If you specify =allow= then the validation will fail if the
+tag contains any parameters that are _not_ in the =allow= or =require= lists.
+If you don't specify =allow= then all parameters will be allowed.
+
+Checks are cumulative, so if you:
+<verbatim>
+registerMETA('BOOK',
+    function => \&checkParameters,
+    require => [ 'title' ],
+    allow => [ 'author', 'isbn' ]);
+</verbatim>
+then all these conditions will be tested. Note that =require= and =allow=
+are tested _after_ =function= is called, to give the function a chance to
+rewrite the parameter list.
+
+If no checker is registered for a META tag, then it will automatically
+be accepted into the topic meta-data.
+
+Note that the checker only verifies the *presence* of parameters, and
+not their *values*.
+
+=cut
+
+sub registerMETA {
+    my ( $macro, $spec ) = @_;
+    Foswiki::Meta::registerMETA( $macro, $spec );
+}
+
+=begin TML
+
 ---++ Preferences
 
 =cut
@@ -1141,7 +1411,7 @@ sub checkAccessPermission {
 
 =begin TML
 
----++ Webs, Topics and Attachments
+---++ Traversing
 
 =cut
 
@@ -1182,6 +1452,23 @@ sub getListOfWebs {
 
 =begin TML
 
+---+++ isValidWebName( $name [, $system] ) -> $boolean
+
+Check for a valid web name. If $system is true, then
+system web names are considered valid (names starting with _)
+otherwise only user web names are valid
+
+If $Foswiki::cfg{EnableHierarchicalWebs} is off, it will also return false
+when a nested web name is passed to it.
+
+=cut
+
+sub isValidWebName {
+    return Foswiki::isValidWebName(@_);
+}
+
+=begin TML
+
 ---+++ webExists( $web ) -> $boolean
 
 Test if web exists
@@ -1196,6 +1483,267 @@ sub webExists {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     return $Foswiki::Plugins::SESSION->webExists($web);
 }
+=begin TML
+
+---+++ getTopicList( $web ) -> @topics
+
+Get list of all topics in a web
+   * =$web= - Web name, required, e.g. ='Sandbox'=
+Return: =@topics= Topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'WebNotify' )=
+
+=cut
+
+sub getTopicList {
+
+    my ($web) = _validateWTA(@_);
+
+    my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
+    my $it = $webObject->eachTopic();
+    return $it->all();
+}
+
+=begin TML
+
+---+++ isValidTopicName( $name [, $allowNonWW] ) -> $boolean
+
+Check for a valid topic name.
+   * =$name= - topic name
+   * =$allowNonWW= - true to allow non-wikiwords
+
+=cut
+
+sub isValidTopicName {
+    return Foswiki::isValidTopicName(@_);
+}
+
+=begin TML
+
+---+++ topicExists( $web, $topic ) -> $boolean
+
+Test if topic exists
+   * =$web=   - Web name, optional, e.g. ='Main'=.
+   * =$topic= - Topic name, required, e.g. ='TokyoOffice'=, or ="Main.TokyoOffice"=
+
+$web and $topic are parsed as described in the documentation for =normalizeWebTopicName=.
+Specifically, the %USERSWEB% is used if $web is not specified and $topic has no web specifier.
+To get an expected behaviour it is recommened to specify the current web for $web; don't leave it empty.
+
+=cut
+
+sub topicExists {
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    my ( $web, $topic ) = _checkWTA(@_);
+    return 0 unless defined $web && defined $topic;
+    return $Foswiki::Plugins::SESSION->topicExists( $web, $topic );
+}
+
+=begin TML
+
+---+++ readTopic( $web, $topic, $rev ) -> ( $meta, $text )
+
+Read topic text and meta data, regardless of access permissions.
+   * =$web= - Web name, required, e.g. ='Main'=
+   * =$topic= - Topic name, required, e.g. ='TokyoOffice'=
+   * =$rev= - revision to read (default latest)
+Return: =( $meta, $text )= Meta data object and topic text
+
+=$meta= is a perl 'object' of class =Foswiki::Meta=. This class is
+fully documented in the source code documentation shipped with the
+release, or can be inspected in the =lib/Foswiki/Meta.pm= file.
+
+This method *ignores* topic access permissions. You should be careful to use
+=checkAccessPermission= to ensure the current user has read access to the
+topic.
+
+=cut
+
+sub readTopic {
+
+    my( $web, $topic, $rev ) = @_;
+    ($web, $topic) = _validateWTA($web, $topic);
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+
+    my $meta = Foswiki::Meta->load(
+        $Foswiki::Plugins::SESSION, $web, $topic, $rev );
+    return ( $meta, $meta->text() );
+}
+
+=begin TML
+
+---+++ getRevisionInfo($web, $topic, $rev, $attachment ) -> ( $date, $user, $rev, $comment ) 
+
+Get revision info of a topic or attachment
+   * =$web= - Web name, optional, e.g. ='Main'=
+   * =$topic=   - Topic name, required, e.g. ='TokyoOffice'=
+   * =$rev=     - revsion number, or tag name (can be in the format 1.2, or just the minor number)
+   * =$attachment=                 -attachment filename
+Return: =( $date, $user, $rev, $comment )= List with: ( last update date, login name of last user, minor part of top revision number, comment of attachment if attachment ), e.g. =( 1234561, 'phoeny', "5",  )=
+| $date | in epochSec |
+| $user | Wiki name of the author (*not* login name) |
+| $rev | actual rev number |
+| $comment | comment given for uploaded attachment |
+
+NOTE: if you are trying to get revision info for a topic, use
+=$meta->getRevisionInfo= instead if you can - it is significantly
+more efficient.
+
+=cut
+
+sub getRevisionInfo {
+    my ( $web, $topic, $rev, $attachment ) = @_;
+
+    ($web, $topic) = _validateWTA($web, $topic);
+
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+
+    my $topicObject;
+    my $info;
+    if ($attachment) {
+        $topicObject =
+          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
+        $info = $topicObject->getAttachmentRevisionInfo( $attachment, $rev );
+    }
+    else {
+        $topicObject =
+          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic, $rev );
+        $info = $topicObject->getRevisionInfo();
+    }
+    return ( $info->{date},
+        $Foswiki::Plugins::SESSION->{users}->getWikiName( $info->{author} ),
+        $info->{version}, $info->{comment} );
+}
+
+=begin TML
+
+---+++ getRevisionAtTime( $web, $topic, $time ) -> $rev
+
+Get the revision number of a topic at a specific time.
+   * =$web= - web for topic
+   * =$topic= - topic
+   * =$time= - time (in epoch secs) for the rev
+Return: Single-digit revision number, or undef if it couldn't be determined
+(either because the topic isn't that old, or there was a problem)
+
+=cut
+
+sub getRevisionAtTime {
+    my ( $web, $topic, $time ) = @_;
+    ($web, $topic) = _validateWTA($web, $topic);
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    my $topicObject =
+      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    return $topicObject->getRevisionAtTime($time);
+}
+
+=begin TML
+
+---+++ getAttachmentList( $web, $topic ) -> @list
+Get a list of the attachments on the given topic.
+
+*Since:* 31 Mar 2009
+
+=cut
+
+sub getAttachmentList {
+    my ( $web, $topic ) = @_;
+    ($web, $topic) = _validateWTA($web, $topic);
+    my $topicObject =
+      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $it = $topicObject->eachAttachment();
+    return sort $it->all();
+}
+
+=begin TML
+
+---+++ attachmentExists( $web, $topic, $attachment ) -> $boolean
+
+Test if attachment exists
+   * =$web=   - Web name, optional, e.g. =Main=.
+   * =$topic= - Topic name, required, e.g. =TokyoOffice=, or =Main.TokyoOffice=
+   * =$attachment= - attachment name, e.g.=logo.gif=
+$web and $topic are parsed as described in the documentation for =normalizeWebTopicName=.
+
+=cut
+
+sub attachmentExists {
+    my ( $web, $topic, $attachment ) = _checkWTA(@_);
+    return 0 unless defined $web && defined $topic && defined $attachment;
+
+    my $topicObject =
+      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    return $topicObject->hasAttachment($attachment);
+}
+
+=begin TML
+
+---+++ readAttachment( $web, $topic, $name, $rev ) -> $data
+
+   * =$web= - web for topic - must not be tainted
+   * =$topic= - topic - must not be tainted
+   * =$name= - attachment name - must not be tainted
+   * =$rev= - revision to read (default latest)
+Read an attachment from the store for a topic, and return it as a string. The
+names of attachments on a topic can be recovered from the meta-data returned
+by =readTopic=. If the attachment does not exist, or cannot be read, undef
+will be returned. If the revision is not specified, the latest version will
+be returned.
+
+View permission on the topic is required for the
+read to be successful.  Access control violations are flagged by a
+Foswiki::AccessControlException. Permissions are checked for the current user.
+
+<verbatim>
+my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+my @attachments = $meta->find( 'FILEATTACHMENT' );
+foreach my $a ( @attachments ) {
+   try {
+       my $data = Foswiki::Func::readAttachment( $web, $topic, $a->{name} );
+       ...
+   } catch Foswiki::AccessControlException with {
+   };
+}
+</verbatim>
+
+This is the way 99% of extensions will access attachments.
+See =Foswiki::Meta::openAttachment= for a lower level interface that does
+not check access controls.
+
+=cut
+
+sub readAttachment {
+    my ( $web, $topic, $attachment, $rev ) = @_;
+
+    ( $web, $topic, $attachment ) = _validateWTA($web, $topic, $attachment);
+
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    my $result;
+
+    my $topicObject =
+      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    unless ( $topicObject->haveAccess('VIEW') ) {
+        throw Foswiki::AccessControlException( 'VIEW',
+            $Foswiki::Plugins::SESSION->{user},
+            $web, $topic, $Foswiki::Meta::reason );
+    }
+    my $fh;
+    try {
+        $fh = $topicObject->openAttachment( $attachment, '<', version => $rev );
+    }
+    catch Error::Simple with {
+        $fh = undef;
+    };
+    return undef unless $fh;
+    local $/;
+    my $data = <$fh>;
+    return $data;
+}
+
+=begin TML
+
+---++ Manipulating
+
+=cut
+
 
 =begin TML
 
@@ -1295,133 +1843,6 @@ sub moveWeb {
 
 }
 
-=begin TML
-
----+++ eachChangeSince($web, $time) -> $iterator
-
-Get an iterator over the list of all the changes in the given web between
-=$time= and now. $time is a time in seconds since 1st Jan 1970, and is not
-guaranteed to return any changes that occurred before (now - 
-{Store}{RememberChangesFor}). {Store}{RememberChangesFor}) is a
-setting in =configure=. Changes are returned in *most-recent-first*
-order.
-
-Use it as follows:
-<verbatim>
-    my $iterator = Foswiki::Func::eachChangeSince(
-        $web, time() - 7 * 24 * 60 * 60); # the last 7 days
-    while ($iterator->hasNext()) {
-        my $change = $iterator->next();
-        # $change is a perl hash that contains the following fields:
-        # topic => topic name
-        # user => wikiname - wikiname of user who made the change
-        # time => time of the change
-        # revision => revision number *after* the change
-        # more => more info about the change (e.g. 'minor')
-    }
-</verbatim>
-
-=cut
-
-sub eachChangeSince {
-    my ( $web, $time ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    ($web) = _validateWTA($web);
-    ASSERT( $Foswiki::Plugins::SESSION->webExists($web) ) if DEBUG;
-
-    my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
-
-    # eachChange returns changes with cUIDs. these have to be mapped
-    # to wikinames per the Foswiki::Func 'spec' (changes used to be stored
-    # with wikinames)
-    require Foswiki::Iterator::ProcessIterator;
-    require Foswiki::Users::BaseUserMapping;
-    return new Foswiki::Iterator::ProcessIterator(
-        $webObject->eachChange($time),
-        sub {
-            my $n = shift;
-            $n->{user} = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
-              unless defined $n->{user};
-            $n->{user} =
-              $Foswiki::Plugins::SESSION->{users}->getWikiName( $n->{user} );
-            return $n;
-        }
-    );
-}
-
-=begin TML
-
----++ summariseChanges($web, $topic, $orev, $nrev, $tml) -> $text
-Generate a summary of the changes between rev $orev and rev $nrev of the
-given topic.
-   * =$web=, =$topic= - topic (required)
-   * =$orev= - older rev (required)
-   * =$nrev= - later rev (may be undef for the latest)
-   * =$tml= - if true will generate renderable TML (i.e. HTML with NOPs. if false will generate a summary suitable for use in plain text (mail, for example)
-Generate a (max 3 line) summary of the differences between the revs.
-
-If there is only one rev, a topic summary will be returned.
-
-If =$tml= is not set, all HTML will be removed.
-
-In non-tml, lines are truncated to 70 characters. Differences are shown using + and - to indicate added and removed text.
-
-If access is denied to either revision, then it will be treated as blank
-text.
-
-*Since* 2009-03-06
-
-=cut
-
-sub summariseChanges {
-    my ( $web, $topic, $orev, $nrev, $tml ) = @_;
-    ($web, $topic) = _validateWTA($web, $topic);
-
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
-    return $topicObject->summariseChanges( Foswiki::Store::cleanUpRevID($orev),
-        Foswiki::Store::cleanUpRevID($nrev), $tml );
-}
-
-=begin TML
-
----+++ getTopicList( $web ) -> @topics
-
-Get list of all topics in a web
-   * =$web= - Web name, required, e.g. ='Sandbox'=
-Return: =@topics= Topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'WebNotify' )=
-
-=cut
-
-sub getTopicList {
-
-    my ($web) = _validateWTA(@_);
-
-    my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
-    my $it = $webObject->eachTopic();
-    return $it->all();
-}
-
-=begin TML
-
----+++ topicExists( $web, $topic ) -> $boolean
-
-Test if topic exists
-   * =$web=   - Web name, optional, e.g. ='Main'=.
-   * =$topic= - Topic name, required, e.g. ='TokyoOffice'=, or ="Main.TokyoOffice"=
-
-$web and $topic are parsed as described in the documentation for =normalizeWebTopicName=.
-Specifically, the %USERSWEB% is used if $web is not specified and $topic has no web specifier.
-To get an expected behaviour it is recommened to specify the current web for $web; don't leave it empty.
-
-=cut
-
-sub topicExists {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my ( $web, $topic ) = _checkWTA(@_);
-    return 0 unless defined $web && defined $topic;
-    return $Foswiki::Plugins::SESSION->topicExists( $web, $topic );
-}
 
 =begin TML
 
@@ -1630,207 +2051,6 @@ sub moveTopic {
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
 
     $from->move($to);
-}
-
-=begin TML
-
----+++ getRevisionInfo($web, $topic, $rev, $attachment ) -> ( $date, $user, $rev, $comment ) 
-
-Get revision info of a topic or attachment
-   * =$web= - Web name, optional, e.g. ='Main'=
-   * =$topic=   - Topic name, required, e.g. ='TokyoOffice'=
-   * =$rev=     - revsion number, or tag name (can be in the format 1.2, or just the minor number)
-   * =$attachment=                 -attachment filename
-Return: =( $date, $user, $rev, $comment )= List with: ( last update date, login name of last user, minor part of top revision number, comment of attachment if attachment ), e.g. =( 1234561, 'phoeny', "5",  )=
-| $date | in epochSec |
-| $user | Wiki name of the author (*not* login name) |
-| $rev | actual rev number |
-| $comment | comment given for uploaded attachment |
-
-NOTE: if you are trying to get revision info for a topic, use
-=$meta->getRevisionInfo= instead if you can - it is significantly
-more efficient.
-
-=cut
-
-sub getRevisionInfo {
-    my ( $web, $topic, $rev, $attachment ) = @_;
-
-    ($web, $topic) = _validateWTA($web, $topic);
-
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-
-    my $topicObject;
-    my $info;
-    if ($attachment) {
-        $topicObject =
-          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
-        $info = $topicObject->getAttachmentRevisionInfo( $attachment, $rev );
-    }
-    else {
-        $topicObject =
-          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic, $rev );
-        $info = $topicObject->getRevisionInfo();
-    }
-    return ( $info->{date},
-        $Foswiki::Plugins::SESSION->{users}->getWikiName( $info->{author} ),
-        $info->{version}, $info->{comment} );
-}
-
-=begin TML
-
----+++ getRevisionAtTime( $web, $topic, $time ) -> $rev
-
-Get the revision number of a topic at a specific time.
-   * =$web= - web for topic
-   * =$topic= - topic
-   * =$time= - time (in epoch secs) for the rev
-Return: Single-digit revision number, or undef if it couldn't be determined
-(either because the topic isn't that old, or there was a problem)
-
-=cut
-
-sub getRevisionAtTime {
-    my ( $web, $topic, $time ) = @_;
-    ($web, $topic) = _validateWTA($web, $topic);
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
-    return $topicObject->getRevisionAtTime($time);
-}
-
-=begin TML
-
----+++ readTopic( $web, $topic, $rev ) -> ( $meta, $text )
-
-Read topic text and meta data, regardless of access permissions.
-   * =$web= - Web name, required, e.g. ='Main'=
-   * =$topic= - Topic name, required, e.g. ='TokyoOffice'=
-   * =$rev= - revision to read (default latest)
-Return: =( $meta, $text )= Meta data object and topic text
-
-=$meta= is a perl 'object' of class =Foswiki::Meta=. This class is
-fully documented in the source code documentation shipped with the
-release, or can be inspected in the =lib/Foswiki/Meta.pm= file.
-
-This method *ignores* topic access permissions. You should be careful to use
-=checkAccessPermission= to ensure the current user has read access to the
-topic.
-
-=cut
-
-sub readTopic {
-
-    my( $web, $topic, $rev ) = @_;
-    ($web, $topic) = _validateWTA($web, $topic);
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-
-    my $meta = Foswiki::Meta->load(
-        $Foswiki::Plugins::SESSION, $web, $topic, $rev );
-    return ( $meta, $meta->text() );
-}
-
-=begin TML
-
----+++ getAttachmentList( $web, $topic ) -> @list
-Get a list of the attachments on the given topic.
-
-*Since:* 31 Mar 2009
-
-=cut
-
-sub getAttachmentList {
-    my ( $web, $topic ) = @_;
-    ($web, $topic) = _validateWTA($web, $topic);
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
-    my $it = $topicObject->eachAttachment();
-    return sort $it->all();
-}
-
-=begin TML
-
----+++ attachmentExists( $web, $topic, $attachment ) -> $boolean
-
-Test if attachment exists
-   * =$web=   - Web name, optional, e.g. =Main=.
-   * =$topic= - Topic name, required, e.g. =TokyoOffice=, or =Main.TokyoOffice=
-   * =$attachment= - attachment name, e.g.=logo.gif=
-$web and $topic are parsed as described in the documentation for =normalizeWebTopicName=.
-
-=cut
-
-sub attachmentExists {
-    my ( $web, $topic, $attachment ) = _checkWTA(@_);
-    return 0 unless defined $web && defined $topic && defined $attachment;
-
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
-    return $topicObject->hasAttachment($attachment);
-}
-
-=begin TML
-
----+++ readAttachment( $web, $topic, $name, $rev ) -> $data
-
-   * =$web= - web for topic - must not be tainted
-   * =$topic= - topic - must not be tainted
-   * =$name= - attachment name - must not be tainted
-   * =$rev= - revision to read (default latest)
-Read an attachment from the store for a topic, and return it as a string. The
-names of attachments on a topic can be recovered from the meta-data returned
-by =readTopic=. If the attachment does not exist, or cannot be read, undef
-will be returned. If the revision is not specified, the latest version will
-be returned.
-
-View permission on the topic is required for the
-read to be successful.  Access control violations are flagged by a
-Foswiki::AccessControlException. Permissions are checked for the current user.
-
-<verbatim>
-my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
-my @attachments = $meta->find( 'FILEATTACHMENT' );
-foreach my $a ( @attachments ) {
-   try {
-       my $data = Foswiki::Func::readAttachment( $web, $topic, $a->{name} );
-       ...
-   } catch Foswiki::AccessControlException with {
-   };
-}
-</verbatim>
-
-This is the way 99% of extensions will access attachments.
-See =Foswiki::Meta::openAttachment= for a lower level interface that does
-not check access controls.
-
-=cut
-
-sub readAttachment {
-    my ( $web, $topic, $attachment, $rev ) = @_;
-
-    ( $web, $topic, $attachment ) = _validateWTA($web, $topic, $attachment);
-
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $result;
-
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
-    unless ( $topicObject->haveAccess('VIEW') ) {
-        throw Foswiki::AccessControlException( 'VIEW',
-            $Foswiki::Plugins::SESSION->{user},
-            $web, $topic, $Foswiki::Meta::reason );
-    }
-    my $fh;
-    try {
-        $fh = $topicObject->openAttachment( $attachment, '<', version => $rev );
-    }
-    catch Error::Simple with {
-        $fh = undef;
-    };
-    return undef unless $fh;
-    local $/;
-    my $data = <$fh>;
-    return $data;
 }
 
 =begin TML
@@ -2052,7 +2272,101 @@ sub copyAttachment {
 
 =begin TML
 
----++ Assembling Pages
+---++ Finding changes
+
+=cut
+
+=begin TML
+
+---+++ eachChangeSince($web, $time) -> $iterator
+
+Get an iterator over the list of all the changes in the given web between
+=$time= and now. $time is a time in seconds since 1st Jan 1970, and is not
+guaranteed to return any changes that occurred before (now - 
+{Store}{RememberChangesFor}). {Store}{RememberChangesFor}) is a
+setting in =configure=. Changes are returned in *most-recent-first*
+order.
+
+Use it as follows:
+<verbatim>
+    my $iterator = Foswiki::Func::eachChangeSince(
+        $web, time() - 7 * 24 * 60 * 60); # the last 7 days
+    while ($iterator->hasNext()) {
+        my $change = $iterator->next();
+        # $change is a perl hash that contains the following fields:
+        # topic => topic name
+        # user => wikiname - wikiname of user who made the change
+        # time => time of the change
+        # revision => revision number *after* the change
+        # more => more info about the change (e.g. 'minor')
+    }
+</verbatim>
+
+=cut
+
+sub eachChangeSince {
+    my ( $web, $time ) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ($web) = _validateWTA($web);
+    ASSERT( $Foswiki::Plugins::SESSION->webExists($web) ) if DEBUG;
+
+    my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
+
+    # eachChange returns changes with cUIDs. these have to be mapped
+    # to wikinames per the Foswiki::Func 'spec' (changes used to be stored
+    # with wikinames)
+    require Foswiki::Iterator::ProcessIterator;
+    require Foswiki::Users::BaseUserMapping;
+    return new Foswiki::Iterator::ProcessIterator(
+        $webObject->eachChange($time),
+        sub {
+            my $n = shift;
+            $n->{user} = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
+              unless defined $n->{user};
+            $n->{user} =
+              $Foswiki::Plugins::SESSION->{users}->getWikiName( $n->{user} );
+            return $n;
+        }
+    );
+}
+
+=begin TML
+
+---+++ summariseChanges($web, $topic, $orev, $nrev, $tml) -> $text
+Generate a summary of the changes between rev $orev and rev $nrev of the
+given topic.
+   * =$web=, =$topic= - topic (required)
+   * =$orev= - older rev (required)
+   * =$nrev= - later rev (may be undef for the latest)
+   * =$tml= - if true will generate renderable TML (i.e. HTML with NOPs. if false will generate a summary suitable for use in plain text (mail, for example)
+Generate a (max 3 line) summary of the differences between the revs.
+
+If there is only one rev, a topic summary will be returned.
+
+If =$tml= is not set, all HTML will be removed.
+
+In non-tml, lines are truncated to 70 characters. Differences are shown using + and - to indicate added and removed text.
+
+If access is denied to either revision, then it will be treated as blank
+text.
+
+*Since* 2009-03-06
+
+=cut
+
+sub summariseChanges {
+    my ( $web, $topic, $orev, $nrev, $tml ) = @_;
+    ($web, $topic) = _validateWTA($web, $topic);
+
+    my $topicObject =
+      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    return $topicObject->summariseChanges( Foswiki::Store::cleanUpRevID($orev),
+        Foswiki::Store::cleanUpRevID($nrev), $tml );
+}
+
+=begin TML
+
+---++ Templates
 
 =cut
 
@@ -2127,6 +2441,166 @@ sub expandTemplate {
 
 =begin TML
 
+---++ Rendering
+
+=cut
+
+=begin TML
+
+---+++ expandCommonVariables( $text, $topic, $web, $meta ) -> $text
+
+Expand all common =%<nop>VARIABLES%=
+   * =$text=  - Text with variables to expand, e.g. ='Current user is %<nop>WIKIUSER%'=
+   * =$topic= - Current topic name, e.g. ='WebNotify'=
+   * =$web=   - Web name, optional, e.g. ='Main'=. The current web is taken if missing
+   * =$meta=  - topic meta-data to use while expanding
+Return: =$text=     Expanded text, e.g. ='Current user is <nop>WikiGuest'=
+
+See also: expandVariablesOnTopicCreation
+
+=cut
+
+sub expandCommonVariables {
+    my ( $text, $topic, $web, $meta ) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ($web, $topic) = _validateWTA(
+        $web   || $Foswiki::Plugins::SESSION->{webName},
+        $topic || $Foswiki::Plugins::SESSION->{topicName});
+    $meta  ||= Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+
+    return $meta->expandMacros($text);
+}
+
+=begin TML
+
+---+++ expandVariablesOnTopicCreation ( $text ) -> $text
+
+Expand the limited set of variables that are always expanded during topic creation
+   * =$text= - the text to process
+Return: text with variables expanded
+
+Expands only the variables expected in templates that must be statically
+expanded in new content.
+
+The expanded variables are:
+   * =%<nop>DATE%= Signature-format date
+   * =%<nop>SERVERTIME%= See [[Macros]]
+   * =%<nop>GMTIME%= See [[Macros]]
+   * =%<nop>USERNAME%= Base login name
+   * =%<nop>WIKINAME%= Wiki name
+   * =%<nop>WIKIUSERNAME%= Wiki name with prepended web
+   * =%<nop>URLPARAM{...}%= - Parameters to the current CGI query
+   * =%<nop>NOP%= No-op
+
+See also: expandVariables
+
+=cut
+
+sub expandVariablesOnTopicCreation {
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    my $topicObject = Foswiki::Meta->new(
+        $Foswiki::Plugins::SESSION,
+        $Foswiki::Plugins::SESSION->{webName},
+        $Foswiki::Plugins::SESSION->{topicName}, $_[0]
+    );
+    $topicObject->expandNewTopic();
+    return $topicObject->text();
+}
+
+=begin TML
+
+---+++ renderText( $text, $web, $topic ) -> $text
+
+Render text from TML into XHTML as defined in [[%SYSTEMWEB%.TextFormattingRules]]
+   * =$text= - Text to render, e.g. ='*bold* text and =fixed font='=
+   * =$web=  - Web name, optional, e.g. ='Main'=. The current web is taken if missing
+   * =$topic= - topic name, optional, defaults to web home
+Return: =$text=    XHTML text, e.g. ='&lt;b>bold&lt;/b> and &lt;code>fixed font&lt;/code>'=
+
+=cut
+
+sub renderText {
+
+    my ( $text, $web, $topic ) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    $web   ||= $Foswiki::Plugins::SESSION->{webName};
+    $topic ||= $Foswiki::cfg{HomeTopicName};
+    my $webObject =
+      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    return $webObject->renderTML($text);
+}
+
+=begin TML
+
+---+++ internalLink( $pre, $web, $topic, $label, $anchor, $createLink ) -> $text
+
+Render topic name and link label into an XHTML link. Normally you do not need to call this funtion, it is called internally by =renderText()=
+   * =$pre=        - Text occuring before the link syntax, optional
+   * =$web=        - Web name, required, e.g. ='Main'=
+   * =$topic=      - Topic name to link to, required, e.g. ='WebNotify'=
+   * =$label=      - Link label, required. Usually the same as =$topic=, e.g. ='notify'=
+   * =$anchor=     - Anchor, optional, e.g. ='#Jump'=
+   * =$createLink= - Set to ='1'= to add question linked mark after topic name if topic does not exist;<br /> set to ='0'= to suppress link for non-existing topics
+Return: =$text=          XHTML anchor, e.g. ='&lt;a href='/cgi-bin/view/Main/WebNotify#Jump'>notify&lt;/a>'=
+
+=cut
+
+sub internalLink {
+    my $pre = shift;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+
+    #   my( $web, $topic, $label, $anchor, $anchor, $createLink ) = @_;
+    return $pre . $Foswiki::Plugins::SESSION->renderer->internalLink(@_);
+}
+
+=begin TML
+
+---+++ addToZone( $zone, $id, $data, $requires )
+
+Direct interface to %<nop>ADDTOZONE (see %SYSTEMWEB%.VarADDTOZONE)
+
+   * =$zone= - name of the zone
+   * =$id= - unique ID
+   * =$data= - the content.
+   * =requires= optional, comma-separated list of =$id= identifiers that should
+     precede the content
+
+All macros present in =$data= will be expanded before being inserted into the =<head>= section.
+
+<blockquote class="foswikiHelp">%X%
+*Note:* Read the developer supplement at Foswiki:Development.AddToZoneFromPluginHandlers if you are
+calling =addToZone()= from a rendering or macro/tag-related plugin handler
+</blockquote>
+
+Examples:
+<verbatim>
+Foswiki::Func::addToZone( 'head', 'PATTERN_STYLE',
+   '<link rel="stylesheet" type="text/css" href="%PUBURL%/Foswiki/PatternSkin/layout.css" media="all" />');
+
+Foswiki::Func::addToZone( 'body', 'MY_JQUERY',
+   '<script type="text/javascript" src="%PUBURL%/Myweb/MyJQuery/myjquery.js"></scipt>',
+   'JQUERYPLUGIN::FOSWIKI');
+</verbatim>
+
+=cut=
+
+sub addToZone {
+
+    #my ( $zone, $tag, $data, $requires ) = @_;
+    my $session = $Foswiki::Plugins::SESSION;
+    ASSERT($session) if DEBUG;
+
+    $session->addToZone(@_);
+}
+
+=begin TML
+
+---++ Controlling page output
+
+=cut
+
+=begin TML
+
 ---+++ writeHeader()
 
 Prints a basic content-type HTML header for text/html to standard out.
@@ -2178,554 +2652,6 @@ sub redirectCgiQuery {
     my ( $query, $url, $passthru ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     return $Foswiki::Plugins::SESSION->redirect( $url, $passthru );
-}
-
-=begin TML
-
----+++ addToZone( $zone, $id, $data, $requires )
-
-Direct interface to %<nop>ADDTOZONE (see %SYSTEMWEB%.VarADDTOZONE)
-
-   * =$zone= - name of the zone
-   * =$id= - unique ID
-   * =$data= - the content.
-   * =requires= optional, comma-separated list of =$id= identifiers that should
-     precede the content
-
-All macros present in =$data= will be expanded before being inserted into the =<head>= section.
-
-<blockquote class="foswikiHelp">%X%
-*Note:* Read the developer supplement at Foswiki:Development.AddToZoneFromPluginHandlers if you are
-calling =addToZone()= from a rendering or macro/tag-related plugin handler
-</blockquote>
-
-Examples:
-<verbatim>
-Foswiki::Func::addToZone( 'head', 'PATTERN_STYLE',
-   '<link rel="stylesheet" type="text/css" href="%PUBURL%/Foswiki/PatternSkin/layout.css" media="all" />');
-
-Foswiki::Func::addToZone( 'body', 'MY_JQUERY',
-   '<script type="text/javascript" src="%PUBURL%/Myweb/MyJQuery/myjquery.js"></scipt>',
-   'JQUERYPLUGIN::FOSWIKI');
-</verbatim>
-
-=cut=
-
-sub addToZone {
-
-    #my ( $zone, $tag, $data, $requires ) = @_;
-    my $session = $Foswiki::Plugins::SESSION;
-    ASSERT($session) if DEBUG;
-
-    $session->addToZone(@_);
-}
-
-=begin TML
-
----+++ expandCommonVariables( $text, $topic, $web, $meta ) -> $text
-
-Expand all common =%<nop>VARIABLES%=
-   * =$text=  - Text with variables to expand, e.g. ='Current user is %<nop>WIKIUSER%'=
-   * =$topic= - Current topic name, e.g. ='WebNotify'=
-   * =$web=   - Web name, optional, e.g. ='Main'=. The current web is taken if missing
-   * =$meta=  - topic meta-data to use while expanding
-Return: =$text=     Expanded text, e.g. ='Current user is <nop>WikiGuest'=
-
-See also: expandVariablesOnTopicCreation
-
-=cut
-
-sub expandCommonVariables {
-    my ( $text, $topic, $web, $meta ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    ($web, $topic) = _validateWTA(
-        $web   || $Foswiki::Plugins::SESSION->{webName},
-        $topic || $Foswiki::Plugins::SESSION->{topicName});
-    $meta  ||= Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
-
-    return $meta->expandMacros($text);
-}
-
-=begin TML
-
----+++ renderText( $text, $web, $topic ) -> $text
-
-Render text from TML into XHTML as defined in [[%SYSTEMWEB%.TextFormattingRules]]
-   * =$text= - Text to render, e.g. ='*bold* text and =fixed font='=
-   * =$web=  - Web name, optional, e.g. ='Main'=. The current web is taken if missing
-   * =$topic= - topic name, optional, defaults to web home
-Return: =$text=    XHTML text, e.g. ='&lt;b>bold&lt;/b> and &lt;code>fixed font&lt;/code>'=
-
-=cut
-
-sub renderText {
-
-    my ( $text, $web, $topic ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    $web   ||= $Foswiki::Plugins::SESSION->{webName};
-    $topic ||= $Foswiki::cfg{HomeTopicName};
-    my $webObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
-    return $webObject->renderTML($text);
-}
-
-=begin TML
-
----+++ internalLink( $pre, $web, $topic, $label, $anchor, $createLink ) -> $text
-
-Render topic name and link label into an XHTML link. Normally you do not need to call this funtion, it is called internally by =renderText()=
-   * =$pre=        - Text occuring before the link syntax, optional
-   * =$web=        - Web name, required, e.g. ='Main'=
-   * =$topic=      - Topic name to link to, required, e.g. ='WebNotify'=
-   * =$label=      - Link label, required. Usually the same as =$topic=, e.g. ='notify'=
-   * =$anchor=     - Anchor, optional, e.g. ='#Jump'=
-   * =$createLink= - Set to ='1'= to add question linked mark after topic name if topic does not exist;<br /> set to ='0'= to suppress link for non-existing topics
-Return: =$text=          XHTML anchor, e.g. ='&lt;a href='/cgi-bin/view/Main/WebNotify#Jump'>notify&lt;/a>'=
-
-=cut
-
-sub internalLink {
-    my $pre = shift;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-
-    #   my( $web, $topic, $label, $anchor, $anchor, $createLink ) = @_;
-    return $pre . $Foswiki::Plugins::SESSION->renderer->internalLink(@_);
-}
-
-=begin TML
-
----++ E-mail
-
----+++ sendEmail ( $text, $retries ) -> $error
-
-   * =$text= - text of the mail, including MIME headers
-   * =$retries= - number of times to retry the send (default 1)
-Send an e-mail specified as MIME format content. To specify MIME
-format mails, you create a string that contains a set of header
-lines that contain field definitions and a message body such as:
-<verbatim>
-To: liz@windsor.gov.uk
-From: serf@hovel.net
-CC: george@whitehouse.gov
-Subject: Revolution
-
-Dear Liz,
-
-Please abolish the monarchy (with King George's permission, of course)
-
-Thanks,
-
-A. Peasant
-</verbatim>
-Leave a blank line between the last header field and the message body.
-
-=cut
-
-sub sendEmail {
-
-    #my( $text, $retries ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->net->sendEmail(@_);
-}
-
-=begin TML
-
----++ Creating New Topics
-
-=cut
-
-=begin TML
-
----+++ expandVariablesOnTopicCreation ( $text ) -> $text
-
-Expand the limited set of variables that are always expanded during topic creation
-   * =$text= - the text to process
-Return: text with variables expanded
-
-Expands only the variables expected in templates that must be statically
-expanded in new content.
-
-The expanded variables are:
-   * =%<nop>DATE%= Signature-format date
-   * =%<nop>SERVERTIME%= See [[Macros]]
-   * =%<nop>GMTIME%= See [[Macros]]
-   * =%<nop>USERNAME%= Base login name
-   * =%<nop>WIKINAME%= Wiki name
-   * =%<nop>WIKIUSERNAME%= Wiki name with prepended web
-   * =%<nop>URLPARAM{...}%= - Parameters to the current CGI query
-   * =%<nop>NOP%= No-op
-
-See also: expandVariables
-
-=cut
-
-sub expandVariablesOnTopicCreation {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $topicObject = Foswiki::Meta->new(
-        $Foswiki::Plugins::SESSION,
-        $Foswiki::Plugins::SESSION->{webName},
-        $Foswiki::Plugins::SESSION->{topicName}, $_[0]
-    );
-    $topicObject->expandNewTopic();
-    return $topicObject->text();
-}
-
-=begin TML
-
----++ Special handlers
-
-Special handlers can be defined to make functions in plugins behave as if they were built-in.
-
-=cut
-
-=begin TML=
-
----+++ registerTagHandler( $var, \&fn, $syntax )
-
-Should only be called from initPlugin.
-
-Register a function to handle a simple variable. Handles both %<nop>VAR% and 
-%<nop>VAR{...}%. Registered variables are treated the same as internal macros, 
-and are expanded at the same time. This is a _lot_ more efficient than using the =commonTagsHandler=.
-   * =$var= - The name of the variable, i.e. the 'MYVAR' part of %<nop>MYVAR%. 
-   The variable name *must* match /^[A-Z][A-Z0-9_]*$/ or it won't work.
-   * =\&fn= - Reference to the handler function.
-   * =$syntax= can be 'classic' (the default) or 'context-free'. (context-free may be removed in future)
-   'classic' syntax is appropriate where you want the variable to support classic syntax 
-   i.e. to accept the standard =%<nop>MYVAR{ "unnamed" param1="value1" param2="value2" }%= syntax, 
-   as well as an unquoted default parameter, such as =%<nop>MYVAR{unquoted parameter}%=. 
-   If your variable will only use named parameters, you can use 'context-free' syntax, 
-   which supports a more relaxed syntax. For example, 
-   %MYVAR{param1=value1, value 2, param3="value 3", param4='value 5"}%
-
-The variable handler function must be of the form:
-<verbatim>
-sub handler(\%session, \%params, $topic, $web, $topicObject)
-</verbatim>
-where:
-   * =\%session= - a reference to the session object (may be ignored)
-   * =\%params= - a reference to a Foswiki::Attrs object containing parameters. This can be used as a simple hash that maps parameter names to values, with _DEFAULT being the name for the default parameter.
-   * =$topic= - name of the topic in the query
-   * =$web= - name of the web in the query
-   * =$topicObject= - is the Foswiki::Meta object for the topic *Since* 2009-03-06
-for example, to execute an arbitrary command on the server, you might do this:
-<verbatim>
-sub initPlugin{
-   Foswiki::Func::registerTagHandler('EXEC', \&boo);
-}
-
-sub boo {
-    my( $session, $params, $topic, $web, $topicObject ) = @_;
-    my $cmd = $params->{_DEFAULT};
-
-    return "NO COMMAND SPECIFIED" unless $cmd;
-
-    my $result = `$cmd 2>&1`;
-    return $params->{silent} ? '' : $result;
-}
-</verbatim>
-would let you do this:
-=%<nop>EXEC{"ps -Af" silent="on"}%=
-
-Registered tags differ from tags implemented using the old approach (text substitution in =commonTagsHandler=) in the following ways:
-   * registered tags are evaluated at the same time as system tags, such as %SERVERTIME. =commonTagsHandler= is only called later, when all system tags have already been expanded (though they are expanded _again_ after =commonTagsHandler= returns).
-   * registered tag names can only contain alphanumerics and _ (underscore)
-   * registering a tag =FRED= defines both =%<nop>FRED{...}%= *and also* =%FRED%=.
-   * registered tag handlers *cannot* return another tag as their only result (e.g. =return '%<nop>SERVERTIME%';=). It won't work.
-
-=cut
-
-sub registerTagHandler {
-    my ( $tag, $function, $syntax ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-
-    # $pluginContext is undefined if a contrib registers a tag handler.
-    my $pluginContext;
-    if ( caller =~ m/^Foswiki::Plugins::(\w+)/ ) {
-        $pluginContext = $1 . 'Enabled';
-    }
-
-    # Use an anonymous function so it gets inlined at compile time.
-    # Make sure we don't mangle the session reference.
-    Foswiki::registerTagHandler(
-        $tag,
-        sub {
-            my ( $session, $params, $topicObject ) = @_;
-            my $record = $Foswiki::Plugins::SESSION;
-            $Foswiki::Plugins::SESSION = $_[0];
-
-            # $pluginContext is defined for all plugins
-            # but never defined for contribs.
-            # This is convenient, because contribs cannot be disabled
-            # at run-time, either.
-            if ( defined $pluginContext ) {
-
-                # Registered tag handlers should only be called if the plugin
-                # is enabled. Disabled plugins can still have tag handlers
-                # registered in persistent environments (e.g. modperl)
-                # and also for rest handlers that disable plugins.
-                # See Item1871
-                return unless $session->inContext($pluginContext);
-            }
-
-            # Compatibility; expand $topicObject to the topic and web
-            my $result =
-              &$function( $session, $params, $topicObject->topic,
-                $topicObject->web, $topicObject );
-            $Foswiki::Plugins::SESSION = $record;
-            return $result;
-        },
-        $syntax
-    );
-}
-
-=begin TML=
-
----+++ registerRESTHandler( $alias, \&fn, %options )
-
-Should only be called from initPlugin.
-
-Adds a function to the dispatch table of the REST interface 
-   * =$alias= - The name .
-   * =\&fn= - Reference to the function.
-   * =%options= - additional options affecting the handler
-The handler function must be of the form:
-<verbatim>
-sub handler(\%session)
-</verbatim>
-where:
-   * =\%session= - a reference to the Foswiki session object (may be ignored)
-
-From the REST interface, the name of the plugin must be used
-as the subject of the invokation.
-
-Additional options are set in the =%options= hash. These options are important
-to ensuring that requests to your handler can't be used in cross-scripting
-attacks, or used for phishing.
-   * =authenticate= - use this boolean option to require authentication for the
-     handler. If this is set, then an authenticated session must be in place
-     or the REST call will be rejected with a 401 (Unauthorized) status code.
-     By default, rest handlers do *not* require authentication.
-   * =validate= - use this boolean option to require validation of any requests
-     made to this handler. Validation is the process by which a secret key
-     is passed to the server so it can identify the origin of the request.
-     By default, requests made to REST handlers are not validated.
-   * =http_allow= use this option to specify that the HTTP methods that can
-     be used to invoke the handler. For example, =http_allow=>'POST,GET'= will
-     constrain the handler to be invoked using POST and GET, but not other
-     HTTP methods, such as DELETE. Normally you will use http_allow=>'POST'.
-     Together with authentication this is an important security tool.
-     Handlers that can be invoked using GET are vulnerable to being called
-     in the =src= parameter of =img= tags, a common method for cross-site
-     request forgery (CSRF) attacks. This option is set automatically if
-     =authenticate= is specified.
-
----++++ Example
-
-The EmptyPlugin has the following call in the initPlugin handler:
-<verbatim>
-   Foswiki::Func::registerRESTHandler('example', \&restExample,
-     http_allow=>'GET,POST');
-</verbatim>
-
-This adds the =restExample= function to the REST dispatch table
-for the EmptyPlugin under the 'example' alias, and allows it
-to be invoked using the URL
-
-=http://server:port/bin/rest/EmptyPlugin/example=
-
-note that the URL
-
-=http://server:port/bin/rest/EmptyPlugin/restExample=
-
-(ie, with the name of the function instead of the alias) will not work.
-
----++++ Calling REST handlers from the command-line
-The =rest= script allows handlers to be invoked from the command line. The
-script is invoked passing the parameters as described in CommandAndCGIScripts.
-If the handler requires authentication ( =authenticate=>1= ) then this can
-be passed in the username and =password= parameters.
-
-For example,
-
-=perl -wT rest /EmptyPlugin/example -username HughPugh -password trumpton=
-
-=cut
-
-sub registerRESTHandler {
-    my ( $alias, $function, %options ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $plugin = caller;
-    $plugin =~ s/.*:://;    # strip off Foswiki::Plugins:: prefix
-
-    # Use an anonymous function so it gets inlined at compile time.
-    # Make sure we don't mangle the session reference.
-    require Foswiki::UI::Rest;
-    Foswiki::UI::Rest::registerRESTHandler(
-        $plugin, $alias,
-        sub {
-            my $record = $Foswiki::Plugins::SESSION;
-            $Foswiki::Plugins::SESSION = $_[0];
-            my $result = &$function(@_);
-            $Foswiki::Plugins::SESSION = $record;
-            return $result;
-        },
-        %options
-    );
-}
-
-=begin TML
-
----++ registerMETA($name, %syntax)
-
-Foswiki supports embedding meta-data into topics. For example,
-
-=%<nop>META:BOOK{title="Transit" author="Edmund Cooper" isbn="0-571-05724-1"}%=
-
-This meta-data is validated when it is read from the store. Meta-data
-that is not registered, or doesn't pass validation, is ignored. This
-function allows you to register a new META datum, passing the name in
-=$name=. =%syntax= is a set of optional checks that describe how to
-validate the fields of the datum.
-
-The following checks are supported:
-
-=function=>\&fn= In this case the function =fn= will be called when the
-datum is encountered, passing in the name of the macro and the
-argument hash. The function must return a non-zero/undef value if the tag
-is acceptable, or 0 otherwise. For example:
-<verbatim>
-registerMETA('BOOK', function => sub {
-    my ($name, $args) = @_;
-    # $name will be BOOK
-    return defined $args->{title};
-}
-</verbatim>
-can be used to check that =%META:BOOK{}= contains a title.
-
-=require=>[]= is used to check that a list of named parameters are present on
-the tag. For example,
-<verbatim>
-registerMETA('BOOK', require => [ 'title', 'author' ]);
-</verbatim>
-can be used to check that both =title= and =author= are present.
-
-=allow=>[]= lets you specify other optional parameters that are allowed
-on the tag. If you specify =allow= then the validation will fail if the
-tag contains any parameters that are _not_ in the =allow= or =require= lists.
-If you don't specify =allow= then all parameters will be allowed.
-
-Checks are cumulative, so if you:
-<verbatim>
-registerMETA('BOOK',
-    function => \&checkParameters,
-    require => [ 'title' ],
-    allow => [ 'author', 'isbn' ]);
-</verbatim>
-then all these conditions will be tested. Note that =require= and =allow=
-are tested _after_ =function= is called, to give the function a chance to
-rewrite the parameter list.
-
-If no checker is registered for a META tag, then it will automatically
-be accepted into the topic meta-data.
-
-Note that the checker only verifies the *presence* of parameters, and
-not their *values*.
-
-=cut
-
-sub registerMETA {
-    my ( $macro, $spec ) = @_;
-    Foswiki::Meta::registerMETA( $macro, $spec );
-}
-
-=begin TML
-
----+++ decodeFormatTokens($str) -> $unencodedString
-
-Foswiki has an informal standard set of tokens used in =format=
-parameters that are used to block evaluation of paramater strings.
-For example, if you were to write
-
-=%<nop>MYTAG{format="%<nop>WURBLE%"}%=
-
-then %<nop>WURBLE would be expanded *before* %<NOP>MYTAG is evaluated. To avoid
-this Foswiki uses escapes in the format string. For example:
-
-=%<nop>MYTAG{format="$percentWURBLE$percent"}%=
-
-This lets you enter arbitrary strings into parameters without worrying that
-Foswiki will expand them before your plugin gets a chance to deal with them
-properly. Once you have processed your tag, you will want to expand these
-tokens to their proper value. That's what this function does.
-
-The set of tokens that is expanded is described in System.FormatTokens.
-
-=cut
-
-sub decodeFormatTokens {
-    return Foswiki::expandStandardEscapes(@_);
-}
-
-=begin TML
-
----++ Searching
-
-=cut
-
-=begin TML
-
----+++ searchInWebContent($searchString, $web, \@topics, \%options ) -> iterator (resultset)
-
-Search for a string in the content of a web. The search is over all content, including meta-data. 
-Meta-data matches will be returned as formatted lines within the topic content (meta-data matches are returned as lines of the format %META:\w+{.*}%)
-   * =$searchString= - the search string, in egrep format
-   * =$web= - The web/s to search in - string can have the same form as the =web= param of SEARCH
-   * =\@topics= - reference to a list of topics to search (if undef, then the store will search all topics in the specified web/webs.)
-   * =\%option= - reference to an options hash
-The =\%options= hash may contain the following options:
-   * =type= - =regex=, =keyword=, =query=
-   * =casesensitive= - false to ignore case (defaulkt true)
-   * =files_without_match= - true to return files only (default false). If =files_without_match= is specified, it will return on the first match in each topic (i.e. it will return only one match per topic, and will not return matching lines).
-   * TODO: topic, excludetopic and other params as per SEARCH
-
-The return value is a reference to a hash which maps each matching topic
-name to a list of the lines in that topic that matched the search,
-as would be returned by 'grep'.
-
-To iterate over the returned topics use:
-<verbatim>
-my $result = Foswiki::Func::searchInWebContent( "Slimy Toad", $web, \@topics,
-   { casesensitive => 0, files_without_match => 0 } );
-        while ($matches->hasNext) {
-            my $webtopic = $matches->next;
-            my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName($searchWeb, $webtopic);
-      ...etc
-</verbatim>
-
-__WARNING: does not return a hash - returns an iterator (else you will crash your server needlessly)__
-(Please report a Task item if you're using the non-iterator interface)
-
-=cut
-
-# Note: this function used to be a direct caller of Store::searchInWebContent,
-# which is no longer the case, but this explains the naming overlap even
-# though the function definitions are quite different.
-sub searchInWebContent {
-
-    my ( $searchString, $webs, $topics, $options ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-
-    my $inputTopicSet;
-    if ($topics) {
-        $inputTopicSet = new Foswiki::ListIterator($topics);
-    }
-    $options->{web} = $webs;
-    my $query =
-      $Foswiki::Plugins::SESSION->search->parseSearch( $searchString,
-        $options );
-
-    return Foswiki::Meta::query( $query, $inputTopicSet, $options );
 }
 
 =begin TML
@@ -2846,6 +2772,89 @@ sub normalizeWebTopicName {
 
 =begin TML
 
+---+++ searchInWebContent($searchString, $web, \@topics, \%options ) -> iterator (resultset)
+
+Search for a string in the content of a web. The search is over all content, including meta-data. 
+Meta-data matches will be returned as formatted lines within the topic content (meta-data matches are returned as lines of the format %META:\w+{.*}%)
+   * =$searchString= - the search string, in egrep format
+   * =$web= - The web/s to search in - string can have the same form as the =web= param of SEARCH
+   * =\@topics= - reference to a list of topics to search (if undef, then the store will search all topics in the specified web/webs.)
+   * =\%option= - reference to an options hash
+The =\%options= hash may contain the following options:
+   * =type= - =regex=, =keyword=, =query=
+   * =casesensitive= - false to ignore case (defaulkt true)
+   * =files_without_match= - true to return files only (default false). If =files_without_match= is specified, it will return on the first match in each topic (i.e. it will return only one match per topic, and will not return matching lines).
+   * TODO: topic, excludetopic and other params as per SEARCH
+
+The return value is a reference to a hash which maps each matching topic
+name to a list of the lines in that topic that matched the search,
+as would be returned by 'grep'.
+
+To iterate over the returned topics use:
+<verbatim>
+my $result = Foswiki::Func::searchInWebContent( "Slimy Toad", $web, \@topics,
+   { casesensitive => 0, files_without_match => 0 } );
+        while ($matches->hasNext) {
+            my $webtopic = $matches->next;
+            my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName($searchWeb, $webtopic);
+      ...etc
+</verbatim>
+
+__WARNING: does not return a hash - returns an iterator (else you will crash your server needlessly)__
+(Please report a Task item if you're using the non-iterator interface)
+
+=cut
+
+# Note: this function used to be a direct caller of Store::searchInWebContent,
+# which is no longer the case, but this explains the naming overlap even
+# though the function definitions are quite different.
+sub searchInWebContent {
+
+    my ( $searchString, $webs, $topics, $options ) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+
+    my $inputTopicSet;
+    if ($topics) {
+        $inputTopicSet = new Foswiki::ListIterator($topics);
+    }
+    $options->{web} = $webs;
+    my $query =
+      $Foswiki::Plugins::SESSION->search->parseSearch( $searchString,
+        $options );
+
+    return Foswiki::Meta::query( $query, $inputTopicSet, $options );
+}
+
+=begin TML
+
+---+++ decodeFormatTokens($str) -> $unencodedString
+
+Foswiki has an informal standard set of tokens used in =format=
+parameters that are used to block evaluation of paramater strings.
+For example, if you were to write
+
+=%<nop>MYTAG{format="%<nop>WURBLE%"}%=
+
+then %<nop>WURBLE would be expanded *before* %<NOP>MYTAG is evaluated. To avoid
+this Foswiki uses escapes in the format string. For example:
+
+=%<nop>MYTAG{format="$percentWURBLE$percent"}%=
+
+This lets you enter arbitrary strings into parameters without worrying that
+Foswiki will expand them before your plugin gets a chance to deal with them
+properly. Once you have processed your tag, you will want to expand these
+tokens to their proper value. That's what this function does.
+
+The set of tokens that is expanded is described in System.FormatTokens.
+
+=cut
+
+sub decodeFormatTokens {
+    return Foswiki::expandStandardEscapes(@_);
+}
+
+=begin TML
+
 ---+++ sanitizeAttachmentName($fname) -> ($fileName, $origName)
 
 Given a file path, sanitise it according to the rules for transforming
@@ -2884,114 +2893,6 @@ sub spaceOutWikiWord {
 
 =begin TML
 
----+++ writeEvent( $action, $extra )
-
-Log an event.
-   * =$action= - name of the event (keep them unique!)
-   * =$extra= - arbitrary extra information to add to the log.
-You can enumerate the contents of the log using the =eachEventSince= function.
-
-*NOTE:* Older plugins may use =$Foswiki::cfg{LogFileName}=. These
-plugins must be modified to use =writeEvent= and =eachEventSince= instead.
-
-To maintain compatibility with older Foswiki releases, you can write
-conditional code as follows:
-<verbatim>
-if (defined &Foswiki::Func::writeEvent) {
-   # use writeEvent and eachEventSince
-} else {
-   # old code using {LogFileName}
-}
-</verbatim>
-
-Note that the ability to read/write =$Foswiki::cfg{LogFileName}= is
-maintained for compatibility but is *deprecated* (should not be used
-in new code intended to work only with Foswiki 1.1 and later) and will
-not work with any installation that stores logs in a database.
-
-=cut
-
-sub writeEvent {
-    my ( $action, $extra ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $webTopic =
-        $Foswiki::Plugins::SESSION->{webName} . '.'
-      . $Foswiki::Plugins::SESSION->{topicName};
-    return $Foswiki::Plugins::SESSION->logEvent( $action, $webTopic, $extra );
-}
-
-=begin TML
-
----++ eachEventSince($time, $level) -> $iterator
-   * =$time= - a time in the past (seconds since the epoch)
-   * =$level= - log level to return events for.
-
-Get an iterator over the list of all the events at the given level
-between =$time= and now. Events are written to the event log using
-=writeEvent=. The Foswiki core will write other events that will
-also be returned.
-
-Events are returned in *oldest-first* order.
-
-Each event is returned as a reference to an array. The elements are:
-   1 date of the event (seconds since the epoch)
-   1 login name of the user who triggered the event
-   1 the event name (the $action passed to =writeEvent=)
-   1 the Web.Topic that the event applied to
-   1 Extras (the $extra passed to =writeEvent=)
-   1 The IP address that was the source of the event (if known)
-
-Use the iterator like this:
-<verbatim>
-my $it = Foswiki::Func::eachEventSince(Foswiki::Time::parseTime("1 Apr 2010"));
-while ($it->hasNext()) {
-   my $entry = $it->next();
-   my $date = $entry->[0];
-   my $loginName = $entry->[1];
-   ...
-}
-</verbatim>
-
-=cut
-
-sub eachEventSince {
-    my $time = shift;
-    return $Foswiki::Plugins::SESSION->logger->eachEventSince( $time, 'info' );
-}
-
-=begin TML
-
----+++ writeWarning( $text )
-
-Log a warning that may require admin intervention to the warnings log (=data/warn*.txt=)
-   * =$text= - Text to write; timestamp gets added
-
-=cut
-
-sub writeWarning {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->logger->log( 'warning',
-        scalar( caller() ), @_ );
-}
-
-=begin TML
-
----+++ writeDebug( $text )
-
-Log debug message to the debug log 
-   * =$text= - Text to write; timestamp gets added
-
-=cut
-
-sub writeDebug {
-
-    #   my( $text ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->logger->log( 'debug', @_ );
-}
-
-=begin TML
-
 ---+++ isTrue( $value, $default ) -> $boolean
 
 Returns 1 if =$value= is true, and 0 otherwise. "true" means set to
@@ -3022,37 +2923,6 @@ Check for a valid WikiWord or WikiName
 
 sub isValidWikiWord {
     return Foswiki::isValidWikiWord(@_);
-}
-
-=begin TML
-
----+++ isValidWebName( $name [, $system] ) -> $boolean
-
-Check for a valid web name. If $system is true, then
-system web names are considered valid (names starting with _)
-otherwise only user web names are valid
-
-If $Foswiki::cfg{EnableHierarchicalWebs} is off, it will also return false
-when a nested web name is passed to it.
-
-=cut
-
-sub isValidWebName {
-    return Foswiki::isValidWebName(@_);
-}
-
-=begin TML
-
----++ isValidTopicName( $name [, $allowNonWW] ) -> $boolean
-
-Check for a valid topic name.
-   * =$name= - topic name
-   * =$allowNonWW= - true to allow non-wikiwords
-
-=cut
-
-sub isValidTopicName {
-    return Foswiki::isValidTopicName(@_);
 }
 
 =begin TML
@@ -3109,6 +2979,154 @@ Return: =$value=   Extracted value
 sub extractNameValuePair {
     require Foswiki::Attrs;
     return Foswiki::Attrs::extractValue(@_);
+}
+
+=begin TML
+
+---+++ sendEmail ( $text, $retries ) -> $error
+
+   * =$text= - text of the mail, including MIME headers
+   * =$retries= - number of times to retry the send (default 1)
+Send an e-mail specified as MIME format content. To specify MIME
+format mails, you create a string that contains a set of header
+lines that contain field definitions and a message body such as:
+<verbatim>
+To: liz@windsor.gov.uk
+From: serf@hovel.net
+CC: george@whitehouse.gov
+Subject: Revolution
+
+Dear Liz,
+
+Please abolish the monarchy (with King George's permission, of course)
+
+Thanks,
+
+A. Peasant
+</verbatim>
+Leave a blank line between the last header field and the message body.
+
+=cut
+
+sub sendEmail {
+
+    #my( $text, $retries ) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    return $Foswiki::Plugins::SESSION->net->sendEmail(@_);
+}
+
+=begin TML
+
+---++ Logging
+
+=cut
+
+=begin TML
+
+---+++ writeEvent( $action, $extra )
+
+Log an event.
+   * =$action= - name of the event (keep them unique!)
+   * =$extra= - arbitrary extra information to add to the log.
+You can enumerate the contents of the log using the =eachEventSince= function.
+
+*NOTE:* Older plugins may use =$Foswiki::cfg{LogFileName}=. These
+plugins must be modified to use =writeEvent= and =eachEventSince= instead.
+
+To maintain compatibility with older Foswiki releases, you can write
+conditional code as follows:
+<verbatim>
+if (defined &Foswiki::Func::writeEvent) {
+   # use writeEvent and eachEventSince
+} else {
+   # old code using {LogFileName}
+}
+</verbatim>
+
+Note that the ability to read/write =$Foswiki::cfg{LogFileName}= is
+maintained for compatibility but is *deprecated* (should not be used
+in new code intended to work only with Foswiki 1.1 and later) and will
+not work with any installation that stores logs in a database.
+
+=cut
+
+sub writeEvent {
+    my ( $action, $extra ) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    my $webTopic =
+        $Foswiki::Plugins::SESSION->{webName} . '.'
+      . $Foswiki::Plugins::SESSION->{topicName};
+    return $Foswiki::Plugins::SESSION->logEvent( $action, $webTopic, $extra );
+}
+
+=begin TML
+
+---+++ writeWarning( $text )
+
+Log a warning that may require admin intervention to the warnings log (=data/warn*.txt=)
+   * =$text= - Text to write; timestamp gets added
+
+=cut
+
+sub writeWarning {
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    return $Foswiki::Plugins::SESSION->logger->log( 'warning',
+        scalar( caller() ), @_ );
+}
+
+=begin TML
+
+---+++ writeDebug( $text )
+
+Log debug message to the debug log 
+   * =$text= - Text to write; timestamp gets added
+
+=cut
+
+sub writeDebug {
+
+    #   my( $text ) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    return $Foswiki::Plugins::SESSION->logger->log( 'debug', @_ );
+}
+
+=begin TML
+
+---+++ eachEventSince($time, $level) -> $iterator
+   * =$time= - a time in the past (seconds since the epoch)
+   * =$level= - log level to return events for.
+
+Get an iterator over the list of all the events at the given level
+between =$time= and now. Events are written to the event log using
+=writeEvent=. The Foswiki core will write other events that will
+also be returned.
+
+Events are returned in *oldest-first* order.
+
+Each event is returned as a reference to an array. The elements are:
+   1 date of the event (seconds since the epoch)
+   1 login name of the user who triggered the event
+   1 the event name (the $action passed to =writeEvent=)
+   1 the Web.Topic that the event applied to
+   1 Extras (the $extra passed to =writeEvent=)
+   1 The IP address that was the source of the event (if known)
+
+Use the iterator like this:
+<verbatim>
+my $it = Foswiki::Func::eachEventSince(Foswiki::Time::parseTime("1 Apr 2010"));
+while ($it->hasNext()) {
+   my $entry = $it->next();
+   my $date = $entry->[0];
+   my $loginName = $entry->[1];
+   ...
+}
+</verbatim>
+
+=cut
+
+sub eachEventSince {
+    my $time = shift;
+    return $Foswiki::Plugins::SESSION->logger->eachEventSince( $time, 'info' );
 }
 
 =begin TML
