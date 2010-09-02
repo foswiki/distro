@@ -76,6 +76,8 @@ using jQuery with Foswiki.
 %INCLUDE{"VarJQREQUIRE"}%
 %INCLUDE{"VarJQTHEME"}%
 
+%INCLUDE{"VarPOPUPWINDOW"}%
+
 ---++ Available jQuery plugins
 %JQPLUGINS{
   format="<h3> $index. $percentIF{\"istopic '$documentation'\" 

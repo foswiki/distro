@@ -20,7 +20,7 @@ use vars qw(
 );
 
 $VERSION           = '$Rev: 20090710 (2010-08-18) $';
-$RELEASE           = '3.72';
+$RELEASE           = '3.73';
 $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
@@ -54,6 +54,9 @@ sub initPlugin {
 
     # jquery.button
     Foswiki::Func::registerTagHandler( 'BUTTON', \&handleButton );
+    
+    # jquery.popupwindow
+    Foswiki::Func::registerTagHandler( 'POPUPWINDOW', \&handlePopUpWindow );
 
     # init plugin handler and preload default plugins
     Foswiki::Plugins::JQueryPlugin::Plugins::init();
@@ -116,6 +119,21 @@ sub handleButton {
     my $session = shift;
     my $plugin = createPlugin( 'Button', $session );
     return $plugin->handleButton(@_) if $plugin;
+    return '';
+}
+
+=begin TML
+
+---++ handlePopUpWindow($session, $params, $topic, $web) -> $result
+
+Handles the =%<nop>POPUPWINDOW% tag. 
+
+=cut
+
+sub handlePopUpWindow {
+    my $session = shift;
+    my $plugin = createPlugin( 'PopUpWindow', $session );
+    return $plugin->handlePopUpWindow(@_) if $plugin;
     return '';
 }
 

@@ -26,6 +26,7 @@ data/System/JQueryMasonry.txt 0644
 data/System/JQueryMedia.txt 0644
 data/System/JQueryMetadata.txt 0644
 data/System/JQueryPlugin.txt 0644
+data/System/JQueryPopUpWindow.txt 0644
 data/System/JQueryQueryObject.txt 0644
 data/System/JQueryRating.txt 0644
 data/System/JQueryScrollTo.txt 0644
@@ -51,6 +52,7 @@ data/System/VarJQICON.txt 0644
 data/System/VarJQPLUGINS.txt 0644
 data/System/VarJQREQUIRE.txt 0644
 data/System/VarJQTHEME.txt 0644
+data/System/VarPOPUPWINDOW.txt 0644
 data/System/VarTABPANE.txt 0644
 data/System/VarTAB.txt 0644
 lib/Foswiki/Form/Color.pm 0644
@@ -86,6 +88,7 @@ lib/Foswiki/Plugins/JQueryPlugin/NIFTY.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/Plugin.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/Plugins.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/POPUPWINDOW.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/QUERYOBJECT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/RATING.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/SCROLLTO.pm 0644
@@ -406,6 +409,13 @@ pub/System/JQueryPlugin/plugins/nifty/jquery.rounded.js.gz 0644
 pub/System/JQueryPlugin/plugins/nifty/jquery.rounded.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/nifty/jquery.rounded.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/nifty/Makefile 0644
+pub/System/JQueryPlugin/plugins/popupwindow/jquery.popupwindow.js 0644
+pub/System/JQueryPlugin/plugins/popupwindow/jquery.popupwindow.js.gz 0644
+pub/System/JQueryPlugin/plugins/popupwindow/jquery.popupwindow.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/popupwindow/jquery.popupwindow.init.js 0644
+pub/System/JQueryPlugin/plugins/popupwindow/jquery.popupwindow.init.js.gz 0644
+pub/System/JQueryPlugin/plugins/popupwindow/jquery.popupwindow.init.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/popupwindow/Makefile 0644
 pub/System/JQueryPlugin/plugins/queryobject/jquery.queryobject.js 0644
 pub/System/JQueryPlugin/plugins/queryobject/jquery.queryobject.js.gz 0644
 pub/System/JQueryPlugin/plugins/queryobject/jquery.queryobject.uncompressed.js 0644

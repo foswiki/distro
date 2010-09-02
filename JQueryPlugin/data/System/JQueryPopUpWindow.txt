@@ -1,0 +1,20 @@
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"popupwindow"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Open a topic in a new window.
+%ENDSECTION{"summary"}%
+
+---++ Macros
+
+%INCLUDE{"VarPOPUPWINDOW"}%
+
+
+%JQREQUIRE{"popupwindow"}%

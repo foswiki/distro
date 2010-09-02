@@ -1,0 +1,23 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1277985796" format="1.1" version="1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+#VarPOPUPWINDOW
+---+++ POPUPWINDOW{"topic" ...} -- opens a topic or url in a new window
+   * Parameters: 
+     | *Parameter:* | *Description:* | *Default:* |
+     | ="topic"=, =topic="topic"=, =topic="web.topic"= | Topic to open | |
+     | =url= | URL to open (if topic is not used) | |
+     | =label= | Link label | the topic or the url | 
+     | =template= | View template to call when viewing a topic  | ="viewplain"= for topics, none for full urls | 
+     | =width= | Width of window | ="600"= | 
+     | =height= | Height of window | ="480"= |
+     | =toolbar= | Show toolbars? | ="0"= |
+     | =scrollbars= | Show scrollbars? | ="1"= |
+     | =status= | Show status? | ="1"= |
+     | =resizable= | Is the window resizable? | ="1"= |
+     | =left= | Left position | ="0"= |
+     | =top= | Top position | ="0"= |
+     | =center= | Center the window? | ="0"= |
+     | =menubar= | Show menubar? | ="0"= |
+     | =createnew= | Create a new window for each popup? | ="1"= |
+   * Example with topic link: =%<nop>POPUPWINDOW{"%BASETOPIC%" label="Open this topic in a new window"}%= generates: %POPUPWINDOW{"%BASETOPIC%" label="Open this topic in a new window"}%
+   * Example with url: =%<nop>POPUPWINDOW{url="http://foswiki.org"}%= generates: %POPUPWINDOW{"http://foswiki.org"}%
