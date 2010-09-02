@@ -344,7 +344,8 @@ NONNY
 
     # This should succeed
     Foswiki::Func::saveTopic($this->{test_web}, $topic, undef, 'Gasp',
-                            { forcenewrevision => 1 });
+                            { forcenewrevision => 1,
+                              ignorepermissions => 1 });
     @ri = Foswiki::Func::getRevisionInfo($this->{test_web}, $topic);
     $this->assert_matches(qr/2$/, $ri[2]);
 }
