@@ -2,21 +2,22 @@
 ---+!! Welcome to the %WEB% Web
 Foswiki is a flexible, powerful, secure, yet simple web-based collaboration platform.  Use Foswiki to run a project development space, a document management system, a knowledge base or any other groupware tool on either an intranet or on the Internet.
 
----++ Foswiki Documentation and Configuration
+---++ Presentations and tutorials
 <div style="float:right;width:255px;padding-left:1em;">%INCLUDE{ "TipsOfTheDayInclude" warn="off" }%</div>
-   * [[WelcomeGuest][Welcome Guest]] - look here first
-   * [[TwentyMinuteTutorial][Tutorial]] - 20 minute tutorial
-   * [[UsersGuide][User's Guide]] - documentation for Foswiki users
-   * [[FrequentlyAskedQuestions][Frequently Asked Questions]] - about Foswiki
-   * [[WikiSyntax][Wiki Syntax]]: Easy to learn rules for editing text
-   * [[TextFormattingRules][Text Formatting Rules]]: The complete set of text formatting rules
+   * [[MainFeatures][1 minute introduction]] - what is it?
+   * [[BeginnersStartHere][15 minute presentation]] - how do I use it?
+   * [[TwentyMinuteTutorial][30 minute walkthrough]] - some more details
+   * [[FrequentlyAskedQuestions][Frequently Asked Questions]]
 
-   * [[MainFeatures][Main Features]] of Foswiki
-   * [[ReferenceManual][Reference Manual]] - documentation for system administrators
-   * [[AdminToolsCategory][Admin Tools]] - manage the Foswiki site
+---++ Guides
+   * [[UsersGuide][User's Guide]] - links to documentation useful for normal users
+   * [[ReferenceManual][Reference Manual]] - full, detailed documentation
+   * [[http://foswiki.org/Support][Getting help]] - if you get stuck
+
+---++ Administrators (mostly)
+   * [[Admin Documentation Category]] has links to documentation for administrators
+   * [[AdminToolsCategory][Admin Tools]] - gateway to tools used by administrators
    * [[ReleaseNotes01x01][Release Notes for 1.1]] - describes what's new in this release
-
-   * [[http://foswiki.org/Support][Getting support]] - if you get stuck
 
 ---++ <nop>%WEB% Web Utilities
    * WebTopicList - all topics in alphabetical order

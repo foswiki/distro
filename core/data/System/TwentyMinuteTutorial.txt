@@ -101,7 +101,7 @@ Now we will proceed to the second option of creating a topic - following a link 
 
 There are different ways of formatting text:
    1. *Using the WYSIWYG editor* - highlight and format text as you would do it in a normal text editor
-   1. *Using TML shorthand* - TML is a very simple markup language and stands for <b>T</b>opic <b>M</b>arkup <b>L</b>anguage. For additional information on editing topics and formatting text with TML, have a look at TopicsAndWebs and ShortHand.
+   1. *Using TML shorthand* - TML (<b>T</b>opic <b>M</b>arkup <b>L</b>anguage) is a very simple markup language. For additional information on editing topics and formatting text with TML, have a look at TopicsAndWebs and WikiSyntax.
 
 ---++ 7. Use your browser to upload files as page attachments...
  You can attach *any* type of file to a topic - documents, images, programs, whatever - where they can be opened, viewed, or downloaded. 
@@ -124,5 +124,5 @@ That's it! You're now equipped with all the Foswiki essentials. You are ready to
 
 <blockquote class="foswikiHelp">%H% When first using Foswiki, it will probably seem strange to be able to change other people's postings - we're used to *separating* individual messages, with e-mail, message boards, non-Wiki collaboration platforms. __Don't worry about it.__ You can't accidentally delete important stuff - you can always check previous versions, and restore them, if necessary, if you want to undo any changes. After a short while, it'll become second-nature and you'll expect it everywhere!</blockquote>
 
-__Related Topics:__ UserDocumentationCategory, TopicsAndWebs, ShortHand
+__Related Topics:__ UserDocumentationCategory, TopicsAndWebs, WikiSyntax
 %STOPINCLUDE% 

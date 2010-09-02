@@ -77,7 +77,7 @@ Most images in DocumentGraphics are 16 x 16 pixels.
 
 ---+++ Use TOC macro to create table of content
 
-TOC is Table-Of-Content, generated automagically from headers (defined like that: ==---++== , see ShortHand).
+TOC is short for Table-Of-Contents, generated automagically from headers (defined like that: ==---++== , see WikiSyntax).
 
 For example, you may want to put all your custom settings in [[%LOCALSITEPREFS%]] right on top of the page, and generate table of contents, like:
 

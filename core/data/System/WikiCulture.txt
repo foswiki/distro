@@ -13,7 +13,7 @@ Originally, the word "wiki" is hawaiian and means "fast" or "quick" [[%TOPIC%#Ci
 ---+++ The idea behind wikis
 As mentioned above, the idea behind wikis is that anybody can create and edit content of a wiki page, using a simplified markup language. 
 
-A markup language is a language that combines text with additional anotations that have an impact of the presentation of the text itself once it is displayed. An example for markup language is HTML (Hypertext Markup Language) that is the basis for the majority of internet websites. In conjunction with wikis, the markup language is reduced to a few simple annotations that easily allow any user to format a wiki page. The markup language used on this %WIKITOOLNAME% site is called TML which stands for Topic Markup Language. For detailed information, see ShortHand.
+A markup language is a language that combines text with additional anotations that have an impact of the presentation of the text itself once it is displayed. An example for markup language is HTML (Hypertext Markup Language) that is the basis for the majority of internet websites. In conjunction with wikis, the markup language is reduced to a few simple annotations that easily allow any user to format a wiki page. The markup language used on this %WIKITOOLNAME% site is called TML which stands for Topic Markup Language. For detailed information, see [[wiki syntax]].
 
 According to its founder, the basic principles of a wiki are [[%TOPIC%#CiteReference][<sup>4</sup>]]:
    * "Any information can be altered or deleted by anyone. Wiki pages represent consensus because it's much easier to !DeleteInsults and remove !WikiSpam than indulge them. What remains generates new ideas by the iteractive integration of multiple points of view.

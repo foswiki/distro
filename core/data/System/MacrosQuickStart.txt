@@ -1,19 +1,2 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252718842" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="BeginnersStartHere"}%
----++ Macros Quickstart
-
-%STARTINCLUDE%
-
-Macros are names enclosed in percent signs that are that are expanded to some other text when the topic is displayed. For example, =%<nop>TOPIC%= is expanded to %TOPIC%, the title of this topic.
-
-Some macros can take arguments in curly braces - for example, =%<nop>INCLUDE{"OtherTopic" ARG="arg"}%=.
-
-Many macro definitions are built-in, and others ([[%SYSTEMWEB%.PreferenceSettings][preference settings]]) are predefined for your convenience. You can also define your own
-[[%SYSTEMWEB%.PreferenceSettings][preference settings]] at the entire site, individual web, or individual topic level. For more information, see *[[Macros]]*
-
-Macros are fully expanded _before_ any of the text formatting rules are applied.
-
-*Documentation Graphics:* There are many graphics available to use in your topics. Use =%<nop>ICON{"help"}%=, =%<nop>ICON{"tip"}%=, and =%<nop>ICON{"warning"}%= to get: %H%, %T%, and %X%, respectively. DocumentGraphics lists them all.
-
-<blockquote class="foswikiHelp"> %T% To prevent a macro from expanding, prefix it with an exclamation mark. Write: =!%<nop>SOMEMACRO%= to get: !%SOMEMACRO%. Alternatively, you may also see: =%&lt;nop&gt;SOMEMACRO%= </blockquote>
-%STOPINCLUDE%
+This topic has been deprecated - please see [[Macros]] instead.

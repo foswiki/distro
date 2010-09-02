@@ -10,7 +10,7 @@ Welcome to <nop>%WIKITOOLNAME%! This site is a meeting place to work on common i
 ---++ So what is it that you can do?
 
    * *Browse.* This is a site like other sites. Read and follow interesting links.
-   * *Write.* Speak your mind! From your browser you can change or add to anything you see in a %WIKITOOLNAME% topic. Use regular text or [[ShortHand][simple shorthand]].
+   * *Write.* Speak your mind! From your browser you can change or add to anything you see in a %WIKITOOLNAME% topic. Use regular text or [[wiki syntax]].
    * *Try.* Do not worry that anything could go wrong. When you change a topic, its previous versions are saved and can be recovered.
    * *Start to figure it out.* Some good places to start:
       * BeginnersStartHere is a short introduction training course for beginners. 

@@ -52,7 +52,14 @@ Being able to create links without any special formatting is a core Foswiki feat
 
 ---++ Macros
 
-%INCLUDE{"MacrosQuickStart"}%
+Macros are names enclosed in percent signs that are that are expanded to some other text when the topic is displayed. For example, =%<nop>TOPIC%= is expanded to %TOPIC%, the title of this topic.
+
+Some macros can take arguments in curly braces - for example, =%<nop>INCLUDE{"OtherTopic" ARG="arg"}%=.
+
+Many macro definitions are built-in, and others ([[%SYSTEMWEB%.PreferenceSettings][preference settings]]) are predefined for your convenience. You can also define your own
+[[%SYSTEMWEB%.PreferenceSettings][preference settings]] at the entire site, individual web, or individual topic level. For more information, see *[[Macros]]*
+
+Macros are fully expanded _before_ any of the text formatting rules are applied.
 
 ---++ Plugin Formatting Extensions
 

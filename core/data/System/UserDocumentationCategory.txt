@@ -38,7 +38,6 @@
    $ [[SearchHelp]] : An introduction to searching
    $ [[SearchPatternCookbook]] : A cookbook with many examples how to use the powerful SEARCH feature in wiki applications. See examples of both regular expression searches, query searches, and the use of formatted output
    $ [[ShortcutMacros]] : A list of macros that can be used as shortcuts for longer sequences of characters, to either save typing or to easily allow line breaks in format strings and the like
-   $ [[ShortHand]] : A fast-track guide to shorthand/wiki syntax basics
    $ [[FAQSimultaneousEdits]] : Description of what happens if two users try to edit the same topic simultaneously
    $ [[SmiliesPlugin]] : Smilies are common in e-mail messages and bulletin board posts. They are used to convey an emotion, such as a smile :<nop>-) or a frown :<nop>-( . This plugin automatically converts certain smilies to a nice small icon. This topic lists the smilies supported
    $ [[SpreadSheetPlugin]] : Foswiki Spreadsheet Plugin adds spreadsheet capabilities to Foswiki topics and many functions for manipulating numbers and text. See this topic for a full list of all the many functions in the CALC Macro

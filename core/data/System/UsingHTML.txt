@@ -4,15 +4,15 @@
 
 %STARTINCLUDE%
 You can use most HTML tags in topics without a problem. This is useful where you want to
-add some content that is formatted in a way that is not supported using [[ShortHand][shorthand]], for example,
+add some content that is formatted in a way that is not supported using [[wiki syntax]], for example,
 you can write =&lt;strike&gt;deleted text&lt;/strike&gt;= to get <strike>deleted text</strike>.
 
 There are a few usability and technical considerations to keep in mind:
-   * On collaboration pages, it's better *not* to use HTML, but to use [[ShortHand][shorthand]] instead -
+   * On collaboration pages, it's better *not* to use HTML, but to use [[wiki syntax]] instead -
      this keeps the text uncluttered and easy to edit using the plaintext editor.
    * If you _must_ use HTML, use [[http://www.w3.org/TR/xhtml1/][XHTML 1.0 Transitional]] syntax.
    * Use =&lt;literal&gt;..&lt;/literal&gt;= tags around blocks of HTML to avoid accidental interpretation of
-     [[ShortHand][shorthand]] within the HTML.
+     [[Wiki syntax]] within the HTML.
    * %X% Script tags may be filtered out, at the discretion of your Wiki administrator.
 
 Recommendations when pasting HTML from other sources (using the plain-text editor):
@@ -23,6 +23,6 @@ Recommendations when pasting HTML from other sources (using the plain-text edito
    * In your HTML editing program, save without hard line breaks on text wrap.
 
 When using a WYSIWYG editor, you can just copy-paste directly into the editor, and the content will
-be converted to [[ShortHand][shorthand]] automatically when you save.
+be converted to [[wiki syntax]] automatically when you save.
 
 %STOPINCLUDE%

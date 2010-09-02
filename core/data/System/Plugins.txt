@@ -84,7 +84,7 @@ Note that some older plugins use [[%SYSTEMWEB%.PreferenceSettings][preference se
 This setting defines the default value for the preference BATHPLUGIN_ELECTRIC. You should *never* edit the !BathPlugin topic to change this setting; instead, override the setting by defining BATHPLUGIN_ELECTRIC as described in [[preference settings]].
 
 #PluginAPI
----++ The Foswiki Perl Application Programming Interface
+---++ Developing your own plugins
 
 [[Developing plugins]] provides a simple introduction to hooking into Foswiki code from your own Perl modules. Foswiki:Development.GettingStarted is the starting point for more comprehensive documentation.
 
