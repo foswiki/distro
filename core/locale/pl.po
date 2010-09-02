@@ -6,16 +6,16 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-23 14:35+0200\n"
+"PO-Revision-Date: 2010-09-02 07:47+0000\n"
 "Last-Translator: Daniel Kownacki <d.kownacki@gmail.com>\n"
 "Language-Team: Polish <kuleszbi@@pb.bialystok.pl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 1.1.0\n"
+"Language: pl\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:480
@@ -59,16 +59,16 @@ msgstr "Dział %1"
 
 #: core/templates/messages.tmpl:480
 msgid "%1 added to the %2 group. "
-msgstr ""
+msgstr "%1 dodany do grupy %2."
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
-msgstr ""
+msgstr "temat grupy %1 zaktualizowany."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
-msgstr "%1 lista kont użytkowników Foswiki"
+msgstr "%1 - lista innych użytkowników Foswiki"
 
 #: core/templates/messages.tmpl:528
 msgid ""
@@ -104,23 +104,20 @@ msgid "%1 is currently set to %2"
 msgstr "%1 jest obecnie ustawione na %2"
 
 #: core/templates/messages.tmpl:526
-#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 jest w trakcie edycji %2."
+msgstr "%1 edytuje [[%2][%3]]."
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 jest w co najmniej jednej grupie i nie może zostać usunięty"
 
 #: core/templates/messages.tmpl:126
-#, fuzzy
 msgid "%1 is not a valid form name"
-msgstr "'%1' nie jest poprawnym %2 "
+msgstr "%1 nie jest poprawną nazwą formularza "
 
 #: core/templates/messages.tmpl:122
-#, fuzzy
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "'%1' nie jest poprawnym %2 "
+msgstr "%1 nie jest poprawną wartością parametru %2 "
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
@@ -131,14 +128,12 @@ msgid "%1 may still be editing %2."
 msgstr "%1 prawdopodobnie wciąż jest w trakcie edycji %2."
 
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
-msgstr "Wyświetl %1 zmian(y) w dziale %2:"
+msgstr "%1 ostatnich zmian w dziale %2"
 
 #: core/templates/messages.tmpl:518
-#, fuzzy
 msgid "%1 removed from the %2 group. "
-msgstr "%1 została przeniesiona z %2 do %3 przez %4"
+msgstr "%1 usunięto z grupy %2."
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
