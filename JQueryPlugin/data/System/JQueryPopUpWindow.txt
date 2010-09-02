@@ -9,7 +9,7 @@
 }%
 
 %STARTSECTION{"summary"}%
-Open a topic in a new window.
+Open a page in a new window.
 %ENDSECTION{"summary"}%
 
 ---++ Macros
