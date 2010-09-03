@@ -111,8 +111,7 @@ sub preview {
       $session->renderer->getRenderedVersion( $displayText, $web, $topic );
 
     # Disable links and inputs in the text
-    $displayText =~
-      s#<a\s[^>]*>(.*?)</a>#<span class="foswikiEmulatedLink">$1</span>#gis;
+    $displayText =~ s#(<a\s[^>]*>)(.*?)(</a>)#_disableLink($1, $2, $3)#gies;
     $displayText =~ s/<(input|button|textarea) /<$1 disabled="disabled" /gis;
     $displayText =~ s(</?form(|\s.*?)>)()gis;
     $displayText =~ s/(<[^>]*\bon[A-Za-z]+=)('[^']*'|"[^"]*")/$1''/gis;
@@ -154,6 +153,15 @@ sub preview {
     $tmpl =~ s/%NEWTOPIC%/$newtopic/go if (defined($newtopic));
 
     $session->writeCompletePage($tmpl);
+}
+
+sub _disableLink {
+    my ($one, $two, $three) = @_;
+    if ($one =~ /\bhref=/) {
+        $one = "<span class=\"foswikiEmulatedLink\">";
+        $three = "</span>";
+    }
+    return "$one$two$three";
 }
 
 1;
