@@ -2,23 +2,34 @@
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Instant Site Enhancements
 
-These quick enhancements are aimed at improving and customising your Foswiki.  New site administrators are especially encouraged to review this document for ideas before deploying a new site. The metaphor of building a house is useful.  The listed enhancements are some of the details possible when moving into a new office or home. These small changes can make a *big* differences for user satisfaction at your site. All modifications can be done through your Web browser, and they don't take more then in a couple of minutes.  No system administration expertise is required. Some of these enhancements are also mentioned in the reference manual and other topics.
+These quick enhancements are aimed at improving and customising your Foswiki as quickly as possible. New site administrators are encouraged to review this document for ideas before deploying their site. Small changes planned in advance can make a *big* differences for user satisfaction.
 
-Many of these tips are based on setting some special [[WebPreferencesHelp][preferences]].
+All modifications can be done through your Web browser, and they don't take more then in a couple of minutes.  No system administration expertise is required.
 
-<blockquote class="foswikiHelp"> %S% We recommend implementing at least *some* of these enhancements *right after installation* to get a taste for what is possible.  Some of these tips and enhancements _should_ be implemented before or during initial roll-out.</blockquote>
-
-This may spark your imagination to *really* customize your site so that it's optimal for *your* users.  Slightly more advanced customization tips can be found in Foswiki:Support.SupplementalDocuments.
+This may spark your imagination to *really* customize your site so that it's optimal for *your* users.
 
 %TOC%
 
----++ Tips using Preference Settings
+---++ Change the logo in the top left corner
+The default Foswiki logo image is a 46 pixels high GIF image. You can use any similar-sized graphic in its place.
 
-Preference settings can be redefined and are a great resource to customize your site. You need to know the preference name and decide where to put it.
+To set the logo site-wide, first attach your logo image to [[%LOCALSITEPREFS%]] using the 'Attach' button. Now, edit [[%LOCALSITEPREFS%]] and find the line:
+<pre>
+   *<nop> Set WIKILOGOIMG = %<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/foswiki-logo.gif
+</pre>
+Assuming you have called your logo =mycologo.png=, change this line to:
+<pre>
+   *<nop> Set WIKILOGOIMG = %<nop>PUBURL%/%<nop>USERSWEB%/SitePreferences/mycologo.png
+</pre>
+(If the WIKILOGOIMG line is missing from the file, just add it)
 
----+++ Change Colors of Page Header/Footer
+By changing the WIKILOGOALT and WIKILOGOURL you can change the default alt-text and target of the link behind the image as well.
 
-Incredibly obvious, maybe, but some site admins don't get around to changing the default web colors right off, whether they like them or not. Simply changing the defaults will make a huge difference in the overall look. 
+%I% [[Pattern Skin Customization]] has a whole lot more on customising how your site looks, while still using the standard skin.
+
+---++ Change the Web Color Codes
+
+Web color codes are used to provide a visual reference for each web, so users can quickly tell where they are. Incredibly obvious, maybe, but some site admins don't get around to changing the default web colors right off, whether they like them or not. Simply changing the defaults will make a huge difference in the overall look. 
 
 *What we are doing*
 
@@ -33,84 +44,42 @@ We want to set the preference WEBBGCOLOR in topic WebPreferences to one of the S
 
 It's just as easy to refine later on, so you're not locked in, just looking better.
 
----+++ Set Page Background Color 
+---++ Use Graphic Icons to Highlight Text
 
-Without getting into the [[skin templates]] system yet, you can easily edit the ==view.tmpl== (in the =templates= directory). In the HTML at the top, the body tag has the page background hardcoded to white ==bgcolor="#ffffff"==. You can change that color value to a new setting. First, define a new[[%SYSTEMWEB%.PreferenceSettings][preference setting]] in the site-level [[%LOCALSITEPREFS%]], e.g. =* Set =PAGEBGCOLOR = #d0d0d0=, then edit the ==view.tmpl== template file and change ==bgcolor="#ffffff"== to ==bgcolor="%<nop>PAGEBGCOLOR%"==. If you want, you can set the page background color individually per web, simple add a =* Set =PAGEBGCOLOR = #d0d0d0= bullet to the WebPreferences to overload the site-level preferences. (Without font color control, you'll have to stick to light colors.)
+Icons can do a lot to enhance scannability of topics. For example,
 
----+++ Titles-Only Topic List - !WebTopicList
+%X% there's a warning here
 
-WebTopicList is a *good first navigation tool for new users,* a fast-loading linked list (page titles only) of a web's topics is a quick and easy way see what's available. By default, slower, but more powerful WebIndex is used. 
-
-Without explaining what WEBTOPICLIST is, just try it: 
-
-   1 Go to WebPreferences in each web, and edit the topic.
-   2 In the WEBTOPICLIST setting, replace =WebIndex= with =WebTopicList=, and save.
-
----+++ Simple way to create %RED% colored text %ENDCOLOR% and graphics
-
-This should be enabled, see the "Miscellaneous Settings" in the DefaultPreferences. Look for the settings RED, BLUE etc (which define HTML tag FONT). To copy/paste the definitions of the colors you need to see the source text, but =Edit= is disabled. Instead, view the topic in ==raw== format (if your skin has no button for this, type "?raw=on" at the end of the URL).
-
----+++ EZ Graphic Icons to Highlight Text
-
-Icons can do a lot to enhance scannability of topics. For instance, on *HELP* pages, most people tend to jump around looking for answers rather than reading through - icons help point out the most important bits.
-
-DocumentGraphics has a whole collection of ready icon images. You can use these images in any topic by referring to their name. For example, !DocumentGraphics has an image attachment called =days.gif=. To show this image in a topic, write =%<nop>ICON{"days"}%= to get %ICON{"days"}%.
+DocumentGraphics has a whole collection of ready-to-use icon images. You can use these images in any topic by referring to their name. For example, !DocumentGraphics has an image attachment called =days.gif=. To show this image in a topic, write =%<nop>ICON{"days"}%= to get %ICON{"days"}%.
 
 *Creating image macros*
 
-You may find it easier to write shorthand graphic notation. You can create your own image macros by defining them in a preference topic (most likely [[%USERSWEB%.%WIKIPREFSTOPIC%]].)
+You can create your own image macros by defining them in a preference topic (usually [[%LOCALSITEPREFS%]]). Image macro names are usually one letter, like =Y=, but may be longer like =HELP= or =WARN=.
 
-A macro name may be one letter, like =Y=, or may be longer like =HELP=, =WARN= etc. You can also add your own images, e.g. a =NEW=, or a =ASK= to ask question.
-
-For instance, if we want to write =%<nop>DOWN%= instead of =%<nop>ICON{"arrowbdown"}%=, define the new macro like this:
-<verbatim class="tml">
+For instance, if we want to write =%<nop>DOWN%= to get the %ICON{"arrowbdown"}% image, define the new macro like this:
+<verbatim>
    * Set DOWN = %ICON{"arrowbdown"}%
 </verbatim>
-Or if you have a custom image to use, attach this to [[%LOCALSITEPREFS%]] and write:
-<verbatim class="tml">
-   * Set DOWN = <img src="%ATTACHURL%/my_image.gif" border="0" alt="DOWN" width="16" height="16" />
+If you have your own custom image that you want to use, attach it to [[%LOCALSITEPREFS%]] and write:
+<verbatim>
+   * Set DOWN = <img src="%PUBURL%/%USERSWEB%/SitePreferences/my_image.gif" border="0" alt="DOWN" width="16" height="16" />
 </verbatim>
+
+%I% There are other approaches for creating more extensive icon libraries. This is a simply and quick way to get started. See DocumentGraphics for more info.
 
 Most images in DocumentGraphics are 16 x 16 pixels.
 
-   * *Related:* There are other approaches for creating more extensive icon libraries. This is a simply and quick way to get started. See DocumentGraphics for more info.
+---++ Use the [[VarTOC][TOC]] macro to create table of contents
 
----+++ Use TOC macro to create table of content
+The TOC macro generates a table of contents automagically from headers (defined like this: ==---++== , see WikiSyntax).
 
-TOC is short for Table-Of-Contents, generated automagically from headers (defined like that: ==---++== , see WikiSyntax).
+For example, the table of contents at the top of _this_ page was generated
+using a TOC macro.
 
-For example, you may want to put all your custom settings in [[%LOCALSITEPREFS%]] right on top of the page, and generate table of contents, like:
+---++ Use SEARCH 
 
-   * Preferences for easy creating nice pages 
-      * Graphics icons in text 
-      * Colored text 
-   * System Preferences 
-      * Contents of page header and footer 
-      * User interface defaults 
-      * Email 
-      * Plugins 
-      * Notes 
-
-Non-admin users wil be interested only in first part, non-system preferences.
-
----++ Personal Productivity - Tools and Tips for Working Faster
-
-Although this area applies to all setups, the initial focus is on site managers working on a Linux/Apache site, from a Windows local PC. The assumption being: if you're working with Linux as your desktop, you're probably a programmer or system admin and have these basics handled!
-
----+++ Use your favorite text editor for major edits
-
-When you have a fair bit of formatting work - for example, compiling new info pages from various cut'n'paste sources, editing multiple topics or contributed material - it's often easier to use a real *[[TextEditor]]* instead of the browser's text edit box.  There are several methods for doing this.  For Windows, there are several well-recommended text editors.
-
-*Windows&nbsp;Example:* [[http://textpad.com][TextPad]] is a low-cost, top flight Windows program, with an extended trial period. You can download from a well-stocked library of user-contributed macros, dictionaries, and syntax and clip files. You can also easily create a clip collection that allows you to format text with TML code: select a text string and click for bold, italic, links, bullet lists - just like a regular HTML editor - and also insert blocks of TML code, use simple or regex search and replace, more.
-
-*Copy&nbsp;&amp;&nbsp;Paste:* Using the web window this can work very well.  System differences may present difficulties with this method but it is simple and reliable in most cases.
-
-*Browser&nbsp;Integration:* Some web browsers can be configured to automatically use an external editor.  See your browser documentation for details.
-
-*Alternate&nbsp;Browser:* While your main browser might not have the features for topic editing, another one might.
-   * An example on the Linux platform is the =w3m= pager/browser for Linux.  This is a text based version similar to =lynx= but it includes text editor features and a configurable command set to act like =lynx= if you are more accustomed to it.
-
----++ Ready to use SEARCH 
+The [[VarSEARCH][SEARCH]] macro is one of the most powerful and useful macros
+in Foswiki. Using SEARCH you can quickly build simple reports.
 
 ---+++ Personal directory of topics you're involved in
 
@@ -149,52 +118,42 @@ Here are the last 15 changed pages, formatted into a neat table.
 }%
 </verbatim>
 
----++ Hidden Edit Lock for Individual Topics
+---++ Restricting who can edit
 
-When you're creating main gateway pages, you may want to temporarily (or permanently) restrict editing to yourself or a limited group of people. You can do this with a Preference setting that includes one or more users and groups. Only auhorized users will be able to use ==Edit==.
+You may want to temporarily (or permanently) restrict editing to yourself or a limited group of people. You can do this with a Preference setting that includes one or more users and groups. Only authorized users will be able to use ==Edit==.
 
 *Example:* <verbatim class="tml">   * Set ALLOWTOPICCHANGE = %USERSWEB%.UserName, %USERSWEB%.GroupName</verbatim>
 <blockquote class="foswikiHelp"> %T% *To hide the setting:* Use HTML comment tags - put ==&lt;!--== on the line _above the setting, and ==--&gt;== on the line below.</blockquote>
 
----++ Change the Default Logo
+See [[Access Controls]] for much more on controlling access to webs and topics.
 
-If you want to change the logo per web, simply attach a new logo.gif to the web's <nop>WebPreferences, and change the logo's filename by overriding the name using WEBLOGONAME in <nop>WebPreferences:  
-<verbatim class="tml">   * Set WEBLOGONAME = filename.gif</verbatim>
+---++ Customize the Left Navigation Bar
+If you are using the default skin, you can customize the contents of the !WebLeftBar topic. This topic does not exist by default - read PatternSkinCustomization for details. Each web can have its own !WebLeftBar.
 
-Other cusomtisations are possible using =WEBLOGOIMG=, =WEBLOGOURL=, and =WEBLOGOALT= (they mirror the =WIKILOGO*= macros, but are applied to each web, rather than to the %<nop>WIKITOOLNAME%-based references)
+<blockquote class="foswikiHelp">%T% Also check PatternSkinCustomization to learn how to customise the !WebTopBar</blockquote>
 
-If you'd like to have the same customised logo for all the webs, make these changes in %LOCALSITEPREFS% instead of each web's <nop>WebPreferences, e.g.,
-<verbatim class="tml">   * Set WEBLOGOIMG = %PUBURLPATH%/%USERSWEB%/WebPreferences/mylogo.gif</verbatim>
+---++ Deeper Customisations
+Foswiki is very powerful, and can be customised at many
+different levels. We've shown above how preferences, macros and topics can
+be used to do some simple and quick customisations from the browser, many
+of them by normal (non-admin) users. Administrators have even more power
+at their fingertips, and if you can log in to the server, even more. Here's
+a breakdown of customisation opportunities available to different types of
+people:
 
----++ Customize Topic Classification Forms
+| *Normal Users* ||
+| [[Preference settings]] | Customise preferences |
+| [[Macros]] | Use macros to create and format reports, and customise each page |
+| [[Template Topics]] | Use topic and form templates to create new topics |
+| *Administrators* ||
+| %SCRIPTURL{configure}% | Set basic system options |
+| [[InstalledPlugins]] | Install new plugins, skins and other extensions from http://foswiki.org/Extensions |
+| [[Pattern Skin Customization]] | Customising the standard skin |
+| *Developers* ||
+| [[Plugins]] | Write your own plug-in perl code |
+| http://foswiki.org/Development | Where Foswiki development is coordinated and documented |
 
-With a simple one or two-line default topic form available for every topic  - in *Edit* mode, click the ==[Add]== button, and select the form if it isn't already enabled. Then, click the title to get to the actual form, ==[Edit]==, and carefully change values, probably basic page classifications. You'll get some increased value, and hands-on experience with DataForms, without having to read up about them first. %X% *(add the corresponding search per category - copy a default and change)*
+*Remember, Foswiki is an open-source project developed and supported entirely by volunteers.* Once you have built up a bit of expertise, you can say "thank you" to all those people by giving a bit of your time back - see http://foswiki.org/Community/HowYouCanHelp
 
----++ Customize The Left Navigation Bar
-<blockquote class="foswikiHelp">%H% This advice applies to sites using the default PatternSkin</blockquote>
-
-Customize the contents of the WebLeftBar topic, which does not exist by default - read PatternSkinCustomization for details. Each web has its own WebLeftBar that may include important topics for that web, or link to an important topic for the overall site.
-
-<blockquote class="foswikiHelp">%T% Also check PatternSkinCustomization to learn how to customise the WebTopBar</blockquote>
-
----++ Add Your Favorite <nop>JavaScript Features
-
-You're no doubt familiar or better with HTML, JS, and "webmastering". To add custom javascript and/or css to the page, the [[VarADDTOZONE][ADDTOZONE]] macro is used. Without getting into the [[skin templates]] system just yet, the easiest place to put [[VarADDTOZONE][ADDTOZONE]] macros is in some topic that is used by your site skin for every page view, such as the WebLeftBar if using the default PatternSkin.
-
-To add in-line javascript, read the [[VarADDTOZONE#ExampleAddingJS][javascript example]].
-
-Alternatively, make use of the =LIBJS= template, which simplifies the process of adding .js files to the page:
-<verbatim class="tml">
-%TMPL:P{"LIBJS" id="MyJQueryPlugin/jquery.myplugin" requires="JQUERYPLUGIN"}%
-</verbatim>
-
-This assumes that there is a file named [[%PUBURLPATH%/%SYSTEMWEB%/MyJQueryPlugin/jquery.myplugin%FWSRC%.js]]
-
----+++ Adding CSS
-See [[VarADDTOZONE][ADDTOZONE]]'s [[VarADDTOZONE#ExampleAddingCSS][CSS example]]
-
-<blockquote class="foswikiHelp"> %X% Depending on what you load up, you may change the overall cross-browser compatibility - be careful that your site does not look beat up in various other browsers. The scripts and CSS features you choose will determine compatibility.</blockquote>
-
-----
 *Related Topics:* AdminDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->

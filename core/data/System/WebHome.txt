@@ -1,23 +1,32 @@
 %META:TOPICINFO{author="ProjectContributor" date="1268211735" format="1.1" version="$Rev$"}%
 ---+!! Welcome to the %WEB% Web
-Foswiki is a flexible, powerful, secure, yet simple web-based collaboration platform.  Use Foswiki to run a project development space, a document management system, a knowledge base or any other groupware tool on either an intranet or on the Internet.
+This is where Foswiki keeps system documentation, including
+documentation that is included with optional extensions.
+
+For most people, the System web is read-only; even administrators should not
+need to modify any of the topics here, though you may want to add your own
+topics - for example, to answer frequently asked questions from your users.
+
+This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
 
 ---++ Presentations and tutorials
 <div style="float:right;width:255px;padding-left:1em;">%INCLUDE{ "TipsOfTheDayInclude" warn="off" }%</div>
    * [[MainFeatures][1 minute introduction]] - what is it?
    * [[BeginnersStartHere][15 minute presentation]] - how do I use it?
-   * [[TwentyMinuteTutorial][30 minute walkthrough]] - some more details
+   * [[TwentyMinuteTutorial][20 minute walkthrough]] - please hold my hand.
    * [[FrequentlyAskedQuestions][Frequently Asked Questions]]
 
 ---++ Guides
    * [[UsersGuide][User's Guide]] - links to documentation useful for normal users
-   * [[ReferenceManual][Reference Manual]] - full, detailed documentation
+   * [[Reference Manual]] - full, detailed documentation
    * [[http://foswiki.org/Support][Getting help]] - if you get stuck
 
 ---++ Administrators (mostly)
+   * [[%SCRIPTURL{configure}%][configure]], the Foswiki configuration tool
    * [[Admin Documentation Category]] has links to documentation for administrators
    * [[AdminToolsCategory][Admin Tools]] - gateway to tools used by administrators
    * [[ReleaseNotes01x01][Release Notes for 1.1]] - describes what's new in this release
+   * [[Instant Enhancements]] - some ideas for simple customisation of new installs
 
 ---++ <nop>%WEB% Web Utilities
    * WebTopicList - all topics in alphabetical order
@@ -25,9 +34,8 @@ Foswiki is a flexible, powerful, secure, yet simple web-based collaboration plat
    * WebNotify - subscribe to an e-mail alert sent when topics change
    * WebRss, WebAtom - RSS and ATOM news feeds of topic changes
    * WebStatistics - listing popular topics and top contributors
-   * WebPreferences - preferences of this web
+   * WebPreferences - preferences for this web
 
 <a href="http://foswiki.org"><img src="%PUBURLPATH%/%WEB%/ProjectLogos/foswiki-badge.gif" alt="Foswiki badge" height="31" style="vertical-align:bottom" /></a> Foswiki is developed as Free Software under the [[FAQGnuGeneralPublicLicense][GNU/GPL]]. Get the latest version from [[Foswiki:Download][Foswiki.org downloads]].
 
-This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
 
