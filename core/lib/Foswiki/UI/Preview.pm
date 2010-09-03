@@ -108,8 +108,7 @@ sub preview {
     # Disable links and inputs in the text
     # SMELL: This will break on <a name="blah />
     # XXX - Use a real HTML parser like HTML::Parser
-    $displayText =~
-      s#<a\s[^>]*>(.*?)</a>#<span class="foswikiEmulatedLink">$1</span>#gis;
+    $displayText =~ s#(<a\s[^>]*>)(.*?)(</a>)#_disableLink($1, $2, $3)#gies;
     $displayText =~ s/<(input|button|textarea) /<$1 disabled="disabled" /gis;
     $displayText =~ s(</?form(|\s.*?)>)()gis;
     $displayText =~ s/(<[^>]*\bon[A-Za-z]+=)('[^']*'|"[^"]*")/$1''/gis;
@@ -151,8 +150,17 @@ sub preview {
 
     #ASSERT($newtopic ne '%NEWTOPIC%') if DEBUG;
     $tmpl =~ s/%NEWTOPIC%/$newtopic/go if ( defined($newtopic) );
-
+###
     $session->writeCompletePage($tmpl);
+}
+
+sub _disableLink {
+    my ($one, $two, $three) = @_;
+    if ($one =~ /\bhref=/i) {
+        $one = "<span class=\"foswikiEmulatedLink\">";
+        $three = "</span>";
+    }
+    return "$one$two$three";
 }
 
 1;
