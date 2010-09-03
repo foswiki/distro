@@ -96,7 +96,7 @@
 <form name="main" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%?action_save=1" method="post">
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
-<h3>%MAKETEXT{"Current parent:"}% %IF{"'NONE%META{"parent" dontrecurse="on"}%'='NONE'" then="(none)" else='%SEARCH{ "name = '%TOPIC%'" scope="topic" type="query" nosearch="on" nototal="on" format="[[$parent]]" }%' }%</h2>
+<h3>%MAKETEXT{"Current parent:"}% %IF{"'NONE%META{"parent" dontrecurse="on"}%'='NONE'" then="(none)" else='%SEARCH{ "name = '%TOPIC%'" scope="topic" type="query" nosearch="on" nototal="on" format="[[$parent]]" }%' }%</h3>
 </div>
 <div class="foswikiFormStep">
 <h3>%MAKETEXT{"Select topic parent"}%</h3>
