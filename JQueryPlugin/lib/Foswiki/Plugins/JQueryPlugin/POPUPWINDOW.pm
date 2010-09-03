@@ -56,7 +56,7 @@ sub handlePopUpWindow {
     my ( $this, $params, $theTopic, $theWeb ) = @_;
 
     my $LINK_STUB =
-      '<a href="$URL" class="jqPopUpWindow" rel="$OPTIONS">$LABEL</a>';
+      '<a href=\'$URL\' class=\'jqPopUpWindow\' rel=\'$OPTIONS\'>$LABEL</a>';
     my $OPTIONS_STUB =
 'width:$WIDTH,height:$HEIGHT,toolbar:$TOOLBAR,scrollbars:$SCROLLBARS,status:$STATUS,resizable:$RESIZABLE,menubar:$MENUBAR,createnew:$CREATENEW,center:$CENTER';
 
@@ -64,22 +64,35 @@ sub handlePopUpWindow {
          $params->{_DEFAULT}
       || $params->{topic}
       || $theTopic;
-    my $web   = $params->{web}   || $theWeb;
-    my $url   = $params->{url}   || undef;
-    my $label = $params->{label} || $url || $topic;
-
+    my @queryParts;
+    
+    if ($topic) {
+        # get query string
+        my @urlParts = split(/\?/, $topic);
+        $topic = $urlParts[0] if scalar @urlParts;
+        push (@queryParts, $urlParts[1]) if scalar @urlParts;
+    }
+    
+    my $web      = $params->{web}       || $theWeb;
+    my $url      = $params->{url}       || undef;
+    my $label    = $params->{label}     || $url || $topic;
+    my $template = $params->{template}  || 'viewplain';
+    
     if ( !$url ) {
+        # link to Foswiki topic
         my ( $normalizedWeb, $normalizedTopic ) =
           Foswiki::Func::normalizeWebTopicName( $web, $topic );
         $url = Foswiki::Func::getViewUrl( $normalizedWeb, $normalizedTopic );
-        $url .= '?template=viewplain';
+	    push (@queryParts, "template=$template") if defined $template;
+        $url .= '?' . join(';', @queryParts) if scalar @queryParts;
     }
 
-    my $width  = $params->{width}  || '600';
-    my $height = $params->{height} || '480';
+    my $width      = $params->{width}  || '600';
+    my $height     = $params->{height} || '480';
     my $toolbar    = $params->{toolbar};
     my $scrollbars = $params->{scrollbars};
     my $status     = $params->{status};
+    my $location   = $params->{location} || '0';
     my $resizable  = $params->{resizable};
     my $left       = $params->{left};
     my $top        = $params->{top};
@@ -93,19 +106,23 @@ sub handlePopUpWindow {
     push( @options, "toolbar:$toolbar" )       if defined $toolbar;
     push( @options, "scrollbars:$scrollbars" ) if defined $scrollbars;
     push( @options, "status:$status" )         if defined $status;
+    push( @options, "location:$location" )     if defined $location;
     push( @options, "resizable:$resizable" )   if defined $resizable;
     push( @options, "left:$left" )             if defined $left;
     push( @options, "top:$top" )               if defined $top;
     push( @options, "menubar:$menubar" )       if defined $menubar;
     push( @options, "createnew:$createnew" )   if defined $createnew;
     push( @options, "center:$center" )         if defined $center;
-    my $optionsStr = join( ',', @options );
+    # use '|' instead of ',' to be able to use inside MAKETEXT args
+    my $optionsStr = join( '|', @options );
 
     my $result = $LINK_STUB;
     $result =~ s/\$URL/$url/;
     $result =~ s/\$LABEL/$label/;
     $result =~ s/\$OPTIONS/$optionsStr/;
 
+    $result =~ s/"/'/go;
+    
     return $result;
 }
 

@@ -14,7 +14,7 @@
    <code>%FILEPATH%</code> %TMPL:P{"fileuser"}%
   </td>
  </tr>%TMPL:END%
-%TMPL:DEF{"extranotes"}%   * %MAKETEXT{"*Properties:* The comment and visibility (i.e. is attachment hidden) can be changed without uploading a file by pressing \"Change Properties only\"; see [_1]." args="<a target='HiddenAttachment' class='foswikiPopUp' href='%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/HiddenAttachment' rel='nofollow'>HiddenAttachment</a>"}%
+%TMPL:DEF{"extranotes"}%   * %MAKETEXT{"*Properties:* The comment and visibility (i.e. is attachment hidden) can be changed without uploading a file by pressing \"Change Properties only\"."}% %POPUPWINDOW{"%SYSTEMWEB%.HiddenAttachment" label="%MAKETEXT{"More on hiding attachments"}%"}%%JQREQUIRE{"popupwindow"}%
    * %MAKETEXT{"*Change comment:* If you use _Change Properties_ to change a comment, the comment shown in the topic will change, but the comment shown against the attachment history will be the comment when the file was uploaded."}%
    * %MAKETEXT{"*Local file:* If you select a different file in _Local file:_, it is this that will be updated or added."}%
 %TMPL:END%

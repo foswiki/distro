@@ -154,7 +154,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 #BehaviourClasses
 ---+++ Behaviour classes
 Markers to invoke behaviour with unobtrusive !JavaScript.
-|=.foswikiPopUp=                         | Behaviour marker so a popup-window can be invoked |
+|=.foswikiPopUp=                         | Behaviour marker so a popup-window can be invoked. DEPRECATED as of Foswiki 1.1: use %<nop>POPUPWINDOW{"topic"}% instead. |
 |=.foswikiFocus=                         | Behaviour marker so a field can be given input focus |
 |=.foswikiChangeFormButton=              | "Replace form" button; clicking calls !JavaScript function =suppressSaveValidation=  |
 |=#foswikiNumberOfResultsContainer=      | Container identifier to write the number of search results into |

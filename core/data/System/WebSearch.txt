@@ -106,7 +106,7 @@ hideimgleft="%ICONURLPATH{toggleclose}%"
 </tr>
 <tr>
 <th>%MAKETEXT{"Make search:"}%</th>
-<td>%MAKETEXT{"Selections apply to search in \"text body\""}% <span class="foswikiUnvisited"><a class="foswikiPopUp foswikiSmall" target="SearchHelp" href="%SCRIPTURL{view}%/%SYSTEMWEB%/SearchHelp">%MAKETEXT{"Help"}%</a></span>
+<td>%MAKETEXT{"Selections apply to search in \"text body\""}% <span class="foswikiUnvisited foswikiSmall">%POPUPWINDOW{"%SYSTEMWEB%.SearchHelp" label="%MAKETEXT{"Help"}%"}%</span>
 <hr />
 <input type="checkbox" class="foswikiCheckbox" id="casesensitive" name="casesensitive" %IF{" '%URLPARAM{casesensitive}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="casesensitive"> %MAKETEXT{"Case sensitive"}%</label><br />
 <hr />

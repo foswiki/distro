@@ -185,6 +185,7 @@ The [[preference settings]] of a subweb are inherited from the parent web and ov
 The Pattern skin (default) indicates Subwebs by indenting them in the sidebar relative to their level in the hierarchy.
 
 #RenameWeb
+%STARTSECTION{"rename"}%
 ---++ Renaming or Deleting a Web
 Rename a web via the Tools section in each %WEBPREFSTOPIC% topic. You may delete a web by moving it into a Trash web.
 
@@ -202,5 +203,6 @@ It is possible, though not recommended, to change the names of the webs in the d
 
 %X% Renaming the webs in the distribution is not recommended because it makes upgrades much more complicated.
 </blockquote>
+%ENDSECTION{"rename"}%
 
 *Related Topics:* AdminDocumentationCategory, AdminToolsCategory 
