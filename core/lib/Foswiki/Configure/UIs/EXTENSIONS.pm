@@ -162,6 +162,7 @@ sub _parseRow {
         return '';
     }
 
+    chomp($data{topic});
     $data{name}       = $data{topic};
     $data{repository} = $place->{name};
     $data{data}       = $place->{data};

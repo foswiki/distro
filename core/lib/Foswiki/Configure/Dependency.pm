@@ -180,14 +180,26 @@ sub studyInstallation {
         $this->{notes} = "module is not installed";
         return;
     }
-    else {
-        if ( $load_errors =~ m/^(Can't locate|Insecure dep)/ ) {
-            $this->{notes} = "module missing required dependencies";
-            return 1 if ( $this->_recover_versions($path) );
-            print STDERR
-"Unexpect errors attempting to determine version of dependency\n$load_errors\n";
-            return;
-        }
+    elsif ( $load_errors =~ m/^(Couldn't require|Can't locate|Insecure dep)/ ) {
+        $this->{notes} = "module missing required dependencies";
+        print STDERR
+"Unexpected errors attempting to determine version of dependency\n$load_errors\n";
+        return 1 if ( $this->_recover_versions($path) );
+        return;
+    }
+    elsif ( $load_errors =~ m/^Died/) {
+        $this->{notes} = "module died with errors when loaded";
+        print STDERR
+"Unexpected errors attempting to determine version of dependency\n$load_errors\n";
+        return 1 if ( $this->_recover_versions($path) );
+        return;
+    }
+    elsif ( $load_errors ) {
+        $this->{notes} = "Unknown errors loading module";
+        print STDERR
+"Unexpected errors attempting to determine version of dependency\n$load_errors\n";
+        return 1 if ( $this->_recover_versions($path) );
+        return;
     }
 
     no strict 'refs';
@@ -228,9 +240,9 @@ sub _recover_versions {
             my $VERSION;
             my $RELEASE;
 
-            my ($version) = $file_contents =~ m/^\s*(?:our)?\s*(\$VERSION\s*=.*);/sm;
+            my ($version) = $file_contents =~ m/^\s*(?:our)?\s*(\$VERSION\s*=.*?);/sm;
             my ($release) =
-              $file_contents =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*);/sm;
+              $file_contents =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*?);/sm;
 
             eval $version if ($version);
             eval $release if ($release);
