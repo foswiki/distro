@@ -394,7 +394,12 @@ sub _install {
         $path = $source . '::' . $type . '::' . $rootModule;
     }
 
-    if ( eval "use $path; 1;" ) {
+    my $selfDep =  new Foswiki::Configure::Dependency(
+           module      => $path,
+           type        => 'perl',
+       );
+
+    if ( $selfDep->studyInstallation() ) {
 
         # Module is already installed
 
@@ -402,8 +407,7 @@ sub _install {
         # test that current version isn't newest
         my $moduleVersion = 0;
         {
-            no strict 'refs';
-            $moduleVersion = ${"${path}::VERSION"};
+            $moduleVersion = $selfDep->{installedVersion};
 
             # remove the SVN marker text from the version number, if it is there
             $moduleVersion =~ s/^\$Rev: (\d+) \$$/$1/;
