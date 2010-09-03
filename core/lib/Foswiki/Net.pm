@@ -495,8 +495,21 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     die $mess . "Can't connect to '$this->{MAIL_HOST}'" unless $smtp;
 
     if ( $Foswiki::cfg{SMTP}{Username} ) {
-        $smtp->auth( $Foswiki::cfg{SMTP}{Username}, $Foswiki::cfg{SMTP}{Password} );
+        unless (
+            $smtp->auth(
+                $Foswiki::cfg{SMTP}{Username},
+                $Foswiki::cfg{SMTP}{Password}
+            )
+          )
+        {
+            my $errmsg =
+              'SMTP auth: ' . $smtp->code() . ': ' . $smtp->message();
+            chomp($errmsg);
+            $errmsg .= ' - Trying to send without authentication';
+            $this->{session}->logger->log( 'warning', "$errmsg" );
+        }
     }
+
     $smtp->mail($from) || die $mess . $smtp->message;
     $smtp->to( @to, { SkipBad => 1 } ) || die $mess . $smtp->message;
     $smtp->data($text) || die $mess . $smtp->message;
