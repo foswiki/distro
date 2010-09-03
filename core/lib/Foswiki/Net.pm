@@ -371,6 +371,7 @@ sub sendEmail {
             $e = join( "\n", grep( /^ERROR/, split( /\n/, $e ) ) );
 
             unless ( $e =~ /^ERROR/ ) {
+
                 # SMELL: maketext; and WIKIWEBMASTER is an email address
                 $e =
 "Mail could not be sent - please ask your %WIKIWEBMASTER% to look at the Foswiki warning log.";
@@ -506,13 +507,19 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     die $mess . "Can't connect to '$this->{MAIL_HOST}'" unless $smtp;
 
     if ( $Foswiki::cfg{SMTP}{Username} ) {
-        unless ($smtp->auth( $Foswiki::cfg{SMTP}{Username},
-            $Foswiki::cfg{SMTP}{Password} )) {
-            my $errmsg = 'SMTP auth: ' . $smtp->code() . ': ' . $smtp->message();
+        unless (
+            $smtp->auth(
+                $Foswiki::cfg{SMTP}{Username},
+                $Foswiki::cfg{SMTP}{Password}
+            )
+          )
+        {
+            my $errmsg =
+              'SMTP auth: ' . $smtp->code() . ': ' . $smtp->message();
             chomp($errmsg);
             $errmsg .= ' - Trying to send without authentication';
-            $this->{session}->logger->log( 'warning', "$errmsg");
-            }
+            $this->{session}->logger->log( 'warning', "$errmsg" );
+        }
     }
     $smtp->mail($from) || die $mess . $smtp->message;
     $smtp->to( @to, { SkipBad => 1 } ) || die $mess . $smtp->message;
