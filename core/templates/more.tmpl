@@ -13,7 +13,7 @@
 %TMPL:DEF{"settings"}%<h2>%MAKETEXT{"Edit topic preference settings"}%</h2>
 <form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
 <div class="foswikiFormSteps">
-<div class="foswikiFormStep">
+<div class="foswikiFormStep foswikiLast">
 <p><input type="submit" value="%MAKETEXT{"Edit settings for this topic..."}%" class='foswikiButton'/></p>
 </div>
 </div>
@@ -32,7 +32,7 @@
 <p><input type="text" name="topic" class="foswikiInputField" value="%TOPIC%Copy" size="30" /></p>
 %TMPL:P{"nonwikiword"}%
 </div>
-<div class="foswikiFormStep">
+<div class="foswikiFormStep foswikiLast">
 <p><input type="submit" class="foswikiButton" value="%MAKETEXT{"Copy topic..."}%" /></p>
 </div>
 </div>
@@ -54,7 +54,7 @@
 <div class="foswikiFormStep">
 <p><input type="checkbox" class="foswikiCheckbox" id="delete_currentwebonly" name="currentwebonly" /><label for="delete_currentwebonly">%MAKETEXT{"Only update linked topics in [_1] web" args="%WEB%"}%</label></p>
 </div>
-<div class="foswikiFormStep">
+<div class="foswikiFormStep foswikiLast">
 <p>
 <input type="submit" class="foswikiButton" value="%MAKETEXT{"Delete topic..."}%" />
 </p>
@@ -71,7 +71,7 @@
 <div class="foswikiFormStep">
 <p><input type="checkbox" class="foswikiCheckbox" id="currentwebonly" name="currentwebonly" /><label for="currentwebonly">%MAKETEXT{"Only update linked topics in [_1] web" args="%WEB%"}%</label></p>
 </div>
-<div class="foswikiFormStep">
+<div class="foswikiFormStep foswikiLast">
 <p>
 <input type="submit" class="foswikiButton" value="%MAKETEXT{"Rename or move topic..."}%" />
 </p>
@@ -102,7 +102,7 @@
 <h3>%MAKETEXT{"Select topic parent"}%</h3>
 <p>%IF{"defined pickparent" then="<select name='topicparent' size='10' class='foswikiSelect' tabindex='12'>$percntTOPICLIST{$quot<option $marker value='$name'>$name</option>$quot separator=$quot$quot selection=$quot$percntMETASEARCH{type=$quotparent$quot}$percnt}$percnt<option value=$quotnone$quot>$percntMAKETEXT{$quot(no parent, orphaned topic)$quot}$percnt</option></select>" else="<input type='text' name='topicparent' size='30' class='foswikiInputField' />&nbsp;<span class='foswikiUnvisited'><a href='$percntSCRIPTURLPATH{view}$percnt/$percntWEB$percnt/$percntTOPIC$percnt?template=more;$percntQUERYSTRING$percnt;pickparent=1#SetParent'>%MAKETEXT{"Pick from a list"}%</a></span>"}%</p>
 </div>
-<div class="foswikiFormStep">
+<div class="foswikiFormStep foswikiLast">
 <p><input type='submit' class='foswikiButton' value='%MAKETEXT{"Set new parent"}%' /></p>
 </div>
 </div>
@@ -141,7 +141,7 @@ id="cssFoswikiDiffOptions"}%%TMPL:END%
 <div class="foswikiFormStep">
 <p>%MAKETEXT{"View revision:"}% <input class="foswikiInputField" type="text" name="rev" size="6" value="%URLPARAM{currrev}%" /> &nbsp;<input type="checkbox" class="foswikiCheckbox" id="raw" name="raw" /><label for="raw">%MAKETEXT{"in raw text format"}%</label></p>
 </div>
-<div class="foswikiFormStep">
+<div class="foswikiFormStep foswikiLast">
 <p><input type="submit" class="foswikiButton" value='%MAKETEXT{"View revision"}%' /></p>
 </div>
 </div>
@@ -159,7 +159,7 @@ id="cssFoswikiDiffOptions"}%%TMPL:END%
 <div class="foswikiFormStep">
 <table class="foswikiTable foswikiDiffOptions" summary="%MAKETEXT{"Options"}%"><tr><td><label for="sequential"><img src="%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/oopsmore_diff_sequential.gif" alt="sequential" width="80" height="80" /></label></td><td><label for="sidebyside"><img src="%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/oopsmore_diff_sidebyside.gif" alt="side by side" width="80" height="80" /></label></td><td><label for="debug"><img src="%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/oopsmore_diff_debug.gif" alt="debug" width="80" height="80" /></label></td></tr><tr><td><input type="radio" name="render" id="sequential" value="sequential"%IF{ "$ DIFFRENDERSTYLE='sequential' or not defined 'DIFFRENDERSTYLE'" then=" checked=\"checked\"" }% /><label for="sequential"> %MAKETEXT{"Sequential"}%</label></td><td><input type="radio" name="render" id="sidebyside" value="sidebyside"%IF{ "$ DIFFRENDERSTYLE='sidebyside'" then=" checked=\"checked\"" }% /><label for="sidebyside"> %MAKETEXT{"Side by side"}%</label></td><td><input type="radio" name="render" id="debug" value="debug"%IF{ "$ DIFFRENDERSTYLE='debug'" then=" checked=\"checked\"" }% /><label for="debug"> %MAKETEXT{"Debug"}%</label></td></tr></table>
 </div>
-<div class="foswikiFormStep">
+<div class="foswikiFormStep foswikiLast">
 <p><input type="submit" class="foswikiButton" value='%MAKETEXT{"View differences"}%' /></p>
 </div>
 </div>
@@ -173,7 +173,7 @@ id="cssFoswikiDiffOptions"}%%TMPL:END%
 <p>
 %MAKETEXT{"Restore topic to revision:"}% <input class="foswikiInputField" type="text" name="rev" size="6" value="%URLPARAM{currrev}%" /></p>
 </div>
-<div class="foswikiFormStep">
+<div class="foswikiFormStep foswikiLast">
 <p><input type="submit" class="foswikiButton" title="%MAKETEXT{"Restore topic to this revision"}%" value='%MAKETEXT{"Restore..."}%' /></p>
 </div>
 </div>	
