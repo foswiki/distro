@@ -247,6 +247,8 @@ Determine if the user already exists or not.
 
 sub userExists {
     my ( $this, $cUID ) = @_;
+    ASSERT($cUID) if DEBUG;
+    return 0 unless defined $cUID;
     return $this->{U2L}{$cUID};
 }
 
