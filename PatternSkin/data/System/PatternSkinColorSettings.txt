@@ -1,5 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1228050988" format="1.1" reprev="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="PatternSkin"}%
+%META:TOPICINFO{author="BaseUserMapping_333" comment="reprev" date="1283555241" format="1.1" reprev="2" version="2"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! Color scheme settings for %SYSTEMWEB%.PatternSkin
 Use this topic to change the color settings of %SYSTEMWEB%.PatternSkin. When this topic is saved, the attachment =my_colors.css= will be updated with new color values. This method relies on Foswiki:Extensions.AttachContentPlugin to work.
@@ -19,7 +18,7 @@ Let %SYSTEMWEB%.PatternSkin point to the custom-made colors style sheet. In [[%U
 ---+++!! Step 2
 Edit this topic, and change the color as you like.
 </div>
-<div class="foswikiFormStep">
+<div class="foswikiFormStep foswikiLast">
 ---+++!! Step 3
 %IF{"context AttachContentPluginEnabled" then='<form action="%SCRIPTURL{save}%/%WEB%/%TOPIC%" method="post"><input type="hidden" name="action" value="action_save=1" /><input type="submit" class="foswikiButton" value="Save the topic" /></form> This will generate an [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/my_colors.css][attachment]] to topic [[PatternSkinTheme]].' else='Install !AttachContentPlugin to be able to save this topic. On saving, an attachment will be created to topic PatternSkinTheme.'}% 
 </div>
@@ -39,7 +38,7 @@ Edit this topic, and change the color as you like.
 ---++++ LIGHT_ON_DARK_TEXT Light on dark text color
    * Local LIGHT_ON_DARK_TEXT = #fff
 ---++++ GRAYED_TEXT
-   * Local GRAYED_TEXT = #a0b5c0
+   * Local GRAYED_TEXT = #797979
 ---++++ GENERAL_TEXT General text (black)
    * Local GENERAL_TEXT = #000
 ---++++ H1_HEADER_TEXT Header text
@@ -116,15 +115,15 @@ Edit this topic, and change the color as you like.
 
 ---+++ Background colors
 ---++++ PAGE_BACKGROUND General background color
-   * Local PAGE_BACKGROUND = #fafafa
+   * Local PAGE_BACKGROUND = #eeedec
 ---++++ NEUTRAL_BACKGROUND
-   * Local NEUTRAL_BACKGROUND = #fafafa
+   * Local NEUTRAL_BACKGROUND = #f5f5f5
 ---++++ SIDE_BAR_BACKGROUND Side bar background
    * Local SIDE_BAR_BACKGROUND = #fff
 ---++++ TOP_BAR_BACKGROUND Top bar background
    * Local TOP_BAR_BACKGROUND = #e8f3f7
 ---++++ ATTACHMENT_AND_FORM_BACKGROUND Attachment, form
-   * Local ATTACHMENT_AND_FORM_BACKGROUND = #f0f0ee
+   * Local ATTACHMENT_AND_FORM_BACKGROUND = %ACTIVE_FORM_BACKGROUND%
 ---++++ TOPIC_ACTION_BACKGROUND Topic action row
    * Local TOPIC_ACTION_BACKGROUND = #f5f5f3
 ---++++ DIFF_HEADER_BACKGROUND Diff header (dark gray)
@@ -148,11 +147,11 @@ Edit this topic, and change the color as you like.
 ---++++ IMAGE_BORDER Image border
    * Local IMAGE_BORDER = #eee
 ---++++ FORM_STEP_BORDER Form step border
-   * Local FORM_STEP_BORDER = %SEPARATOR_BORDER%
+   * Local FORM_STEP_BORDER = %LAYOUT_ELEMENT_BORDER%
 ---++++ NOTIFICATION_BORDER Notification messages
    * Local NOTIFICATION_BORDER = #fbad17
 ---++++ TOPIC_ACTION_BORDER Topic action border
-   * Local TOPIC_ACTION_BORDER = #eee
+   * Local TOPIC_ACTION_BORDER = #ddd
 ---++++ INFO_BORDER Info border
    * Local INFO_BORDER = #9c9
    
@@ -174,7 +173,7 @@ Edit this topic, and change the color as you like.
 ---+++++ TABLE_DATA_MIX_BACKGROUND Table data background (mix between even and odd)
    * Local TABLE_DATA_MIX_BACKGROUND = #f7fafc
 ---++++ TABLE_BORDER Table border, sup (light neutral tone)
-   * Local TABLE_BORDER = #dfdfdf
+   * Local TABLE_BORDER = #eee
 ---++++ LINK_TEXT_NORMAL_TABLE_HEADER Table header link text
    * Local LINK_TEXT_NORMAL_TABLE_HEADER = #fff
 ---++++ LINK_TEXT_NORMAL_BORDER_TABLE_HEADER Table header link border
@@ -233,7 +232,7 @@ Do not change the text below this line unless you know what you are doing!
 }
 #patternBottomBar {
    border-color:%STRONG_BORDER%;
-   background-color:%NEUTRAL_BACKGROUND%;
+   background-color:%PAGE_BACKGROUND%;
 }
 #patternBottomBarContents,
 #patternBottomBarContents a:link,
@@ -247,7 +246,7 @@ Do not change the text below this line unless you know what you are doing!
 /* GENERAL HTML ELEMENTS */
 
 html body {
-   background-color:%NEUTRAL_BACKGROUND%;
+   background-color:%PAGE_BACKGROUND%;
    color:%MAIN_TEXT%;
 }
 html body.patternEditPage,
@@ -641,12 +640,8 @@ a:hover .foswikiAccessKey {
 }
 
 .patternTopicActions {
-   background-color:%TOPIC_ACTION_BACKGROUND%;
+   background-color:%MAIN_TEXT_BACKGROUND%;
    color:%MAIN_TEXT%;
-   border-color:%TOPIC_ACTION_BORDER%;
-}
-.patternTopicAction {
-   border-color:%ATTACHMENT_AND_FORM_BORDER%;
 }
 .patternActionButtons a:link,
 .patternActionButtons a:visited,
@@ -1019,6 +1014,23 @@ li.patternLogIn {
 .patternLeftBarPersonal li.patternLogIn {
    background-image:url(bullet-lock.gif);
 }
+
+.patternShadow {
+	border:10px solid %MAIN_TEXT_BACKGROUND%;
+	margin:10px 0;
+	-moz-box-shadow: 0 0 10px %STRONG_BORDER%;
+	-webkit-box-shadow: 0 0 10px %STRONG_BORDER%;
+	box-shadow: 0 0 10px %STRONG_BORDER%;
+	/* For IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=10, Direction=0, Color='%STRONG_BORDER%')";
+	/* For IE 5.5 - 7 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=10, Direction=0, Color='%STRONG_BORDER%');
+}
+.patternBorder {
+	border:1px solid #eee;
+	margin:10px 0;
+}
+
 %ENDATTACH%
 </verbatim>
 <!-- %JQREQUIRE{"chili"}% -->

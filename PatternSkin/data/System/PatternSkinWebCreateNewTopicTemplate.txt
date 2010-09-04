@@ -4,6 +4,7 @@
 
 %{"hide page top controls"}%
 %TMPL:DEF{"top"}%%TMPL:END%
+%TMPL:DEF{"formandactions"}%%TMPL:END%
 
 %TMPL:DEF{"script:topictemplate"}%
 %TMPL:P{"JavascriptFiles/foswikiStringUnicodeChars"}%
@@ -69,7 +70,7 @@ var URL_TEMPLATE = '$percentURLPARAM{template}$percent';
 </p>
 </div><!--/foswikiFormStep-->%TMPL:END%
 
-%TMPL:DEF{"submitstep"}%<div class="foswikiFormStep">
+%TMPL:DEF{"submitstep"}%<div class="foswikiFormStep foswikiLast">
 <p>
 %TMPL:P{"submit"}%
 </p>

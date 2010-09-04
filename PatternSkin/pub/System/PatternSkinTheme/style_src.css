@@ -68,10 +68,6 @@ blockquote {
 }
 
 /* Text */
-h1 {
-	margin-top:.25em;
-	margin-bottom:0.8em;
-}
 h1, h2, h3, h4, h5, h6 {
 	font-weight:normal;
 	line-height:1em;
@@ -306,11 +302,12 @@ a.foswikiSubmit:visited:active {
 .foswikiPage font {
 	line-height:135%;
 }
-
 #foswikiLogin {
-	width:44em;
+	width:40em;
 	margin:0 auto;
 	text-align:center;
+	border-style:solid;
+	border-width:10px;
 }
 #foswikiLogin .foswikiFormSteps {
 	border:none;
@@ -350,8 +347,7 @@ a.foswikiSubmit:visited:active {
 	font-size:94%; /*S2*/
 	padding:1em 10px; /*S5*/ /* top:use less padding for the toggle link; bottom:use less space in case the table is folded in  */
 	margin:0;
-	border-width:2px 0 0 0;
-	border-style:solid;
+	border-style:none;
 }
 .foswikiAttachments .foswikiTable,
 table.foswikiFormTable {
@@ -430,12 +426,11 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 }
 .foswikiFormSteps {
 	text-align:left;
-	border-width:1px 0 0 0;
-	border-style:solid;
+	border-style:none;
 }
 .foswikiFormStep {
 	line-height:140%;
-	padding:.5em 20px;
+	padding:10px 20px;
 	border-width:0 0 1px 0;
 	border-style:solid;
 }
@@ -536,10 +531,9 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	border:none;
 }
 .foswikiHelp {
-	padding:1em;
-	margin:.25em 0 .5em 0;
-	border-width:1px;
-	border-style:solid;
+	padding:.5em 10px;
+	margin:.5em 0;
+	border-style:none;
 }
 .foswikiHelp ul {
 	margin-top:0;
@@ -602,8 +596,8 @@ a:hover .foswikiAccessKey {
 	border-style:none none solid none;
 }
 #patternBottomBar {
-	border-width:1px 0 0 0;
-	border-style:solid;
+	border-style:none;
+	margin-top:3em;
 }
 #patternWebBottomBar {
 	font-size:94%; /*S2*/
@@ -631,6 +625,7 @@ a:hover .foswikiAccessKey {
 }
 #patternBottomBarContents {
 	padding-top:1em;
+	padding-bottom:2em;
 }
 .patternNoViewPage .foswikiTopic {
 	margin-top:2em;
@@ -765,13 +760,10 @@ html>body #patternSideBarContents li { /* Mozilla */
 }
 
 .patternTopicActions {
-	border-style:solid;
-	border-width:1px;
-	margin-top:-1px;
+	border-style:none;
 }
 .patternTopicAction {
-	line-height:1.5em;
-	padding:.4em 20px; /*S5*/
+	padding:10px 20px; /*S5*/
 }
 .patternOopsPage .patternTopicActions,
 .patternEditPage .patternTopicActions {

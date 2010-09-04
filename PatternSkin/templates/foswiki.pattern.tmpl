@@ -25,11 +25,11 @@
 
 %TMPL:DEF{"pagetitlestylewrapper"}%<h1 class="patternTemplateTitle">%TMPL:P{"pagetitle"}%</h1>%TMPL:END%
 
-%TMPL:DEF{"patterntopiccontents"}%<div class="foswikiTopic">%TMPL:P{"pagetitlestylewrapper"}% %TMPL:P{"content"}%</div><!-- /foswikiTopic-->%TMPL:END%
+%TMPL:DEF{"patterntopiccontents"}%<div class="foswikiTopic">%TMPL:P{"pagetitlestylewrapper"}% %TMPL:P{"content"}%</div>%TMPL:END%
 
 %TMPL:DEF{"printaction"}%%TMPL:END%
 
-%TMPL:DEF{"topicaction"}%<a name="topic-actions"></a><div class="patternTopicActions"><div class="patternTopicAction"><span class="patternActionButtons">%TMPL:P{"topicactionbuttons"}%</span></div><!--/patternTopicAction--></div><!--/patternTopicActions-->%TMPL:END%
+%TMPL:DEF{"topicaction"}%<a name="topic-actions"></a><div class="patternTopicActions"><div class="patternTopicAction"><span class="patternActionButtons">%TMPL:P{"topicactionbuttons"}%</span></div></div>%TMPL:END%
 
 %TMPL:DEF{"topicinfo"}%%TMPL:P{"topicaction"}%%TMPL:END%
 
@@ -64,15 +64,15 @@
 <div id="patternFloatWrap">
 <div id="patternMain">%TMPL:P{"topbarspacer"}%%TMPL:P{"horizontalnavigation"}%
 <div id="patternMainContents">%TMPL:P{"logo"}%%TMPL:P{"patterntopiccontents"}%
-</div><!-- /patternMainContents-->
-</div><!-- /patternMain-->%TMPL:P{"sidebar"}%
-</div><!-- /patternFloatWrap-->
+</div>
+</div>%TMPL:P{"sidebar"}%
+</div>
 <div class="clear">&nbsp;</div>
-</div><!-- /patternOuter-->%TMPL:P{"endsidebarwrapper"}%%TMPL:P{"topbar"}%%TMPL:P{"bottombar"}%
-</div><!-- /patternPage-->
-</div><!-- /patternPageShadow-->
-</div><!-- /patternScreen-->
-</div><!-- /foswikiPage-->%TMPL:END%
+</div>%TMPL:P{"endsidebarwrapper"}%%TMPL:P{"topbar"}%%TMPL:P{"bottombar"}%
+</div>
+</div>
+</div>
+</div>%TMPL:END%
 
 %TMPL:DEF{"bodyend"}%</body></html>%TMPL:END%
 
