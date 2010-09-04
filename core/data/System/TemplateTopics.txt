@@ -83,27 +83,28 @@ Example link to create a new topic:%BR%
 Here is an example for creating new topics (in the Sandbox web) based on a specific template topic and form:
 
 <form name="new" action="%SCRIPTURLPATH{edit}%/Sandbox/" method="post">
-   * New example topic:
-     <input type="text" name="topic" value="ExampleTopicAUTOINC0001" size="30" />&nbsp;<input type="submit" class="foswikiSubmit" value="Create" />
-     <input type="hidden" name="templatetopic" value="ExampleTopicTemplate" />
-     <input type="hidden" name="topicparent" value="%TOPIC%" />
-     <input type="hidden" name="onlywikiname" value="on" />
-     <input type="hidden" name="onlynewtopic" value="on" />
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep foswikiLast">
+New example topic: <input type="text" name="topic" class="foswikiInputField" value="ExampleTopicAUTOINC0001" size="30" />&nbsp;<input type="submit" class="foswikiSubmit" value="Create" />
+<input type="hidden" name="templatetopic" value="ExampleTopicTemplate" />
+<input type="hidden" name="topicparent" value="%TOPIC%" />
+<input type="hidden" name="onlywikiname" value="on" />
+<input type="hidden" name="onlynewtopic" value="on" />
+</div>
+</div>
 </form>
 
 The above form asks for a topic name. A hidden input tag named ==templatetopic== specifies ExampleTopicTemplate as the template topic to use. Here is the HTML source of the form:
 
-<pre class="tml">
-&lt;form name="new" action="%<nop>SCRIPTURLPATH{edit}%/Sandbox/" method="post"&gt;
-   * New example topic:
-     &lt;input type="text" name="topic" value="ExampleTopicAUTOINC0001" size="30" /&gt;
-     &lt;input type="hidden" name="templatetopic" value="ExampleTopicTemplate" /&gt;
-     &lt;input type="hidden" name="topicparent" value="%<nop>TOPIC%" /&gt;
-     &lt;input type="hidden" name="onlywikiname" value="on" /&gt;
-     &lt;input type="hidden" name="onlynewtopic" value="on" /&gt;
-     &lt;input type="submit" class="foswikiSubmit" value="Create" /&gt;
-&lt;/form&gt;
-</pre>
+<verbatim class="html">
+<form name="new" action="%SCRIPTURLPATH{edit}%/Sandbox/" method="post">
+New example topic: <input type="text" name="topic" class="foswikiInputField" value="ExampleTopicAUTOINC0001" size="30" />&nbsp;<input type="submit" class="foswikiSubmit" value="Create" />
+<input type="hidden" name="templatetopic" value="ExampleTopicTemplate" />
+<input type="hidden" name="topicparent" value="%TOPIC%" />
+<input type="hidden" name="onlywikiname" value="on" />
+<input type="hidden" name="onlynewtopic" value="on" />
+</form>
+</verbatim>
 
 *%X% Note:* You can create a topic in one step, without going through the edit screen. To do that, specify the =save= script instead of the =edit= script in the form action. When you specify the save script you must use the "post" method. Example:
 <pre class="tml">
