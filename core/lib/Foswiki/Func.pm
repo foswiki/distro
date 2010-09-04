@@ -1037,7 +1037,7 @@ sub userToWikiName {
           $dontAddWeb
         ? $login
         : ( $Foswiki::cfg{UsersWebName} . '.' . $login )
-    ) unless $users->userExists($user);
+    ) unless $user and $users->userExists($user);
     return $users->getWikiName($user) if $dontAddWeb;
     return $users->webDotWikiName($user);
 }
