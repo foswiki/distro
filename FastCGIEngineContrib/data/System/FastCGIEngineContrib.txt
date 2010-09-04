@@ -252,8 +252,10 @@ Dynamic servers are more useful when foswiki access load on the server is low an
 | Author(s) | [[Foswiki:Main.GilmarSantosJr][Gilmar Santos Jr]] |
 | Copyright | &copy; 2008 Gilmar Santos Jr and Foswiki Contributors |
 | License: | [[http://www.gnu.org/copyleft/gpl.html][GPL (Gnu General Public License)]] |
+| Release: | %$RELEASE% |
 | Version: | %$VERSION% |
 | Change History: | |
+| 3 Sep 2010 | Foswiki:Tasks/Item9456 - Taint error, Foswiki:Tasks/Item9390 - LocalSite.cfg error handling, Foswiki:Tasks/Item8765 - Perl coding issue,  Foswiki:Tasks/Item1315 - Support information |
 | 21 Dec 2009 | Foswiki:Main.ItaloValcy: fix Foswiki:Tasks/Item8238 |
 | 24 Jan 2009 | Documentation enhancements and some fixes (Foswiki:Tasks/Item853) |
 | 25 Dec 2008 | Initial Release |

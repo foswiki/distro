@@ -18,7 +18,7 @@ use strict;
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 
 $VERSION = '$Rev$';
-$RELEASE = '0.9.2';
+$RELEASE = '0.9.3';
 $SHORTDESCRIPTION = 'Permits Foswiki to be executed with FastCGI';
 
 1;
