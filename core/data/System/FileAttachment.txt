@@ -3,7 +3,7 @@
 %STARTINCLUDE%
 ---+ File Attachments
 
-_Each topic can have one or more files of any type attached to it by using the Attach screen to upload (or download) files from your local PC. Attachments are stored under revision control: uploads are automatically backed up; all previous versions of a modified file can be retrieved._
+Each topic can have one or more files of any type attached to it by using the Attach screen to upload (or download) files from your local PC. Attachments are stored under revision control: uploads are automatically backed up; all previous versions of a modified file can be retrieved.
 
 %TOC%
 
