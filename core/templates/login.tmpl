@@ -45,7 +45,7 @@
 
 %TMPL:DEF{"usernamenote"}%%TMPL:P{"authrealm"}%%TMPL:END%
 
-%TMPL:DEF{"usernamefieldhelp"}%%TWISTYBUTTON{id="loginhelp" showlink="%MAKETEXT{"Help"}%" hidelink="%MAKETEXT{"Hide help"}%" remember="on"}%%TWISTYTOGGLE{id="loginhelp" mode="div" class="foswikiHelp"}%%TMPL:P{"usernamenote"}%%ENDTWISTYTOGGLE%%TMPL:END%
+%TMPL:DEF{"usernamefieldhelp"}%%TWISTYBUTTON{mode="span" id="loginhelp" showlink="%MAKETEXT{"Help"}%" hidelink="%MAKETEXT{"Hide help"}%" remember="on"}%%TWISTYTOGGLE{id="loginhelp" mode="div" class="foswikiHelp"}%%TMPL:P{"usernamenote"}%%ENDTWISTYTOGGLE%%TMPL:END%
 
 %TMPL:DEF{"passwordfield"}%<input tabindex='2' type='password' class='foswikiInputField' size='40' name='password' value='' %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
 
