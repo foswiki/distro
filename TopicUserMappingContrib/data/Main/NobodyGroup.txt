@@ -5,3 +5,4 @@ Used to prevent dangerous actions e.g. renaming [[%SYSTEMWEB%.DefaultPreferences
 
 %META:PREFERENCE{name="GROUP" title="GROUP" value=""}%
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="GroupView"}%

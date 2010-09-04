@@ -33,6 +33,7 @@
 %INCLUDE{"%WEB%.%TOPIC%"
   section="%IF{
     "istopic '%USERSWEB%.%groupname%' AND 
+     '%groupname%' != 'NobodyGroup' AND
      '%USERSWEB%.%groupname%' allows 'change'
     " 
     then="changegroup%IF{"'%twisty%' = 'off'" then="notwisty"}%" 
@@ -85,13 +86,14 @@
 </div>
 %INCLUDE{"%WEB%.%TOPIC%"
   section="%IF{"
-    not istopic '%USERSWEB%.%groupname%' OR (
-       '%USERSWEB%.%groupname%'/preferences[name='GROUP'] AND
-       '%USERSWEB%.%groupname%'/preferences[name='VIEW_TEMPLATE'].value = 'GroupView'
+    istopic '%USERSWEB%.%groupname%' AND 
+    not ( '%USERSWEB%.%groupname%'/preferences[name='VIEW_TEMPLATE'].value = 'GroupView'
+       AND 
+          defined('%USERSWEB%.%groupname%'/preferences[name='VIEW_TEMPLATE'])
     )
   " 
-  then="nochange" 
-  else="group_upgrade"
+  then="group_upgrade"
+  else="nochange" 
 }%"
   groupname="%groupname%"
 }%
