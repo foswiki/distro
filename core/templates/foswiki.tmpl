@@ -96,7 +96,7 @@ Item2476: Put IE8 into compatibility mode to work around slow, erratic textarea 
 }%%TMPL:DEF{"bodystart"}%<body class="%TMPL:P{"bodyclassname"}%"><div class="foswikiPage">
 #PageTop %TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"bodyend"}%</div><!--/foswikiPage-->
+}%%TMPL:DEF{"bodyend"}%</div>
 </body></html>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"broadcastmessage"}%%IF{"defined BROADCASTMESSAGE and $BROADCASTMESSAGE != ''" then="$percntTMPL:P{$quotbroadcastmessage:contents$quot}$percnt"}%%TMPL:END%%{
@@ -111,14 +111,14 @@ Item2476: Put IE8 into compatibility mode to work around slow, erratic textarea 
 <div class="foswikiLeft" style="padding-right:2em;"><noautolink><a href="%WEBLOGOURL%" rel='nofollow'><img src="%WEBLOGOIMG%" border="0" alt="%WEBLOGOALT%" /></a></noautolink></div>
 <div class="foswikiLeft">
 <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%HOMETOPIC%">%WEB%</a> &gt; %META{"parent" nowebhome="on" suffix=" &gt;"}% <b>%TOPIC%</b> %TMPL:P{"titleaction"}%</div>
-<div class="foswikiRight foswikiSmall">%WIKITOOLNAME% webs: %WIKIWEBLIST% &nbsp; %TMPL:P{"login"}%</div><br class="foswikiClear" /></div>
+<div class="foswikiRight foswikiSmall">%WIKITOOLNAME% webs: %WIKIWEBLIST% &nbsp; %TMPL:P{"login"}%</div><div class="foswikiClear"></div></div>
 <form name="main" action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%" method="post">
 %TMPL:P{"webaction"}%</form></div>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"simpleheader"}%
 <div style="margin:0 0 0 0em; padding:3px; background-color:%WEBBGCOLOR%">
 <div><div class="foswikiLeft"  style="padding-right:2em;"><noautolink><img src="%WEBLOGOIMG%" border="0" alt="%WEBLOGOALT%" /></noautolink></div>
-<div class="foswikiLeft"> %WEB%&nbsp; %TOPIC% %TMPL:P{"titleaction"}%</div><br class="foswikiClear" /> </div></div>%TMPL:P{"headerhelp"}%%TMPL:END%%{
+<div class="foswikiLeft"> %WEB%&nbsp; %TOPIC% %TMPL:P{"titleaction"}%</div><div class="foswikiClear"></div></div></div>%TMPL:P{"headerhelp"}%%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"copyright"}%<div class="foswikiCopyright">%WEBCOPYRIGHT%</div>%TMPL:END%%{
 ---------------------------------------------------

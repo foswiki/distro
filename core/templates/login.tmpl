@@ -14,7 +14,7 @@
 %TMPL:DEF{"titlestep"}%<div class="foswikiFormStep">
 %TMPL:P{"title"}%
 %TMPL:P{"notestep"}%
-%TMPL:P{"errorstep"}%</div><!-- /foswikiFormStep-->%TMPL:END%
+%TMPL:P{"errorstep"}%</div>%TMPL:END%
 
 
 %TMPL:DEF{"notestep"}%<div style="display:%IF{'defined ERROR or defined NOTE or defined BANNER' then='block' else='none'}%;">
@@ -41,7 +41,7 @@
 
 %TMPL:P{"usernamefield"}% %TMPL:P{"usernamefieldhelp"}%
 
-</div><!-- /foswikiFormStep-->%TMPL:END%
+</div>%TMPL:END%
 
 %TMPL:DEF{"usernamenote"}%%TMPL:P{"authrealm"}%%TMPL:END%
 
@@ -58,18 +58,18 @@
 <h3>%MAKETEXT{"Password"}%</h3>
 
 %TMPL:P{"passwordfieldnoteremember"}%
-</div><!-- /foswikiFormStep-->%TMPL:END%
+</div>%TMPL:END%
 
 %TMPL:DEF{"passwordnote"}%<span class="foswikiUnvisited">[[%SCRIPTURLPATH{view}%/%SYSTEMWEB%/ResetPassword?username=%URLPARAM{usernamestep}%][%MAKETEXT{"I forgot my password"}%]]</span>%TMPL:END%
 
 %TMPL:DEF{"rememberbox"}%%BR%<input tabindex='3' id="remember" name="remember" type="checkbox" value="1" /><label for="remember">&nbsp;%MAKETEXT{"Remember me on this computer"}%</label>%TMPL:END%
 
-%TMPL:DEF{"submitstep"}%<div class="foswikiFormStep">%TMPL:P{"submit"}%</div><!-- /foswikiFormStep-->%TMPL:END%
+%TMPL:DEF{"submitstep"}%<div class="foswikiFormStep">%TMPL:P{"submit"}%</div>%TMPL:END%
 
 %TMPL:DEF{"submit"}%<input tabindex='4' type='submit' class='foswikiSubmit' value='%MAKETEXT{"Logon"}%' />%TMPL:END%
 
 %{ please keep the spaces between the div and the TMPL seealsonote, it allows Foswiki to process the emailaddress }%
-%TMPL:DEF{"seealsostep"}%<div class="foswikiFormStep foswikiGrayText foswikiLast"> %TMPL:P{"seealsonote"}% </div><!-- /foswikiFormStep-->%TMPL:END%
+%TMPL:DEF{"seealsostep"}%<div class="foswikiFormStep foswikiGrayText foswikiLast"> %TMPL:P{"seealsonote"}% </div>%TMPL:END%
 
 %TMPL:DEF{"seealsonote"}% %MAKETEXT{"If you have any questions, please contact [_1]" args="%IF{"defined WIKIWEBMASTER AND $WIKIWEBMASTER != ''" then="%WIKIWEBMASTER%" else="your Wiki administrator"}%"}% %TMPL:END%
 
@@ -78,7 +78,7 @@
 %TMPL:P{"usernamestep"}%%TMPL:P{"passwordstep"}%%TMPL:P{"submitstep"}%
 %TMPL:P{"formend"}%
 %TMPL:P{"seealsostep"}%
-</div><!-- /foswikiFormSteps-->
-</div><!-- /foswikiLogin-->%TMPL:END%
+</div>
+</div>%TMPL:END%
 
 %TMPL:DEF{"content"}%%TMPL:P{"form"}%%TMPL:END%
