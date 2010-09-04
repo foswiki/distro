@@ -64,7 +64,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
             * Possible values: =1= to =6=
             * Can be overridden by =depth= parameter of [[%SYSTEMWEB%.VarTOC][TOC]]
       * The default TOC title:
-         * Set TOC_TITLE = %MAKETEXT{"Table of Contents"}%
+         * Set TOC_TITLE =
             * If not set: nothing
             * Possible values: any string, for example =On this page:=
             * Can be overridden by =title= parameter of [[%SYSTEMWEB%.VarTOC][TOC]]
