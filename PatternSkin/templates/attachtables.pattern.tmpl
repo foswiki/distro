@@ -3,7 +3,7 @@
 
 %TMPL:DEF{"commonattachtableattributes"}%valign="middle" dataalign="center,left,left,right,left,left,left,center" datavalign="top" headercolor="#0066cc" databg="#ffffff" headerbg="#ffffff" headerbgsorted="#eeeeee" databgsorted="#f5f5f5" tablerules="rows" %TMPL:END%
 
-%TMPL:DEF{"topicattachmentwisty"}%%TWISTY{id="topicattachmentslist" mode="div" remember="on" showlink="<span class='patternAttachmentHeader'>&#9658; %MAKETEXT{"Attachments"}%</span>" hidelink="<span class='patternAttachmentHeader'>&#9660; %MAKETEXT{"Attachments"}%</span>" linkclass="foswikiButton patternTwistyButton"}%%TMPL:END%
+%TMPL:DEF{"topicattachmentwisty"}%%TWISTY{id="topicattachmentslist" mode="div" remember="on" showlink="<h3 class='patternAttachmentHeader'><img src='%ICONURLPATH{toggleopen}%' /> %MAKETEXT{"Attachments"}%</h3>" hidelink="<h3 class='patternAttachmentHeader'><img src='%ICONURLPATH{toggleclose}%' /> %MAKETEXT{"Attachments"}%</h3>"  linkclass="patternTwistyButton"}%%TMPL:END%
 
 %{ Header definition for topic attachments and top table in attach screen }%
 %TMPL:DEF{ATTACH:files:header(basic)}%<div class="foswikiAttachments">
@@ -14,7 +14,7 @@
 %TMPL:DEF{ATTACH:files:tableformat}%%TABLE{%TMPL:P{"commonattachtableattributes"}%summary="%MAKETEXT{"Topic attachments"}%" caption="%MAKETEXT{"Topic attachments"}%"}%%TMPL:END%
 
 %{ Header for topic attachment table }%
-%TMPL:DEF{ATTACH:files:header}%<div class="foswikiAttachments">
+%TMPL:DEF{ATTACH:files:header}%<div class="foswikiAttachments foswikiFormStep">
 %TMPL:P{context="TablePluginEnabled" then="ATTACH:files:tableformat"}%
 %TMPL:P{"topicattachmentwisty"}%
 %TMPL:P{ATTACH:files:header(toprow)}%

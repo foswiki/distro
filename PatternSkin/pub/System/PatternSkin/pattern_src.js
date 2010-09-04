@@ -2,7 +2,7 @@
 jQuery(document).ready(
     function ($) {
         // Mark a form step with a hoopy styled character
-        $(".foswikiFormStep h3").each(
+        $("div.foswikiFormStep h3").each(
             function(index, el) {
                 $(el).before(
                     '<span class="foswikiActionFormStepSign">&#9658;</span>'
@@ -10,13 +10,13 @@ jQuery(document).ready(
             });
 
         // Create an attachment counter in the attachment table twisty.
-        $('.foswikiAttachments')
+        $('div.foswikiAttachments')
             .each(
                 function(index, el) {
-	                var count = $(el).children('tr').length - 1;
-                    var countStr = " <span class='patternSmallLinkToHeader'> "
+	                var count = $(el).find('table.foswikiTable').attr('rows').length - 1;
+                    var countStr = " <span class='foswikiSmall'> "
                         + count + "<\/span>";
-                    $(el).children('.patternAttachmentHeader h3').each(
+                    $(el).find('h3.patternAttachmentHeader').each(
                         function(index, el) {
                             $(el).append(countStr);
                         });
