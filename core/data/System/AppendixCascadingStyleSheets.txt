@@ -50,7 +50,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 ---+++ General appearance
 |=.foswikiLeft=              | Left float |
 |=.foswikiRight=             | Right float |
-|=.foswikiClear=             | Clear float; usually written as =&lt;br class="foswikiClear" /&gt;= |
+|=.foswikiClear=             | Clear float; usually written as =&lt;div class="foswikiClear"&gt;&lt;/div&gt;= |
 |=.foswikiAlert=             | Warnings and alert messages; general red text  |
 |=.foswikiHelp=              | Help text block |
 |=.foswikiGrayText=          | Grayed out text; text of less importance  |
