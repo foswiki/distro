@@ -36,6 +36,7 @@ bin/viewfile 0555
 data/Main/AdminUser.txt 0644
 data/Main/ProjectContributor.txt 0644
 data/Main/SitePreferences.txt 0644
+data/Main/GroupViewTemplate.txt 0644
 data/Main/UnknownUser.txt 0644
 data/Main/WebAtom.txt 0644
 data/Main/WebChanges.txt 0644

@@ -51,6 +51,7 @@ use base 'Foswiki::UserMapping';
 use strict;
 use Assert;
 use Error qw( :try );
+use Foswiki::Prefs;
 
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users::TopicUserMapping');
@@ -608,19 +609,14 @@ sub eachGroupMember {
         && $store->topicExists( $Foswiki::cfg{UsersWebName}, $group ) )
     {
         $expanding{$group} = 1;
-        my $text = $store->readTopicRaw( undef, $Foswiki::cfg{UsersWebName},
-            $group, undef );
 
-        foreach ( split( /\r?\n/, $text ) ) {
-            if (/$Foswiki::regex{setRegex}GROUP\s*=\s*(.+)$/) {
-                next unless ( $1 eq 'Set' );
-
-                # Note: if there are multiple GROUP assignments in the
-                # topic, only the last will be taken.
-                my $f = $2;
-                $members = _expandUserList( $this, $f );
-            }
-        }
+#can't use session's Prefs as it caches the topic, whereas this code previously re-read the topic and re-parsed the setting
+#$Foswiki::Plugins::SESSION->{prefs}->getTopicPreferencesValue('GROUP', $Foswiki::cfg{UsersWebName}, $group) 
+        my $pref = new Foswiki::Prefs( $this->{session} );
+        my $groupSettingString = $pref->getTopicPreferencesValue('GROUP', $Foswiki::cfg{UsersWebName}, $group);
+	
+        $members =
+          _expandUserList( $this, $groupSettingString);
         delete $expanding{$group};
     }
     $this->{eachGroupMember}->{$group} = $members;
@@ -1079,10 +1075,11 @@ sub _getListOfGroups {
                 users => $users
             },
             inline    => 1,
-            search    => "Set GROUP =",
+            search    => "1",
             web       => $Foswiki::cfg{UsersWebName},
             topic     => "*Group",
-            type      => 'regex',
+            type      => 'query',
+            scope     => 'topic',
             nosummary => 'on',
             nosearch  => 'on',
             noheader  => 'on',
