@@ -67,4 +67,10 @@ jQuery(document).ready(
                     foswiki.Edit.validateSuppressed = true;
             });
 
+		$('body.patternEditPage input').keydown(
+			function(event) {
+				if(event.keyCode == 13) {
+				  return false;
+				}
+			});
 	});
