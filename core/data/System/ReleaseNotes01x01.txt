@@ -64,6 +64,19 @@ Also added are the new =ADDTOZONE= and =RENDERZONE= macros that manage
 dependencies between Javascript modules, making use of this sophisticated
 toolset much easier.
 
+---++++ New macros enabled by jQuery
+
+   * =BUTTON{"text" ...}= -- renders a nice button
+   * =TABPANE{...}=, =ENDTABPANE=, =TAB{"text" ...}=, =ENDTAB= -- tabpane widget
+   * =JQICON{"name" ...}= -- render an image
+   * =JQICONPATH{"name"}= -- render the urlpath to an image
+   * =JQPLUGINS{"plugins" ... }= -- display a summary of avaliable plugins
+   * =JQREQUIRE{"plugin, plugin, ... "}= -- enable a plugin on the current page
+   * =JQTHEME{"name" ...}= -- switch jQuery UI theme
+   * =POPUPWINDOW{"topic" ...}= -- opens a topic or url in a new window
+
+See %SYSTEMWEB%.JQueryPlugin for details.
+
 ---+++ Powerful new =QUERY= macro
 A number of new features have been added with the goal of improving support  for wiki applications. These include the powerful new =QUERY= macro,  which supports formatted access to formfields and other meta-data in  topics using the same syntax as is used in =IF= and =SEARCH= statements.
 
