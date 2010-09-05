@@ -11,7 +11,7 @@
 %TMPL:DEF{"pagetitle"}%%MAKETEXT{"Attach image or document on [_1]" args="[[%TOPIC%]]"}%%TMPL:END%
 
 
-%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="attachhelp" mode="div" remember="on" showlink="&#9658; %MAKETEXT{"Attachments help"}%" hidelink="&#9660; %MAKETEXT{"Attachments help"}%" linkclass="foswikiButton patternTwistyButton"}%</div>%TMPL:END%
+%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="attachhelp" mode="div" remember="on" showlink="<h3 class='patternTwistyButton'><img src='%ICONURLPATH{toggleopen}%' alt=''/> %MAKETEXT{"Attachments help"}%</h3>" hidelink="<h3 class='patternTwistyButton'><img src='%ICONURLPATH{toggleclose}%' alt='' /> %MAKETEXT{"Attachments help"}%</h3>"}%</div>%TMPL:END%
 
 
 %TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="attachhelp" mode="div" remember="on" noscript="hide"}%<div class="foswikiHelp">
@@ -28,9 +28,9 @@
 %TMPL:DEF{"formend"}%</form></div>%TMPL:END%
 
 
-%TMPL:DEF{"attachformstart"}%<div class="foswikiFormSteps">%TMPL:END%
+%TMPL:DEF{"attachformstart"}%%TMPL:END%
 
-%TMPL:DEF{"attachformend"}%</div>%TMPL:END%
+%TMPL:DEF{"attachformend"}%%TMPL:END%
 
 %TMPL:DEF{"newfile"}%<div class="foswikiFormStep">
 ---+++ %MAKETEXT{"Attach new file"}%
@@ -49,7 +49,7 @@
 <input class="foswikiInputField" type="text" name="filecomment" value="%FILECOMMENT%" size="70" />
 </div>%TMPL:END%
 
-%TMPL:DEF{"properties"}%<div class="foswikiFormStep">
+%TMPL:DEF{"properties"}%<div class="foswikiFormStep foswikiLast">
 ---+++ %MAKETEXT{"Properties"}%
 
 <input type="checkbox" class="foswikiCheckbox" id="createlink" name="createlink" %ATTACHLINKBOX% /><label for="createlink">%MAKETEXT{"Create a link to the attached file"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Images will be displayed, for other attachments a link will be created."}%</span>
@@ -58,11 +58,11 @@
 </div>%TMPL:P{"changepropertiesaction"}%%TMPL:END%
 
 
-%TMPL:DEF{"content"}%%TMPL:P{"toolbar"}%
-%TMPL:P{"pagehelp"}%
-<div class="patternBorder">%TMPL:P{"formstart"}%
+%TMPL:DEF{"content"}%%TMPL:P{"formstart"}%%TMPL:P{"toolbar"}%
+%TMPL:P{"pagehelp"}%<div class="patternBorder"><div class="foswikiFormSteps">
 %TMPL:P{"attachform"}%
-%TMPL:P{"topicaction"}%%TMPL:P{"formend"}%</div>
+</div>
+%TMPL:P{"topicinfo"}%</div>
 %TMPL:P{"movedelete"}%
 %TMPL:P{"pagehelp_nojavascript"}%
 %TMPL:P{"versions"}%

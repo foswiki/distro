@@ -157,6 +157,8 @@ templates/changeform.pattern.tmpl 0444
 templates/changes.pattern.tmpl 0444
 templates/css.pattern.tmpl 0444
 templates/edit.pattern.tmpl 0444
+templates/editform.pattern.tmpl 0444
+templates/form.pattern.tmpl 0444
 templates/formtables.pattern.tmpl 0444
 templates/foswiki.pattern.tmpl 0444
 templates/login.pattern.tmpl 0444

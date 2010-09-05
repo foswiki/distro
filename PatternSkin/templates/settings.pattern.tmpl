@@ -15,7 +15,7 @@
 %TMPL:DEF{"saveoptions"}%%TMPL:END%
 %TMPL:DEF{"sig"}%%TMPL:END%
 
-%TMPL:DEF{"action_buttons"}%%TMPL:P{"button_save"}%&nbsp; %MAKETEXT{"or"}% %TMPL:P{"button_cancel"}%%TMPL:END%
+%TMPL:DEF{"action_buttons"}%%TMPL:P{"button_save"}% %TMPL:P{"button_cancel"}%%TMPL:END%
 
 
 %TMPL:DEF{"accesskeys_help"}%%ICON{info}% %POPUPWINDOW{"%SYSTEMWEB%.AccessKeys" label="%MAKETEXT{"Access keys:"}%"}% %MAKETEXT{"S = Save, C = Cancel"}%%TMPL:END%
@@ -23,7 +23,12 @@
 
 %TMPL:DEF{"content"}%%TMPL:P{"formstart"}%
 %TMPL:P{"toolbar"}%
-%TMPL:P{"pagehelp"}%
+%TMPL:P{"pagehelp"}%<div class="patternBorder"><div class="foswikiFormSteps">
+<div class="foswikiFormStep">
 %TMPL:P{"textarea"}%
+</div>
+<div class="foswikiFormStep foswikiLast">
 %TMPL:P{"topicinfo"}%
-%TMPL:P{"formend"}%%TMPL:P{"pagehelp_nojavascript"}%%TMPL:END%
+</div>
+</div>
+</div>%TMPL:P{"formend"}%%TMPL:P{"pagehelp_nojavascript"}%%TMPL:END%

@@ -70,7 +70,7 @@ blockquote {
 /* Text */
 h1, h2, h3, h4, h5, h6 {
 	font-weight:normal;
-	line-height:1em;
+	line-height:1.1em;
 }
 h1 { font-size:190%; }
 h2 { font-size:153%; }
@@ -78,9 +78,6 @@ h3 { font-size:137%; }
 h4 { font-size:127%; }
 h5 { font-size:117%; }
 h6 { font-size:107%; }
-h2, h3, h4, h5, h6 {
-	margin:1em 0 1em 0;
-}
 h1.patternTemplateTitle {
 	font-size:170%;
 }
@@ -165,7 +162,6 @@ a.foswikiButtonCancel,
 .foswikiCheckbox {
 	border-width:1px;
 	border-style:solid;
-	padding:.1em .2em;
 	font-weight:bold;
 	vertical-align:middle;
 	text-align:center;
@@ -305,7 +301,6 @@ a.foswikiSubmit:visited:active {
 #foswikiLogin {
 	width:40em;
 	margin:0 auto;
-	text-align:center;
 	border-style:solid;
 	border-width:10px;
 }
@@ -318,38 +313,28 @@ a.foswikiSubmit:visited:active {
 	border-style:solid;
 	border-width:2px;
 }
-.foswikiTable h2, .foswikiFormTable h2,
-.foswikiTable h3, .foswikiFormTable h3,
-.foswikiTable h4, .foswikiFormTable h4,
-.foswikiTable h5, .foswikiFormTable h5,
-.foswikiTable h6, .foswikiFormTable h6 {
-	border:0;
-	margin:0;
-	padding-left:0;
-	padding-right:0;
-}
 .foswikiFormTable th {
 	font-weight:normal;
+	text-align:left;
 }
 .foswikiFormTable .foswikiTable th {
 	font-weight:bold;
 }
+.foswikiEditForm h2,
+.foswikiEditForm h3,
+.foswikiEditForm h4,
+.foswikiEditForm h5,
+.foswikiEditForm h6 {
+	margin:.5em 0;
+	padding:0;
+}
 .patternEditPage .foswikiFormTable td,
 .patternEditPage .foswikiFormTable th {
-	padding:.3em .4em;
+	padding:.5em 10px .5em 20px;
 	border-style:solid;
 	border-width:0 0 1px 0;
 	vertical-align:middle;
 }
-.patternContent .foswikiAttachments,
-.patternContent .foswikiForm {
-	/* form or attachment table inside topic area */
-	font-size:94%; /*S2*/
-	padding:1em 10px; /*S5*/ /* top:use less padding for the toggle link; bottom:use less space in case the table is folded in  */
-	margin:0;
-	border-style:none;
-}
-.foswikiAttachments .foswikiTable,
 table.foswikiFormTable {
 	margin:0 0 5px 0;
 	border-collapse:collapse;
@@ -374,9 +359,6 @@ table.foswikiFormTable th.foswikiFormTableHRow {
 	height:2.5em;
 	vertical-align:middle;
 }
-table.foswikiFormTable th.foswikiFormTableHRow {
-	text-align:center;
-}
 .foswikiFormTableFooter {}
 .foswikiAttachments .foswikiTable td,
 table.foswikiFormTable td {
@@ -398,28 +380,16 @@ table.foswikiFormTable th.foswikiFormTableHRow a:link,
 table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	text-decoration:none;
 }
-.foswikiAttachments h3,
-.foswikiForm h3,
-.patternTwistyButton h3 {
-	font-size:1.1em;
-	font-weight:bold;
-	display:inline;
-	margin:0;
-	padding:0;
-}
-.patternTwistyButton h3 {
-	/* always add class foswikiButton as well */
-	padding:.1em .2em;
-}
 .patternAttachmentHeader {
-        font-size: 1.1em;
 	/* behaviour class */
 }
-.foswikiForm h3 a:link,
-.foswikiForm h3 a:visited {
-	text-decoration:none;
+h3.patternTwistyButton {
+	font-size:105%;
+	font-weight:bold;
+	margin:.5em 0;
+	/* behaviour class */
 }
-.foswikiForm h3 .foswikiSmall {
+h3 .foswikiSmall {
 	font-weight:normal;
 	font-size:86%;
 	margin:0 0 0 .15em;
@@ -428,7 +398,8 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	text-align:left;
 	border-style:none;
 }
-.foswikiFormStep {
+.foswikiFormStep,
+.patternPreviewFormStep {
 	line-height:140%;
 	padding:10px 20px;
 	border-width:0 0 1px 0;
@@ -437,10 +408,8 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 .foswikiFormStep h2,
 .foswikiFormStep h3,
 .foswikiFormStep h4 {
-	border:none;
-	margin:5px 0 .5em 0;
+	margin:.5em 0;
 	padding:0;
-	background:none;
 }
 .foswikiFormStep h2 {
 	font-size:130%;
@@ -609,10 +578,13 @@ a:hover .foswikiAccessKey {
 	padding-right:.5em;
 	padding-left:1em;
 }
-#patternMainContents,
 #patternBottomBarContents,
 #patternSideBarContents,
 #patternTopBarContents {
+	padding-right:2em;
+	padding-left:30px;
+}
+#patternMainContents {
 	padding-right:2em;
 	padding-left:2em;
 }
@@ -651,10 +623,6 @@ a:hover .foswikiAccessKey {
 	margin-left:2%;
 	margin-right:2%;
 }
-
-.patternNoViewPage .patternTop {
-	font-size:94%;
-}
 #patternSideBarContents img {
 	margin:0 3px 0 0;
 	vertical-align:text-bottom;
@@ -683,10 +651,10 @@ a:hover .foswikiAccessKey {
 	border-width:1px;
 }
 .patternWebIndicator {
-	border-style:none none solid none;
-	border-width:3px;
-	padding:0 1em .5em 1em;
-	margin:0 -1em 1em -1em;
+	border-style:none none none solid;
+	border-width:7px;
+	padding:0 0 0 9px;
+	margin:0 0 1em -16px;
 }
 .patternWebIndicator a {
 	font-size:1.1em;
@@ -765,7 +733,10 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternTopicAction {
 	padding:10px 20px; /*S5*/
 }
-.patternOopsPage .patternTopicActions,
+.patternBorder .patternBorder {
+	border-style:solid none none none;
+	margin-top:-1px;
+}
 .patternEditPage .patternTopicActions {
 	margin:2em 0 0 0;
 }
@@ -801,6 +772,10 @@ html>body #patternSideBarContents li { /* Mozilla */
 }
 .patternSimpleLogo {
 	margin:1em 0 0 0;
+}
+.patternBorder {
+	border-style:solid;
+	border-width:1px;
 }
 
 /* WebSearch, WebSearchAdvanced */
@@ -937,33 +912,15 @@ h4.foswikiSearchResultsHeader {
 	padding-left:0;
 	padding-right:0;
 }
-.patternEditPage .patternEditTopic {
-	padding:5px;
-	margin:0 0 .5em 0;
-}
-.patternEditPage .foswikiTextarea {
-}
-.patternEditPage .foswikiForm {
-	border:none;
-}
+
 .foswikiFormHolder { /* constrains the textarea */
 	width:100%;
-}
-.patternEditPage .foswikiForm h1,
-.patternEditPage .foswikiForm h2,
-.patternEditPage .foswikiForm h3 {
-	/* same as foswikiFormStep */
-	font-size:120%;
-	font-weight:bold;
 }
 .foswikiEditboxStyleMono {
 	font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
 }
 .foswikiEditboxStyleProportional {
 	font-family:arial, verdana, sans-serif;
-}
-.patternEditPage .patternActionButtons {
-	margin:0.5em 0 0 0;
 }
 .patternSig {
 	text-align:right
@@ -986,7 +943,7 @@ h4.foswikiSearchResultsHeader {
 	margin:0 8px 0 0;
 }
 .patternSaveOptionsContents {
-	margin:.5em 0 0 0;
+	margin:.5em 0;
 }
 .patternSaveHelp {
 	margin:1em 0 0 0;
@@ -999,19 +956,10 @@ h4.foswikiSearchResultsHeader {
 
 /* preview.pattern.tmpl */
 
-.patternPreviewPage #patternMainContents {
-	padding-left:0;
-	padding-right:0;
-}
-.patternPreviewPage .foswikiTopic {
-	margin-bottom:0;
-}
-.foswikiPreviewArea,
-.patternPreviewPage .foswikiForm {
-	border-width:1px;
-	border-style:solid;
-	margin:0 0 1.5em 0;
-	padding:2em;
+.foswikiPreviewArea {
+	border:none;
+	margin:0;
+	padding:10px 20px;
 }
 
 /* attach.pattern.tmpl */

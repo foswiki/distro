@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="BaseUserMapping_333" comment="reprev" date="1283555241" format="1.1" reprev="2" version="2"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! Color scheme settings for %SYSTEMWEB%.PatternSkin
 Use this topic to change the color settings of %SYSTEMWEB%.PatternSkin. When this topic is saved, the attachment =my_colors.css= will be updated with new color values. This method relies on Foswiki:Extensions.AttachContentPlugin to work.
@@ -159,17 +158,17 @@ Edit this topic, and change the color as you like.
 ---+++++ TABLE_DATA_BACKGROUND Table data background
    * Local TABLE_DATA_BACKGROUND = #f0f6f9
 ---+++++ TABLE_HEADER_BACKGROUND Table header background
-   * Local TABLE_HEADER_BACKGROUND = #6b7f93
+   * Local TABLE_HEADER_BACKGROUND = #d6d3cf
 ---+++++ TABLE_SELECTED_COLUMN_HEADER_BACKGROUND Sorted table column accent background
-   * Local TABLE_SELECTED_COLUMN_HEADER_BACKGROUND = #345
+   * Local TABLE_SELECTED_COLUMN_HEADER_BACKGROUND = #c4c1ba
 ---+++++ TABLE_DATA_ODD_BACKGROUND Table data background (odd row)
-   * Local TABLE_DATA_ODD_BACKGROUND = #f0f6fb
+   * Local TABLE_DATA_ODD_BACKGROUND = #f7f7f6
 ---+++++ TABLE_DATA_EVEN_BACKGROUND Table data background (even row)
    * Local TABLE_DATA_EVEN_BACKGROUND = #ffffff
 ---+++++ TABLE_DATA_ODD_SELECTED_BACKGROUND Table data background (odd row, selected column)
-   * Local TABLE_DATA_ODD_SELECTED_BACKGROUND = #dce7ee
+   * Local TABLE_DATA_ODD_SELECTED_BACKGROUND = #f0f0ee
 ---+++++ TABLE_DATA_EVEN_SELECTED_BACKGROUND Table data background (even row, selected column)
-   * Local TABLE_DATA_EVEN_SELECTED_BACKGROUND = #f5f5f5
+   * Local TABLE_DATA_EVEN_SELECTED_BACKGROUND = #f7f7f6
 ---+++++ TABLE_DATA_MIX_BACKGROUND Table data background (mix between even and odd)
    * Local TABLE_DATA_MIX_BACKGROUND = #f7fafc
 ---++++ TABLE_BORDER Table border, sup (light neutral tone)
@@ -325,10 +324,10 @@ h2, h3, h4, h5, h6 {
 .foswikiTopic a:hover {
    color:%LINK_TEXT_HOVER%;
 }
-.foswikiTopic .foswikiUnvisited a:visited {
+.foswikiUnvisited a:visited {
    color:%LINK_TEXT_NORMAL%;
 }
-.foswikiTopic .foswikiUnvisited a:hover {
+.foswikiUnvisited a:hover {
    color:%LINK_TEXT_HOVER%;
 }
 
@@ -459,25 +458,16 @@ table.foswikiFormTable th.foswikiFormTableHRow,
 table.foswikiFormTable td.foswikiFormTableRow {
    color:%MUTED_TEXT%;
 }
-.foswikiEditForm {
-   color:%MAIN_TEXT%;
-}
 .foswikiEditForm .foswikiFormTable,
 .foswikiEditForm .foswikiFormTable th,
 .foswikiEditForm .foswikiFormTable td {
    border-color:%TABLE_BORDER%;
 }
-/* use a different table background color mix: no odd/even rows, no white background */
-.foswikiEditForm .foswikiFormTable td  {
-   background-color:%TABLE_DATA_MIX_BACKGROUND%;
-}
 .foswikiEditForm .foswikiFormTable th {
-   background-color:%TABLE_DATA_ODD_BACKGROUND%;
+   background-color:%MAIN_TEXT_BACKGROUND%;
 }
-.patternContent .foswikiAttachments,
-.patternContent .foswikiForm {
-   background-color:%ATTACHMENT_AND_FORM_BACKGROUND%;
-   border-color:%MAIN_TEXT_BACKGROUND%;
+.foswikiEditForm .foswikiFormTable th.foswikiFormTableHRow {
+   background-color:%MAIN_TEXT_BACKGROUND%;
 }
 .foswikiAttachments table,
 table.foswikiFormTable {
@@ -497,7 +487,8 @@ table.foswikiFormTable {
    background-color:%ACTIVE_FORM_BACKGROUND%;
    border-color:%FORM_STEP_BORDER%;
 }
-.foswikiFormStep {
+.foswikiFormStep,
+.patternPreviewFormStep {
    border-color:%FORM_STEP_BORDER%;
 }
 .foswikiFormStep h2 {
@@ -668,9 +659,6 @@ a:hover .foswikiAccessKey {
 .patternSigLine {
    color:%MUTED_TEXT%;
 }
-.patternEditTopic {
-    background:%PAGE_BACKGROUND%;
-}
 .patternToolBar a:link .foswikiAccessKey,
 .patternToolBar a:visited .foswikiAccessKey {
    color:inherit;
@@ -692,7 +680,7 @@ a:hover .foswikiAccessKey {
 	color:%LINK_TEXT_NORMAL%;
 }
 
-.patternTwistyButton h3 {
+h3.patternTwistyButton {
 	color:%LINK_TEXT_NORMAL%;
 }
 
@@ -766,18 +754,10 @@ h4.foswikiSearchResultsHeader strong {
    color:%GRAYED_OUT_TEXT%;
 }
 
-/* edit.pattern.tmpl */
-
 /* preview.pattern.tmpl */
 
-.foswikiPreviewArea,
-.patternPreviewPage .foswikiForm {
-   border-color:%ALERT_BORDER%;
-   background-color:%MAIN_TEXT_BACKGROUND%;
-}
-.patternPreviewPage .foswikiForm {
-   border-color:%STRONG_BORDER%;
-   background-color:%MAIN_TEXT_BACKGROUND%;
+.foswikiPreviewArea {
+	background:%MAIN_TEXT_BACKGROUND%;
 }
 
 /* rdiff.pattern.tmpl */
@@ -1014,10 +994,11 @@ li.patternLogIn {
 .patternLeftBarPersonal li.patternLogIn {
    background-image:url(bullet-lock.gif);
 }
-
+#foswikiLogin,
 .patternShadow {
 	border:10px solid %MAIN_TEXT_BACKGROUND%;
-	margin:10px 0;
+	margin-top:10px;
+	margin-bottom:10px;
 	-moz-box-shadow: 0 0 10px %STRONG_BORDER%;
 	-webkit-box-shadow: 0 0 10px %STRONG_BORDER%;
 	box-shadow: 0 0 10px %STRONG_BORDER%;
@@ -1027,8 +1008,7 @@ li.patternLogIn {
 	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=10, Direction=0, Color='%STRONG_BORDER%');
 }
 .patternBorder {
-	border:1px solid #eee;
-	margin:10px 0;
+	border-color:#eee;
 }
 
 %ENDATTACH%

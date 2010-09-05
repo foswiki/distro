@@ -7,14 +7,15 @@
 
 %TMPL:DEF{"content"}%%TMPL:P{"notes"}%
 
-%TMPL:P{"formstart"}%
+%TMPL:P{"formstart"}%<div class="patternBorder">
 <div class="foswikiFormSteps">
-<div class="foswikiFormStep foswikiLast">
+<div class="foswikiFormStep">
 ---+++ %MAKETEXT{"Available form templates"}%   
 %FORMLIST%
-</div><!-- /foswikiFormStep-->
-</div><!-- /foswikiFormSteps-->
+</div>
+</div>
 %TEXT% %EDITACTION%
 %TMPL:P{"hiddenformfields"}%
 %TMPL:P{"topicaction"}%
+</div>
 %TMPL:P{"formend"}%%TMPL:END%

@@ -11,7 +11,7 @@
 
 
 
-%TMPL:DEF{"changepropertiesaction"}%<div class="foswikiFormStep"><input type="submit" class="foswikiButton" name="changeproperties" value='%MAKETEXT{"Change comment and properties only"}%' /></div><!-- /foswikiFormStep-->%TMPL:END%
+%TMPL:DEF{"changepropertiesaction"}%<div class="foswikiFormStep foswikiLast"><input type="submit" class="foswikiButton" name="changeproperties" value='%MAKETEXT{"Change comment and properties only"}%' /></div><!-- /foswikiFormStep-->%TMPL:END%
 
 
 
@@ -19,11 +19,11 @@
 
 
 
-%TMPL:DEF{"movedelete"}%<div class="patternMoveAttachment"><a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?template=moveattachment&attachment=%ENCODE{%FILENAME%}%" rel='nofollow'><span class="foswikiLinkLabel">%MAKETEXT{"Move"}%</span></a> %MAKETEXT{"or"}% <a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?newweb=%TRASHWEB%;newtopic=TrashAttachment;template=renameattachmentdelete;attachment=%ENCODE{%FILENAME%}%" rel='nofollow'><span class="foswikiLinkLabel">%MAKETEXT{"Delete"}%</span></a> =%FILENAME%= </div>%TMPL:END%
+%TMPL:DEF{"movedelete"}%<div class="patternMoveAttachment foswikiUnvisited"><a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?template=moveattachment&attachment=%ENCODE{%FILENAME%}%" rel='nofollow'><span class="foswikiLinkLabel">%MAKETEXT{"Move"}%</span></a> %MAKETEXT{"or"}% <a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?newweb=%TRASHWEB%;newtopic=TrashAttachment;template=renameattachmentdelete;attachment=%ENCODE{%FILENAME%}%" rel='nofollow'><span class="foswikiLinkLabel">%MAKETEXT{"Delete"}%</span></a> =%FILENAME%= </div>%TMPL:END%
 
 
 
-%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Upload file"}%' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Upload file"}%' /> %TMPL:P{"canceltopicaction"}%%TMPL:END%
 
 
 

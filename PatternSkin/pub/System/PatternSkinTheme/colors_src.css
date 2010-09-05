@@ -118,10 +118,10 @@ h2, h3, h4, h5, h6 {
 .foswikiTopic a:hover {
    color:#06c;
 }
-.foswikiTopic .foswikiUnvisited a:visited {
+.foswikiUnvisited a:visited {
    color:#06c;
 }
-.foswikiTopic .foswikiUnvisited a:hover {
+.foswikiUnvisited a:hover {
    color:#06c;
 }
 
@@ -252,25 +252,16 @@ table.foswikiFormTable th.foswikiFormTableHRow,
 table.foswikiFormTable td.foswikiFormTableRow {
    color:#797979;
 }
-.foswikiEditForm {
-   color:#000;
-}
 .foswikiEditForm .foswikiFormTable,
 .foswikiEditForm .foswikiFormTable th,
 .foswikiEditForm .foswikiFormTable td {
    border-color:#eee;
 }
-/* use a different table background color mix: no odd/even rows, no white background */
-.foswikiEditForm .foswikiFormTable td  {
-   background-color:#f7fafc;
+.foswikiEditForm .foswikiFormTable th  {
+   background-color:#fff;
 }
-.foswikiEditForm .foswikiFormTable th {
-   background-color:#f0f6fb;
-}
-.patternContent .foswikiAttachments,
-.patternContent .foswikiForm {
-   background-color:#fafafa;
-   border-color:#fff;
+.foswikiEditForm .foswikiFormTable th.foswikiFormTableHRow {
+   background-color:#fff;
 }
 .foswikiAttachments table,
 table.foswikiFormTable {
@@ -290,7 +281,8 @@ table.foswikiFormTable {
    background-color:#fafafa;
    border-color:#eee;
 }
-.foswikiFormStep {
+.foswikiFormStep,
+.patternPreviewFormStep {
    border-color:#eee;
 }
 .foswikiFormStep h2 {
@@ -461,9 +453,6 @@ a:hover .foswikiAccessKey {
 .patternSigLine {
    color:#797979;
 }
-.patternEditTopic {
-    background:#eeedec;
-}
 .patternToolBar a:link .foswikiAccessKey,
 .patternToolBar a:visited .foswikiAccessKey {
    color:inherit;
@@ -485,7 +474,7 @@ a:hover .foswikiAccessKey {
 	color:#06c;
 }
 
-.patternTwistyButton h3 {
+h3.patternTwistyButton {
 	color:#06c;
 }
 
@@ -559,27 +548,19 @@ h4.foswikiSearchResultsHeader strong {
    color:#797979;
 }
 
-/* edit.pattern.tmpl */
-
 /* preview.pattern.tmpl */
 
-.foswikiPreviewArea,
-.patternPreviewPage .foswikiForm {
-   border-color:#f00;
-   background-color:#fff;
-}
-.patternPreviewPage .foswikiForm {
-   border-color:#ccc;
-   background-color:#fff;
+.foswikiPreviewArea {
+	background:#fff;
 }
 
 /* rdiff.pattern.tmpl */
 
 .patternDiff {
-   border-color:#6b7f93;
+   border-color:#d6d3cf;
 }
 #patternMainContents .patternDiff h4.foswikiSearchResultsHeader {
-   background-color:#6b7f93;
+   background-color:#d6d3cf;
    color:#fff;
 }
 #patternMainContents .patternDiff h4.foswikiSearchResultsHeader a:link,
@@ -807,10 +788,11 @@ li.patternLogIn {
 .patternLeftBarPersonal li.patternLogIn {
    background-image:url(bullet-lock.gif);
 }
-
+#foswikiLogin,
 .patternShadow {
 	border:10px solid #fff;
-	margin:10px 0;
+	margin-top:10px;
+	margin-bottom:10px;
 	-moz-box-shadow: 0 0 10px #ccc;
 	-webkit-box-shadow: 0 0 10px #ccc;
 	box-shadow: 0 0 10px #ccc;
@@ -820,6 +802,5 @@ li.patternLogIn {
 	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=10, Direction=0, Color='#ccc');
 }
 .patternBorder {
-	border:1px solid #eee;
-	margin:10px 0;
+	border-color:#eee;
 }
