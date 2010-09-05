@@ -383,6 +383,9 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 .patternAttachmentHeader {
 	/* behaviour class */
 }
+.patternAttachmentHeader .foswikiSmall {
+	font-weight:normal;
+}
 .patternTwistyButton {
 	font-size:105%;
 	font-weight:bold;

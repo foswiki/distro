@@ -469,9 +469,11 @@ a:hover .foswikiAccessKey {
 .patternInfo a:hover {
 	color:#06c;
 }
-
 .patternTwistyButton {
 	color:#06c;
+}
+.patternAttachmentHeader .foswikiSmall {
+   color:#797979;
 }
 
 /* WebSearch, WebSearchAdvanced */

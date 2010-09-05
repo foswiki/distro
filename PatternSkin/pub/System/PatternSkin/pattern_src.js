@@ -14,9 +14,9 @@ jQuery(document).ready(
             .each(
                 function(index, el) {
 	                var count = $(el).find('table.foswikiTable').attr('rows').length - 1;
-                    var countStr = " <span class='foswikiSmall'> "
+                    var countStr = " <span class='foswikiSmall'>"
                         + count + "<\/span>";
-                    $(el).find('h3.patternAttachmentHeader').each(
+                    $(el).find('.patternAttachmentHeader').each(
                         function(index, el) {
                             $(el).append(countStr);
                         });
