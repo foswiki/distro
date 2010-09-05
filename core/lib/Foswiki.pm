@@ -3370,7 +3370,7 @@ sub _renderZone {
     # When {MergeHeadAndBodyZones} is set, try to treat head and script
     # zones as merged for compatibility with ADDTOHEAD usage where requirements
     # have been moved to the script zone. See ZoneTests/Item9317
-    if ( not $Foswiki::cfg{MergeHeadAndScriptZones}
+    if ( $Foswiki::cfg{MergeHeadAndScriptZones}
         and ( $zone eq 'head' or $zone eq 'script' ) )
     {
         my @zoneIDs = (

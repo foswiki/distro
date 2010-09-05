@@ -325,17 +325,17 @@ HERE
     return;
 }
 
-sub _setOptimizePageLayout {
-    my ( $this, $optimized ) = @_;
+sub _setMergeZones {
+    my ( $this, $merge ) = @_;
 
-    $Foswiki::cfg{OptimizePageLayout} = $optimized;
+    $Foswiki::cfg{MergeHeadAndBodyZones} = $merge;
 
     return;
 }
 
-sub test_Unoptimized_HEAD_merged_with_BODY {
+sub test_Unoptimized_HEAD_merged_with_SCRIPT {
     my $this = shift;
-    $this->_setOptimizePageLayout(0);
+    $this->_setMergeZones(1);
 
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
@@ -344,24 +344,24 @@ sub test_Unoptimized_HEAD_merged_with_BODY {
 %ADDTOHEAD{               "head1" text="text1" requires="head2"}%
 %ADDTOZONE{zone="head" id="head2" text="this-text-will-be-ignored"}%
 %ADDTOZONE{zone="head" id="head2" text="text2"}%
-%ADDTOZONE{"body"      id="body3" text="text3" requires="body4"}%
-%ADDTOZONE{zone="body" id="body4" text="text4" requires="head2"}%
-%ADDTOHEAD{               "head5" text="text5" requires="body4,body3,body6"}%
-%ADDTOZONE{zone="body" id="body6" text="text6" requires="head2,something-missing"}%
+%ADDTOZONE{"script"      id="script3" text="text3" requires="script4"}%
+%ADDTOZONE{zone="script" id="script4" text="text4" requires="head2"}%
+%ADDTOHEAD{               "head5" text="text5" requires="script4,script3,script6"}%
+%ADDTOZONE{zone="script" id="script6" text="text6" requires="head2,something-missing"}%
 %ADDTOZONE{zone="head" id="misc7" text="head::misc7"}%
-%ADDTOZONE{zone="body" id="misc7" text="body::misc7"}%
+%ADDTOZONE{zone="script" id="misc7" text="script::misc7"}%
 HERE
     my $expect = <<'HERE';
 HEAD:
 head::misc7<!--misc7-->
 text2<!--head2-->
 text1<!--head1-->
-text4<!--body4-->
-text3<!--body3-->
-text6<!--body6: requires= missing ids: something-missing-->
 text5<!--head5-->
-body::misc7<!--misc7-->
-BODY:
+SCRIPT:
+script::misc7<!--misc7-->
+text4<!--script4: requires= missing ids: head2-->
+text6<!--script6: requires= missing ids: something-missing, head2, something-missing-->
+text3<!--script3-->
 HERE
     chomp($expect);
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
@@ -369,16 +369,16 @@ HERE
       . $this->{session}->_renderZone( "head", );
     $result =
         $result
-      . "\nBODY:"
-      . $this->{session}->_renderZone( "body", );
+      . "\nSCRIPT:\n"
+      . $this->{session}->_renderZone( "script", );
     $this->assert_equals( $expect, $result );
 
     return;
 }
 
-sub test_Optimized_HEAD_split_from_BODY {
+sub test_Optimized_HEAD_split_from_SCRIPT {
     my $this = shift;
-    $this->_setOptimizePageLayout(1);
+    $this->_setMergeZones(0);
 
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
@@ -387,24 +387,24 @@ sub test_Optimized_HEAD_split_from_BODY {
 %ADDTOHEAD{               "head1" text="text1" requires="head2"}%
 %ADDTOZONE{zone="head" id="head2" text="this-text-will-be-ignored"}%
 %ADDTOZONE{zone="head" id="head2" text="text2"}%
-%ADDTOZONE{"body"      id="body3" text="text3" requires="body4"}%
-%ADDTOZONE{zone="body" id="body4" text="text4" requires="head2"}%
-%ADDTOHEAD{               "head5" text="text5" requires="body4,body3,body6"}%
-%ADDTOZONE{zone="body" id="body6" text="text6" requires="head2,something-missing"}%
+%ADDTOZONE{"script"      id="script3" text="text3" requires="script4"}%
+%ADDTOZONE{zone="script" id="script4" text="text4" requires="head2"}%
+%ADDTOHEAD{               "head5" text="text5" requires="script4,script3,script6"}%
+%ADDTOZONE{zone="script" id="script6" text="text6" requires="head2,something-missing"}%
 %ADDTOZONE{zone="head" id="misc7" text="head::misc7"}%
-%ADDTOZONE{zone="body" id="misc7" text="body::misc7"}%
+%ADDTOZONE{zone="script" id="misc7" text="script::misc7"}%
 HERE
     my $expect = <<'HERE';
 HEAD:
 head::misc7<!--misc7-->
 text2<!--head2-->
 text1<!--head1-->
-text5<!--head5: requires= missing ids: body4, body3, body6-->
-BODY:
-body::misc7<!--misc7-->
-text4<!--body4: requires= missing ids: head2-->
-text3<!--body3-->
-text6<!--body6: requires= missing ids: head2, something-missing-->
+text5<!--head5: requires= missing ids: script4, script3, script6-->
+SCRIPT:
+script::misc7<!--misc7-->
+text4<!--script4: requires= missing ids: head2-->
+text6<!--script6: requires= missing ids: head2, something-missing-->
+text3<!--script3-->
 HERE
     chomp($expect);
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
@@ -412,8 +412,8 @@ HERE
       . $this->{session}->_renderZone( "head" );
     $result =
         $result
-      . "\nBODY:\n"
-      . $this->{session}->_renderZone( "body" );
+      . "\nSCRIPT:\n"
+      . $this->{session}->_renderZone( "script" );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -421,31 +421,30 @@ HERE
 
 sub test_explicit_RENDERZONE_no_optimization {
     my $this = shift;
-    $this->_setOptimizePageLayout(0);
+    $this->_setMergeZones(1);
 
     my $tml = <<'HERE';
 <head>
 %RENDERZONE{"head"}%
 <!--end of rendered head-->
 %ADDTOZONE{"head" id="head1" text="head_1"}%
-%ADDTOZONE{"body" id="body1" text="body_1" requires="head1"}%</head>
+%ADDTOZONE{"script" id="script1" text="script_1" requires="head1"}%
+</head>
 <body>
-%RENDERZONE{"body"}%
-<!--body-->
+%RENDERZONE{"script"}%<!--script-->
 </body>
 HERE
 
     my $expect = <<'HERE';
 <head>
 head_1<!--head1-->
-body_1<!--body1-->
+script_1<!--script1-->
 <!--end of rendered head-->
 <!--A2Z:head1-->
-<!--A2Z:body1-->
+<!--A2Z:script1-->
 </head>
 <body>
-
-<!--body-->
+<!--script-->
 </body>
 HERE
     chomp($expect);
@@ -456,18 +455,18 @@ HERE
 
 sub test_explicit_RENDERZONE_with_optimization {
     my $this = shift;
-    $this->_setOptimizePageLayout(1);
+    $this->_setMergeZones(0);
 
     my $tml = <<'HERE';
 <head>
 %RENDERZONE{"head"}%
 <!--end of rendered head-->
 %ADDTOZONE{"head" id="head1" text="head_1"}%
-%ADDTOZONE{"body" id="body1" text="body_1" requires="head1"}%
+%ADDTOZONE{"script" id="script1" text="script_1" requires="head1"}%
 </head>
 <body>
-%RENDERZONE{"body"}%
-<!--body--></body>
+%RENDERZONE{"script"}%<!--script-->
+</body>
 HERE
 
     my $expect = <<'HERE';
@@ -475,11 +474,10 @@ HERE
 head_1<!--head1-->
 <!--end of rendered head-->
 <!--A2Z:head1-->
-<!--A2Z:body1-->
+<!--A2Z:script1-->
 </head>
 <body>
-body_1<!--body1: requires= missing ids: head1-->
-<!--body-->
+script_1<!--script1: requires= missing ids: head1--><!--script-->
 </body>
 HERE
     chomp($expect);
@@ -490,29 +488,29 @@ HERE
 
 sub test_legacy_tag_param_compatibility {
     my $this = shift;
-    $this->_setOptimizePageLayout(1);
+    $this->_setMergeZones(0);
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $tml = <<'HERE';
-%ADDTOHEAD{                "head1" text="text1" requires="head2"}%
-%ADDTOZONE{zone="head" id="head2" text="this-text-will-be-ignored"}%
-%ADDTOZONE{zone="head" tag="head2" text="text2"}%
-%ADDTOZONE{"body"      tag="body3" text="text3" requires="body4"}%
-%ADDTOZONE{zone="body" tag="body4" text="text4" requires="head2"}%
-%ADDTOHEAD{                "head5" text="text5" requires="body4"}%
-%ADDTOZONE{zone="head" id="misc7" text="head::misc7"}%
-%ADDTOZONE{zone="body" id="misc7" text="body::misc7"}%
+%ADDTOHEAD{                  "head1" text="text1" requires="head2"}%
+%ADDTOZONE{zone="head"    id="head2" text="this-text-will-be-ignored"}%
+%ADDTOZONE{zone="head"   tag="head2" text="text2"}%
+%ADDTOZONE{"script"      tag="script3" text="text3" requires="script4"}%
+%ADDTOZONE{zone="script" tag="script4" text="text4" requires="head2"}%
+%ADDTOHEAD{                    "head5" text="text5" requires="script4"}%
+%ADDTOZONE{zone="head"    id="misc7" text="head::misc7"}%
+%ADDTOZONE{zone="script"  id="misc7" text="script::misc7"}%
 HERE
     my $expect = <<'HERE';
 HEAD:
 head::misc7<!--misc7-->
 text2<!--head2-->
 text1<!--head1-->
-text5<!--head5: requires= missing ids: body4-->
-BODY:
-body::misc7<!--misc7-->
-text4<!--body4: requires= missing ids: head2-->
-text3<!--body3-->
+text5<!--head5: requires= missing ids: script4-->
+SCRIPT:
+script::misc7<!--misc7-->
+text4<!--script4: requires= missing ids: head2-->
+text3<!--script3-->
 HERE
     chomp($expect);
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
@@ -520,8 +518,8 @@ HERE
       . $this->{session}->_renderZone( "head" );
     $result =
         $result
-      . "\nBODY:\n"
-      . $this->{session}->_renderZone( "body" );
+      . "\nSCRIPT:\n"
+      . $this->{session}->_renderZone( "script" );
     $this->assert_equals( $expect, $result );
 
     return;
