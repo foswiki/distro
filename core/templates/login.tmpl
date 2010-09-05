@@ -27,7 +27,7 @@
 
 %TMPL:DEF{"authrealm"}%%MAKETEXT{"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[[_1]][Register]] if you do not have an account yet." args="%SYSTEMWEB%.UserRegistration"}%%TMPL:END%
 
-%TMPL:DEF{"formstart"}%<form action='%SCRIPTURLPATH{"login"}%%PATH_INFO%' name='loginform' method='post'>%TMPL:END%
+%TMPL:DEF{"formstart"}%<form action='%SCRIPTURLPATH{"login"}%%PATH_INFO%' name='loginform' method='post' onsubmit='document.loginform.foswiki_origin.value+=window.location.hash'>%TMPL:END%
 
 %TMPL:DEF{"formend"}%<literal>
 %QUERYPARAMS{encoding="entity" format="<input type='hidden' name='$name' value='$value' />"}%
