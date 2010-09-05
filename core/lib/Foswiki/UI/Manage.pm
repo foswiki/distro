@@ -313,6 +313,7 @@ Copy an existing topic using:
 	<input type="text" name="topic" class="foswikiInputField" value="%TOPIC%Copy" size="30">
 	<input type="hidden" name="action" value="create" />
 	<input type="hidden" name="templatetopic" value="%TOPIC%" />
+	<input type="hidden" name="notemplateexpansion" value="on" />
 	<input type="hidden" name="action_save" value="1" />
 	...
 	</form>

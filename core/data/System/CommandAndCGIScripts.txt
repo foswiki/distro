@@ -33,7 +33,7 @@ All the scripts accept a number of common parameters. The first two components o
 | =debugenableplugins= | During debugging it can be useful to selectively disable all but a subset of plugins. This parameter allows the caller to specify a comma-separated list of plugins that should be enabled. | |
 | =foswikioriginalquery= | The original query that was being made before a redirect for user confirmation was required. | |
 | =foswiki_redirect_cache= | Foswiki sometimes caches long lists of parameters that must survive over a sequence of browser redirects. This parameter identifies one of these caches. The parameter value is a "magic number" that uniquely idenitifies a file in the =working/tmp= directory. These files have a very short lifetime, and are destroyed when the cache is read. | |
-| =logout= | requests the LoginManager to log the current user out (this happens at the begining of the request so will terminate any other operation requested) | |
+| =logout= | requests the !LoginManager to log the current user out (this happens at the begining of the request so will terminate any other operation requested) | |
 | =refresh= | If the Foswiki page cache is in use, setting this parameter will invalidate the cache. Valid values are =on= and =all=. See PageCaching for more information on the page cache. | |
 | =response= | Used as part of the request validation process. | |
 | =skin= | Overrides the default skin path (see [[Skins]]) | value of the SKIN preference |
@@ -70,12 +70,13 @@ The =edit= script understands the following parameters, typically supplied by HT
 | =action= | If =action=text=, then hide the form. If =action=form=, then hide the normal text area and only edit the form. | |
 | =breaklock= | If set, any lease conflicts will be ignored, and the edit will proceed even if someone is already editing the topic. | |
 | =contenttype= | Optional parameter that defines the application type to write into the CGI header. Defaults to =text/html=. May be used to invoke alternative client applications | |
-| =formtemplate= | Name of the form to instantiate in the topic. Overrides any form set in the =templatetopic=. Set to 'none' to remove any existing form. |
-| =onlynewtopic= | If set, error if the topic already exists | |
-| =onlywikiname= | If set, error if the topic name is not a WikiWord | |
+| =formtemplate= | Name of the form to instantiate in the topic. Overrides any form set in the =templatetopic=. Set to 'none' to remove any existing form. | |
+| =notemplateexpansion= | Do not expand any Macros in the template defined by templatetopic. Use this when you want a verbatim copy of a topic | ="off"= |
+| =onlynewtopic= | If set, error if the topic already exists | ="off"= |
+| =onlywikiname= | If set, error if the topic name is not a WikiWord | ="off"= |
 | =redirectto= | If the user continues from edit to save, and if the save (or cancels the edit) process is successful, save will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | |
 | =rev= | Lets you specify a specific revision to use as the basis of the edit. Any save will of course create a new revision. | |
-| =template= | Allows you to specify a different skin template. Overrides any setting of =[[SkinTemplates#TemplatePreferences][EDIT_TEMPLATE]]=. |
+| =template= | Allows you to specify a different skin template. Overrides any setting of =[[SkinTemplates#TemplatePreferences][EDIT_TEMPLATE]]=. | |
 | =templatetopic= | The name of the template topic, copied to get the initial content (new topic _only_) | |
 | =text= | Text to be edited. If this parameter is not given, the text is taken from the database. This parameter is mainly used for initialising new topics with user-supplied content. | |
 | =topicparent= | Sets the parent topic | |
@@ -98,7 +99,7 @@ Used for logging in with !TemplateLoginManager, and for interactive validation o
 | =foswikiloginaction= | If 'validate', the login script is being used for interactive validation of an operation. Otherwise it is being used for login. |
 | =foswiki_origin= | URL that was being accessed when an access violation occurred. the login process will redirect to this URL if it is successful | none |
 | =remember= | If set, this will cause the user's login to be retained even after their browser is shut down. |
-| =sudo= | promote login to internal wiki admin (admins only) |
+| =sudo= | promote login to internal wiki admin (admins only) | |
 | =password= | password of user logging in | none |
 | =username= | username of user logging in (if set, login will attempt to authenticate) | none |
 | =usernamestep= | used to initialise the =username= input field in the login form (will not attempt to authenticate) | none |
@@ -124,7 +125,7 @@ Other parameters are the same as for =edit=.
 Create a new web
 | *Parameter* | *Description* | *Default* |
 | =baseweb= | Name of the web to copy to create the new web | '' |
-| =newtopic= | Value of %<nop>TOPIC% within the web creation message. Optionally used in some skins to signify a non-default home topic. |
+| =newtopic= | Value of %<nop>TOPIC% within the web creation message. Optionally used in some skins to signify a non-default home topic. | '' |
 | =newweb= | Name of the new web | '' |
 | =nosearchall= | Value for NOSEARCHALL | '' |
 | =webbgcolor= | value for WEBBGCOLOR | '' |
@@ -136,7 +137,7 @@ No parameters
 ---++++ =action=saveSettings=
 | *Parameter* | *Description* | *Default* |
 | =originalrev= | Revision that the edit started on | Most recent revision |
-| =redirectto= | If the savesettings process is successful, save will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | 
+| =redirectto= | If the savesettings process is successful, save will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | '' |
 | =text= | Text of the topic | '' |
 All other parameters may be interpreted as form fields, depending on the current form definition in the topic.
 
@@ -271,7 +272,7 @@ This REST ([[http://en.wikipedia.org/wiki/REST][Representational State Transfer]
 The =rest= script supports the following parameters:
 | *Parameter* | *Description* | *Default* |
 | =endPoint= | Where to redirect the response once the request is served, in the form "Web.Topic". If not given, the REST script must generate a valid response. |
-| =password= | See =username= |
+| =password= | See =username= | |
 | =username= | If =TemplateLogin=, or a similar login manager not embedded in the web server, is used, then you need to pass a username and password to the server. The =username= and =password= parameters are used for this purpose. |
 
 REST scripts that require a topic context must use the standard =topic= parameter to pass the topic name, as the URL path is used to identify the REST funtcion. If not defined, then the topic context in REST handlers will be [[%USERSWEB%.%HOMETOPIC%]].
@@ -330,7 +331,7 @@ The =save= script performs a range of save-related functions, as selected by the
 | =editparams= | The parameter string to use to edit the topic when action is =checkpoint= |  |
 | =forcenewrevision= | if set, forces a revision even if %WIKITOOLNAME% thinks one isn't needed | |
 | =formtemplate= | if defined, use the named template for the form (will remove the form is set to 'none') | |
-| =newtopic= | If =templatetopic= is given, and this parameter is set to 1 and the topic does not exist, will clear the initial topic text. |
+| =newtopic= | If =templatetopic= is given, and this parameter is set to 1 and the topic does not exist, will clear the initial topic text. | |
 | =onlynewtopic= | If set, error if topic already exists | |
 | =onlywikiname= | If set, error if topic name is not a WikiWord | |
 | =originalrev= | Revision on which the edit started. | |
@@ -407,7 +408,7 @@ Uploads an attachment to a topic. The HTTP request is expected to be in =multipa
      =TopicName=, a =Web.TopicName=, or a URL. Redirect to a URL only works \
      if it is enabled in =configure=, and is ignored if =noredirect= is \
      specified.%BR% *Note:* Redirect to a URL only works if it is enabled \
-     in =configure= (Miscellaneous ={AllowRedirectUrl}=). |
+     in =configure= (Miscellaneous ={AllowRedirectUrl}=). | |
 
 *Tips*
    * You can use a tool like =curl= to upload files from the command line using this script.
@@ -422,7 +423,7 @@ Used for viewing topics.
 | =contenttype= | Allows you to specify a different *Content-Type:* (e.g. =contenttype=text/plain=) | |
 | =raw=on= | Shows the text of the topic in a scrollable textarea | |
 | =raw=debug= | As =raw=on=, but also shows the metadata (forms etc) associated with the topic. | |
-| =raw=text= | Shows only the source of the topic, as plain text (Content-type: text/plain). Only shows the body text, *not* the form or other meta-data. |
+| =raw=text= | Shows only the source of the topic, as plain text (Content-type: text/plain). Only shows the body text, *not* the form or other meta-data. | |
 | =raw=all= | Shows only the source of the topic, as plain text (Content-type: text/plain), *with embedded meta-data*. This may be useful if you want to extract the source of a topic to a local file on disc. | |
 | =rev= | Revision to view (e.g. =rev=45=) | |
 | =SEARCH&lt;hex number&gt;= | Identifies a result set that is being paged through |

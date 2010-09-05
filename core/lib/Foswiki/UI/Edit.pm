@@ -53,6 +53,7 @@ sub init_edit {
     my $onlyNewTopic  = Foswiki::isTrue( $query->param('onlynewtopic') );
     my $formTemplate  = $query->param('formtemplate') || '';
     my $templateTopic = $query->param('templatetopic') || '';
+    my $notemplateexpansion = Foswiki::isTrue( $query->param('notemplateexpansion') );
 
     # apptype is deprecated undocumented legacy
     my $cgiAppType =
@@ -280,8 +281,10 @@ sub init_edit {
 
         # Copy the text
         $topicObject->text( $ttom->text() );
-
-        $topicObject->expandNewTopic();
+        
+        unless ( $notemplateexpansion ) {
+            $topicObject->expandNewTopic();
+        }
     }
 
     $tmpl =~ s/%TEMPLATETOPIC%/$templateTopic/;
