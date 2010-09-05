@@ -140,7 +140,7 @@ Jump to specific topics.
   then="global: true, baseweb:'all', format:'$web.$topic'"
   else="global: false, baseweb:'%BASEWEB%', format:'$topic'"
 }%}" name="%IF{"defined INPUT_NAME" then="%INPUT_NAME%" else="jumpbox"}%" autocomplete="off" size="60" />
-%ADDTOZONE{"body"
+%ADDTOZONE{"script"
   tag="jumpbox::js"
   section="jumpbox::js"
   requires="JQUERYPLUGIN::AUTOCOMPLETE"
@@ -198,7 +198,7 @@ Uses the =[[#Topic_selector][topic]]= server section, defined above.
 <verbatim class="tml">
 %STARTSECTION{"userselector"}%<!-- userselector -->
 <input type="text" class="foswikiInputField jqUserSelector" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="off" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
-%ADDTOZONE{"body"
+%ADDTOZONE{"script"
   tag="userselector::js"
   section="userselector::js"
   requires="JQUERYPLUGIN::AUTOCOMPLETE"
@@ -267,7 +267,7 @@ or later).
    * =QUERY=: query to perform
 <verbatim class="tml">
 %STARTSECTION{"queryfetcher"}%<literal>
-%ADDTOZONE{"body"
+%ADDTOZONE{"script"
   tag="query::js"
   requires="JQUERYPLUGIN"
   text ="

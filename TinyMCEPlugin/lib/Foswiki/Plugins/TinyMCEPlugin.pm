@@ -197,7 +197,7 @@ META
 <script language="javascript" type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>
 SCRIPT
 
-    Foswiki::Func::addToZone( 'body', 'TinyMCEPlugin', $scripts,
+    Foswiki::Func::addToZone( 'script', 'TinyMCEPlugin', $scripts,
         'JQUERYPLUGIN::FOSWIKI' );
 
     # See %SYSTEMWEB%.IfStatements for a description of this context id.

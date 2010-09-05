@@ -2577,7 +2577,7 @@ Examples:
 Foswiki::Func::addToZone( 'head', 'PATTERN_STYLE',
    '<link rel="stylesheet" type="text/css" href="%PUBURL%/Foswiki/PatternSkin/layout.css" media="all" />');
 
-Foswiki::Func::addToZone( 'body', 'MY_JQUERY',
+Foswiki::Func::addToZone( 'script', 'MY_JQUERY',
    '<script type="text/javascript" src="%PUBURL%/Myweb/MyJQuery/myjquery.js"></scipt>',
    'JQUERYPLUGIN::FOSWIKI');
 </verbatim>

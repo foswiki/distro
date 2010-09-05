@@ -71,7 +71,7 @@ sub init {
     if ( -f $messageFile ) {
         my $text .=
 "<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
-        Foswiki::Func::addToZone( 'body', "JQUERYPLUGIN::UI::LANG", $text,
+        Foswiki::Func::addToZone( 'script', "JQUERYPLUGIN::UI::LANG", $text,
             'JQUERYPLUGIN::UI' );
     }
 }

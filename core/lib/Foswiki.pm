@@ -686,7 +686,7 @@ sub UTF82SiteCharSet {
 ---++ ObjectMethod writeCompletePage( $text, $pageType, $contentType )
 
 Write a complete HTML page with basic header to the browser.
-   * =$text= is the text of the page body (&lt;html&gt; to &lt;/html&gt; if it's HTML)
+   * =$text= is the text of the page script (&lt;html&gt; to &lt;/html&gt; if it's HTML)
    * =$pageType= - May be "edit", which will cause headers to be generated that force
      caching for 24 hours, to prevent Codev.BackFromPreviewLosesText bug, which caused
      data loss with IE5 and IE6.
@@ -3242,18 +3242,18 @@ sub expandMacros {
 Add =$data= identified as =$id= to =$zone=, which will later be expanded (with
 renderZone() - implements =%<nop>RENDERZONE%=). =$ids= are unique within
 the zone that they are added - dependencies between =$ids= in different zones 
-will not be resolved, except for the special case of =head= and =body= zones
-when ={OptimizePageLayout}= is disabled.
+will not be resolved, except for the special case of =head= and =script= zones
+when ={MergeHeadAndScriptZones}= is enabled.
 
 In this case, they are treated as separate zones when adding to them, but as
-one merged zone when rendering, i.e. a call to render either =head= or =body=
+one merged zone when rendering, i.e. a call to render either =head= or =script=
 zones will actually render both zones in this one call. Both zones are undef'd
 afterward to avoid double rendering of content from either zone, to support
-proper behaviour when =head= and =body= are rendered with separate calls even
-when ={OptimizePageLayout}= is not set. See ZoneTests/explicit_RENDERZONE*.
+proper behaviour when =head= and =script= are rendered with separate calls even
+when ={MergeHeadAndScriptZones}= is set. See ZoneTests/explicit_RENDERZONE*.
 
 This behaviour allows an addToZone('head') call to require an id that has been
-added to =body= only.
+added to =script= only.
 
    * =$zone=      - name of the zone
    * =$id=        - unique identifier
@@ -3367,22 +3367,22 @@ sub _renderZone {
     my %visited;
     my @total;
 
-    # When {OptimizePageLayout} is NOT set, try to treat head and body
+    # When {MergeHeadAndBodyZones} is set, try to treat head and script
     # zones as merged for compatibility with ADDTOHEAD usage where requirements
-    # have been moved to the body zone. See ZoneTests/Item9317
-    if ( not $Foswiki::cfg{OptimizePageLayout}
-        and ( $zone eq 'head' or $zone eq 'body' ) )
+    # have been moved to the script zone. See ZoneTests/Item9317
+    if ( not $Foswiki::cfg{MergeHeadAndScriptZones}
+        and ( $zone eq 'head' or $zone eq 'script' ) )
     {
         my @zoneIDs = (
             values %{ $this->{_zones}{head} },
-            values %{ $this->{_zones}{body} }
+            values %{ $this->{_zones}{script} }
         );
 
         foreach my $zoneID (@zoneIDs) {
             $this->_visitZoneID( $zoneID, \%visited, \@total );
         }
-        undef $this->{_zones}{'head'};
-        undef $this->{_zones}{'body'};
+        undef $this->{_zones}{head};
+        undef $this->{_zones}{script};
     }
     else {
         my @zoneIDs = values %{ $this->{_zones}{$zone} };
@@ -3393,7 +3393,7 @@ sub _renderZone {
 
         # kill a zone once it has been rendered, to prevent it being
         # added twice (e.g. by duplicate %RENDERZONEs or by automatic
-        # zone expansion in the head or body)
+        # zone expansion in the head or script)
         undef $this->{_zones}{$zone};
     }
 
@@ -3454,15 +3454,15 @@ sub _visitZoneID {
     foreach my $requiredZoneID ( @{ $zoneID->{requires} } ) {
         my $zoneIDToVisit;
 
-        if (    not $Foswiki::cfg{OptimizePageLayout}
+        if (        $Foswiki::cfg{MergeHeadAndBodyZones}
             and not $requiredZoneID->{populated} )
         {
 
-            # Compatibility mode, where we are trying to treat head and body
+            # Compatibility mode, where we are trying to treat head and script
             # zones as merged, and a required ZoneID isn't populated. Try
             # opposite zone to see if it exists there instead. Item9317
             if ( $requiredZoneID->{zone} eq 'head' ) {
-                $zoneIDToVisit = $this->{_zones}{body}{ $requiredZoneID->{id} };
+                $zoneIDToVisit = $this->{_zones}{script}{ $requiredZoneID->{id} };
             }
             else {
                 $zoneIDToVisit = $this->{_zones}{head}{ $requiredZoneID->{id} };
@@ -3481,7 +3481,7 @@ sub _visitZoneID {
         if ( not $zoneIDToVisit->{populated} ) {
 
             # Finally, we got to here and the required ZoneID just cannot be
-            # found in either head or body (or other) zones, so record it for
+            # found in either head or script (or other) zones, so record it for
             # diagnostic purposes ($missingids format token)
             push( @{ $zoneID->{missingrequires} }, $zoneIDToVisit->{id} );
         }
@@ -3507,16 +3507,10 @@ sub _renderZones {
     my $headZone = _renderZone( $this, 'head', { chomp => "on" } );
     $text =~ s!(</head>)!$headZone\n$1!i if $headZone;
 
-    # Get the body zone and insert it at the end of the </body> if
-    # {OptimizePageLayout}
     # SMELL: Item9480 - can't trust that _renderzone(head) above has truly
-    # flushed both body and head zones empty when {OptimizePageLayout} = 0.
-    my $bodyZone = _renderZone( $this, 'body', { chomp => "on" } );
-    if ( $Foswiki::cfg{OptimizePageLayout} ) {
-        $text =~ s!(</body>)!$bodyZone\n$1!i;
-    } else {
-        $text =~ s!(</head>)!$bodyZone\n$1!i;
-    }
+    # flushed both script and head zones empty when {MergeHeadAndScriptZones} = 1.
+    my $scriptZone = _renderZone( $this, 'script', { chomp => "on" } );
+    $text =~ s!(</head>)!$scriptZone\n$1!i if $scriptZone;
 
     chomp($text);
 

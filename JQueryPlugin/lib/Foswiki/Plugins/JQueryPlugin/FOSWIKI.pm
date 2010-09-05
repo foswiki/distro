@@ -68,7 +68,7 @@ sub init {
 <script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/foswiki/$js'></script>
 FOOTER
 
-    Foswiki::Func::addToZone( 'body', 'JQUERYPLUGIN::FOSWIKI', $footer,
+    Foswiki::Func::addToZone( 'script', 'JQUERYPLUGIN::FOSWIKI', $footer,
         'JQUERYPLUGIN' );
 }
 

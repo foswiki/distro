@@ -127,9 +127,8 @@ text="<style type='text/css' media='all'>
 	padding:0 .3em;
 	color:#f00;
 }
-</style>
-<script type='text/javascript' src='%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiString.js'></script>"
-}%%ENDSECTION{"form"}%
+</style>"
+}%%TMPL:P{JavascriptFiles/foswikiString"}%%ENDSECTION{"form"}%
 
 
 

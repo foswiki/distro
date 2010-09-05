@@ -5,7 +5,7 @@ that are instantiated at the end of this file.
 ---------------------------------------------------
 Handy macro for including JS from system paths
 }%%TMPL:DEF{"LIBJS"}%%ADDTOZONE{
- "body"
+ "script"
  id="%id%"
  text="<script type=\"text/javascript\" src=\"%PUBURLPATH%/%SYSTEMWEB%/%id%%FWSRC%.js\"></script>"
  requires="%requires%"}%%TMPL:END%%{

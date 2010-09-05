@@ -68,7 +68,7 @@ sub init {
         my $text .=
 "<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
         Foswiki::Func::addToZone(
-            'body', "JQUERYPLUGIN::VALIDATE::LANG",
+            'script', "JQUERYPLUGIN::VALIDATE::LANG",
             $text,  'JQUERYPLUGIN::VALIDATE'
         );
     }

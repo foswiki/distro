@@ -1072,19 +1072,10 @@ $Foswiki::cfg{HttpCompress} = $FALSE;
 
 #---++ HTML Page Layout
 # **BOOLEAN EXPERT**
-# If this option is disabled then Foswiki will move all
-# <code>%ADDTOZONE{"body"...}%</code> statements to the end of the
-# HTML &lt;HEAD&gt; tag (immediately after the content added by
-# <code>%ADDTOZONE{"head"...}%</code>). If the option is enabled, then
-# <code>%ADDTOZONE{"body"...}%</code> statements are added to the end of
-# the &lt;BODY&gt; tag instead. This optimises the performance of browsers.
-# <strong>Warning</strong> enabling the optimisation might
-# <u>break</u> topics if Javascript code within the topic content has
-# a dependency on other code being loaded in the body zone. See
-# System.VarADDTOZONE for more information. There may also
-# be problems with plugins which post-process body content, such as
-# SafeWikiPlugin. 
-$Foswiki::cfg{OptimizePageLayout} = $FALSE;
+# <p><code>{MergeHeadAndScriptZones}</code> is provided to maintain compatibility with legacy extensions that use <code>ADDTOHEAD</code> to add <code>&lt;script&gt;</code> markup and require content that is now in the <code>script</code> zone.</p>
+# <p>Normally, dependencies between individual <code>ADDTOZONE</code> statements are resolved within each zone. However, if <code>{MergeHeadAndScriptZones}</code> is enabled, then <code>head</code> content which requires an <code>id</code> that only exists in <code>script</code> (and vice-versa) will be re-ordered to satisfy any dependency.</p>
+# <p><strong><code>{MergeHeadAndScriptZones}</code> will be removed from a future version of Foswiki.</strong></p>
+$Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
 
 #---++ Cache
 # <p>Foswiki includes built-in support for caching HTML pages. This can

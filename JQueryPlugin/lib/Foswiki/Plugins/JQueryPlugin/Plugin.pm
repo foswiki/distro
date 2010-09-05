@@ -113,7 +113,7 @@ sub init {
         $header, join( ', ', @dependencies )
     );
     Foswiki::Func::addToZone(
-        'body', "JQUERYPLUGIN::" . uc( $this->{name} ),
+        'script', "JQUERYPLUGIN::" . uc( $this->{name} ),
         $footer, join( ', ', @dependencies )
     );
 

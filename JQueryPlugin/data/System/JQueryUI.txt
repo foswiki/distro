@@ -28,7 +28,7 @@ The following themes are provided:
 ---+++ Date picker
 See also: http://jqueryui.com/demos/datepicker/
 
-%ADDTOZONE{"body" section="init" requires="JQUERYPLUGIN::UI"}%
+%ADDTOZONE{"script" section="init" requires="JQUERYPLUGIN::UI"}%
 <verbatim style="display:none">
 %STARTSECTION{"init"}%<literal><script type="text/javascript">
 jQuery(function($) {

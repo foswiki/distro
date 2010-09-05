@@ -47,7 +47,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam facilisis neque i
 
 
 %IF{"$'fluidfont'='on'" 
-  then="$percntADDTOZONE{\"body\" topic=\"%WEB%.%TOPIC%\" section=\"fluidfont\"}$percnt 
+  then="$percntADDTOZONE{\"script\" topic=\"%WEB%.%TOPIC%\" section=\"fluidfont\"}$percnt 
         Fluid font is activated. Try to resize the browser window."
   else="<a href='%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?fluidfont=on'>Click here</a> 
         to activate fluid font for all of this page."

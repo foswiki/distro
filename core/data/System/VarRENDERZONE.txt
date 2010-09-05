@@ -27,18 +27,20 @@ Supports the [[FormatTokens][standard format tokens]] in all parameters.
 
 __Notes:__
    * =header= and =footer= are *not* output if there is no content in the
-     zone (nothing has been ADDTOZONEd). However they *are* output if the
-     output is the empty string (at least one ADDTOZONE has been processed).
+     zone (nothing has been =ADDTOZONEd= ). However they *are* output if the
+     output is the empty string (at least one =ADDTOZONE= has been processed).
    * Zones are cleared after being rendered; they are only ever rendered once.
-   * =head= and =body= are _automatic zones_. They don't require a
+   * =head= and =script= are _automatic zones_. They don't require a
      corresponding =RENDERZONE= anywhere in the templates - they are
-     automatically inserted before the =&lt;/head&gt;= and =&lt;/body&gt;=
-     of the output HTML page.
-   * If ={OptimizePageLayout}= is *disabled* in
-     [[%SCRIPTURL{"configure"}%/configure][configure]] (the default),
-     then the content of both the =head= *and* the =body= zones will
-     be inserted where the =head= zone is expanded, and nothing will be
-     inserted where the =&lt;/body&gt;= zone is expanded.
+     automatically inserted before the =&lt;/head&gt;= tag in the output HTML
+     page.
+   * Normally, dependencies between individual =ADDTOZONE= statements are
+     resolved within each zone. However, if ={MergeHeadAndScriptZones}= is
+     enabled in [[%SCRIPTURLPATH{"configure"}%][configure]], then =head=
+     content which requires an =id= that only exists in =script= (and
+     vice-versa) will be re-ordered to satisfy any dependency.
+     <blockquote class="foswikiHelp">%X% ={MergeHeadAndScriptZones}= will be
+     removed from a future version of Foswiki.</blockquote>
 
 See also [[VarADDTOZONE][ADDTOZONE]] for more information on zones.
 <!-- %JQREQUIRE{"chili"}% -->

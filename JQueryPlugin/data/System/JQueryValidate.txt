@@ -18,7 +18,7 @@ Very powerful client-side form validation framework
 
 %JQREQUIRE{"validate"}%
 %JQREQUIRE{"maskedinput"}%
-%ADDTOZONE{"body" topic="%TOPIC%" section="init" requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::MASKEDINPUT"}%
+%ADDTOZONE{"script" topic="%TOPIC%" section="init" requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::MASKEDINPUT"}%
 
 <verbatim class="tml">
 %STARTSECTION{"init"}%

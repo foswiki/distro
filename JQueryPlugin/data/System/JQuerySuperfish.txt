@@ -32,7 +32,7 @@ Features:
 ---+++ Using <nop>TreePlugin
 Requires Foswiki:Extensions.TreePlugin
 
-%ADDTOZONE{"body" 
+%ADDTOZONE{"script" 
     tag="SUPERFISH::DEMO" 
     text="<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish.css' type='text/css'/>
           <link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish-navbar.css' type='text/css'/>

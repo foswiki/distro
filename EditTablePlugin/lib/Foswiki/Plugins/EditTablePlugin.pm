@@ -205,7 +205,7 @@ sub addEditModeHeadersToHead {
     Foswiki::Func::addToZone(
         'head', 'EditTablePlugin/Meta', $header );
     addViewModeHeadersToHead();
-    Foswiki::Func::addToZone( 'body', 'EditTablePlugin/edittable.js', <<JS);
+    Foswiki::Func::addToZone( 'script', 'EditTablePlugin/edittable.js', <<JS);
 <script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/EditTablePlugin/edittable.js"></script>
 JS
 }
