@@ -31,8 +31,8 @@ To use this form you must be administrator.
 Before you begin: consider that less webs are better than more webs. Cross-linking topics is easier, and searches are faster, if there are only a few larger webs.
 
 <noautolink>
-<div id="createWeb" class="foswikiFormSteps">
-	<form name="admin" action="%SCRIPTURLPATH{manage}%/%WEB%/%TOPIC%" method="post">
+<form name="admin" action="%SCRIPTURLPATH{manage}%/%WEB%/%TOPIC%" method="post">
+	<div id="createWeb" class="foswikiFormSteps">
 		<input name="newtopic" type="hidden" value="%URLPARAM{"newtopic"}%" /> <input name="action" type="hidden" value="createweb" />
 		<div class="foswikiFormStep">
 			<h3>Name of the new web <span class="required">Required</span></h3>
@@ -86,11 +86,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 						<h3>Template web</h3>
 						<div class="col1">
 							<p>
-								<select name="baseweb" class="foswikiSelect"> %WEBLIST{ "
-								<option $marker>
-									$name
-								</option>
-								" webs="webtemplate,public" selection="_default" separator=" "}% </select>
+								<select name="baseweb" class="foswikiSelect"> %WEBLIST{ "<option $marker>$name</option>" webs="webtemplate,public" selection="_default" separator=" "}%</select>
 							</p>
 						</div><!--//col1-->
 						<div class="col2">
@@ -106,14 +102,12 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 								There are two methods used to create a new web. %BR% First you can use a specially designed TemplateWeb. This is an invisible web that begins with an underscore &quot;_&quot; character (for example =_default=). All topics in the template web will be copied into your new web. %BR%
 								The second method is to use an existing web as a template web. This may be useful *if you already have a web that you would like to use as a starting point.* Only topics that have names beginning with "Web..." (like "WebHome" or "WebNotify") are copied. In either case you will want to be sure to verify that your new web has all the custom modifications that you desire. <!-- Any [[macros]] defined in the form below will automatically be set in the !WebPreferences of the new web. -->
 							</p>
-							<p>
 *Notes:*
    * You must have =ROOTCHANGE= access to create a top-level web (one with no parent)
    * A new web created using the =_default= or =_empty= template webs must have their access controls set before public use
    * =_empty= is really empty (only has a !WebPreferences topic); normally you want to choose =_default=.
    * Only the person who created it has permission to change the <nop>%WEBPREFSTOPIC% in the new web
-							</p>
-						</div><!--//foswikiHelp-->%ENDTWISTYTOGGLE%
+</div><!--//foswikiHelp-->%ENDTWISTYTOGGLE%
 					</div><!--//col2-->
 					<br class="foswikiClear" />
 					</div><!--//foswikiFormStep-->
