@@ -28,6 +28,7 @@ my $TWISTYPLUGIN_COOKIE_PREFIX  = "TwistyPlugin_";
 my $TWISTYPLUGIN_CONTENT_HIDDEN = 0;
 my $TWISTYPLUGIN_CONTENT_SHOWN  = 1;
 
+
 #there is no need to document this.
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
@@ -41,6 +42,7 @@ sub initPlugin {
 
     $doneDefaults   = 0;
     $doneHeader     = 0;
+    
     _exportAnimationSpeed();
     _hideWithJS();
 
@@ -182,8 +184,8 @@ sub _TWISTY {
     my $id = $params->{'id'};
     if ( !defined $id || $id eq '' ) {
         $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
+        $params->{'id'} .= int( rand(10000) ) + 1;
     }
-    $params->{'id'} .= int( rand(10000) ) + 1;
     return _TWISTYBUTTON( $session, $params, $theTopic, $theWeb )
       . _TWISTYTOGGLE( $session, $params, $theTopic, $theWeb );
 }
