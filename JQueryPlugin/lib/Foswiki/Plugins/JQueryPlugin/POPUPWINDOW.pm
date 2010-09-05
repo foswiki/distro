@@ -68,9 +68,9 @@ sub handlePopUpWindow {
     
     if ($topic) {
         # get query string
-        my @urlParts = split(/\?/, $topic);
-        $topic = $urlParts[0] if scalar @urlParts;
-        push (@queryParts, $urlParts[1]) if scalar @urlParts;
+        if ( $topic =~ s/\?(.*)// ) {
+            push (@queryParts, $1);
+        }
     }
     
     my $web      = $params->{web}       || $theWeb;
