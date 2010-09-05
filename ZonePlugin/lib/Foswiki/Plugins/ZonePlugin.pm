@@ -15,6 +15,7 @@
 package Foswiki::Plugins::ZonePlugin;
 
 use strict;
+use warnings;
 use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
@@ -41,8 +42,8 @@ BEGIN {
         && !defined(&Foswiki::Func::addToZone) )
     {
         no warnings 'redefine';
-        *Foswiki::Func::addToZone = \&Foswiki::Plugins::ZonePlugin::addToZone;
-        *Foswiki::Func::addToHEAD = \&Foswiki::Plugins::ZonePlugin::addToHead;
+        *Foswiki::Func::addToZone = \&Foswiki::Plugins::ZonePlugin::_addToZone;
+        *Foswiki::Func::addToHEAD = \&Foswiki::Plugins::ZonePlugin::addToHEAD;
         use warnings 'redefine';
     }
     else {
@@ -52,8 +53,41 @@ BEGIN {
 }
 
 ##############################################################################
+sub DEBUG { 0 }
+
+sub expandStandardEscapes {
+    my ($text) = @_;
+
+    return Foswiki::expandStandardEscapes($text);
+}
+
+# Use earlyInitPlugin to avoid PluginsOrder mess in getting zones initialised
+# for plugins
+sub earlyInitPlugin {
+    if ( $Foswiki::Plugins::VERSION < 2.1 ) {
+
+        Foswiki::Func::registerTagHandler( 'ADDTOZONE',  \&ADDTOZONE );
+        Foswiki::Func::registerTagHandler( 'RENDERZONE', \&RENDERZONE );
+
+        # redefine
+        Foswiki::Func::registerTagHandler( 'ADDTOHEAD', \&ADDTOHEAD );
+
+       # This allows us to basically copy-paste the code from trunk's Foswiki.pm
+        $this = bless(
+            {
+                _zones                 => undef,
+                _renderZonePlaceholder => undef,
+                _addedToHEAD           => undef,
+            },
+            'Foswiki::Plugins::ZonePlugin'
+        );
+
+        return '';
+    }
+}
+
 sub initPlugin {
-    my ($topic, $web) = @_;
+    my ( $topic, $web ) = @_;
 
     if ( $Foswiki::Plugins::VERSION >= 2.1 ) {
         Foswiki::Func::writeWarning(
@@ -61,31 +95,19 @@ sub initPlugin {
         return 0;
     }
 
-    Foswiki::Func::registerTagHandler( 'ADDTOZONE',  \&ADDTOZONE );
-    Foswiki::Func::registerTagHandler( 'RENDERZONE', \&RENDERZONE );
-
-    # redefine
-    Foswiki::Func::registerTagHandler( 'ADDTOHEAD', \&ADDTOHEAD );
-
-    # This allows us to basically copy-paste the code from trunk's Foswiki.pm
-    $this = bless(
-        {
-            _zones                 => undef,
-            _renderZonePlaceholder => undef,
-            _addedToHEAD           => undef,
-            webName                => $web,
-            topicName              => $topic
-        },
-        'Foswiki::Plugins::ZonePlugin'
-    );
+    # For _renderZone()
+    $this->{webName}   = $web;
+    $this->{topicName} = $topic;
 
     return 1;
 }
 
 ##############################################################################
 sub completePageHandler {
-    if ( $contentType ne 'text/plain' ) {
-        $text = $this->_renderZones($text);
+    my ( $text, $headers ) = @_;
+
+    if ( $headers =~ /Content-Type: text\/html/m ) {
+        $_[0] = $this->_renderZones($text);
     }
 
     return;
@@ -102,12 +124,20 @@ Adds =$data= to the HTML header (the <head> tag).
 =cut
 
 sub addToHEAD {
-    $Foswiki::Plugins::SESSION->addToZone( 'head', @_ );
+    $this->addToZone( 'head', @_ );
+
+    return;
+}
+
+sub _addToZone {
+    $this->addToZone(@_);
+
+    return;
 }
 
 ##############################################################################
 sub ADDTOHEAD {
-    my ( $this, $args, $topicObject ) = @_;
+    my ( $foswiki, $args, $topicObject ) = @_;
 
     my $_DEFAULT = $args->{_DEFAULT};
     my $text     = $args->{text};
@@ -115,12 +145,12 @@ sub ADDTOHEAD {
     my $requires = $args->{requires};
     if ( defined $args->{topic} ) {
         my ( $web, $topic ) =
-          $this->normalizeWebTopicName( $topicObject->web, $args->{topic} );
+          $foswiki->normalizeWebTopicName( $topicObject->web, $args->{topic} );
 
         # prevent deep recursion
         $web =~ s/\//\./g;    # SMELL: unnecessary?
         unless ( $this->{_addedToHEAD}{"$web.$topic"} ) {
-            my $atom = Foswiki::Meta->load( $this, $web, $topic );
+            my $atom = Foswiki::Meta->load( $foswiki, $web, $topic );
             $text = $atom->text();
             $this->{_addedToHEAD}{"$web.$topic"} = 1;
         }
@@ -134,7 +164,7 @@ sub ADDTOHEAD {
 
 ##############################################################################
 sub ADDTOZONE {
-    my ( $this, $params, $topicObject ) = @_;
+    my ( $foswiki, $params, $topicObject ) = @_;
 
     my $zones = $params->{_DEFAULT} || $params->{zone} || 'head';
     my $id    = $params->{id}       || $params->{tag}  || '';
@@ -148,7 +178,7 @@ sub ADDTOZONE {
     if ( $topic || $section ) {
         my $web = $topicObject->web;
         $topic ||= $topicObject->topic;
-        ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
+        ( $web, $topic ) = $foswiki->normalizeWebTopicName( $web, $topic );
 
         # generate TML only and delay expansion until the zone is rendered
         $text = '%INCLUDE{"' . $web . '.' . $topic . '"';
@@ -167,7 +197,7 @@ sub ADDTOZONE {
 # captures all RENDERZONE macros and inserts a token to finally insert the
 # one's content at the end of the rendering pipeline
 sub RENDERZONE {
-    my ( $this, $params, $topicObject ) = @_;
+    my ( $foswiki, $params, $topicObject ) = @_;
 
     # Note, that RENDERZONE is not expanded as soon as this function is called.
     # Instead, a placeholder is inserted into the page. Rendering the current
@@ -226,7 +256,7 @@ Implements =%<nop>ADDTOZONE%=.
 =cut
 
 sub addToZone {
-    my ( $this, $zone, $id, $data, $requires ) = @_;
+    my ( $foswiki, $zone, $id, $data, $requires ) = @_;
 
     $requires ||= '';
 
@@ -274,8 +304,7 @@ sub addToZone {
 }
 
 sub _renderZoneById {
-    my $this = shift;
-    my $id   = shift;
+    my ( $foswiki, $id ) = @_;
 
     return '' unless defined $id;
 
@@ -287,7 +316,7 @@ sub _renderZoneById {
     my $topicObject = $renderZone->{topicObject};
     my $zone        = $params->{_DEFAULT} || $params->{zone};
 
-    return _renderZone( $this, $zone, $params, $topicObject );
+    return $this->_renderZone( $zone, $params, $topicObject );
 }
 
 # This private function is used in ZoneTests
@@ -393,8 +422,12 @@ sub _renderZone {
           . $params->{footer} );
 
     # delay rendering the zone until now
-    $result = $topicObject->expandMacros($result);
-    $result = $topicObject->renderTML($result);
+    $result = Foswiki::Func::expandCommonVariables($result);
+    $result = Foswiki::Func::renderText($result);
+######## Looked like this on trunk
+    #    $result = $topicObject->expandMacros($result);
+    #    $result = $topicObject->renderTML($result);
+    #
 
     return $result;
 }
