@@ -3557,6 +3557,24 @@ Adds =$data= to the HTML header (the <head> tag).
 
 *Deprecated* 26 Mar 2010 - use =addZoZone('head', ...)=.
 
+%X% *Note:* Any calls using addToHEAD for javascript should be rewritten to use the
+new =script= zone in addToZone as soon as possible.
+
+Rewrite:
+<verbatim>
+Foswiki::Func::addToHEAD("id", "<script>...</script>", "JQUERYPLUGIN");
+</verbatim>
+To:
+<verbatim>
+Foswiki::Func::addToZone("script", "id", "<script>...</script>", "JQUERYPLUGIN");
+</verbatim>
+
+The reason is that all &lt;script> markup should be added to a dedicated zone, script,
+and so any usage of ADDTOHEAD - which adds to the head zone - will be unable to
+satisfy ordering requirements when the requirements exist in another zone ( script ).
+
+See Foswiki:Development/UpdatingExtensionsScriptZone for more details.
+
 =cut
 
 sub addToHEAD {
