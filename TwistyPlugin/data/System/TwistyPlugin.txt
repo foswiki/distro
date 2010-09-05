@@ -329,57 +329,6 @@ linkclass="foswikiButton"
 %ENDTWISTY%
 
 
----+++ Twisty headers
-To be able to use header tags like =&lt;h2&lt;=, use the properties =prefix= and =suffix=. Because we have identical show and hide links we can use the shorthand property =link=.
-
-<verbatim class="tml">
-%TWISTY{
-    prefix="<h4>"
-    mode="div"
-    link="Twisty Header"
-    showimgleft="%ICONURLPATH{toggleopen}%"
-    hideimgleft="%ICONURLPATH{toggleclose}%"
-    suffix="</h4>"
-}%
-%GREEN% my twisty content %ENDCOLOR%
-%ENDTWISTY%
-</verbatim>
-
-Will create:
-
-%TWISTY{
-    prefix="<h4>"
-    mode="div"
-    link="Twisty Header"
-    showimgleft="%ICONURLPATH{toggleopen}%"
-    hideimgleft="%ICONURLPATH{toggleclose}%"
-    suffix="</h4>"
-}%
-%GREEN% my twisty content %ENDCOLOR%
-%ENDTWISTY%
-
-If you don't use images, there is an easier way to create a twisty header:
-
-<verbatim class="tml">
-%TWISTY{
-    mode="div"
-    showlink="<h4>&#9658; Details</h4>"
-    hidelink="<h4>&#9660; Details</h4>"
-}%
-%GREEN% my twisty content %ENDCOLOR%
-%ENDTWISTY%
-</verbatim>
-
-Will create:
-
-%TWISTY{
-    mode="div"
-    showlink="<h4>&#9658; Details</h4>"
-    hidelink="<h4>&#9660; Details</h4>"
-}%
-%GREEN% my twisty content %ENDCOLOR%
-%ENDTWISTY%
-
 ---+++ All on, all off
 
 You can toggle all Twisties on or off at once by putting a link or button on the page with class =twistyExpandAll= or =twistyCollapseAll=.
@@ -494,6 +443,7 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  05 Sep 2010 | 1.6.4 Foswikitask:Item9626: Put link class around link and image. |
 |  24 Aug 2010 | 1.6.3 Foswikitask:Item8573: Fix new dependency on JQueryPlugin |
 |  25 Aug 2010 | 1.6.2 Foswikitask:Item9515: Fix compatibility with browsers running without js (content should always be shown) |
 |  20 Aug 2010 | 1.6.1 Foswikitask:Item9499: Added preference variable to set show/hide transition animation speed (default to none) |

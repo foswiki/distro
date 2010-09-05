@@ -10,6 +10,7 @@ package Foswiki::Plugins::TwistyPlugin;
 
 use Foswiki::Func ();
 use CGI::Cookie   ();
+use CGI           ();
 use strict;
 use warnings;
 
@@ -18,7 +19,7 @@ use vars qw( @twistystack $doneHeader $doneDefaults
 
 our $VERSION = '$Rev$';
 
-our $RELEASE = '1.6.3';
+our $RELEASE = '1.6.4';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -104,7 +105,7 @@ sub _setDefaults {
     $prefMode =
          Foswiki::Func::getPreferencesValue('TWISTYMODE')
       || Foswiki::Func::getPluginPreferencesValue('TWISTYMODE')
-      || 'span';
+      || 'div';
     $prefShowLink =
          Foswiki::Func::getPreferencesValue('TWISTYSHOWLINK')
       || Foswiki::Func::getPluginPreferencesValue('TWISTYSHOWLINK')
@@ -214,7 +215,7 @@ sub _ENDTWISTYTOGGLE {
     my $twisty = pop @twistystack;
 
     return
-"<span class='foswikiAlert'>woops, ordering error: got an ENDTWISTY before seeing a TWISTY</span>"
+"<div class='foswikiAlert'>woops, ordering error: got an ENDTWISTY before seeing a TWISTY</div>"
       unless $twisty->{mode};
 
     my $modeTag = ( $twisty->{mode} ) ? '</' . $twisty->{mode} . '>' : '';
@@ -270,7 +271,6 @@ sub _twistyBtn {
     if ( !defined $link ) {
         $link = $defaultLink || '';
     }
-    my $linkClass = $params->{'linkclass'} ? " $params->{'linkclass'}" : '';
     my $img =
          $params->{ $twistyControlState . 'img' }
       || $params->{'img'}
@@ -297,15 +297,23 @@ sub _twistyBtn {
       ? '<img src="' . $imgleft . '" border="0" alt="" />'
       : '';
 
+    my @linkClasses;
+    push (@linkClasses, $params->{'linkclass'}) if $params->{'linkclass'};
+
     my $imgLinkTag =
-        '<a href="#">'
-      . $imgLeftTag
-      . '<span class="foswikiLinkLabel foswikiUnvisited'
-      . $linkClass . '">'
-      . $link
-      . '</span>'
-      . $imgTag
-      . $imgRightTag . '</a>';
+      CGI::a(
+          {
+              href => '#',
+              class => join(' ', @linkClasses)
+          },
+          $imgLeftTag
+          . CGI::span(
+              { class => 'foswikiLinkLabel foswikiUnvisited' },
+              $link
+              )
+          . $imgTag
+          . $imgRightTag
+      );
 
     my $isTrigger = 1;
     my $props     = '';
@@ -466,7 +474,6 @@ sub _wrapInContentHtmlOpen {
 sub _wrapInContentHtmlClose {
     my ($twisty) = @_;
     my $closeTag = "</$twisty->{mode}>";
-    $closeTag .= '<!--/twistyPlugin-->';
 
     return $closeTag;
 }
@@ -487,8 +494,7 @@ sub _wrapInContainerDivIfNoJavascripClose {
     return
         '</' 
       . $mode
-      . '><!--/twistyPlugin foswikiMakeVisible'
-      . $inlineOrBlock . '-->';
+      . '>';
 }
 
 1;
