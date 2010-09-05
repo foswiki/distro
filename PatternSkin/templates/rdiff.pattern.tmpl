@@ -1,25 +1,21 @@
-%TMPL:INCLUDE{"searchbase"}%
-%TMPL:INCLUDE{"foswiki"}%
+%TMPL:INCLUDE{"rdiff"}%
+
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"([_1] vs. [_2])" args="%REVTITLE2%, %REVTITLE1%"}% %TMPL:END%
 
 
-
 %TMPL:DEF{"bodyclassname"}%patternNoViewPage patternDiffPage%TMPL:END%
-
 
 
 %TMPL:DEF{"pagetitle"}%%MAKETEXT{"Difference:"}% <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%">%TOPIC%</a> %TMPL:P{"titleaction"}%%TMPL:END%
 
 
 
-
-%TMPL:DEF{"header:left"}%<b><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?rev=%REVTITLE1%" title='%MAKETEXT{"Topic revision:"}% %REVINFO2%' rel='nofollow'>%MAKETEXT{"Revision"}% %REVTITLE1%</a></b>%TMPL:END%
-
-%TMPL:DEF{"header:right"}%%REVINFO1%%TMPL:END%
-
-
-%TMPL:DEF{"result"}%<div class="patternDiff"><div class="patternSearchResults">%TMPL:P{"header"}%
-%TEXT%</div><!--/patternSearchResults--></div><!--/patternDiff-->%TMPL:END%
+%TMPL:DEF{"result"}%<div class="foswikiSearchResult patternDiff"><div class="foswikiTopRow">
+<b><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?rev=%REVTITLE1%" title='%MAKETEXT{"Topic revision:"}% %REVINFO2%' rel='nofollow'>%MAKETEXT{"Revision"}% %REVTITLE1%</a></b>
+<div class="foswikiBottomRow"><span class="foswikiSRRev">%REVINFO1%</span></div>
+</div>
+<div class="foswikiSummary">%TEXT%</div>
+</div>%TMPL:END%
 
 
 
@@ -29,5 +25,5 @@
 
 %TMPL:DEF{"content"}%<div class="patternSearchResults">
 %REPEAT%%TMPL:P{"result"}%%REPEAT%
-</div><!--/patternSearchResults-->
+</div>
 %TMPL:P{"topicaction"}%%TMPL:END%

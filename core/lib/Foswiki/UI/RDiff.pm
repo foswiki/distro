@@ -42,7 +42,7 @@ my %format = (
 #TODO: ***URGENT*** the diff rendering dies badly when you have table cell changes and context
 #TODO: ?type={history|diff} so that you can do a normal diff between r1.3 and r1.32 (rather than a history) (and when doing a history, we maybe should not expand %SEARCH...
 
-#| Description: | twiki render a cell of data from a Diff |
+#| Description: | renders a cell of data from a diff |
 #| Parameter: =$data= |  |
 #| Parameter: =$topic= |  |
 #| Return: =$text= | Formatted html text |
@@ -57,10 +57,10 @@ sub _renderCellData {
         $data =~ s/^%META:FIELD{(.*)}%.*$/
           _renderAttrs($1, '|*FORM FIELD $title*|$name|$value|')/gem;
         $data =~ s/^%META:([A-Z]+){(.*)}%$/
-          '|*META '.$1.'*|'._renderAttrs($2).'|'/gem;
+          '|*META '.$1.'*|'._renderAttrs($2).'||'/gem;
         if ( Foswiki::Func::getContext()->{'TablePluginEnabled'} ) {
             $data =
-              '%TABLE{summary="%MAKETEXT{"Attachment metadata"}%"}%' . $data;
+              "\n" . '%TABLE{tablerules="all" databg="#ffffff" headeralign="left"}%' . "\n" . $data;
         }
         $data = $topicObject->expandMacros($data);
         $data = $topicObject->renderTML($data);
@@ -161,10 +161,9 @@ sub _renderSideBySide {
                 bgcolor => $format{l}[0],
                 class   => $format{l}[1],
             },
-            CGI::th( { align => 'center' },
+            CGI::th(
                 ( $session->i18n->maketext( 'Line: [_1]', $left ) ) )
               . CGI::th(
-                { align => 'center' },
                 ( $session->i18n->maketext( 'Line: [_1]', $right ) )
               )
         );
@@ -248,9 +247,13 @@ sub _sequentialRow {
         );
     }
     else {
-        $row = CGI::td( {}, '&nbsp;' );
+        $row = CGI::td(
+            {
+                class   => 'foswikiDiffUnchangedMarker',
+            },
+            '&nbsp;' );
     }
-    $row .= CGI::td( { class => "twikiDiff${bodycls}Text" }, $data );
+    $row .= CGI::td( { class => "foswikiDiff${bodycls}Text" }, $data );
     $row = CGI::Tr( {}, $row );
     if ($bg) {
         return CGI::Tr(
@@ -258,7 +261,7 @@ sub _sequentialRow {
             CGI::td(
                 {
                     bgcolor => $bg,
-                    class   => "twikiDiff${hdrcls}Header",
+                    class   => "foswikiDiff${hdrcls}Header",
                     colspan => 9
                 },
                 CGI::b( {}, $session->i18n->maketext($hdrcls) . ': ' )
@@ -317,7 +320,6 @@ sub _renderSequential {
             },
             CGI::th(
                 {
-                    align   => 'left',
                     colspan => 9
                 },
                 (
@@ -444,7 +446,7 @@ sub _renderRevisionDiff {
 This method is designed to be
 invoked via the =UI::run= method.
 
-Renders the differences between version of a TwikiTopic
+Renders the differences between version of a topic
 | topic | topic that we are showing the differences of |
 | rev1 | the higher revision |
 | rev2 | the lower revision |

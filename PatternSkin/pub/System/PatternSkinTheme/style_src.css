@@ -875,27 +875,6 @@ h4.foswikiSearchResultsHeader {
 }
 .patternSearched {}
 
-
-/* Search results in book view format */
-
-.patternBookView {
-	border-width:0 0 2px 2px;
-	border-style:solid;
-	/* border color in cssdynamic.pattern.tmpl */
-	margin:.5em 0 1.5em -5px;
-	padding:0 0 0 5px;
-}
-.patternBookView .foswikiTopRow {
-	padding:.25em 5px .15em 5px; /*S4*/
-	margin:1em -5px .15em -5px; /*S4*/
-}
-.patternBookView .foswikiBottomRow {
-	font-size:100%;
-	padding:1em 0 1em 0;
-	width:auto;
-	border:none;
-}
-
 /* pages that are not view */
 
 /* edit.pattern.tmpl */
@@ -978,44 +957,50 @@ h4.foswikiSearchResultsHeader {
 /* rdiff.pattern.tmpl */
 
 .patternDiff {
-	/* same as patternBookView */
-	border-width:0 0 2px 2px;
+	border-width:1px;
 	border-style:solid;
-	margin:.5em 0 1.5em 0;
-	padding:0 0 0 10px;
-}
-.patternDiff h4.foswikiSearchResultsHeader {
-	padding:.5em 10px;
-}
-.patternDiffPage .patternRevInfo ul {
+	margin:1em 0;
 	padding:0;
-	margin:2em 0 0 0;
-	list-style:none;
 }
-.patternDiffPage .foswikiDiffTable {
-	margin:2em 0;
+.patternDiff .foswikiTopRow {
+	padding:10px 20px;
+}
+.foswikiDiffTable {
+	border-width:1px;
+	border-style:solid none none none;
 }
 .foswikiDiffDebug {
     /* same styling as pre and code */
     font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
     font-size:86%;
-    white-space:pre;
 }
-tr.foswikiDiffDebug td {
-	border-width:1px;
-	border-style:solid;
-}
-.patternDiffPage td.foswikiDiffDebugLeft {
+td.foswikiDiffDebugLeft {
 	border-bottom:none;
 }
-.patternDiffPage .foswikiDiffTable th {
-	padding:.25em .5em;
+.foswikiDiffTable th,
+.foswikiDiffTable td {
+	padding:10px 20px;
+	line-height:1.5em;
+	vertical-align:top;
 }
-.patternDiffPage .foswikiDiffTable td {
-	padding:.25em;
+.foswikiDiffTable table th,
+.foswikiDiffTable table td {
+	padding:5px 10px;
 }
-.foswikiDiffLineNumberHeader {
-	padding:.3em 0;
+.foswikiDiffMetaTable th,
+.foswikiDiffMetaTable td {
+	text-align:left;
+}
+.foswikiDiffUnchangedMarker,
+.foswikiDiffDeletedMarker,
+.foswikiDiffAddedMarker,
+.foswikiDiffChangedText {
+	width:6px !important;
+	border-width:6px;
+	border-style:none solid none none;
+}
+.foswikiDiffLineNumberHeader th {
+	text-align:left;
 }
 
 .mceContentBody {

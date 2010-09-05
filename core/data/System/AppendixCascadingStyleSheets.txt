@@ -137,6 +137,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 
 ---+++ History
 |=.foswikiDiffTable=                 | Revision table  |
+|=.foswikiMarker=                    | Demarkation of part |
 |=.foswikiDiffDeletedMarker=         | Demarkation of part that has been deleted |
 |=.foswikiDiffDeletedText=           | Demarkation of part that has been deleted |
 |=.foswikiDiffAddedHeader=           | Demarkation of part that has been added |
@@ -144,6 +145,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiDiffAddedText=             | Demarkation of part that has been added |
 |=.foswikiDiffChangedHeader=         | Demarkation of part that has been changed |
 |=.foswikiDiffChangedText=           | Demarkation of part that has been changed |
+|=.foswikiDiffUnchangedMarker=       | Demarkation of part that has been unchanged |
 |=.foswikiDiffUnchangedText=         | Demarkation of part that has been unchanged |
 |=.foswikiDiffUnchangedTextContents= | Demarkation of part that has been unchanged |
 |=.foswikiDiffLineNumberHeader=      |  |
