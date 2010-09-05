@@ -15,306 +15,462 @@
 package Foswiki::Plugins::ZonePlugin;
 
 use strict;
-use Foswiki::Func ();
+use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
 our $VERSION = '$Rev$';
-our $RELEASE = '2.1';
-our $SHORTDESCRIPTION = 'Gather content of a page in named zones while rendering it';
+our $RELEASE = '3.0';
+our $SHORTDESCRIPTION =
+  'Gather content of a page in named zones while rendering it';
 our $NO_PREFS_IN_TOPIC = 1;
 
-# hash of all content posted to the named zone using ADDTOZONE
-our %ZONES;
+# Note: the following marker is used in text to mark RENDERZONE
+# macros that have been hoisted from the source text of a page. It is
+# carefully chosen so that it is (1) not normally present in written
+# text (2) does not combine with other characters to form valid
+# wide-byte characters and (3) does not conflict with other markers used
+# by Foswiki/Render.pm
+our $RENDERZONE_MARKER = "\3";
 
-# hash tracking occurences of RENDERZONE, that are replaced with a token during
-# first pass, then expanded showing all gathered content in completePageHandler
-our %RENDERZONE; 
-                 
-# token used to generate the RENDERZONE placeholder while parsing
-our $translationToken = "\03";
+# This allows us to basically copy-paste the code from trunk's Foswiki.pm
+my $this;
 
 # monkey-patch API ###########################################################
 BEGIN {
-  if ($Foswiki::cfg{Plugins}{ZonePlugin}{Enabled} && !defined(&Foswiki::Func::addToZone)) {
-    no warnings 'redefine';
-    *Foswiki::Func::addToZone = \&Foswiki::Plugins::ZonePlugin::addToZone;
-    *Foswiki::Func::addToHEAD = \&Foswiki::Plugins::ZonePlugin::addToHead;
-    use warnings 'redefine';
-  } else {
-    #print STDERR "suppressing monkey patching via ZonePlugin\n";
-  }
+    if ( $Foswiki::cfg{Plugins}{ZonePlugin}{Enabled}
+        && !defined(&Foswiki::Func::addToZone) )
+    {
+        no warnings 'redefine';
+        *Foswiki::Func::addToZone = \&Foswiki::Plugins::ZonePlugin::addToZone;
+        *Foswiki::Func::addToHEAD = \&Foswiki::Plugins::ZonePlugin::addToHead;
+        use warnings 'redefine';
+    }
+    else {
+
+        #print STDERR "suppressing monkey patching via ZonePlugin\n";
+    }
 }
 
 ##############################################################################
 sub initPlugin {
+    my ($topic, $web) = @_;
 
-  if ($Foswiki::Plugins::VERSION >= 2.1) {
-    Foswiki::Func::writeWarning("ZonePlugin is not compatible with your Foswiki version");
-    return 0;
-  }
+    if ( $Foswiki::Plugins::VERSION >= 2.1 ) {
+        Foswiki::Func::writeWarning(
+            "ZonePlugin is not compatible with your Foswiki version");
+        return 0;
+    }
 
-  Foswiki::Func::registerTagHandler('ADDTOZONE', \&ADDTOZONE);
-  Foswiki::Func::registerTagHandler('RENDERZONE', \&RENDERZONE);
+    Foswiki::Func::registerTagHandler( 'ADDTOZONE',  \&ADDTOZONE );
+    Foswiki::Func::registerTagHandler( 'RENDERZONE', \&RENDERZONE );
 
-  # redefine
-  Foswiki::Func::registerTagHandler('ADDTOHEAD', \&ADDTOHEAD);
+    # redefine
+    Foswiki::Func::registerTagHandler( 'ADDTOHEAD', \&ADDTOHEAD );
 
-  Foswiki::Func::writeWarning("running in backwards compatibility mode ... page layout suboptimal")
-    if $Foswiki::cfg{ZonePlugin}{Warnings};
+    # This allows us to basically copy-paste the code from trunk's Foswiki.pm
+    $this = bless(
+        {
+            _zones                 => undef,
+            _renderZonePlaceholder => undef,
+            _addedToHEAD           => undef,
+            webName                => $web,
+            topicName              => $topic
+        },
+        'Foswiki::Plugins::ZonePlugin'
+    );
 
-  return 1;
+    return 1;
 }
 
 ##############################################################################
 sub completePageHandler {
-  # my ($text, $hdr)
-
-  $_[0] =~ s/${translationToken}RENDERZONE{(.*?)}${translationToken}/renderZoneById($1)/ge;
-
-  # get the head zone ones again and insert it at </head>
-  my $headZone = renderZone('head', {chomp=>"on"}) || '';
-  $_[0] =~ s!(</head>)!$headZone\n$1!i if $headZone;
-
-  # get the body zone ones again and insert it at </body>
-  my $bodyZone = renderZone('body', {chomp=>"on"}) || '';
-
-  # in compatibility mode all body material is still appended to the head
-  if ($bodyZone) {
-
-    my $optimizePageLayout = $Foswiki::cfg{OptimizePageLayout};
-
-    # check for an old plugin specific setting
-    $optimizePageLayout = ($Foswiki::cfg{ZonePlugin}{BackwardsCompatible}?0:1)
-      unless defined $optimizePageLayout;
-
-    unless($optimizePageLayout) {
-      $_[0] =~ s!(</head>)!$bodyZone\n$1!i;
-    } else {
-      $_[0] =~ s!(</body>)!$bodyZone\n$1!i;
+    if ( $contentType ne 'text/plain' ) {
+        $text = $this->_renderZones($text);
     }
-  }
 
-  # finally forget it
-  %ZONES = ();
-  %RENDERZONE = ();
+    return;
+}
 
+=begin TML
+
+---+++ addToHEAD( $id, $data, $requires )
+
+Adds =$data= to the HTML header (the <head> tag).
+
+*Deprecated* 26 Mar 2010 - use =addZoZone('head', ...)=.
+
+=cut
+
+sub addToHEAD {
+    $Foswiki::Plugins::SESSION->addToZone( 'head', @_ );
 }
 
 ##############################################################################
 sub ADDTOHEAD {
-  my ($sessions, $params, $theTopic, $theWeb) = @_;
+    my ( $this, $args, $topicObject ) = @_;
 
-  my $tag = $params->{_DEFAULT} || '';
-  my $topic = $params->{topic} || '';
-  my $text = $params->{text} || '';
-  my $requires = $params->{requires} || '';
+    my $_DEFAULT = $args->{_DEFAULT};
+    my $text     = $args->{text};
+    my $topic    = $args->{topic};
+    my $requires = $args->{requires};
+    if ( defined $args->{topic} ) {
+        my ( $web, $topic ) =
+          $this->normalizeWebTopicName( $topicObject->web, $args->{topic} );
 
-  # SMELL: strange use case
-  $text = $tag unless $text;
+        # prevent deep recursion
+        $web =~ s/\//\./g;    # SMELL: unnecessary?
+        unless ( $this->{_addedToHEAD}{"$web.$topic"} ) {
+            my $atom = Foswiki::Meta->load( $this, $web, $topic );
+            $text = $atom->text();
+            $this->{_addedToHEAD}{"$web.$topic"} = 1;
+        }
+    }
+    $text = $_DEFAULT unless defined $text;
+    $text = ''        unless defined $text;
 
-  Foswiki::Func::writeWarning("use of deprecated ADDTOHEAD in $theWeb.$theTopic")
-    if $Foswiki::cfg{ZonePlugin}{Warnings};
-
-  addToHead($tag, $text, $requires, 1);
-  return '';
+    $this->addToZone( 'head', $_DEFAULT, $text, $requires );
+    return '';
 }
 
 ##############################################################################
 sub ADDTOZONE {
-  my ($session, $params, $theTopic, $theWeb) = @_;
+    my ( $this, $params, $topicObject ) = @_;
 
-  my $zones = $params->{_DEFAULT} || $params->{zone} || 'head';
-  my $tag = $params->{tag} || '';
-  my $topic = $params->{topic} || '';
-  my $section = $params->{section} || '';
-  my $requires = $params->{requires} || '';;
-  my $text = $params->{text} || '';
-  my $web = $theWeb;
+    my $zones = $params->{_DEFAULT} || $params->{zone} || 'head';
+    my $id    = $params->{id}       || $params->{tag}  || '';
+    my $topic = $params->{topic}    || '';
+    my $section  = $params->{section}  || '';
+    my $requires = $params->{requires} || '';
+    my $text     = $params->{text}     || '';
 
-  if ($topic || $section) {
-    $web ||= $theWeb;
-    $topic ||= $theTopic;
-    ($web, $topic) = Foswiki::Func::normalizeWebTopicName($web, $topic);
-    $text = '%INCLUDE{"' . $web . '.' . $topic . '"';
-    $text .= ' section="' . $section . '"' if $section;
-    $text .= ' warn="off"}%';
-  }
+    # when there's a topic or a section parameter, then create an include
+    # this overrides the text parameter
+    if ( $topic || $section ) {
+        my $web = $topicObject->web;
+        $topic ||= $topicObject->topic;
+        ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
 
-  foreach my $zone (split(/\s*,\s*/, $zones)) {
-    addToZone($zone, $tag, $text, $requires);
-  }
-
-  return '';
-}
-
-##############################################################################
-# backwards compatibility 
-sub addToHead {
-  my ($tag, $text, $requires, $nowarn) = @_;
-
-  if ($Foswiki::cfg{ZonePlugin}{Warnings} && !$nowarn) {
-    # suppress warning of when it has already been emited during ADDTOHEAD
-    my ($package, $filename, $line) = caller;
-    Foswiki::Func::writeWarning("use of deprecated API addToHEAD at $package line $line")
-  }
-
-  # rough check for javascript
-  # if it contains text/javascript then set it to 'body'
-  # if it also contains text/css then switch it back to 'head' ... won't be optimized
-  my $zone = 'head';
-  #$zone = 'body' if $Foswiki::cfg{OptimizePageLayout} && $text =~ /type=["']text\/javascript["']/;
-
-  addToZone($zone, $tag, $text, $requires);
-
-  return '';
-}
-
-##############################################################################
-sub addToZone {
-  my ($zone, $tag, $text, $requires) = @_;
-
-  return unless $text;
-  $requires ||= '';
-
-  unless ($tag)  {
-    # get a random one
-    $tag = int(rand(10000)) +1;
-  }
-  
-  # get zone, or create record
-  my $thisZone = $ZONES{$zone};
-  unless (defined $thisZone) {
-    $ZONES{$zone} = $thisZone = {};
-  }
-
-  my @requires;
-  foreach my $req (split(/\s*,\s*/, $requires)) {
-    unless ($thisZone->{$req}) {
-      $thisZone->{$req} = {
-        tag => $req,
-        requires => [],
-        text => '',
-      };
+        # generate TML only and delay expansion until the zone is rendered
+        $text = '%INCLUDE{"' . $web . '.' . $topic . '"';
+        $text .= ' section="' . $section . '"' if $section;
+        $text .= ' warn="off"}%';
     }
-    push(@requires, $thisZone->{$req});
-  }
 
-  # store records
-  my $record = $thisZone->{$tag};
-  unless ($record) {
-    $record = { tag=>$tag };
-    $thisZone->{$tag} = $record;
-  }
+    foreach my $zone ( split( /\s*,\s*/, $zones ) ) {
+        $this->addToZone( $zone, $id, $text, $requires );
+    }
 
-  # override previous properties
-  $record->{requires} = \@requires;
-  $record->{text} = $text;
+    return (DEBUG) ? "<!--A2Z:$id-->" : '';
 }
 
 ##############################################################################
-# captures all RENDERZONE macros and inserts a token to finally insert the 
+# captures all RENDERZONE macros and inserts a token to finally insert the
 # one's content at the end of the rendering pipeline
 sub RENDERZONE {
-  my ($sessions, $params, $topic, $web) = @_;
+    my ( $this, $params, $topicObject ) = @_;
 
-  my $id = scalar(keys %RENDERZONE);
+    # Note, that RENDERZONE is not expanded as soon as this function is called.
+    # Instead, a placeholder is inserted into the page. Rendering the current
+    # page continues as normal. That way all calls to ADDTOZONE will gather
+    # content until the end of the rendering pipeline. Only then will all
+    # of the zones' content be registered. The placeholder for RENDERZONE
+    # will be expanded at the very end within the Foswiki::writeCompletePage
+    # method.
 
-  $RENDERZONE{$id} = {
-    params => $params,
-    topic => $topic,
-    web => $web,
-  };
+    my $id = scalar( keys %{ $this->{_renderZonePlaceholder} } );
 
-  return $translationToken."RENDERZONE{$id}".$translationToken;
+    $this->{_renderZonePlaceholder}{$id} = {
+        params      => $params,
+        topicObject => $topicObject,
+    };
+
+    return
+        $Foswiki::RENDERZONE_MARKER
+      . "RENDERZONE{$id}"
+      . $Foswiki::RENDERZONE_MARKER;
 }
 
-##############################################################################
-sub renderZoneById {
-  my $id = shift;
+=begin TML
 
-  return '' unless defined $id;
+---++ ObjectMethod addToZone($zone, $id, $data, $requires)
 
-  my $renderZone = $RENDERZONE{$id};
+Add =$data= identified as =$id= to =$zone=, which will later be expanded (with
+renderZone() - implements =%<nop>RENDERZONE%=). =$ids= are unique within
+the zone that they are added - dependencies between =$ids= in different zones 
+will not be resolved, except for the special case of =head= and =script= zones
+when ={MergeHeadAndScriptZones}= is enabled.
 
-  return '' unless defined $renderZone;
+In this case, they are treated as separate zones when adding to them, but as
+one merged zone when rendering, i.e. a call to render either =head= or =script=
+zones will actually render both zones in this one call. Both zones are undef'd
+afterward to avoid double rendering of content from either zone, to support
+proper behaviour when =head= and =script= are rendered with separate calls even
+when ={MergeHeadAndScriptZones}= is set. See ZoneTests/explicit_RENDERZONE*.
 
-  my $web = $renderZone->{web};
-  my $topic = $renderZone->{topic};
-  my $params = $renderZone->{params};
-  my $zone = $params->{_DEFAULT} || $params->{zone};
+This behaviour allows an addToZone('head') call to require an id that has been
+added to =script= only.
 
-  return renderZone($zone, $params, $web, $topic);
-}
+   * =$zone=      - name of the zone
+   * =$id=        - unique identifier
+   * =$data=      - content
+   * =$requires=  - optional, comma-separated string of =$id= identifiers
+                    that should precede the content
 
-##############################################################################
-sub renderZone {
-  my ($zone, $params, $web, $topic) = @_;
+<blockquote class="foswikiHelp">%X%
+*Note:* Read the developer supplement at Foswiki:Development.AddToZoneFromPluginHandlers if you
+are calling =addToZone()= from a rendering or macro/tag-related plugin handler
+</blockquote>
 
-  return '' unless $zone && $ZONES{$zone};
+Implements =%<nop>ADDTOZONE%=.
 
-  $params->{header} ||= '';
-  $params->{footer} ||= '';
-  $params->{chomp} ||= 'off';
+=cut
 
-  $params->{format} = '$item <!-- $tag -->' unless defined $params->{format};
-  $params->{separator} = '$n' unless defined $params->{separator};
+sub addToZone {
+    my ( $this, $zone, $id, $data, $requires ) = @_;
 
-  # Loop through the vertices of the graph, in any order, initiating
-  # a depth-first search for any vertex that has not already been
-  # visited by a previous search. The desired topological sorting is
-  # the reverse postorder of these searches. That is, we can construct
-  # the ordering as a list of vertices, by adding each vertex to the
-  # start of the list at the time when the depth-first search is
-  # processing that vertex and has returned from processing all children
-  # of that vertex. Since each edge and vertex is visited once, the
-  # algorithm runs in linear time.
-  my %visited;
-  my @total;
-  foreach my $v (values %{ $ZONES{$zone} }) {
-    visit($v, \%visited, \@total);
-  }
+    $requires ||= '';
 
-  # kill a zone ones it has been rendered
-  undef $ZONES{$zone};
-
-  my @result = ();
-  foreach my $item (@total) {
-    my $text = $item->{text};
-    if ($params->{'chomp'}) {
-      $text =~ s/^\s+//g;
-      $text =~ s/\s+$//g;
+    # get a random one
+    unless ($id) {
+        $id = int( rand(10000) ) + 1;
     }
-    next unless $text;
-    my $tag = $item->{tag} || '';
-    my $line = $params->{format};
-    $line =~ s/\$item\b/$text/g;
-    $line =~ s/\$tag\b/$tag/g;
-    $line = Foswiki::Func::decodeFormatTokens($line);
-    next unless $line;
-    push @result, $line if $line;
-  }
 
-  $params->{separator} = Foswiki::Func::decodeFormatTokens($params->{separator});
+    # get zone, or create record
+    my $thisZone = $this->{_zones}{$zone};
+    unless ( defined $thisZone ) {
+        $this->{_zones}{$zone} = $thisZone = {};
+    }
 
-  my $result = $params->{header} . join($params->{separator}, @result) . $params->{footer};
-  $result = Foswiki::Func::expandCommonVariables($result, $topic, $web);
-  $result = Foswiki::Func::renderText($result, $web, $topic);
+    my @requires;
+    foreach my $req ( split( /\s*,\s*/, $requires ) ) {
+        unless ( $thisZone->{$req} ) {
+            $thisZone->{$req} = {
+                id              => $req,
+                zone            => $zone,
+                requires        => [],
+                missingrequires => [],
+                text            => '',
+                populated       => 0
+            };
+        }
+        push( @requires, $thisZone->{$req} );
+    }
 
-  return $result;
+    # store record within zone
+    my $zoneID = $thisZone->{$id};
+    unless ($zoneID) {
+        $zoneID = { id => $id };
+        $thisZone->{$id} = $zoneID;
+    }
+
+    # override previous properties
+    $zoneID->{zone}            = $zone;
+    $zoneID->{requires}        = \@requires;
+    $zoneID->{missingrequires} = [];
+    $zoneID->{text}            = $data;
+    $zoneID->{populated}       = 1;
+
+    return;
 }
 
-##############################################################################
-sub visit {
-  my ($v, $visited, $list) = @_;
+sub _renderZoneById {
+    my $this = shift;
+    my $id   = shift;
 
-  return if $visited->{$v};
-  $visited->{$v} = 1;
+    return '' unless defined $id;
 
-  foreach my $r (@{ $v->{requires} }) {
-    visit($r, $visited, $list);
-  }
+    my $renderZone = $this->{_renderZonePlaceholder}{$id};
 
-  push(@$list, $v);
+    return '' unless defined $renderZone;
+
+    my $params      = $renderZone->{params};
+    my $topicObject = $renderZone->{topicObject};
+    my $zone        = $params->{_DEFAULT} || $params->{zone};
+
+    return _renderZone( $this, $zone, $params, $topicObject );
+}
+
+# This private function is used in ZoneTests
+sub _renderZone {
+    my ( $this, $zone, $params, $topicObject ) = @_;
+
+    # Check the zone is defined and has not already been rendered
+    return '' unless $zone && $this->{_zones}{$zone};
+
+    $params->{header} ||= '';
+    $params->{footer} ||= '';
+    $params->{chomp}  ||= 'off';
+    $params->{missingformat} = '$id: requires= missing ids: $missingids';
+    $params->{format}        = '$item<!--<literal>$missing</literal>-->'
+      unless defined $params->{format};
+    $params->{separator} = '$n()' unless defined $params->{separator};
+
+    unless ( defined $topicObject ) {
+        $topicObject =
+          Foswiki::Meta->new( $this, $this->{webName}, $this->{topicName} );
+    }
+
+    # Loop through the vertices of the graph, in any order, initiating
+    # a depth-first search for any vertex that has not already been
+    # visited by a previous search. The desired topological sorting is
+    # the reverse postorder of these searches. That is, we can construct
+    # the ordering as a list of vertices, by adding each vertex to the
+    # start of the list at the time when the depth-first search is
+    # processing that vertex and has returned from processing all children
+    # of that vertex. Since each edge and vertex is visited once, the
+    # algorithm runs in linear time.
+    my %visited;
+    my @total;
+
+    # When {MergeHeadAndScriptZones} is set, try to treat head and script
+    # zones as merged for compatibility with ADDTOHEAD usage where requirements
+    # have been moved to the script zone. See ZoneTests/Item9317
+    if ( $Foswiki::cfg{MergeHeadAndScriptZones}
+        and ( ( $zone eq 'head' ) or ( $zone eq 'script' ) ) )
+    {
+        my @zoneIDs = (
+            values %{ $this->{_zones}{head} },
+            values %{ $this->{_zones}{script} }
+        );
+
+        foreach my $zoneID (@zoneIDs) {
+            $this->_visitZoneID( $zoneID, \%visited, \@total );
+        }
+        undef $this->{_zones}{head};
+        undef $this->{_zones}{script};
+    }
+    else {
+        my @zoneIDs = values %{ $this->{_zones}{$zone} };
+
+        foreach my $zoneID (@zoneIDs) {
+            $this->_visitZoneID( $zoneID, \%visited, \@total );
+        }
+
+        # kill a zone once it has been rendered, to prevent it being
+        # added twice (e.g. by duplicate %RENDERZONEs or by automatic
+        # zone expansion in the head or script)
+        undef $this->{_zones}{$zone};
+    }
+
+    # nothing rendered for a zone with no ADDTOZONE calls
+    return '' unless scalar(@total) > 0;
+
+    my @result        = ();
+    my $missingformat = $params->{missingformat};
+    foreach my $item (@total) {
+        my $text       = $item->{text};
+        my @missingids = @{ $item->{missingrequires} };
+        my $missingformat =
+          ( scalar(@missingids) ) ? $params->{missingformat} : '';
+
+        if ( $params->{'chomp'} ) {
+            $text =~ s/^\s+//g;
+            $text =~ s/\s+$//g;
+        }
+
+        # ASSERT($text, "No content for zone id $item->{id} in zone $zone")
+        # if DEBUG;
+
+        next unless $text;
+        my $id = $item->{id} || '';
+        my $line = $params->{format};
+        if ( scalar(@missingids) ) {
+            $line =~ s/\$missing\b/$missingformat/g;
+            $line =~ s/\$missingids\b/join(', ', @missingids)/ge;
+        }
+        else {
+            $line =~ s/\$missing\b/\$id/g;
+        }
+        $line =~ s/\$item\b/$text/g;
+        $line =~ s/\$id\b/$id/g;
+        $line =~ s/\$zone\b/$item->{zone}/g;
+        $line = expandStandardEscapes($line);
+        push @result, $line if $line;
+    }
+    my $result =
+      expandStandardEscapes( $params->{header}
+          . join( $params->{separator}, @result )
+          . $params->{footer} );
+
+    # delay rendering the zone until now
+    $result = $topicObject->expandMacros($result);
+    $result = $topicObject->renderTML($result);
+
+    return $result;
+}
+
+sub _visitZoneID {
+    my ( $this, $zoneID, $visited, $list ) = @_;
+
+    return if $visited->{$zoneID};
+
+    $visited->{$zoneID} = 1;
+
+    foreach my $requiredZoneID ( @{ $zoneID->{requires} } ) {
+        my $zoneIDToVisit;
+
+        if ( $Foswiki::cfg{MergeHeadAndScriptZones}
+            and not $requiredZoneID->{populated} )
+        {
+
+            # Compatibility mode, where we are trying to treat head and script
+            # zones as merged, and a required ZoneID isn't populated. Try
+            # opposite zone to see if it exists there instead. Item9317
+            if ( $requiredZoneID->{zone} eq 'head' ) {
+                $zoneIDToVisit =
+                  $this->{_zones}{script}{ $requiredZoneID->{id} };
+            }
+            else {
+                $zoneIDToVisit = $this->{_zones}{head}{ $requiredZoneID->{id} };
+            }
+            if ( not $zoneIDToVisit->{populated} ) {
+
+                # Oops, the required ZoneID doesn't exist there either; reset
+                $zoneIDToVisit = $requiredZoneID;
+            }
+        }
+        else {
+            $zoneIDToVisit = $requiredZoneID;
+        }
+        $this->_visitZoneID( $zoneIDToVisit, $visited, $list );
+
+        if ( not $zoneIDToVisit->{populated} ) {
+
+            # Finally, we got to here and the required ZoneID just cannot be
+            # found in either head or script (or other) zones, so record it for
+            # diagnostic purposes ($missingids format token)
+            push( @{ $zoneID->{missingrequires} }, $zoneIDToVisit->{id} );
+        }
+    }
+    push( @{$list}, $zoneID );
+
+    return;
+}
+
+# This private function is used in ZoneTests
+sub _renderZones {
+    my ( $this, $text ) = @_;
+
+    # Render zones that were pulled out by Foswiki/Macros/RENDERZONE.pm
+    # NOTE: once a zone has been rendered it is cleared, so cannot
+    # be rendered again.
+
+    $text =~ s/${RENDERZONE_MARKER}RENDERZONE{(.*?)}${RENDERZONE_MARKER}/
+      _renderZoneById($this, $1)/geo;
+
+    # get the head zone and insert it at the end of the </head>
+    # *if it has not already been rendered*
+    my $headZone = _renderZone( $this, 'head', { chomp => "on" } );
+    $text =~ s!(</head>)!$headZone\n$1!i if $headZone;
+
+  # SMELL: Item9480 - can't trust that _renderzone(head) above has truly
+  # flushed both script and head zones empty when {MergeHeadAndScriptZones} = 1.
+    my $scriptZone = _renderZone( $this, 'script', { chomp => "on" } );
+    $text =~ s!(</head>)!$scriptZone\n$1!i if $scriptZone;
+
+    chomp($text);
+
+    return $text;
 }
 
 1;

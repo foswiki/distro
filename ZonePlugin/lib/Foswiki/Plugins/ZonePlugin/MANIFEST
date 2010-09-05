@@ -3,3 +3,4 @@ data/System/VarRENDERZONE.txt 0644
 data/System/ZonePlugin.txt 0644
 lib/Foswiki/Plugins/ZonePlugin/Config.spec 0644
 lib/Foswiki/Plugins/ZonePlugin.pm 0644
+lib/Foswiki/Configure/Checkers/MergeHeadAndScriptZones.pm 0644
