@@ -8,7 +8,7 @@ our @ISA = qw( FoswikiTestCase );
 
 sub new {
     my $class = shift;
-    my $this = $class->SUPER::new(@_);
+    my $this  = $class->SUPER::new(@_);
     $this->{test_web}   = 'Temporary' . $class . 'TestWeb';
     $this->{test_topic} = 'TestTopic' . $class;
     return $this;
@@ -22,18 +22,19 @@ sub set_up {
     # Disable plugins which add noise
     $Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled} = 0;
     $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled} = 0;
-    $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 0;
+    $Foswiki::cfg{Plugins}{TablePlugin}{Enabled}  = 0;
 
     my $query = new Unit::Request("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    $this->{session}           = new Foswiki( undef, $query );
-    $this->{request}           = $query;
-    $this->{response}          = new Unit::Response();
+    $this->{session}  = new Foswiki( undef, $query );
+    $this->{request}  = $query;
+    $this->{response} = new Unit::Response();
 
     $this->{test_topicObject} = Foswiki::Meta->new(
         $this->{session},    $this->{test_web},
-        $this->{test_topic}, "BLEEGLE\n");
+        $this->{test_topic}, "BLEEGLE\n"
+    );
 }
 
 sub test_1 {
@@ -328,12 +329,12 @@ HERE
 sub _setMergeZones {
     my ( $this, $merge ) = @_;
 
-    $Foswiki::cfg{MergeHeadAndBodyZones} = $merge;
+    $Foswiki::cfg{MergeHeadAndScriptZones} = $merge;
 
     return;
 }
 
-sub test_Unoptimized_HEAD_merged_with_SCRIPT {
+sub test_HEAD_merged_with_SCRIPT {
     my $this = shift;
     $this->_setMergeZones(1);
 
@@ -356,27 +357,24 @@ HEAD:
 head::misc7<!--misc7-->
 text2<!--head2-->
 text1<!--head1-->
-text5<!--head5-->
-SCRIPT:
-script::misc7<!--misc7-->
-text4<!--script4: requires= missing ids: head2-->
-text6<!--script6: requires= missing ids: something-missing, head2, something-missing-->
+text4<!--script4-->
 text3<!--script3-->
+text6<!--script6: requires= missing ids: something-missing-->
+text5<!--head5-->
+script::misc7<!--misc7-->
+SCRIPT:
 HERE
     chomp($expect);
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = "HEAD:\n"
-      . $this->{session}->_renderZone( "head", );
+    my $result = "HEAD:\n" . $this->{session}->_renderZone( "head", );
     $result =
-        $result
-      . "\nSCRIPT:\n"
-      . $this->{session}->_renderZone( "script", );
+      $result . "\nSCRIPT:" . $this->{session}->_renderZone( "script", );
     $this->assert_equals( $expect, $result );
 
     return;
 }
 
-sub test_Optimized_HEAD_split_from_SCRIPT {
+sub test_HEAD_split_from_SCRIPT {
     my $this = shift;
     $this->_setMergeZones(0);
 
@@ -408,18 +406,14 @@ text3<!--script3-->
 HERE
     chomp($expect);
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = "HEAD:\n"
-      . $this->{session}->_renderZone( "head" );
-    $result =
-        $result
-      . "\nSCRIPT:\n"
-      . $this->{session}->_renderZone( "script" );
+    my $result = "HEAD:\n" . $this->{session}->_renderZone("head");
+    $result = $result . "\nSCRIPT:\n" . $this->{session}->_renderZone("script");
     $this->assert_equals( $expect, $result );
 
     return;
 }
 
-sub test_explicit_RENDERZONE_no_optimization {
+sub test_explicit_RENDERZONE_merged {
     my $this = shift;
     $this->_setMergeZones(1);
 
@@ -448,12 +442,12 @@ script_1<!--script1-->
 </body>
 HERE
     chomp($expect);
-    $tml = $this->{test_topicObject}->expandMacros( $tml );
-    my $result = $this->{session}->_renderZones( $tml );
-    $this->assert_str_equals($expect, $result);
+    $tml = $this->{test_topicObject}->expandMacros($tml);
+    my $result = $this->{session}->_renderZones($tml);
+    $this->assert_str_equals( $expect, $result );
 }
 
-sub test_explicit_RENDERZONE_with_optimization {
+sub test_explicit_RENDERZONE_unmerged {
     my $this = shift;
     $this->_setMergeZones(0);
 
@@ -481,9 +475,9 @@ script_1<!--script1: requires= missing ids: head1--><!--script-->
 </body>
 HERE
     chomp($expect);
-    $tml = $this->{test_topicObject}->expandMacros( $tml );
-    my $result = $this->{session}->_renderZones( $tml );
-    $this->assert_str_equals($expect, $result);
+    $tml = $this->{test_topicObject}->expandMacros($tml);
+    my $result = $this->{session}->_renderZones($tml);
+    $this->assert_str_equals( $expect, $result );
 }
 
 sub test_legacy_tag_param_compatibility {
@@ -491,7 +485,7 @@ sub test_legacy_tag_param_compatibility {
     $this->_setMergeZones(0);
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
-    my $tml = <<'HERE';
+    my $tml       = <<'HERE';
 %ADDTOHEAD{                  "head1" text="text1" requires="head2"}%
 %ADDTOZONE{zone="head"    id="head2" text="this-text-will-be-ignored"}%
 %ADDTOZONE{zone="head"   tag="head2" text="text2"}%
@@ -514,12 +508,8 @@ text3<!--script3-->
 HERE
     chomp($expect);
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = "HEAD:\n"
-      . $this->{session}->_renderZone( "head" );
-    $result =
-        $result
-      . "\nSCRIPT:\n"
-      . $this->{session}->_renderZone( "script" );
+    my $result = "HEAD:\n" . $this->{session}->_renderZone("head");
+    $result = $result . "\nSCRIPT:\n" . $this->{session}->_renderZone("script");
     $this->assert_equals( $expect, $result );
 
     return;
@@ -546,9 +536,9 @@ HERE
 <!--A2Z:null-->
 HERE
     chomp($expect);
-    $tml = $this->{test_topicObject}->expandMacros( $tml );
-    my $result = $this->{session}->_renderZones( $tml );
-    $this->assert_str_equals($expect, $result);
+    $tml = $this->{test_topicObject}->expandMacros($tml);
+    my $result = $this->{session}->_renderZones($tml);
+    $this->assert_str_equals( $expect, $result );
 }
 
 1;

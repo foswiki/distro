@@ -2097,11 +2097,16 @@ sub finish {
     undef $this->{sandbox};
     undef $this->{evaluatingEval};
 
-    undef $this->{DebugVerificationCode}; # from Foswiki::UI::Register
+    undef $this->{DebugVerificationCode};    # from Foswiki::UI::Register
 
     if (DEBUG) {
-        my $remaining = join ',', grep {defined $this->{$_}} keys %$this;
-        ASSERT(0, "Fields with defined values in ".ref($this)."->finish(): ". $remaining) if $remaining;
+        my $remaining = join ',', grep { defined $this->{$_} } keys %$this;
+        ASSERT( 0,
+                "Fields with defined values in "
+              . ref($this)
+              . "->finish(): "
+              . $remaining )
+          if $remaining;
     }
 }
 
@@ -3367,11 +3372,11 @@ sub _renderZone {
     my %visited;
     my @total;
 
-    # When {MergeHeadAndBodyZones} is set, try to treat head and script
+    # When {MergeHeadAndScriptZones} is set, try to treat head and script
     # zones as merged for compatibility with ADDTOHEAD usage where requirements
     # have been moved to the script zone. See ZoneTests/Item9317
     if ( $Foswiki::cfg{MergeHeadAndScriptZones}
-        and ( $zone eq 'head' or $zone eq 'script' ) )
+        and ( ( $zone eq 'head' ) or ( $zone eq 'script' ) ) )
     {
         my @zoneIDs = (
             values %{ $this->{_zones}{head} },
@@ -3454,7 +3459,7 @@ sub _visitZoneID {
     foreach my $requiredZoneID ( @{ $zoneID->{requires} } ) {
         my $zoneIDToVisit;
 
-        if (        $Foswiki::cfg{MergeHeadAndBodyZones}
+        if ( $Foswiki::cfg{MergeHeadAndScriptZones}
             and not $requiredZoneID->{populated} )
         {
 
@@ -3462,7 +3467,8 @@ sub _visitZoneID {
             # zones as merged, and a required ZoneID isn't populated. Try
             # opposite zone to see if it exists there instead. Item9317
             if ( $requiredZoneID->{zone} eq 'head' ) {
-                $zoneIDToVisit = $this->{_zones}{script}{ $requiredZoneID->{id} };
+                $zoneIDToVisit =
+                  $this->{_zones}{script}{ $requiredZoneID->{id} };
             }
             else {
                 $zoneIDToVisit = $this->{_zones}{head}{ $requiredZoneID->{id} };
@@ -3507,8 +3513,8 @@ sub _renderZones {
     my $headZone = _renderZone( $this, 'head', { chomp => "on" } );
     $text =~ s!(</head>)!$headZone\n$1!i if $headZone;
 
-    # SMELL: Item9480 - can't trust that _renderzone(head) above has truly
-    # flushed both script and head zones empty when {MergeHeadAndScriptZones} = 1.
+  # SMELL: Item9480 - can't trust that _renderzone(head) above has truly
+  # flushed both script and head zones empty when {MergeHeadAndScriptZones} = 1.
     my $scriptZone = _renderZone( $this, 'script', { chomp => "on" } );
     $text =~ s!(</head>)!$scriptZone\n$1!i if $scriptZone;
 
