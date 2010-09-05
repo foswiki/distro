@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarJQICONPATH
 ---+++ JQICONPATH{"name"} -- render the urlpath to an image 
-   * this is a shortcut for 
+   * This is a shortcut for 
      <verbatim>%JQICON{"name" format="$iconPath"}%</verbatim>
    * Example: %JQICONPATH{"tick"}%
    * Related: [[VarJQICON]], [[VarICONURL]], JQueryPlugin

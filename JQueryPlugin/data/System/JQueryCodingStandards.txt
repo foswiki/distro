@@ -8,17 +8,6 @@ Follow [[http://drupal.org/node/172169][Drupal&#8217;s JavaScript coding standar
 
 ---++ Wrap =$=
 
-If you want to use jQuery&#8217;s =$= variable, wrap your code like this:
-
-<verbatim class="js">
-(function($) {
-
-  // code using $ variable
-
-})(jQuery);
-</verbatim>
----++ Wrap =$=
-
 If you want to use jQuery&#8217;s =$= variable, you have to wrap your code like this:
 
 <verbatim class="js">
@@ -76,11 +65,11 @@ var pubUrlPath = foswiki.getPreference('PUBURLPATH');
 </verbatim>
 
 In addition, the JQuery =foswiki= plugin adds the macros specified by the
-global =MACROS2JS= preference (currently %MACROS2JS").
+global =EXPORTEDPREFERENCES= preference (currently %EXPORTEDPREFERENCES%).
 
 ---++ Avoid Internet Explorer errors
 
-   * Use an object if you need an associative array, not an array. [[http://ajaxian.com/archives/javascript-associative-arrays-considered-harmful][[source]]]
+   * Use an object if you need an associative array, not an array. [[http://ajaxian.com/archives/javascript-associative-arrays-considered-harmful][ [source&#93; ]]
    * Declare all local variables with =var= before they are used.
    * Remove trailing commas from array and object definitions, i.e.:
      <verbatim class="js">var object = { foo: 'bar' }</verbatim> not 
@@ -112,7 +101,7 @@ $(".jqPluginName").livequery(function() {
 });
 </verbatim>
 
-See JQueryMetadata for a more thorough example of useing metadata and livequery
+See JQueryMetadata for a more thorough example of using metadata and livequery
 
 
 
