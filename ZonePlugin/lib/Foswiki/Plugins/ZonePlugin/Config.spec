@@ -1,14 +1,11 @@
 # ---+ Extensions
 # ---++ ZonePlugin
-# ---+++ Backwards compatibility - EXPERT
+# ---+++ Backwards compatibility
 # **BOOLEAN**
-# This will help you to work around situatios where javascript files produce errors
-# due to the different ordering of depending files being located in the BODY zone.
-# If switched on, all content added to any zone will be gathered in the HEAD for.
-# Note, that in backwards compatibility mode, the page layout will be suboptimal
-# resulting in slower page rendering times by todays browsers. Alternatively, try
-# to fix the cause for any javascript not being properly put into the BODY zone.
-$Foswiki::cfg{OptimizePageLayout} = 0;
+# <p><code>{MergeHeadAndScriptZones}</code> is provided to maintain compatibility with legacy extensions that use <code>ADDTOHEAD</code> to add <code>&lt;script&gt;</code> markup and require content that is now in the <code>script</code> zone.</p>
+# <p>Normally, dependencies between individual <code>ADDTOZONE</code> statements are resolved within each zone. However, if <code>{MergeHeadAndScriptZones}</code> is enabled, then <code>head</code> content which requires an <code>id</code> that only exists in <code>script</code> (and vice-versa) will be re-ordered to satisfy any dependency.</p>
+# <p><strong><code>{MergeHeadAndScriptZones}</code> will be removed from a future version of Foswiki.</strong></p>
+$Foswiki::cfg{MergeHeadAndScriptZones} = 0;
 
 # ---+++ Warning messages - EXPERT
 # **BOOLEAN**
