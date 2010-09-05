@@ -774,6 +774,33 @@ HERE
 | Foo | a |
 HERE
     },
+    {
+        name => 'preserveNoExistingTags',
+        setup =>
+          sub { Foswiki::Func::setPreferencesValue( 'WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS', ',' ); },
+        exec => $ROUNDTRIP,
+        tml => <<'HERE',
+<div class="bumblebee">
+
+| <span class="foo">apple *pie* slice</span> shelf |
+</div>
+HERE
+        finaltml => <<'CLEANED',
+| apple *pie* slice shelf |
+CLEANED
+    },
+    {
+        name => 'preserveDefaultExistingTags',
+        setup =>
+          sub { Foswiki::Func::setPreferencesValue( 'WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS', '' ); },
+        exec => $ROUNDTRIP,
+        tml => <<'HERE',
+<div class="bumblebee">
+
+| <span class="foo">apple *pie* slice</span> shelf |
+</div>
+HERE
+    },
 ];
 
 sub compareTML_HTML {

@@ -15,7 +15,23 @@ If the plugin detects an excluded construct in the topic, it will refuse to allo
 If you excluded =calls= in =WYSIWYG_EXCLUDE=, you can still define a subset of macros that do *not* block edits. this is done in the *global* [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =WYSIWYG_EDITABLE_CALLS=, which should be a list of macro names separated by vertical bars, with no spaces, e.g: =* Set WYSIWYG_EDITABLE_CALLS = COMMENT|CALENDAR|INCLUDE=
 
 You should set =WYSIWYG_EXCLUDE= and =WYSIWYG_EDITABLE_CALLS= in %USERSWEB%.SitePreferences, or in %WEBPREFSTOPIC% for each web.
----++++ WYSIWYGPLUGIN_STICKYBITS - Protext tags based upon their arguments
+
+---++++ WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS - Protect specific tags originally in the topic text
+The =WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS= preference tells the translator 
+that certain HTML tags which were originally in the topic text should _remain_ as HTML tags;
+the translator will not try to convert them to TML.
+
+The default setting for this preference is defined within the plugin.
+It corresponds to =div, span=.
+
+This feature may be disabled by setting the preference to a single comma.
+Thi does _not_ guarantee that HTML markup will be removed; the conversion
+of HTML tags to TML markup remains subject to the other controls provided
+by the !WysiwygPlugin, including the =WYSIWYGPLUGIN_STICKYBITS= preference,
+=&lt;sticky&gt;= blocks, =&lt;literal&gt;= blocks and the rules applied 
+to tables and lists.
+
+---++++ WYSIWYGPLUGIN_STICKYBITS - Protect tags based upon their arguments
 You can define the global preference =WYSIWYGPLUGIN_STICKYBITS= to stop the
 plugin from ever trying to convert specific HTML tags into
 TML when certain specific attributes are present on the tag. This is most
@@ -27,7 +43,7 @@ on a tag, make it "stick" i.e. block conversion back to TML. <blockquote>For exa
 =table=background,lang;tr=valign= will stop the translator from trying to
 convert any =table= tag that has =background= or =lang= attributes, and any
 =tr= tag that has a =valign= attribute back to Foswiki =| table | column |=
-markup.</blockquote>
+markup (regardless of where that =table= tag comes from).</blockquote>
 
 This setting is used only after the page has been processed by the editor.  If
 the editor does not support a particular tag or attribute and the editor corrupts the

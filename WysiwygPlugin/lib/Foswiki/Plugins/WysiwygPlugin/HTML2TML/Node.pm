@@ -37,7 +37,8 @@ my %jqueryChiliClass = map { $_ => 1 }
         lotusscript php-f php sql tml );
 
 my %tml2htmlClass = map { $_ => 1 }
-    qw( WYSIWYG_PROTECTED WYSIWYG_STICKY TMLverbatim WYSIWYG_LINK );
+    qw( WYSIWYG_PROTECTED WYSIWYG_STICKY TMLverbatim WYSIWYG_LINK
+        TMLhtml );
 
 =pod
 
@@ -490,6 +491,10 @@ sub generate {
 
     if ( $this->_isProtectedByAttrs() ) {
         return $this->_defaultTag($options);
+    }
+
+    if ( $this->hasClass('TMLhtml') ) {
+        return $this->_defaultTag($options & ~$WC::VERY_CLEAN);
     }
 
     my $tag = $this->{tag};

@@ -120,6 +120,12 @@ WARNING
             _protectVerbatimChars($content) );
     }
     else {
+        my $tagsToProtect = Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS')
+          || 'div,span';
+        for my $tag ( split /[,\s]+/, $tagsToProtect ) {
+            next unless $tag =~ /^\w+$/;
+            $this->{protectExistingTags}->{$tag} = 1;
+        }
 
         # Convert TML to HTML for wysiwyg editing
 
@@ -384,6 +390,8 @@ sub _getRenderedVersion {
     # Handle inline IMG tags specially
     $text =~ s/(<img [^>]*>)/$this->_takeOutIMGTag($1)/gei;
     $text =~ s/<\/img>//gi;
+
+    $text =~ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') . $2 . ">"/ge;
 
     # Handle colour tags specially (hack, hack, hackity-HACK!)
     my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
@@ -688,7 +696,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
 
     # Handle [[][]] and [[]] links
 
-    # We _not_ support [[http://link text]] syntax
+    # We do _not_ support [[http://link text]] syntax
 
     # [[][]]
     $text =~ s/(\[\[[^\]]*\](\[[^\]]*\])?\])/$this->_liftOut($1, 'LINK')/ge;
@@ -711,6 +719,18 @@ s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}(
     }
 
     return $text;
+}
+
+sub _appendClassToTag {
+    my $this = shift;
+    my $tagWithAttrs = shift;
+    my $class = shift;
+    if ( $tagWithAttrs =~ /^\s*(\w+)/ 
+        and exists $this->{protectExistingTags}->{$1} ) {
+        $tagWithAttrs =~ s/(\sclass=)(['"])([^'"]*)\2/$1$2$3 $class$2/
+            or $tagWithAttrs .= " class='$class' ";
+    }
+    return $tagWithAttrs;
 }
 
 sub _processTableRow {
