@@ -387,7 +387,6 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	font-weight:normal;
 }
 .patternTwistyButton {
-	font-size:105%;
 	font-weight:bold;
 	margin:.5em 0;
 	display:inline-block;
@@ -415,15 +414,15 @@ h3 .foswikiSmall {
 	padding:0;
 }
 .foswikiFormStep h2 {
-	font-size:130%;
-	font-weight:bold;
-}
-.foswikiFormStep h3 {
 	font-size:115%;
 	font-weight:bold;
 }
+.foswikiFormStep h3 {
+	font-size:100%;
+	font-weight:bold;
+}
 .foswikiFormStep h4 {
-	font-size:104%;
+	font-size:100%;
 	font-weight:bold;
 }
 .foswikiFormStep p {
