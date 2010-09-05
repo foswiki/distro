@@ -8,7 +8,7 @@
 %TMPL:DEF{"bodyclassname"}%patternNoViewPage patternRenamePage%TMPL:END%
 
 
-%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="renamehelp" mode="div" remember="on" showlink="<h3 class='patternTwistyButton'><img src='%ICONURLPATH{toggleopen}%' alt='' /> %MAKETEXT{"Show help"}%</h3>" hidelink="<h3 class='patternTwistyButton'><img src='%ICONURLPATH{toggleclose}%' alt='' /> %MAKETEXT{"Hide help"}%</h3>"}%</div><!--//patternTop-->%TMPL:END%
+%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="renamehelp" mode="div" remember="on" showlink="%MAKETEXT{"Show help"}%" hidelink="%MAKETEXT{"Hide help"}%" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%"  linkclass="patternTwistyButton"}%</div>%TMPL:END%
 
 
 %TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="renamehelp" mode="div" remember="on" noscript="hide"}%<div class="foswikiHelp">%TMPL:P{"notes"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%

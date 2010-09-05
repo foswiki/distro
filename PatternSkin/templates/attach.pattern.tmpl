@@ -11,7 +11,7 @@
 %TMPL:DEF{"pagetitle"}%%MAKETEXT{"Attach image or document on [_1]" args="[[%TOPIC%]]"}%%TMPL:END%
 
 
-%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="attachhelp" mode="div" remember="on" showlink="<h3 class='patternTwistyButton'><img src='%ICONURLPATH{toggleopen}%' alt=''/> %MAKETEXT{"Attachments help"}%</h3>" hidelink="<h3 class='patternTwistyButton'><img src='%ICONURLPATH{toggleclose}%' alt='' /> %MAKETEXT{"Attachments help"}%</h3>"}%</div>%TMPL:END%
+%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="attachhelp" mode="div" remember="on" link="%MAKETEXT{"Attachments help"}%" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%"  linkclass="patternTwistyButton"}%</div>%TMPL:END%
 
 
 %TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="attachhelp" mode="div" remember="on" noscript="hide"}%<div class="foswikiHelp">
@@ -23,14 +23,13 @@
 %TMPL:P{"extranotes"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
 
 
-%TMPL:DEF{"formstart"}%<div class="patternAttachForm"><form name="main" enctype="multipart/form-data" action="%SCRIPTURLPATH{"upload"}%/%WEB%/%TOPIC%" method="post">%TMPL:END%
+%TMPL:DEF{"formstart"}%<form name="main" enctype="multipart/form-data" action="%SCRIPTURLPATH{"upload"}%/%WEB%/%TOPIC%" method="post">%TMPL:END%
 
-%TMPL:DEF{"formend"}%</form></div>%TMPL:END%
+%TMPL:DEF{"formend"}%</form>%TMPL:END%
 
+%TMPL:DEF{"attachformstart"}%<div class="foswikiFormSteps">%TMPL:END%
 
-%TMPL:DEF{"attachformstart"}%%TMPL:END%
-
-%TMPL:DEF{"attachformend"}%%TMPL:END%
+%TMPL:DEF{"attachformend"}%</div>%TMPL:END%
 
 %TMPL:DEF{"newfile"}%<div class="foswikiFormStep">
 ---+++ %MAKETEXT{"Attach new file"}%
@@ -58,11 +57,11 @@
 </div>%TMPL:P{"changepropertiesaction"}%%TMPL:END%
 
 
-%TMPL:DEF{"content"}%%TMPL:P{"formstart"}%%TMPL:P{"toolbar"}%
-%TMPL:P{"pagehelp"}%<div class="patternBorder"><div class="foswikiFormSteps">
+%TMPL:DEF{"content"}%%TMPL:P{"toolbar"}%
+%TMPL:P{"pagehelp"}%%TMPL:P{"formstart"}%<div class="patternBorder">
 %TMPL:P{"attachform"}%
-</div>
 %TMPL:P{"topicinfo"}%</div>
+%TMPL:P{"formend"}%
 %TMPL:P{"movedelete"}%
 %TMPL:P{"pagehelp_nojavascript"}%
 %TMPL:P{"versions"}%

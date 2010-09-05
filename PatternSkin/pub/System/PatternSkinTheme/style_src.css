@@ -276,8 +276,8 @@ a.foswikiSubmit:visited:active {
 .twistyTrigger a:visited .foswikiLinkLabel {
 	text-decoration:none;
 }
-.twistyTrigger .foswikiLinkLabel {
-	margin:0 .25em;
+.twistyTrigger a img {
+	margin:0 .25em 0 0;
 }
 
 /*tipsOfTheDay*/
@@ -383,11 +383,11 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 .patternAttachmentHeader {
 	/* behaviour class */
 }
-h3.patternTwistyButton {
+.patternTwistyButton {
 	font-size:105%;
 	font-weight:bold;
 	margin:.5em 0;
-	/* behaviour class */
+	display:block;
 }
 h3 .foswikiSmall {
 	font-weight:normal;
@@ -777,6 +777,7 @@ html>body #patternSideBarContents li { /* Mozilla */
 	border-style:solid;
 	border-width:1px;
 }
+.patternTop {}
 
 /* WebSearch, WebSearchAdvanced */
 .foswikiWebSearchForm form {
@@ -816,10 +817,6 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternSearchResults {
 	/* no longer used in search.pattern.tmpl, but remains in rename templates */
 	margin:0 0 1em 0;
-}
-#renamehelpshow a span,
-#renamehelphide a span {
-	font-size: 1.1em; 
 }
 .patternSearchResults blockquote {
 	margin:1em 0 1em 5em;

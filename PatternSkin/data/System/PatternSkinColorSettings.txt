@@ -591,10 +591,6 @@ a:hover .foswikiAccessKey {
 #patternPage {
    background-color:%MAIN_TEXT_BACKGROUND%;
 }
-.patternTop a:hover {
-   border:none;
-   color:%LINK_TEXT_HOVER%;
-}
 .patternHomePathTitle,
 .patternRevInfo,
 .patternHomePath a:link,
@@ -680,7 +676,7 @@ a:hover .foswikiAccessKey {
 	color:%LINK_TEXT_NORMAL%;
 }
 
-h3.patternTwistyButton {
+.patternTwistyButton {
 	color:%LINK_TEXT_NORMAL%;
 }
 

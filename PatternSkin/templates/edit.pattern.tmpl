@@ -8,7 +8,7 @@
 %TMPL:DEF{"script:skintemplate:edit"}%%TMPL:P{"PatternSkin/pattern_edit"}%%TMPL:END%
 
 
-%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="edithelp" mode="div" remember="on" showlink="<h3 class='patternTwistyButton'><img src='%ICONURLPATH{toggleopen}%' /> %MAKETEXT{"Edit help"}%</h3>" hidelink="<h3 class='patternTwistyButton'><img src='%ICONURLPATH{toggleclose}%' /> %MAKETEXT{"Edit help"}%</h3>"}%</div>%TMPL:END%
+%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="edithelp" mode="div" remember="on" link="%MAKETEXT{"Edit help"}%" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%"  linkclass="patternTwistyButton"}%</div>%TMPL:END%
 
 
 %TMPL:DEF{"bodyclassname"}%patternNoViewPage patternEditPage%TMPL:END%
