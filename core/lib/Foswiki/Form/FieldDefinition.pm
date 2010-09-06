@@ -239,7 +239,7 @@ sub populateMetaFromQueryData {
         if ( $this->isMultiValued() ) {
             my @values = $query->param( $this->{name} );
 
-            if ( scalar(@values) == 1 ) {
+            if ( scalar(@values) == 1 && defined $values[0] ) {
                 @values = split( /,|%2C/, $values[0] );
             }
             my %vset = ();

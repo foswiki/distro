@@ -181,7 +181,7 @@ sub stringify {
         if ( defined $this->{params} ) {
             $s .= ' params=>[' . join( ',', @{ $this->{params} } ) . ']';
         }
-        return $s . ')';
+        return $s . ')'.((DEBUG)?$this->stacktrace:'');
     }
 }
 
