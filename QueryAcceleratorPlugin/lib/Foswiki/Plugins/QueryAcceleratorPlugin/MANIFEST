@@ -1,3 +1,0 @@
-lib/Foswiki/Plugins/QueryAcceleratorPlugin.pm 0644  Plugin
-lib/Foswiki/Store/QueryAlgorithms/DBCache.pm 0644  Query engine
-data/System/QueryAcceleratorPlugin.txt  Documentation topic 

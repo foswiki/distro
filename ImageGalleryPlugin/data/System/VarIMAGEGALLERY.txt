@@ -1,9 +1,0 @@
-%META:TOPICINFO{author="ProjectContributor" date="1180825069" format="1.0" version="1.1"}%
-%META:TOPICPARENT{name="Macros"}%
-#VarIMAGEGALLERY
----+++ IMAGEGALLERY{"topic" <i>options...</i>} -- render an image gallery
-	* The =%<nop>IMAGEGALLERY{"topic"}%= macro is handled by the ImageGalleryPlugin.
-	* Syntax: =%<nop>IMAGEGALLERY{"topic" <i>options...</i>}%=
-	* Examples:
-		* =%<nop>IMAGEGALLERY{"%SYSTEMWEB%.DocumentGraphics" columns="3" limit="12" exclude="arrow" sort="name"}%
-	* Related: [[#VarNRIMAGES][NRIMAGES]], ImageGalleryPlugin

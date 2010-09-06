@@ -1,5 +1,0 @@
-# Release manifest for HomePagePlugin
-data/System/HomePagePlugin.txt 0644 Documentation
-lib/Foswiki/Plugins/HomePagePlugin.pm 0644 Perl module
-lib/Foswiki/Plugins/HomePagePlugin/Config.spec 0644 configure settings
-

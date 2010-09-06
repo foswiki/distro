@@ -1,4 +1,0 @@
-Image::Magick,>=6.2.4.5,cpan,Required.
-Graphics::Magick,>=1.1.11,cpan,Optional.
-Foswiki::Plugins::JQueryPlugin,>=6283,perl,Optional
-
