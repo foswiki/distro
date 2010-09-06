@@ -1325,7 +1325,7 @@ sub _validateRegistration {
         }
 
         # check if passwords are identical
-        if ( $Foswiki::cfg{Register}{RequirePasswordConfirmation}
+        if ( !$Foswiki::cfg{Register}{DisablePasswordConfirmation}
                && $data->{Password} ne $data->{Confirm} ) {
             throw Foswiki::OopsException(
                 'attention',
