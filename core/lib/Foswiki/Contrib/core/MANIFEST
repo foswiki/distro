@@ -97,6 +97,7 @@ data/System/FAQSimultaneousEdits.txt 0644
 data/System/FAQTemplate.txt 0644
 data/System/FAQTroubleshootingExtensions.txt 0644
 data/System/FAQViewTemplate.txt 0644
+data/System/FAQWhyYouAreAskedToConfirm.txt 0644
 data/System/FAQWhatIsWikiWiki.txt 0644
 data/System/FileAttachment.txt 0644
 data/System/FileAttribute.txt 0644
@@ -815,6 +816,7 @@ pub/System/BeginnersStartHere/myco.gif 0644
 pub/System/BeginnersStartHere/whiteboard.gif 0644
 pub/System/FileAttachment/Sample.txt 0644
 pub/System/FileAttachment/Smile.gif 0644
+pub/System/FAQWhyYouAreAskedToConfirm/WhyYouAreAskedToConfirm.jpg 0644
 pub/System/JavascriptFiles/foswiki.js 0644
 pub/System/JavascriptFiles/foswikiArray_src.js 0644
 pub/System/JavascriptFiles/foswikiCSS_src.js 0644

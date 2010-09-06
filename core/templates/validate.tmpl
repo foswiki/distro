@@ -38,7 +38,7 @@
    * %MAKETEXT{"Press Cancel otherwise."}%
 </div>
 <p>
-%MAKETEXT{"If you are unsure what this means, read: [_1]" args="%POPUPWINDOW{url="http://foswiki.org/Support/WhyYouAreAskedToConfirm?template=viewplain" label="%MAKETEXT{"why you are being asked to confirm"}%" width="1000" height="550" center="1"}%."}%%JQREQUIRE{"popupwindow"}%
+%MAKETEXT{"If you are unsure what this means, read: [_1]" args="%POPUPWINDOW{url="%SCRIPTURLPATH{"view"}%/System/FAQWhyYouAreAskedToConfirm?template=viewplain" label="%MAKETEXT{"why you are being asked to confirm"}%" width="1000" height="550" center="1"}%."}%%JQREQUIRE{"popupwindow"}%
 </p>%TMPL:END%
 
 %TMPL:DEF{"formstart"}%<form action='%SCRIPTURLPATH{"login"}%/%WEB%/%TOPIC%' name='loginform' method='post'>%TMPL:END%
