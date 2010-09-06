@@ -1,9 +1,0 @@
-%META:TOPICINFO{author="ProjectContributor" date="1191140974" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="Macros"}%
-#VarRENDERFORM
----+++ RENDERFORM -- render DataForms data within a topic
-   * The =%<nop>RENDERLIST%= variable is handled by the RenderFormPlugin
-   * Syntax: =%<nop>RENDERFORM{ "ADataFormDefinition"}%=
-   * Example:%BR%
-     =%<nop>RENDERLIST{ "%SYSTEMWEB%.HelpDeskForm" }%= %BR%
-   * Related: DataForms

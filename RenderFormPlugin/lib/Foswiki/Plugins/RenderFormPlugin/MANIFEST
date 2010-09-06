@@ -1,8 +1,0 @@
-# Release manifest for RenderFormPlugin
-data/System/RenderFormPlugin.txt 0644 Documentation
-data/System/VarRENDERFORM.txt 0644 Documentation
-data/System/RenderFormPluginExampleForm.txt 0644 Documentation
-pub/System/RenderFormPlugin/example.gif 0644 Example image
-lib/Foswiki/Plugins/RenderFormPlugin.pm 0644 Perl module
-lib/Foswiki/Plugins/RenderFormPlugin/Core.pm 0644 Perl module
-
