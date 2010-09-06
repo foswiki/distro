@@ -125,8 +125,6 @@ Edit this topic, and change the color as you like.
    * Local ATTACHMENT_AND_FORM_BACKGROUND = %ACTIVE_FORM_BACKGROUND%
 ---++++ TOPIC_ACTION_BACKGROUND Topic action row
    * Local TOPIC_ACTION_BACKGROUND = #f5f5f3
----++++ DIFF_HEADER_BACKGROUND Diff header (dark gray)
-   * Local DIFF_HEADER_BACKGROUND = #ccc
 ---++++ NOTIFICATION_BACKGROUND Info, broadcast message and notifications
    * Local NOTIFICATION_BACKGROUND = #fff7e7
 ---++++ INFO_BACKGROUND
@@ -751,47 +749,57 @@ h4.foswikiSearchResultsHeader strong {
 .patternDiffPage .foswikiDiffTable {
    border-color:%STRONG_BORDER%;
 }
+.patternDiff .foswikiTopRow {
+   background-color:%NEUTRAL_BACKGROUND%;
+}
 tr.foswikiDiffDebug td {
    border-color:%NEUTRAL_BACKGROUND%;
 }
-.foswikiDiffTable th,
-.foswikiDiffMetaTable th {
-   background-color:%DIFF_HEADER_BACKGROUND%;
+.foswikiDiffTable th {
+   background-color:%NEUTRAL_BACKGROUND%;
 }
-.foswikiDiffMetaTable td {
-   background-color:%MAIN_TEXT_BACKGROUND% !important;
+.foswikiDiffTable table th {
+   background-color:%NEUTRAL_BACKGROUND%;
 }
 /* Changed */
-.foswikiDiffChangedHeader,
-.foswikiDiffDeletedHeader,
-.foswikiDiffAddedHeader {
+.foswikiDiffChangedHeader {
 	/* violet - do not change */
-	background:#ccf;
+	background:#ccf !important;
 }
 .foswikiDiffChangedText {
 	/* violet - do not change */
-	border-color:#ccf;
+	border-color:#99f !important;
+	background-color:#fff !important;
 }
 /* Deleted */
+.foswikiDiffDeletedHeader {
+	background-color:#ffd6d6 !important;
+}
 .foswikiDiffDeletedMarker {
 	/* red - do not change */
-	border-color:#c00;
+	border-color:#f33 !important;
+	background-color:#fff !important;
 }
 /* Added */
+.foswikiDiffAddedHeader {
+	background-color:#ccf5d6 !important;
+}
 .foswikiDiffAddedMarker {
 	/* green - do not change */
-	border-color:#093; 
+	border-color:#0c3 !important;
+	background-color:#fff !important;
 }
 /* Unchanged */
 .foswikiDiffUnchangedMarker {
-	border-color:%DIFF_HEADER_BACKGROUND%;
+	border-color:%NEUTRAL_BACKGROUND% !important;
+	background-color:#fff !important;
 }
 .foswikiDiffUnchangedText {
    color:%GRAYED_OUT_TEXT%;
 }
 .foswikiDiffUnchangedTextContents { }
-.foswikiDiffLineNumberHeader {
-   background-color:%DIFF_HEADER_BACKGROUND%;
+.foswikiDiffLineNumberHeader th {
+   background-color:%NEUTRAL_BACKGROUND% !important;
 }
 
 

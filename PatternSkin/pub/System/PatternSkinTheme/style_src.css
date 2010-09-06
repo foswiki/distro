@@ -987,10 +987,6 @@ td.foswikiDiffDebugLeft {
 .foswikiDiffTable table td {
 	padding:5px 10px;
 }
-.foswikiDiffMetaTable th,
-.foswikiDiffMetaTable td {
-	text-align:left;
-}
 .foswikiDiffUnchangedMarker,
 .foswikiDiffDeletedMarker,
 .foswikiDiffAddedMarker,

@@ -545,47 +545,57 @@ h4.foswikiSearchResultsHeader strong {
 .patternDiffPage .foswikiDiffTable {
    border-color:#ccc;
 }
+.patternDiff .foswikiTopRow {
+   background-color:#f5f5f5;
+}
 tr.foswikiDiffDebug td {
    border-color:#f5f5f5;
 }
-.foswikiDiffTable th,
-.foswikiDiffMetaTable th {
-   background-color:#ccc;
+.foswikiDiffTable th {
+   background-color:#f5f5f5;
 }
-.foswikiDiffMetaTable td {
-   background-color:#fff !important;
+.foswikiDiffTable table th {
+   background-color:#f5f5f5;
 }
 /* Changed */
-.foswikiDiffChangedHeader,
-.foswikiDiffDeletedHeader,
-.foswikiDiffAddedHeader {
+.foswikiDiffChangedHeader {
 	/* violet - do not change */
-	background:#ccf;
+	background:#ccf !important;
 }
 .foswikiDiffChangedText {
 	/* violet - do not change */
-	border-color:#ccf;
+	border-color:#99f !important;
+	background-color:#fff !important;
 }
 /* Deleted */
+.foswikiDiffDeletedHeader {
+	background-color:#ffd6d6 !important;
+}
 .foswikiDiffDeletedMarker {
 	/* red - do not change */
-	border-color:#c00;
+	border-color:#f33 !important;
+	background-color:#fff !important;
 }
 /* Added */
+.foswikiDiffAddedHeader {
+	background-color:#ccf5d6 !important;
+}
 .foswikiDiffAddedMarker {
 	/* green - do not change */
-	border-color:#093; 
+	border-color:#0c3 !important;
+	background-color:#fff !important;
 }
 /* Unchanged */
 .foswikiDiffUnchangedMarker {
-	border-color:#ccc;
+	border-color:#f5f5f5 !important;
+	background-color:#fff !important;
 }
 .foswikiDiffUnchangedText {
-   color:#797979;
+   color:#797979 !important;
 }
 .foswikiDiffUnchangedTextContents { }
-.foswikiDiffLineNumberHeader {
-   background-color:#ccc;
+.foswikiDiffLineNumberHeader th {
+   background-color:#f5f5f5 !important;
 }
 
 
