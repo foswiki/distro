@@ -146,11 +146,11 @@ Edit this topic, and change the color as you like.
 ---++++ IMAGE_BORDER Image border
    * Local IMAGE_BORDER = #eee
 ---++++ FORM_STEP_BORDER Form step border
-   * Local FORM_STEP_BORDER = %LAYOUT_ELEMENT_BORDER%
+   * Local FORM_STEP_BORDER = #ddd
 ---++++ NOTIFICATION_BORDER Notification messages
    * Local NOTIFICATION_BORDER = #fbad17
 ---++++ TOPIC_ACTION_BORDER Topic action border
-   * Local TOPIC_ACTION_BORDER = #ddd
+   * Local TOPIC_ACTION_BORDER = %FORM_STEP_BORDER%
 ---++++ INFO_BORDER Info border
    * Local INFO_BORDER = #9c9
    
@@ -997,7 +997,7 @@ li.patternLogIn {
 	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=10, Direction=0, Color='%STRONG_BORDER%');
 }
 .patternBorder {
-	border-color:#eee;
+	border-color:%NEUTRAL_BORDER%;
 }
 
 %ENDATTACH%
