@@ -285,6 +285,13 @@ a.foswikiSubmit:visited:active {
 	padding:10px;
 }
 
+/* WYSIWYG */
+.mceContentBody {
+    padding: 1px 4px;
+}
+
+
+
 /*	-----------------------------------------------------------
 	Foswiki styles
 	-----------------------------------------------------------	*/
@@ -659,7 +666,6 @@ a:hover .foswikiAccessKey {
 	margin:0 0 1em -16px;
 }
 .patternWebIndicator a {
-	font-size:1.1em;
 	font-weight:bold;
 }
 .patternLeftBarPersonalContent {
@@ -878,11 +884,6 @@ h4.foswikiSearchResultsHeader {
 
 /* edit.pattern.tmpl */
 
-#edithelphide a span,
-#edithelpshow a span {
-	font-size:1.1em;
-}
-
 .patternNoViewPage #patternMainContents {
 	padding-top:0;
 }
@@ -1002,6 +1003,3 @@ td.foswikiDiffDebugLeft {
 	text-align:left;
 }
 
-.mceContentBody {
-    padding: 1px 4px;
-}
