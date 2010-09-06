@@ -324,7 +324,7 @@ sub test_render_formfield_with_form {
     my $text = $meta->text;
     my $res  = $meta->renderFormForDisplay();
     $this->assert_html_equals( <<"HERE", $res );
-<div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
+<div class="foswikiForm foswikiFormStep">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
 &#124; abc &#124; 123 &#124;<br />&#124; def &#124; ghk &#124;
@@ -336,7 +336,7 @@ _hello world_
 ,   * high
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
-</td></tr>%IF{"context preview" then="</noautolink>"}%</table></div><!-- /foswikiForm -->
+</td></tr>%IF{"context preview" then="</noautolink>"}%</table></div>
 HERE
     $meta =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic1 );
@@ -344,7 +344,7 @@ HERE
     $res  = $meta->renderFormForDisplay();
 
     $this->assert_html_equals( <<"HERE", $res );
-<div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
+<div class="foswikiForm foswikiFormStep">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
 ---+ Example problem
@@ -356,7 +356,7 @@ Defect, None
 Defect
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
-</td></tr>%IF{"context preview" then="</noautolink>"}%</table></div><!-- /foswikiForm -->
+</td></tr>%IF{"context preview" then="</noautolink>"}%</table></div>
 HERE
     return;
 }
@@ -380,20 +380,21 @@ sub test_render_for_edit {
     my $res = $formDef->renderForEdit($meta);
 
     my $expected = <<'HERE';
-<div class="foswikiForm foswikiEditForm"><table class="foswikiFormTable" summary='Form data'>
-<tr>
-<th class="foswikiFormTableHRow" colspan="2"><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="foswikiChangeFormButton foswikiButton" /></th>
-</tr> 
-<tr><th align="right">Issue Name</th><td align="left"><input type="text" name="IssueName" value="_An issue_" size="40" class="foswikiInputField" /></td></tr>
-<tr><th align="right">State</th><td align="left"><table><tr><td><label><input type="radio" name="State" value="none"  title="none" class="foswikiRadioButton"/>none</label></td></tr></table></td></tr>
-<tr><th align="right">Issue Description</th><td align="left"><input type="hidden" name="IssueDescription" value="---+ Example problem"  /><div><nop><h1>
+<div class="foswikiForm foswikiEditForm">
+<h3>Topic data</h3>
+<table class="foswikiFormTable" summary="Topic data">
+
+<tr><th>Issue Name</th><td align="left"><input type="text" name="IssueName" value="_An issue_" size="40" class="foswikiInputField" /></td></tr>
+<tr><th>State</th><td align="left"><table><tr><td><label><input type="radio" name="State" value="none"  title="none" class="foswikiRadioButton"/>none</label></td></tr></table></td></tr>
+<tr><th>Issue Description</th><td align="left"><input type="hidden" name="IssueDescription" value="---+ Example problem"  /><div><nop><h1>
 <a name="Example_problem"> </a> Example problem </h1></div></td></tr>
-<tr><th align="right">Issue 1</th><td align="left"><select name="Issue1" class="foswikiSelect" size="1"></select></td></tr>
-<tr><th align="right">Issue 2EXTRA</th><td align="left">SWEET</td></tr>
-<tr><th align="right">Issue 3</th><td align="left"><table></table><input type="hidden" name="Issue3" value="" /></td></tr>
-<tr><th align="right">Issue 4</th><td align="left"><textarea name="Issue4"  rows="4" cols="50" class="foswikiTextarea">
+<tr><th>Issue 1</th><td align="left"><select name="Issue1" class="foswikiSelect" size="1"></select></td></tr>
+<tr><th>Issue 2EXTRA</th><td align="left">SWEET</td></tr>
+<tr><th>Issue 3</th><td align="left"><table></table><input type="hidden" name="Issue3" value="" /></td></tr>
+<tr><th>Issue 4</th><td align="left"><textarea name="Issue4"  rows="4" cols="50" class="foswikiTextarea">
 Defect</textarea></td></tr>
-<tr><th align="right">Issue 5</th><td align="left"><select name="Issue5" multiple="multiple" class="foswikiSelect" size="3"><option class="foswikiOption" selected="selected">Foo</option><option class="foswikiOption">Bar</option><option class="foswikiOption" selected="selected">Baz</option></select><input type="hidden" name="Issue5" value="" /></td></tr> </table>  </div>
+<tr><th>Issue 5</th><td align="left"><select name="Issue5" multiple="multiple" class="foswikiSelect" size="3"><option class="foswikiOption" selected="selected">Foo</option><option class="foswikiOption">Bar</option><option class="foswikiOption" selected="selected">Baz</option></select><input type="hidden" name="Issue5" value="" /></td></tr>
+<tr><th>Form definition</th><td><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="foswikiChangeFormButton foswikiButton" /></td></tr></table></div>
 HERE
 
     #Foswiki::Func::writeDebug("-----------------\n$res\n------------------");
@@ -449,7 +450,7 @@ TOPIC
 <span class='foswikiAlert'>
 Form definition 'NonExistantPluginTestForm' not found
 </span>
-<div class="foswikiForm">
+<div class="foswikiForm foswikiFormStep">
 %IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%
 <table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>%IF{"context preview" then="<noautolink>"}%
  <tr valign='top'>
@@ -489,7 +490,7 @@ Form definition 'NonExistantPluginTestForm' not found
   <td> ContactAuthorFirst </td>
  </tr>%IF{"context preview" then="</noautolink>"}%
 </table>
-</div><!-- /foswikiForm -->
+</div>
 
 HERE
 
