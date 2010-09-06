@@ -60,7 +60,7 @@ sub _renderCellData {
           '|*META '.$1.'*|'._renderAttrs($2).'||'/gem;
         if ( Foswiki::Func::getContext()->{'TablePluginEnabled'} ) {
             $data =
-              "\n" . '%TABLE{tablerules="all" databg="#ffffff" headeralign="left"}%' . "\n" . $data;
+              "\n" . '%TABLE{summary="" tablerules="all" databg="#ffffff" headeralign="left"}%' . "\n" . $data;
         }
         $data = $topicObject->expandMacros($data);
         $data = $topicObject->renderTML($data);
