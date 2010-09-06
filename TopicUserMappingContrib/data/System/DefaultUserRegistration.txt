@@ -31,28 +31,21 @@ Other sections define the fields and extra info text.
 		<div class="foswikiFormStep">
 			<p><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required"}%</em></p>
 			<ul>
-				<!-- REQUIRED FIELDS -->
-				%INCLUDE{"%TOPIC%" section="requiredField_firstName"}%
-				%INCLUDE{"%TOPIC%" section="requiredField_lastName"}%
-				%INCLUDE{"%TOPIC%" section="requiredField_wikiName"}%
-				%IF{'$ALLOWLOGINNAME' then='%INCLUDE{"%TOPIC%" section="requiredField_loginName"}%' else='<!-- -->'}%
-				%INCLUDE{"%TOPIC%" section="requiredField_email"}%
-				%IF{'context passwords_modifyable' then='%INCLUDE{"%TOPIC%" section="requiredField_password"}%' else='<!-- -->'}%
-				<!-- START OPTIONAL FIELDS -->
-				<!-- remove EXCLUDED_ from section names to show fields -->
-				%IF{'$REGISTRATIONGROUPTYPE = "one" OR
-					$REGISTRATIONGROUPTYPE = "multiple" OR
-					$REGISTRATIONGROUPTYPE = "automatic"' then='$percentINCLUDE{"%WEB%.%TOPIC%" section="extraField_groups" warn="off"}$percent' else='<!-- -->'}%
-				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationName" warn="off"}%
-				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationUrl" warn="off"}%
-				%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_country" warn="off"}%
-				<!-- SUBMIT BUTTON -->
-				%INCLUDE{"%TOPIC%" section="requiredButton_submit"}%
+<!-- REQUIRED FIELDS -->
+%INCLUDE{"%TOPIC%" section="requiredField_firstName"}%
+%INCLUDE{"%TOPIC%" section="requiredField_lastName"}%
+%INCLUDE{"%TOPIC%" section="requiredField_wikiName"}%%IF{'$ALLOWLOGINNAME' then='%INCLUDE{"%TOPIC%" section="requiredField_loginName"}%' else='<!-- -->'}%
+%INCLUDE{"%TOPIC%" section="requiredField_email"}%%IF{'context passwords_modifyable' then='%INCLUDE{"%TOPIC%" section="requiredField_password"}%' else='<!-- -->'}%
+<!-- START OPTIONAL FIELDS -->
+<!-- remove EXCLUDED_ from section names to show fields -->%IF{'$REGISTRATIONGROUPTYPE = "one" OR
+$REGISTRATIONGROUPTYPE = "multiple" OR
+$REGISTRATIONGROUPTYPE = "automatic"' then='$percentINCLUDE{"%WEB%.%TOPIC%" section="extraField_groups" warn="off"}$percent' else='<!-- -->'}%%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationName" warn="off"}%%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationUrl" warn="off"}%%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_country" warn="off"}%
+<!-- SUBMIT BUTTON -->
+%INCLUDE{"%TOPIC%" section="requiredButton_submit"}%
 			</ul>
 		</div>
 	</div>
-	%INCLUDE{"%TOPIC%" section="EXCLUDED_privacyInformation" warn="off"}%
-%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percentBLACKLISTPLUGIN{action=$quotmagic$quot}$percent" />' else='<!-- -->'}%
+%INCLUDE{"%TOPIC%" section="EXCLUDED_privacyInformation" warn="off"}%%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percentBLACKLISTPLUGIN{action=$quotmagic$quot}$percent" />' else='<!-- -->'}%
 <input type="hidden" name="topic" value="%TOPIC%" />
 <input type="hidden" name="action" value="register" />
 </form>
@@ -172,8 +165,7 @@ Required field password
 Only shown if the password manager supports changing the password / email.
 
 %STARTSECTION{"requiredField_password"}%<li><label for="Twk1Password"><span class="required">*</span>%MAKETEXT{"Your password"}%</label>
-<div><input type="password" id="Twk1Password" name="Twk1Password" size="40" class="foswikiInputField" value="" tabindex="6" onblur="" /></div></li>
-%IF{"{Register}{RequirePasswordConfirmation}" then="<li><label for=\"Twk1Confirm\"><span class=\"required\">*</span>$percntMAKETEXT{\"Confirm password\"}$percnt</label>
+<div><input type="password" id="Twk1Password" name="Twk1Password" size="40" class="foswikiInputField" value="" tabindex="6" onblur="" /></div></li>%IF{"{Register}{RequirePasswordConfirmation}" then="<li><label for=\"Twk1Confirm\"><span class=\"required\">*</span>$percntMAKETEXT{\"Confirm password\"}$percnt</label>
 <div><input type=\"password\" id=\"Twk1Confirm\" name=\"Twk1Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" tabindex=\"7\" onblur=\"\" /></div></li>"}%%ENDSECTION{"requiredField_password"}%
 
 
