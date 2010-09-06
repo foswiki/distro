@@ -1,0 +1,76 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="Plugins"}%
+
+---+!! %TOPIC%
+
+%RED% *THIS TOPIC IS NOT PART OF THE DOCUMENTATION SET AND SHOULD NOT BE SHIPPED WITH A RELEASE* %ENDCOLOR%
+
+This plugin is designed specifically for use in automatic test-cases.
+
+%TOC%
+
+---+ Features
+
+Provides comparison of rendered text with golden masters. The golden masters and the test text are together in a single topic and are marked by structured HTML comments that allow the plugin to extract them and compare.
+
+---+ Usage
+
+The plugin is enabled when <code>?test=compare</code> is appended to the URL of a page.
+
+A test pass will generate an appropriate plain text message in the browser. A test failure is reported in a +diff= - style table. If neither of these outcomes is seen, and the topic renders as normal, then there is a problem with the installation (did you install Algorithm::Diff?)
+
+---+ Syntax
+
+In your testcase topic, enter the golden HTML surrounded by structured HTML comments:
+<verbatim class="tml">
+<!-- expected -->
+...your golden HTML...
+<!-- /expected -->
+</verbatim>
+The golden HTML should be what you expect to be rendered in the final output.
+
+=expected= has a number of options that are specified by words after =expected= in the tag - for example, <code>&lt;!-- expected again expand rex --&gt;</code>
+| =expand= | Enables expansion of macros ( =Foswiki::Func::expandCommonVariables= ). Normally you should _not_ use the expand option. It is intended primarily for expanding macros in URL components, and is used when testing generated HTML which is specific to the installation. It should be used with extreme caution as it assumes that Foswiki doesn't do anything naughty during this expansion. |
+| =rex= | If there is text which you know can never be literally matched - for example, a generated time - you can enter a regular expression to match it instead, if the =rex= option is enabled. For example an RE for a time is entered this way: =@REX(\d\d:\d\d)=. Be very careful about using greedy matches. A number of preprogrammed REs, _viz_. =@DATE=, =@TIME= and =@WIKINAME=, are also provided to simplify expected code. |
+| =again= | If you have two tests with the same expected text one after the other, you can re-use the expected text from the previous test using this option. The expected text will then be set to the text expected for the previous test. Remember you may need to repeat the =expand= and =rex= options again as well. |
+Anything else you put into an =expected= tag will be output if there are any test failures, so you can add random text to help identify which =expected= block failed - for example <code>&lt;!-- expected TESTEYESIGHT --&gt;</code>
+
+You specify your actual test markup in the same way:
+<verbatim class="tml">
+<!-- actual -->
+<!-- /actual -->
+</verbatim>
+
+Some notes about the comparison process:
+	1 The comparison is performed by Algorithm::Diff, which compares the HTML structures found in the text. See the documentation on Algorithm::Diff for help.
+	* whitespace is effectively ignored.
+	* The comparison is _insensitive_ to the order of parameters to the tags, but _all_ parameters must be present.
+	* All HTML entities are _normalised_ to &amp;#dd; style decimal entities before comparison, so &amp;lt; will match &amp;#60;
+   1 The *actual* text is read from the raw source of the topic. No processing is done on it (except as described under =expand= and =rex=, above)
+	1 The comparison is done on the &lt;body&gt; of the topic only. At present there is no way to compare the &lt;head&gt;.
+	1 =expected= and =actual= blocks are matched up in the order they occur;
+	1 If an =actual= marker is left open in the text ( has no matching =/actual= ), all text up to the end of the topic will be taken as part of the test. This allows for testing markup at the end of topics.
+	1 If a =/actual= tag occurs before a =actual= tag, all text from the start of the topic up to that tag is taken as the =actual= text. This allows for testing markup at the start of topics.
+	1 =actual= and =expected= blocks can occur in any order, but there must be one =actual= for each =expected=.
+    1 If there are differences, the report will indicate which =actual= / =expected= pair the difference was found in. The pairs are numbered from the start of the topic (number 1).
+
+---+ Settings
+	* Description:
+*DO NOT CHANGE THIS TEXT* it is used in TestCases.TestCaseAutoFinalPrefs!
+		* Set SHORTDESCRIPTION = Support for automatic tests
+
+---+ Plugin Installation Instructions
+	* The plugin is installed automatically when the source tree is checked out of subversion. There is no other way to install it.
+
+---+ Plugin Info
+
+|  Author: | Foswiki:Main/CrawfordCurrie http://www.c-dot.co.uk |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
+| Change History: <!-- Most recent first --> ||
+| 7 Nov 2004 | 1.000 Initial version. |
+|  Dependencies: | Algorithm::Diff |
+|  Perl Version: | 5.8 |
+
+__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
+<!-- %JQREQUIRE{"chili"}% -->
