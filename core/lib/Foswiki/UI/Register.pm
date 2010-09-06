@@ -159,8 +159,6 @@ sub bulkRegister {
 
     # This gets set from the value in the BulkRegistrations topic
     $settings->{doOverwriteTopics} = $query->param('OverwriteHomeTopics') || 0;
-    $settings->{doEmailUserDetails} = $query->param('EmailUsersWithDetails')
-      || 0;
 
     unless ( $session->{users}->isAdmin($user) ) {
         throw Foswiki::OopsException(

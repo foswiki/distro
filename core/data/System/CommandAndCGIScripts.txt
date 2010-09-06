@@ -12,6 +12,11 @@ These scripts are located in the =bin= and =tools= directories. This topic descr
 ---++ CGI Scripts
 Details on CGI scripts located in the =bin= directory.
 
+Note that a blank in the 'Default' column means that the parameter
+is not required, and has no default. _required_ means the
+parameter is required, and has no default. text _in italics_ describes
+default behaviour if no value is given.
+
 ---+++ General Information
 ---++++ CGI environment
 In the CGI environment parameters are passed to the scripts via the URL and URL parameters. Environment variables are also used to determine the user performing the action. If the environment is not set up, the default user is used (usually =guest=).
@@ -23,21 +28,27 @@ Parameters are passed on the command line using '-name' - for example,
 $ cd /usr/local/foswiki/bin
 $ save -topic MyWeb.MyTopic -user admin -action save -text "New text of the topic"
 </verbatim>
-All parameters require a value, even if that is the empty string.
+All parameters require a value, even if that is the empty string. Note that parameters passed on the command-line should *not* be URL-encoded.
+
+When calling a =tools= script from the command line, you normally need to be cd'd to the =bin directory e.g.
+<verbatim class="bash">
+$ cd bin
+$ ../tools/mailnotify -q -nonews -nochanges -Main -System
+</verbatim>
 
 ---++++ Common parameters
 All the scripts accept a number of common parameters. The first two components of the URL after the script name are taken as the web and the topic, respectively. Standard URL parameters are:
 
 | *Parameter* | *Description* | *Default* |
-| =cover= | Specifies temporary skin path to prepend to the skin path for this script only (see [[Skins]]) | none |
+| =cover= | Specifies temporary skin path to prepend to the skin path for this script only (see [[Skins]]) | |
 | =debugenableplugins= | During debugging it can be useful to selectively disable all but a subset of plugins. This parameter allows the caller to specify a comma-separated list of plugins that should be enabled. | |
 | =foswikioriginalquery= | The original query that was being made before a redirect for user confirmation was required. | |
 | =foswiki_redirect_cache= | Foswiki sometimes caches long lists of parameters that must survive over a sequence of browser redirects. This parameter identifies one of these caches. The parameter value is a "magic number" that uniquely idenitifies a file in the =working/tmp= directory. These files have a very short lifetime, and are destroyed when the cache is read. | |
 | =logout= | requests the !LoginManager to log the current user out (this happens at the begining of the request so will terminate any other operation requested) | |
 | =refresh= | If the Foswiki page cache is in use, setting this parameter will invalidate the cache. Valid values are =on= and =all=. See PageCaching for more information on the page cache. | |
 | =response= | Used as part of the request validation process. | |
-| =skin= | Overrides the default skin path (see [[Skins]]) | value of the SKIN preference |
-| =t= | While the =t= parameter is not actively used by any scripts, it is used when building links to scripts such as =edit=, to ensure that each edit link is unique. This stops the browser from trying to use a cached reply from a previous call to the script. | generally set to current time, in seconds |
+| =skin= | Overrides the default skin path (see [[Skins]]) | _value of the =SKIN= preference_ |
+| =t= | While the =t= parameter is not actively used by any scripts, it is used when building links to scripts such as =edit=, to ensure that each edit link is unique. This stops the browser from trying to use a cached reply from a previous call to the script. | _generally set to current time, in seconds_ |
 | =topic= | Overrides the web.topic path given in the URL (specify Web.<nop>TopicName) | |
 | =user= | Command-line only; set the name of the user performing the action. Note: this usage is inherently insecure, as it bypasses webserver login constraints. For this reason only authorised users should be allowed to execute scripts from the command line. | |
 | =validation_key= | part of cross-site scripting protection. Any request sent from browsers that might change data stored on the server must carry a key that indentifies the source of the request. | |
@@ -46,7 +57,7 @@ All the scripts accept a number of common parameters. The first two components o
 Despite the name, this script doesn't actually attach a file to a topic - for that, use =upload=. This script is part of the transactions sequence executed when a file is uploaded from the browser. it just generates the "new attachment" page for a topic.
 
 | *Parameter* | *Description* | *Default* |
-| =filename= | Name of existing attachment (if provided, this is a "manage attachment" action) | none (in which case this is a "new attachment" action) |
+| =filename= | Name of existing attachment (if provided, this is a "manage attachment" action) | _this is a "new attachment" action_ |
 
 ---+++ =changes=
 Shows all the changes in the given web. 
@@ -54,7 +65,7 @@ Shows all the changes in the given web.
 The =changes= script can receive one parameter:
 
 | *Parameter* | *Description* | *Default* |
-| =minor= | If 0, show only major changes. If 1, show all the changes (both minor and major) | 0 |
+| =minor= | If 0, show only major changes. If 1, show all the changes (both minor and major) | _show major changes_ |
 
 The main difference between invoking this script and using WebChanges is that WebChanges is based on a =%<nop>SEARCH%=, while this script reads the =changes= file in each web, making it much faster.
 
@@ -64,26 +75,25 @@ The main difference between invoking this script and using WebChanges is that We
 =configure= is the browser script used for inspection of, and changes to, the site configuration. None of the parameters to this script are useable for any purpose except =configure=. See [[%SCRIPTURLPATH{"configure"}%][configure]].
 
 ---+++ =edit=
-The =edit= script understands the following parameters, typically supplied by HTML input fields:
+The =edit= script understands the following parameters, typically supplied by HTML input fields.
 
-| *Parameter* | *Description* | *Default* |
-| =action= | If =action=text=, then hide the form. If =action=form=, then hide the normal text area and only edit the form. | |
+A major role of the =edit= script is new topic creation. Parameters that are mainly relevant to new topic creation are marked with %ICON{"wip"}%
+
+| *Parameter name* | *Description* | *Default* |
+| =action= | If =action=text=, then hide the form. If =action=form=, then hide the normal text area and only edit the form. | _edit both_ |
 | =breaklock= | If set, any lease conflicts will be ignored, and the edit will proceed even if someone is already editing the topic. | |
-| =contenttype= | Optional parameter that defines the application type to write into the CGI header. Defaults to =text/html=. May be used to invoke alternative client applications | |
-| =formtemplate= | Name of the form to instantiate in the topic. Overrides any form set in the =templatetopic=. Set to 'none' to remove any existing form. | |
-| =notemplateexpansion= | Do not expand any Macros in the template defined by templatetopic. Use this when you want a verbatim copy of a topic | ="off"= |
-| =onlynewtopic= | If set, error if the topic already exists | ="off"= |
-| =onlywikiname= | If set, error if the topic name is not a WikiWord | ="off"= |
-| =redirectto= | If the user continues from edit to save, and if the save (or cancels the edit) process is successful, save will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | |
-| =rev= | Lets you specify a specific revision to use as the basis of the edit. Any save will of course create a new revision. | |
+| =contenttype= | Optional parameter that defines the application type to write into the CGI header. May be used to invoke alternative client applications | =text/html= |
+| =formtemplate= | Name of the form to instantiate in the topic. Set to =none= to remove any existing form. | |
+| =notemplateexpansion= | %ICON{"wip"}% Do not expand any macros in the template topic.  (see [[#NewTopicCreation][New topic creation]] below) | _expand_ |
+| =onlynewtopic= | %ICON{"wip"}% If =on=, error if the topic already exists | _edit existing topic_ |
+| =onlywikiname= | %ICON{"wip"}% If =on=, error if the name of a topic being created is not a WikiWord | _allow non-wikiword names_ |
+| =redirectto= | If the user continues from edit to save, and if the save (or cancel) process is successful, save will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | |
+| =rev= | Lets you specify a specific revision to use as the basis of the edit. | _latest_ |
 | =template= | Allows you to specify a different skin template. Overrides any setting of =[[SkinTemplates#TemplatePreferences][EDIT_TEMPLATE]]=. | |
-| =templatetopic= | The name of the template topic, copied to get the initial content (new topic _only_) | |
-| =text= | Text to be edited. If this parameter is not given, the text is taken from the database. This parameter is mainly used for initialising new topics with user-supplied content. | |
-| =topicparent= | Sets the parent topic | |
-| &lt;any name&gt; | Any parameter can passed to the new topic; if the template topic contains =%<nop>URLPARAM{"= &lt;any name&gt; ="}%=, it will be replaced by its value | |
-
-Form field values are passed in parameters named 'field' - for example, if I have a field =Status= the parameter name is =Status=.
-   1 The first sequence of ten or more =X= characters in the topic name will be converted on save to a number such that the resulting topic name is unique in the target web.
+| =templatetopic= | %ICON{"wip"}% The name of the template topic, copied to get the initial content for a new topic. (see [[#NewTopicCreation][New topic creation]] below) | |
+| =text= | %ICON{"wip"}% Set the text to be edited. If this parameter is not given, the text is taken from the existing topic (if it exists) | |
+| =topicparent= | Sets the parent topic. | |
+| _&lt;any name&gt;_ | This can be used in two ways; first, if the topic has a form with a field called _&lt;any name&gt;_, it will set the value of that field. %ICON{"wip"}% Second, it can be expanded in the topic text during topic creation - see [[#NewTopicCreation][New topic creation]] below | |
 
 __Skin notes:__
 
@@ -93,16 +103,29 @@ The =action= parameter works by loading the =editform.tmpl= or =edittext.tmpl= t
 
 In most skins that are based on the default templates (such as Pattern skin) you can easily change the =Edit= and =Edit Wiki<nop>Text= buttons to append the =action= parameter, by setting the [[PreferenceSettings][preference]] [[VarEDITACTION][EDITACTION]] to the value =text= or =form=. (You can always get back to editing the whole topic by removing the =action= parameter from the URL browser Location window, and reloading the edit window).
 
+#NewTopicCreation
+__New topic creation %ICON{"wip"}%:__
+
+The string AUTOINC followed by one or more digits anywhere in the topic name will be converted to a number such that the resulting topic name is unique in the target web. However this doesn't happen until the topic is saved.
+
+When a new topic is created using edit, the topic isn't actually created until the edit is saved. The content of the new topic is initialised according to the parameters you pass.
+   * =templatetopic= - defines the full name (web.topic) of a topic to use as a template for the new topic. The template topic is copied and, unless =notemplateexpansion= is set, the following macros are expanded in the topic text: =URLPARAM=, =DATE=, =SERVERTIME=, =GMTIME=, =USERNAME=, =WIKINAME=, =WIKIUSERNAME=, =USERINFO=.
+   * =text= - use this as the text of the topic. Macros are *not* expanded in this text. Overrides any text set in the =templatetopic=.
+   * =formtemplate= - Overrides any form set in the =templatetopic=.
+   * =notemplateexpansion= - given by =templatetopic=. Use this when you want a verbatim copy of a topic.
+   * =onlynewtopic= and =onlywikiname= are used to control validation of the new topic name.
+   * _&lt;any name&gt;_ - besides the form field value setting described above, when creating a new topic, =%<nop>URLPARAM{"= _&lt;any name&gt;_ ="}%= in the =templatetopic= will be expanded to the parameter value.
+
 ---+++ =login=
 Used for logging in with !TemplateLoginManager, and for interactive validation of operations that require user confirmation.
 | *Parameter* | *Description* | *Default* |
-| =foswikiloginaction= | If 'validate', the login script is being used for interactive validation of an operation. Otherwise it is being used for login. |
-| =foswiki_origin= | URL that was being accessed when an access violation occurred. the login process will redirect to this URL if it is successful | none |
+| =foswikiloginaction= | If 'validate', the login script is being used for interactive validation of an operation. Otherwise it is being used for login. | |
+| =foswiki_origin= | URL that was being accessed when an access violation occurred. the login process will redirect to this URL if it is successful | |
 | =remember= | If set, this will cause the user's login to be retained even after their browser is shut down. |
 | =sudo= | promote login to internal wiki admin (admins only) | |
-| =password= | password of user logging in | none |
-| =username= | username of user logging in (if set, login will attempt to authenticate) | none |
-| =usernamestep= | used to initialise the =username= input field in the login form (will not attempt to authenticate) | none |
+| =password= | password of user logging in | |
+| =username= | username of user logging in (if set, login will attempt to authenticate) | |
+| =usernamestep= | used to initialise the =username= input field in the login form (will not attempt to authenticate) | |
 
 ---+++ =logon=
 Used for logging in when Web Server authentication is being used (e.g. !ApacheLoginManager). The script does nothing; it is purely a placeholder for triggering the login process. The webserver must be set up to require a valid user to access this script, thus triggering the webserver login process.
@@ -113,20 +136,20 @@ Performs a range of management functions.
 <blockquote class="foswikiHelp"> *%X% Note:* The =manage= script can only be called via the HTTP POST method. Make sure you specify =method="post"= if you call the =manage= script via a form action. It is not possible to call =manage= from an =&lt;a href ...&gt;= link.</blockquote>
 
 | *Parameter* | *Description* | *Default* |
-| =action= | One of =create=, =createweb=, =changePassword=, =resetPassword=, =bulkRegister=, =deleteUserAccount=, =editSettings=, =saveSettings=, =restoreRevision= | none |
+| =action= | One of =create=, =createweb=, =changePassword=, =resetPassword=, =bulkRegister=, =deleteUserAccount=, =editSettings=, =saveSettings=, =restoreRevision= | _required_ |
 
 ---++++ =action=create=
 Alternative entry point for creation, via =edit=, of a new topic, used by screens that support several actions using =manage=.
 | *Parameter* | *Description* | *Default* |
-| =topic= | Name of topic to create (can be web.topic) | none |
+| =topic= | Name of topic to create (can be web.topic) | _required_ |
 Other parameters are the same as for =edit=.
 
 ---++++ =action=createweb=
 Create a new web
 | *Parameter* | *Description* | *Default* |
-| =baseweb= | Name of the web to copy to create the new web | '' |
-| =newtopic= | Value of %<nop>TOPIC% within the web creation message. Optionally used in some skins to signify a non-default home topic. | '' |
-| =newweb= | Name of the new web | '' |
+| =baseweb= | Name of the web to copy to create the new web | _required_ |
+| =newtopic= | Value of %<nop>TOPIC% within the web creation message. Optionally used in some skins to signify a non-default home topic. | |
+| =newweb= | Name of the new web | _required_ |
 | =nosearchall= | Value for NOSEARCHALL | '' |
 | =webbgcolor= | value for WEBBGCOLOR | '' |
 | =websummary= | Value for WEBSUMMARY | '' |
@@ -136,33 +159,32 @@ No parameters
 
 ---++++ =action=saveSettings=
 | *Parameter* | *Description* | *Default* |
-| =originalrev= | Revision that the edit started on | Most recent revision |
-| =redirectto= | If the savesettings process is successful, save will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | '' |
-| =text= | Text of the topic | '' |
+| =originalrev= | Revision that the edit started on | _latest_ |
+| =redirectto= | If the savesettings process is successful, save will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | _redirect to the web.topic from the URL path_ |
+| =text= | Text of the topic | _required_ |
 All other parameters may be interpreted as form fields, depending on the current form definition in the topic.
 
 ---++++ =action=bulkRegister=
 See BulkRegistration.
 | *Parameter* | *Description* | *Default* |
-| =emailuserswithdetails= | Whether to mail registered users or not | false |
-| =logtopic= | Topic to save the log in | Same as topic name, with 'Result' appended. |
-| =overwritehometopics= | Whether to overwrite existing home topics or not | false |
+| =logtopic= | Topic to save the log in | _same as topic name, with 'Result' appended_ |
+| =overwritehometopics= | Whether to overwrite existing home topics or not | _do not overwrite_ |
 
 ---++++ =action=changePassword=
 Change password, email address, or both, of a user.
 | *Parameter* | *Description* | *Default* |
-| =email= | new email address | _none_ |
-| =oldpassword= | current password | _none_ |
-| =password= | new password | _none_ |
-| =passwordA= | new password confirmation | _none_ |
-| =username= | login name of user to change password for | _none_ |
+| =email= | new email address | |
+| =oldpassword= | current password | _required, unless current user is an admin_ |
+| =password= | new password | |
+| =passwordA= | new password confirmation | _required if =password= is given_ |
+| =username= | login name of user to change password/email for | _required_ |
 =password, =passwordA= and =email= are optional. If neither or =password= and =passwordA= is set, then the user password is left unchanged. If =email= is unset, their email is left unchanged.
 
 ---++++ =action=resetPassword=
 Reset the password for a single or multiple users
 | *Parameter* | *Description* | *Default* |
-| =introduction= | message to be sent alongside the reset, most often used to announce to the user that they have been given an account.  | '' |
-| =loginname= | *list* of usernames to reset | none - error if not set |
+| =introduction= | message to be sent alongside the reset, most often used to announce to the user that they have been given an account.  | |
+| =loginname= | *list* of usernames to reset | _required_ |
 
 This is used by BulkResetPassword and ResetPassword. Only administrators can provide a list of LoginNames, non-admins can only provide a single LoginName. 
 
@@ -171,7 +193,7 @@ BulkRegistration provides the means to create multiple accounts but it does not 
 ---++++ =action=deleteUserAccount=
 Unregisters (removes) the currently logged-in user.
 | *Parameter* | *Description* | *Default* |
-| =password= | Users' password | none |
+| =password= | Users' password | _required_ |
 
 ---++++ =action=restoreRevision=
 Alternative entry point for =edit=, used by screens that support several actions using =manage. Parameters are as for =edit=.
@@ -179,15 +201,15 @@ Alternative entry point for =edit=, used by screens that support several actions
 ---++++ =action=addUserToGroup=
 add a user / list of users to a group
 | *Parameter* | *Description* | *Default* |
-| =create= | create the group if it doesn't exist | false |
-| =groupname= |groupname to change | none - error if not set |
-| =username= | *list* of usernames/wikinames to add to group | none - error if not set |
+| =create= | create the group if it doesn't exist | =0= |
+| =groupname= |groupname to change | _required_ |
+| =username= | *list* of usernames/wikinames to add to group | _required_ |
 
 ---++++ =action=removeUserFromGroup=
 remove a user / list of users to a group
 | *Parameter* | *Description* | *Default* |
-| =groupname= |groupname to change | none - error if not set |
-| =username= | *list* of usernames/wikinames to add to group | none - error if not set |
+| =groupname= |groupname to change | _required_ |
+| =username= | *list* of usernames/wikinames to add to group | _required_ |
 
 ---+++ =oops=
 This script is mainly used for rendering pages containing error messages, though it is also used for some functional actions such as manage pages (move topic etc).
@@ -197,9 +219,9 @@ This script is mainly used for rendering pages containing error messages, though
 The =oops= script supports the following parameters:
 
 | *Parameter* | *Description* | *Default* |
-| =def= | Optional, can be set to the name of a single definition within =template=. This definition will be instantiated in the =template= wherever =%<nop>INSTANTIATE%= is seen. This lets you use a single template file for many messages. For an example, see =oopsmanagebad.tmpl=. | |
+| =def= | Can be set to the name of a single definition within =template=. This definition will be instantiated in the =template= wherever =%<nop>INSTANTIATE%= is seen. This lets you use a single template file for many messages. For an example, see =oopsmanagebad.tmpl=. | |
 | =paramN= | Where N is an integer from 1 upwards. These values will be substituted into =template= for =%<nop>PARAM1%= etc. | |
-| =template= | Name of the template file to display | |
+| =template= | Name of the template file to display | =oops= |
 
 ---+++ =preview=
 This script is _deprecated_. Its functions are covered by the =save= script.
@@ -210,55 +232,55 @@ Renders the differences between version of a topic
 | *Parameter* | *Description* | *Default* |
 | =context= | number of lines of context | |
 | =render= | the rendering style {sequential, sidebyside, raw, debug} | =DIFFRENDERSTYLE=, =sequential= |
-| =rev1= | the higher revision | |
-| =rev2= | the lower revision | |
-| =type= | {history, diff, last} history diff, version to version, last version to previous | =diff= |
+| =rev1= | the higher revision | _latest_ |
+| =rev2= | the lower revision | _latest_ |
+| =type= | =history= gives a history, =diff= rev1 against rev2, =last= latest to previous | =diff= |
 The =context= parameter is only respected if the back-end store supports
 context diffs.
 
 ---+++ =register=
 
 | *Parameter* | *Description* | *Default* |
-| =action= | =register= or =verify= or =approve= | |
+| =action= | =register= or =verify= or =approve= | _required_ |
 
 <blockquote class="foswikiHelp"> *%X% Note:* The =register= script can only be called via the HTTP POST method except when the action is =verify=. Make sure you specify =method="post"= if you call the =register= script via a form action. It is not possible to call =register= from an =&lt;a href ...&gt;= link. The =verify= action is an exception as it is used to verify registration by clicking a href link from an email.</blockquote>
 
-| *Parameter* | *Description* |
-| =addtogroups= | Accepts a comma-separated list of group names to add the user to. |
+| *Parameter* | *Description* | *Default* |
+| =addtogroups= | Accepts a comma-separated list of group names to add the user to. | |
 | =code= | (verify= only) Activation code, verifies a pending registration  |
-| =create= | If a group does not exist, will create it. |
-| =email= | New user's email address |
-| =firstname= | New user's first name |
-| =lastname= | New user's surname |
-| =loginname= | New user's login name |
-| =password= | New user's password |
-| =wikiname= | Wikiname of user being registered |
+| =create= | If =on=, and a group being added to does not exist, create it. | |
+| =email= | New user's email address | _required_ |
+| =firstname= | New user's first name | _required_ |
+| =lastname= | New user's surname | _required_ |
+| =loginname= | New user's login name | _required_ |
+| =password= | New user's password | |
+| =wikiname= | Wikiname of user being registered | _required_ |
 | &lt;any name&gt; | Any other parameter passed during registration will normally be passed on into the new user's home topic, or ignored. |
 
 ---+++ =rename=
 Used for renaming webs, topics and attachments.
 
 | *Parameter* | *Description* | *Default* |
-| =action= | =renameweb= or anything else | |
-| =confirm= | if defined, requires a second level of confirmation | |
+| =action= | =renameweb= or =renameother= | =renameother= |
+| =confirm= | if non-0, requires a second level of confirmation | |
 | =referring_topics= | (internal use only) list of topics that refer to the web or topic being renamed | |
-| =redirectto= | If the rename process is successful, rename will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | |
+| =redirectto= | If the rename process is successful, rename will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | _the renamed topic_ |
 
 ---++++ =action="renameweb"=
 Rename a web.
 | *Parameter* | *Description* | *Default* |
-| =newparentweb= | new parent web name | existing parent |
+| =newparentweb= | new parent web name | _existing parent_ |
 | =newsubweb= | new web name | |
 
----++++ =action=<i>anything else</i>=
+---++++ =action=renameother=
 Rename a topic or an attachment.
 | *Parameter* | *Description* | *Default* |
-| =attachment= | Attachment to move | =none= |
-| =currentwebonly= | if defined, searches current web only for links to this topic | |
-| =newattachment= | New name for attachment | =attachment=, if given |
-| =newtopic= | new topic name | |
-| =newweb= | new web name | |
-| =nonwikiword= | if defined, a non-wikiword is acceptable for the new topic name | |
+| =attachment= | Attachment to move | |
+| =currentwebonly= | if non-0, searches current web only for links to this topic | _search all webs_ |
+| =newattachment= | New name for attachment | _same as =attachment=, if given_ |
+| =newtopic= | new topic name | _required_ |
+| =newweb= | new web name | _required_ |
+| =nonwikiword= | if =on=, a non-wikiword is acceptable for the new topic name | =off= |
 | =template= | template for error when an attachment doesn't exist, =deleteattachment= for when deleting an attachment | |
 
 <blockquote class="foswikiHelp"> *%X% Note:* The =rename= script can only be called via the HTTP POST method. Make sure you specify =method="post"= if you call the =rename= script via a form action. It is not possible to call =rename= from an =&lt;a href ...&gt;= link.</blockquote>
@@ -271,7 +293,7 @@ This REST ([[http://en.wikipedia.org/wiki/REST][Representational State Transfer]
 
 The =rest= script supports the following parameters:
 | *Parameter* | *Description* | *Default* |
-| =endPoint= | Where to redirect the response once the request is served, in the form "Web.Topic". If not given, the REST script must generate a valid response. |
+| =endPoint= | Where to redirect the response once the request is served, in the form "Web.Topic". If not given, the REST script must generate a valid response. | |
 | =password= | See =username= | |
 | =username= | If =TemplateLogin=, or a similar login manager not embedded in the web server, is used, then you need to pass a username and password to the server. The =username= and =password= parameters are used for this purpose. |
 
@@ -313,7 +335,7 @@ my $web = $query->{param}->{web}[0];
 </verbatim>
 
 ---+++ =save=
-The =save= script performs a range of save-related functions, as selected by the =action= parameter.
+The =save= script performs a range of save-related functions.
 
 | *Parameter* | *Description* | *Default* |
 | =action_addform= | Redirect _to_ the "change form" page. | |
@@ -324,18 +346,18 @@ The =save= script performs a range of save-related functions, as selected by the
 | =action_quietsave= | save, and return to view, =dontnotify= is =on= | |
 | =action_replaceform= | Redirect _from_ the "change form" page. | |
 | =action_repRev= | *Administrators only* replace the text of the most recent revision of the topic with the text in the =text= parameter. =text= must included embedded meta-data tags. All other parameters are ignored. You have to be an administrator to use this, and not all store implementations will support it. | |
-| =action_save= | *default*; save, return to view, dontnotify is =off= | |
-| =dontnotify= | if defined, suppress change notification | |
-| =edit= | The script to use to re-edit the topic when action is =checkpoint= | =edit= |
+| =action_save= | *default behaviour*; save, return to view | |
+| =dontnotify= | if non-0, suppress change notification | |
+| =edit= | The bin script to use to re-edit the topic when action is =checkpoint= | =edit= |
 | =editaction= | When action is =checkpoint=, =add form= or =replace form...=, this is used as the =action= parameter to the =edit= script that is redirected to after the save is complete. | |
-| =editparams= | The parameter string to use to edit the topic when action is =checkpoint= |  |
+| =editparams= | The parameter string to use to edit the topic when action is =checkpoint= | |
 | =forcenewrevision= | if set, forces a revision even if %WIKITOOLNAME% thinks one isn't needed | |
-| =formtemplate= | if defined, use the named template for the form (will remove the form is set to 'none') | |
+| =formtemplate= | if defined, use the named template for the form (will remove the form if set to 'none') | |
 | =newtopic= | If =templatetopic= is given, and this parameter is set to 1 and the topic does not exist, will clear the initial topic text. | |
 | =onlynewtopic= | If set, error if topic already exists | |
 | =onlywikiname= | If set, error if topic name is not a WikiWord | |
 | =originalrev= | Revision on which the edit started. | |
-| =redirectto= | The save process will redirect to this topic or URL if it is successful. (Typically this would be the URL that was being viewed when edit was invoked). The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | view topic being edited |
+| =redirectto= | The save process will redirect to this topic or URL if it is successful. (Typically this would be the URL that was being viewed when edit was invoked). The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | _topic specified in URL path_ |
 | =template= | The template to use to re-edit the topic when action is =checkpoint= | |
 | =templatetopic= | Name of a topic to use as a template for the text and form (new topic _only_) | |
 | =text= | New text of the topic | |
@@ -376,8 +398,8 @@ This cgi script has been deprecated. When called, it will redirect to the WebSea
 ---+++ =statistics=
 Refresh the WebStatistics topics in range of webs.
 | *Parameter* | *Description* | *Default* |
-| =logdate= | YYYYMM to generate statistics for | current month |
-| =webs= | comma-separated list of webs to run stats on | all accessible webs |
+| =logdate= | YYYYMM to generate statistics for | _current month_ |
+| =webs= | comma-separated list of webs to run stats on | _all accessible webs_ |
 
 for example:
    1 from browser %SCRIPTURL{"statistics"}% updates _all user webs_
@@ -392,23 +414,20 @@ see SiteTools#WebStatistics_site_statistics for updating statistics using cron.
 ---+++ =upload=
 Uploads an attachment to a topic. The HTTP request is expected to be in =multipart/form-data= format.
 | *Parameter* | *Description* | *Default* |
-| =changeproperties= | if defined, this is a property change operation *only* - no file will be uploaded. | null |
-| =createlink= | if defined, will create a link to file at end of topic | |
+| =changeproperties= | if non=0, this is a property change operation *only* - no file will be uploaded. | |
+| =createlink= | if non-0, will create a link to file at end of topic | |
 | =filecomment= | Comment to associate with file in attachment table | |
-| =filename= | deprecated, do not use | |
 | =filepath= | local (client) path name of the file being uploaded. This is used to look up the data for the file in the HTTP query. | |
-| =hidefile= | if defined, will not show file in attachment table | |
-| =noredirect= | Normally it will redirect to 'view' when the upload is \
+| =hidefile= | if non-0, will not show file in attachment table | |
+| =noredirect= | Normally the script will redirect to 'view' when the upload is \
      complete, but also designed to be useable for REST-style calling using \
      the 'noredirect' parameter. If this parameter is set it will return an \
      appropriate HTTP status code and print a message to STDOUT, starting \
-     with 'OK' on success and 'ERROR' on failure. |
-| =redirectto= | URL to redirect to after upload. ={AllowRedirectUrl}= \
-     must be enabled in =configure=. The parameter value can be a \
+     with 'OK' on success and 'ERROR' on failure. | |
+| =redirectto= | URL to redirect to after upload. The parameter value can be a \
      =TopicName=, a =Web.TopicName=, or a URL. Redirect to a URL only works \
      if it is enabled in =configure=, and is ignored if =noredirect= is \
-     specified.%BR% *Note:* Redirect to a URL only works if it is enabled \
-     in =configure= (Miscellaneous ={AllowRedirectUrl}=). | |
+     specified.%BR% (Miscellaneous ={AllowRedirectUrl}=). | _topic specified in URL path_ |
 
 *Tips*
    * You can use a tool like =curl= to upload files from the command line using this script.
@@ -420,13 +439,14 @@ Uploads an attachment to a topic. The HTTP request is expected to be in =multipa
 Used for viewing topics.
 
 | *Parameter* | *Description* | *Default* |
-| =contenttype= | Allows you to specify a different *Content-Type:* (e.g. =contenttype=text/plain=) | |
-| =raw=on= | Shows the text of the topic in a scrollable textarea | |
-| =raw=debug= | As =raw=on=, but also shows the metadata (forms etc) associated with the topic. | |
-| =raw=text= | Shows only the source of the topic, as plain text (Content-type: text/plain). Only shows the body text, *not* the form or other meta-data. | |
-| =raw=all= | Shows only the source of the topic, as plain text (Content-type: text/plain), *with embedded meta-data*. This may be useful if you want to extract the source of a topic to a local file on disc. | |
-| =rev= | Revision to view (e.g. =rev=45=) | |
-| =SEARCH&lt;hex number&gt;= | Identifies a result set that is being paged through |
+| =contenttype= | Allows you to specify a different *Content-Type:* (e.g. =contenttype=text/plain=) | =text/html= |
+| =raw= | <ul>\
+<li> =on= - show the text of the topic in a scrollable textarea. </li> \
+<li> =debug= - as =on=, but also shows the metadata (forms etc) associated with the topic. </li> \
+<li> =text= - show only the source of the topic, as plain text (Content-type: text/plain). Only shows the body text, *not* the form or other meta-data. </li> \
+<li> =all= - show only the source of the topic, as plain text (Content-type: text/plain), *with embedded meta-data*. This may be useful if you want to extract the source of a topic to a local file on disc. </li></ul> | |
+| =rev= | Revision to view (e.g. =rev=45=) | _latest_ |
+| =SEARCH&lt;hex number&gt;= | Identifies a result set that is being paged through | |
 | =section= | Allows to view only a part of the topic delimited by a named section (see %SYSTEMWEB%.VarSTARTSECTION). If the given section is not present, no topic content is displayed. | |
 | =template= | Allows you to specify a different skin template, overriding the 'view' template the view script would normally use. The default template is =view=. For example, you could specify [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit][%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit]]. This is mainly useful when you have specialised templates for a Wiki Application. | |
 
@@ -436,13 +456,13 @@ Used for viewing topics.
 Used for viewing attachments. Normally, a site will publish the attachments (=pub=) directory using a URL. However if it contains sensitive information, you will want to protect attachments using [[AccessControl][AccessControls]]. In this case, you can use the =viewfile= script to give access to attachments while still checking access controls.
 
 | *Parameter* | *Description* | *Default* |
-| =filename= | name of attachment | |
-| =rev= | Revision to view | |
+| =filename= | name of attachment | _required_ |
+| =rev= | Revision to view | _latest_ |
 
 Instead of using the =filename= parameter, you can append the attachment name
 to the end of the URL path (after the topic) e.g. =%SCRIPTURL{viewfile}%/Webname/TopicName/Attachment.gif=
 
----++ Command Line Scripts
+---++ Tool Scripts
 Details on command line scripts located in the =tools= directory.
 
 ---+++ =geturl.pl=
@@ -452,7 +472,7 @@ This is a very simple script to get the content of a web site. It is marked as _
    * Will get: =http://some.domain:80/some/dir/file.html=
 
 ---+++ =rewriteshebang.pl=
-Simple script to rewrite the =#!/usr/bin/perl= shebang lines specific to your local Perl installation. It will rewrite the first line of all your cgi scripts so they use a different shebang line. Use it if your perl is in a non-standard location, or you want to use a different interpreter (such as 'speedy').
+Simple script to rewrite the =#!/usr/bin/perl= [[http://en.wikipedia.org/wiki/Shebang_%28Unix%29][shebang]] lines specific to your local Perl installation. It will rewrite the first line of all your cgi scripts so they use a different shebang line. Use it if your perl is in a non-standard location, or you want to use a different interpreter (such as 'speedy').
 
 ---+++ =tick_foswiki.pl=
 This script executes a number of non-essential regular administration tasks that will help keep your site healthy and happy, such as removing expired sessions and lease files.
@@ -461,6 +481,8 @@ It is intended to be run as a cron job or a scheduled task once a week. Example 
 =0 0 * * 0 cd /usr/local/foswiki/bin && perl ../tools/tick_foswiki.pl=
 
 *Note:* The script has to be run by a user who can write files created by the webserver user.
+
+Extensions, such as the MailerContrib, also install tool scripts. Check the documentation of the extension for details.
 
 ---
 *Related Topics:* AdminDocumentationCategory, DeveloperDocumentationCategory
