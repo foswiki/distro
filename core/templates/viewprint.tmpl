@@ -1,11 +1,13 @@
 %{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
 
+%{ Do not load javascripts }%
+%TMPL:DEF{"script"}%%RENDERZONE{"head" format=""}%%TMPL:END%
+
 %TMPL:DEF{"form"}%%META{"form"}%%TMPL:END%
 %TMPL:DEF{"attachments"}%%META{"attachments"}%%TMPL:END%
 
 %TMPL:DEF{"standardheader"}%%TMPL:END%
 %TMPL:DEF{"simpleheader"}%%TMPL:END%
-
 
 %TMPL:DEF{"topicpathseparator"}%<span class='foswikiSeparator'>&nbsp;&gt;&nbsp;</span>%TMPL:END%
 

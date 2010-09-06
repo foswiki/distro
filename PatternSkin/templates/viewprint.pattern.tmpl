@@ -1,7 +1,8 @@
 %TMPL:INCLUDE{"viewprint"}%
 %TMPL:DEF{"logo"}%%TMPL:END%
 
-%TMPL:DEF{"script:skintemplate"}%%TMPL:END%
+%{ Do not load javascripts }%
+%TMPL:DEF{"script"}%%RENDERZONE{"head" format=""}%%TMPL:END%
 
 
 %TMPL:DEF{"bodyclassname"}%patternViewPage patternPrintPage%TMPL:END%

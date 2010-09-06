@@ -51,11 +51,6 @@
 		margin:0;
 		padding:1em 2em;
 	}
-	#patternBottomBarContents,
-	#patternTopBarContents {
-		padding:0 0 0 2em; /* bigger side margin for binding */
-		margin:0;
-	}
 	#patternBottomBar {
 		border:none;
 	}
@@ -209,11 +204,6 @@
 	#patternMainContents {
 		margin:0;
 		padding:1em 2em;
-	}
-	#patternBottomBarContents,
-	#patternTopBarContents {
-		padding:0 0 0 2em; /* bigger side margin for binding */
-		margin:0;
 	}
 	#patternBottomBar {
 		border:none;
