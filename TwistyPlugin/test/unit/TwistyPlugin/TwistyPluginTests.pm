@@ -101,7 +101,7 @@ sub test_TWISTY_mode_default_with_id {
 SOURCE
 
     my $expected = <<'EXPECTED';
-<div class="twistyPlugin foswikiMakeVisibleBlock"><span id="myid1show" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="myid1hide" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a></span></div><div class="twistyPlugin"><div id="myid1toggle" class="twistyContent foswikiMakeHidden twistyInited">content</div></div>
+<div class="twistyPlugin foswikiMakeVisibleBlock"><span id="myidshow" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="myidhide" class="twistyTrigger foswikiUnvisited twistyHidden twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a></span></div><div class="twistyPlugin"><div id="myidtoggle" class="twistyContent foswikiMakeHidden twistyInited">content</div></div>
 EXPECTED
 
     $this->do_test( $expected, $source );

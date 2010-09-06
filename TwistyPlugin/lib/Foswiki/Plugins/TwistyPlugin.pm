@@ -177,6 +177,12 @@ sub _TWISTYBUTTON {
         _wrapInButtonHtml( $btn, $mode ) );
 }
 
+=pod
+
+If no ID is passed, creates a new unique id based on web and topic. Adds a random number for cases the twisty is loaded through AJAX.
+
+=cut
+
 sub _TWISTY {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
@@ -184,6 +190,7 @@ sub _TWISTY {
     my $id = $params->{'id'};
     if ( !defined $id || $id eq '' ) {
         $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
+        # randomize this id in case the twisty is loaded through AJAX
         $params->{'id'} .= int( rand(10000) ) + 1;
     }
     return _TWISTYBUTTON( $session, $params, $theTopic, $theWeb )

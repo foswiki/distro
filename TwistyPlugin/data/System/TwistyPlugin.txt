@@ -145,7 +145,7 @@ my twisty content
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
 
-*NOTE:* Twisty ids are generated automatically. If you need control over exactly _which_ Twisty should be remembered, add the parameter =id=:
+*NOTE:* Twisty ids are generated automatically. If you need control over exactly _which_ Twisty should be remembered, add the parameter =id=.
 
 <verbatim class="tml">
 %TWISTY{
@@ -158,7 +158,7 @@ my customer list
 %ENDTWISTY%
 </verbatim>
 
-Note that =id= sets a sitewide cookie. To create a unique id, add topic or web macros:
+Note that =id= sets a site wide cookie. To create a unique id, add topic or web macros:
 <verbatim class="tml">
 id="%WEB%_%TOPIC%_currentCustomerList"
 </verbatim>
