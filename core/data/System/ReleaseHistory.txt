@@ -5,6 +5,14 @@
 
 %TOC%
 
+---++ Foswiki Beta Release 1.1.0 Beta 1 - 06 Sep 2010
+
+Foswiki 1.1.0 Beta 1 was built 06 Sep 2010. It is a release with more than 260 bug fixes relative to 1.0.10 and more than 670 bug fixes relative to 1.0.0. This release adds many new enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
+
+---++ Foswiki Release Candidate 1.0.10 RC1 - 30 Aug 2010
+
+Foswiki 1.0.10 RC1 was built 30 Aug 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.
+
 ---++ Foswiki Release 1.0.9 - 17 Jan 2010
 
 Foswiki 1.0.9 was built 17 Jan 2010. It is a patch release with more than 320 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bugs in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
