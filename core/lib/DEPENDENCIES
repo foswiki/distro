@@ -34,5 +34,5 @@ Net::SMTP,>=2.29,cpan,Optional, may be required for sending mail
 POSIX,>=1,cpan,Required, for base Foswiki
 Socket,>=0,cpan,Required, for base Foswiki
 Symbol,>=0,cpan,Optional, may be required for international characters
-Unicode::MapUTF8,>=0,cpan,Optional, may be required for international characters
+Unicode::MapUTF8,>=0,cpan,Optional, This is required for international characters for Perl 5.6. Do not install this for Perl 5.8 or later.
 Win32::Console,>=0,cpan,Optional, may be required for Windows
