@@ -35,5 +35,5 @@ Authen::SASL,>=2.00,cpan,Optional, required for sending mail with Net::SMTP when
 POSIX,>=1,cpan,Required, for base Foswiki
 Socket,>=0,cpan,Required, for base Foswiki
 Symbol,>=0,cpan,Optional, may be required for international characters
-Unicode::MapUTF8,>=0,cpan,Optional, may be required for international characters
+Unicode::MapUTF8,>=0,cpan,Optional, This is required for international characters for Perl 5.6. Do not install this for Perl 5.8 or later.
 Win32::Console,>=0,cpan,Optional, may be required for  international characters on Windows 
