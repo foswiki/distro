@@ -39,6 +39,7 @@ provide defaults, and it would be silly to have them in two places anyway.
 
 sub readConfig {
     return if $Foswiki::cfg{ConfigurationFinished};
+    my $validLSC = 1;   #Assume LocalSite.cfg is valid
 
     # Read Foswiki.spec and LocalSite.cfg
     for my $file (qw( Foswiki.spec LocalSite.cfg)) {
@@ -55,6 +56,7 @@ sub readConfig {
                     # Non-existent LocalSite.cfg is not an error
                     $errorMessage = "Could not do $file: $errno $!";
                 }
+                $validLSC = 0;
             }
             elsif ( not $return eq '1' ) {
                 $errorMessage = "Could not run $file" unless $return;
@@ -87,17 +89,22 @@ GOLLYGOSH
         # a LocalSite.cfg, which we don't want
         # die "$var must be defined in LocalSite.cfg"
         #  unless( defined $Foswiki::cfg{$var} );
-        $Foswiki::cfg{$var} = 'NOT SET' unless defined $Foswiki::cfg{$var};
-      }
+        unless (defined $Foswiki::cfg{$var}) {
+            $Foswiki::cfg{$var} = 'NOT SET';
+            $validLSC = 0;
+        }
+    }
 
-      # Expand references to $Foswiki::cfg vars embedded in the values of
-      # other $Foswiki::cfg vars.
-      expand( \%Foswiki::cfg );
+    # Expand references to $Foswiki::cfg vars embedded in the values of
+    # other $Foswiki::cfg vars.
+    expand( \%Foswiki::cfg );
 
     $Foswiki::cfg{ConfigurationFinished} = 1;
 
     # Alias TWiki cfg to Foswiki cfg for plugins and contribs
     *{'TWiki::cfg'} = *{'Foswiki::cfg'};
+
+    return $validLSC;
 }
 
 sub expand {

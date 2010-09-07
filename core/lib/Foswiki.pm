@@ -266,7 +266,10 @@ BEGIN {
     }
 
     # readConfig is defined in Foswiki::Configure::Load to allow overriding it
-    Foswiki::Configure::Load::readConfig();
+    if ( Foswiki::Configure::Load::readConfig() ) {
+        $Foswiki::cfg{isVALID} = 1;
+    }
+
 
     if ( $Foswiki::cfg{WarningsAreErrors} ) {
 
