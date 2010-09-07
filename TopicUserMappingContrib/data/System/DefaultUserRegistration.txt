@@ -165,7 +165,7 @@ Required field password
 Only shown if the password manager supports changing the password / email.
 
 %STARTSECTION{"requiredField_password"}%<li><label for="Twk1Password"><span class="required">*</span>%MAKETEXT{"Your password"}%</label>
-<div><input type="password" id="Twk1Password" name="Twk1Password" size="40" class="foswikiInputField" value="" tabindex="6" onblur="" /></div></li>%IF{"{Register}{RequirePasswordConfirmation}" then="<li><label for=\"Twk1Confirm\"><span class=\"required\">*</span>$percntMAKETEXT{\"Confirm password\"}$percnt</label>
+<div><input type="password" id="Twk1Password" name="Twk1Password" size="40" class="foswikiInputField" value="" tabindex="6" onblur="" /></div></li>%IF{"NOT {Register}{DisablePasswordConfirmation}" then="<li><label for=\"Twk1Confirm\"><span class=\"required\">*</span>$percntMAKETEXT{\"Confirm password\"}$percnt</label>
 <div><input type=\"password\" id=\"Twk1Confirm\" name=\"Twk1Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" tabindex=\"7\" onblur=\"\" /></div></li>"}%%ENDSECTION{"requiredField_password"}%
 
 
