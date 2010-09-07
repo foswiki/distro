@@ -383,7 +383,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Show extra help for !ApacheLogin users for Main.AdminUser login
       * Set ADMINLOGIN = %IF{"{LoginManager} = 'Foswiki::LoginManager::ApacheLogin' AND NOT context authenticated"
         then="Foswiki is configured using <nop>ApacheLogin, please [[%LOGINURL%][login]] as a normal user first. Then the Admin Login will replace this text"
-        else="[[%SCRIPTURL{login}%?sudo=sudo;origurl=%SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%][internal admin login]] (use the username suggested and the password set in configure)."}%
+        else="[[%SCRIPTURL{login}%/%BASEWEB%/%BASETOPIC%?sudo=sudo][internal admin login]] (use the username suggested and the password set in configure)."}%
 
    * Formatting of revision comparison: =sequential=, =sidebyside= or =debug=
       * Set DIFFRENDERSTYLE = sequential
