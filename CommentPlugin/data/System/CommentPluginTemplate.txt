@@ -1,6 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1166310108" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 
+<!-- %JQREQUIRE{"chili"}% -->
+
 ---+!! Templates for CommentPlugin
 
 See [[%SYSTEMWEB%.CommentPlugin#Customisation][CommentPlugin: Customisation]] for help.
@@ -370,9 +372,42 @@ Post to a different topic and return to here. The comment =target= is set in the
 %TMPL:DEF{OUTPUT:return}%%POS:BEFORE%%TMPL:P{OUTPUT:threadmode}%%TMPL:END%
 </verbatim>
 
+---++++ ajax
+Post to the current topic using AJAX. This template is paired with
+comment_src.js (in the pub area for
+the plugin). The template is very similar to 'above', except that it uses an
+asynchronous save and the topic is not refreshed, instead the Javascript
+inserts a "temporary" comment in the DOM. It is intended as an example
+which you can copy to create your own wowie-zowie jquery comment box. And
+contribute it back to the community, of course!
+
+<verbatim class="tml">
+%TMPL:DEF{FORM:ajax}%%TMPL:P{"LIBJS" id="COMMENTPLUGIN_AJAX" id="CommentPlugin/comment"}%<form class="commentPluginForm" action="%SCRIPTURL{rest}%/CommentPlugin/comment">
+<input type="hidden" name="topic" value="%WEB%.%TOPIC%"/>
+<input type="hidden" name="comment_ajax" value="1"/>
+%COMMENTPROMPT%</form>%TMPL:END%
+%TMPL:DEF{PROMPT:ajax}%
+<div class="commentPlugin commentPluginPromptBox">
+ <table border="0" cellpadding="0" cellspacing="0">
+  <tr valign="middle">
+    <td>
+      <textarea %DISABLED% rows="%rows|3%" cols="%cols|70%"\
+        name="comment" class="commentPluginAjax foswikiInputField"\
+        wrap="soft" title="%MESSAGE%">%MESSAGE%</textarea>
+    </td>
+    <td>&nbsp;<input %DISABLED% type="button"\
+      value="%button|Add comment%" class="commentPluginAjax foswikiButton" />
+      <br/><small class="commentPluginStatusResponse"></small>
+    </td>
+  </tr>
+ </table>
+</div><!--/commentPlugin-->%TMPL:END%
+</verbatim>
+<verbatim class="tml">
+%TMPL:DEF{OUTPUT:ajax}%%POS:BEFORE%%TMPL:P{OUTPUT:threadmode}%%TMPL:END%
+</verbatim>
+
 %ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#return][return]]
-
-
 
 
 ---++ Include !UserComments
@@ -380,4 +415,4 @@ Post to a different topic and return to here. The comment =target= is set in the
 Including UserCommentsTemplate ("Template" gets automatically appended to the name):
 
 <verbatim class="tml">%TMPL:INCLUDE{"UserComments"}%</verbatim>
-<!-- %JQREQUIRE{"chili"}% -->
+
