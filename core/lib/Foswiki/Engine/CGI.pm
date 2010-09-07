@@ -25,6 +25,12 @@ use Foswiki::Response        ();
 
 sub run {
     my $this = shift;
+    unless ($Foswiki::cfg{isVALID}) {
+        print "Content-type: text/html\n\n";
+        print STDOUT "<body><h1>Foswiki Configuration Error</h1><br>Please run <code>configure</code> to create a valid configuration<br />\n";
+        print STDOUT "If you've already done this, then your <code>lib/LocalSite.cfg</code> is most likely damaged\n</body>";
+        exit 1;
+        }
     my $req  = $this->prepare;
     if ( UNIVERSAL::isa( $req, 'Foswiki::Request' ) ) {
         my $res = Foswiki::UI::handleRequest($req);

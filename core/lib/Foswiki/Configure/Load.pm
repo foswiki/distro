@@ -56,6 +56,7 @@ sub readConfig {
     my $noexpand = shift;
 
     return if $Foswiki::cfg{ConfigurationFinished};
+    my $validLSC = 1;   # Assume it's valid - will be set false if errors detected.
 
     # Read Foswiki.spec and LocalSite.cfg
     for my $file (qw( Foswiki.spec LocalSite.cfg)) {
@@ -72,6 +73,7 @@ sub readConfig {
                     # LocalSite.cfg doesn't exist, which is OK
                     $errorMessage = "Could not do $file: $!";
                 }
+                $validLSC = 0;
             }
             elsif ( not $return eq '1') {
                 print STDERR "Running file $file returned  unexpected results: $return \n";
@@ -100,7 +102,10 @@ GOLLYGOSH
         # a LocalSite.cfg, which we don't want
         # die "$var must be defined in LocalSite.cfg"
         #  unless( defined $Foswiki::cfg{$var} );
-        $Foswiki::cfg{$var} = 'NOT SET' unless defined $Foswiki::cfg{$var};
+        unless (defined $Foswiki::cfg{$var}) {
+            $Foswiki::cfg{$var} = 'NOT SET';
+            $validLSC = 0;
+            }
       }
 
       # Patch deprecated config settings
@@ -146,6 +151,9 @@ CODE
 
     # Alias TWiki cfg to Foswiki cfg for plugins and contribs
     *TWiki::cfg = \%Foswiki::cfg;
+
+    # Explicit return true if we've completed the load
+    return $validLSC;
 }
 
 =begin TML
