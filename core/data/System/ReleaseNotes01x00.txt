@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252718469" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 1.0.10 - 30 Aug 2010
+---+!! Foswiki Release 1.0.10 - 08 Sep 2010
 
 %TOC%
 
@@ -26,7 +26,7 @@ Foswiki is the old TWiki project under a new name. Restrictions on the use of th
    * Foswiki 1.0.7 was built 20 Sep 2009. It is a patch release with more than 240 bug fixes relative to 1.0.0 and some enhancements. This release fixes some serious issues introduced by the CSRF fix and the redirect cache fix in 1.0.6. Major enhancement that also fixes many annoying editor bugs is the upgrade of the !Tiny MCE editor to version 3.2.2. 
    * Foswiki 1.0.8 was built 29 Nov 2009. It is a patch release with more than 280 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevented efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded with the latest Tiny MCE editor release 3.2.7.
    * Foswiki 1.0.9 was built 17 Jan 2010. It is a patch release with more than 320 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bugs in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
-   * Foswiki 1.0.10 was built 30 Aug 2010 as a patch release with more than 440 bug fixes relative to 1.0.0. 
+   * Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.
 
 ---++ Pre-installed Extensions
 
@@ -886,6 +886,8 @@ None
 
 ---++ Fixes
 
+<noautolink>
+| [[%BUGS%/Item709][Item709]] | Foswiki in virtual hosting with !SuexecUserGroup creates directories with wrong permissions |
 | [[%BUGS%/Item1029][Item1029]] | TemplateLogin provides incorrect status for Authentication requests & failures. |
 | [[%BUGS%/Item1440][Item1440]] | =Form: get find category template twikicatitems= error in foswiki warning log file |
 | [[%BUGS%/Item1701][Item1701]] | Reset password doesn't work with =ApacheHtpasswdUser.pm= |
@@ -900,7 +902,6 @@ None
 | [[%BUGS%/Item2542][Item2542]] | empty paths in configure result in "NOT SET" |
 | [[%BUGS%/Item2618][Item2618]] | TinyMCEPlugin inserts weird HTML that breaks TML tables |
 | [[%BUGS%/Item2623][Item2623]] | PROXY settings should be moved out of EXPERT mode once authentication is implemented |
-| [[%BUGS%/Item709][Item709]] | Foswiki in virtual hosting with !SuexecUserGroup creates directories with wrong permissions |
 | [[%BUGS%/Item8403][Item8403]] | TablePlugin initdirection does not work in persistant perl environment |
 | [[%BUGS%/Item8418][Item8418]] | cache more filetypes with mod_expires (.ico added; .jpeg added--.jpg already there) |
 | [[%BUGS%/Item8434][Item8434]] | spelling mistakes |
@@ -936,7 +937,7 @@ None
 | [[%BUGS%/Item8865][Item8865]] | rdiff DIFFRENDERSTYLE does not work as expected |
 | [[%BUGS%/Item8874][Item8874]] | Topic System/LoginName references wrong Users list |
 | [[%BUGS%/Item8886][Item8886]] | configure Extension installer and lister is not very forgiving of errors |
-| [[%BUGS%/Item8889][Item8889]] | UI for configure  Plugins is overwhelming and presents little-used configuration options in normal mode |
+| [[%BUGS%/Item8889][Item8889]] | UI for configure | Plugins is overwhelming and presents little-used configuration options in normal mode |
 | [[%BUGS%/Item8896][Item8896]] | SpreadSheetPlugin ignores SKIPINCLUDE option |
 | [[%BUGS%/Item8903][Item8903]] | INCLUDE will return entire topic if pattern does not match |
 | [[%BUGS%/Item8967][Item8967]] | Crashes with CPAN module Net::LDAP::Constant |
@@ -956,7 +957,7 @@ None
 | [[%BUGS%/Item9274][Item9274]] | Double slash in path to CPAN/lib |
 | [[%BUGS%/Item9308][Item9308]] | InterwikiPlugin reads !InterWikis topic without checking access permissions |
 | [[%BUGS%/Item9310][Item9310]] | InterwikiPlugin used to allow ' in links |
-| [[%BUGS%/Item9321][Item9321]] | Logging of "logout" event exposed uninitialized string in Foswiki.pm logger |
+| [[%BUGS%/Item9321][Item9321]] | Logging of =logout= event exposed uninitialized string in Foswiki.pm logger |
 | [[%BUGS%/Item9327][Item9327]] | Documentation topic for WIKIWEBMASTER is missing |
 | [[%BUGS%/Item9331][Item9331]] | configue gets confused by commented out settings |
 | [[%BUGS%/Item9351][Item9351]] | Canonicalise list processing |
@@ -965,19 +966,37 @@ None
 | [[%BUGS%/Item9417][Item9417]] | Configure guesses incorrect /pub urlpath if /bin not in path for very short URLs |
 | [[%BUGS%/Item9429][Item9429]] | !VarINCLUDE should clearly differentiate the options than only apply to URL style includes |
 | [[%BUGS%/Item9441][Item9441]] | =bin/htaccess.txt= needs to clarify the tailoring instructions |
-| [[%BUGS%/Item9489][Item9489]] | TablePlugin sort should strip extraneous HTML from string data before comparing. |
+| [[%BUGS%/Item9489][Item9489]] | TablePlugin sort should strip extraneous HTML from string data before comparing |
 | [[%BUGS%/Item9536][Item9536]] | don't guess windows paths with backslash and then forcethem to change them to fowardslash |
 | [[%BUGS%/Item9542][Item9542]] | mailprogram checker in configure should error or warn if its not there. |
+| [[%BUGS%/Item9549][Item9549]] | TestCaseAutoSpreadSheetPlugin should not be an 'Auto, because is uses different urlparams as it needs SSP |
+| [[%BUGS%/Item9556][Item9556]] | Plugins released with 1.0.10 should be the most recent available from the Extensions web. |
+| [[%BUGS%/Item9568][Item9568]] | CommentPlugin::commonTagsHandler has wrong signature |
+| [[%BUGS%/Item9569][Item9569]] | Non-trivial macros are rendered within verbatim blocks of included topics |
+| [[%BUGS%/Item9575][Item9575]] | Rename WebChangesAlert to WebNotifyHelp |
+| [[%BUGS%/Item9593][Item9593]] | Realm settings between Foswiki.spec and httpd_conf and htaccess don't match. |
+| [[%BUGS%/Item9594][Item9594]] | an unsupported htpasswd encoding setting corrupts your password file. |
+| [[%BUGS%/Item9596][Item9596]] | apache digest auth examples should include the IE hack setting. |
+| [[%BUGS%/Item9601][Item9601]] | CommentPlugin forces uprev each time you save |
+| [[%BUGS%/Item9614][Item9614]] | Cruddy regex in preview mangles links |
+| [[%BUGS%/Item9616][Item9616]] | add new 1.1 Group topic forward  compatibility to 1.0.10 |
+| [[%BUGS%/Item9630][Item9630]] | Configure lures people into installing Unicode::MapUTF8 though it is for  Perl 5.6 only. This makes configure fail |
+| [[%BUGS%/Item9633][Item9633]] | configure will not run and creation of bogus NOT SET dir depending on ErrorDocument setting in apache config.  |
+</noautolink>
 
 ---++ Enhancements
 
+<noautolink>
+| [[%BUGS%/Item3499][Item3499]] | Additional granularty to "ALLOWTOPICCHANGE"  |
 | [[%BUGS%/Item8619][Item8619]] | Improve documentation on UserForm |
 | [[%BUGS%/Item8677][Item8677]] | Change JSCalendarContrib (used for instance for date fields in an !EditTable) to display time selector if formatting parameters contains time |
 | [[%BUGS%/Item8795][Item8795]] | TLC for SearchPatternCookbook |
-
+| [[%BUGS%/Item9591][Item9591]] | Eliminate use of =commonTagsHandler= |
+| [[%BUGS%/Item9592][Item9592]] | Add JQuery/AJAX example |
+</noautolink>
 
 ---
- <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
+<!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = http://foswiki.org/Tasks
 -->
 
