@@ -509,9 +509,12 @@ h3 .foswikiSmall {
 	border:none;
 }
 .foswikiHelp {
-	padding:.5em 10px;
-	margin:0 0 1em 0;
+	padding:1em 10px;
+	margin:1em 0;
 	border-style:none;
+}
+.patternTop .foswikiHelp {
+	margin:0 0 1em 0;
 }
 .foswikiHelp ul {
 	margin-top:0;
@@ -744,9 +747,6 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternBorder .patternBorder {
 	border-style:solid none none none;
 	margin-top:-1px;
-}
-.patternEditPage .patternTopicActions {
-	margin:2em 0 0 0;
 }
 .patternActionButtons a:link,
 .patternActionButtons a:visited {
