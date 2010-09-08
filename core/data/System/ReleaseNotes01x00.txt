@@ -937,7 +937,7 @@ None
 | [[%BUGS%/Item8865][Item8865]] | rdiff DIFFRENDERSTYLE does not work as expected |
 | [[%BUGS%/Item8874][Item8874]] | Topic System/LoginName references wrong Users list |
 | [[%BUGS%/Item8886][Item8886]] | configure Extension installer and lister is not very forgiving of errors |
-| [[%BUGS%/Item8889][Item8889]] | UI for configure | Plugins is overwhelming and presents little-used configuration options in normal mode |
+| [[%BUGS%/Item8889][Item8889]] | UI for configure, Plugins is overwhelming and presents little-used configuration options in normal mode |
 | [[%BUGS%/Item8896][Item8896]] | SpreadSheetPlugin ignores SKIPINCLUDE option |
 | [[%BUGS%/Item8903][Item8903]] | INCLUDE will return entire topic if pattern does not match |
 | [[%BUGS%/Item8967][Item8967]] | Crashes with CPAN module Net::LDAP::Constant |
