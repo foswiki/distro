@@ -32,8 +32,6 @@ Edit this topic, and change the color as you like.
 ---+++ Text
 ---++++ MAIN_TEXT Main text color
    * Local MAIN_TEXT = #000
----++++ MAIN_TEXT_BACKGROUND Main background color
-   * Local MAIN_TEXT_BACKGROUND = #fff
 ---++++ LIGHT_ON_DARK_TEXT Light on dark text color
    * Local LIGHT_ON_DARK_TEXT = #fff
 ---++++ GRAYED_TEXT
@@ -115,16 +113,22 @@ Edit this topic, and change the color as you like.
 ---+++ Background colors
 ---++++ PAGE_BACKGROUND General background color
    * Local PAGE_BACKGROUND = #eeedec
+---++++ MAIN_TEXT_BACKGROUND Main background color
+   * Local MAIN_TEXT_BACKGROUND = #fff
 ---++++ NEUTRAL_BACKGROUND
    * Local NEUTRAL_BACKGROUND = #f5f5f5
 ---++++ SIDE_BAR_BACKGROUND Side bar background
    * Local SIDE_BAR_BACKGROUND = #fff
 ---++++ TOP_BAR_BACKGROUND Top bar background
-   * Local TOP_BAR_BACKGROUND = #e8f3f7
+   * Local TOP_BAR_BACKGROUND = #fff
 ---++++ ATTACHMENT_AND_FORM_BACKGROUND Attachment, form
    * Local ATTACHMENT_AND_FORM_BACKGROUND = %ACTIVE_FORM_BACKGROUND%
+---++++ BACKGROUND_ON_FORM_BACKGROUND Table background on a form
+   * Local BACKGROUND_ON_FORM_BACKGROUND = #fcfcfc
 ---++++ TOPIC_ACTION_BACKGROUND Topic action row
-   * Local TOPIC_ACTION_BACKGROUND = #f5f5f3
+   * Local TOPIC_ACTION_BACKGROUND = %MAIN_TEXT_BACKGROUND%
+---++++ CODE_BACKGROUND code, pre and verbatim
+   * Local CODE_BACKGROUND = #ededeb
 ---++++ NOTIFICATION_BACKGROUND Info, broadcast message and notifications
    * Local NOTIFICATION_BACKGROUND = #fff7e7
 ---++++ INFO_BACKGROUND
@@ -190,7 +194,7 @@ Edit this topic, and change the color as you like.
 ---++++ FORM_BORDER Form (same as foswikiTable border)
    * Local FORM_BORDER = #cfcfcf
 ---++++ ACTIVE_FORM_BACKGROUND Edit form, form steps
-   * Local ACTIVE_FORM_BACKGROUND = #fafafa
+   * Local ACTIVE_FORM_BACKGROUND = #f6f6f5
 ---++++ FORMFIELD_ACTIVE Active form field
    * Local FORMFIELD_ACTIVE = #ebf5fa
 ---++++ FORM_HEADER_TEXT Header text on form background
@@ -263,7 +267,7 @@ pre, code, tt {
    color:%CODE_TEXT%;
 }
 pre {
-   background:%NEUTRAL_BACKGROUND%;
+   background:%CODE_BACKGROUND%;
    border-color:%NEUTRAL_BORDER%;
 }
 blockquote {
@@ -452,28 +456,21 @@ a:hover.twistyTrigger {
    color:%LINK_TEXT_HOVER%;
 }
 
-table.foswikiFormTable th.foswikiFormTableHRow,
-table.foswikiFormTable td.foswikiFormTableRow {
-   color:%MUTED_TEXT%;
-}
 .foswikiEditForm .foswikiFormTable,
 .foswikiEditForm .foswikiFormTable th,
 .foswikiEditForm .foswikiFormTable td {
    border-color:%TABLE_BORDER%;
 }
-.foswikiEditForm .foswikiFormTable th {
-   background-color:%MAIN_TEXT_BACKGROUND%;
-}
-.foswikiEditForm .foswikiFormTable th.foswikiFormTableHRow {
-   background-color:%MAIN_TEXT_BACKGROUND%;
-}
-.foswikiAttachments table,
-table.foswikiFormTable {
+.foswikiAttachments table {
    border-color:%TABLE_BORDER%;
    background-color:%MAIN_TEXT_BACKGROUND%;
 }
-.foswikiAttachments table {
-   background-color:%MAIN_TEXT_BACKGROUND%;
+table.foswikiFormTable,
+.foswikiAttachments table,
+.foswikiAttachments th,
+.foswikiAttachments td {
+   border-color:%TABLE_BORDER%;
+   background-color:%BACKGROUND_ON_FORM_BACKGROUND% !important;
 }
 .foswikiForm td,
 .foswikiForm th,
@@ -625,7 +622,7 @@ a:hover .foswikiAccessKey {
 }
 
 .patternTopicActions {
-   background-color:%MAIN_TEXT_BACKGROUND%;
+   background-color:%TOPIC_ACTION_BACKGROUND%;
    color:%MAIN_TEXT%;
 }
 .patternActionButtons a:link,
@@ -704,20 +701,6 @@ table#foswikiSearchTable th {
    styles and overridden styles used in search.pattern.tmpl
    -----------------------------------------------------------   */
 
-h3.foswikiSearchResultsHeader,
-h4.foswikiSearchResultsHeader {
-   border-color:%SEPARATOR_BORDER%;
-}
-h4.foswikiSearchResultsHeader {
-   color:%GRAYED_TEXT%;
-}
-h4.foswikiSearchResultsHeader b,
-h4.foswikiSearchResultsHeader strong {
-	color:%MAIN_TEXT%;
-}
-.patternNoViewPage h4.foswikiSearchResultsHeader {
-   color:%HEADER_TEXT%;
-}
 .foswikiSearchResult .foswikiAlert {
    color:%ALERT_TEXT%;
 }
@@ -755,10 +738,10 @@ h4.foswikiSearchResultsHeader strong {
 tr.foswikiDiffDebug td {
    border-color:%NEUTRAL_BACKGROUND%;
 }
-.foswikiDiffTable th {
+.foswikiDiffTable table th {
    background-color:%NEUTRAL_BACKGROUND%;
 }
-.foswikiDiffTable table th {
+.foswikiDiffTable th {
    background-color:%NEUTRAL_BACKGROUND%;
 }
 /* Changed */
@@ -801,6 +784,8 @@ tr.foswikiDiffDebug td {
 .foswikiDiffLineNumberHeader th {
    background-color:%NEUTRAL_BACKGROUND% !important;
 }
+
+
 
 
 /* IMAGES */
@@ -1007,7 +992,14 @@ li.patternLogIn {
 .patternBorder {
 	border-color:%NEUTRAL_BORDER%;
 }
-
+a.jqPopUpWindow:link,
+a.jqPopUpWindow:visited,
+a.jqPopUpWindow:hover {
+	background-image:url(popup.gif);
+	background-repeat:no-repeat;
+	background-position:right;
+	padding-right:18px;
+}
 %ENDATTACH%
 </verbatim>
 <!-- %JQREQUIRE{"chili"}% -->
