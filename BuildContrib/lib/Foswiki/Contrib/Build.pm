@@ -1,5 +1,6 @@
 #
 # Copyright (C) 2004 C-Dot Consultants - All rights reserved
+# Copyright (C) 2008-2010 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -45,7 +46,7 @@ our $basedir;
 our $buildpldir;
 our $libpath;
 
-our $RELEASE = "31 Jul 2010";
+our $RELEASE = "8 Sep 2010";
 our $VERSION = '$Rev$';
 
 our $SHORTDESCRIPTION = 'Automates build and packaging process, including installer generation, for extension modules.';
@@ -111,10 +112,62 @@ sub _findRelativeTo {
 }
 
 BEGIN {
+    # Get the absolute dir we are executing in (where build.pl is)
     $buildpldir = $FindBin::RealBin;
     $buildpldir = File::Spec->rel2abs($buildpldir);
 
-    # Find the lib root
+    # Let's see if we are sitting in a conventional checkout structure,
+    # and it has a defined LocalLib.cfg. If so then that's the basis of
+    # our libs.
+    my $expect_core = "$buildpldir/../../../../../core";
+    if ( -e "$expect_core/bin/LocalLib.cfg"
+        && -e "$expect_core/lib/LocalSite.cfg" ) {
+        print "Using Foswiki libraries found on relative paths\n";
+        do "$expect_core/bin/setlib.cfg";
+    } else {
+        # Otherwise we need FOSWIKI_LIBS
+
+        my $env = $ENV{ 'FOSWIKI_LIBS' };
+        die <<ARGH unless $env;
+We don't seem to be building in a configured subversion checkout, and
+FOSWIKI_LIBS is not defined. I cannot determine how to find the Foswiki
+libraries required to support the build system.
+
+BuildContrib must either be run within a full subversion checkout
+that has both LocalLib.cfg and LocalSite.cfg, or the environment variable
+FOSWIKI_LIBS must point to a configured Foswiki.
+
+In either case, the BuildContrib extension must be installed.
+ARGH
+
+        print "Using Foswiki libraries from $env\n";
+
+        # normally this will be a nop, as build.pl will have already
+        # added FOSWIKI_LIBS to @INC. But just in case some other
+        # route was used, add the missing libs.
+        my %known;
+        map { $known{$_} = 1 } split( /:/, @INC );
+        foreach my $pc ( reverse split( /:/, $env ) ) {
+            unless ( $known{$pc} ) {
+                unshift( @INC, $pc );
+            }
+        }
+    }
+    print 'Build libraries: '.join(' ', @INC)."\n";
+
+    # Make sure we have a LocalSite.cfg
+    my $haveLSC = 0;
+    foreach my $dir (@INC) {
+        if (-e "$dir/LocalSite.cfg") {
+            $haveLSC = 1;
+            last;
+        }
+    }
+    die 'Could not find LocalSite.cfg anywhere in @INC - build aborted'
+      unless $haveLSC;
+
+    # Find the project lib root
+
     if ( -e "$buildpldir/../../../Foswiki" ) {
         $libpath = _findRelativeTo( $buildpldir, 'lib/Foswiki' );
         $targetProject = 'Foswiki';
@@ -130,16 +183,6 @@ BEGIN {
     $basedir = $libpath;
     $basedir =~ s#/[^/]*$##;
 
-    my $env = $ENV{ uc($targetProject) . '_LIBS' };
-    if ($env) {
-        my %known;
-        map { $known{$_} = 1 } split( /:/, @INC );
-        foreach my $pc ( reverse split( /:/, $env ) ) {
-            unless ( $known{$pc} ) {
-                unshift( @INC, $pc );
-            }
-        }
-    }
     unless ( grep( /$basedir\/lib/, @INC ) ) {
         unshift( @INC, $basedir . '/lib' );
     }
@@ -2669,6 +2712,7 @@ sub _addDep {
 
 our @twikiFilters = (
     { RE => qr/\.pm$/,          filter => '_twikify_perl' },
+    { RE => qr/\.pm$/,          filter => '_twikify_txt' },
     { RE => qr#/Config.spec$#,  filter => '_twikify_perl' },
     { RE => qr#/MANIFEST$#,     filter => '_twikify_manifest' },
     { RE => qr#/DEPENDENCIES$#, filter => '_twikify_perl' },
@@ -2678,6 +2722,13 @@ our @twikiFilters = (
 # Useless for processing CSS, JS or anything else complex.
 sub target_twiki {
     my $this = shift;
+
+    print STDERR <<CAVEAT
+WARNING: This convertor targets TWiki 4.2.3. Not all Foswiki APIs are
+supported by TWiki, or TWiki may have changed since 4.2.3. You should
+take great care to test the TWiki version. You cannot expect the
+maintainer of this extension to support the TWiki version. Caveat emptor.
+CAVEAT
     my $r    = "$this->{libdir}/$this->{project}";
     $r =~ s#^$this->{basedir}/##;
     push( @{ $this->{files} }, { name => "$r/MANIFEST" } );
@@ -2729,7 +2780,12 @@ sub _twikify_perl {
             $text =~ s/foswikiNewLink/twikiNewLink/g;          # CSS
             $text =~ s/foswikiAlert/twikiAlert/g;
             $text =~ s/new Foswiki/new TWiki/g;
-            return $text;
+            return <<'CAVEAT' .  $text;
+# This TWiki version was auto-generated from Foswiki sources by BuildContrib.
+# Copyright (C) 2008-2010 Foswiki Contributors
+
+CAVEAT
+            # Note: the last blank line is to avoid mangling =pod
         }
     );
 }
@@ -2745,8 +2801,29 @@ sub _twikify_manifest {
             $text =~ s#^pub/System#pub/TWiki#gm;
             $text =~ s#^lib/Foswiki#lib/TWiki#gm;
             return <<HERE;
+# This TWiki version was auto-generated from Foswiki sources by BuildContrib.
+# Copyright (C) 2008-2010 Foswiki Contributors
 !option archive_prefix TWiki_
 !option installers none
+$text
+HERE
+        }
+    );
+}
+
+sub _twikiify_txt {
+    my ( $this, $from, $to ) = @_;
+
+    $this->_filter_file(
+        $from, $to,
+        sub {
+            my ( $this, $text ) = @_;
+            return <<HERE;
+<blockquote>
+This TWiki version was auto-generated from Foswiki sources by BuildContrib.
+<br />
+Copyright (C) 2008-2010 Foswiki Contributors
+</blockquote>
 $text
 HERE
         }
