@@ -24,10 +24,34 @@ $foswikiLibPath = "/absolute/path/to/your/lib";
 # as many directories as you want, each directory within quotes, and 
 # directories separated by commas.
 
-# @localPerlLibPath = ( '/path/to/dir', '/path/to/another/dir' );
+# @localPerlLibPath = ( '/path/to/dir', '/path/to/another/dir', );
+
+
+# OPTIONAL
+# If you want to remove some paths from Foswiki @INC (e.g. you whish to
+# ensure no other system wide perl installation will interfere with
+# your local perl version) then add absolute paths to be removed below.
+# You can list as many directories as you want, each directory within
+# quotes, and directories separated by commas.
+
+# no lib ( '/path/to/dir', '/path/to/another/dir', );
+
+
+# HINTS
+# If you prefer to have each path on a single line then you could add a
+# linebreak instead of the spaces between the parentheses e.g.:
+# <above OPTIONAL setting> (
+#       '/path/to/dir',
+#       '/path/to/another/dir',
+#       );
+
 
 # http://www.perl.com/pub/a/2002/04/10/mod_perl.html?page=3 has good advice
 # on installing CPAN modules without superuser privileges.
+# http://sial.org/howto/perl/life-with-cpan/non-root/ also provides a good
+# overview and especially mentions additional modules interesting for
+# non-root installations (e.g. App::perlbrew, local::lib, App::FatPacker,
+# App::cpanminus and other tools).
 
 
 1; # Required for successful module loading
