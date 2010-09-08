@@ -574,11 +574,12 @@ You are strongly recommended to use this Contrib to help split your code develop
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - __Working together to improve your wiki experience__!
 
 |  Authors: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright &copy;: | 2004-2009, Foswiki Contributors |
+|  Copyright &copy;: | 2004-2010, Foswiki Contributors |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
+|  8 Sep 2010: | Foswikitask:Item9566: Foswikitask:Item9640: minor maintenance fixes |
 |  28 Aug 2010: | Foswikitask:Item721: get proxy settings from environment variables |
 |  06 Aug 2010: | Foswikitask:Item9439: fix the initial uplaod problem - we were reading the topic file before it had been built |
 |  01 Aug 2010: | Foswikitask:Item9416: Add %$FOSWIKIAUTHORS% token, which pulls in =core/AUTHORS= verbatim |
