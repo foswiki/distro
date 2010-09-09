@@ -233,6 +233,10 @@ my twisty content
 
 ---+++ Other use: hide interface parts in case of no !JavaScript
 
+<div class="foswikiHelp">
+*Foswiki 1.1 and higher* uses the CSS class =foswikiJs= to indicate the availability of !JavaScript (the class is set to the =html= tag if !JavaScript is available).
+</div>
+
 You can use Twisty to show interface elements that should only be visible with !JavaScript enabled. For instance the textbox control buttons in the edit screen need !JavaScript to work. If a visitor does not have !JavaScript on it would not make sense to show these buttons.
 
 Put the "JavaScript content" in an almost bare bones Twisty. Write =showlink="" hidelink=""= to not display any default link texts.
@@ -417,16 +421,32 @@ link="Count: ($percentCALC{$quot$dollarGET(infoCount)$quot}$percent)"
 %INCLUDE{VarENDTWISTYTOGGLE}%
 
 
+--++ Notes for developers
+---+++ CSS classes
+
+| *Class name* | *Note* |
+| =.twistyTrigger= | |
+| =.twistyContent= | |
+| =.twistyPlaceholder= | |
+| =.twistyRememberSetting= | behavior class |
+| =.twistyForgetSetting= | behavior class |
+| =.twistyStartHide= | behavior class |
+| =.twistyStartShow= | behavior class |
+| =.twistyInited1= | behavior class: state is set to shown |
+| =.twistyInited0= | behavior class: state is set to hidden |
+
+
+
 #PluginSettings
 ---++ Plugin Settings
 
 You can override some default settings in the plugin by setting the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
 | *Preference* | *Meaning* | *Default* |
-| =TWISTYSHOWLINK= | For example: =More...= | %MAKETEXT{"More..."}% |
-| =TWISTYHIDELINK= | For example: =Close= | %MAKETEXT{"Close"}% |
-| =TWISTYMODE= | Either =div= or =span= | =span= |
-| =TWISTYREMEMBER= | Either =on= or =off=. If set to =on= all Twisty states will be stored in a FOSWIKIPREF cookie; if set to =off= the FOSWIKIPREF cookie will be cleared | not specified |
-| =TWISTYANIMATIONSPEED= | Speed of animation: 'fast', 'slow', or integer milliseconds | =0= (no animation) |
+| =TWISTYPLUGIN.TWISTYSHOWLINK= | For example: =More...= | %MAKETEXT{"More..."}% |
+| =TWISTYPLUGIN.TWISTYHIDELINK= | For example: =Close= | %MAKETEXT{"Close"}% |
+| =TWISTYPLUGIN.TWISTYMODE= | Either =div= or =span= | =span= |
+| =TWISTYPLUGIN.TWISTYREMEMBER= | Either =on= or =off=. If set to =on= all Twisty states will be stored in a FOSWIKIPREF cookie; if set to =off= the FOSWIKIPREF cookie will be cleared | not specified |
+| =TWISTYPLUGIN.TWISTYANIMATIONSPEED= | Speed of animation: 'fast', 'slow', or integer milliseconds | =0= (no animation) |
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -443,6 +463,7 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  10 Sep 2010 | 1.6.5 Foswikitask:Item9515: Simplified code that shows/hides twisties. |
 |  05 Sep 2010 | 1.6.4 Foswikitask:Item9626: Put link class around link and image. |
 |  24 Aug 2010 | 1.6.3 Foswikitask:Item8573: Fix new dependency on JQueryPlugin |
 |  25 Aug 2010 | 1.6.2 Foswikitask:Item9515: Fix compatibility with browsers running without js (content should always be shown) |
@@ -454,7 +475,7 @@ You can override some default settings in the plugin by setting the following [[
 |  13 Mar 2010 | 1.5.5 Fixed id generated in subwebs. |
 |  12 Feb 2010 | 1.5.4 Fixed jquery twisties, improved templates structure |
 |  02 Sep 2009 | 1.5.3 Add sequential number to the =TWISTY= =id= to allow more than one instance with that id on the page. |
-|  26 Aug 2009 | 1.5.2 Fix dependencies - jqueryPlugin and DojoToolkit were ported to foswiki a while ago. |
+|  26 Aug 2009 | 1.5.2 Fix dependencies - jqueryPlugin and !DojoToolkit were ported to foswiki a while ago. |
 |  03 Dec 2008 | 1.5.1 Added parameter =linkclass=. Foswiki version. |
 |  27 Nov 2008 | 1.5 Foswiki release; added option to use other Javascript libraries. |
 |  08 Oct 2008 | 1.4.11, 1.4.12 It is now possible to have a twisty on the same line without a linebreak. |

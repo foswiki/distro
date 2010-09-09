@@ -8,7 +8,7 @@
 %TMPL:DEF{"script:skintemplate:edit"}%%TMPL:P{"PatternSkin/pattern_edit"}%%TMPL:END%
 
 
-%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="edithelp" mode="div" remember="on" link="%MAKETEXT{"Edit help"}%" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%"  linkclass="patternTwistyButton"}%</div>%TMPL:END%
+%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="edithelp" mode="div" remember="on" link="%MAKETEXT{"Edit help"}%" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%"  linkclass="patternTwistyButton"}%%TMPL:P{"pagehelp"}%</div>%TMPL:END%
 
 
 %TMPL:DEF{"bodyclassname"}%patternNoViewPage patternEditPage%TMPL:END%
@@ -41,14 +41,7 @@
 %TMPL:DEF{"button_cancel"}%<input type="submit" class="foswikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}% />%TMPL:END%
 
 
-%TMPL:DEF{"actionbuttons_help"}%<div class="patternSaveHelp">%TMPL:P{"accesskeys_help"}%</div>%TMPL:END%
-
-
-%TMPL:DEF{"accesskeys_help"}%%ICON{info}% %POPUPWINDOW{"%SYSTEMWEB%.AccessKeys" label="%MAKETEXT{"Access keys:"}%"}% %MAKETEXT{"S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"}%%TMPL:END%
-
-
-
-%TMPL:DEF{"topicinfo"}%%TMPL:P{"revCommentPluginOptions"}%<div class="patternActionButtons">%TMPL:P{"saveoptions"}%%TMPL:P{"action_buttons"}%<div class="foswikiClear"></div></div>%TMPL:END%
+%TMPL:DEF{"topicinfo"}%%TMPL:P{"revCommentPluginOptions"}%<div class="patternTopicActions"><div class="patternTopicAction"><div class="patternActionButtons">%TMPL:P{"saveoptions"}%%TMPL:P{"action_buttons"}%<div class="foswikiClear"></div></div></div></div>%TMPL:END%
 
 
 %TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="edithelp" mode="div" remember="on" noscript="hide"}%<div class="foswikiHelp">%TMPL:P{"help"}%%TMPL:P{"actionbuttons_help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
@@ -63,12 +56,20 @@
 %TMPL:DEF{"sig"}%<span class="patternSig"><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="%SIGNATUREFORMAT%" /> <label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste"}%&nbsp;&nbsp;</label></span>%TMPL:END%
 
 
-%TMPL:DEF{"pagehelp_nojavascript"}%<br />%TWISTYTOGGLE{id="pagehelp_nojavascript" mode="div" start="hide"}%<div class="foswikiHelp">%TMPL:P{"help" EDITOR_HELP="WikiSyntax"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+%{ HELP TEXTS }%
 
+%TMPL:DEF{"actionbuttons_help"}%<div class="patternSaveHelp">%TMPL:P{"accesskeys_help"}%</div>%TMPL:END%
+
+%TMPL:DEF{"pagehelp_nojavascript"}%%TWISTYTOGGLE{id="pagehelp_nojavascript" mode="div" start="hide"}%<div class="foswikiHelp">%TMPL:P{"help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+
+%TMPL:DEF{"accesskeys_help"}%%ICON{info}% %POPUPWINDOW{"%SYSTEMWEB%.AccessKeys" label="%MAKETEXT{"Access keys"}%"}% %MAKETEXT{"S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"}%%TMPL:END%
+
+
+%{ CONTENT }%
 
 %TMPL:DEF{"content"}%%TMPL:P{"formstart"}%%TMPL:P{"formtop"}%
 %TMPL:P{"toolbar"}%
-%TMPL:P{"pagehelp"}%<div class="patternBorder"><div class="foswikiFormSteps">
+<div class="patternBorder"><div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 %TMPL:P{"textarea"}%
 </div>
@@ -76,9 +77,7 @@
 %TMPL:P{"formbottom"}%
 <div class="foswikiClear"></div>
 </div>
-<div class="foswikiFormStep foswikiLast">
-%TMPL:P{"topicinfo"}%
-</div>
+</div>%TMPL:P{"topicinfo"}%
 </div>
 </div>
 %TMPL:P{"formend"}%

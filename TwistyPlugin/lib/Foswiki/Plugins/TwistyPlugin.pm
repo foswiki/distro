@@ -19,7 +19,7 @@ use vars qw( @twistystack $doneHeader $doneDefaults
 
 our $VERSION = '$Rev$';
 
-our $RELEASE = '1.6.4';
+our $RELEASE = '1.6.5';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -27,7 +27,6 @@ our $NO_PREFS_IN_TOPIC = 1;
 my $TWISTYPLUGIN_COOKIE_PREFIX  = "TwistyPlugin_";
 my $TWISTYPLUGIN_CONTENT_HIDDEN = 0;
 my $TWISTYPLUGIN_CONTENT_SHOWN  = 1;
-
 
 #there is no need to document this.
 sub initPlugin {
@@ -40,11 +39,10 @@ sub initPlugin {
         return 0;
     }
 
-    $doneDefaults   = 0;
-    $doneHeader     = 0;
-    
+    $doneDefaults = 0;
+    $doneHeader   = 0;
+
     _exportAnimationSpeed();
-    _hideWithJS();
 
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'twisty',
         'Foswiki::Plugins::TwistyPlugin::TWISTY' );
@@ -77,25 +75,6 @@ sub _exportAnimationSpeed {
             join( ',', @list ) );
     }
     Foswiki::Func::setPreferencesValue( 'TWISTYANIMATIONSPEED', $pref );
-
-    return;
-}
-
-# In Item9422, we were emitting style='display: none' attributes on the markup.
-# This was to avoid "jumping twisties", the time between the browser showing
-# partially-rendered page and when jquery, document.ready are available to hide
-# hidden content.
-#
-# However, this caused Item9515, non-JS users are unable to see the content
-# (should be able to see all content regardless of start="hidden").
-#
-# So now, we emit some inline script immediately after any content that should
-# be hidden. Note to self: .setAttribute doesn't work on IEs, per quirksmode.org
-sub _hideWithJS {
-    Foswiki::Func::addToZone('head', 'TwistyPlugin::_hideWithJS', <<'HERE');
-<style type="text/css">html.js .foswikiMakeHidden { display: none; }</style>
-<script type="text/javascript">document.documentElement.className = document.documentElement.className + ' js';</script>
-HERE
 
     return;
 }
@@ -190,6 +169,7 @@ sub _TWISTY {
     my $id = $params->{'id'};
     if ( !defined $id || $id eq '' ) {
         $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
+
         # randomize this id in case the twisty is loaded through AJAX
         $params->{'id'} .= int( rand(10000) ) + 1;
     }
@@ -307,22 +287,18 @@ sub _twistyBtn {
       : '';
 
     my @linkClasses;
-    push (@linkClasses, $params->{'linkclass'}) if $params->{'linkclass'};
+    push( @linkClasses, $params->{'linkclass'} ) if $params->{'linkclass'};
 
-    my $imgLinkTag =
-      CGI::a(
-          {
-              href => '#',
-              class => join(' ', @linkClasses)
-          },
-          $imgLeftTag
-          . CGI::span(
-              { class => 'foswikiLinkLabel foswikiUnvisited' },
-              $link
-              )
+    my $imgLinkTag = CGI::a(
+        {
+            href  => '#',
+            class => join( ' ', @linkClasses )
+        },
+        $imgLeftTag
+          . CGI::span( { class => 'foswikiLinkLabel foswikiUnvisited' }, $link )
           . $imgTag
           . $imgRightTag
-      );
+    );
 
     my $isTrigger = 1;
     my $props     = '';
@@ -403,7 +379,7 @@ sub _createHtmlProperties {
         {
             $shouldHideTrigger = 0;
         }
-        push( @classList, 'twistyHidden' ) if $shouldHideTrigger;
+        push( @classList, 'foswikiHidden' ) if $shouldHideTrigger;
     }
 
     # assume content should be hidden
@@ -419,12 +395,7 @@ sub _createHtmlProperties {
     # deprecated
     # should be done by Foswiki template scripts instead
     if ( !$isTrigger && $noscriptHide ) {
-        if ( $mode eq 'div' ) {
-            push( @classList, 'foswikiMakeVisibleBlock' );
-        }
-        else {
-            push( @classList, 'foswikiMakeVisibleInline' );
-        }
+        push( @classList, 'foswikiMakeVisible' );
     }
 
     # let javascript know we have set the state already
@@ -489,21 +460,14 @@ sub _wrapInContentHtmlClose {
 
 sub _wrapInContainerHideIfNoJavascripOpen {
     my ($mode) = @_;
-    my $inlineOrBlock = ( $mode eq 'div' ) ? 'Block' : 'Inline';
-    return
-        '<' 
-      . $mode
-      . ' class="twistyPlugin foswikiMakeVisible'
-      . $inlineOrBlock . '">';
+
+    return '<' . $mode . ' class="twistyPlugin foswikiMakeVisible">';
 }
 
 sub _wrapInContainerDivIfNoJavascripClose {
     my ($mode) = @_;
-    my $inlineOrBlock = ( $mode eq 'div' ) ? 'Block' : 'Inline';
-    return
-        '</' 
-      . $mode
-      . '>';
+
+    return '</' . $mode . '>';
 }
 
 1;
