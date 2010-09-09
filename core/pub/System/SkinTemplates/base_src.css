@@ -1,10 +1,35 @@
 /* Foswiki base CSS */
 
+/* Javascript related classes */
+
+/* made visible if javascript available */
 .foswikiMakeVisible,
 .foswikiMakeVisibleInline,
 .foswikiMakeVisibleBlock {
-	display:none; /* will be made visible with javascript */
+	display:none;
 }
+.foswikiJs .foswikiMakeVisible {
+	display:;
+}
+.foswikiJs div.foswikiMakeVisible {
+	display:block;
+}
+.foswikiJs span.foswikiMakeVisible {
+	display:inline;
+}
+.foswikiJs .foswikiMakeVisibleInline {
+	/* deprecated */
+	display:inline;
+}
+.foswikiJs .foswikiMakeVisibleBlock {
+	/* deprecated */
+	display:block;
+}
+/* made hidden if javascript available */
+.foswikiJs .foswikiMakeHidden {
+	display:none;
+}
+
 .foswikiLeft {
 	float:left;
 	position:relative;

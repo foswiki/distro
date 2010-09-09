@@ -1,23 +1,29 @@
-/* SMELL: duplicate of twisty.css */
-.twistyHidden { display:none; }
-.twistyMakeHidden {} /* reserved */
-.twistyMakeVisible { display:none; }
+/* The styles below are included for compatibility with Foswiki versions earlier than 1.1.0 */
 
-.twistyTrigger {}
-span.twistyContent {}
-.twistyPlaceholder { /* color to be implemented by skin */ }
-.twistyRememberSetting { /* behavior class */ }
-.twistyForgetSetting { /* behavior class */ }
-.twistyStartHide { /* behavior class */ }
-.twistyStartShow { /* behavior class */ }
-.twistyInited1 { /* behavior class: state is set to shown */ }
-.twistyInited0 { /* behavior class: state is set to hidden */ }
-
-/* These styles are standard in Foswiki, but are provided here so the
-plugin can be used with TWiki */
+/* made visible if javascript available */
 .foswikiMakeVisible,
 .foswikiMakeVisibleInline,
 .foswikiMakeVisibleBlock {
-	display:none; /* will be made visible with javascript */
+	display:none;
 }
-
+.foswikiJs .foswikiMakeVisible {
+	display:;
+}
+.foswikiJs div.foswikiMakeVisible {
+	display:block;
+}
+.foswikiJs span.foswikiMakeVisible {
+	display:inline;
+}
+.foswikiJs .foswikiMakeVisibleInline {
+	/* deprecated */
+	display:inline;
+}
+.foswikiJs .foswikiMakeVisibleBlock {
+	/* deprecated */
+	display:block;
+}
+/* made hidden if javascript available */
+.foswikiJs .foswikiMakeHidden {
+	display:none;
+}

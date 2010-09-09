@@ -12,13 +12,18 @@ if (foswiki.preferences === undefined) {
 }
 
 (function($) {
-
   /**
    * dummy to be overridden by jquery.debug 
    */
   $.log = function(message){};
   $.fn.debug = function() {};
 
+  /*
+  Set 'has javascript' (classname 'foswikiJs') to document as quickly as possible
+  */
+  if (document.documentElement) 
+      $(document.documentElement).addClass('foswikiJs');
+  
   /**
    * generates an unique ID. 
    */
@@ -150,18 +155,5 @@ if (foswiki.preferences === undefined) {
   for (var pref in mapping) {
     foswiki[mapping[pref]] = foswiki.getPreference(pref);
   }
-
-  // document ready
-  $(function() {
-    $(".foswikiMakeVisible, .foswikiMakeVisibleInline").livequery(function() {
-      $(this).css("display", "inline");
-    });
-    $(".foswikiMakeVisibleBlock").livequery(function() {
-      $(this).css("display", "block");
-    });
-    $(".foswikiMakeHidden").livequery(function() {
-      $(this).hide();
-    });
-  });
 	
 })(jQuery);

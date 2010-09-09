@@ -5,7 +5,7 @@ var foswiki;
 if (!foswiki) foswiki = {};
 
 (function($) {
-    
+		  
     foswiki.TwistyPlugin = new function () {
         var self = this;
 
@@ -268,13 +268,7 @@ if (!foswiki) foswiki = {};
             $(this).hide();
           });
 
-          // SMELL: this is a mess; what do all these classes do?
-          // Where are they documented?
           $(".twistyTrigger, .twistyContent").livequery(function() {
-            $(this).removeClass(
-              "twistyMakeHidden foswikiMakeHidden foswikiMakeVisible " +
-              "foswikiMakeVisibleBlock foswikiMakeVisibleInline " +
-              "twistyHidden");
             foswiki.TwistyPlugin.init(this);
           });
 
