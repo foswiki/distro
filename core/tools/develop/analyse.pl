@@ -71,8 +71,8 @@ foreach my $release (@a) {
 my $repositoryRevision = `$svnlook youngest $REPOS`;
 
 my $coreExt = join( '|',
-    map { $_ =~ s/^.*\///; $_ }
-      split( "\n", `grep '!include ' $MANIFEST` ) );
+                    map { $_ =~ s/^.*\///; $_ }
+                      split( "\n", `grep '!include ' $MANIFEST` ) );
 
 # First load and update WhoDunnit.sid2cin, the list of checkers-in for each rev
 my $maxSid = 0;
@@ -113,9 +113,8 @@ my %priority;
 opendir( D, $BUGS ) || die "$!";
 foreach my $item (
     sort { $a <=> $b }
-    grep { s/^Item(\d+)\.txt$/$1/ } readdir(D)
-  )
-{
+      grep { s/^Item(\d+)\.txt$/$1/ } readdir(D)
+     ) {
     print "Item$item      \r" if DEBUG;
     my $bh;
     open( $bh, '<', "$BUGS/Item$item.txt" ) || next;
@@ -123,18 +122,16 @@ foreach my $item (
     my $bug = <$bh>;
     close($bh);
     my %field;
-    while ( $bug =~ s/^%META:FIELD.*name="(\w+)".*value="(.*?)".*%$//m ) 
-{
+    while ( $bug =~ s/^%META:FIELD.*name="(\w+)".*value="(.*?)".*%$//m ) {
         $field{$1} = $2;
     }
     if (
         (
-               $field{AppliesTo} eq "Engine"
-            || $field{Extension} =~ /\b($coreExt)\b/
-        )
-        && $field{CurrentState} =~ /(Closed|Waiting for Release)/i
-      )
-    {
+            $field{AppliesTo} eq "Engine"
+              || $field{Extension} =~ /\b($coreExt)\b/
+             )
+          && $field{CurrentState} =~ /(Closed|Waiting for Release)/i
+         ) {
         foreach my $cin ( split( /\s+/, $field{Checkins} ) ) {
             $cin =~ s/^\w+://;    # remove interwiki thingy
             my $who = $sid2who{$cin};
@@ -145,16 +142,16 @@ foreach my $item (
             }
         }
         $priority{$item} = $field{Priority};
-	$field{ReportedBy} =~ s/((TWiki|Foswiki):)?Main\.//g;
+        $field{ReportedBy} =~ s/((TWiki|Foswiki):)?Main\.//g;
         $reportedBy{$field{ReportedBy}}++;
 
         # Not used yet; may be used to build a table of who
         # contributed to which releases
         #if ($field{ReleasedIn} && $field{ReleasedIn} =~ /^\d/) {
         #    while ($field{ReleasedIn} !~ /\d+\.\d+\.\d+$/) {
-	#        $field{ReleasedIn} .= '.0';
+        #        $field{ReleasedIn} .= '.0';
         #    }
-	#    $unleashed{$item} = $field{ReleasedIn};
+        #    $unleashed{$item} = $field{ReleasedIn};
         #}
     }
     else {
@@ -208,6 +205,7 @@ HEADING
 my ( %majorc, %minorc, %patchc, %counts );
 foreach my $zapper ( keys %zappedBy ) {
     while ( my ( $item, $cin ) = each %{ $zappedBy{$zapper} } ) {
+        $counts{$zapper}++;
         next if $priority{$item} eq 'Enhancement';
         if ( $cin > $revs{$major} ) {
             if ( $cin > $revs{$minor} ) {
@@ -218,7 +216,6 @@ foreach my $zapper ( keys %zappedBy ) {
             }
             $majorc{$zapper}++;
         }
-        $counts{$zapper}++;
     }
 }
 
@@ -254,10 +251,10 @@ for my $n ( 0 .. $TOP_N - 1 ) {
 
 }
 print $ofh
-	 ($doPatch ? '| total | ' . List::Util::sum( values(%patchc).' ' ):'')
-       . ($doMinor ? '| total | ' . List::Util::sum( values(%minorc).' ' ):'')
-       .             '| total | ' . List::Util::sum( values(%majorc) )
-       . " |\n";
+  ($doPatch ? '| total | ' . List::Util::sum( values(%patchc).' ' ):'')
+  . ($doMinor ? '| total | ' . List::Util::sum( values(%minorc).' ' ):'')
+  .             '| total | ' . List::Util::sum( values(%majorc) )
+  . " |\n";
 
 print $ofh <<STUFF;
 %STOPINCLUDE%
@@ -276,7 +273,6 @@ STUFF
 %majorc = ();
 %minorc = ();
 %patchc = ();
-%counts = ();
 foreach my $zapper ( keys %zappedBy ) {
     while ( my ( $item, $cin ) = each %{ $zappedBy{$zapper} } ) {
         next unless $priority{$item} eq 'Enhancement';
@@ -289,7 +285,6 @@ foreach my $zapper ( keys %zappedBy ) {
             }
             $majorc{$zapper}++;
         }
-        $counts{$zapper}++;
     }
 }
 
@@ -325,10 +320,10 @@ for my $n ( 0 .. $TOP_N - 1 ) {
 
 }
 print $ofh
-	 ($doPatch ? '| total | ' . List::Util::sum( values(%patchc).' ' ):'')
-       . ($doMinor ? '| total | ' . List::Util::sum( values(%minorc).' ' ):'')
-       .             '| total | ' . List::Util::sum( values(%majorc) )
-       . " |\n";
+  ($doPatch ? '| total | ' . List::Util::sum( values(%patchc).' ' ):'')
+  . ($doMinor ? '| total | ' . List::Util::sum( values(%minorc).' ' ):'')
+  .             '| total | ' . List::Util::sum( values(%majorc) )
+  . " |\n";
 print $ofh "%STOPINCLUDE%\n";
 
 print $ofh <<STUFF;
@@ -337,8 +332,7 @@ Here's the full story of core contributions since the inception
 of this database in October 2008.
 | *Who* | *Tasks Opened* | *Tasks Closed* |
 STUFF
-foreach my $zapper ( sort { $counts{$b} <=> $counts{$a} } keys %counts ) 
-{
+foreach my $zapper ( sort { $counts{$b} <=> $counts{$a} } keys %counts ) {
     next unless $zapper;
     print $ofh "| [[Main.$zapper][$zapper]] | $reportedBy{$zapper} | $counts{$zapper} |\n";
 }
