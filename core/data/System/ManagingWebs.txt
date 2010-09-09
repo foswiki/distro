@@ -48,9 +48,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 				<p>
 					If you are creating a nested web (a web inside a web), use the notation =Existingweb.Newweb=.
 				</p>
-				<p>
-					%TWISTYBUTTON{id="infoOnNestedWebs" mode="span" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" showlink="More info about nested webs ..." hidelink="Close info" remember="on"}%
-				</p>
+				%TWISTYBUTTON{id="infoOnNestedWebs" mode="span" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" showlink="More info about nested webs ..." hidelink="Close info" remember="on"}%
 				%TWISTYTOGGLE{id="infoOnNestedWebs"}%<div class="foswikiHelp">
 					<h4>About hierarchical webs</h4>
 					<p>
@@ -59,9 +57,9 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 					<p>
 						You might not need hierarchical webs. Foswiki topics already have a parent/child relationship within a web, which is shown in the breadcrumb. Try to keep the number of webs to a minimum in order to keep search and cross-referencing simple.
 					</p>
-				</div><!--//foswikiHelp-->%ENDTWISTYTOGGLE%
+				</div>%ENDTWISTYTOGGLE%
 			</div><!--//col2-->
-			<br class="foswikiClear" />
+			<div class="foswikiClear"></div>
 		</div><!--//foswikiFormStep-->
 		<div class="foswikiFormStep">
 			<h3>Summary</h3>
@@ -75,7 +73,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 					Enter a short description of the web. This description will be used in the [[%SYSTEMWEB%.SiteMap][SiteMap]]. If you are using links: write =Web.TopicName= instead of just =TopicName= for correct linking. 
 				</p>
 			</div><!--//col2-->
-			<br class="foswikiClear" />
+			<div class="foswikiClear"></div>
 		</div><!--//foswikiFormStep-->
 		<div class="foswikiFormStep">
 			%TWISTYBUTTON{ id="additionalSettings" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" showlink="Show additional settings..." hidelink="Hide additional settings" remember="on"}%
@@ -93,9 +91,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 							<p>
 								Base the new web on an existing web.
 							</p>
-							<p>
-								%TWISTYBUTTON{id="infoOnTemplates" mode="span" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%"  showlink="More info about template webs ..." hidelink="Close info" remember="on"}%
-							</p>
+							%TWISTYBUTTON{id="infoOnTemplates" mode="span" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%"  showlink="More info about template webs ..." hidelink="Close info" remember="on"}%
 							%TWISTYTOGGLE{id="infoOnTemplates"}%<div class="foswikiHelp">
 							<h4>About template webs</h4>
 							<p>
@@ -109,7 +105,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
    * Only the person who created it has permission to change the <nop>%WEBPREFSTOPIC% in the new web
 </div><!--//foswikiHelp-->%ENDTWISTYTOGGLE%
 					</div><!--//col2-->
-					<br class="foswikiClear" />
+					<div class="foswikiClear"></div>
 					</div><!--//foswikiFormStep-->
 					<div class="foswikiFormStep">
 						<h3>List on !SiteMap page</h3>
@@ -123,7 +119,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 								Should the new web be listed on !SiteMap? Even if hidden, the web will be linkable and accessible to users.
 							</p>
 						</div><!--//col2-->
-						<br class="foswikiClear" />
+						<div class="foswikiClear"></div>
 					</div><!--//foswikiFormStep-->
 					<div class="foswikiFormStep">
 						<h3>Include in global search</h3>
@@ -137,7 +133,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 								Specify if you want to exclude the web from a global search.
 							</p>
 						</div><!--//col2-->
-						<br class="foswikiClear" />					
+						<div class="foswikiClear"></div>
 					</div><!--//foswikiFormStep-->
 					<div class="foswikiFormStep">
 						<h3>Web color</h3>
@@ -151,7 +147,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 								Displayed on !SiteMap and in the left bar (Pattern Skin).
 							</p>
 						</div><!--//col2-->
-						<br class="foswikiClear" />
+						<div class="foswikiClear"></div>
 					</div><!--//foswikiFormStep-->
 				</div><!--//foswikiFormSteps-->
 			</div><!--//additionalSettings-->%ENDTWISTYTOGGLE%
