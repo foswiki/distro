@@ -442,11 +442,11 @@ link="Count: ($percentCALC{$quot$dollarGET(infoCount)$quot}$percent)"
 
 You can override some default settings in the plugin by setting the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
 | *Preference* | *Meaning* | *Default* |
-| =TWISTYPLUGIN.TWISTYSHOWLINK= | For example: =More...= | %MAKETEXT{"More..."}% |
-| =TWISTYPLUGIN.TWISTYHIDELINK= | For example: =Close= | %MAKETEXT{"Close"}% |
-| =TWISTYPLUGIN.TWISTYMODE= | Either =div= or =span= | =span= |
-| =TWISTYPLUGIN.TWISTYREMEMBER= | Either =on= or =off=. If set to =on= all Twisty states will be stored in a FOSWIKIPREF cookie; if set to =off= the FOSWIKIPREF cookie will be cleared | not specified |
-| =TWISTYPLUGIN.TWISTYANIMATIONSPEED= | Speed of animation: 'fast', 'slow', or integer milliseconds | =0= (no animation) |
+| =TWISTYPLUGIN_TWISTYSHOWLINK= | For example: =More...= | %MAKETEXT{"More..."}% |
+| =TWISTYPLUGIN_TWISTYHIDELINK= | For example: =Close= | %MAKETEXT{"Close"}% |
+| =TWISTYPLUGIN_TWISTYMODE= | Either =div= or =span= | =span= |
+| =TWISTYPLUGIN_TWISTYREMEMBER= | Either =on= or =off=. If set to =on= all Twisty states will be stored in a FOSWIKIPREF cookie; if set to =off= the FOSWIKIPREF cookie will be cleared | not specified |
+| =TWISTYPLUGIN_TWISTYANIMATIONSPEED= | Speed of animation: 'fast', 'slow', or integer milliseconds | =0= (no animation) |
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
