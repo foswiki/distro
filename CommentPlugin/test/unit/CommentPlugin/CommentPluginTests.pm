@@ -621,14 +621,13 @@ HERE
     $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
 
     # invoke the save handler
-
     eval {
         ($responseText, $result, $stdout, $stderr) =
           $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
     };
 
     $this->assert($@);
-    $this->assert_matches(qr"OopsException\(accessdenied/topic_access", $@);
+    $this->assert_matches(qr"AccessControlException", $@);
 
     # Now make sure we *can* change it, given COMMENT access
     $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'COMMENT';
@@ -636,8 +635,11 @@ HERE
     $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
 
     # invoke the save handler
-    ($responseText, $result, $stdout, $stderr) =
-      $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+    eval {
+        ($responseText, $result, $stdout, $stderr) =
+          $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+    };
+    $this->assert(!$@);
     $this->assert_matches(qr/Status: 200/, $responseText);
 
     my ( $meta, $text ) =
