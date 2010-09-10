@@ -201,7 +201,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set HTTP_EQUIV_ON_PREVIEW =
 
 
----++ Skin Settings
+---++ Extension Settings
 
    * Skin overriding the default templates: (can be overwritten by WebPreferences and user preferences)
       * Set SKIN = pattern
@@ -259,6 +259,10 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * #Set TINYMCEPLUGIN_INIT_TOPIC = %SYSTEMWEB%.TinyMCEPlugin
          <blockquote class="foswikiHelp"> %H% _Not set in this topic, the plugin assumes this value if missing_ </blockquote>
 
+---+++ TwistyPlugin
+   * Show/hide animation speed: 'fast', 'slow', or integer milliseconds | =0= (no animation)
+      * Set TWISTYPLUGIN_TWISTYANIMATIONSPEED = fast
+      
 ---+++ Legacy support
    * Support for legacy "EDITTOPIC", used to be hard-coded, now replaced by TMPL:P conditional instantiation
       * Set EDITURL = %SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%
