@@ -57,7 +57,7 @@ fi
 #name space change all .pm files in contrib and plugins
 cd $curdir/$1/lib/Foswiki
 
-for file in $( find -type f -name '*.pm')
+for file in $( find * -type f -name '*.pm')
 do
     sed -i -e "s/TWiki::/Foswiki::/g"  $file
     sed -i -e "s/new TWiki\(\);/new Foswiki();/g"  $file
@@ -103,12 +103,12 @@ cd $curdir/$1
 if [ -d pub/System/$1 ]
 then
     cd $curdir/$1/pub/System/$1
-    for file in $( find -type f -name '*.css')
+    for file in $( find * -type f -name '*.css')
     do
         sed -i -e "s/twiki\([A-Z][A-Za-z]\+\)/foswiki\1/g"  $file
     done
 
-    for file in $( find -type f -name '*.js')
+    for file in $( find * -type f -name '*.js')
     do
         sed -i -e "s/twiki\([A-Z][A-Za-z]\+\)/foswiki\1/g"  $file
     done
@@ -121,7 +121,7 @@ cd $curdir/$1
 if [ -d templates ]
 then
     cd $curdir/$1/templates
-    for file in $( find -type f -name '*.tmpl')
+    for file in $( find * -type f -name '*.tmpl')
     do
         sed -i -e "s/twiki\([A-Z][A-Za-z]\+\)/foswiki\1/g"  $file
     done
@@ -133,7 +133,7 @@ cd $curdir/$1
 if [ -d tools ]
 then
     cd $curdir/$1/tools
-    for file in $( find -type f -name '*')
+    for file in $( find * -type f -name '*')
     do
         sed -i -e "s/TWiki::/Foswiki::/g"  $file
         sed -i -e "s/new TWiki\(\);/new Foswiki();/g"  $file
