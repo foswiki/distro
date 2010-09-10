@@ -17,9 +17,9 @@ if (!foswiki) foswiki = {};
          * @privileged
          */
         this._getName = function (inId) {
-            var re = new RegExp("(.*)(hide|show|toggle)", "g");
+            var re = new RegExp('(.*)(hide|show|toggle)', 'g');
             var m = re.exec(inId);
-            var name = (m && m[1]) ? m[1] : "";
+            var name = (m && m[1]) ? m[1] : '';
             return name;
         };
 	
@@ -31,9 +31,9 @@ if (!foswiki) foswiki = {};
          * @privileged
          */
         this._getType = function (inId) {
-            var re = new RegExp("(.*)(hide|show|toggle)", "g");
+            var re = new RegExp('(.*)(hide|show|toggle)', 'g');
             var m = re.exec(inId);
-            var type = (m && m[2]) ? m[2] : "";
+            var type = (m && m[2]) ? m[2] : '';
             return type;
         }
 	
@@ -62,19 +62,19 @@ if (!foswiki) foswiki = {};
             var contentElem = ref.toggle;
             if (ref.state == foswiki.TwistyPlugin.CONTENT_SHOWN) {
                 // show content
-                if (inMaySave) {
-                    foswiki.TwistyPlugin.showAnimation(contentElem);
+                if (inMaySave && ref.speed != 0) {
+                    foswiki.TwistyPlugin.showAnimation(contentElem, ref);
                 } else {
-                    $(contentElem).show();
+                	foswiki.TwistyPlugin.show(contentElem, ref);
                 }
                 $(showControl).hide();
                 $(hideControl).show();
             } else {
                 // hide content
-                if (inMaySave) {
-                    foswiki.TwistyPlugin.hideAnimation(contentElem);
+                if (inMaySave && ref.speed != 0) {
+                    foswiki.TwistyPlugin.hideAnimation(contentElem, ref);
                 } else {
-                    $(contentElem).hide();
+					foswiki.TwistyPlugin.hide(contentElem, ref);
                 }
                 $(showControl).show();
                 $(hideControl).hide();
@@ -85,7 +85,7 @@ if (!foswiki) foswiki = {};
             }
             if (ref.clearSetting) {
                 foswiki.Pref.setPref(foswiki.TwistyPlugin.COOKIE_PREFIX
-                                     + ref.name, "");
+                                     + ref.name, '');
             }
         }
         
@@ -134,27 +134,92 @@ if (!foswiki) foswiki = {};
         /**
          * Key-value set of foswiki.TwistyPlugin.Storage objects.
          * The value is accessed by twisty id identifier name.
-         * @example var ref = self._storage["demo"];
+         * @example var ref = self._storage['demo'];
          * @privileged
          */
         this._storage = {};
     };
 
     /**
-     * Callbacks when animating the twisty
+     * Show the twisty content
      */
-    foswiki.TwistyPlugin.showAnimation = 
-        foswiki.TwistyPlugin.hideAnimation = function (elem) {
-        var speed = foswiki.getPreference('TWISTYANIMATIONSPEED') || 0;
-        // .getPreference() returns a string or null, but .animate() wants an
-        // integer or a string
-        if (RegExp(/^\d+$/).test(speed)) {
-            speed = parseInt(speed);
-        }
-        jQuery(elem).animate({
-              height:'toggle', 
-                    opacity:'toggle'
-                    }, speed);
+    foswiki.TwistyPlugin.show = function (elem, ref) {
+    	var $elem = $(elem);
+    	$elem.removeClass('foswikiMakeHidden');
+    	$elem.css(
+			{
+				opacity:1,
+				marginTop:ref.marginTop,
+				marginBottom:ref.marginBottom,
+				paddingTop:ref.paddingTop,
+				paddingBottom:ref.paddingBottom
+			}
+		);
+		//$elem.css('height', ''); // somehow this doesn't work
+		elem.style.height = '';
+    }
+    
+    /**
+     * Hide the twisty content
+     */
+    foswiki.TwistyPlugin.hide = function (elem, ref) {
+    	var $elem = $(elem);
+    	$elem.addClass('foswikiMakeHidden');
+    	$elem.css(
+			{
+				opacity:0,
+				height:0,
+				marginTop:0,
+				marginBottom:0,
+				paddingTop:0,
+				paddingBottom:0
+			}
+		);
+    }
+    
+    /**
+     * Show callback when animating the twisty
+     */
+    foswiki.TwistyPlugin.showAnimation = function (elem, ref) {
+    	var $elem = $(elem);
+		$elem.animate(
+			{
+				height:ref.height, 
+				opacity:1,
+				marginTop:ref.marginTop,
+				marginBottom:ref.marginBottom,
+				paddingTop:ref.paddingTop,
+				paddingBottom:ref.paddingBottom
+			},
+			ref.speed,
+			function () {
+				//$elem.css('height', ''); // somehow this doesn't work
+				elem.style.height = '';
+			}
+		);
+    };
+    
+    /**
+     * Hide callback when animating the twisty
+     */
+    foswiki.TwistyPlugin.hideAnimation = function (elem, ref) {
+    	var $elem = $(elem);
+
+		$elem.animate(
+			{
+				height:0, 
+				opacity:0,
+				marginTop:0,
+				marginBottom:0,
+				paddingTop:0,
+				paddingBottom:0
+			},
+			ref.speed,
+			function () {
+				$elem.hide();
+			}
+		);
+        
     };
 
     /**
@@ -162,7 +227,7 @@ if (!foswiki) foswiki = {};
      */
     foswiki.TwistyPlugin.CONTENT_HIDDEN = 0;
     foswiki.TwistyPlugin.CONTENT_SHOWN = 1;
-    foswiki.TwistyPlugin.COOKIE_PREFIX = "TwistyPlugin_";
+    foswiki.TwistyPlugin.COOKIE_PREFIX = 'TwistyPlugin_';
     
     /**
      * The cached full preference cookie string so the data has to
@@ -218,9 +283,9 @@ if (!foswiki) foswiki = {};
             if (ref.firstStartShown)
                 ref.state = foswiki.TwistyPlugin.CONTENT_SHOWN;
             // cookie setting may override firstStartHidden and firstStartShown
-            if (cookie && cookie == "0")
+            if (cookie && cookie == '0')
                 ref.state = foswiki.TwistyPlugin.CONTENT_HIDDEN;
-            if (cookie && cookie == "1")
+            if (cookie && cookie == '1')
                 ref.state = foswiki.TwistyPlugin.CONTENT_SHOWN;
             // startHidden and startShown may override cookie
             if (ref.startHidden)
@@ -257,6 +322,11 @@ if (!foswiki) foswiki = {};
         this.startHidden;			// Boolean
         this.firstStartShown;		// Boolean
         this.firstStartHidden;		// Boolean
+        this.marginTop;
+        this.marginBottom;
+        this.paddingTop;
+        this.paddingBottom;
+        this.speed;
     }
 
     /**
@@ -264,20 +334,46 @@ if (!foswiki) foswiki = {};
      */
     $(function() {
           // Hide anything so marked
-          $(".twistyStartHide").livequery(function() {
+          $('.twistyStartHide').livequery(function() {
             $(this).hide();
           });
 
-          $(".twistyTrigger, .twistyContent").livequery(function() {
+		  $('.twistyContent').livequery(function() {
+            var ref = foswiki.TwistyPlugin.init(this);
+            var $this = $(this);
+            var speed;
+            if ($this.get(0).tagName == 'SPAN') {
+            	// do not animate spans because the animation turns inline display into block
+            	speed = 0;
+            } else {
+            	speed = foswiki.getPreference('TWISTYANIMATIONSPEED') || 0;
+            	/*
+				.getPreference() returns a string or null, but .animate() wants an integer or a string
+				*/
+				if (RegExp(/^\d+$/).test(speed)) {
+					speed = parseInt(speed);
+				}
+			}
+			ref.speed = speed;
+            if (speed != 0) {
+				ref.height = $this.height() || 'toggle';
+				ref.marginTop = $this.css('margin-top');
+				ref.marginBottom = $this.css('margin-bottom');
+				ref.paddingTop = $this.css('padding-top');
+				ref.paddingBottom = $this.css('padding-bottom');
+			}	
+          });
+          
+          $('.twistyTrigger').livequery(function() {
             foswiki.TwistyPlugin.init(this);
           });
 
-          $(".twistyExpandAll").livequery(function() {
+          $('.twistyExpandAll').livequery(function() {
             $(this).click(function() {
               foswiki.TwistyPlugin.toggleAll(foswiki.TwistyPlugin.CONTENT_SHOWN);
             });
           });
-          $(".twistyCollapseAll").livequery(function() {
+          $('.twistyCollapseAll').livequery(function() {
             $(this).click(function() {
               foswiki.TwistyPlugin.toggleAll(foswiki.TwistyPlugin.CONTENT_HIDDEN);
             });
