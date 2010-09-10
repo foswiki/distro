@@ -38,8 +38,8 @@ sub test_simpleOopsException {
         $this->assert_equals( 1, $e->{keep} );
         $this->assert_str_equals( 'templatename', $e->{template} );
         $this->assert_str_equals( 'phlegm', join( ',', @{ $e->{params} } ) );
-        $this->assert_str_equals(
-'OopsException(templatename/defname web=>webname topic=>topicname keep=>1 params=>[phlegm])',
+        $this->assert_matches(
+qr/^OopsException\(templatename\/defname web=>webname topic=>topicname keep=>1 params=>\[phlegm\]\)/,
             $e->stringify()
         );
     };
@@ -64,8 +64,8 @@ sub test_multiparamOopsException {
         $this->assert_str_equals( 'templatename', $e->{template} );
         $this->assert_str_equals( 'phlegm,<pus>',
             join( ',', @{ $e->{params} } ) );
-        $this->assert_str_equals(
-'OopsException(templatename web=>webname topic=>topicname params=>[phlegm,<pus>])',
+        $this->assert_matches(
+qr/^OopsException\(templatename web=>webname topic=>topicname params=>\[phlegm,<pus>\]\)/,
             $e->stringify()
         );
     };
