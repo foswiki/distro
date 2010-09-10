@@ -463,6 +463,7 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  11 Sep 2010 | 1.6.6 Foswikitask:Item9499: Recoded show/hide animation code for smooth twisties. |
 |  10 Sep 2010 | 1.6.5 Foswikitask:Item9515: Simplified code that shows/hides twisties. |
 |  05 Sep 2010 | 1.6.4 Foswikitask:Item9626: Put link class around link and image. |
 |  24 Aug 2010 | 1.6.3 Foswikitask:Item8573: Fix new dependency on JQueryPlugin |

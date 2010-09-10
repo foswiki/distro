@@ -19,7 +19,7 @@ use vars qw( @twistystack $doneHeader $doneDefaults
 
 our $VERSION = '$Rev$';
 
-our $RELEASE = '1.6.5';
+our $RELEASE = '1.6.6';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
