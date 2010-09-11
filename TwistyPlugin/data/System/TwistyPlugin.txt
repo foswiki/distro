@@ -50,13 +50,33 @@ Will generate:
 
 You may have noticed that no parameters are passed to =%<nop>TWISTY{}%= but the show and hide links _do_ have text! The default values are fetched from plugin settings =TWISTYSHOWLINK= and =TWISTYHIDELINK=, see [[#PluginSettings][Plugin Settings]] below.
 
+---+++ Block or inline
+The default display mode of Twisty is =div=, that is, the contents is displayed as block element, displayed on the next line.
 
----+++ Twisty with icons
-We will use =mode="div"= to put the collapsing content below the button (the default mode is ="span"=).
+If you want to show the Twisty contents on the same line - inline - use =mode="span"=:
 
 <verbatim class="tml">
 %TWISTY{
-    mode="div"
+mode="span"
+}%
+my twisty content
+%ENDTWISTY%
+</verbatim>
+
+Will generate:
+
+%TWISTY{
+mode="span"
+}%
+%GREEN% my twisty content %ENDCOLOR%
+%ENDTWISTY%
+
+Note that if animations are on (using =TWISTYPLUGIN_TWISTYANIMATIONSPEED=), you won't see animations with inline mode. 
+
+
+---+++ Twisty with icons
+<verbatim class="tml">
+%TWISTY{
     showlink="Show..."
     hidelink="Hide"
     showimgleft="%ICONURLPATH{toggleopen-small}%"
@@ -69,7 +89,6 @@ my twisty content
 It will look like this:
 
 %TWISTY{
-mode="div"
 showlink="Show..."
 hidelink="Hide"
 showimgleft="%ICONURLPATH{toggleopen-small}%"
@@ -81,9 +100,8 @@ hideimgleft="%ICONURLPATH{toggleclose-small}%"
 To put icons at the right side, write
 <verbatim class="tml">
 %TWISTY{
-    mode="div"
-    showlink="Show&nbsp;"
-    hidelink="Hide&nbsp;"
+    showlink="Show"
+    hidelink="Hide"
     showimgright="%ICONURLPATH{toggleopen-small}%"
     hideimgright="%ICONURLPATH{toggleclose-small}%"
 }%
@@ -92,9 +110,8 @@ my twisty content
 </verbatim>
 
 %TWISTY{
-mode="div"
-showlink="Show&nbsp;"
-hidelink="Hide&nbsp;"
+showlink="Show"
+hidelink="Hide"
 showimgright="%ICONURLPATH{toggleopen-small}%"
 hideimgright="%ICONURLPATH{toggleclose-small}%"
 }%
@@ -288,7 +305,6 @@ Use parameter =class= to style the content div or class:
 
 <verbatim class="tml">
 %TWISTY{
-    mode="div"
     showlink="Show..."
     hidelink="Hide"
     class="foswikiHelp"
@@ -299,7 +315,6 @@ my twisty content
 
 Generates: %BR%
 %TWISTY{
-    mode="div"
     showlink="Show..."
     hidelink="Hide"
     class="foswikiHelp"
@@ -313,7 +328,6 @@ Use parameter =linkclass= to style the twisty links:
 
 <verbatim class="tml">
 %TWISTY{
-    mode="div"
     showlink="Show..."
     hidelink="Hide"
     linkclass="foswikiButton"
@@ -324,7 +338,6 @@ my twisty content
 
 Generates: %BR%
 %TWISTY{
-mode="div"
 showlink="Show..."
 hidelink="Hide"
 linkclass="foswikiButton"
@@ -344,7 +357,7 @@ You can toggle all Twisties on or off at once by putting a link or button on the
 
 Creates these controls:
 
-<button class="twistyExpandAll foswikiButton">Expand all</button> &nbsp; 
+<button class="twistyExpandAll foswikiButton">Expand all</button>  
 <button class="twistyCollapseAll foswikiButton">Collapse all</button>
 
 When you want to use links, write:
@@ -352,14 +365,14 @@ When you want to use links, write:
 <verbatim class="tml">
 #VarTOGGLE
 
-<a href="#TOGGLE" class="twistyExpandAll">Expand all</a> &nbsp; 
+<a href="#TOGGLE" class="twistyExpandAll">Expand all</a>  
 <a href="#TOGGLE" class="twistyCollapseAll">Collapse all</a>
 </verbatim>
 
 
 #VarTOGGLE
 
-<a href="#TOGGLE" class="twistyExpandAll">Expand all</a> &nbsp; 
+<a href="#TOGGLE" class="twistyExpandAll">Expand all</a>  
 <a href="#TOGGLE" class="twistyCollapseAll">Collapse all</a>
 
 
@@ -390,7 +403,6 @@ link="$percentY$percent"
 ... to get:
 
 %TWISTY{
-mode="div"
 link="$percentY$percent"
 showimgleft="%ICONURLPATH{toggleopen-small}%"
 hideimgleft="%ICONURLPATH{toggleclose-small}%"
@@ -411,9 +423,11 @@ link="Count: ($percentCALC{$quot$dollarGET(infoCount)$quot}$percent)"
 </verbatim>
 
 
----++ Syntax
+---++ Shorthand syntax
 %INCLUDE{VarTWISTY}%
 %INCLUDE{VarENDTWISTY}%
+
+---++ Less shorthand syntax
 %INCLUDE{VarTWISTYBUTTON}%
 %INCLUDE{VarTWISTYSHOW}%
 %INCLUDE{VarTWISTYHIDE}%
@@ -421,7 +435,7 @@ link="Count: ($percentCALC{$quot$dollarGET(infoCount)$quot}$percent)"
 %INCLUDE{VarENDTWISTYTOGGLE}%
 
 
---++ Notes for developers
+---++ Notes for developers
 ---+++ CSS classes
 
 | *Class name* | *Note* |

@@ -145,7 +145,7 @@ if (!foswiki) foswiki = {};
      */
     foswiki.TwistyPlugin.show = function (elem, ref) {
     	var $elem = $(elem);
-    	$elem.removeClass('foswikiMakeHidden');
+    	$elem.removeClass('foswikiHidden');
     	$elem.css(
 			{
 				opacity:1,
@@ -164,7 +164,7 @@ if (!foswiki) foswiki = {};
      */
     foswiki.TwistyPlugin.hide = function (elem, ref) {
     	var $elem = $(elem);
-    	$elem.addClass('foswikiMakeHidden');
+    	$elem.addClass('foswikiHidden');
     	$elem.css(
 			{
 				opacity:0,
@@ -337,7 +337,9 @@ if (!foswiki) foswiki = {};
           $('.twistyStartHide').livequery(function() {
             $(this).hide();
           });
-
+		  $('.foswikiMakeVisible').livequery(function() {
+            $(this).removeClass('foswikiMakeVisible');
+          });
 		  $('.twistyContent').livequery(function() {
             var ref = foswiki.TwistyPlugin.init(this);
             var $this = $(this);
@@ -363,7 +365,6 @@ if (!foswiki) foswiki = {};
 				ref.paddingBottom = $this.css('padding-bottom');
 			}	
           });
-          
           $('.twistyTrigger').livequery(function() {
             foswiki.TwistyPlugin.init(this);
           });

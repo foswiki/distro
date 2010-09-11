@@ -1,13 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" date="1195487956" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarTWISTYTOGGLE
----++++ TWISTYTOGGLE
+---+++ TWISTYTOGGLE
 *Twisty Toggle contents section*
    * Syntax: =%<nop>TWISTYTOGGLE{id="myid"}%=
    * Supported parameters:
     | *Parameter* | *Value* | *Description* | *Remark* |
     | =id= | Unique identifier | Used to link [[#VarTWISTYSHOW][TWISTYSHOW]], [[#VarTWISTYHIDE ][TWISTYHIDE ]] and [[#VarTWISTYTOGGLE][TWISTYTOGGLE]].  | required  |
-    | =mode= | ="div"= or ="span"= | Specify if the Twisty Toggle section will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. | optional, defaults to =&lt;span&gt;= |
+    | =mode= | ="div"= or ="span"= | Specify if the Twisty Toggle section will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. | optional, defaults to =&lt;div&gt;= |
     | =class= | CSS class name | Class for content div or span | optional, default none |
     | =linkclass= | CSS class name | Class for link | optional, default none |
     | =remember= | ="on"=, ="off"= | If ="on"=, the Twisty state is remembered the next time the page is shown. If ="off"=, the stored setting will be cleared.<br /> *Note:* when used, think carefully about a unique name (id) for the Twisty, otherwise the cookie that is set might affect other Twisties with the same name. Also note that only interaction is stored, not the state of the Twisty when left unclicked. | optional, no default |
