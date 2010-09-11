@@ -2723,7 +2723,7 @@ our @twikiFilters = (
 sub target_twiki {
     my $this = shift;
 
-    print STDERR <<CAVEAT
+    print STDERR <<CAVEAT;
 WARNING: This convertor targets TWiki 4.2.3. Not all Foswiki APIs are
 supported by TWiki, or TWiki may have changed since 4.2.3. You should
 take great care to test the TWiki version. You cannot expect the
