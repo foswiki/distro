@@ -337,8 +337,7 @@ sub _createHtmlProperties {
     _setDefaults();
     my $remember = $params->{'remember'} || $prefRemember;
     my $noscript = $params->{'noscript'} || '';
-    my $noscriptHide;
-    $noscriptHide = 1 if ( $noscript eq 'hide' );
+    my $noscriptHide = ( $noscript eq 'hide' ) ? 1 : 0;
     $mode ||= $prefMode;
 
     my @classList = ();
@@ -386,10 +385,6 @@ sub _createHtmlProperties {
     # unless explicitly said otherwise
     if ( !$isTrigger ) {
         push( @classList, 'twistyContent' );
-
-        if ( not( $state eq $TWISTYPLUGIN_CONTENT_SHOWN ) ) {
-            push( @classList, 'foswikiMakeHidden' );
-        }
     }
 
     # deprecated
