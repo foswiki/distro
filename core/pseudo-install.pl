@@ -46,9 +46,10 @@ BEGIN {
 
     my $n = 0;
     $n++ while ( -e "testtgt$n" || -e "testlink$n" );
-    open( F, '>', "testtgt$n" ) || die "$basedir is not writeable: $!";
-    print F "";
-    close(F);
+    open( my $testfile, '>', "testtgt$n" )
+      or die "$basedir is not writable: $!";
+    print $testfile "";
+    close $testfile;
     eval {
         symlink( "testtgt$n", "testlink$n" );
         $CAN_LINK = 1;
@@ -197,8 +198,7 @@ sub installFromMANIFEST {
 
     trace "Using manifest from $manifest";
 
-    my $df;
-    open( $df, '<', $manifest ) || die $!;
+    open( my $df, '<', $manifest ) or die $!;
     foreach my $file (<$df>) {
         chomp($file);
         next unless $file =~ /^\w+/;
@@ -231,7 +231,7 @@ sub installFromMANIFEST {
             }
         }
     }
-    close($df);
+    close $df;
 
     if ( -d "$moduleDir/test/unit/$module" ) {
         opendir( $df, "$moduleDir/test/unit/$module" );
@@ -240,7 +240,7 @@ sub installFromMANIFEST {
             &$install( $moduleDir, "test/unit/$module", "test/unit/$module/$f",
                 $ignoreBlock );
         }
-        closedir($df);
+        closedir $df;
     }
 
     # process dependencies, if we are installing
@@ -254,12 +254,61 @@ sub installFromMANIFEST {
                 next unless $dep =~ /^\w+/;
                 satisfyDependency( split( /\s*,\s*/, $dep ) );
             }
-            close($df);
+            close $df;
         }
         else {
             error "*** Could not open $deps\n";
         }
     }
+    if ( $installing and $autoconf ) {
+
+        # Read current LocalSite.cfg to see if the current module is enabled
+        my $localSiteCfg = $basedir . '/lib/LocalSite.cfg';
+        open my $lsc, '<', $localSiteCfg
+          or die "Cannot open $localSiteCfg for reading: $!";
+        my $enabled = 0;
+        my $spec;
+        my $localConfiguration = '';
+        while (<$lsc>) {
+            next if /^(?:1;|\s*|#.*)$/;
+            $localConfiguration .= $_;
+            if (m/^\$Foswiki::cfg{Plugins}{$module}{(\S+)}\s+=\s+(\S+);/) {
+                if ( $1 eq 'Enabled' ) {
+                    $enabled = $2;
+                }
+                elsif ( $1 eq 'Module' ) {
+                    my $moduleDir = $2;
+                    $moduleDir =~ s#::#/#g;
+                    $moduleDir =~ s#'##g;
+                    $spec = "$basedir/lib/$moduleDir/Config.spec";
+                }
+            }
+        }
+        close $lsc;
+        if ( $enabled && $spec && -f $spec ) {
+            if ( open( my $pluginSpec, '<', $spec ) ) {
+                $localConfiguration .= "# $module specific configuration\n";
+                while (<$pluginSpec>) {
+                    next if /^(?:1;|\s*|#.*)$/;
+                    $localConfiguration .= $_;
+                }
+                close $pluginSpec;
+                $localConfiguration .= "1;\n";
+                if ( open( my $lsc, '>', $localSiteCfg ) ) {
+                    print $lsc $localConfiguration;
+                    close $lsc;
+                    warn "Added ${module}'s Config.spec to $localSiteCfg\n";
+                }
+                else {
+                    warn "Could not write new $localSiteCfg: $!\n";
+                }
+            }
+            else {
+                warn "Could not open spec file $spec for $module: $!\n";
+            }
+        }
+    }
+
 }
 
 sub satisfyDependency {
@@ -302,7 +351,8 @@ sub linkOrCopy {
         symlink(
             _cleanPath("$moduleDir/$source"),
             _cleanPath("$moduleDir/$target")
-        ) or die "Failed to link $moduleDir/$target to $moduleDir/$source: $!";
+          )
+          or die "Failed to link $moduleDir/$target to $moduleDir/$source: $!";
         print "Linked $source as $target\n";
     }
     else {
@@ -347,7 +397,7 @@ sub generateAlternateVersion {
         trace "...compressed $file to create $file.gz";
         if ($internal_gzip) {
             open( my $if, '<', _cleanPath($file) )
-              || die "Failed to open $file to read: $!";
+              or die "Failed to open $file to read: $!";
             local $/ = undef;
             my $text = <$if>;
             close($if);
@@ -355,7 +405,7 @@ sub generateAlternateVersion {
             $text = Compress::Zlib::memGzip($text);
 
             open( my $of, '>', _cleanPath($file) . ".gz" )
-              || die "Failed to open $file.gz to write: $!";
+              or die "Failed to open $file.gz to write: $!";
             binmode $of;
             print $of $text;
             close($of);
@@ -504,17 +554,14 @@ sub uninstall {
 }
 
 sub Autoconf {
-    my ( $moduleDir, $dir, $file ) = @_;
-
     my $foswikidir   = $basedir;
     my $localSiteCfg = $foswikidir . '/lib/LocalSite.cfg';
     if ( $force || ( !-e $localSiteCfg ) ) {
-        my $f;
-        open( $f, '<', "$foswikidir/lib/Foswiki.spec" )
-          || die "Cannot autoconf: $!";
+        open( my $f, '<', "$foswikidir/lib/Foswiki.spec" )
+          or die "Cannot autoconf: $!";
         local $/ = undef;
         my $localsite = <$f>;
-        close($f);
+        close $f;
 
      #assume that the commented out settings (DataDir etc) are only on one line.
         $localsite =~ s/^# (\$Foswiki::cfg[^\n]*)/$1/mg;
@@ -536,9 +583,9 @@ s|^(.*)SearchAlgorithms::Forking(.*)$|$1SearchAlgorithms::PurePerl$2|m;
 
         $localsite =~ s|/home/httpd/foswiki|$foswikidir|g;
 
-        if ( open( LS, '>', $localSiteCfg ) ) {
-            print LS $localsite;
-            close(LS);
+        if ( open( my $ls, '>', $localSiteCfg ) ) {
+            print $ls $localsite;
+            close $ls;
             warn "wrote simple config to $localSiteCfg\n\n";
         }
         else {
@@ -554,10 +601,11 @@ sub enablePlugin {
     my ( $module, $installing, $libDir ) = @_;
     my $cfg = '';
     print "Updating LocalSite.cfg\n";
-    if ( open( F, '<', "lib/LocalSite.cfg" ) ) {
+    if ( open( my $lsc, '<', "lib/LocalSite.cfg" ) ) {
         local $/;
-        $cfg = <F>;
+        $cfg = <$lsc>;
         $cfg =~ s/\r//g;
+        close $lsc;
     }
     my $changed = 0;
     if ( $cfg =~
@@ -577,9 +625,9 @@ sub enablePlugin {
     }
 
     if ($changed) {
-        if ( open( F, '>', "lib/LocalSite.cfg" ) ) {
-            print F $cfg;
-            close(F);
+        if ( open( my $lsc, '>', "lib/LocalSite.cfg" ) ) {
+            print $lsc $cfg;
+            close $lsc;
             print(
                 ( $installing ? 'En' : 'Dis' ),
                 "abled $module in LocalSite.cfg\n"
@@ -635,18 +683,15 @@ for my $arg (@ARGV) {
     if ( $arg eq "all" ) {
         push( @modules, 'core' );
         foreach my $dir (@extensions_path) {
-            my $d;
-            opendir $d, $dir or next;
-            push @modules,
-              map { untaint($_) }
+            opendir my $d, $dir or next;
+            push @modules, map { untaint($_) }
               grep { /(?:Tag|Plugin|Contrib|Skin|AddOn)$/ && -d "$dir/$_" }
               readdir $d;
             closedir $d;
         }
     }
     elsif ( $arg eq 'default' || $arg eq 'developer' ) {
-        my $f;
-        open $f, "<", "lib/MANIFEST" or die "Could not open MANIFEST: $!";
+        open my $f, "<", "lib/MANIFEST" or die "Could not open MANIFEST: $!";
         local $/ = "\n";
         @modules =
           map { /(\w+)$/; untaint($1) }
