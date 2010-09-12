@@ -457,9 +457,9 @@ at the appropriate stage of the installation. Read
 to see how they fit in.
 
 With the Foswiki 1.1 version of the install tools, these exits run as methods
-of the Configure::Package object instance for the extension, and have access
+of the =Configure::Package= object instance for the extension, and have access
 to the package manifest and other information.  See the
-[[System.PerlDoc?module=Foswiki::Configure::Package][PerlDoc for Foswiki::Configurer::Package]] for details.  
+[[System.PerlDoc?module=Foswiki::Configure::Package][PerlDoc for Foswiki::Configurer::Package]] for details (link requires BuildContrib to be installed).
 
 If the script needs to report to the installer, it should return the message
 as a simple string ending with a newline.  It will be presented as a verbatim block to the web
@@ -469,7 +469,7 @@ install, or as inline text for the shell installation.
 directories or topics when used to remove or otherwise manipulate files in the
 installation.   You can use the Utility function =mapTarget= to find the
 correct file location for the current install.  See
-[[System.PerlDoc?module=Foswiki::Configure::Util][PerlDoc for Foswiki::Configure::Util]]</blockquote>
+[[System.PerlDoc?module=Foswiki::Configure::Util][PerlDoc for Foswiki::Configure::Util]] (link requires BuildContrib to be installed)</blockquote>
 
 Also, as the file to be removed is most likely not listed in the manifest,
 it will not be backed up during the install.  So use caution removing files
