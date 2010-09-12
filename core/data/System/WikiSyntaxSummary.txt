@@ -2,11 +2,10 @@
 %META:TOPICPARENT{name="UsersGuide"}%
 This page provides online help for new users of Foswiki when editing a page.  If there's some formatting that your contributors use often, you can customize this for your site's particular needs.
 
-Keeping this help text short and simple is important since this page is aimed at new users.  It does include pop-up links for more detailed help.
+Keeping this help text short and simple is important since this page is aimed at new users. It does include pop-up links for more detailed help.
 
 ---
-%STARTINCLUDE%
-%MAKETEXT{"*Formatting help:*"}%
+%STARTINCLUDE%%MAKETEXT{"*Formatting help:*"}%
    * %MAKETEXT{"*bold* put word/phrase in asterisks: =<nop>*your phrase*="}%
    * %MAKETEXT{"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;your text="}%
    * %MAKETEXT{"*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="}%

@@ -11,16 +11,23 @@
 %TMPL:DEF{"pagetitle"}%%MAKETEXT{"Attach image or document on [_1]" args="[[%TOPIC%]]"}%%TMPL:END%
 
 
-%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="attachhelp" mode="div" remember="on" link="%MAKETEXT{"Attachments help"}%" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%"  linkclass="patternTwistyButton"}%</div>%TMPL:END%
+%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{
+id="attachhelp"
+remember="on"
+link="%MAKETEXT{"Attachments help"}%"
+showimgleft="%ICONURLPATH{toggleopen}%"
+hideimgleft="%ICONURLPATH{toggleclose}%"  
+linkclass="patternTwistyButton"
+}%%TMPL:P{"pagehelp"}%</div>%TMPL:END%
 
 
-%TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="attachhelp" mode="div" remember="on" noscript="hide"}%<div class="foswikiHelp">
+%TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{
+id="attachhelp"
+remember="on"
+class="foswikiHelp"
+}%
 %TMPL:P{"notes"}%
-%TMPL:P{"extranotes"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
-
-%TMPL:DEF{"pagehelp_nojavascript"}%<br />%TWISTYTOGGLE{id="pagehelp_nojavascript" mode="div" start="hide"}%<div class="foswikiHelp">
-%TMPL:P{"notes"}%
-%TMPL:P{"extranotes"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+%TMPL:P{"extranotes"}%%ENDTWISTYTOGGLE%%TMPL:END%
 
 
 %TMPL:DEF{"formstart"}%<form name="main" enctype="multipart/form-data" action="%SCRIPTURLPATH{"upload"}%/%WEB%/%TOPIC%" method="post">%TMPL:END%
@@ -58,11 +65,10 @@
 
 
 %TMPL:DEF{"content"}%%TMPL:P{"toolbar"}%
-%TMPL:P{"pagehelp"}%%TMPL:P{"formstart"}%<div class="patternBorder">
+%TMPL:P{"formstart"}%<div class="patternBorder">
 %TMPL:P{"attachform"}%
 %TMPL:P{"topicinfo"}%</div>
 %TMPL:P{"formend"}%
 %TMPL:P{"movedelete"}%
-%TMPL:P{"pagehelp_nojavascript"}%
 %TMPL:P{"versions"}%
 %TMPL:P{"existingattachments"}%%TMPL:END%

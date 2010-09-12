@@ -1,13 +1,14 @@
 %TMPL:INCLUDE{"editform"}%
 
-%TMPL:DEF{"content"}%%TMPL:P{"formstart"}%<div class="foswikiFormSteps">
+%TMPL:DEF{"content"}%%TMPL:P{"formstart"}%
+<div class="patternBorder">
+<div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 %TMPL:P{"formbottom"}%
 <div class="foswikiClear"></div>
 </div>
-<div class="foswikiFormStep">
-%TMPL:P{"topicinfo"}%
 </div>
+%TMPL:P{"topicinfo"}%
 </div>
 <input type="hidden" id="topic" name="text" value="%TEXT%" /> 
 %TMPL:P{"formend"}%%TMPL:END%
