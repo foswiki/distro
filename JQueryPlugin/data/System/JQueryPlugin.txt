@@ -81,10 +81,10 @@ using jQuery with Foswiki.
 
 ---++ Available jQuery plugins
 %JQPLUGINS{
-  format="<h3> $index. $percentIF{\"istopic '$documentation'\" 
+  format="<h3> $index. $percntIF{\"istopic '$documentation'\" 
                   then=\"[[$documentation][$name]]\" 
                   else=\"<nop>$name\"
-               }$percent $active
+               }$percnt $active
           </h3>
           $summary
   "
