@@ -44,9 +44,6 @@
 %TMPL:DEF{"topicinfo"}%%TMPL:P{"revCommentPluginOptions"}%<div class="patternTopicActions"><div class="patternTopicAction"><div class="patternActionButtons">%TMPL:P{"saveoptions"}%%TMPL:P{"action_buttons"}%<div class="foswikiClear"></div></div></div></div>%TMPL:END%
 
 
-%TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="edithelp" mode="div" remember="on" noscript="hide"}%<div class="foswikiHelp">%TMPL:P{"help"}%%TMPL:P{"actionbuttons_help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
-
-
 %TMPL:DEF{"textarea"}%<div class="patternEditTopic"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%'>%TEXT%</textarea>%TMPL:P{"sig_textareabuttons"}%</div>%TMPL:END%
 
 
@@ -58,9 +55,13 @@
 
 %{ HELP TEXTS }%
 
-%TMPL:DEF{"actionbuttons_help"}%<div class="patternSaveHelp">%TMPL:P{"accesskeys_help"}%</div>%TMPL:END%
+%TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{
+id="edithelp"
+remember="on"
+class="foswikiHelp"
+}%%TMPL:P{"help"}%%TMPL:P{"actionbuttons_help"}%%ENDTWISTYTOGGLE%%TMPL:END%
 
-%TMPL:DEF{"pagehelp_nojavascript"}%%TWISTYTOGGLE{id="pagehelp_nojavascript" mode="div" start="hide"}%<div class="foswikiHelp">%TMPL:P{"help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+%TMPL:DEF{"actionbuttons_help"}%<div class="patternSaveHelp">%TMPL:P{"accesskeys_help"}%</div>%TMPL:END%
 
 %TMPL:DEF{"accesskeys_help"}%%ICON{info}% %POPUPWINDOW{"%SYSTEMWEB%.AccessKeys" label="%MAKETEXT{"Access keys"}%"}% %MAKETEXT{"S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"}%%TMPL:END%
 
@@ -69,15 +70,13 @@
 
 %TMPL:DEF{"content"}%%TMPL:P{"formstart"}%%TMPL:P{"formtop"}%
 %TMPL:P{"toolbar"}%
-<div class="patternBorder"><div class="foswikiFormSteps">
-<div class="foswikiFormStep">
 %TMPL:P{"textarea"}%
-</div>
+<div class="patternBorder">
+<div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 %TMPL:P{"formbottom"}%
 <div class="foswikiClear"></div>
 </div>
 </div>%TMPL:P{"topicinfo"}%
 </div>
-%TMPL:P{"formend"}%
-%TMPL:P{"pagehelp_nojavascript"}%%TMPL:END%
+%TMPL:P{"formend"}%%TMPL:END%

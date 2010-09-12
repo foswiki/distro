@@ -744,10 +744,6 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternTopicAction {
 	padding:10px 20px; /*S5*/
 }
-.patternBorder .patternBorder {
-	border-style:solid none none none;
-	margin-top:-1px;
-}
 .patternActionButtons a:link,
 .patternActionButtons a:visited {
 	padding:1px 1px 2px 1px;
@@ -784,6 +780,13 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternBorder {
 	border-style:solid;
 	border-width:1px;
+}
+.patternBorder .patternBorder {
+	border-style:solid none none none;
+	margin-top:-1px;
+}
+.patternEditPage .patternBorder {
+	margin-top:2em;
 }
 .patternTop {}
 
