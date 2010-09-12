@@ -270,7 +270,7 @@ sub installFromMANIFEST {
         my $spec;
         my $localConfiguration = '';
         while (<$lsc>) {
-            next if /^(?:1;|\s*|#.*)$/;
+            next if /^1;$/;
             $localConfiguration .= $_;
             if (m/^\$Foswiki::cfg{Plugins}{$module}{(\S+)}\s+=\s+(\S+);/) {
                 if ( $1 eq 'Enabled' ) {
