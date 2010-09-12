@@ -1087,3 +1087,13 @@ a.foswikiButton:active
 	border-color:#ccc;
 	color:#bbb;
 }
+
+.foswikiJs a.jqPopUpWindow:link,
+.foswikiJs a.jqPopUpWindow:visited,
+.foswikiJs a.jqPopUpWindow:hover {
+	background-image:url(popup.gif);
+	background-repeat:no-repeat;
+	background-position:right;
+	padding-right:14px;
+	margin-right:3px;
+}
