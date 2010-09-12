@@ -238,7 +238,7 @@ jQuery(function($){
    "^%URLPARAM{"q" default="does not exist"}%.*"
    type="regex"
    scope="topic"
-   format="$percentUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$percentFORMFIELD{\"Photo\" topic=\"$web.$topic\" default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif\" alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif\"}$percent$n\"}$percent"
+   format="$percntUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$percntFORMFIELD{\"Photo\" topic=\"$web.$topic\" default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif\" alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif\"}$percnt$n\"}$percnt"
    separator=""
    limit="%URLPARAM{"limit" default="10"}%"
    nonoise="on"
@@ -343,7 +343,7 @@ expand a TML expression in the given scope
    * =scope=: optionally defines the topic within which the expression is expanded
 
 <verbatim class="tml">
-%STARTSECTION{"expand"}%%EXPAND{"$percent%URLPARAM{"expression"}%$percent" scope="%URLPARAM{"scope" default="%BASEWEB%.%BASETOPIC%"}%"}%%ENDSECTION{"expand"}%
+%STARTSECTION{"expand"}%%EXPAND{"$percnt%URLPARAM{"expression"}%$percnt" scope="%URLPARAM{"scope" default="%BASEWEB%.%BASETOPIC%"}%"}%%ENDSECTION{"expand"}%
 </verbatim>
 
 ---++ Example extension based implementations
@@ -373,7 +373,7 @@ Foswiki:Extensions.DBCachePlugin implementation of the [[#User_selector][user se
 <verbatim class="tml">
 %STARTSECTION{"user_fast"}%%DBQUERY{
    "uc(topic) =~ uc('^%URLPARAM{"q" default="does not exist"}%')"
-   format="$percentUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$expand(Photo or '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif')$n\"}$percent"
+   format="$percntUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$expand(Photo or '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif')$n\"}$percnt"
    separator=""
    limit="%URLPARAM{"limit" default="10"}%"
    web="%USERSWEB%"
