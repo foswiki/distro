@@ -32,9 +32,6 @@ html>body { /* Mozilla */
 th {
 	line-height:1.15em;
 }
-p {
-	margin:1em 0 0 0;
-}
 label {
 	padding:.15em .3em .15em 0; /* same vertical padding as foswikiInputField */
 }
@@ -927,10 +924,7 @@ h4.foswikiSearchResultsHeader {
 .patternSaveOptionsContents {
 	margin:.5em 0;
 }
-.patternSaveHelp {
-	margin:1em 0 0 0;
-	line-height:1.5em;
-}
+.patternSaveHelp {}
 .patternSaveOptions {
 	margin:0.25em 0 0 0;
 	clear:both;
