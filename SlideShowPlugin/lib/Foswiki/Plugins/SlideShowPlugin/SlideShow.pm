@@ -40,7 +40,7 @@ sub handler {
     my $query = Foswiki::Func::getCgiQuery();
 
     # Build query string based on existingURL parameters
-    my $queryParams = '?slideshow=on;cover=slideshow';
+    my $queryParams = '?slideshow=on;skin=slideshow';
     foreach my $name ( $query->param ) {
         next
           if ( $name =~ /(text|keywords|web|topic|slideshow|skin|cover|\#)/ );
@@ -123,7 +123,7 @@ sub handler {
 
                 $slideComment = $slideComment ? "\n$slideComment\n" : '';
                 $text =~ s/%SLIDECOMMENT%/$slideComment/gs;
-
+                $text .= "%BR%\n\n" x 20;
                 $slideNum++;
             }
             $text =~
