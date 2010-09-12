@@ -115,9 +115,6 @@ sub _upload {
         $fileName = $1;
     }
 
-    $fileName = Foswiki::Sandbox::untaint( $fileName,
-                \&Foswiki::Sandbox::validateAttachmentName );
-
     $fileComment =~ s/\s+/ /go;
     $fileComment =~ s/^\s*//o;
     $fileComment =~ s/\s*$//o;
