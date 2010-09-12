@@ -5,6 +5,9 @@ package AccessControlTests;
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
+# For Anchor test
+use Foswiki::UI;
+
 sub new {
     my $class = shift;
     my $self = $class->SUPER::new( 'AccessControl', @_ );
@@ -260,7 +263,15 @@ If ALLOWTOPIC is set
    1. people in the list are PERMITTED
    2. everyone else is DENIED
 THIS
-    $topicObject->putKeyed('PREFERENCE', { name=>"ALLOWTOPICVIEW", title=>"ALLOWTOPICVIEW", type=>"Set", value=>"%USERSWEB%.MrOrange MrYellow" });
+    $topicObject->putKeyed(
+        'PREFERENCE',
+        {
+            name  => "ALLOWTOPICVIEW",
+            title => "ALLOWTOPICVIEW",
+            type  => "Set",
+            value => "%USERSWEB%.MrOrange MrYellow"
+        }
+    );
     $topicObject->save();
 
     # renew Foswiki, so WebPreferences gets re-read
@@ -565,6 +576,71 @@ THIS
     $this->PERMITTED( "VIEW", $MrGreen, $subweb );
     $this->PERMITTED( "VIEW", $MrGreen );
     $this->DENIED( "VIEW", $MrOrange );
+}
+
+# As anchors are never sent by the browser, this is done through JS
+# and only testable by Selenium
+# Kept this test here as it is the only one I (Babar) know of doing the full
+# Foswiki::UI chain, therefore catching the AccessControlExceptions
+sub test_login_redirect_preserves_anchor {
+    my $this       = shift;
+    my $test_topic = 'TestAnchor';
+
+    # Create a topic with an anchor, viewable only by MrYellow
+    my $topicObject = Foswiki::Meta->new(
+        $this->{session}, $this->{test_web}, $test_topic,
+        <<THIS
+If there is an anchor, and some access restrictions,
+anchor is preserved after login.
+#anchor
+   * Set ALLOWTOPICVIEW = MrYellow
+THIS
+        , undef
+    );
+    $topicObject->save();
+
+    # Request the page with the full UI
+    my $query = new Unit::Request(
+        {
+            webName   => [ $this->{test_web} ],
+            topicName => ["$test_topic"],
+        }
+    );
+    $query->path_info("/$this->{test_web}/$test_topic");
+    $query->method('GET');
+    $query->action('view');
+    my $viewUrl =
+      $this->{session}
+      ->getScriptUrl( '0', 'view', $this->{test_web}, $test_topic );
+    $query->uri("$viewUrl");
+    my ($text) = $this->capture(
+        sub {
+            $Foswiki::Plugins::SESSION->{response} =
+              &Foswiki::UI::handleRequest($query);
+        }
+    );
+
+    # Get the login URL to compare
+    my $loginUrl =
+      $this->{session}
+      ->getScriptUrl( '0', 'login', $this->{test_web}, $test_topic );
+
+    # Extract what we've been redirected to
+    my ($redirect_to) = $text =~ /^Location: (.*?)\r?$/m;
+    $this->assert_not_null( $redirect_to,
+            "Request should have return a 302 to $loginUrl\n"
+          . "But it returned:\n$text" );
+
+    # Check the redirect contains the login url + view to this topic
+    $this->assert_matches(
+        qr#^$loginUrl.*/view/$this->{test_web}/$test_topic$#,
+        $redirect_to,
+        "Login did not redirect to a page with the proper anchor:\n"
+          . "Location: $redirect_to\n"
+          . "Expected: ^$loginUrl.*\%23anchor\$"
+    );
+
+    # Get the redirected page after login
 }
 
 1;
