@@ -155,7 +155,7 @@ BEGIN {
         }
     }
     else {
-        $Error::Debug = 0;        # no verbose stack traces
+        $Error::Debug = 0;        # no verbose stack traces 
     }
 
     # DO NOT CHANGE THE FORMAT OF $VERSION

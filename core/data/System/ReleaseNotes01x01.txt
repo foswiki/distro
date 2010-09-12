@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.0 Beta 1 - 12 Sep 2010
+---+!! Foswiki Release 1.1.0 Beta 1 - 13 Sep 2010
 
 %TOC%
 
@@ -29,7 +29,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.0.8 was built 29 Nov 2009. It is a patch release with more than 280 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevented efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded with the latest Tiny MCE editor release 3.2.7.
    * Foswiki 1.0.9 was built 17 Jan 2010. It is a patch release with more than 320 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bugs in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
    * Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.
-   * Foswiki 1.1.0 Beta 1 was built 12 Sep 2010. It is a release with more than 260 bug fixes relative to 1.0.10 and more than 670 bug fixes relative to 1.0.0. This release adds many new enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
+   * Foswiki 1.1.0 Beta 1 was built 13 Sep 2010. It is a release with more than 260 bug fixes relative to 1.0.10 and more than 670 bug fixes relative to 1.0.0. This release adds many new enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
 
 ---++ Pre-installed Extensions
 
