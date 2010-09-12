@@ -4,7 +4,7 @@
 %TOC%
 
 %STARTINCLUDE%
-_If you can enter text, you're ready for Foswiki. With a few simple rules, you'll be able to use plain text to create well-styled postings, instantly. What you are going to learn here is called <b>T</b>opic <b>M</b>arkup <b>L</b>anguage, or simply TML. So here comes a fast-track guide to shorthand basics:_
+If you can enter text, you're ready for Foswiki. With a few simple rules, you'll be able to use plain text to create well-styled postings, instantly. What you are going to learn here is called <b>T</b>opic <b>M</b>arkup <b>L</b>anguage, or simply TML. So here comes a fast-track guide to shorthand basics:
 
 ---++ General text formatting
 
