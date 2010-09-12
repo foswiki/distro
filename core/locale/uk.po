@@ -21,22 +21,22 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:450
+#: core/lib/Foswiki/Time.pm:457
 msgid "%*(%1,day) "
 msgstr "%*(%1, дн.) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:453
+#: core/lib/Foswiki/Time.pm:460
 msgid "%*(%1,hour) "
 msgstr "%*(%1, год.) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:456
+#: core/lib/Foswiki/Time.pm:463
 msgid "%*(%1,minute) "
 msgstr "%*(%1, хв.) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:459
+#: core/lib/Foswiki/Time.pm:466
 msgid "%*(%1,second) "
 msgstr "%*(%1, сек.) "
 
@@ -78,7 +78,7 @@ msgstr "%1 - спробуйте Foswiki самостійно"
 msgid "%1 - view a short introductory presentation on Foswiki for beginners"
 msgstr "%1 - подивитися коротку ввідну презентацію Foswiki для початківців"
 
-#: core/data/System/WebChanges.txt:2
+#: core/data/System/WebChanges.txt:3
 msgid "%1 Recent Changes in %2 Web"
 msgstr "%1 недавні зміни в розділі %2"
 
@@ -96,13 +96,13 @@ msgid "%1 for changing your password"
 msgstr "%1 для зміни Вашого пароля"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:47
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:37
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:85
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:38
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 містить список інших користувачів Foswiki"
 
-#: core/templates/messages.tmpl:438
+#: core/templates/messages.tmpl:440
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -114,7 +114,7 @@ msgstr ""
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 зареєстрований з адресою електронної пошти %2"
 
-#: core/templates/validate.tmpl:16
+#: core/templates/validate.tmpl:18 core/templates/validate.tmpl:35
 msgid "%1 has received a suspicious change request from your browser."
 msgstr ""
 
@@ -134,12 +134,13 @@ msgstr "%1 - неправильне ім'я для нового розділу"
 msgid "%1 is currently logged in"
 msgstr "%1 зараз на сайті"
 
-#: core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:417
 msgid "%1 is currently set to %2"
 msgstr "%1 вже встановлено на %2"
 
-#: core/templates/messages.tmpl:436
-msgid "%1 is editing %2."
+#: core/templates/messages.tmpl:438
+#, fuzzy
+msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 редагує %2."
 
 #: core/templates/messages.tmpl:49
@@ -155,12 +156,12 @@ msgstr "%1 - сторінка за умовчанням для вилучени�
 msgid "%1 lists all Foswiki user tools"
 msgstr "%1 список інструментарію користувача Foswiki"
 
-#: core/templates/messages.tmpl:444
+#: core/templates/messages.tmpl:446
 msgid "%1 may still be editing %2."
 msgstr "%1 можливо все ще редагує %2."
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
-#: core/lib/Foswiki/Render.pm:221
+#: core/lib/Foswiki/Render.pm:222
 msgid "%1 moved from %2 on %3 by %4"
 msgstr "%1 переміщена з %2 до %3 користувачем %4"
 
@@ -176,7 +177,7 @@ msgstr "%1 щоб налаштувати параметри для розділ�
 msgid "%1 to start working on the new web"
 msgstr "%1 щоб почати працювати в новому розділі"
 
-#: core/templates/messages.tmpl:510 core/templates/messages.tmpl:521
+#: core/templates/messages.tmpl:512 core/templates/messages.tmpl:523
 msgid "%1 topic does not exist"
 msgstr "тема %1 не існує"
 
@@ -193,16 +194,16 @@ msgstr "Відмінити"
 msgid "&Edit text"
 msgstr "Редагувати текст"
 
-#: core/templates/foswiki.tmpl:101
+#: core/templates/foswiki.tmpl:105
 msgid "&History"
 msgstr "Історія"
 
-#: core/templates/messages.tmpl:273
+#: core/templates/messages.tmpl:275
 msgid "'%1' is not a valid %2 "
 msgstr "'%1' неправильний %2 "
 
 # Review in context
-#: core/data/System/WebTopicCreator.txt:2
+#: core/data/System/WebTopicCreator.txt:3
 #, fuzzy
 msgid "'Create New Topic' page has moved"
 msgstr "Сторінку 'Створення Нової Теми' було переміщено"
@@ -227,9 +228,15 @@ msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr ""
 "(*Підказка:* Може варто б розмістити свою фотографію на особистій сторінці?)"
 
-#: core/data/System/WebSearchAdvanced.txt:76
+#: core/data/System/WebSearchAdvanced.txt:78
 msgid "(=all= to show all topics)"
 msgstr "(введіть =all= для виводу без обмежень)"
+
+#: core/templates/validate.tmpl:41
+msgid ""
+"(Note that you can't use the 'Back' button in the browser to go back to a "
+"file upload page)"
+msgstr ""
 
 #: core/data/Sandbox/WebHome.txt:9
 msgid "(Use a topic name in System.WikiNotation)"
@@ -288,11 +295,11 @@ msgstr "(редагувати текст)"
 msgid "(edit)"
 msgstr "(редагувати)"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:105
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:99
 msgid "(how you log in) LoginName:"
 msgstr "(вводиться на вході) Ім'яКористувача:"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:100
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:94
 msgid "(identifies you to others) WikiName:"
 msgstr "(як Вас бачать інші користувачі) ВікіІм'я:"
 
@@ -308,24 +315,24 @@ msgstr "(більше)"
 msgid "(move attachment)"
 msgstr "(перемістити файл)"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:63
+#: core/data/System/WebCreateNewTopicTemplate.txt:59
 msgid "(no parent, orphaned topic)"
 msgstr "(немає батька, тема-сирота)"
 
-#: core/lib/Foswiki/UI/Manage.pm:1126 core/lib/Foswiki/UI/Manage.pm:1159
-#: core/lib/Foswiki/UI/Manage.pm:1272 core/lib/Foswiki/UI/Manage.pm:1275
-#: core/lib/Foswiki/UI/Manage.pm:1278 core/lib/Foswiki/UI/Manage.pm:1317
-#: core/lib/Foswiki/UI/Manage.pm:1348 core/lib/Foswiki/UI/Manage.pm:847
-#: core/lib/Foswiki/UI/Manage.pm:851 core/lib/Foswiki/UI/Manage.pm:855
-#: core/lib/Foswiki/UI/Manage.pm:859
+#: core/lib/Foswiki/UI/Manage.pm:1136 core/lib/Foswiki/UI/Manage.pm:1169
+#: core/lib/Foswiki/UI/Manage.pm:1282 core/lib/Foswiki/UI/Manage.pm:1285
+#: core/lib/Foswiki/UI/Manage.pm:1288 core/lib/Foswiki/UI/Manage.pm:1327
+#: core/lib/Foswiki/UI/Manage.pm:1358 core/lib/Foswiki/UI/Manage.pm:858
+#: core/lib/Foswiki/UI/Manage.pm:862 core/lib/Foswiki/UI/Manage.pm:866
+#: core/lib/Foswiki/UI/Manage.pm:870
 msgid "(none)"
 msgstr "(порожньо/нічого)"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:275
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:314
 msgid "(optional)"
 msgstr "(не обов'язково)"
 
-#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
+#: core/data/System/WebSearch.txt:40 core/data/System/WebSearchAdvanced.txt:42
 msgid "(otherwise search %1 Web only)"
 msgstr "(інакше тільки у розділі %1)"
 
@@ -364,15 +371,15 @@ msgstr "(результати пошуку)"
 msgid "(set preferences)"
 msgstr "(встановити параметри)"
 
-#: core/templates/messages.tmpl:286
+#: core/templates/messages.tmpl:288
 msgid "(single character first name)"
 msgstr "(одна буква з імені)"
 
-#: core/templates/messages.tmpl:285
+#: core/templates/messages.tmpl:287
 msgid "(single character last name)"
 msgstr "(одна буква з прізвища)"
 
-#: core/lib/Foswiki/UI/Manage.pm:1100
+#: core/lib/Foswiki/UI/Manage.pm:1110
 msgid "(skipped)"
 msgstr "(пропущено)"
 
@@ -387,29 +394,9 @@ msgstr ""
 "показується в історії прикріплених файлів, буде коментарем що відноситься до "
 "моменту завантаження файлу."
 
-#: core/data/System/WikiSyntaxSummary.txt:8
+#: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*Formatting help:*"
 msgstr "*Допомога по форматуванню:*"
-
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:15
-msgid ""
-"*Important:* the information provided in this form will be stored in a "
-"database on the Foswiki server. This database is accessible to anyone who "
-"can access the server through the web (though passwords will be encrypted, "
-"and e-mail addresses will be obfuscated to help prevent spamming). Your "
-"country, or the country where the server is hosted, may have Data Protection "
-"laws governing the maintenance of such databases. If you are in doubt, you "
-"should contact %1 for details of the Data Protection Policy of this Foswiki "
-"server before registering."
-msgstr ""
-"*Важливо:* інформація, вказана в цій формі буде збережена у базі даних "
-"сервера Foswiki. Ця база даних доступна всім, у кого є інтернет-доступ до "
-"сервера (паролі будуть зашифровані, і адреса електронної пошти буде трохи "
-"змінена для захисту від спаму). У Вашій країні або країні, де розташований "
-"сервер, можуть діяти закони про захист інформації, які регламентують роботу "
-"подібних баз даних. Якщо у Вас виникають сумніви, то, перш ніж "
-"реєструватися, Вам слід звернутися до %1 для консультації з питань політики "
-"конфіденційності і захисту даних на цьому сервері."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -432,11 +419,11 @@ msgstr ""
 "onclick=\"return launchWindow('%1','HiddenAttachment')\" href=\"%2\" "
 "rel='nofollow'>Прихований Файл</a>."
 
-#: core/data/System/WikiSyntaxSummary.txt:9
+#: core/data/System/WikiSyntaxSummary.txt:10
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
 msgstr "*жирний* виділити слово/фразу зірочками: =<nop>*Ваша фраза*="
 
-#: core/data/System/WikiSyntaxSummary.txt:10
+#: core/data/System/WikiSyntaxSummary.txt:11
 msgid ""
 "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
 "your text="
@@ -444,32 +431,32 @@ msgstr ""
 "*ненумерований список* 3 пропуски, зірочка, 1 пропуск: =&&nbsp;&&nbsp;&&nbsp;"
 "*&&nbsp;Ваш текст="
 
-#: core/data/System/WikiSyntaxSummary.txt:14
+#: core/data/System/WikiSyntaxSummary.txt:15
 msgid ""
 "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
 "Yahoo]]="
 msgstr ""
 
-#: core/data/System/WikiSyntaxSummary.txt:11
+#: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
 msgstr ""
 "*заголовки* 3 тире, від 1 до 6 плюсів, 1 пропуск: =---++&&nbsp;Ваш заголовок="
 
-#: core/data/System/WikiSyntaxSummary.txt:12
+#: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
 msgstr ""
 "*курсив* виділити слово/фразу знаками підкреслення: =_<nop>Ваша фраза_="
 
-#: core/data/System/WikiSyntaxSummary.txt:15
+#: core/data/System/WikiSyntaxSummary.txt:16
 msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
 msgstr ""
 "*моноширинний* виділити слово/фразу знаками рівності: =<nop>=Ваша фраза=="
 
-#: core/data/System/WikiSyntaxSummary.txt:16
+#: core/data/System/WikiSyntaxSummary.txt:17
 msgid "*paragraphs* separate with blank line"
 msgstr "*абзаци* необхідно розділяти порожнім рядком"
 
-#: core/data/System/WikiSyntaxSummary.txt:13
+#: core/data/System/WikiSyntaxSummary.txt:14
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
 
@@ -477,7 +464,7 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: core/data/System/WebChanges.txt:8
+#: core/data/System/WebChanges.txt:9
 msgid ""
 "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
 "href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
@@ -497,11 +484,11 @@ msgstr "тільки <em>у розділі %1 </em>"
 msgid "<em>in all public webs</em>"
 msgstr "<em>у всіх загальнодоступних розділах</em>"
 
-#: core/templates/messages.tmpl:365
+#: core/templates/messages.tmpl:367
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "Розширення =.txt= додано до деяких імен файлів з міркувань безпеки"
 
-#: core/templates/messages.tmpl:493
+#: core/templates/messages.tmpl:495
 #, fuzzy
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
@@ -519,11 +506,11 @@ msgstr ""
 "шістнадцяткових цифр, наприклад, =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:974
+#: core/lib/Foswiki/UI/Register.pm:997
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Лист підтвердження відправлений по електронній пошті: %1"
 
-#: core/templates/messages.tmpl:497
+#: core/templates/messages.tmpl:499
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -538,9 +525,10 @@ msgid "A more extensive changes list is available via [[%1][Recent Changes]]."
 msgstr ""
 "Більш розширений список змін доступний за посиланням [[%1][Недавні зміни]] "
 
-#: core/templates/messages.tmpl:469
+#: core/templates/messages.tmpl:471
+#, fuzzy
 msgid ""
-"A new system-generated password for your login name %1 (!WikiName %2) has "
+"A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
@@ -548,11 +536,11 @@ msgstr ""
 "ВікіІм'я %2) висланий на введений Вами при реєстрації адреса електронної "
 "пошти. Якщо ця адреса більше не дійсна, то зверніться, будь ласка, до %3"
 
-#: core/data/System/WebTemplateTopics.txt:4
+#: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
 msgstr ""
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:20
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:21
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
 msgstr ""
 
@@ -560,7 +548,7 @@ msgstr ""
 msgid "Access Denied"
 msgstr "Доступ заборонений"
 
-#: core/templates/messages.tmpl:477
+#: core/templates/messages.tmpl:479
 msgid "Access check on %1 failed"
 msgstr "Перевірка доступу для %1 закінчилася невдало"
 
@@ -575,7 +563,7 @@ msgstr "Швидкі клавіші"
 msgid "Action"
 msgstr "Дія"
 
-#: core/templates/messages.tmpl:478
+#: core/templates/messages.tmpl:480
 msgid "Action %1: %2."
 msgstr "Дія %1: %2."
 
@@ -583,16 +571,12 @@ msgstr "Дія %1: %2."
 msgid "Add form"
 msgstr "Додати форму"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:163
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:981
+#: EditTablePlugin/data/System/EditTablePlugin.txt:166
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:974
 msgid "Add row"
 msgstr "Додати рядок"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:284
-msgid "Add your name to the list of users in the %1 topic in the %2 web."
-msgstr "Додасть Ваше ім'я до списку користувачів теми %1 розділу %2."
-
-#: core/templates/messages.tmpl:353
+#: core/templates/messages.tmpl:355
 msgid "Adding a %1 variable in WebPreferences"
 msgstr "Додавання змінної %1 у [[WebPreferences][Параметри розділу]]"
 
@@ -601,7 +585,7 @@ msgstr "Додавання змінної %1 у [[WebPreferences][Парамет
 msgid "Admin Foswiki User Authentication"
 msgstr "Ідентифікація користувача TWiki"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:25
+#: PatternSkin/data/System/WebLeftBarExample.txt:26
 msgid "Admin Maintenance"
 msgstr "Адміністрування"
 
@@ -609,7 +593,7 @@ msgstr "Адміністрування"
 msgid "Advanced Search"
 msgstr "Розширений пошук"
 
-#: core/data/System/WebSearch.txt:25
+#: core/data/System/WebSearch.txt:29
 msgid "Advanced search"
 msgstr "Розширений пошук"
 
@@ -621,7 +605,7 @@ msgstr ""
 "Після відправки цієї форми адреса Вашої електронної пошти буде змінена, а "
 "потім Ви будете повернені до цієї ж форми."
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:12
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:13
 msgid "After submitting this form your password will be changed."
 msgstr "Після відправки цієї форми Ваш пароль буде змінений."
 
@@ -634,7 +618,7 @@ msgstr ""
 "*згенерованим системою* паролем, і посилання на сторінку, де Ви можете "
 "змінити його."
 
-#: core/data/System/WebSearch.txt:34 core/data/System/WebSearchAdvanced.txt:42
+#: core/data/System/WebSearch.txt:40 core/data/System/WebSearchAdvanced.txt:42
 msgid "All public webs"
 msgstr "У всіх загальнодоступних розділах"
 
@@ -642,7 +626,7 @@ msgstr "У всіх загальнодоступних розділах"
 msgid "Allow non <nop>WikiWord for the new topic name"
 msgstr "Дозволити не <nop>ВікіСлово для назви нової теми"
 
-#: core/templates/messages.tmpl:267
+#: core/templates/messages.tmpl:269
 #, fuzzy
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
@@ -651,7 +635,7 @@ msgstr ""
 "Ви також можете повернутися до System.UserRegistration і вибрати інше ім'я "
 "користувача "
 
-#: core/templates/messages.tmpl:254
+#: core/templates/messages.tmpl:256
 msgid ""
 "An e-mail could not be delivered. Please notify your %1 administrator, %2"
 msgstr ""
@@ -697,11 +681,11 @@ msgstr "Прикріпити новий файл"
 msgid "Attachment"
 msgstr "Прикріплений файл"
 
-#: core/templates/messages.tmpl:527
+#: core/templates/messages.tmpl:529
 msgid "Attachment '%1' does not exist"
 msgstr "Файл '%1' не існує"
 
-#: core/lib/Foswiki/UI/Manage.pm:383
+#: core/lib/Foswiki/UI/Manage.pm:395
 msgid "Attachment already exists in new topic"
 msgstr "Файл вже на сторінці нової теми."
 
@@ -709,7 +693,7 @@ msgstr "Файл вже на сторінці нової теми."
 msgid "Attachment delete failed"
 msgstr "Файл не вилучено"
 
-#: core/lib/Foswiki/UI/Manage.pm:359
+#: core/lib/Foswiki/UI/Manage.pm:371
 msgid "Attachment does not exist"
 msgstr "Файл не існує"
 
@@ -756,7 +740,7 @@ msgstr "Доступна інформація"
 msgid "Available form templates"
 msgstr ""
 
-#: core/data/System/WebTemplateTopics.txt:6
+#: core/data/System/WebTemplateTopics.txt:7
 msgid "Available templates in %1 Web:"
 msgstr ""
 
@@ -777,7 +761,7 @@ msgstr "Зворотні посилання на %1 у розділі %2"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Зворотні посилання на %1 у всіх розділах"
 
-#: core/templates/messages.tmpl:291
+#: core/templates/messages.tmpl:293
 msgid "Bad password"
 msgstr "Поганий пароль"
 
@@ -789,7 +773,7 @@ msgstr "Базовий розділ %1 відсутній або не існує
 msgid "Bathing problem"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:40
+#: core/data/System/WebSearch.txt:38 core/data/System/WebSearchAdvanced.txt:40
 msgid "Both body and title"
 msgstr "У тексті сторінки і в заголовку"
 
@@ -809,18 +793,19 @@ msgstr ""
 "дозволити всім користувачам проглядання цього розділу, видаліть обмеження  "
 "=ALLOWWEBVIEW= зі [[WebPreferences][Параметрів розділу]]."
 
-#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:469
 msgid "Can't find user %1"
 msgstr "Не вдалося знайти користувача %1"
 
-#: core/templates/messages.tmpl:468
+#: core/templates/messages.tmpl:470
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
 "Не можу отримати адресу електронної пошти %1 (потрібно для скидання пароля)"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:165
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:989
-#: core/templates/foswiki.tmpl:80 core/templates/validate.tmpl:37
+#: EditTablePlugin/data/System/EditTablePlugin.txt:168
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:982
+#: core/templates/foswiki.tmpl:84 core/templates/validate.tmpl:57
+#: core/templates/validate.tmpl:59
 msgid "Cancel"
 msgstr "Відміна"
 
@@ -840,19 +825,19 @@ msgstr "Неможливо створити розділ %1 оскільки в�
 msgid "Cannot rename %1 to %2 because it already exists."
 msgstr "Неможливо перейменувати %1 у %2 оскільки %2 вже існує."
 
-#: core/data/System/WebSearchAdvanced.txt:57
+#: core/data/System/WebSearchAdvanced.txt:58
 msgid "Case sensitive"
 msgstr "З урахуванням регістра"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:34
+#: PatternSkin/data/System/WebLeftBarExample.txt:35
 msgid "Categories"
 msgstr "Категорії"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:2
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
 msgstr "Змінити  пароль"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:16
+#: PatternSkin/templates/attachagain.pattern.tmpl:15
 msgid "Change comment and properties only"
 msgstr "Змінити тільки коментар і властивості"
 
@@ -860,7 +845,7 @@ msgstr "Змінити тільки коментар і властивості"
 msgid "Change from:"
 msgstr "Змінити з:"
 
-#: core/data/System/LanguageSelector.txt:16
+#: core/data/System/LanguageSelector.txt:17
 #: core/templates/oopschangelanguage.tmpl:20
 #: core/templates/oopschangelanguage.tmpl:4
 #: core/templates/oopslanguagechanged.tmpl:5
@@ -887,7 +872,7 @@ msgid "Change links in topics that refer to %1 in the %2 Web:"
 msgstr ""
 "Змінити посилання на сторінках тем, які посилаються на %1 у розділі %2:"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:30
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:31
 msgid "Change password"
 msgstr "Змінити пароль"
 
@@ -911,12 +896,12 @@ msgstr "Змінений(і) "
 msgid "Changed:"
 msgstr "Змінений(і):"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:8
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:8
-#: PatternSkin/data/System/WebLeftBarExample.txt:9
-#: PatternSkin/data/Trash/WebLeftBarExample.txt:6
-#: PatternSkin/data/_default/WebLeftBar.txt:7
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
+#: PatternSkin/data/Main/WebLeftBarExample.txt:9
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:9
+#: PatternSkin/data/System/WebLeftBarExample.txt:10
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:7
+#: PatternSkin/data/_default/WebLeftBar.txt:8
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:8
 msgid "Changes"
 msgstr "Зміни"
 
@@ -925,7 +910,7 @@ msgstr "Зміни"
 msgid "Changes from r%1 to r%2"
 msgstr "Зміни з r%1 по r%2"
 
-#: core/templates/messages.tmpl:413
+#: core/templates/messages.tmpl:415
 #, fuzzy
 msgid ""
 "Check your configuration settings for {TemplateDir} and {TemplatePath}. If "
@@ -960,7 +945,7 @@ msgstr "Виберіть нову форму для %1"
 msgid "Clear all"
 msgstr "Очистити усе"
 
-#: core/lib/Foswiki/Render.pm:201
+#: core/lib/Foswiki/Render.pm:202
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -968,7 +953,8 @@ msgstr ""
 "Натисніть тут, щоб перемістити тему на колишнє місце з можливістю зміни "
 "посилань."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:576
+#: TwistyPlugin/data/System/TwistyPlugin.txt:597
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:88
 msgid "Close"
 msgstr "Закрити"
 
@@ -981,7 +967,7 @@ msgstr "Колір %1 має неправильний формат"
 msgid "Comment"
 msgstr "Коментар"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:275
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:314
 msgid "Comments:"
 msgstr "Коментарі:"
 
@@ -1003,18 +989,18 @@ msgstr ""
 msgid "Conflict"
 msgstr "Конфлікт"
 
-#: core/templates/messages.tmpl:480 core/templates/messages.tmpl:486
-#: core/templates/messages.tmpl:507 core/templates/messages.tmpl:518
-#: core/templates/messages.tmpl:524 core/templates/messages.tmpl:530
-#: core/templates/messages.tmpl:539
+#: core/templates/messages.tmpl:482 core/templates/messages.tmpl:488
+#: core/templates/messages.tmpl:509 core/templates/messages.tmpl:520
+#: core/templates/messages.tmpl:526 core/templates/messages.tmpl:532
+#: core/templates/messages.tmpl:541
 msgid "Contact %1 if you have any questions."
 msgstr "Зв'яжіться з %1 якщо у Вас є питання."
 
-#: core/templates/messages.tmpl:405
+#: core/templates/messages.tmpl:407
 msgid "Continue and try to rename web?"
 msgstr "Продовжити і спробувати перейменувати розділ?"
 
-#: core/data/System/WebTopicCreator.txt:4
+#: core/data/System/WebTopicCreator.txt:5
 msgid "Continue to create the new page"
 msgstr ""
 
@@ -1029,7 +1015,7 @@ msgstr ""
 msgid "Copy topic"
 msgstr "До теми:"
 
-#: core/data/System/DefaultPreferences.txt:42
+#: core/data/System/DefaultPreferences.txt:43
 msgid ""
 "Copyright &&copy; by the contributing authors. All material on this "
 "collaboration platform is the property of the contributing authors."
@@ -1037,7 +1023,7 @@ msgstr ""
 "Авторські права &&copy; закріплені за авторами проекту. Всі матеріали по цій "
 "платформі співпраці є їх власністю."
 
-#: core/data/System/WebPreferences.txt:34
+#: core/data/System/WebPreferences.txt:35
 #, fuzzy
 msgid ""
 "Copyright &&copy; by the contributing authors. All material on this site is "
@@ -1050,19 +1036,19 @@ msgstr ""
 msgid "Could not create the new web %1"
 msgstr "Неможливо створити новий розділ %1"
 
-#: core/templates/messages.tmpl:411
+#: core/templates/messages.tmpl:413
 msgid "Could not find template"
 msgstr "Неможливо знайти шаблон"
 
-#: core/templates/messages.tmpl:472
+#: core/templates/messages.tmpl:474
 msgid "Could not perform search. Error was: %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:323
+#: core/templates/messages.tmpl:325
 msgid "Could not save %1."
 msgstr "Не вдалося зберегти %1."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:125
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:119
 msgid "Country:"
 msgstr "Країна:"
 
@@ -1070,14 +1056,14 @@ msgstr "Країна:"
 msgid "Create <nop>TestTopic###"
 msgstr "Створити пробну тему"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:5
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
-#: PatternSkin/data/_default/WebLeftBar.txt:4
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:4
+#: PatternSkin/data/Main/WebLeftBarExample.txt:6
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
+#: PatternSkin/data/_default/WebLeftBar.txt:5
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
 msgid "Create New Topic"
 msgstr "Створити нову тему"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:43
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:44
 #: core/data/System/WebCreateNewTopicTemplate.txt:6
 msgid "Create New Topic in %1 Web"
 msgstr "Створити нову тему в розділі %1"
@@ -1098,27 +1084,19 @@ msgstr "Створити новий документ по імені:"
 msgid "Create by Name"
 msgstr "Створити за іменем"
 
-#: core/templates/messages.tmpl:505
+#: core/templates/messages.tmpl:507
 msgid "Create the topic"
 msgstr "Створити тему"
 
-#: core/data/System/DefaultPreferences.txt:320
-#: core/data/System/DefaultPreferences.txt:322
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:14
-#: core/data/System/WebCreateNewTopicTemplate.txt:67
-#: core/lib/Foswiki/Render.pm:98
+#: core/data/System/DefaultPreferences.txt:324
+#: core/data/System/DefaultPreferences.txt:326
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:15
+#: core/data/System/WebCreateNewTopicTemplate.txt:63
+#: core/lib/Foswiki/Render.pm:99
 msgid "Create this topic"
 msgstr "Створити цю тему"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:283
-msgid ""
-"Create your personal %1 topic using your WikiName as topic name, and add the "
-"data you submitted to the topic."
-msgstr ""
-"Створить Вашу особисту сторінку %1 використовуючи [[WikiName][ВікіІм'я]] як "
-"її ім'я та додасть на неї, введені Вами при реєстрації, дані."
-
-#: core/templates/messages.tmpl:352
+#: core/templates/messages.tmpl:354
 msgid "Creating a suitable Form Definition topic"
 msgstr "Створення відповідної сторінки Визначення Форми"
 
@@ -1131,7 +1109,7 @@ msgstr "Поточне розміщення:"
 msgid "Current parent:"
 msgstr "Поточний батько:"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:23
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 msgid "Current password"
 msgstr "Поточний пароль"
 
@@ -1147,11 +1125,11 @@ msgstr "Любий(а) %1"
 msgid "Debug"
 msgstr "Відладка"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:65
+#: core/data/System/WebCreateNewTopicTemplate.txt:61
 msgid "Default template"
 msgstr "Шаблон за умовчанням"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:24
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:33 core/templates/renamedelete.tmpl:6
 msgid "Delete"
@@ -1161,8 +1139,8 @@ msgstr "Вилучити"
 msgid "Delete attachment"
 msgstr "Вилучити файл"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:164
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:985
+#: EditTablePlugin/data/System/EditTablePlugin.txt:167
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:978
 msgid "Delete last row"
 msgstr "Вилучити останній рядок"
 
@@ -1182,7 +1160,7 @@ msgstr "Опишіть файл так, щоб інші люди зрозумі�
 msgid "Details in separate window"
 msgstr ""
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:6
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:7
 msgid ""
 "Did you spell the topic name correctly? Remember, a topic name is case "
 "sensitive."
@@ -1204,7 +1182,7 @@ msgstr ""
 msgid "Do not show attachment in table"
 msgstr "Не показувати список прикріплених файлів у вигляді таблиці"
 
-#: core/data/System/WebSearchAdvanced.txt:68
+#: core/data/System/WebSearchAdvanced.txt:70
 msgid "Don't show:"
 msgstr "Не показувати:"
 
@@ -1240,7 +1218,7 @@ msgstr ""
 "Під час перейменування розділу %1 у %2 відбулася помилка (%3). Будь ласка, "
 "повідомте Вашого адміністратора %4."
 
-#: core/templates/messages.tmpl:382 core/templates/oopssaveerr.tmpl:16
+#: core/templates/messages.tmpl:384 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
@@ -1248,11 +1226,11 @@ msgstr ""
 "Під час збереження %1 система управління версіями виявила помилку. Будь "
 "ласка, повідомте про це Вашого адміністратора %2."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:109
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:103
 msgid "E-mail address:"
 msgstr "Адреса електронної пошти:"
 
-#: core/templates/messages.tmpl:191
+#: core/templates/messages.tmpl:193
 msgid "E-mail changed successfully!"
 msgstr "Адреса електронної пошти успішно змінена!"
 
@@ -1284,8 +1262,8 @@ msgstr "Редагувати налаштування цієї теми"
 msgid "Edit text"
 msgstr "Редагувати текст"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:160
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:969
+#: EditTablePlugin/data/System/EditTablePlugin.txt:163
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:962
 msgid "Edit this table"
 msgstr "Редагувати цю таблицю"
 
@@ -1297,7 +1275,7 @@ msgstr "Редагувати текст цієї сторінки"
 msgid "Edit topic preference settings"
 msgstr "Редагувати налаштування сторінки"
 
-#: core/templates/messages.tmpl:308
+#: core/templates/messages.tmpl:310
 msgid ""
 "Either the code is not valid, or you have already confirmed your "
 "registration using it."
@@ -1305,7 +1283,7 @@ msgstr ""
 "Або введений код невірний, або Ви вже підтвердили свою реєстрацію з його "
 "використанням."
 
-#: core/templates/messages.tmpl:373
+#: core/templates/messages.tmpl:375
 msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
@@ -1313,11 +1291,11 @@ msgstr ""
 "Або Ви не вказали ім'я файлу, або прикріплюваний файл %1 порожній. Не слід "
 "завантажувати порожній файл."
 
-#: core/lib/Foswiki/UI/Register.pm:422 core/lib/Foswiki/UI/Register.pm:461
+#: core/lib/Foswiki/UI/Register.pm:430 core/lib/Foswiki/UI/Register.pm:469
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:77
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Enlarge edit box"
 msgstr "Розширити область редагування"
 
@@ -1329,27 +1307,27 @@ msgstr ""
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:241
+#: core/templates/messages.tmpl:243
 msgid "Error registering new user"
 msgstr "Помилка реєстрації нового користувача"
 
-#: core/templates/messages.tmpl:232
+#: core/templates/messages.tmpl:234
 msgid "Error registering user %1"
 msgstr "Помилка реєстрації користувача %1"
 
-#: core/templates/messages.tmpl:381
+#: core/templates/messages.tmpl:383
 msgid "Error saving topic"
 msgstr "Помилка збереження сторінки"
 
-#: core/templates/login.tmpl:29
+#: core/templates/login.tmpl:28
 msgid "Error: %1"
 msgstr "Помилка: %1"
 
-#: core/templates/messages.tmpl:458
+#: core/templates/messages.tmpl:460
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Помилка: файл в %1,%2 не існує"
 
-#: core/templates/messages.tmpl:460
+#: core/templates/messages.tmpl:462
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
@@ -1357,30 +1335,29 @@ msgstr ""
 "Помилка: Не підтримуваний тип вмісту: %1 (Повинно бути =text/html=, =text/"
 "plain= або ж =text/css=)"
 
-#: core/templates/messages.tmpl:459
+#: core/templates/messages.tmpl:461
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "Помилка: Не підтримуваний протокол. (Мабуть 'http://domain/...')"
 
-#: core/templates/messages.tmpl:258
+#: core/templates/messages.tmpl:260
 msgid "Errors"
 msgstr "Помилки"
 
-#: core/templates/messages.tmpl:470
+#: core/templates/messages.tmpl:472
 msgid "Failed to include URL %1"
 msgstr "Не вдається приєднати URL %1"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:21
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:22
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:26
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:90
 msgid "Fields marked %1 are required"
 msgstr "Помічені %1 поля обов'язкові для заповнення"
 
-#: core/templates/messages.tmpl:358
+#: core/templates/messages.tmpl:360
 msgid "File has been uploaded with different name"
 msgstr "Файл був завантажений з іншим ім'ям"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:11
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
 msgstr ""
 
@@ -1388,15 +1365,7 @@ msgstr ""
 msgid "Find topics that link to %1 ..."
 msgstr "Знайти теми, що посилаються на %1 ..."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:282
-msgid ""
-"Finish creating an account for you, so that you can start editing pages "
-"using your WikiName."
-msgstr ""
-"Завершить створення облікового запису, після чого Ви зможете редагувати "
-"сторінки, використовуючи своє [[WikiName][ВікіІм'я]]."
-
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:93
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:87
 msgid "First Name:"
 msgstr "Ім'я:"
 
@@ -1404,15 +1373,15 @@ msgstr "Ім'я:"
 msgid "Force new revision"
 msgstr "Створити нову редакцію"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:5
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:6
 msgid "Forgotten your password?"
 msgstr "Забули пароль?"
 
-#: core/templates/messages.tmpl:330
+#: core/templates/messages.tmpl:332
 msgid "Form Definition %1 missing"
 msgstr "Відсутнє визначення форми %1"
 
-#: core/templates/messages.tmpl:335
+#: core/templates/messages.tmpl:337
 msgid "Form definition missing"
 msgstr "Відсутнє визначення форми"
 
@@ -1473,41 +1442,41 @@ msgstr ""
 msgid "Get notified on changes on this search"
 msgstr ""
 
-#: core/templates/foswiki.tmpl:82
+#: core/templates/foswiki.tmpl:86
 msgid "Go back"
 msgstr "Повернутися"
 
-#: core/templates/messages.tmpl:327
+#: core/templates/messages.tmpl:329
 msgid ""
 "Go back in your browser and insert information for all mandatory fields."
 msgstr ""
 "Поверніться <a href=\"javascript:history.go(-1)\">назад</a> у Вашому "
 "браузері та заповніть усі обов'язкові поля."
 
-#: core/templates/messages.tmpl:388 core/templates/oopssaveerr.tmpl:20
+#: core/templates/messages.tmpl:390 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr ""
 "Поверніться <a href=\"javascript:history.go(-1)\">на попередню сторінку</a>, "
 "використовуючи стандартну навігацію браузера і збережіть Ваші зміни локально."
 
-#: core/templates/messages.tmpl:282
+#: core/templates/messages.tmpl:284
 msgid "Good examples:"
 msgstr "Хороші приклади:"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:6
+#: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "Групи"
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:3
+#: PatternSkin/data/System/WebLeftBarLogin.txt:4
 msgid "Hello %1"
 msgstr "Привіт %1"
 
-#: core/templates/foswiki.tmpl:105
+#: core/templates/foswiki.tmpl:109
 msgid "Hello %1!"
 msgstr "Привіт %1!"
 
-#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
-#: core/templates/login.tmpl:50
+#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:31
+#: core/data/System/WebSearchAdvanced.txt:66 core/templates/login.tmpl:49
 msgid "Help"
 msgstr "Допомога"
 
@@ -1515,7 +1484,7 @@ msgstr "Допомога"
 msgid "Hide file"
 msgstr "Приховати файл"
 
-#: core/templates/login.tmpl:50
+#: core/templates/login.tmpl:49
 msgid "Hide help"
 msgstr ""
 
@@ -1545,34 +1514,34 @@ msgid ""
 "However you may have to remove the user's personal topic manually."
 msgstr ""
 
-#: core/templates/messages.tmpl:360
+#: core/templates/messages.tmpl:362
 msgid ""
 "However, the filename has been changed from %1 to %2. Please make a note of "
 "it."
 msgstr "Зверніть увагу, що ім'я файлу змінилося з %1 на %2."
 
-#: core/templates/login.tmpl:65
+#: core/templates/login.tmpl:64
 msgid "I forgot my password"
 msgstr "Я забув свій пароль"
 
-#: core/data/System/DefaultPreferences.txt:42
-#: core/data/System/WebPreferences.txt:34
+#: core/data/System/DefaultPreferences.txt:43
+#: core/data/System/WebPreferences.txt:35
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
 msgstr ""
 "Є ідеї, питання або проблеми, пов'язані з %1? <a href='%2'>Зв'яжіться з "
 "нами</a>"
 
-#: core/templates/messages.tmpl:344
+#: core/templates/messages.tmpl:346
 msgid "If this line isn't present see _upgrade_ section below"
 msgstr "Якщо такий рядок відсутній, шукайте нижче розділ _Оновлення_"
 
-#: core/templates/messages.tmpl:338
+#: core/templates/messages.tmpl:340
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr ""
 "Якщо ця тема відсутня - створіть її,  якщо існує - перевірте назви теми на "
 "наявність помилок."
 
-#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:97
+#: core/data/System/WebSearch.txt:50 core/data/System/WebSearchAdvanced.txt:99
 msgid ""
 "If you already know the name of the topic, enter the name of the topic into "
 "the [[%1][Jump box]] at the top"
@@ -1580,7 +1549,7 @@ msgstr ""
 "Якщо Ви вже знаєте назву теми, на яку хочете перейти, то введіть її у поле  "
 "[[%1][Перейти]] зверху сторінки"
 
-#: core/templates/messages.tmpl:429
+#: core/templates/messages.tmpl:431
 #, fuzzy
 msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
@@ -1589,15 +1558,15 @@ msgstr ""
 "Якщо Ви розробляєте <nop>TWikiApplication, то див. опис відповідних "
 "параметрів у %1."
 
-#: core/templates/validate.tmpl:25
+#: core/templates/validate.tmpl:27 core/templates/validate.tmpl:45
 msgid "If you are unsure what this means, read:"
 msgstr ""
 
-#: core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:497
 msgid "If you came here by clicking on a question mark link"
 msgstr "Якщо Ви потрапили сюди клацнувши на знак питання"
 
-#: core/templates/messages.tmpl:247
+#: core/templates/messages.tmpl:249
 msgid "If you don't receive a verification email within the next hour, "
 msgstr ""
 
@@ -1614,16 +1583,16 @@ msgstr ""
 "Якщо Ви не чекали на цей лист: хтось (%1) реєструвався на %2, використовуючи "
 "Вашу адресу електронної пошти: %3. Повідомите, будь ласка, %4 якщо це не Ви."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:302
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:330
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr ""
 "Якщо у Вас є питання по реєстрації, відправте повідомлення по електронній "
 "пошті: %1"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:46
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:36
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:37
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:39
-#: core/templates/login.tmpl:76
+#: core/templates/login.tmpl:75
 msgid "If you have any questions, please contact %1"
 msgstr ""
 
@@ -1638,7 +1607,7 @@ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
 "Якщо Ви не задали пароль або хочете його скинути, перейдіть за посиланням: %1"
 
-#: core/templates/messages.tmpl:427
+#: core/templates/messages.tmpl:429
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
@@ -1647,11 +1616,11 @@ msgstr ""
 "просто хотіли на неї подивитися [[%1][відмініть збереження]] щоб перейти до %"
 "2."
 
-#: core/templates/messages.tmpl:504
+#: core/templates/messages.tmpl:506
 msgid "If you want to create the topic"
 msgstr "Якщо Ви хочете створити тему"
 
-#: core/templates/messages.tmpl:500
+#: core/templates/messages.tmpl:502
 msgid "If you would like to create this web"
 msgstr "Якщо Ви хочете створити цей розділ"
 
@@ -1684,7 +1653,7 @@ msgstr ""
 msgid "In reversed order"
 msgstr "У зворотному порядку"
 
-#: core/templates/messages.tmpl:363
+#: core/templates/messages.tmpl:365
 #, fuzzy
 msgid ""
 "In some cases, Foswiki changes the name of the uploaded file to make it safe "
@@ -1693,11 +1662,11 @@ msgstr ""
 "В деяких випадках TWiki змінює ім'я завантажуваного файлу, роблячи його "
 "безпечнішим та допустимим для всіх платформ:"
 
-#: core/templates/messages.tmpl:272 core/templates/messages.tmpl:279
+#: core/templates/messages.tmpl:274 core/templates/messages.tmpl:281
 msgid "Incorrect %1"
 msgstr "Невірне %1"
 
-#: core/templates/messages.tmpl:282
+#: core/templates/messages.tmpl:284
 msgid "Incorrect %1.WikiNames:"
 msgstr "Невірні %1.WikiNames:"
 
@@ -1705,20 +1674,20 @@ msgstr "Невірні %1.WikiNames:"
 msgid "Incorrect Password"
 msgstr "Невірний пароль"
 
-#: core/templates/messages.tmpl:425
+#: core/templates/messages.tmpl:427
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Невірні параметри в скрипті =%1="
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:6
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
-#: PatternSkin/data/System/WebLeftBarExample.txt:7
-#: PatternSkin/data/Trash/WebLeftBarExample.txt:4
-#: PatternSkin/data/_default/WebLeftBar.txt:5
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
+#: PatternSkin/data/Main/WebLeftBarExample.txt:7
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:7
+#: PatternSkin/data/System/WebLeftBarExample.txt:8
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:5
+#: PatternSkin/data/_default/WebLeftBar.txt:6
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:6
 msgid "Index"
 msgstr "Індекс"
 
-#: core/templates/messages.tmpl:367
+#: core/templates/messages.tmpl:369
 msgid ""
 "International (8-bit) characters are removed (replaced by US-ASCII "
 "equivalents for Latin-1)"
@@ -1726,16 +1695,16 @@ msgstr ""
 "Символи міжнародного (8-ми бітового) кодування вилучені (заміщені US-ASACII "
 "еквівалентами кодування Latin-1)"
 
-#: core/templates/messages.tmpl:305
+#: core/templates/messages.tmpl:307
 msgid "Invalid Activation Code"
 msgstr "Невірний код активації"
 
-#: core/templates/messages.tmpl:297
+#: core/templates/messages.tmpl:299
 msgid "Invalid e-mail address"
 msgstr "Невірна адреса електронної пошти"
 
 # Need to check it in context
-#: core/templates/messages.tmpl:440
+#: core/templates/messages.tmpl:442
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -1773,14 +1742,19 @@ msgstr ""
 "буде простіше на нього посилатися. В іменах розділів неприпустимі символи, "
 "такі як, наприклад, пропуски, будуть автоматично вилучені з імені розділу."
 
-#: PatternSkin/data/System/WebLeftBarSearch.txt:2
+#: PatternSkin/data/System/WebLeftBarSearch.txt:3
 #: PatternSkin/data/System/WebTopBarExample.txt:7
-#: PatternSkin/templates/foswiki.pattern.tmpl:37
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:18
+#: PatternSkin/templates/foswiki.pattern.tmpl:38
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:19
 msgid "Jump"
 msgstr "Перейти"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:97
+#: core/data/System/WebSearchAdvanced.txt:61
+#, fuzzy
+msgid "Keyword search"
+msgstr "Змінити пошук"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:91
 msgid "Last Name:"
 msgstr "Прізвище:"
 
@@ -1792,7 +1766,7 @@ msgstr "Останньому хто редагував"
 msgid "Last modified time"
 msgstr "Часу останньої зміни"
 
-#: core/data/System/WebSearchAdvanced.txt:75
+#: core/data/System/WebSearchAdvanced.txt:77
 msgid "Limit results to:"
 msgstr "Обмежити виведення результатів:"
 
@@ -1811,15 +1785,17 @@ msgstr "Рядок: з %1 по %2"
 msgid "Link"
 msgstr "Посилання"
 
-#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:98
+#: core/data/System/WebSearch.txt:51
+#: core/data/System/WebSearchAdvanced.txt:100
 msgid "List all topics in the %1 web in alphabetical order"
 msgstr "Вивести всі теми розділу %1 в алфавітному порядку"
 
-#: core/data/System/WebSearch.txt:46 core/data/System/WebSearchAdvanced.txt:99
+#: core/data/System/WebSearch.txt:52
+#: core/data/System/WebSearchAdvanced.txt:101
 msgid "List topics that start with the letter:"
 msgstr "Показати теми, що починаються з букви:"
 
-#: core/data/System/WebSearchAdvanced.txt:60
+#: core/data/System/WebSearchAdvanced.txt:62
 #, fuzzy
 msgid "Literal search"
 msgstr "Простий пошук"
@@ -1841,11 +1817,11 @@ msgid "Login name %1"
 msgstr "Ім'я користувача %1"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:231
-#: core/templates/login.tmpl:71
+#: core/templates/login.tmpl:70
 msgid "Logon"
 msgstr "Вхід"
 
-#: core/templates/messages.tmpl:256
+#: core/templates/messages.tmpl:258
 msgid "Mail to"
 msgstr "Написати лист"
 
@@ -1853,7 +1829,11 @@ msgstr "Написати лист"
 msgid "Make search:"
 msgstr "Провести пошук:"
 
-#: core/templates/messages.tmpl:220
+#: core/data/Main/GroupViewTemplate.txt:6
+msgid "Members"
+msgstr ""
+
+#: core/templates/messages.tmpl:222
 msgid "Missing Fields"
 msgstr "Відсутні поля"
 
@@ -1861,7 +1841,7 @@ msgstr "Відсутні поля"
 msgid "Missing action command"
 msgstr "Не визначена дія, пов'язана з командою"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:40
+#: PatternSkin/templates/foswiki.pattern.tmpl:41
 msgid "Modify search"
 msgstr "Змінити пошук"
 
@@ -1869,7 +1849,7 @@ msgstr "Змінити пошук"
 msgid "More Actions on Topic %1"
 msgstr "Другие действия над темой %1"
 
-#: core/data/System/WikiSyntaxSummary.txt:17
+#: core/data/System/WikiSyntaxSummary.txt:18
 msgid "More formatting help"
 msgstr "Додаткова інформація по розмітці тексту"
 
@@ -1878,11 +1858,12 @@ msgstr "Додаткова інформація по розмітці текст
 msgid "More topic actions..."
 msgstr "Інші операції..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:574
+#: TwistyPlugin/data/System/TwistyPlugin.txt:596
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:84
 msgid "More..."
 msgstr "Більше..."
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:24
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
 #: core/templates/moveattachment.tmpl:35
 msgid "Move"
 msgstr "Перемістити"
@@ -1911,7 +1892,7 @@ msgstr "Перемістити до розділу:"
 msgid "Move topic to web:"
 msgstr "Перемістити тему до розділу:"
 
-#: core/lib/Foswiki/UI/Manage.pm:1285
+#: core/lib/Foswiki/UI/Manage.pm:1295
 msgid "Move/Rename"
 msgstr "Перемістити / перейменувати"
 
@@ -1919,7 +1900,7 @@ msgstr "Перемістити / перейменувати"
 msgid "My Links"
 msgstr "Мої посилання"
 
-#: core/lib/Foswiki/Search.pm:911
+#: core/lib/Foswiki/Search.pm:895
 msgid "NEW"
 msgstr "НОВА"
 
@@ -1932,7 +1913,7 @@ msgstr "Кількість тем:"
 msgid "Name of new web is missing"
 msgstr "Відсутнє ім'я нового розділу"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:8
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 #, fuzzy
 msgid "Navigate to a similar topic"
 msgstr "Хочете швидко перейти до схожих тем?"
@@ -1958,7 +1939,7 @@ msgstr "Нові або змінені теми у %1, після %2:"
 msgid "New parent web:"
 msgstr "Новий батьківський розділ:"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:24
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 msgid "New password"
 msgstr "Новий пароль"
 
@@ -1978,7 +1959,7 @@ msgstr "Молодша редакція:"
 msgid "No child topics"
 msgstr "Немає дочерніх тим"
 
-#: core/templates/messages.tmpl:457
+#: core/templates/messages.tmpl:459
 msgid "No permission to view %1"
 msgstr "Немає прав для перегляду %1"
 
@@ -1986,7 +1967,7 @@ msgstr "Немає прав для перегляду %1"
 msgid "No previous revision exists."
 msgstr ""
 
-#: core/templates/messages.tmpl:213
+#: core/templates/messages.tmpl:215
 msgid "No users to reset passwords for."
 msgstr "Нікому скидати паролі."
 
@@ -2004,7 +1985,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:144
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:13
-#: core/templates/messages.tmpl:310 core/templates/messages.tmpl:362
+#: core/templates/messages.tmpl:312 core/templates/messages.tmpl:364
 #: core/templates/registerconfirm.tmpl:13
 #: core/templates/registernotify.tmpl:22
 msgid "Note:"
@@ -2014,28 +1995,29 @@ msgstr "Примітка:"
 msgid "Notes:"
 msgstr "Примітки:"
 
-#: core/data/System/WebChangesAlert.txt:2
+#: core/data/System/WebChangesAlert.txt:3
 #, fuzzy
 msgid "Notification help"
 msgstr "Повідомлення"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:9
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:9
-#: PatternSkin/data/System/WebLeftBarExample.txt:10
-#: PatternSkin/data/_default/WebLeftBar.txt:8
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:8
+#: PatternSkin/data/Main/WebLeftBarExample.txt:10
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:10
+#: PatternSkin/data/System/WebLeftBarExample.txt:11
+#: PatternSkin/data/_default/WebLeftBar.txt:9
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:9
 msgid "Notifications"
 msgstr "Повідомлення"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:39
+#: PatternSkin/templates/foswiki.pattern.tmpl:40
 #: PatternSkin/templates/searchbase.pattern.tmpl:5
 #: core/templates/search.text.tmpl:15 core/templates/searchformat.tmpl:10
 msgid "Number of topics:"
 msgstr "Кількість тем:"
 
-#: core/templates/foswiki.tmpl:81 core/templates/messages.tmpl:181
-#: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
-#: core/templates/oopssaveerr.tmpl:13 core/templates/validate.tmpl:37
+#: core/templates/foswiki.tmpl:85 core/templates/messages.tmpl:173
+#: core/templates/messages.tmpl:183 core/templates/messages.tmpl:190
+#: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
+#: core/templates/validate.tmpl:57
 msgid "OK"
 msgstr "Гаразд"
 
@@ -2043,12 +2025,7 @@ msgstr "Гаразд"
 msgid "Older revision:"
 msgstr "Старша редакція:"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:290
-msgid "Once registered you can login using your %1 and password."
-msgstr ""
-"Як зареєструєтеся, то зможете заходити використовуючи Ваші %1 та пароль."
-
-#: core/templates/messages.tmpl:484
+#: core/templates/messages.tmpl:486
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Тільки членам %1 дозволено виконати цю дію."
 
@@ -2065,19 +2042,19 @@ msgstr "Зміните назву теми, якщо це необхідно:"
 msgid "Optionally enter a different topic name:"
 msgstr "Введіть іншу назву теми, якщо це необхідно:"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:122
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:116
 msgid "Organisation URL:"
 msgstr "URL організації:"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:119
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:113
 msgid "Organisation name:"
 msgstr "Назва організації:"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:270
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:309
 msgid "Other Country"
 msgstr "Інша країна"
 
-#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:96
+#: core/data/System/WebSearch.txt:49 core/data/System/WebSearchAdvanced.txt:98
 msgid "Other search options:"
 msgstr "Інші параметри пошуку:"
 
@@ -2089,23 +2066,23 @@ msgstr ""
 
 #: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:34
-#: core/templates/login.tmpl:60
+#: core/templates/login.tmpl:59
 msgid "Password"
 msgstr "Пароль"
 
-#: core/templates/messages.tmpl:174
+#: core/templates/messages.tmpl:176
 msgid "Password changed successfully!"
 msgstr "Пароль успішно змінений!"
 
-#: core/templates/messages.tmpl:184
+#: core/templates/messages.tmpl:186
 msgid "Password could not be changed"
 msgstr "Пароль не може бути змінений"
 
-#: core/templates/messages.tmpl:212 core/templates/messages.tmpl:216
+#: core/templates/messages.tmpl:214 core/templates/messages.tmpl:218
 msgid "Password reset failed"
 msgstr "Не вдалося скинути пароль"
 
-#: core/templates/messages.tmpl:226
+#: core/templates/messages.tmpl:228
 msgid "Passwords do not match"
 msgstr "Паролі не співпадають"
 
@@ -2114,7 +2091,7 @@ msgstr "Паролі не співпадають"
 msgid "Personal Preferences"
 msgstr "Особисті параметри"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:63
+#: core/data/System/WebCreateNewTopicTemplate.txt:59
 #: core/templates/oopsmore.tmpl:70
 msgid "Pick from a list"
 msgstr "Вибрати зі списку"
@@ -2127,12 +2104,12 @@ msgstr "Взяти один з %1."
 msgid "Placeholder for trashed attachments"
 msgstr "Місце для вилучених файлів"
 
-#: core/templates/messages.tmpl:269 core/templates/messages.tmpl:319
+#: core/templates/messages.tmpl:271 core/templates/messages.tmpl:321
 msgid "Please contact %1 if you have any questions."
 msgstr "Якщо у Вас є питання, зв'яжіться з %1."
 
 #: core/templates/messages.tmpl:148 core/templates/messages.tmpl:157
-#: core/templates/messages.tmpl:236 core/templates/messages.tmpl:248
+#: core/templates/messages.tmpl:238 core/templates/messages.tmpl:250
 msgid "Please contact %1."
 msgstr "Будь ласка, зв'яжіться з %1."
 
@@ -2152,7 +2129,7 @@ msgstr ""
 "сторінку</a>, використовуючи стандартні засоби навігації Вашого браузера, і "
 "спробуйте ввести інше ім'я."
 
-#: core/templates/messages.tmpl:374
+#: core/templates/messages.tmpl:376
 msgid "Please go back in your browser and check again."
 msgstr ""
 "Будь ласка, поверніться <a href=\"javascript:history.go(-1)\">на попередню "
@@ -2172,9 +2149,9 @@ msgstr ""
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:123
 #: core/templates/messages.tmpl:127 core/templates/messages.tmpl:137
-#: core/templates/messages.tmpl:223 core/templates/messages.tmpl:229
-#: core/templates/messages.tmpl:276 core/templates/messages.tmpl:288
-#: core/templates/messages.tmpl:294 core/templates/messages.tmpl:302
+#: core/templates/messages.tmpl:225 core/templates/messages.tmpl:231
+#: core/templates/messages.tmpl:278 core/templates/messages.tmpl:290
+#: core/templates/messages.tmpl:296 core/templates/messages.tmpl:304
 #: core/templates/messages.tmpl:37 core/templates/messages.tmpl:41
 #: core/templates/messages.tmpl:59 core/templates/messages.tmpl:95
 msgid "Please go back in your browser and try again."
@@ -2197,11 +2174,11 @@ msgstr ""
 "Щоб змінити Ваш пароль на щось більш пам'ятне, будь ласка, перейдіть за "
 "посиланням %1."
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:12
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
-#: PatternSkin/data/System/WebLeftBarExample.txt:13
-#: PatternSkin/data/_default/WebLeftBar.txt:11
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:11
+#: PatternSkin/data/Main/WebLeftBarExample.txt:13
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
+#: PatternSkin/data/System/WebLeftBarExample.txt:14
+#: PatternSkin/data/_default/WebLeftBar.txt:12
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:12
 msgid "Preferences"
 msgstr "Параметри"
 
@@ -2210,12 +2187,17 @@ msgstr "Параметри"
 msgid "Preferences for"
 msgstr "Параметри для"
 
-#: core/templates/validate.tmpl:23
+#: core/templates/validate.tmpl:25
 #, fuzzy
 msgid "Press Cancel otherwise."
 msgstr "Інакше натисніть Відмінити."
 
-#: core/templates/validate.tmpl:22
+#: core/templates/validate.tmpl:43
+#, fuzzy
+msgid "Press Cancel to continue."
+msgstr "Інакше натисніть Відмінити."
+
+#: core/templates/validate.tmpl:24
 msgid "Press OK to confirm that this change was intentional."
 msgstr ""
 
@@ -2227,7 +2209,7 @@ msgstr ""
 msgid "Properties"
 msgstr "Властивості"
 
-#: core/data/System/WebSearchAdvanced.txt:62
+#: core/data/System/WebSearchAdvanced.txt:64
 #, fuzzy
 msgid "Query Search"
 msgstr "Пошук у розділі"
@@ -2238,16 +2220,16 @@ msgid ""
 "preferences)"
 msgstr ""
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:162
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:977
+#: EditTablePlugin/data/System/EditTablePlugin.txt:165
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:970
 msgid "Quiet save"
 msgstr "Тихо зберегти"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:10
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:10
-#: PatternSkin/data/System/WebLeftBarExample.txt:11
-#: PatternSkin/data/_default/WebLeftBar.txt:9
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:9
+#: PatternSkin/data/Main/WebLeftBarExample.txt:11
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
+#: PatternSkin/data/System/WebLeftBarExample.txt:12
+#: PatternSkin/data/_default/WebLeftBar.txt:10
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:10
 msgid "RSS Feed"
 msgstr ""
 
@@ -2273,17 +2255,18 @@ msgstr "Отримати довідкову інформацію по новій
 msgid "Read on"
 msgstr "Прочитайте"
 
-#: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:47
-#: core/data/System/WebSearchAdvanced.txt:100
+#: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:53
+#: core/data/System/WebSearchAdvanced.txt:102
 msgid "Recently changed topics"
 msgstr "Недавно змінені теми"
 
-#: core/lib/Foswiki/UI/Manage.pm:1284
+#: core/lib/Foswiki/UI/Manage.pm:1294
 msgid "Refresh"
 msgstr "Поновити"
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:3
-#: core/templates/foswiki.tmpl:105
+#: PatternSkin/data/System/WebLeftBarLogin.txt:4
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:327
+#: core/templates/foswiki.tmpl:109
 msgid "Register"
 msgstr "Реєструватися"
 
@@ -2297,11 +2280,11 @@ msgstr ""
 msgid "Registration"
 msgstr "Реєстрація"
 
-#: core/templates/messages.tmpl:308
+#: core/templates/messages.tmpl:310
 msgid "Registration codes can only be used once."
 msgstr "Реєстраційні коди можуть бути використані тільки один раз."
 
-#: core/data/System/WebSearchAdvanced.txt:61
+#: core/data/System/WebSearchAdvanced.txt:63
 msgid "Regular expression search"
 msgstr "З використанням регулярних виразів"
 
@@ -2309,19 +2292,20 @@ msgstr "З використанням регулярних виразів"
 msgid "Related Topics"
 msgstr "Зв'язані теми"
 
-#: TopicUserMappingContrib/data/Main/GroupTemplate.txt:9
+#: TopicUserMappingContrib/data/Main/GroupTemplate.txt:10
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:43
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:44
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
-#: core/templates/messages.tmpl:482 core/templates/messages.tmpl:489
+#: core/data/Main/GroupViewTemplate.txt:11 core/templates/messages.tmpl:484
+#: core/templates/messages.tmpl:491
 msgid "Related topics:"
 msgstr "Зв'язані теми:"
 
-#: core/templates/login.tmpl:67
+#: core/templates/login.tmpl:66
 msgid "Remember me on this computer"
 msgstr "Пам'ятати мене на цьому комп'ютері"
 
-#: core/templates/messages.tmpl:193
+#: core/templates/messages.tmpl:195
 msgid ""
 "Remember to update your user topic if you want your e-mail change to be "
 "reflected there as well."
@@ -2350,7 +2334,7 @@ msgstr "Не вдалося перейменувати"
 msgid "Rename or move topic"
 msgstr "Перейменувати або перемістити тему"
 
-#: core/data/System/RenameWeb.txt:1
+#: core/data/System/RenameWeb.txt:3
 msgid "Rename, move or delete this web:"
 msgstr "Перейменувати, перемістити або вилучити цей розділ:"
 
@@ -2363,7 +2347,7 @@ msgstr "Перейменувати/перемістити"
 msgid "Rename/move topic..."
 msgstr "Перейменувати/перемістити тему..."
 
-#: core/data/System/RenameWeb.txt:2
+#: core/data/System/RenameWeb.txt:4
 msgid "Rename/move/delete web..."
 msgstr "Перейменувати/перемістити/вилучити розділ..."
 
@@ -2404,15 +2388,15 @@ msgstr ""
 msgid "Results from %1 web"
 msgstr "Результати по розділу \"%1\"."
 
-#: core/templates/messages.tmpl:197
+#: core/templates/messages.tmpl:199
 msgid "Return to %1."
 msgstr "Повернутися до %1."
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:25
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:26
 msgid "Retype new password"
 msgstr "Введіть новий пароль повторно"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:115
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:109
 msgid "Retype password:"
 msgstr "Введіть пароль повторно:"
 
@@ -2450,8 +2434,8 @@ msgstr ""
 "S = зберегти, Q = зберегти без повідомлень, K = застосувати зміни, P = "
 "передперегляд, C = відмінити"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:161
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:973
+#: EditTablePlugin/data/System/EditTablePlugin.txt:164
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:966
 msgid "Save table"
 msgstr "Зберегти таблицю"
 
@@ -2461,16 +2445,16 @@ msgstr "Зберегти таблицю"
 msgid "Saved to:"
 msgstr "Збережено у:"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:7
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:7
-#: PatternSkin/data/System/WebLeftBarExample.txt:8
-#: PatternSkin/data/System/WebLeftBarSearch.txt:3
+#: PatternSkin/data/Main/WebLeftBarExample.txt:8
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:8
+#: PatternSkin/data/System/WebLeftBarExample.txt:9
+#: PatternSkin/data/System/WebLeftBarSearch.txt:4
 #: PatternSkin/data/System/WebTopBarExample.txt:9
-#: PatternSkin/data/Trash/WebLeftBarExample.txt:5
-#: PatternSkin/data/_default/WebLeftBar.txt:6
-#: PatternSkin/templates/foswiki.pattern.tmpl:38
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:6
-#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:31
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:6
+#: PatternSkin/data/_default/WebLeftBar.txt:7
+#: PatternSkin/templates/foswiki.pattern.tmpl:39
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
+#: core/data/System/WebSearch.txt:29 core/data/System/WebSearchAdvanced.txt:29
 #: core/data/_default/WebHome.txt:11
 msgid "Search"
 msgstr "Пошук"
@@ -2488,17 +2472,17 @@ msgstr ""
 msgid "Search all webs for topics that link to here"
 msgstr "Знайти по всіх розділах теми, що посилаються сюди"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 #, fuzzy
 msgid "Search in all webs"
 msgstr "(зворотні посилання у всіх розділах)"
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 #, fuzzy
 msgid "Search more topics in this web"
 msgstr "Шукати схожі теми у всіх відкритих розділах"
 
-#: core/data/System/WebSearchAdvanced.txt:69
+#: core/data/System/WebSearchAdvanced.txt:71
 msgid "Search string"
 msgstr "Рядок пошуку"
 
@@ -2506,7 +2490,7 @@ msgstr "Рядок пошуку"
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Шукати у розділі %1 теми, що посилаються на цю"
 
-#: core/data/System/WebSearch.txt:30 core/data/System/WebSearchAdvanced.txt:36
+#: core/data/System/WebSearch.txt:36 core/data/System/WebSearchAdvanced.txt:36
 msgid "Search where:"
 msgstr "Де шукати:"
 
@@ -2525,23 +2509,23 @@ msgstr ""
 "Дивіться у %1 щодо списку існуючих користувачів або реєструйтеся як новий у %"
 "2."
 
-#: core/templates/messages.tmpl:331
+#: core/templates/messages.tmpl:333
 msgid "See %1 for information about Form Definitions."
 msgstr "Дивіться %1 для інформації про визначення форм"
 
-#: core/data/System/WebIndex.txt:4
+#: core/data/System/WebIndex.txt:5
 msgid "See also the faster %1"
 msgstr "Дивіться стисло %1"
 
-#: core/data/System/WebTopicList.txt:4
+#: core/data/System/WebTopicList.txt:5
 msgid "See also the verbose %1."
 msgstr "Дивіться докладніше %1."
 
-#: core/data/System/RenameWeb.txt:3 core/data/System/WebChanges.txt:6
+#: core/data/System/RenameWeb.txt:5 core/data/System/WebChanges.txt:7
 msgid "See also:"
 msgstr "Дивіться також:"
 
-#: core/templates/edit.tmpl:58
+#: core/templates/edit.tmpl:59
 msgid "See below for help in editing this page."
 msgstr ""
 
@@ -2549,7 +2533,7 @@ msgstr ""
 msgid "Select"
 msgstr "Вибрати"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:20
+#: PatternSkin/templates/attachagain.pattern.tmpl:19
 msgid "Select a new local file to update attachment"
 msgstr ""
 "Виберіть новий файл на своєму комп'ютері, щоб поновити прикріплений файл"
@@ -2562,13 +2546,9 @@ msgstr "Вибрати усе"
 msgid "Select topic parent:"
 msgstr ""
 
-#: PatternSkin/templates/edit.pattern.tmpl:70 core/templates/edit.tmpl:47
+#: PatternSkin/templates/edit.pattern.tmpl:70 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "Виділіть, скопіюйте та вставте свій підпис знизу під Вашим записом"
-
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:285
-msgid "Send you a confirmation of your registration by e-mail."
-msgstr "Відправити підтвердження Вашої реєстрації по електронній пошті."
 
 #: core/templates/oopsmore.tmpl:112
 msgid "Sequential"
@@ -2595,7 +2575,7 @@ msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
 msgstr ""
 "Показувати підказки при наведенні миші на %1 посилання, вкл. або викл.:"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:77
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Shrink edit box"
 msgstr "Стиснути вікно редагування"
 
@@ -2603,7 +2583,7 @@ msgstr "Стиснути вікно редагування"
 msgid "Side by side"
 msgstr "У дві колонки"
 
-#: core/data/System/WebSearchAdvanced.txt:31
+#: core/data/System/WebSearchAdvanced.txt:29
 msgid "Simple search"
 msgstr "Простий пошук"
 
@@ -2627,11 +2607,11 @@ msgstr ""
 "Деякі додають зведення про свій розклад та повідомлення про відсутність у "
 "певний час."
 
-#: core/templates/messages.tmpl:366
+#: core/templates/messages.tmpl:368
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
 msgstr "Деякі символи, такі як =&#126;=, =$=, =@=, =%= були вилучені"
 
-#: core/templates/messages.tmpl:311
+#: core/templates/messages.tmpl:313
 msgid ""
 "Some mail tools have an error that causes them to send the same request "
 "twice when you click on a link. It you did this, it is possible that you "
@@ -2655,9 +2635,9 @@ msgid "Sorry, Registration has been temporarily disabled"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:83
-#: TopicUserMappingContrib/data/System/BulkResetPassword.txt:17
+#: TopicUserMappingContrib/data/System/BulkResetPassword.txt:18
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:13
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:14
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:16
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -2666,20 +2646,19 @@ msgstr ""
 msgid "Sort results by:"
 msgstr "Сортувати результати:"
 
-#: core/templates/messages.tmpl:364
+#: core/templates/messages.tmpl:366
 msgid "Spaces are replaced by underscores"
 msgstr "Пропуски замінені знаками підкреслення"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:11
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
-#: PatternSkin/data/System/WebLeftBarExample.txt:12
-#: PatternSkin/data/_default/WebLeftBar.txt:10
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:10
+#: PatternSkin/data/Main/WebLeftBarExample.txt:12
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
+#: PatternSkin/data/System/WebLeftBarExample.txt:13
+#: PatternSkin/data/_default/WebLeftBar.txt:11
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:11
 msgid "Statistics"
 msgstr "Статистика"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:296
-#: core/templates/messages.tmpl:207 core/templates/messages.tmpl:316
+#: core/templates/messages.tmpl:209 core/templates/messages.tmpl:318
 msgid "Submit"
 msgstr "Застосувати"
 
@@ -2697,15 +2676,15 @@ msgstr "Надані Вами відомості:"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Підписатися / відписатися від:"
 
-#: core/data/System/WebSearchAdvanced.txt:70
+#: core/data/System/WebSearchAdvanced.txt:72
 msgid "Summaries"
 msgstr "Виводи за наслідками пошуку"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:77
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Switch to monotype or propotional font"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:26 core/data/System/WebSearchAdvanced.txt:32
+#: core/data/System/WebSearch.txt:30 core/data/System/WebSearchAdvanced.txt:30
 msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
@@ -2714,7 +2693,7 @@ msgstr ""
 "\"WSDL\"=, а також словосполучення =\"web service\"=, без слова =\"shampoo"
 "\"=, введіть:"
 
-#: core/templates/messages.tmpl:515
+#: core/templates/messages.tmpl:517
 #, fuzzy
 msgid "Template %1 does not exist"
 msgstr "Розділ %1 не існує"
@@ -2723,11 +2702,11 @@ msgstr "Розділ %1 не існує"
 msgid "Test Topics"
 msgstr "Пробні теми"
 
-#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:38
+#: core/data/System/WebSearch.txt:38 core/data/System/WebSearchAdvanced.txt:38
 msgid "Text body"
 msgstr "У тексті сторінки"
 
-#: core/templates/messages.tmpl:162 core/templates/messages.tmpl:200
+#: core/templates/messages.tmpl:162 core/templates/messages.tmpl:202
 msgid "Thank you for registering"
 msgstr "Спасибі за реєстрацію"
 
@@ -2748,11 +2727,11 @@ msgstr ""
 "Спасибі, що Ви реєструвалися на інформаційному ресурсі %1, платформі для "
 "спільної творчості та роботи. Ваш код підтвердження %2."
 
-#: core/templates/messages.tmpl:533
+#: core/templates/messages.tmpl:535
 msgid "That user has already been activated "
 msgstr ""
 
-#: core/templates/messages.tmpl:280
+#: core/templates/messages.tmpl:282
 msgid ""
 "The %1 field must be your first and last name in %2, e.g. your capitalized "
 "first and last name with spaces removed."
@@ -2760,7 +2739,7 @@ msgstr ""
 "У полі %1 обов'язково вкажіть Ваше ім'я та прізвище в %2, тобто "
 "Ім'яПрізвище, з великої букви і без пропусків. "
 
-#: core/templates/messages.tmpl:274
+#: core/templates/messages.tmpl:276
 msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
 msgstr ""
 "Поле %1 повинно співпадати з {LoginNameFilterIn} фільтром для цього сайту."
@@ -2769,7 +2748,7 @@ msgstr ""
 msgid "The %1 topic already exists"
 msgstr "Тема %1 вже існує"
 
-#: core/templates/messages.tmpl:492
+#: core/templates/messages.tmpl:494
 msgid "The %1 web does not exist"
 msgstr "Розділ %1 не існує"
 
@@ -2786,8 +2765,8 @@ msgstr ""
 "кінець сторінки, а також ставити підпис у вигляді Вашого ВікіІмені (%4) та "
 "дати."
 
-#: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:3
-#: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:5
+#: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
+#: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
@@ -2797,7 +2776,7 @@ msgstr ""
 msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
 msgstr ""
 
-#: core/templates/messages.tmpl:421
+#: core/templates/messages.tmpl:423
 msgid "The =%1= script can only be called with POST method."
 msgstr ""
 
@@ -2805,7 +2784,7 @@ msgstr ""
 msgid "The Administrator has disabled new user registration."
 msgstr ""
 
-#: core/templates/messages.tmpl:306
+#: core/templates/messages.tmpl:308
 msgid "The activation code %1 is invalid."
 msgstr "%1 - невірний код активації."
 
@@ -2813,7 +2792,7 @@ msgstr "%1 - невірний код активації."
 msgid "The attachment and any history will be moved to the new topic."
 msgstr "Прикріплені файли та вся історія будуть переміщені у нову тему."
 
-#: core/templates/messages.tmpl:448
+#: core/templates/messages.tmpl:450
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -2828,29 +2807,29 @@ msgstr ""
 "Відмічені теми будуть оновлені (з'явиться інша форма, яка _у результаті_ "
 "дасть можливість перейменувати будь-яку раніше заблоковану тему)"
 
-#: core/templates/messages.tmpl:298
+#: core/templates/messages.tmpl:300
 msgid "The e-mail address for this account is not valid."
 msgstr "У цього облікового запису невірна адреса електронної пошти."
 
-#: core/templates/messages.tmpl:466
+#: core/templates/messages.tmpl:468
 msgid "The entry for user %1 was missing in the password system."
 msgstr "У системі доступу відсутній запис, що відносяться до користувача %1."
 
-#: core/templates/messages.tmpl:359
+#: core/templates/messages.tmpl:361
 msgid "The file has been uploaded and attached properly to the %1 topic."
 msgstr "Файл був завантажений і правильно прикріплений до сторінки теми %1."
 
-#: core/templates/messages.tmpl:395
+#: core/templates/messages.tmpl:397
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr "Наступні теми закриті для редагування і не можуть бути переміщені:"
 
-#: core/templates/messages.tmpl:401
+#: core/templates/messages.tmpl:403
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
 "Наступні теми посилаються на теми в цьому розділі, але в даний час кимось "
 "редагуються:"
 
-#: core/templates/messages.tmpl:398
+#: core/templates/messages.tmpl:400
 msgid ""
 "The following topics refer to topics in this web, but you are denied access "
 "to them:"
@@ -2858,11 +2837,11 @@ msgstr ""
 "Наступні теми посилаються на теми в цьому розділі, але у Вас немає до них "
 "доступу:"
 
-#: core/templates/messages.tmpl:337
+#: core/templates/messages.tmpl:339
 msgid "The form should be defined in the topic %1"
 msgstr "Форма повинна бути визначена на сторінці теми %1"
 
-#: core/templates/messages.tmpl:446
+#: core/templates/messages.tmpl:448
 msgid "The lease on this topic expired %1 ago."
 msgstr "Блокування цієї сторіночки застаріло %1 тому"
 
@@ -2882,7 +2861,7 @@ msgstr "Створений новий розділ"
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr "Введений пароль у полі *старий пароль* невірний."
 
-#: core/templates/messages.tmpl:325
+#: core/templates/messages.tmpl:327
 msgid "The required field %1 was not filled in."
 msgstr "Обов'язкове поле %1 не було заповнено."
 
@@ -2890,35 +2869,35 @@ msgstr "Обов'язкове поле %1 не було заповнено."
 msgid "The selected User System does not support new user registration."
 msgstr ""
 
-#: core/templates/messages.tmpl:340
+#: core/templates/messages.tmpl:342
 msgid "The topic is in an old format"
 msgstr "Тема в старому форматі"
 
-#: core/templates/messages.tmpl:227
+#: core/templates/messages.tmpl:229
 msgid "The two passwords you entered do not match."
 msgstr "Два введених Вами паролі не співпадають."
 
-#: core/templates/messages.tmpl:535
+#: core/templates/messages.tmpl:537
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 
-#: core/templates/messages.tmpl:391
+#: core/templates/messages.tmpl:393
 msgid "There are problems with renaming this web:"
 msgstr "Виникли проблеми з перейменуванням розділу:"
 
-#: core/templates/messages.tmpl:234
+#: core/templates/messages.tmpl:236
 msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 "Виникла проблема з додаванням Вашого ідентифікатора користувача у систему "
 "доступу."
 
-#: core/templates/validate.tmpl:19
+#: core/templates/validate.tmpl:21 core/templates/validate.tmpl:38
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
 msgstr ""
 
-#: core/templates/messages.tmpl:343
+#: core/templates/messages.tmpl:345
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Тут повинен бути рядок, що включає %1, шукайте %2 (або %3)"
 
@@ -2926,11 +2905,11 @@ msgstr "Тут повинен бути рядок, що включає %1, шу�
 msgid "This Foswiki does _not_ support new User Registration"
 msgstr ""
 
-#: core/templates/messages.tmpl:350
+#: core/templates/messages.tmpl:352
 msgid "This can be automatically upgraded by:"
 msgstr "Це може бути автоматично оновлено при допомозі:"
 
-#: core/templates/messages.tmpl:333
+#: core/templates/messages.tmpl:335
 msgid "This could be for several reasons:"
 msgstr "Це могло відбутися через наступні причини:"
 
@@ -2949,9 +2928,9 @@ msgstr ""
 "допомогою даної форми зберігаються в секреті і *не* будуть опубліковані ніде "
 "на цьому сайті. "
 
-#: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:2
-#: core/data/Main/WebNotify.txt:2 core/data/Sandbox/WebNotify.txt:2
-#: core/data/System/WebNotify.txt:2 core/data/Trash/WebNotify.txt:2
+#: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
+#: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
+#: core/data/System/WebNotify.txt:3 core/data/Trash/WebNotify.txt:2
 #: core/data/_default/WebNotify.txt:2
 msgid ""
 "This is a subscription service to be automatically notified by e-mail when "
@@ -2993,15 +2972,15 @@ msgstr ""
 "Це ім'я було вибране оскільки воно не конфліктує ні з однією з інших назв "
 "тем вже розміщених у розділі %1 ."
 
-#: core/templates/messages.tmpl:348
+#: core/templates/messages.tmpl:350
 msgid "This requires the form definition to be present."
 msgstr "Необхідно, щоб було представлено визначення форми."
 
-#: core/data/System/DefaultPreferences.txt:42
+#: core/data/System/DefaultPreferences.txt:43
 msgid "This site is powered by Foswiki"
 msgstr ""
 
-#: core/templates/messages.tmpl:292
+#: core/templates/messages.tmpl:294
 msgid "This site requires at least %1 character passwords"
 msgstr "Потрібно ввести пароль завдовжки не менше %1 символів"
 
@@ -3021,7 +3000,7 @@ msgstr ""
 "користувачів. Будь ласка, проглянете уважно сторінку, щоб переконатися, що "
 "все гаразд, особливо якщо Ви вносили будь-які зміни до полів форм. "
 
-#: core/data/System/WebSearchAdvanced.txt:85
+#: core/data/System/WebSearchAdvanced.txt:87
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3040,7 +3019,7 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr "Якщо Ви наполягаєте на редагуванні сторінки, натисніть "
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:84
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:82
 msgid "To register as a new user, simply fill out this form:"
 msgstr "Для реєстрації нового користувача, просто заповніть наступну форму:"
 
@@ -3056,21 +3035,21 @@ msgstr "До теми:"
 msgid "To web:"
 msgstr "У розділ:"
 
-#: PatternSkin/data/Main/WebLeftBarExample.txt:4
-#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:4
-#: PatternSkin/data/System/WebLeftBarExample.txt:4
-#: PatternSkin/data/Trash/WebLeftBarExample.txt:3
-#: PatternSkin/data/_default/WebLeftBar.txt:3
-#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:3
+#: PatternSkin/data/Main/WebLeftBarExample.txt:5
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
+#: PatternSkin/data/System/WebLeftBarExample.txt:5
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:4
+#: PatternSkin/data/_default/WebLeftBar.txt:4
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:4
 msgid "Toolbox"
 msgstr ""
 
-#: core/data/System/TopicDoesNotExistViewTemplate.txt:5
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:6
 #, fuzzy
 msgid "Topic %1 does not exist"
 msgstr "тема %1 не існує"
 
-#: core/templates/messages.tmpl:322
+#: core/templates/messages.tmpl:324
 msgid "Topic Save Error"
 msgstr "Помилка збереження сторінки"
 
@@ -3078,22 +3057,21 @@ msgstr "Помилка збереження сторінки"
 msgid "Topic attachments"
 msgstr "Прикріплені файли"
 
-#: core/templates/messages.tmpl:346
+#: core/templates/messages.tmpl:348
 msgid "Topic can not be upgraded from old style category table"
 msgstr "Тема не може бути оновлена з таблиці категорій старого стилю"
 
 #: core/data/System/WebSearchAdvanced.txt:48
-#: core/data/System/WebSearchAdvanced.txt:59
 msgid "Topic name"
 msgstr "Назва теми"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:47
-#: core/data/System/WebCreateNewTopicTemplate.txt:33
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:48
+#: core/data/System/WebCreateNewTopicTemplate.txt:32
 msgid "Topic name:"
 msgstr "Назва теми:"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:54
-#: core/data/System/WebCreateNewTopicTemplate.txt:38
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:55
+#: core/data/System/WebCreateNewTopicTemplate.txt:37
 msgid "Topic parent:"
 msgstr "Батьківська тема:"
 
@@ -3107,11 +3085,11 @@ msgstr ""
 msgid "Topic save error"
 msgstr "Помилка збереження сторінки"
 
-#: core/data/System/WebTemplateTopics.txt:2
+#: core/data/System/WebTemplateTopics.txt:3
 msgid "Topic templates in %1 Web"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:32 core/data/System/WebSearchAdvanced.txt:39
+#: core/data/System/WebSearch.txt:38 core/data/System/WebSearchAdvanced.txt:39
 msgid "Topic title"
 msgstr "Заголовок теми"
 
@@ -3119,7 +3097,7 @@ msgstr "Заголовок теми"
 msgid "Topic was merged"
 msgstr "Зміни суміщені"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:28
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:29
 msgid "Topic will be named: "
 msgstr "Тема буде названа: "
 
@@ -3132,7 +3110,7 @@ msgstr ""
 msgid "Topics in %1 web:"
 msgstr "Теми у розділі %1:"
 
-#: core/data/System/WebSearchAdvanced.txt:76
+#: core/data/System/WebSearchAdvanced.txt:78
 msgid "Topics per web"
 msgstr "Тем у розділі"
 
@@ -3153,7 +3131,7 @@ msgid ""
 "Topics which refer to this web that you do not have permission to change:"
 msgstr "Теми, що посилаються на цей розділ який Ви не можете змінювати:"
 
-#: core/data/System/WebSearchAdvanced.txt:71
+#: core/data/System/WebSearchAdvanced.txt:73
 msgid "Total matches"
 msgstr "Всього збігів"
 
@@ -3186,7 +3164,7 @@ msgstr "Поновити файл %1 прикріплений до %2"
 msgid "Update links"
 msgstr "Оновити посилання"
 
-#: PatternSkin/templates/attachagain.pattern.tmpl:28
+#: PatternSkin/templates/attachagain.pattern.tmpl:27
 #: PatternSkin/templates/attachnew.pattern.tmpl:7
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
@@ -3196,21 +3174,21 @@ msgstr "Завантажити файл"
 msgid "Upload up to %1 KB."
 msgstr "Максимальний розмір %1 КБ."
 
-#: core/templates/messages.tmpl:378
+#: core/templates/messages.tmpl:380
 msgid "Uploaded file %1 exceeds limit of %2 KB"
 msgstr "Завантажений файл %1 перевищив допустимі  %2 KB"
 
-#: core/templates/messages.tmpl:377
+#: core/templates/messages.tmpl:379
 msgid "Uploaded file is too big"
 msgstr "Завантажуваний файл задуже великий"
 
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:5
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:6
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:5
 msgid "Use %1 instead."
 msgstr "Тоді скористайтеся [[%1][Змінити пароль]]. "
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:61
-#: core/data/System/WebCreateNewTopicTemplate.txt:43
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicTemplate.txt:42
 msgid "Use template:"
 msgstr "Використовувати шаблон:"
 
@@ -3218,16 +3196,16 @@ msgstr "Використовувати шаблон:"
 msgid "User Account %1 Deleted"
 msgstr "Обліковий запис %1 вилучена"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:15
+#: PatternSkin/data/System/WebLeftBarExample.txt:16
 msgid "User Reference"
 msgstr "Керівництво користувача"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:220
-#: core/templates/login.tmpl:42
+#: core/templates/login.tmpl:41
 msgid "Username"
 msgstr "Ім'я користувача"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:5
+#: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "Користувачі"
 
@@ -3271,7 +3249,7 @@ msgstr "Проглянути початковий текст, без форма�
 msgid "View revision:"
 msgstr ""
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:65
+#: core/data/System/WebCreateNewTopicTemplate.txt:61
 msgid "View templates"
 msgstr "Проглянути шаблони"
 
@@ -3281,7 +3259,7 @@ msgstr "Проглянути шаблони"
 msgid "View topic"
 msgstr "Проглянути тему"
 
-#: core/templates/foswiki.tmpl:101
+#: core/templates/foswiki.tmpl:105
 msgid "View total topic history"
 msgstr "Проглянути повну історію змін сторінки"
 
@@ -3289,48 +3267,52 @@ msgstr "Проглянути повну історію змін сторінки
 msgid "Warning"
 msgstr ""
 
-#: core/templates/validate.tmpl:8
+#: core/templates/validate.tmpl:9
 msgid "Warning! Confirmation required"
 msgstr ""
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:166
+#: core/templates/validate.tmpl:13
+msgid "Warning! Operation blocked"
+msgstr ""
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #, fuzzy
 msgid "Warning: 'include' topic does not exist!"
 msgstr "Примітка: ця тема не існує"
 
-#: core/templates/messages.tmpl:463
+#: core/templates/messages.tmpl:465
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr "Увага: Неможливо ВКЛАСТИ %1 кілька разів, тема вже вкладена. %2"
 
-#: core/templates/messages.tmpl:464
+#: core/templates/messages.tmpl:466
 #, fuzzy
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr "Увага: Неможливо ВКЛАСТИ %1 кілька разів, тема вже вкладена. %2"
 
-#: core/templates/messages.tmpl:462
+#: core/templates/messages.tmpl:464
 #, fuzzy
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr "Увага: Не можу знайти тему %1.%2"
 
-#: core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:463
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Увага: Не можу знайти тему %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:967
+#: core/lib/Foswiki/UI/Register.pm:990
 msgid "Warning: Could not send confirmation email"
 msgstr "Увага: Не вдалося послати підтвердження по електронній пошті"
 
-#: core/lib/Foswiki/UI/Register.pm:979
+#: core/lib/Foswiki/UI/Register.pm:1002
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 
-#: core/templates/messages.tmpl:471
+#: core/templates/messages.tmpl:473
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Увага: Цей сайт не дозволяє використовувати %<nop>INCLUDE% для URL адрес"
 
-#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:994
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Примітка: ця тема не існує"
@@ -3339,7 +3321,7 @@ msgstr "Примітка: ця тема не існує"
 msgid "Web Search"
 msgstr "Пошук у розділі"
 
-#: PatternSkin/data/System/WebLeftBarWebsList.txt:2
+#: PatternSkin/data/System/WebLeftBarWebsList.txt:3
 msgid "Webs"
 msgstr "Розділи"
 
@@ -3347,19 +3329,7 @@ msgstr "Розділи"
 msgid "Welcome to the %1 web"
 msgstr "Ласкаво просимо у розділ %1"
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:281
-msgid ""
-"When %1 receives the form, it will mail an account activation code to the e-"
-"mail address you gave above. Enter that activation code in the following "
-"screen, or follow the link in the e-mail, to activate your account. Once "
-"your account is activated, %1 will:"
-msgstr ""
-"Коли Ви заповните цю форму %1 відправить код активації за вказаною Вами "
-"адресою електронної пошти. Введіть отриманий код на наступній сторінці або "
-"відкрийте посилання в отриманому повідомленні, щоб активувати Ваш обліковий "
-"запис. Як тільки Ваш обліковий запис буде активований, %1 буде:"
-
-#: core/templates/messages.tmpl:243
+#: core/templates/messages.tmpl:245
 msgid "While attempting to email <noautolink>%1</noautolink>."
 msgstr ""
 
@@ -3367,11 +3337,16 @@ msgstr ""
 msgid "Who"
 msgstr "Хто"
 
+#: core/data/System/WebSearchAdvanced.txt:60
+#, fuzzy
+msgid "Word search"
+msgstr "Змінити пошук"
+
 #: core/templates/messages.tmpl:19
 msgid "Would you like to go to:"
 msgstr "Куди б Ви хотіли перейти:"
 
-#: core/templates/messages.tmpl:262
+#: core/templates/messages.tmpl:264
 msgid "You are already registered"
 msgstr "Ви вже зареєстровані"
 
@@ -3379,11 +3354,11 @@ msgstr "Ви вже зареєстровані"
 msgid "You are also listed in the %1 topic"
 msgstr "Ви також перераховані на сторінці %1"
 
-#: core/templates/messages.tmpl:392
+#: core/templates/messages.tmpl:394
 msgid "You are denied access to the following topics in the web:"
 msgstr "Ви не маєте доступу до наступних тем цього розділу:"
 
-#: core/templates/messages.tmpl:450
+#: core/templates/messages.tmpl:452
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -3417,28 +3392,28 @@ msgstr ""
 "вибирайте ім'я, що починається з символу підкреслення і не містить інших "
 "символів, окрім букв та цифр."
 
-#: core/templates/messages.tmpl:528
+#: core/templates/messages.tmpl:530
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr "Ви намагаєтеся %1 неіснуючий файл."
 
-#: core/templates/messages.tmpl:516
+#: core/templates/messages.tmpl:518
 #, fuzzy
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
 
-#: core/templates/messages.tmpl:511
+#: core/templates/messages.tmpl:513
 #, fuzzy
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action '%"
 "1')."
 msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
 
-#: core/templates/messages.tmpl:522
+#: core/templates/messages.tmpl:524
 #, fuzzy
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
 
-#: core/templates/messages.tmpl:501
+#: core/templates/messages.tmpl:503
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -3473,16 +3448,16 @@ msgstr ""
 "Ви можете зафіксувати вибір мови, визначивши змінну %1 на Вашій персональній "
 "сторінці."
 
-#: core/templates/messages.tmpl:263
+#: core/templates/messages.tmpl:265
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "Ви не можете реєструватися двічі, ім'я %1 вже зареєстровано."
 
 #: core/templates/messages.tmpl:150 core/templates/messages.tmpl:159
-#: core/templates/messages.tmpl:238
+#: core/templates/messages.tmpl:240
 msgid "You have *not* been registered."
 msgstr "Ви *не* були зареєстровані."
 
-#: core/templates/messages.tmpl:368
+#: core/templates/messages.tmpl:370
 msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
@@ -3490,13 +3465,13 @@ msgstr ""
 "Ви можете спробувати попросити Вашого адміністратора Wiki змінити "
 "налаштування якщо вони не підходять Вашому оточенню."
 
-#: core/templates/messages.tmpl:537
+#: core/templates/messages.tmpl:539
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
 msgstr ""
 
-#: core/templates/messages.tmpl:178
+#: core/templates/messages.tmpl:180
 msgid "You may need to close your browser to make this change take effect."
 msgstr ""
 "Можливо, Вам доведеться закрити вікно Вашого браузера щоб ці зміни набули "
@@ -3535,17 +3510,17 @@ msgstr ""
 msgid "You will be able to review the topic before saving it to a new revision"
 msgstr ""
 
-#: core/templates/messages.tmpl:355
+#: core/templates/messages.tmpl:357
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "Можливо Ви повинні попросити адміністратора %1, зробити це."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:33
-#: TopicUserMappingContrib/data/System/ChangePassword.txt:22
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:27
 msgid "Your %1.LoginName"
 msgstr "Ваше [[%1.LoginName][Ім'яКористувача]]"
 
-#: core/templates/messages.tmpl:202
+#: core/templates/messages.tmpl:204
 msgid ""
 "Your activation code has been sent to %1.  Either click on the link in your "
 "e-mail or enter the code in the box below to activate your membership. (This "
@@ -3565,7 +3540,7 @@ msgstr ""
 msgid "Your password has been changed to %1."
 msgstr "Ваш пароль змінений на %1."
 
-#: TopicUserMappingContrib/data/System/UserRegistration.txt:114
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:108
 msgid "Your password:"
 msgstr "Ваш пароль:"
 
@@ -3581,14 +3556,14 @@ msgstr ""
 msgid "Your personal Foswiki topic %1 has been created"
 msgstr ""
 
-#: core/templates/messages.tmpl:195
+#: core/templates/messages.tmpl:197
 #, fuzzy
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
 msgstr "Зареєстрована(і) Вами адреса(и) електронної пошти змінена(і) на: %1."
 
-#: core/templates/messages.tmpl:245
+#: core/templates/messages.tmpl:247
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
@@ -3599,11 +3574,11 @@ msgstr ""
 msgid "Your signature to copy/paste"
 msgstr "Ваш підпис для копіювання/вставки:"
 
-#: core/templates/edit.tmpl:47
+#: core/templates/edit.tmpl:48
 msgid "Your signature to copy/paste:"
 msgstr "Ваш підпис для копіювання/вставки:"
 
-#: core/templates/messages.tmpl:186
+#: core/templates/messages.tmpl:188
 #, fuzzy
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
@@ -3622,7 +3597,7 @@ msgstr ""
 "Ваша персональна сторінка не була перейменована. Будь ласка, відправте "
 "повідомлення на %1 із запитом."
 
-#: core/templates/messages.tmpl:342
+#: core/templates/messages.tmpl:344
 msgid "[[%1][Debug topic text]]."
 msgstr ""
 
@@ -3633,7 +3608,7 @@ msgstr ""
 "[кратне 3-м пропускам] * [пропуск] Set [пропуск] ІМ'ЯЗМІННОЇ [пропуск] = "
 "[значення]"
 
-#: core/lib/Foswiki/I18N.pm:313
+#: core/lib/Foswiki/I18N.pm:321
 msgid "_language_name"
 msgstr "Українська"
 
@@ -3669,7 +3644,7 @@ msgstr "accesskey='c'"
 msgid "advanced search"
 msgstr "розширений пошук"
 
-#: core/data/System/WikiSyntaxSummary.txt:17
+#: core/data/System/WikiSyntaxSummary.txt:18
 msgid "and"
 msgstr "та"
 
@@ -3681,7 +3656,7 @@ msgstr "змінити, поновити, попередні редакції, �
 msgid "checkboxes of referenced topics"
 msgstr "перемикачі сторінок, що посилаються"
 
-#: core/templates/messages.tmpl:417
+#: core/templates/messages.tmpl:419
 msgid "don't forget to check your Topic Settings"
 msgstr "не забудьте перевірити налаштування Вашої персональної сторінки"
 
@@ -3691,7 +3666,7 @@ msgstr "не забудьте перевірити налаштування Ва
 msgid "edit"
 msgstr "(редагувати)"
 
-#: core/templates/messages.tmpl:221
+#: core/templates/messages.tmpl:223
 msgid "fields are required."
 msgstr " - ці поля необхідно заповнити."
 
@@ -3704,7 +3679,7 @@ msgstr ""
 msgid "help"
 msgstr "допомога"
 
-#: core/data/System/WikiSyntaxSummary.txt:17
+#: core/data/System/WikiSyntaxSummary.txt:18
 msgid "hints on good style"
 msgstr "Керівництво по хорошому стилю"
 
@@ -3716,7 +3691,7 @@ msgstr "у вигляді початкового тексту"
 msgid "indicates mandatory fields"
 msgstr "указує обов'язкові поля"
 
-#: core/data/System/RenameWeb.txt:3
+#: core/data/System/RenameWeb.txt:5
 msgid "looking for references in _all public webs_"
 msgstr "відстежуючи посилання у _всіх публічних розділах_"
 
@@ -3732,14 +3707,14 @@ msgstr "більше..."
 msgid "now %1"
 msgstr "зараз %1"
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:3
-#: PatternSkin/templates/attachagain.pattern.tmpl:24
-#: PatternSkin/templates/attachagain.pattern.tmpl:28
+#: PatternSkin/data/System/WebLeftBarLogin.txt:4
+#: PatternSkin/templates/attachagain.pattern.tmpl:23
+#: PatternSkin/templates/attachagain.pattern.tmpl:27
 #: PatternSkin/templates/attachnew.pattern.tmpl:7
 #: PatternSkin/templates/edit.pattern.tmpl:36
 #: PatternSkin/templates/preview.pattern.tmpl:18
 #: PatternSkin/templates/settings.pattern.tmpl:22
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:105
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:109
 #: core/templates/moveattachment.tmpl:35 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:19 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:28 core/templates/renamedelete.tmpl:33
@@ -3751,12 +3726,12 @@ msgstr "або"
 msgid "preview"
 msgstr "попередній перегляд"
 
-#: core/lib/Foswiki/Render.pm:213
+#: core/lib/Foswiki/Render.pm:214
 msgid "put it back"
 msgstr "повернути на місце"
 
 #: PatternSkin/templates/searchbase.pattern.tmpl:12
-#: core/data/System/WebChanges.txt:2
+#: core/data/System/WebChanges.txt:3
 msgid "retrieved at %1"
 msgstr "Знайдено в %1"
 
@@ -3832,7 +3807,7 @@ msgstr "title='Проглядання теми' accesskey='v'>Подивитис
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Проглянути повну історію змін сторінки' accesskey='h'>Історія"
 
-#: core/lib/Foswiki.pm:4374
+#: core/lib/Foswiki.pm:4449
 msgid "user list truncated"
 msgstr ""
 
@@ -3864,7 +3839,11 @@ msgstr "value='Зберегти' accesskey='s"
 msgid "view"
 msgstr "Проглянути"
 
-#: core/templates/validate.tmpl:27
+#: core/templates/validate.tmpl:47
+msgid "why this operation is blocked."
+msgstr ""
+
+#: core/templates/validate.tmpl:29
 msgid "why you are being asked to confirm"
 msgstr ""
 
@@ -3877,6 +3856,60 @@ msgstr ""
 "У Вас *повинен* бути хоч би одна правильно зареєстрована адреса електронної "
 "пошти, щоб можна було скинути Ваш пароль. Якщо жодна із зареєстрованих Вами "
 "адрес електронної пошти не є правильна і Ви забули свій пароль, пишіть %1."
+
+#~ msgid ""
+#~ "*Important:* the information provided in this form will be stored in a "
+#~ "database on the Foswiki server. This database is accessible to anyone who "
+#~ "can access the server through the web (though passwords will be "
+#~ "encrypted, and e-mail addresses will be obfuscated to help prevent "
+#~ "spamming). Your country, or the country where the server is hosted, may "
+#~ "have Data Protection laws governing the maintenance of such databases. If "
+#~ "you are in doubt, you should contact %1 for details of the Data "
+#~ "Protection Policy of this Foswiki server before registering."
+#~ msgstr ""
+#~ "*Важливо:* інформація, вказана в цій формі буде збережена у базі даних "
+#~ "сервера Foswiki. Ця база даних доступна всім, у кого є інтернет-доступ до "
+#~ "сервера (паролі будуть зашифровані, і адреса електронної пошти буде трохи "
+#~ "змінена для захисту від спаму). У Вашій країні або країні, де "
+#~ "розташований сервер, можуть діяти закони про захист інформації, які "
+#~ "регламентують роботу подібних баз даних. Якщо у Вас виникають сумніви, "
+#~ "то, перш ніж реєструватися, Вам слід звернутися до %1 для консультації з "
+#~ "питань політики конфіденційності і захисту даних на цьому сервері."
+
+#~ msgid "Add your name to the list of users in the %1 topic in the %2 web."
+#~ msgstr "Додасть Ваше ім'я до списку користувачів теми %1 розділу %2."
+
+#~ msgid ""
+#~ "Create your personal %1 topic using your WikiName as topic name, and add "
+#~ "the data you submitted to the topic."
+#~ msgstr ""
+#~ "Створить Вашу особисту сторінку %1 використовуючи [[WikiName][ВікіІм'я]] "
+#~ "як її ім'я та додасть на неї, введені Вами при реєстрації, дані."
+
+#~ msgid ""
+#~ "Finish creating an account for you, so that you can start editing pages "
+#~ "using your WikiName."
+#~ msgstr ""
+#~ "Завершить створення облікового запису, після чого Ви зможете редагувати "
+#~ "сторінки, використовуючи своє [[WikiName][ВікіІм'я]]."
+
+#~ msgid "Once registered you can login using your %1 and password."
+#~ msgstr ""
+#~ "Як зареєструєтеся, то зможете заходити використовуючи Ваші %1 та пароль."
+
+#~ msgid "Send you a confirmation of your registration by e-mail."
+#~ msgstr "Відправити підтвердження Вашої реєстрації по електронній пошті."
+
+#~ msgid ""
+#~ "When %1 receives the form, it will mail an account activation code to the "
+#~ "e-mail address you gave above. Enter that activation code in the "
+#~ "following screen, or follow the link in the e-mail, to activate your "
+#~ "account. Once your account is activated, %1 will:"
+#~ msgstr ""
+#~ "Коли Ви заповните цю форму %1 відправить код активації за вказаною Вами "
+#~ "адресою електронної пошти. Введіть отриманий код на наступній сторінці "
+#~ "або відкрийте посилання в отриманому повідомленні, щоб активувати Ваш "
+#~ "обліковий запис. Як тільки Ваш обліковий запис буде активований, %1 буде:"
 
 #~ msgid "Edit table"
 #~ msgstr "Редагувати таблицю"
