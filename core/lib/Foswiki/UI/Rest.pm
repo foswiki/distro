@@ -73,9 +73,7 @@ sub rest {
     # the path_info, but we *can* persuade Foswiki to ignore it.
     my $topic = $req->param('topic');
     if ($topic) {
-
-        # SMELL: excess brackets in RE?
-        unless ( $topic =~ /((?:.*[\.\/])+)(.*)/ ) {
+        unless ( $topic =~ /\.|\// ) {
             $res->header( -type => 'text/html', -status => '400' );
             $err = 'ERROR: (400) Invalid REST invocation'
               . " - Invalid topic parameter $topic\n";
