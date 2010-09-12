@@ -67,9 +67,6 @@ pre {
 %TMPL:END%
 
 
-%TMPL:DEF{"styles:javascript_affected"}%%TMPL:END%
-
-
 %TMPL:DEF{"styles:deprecated"}%%IF{ "defined WEBHEADERART and $ WEBHEADERART != ''" then='#patternTopBarContents { background-image:url(%WEBHEADERART%); background-repeat:repeat-x;}'}%
 %IF{ '$ WEBHEADERBGCOLOR' then='#patternTopBarContents { background-color:%WEBHEADERBGCOLOR%;}'}%
 .patternBookView {
