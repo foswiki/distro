@@ -59,9 +59,10 @@
 id="edithelp"
 remember="on"
 class="foswikiHelp"
+noscript="hide"
 }%%TMPL:P{"help"}%%TMPL:P{"actionbuttons_help"}%%ENDTWISTYTOGGLE%%TMPL:END%
 
-%TMPL:DEF{"actionbuttons_help"}%<div class="patternSaveHelp">%TMPL:P{"accesskeys_help"}%</div>%TMPL:END%
+%TMPL:DEF{"actionbuttons_help"}%<p>%TMPL:P{"accesskeys_help"}%</p>%TMPL:END%
 
 %TMPL:DEF{"accesskeys_help"}%%ICON{info}% %POPUPWINDOW{"%SYSTEMWEB%.AccessKeys" label="%MAKETEXT{"Access keys"}%"}% %MAKETEXT{"S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"}%%TMPL:END%
 
