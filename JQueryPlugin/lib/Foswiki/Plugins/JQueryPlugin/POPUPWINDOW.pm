@@ -30,7 +30,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name     => 'PopUpWindow',
-            version  => '1.0',
+            version  => '1.0.1',
             author   => 'Arthur Clemens',
             homepage => 'http://foswiki.org/Extensions/JQueryPopUpWindow',
             tags     => 'POPUPWINDOW',
@@ -65,32 +65,34 @@ sub handlePopUpWindow {
       || $params->{topic}
       || $theTopic;
     my @queryParts;
-    
+
     if ($topic) {
+
         # get query string
         if ( $topic =~ s/\?(.*)// ) {
-            push (@queryParts, $1);
+            push( @queryParts, $1 );
         }
     }
-    
-    my $web      = $params->{web}       || $theWeb;
-    my $url      = $params->{url}       || undef;
-    my $label    = $params->{label}     || $url || $topic;
-    my $template = $params->{template}  || 'viewplain';
-    
+
+    my $web      = $params->{web}      || $theWeb;
+    my $url      = $params->{url}      || undef;
+    my $label    = $params->{label}    || $url || $topic;
+    my $template = $params->{template} || 'viewplain';
+
     if ( !$url ) {
+
         # link to Foswiki topic
         my ( $normalizedWeb, $normalizedTopic ) =
           Foswiki::Func::normalizeWebTopicName( $web, $topic );
         $url = Foswiki::Func::getViewUrl( $normalizedWeb, $normalizedTopic );
-	    push (@queryParts, "template=$template") if defined $template;
-        $url .= '?' . join(';', @queryParts) if scalar @queryParts;
+        push( @queryParts, "template=$template" ) if defined $template;
+        $url .= '?' . join( ';', @queryParts ) if scalar @queryParts;
     }
 
-    my $width      = $params->{width}  || '600';
-    my $height     = $params->{height} || '480';
+    my $width  = $params->{width}  || '600';
+    my $height = $params->{height} || '480';
     my $toolbar    = $params->{toolbar};
-    my $scrollbars = $params->{scrollbars};
+    my $scrollbars = $params->{scrollbars} || '1';
     my $status     = $params->{status};
     my $location   = $params->{location} || '0';
     my $resizable  = $params->{resizable};
@@ -113,6 +115,7 @@ sub handlePopUpWindow {
     push( @options, "menubar:$menubar" )       if defined $menubar;
     push( @options, "createnew:$createnew" )   if defined $createnew;
     push( @options, "center:$center" )         if defined $center;
+
     # use '|' instead of ',' to be able to use inside MAKETEXT args
     my $optionsStr = join( '|', @options );
 
@@ -122,7 +125,7 @@ sub handlePopUpWindow {
     $result =~ s/\$OPTIONS/$optionsStr/;
 
     $result =~ s/"/'/go;
-    
+
     return $result;
 }
 
