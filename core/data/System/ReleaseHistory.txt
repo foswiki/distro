@@ -5,13 +5,21 @@
 
 %TOC%
 
----++ Foswiki Beta Release 1.1.0 Beta 1 - 06 Sep 2010
+---++ Foswiki Beta Release 1.1.0 Beta 1 - 12 Sep 2010
 
-Foswiki 1.1.0 Beta 1 was built 06 Sep 2010. It is a release with more than 260 bug fixes relative to 1.0.10 and more than 670 bug fixes relative to 1.0.0. This release adds many new enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
+Foswiki 1.1.0 Beta 1 was built 06 Sep 2010. It is a release with more than 260 bug fixes relative to 1.0.10 and more than 670 bug fixes relative to 1.0.0.
 
----++ Foswiki Release Candidate 1.0.10 RC1 - 30 Aug 2010
+This release adds many new enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
 
-Foswiki 1.0.10 RC1 was built 30 Aug 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.
+---++ Foswiki Release 1.0.10 - 09 Sep 2010
+
+Foswiki 1.0.10 was built 09 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. 
+
+This release is expected to be the final bug fixing release for foswiki 1.0, and wraps up about 70 fixes found since 1.0.9. 
+
+Importantly, this release fixes an issue running configure on Perl 5.12, improves compatibility with proxy and enterprise search indexers, and updates the shipped plugins to the latest versions.
+
+It resolves a number of issues for running foswiki on MS Windows.
 
 ---++ Foswiki Release 1.0.9 - 17 Jan 2010
 
