@@ -154,8 +154,7 @@ sub installModule {
     if ( $module eq 'core' ) {
 
         # Special install procedure for core, processes manifest
-        # and checks for missing files, and generates derived objects
-        # along the way (such as compressed JS and CSS)
+        # and checks for missing files
         $moduleDir   = '.';
         $ignoreBlock = 1;
     }
@@ -426,15 +425,15 @@ sub generateAlternateVersion {
 # See also: just_link
 sub copy_in {
     my ( $moduleDir, $dir, $file, $ignoreBlock ) = @_;
-    return
-      if ( -e "$file" && $ignoreBlock )
-      ;    # For core manifest, ignore copy if target exists.
+
+    # For core manifest, ignore copy if target exists.
+    return if -e $file and $ignoreBlock;
     File::Path::mkpath( _cleanPath($dir) );
     if ( -e "$moduleDir/$file" ) {
         File::Copy::copy( "$moduleDir/$file", $file )
-          || die "Couldn't install $file: $!";
+          or die "Couldn't install $file: $!";
+        print "Copied $file\n";
     }
-    print "Copied $file\n";
 }
 
 sub _cleanPath {
@@ -487,8 +486,6 @@ sub just_link {
     foreach my $c (@components) {
         if ( -l $path . $c ) {
             _checkLink( $moduleDir, $path, $c ) unless $ignoreBlock;
-
-            #warn "$path$c already linked\n";
             last;
         }
         elsif ( -d "$path$c" ) {
@@ -513,11 +510,8 @@ sub just_link {
             if ( -e $tgt ) {
                 die "Failed to link $path$c to $tgt: $!"
                   unless symlink( $tgt, _cleanPath( $path . $c ) );
+                print "Linked $path$c\n";
             }
-            else {
-                warn "WARNING: no such file $tgt\n";
-            }
-            print "Linked $path$c\n";
             last;
         }
     }
