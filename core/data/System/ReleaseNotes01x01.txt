@@ -571,6 +571,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9514][Item9514]] | Replace foswikiPopUp CSS with JQuery POPUPWINDOW |
 | [[%BUGS%/Item9587][Item9587]] | !DataDir Checker should verify that WebPreferences topic exists |
 | [[%BUGS%/Item9598][Item9598]] | Add =ignorepermissions= option to suppress acl checks in Func::saveTopic |
+| [[%BUGS%/Item9644][Item9644]] | Pass the Foswiki RELEASE & VERSION strings on to Extensions repository in configure when using install & update |
 </noautolink>
 
 ---
