@@ -108,6 +108,50 @@ sub test_simple_upload {
     $this->assert_str_equals( 'Elucidate the goose', $at->{comment} );
 }
 
+sub test_noredirect_param {
+    my $this = shift;
+    local $/;
+    my $result = $this->do_upload(
+        'Flappadoodle.txt',
+        "BLAH",
+        hidefile         => 0,
+        filecomment      => 'Elucidate the goose',
+        createlink       => 0,
+        noredirect       => 1,
+        changeproperties => 0,
+    );
+    $this->assert_matches( qr/^OK Flappadoodle.txt uploaded/ms, $result );
+}
+
+sub test_redirectto_param {
+    my $this = shift;
+    $Foswiki::cfg{AllowRedirectUrl} = 1;
+    local $/;
+    my $result = $this->do_upload(
+        'Flappadoodle.txt',
+        "BLAH",
+        hidefile         => 0,
+        filecomment      => 'Elucidate the goose',
+        createlink       => 0,
+        redirectto       => 'http://blah.com/',
+        changeproperties => 0,
+    );
+    $this->assert_matches( qr#^Location: http://blah.com/#ms, $result );
+
+    $Foswiki::cfg{AllowRedirectUrl} = 0;
+    local $/;
+    $result = $this->do_upload(
+        'Flappadoodle.txt',
+        "BLAH",
+        hidefile         => 0,
+        filecomment      => 'Elucidate the goose',
+        createlink       => 0,
+        redirectto       => 'http://blah.com/',
+        changeproperties => 0,
+    );
+    $this->assert_matches( qr#Location: http://(.*?)$this->{test_web}/$this->{test_topic}#ms, $result );
+}
+
 sub test_oversized_upload {
     my $this = shift;
     local $/;
