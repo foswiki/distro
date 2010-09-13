@@ -127,6 +127,13 @@ sub _upload {
     Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
 
     my $origName = $fileName;
+
+    # SMELL: would be much better to throw an exception if an attempt
+    # is made to upload an invalid filename. However, it has always
+    # been this way :-(
+    ( $fileName, $origName ) =
+      Foswiki::Sandbox::sanitizeAttachmentName($fileName);
+
     my $stream;
     my ( $fileSize, $fileDate, $tmpFilePath ) = '';
 
@@ -150,12 +157,6 @@ sub _upload {
         };
 
         $stream = $query->upload('filepath');
-
-        # SMELL: would be much better to throw an exception if an attempt
-        # is made to upload an invalid filename. However, it has always
-        # been this way :-(
-        ( $fileName, $origName ) =
-          Foswiki::Sandbox::sanitizeAttachmentName($fileName);
 
         # check if upload has non zero size
         if ($stream) {
