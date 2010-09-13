@@ -1074,7 +1074,16 @@ sub _populateUserTopicForm {
             next unless $fd->{name} eq $field->{name};
             next if $SKIPKEYS{ $fd->{name} };
             my $item = $meta->get( 'FIELD', $fd->{name} );
-            $item->{value} = $fd->{value};
+            if ($item) {
+                $item->{value} = $fd->{value};
+            } else {
+                # Field missing from the new user template - create
+                # from scratch
+                $item = {
+                    name => $fd->{name},
+                    value => $fd->{value},
+                };
+            }
             $meta->putKeyed( 'FIELD', $item );
             $inform{ $fd->{name} } = 1;
             last;
