@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-13 12:30+0000\n"
+"PO-Revision-Date: 2010-09-13 12:47+0000\n"
 "Last-Translator: Carlinhos Ceconi <carlinux@terra.com.br>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "MIME-Version: 1.0\n"
@@ -1881,15 +1881,13 @@ msgstr ""
 "facilmente, nesse caso é recomendável que você verifique com ele(a) primeiro."
 
 #: core/templates/foswiki.tmpl:47
-#, fuzzy
 msgid ""
 "It's usually best to choose a %1 for the new topic name, otherwise automatic "
 "linking may not work. Characters not allowed in topic names, such as spaces "
 "will automatically be removed."
 msgstr ""
-"Normalmente é melhor escolher uma <a target='WikiWord' class='foswikiPopUp' "
-"href='%1' rel='nofollow'>PalavraWiki</a> para o novo nome do tópico ou os "
-"links automáticos podem não funcionar. Caracteres não permitidos em nomes de "
+"Normalmente é melhor escolher uma %1 para o novo nome do tópico ou os links "
+"automáticos podem não funcionar. Caracteres não permitidos em nomes de "
 "tópicos, como espaços, serão removidos automaticamente."
 
 #: core/templates/renameweb.tmpl:16
@@ -1909,9 +1907,8 @@ msgid "Jump"
 msgstr "Pular para"
 
 #: core/data/System/WebSearch.txt:114
-#, fuzzy
 msgid "Keyword search"
-msgstr "Modificar busca"
+msgstr "Busca por palavra chave"
 
 #: core/data/System/WebSearch.txt:102
 msgid "Last editor"
@@ -1922,9 +1919,8 @@ msgid "Last modified time"
 msgstr "Hora da última alteração"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:137
-#, fuzzy
 msgid "Last name"
-msgstr "Último Nome:"
+msgstr "Último Nome"
 
 #: core/data/System/WebSearch.txt:128
 msgid "Limit results to:"
@@ -1962,14 +1958,12 @@ msgid "Log Out"
 msgstr "Encerrar sessão"
 
 #: core/templates/login.tmpl:12
-#, fuzzy
 msgid "Log on with your username and password"
-msgstr "Por favor, digite seu nome de usuário e senha"
+msgstr "Entrar com seu nome de usuário e senha"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:152
-#, fuzzy
 msgid "Login name"
-msgstr "Nome de login: %1"
+msgstr "Nome de login"
 
 #: core/templates/mailresetpassword.tmpl:12
 msgid "Login name %1"
@@ -2016,7 +2010,7 @@ msgstr "Mais ajuda com formatação"
 #: core/templates/attachagain.tmpl:17
 #, fuzzy
 msgid "More on hiding attachments"
-msgstr "Mover ou deletar anexo"
+msgstr "Mais anexos ocultos"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
@@ -2026,7 +2020,7 @@ msgstr "Mais ações de tópico..."
 #: HistoryPlugin/templates/oopshistory.tmpl:80
 #, fuzzy
 msgid "More view options:"
-msgstr "Mais ações de tópico..."
+msgstr "Mais opções em view"
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:459
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
@@ -2068,9 +2062,8 @@ msgid "NEW"
 msgstr "NOVO"
 
 #: core/templates/more.tmpl:31
-#, fuzzy
 msgid "Name of copy"
-msgstr "Nome da cópia:"
+msgstr "Nome da cópia"
 
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
@@ -2119,7 +2112,7 @@ msgstr "Versão mais recente:"
 
 #: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
 msgid "No GroupName specified"
-msgstr ""
+msgstr "Nenhum GroupName especificado"
 
 #: core/templates/more.tmpl:190
 msgid "No child topics"
@@ -2134,13 +2127,12 @@ msgid "No previous revision exists."
 msgstr "Não existe versão anterior."
 
 #: core/templates/renamebase.tmpl:45
-#, fuzzy
 msgid "No topics to update."
-msgstr "Mover tópico para a web:"
+msgstr "Nenhum tópico para atualizar"
 
 #: core/templates/messages.tmpl:454 core/templates/messages.tmpl:492
 msgid "No username specified"
-msgstr ""
+msgstr "Nenhum usuário especificado"
 
 #: core/templates/messages.tmpl:223
 msgid "No users to reset passwords for."
@@ -2197,9 +2189,8 @@ msgid "Number of topics:"
 msgstr "Número de tópicos:"
 
 #: core/templates/search.text.tmpl:20 core/templates/searchformat.tmpl:11
-#, fuzzy
 msgid "Number of topics: %1"
-msgstr "Número de tópicos:"
+msgstr "Número de tópicos: %1"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
@@ -2212,7 +2203,7 @@ msgstr "OK"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:27
 msgid "OK, this is still me!"
-msgstr ""
+msgstr "OK, isso é comigo!"
 
 #: core/templates/more.tmpl:158
 msgid "Older revision:"
@@ -2223,9 +2214,8 @@ msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Apenas integrantes do %1 têm permissão para realizar essa ação."
 
 #: core/templates/more.tmpl:56 core/templates/more.tmpl:73
-#, fuzzy
 msgid "Only update linked topics in %1 web"
-msgstr "Tópicos filhos na web %1"
+msgstr "Atualizar links de tópicos somente na web %1"
 
 #: core/templates/login.tmpl:8
 msgid ""
@@ -2235,37 +2225,32 @@ msgstr ""
 "sua senha]]."
 
 #: core/templates/renamedelete.tmpl:20
-#, fuzzy
 msgid "Optionally change attachment name:"
-msgstr "Opcionalmente altere o nome do tópico:"
+msgstr "Opcionalmente altere o nome do anexo:"
 
 #: core/templates/renamedelete.tmpl:18
 msgid "Optionally change topic name:"
 msgstr "Opcionalmente altere o nome do tópico:"
 
 #: core/templates/renameattachmentdelete.tmpl:34
-#, fuzzy
 msgid "Optionally enter a different attachment name:"
-msgstr "Opcionalmente digite um nome diferente de tópico:"
+msgstr "Opcionalmente digite um nome diferente para o anexo:"
 
 #: core/templates/renameattachmentdelete.tmpl:32
 msgid "Optionally enter a different topic name:"
 msgstr "Opcionalmente digite um nome diferente de tópico:"
 
 #: core/templates/more.tmpl:161
-#, fuzzy
 msgid "Options"
-msgstr "Ação"
+msgstr "Opções"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:235
-#, fuzzy
 msgid "Organisation name"
-msgstr "Nome da Organização: "
+msgstr "Nome da Organização"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:242
-#, fuzzy
 msgid "Organisation website"
-msgstr "Nome da Organização: "
+msgstr "Site da Organização"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
@@ -2299,9 +2284,8 @@ msgid "Pick one of the %1."
 msgstr "Escolha uma das %1."
 
 #: core/data/Trash/WebPreferences.txt:10
-#, fuzzy
 msgid "Place for trashed topics and attachments."
-msgstr "Lugar reservado para anexos removidos"
+msgstr "Lugar para tópicos e anexos removidos."
 
 #: core/data/Trash/TrashAttachment.txt:3
 msgid "Placeholder for trashed attachments"
@@ -2309,7 +2293,7 @@ msgstr "Lugar reservado para anexos removidos"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
 msgid "Please check to ensure you have permssion to modify the group."
-msgstr ""
+msgstr "Certifique-se de ter permissão para modificar o grupo."
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
 msgid "Please contact %1 if you have any questions."
@@ -2402,18 +2386,16 @@ msgid "Properties"
 msgstr "Propriedades"
 
 #: core/lib/Foswiki/Render.pm:222
-#, fuzzy
 msgid "Put it back..."
-msgstr "pôr de volta"
+msgstr "pôr de volta..."
 
 #: core/data/System/WebSearch.txt:117
 msgid "Query Search"
 msgstr "Busca com <code>type=\"query\"</code>"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:71
-#, fuzzy
 msgid "Question"
-msgstr "Versão"
+msgstr "Questão"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:162
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
@@ -2498,20 +2480,19 @@ msgstr "Lembrar sua senha?"
 
 #: core/data/Main/GroupViewTemplate.txt:168
 msgid "Remove selected users"
-msgstr ""
+msgstr "Remover usuários selecionados"
 
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
-msgstr "Remova o usuário do(s) grupo(s) %1 primeiro."
+msgstr "Remova primeiro o usuário do(s) grupo(s) %1."
 
 #: core/data/Main/GroupViewTemplate.txt:83
 msgid "Remove user..."
-msgstr ""
+msgstr "Remover usuário..."
 
 #: core/data/Main/GroupViewTemplate.txt:164
-#, fuzzy
 msgid "Remove users from this group"
-msgstr "Remova o usuário do(s) grupo(s) %1 primeiro."
+msgstr "Remover usuários desse grupo"
 
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
@@ -2522,23 +2503,20 @@ msgid "Rename failed"
 msgstr "A ação de renomear falhou"
 
 #: core/templates/renamebase.tmpl:11
-#, fuzzy
 msgid "Rename or move %1"
-msgstr "Renomear ou mover tópico"
+msgstr "Renomear ou mover %1"
 
 #: core/templates/more.tmpl:69
 msgid "Rename or move topic"
 msgstr "Renomear ou mover tópico"
 
 #: core/templates/more.tmpl:77
-#, fuzzy
 msgid "Rename or move topic..."
-msgstr "Renomear ou mover tópico"
+msgstr "Renomear ou mover tópico..."
 
 #: core/data/System/RenameWeb.txt:4
-#, fuzzy
 msgid "Rename, move or delete this web"
-msgstr "Renomear, mover ou remover essa web:"
+msgstr "Renomear, mover ou remover essa web"
 
 #: core/templates/rename.tmpl:21 core/templates/renameconfirm.tmpl:33
 #: core/templates/renameweb.tmpl:32
