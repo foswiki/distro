@@ -107,22 +107,22 @@ TablePlugin is %IF{
 8. Check access permissions
 <verbatim class="tml">
 You %IF{"'%TOPIC%' allows 'change'" then="can" else="cannot"}% change this topic.
-You %IF{"'Sandbox.TestTopic' allows 'change'" then="can" else="cannot"}% change Sandbox.TestTopic.
-You %IF{"'Sandbox' allows 'change'" then="can" else="cannot"}% change Sandbox web
+You %IF{"'%SANDBOXWEB%.TestTopic' allows 'change'" then="can" else="cannot"}% change %SANDBOXWEB%.TestTopic.
+You %IF{"'%SANDBOXWEB%' allows 'change'" then="can" else="cannot"}% change %SANDBOXWEB% web
 </verbatim>
 expands to: %BR%
 You %IF{"'%TOPIC%' allows 'change'" then="can" else="cannot"}% change this topic.
-You %IF{"'Sandbox.TestTopic' allows 'change'" then="can" else="cannot"}% change Sandbox.TestTopic.
-You %IF{"'Sandbox' allows 'change'" then="can" else="cannot"}% change Sandbox web
+You %IF{"'%SANDBOXWEB%.TestTopic' allows 'change'" then="can" else="cannot"}% change %SANDBOXWEB%.TestTopic.
+You %IF{"'%SANDBOXWEB%' allows 'change'" then="can" else="cannot"}% change %SANDBOXWEB% web
 
-9. Check topic existance
+9. Check topic and web existance
 <verbatim class="tml">
-Topic Sandbox.TestTopic %IF{"istopic 'Sandbox.TestTopic'" then="exists" else="does not exist"}%
-Web Sandbox.TestTopic %IF{"isweb 'Sandbox'" then="exists" else="does not exist"}%
+Topic %SANDBOXWEB%.TestTopic %IF{"istopic '%SANDBOXWEB%.TestTopic'" then="exists" else="does not exist"}%
+Web %SANDBOXWEB% %IF{"isweb '%SANDBOXWEB%'" then="exists" else="does not exist"}%
 </verbatim>
 expands to: %BR%
-Topic Sandbox.TestTopic %IF{"istopic 'Sandbox.TestTopic'" then="exists" else="does not exist"}%
-Web Sandbox.TestTopic %IF{"isweb 'Sandbox'" then="exists" else="does not exist"}%
+Topic %SANDBOXWEB%.TestTopic %IF{"istopic '%SANDBOXWEB%.TestTopic'" then="exists" else="does not exist"}%
+Web %SANDBOXWEB% %IF{"isweb '%SANDBOXWEB%'" then="exists" else="does not exist"}%
 
 10. Group membership
 <verbatim class="tml">

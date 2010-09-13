@@ -81,7 +81,7 @@ Does exactly what it says on the tin. Forget about authentication to make your s
       then="$n      1 If you are reading this from the INSTALL.html file, you can enter [[%SYSTEMWEB%.UserRegistration]] into the 'Jump' box in the top right of any Foswiki page."}%
       1 %STARTSECTION{"SMTPNOTE"}%*Note:* A standard Foswiki installation will not allow any new registrations unless there is a working SMTP configuration%ENDSECTION{"SMTPNOTE"}%
       1 If your !PasswordManager is =HtPasswdUser= (the default), check the =.htpasswd= file is being updated correctly with a new entry. If not, check ={Htpasswd}{FileName}= is correct (under =Security and Authentication= on the =Password= tab in =configure=), and that the webserver user has write permission.
-   1 Create a new topic (in [[Sandbox.WebHome][Sandbox]] web for example) to confirm that authentication works.
+   1 Create a new topic (in [[%SANDBOXWEB%.WebHome][%SANDBOXWEB%]] web for example) to confirm that authentication works.
    1 *Add users to the %USERSWEB%.AdminGroup*. Edit the %USERSWEB%.AdminGroup topic in the %USERSWEB% web to include users that should have administrator status. Read [[InstallationGuide#DefineAdminUser][defining adminstrator user(s)]] for more information.
    <blockquote class="foswikiHelp"> %X% *This is a very important step*, as users in this group can access _all_ topics, independent of %WIKITOOLNAME% access controls.</blockquote>%ENDSECTION{"TESTING"}%
 
@@ -235,7 +235,7 @@ If you have to turn IP matching off, and cookies can't be relied on, then you ma
 Most Foswiki sites don't use SSL, so, as is the case with *most* sites that don't use SSL, there is always a possibility that a password could be picked out of the aether. Browsers do not encrypt passwords sent over non-SSL links, so using Apache Login is no more secure than Template Login.
 
 Of the two shipped login managers, Apache Login is probably the most useful. It lets you do this sort of thing:
-<tt>wget --http-user=RogerRabbit --http-password=i'mnottelling <nop>http://www.example.com/bin/save/Sandbox/StuffAUTOINC0?text=hohoho,%20this%20is%20interesting</tt>
+<tt>wget --http-user=RogerRabbit --http-password=i'mnottelling <nop>http://www.example.com/bin/save/%SANDBOXWEB%/StuffAUTOINC0?text=hohoho,%20this%20is%20interesting</tt>
 i.e. pass in a user and password to a request from the command-line. However it doesn't let you log out.
 
 Template Login degrades to url re-writing when you use a client like dillo that does not support cookies. However, you can log out and back in as a different user.

@@ -123,13 +123,13 @@ The Webs section lists all the webs
 <li> <img src="%ICONURL{web-bg}%" border="0" alt="" width="16" height="16" style="background-color:#FFEFA6" />&nbsp;<nop>%USERSWEB% </li>
 <li> <img src="%ICONURL{web-bg}%" border="0" alt="" width="16" height="16" style="background-color:#AAEFA6" />&nbsp;<nop>Myco </li>
 <li> <img src="%ICONURL{web-bg}%" border="0" alt="" width="16" height="16" style="background-color:#44EFA6" />&nbsp;<nop>Project </li>
-<li> <img src="%ICONURL{web-bg}%" border="0" alt="" width="16" height="16" style="background-color:#B9DAFF" />&nbsp;<nop>Sandbox </li>
+<li> <img src="%ICONURL{web-bg}%" border="0" alt="" width="16" height="16" style="background-color:#B9DAFF" />&nbsp;<nop>%SANDBOXWEB% </li>
 <li> <img src="%ICONURL{web-bg}%" border="0" alt="" width="16" height="16" style="background-color:#FFD8AA" />&nbsp;<nop>%SYSTEMWEB% </li>
 </ul>
 
 A web is a collection of pages that are related closely together
 
-The %USERSWEB% contains all the user home pages. The %SYSTEMWEB% contains documentation for Foswiki and all extensions. The Sandbox is a playground area.
+The %USERSWEB% contains all the user home pages. The %SYSTEMWEB% contains documentation for Foswiki and all extensions. The %SANDBOXWEB% is a playground area.
 
 Your wiki may contain any number of webs, and webs can contain other webs.
 

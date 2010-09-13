@@ -35,9 +35,9 @@ Include meta navigation with:
     "%TOPIC%"
     section="topbarbutton"
     ID=""
-    DESTWEB="Sandbox"
+    DESTWEB="%SANDBOXWEB%"
     DESTTOPIC="WebHome"
-    LABEL="Sandbox"
+    LABEL="%SANDBOXWEB%"
 }%
 </ul><br class="foswikiClear" /></div>%ENDSECTION{"main"}%
 

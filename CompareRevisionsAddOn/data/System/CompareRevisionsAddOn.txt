@@ -20,7 +20,7 @@ The differences may be shown in two formats, either side-by-side or as an interw
    * Screenshot of side-by-side output: <br />
      <div class="twikiImage"><img src="%ATTACHURLPATH%/sidebyside.png" alt="sidebyside.png" width='582' height='565' /></div>
 
-These screenshots have been taken from Sandbox.CompareRevisionsAddOnDemoTopic.
+These screenshots have been taken from %SANDBOXWEB%.CompareRevisionsAddOnDemoTopic.
 
 The appearance can be affected by templates and skins.
 
@@ -148,7 +148,7 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 
    * Test if the installation was successful:%BR%
      Call ==%<nop>SCRIPTURL%/compare/Web/Topic== with
-     some existing topic. (Try for instance Sandbox.CompareRevisionsAddOnDemoTopic and 
+     some existing topic. (Try for instance %SANDBOXWEB%.CompareRevisionsAddOnDemoTopic and 
      compare your output with above screenshots).
 
    * Enable the helper plugin CompareRevisionsAddonPlugin with the configure script

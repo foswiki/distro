@@ -403,10 +403,10 @@ Refresh the WebStatistics topics in range of webs.
 
 for example:
    1 from browser %SCRIPTURL{"statistics"}% updates _all user webs_
-   2 from browser %SCRIPTURL{"statistics"}%?webs=Userweb,Sandbox updates _Userweb,Sandbox_
+   2 from browser %SCRIPTURL{"statistics"}%?webs=Userweb,%SANDBOXWEB% updates _Userweb,%SANDBOXWEB%_
    3 from browser %SCRIPTURL{"statistics"}%/%WEB% updates %WEB%
    4 from command line bin/statistics updates _all user webs_
-   5 from command line bin/statistics -webs=Userweb,Sandbox updates _Userweb,Sandbox_
+   5 from command line bin/statistics -webs=Userweb,%SANDBOXWEB% updates _Userweb,%SANDBOXWEB%_
    6 from command line bin/statistics %WEB%.<nop>WebHome updates %WEB%
 
 see SiteTools#WebStatistics_site_statistics for updating statistics using cron.

@@ -106,7 +106,7 @@ However, it can be desirable to default all your created webs to exclude %USERSW
 
 This can be acheived by setting the =DENYWEBVIEW= setting (as below) in the %LOCALSITEPREFS% topic, and then 'un-setting' it for specific Web's or topics.
 
-__Note:__ that your %USERSWEB%, %SYSTEMWEB% and Sandbox webs are still viewable by guest users
+__Note:__ that your %USERSWEB%, %SYSTEMWEB% and %SANDBOXWEB% webs are still viewable by guest users
 
 ---+++ Controlling access to a Web
 

@@ -91,7 +91,7 @@ The =configure= page mentioned in this document is accessible via your web brows
       * Foswiki:Support.UpgradingPatchReleases - upgrading releases where only last digit in the version changed
 -->
 
-Test your newly-installed Foswiki site and ensure that its basic functionality works: viewing and editing topics (you can try creating and editing a topic in the Sandbox web).
+Test your newly-installed Foswiki site and ensure that its basic functionality works: viewing and editing topics (you can try creating and editing a topic in the %SANDBOXWEB% web).
 
 To make it easier to follow the subsequent steps, you can view this upgrade guide using your new Foswiki site by entering =%SYSTEMWEB%.UpgradeGuide= into the "Jump" text box on the top right of any topic. By doing this instead of using the UpgradeGuide.html file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
 
@@ -121,7 +121,7 @@ Activate, and if required, configure the installed extensions in =configure=.
    * =find data -name '*,v' -exec rcs -u -M '{}' \;=
    * =find pub -name '*,v' -exec rcs -u -M '{}' \;=
 
-*Copy your local webs* over to the data and pub directories of the new installation. Do not copy the default webs: &lt;old_system_web&gt; (by default, either System or TWiki), Main, Trash, Sandbox, _default, and _empty.
+*Copy your local webs* over to the data and pub directories of the new installation. Do not copy the default webs: &lt;old_system_web&gt; (by default, either System or TWiki), Main, Trash, %SANDBOXWEB%, _default, and _empty.
    * Make sure the data and pub directories, as well as the files within them, are readable and writeable by the web server user.
    * *Note:* Foswiki's =WebChanges= topics depend on the file timestamp. If you touch the .txt files make sure to preserve the timestamp, or change them in the same chronological order as the old file timestamps.
 
@@ -159,7 +159,7 @@ Activate, and if required, configure the installed extensions in =configure=.
    * If you are upgrading from Cairo and are using the Htpasswd login manager, run the =tools/upgrade_emails.pl= script to move the user emails out of the user topics and into the password file.
    * If you have customized =&lt;old_system_web&gt;.TWikiRegistration=, then modify =%SYSTEMWEB%.UserRegistration= in the new installation to contain your customizations.
 
-*Copy over any topics and attachments you want to preserve from the Sandbox web* in the old installation: copy the desired files from =&lt;oldwiki&gt;/data/Sandbox/= to =&lt;newwiki&gt;/data/Sandbox= and from =&lt;oldwiki&gt;/pub/Sandbox/= to =&lt;newwiki&gt;/pub/Sandbox= . Some pages you may wish to preserve are the =WebHome= topic and the =WebLeftBar= topic (if you had created it in the old wiki installation). The Sandbox web often contains work-in-progress topics that users will want to keep.
+*Copy over any topics and attachments you want to preserve from the %SANDBOXWEB% web* in the old installation: copy the desired files from =&lt;oldwiki&gt;/data/%SANDBOXWEB%/= to =&lt;newwiki&gt;/data/%SANDBOXWEB%= and from =&lt;oldwiki&gt;/pub/%SANDBOXWEB%/= to =&lt;newwiki&gt;/pub/%SANDBOXWEB%= . Some pages you may wish to preserve are the =WebHome= topic and the =WebLeftBar= topic (if you had created it in the old wiki installation). The %SANDBOXWEB% web often contains work-in-progress topics that users will want to keep.
 
 Make sure the data and pub directories, as well as the files within them, are readable and writeable by the web server user.
 

@@ -309,24 +309,24 @@ To link to a topic in a subweb write =Otherweb.Subweb.TopicName=.%BR%
 %H% The link label excludes the name of the web, e.g. only the topic name is shown. As an exception, the name of the web is shown for the <nop>%HOMETOPIC% topic. %BR%
 %X% Dots ='.'= are used to separate webs and subwebs from topic names and therefore cannot be used in topic names.
 
-It's generally a good idea to use the [[%SYSTEMWEB%.Macros][macros]] %<nop>SYSTEMWEB% and %<nop>USERSWEB% instead of %SYSTEMWEB% and %USERSWEB%.
+It's generally a good idea to use the [[%SYSTEMWEB%.Macros][macros]] %<nop>SYSTEMWEB%, %<nop>SANDBOXWEB% and %<nop>USERSWEB% instead of %SYSTEMWEB%, %SANDBOXWEB% and %USERSWEB%.
 </td><td>
 <verbatim class="tml">
 WebStatistics
 
-Sandbox.WebNotify
+%SANDBOXWEB%.WebNotify
 
-Sandbox.WebHome
+%SANDBOXWEB%.WebHome
 
-Sandbox.Subweb.TopicName
+%SANDBOXWEB%.Subweb.TopicName
 </verbatim>
 </td><td>
 
 WebStatistics
 
-Sandbox.WebNotify
+%SANDBOXWEB%.WebNotify
 
-Sandbox.%HOMETOPIC%
+%SANDBOXWEB%.%HOMETOPIC%
 
 <a href="#MyAnchor" title="simulated link">TopicName</a>
 </td>
@@ -383,7 +383,7 @@ Text within the brackets may contain optional spaces; the topic name is formed b
 <verbatim class="tml">
 [[wiki syntax]]
 
-[[Sandbox.My unspaced topic]]
+[[%SANDBOXWEB%.My unspaced topic]]
 
 escaped:
 ![[wiki syntax]]

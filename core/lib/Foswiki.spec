@@ -1240,6 +1240,11 @@ $Foswiki::cfg{SystemWebName} = 'System';
 $Foswiki::cfg{TrashWebName} = 'Trash';
 
 # **STRING 20 EXPERT**
+# Name of the web used as a trashcan (where deleted topics are moved)
+# If you change this setting, you must make sure the web exists.
+$Foswiki::cfg{SandboxWebName} = 'Sandbox';
+
+# **STRING 20 EXPERT**
 # Name of site-level preferences topic in the {SystemWebName} web.
 # <b>If you change this setting you will have to
 # use Foswiki and *manually* rename the existing topic.</b>

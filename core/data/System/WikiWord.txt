@@ -64,9 +64,9 @@ When you type a !WikiWord, you establish a hyperlink. It's as easy as that.
 When you write the name of a topic, it becomes a link. There are more ways
 
    * To write a custom *link label*, use bracket notation: =[<nop>[AccessControl][access control]]= - this becomes: [[AccessControl][access control]]
-   * To link to a topic in *another web*, write: =Sandbox.WebSearch= - this becomes: Sandbox.WebSearch
-   * To link to a topic in *another subweb* write: =Sandbox.Subweb.WebSearch=.
-   * To show the web name in the link use bracket notation: =[<nop>[Sandbox.%HOMETOPIC%]]= - this becomes: [[Sandbox.%HOMETOPIC%]]
+   * To link to a topic in *another web*, write: =%SANDBOXWEB%.WebSearch= - this becomes: %SANDBOXWEB%.WebSearch
+   * To link to a topic in *another subweb* write: =%SANDBOXWEB%.Subweb.WebSearch=.
+   * To show the web name in the link use bracket notation: =[<nop>[%SANDBOXWEB%.%HOMETOPIC%]]= - this becomes: [[%SANDBOXWEB%.%HOMETOPIC%]]
    * To link to a topic on *another Wiki site*, use: =Foswiki:Main/WebHome= - this becomes: Foswiki:Main/WebHome (sites are defined in the InterwikiPlugin)
    * To link to a part on the *same page*, write a "#" followed by the name of an anchor. The anchor is a "#" followed by a name which must be a !WikiName. Example =#MyAnchor=. You can also link to an anchor on another page: =%SYSTEMWEB%.%HOMETOPIC%#MyAnchor=.
    * To link to a header on the *same page*, write a "#" followed by the header text, with spaces replaced by underscores (and =!= removed): =[<nop>[#Good_examples_of_WikiWords]]= becomes: [[#Good_examples_of_WikiWords]]. You can also link to a header on another page: =%SYSTEMWEB%.%HOMETOPIC%#Disclaimer= becomes: %SYSTEMWEB%.%HOMETOPIC%#Disclaimer.
@@ -81,7 +81,7 @@ When you write the name of a topic, it becomes a link. There are more ways
       * Numbers are considered lowercase which makes =Year2K= and =Y2K= !WikiWords but not =Y2000= and =Y2k=.
    * Turn acronyms into !WikiWords, i.e. take =FaqIndex= for a "FAQ index" topic.
    * It is possible to turn off the auto-linking of !WikiWords and to rely only on the bracket notation using the NOAUTOLINK [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
-   * %X% When linking to a <nop>%HOMETOPIC% topic _in another web_, the link will be rendered as the name of the web, e.g. =Sandbox.%HOMETOPIC%= becomes Sandbox.%HOMETOPIC%.
+   * %X% When linking to a <nop>%HOMETOPIC% topic _in another web_, the link will be rendered as the name of the web, e.g. =%SANDBOXWEB%.%HOMETOPIC%= becomes %SANDBOXWEB%.%HOMETOPIC%.
    * %X% Dots (.) are used as seperators between webs, subwebs, and topics. It is not possible to use dots in topic names. Foswiki does not attempt to guess if a dot could be part of a topic name.
 
 ---

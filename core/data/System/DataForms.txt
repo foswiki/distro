@@ -35,9 +35,9 @@ A form definition specifies the fields in a form. A form definition is simply a 
 
 *Preview:*
 | *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
-| <a href="%SCRIPTURLPATH{"view"}%/Sandbox/TopicClassification"><nop>TopicClassification</a> | select |  1  | <a href="%SCRIPTURLPATH{"view"}%/Sandbox/NoDisclosure"><nop>NoDisclosure</a>, <a href="%SCRIPTURLPATH{"view"}%/Sandbox/PublicSupported"><nop>PublicSupported</a>, <a href="%SCRIPTURLPATH{"view"}%/Sandbox/PublicFAQ"><nop>PublicFAQ</a> | blah blah... | &nbsp; |
-| <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OperatingSystem"><nop>OperatingSystem</a> | checkbox |  3  | <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsHPUX"><nop>OsHPUX</a>, <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsLinux"><nop>OsLinux</a>, <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsSolaris"><nop>OsSolaris</a>, <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsWin"><nop>OsWin</a> | blah blah... | &nbsp; |
-| <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsVersion"><nop>OsVersion</a> | text |  16  | | blah blah... | &nbsp; |
+| <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/TopicClassification"><nop>TopicClassification</a> | select |  1  | <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/NoDisclosure"><nop>NoDisclosure</a>, <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/PublicSupported"><nop>PublicSupported</a>, <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/PublicFAQ"><nop>PublicFAQ</a> | blah blah... | &nbsp; |
+| <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OperatingSystem"><nop>OperatingSystem</a> | checkbox |  3  | <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsHPUX"><nop>OsHPUX</a>, <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsLinux"><nop>OsLinux</a>, <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsSolaris"><nop>OsSolaris</a>, <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsWin"><nop>OsWin</a> | blah blah... | &nbsp; |
+| <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsVersion"><nop>OsVersion</a> | text |  16  | | blah blah... | &nbsp; |
 </blockquote>
 
 <blockquote class="foswikiHelp"> %X% Do *not* use the field name =undefined= (or any variant of that name, such as !UnDefined), as that name is reserved for use in search queries.</blockquote>

@@ -193,7 +193,7 @@ Toctalk output message 2
 Post to a different topic and return to here. In this example comments are written to [[%COMMENT_TOPIC%]].
 
 <!--
-   * Set COMMENT_TOPIC = Sandbox.CommentPluginExampleComments
+   * Set COMMENT_TOPIC = %SANDBOXWEB%.CommentPluginExampleComments
 -->
 
 _Comments:_
@@ -209,9 +209,9 @@ _Comments:_
 
 
 ---+++ =noform=
-Example of a custom form to save a comment to a new topic. When the topic is created the parent will be our Sandbox [[Sandbox.CommentPluginExampleComments][example topic]].
+Example of a custom form to save a comment to a new topic. When the topic is created the parent will be our %SANDBOXWEB% [[%SANDBOXWEB%.CommentPluginExampleComments][example topic]].
 
-<form method="post" action="%SCRIPTURL{save}%/Sandbox/" enctype="application/x-www-form-urlencoded" name="noformcomment0" id="noformcomment0">
+<form method="post" action="%SCRIPTURL{save}%/%SANDBOXWEB%/" enctype="application/x-www-form-urlencoded" name="noformcomment0" id="noformcomment0">
 <input type="hidden" name="topicparent" value="CommentPluginExampleComments" />
 <input type="hidden" name="comment_action" value="save" />
 <input type="hidden" name="nonwikiword" value="off" />
@@ -233,7 +233,7 @@ Example of a custom form to save a comment to a new topic. When the topic is cre
 
 #TemplateTopic
 ---+++ =templatetopic=
-Example of a form definition in a topic. The comment template is located in Sandbox.CommentPluginTemplateExample.
+Example of a form definition in a topic. The comment template is located in %SANDBOXWEB%.CommentPluginTemplateExample.
 
 
 #CommentDate1176024819
@@ -242,7 +242,7 @@ Main.ProjectContributor - 08 Apr 2007:
 templatetopic example comment output 1
 
 ---
-%COMMENT{noform="on" type="example" templatetopic="Sandbox.CommentPluginTemplateExample" target="%TOPIC%" button="Add comment" }%
+%COMMENT{noform="on" type="example" templatetopic="%SANDBOXWEB%.CommentPluginTemplateExample" target="%TOPIC%" button="Add comment" }%
 
 ---
    * Bottom comment output 1 -- Main.ProjectContributor - 26 Nov 2006

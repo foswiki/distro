@@ -359,6 +359,7 @@ BEGIN {
     $macros{STATISTICSTOPIC}   = sub { $Foswiki::cfg{Stats}{TopicName} };
     $macros{SYSTEMWEB}         = sub { $Foswiki::cfg{SystemWebName} };
     $macros{TRASHWEB}          = sub { $Foswiki::cfg{TrashWebName} };
+    $macros{SANDBOXWEB}        = sub { $Foswiki::cfg{SandboxWebName} };
     $macros{WIKIADMINLOGIN}    = sub { $Foswiki::cfg{AdminUserLogin} };
     $macros{USERSWEB}          = sub { $Foswiki::cfg{UsersWebName} };
     $macros{WEBPREFSTOPIC}     = sub { $Foswiki::cfg{WebPrefsTopicName} };
