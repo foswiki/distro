@@ -57,10 +57,31 @@ sub d2n {
     return ( $y * 12 + $m ) * 31 + $d;
 }
 
+# Get release & version strings which should indicate the running Foswiki's
+# version, unless this an un-built developer checkout...
+sub _getBuildStrings {
+    require Foswiki;
+    require Foswiki::Plugins;
+
+    my @strings;
+
+    # SMELL: Should this be fully/properly URL encoded?
+    foreach my $string ( $Foswiki::RELEASE, $Foswiki::VERSION,
+        $Foswiki::Plugins::VERSION )
+    {
+        $string =~ s/;/&#59;/g;
+
+        push( @strings, $string );
+    }
+
+    return @strings;
+}
+
 # Download the report page from the repository, and extract a hash of
 # available extensions
 sub _getListOfExtensions {
     my $this = shift;
+    my ( $release, $version, $pluginsapi ) = _getBuildStrings();
 
     $this->findRepositories();
 
@@ -74,7 +95,8 @@ sub _getListOfExtensions {
 
             push( @consulted, $place->{name} );
 
-            my $url = $place->{data} . 'FastReport?skin=text';
+            my $url = $place->{data}
+              . "FastReport?skin=text;release=$release;version=$version;pluginsapi=$pluginsapi";
             if ( defined( $place->{user} ) ) {
                 $url .= ';username=' . $place->{user};
                 if ( defined( $place->{pass} ) ) {
@@ -101,8 +123,10 @@ sub _getListOfExtensions {
                         #TemplateAuth login required....
                         my $errorMsg =
 "Error accessing $place->{name}: TemplateAuth failure";
-                        if (   !defined( $place->{user} )
-                            or !defined( $place->{pass} ) )
+                        if (
+                            not(    defined( $place->{user} )
+                                and defined( $place->{pass} ) )
+                          )
                         {
                             $errorMsg .=
 " you probably need to add the optional <code>,username,password)</code> options to the repository definition";
@@ -130,7 +154,7 @@ sub _getListOfExtensions {
                 );
 
                 #see if its because LWP isn't installed..
-                eval "require LWP";
+                eval { require LWP };
                 if ($@) {
                     push(
                         @{ $this->{errors} },
@@ -162,14 +186,14 @@ sub _parseRow {
         return '';
     }
 
-    chomp($data{topic});
+    chomp( $data{topic} );
     $data{name}       = $data{topic};
     $data{repository} = $place->{name};
     $data{data}       = $place->{data};
     $data{pub}        = $place->{pub};
     $data{type}       = 'perl';
 
-    my $dep = new Foswiki::Configure::Dependency(%data);
+    my $dep = Foswiki::Configure::Dependency->new(%data);
     $dep->studyInstallation();
 
     # If release isn't specified, then use the version string
