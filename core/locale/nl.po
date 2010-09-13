@@ -54,7 +54,7 @@ msgstr "%1 - Registratie mislukt voor %2 (%3)"
 msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - Registratie voor %2 (%3)"
 
-#: PatternSkin/templates/view.pattern.tmpl:41
+#: PatternSkin/templates/view.pattern.tmpl:40
 msgid "%1 Web"
 msgstr "%1 Web"
 
@@ -177,7 +177,7 @@ msgstr "&Afbreken"
 msgid "&Edit text"
 msgstr "Tekst b&ewerken"
 
-#: core/templates/foswiki.tmpl:162
+#: core/templates/foswiki.tmpl:164
 msgid "&History"
 msgstr "&Geschiedenis"
 
@@ -304,7 +304,7 @@ msgstr "(geen)"
 msgid "(otherwise search %1 Web only)"
 msgstr "(of zoek alleen in %1 web)"
 
-#: PatternSkin/templates/view.pattern.tmpl:43
+#: PatternSkin/templates/view.pattern.tmpl:42
 msgid "(raw view)"
 msgstr "(brontekst)"
 
@@ -313,7 +313,7 @@ msgstr "(brontekst)"
 msgid "(rename)"
 msgstr "(hernoem)"
 
-#: PatternSkin/templates/view.pattern.tmpl:43
+#: PatternSkin/templates/view.pattern.tmpl:42
 msgid "(revision %1)"
 msgstr "(revisie %1)"
 
@@ -349,11 +349,11 @@ msgstr ""
 "gewijzigd, maar de toelichting in het bijlage-geschiedenisoverzicht blijft "
 "de toelichting toen het bestand werd geupload."
 
-#: core/data/System/WikiSyntaxSummary.txt:9
+#: core/data/System/WikiSyntaxSummary.txt:8
 msgid "*Formatting help:*"
 msgstr "*Opmaakhulp:*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -384,20 +384,20 @@ msgstr ""
 "bestand:_, dan is het deze bijlage die wordt bijgewerkt of toegevoegd."
 
 #: core/templates/attachagain.tmpl:17
+#, fuzzy
 msgid ""
 "*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
-"changed without uploading a file by pressing \"Change Properties only\"; see "
-"%1."
+"changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
 "*Eigenschappen:* De toelichting en zichtbaarheid (of een bijlage verborgen "
 "is) kun je wijzigen zonder een bestand te uploaden. Klik op \"Alleen "
 "eigenschappen wijzigen\"; zie %1."
 
-#: core/data/System/WikiSyntaxSummary.txt:10
+#: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
 msgstr "*vetgedrukt* zet woord/zin tussen asterisks: =<nop>*jouw zin*="
 
-#: core/data/System/WikiSyntaxSummary.txt:11
+#: core/data/System/WikiSyntaxSummary.txt:10
 msgid ""
 "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
 "your text="
@@ -405,7 +405,7 @@ msgstr ""
 "*bullet lijst* 3 spaties, asterisk, 1 spatie: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
 "jouw text="
 
-#: core/data/System/WikiSyntaxSummary.txt:15
+#: core/data/System/WikiSyntaxSummary.txt:14
 msgid ""
 "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
 "Yahoo]]="
@@ -413,26 +413,26 @@ msgstr ""
 "*externe links* =http://yahoo.com= of =[<nop>[http://yahoo.com/][link naar "
 "Yahoo]]="
 
-#: core/data/System/WikiSyntaxSummary.txt:12
+#: core/data/System/WikiSyntaxSummary.txt:11
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
 msgstr "*koppen* 3 minnen, 1 tot 6 plussen, 1 spatie: =---++&&nbsp;Jouw Kop="
 
-#: core/data/System/WikiSyntaxSummary.txt:13
+#: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
 msgstr ""
 "*schuingedrukt* zet woord/zin tussen liggende streepjes: =_<nop>jouw "
 "woorden_="
 
-#: core/data/System/WikiSyntaxSummary.txt:16
+#: core/data/System/WikiSyntaxSummary.txt:15
 msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
 msgstr ""
 "*machineschrift* zet woord/zin tussen '=' tekens: =<nop>=jouw woorden=="
 
-#: core/data/System/WikiSyntaxSummary.txt:17
+#: core/data/System/WikiSyntaxSummary.txt:16
 msgid "*paragraphs* separate with blank line"
 msgstr "*paragrafen* scheiden met een lege regel"
 
-#: core/data/System/WikiSyntaxSummary.txt:14
+#: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
 "*site links* gebruik de paginanaam: =%1= of =[<nop>[%1][Onze homepage]]="
@@ -453,13 +453,19 @@ msgstr ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
 "pagina&#39;s, <a href='%7' rel='nofollow'>alle wijzigingen</a>"
 
-#: core/templates/more.tmpl:89
+#: core/templates/more.tmpl:90
 msgid "<em>in %1 web</em> only"
 msgstr "alleen <em>in %1 web</em>"
 
-#: core/templates/more.tmpl:87
+#: core/templates/more.tmpl:88
 msgid "<em>in all public webs</em>"
 msgstr "<em>in alle publieke webs</em>"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
+msgid ""
+"<strong>Confirmation required!</strong><span>Press OK to confirm this change "
+"was intentional</span><span>Press Cancel otherwise</span>"
+msgstr ""
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -484,7 +490,7 @@ msgstr ""
 "bijvoorbeeld =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:929
+#: core/lib/Foswiki/UI/Register.pm:927
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Een bevestigings e-mail is verstuurd naar %1"
 
@@ -539,10 +545,13 @@ msgstr "Geen toegang"
 msgid "Access check on %1 failed"
 msgstr "Toegangscontrole op %1 niet gelukt"
 
-#: PatternSkin/templates/edit.pattern.tmpl:47
-#: PatternSkin/templates/preview.pattern.tmpl:21
-#: PatternSkin/templates/settings.pattern.tmpl:21
+#: PatternSkin/templates/edit.pattern.tmpl:67
 msgid "Access keys"
+msgstr "Sneltoetsen"
+
+#: PatternSkin/templates/settings.pattern.tmpl:21
+#, fuzzy
+msgid "Access keys:"
 msgstr "Sneltoetsen"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -559,7 +568,7 @@ msgstr "Actie %1: %2."
 msgid "Add"
 msgstr "Rij erbij"
 
-#: core/data/Main/GroupViewTemplate.txt:141
+#: core/data/Main/GroupViewTemplate.txt:143
 msgid "Add a user to this group"
 msgstr ""
 
@@ -567,17 +576,17 @@ msgstr ""
 msgid "Add form"
 msgstr "Formulier toevoegen"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:162
+#: EditTablePlugin/data/System/EditTablePlugin.txt:163
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
 msgid "Add row"
 msgstr "Rij erbij"
 
-#: core/data/Main/GroupViewTemplate.txt:143
+#: core/data/Main/GroupViewTemplate.txt:145
 #, fuzzy
 msgid "Add user"
 msgstr "Rij erbij"
 
-#: core/data/Main/GroupViewTemplate.txt:79
+#: core/data/Main/GroupViewTemplate.txt:80
 msgid "Add user..."
 msgstr ""
 
@@ -620,11 +629,15 @@ msgstr ""
 "*automatisch gegenereerde* wachtwoord, en een link naar de pagina waar je "
 "het wachtwoord kan wijzigen."
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
+msgid "Ah, no!"
+msgstr ""
+
 #: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
 msgid "All public webs"
 msgstr "Alle publieke webs"
 
-#: core/templates/foswiki.tmpl:44
+#: core/templates/foswiki.tmpl:45
 msgid "Allow non <nop>WikiWord for the new topic name"
 msgstr "Een niet-<nop>WikiWord mag worden gebruikt als paginanaam"
 
@@ -655,6 +668,15 @@ msgstr ""
 "Een foutmeldingspagina wordt getoond als een van de pagina&#39;s is "
 "vergrendeld door een andere gebruiker."
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+#, fuzzy
+msgid ""
+"An evil person may try to use your login identity to change content in your "
+"wiki without your knowledge.<span class="
+msgstr ""
+"Het zou kunnen zijn dat iemand zich voordoet als jou, om buiten je medeweten "
+"inhoud op %1 te veranderen."
+
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
 msgstr "En gevuld met pagina&#39;s van het basisweb"
@@ -683,7 +705,7 @@ msgstr "Voeg bijlage toe aan pagina %1"
 msgid "Attach image or document on %1"
 msgstr "Voeg afbeelding of document toe aan %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:36 core/templates/attach.tmpl:15
+#: PatternSkin/templates/attach.pattern.tmpl:43 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "Voeg nieuwe bijlage toe"
@@ -710,11 +732,6 @@ msgstr "Bijlage bestaat niet"
 msgid "Attachment history"
 msgstr "Bijlagen"
 
-#: core/lib/Foswiki/UI/RDiff.pm:63
-#, fuzzy
-msgid "Attachment metadata"
-msgstr "Verplaatsen van bijlage is niet gelukt"
-
 #: core/templates/messages.tmpl:54
 msgid "Attachment move failed"
 msgstr "Verplaatsen van bijlage is niet gelukt"
@@ -729,7 +746,7 @@ msgstr "Bijlage"
 msgid "Attachments"
 msgstr "Bijlagen"
 
-#: PatternSkin/templates/attach.pattern.tmpl:14
+#: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
 msgstr "Help bij Bijlagen"
 
@@ -737,7 +754,7 @@ msgstr "Help bij Bijlagen"
 msgid "Attachments of %1"
 msgstr "Bijlagen van %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:64 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "Bijlage zal niet worden getoond in de lijst van bijlagen op de pagina."
 
@@ -772,7 +789,7 @@ msgstr "Beschikbare templates in %1 Web:"
 msgid "Back to topic"
 msgstr "Terug naar pagina"
 
-#: core/templates/more.tmpl:85 core/templates/viewtopicactionbuttons.tmpl:89
+#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:89
 msgid "Backlinks"
 msgstr "Verwijzingen"
 
@@ -827,12 +844,13 @@ msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
 "Kan geen e-mailadres vinden voor %1 (vereist voor instellen van wachtwoord)"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:164
+#: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:109
-#: JQueryPlugin/data/System/VarBUTTON.txt:28 core/templates/foswiki.tmpl:133
-#: core/templates/validate.tmpl:51
+#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
+#: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
 msgid "Cancel"
 msgstr "Afbreken"
 
@@ -929,7 +947,7 @@ msgid "Changes"
 msgstr "Wijzigingen"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:582
+#: core/lib/Foswiki/UI/RDiff.pm:584
 msgid "Changes from r%1 to r%2"
 msgstr "Wijzigingen van r%1 naar r%2"
 
@@ -949,7 +967,7 @@ msgstr ""
 "Aangevinkte pagina&#39;s zullen worden geupdate zodat ze verwijzen naar de "
 "nieuwe webnaam."
 
-#: core/templates/more.tmpl:188
+#: core/templates/more.tmpl:189
 msgid "Child topics in %1 web"
 msgstr "Onderliggende pagina&#39;s in %1 web"
 
@@ -970,8 +988,8 @@ msgstr ""
 "Klik om de pagina terug te plaatsen naar de vorige locatie, met de optieom "
 "verwijzigen te wijzigen."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:477
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:94
+#: TwistyPlugin/data/System/TwistyPlugin.txt:460
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
 msgid "Close"
 msgstr "Sluiten"
 
@@ -980,16 +998,28 @@ msgid "Color %1 has an invalid format"
 msgstr "Kleur %1 heeft een ongeldig formaat"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:34
-#: PatternSkin/templates/attach.pattern.tmpl:45 core/templates/attach.tmpl:24
+#: PatternSkin/templates/attach.pattern.tmpl:52 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Toelichting"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:76 core/templates/more.tmpl:151
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:55
+msgid "Commenting is disabled when not in view context"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:59
+msgid "Commenting is disabled while not logged in"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:52
+msgid "Commenting is disabled while running from the command line"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:76 core/templates/more.tmpl:152
 msgid "Compare revisions"
 msgstr "Vergelijk revisies"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:168
 #, fuzzy
 msgid "Confirm password"
 msgstr "Je wachtwoord:"
@@ -1081,7 +1111,7 @@ msgstr "Kon geen zoekactie uitvoeren. Foutmelding was: %1"
 msgid "Could not save %1."
 msgstr "Kon %1 niet bewaren."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:258
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
 #, fuzzy
 msgid "Country"
 msgstr "Land:"
@@ -1098,7 +1128,7 @@ msgstr "Nieuwe pagina aanmaken"
 msgid "Create New Topic in %1 Web"
 msgstr "Nieuwe pagina aanmaken in %1 Web"
 
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "Maak een link naar de bijlage"
 
@@ -1121,8 +1151,8 @@ msgstr "Nieuwe pagina aanmaken"
 msgid "Create the topic"
 msgstr "Maak deze pagina aan"
 
-#: core/data/System/DefaultPreferences.txt:373
-#: core/data/System/DefaultPreferences.txt:375
+#: core/data/System/DefaultPreferences.txt:377
+#: core/data/System/DefaultPreferences.txt:379
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicTemplate.txt:64
 #: core/lib/Foswiki/Render.pm:49
@@ -1147,7 +1177,7 @@ msgstr "Een passend formulierdefinitie pagina aanmaken"
 msgid "Current location:"
 msgstr "Huidige locatie:"
 
-#: core/templates/more.tmpl:99
+#: core/templates/more.tmpl:100
 msgid "Current parent:"
 msgstr "Huidige bovenliggende pagina:"
 
@@ -1165,7 +1195,7 @@ msgstr "Datum"
 msgid "Dear %1"
 msgstr "Beste %1"
 
-#: core/templates/more.tmpl:160
+#: core/templates/more.tmpl:161
 msgid "Debug"
 msgstr "Debuggen"
 
@@ -1184,20 +1214,20 @@ msgstr "Verwijder"
 msgid "Delete attachment"
 msgstr "Bijlage verwijderen"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:163
+#: EditTablePlugin/data/System/EditTablePlugin.txt:164
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:983
 msgid "Delete last row"
 msgstr "Laatste rij weg"
 
-#: core/templates/more.tmpl:49
+#: core/templates/more.tmpl:50
 msgid "Delete topic"
 msgstr "Pagina verwijderen"
 
-#: core/templates/more.tmpl:59
+#: core/templates/more.tmpl:60
 msgid "Delete topic..."
 msgstr "Verwijder pagina..."
 
-#: PatternSkin/templates/attach.pattern.tmpl:47
+#: PatternSkin/templates/attach.pattern.tmpl:54
 msgid "Describe the file so other people know what it is."
 msgstr "Beschrijf de bijlage zodat anderen weten wat het is."
 
@@ -1223,7 +1253,7 @@ msgid "Difference Topic"
 msgstr "Verschil:"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
-#: PatternSkin/templates/rdiff.pattern.tmpl:11
+#: PatternSkin/templates/rdiff.pattern.tmpl:9
 msgid "Difference:"
 msgstr "Verschil:"
 
@@ -1235,7 +1265,7 @@ msgstr ""
 msgid "Do not forget to save your changes"
 msgstr "Vergeet niet om je veranderingen te bewaren"
 
-#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:64 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "Toon bijlage niet in de tabel"
 
@@ -1343,7 +1373,7 @@ msgstr "Bewerk instellingen voor deze pagina"
 msgid "Edit text"
 msgstr "Bewerk tekst"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:159
+#: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "Bewerk deze tabel"
@@ -1355,6 +1385,10 @@ msgstr "Bewerk de paginatekst"
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
 msgstr "Paginavoorkeuren"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
+msgid "Ehm, let me go back to correct the page..."
+msgstr ""
 
 #: core/templates/messages.tmpl:318
 msgid ""
@@ -1379,16 +1413,16 @@ msgstr ""
 "Je hebt geen bestand geselecteerd, of het bestand dat je wil uploaden is "
 "leeg (0 bytes). Je kunt geen leeg bestand uploaden."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:159
 #, fuzzy
 msgid "Email address"
 msgstr "E-mailadres:"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:462
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:460
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "E-mail is gedeactiveerd voor deze Foswiki installatie"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:81
+#: PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Enlarge edit box"
 msgstr "Tekstvak vergroten"
 
@@ -1448,6 +1482,11 @@ msgstr "Fout tijdens het bewaren van de pagina"
 msgid "Errors removing users from groups"
 msgstr ""
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
+#, fuzzy
+msgid "Evil person"
+msgstr "Bewerk persoonlijke gegevens"
+
 #: core/lib/Foswiki/Plugins.pm:366
 msgid "Failed plugins"
 msgstr ""
@@ -1474,14 +1513,20 @@ msgstr "Het bestand is geupload met een andere naam"
 msgid "Find similar topics"
 msgstr "Vind soortgelijke pagina's"
 
-#: core/templates/more.tmpl:86 core/templates/more.tmpl:88
+#: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
 msgstr "Pagina's die verwijzen naar %1 ..."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:138
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
 #, fuzzy
 msgid "First name"
 msgstr "Voornaam:"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
+msgid ""
+"For more detailed information on cross-site request forgery, and the dangers "
+"it poses to you, see "
+msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1500,6 +1545,11 @@ msgstr "Formulierdefinitie %1 ontbreekt"
 msgid "Form data"
 msgstr ""
 
+#: PatternSkin/templates/form.pattern.tmpl:13
+#, fuzzy
+msgid "Form definition"
+msgstr "Formulierdefinitie ontbreekt"
+
 #: core/templates/messages.tmpl:343
 #, fuzzy
 msgid "Form definition '%1' not found"
@@ -1513,33 +1563,24 @@ msgstr "Formulierdefinitie ontbreekt"
 msgid "Foswiki User Authentication"
 msgstr "Foswiki gebruikers authenticatie."
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:5
+msgid ""
+"Foswiki checks all requests it receives from browsers, and tries to check "
+"that the persons using the browsers intentionally sent them."
+msgstr ""
+
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
 msgstr "Foswiki wachtwoord opnieuw ingesteld voor %1"
 
+#: core/templates/attach.tmpl:3
+#, fuzzy
+msgid "Get help on attaching files"
+msgstr "heeft meer informatie over het toevoegen van bestanden."
+
 #: core/templates/settings.tmpl:25
-msgid ""
-"Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
-"rel='nofollow'>Setting topic preferences</a>."
+msgid "Get help on setting topic preferences"
 msgstr ""
-"Meer info over <a target='Macros' class='foswikiPopUp' href='%1' "
-"rel='nofollow'>Pagina-instellingen</a>."
-
-#: core/templates/renamebase.tmpl:69
-msgid ""
-"Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
-"rel='nofollow'>Renaming and moving topics</a>."
-msgstr ""
-"Meer info over <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
-"rel='nofollow'>hernoemen en verplaatsen van pagina&#39;s</a>."
-
-#: core/templates/renamewebbase.tmpl:50
-msgid ""
-"Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
-"rel='nofollow'>Renaming and moving webs</a>."
-msgstr ""
-"Meer info over <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
-"rel='nofollow'>hernoemen en verplaatsen van pagina&#39;s</a>."
 
 #: core/data/System/WebSearch.txt:157
 msgid "Get notified on changes on this search"
@@ -1550,7 +1591,7 @@ msgstr "Abonneer je op wijzigingen op deze zoekvraag"
 msgid "Globe"
 msgstr "Sluiten"
 
-#: core/templates/foswiki.tmpl:137
+#: core/templates/foswiki.tmpl:139
 msgid "Go back"
 msgstr "Terug"
 
@@ -1596,7 +1637,7 @@ msgstr "Groepen"
 msgid "Hello %1"
 msgstr "Hallo %1"
 
-#: core/templates/foswiki.tmpl:166
+#: core/templates/foswiki.tmpl:168
 msgid "Hello %1!"
 msgstr "Hallo %1!"
 
@@ -1609,6 +1650,7 @@ msgstr "Help"
 msgid "Hide file"
 msgstr "Verberg bestand"
 
+#: PatternSkin/templates/renamebase.pattern.tmpl:11
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:48
 msgid "Hide help"
 msgstr "Verberg help"
@@ -1618,10 +1660,6 @@ msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 "Hi&&euml;rarchische Webs zijn niet geactiveerd; je kunt geen genest web "
 "aanmaken."
-
-#: core/data/System/SiteMap.txt:31
-msgid "Home"
-msgstr ""
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1669,6 +1707,12 @@ msgstr ""
 "Idee&&euml;n, verzoeken of problemen met betrekking tot %1? <a href='%"
 "2'>Stuur feedback</a>"
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
+msgid ""
+"If Foswiki detects a suspicious request that may have been sent from such a "
+"page, then you are asked to confirm the request."
+msgstr ""
+
 #: core/templates/messages.tmpl:431
 #, fuzzy
 msgid ""
@@ -1698,7 +1742,8 @@ msgstr ""
 "de juiste parameters."
 
 #: core/templates/validate.tmpl:41
-msgid "If you are unsure what this means, read:"
+#, fuzzy
+msgid "If you are unsure what this means, read: %1"
 msgstr "Als je wil weten wat dit betekent, lees eerst "
 
 #: core/templates/messages.tmpl:585
@@ -1785,11 +1830,18 @@ msgstr ""
 "kunnen veranderen), en als je je e-mailadres niet registreert met dit "
 "formulier,  kan je gebruikersaccount worden gekaapt door iemand anders."
 
-#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr ""
 "Afbeeldingen worden getoond op de pagina; voor anderssoortige bestanden "
 "wordt een link aangemaakt."
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:7
+msgid ""
+"In a possible scenario, an evil person has left a link to seduce you to "
+"visit a page on http<nop>://crime.org, which has some clever javascript on "
+"it."
+msgstr ""
 
 #: core/data/System/WebSearch.txt:104
 msgid "In reversed order"
@@ -1867,12 +1919,12 @@ msgstr ""
 "kunnen niet gemakkelijk worden samengevoegd, dus in dat geval raden we je "
 "aan om eerst af te stemmen met %1."
 
-#: core/templates/foswiki.tmpl:46
+#: core/templates/foswiki.tmpl:47
+#, fuzzy
 msgid ""
-"It's usually best to choose a <a target='WikiWord' class='foswikiPopUp' "
-"href='%1' rel='nofollow'>WikiWord</a> for the new topic name, otherwise "
-"automatic linking may not work. Characters not allowed in topic names, such "
-"as spaces will automatically be removed."
+"It's usually best to choose a %1 for the new topic name, otherwise automatic "
+"linking may not work. Characters not allowed in topic names, such as spaces "
+"will automatically be removed."
 msgstr ""
 "Het is over het algemeen beter om een <a target='WikiWord' "
 "class='foswikiPopUp' href='%1' rel='nofollow'>WikiWord</a> voor de nieuwe "
@@ -1910,7 +1962,7 @@ msgstr "Laatste bewerker"
 msgid "Last modified time"
 msgstr "Laatst bewerkt op"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:145
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:137
 #, fuzzy
 msgid "Last name"
 msgstr "Achternaam:"
@@ -1921,12 +1973,12 @@ msgstr "Beperk resultaten tot:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:165 core/lib/Foswiki/UI/RDiff.pm:168
+#: core/lib/Foswiki/UI/RDiff.pm:165 core/lib/Foswiki/UI/RDiff.pm:167
 msgid "Line: %1"
 msgstr "Regel: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:327
+#: core/lib/Foswiki/UI/RDiff.pm:329
 msgid "Line: %1 to %2"
 msgstr "Regel: %1 tot %2"
 
@@ -1955,7 +2007,7 @@ msgstr "Log uit"
 msgid "Log on with your username and password"
 msgstr "Vul je gebruikersnaam en wachtwoord in"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:160
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:152
 #, fuzzy
 msgid "Login name"
 msgstr "Inlognaam %1"
@@ -1990,7 +2042,7 @@ msgstr "Ontbrekende velden"
 msgid "Missing action command"
 msgstr "Ontbrekende actieopdracht"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:46
+#: PatternSkin/templates/foswiki.pattern.tmpl:45
 msgid "Modify search"
 msgstr "Pas zoekactie aan"
 
@@ -1998,11 +2050,16 @@ msgstr "Pas zoekactie aan"
 msgid "More Actions on Topic %1"
 msgstr "Meer pagina-acties voor pagina %1"
 
-#: core/data/System/WikiSyntaxSummary.txt:18
+#: core/data/System/WikiSyntaxSummary.txt:17
 msgid "More formatting help"
 msgstr "Meer opmaakhulp"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:26
+#: core/templates/attachagain.tmpl:17
+#, fuzzy
+msgid "More on hiding attachments"
+msgstr "Verplaats of verwijder bijlage"
+
+#: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
 msgstr "Meer pagina acties..."
@@ -2012,8 +2069,8 @@ msgstr "Meer pagina acties..."
 msgid "More view options:"
 msgstr "Meer pagina acties..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:476
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:90
+#: TwistyPlugin/data/System/TwistyPlugin.txt:459
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
 msgid "More..."
 msgstr "Meer..."
 
@@ -2097,7 +2154,7 @@ msgstr "Nieuwe paginanaam %1 is geen %2"
 msgid "New web name:"
 msgstr "Nieuwe webnaam:"
 
-#: core/templates/more.tmpl:157
+#: core/templates/more.tmpl:158
 msgid "Newer revision:"
 msgstr "Nieuwere revisie:"
 
@@ -2105,7 +2162,7 @@ msgstr "Nieuwere revisie:"
 msgid "No GroupName specified"
 msgstr ""
 
-#: core/templates/more.tmpl:189
+#: core/templates/more.tmpl:190
 msgid "No child topics"
 msgstr "Geen onderliggende pagina&#39;s"
 
@@ -2113,7 +2170,7 @@ msgstr "Geen onderliggende pagina&#39;s"
 msgid "No permission to view %1"
 msgstr "Geen permissie om %1 te bekijken"
 
-#: core/templates/more.tmpl:184
+#: core/templates/more.tmpl:185
 msgid "No previous revision exists."
 msgstr "Er is geen vorige paginarevisie beschikbaar."
 
@@ -2134,6 +2191,10 @@ msgstr "Geen gebruikers om de wachtwoorden opnieuw voor in te stellen."
 msgid "Not recommended when deleting a topic."
 msgstr "Niet aangeraden bij het verwijderen van een pagina."
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
+msgid "Not sure this is right, please confirm!"
+msgstr ""
+
 #: core/templates/moveattachment.tmpl:50
 msgid ""
 "Note that any URLs that refer to the attachment will be broken after this "
@@ -2149,6 +2210,13 @@ msgstr ""
 msgid "Note:"
 msgstr "Opmerking:"
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:28
+msgid ""
+"Note: you must have Cookies and Javascript enabled in your browser to get "
+"past this screen. This is normally the case, but if something doesn't work, "
+"this is where to look first."
+msgstr ""
+
 #: core/data/System/VarMAKETEXT.txt:15
 msgid "Notes:"
 msgstr "Opmerkingen:"
@@ -2162,11 +2230,10 @@ msgstr "Blijf op de hoogte"
 #: PatternSkin/data/System/WebLeftBarExample.txt:11
 #: PatternSkin/data/_default/WebLeftBar.txt:9
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:9
-#: core/data/System/SiteMap.txt:34
 msgid "Notifications"
 msgstr "Blijf op de hoogte"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:45
+#: PatternSkin/templates/foswiki.pattern.tmpl:44
 msgid "Number of topics:"
 msgstr "Aantal pagina&#39;s:"
 
@@ -2176,14 +2243,19 @@ msgid "Number of topics: %1"
 msgstr "Aantal pagina&#39;s:"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
-#: core/templates/foswiki.tmpl:135 core/templates/messages.tmpl:181
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
+#: core/templates/foswiki.tmpl:137 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:191 core/templates/messages.tmpl:198
 #: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
-#: core/templates/validate.tmpl:51
+#: core/templates/validate.tmpl:49
 msgid "OK"
 msgstr "OK"
 
-#: core/templates/more.tmpl:157
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:27
+msgid "OK, this is still me!"
+msgstr ""
+
+#: core/templates/more.tmpl:158
 msgid "Older revision:"
 msgstr "Oudere revisie"
 
@@ -2192,7 +2264,7 @@ msgid "Only members of the %1 are allowed to perform this action."
 msgstr ""
 "Alleen leden van de %1 hebben de mogelijkheid deze actie uit te voeren."
 
-#: core/templates/more.tmpl:55 core/templates/more.tmpl:72
+#: core/templates/more.tmpl:56 core/templates/more.tmpl:73
 #, fuzzy
 msgid "Only update linked topics in %1 web"
 msgstr "Onderliggende pagina&#39;s in %1 web"
@@ -2222,17 +2294,17 @@ msgstr "Voer eventueel een andere paginanaam in:"
 msgid "Optionally enter a different topic name:"
 msgstr "Voer eventueel een andere paginanaam in:"
 
-#: core/templates/more.tmpl:160
+#: core/templates/more.tmpl:161
 #, fuzzy
 msgid "Options"
 msgstr "Actie"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:244
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:235
 #, fuzzy
 msgid "Organisation name"
 msgstr "Naam van organisatie:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:251
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:242
 #, fuzzy
 msgid "Organisation website"
 msgstr "Naam van organisatie:"
@@ -2260,7 +2332,7 @@ msgid "Passwords do not match"
 msgstr "Wachtwoorden komen niet overeen"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:60
-#: core/templates/more.tmpl:103
+#: core/templates/more.tmpl:104
 msgid "Pick from a list"
 msgstr "Kies uit de lijst"
 
@@ -2365,7 +2437,7 @@ msgstr "Klik op OK om te bevestigen dat jij deze wijziging wil maken."
 msgid "Problem filling bath"
 msgstr "Probleem met het vullen van het bad"
 
-#: PatternSkin/templates/attach.pattern.tmpl:53
+#: PatternSkin/templates/attach.pattern.tmpl:60
 msgid "Properties"
 msgstr "Eigenschappen"
 
@@ -2383,7 +2455,7 @@ msgstr "Query Search"
 msgid "Question"
 msgstr "Versie"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:161
+#: EditTablePlugin/data/System/EditTablePlugin.txt:162
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
 msgid "Quiet save"
 msgstr "Stil bewaren"
@@ -2405,18 +2477,9 @@ msgstr ""
 "meer informatie, bestudeer de TwentyMinuteTutorial, die toegankelijk is via "
 "dezelfde link."
 
-#: PatternSkin/templates/edit.pattern.tmpl:24
-msgid "Read new revision help text in new window"
-msgstr "Open de helptekst over nieuwe revisies in een nieuw venster"
-
 #: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
 msgid "Read on"
 msgstr "Lees verder"
-
-#: core/data/System/SiteMap.txt:33
-#, fuzzy
-msgid "Recent changes"
-msgstr "Recent gewijzigd"
 
 #: core/data/Sandbox/WebHome.txt:28
 msgid "Recently changed topics"
@@ -2430,8 +2493,8 @@ msgstr "Verversen"
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
-#: core/templates/foswiki.tmpl:166
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
+#: core/templates/foswiki.tmpl:168
 msgid "Register"
 msgstr "Meld je aan"
 
@@ -2473,7 +2536,7 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "Weet je je wachtwoord?"
 
-#: core/data/Main/GroupViewTemplate.txt:166
+#: core/data/Main/GroupViewTemplate.txt:168
 msgid "Remove selected users"
 msgstr ""
 
@@ -2481,11 +2544,11 @@ msgstr ""
 msgid "Remove the user from the group(s) %1 first."
 msgstr "Verwijder de gebruiker eerst van groep(en) %1"
 
-#: core/data/Main/GroupViewTemplate.txt:82
+#: core/data/Main/GroupViewTemplate.txt:83
 msgid "Remove user..."
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:162
+#: core/data/Main/GroupViewTemplate.txt:164
 #, fuzzy
 msgid "Remove users from this group"
 msgstr "Verwijder de gebruiker eerst van groep(en) %1"
@@ -2503,11 +2566,11 @@ msgstr "Hernoemen mislukt"
 msgid "Rename or move %1"
 msgstr "Pagina hernoemen of verplaatsen"
 
-#: core/templates/more.tmpl:68
+#: core/templates/more.tmpl:69
 msgid "Rename or move topic"
 msgstr "Pagina hernoemen of verplaatsen"
 
-#: core/templates/more.tmpl:76
+#: core/templates/more.tmpl:77
 #, fuzzy
 msgid "Rename or move topic..."
 msgstr "Pagina hernoemen of verplaatsen"
@@ -2522,7 +2585,7 @@ msgstr "Hernoem, verplaats of verwijder dit web:"
 msgid "Rename/Move"
 msgstr "Hernoem/Verplaats"
 
-#: core/templates/form.tmpl:1
+#: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
 msgstr "Vervang formulier..."
 
@@ -2542,19 +2605,19 @@ msgstr "Wachtwoord instellen"
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
-#: core/templates/more.tmpl:169
+#: core/templates/more.tmpl:170
 msgid "Restore topic"
 msgstr "Pagina herstellen"
 
-#: core/templates/more.tmpl:174
+#: core/templates/more.tmpl:175
 msgid "Restore topic to revision:"
 msgstr "Zet pagina terug naar revisie:"
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restore topic to this revision"
 msgstr "Zet pagina terug naar deze revisie"
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 #, fuzzy
 msgid "Restore..."
 msgstr "Herstellen"
@@ -2588,7 +2651,7 @@ msgstr "Bekijk recente wijzigingen in:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:42
-#: PatternSkin/templates/rdiff.pattern.tmpl:16
+#: PatternSkin/templates/rdiff.pattern.tmpl:14
 msgid "Revision"
 msgstr "Revisie"
 
@@ -2597,7 +2660,7 @@ msgstr "Revisie"
 msgid "Revision history of %1"
 msgstr "Versiegeschiedenis van %1"
 
-#: core/templates/more.tmpl:137
+#: core/templates/more.tmpl:138
 msgid "Revisions"
 msgstr "Revisies"
 
@@ -2609,11 +2672,7 @@ msgstr ""
 msgid "S = Save, C = Cancel"
 msgstr "B = Bewaren, A = Afbreken"
 
-#: PatternSkin/templates/preview.pattern.tmpl:21
-msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
-msgstr "B = Bewaren, S = Stil bewaren, D = Bewaren en Doorgaan, W = Weggooien"
-
-#: PatternSkin/templates/edit.pattern.tmpl:47
+#: PatternSkin/templates/edit.pattern.tmpl:67
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr ""
@@ -2624,7 +2683,7 @@ msgstr ""
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr ""
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:160
+#: EditTablePlugin/data/System/EditTablePlugin.txt:161
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
 msgid "Save table"
 msgstr "Bewaren"
@@ -2643,8 +2702,7 @@ msgstr "Opgeslagen in:"
 #: PatternSkin/data/Trash/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:7
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
-#: core/data/System/SiteMap.txt:32 core/data/System/WebSearch.txt:47
-#: core/data/System/WebSearch.txt:63
+#: core/data/System/WebSearch.txt:47 core/data/System/WebSearch.txt:63
 msgid "Search"
 msgstr "Zoeken"
 
@@ -2657,7 +2715,7 @@ msgid "Search all webs"
 msgstr "Zoek in a&lle webs"
 
 #: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:5
-#: core/templates/more.tmpl:86
+#: core/templates/more.tmpl:87
 msgid "Search all webs for topics that link to here"
 msgstr "Zoek in alle webs naar pagina&#39;s die hierheen linken"
 
@@ -2688,7 +2746,7 @@ msgstr "(zoekresultaat)"
 msgid "Search string"
 msgstr "Zoektekst"
 
-#: core/templates/more.tmpl:88
+#: core/templates/more.tmpl:89
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Zoek in %1 Web naar pagina&#39;s die hierheen linken"
 
@@ -2732,7 +2790,7 @@ msgstr "Zie ook de uitgebreide %1."
 msgid "See also:"
 msgstr "Zie ook:"
 
-#: core/templates/edit.tmpl:58
+#: core/templates/edit.tmpl:59
 msgid "See below for help in editing this page."
 msgstr "Zie onder voor hulp bij het bewerken van deze pagina."
 
@@ -2740,7 +2798,7 @@ msgstr "Zie onder voor hulp bij het bewerken van deze pagina."
 msgid "Select"
 msgstr "Selecteer"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:226
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
 msgid "Select Wiki %1 to join"
 msgstr ""
 
@@ -2756,12 +2814,12 @@ msgstr "Vink aan"
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
-#: core/templates/more.tmpl:102
+#: core/templates/more.tmpl:103
 #, fuzzy
 msgid "Select topic parent"
 msgstr "Selecteer bovenliggende pagina:"
 
-#: PatternSkin/templates/edit.pattern.tmpl:64 core/templates/edit.tmpl:47
+#: PatternSkin/templates/edit.pattern.tmpl:53 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "Kopieer en plak je signatuur onderaan je toevoeging"
 
@@ -2769,7 +2827,7 @@ msgstr "Kopieer en plak je signatuur onderaan je toevoeging"
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
-#: core/templates/more.tmpl:160
+#: core/templates/more.tmpl:161
 msgid "Sequential"
 msgstr "Sequentieel"
 
@@ -2777,11 +2835,11 @@ msgstr "Sequentieel"
 msgid "Set all"
 msgstr "Vink aan"
 
-#: core/templates/more.tmpl:106
+#: core/templates/more.tmpl:107
 msgid "Set new parent"
 msgstr "Stel bovenliggende pagina in"
 
-#: core/templates/more.tmpl:95
+#: core/templates/more.tmpl:96
 msgid "Set new topic parent"
 msgstr "Bovenliggende pagina instellen"
 
@@ -2795,11 +2853,11 @@ msgstr "Toon help"
 msgid "Show help"
 msgstr "Toon help"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:81
+#: PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Shrink edit box"
 msgstr "Tekstvak verkleinen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:56 core/templates/more.tmpl:160
+#: HistoryPlugin/templates/oopshistory.tmpl:56 core/templates/more.tmpl:161
 msgid "Side by side"
 msgstr "Naast elkaar"
 
@@ -2901,7 +2959,7 @@ msgstr ""
 msgid "Summaries"
 msgstr "Samenvattingen"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:81
+#: PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Switch to monotype or propotional font"
 msgstr "Wissel tussen vaste or proportionele tekenbreedte"
 
@@ -3048,6 +3106,13 @@ msgstr ""
 "formulier te zien krijgen waarin je pagina&#39;s kunt hernoemen die zijn "
 "vergendeld)."
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
+msgid ""
+"The checks performed by Foswiki can sometimes be triggered when you do "
+"something perfectly innocent, for instance if you click the Back button "
+"after saving a page. Foswiki then uses the approach "
+msgstr ""
+
 #: core/templates/messages.tmpl:308
 msgid "The e-mail address for this account is not valid."
 msgstr "Het e-mailadres voor deze account is ongeldig."
@@ -3088,7 +3153,7 @@ msgstr "Het formulier zou moeten zijn gedefinieerd in pagina %1"
 msgid "The lease on this topic expired %1 ago."
 msgstr "De tijdelijke vergrendeling is %1 geleden verlopen."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:161
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:153
 msgid "The login name you use to sign in."
 msgstr ""
 
@@ -3129,6 +3194,12 @@ msgstr "De twee wachtwoorden die je hebt ingevoerd komen niet overeen."
 #: core/templates/messages.tmpl:625
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "Gebruiker %1 is al geactiveerd, en zou moeten kunnen inloggen."
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
+msgid ""
+"Their intention is to automatically save compromising data by sending a "
+"request to your server, <span>using your browser and your identity."
+msgstr ""
 
 #: core/templates/messages.tmpl:407
 msgid "There are problems with renaming this web:"
@@ -3182,7 +3253,7 @@ msgstr ""
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
-#: core/data/System/WebNotify.txt:3 core/data/Trash/WebNotify.txt:2
+#: core/data/System/WebNotify.txt:4 core/data/Trash/WebNotify.txt:2
 #: core/data/_default/WebNotify.txt:2
 msgid ""
 "This is a subscription service to be automatically notified by e-mail when "
@@ -3236,6 +3307,12 @@ msgstr ""
 "Deze naam is uigekozen zodat deze niet conflicteert met andere pagina&#39;s "
 "die al aanwezig zijn in het %1 web."
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:3
+msgid ""
+"This page explains one of the security measures that Foswiki, the software "
+"that runs this site, performs to secure this site from attackers."
+msgstr ""
+
 #: core/templates/messages.tmpl:364
 msgid "This requires the form definition to be present."
 msgstr "Dit vereist dat formulierdefinities bestaan."
@@ -3248,7 +3325,7 @@ msgstr "Deze site is powered by Foswiki"
 msgid "This site requires at least %1 character passwords"
 msgstr "Deze site vereist wachtwoorden met ten minste %1 tekens"
 
-#: core/templates/viewprint.tmpl:13
+#: core/templates/viewprint.tmpl:15
 msgid "This topic:"
 msgstr "Deze pagina:"
 
@@ -3336,6 +3413,12 @@ msgstr ""
 "De pagina kan niet worden opgewaardeerd van een vroegere versie categorie-"
 "tabel"
 
+#: PatternSkin/templates/form.pattern.tmpl:10
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
+#, fuzzy
+msgid "Topic data"
+msgstr "Paginanaam"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:29
 #: HistoryPlugin/templates/oopshistory.tmpl:40
 #, fuzzy
@@ -3356,9 +3439,9 @@ msgstr "Paginanaam:"
 msgid "Topic parent:"
 msgstr "Bovenliggende pagina:"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:16
-#: PatternSkin/templates/view.pattern.tmpl:45
-#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:14
+#: PatternSkin/templates/rdiff.pattern.tmpl:14
+#: PatternSkin/templates/view.pattern.tmpl:44
+#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:16
 msgid "Topic revision:"
 msgstr "Paginarevisie:"
 
@@ -3431,11 +3514,11 @@ msgstr "Werk bijlage %1 van %2 bij"
 msgid "Update links"
 msgstr "Ververs links"
 
-#: core/data/Main/GroupViewTemplate.txt:124
+#: core/data/Main/GroupViewTemplate.txt:126
 msgid "Upgrade group topic"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:128
+#: core/data/Main/GroupViewTemplate.txt:130
 msgid ""
 "Upgrade will adjust the format of this group topic to the new format with "
 "user management options"
@@ -3451,7 +3534,7 @@ msgstr ""
 msgid "Upload file"
 msgstr "Bestand uploaden"
 
-#: PatternSkin/templates/attach.pattern.tmpl:38
+#: PatternSkin/templates/attach.pattern.tmpl:45
 msgid "Upload up to %1 KB."
 msgstr "Uploaden is mogelijk tot %1 KB."
 
@@ -3521,12 +3604,12 @@ msgstr "Versiegeschiedenis van %1"
 msgid "View difference"
 msgstr "Bekijk verschillen"
 
-#: core/templates/more.tmpl:163
+#: core/templates/more.tmpl:164
 #, fuzzy
 msgid "View differences"
 msgstr "Bekijk verschillen"
 
-#: core/templates/more.tmpl:138
+#: core/templates/more.tmpl:139
 msgid "View previous topic revision"
 msgstr "Bekijk vorige paginarevisie"
 
@@ -3534,12 +3617,12 @@ msgstr "Bekijk vorige paginarevisie"
 msgid "View raw text without formatting"
 msgstr "Bekijk brontekst zonder opmaak"
 
-#: core/templates/more.tmpl:145
+#: core/templates/more.tmpl:146
 #, fuzzy
 msgid "View revision"
 msgstr "Bekijk revisie:"
 
-#: core/templates/more.tmpl:142
+#: core/templates/more.tmpl:143
 msgid "View revision:"
 msgstr "Bekijk revisie:"
 
@@ -3548,12 +3631,12 @@ msgid "View templates"
 msgstr "Bekijk templates"
 
 #: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-#: PatternSkin/templates/rdiff.pattern.tmpl:26
+#: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
 msgstr "Bekijk pagina"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:162
+#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:164
 msgid "View total topic history"
 msgstr "Bekijk totale paginageschiedenis"
 
@@ -3565,7 +3648,7 @@ msgstr "Waarschuwing"
 msgid "Warning! Confirmation required"
 msgstr "Waarschuwing! Bevestiging is nodig"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:165
+#: EditTablePlugin/data/System/EditTablePlugin.txt:166
 msgid "Warning: 'include' topic does not exist!"
 msgstr "Let op: ingevoegde pagina bestaat niet!"
 
@@ -3589,11 +3672,11 @@ msgstr "Waarschuwing: Kan sectie %3 in pagina %1.%2 niet vinden"
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Waarschuwing: Kan pagina %1.%2 niet vinden"
 
-#: core/lib/Foswiki/UI/Register.pm:922
+#: core/lib/Foswiki/UI/Register.pm:920
 msgid "Warning: Could not send confirmation email"
 msgstr "Waarschuwing: kon geen bevestigings e-mail versturen"
 
-#: core/lib/Foswiki/UI/Register.pm:934
+#: core/lib/Foswiki/UI/Register.pm:932
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Waarschuwing: kon geen bevestigings e-email versturen; e-mail is "
@@ -3609,9 +3692,17 @@ msgstr ""
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Let op: ingevoegde pagina bestaat niet!"
 
+#: core/data/System/WebNotify.txt:3
+msgid "Web Changes notification service"
+msgstr ""
+
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:3
 msgid "Webs"
 msgstr "Webs"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
+msgid "Webserver<span>running Foswiki</span>"
+msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
@@ -3629,11 +3720,24 @@ msgstr "Tijdens een poging tot het mailen van <noautolink>%1</noautolink>."
 msgid "Who"
 msgstr "Wie"
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
+msgid "Who is requesting this, actually?"
+msgstr ""
+
 #: HistoryPlugin/templates/oopshistory.tmpl:59
 msgid "Whole page"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:152
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
+#, fuzzy
+msgid "Why am I being asked to confirm?"
+msgstr "waarom wordt mij om een bevestiging gevraagd"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
+msgid "Wiki administrators should read about the"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:144
 #, fuzzy
 msgid "Wiki name"
 msgstr "Paginanaam"
@@ -3646,6 +3750,10 @@ msgstr "Pas zoekactie aan"
 #: core/templates/messages.tmpl:19
 msgid "Would you like to go to:"
 msgstr "Wil je:"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:36
+msgid "You"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
 #, fuzzy
@@ -3686,7 +3794,7 @@ msgstr ""
 "samengevoegd, dus in dat geval raden we je aan om eerst te af te stemmen met "
 "%1."
 
-#: PatternSkin/templates/view.pattern.tmpl:37
+#: PatternSkin/templates/view.pattern.tmpl:36
 msgid "You are here:"
 msgstr "Je bent hier:"
 
@@ -3859,7 +3967,7 @@ msgstr ""
 "e-mail, of de code invoeren in de box hieronder om je lidmaatschap te "
 "activeren. (Deze code heeft de vorm \"JeNaam.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:168
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:160
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -3871,14 +3979,14 @@ msgstr ""
 "Vanaf het volgende scherm wordt je taalinstelling gewijzigd in %1. Je wordt "
 "nu daarheen geleid - zo niet, [[%2][klik om door te gaan]]."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:153
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:145
 msgid ""
 "Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%."
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:175
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
 #, fuzzy
 msgid "Your password"
 msgstr "Je wachtwoord:"
@@ -3921,11 +4029,11 @@ msgstr ""
 "Je registratie verificatie e-mail is mislukt of staat in de wachtrij van het "
 "mail systeem."
 
-#: PatternSkin/templates/edit.pattern.tmpl:64
+#: PatternSkin/templates/edit.pattern.tmpl:53
 msgid "Your signature to copy/paste"
 msgstr "Je handtekening om te kopi&&euml;ren/plakken:"
 
-#: core/templates/edit.tmpl:47
+#: core/templates/edit.tmpl:48
 msgid "Your signature to copy/paste:"
 msgstr "Je signatuur om te kopi&&euml;ren/plakken:"
 
@@ -3961,27 +4069,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "Nederlands"
 
-#: core/lib/Foswiki/Meta.pm:1694
+#: core/lib/Foswiki/Meta.pm:1708
 msgid "access denied on root"
 msgstr "toegang tot 'root' niet toegestaan"
 
-#: core/lib/Foswiki/Meta.pm:1632
+#: core/lib/Foswiki/Meta.pm:1646
 msgid "access denied on topic"
 msgstr "toegang tot pagina niet toegestaan"
 
-#: core/lib/Foswiki/Meta.pm:1667
+#: core/lib/Foswiki/Meta.pm:1681
 msgid "access denied on web"
 msgstr "toegang tot web niet toegestaan"
 
-#: core/lib/Foswiki/Meta.pm:1704
+#: core/lib/Foswiki/Meta.pm:1718
 msgid "access not allowed on root"
 msgstr "toegang tot 'root' niet toegestaan"
 
-#: core/lib/Foswiki/Meta.pm:1651
+#: core/lib/Foswiki/Meta.pm:1665
 msgid "access not allowed on topic"
 msgstr "toegang tot pagina niet toegestaan"
 
-#: core/lib/Foswiki/Meta.pm:1679
+#: core/lib/Foswiki/Meta.pm:1693
 msgid "access not allowed on web"
 msgstr "toegang tot web niet toegestaan"
 
@@ -3989,7 +4097,7 @@ msgstr "toegang tot web niet toegestaan"
 msgid "accesskey='c'"
 msgstr "accesskey='a'"
 
-#: core/data/System/WikiSyntaxSummary.txt:18
+#: core/data/System/WikiSyntaxSummary.txt:17
 msgid "and"
 msgstr "en"
 
@@ -4028,24 +4136,20 @@ msgstr "velden zijn verplicht."
 msgid "first"
 msgstr ""
 
-#: core/templates/attach.tmpl:3
-msgid "has more information about attaching files."
-msgstr "heeft meer informatie over het toevoegen van bestanden."
-
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "help"
 msgstr "help"
 
-#: core/data/System/WikiSyntaxSummary.txt:18
+#: core/data/System/WikiSyntaxSummary.txt:17
 msgid "hints on good style"
 msgstr "tips voor een goede stijl"
 
-#: core/templates/more.tmpl:142
+#: core/templates/more.tmpl:143
 msgid "in raw text format"
 msgstr "brontekst zonder opmaak"
 
-#: core/templates/form.tmpl:3
+#: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
 msgid "indicates mandatory fields"
 msgstr "velden zijn verplicht"
 
@@ -4080,12 +4184,7 @@ msgstr "nu %1"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
-#: PatternSkin/templates/attachagain.pattern.tmpl:26
-#: PatternSkin/templates/attachnew.pattern.tmpl:5
-#: PatternSkin/templates/edit.pattern.tmpl:30
-#: PatternSkin/templates/preview.pattern.tmpl:17
-#: PatternSkin/templates/settings.pattern.tmpl:18
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:166
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:168
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:37
@@ -4105,6 +4204,10 @@ msgstr "gevonden om %1"
 #, fuzzy
 msgid "revisions up to"
 msgstr "Revisies"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
+msgid "the Cross-site request forgery article on Wikipedia"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -4220,9 +4323,45 @@ msgstr "value='Bewaren' accesskey='b'"
 msgid "view"
 msgstr "bekijken"
 
-#: core/templates/validate.tmpl:43
+#: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "waarom wordt mij om een bevestiging gevraagd"
+
+#, fuzzy
+#~ msgid "Attachment metadata"
+#~ msgstr "Verplaatsen van bijlage is niet gelukt"
+
+#~ msgid ""
+#~ "Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Setting topic preferences</a>."
+#~ msgstr ""
+#~ "Meer info over <a target='Macros' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Pagina-instellingen</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving topics</a>."
+#~ msgstr ""
+#~ "Meer info over <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>hernoemen en verplaatsen van pagina&#39;s</a>."
+
+#~ msgid ""
+#~ "Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>Renaming and moving webs</a>."
+#~ msgstr ""
+#~ "Meer info over <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+#~ "rel='nofollow'>hernoemen en verplaatsen van pagina&#39;s</a>."
+
+#~ msgid "Read new revision help text in new window"
+#~ msgstr "Open de helptekst over nieuwe revisies in een nieuw venster"
+
+#, fuzzy
+#~ msgid "Recent changes"
+#~ msgstr "Recent gewijzigd"
+
+#~ msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
+#~ msgstr ""
+#~ "B = Bewaren, S = Stil bewaren, D = Bewaren en Doorgaan, W = Weggooien"
 
 #~ msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
 #~ msgstr "%1 - volledige Foswiki documentatie, naslagoverzicht"
