@@ -92,7 +92,7 @@ sub test_simple_upload {
         createlink       => 0,
         changeproperties => 0,
     );
-    $this->assert( $result =~ /^OK/, $result );
+    $this->assert_matches( qr/^Status: 302/, $result );
     $this->assert(
         open( F,
 "<$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/Flappadoodle.txt"
@@ -161,6 +161,66 @@ sub test_zerosized_upload {
     };
 }
 
+sub test_illegal_upload {
+    my $this = shift;
+    local $/;
+    my $data = 'asdfasdf';
+    try {
+        $this->do_upload(
+            'F$%^&&**()_ .php',
+            $data,
+            hidefile         => 0,
+            filecomment      => 'Elucidate the goose',
+            createlink       => 0,
+            changeproperties => 0
+        );
+        $this->assert(0);
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( "F__.php.txt", $e->{params}[1] ); 
+        $this->assert_str_equals( "upload_name_changed", $e->{def} );
+    };
+}
+
+sub test_illegal_propschange {
+    my $this = shift;
+    local $/;
+    my $data = 'asdfasdf';
+    try {
+        $this->do_upload(
+            'F$%^&&**()_ .php',
+            $data,
+            hidefile         => 0,
+            filecomment      => 'Elucidate the goose',
+            createlink       => 0,
+            changeproperties => 0
+        );
+        $this->assert(0);
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( "F__.php.txt", $e->{params}[1] );
+        $this->assert_str_equals( "upload_name_changed", $e->{def} );
+    };
+    try {
+        $this->do_upload(
+            'F$%^&&**()_ .php',
+            $data,
+            hidefile         => 1,
+            filecomment      => 'Educate the goose',
+            createlink       => 1,
+            changeproperties => 1
+        );
+        $this->assert(0);
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( "F__.php.txt", $e->{params}[1] );
+        $this->assert_str_equals( "upload_name_changed", $e->{def} );
+    };
+}
+
 sub test_propschanges {
     my $this = shift;
     local $/;
@@ -173,7 +233,7 @@ sub test_propschanges {
         createlink       => 0,
         changeproperties => 0,
     );
-    $this->assert( $result =~ /^OK/, $result );
+    $this->assert_matches( qr/^Status: 302/, $result );
     $result = $this->do_upload(
         'Flappadoodle.txt',
         $data,
@@ -182,7 +242,7 @@ sub test_propschanges {
         createlink       => 1,
         changeproperties => 1
     );
-    $this->assert( $result =~ /^OK/, $result );
+    $this->assert_matches( qr/^Status: 302/, $result );
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
@@ -194,6 +254,49 @@ qr/\[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate the hedg
 
     # Check the meta
     my $at = $meta->get( 'FILEATTACHMENT', 'Flappadoodle.txt' );
+    $this->assert($at);
+    $this->assert_matches( qr/h/i, $at->{attr} );
+    $this->assert_str_equals( 'Educate the hedgehog', $at->{comment} );
+}
+
+sub test_imagelink {
+    my $this = shift;
+    local $/;
+    my $imageFile = $Foswiki::cfg{PubDir}.'/System/DocumentGraphics/bomb.png';
+    open FILE, '<', $imageFile;
+    my $data = do { local $/; <FILE> };
+    my $filename = 'bomb.png';
+    $filename = Assert::TAINT($filename);
+    my $result = $this->do_upload(
+        $filename,
+        $data,
+        hidefile         => 0,
+        filecomment      => 'Grease the stoat',
+        createlink       => 0,
+        changeproperties => 0,
+    );
+    $this->assert_matches( qr/^Status: 302/, $result );
+    $filename = Assert::TAINT($filename);
+    $result = $this->do_upload(
+        $filename,
+        $data,
+        hidefile         => 1,
+        filecomment      => 'Educate the hedgehog',
+        createlink       => 1,
+        changeproperties => 1
+    );
+    $this->assert_matches( qr/^Status: 302/, $result );
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+
+    # Check the link was created
+    $this->assert_matches(
+qr/<img src=\"%ATTACHURLPATH%\/bomb.png\" alt=\"bomb.png\" width=\'16\' height=\'16\' \/>/,
+        $text
+    );
+
+    # Check the meta
+    my $at = $meta->get( 'FILEATTACHMENT', 'bomb.png' );
     $this->assert($at);
     $this->assert_matches( qr/h/i, $at->{attr} );
     $this->assert_str_equals( 'Educate the hedgehog', $at->{comment} );
