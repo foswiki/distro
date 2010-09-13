@@ -136,22 +136,23 @@ sub statistics {
                   . $web );
         }
         $firstTime = 0;
-    }
 
-    if ( !$session->inContext('command_line') ) {
-        $tmp = $Foswiki::cfg{Stats}{TopicName};
-        my $url = $session->getScriptUrl( 0, 'view', $destWeb, $tmp );
-        _printMsg(
-            $session,
-            '* Go to '
-              . CGI::a(
-                {
-                    href => $url,
-                    rel  => 'nofollow'
-                },
-                "$webName.$tmp"
-              )
-        );
+        if ( !$session->inContext('command_line') ) {
+            $tmp = $Foswiki::cfg{Stats}{TopicName};
+            my $url = $session->getScriptUrl( 0, 'view', $destWeb, $tmp );
+            _printMsg(
+                $session,
+                '* Go to '
+                  . CGI::a(
+                    {
+                        href => $url,
+                        rel  => 'nofollow'
+                    },
+                    "$destWeb.$tmp"
+                  )
+                 . CGI::br()
+            );
+        }
     }
     _printMsg( $session, 'End creating usage statistics' );
     $session->{response}->print( CGI::end_html() )
