@@ -6,15 +6,15 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-10-18 13:10+0200\n"
+"PO-Revision-Date: 2010-09-13 04:19+0000\n"
 "Last-Translator: Joel DeJesus <dejesus.joel@gmail.com>\n"
 "Language-Team: Foswiki Japanese team\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 1.1.0\n"
+"Language: ja\n"
 "X-Poedit-Country: JAPAN\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
@@ -60,11 +60,11 @@ msgstr "%1 ウェブ"
 
 #: core/templates/messages.tmpl:480
 msgid "%1 added to the %2 group. "
-msgstr ""
+msgstr "%1は%2グループに追加しました。"
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
-msgstr ""
+msgstr "%1グループのトピックは更新しました。"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -103,23 +103,21 @@ msgid "%1 is currently set to %2"
 msgstr "%1 は現在 %2に設定された状況です。"
 
 #: core/templates/messages.tmpl:526
-#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 は %2を編集しているところです。"
+msgstr "%1 は %2の編集中です。"
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 はまだ一つのグループにも入っていますので、削除できません"
 
 #: core/templates/messages.tmpl:126
-#, fuzzy
 msgid "%1 is not a valid form name"
-msgstr "'%1' は有効な %2 ではありません。"
+msgstr "'%1' は無効です。"
 
 #: core/templates/messages.tmpl:122
 #, fuzzy
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "'%1' は有効な %2 ではありません。"
+msgstr "'%1' は%2設定に対して無効です。"
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
@@ -134,19 +132,18 @@ msgstr "%1 はまだ %2を変更している可能性があります 。"
 #: core/data/System/WebChanges.txt:3
 #, fuzzy
 msgid "%1 recent changes in %2 Web"
-msgstr "%1 は %2 ウェブで最近に更新されたのです。"
+msgstr " %2 ウェブでは最近1%つの更新があります。"
 
 #   "&lt;nop&gt;$fromWeb.&lt;nop&gt;$fromTopic",
 #   $date,
 #   $by)
 #: core/templates/messages.tmpl:518
-#, fuzzy
 msgid "%1 removed from the %2 group. "
-msgstr "%1 は %4 で %2 から %3 に移動します"
+msgstr "%1 は%2から外されました。"
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
-msgstr "%1 はもう一つのウェブを新規作成します"
+msgstr "%1 は新たなウェブを生成します"
 
 #: core/templates/messages.tmpl:21
 msgid "%1 to customize the web specific preferences"
@@ -172,7 +169,7 @@ msgstr "%1 は電子メールアドレスの %2 に登録しようとしまし�
 #: core/lib/Foswiki/Render.pm:229
 #, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 は %4 で %2 から %3 に移動します"
+msgstr "%1 は %3 に %4 で %2 から 移動します"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -189,7 +186,7 @@ msgstr "履歴"
 #: HistoryPlugin/templates/oopshistory.tmpl:92
 #, fuzzy
 msgid "&Sequential"
-msgstr "シーケンシャル"
+msgstr "順次"
 
 #: core/templates/messages.tmpl:283
 msgid "'%1' is not a valid %2 "
@@ -221,7 +218,7 @@ msgstr "(=全て= 全てのトピックを表示します)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
 msgid "(This message will be removed automatically)"
-msgstr ""
+msgstr "(このメッセージは自動に取り去れます。)"
 
 #: core/templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
@@ -256,9 +253,8 @@ msgid "(changes)"
 msgstr "(変更)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:3
-#, fuzzy
 msgid "(compare)"
-msgstr "(もっと多く)"
+msgstr "(比較)"
 
 #: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
@@ -467,6 +463,8 @@ msgid ""
 "<strong>Confirmation required!</strong><span>Press OK to confirm this change "
 "was intentional</span><span>Press Cancel otherwise</span>"
 msgstr ""
+"<strong>確認が必要</strong><span>意思で変更されたのは確認して「OK」を押してください。</span><span>その他は「キャン"
+"セル」を押してください。</span>"
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -503,9 +501,8 @@ msgstr ""
 "か確認してください。必要に応じて、無効なリンクを修正してください。"
 
 #: core/data/Sandbox/WebHome.txt:32
-#, fuzzy
 msgid "A more extensive changes list is available via [[%1][Recent changes]]."
-msgstr "もっと多くの拡張変更リストがメニューの [[%1][最新変更]] にあります"
+msgstr "より詳細な編集表は[[%1][最近編集]]で一覧できます。"
 
 #: core/templates/messages.tmpl:559
 #, fuzzy
@@ -562,11 +559,11 @@ msgstr "変更 %1: %2."
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #, fuzzy
 msgid "Add"
-msgstr "追加しました"
+msgstr "追加"
 
 #: core/data/Main/GroupViewTemplate.txt:143
 msgid "Add a user to this group"
-msgstr ""
+msgstr "グループにユーザを追加します。"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
@@ -580,16 +577,16 @@ msgstr "行を追加します"
 #: core/data/Main/GroupViewTemplate.txt:145
 #, fuzzy
 msgid "Add user"
-msgstr "行を追加します"
+msgstr "ユーザを追加します"
 
 #: core/data/Main/GroupViewTemplate.txt:80
 msgid "Add user..."
-msgstr ""
+msgstr "ユーザを追加します。"
 
 #: core/templates/messages.tmpl:369
 #, fuzzy
 msgid "Adding a %1 preference in WebPreferences"
-msgstr " %1 変数をWebPreferencesに追加します"
+msgstr " %1 設定をWebPreferencesに追加します"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
@@ -5642,7 +5639,9 @@ msgstr ""
 #~ msgid "Update image or document on %1"
 #~ msgstr "画像又はファイル%1を更新します"
 
-#~ msgid "_:Note__:"
+#~ msgid ""
+#~ "_:Note__:"
+#~ ""
 #~ msgstr "注意__:"
 
 #~ msgid "Request password reset"
