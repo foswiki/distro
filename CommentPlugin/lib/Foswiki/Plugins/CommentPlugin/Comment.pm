@@ -58,9 +58,6 @@ sub prompt {
     # Expand special attributes as required
     $input =~ s/%([a-z]\w+)\|(.*?)%/_expandPromptParams($1, $2, $attrs)/ieg;
 
-    # Build the endpoint before we munge the web and topic
-    my $endPoint = "$web.$topic";
-
     # see if this comment is targeted at a different topic, and
     # change the url if it is.
     my $anchor = undef;
@@ -78,6 +75,9 @@ sub prompt {
             $topic = $target;
         }
     }
+
+    # Build the endpoint before we munge the web and topic
+    my $endPoint = "$web.$topic";
 
     # See if a save url has been defined in the template
     my $url = Foswiki::Func::expandTemplate('save_url');
