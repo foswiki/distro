@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-08-23 13:17+0000\n"
+"PO-Revision-Date: 2010-09-14 09:44+0000\n"
 "Last-Translator: Tolga YAMAN <yamant@gmail.com>\n"
 "Language-Team: TURKCE <yamant@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -613,7 +613,7 @@ msgstr ""
 
 #: core/templates/attach.tmpl:9
 msgid "Attach a file"
-msgstr ""
+msgstr "Dosya ekle"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -1027,19 +1027,19 @@ msgstr "Eklenen dosyaya link oluşur"
 
 #: core/data/Main/WikiGroups.txt:7
 msgid "Create a new group"
-msgstr ""
+msgstr "Yeni grup oluştur"
 
 #: core/data/Main/WikiGroups.txt:31
 msgid "Create group"
-msgstr ""
+msgstr "Grup oluştur"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:44
 msgid "Create new FAQ topic"
-msgstr ""
+msgstr "Yeni bir SSS konusu oluştur"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
-msgstr ""
+msgstr "Konuyu oluştur"
 
 #: core/data/System/DefaultPreferences.txt:377
 #: core/data/System/DefaultPreferences.txt:379
@@ -1051,11 +1051,11 @@ msgstr "Bu konuyu oluştur"
 
 #: core/data/Sandbox/WebHome.txt:19
 msgid "Create topic"
-msgstr ""
+msgstr "Konu oluştur"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:13
 msgid "Create your account to edit pages on this site."
-msgstr ""
+msgstr "Bu sitedeki sayfaları düzenlemek için hesap oluşturun"
 
 #: core/templates/messages.tmpl:368
 msgid "Creating a suitable Form Definition topic"
@@ -1090,7 +1090,7 @@ msgstr ""
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
 msgid "Default template"
-msgstr ""
+msgstr "Öntanımlı tema"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
@@ -1118,7 +1118,7 @@ msgstr "Konuyu sil..."
 
 #: PatternSkin/templates/attach.pattern.tmpl:54
 msgid "Describe the file so other people know what it is."
-msgstr ""
+msgstr "Dosya açıklaması"
 
 #: core/lib/Foswiki/Form.pm:316
 msgid "Details in separate window"
@@ -1157,13 +1157,15 @@ msgstr "Eklenen dosyayı tabloda gösterme"
 
 #: core/data/System/WebSearch.txt:121
 msgid "Don't show:"
-msgstr ""
+msgstr "Gösterme:"
 
 #: core/templates/messages.tmpl:63
 msgid ""
 "During deletion of attachment =%1= an error was found. Please notify your %2 "
 "administrator."
 msgstr ""
+"=%1= dosya ekini silerken bir hata tespit edildi. lütfen %2 yöneticisine "
+"bilgi veriniz."
 
 #: core/templates/messages.tmpl:55
 msgid "During move of attachment =%1= to %2 an error was found."
@@ -1241,11 +1243,11 @@ msgstr "Kişisel Bilgilerinizi Düzenleyin"
 
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
-msgstr ""
+msgstr "Bu konu için ayarları düzenle..."
 
 #: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 msgid "Edit text"
-msgstr ""
+msgstr "Metni düzenle"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
@@ -1286,7 +1288,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:159
 msgid "Email address"
-msgstr ""
+msgstr "E-Posta adresi"
 
 #: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:460
 msgid "Email has been disabled for this Foswiki installation"
@@ -1475,15 +1477,15 @@ msgstr ""
 
 #: core/data/Main/WikiGroups.txt:49
 msgid "Group"
-msgstr ""
+msgstr "Grup"
 
 #: core/data/Main/WikiGroups.txt:17
 msgid "Group name"
-msgstr ""
+msgstr "Grup adı"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
-msgstr ""
+msgstr "Gruplar"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 msgid "Hello %1"
@@ -1675,7 +1677,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:282 core/templates/messages.tmpl:289
 msgid "Incorrect %1"
-msgstr ""
+msgstr "Hatalı %1"
 
 #: core/templates/messages.tmpl:292
 msgid "Incorrect %1.WikiNames:"
@@ -1714,11 +1716,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:315
 msgid "Invalid Activation Code"
-msgstr ""
+msgstr "Geçersiz Aktivasyon Kodu"
 
 #: core/templates/messages.tmpl:307
 msgid "Invalid e-mail address"
-msgstr ""
+msgstr "Geçersiz e-posta adresi"
 
 #: core/templates/messages.tmpl:530
 msgid ""
@@ -1760,15 +1762,15 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:102
 msgid "Last editor"
-msgstr ""
+msgstr "Son düzenleyen"
 
 #: core/data/System/WebSearch.txt:101
 msgid "Last modified time"
-msgstr ""
+msgstr "En son düzenleme zamanı"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:137
 msgid "Last name"
-msgstr ""
+msgstr "Soyad"
 
 #: core/data/System/WebSearch.txt:128
 msgid "Limit results to:"
@@ -1811,7 +1813,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:152
 msgid "Login name"
-msgstr ""
+msgstr "Kullanıcı Adınız"
 
 #: core/templates/mailresetpassword.tmpl:12
 msgid "Login name %1"
@@ -1922,11 +1924,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:161
 msgid "New User Registration disabled"
-msgstr ""
+msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
 
 #: core/templates/messages.tmpl:152
 msgid "New User Registration not supported"
-msgstr ""
+msgstr "Yeni Kullanıcı Kaydı Desteklenmemektedir."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "New e-mails (space-separated list)"
@@ -2101,23 +2103,23 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
 #: core/templates/login.tmpl:58
 msgid "Password"
-msgstr "Şifre"
+msgstr "Parola"
 
 #: core/templates/messages.tmpl:184
 msgid "Password changed successfully!"
-msgstr "Şifreniz değiştirildi!"
+msgstr "Parolanız değiştirildi!"
 
 #: core/templates/messages.tmpl:194
 msgid "Password could not be changed"
-msgstr ""
+msgstr "Parola değiştirilemedi"
 
 #: core/templates/messages.tmpl:222 core/templates/messages.tmpl:226
 msgid "Password reset failed"
-msgstr ""
+msgstr "Parola sıfırlanamadı"
 
 #: core/templates/messages.tmpl:236
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Girdiğiniz parola eşleşmiyor"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:60
 #: core/templates/more.tmpl:104
@@ -2147,11 +2149,11 @@ msgstr ""
 #: core/templates/messages.tmpl:156 core/templates/messages.tmpl:165
 #: core/templates/messages.tmpl:246 core/templates/messages.tmpl:258
 msgid "Please contact %1."
-msgstr ""
+msgstr "%1 ile iletişime geçiniz."
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
-msgstr ""
+msgstr "Wiki admin parolasını giriniz"
 
 #: core/templates/messages.tmpl:71 core/templates/messages.tmpl:77
 #: core/templates/messages.tmpl:83
@@ -2317,7 +2319,7 @@ msgstr "Şifrenizi hatırladınız mı?"
 
 #: core/data/Main/GroupViewTemplate.txt:168
 msgid "Remove selected users"
-msgstr ""
+msgstr "Seçilmiş kullanıcıları kaldır"
 
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
@@ -2325,31 +2327,31 @@ msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:83
 msgid "Remove user..."
-msgstr ""
+msgstr "Seçilmiş kullanıcıyı kaldır..."
 
 #: core/data/Main/GroupViewTemplate.txt:164
 msgid "Remove users from this group"
-msgstr ""
+msgstr "Kullanıcıları bu gruptan çıkart"
 
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
-msgstr ""
+msgstr "Yeniden adlandır"
 
 #: core/templates/messages.tmpl:74 core/templates/messages.tmpl:80
 msgid "Rename failed"
-msgstr ""
+msgstr "Yeniden adlandırma başarısız"
 
 #: core/templates/renamebase.tmpl:11
 msgid "Rename or move %1"
-msgstr ""
+msgstr "%1 i taşı veya kaldır"
 
 #: core/templates/more.tmpl:69
 msgid "Rename or move topic"
-msgstr ""
+msgstr "Konuyu taşı veya kaldır"
 
 #: core/templates/more.tmpl:77
 msgid "Rename or move topic..."
-msgstr ""
+msgstr "Konuyu taşı veya kaldır..."
 
 #: core/data/System/RenameWeb.txt:4
 msgid "Rename, move or delete this web"
@@ -2429,7 +2431,7 @@ msgstr "Revizyon"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:14
 msgid "Revision history of %1"
-msgstr ""
+msgstr "%1 için revizyon geçmişi"
 
 #: core/templates/more.tmpl:138
 msgid "Revisions"
