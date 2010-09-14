@@ -463,8 +463,8 @@ msgid ""
 "<strong>Confirmation required!</strong><span>Press OK to confirm this change "
 "was intentional</span><span>Press Cancel otherwise</span>"
 msgstr ""
-"<strong>確認が必要</strong><span>意思で変更されたのは確認して「OK」を押してください。</span><span>その他は「キャン"
-"セル」を押してください。</span>"
+"<strong>確認が必要</strong><span>意思で変更されたのは確認して「OK」を押してく"
+"ださい。</span><span>その他は「キャンセル」を押してください。</span>"
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -972,7 +972,7 @@ msgid ""
 msgstr ""
 "クリックしてトピックを以前の場所へ移動します（設定への変更も含めて）。 "
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:460
+#: TwistyPlugin/data/System/TwistyPlugin.txt:458
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
 msgid "Close"
 msgstr "閉じる"
@@ -986,18 +986,6 @@ msgstr "色 %1に無効なフォーマットが含まれています"
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "コメント"
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:55
-msgid "Commenting is disabled when not in view context"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:59
-msgid "Commenting is disabled while not logged in"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:52
-msgid "Commenting is disabled while running from the command line"
-msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:76 core/templates/more.tmpl:152
 msgid "Compare revisions"
@@ -2029,7 +2017,7 @@ msgstr "もっと多くのトピックアクション"
 msgid "More view options:"
 msgstr "もっと多くのトピックアクション"
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:459
+#: TwistyPlugin/data/System/TwistyPlugin.txt:457
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
 msgid "More..."
 msgstr "もっと多く…"
@@ -3141,7 +3129,7 @@ msgstr ""
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
-"request to your server, <span>using your browser and your identity."
+"request to your server, using your browser and your identity."
 msgstr ""
 
 #: core/templates/messages.tmpl:407
@@ -3627,7 +3615,7 @@ msgid "Webs"
 msgstr "ウェブ"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-msgid "Webserver<span>running Foswiki</span>"
+msgid "Webserver running Foswiki"
 msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12
@@ -5639,9 +5627,7 @@ msgstr ""
 #~ msgid "Update image or document on %1"
 #~ msgstr "画像又はファイル%1を更新します"
 
-#~ msgid ""
-#~ "_:Note__:"
-#~ ""
+#~ msgid "_:Note__:"
 #~ msgstr "注意__:"
 
 #~ msgid "Request password reset"

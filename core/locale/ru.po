@@ -998,7 +998,7 @@ msgstr ""
 "Нажмите здесь, чтобы переместить тему на прежнее место с возможностью "
 "изменения ссылок."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:460
+#: TwistyPlugin/data/System/TwistyPlugin.txt:458
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
 msgid "Close"
 msgstr "Закрыть"
@@ -1012,18 +1012,6 @@ msgstr "Цвет %1 имеет неправильный формат"
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Комментарий"
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:55
-msgid "Commenting is disabled when not in view context"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:59
-msgid "Commenting is disabled while not logged in"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:52
-msgid "Commenting is disabled while running from the command line"
-msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:76 core/templates/more.tmpl:152
 msgid "Compare revisions"
@@ -2071,7 +2059,7 @@ msgstr "Другие операции..."
 msgid "More view options:"
 msgstr "Другие операции..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:459
+#: TwistyPlugin/data/System/TwistyPlugin.txt:457
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
 msgid "More..."
 msgstr "Больше..."
@@ -3207,7 +3195,7 @@ msgstr "Пользователь %1 уже активирован и долже�
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
-"request to your server, <span>using your browser and your identity."
+"request to your server, using your browser and your identity."
 msgstr ""
 
 #: core/templates/messages.tmpl:407
@@ -3706,7 +3694,7 @@ msgid "Webs"
 msgstr "Разделы"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-msgid "Webserver<span>running Foswiki</span>"
+msgid "Webserver running Foswiki"
 msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12

@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2008-12-23 15:55+0100\n"
-"Last-Translator: Ben Beijer <beijersb@gmail.com>\n"
+"PO-Revision-Date: 2010-09-14 20:07+0000\n"
+"Last-Translator: Arthur Clemens <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.1.0\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:480
@@ -60,11 +60,11 @@ msgstr "%1 Web"
 
 #: core/templates/messages.tmpl:480
 msgid "%1 added to the %2 group. "
-msgstr ""
+msgstr "%1 is toegevoegd aan de groep %2."
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
-msgstr ""
+msgstr "Groep pagina %1 is opgewaardeerd."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -988,7 +988,7 @@ msgstr ""
 "Klik om de pagina terug te plaatsen naar de vorige locatie, met de optieom "
 "verwijzigen te wijzigen."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:460
+#: TwistyPlugin/data/System/TwistyPlugin.txt:458
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
 msgid "Close"
 msgstr "Sluiten"
@@ -1002,18 +1002,6 @@ msgstr "Kleur %1 heeft een ongeldig formaat"
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Toelichting"
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:55
-msgid "Commenting is disabled when not in view context"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:59
-msgid "Commenting is disabled while not logged in"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:52
-msgid "Commenting is disabled while running from the command line"
-msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:76 core/templates/more.tmpl:152
 msgid "Compare revisions"
@@ -2069,7 +2057,7 @@ msgstr "Meer pagina acties..."
 msgid "More view options:"
 msgstr "Meer pagina acties..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:459
+#: TwistyPlugin/data/System/TwistyPlugin.txt:457
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
 msgid "More..."
 msgstr "Meer..."
@@ -3198,7 +3186,7 @@ msgstr "Gebruiker %1 is al geactiveerd, en zou moeten kunnen inloggen."
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
-"request to your server, <span>using your browser and your identity."
+"request to your server, using your browser and your identity."
 msgstr ""
 
 #: core/templates/messages.tmpl:407
@@ -3701,7 +3689,7 @@ msgid "Webs"
 msgstr "Webs"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-msgid "Webserver<span>running Foswiki</span>"
+msgid "Webserver running Foswiki"
 msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12

@@ -970,7 +970,7 @@ msgid ""
 msgstr ""
 "Muuttaaksesi asetuksia, klikkaa siirtyäksesi takaisin edelliseen kohtaan."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:460
+#: TwistyPlugin/data/System/TwistyPlugin.txt:458
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
 msgid "Close"
 msgstr "Sulje"
@@ -984,18 +984,6 @@ msgstr "Värikoodi %1 ei ole oikein määritelty"
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Kommentti"
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:55
-msgid "Commenting is disabled when not in view context"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:59
-msgid "Commenting is disabled while not logged in"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:52
-msgid "Commenting is disabled while running from the command line"
-msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:76 core/templates/more.tmpl:152
 msgid "Compare revisions"
@@ -2035,7 +2023,7 @@ msgstr "Lisää aihetoimintoja..."
 msgid "More view options:"
 msgstr "Lisää aihetoimintoja..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:459
+#: TwistyPlugin/data/System/TwistyPlugin.txt:457
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
 msgid "More..."
 msgstr "Lisää..."
@@ -3152,7 +3140,7 @@ msgstr ""
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
-"request to your server, <span>using your browser and your identity."
+"request to your server, using your browser and your identity."
 msgstr ""
 
 #: core/templates/messages.tmpl:407
@@ -3644,7 +3632,7 @@ msgid "Webs"
 msgstr "Verkot"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-msgid "Webserver<span>running Foswiki</span>"
+msgid "Webserver running Foswiki"
 msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12

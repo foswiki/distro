@@ -986,7 +986,7 @@ msgstr ""
 "Klik for at flytte siden tilbage til den oprindelige lokation, med mulighed "
 "for at opdatere referencer (links til siden fra andre steder)."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:460
+#: TwistyPlugin/data/System/TwistyPlugin.txt:458
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
 msgid "Close"
 msgstr "Luk"
@@ -1000,18 +1000,6 @@ msgstr "Farven %1 er et ugyldigt format"
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Kommentar"
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:55
-msgid "Commenting is disabled when not in view context"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:59
-msgid "Commenting is disabled while not logged in"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:52
-msgid "Commenting is disabled while running from the command line"
-msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:76 core/templates/more.tmpl:152
 msgid "Compare revisions"
@@ -2059,7 +2047,7 @@ msgstr "Flere muligheder med denne side..."
 msgid "More view options:"
 msgstr "Flere muligheder med denne side..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:459
+#: TwistyPlugin/data/System/TwistyPlugin.txt:457
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
 msgid "More..."
 msgstr "Mere..."
@@ -3184,7 +3172,7 @@ msgstr ""
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
-"request to your server, <span>using your browser and your identity."
+"request to your server, using your browser and your identity."
 msgstr ""
 
 #: core/templates/messages.tmpl:407
@@ -3680,7 +3668,7 @@ msgid "Webs"
 msgstr "Webs"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-msgid "Webserver<span>running Foswiki</span>"
+msgid "Webserver running Foswiki"
 msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12

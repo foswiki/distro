@@ -6,15 +6,15 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-22 23:08+0200\n"
+"PO-Revision-Date: 2010-09-13 21:54+0000\n"
 "Last-Translator: Erik Åman <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 1.1.0\n"
+"Language: sv\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:480
@@ -58,11 +58,11 @@ msgstr "Avdelning %1"
 
 #: core/templates/messages.tmpl:480
 msgid "%1 added to the %2 group. "
-msgstr ""
+msgstr "%1 tillagd i gruppen %2."
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
-msgstr ""
+msgstr "Uppdaterat ärende för gruppen %1."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -102,23 +102,20 @@ msgid "%1 is currently set to %2"
 msgstr "%1 är för närvarande satt till %2"
 
 #: core/templates/messages.tmpl:526
-#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 redigerar %2 just nu."
+msgstr "%1 redigerar [[%2][%3]] just nu."
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 är medlem av minst en grupp och kan inte tas bort"
 
 #: core/templates/messages.tmpl:126
-#, fuzzy
 msgid "%1 is not a valid form name"
-msgstr "'%1' är inte en giltig %2 "
+msgstr "%1 är inte ett giltigt formulärnamn"
 
 #: core/templates/messages.tmpl:122
-#, fuzzy
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "'%1' är inte en giltig %2 "
+msgstr "%1 är inte ett giltigt värde för parametern %2 "
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
@@ -129,17 +126,15 @@ msgid "%1 may still be editing %2."
 msgstr "%1 redigerar eventuellt fortfarande %2."
 
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
-msgstr "%1 senaste ändringar på avdelning %2"
+msgstr "%1 nya ändringar i avdelningen %2"
 
 #   "<nop>$fromWeb.<nop>$fromTopic",
 #   $date,
 #   $by)
 #: core/templates/messages.tmpl:518
-#, fuzzy
 msgid "%1 removed from the %2 group. "
-msgstr "%1 flyttades från %2 %3 av %4"
+msgstr "%1 borttagen från gruppen %2."
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -166,9 +161,8 @@ msgstr "%1 försökte registrera sig med e-postadressen %2"
 #   $by)
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
 #: core/lib/Foswiki/Render.pm:229
-#, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 flyttades från %2 %3 av %4"
+msgstr "%1 döptes om eller flyttades från %2 %3 av %4"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -183,9 +177,8 @@ msgid "&History"
 msgstr "&Historik"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:92
-#, fuzzy
 msgid "&Sequential"
-msgstr "Sekvensiell"
+msgstr "&Sekvensiell"
 
 #: core/templates/messages.tmpl:283
 msgid "'%1' is not a valid %2 "
@@ -217,7 +210,7 @@ msgstr "(=alla= för att visa alla sidor)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
 msgid "(This message will be removed automatically)"
-msgstr ""
+msgstr "(Detta meddelande kommer att tas bort automatiskt)"
 
 #: core/templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
@@ -252,9 +245,8 @@ msgid "(changes)"
 msgstr "(ändringar)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:3
-#, fuzzy
 msgid "(compare)"
-msgstr "(mer)"
+msgstr "(jämför)"
 
 #: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
@@ -355,7 +347,6 @@ msgid "*Formatting help:*"
 msgstr "*Hjälp om textformatering*"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -366,13 +357,13 @@ msgid ""
 "contact %1 for details of the Data Protection Policy of this web server "
 "before registering."
 msgstr ""
-"*Viktigt:* Informationen du uppger i detta formulär sparas på Foswiki-"
-"servern. Informationen blir tillgänglig alla som kan nå serveren via webben "
-"(ditt lösenord kryperas dock och din e-postadress förvanskas för att undvika "
-"spam). Ditt hemland eller det land där serveren befinner sig kan ha en data- "
-"eller personuppgiftslag som omfattar denna typ av information. Om du är "
-"tveksam kan du kontakta %1 för mer detaljer angående dataskyddsreglerna för "
-"denna Foswiki-server innan du registrerar dig."
+"*Viktigt:* Informationen du uppger i detta formulär sparas i en databas på "
+"webbservern. Informationen blir tillgänglig alla som kan nå serveren via "
+"webben (ditt lösenord kryperas dock och din e-postadress förvanskas för att "
+"undvika spam). Ditt hemland eller det land där serveren befinner sig kan ha "
+"en data- eller personuppgiftslag som omfattar denna typ av information. Om "
+"du är tveksam kan du kontakta %1 för mer detaljer angående "
+"dataskyddsreglerna för denna webbserver innan du registrerar dig."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -383,14 +374,13 @@ msgstr ""
 "kommer denna fil att uppdateras eller läggas till."
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid ""
 "*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
-"*Egenskaper:* Kommentaren och synligheten (dvs om filen döljs vid "
-"sidvisning) kan ändras utan att ladda upp en ny fil, genom att klicka på "
-"\"Uppdatera endast egenskaper\"; se %1."
+"*Egenskaper:* Kommentaren och synligheten (dvs om bilagan döljs vid "
+"sidvisning) kan ändras utan att ladda upp en ny fil genom att klicka på "
+"\"Uppdatera endast egenskaper\"."
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -467,6 +457,8 @@ msgid ""
 "<strong>Confirmation required!</strong><span>Press OK to confirm this change "
 "was intentional</span><span>Press Cancel otherwise</span>"
 msgstr ""
+"<strong>Bekräftelse krävs!</strong><span>Tryck på OK för att bekräfta att "
+"denna ändring var medveten</span><span>Tryck annars på Avbryt</span>"
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -504,18 +496,16 @@ msgstr ""
 "behov."
 
 #: core/data/Sandbox/WebHome.txt:32
-#, fuzzy
 msgid "A more extensive changes list is available via [[%1][Recent changes]]."
 msgstr "En mer utförlig lista på ändringar finns på [[%1][Senaste ändringar]]."
 
 #: core/templates/messages.tmpl:559
-#, fuzzy
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
-"Ett nytt systemgenererat lösenord till dit användarnamn %1 (!WikiName %2) "
+"Ett nytt systemgenererat lösenord för ditt användarnamn '%1' (!WikiName %2) "
 "har skickats till den registrerade e-postadressen. Om den inte längre är "
 "giltig så kontakta %3"
 
@@ -531,7 +521,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:65
 msgid "A-Z"
-msgstr ""
+msgstr "A-Ö"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -546,9 +536,8 @@ msgid "Access keys"
 msgstr "Tangentbordsgenvägar"
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
-#, fuzzy
 msgid "Access keys:"
-msgstr "Tangentbordsgenvägar"
+msgstr "Tangentbordsgenvägar:"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -560,13 +549,12 @@ msgid "Action %1: %2."
 msgstr "Åtgärd %1: %2."
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
-#, fuzzy
 msgid "Add"
-msgstr "Lägg till rad"
+msgstr "Lägg till"
 
 #: core/data/Main/GroupViewTemplate.txt:143
 msgid "Add a user to this group"
-msgstr ""
+msgstr "Lägg till en användare i denna grupp"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
@@ -578,13 +566,12 @@ msgid "Add row"
 msgstr "Lägg till rad"
 
 #: core/data/Main/GroupViewTemplate.txt:145
-#, fuzzy
 msgid "Add user"
-msgstr "Lägg till rad"
+msgstr "Lägg till användare"
 
 #: core/data/Main/GroupViewTemplate.txt:80
 msgid "Add user..."
-msgstr ""
+msgstr "Lägg till användare..."
 
 #: core/templates/messages.tmpl:369
 #, fuzzy
@@ -616,17 +603,16 @@ msgid "After submitting this form your password will be changed."
 msgstr "Ditt lösenord uppdateras när du skickar in detta formulär."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
-#, fuzzy
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
 msgstr ""
 "När du skickar in detta formulär kommer du att få e-post med ditt nya "
-"*systemgenererade* lösenord och en länk till en sida för att ändra det."
+"systemgenererade lösenord och en länk till en sida där du kan ändra det."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
-msgstr ""
+msgstr "Åh nej!"
 
 #: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
 msgid "All public webs"
@@ -645,9 +631,8 @@ msgstr ""
 "tilbaka till %SYSTEMWEB%.UserRegistration och välja ett annat användarnamn."
 
 #: core/lib/Foswiki/UI/Rename.pm:199
-#, fuzzy
 msgid "An attachment with the same name already exists in this topic."
-msgstr "Den bifogade filen finns redan på den nya sidan"
+msgstr "En bifogad fil med samma namn finns redan på denna sida."
 
 #: core/templates/messages.tmpl:264
 msgid ""
@@ -664,13 +649,12 @@ msgstr ""
 "annan."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge.<span class="
 msgstr ""
 "Det finns en risk att någon försöker använda din identitet för att ändra "
-"innehållet på %1 utan din vetskap."
+"innehållet i din wiki utan din vetskap.<span class="
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -686,9 +670,8 @@ msgid "Attach"
 msgstr "Bifoga fil"
 
 #: core/templates/attach.tmpl:9
-#, fuzzy
 msgid "Attach a file"
-msgstr "Bifoga en ny fil"
+msgstr "Bifoga en fil"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -717,23 +700,20 @@ msgid "Attachment delete failed"
 msgstr "Misslyckades att radera den bifogade filen"
 
 #: core/lib/Foswiki/UI/Rename.pm:166
-#, fuzzy
 msgid "Attachment does not exist."
-msgstr "Den bifogade filen finns inte"
+msgstr "Den bifogade filen finns inte."
 
 #: core/templates/attachtables.tmpl:42
-#, fuzzy
 msgid "Attachment history"
-msgstr "Bifogade filer"
+msgstr "Historik för bifogade filer"
 
 #: core/templates/messages.tmpl:54
 msgid "Attachment move failed"
 msgstr "Flytt av bifogad fil misslyckades"
 
 #: core/templates/moveattachment.tmpl:37
-#, fuzzy
 msgid "Attachment name:"
-msgstr "Bifogad fil"
+msgstr "Den bifogade filens namn:"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
@@ -885,9 +865,8 @@ msgid "Change comment and properties only"
 msgstr "Ändra endast kommentarer och egenskaper"
 
 #: core/templates/renamebase.tmpl:14
-#, fuzzy
 msgid "Change from"
-msgstr "Ändra från:"
+msgstr "Ändra från"
 
 #: core/data/System/LanguageSelector.txt:35
 #: core/templates/oopslanguagechanged.tmpl:5
@@ -947,7 +926,7 @@ msgstr "Ändringar från r%1 till r%2"
 
 #: core/templates/messages.tmpl:429
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
-msgstr ""
+msgstr "Kontrollera din konfiguration för {TemplateDir} och {TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
@@ -978,7 +957,7 @@ msgstr ""
 "Klicka för att flytta tillbaka sidan till föregående plats, med möjlighet "
 "att ändra referenser."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:460
+#: TwistyPlugin/data/System/TwistyPlugin.txt:458
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
 msgid "Close"
 msgstr "Stäng"
@@ -993,26 +972,13 @@ msgstr "Färgen %1 har ogiltigt format"
 msgid "Comment"
 msgstr "Kommentar"
 
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:55
-msgid "Commenting is disabled when not in view context"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:59
-msgid "Commenting is disabled while not logged in"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:52
-msgid "Commenting is disabled while running from the command line"
-msgstr ""
-
 #: HistoryPlugin/templates/oopshistory.tmpl:76 core/templates/more.tmpl:152
 msgid "Compare revisions"
 msgstr "Jämför versioner"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:168
-#, fuzzy
 msgid "Confirm password"
-msgstr "Ditt lösenord:"
+msgstr "Bekräfta lösenord"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
@@ -1037,10 +1003,10 @@ msgstr "Konflikt"
 msgid "Contact %1 if you have any questions."
 msgstr "Om du har frågor så kontakta %1."
 
+# The word "context" could have different translations depending on the context.
 #: HistoryPlugin/templates/oopshistory.tmpl:58
-#, fuzzy
 msgid "Context:"
-msgstr "Land:"
+msgstr "Kontext:"
 
 #: core/templates/messages.tmpl:421
 msgid "Continue and try to rename web?"
@@ -1055,19 +1021,20 @@ msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
 msgstr ""
+"Konvertering till HTML för WYSIWYG-redigering är avstängd på grund av sidans "
+"innehåll."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr ""
+msgstr "Kopiera den här sidan (och alla bifogade filer) till en ny sida."
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
 msgstr "Kopiera sidan"
 
 #: core/templates/more.tmpl:36
-#, fuzzy
 msgid "Copy topic..."
-msgstr "Kopiera sidan"
+msgstr "Kopiera sidan..."
 
 #: core/data/System/DefaultPreferences.txt:40
 msgid ""
@@ -1102,9 +1069,8 @@ msgid "Could not save %1."
 msgstr "Kunde inte spara %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
-#, fuzzy
 msgid "Country"
-msgstr "Land:"
+msgstr "Land"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:6
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
@@ -1123,19 +1089,16 @@ msgid "Create a link to the attached file"
 msgstr "Skapa en länk till den bifogade filen"
 
 #: core/data/Main/WikiGroups.txt:7
-#, fuzzy
 msgid "Create a new group"
-msgstr "Skapa ny sida"
+msgstr "Skapa en ny grupp"
 
 #: core/data/Main/WikiGroups.txt:31
-#, fuzzy
 msgid "Create group"
-msgstr "Skapa ny sida"
+msgstr "Skapa grupp"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:44
-#, fuzzy
 msgid "Create new FAQ topic"
-msgstr "Skapa ny sida"
+msgstr "Skapa ny FAQ-sida"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1150,13 +1113,12 @@ msgid "Create this topic"
 msgstr "Skapa denna sida"
 
 #: core/data/Sandbox/WebHome.txt:19
-#, fuzzy
 msgid "Create topic"
 msgstr "Skapa sidan"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:13
 msgid "Create your account to edit pages on this site."
-msgstr ""
+msgstr "Skapa ett konto för att redigera sidor på denna webbplats."
 
 #: core/templates/messages.tmpl:368
 msgid "Creating a suitable Form Definition topic"
@@ -2040,7 +2002,7 @@ msgstr "Fler alternativ för denna sida..."
 msgid "More view options:"
 msgstr "Fler alternativ för denna sida..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:459
+#: TwistyPlugin/data/System/TwistyPlugin.txt:457
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
 msgid "More..."
 msgstr "Mer..."
@@ -3158,7 +3120,7 @@ msgstr "Användaren %1 har redan aktiverats och ska kunna logga in."
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
-"request to your server, <span>using your browser and your identity."
+"request to your server, using your browser and your identity."
 msgstr ""
 
 #: core/templates/messages.tmpl:407
@@ -3650,7 +3612,7 @@ msgid "Webs"
 msgstr "Avdelningar"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-msgid "Webserver<span>running Foswiki</span>"
+msgid "Webserver running Foswiki"
 msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12
@@ -4274,6 +4236,16 @@ msgstr "visa"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "varför du blir ombedd att bekräfta"
+
+# Not sure how to translate "view context" and exactly what it means.
+#~ msgid "Commenting is disabled when not in view context"
+#~ msgstr "Kommentarer avstängda utom när man tittar på sidan"
+
+#~ msgid "Commenting is disabled while not logged in"
+#~ msgstr "Kommentarer avstängda för oinloggade"
+
+#~ msgid "Commenting is disabled while running from the command line"
+#~ msgstr "Kommentarer avstängda när systemet körs från kommandoraden"
 
 #, fuzzy
 #~ msgid "Attachment metadata"

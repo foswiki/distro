@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-13 03:07+0000\n"
+"PO-Revision-Date: 2010-09-14 12:56+0000\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "MIME-Version: 1.0\n"
@@ -462,6 +462,8 @@ msgid ""
 "<strong>Confirmation required!</strong><span>Press OK to confirm this change "
 "was intentional</span><span>Press Cancel otherwise</span>"
 msgstr ""
+"<strong>Bestätigung erforderlich!</strong><span>Drücken Sie OK wenn diese "
+"Änderung beabsichtigt ist</span><span>Ansonsten drücken Sie Abbrechen</span>"
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -545,9 +547,8 @@ msgid "Access keys"
 msgstr "Funktions-Tasten"
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
-#, fuzzy
 msgid "Access keys:"
-msgstr "Funktions-Tasten"
+msgstr "Funktions-Tasten:"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -623,7 +624,7 @@ msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
-msgstr ""
+msgstr "Ah, nein!"
 
 #: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
 msgid "All public webs"
@@ -977,7 +978,7 @@ msgstr ""
 "Klicken, um das Topic an seine vorherige Stelle zu verschieben, mit der "
 "Möglichkeit die Querverweise zu ändern."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:460
+#: TwistyPlugin/data/System/TwistyPlugin.txt:458
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
 msgid "Close"
 msgstr "Schließen"
@@ -991,18 +992,6 @@ msgstr "Farbe %1 hat ein ungültiges Format"
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Kommentar"
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:55
-msgid "Commenting is disabled when not in view context"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:59
-msgid "Commenting is disabled while not logged in"
-msgstr ""
-
-#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:52
-msgid "Commenting is disabled while running from the command line"
-msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:76 core/templates/more.tmpl:152
 msgid "Compare revisions"
@@ -2050,7 +2039,7 @@ msgstr "Mehr Topic Aktionen..."
 msgid "More view options:"
 msgstr "Weitere Topic Aktionen"
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:459
+#: TwistyPlugin/data/System/TwistyPlugin.txt:457
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
 msgid "More..."
 msgstr "Mehr..."
@@ -3187,7 +3176,7 @@ msgstr ""
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
-"request to your server, <span>using your browser and your identity."
+"request to your server, using your browser and your identity."
 msgstr ""
 
 #: core/templates/messages.tmpl:407
@@ -3690,7 +3679,7 @@ msgid "Webs"
 msgstr "Webs"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-msgid "Webserver<span>running Foswiki</span>"
+msgid "Webserver running Foswiki"
 msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12
