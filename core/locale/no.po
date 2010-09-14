@@ -637,6 +637,8 @@ msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge.<span class="
 msgstr ""
+"En ondsinnet person kan forsøke å bruke din identitet for å endre innholde i "
+"din wiki, uten din viten.<span class="
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -2152,7 +2154,7 @@ msgstr "Antall sider: %1"
 #: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:49
 msgid "OK"
-msgstr "OK"
+msgstr "Ok"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:27
 msgid "OK, this is still me!"
@@ -2325,7 +2327,7 @@ msgstr "Ellers trykk Avbryt"
 
 #: core/templates/validate.tmpl:37
 msgid "Press OK to confirm that this change was intentional."
-msgstr "Trykk OK for å bekrefte at denne endringen var virkelig var ment."
+msgstr "Trykk OK for å bekrefte at du virkelig mener å utføre denne endringen."
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
@@ -3091,7 +3093,7 @@ msgid ""
 "content on %1 without your knowledge."
 msgstr ""
 "Det er en risiko at noen kan forsøke å bruke din identitet for å endre "
-"innhold i %1 uten din iviten."
+"innhold i %1 uten din viten."
 
 #: core/templates/messages.tmpl:359
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -3185,6 +3187,8 @@ msgid ""
 "This page explains one of the security measures that Foswiki, the software "
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
+"Denne siden forklarer en av sikkerhetsmekanismene som Foswiki benytter for "
+"å sikre dette nettstedet, som kjører Foswiki, mot angripere."
 
 #: core/templates/messages.tmpl:364
 msgid "This requires the form definition to be present."
@@ -3587,7 +3591,7 @@ msgstr "Hele siden"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
 msgid "Why am I being asked to confirm?"
-msgstr "Hvorfor blir jeg bedt om å bekrete?"
+msgstr "Hvorfor blir jeg bedt om å bekrefte?"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid "Wiki administrators should read about the"
