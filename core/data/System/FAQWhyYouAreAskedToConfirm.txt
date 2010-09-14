@@ -34,10 +34,10 @@
 
 <!--
 %STARTSECTION{"you"}%%MAKETEXT{"You"}%%ENDSECTION{"you"}%
-%STARTSECTION{"ok"}%%MAKETEXT{"OK"}%OK%ENDSECTION{"ok"}%
+%STARTSECTION{"ok"}%%MAKETEXT{"OK"}%%ENDSECTION{"ok"}%
 %STARTSECTION{"cancel"}%%MAKETEXT{"Cancel"}%%ENDSECTION{"cancel"}%
 %STARTSECTION{"webserver"}%%MAKETEXT{"Webserver running Foswiki"}%%ENDSECTION{"webserver"}%
-%STARTSECTION{"dialog"}%%MAKETEXT{"<strong>Confirmation required!</strong><span>Press OK to confirm this change was intentional</span><span>Press Cancel otherwise</span>"}%%ENDSECTION{"dialog"}%
+%STARTSECTION{"dialog"}%%MAKETEXT{"<strong>Confirmation required!</strong> Press OK to confirm this change was intentional</span><span>Press Cancel otherwise</span>"}%%ENDSECTION{"dialog"}%
 -->
 
 %ADDTOHEAD{"WhyYouAreAskedToConfirm" text="<style type=\"text/css\" media=\"all\">
