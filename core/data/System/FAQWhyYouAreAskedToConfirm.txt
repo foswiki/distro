@@ -2,12 +2,12 @@
 ---+ %MAKETEXT{"Why am I being asked to confirm?"}%
 %MAKETEXT{"This page explains one of the security measures that Foswiki, the software that runs this site, performs to secure this site from attackers."}%
 <sticky><div class="why">
-<p class="expl" id="expl1">%MAKETEXT{"Foswiki checks all requests it receives from browsers, and tries to check that the persons using the browsers intentionally sent them."}%</p>
-<p class="expl" id="expl2">%MAKETEXT{"An evil person may try to use your login identity to change content in your wiki without your knowledge.<span class="pspacing"></span>The attacker tries to use your rights to get things, like admin rights for the site. This is also known as Cross-site Request Forgery, or CSRF."}%</p>
-<p class="scenario" id="scenario1">%MAKETEXT{"In a possible scenario, an evil person has left a link to seduce you to visit a page on http<nop>://crime.org, which has some clever javascript on it."}%</p>
-<p class="scenario" id="scenario2">%MAKETEXT{"Their intention is to automatically save compromising data by sending a request to your server, using your browser and your identity."}%</p>
-<p class="expl" id="expl3">%MAKETEXT{"If Foswiki detects a suspicious request that may have been sent from such a page, then you are asked to confirm the request."}%</p>
-<p class="expl" id="expl4">%MAKETEXT{"The checks performed by Foswiki can sometimes be triggered when you do something perfectly innocent, for instance if you click the Back button after saving a page. Foswiki then uses the approach "better safe than sorry"."}%</p>
+<div id="expl1"><p class="expl">%MAKETEXT{"Foswiki checks all requests it receives from browsers, and tries to check that the persons using the browsers intentionally sent them."}%</p></div>
+<div id="expl2"><p class="expl">%MAKETEXT{"An evil person may try to use your login identity to change content in your wiki without your knowledge."}%</p><p class="expl">%MAKETEXT{"The attacker tries to use your rights to get things, like admin rights for the site."}%</p><p class="expl">%MAKETEXT{"This is also known as Cross-site Request Forgery, or CSRF."}%</p></div>
+<div id="scenario1"><p class="scenario">%MAKETEXT{"In a possible scenario, an evil person has left a link to seduce you to visit a page on http<nop>://crime.org, which has some clever javascript on it."}%</p></div>
+<div id="scenario2"><p class="scenario">%MAKETEXT{"Their intention is to automatically save compromising data by sending a request to your server, using your browser and your identity."}%</p></div>
+<div id="expl3"><p class="expl">%MAKETEXT{"If Foswiki detects a suspicious request that may have been sent from such a page, then you are asked to confirm the request."}%</p></div>
+<div id="expl4"><p class="expl">%MAKETEXT{"The checks performed by Foswiki can sometimes be triggered when you do something perfectly innocent, for instance if you click the Back button after saving a page. Foswiki then uses the approach "better safe than sorry"."}%</p></div>
 <p class="you" id="you1">%INCLUDE{"%BASETOPIC%" section="you"}%</p>
 <p class="webserver" id="webserver1">%INCLUDE{"%BASETOPIC%" section="webserver"}%</p>
 <p class="balloon" id="balloon1">%MAKETEXT{"Who is requesting this, actually?"}%</p>
@@ -36,99 +36,11 @@
 %STARTSECTION{"you"}%%MAKETEXT{"You"}%%ENDSECTION{"you"}%
 %STARTSECTION{"ok"}%%MAKETEXT{"OK"}%%ENDSECTION{"ok"}%
 %STARTSECTION{"cancel"}%%MAKETEXT{"Cancel"}%%ENDSECTION{"cancel"}%
-%STARTSECTION{"webserver"}%%MAKETEXT{"Webserver running Foswiki"}%%ENDSECTION{"webserver"}%
-%STARTSECTION{"dialog"}%%MAKETEXT{"<strong>Confirmation required!</strong> Press OK to confirm this change was intentional</span><span>Press Cancel otherwise</span>"}%%ENDSECTION{"dialog"}%
+%STARTSECTION{"webserver"}%%MAKETEXT{"Webserver <em>running Foswiki</em>"}%%ENDSECTION{"webserver"}%
+%STARTSECTION{"dialog"}%%MAKETEXT{"<strong>Confirmation required!</strong> Press OK to confirm this change was intentional<br />Press Cancel otherwise"}%%ENDSECTION{"dialog"}%
 -->
 
-%ADDTOHEAD{"WhyYouAreAskedToConfirm" text="<style type=\"text/css\" media=\"all\">
-.why {
-	position:relative;
-	width:800px;
-	height:1808px;
-	margin:1em 0;
-	border-top:2px solid #6e7b97;
-	border-bottom:2px solid #6e7b97;
-	background-color:#fff;
-	background-image:url(%PUBURLPATH%/%BASEWEB%/%BASETOPIC%/WhyYouAreAskedToConfirm.jpg);
-	background-repeat:no-repeat;
-	font-style:arial,sans-serif;
-	font-size:15px;
-	line-height:150%;
-}
-.why p {
-	margin:0;
-	padding:0;
-	color:#4c5d88;
-}
-.why p span.pspacing {
-	display:block;
-	margin:1em 0;
-}
-.why .expl {
-	font-size:120%;
-	width:225px;
-}
-.why .you {
-	font-size:120%;
-	width:75px;
-	text-align:center;
-	color:#000;
-}
-.why .evil {
-	font-size:70%;
-	width:60px;
-	text-align:center;
-	color:#cd0404;
-	position:absolute;
-	top:585px;
-	left:312px;
-}
-.why .webserver {
-	font-size:120%;
-	color:#45474d;
-	text-align:center;
-	width:309px;
-	padding-top:15px;
-	line-height:100%;
-}
-.why .webserver span {
-	font-size:80%;
-	display:block;
-}
-.why .balloon {
-	color:#555;
-	font-size:14px;
-	line-height:120%;
-}
-.why .scenario {
-	font-size:110%;
-}
-.why .scenario span {
-	color:#cd0404;
-}
-.why .dialog {
-	color:#444;
-	width:322px;
-	line-height:120%;
-}
-.why .dialog strong {
-	font-size:115%;
-	line-height:150%;
-}
-.why .dialog span {
-	display:block;
-	font-size:14px;
-}
-.why .button {
-	width:63px;
-	font-size:13px;
-	color:#555;
-	text-align:center;
-}
-.why .note {
-	color:#888;
-	line-height:120%;
-}
+%ADDTOZONE{"head" id="FAQWhyYouAreAskedToConfirm" text="<style type=\"text/css\" media=\"all\">
 #expl1 {
 	position:absolute;
 	left:17px;
@@ -255,6 +167,93 @@
 	width:320px;
 	left:441px;
 	top:1630px;
+}
+#scenario1 p {
+	color:#cd0404;
+}
+.why {
+	position:relative;
+	width:800px;
+	height:1808px;
+	margin:1em 0;
+	border-top:2px solid #6e7b97;
+	border-bottom:2px solid #6e7b97;
+	background-color:#fff;
+	background-image:url(%PUBURLPATH%/%BASEWEB%/%BASETOPIC%/WhyYouAreAskedToConfirm.jpg);
+	background-repeat:no-repeat;
+	font-style:arial,sans-serif;
+	font-size:15px;
+	line-height:150%;
+}
+.why p {
+	margin:0 0 1em 0;
+	padding:0;
+	color:#4c5d88;
+}
+.why span {
+	display:block;
+	padding:0 0 1em 0;
+}
+.why .expl {
+	font-size:120%;
+	width:225px;
+}
+.why .you {
+	font-size:120%;
+	width:75px;
+	text-align:center;
+	color:#000;
+}
+.why .evil {
+	font-size:70%;
+	width:60px;
+	text-align:center;
+	color:#cd0404;
+	position:absolute;
+	top:585px;
+	left:312px;
+}
+.why .webserver {
+	font-size:120%;
+	color:#45474d;
+	text-align:center;
+	width:309px;
+	padding-top:15px;
+	line-height:100%;
+}
+.why .webserver em {
+	font-size:80%;
+	display:block;
+	font-style:normal;
+}
+.why .balloon {
+	color:#555;
+	font-size:14px;
+	line-height:120%;
+}
+.why .scenario {
+	font-size:110%;
+}
+.why .dialog {
+	color:#444;
+	width:322px;
+	line-height:120%;
+	font-size:90%;
+}
+.why .dialog strong {
+	font-size:115%;
+	line-height:150%;
+	display:block;
+}
+.why .button {
+	width:63px;
+	font-size:13px;
+	color:#555;
+	text-align:center;
+}
+.why .note {
+	color:#888;
+	line-height:120%;
 }
 </style>"}%
 
