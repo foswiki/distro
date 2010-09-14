@@ -3,9 +3,9 @@
 %MAKETEXT{"This page explains one of the security measures that Foswiki, the software that runs this site, performs to secure this site from attackers."}%
 <sticky><div class="why">
 <p class="expl" id="expl1">%MAKETEXT{"Foswiki checks all requests it receives from browsers, and tries to check that the persons using the browsers intentionally sent them."}%</p>
-<p class="expl" id="expl2">%MAKETEXT{"An evil person may try to use your login identity to change content in your wiki without your knowledge.<span class="pspacing"></span>The attacker tries to use your rights to get things, like admin rights for the site.<span class="pspacing"></span>This is also known as Cross-site Request Forgery, or CSRF."}%</p>
-<p class="scenario" id="scenario1"><span>%MAKETEXT{"In a possible scenario, an evil person has left a link to seduce you to visit a page on http<nop>://crime.org, which has some clever javascript on it."}%</span></p>
-<p class="scenario" id="scenario2">%MAKETEXT{"Their intention is to automatically save compromising data by sending a request to your server, <span>using your browser and your identity."}%</span></p>
+<p class="expl" id="expl2">%MAKETEXT{"An evil person may try to use your login identity to change content in your wiki without your knowledge.<span class="pspacing"></span>The attacker tries to use your rights to get things, like admin rights for the site. This is also known as Cross-site Request Forgery, or CSRF."}%</p>
+<p class="scenario" id="scenario1">%MAKETEXT{"In a possible scenario, an evil person has left a link to seduce you to visit a page on http<nop>://crime.org, which has some clever javascript on it."}%</p>
+<p class="scenario" id="scenario2">%MAKETEXT{"Their intention is to automatically save compromising data by sending a request to your server, using your browser and your identity."}%</p>
 <p class="expl" id="expl3">%MAKETEXT{"If Foswiki detects a suspicious request that may have been sent from such a page, then you are asked to confirm the request."}%</p>
 <p class="expl" id="expl4">%MAKETEXT{"The checks performed by Foswiki can sometimes be triggered when you do something perfectly innocent, for instance if you click the Back button after saving a page. Foswiki then uses the approach "better safe than sorry"."}%</p>
 <p class="you" id="you1">%INCLUDE{"%BASETOPIC%" section="you"}%</p>
@@ -36,7 +36,7 @@
 %STARTSECTION{"you"}%%MAKETEXT{"You"}%%ENDSECTION{"you"}%
 %STARTSECTION{"ok"}%%MAKETEXT{"OK"}%OK%ENDSECTION{"ok"}%
 %STARTSECTION{"cancel"}%%MAKETEXT{"Cancel"}%%ENDSECTION{"cancel"}%
-%STARTSECTION{"webserver"}%%MAKETEXT{"Webserver<span>running Foswiki</span>"}%%ENDSECTION{"webserver"}%
+%STARTSECTION{"webserver"}%%MAKETEXT{"Webserver running Foswiki"}%%ENDSECTION{"webserver"}%
 %STARTSECTION{"dialog"}%%MAKETEXT{"<strong>Confirmation required!</strong><span>Press OK to confirm this change was intentional</span><span>Press Cancel otherwise</span>"}%%ENDSECTION{"dialog"}%
 -->
 
