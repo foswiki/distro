@@ -62,6 +62,7 @@ data/Sandbox/WebStatistics.txt 0644
 data/Sandbox/WebTopicList.txt 0644
 data/System/AccessControl.txt 0644
 data/System/AccessKeys.txt 0644
+data/System/ACRONYM.txt 0644
 data/System/AdminDocumentationCategory.txt 0644
 data/System/AdminSkillsAssumptions.txt 0644
 data/System/AdminToolsCategory.txt 0644
@@ -670,6 +671,7 @@ lib/Foswiki/Macros/PUBURL.pm 0444
 lib/Foswiki/Macros/QUERY.pm 0444
 lib/Foswiki/Macros/QUERYPARAMS.pm 0444
 lib/Foswiki/Macros/RELATIVETOPICPATH.pm 0444
+lib/Foswiki/Macros/RENDERZONE.pm 0444
 lib/Foswiki/Macros/REVARG.pm 0444
 lib/Foswiki/Macros/REVINFO.pm 0444
 lib/Foswiki/Macros/REVTITLE.pm 0444
