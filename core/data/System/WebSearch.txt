@@ -19,7 +19,7 @@
 %ENDSECTION{"help"}%
 
 
-%STARTSECTION{"title"}%---+ %MAKETEXT{"Search in [_1] Web" args="<nop>%BASEWEB%"}%%ENDSECTION{"title"}%
+%STARTSECTION{"title"}%---+!! %MAKETEXT{"Search in [_1] Web" args="<nop>%BASEWEB%"}%%ENDSECTION{"title"}%
 
 
 %STARTSECTION{"form"}%%INCLUDE{"%TOPIC%" section="tabs"}%<noautolink>
