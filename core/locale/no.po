@@ -442,8 +442,8 @@ msgstr "<em> i alle offentlige web'er</em>"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
 msgid ""
-"<strong>Confirmation required!</strong><span>Press OK to confirm this change "
-"was intentional</span><span>Press Cancel otherwise</span>"
+"<strong>Confirmation required!</strong> Press OK to confirm this change was "
+"intentional<br />Press Cancel otherwise"
 msgstr ""
 
 #: core/templates/messages.tmpl:381
@@ -633,9 +633,10 @@ msgid ""
 msgstr "En feilmelding vil vises hvis en av sidene er låst av en annen bruker."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
-"wiki without your knowledge.<span class="
+"wiki without your knowledge."
 msgstr ""
 "En ondsinnet person kan forsøke å bruke din identitet for å endre innholde i "
 "din wiki, uten din viten.<span class="
@@ -2961,6 +2962,12 @@ msgstr ""
 "Navnet på vedlegget må kanskje endres dersom et vedlegg kalt '%FILENAME%' "
 "allerede finnes på siden."
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid ""
+"The attacker tries to use your rights to get things, like admin rights for "
+"the site."
+msgstr ""
+
 #: core/templates/messages.tmpl:538
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
@@ -3135,6 +3142,10 @@ msgstr ""
 "endres i denne %1 web'en. Dette er en praktisk tjeneste slik at du trenger å "
 "komme igjen og sjekke etter endringer hele tiden. For å abbonnere, legg til "
 "et punkt med din %2 i alfabetisk rekkefølge til denne listen:"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid "This is also known as Cross-site Request Forgery, or CSRF."
+msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:71
@@ -3556,7 +3567,7 @@ msgstr "Web"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
 #, fuzzy
-msgid "Webserver running Foswiki"
+msgid "Webserver <em>running Foswiki</em>"
 msgstr "Nettsted<span>kjører Foswiki</span>"
 
 #: core/data/Main/WebPreferences.txt:12

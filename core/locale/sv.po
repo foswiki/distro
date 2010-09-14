@@ -453,9 +453,10 @@ msgid "<em>in all public webs</em>"
 msgstr "<em>i alla publika avdelningar</em>"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
+#, fuzzy
 msgid ""
-"<strong>Confirmation required!</strong><span>Press OK to confirm this change "
-"was intentional</span><span>Press Cancel otherwise</span>"
+"<strong>Confirmation required!</strong> Press OK to confirm this change was "
+"intentional<br />Press Cancel otherwise"
 msgstr ""
 "<strong>Bekräftelse krävs!</strong><span>Tryck på OK för att bekräfta att "
 "denna ändring var medveten</span><span>Tryck annars på Avbryt</span>"
@@ -649,9 +650,10 @@ msgstr ""
 "annan."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
-"wiki without your knowledge.<span class="
+"wiki without your knowledge."
 msgstr ""
 "Det finns en risk att någon försöker använda din identitet för att ändra "
 "innehållet i din wiki utan din vetskap.<span class="
@@ -3016,6 +3018,12 @@ msgid ""
 "already exists in the target topic."
 msgstr ""
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid ""
+"The attacker tries to use your rights to get things, like admin rights for "
+"the site."
+msgstr ""
+
 #: core/templates/messages.tmpl:538
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
@@ -3187,6 +3195,10 @@ msgstr ""
 "post när sidor ändras här på avdelningen %1, så att du inte behöver titta "
 "efter om något ändrats. Lägg till en punkt med din %2 i alfabetisk ordning i "
 "denna lista:"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid "This is also known as Cross-site Request Forgery, or CSRF."
+msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:71
@@ -3612,7 +3624,7 @@ msgid "Webs"
 msgstr "Avdelningar"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-msgid "Webserver running Foswiki"
+msgid "Webserver <em>running Foswiki</em>"
 msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12

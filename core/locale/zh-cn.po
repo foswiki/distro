@@ -449,8 +449,8 @@ msgstr "<em>在所有公开的子网</em>"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
 msgid ""
-"<strong>Confirmation required!</strong><span>Press OK to confirm this change "
-"was intentional</span><span>Press Cancel otherwise</span>"
+"<strong>Confirmation required!</strong> Press OK to confirm this change was "
+"intentional<br />Press Cancel otherwise"
 msgstr ""
 
 #: core/templates/messages.tmpl:381
@@ -638,7 +638,7 @@ msgstr "若本主题被其他用户锁住，将会出现错误页提示。"
 #, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
-"wiki without your knowledge.<span class="
+"wiki without your knowledge."
 msgstr ""
 "有个风险，就是在您不知情的情况下，有人可能试着以您的身份变更 %1 的内容。"
 
@@ -2938,6 +2938,12 @@ msgid ""
 "already exists in the target topic."
 msgstr ""
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid ""
+"The attacker tries to use your rights to get things, like admin rights for "
+"the site."
+msgstr ""
+
 #: core/templates/messages.tmpl:538
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
@@ -3096,6 +3102,10 @@ msgstr ""
 "这是个订阅服务，当 %1子网内的主题更新时会自动利用电子邮件通知。这是个非常方便"
 "的服务，所以您不用常常回来查看是否有更新。若要订阅，请将您的 %2 依字母顺序加"
 "入以下清单:"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid "This is also known as Cross-site Request Forgery, or CSRF."
+msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:71
@@ -3503,7 +3513,7 @@ msgid "Webs"
 msgstr "子网"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-msgid "Webserver running Foswiki"
+msgid "Webserver <em>running Foswiki</em>"
 msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12

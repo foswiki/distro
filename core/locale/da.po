@@ -466,8 +466,8 @@ msgstr "<em>i alle offentlige webs</em>"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
 msgid ""
-"<strong>Confirmation required!</strong><span>Press OK to confirm this change "
-"was intentional</span><span>Press Cancel otherwise</span>"
+"<strong>Confirmation required!</strong> Press OK to confirm this change was "
+"intentional<br />Press Cancel otherwise"
 msgstr ""
 
 #: core/templates/messages.tmpl:381
@@ -672,7 +672,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
-"wiki without your knowledge.<span class="
+"wiki without your knowledge."
 msgstr ""
 "Der er en risiko for at nogen prøver at bruge din identitet til at ændre "
 "indhold på %1 uden din viden."
@@ -3065,6 +3065,12 @@ msgid ""
 "already exists in the target topic."
 msgstr ""
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid ""
+"The attacker tries to use your rights to get things, like admin rights for "
+"the site."
+msgstr ""
+
 #: core/templates/messages.tmpl:538
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
@@ -3242,6 +3248,10 @@ msgstr ""
 "belejlig service, således at du slipper for at være nødsaget til at komme "
 "tilbage og selv tjekke om noget er blevet ændret. For at skrive dig op, "
 "tilføj venligst en prik med dit %2 i alfabetisk orden til denne liste."
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid "This is also known as Cross-site Request Forgery, or CSRF."
+msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:71
@@ -3668,7 +3678,7 @@ msgid "Webs"
 msgstr "Webs"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-msgid "Webserver running Foswiki"
+msgid "Webserver <em>running Foswiki</em>"
 msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12

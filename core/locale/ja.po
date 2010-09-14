@@ -459,9 +459,10 @@ msgid "<em>in all public webs</em>"
 msgstr "全てのパブリックウェブにあります"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
+#, fuzzy
 msgid ""
-"<strong>Confirmation required!</strong><span>Press OK to confirm this change "
-"was intentional</span><span>Press Cancel otherwise</span>"
+"<strong>Confirmation required!</strong> Press OK to confirm this change was "
+"intentional<br />Press Cancel otherwise"
 msgstr ""
 "<strong>確認が必要</strong><span>意思で変更されたのは確認して「OK」を押してく"
 "ださい。</span><span>その他は「キャンセル」を押してください。</span>"
@@ -664,7 +665,7 @@ msgstr ""
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
 "An evil person may try to use your login identity to change content in your "
-"wiki without your knowledge.<span class="
+"wiki without your knowledge."
 msgstr ""
 
 #: core/templates/messages.tmpl:17
@@ -3029,6 +3030,12 @@ msgid ""
 "already exists in the target topic."
 msgstr ""
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid ""
+"The attacker tries to use your rights to get things, like admin rights for "
+"the site."
+msgstr ""
+
 #: core/templates/messages.tmpl:538
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
@@ -3193,6 +3200,10 @@ msgstr ""
 "とても便利なサービスです。よくここに戻って更新されているかをチェックする必要"
 "はありません。購読したければ、あなたの%2 をアルファベット順に以下のリストに追"
 "加するだけでいいです"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid "This is also known as Cross-site Request Forgery, or CSRF."
+msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:71
@@ -3615,7 +3626,7 @@ msgid "Webs"
 msgstr "ウェブ"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-msgid "Webserver running Foswiki"
+msgid "Webserver <em>running Foswiki</em>"
 msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12

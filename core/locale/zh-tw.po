@@ -439,9 +439,10 @@ msgid "<em>in all public webs</em>"
 msgstr "<em>在所有公開的子網</em>"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
+#, fuzzy
 msgid ""
-"<strong>Confirmation required!</strong><span>Press OK to confirm this change "
-"was intentional</span><span>Press Cancel otherwise</span>"
+"<strong>Confirmation required!</strong> Press OK to confirm this change was "
+"intentional<br />Press Cancel otherwise"
 msgstr ""
 "<strong>需要確認！</strong><span>按 OK 確認此變更</span><span>若否按取消</"
 "span>"
@@ -619,9 +620,10 @@ msgid ""
 msgstr "若本主題被其他用戶鎖住，將會出現錯誤頁提示。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
-"wiki without your knowledge.<span class="
+"wiki without your knowledge."
 msgstr ""
 "在您不知情的情況下，有人可能試著以您的登入身份變更您網頁的內容。<span class="
 
@@ -2860,6 +2862,12 @@ msgid ""
 "already exists in the target topic."
 msgstr "若目標主題中已有相同檔名 '%FILENAME%' 的附件，本附件可能已被改名。"
 
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid ""
+"The attacker tries to use your rights to get things, like admin rights for "
+"the site."
+msgstr ""
+
 #: core/templates/messages.tmpl:538
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
@@ -3018,6 +3026,10 @@ msgstr ""
 "這是個訂閱服務，當 %1子網內的主題更新時會自動利用電子郵件通知。這是個非常方便"
 "的服務，所以您不用常常回來查看是否有更新。若要訂閱，請將您的 %2 依字母順序加"
 "入以下清單:"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid "This is also known as Cross-site Request Forgery, or CSRF."
+msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:71
@@ -3419,7 +3431,7 @@ msgid "Webs"
 msgstr "子網"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-msgid "Webserver running Foswiki"
+msgid "Webserver <em>running Foswiki</em>"
 msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12
