@@ -2923,7 +2923,7 @@ msgstr "podsumowań"
 msgid "Switch to monotype or propotional font"
 msgstr "Przełącz na czcionkę monotypową lub proporcjonalną"
 
-#: core/data/System/SearchHelp.txt:5
+#: core/data/System/SearchHelp.txt:15
 msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"

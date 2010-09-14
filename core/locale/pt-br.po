@@ -2889,7 +2889,7 @@ msgstr "Resumos"
 msgid "Switch to monotype or propotional font"
 msgstr "Trocar para fonte monoespaçada ou proporcional"
 
-#: core/data/System/SearchHelp.txt:5
+#: core/data/System/SearchHelp.txt:15
 msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
