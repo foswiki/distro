@@ -229,7 +229,7 @@ a.foswikiButton,a.foswikiButton:hover,a.foswikiButton:link:active,a.foswikiButto
 	color:#000;
 }
 
-.foswikiAlert {
+div.foswikiAlert {
 	margin:1em 0;
 }
 

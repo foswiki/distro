@@ -425,7 +425,7 @@ span.configureMandatory {
 }
 
 .configureLogo {
-	margin:1em 0;
+	margin:1em 0 1.5em 0;
 }
 .configureChangeList {;
 	margin:1em 0 3em 0;
@@ -600,13 +600,14 @@ div.configureMessageBox {
    background:#fff;
 }
 
-
-.foswikiNotificationGood {
-	margin:1em 0;
-	padding:1em;
+.foswikiNotification.foswikiGood {
 	background:#fff;
 	border:1px solid #91ee85;
 }
-.foswikiNotificationGood .configureChangeList {
+.foswikiNotification.foswikiBad {
+	background:#fff2f2;
+	border:1px solid #f00;
+}
+.foswikiNotification .configureChangeList {
 	margin:1em 0;
 }
