@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-13 12:47+0000\n"
+"PO-Revision-Date: 2010-09-15 12:26+0000\n"
 "Last-Translator: Carlinhos Ceconi <carlinux@terra.com.br>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "MIME-Version: 1.0\n"
@@ -133,9 +133,8 @@ msgid "%1 recent changes in %2 Web"
 msgstr "%1 últimas alterações na Web %2"
 
 #: core/templates/messages.tmpl:518
-#, fuzzy
 msgid "%1 removed from the %2 group. "
-msgstr "%1 movido de %2 em %3 por %4"
+msgstr "%1 removido do grupo %2."
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -344,7 +343,6 @@ msgid "*Formatting help:*"
 msgstr "*Ajuda com formatação:*"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -376,14 +374,13 @@ msgstr ""
 "arquivo deverá ter o mesmo nome daquele já existente."
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid ""
 "*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
 "*Propriedades:* o comentário e a visibilidade (i.e. se o anexo será mostrado "
-"ou não) podem ser alterados sem a necessidade de anexar o arquivo novamente. "
-"Para mudar apenas isso clique em \"Apenas Alterar Propriedades\"; veja '%1"
+"ou não) podem ser alterados sem a necessidade de anexar o arquivo "
+"novamente. Para mudar apenas isso clique em \"Apenas Alterar Propriedades\"."
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -459,7 +456,6 @@ msgid "<em>in all public webs</em>"
 msgstr "<em>globalmente (em todas as webs públicas)</em>"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
-#, fuzzy
 msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
@@ -535,7 +531,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:65
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -589,7 +585,7 @@ msgstr "Adicionar usuário..."
 
 #: core/templates/messages.tmpl:369
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Adicionando uma variável %1 em WebPreferences"
+msgstr "Adicionando  preferência %1 em WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
@@ -665,13 +661,12 @@ msgstr ""
 "por outro usuário."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
-"Existe um risco de que alguém talvez esteja usando sua identidade para "
-"editar o conteúdo em %1 sem o seu conhecimento."
+"Alguém mal intencionado pode tentar usar sua identidade de login para "
+"alterar conteúdo de seu wiki sem o seu conhecimento."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -1043,6 +1038,8 @@ msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
 msgstr ""
+"Conversão para HTML da edição WYSIWYG está desabilitada em razão do conteúdo "
+"do tópico."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
@@ -1286,27 +1283,27 @@ msgstr "E-mail alterado com sucesso!"
 
 #: core/templates/messages.tmpl:632
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
-msgstr ""
+msgstr "ENCODE falhou - =type= não pode ser usado com =old= e =new="
 
 #: core/templates/messages.tmpl:633
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr ""
+msgstr "ENCODE falhou - ambos =old= e =new= devem ser informados"
 
 #: core/templates/messages.tmpl:634
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr ""
+msgstr "ENCODE falhou - token '%PARAM1%' é repetido em =old="
 
 #: core/templates/messages.tmpl:637
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr ""
+msgstr "EXPAND falhou - acesso negado para '%PARAM1%'"
 
 #: core/templates/messages.tmpl:635
 msgid "EXPAND failed - no macro"
-msgstr ""
+msgstr "EXPAND falhou - sem macro"
 
 #: core/templates/messages.tmpl:636
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr ""
+msgstr "EXPAND falhou - nenhum tópico como '%PARAM1%'"
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
@@ -1362,7 +1359,7 @@ msgid ""
 "Either the code is not valid, or you have already confirmed your "
 "registration using it."
 msgstr ""
-"Ou o código é inválido, ou você já o utilizou, confirmando seu registo."
+"Ou o código é inválido, ou você já o utilizou, confirmando seu registro."
 
 #: core/templates/messages.tmpl:127
 msgid "Either the name is invalid, or it refers to a non-existant form."
@@ -1487,6 +1484,8 @@ msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
 "it poses to you, see "
 msgstr ""
+"Para obter informações detalhadas sobre a falsificação 'cross-site request' "
+"e os perigos que isso representa, veja"
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1526,6 +1525,8 @@ msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
+"Foswiki verifica todos os pedidos que recebe dos browsers, e tenta verificar "
+"se essa era a intenção das pessoas que utilizam os browsers."
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
@@ -1537,16 +1538,15 @@ msgstr "Ajuda com anexação de arquivos"
 
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
-msgstr ""
+msgstr "Ajuda com configuração de preferências em tópicos."
 
 #: core/data/System/WebSearch.txt:157
 msgid "Get notified on changes on this search"
 msgstr "Receba notificações de alterações no resultado dessa busca"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
-#, fuzzy
 msgid "Globe"
-msgstr "Ocultar"
+msgstr "Web"
 
 #: core/templates/foswiki.tmpl:139
 msgid "Go back"
@@ -1667,6 +1667,8 @@ msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
+"Se Foswiki detectar um pedido suspeito que possa ter sido originado a partir "
+"de tal página, você será instado a confirmar o pedido."
 
 #: core/templates/messages.tmpl:431
 msgid ""
@@ -1996,9 +1998,8 @@ msgid "More formatting help"
 msgstr "Mais ajuda com formatação"
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid "More on hiding attachments"
-msgstr "Mais anexos ocultos"
+msgstr "Mais em anexos ocultos"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
