@@ -37,10 +37,9 @@ while (scalar(@cwd) > 1) {
 
 die "Can't find root" unless (-d "$root/lib" && -d "$root/data");
 
-@skip = qw(tools test working logs);
+my @skip = qw(tools test working logs);
 print <<END;
-Run this script from anywhere (either in core root or in a subdir
-of twikiplugins).
+Run this script from anywhere a directory with a MANIFEST file
 
 The script will find and scan MANIFEST and compare the contents with
 what is checked in under subversion. Any differences are reported.
