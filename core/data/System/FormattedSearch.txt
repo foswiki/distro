@@ -384,7 +384,7 @@ Result:
 *To get this:*
 <form action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%#FormSearchExample">
 Find Topics: 
-<input type="text" name="q" size="32"\
+<input type="text" name="q" class="foswikiInputField" size="32"\
   value="%URLPARAM{"q" encode="entity"}%" />&nbsp;<input\
   type="submit" class="foswikiSubmit" value="Search" />
 </form>
