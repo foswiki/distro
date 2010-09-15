@@ -69,9 +69,12 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight:normal;
 	line-height:1.1em;
 }
-h1 { font-size:190%; }
-h2 { font-size:153%; }
-h3 { font-size:137%; }
+h1 {
+	margin-top:.5em;
+	font-size:190%;
+}
+h2 { font-size:165%; }
+h3 { font-size:145%; }
 h4 { font-size:127%; }
 h5 { font-size:117%; }
 h6 { font-size:107%; }
@@ -176,6 +179,8 @@ a.foswikiButtonCancel,
 .foswikiButton:active {
 	cursor:default;
 	outline:none;
+	line-height:1em;
+	padding:2px 4px;
 }
 a.foswikiButton,
 a.foswikiButton:hover,
@@ -190,6 +195,8 @@ a.foswikiSubmit:hover,
 a.foswikiSubmit:link:active,
 a.foswikiSubmit:visited:active {
 	text-decoration:none;
+	line-height:1em;
+	padding:2px 4px;
 }
 
 .foswikiCheckbox,
@@ -714,8 +721,9 @@ html>body #patternSideBarContents li { /* Mozilla */
 	display:block;
 	border-width:1px;
 	border-style:solid;
-	padding:.1em .35em;
-	margin:0 0 .2em .25em;
+	padding:2px 4px;
+	line-height:1em;
+	margin:0 0 4px 4px;
 	font-weight:bold;
 }
 .patternToolBar span a:hover,
@@ -728,7 +736,8 @@ html>body #patternSideBarContents li { /* Mozilla */
 	outline:none;
 }
 .patternToolBar span.foswikiAccessKey { 
-	float:none; 
+	float:none;
+	border:none;
 }
 .patternToolBar span s,
 .patternToolBar span strike {
@@ -756,7 +765,8 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternActionButtons a.foswikiButton,
 .patternActionButtons a.foswikiSubmit,
 .patternActionButtons a.foswikiButtonCancel {
-	padding:.1em .2em;
+	line-height:1em;
+	padding:2px 4px;
 }
 .patternInfo {
 	margin:1em 0 0 0;
@@ -781,9 +791,6 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternBorder .patternBorder {
 	border-style:solid none none none;
 	margin-top:-1px;
-}
-.patternEditPage .patternBorder {
-	margin-top:2em;
 }
 .patternTop {}
 
@@ -905,7 +912,7 @@ h4.foswikiSearchResultsHeader {
 	text-align:right
 }
 .patternSigLine {
-	margin:.5em 0 0 0;
+	margin:.5em 0 2em 0;
 	border-style:none;
 }
 .foswikiAddFormButton {
