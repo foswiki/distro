@@ -597,6 +597,7 @@ $(document).ready(function() {
 	});
 	$("#closeMessages").click(function() {
 		$("#messages").hide();
+		return false;
 	});
 
 	toggleExpertsMode( getUrlParam('expert') );
