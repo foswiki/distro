@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-15 12:26+0000\n"
+"PO-Revision-Date: 2010-09-15 14:21+0000\n"
 "Last-Translator: Carlinhos Ceconi <carlinux@terra.com.br>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "MIME-Version: 1.0\n"
@@ -2007,9 +2007,8 @@ msgid "More topic actions..."
 msgstr "Mais ações de tópico..."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:80
-#, fuzzy
 msgid "More view options:"
-msgstr "Mais opções em view"
+msgstr "Mais opções:"
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
@@ -2133,7 +2132,7 @@ msgstr "Não recomendado ao remover um tópico."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
-msgstr ""
+msgstr "Parece não estar certo, confirme por favor!"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2156,6 +2155,10 @@ msgid ""
 "past this screen. This is normally the case, but if something doesn't work, "
 "this is where to look first."
 msgstr ""
+"Nota: você precisa ter Cookies e Javascript habilitados no seu navegador "
+"para passar essa tela. Normalmente são habilitados por padrão, mas caso algo "
+"não funcione corretamente, verifique se o seu browser tem eles habilitados. "
+""
 
 #: core/data/System/VarMAKETEXT.txt:15
 msgid "Notes:"
@@ -2343,7 +2346,7 @@ msgstr ""
 
 #: core/lib/Foswiki/Plugins.pm:397
 msgid "Plugin handlers"
-msgstr ""
+msgstr "Manipulador de plugins"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -2530,7 +2533,7 @@ msgstr "Restaurar senha"
 
 #: core/data/System/DefaultPreferences.txt:186
 msgid "Resetting and setting password is not handled by Foswiki"
-msgstr ""
+msgstr "Restauração e configuração de senha não são executadas pelo Foswiki"
 
 #: core/templates/more.tmpl:170
 msgid "Restore topic"
@@ -2545,18 +2548,16 @@ msgid "Restore topic to this revision"
 msgstr "Restaurar tópico para esta versão"
 
 #: core/templates/more.tmpl:178
-#, fuzzy
 msgid "Restore..."
-msgstr "Restaurar"
+msgstr "Restaurar..."
 
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
 msgstr "Resultados na web %1"
 
 #: core/templates/search.text.tmpl:4
-#, fuzzy
 msgid "Results from %1 web:"
-msgstr "Resultados na web %1"
+msgstr "Resultados na web %1:"
 
 #: core/templates/messages.tmpl:207
 msgid "Return to %1."
@@ -2582,7 +2583,6 @@ msgid "Revision"
 msgstr "Versão"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:14
-#, fuzzy
 msgid "Revision history of %1"
 msgstr "Versão do histórico de %1"
 
@@ -2592,7 +2592,7 @@ msgstr "Versões"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:72
 msgid "Revisions %1 - %2 (out of %3)"
-msgstr ""
+msgstr "Versões %1 - %2 (de 3%)"
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
 msgid "S = Save, C = Cancel"
@@ -2607,7 +2607,7 @@ msgstr ""
 
 #: core/data/Sandbox/WebPreferences.txt:9
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
-msgstr ""
+msgstr "Sandboxs é uma web de testes para uso irrestrito"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:161
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
@@ -2646,9 +2646,8 @@ msgid "Search all webs for topics that link to here"
 msgstr "Procurar em todas as webs por tópicos que façam link pra cá"
 
 #: core/data/System/WebSearch.txt:22
-#, fuzzy
 msgid "Search in %1 Web"
-msgstr "Procurar só na &Web %1"
+msgstr "Procurar na &Web %1"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search in all webs"
@@ -2659,14 +2658,12 @@ msgid "Search more topics in this web"
 msgstr "Procurar por tópicos nesta web"
 
 #: core/data/System/WebSearch.txt:39
-#, fuzzy
 msgid "Search options"
-msgstr "Outras opções de busca:"
+msgstr "Opções de busca"
 
 #: core/templates/searchbookview.tmpl:7
-#, fuzzy
 msgid "Search result"
-msgstr "(resultados da busca)"
+msgstr "Resultados da busca"
 
 #: core/data/System/WebSearch.txt:122
 msgid "Search string"
@@ -2702,7 +2699,7 @@ msgstr "Veja %1 para informações sobre definições de formulário."
 #: core/templates/messages.tmpl:489 core/templates/messages.tmpl:510
 #: core/templates/messages.tmpl:520
 msgid "See %MAINWEB%.WikiGroups to see the result."
-msgstr ""
+msgstr "Veja o resultado em %MAINWEB%.WikiGroups."
 
 #: core/data/System/WebIndex.txt:5
 msgid "See also the faster %1"
@@ -2726,7 +2723,7 @@ msgstr "Selecionar"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
 msgid "Select Wiki %1 to join"
-msgstr ""
+msgstr "Selecione %1 Wiki para ingressar"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
@@ -2739,11 +2736,12 @@ msgstr "Selecionar todos"
 #: HistoryPlugin/templates/oopshistory.tmpl:71
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
+"Selecione uma versão anterior (esquerda) e uma posterior (direita) para "
+"comparar"
 
 #: core/templates/more.tmpl:103
-#, fuzzy
 msgid "Select topic parent"
-msgstr "Selecione o tópico pai:"
+msgstr "Selecione o tópico pai"
 
 #: PatternSkin/templates/edit.pattern.tmpl:53 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
@@ -2751,7 +2749,7 @@ msgstr "Selecione, copie e cole a sua assinatura no final do seu texto"
 
 #: core/data/System/WebSearch.txt:109
 msgid "Selections apply to search in \"text body\""
-msgstr ""
+msgstr "Seleções aplicam-se para buscas no conteúdo textual."
 
 #: core/templates/more.tmpl:161
 msgid "Sequential"
@@ -2770,9 +2768,8 @@ msgid "Set new topic parent"
 msgstr "Indicar novo tópico pai"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:80
-#, fuzzy
 msgid "Show"
-msgstr "Exibir ajuda"
+msgstr "Exibir"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:11
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -2789,7 +2786,7 @@ msgstr "Lado a lado"
 
 #: CompareRevisionsAddOn/templates/comparesidebyside.tmpl:3
 msgid "Side-by-side comparison of revisions"
-msgstr ""
+msgstr "Comparação de versões lado a lado"
 
 #: core/templates/attachtables.tmpl:4
 msgid "Size"
@@ -2880,7 +2877,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:516
 msgid "Success removing users from group"
-msgstr ""
+msgstr "Sucesso ao remover usuários do grupo"
 
 #: core/data/System/WebSearch.txt:123
 msgid "Summaries"
@@ -2970,9 +2967,8 @@ msgstr ""
 #: core/data/System/WebRss.txt:6 core/data/Trash/WebAtom.txt:3
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
-#, fuzzy
 msgid "The %1 web of %2."
-msgstr "A web %1 não existe"
+msgstr "A web %1 de %2."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
@@ -2988,9 +2984,8 @@ msgid "The Administrator has disabled new user registration."
 msgstr "O Administrador desativou o registro de novos usuários."
 
 #: core/data/System/WebPreferences.txt:12
-#, fuzzy
 msgid "The Free and Open Source Wiki."
-msgstr "A web %1 do Foswiki, Free and Open Source Wiki."
+msgstr "Wiki livre e de código aberto."
 
 #: core/templates/messages.tmpl:316
 msgid "The activation code %1 is invalid."
@@ -3005,18 +3000,24 @@ msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
+"O anexo pode ser renomeado (acrescentando-se um número ao nome) se o tópico "
+"já contiver um anexo com o mesmo nome."
 
 #: core/templates/renameattachmentdelete.tmpl:43
 msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
 msgstr ""
+"O anexo pode ser renomeado se o tópico já contiver um com o nome "
+"'%FILENAME%'."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
 "The attacker tries to use your rights to get things, like admin rights for "
 "the site."
 msgstr ""
+"O invasor tenta usar seu direito de fazer coisas, como por exemplo ser "
+"administrador do site."
 
 #: core/templates/messages.tmpl:538
 msgid ""
@@ -3040,6 +3041,9 @@ msgid ""
 "something perfectly innocent, for instance if you click the Back button "
 "after saving a page. Foswiki then uses the approach "
 msgstr ""
+"As verificações efetuadas pelo Fosiki podem ser acionadas quando você faz "
+"algo sem querer, por exemplo, se você clicar no botão Voltar após salvar uma "
+"página. Na sequência Fozwiki fará a verificação"
 
 #: core/templates/messages.tmpl:308
 msgid "The e-mail address for this account is not valid."
@@ -3082,7 +3086,7 @@ msgstr "O tempo de edição preferencial para o tópico acabou %1 atrás."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:153
 msgid "The login name you use to sign in."
-msgstr ""
+msgstr "O nome de login usado para assinatura."
 
 #: core/templates/messages.tmpl:93
 msgid "The name of the topic must not be empty."
@@ -3272,14 +3276,12 @@ msgstr ""
 "alterou campos de formulário."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:64
-#, fuzzy
 msgid "Title"
-msgstr "Nome do tópico"
+msgstr "Título"
 
 #: core/templates/renameconfirm.tmpl:16
-#, fuzzy
 msgid "To attachment:"
-msgstr "Anexos do tópico"
+msgstr "Para anexo:"
 
 #: core/data/System/WebSearch.txt:164
 msgid ""
@@ -3298,18 +3300,16 @@ msgid "To see if %1 has finished editing yet, click "
 msgstr "Para ver se %1 já terminou de editar, clique"
 
 #: core/templates/renamebase.tmpl:29
-#, fuzzy
 msgid "To topic"
-msgstr "Para tópico:"
+msgstr "Para tópico"
 
 #: core/templates/renameconfirm.tmpl:13
 msgid "To topic:"
 msgstr "Para tópico:"
 
 #: core/templates/renamebase.tmpl:22
-#, fuzzy
 msgid "To web"
-msgstr "Para web:"
+msgstr "Para web"
 
 #: core/templates/renameconfirm.tmpl:9
 msgid "To web:"
@@ -3344,15 +3344,13 @@ msgstr ""
 
 #: PatternSkin/templates/form.pattern.tmpl:10
 #: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
-#, fuzzy
 msgid "Topic data"
-msgstr "Nome do tópico"
+msgstr "Dados do tópico"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
 #: HistoryPlugin/templates/oopshistory.tmpl:40
-#, fuzzy
 msgid "Topic history"
-msgstr "Nome do tópico"
+msgstr "Histórico do tópico"
 
 #: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:100
 msgid "Topic name"
@@ -3479,7 +3477,6 @@ msgid "Use %1 instead."
 msgstr "Use %1 preferencialmente."
 
 #: core/data/Sandbox/WebHome.txt:22
-#, fuzzy
 msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
 msgstr ""
 "(Use [[%SYSTEMWEB%.WikiNotation][Notação Wiki]] para um nome de tópico)"
@@ -3533,9 +3530,8 @@ msgid "View difference"
 msgstr "Ver diferença"
 
 #: core/templates/more.tmpl:164
-#, fuzzy
 msgid "View differences"
-msgstr "Ver diferença"
+msgstr "Ver diferenças"
 
 #: core/templates/more.tmpl:139
 msgid "View previous topic revision"
@@ -3546,9 +3542,8 @@ msgid "View raw text without formatting"
 msgstr "Ver em modo texto, sem formatação"
 
 #: core/templates/more.tmpl:146
-#, fuzzy
 msgid "View revision"
-msgstr "Ver versão:"
+msgstr "Ver versão"
 
 #: core/templates/more.tmpl:143
 msgid "View revision:"
@@ -4035,7 +4030,7 @@ msgstr "e"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr ""
+msgstr "por %1"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -4066,7 +4061,7 @@ msgstr "campos obrigatórios."
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "first"
-msgstr ""
+msgstr "primeiro"
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:24
@@ -4088,13 +4083,12 @@ msgstr "indica campos obrigatórios"
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "last"
-msgstr ""
+msgstr "último"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
-#, fuzzy
 msgid "later"
-msgstr "Data"
+msgstr "depois"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -4106,7 +4100,7 @@ msgstr "mais..."
 
 #: core/data/Main/GroupViewTemplate.txt:31
 msgid "no members"
-msgstr ""
+msgstr "sem membros"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"

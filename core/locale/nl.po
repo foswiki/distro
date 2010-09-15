@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-14 20:07+0000\n"
+"PO-Revision-Date: 2010-09-15 16:18+0000\n"
 "Last-Translator: Arthur Clemens <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
 "MIME-Version: 1.0\n"
@@ -107,23 +107,20 @@ msgid "%1 is currently set to %2"
 msgstr "%1 is op dit moment %2"
 
 #: core/templates/messages.tmpl:526
-#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 is %2 aan het bewerken."
+msgstr "%1 is [[%2][%3]] aan het bewerken."
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
-msgstr "%1 is lid van tenminste âÂ©âÂ©n groep en kan niet worden verwijderd"
+msgstr "%1 is lid van tenminste één groep en kan niet worden verwijderd"
 
 #: core/templates/messages.tmpl:126
-#, fuzzy
 msgid "%1 is not a valid form name"
-msgstr "'%1' is geen geldige %2 "
+msgstr "%1 is geen geldige naam voor een formulier"
 
 #: core/templates/messages.tmpl:122
-#, fuzzy
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "'%1' is geen geldige %2 "
+msgstr "%1 is geen geldige waarde voor de parameter %2"
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
@@ -134,14 +131,12 @@ msgid "%1 may still be editing %2."
 msgstr "%1 is mogelijk %2 nog aan het bewerken."
 
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
 msgstr "%1 recente wijzigingen in %2 Web"
 
 #: core/templates/messages.tmpl:518
-#, fuzzy
 msgid "%1 removed from the %2 group. "
-msgstr "%1 is door %4 verplaatst van %2 op %3"
+msgstr "%1 is verwijderd van groep %2"
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
