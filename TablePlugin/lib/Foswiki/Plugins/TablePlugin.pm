@@ -21,7 +21,7 @@ our $user;
 our $installWeb;
 our $initialised;
 my $DEFAULT_TABLE_SETTINGS =
-'tableborder="1" valign="top" headercolor="#fff" headerbg="#d6d3cf" headerbgsorted="#c4c1ba" databg="#fff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
+'tableborder="1" valign="top" headercolor="#000000" headerbg="#d6d3cf" headerbgsorted="#c4c1ba" databg="#fff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
 my $styles        = {};    # hash to keep track of web->topic
 my $writtenToHead = 0;
 
