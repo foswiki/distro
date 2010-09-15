@@ -597,6 +597,7 @@ lib/Foswiki/Configure/UIs/Section.pm 0444
 lib/Foswiki/Configure/UIs/UPDATE.pm 0444
 lib/Foswiki/Configure/UIs/Value.pm 0444
 lib/Foswiki/Configure/UIs/Welcome.pm
+lib/Foswiki/Configure/UIs/MSWin32.pm 0444
 lib/Foswiki/Configure/Value.pm 0444
 lib/Foswiki/Configure/Valuer.pm 0444
 lib/Foswiki/Configure/Visitor.pm 0444
