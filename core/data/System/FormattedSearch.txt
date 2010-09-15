@@ -2,8 +2,7 @@
 %META:TOPICPARENT{name="Macros"}%
 %STARTINCLUDE%
 ---+ Formatted Search
-
-_Inline search feature allows flexible formatting of search result_
+Customize the display of search results.
 
 The default output format of a =[[VarSEARCH][%<nop>SEARCH{...}%]]= is a table consisting of topic names and topic summaries. Use the =format="..."= parameter to customize the search result. The format parameter typically defines a bullet or a table row containing macros, such as =%<nop>SEARCH{ "food" format="| $topic | $summary |" }%=. See =[[VarSEARCH][%<nop>SEARCH{...}%]]= for other search parameters, such as =separator=""=.
 
