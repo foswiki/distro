@@ -74,12 +74,12 @@ jQuery(document).ready(function($) {
   text="<style type='text/css'>
     #NestedSlideshow { width: 440px; height: 249px; }
     #NestedSlideshowNav { z-index: 50; position: absolute; bottom: 10px; }
-    #NestedSlideshowNav a { margin: 0 5px; padding: 3px 5px; border: 1px solid #ccc; background: #cff; text-decoration: none }
-    #NestedSlideshowNav a.activeSlide { background: #aaf }
+    #NestedSlideshowNav a { margin: 0 10px 0 0; padding: 3px 5px; border: 1px solid #ddd; background: #fff; text-decoration: none }
+    #NestedSlideshowNav a.activeSlide,
+    #NestedSlideshowNav a:hover { background: #cff }
     #NestedSlideshowNav a:focus { outline: none; }
   </style>"
-}%
-<div id="NestedSlideshow">
+}%<div id="NestedSlideshow">
     <div id="NestedSlideshowNav"></div>
 <pre class="tml">
 %<nop>INCLUDE{
