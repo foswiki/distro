@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-14 09:44+0000\n"
+"PO-Revision-Date: 2010-09-15 05:51+0000\n"
 "Last-Translator: Tolga YAMAN <yamant@gmail.com>\n"
 "Language-Team: TURKCE <yamant@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -109,7 +109,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:126
 msgid "%1 is not a valid form name"
-msgstr ""
+msgstr "%1 geçerli bir form adı değil"
 
 #: core/templates/messages.tmpl:122
 msgid "%1 is not a valid value for the %2 parameter"
@@ -117,7 +117,7 @@ msgstr ""
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
-msgstr ""
+msgstr "%1 silinmiş eklentiler için öntanımlı konudur"
 
 #: core/templates/messages.tmpl:534
 msgid "%1 may still be editing %2."
@@ -125,7 +125,7 @@ msgstr ""
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
-msgstr ""
+msgstr "%2 Web' de yapılan son %1 değişiklik"
 
 #: core/templates/messages.tmpl:518
 msgid "%1 removed from the %2 group. "
@@ -226,7 +226,7 @@ msgstr ""
 
 #: core/templates/changeform.tmpl:3
 msgid "(change form)"
-msgstr ""
+msgstr "(formu değiştir)"
 
 #: core/templates/oopslanguagechanged.tmpl:3
 msgid "(change language)"
@@ -250,11 +250,11 @@ msgstr "(sil)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
-msgstr ""
+msgstr "(formu düzenle)"
 
 #: core/templates/edittext.tmpl:3 core/templates/edittext.tmpl:6
 msgid "(edit text)"
-msgstr ""
+msgstr "(metni düzenle)"
 
 #: core/templates/edit.tmpl:3 core/templates/edit.tmpl:9
 msgid "(edit)"
@@ -262,7 +262,7 @@ msgstr "(düzenle)"
 
 #: core/templates/login.tmpl:4
 msgid "(login)"
-msgstr ""
+msgstr "(giriş)"
 
 #: core/templates/more.tmpl:3
 msgid "(more)"
@@ -486,7 +486,7 @@ msgstr ""
 #: PatternSkin/templates/settings.pattern.tmpl:21
 #, fuzzy
 msgid "Access keys:"
-msgstr "Erişim Engellendi"
+msgstr ""
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -3298,11 +3298,11 @@ msgstr "Farkı görüntüle"
 
 #: core/templates/more.tmpl:164
 msgid "View differences"
-msgstr ""
+msgstr "Farkları görüntüle"
 
 #: core/templates/more.tmpl:139
 msgid "View previous topic revision"
-msgstr ""
+msgstr "Önceki konu revizyonunu görüntüle"
 
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View raw text without formatting"
@@ -3310,11 +3310,11 @@ msgstr ""
 
 #: core/templates/more.tmpl:146
 msgid "View revision"
-msgstr ""
+msgstr "Revizyonu görüntüle"
 
 #: core/templates/more.tmpl:143
 msgid "View revision:"
-msgstr ""
+msgstr "Revizyonu görüntüle:"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
 msgid "View templates"
@@ -3695,7 +3695,7 @@ msgstr ""
 
 #: core/lib/Foswiki/I18N.pm:318
 msgid "_language_name"
-msgstr "Türkçe"
+msgstr ""
 
 #: core/lib/Foswiki/Meta.pm:1708
 msgid "access denied on root"
@@ -3762,7 +3762,7 @@ msgstr ""
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "first"
-msgstr ""
+msgstr "ilk"
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:24
@@ -3784,7 +3784,7 @@ msgstr ""
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "last"
-msgstr ""
+msgstr "son"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
