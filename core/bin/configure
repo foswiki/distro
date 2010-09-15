@@ -720,8 +720,8 @@ sub _actionConfigure {
     my $messages;
     # If coming from the save action, or insane, pick up the messages
     if ($insane) {
-       $messages = "<h1>INTERNAL ERROR - PROCEED WITH CAUTION</h1>";
-       }
+       $messages = "<h2 class='foswikiAlert' style='margin-top:0px;'>Internal error - proceed with caution</h2>";
+    }
     $messages .= shift;
 
     my $contents    = '';
@@ -804,7 +804,7 @@ sub _actionConfigure {
             'time' => $time,    # use time to make sure we never allow cacheing
             'formAction' => $scriptName,
             'messages' => $uiMessages,
-            'good' => $badLSC ? '' : 'Good',
+            'style' => ($badLSC || $insane) ? 'Bad' : 'Good',
         }
     );
 
