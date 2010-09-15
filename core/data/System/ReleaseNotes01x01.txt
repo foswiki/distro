@@ -68,7 +68,11 @@ Also added are the new =ADDTOZONE= and =RENDERZONE= macros that manage dependenc
 See %SYSTEMWEB%.JQueryPlugin for details.
 
 ---+++ Powerful new =QUERY= macro
-A number of new features have been added with the goal of improving support  for wiki applications. These include the powerful new =QUERY= macro,  which supports formatted access to formfields and other meta-data in  topics using the same syntax as is used in =IF= and =SEARCH= statements.
+A number of new features have been added with the goal of improving support  for wiki applications. These include the powerful new =QUERY= macro, which:
+   * supports formatted access to formfields and other meta-data in  topics using the same syntax as is used in =IF= and =SEARCH= statements,
+   * gives access to *all* meta-data, including that added by extensions,
+   * supports reporting values using JSON and other standards, simplifying the retrieval of meta-data for REST applications,
+   * replaces the =FORMFIELD= macro for most applications.
 
 Use of the ="formfield"= parameter to the =META= macro has been deprecated (it is still available, but use is discouraged and it will be removed at some point in the future).
 
