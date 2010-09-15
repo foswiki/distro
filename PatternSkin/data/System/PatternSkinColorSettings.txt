@@ -434,6 +434,7 @@ a:hover.twistyTrigger {
 
 /* TipsContrib */
 .tipsOfTheDay {
+	background-color:%ATTACHMENT_AND_FORM_BACKGROUND%;
 }
 
 /* RevCommentPlugin */

@@ -9,8 +9,9 @@ topics - for example, to answer frequently asked questions from your users.
 
 This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
 
+<div class="tipsOfTheDay">%INCLUDE{ "TipsOfTheDayInclude" warn="off" }%</div>
+
 ---++ Presentations and tutorials
-<div style="float:right;width:255px;padding-left:1em;">%INCLUDE{ "TipsOfTheDayInclude" warn="off" }%</div>
    * [[MainFeatures][1 minute introduction]] - what is it?
    * [[BeginnersStartHere][15 minute presentation]] - how do I use it?
    * [[TwentyMinuteTutorial][20 minute walkthrough]] - please hold my hand.
