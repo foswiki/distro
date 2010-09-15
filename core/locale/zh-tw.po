@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-14 17:32+0000\n"
+"PO-Revision-Date: 2010-09-15 00:26+0000\n"
 "Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -439,13 +439,10 @@ msgid "<em>in all public webs</em>"
 msgstr "<em>在所有公開的子網</em>"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
-#, fuzzy
 msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
-msgstr ""
-"<strong>需要確認！</strong><span>按 OK 確認此變更</span><span>若否按取消</"
-"span>"
+msgstr "<strong>需要確認！</strong>按 OK 確認變更<br />若否按取消"
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -620,12 +617,10 @@ msgid ""
 msgstr "若本主題被其他用戶鎖住，將會出現錯誤頁提示。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
-msgstr ""
-"在您不知情的情況下，有人可能試著以您的登入身份變更您網頁的內容。<span class="
+msgstr "在您不知情的情況下，駭客可能試著以您的登入身份變更您網頁的內容。<span class="
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -967,7 +962,6 @@ msgid "Contact %1 if you have any questions."
 msgstr "如有問題，請聯繫 %1"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:58
-#, fuzzy
 msgid "Context:"
 msgstr "模式："
 
@@ -2866,7 +2860,7 @@ msgstr "若目標主題中已有相同檔名 '%FILENAME%' 的附件，本附件�
 msgid ""
 "The attacker tries to use your rights to get things, like admin rights for "
 "the site."
-msgstr ""
+msgstr "攻擊者試著利用您的權限，像是網站管理者權限。"
 
 #: core/templates/messages.tmpl:538
 msgid ""
