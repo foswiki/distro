@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-15 00:26+0000\n"
+"PO-Revision-Date: 2010-09-15 03:34+0000\n"
 "Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -128,7 +128,6 @@ msgid "%1 may still be editing %2."
 msgstr "%1 可能仍在編輯 %2 。"
 
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
 msgstr "子網 %2 內的更新 %1 "
 
@@ -2879,7 +2878,7 @@ msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
 "after saving a page. Foswiki then uses the approach "
-msgstr ""
+msgstr "有時 Foswiki 執行的檢查工作會由你無意做的一些事情觸發，例如，如果您在儲存網頁後，點「回到上頁」。然後 Foswiki 使用此方法"
 
 #: core/templates/messages.tmpl:308
 msgid "The e-mail address for this account is not valid."
@@ -2959,7 +2958,7 @@ msgstr "用戶 %1 已經啟動並可登入。"
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
 "request to your server, using your browser and your identity."
-msgstr ""
+msgstr "他們使用您的瀏覽器及您的身份，發送請求到服務器，意圖影響資料的自動儲存。"
 
 #: core/templates/messages.tmpl:407
 msgid "There are problems with renaming this web:"
@@ -3023,7 +3022,7 @@ msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
-msgstr ""
+msgstr "這就是跨站偽請求，或 CSRF。"
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:71
@@ -3051,7 +3050,7 @@ msgstr "這是本對話被禁止的原因："
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
 "[Register]] if you do not have an account yet."
-msgstr ""
+msgstr "這是您名字的 !WikiWord ，例如: !JohnSmith 。 %BR% 若無帳戶請 [[%1] [註冊]] 。"
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
@@ -3063,7 +3062,7 @@ msgstr "名稱已選定，所以不會和其他 %1 內的主題衝突。"
 msgid ""
 "This page explains one of the security measures that Foswiki, the software "
 "that runs this site, performs to secure this site from attackers."
-msgstr ""
+msgstr "本頁解釋本網站使用的軟體 Foswiki 所採用的安全措施之一 ，以確避免網站受到攻擊。"
 
 #: core/templates/messages.tmpl:364
 msgid "This requires the form definition to be present."
@@ -3255,11 +3254,11 @@ msgstr "群組主題更新"
 msgid ""
 "Upgrade will adjust the format of this group topic to the new format with "
 "user management options"
-msgstr ""
+msgstr "升級將更新群組主題的格式，有新的用戶管理選項"
 
 #: core/templates/messages.tmpl:485
 msgid "Upgraded Group"
-msgstr ""
+msgstr "更新群組"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
@@ -3285,9 +3284,8 @@ msgid "Use %1 instead."
 msgstr "用 %1 取代."
 
 #: core/data/Sandbox/WebHome.txt:22
-#, fuzzy
 msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
-msgstr "(在 System.WikiNotation 使用一個主題名)"
+msgstr "將一個主題名字放在 %SYSTEMWEB%.WikiNotation 內"
 
 #: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:67
 #: core/data/System/WebCreateNewTopicTemplate.txt:43
@@ -3336,7 +3334,6 @@ msgid "View difference"
 msgstr "檢視差異"
 
 #: core/templates/more.tmpl:164
-#, fuzzy
 msgid "View differences"
 msgstr "檢視差異"
 
@@ -3349,9 +3346,8 @@ msgid "View raw text without formatting"
 msgstr "檢視源碼"
 
 #: core/templates/more.tmpl:146
-#, fuzzy
 msgid "View revision"
-msgstr "檢視修訂版:"
+msgstr "檢視修訂版"
 
 #: core/templates/more.tmpl:143
 msgid "View revision:"
@@ -3418,7 +3414,7 @@ msgstr "警告: \\'include\\' 的主題不存在！"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
-msgstr ""
+msgstr "子網更新通知服務"
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:3
 msgid "Webs"
@@ -3426,11 +3422,11 @@ msgstr "子網"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
 msgid "Webserver <em>running Foswiki</em>"
-msgstr ""
+msgstr "網站 <em>使用 Foswiki</em>"
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
-msgstr ""
+msgstr "歡迎來到 %1 …與站上朋友相會"
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
@@ -3446,30 +3442,27 @@ msgstr "誰"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
 msgid "Who is requesting this, actually?"
-msgstr ""
+msgstr "到底是誰提出這個要求？"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:59
 msgid "Whole page"
-msgstr ""
+msgstr "全頁"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
-#, fuzzy
 msgid "Why am I being asked to confirm?"
-msgstr "為何您被要求確認"
+msgstr "為何我被要求確認？"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid "Wiki administrators should read about the"
-msgstr ""
+msgstr "Wiki 管理者必讀有關"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:144
-#, fuzzy
 msgid "Wiki name"
-msgstr "主題名稱"
+msgstr "Wiki 主題"
 
 #: core/data/System/WebSearch.txt:113
-#, fuzzy
 msgid "Word search"
-msgstr "修改搜尋:"
+msgstr "文字搜尋"
 
 #: core/templates/messages.tmpl:19
 msgid "Would you like to go to:"
@@ -3477,17 +3470,14 @@ msgstr "您喜歡去:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:36
 msgid "You"
-msgstr ""
+msgstr "你"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1."
-msgstr ""
-"您 *必須* 至少有 1 個有效的註冊電子郵件才能重設密碼。若您忘記密碼且註冊用的郵"
-"件地址已失效，後請聯繫 %1。"
+msgstr "您 *必須* 至少有個有效的註冊電子信箱才能重設密碼。若您忘記密碼且註冊用的電子信箱已失效，後請聯繫 %1。"
 
 #: core/templates/messages.tmpl:272
 msgid "You are already registered"
@@ -3575,12 +3565,11 @@ msgstr "您能為本子網改名。"
 msgid ""
 "You cannot manually confirm this change because either Cookies or Javascript "
 "are disabled in your browser."
-msgstr ""
+msgstr "因為您的瀏覽器未啟用 Cookies 或 Javascript，您將無法手動確認變更。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:12
-#, fuzzy
 msgid "You cannot register on this site."
-msgstr "您不能註冊 2 次，%1 已經註冊過。"
+msgstr "您不能在本站註冊。"
 
 #: core/templates/messages.tmpl:273
 msgid "You cannot register twice, the name %1 is already registered."
@@ -3591,7 +3580,7 @@ msgid ""
 "You change your email address by setting the form field called Email in your "
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
-msgstr ""
+msgstr "您能在您的使用者主題表單的電子信箱欄位變更您的電子信箱。若這個欄位不存在，請尋找像這樣的一行設定: "
 
 #: core/templates/messages.tmpl:158 core/templates/messages.tmpl:167
 #: core/templates/messages.tmpl:248
@@ -3620,19 +3609,19 @@ msgstr "您必須輸入主題名稱。"
 
 #: core/templates/messages.tmpl:461
 msgid "You need to specify a valid Group name to add users to a Group."
-msgstr ""
+msgstr "您必須指定有效的群組才能將使用者加入群組。"
 
 #: core/templates/messages.tmpl:499
 msgid "You need to specify a valid Group name to remove users from a Group."
-msgstr ""
+msgstr "您必須指定有效的群組才能將使用者移除群組。"
 
 #: core/templates/messages.tmpl:456
 msgid "You need to specify a valid user to add to a Group."
-msgstr ""
+msgstr "您必須指定有效的使用者才能加入群組。"
 
 #: core/templates/messages.tmpl:494
 msgid "You need to specify a valid user to remove from a group."
-msgstr ""
+msgstr "您必須指定有效的使用者才能移除群組。"
 
 #: core/templates/registerconfirm.tmpl:11
 msgid ""
@@ -3643,15 +3632,14 @@ msgstr ""
 "瀏覽 %2"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#, fuzzy
 msgid ""
 "You really ought to register a valid e-mail address. If Foswiki can't find a "
 "registered e-mail for you in the secret database, it will look in your user "
 "topic for a form field called Email. If this form field does not exist it "
 "will look for a line like this:"
 msgstr ""
-"您必須以合法的郵件地址註冊。若系統無法找到您註冊的郵件地址，它將在您的用戶主"
-"題中找以下這行:"
+"您必須以有效的電子信箱註冊。若系統無法在祕密資料庫中找到您註冊的電子信箱，它將在您的用戶主題的表單中尋找電子信箱的欄位。若這個表單不存在，它將尋找以下這"
+"行: "
 
 #: core/templates/messages.tmpl:371
 msgid "You will probably have to ask your administrator, %1, to do this."
@@ -3674,7 +3662,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:160
 msgid "Your email address will be kept confidential."
-msgstr ""
+msgstr "您的電子信箱將被視為機密。"
 
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""
@@ -3688,12 +3676,11 @@ msgid ""
 "Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%."
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
-msgstr ""
+msgstr "您的名字如線上顯示。注意，這必須是個獨特的 [[%SYSTEMWEB%.WikiName][Wiki 名字]] 。系統預設由您的姓和名產生。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
-#, fuzzy
 msgid "Your password"
-msgstr "您的密碼:"
+msgstr "您的密碼"
 
 #: core/templates/mailresetpassword.tmpl:13
 msgid "Your password has been changed to %1."
@@ -3719,7 +3706,7 @@ msgstr "您的註冊郵件地址已更新為 <noautolink>%1</noautolink> 。"
 msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
-msgstr ""
+msgstr "系統會將郵件寄到您註冊的電子信箱，如：密碼變更通知。"
 
 #: core/templates/messages.tmpl:255
 msgid ""
@@ -3797,7 +3784,7 @@ msgstr "和"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr ""
+msgstr "靠 %1"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -3814,7 +3801,7 @@ msgstr "別忘了檢查您的主題設定"
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "earlier"
-msgstr ""
+msgstr "更早的"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -3828,7 +3815,7 @@ msgstr "必填欄位。"
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "first"
-msgstr ""
+msgstr "第一"
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:24
@@ -3850,13 +3837,12 @@ msgstr "指出必填欄位"
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "last"
-msgstr ""
+msgstr "最後"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
-#, fuzzy
 msgid "later"
-msgstr "日期"
+msgstr "較晚"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -3868,7 +3854,7 @@ msgstr "更多..."
 
 #: core/data/Main/GroupViewTemplate.txt:31
 msgid "no members"
-msgstr ""
+msgstr "沒有成員"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
@@ -3895,13 +3881,12 @@ msgid "retrieved at %1"
 msgstr "自 %1 找出"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:86
-#, fuzzy
 msgid "revisions up to"
-msgstr "修訂版"
+msgstr "修訂至"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid "the Cross-site request forgery article on Wikipedia"
-msgstr ""
+msgstr "維基百科有關跨站偽請求的文章"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -3920,18 +3905,16 @@ msgstr ""
 "(&M)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
-#, fuzzy
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='編輯主題' accesskey='e'>編輯(&E)"
+msgstr "title='編輯主題' accesskey='w'>編輯(&W)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='編輯主題' accesskey='e'>編輯(&E)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
-#, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='瀏覽主題' accesskey='v'>瀏覽(&V)"
+msgstr "title='交織' accesskey='i'>交織(&I)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:21
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -3954,9 +3937,8 @@ msgid ""
 msgstr "title='搜尋 %1 子網中連結至此的主題' accesskey='b'>子網搜尋(&B)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
-#, fuzzy
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='瀏覽主題' accesskey='v'>瀏覽(&V)"
+msgstr "title='並列瀏覽' accesskey='s'>並列(&S)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:92
 #: core/templates/viewtopicactionbuttons.tmpl:11
@@ -3969,13 +3951,12 @@ msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='瀏覽主題歷史' accesskey='h'>歷史(&H)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
-#, fuzzy
 msgid "title='View without formatting' accesskey='r'>&View wiki text"
 msgstr "title='檢視源碼' accesskey='r'>檢視源碼(&R)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"
-msgstr ""
+msgstr "每個更改不變章節"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:29
 msgid "user list truncated"
