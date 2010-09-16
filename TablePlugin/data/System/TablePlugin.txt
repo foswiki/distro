@@ -86,7 +86,7 @@ closest to the data (the last row in the header). If you do not specify
 sort row. To sort by the first _footer_ row, set =headerrows="0"=.
 
 ---++++ Sorting example
-%TABLE{databg="#ffc" databgsorted="#fc3" headercolor="#ffffff" headerbg="#903" headerbgsorted="#600" initsort="1"}%
+%TABLE{databg="#ffffcc" databgsorted="#ffcc33" headercolor="#ffffff" headerbg="#990033" headerbgsorted="#660000" initsort="1"}%
 | *Number* | *Decimal* | *Alpha* | *Date* |
 | 1 | 9.9 | vwx | 01 Jan 1990 |
 | 2 | 9.91 | stu | 31 Dec 1999 |
@@ -135,7 +135,7 @@ You can override the default settings for the plugin by defining the following [
 -->
 | *Preference* | *Meaning* | *Default* |
 | TABLEPLUGIN_SORT | Make all tables in a topic sortable. If this is set to =all=, all tables that have a header row (including those that do not have %TABLE before them) will be made sortable. If set to =none=, only tables with %TABLE will be sortable. Topic rendering is faster if this is set to =none=. | =all= |
-| TABLEPLUGIN_TABLEATTRIBUTES | Default table attributes. These are first defined in [[%SCRIPTURL{"configure"}%/#TablePlugin$Extensions][Configure]], and can be set on site level in <nop>%MAINWEB%.SitePreferences, on web level in <nop>WebPreferences or on topic level. | =tableborder="1" valign="top" headercolor="#000000" headerbg="#d6d3cf" headerbgsorted="#c4c1ba" databg="#fff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"= |
+| TABLEPLUGIN_TABLEATTRIBUTES | Default table attributes. These are first defined in [[%SCRIPTURL{"configure"}%/#TablePlugin$Extensions][Configure]], and can be set on site level in <nop>%MAINWEB%.SitePreferences, on web level in <nop>WebPreferences or on topic level. | =tableborder="1" valign="top" headercolor="#000000" headerbg="#d6d3cf" headerbgsorted="#c4c1ba" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"= |
 
 
 ---++ <nop>TablePlugin and CSS
