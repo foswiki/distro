@@ -363,13 +363,13 @@ sub _load {
 
     # join \ terminated lines
     $text =~ s/\\\r?\n//gs;
-    my $webRE = qr/(?:$Foswiki::cfg{UsersWebName}\.)?/o;
+    my $webRE = qr/(?:$Foswiki::cfg{UsersWebName}\.)?/;
     foreach my $baseline ( split( /\r?\n/, $text ) ) {
         my $line =
           Foswiki::Func::expandCommonVariables( $baseline, $this->{topic},
             $this->{web}, $meta );
         if ( $line =~
-/^\s+\*\s$webRE($Foswiki::regex{wikiWordRegex})\s+\-\s+($Foswiki::cfg{MailerContrib}{EmailFilterIn}+)\s*$/o
+/^\s+\*\s$webRE($Foswiki::regex{wikiWordRegex})\s+\-\s+($Foswiki::cfg{MailerContrib}{EmailFilterIn}+)\s*$/
             && $1 ne $Foswiki::cfg{DefaultUserWikiName} )
         {
 
@@ -378,7 +378,7 @@ sub _load {
             $in_pre = 0;
         }
         elsif ( $line =~
-/^\s+\*\s$webRE($Foswiki::regex{wikiWordRegex}|'.*?'|".*?"|$Foswiki::cfg{MailerContrib}{EmailFilterIn})\s*(:.*)?$/o
+/^\s+\*\s$webRE($Foswiki::regex{wikiWordRegex}|'.*?'|".*?"|$Foswiki::cfg{MailerContrib}{EmailFilterIn})\s*(:.*)?$/
             && $1 ne $Foswiki::cfg{DefaultUserWikiName} )
         {
             my $subscriber = $1;
