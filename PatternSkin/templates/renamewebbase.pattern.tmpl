@@ -1,7 +1,7 @@
 %TMPL:INCLUDE{"renamewebbase"}%
-%TMPL:DEF{"parentwebstep"}%<div class="foswikiFormStep">%TMPL:P{"parentweb"}%</div><!-- /foswikiFormStep-->%TMPL:END%
+%TMPL:DEF{"parentwebstep"}%<div class="foswikiFormStep">%TMPL:P{"parentweb"}%</div>%TMPL:END%
 
 
 %TMPL:DEF{"renameformsteps"}%<div class="foswikiFormSteps">
-<div class="foswikiFormStep foswikiLast">%TMPL:P{"toweb"}%</div><!-- /foswikiFormStep-->
-%IF{"{EnableHierarchicalWebs}" then='%TMPL:P{"parentwebstep"}%'}%%TMPL:P{"searchresultsstep"}%</div><!-- /foswikiFormSteps-->%TMPL:END%
+<div class="foswikiFormStep foswikiLast">%TMPL:P{"toweb"}%</div>
+%IF{"{EnableHierarchicalWebs}" then='%TMPL:P{"parentwebstep"}%'}%%TMPL:P{"searchresultsstep"}%</div>%TMPL:END%
