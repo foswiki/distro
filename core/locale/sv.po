@@ -6,15 +6,15 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-13 21:54+0000\n"
+"PO-Revision-Date: 2010-09-16 02:07+0200\n"
 "Last-Translator: Erik Åman <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.1.0\n"
-"Language: sv\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:480
@@ -453,13 +453,12 @@ msgid "<em>in all public webs</em>"
 msgstr "<em>i alla publika avdelningar</em>"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
-#, fuzzy
 msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
-"<strong>Bekräftelse krävs!</strong><span>Tryck på OK för att bekräfta att "
-"denna ändring var medveten</span><span>Tryck annars på Avbryt</span>"
+"<strong>Bekräftelse krävs!</strong>Tryck på OK för att bekräfta att denna "
+"ändring var avsiktlig<br />Tryck annars på Avbryt</span>"
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -575,9 +574,8 @@ msgid "Add user..."
 msgstr "Lägg till användare..."
 
 #: core/templates/messages.tmpl:369
-#, fuzzy
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Lägger till en %1-variabel på WebPreferences"
+msgstr "Lägger till en %1-inställning på WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
@@ -650,13 +648,12 @@ msgstr ""
 "annan."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
 "Det finns en risk att någon försöker använda din identitet för att ändra "
-"innehållet i din wiki utan din vetskap.<span class="
+"innehållet i din wiki utan din vetskap."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -860,7 +857,7 @@ msgstr "Byt lösenord"
 
 #: core/templates/validate.tmpl:22
 msgid "Change cannot be completed"
-msgstr ""
+msgstr "Ändringen kan inte genomföras"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
@@ -1202,9 +1199,8 @@ msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Ville du [[%1][nollstäla lösenordet för användaren %2]]?"
 
 #: core/templates/rdiff.tmpl:14
-#, fuzzy
 msgid "Difference Topic"
-msgstr "Skillnad:"
+msgstr "Sida med skillnader"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
 #: PatternSkin/templates/rdiff.pattern.tmpl:9
@@ -1213,7 +1209,7 @@ msgstr "Skillnad:"
 
 #: core/data/System/WebPreferences.txt:12
 msgid "Discover the details, and how to start your own site with Foswiki"
-msgstr ""
+msgstr "Upptäck mer och starta din egen webbplats med oswiki"
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
@@ -1236,11 +1232,8 @@ msgstr ""
 "administratör."
 
 #: core/templates/messages.tmpl:55
-#, fuzzy
 msgid "During move of attachment =%1= to %2 an error was found."
-msgstr ""
-"Vid flytt av den bifogade filen %1 till %2 upptäcktes ett fel. Informera din "
-"%3-administratör."
+msgstr "Vid flytt av den bifogade filen =%1= till %2 upptäcktes ett fel."
 
 #: core/templates/messages.tmpl:99
 msgid ""
@@ -1273,26 +1266,28 @@ msgstr "E-postadress ändrad!"
 #: core/templates/messages.tmpl:632
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
+"ENCODE misslyckades - =type= kan inte användas tillsammans med =old= och "
+"=new="
 
 #: core/templates/messages.tmpl:633
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr ""
+msgstr "ENCODE misslyckades - både =old= och =new= måste anges"
 
 #: core/templates/messages.tmpl:634
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr ""
+msgstr "ENCODE misslyckades - '%PARAM1%' upprepas i =old="
 
 #: core/templates/messages.tmpl:637
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr ""
+msgstr "EXPAND misslyckades - åtkomst till '%PARAM1%' nekad"
 
 #: core/templates/messages.tmpl:635
 msgid "EXPAND failed - no macro"
-msgstr ""
+msgstr "EXPAND misslyckades - inget makro"
 
 #: core/templates/messages.tmpl:636
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr ""
+msgstr "EXPAND misslyckades - sidan '%PARAM1%' finns inte"
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
@@ -1308,7 +1303,7 @@ msgstr "Redigera ändå"
 
 #: core/templates/viewtopicactionbuttons.tmpl:61
 msgid "Edit Wiki<nop>Text"
-msgstr ""
+msgstr "Redigera Wiki<nop>Text"
 
 #: PatternSkin/templates/edit.pattern.tmpl:11
 msgid "Edit help"
@@ -1319,9 +1314,8 @@ msgid "Edit personal data"
 msgstr "Uppdatera användarinformation"
 
 #: core/templates/more.tmpl:17
-#, fuzzy
 msgid "Edit settings for this topic..."
-msgstr "Ändra inställningarna for denna sida"
+msgstr "Ändra inställningarna for denna sida..."
 
 #: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 msgid "Edit text"
@@ -1342,7 +1336,7 @@ msgstr "Redigera inställningar för sidan"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
-msgstr ""
+msgstr "Hmm, låt mig gå tillbaka och rätta sidan..."
 
 #: core/templates/messages.tmpl:318
 msgid ""
@@ -1354,11 +1348,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:127
 msgid "Either the name is invalid, or it refers to a non-existant form."
-msgstr ""
+msgstr "Namnet är ogiltigt eller syftar på ett formulär som inte finns."
 
 #: core/templates/messages.tmpl:123
 msgid "Either the name is invalid, or it refers to a non-existant topic."
-msgstr ""
+msgstr "Namnet är ogiltigt eller syftar på en sida som inte finns."
 
 #: core/templates/messages.tmpl:389
 msgid ""
@@ -1369,9 +1363,8 @@ msgstr ""
 "upp tom. Det går inte att ladda upp tomma filer."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:159
-#, fuzzy
 msgid "Email address"
-msgstr "E-postadress:"
+msgstr "E-postadress"
 
 #: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:460
 msgid "Email has been disabled for this Foswiki installation"
@@ -1426,22 +1419,20 @@ msgid "Errors"
 msgstr "Fel"
 
 #: core/templates/messages.tmpl:466
-#, fuzzy
 msgid "Errors adding users to group"
-msgstr "Fel vid försök att spara sidan"
+msgstr "Fel vid försök att lägga till användare i gruppen"
 
 #: core/templates/messages.tmpl:504
 msgid "Errors removing users from groups"
-msgstr ""
+msgstr "Fel vid försök ta bort användare från gruppen"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
-#, fuzzy
 msgid "Evil person"
-msgstr "Uppdatera användarinformation"
+msgstr "Elak person"
 
 #: core/lib/Foswiki/Plugins.pm:366
 msgid "Failed plugins"
-msgstr ""
+msgstr "Insticksmoduler som inte fungerar"
 
 #: core/templates/messages.tmpl:560
 msgid "Failed to include URL %1"
@@ -1453,9 +1444,8 @@ msgid "Fields marked %1 are required"
 msgstr "Fält markerade med %1 är obligatoriska"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:32
-#, fuzzy
 msgid "Fields marked <span class='required'>*</span> are required"
-msgstr "Fält markerade med %1 är obligatoriska"
+msgstr "Fält markerade med <span class='required'>*</span> är obligatoriska"
 
 #: core/templates/messages.tmpl:374
 msgid "File has been uploaded with different name"
@@ -1470,15 +1460,16 @@ msgid "Find topics that link to %1 ..."
 msgstr "Hitta sidor som refererar till %1 ..."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
-#, fuzzy
 msgid "First name"
-msgstr "Förnamn:"
+msgstr "Förnamn"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
 "it poses to you, see "
 msgstr ""
+"För mer detaljerad information om \"cross-site request forgery\" och farorna "
+"det innebär för dig, se"
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1495,17 +1486,15 @@ msgstr "Formulärdefinitionen %1 saknas"
 #: PatternSkin/templates/formtables.pattern.tmpl:5 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:6
 msgid "Form data"
-msgstr ""
+msgstr "Formulärdata"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
-#, fuzzy
 msgid "Form definition"
-msgstr "Formulärdefinitionen saknas"
+msgstr "Formulärdefinition"
 
 #: core/templates/messages.tmpl:343
-#, fuzzy
 msgid "Form definition '%1' not found"
-msgstr "Formulärdefinitionen %1 saknas"
+msgstr "Formulärdefinitionen '%1' saknas"
 
 #: core/templates/messages.tmpl:351
 msgid "Form definition missing"
@@ -1520,39 +1509,40 @@ msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
+"Foswiki kontrollerar alla förfrågningar från webbläsare och försöker "
+"kontrollera att användare skickade dem medvetet-"
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
 msgstr "Foswiki-lösenord nollställt för %1"
 
 #: core/templates/attach.tmpl:3
-#, fuzzy
 msgid "Get help on attaching files"
-msgstr "har mer information om att bifoga filer."
+msgstr "Hjälp kring att bifoga filer."
 
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
-msgstr ""
+msgstr "Hjälp kring inställningar för sida"
 
 #: core/data/System/WebSearch.txt:157
 msgid "Get notified on changes on this search"
 msgstr "Bli informerad om ändringar i den här sökningen"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
-#, fuzzy
 msgid "Globe"
-msgstr "Stäng"
+msgstr "Klot"
 
 #: core/templates/foswiki.tmpl:139
 msgid "Go back"
 msgstr "Gå tillbaka"
 
 #: core/templates/messages.tmpl:337
-#, fuzzy
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
-msgstr "Gå tillbaka i din webbläsare och fyll i alla obligatoriska fält."
+msgstr ""
+"Gå tillbaka i din webbläsare och fyll i alla obligatoriska fält innan du "
+"sparar på nytt"
 
 #: core/templates/messages.tmpl:404 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
@@ -1563,20 +1553,20 @@ msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
 msgstr ""
+"Gå tillbaka till föregående sida och slå på cookies och Javascript innan du "
+"försöker igen"
 
 #: core/templates/messages.tmpl:292
 msgid "Good examples:"
 msgstr "Bra exempel:"
 
 #: core/data/Main/WikiGroups.txt:49
-#, fuzzy
 msgid "Group"
-msgstr "Grupper"
+msgstr "Grupp"
 
 #: core/data/Main/WikiGroups.txt:17
-#, fuzzy
 msgid "Group name"
-msgstr "Enbart sidnamn"
+msgstr "Gruppnamn"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
@@ -1659,16 +1649,16 @@ msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
+"Om Foswiki detekterar en misstänkt begäran som kan ha sänts från en sådan "
+"sida så ombeds du bekräfta begäran."
 
 #: core/templates/messages.tmpl:431
-#, fuzzy
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr ""
-"Kontrollera dina inställningar för {TemplateDir} och {TemplatePath}. Om "
-"detta inte är problemet kan det bero på att inställningen på %1 pekar på en "
-"mall som inte finns."
+"Om detta inte är problemet kan det bero på att inställningen på %1 pekar på "
+"en mall som inte finns."
 
 #: core/templates/messages.tmpl:360
 msgid "If this line isn't present see _upgrade_ section below"
@@ -1687,9 +1677,8 @@ msgstr ""
 "parametrar."
 
 #: core/templates/validate.tmpl:41
-#, fuzzy
 msgid "If you are unsure what this means, read: %1"
-msgstr "Om du är osäker på vad detta betyder, läs:"
+msgstr "Om du är osäker på vad detta betyder, läs: %1"
 
 #: core/templates/messages.tmpl:585
 msgid "If you came here by clicking on a question mark link"
@@ -1700,9 +1689,8 @@ msgid "If you don't receive a verification email within the next hour, "
 msgstr "Om du inte får en bekräftelse per e-post inom den närmaste timmen,"
 
 #: core/templates/renameattachmentdelete.tmpl:41
-#, fuzzy
 msgid "If you enter a different name, make sure the topic exists."
-msgstr "Om du matar in ett annat namn, se till att det inte redan finns."
+msgstr "Om du matar in ett annat namn, se till att sidan finns."
 
 #: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:23
@@ -1780,6 +1768,8 @@ msgid ""
 "visit a page on http<nop>://crime.org, which has some clever javascript on "
 "it."
 msgstr ""
+"Teoretiskt kan en ond person ha lämnat en länk för att förleda dig att "
+"besöka sidan http<nop>://crime.org, som har något slags smart javascript."
 
 #: core/data/System/WebSearch.txt:104
 msgid "In reversed order"
@@ -1820,7 +1810,7 @@ msgstr "Alla sidor"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:28
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: core/templates/messages.tmpl:383
 msgid ""
@@ -1832,7 +1822,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:55
 msgid "Interweave"
-msgstr ""
+msgstr "Väva samman"
 
 #: core/templates/messages.tmpl:315
 msgid "Invalid Activation Code"
@@ -1857,15 +1847,13 @@ msgstr ""
 "i detta fall."
 
 #: core/templates/foswiki.tmpl:47
-#, fuzzy
 msgid ""
 "It's usually best to choose a %1 for the new topic name, otherwise automatic "
 "linking may not work. Characters not allowed in topic names, such as spaces "
 "will automatically be removed."
 msgstr ""
-"Du bör använda ett <a target='WikiWord' class='foswikiPopUp' href='%1' "
-"rel='nofollow'>WikiOrd</a> som sidnamn, annars fungerar inte automatisk "
-"länkning. Tecken som inte är tillåtna, exempelvis mellanslag, tas "
+"Du bör använda ett %1 som namn på den nya sidan, för annars fungerar inte "
+"automatisk länkning. Tecken som inte är tillåtna, exempelvis mellanslag, tas "
 "automatiskt bort."
 
 #: core/templates/renameweb.tmpl:16
@@ -1885,9 +1873,8 @@ msgid "Jump"
 msgstr "Hoppa"
 
 #: core/data/System/WebSearch.txt:114
-#, fuzzy
 msgid "Keyword search"
-msgstr "Anpassa sökning"
+msgstr "Nyckelordssökning"
 
 #: core/data/System/WebSearch.txt:102
 msgid "Last editor"
@@ -2818,9 +2805,9 @@ msgid ""
 "twice when you click on a link. It you did this, it is possible that you "
 "actually *have* registered successfully."
 msgstr ""
-"Vissa e-postprogram har ett fel som gör att de sänder samma förfrågan två "
-"gånger när du klickar på en länk. Det är därför möjligt att du faktisk *har "
-"lyckats* registrera dig."
+"Vissa e-postprogram har ett fel som gör att de sänder samma begäran två "
+"gånger när du klickar på en länk. Det är därför möjligt att du faktisk *har* "
+"lyckats registrera dig."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:140
 #: core/templates/registernotify.tmpl:14

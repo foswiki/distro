@@ -7,13 +7,15 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2007-12-04 13:11-0300\n"
-"Last-Translator: Steffen Poulsen <N/A>\n"
+"PO-Revision-Date: 2010-09-16 10:30+0200\n"
+"Last-Translator: Kenneth Lavrsen <kenneth@lavrsen.dk>\n"
 "Language-Team: Danish <N/A>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:480
@@ -57,11 +59,11 @@ msgstr "%1 web"
 
 #: core/templates/messages.tmpl:480
 msgid "%1 added to the %2 group. "
-msgstr ""
+msgstr "%1 tilføjet til %2 gruppe"
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
-msgstr ""
+msgstr "%1 gruppe side opgraderet"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -100,23 +102,20 @@ msgid "%1 is currently set to %2"
 msgstr "%1 er i øjeblikket sat til %2"
 
 #: core/templates/messages.tmpl:526
-#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 editerer i øjeblikket %2"
+msgstr "%1 editerer i øjeblikket [[%2][%3]]"
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 er medlem af mindst en gruppe og kan ikke fjernes"
 
 #: core/templates/messages.tmpl:126
-#, fuzzy
 msgid "%1 is not a valid form name"
-msgstr "'%1' er ikke en korrekt %2 "
+msgstr "%1 er ikke et gyldigt form navn"
 
 #: core/templates/messages.tmpl:122
-#, fuzzy
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "'%1' er ikke en korrekt %2 "
+msgstr "%1 er ikke en korrekt værdi for %2 parameteren"
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
@@ -127,17 +126,15 @@ msgid "%1 may still be editing %2."
 msgstr "%1 editerer muligvis stadig %2"
 
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
-msgstr "%1 senest ændrede sider i %2-webbet"
+msgstr "%1 seneste ændringer i %2-webbet"
 
 #   "<nop>$fromWeb.<nop>$fromTopic",
 #   $date,
 #   $by)
 #: core/templates/messages.tmpl:518
-#, fuzzy
 msgid "%1 removed from the %2 group. "
-msgstr "%1 blev flyttet fra %2 den %3 af %4"
+msgstr "%1 fjernet fra %2 gruppen"
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -164,9 +161,8 @@ msgstr "%1 prøvede at registrere med e-mail-adressen %2"
 #   $by)
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
 #: core/lib/Foswiki/Render.pm:229
-#, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 blev flyttet fra %2 den %3 af %4"
+msgstr "%1 blev omdøbt eller flyttet fra %2 den %3 af %4"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -181,9 +177,8 @@ msgid "&History"
 msgstr "&Historik"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:92
-#, fuzzy
 msgid "&Sequential"
-msgstr "Sekventiel"
+msgstr "&Sekventiel"
 
 #: core/templates/messages.tmpl:283
 msgid "'%1' is not a valid %2 "
@@ -215,7 +210,7 @@ msgstr "(=all= for at vise alle sider)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
 msgid "(This message will be removed automatically)"
-msgstr ""
+msgstr "(Denne besked vil automatisk blive fjernet)"
 
 #: core/templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
@@ -250,9 +245,8 @@ msgid "(changes)"
 msgstr "(ændringer)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:3
-#, fuzzy
 msgid "(compare)"
-msgstr "(mere)"
+msgstr "(sammenlign)"
 
 #: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
@@ -353,7 +347,6 @@ msgid "*Formatting help:*"
 msgstr "*Hjælp til formattering af teksten*"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -364,35 +357,31 @@ msgid ""
 "contact %1 for details of the Data Protection Policy of this web server "
 "before registering."
 msgstr ""
-"*Vigtigt:* Informationen du opgiver i denne formular vil blive gemt på "
-"Foswiki-serveren. Informationen bliver tilgængelig for alle som kan nå "
-"serveren via webbet (dit password vil dog blive krypteret og skjult, og din "
-"e-mail-adresse vil blive vist forvansket for at afværge spam). Dit "
-"oprindelsesland (eller det land hvor serveren befinder sig) kan have data- "
-"eller personbeskyttelseslove, der omfatter denne type information. Hvis du "
-"er i tvivl kan du kontakte %1 for nærmere detaljer angående "
-"databeskyttelsesreglerne for denne Foswiki-server."
+"*Vigtigt:* Informationen du opgiver i denne formular vil blive gemt på web-"
+"serveren. Informationen bliver tilgængelig for alle som kan nå serveren via "
+"webbet (din adgangskode vil dog blive krypteret og skjult, og din e-mail-"
+"adresse vil blive vist forvansket for at afværge spam). Dit oprindelsesland "
+"(eller det land hvor serveren befinder sig) kan have data- eller "
+"personbeskyttelseslove, der omfatter denne type information. Hvis du er i "
+"tvivl kan du kontakte %1 for nærmere detaljer angående "
+"databeskyttelsesreglerne for denne web-server."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
 "*Local file:* If you select a different file in _Local file:_, it is this "
 "that will be updated or added."
 msgstr ""
-"*Lokal fil:* Hvis du vælger en fil fra din harddisk (i feltet _Lokal fil_) "
-"der har et andet navn end den aktuelt viste vedhæftede fil, vil den aktuelt "
-"viste vedhæftede fil ikke blive opdateret, og i stedet oprettes der en _ny_ "
-"vedhæftet fil på serveren med det nye filnavn. Omdøb evt. filen lokalt (så "
-"navnet matcher den aktuelle vedhæftede fils navn) og prøv igen."
+"*Lokal fil:* Hvis du vælger anden fil i feltet _Lokal fil_, er det denne fil "
+"der vil blive opdateret eller tilføjet."
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid ""
 "*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
 "*Attributter:* Kommentaren og synligheden (om den aktuelle vedhæftede fil "
 "skjules ved sidevisning) kan opdateres uden at uploade en ny fil, ved at "
-"klikke \"Opdatér kun attributter\"; se %1."
+"klikke \"Opdatér kun attributter\"."
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -469,6 +458,8 @@ msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
+"<strong>Bekræftelse påkrævet</strong> Vælg OK for at bekræfte at denne "
+"rettelse var ønsket<br />Ellers vælg Fortryd"
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -508,21 +499,19 @@ msgstr ""
 "nødvendigt."
 
 #: core/data/Sandbox/WebHome.txt:32
-#, fuzzy
 msgid "A more extensive changes list is available via [[%1][Recent changes]]."
 msgstr ""
-"En mere udførlig liste over ændringer er tilgængelig via linket [[%1]"
-"[Seneste ændringer]]."
+"En mere udførlig liste over ændringer er tilgængelig via [[%1][Seneste "
+"ændringer]]."
 
 #: core/templates/messages.tmpl:559
-#, fuzzy
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
-"Et nyt system-genereret password til dit brugernavn %1 (!WikiName %2) er "
-"blevet sendt til den registrerede e-mail-adresse. Hvis din e-mail-adresse "
+"En nyt system-genereret adgangskode til dit brugernavn '%1' (!WikiName %2) "
+"er blevet sendt til den registrerede e-mail-adresse. Hvis din e-mail-adresse "
 "ikke længere er gyldig, kontakt da venligst %3"
 
 #: core/data/System/WebTemplateTopics.txt:5
@@ -536,7 +525,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:65
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -551,9 +540,8 @@ msgid "Access keys"
 msgstr "Tastatur-genveje"
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
-#, fuzzy
 msgid "Access keys:"
-msgstr "Tastatur-genveje"
+msgstr "Tastatur-genveje:"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -565,13 +553,12 @@ msgid "Action %1: %2."
 msgstr "Handling %1: %2."
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
-#, fuzzy
 msgid "Add"
-msgstr "Tilføj række"
+msgstr "Tilføj"
 
 #: core/data/Main/GroupViewTemplate.txt:143
 msgid "Add a user to this group"
-msgstr ""
+msgstr "Tilføj en bruger til denne gruppe"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
@@ -583,22 +570,20 @@ msgid "Add row"
 msgstr "Tilføj række"
 
 #: core/data/Main/GroupViewTemplate.txt:145
-#, fuzzy
 msgid "Add user"
-msgstr "Tilføj række"
+msgstr "Tilføj bruger"
 
 #: core/data/Main/GroupViewTemplate.txt:80
 msgid "Add user..."
-msgstr ""
+msgstr "Tilføj bruger..."
 
 #: core/templates/messages.tmpl:369
-#, fuzzy
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Tilføjer en %1 variabel til WebPreferences"
+msgstr "Tilføjer en %1 indstilling til WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
-msgstr "Foswiki Administrator-bruger authenticering"
+msgstr "Foswiki Administrator-bruger login"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:26
 msgid "Admin Maintenance"
@@ -618,21 +603,20 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:19
 msgid "After submitting this form your password will be changed."
-msgstr "Når du har sendt denne formular, vil dit password blive opdateret."
+msgstr "Når du har sendt denne formular, vil din adgangskode blive opdateret."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
-#, fuzzy
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
 msgstr ""
-"Når du har sendt denne formular, vil du modtage en e-mail med dit nye "
-"*system-genererede* password, samt et link til en side hvor du selv kan "
+"Når du har sendt denne formular, vil du modtage en e-mail med din nye "
+"system-genererede adgangskode, samt et link til en side hvor du selv kan "
 "ændre det."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
-msgstr ""
+msgstr "Åh, nej!"
 
 #: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
 msgid "All public webs"
@@ -651,9 +635,8 @@ msgstr ""
 "tilbage til %SYSTEMWEB%.UserRegistration og vælge et nyt brugernavn."
 
 #: core/lib/Foswiki/UI/Rename.pm:199
-#, fuzzy
 msgid "An attachment with the same name already exists in this topic."
-msgstr "Den vedhæftede fil eksisterer allerede på den nye side"
+msgstr "En vedhæftet fil med samme navn eksisterer allerede på denne side"
 
 #: core/templates/messages.tmpl:264
 msgid ""
@@ -669,13 +652,12 @@ msgstr ""
 "En fejlside vil blive vist, hvis en af siderne er låst af en anden bruger."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
 "Der er en risiko for at nogen prøver at bruge din identitet til at ændre "
-"indhold på %1 uden din viden."
+"indhold i din wiki uden din viden."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -692,9 +674,8 @@ msgid "Attach"
 msgstr "Vedhæft"
 
 #: core/templates/attach.tmpl:9
-#, fuzzy
 msgid "Attach a file"
-msgstr "Vedhæft ny fil"
+msgstr "Vedhæft en fil"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -723,23 +704,20 @@ msgid "Attachment delete failed"
 msgstr "Fejl under sletning af vedhæftet fil"
 
 #: core/lib/Foswiki/UI/Rename.pm:166
-#, fuzzy
 msgid "Attachment does not exist."
 msgstr "Vedhæftet fil findes ikke."
 
 #: core/templates/attachtables.tmpl:42
-#, fuzzy
 msgid "Attachment history"
-msgstr "Vedhæftede filer"
+msgstr "Historie for vedhæftet fil"
 
 #: core/templates/messages.tmpl:54
 msgid "Attachment move failed"
 msgstr "Fejl under flytning af vedhæftet fil"
 
 #: core/templates/moveattachment.tmpl:37
-#, fuzzy
 msgid "Attachment name:"
-msgstr "Vedhæftet fil"
+msgstr "Navn på vedhæftet fil"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
@@ -803,7 +781,7 @@ msgstr "Referencer til %1 fra alle offentlige webs"
 
 #: core/templates/messages.tmpl:301
 msgid "Bad password"
-msgstr "Forkert password"
+msgstr "Forkert adgangskode"
 
 #: core/templates/messages.tmpl:134
 msgid "Base web %1 is missing or does not exist"
@@ -843,7 +821,7 @@ msgstr "Kan ikke finde brugeren %1"
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
 "Kunne ikke finde e-mail-adresse for %1 (en e-mail-adresse er nødvendig for "
-"at kunne nulstille et password)"
+"at kunne nulstille en adgangskode)"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
@@ -881,20 +859,19 @@ msgstr "Kategorier"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
-msgstr "Skift password"
+msgstr "Skift adgangskode"
 
 #: core/templates/validate.tmpl:22
 msgid "Change cannot be completed"
-msgstr ""
+msgstr "Ændring kan ikke gennemføres"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
 msgstr "Opdatér kun kommentar og attributter"
 
 #: core/templates/renamebase.tmpl:14
-#, fuzzy
 msgid "Change from"
-msgstr "Ændr fra:"
+msgstr "Ændr fra"
 
 #: core/data/System/LanguageSelector.txt:35
 #: core/templates/oopslanguagechanged.tmpl:5
@@ -919,7 +896,7 @@ msgstr "Opdater links fra sider, der peger på %1 (kun i %2-webbet)"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:32
 msgid "Change password"
-msgstr "Skift password"
+msgstr "Skift adgangskode"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Change properties only"
@@ -955,6 +932,7 @@ msgstr "Ændringer fra r%1 til r%2"
 #: core/templates/messages.tmpl:429
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
+"Tjek dine konfigurations-indstillinger for {TemplateDir} og {TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
@@ -1006,9 +984,8 @@ msgid "Compare revisions"
 msgstr "Sammenlign versioner"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:168
-#, fuzzy
 msgid "Confirm password"
-msgstr "Dit password:"
+msgstr "Bekræft adgangskode"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
@@ -1034,9 +1011,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:58
-#, fuzzy
 msgid "Context:"
-msgstr "Land:"
+msgstr "Sammenhæng:"
 
 #: core/templates/messages.tmpl:421
 msgid "Continue and try to rename web?"
@@ -1051,19 +1027,20 @@ msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
 msgstr ""
+"Konvertering til HTML for WYSIWYG redigering er deaktiveret på grund af "
+"indholdet."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr ""
+msgstr "Kopiér denne side (og alle vedhæftede filter) til en ny side. "
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
 msgstr "Kopier side"
 
 #: core/templates/more.tmpl:36
-#, fuzzy
 msgid "Copy topic..."
-msgstr "Kopier side"
+msgstr "Kopier side..."
 
 #: core/data/System/DefaultPreferences.txt:40
 msgid ""
@@ -1098,9 +1075,8 @@ msgid "Could not save %1."
 msgstr "%1 kunne ikke gemmes."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
-#, fuzzy
 msgid "Country"
-msgstr "Land:"
+msgstr "Land"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:6
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
@@ -1121,19 +1097,16 @@ msgstr ""
 "flyttes rundt efterfølgende)"
 
 #: core/data/Main/WikiGroups.txt:7
-#, fuzzy
 msgid "Create a new group"
-msgstr "Opret ny side"
+msgstr "Opret en ny gruppe"
 
 #: core/data/Main/WikiGroups.txt:31
-#, fuzzy
 msgid "Create group"
-msgstr "Opret ny side"
+msgstr "Opret gruppe"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:44
-#, fuzzy
 msgid "Create new FAQ topic"
-msgstr "Opret ny side"
+msgstr "Opret ny FAQ side."
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1148,13 +1121,12 @@ msgid "Create this topic"
 msgstr "Opret denne side"
 
 #: core/data/Sandbox/WebHome.txt:19
-#, fuzzy
 msgid "Create topic"
-msgstr "Opret siden"
+msgstr "Opret side"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:13
 msgid "Create your account to edit pages on this site."
-msgstr ""
+msgstr "Opret din brugerkonto for at rette sider på denne wiki."
 
 #: core/templates/messages.tmpl:368
 msgid "Creating a suitable Form Definition topic"
@@ -1171,7 +1143,7 @@ msgstr "Nuværende forælder:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 msgid "Current password"
-msgstr "Nuværende password:"
+msgstr "Nuværende adgangskode"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: HistoryPlugin/templates/oopshistory.tmpl:43
@@ -1233,12 +1205,11 @@ msgstr ""
 
 #: core/data/System/VarMAKETEXT.txt:21
 msgid "Did you want to [[%1][reset %2's password]]?"
-msgstr "Ønskede du at [[%1][resette passwordet for brugeren %2]]?"
+msgstr "Ønskede du at [[%1][nulstille adgangskoden for brugeren %2]]?"
 
 #: core/templates/rdiff.tmpl:14
-#, fuzzy
 msgid "Difference Topic"
-msgstr "Ændringer:"
+msgstr "Ændringer på side"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
 #: PatternSkin/templates/rdiff.pattern.tmpl:9
@@ -1247,7 +1218,7 @@ msgstr "Ændringer:"
 
 #: core/data/System/WebPreferences.txt:12
 msgid "Discover the details, and how to start your own site with Foswiki"
-msgstr ""
+msgstr "Lær mere om hvordan du starter din egen site med Foswiki."
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
@@ -1270,11 +1241,10 @@ msgstr ""
 "Underret venligst din %2 administrator."
 
 #: core/templates/messages.tmpl:55
-#, fuzzy
 msgid "During move of attachment =%1= to %2 an error was found."
 msgstr ""
-"Under flytningen af den vedhæftede fil %1 til %2 blev der konstateret en "
-"fejl. Underret venligst din %3 administrator."
+"Under flytningen af den vedhæftede fil =%1= til %2 blev der konstateret en "
+"fejl."
 
 #: core/templates/messages.tmpl:99
 msgid ""
@@ -1306,27 +1276,27 @@ msgstr "E-mail-adressen er opdateret!"
 
 #: core/templates/messages.tmpl:632
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
-msgstr ""
+msgstr "ENCODE fejlede - =type= can ikke bruges sammen med =old= og =new="
 
 #: core/templates/messages.tmpl:633
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr ""
+msgstr "ENCODE fejlede - både =old= og =new= skal angives"
 
 #: core/templates/messages.tmpl:634
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr ""
+msgstr "ENCODE fejlede - værdien '%PARAM1%' er gentaget i =old= "
 
 #: core/templates/messages.tmpl:637
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr ""
+msgstr "EXPAND fejlede - adgang til '%PARAM1%' afvist"
 
 #: core/templates/messages.tmpl:635
 msgid "EXPAND failed - no macro"
-msgstr ""
+msgstr "EXPAND fejlede - ingen macro"
 
 #: core/templates/messages.tmpl:636
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr ""
+msgstr "EXPAND fejlede - ingen side '%PARAM1%'"
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
@@ -1342,7 +1312,7 @@ msgstr "Editér alligevel"
 
 #: core/templates/viewtopicactionbuttons.tmpl:61
 msgid "Edit Wiki<nop>Text"
-msgstr ""
+msgstr "Redigér Wiki<nop>Tekst"
 
 #: PatternSkin/templates/edit.pattern.tmpl:11
 msgid "Edit help"
@@ -1353,9 +1323,8 @@ msgid "Edit personal data"
 msgstr "Opdater bruger-information"
 
 #: core/templates/more.tmpl:17
-#, fuzzy
 msgid "Edit settings for this topic..."
-msgstr "Opdatér side-præferencer for denne side"
+msgstr "Opdatér side-indstillinger for denne side..."
 
 #: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 msgid "Edit text"
@@ -1376,7 +1345,7 @@ msgstr "Editér præferencer for siden"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
-msgstr ""
+msgstr "Øh, lad mig gå tilbage til den rigtige side..."
 
 #: core/templates/messages.tmpl:318
 msgid ""
@@ -1389,10 +1358,12 @@ msgstr ""
 #: core/templates/messages.tmpl:127
 msgid "Either the name is invalid, or it refers to a non-existant form."
 msgstr ""
+"Enten er navnet ugyldigt, eller det refererer til en ikke-eksisterende form."
 
 #: core/templates/messages.tmpl:123
 msgid "Either the name is invalid, or it refers to a non-existant topic."
 msgstr ""
+"Enten er navnet ugyldigt, eller det refererer til en ikke-eksisterende side."
 
 #: core/templates/messages.tmpl:389
 msgid ""
@@ -1403,9 +1374,8 @@ msgstr ""
 "uploadet (%1) er tom. Tomme filer kan ikke uploades."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:159
-#, fuzzy
 msgid "Email address"
-msgstr "E-mail-adresse:"
+msgstr "E-mail-adresse"
 
 #: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:460
 msgid "Email has been disabled for this Foswiki installation"
@@ -1417,7 +1387,7 @@ msgstr "Forstør edit-boks"
 
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
-msgstr "Angiv et nyt brugernavn og password for at skifte identitet:"
+msgstr "Angiv et nyt brugernavn og adgangskode for at skifte identitet:"
 
 #: core/templates/login.sudo.tmpl:18
 msgid "Enter the Wiki Administrator user or login as set in %1"
@@ -1461,22 +1431,20 @@ msgid "Errors"
 msgstr "Fejl"
 
 #: core/templates/messages.tmpl:466
-#, fuzzy
 msgid "Errors adding users to group"
-msgstr "Fejl ved skrivning af siden"
+msgstr "Fejl under tilføjelse af brugere til gruppe"
 
 #: core/templates/messages.tmpl:504
 msgid "Errors removing users from groups"
-msgstr ""
+msgstr "Fejl under fjernelse af brugere fra gruppe"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
-#, fuzzy
 msgid "Evil person"
-msgstr "Opdater bruger-information"
+msgstr "Ond person"
 
 #: core/lib/Foswiki/Plugins.pm:366
 msgid "Failed plugins"
-msgstr ""
+msgstr "Fejlende plugins"
 
 #: core/templates/messages.tmpl:560
 msgid "Failed to include URL %1"
@@ -1488,9 +1456,8 @@ msgid "Fields marked %1 are required"
 msgstr "Felter mærket med %1 er obligatoriske"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:32
-#, fuzzy
 msgid "Fields marked <span class='required'>*</span> are required"
-msgstr "Felter mærket med %1 er obligatoriske"
+msgstr "Felter mærket med <span class='required'>*</span> er obligatoriske"
 
 #: core/templates/messages.tmpl:374
 msgid "File has been uploaded with different name"
@@ -1505,15 +1472,16 @@ msgid "Find topics that link to %1 ..."
 msgstr "Find sider der refererer til %1 ..."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
-#, fuzzy
 msgid "First name"
-msgstr "Fornavn:"
+msgstr "Fornavn"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
 "it poses to you, see "
 msgstr ""
+"For mere baggrundsinformation om cross-site request forgery, og de farer det "
+"giver, se"
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1521,7 +1489,7 @@ msgstr "Gennemtving ny version"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:14
 msgid "Forgotten your password?"
-msgstr "Har du glemt dit password?"
+msgstr "Har du glemt din adgangskode?"
 
 #: core/templates/messages.tmpl:346
 msgid "Form Definition %1 missing"
@@ -1530,17 +1498,15 @@ msgstr "Formular-definition %1 mangler"
 #: PatternSkin/templates/formtables.pattern.tmpl:5 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:6
 msgid "Form data"
-msgstr ""
+msgstr "Formular-data"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
-#, fuzzy
 msgid "Form definition"
-msgstr "Formular-definition mangler"
+msgstr "Formular-definition"
 
 #: core/templates/messages.tmpl:343
-#, fuzzy
 msgid "Form definition '%1' not found"
-msgstr "Formular-definition %1 mangler"
+msgstr "Formular-definition '%1' mangler"
 
 #: core/templates/messages.tmpl:351
 msgid "Form definition missing"
@@ -1555,41 +1521,40 @@ msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
+"Foswiki tjekker alle forespørgsler den modtager fra browsere, og prøver at "
+"bekræfte at brugerne reelt ønskede at sende dem."
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
-msgstr "Nulstilling af Foswiki-passwordet for %1"
+msgstr "Nulstilling af Foswiki-adgangskoden for %1"
 
 #: core/templates/attach.tmpl:3
-#, fuzzy
 msgid "Get help on attaching files"
-msgstr "har mere information om vedhæftning af filer"
+msgstr "Få mere information om vedhæftning af filer"
 
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
-msgstr ""
+msgstr "Få hjælp til at definere side-indstillinger"
 
 #: core/data/System/WebSearch.txt:157
 msgid "Get notified on changes on this search"
 msgstr "Få notificering om ændringer i resultaterne af denne søgning"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
-#, fuzzy
 msgid "Globe"
-msgstr "Luk"
+msgstr "Globe"
 
 #: core/templates/foswiki.tmpl:139
 msgid "Go back"
 msgstr "Tilbage"
 
 #: core/templates/messages.tmpl:337
-#, fuzzy
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
 msgstr ""
 "Benyt tilbage-knappen i din browser og indtast relevant information for alle "
-"obligatoriske felter."
+"obligatoriske felter før du gemmer igen"
 
 #: core/templates/messages.tmpl:404 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
@@ -1600,20 +1565,20 @@ msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
 msgstr ""
+"Gå tilbage til den forrige side, og aktivér Cookies og Javascript før du "
+"prøver igen"
 
 #: core/templates/messages.tmpl:292
 msgid "Good examples:"
 msgstr "Gode eksempler:"
 
 #: core/data/Main/WikiGroups.txt:49
-#, fuzzy
 msgid "Group"
-msgstr "Grupper"
+msgstr "Gruppe"
 
 #: core/data/Main/WikiGroups.txt:17
-#, fuzzy
 msgid "Group name"
-msgstr "Sidenavn"
+msgstr "Gruppenavn"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
@@ -1682,7 +1647,7 @@ msgstr "Dog er filnavnet blevet ændret fra %1 til %2. _Bemærk venligst dette_.
 
 #: core/templates/login.tmpl:63
 msgid "I forgot my password"
-msgstr "Jeg har glemt mit password"
+msgstr "Jeg har glemt mn adgangskode"
 
 #: core/data/System/DefaultPreferences.txt:40
 #: core/data/System/WebPreferences.txt:33
@@ -1772,8 +1737,8 @@ msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
 #: core/templates/registernotify.tmpl:25
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
-"Hvis du ikke har valgt et password endnu, eller du ønsker at nulstille det, "
-"så gå til: %1"
+"Hvis du ikke har valgt en adgangskode endnu, eller du ønsker at nulstille "
+"det, så gå til: %1"
 
 #: core/templates/messages.tmpl:446
 msgid ""
@@ -1798,7 +1763,8 @@ msgid ""
 "any more) and you have forgotten your password, please contact %1 for help."
 msgstr ""
 "Hvis dine gamle e-mail-adresser alle er ugyldige (du kan ikke længere "
-"modtage e-mail på dem) og du har glemt dit password, kontakt da venligst %1."
+"modtage e-mail på dem) og du har glemt din adgangskode, kontakt da venligst "
+"%1."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
 msgid ""
@@ -1846,7 +1812,7 @@ msgstr "Forkert %1.WikiNames:"
 
 #: core/templates/messages.tmpl:105
 msgid "Incorrect Password"
-msgstr "Forkert password"
+msgstr "Forkert adgangskode"
 
 #: core/templates/messages.tmpl:444
 msgid "Incorrect parameters to the =%1= script"
@@ -1981,9 +1947,8 @@ msgid "Log Out"
 msgstr "Log ud"
 
 #: core/templates/login.tmpl:12
-#, fuzzy
 msgid "Log on with your username and password"
-msgstr "Angiv venligst dit brugernavn og password:"
+msgstr "Angiv venligst dit brugernavn og adgangskode"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:152
 #, fuzzy
@@ -2122,7 +2087,7 @@ msgstr "Nyt forælder-web:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:26
 msgid "New password"
-msgstr "Nyt password"
+msgstr "Ny adgangskode"
 
 #: core/templates/messages.tmpl:87
 msgid "New topic name %1 is not a %2"
@@ -2163,7 +2128,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:223
 msgid "No users to reset passwords for."
-msgstr "Ingen brugere at nulstille passwords for."
+msgstr "Ingen brugere at nulstille adgangskoder for."
 
 #: core/templates/renamedelete.tmpl:34
 msgid "Not recommended when deleting a topic."
@@ -2251,8 +2216,8 @@ msgstr "Datter-sider i %1-webbet"
 msgid ""
 "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
 msgstr ""
-"Hovsa. Vi kunne ikke genkende dig. Forsøg igen eller [[%1][nulstil dit "
-"password]]."
+"Hovsa. Vi kunne ikke genkende dig. Forsøg igen eller [[%1][nulstil din "
+"adgangskode]]."
 
 #: core/templates/renamedelete.tmpl:20
 #, fuzzy
@@ -2291,23 +2256,23 @@ msgstr "Organisationsnavn:"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
 #: core/templates/login.tmpl:58
 msgid "Password"
-msgstr "Password"
+msgstr "Adgangskode"
 
 #: core/templates/messages.tmpl:184
 msgid "Password changed successfully!"
-msgstr "Passwordet er opdateret!"
+msgstr "Adgangskoden er opdateret!"
 
 #: core/templates/messages.tmpl:194
 msgid "Password could not be changed"
-msgstr "Passwordet kunne ikke opdateres"
+msgstr "Adgangskoden kunne ikke opdateres"
 
 #: core/templates/messages.tmpl:222 core/templates/messages.tmpl:226
 msgid "Password reset failed"
-msgstr "Nulstilling af passwordet fejlede"
+msgstr "Nulstilling af adgangskoden fejlede"
 
 #: core/templates/messages.tmpl:236
 msgid "Passwords do not match"
-msgstr "Passwords matcher ikke"
+msgstr "Adgangskoder stemmer ikke overens"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:60
 #: core/templates/more.tmpl:104
@@ -2342,7 +2307,7 @@ msgstr "Kontakt venligst %1."
 
 #: core/templates/login.sudo.tmpl:7
 msgid "Please enter the Wiki admin password"
-msgstr "Indtast Wiki administrator-passwordet"
+msgstr "Indtast Wiki administrator-adgangskoden"
 
 #: core/templates/messages.tmpl:71 core/templates/messages.tmpl:77
 #: core/templates/messages.tmpl:83
@@ -2385,8 +2350,8 @@ msgstr ""
 msgid ""
 "Please visit %1 to change your password to something more memorable for you."
 msgstr ""
-"Besøg venligst siden %1 for at ændre dit password til et der er lettere at "
-"huske."
+"Besøg venligst siden %1 for at ændre din adgangskode til et der er lettere "
+"at huske."
 
 #: core/lib/Foswiki/Plugins.pm:397
 msgid "Plugin handlers"
@@ -2514,7 +2479,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
-msgstr "Kan du huske dit password?"
+msgstr "Kan du huske din adgangskode?"
 
 #: core/data/Main/GroupViewTemplate.txt:168
 msgid "Remove selected users"
@@ -2575,11 +2540,11 @@ msgstr "Bed om bekræftelse"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
-msgstr "Nulstil password"
+msgstr "Nulstil Adgangskode"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:28
 msgid "Reset password"
-msgstr "Nulstil password"
+msgstr "Nulstil adgangskode"
 
 #: core/data/System/DefaultPreferences.txt:186
 msgid "Resetting and setting password is not handled by Foswiki"
@@ -2617,7 +2582,7 @@ msgstr "Tilbage til %1."
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 msgid "Retype new password"
-msgstr "Nyt password igen"
+msgstr "Indtast adgangskode igen"
 
 #: core/templates/messages.tmpl:27
 msgid "Rev %1 was saved by %2, while you were still editing."
@@ -2884,7 +2849,8 @@ msgstr "Beklager, registrering er midlertidigt slået fra"
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:18
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
-"Beklager, passwordsystemer er i øjeblikket read-only, kontakt venligst %1"
+"Beklager, systemet der varetager adgangskoder tillader ikke ændringer, "
+"kontakt venligst %1"
 
 #: core/data/System/WebSearch.txt:98
 msgid "Sort results by:"
@@ -3100,7 +3066,7 @@ msgstr "E-mail-adressen for dette brugernavn er ikke gyldig."
 
 #: core/templates/messages.tmpl:556
 msgid "The entry for user %1 was missing in the password system."
-msgstr "Passwordet for brugernavnet %1 fandtes ikke i password-systemet."
+msgstr "Adgangskoden for brugernavnet %1 fandtes ikke i password-systemet."
 
 #: core/templates/messages.tmpl:375
 msgid "The file has been uploaded and attached properly to the %1 topic."
@@ -3151,7 +3117,7 @@ msgstr "Det nye web er blevet oprettet"
 
 #: core/templates/messages.tmpl:106
 msgid "The password you entered in the *old password* field is incorrect."
-msgstr "Passwordet, som du har indtastet i *Old password*-feltet er forkert."
+msgstr "Adgangskoden, som du har indtastet i *Old password*-feltet er forkert."
 
 #: core/templates/messages.tmpl:335
 msgid "The required field %1 was not filled in."
@@ -3167,7 +3133,7 @@ msgstr "Siden er i et gammelt format"
 
 #: core/templates/messages.tmpl:237
 msgid "The two passwords you entered do not match."
-msgstr "De to passwords du har indtastet er ikke ens."
+msgstr "De to adgangskoder du har indtastet er ikke ens."
 
 #: core/templates/messages.tmpl:625
 msgid "The user %1 has already been activated, and should be able to log in."
@@ -3188,7 +3154,8 @@ msgstr "Der er problemer med at omdøbe dette web:"
 #: core/templates/messages.tmpl:244
 msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
-"Der opstod et problem med at tilføje dit brugernavn til password-systemet."
+"Der opstod et problem med at tilføje dit brugernavn til adgangskode-"
+"systemet."
 
 #: core/templates/validate.tmpl:29
 msgid ""
@@ -3228,9 +3195,9 @@ msgid ""
 msgstr ""
 "Denne formular bruges til at opdatere dine registrerede e-mail-addresser. "
 "Dine registrerede e-mail adresser bruges af Foswiki til at sende e-mails til "
-"dig, fx ved password-nulstilling. De adresser som du registrerer ved hjælp "
-"af denne formular bliver holdt hemmelige af systemet og vil ikke kunne ses "
-"nogen steder på dette site."
+"dig, fx ved nulstilling af adgangskode. De adresser som du registrerer ved "
+"hjælp af denne formular bliver holdt hemmelige af systemet og vil ikke kunne "
+"ses nogen steder på dette site."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
@@ -3306,7 +3273,7 @@ msgstr "Dette site er drevet af Foswiki"
 
 #: core/templates/messages.tmpl:302
 msgid "This site requires at least %1 character passwords"
-msgstr "Dette site kræver at et password er mindst%1 karakterer langt"
+msgstr "Dette site kræver at en adgangskode har mindst %1 karakterer"
 
 #: core/templates/viewprint.tmpl:15
 msgid "This topic:"
@@ -3478,7 +3445,7 @@ msgstr "Forsøg igen"
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
-msgstr "Ukendt brugernavn og/eller password"
+msgstr "Ukendt brugernavn og/eller adgangskode"
 
 #: core/templates/messages.tmpl:40
 msgid "Unrecognized action command %1"
@@ -3563,7 +3530,7 @@ msgid ""
 "Users with automatically generated passwords should proceed immediately to "
 "[[%1][change password]] to change their password to something memorable."
 msgstr ""
-"Brugere med system-genererede passwords opfordres til at [[%1][opdatere "
+"Brugere med system-genererede adgangskoder opfordres til at [[%1][opdatere "
 "deres password]] til et der er nemmere at huske."
 
 #: core/templates/attachtables.tmpl:43
@@ -3733,7 +3700,6 @@ msgid "You"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
@@ -3741,7 +3707,7 @@ msgid ""
 msgstr ""
 "Du *skal* have mindst en registreret e-mail-adresse for at kunne nulstille "
 "dit password. Hvis ingen af dine registrerede e-mail-adresser er valide, og "
-"du har glemt dit password, kontakt da %1."
+"du har glemt din adgangskode, kontakt da %1."
 
 #: core/templates/messages.tmpl:272
 msgid "You are already registered"
@@ -3829,7 +3795,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:149
 #: core/templates/registernotify.tmpl:24
 msgid "You can change your password at via %1"
-msgstr "Du kan skifte dit password v.h.a. %1"
+msgstr "Du kan skifte din adgangskode v.h.a. %1"
 
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
@@ -3969,13 +3935,12 @@ msgid ""
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
-#, fuzzy
 msgid "Your password"
-msgstr "Dit password:"
+msgstr "Din adgangskode"
 
 #: core/templates/mailresetpassword.tmpl:13
 msgid "Your password has been changed to %1."
-msgstr "Dit password er opdateret til %1."
+msgstr "Din adgangskode er opdateret til %1."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:138
 #: core/templates/registernotify.tmpl:12
@@ -4022,8 +3987,8 @@ msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
 msgstr ""
-"Dette system understøtter muligvis ikke skift af passwords gennem Foswiki. "
-"Tjek med din Wiki administrator."
+"Dette system understøtter muligvis ikke skift af adgangskoder gennem "
+"Foswiki. Tjek med din Wiki administrator."
 
 #: core/templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."
