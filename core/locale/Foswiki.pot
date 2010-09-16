@@ -1937,7 +1937,7 @@ msgid "Newer revision:"
 msgstr ""
 
 #: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
+msgid "No group name specified"
 msgstr ""
 
 #: core/templates/more.tmpl:190
@@ -3181,7 +3181,7 @@ msgid ""
 msgstr ""
 
 #: core/templates/messages.tmpl:485
-msgid "Upgraded Group"
+msgid "Upgraded group"
 msgstr ""
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
@@ -3524,15 +3524,15 @@ msgid "You must pass a topic name."
 msgstr ""
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
+msgid "You need to specify a valid user to add to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:494
