@@ -780,7 +780,7 @@ sub _actionConfigure {
     my $ui = _checkLoadUI( 'Root', $root );
     return '' unless $ui;
 
-	my $uiMessages = $messages ? $messages : undef;
+	my $uiMessages = (!$isFirstTime && $messages) ? $messages : undef;
 	
     # Visit the model and generate
     $ui->{controls} = new Foswiki::Configure::GlobalControls();
