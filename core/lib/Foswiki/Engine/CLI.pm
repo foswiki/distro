@@ -30,11 +30,11 @@ sub run {
     while ( scalar @args ) {
         my $name;
         my $arg = shift @args;
-        if ( $arg =~ /^-([a-z0-9_]+)/ ) {
-            ( $name, $arg ) = ( TAINT($1), shift(@args) );
-        }
-        elsif ( $arg =~ /([a-z0-9_]+)=(.*)$/i ) {
+        if ( $arg =~ /-([a-z0-9_]+)=(.*)$/i ) {
             ( $name, $arg ) = ( TAINT($1), TAINT($2) );
+        }
+        elsif ( $arg =~ /^-([a-z0-9_]+)/ ) {
+            ( $name, $arg ) = ( TAINT($1), shift(@args) );
         }
         if ( $name && $name eq 'user' ) {
             $this->{user} = $arg;
@@ -43,6 +43,7 @@ sub run {
             push @{ $this->{plist} }, $name
               unless exists $this->{params}->{$name};
             push @{ $this->{params}->{$name} }, $arg;
+            print STDERR "Pushed $name,  $arg  onto parameters \n";
         }
         else {
             $this->{path_info} = $arg;    # keep it tainted
