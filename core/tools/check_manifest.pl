@@ -19,7 +19,7 @@ my %man;
 open MAN, '<', $manifest or die "Can't open $manifest for reading: $!";
 while( <MAN> ) {
     next if /^!include/;
-    $man{$1} = 1 if /^(\S+)\s+\d+$/;
+    $man{$1} = 1 if /^(\S+)\s+\d+.*$/;
   }
 close MAN;
 
