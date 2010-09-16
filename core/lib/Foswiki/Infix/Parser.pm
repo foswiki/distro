@@ -238,21 +238,21 @@ sub _parse {
 s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x{[a-fA-F0-9]+}|n|t|\\|$q)/eval('"\\'.$1.'"')/ge;
                 push( @opands,
                     $this->{client_class}
-                      ->newLeaf( $val, $Foswiki::Infix::Node::STRING ) );
+                      ->newLeaf( $val, Foswiki::Infix::Node::STRING ) );
             }
             elsif ( $$input =~ s/^\s*($this->{numbers})// ) {
                 my $val = 0 + $1;
                 print STDERR "Tok: number '$val'\n" if MONITOR_PARSER;
                 push( @opands,
                     $this->{client_class}
-                      ->newLeaf( $val, $Foswiki::Infix::Node::NUMBER ) );
+                      ->newLeaf( $val, Foswiki::Infix::Node::NUMBER ) );
             }
             elsif ( $$input =~ s/^\s*($this->{words})// ) {
                 print STDERR "Tok: word '$1'\n" if MONITOR_PARSER;
                 my $val = $1;
                 push( @opands,
                     $this->{client_class}
-                      ->newLeaf( $val, $Foswiki::Infix::Node::NAME ) );
+                      ->newLeaf( $val, Foswiki::Infix::Node::NAME ) );
             }
             elsif ( $$input =~ s/^\s*($this->{bracket_op_REs})// ) {
                 my $opname = $1;

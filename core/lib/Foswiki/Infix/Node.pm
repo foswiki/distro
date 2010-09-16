@@ -15,12 +15,14 @@ use strict;
 use warnings;
 
 # 1 for debug
-sub MONITOR_EVAL { 0 }
+use constant MONITOR => 0;
 
 # Leaf token types
-our $NAME   = 1;
-our $NUMBER = 2;
-our $STRING = 3;
+use constant {
+    NAME   => 1,
+    NUMBER => 2,
+    STRING => 3,
+};
 
 =begin TML
 
@@ -67,27 +69,45 @@ sub evaluate {
     my $result;
     if ( !ref( $this->{op} ) ) {
         $result = $this->{params}[0];
-        if (MONITOR_EVAL) {
-            print STDERR "LEAF: ", ( defined($result) ? $result : 'undef' ),
-              "\n";
-        }
+        print STDERR "LEAF: ", ( defined($result) ? $result : 'undef' ),
+          "\n" if MONITOR;
     }
     else {
         my $fn = $this->{op}->{evaluate};
         $result = &$fn( $clientData, @{ $this->{params} } );
-        if (MONITOR_EVAL) {
-            print STDERR "NODE: ", $this->stringify(), " -> ",
-              ( defined($result) ? $result : 'undef' ), "\n";
-        }
+        print STDERR "NODE: ", $this->stringify(), " -> ",
+          ( defined($result) ? $result : 'undef' ), "\n" if MONITOR;
     }
     return $result;
 }
+
+=begin TML
+
+---++ ObjectMethod makeConstant( $val )
+
+Convert the current node into a constant.
+
+=cut
+
+sub makeConstant {
+    my ($this, $type, $val) = @_;
+    $this->{op} = $type;
+    $this->{params} = [ $val ];
+}
+
+=begin TML
+
+---++ ObjectMethod stringify() -> $string
+
+Generate a string representation of the subtree,
+
+=cut
 
 sub stringify {
     my $this = shift;
 
     unless ( ref( $this->{op} ) ) {
-        if ( $this->{op} == $Foswiki::Infix::Node::STRING ) {
+        if ( $this->{op} == STRING ) {
             return "'$this->{params}[0]'";
         }
         else {

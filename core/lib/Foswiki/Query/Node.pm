@@ -34,6 +34,8 @@ our @ISA = ('Foswiki::Infix::Node');
 use Assert;
 use Error qw( :try );
 
+use Foswiki::Store::QueryAlgorithms::SQL;
+
 =begin TML
 
 ---++ PUBLIC $aliases
@@ -66,26 +68,7 @@ our $isAccessibleCfg;
 
 # <DEBUG SUPPORT>
 
-sub MONITOR_EVAL { 0 }
-
-# We expand config vars to constant strings during the parse, because otherwise we'd
-# have to export the knowledge of config vars out to other engines that may
-# evaluate queries instead of the default evaluator.
-sub newLeaf {
-    my ( $class, $val, $type ) = @_;
-
-    if ( $type == $Foswiki::Infix::Node::NAME && $val =~ /^({[A-Z][A-Z0-9_]*})+$/i ) {
-        # config var name, make sure it's accessible.
-        unless (defined $isAccessibleCfg) {
-            $isAccessibleCfg = { map { $_ => 1 } @{$Foswiki::cfg{AccessibleCFG}} };
-        }
-        $val = ($isAccessibleCfg->{$val}) ? eval( '$Foswiki::cfg'.$val ) : '';
-        return $class->SUPER::newLeaf( $val, $Foswiki::Infix::Node::STRING );
-    }
-    else {
-        return $class->SUPER::newLeaf( $val, $type );
-    }
-}
+use constant MONITOR_EVAL => 0;
 
 sub toString {
     my ($a) = @_;
@@ -107,6 +90,28 @@ sub toString {
 my $ind = 0;
 
 # </DEBUG SUPPORT>
+
+# STATIC overrides Foswiki::Infix::Node
+# We expand config vars to constant strings during the parse, because
+# otherwise we'd have to export the knowledge of config vars out to other
+# engines that may evaluate queries instead of the default evaluator.
+sub newLeaf {
+    my ( $class, $val, $type ) = @_;
+
+    if ( $type == Foswiki::Infix::Node::NAME
+           && $val =~ /^({[A-Z][A-Z0-9_]*})+$/i ) {
+        # config var name, make sure it's accessible.
+        unless (defined $isAccessibleCfg) {
+            $isAccessibleCfg =
+              { map { $_ => 1 } @{$Foswiki::cfg{AccessibleCFG}} };
+        }
+        $val = ($isAccessibleCfg->{$val}) ? eval( '$Foswiki::cfg'.$val ) : '';
+        return $class->SUPER::newLeaf( $val, Foswiki::Infix::Node::STRING );
+    }
+    else {
+        return $class->SUPER::newLeaf( $val, $type );
+    }
+}
 
 # Evaluate this node by invoking the operator function named in the 'exec'
 # field of the operator. The return result is either an array ref (for many
@@ -132,7 +137,7 @@ sub evaluate {
 
     if ( !ref( $this->{op} ) ) {
         my %domain = @_;
-        if ( $this->{op} == $Foswiki::Infix::Node::NAME
+        if ( $this->{op} == Foswiki::Infix::Node::NAME
             && defined $domain{data} )
         {
 
@@ -175,8 +180,8 @@ sub evaluatesToConstant {
     my $this = shift;
     if (
         !ref( $this->{op} )
-        && (   $this->{op} == $Foswiki::Infix::Node::NUMBER
-            || $this->{op} == $Foswiki::Infix::Node::STRING )
+        && (   $this->{op} == Foswiki::Infix::Node::NUMBER
+            || $this->{op} == Foswiki::Infix::Node::STRING )
       )
     {
         return 1;
@@ -205,12 +210,11 @@ sub simplify {
     if ( $this->evaluatesToConstant(@_) ) {
         my $c = $this->evaluate(@_) || 0;
         if ( $c =~ /^[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?$/ ) {
-            $this->{op} = $Foswiki::Infix::Node::NUMBER;
+            $this->makeConstant(Foswiki::Infix::Node::NUMBER, $c);
         }
         else {
-            $this->{op} = $Foswiki::Infix::Node::STRING;
+            $this->makeConstant(Foswiki::Infix::Node::STRING, $c);
         }
-        @{ $this->{params} } = ($c);
     }
     else {
         for my $f ( @{ $this->{params} } ) {

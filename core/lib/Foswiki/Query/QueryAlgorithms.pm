@@ -10,10 +10,11 @@ Implementations of this interface are found in Foswiki/Store/QueryAlgorithms.
 The contract with query algorithms is specified by this interface description,
 plus the 'query' unit tests in Fn_SEARCH.
 
----++ StaticMethod query( $query, $web, $inputTopicSet, $session, $options ) -> $infoCache
+---++ StaticMethod query( $query, $webs, $inputTopicSet, $session, $options ) -> $infoCache
    * =$query= - A Foswiki::Query::Node object
-   * =$web= - name of the web being searched
-   * =$inputTopicSet= - list of topics in that web to search
+   * =$web= - name of the web being searched, or may be an array reference
+              to a set of webs to search
+   * =$inputTopicSet= - iterator over names of topics in that web to search
    * =$session= - reference to the store object
    * =$options= - hash of requested options
 This is the top-level interface to a query algorithm. A store module can call

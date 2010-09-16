@@ -27,7 +27,7 @@ sub evaluate {
     my $lval   = $a->evaluate(@_);
     my $b      = $node->{params}[1];
     if ( ref($lval) eq 'ARRAY' ) {
-        if ( $b->{op} == $Foswiki::Infix::Node::NUMBER ) {
+        if ( $b->{op} == Foswiki::Infix::Node::NUMBER ) {
 
             # Special case; integer index responds with array el at that
             # index.

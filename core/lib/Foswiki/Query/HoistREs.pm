@@ -211,8 +211,8 @@ sub _hoistDOT {
         my $rhs = $node->{params}[1];
         if (   !ref( $lhs->{op} )
             && !ref( $rhs->{op} )
-            && $lhs->{op} eq $Foswiki::Infix::Node::NAME
-            && $rhs->{op} eq $Foswiki::Infix::Node::NAME )
+            && $lhs->{op} eq Foswiki::Infix::Node::NAME
+            && $rhs->{op} eq Foswiki::Infix::Node::NAME )
         {
             $lhs = $lhs->{params}[0];
             $rhs = $rhs->{params}[0];
@@ -248,7 +248,7 @@ sub _hoistDOT {
 
         }
     }
-    elsif ( !ref( $node->{op} ) && $node->{op} eq $Foswiki::Infix::Node::NAME )
+    elsif ( !ref( $node->{op} ) && $node->{op} eq Foswiki::Infix::Node::NAME )
     {
         if ( $node->{params}[0] eq 'name' ) {
 
@@ -286,8 +286,8 @@ sub _hoistConstant {
 
     if (
         !ref( $node->{op} )
-        && (   $node->{op} eq $Foswiki::Infix::Node::STRING
-            || $node->{op} eq $Foswiki::Infix::Node::NUMBER )
+        && (   $node->{op} eq Foswiki::Infix::Node::STRING
+            || $node->{op} eq Foswiki::Infix::Node::NUMBER )
       )
     {
         return $node->{params}[0];
