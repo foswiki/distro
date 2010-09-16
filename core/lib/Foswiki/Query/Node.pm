@@ -34,8 +34,6 @@ our @ISA = ('Foswiki::Infix::Node');
 use Assert;
 use Error qw( :try );
 
-use Foswiki::Store::QueryAlgorithms::SQL;
-
 =begin TML
 
 ---++ PUBLIC $aliases
