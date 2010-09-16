@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-15 14:21+0000\n"
+"PO-Revision-Date: 2010-09-16 15:24+0200\n"
 "Last-Translator: Carlinhos Ceconi <carlinux@terra.com.br>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 1.1.0\n"
-"Language: pt_BR\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:480
@@ -1975,7 +1975,7 @@ msgstr "Fazer busca:"
 #: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:26
 #: core/data/Main/WikiGroups.txt:50
 msgid "Members"
-msgstr ""
+msgstr "Integrantes"
 
 #: core/templates/messages.tmpl:230
 msgid "Missing Fields"
@@ -2873,7 +2873,7 @@ msgstr "Inscrever-se / Desinscrever-se em:"
 
 #: core/templates/messages.tmpl:478
 msgid "Success adding users to group"
-msgstr ""
+msgstr "Sucesso ao adicionar usuário ao grupo"
 
 #: core/templates/messages.tmpl:516
 msgid "Success removing users from group"
