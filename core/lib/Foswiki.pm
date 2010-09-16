@@ -1794,6 +1794,12 @@ sub new {
     $this->{topicName} = Foswiki::Sandbox::untaint( $topic,
         \&Foswiki::Sandbox::validateTopicName );
 
+    # Set the requestedWebName before applying defaults - used by statistics
+    # generation.   Note:  This is validated using Topic name rules to permit
+    # names beginning with lower case.
+    $this->{requestedWebName} =
+      Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateTopicName );
+
     # Validate web name from path info
     $this->{webName} =
       Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );

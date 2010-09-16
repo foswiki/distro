@@ -102,8 +102,14 @@ sub statistics {
     my $data = _collectLogData( $session, "1 $logMonthYear" );
 
     my @weblist;
+
+    # requestedWebName is the web from the URI, but validated with
+    # topic rules which are more forgiving than the Web validations.
+    # This field will be missing rather than defaulted if no web is
+    # specified in the URL.
     my $webSet = $session->{request}->param('webs')
-      || $session->{webName};
+      || $session->{requestedWebName};
+
     if ($webSet) {
 
         # do specific webs
@@ -132,14 +138,14 @@ sub statistics {
         }
         catch Foswiki::AccessControlException with {
             _printMsg( $session,
-                '  - ERROR: no permission to CHANGE statistics topic in '
+                '!  - ERROR: no permission to CHANGE statistics topic in '
                   . $web );
         }
         $firstTime = 0;
 
         if ( !$session->inContext('command_line') ) {
             $tmp = $Foswiki::cfg{Stats}{TopicName};
-            my $url = $session->getScriptUrl( 0, 'view', $destWeb, $tmp );
+            my $url = $session->getScriptUrl( 0, 'view', $web, $tmp );
             _printMsg(
                 $session,
                 '* Go to '
@@ -148,7 +154,7 @@ sub statistics {
                         href => $url,
                         rel  => 'nofollow'
                     },
-                    "$destWeb.$tmp"
+                    "$web.$tmp"
                   )
                  . CGI::br()
             );
