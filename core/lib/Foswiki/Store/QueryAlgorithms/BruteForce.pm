@@ -15,6 +15,11 @@ costs of hoisting and the advantages of hoisting. Benchmarks suggest
 that it's around 6 topics, though this may vary depending on disk
 speed and memory size. It also depends on the complexity of the query.
 
+TODO: There is an additional opprotunity for optimisation; if we assume
+the grep is solid, we can cut those parts of the query out for the full
+evaluation path. Not done yet, because CDot strongly suspects it won't make
+much difference.
+
 =cut
 
 package Foswiki::Store::QueryAlgorithms::BruteForce;
@@ -28,18 +33,14 @@ use Foswiki::Meta              ();
 use Foswiki::Search::InfoCache ();
 use Foswiki::Search::ResultSet ();
 use Foswiki::MetaCache         ();
+use Foswiki::Query::Node       ();
+use Foswiki::Query::HoistREs   ();
 
 # See Foswiki::Query::QueryAlgorithms.pm for details
 sub query {
     my ( $query, $inputTopicSet, $session, $options ) = @_;
 
-    #TODO: th 1==2 and other false optimisations..
-    #if ( !defined($query->{tokens}) or
-    #    (@{ $query->{tokens} } ) == 0) {
-    #    return new Foswiki::Search::InfoCache($session, '');
-    #}
-
-    # Eliminate static expressions
+    # Fold constants
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
     $query->simplify( tom => $context, data => $context );
 
@@ -58,7 +59,8 @@ sub query {
         next unless $session->webExists($web);
 
         my $webObject = Foswiki::Meta->new( $session, $web );
-        my $thisWebNoSearchAll = Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
+        my $thisWebNoSearchAll = Foswiki::isTrue(
+            $webObject->getPreference('NOSEARCHALL') );
 
         # make sure we can report this web on an 'all' search
         # DON'T filter out unless it's part of an 'all' search.
@@ -82,27 +84,27 @@ sub query {
     return $resultset;
 }
 
-#ok, for initial validation, naively call the code with a web.
+# Query over a single web
 sub _webQuery {
     my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
 
     my $resultTopicSet =
       new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web );
 
-#see if this query can be fasttracked.
-#TODO: is this simplification call appropriate here, or should it go in Search.pm
-#TODO: what about simplify to constant in _this_ web?
-    my $queryIsAConstantFastpath;    #undefined if this is a 'real' query'
+    # see if this query can be fasttracked.
+    # TODO: is this simplification call appropriate here, or should it
+    # go in Search.pm
+    # TODO: what about simplify to constant in _this_ web?
+    my $queryIsAConstantFastpath;    # undefined if this is a 'real' query'
     $query->simplify();
     if ( $query->evaluatesToConstant() ) {
 
-        #SMELL: use any old topic
-        my $cache = $Foswiki::Plugins::SESSION->search->metacache->get( $web,
-            'WebPreferences' );
+        # SMELL: use any old topic
+        my $cache = $Foswiki::Plugins::SESSION->search->metacache->get(
+            $web, 'WebPreferences' );
         my $meta = $cache->{tom};
         $queryIsAConstantFastpath =
           $query->evaluate( tom => $meta, data => $meta );
-
     }
 
     if ( defined($queryIsAConstantFastpath) ) {
@@ -114,41 +116,52 @@ sub _webQuery {
     }
     else {
 
-#from here on, FALSE means its not a constant, TRUE means is is a constant and evals to TRUE
+        # from here on, FALSE means its not a constant, TRUE
+        # means is is a constant and evals to TRUE
         $queryIsAConstantFastpath = 0;
     }
 
-    require Foswiki::Query::HoistREs;
+    # Try and hoist regular expressions out of the query that we
+    # can use to refine the topic set
+
     my $hoistedREs = Foswiki::Query::HoistREs::collatedHoist($query);
+
+    # Reduce the input topic set by matching simple topic names hoisted
+    # from the query.
 
     if (
             ( !defined( $options->{topic} ) )
         and ( $hoistedREs->{name} )
         and (
             scalar( @{ $hoistedREs->{name} } ) == 1
-        ) #only do this if the 'name' query is simple (ie, has only one element)
+        )
       )
     {
+        # only do this if the 'name' query is simple
+        # (ie, has only one element)
         my @filter = @{ $hoistedREs->{name_source} };
 
         #set the 'includetopic' matcher..
         $options->{topic} = $filter[0];
     }
 
+    # Reduce the input topic set by matching the hoisted REs against
+    # the topics in it.
+
     my $topicSet = $inputTopicSet;
     if ( !defined($topicSet) ) {
 
-        #then we start with the whole web?
-        #TODO: i'm sure that is a flawed assumption
+        # then we start with the whole web?
+        # TODO: i'm sure that is a flawed assumption
         my $webObject = Foswiki::Meta->new( $session, $web );
         $topicSet =
           Foswiki::Search::InfoCache::getTopicListIterator( $webObject,
             $options );
     }
 
-    #TODO: howto ask iterator for list length?
-    #TODO: once the inputTopicSet isa ResultSet we might have an idea
-    #TODO: I presume $hoisetedRE's is undefined for constant queries..
+    # TODO: how to ask iterator for list length?
+    # TODO: once the inputTopicSet isa ResultSet we might have an idea
+    # TODO: I presume $hoisetedRE's is undefined for constant queries..
     #    if (() and ( scalar(@$topics) > 6 )) {
     if ( defined( $hoistedREs->{text} ) ) {
         my $searchOptions = {
@@ -168,7 +181,9 @@ sub _webQuery {
     }
     else {
 
-#TODO: clearly _this_ can be re-written as a FilterIterator, and if we are able to use the sorting hints (ie DB Store) can propogate all the way to FORMAT
+        # TODO: clearly _this_ can be re-written as a FilterIterator,
+        # and if we are able to use the sorting hints (ie DB Store)
+        # can propogate all the way to FORMAT
 
         #print STDERR "WARNING: couldn't hoistREs on ".$query->toString();
     }
@@ -182,12 +197,14 @@ sub _webQuery {
         if ($queryIsAConstantFastpath) {
             if ( defined( $options->{date} ) ) {
 
-#TODO: preload the meta cache if we're doing date based filtering - else the wrong filedate will be used
+                # TODO: preload the meta cache if we're doing date
+                # based filtering - else the wrong filedate will be used
                 $Foswiki::Plugins::SESSION->search->metacache->get( $Iweb,
                     $topic );
             }
 
-#TODO: frustratingly, there is no way to evaluate a filterIterator without actually iterating over it..
+            # TODO: frustratingly, there is no way to evaluate a
+            # filterIterator without actually iterating over it..
             $resultTopicSet->addTopics( $Iweb, $topic );
         }
         else {
@@ -200,7 +217,7 @@ sub _webQuery {
             # an infoCache
             $meta = $meta->load() unless ( $meta->latestIsLoaded() );
             print STDERR "Processing $topic\n"
-              if Foswiki::Query::Node::MONITOR_EVAL();
+              if Foswiki::Query::Node::MONITOR_EVAL;
             my $match = $query->evaluate( tom => $meta, data => $meta );
             if ($match) {
                 $resultTopicSet->addTopic($meta);
@@ -353,7 +370,7 @@ sub getRefTopic {
 
 1;
 __END__
-Author: Crawford Currie http://c-dot.co.uk
+Authors: Crawford Currie http://c-dot.co.uk, Sven Dowideit http://fosiki.com
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 

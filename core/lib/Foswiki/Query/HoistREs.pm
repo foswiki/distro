@@ -8,7 +8,7 @@ Static functions to extract regular expressions from queries. The REs can
 be used in caching stores that use the Foswiki standard inline meta-data
 representation to pre-filter topic lists for more efficient query matching.
 
-See =Store/RcsFile.pm= for an example of usage.
+See =Store/QueryAlgorithms/BruteForce.pm= for an example of usage.
 
 =cut
 
