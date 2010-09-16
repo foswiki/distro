@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252721413" format="1.1" version="$Rev$"}%
----+ %TOPIC%
+---+ <nop>%TOPIC%
 
 %SPLIT%
    * %KEY%: %VALUE%%SPLIT%
