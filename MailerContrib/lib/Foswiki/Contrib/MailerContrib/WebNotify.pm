@@ -338,7 +338,7 @@ sub _load {
 
     # join \ terminated lines
     $text =~ s/\\\r?\n//gs;
-    my $webRE = qr/(?:$Foswiki::cfg{UsersWebName}\.)?/o;
+    my $webRE = qr/(?:$Foswiki::cfg{UsersWebName}\.)?/;
     foreach my $baseline ( split( /\r?\n/, $text ) ) {
         my $line =
           Foswiki::Func::expandCommonVariables( $baseline, $this->{topic},
