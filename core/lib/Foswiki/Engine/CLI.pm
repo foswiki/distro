@@ -43,7 +43,6 @@ sub run {
             push @{ $this->{plist} }, $name
               unless exists $this->{params}->{$name};
             push @{ $this->{params}->{$name} }, $arg;
-            print STDERR "Pushed $name,  $arg  onto parameters \n";
         }
         else {
             $this->{path_info} = $arg;    # keep it tainted
