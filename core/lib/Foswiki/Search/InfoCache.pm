@@ -14,11 +14,11 @@ Support package; cache of topic info. When information about search hits is
 compiled for output, this cache is used to avoid recovering the same info
 about the same topic more than once.
 
-TODO: this is going to transform from an ugly duckling into the ResultSet Iterator
-
-I have the feeling that we should make result sets immutable
-
 =cut
+
+# TODO: this is going to transform from an ugly duckling into the
+# ResultSet Iterator
+# Sven has the feeling that we should make result sets immutable
 
 use Assert;
 use Foswiki::Func                     ();
@@ -31,19 +31,21 @@ use Foswiki::Iterator::FilterIterator ();
 =begin TML
 
 ---++ ClassMethod new($session, $defaultWeb, \@topicList)
-initialise a new list of topics, allowing their data to be lazy loaded if and when needed.
+Initialise a new list of topics, allowing their data to be lazy loaded
+if and when needed.
 
-$defaultWeb is used to qualify topics that do not have a web specifier - should expect it to be the same as BASEWEB in most cases.
+$defaultWeb is used to qualify topics that do not have a web
+specifier - should expect it to be the same as BASEWEB in most cases.
 
-because this 'Iterator can be created and filled dynamically, once the Iterator hasNext() and next() methods are called, it is immutable.
-
-TODO: duplicates??, what about topicExists?
-TODO: remove the iterator code from this __container__ and make a $this->getIterator() which can then be used.
-TODO: replace the Iterator->reset() function with a lightweight Iterator->copyConstructor?
-TODO: or..... make reset() make the object muttable again, so we can change the elements in the list, but re-use the meta cache??
-CONSIDER: convert the internals to a hash[tomAddress] = {matches->[list of resultint text bits], othermeta...} - except this does not give us order :/
+Because this Iterator can be created and filled dynamically, once the Iterator hasNext() and next() methods are called, it is immutable.
 
 =cut
+
+#TODO: duplicates??, what about topicExists?
+#TODO: remove the iterator code from this __container__ and make a $this->getIterator() which can then be used.
+#TODO: replace the Iterator->reset() function with a lightweight Iterator->copyConstructor?
+#TODO: or..... make reset() make the object mutable again, so we can change the elements in the list, but re-use the meta cache??
+#CONSIDER: convert the internals to a hash[tomAddress] = {matches->[list of resultint text bits], othermeta...} - except this does not give us order :/
 
 sub new {
     my ( $class, $session, $defaultWeb, $topicList ) = @_;
@@ -150,7 +152,8 @@ sub sortResults {
     }
     $limit = 32000 unless ($limit);
 
-#TODO: this is really an ugly hack to get around the rather horrible limit 'performance' hack
+    # TODO: this is really an ugly hack to get around the rather
+    # horrible limit 'performance' hack
     if ( defined( $params->{pager_show_results_to} )
         and $params->{pager_show_results_to} > 0 )
     {
@@ -209,8 +212,9 @@ sub sortResults {
     }
     sortTopics( $this->{list}, $sortOrder, !$revSort );
 
-#SMELL: this is not a sort at all - its a filter
-#TODO: can't just make a FilterIterator, as the silent removal breaks the numberofpages..
+    # SMELL: this is not a sort at all - its a filter
+    # TODO: can't just make a FilterIterator, as the silent
+    # removal breaks the numberofpages..
     if ($date) {
         require Foswiki::Time;
         my @ends       = Foswiki::Time::parseInterval($date);
@@ -282,16 +286,17 @@ sub sortTopics {
     my ( $listRef, $sortfield, $revSort ) = @_;
     ASSERT($sortfield);
 
-   #seriously, don't spend time doing stuff to an empty list (or a list of one!)
-    return if ( scalar(@$listRef) <= 0 );
+    # don't spend time doing stuff to an empty list (or a list of one!)
+    return if ( scalar(@$listRef) < 2 );
 
     if ( $sortfield eq 'topic' ) {
 
-# simple sort, see Codev.SchwartzianTransformMisused
-# note no extraction of topic info here, as not needed
-# for the sort. Instead it will be read lazily, later on.
-#TODO: need to remove the web portion
-#mmm, need to profile if there is even a point to this - as all topics still need to be parsed to find permissions
+        # simple sort
+        # note no extraction of topic info here, as not needed
+        # for the sort. Instead it will be read lazily, later on.
+        # TODO: need to remove the web portion
+        # mmm, need to profile if there is even a point to this -
+        # as all topics still need to be parsed to find permissions
         if ($revSort) {
             @{$listRef} = map { $_->[1] }
               sort { $a->[0] cmp $b->[0] }
@@ -319,7 +324,8 @@ sub sortTopics {
         }
         else {
 
- #duplicated from above - I'd rather do it only here, but i'm not sure if i can.
+            # SMELL: SD duplicated from above - I'd rather do it only here,
+            # but i'm not sure if i can.
             $sortfield =~ s/^formfield\((.*)\)$/$1/;    # form field
 
             my $info = $metacache->get($webtopic);
@@ -355,8 +361,7 @@ sub sortTopics {
 }
 
 # RE for a full-spec floating-point number
-our ($NUMBER);
-$NUMBER = qr/^[-+]?[0-9]+(\.[0-9]*)?([Ee][-+]?[0-9]+)?$/s;
+our $NUMBER = qr/^[-+]?[0-9]+(\.[0-9]*)?([Ee][-+]?[0-9]+)?$/s;
 
 sub _compare {
     my $x = shift;
@@ -376,8 +381,9 @@ sub _compare {
     }
 }
 
-#convert a comma separated list of webs into the list we'll process
-#TODO: this is part of the Store now, and so should not need to reference Meta - it rather uses the store..
+# convert a comma separated list of webs into the list we'll process
+# TODO: this is part of the Store now, and so should not need to reference
+# Meta - it rather uses the store..
 sub _getListOfWebs {
     my ( $webName, $recurse, $searchAllFlag ) = @_;
     my $session = $Foswiki::Plugins::SESSION;
@@ -385,7 +391,7 @@ sub _getListOfWebs {
     my %excludeWeb;
     my @tmpWebs;
 
-  #$web = Foswiki::Sandbox::untaint( $web,\&Foswiki::Sandbox::validateWebName );
+    #$web = Foswiki::Sandbox::untaint( $web,\&Foswiki::Sandbox::validateWebName );
 
     if ($webName) {
         foreach my $web ( split( /[\,\s]+/, $webName ) ) {
@@ -467,76 +473,91 @@ sub _getListOfWebs {
 
     return @webs;
 }
-#########################################
-#TODO: this is _now_ a default utility method that can be used by search&query algo's to brute force file a list of topics to search.
-#if you can avoid it, you should - as it needs to do an opendir on the web, and if you have alot of topics, life gets slow
-# get a list of topics to search in the web, filtered by the $topic
-# spec
-sub getTopicListIterator {
-    my ( $webObject, $options ) = @_;
+
+=begin TML
+
+---++ StaticMethod getOptionFilter(\%options) -> $code
+
+Analyse the options given in \%options and return a function that
+filters based on those options. \%options may include:
+   * =includeTopics= - a comma-separated wildcard list of topic names
+   * =excludeTopics= - do
+   * =casesensitive= - boolean
+
+=cut
+
+sub getOptionFilter {
+    my ($options) = @_;
+
     my $casesensitive =
       defined( $options->{casesensitive} ) ? $options->{casesensitive} : 1;
 
     # E.g. "Web*, FooBar" ==> "^(Web.*|FooBar)$"
-    $options->{excludeTopics} =
+    my $includeTopics;
+    my $topicFilter;
+    my $excludeTopics;
+    $excludeTopics =
       convertTopicPatternToRegex( $options->{excludeTopics} )
       if ( $options->{excludeTopics} );
 
-    my $topicFilter;
-    my $it;
     if ( $options->{includeTopics} ) {
-
         # E.g. "Bug*, *Patch" ==> "^(Bug.*|.*Patch)$"
-        $options->{includeTopics} =
+        $includeTopics =
           convertTopicPatternToRegex( $options->{includeTopics} );
 
-        # limit search to topic list
-        if (    $casesensitive
-            and $options->{includeTopics} =~
-            /^\^\([\_\-\+$Foswiki::regex{mixedAlphaNum}\|]+\)\$$/ )
-        {
-
-            # topic list without wildcards
-            # for speed, do not get all topics in web
-            # but convert topic pattern into topic list
-            my $topics = $options->{includeTopics};
-            $topics =~ s/^\^\(//o;
-            $topics =~ s/\)\$//o;
-
-            # build list from topic pattern
-            my @list = split( /\|/, $topics );
-            $it = new Foswiki::ListIterator( \@list );
-        }
-        elsif ( !$casesensitive ) {
-            $topicFilter = qr/$options->{includeTopics}/i;
+        if ( $casesensitive ) {
+            $topicFilter = qr/$includeTopics/;
         }
         else {
-            $topicFilter = qr/$options->{includeTopics}/;
+            $topicFilter = qr/$includeTopics/i;
         }
     }
 
-    $it = $webObject->eachTopic() unless ( defined($it) );
-
-    my $filterIter = new Foswiki::Iterator::FilterIterator(
-        $it,
-        sub {
-            my $item = shift;
-
-            #my $data = shift;
-            return unless !$topicFilter || $item =~ /$topicFilter/;
-
-            # exclude topics, Codev.ExcludeWebTopicsFromSearch
-            if ( !$casesensitive && $options->{excludeTopics} ) {
-                return if $item =~ /$options->{excludeTopics}/i;
-            }
-            elsif ( $options->{excludeTopics} ) {
-                return if $item =~ /$options->{excludeTopics}/;
-            }
-            return $Foswiki::Plugins::SESSION->topicExists( $webObject->web,
-                $item );
+    return sub {
+        my $item = shift;
+        return 0 unless !$topicFilter || $item =~ /$topicFilter/;
+        if ( defined $excludeTopics ) {
+            return 0 if $item =~ /$excludeTopics/;
+            return 0 if !$casesensitive && $item =~ /$excludeTopics/i;
         }
-    );
-    return $filterIter;
+        return 1;
+    }
+}
+
+#########################################
+# TODO: this is _now_ a default utility method that can be used by
+# search&query algo's to brute force file a list of topics to search.
+# if you can avoid it, you should - as it needs to do an opendir on the
+# web, and if you have alot of topics, life gets slow
+# get a list of topics to search in the web, filtered by the $topic
+# spec
+sub getTopicListIterator {
+    my ( $webObject, $options ) = @_;
+
+    my $casesensitive =
+      defined( $options->{casesensitive} ) ? $options->{casesensitive} : 1;
+
+    # See if there's a list of topics to avoid having to do a web list
+    my $it;
+    if ( $casesensitive && $options->{includeTopics}
+           && $options->{includeTopics} =~
+             /^([$Foswiki::regex{mixedAlphaNum}]+(,\s*|\|))+$/ ) {
+
+        # topic list without wildcards
+        # convert pattern into a topic list
+        my @list =
+          grep { 
+              $Foswiki::Plugins::SESSION->topicExists(
+                  $webObject->web,
+                  $_ )
+          } split( /,\s*|\|/, $options->{includeTopics} );
+        $it = new Foswiki::ListIterator( \@list );
+    } else {
+        $it = $webObject->eachTopic();
+    }
+
+    return Foswiki::Iterator::FilterIterator->new(
+        $it, getOptionFilter($options));
 }
 
 sub convertTopicPatternToRegex {
