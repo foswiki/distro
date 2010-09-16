@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-16 10:30+0200\n"
+"PO-Revision-Date: 2010-09-16 10:33+0200\n"
 "Last-Translator: Kenneth Lavrsen <kenneth@lavrsen.dk>\n"
 "Language-Team: Danish <N/A>\n"
 "Language: da\n"
@@ -1660,16 +1660,16 @@ msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
+"Hvis Foswiki modtager en mistænkelig forespørgsel som kunne være sendt fra "
+"sådan en side, så bliver du bedt om a bekræfte forespørgslen."
 
 #: core/templates/messages.tmpl:431
-#, fuzzy
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr ""
-"Check dine konfigurationsindstillinger for {TemplateDir} og {TemplatePath}. "
-"Hvis dette ikke er årsagen til problemet, kan det være fordi du har en "
-"indstilling af parameteren %1 der peger på en template der ikke findes."
+"If det ikke er problemet, så kan det være fordi du har en indstilling %1 der "
+"peger på en template der ikke eksisterer."
 
 #: core/templates/messages.tmpl:360
 msgid "If this line isn't present see _upgrade_ section below"
@@ -1688,9 +1688,8 @@ msgstr ""
 "korrekte parametre."
 
 #: core/templates/validate.tmpl:41
-#, fuzzy
 msgid "If you are unsure what this means, read: %1"
-msgstr "If du er usikker på hvad dette betyder, læs:"
+msgstr "If du er usikker på hvad dette betyder, læs %1"
 
 #: core/templates/messages.tmpl:585
 msgid "If you came here by clicking on a question mark link"
@@ -1701,7 +1700,6 @@ msgid "If you don't receive a verification email within the next hour, "
 msgstr "Hvis du ikke modtager en bekræftelses-email inden den næste time, "
 
 #: core/templates/renameattachmentdelete.tmpl:41
-#, fuzzy
 msgid "If you enter a different name, make sure the topic exists."
 msgstr ""
 "Hvis du indtaster et nyt sidenavn, vær da sikker på at siden eksisterer."
