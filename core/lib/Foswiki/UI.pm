@@ -290,8 +290,6 @@ $sub method. Returns the Foswiki::Response object.
 sub _execute {
     my ( $req, $sub, %initialContext ) = @_;
 
-    # DO NOT pass in $req->remoteUser here (even though it appears to be right)
-    # because it may occlude the login manager.
     my $session;
     my $res;
 
@@ -303,7 +301,15 @@ sub _execute {
     # Error::Simple and EngineException indicate something more
     # basic, however, that we can't clean up.
     try {
-        $session = new Foswiki( undef, $req, \%initialContext );
+
+     # DO NOT pass in $req->remoteUser here (even though it appears to be right)
+     # because it may occlude the login manager.  Exception is when running in
+     # CLI environment.
+
+        $session = new Foswiki(
+            ( defined $ENV{GATEWAY_INTERFACE} ) ? undef : $req->remoteUser(),
+            $req, \%initialContext );
+
         $res = $session->{response};
         unless ( defined $res->status() && $res->status() =~ /^\s*3\d\d/ ) {
             $session->getLoginManager()->checkAccess();
@@ -384,7 +390,7 @@ sub _execute {
             $html .= CGI::end_html();
             $res->print($html);
         }
-        $Foswiki::engine->finalizeError($res, $session->{request});
+        $Foswiki::engine->finalizeError( $res, $session->{request} );
         return $e->{status};
     }
     catch Error::Simple with {
