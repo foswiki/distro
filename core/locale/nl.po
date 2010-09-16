@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-15 22:11+0200\n"
+"PO-Revision-Date: 2010-09-16 13:06+0200\n"
 "Last-Translator: Arthur Clemens <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -157,7 +157,7 @@ msgstr "pagina %1 bestaat niet"
 
 #: core/templates/registerfailedremoved.tmpl:10
 msgid "%1 tried to register with e-mail %2"
-msgstr "%1 probeert te registreren met e-mail %2"
+msgstr "%1 probeerde te registreren met e-mail %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
 #: core/lib/Foswiki/Render.pm:229
@@ -608,18 +608,17 @@ msgid "After submitting this form your password will be changed."
 msgstr "Nadat je dit formulier hebt verstuurd wordt je wachtwoord gewijzigd."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
-#, fuzzy
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
 msgstr ""
-"Na het versturen van dit formulier ontvang je een e-mail met je nieuwe "
-"*automatisch gegenereerde* wachtwoord, en een link naar de pagina waar je "
-"het wachtwoord kan wijzigen."
+"Na het versturen van dit formulier ontvang je een e-mail met je nieuwe - "
+"automatisch gegenereerde - wachtwoord, en een link naar de pagina waar je je "
+"wachtwoord kunt wijzigen."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
-msgstr ""
+msgstr "Hmm, nee!"
 
 #: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
 msgid "All public webs"
@@ -678,9 +677,8 @@ msgid "Attach"
 msgstr "Bij&lage bijvoegen"
 
 #: core/templates/attach.tmpl:9
-#, fuzzy
 msgid "Attach a file"
-msgstr "Voeg nieuwe bijlage toe"
+msgstr "Bijlage toevoegen"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -713,9 +711,8 @@ msgid "Attachment does not exist."
 msgstr "Bijlage bestaat niet."
 
 #: core/templates/attachtables.tmpl:42
-#, fuzzy
 msgid "Attachment history"
-msgstr "Bijlagen"
+msgstr "Bijlage geschiedenis"
 
 #: core/templates/messages.tmpl:54
 msgid "Attachment move failed"
@@ -868,7 +865,7 @@ msgstr "Wachtwoord wijzigen"
 
 #: core/templates/validate.tmpl:22
 msgid "Change cannot be completed"
-msgstr ""
+msgstr "Aanpassing kan niet worden afgemaakt"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
@@ -937,6 +934,7 @@ msgstr "Wijzigingen van r%1 naar r%2"
 #: core/templates/messages.tmpl:429
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
+"Kijk je configuratie instellingen na voor {TemplateDir} en {TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
@@ -1018,9 +1016,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "Neem bij vragen contact op met %1."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:58
-#, fuzzy
 msgid "Context:"
-msgstr "Land:"
+msgstr "Context:"
 
 #: core/templates/messages.tmpl:421
 msgid "Continue and try to rename web?"
@@ -1034,11 +1031,11 @@ msgstr "Ga verder om de pagina aan te maken"
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
-msgstr ""
+msgstr "Conversie naar HTML is uitgeschakeld vanwege de inhoud van deze pagina."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr ""
+msgstr "Kopieer deze pagina (met alle bijlagen) naar een nieuwe pagina."
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
@@ -1101,19 +1098,16 @@ msgid "Create a link to the attached file"
 msgstr "Maak een link naar de bijlage"
 
 #: core/data/Main/WikiGroups.txt:7
-#, fuzzy
 msgid "Create a new group"
-msgstr "Nieuwe pagina aanmaken"
+msgstr "Nieuwe groep aanmaken"
 
 #: core/data/Main/WikiGroups.txt:31
-#, fuzzy
 msgid "Create group"
-msgstr "Nieuwe pagina aanmaken"
+msgstr "Groep aanmaken"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:44
-#, fuzzy
 msgid "Create new FAQ topic"
-msgstr "Nieuwe pagina aanmaken"
+msgstr "Nieuwe FAQ-pagina aanmaken"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1128,13 +1122,12 @@ msgid "Create this topic"
 msgstr "Maak deze pagina aan"
 
 #: core/data/Sandbox/WebHome.txt:19
-#, fuzzy
 msgid "Create topic"
-msgstr "Maak deze pagina aan"
+msgstr "Pagina aanmaken"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:13
 msgid "Create your account to edit pages on this site."
-msgstr ""
+msgstr "Maak je account aan om pagina&#39;s op deze site te bewerken."
 
 #: core/templates/messages.tmpl:368
 msgid "Creating a suitable Form Definition topic"
@@ -1226,7 +1219,7 @@ msgstr "Verschil:"
 
 #: core/data/System/WebPreferences.txt:12
 msgid "Discover the details, and how to start your own site with Foswiki"
-msgstr ""
+msgstr "Ontdek de details, en hoe je je eigen site begint met Foswiki"
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
@@ -1401,7 +1394,7 @@ msgstr "Vul de Wikibeheerder-gebruikersnaam in of log in zoals bepaald in %1"
 
 #: core/templates/messages.tmpl:251
 msgid "Error registering new user"
-msgstr "Fout tijdens het registeren van nieuwe gebruiker"
+msgstr "Fout tijdens het registeren van een nieuwe gebruiker"
 
 #: core/templates/messages.tmpl:242
 msgid "Error registering user %1"
@@ -1726,8 +1719,8 @@ msgid ""
 "using your mail address %3. Contact %4 if this is in error."
 msgstr ""
 "Als je deze e-mail per ongeluk hebt gekregen: Iemand (%1) heeft zich "
-"geregistreerd op de %2 site met gebruik van je e-mailadres %3. Neem contact "
-"op met %4 als dit niet juist is."
+"geregistreerd op de %2 site met gebruik van jouw e-mailadres %3. Neem "
+"contact op met %4 als dit niet klopt."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "If you have any questions about registration, send an e-mail to %1."
@@ -1786,7 +1779,8 @@ msgid ""
 msgstr ""
 "Als je persoonlijke pagina niet is beschermd (en andere gebruikers deze dus "
 "kunnen veranderen), en als je je e-mailadres niet registreert met dit "
-"formulier,  kan je gebruikersaccount worden gekaapt door iemand anders."
+"formulier, zou je gebruikersaccount gekaapt kunnen worden door iemand "
+"anders."
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2443,7 +2437,7 @@ msgstr "Verversen"
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
 #: core/templates/foswiki.tmpl:168
 msgid "Register"
-msgstr "Meld je aan"
+msgstr "Aanmelden"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -3245,6 +3239,8 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
+"Dit is je naam geschreven als wiki woord, bijvoorbeeld: !PeterVanVelsen. %BR"
+"% [[%1][Meld je aan]] als je nog geen account hebt."
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
@@ -3698,16 +3694,15 @@ msgid "You"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1."
 msgstr ""
-"je *moet* tenminste een geldig geregistreerd e-mailadres hebben om je "
-"wachtwoord opnieuw te kunnen instellen. Als geen van je geregistreerde e-"
-"mailadressen geldig zijn, en je je wachtwoord bent vergeten, neem dan "
-"contact op met %1."
+"Je *moet* tenminste één geldig geregistreerd e-mailadres hebben om je "
+"wachtwoord opnieuw te kunnen instellen. Als geen van je geregistreerde "
+"e-mailadressen geldig is en je je wachtwoord bent vergeten, neem dan contact "
+"op met %1."
 
 #: core/templates/messages.tmpl:272
 msgid "You are already registered"
@@ -3813,7 +3808,7 @@ msgstr "Je kunt je niet registreren op deze site."
 
 #: core/templates/messages.tmpl:273
 msgid "You cannot register twice, the name %1 is already registered."
-msgstr "Je kan niet twee keer registreren, de naam %1 is al geregistreerd."
+msgstr "Je kunt niet twee keer registreren; de naam %1 is al geregistreerd."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 msgid ""
@@ -3877,16 +3872,16 @@ msgstr ""
 "gestuurd, of door %2 te bezoeken."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#, fuzzy
 msgid ""
 "You really ought to register a valid e-mail address. If Foswiki can't find a "
 "registered e-mail for you in the secret database, it will look in your user "
 "topic for a form field called Email. If this form field does not exist it "
 "will look for a line like this:"
 msgstr ""
-"We raden je echt aan om een geldig e-mailadres te registreren. Als Foswiki "
-"geen geregistreerd e-mailadres kan vinden in de beveiligde database, zal het "
-"zoeken in je persoonlijke pagina naar een regel als deze:"
+"We raden je aan om je met een geldig e-mailadres te registreren. Als Foswiki "
+"geen geregistreerd e-mailadres kan vinden in de beveiligde database, zal "
+"het zoeken in je persoonlijke pagina naar een formulierveld Email. Als dit "
+"veld niet bestaat zal het zoeken naar een regel zoals deze:"
 
 #: core/templates/messages.tmpl:371
 msgid "You will probably have to ask your administrator, %1, to do this."
@@ -3960,6 +3955,8 @@ msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
 msgstr ""
+"Je geregistreerde e-mailadressen worden door Foswiki gebruikt om e-mails te "
+"versturen, waaronder meldingen van wachtwoord aanpassingen."
 
 #: core/templates/messages.tmpl:255
 msgid ""
