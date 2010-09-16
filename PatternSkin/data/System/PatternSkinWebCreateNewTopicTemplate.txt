@@ -42,36 +42,36 @@ var URL_TEMPLATE = '$percentURLPARAM{template}$percent';
 %TMPL:DEF{"formstartstep"}%%TMPL:P{"formstart"}%
 <div class="foswikiFormSteps">%TMPL:END%
 
-%TMPL:DEF{"formendstep"}%</div><!--/foswikiFormSteps-->
+%TMPL:DEF{"formendstep"}%</div>
 %TMPL:P{"formend"}%%TMPL:END%
 
 %TMPL:DEF{"titlestep"}%<div class="foswikiFormStep">
 ---++ %MAKETEXT{"Create New Topic in [_1] Web" args="<nop>%BASEWEB%"}%
-</div><!--/foswikiFormStep-->%TMPL:END%
+</div>%TMPL:END%
 
 %TMPL:DEF{"topicnamestep"}%<div class="foswikiFormStep">
 ---+++ %MAKETEXT{"Topic name:"}%
 <p>
 %TMPL:P{"topicname"}% <span id="webTopicCreatorFeedback" class="foswikiGrayText"><!--generated name will be put here--></span>
 </p>%TMPL:P{"nonwikiword"}%
-</div><!--/foswikiFormStep-->%TMPL:END%
+</div>%TMPL:END%
 
 %TMPL:DEF{"topicparentstep"}%<div class="foswikiFormStep">
 ---+++ %MAKETEXT{"Topic parent:"}%
 <p>
 %TMPL:P{"topicparent"}%
 </p>
-</div><!--/foswikiFormStep-->%TMPL:END%
+</div>%TMPL:END%
 
 %TMPL:DEF{"topictemplatestep"}%<div class="foswikiFormStep">
 ---+++ %MAKETEXT{"Use template:"}%
 <p>
 %TMPL:P{"topictemplate"}%
 </p>
-</div><!--/foswikiFormStep-->%TMPL:END%
+</div>%TMPL:END%
 
 %TMPL:DEF{"submitstep"}%<div class="foswikiFormStep foswikiLast">
 <p>
 %TMPL:P{"submit"}%
 </p>
-</div><!--/foswikiFormStep-->%TMPL:END%
+</div>%TMPL:END%
