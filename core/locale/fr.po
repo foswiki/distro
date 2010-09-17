@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-16 22:36+0200\n"
+"PO-Revision-Date: 2010-09-17 01:42+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -158,7 +158,7 @@ msgstr "%1 a tenté de s'inscrire avec l'adresse e-mail %2"
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
 #: core/lib/Foswiki/Render.pm:229
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 a été déplacé ou renommé depuis %2 vers %3 par %4"
+msgstr "%1 a été renommé ou déplacé depuis %2 vers %3 par %4"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -378,8 +378,7 @@ msgid ""
 msgstr ""
 "*Propriétés :* Vous pouvez modifier le commentaire et la visibilité "
 "(c'est-à-dire, le fait que le fichier attaché soit dissimulé ou non), sans "
-"envoyer le moindre fichier, en cliquant sur \"Modifier seulement les "
-"propriétés\"."
+"envoyer de fichier, en cliquant sur \"Modifier seulement les propriétés\"."
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -452,13 +451,12 @@ msgstr "<em>dans le web %1</em> seulement"
 msgid "<em>in all public webs</em>"
 msgstr "<em> dans tous les webs publics</em>"
 
-#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
-msgid ""
-"<strong>Confirmation required!</strong> Press OK to confirm this change was "
-"intentional<br />Press Cancel otherwise"
-msgstr ""
-"<strong>Confirmation requise !</strong> Appuyer sur OK pour confirmer que ce "
-"changement été intentionnel<br />Sinon, appuyer sur Annuler"
+#~ msgid ""
+#~ "<strong>Confirmation required!</strong> Press OK to confirm this change was "
+#~ "intentional<br />Press Cancel otherwise"
+#~ msgstr ""
+#~ "<strong>Confirmation requise !</strong> Appuyer sur OK pour confirmer que ce "
+#~ "changement été intentionnel<br />Sinon, appuyer sur Annuler"
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -504,15 +502,14 @@ msgstr ""
 "1][Modifications récentes]]."
 
 #: core/templates/messages.tmpl:559
-#, fuzzy
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
-"Un nouveau mot de passe a été généré pour l'utilisateur ou l'utilisatrice %1 "
-"(nom wiki : %2), et a été envoyé à l'adresse utilisée pour votre "
-"inscription. Si votre adresse n'est plus valide, veuillez contacter %3"
+"Un nouveau mot de passe a été généré pour votre nom de connexion '%1' (nom "
+"wiki : %2), et a été envoyé à l'adresse utilisée pour votre inscription. Si "
+"votre adresse n'est plus valide, veuillez contacter %3"
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -572,16 +569,15 @@ msgstr "Ajouter une ligne"
 
 #: core/data/Main/GroupViewTemplate.txt:145
 msgid "Add user"
-msgstr "Ajouter un utilisateur"
+msgstr "Ajouter utilisateur"
 
 #: core/data/Main/GroupViewTemplate.txt:80
 msgid "Add user..."
-msgstr "Ajouter un utilisateur..."
+msgstr "Ajouter utilisateur..."
 
 #: core/templates/messages.tmpl:369
-#, fuzzy
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Ajoutant une variable %1 sur la page WebPreferences"
+msgstr "Ajout d'une option %1 sur la page WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
@@ -608,13 +604,12 @@ msgid "After submitting this form your password will be changed."
 msgstr "Après validation de ce formulaire, votre mot de passe sera modifié."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
-#, fuzzy
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
 msgstr ""
 "Après validation de ce formulaire, vous recevrez un e-mail contenant votre "
-"nouveau mot de passe *généré automatiquement*, ainsi qu'un lien vers la page "
+"nouveau mot de passe généré automatiquement, ainsi qu'un lien vers une page "
 "où vous pourrez le modifier."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
@@ -658,13 +653,12 @@ msgstr ""
 "Un message d'erreur s'affichera si l'une des pages est bloquée par quelqu'un "
 "d'autre."
 
-#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-msgid ""
-"An evil person may try to use your login identity to change content in your "
-"wiki without your knowledge."
-msgstr ""
-"Il y a un risque qu'une personne mal intentionnée tente d'utiliser votre "
-"identité pour changer le contenu sur de votre wiki à votre insu."
+#~ msgid ""
+#~ "An evil person may try to use your login identity to change content in your "
+#~ "wiki without your knowledge."
+#~ msgstr ""
+#~ "Il y a un risque qu'une personne mal intentionnée tente d'utiliser votre "
+#~ "identité pour changer le contenu sur de votre wiki à votre insu."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -712,9 +706,8 @@ msgid "Attachment delete failed"
 msgstr "La suppression du fichier joint a échoué"
 
 #: core/lib/Foswiki/UI/Rename.pm:166
-#, fuzzy
 msgid "Attachment does not exist."
-msgstr "Ce fichier attaché n'existe pas"
+msgstr "Le fichier attaché n'existe pas."
 
 #: core/templates/attachtables.tmpl:42
 msgid "Attachment history"
@@ -872,7 +865,7 @@ msgstr "Changer de mot de passe"
 
 #: core/templates/validate.tmpl:22
 msgid "Change cannot be completed"
-msgstr "Le changement n'a pas pu être effectué"
+msgstr "Le changement ne peut être effectué"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
@@ -941,7 +934,7 @@ msgstr "Modifications entre r%1 et r%2"
 #: core/templates/messages.tmpl:429
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
-"Vérifier vos paramètres de configuration pour {TemplateDir} et "
+"Vérifiez vos paramètres de configuration pour {TemplateDir} et "
 "{TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
@@ -998,7 +991,7 @@ msgstr "Comparer les versions"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:168
 msgid "Confirm password"
-msgstr "Confirmer votre mot de passe"
+msgstr "Confirmez votre mot de passe"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
@@ -1040,13 +1033,13 @@ msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
 msgstr ""
-"Le contenu de la page a entrainé la désactivation de la conversion en HTML "
-"pour l'édition WYSIWYG (Ce Que Vous Voyez Est Ce Que Vous Aurez)."
+"La conversion en HTML pour l'édition WYSIWYG est désactivée en raison du "
+"contenu de la page."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
 msgstr ""
-"Copier cette page (et tous ses fichiers attachés) vers une nouvelles page."
+"Copier cette page (et tous les fichiers attachés) vers une nouvelle page."
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
@@ -1114,7 +1107,7 @@ msgstr "Créer un nouveau groupe"
 
 #: core/data/Main/WikiGroups.txt:31
 msgid "Create group"
-msgstr "Créer un groupe"
+msgstr "Créer groupe"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:44
 msgid "Create new FAQ topic"
@@ -1133,13 +1126,12 @@ msgid "Create this topic"
 msgstr "Créer cette page"
 
 #: core/data/Sandbox/WebHome.txt:19
-#, fuzzy
 msgid "Create topic"
 msgstr "Créer la page"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:13
 msgid "Create your account to edit pages on this site."
-msgstr "Créer votre compte pour éditer des pages sur ce site."
+msgstr "Veuillez créer votre compte pour modifier des pages sur ce site."
 
 #: core/templates/messages.tmpl:368
 msgid "Creating a suitable Form Definition topic"
@@ -1233,7 +1225,7 @@ msgstr "Page de comparaison :"
 #: core/data/System/WebPreferences.txt:12
 msgid "Discover the details, and how to start your own site with Foswiki"
 msgstr ""
-"Découvrer les détails, et comment démarrer votre propre site avec Foswiki"
+"Découvrez les détails, et comment démarrer votre propre site avec Foswiki"
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
@@ -1290,27 +1282,27 @@ msgstr "E-mail changé avec succès !"
 
 #: core/templates/messages.tmpl:632
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
-msgstr "Erreur de ENCODE - =type= ne peut pas être utilisé avec =old= et =new="
+msgstr "ENCODE a échoué - =type= ne peut pas être utilisé avec =old= et =new= "
 
 #: core/templates/messages.tmpl:633
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr "Erreur de ENCODE - =old= et =new= doivent tous les deux être renseignés"
+msgstr "ENCODE a échoué - =old= et =new= doivent tous deux être spécifiés"
 
 #: core/templates/messages.tmpl:634
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr "Erreur de ENCODE - la clef '%PARAM1%' est répétée dans =old="
+msgstr "ENCODE a échoué - le paramètre '%PARAM1%' est répété dans =old= "
 
 #: core/templates/messages.tmpl:637
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr "Erreur de EXPAND - accès interdit à '%PARAM1%' "
+msgstr "EXPAND a échoué - l'accès à '%PARAM1%' est interdit"
 
 #: core/templates/messages.tmpl:635
 msgid "EXPAND failed - no macro"
-msgstr "Erreur de EXPAND - pas de macro"
+msgstr "EXPAND a échoué - pas de macro"
 
 #: core/templates/messages.tmpl:636
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr "Erreur de EXPAND - pas de page '%PARAM1%'"
+msgstr "EXPAND a échoué - la page '%PARAM1%' n'existe pas"
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
@@ -1326,7 +1318,7 @@ msgstr "Modifier tout de même"
 
 #: core/templates/viewtopicactionbuttons.tmpl:61
 msgid "Edit Wiki<nop>Text"
-msgstr "Modifier le Wiki<nop>Text"
+msgstr "Modifier Wiki<nop>Text"
 
 #: PatternSkin/templates/edit.pattern.tmpl:11
 msgid "Edit help"
@@ -1452,7 +1444,7 @@ msgstr "Erreur lors de l'ajout des utilisateurs au groupe"
 
 #: core/templates/messages.tmpl:504
 msgid "Errors removing users from groups"
-msgstr "Erreur lors de la suppression des utilisateurs des groupes"
+msgstr "Erreurs lors de la suppression des utilisateurs des groupes"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
 msgid "Evil person"
@@ -1460,7 +1452,7 @@ msgstr "Personne mal intentionnée"
 
 #: core/lib/Foswiki/Plugins.pm:366
 msgid "Failed plugins"
-msgstr "Greffons ayant échoués"
+msgstr "Echec de plugins"
 
 #: core/templates/messages.tmpl:560
 msgid "Failed to include URL %1"
@@ -1469,13 +1461,12 @@ msgstr "Échec de l'insertion de l'URL %1"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:34
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
-msgstr "Il est nécessaire de remplir les champs marqués par des %1"
+msgstr "Les champs marqués par des %1 sont obligatoires"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:32
 msgid "Fields marked <span class='required'>*</span> are required"
 msgstr ""
-"Il est nécessaire de remplir les champs marqués par des <span "
-"class='required'>*</span>"
+"Les champs marqués par des <span class='required'>*</span> sont obligatoires"
 
 #: core/templates/messages.tmpl:374
 msgid "File has been uploaded with different name"
@@ -1498,8 +1489,8 @@ msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
 "it poses to you, see "
 msgstr ""
-"Pour plus d'informations sur le \"cross-site request forgery\", et les dangers "
-"qu'il vous impose, voir "
+"Pour plus d'information sur la contrefaçon de requêtes (CSRF : cross-site "
+"request forgery), et ses dangers, voyez "
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1511,7 +1502,7 @@ msgstr "Mot de passe oublié ?"
 
 #: core/templates/messages.tmpl:346
 msgid "Form Definition %1 missing"
-msgstr "La définition du formulaire %1 fait défaut"
+msgstr "Définition du formulaire %1 introuvable"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:5 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:6
@@ -1524,11 +1515,11 @@ msgstr "Définition du formulaire"
 
 #: core/templates/messages.tmpl:343
 msgid "Form definition '%1' not found"
-msgstr "La définition du formulaire '%1' fait défaut"
+msgstr "Définition du formulaire '%1' introuvable"
 
 #: core/templates/messages.tmpl:351
 msgid "Form definition missing"
-msgstr "La définition du formulaire fait défaut"
+msgstr "Définition du formulaire manquante"
 
 #: core/templates/login.tmpl:3
 msgid "Foswiki User Authentication"
@@ -1539,9 +1530,9 @@ msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
-"Foswiki vérifie toutes les requêtes qu'il reçoit des navigateurs, et essaye "
-"de vérifier que les personnes utilisant ces navigateurs les ont envoyées "
-"intentionnellement."
+"Foswiki contrôle toutes les requêtes reçues des navigateurs, et tente de "
+"vérifier que les personnes utilisant les navigateurs les ont "
+"intentionnellement envoyées."
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
@@ -1549,11 +1540,11 @@ msgstr "Réinitialisation du mot de passe Foswiki pour %1"
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
-msgstr "Obtenir plus d'informations à propos des fichiers attachés"
+msgstr "Obtenir de l'aide à propos des fichiers attachés"
 
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
-msgstr "Obtenir plus d'informations à propos des préférences des pages"
+msgstr "Aide sur le paramétrage des options de page"
 
 #: core/data/System/WebSearch.txt:157
 msgid "Get notified on changes on this search"
@@ -1586,8 +1577,8 @@ msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
 msgstr ""
-"Retournez à la page précédente et activer les Cookies et le Javascript avant "
-"d'essayer à nouveau"
+"Retournez à la page précédente, et activez les Cookies et le Javascript "
+"avant d'essayer de nouveau"
 
 #: core/templates/messages.tmpl:292
 msgid "Good examples:"
@@ -1684,18 +1675,16 @@ msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
-"Si Foswiki détecte une requête suspecte qui aurait pu être envoyée depuis "
-"une telle page, alors vous êtes priés de bien vouloir confirmer cette "
-"requête."
+"Si Foswiki détecte une requête suspecte ayant pu être envoyée depuis une "
+"telle page, il vous est alors demandé de confirmer la requête."
 
 #: core/templates/messages.tmpl:431
-#, fuzzy
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr ""
-"Si tel n'est pas le probleme, il est possible que vous ayez une valeur de %1 "
-"qui pointe vers une template qui n'existe pas."
+"Si tel n'est pas le problème, il est possible que vous ayez une valeur de %1 "
+"qui pointe vers un modèle (template) qui n'existe pas."
 
 #: core/templates/messages.tmpl:360
 msgid "If this line isn't present see _upgrade_ section below"
@@ -1733,11 +1722,8 @@ msgstr ""
 "Si vous ne recevez pas un e-mail de vérification dans l'heure qui suit,"
 
 #: core/templates/renameattachmentdelete.tmpl:41
-#, fuzzy
 msgid "If you enter a different name, make sure the topic exists."
-msgstr ""
-"Si vous entrez un nom différent, prenez garde à ce qu'il corresponde bien à "
-"une page existante."
+msgstr "Si vous entrez un nom différent, assurez vous que la page existe."
 
 #: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:23
@@ -1818,15 +1804,14 @@ msgstr ""
 "attaché sera créé."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:7
-#, fuzzy
 msgid ""
 "In a possible scenario, an evil person has left a link to seduce you to "
 "visit a page on http<nop>://crime.org, which has some clever javascript on "
 "it."
 msgstr ""
 "Un scenario possible est qu'une personne mal intentionnée laisse un lien "
-"pour vous pousser à visiter http<nop>://crime.org, qui contient des bouts de "
-"javascript intelligents."
+"pour vous pousser à visiter http<nop>://crime.org, qui contient du code "
+"javascript malicieux."
 
 #: core/data/System/WebSearch.txt:104
 msgid "In reversed order"
@@ -1867,7 +1852,7 @@ msgstr "Index"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:28
 msgid "Info"
-msgstr "Information"
+msgstr "Info"
 
 #: core/templates/messages.tmpl:383
 msgid ""
@@ -1879,7 +1864,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:55
 msgid "Interweave"
-msgstr "Entrelacé "
+msgstr "Entrelacé"
 
 #: core/templates/messages.tmpl:315
 msgid "Invalid Activation Code"
@@ -1906,17 +1891,16 @@ msgstr ""
 "auparavant."
 
 #: core/templates/foswiki.tmpl:47
-#, fuzzy
 msgid ""
 "It's usually best to choose a %1 for the new topic name, otherwise automatic "
 "linking may not work. Characters not allowed in topic names, such as spaces "
 "will automatically be removed."
 msgstr ""
 "Il est généralement préférable de choisir un <nop>MotWiki (<a "
-"target='WikiWord' class='foswikiPopUp' href='%1' rel='nofollow'>WikiWord</"
-"a>) comme nouveau nom de page. Sinon, la création automatique de lien peut "
-"ne pas fonctionner. Les caractères interdits dans le nom d'une page, tels "
-"que les espaces, seront automatiquement enlevés."
+"target='WikiWord' class='foswikiPopUp' href='%1' "
+"rel='nofollow'>WikiWord</a>) comme nouveau nom de page. Sinon, la création "
+"automatique de lien peut ne pas fonctionner. Les caractères interdits dans "
+"le nom d'une page, tels que les espaces, seront automatiquement enlevés."
 
 #: core/templates/renameweb.tmpl:16
 msgid ""
@@ -1936,9 +1920,8 @@ msgid "Jump"
 msgstr "Aller à"
 
 #: core/data/System/WebSearch.txt:114
-#, fuzzy
 msgid "Keyword search"
-msgstr "Modifier la recherche"
+msgstr "Recherche de mots cles (keyword)"
 
 #: core/data/System/WebSearch.txt:102
 msgid "Last editor"
@@ -2162,7 +2145,7 @@ msgstr "Aucune page à mettre à jour."
 
 #: core/templates/messages.tmpl:454 core/templates/messages.tmpl:492
 msgid "No username specified"
-msgstr "Nom d'utilisateur non spécifié"
+msgstr "Nom de connexion non spécifié"
 
 #: core/templates/messages.tmpl:223
 msgid "No users to reset passwords for."
@@ -3079,13 +3062,12 @@ msgstr ""
 "Le fichier attaché peut avoir été renommé s'il existe déjà un fichier "
 "attaché appelé '%FILENAME%' dans la page de destination."
 
-#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-msgid ""
-"The attacker tries to use your rights to get things, like admin rights for "
-"the site."
-msgstr ""
-"L'attaquant essaye d'utiliser vos droits pour obtenir des choses, comme des "
-"droits d'administration sur votre site. "
+#~ msgid ""
+#~ "The attacker tries to use your rights to get things, like admin rights for "
+#~ "the site."
+#~ msgstr ""
+#~ "L'attaquant essaye d'utiliser vos droits pour obtenir des choses, comme des "
+#~ "droits d'administration sur votre site. "
 
 #: core/templates/messages.tmpl:538
 msgid ""
@@ -3101,8 +3083,8 @@ msgid ""
 "_eventually_ allow you to rename any topics that were locked)"
 msgstr ""
 "Les pages sélectionnées seront mises à jour (un autre formulaire va "
-"s'afficher _dans un certain temps_, pour que vous puissiez renommer les "
-"pages qui étaient verrouillées)"
+"s'afficher qui _finalement_ vous permettra de renommer les pages qui étaient "
+"verrouillées)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
 msgid ""
@@ -3202,11 +3184,10 @@ msgstr ""
 "L'utilisateur %1 a déjà été activé, et devrait être capable de "
 "s'authentifier."
 
-#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
-msgid ""
-"Their intention is to automatically save compromising data by sending a "
-"request to your server, using your browser and your identity."
-msgstr ""
+#~ msgid ""
+#~ "Their intention is to automatically save compromising data by sending a "
+#~ "request to your server, using your browser and your identity."
+#~ msgstr ""
 
 #: core/templates/messages.tmpl:407
 msgid "There are problems with renaming this web:"
@@ -3276,9 +3257,8 @@ msgstr ""
 "insérez une ligne contenant votre %2 dans cette liste à puces (par ordre "
 "alphabétique) :"
 
-#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-msgid "This is also known as Cross-site Request Forgery, or CSRF."
-msgstr ""
+#~ msgid "This is also known as Cross-site Request Forgery, or CSRF."
+#~ msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:71
@@ -3710,9 +3690,8 @@ msgstr ""
 msgid "Webs"
 msgstr "Webs"
 
-#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-msgid "Webserver <em>running Foswiki</em>"
-msgstr ""
+#~ msgid "Webserver <em>running Foswiki</em>"
+#~ msgstr ""
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
@@ -4771,3 +4750,33 @@ msgstr "pourquoi il vous est demandé de confirmer"
 #~ "Connectez-vous en [[%SCRIPTURL{login}%?sudo=sudo][internal administrateur/"
 #~ "administratrice interne]] si vous avez besoin d'effectuer une réparation "
 #~ "rapide"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
+msgid "<strong>Confirmation required!</strong><span>Press OK to confirm this change was intentional</span><span>Press Cancel otherwise</span>"
+msgstr "<strong>Confirmation nécessaire !</strong><span>Pressez OK pour confirmer que ce changement est intentionnel</span><span>Autrement, pressez Annuler</span>"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:55
+msgid "Commenting is disabled when not in view context"
+msgstr "Les commentaires sont désactivés hors du contexte d'affichage"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:59
+msgid "Commenting is disabled while not logged in"
+msgstr "Les commentaires sont désactivés lorsque vous n'êtes pas connecté"
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
+msgid "An evil person may try to use your login identity to change content in your wiki without your knowledge.<span class="
+msgstr ""
+"Une personne mal  intentionnée pourrait tenter d'utiliser votre identifiant "
+"pour changer des contenus du wiki à votre insu.<span class="
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
+msgid "Their intention is to automatically save compromising data by sending a request to your server, <span>using your browser and your identity."
+msgstr ""
+
+#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
+msgid "Webserver<span>running Foswiki</span>"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:52
+msgid "Commenting is disabled while running from the command line"
+msgstr "Les commentaires sont désactivés lors d'une exécution en ligne de commande"

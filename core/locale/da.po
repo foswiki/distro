@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-16 10:33+0200\n"
+"PO-Revision-Date: 2010-09-17 01:00+0200\n"
 "Last-Translator: Kenneth Lavrsen <kenneth@lavrsen.dk>\n"
 "Language-Team: Danish <N/A>\n"
 "Language: da\n"
@@ -1786,6 +1786,9 @@ msgid ""
 "visit a page on http<nop>://crime.org, which has some clever javascript on "
 "it."
 msgstr ""
+"I et muligt scenarie har en ond person lavet et link, der narrer dig til at "
+"besøge en side http<nop>://forbrydelse.org, som indeholder noget smart "
+"ondsindet javascrip."
 
 #: core/data/System/WebSearch.txt:104
 msgid "In reversed order"
@@ -1827,7 +1830,7 @@ msgstr "Index"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:28
 msgid "Info"
-msgstr ""
+msgstr "Information"
 
 #: core/templates/messages.tmpl:383
 msgid ""
@@ -1839,7 +1842,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:55
 msgid "Interweave"
-msgstr ""
+msgstr "Flette"
 
 #: core/templates/messages.tmpl:315
 msgid "Invalid Activation Code"
@@ -1864,14 +1867,12 @@ msgstr ""
 "anbefales det at synkronisere først."
 
 #: core/templates/foswiki.tmpl:47
-#, fuzzy
 msgid ""
 "It's usually best to choose a %1 for the new topic name, otherwise automatic "
 "linking may not work. Characters not allowed in topic names, such as spaces "
 "will automatically be removed."
 msgstr ""
-"Det anbefales at vælge et <a target='WikiWord' class='foswikiPopUp' href='%"
-"1' rel='nofollow'>WikiWord</a> som nyt sidenavn, da dette gør det nemmere at "
+"Det anbefales at vælge %1 som nyt sidenavn, da dette gør det nemmere at "
 "linke til det senere hen. Karakterer der ikke er tilladte i side-navne, som "
 "fx mellemrum, fjernes automatisk. "
 
@@ -1892,9 +1893,8 @@ msgid "Jump"
 msgstr "Hop"
 
 #: core/data/System/WebSearch.txt:114
-#, fuzzy
 msgid "Keyword search"
-msgstr "Tilpas søgning"
+msgstr "Nøgleordssøgning"
 
 #: core/data/System/WebSearch.txt:102
 msgid "Last editor"
@@ -1905,9 +1905,8 @@ msgid "Last modified time"
 msgstr "Sidst ændret"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:137
-#, fuzzy
 msgid "Last name"
-msgstr "Efternavn:"
+msgstr "Efternavn"
 
 #: core/data/System/WebSearch.txt:128
 msgid "Limit results to:"
@@ -1949,9 +1948,8 @@ msgid "Log on with your username and password"
 msgstr "Angiv venligst dit brugernavn og adgangskode"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:152
-#, fuzzy
 msgid "Login name"
-msgstr "Brugernavn %1"
+msgstr "Brugernavn"
 
 #: core/templates/mailresetpassword.tmpl:12
 msgid "Login name %1"
@@ -1973,7 +1971,7 @@ msgstr "Tilpas søgning:"
 #: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:26
 #: core/data/Main/WikiGroups.txt:50
 msgid "Members"
-msgstr ""
+msgstr "Medlemmer"
 
 #: core/templates/messages.tmpl:230
 msgid "Missing Fields"
@@ -1996,9 +1994,8 @@ msgid "More formatting help"
 msgstr "Mere formateringshjælp"
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid "More on hiding attachments"
-msgstr "Flyt eller slet vedhæftet fil"
+msgstr "Mere om at skjule vedhæftede filer"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
@@ -2006,9 +2003,8 @@ msgid "More topic actions..."
 msgstr "Flere muligheder med denne side..."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:80
-#, fuzzy
 msgid "More view options:"
-msgstr "Flere muligheder med denne side..."
+msgstr "Flere muligheder med denne side:"
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
@@ -2050,9 +2046,8 @@ msgid "NEW"
 msgstr "NY"
 
 #: core/templates/more.tmpl:31
-#, fuzzy
 msgid "Name of copy"
-msgstr "Navnet på kopien:"
+msgstr "Navnet på kopien"
 
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
@@ -2101,7 +2096,7 @@ msgstr "Nyere version:"
 
 #: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
 msgid "No GroupName specified"
-msgstr ""
+msgstr "Intet gruppenavn angivet"
 
 #: core/templates/more.tmpl:190
 msgid "No child topics"
@@ -2116,13 +2111,12 @@ msgid "No previous revision exists."
 msgstr "Ingen tidligere version eksisterer"
 
 #: core/templates/renamebase.tmpl:45
-#, fuzzy
 msgid "No topics to update."
-msgstr "Flyt side til web:"
+msgstr "Ingen sider at opdatere."
 
 #: core/templates/messages.tmpl:454 core/templates/messages.tmpl:492
 msgid "No username specified"
-msgstr ""
+msgstr "Intet brugernavn angivet"
 
 #: core/templates/messages.tmpl:223
 msgid "No users to reset passwords for."
@@ -2134,7 +2128,7 @@ msgstr "Anbefales ikke når der slettes en side."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
-msgstr ""
+msgstr "Ikke sikker på dette er korrekt, venligst bekræft!"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2158,6 +2152,9 @@ msgid ""
 "past this screen. This is normally the case, but if something doesn't work, "
 "this is where to look first."
 msgstr ""
+"Note: Du skal have Cookies og Javascript slået til i din browser for at "
+"komme forbi dette skærmbillede. Dette er normalt tilfældet, men hvis noget "
+"ikke virker, så er det det første du skal kontrollere."
 
 #: core/data/System/VarMAKETEXT.txt:15
 msgid "Notes:"
@@ -2180,9 +2177,8 @@ msgid "Number of topics:"
 msgstr "Antal sider:"
 
 #: core/templates/search.text.tmpl:20 core/templates/searchformat.tmpl:11
-#, fuzzy
 msgid "Number of topics: %1"
-msgstr "Antal sider:"
+msgstr "Antal sider: %1"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
@@ -2195,7 +2191,7 @@ msgstr "OK"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:27
 msgid "OK, this is still me!"
-msgstr ""
+msgstr "OK, dette er stadig mig!"
 
 #: core/templates/more.tmpl:158
 msgid "Older revision:"
@@ -2206,9 +2202,8 @@ msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Kun medlemmer af %1 må udføre denne handling."
 
 #: core/templates/more.tmpl:56 core/templates/more.tmpl:73
-#, fuzzy
 msgid "Only update linked topics in %1 web"
-msgstr "Datter-sider i %1-webbet"
+msgstr "Kun opdater links til datter-sider i %1-webbet"
 
 #: core/templates/login.tmpl:8
 msgid ""
@@ -2218,37 +2213,32 @@ msgstr ""
 "adgangskode]]."
 
 #: core/templates/renamedelete.tmpl:20
-#, fuzzy
 msgid "Optionally change attachment name:"
-msgstr "Nyt navn til side (valgfrit):"
+msgstr "Nyt navn til vedhæftet fil (valgfrit):"
 
 #: core/templates/renamedelete.tmpl:18
 msgid "Optionally change topic name:"
 msgstr "Nyt navn til side (valgfrit):"
 
 #: core/templates/renameattachmentdelete.tmpl:34
-#, fuzzy
 msgid "Optionally enter a different attachment name:"
-msgstr "Benyt eventuelt et andet sidenavn (valgfrit):"
+msgstr "Benyt eventuelt et andet navn til vedhæftet fil (valgfrit):"
 
 #: core/templates/renameattachmentdelete.tmpl:32
 msgid "Optionally enter a different topic name:"
 msgstr "Benyt eventuelt et andet sidenavn (valgfrit):"
 
 #: core/templates/more.tmpl:161
-#, fuzzy
 msgid "Options"
-msgstr "Handling"
+msgstr "Valgmuligheder"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:235
-#, fuzzy
 msgid "Organisation name"
-msgstr "Organisationsnavn:"
+msgstr "Organisationsnavn"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:242
-#, fuzzy
 msgid "Organisation website"
-msgstr "Organisationsnavn:"
+msgstr "Organisationens webside"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
@@ -2282,7 +2272,6 @@ msgid "Pick one of the %1."
 msgstr "Vælg en af %1."
 
 #: core/data/Trash/WebPreferences.txt:10
-#, fuzzy
 msgid "Place for trashed topics and attachments."
 msgstr "Siden hvor slettede vedhæftede filer gemmes"
 
@@ -2292,7 +2281,7 @@ msgstr "Siden hvor slettede vedhæftede filer gemmes"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
 msgid "Please check to ensure you have permssion to modify the group."
-msgstr ""
+msgstr "Kontrollér at du har rettigheder til at ændre gruppen."
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
 msgid "Please contact %1 if you have any questions."
@@ -2353,7 +2342,7 @@ msgstr ""
 
 #: core/lib/Foswiki/Plugins.pm:397
 msgid "Plugin handlers"
-msgstr ""
+msgstr "Plugin handlers"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -2385,18 +2374,16 @@ msgid "Properties"
 msgstr "Ekstra muligheder"
 
 #: core/lib/Foswiki/Render.pm:222
-#, fuzzy
 msgid "Put it back..."
-msgstr "flyt siden tilbage"
+msgstr "Flyt siden tilbage..."
 
 #: core/data/System/WebSearch.txt:117
 msgid "Query Search"
 msgstr "Udtrykssøgning (Query)"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:71
-#, fuzzy
 msgid "Question"
-msgstr "Version"
+msgstr "Spørgsmål"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:162
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
@@ -2481,7 +2468,7 @@ msgstr "Kan du huske din adgangskode?"
 
 #: core/data/Main/GroupViewTemplate.txt:168
 msgid "Remove selected users"
-msgstr ""
+msgstr "Fjern valgte brugere"
 
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
@@ -2489,12 +2476,11 @@ msgstr "Fjern brugeren fra gruppen (grupperne) %1 først."
 
 #: core/data/Main/GroupViewTemplate.txt:83
 msgid "Remove user..."
-msgstr ""
+msgstr "Fjern bruger..."
 
 #: core/data/Main/GroupViewTemplate.txt:164
-#, fuzzy
 msgid "Remove users from this group"
-msgstr "Fjern brugeren fra gruppen (grupperne) %1 først."
+msgstr "Fjern brugere fra denne gruppe"
 
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
@@ -2505,23 +2491,20 @@ msgid "Rename failed"
 msgstr "Omdøbning fejlede"
 
 #: core/templates/renamebase.tmpl:11
-#, fuzzy
 msgid "Rename or move %1"
-msgstr "Omdøb eller flyt side"
+msgstr "Omdøb eller flyt siden %1"
 
 #: core/templates/more.tmpl:69
 msgid "Rename or move topic"
 msgstr "Omdøb eller flyt side"
 
 #: core/templates/more.tmpl:77
-#, fuzzy
 msgid "Rename or move topic..."
-msgstr "Omdøb eller flyt side"
+msgstr "Omdøb eller flyt side..."
 
 #: core/data/System/RenameWeb.txt:4
-#, fuzzy
 msgid "Rename, move or delete this web"
-msgstr "Omdøb, flyt eller slet dette web:"
+msgstr "Omdøb, flyt eller slet dette web"
 
 #: core/templates/rename.tmpl:21 core/templates/renameconfirm.tmpl:33
 #: core/templates/renameweb.tmpl:32
@@ -2546,7 +2529,7 @@ msgstr "Nulstil adgangskode"
 
 #: core/data/System/DefaultPreferences.txt:186
 msgid "Resetting and setting password is not handled by Foswiki"
-msgstr ""
+msgstr "Nulstilling og ændring af adgangkode er ikke håndteret af Foswiki"
 
 #: core/templates/more.tmpl:170
 msgid "Restore topic"
@@ -2561,18 +2544,16 @@ msgid "Restore topic to this revision"
 msgstr "Gendan siden til denne version"
 
 #: core/templates/more.tmpl:178
-#, fuzzy
 msgid "Restore..."
-msgstr "Gendan"
+msgstr "Gendan..."
 
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
 msgstr "Søgeresultater fra %1-webbet"
 
 #: core/templates/search.text.tmpl:4
-#, fuzzy
 msgid "Results from %1 web:"
-msgstr "Søgeresultater fra %1-webbet"
+msgstr "Søgeresultater fra %1-webbet:"
 
 #: core/templates/messages.tmpl:207
 msgid "Return to %1."
@@ -2598,7 +2579,6 @@ msgid "Revision"
 msgstr "Version"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:14
-#, fuzzy
 msgid "Revision history of %1"
 msgstr "Versionshistorik for %1"
 
@@ -2608,7 +2588,7 @@ msgstr "Versioner"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:72
 msgid "Revisions %1 - %2 (out of %3)"
-msgstr ""
+msgstr "Revision %1 - %2 (ud af %3)"
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
 msgid "S = Save, C = Cancel"
@@ -2623,7 +2603,7 @@ msgstr ""
 
 #: core/data/Sandbox/WebPreferences.txt:9
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
-msgstr ""
+msgstr "Sandbox (sandkasse) test web til at prøve og eksperimentere."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:161
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
@@ -2662,7 +2642,6 @@ msgid "Search all webs for topics that link to here"
 msgstr "Søg i alle webs efter sider der linker til denne side"
 
 #: core/data/System/WebSearch.txt:22
-#, fuzzy
 msgid "Search in %1 Web"
 msgstr "Søg kun i %1-webbet"
 
@@ -2675,14 +2654,12 @@ msgid "Search more topics in this web"
 msgstr "Søg efter flere sider i denne web"
 
 #: core/data/System/WebSearch.txt:39
-#, fuzzy
 msgid "Search options"
-msgstr "Yderligere søgemuligheder:"
+msgstr "Søgemuligheder"
 
 #: core/templates/searchbookview.tmpl:7
-#, fuzzy
 msgid "Search result"
-msgstr "(søgeresultat)"
+msgstr "Søgeresultat"
 
 #: core/data/System/WebSearch.txt:122
 msgid "Search string"
@@ -2718,7 +2695,7 @@ msgstr "Se venligst %1 for information om formular-definitioner."
 #: core/templates/messages.tmpl:489 core/templates/messages.tmpl:510
 #: core/templates/messages.tmpl:520
 msgid "See %MAINWEB%.WikiGroups to see the result."
-msgstr ""
+msgstr "See %MAINWEB%.WikiGroups for at se resultatet."
 
 #: core/data/System/WebIndex.txt:5
 msgid "See also the faster %1"
@@ -2742,7 +2719,7 @@ msgstr "Vælg"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
 msgid "Select Wiki %1 to join"
-msgstr ""
+msgstr "Vælg Wiki %1 at være med i"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
@@ -2755,9 +2732,9 @@ msgstr "Vælg alle"
 #: HistoryPlugin/templates/oopshistory.tmpl:71
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
+"Vælg en tidligere (venstre) and en senere (højre) revision at sammenligne"
 
 #: core/templates/more.tmpl:103
-#, fuzzy
 msgid "Select topic parent"
 msgstr "Vælg side-forælder"
 
@@ -2767,7 +2744,7 @@ msgstr "Markér (triple-klik i feltet), og copy/paste din signatur til siden"
 
 #: core/data/System/WebSearch.txt:109
 msgid "Selections apply to search in \"text body\""
-msgstr ""
+msgstr "Det valgte virker for søgning i selve teksten på siden"
 
 #: core/templates/more.tmpl:161
 msgid "Sequential"
@@ -2786,9 +2763,8 @@ msgid "Set new topic parent"
 msgstr "Vælg ny side-forælder"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:80
-#, fuzzy
 msgid "Show"
-msgstr "Vis hjælp"
+msgstr "Vis"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:11
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -2805,7 +2781,7 @@ msgstr "Side ved side"
 
 #: CompareRevisionsAddOn/templates/comparesidebyside.tmpl:3
 msgid "Side-by-side comparison of revisions"
-msgstr ""
+msgstr "Sammenligning af revisioner ved siden af hinanden"
 
 #: core/templates/attachtables.tmpl:4
 msgid "Size"
@@ -2891,11 +2867,11 @@ msgstr "Abonnér / afmeld i:"
 
 #: core/templates/messages.tmpl:478
 msgid "Success adding users to group"
-msgstr ""
+msgstr "Tilføjelse af brugere til gruppe lykkedes"
 
 #: core/templates/messages.tmpl:516
 msgid "Success removing users from group"
-msgstr ""
+msgstr "Fjernelse af brugere fra gruppe lykkedes"
 
 #: core/data/System/WebSearch.txt:123
 msgid "Summaries"
@@ -2986,9 +2962,8 @@ msgstr ""
 #: core/data/System/WebRss.txt:6 core/data/Trash/WebAtom.txt:3
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
-#, fuzzy
 msgid "The %1 web of %2."
-msgstr "%1-webbet eksisterer ikke"
+msgstr "Nummer %1 web af %2."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
@@ -3004,9 +2979,8 @@ msgid "The Administrator has disabled new user registration."
 msgstr "Administratoren for dette side har slået nye brugerregistreringer fra."
 
 #: core/data/System/WebPreferences.txt:12
-#, fuzzy
 msgid "The Free and Open Source Wiki."
-msgstr "%1 webben i Foswiki, the Free and Open Source Wiki."
+msgstr "The Free and Open Source Wiki."
 
 #: core/templates/messages.tmpl:316
 msgid "The activation code %1 is invalid."
@@ -3022,18 +2996,24 @@ msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
+"Den vedhæftede fil kan omdøbes (ved at tilføje et tal til navnet) hvis der "
+"allerede eksisterer en fil med samme navn på den nye side."
 
 #: core/templates/renameattachmentdelete.tmpl:43
 msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
 msgstr ""
+"Den vedhæftede fil skal måske omdøbes hvis der allerede eksister en fil der "
+"hedder '%FILENAME%' på den nye side."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
 "The attacker tries to use your rights to get things, like admin rights for "
 "the site."
 msgstr ""
+"Hackeren prøver at bruge dine rettigheder for at opnå f.eks. administrator "
+"rettigheder for dette site."
 
 #: core/templates/messages.tmpl:538
 msgid ""
@@ -3057,6 +3037,9 @@ msgid ""
 "something perfectly innocent, for instance if you click the Back button "
 "after saving a page. Foswiki then uses the approach "
 msgstr ""
+"Kontrollen udført af Foswiki kan ske når du gør noget helt uskyldigt som "
+"f.eks. når du klikker på Tilbage knappen efter at du har gemt en side. Så "
+"bruger Foswiki kontrolmetoden"
 
 #: core/templates/messages.tmpl:308
 msgid "The e-mail address for this account is not valid."
@@ -3099,7 +3082,7 @@ msgstr "Låsen på denne side udløb for %1 siden."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:153
 msgid "The login name you use to sign in."
-msgstr ""
+msgstr "Brugernavnet du bruger ved login."
 
 #: core/templates/messages.tmpl:93
 msgid "The name of the topic must not be empty."
@@ -3144,6 +3127,8 @@ msgid ""
 "Their intention is to automatically save compromising data by sending a "
 "request to your server, using your browser and your identity."
 msgstr ""
+"Deres mål er at automatisk gemme farlige data ved at sende en forespørgsel "
+"til din server gemmen din browser og med din identitet."
 
 #: core/templates/messages.tmpl:407
 msgid "There are problems with renaming this web:"
@@ -3170,11 +3155,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:468
 msgid "There were errors adding %1 to the %2 group. "
-msgstr ""
+msgstr "Der opstod fejl ved tilføjelse af %1 til gruppen %2."
 
 #: core/templates/messages.tmpl:506
 msgid "There were errors removing %1 from the %2 group. "
-msgstr ""
+msgstr "Der opstod fejl ved fjernelse af %1 fra gruppen %2."
 
 #: core/templates/messages.tmpl:366
 msgid "This can be automatically upgraded by:"
@@ -3216,7 +3201,7 @@ msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
-msgstr ""
+msgstr "Dette er også kendt som Cross-site Request Forgery, or CSRF."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:71
@@ -3240,7 +3225,7 @@ msgstr ""
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:115
 msgid "This is why the conversion is disabled:"
-msgstr ""
+msgstr "Dette er årsagen til at konverteringen er deaktiveret:"
 
 #: core/templates/login.tmpl:28
 msgid ""
