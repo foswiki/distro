@@ -10,9 +10,9 @@ _The framework used to render output_
 %STARTSECTION{"PowerUserGuide"}%
 ---++ Overview
 
-_Skin Templates_ are plain text with embedded _template directives_ and
-[[Macros][macros]] that are expanded by Foswiki to build an output,
-usually HTML. 
+_Skin Templates_ are plain text with embedded _template directives_,
+[[Macros][macros]] and [[SkinTemplateTokens][tokens]] that are expanded by
+Foswiki to build an output, usually HTML. 
 
 #HtmlTemplates
 Skin templates are used when composing the output from all actions, such as
@@ -24,10 +24,16 @@ Skin templates are either stored as text files with the extension ==.tmpl==
 in the ==templates/== directory, or in Foswiki topics.
 
 _Template directives_ are expanded when the template is loaded, and are
-used to define the general structure of the output. _Macros_ are expanded
-when the page is rendered, and fill in page-specific information.
+used to define the general structure of the output. _Macros_ and Template
+_Tokens_ are expanded when the page is rendered, and fill in page-specific 
+information.
 
+Note that _Macros_ and _Tokens_ are written using the same syntax.  
 See [[Macros]] for more information on macros.
+
+_Tokens_ look exactly like Macros, but they are specific for the script
+expanding the template, and cannot be used elsewhere in Foswiki.  See
+[[SkinTemplateTokens]] for more information on tokens.
 
 #TemplateMacros
 ---++ How Template Directives Work

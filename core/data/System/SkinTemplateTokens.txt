@@ -1,0 +1,122 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Skins"}%
+%STARTINCLUDE%
+---+ Skin Template Tokens
+
+_Placeholders expanded by Foswiki scripts when generating output_
+
+%TOC%
+
+%STARTSECTION{"PowerUserGuide"}%
+---++ Overview
+
+_Template Tokens_ are written exactly like Foswiki [[Macros][macros]], but
+they are local to the script / template expansion process and can __not__ be
+used elswhere in Foswiki topics.  Each Foswiki script might have it's own
+unique set of tokens. A token that is expanded by the =view= script would
+most likely not be expanded by the =attach= script. 
+
+Unlike Foswiki Macros, tokens do not support {...} parameters.  They are
+merely a placeholder that is replaced by the script.
+
+---++ Foswiki scripts
+
+---+++ =attach= script
+
+   * %<nop>ATTACHTABLE%
+   * %<nop>FILEUSER%
+   * %<nop>FILENAME%
+   * %<nop>HIDEFILE%
+   * %<nop>FILEPATH%
+   * %<nop>FILECOMMENT%
+
+---+++ =change= script
+
+   * %<nop>REPEAT%
+   * %<nop>TEXT%
+   * %<nop>TOPICNAME%
+   * %<nop>AUTHOR%
+   * %<nop>TIME%
+   * %<nop>REVISION%
+   * %<nop>TEXTHEAD%
+
+---+++ =edit= script
+
+   * %<nop>FORCENEWREVISIONCHECKBOX%
+   * %<nop>NEWTOPIC%
+   * %<nop>TEMPLATETOPIC%
+   * %<nop>REDIRECTTO%
+   * %<nop>ORIGINALREV%
+   * %<nop>TOPICPARENT%
+   * %<nop>FORMTEMPLATE%
+   * %<nop>CMD%
+   * %<nop>FORMFIELDS%
+   * %<nop>UNENCODED_TEXT%
+   * %<nop>TEXT%
+
+---+++ =manage= script
+
+   * %<nop>TEXT%
+   * %<nop>ORIGINALREV%
+
+---+++ =oops= script
+
+   * %<nop>PARAMn%
+   * %<nop>INSTANTIATE%
+
+---+++ =preview= script
+
+   * %<nop>DONTNOTIFYCHECKBOX%
+   * %<nop>FORCENEWREVISIONCHECKBOX%
+   * %<nop>CMD%
+   * %<nop>REDIRECTTO%
+   * %<nop>FORMTEMPLATE%
+   * %<nop>FORMFIELDS%
+   * %<nop>TOPICPARENT%
+   * %<nop>HIDDENTEXT%
+   * %<nop>CMD%
+   * %<nop>ORIGINALREV%
+   * %<nop>TEXT%
+
+---+++ =rdiff= script
+
+   * %<nop>REVTITLE1%
+   * %<nop>REVTITLE2%
+   * %<nop>REVINFO1%
+   * %<nop>REVINFO2%
+   * %<nop>REPEAT%
+   * %<nop>TEXT%
+   * %<nop>TAIL%
+   * %<nop>CURRREV%
+   * %<nop>MAXREV%
+
+---+++ =register= script
+
+   * %<nop>SPLIT%
+   * %<nop>FIRSTLASTNAME%
+   * %<nop>WIKINAME%
+   * %<nop>EMAILADDRESS%
+   * %<nop>FORMDATA%
+   * %<nop>LOGINNAME%
+   * %<nop>INTRODUCTION%
+   * %<nop>VERIFICATIONCODE%
+   * %<nop>PASSWORD%
+
+---+++ =view= script
+
+   * %<nop>REVTITLE%
+   * %<nop>REVARG%
+   * %<nop>REVISIONS%
+   * %<nop>QUERYPARAMSTRING%
+   * %<nop>TEXT%
+   * %<nop>STARTTEXT%
+   * %<nop>ENDTEXT%
+
+
+%ENDSECTION{"PowerUserGuide"}%
+
+---
+*Related Topics:* [[Skins]] [[Macros]] [[JavascriptFiles]]
+<!-- %JQREQUIRE{"chili"}% -->
+
+%STOPINCLUDE%
