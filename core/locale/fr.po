@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-17 13:55+0200\n"
+"PO-Revision-Date: 2010-09-17 22:31+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -1976,11 +1976,11 @@ msgstr "Connectez vous avec votre nom de connexion et mot de passe"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:152
 msgid "Login name"
-msgstr "Nom d'utilisateur"
+msgstr "Nom de connexion"
 
 #: core/templates/mailresetpassword.tmpl:12
 msgid "Login name %1"
-msgstr "Nom d'utilisateur %1"
+msgstr "Nom de connexion %1"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:231
 #: core/templates/login.tmpl:69
@@ -3139,7 +3139,7 @@ msgstr "Leur verrou sur cette page a expiré il y a %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:153
 msgid "The login name you use to sign in."
-msgstr ""
+msgstr "Le nom de connexion que vous utilisez pour vous connecter."
 
 #: core/templates/messages.tmpl:93
 msgid "The name of the topic must not be empty."

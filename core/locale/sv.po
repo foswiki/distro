@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-17 00:50+0200\n"
+"PO-Revision-Date: 2010-09-17 21:35+0200\n"
 "Last-Translator: Erik Åman <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
 "Language: sv\n"
@@ -2211,14 +2211,12 @@ msgid "Options"
 msgstr "Åtgärder"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:235
-#, fuzzy
 msgid "Organisation name"
-msgstr "Organisationsnamn:"
+msgstr "Organisationsnamn"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:242
-#, fuzzy
 msgid "Organisation website"
-msgstr "Organisationsnamn:"
+msgstr "Webbplats för organisationen"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
@@ -2252,9 +2250,8 @@ msgid "Pick one of the %1."
 msgstr "Välj en av %1."
 
 #: core/data/Trash/WebPreferences.txt:10
-#, fuzzy
 msgid "Place for trashed topics and attachments."
-msgstr "Sida för raderade dokument"
+msgstr "Plats för raderade sidor och bifogade filer."
 
 #: core/data/Trash/TrashAttachment.txt:3
 msgid "Placeholder for trashed attachments"
@@ -2262,7 +2259,7 @@ msgstr "Sida för raderade dokument"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
 msgid "Please check to ensure you have permssion to modify the group."
-msgstr ""
+msgstr "Kontrollera att du har behörighet att modifiera gruppen."
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
 msgid "Please contact %1 if you have any questions."
@@ -2322,7 +2319,7 @@ msgstr ""
 
 #: core/lib/Foswiki/Plugins.pm:397
 msgid "Plugin handlers"
-msgstr ""
+msgstr "Hanterare för insticksmoduler"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -2354,18 +2351,16 @@ msgid "Properties"
 msgstr "Egenskaper"
 
 #: core/lib/Foswiki/Render.pm:222
-#, fuzzy
 msgid "Put it back..."
-msgstr "flytta tillbaka sidan"
+msgstr "Lägg tillbaka..."
 
 #: core/data/System/WebSearch.txt:117
 msgid "Query Search"
 msgstr "Strukturerat sökspråk"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:71
-#, fuzzy
 msgid "Question"
-msgstr "Version"
+msgstr "Fråga"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:162
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
@@ -2449,7 +2444,7 @@ msgstr "Kommer du ihåg ditt lösenord?"
 
 #: core/data/Main/GroupViewTemplate.txt:168
 msgid "Remove selected users"
-msgstr ""
+msgstr "Ta bort valda användare"
 
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
@@ -2457,12 +2452,11 @@ msgstr "Ta bort användaren från gruppen/grupperna %1 först."
 
 #: core/data/Main/GroupViewTemplate.txt:83
 msgid "Remove user..."
-msgstr ""
+msgstr "Ta bort användare..."
 
 #: core/data/Main/GroupViewTemplate.txt:164
-#, fuzzy
 msgid "Remove users from this group"
-msgstr "Ta bort användaren från gruppen/grupperna %1 först."
+msgstr "Ta bort användarna från denna grupp"
 
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
@@ -2473,23 +2467,20 @@ msgid "Rename failed"
 msgstr "Omdöpningen misslyckades"
 
 #: core/templates/renamebase.tmpl:11
-#, fuzzy
 msgid "Rename or move %1"
-msgstr "Döp om eller flytta sida"
+msgstr "Döp om eller flytta %1"
 
 #: core/templates/more.tmpl:69
 msgid "Rename or move topic"
 msgstr "Döp om eller flytta sida"
 
 #: core/templates/more.tmpl:77
-#, fuzzy
 msgid "Rename or move topic..."
-msgstr "Döp om eller flytta sida"
+msgstr "Döp om eller flytta sida..."
 
 #: core/data/System/RenameWeb.txt:4
-#, fuzzy
 msgid "Rename, move or delete this web"
-msgstr "Döp om, flytta eller radera denna avdelning:"
+msgstr "Döp om, flytta eller radera denna avdelning"
 
 #: core/templates/rename.tmpl:21 core/templates/renameconfirm.tmpl:33
 #: core/templates/renameweb.tmpl:32
@@ -2514,7 +2505,7 @@ msgstr "Nollställ lösenord"
 
 #: core/data/System/DefaultPreferences.txt:186
 msgid "Resetting and setting password is not handled by Foswiki"
-msgstr ""
+msgstr "Foswiki hanterar inte att ange eller nollställa lösenord"
 
 #: core/templates/more.tmpl:170
 msgid "Restore topic"
@@ -2529,18 +2520,16 @@ msgid "Restore topic to this revision"
 msgstr "Återställ sidan till denna version"
 
 #: core/templates/more.tmpl:178
-#, fuzzy
 msgid "Restore..."
-msgstr "Återställ"
+msgstr "Återställ..."
 
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
 msgstr "Sökresultat från avdelning %1"
 
 #: core/templates/search.text.tmpl:4
-#, fuzzy
 msgid "Results from %1 web:"
-msgstr "Sökresultat från avdelning %1"
+msgstr "Sökresultat från avdelning %1:"
 
 #: core/templates/messages.tmpl:207
 msgid "Return to %1."
@@ -2566,7 +2555,6 @@ msgid "Revision"
 msgstr "Version"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:14
-#, fuzzy
 msgid "Revision history of %1"
 msgstr "Versionshistorik för %1"
 
@@ -2630,9 +2618,8 @@ msgid "Search all webs for topics that link to here"
 msgstr "Sök i alla avdelningar efter sidor som länkar till denna"
 
 #: core/data/System/WebSearch.txt:22
-#, fuzzy
 msgid "Search in %1 Web"
-msgstr "Sök bara i avdelning %1"
+msgstr "Sök i avdelning %1"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search in all webs"
@@ -2643,14 +2630,12 @@ msgid "Search more topics in this web"
 msgstr "Sök efter fler sidor i den här avdelningen"
 
 #: core/data/System/WebSearch.txt:39
-#, fuzzy
 msgid "Search options"
-msgstr "Ytterligare sökmöjligheter:"
+msgstr "Ytterligare sökmöjligheter"
 
 #: core/templates/searchbookview.tmpl:7
-#, fuzzy
 msgid "Search result"
-msgstr "(sökresultat)"
+msgstr "Sökresultat"
 
 #: core/data/System/WebSearch.txt:122
 msgid "Search string"
@@ -2686,7 +2671,7 @@ msgstr "Se %1 för information om formulärdefinitioner."
 #: core/templates/messages.tmpl:489 core/templates/messages.tmpl:510
 #: core/templates/messages.tmpl:520
 msgid "See %MAINWEB%.WikiGroups to see the result."
-msgstr ""
+msgstr "Se %MAINWEB%.WikiGroups för att se resultatet."
 
 #: core/data/System/WebIndex.txt:5
 msgid "See also the faster %1"
@@ -2710,7 +2695,7 @@ msgstr "Välj"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
 msgid "Select Wiki %1 to join"
-msgstr ""
+msgstr "Välj avdelning %1 för att gå med"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
