@@ -254,6 +254,12 @@ sub view {
         next if ( $name eq 'topic' );
         push @qparams, $name => $query->param($name);
     }
+    ## SMELL: %QUERYPARAMSTRING% isn't a documented macro, and it's used
+    ## in only one template (viewtopicactionbuttons.tmpl). Perhaps the template
+    ## should instead use ";%QUERYSTRING%" and live with the extra ';' when 
+    ## (most often) the query string is empty? Otherwise, all template
+    ## directives or placeholders should be documented in
+    ## System.Skins#Settings_in_Skins or in System.Macros.
     $tmpl =~ s/%QUERYPARAMSTRING%/Foswiki::_make_params(1,@qparams)/geo;
 
     # extract header and footer from the template, if there is a
