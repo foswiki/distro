@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-17 10:14+0200\n"
+"PO-Revision-Date: 2010-09-17 13:55+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -2030,9 +2030,8 @@ msgid "More topic actions..."
 msgstr "Autres actions sur la page..."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:80
-#, fuzzy
 msgid "More view options:"
-msgstr "Autres vues sur la page..."
+msgstr "Autres options d'affichage :"
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
