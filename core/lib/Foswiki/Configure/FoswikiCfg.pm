@@ -55,6 +55,8 @@ use Foswiki::Configure::Value;
 use Foswiki::Configure::Pluggable;
 use Foswiki::Configure::Item;
 
+my %dupItem;
+
 # Used in saving, when we need a callback. Otherwise the methods here are
 # all static.
 sub new {
@@ -333,14 +335,26 @@ sub startVisit {
             $this->{logger}->logChange( $visitee->getKeys(), $txt );
         }
 
-        # Substitute any existing value, or append if not there
+ # Substitute any existing value, or append if not there
+ #unless ( $this->{content} =~ s/^\s*?\$(Foswiki::)?cfg$keys\s*=.*?;\n/$txt/ms )
+ #
+ # SMELL:  The _updateEntry call is needed to fix up configs broken by Item9699.
         unless ( $this->{content} =~
-            s/^\s*?\$(Foswiki::)?cfg$keys\s*=.*?;\n/$txt/ms )
+s/^\s*?\$(?:Foswiki::)?cfg($keys)\s*=.*?;\n/&_updateEntry($1,$txt)/msge
+          )
         {
             $this->{content} .= $txt;
         }
     }
     return 1;
+}
+
+sub _updateEntry {
+    my $keys     = shift;
+    my $newentry = shift;
+    return '' if $dupItem{"$keys"};
+    $dupItem{"$keys"} = 1;
+    return $newentry;
 }
 
 sub endVisit {
