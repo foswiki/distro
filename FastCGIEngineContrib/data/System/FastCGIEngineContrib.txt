@@ -23,8 +23,9 @@ Some !FastCGI features:
 This section is about how to configure FastCGIEngineContrib, considering many possible environments:
    * [[http://httpd.apache.org][Apache]] web server 
       * Using only =.htaccess= (typically on host services)
-      * With access to apache configuration files 
+      * With access to apache configuration files
          * Remote !FastCGI processes
+      * Using =mod_fcgid= or =mod_fastcgi=
    * [[http://www.lighttpd.net/][Lighttpd]] web server 
       * Remote !FastCGI processes
 
@@ -41,14 +42,25 @@ This section is about how to configure FastCGIEngineContrib, considering many po
 
 ---+++ Apache
 
+<blockquote class="foswikiHelp"> %X% It is strongly recommended that users work from Foswiki:Support.ApacheConfigGenerator to create initial Apache configurations. This config generator is comprehensive and well tested; the examples below may be inadequate for your needs.</blockquote>
+
 ---++++ Using only =.htaccess=
 
 Using only =.htaccess= file it's not possible to control the number of !FastCGI processes, nor the user it'll be run with. We assume the webserver is configured to recognize files with =.fcgi= extension to be !FastCGI scripts. We also need [[http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html][mod_rewrite]] or [[http://httpd.apache.org/docs/2.2/mod/mod_actions.html][mod_actions]] enabled.
 
-%X% The directory references in the following subsections are relative to Foswiki root.
+---+++++ Examples
+<blockquote class="foswikiHelp"> *Notes:*
 
-Example using =mod_rewrite=:
-<pre>
+%I% Directory paths are relative to Foswiki root.
+
+%I% Usage of [[http://httpd.apache.org/mod_fcgid/][mod_fcgid]] is assumed. If you're using [[http://www.fastcgi.com/mod_fastcgi/docs/mod_fastcgi.html][mod_fastcgi]], replace =fcgid-script= with =fastcgi-script=.
+
+%X% [[http://httpd.apache.org/mod_fcgid/][mod_fcgid]] is preffered over [[http://www.fastcgi.com/mod_fastcgi/docs/mod_fastcgi.html][mod_fastcgi]]. The latter project receives very few updates and has some known issues, such as Foswiki:Support.Faq18, whereas =mod_fcgid= is a default module that is shipped with Apache httpd.
+</blockquote>
+
+
+---++++++ Using mod_rewrite:
+<!--%JQREQUIRE{"chili"}%--><pre class="bash">
 # bin/.htaccess file
 
 Options +ExecCGI
@@ -68,39 +80,42 @@ RewriteRule ^(.*) %URL%/foswiki.fcgi/$1
 &lt;/Files&gt;
 </pre>
 
-Example using =mod_actions=:
-<pre>
+---++++++ Using mod_actions:
+<pre class="bash">
 # bin/.htaccess file
 
 Options +ExecCGI
 
-Action foswiki-fastcgi %URL%/foswiki.fcgi
-SetHandler foswiki-fastcgi
+Action foswiki-fcgid %URL%/foswiki.fcgi
+SetHandler foswiki-fcgid
 
 &lt;Files configure&gt;
     SetHandler cgi-script
 &lt;/Files&gt;
 
 &lt;Files foswiki.fcgi&gt;
-   SetHandler fastcgi-script
+   SetHandler fcgid-script
 &lt;/Files&gt;
 </pre>
 
-%X% This example assume you're using [[http://www.fastcgi.com/mod_fastcgi/docs/mod_fastcgi.html][mod_fastcgi]]. If you're using [[http://fastcgi.coremail.cn/][mod_fcgid]] replace =SetHandler fastcgi-script= by =SetHandler fcgid-script=.
+---++++ Using apache .conf
 
----++++ With access to apache configuration files
-
-Direct access to Apache configuration files open more possibilities than with =.htaccess=:
-   * It's possible to configure the number of !FastCGI processes
-   * It's possible to use !FastCGI processes remotely and/or control with user to run with, by using sockets
+Direct access to Apache configuration files open more possibilities than with =.htaccess=, such as:
+   * Configurable number of !FastCGI processes
+   * With =mod_fastcgi=:
+      * Use remote !FastCGI processes to service requests
+         * This might be possible under =mod_fcgid= using a custom wrapper script with the [[http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html#fcgidwrapper][FcgidWrapper]] directive and the =virtual= flag
+      * Control the user the !FastCGI processes run under
 
 ---+++++ Using mod_fastcgi
+
+<blockquote class="foswikiHelp"> %X% Consider using the newer and better-maintained =mod_fcgid= which is shipped standard with Apache httpd.</blockquote>
 
 We can use _static_ or _dynamic_ servers: static servers are initialized with Apache itself and exists as long Apache is running. Dynamic servers are loaded on demand and killed if the aren't needed anymore.
 
 See [[http://www.fastcgi.com/mod_fastcgi/docs/mod_fastcgi.html][mod_fastcgi documentation]] for more options.
 
-<pre>
+<pre class="bash">
 # Simple and traditional example.
 Alias %URL%/configure %ROOT%/bin/configure
 Alias %URL%   %ROOT%/bin/foswiki.fcgi
@@ -121,7 +136,7 @@ FastCgiServer %ROOT%/bin/foswiki.fcgi -processes 3
 
 Refer to [[%TOPIC%#Tuning][tuning]] section below for a little discussion about the number of !FastCGI processes.
 
-<pre>
+<pre class="bash">
 # External server: could be running at another machine and/or a different user from the webserver
 
 Alias %URL%/configure %ROOT%/bin/configure
@@ -145,7 +160,7 @@ FastCgiExternalServer %ROOT%/bin/foswiki.fcgi -host example.com:8080
 </pre>
 
 When you're using external servers you must run the !FastCGI processes manually:
-<pre>
+<pre class="bash">
 $ cd %ROOT%/bin
 # To start a pool of processes, listening to a local UNIX socket:
 $ ./foswiki.fcgi --listen /path/to/foswiki.sock --nproc 3 --pidfile /path/to/pidfile.pid --daemon
@@ -156,10 +171,14 @@ $ ./foswiki.fcgi --listen :port --nproc 3 --pidfile /path/to/pidfile.pid --daemo
 Run ==./foswiki.fcgi --help== for details on the options.
 
 ---+++++ Using mod_fcgid
+Comparison to =mod_fastcgi=:
+   * Compatible API from Foswiki's point of view, drop-in replacement
+   * Maintained as a part of the standard Apache httpd distribution
+   * Does not itself provide a mechanism to run the !FastCGI processes as a different user (possible through other means)
+   * [[http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html][mod_fcgid documentation]] suggests that only _dynamic_ servers are supported
+   * No (easy) way to use !FastCGI processes running on another machine; but it might be possible with a custom wrapper script and the [[http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html#fcgidwrapper][FcgidWrapper]] directive with the =virtual= flag
 
-As I understood from the [[http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html][mod_fcgid documentation]], only _dynamic_ servers are supported and there is no way to use processes running on another machine.
-
-<pre>
+<pre class="bash">
 # Simple and traditional example.
 Alias %URL%/configure %ROOT%/bin/configure
 Alias %URL%   %ROOT%/bin/foswiki.fcgi
@@ -179,7 +198,7 @@ Alias %URL%   %ROOT%/bin/foswiki.fcgi
 
 If you use =ApacheLogin= instead of =TemplateLogin= you'll need to add something like the following directives:
 
-<pre >
+<pre class="bash">
 &lt;LocationMatch "^%CALC{"$SUBSTITUTE(%URL%, /, /+)"}%/+(attach|edit|manage|rename|save|upload|.*auth|rest|login|logon)"&gt;
    AuthType Basic
    AuthName "Foswiki login realm"
@@ -192,7 +211,7 @@ If you use =ApacheLogin= instead of =TemplateLogin= you'll need to add something
 
 You need to load both [[http://redmine.lighttpd.net/wiki/lighttpd/Docs:ModCGI][mod_cgi]] and [[http://redmine.lighttpd.net/wiki/lighttpd/Docs:ModFastCGI][mod_fastcgi]]. The first is used to run [[System.CommandAndCGIScripts#configure][configure script]]. From what I understood from the documentation, lighttpd doesn't support dynamic servers.
 
-<pre>
+<pre class="bash">
 # Example with FastCGI processes launched by the webserver
 $HTTP["url"] =~ "^%URL%/configure" {
     alias.url += ( "%URL%" => "%ROOT%/bin" )
@@ -212,7 +231,7 @@ $HTTP["url"] =~ "^%URL%/" {
 }
 </pre>
 
-<pre>
+<pre class="bash">
 # Example with external FastCGI processes (running on the same host, with another user or at a remote machine)
 $HTTP["url"] =~ "^%URL%/configure" {
     alias.url += ( "%URL%" => "%ROOT%/bin" )
@@ -241,11 +260,13 @@ Dynamic servers are more useful when foswiki access load on the server is low an
 
 [[http://www.fastcgi.com/drupal/node/6?q=node/22][FastCGI specification]] defines an [[http://www.fastcgi.com/drupal/node/6?q=node/22#S6.3][authorizer role]] besides the common used [[http://www.fastcgi.com/drupal/node/6?q=node/22#S6.2][responder]]. Foswiki, by default, doesn't check access to attachments, unless you use [[System.CommandAndCGIScripts#viewfile][viewfile]] script. The problem with that script is that it's slow and resource-hungry. In future releases, this contrib will provide a way to add access checks to attachments with very little overhead, using the authorizer role.
 
+<blockquote class="foswikiHelp">
 %X% This is a persistent engine, so you need to restart the web server after some configuration update is performed. However, there is an auto-reload mechanism that apply changes without a web server restart. Unfortunately, there is a delay: after the update, each process will still serve one more request before reloading itself (e.g. if you're using 3 processes, the next 3 requests after the update will not be affected. The update will take effect on the requests made after the initial 3). This reloading mechanism works only on operating systems that have the =exec(2)= system call, like Linux and other POSIX compliant systems.
 
 %X% All examples above have an exception to =configure= script. This script *needs* to run as a plain CGI script. There are some legacy extensions (not updated to Foswiki:Development/FoswikiStandAlone design) that adds scripts to the =bin/= directory. You need to add exceptions to these scripts as well.
 
 %X% !FastCGI support on IIS 6.0 (and maybe other versions) is *broken* with respect to the =STDERR= stream. This may cause problems.
+</blockquote>
 
 ---++ Info
 
@@ -255,9 +276,10 @@ Dynamic servers are more useful when foswiki access load on the server is low an
 | Release: | %$RELEASE% |
 | Version: | %$VERSION% |
 | Change History: | |
-| 3 Sep 2010 | Foswiki:Tasks/Item9456 - Taint error, Foswiki:Tasks/Item9390 - LocalSite.cfg error handling, Foswiki:Tasks/Item8765 - Perl coding issue,  Foswiki:Tasks/Item1315 - Support information |
-| 21 Dec 2009 | Foswiki:Main.ItaloValcy: fix Foswiki:Tasks/Item8238 |
-| 24 Jan 2009 | Documentation enhancements and some fixes (Foswiki:Tasks/Item853) |
+| 17 Sep 2010 | Foswikitask:Item9701 - Documentation update, suggest =mod_fcgid= preferred over =mod_fastcgi= |
+|  3 Sep 2010 | Foswikitask:Item9456 - Taint error, Foswikitask:Item9390 - !LocalSite.cfg error handling, Foswikitask:Item8765 - Perl coding issue,  Foswikitask:Item1315 - Support information |
+| 21 Dec 2009 | Foswiki:Main.ItaloValcy: fix Foswikitask:Item8238 |
+| 24 Jan 2009 | Documentation enhancements and some fixes (Foswikitask:Item853) |
 | 25 Dec 2008 | Initial Release |
 | Dependencies: | %$DEPENDENCIES% |
 | Home page: | http://foswiki.org/Extensions/%TOPIC% |
