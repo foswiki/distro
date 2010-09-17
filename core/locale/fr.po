@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-17 01:42+0200\n"
+"PO-Revision-Date: 2010-09-17 10:14+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -1971,9 +1971,8 @@ msgid "Log Out"
 msgstr "Déconnexion"
 
 #: core/templates/login.tmpl:12
-#, fuzzy
 msgid "Log on with your username and password"
-msgstr "Veuillez entrer votre nom de connexion, ainsi que votre mot de passe"
+msgstr "Connectez vous avec votre nom de connexion et mot de passe"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:152
 msgid "Login name"
