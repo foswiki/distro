@@ -293,7 +293,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
                  Foswikitask:Item9424: Use non-jQuery build to avoid IE8 resizing quirks on jquery-1.3.2<br/>\
                  Foswikitask:Item9427: Only update button state if cursor has been idle &gt; 300ms, improves cursor movement responsiveness in &gt;250KiB documents on IE/slow PCs<br/>\
                  Foswikitask:Item9570: Make table text larger, to be the same size as normal paragraph text<br/>\
-                 Foswikitask:Item9577: Apply background to protected and literal text (similar to verbatim), so that it is easier to see these special regions |
+                 Foswikitask:Item9577: Apply background to protected and literal text (similar to verbatim), so that it is easier to see these special regions<br/>\
+                 Foswikitask:Item9706: Upgrade to !TinyMCE 3.3.9 |
 |  01 Jul 2010 | Foswikitask:Item9221: Fix colour formatting problem and JS error transitioning to fullscreen<br/>\
                  Foswikitask:Item9222: Fix autosave implementation compatibility with Foswiki 1.0.x JQueryPlugin<br/>\
                  Foswikitask:Item9234: Upgrade to !TinyMCE 3.3.8 |
