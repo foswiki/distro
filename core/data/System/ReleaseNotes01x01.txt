@@ -45,6 +45,7 @@ Foswiki 1.1 is shipped with the following:
 
 See ReleaseNotes01x00 for detailed information about changes in that release.
 
+#Release01x00Changes
 ---++ Important Changes since Foswiki 1.0.10
 
 Foswiki 1.1 has many enhancements that endusers as well as administrators will appreciate. In addition Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. Work has been made to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements. Here is a list of the most important enhancements in Foswiki 1.1.0
@@ -52,7 +53,7 @@ Foswiki 1.1 has many enhancements that endusers as well as administrators will a
 ---+++ Adoption of the jQuery Javascript user interface framework
 From Foswiki 1.1 the industry-standard [[http://jquery.com][jQuery Javascript user interface framework]] has been more closely integrated, with the existing !JQueryPlugin being included into the core distribution. Reflecting the move to jQuery, the !BehaviourContrib has been removed from the core distribution, though it is still available for download from Foswiki.org. The default !PatternSkin now depends on this jQuery framework.
 
-Also added are the new =ADDTOZONE= and =RENDERZONE= macros that manage dependencies between Javascript modules, making use of this sophisticated toolset much easier.
+Also added are the new [[VarADDTOZONE][ADDTOZONE]] and [[VarRENDERZONE][RENDERZONE]] macros that manage dependencies between Javascript modules, making use of this sophisticated toolset much easier. See Foswiki:Development.UpdatingExtensionsScriptZone on how to replace [[VarADDTOHEAD][ADDTOHEAD]] usage.
 
 ---++++ New macros enabled by jQuery
 
@@ -90,7 +91,7 @@ For developers additional API's have been added to the Foswiki code to allow the
 With some configuration, Foswiki can also add users to groups on registration -  either automatically, or allowing the users to select groups to join.
 
 ---+++ TinyMCEPlugin updates
-TinyMCEPlugin has been updated to the latest 3.3.8 release from Moxiecode. Additionally, several improvements to the Foswiki integration have been made, such as:
+TinyMCEPlugin has been updated to the latest 3.3 release from Moxiecode. Additionally, several improvements to the Foswiki integration have been made, such as:
    * Smarter attach dialogue
    * Background autosave feature has been enabled (saves to local browser storage at 3 minute intervals)
    * New context (right-click) menu:
@@ -99,7 +100,7 @@ TinyMCEPlugin has been updated to the latest 3.3.8 release from Moxiecode. Addit
    * Customisation via the =TINYMCEPLUGIN_INIT= preference has been improved. [[TinyMCEPlugin#UpgradeFrom01x00][Read the upgrade advice]] if you are upgrading a Foswiki installation which uses a custom =TINYMCEPLUGIN_INIT= preference setting.
 
 ---+++ Testing configuration variables in %IF
-Prior to 1.1, =%<nop>IF= could be used to test the value of any configuration variable (those defined in =configure=). This represented a security risk, so now only those variables listed in ={AccessibleCFG}= may be accessed this way. Note that ={AccessibleCFG}= also controls which variables are visible in =%SEARCH{type="query"= and the new =%<nop>QUERY= macro.
+Prior to 1.1, =%<nop>IF= could be used to test the value of any configuration variable (those defined in =configure=). This represented a security risk, so now only those variables listed in ={AccessibleCFG}= may be accessed this way. Note that ={AccessibleCFG}= also controls which variables are visible in =%<nop>SEARCH{type="query"= and the new [[VarQUERY][QUERY]] macro.
 
 ---+++ "Copy topic" now copies attachments
 The "Copy Topic" function in "More topic actions" now copies attachments as well as the topic text and form.
@@ -121,6 +122,9 @@ The topics %SYSTEMWEB%.ResetPassword and %SYSTEMWEB%.ChangePassword now  only sh
 If the {PasswordManager} does not support password changing,  the ChangePassword and ResetPassword topics will show a simple message.  This message is defined iby the preference =CHANGEPASSWORDDISABLEDMESSAGE=  in %SYSTEMWEB%.DefaultPreferences. You can redefine this setting by copying  it to %USERSWEB%.SitePreferences and change it to include a link to the  password management website of your organisation.
 
 ChangeEmailAddress will now guide the user to define the email address  in the user topic when the !PasswordManager does not handle hidden email addresses,  so you should not need to tailor this topic any longer.
+
+---+++ TMPL:DEFs may now access previous (overridden) TMPL:DEF
+SkinTemplates authors are often limited by the fact that =%<nop>TMPL:DEF{"something"}%= statements override whatever DEF may have previously existed in the SKIN path. Now, when overriding these DEFs, SkinTemplates authors may access the previous definition using the new =%<nop>TMPL:PREV%= template token.
 
 ---+++ Logging of access failures
 Configure and !TemplateLogin now log authentication failures to the event logs:

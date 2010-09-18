@@ -50,8 +50,8 @@ More details for each step appear in the following sections. The steps may need 
 For purposes of discussion, the following conventions are used:
    * =&lt;oldwiki&gt;= refers to the directory in which the old installation is located
    * =&lt;newwiki&gt;= refers to the directory in which the new installation is located; it is assumed to be immediately below the root directory of your web server
-   * =&lt;old_users_web&gt;= refers to the web in which the user topics are located in the old installation. The default value is the *%USERSWEB%* web. The web is specified in the =Store settings= pane of the =configure= page, in the {UsersWebName} setting (visible when Expert mode is enabled).
-   * =&lt;old_system_web&gt;= refers to the web used for documentation and default preferences in the old installation. In *Foswiki*, the default value is the *%SYSTEMWEB%* web; in *TWiki*, the default value is the *TWiki* web. The web is specified in the =Store settings= pane of the =configure= page, in the {SystemWebName} setting (visible when Expert mode is enabled).
+   * =&lt;old_users_web&gt;= refers to the web in which the user topics are located in the old installation. The default value is the *%USERSWEB%* web. The web is specified in the =Store settings= pane of the =configure= page, in the ={UsersWebName}= setting (visible when Expert mode is enabled).
+   * =&lt;old_system_web&gt;= refers to the web used for documentation and default preferences in the old installation. In *Foswiki*, the default value is the *%SYSTEMWEB%* web; in *TWiki*, the default value is the *TWiki* web. The web is specified in the =Store settings= pane of the =configure= page, in the ={SystemWebName}= setting (visible when Expert mode is enabled).
 \
 After the upgrade, in the new installation, the %USERSWEB% web is used for user topics and site preferences, and the %SYSTEMWEB% web is used to hold documentation and default preferences.
 
@@ -130,11 +130,11 @@ Activate, and if required, configure the installed extensions in =configure=.
 
 *Copy all topics and attachments from &lt;old_users_web&gt;:* copy all files from =&lt;oldwiki&gt;/data/&lt;old_users_web&gt;/= to =&lt;newwiki&gt;/data/%USERSWEB%/=, and copy all files from =&lt;oldwiki&gt;/pub/&lt;old_users_web&gt;/= to =&lt;newwiki&gt;/pub/%USERSWEB%/= . *Do not overwrite any topics already present in the =&lt;newwiki&gt;/data/%USERSWEB%/= directory.*
    * In addition to all the user topics, if you have created =&lt;old_users_web&gt;.NewUserTemplate= in the old installation, this step will copy over your template for user topics to the new installation.
-   * Ensure that the topic defining the admin group in your old installation is copied over. The admin group is defined in the =Security setup= pane of the =configure= page, in the {SuperAdminGroup} setting (visible when Expert mode is enabled). You can do either of the following:
-      * Set the {SuperAdminGroup} setting in your new installation to the old admin group.
+   * Ensure that the topic defining the admin group in your old installation is copied over. The admin group is defined in the =Security setup= pane of the =configure= page, in the ={SuperAdminGroup}= setting (visible when Expert mode is enabled). You can do either of the following:
+      * Set the ={SuperAdminGroup}= setting in your new installation to the old admin group.
       * Move the contents of the old admin group to the new admin group. To avoid having to change all references to the old admin group, you must still keep the old admin group defined: set it so its only member is the new admin group, and the new admin group is the only user who can change or rename the old admin group topic.
          * The default admin group with Foswiki is <nop>Admin<nop>Group and the default admin group with TWiki is <nop>TWiki<nop>Admin<nop>Group. So if you are upgrading from TWiki and are using the default admin groups, then in the new installation, you must copy all members from <nop>TWiki<nop>Admin<nop>Group to <nop>Admin<nop>Group, and change <nop>TWiki<nop>Admin<nop>Group so its only member is <nop>Admin<nop>Group and so it can only be modified or renamed by <nop>Admin<nop>Group.
-   * If your old installation did not customize {LocalSitePreferences} on the =configure= page, or if you did customize {LocalSitePreferences} but kept your site preferences within the &lt;old_users_web&gt; web, then this step will also copy over your site preferences to the new installation.
+   * If your old installation did not customize ={LocalSitePreferences}= on the =configure= page, or if you did customize ={LocalSitePreferences}= but kept your site preferences within the &lt;old_users_web&gt; web, then this step will also copy over your site preferences to the new installation.
 
 *For upgrades from an older Foswiki installation:*
    * Manually merge all users from the =&lt;old_users_web&gt;.WikiUsers= topic in the old installation to the =%USERSWEB%.<nop>Wiki<nop>Users= topic in the new installation. If the new installation does not yet have an initial =%USERSWEB%.<nop>Wiki<nop>Users= topic, then copy =&lt;oldwiki&gt;/data/&lt;old_users_web&gt;/<nop>Wiki<nop>Users.txt= to =&lt;newwiki&gt;/data/%USERSWEB%/<nop>Wiki<nop>Users.txt=.
@@ -167,9 +167,9 @@ Make sure the data and pub directories, as well as the files within them, are re
 
 ---+++ Apply preferences from old installation
 
-If you have not already set your desired site-wide preferences, as described in the section "[[%SYSTEMWEB%.InstallationGuide#SetPreferences][Set Foswiki Preferences]]" in the %SYSTEMWEB%.InstallationGuide, then set your preferences. The location of your site preferences is specified in the =Miscellaneous settings= pane of the =configure= page, in the {LocalSitePreferences} setting (visible when Expert mode is enabled) &mdash; the default location is *%USERSWEB%.<nop>Site<nop>Preferences*. Copy any customized preferences from the site preferences topic in your old installation to the site preferences topic in the new installation. (Note you may have already copied over your customized preferences when you transfered the contents of the &lt;old_users_web&gt; web.)
+If you have not already set your desired site-wide preferences, as described in the section "[[%SYSTEMWEB%.InstallationGuide#SetPreferences][Set Foswiki Preferences]]" in the %SYSTEMWEB%.InstallationGuide, then set your preferences. The location of your site preferences is specified in the =Miscellaneous settings= pane of the =configure= page, in the ={LocalSitePreferences}= setting (visible when Expert mode is enabled) &mdash; the default location is *%USERSWEB%.<nop>Site<nop>Preferences*. Copy any customized preferences from the site preferences topic in your old installation to the site preferences topic in the new installation. (Note you may have already copied over your customized preferences when you transfered the contents of the &lt;old_users_web&gt; web.)
 
-If, in your old installation, you customized the default preferences in =&lt;old_system_web&gt;.DefaultPreferences=, then transfer your customizations from this topic to the site preferences topic instead (i.e. the topic specified in your {LocalSitePreferences} setting), so that your customizations will not get overwritten on the next upgrade.
+If, in your old installation, you customized the default preferences in =&lt;old_system_web&gt;.DefaultPreferences=, then transfer your customizations from this topic to the site preferences topic instead (i.e. the topic specified in your ={LocalSitePreferences}= setting), so that your customizations will not get overwritten on the next upgrade.
 
 *If you are upgrading from TWiki*, note that the default location of the default preferences in TWiki is =&lt;old_system_web&gt;.<nop>TWiki<nop>Preferences=, and the default location of the site preferences is =Main.<nop>TWiki<nop>Preferences=. Transfer any customized preferences from these topics to the site preferences topic in your new installation.
 
@@ -213,7 +213,7 @@ Re-execute your test plan to verify that your Wiki applications and other key fu
 
 ---+++ Favicon
 
-The favicon is now configurable as a site preference or per-web preference. See =%SYSTEMWEB%.DefaultPreferences= for a description of the FAVICON preference. To set it for your site, add the FAVICON preference to your site preferences topic, =%USERSWEB%.SitePreferences= (or the topic you configured in your {LocalSitePreferences} setting in the =Miscellaneous settings= pane on the =configure= page). To set it for a web, add the FAVICON preference to the =<nop>Web<nop>Preferences= topic for that web.
+The favicon is now configurable as a site preference or per-web preference. See =%SYSTEMWEB%.DefaultPreferences= for a description of the FAVICON preference. To set it for your site, add the FAVICON preference to your site preferences topic, =%USERSWEB%.SitePreferences= (or the topic you configured in your ={LocalSitePreferences}= setting in the =Miscellaneous settings= pane on the =configure= page). To set it for a web, add the FAVICON preference to the =<nop>Web<nop>Preferences= topic for that web.
 
 ---++ Important changes since TWiki 4.0.5
 
@@ -223,17 +223,17 @@ To use Foswiki, you must use Perl 5.8 or higher. Foswiki no longer supports Perl
 
 ---+++ Template spec changed
 
-Until TWiki 4.0.5, any text inside template definition blocks for SkinTemplates (formerly called <nop>TWiki<nop>Templates) &mdash; that is, between %<nop>TMPL:DEF{"block"}% and %<nop>TMPL:END% &mdash; was stripped of leading and trailing white space, including newlines. This made it difficult for skin developers to include a newline before or after a block of text.
+Until TWiki 4.0.5, any text inside template definition blocks for SkinTemplates (formerly called <nop>TWiki<nop>Templates) &mdash; that is, between =%<nop>TMPL:DEF{"block"}%= and =%<nop>TMPL:END%= &mdash; was stripped of leading and trailing white space, including newlines. This made it difficult for skin developers to include a newline before or after a block of text.
 
 From TWiki 4.1.0 onwards, and in Foswiki 1.0, this has changed so that white space is no longer stripped. Skins like !PatternSkin and !NatSkin have been updated so that they work with the new behavior. If you use an older skin or have written your own you will most likely need to make some adjustments.
 
-In general, if you get mysterious blank lines in your skin, the newline after the %<nop>TMPL:DEF{"block"}% needs to be removed: the content of the block must follow on the same line as the TMPL:DEF.
+In general, if you get mysterious blank lines in your skin, the newline after the =%<nop>TMPL:DEF{"block"}%= needs to be removed: the content of the block must follow on the same line as the TMPL:DEF.
 
 CommentPlugin templates also must be modified to remove extraneous newlines &mdash; in particular, any newline immediately after the TMPL:DEF. See the =%SYSTEMWEB%.CommentPluginTemplate= for examples of how comment template definitions should look like in TWiki 4.1.x.
 
 Example: a !CommentPlugin template that adds a row to a table. With versions of TWiki prior to 4.1, the following syntax can be used:
 
-<verbatim>
+<verbatim class="tml">
 %TMPL:DEF{OUTPUT:tabletest}%%POS:BEFORE%
 |%URLPARAM{"comment"}%| -- %WIKIUSERNAME% - %DATE% |
 %TMPL:END%
@@ -241,7 +241,7 @@ Example: a !CommentPlugin template that adds a row to a table. With versions of 
 
 Starting in TWiki 4.1 and continuing with Foswiki 1.0, the newline before the start of the table row must be removed:
 
-<verbatim>
+<verbatim class="tml">
 %TMPL:DEF{OUTPUT:tabletest}%%POS:BEFORE%|%URLPARAM{"comment"}%| -- %WIKIUSERNAME% - %DATE% |
 %TMPL:END%
 </verbatim>
@@ -291,16 +291,16 @@ If you have your own scheduled task to delete obsolete session files, note they 
    
 ---+++ New internal admin login
 
-Foswiki has a new _internal admin login_ feature that lets you login as a temporary administrator, using "admin" as your user name and the password for the =configure= page. The internal admin username can be configured in the {AdminUserLogin} setting in the =Security setup= pane on the =configure= page.
+Foswiki has a new _internal admin login_ feature that lets you login as a temporary administrator, using "admin" as your user name and the password for the =configure= page. The internal admin username can be configured in the ={AdminUserLogin}= setting in the =Security setup= pane on the =configure= page.
 
-In order to add an initial user to the default {SuperAdminGroup}, [[%USERSWEB%.AdminGroup]], you must login as the internal admin user using the link on the [[%USERSWEB%.AdminGroup]] page.
+In order to add an initial user to the default ={SuperAdminGroup}=, [[%USERSWEB%.AdminGroup]], you must login as the internal admin user using the link on the [[%USERSWEB%.AdminGroup]] page.
 
 ---++ Important changes for the upgrader - since Foswiki 1.0.4
 
 An additional security feature has been added to Foswiki 1.0.5 so that saving data now requires the http method POST. This means that it is no longer possible to store data via an "&lt;a href=..." link or img tag. It also means that if you have an application with an HTML form that creates new topics you must specify in the form tag method="post". This change is done to further tighten the security of Foswiki.
 
-<pre>
-&lt;form name="new" action="%<nop>SCRIPTURLPATH{save}%/Sandbox/" method="post"&gt;
+<pre class="tml">
+&lt;form name="new" action="%<nop>SCRIPTURLPATH{"save"}%/Sandbox/" method="post"&gt;
     ...
 &lt;/form&gt;
 </pre>
@@ -315,13 +315,46 @@ See Foswiki:Support.SecurityFeatures for more information on these, and other, F
 
 If these new countermeasures against CSRF creates problems for your users and your applications, you can alter the way the protection works or disable it. These are the configure parameters you need to visit (note that some are expert settings).
 
-   * {Validation}{Method} is by default "strikeone" which is the highest level of security and requires that users have Javascript enabled. You can lower this setting to "embedded" which uses a less safe validation method but does not require javascript. If you want to disable CSRF protection set it to "none". It is highly recommended to keep it at "strikeone".
-   * {Validation}{ValidForTime} is the time the validation key is valid. It is by default 1 hour. If your users often edit pages longer you can increase this time. Your users can still save pages with an expired validation key but they will be asked to confirm the saving.
-   * {Validation}{MaxKeysPerSession} is the maximum number of validation keys to store in a session. There is one key stored for each page rendered. If the number of keys exceeds this number, the oldest keys will be force-expired to bring the number down. If you have users that are very fast at editing pages and experience expired keys, you can increase this number. The default is 1000 and should be much higher than any normal person will experience.
-   * {Validation}{ExpireKeyOnUse} defines if validation keys expire when they are used for storing data. This prevents an attacker from evesdropping communication between server and browser and reuse keys. Unfortunately it also means that if a user edits a page, saves it, uses the back button of the browser, corrects his previous editing, and then saves again, he is asked to confirm that he intended to save the topic. Another use case is if you create an application with multiple forms and multiple submit buttons on a topic and you submit multiple times from this topic without navigating away from it, you will be asked to confirm the submission each time. If this is not acceptable to your use of Foswiki, you can turn off {Validation}{ExpireKeyOnUse}.
+   * ={Validation}{Method}= is by default "strikeone" which is the highest level of security and requires that users have Javascript enabled. You can lower this setting to "embedded" which uses a less safe validation method but does not require javascript. If you want to disable CSRF protection set it to "none". It is highly recommended to keep it at "strikeone".
+   * ={Validation}{ValidForTime}= is the time the validation key is valid. It is by default 1 hour. If your users often edit pages longer you can increase this time. Your users can still save pages with an expired validation key but they will be asked to confirm the saving.
+   * ={Validation}{MaxKeysPerSession}= is the maximum number of validation keys to store in a session. There is one key stored for each page rendered. If the number of keys exceeds this number, the oldest keys will be force-expired to bring the number down. If you have users that are very fast at editing pages and experience expired keys, you can increase this number. The default is 1000 and should be much higher than any normal person will experience.
+   * ={Validation}{ExpireKeyOnUse}= defines if validation keys expire when they are used for storing data. This prevents an attacker from evesdropping communication between server and browser and reuse keys. Unfortunately it also means that if a user edits a page, saves it, uses the back button of the browser, corrects his previous editing, and then saves again, he is asked to confirm that he intended to save the topic. Another use case is if you create an application with multiple forms and multiple submit buttons on a topic and you submit multiple times from this topic without navigating away from it, you will be asked to confirm the submission each time. If this is not acceptable to your use of Foswiki, you can turn off ={Validation}{ExpireKeyOnUse}=.
 
-
+<!-- %JQREQUIRE{"chili"}% -->
 %STOPINCLUDE%
 
+---++ Important changes for the upgrader - since Foswiki 1.0.x
+
+---+++ [[VarADDTOZONE][ADDTOZONE]] instead of [[VarADDTOHEAD][ADDTOHEAD]]
+Foswiki 1.1.0 introduces the concept of _zones_, realised by the [[VarADDTOZONE][ADDTOZONE]] and [[VarRENDERZONE][RENDERZONE]] macros. Although [[VarADDTOHEAD][ADDTOHEAD]] will continue to work, there may be problems with Foswiki applications that use [[VarADDTOHEAD][ADDTOHEAD]] to add =&lt;script&gt;...= markup to the page where dependencies have been required which are now added with =%<nop>ADDTOZONE{"script"...=.
+
+Foswiki treats the =head= and =script= zones of a page separately and won't be able to order these dependencies properly unless the ={MergeHeadAndScriptZones}= option is set in [[%SCRIPTURLPATH{"configure"}%][configure]]. *This feature will be removed in a future version of Foswiki.*
+
+See also Foswiki:Development.UpdatingExtensionsScriptZone, [[VarADDTOZONE]] and Foswiki:Development.UsingADDTOZONE
+
+---+++ JQueryPlugin
+Foswiki 1.1.x ships with JQueryPlugin by default. If you are upgrading from a 1.0.x site that used previous versions of JQueryPlugin, care needs to be taken to ensure that your existing jQuery code is compatible with the new JQueryPlugin.
+   * The =foswiki= DOM object is no longer automatically populated from =&lt;meta .../&gt;= tags. See [[JQueryCodingStandards#Propagating_perl_settings_to_javascript][JQueryCodingStandards]] to learn about the new =foswiki.getPreference('SOMETHING');= method.
+   * JQueryPlugin now uses the [[VarADDTOZONE][script zone]] to add =&lt;script&gt;...= markup. If your existing wiki applications used something like
+   <verbatim class="tml">%JQREQUIRE{"cycle"}%%ADDTOHEAD{"MyApp" requires="JQUERYPLUGIN::CYCLE" text="<script..."}%</verbatim>
+   then this code will no longer be guaranteed to be ordered after the =JQUERYPLUGIN::CYCLE= markup, unless ={MergeHeadAndScriptZones}= has been enabled in [[%SCRIPTURLPATH{"configure"}%][configure]]. It needs to be re-written as per the instructions at Foswiki:Development.UpdatingExtensionsScriptZone. See also [[VarADDTOZONE]] and Foswiki:Development.UsingADDTOZONE
+
+---+++ JavascriptFiles and BehaviourContrib
+If you have written wiki applications or plugins that assumed the presence of certain Foswiki JS libraries, such as [[BehaviourContrib][behaviour]] (no longer shipped with Foswiki), [[%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikilib.js][foswikilib.js]], [[%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikilib.js][foswikiPref.js]], [[%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikilib.js][foswikiString.js]] etc. these should now be explicitly required into the page using <verbatim class="tml">%TMPL:P{"JavascriptFiles/foswikiPref"}%</verbatim> as instructed at Foswiki:Development.UsingADDTOZONE
+
+---+++ TinyMCEPlugin =TINYMCEPLUGIN_INIT= changes
+TinyMCEPlugin's configuration scheme has been reorganised. If you had a customised =TINYMCEPLUGIN_INIT= preference variable on Foswiki 1.0.x, it will need to be removed, re-built, replaced with a dedicated topic section or replaced with newly introduced preference variables for Foswiki 1.1.x. See [[TinyMCEPlugin#UpgradeFrom01x00][upgrade advice]] for more information.
+
+---+++ Logging
+Foswiki 1.1 uses a new configurable location for logs (a pluggable logging API has been introduced):
+| *Old location* | *New location* |
+| =data/warnYYYYMM= | =working/logs/error.log= |
+| =data/logYYYYMM= | =working/logs/events.log= |
+| =data/configure.log= | =working/logs/configure.log= |
+
+The currently used log file is always the same name. They are renamed to somehthing resembling the old scheme on a monthly basis automatically.
+
+<blockquote>%T% For more detailed information on new and deprecated features, especially API changes, refer to the [[ReleaseNotes01x01#Release01x00Changes][release notes]]</blockquote>
+
 ---
-*Related Topics:* AdminDocumentationCategory, Foswiki:Support.InstallationGuide, Foswiki:Support.InstallingOnSpecificPlatforms, Foswiki:Support.ApacheConfigGenerator, Foswiki:Support.SettingFileAccessRightsLinuxUnix, <!-- Foswiki:Support.UpgradingFromOlderTWikiReleases, Foswiki:Support.UpgradingFromTWiki4x2Releases, Foswiki:Support.UpgradingPatchReleases-->
+*Related Topics:* AdminDocumentationCategory, Foswiki:Support.InstallationGuide, Foswiki:Support.InstallingOnSpecificPlatforms, Foswiki:Support.ApacheConfigGenerator, Foswiki:Support.SettingFileAccessRightsLinuxUnix <!--, Foswiki:Support.UpgradingFromOlderTWikiReleases, Foswiki:Support.UpgradingFromTWiki4x2Releases, Foswiki:Support.UpgradingPatchReleases-->
