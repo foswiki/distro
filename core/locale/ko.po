@@ -3976,8 +3976,8 @@ msgstr "title='모든 토픽 변경 내역 보기' accesskey='h'>변경내역(&H
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 #, fuzzy
-msgid "title='View without formatting' accesskey='r'>&View wiki text"
-msgstr "title='포맷팅 없이 위키 원문 보기' accesskey='r'>원문보기(&R)"
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
+msgstr "title='포맷팅 없이 위키 원문 보기' accesskey='v'>원문보기(&V)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"

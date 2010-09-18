@@ -4284,8 +4284,8 @@ msgstr "title='View historial completo del tema' accesskey='h'>&Historial"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 #, fuzzy
-msgid "title='View without formatting' accesskey='r'>&View wiki text"
-msgstr "title='View código sin formato' accesskey='r'>Ve&r código"
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
+msgstr "title='View código sin formato' accesskey='v'>&Ver código"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"

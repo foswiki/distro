@@ -3901,7 +3901,7 @@ msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Konu geçmişini göster' accesskey='h'>&Geçmiş"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
-msgid "title='View without formatting' accesskey='r'>&View wiki text"
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63

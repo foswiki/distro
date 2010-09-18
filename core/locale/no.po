@@ -4131,7 +4131,7 @@ msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Vis total sidehistorikk' accesskey='h'>&Historikk"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
-msgid "title='View without formatting' accesskey='r'>&View wiki text"
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='Vis rå tekst uten formatering' accesskey='r'>&Rå Wiki Tekst"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
