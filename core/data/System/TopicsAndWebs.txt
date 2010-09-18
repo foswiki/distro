@@ -56,9 +56,10 @@ Foswiki makes it easy to add and edit topics or link between them.
    * Click ==Preview== to see how your edit looks.
    * Click ==Save== to save.
 
-*To add a new topic* there are two ways in the default PatternSkin:
+*To add a new topic* there are three ways in the default PatternSkin:
    1 Create a link to the topic which doesn't exist yet, Eg. by editing a topic and typing a WikiName. When the topic is saved, the link will be shown with a *?*: click the *?* and a new edit window appears.
    1 Navigate to the topic which doesn't exist yet, Eg. by typing the name of topic in the [[GoBox][JumpBox]]. Foswiki should display a screen which invites you to create the topic.
+   1 Click the ==Create New Topic== link in the WebLeftBar links down the left side of the page (assuming default PatternSkin). Foswiki should display a screen which invites you to create the topic.
 
 #TopicNames
 ---+++ Topic Names

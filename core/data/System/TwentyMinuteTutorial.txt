@@ -16,7 +16,6 @@ A Foswiki site is divided into webs; each one usually represents one area of col
    * The home page in each web is the %HOMETOPIC% topic.
    * To browse a web, just click on any highlighted link. These links are called WikiWords and comprise two or more words with initial capitals, run together.
    * Follow the WikiWord link and learn what it is.
-
    * If you know the name of a topic, you can jump directly to it by typing its name into the __Jump__ field on the top of a page. Type =WebSearch= to jump to the search page.
    * You can search each web. Enter a search string into the __Search__ field on the top of a page. Foswiki searches for an exact match
    * Advanced Search lets you select different search types, including database-style [[QuerySearch][Queries]] and even RegularExpressions.
@@ -38,13 +37,13 @@ The control strips at the top and/or bottom of the page have a collection of ico
    * ==[Attach]== - attach files to a topic (discussed later)
    * ==[Print version]== - goes to a stripped down version of the page, good for printing
    * ==[History]== - topics are under revision control - =History= shows you the complete change history of the topic, for example, who changed what and when
-   * ==[Raw View]== - show the source text without editing the topic
+   * ==[View wiki text]== - show the source text's WikiSyntax without editing the topic
    * ==[More topic actions]== - additional controls, such as rename/move or setting the topic's parent.
 
 ---++ 6. Create a new topic and edit an existing one
 There are two different ways to create a new topic:
    1 [[#FromScratch][Create a topic from scratch.]]
-   1 [[#FollowALink][Follow a link refering to a topic that does not yet exist.]]
+   1 [[#FollowALink][Navigate to a topic that does not yet exist.]]
 
 #FromScratch
 ---+++ 6.1 Create a topic from scratch
@@ -95,16 +94,17 @@ Editing an existing topic is even more simple:
 Now we will proceed to the second option of creating a topic - following a link that refers to a topic that does not exist yet:
    * Click once more on the ==[Edit]== link.
    * Again, in the edit mode, type a WikiWord. A WikiWord is a word consisting of at least two capitalized words run together, so type e.g. =MySecondTopic=.
-   * Save the topic and have a look at the [[WikiWord][WikiWord]] you just typed. You will notice a question mark behind the WikiWord. Once you finish creating your second topic, the question mark will disappear and word will be converted into a link. In fact, the word WikiWord is a link, too. Using the name of a topic is the easiest way to create links between two topics.
+   * Save the topic and have a look at the [[WikiWord]] you just typed. You will notice a question mark behind the WikiWord. Once you finish creating your second topic, the question mark will disappear and word will be converted into a link. In fact, the word WikiWord is a link, too. Using the name of a topic is the easiest way to create links between two topics.
    * Now click on the question mark behind the WikiWord you just entered. You will be redirected to the edit mode, this time not for your first topic, but for the new one. This new (second) topic will be named after the link you created in the original topic. So if the WikiWord you typed in the original text was =MySecondTopic=, the new topic will be called =MySecondTopic=, too. %BR%
-   %H% If you were not redirected to the edit mode, but see some strange text (which is not yours) instead, it seems like the topic already existed :-) In this case, go back in your browser and type something different from =MySecondTopic=.
+   <blockquote class="foswikiHelp">%H% If you were not redirected to the edit mode, but see some strange text (which is not yours) instead, it seems like the topic already existed :-) In this case, go back in your browser and type something different from =MySecondTopic=.</blockquote>
 
 There are different ways of formatting text:
    1. *Using the WYSIWYG editor* - highlight and format text as you would do it in a normal text editor
-   1. *Using TML shorthand* - TML (<b>T</b>opic <b>M</b>arkup <b>L</b>anguage) is a very simple markup language. For additional information on editing topics and formatting text with TML, have a look at TopicsAndWebs and WikiSyntax.
+   1. *Using TML shorthand* - TML (<strong>T</strong>opic <strong>M</strong>arkup <strong>L</strong>anguage) is a very simple markup language. For additional information on editing topics and formatting text with TML, have a look at WikiSyntax, TextFormattingRules and TopicsAndWebs.
 
 ---++ 7. Use your browser to upload files as page attachments...
- You can attach *any* type of file to a topic - documents, images, programs, whatever - where they can be opened, viewed, or downloaded. 
+ You can attach *any* type of file to a topic - documents, images, programs, whatever - where they can be opened, viewed, or downloaded.
+ <blockquote class="foswikiHelp">%X% Your site administrator may have blocked some types of files (such as =.html=) from being attached for security reasons.</blockquote>
    * Attaching files is just like including a file with an e-mail. 
       1 Go once more to your sandbox topic and click on the ==[Attach]== icon.
       1 Click ==[Browse]== to find a file on your PC that you'd like to attach; enter an optional comment; leave everything else unchecked.
