@@ -90,6 +90,15 @@ The following shows some limitations of square bracket processing.
 </verbatim>
 </blockquote>
 
+#RevisionRollback
+---++ Reviewing and Reverting
+Foswiki's revision control saves all topic changes. To view earlier versions of a topic, click on the =%MAKETEXT{"History"}%= link in <a href="#topic-actions" class="foswikiLink">topic actions</a>. If you would like to revert to an earlier version or reclaim part of an earlier version, just copy from the old topic revision to the current topic revision as follows:
+   1 In the =History= view, click the revision number you want to reclaim from
+   1 Select and copy to clipboard either the portion of that version you want to reclaim or the entire text of the topic if you want to revert completely to that version.
+   1 Edit the topic and paste in the portion you wish to reclaim or replace the entire text with the text you copied from the earlier version.
+   1 Save the topic.
+See: [[ManagingTopics]] for more details.
+
 %ENDSECTION{"PowerUserGuide"}%
 
 ---
