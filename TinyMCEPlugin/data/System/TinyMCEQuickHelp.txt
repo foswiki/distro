@@ -1,11 +1,11 @@
 %META:TOPICPARENT{name="TinyMCEPlugin"}%
 ---+!! !TinyMCE Editor Help Summary 
-%STARTSECTION{"CSS"}%<style type="text/css" media="all">
+<!--%STARTSECTION{"CSS"}%<style type="text/css" media="all">
 #tinyMceInfo td {vertical-align:top; padding:0 1em 0 0;}
 #tinyMceInfo td.primaryTextcolumn {width:60%;}
 #tinyMceInfo td.secondaryTextcolumn {width:40%; border-left:1px solid #ddd; padding-left:1em;}
 #tinyMceInfo td.imgcolumn {width:12px; text-align:right;}
-</style>%ENDSECTION{"CSS"}%
+</style>%ENDSECTION{"CSS"}%-->
 
 %STARTINCLUDE%
 <div id="foswikiTinyMcePluginWysiwygEditHelp" style="display:block">
@@ -13,58 +13,69 @@
 <table id="tinyMceInfo" cellpadding="0" cellspacing="0" border="0" summary="TinyMCE edit help">
 <tr>
 <td class="imgcolumn">
-<img src="%PUBURL%/%SYSTEMWEB%/TinyMCEQuickHelp/Format_Drop_Down.gif" width="124" height="188" alt="format dropdown" />
+  <img src="%ATTACHURLPATH%/Format_Drop_Down.png" width="131" height="298" alt="format dropdown" />
 </td>
 <td class="primaryTextcolumn">
-<ul>
-    <li> ==Normal== - Normal text style </li>
-    <li> ==Heading 1-6== - Headings; 1 is largest </li>
-    <li>On save, content in this HTML editor is automatically converted to Foswiki TML (Topic Markup Language). The following styles let you apply special Foswiki tags that control that conversion, and how the resulting text is displayed.<ul>
-    <li> ==VERBATIM== - Text is shown in monospace with line breaks. Wraps Foswiki =&lt;verbatim&gt;= tags around the selected text. No macros are interpreted inside verbatim tags. </li>
-    <li> ==LITERAL== - Styled content is saved exactly as it appears in the editor. Saves the selected content as raw HTML and wraps it in foswiki =&lt;literal>= tags. </li>
-    <li> ==Protect on save== - Use this to protect newly-created advanced macros, where you want to prevent conversion of HTML in the macro to TML. When the topic is re-edited, well-formed macros are automatically re-protected.</li>
-    <li> ==Protect forever== - Wrap the selection in Foswiki =&lt;sticky&gt;= tags. Use this to protect content so it always appears _exactly_ as shown in the editor. </li>
-   </ul></li></ul>
+   * ==Normal== - Normal text style
+   * ==Heading 1-6== - Headings; 1 is largest
+   * On save, content in this HTML editor is automatically converted to Foswiki TML (Topic Markup Language). The following styles let you apply special Foswiki tags that control that conversion, and how the resulting text is displayed.
+      * ==VERBATIM== - Text is shown in monospace with line breaks. Wraps Foswiki =&lt;verbatim&gt;= tags around the selected text. No macros are interpreted inside verbatim tags.
+      * ==LITERAL== - Styled content is saved exactly as it appears in the editor. Saves the selected content as raw HTML and wraps it in foswiki =&lt;literal>= tags.
+      * ==Protect on save== - Use this to protect newly-created advanced macros, where you want to prevent conversion of HTML in the macro to TML. When the topic is re-edited, well-formed macros are automatically re-protected.
+      * ==Protect forever== - Wrap the selection in Foswiki =&lt;sticky&gt;= tags. Use this to protect content so it always appears _exactly_ as shown in the editor.
 </td>
 <td rowspan="4" class="secondaryTextcolumn">
-*Defining Preference Settings/Macros*
-<ol>
- <li> Create a list item using the toolbar button</li>
- <li> In the list item, type =Set NAME = value= </li>
- <li> Select the value, and assign the ==Protect on save== style to it (only required if the value contains any Foswiki Topic Markup Language or if you style it e.g. to add bold, or if it's sensitive to the number of spaces)
- </li>
-</ol>
+  *Defining Preference Settings/Macros*
+   * Create a list item using the toolbar button
+   * In the list item, type =Set NAME = value=
+   * Select the value, and assign the ==Protect on save== style to it (only required if the value contains any Foswiki Topic Markup Language or if you style it e.g. to add bold, or if it's sensitive to the number of spaces)
 *Using a Macro*
-<ul>
-<li> Just type it in. When the topic is saved, what you type will be saved just as you wrote it.  </li>
-<li> If any part of your macro parameters is sensitive to spacing or contains HTML, then select the entire macro and assign the ==Protect on save== style to it before you save. </li></ul>
-<span class="foswikiUnvisited">[[%SYSTEMWEB%.Macros][More on macros]]</span>
+   * Just type it in. When the topic is saved, what you type will be saved just as you wrote it.
+   * If any part of your macro parameters is sensitive to spacing or contains HTML, then select the entire macro and assign the ==Protect on save== style to it before you save.
+
+  <span class="foswikiUnvisited">[[%SYSTEMWEB%.Macros][More on macros]]</span>
 
 *Editing the raw text instead of Wysiwyg*
-<ul>
-<li> Select    <img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/img/hide.gif" alt="Wiki text" />
-, or use the _Raw Edit_ link in the bottom action bar. </li></ul>
+   * Select <img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/img/hide.gif" alt="Wiki text" />, or use the _Raw Edit_ link in the bottom action bar.
 </td>
 </tr>
 <tr>
-<td class="imgcolumn"><img src="%PUBURL%/%WEB%/TinyMCEPlugin/indent.gif" alt="indent" />
-   <img src="%PUBURL%/%WEB%/TinyMCEPlugin/outdent.gif" alt="outdent" /></td>
-<td class="textcolumn"><ul>
-    <li> If the cursor is in a list item, changes the indent. Otherwise marks text with &lt;blockquote&gt; tags.</li>
-   </ul></td>
+<td class="imgcolumn"><img src="%ATTACHURLPATH%/indent.png" alt="indent" />
+  <img src="%ATTACHURLPATH%/outdent.png" alt="outdent" /></td>
+<td class="textcolumn">
+  If the cursor is in a list item, changes the indent.
+</td>
 </tr>
 <tr>
-<td class="imgcolumn"><img src="%PUBURL%/%WEB%/TinyMCEPlugin/link.gif" alt="link" />
-   <img src="%PUBURL%/%WEB%/TinyMCEPlugin/unlink.gif" alt="unlink" /></td>
-<td class="textcolumn"><ul>
-    <li> Links can either point to a URL or to the name of a Foswiki topic. For example =http://foswiki.org=, =TopicNames=, =Webname.TopicNames=, or =Webname.Subweb.WebName=.</li>
-   </ul></td>
+<td class="imgcolumn"><img src="%ATTACHURLPATH%/link.png" alt="link" />
+  <img src="%ATTACHURLPATH%/unlink.png" alt="unlink" /></td>
+<td class="textcolumn">
+  Links can either point to a URL or to the name of a Foswiki topic. For example =http://foswiki.org=, =TopicNames=, =Webname.TopicNames=, or =Webname.Subweb.WebName=.
+</td>
 </tr>
 <tr>
-<td class="imgcolumn"><img src="%PUBURL%/%WEB%/TinyMCEPlugin/anchor.gif" alt="anchor" /></td>
-<td class="textcolumn"><ul>
-    <li> An anchor is a hidden mark you can use to link to a certain part of a topic, for example a heading or a paragraph. An anchor must be a !WikiWord. </li>
-   </ul></td>
+<td class="imgcolumn"><img src="%ATTACHURLPATH%/anchor.png" alt="anchor" /></td>
+<td class="textcolumn">
+  An anchor is a hidden mark you can use to link to a certain part of a topic, for example a heading or a paragraph. An anchor must be a !WikiWord.
+</td>
+</tr>
+<tr>
+<td class="imgcolumn"><img src="%ATTACHURLPATH%/clear_formatting.png" alt="clear formatting" /></td>
+<td class="textcolumn">
+  Clear styles from selected text, such as: colours, size, underline decoration, etc. This feature is useful when you need to clean up content copied from rich text sources such as web pages or word documents.
+</td>
+</tr>
+<tr>
+<td class="imgcolumn"><img src="%ATTACHURLPATH%/fullscreen.png" alt="fullscreen" /></td>
+<td class="textcolumn">
+  Toggle fullscreen mode.
+</td>
+</tr>
+<tr>
+<td class="imgcolumn"><img src="%ATTACHURLPATH%/autosave.png" alt="autosave" /></td>
+<td class="textcolumn">
+  Restore autosave draft. The editor content is saved to your web browser's local storage every %INCLUDE{"TinyMCEPlugin" section="AUTOSAVE_INTERVAL"}% (default). The draft should survive across browser restarts. This feature is useful to recover unsaved work, for example when your browser crashes for some reason, or your network connection fails during save.
+</td>
 </tr>
 </table>
 </div>
@@ -73,4 +84,12 @@
 </div>
 %STOPINCLUDE%
 
-%META:FILEATTACHMENT{name="Format_Drop_Down.gif" attr="" comment="" version="1"}%
+%META:FILEATTACHMENT{name="anchor.png" attr="" comment="" version="1"}%
+%META:FILEATTACHMENT{name="autosave.png" attr="" comment="" version="1"}%
+%META:FILEATTACHMENT{name="clear_formatting.png" attr="" comment="" version="1"}%
+%META:FILEATTACHMENT{name="Format_Drop_Down.png" attr="" comment="" version="1"}%
+%META:FILEATTACHMENT{name="fullscreen.png" attr="" comment="" version="1"}%
+%META:FILEATTACHMENT{name="indent.png" attr="" comment="" version="1"}%
+%META:FILEATTACHMENT{name="link.png" attr="" comment="" version="1"}%
+%META:FILEATTACHMENT{name="outdent.png" attr="" comment="" version="1"}%
+%META:FILEATTACHMENT{name="unlink.png" attr="" comment="" version="1"}%

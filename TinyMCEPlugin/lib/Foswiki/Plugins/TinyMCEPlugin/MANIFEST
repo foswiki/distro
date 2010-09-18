@@ -4,16 +4,12 @@ data/System/TinyMCEQuickHelp.txt 0644
 lib/Foswiki/Configure/Checkers/Plugins/TinyMCEPlugin/Enabled.pm 0644
 lib/Foswiki/Plugins/TinyMCEPlugin.pm 0644
 !noci
-pub/System/TinyMCEPlugin/anchor.gif 0644
 pub/System/TinyMCEPlugin/foswiki_src.js 0644
 pub/System/TinyMCEPlugin/foswiki.js 0644
 pub/System/TinyMCEPlugin/foswiki.js.gz 0644
 pub/System/TinyMCEPlugin/foswiki_tiny_src.js 0644
 pub/System/TinyMCEPlugin/foswiki_tiny.js 0644
 pub/System/TinyMCEPlugin/foswiki_tiny.js.gz 0644
-pub/System/TinyMCEPlugin/indent.gif 0644
-pub/System/TinyMCEPlugin/link.gif 0644
-pub/System/TinyMCEPlugin/outdent.gif 0644
 pub/System/TinyMCEPlugin/screenshot.png 0644
 pub/System/TinyMCEPlugin/tinymce.gif 0644
 #pub/System/TinyMCEPlugin/tinymce/build.bat 0644
@@ -673,7 +669,6 @@ pub/System/TinyMCEPlugin/tinymce/readme.md 0644
 #pub/System/TinyMCEPlugin/tinymce/tools/templates/js/shBrushJScript.js 0644
 #pub/System/TinyMCEPlugin/tinymce/tools/templates/js/shCore.js 0644
 #pub/System/TinyMCEPlugin/tinymce/tools/templates/member.xsl 0644
-pub/System/TinyMCEPlugin/unlink.gif 0644
 pub/System/TinyMCEPlugin/watermark_literal.gif 0644
 pub/System/TinyMCEPlugin/watermark_protect_forever.gif 0644
 pub/System/TinyMCEPlugin/watermark_protect_on_save.gif 0644
@@ -682,4 +677,12 @@ pub/System/TinyMCEPlugin/wikiringlogo20x20.png 0644
 pub/System/TinyMCEPlugin/wysiwyg_src.css 0644
 pub/System/TinyMCEPlugin/wysiwyg.css 0644
 pub/System/TinyMCEPlugin/wysiwyg.css.gz 0644
-pub/System/TinyMCEQuickHelp/Format_Drop_Down.gif 0644
+pub/System/TinyMCEQuickHelp/anchor.png 0644
+pub/System/TinyMCEQuickHelp/autosave.png 0644
+pub/System/TinyMCEQuickHelp/clear_formatting.png 0644
+pub/System/TinyMCEQuickHelp/Format_Drop_Down.png 0644
+pub/System/TinyMCEQuickHelp/fullscreen.png 0644
+pub/System/TinyMCEQuickHelp/indent.png 0644
+pub/System/TinyMCEQuickHelp/link.png 0644
+pub/System/TinyMCEQuickHelp/outdent.png 0644
+pub/System/TinyMCEQuickHelp/unlink.png 0644

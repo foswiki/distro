@@ -106,21 +106,21 @@ New example topic: <input type="text" name="topic" class="foswikiInputField" val
 </form>
 </verbatim>
 
-*%X% Note:* You can create a topic in one step, without going through the edit screen. To do that, specify the =save= script instead of the =edit= script in the form action. When you specify the save script you must use the "post" method. Example:
+<blockquote class="foswikiHelp"> *%X% Note:* You can create a topic in one step, without going through the edit screen. To do that, specify the =save= script instead of the =edit= script in the form action. When you specify the save script you must use the "post" method. Example:
 <pre class="tml">
 &lt;form name="new" action="%<nop>SCRIPTURLPATH{save}%/Sandbox/" method="post"&gt;
     ...
 &lt;/form&gt;
 </pre>
 
-See CommandAndCGIScripts#edit for details of the parameters that the =edit= script understands.
+See CommandAndCGIScripts#edit for details of the parameters that the =edit= script understands.</blockquote>
 
-%T% You can use the =%<nop>WIKIUSERNAME%= and =%<nop>DATE%= macros in your template topics to include the signature of the person creating a new topic. The macros are expanded into fixed text when a new topic is created. The standard signature is: <br />
-==-- %<nop>WIKIUSERNAME% - %<nop>DATE%==
+<blockquote class="foswikiHelp">%T% You can use the =%<nop>WIKIUSERNAME%= and =%<nop>DATE%= macros in your template topics to include the signature of the person creating a new topic. The macros are expanded into fixed text when a new topic is created. The standard signature is: <br />
+==-- %<nop>WIKIUSERNAME% - %<nop>DATE%== </blockquote>
 
 ---++ Using absolute vs relative URLs in templates
 
-When you use [[Macros]] such as %<nop>PUBURL% and %<nop>PUBURLPATH% in template topics you should be aware that using %<nop>PUBURL% instead of %<nop>PUBURLPATH% puts absolute URLs in the produced HTML. This means that when a user saves a page in HTML and emails the file to someone outside a company firewall, the receiver has a severe problem viewing it. It is therefore recommended always to use the %<nop>PUBURLPATH% to refer to images, CSS, Javascript files etc so links become relative. This way browsers just give up right away and show a usable html file.
+When you use [[Macros]] such as [[VarPUBURL][%<nop>PUBURL%]] and [[VarPUBURLPATH][%<nop>PUBURLPATH%]] in template topics you should be aware that using [[VarPUBURL][%<nop>PUBURL%]] instead of [[VarPUBURLPATH][%<nop>PUBURLPATH%]] puts absolute URLs in the produced HTML. This means that when a user saves a page in HTML and emails the file to someone outside a company firewall, the receiver has a severe problem viewing it. It is therefore recommended always to use the [[VarPUBURLPATH][%<nop>PUBURLPATH%]] to refer to images, CSS, Javascript files etc so links become relative. This way browsers just give up right away and show a usable html file.
 
 %ENDSECTION{"PowerUserGuide"}%
 <!-- %JQREQUIRE{"chili"}% -->
