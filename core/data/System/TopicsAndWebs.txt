@@ -2,106 +2,71 @@
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+!! Topics
 %TOC%
+<div style="float: right; width: 307px; padding-left: 1em;">
+#SystemWebFigure
+  <div style="padding-bottom: 1em;"> *Figure:* depiction of WebHome, ReferenceManual, ManagingTopics, ManagingWebs, MainFeatures topics contained in the System web</div>
+  <img src="%ATTACHURLPATH%/diagram.png" width="307px" height="438px"/>
+</div>
+#TopicDefinition
+__Topics__ are the basic building block of a Foswiki site. You may be more familiar with the term _pages_, _documents_ or _articles_ in other software; however, Foswiki's _topics_ traditionally serve more purposes than the equivalent in other systems. Topics can only exist inside a _web_. The topic you're reading now is %TOPIC%.
 
-The basic building block of a Foswiki site is called a *topic*, identified by a unique, hopefully descriptive, %SYSTEMWEB%.WikiWord title. It may seem easier just to call them pages, but specifically a topic is the content of a page.  The distinction seems small but will become more important as your skill using Foswiki increases.
+#WebDefinition
+A __Web__ is a collection of topics (and other webs, known as _subwebs_). Webs are containers and by themselves cannot store information; only topics can do that. You may be more familiar with the term _Namespaces_ in other wiki software, but Foswiki's _webs_ are more like _directories_ and _folders_ in your computer's operating system. There is no common "root" web. The %TOPIC% topic you're reading now is contained in the [[%HOMETOPIC%][%WEB%]] web (its complete, _fully qualified_ name is [[%WEB%.%TOPIC%]]).
 
----++ Characteristics
-
-A topic is a rich information unit. *Each* topic has:
-
+---++ Anatomy of a Topic
+Each topic has:
    * name
-      * instantly identify what the topic is about
-      * link to it from other topics just by typing in its WikiWord
+      * topics in a given web have unique names to identify them
+      * topics with a WikiWord name are automatically linked (as opposed to =[<nop>[forced bracketed links]]= - see [[WikiSyntax#Internal_and_external_links][WikiSyntax]] to learn more)
+      * there are restrictions on topic names; see [[#TopicNames][topic naming rules]]
+      * a topic's _fully qualified_ name is prefixed with the _web_ it is contained in, for example the topic you're reading now may be referred to as [[%WEB%.%TOPIC%]]
+         * _fully qualified_ names are used when a link is being made to a topic in another web
    * content
-      * edited by simply clicking the [[#PageBottom][edit link]]
-      * enter plain text, leaving a blank space between paragraphs like e-mail (all you need)
-      * enter simple shorthand to represent complex HTML and special macros
-      * enter HTML if you are familiar with it
-      * include links to other topics, URLs, Web sites, files, images, sounds, or anything else you can put on a regular Web page
-      * handy pop-up quick reference 
-      * do all of this through whatever web browser you are familiar with
-   * [[%SYSTEMWEB%.AccessControl][access control]]
-      * independently determine who can see, edit, rename, move or delete topics
-      * set permissions by individual users and user groups
-      * over-ride topic, web or site
-   * revision control
-      * topic changes are automatically saved
-      * efficiently stores every change made to the original version
-      * lets you compare and retrieve changes between any two versions, or review them all
-      * displays any previous version as a regular Web page or as raw topic text
-   * web
-      * an organizational unit (collection) to which the topic belongs
-      * relevant when searching for a topic, referencing it or typing in its URL
-   * meta-data
-      * hidden contextual data stored within each topic.
-      * parents
-         * automatically links a new topic as the "child" of the topic it was created from
-         * hierarchical, parent-child navigation
-         * allows manual assignment of parent topic from a list of all topics in the local web
-         * offers navigation by topic parents
-   * backlinks
-      * named referred-by (Ref-By)
-      * lists all topics that reference the current topic
-
-Features that can be used by topics and sites include:
-
-   * [[Skins]] to customize the look of headers and footers when topics are converted to Web pages for display:
-      * default and user selectable per session
-      * fully configurable look and feel
-      * apply skins across an entire web, or to a single displayed page
-      * use included skins and easily create new ones
-      * try the ==Printable== skin below: stripped down headers and footers suitable for clean hard copy 
-   * plug-ins
-      * new feature packages
-      * developer community evolving existing and new capabilities
-   * add-ons
-      * enhanced capability without an interface to users
-   * FileAttachment 
-      * upload files through your browser to the server
-      * attach any type of file (documents, images, applications) for viewing online, storage or sharing downloads with others
-      * upload revisions of existing files with automatic backup of all previous revisions
-   * formatted search
-      * embedded searches of topics, data and meta-data, optional regular expressions
-      * custom formatting for outputting lists or tables, optional layout, headings, summary, etc.
-   * macros
-      * site wide and locally defined macros
-      * over-ride topic, web or site
-   * [[%SYSTEMWEB%.DataForms][forms]]
-      * store database-style info alongside the free-form topic content
-      * accesses meta-data
-      * use text fields and boxes, radio buttons, pulldown selector menus, checkboxes
-      * create your own forms to tag topics to later search, sort and display
-   * [[#RenamingTopics][renaming, moving, and deleting]]
-      * rename a topic and automatically update all of the links to it, site-wide
-      * move a topic from one web to another
-      * safely delete a topic to a special Trash web (invisible, but recoverable from the Web server if necessary)
-   * many more features... 
- 
-The configuration of your site, skins and your personal user account can modify the way these features are used and presented to you.
+      * you're reading the topic text of %TOPIC% right now
+      * use WikiSyntax (see TextFormattingRules) and [[Macros][macros]] to write rich topic content
+   * [[FileAttachment][attachments]]
+      * topics may have one or more file attachments
+   * [[DataForms][DataForm]]
+      * topics may have a [[DataForms][DataForm]] attached to them, which specifies [[MetaData][metadata]] fields that users may fill. This data may be [[QuerySearch][queried]] and [[FormattedSearch#Table_showing_form_field_values_of_topics_with_a_form][reported]] (see the [[FrequentlyAskedQuestions]] application as an example)
+   * [[AccessControl][access controls]]
+      * control who can view, edit, rename, move or delete topics
+      * set permissions for individual users or user groups
+      * override default permissions inherited by the web or site
+   * [[CompareRevisionsAddOn][revisions]]
+      * changes are automically recorded
+      * change history shows authors, dates, and allows comparison between any two versions
+      * [[ManagingTopics#RevisionRollback][revert to older versions]]
+   * containing web
+      * every topic must be contained within a web
+      * list of webs at WebsTable
+   * [[MetaData][meta-data]]
+      * hidden contextual data stored within each topic
+      * Example: parent topic
+         * new topics are automatically made a "child" of the topic it was created from
+         * parent relationship allows hierarchical, parent-child navigation
+         * See [[#SystemWebFigure][Figure of System web]]
+   * [[?template=backlinksweb][backlinks]]
+      * a list of all topics that reference a given topic (see <a href="#topic-actions" class="foswikiLink">"%MAKETEXT{"More topic actions"}%"</a>)
 
 #EditingPages
----++ Creating and editing topics
+---+++ Creating and editing topics
+Foswiki makes it easy to add and edit topics or link between them.
 
-A primary purpose of Foswiki is to make it incredibly easy for you to add and edit information on existing topics, create new topics, and link between Foswiki topics.
+*To edit:* click ==Edit== in the toolbar which should be present at the top and bottom of each page (assuming default PatternSkin). An edit screen appears. Use the =Edit Help= button if you need it.
+   * Click ==Preview== to see how your edit looks.
+   * Click ==Save== to save.
 
-   * *To modify a topic*: click the ==Edit== link in the toolbar at the bottom left of every page (using the Default skin). An editing window appears. Type away. Use the GoodStyle and TextFormattingRules links to get pop-up window help.
-      * Click ==Preview Changes== to see how your edit looks.
-      * Click ==Save Changes== to save.
+*To add a new topic* there are two ways in the default PatternSkin:
+   1 Create a link to the topic which doesn't exist yet, Eg. by editing a topic and typing a WikiName. When the topic is saved, the link will be shown with a *?*: click the *?* and a new edit window appears.
+   1 Navigate to the topic which doesn't exist yet, Eg. by typing the name of topic in the [[GoBox][JumpBox]]. Foswiki should display a screen which invites you to create the topic.
 
-   * *To add a new topic*: the simplest way is to type a new WikiName in an existing topic, while you're in edit mode. When the topic is saved, the new name will appear highlighted, with a *?* at the end: click the *?* and a new edit window appears. Enter, preview and save as usual. The new topic now exists.
-      * Go back to the topic where you started, and you'll see the *?* has disappeared, and your WikiWord name is now a regular link. Type it anywhere on any topic in that web, and it will be turned into a link.
-   <blockquote class="foswikiHelp">%H% *One little links rule: each topic, and its WikiWord link, belong to one unique web only.* To link _between_ webs, you must first enter the topic's web name. <br />
-   *Example:* This is %TOPIC%, in the ==%WEB%== web, so that's all you need to type on any topic in this web. But to link to <nop>%TOPIC% from a topic in the ==%USERSWEB%== web, you have to type ==%SYSTEMWEB%.<nop>%TOPIC%== - ==Webname.<nop>TopicName==. It's easy.</blockquote>
+#TopicNames
+---+++ Topic Names
+The best strategy is to use WikiWords for your topic names. In this way, linking is automatic. However, if non-[[WikiWord]] names are required, you can use =[<nop>[bracketed links]]= to force a link to a non-standard topic name (see [[WikiSyntax#Internal_and_external_links][WikiSyntax]]). Forced links are subject to some restrictions and the actual topic name may not be identical to what was entered into the forced link.
 
-Another way to add a topic is to type a new topic name in the Go box or an unknown topic URL.  You can type in either a WikiName to create the topic in the current web or <nop>Web.TopicName to create a topic in a different web than the current page.  Topics created with the Go box or URLs do not have parent meta-data defined.
-
-<blockquote>
----+++ A note on Topic Names
-The best strategy is to use WikiWords for your topic names.  In this way, linking is automatic, as described above.   However if you have custom requirements for non-standard names, you can use "Forced Links" written inside square brackets to force a link to a non-standard topic name.  Forced links are subject to some special rules and the actual topic name visible in the URL may not be identical to what was entered into the forced link.
-
-   * The first letter of each "word"  will be automatically capitalized
+   * The first letter of each "word" will be automatically capitalized
    * Spaces are compressed out of the topic name
-   * The following special characters are removed:  (The default rules may be different at your installation): 
+   * The following special characters are removed:
       * Any other "whitespace" characters
       * ==*== (Asterisk)
       * ==?== (Question mark)
@@ -118,56 +83,51 @@ The best strategy is to use WikiWords for your topic names.  In this way, linkin
       * ==&lt;&gt;== (Less and Greater signs)
       * ==[]== (Open and close square brackets)
       * And any ASCII control characters (Hex x00-x1f)
+*Example:* If you enter ==[<nop>[my special-topic @here]]==, you will see ==[[my special-topic @here]]==, but the actual topic created will be ==<nop>MySpecial-topicHere==.   
 
-For an example,  If you enter ==[<nop>[my special-topic @here]]==, you will see ==[[my special-topic @here]]==, but the actual topic created will be ==<nop>MySpecial-topicHere==.   
+Note that if you use the [[WebCreateNewTopic][Topic Creator]], WikiWord rules are strictly enforced and the resulting topic name would be ==<nop>MySpecialTopicHere== For more details on forced links, see [[EditingShorthand#HeRe][EditingShorthand]]
 
-Note that if you use the [[WebCreateNewTopic][Topic Creator]], WikiWord rules are strictly enforced and the resulting topic name would be ==<nop>MySpecialTopicHere== For more details on forced links, see [[EditingShorthand#HeRe]]
-</blockquote>
-
-
-#OtherFeatures
----++ Other features
-
-The color-coded toolbar at the bottom of every topic displays a series of links, including:
-   * ==Attach== - pops a new screen for FileAttachments
-   * ==Backlinks== - displays all the topics with links to the current topic
-   * ==History== - generates a page showing every change made to the current topic, with names, dates, and changes made (diffs)
-   * ==r3 &gt; r2 &gt; r1== - view most recent revision and changes
-   * ==More== - opens up a new screen containing additional controls 
-
-It looks complicated, but the basics you need to begin with are very simple to use.  The flexible and optional features are ready when you care to learn about them - the only way to confuse yourself or your site set-up and users is by using features you really don't need.  Unlike the usual expensive, complex collaboration and project management packages, Foswiki is fully functional and effective just by typing in text and making WikiWord links.  All the additional features are there, but only if you need them!
-
-   * Some controls are self-explanatory and also include instructions and help links.
-   * *Experiment*. You can always ==Cancel== an edit or (using revision control) go Back whenever you like.
-   * Get *in-depth info* from the [[%SYSTEMWEB%.%HOMETOPIC%][complete documentation]], including the User's Guide, Configuration Manual and Foswiki Reference. 
+<blockquote class="foswikiHelp">%I% The naming rules may be different for your installation; ask the [[mailto:%WIKIWEBMASTER%][wiki administrator]] who may have customised the ={NameFilter}= expert option under =Security and Authentication= in [[%SCRIPTURLPATH{"configure"}%#Environment$SecurityAndAuthentication][configure]]</blockquote>
 
 #RenamingTopics
----++ Renaming, moving or deleting topics
-
-You can rename, move and delete individual topics by clicking ==More== on the control strip at the bottom of every page. The access settings for a topic, web or entire site may be disabled for one or more of the three options, depending on your site set-up and access permissions.
-
-   1. Go to the top you want to change, click ==More &gt; Rename/move==
-   1. *To move or delete:* select the target web (==Trash== to delete)from the pull-down menu (otherwise, leave on the current web)
-   1. *To rename:* fill in a new WikiName (otherwise, leave the current topic name)
-   1. *To update links:* From the list of topics that show links to the topic you're changing, uncheck each entry you DON'T want to update - only checked links will be updated;
-   1. Click ==Rename/move==: the topic is renamed and/or moved, and the checked links to the topic are updated.
-      * Any problems are listed - take note, and you can fix them later.
-      * If a linked topic can't be updated (it may be locked because someone's editing it), an alert will appear. You can update missed topics later by again pressing ==Rename/move==.
-
-<blockquote class="foswikiHelp">%H% *Note:* Deleting means moving a topic to the Trash web. Since all webs share the one Trash, name conflicts may come up.</blockquote>
-
 #RevisionRollback
----++ Reviewing and Reverting
-RCS revision control automatically saves all topic changes. To look at earlier versions of a topic, click on =Diffs= link in topic commands. If you would like to revert to an earlier version or reclaim part of an earlier version, just copy from the old topic revision to the current topic revision.  This is a step by step set of instructions:
-   1 In the =Diffs= view, take note of what version of the topic you want to reclaim and then return to =View=.
-   1 Select =More= in the topic commands.
-   1 Under "View previous topic revision," enter the version number you want to reclaim and check "raw text format." Then click on "View revision."
-   1 Select either the portion of that version you want to reclaim or the entire text of the topic if you want to revert completely to that version. Select =Copy= under your browser's =Edit= menu.
-   1 Return to the most recent version of the topic and select =Edit= from the topic commands.
-   1 Either paste in the portion of the topic you wish to reclaimed or replace the entire text with the text you copied from the earlier version.
-   1 Save the topic.
-See: [[CompleteDocumentation#Managing_Topics][ManagingTopics]] for more details.
+---+++ Reverting, renaming, moving and deleting topics
+See [[FAQDeleteOrRenameATopic]] and [[ManagingTopics]]
+
+---++ Anatomy of a web
+If a user navigates to a Foswiki site without specifying a web, the default [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] will be displayed.
+
+Each web has:
+   * name
+      * [[#TopicNames][topic naming rules]] apply to web names
+      * there is no ability to refer to _subwebs_ with a _relative_ path, IE. they must always be _fully qualified_ - referred to in full, with the parent web(s) prefixed
+         * the '.' and '/' characters serve as _path delimiters_ to a web or topic
+         * example: [[Sandbox/MySubWeb/MySubSubWeb.MyTopic]]
+         * it is possible in Foswiki to have a subweb which is the same name as a topic. For this reason, if there is a web named =Sandbox/MySubWeb=, navigating to it must be done so using a trailing slash, IE. =Sandbox/MySubWeb/=. Without the trailing slash, Foswiki tries to display the _topic_ named =Sandbox.MySubWeb=
+   * WebPreferences topic
+      * sets PreferenceSettings to be inherited by all contained topics, EG. [[AccessControl][access controls]], and:
+         * =FINALPREFERENCES= to prevent subwebs and topics from overriding inherited PreferenceSettings
+         * =WEBFORMS= to specify a list of DataForms that users should be able to attach to contained topics
+         * =WEBCOPYRIGHT= to customise copyright message for all contained topics
+      * provides a link to the [[ManagingWebs#RenameWeb][rename and delete web]] utility
+   * %HOMETOPIC% topic
+      * the home topic for the container web. It is also the default topic Foswiki will display if a user navigates to a web without specifying a topic name.
+   * Utility topics (from the [[_default.WebHome][_default]] template web):
+%SEARCH{
+  "1"
+  type="query"
+  nonoise="on"
+  web="_default"
+  excludetopic="%HOMETOPIC%"
+  format="      * $topic"
+  separator="$n"
+}%
+
+---+++ Renaming, moving and deleting webs
+See [[ManagingWebs]]
 <!-- %JQREQUIRE{"chili"}% -->
 
 ---
-*Related Topics:* UserDocumentationCategory, AdminDocumentationCategory
+*Related Topics:* UserDocumentationCategory, AdminDocumentationCategory, ManagingTopics, ManagingWebs
+
+%META:FILEATTACHMENT{name="diagram.png" version="1.1"}%
