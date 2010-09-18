@@ -7,7 +7,7 @@
 <div id="scenario1"><p class="scenario">%MAKETEXT{"In a possible scenario, an evil person has left a link to seduce you to visit a page on http<nop>://crime.org, which has some clever javascript on it."}%</p></div>
 <div id="scenario2"><p class="scenario">%MAKETEXT{"Their intention is to automatically save compromising data by sending a request to your server, using your browser and your identity."}%</p></div>
 <div id="expl3"><p class="expl">%MAKETEXT{"If Foswiki detects a suspicious request that may have been sent from such a page, then you are asked to confirm the request."}%</p></div>
-<div id="expl4"><p class="expl">%MAKETEXT{"The checks performed by Foswiki can sometimes be triggered when you do something perfectly innocent, for instance if you click the Back button after saving a page. Foswiki then uses the approach "better safe than sorry"."}%</p></div>
+<div id="expl4"><p class="expl">%MAKETEXT{"The checks performed by Foswiki can sometimes be triggered when you do something perfectly innocent, for instance if you click the Back button after saving a page. Foswiki then uses the approach \"better safe than sorry\"."}%</p></div>
 <p class="you" id="you1">%INCLUDE{"%BASETOPIC%" section="you"}%</p>
 <p class="webserver" id="webserver1">%INCLUDE{"%BASETOPIC%" section="webserver"}%</p>
 <p class="balloon" id="balloon1">%MAKETEXT{"Who is requesting this, actually?"}%</p>
