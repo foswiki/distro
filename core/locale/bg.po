@@ -4109,8 +4109,8 @@ msgstr "title='Цялата история на страницата' accesskey=
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 #, fuzzy
-msgid "title='View without formatting' accesskey='r'>&View wiki text"
-msgstr "title='Суров текст без форматиране' accesskey='r'>Суров изглед"
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
+msgstr "title='Суров текст без форматиране' accesskey='v'>Суров изглед"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"

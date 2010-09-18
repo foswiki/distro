@@ -4193,7 +4193,7 @@ msgstr "title='トピックの履歴を確認します' accesskey='h'>履歴"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 #, fuzzy
-msgid "title='View without formatting' accesskey='r'>&View wiki text"
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
 "title='フォーマットされていない元のテキストを確認します' accesskey='r'>確認"
 

@@ -4058,8 +4058,8 @@ msgstr "title='浏览主题历史' accesskey='h'>历史(&H)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 #, fuzzy
-msgid "title='View without formatting' accesskey='r'>&View wiki text"
-msgstr "title='检视源码' accesskey='r'>检视源码(&R)"
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
+msgstr "title='检视源码' accesskey='r'>检视源码(&v)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"

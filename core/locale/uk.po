@@ -4266,10 +4266,10 @@ msgstr "title='Проглянути повну історію змін стор�
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 #, fuzzy
-msgid "title='View without formatting' accesskey='r'>&View wiki text"
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
 "title='Проглянути початковий текст, без форматування' "
-"accesskey='r'>Початковий текст"
+"accesskey='v'>Початковий текст"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"

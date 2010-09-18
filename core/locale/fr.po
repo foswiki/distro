@@ -4279,7 +4279,7 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 #, fuzzy
-msgid "title='View without formatting' accesskey='r'>&View wiki text"
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
 "title='Afficher le code source, sans formatage' accesskey='r'>Code sou&rce"
 

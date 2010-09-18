@@ -4268,8 +4268,8 @@ msgstr "title='Vedi tutta la storia della pagina accesskey='h'>&History"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 #, fuzzy
-msgid "title='View without formatting' accesskey='r'>&View wiki text"
-msgstr "title='Wedi raw text senza formattazione' accesskey='r'>Vista &Raw"
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
+msgstr "title='Wedi raw text senza formattazione' accesskey='v'>&Vista Raw"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"

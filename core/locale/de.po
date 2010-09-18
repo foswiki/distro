@@ -4286,9 +4286,9 @@ msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Topic Historie ansehen' accesskey='h'>&Historie"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
-msgid "title='View without formatting' accesskey='r'>&View wiki text"
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
-"title='Quelltext ohne Formatierung ansehen' accesskey='r'>Quelltext (&r)"
+"title='Quelltext ohne Formatierung ansehen' accesskey='v'>Quelltext (&v)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"

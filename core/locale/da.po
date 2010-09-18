@@ -4213,8 +4213,8 @@ msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Vis komplet historik for siden' accesskey='h'>&Historik "
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
-msgid "title='View without formatting' accesskey='r'>&View wiki text"
-msgstr "title='Vis uden formatering' accesskey='r'>Vis &rå wikitekst"
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
+msgstr "title='Vis uden formatering' accesskey='v'>&Vis wikitekst"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"
