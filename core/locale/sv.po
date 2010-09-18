@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-17 21:35+0200\n"
+"PO-Revision-Date: 2010-09-18 01:24+0200\n"
 "Last-Translator: Erik Åman <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
 "Language: sv\n"
@@ -2564,7 +2564,7 @@ msgstr "Versioner"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:72
 msgid "Revisions %1 - %2 (out of %3)"
-msgstr ""
+msgstr "Version %1 - %2 (av %3)"
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
 msgid "S = Save, C = Cancel"
@@ -2580,6 +2580,8 @@ msgstr ""
 #: core/data/Sandbox/WebPreferences.txt:9
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr ""
+"Sandlådan är en avdelning för att testa och experimentera utan "
+"begränsningar."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:161
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
@@ -2708,11 +2710,11 @@ msgstr "Välj alla"
 #: HistoryPlugin/templates/oopshistory.tmpl:71
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
+"Välj en tidigare (vänster) och en senare (höger) version för att jämföra"
 
 #: core/templates/more.tmpl:103
-#, fuzzy
 msgid "Select topic parent"
-msgstr "Välj sidans förälder:"
+msgstr "Välj sidans förälder"
 
 #: PatternSkin/templates/edit.pattern.tmpl:53 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
@@ -2721,7 +2723,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:109
 msgid "Selections apply to search in \"text body\""
-msgstr ""
+msgstr "Valen gäller vid sökning i sidornas text"
 
 #: core/templates/more.tmpl:161
 msgid "Sequential"
@@ -2740,9 +2742,8 @@ msgid "Set new topic parent"
 msgstr "Välj ny förälder till sidan"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:80
-#, fuzzy
 msgid "Show"
-msgstr "Visa hjälp"
+msgstr "Visa"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:11
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -2759,7 +2760,7 @@ msgstr "Sida vid sida"
 
 #: CompareRevisionsAddOn/templates/comparesidebyside.tmpl:3
 msgid "Side-by-side comparison of revisions"
-msgstr ""
+msgstr "Jämför versioner sida vid sida"
 
 #: core/templates/attachtables.tmpl:4
 msgid "Size"
@@ -2845,11 +2846,11 @@ msgstr "Prenumerera / avprenumerera i:"
 
 #: core/templates/messages.tmpl:478
 msgid "Success adding users to group"
-msgstr ""
+msgstr "Användarna tillagda i gruppen"
 
 #: core/templates/messages.tmpl:516
 msgid "Success removing users from group"
-msgstr ""
+msgstr "Användarna borttagna från gruppen"
 
 #: core/data/System/WebSearch.txt:123
 msgid "Summaries"
@@ -2938,9 +2939,8 @@ msgstr ""
 #: core/data/System/WebRss.txt:6 core/data/Trash/WebAtom.txt:3
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
-#, fuzzy
 msgid "The %1 web of %2."
-msgstr "Avdelningen %1 finns inte"
+msgstr "Avdelningen %1 i %2."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
@@ -2956,9 +2956,8 @@ msgid "The Administrator has disabled new user registration."
 msgstr "Administratören har stängt av registrering av nya användare."
 
 #: core/data/System/WebPreferences.txt:12
-#, fuzzy
 msgid "The Free and Open Source Wiki."
-msgstr "Avdelningen %1 på Foswiki - den fria wikin baserad på öppen källkod."
+msgstr "Den fria wikin baserad på öppen källkod."
 
 #: core/templates/messages.tmpl:316
 msgid "The activation code %1 is invalid."
@@ -2973,18 +2972,24 @@ msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
+"Den bifogade filen kan komma att döpas om (genom att ett nummer läggs till "
+"på slutet) om en bifogad fil med samma namn redan finns på sidan."
 
 #: core/templates/renameattachmentdelete.tmpl:43
 msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
 msgstr ""
+"Den bifogade filen kan behöva döpas om om en fil med namnet '%FILENAME%' "
+"redan finns på sidan."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
 "The attacker tries to use your rights to get things, like admin rights for "
 "the site."
 msgstr ""
+"Angriparen försöker använda dina rättigheter, till exempel "
+"administratörsrättigheter för webbplatsen."
 
 #: core/templates/messages.tmpl:538
 msgid ""
@@ -3002,12 +3007,16 @@ msgstr ""
 "De markerade sidorna kommer att uppdateras (ett annat formulär kommer att "
 "visas där du slutligen kommer att kunna döpa om låsta ämnen)"
 
+# Doesn't seem like a complete sentence.
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
 "after saving a page. Foswiki then uses the approach "
 msgstr ""
+"Kontrollerna som Foswiki genomför kan ibland utlösas när du gör något helt "
+"oskyldigt, till exempel om du klickar på Tillbaka-knappen efter att ha "
+"sparat en sida. Då använder Foswiki metoden"
 
 #: core/templates/messages.tmpl:308
 msgid "The e-mail address for this account is not valid."
@@ -3049,7 +3058,7 @@ msgstr "Låset på denna sida gick ut för %1 sedan."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:153
 msgid "The login name you use to sign in."
-msgstr ""
+msgstr "Användarnamnet som du loggar in med."
 
 #: core/templates/messages.tmpl:93
 msgid "The name of the topic must not be empty."
@@ -3092,6 +3101,8 @@ msgid ""
 "Their intention is to automatically save compromising data by sending a "
 "request to your server, using your browser and your identity."
 msgstr ""
+"Deras avsikt är att automatiskt spara förrädiska data genom att sända en "
+"begäran till din server med din webbläsare och identitet."
 
 #: core/templates/messages.tmpl:407
 msgid "There are problems with renaming this web:"
@@ -3116,11 +3127,11 @@ msgstr "Det bör finnas en rad som innehåller %1, se efter %2 (eller %3)"
 
 #: core/templates/messages.tmpl:468
 msgid "There were errors adding %1 to the %2 group. "
-msgstr ""
+msgstr "Fel inträffade när %1 skulle läggas till i gruppen %2."
 
 #: core/templates/messages.tmpl:506
 msgid "There were errors removing %1 from the %2 group. "
-msgstr ""
+msgstr "Fel inträffade när %1 skulle tas bort från gruppen %2."
 
 #: core/templates/messages.tmpl:366
 msgid "This can be automatically upgraded by:"
@@ -3160,7 +3171,7 @@ msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
-msgstr ""
+msgstr "Detta kallas också för Cross-site Request Forgery (CSRF)."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:71
@@ -3183,13 +3194,15 @@ msgstr ""
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:115
 msgid "This is why the conversion is disabled:"
-msgstr ""
+msgstr "Konversationen är inaktiverad av denna anledning:"
 
 #: core/templates/login.tmpl:28
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
+"Detta är ditt namn skrivet som !WikiOrd, till exempel !JohnSmith. %BR% [[%"
+"1][Registrera dig]] om du inte har ett konto ännu."
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
@@ -3204,6 +3217,9 @@ msgid ""
 "This page explains one of the security measures that Foswiki, the software "
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
+"Denna sida förklarar en av de säkerhetsåtgärder som Foswiki, mjukvaran som "
+"denna webbplats är baserad på, använder för att säkra webbplatsen från "
+"angripare."
 
 #: core/templates/messages.tmpl:364
 msgid "This requires the form definition to be present."
@@ -3233,14 +3249,12 @@ msgstr ""
 "Kontrollera att sidan är korrekt, speciellt om du ändrade formulärfält."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:64
-#, fuzzy
 msgid "Title"
 msgstr "Sidnamn"
 
 #: core/templates/renameconfirm.tmpl:16
-#, fuzzy
 msgid "To attachment:"
-msgstr "Filer bifogade till sidan"
+msgstr "Till bifogad fil:"
 
 #: core/data/System/WebSearch.txt:164
 msgid ""
@@ -3259,18 +3273,16 @@ msgid "To see if %1 has finished editing yet, click "
 msgstr "För att se om %1 har avslutat redigeringen, klicka "
 
 #: core/templates/renamebase.tmpl:29
-#, fuzzy
 msgid "To topic"
-msgstr "Till sidan:"
+msgstr "Till sidan"
 
 #: core/templates/renameconfirm.tmpl:13
 msgid "To topic:"
 msgstr "Till sidan:"
 
 #: core/templates/renamebase.tmpl:22
-#, fuzzy
 msgid "To web"
-msgstr "Till avdelning:"
+msgstr "Till avdelning"
 
 #: core/templates/renameconfirm.tmpl:9
 msgid "To web:"
@@ -3303,15 +3315,13 @@ msgstr "Sidan kan inte uppdateras från den gamla kategoritabellstilen"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
 #: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
-#, fuzzy
 msgid "Topic data"
-msgstr "Enbart sidnamn"
+msgstr "Data om sidan"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
 #: HistoryPlugin/templates/oopshistory.tmpl:40
-#, fuzzy
 msgid "Topic history"
-msgstr "Sidnamn"
+msgstr "Historik för sidan"
 
 #: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:100
 msgid "Topic name"
@@ -3401,17 +3411,19 @@ msgstr "Uppdatera referenser"
 
 #: core/data/Main/GroupViewTemplate.txt:126
 msgid "Upgrade group topic"
-msgstr ""
+msgstr "Uppgradera gruppsida"
 
 #: core/data/Main/GroupViewTemplate.txt:130
 msgid ""
 "Upgrade will adjust the format of this group topic to the new format with "
 "user management options"
 msgstr ""
+"Uppgraderingen kommer att byta till det nya formatet för gruppsidan med "
+"användarhanteringsalternativ."
 
 #: core/templates/messages.tmpl:485
 msgid "Upgraded Group"
-msgstr ""
+msgstr "Gruppen uppdaterad"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
@@ -3437,9 +3449,8 @@ msgid "Use %1 instead."
 msgstr "Använd %1 istället."
 
 #: core/data/Sandbox/WebHome.txt:22
-#, fuzzy
 msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
-msgstr "(Använd ett sidnamn med System.WikiNotation)"
+msgstr "Använd ett sidnamn med %SYSTEMWEB%.WikiNotation"
 
 #: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:67
 #: core/data/System/WebCreateNewTopicTemplate.txt:43
@@ -3490,9 +3501,8 @@ msgid "View difference"
 msgstr "Visa skillnad"
 
 #: core/templates/more.tmpl:164
-#, fuzzy
 msgid "View differences"
-msgstr "Visa skillnad"
+msgstr "Visa skillnader"
 
 #: core/templates/more.tmpl:139
 msgid "View previous topic revision"
@@ -3503,9 +3513,8 @@ msgid "View raw text without formatting"
 msgstr "Visa källtext utan formatering"
 
 #: core/templates/more.tmpl:146
-#, fuzzy
 msgid "View revision"
-msgstr "Visa version:"
+msgstr "Visa version"
 
 #: core/templates/more.tmpl:143
 msgid "View revision:"
@@ -3579,7 +3588,7 @@ msgstr "Varning: Denna \\'include\\'-sida finns inte!"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
-msgstr ""
+msgstr "Notifieringstjänst för ändringar i avdelningen"
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:3
 msgid "Webs"
@@ -3587,11 +3596,11 @@ msgstr "Avdelningar"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
 msgid "Webserver <em>running Foswiki</em>"
-msgstr ""
+msgstr "Webbserver <em>som kör Foswiki</em>"
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
-msgstr ""
+msgstr "Välkommen till %1 ... möt människor på denna webbplats"
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
@@ -3607,16 +3616,15 @@ msgstr "Vem"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
 msgid "Who is requesting this, actually?"
-msgstr ""
+msgstr "Vem begär det här, egentligen?"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:59
 msgid "Whole page"
-msgstr ""
+msgstr "Hel sida"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
-#, fuzzy
 msgid "Why am I being asked to confirm?"
-msgstr "varför du blir ombedd att bekräfta"
+msgstr "Varför ombeds jag att bekräfta?"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid "Wiki administrators should read about the"

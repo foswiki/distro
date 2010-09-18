@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-17 15:59+0200\n"
+"PO-Revision-Date: 2010-09-17 23:32+0200\n"
 "Last-Translator: Lars Eik <lars.eik@gmail.com>\n"
 "Language-Team: Norwegian <LL@li.org>\n"
 "Language: no\n"
@@ -118,7 +118,7 @@ msgstr "%1 er ikke gyldig verdi for  %2 parameteret"
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
-msgstr "%1 er standard side for slettede vedlegg"
+msgstr "%1 er standard side for slettede vedlegg."
 
 #: core/templates/messages.tmpl:534
 msgid "%1 may still be editing %2."
@@ -635,13 +635,12 @@ msgid ""
 msgstr "En feilmelding vil vises hvis en av sidene er låst av en annen bruker."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
 "En ondsinnet person kan forsøke å bruke din identitet for å endre innholde i "
-"din wiki, uten din viten.<span class="
+"din wiki uten din viten."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -689,7 +688,7 @@ msgstr "Sletting av vedlegg feilet"
 
 #: core/lib/Foswiki/UI/Rename.pm:166
 msgid "Attachment does not exist."
-msgstr "Vedlegg eksisterer ikke"
+msgstr "Vedlegg eksisterer ikke."
 
 #: core/templates/attachtables.tmpl:42
 msgid "Attachment history"
@@ -745,7 +744,7 @@ msgstr "Tilgjengelige skjema-maler"
 
 #: core/data/System/WebTemplateTopics.txt:7
 msgid "Available templates in %1 Web:"
-msgstr "Tilgjenglige maler i %1 web'en"
+msgstr "Tilgjenglige maler i %1 web'en:"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "Back to topic"
@@ -1334,11 +1333,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:127
 msgid "Either the name is invalid, or it refers to a non-existant form."
-msgstr "Navnet er feil eller peker til et skjema (Form) som ikke eksisterer"
+msgstr "Navnet er feil eller peker til et skjema (Form) som ikke eksisterer."
 
 #: core/templates/messages.tmpl:123
 msgid "Either the name is invalid, or it refers to a non-existant topic."
-msgstr "Navnet er feil eller det peker til en side som ikke eksisterer"
+msgstr "Navnet er feil eller det peker til en side som ikke eksisterer."
 
 #: core/templates/messages.tmpl:389
 msgid ""
@@ -1528,7 +1527,7 @@ msgid ""
 "saving again"
 msgstr ""
 "Gå tilbake i nettleseren din og fyll inn informasjon i alle obligatoriske "
-"felter."
+"felter"
 
 #: core/templates/messages.tmpl:404 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
@@ -1633,6 +1632,8 @@ msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
+"Dersom Foswiki oppdager en mistenkelig forespørsel som kan ha blitt sendt "
+"fra en slik side vil du bli bedt om å bekrefte forespørselen."
 
 #: core/templates/messages.tmpl:431
 msgid ""
@@ -1687,7 +1688,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "If you have any questions about registration, send an e-mail to %1."
-msgstr "Hvis du har spørsmål om registrering send en epost til %1"
+msgstr "Hvis du har spørsmål om registrering send en epost til %1."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:64
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
@@ -1752,6 +1753,8 @@ msgid ""
 "visit a page on http<nop>://crime.org, which has some clever javascript on "
 "it."
 msgstr ""
+"I et mulig scenario kan en ondsinnet person ha laget en lenke for å lure deg "
+"til å besøke http<nop>://crime.org, en side som har et skadelig javascript."
 
 #: core/data/System/WebSearch.txt:104
 msgid "In reversed order"
@@ -2317,7 +2320,7 @@ msgstr "Preferanser for"
 
 #: core/templates/validate.tmpl:38
 msgid "Press Cancel otherwise."
-msgstr "Ellers trykk Avbryt"
+msgstr "Ellers trykk Avbryt."
 
 #: core/templates/validate.tmpl:37
 msgid "Press OK to confirm that this change was intentional."
@@ -2646,13 +2649,13 @@ msgstr ""
 
 #: core/templates/messages.tmpl:347
 msgid "See %1 for information about Form Definitions."
-msgstr "Se %1 for informasjon om Skjemadefinisjoner"
+msgstr "Se %1 for informasjon om Skjemadefinisjoner."
 
 #: core/templates/messages.tmpl:472 core/templates/messages.tmpl:482
 #: core/templates/messages.tmpl:489 core/templates/messages.tmpl:510
 #: core/templates/messages.tmpl:520
 msgid "See %MAINWEB%.WikiGroups to see the result."
-msgstr "Se resultatet i %MAINWEB%.WikiGroups"
+msgstr "Se resultatet i %MAINWEB%.WikiGroups."
 
 #: core/data/System/WebIndex.txt:5
 msgid "See also the faster %1"
@@ -2926,7 +2929,7 @@ msgstr "Web %1 av %2."
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
 msgstr ""
 "%1 web'en til Foswiki, den gratis og åpen kildekode Wiki'en (Free Open "
-"Source Wiki = Foswiki)"
+"Source Wiki = Foswiki)."
 
 #: core/templates/messages.tmpl:440
 msgid "The =%1= script can only be called with POST method."
@@ -2934,11 +2937,11 @@ msgstr "Skriptet =%1= kan kun kalles med metoden POST."
 
 #: core/templates/messages.tmpl:163
 msgid "The Administrator has disabled new user registration."
-msgstr "Administratoren har deaktiver registrering av nye brukere"
+msgstr "Administratoren har deaktiver registrering av nye brukere."
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
-msgstr "Den frie og åpne Wikien"
+msgstr "Den frie og åpne Wikien."
 
 #: core/templates/messages.tmpl:316
 msgid "The activation code %1 is invalid."
@@ -2969,6 +2972,8 @@ msgid ""
 "The attacker tries to use your rights to get things, like admin rights for "
 "the site."
 msgstr ""
+"En angriper forsøker å bruke dine rettigheter for å få til ting, for "
+"eksempel administrator rettigheter på nettstedet."
 
 #: core/templates/messages.tmpl:538
 msgid ""
@@ -2992,6 +2997,9 @@ msgid ""
 "something perfectly innocent, for instance if you click the Back button "
 "after saving a page. Foswiki then uses the approach "
 msgstr ""
+"De sjekkene Foswiki gjør kan noen ganger reagere selv om du gjør noe som er "
+"helt uskyldig, for eksempel hvis du klikker Tilbake i nettleseren etter å ha "
+"lagret en side. Foswiki bruker da"
 
 #: core/templates/messages.tmpl:308
 msgid "The e-mail address for this account is not valid."
@@ -3040,11 +3048,11 @@ msgstr "Sidenavnet kan ikke være tomt."
 
 #: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
-msgstr "Den nye siden som er valgt må finnes fra før"
+msgstr "Den nye siden som er valgt må finnes fra før."
 
 #: core/templates/messages.tmpl:16
 msgid "The new web has been created"
-msgstr "Den nye web'en er nå lagd."
+msgstr "Den nye web'en er nå lagd"
 
 #: core/templates/messages.tmpl:106
 msgid "The password you entered in the *old password* field is incorrect."
@@ -3064,21 +3072,19 @@ msgstr "Siden er i et gamnmelt format"
 
 #: core/templates/messages.tmpl:237
 msgid "The two passwords you entered do not match."
-msgstr "De to passordene du skrev inn er ikke like-"
+msgstr "De to passordene du skrev inn er ikke like."
 
 #: core/templates/messages.tmpl:625
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "Brukeren %1 er allerede aktivert og burde kunne logge inn."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
-#, fuzzy
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
 "request to your server, using your browser and your identity."
 msgstr ""
-"Deres mål er å automatisk lagre kompromitterende data ved å sende en "
-"forespørsel til din tjener (server), <span> med din nettleser og din "
-"identitet."
+"Deres mål er å automatisk lagre skadelig data ved å sende en forespørsel til "
+"din tjener (server),  med din nettleser og din identitet."
 
 #: core/templates/messages.tmpl:407
 msgid "There are problems with renaming this web:"
@@ -3111,7 +3117,7 @@ msgstr "Det oppstod feil ved fjerning av %1 fra gruppen %2. "
 
 #: core/templates/messages.tmpl:366
 msgid "This can be automatically upgraded by:"
-msgstr "Dette kan automatisk oppgraderes ved"
+msgstr "Dette kan automatisk oppgraderes ved:"
 
 #: core/templates/messages.tmpl:349
 msgid "This could be for several reasons:"
@@ -3147,7 +3153,7 @@ msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
-msgstr ""
+msgstr "Dette er også kjent som Cross-site Request Forgery, også kalt CSRF."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:71
@@ -3568,9 +3574,8 @@ msgid "Webs"
 msgstr "Web"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-#, fuzzy
 msgid "Webserver <em>running Foswiki</em>"
-msgstr "Nettsted<span>kjører Foswiki</span>"
+msgstr "Nettsted <em>drevet av Foswiki</em>"
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
@@ -3689,7 +3694,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:612
 msgid "You are trying to rename a topic that does not exist."
-msgstr "Du forsøker å endre navn på en side som ikke finnes"
+msgstr "Du forsøker å endre navn på en side som ikke finnes."
 
 #: core/templates/messages.tmpl:591
 msgid ""
@@ -3723,6 +3728,8 @@ msgid ""
 "You cannot manually confirm this change because either Cookies or Javascript "
 "are disabled in your browser."
 msgstr ""
+"Du kan ikke bekrefte denne endringen manuelt fordi enten Cookies eller "
+"Javascript er skrudd av i nettleseren din."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:12
 msgid "You cannot register on this site."
@@ -3882,6 +3889,8 @@ msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
 msgstr ""
+"Dine registrerte epost adresser brukes av Foswiki for å sende deg epost, "
+"inkluive meldinger om passord endringer."
 
 #: core/templates/messages.tmpl:255
 msgid ""
@@ -3992,7 +4001,7 @@ msgstr "rediger"
 
 #: core/templates/messages.tmpl:231
 msgid "fields are required."
-msgstr "felt er obligatoriske"
+msgstr "felt er obligatoriske."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46

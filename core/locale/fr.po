@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-17 22:31+0200\n"
+"PO-Revision-Date: 2010-09-17 23:54+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -2405,7 +2405,7 @@ msgstr "Propriétés"
 
 #: core/lib/Foswiki/Render.pm:222
 msgid "Put it back..."
-msgstr "Remettre la page à son emplacement précédent..."
+msgstr "Remettre la page..."
 
 #: core/data/System/WebSearch.txt:117
 msgid "Query Search"
@@ -2506,11 +2506,11 @@ msgstr "Retirez tout d'abord l'utilisateur du/des groupe(s) %1."
 
 #: core/data/Main/GroupViewTemplate.txt:83
 msgid "Remove user..."
-msgstr "Supprimer l'utilisateur..."
+msgstr "Supprimer utilisateur..."
 
 #: core/data/Main/GroupViewTemplate.txt:164
 msgid "Remove users from this group"
-msgstr "Retirez les utilisateurs du groupe."
+msgstr "Retirez les utilisateurs du groupe"
 
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
@@ -2560,8 +2560,8 @@ msgstr "Réinitialisation de votre mot de passe"
 #: core/data/System/DefaultPreferences.txt:186
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
-"La réinitialisation et la définition des mots de passe n'est pas prise en "
-"charge par Foswiki"
+"La réinitialisation et la définition des mots de passe ne sont pas gérées "
+"par Foswiki"
 
 #: core/templates/more.tmpl:170
 msgid "Restore topic"
@@ -2585,7 +2585,7 @@ msgstr "Résultats dans le web %1"
 
 #: core/templates/search.text.tmpl:4
 msgid "Results from %1 web:"
-msgstr "Résultats dans le web %1:"
+msgstr "Résultats dans le web %1 :"
 
 #: core/templates/messages.tmpl:207
 msgid "Return to %1."
@@ -2638,7 +2638,8 @@ msgstr ""
 
 #: core/data/Sandbox/WebPreferences.txt:9
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
-msgstr "Bac à sable, pour expérimenter dans un web sans limitations."
+msgstr ""
+"Bac à sable, espace de tests pour expérimenter dans un web sans limitations."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:161
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
@@ -2774,7 +2775,7 @@ msgstr "Tout sélectionner"
 #: HistoryPlugin/templates/oopshistory.tmpl:71
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
-"Sélectionner une version précédente (gauche) et une version ultérieure "
+"Sélectionner une version antérieure (gauche) et une version postérieure "
 "(droite) pour comparer"
 
 #: core/templates/more.tmpl:103
@@ -2788,9 +2789,8 @@ msgstr ""
 "modifications"
 
 #: core/data/System/WebSearch.txt:109
-#, fuzzy
 msgid "Selections apply to search in \"text body\""
-msgstr "Les sélections s'appliquent aux recherchent dans le \"corps du texte\""
+msgstr "Les sélections s'appliquent aux recherches dans le \"corps du texte\""
 
 #: core/templates/more.tmpl:161
 msgid "Sequential"
@@ -3044,20 +3044,20 @@ msgstr ""
 "page."
 
 #: core/templates/moveattachment.tmpl:26
-#, fuzzy
 msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
-"Le fichier attaché peut être renommé (en ajoutant un numéro a son nom) s'il "
-"existe déjà un fichier attaché du même nom dans la page de destination."
+"Le fichier attaché sera éventuellement renommé (en ajoutant un numéro a son "
+"nom) s'il existe déjà un fichier attaché du même nom dans la page de "
+"destination."
 
 #: core/templates/renameattachmentdelete.tmpl:43
 msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
 msgstr ""
-"Le fichier attaché peut avoir été renommé s'il existe déjà un fichier "
+"Le fichier attaché sera éventuellement renommé s'il existe déjà un fichier "
 "attaché appelé '%FILENAME%' dans la page de destination."
 
 #~ msgid ""

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-17 19:37+0200\n"
+"PO-Revision-Date: 2010-09-18 01:12+0200\n"
 "Last-Translator: Kenneth Lavrsen <kenneth@lavrsen.dk>\n"
 "Language-Team: Danish <N/A>\n"
 "Language: da\n"
@@ -3247,6 +3247,8 @@ msgid ""
 "This page explains one of the security measures that Foswiki, the software "
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
+"Denne side beskriver en af de sikkerheds-mekanismer som Foswiki, programmet "
+"som kører denne site, udfører for a sikre dette site imod hackere."
 
 #: core/templates/messages.tmpl:364
 msgid "This requires the form definition to be present."
@@ -3278,14 +3280,12 @@ msgstr ""
 "til formularfelterne."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:64
-#, fuzzy
 msgid "Title"
-msgstr "Sidenavn"
+msgstr "Overskrift"
 
 #: core/templates/renameconfirm.tmpl:16
-#, fuzzy
 msgid "To attachment:"
-msgstr "Vedhæftede filer"
+msgstr "Til vedhæftet fil:"
 
 #: core/data/System/WebSearch.txt:164
 msgid ""
@@ -3304,18 +3304,16 @@ msgid "To see if %1 has finished editing yet, click "
 msgstr "For at se om %1 har afsluttet redigeringen, klik "
 
 #: core/templates/renamebase.tmpl:29
-#, fuzzy
 msgid "To topic"
-msgstr "Til side:"
+msgstr "Til side"
 
 #: core/templates/renameconfirm.tmpl:13
 msgid "To topic:"
 msgstr "Til side:"
 
 #: core/templates/renamebase.tmpl:22
-#, fuzzy
 msgid "To web"
-msgstr "Til web:"
+msgstr "Til web"
 
 #: core/templates/renameconfirm.tmpl:9
 msgid "To web:"
