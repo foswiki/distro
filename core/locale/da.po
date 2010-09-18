@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-18 01:12+0200\n"
+"PO-Revision-Date: 2010-09-18 10:29+0200\n"
 "Last-Translator: Kenneth Lavrsen <kenneth@lavrsen.dk>\n"
 "Language-Team: Danish <N/A>\n"
 "Language: da\n"
@@ -3346,15 +3346,13 @@ msgstr "Siden kan ikke opgraderes fra den gamle 'category table'-stil"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
 #: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
-#, fuzzy
 msgid "Topic data"
-msgstr "Sidenavn"
+msgstr "Sidedata"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
 #: HistoryPlugin/templates/oopshistory.tmpl:40
-#, fuzzy
 msgid "Topic history"
-msgstr "Sidenavn"
+msgstr "Side-historik"
 
 #: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:100
 msgid "Topic name"
@@ -3444,17 +3442,19 @@ msgstr "Opdatér links"
 
 #: core/data/Main/GroupViewTemplate.txt:126
 msgid "Upgrade group topic"
-msgstr ""
+msgstr "Opgradér gruppeside"
 
 #: core/data/Main/GroupViewTemplate.txt:130
 msgid ""
 "Upgrade will adjust the format of this group topic to the new format with "
 "user management options"
 msgstr ""
+"Opgradering vil justere formated på denne gruppeside til det nye format med "
+"mulighed for håndtering af brugere"
 
 #: core/templates/messages.tmpl:485
 msgid "Upgraded Group"
-msgstr ""
+msgstr "Opgraderet gruppe"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
@@ -3480,9 +3480,8 @@ msgid "Use %1 instead."
 msgstr "Brug %1 i stedet."
 
 #: core/data/Sandbox/WebHome.txt:22
-#, fuzzy
 msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
-msgstr "(Brug et sidenavn i System.WikiNotation)"
+msgstr "Brug et sidenavn i %SYSTEMWEB%.WikiNotation)"
 
 #: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:67
 #: core/data/System/WebCreateNewTopicTemplate.txt:43
@@ -3533,9 +3532,8 @@ msgid "View difference"
 msgstr "Vis forskel"
 
 #: core/templates/more.tmpl:164
-#, fuzzy
 msgid "View differences"
-msgstr "Vis forskel"
+msgstr "Vis forskelle"
 
 #: core/templates/more.tmpl:139
 msgid "View previous topic revision"
@@ -3546,9 +3544,8 @@ msgid "View raw text without formatting"
 msgstr "Vis rå kildetekst uden formatering"
 
 #: core/templates/more.tmpl:146
-#, fuzzy
 msgid "View revision"
-msgstr "Vis version:"
+msgstr "Vis version"
 
 #: core/templates/more.tmpl:143
 msgid "View revision:"
@@ -3621,7 +3618,7 @@ msgstr "BEMÆRK: \\'incluce\\'-siden er ikke oprettet endnu"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
-msgstr ""
+msgstr "Web ændringer notificerings-service"
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:3
 msgid "Webs"
@@ -3629,11 +3626,11 @@ msgstr "Webs"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
 msgid "Webserver <em>running Foswiki</em>"
-msgstr ""
+msgstr "Webserver <em>som kører Foswiki</em>"
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
-msgstr ""
+msgstr "Velkommen til %1 ... mød mennesker på denne site."
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
@@ -3649,30 +3646,27 @@ msgstr "Hvem"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
 msgid "Who is requesting this, actually?"
-msgstr ""
+msgstr "Hvem beder rent faktisk om dette?"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:59
 msgid "Whole page"
-msgstr ""
+msgstr "Hele siden"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
-#, fuzzy
 msgid "Why am I being asked to confirm?"
-msgstr "for at få at vide hvorfor du bliver bedt om at bekræfte"
+msgstr "Hvorfor bliver jeg bedt om at bekræfte?"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid "Wiki administrators should read about the"
-msgstr ""
+msgstr "Wiki-administratorer bør læse om"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:144
-#, fuzzy
 msgid "Wiki name"
-msgstr "Sidenavn"
+msgstr "Wikinavn"
 
 #: core/data/System/WebSearch.txt:113
-#, fuzzy
 msgid "Word search"
-msgstr "Tilpas søgning"
+msgstr "Ord søgning"
 
 #: core/templates/messages.tmpl:19
 msgid "Would you like to go to:"
@@ -3680,7 +3674,7 @@ msgstr "Har du lyst til at gå til:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:36
 msgid "You"
-msgstr ""
+msgstr "Dig selv"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
 msgid ""
@@ -3789,11 +3783,12 @@ msgid ""
 "You cannot manually confirm this change because either Cookies or Javascript "
 "are disabled in your browser."
 msgstr ""
+"Du kan ikke manuelt bekræfte denne ændring fordi enten Cookies eller "
+"Javascript er deaktiveret i din browser."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:12
-#, fuzzy
 msgid "You cannot register on this site."
-msgstr "Du kan ikke registrere to gange, navnet %1 er allerede registreret."
+msgstr "Du kan ikke registrere på denne site."
 
 #: core/templates/messages.tmpl:273
 msgid "You cannot register twice, the name %1 is already registered."
@@ -3805,6 +3800,9 @@ msgid ""
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
 msgstr ""
+"Du ændrer din email-adresse ved at udfylde formfeltet Email i din "
+"brugerside. Hvis dette formfelt ikke eksisterer så vil den lede after en "
+"linie der ser ud som denne: "
 
 #: core/templates/messages.tmpl:158 core/templates/messages.tmpl:167
 #: core/templates/messages.tmpl:248
@@ -3840,18 +3838,20 @@ msgstr "Du skal angive et sidenavn"
 #: core/templates/messages.tmpl:461
 msgid "You need to specify a valid Group name to add users to a Group."
 msgstr ""
+"Du skal angive at gyldigt gruppenavn for at tilføje brugere til en gruppe."
 
 #: core/templates/messages.tmpl:499
 msgid "You need to specify a valid Group name to remove users from a Group."
 msgstr ""
+"Du skal angive et gyldigt gruppenavn for at fjerne brugere fra en gruppe."
 
 #: core/templates/messages.tmpl:456
 msgid "You need to specify a valid user to add to a Group."
-msgstr ""
+msgstr "Du skal angive en gyldig bruger for at tilføje til en gruppe."
 
 #: core/templates/messages.tmpl:494
 msgid "You need to specify a valid user to remove from a group."
-msgstr ""
+msgstr "Du skal angive en gyldig bruger for at fjerne fra en gruppe."
 
 #: core/templates/registerconfirm.tmpl:11
 msgid ""
@@ -3863,7 +3863,6 @@ msgstr ""
 "ved at gå til siden %2."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#, fuzzy
 msgid ""
 "You really ought to register a valid e-mail address. If Foswiki can't find a "
 "registered e-mail for you in the secret database, it will look in your user "
@@ -3872,7 +3871,8 @@ msgid ""
 msgstr ""
 "Du opfordres til at registrere en gyldig e-mail-adresse. Hvis Foswiki ikke "
 "kan finde en registreret e-mail-adresse for dig i dens database, vil den "
-"kigge i din personlige sider efter en linie magen til denne:"
+"lede i din personlige side efter et formfelt der hedder Email. Hvis dette "
+"felt ikke eksisterer vil den lede after en linie som denne:"
 
 #: core/templates/messages.tmpl:371
 msgid "You will probably have to ask your administrator, %1, to do this."
@@ -3899,7 +3899,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:160
 msgid "Your email address will be kept confidential."
-msgstr ""
+msgstr "Din e-mail-adresse vil blive holdt fortrolig."
 
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""
@@ -3916,6 +3916,9 @@ msgid ""
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
+"Dit navn som det vil blive vist. Bemærk at dette skal være et unikt [[%"
+"SYSTEMWEB%.WikiName][Wiki navn]]. Som udgangspunkt er det afledt af dit for- "
+"og efternavn."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
 msgid "Your password"
@@ -3950,6 +3953,8 @@ msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
 msgstr ""
+"Dine registrerede e-mail-adresser bliver brugt af Foswiki til at sende dig "
+"e-mails, inkl. notifikation om ændringer af adgangskode."
 
 #: core/templates/messages.tmpl:255
 msgid ""
@@ -4033,7 +4038,7 @@ msgstr "og"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr ""
+msgstr "af %1"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -4050,7 +4055,7 @@ msgstr "glem ikke at tjekke dine side-instillinger (Topic Settings)"
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "earlier"
-msgstr ""
+msgstr "tidligere"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4064,7 +4069,7 @@ msgstr "feltet / felterne er obligatoriske"
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "first"
-msgstr ""
+msgstr "første"
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:24
@@ -4086,13 +4091,12 @@ msgstr "angiver obligatoriske felter"
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "last"
-msgstr ""
+msgstr "sidste"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
-#, fuzzy
 msgid "later"
-msgstr "Dato"
+msgstr "senere"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -4104,7 +4108,7 @@ msgstr "mere..."
 
 #: core/data/Main/GroupViewTemplate.txt:31
 msgid "no members"
-msgstr ""
+msgstr "ingen medlemmer"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
@@ -4131,13 +4135,12 @@ msgid "retrieved at %1"
 msgstr "fremsøgt %1"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:86
-#, fuzzy
 msgid "revisions up to"
-msgstr "Versioner"
+msgstr "versioner op til"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid "the Cross-site request forgery article on Wikipedia"
-msgstr ""
+msgstr "Cross-site request forgery artiklen på Wikipedia"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -4158,18 +4161,16 @@ msgstr ""
 "revisioner' accesskey='m'>Flere side-&muligheder"
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
-#, fuzzy
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Editér denne side' accesskey='e'>&Editér"
+msgstr "title='Editér Wikitekst' accesskey='w'>Editér &wikitekst"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Editér denne side' accesskey='e'>&Editér"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
-#, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Vis side' accesskey='v'>&Vis side"
+msgstr "title='flettet ind' accesskey='i'>Flettet &ind"
 
 #: core/templates/viewtopicactionbuttons.tmpl:21
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -4198,9 +4199,8 @@ msgstr ""
 "accesskey='b'>We&b"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
-#, fuzzy
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='Vis side' accesskey='v'>&Vis side"
+msgstr "title='Ved siden af' accesskey='s'>Ved &siden af"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:92
 #: core/templates/viewtopicactionbuttons.tmpl:11
@@ -4213,15 +4213,12 @@ msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Vis komplet historik for siden' accesskey='h'>&Historik "
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
-#, fuzzy
 msgid "title='View without formatting' accesskey='r'>&View wiki text"
-msgstr ""
-"title='Vis denne sides kildetekst (uden formatering)' accesskey='r'>&Rå "
-"visning"
+msgstr "title='Vis uden formatering' accesskey='r'>Vis &rå wikitekst"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"
-msgstr ""
+msgstr "uændrede afsnit før og efter hver ændring"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:29
 msgid "user list truncated"
