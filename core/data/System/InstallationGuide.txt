@@ -160,24 +160,7 @@ To make it easier to follow the instructions in this section, you can view this 
 %INCLUDE{"UserAuthentication" section="TemplateLogin" INSTALLGUIDE="1"}%
 
 ---++++ Apache Login authentication
-
-With Apache Login enabled, when Foswiki needs to authenticate the user, the standard HTTP authentication mechanism is used: the browser itself will prompt for a user name and password.
-
-*Note:* Apache Login is required for Apache-based login methods such as mod_ldap.
-
-To setup Apache Login, perform the following steps:
-
-   1 *Configure Apache Login.* Under the =Security and Authentication= pane on the =Login= tab in =configure=:
-      1 Select =Foswiki::LoginManager::ApacheLogin= for ={LoginManager}=.
-      1 Select =Foswiki::Users::HtPasswdUser= for ={PasswordManager}=.
-      1 Select =Foswiki::Users::TopicUserMapping= for ={UserMappingManager}=.
-      1 Save your settings.
-      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin/.htaccess= file to set the following Apache directives on the =bin= scripts:<sticky><verbatim>
-      <FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|rest|.*auth).*">
-      require valid-user
-      </FilesMatch></verbatim></sticky>
-      You can also refer to the sample =foswiki_httpd_conf.txt= and =bin/.htaccess.txt= files to see how the appropriate Apache directives are specified.
-%INCLUDE{"UserAuthentication" section="TESTING"}%
+%INCLUDE{"UserAuthentication" section="ApacheLogin" INSTALLGUIDE="1"}%
 
 #SearchAlgorithm
 ---+++ Choose an appropriate search algorithm for your Operating System

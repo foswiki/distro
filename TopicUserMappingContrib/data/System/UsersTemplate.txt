@@ -43,13 +43,13 @@ If you forget your password, %SYSTEMWEB%.ResetPassword will get a new one sent t
    * X - <a name="X">- - - -</a>
    * Y - <a name="Y">- - - -</a>
    * Z - <a name="Z">- - - -</a>
-%STARTSECTION{"footer"}%
-*%X% Note:* There are four default system users:
+%STARTSECTION{"footer"}%<blockquote class="foswikiHelp">
+%X% There are four default system users:
    * *ProjectContributor* - placeholder for a Foswiki developer, and is used in documentation
    * *WikiGuest* - guest user, used as a fallback if the user can't be identified
    * *RegistrationAgent* - special user used during the new user registration process
    * *UnknownUser* - used where the author of a previously stored piece of data can't be determined
-
+</blockquote>
 ---
 *Access Control:*
    * Set ALLOWTOPICCHANGE = RegistrationAgent

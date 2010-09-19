@@ -22,7 +22,7 @@ Authentication isn't just to do with [[access control]]. %WIKITOOLNAME% uses aut
 
 Once a user is logged on, they can be remembered using a _Client Session_ stored in a cookie in the browser (or by other less elegant means if the user has disabled cookies). This avoids them having to log on again and again.
 
-%WIKITOOLNAME% user authentication is configured through the Security Settings pane in the [[%SCRIPTURLPATH{"configure"}%][configure]] interface.
+%WIKITOOLNAME% user authentication is configured through the Security Settings pane in the [[%SCRIPTURLPATH{"configure"}%#SecurityAndAuthentication][configure]] interface.
 
 Please note FileAttachments are not protected by %WIKITOOLNAME% User Authentication. 
 
@@ -33,7 +33,7 @@ As shipped, %WIKITOOLNAME% supports the Apache 'htpasswd' password manager. This
 
 You can easily plug in alternate password management modules to support interfaces to other third-party authentication databases.
 
-The password manager is selected using the {PasswordManager} setting in =configure=.
+The password manager is selected using the ={PasswordManager}= setting in =configure=.
 
 #UserMapping
 ---++ User Mapping
@@ -42,7 +42,7 @@ Usually when you are using an external authentication method, you want to map fr
 
 By default, %WIKITOOLNAME% supports mapping of usernames to wikinames, and supports %WIKITOOLNAME% groups internal to %WIKITOOLNAME%. If you want, you can plug in an alternate user mapping module to support import of groups etc.
 
-The user mapping manager is selected using the {UserMappingManager} setting in =configure=.
+The user mapping manager is selected using the ={UserMappingManager}= setting in =configure=.
 
 #UserRegistration
 ---++ User Registration
@@ -56,7 +56,7 @@ See [[#UserRegistrationPage][Custom registration page]] for changing the user re
 #LoginManagement
 ---++ Login Management
 
-Login management controls the way users have to log in. There are three basic options; no login, login via a %WIKITOOLNAME% login page, and login using the webserver authentication support. the login manager is selected using the {LoginManager} setting in =configure=.
+Login management controls the way users have to log in. There are three basic options; no login, login via a %WIKITOOLNAME% login page, and login using the webserver authentication support. the login manager is selected using the ={LoginManager}= setting in =configure=.
 
 #NoLogin
 ---+++ No Login (select =none=)
@@ -72,7 +72,7 @@ Does exactly what it says on the tin. Forget about authentication to make your s
 
 ---++++ Enabling Template Login
 <blockquote class="foswikiHelp">%I% By default, your Foswiki installation is probably already using !TemplateLogin, !HtPasswdUser and [[TopicUserMappingContrib]] as the default =Login=, =Password= and =user mapping= options.</blockquote>
-   1 Using [[%SCRIPTURLPATH{"configure"}%][configure]]:
+   1 Using [[%SCRIPTURLPATH{"configure"}%#SecurityAndAuthentication][configure]]:
       1 Navigate to the =Login= tab on the =Security and Authentication= panel. Select the =Foswiki::LoginManager::TemplateLogin= login manager.
       1 Navigate to the =Passwords= tab. Select the appropriate =PasswordManager= for your system - the default is =Foswiki::Users::HtPasswdUser=.
       <blockquote class="foswikiHelp">%H% There is also an EXPERT configure setting ={TemplateLogin}{PreventBrowserRememberingPassword}= that you can set to prevent Browsers from remembering username and passwords if you are concerned about public terminal usage.</blockquote>
@@ -103,13 +103,12 @@ A couple of common fields are hidden from normal view to make the registration p
 New fields may also be added. The =name=""= parameter of the =&lt;input&gt;= tags must start with: ="Twk0..."= (if this is an optional entry), or ="Twk1..."= (if this is a required entry). This ensures that the fields are carried over into the user home page correctly.
 %ENDSECTION{"TemplateLogin"}%
 
-
 #ApacheLogin
----+++ Apache Login (select =Foswiki::LoginManager::ApacheLogin=)
+---+++ Enabling Apache Login
 
-Using this method %WIKITOOLNAME% does not authenticate users internally. Instead it depends on the =REMOTE_USER= environment variable, which is set when you enable authentication in the webserver.
+%STARTSECTION{"ApacheLogin"}%With Apache Login enabled, when Foswiki needs to authenticate the user, the standard HTTP authentication mechanism is used: the browser itself will prompt for a user name and password.
 
-The advantage of this scheme is that if you have an existing website authentication scheme using Apache modules such as =mod_auth_ldap= or =mod_auth_mysql= you can just plug in directly to them.
+The advantage of this scheme is that if you have an existing website authentication scheme using Apache modules such as =mod_auth_ldap= or =mod_auth_mysql= you can just plug in to them directly.
 
 The disadvantage is that because the user identity is cached in the browser, you can log in, but you can't log out again unless you restart the browser.
 
@@ -117,22 +116,26 @@ The disadvantage is that because the user identity is cached in the browser, you
 
 The same private =.htpasswd= file used in %WIKITOOLNAME% Template Login can be used to authenticate Apache users, using the Apache Basic Authentication support.
 
-*Warning:* Do *not* use the Apache =htpasswd= program with =.htpasswd= files generated by %WIKITOOLNAME%! =htpasswd= wipes out email addresses that %WIKITOOLNAME% plants in the info fields of this file.
+<blockquote class="foswikiHelp">%X% Do *not* use the Apache =htpasswd= program with =.htpasswd= files generated by %WIKITOOLNAME%! =htpasswd= wipes out email addresses that %WIKITOOLNAME% plants in the info fields of this file.
 
----++++ Enabling Apache Login using =mod_auth=
-You can use any other Apache authentication module that sets REMOTE_USER.
-   1 Use [[%SCRIPTURLPATH{"configure"}%#LoginManager][configure]] to select the =Foswiki::LoginManager::ApacheLogin= login manager.
-   1 Use [[%SCRIPTURLPATH{"configure"}%#PasswordManager][configure]] to set up %WIKITOOLNAME% to create the right kind of =.htpasswd= entries.
-   1 Create a =.htaccess= file in the =bin= directory.<br />%H% There is an template for this file in =bin/.htaccess.txt= that you can copy and change. The comments in the file explain what need to be done.<br />%H% If you got it right, the browser should now ask for login name and password when you click on the <u>Edit</u>. If =.htaccess= does not have the desired effect, you may need to "AllowOverride All" for the directory in =httpd.conf= (if you have root access; otherwise, e-mail web server support)
-    <br /> %X% At this time AccessControls do not control access to files in the =pub= area, unless they are only accessed through the =viewfile= script. If your =pub= directory is set up to allow open access you may want to add =.htaccess= files in there as well to restrict access 
-   1 You can create a custom version of the UserRegistration form by copying the default topic, and then deleting or adding input tags in your copy. The =name=""= parameter of the input tags must start with: ="Twk0..."= (if this is an optional entry), or ="Twk1..."= (if this is a required entry). This ensures that the fields are carried over into the user home page correctly. Do *not* modify the version of UserRegistration shipped with %WIKITOOLNAME%, as your changes will be overwritten next time you upgrade.
-    <br />The default new user template page is in [[%SYSTEMWEB%.NewUserTemplate][%SYSTEMWEB%.NewUserTemplate]]. The same macros get expanded as in the [[template topics]]. You can create a custom new user home page by creating the [[%USERSWEB%.NewUserTemplate][%USERSWEB%.NewUserTemplate]] topic, which will then override the default.
-   1 Register yourself in the UserRegistration topic.
-    <br /> %H% Check that a new line with the username and encrypted password is added to the =.htpasswd= file. If not, you may have got a path wrong, or the permissions may not allow the webserver user to write to that file.
-   1 Create a new topic to check if authentication works.
-   1 *Edit the %USERSWEB%.AdminGroup topic in the %USERSWEB% web to include users with system administrator status.*
-    <br /> %X% *This is a very important step*, as users in this group can access _all_ topics, independent of %WIKITOOLNAME% access controls.
-AccessControl has more information on setting up access controls.
+%I% Apache Login is required for Apache-based login methods such as mod_ldap
+
+%I% You can use any Apache authentication module that sets the =REMOTE_USER= environment variable.
+</blockquote>
+
+To setup Apache Login, perform the following steps:
+
+   1 *Configure Apache Login.* Under the =Security and Authentication= pane on the =Login= tab in =configure=:
+      1 Select =Foswiki::LoginManager::ApacheLogin= for ={LoginManager}=.
+      1 Select =Foswiki::Users::HtPasswdUser= for ={PasswordManager}=.
+      1 Select =Foswiki::Users::TopicUserMapping= for ={UserMappingManager}=.
+      1 Save your settings.
+      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin/.htaccess= file to set the following Apache directives on the =bin= scripts:<sticky><verbatim>
+      <FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|rest|.*auth).*">
+      require valid-user
+      </FilesMatch></verbatim></sticky>
+      You can also refer to the sample =foswiki_httpd_conf.txt= and =bin/.htaccess.txt= files to see how the appropriate Apache directives are specified.
+%INCLUDE{"UserAuthentication" section="TESTING"}%%ENDSECTION{"ApacheLogin"}%
 
 ---++++ Logons via bin/logon
 
@@ -155,13 +158,13 @@ You can get, set, and clear session variables from within %WIKITOOLNAME% web pag
 
 To make use of these features, use the tags:
 
-<verbatim>
+<!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">
 %SESSION_VARIABLE{ "varName" }%
 %SESSION_VARIABLE{ "varName" set="varValue" }%
 %SESSION_VARIABLE{ "varName" clear="" }%
 </verbatim>
 
-Note that you *cannot* override access controls preferences this way.
+<blockquote class="foswikiHelp">%X% [[AccessControls][Access controls]] cannot be modified in this way</blockquote>
 
 ---+++ Cookies and Transparent Session IDs
 
@@ -180,7 +183,7 @@ This section applies only if you are using authentication with existing login na
 
    * *Foswiki Username:* Your name in WikiNotation, ex: ==JohnSmith==, is recorded when you register using UserRegistration; doing so also generates a personal home page in the %USERSWEB% web.
 
-Foswiki can automatically map an Intranet (Login) Username to a Foswiki Username if the {AllowLoginName} is enabled in [[%SCRIPTURLPATH{"configure"}%][configure]]. The default is to use your WikiName as a login name.
+Foswiki can automatically map an Intranet (Login) Username to a Foswiki Username if the ={AllowLoginName}= is enabled in [[%SCRIPTURLPATH{"configure"}%#Registration$SecurityAndAuthentication][configure]]. The default is to use your WikiName as a login name.
 
 <blockquote>
 *NOTE:* *To correctly enter a WikiName* - your own or someone else's - be sure to include the %USERSWEB% web name in front of the Wiki username, followed by a period, and no spaces, for example ==%USERSWEB%.<nop>WikiUsername== or ==%<nop>USERSWEB%.<nop>WikiUsername==.
@@ -190,26 +193,26 @@ This points ==<nop>WikiUsername== to the %USERSWEB% web, where user home pages a
 #ChangingPasswords
 ---++ Changing Passwords
 
-If your {PasswordManager} supports password changing, you can change and reset passwords using forms on regular pages.
+If your ={PasswordManager}= supports password changing, you can change and reset passwords using forms on regular pages.
 
    * The ChangePassword form ( ==Foswiki/ChangePassword== )
    * The ResetPassword form ( ==Foswiki/ResetPassword== )
    
-If the {PasswordManager} does not support password changing, the ChangePassword and ResetPassword will show a simple message. This message is defined iby the setting CHANGEPASSWORDDISABLEDMESSAGE in %SYSTEMWEB%.DefaultPreferences. You can redefine this setting by copying it to %USERSWEB%.SitePreferences and change it to include a link to the password management website of your organisation.
+If the ={PasswordManager}= does not support password changing, the ChangePassword and ResetPassword will show a simple message. This message is defined iby the setting CHANGEPASSWORDDISABLEDMESSAGE in %SYSTEMWEB%.DefaultPreferences. You can redefine this setting by copying it to %USERSWEB%.SitePreferences and change it to include a link to the password management website of your organisation.
 
 #ChangingEmails
 ---++ Changing E-mail Addresses
 
-If the active {PasswordManager} supports storage and retrieval of user e-mail addresses, you can change your e-mail using a regular page. As shipped, this is true only for the Apache 'htpasswd' password manager.
+If the active ={PasswordManager}= supports storage and retrieval of user e-mail addresses, you can change your e-mail using a regular page. As shipped, this is true only for the Apache 'htpasswd' password manager.
 
    * The ChangeEmailAddress form ( ==Foswiki/ChangeEmailAddress== )
    
-If the {PasswordManager} does not support password changing, ChangeEmailAddress will guide the user to define the email address in the user topic.
+If the ={PasswordManager}= does not support password changing, ChangeEmailAddress will guide the user to define the email address in the user topic.
 
 #IndividualScripts
 ---++ Controlling access to individual scripts
 You may want to add or remove scripts from the list of scripts that require authentication. The method for doing this is different for each of Template Login and Apache Login.
-   * For Template Login, update the {AuthScripts} list using [[%SCRIPTURLPATH{"configure"}%][configure]]
+   * For Template Login, update the ={AuthScripts}= list using [[%SCRIPTURLPATH{"configure"}%#Login$SecurityAndAuthentication][configure]]
    * For Apache Login, add/remove the script from =.htaccess=
 #HowTo
 ---++ How to choose an authentication method
