@@ -14,5 +14,6 @@
     | =remember= | ="on"=, ="off"= | If ="on"=, the Twisty state is remembered the next time the page is shown. If ="off"=, the stored setting will be cleared.<br /> *Note:* when used, think carefully about a unique name (id) for the Twisty, otherwise the cookie that is set might affect other Twisties with the same name. Also note that only interaction is stored, not the state of the Twisty when left unclicked. | optional, no default |
     | =start= | ="hide"= or ="show"= | Initial state of the Twisty; this will override any setting stored in a cookie (see =remember=).  | optional, default no initial state |
     | =firststart= | ="hide"= or ="show"= | Initial state of the Twisty the first time the visitor gets to see the Twisty; this will NOT override cookie settings (see =remember=).  | optional, default no initial state |
-   * Example: =%<nop>TWISTYHIDE{id="demo" link=" Click to Fold " imgleft="%<nop>ICONURLPATH{toggleclose}%"}%=
+   * Example: <verbatim class="tml">%TWISTYHIDE{id="demo" link=" Click to Fold " imgleft="%ICONURLPATH{toggleclose}%"}%</verbatim>
    * Related: %INCLUDE{"VarTWISTY" section="related" includingtopic="%INCLUDINGTOPIC%"}%
+<!--%JQREQUIRE{"chili"}%-->

@@ -14,5 +14,6 @@
     | =start= | ="hide"= or ="show"= | Initial state of the Twisty; this will override any setting stored in a cookie (see =remember=).  | optional, default no initial state |
     | =firststart= | ="hide"= or ="show"= | Initial state of the Twisty the first time the visitor gets to see the Twisty; this will NOT override cookie settings (see =remember=).  | optional, default no initial state |
     | =noscript= | ="hide"= | Make content hidden in case use does not have !JavaScript on | optional, default content is shown with no !JavaScript |
-   * Example: =%<nop>TWISTYTOGGLE{id="demo" mode="div" remember="on"}%My content%<nop>ENDTWISTYTOGGLE%=
+   * Example: <verbatim class="tml">%TWISTYTOGGLE{id="demo" mode="div" remember="on"}%My content%ENDTWISTYTOGGLE%</verbatim>
    * Related: %INCLUDE{"VarTWISTY" section="related" includingtopic="%INCLUDINGTOPIC%"}%
+<!--%JQREQUIRE{"chili"}%-->

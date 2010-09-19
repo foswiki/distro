@@ -17,7 +17,7 @@ When you type a !WikiWord, you establish a hyperlink. It's as easy as that.
    * It avoids the need to fiddle with HTML tags
    * It avoids over-general topics because at least two words are required
 
-%T% Note that Acronyms (words consisting of 3 or more upper-case letters) are also auto-linked, but _only_ if the topic already exists.  See ACRONYM.
+<blockquote class="foswikiHelp">%T% Note that Acronyms (words consisting of 3 or more upper-case letters) are also auto-linked, but _only_ if the topic already exists.  See ACRONYM.</blockquote>
 
 ---++ Syntax of a !WikiWord
 
@@ -28,7 +28,7 @@ When you type a !WikiWord, you establish a hyperlink. It's as easy as that.
 
 !WikiWord syntax in [[Wikipedia:Extended_Backus_Naur_Form][Extended Backus.Naur form]] (EBNF):
 
-<verbatim>
+<verbatim class="tml">
     wikiWord        = upperLetters , lowerNumLetters , upperLetters , { alphaNum } ;
     upperLetters    = upperCase , { upperCase } ;
     lowerNumLetters = lowerNum , { lowerNum } ;
@@ -81,9 +81,11 @@ When you write the name of a topic, it becomes a link. There are more ways
       * Numbers are considered lowercase which makes =Year2K= and =Y2K= !WikiWords but not =Y2000= and =Y2k=.
    * Turn acronyms into !WikiWords, i.e. take =FaqIndex= for a "FAQ index" topic.
    * It is possible to turn off the auto-linking of !WikiWords and to rely only on the bracket notation using the NOAUTOLINK [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
-   * %X% When linking to a <nop>%HOMETOPIC% topic _in another web_, the link will be rendered as the name of the web, e.g. =Sandbox.%HOMETOPIC%= becomes Sandbox.%HOMETOPIC%.
-   * %X% Dots (.) are used as seperators between webs, subwebs, and topics. It is not possible to use dots in topic names. Foswiki does not attempt to guess if a dot could be part of a topic name.
+   <blockquote class="foswikiHelp">%X% When linking to a <nop>%HOMETOPIC% topic _in another web_, the link will be rendered as the name of the web, e.g. =Sandbox.%HOMETOPIC%= becomes Sandbox.%HOMETOPIC%.
+   <p></p>
+   %X% Dots (.) are used as seperators between webs, subwebs, and topics. It is not possible to use dots in topic names. Foswiki does not attempt to guess if a dot could be part of a topic name.</blockquote>
 
 ---
 *Related Topics:* WikiSyntax, TextFormattingRules
+<!--%JQREQUIRE{"chili"}%-->
 %STOPINCLUDE%

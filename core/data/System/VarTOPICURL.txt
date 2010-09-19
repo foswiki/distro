@@ -3,4 +3,4 @@
 #VarTOPICURL
 ---+++ TOPICURL -- shortcut to viewing the current topic
    * This macro always expands to an url pointing to the current base topic.
-   * Current value: TOPICURL = %TOPICURL%
+   * Current value: =TOPICURL= = %TOPICURL%

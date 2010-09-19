@@ -12,9 +12,20 @@
      | =marker="selected"= | Text for =$marker= if the item matches =selection= | ="selected"= |
      | =selection="TopicA, !TopicB"= | Current value to be selected in list | =(none)= |
      | =web="Name"= | Name of web | Current web |
-   * Example: =%<nop>TOPICLIST{"   * $web.$topic"}%= creates a bullet list of all topics
-   * Example: =%<nop>TOPICLIST{separator=", "}%= creates a comma separated list of all topics
-   * Example: =%<nop>TOPICLIST{" &lt;option&gt;$topic&lt;/option&gt;"}%= creates an option list (for drop down menus)
-   * Example: =&lt;select&gt;%<nop>TOPICLIST{" &lt;option $marker value='$topic'&gt;$topic&lt;/option&gt;" separator=" " selection="%<nop>TOPIC%"}%&lt;/select&gt;= creates an option list of web topics with the current topic selected
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBLIST][WEBLIST]]
+   * Examples: <verbatim class="tml">   Create a bullet list of all topics:
+   %TOPICLIST{"   * $web.$topic"}%
 
+   Create a comma separated list of all topics:
+   %TOPICLIST{separator=", "}%
+
+   Create an option list (for drop down menus):
+   %TOPICLIST{" <option>$topic</option>"}%
+
+   Create an option list of web topics with the current topic selected:
+   <select>%TOPICLIST{
+      " <option $marker value='$topic'>$topic</option>"
+      separator=" "
+      selection="%TOPIC%"
+   }%</select></verbatim>
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBLIST][WEBLIST]]
+<!--%JQREQUIRE{"chili"}%-->

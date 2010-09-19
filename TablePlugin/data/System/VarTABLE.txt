@@ -64,8 +64,12 @@
      | =include=        | Other topic defining the =TABLE= parameters. The first =%<nop>TABLE%= in the topic is used. This is useful if you have many topics with the same table format and you want to update the format in one place. Use =topic= or =web.topic= notation. | <span class="foswikiGrayText">unspecified</span> | =include="Main.WebHome"= |
 
 %ENDSECTION{"table_attributes"}%
-   * Example:%BR%
-     =%<nop>TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%= %BR%
-     =| <nop>*A1*<nop> | <nop>*B1*<nop> |= %BR%
-     =| A2 | B2 |=
+   * Example:<verbatim class="tml">
+ %TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%
+ | *A1* | *B1* |
+ | A2   | B2   |</verbatim>
+   * Expands as: %TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%
+ | *A1* | *B1* |
+ | A2   | B2   |
    * Related: See TablePlugin for more details
+<!--%JQREQUIRE{"chili"}%-->

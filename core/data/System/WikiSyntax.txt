@@ -28,11 +28,11 @@ If you can enter text, you're ready for Foswiki. With a few simple rules, you'll
       * The quantity of plus signs is related to the size of the heading - the more plus signs you use, the smaller the heading.
       * You can insert a nested table of contents, generated from headings, by placing =%<nop>TOC%= wherever you like on a page (see [[%SYSTEMWEB%.Macros]] for more =%<nop>TOC%= options).
 
-   * Use ==&lt;verbatim&gt;== to enclose code excerpts, filenames, and other unformatted text:%BR%
-     =<b>&lt;verbatim&gt;</b>= %BR%
-     =unformatted text!= %BR%
-     =and more of it!= %BR%
-     =<b>&lt;/verbatim&gt;</b>=
+   * Use ==&lt;verbatim&gt;== to enclose code excerpts, filenames, and other unformatted text:<verbatim class="tml">
+ <verbatim>
+ unformatted text!
+ and more of it!
+ </verbatim></verbatim>
 
 ---+++ Working with special characters (advanced)
    * If you want to display angle brackets, enter them as HTML codes instead of typing them in directly:
@@ -105,3 +105,4 @@ See EditingShorthand for the complete set of formatting rules.
 
 %STOPINCLUDE%
 __Related Topics:__ WikiWords, [[Macros]], EditingShorthand, FileAttachment
+<!--%JQREQUIRE{"chili"}%-->

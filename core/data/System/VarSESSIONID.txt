@@ -3,6 +3,6 @@
 #VarSESSIONID
 ---+++ SESSIONID -- unique ID for this session
    * Syntax: =%<nop>SESSIONID%=
-   * Expand to: <tt>%SESSIONID%</tt>
-   * Related: UserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarAUTHREALM][AUTHREALM]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONVAR][SESSIONVAR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGOUT][LOGOUT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSION_VARIABLE][SESSION_VARIABLE]]
+   * Expand to: =%SESSIONID%=
+   * Related: UserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarAUTHREALM][AUTHREALM]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONVAR][SESSIONVAR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGOUT][LOGOUT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONVARIABLE][SESSION_VARIABLE]]
 

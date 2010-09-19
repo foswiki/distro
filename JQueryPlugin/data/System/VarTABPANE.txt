@@ -3,7 +3,7 @@
 #VarTABPANE
 ---+++ TABPANE{...} -- tabpane widget
    * This macro starts the tabpane, containing a series of TAB...ENDTABs and ends with ENDTABPANE. A complete tabpane normally looks like this:
-     <verbatim>
+     <verbatim class="tml">
 %TABPANE%
  %TAB{"tab 1"}%
    ...
@@ -14,7 +14,7 @@
 %ENDTABPANE%
 </verbatim>
       Multiple tabpanes can be nested using the following scheme:
-     <verbatim>
+     <verbatim class="tml">
 %TABPANE%
  %TAB{"tab 1"}%
    %TABPANE%
@@ -40,3 +40,4 @@
      | class | extra class: use =simple= for a non-3D tabpane | | 
      | animate | (on/off) enables/disables animation of switching tabs | off |
    * Related: [[VarTAB]], [[VarENDTAB]], [[VarENDTABPANE]], JQueryPlugin, JQueryTabpane
+<!--%JQREQUIRE{"chili"}%-->

@@ -20,6 +20,7 @@
      | =center= | Center the window? | ="0"= |
      | =menubar= | Show menubar? | ="0"= |
      | =createnew= | Create a new window for each popup? | ="1"= |
-   * Example with topic link: =%<nop>POPUPWINDOW{"%BASETOPIC%" label="Open this topic in a new window"}%= generates: %POPUPWINDOW{"%BASETOPIC%" label="Open this topic in a new window"}%
-   * Example with url: =%<nop>POPUPWINDOW{url="http://foswiki.org"}%= generates: %POPUPWINDOW{url="http://foswiki.org"}%
+   * Example with topic link: <pre class="tml">%<nop>POPUPWINDOW{"%BASETOPIC%" label="Open this topic in a new window"}%</pre> Generates: %POPUPWINDOW{"%BASETOPIC%" label="Open this topic in a new window"}%
+   * Example with url: <pre class="tml">%<nop>POPUPWINDOW{url="http://foswiki.org"}%</pre> Generates: %POPUPWINDOW{url="http://foswiki.org"}%
    * Enable =POPUPWINDOW= by writing =%<nop>JQREQUIRE{"popupwindow"}%= on the page
+<!--%JQREQUIRE{"chili"}%-->

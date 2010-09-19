@@ -14,7 +14,13 @@
      | =subwebs="Sandbox"=   | Specifies a single web. If specified, then =public= and =webtemplate= (described above) will expand relative to show subwebs *below this web only. | =""= |
      | =selection="%<nop>WEB%"= | Entry to be selected in list. If one of the webs matches this selection, then =$marker= in the =format= will be expanded | =selection=%<nop>WEB%= |
      | =marker="selected"= | Text for =$marker= if the item matches =selection= | =selected="selected"= |
-   * Example: =%<nop>WEBLIST{"   * [<nop>[$name.%HOMETOPIC%]]"}%= - creates a bullet list of all webs.
-   * Example: =&lt;form&gt;&lt;select name="web"&gt; %<nop>WEBLIST{"&lt;option $marker value=$qname&gt;$name&lt;/option&gt;" webs="Trash, public" selection="%<nop>WEB%" separator=" "}% &lt;/select&gt;&lt;/form&gt;= - creates a dropdown of all public webs + Trash web, with the current web highlighted.
-   * %X% - WEBLIST will not show a web called 'TWiki' even if it exists in the file system unless the =TWikiCompatibilityPlugin= is installed and activated in [[%SCRIPTURLPATH{"configure"}%][configure]]. This is done to ensure that the TWiki compatibility components such as the TWiki web are only visible and active when needed.
+   * Example, creates a bullet list of all webs: <verbatim class="tml">%WEBLIST{"   * [[$name.%HOMETOPIC%]]"}%</verbatim>
+   * Example, creates a dropdown of all public webs + Trash web, with the current web highlighted: <pre class="tml">&lt;form&gt;&lt;select name="web"&gt;%<nop>WEBLIST{
+      "&lt;option $marker value='$qname'&gt;$name&lt;/option&gt;"
+      webs="Trash, public"
+      selection="%<nop>WEB%"
+      separator=" "
+   }% &lt;/select&gt;&lt;/form&gt;</pre>
+   <blockquote class="foswikiHelp">%X% =WEBLIST= will not show a web called 'TWiki' even if it exists in the file system unless the =TWikiCompatibilityPlugin= is installed and activated in [[%SCRIPTURLPATH{"configure"}%][configure]]. This is done to ensure that the TWiki compatibility components such as the TWiki web are only visible and active when needed</blockquote>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPICLIST][TOPICLIST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
+<!--%JQREQUIRE{"chili"}%-->

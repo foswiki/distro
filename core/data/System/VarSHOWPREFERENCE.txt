@@ -5,8 +5,11 @@ Preference values are shown in a bulleted list.
    * =%<nop>SHOWPREFERENCE%=
       * Show all preferences
    * =%<nop>SHOWPREFERENCE{"PREFERENCENAME"}%=
-      * Show a single preference, For example, =%<nop>SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%= shows:
-%SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%
+      * Show a single preference
+      * Example: <verbatim class="tml">%SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%</verbatim>
+      * Expands as: <pre class="tml">%SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%</pre>
    * =%<nop>SHOWPREFERENCE{"PREFERENCENAME,PREFERENCENAME,..."}%=
-      * Show all of the preferences in a comma-separated list of preference names. This is particularly useful for reviewing the access controls that apply to a topic. For example, =%<nop>SHOWPREFERENCE{"DENYWEBCHANGE,ALLOWWEBCHANGE"}%= shows:
-%SHOWPREFERENCE{"DENYWEBCHANGE,ALLOWWEBCHANGE"}%
+      * Show all of the preferences in a comma-separated list of preference names. This is particularly useful for reviewing the access controls that apply to a topic.
+      * Example: <verbatim class="tml">%SHOWPREFERENCE{"DENYWEBCHANGE,ALLOWWEBCHANGE"}%</verbatim>
+      * Expands as: <pre class="tml">%SHOWPREFERENCE{"DENYWEBCHANGE,ALLOWWEBCHANGE"}%</pre>
+<!--%JQREQUIRE{"chili"}%-->
