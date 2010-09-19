@@ -52,6 +52,29 @@ BEGIN {
     }
 }
 
+sub new {
+    my ($class) = @_;
+    my $this = $class->SUPER::new();
+
+    # At the moment there will only ever be one event listener, viz the
+    # cache. Making this array in case there is ever more than one.
+    $this->{event_listeners} = [];
+
+    # This appears more complex than it needs to be, but we need to
+    # be able to plug in different implementations because different
+    # database engines use different dialects of SQL.
+    # TODO: refactor this to make registering a DBCache simpler, and
+    # abstracted away from the store implementation.
+    if (defined $Foswiki::cfg{Store}{DBCache}{Implementation}
+       && $Foswiki::cfg{Store}{DBCache}{Implementation} ne 'none') {
+        eval "require $Foswiki::cfg{Store}{DBCache}{Implementation}";
+        die $@ if $@;
+        push(@{$this->{event_listeners}},
+          $Foswiki::cfg{Store}{DBCache}{Implementation}->new());
+    }
+    return $this;
+}
+
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
@@ -185,6 +208,11 @@ sub moveTopic {
 
     $handler->moveTopic( $this, $newTopicObject->web, $newTopicObject->topic );
 
+    foreach my $el (@{$this->{event_listeners}}) {
+        $el->remove($oldTopicObject);
+        $el->insert($newTopicObject);
+    }
+
     if ( $newTopicObject->web ne $oldTopicObject->web ) {
 
         # Record that it was moved away
@@ -201,6 +229,11 @@ sub moveWeb {
 
     my $handler = $this->getHandler($oldWebObject);
     $handler->moveWeb( $newWebObject->web );
+
+    foreach my $el (@{$this->{event_listeners}}) {
+        $el->remove($oldWebObject);
+        $el->insert($oldWebObject);
+    }
 
     # We have to log in the new web, otherwise we would re-create the dir with
     # a useless .changes. See Item9278
@@ -281,6 +314,10 @@ sub saveTopic {
     my $extra = $options->{minor} ? 'minor' : '';
     $handler->recordChange( $cUID, $nextRev, $extra );
 
+    foreach my $el (@{$this->{event_listeners}}) {
+        $el->update($topicObject);
+    }
+
     return $nextRev;
 }
 
@@ -295,6 +332,11 @@ sub repRev {
         'reprev', $info->{author}, $info->{date} );
     my $rev = $handler->getLatestRevisionID();
     $handler->recordChange( $cUID, $rev, 'minor, reprev' );
+
+    foreach my $el (@{$this->{event_listeners}}) {
+        $el->update($topicObject);
+    }
+
     return $rev;
 }
 
@@ -314,6 +356,14 @@ sub delRev {
 
     # restore last topic from repository
     $handler->restoreLatestRevision($cUID);
+
+    # reload the topic object
+    $topicObject->unload();
+    $topicObject->loadVersion();
+
+    foreach my $el (@{$this->{event_listeners}}) {
+        $el->update($topicObject);
+    }
 
     $handler->recordChange( $cUID, $rev );
 
@@ -425,6 +475,10 @@ sub remove {
 
     my $handler = $this->getHandler( $topicObject, $attachment );
     $handler->remove();
+
+    foreach my $el (@{$this->{event_listeners}}) {
+        $el->remove($topicObject);
+    }
 
     # Only log when deleting topics or attachment, otherwise we would re-create
     # an empty directory with just a .changes. See Item9278
