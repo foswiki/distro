@@ -13,11 +13,10 @@ sub check {
     my $e = $this->guessMajorDir( 'ScriptDir', 'bin' );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{ScriptDir} );
 
-    my $e2 = _checkBinDir($this, $Foswiki::cfg{ScriptDir} );
+    my $e2 = _checkBinDir( $this, $Foswiki::cfg{ScriptDir} );
     $e .= $e2 if $e2;
     return $e;
 }
-
 
 sub _checkBinDir {
     my ( $this, $dir ) = @_;
@@ -29,11 +28,23 @@ Cannot open '$dir' for read ($!) - check it exists, and that permissions are cor
 HERE
     }
     foreach my $script ( grep { -f "$dir/$_" && /^\w+(\.\w+)?$/ } readdir D ) {
+
         #  If a script suffix is set, make sure all scripts have one
-        if ( $ext && $script !~ /\.$ext$/
-            && $script !~ /\.cfg$/ ) {
+        if (   $ext
+            && $script !~ /$ext$/
+            && $script !~ /\.cfg$/ )
+        {
             $errs .= $this->WARN(<<HERE);
 $script appears to be missing the configured script suffix - please check it.
+HERE
+        }
+        if (  !$ext
+            && $script =~ /(\..*)$/
+            && $script !~ /\.cfg$/
+            && $script !~ /\.fcgi$/ )
+        {
+            $errs .= $this->WARN(<<HERE);
+$script appears to have a suffix ($1), no script suffix is configured - please check it.
 HERE
         }
         #  Verify that scripts are executable
