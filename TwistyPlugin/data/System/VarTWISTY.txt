@@ -29,5 +29,13 @@ Usage: =%<nop>TWISTY{ ... }% Toggable contents %<nop>ENDTWISTY%=
     | =hideimg=      | Image url | %GREEN%Deprecated, use showimgleft, hideimgleft, showimgright or hideimgright.%ENDCOLOR% | optional, defaults to no image |
     | =showimg=      | Image url | %GREEN%Deprecated, use showimgleft, hideimgleft, showimgright or hideimgright.%ENDCOLOR% | optional, defaults to no image |
     
-   * Related: [[VarENDTWISTY][TWISTY]], [[VarTWISTY][ENDTWISTY]], [[VarTWISTYBUTTON][TWISTYBUTTON]], [[VarTWISTYTOGGLE][TWISTYTOGGLE]], [[VarENDTWISTYTOGGLE][ENDTWISTYTOGGLE]], [[VarTWISTYSHOW][TWISTYSHOW]], [[VarTWISTYHIDE][TWISTYHIDE]]
-
+   * Related: %INCLUDE{"%TOPIC%" includingtopic="%INCLUDINGTOPIC%" section="related"}%
+<!-- %JQREQUIRE{"chili"}% <verbatim class="tml">
+%STARTSECTION{"related"}%%SEARCH{
+  "parent.name='TwistyPlugin'"
+  type="query"
+  topic="Var*"
+  nonoise="on"
+  format="[[%IF{"'%includingtopic%'='Macros'" then="#"}%$topic][$topic]]"
+  separator=", "
+}%%ENDSECTION{"related"}% </verbatim> -->

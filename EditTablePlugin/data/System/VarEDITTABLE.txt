@@ -18,8 +18,14 @@
      | =buttonrow= | Set to =top= to put the edit buttons above the table. | =bottom= |
      | =javascriptinterface= | Use javascript to directly move and delete row without page refresh. Enable with ="on"=, disable with ="off"=. | =JAVASCRIPTINTERFACE= %BR% plugin setting |
 %ENDSECTION{"edittable_attributes"}%
-   * Example:%BR%
-     =%<nop>EDITTABLE{ format="| text, 20 | select, 1, one, two, three |" changerows="on" }%= %BR%
-     =| <nop>*Name*<nop> | <nop>*Type*<nop> |= %BR%
-     =| Foo | two |=
-   * Related: See EditTablePlugin for more details
+
+*Example:*
+   <verbatim class="tml">%EDITTABLE{ format="| text, 20 | select, 1, one, two, three |" changerows="on" }%
+| *Name* | *Type* |
+| Foo    | two    |</verbatim><!-- %JQREQUIRE{"chili"}% -->
+
+*Produces:*
+%EDITTABLE{ format="| text, 20 | select, 1, one, two, three |" changerows="on" }%
+| *Name* | *Type* |
+| Foo    | two    |
+*Related:* See EditTablePlugin for more details

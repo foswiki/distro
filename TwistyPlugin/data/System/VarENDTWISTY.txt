@@ -5,7 +5,4 @@
 ---+++ ENDTWISTY
 *Twisty closure, complements the opening TWISTY tag.*
    * Syntax: =%<nop>ENDTWISTY%=
-
-
-   * Related: [[VarENDTWISTY][TWISTY]], [[VarTWISTY][ENDTWISTY]], [[VarTWISTYBUTTON][TWISTYBUTTON]], [[VarTWISTYTOGGLE][TWISTYTOGGLE]], [[VarENDTWISTYTOGGLE][ENDTWISTYTOGGLE]], [[VarTWISTYSHOW][TWISTYSHOW]], [[VarTWISTYHIDE][TWISTYHIDE]]
-
+   * Related: %INCLUDE{"VarTWISTY" section="related" includingtopic="%INCLUDINGTOPIC%"}%
