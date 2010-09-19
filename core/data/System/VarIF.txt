@@ -3,6 +3,10 @@
 #VarIF
 ---+++ IF{"condition" ...} -- simple conditionals
    * Evaluate a condition and show one text or another based on the result. See details in IfStatements
-   * Syntax: =%<nop>IF{"CONDITION" then="THEN" else="ELSE"}%= shows ="THEN"= if ="CONDITION"= evaluates to =TRUE=, otherwise ="ELSE"= will be shown
-   * Example: =%<nop>IF{"defined FUNFACTOR" then="FUNFACTOR is defined" else="FUNFACTOR is not defined"}%= renders as =%IF{"defined FUNFACTOR" then="FUNFACTOR is defined" else="FUNFACTOR is not defined"}%=
+   * Syntax: <verbatim class="tml">%IF{"CONDITION" then="THEN" else="ELSE"}%</verbatim> shows<br/> ="THEN"= if ="CONDITION"= evaluates to =TRUE=, otherwise ="ELSE"= will be shown
+   * Example: <verbatim class="tml"> %IF{"defined FUNFACTOR"
+   then="FUNFACTOR is defined"
+   else="FUNFACTOR is not defined"
+ }%</verbatim> renders as <pre class="tml">%IF{"defined FUNFACTOR" then="FUNFACTOR is defined" else="FUNFACTOR is not defined"}%</pre>
    * Related: [[SpreadSheetPlugin#FuncIF][$IF()]] of SpreadSheetPlugin
+<!--%JQREQUIRE{"chili"}%-->

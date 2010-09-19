@@ -9,6 +9,6 @@
      | =%<nop>HTTP%= | %HTTP% |
      | =%<nop>HTTP{"Accept-language"}%= | %HTTP{"Accept-language"}% |
      | =%<nop>HTTP{"User-Agent"}%= | %HTTP{"User-Agent"}% |
-   * %X% You can see the HTTP headers your browser sends to the server on a number of sites e.g. http://www.ericgiguere.com/tools/http-header-viewer.html
+   <blockquote class="foswikiHelp">%X% You can see the HTTP headers your browser sends to the server on a number of sites e.g. http://www.ericgiguere.com/tools/http-header-viewer.html</blockquote>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarHTTPS][HTTPS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEADDR][REMOTE_ADDR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEPORT][REMOTE_PORT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEUSER][REMOTE_USER]]
 

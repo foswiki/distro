@@ -12,8 +12,13 @@
      | =separator="n"= | Separator between formatted elements | ="$n"= |
      | =type=""= | Treat input list as either =topic= or =string= | ="topic"= |
    * Examples:
-      * =%<nop>FORMAT{"one,two,three" type="string" format="   * $item"}%=
-      * =%<nop>FORMAT{"%SKIN%" header="the Skin setting is evaluated in this order:" format="   1 =$topic=" footer="   1 =default="}%=
+   <verbatim class="tml">
+   %FORMAT{"one,two,three" type="string" format="   * $item"}%
+   %FORMAT{"%SKIN%"
+      header="the Skin setting is evaluated in this order:"
+      format="   1 =$topic="
+      footer="   1 =default="
+   }%</verbatim>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
 
 ---++++ Supported formatting tokens
@@ -36,7 +41,8 @@ The FORMAT macro is currently only of use in formatting lists of topics,
 or of simple strings. It will be extended in future releases to add the
 capability to render other object types.
 
-%I% For more sophisticated handling of string lists, consider installing
-Foswiki:Extensions.FilterPlugin.
+<blockquote class="foswikiHelp">%I% For more sophisticated handling of string lists, consider installing
+Foswiki:Extensions.FilterPlugin.</blockquote>
 
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENCODE][ENCODE]], FormattedSearch
+<!--%JQREQUIRE{"chili"}%-->
