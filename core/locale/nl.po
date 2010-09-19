@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-19 21:19+0200\n"
+"PO-Revision-Date: 2010-09-19 22:28+0200\n"
 "Last-Translator: Arthur Clemens <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -454,7 +454,7 @@ msgid ""
 "intentional<br />Press Cancel otherwise"
 msgstr ""
 "<strong>Bevestiging vereist!</strong> Klik OK om te bevestigen dat deze "
-"verandering bewust was<br />Klik anders op Afbreken"
+"wijziging bewust was<br />Klik anders op Afbreken"
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -1220,7 +1220,7 @@ msgstr "Ontdek de details, en hoe je je eigen site begint met Foswiki"
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
-msgstr "Vergeet niet om je veranderingen te bewaren"
+msgstr "Vergeet niet om je wijzigingen te bewaren"
 
 #: PatternSkin/templates/attach.pattern.tmpl:64 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
@@ -1277,7 +1277,7 @@ msgstr "ENCODE mislukt - =type= kan niet worden gebruikt naast =old= en =new="
 
 #: core/templates/messages.tmpl:633
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr "ENCODE mislukt - zowel =old= als =nieuw= moeten worden ingevoerd"
+msgstr "ENCODE mislukt - zowel =old= als =new= moeten worden ingevoerd"
 
 #: core/templates/messages.tmpl:634
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
@@ -1418,18 +1418,16 @@ msgid "Errors"
 msgstr "Foutmeldingen"
 
 #: core/templates/messages.tmpl:466
-#, fuzzy
 msgid "Errors adding users to group"
-msgstr "Fout tijdens het bewaren van de pagina"
+msgstr "Fout tijdens het toevoegen van gebruikers aan een groep"
 
 #: core/templates/messages.tmpl:504
 msgid "Errors removing users from groups"
 msgstr "Fout tijdens het verwijderen van gebruikers van een groep"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
-#, fuzzy
 msgid "Evil person"
-msgstr "Bewerk persoonlijke gegevens"
+msgstr "Kwaadwillend persoon"
 
 #: core/lib/Foswiki/Plugins.pm:366
 msgid "Failed plugins"
@@ -1471,7 +1469,8 @@ msgid ""
 "[[%1][the Cross-site request forgery article on Wikipedia]]."
 msgstr ""
 "Voor meer uitgebreide informatie over cross-site request forgery, en de "
-"gevaren die dit brengt, zie"
+"gevaren die dit brengt, zie [[%1][het Cross-site request forgery artikel op "
+"Wikipedia]]."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1491,14 +1490,12 @@ msgid "Form data"
 msgstr "Formuliergegevens"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
-#, fuzzy
 msgid "Form definition"
-msgstr "Formulierdefinitie ontbreekt"
+msgstr "Formulierdefinitie"
 
 #: core/templates/messages.tmpl:343
-#, fuzzy
 msgid "Form definition '%1' not found"
-msgstr "Formulierdefinitie %1 ontbreekt"
+msgstr "Formulierdefinitie '%1' niet gevonden"
 
 #: core/templates/messages.tmpl:351
 msgid "Form definition missing"
@@ -1533,9 +1530,8 @@ msgid "Get notified on changes on this search"
 msgstr "Abonneer je op wijzigingen op deze zoekvraag"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
-#, fuzzy
 msgid "Globe"
-msgstr "Sluiten"
+msgstr "Wereld"
 
 #: core/templates/foswiki.tmpl:139
 msgid "Go back"
@@ -1551,8 +1547,8 @@ msgstr ""
 #: core/templates/messages.tmpl:404 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr ""
-"Ga terug met je browser en bewaar je veranderingen lokaal (bijvoorbeeld op "
-"je harde schijf)."
+"Ga terug met je browser en bewaar je wijzigingen lokaal (bijvoorbeeld op je "
+"harde schijf)."
 
 #: core/templates/validate.tmpl:34
 msgid ""
@@ -1567,14 +1563,12 @@ msgid "Good examples:"
 msgstr "Goede voorbeelden:"
 
 #: core/data/Main/WikiGroups.txt:49
-#, fuzzy
 msgid "Group"
-msgstr "Groepen"
+msgstr "Groep"
 
 #: core/data/Main/WikiGroups.txt:17
-#, fuzzy
 msgid "Group name"
-msgstr "Paginanaam"
+msgstr "Groepsnaam"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -1610,9 +1604,8 @@ msgstr ""
 "aanmaken."
 
 #: core/data/System/ManagingTopics.txt:95
-#, fuzzy
 msgid "History"
-msgstr "&Geschiedenis"
+msgstr "Geschiedenis"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1669,14 +1662,12 @@ msgstr ""
 "zijn, wordt je gevraagd om de request te bevestigen."
 
 #: core/templates/messages.tmpl:431
-#, fuzzy
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr ""
-"Controleer je configuratie-instellingen voor {TemplateDir} en "
-"{TemplatePath}. Als het dit niet is kan het zijn dat je een instelling hebt "
-"van %1 die verwijst naar een template dat niet bestaat."
+"Als dat het probleem niet is, kan het zijn dat je een instelling %1 hebt die "
+"verwijst naar een niet-bestaande template."
 
 #: core/templates/messages.tmpl:360
 msgid "If this line isn't present see _upgrade_ section below"
@@ -1709,11 +1700,8 @@ msgid "If you don't receive a verification email within the next hour, "
 msgstr "Al je niet binnen een uur een verificatie e-mail ontvangt,"
 
 #: core/templates/renameattachmentdelete.tmpl:41
-#, fuzzy
 msgid "If you enter a different name, make sure the topic exists."
-msgstr ""
-"Als je een andere naam opgeeft, controleer dan eerst of de pagina ook "
-"bestaat."
+msgstr "Als je een andere naam opgeeft, controleer dan of de pagina bestaat."
 
 #: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:23
@@ -1877,17 +1865,14 @@ msgstr ""
 "aan om eerst af te stemmen met %1."
 
 #: core/templates/foswiki.tmpl:47
-#, fuzzy
 msgid ""
 "It's usually best to choose a %1 for the new topic name, otherwise automatic "
 "linking may not work. Characters not allowed in topic names, such as spaces "
 "will automatically be removed."
 msgstr ""
-"Het is over het algemeen beter om een <a target='WikiWord' "
-"class='foswikiPopUp' href='%1' rel='nofollow'>WikiWord</a> voor de nieuwe "
-"paginanaam te gebruiken, anders werkt automatisch linken niet. Niet "
-"toegestane karakters in paginanamen, spaties bijvoorbeeld, worden "
-"automatisch verwijderd."
+"Het is over het algemeen beter om %1 te kiezen voor de nieuwe paginanaam te "
+"gebruiken, anders werkt automatisch linken niet. Niet toegestane karakters "
+"in paginanamen, spaties bijvoorbeeld, worden automatisch verwijderd."
 
 #: core/templates/renameweb.tmpl:16
 msgid ""
@@ -1907,9 +1892,8 @@ msgid "Jump"
 msgstr "Direct naar pagina"
 
 #: core/data/System/WebSearch.txt:114
-#, fuzzy
 msgid "Keyword search"
-msgstr "Pas zoekactie aan"
+msgstr "Keyword zoeken"
 
 #: core/data/System/WebSearch.txt:102
 msgid "Last editor"
@@ -1959,7 +1943,6 @@ msgid "Log Out"
 msgstr "Log uit"
 
 #: core/templates/login.tmpl:12
-#, fuzzy
 msgid "Log on with your username and password"
 msgstr "Vul je gebruikersnaam en wachtwoord in"
 
@@ -2010,14 +1993,12 @@ msgid "More formatting help"
 msgstr "Meer opmaakhulp"
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid "More on hiding attachments"
-msgstr "Verplaats of verwijder bijlage"
+msgstr "Meer over het verbergen van bijlagen"
 
 #: core/data/System/TopicsAndWebs.txt:49
-#, fuzzy
 msgid "More topic actions"
-msgstr "Meer pagina acties..."
+msgstr "Meer pagina acties"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
@@ -2235,27 +2216,24 @@ msgstr ""
 "nieuw wachtwoord in]]."
 
 #: core/templates/renamedelete.tmpl:20
-#, fuzzy
 msgid "Optionally change attachment name:"
-msgstr "Verander eventueel de paginanaam:"
+msgstr "Verander eventueel de naam van de bijlage:"
 
 #: core/templates/renamedelete.tmpl:18
 msgid "Optionally change topic name:"
 msgstr "Verander eventueel de paginanaam:"
 
 #: core/templates/renameattachmentdelete.tmpl:34
-#, fuzzy
 msgid "Optionally enter a different attachment name:"
-msgstr "Voer eventueel een andere paginanaam in:"
+msgstr "Voer eventueel een andere naam voor de bijlage in:"
 
 #: core/templates/renameattachmentdelete.tmpl:32
 msgid "Optionally enter a different topic name:"
 msgstr "Voer eventueel een andere paginanaam in:"
 
 #: core/templates/more.tmpl:161
-#, fuzzy
 msgid "Options"
-msgstr "Actie"
+msgstr "Opties"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:235
 msgid "Organisation name"
@@ -2405,9 +2383,8 @@ msgid "Query Search"
 msgstr "Query Search"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:71
-#, fuzzy
 msgid "Question"
-msgstr "Versie"
+msgstr "Vraag"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:162
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
@@ -2606,7 +2583,6 @@ msgid "Revision"
 msgstr "Revisie"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:14
-#, fuzzy
 msgid "Revision history of %1"
 msgstr "Versiegeschiedenis van %1"
 
@@ -2670,9 +2646,8 @@ msgid "Search all webs for topics that link to here"
 msgstr "Zoek in alle webs naar pagina&#39;s die hierheen linken"
 
 #: core/data/System/WebSearch.txt:22
-#, fuzzy
 msgid "Search in %1 Web"
-msgstr "Zoek alleen in %1 &Web"
+msgstr "Zoek in %1 web"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search in all webs"
@@ -2687,9 +2662,8 @@ msgid "Search options"
 msgstr "Zoekopties"
 
 #: core/templates/searchbookview.tmpl:7
-#, fuzzy
 msgid "Search result"
-msgstr "(zoekresultaat)"
+msgstr "Zoekresultaten"
 
 #: core/data/System/WebSearch.txt:122
 msgid "Search string"
@@ -2793,9 +2767,8 @@ msgid "Set new topic parent"
 msgstr "Bovenliggende pagina instellen"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:80
-#, fuzzy
 msgid "Show"
-msgstr "Toon help"
+msgstr "Tonen"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:11
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -3309,16 +3282,15 @@ msgid ""
 "the other users changes. Please inspect the topic to make sure it is OK, "
 "especially if you made any changes to form fields."
 msgstr ""
-"Deze veranderingen zijn samengevoegd met die van jou en vormen samen Rev %1. "
+"Deze wijzigingen zijn samengevoegd met die van jou en vormen samen Rev %1. "
 "Tekstvelden zullen zijn samengevoegd, maar andere gegevens zoals "
 "formuliervelden zouden overschreven kunnen zijn door de wijzigingen van "
 "andere gebruikers. Controleer de pagina of deze in orde is, in het bijzonder "
 "als je veranderingen hebt gedaan in formuliervelden."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:64
-#, fuzzy
 msgid "Title"
-msgstr "Paginatitel"
+msgstr "Titel"
 
 #: core/templates/renameconfirm.tmpl:16
 msgid "To attachment:"
@@ -3385,15 +3357,13 @@ msgstr ""
 
 #: PatternSkin/templates/form.pattern.tmpl:10
 #: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
-#, fuzzy
 msgid "Topic data"
-msgstr "Paginanaam"
+msgstr "Pagina data"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
 #: HistoryPlugin/templates/oopshistory.tmpl:40
-#, fuzzy
 msgid "Topic history"
-msgstr "Paginatitel"
+msgstr "Paginageschiedenis"
 
 #: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:100
 msgid "Topic name"
@@ -3524,9 +3494,8 @@ msgid "Use %1 instead."
 msgstr "Ga dan naar %1."
 
 #: core/data/Sandbox/WebHome.txt:22
-#, fuzzy
 msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
-msgstr "(Gebruik een paginanaam in [[%SYSTEMWEB%.WikiNotation][Wikinotatie]])"
+msgstr "Gebruik een paginanaam in [[%SYSTEMWEB%.WikiNotation][Wikinotatie]]"
 
 #: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:67
 #: core/data/System/WebCreateNewTopicTemplate.txt:43
@@ -3578,7 +3547,6 @@ msgid "View difference"
 msgstr "Bekijk verschillen"
 
 #: core/templates/more.tmpl:164
-#, fuzzy
 msgid "View differences"
 msgstr "Bekijk verschillen"
 
@@ -3705,17 +3673,15 @@ msgstr "Waarom wordt mij om een bevestiging gevraagd?"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid "Wiki administrators should read about the %1."
-msgstr "Wiki beheerders zouden moeten lezen over de"
+msgstr "Wiki-beheerders zouden moeten lezen over de %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:144
-#, fuzzy
 msgid "Wiki name"
-msgstr "Paginanaam"
+msgstr "Wikinaam"
 
 #: core/data/System/WebSearch.txt:113
-#, fuzzy
 msgid "Word search"
-msgstr "Pas zoekactie aan"
+msgstr "Woordzoeken"
 
 #: core/templates/messages.tmpl:19
 msgid "Would you like to go to:"
@@ -3833,6 +3799,8 @@ msgid ""
 "You cannot manually confirm this change because either Cookies or Javascript "
 "are disabled in your browser."
 msgstr ""
+"Je kunt dit niet handmatig bevestigen omdat of Cookies of Javascript "
+"uitgeschakeld zijn in je browser."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:12
 msgid "You cannot register on this site."
@@ -3848,6 +3816,9 @@ msgid ""
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
 msgstr ""
+"Je verandert je e-mailadres door dit in te vullen in het formulier in op je "
+"persoonlijke pagina. Als het formulierveld Email niet bestaat zal het zoeken "
+"naar een regel als deze:"
 
 #: core/templates/messages.tmpl:158 core/templates/messages.tmpl:167
 #: core/templates/messages.tmpl:248
@@ -3872,7 +3843,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:188
 msgid "You may need to close your browser to make this change take effect."
-msgstr "Je moet misschien je browser sluiten om deze verandering te zien."
+msgstr "Je moet misschien je browser sluiten om deze wijziging te zien."
 
 #: core/templates/messages.tmpl:92
 msgid "You must pass a topic name."
@@ -3881,18 +3852,22 @@ msgstr "Je moet een paginanaam opgeven."
 #: core/templates/messages.tmpl:461
 msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
+"Je moet een geldige groepsnaam opgeven om gebruikers toe te kunnen voegen."
 
 #: core/templates/messages.tmpl:499
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
+"Je moet een geldige groepsnaam opgeven om gebruikers te kunnen verwijderen."
 
 #: core/templates/messages.tmpl:456
 msgid "You need to specify a valid user to add to a group."
 msgstr ""
+"Je moet een geldige gebruiker opgeven om deze toe te voegen aan een groep."
 
 #: core/templates/messages.tmpl:494
 msgid "You need to specify a valid user to remove from a group."
 msgstr ""
+"Je moet een geldige gebruiker opgeven om deze te verwijderen van een groep."
 
 #: core/templates/registerconfirm.tmpl:11
 msgid ""
@@ -3937,7 +3912,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:160
 msgid "Your email address will be kept confidential."
-msgstr ""
+msgstr "Je e-mailadres zal vertrouwelijk worden gehouden."
 
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""
@@ -3953,6 +3928,9 @@ msgid ""
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
+"Je naam zoals deze online wordt getoond. Let op, dit moet een unieke [[%"
+"SYSTEMWEB%.WikiName][Wikinaam]] zijn. Standaard is deze afgeleid van je "
+"voornaam en achternaam."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
 msgid "Your password"
@@ -4072,7 +4050,7 @@ msgstr "en"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr ""
+msgstr "door %1"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -4089,7 +4067,7 @@ msgstr "vergeet niet om je pagina voorkeurinstellingen na te kijken"
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "earlier"
-msgstr ""
+msgstr "eerder"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4103,7 +4081,7 @@ msgstr "velden zijn verplicht."
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "first"
-msgstr ""
+msgstr "eerste"
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:24
@@ -4125,13 +4103,12 @@ msgstr "velden zijn verplicht"
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "last"
-msgstr ""
+msgstr "laatste"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
-#, fuzzy
 msgid "later"
-msgstr "Datum"
+msgstr "later"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -4143,7 +4120,7 @@ msgstr "meer..."
 
 #: core/data/Main/GroupViewTemplate.txt:31
 msgid "no members"
-msgstr ""
+msgstr "geen leden"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
@@ -4170,13 +4147,12 @@ msgid "retrieved at %1"
 msgstr "gevonden om %1"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:86
-#, fuzzy
 msgid "revisions up to"
-msgstr "Revisies"
+msgstr "revisies tot en met"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid "the Cross-site request forgery article on Wikipedia"
-msgstr ""
+msgstr "het Cross-site request forgery artikel op Wikipedia"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -4254,7 +4230,7 @@ msgstr "title='Bekijk wiki tekst zonder opmaak' accesskey='t'>Wiki&tekst"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"
-msgstr ""
+msgstr "onveranderde secties voor en na elke wijziging"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:29
 msgid "user list truncated"
