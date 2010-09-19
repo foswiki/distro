@@ -131,36 +131,20 @@ sub _perform_request {
     my ( $env, $in ) = @_;
 
     CGI::initialize_globals();
-    untie(*STDIN);
-    untie(*STDOUT);
-
-    # Saving STDIN
-    open my $stdin, '<&=', \*STDIN or die "Can't dup STDIN: $!";
-    close STDIN;
 
     # Redirecting STDIN to the CGI input
+    local *STDIN;
     open STDIN, '<', $in or die "Can't redirect STDIN to \$in: $!";
 
-    # Saving STDOUT
-    open my $stdout, '>&=', \*STDOUT or die "Can't dup STDOUT: $!";
-    close STDOUT;
-    my $out = '';
-
     # Redirecting STDOUT to $out to grap the CGI output
+    my $out = '';
+    local *STDOUT;
     open STDOUT, '>', \$out or die "Can't redirect STDOUT to \$out: $!";
-    local %ENV = %$env;
     eval {
-        $ENV{FOSWIKI_ACTION} = 'test';
+        local %ENV = (%$env, FOSWIKI_ACTION => 'test' );
         $Foswiki::engine->run();
     };
 
-    # Restoring STDIN
-    open STDIN, '<&=', $stdin or die "Can't restore STDIN: $!";
-    close $stdin;
-
-    # Restoring STDOUT
-    open STDOUT, '>&=', $stdout or die "Can't restore STDOUT: $!";
-    close $stdout;
     return HTTP::Message->parse($out);
 }
 
