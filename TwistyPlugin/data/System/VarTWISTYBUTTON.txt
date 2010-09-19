@@ -13,7 +13,4 @@ This is useful if both the show and the hide button take the same arguments.
     | *Parameter* | *Value* | *Description* | *Remark* |
     | =mode= | ="div"= or ="span"= | Specify if the *Twisty button* will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. | optional, defaults to =&lt;div&gt;= |
    * Example: =%<nop>TWISTYBUTTON{id="myid" link="more"}%%<nop>TWISTYTOGGLE{id="myid"}%content%<nop>ENDTWISTYTOGGLE%=
-
-
-   * Related: [[VarENDTWISTY][TWISTY]], [[VarTWISTY][ENDTWISTY]], [[VarTWISTYBUTTON][TWISTYBUTTON]], [[VarTWISTYTOGGLE][TWISTYTOGGLE]], [[VarENDTWISTYTOGGLE][ENDTWISTYTOGGLE]], [[VarTWISTYSHOW][TWISTYSHOW]], [[VarTWISTYHIDE][TWISTYHIDE]]
-
+   * Related: %INCLUDE{"VarTWISTY" section="related" includingtopic="%INCLUDINGTOPIC%"}%

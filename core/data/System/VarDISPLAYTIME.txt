@@ -6,5 +6,5 @@
    * Syntax: =%<nop>DISPLAYTIME%= OR =%<nop>DISPLAYTIME{"format"}%=
    * =%<nop>DISPLAYTIME%= The time is shown as hh:mm (24 hour clock)
       * Expands to: =%DISPLAYTIME%=
-   * Example: =%<nop>DISPLAYTIME{"$hou:$min"}%= expands to =%DISPLAYTIME{"$hou:$min"}%=
+   * Example: <verbatim class="tml">%DISPLAYTIME{"$hou:$min"}%</verbatim><!--%JQREQUIRE{"chili"}%--> expands to =%DISPLAYTIME{"$hou:$min"}%=
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSERVERTIME][SERVERTIME]]

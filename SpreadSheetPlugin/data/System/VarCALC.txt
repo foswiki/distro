@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1180825069" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="Macros"}%
+%META:TOPICPARENT{name="SpreadSheetPlugin"}%
 #VarCALC
 ---+++ CALC{"formula"} -- add spreadsheet calculations to tables and outside tables
    * The =%<nop>CALC{"formula"}%= macro is handled by the SpreadSheetPlugin. There are around 90 formulae, such as =$ABS()=, =$EXACT()=, =$EXISTS()=, =$GET()/$SET()=, =$IF()=, =$LOG()=, =$LOWER()=, =$PERCENTILE()=, =$TIME()=, =$VALUE()=.

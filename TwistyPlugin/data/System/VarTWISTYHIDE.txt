@@ -15,7 +15,4 @@
     | =start= | ="hide"= or ="show"= | Initial state of the Twisty; this will override any setting stored in a cookie (see =remember=).  | optional, default no initial state |
     | =firststart= | ="hide"= or ="show"= | Initial state of the Twisty the first time the visitor gets to see the Twisty; this will NOT override cookie settings (see =remember=).  | optional, default no initial state |
    * Example: =%<nop>TWISTYHIDE{id="demo" link=" Click to Fold " imgleft="%<nop>ICONURLPATH{toggleclose}%"}%=
-   * Related: [[#VarTWISTYSHOW][TWISTYSHOW]] and [[#VarTWISTYTOGGLE][TWISTYTOGGLE]]
-
-   * Related: [[VarENDTWISTY][TWISTY]], [[VarTWISTY][ENDTWISTY]], [[VarTWISTYBUTTON][TWISTYBUTTON]], [[VarTWISTYTOGGLE][TWISTYTOGGLE]], [[VarENDTWISTYTOGGLE][ENDTWISTYTOGGLE]], [[VarTWISTYSHOW][TWISTYSHOW]], [[VarTWISTYHIDE][TWISTYHIDE]]
-
+   * Related: %INCLUDE{"VarTWISTY" section="related" includingtopic="%INCLUDINGTOPIC%"}%
