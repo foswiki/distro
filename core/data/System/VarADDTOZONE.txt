@@ -26,13 +26,13 @@ You may create as many zones in addition to the standard [[#HeadAndScript][ =hea
    * =text="..."= optional, text to be added to the named zone, mutually exclusive with =topic=.
    * =topic="..."= optional, full qualified =web.topic= name that contains the text to be added, mutually exclusive with =text=.
    * =section="..."= optional, section of the =topic= to be added,
-     defaults to the default section between [[VarSTARTINCLUDE][STARTINCLUDE]] and [[VarSTOPINCLUDE][STOPINCLUDE]].<br/>
-      * %H% Using =topic= and =section= is actually a short form of 
+     defaults to the default section between [[VarSTARTINCLUDE][STARTINCLUDE]] and [[VarSTOPINCLUDE][STOPINCLUDE]].
+      <blockquote class="foswikiHelp">%H% Using =topic= and =section= is actually a short form of:
       <verbatim class="tml">
 %ADDTOZONE{
    "myzone"
    text="$percentINCLUDE{\"topic\" section=\"section\" warn=\"off\"}$percent"
-}%</verbatim>
+}%</verbatim></blockquote>
 
 __Note:__ Foswiki uses the =requires= parameter to resolve the _ordering_ of dependencies within a zone. It does *not* work across zones. If you have an id in =requires= that cannot be resolved during sorting, then =RENDERZONE= will generate an HTML comment to mark the problem.
 
@@ -134,5 +134,6 @@ as would be inserted before the =&lt;/HEAD&gt;=.
 }%
 </verbatim>
 See also [[VarRENDERZONE][RENDERZONE]],
-[[http://foswiki.org/Development/UsingADDTOZONE][Using ADDTOZONE]]
+[[Foswiki:Development.UsingADDTOZONE][Using ADDTOZONE]],
+[[Foswiki:Development.UpdatingExtensionsScriptZone][Updating applications to use =script= zone]]
 <!-- %JQREQUIRE{"chili"}% -->

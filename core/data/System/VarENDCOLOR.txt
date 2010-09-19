@@ -2,8 +2,27 @@
 %META:TOPICPARENT{name="StandardColors"}%
 #VarENDCOLOR
 ---+++ ENDCOLOR -- end colored text
-   * =ENDCOLOR= is a shortcut macros predefined in DefaultPreferences.  See the section [[DefaultPreferences#RenderingShortcuts][shortcut macros]] in that topic for a complete list of colors.
-   * Syntax: =%<nop>RED% red text %<nop>ENDCOLOR%=
-   * Expands to: %RED% red text %ENDCOLOR%
-   * %X% =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write =%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%=.
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarAQUA][VarAQUA]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBLACK][VarBLACK]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBLUE][VarBLUE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBROWN][VarBROWN]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGRAY][VarGRAY]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGREEN][VarGREEN]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLIME][VarLIME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarMAROON][VarMAROON]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarNAVY][VarNAVY]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarOLIVE][VarOLIVE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarORANGE][VarORANGE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPINK][VarPINK]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPURPLE][VarPURPLE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarRED][VarRED]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSILVER][VarSILVER]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTEAL][VarTEAL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWHITE][VarWHITE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarYELLOW][VarYELLOW]], [[DefaultPreferences#RenderingShortcuts][DefaultPreferences]], StandardColors
+   * =ENDCOLOR= is one of the shortcut macros predefined in DefaultPreferences.  See the section [[DefaultPreferences#RenderingShortcuts][shortcut macros]] in that topic for a complete list of shortcuts.<br/>
+   *Example:*
+   <pre class="tml">%<nop>GREEN% green text %<nop>ENDCOLOR%</pre>
+   *Expands to:* %GREEN% green text %ENDCOLOR%
+   %INCLUDE{"%TOPIC%" section="remember"}%
+   * Related: %SEARCH{
+   "parent.name='StandardColors'"
+   type="query"
+   excludetopic="%TOPIC%"
+   nonoise="on"
+   format="[[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%$topic][$topic]]"
+   separator=", "
+}%, [[DefaultPreferences#RenderingShortcuts][DefaultPreferences]], StandardColors
+<!-- <verbatim class="tml">%STARTSECTION{"varcolor"}%
+#Var%color%
+---+++ %color% -- start %CALC{"$LOWER(%color%)"}% colored text
+   * =%color%= is one of the shortcut macros predefined in DefaultPreferences.  See the section [[DefaultPreferences#RenderingShortcuts][shortcut macros]] in that topic for a complete list of colors.<br/>
+   *Example:*
+   <pre class="tml">%<nop>%color%% %CALC{"$LOWER(%color%)"}% text %<nop>ENDCOLOR%</pre>
+   *Expands to:* %%color%% %CALC{"$LOWER(%color%)"}% text %ENDCOLOR%
+   %STARTSECTION{"remember"}%<p></p><blockquote class="foswikiHelp">%X% =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write <pre class="tml">%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%</pre></blockquote>%ENDSECTION{"remember"}%
+*Related:* [[%IF{"'%includingtopic%'='Macros'" then="#"}%VarENDCOLOR][ENDCOLOR]], [[DefaultPreferences#RenderingShortcuts][DefaultPreferences]], StandardColors
+<!-- %JQREQUIRE{"chili"}% -->%ENDSECTION{"varcolor"}%</verbatim> -->
+<!-- %JQREQUIRE{"chili"}% -->
