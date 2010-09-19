@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-17 23:32+0200\n"
+"PO-Revision-Date: 2010-09-18 16:07+0200\n"
 "Last-Translator: Lars Eik <lars.eik@gmail.com>\n"
 "Language-Team: Norwegian <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2926,9 +2926,7 @@ msgstr "Web %1 av %2."
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
-msgstr ""
-"%1 web'en til Foswiki, den gratis og åpen kildekode Wiki'en (Free Open "
-"Source Wiki = Foswiki)."
+msgstr "%1 web'en til Foswiki, den åpne og frie Wiki'en."
 
 #: core/templates/messages.tmpl:440
 msgid "The =%1= script can only be called with POST method."
@@ -4104,8 +4102,7 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr ""
-"title='Rediger wiki teksten på denne siden' accesskey='w'>Rediger &wiki tekst"
+msgstr "title='Rediger Wiki tekst' accesskey='w'>Rediger &wiki tekst"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
@@ -4153,7 +4150,7 @@ msgstr "title='Vis total sidehistorikk' accesskey='h'>&Historikk"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
-msgstr "title='Vis rå tekst uten formatering' accesskey='r'>&Rå Wiki Tekst"
+msgstr "title='Vis wiki tekst uten formatering' accesskey='v'>&Vis wiki tekst"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"

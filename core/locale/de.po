@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-16 18:34+0200\n"
+"PO-Revision-Date: 2010-09-19 20:36+0200\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,7 @@ msgstr "%1 wurde der Gruppe %2 hinzugefügt."
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
-msgstr "%1 Gruppen Topic aktualisiert."
+msgstr "%1 Gruppen-Topic aktualisiert."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -230,7 +230,7 @@ msgstr "(Querverweise in allen Webs)"
 
 #: core/templates/searchbookview.tmpl:4
 msgid "(book view)"
-msgstr "(Buch-Ansicht)"
+msgstr "(Buchansicht)"
 
 #: core/templates/changeform.tmpl:3
 msgid "(change form)"
@@ -426,7 +426,7 @@ msgstr "*Absätze* abtrennen durch eine Leerzeile"
 #: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
-"*interne Verweise* Topic Namen benutzen: =%1= oder =[<nop>[%1][Unsere "
+"*interne Verweise* Topic-Namen benutzen: =%1= oder =[<nop>[%1][Unsere "
 "Homepage]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:93
@@ -464,7 +464,7 @@ msgstr ""
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
-"Aus Sicherheitsgrünnden wird an manchen Dateinamen eine =.txt= Endung "
+"Aus Sicherheitsgründen wird an manchen Dateinamen eine =.txt= Endung "
 "angehängt"
 
 #: core/templates/messages.tmpl:583
@@ -472,7 +472,7 @@ msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
 msgstr ""
-"Ein Foswiki System ist in Webs unterteilt; jedes für ein Thema, ein Bereich "
+"Ein Foswiki-System ist in Webs unterteilt; jedes für ein Thema, ein Bereich "
 "für Zusammenarbeit. Sie versuchen in ein Web zu %1, dass nicht existiert."
 
 #: core/templates/messages.tmpl:139
@@ -480,7 +480,7 @@ msgid ""
 "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
 "=#FFFF00=."
 msgstr ""
-"Eine Farbdefition beginnt mit einem # Zeichen, gefolgt von 6 Zahlen in "
+"Eine Farbdefinition beginnt mit einem # Zeichen, gefolgt von 6 Zahlen in "
 "Hexadezimal, z.B. =#FFFF00=."
 
 #. ($data->{Email})
@@ -511,8 +511,8 @@ msgid ""
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
-"Ein neues vom System erzeugtes Passwort für den Login Namen '%1' (!WikiName %"
-"2) wurde an ihre registrierte E-Mail gesendet. Falls ihre E-Mail Adresse "
+"Ein neues vom System erzeugtes Passwort für den Login-Namen '%1' (!WikiName "
+"%2) wurde an ihre registrierte E-Mail gesendet. Falls ihre E-Mail Adresse "
 "nicht länger gültig ist, setzen Sie sich bitte mit %3 in Kontakt"
 
 #: core/data/System/WebTemplateTopics.txt:5
@@ -540,11 +540,11 @@ msgstr "Zugriffskontrolle für %1 fehlgeschlagen"
 
 #: PatternSkin/templates/edit.pattern.tmpl:67
 msgid "Access keys"
-msgstr "Funktions-Tasten"
+msgstr "Funktionstasten"
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
 msgid "Access keys:"
-msgstr "Funktions-Tasten:"
+msgstr "Funktionstasten:"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -586,7 +586,7 @@ msgstr "Füge eine %1 Variable in WebPreferences hinzu"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
-msgstr "Foswiki Admin Benutzer Authentifizierung"
+msgstr "Foswiki Admin-Benutzer Authentifizierung"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:26
 msgid "Admin Maintenance"
@@ -654,7 +654,7 @@ msgid ""
 "An error page will be shown if either of the topics are locked by another "
 "user."
 msgstr ""
-"Eine Fehler-Seite wird angezeigt, wenn eines der Topics von einem anderen "
+"Eine Fehlerseite wird angezeigt, wenn eines der Topics von einem anderen "
 "Benutzer gesperrt ist."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
@@ -667,7 +667,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
-msgstr "Und mit Topics aus dem Basis Web angereichert"
+msgstr "Und mit Topics aus dem Basis-Web angereichert"
 
 #: core/templates/changeform.tmpl:27
 msgid ""
@@ -724,7 +724,7 @@ msgstr "Verschieben des Anhangs fehlgeschlagen"
 
 #: core/templates/moveattachment.tmpl:37
 msgid "Attachment name:"
-msgstr "Anhangs Name:"
+msgstr "Anhangsname:"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
@@ -792,7 +792,7 @@ msgstr "Falsches Passwort"
 
 #: core/templates/messages.tmpl:134
 msgid "Base web %1 is missing or does not exist"
-msgstr "Basis Web %1 fehlt oder existiert nicht"
+msgstr "Basis-Web %1 fehlt oder existiert nicht"
 
 #: core/lib/Foswiki/OopsException.pm:41
 msgid "Bathing problem"
@@ -807,7 +807,7 @@ msgid ""
 "But existing form data will be lost (you can always retrieve this data "
 "through the topic history)"
 msgstr ""
-"Vorhandene Formular-Daten gehen jedoch verloren (Sie können diese jederzeit "
+"Vorhandene Formulardaten gehen jedoch verloren (Sie können diese jederzeit "
 "aus der Topic-Historie entnehmen)"
 
 #: core/data/Trash/WebHome.txt:7
@@ -1141,7 +1141,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:368
 msgid "Creating a suitable Form Definition topic"
-msgstr "Legen Sie ein geeignetes Topic für die Formular-Definition an"
+msgstr "Legen Sie ein geeignetes Topic für die Formulardefinition an"
 
 #: core/templates/renameattachmentdelete.tmpl:9
 #: core/templates/renamedelete.tmpl:9
@@ -1172,7 +1172,7 @@ msgstr "Fehler beheben"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
 msgid "Default template"
-msgstr "Standard Template"
+msgstr "Standard-Template"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
@@ -1385,7 +1385,7 @@ msgstr "E-Mail Adresse"
 
 #: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:460
 msgid "Email has been disabled for this Foswiki installation"
-msgstr "E-Mail wurde für diese Foswiki Installation deaktiviert"
+msgstr "E-Mail wurde für diese Foswiki-Installation deaktiviert"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Enlarge edit box"
@@ -1400,7 +1400,7 @@ msgstr ""
 #: core/templates/login.sudo.tmpl:18
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr ""
-"Bitte geben Sie den Administrator Benutzernamen oder den Login aus %1 ein"
+"Bitte geben Sie den Administrator-Benutzernamen oder den Login aus %1 ein"
 
 #: core/templates/messages.tmpl:251
 msgid "Error registering new user"
@@ -1504,7 +1504,7 @@ msgstr "Haben Sie ihr Passwort vergessen?"
 
 #: core/templates/messages.tmpl:346
 msgid "Form Definition %1 missing"
-msgstr "Formular-Definition %1 fehlt"
+msgstr "Formulardefinition %1 fehlt"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:5 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:6
@@ -1513,19 +1513,19 @@ msgstr "Formulardaten"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
 msgid "Form definition"
-msgstr "Formular-Definition"
+msgstr "Formulardefinition"
 
 #: core/templates/messages.tmpl:343
 msgid "Form definition '%1' not found"
-msgstr "Formular-Definition '%1' nicht gefunden"
+msgstr "Formulardefinition '%1' nicht gefunden"
 
 #: core/templates/messages.tmpl:351
 msgid "Form definition missing"
-msgstr "Formular-Definition fehlt"
+msgstr "Formulardefinition fehlt"
 
 #: core/templates/login.tmpl:3
 msgid "Foswiki User Authentication"
-msgstr "Foswiki Benutzer Authentifizierung"
+msgstr "Foswiki Benutzer-Authentifizierung"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:5
 msgid ""
@@ -1646,8 +1646,8 @@ msgid ""
 "automatically."
 msgstr ""
 "Da die Bestätigungsmail an %2 fehlgeschlagen ist, kann davon ausgegangen "
-"werden, dass es sich um eine Betrugs-Anmeldung handelt. Der Benutzer '%1' "
-"konnte nicht automatisch entfernt werden."
+"werden, dass es sich um eine betrügerische Anmeldung handelt. Der Benutzer '"
+"%1' konnte nicht automatisch entfernt werden."
 
 #: core/templates/registerfailedremoved.tmpl:12
 msgid ""
@@ -1656,9 +1656,9 @@ msgid ""
 "However you may have to remove the user's personal topic manually."
 msgstr ""
 "Da die Bestätigungsmail an %2 fehlgeschlagen ist, kann davon ausgegangen "
-"werden, dass es sich um eine Betrugs-Anmeldung handelt. Der Benutzer '%1' "
-"wurde automatisch entfernt, jedoch müssen Sie das persönliche Benutzer-Topic "
-"manuell entfernen."
+"werden, dass es sich um eine betrügerische Anmeldung handelt. Der Benutzer '"
+"%1' wurde automatisch entfernt, jedoch müssen Sie das persönliche Benutzer-"
+"Topic manuell entfernen."
 
 #: core/templates/messages.tmpl:376
 msgid ""
@@ -1710,7 +1710,7 @@ msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
 "correct parameters."
 msgstr ""
-"Wenn Sie eine Foswiki Anwendung entwickeln, finden Sie unter %1 eine "
+"Wenn Sie eine Foswiki-Anwendung entwickeln, finden Sie unter %1 eine "
 "Beschreibung der korrekten Parameter."
 
 #: core/templates/validate.tmpl:41
@@ -1883,12 +1883,11 @@ msgid ""
 "data cannot easily be merged though, so in this case you are recommended to "
 "check with %1 first."
 msgstr ""
-"Normaler Weise können Sie einfach editieren, solange Sie nicht das "
-"angehängte Formular ändern wollen. Wenn %1 das Topic speichert während Sie "
-"es bearbeiten, werden ihre Änderungen zusammengeführt ohne das etwas "
-"verloren geht. Formulardaten können jedoch nicht so einfach zusammengeführt "
-"werden, so dass sie sich in einem solchen Fall vorher mit %1 absprechen "
-"sollten."
+"Normalerweise können Sie einfach editieren, solange Sie nicht das angehängte "
+"Formular ändern wollen. Wenn %1 das Topic speichert während Sie es "
+"bearbeiten, werden ihre Änderungen zusammengeführt ohne das etwas verloren "
+"geht. Formulardaten können jedoch nicht so einfach zusammengeführt werden, "
+"so dass sie sich in einem solchen Fall vorher mit %1 absprechen sollten."
 
 #: core/templates/foswiki.tmpl:47
 msgid ""
@@ -1897,7 +1896,7 @@ msgid ""
 "will automatically be removed."
 msgstr ""
 "Es ist meist besser, ein %1 als Namen für das neue Topic zu wählen, da "
-"ansonsten automatische Verweise nicht funktionieren. Zeichen, die in Topic "
+"ansonsten automatische Verweise nicht funktionieren. Zeichen, die in Topic-"
 "Namen nicht erlaubt sind (z.B. Leerzeichen), werden automatisch entfernt."
 
 #: core/templates/renameweb.tmpl:16
@@ -1908,7 +1907,7 @@ msgid ""
 msgstr ""
 "Es ist meist besser einen kurzen Namen für das neue Web zu wählen, da es "
 "nachher leichter ist darauf zu verweisen. Zeichen wie z.B. Leerzeichen, die "
-"nicht in Web Namen erlaubt sind, werden automatisch entfernt."
+"nicht in Web-Namen erlaubt sind, werden automatisch entfernt."
 
 #: PatternSkin/data/System/WebLeftBarSearch.txt:3
 #: PatternSkin/data/System/WebTopBarExample.txt:7
@@ -1977,7 +1976,7 @@ msgstr "Login-Name"
 
 #: core/templates/mailresetpassword.tmpl:12
 msgid "Login name %1"
-msgstr "Login Name %1"
+msgstr "Login-Name %1"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:231
 #: core/templates/login.tmpl:69

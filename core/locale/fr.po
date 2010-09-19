@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-17 23:54+0200\n"
+"PO-Revision-Date: 2010-09-19 21:54+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -1476,8 +1476,8 @@ msgid ""
 "it poses to you, see "
 "[[%1][the Cross-site request forgery article on Wikipedia]]."
 msgstr ""
-"Pour plus d'information sur la contrefaçon de requêtes (CSRF : cross-site "
-"request forgery), et ses dangers, voyez "
+"Pour plus d'information sur la falsification de requête inter-domaine (CSRF "
+": cross-site request forgery), et ses dangers, voyez "
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1613,9 +1613,8 @@ msgstr ""
 "de sous-webs."
 
 #: core/data/System/ManagingTopics.txt:95
-#, fuzzy
 msgid "History"
-msgstr "&Historique"
+msgstr "Historique"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -2018,9 +2017,8 @@ msgid "More on hiding attachments"
 msgstr "Plus d'informations sur comment cacher les fichiers attachés"
 
 #: core/data/System/TopicsAndWebs.txt:49
-#, fuzzy
 msgid "More topic actions"
-msgstr "Autres actions sur la page..."
+msgstr "Autres actions sur la page"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
@@ -2124,7 +2122,6 @@ msgid "No child topics"
 msgstr "Pas de pages filles"
 
 #: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-#, fuzzy
 msgid "No group name specified"
 msgstr "Nom de groupe non spécifié"
 
@@ -2154,9 +2151,8 @@ msgid "Not recommended when deleting a topic."
 msgstr "Déconseillé lors de la suppression d'une page."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
-#, fuzzy
 msgid "Not sure this is right, please confirm!"
-msgstr "Merci de confirmer !"
+msgstr "Pas sûr que ce soit légitime, merci de confirmer !"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2299,19 +2295,17 @@ msgid "Pick one of the %1."
 msgstr "Choisissez l'un des %1."
 
 #: core/data/Trash/WebPreferences.txt:10
-#, fuzzy
 msgid "Place for trashed topics and attachments."
-msgstr "Emplacement où seront déplacés les fichiers attachés supprimés"
+msgstr "Emplacement des pages et des fichiers attachés supprimés."
 
 #: core/data/Trash/TrashAttachment.txt:3
 msgid "Placeholder for trashed attachments"
 msgstr "Emplacement où seront déplacés les fichiers attachés supprimés"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-#, fuzzy
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
-"Merci de vérifier que vous avez bien la permission de modifier ce groupe."
+"Merci de vérifier que vous avez bien la permission de modifier le groupe."
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
 msgid "Please contact %1 if you have any questions."
@@ -3191,6 +3185,9 @@ msgid ""
 "Their intention is to automatically save compromising data by sending a "
 "request to your server, using your browser and your identity."
 msgstr ""
+"Leur but est l'enregistrement automatique de données compromises, en "
+"envoyant une requête a votre serveur, en utilisant votre navigateur et votre "
+"identité."
 
 #: core/templates/messages.tmpl:407
 msgid "There are problems with renaming this web:"
@@ -3263,6 +3260,8 @@ msgstr ""
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr ""
+"Cette technique est également connue sous le nom de Cross-site Request "
+"Forgery (CSRF), en français, falsification de requête inter-domaine. "
 
 #: MailerContrib/templates/mailnotify.tmpl:7
 #: MailerContrib/templates/mailnotify.tmpl:71
@@ -3515,6 +3514,8 @@ msgid ""
 "Upgrade will adjust the format of this group topic to the new format with "
 "user management options"
 msgstr ""
+"La mise à jour ajustera le format de cette page de groupe au nouveau format "
+"comprenant les options d'administration d'utilisateurs."
 
 #: core/templates/messages.tmpl:485
 #, fuzzy
@@ -3689,7 +3690,7 @@ msgstr "Attention : cette \\'include\\'-page Wiki n\\'existe pas"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
-msgstr ""
+msgstr "Service de notification de changements d'un web"
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:3
 msgid "Webs"
@@ -3697,11 +3698,12 @@ msgstr "Webs"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
 msgid "Webserver <em>running Foswiki</em>"
-msgstr ""
+msgstr "Serveur web <em>exécutant Foswiki</em>"
 
+# in French "meet people" sounds too much like a promotion for a dating site, I have used the more neutral "collaborate"
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
-msgstr ""
+msgstr "Bienvenue sur %1 ... collaborez avec les autres utilisateurs de ce site"
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
@@ -3717,11 +3719,11 @@ msgstr "Qui"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
 msgid "Who is requesting this, actually?"
-msgstr ""
+msgstr "Qui est-ce qui demande cela, en réalité ?"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:59
 msgid "Whole page"
-msgstr ""
+msgstr "Page entière"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
 #, fuzzy
@@ -3731,6 +3733,8 @@ msgstr "pourquoi il vous est demandé de confirmer"
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid "Wiki administrators should read about the %1."
 msgstr ""
+"Les administrateurs du wiki devraient lire le lien suivant au sujet des "
+"mesures de sécurité :"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:144
 #, fuzzy
@@ -3748,7 +3752,7 @@ msgstr "Souhaitez vous aller à :"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:36
 msgid "You"
-msgstr ""
+msgstr "Vous"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
 #, fuzzy
@@ -3861,6 +3865,8 @@ msgid ""
 "You cannot manually confirm this change because either Cookies or Javascript "
 "are disabled in your browser."
 msgstr ""
+"Vous ne pouvez pas confirmer cette modification manuellement parce que soit "
+"les Cookies, soit le Javascript sont désactivés dans votre navigateur."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:12
 #, fuzzy
@@ -3879,6 +3885,9 @@ msgid ""
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
 msgstr ""
+"Vous pouvez modifier votre adresse email en saisissant le champ appelé "
+"\\'Email\\' dans votre page utilisateur. Si ce champ n'existe pas, alors le "
+"système cherchera une ligne comme celle-ci :"
 
 #: core/templates/messages.tmpl:158 core/templates/messages.tmpl:167
 #: core/templates/messages.tmpl:248
@@ -3914,18 +3923,23 @@ msgstr "Vous devez fournir un nom de page."
 #: core/templates/messages.tmpl:461
 msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
+"Vous devez spécifier un nom de groupe valide pour ajouter des utilisateurs à "
+"un groupe."
 
 #: core/templates/messages.tmpl:499
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
+"Vous devez spécifier un nom de groupe valide pour supprimer des utilisateurs "
+"d'un groupe."
 
 #: core/templates/messages.tmpl:456
 msgid "You need to specify a valid user to add to a group."
-msgstr ""
+msgstr "Vous devez spécifier un utilisateur valide pour l'ajouter à un groupe."
 
 #: core/templates/messages.tmpl:494
 msgid "You need to specify a valid user to remove from a group."
 msgstr ""
+"Vous devez spécifier un utilisateur valide pour le supprimer d'un groupe."
 
 #: core/templates/registerconfirm.tmpl:11
 msgid ""
@@ -3972,7 +3986,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:160
 msgid "Your email address will be kept confidential."
-msgstr ""
+msgstr "Votre adresse email restera confidentielle."
 
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""

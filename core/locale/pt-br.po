@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-18 05:26+0200\n"
-"Last-Translator: Carlinhos Ceconi <carlinux@terra.com.br>\n"
+"PO-Revision-Date: 2010-09-19 04:53+0200\n"
+"Last-Translator: Carlinhos <carlinux@terra.com.br>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -239,7 +239,7 @@ msgstr "(alterações)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:3
 msgid "(compare)"
-msgstr "(comaprar)"
+msgstr "(comparar)"
 
 #: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
@@ -356,8 +356,8 @@ msgstr ""
 "para evitar SPAM). Seu país, ou o país onde o servidor está hospedado, pode "
 "ter Leis de Proteção de Dados disciplinando as formas de manutenção desse "
 "tipo de banco de dados. Se tiver dúvida e quiser obter detalhes sobre a "
-"Política de Proteção de Dados desse servidor Foswiki,  contate %1 antes de "
-"se registrar."
+"Política de Proteção de Dados desse servidor Foswiki, contate %1 antes de se "
+"registrar."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -581,7 +581,7 @@ msgstr "Adicionar usuário..."
 
 #: core/templates/messages.tmpl:369
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Adicionando  preferência %1 em WebPreferences"
+msgstr "Adicionando preferência %1 em WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
@@ -589,7 +589,7 @@ msgstr "Autenticação de usuário administrador do Foswiki"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:26
 msgid "Admin Maintenance"
-msgstr "Manutenção Administrativa"
+msgstr "Manutenção administrativa"
 
 #: core/data/System/WebSearch.txt:64
 msgid "Advanced search"
@@ -600,19 +600,19 @@ msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
 msgstr ""
-"Após enviar esse formulário, seu e-mail será alterado e você retornará a "
-"esse mesmo formulário."
+"Após o envio, seu endereço de e-mail terá sido alterado e você será "
+"retornado para essa página novamente."
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:19
 msgid "After submitting this form your password will be changed."
-msgstr "Após enviar esse formulário sua senha será alterada."
+msgstr "Após o envio desse formulário sua senha será alterada."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
 msgstr ""
-"Após enviar esse formulário, você receberá um e-mail com sua nova senha "
+"Após o envio desse formulário, você receberá um e-mail com sua nova senha "
 "gerada pelo sistema e um link para a página em que poderá alterá-la."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
@@ -815,7 +815,7 @@ msgid ""
 "allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
 "in WebPreferences."
 msgstr ""
-"Por padrão a visualização da web Trash  é restrita a %1. Parapermitir que "
+"Por padrão a visualização da web Trash é restrita a %1. Para permitir que "
 "todos os usuários a visualizem, remova a restrição contida em =ALLOWWEBVIEW= "
 "no tópico WebPreferences."
 
@@ -956,7 +956,7 @@ msgstr "Tópicos filhos na web %1"
 
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
-msgstr "Escolha um novo  formulário para %1"
+msgstr "Escolha um novo formulário para %1"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:22
 #: core/lib/Foswiki/Form/Checkbox.pm:43
@@ -1428,7 +1428,7 @@ msgstr "Erro ao remover usuários do grupo"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
 msgid "Evil person"
-msgstr "Má pessoa"
+msgstr "Pessoa mal intencionada"
 
 #: core/lib/Foswiki/Plugins.pm:366
 msgid "Failed plugins"
@@ -1469,8 +1469,8 @@ msgid ""
 "it poses to you, see "
 "[[%1][the Cross-site request forgery article on Wikipedia]]."
 msgstr ""
-"Para obter informações detalhadas sobre a falsificação 'cross-site request' "
-"e os perigos que isso representa, veja"
+"Para obter informações detalhadas sobre 'cross-site request forgery' e os "
+"perigos que isso representa, veja "
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1621,7 +1621,7 @@ msgid ""
 "may be a fraudulent registration.  The user '%1' could not be removed "
 "automatically."
 msgstr ""
-"Falha ao enviar e-mail de confirmação para %2, sugeriondo que esse pode ser "
+"Falha ao enviar e-mail de confirmação para %2, sugerindo que esse pode ser "
 "um registro falso. O usuário %1 não pode ser removido automaticamente."
 
 #: core/templates/registerfailedremoved.tmpl:12
@@ -1631,7 +1631,7 @@ msgid ""
 "However you may have to remove the user's personal topic manually."
 msgstr ""
 "Falha ao enviar e-mail de confirmação para %2, sugerindo que esse pode ser "
-"um registro falso. O usuário %1 foi removido automaticamente, mas  você terá "
+"um registro falso. O usuário %1 foi removido automaticamente, mas você terá "
 "de remover o tópico pessoal do usuário manualmente."
 
 #: core/templates/messages.tmpl:376
@@ -1859,7 +1859,8 @@ msgstr ""
 "alterar o formulário anexo ao tópico. Se %1 não salvar o tópico enquanto "
 "você estiver editando, suas alterações serão combinadas com as dele(a) e "
 "nada será perdido. Mas dados de formulário não podem ser combinados "
-"facilmente, nesse caso é recomendável que você verifique com ele(a) primeiro."
+"facilmente, nesse caso é recomendável que você verifique com ele(a) "
+"primeiro."
 
 #: core/templates/foswiki.tmpl:47
 msgid ""
@@ -2890,8 +2891,8 @@ msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
 msgstr ""
-"DICA: para procurar por todos os tópicos contendo =\"SOAP\"=, =\"WSDL\"=, ="
-"\"web service\"= literalmente, mas sem =\"shampoo\"=, escreva:"
+"DICA: para procurar por todos os tópicos contendo =\"SOAP\"=, =\"WSDL\"=, =\"web "
+"service\"= literalmente, mas sem =\"shampoo\"=, escreva:"
 
 #: core/templates/messages.tmpl:605
 msgid "Template %1 does not exist"
@@ -3164,7 +3165,7 @@ msgstr "Ocorreram erros ao remover %1 do grupo %2. "
 
 #: core/templates/messages.tmpl:366
 msgid "This can be automatically upgraded by:"
-msgstr "Isto pode ser automaticamente:"
+msgstr "Isto pode ser automaticamente atualizado por::"
 
 #: core/templates/messages.tmpl:349
 msgid "This could be for several reasons:"
@@ -3690,7 +3691,7 @@ msgid ""
 "have forgotten your password, contact %1."
 msgstr ""
 "Você *precisa* ter ao menos um e-mail válido registrado para poder restaurar "
-"sua senha.  Caso nenhum de seus endereços registrados seja um e-mail válido, "
+"sua senha. Caso nenhum de seus endereços registrados seja um e-mail válido, "
 "ou você esqueceu sua senha, contate %1. "
 
 #: core/templates/messages.tmpl:272
@@ -3828,7 +3829,7 @@ msgid ""
 "visited."
 msgstr ""
 "Pode ter acontecido de você ter clicado num link para endereço de validação "
-"de registo no qual você já havia visitado."
+"de registro, o qual você já havia visitado."
 
 #: core/templates/messages.tmpl:188
 msgid "You may need to close your browser to make this change take effect."
@@ -3972,7 +3973,7 @@ msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:53
 msgid "Your signature to copy/paste"
-msgstr "Sua assinatura para copiar e colar:"
+msgstr "Sua assinatura para copiar e colar"
 
 #: core/templates/edit.tmpl:48
 msgid "Your signature to copy/paste:"
@@ -4063,7 +4064,7 @@ msgstr "não esqueça de verificar suas preferências de tópico"
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "earlier"
-msgstr "antes"
+msgstr "anterior"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4169,7 +4170,9 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Editar o texto wiki' accesskey='w'>Editar texto &wiki "
+msgstr ""
+"title='Editar em modo texto sem formatação' accesskey='w'>Editar texto &wiki "
+""
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
@@ -4177,7 +4180,7 @@ msgstr "title='Editar o texto deste tópico' accesskey='e'>&Editar"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='entrelaçado' accesskey='i'>&iEntrelaçado"
+msgstr "title='cpmparação de versões integrada' accesskey='i'>&Integrada(&i)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:21
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -4207,7 +4210,7 @@ msgstr ""
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='Lado a lado' accesskey='s'>&sLado a lado"
+msgstr "title='Comparação lado a lado' accesskey='s'>Lado a lado(&s)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:92
 #: core/templates/viewtopicactionbuttons.tmpl:11
@@ -4221,7 +4224,8 @@ msgstr "title='Ver histórico completo do tópico' accesskey='h'>&Histórico"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
-msgstr "title='Ver em modo texto, sem formatação' accesskey='r'>Texto pu&ro"
+msgstr ""
+"title='Ver em modo texto, sem formatação' accesskey='v'>&Ver modo texto wiki"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-18 01:24+0200\n"
+"PO-Revision-Date: 2010-09-18 23:37+0200\n"
 "Last-Translator: Erik Åman <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
 "MIME-Version: 1.0\n"
@@ -3627,19 +3627,18 @@ msgstr "Hel sida"
 msgid "Why am I being asked to confirm?"
 msgstr "Varför ombeds jag att bekräfta?"
 
+# It's difficult to translate unfinnished sentences.
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid "Wiki administrators should read about the %1."
-msgstr ""
+msgstr "Wiki-administratörer bör läsa"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:144
-#, fuzzy
 msgid "Wiki name"
-msgstr "Enbart sidnamn"
+msgstr "Wiki-namn"
 
 #: core/data/System/WebSearch.txt:113
-#, fuzzy
 msgid "Word search"
-msgstr "Anpassa sökning"
+msgstr "Ordsökning"
 
 #: core/templates/messages.tmpl:19
 msgid "Would you like to go to:"
@@ -3647,18 +3646,17 @@ msgstr "Vill du gå til:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:36
 msgid "You"
-msgstr ""
+msgstr "Du"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1."
 msgstr ""
-"du *måste* ha minst en registrerad e-postadress för att kunna nollställa "
-"ditt lösenord. Om ingen av dina registrerade e-postadresser är giltig och du "
-"glömt ditt lösenord så kontakta %1."
+"Du *måste* ha minst en giltig registrerad e-postadress för att kunna "
+"nollställa ditt lösenord. Om ingen av dina registrerade e-postadresser är "
+"giltig och du glömt ditt lösenord så kontakta %1."
 
 #: core/templates/messages.tmpl:272
 msgid "You are already registered"
@@ -3754,11 +3752,12 @@ msgid ""
 "You cannot manually confirm this change because either Cookies or Javascript "
 "are disabled in your browser."
 msgstr ""
+"Det går inte att manuellt bekräfta denna ändring, eftersom antingen cookies "
+"eller Javascript är avstängt i din webbläsare."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:12
-#, fuzzy
 msgid "You cannot register on this site."
-msgstr "Du kan inte registrera dig två gånger. Namnet %1 är redan registrerat."
+msgstr "Det går inte att registrera sig på denna webbplats."
 
 #: core/templates/messages.tmpl:273
 msgid "You cannot register twice, the name %1 is already registered."
@@ -3770,6 +3769,9 @@ msgid ""
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
 msgstr ""
+"Du kan ändra din e-postadress genom att sätta formulärfältet Email på din "
+"användarsida. Om formulärfältet inte finns så kommer den att leta efter en "
+"sådan här rad:"
 
 #: core/templates/messages.tmpl:158 core/templates/messages.tmpl:167
 #: core/templates/messages.tmpl:248
@@ -3802,18 +3804,20 @@ msgstr "Du måste ange ett namn på sidan."
 #: core/templates/messages.tmpl:461
 msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
+"Du måste ange ett giltigt gruppnamn för att lägga till användare i en grupp."
 
 #: core/templates/messages.tmpl:499
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
+"Du måste ange ett giltigt gruppnamn för att ta bort användare från en grupp."
 
 #: core/templates/messages.tmpl:456
 msgid "You need to specify a valid user to add to a group."
-msgstr ""
+msgstr "Du måste ange en giltig användare att lägga till i gruppen."
 
 #: core/templates/messages.tmpl:494
 msgid "You need to specify a valid user to remove from a group."
-msgstr ""
+msgstr "Du måste ange en giltig användare att ta bort från gruppen."
 
 #: core/templates/registerconfirm.tmpl:11
 msgid ""
@@ -3825,7 +3829,6 @@ msgstr ""
 "besöka %2."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#, fuzzy
 msgid ""
 "You really ought to register a valid e-mail address. If Foswiki can't find a "
 "registered e-mail for you in the secret database, it will look in your user "
@@ -3834,7 +3837,8 @@ msgid ""
 msgstr ""
 "Du bör registrera en giltig e-postadress. Om Foswiki inte kan hitta en "
 "registrerad e-postadress i den hemliga databasen, kommer programvaran att "
-"leta efter en sådan här rad på din användarsida:"
+"leta på din användarsida efter formulärfältet Email. Om det inte finns något "
+"sådant så kommer den att leta efter en sådan här rad:"
 
 #: core/templates/messages.tmpl:371
 msgid "You will probably have to ask your administrator, %1, to do this."
@@ -3858,7 +3862,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:160
 msgid "Your email address will be kept confidential."
-msgstr ""
+msgstr "Din e-postadress hålls hemlig."
 
 #: core/templates/oopslanguagechanged.tmpl:16
 msgid ""
@@ -3874,11 +3878,13 @@ msgid ""
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
+"Ditt namn visas på nätet. Observera att det måste vara ett unikt [[%"
+"SYSTEMWEB%.WikiName][Wiki-namn]]. Det förvalda namnet konstrueras från ditt "
+"för- och efternamn."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
-#, fuzzy
 msgid "Your password"
-msgstr "Ditt lösenord:"
+msgstr "Ditt lösenord"
 
 #: core/templates/mailresetpassword.tmpl:13
 msgid "Your password has been changed to %1."
@@ -3909,6 +3915,8 @@ msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
 msgstr ""
+"Dina registrerade e-postadresser används av Foswiki för att skicka dig "
+"e-post, inklusive meddelanden om lösenordsändringar."
 
 #: core/templates/messages.tmpl:255
 msgid ""
@@ -3992,9 +4000,10 @@ msgstr "accesskey='c'"
 msgid "and"
 msgstr "och"
 
+# "by" could have many translations depending on context.
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr ""
+msgstr "av %1"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -4011,7 +4020,7 @@ msgstr "glöm inte att kontrollera dina sidinställningar"
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "earlier"
-msgstr ""
+msgstr "tidigare"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4025,7 +4034,7 @@ msgstr "fälten är obligatoriska."
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "first"
-msgstr ""
+msgstr "första"
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:24
@@ -4047,13 +4056,12 @@ msgstr "anger obligatoriska fält"
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "last"
-msgstr ""
+msgstr "sista"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
-#, fuzzy
 msgid "later"
-msgstr "Datum"
+msgstr "senare"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -4065,7 +4073,7 @@ msgstr "mer..."
 
 #: core/data/Main/GroupViewTemplate.txt:31
 msgid "no members"
-msgstr ""
+msgstr "inga medlemmar"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
@@ -4092,13 +4100,12 @@ msgid "retrieved at %1"
 msgstr "hämtades %1"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:86
-#, fuzzy
 msgid "revisions up to"
-msgstr "Versioner"
+msgstr "versioner till och med"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid "the Cross-site request forgery article on Wikipedia"
-msgstr ""
+msgstr "sidan om \"Cross-site request forgery\" på Wikipedia"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -4119,18 +4126,16 @@ msgstr ""
 "versioner' accesskey='m'>Fler alternativ för sidan (&M)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
-#, fuzzy
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Redigera denna sida' accesskey='e'>Redig&era"
+msgstr "title='Redigera wiki-text' accesskey='w'>Redigera &wiki-text"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Redigera denna sida' accesskey='e'>Redig&era"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
-#, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Visa sida' accesskey='v'>&Visa sida"
+msgstr "title='Sammanflätad' accesskey='i'>Sammanflätad (&I)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:21
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -4161,9 +4166,8 @@ msgstr ""
 "accesskey='b'>Avdelning (&B)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
-#, fuzzy
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='Visa sida' accesskey='v'>&Visa sida"
+msgstr "title='Sida vid sida' accesskey='s'>&Sida vid sida"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:92
 #: core/templates/viewtopicactionbuttons.tmpl:11
@@ -4175,14 +4179,14 @@ msgstr "title='Visa sida' accesskey='v'>&Visa sida"
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Visa komplett historik för sidan' accesskey='h'>&Historik"
 
-#: core/templates/viewtopicactionbuttons.tmpl:38
 #, fuzzy
-msgid "title='View without formatting' accesskey='v'>&View wiki text"
-msgstr "title='Visa källtext utan formatering' accesskey='v'>Källtext (&V)"
+#: core/templates/viewtopicactionbuttons.tmpl:38
+msgid "title='View without formatting' accesskey='r'>&View wiki text"
+msgstr "title='Visa utan formatering' accesskey='v'>&Visa wiki-text"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"
-msgstr ""
+msgstr "oförändrade avsnitt före och efter varje förändring"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:29
 msgid "user list truncated"
