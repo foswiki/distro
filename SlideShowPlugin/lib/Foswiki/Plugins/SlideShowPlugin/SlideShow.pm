@@ -124,7 +124,7 @@ s/%TOC(?:\{.*?\})*%/renderSlideToc( $theWeb, $theTopic, $queryParams, @titles )/
         }
 
         $textPre =
-            '%JQREQUIRE{"CYCLE,EASING,CHILI"}%' 
+            '%JQREQUIRE{"CYCLE,EASING"}%' 
           . $toolbar
           . '<div class="slideshow">';
         $textPost = '</div>';
@@ -430,7 +430,7 @@ EOCSS
 <script type='text/javascript' src='%PUBURL%/%SYSTEMWEB%/SlideShowPlugin/slideshow.js'></script>
 EOJS
     Foswiki::Func::addToZone( 'script', 'SLIDESHOWPLUGIN/js', $jsHeader,
-        'CYCLE,EASING,CHILI' );
+        'CYCLE,EASING' );
 
     $addedHead = 1;
 }
