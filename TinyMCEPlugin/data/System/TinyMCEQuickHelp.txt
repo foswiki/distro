@@ -24,11 +24,71 @@
       * ==Protect on save== - Use this to protect newly-created advanced macros, where you want to prevent conversion of HTML in the macro to TML. When the topic is re-edited, well-formed macros are automatically re-protected.
       * ==Protect forever== - Wrap the selection in Foswiki =&lt;sticky&gt;= tags. Use this to protect content so it always appears _exactly_ as shown in the editor.
 </td>
-<td rowspan="4" class="secondaryTextcolumn">
-  *Defining Preference Settings/Macros*
-   * Create a list item using the toolbar button
-   * In the list item, type =Set NAME = value=
-   * Select the value, and assign the ==Protect on save== style to it (only required if the value contains any Foswiki Topic Markup Language or if you style it e.g. to add bold, or if it's sensitive to the number of spaces)
+<td rowspan="6" class="secondaryTextcolumn">
+*Copy & paste table rows*
+   * Right-click table row
+   * Select 'Row'
+   * Select 'Copy table row'
+   * Right-click destination
+   * Select 'Row'
+   * Select 'Paste' (before/after)
+<img src="%ATTACHURLPATH%/table_contextmenu.png" alt="right-click table rows to copy & paste" />
+
+*Setting a chili syntax highlighting class on a verbatim block*
+   * Right-click the verbatim block
+   * Select 'jQuery chili'
+   * Choose syntax
+<img src="%ATTACHURLPATH%/chili_formatting.png" alt="chili syntax on VERBATIM" />
+</td>
+</tr>
+<tr>
+<td class="imgcolumn"><img src="%ATTACHURLPATH%/indent.png" alt="indent" />
+  <img src="%ATTACHURLPATH%/outdent.png" alt="outdent" />
+</td>
+<td class="textcolumn">
+  If the cursor is in a list item, changes the indent.
+</td>
+</tr>
+<tr>
+<td class="imgcolumn"><img src="%ATTACHURLPATH%/link.png" alt="link" />
+  <img src="%ATTACHURLPATH%/unlink.png" alt="unlink" />
+</td>
+<td class="textcolumn">
+  Links can either point to a URL or to the name of a Foswiki topic. For example =http://foswiki.org=, =TopicNames=, =Webname.TopicNames=, or =Webname.Subweb.WebName=.
+</td>
+</tr>
+<tr>
+<td class="imgcolumn"><img src="%ATTACHURLPATH%/anchor.png" alt="anchor" />
+</td>
+<td class="textcolumn">
+  An anchor is a hidden mark you can use to link to a certain part of a topic, for example a heading or a paragraph. An anchor must be a !WikiWord.
+</td>
+</tr>
+<tr>
+<td class="imgcolumn"><img src="%ATTACHURLPATH%/clear_formatting.png" alt="clear formatting" />
+</td>
+<td class="textcolumn">
+  Clear styles from selected text, such as: colours, size, underline decoration, etc. This feature is useful when you need to clean up content copied from rich text sources such as web pages or word documents.
+</td>
+</tr>
+<tr>
+<td class="imgcolumn"><img src="%ATTACHURLPATH%/fullscreen.png" alt="fullscreen" />
+</td>
+<td class="textcolumn">
+  Toggle fullscreen mode.
+</td>
+</tr>
+<tr>
+<td class="imgcolumn"><img src="%ATTACHURLPATH%/autosave.png" alt="autosave" />
+</td>
+<td class="textcolumn">
+  Restore autosave draft. The editor content is saved to your web browser's local storage every %INCLUDE{"TinyMCEPlugin" section="AUTOSAVE_INTERVAL"}% (default). The draft should survive across browser restarts. This feature is useful to recover unsaved work, for example when your browser crashes for some reason, or your network connection fails during save.
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+
 *Using a Macro*
    * Just type it in. When the topic is saved, what you type will be saved just as you wrote it.
    * If any part of your macro parameters is sensitive to spacing or contains HTML, then select the entire macro and assign the ==Protect on save== style to it before you save.
@@ -38,43 +98,12 @@
 *Editing the raw text instead of Wysiwyg*
    * Select <img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/img/hide.gif" alt="Wiki text" />, or use the _Raw Edit_ link in the bottom action bar.
 </td>
-</tr>
-<tr>
-<td class="imgcolumn"><img src="%ATTACHURLPATH%/indent.png" alt="indent" />
-  <img src="%ATTACHURLPATH%/outdent.png" alt="outdent" /></td>
-<td class="textcolumn">
-  If the cursor is in a list item, changes the indent.
-</td>
-</tr>
-<tr>
-<td class="imgcolumn"><img src="%ATTACHURLPATH%/link.png" alt="link" />
-  <img src="%ATTACHURLPATH%/unlink.png" alt="unlink" /></td>
-<td class="textcolumn">
-  Links can either point to a URL or to the name of a Foswiki topic. For example =http://foswiki.org=, =TopicNames=, =Webname.TopicNames=, or =Webname.Subweb.WebName=.
-</td>
-</tr>
-<tr>
-<td class="imgcolumn"><img src="%ATTACHURLPATH%/anchor.png" alt="anchor" /></td>
-<td class="textcolumn">
-  An anchor is a hidden mark you can use to link to a certain part of a topic, for example a heading or a paragraph. An anchor must be a !WikiWord.
-</td>
-</tr>
-<tr>
-<td class="imgcolumn"><img src="%ATTACHURLPATH%/clear_formatting.png" alt="clear formatting" /></td>
-<td class="textcolumn">
-  Clear styles from selected text, such as: colours, size, underline decoration, etc. This feature is useful when you need to clean up content copied from rich text sources such as web pages or word documents.
-</td>
-</tr>
-<tr>
-<td class="imgcolumn"><img src="%ATTACHURLPATH%/fullscreen.png" alt="fullscreen" /></td>
-<td class="textcolumn">
-  Toggle fullscreen mode.
-</td>
-</tr>
-<tr>
-<td class="imgcolumn"><img src="%ATTACHURLPATH%/autosave.png" alt="autosave" /></td>
-<td class="textcolumn">
-  Restore autosave draft. The editor content is saved to your web browser's local storage every %INCLUDE{"TinyMCEPlugin" section="AUTOSAVE_INTERVAL"}% (default). The draft should survive across browser restarts. This feature is useful to recover unsaved work, for example when your browser crashes for some reason, or your network connection fails during save.
+<td>
+
+  *Defining Preference Settings/Macros*
+   * Create a list item using the toolbar button
+   * In the list item, type =Set NAME = value=
+   * Select the value, and assign the ==Protect on save== style to it (only required if the value contains any Foswiki Topic Markup Language or if you style it e.g. to add bold, or if it's sensitive to the number of spaces)
 </td>
 </tr>
 </table>
@@ -86,10 +115,12 @@
 
 %META:FILEATTACHMENT{name="anchor.png" attr="" comment="" version="1"}%
 %META:FILEATTACHMENT{name="autosave.png" attr="" comment="" version="1"}%
+%META:FILEATTACHMENT{name="chili_formatting.png" attr="" comment="" version="1"}%
 %META:FILEATTACHMENT{name="clear_formatting.png" attr="" comment="" version="1"}%
 %META:FILEATTACHMENT{name="Format_Drop_Down.png" attr="" comment="" version="1"}%
 %META:FILEATTACHMENT{name="fullscreen.png" attr="" comment="" version="1"}%
 %META:FILEATTACHMENT{name="indent.png" attr="" comment="" version="1"}%
 %META:FILEATTACHMENT{name="link.png" attr="" comment="" version="1"}%
 %META:FILEATTACHMENT{name="outdent.png" attr="" comment="" version="1"}%
+%META:FILEATTACHMENT{name="table_contextmenu.png" attr="" comment="" version="1"}%
 %META:FILEATTACHMENT{name="unlink.png" attr="" comment="" version="1"}%
