@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1191133809" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="Macros"}%
+%META:TOPICPARENT{name="SlideShowPlugin"}%
 #VarSLIDESHOWSTART
 ---+++ SLIDESHOWSTART -- convert a topic with headings into a slideshow
    * The =%<nop>SLIDESHOWSTART%= macro is handled by the SlideShowPlugin
