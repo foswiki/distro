@@ -6,11 +6,11 @@ use strict;
 use warnings;
 
 use vars qw(
-  $web $topic $user $installWeb $debug $addedHead
+  $web $topic $user $installWeb $debug
 );
 
 our $VERSION = '$Rev$';
-our $RELEASE = '2.1.1';
+our $RELEASE = '3.0';
 our $SHORTDESCRIPTION =
   'Create web based presentations based on topics with headings';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -19,7 +19,6 @@ sub initPlugin {
     ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    $addedHead = 0;
     if ( $Foswiki::Plugins::VERSION < 1 ) {
         Foswiki::Func::writeWarning(
             "Version mismatch between SlideShowPlugin and Plugins.pm");
@@ -32,23 +31,10 @@ sub initPlugin {
 sub commonTagsHandler {
 ### my ( $text, $topic, $web ) = @_;   # do not uncomment, use $_[0], $_[1]... instead
     if ( $_[0] =~ /%SLIDESHOWSTART/ ) {
-        _addHeader();
         require Foswiki::Plugins::SlideShowPlugin::SlideShow;
         Foswiki::Plugins::SlideShowPlugin::SlideShow::init($installWeb);
         $_[0] = Foswiki::Plugins::SlideShowPlugin::SlideShow::handler(@_);
     }
-}
-
-sub _addHeader {
-
-    return if $addedHead;
-    my $header = <<'EOF';
-<style type="text/css" media="all">
-@import url("%PUBURL%/%SYSTEMWEB%/SlideShowPlugin/slideshow.css");
-</style>
-EOF
-    Foswiki::Func::addToHEAD( 'SLIDESHOWPLUGIN', $header );
-    $addedHead = 1;
 }
 
 1;

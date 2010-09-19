@@ -1,0 +1,76 @@
+---+ !SlideShowPlugin Table Template
+This page includes a "legacy" table layout template.
+
+Use this template in your slideshow with:
+<verbatim>
+%SLIDESHOWSTART{template="%SYSTEMWEB%.SlideShowPluginTableTemplate"}%
+</verbatim>
+
+%STARTINCLUDE%
+%ADDTOZONE{"head" id="SlideShowPlugin/Legacy/css" text="<style type=\"text/css\" media=\"all\">
+table.slideShowTemplate {
+	width:100%;
+	border:0;
+}
+table.slideShowTemplate td {
+	padding:10px 30px;
+}
+table.slideShowTemplate td table td {
+	padding:.3em .5em;
+}
+tr.slideShowTemplateHeader {
+	background:#296582;
+}
+tr.slideShowTemplateHeader td {
+	vertical-align:middle;
+}
+tr.slideShowTemplateHeader h1 {
+	color:#fff;
+	margin:0;
+	padding:0;
+}
+tr.slideShowTemplateHeader td.slideshowNext {
+	text-align:right;
+	width:100%;
+}
+tr.slideShowTemplateBody {
+	height:480px;
+}
+tr.slideShowTemplateBody td {
+	vertical-align:top;
+	color:#000;
+	background:#fff;
+}
+tr.slideShowTemplateFooter {
+	background:#f0f5f8;
+}
+tr.slideShowTemplateFooter td {
+	vertical-align:middle;
+	width:33%;
+	font-size:70%;
+	line-height:100%
+}
+tr.slideShowTemplateFooter td,
+tr.slideShowTemplateFooter td a:link,
+tr.slideShowTemplateFooter td a:visited {
+	color:#a9a9a5;
+}
+</style>"}%<table class="slideShowTemplate" cellspacing="0" cellpadding="0">
+<tr class="slideShowTemplateHeader">
+<td width="100"><img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif" border="0" alt="Foswiki Slide Show" width="88" height="31" /></td>
+<td align="center"><h1>%SLIDETITLE%</h1></td>
+<td class="slideshowNext" width="100">%SLIDENAVNEXT%</td>
+</tr>
+<tr class="slideShowTemplateBody">
+<td colspan="3">
+%SLIDETEXT%
+%SLIDECOMMENT%
+</td>
+</tr>
+<tr class="slideShowTemplateFooter">
+<td>Slide %SLIDENUM% of %SLIDEMAX%</td>
+<td align="center">%SLIDENAVALL% &nbsp; [[%BASETOPIC%][Close]]</td>
+<td align="right">&copy; %SERVERTIME{$year}% by the contributing authors</td>
+</tr>
+</table>
+%STOPINCLUDE%

@@ -1,0 +1,221 @@
+html, body {
+    /* get rid of default spacing on the edges */
+    margin:0;
+    padding:0;
+
+    /* get rid of that 2px window border in Internet Explorer 6 */
+    border:0;
+    
+    background:#fff !important;
+    
+    /* fill the height of the browser */
+    height:100% !important;
+	
+	/* we could hide the scrollbars with longer pages, but many existing slides will be too long */
+	/* overflow:hidden; */
+}
+.slideshowToolbar {
+	padding:0 25px;
+	color:#999;
+	font-size:94%;
+	background:#f0f5f8;
+	border-bottom:1px solid #ddd;
+}
+.slideshowToolbarContents {
+	position:relative;
+	height:32px;
+}
+.slideshow {}
+.slideshowPane {
+    width:100%;
+}
+.slideshowHeader,
+.slideshowContent {
+	font-size:150%;
+	line-height:150%;
+}
+.slideshowHeader {
+	padding:1em 25px;
+	border-bottom:1px solid #a9a7a5;
+}
+.slideshowHeader h1 {
+	margin:0;
+	padding:0;
+}
+.slideshowContent {
+    margin:1em 25px;
+    padding:0 0 25px 0;
+}
+.slideshowText {}	
+.slideshowContent font {
+	line-height:100%;
+}
+.slideshowComment {
+	margin:3em 0 2em 0;
+	font-size:80%;
+	line-height:160%;
+}
+.slideshowFooter {
+	position:fixed;
+	background:#fff;
+	width:100%;
+	bottom:0;
+	opacity:.8;
+	clear:both;
+}
+.slideshowFooterContents {
+	border-top:1px solid #ddd;
+	padding:10px 25px;
+	clear:both;
+	height:1%;
+	text-align:right;
+}
+.slideshowFooterContents span {
+	float:left;
+}
+.slideshowFooterContents,
+.slideshowFooterContents h3,
+.slideshowFooterContents h4 {
+	color:#888;
+}
+/* large controls */
+.slideshowControls {}
+a.slideshowControlButton {
+	margin-left:5px;
+}
+a.slideshowControlButton:hover {
+	text-decoration:none;
+	background:none;
+}
+/* small top controls */
+.slideshowFirstLast {
+	position:absolute;
+	left:0;
+	top:4px;
+}
+.slideshowPrevNext {
+	position:absolute;
+	left:47%;
+	top:4px;
+}
+a.slideshowBtn {
+	display:block;
+	position:absolute;
+	background-repeat:no-repeat;
+}
+a.slideshowBtn:focus {
+	outline:none;
+}
+/* previous */
+a.slideshowBtnPrevious {
+	top:0;
+	left:0;
+	width:20px;
+	height:24px;
+}
+a.slideshowBtnPrevious:link,
+a.slideshowBtnPrevious:visited {
+	background-image:url(buttons.gif);
+	background-position:0 0;
+}
+a.slideshowBtnPrevious:hover {
+	background-position:0 -24px;
+}
+/* next */
+a.slideshowBtnNext {
+	top:0;
+	left:20px;
+	width:29px;
+	height:24px;
+}
+a.slideshowBtnNext:link,
+a.slideshowBtnNext:visited {
+	background-image:url(buttons.gif);
+	background-position:-20px 0;
+}
+a.slideshowBtnNext:hover {
+	background-position:-20px -24px;
+}
+/* first */
+a.slideshowBtnFirst {
+	top:0;
+	left:00px;
+	width:22px;
+	height:24px;
+}
+a.slideshowBtnFirst:link,
+a.slideshowBtnFirst:visited {
+	background-image:url(buttons.gif);
+	background-position:-49px 0;
+}
+a.slideshowBtnFirst:hover {
+	background-position:-49px -24px;
+}
+/* last */
+a.slideshowBtnLast {
+	top:0;
+	left:22px;
+	width:23px;
+	height:24px;
+}
+a.slideshowBtnLast:link,
+a.slideshowBtnLast:visited {
+	background-image:url(buttons.gif);
+	background-position:-71px 0;
+}
+a.slideshowBtnLast:hover {
+	background-position:-71px -24px;
+}
+/* jump */
+.slideshowJump {
+	position:absolute;
+	left:68px;
+}
+.slideshowJumpInput {
+	background-image:url(buttons.gif);
+	background-position:-94px 0;
+	width:39px;
+	height:24px;
+}
+.slideshowJumpInputField,
+.slideshowJumpSlideMax {
+	font-size:1em;
+	padding:3px;
+	border:none;
+	background:none;
+	height:18px;
+	line-height:18px;
+}
+.slideshowJumpInputField {
+	text-align:right;
+	width:33px;
+}
+.slideshowJumpInputField:focus {
+	outline:none;
+}
+.slideshowJumpSlideMax {
+	position:absolute;
+	left:42px;
+	top:0;
+	text-align:left;
+	width:39px;
+}
+/* stop */
+a.slideshowBtnStop {
+	top:4px;
+	right:0;
+	width:23px;
+	height:24px;
+}
+a.slideshowBtnStop:link,
+a.slideshowBtnStop:visited {
+	background-image:url(buttons.gif);
+	background-position:-133px 0;
+}
+a.slideshowBtnStop:hover {
+	background-position:-133px -24px;
+}
+/* adjustments for skin defined layout */
+.foswikiTopic {
+	margin:0 !important;
+}
