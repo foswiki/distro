@@ -21,9 +21,15 @@
      | footer | footer string appended to the output; empty when no plugin matches | |
      | separator | separator put between each plugin rendered in a row | =$n= |
      | tagformat | format string to render a link to any tag documentation a plugin implements | =[<nop>[%<nop>SYSTEMWEB%.Var$tag][$tag]]= |
-   * Example: %JQPLUGINS{
-      "treeview|slimbox" 
-      header="$n"
-      format="      * [[$documentation][$name]] v$version was developed by [[$homepage][$author]]"
-    }%
+   * Example: <verbatim class="tml"> %JQPLUGINS{
+   "treeview|slimbox"
+   header="   * JQuery Plugins:$n"
+   format="      * [[$documentation][$name]] v$version was developed by [[$homepage][$author]]"
+ }%</verbatim> Produces:
+%JQPLUGINS{
+  "treeview|slimbox" 
+  header="   * JQuery Plugins:$n"
+  format="      * [[$documentation][$name]] v$version was developed by [[$homepage][$author]]"
+}%
    * Related: JQueryPlugin
+<!--%JQREQUIRE{"chili"}%-->

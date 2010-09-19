@@ -3,7 +3,7 @@
 #VarJQICONPATH
 ---+++ JQICONPATH{"name"} -- render the urlpath to an image 
    * This is a shortcut for 
-     <verbatim>%JQICON{"name" format="$iconPath"}%</verbatim>
-   * Example: %JQICONPATH{"tick"}%
+     <verbatim class="tml">%JQICON{"name" format="$iconPath"}%</verbatim>
+   * Example: =%JQICONPATH{"tick"}%=
    * Related: [[VarJQICON]], [[VarICONURL]], JQueryPlugin
-
+<!--%JQREQUIRE{"chili"}%-->

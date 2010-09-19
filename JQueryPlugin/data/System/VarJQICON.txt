@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarJQICON
 ---+++ JQICON{"name" ...} -- render an image 
-   * This renders an icon image as found on an _icon search path_. The icon search path is configured in the =$Foswiki::cfg{JQueryPlugin}{IconSearchPath}= and
+   * This renders an icon image as found on an _icon search path_. The icon search path is [[%SCRIPTURLPATH{"configure"}%#JQueryPlugin$Extensions][configured]] in ={JQueryPlugin}{IconSearchPath}= and
      defaults to FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons'. The named icon will be picked
      found first on this path of topics where icons are attached to. The JQICON leverages the general icon loading mechanism as implemented by the !JQueryPlugin
      and used by [[VarBUTTON][BUTTON]] as well.
@@ -14,12 +14,20 @@
      | title | title attribute | |
      | format | format string used to render the icon; known variables to be used in the format string are: \
                 <ul>\
-                 <li>$iconPath: url path</li> \
-                 <li>$iconClass: css class as specified by the =class= parameter </li>\
-                 <li>$iconAlt: alt attribute-value; if the =alt= parameter to JQICON is set, this expands to =alt='...'= </li> \
-                 <li>$iconTitle: title attribute-value; if the =title= parameter to JQICON is set, this expands to =title='...'= </li> \
+                 <li> =$iconPath=: url path</li> \
+                 <li> =$iconClass=: css class as specified by the =class= parameter </li>\
+                 <li> =$iconAlt=: alt attribute-value; if the =alt= parameter to JQICON is set, this expands to =alt='...'= </li> \
+                 <li> =$iconTitle=: title attribute-value; if the =title= parameter to JQICON is set, this expands to =title='...'= </li> \
                 </ul> | =&lt;img src='$iconPath' class='$iconClass' $iconAlt$iconTitle/>= |
-   * Example: 
+   * Example:<verbatim class="tml">
+     %JQICON{"tick" alt="alternative content" title="this is a tick icon"}%
+     %JQICON{"cross"}%
+     %JQICON{"disk"}%
+     %JQICON{"star"}%
+     %JQICON{"lightbulb"}%
+     %JQICON{"camera"}%
+     %JQICON{"date"}%
+     </verbatim> Produces:
      %JQICON{"tick" alt="alternative content" title="this is a tick icon"}% 
      %JQICON{"cross"}% 
      %JQICON{"disk"}%
@@ -28,3 +36,4 @@
      %JQICON{"camera"}%
      %JQICON{"date"}%
    * Related: [[VarJQICONPATH]], [[VarICON]], JQueryPlugin, FamFamFamSilkIcons
+<!--%JQREQUIRE{"chili"}%-->
