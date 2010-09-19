@@ -4,12 +4,19 @@
 ---+++ RENDERLIST -- render bullet lists in a variety of formats
    * The =%<nop>RENDERLIST%= macro is handled by the RenderListPlugin
    * Syntax: =%<nop>RENDERLIST%=
-   * Syntax: =%<nop>RENDERLIST{ "org" focus="Sales.WestCoastTeam" }%=
-   * Example:%BR%
-     =%<nop>RENDERLIST{ "org" }%= %BR%
-     =&nbsp;  * [<nop>[Eng.WebHome][Engineering]]= %BR%
-     =&nbsp;     * [<nop>[Eng.TechPubs][Tech Pubs]]= %BR%
-     =&nbsp;  * [<nop>[Sales.WestCoastTeam][Sales]]= %BR%
-     =&nbsp;     * [<nop>[Sales.EastCoastTeam][East Coast]]= %BR%
-     =&nbsp;     * [<nop>[Sales.WestCoastTeam][West Coast]]=
+   * Example: <verbatim class="tml">%RENDERLIST{"org" focus="Sales.WestCoastTeam"}%
+      * [[Eng.WebHome][Engineering]]
+         * [[Eng.TechPubs][Tech Pubs]]
+      * [[Sales.WestCoastTeam][Sales]]
+         * [[Sales.EastCoastTeam][East Coast]]
+         * [[Sales.WestCoastTeam][West Coast]]</verbatim>
+<div style="padding-left: 3em;">Expands as:
+%RENDERLIST{"org" focus="Sales.WestCoastTeam"}%
+      * [[Eng.WebHome][Engineering]]
+         * [[Eng.TechPubs][Tech Pubs]]
+      * [[Sales.WestCoastTeam][Sales]]
+         * [[Sales.EastCoastTeam][East Coast]]
+         * [[Sales.WestCoastTeam][West Coast]]
+</div>
    * Related: RenderListPlugin
+<!--%JQREQUIRE{"chili"}%-->

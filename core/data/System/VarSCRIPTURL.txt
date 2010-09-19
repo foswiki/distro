@@ -6,6 +6,6 @@
    * =%<nop>SCRIPTURL%= returns the base URL of scripts - expands to %SCRIPTURL%
    * Expands to: =%SCRIPTURL{"script"}%=
    * Example: To get the authenticated version of the current topic you can write  =%<nop>SCRIPTURL{"viewauth"}%/%<nop>WEB%/%<nop>TOPIC%= which expands to =%SCRIPTURL{"viewauth"}%/%WEB%/%INCLUDINGTOPIC%=
-   * %X% In most cases you should use =%<nop>SCRIPTURLPATH{"script"}%= instead, as it works with URL rewriting much better
-   * %X% The =edit= script should always be used in conjunction with =?t=%<nop>GMTIME{"$epoch"}%= to ensure pages about to be edited are not cached in the browser
+   <blockquote class="foswikiHelp">%X% In most cases you should use =%<nop>SCRIPTURLPATH{"script"}%= instead, as it works with URL rewriting much better<p></p>
+   %X% The =edit= script should always be used in conjunction with =?t=%<nop>GMTIME{"$epoch"}%= to ensure pages about to be edited are not cached in the browser</blockquote>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURL][PUBURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTNAME][SCRIPTNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTSUFFIX][SCRIPTSUFFIX]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURLPATH][SCRIPTURLPATH]]

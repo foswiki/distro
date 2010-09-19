@@ -5,6 +5,6 @@
    * The current topic name with added URL-encoded spaces, for use in regular expressions that search for backlinks to the current topic
    * Syntax: =%<nop>SPACEDTOPIC%=
    * Expands to: =%SPACEDTOPIC%=
-   * %X% *This is a deprecated macro.* It can be duplicated with =%<nop>ENCODE{%<nop>SPACEOUT{"%<nop>TOPIC%" separator=" *"}%}%=
+   <blockquote class="foswikiHelp">%X% *This is a deprecated macro.* It can be duplicated with =%<nop>ENCODE{%<nop>SPACEOUT{"%<nop>TOPIC%" separator=" *"}%}%= </verbatim>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSPACEOUT][SPACEOUT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPIC][TOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENCODE][ENCODE]]
 

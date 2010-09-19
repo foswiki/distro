@@ -5,6 +5,6 @@
    * Syntax: =%<nop>SESSION_VARIABLE{"name"}%=
    * Syntax: =%<nop>SESSION_VARIABLE{"name" set="value"}%=
    * Syntax: =%<nop>SESSION_VARIABLE{"name" clear=""}%=
-   * %T% The users ID is in the =AUTHUSER= session variable, and is read-only
+   <blockquote class="foswikiHelp">%T% The users ID is in the =AUTHUSER= session variable, and is read-only</blockquote>
    * Related: UserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarAUTHREALM][AUTHREALM]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONID][SESSIONID]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONVAR][SESSIONVAR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGOUT][LOGOUT]]
 

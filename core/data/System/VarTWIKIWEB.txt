@@ -2,5 +2,4 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarTWIKIWEB
 ---+++ TWIKIWEB -- synonym for [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSYSTEMWEB][SYSTEMWEB]]
-   * %X% *Deprecated.* Please use =%<nop>SYSTEMWEB%= instead.
-
+<blockquote class="foswikiHelp">%X% *Deprecated.* Use =%<nop>SYSTEMWEB%= instead</blockquote>

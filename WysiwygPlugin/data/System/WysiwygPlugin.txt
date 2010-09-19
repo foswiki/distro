@@ -141,15 +141,15 @@ Plugins that extend the syntax using macros, such as =%MYMACRO%=, should work fi
 
 ---+++ Overlapping styles
 Because Foswiki uses a "best guess" approach to some formatting, it allows overlapping of tags in a way forbidden by HTML, and it is impossible to guarantee 100% that formatting in the original Foswiki document will still be there when the same document is loaded and then saved through the WysiwygPlugin. The most obvious case of this is to do with styles. For example, the sentence
-<verbatim>
+<verbatim class="tml">
 *bold _bold-italic* italic_
 </verbatim>
 is legal in TML, but in HTML is represented by
-<verbatim>
+<verbatim class="tml">
 <strong>bold <em>bold-italic</em></strong> <em>italic</em>
 </verbatim>
 which gets translated back to TML as
-<verbatim>
+<verbatim class="tml">
 *bold _bold-italic_* _italic_
 </verbatim>
 which is correct by construction, but does not render correctly in Foswiki. This problem is unfortunately unavoidable due to the way TML works.

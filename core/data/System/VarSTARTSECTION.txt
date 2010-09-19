@@ -17,7 +17,8 @@
      | *Parameter:* | *Description:* | *Default* |
      | ="name"= | Name of the section. Must be unique inside a topic. | Generated name |
      | =type="..."= | Type of the section; type ="section"=, ="expandvariables"=, ="include"= or ="templateonly"= | ="section"= |
-   * %X% If a section is not given a name, it will be assigned one. Unnamed sections are assigned names starting with =_SECTION0= for the first unnamed section in the topic, =_SECTION1= for the second, etc..
-   * %X% You can define nested sections. It is not recommended to overlap sections, although it is valid in Foswiki. Use named sections to make sure that the correct START and ENDs are matched. Section markers are *not* displayed when a topic is viewed.
+   <blockquote class="foswikiHelp">%X% If a section is not given a name, it will be assigned one. Unnamed sections are assigned names starting with =_SECTION0= for the first unnamed section in the topic, =_SECTION1= for the second, etc..
+   <p></p>
+   %X% You can define nested sections. It is not recommended to overlap sections, although it is valid in Foswiki. Use named sections to make sure that the correct START and ENDs are matched. Section markers are *not* displayed when a topic is viewed.</blockquote>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDSECTION][ENDSECTION]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarNOP][NOP]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTARTINCLUDE][STARTINCLUDE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTOPINCLUDE][STOPINCLUDE]]
 

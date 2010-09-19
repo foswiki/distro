@@ -3,7 +3,7 @@
 #VarREVINFO
 ---+++ REVINFO -- revision information of current topic
    * Syntax:
-   * Date format defined as {DefaultDateFormat} in [[%SCRIPTURLPATH{"configure"}%][configure]]
+   * Date format defined as ={DefaultDateFormat}= in [[%SCRIPTURLPATH{"configure"}%#Locale$Internationalisation][configure]]
 ---+++ REVINFO{"format"} -- formatted revision information of topic
    * Syntax: =%<nop>REVINFO%= OR =%<nop>REVINFO{"format"}%=
    * =%<nop>REVINFO%= is equivalent to =%<nop>REVINFO{format="r1.$rev - $date - $wikiusername"}%=
@@ -26,5 +26,6 @@
      | =$time= | Revision time | =23:24:25= |
      | =$iso= | Revision date in ISO date format | =2006-09-22T06:24:25Z= |
      | =$min=, =$sec=, etc. | Same date format qualifiers as [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME{"format"}]] | |
-   * Example: =%<nop>REVINFO{"$date - $wikiusername" rev="1.1"}%= returns revision info of first revision
+   * Example, returns revision info of first revision: <verbatim class="tml">%REVINFO{"$date - $wikiusername" rev="1.1"}%</verbatim> 
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME{"format"}]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO][REVINFO]]
+<!--%JQREQUIRE{"chili"}%-->
