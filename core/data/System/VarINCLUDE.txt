@@ -29,8 +29,8 @@
      | =disablecompresstags="on"= | Bypass replacing newlines in HTML tags with spaces. This compression step rewrites unmatched &lt;'s into =&amp;lt;= entities unless bypassed | disabled |
      | =disablerewriteurls="on"= | Bypass rewriting relative URLs into absolute ones | disabled |
      | =warn="off"= | Warn if URL include fails: Fail silently (if =off=); output default warning (if set to =on=); else, output specific text (use =$topic= for topic name) appended with the http error information. | =%<nop>INCLUDEWARNING%= [[DefaultPreferences][preferences]] setting |
-   * %H% !JavaScript in included webpages is filtered out as a security precaution per default (disable filter with =disableremovescript= parameter)
-   * %X% Foswiki by default is configured to deny URL format includes.
+   <p></p><blockquote class="foswikiHelp">%H% !JavaScript in included webpages is filtered out as a security precaution per default (disable filter with =disableremovescript= parameter)<p></p>
+   %X% Foswiki by default is configured to deny URL format includes.</blockquote>
    * Examples: See IncludeTopicsAndWebPages
    * Related: [[#VarINCLUDE][INCLUDE("topic")]]
 #VarINCLUDEdoc

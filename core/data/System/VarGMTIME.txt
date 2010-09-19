@@ -24,6 +24,7 @@
      | =$http= | E-mail & http format timestamp | %GMTIME{"$http"}% |
      | =$epoch= | Number of seconds since 00:00 on 1st January, 1970 | %GMTIME{"$epoch"}% |
    * Tokens can be shortened to 3 characters
-   * Example: =%<nop>GMTIME{"$day $month, $year - $hour:$min:$sec"}%= expands to =%GMTIME{"$day $month, $year - $hour:$min:$sec"}%=
-   * %X% When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.
+   * Example: <verbatim class="tml">%GMTIME{"$day $month, $year - $hour:$min:$sec"}%</verbatim> expands to <pre>%GMTIME{"$day $month, $year - $hour:$min:$sec"}%</pre>
+   <blockquote class="foswikiHelp">%X% When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.</blockquote>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO][REVINFO]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSERVERTIME][SERVERTIME]]
+<!--%JQREQUIRE{"chili"}%-->

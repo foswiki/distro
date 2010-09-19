@@ -11,6 +11,10 @@
      | =default="..."= | Text shown if the field is defined in the topic, but the field value is empty. For example, a text field for which all the content has been deleted. | =""= |
      | =alttext="..."= | Text shown if the field is not defined in the topic (even if it is specified in the form definition). For example, this is used when a field exists in the form definition, but the referring topic hasn't been edited since it was added. | =""= |
      | =rev="n"= | Specifiy a revision of the topic. If not specified, defaults to the most recent rev (or the viewed rev if viewing an old rev of the same topic) |
-   * Example: =%<nop>FORMFIELD{"<nop>ProjectName" topic="Projects.<nop>SushiProject" default="(no project name given)" alttext="<nop>ProjectName field not found in form"}%=
+   * Example: <verbatim class="tml"> %FORMFIELD{"ProjectName"
+   topic="Projects.SushiProject"
+   default="(no project name given)"
+   alttext="ProjectName field not found in form"
+ }%</verbatim>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
-
+<!--%JQREQUIRE{"chili"}%-->
