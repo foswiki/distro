@@ -430,7 +430,7 @@ EOCSS
 <script type='text/javascript' src='%PUBURL%/%SYSTEMWEB%/SlideShowPlugin/slideshow.js'></script>
 EOJS
     Foswiki::Func::addToZone( 'script', 'SLIDESHOWPLUGIN/js', $jsHeader,
-        'CYCLE,EASING' );
+        'JQUERYPLUGIN::CYCLE,JQUERYPLUGIN::EASING' );
 
     $addedHead = 1;
 }
