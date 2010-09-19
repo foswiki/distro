@@ -9,10 +9,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-18 01:24+0200\n"
 "Last-Translator: Erik Åman <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
-"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -167,10 +167,6 @@ msgstr "%1 döptes om eller flyttades från %2 %3 av %4"
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
 msgstr "Avbryt (&C)"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr "Redig&era text"
 
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
@@ -1194,7 +1190,7 @@ msgstr ""
 "Stavade du sidans namn korrekt? Kom ihåg att göra skillnad på versaler och "
 "gemener i namn på sidor."
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Ville du [[%1][nollstäla lösenordet för användaren %2]]?"
 
@@ -1309,26 +1305,14 @@ msgstr "Redigera Wiki<nop>Text"
 msgid "Edit help"
 msgstr "Redigeringshjälp"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr "Uppdatera användarinformation"
-
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
 msgstr "Ändra inställningarna for denna sida..."
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
-msgstr "Redigera text"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "Redigera denna tabell"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
-msgstr "Redigera sidan"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1568,6 +1552,7 @@ msgstr "Grupp"
 msgid "Group name"
 msgstr "Gruppnamn"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "Grupper"
@@ -1599,6 +1584,11 @@ msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 "Du kan inte skapa en avdelning i en annan avdelning eftersom möjligheten "
 "till hierarkiska avdelningar för närvarande är avstängd."
+
+#: core/data/System/ManagingTopics.txt:95
+#, fuzzy
+msgid "History"
+msgstr "&Historik"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1712,7 +1702,7 @@ msgstr "Eventuella frågor om registreringen skickas till %1."
 msgid "If you have any questions, please contact %1"
 msgstr "Kontakta %1 om du har frågor"
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "Kontakta %1 om du har frågor."
@@ -1977,6 +1967,11 @@ msgstr "Mer formateringshjälp"
 msgid "More on hiding attachments"
 msgstr "Mer om att gömma bifogade filer"
 
+#: core/data/System/TopicsAndWebs.txt:49
+#, fuzzy
+msgid "More topic actions"
+msgstr "Fler alternativ för denna sida..."
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -2074,13 +2069,14 @@ msgstr "Nytt namn på avdelningen:"
 msgid "Newer revision:"
 msgstr "Ny version:"
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
-msgstr "Inget gruppnamn specificerat"
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
 msgstr "Inga dottersidor"
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+#, fuzzy
+msgid "No group name specified"
+msgstr "Inget gruppnamn specificerat"
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2258,7 +2254,8 @@ msgid "Placeholder for trashed attachments"
 msgstr "Sida för raderade dokument"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+#, fuzzy
+msgid "Please check to ensure you have permission to modify the group."
 msgstr "Kontrollera att du har behörighet att modifiera gruppen."
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
@@ -2421,8 +2418,9 @@ msgstr "Sök med reguljära uttryck"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "Relaterade sidor:"
 
@@ -2580,8 +2578,7 @@ msgstr ""
 #: core/data/Sandbox/WebPreferences.txt:9
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr ""
-"Sandlådan är en avdelning för att testa och experimentera utan "
-"begränsningar."
+"Sandlådan är en avdelning för att testa och experimentera utan begränsningar."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:161
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
@@ -3009,10 +3006,12 @@ msgstr ""
 
 # Doesn't seem like a complete sentence.
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
+#, fuzzy
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
 msgstr ""
 "Kontrollerna som Foswiki genomför kan ibland utlösas när du gör något helt "
 "oskyldigt, till exempel om du klickar på Tillbaka-knappen efter att ha "
@@ -3201,8 +3200,8 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Detta är ditt namn skrivet som !WikiOrd, till exempel !JohnSmith. %BR% [[%"
-"1][Registrera dig]] om du inte har ett konto ännu."
+"Detta är ditt namn skrivet som !WikiOrd, till exempel !JohnSmith. %BR% [[%1]"
+"[Registrera dig]] om du inte har ett konto ännu."
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
@@ -3422,7 +3421,8 @@ msgstr ""
 "användarhanteringsalternativ."
 
 #: core/templates/messages.tmpl:485
-msgid "Upgraded Group"
+#, fuzzy
+msgid "Upgraded group"
 msgstr "Gruppen uppdaterad"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
@@ -3472,6 +3472,7 @@ msgstr "För användare"
 msgid "Username"
 msgstr "Användarnamn"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "Användare"
@@ -3524,7 +3525,6 @@ msgstr "Visa version:"
 msgid "View templates"
 msgstr "Visa mallar"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
@@ -3799,15 +3799,15 @@ msgid "You must pass a topic name."
 msgstr "Du måste ange ett namn på sidan."
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
+msgid "You need to specify a valid user to add to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:494
@@ -4218,6 +4218,18 @@ msgstr "visa"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "varför du blir ombedd att bekräfta"
+
+#~ msgid "&Edit text"
+#~ msgstr "Redig&era text"
+
+#~ msgid "Edit personal data"
+#~ msgstr "Uppdatera användarinformation"
+
+#~ msgid "Edit text"
+#~ msgstr "Redigera text"
+
+#~ msgid "Edit this topic text"
+#~ msgstr "Redigera sidan"
 
 # Not sure how to translate "view context" and exactly what it means.
 #~ msgid "Commenting is disabled when not in view context"

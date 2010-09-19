@@ -162,10 +162,6 @@ msgstr ""
 msgid "&Cancel"
 msgstr "취소 (&C)"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr "본문 편집 (&E)"
-
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
 msgstr "기록 (&H)"
@@ -1152,7 +1148,7 @@ msgid ""
 "sensitive."
 msgstr ""
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr ""
 
@@ -1258,27 +1254,15 @@ msgstr ""
 msgid "Edit help"
 msgstr "편집 도움말"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr "개인 정보 편집"
-
 #: core/templates/more.tmpl:17
 #, fuzzy
 msgid "Edit settings for this topic..."
 msgstr "이 토픽을 위한 편집 설정 "
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
-msgstr "본문 편집"
-
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "이 테이블 편집하기"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
-msgstr "이 토픽 본문 편집하기"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1512,6 +1496,7 @@ msgstr "그룹"
 msgid "Group name"
 msgstr "그룹"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "그룹"
@@ -1543,6 +1528,11 @@ msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 "계층 구조의 웹 생성 기능이비활성화 되어있기 때문에 하부 토픽을 생성할 수 없습"
 "니다."
+
+#: core/data/System/ManagingTopics.txt:95
+#, fuzzy
+msgid "History"
+msgstr "기록 (&H)"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1643,7 +1633,7 @@ msgstr "등록과 관련하여 문의사항이 있으면, %1 에게 이메일로
 msgid "If you have any questions, please contact %1"
 msgstr "문의사항이 있으면, %1 에게 연락하십시오."
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "문의사항이 있으면, %1 에게 연락하십시오."
@@ -1897,6 +1887,11 @@ msgstr "더 많은 포맷팅 도움말 보기"
 msgid "More on hiding attachments"
 msgstr "첨부물 이동 혹은 삭제하기"
 
+#: core/data/System/TopicsAndWebs.txt:49
+#, fuzzy
+msgid "More topic actions"
+msgstr "더 많은 토픽 액션..."
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -1996,13 +1991,13 @@ msgstr "새로운 Web 이름"
 msgid "Newer revision:"
 msgstr "새로운 리비전:"
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
-msgstr ""
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
 msgstr "하위 토픽이 없음"
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+msgid "No group name specified"
+msgstr ""
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2180,7 +2175,7 @@ msgid "Placeholder for trashed attachments"
 msgstr ""
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
@@ -2336,8 +2331,9 @@ msgstr "정규 표현식 검색"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "관련된 토픽:"
 
@@ -2905,7 +2901,8 @@ msgstr ""
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
 msgstr ""
 
 #: core/templates/messages.tmpl:308
@@ -3280,8 +3277,9 @@ msgid ""
 msgstr ""
 
 #: core/templates/messages.tmpl:485
-msgid "Upgraded Group"
-msgstr ""
+#, fuzzy
+msgid "Upgraded group"
+msgstr "새 토픽 생성하기"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
@@ -3331,6 +3329,7 @@ msgstr "사용자 참조 문서"
 msgid "Username"
 msgstr "사용자이름"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "사용자"
@@ -3383,7 +3382,6 @@ msgstr "리비전 보기:"
 msgid "View templates"
 msgstr "템플릿 보기"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
@@ -3632,15 +3630,15 @@ msgid "You must pass a topic name."
 msgstr ""
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
+msgid "You need to specify a valid user to add to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:494
@@ -4016,6 +4014,18 @@ msgstr "보기"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "당신의 확인이 요청된 이유입니다."
+
+#~ msgid "&Edit text"
+#~ msgstr "본문 편집 (&E)"
+
+#~ msgid "Edit personal data"
+#~ msgstr "개인 정보 편집"
+
+#~ msgid "Edit text"
+#~ msgstr "본문 편집"
+
+#~ msgid "Edit this topic text"
+#~ msgstr "이 토픽 본문 편집하기"
 
 #, fuzzy
 #~ msgid "Attachment metadata"

@@ -160,10 +160,6 @@ msgstr ""
 msgid "&Cancel"
 msgstr ""
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr ""
-
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
 msgstr ""
@@ -484,7 +480,6 @@ msgid "Access keys"
 msgstr ""
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
-#, fuzzy
 msgid "Access keys:"
 msgstr ""
 
@@ -1118,7 +1113,7 @@ msgid ""
 "sensitive."
 msgstr ""
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr ""
 
@@ -1225,26 +1220,14 @@ msgstr ""
 msgid "Edit help"
 msgstr "Düzenleme Yardımı"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr "Kişisel Bilgilerinizi Düzenleyin"
-
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
 msgstr "Bu konu için ayarları düzenle..."
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
-msgstr "Metni düzenle"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "Tablo Düzenle"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
-msgstr ""
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1471,6 +1454,7 @@ msgstr "Grup"
 msgid "Group name"
 msgstr "Grup adı"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "Gruplar"
@@ -1499,6 +1483,10 @@ msgstr "Yardımı gizle"
 
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
+msgstr ""
+
+#: core/data/System/ManagingTopics.txt:95
+msgid "History"
 msgstr ""
 
 #: core/templates/registernotify.tmpl:16
@@ -1602,7 +1590,7 @@ msgstr "Kayıt ile ilgili sorularınız için  %1 e e-mail yollayabilirsiniz."
 msgid "If you have any questions, please contact %1"
 msgstr "Herhangi bir sorunuz varsa  %1 ile iletişime geçiniz."
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "Herhangi bir sorunuz varsa  %1 ile iletişime geçiniz."
@@ -1850,6 +1838,11 @@ msgstr ""
 msgid "More on hiding attachments"
 msgstr "(dosya ekini taşı)"
 
+#: core/data/System/TopicsAndWebs.txt:49
+#, fuzzy
+msgid "More topic actions"
+msgstr "Diğer konu aksiyonları..."
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -1947,12 +1940,12 @@ msgstr ""
 msgid "Newer revision:"
 msgstr ""
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
-msgstr ""
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
+msgstr ""
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+msgid "No group name specified"
 msgstr ""
 
 #: core/templates/messages.tmpl:547
@@ -2127,7 +2120,7 @@ msgid "Placeholder for trashed attachments"
 msgstr ""
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
@@ -2286,8 +2279,9 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "İlgili Konular:"
 
@@ -2844,7 +2838,8 @@ msgstr ""
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
 msgstr ""
 
 #: core/templates/messages.tmpl:308
@@ -3218,8 +3213,9 @@ msgid ""
 msgstr ""
 
 #: core/templates/messages.tmpl:485
-msgid "Upgraded Group"
-msgstr ""
+#, fuzzy
+msgid "Upgraded group"
+msgstr "Grup oluştur"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
@@ -3268,6 +3264,7 @@ msgstr ""
 msgid "Username"
 msgstr "Kullanıcı Adınız"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "Kullanıcılar"
@@ -3320,7 +3317,6 @@ msgstr "Revizyonu görüntüle:"
 msgid "View templates"
 msgstr ""
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
@@ -3563,15 +3559,15 @@ msgid "You must pass a topic name."
 msgstr ""
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
+msgid "You need to specify a valid user to add to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:494
@@ -3941,6 +3937,12 @@ msgstr ""
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "Edit personal data"
+#~ msgstr "Kişisel Bilgilerinizi Düzenleyin"
+
+#~ msgid "Edit text"
+#~ msgstr "Metni düzenle"
 
 #~ msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
 #~ msgstr "S = Kaydet, Q = Quiet save, K = Kaydet ve Devam et, D = Discard"

@@ -158,10 +158,6 @@ msgstr ""
 msgid "&Cancel"
 msgstr ""
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr ""
-
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
 msgstr ""
@@ -1110,7 +1106,7 @@ msgid ""
 "sensitive."
 msgstr ""
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr ""
 
@@ -1215,25 +1211,13 @@ msgstr ""
 msgid "Edit help"
 msgstr ""
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr ""
-
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
-msgstr ""
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
 msgstr ""
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
-msgstr ""
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
 msgstr ""
 
 #: core/templates/more.tmpl:13
@@ -1460,6 +1444,7 @@ msgstr ""
 msgid "Group name"
 msgstr ""
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr ""
@@ -1488,6 +1473,10 @@ msgstr ""
 
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
+msgstr ""
+
+#: core/data/System/ManagingTopics.txt:95
+msgid "History"
 msgstr ""
 
 #: core/templates/registernotify.tmpl:16
@@ -1587,7 +1576,7 @@ msgstr ""
 msgid "If you have any questions, please contact %1"
 msgstr ""
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr ""
@@ -1827,6 +1816,10 @@ msgstr ""
 msgid "More on hiding attachments"
 msgstr ""
 
+#: core/data/System/TopicsAndWebs.txt:49
+msgid "More topic actions"
+msgstr ""
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -1924,12 +1917,12 @@ msgstr ""
 msgid "Newer revision:"
 msgstr ""
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No group name specified"
-msgstr ""
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
+msgstr ""
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+msgid "No group name specified"
 msgstr ""
 
 #: core/templates/messages.tmpl:547
@@ -2102,7 +2095,7 @@ msgid "Placeholder for trashed attachments"
 msgstr ""
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
@@ -2257,8 +2250,9 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr ""
 
@@ -2808,7 +2802,8 @@ msgstr ""
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
 msgstr ""
 
 #: core/templates/messages.tmpl:308
@@ -3229,6 +3224,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr ""
@@ -3279,7 +3275,6 @@ msgstr ""
 msgid "View templates"
 msgstr ""
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"

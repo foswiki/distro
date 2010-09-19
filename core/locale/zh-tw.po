@@ -170,10 +170,6 @@ msgstr "%4 將 %3 的 %2 更名或移到 %1"
 msgid "&Cancel"
 msgstr "取消(&C)"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr "編輯(&E)"
-
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
 msgstr "歷史(&H)"
@@ -619,7 +615,8 @@ msgstr "若本主題被其他用戶鎖住，將會出現錯誤頁提示。"
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
-msgstr "在您不知情的情況下，駭客可能試著以您的登入身份變更您網頁的內容。<span class="
+msgstr ""
+"在您不知情的情況下，駭客可能試著以您的登入身份變更您網頁的內容。<span class="
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -1143,7 +1140,7 @@ msgid ""
 "sensitive."
 msgstr "主題名稱是否拼寫正確？注意主題名稱是有大小寫的區分。"
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "您是否想 [[%1][重設 %2 的密碼]]?"
 
@@ -1248,26 +1245,14 @@ msgstr "編輯 Wiki<nop>Text"
 msgid "Edit help"
 msgstr "編輯說明"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr "編輯個人資料"
-
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
 msgstr "編輯本主題的設定…"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
-msgstr "編輯文本"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "編輯這個表格"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
-msgstr "編輯這個主題"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1495,6 +1480,7 @@ msgstr "群組"
 msgid "Group name"
 msgstr "群組名稱"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "群組"
@@ -1524,6 +1510,11 @@ msgstr "隱藏説明"
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr "目前禁用次子網，您無法建立巢狀子網。"
+
+#: core/data/System/ManagingTopics.txt:95
+#, fuzzy
+msgid "History"
+msgstr "歷史(&H)"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1627,7 +1618,7 @@ msgstr "有任何關於註冊的問題，請寄電子郵件給 %1。"
 msgid "If you have any questions, please contact %1"
 msgstr "任何問題，請聯繫 %1。"
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "任何問題，請聯繫 %1。"
@@ -1882,6 +1873,11 @@ msgstr "更多格式說明"
 msgid "More on hiding attachments"
 msgstr "更多隱藏附件說明"
 
+#: core/data/System/TopicsAndWebs.txt:49
+#, fuzzy
+msgid "More topic actions"
+msgstr "更多主題功能..."
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -1979,13 +1975,14 @@ msgstr "新子網名稱:"
 msgid "Newer revision:"
 msgstr "新版本:"
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
-msgstr "未指定群組名稱 GroupName"
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
 msgstr "無子主題"
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+#, fuzzy
+msgid "No group name specified"
+msgstr "未指定群組名稱 GroupName"
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2159,7 +2156,8 @@ msgid "Placeholder for trashed attachments"
 msgstr "丟棄附件的存放地"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+#, fuzzy
+msgid "Please check to ensure you have permission to modify the group."
 msgstr "請確認您有足夠的權限可以修改此群組。"
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
@@ -2318,8 +2316,9 @@ msgstr "正則運算式搜尋"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "相關主題:"
 
@@ -2874,11 +2873,15 @@ msgid ""
 msgstr "標記的主題將被更新（另外一個表格_最終_將允許您重命名任何鎖定的主題）"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
+#, fuzzy
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
-msgstr "有時 Foswiki 執行的檢查工作會由你無意做的一些事情觸發，例如，如果您在儲存網頁後，點「回到上頁」。然後 Foswiki 使用此方法"
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
+msgstr ""
+"有時 Foswiki 執行的檢查工作會由你無意做的一些事情觸發，例如，如果您在儲存網頁"
+"後，點「回到上頁」。然後 Foswiki 使用此方法"
 
 #: core/templates/messages.tmpl:308
 msgid "The e-mail address for this account is not valid."
@@ -2958,7 +2961,8 @@ msgstr "用戶 %1 已經啟動並可登入。"
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
 "request to your server, using your browser and your identity."
-msgstr "他們使用您的瀏覽器及您的身份，發送請求到服務器，意圖影響資料的自動儲存。"
+msgstr ""
+"他們使用您的瀏覽器及您的身份，發送請求到服務器，意圖影響資料的自動儲存。"
 
 #: core/templates/messages.tmpl:407
 msgid "There are problems with renaming this web:"
@@ -3050,7 +3054,8 @@ msgstr "這是本對話被禁止的原因："
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
 "[Register]] if you do not have an account yet."
-msgstr "這是您名字的 !WikiWord ，例如: !JohnSmith 。 %BR% 若無帳戶請 [[%1] [註冊]] 。"
+msgstr ""
+"這是您名字的 !WikiWord ，例如: !JohnSmith 。 %BR% 若無帳戶請 [[%1] [註冊]] 。"
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
@@ -3062,7 +3067,9 @@ msgstr "名稱已選定，所以不會和其他 %1 內的主題衝突。"
 msgid ""
 "This page explains one of the security measures that Foswiki, the software "
 "that runs this site, performs to secure this site from attackers."
-msgstr "本頁解釋本網站使用的軟體 Foswiki 所採用的安全措施之一 ，以確避免網站受到攻擊。"
+msgstr ""
+"本頁解釋本網站使用的軟體 Foswiki 所採用的安全措施之一 ，以確避免網站受到攻"
+"擊。"
 
 #: core/templates/messages.tmpl:364
 msgid "This requires the form definition to be present."
@@ -3257,7 +3264,8 @@ msgid ""
 msgstr "升級將更新群組主題的格式，有新的用戶管理選項"
 
 #: core/templates/messages.tmpl:485
-msgid "Upgraded Group"
+#, fuzzy
+msgid "Upgraded group"
 msgstr "更新群組"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
@@ -3307,6 +3315,7 @@ msgstr "用戶手冊"
 msgid "Username"
 msgstr "用戶名"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "用戶"
@@ -3357,7 +3366,6 @@ msgstr "檢視修訂版:"
 msgid "View templates"
 msgstr "檢視範本"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
@@ -3477,7 +3485,9 @@ msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1."
-msgstr "您 *必須* 至少有個有效的註冊電子信箱才能重設密碼。若您忘記密碼且註冊用的電子信箱已失效，後請聯繫 %1。"
+msgstr ""
+"您 *必須* 至少有個有效的註冊電子信箱才能重設密碼。若您忘記密碼且註冊用的電子"
+"信箱已失效，後請聯繫 %1。"
 
 #: core/templates/messages.tmpl:272
 msgid "You are already registered"
@@ -3580,7 +3590,9 @@ msgid ""
 "You change your email address by setting the form field called Email in your "
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
-msgstr "您能在您的使用者主題表單的電子信箱欄位變更您的電子信箱。若這個欄位不存在，請尋找像這樣的一行設定: "
+msgstr ""
+"您能在您的使用者主題表單的電子信箱欄位變更您的電子信箱。若這個欄位不存在，請"
+"尋找像這樣的一行設定: "
 
 #: core/templates/messages.tmpl:158 core/templates/messages.tmpl:167
 #: core/templates/messages.tmpl:248
@@ -3608,15 +3620,18 @@ msgid "You must pass a topic name."
 msgstr "您必須輸入主題名稱。"
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+#, fuzzy
+msgid "You need to specify a valid group name to add users to a group."
 msgstr "您必須指定有效的群組才能將使用者加入群組。"
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+#, fuzzy
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr "您必須指定有效的群組才能將使用者移除群組。"
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
+#, fuzzy
+msgid "You need to specify a valid user to add to a group."
 msgstr "您必須指定有效的使用者才能加入群組。"
 
 #: core/templates/messages.tmpl:494
@@ -3638,7 +3653,8 @@ msgid ""
 "topic for a form field called Email. If this form field does not exist it "
 "will look for a line like this:"
 msgstr ""
-"您必須以有效的電子信箱註冊。若系統無法在祕密資料庫中找到您註冊的電子信箱，它將在您的用戶主題的表單中尋找電子信箱的欄位。若這個表單不存在，它將尋找以下這"
+"您必須以有效的電子信箱註冊。若系統無法在祕密資料庫中找到您註冊的電子信箱，它"
+"將在您的用戶主題的表單中尋找電子信箱的欄位。若這個表單不存在，它將尋找以下這"
 "行: "
 
 #: core/templates/messages.tmpl:371
@@ -3676,7 +3692,9 @@ msgid ""
 "Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%."
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
-msgstr "您的名字如線上顯示。注意，這必須是個獨特的 [[%SYSTEMWEB%.WikiName][Wiki 名字]] 。系統預設由您的姓和名產生。"
+msgstr ""
+"您的名字如線上顯示。注意，這必須是個獨特的 [[%SYSTEMWEB%.WikiName][Wiki 名"
+"字]] 。系統預設由您的姓和名產生。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
 msgid "Your password"
@@ -3993,6 +4011,18 @@ msgstr "瀏覽"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "為何您被要求確認"
+
+#~ msgid "&Edit text"
+#~ msgstr "編輯(&E)"
+
+#~ msgid "Edit personal data"
+#~ msgstr "編輯個人資料"
+
+#~ msgid "Edit text"
+#~ msgstr "編輯文本"
+
+#~ msgid "Edit this topic text"
+#~ msgstr "編輯這個主題"
 
 #~ msgid "Commenting is disabled when not in view context"
 #~ msgstr "非瀏覽模式，禁止評論"

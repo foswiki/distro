@@ -167,10 +167,6 @@ msgstr "uživatel  %4 přesunul %1 z %2 do %3"
 msgid "&Cancel"
 msgstr "&Cancel (ponechej beze změny)"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr "&Editovat text"
-
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
 msgstr "Historie"
@@ -1211,7 +1207,7 @@ msgstr ""
 "Napsal jste jméno článku korektně? Nezapomeňte, že ve jméně článku se "
 "rozlišují malá a velká písmena."
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Chtěl jste  [[%1][vynulovat %2 heslo]]?"
 
@@ -1328,27 +1324,15 @@ msgstr ""
 msgid "Edit help"
 msgstr "Pomoc k editaci"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr "Změňte vaše osobní údaje"
-
 #: core/templates/more.tmpl:17
 #, fuzzy
 msgid "Edit settings for this topic..."
 msgstr "Změnit nastavení pro tento článek"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
-msgstr "Změňte text"
-
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "Editovat tabulku"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
-msgstr "Změňte text tohoto článku"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1590,6 +1574,7 @@ msgstr "Skupiny"
 msgid "Group name"
 msgstr "Jméno článku"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "Skupiny"
@@ -1621,6 +1606,11 @@ msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 "Funkce Hierarchických Webů je momentálně vypnutá, nemůžete vytvářet vložené "
 "weby."
+
+#: core/data/System/ManagingTopics.txt:95
+#, fuzzy
+msgid "History"
+msgstr "Historie"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1735,7 +1725,7 @@ msgstr "Pokud máte libovolné otázky o registraci, pošlete email %1."
 msgid "If you have any questions, please contact %1"
 msgstr "Pokud máte jakékoliv otázky, kontaktujte prosím %1."
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "Pokud máte libovolné otázky, kontaktujte prosím %1."
@@ -2005,6 +1995,11 @@ msgstr "Více nápovědy k formátování"
 msgid "More on hiding attachments"
 msgstr "Přesun nebo smazání přílohy"
 
+#: core/data/System/TopicsAndWebs.txt:49
+#, fuzzy
+msgid "More topic actions"
+msgstr "Další akce..."
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -2104,13 +2099,13 @@ msgstr "Nové jméno webu:"
 msgid "Newer revision:"
 msgstr "Novější revize:"
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
-msgstr ""
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
 msgstr "Žádné podřízené články"
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+msgid "No group name specified"
+msgstr ""
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2295,7 +2290,7 @@ msgid "Placeholder for trashed attachments"
 msgstr "Místo pro vymazané přílohy"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
@@ -2460,8 +2455,9 @@ msgstr "Hledání pomocí regulárních výrazů"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "Podobné články:"
 
@@ -3052,7 +3048,8 @@ msgstr ""
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
 msgstr ""
 
 #: core/templates/messages.tmpl:308
@@ -3455,7 +3452,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:485
 #, fuzzy
-msgid "Upgraded Group"
+msgid "Upgraded group"
 msgstr "Skupiny"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
@@ -3506,6 +3503,7 @@ msgstr "Uživatelské reference"
 msgid "Username"
 msgstr "Váš účet"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "Uživatelé"
@@ -3560,7 +3558,6 @@ msgstr "Zobraz revize:"
 msgid "View templates"
 msgstr "Zobraz šablony"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
@@ -3832,15 +3829,15 @@ msgid "You must pass a topic name."
 msgstr "Musíte zadat název stránky."
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
+msgid "You need to specify a valid user to add to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:494
@@ -4202,7 +4199,8 @@ msgstr "title='Ukaž celou historii článku' accesskey='h'>&History"
 #: core/templates/viewtopicactionbuttons.tmpl:38
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
-msgstr "title='Zobraz zdrojový text (bez formátování)' accesskey='v'>&View wiki text"
+msgstr ""
+"title='Zobraz zdrojový text (bez formátování)' accesskey='v'>&View wiki text"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"
@@ -4243,6 +4241,18 @@ msgstr "náhled"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "proč jste byl dotazován na potvrzení"
+
+#~ msgid "&Edit text"
+#~ msgstr "&Editovat text"
+
+#~ msgid "Edit personal data"
+#~ msgstr "Změňte vaše osobní údaje"
+
+#~ msgid "Edit text"
+#~ msgstr "Změňte text"
+
+#~ msgid "Edit this topic text"
+#~ msgstr "Změňte text tohoto článku"
 
 #, fuzzy
 #~ msgid "Attachment metadata"

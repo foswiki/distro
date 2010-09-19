@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-18 10:29+0200\n"
 "Last-Translator: Kenneth Lavrsen <kenneth@lavrsen.dk>\n"
 "Language-Team: Danish <N/A>\n"
-"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -167,10 +167,6 @@ msgstr "%1 blev omdøbt eller flyttet fra %2 den %3 af %4"
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
 msgstr "Fortryd (&C)"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr "&Editér tekst"
 
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
@@ -610,9 +606,8 @@ msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
 msgstr ""
-"Når du har sendt denne formular, vil du modtage en e-mail med din nye "
-"system-genererede adgangskode, samt et link til en side hvor du selv kan "
-"ændre det."
+"Når du har sendt denne formular, vil du modtage en e-mail med din nye system-"
+"genererede adgangskode, samt et link til en side hvor du selv kan ændre det."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
@@ -1203,7 +1198,7 @@ msgstr ""
 "Stavede du dit navn rigtigt? Husk at et sidenavn er følsomt for store og små "
 "bodstaver."
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Ønskede du at [[%1][nulstille adgangskoden for brugeren %2]]?"
 
@@ -1318,26 +1313,14 @@ msgstr "Redigér Wiki<nop>Tekst"
 msgid "Edit help"
 msgstr "Editéringshjælp"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr "Opdater bruger-information"
-
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
 msgstr "Opdatér side-indstillinger for denne side..."
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
-msgstr "Editér teksten"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "Editér denne tabel"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
-msgstr "Editér denne sides tekst"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1580,6 +1563,7 @@ msgstr "Gruppe"
 msgid "Group name"
 msgstr "Gruppenavn"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "Grupper"
@@ -1611,6 +1595,11 @@ msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 "Hierarkiske webs er for øjeblikket slået fra, du kan ikke oprette "
 "underordnede webs."
+
+#: core/data/System/ManagingTopics.txt:95
+#, fuzzy
+msgid "History"
+msgstr "&Historik"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1726,7 +1715,7 @@ msgstr ""
 msgid "If you have any questions, please contact %1"
 msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
@@ -1761,8 +1750,8 @@ msgid ""
 "any more) and you have forgotten your password, please contact %1 for help."
 msgstr ""
 "Hvis dine gamle e-mail-adresser alle er ugyldige (du kan ikke længere "
-"modtage e-mail på dem) og du har glemt din adgangskode, kontakt da venligst "
-"%1."
+"modtage e-mail på dem) og du har glemt din adgangskode, kontakt da venligst %"
+"1."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
 msgid ""
@@ -1997,6 +1986,11 @@ msgstr "Mere formateringshjælp"
 msgid "More on hiding attachments"
 msgstr "Mere om at skjule vedhæftede filer"
 
+#: core/data/System/TopicsAndWebs.txt:49
+#, fuzzy
+msgid "More topic actions"
+msgstr "Flere muligheder med denne side..."
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -2094,13 +2088,14 @@ msgstr "Nyt web-navn:"
 msgid "Newer revision:"
 msgstr "Nyere version:"
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
-msgstr "Intet gruppenavn angivet"
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
 msgstr "Ingen dattersider"
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+#, fuzzy
+msgid "No group name specified"
+msgstr "Intet gruppenavn angivet"
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2280,7 +2275,8 @@ msgid "Placeholder for trashed attachments"
 msgstr "Siden hvor slettede vedhæftede filer gemmes"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+#, fuzzy
+msgid "Please check to ensure you have permission to modify the group."
 msgstr "Kontrollér at du har rettigheder til at ændre gruppen."
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
@@ -2445,8 +2441,9 @@ msgstr "Søg med regulære udtryk"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "Relaterede sider:"
 
@@ -3032,13 +3029,15 @@ msgstr ""
 "vist som vil tillade dig at omdøbe sider der evt. var låste)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
+#, fuzzy
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
 msgstr ""
-"Kontrollen udført af Foswiki kan ske når du gør noget helt uskyldigt som "
-"f.eks. når du klikker på Tilbage knappen efter at du har gemt en side. Så "
+"Kontrollen udført af Foswiki kan ske når du gør noget helt uskyldigt som f."
+"eks. når du klikker på Tilbage knappen efter at du har gemt en side. Så "
 "bruger Foswiki kontrolmetoden"
 
 #: core/templates/messages.tmpl:308
@@ -3137,8 +3136,7 @@ msgstr "Der er problemer med at omdøbe dette web:"
 #: core/templates/messages.tmpl:244
 msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
-"Der opstod et problem med at tilføje dit brugernavn til adgangskode-"
-"systemet."
+"Der opstod et problem med at tilføje dit brugernavn til adgangskode-systemet."
 
 #: core/templates/validate.tmpl:29
 msgid ""
@@ -3232,8 +3230,8 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Dette er dit navn skrevet som !WikiWord, for eksempel !JohnSmith. %BR% [[%"
-"1][Registrér]] hvis du ikke har en bruger konto endnu."
+"Dette er dit navn skrevet som !WikiWord, for eksempel !JohnSmith. %BR% [[%1]"
+"[Registrér]] hvis du ikke har en bruger konto endnu."
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
@@ -3453,7 +3451,8 @@ msgstr ""
 "mulighed for håndtering af brugere"
 
 #: core/templates/messages.tmpl:485
-msgid "Upgraded Group"
+#, fuzzy
+msgid "Upgraded group"
 msgstr "Opgraderet gruppe"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
@@ -3503,6 +3502,7 @@ msgstr "Brugervejledninger"
 msgid "Username"
 msgstr "Brugernavn"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "Brugere"
@@ -3555,7 +3555,6 @@ msgstr "Vis version:"
 msgid "View templates"
 msgstr "Se skabeloner"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
@@ -3836,17 +3835,20 @@ msgid "You must pass a topic name."
 msgstr "Du skal angive et sidenavn"
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+#, fuzzy
+msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 "Du skal angive at gyldigt gruppenavn for at tilføje brugere til en gruppe."
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+#, fuzzy
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 "Du skal angive et gyldigt gruppenavn for at fjerne brugere fra en gruppe."
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
+#, fuzzy
+msgid "You need to specify a valid user to add to a group."
 msgstr "Du skal angive en gyldig bruger for at tilføje til en gruppe."
 
 #: core/templates/messages.tmpl:494
@@ -3953,8 +3955,8 @@ msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
 msgstr ""
-"Dine registrerede e-mail-adresser bliver brugt af Foswiki til at sende dig "
-"e-mails, inkl. notifikation om ændringer af adgangskode."
+"Dine registrerede e-mail-adresser bliver brugt af Foswiki til at sende dig e-"
+"mails, inkl. notifikation om ændringer af adgangskode."
 
 #: core/templates/messages.tmpl:255
 msgid ""
@@ -4255,6 +4257,18 @@ msgstr "vis"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "for at få at vide hvorfor du bliver bedt om at bekræfte"
+
+#~ msgid "&Edit text"
+#~ msgstr "&Editér tekst"
+
+#~ msgid "Edit personal data"
+#~ msgstr "Opdater bruger-information"
+
+#~ msgid "Edit text"
+#~ msgstr "Editér teksten"
+
+#~ msgid "Edit this topic text"
+#~ msgstr "Editér denne sides tekst"
 
 #, fuzzy
 #~ msgid "Attachment metadata"

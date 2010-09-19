@@ -11,10 +11,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-18 05:26+0200\n"
 "Last-Translator: Carlinhos Ceconi <carlinux@terra.com.br>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
-"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -164,10 +164,6 @@ msgstr "%1 foi movido ou renomeado de %2 em %3 por %4"
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
 msgstr "&Cancelar"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr "&Editar texto"
 
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
@@ -379,8 +375,8 @@ msgid ""
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
 "*Propriedades:* o comentário e a visibilidade (i.e. se o anexo será mostrado "
-"ou não) podem ser alterados sem a necessidade de anexar o arquivo "
-"novamente. Para mudar apenas isso clique em \"Apenas Alterar Propriedades\"."
+"ou não) podem ser alterados sem a necessidade de anexar o arquivo novamente. "
+"Para mudar apenas isso clique em \"Apenas Alterar Propriedades\"."
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -1212,7 +1208,7 @@ msgstr ""
 "Você digitou o nome do tópico corretamente? Lembre-se que nomes de tópicos "
 "diferenciam maiúsculas e minúsculas (case sensitive)"
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Você não queria [[%1][restaurar a senha de %2]]?"
 
@@ -1325,26 +1321,14 @@ msgstr "Editar Wiki<nop>Texto"
 msgid "Edit help"
 msgstr "Ajuda com edição"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr "Editar dados pessoais"
-
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
 msgstr "Editar preferências para este tópico..."
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
-msgstr "Editar texto"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "Editar essa tabela"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
-msgstr "Editar o texto desse tópico"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1584,6 +1568,7 @@ msgstr "Grupo"
 msgid "Group name"
 msgstr "Nome do grupo"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "Grupos"
@@ -1615,6 +1600,11 @@ msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 "O recurso de Webs Hierárquicas está desabilitado, você não pode criar webs "
 "aninhadas."
+
+#: core/data/System/ManagingTopics.txt:95
+#, fuzzy
+msgid "History"
+msgstr "&Histórico"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1734,7 +1724,7 @@ msgstr ""
 msgid "If you have any questions, please contact %1"
 msgstr "Se você tiver qualquer dúvida, contate %1"
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "Se você tiver qualquer dúvida, contate %1."
@@ -2001,6 +1991,11 @@ msgstr "Mais ajuda com formatação"
 msgid "More on hiding attachments"
 msgstr "Mais em anexos ocultos"
 
+#: core/data/System/TopicsAndWebs.txt:49
+#, fuzzy
+msgid "More topic actions"
+msgstr "Mais ações de tópico..."
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -2098,13 +2093,14 @@ msgstr "Novo nome da web:"
 msgid "Newer revision:"
 msgstr "Versão mais recente:"
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
-msgstr "Nenhum GroupName especificado"
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
 msgstr "Nenhum tópico filho"
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+#, fuzzy
+msgid "No group name specified"
+msgstr "Nenhum GroupName especificado"
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2158,7 +2154,6 @@ msgstr ""
 "Nota: você precisa ter Cookies e Javascript habilitados no seu navegador "
 "para passar essa tela. Normalmente são habilitados por padrão, mas caso algo "
 "não funcione corretamente, verifique se o seu browser tem eles habilitados. "
-""
 
 #: core/data/System/VarMAKETEXT.txt:15
 msgid "Notes:"
@@ -2284,7 +2279,8 @@ msgid "Placeholder for trashed attachments"
 msgstr "Lugar reservado para anexos removidos"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+#, fuzzy
+msgid "Please check to ensure you have permission to modify the group."
 msgstr "Certifique-se de ter permissão para modificar o grupo."
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
@@ -2449,8 +2445,9 @@ msgstr "Busca com expressões regulares"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "Tópicos relacionados:"
 
@@ -3008,8 +3005,8 @@ msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
 msgstr ""
-"O anexo pode ser renomeado se o tópico já contiver um com o nome "
-"'%FILENAME%'."
+"O anexo pode ser renomeado se o tópico já contiver um com o nome '%FILENAME"
+"%'."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
@@ -3036,10 +3033,12 @@ msgstr ""
 "_eventualmente_ permitir que você renomeie tópicos que estejam travados)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
+#, fuzzy
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
 msgstr ""
 "As verificações efetuadas pelo Fosiki podem ser acionadas quando você faz "
 "algo sem querer, por exemplo, se você clicar no botão Voltar após salvar uma "
@@ -3131,8 +3130,7 @@ msgid ""
 "request to your server, using your browser and your identity."
 msgstr ""
 "A intenção é a de salvar automaticamente através do envio de requisição ao "
-"servidor, usando o seu navegador e sua identidade e comprometendo seus "
-"dados."
+"servidor, usando o seu navegador e sua identidade e comprometendo seus dados."
 
 #: core/templates/messages.tmpl:407
 msgid "There are problems with renaming this web:"
@@ -3459,7 +3457,8 @@ msgstr ""
 "gerenciamento de usuários"
 
 #: core/templates/messages.tmpl:485
-msgid "Upgraded Group"
+#, fuzzy
+msgid "Upgraded group"
 msgstr "Grupo atualizado"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
@@ -3510,6 +3509,7 @@ msgstr "Referência do usuário"
 msgid "Username"
 msgstr "Nome de usuário"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "Usuários"
@@ -3562,7 +3562,6 @@ msgstr "Ver versão:"
 msgid "View templates"
 msgstr "Ver modelos"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
@@ -3690,8 +3689,8 @@ msgid ""
 "have forgotten your password, contact %1."
 msgstr ""
 "Você *precisa* ter ao menos um e-mail válido registrado para poder restaurar "
-"sua senha.  Caso nenhum de seus endereços registrados seja um e-mail "
-"válido, ou você esqueceu sua senha, contate %1. "
+"sua senha.  Caso nenhum de seus endereços registrados seja um e-mail válido, "
+"ou você esqueceu sua senha, contate %1. "
 
 #: core/templates/messages.tmpl:272
 msgid "You are already registered"
@@ -3840,17 +3839,21 @@ msgid "You must pass a topic name."
 msgstr "Você deve fornecer um nome de tópico."
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+#, fuzzy
+msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 "É necessário especificar um nome de grupo válido para acrescentar uuários."
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+#, fuzzy
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr "É necessário especificar um nome de grupo válido para remover uuários."
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
-msgstr "É necessário especificar um usuário válido para adicioná-lo a um grupo."
+#, fuzzy
+msgid "You need to specify a valid user to add to a group."
+msgstr ""
+"É necessário especificar um usuário válido para adicioná-lo a um grupo."
 
 #: core/templates/messages.tmpl:494
 msgid "You need to specify a valid user to remove from a group."
@@ -3919,8 +3922,8 @@ msgid ""
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
-"Seu nome tal como será exibido. Note que ele deve ser um único [[%SYSTEMWEB%"
-". WikiName] [Nome Wiki]]. Por padrão ele é derivado de seu nome e sobrenome."
+"Seu nome tal como será exibido. Note que ele deve ser um único [[%SYSTEMWEB"
+"%. WikiName] [Nome Wiki]]. Por padrão ele é derivado de seu nome e sobrenome."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
 msgid "Your password"
@@ -4258,6 +4261,18 @@ msgstr "ver"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "porque você é solicitado a confirmar"
+
+#~ msgid "&Edit text"
+#~ msgstr "&Editar texto"
+
+#~ msgid "Edit personal data"
+#~ msgstr "Editar dados pessoais"
+
+#~ msgid "Edit text"
+#~ msgstr "Editar texto"
+
+#~ msgid "Edit this topic text"
+#~ msgstr "Editar o texto desse tópico"
 
 #~ msgid "Commenting is disabled when not in view context"
 #~ msgstr "Comentários são desativados fora do contexto view"

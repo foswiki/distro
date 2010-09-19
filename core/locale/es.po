@@ -172,10 +172,6 @@ msgstr "%1 reubicado de %2 el %3 por %4"
 msgid "&Cancel"
 msgstr "&Cancelar"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr "&Editar texto"
-
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
 msgstr "&Historial"
@@ -1232,7 +1228,7 @@ msgstr ""
 "Deletreó el nombre del tema correctamente? Recuerde que el nombre del tema "
 "es sensible a mayúsculas/minúsculas."
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "¿Quiso [[%1][reinicializar la contraseña de %2]]?"
 
@@ -1349,27 +1345,15 @@ msgstr ""
 msgid "Edit help"
 msgstr "Ayuda de editar"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr "Editar datos personales"
-
 #: core/templates/more.tmpl:17
 #, fuzzy
 msgid "Edit settings for this topic..."
 msgstr "Editar preferencias para este tema"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
-msgstr "Editar texto"
-
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "Editar esta tabla"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
-msgstr "Editar el texto de este tema"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1617,6 +1601,7 @@ msgstr "Grupos"
 msgid "Group name"
 msgstr "Nombre del tema"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "Grupos"
@@ -1648,6 +1633,11 @@ msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 "El uso de webs jerárquicas está actualmente deshabilitado; no puede crear "
 "webs anidadas."
+
+#: core/data/System/ManagingTopics.txt:95
+#, fuzzy
+msgid "History"
+msgstr "&Historial"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1768,7 +1758,7 @@ msgstr "Si tiene alguna duda acerca del registro, envie un correo a %1."
 msgid "If you have any questions, please contact %1"
 msgstr "Si tiene alguna duda, favor comunicarse con %1"
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "Si tiene alguna duda, favor comunicarse con %1."
@@ -2042,6 +2032,11 @@ msgstr "Más ayuda de formato"
 msgid "More on hiding attachments"
 msgstr "Ocultar archivos adjuntos"
 
+#: core/data/System/TopicsAndWebs.txt:49
+#, fuzzy
+msgid "More topic actions"
+msgstr "&Más acciones para la página"
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -2141,13 +2136,13 @@ msgstr "Nuevo nombre de web:"
 msgid "Newer revision:"
 msgstr "Revisión más nueva:"
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
-msgstr ""
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
 msgstr "No hay temas hijo"
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+msgid "No group name specified"
+msgstr ""
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2332,7 +2327,7 @@ msgid "Placeholder for trashed attachments"
 msgstr "Recipiente para archivos adjuntos eliminados"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
@@ -2498,8 +2493,9 @@ msgstr "Búsqueda de expresión regular"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "Temas relacionados:"
 
@@ -3098,7 +3094,8 @@ msgstr ""
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
 msgstr ""
 
 #: core/templates/messages.tmpl:308
@@ -3514,7 +3511,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:485
 #, fuzzy
-msgid "Upgraded Group"
+msgid "Upgraded group"
 msgstr "Grupos"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
@@ -3565,6 +3562,7 @@ msgstr "Guía de usuario"
 msgid "Username"
 msgstr "Nombre de usuario"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "Usuarios"
@@ -3620,7 +3618,6 @@ msgstr "Ver revisión:"
 msgid "View templates"
 msgstr "Ver plantillas"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
@@ -3903,15 +3900,15 @@ msgid "You must pass a topic name."
 msgstr "Tiene que digitar un nombre de tema."
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
+msgid "You need to specify a valid user to add to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:494
@@ -4324,6 +4321,18 @@ msgstr "vista"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "&Edit text"
+#~ msgstr "&Editar texto"
+
+#~ msgid "Edit personal data"
+#~ msgstr "Editar datos personales"
+
+#~ msgid "Edit text"
+#~ msgstr "Editar texto"
+
+#~ msgid "Edit this topic text"
+#~ msgstr "Editar el texto de este tema"
 
 #, fuzzy
 #~ msgid "Attachment metadata"
@@ -5817,9 +5826,6 @@ msgstr ""
 
 #~ msgid "&Edit"
 #~ msgstr "&Editar"
-
-#~ msgid "&More topic actions"
-#~ msgstr "&Más acciones para la página"
 
 #~ msgid "&Printable"
 #~ msgstr "Imprimible"

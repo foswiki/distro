@@ -9,10 +9,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-17 23:32+0200\n"
 "Last-Translator: Lars Eik <lars.eik@gmail.com>\n"
 "Language-Team: Norwegian <LL@li.org>\n"
-"Language: no\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: no\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -160,10 +160,6 @@ msgstr "%1 har endret navn eller flyttet fra %2 på %3 av %4"
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
 msgstr "Avbryt (&c)"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr "R&ediger tekst"
 
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
@@ -1181,7 +1177,7 @@ msgstr ""
 "Stavet du sidenavnet riktig? Husk at sidenavn skiller mellom store og små "
 "bokstaver."
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Ville du [[%1][sette %2's passord]]?"
 
@@ -1294,26 +1290,14 @@ msgstr "Rediger Wiki<nop>Tekst"
 msgid "Edit help"
 msgstr "Redigeringshjelp"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr "Rediger personlige data"
-
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
 msgstr "Rediger innstillinger for denne siden..."
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
-msgstr "Rediger tekst"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "Rediger denne tabellen"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
-msgstr "Rediger teksten på denne siden"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1553,6 +1537,7 @@ msgstr "Gruppe"
 msgid "Group name"
 msgstr "Gruppenavn"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "Grupper"
@@ -1582,6 +1567,11 @@ msgstr "Skjul hjelp"
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr "Hierarkiske Web er deaktivert, du kan ikke lage nestede web."
+
+#: core/data/System/ManagingTopics.txt:95
+#, fuzzy
+msgid "History"
+msgstr "&Historikk"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1697,7 +1687,7 @@ msgstr "Hvis du har spørsmål om registrering send en epost til %1."
 msgid "If you have any questions, please contact %1"
 msgstr "Dersom du har spørsmål vennligst kontakt %1"
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "Dersom du harspørsmål vennlighst kontakt %1."
@@ -1962,6 +1952,11 @@ msgstr "Mer formateringshjelp"
 msgid "More on hiding attachments"
 msgstr "Mer om skuling av vedlegg"
 
+#: core/data/System/TopicsAndWebs.txt:49
+#, fuzzy
+msgid "More topic actions"
+msgstr "Flere valg for siden..."
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -2059,13 +2054,14 @@ msgstr "Nytt webnavn:"
 msgid "Newer revision:"
 msgstr "Nyere versjon:"
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
-msgstr "Gruppenavn ikke spesifisert"
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
 msgstr "Ingen undersider"
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+#, fuzzy
+msgid "No group name specified"
+msgstr "Gruppenavn ikke spesifisert"
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2244,7 +2240,8 @@ msgid "Placeholder for trashed attachments"
 msgstr "Plassholder for slettede vedlegg"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+#, fuzzy
+msgid "Please check to ensure you have permission to modify the group."
 msgstr "Vennligst forsikre at du har rettigheter til å endre gruppen."
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
@@ -2405,8 +2402,9 @@ msgstr "Regulære uttrykk søk"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "Relaterte sider:"
 
@@ -2992,10 +2990,12 @@ msgstr ""
 "_eventuelt_ kan navngi sider som var låst)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
+#, fuzzy
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
 msgstr ""
 "De sjekkene Foswiki gjør kan noen ganger reagere selv om du gjør noe som er "
 "helt uskyldig, for eksempel hvis du klikker Tilbake i nettleseren etter å ha "
@@ -3405,7 +3405,8 @@ msgstr ""
 "formatet med brukeradministrasjons valg"
 
 #: core/templates/messages.tmpl:485
-msgid "Upgraded Group"
+#, fuzzy
+msgid "Upgraded group"
 msgstr "Gruppe Oppgradert"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
@@ -3455,6 +3456,7 @@ msgstr "Bruker Referanse"
 msgid "Username"
 msgstr "Brukernavn"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "Brukere"
@@ -3507,7 +3509,6 @@ msgstr "Vis versjon:"
 msgid "View templates"
 msgstr "Vis maler"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
@@ -3781,15 +3782,18 @@ msgid "You must pass a topic name."
 msgstr "Du må sende et sidenavn."
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+#, fuzzy
+msgid "You need to specify a valid group name to add users to a group."
 msgstr "Du må angi et gyldig gruppenavn for å legge til brukere i en gruppe."
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+#, fuzzy
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr "Du må angi et gyldig gruppenavn for å fjerne brukere fra en gruppe."
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
+#, fuzzy
+msgid "You need to specify a valid user to add to a group."
 msgstr "Du må angi en gyldig bruker for å legge til en gruppe."
 
 #: core/templates/messages.tmpl:494
@@ -4189,6 +4193,18 @@ msgstr "vis"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "hvorfor du blir bedt om å bekrefte"
+
+#~ msgid "&Edit text"
+#~ msgstr "R&ediger tekst"
+
+#~ msgid "Edit personal data"
+#~ msgstr "Rediger personlige data"
+
+#~ msgid "Edit text"
+#~ msgstr "Rediger tekst"
+
+#~ msgid "Edit this topic text"
+#~ msgstr "Rediger teksten på denne siden"
 
 #~ msgid "Commenting is disabled when not in view context"
 #~ msgstr "Kommentering er deaktivert foruten i visningskontekst"

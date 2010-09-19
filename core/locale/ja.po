@@ -175,10 +175,6 @@ msgstr "%1 は %3 に %4 で %2 から 移動します"
 msgid "&Cancel"
 msgstr "キャンセル"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr "テキスト編集"
-
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
 msgstr "履歴"
@@ -1216,7 +1212,7 @@ msgstr ""
 "%1のスペルが正しいかどうかを確認してもう一度試してください。%2が大文字と小文"
 "字を区別することを忘れないでください"
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr " [[%1][%2のパスワード]をリセット]したいですか?"
 
@@ -1329,27 +1325,15 @@ msgstr ""
 msgid "Edit help"
 msgstr "ヘルプを編集します"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr "個人データを編集します"
-
 #: core/templates/more.tmpl:17
 #, fuzzy
 msgid "Edit settings for this topic..."
 msgstr "本トピック 設定を編集します"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
-msgstr "テキストを編集します"
-
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "このテーブルを編集します"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
-msgstr "このトピックのテキストを編集します"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1594,6 +1578,7 @@ msgstr "グループ"
 msgid "Group name"
 msgstr "トピック名"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "グループ"
@@ -1623,6 +1608,11 @@ msgstr "ヘルプを隠します"
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
+
+#: core/data/System/ManagingTopics.txt:95
+#, fuzzy
+msgid "History"
+msgstr "履歴"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1736,7 +1726,7 @@ msgstr "登録に対して何か疑問がございましたら %1宛てにメー
 msgid "If you have any questions, please contact %1"
 msgstr "何か疑問がございましたら、%1までご連絡ください。"
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "何か疑問がございましたら、%1までご連絡ください。"
@@ -2008,6 +1998,11 @@ msgstr "もっと多くのフォーマットヘルプ"
 msgid "More on hiding attachments"
 msgstr "隠された添付ファイル"
 
+#: core/data/System/TopicsAndWebs.txt:49
+#, fuzzy
+msgid "More topic actions"
+msgstr "もっと多くのトピックアクション"
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -2108,13 +2103,13 @@ msgstr "新ウェブ名:"
 msgid "Newer revision:"
 msgstr "新バージョン："
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
-msgstr ""
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
 msgstr "子トピック無し"
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+msgid "No group name specified"
+msgstr ""
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2296,7 +2291,7 @@ msgid "Placeholder for trashed attachments"
 msgstr "廃棄した添付ファイルの保存場所"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
@@ -2460,8 +2455,9 @@ msgstr "正規表現検索"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "関連トピック：:"
 
@@ -3054,7 +3050,8 @@ msgstr ""
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
 msgstr ""
 
 #: core/templates/messages.tmpl:308
@@ -3452,7 +3449,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:485
 #, fuzzy
-msgid "Upgraded Group"
+msgid "Upgraded group"
 msgstr "ニューグループ"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
@@ -3503,6 +3500,7 @@ msgstr "ユーザープロパティ"
 msgid "Username"
 msgstr "ユーザー名"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "ユーザー"
@@ -3557,7 +3555,6 @@ msgstr "改訂を確認します"
 msgid "View templates"
 msgstr "テンプレートを確認します"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
@@ -3825,15 +3822,15 @@ msgid "You must pass a topic name."
 msgstr ""
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
+msgid "You need to specify a valid user to add to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:494
@@ -4236,6 +4233,18 @@ msgstr "ビュー"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "&Edit text"
+#~ msgstr "テキスト編集"
+
+#~ msgid "Edit personal data"
+#~ msgstr "個人データを編集します"
+
+#~ msgid "Edit text"
+#~ msgstr "テキストを編集します"
+
+#~ msgid "Edit this topic text"
+#~ msgstr "このトピックのテキストを編集します"
 
 #, fuzzy
 #~ msgid "Attachment metadata"

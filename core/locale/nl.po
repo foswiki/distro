@@ -12,10 +12,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-16 13:06+0200\n"
 "Last-Translator: Arthur Clemens <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
-"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -167,10 +167,6 @@ msgstr "%1 is door %4 hernoemd of verplaatst van %2 in %3"
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
 msgstr "&Afbreken"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr "Tekst b&ewerken"
 
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
@@ -522,8 +518,8 @@ msgstr ""
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:21
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
 msgstr ""
-"Een pagina met deze naam heeft bestaan, maar is hernoemd of verplaatst naar "
-"%1."
+"Een pagina met deze naam heeft bestaan, maar is hernoemd of verplaatst naar %"
+"1."
 
 #: core/data/System/WebSearch.txt:65
 msgid "A-Z"
@@ -1031,7 +1027,8 @@ msgstr "Ga verder om de pagina aan te maken"
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
-msgstr "Conversie naar HTML is uitgeschakeld vanwege de inhoud van deze pagina."
+msgstr ""
+"Conversie naar HTML is uitgeschakeld vanwege de inhoud van deze pagina."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
@@ -1204,7 +1201,7 @@ msgstr ""
 "Heb je de naam van de pagina correct gespeld? Vergeet niet dat een "
 "paginanaam hoofdlettergevoelig is."
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Wilde je van %2 het [[%1][wachtwoord opnieuw instellen]]?"
 
@@ -1318,26 +1315,14 @@ msgstr ""
 msgid "Edit help"
 msgstr "Help bij Bewerken"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr "Bewerk persoonlijke gegevens"
-
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
 msgstr "Bewerk instellingen voor deze pagina..."
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
-msgstr "Bewerk tekst"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "Bewerk deze tabel"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
-msgstr "Bewerk de paginatekst"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1581,6 +1566,7 @@ msgstr "Groepen"
 msgid "Group name"
 msgstr "Paginanaam"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "Groepen"
@@ -1612,6 +1598,11 @@ msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 "Hi&&euml;rarchische Webs zijn niet geactiveerd; je kunt geen genest web "
 "aanmaken."
+
+#: core/data/System/ManagingTopics.txt:95
+#, fuzzy
+msgid "History"
+msgstr "&Geschiedenis"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1733,7 +1724,7 @@ msgstr "Bij vragen over registratie kun je een e-mail sturen aan %1."
 msgid "If you have any questions, please contact %1"
 msgstr "Als je vragen hebt kun je contact opnemen met %1"
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "Neem bij vragen contact op met %1."
@@ -1779,8 +1770,7 @@ msgid ""
 msgstr ""
 "Als je persoonlijke pagina niet is beschermd (en andere gebruikers deze dus "
 "kunnen veranderen), en als je je e-mailadres niet registreert met dit "
-"formulier, zou je gebruikersaccount gekaapt kunnen worden door iemand "
-"anders."
+"formulier, zou je gebruikersaccount gekaapt kunnen worden door iemand anders."
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2009,6 +1999,11 @@ msgstr "Meer opmaakhulp"
 msgid "More on hiding attachments"
 msgstr "Verplaats of verwijder bijlage"
 
+#: core/data/System/TopicsAndWebs.txt:49
+#, fuzzy
+msgid "More topic actions"
+msgstr "Meer pagina acties..."
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -2106,13 +2101,13 @@ msgstr "Nieuwe webnaam:"
 msgid "Newer revision:"
 msgstr "Nieuwere revisie:"
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
-msgstr ""
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
 msgstr "Geen onderliggende pagina&#39;s"
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+msgid "No group name specified"
+msgstr ""
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2292,7 +2287,7 @@ msgid "Placeholder for trashed attachments"
 msgstr "Standaardpagina voor weggegooide bijlagen"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
@@ -2456,8 +2451,9 @@ msgstr "Regular expression zoeken"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "Gerelateerde pagina&#39;s:"
 
@@ -2470,8 +2466,8 @@ msgid ""
 "Remember to update your user topic if you want your e-mail change to be "
 "reflected there as well."
 msgstr ""
-"Vergeet niet je persoonlijke pagina bij te werken als je je gewijzigde "
-"e-mailadres daar ook wilt tonen."
+"Vergeet niet je persoonlijke pagina bij te werken als je je gewijzigde e-"
+"mailadres daar ook wilt tonen."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
@@ -3047,7 +3043,8 @@ msgstr ""
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
 msgstr ""
 
 #: core/templates/messages.tmpl:308
@@ -3465,8 +3462,9 @@ msgid ""
 msgstr ""
 
 #: core/templates/messages.tmpl:485
-msgid "Upgraded Group"
-msgstr ""
+#, fuzzy
+msgid "Upgraded group"
+msgstr "Groep aanmaken"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
@@ -3516,6 +3514,7 @@ msgstr "Gebruikershandleiding"
 msgid "Username"
 msgstr "Gebruikersnaam"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "Gebruikers"
@@ -3569,7 +3568,6 @@ msgstr "Bekijk revisie:"
 msgid "View templates"
 msgstr "Bekijk templates"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
@@ -3700,8 +3698,8 @@ msgid ""
 "have forgotten your password, contact %1."
 msgstr ""
 "Je *moet* tenminste één geldig geregistreerd e-mailadres hebben om je "
-"wachtwoord opnieuw te kunnen instellen. Als geen van je geregistreerde "
-"e-mailadressen geldig is en je je wachtwoord bent vergeten, neem dan contact "
+"wachtwoord opnieuw te kunnen instellen. Als geen van je geregistreerde e-"
+"mailadressen geldig is en je je wachtwoord bent vergeten, neem dan contact "
 "op met %1."
 
 #: core/templates/messages.tmpl:272
@@ -3847,15 +3845,15 @@ msgid "You must pass a topic name."
 msgstr "Je moet een paginanaam opgeven."
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
+msgid "You need to specify a valid user to add to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:494
@@ -3879,9 +3877,9 @@ msgid ""
 "will look for a line like this:"
 msgstr ""
 "We raden je aan om je met een geldig e-mailadres te registreren. Als Foswiki "
-"geen geregistreerd e-mailadres kan vinden in de beveiligde database, zal "
-"het zoeken in je persoonlijke pagina naar een formulierveld Email. Als dit "
-"veld niet bestaat zal het zoeken naar een regel zoals deze:"
+"geen geregistreerd e-mailadres kan vinden in de beveiligde database, zal het "
+"zoeken in je persoonlijke pagina naar een formulierveld Email. Als dit veld "
+"niet bestaat zal het zoeken naar een regel zoals deze:"
 
 #: core/templates/messages.tmpl:371
 msgid "You will probably have to ask your administrator, %1, to do this."
@@ -4263,6 +4261,18 @@ msgstr "bekijken"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "waarom wordt mij om een bevestiging gevraagd"
+
+#~ msgid "&Edit text"
+#~ msgstr "Tekst b&ewerken"
+
+#~ msgid "Edit personal data"
+#~ msgstr "Bewerk persoonlijke gegevens"
+
+#~ msgid "Edit text"
+#~ msgstr "Bewerk tekst"
+
+#~ msgid "Edit this topic text"
+#~ msgstr "Bewerk de paginatekst"
 
 #, fuzzy
 #~ msgid "Attachment metadata"

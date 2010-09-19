@@ -168,10 +168,6 @@ msgstr "%4 on siirtänyt %1 sijainnista %2, %3"
 msgid "&Cancel"
 msgstr "&Peru"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr "&Muokkaa"
-
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
 msgstr "&Historia"
@@ -1214,7 +1210,7 @@ msgstr ""
 "Kirjoititko aiheen nimen oikein? Muista että aiheen nimi "
 "merkkikokoriippuvainen."
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Haluatko [[%1][nollata %2 salasanan]]?"
 
@@ -1331,27 +1327,15 @@ msgstr ""
 msgid "Edit help"
 msgstr "Muokkauksen ohje"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr "Muokkaa henkilökohtaisia tietoja"
-
 #: core/templates/more.tmpl:17
 #, fuzzy
 msgid "Edit settings for this topic..."
 msgstr "Muokkaa tämän aiheen asetuksia"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
-msgstr "Muokkaa tekstiä"
-
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "Muokkaa tätä taulukkoa"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
-msgstr "Muokkaa tämän aiheen tekstiä"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1595,6 +1579,7 @@ msgstr "Ryhmät"
 msgid "Group name"
 msgstr "Aiheen nimi"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "Ryhmät"
@@ -1625,6 +1610,11 @@ msgstr "Piilota ohje"
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 "Hierarkiset verkot ovat kielletty tällä hetkellä, et voi luoda aliverkkoja."
+
+#: core/data/System/ManagingTopics.txt:95
+#, fuzzy
+msgid "History"
+msgstr "&Historia"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1743,7 +1733,7 @@ msgstr ""
 msgid "If you have any questions, please contact %1"
 msgstr "Kysymyksiisi vastaa %1"
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "Kysymyksiisi vastaa %1."
@@ -2013,6 +2003,11 @@ msgstr "Lisää muotoiluapua"
 msgid "More on hiding attachments"
 msgstr "Siirrä tai poista liite"
 
+#: core/data/System/TopicsAndWebs.txt:49
+#, fuzzy
+msgid "More topic actions"
+msgstr "Lisää aihetoimintoja..."
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -2112,13 +2107,13 @@ msgstr "Uusi verkon nimi:"
 msgid "Newer revision:"
 msgstr "Uudempi versio:"
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
-msgstr ""
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
 msgstr "Ei ala-aiheita"
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+msgid "No group name specified"
+msgstr ""
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2303,7 +2298,7 @@ msgid "Placeholder for trashed attachments"
 msgstr "Paikka poistetuille liitteille"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
@@ -2468,8 +2463,9 @@ msgstr "Säännöllinen lauseke etsintä"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "Liittyvät aiheet:"
 
@@ -3061,7 +3057,8 @@ msgstr ""
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
 msgstr ""
 
 #: core/templates/messages.tmpl:308
@@ -3470,8 +3467,9 @@ msgid ""
 msgstr ""
 
 #: core/templates/messages.tmpl:485
-msgid "Upgraded Group"
-msgstr ""
+#, fuzzy
+msgid "Upgraded group"
+msgstr "Luo uusi aihe"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
@@ -3521,6 +3519,7 @@ msgstr "Käyttäjäopas"
 msgid "Username"
 msgstr "Käyttäjätunnus"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "Käyttäjät"
@@ -3575,7 +3574,6 @@ msgstr "Näytä versio:"
 msgid "View templates"
 msgstr "Näytä sivupohjat"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
@@ -3851,15 +3849,15 @@ msgid "You must pass a topic name."
 msgstr "Sinun on syötettävä aiheen nimi."
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
+msgid "You need to specify a valid user to add to a group."
 msgstr ""
 
 #: core/templates/messages.tmpl:494
@@ -4265,6 +4263,18 @@ msgstr "näytä"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "Miksi sinulta kysytään vahvistusta"
+
+#~ msgid "&Edit text"
+#~ msgstr "&Muokkaa"
+
+#~ msgid "Edit personal data"
+#~ msgstr "Muokkaa henkilökohtaisia tietoja"
+
+#~ msgid "Edit text"
+#~ msgstr "Muokkaa tekstiä"
+
+#~ msgid "Edit this topic text"
+#~ msgstr "Muokkaa tämän aiheen tekstiä"
 
 #~ msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
 #~ msgstr "%1 - täydellinen Foswiki dokumentaatio, pika-aloitus viitteeseen"

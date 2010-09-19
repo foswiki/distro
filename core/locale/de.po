@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-16 18:34+0200\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -171,10 +171,6 @@ msgstr "%1 wurde durch %4 von %2 auf %3 umbenannt oder verschoben."
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
 msgstr "&Abbrechen"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
-msgid "&Edit text"
-msgstr "&Text editieren"
 
 #: core/templates/foswiki.tmpl:164
 msgid "&History"
@@ -1219,7 +1215,7 @@ msgstr ""
 "Haben Sie den Topic-Namen richtig geschrieben? Denken Sie daran, daß "
 "zwischen Groß- und Kleinschreibung unterschieden wird."
 
-#: core/data/System/VarMAKETEXT.txt:21
+#: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Wollen Sie [[%1][%2's Passwort zurücksetzen]]?"
 
@@ -1261,8 +1257,7 @@ msgstr ""
 #: core/templates/messages.tmpl:55
 msgid "During move of attachment =%1= to %2 an error was found."
 msgstr ""
-"Während des Verschiebens des Anhangs =%1= nach %2 ist ein Fehler "
-"aufgetreten."
+"Während des Verschiebens des Anhangs =%1= nach %2 ist ein Fehler aufgetreten."
 
 #: core/templates/messages.tmpl:99
 msgid ""
@@ -1339,26 +1334,14 @@ msgstr "Bearbeite Wiki<nop>Text"
 msgid "Edit help"
 msgstr "Hilfe fürs Editieren"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
-msgid "Edit personal data"
-msgstr "Persönliche Daten bearbeiten"
-
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
 msgstr "Bearbeite Einstellungen für dieses Topic..."
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
-msgid "Edit text"
-msgstr "Text editieren"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "Diese Tabelle bearbeiten"
-
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
-msgid "Edit this topic text"
-msgstr "Topic Text editieren"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1609,6 +1592,7 @@ msgstr "Gruppe"
 msgid "Group name"
 msgstr "Gruppenname"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
 msgstr "Gruppen"
@@ -1640,6 +1624,11 @@ msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 "Hierarchische Webs sind z.Z. deaktiviert. Sie können keine verschachtelten "
 "Webs anlegen."
+
+#: core/data/System/ManagingTopics.txt:95
+#, fuzzy
+msgid "History"
+msgstr "&Historie"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1763,7 +1752,7 @@ msgstr "Wenn Sie Fragen zur Registrierung senden Sie eine E-Mail an %1."
 msgid "If you have any questions, please contact %1"
 msgstr "Wenn Sie Fragen haben wenden Sie sich bitte an %1."
 
-#: core/data/System/VarMAKETEXT.txt:18
+#: core/data/System/VarMAKETEXT.txt:22
 #: core/templates/mailresetpassword.tmpl:17
 msgid "If you have any questions, please contact %1."
 msgstr "Wenn Sie Fragen haben wenden Sie sich bitte an %1."
@@ -1821,9 +1810,8 @@ msgid ""
 "it."
 msgstr ""
 "Ein mögliches Szenario besteht darin, dass eine bösartige Person einen Link "
-"hinterlassen hat, um Sie zum Besuch einer Seite auf "
-"http<nop>://ganovenbande.org zu verleiten, auf der spezieller Javascript-"
-"Code eingebettet ist."
+"hinterlassen hat, um Sie zum Besuch einer Seite auf http<nop>://ganovenbande."
+"org zu verleiten, auf der spezieller Javascript-Code eingebettet ist."
 
 #: core/data/System/WebSearch.txt:104
 msgid "In reversed order"
@@ -2032,6 +2020,11 @@ msgstr "Detaillierte Formatierungshilfe"
 msgid "More on hiding attachments"
 msgstr "Mehr Informationen zum Verbergen von Anhängen"
 
+#: core/data/System/TopicsAndWebs.txt:49
+#, fuzzy
+msgid "More topic actions"
+msgstr "&Mehr Aktionen"
+
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
@@ -2129,13 +2122,14 @@ msgstr "Neuer Web Name:"
 msgid "Newer revision:"
 msgstr "Neuere Revision"
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-msgid "No GroupName specified"
-msgstr "Kein GruppenName spezifiziert"
-
 #: core/templates/more.tmpl:190
 msgid "No child topics"
 msgstr "Keine Unter-Topics"
+
+#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+#, fuzzy
+msgid "No group name specified"
+msgstr "Kein GruppenName spezifiziert"
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2187,8 +2181,8 @@ msgid ""
 "this is where to look first."
 msgstr ""
 "Hinweis: Sie müssen in Ihrem Browser Cookies und Javascript aktiviert haben, "
-"um die hier angezeigte Seite passieren zu können. Dies ist üblicherweise "
-"der Fall. Falls etwas nicht funktioniert liegt es möglicherweise daran. "
+"um die hier angezeigte Seite passieren zu können. Dies ist üblicherweise der "
+"Fall. Falls etwas nicht funktioniert liegt es möglicherweise daran. "
 
 #: core/data/System/VarMAKETEXT.txt:15
 msgid "Notes:"
@@ -2314,7 +2308,8 @@ msgid "Placeholder for trashed attachments"
 msgstr "Platzhalter für weggeworfene Anhänge"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-msgid "Please check to ensure you have permssion to modify the group."
+#, fuzzy
+msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 "Bitte stellen Sie sicher, dass Sie die Berechtigung haben, die Gruppe zu "
 "verändern."
@@ -2483,8 +2478,9 @@ msgstr "Mit regulären Ausdrücken suchen"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
-#: core/data/Main/GroupViewTemplate.txt:14 core/templates/messages.tmpl:572
-#: core/templates/messages.tmpl:579
+#: core/data/Main/GroupViewTemplate.txt:14
+#: core/data/System/SkinTemplateViewTemplate.txt:8
+#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
 msgid "Related topics:"
 msgstr "Verwandte Topics:"
 
@@ -3081,10 +3077,12 @@ msgstr ""
 "gesperrt sind)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
+#, fuzzy
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
-"after saving a page. Foswiki then uses the approach "
+"after saving a page. Foswiki then uses the approach \"better safe than sorry"
+"\"."
 msgstr ""
 "Die durch Foswiki durchgeführten Überprüfungen können manchmal durch "
 "vollkommen harmlose Aktionen Ihrerseits ausgelöst werden, beispielsweise "
@@ -3289,8 +3287,8 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Dies ist Ihr Name geschrieben als !WikiWord, z.B. !ThomasSchmitt. %BR% [[%"
-"1][Registrieren Sie sich]], falls Sie noch kein Benutzerkonto haben."
+"Dies ist Ihr Name geschrieben als !WikiWord, z.B. !ThomasSchmitt. %BR% [[%1]"
+"[Registrieren Sie sich]], falls Sie noch kein Benutzerkonto haben."
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
@@ -3511,11 +3509,11 @@ msgid ""
 "user management options"
 msgstr ""
 "Die Optimierung wird das Format dieses Gruppen-Topics in das neue Format "
-"übertragen, durch das die Benutzerverwaltung dieser Gruppen erleichtert "
-"wird."
+"übertragen, durch das die Benutzerverwaltung dieser Gruppen erleichtert wird."
 
 #: core/templates/messages.tmpl:485
-msgid "Upgraded Group"
+#, fuzzy
+msgid "Upgraded group"
 msgstr "Optimierte Gruppe"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
@@ -3565,6 +3563,7 @@ msgstr "Benutzer Referenz"
 msgid "Username"
 msgstr "Benutzername"
 
+#: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "Benutzer"
@@ -3617,7 +3616,6 @@ msgstr "Revision ansehen:"
 msgid "View templates"
 msgstr "Vorlagen anzeigen"
 
-#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
@@ -3902,19 +3900,22 @@ msgid "You must pass a topic name."
 msgstr "Sie müssen einen Topic-Namen angeben."
 
 #: core/templates/messages.tmpl:461
-msgid "You need to specify a valid Group name to add users to a Group."
+#, fuzzy
+msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 "Sie müssen einen gültigen Gruppennamen angeben, um Nutzer einer Gruppe "
 "hinzuzufügen."
 
 #: core/templates/messages.tmpl:499
-msgid "You need to specify a valid Group name to remove users from a Group."
+#, fuzzy
+msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 "Sie müssen einen gültigen Gruppennamen angeben, um Benutzer aus einer Gruppe "
 "zu entfernen."
 
 #: core/templates/messages.tmpl:456
-msgid "You need to specify a valid user to add to a Group."
+#, fuzzy
+msgid "You need to specify a valid user to add to a group."
 msgstr ""
 "Sie müssen einen gültigen Nutzer angeben, der einer Gruppe hinzugefügt "
 "werden soll."
@@ -3988,8 +3989,8 @@ msgid ""
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
-"Ihr Name wird online angezeigt. Beachten Sie, dass dieser ein eindeutiger [["
-"%SYSTEMWEB%.WikiName][Wiki Name]] sein muss. Standardmäßig wird er aus dem "
+"Ihr Name wird online angezeigt. Beachten Sie, dass dieser ein eindeutiger [[%"
+"SYSTEMWEB%.WikiName][Wiki Name]] sein muss. Standardmäßig wird er aus dem "
 "Vor- und Nachnamen abgeleitet."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
@@ -4329,6 +4330,18 @@ msgstr "Ansehen"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "warum Sie zur Bestätigung aufgefordert werden"
+
+#~ msgid "&Edit text"
+#~ msgstr "&Text editieren"
+
+#~ msgid "Edit personal data"
+#~ msgstr "Persönliche Daten bearbeiten"
+
+#~ msgid "Edit text"
+#~ msgstr "Text editieren"
+
+#~ msgid "Edit this topic text"
+#~ msgstr "Topic Text editieren"
 
 #~ msgid "Attachment metadata"
 #~ msgstr "Anhangs Metadaten"
@@ -6071,9 +6084,6 @@ msgstr "warum Sie zur Bestätigung aufgefordert werden"
 
 #~ msgid "&Edit"
 #~ msgstr "&Editieren"
-
-#~ msgid "&More topic actions"
-#~ msgstr "&Mehr Aktionen"
 
 #~ msgid "&Printable"
 #~ msgstr "&Drucken"
