@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    if ( defined $ENV{GATEWAY_INTERFACE} ) {
+    if ( defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL} ) {
         $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
         use CGI::Carp qw(fatalsToBrowser);
         $SIG{__DIE__} = \&CGI::Carp::confess;
