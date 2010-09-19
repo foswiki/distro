@@ -6,7 +6,7 @@ Some of the preference settings are explicitly intended to be customized by user
 User settings are customised by asetting a value in the users' personal topic.
 For example,
 Example:
-<verbatim>
+<!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">
    * Set LINKTOOLTIPINFO = off
 </verbatim>
 
@@ -14,6 +14,7 @@ This value will apply for the user when they are logged in, but will not
 affect other users.
 
 *See also:*
+   * [[%SYSTEMWEB%.PreferenceSettings]] - preference settings documentation
    * [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] - default preference settings
    * [[%LOCALSITEPREFS%]] - preference settings local to this site
    * [[%SYSTEMWEB%.Macros][Macros]] - an alphabetical list of all macros

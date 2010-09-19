@@ -12,7 +12,7 @@ Assuming your wiki is configured to use %SYSTEMWEB%.TopicUserMappingContrib, the
 %JQREQUIRE{"chili"}%
 <verbatim class="tml">
 %STARTSECTION{"WIKIUSERS"}%
-%FOREACH{"A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z" 
+%FORMAT{"A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z" 
     type="string" 
     format="   * $item - &lt;a name='$item'&gt;- - - -&lt;/a&gt; $percentINCLUDE{
         \"%TOPIC%\"
