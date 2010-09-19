@@ -38,7 +38,7 @@ Parameters:
         to be used in tables, etc. =$n= indicates a newline character.
       * =bar="..."=: by default, each vertical bar is rewritten to an HTML
         entity so as to not be mistaken for a table separator.
-      * %X% Use of ="formfield"= is *deprecated* in favour of the much
-        more powerful =QUERY= macro.
+<blockquote class="foswikiHelp">%X% Use of ="formfield"= is *deprecated* in favour of the much
+more powerful =QUERY= macro.</blockquote>
 
 Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarQUERY][QUERY]]

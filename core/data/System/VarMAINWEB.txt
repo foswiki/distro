@@ -2,4 +2,4 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarMAINWEB
 ---+++ MAINWEB -- synonym for [[VarUSERSWEB][USERSWEB]]
-   * %X% *Deprecated*. Please use %<nop>USERSWEB% instead.
+<blockquote class="foswikiHelp">%X% *Deprecated*. Please use =%<nop>USERSWEB%= instead.</blockquote>

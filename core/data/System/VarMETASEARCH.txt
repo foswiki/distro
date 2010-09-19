@@ -3,7 +3,7 @@
 #VarMETASEARCH
 ---+++ METASEARCH -- special search of meta data
 
-%X% =METASEARCH= is *deprecated* in favour of the new and much more powerful query type search. See [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]] and QuerySearch.
+<blockquote class="foswikiHelp">%X% =METASEARCH= is *deprecated* in favour of the new and much more powerful query type search. See [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]] and QuerySearch.</blockquote>
 
    * Syntax: =%<nop>METASEARCH{...}%=
    * Supported parameters:
@@ -16,9 +16,27 @@
      | =title="Title"= | Text that is prefixed to any search results | empty |
      | =format="..."= | Custom format results. Supports same format strings as [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]. See *[[FormattedSearch]]* for usage &amp; examples | Results in table |
      | =default="none"= | Default text shown if no search hit | Empty |
-   * Example: =%<nop>METASEARCH{type="topicmoved" web="%<nop>WEB%" topic="%<nop>TOPIC%" title="This topic used to exist and was moved to: "}%=
-   * Example: You may want to use this in WebTopicViewTemplate and WebTopicNonWikiTemplate:<br /> =%<nop>METASEARCH{type="parent" web="%<nop>WEB%" topic="%<nop>TOPIC%" title="Children: "}%=
-   * Example: =%<nop>METASEARCH{type="field" name="Country" value="China"}%=
+   * Examples: <pre class="tml">
+  %<nop>METASEARCH{
+    type="topicmoved"
+    web="%<nop>WEB%"
+    topic="%<nop>TOPIC%"
+    title="This topic used to exist and was moved to: "
+  }%</pre> 
+  You may want to use this in WebTopicViewTemplate and WebTopicNonWikiTemplate:<pre class="tml">
+  %<nop>METASEARCH{
+    type="parent"
+    web="%<nop>WEB%"
+    topic="%<nop>TOPIC%"
+    title="Children: "
+  }%
+
+  %<nop>METASEARCH{
+    type="field"
+    name="Country"
+    value="China"
+  }%</pre>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarMETA][META]]
 
+<!-- %JQREQUIRE{"chili"}% -->
 %META:TOPICMOVED{from="System.BogLog" to="System.VarMETASEARCH" date="1234567890" by="God"}%

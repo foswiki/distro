@@ -9,16 +9,29 @@ current user's selected language via =locale/*.po= translation files.
      | *Parameter* | *Description* | *Default* |
      | ="text"= or =string="text"= | The text to be displayed (the _translatable string_). | _none_ |
      | =args="param1, param2"= | a comma-separated list of arguments to be interpolated in the string, replacing =[_N]= placeholders in it. | _none_ |
-   * Examples:
-      * =%<nop>MAKETEXT{string="Notes:"}%=
-        %BR% expands to %BR%
-        <em> %MAKETEXT{string="Notes:"}% </em>
-      * =%<nop>MAKETEXT{"If you have any questions, please contact [_1]." args="%<nop>WIKIWEBMASTER%"}%=
-        %BR% expands to %BR%
-        <em> %MAKETEXT{"If you have any questions, please contact [_1]." args="%WIKIWEBMASTER%"}% </em>
-      * =%<nop>MAKETEXT{"Did you want to [<nop>[<nop>[<nop>_1]<nop>]<nop>[reset [_2]'s password]<nop>]<nop>?" args="%<nop>SYSTEMWEB%.ResetPassword,%<nop>WIKIUSERNAME%"}%=
-        %BR% expands to %BR%
-        <em> %MAKETEXT{"Did you want to [[[_1]][reset [_2]'s password]]?" args="%SYSTEMWEB%.ResetPassword,%WIKIUSERNAME%"}% </em>
+   * Examples:<pre class="tml">
+  %<nop>MAKETEXT{string="Notes:"}%
+  expands to:
+    %MAKETEXT{string="Notes:"}%
+
+  %<nop>MAKETEXT{
+    "If you have any questions, please contact [_1]."
+    args="%<nop>WIKIWEBMASTER%"
+  }%
+  expands to:
+    %MAKETEXT{"If you have any questions, please contact [_1]."
+    args="%WIKIWEBMASTER%"
+  }%
+
+  %<nop>MAKETEXT{
+    "Did you want to [<nop>[<nop>[_1]][reset [_2]'s password]]?"
+    args="%<nop>SYSTEMWEB%.ResetPassword,%<nop>WIKIUSERNAME%"
+  }%
+  expands to:
+    %MAKETEXT{
+      "Did you want to [[[_1]][reset [_2]'s password]]?"
+      args="%SYSTEMWEB%.ResetPassword,%WIKIUSERNAME%"
+    }%</pre>
    * *Notes:*
       * An ampersand (<code>&amp;</code>) followed by one ascii alphabetic
         character (a...z, A...Z) in the translatable string will be expanded
@@ -37,3 +50,4 @@ current user's selected language via =locale/*.po= translation files.
         shown in the examples above.
       * The string will be output in English if no mapping can be found in
         the =.po= translation file for the current user's selected language.
+<!--%JQREQUIRE{"chili"}%-->
