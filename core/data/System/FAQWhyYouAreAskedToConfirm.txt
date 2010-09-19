@@ -28,9 +28,9 @@
 <p class="note" id="note1">%MAKETEXT{"Note: you must have Cookies and Javascript enabled in your browser to get past this screen. This is normally the case, but if something doesn't work, this is where to look first."}%</p>
 </div>
 </sticky>
-%MAKETEXT{"For more detailed information on cross-site request forgery, and the dangers it poses to you, see "}%[[http://en.wikipedia.org/wiki/Cross-site_request_forgery][%MAKETEXT{"the Cross-site request forgery article on Wikipedia"}%]].
+%MAKETEXT{"For more detailed information on cross-site request forgery, and the dangers it poses to you, see [[[_1]][the Cross-site request forgery article on Wikipedia]]." args="http://en.wikipedia.org/wiki/Cross-site_request_forgery"}%
 
-%MAKETEXT{"Wiki administrators should read about the"}% Foswiki:SecurityFeatures.
+%MAKETEXT{"Wiki administrators should read about the [_1]." args="Foswiki:SecurityFeatures"}%
 
 <!--
 %STARTSECTION{"you"}%%MAKETEXT{"You"}%%ENDSECTION{"you"}%

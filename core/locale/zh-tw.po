@@ -1386,6 +1386,7 @@ msgstr "名"
 msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
 "it poses to you, see "
+"[[%1][the Cross-site request forgery article on Wikipedia]]."
 msgstr "有關跨站假要求的詳細資料，與可能帶給你的危險，參見"
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
@@ -3461,7 +3462,7 @@ msgid "Why am I being asked to confirm?"
 msgstr "為何我被要求確認？"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
-msgid "Wiki administrators should read about the"
+msgid "Wiki administrators should read about the %1."
 msgstr "Wiki 管理者必讀有關"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:144

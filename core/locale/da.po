@@ -1462,6 +1462,7 @@ msgstr "Fornavn"
 msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
 "it poses to you, see "
+"[[%1][the Cross-site request forgery article on Wikipedia]]."
 msgstr ""
 "For mere baggrundsinformation om cross-site request forgery, og de farer det "
 "giver, se"
@@ -3656,7 +3657,7 @@ msgid "Why am I being asked to confirm?"
 msgstr "Hvorfor bliver jeg bedt om at bekræfte?"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
-msgid "Wiki administrators should read about the"
+msgid "Wiki administrators should read about the %1."
 msgstr "Wiki-administratorer bør læse om"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:144
