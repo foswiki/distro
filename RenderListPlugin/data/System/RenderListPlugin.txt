@@ -344,7 +344,7 @@ Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] c
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  <span class="foswikiNoBreak" >Change History:</span> | <!-- versions below in reverse order -->&nbsp; |
 |  20 Sep 2010: | 2.2.2: Will Norris. =&lt;nobr>= modernization - Foswikitask:Item9415 |
 |  01 Aug 2010: | 2.2.1: Paul Harvey. Documentation updates - Foswikitask:Item9415 |
 |  20 Sep 2009: | 2.2: Crawford Currie. Moved default themes out of plugin topic for efficiency. |
