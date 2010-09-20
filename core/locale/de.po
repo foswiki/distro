@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-20 00:44+0200\n"
+"PO-Revision-Date: 2010-09-20 15:19+0200\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "Language: de\n"
@@ -2001,7 +2001,7 @@ msgstr "Fehlende Felder"
 
 #: core/templates/messages.tmpl:36
 msgid "Missing action command"
-msgstr "Fehlender Aktions-Befehl"
+msgstr "Fehlender Aktionsbefehl"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:45
 msgid "Modify search"
