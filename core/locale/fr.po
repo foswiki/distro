@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-20 01:49+0200\n"
+"PO-Revision-Date: 2010-09-20 22:36+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -2331,14 +2331,13 @@ msgid "Please go back in your browser and check again."
 msgstr "Veuillez retourner à la page précédente et vérifier."
 
 #: core/templates/messages.tmpl:88
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
 "Veuillez retourner à la page précédente, pour choisir, comme nom de page, un "
-"<nop>MotWiki (%1.WikiWord), ou pour cocher la case permettant de forcer le "
-"choix d'un nom qui n'est pas un <nop>MotWiki"
+"[[%SYSTEMWEB%.WikiWord][MotWiki]], ou cochez la case permettant de forcer "
+"le choix d'un nom qui n'est pas un <nop>MotWiki"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
@@ -2754,11 +2753,9 @@ msgstr ""
 msgid "Select"
 msgstr "Sélectionner"
 
-# A vérifier, il est étrange que l'on puisse "sélectionner un Wiki" .. est-ce que cela ne sait pas plutôt le groupe ?
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
-#, fuzzy
 msgid "Select Group %1 to join"
-msgstr "Sélectionner le Wiki %1 pour vous enregistrer"
+msgstr "Sélectionner le Groupe %1 à rejoindre"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
@@ -3231,7 +3228,6 @@ msgid "This could be for several reasons:"
 msgstr "Plusieurs raisons peuvent expliquer cela :"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
-#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
 "registered addresses are used by Foswiki for sending you e-mails, including "
@@ -3239,8 +3235,8 @@ msgid ""
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
 "Ce formulaire sert à changer les adresses e-mail sous lesquelles vous êtes "
-"inscrit·e. Ces adresses sont utilisées par Foswiki pour vous envoyer des e-"
-"mails, tels que les notifications de changement de mot de passe. Les "
+"inscrit·e. Ces adresses sont utilisées par Foswiki pour vous envoyer des "
+"e-mails, tels que les notifications de changement de mot de passe. Les "
 "adresses que vous entrez dans ce formulaire sont gardées secrètes et ne "
 "seront *pas* publiées sur ce site."
 
@@ -3944,9 +3940,7 @@ msgstr ""
 "cela, vous pouvez entrer %1 dans le formulaire affiché lors de l'envoi de "
 "cet e-mail, ou bien vous rendre sur la page %2"
 
-# Vérifier que \'Email\' est bien interprété
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#, fuzzy
 msgid ""
 "You really ought to register a valid e-mail address. If Foswiki can't find a "
 "registered e-mail for you in the secret database, it will look in your user "
@@ -3956,7 +3950,7 @@ msgstr ""
 "Vous devriez vraiment fournir une adresse e-mail valide. Si Foswiki ne "
 "trouve pas votre adresse e-mail dans la base de données confidentielle, il "
 "recherchera dans votre page personnelle un champ de formulaire dénommé "
-"\\'Email\\'. Si ce champ n'existe pas, il recherchera une ligne du type :"
+"'Email'. Si ce champ n'existe pas, il recherchera une ligne du type :"
 
 #: core/templates/messages.tmpl:371
 msgid "You will probably have to ask your administrator, %1, to do this."
@@ -4241,18 +4235,18 @@ msgstr ""
 "comparer les différentes versions' accesskey='m'>Autres fonctions (&m)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
-#, fuzzy
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Modifier cette page' accesskey='e'>Modifi&er"
+msgstr ""
+"title='Modifier la source de cette page au format Wiki text' "
+"accesskey='w'>Modifier &wiki text"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Modifier cette page' accesskey='e'>Modifi&er"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
-#, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Voir la page' accesskey='v'>&Voir la page"
+msgstr "title='Différences entrelacées' accesskey='i'>D&ifférences entrelacées"
 
 #: core/templates/viewtopicactionbuttons.tmpl:21
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -4279,9 +4273,8 @@ msgstr ""
 "title='Chercher, dans le Web %1, les liens pointant ici' accesskey='b'>We&b"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
-#, fuzzy
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='Voir la page' accesskey='v'>&Voir la page"
+msgstr "title='Côte-à-côte' accesskey='s'>Différence&s côte-à-côte"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:92
 #: core/templates/viewtopicactionbuttons.tmpl:11
@@ -4295,10 +4288,10 @@ msgstr ""
 "title='Afficher l'intégralité de l'historique' accesskey='h'>&Historique"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
-#, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
-"title='Afficher le code source, sans formatage' accesskey='r'>Code sou&rce"
+"title='Afficher la source de cette page au format Wiki text, sans formatage' "
+"accesskey='v'>&Voir wiki text"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"
