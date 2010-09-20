@@ -22,7 +22,7 @@
 | WEBLOGOIMG | text | 30 | %PUBURL%/%BASEWEB%/%WEBPREFSTOPIC%/%WEBLOGONAME% | URL of a logo image | S |
 | WEBLOGOURL | text | 30 | %SCRIPTURL%/view%SCRIPTSUFFIX%/%BASEWEB%/%HOMETOPIC% | URL under the logo | S |
 | WEBLOGOALT | text | 30 | Home | Logo tooltip text of the logo | S |
-| WIKILOGOIMG | text | 30 | %PUBURL%/%SYSTEMWEB%/ProjectLogos/horzTWiki.gif | URL of a logo image | S |
+| WIKILOGOIMG | text | 30 | %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.gif | URL of a logo image | S |
 | WIKILOGOURL | text | 30 | http://Foswiki.org/ | URL under the logo| S |
 | WIKILOGOALT | text | 30 | Powered by Foswiki | Logo tooltip text of the logo | S |
 | WIKIWEBLIST | textarea | | [[%MAINWEB%.%HOMETOPIC%][%MAINWEB%]] %SEP% [[%SYSTEMWEB%.%HOMETOPIC%][%SYSTEMWEB%]] %SEP% [[Sandbox.%HOMETOPIC%][Sandbox]] | | S |
