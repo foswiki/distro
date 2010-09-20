@@ -31,7 +31,7 @@ use vars qw(
 );
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '2.2.1';
+our $RELEASE           = '2.2.2';
 our $pluginName        = 'RenderListPlugin';    # Name of this Plugin
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION = 'Render bullet lists in a variety of formats';
@@ -292,7 +292,7 @@ sub renderIconList {
                 $text .= "<td valign=\"top\">$iconImg</td>\n";
             }
             $text .=
-"<td valign=\"top\"><nobr>&nbsp; $tree[$i]->{'text'} </nobr></td>\n";
+"<td valign=\"top\" class=\"foswikiNoBreak\" >&nbsp; $tree[$i]->{'text'} </td>\n";
 
         }
         else {
@@ -310,11 +310,11 @@ sub renderIconList {
                 $icon = fixImageTag( $icon, $width, $height );
                 $text .= "<td valign=\"top\">$icon</td>\n";
                 $text .=
-"<td valign=\"top\"><nobr>&nbsp; $tree[$i]->{'text'} </nobr></td>\n";
+"<td valign=\"top\" class=\"foswikiNoBreak\" >&nbsp; $tree[$i]->{'text'} </td>\n";
             }
             else {
                 $text .=
-"<td valign=\"top\"><nobr> $tree[$i]->{'text'} </nobr></td>\n";
+"<td valign=\"top\" class=\"foswikiNoBreak\" > $tree[$i]->{'text'} </td>\n";
             }
         }
         $text .= '</tr></table>' . "\n";
