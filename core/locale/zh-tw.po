@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-18 15:35+0200\n"
+"PO-Revision-Date: 2010-09-20 06:22+0200\n"
 "Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "Language: zh_TW\n"
@@ -1387,7 +1387,7 @@ msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
 "it poses to you, see "
 "[[%1][the Cross-site request forgery article on Wikipedia]]."
-msgstr "有關跨站假要求的詳細資料，與可能帶給你的危險，參見"
+msgstr "有關跨站假要求的詳細資料，與可能帶給你的危險，參見 [[%1][維基百科上跨站假要求的文章]]。"
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1513,9 +1513,8 @@ msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr "目前禁用次子網，您無法建立巢狀子網。"
 
 #: core/data/System/ManagingTopics.txt:95
-#, fuzzy
 msgid "History"
-msgstr "歷史(&H)"
+msgstr "歷史"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1875,9 +1874,8 @@ msgid "More on hiding attachments"
 msgstr "更多隱藏附件說明"
 
 #: core/data/System/TopicsAndWebs.txt:49
-#, fuzzy
 msgid "More topic actions"
-msgstr "更多主題功能..."
+msgstr "更多主題功能"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
@@ -1981,9 +1979,8 @@ msgid "No child topics"
 msgstr "無子主題"
 
 #: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-#, fuzzy
 msgid "No group name specified"
-msgstr "未指定群組名稱 GroupName"
+msgstr "未指定群組名稱"
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2157,9 +2154,8 @@ msgid "Placeholder for trashed attachments"
 msgstr "丟棄附件的存放地"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-#, fuzzy
 msgid "Please check to ensure you have permission to modify the group."
-msgstr "請確認您有足夠的權限可以修改此群組。"
+msgstr "請確認您有足夠權限可修改此群組。"
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
 msgid "Please contact %1 if you have any questions."
@@ -2874,15 +2870,13 @@ msgid ""
 msgstr "標記的主題將被更新（另外一個表格_最終_將允許您重命名任何鎖定的主題）"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
-#, fuzzy
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
 "after saving a page. Foswiki then uses the approach \"better safe than sorry"
 "\"."
 msgstr ""
-"有時 Foswiki 執行的檢查工作會由你無意做的一些事情觸發，例如，如果您在儲存網頁"
-"後，點「回到上頁」。然後 Foswiki 使用此方法"
+"Foswiki 執行的檢查工作有時會由您無意進行的事件觸發，例如，儲存網頁後，點「回到上頁」。Foswiki 會使用這「較安全但比事後後悔好的方法」。"
 
 #: core/templates/messages.tmpl:308
 msgid "The e-mail address for this account is not valid."
@@ -3265,7 +3259,6 @@ msgid ""
 msgstr "升級將更新群組主題的格式，有新的用戶管理選項"
 
 #: core/templates/messages.tmpl:485
-#, fuzzy
 msgid "Upgraded group"
 msgstr "更新群組"
 
@@ -3463,7 +3456,7 @@ msgstr "為何我被要求確認？"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid "Wiki administrators should read about the %1."
-msgstr "Wiki 管理者必讀有關"
+msgstr "Wiki 管理者必讀有關 %1。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:144
 msgid "Wiki name"
@@ -3621,17 +3614,14 @@ msgid "You must pass a topic name."
 msgstr "您必須輸入主題名稱。"
 
 #: core/templates/messages.tmpl:461
-#, fuzzy
 msgid "You need to specify a valid group name to add users to a group."
 msgstr "您必須指定有效的群組才能將使用者加入群組。"
 
 #: core/templates/messages.tmpl:499
-#, fuzzy
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr "您必須指定有效的群組才能將使用者移除群組。"
 
 #: core/templates/messages.tmpl:456
-#, fuzzy
 msgid "You need to specify a valid user to add to a group."
 msgstr "您必須指定有效的使用者才能加入群組。"
 
