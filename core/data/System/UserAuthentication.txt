@@ -130,10 +130,11 @@ To setup Apache Login, perform the following steps:
       1 Select =Foswiki::Users::HtPasswdUser= for ={PasswordManager}=.
       1 Select =Foswiki::Users::TopicUserMapping= for ={UserMappingManager}=.
       1 Save your settings.
-      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin/.htaccess= file to set the following Apache directives on the =bin= scripts:<sticky><verbatim>
-      <FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|rest|.*auth).*">
-      require valid-user
-      </FilesMatch></verbatim></sticky>
+      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin/.htaccess= file to set the following Apache directives on the =bin= scripts:<sticky>
+      <verbatim>
+ <FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|rest|.*auth).*">
+ require valid-user
+ </FilesMatch></verbatim></sticky>
       You can also refer to the sample =foswiki_httpd_conf.txt= and =bin/.htaccess.txt= files to see how the appropriate Apache directives are specified.
 %INCLUDE{"UserAuthentication" section="TESTING"}%%ENDSECTION{"ApacheLogin"}%
 

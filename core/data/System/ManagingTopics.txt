@@ -39,8 +39,7 @@ The =Trash= web should be be cleared periodically, by archiving (saving) the tex
 
 <blockquote class="foswikiHelp">%X% This can only be done from on the server, not through the browser. 
 
-%T% Since simple FTP access to the ==Trash== directory is all that is required for maintenance, it is possible to grant =Trash= admin privileges to multiple users, while strictly limiting server access. 
-</blockquote>
+%T% Since simple FTP access to the ==Trash== directory is all that is required for maintenance, it is possible to grant =Trash= admin privileges to multiple users, while strictly limiting server access.</blockquote>
 ---++ Redirecting from an old topic
 
 The default "new topic" screen tells the user when a topic being created
@@ -81,14 +80,12 @@ Ultimately, the size, objectives, and policies of your site, the real-world beha
 
 The following shows some limitations of square bracket processing.
 
-<blockquote>
-<verbatim>
+<!--%JQREQUIRE{"chili"}%--><verbatim class="tml">
 [[Old Topic]]  => [[NewTopic][Old Topic]]
 [[old topic]]  => [[NewTopic][old topic]]
 [[old t opic]] => not changed
 [[OldTopic]]   => [[NewTopic]]
 </verbatim>
-</blockquote>
 
 #RevisionRollback
 ---++ Reviewing and Reverting

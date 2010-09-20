@@ -240,7 +240,7 @@ For a firewalled Foswiki, e.g. an intranet wiki or extranet wiki, you want to al
 
 If needed, you can further restrict access to selected webs with ALLOWWEBVIEW and other access control settings.
 
-%H% With this configuration, someone with access to the site needs to register new users.
+<blockquote class="foswikiHelp">%H% With this configuration, someone with access to the site needs to register new users.</blockquote>
 
 ---+++ Authenticate all webs and restrict selected webs
 
@@ -275,7 +275,7 @@ For this topic, this displays:
 
 ---+++ Hide control settings
 
-%T% To hide access control settings from normal browser viewing, you can put them into the _topic [[%SYSTEMWEB%.PreferenceSettings][preference settings]]_ by clicking the link =Edit topic preference settings= under =More topic actions= menu. Preferences set in this manner are not visible in the topic text, but take effect nevertheless. Access control settings added as topic preference settings are stored in the topic meta data and they override settings defined in the topic text.
+To hide access control settings from normal browser viewing, you can put them into the _topic [[%SYSTEMWEB%.PreferenceSettings][preference settings]]_ by clicking the link =Edit topic preference settings= under =More topic actions= menu. Preferences set in this manner are not visible in the topic text, but take effect nevertheless. Access control settings added as topic preference settings are stored in the topic meta data and they override settings defined in the topic text.
 
 Alternatively, place them in HTML comment markers, but this exposes the access setting during ordinary editing.
 

@@ -43,8 +43,9 @@ Template directives look a lot like standard [[macros]].
 You can use a block before _or_ after declaring it. If you define the same
 block twice, only the second definition is used.
 
-%X% Most template directives work only for templates: they do not get
-processed in normal topic text. The one exception is ==%TMPL:P==.
+<blockquote class="foswikiHelp">
+%X% Most template directives work only for templates: they do not get processed in normal topic text. The one exception is ==%TMPL:P==.
+</blockquote>
 
 ---+++ Parameters to blocks
 ==%<nop>TMPL:DEF%== and ==%<nop>TMPL:P%== support simple parameters. For

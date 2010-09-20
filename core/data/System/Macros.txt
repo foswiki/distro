@@ -53,15 +53,16 @@ The key to understanding nested expressions in Foswiki is to understand that mac
 The macros are expanded in this order: MACRO3, MACRO4, MACRO2, MACRO1.
 
 ---++++ Animated Example
-%JQREQUIRE{"CYCLE,EASING,CHILI"}%%ADDTOZONE{"script"
-  id="NestedSlideshow"
+%JQREQUIRE{"CYCLE,EASING,CHILI"}%<!-- ids are appended with %INCLUDINGTOPIC%
+to avoid duplicates in System.CompleteDocumentation -->%ADDTOZONE{"script"
+  id="NestedSlideshow%INCLUDINGTOPIC%"
   text="<script type='text/javascript'>
 jQuery(document).ready(function($) {
-    $('#NestedSlideshow').cycle({
+    $('#NestedSlideshow%INCLUDINGTOPIC%').cycle({
         fx:     'fade',
         speed:  'slow',
         timeout: 5000,
-        pager:  '#NestedSlideshowNav',
+        pager:  '#NestedSlideshowNav%INCLUDINGTOPIC%',
         slideExpr: 'pre',
         pause:  true,
         pauseOnPagerHover: true
@@ -72,15 +73,15 @@ jQuery(document).ready(function($) {
 }%%ADDTOZONE{"head"
   id="NestedSlideshow/css"
   text="<style type='text/css'>
-    #NestedSlideshow { width: 440px; height: 249px; }
-    #NestedSlideshowNav { z-index: 50; position: absolute; bottom: 10px; }
-    #NestedSlideshowNav a { margin: 0 10px 0 0; padding: 3px 5px; border: 1px solid #ddd; background: #fff; text-decoration: none }
-    #NestedSlideshowNav a.activeSlide,
-    #NestedSlideshowNav a:hover { background: #cff }
-    #NestedSlideshowNav a:focus { outline: none; }
+    #NestedSlideshow%INCLUDINGTOPIC% { width: 440px; height: 249px; }
+    #NestedSlideshowNav%INCLUDINGTOPIC%  { z-index: 50; position: absolute; bottom: 10px; }
+    #NestedSlideshowNav%INCLUDINGTOPIC%  a { margin: 0 10px 0 0; padding: 3px 5px; border: 1px solid #ddd; background: #fff; text-decoration: none }
+    #NestedSlideshowNav%INCLUDINGTOPIC%  a.activeSlide,
+    #NestedSlideshowNav%INCLUDINGTOPIC%  a:hover { background: #cff }
+    #NestedSlideshowNav%INCLUDINGTOPIC%  a:focus { outline: none; }
   </style>"
-}%<div id="NestedSlideshow">
-    <div id="NestedSlideshowNav"></div>
+}%<div id="NestedSlideshow%INCLUDINGTOPIC%">
+    <div id="NestedSlideshowNav%INCLUDINGTOPIC%"></div>
 <pre class="tml">
 %<nop>INCLUDE{
     "%<nop>QUERY{
