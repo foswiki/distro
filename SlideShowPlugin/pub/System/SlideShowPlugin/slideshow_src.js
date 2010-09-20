@@ -14,10 +14,14 @@ $(function() {
 	var endSlide = 0;
 	function slideNumFromHash(hash) {
 		index = /\d+/.exec(hash)[0];
-		return (parseInt(index) || 1) - 1; // slides are zero-based
+		var slideNum = (parseInt(index) || 1) - 1; // slides are zero-based
+		if (slideNum < 0) slideNum = 0;
+		return slideNum
 	}
 	if (hash) {
 		startingSlide = slideNumFromHash(hash);
+	} else {
+		startingSlide = 0;
 	}
 	if (startingSlide != -1) {
 		$('.slideshow').hide();
