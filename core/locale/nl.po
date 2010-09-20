@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-19 22:28+0200\n"
+"PO-Revision-Date: 2010-09-20 01:17+0200\n"
 "Last-Translator: Arthur Clemens <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -65,7 +65,7 @@ msgstr "%1 is toegevoegd aan de groep %2."
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
-msgstr "Groep pagina %1 is opgewaardeerd."
+msgstr "Groepspagina %1 is opgewaardeerd."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -226,7 +226,7 @@ msgstr "(teruglinks in alle Webs)"
 
 #: core/templates/searchbookview.tmpl:4
 msgid "(book view)"
-msgstr "('book view')"
+msgstr "(boekweergave)"
 
 #: core/templates/changeform.tmpl:3
 msgid "(change form)"
@@ -505,9 +505,9 @@ msgid ""
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
-"Een nieuw systeemgegenereerd wachtwoord voor loginnaam %1 (wikinaam %2) is "
-"verstuurd naar jouw geregistreerde e-mailadres. Als je e-mailadres niet meer "
-"geldig is, neem dan contact op met %3"
+"Een nieuw systeemgegenereerd wachtwoord voor loginnaam '%1' (wikinaam %2) is "
+"verstuurd naar jouw geregistreerde e-mailadres. Als je e-mailadres niet "
+"meer geldig is, neem dan contact op met %3"
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -581,7 +581,7 @@ msgstr "Een %1 instelling toevoegen aan WebPreferences"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
-msgstr "Admin Foswiki gebruikersauthenticatie"
+msgstr "Admin Foswiki identiteitscontrole"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:26
 msgid "Admin Maintenance"
@@ -725,7 +725,7 @@ msgstr "Bijlagen"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
-msgstr "Help bij Bijlagen"
+msgstr "Hulp bij bijlagen"
 
 #: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
@@ -1313,7 +1313,7 @@ msgstr "Bewerk wiki tekst"
 
 #: PatternSkin/templates/edit.pattern.tmpl:11
 msgid "Edit help"
-msgstr "Help bij Bewerken"
+msgstr "Hulp bij bewerken"
 
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
@@ -1503,14 +1503,14 @@ msgstr "Formulierdefinitie ontbreekt"
 
 #: core/templates/login.tmpl:3
 msgid "Foswiki User Authentication"
-msgstr "Foswiki gebruikers-authenticatie"
+msgstr "Foswiki identiteitscontrole"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:5
 msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
-"Foswiki controleert alle 'requests' die het krijgt van browsers, en probeert "
+"Foswiki controleert alle requests die het krijgt van browsers, en probeert "
 "na te gaan of de gebruikers van de browsers deze opzettelijk versturen."
 
 #: core/templates/mailresetpassword.tmpl:3
@@ -1519,11 +1519,11 @@ msgstr "Foswiki wachtwoord opnieuw ingesteld voor %1"
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
-msgstr "Hulp over het toevoegen van bestanden"
+msgstr "Hulp bij het toevoegen van bestanden"
 
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
-msgstr "Hulp over pagina-instellingen"
+msgstr "Hulp bij pagina-instellingen"
 
 #: core/data/System/WebSearch.txt:157
 msgid "Get notified on changes on this search"
@@ -1870,9 +1870,9 @@ msgid ""
 "linking may not work. Characters not allowed in topic names, such as spaces "
 "will automatically be removed."
 msgstr ""
-"Het is over het algemeen beter om %1 te kiezen voor de nieuwe paginanaam te "
-"gebruiken, anders werkt automatisch linken niet. Niet toegestane karakters "
-"in paginanamen, spaties bijvoorbeeld, worden automatisch verwijderd."
+"Het is over het algemeen beter om %1 te kiezen voor de nieuwe paginanaam, "
+"anders werkt het automatisch linken misschien niet. Karakters in paginanamen "
+"die niet zijn toegestaan, zoals spaties, worden automatisch verwijderd."
 
 #: core/templates/renameweb.tmpl:16
 msgid ""
@@ -1990,7 +1990,7 @@ msgstr "Meer pagina-acties voor pagina %1"
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "More formatting help"
-msgstr "Meer opmaakhulp"
+msgstr "Meer hulp bij opmaken"
 
 #: core/templates/attachagain.tmpl:17
 msgid "More on hiding attachments"
@@ -2164,7 +2164,7 @@ msgstr "Opmerkingen:"
 
 #: core/data/System/WebNotifyHelp.txt:3
 msgid "Notification help"
-msgstr "Blijf op de hoogte"
+msgstr "Hulp bij notificaties"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:10
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:10
@@ -2313,8 +2313,9 @@ msgid ""
 "Please go back in your browser and choose a topic name that is a %1.WikiWord "
 "or check the allow non-Wiki Word box"
 msgstr ""
-"Ga terug met je browser en kies een paginanaam dat een %1.WikiWord is of "
-"vink de checkbox 'niet-<nop>WikiWoord mag gebruikt worden' aan"
+"Ga terug met je browser en kies een paginanaam die een [[%SYSTEMWEB%"
+".WikiWord][Wikiwoord]] is of vink de checkbox aan dat niet-Wikiwoorden "
+"gebruikt mogen worden"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
@@ -2466,7 +2467,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
-msgstr "Weet je je wachtwoord?"
+msgstr "Weet je je wachtwoord toch?"
 
 #: core/data/Main/GroupViewTemplate.txt:168
 msgid "Remove selected users"
@@ -2773,7 +2774,7 @@ msgstr "Tonen"
 #: PatternSkin/templates/renamebase.pattern.tmpl:11
 #: core/data/System/WebPreferencesHelp.txt:5
 msgid "Show help"
-msgstr "Toon help"
+msgstr "Toon hulp"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Shrink edit box"
@@ -2816,8 +2817,8 @@ msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
 "work on, what help they'd like, etc."
 msgstr ""
-"Sommige personen maken dit hun persoonlijke _portal_ met hun favoriete "
-"links, werk en hobbies, welke hulp ze zouden willen krijgen, etcetera."
+"Sommige personen maken dit hun persoonlijke landingspagina met hun favoriete "
+"links, werk en bezigheden, welke hulp ze nodig hebben, etcetera."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:14
 msgid "Sorry, Registration has been temporarily disabled"
@@ -3589,7 +3590,7 @@ msgstr "Waarschuwing! Bevestiging is nodig"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 msgid "Warning: 'include' topic does not exist!"
-msgstr "Let op: ingevoegde pagina bestaat niet!"
+msgstr "Let op: ingevoegde pagina (met 'include') bestaat niet!"
 
 #: core/templates/messages.tmpl:553
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
@@ -3600,8 +3601,8 @@ msgstr ""
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
-"Waarschuwing: Kan %1 niet invoegen; het pad is leeg of bevat illegale "
-"karakters."
+"Waarschuwing: Kan '%1' niet invoegen; het bestandspad is leeg of bevat "
+"illegale karakters."
 
 #: core/templates/messages.tmpl:552
 msgid "Warning: Can't find named section %3 in topic %1.%2"
@@ -3629,7 +3630,7 @@ msgstr ""
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "Let op: ingevoegde pagina bestaat niet!"
+msgstr "Let op: ingevoegde pagina (met \\'include\\') bestaat niet!"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
@@ -3994,8 +3995,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."
-msgstr ""
-"Je gebruikerspagina is verwijderd van het Gebruikersauthenticatiesysteem."
+msgstr "Je gebruikersnaam is verwijderd van het identiteitscontrolesysteem."
 
 #: core/templates/messages.tmpl:13
 msgid "Your user topic has not been renamed. Please e-mail %1 to request this."

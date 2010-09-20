@@ -6,13 +6,13 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-18 23:37+0200\n"
+"PO-Revision-Date: 2010-09-19 22:50+0200\n"
 "Last-Translator: Erik Åman <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -1587,9 +1587,8 @@ msgstr ""
 "till hierarkiska avdelningar för närvarande är avstängd."
 
 #: core/data/System/ManagingTopics.txt:95
-#, fuzzy
 msgid "History"
-msgstr "&Historik"
+msgstr "Historik"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1969,9 +1968,8 @@ msgid "More on hiding attachments"
 msgstr "Mer om att gömma bifogade filer"
 
 #: core/data/System/TopicsAndWebs.txt:49
-#, fuzzy
 msgid "More topic actions"
-msgstr "Fler alternativ för denna sida..."
+msgstr "Fler alternativ för denna sida"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
@@ -2075,9 +2073,8 @@ msgid "No child topics"
 msgstr "Inga dottersidor"
 
 #: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-#, fuzzy
 msgid "No group name specified"
-msgstr "Inget gruppnamn specificerat"
+msgstr "Inget gruppnamn angivet"
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2255,7 +2252,6 @@ msgid "Placeholder for trashed attachments"
 msgstr "Sida för raderade dokument"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-#, fuzzy
 msgid "Please check to ensure you have permission to modify the group."
 msgstr "Kontrollera att du har behörighet att modifiera gruppen."
 
@@ -3005,9 +3001,7 @@ msgstr ""
 "De markerade sidorna kommer att uppdateras (ett annat formulär kommer att "
 "visas där du slutligen kommer att kunna döpa om låsta ämnen)"
 
-# Doesn't seem like a complete sentence.
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
-#, fuzzy
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
@@ -3016,7 +3010,7 @@ msgid ""
 msgstr ""
 "Kontrollerna som Foswiki genomför kan ibland utlösas när du gör något helt "
 "oskyldigt, till exempel om du klickar på Tillbaka-knappen efter att ha "
-"sparat en sida. Då använder Foswiki metoden"
+"sparat en sida. Då tar Foswiki det säkra före det osäkra."
 
 #: core/templates/messages.tmpl:308
 msgid "The e-mail address for this account is not valid."
@@ -3422,7 +3416,6 @@ msgstr ""
 "användarhanteringsalternativ."
 
 #: core/templates/messages.tmpl:485
-#, fuzzy
 msgid "Upgraded group"
 msgstr "Gruppen uppdaterad"
 
@@ -4179,9 +4172,8 @@ msgstr "title='Visa sida' accesskey='v'>&Visa sida"
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Visa komplett historik för sidan' accesskey='h'>&Historik"
 
-#, fuzzy
 #: core/templates/viewtopicactionbuttons.tmpl:38
-msgid "title='View without formatting' accesskey='r'>&View wiki text"
+msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='Visa utan formatering' accesskey='v'>&Visa wiki-text"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63

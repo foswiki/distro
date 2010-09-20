@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-19 20:36+0200\n"
+"PO-Revision-Date: 2010-09-20 00:44+0200\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -1627,9 +1627,8 @@ msgstr ""
 "Webs anlegen."
 
 #: core/data/System/ManagingTopics.txt:95
-#, fuzzy
 msgid "History"
-msgstr "&Historie"
+msgstr "Historie"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -2021,9 +2020,8 @@ msgid "More on hiding attachments"
 msgstr "Mehr Informationen zum Verbergen von Anhängen"
 
 #: core/data/System/TopicsAndWebs.txt:49
-#, fuzzy
 msgid "More topic actions"
-msgstr "&Mehr Aktionen"
+msgstr "Mehr Aktionen"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
@@ -2127,9 +2125,8 @@ msgid "No child topics"
 msgstr "Keine Unter-Topics"
 
 #: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-#, fuzzy
 msgid "No group name specified"
-msgstr "Kein GruppenName spezifiziert"
+msgstr "Kein Gruppenname spezifiziert"
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2308,7 +2305,6 @@ msgid "Placeholder for trashed attachments"
 msgstr "Platzhalter für weggeworfene Anhänge"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-#, fuzzy
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 "Bitte stellen Sie sicher, dass Sie die Berechtigung haben, die Gruppe zu "
@@ -3077,7 +3073,6 @@ msgstr ""
 "gesperrt sind)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
-#, fuzzy
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
@@ -3087,7 +3082,7 @@ msgstr ""
 "Die durch Foswiki durchgeführten Überprüfungen können manchmal durch "
 "vollkommen harmlose Aktionen Ihrerseits ausgelöst werden, beispielsweise "
 "indem Sie nach Speichern eines Topics den Zurück-Button des Browsers "
-"verwenden. Foswiki verwendet dann den Ansatz   "
+"verwenden. Foswiki verfolgt dann den Ansatz \"Sicherheit geht vor\"."
 
 #: core/templates/messages.tmpl:308
 msgid "The e-mail address for this account is not valid."
@@ -3512,7 +3507,6 @@ msgstr ""
 "übertragen, durch das die Benutzerverwaltung dieser Gruppen erleichtert wird."
 
 #: core/templates/messages.tmpl:485
-#, fuzzy
 msgid "Upgraded group"
 msgstr "Optimierte Gruppe"
 
@@ -3900,21 +3894,18 @@ msgid "You must pass a topic name."
 msgstr "Sie müssen einen Topic-Namen angeben."
 
 #: core/templates/messages.tmpl:461
-#, fuzzy
 msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 "Sie müssen einen gültigen Gruppennamen angeben, um Nutzer einer Gruppe "
 "hinzuzufügen."
 
 #: core/templates/messages.tmpl:499
-#, fuzzy
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 "Sie müssen einen gültigen Gruppennamen angeben, um Benutzer aus einer Gruppe "
 "zu entfernen."
 
 #: core/templates/messages.tmpl:456
-#, fuzzy
 msgid "You need to specify a valid user to add to a group."
 msgstr ""
 "Sie müssen einen gültigen Nutzer angeben, der einer Gruppe hinzugefügt "
