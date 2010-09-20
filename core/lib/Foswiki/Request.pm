@@ -248,10 +248,13 @@ sub url {
     my $url;
     $full++ if $base || !( $relative || $absolute );
     my $path = $this->pathInfo;
+    ## SMELL: document the assignment below.
+    ## See Foswiki.spec for the difference between ScriptUrlPath and ScriptUrlPaths
     my $name =
       defined $Foswiki::cfg{ScriptUrlPaths}{ $this->action }
       ? $Foswiki::cfg{ScriptUrlPaths}{ $this->action }
       : $Foswiki::cfg{ScriptUrlPath} . '/' . $this->action;
+    $name =~ s(//+)(/)g;  
     $name .= $Foswiki::cfg{ScriptSuffix};
     if ($full) {
         my $vh = $this->header('X-Forwarded-Host') || $this->header('Host');
