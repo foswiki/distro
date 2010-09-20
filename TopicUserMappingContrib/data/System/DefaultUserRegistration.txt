@@ -214,7 +214,7 @@ Section rendergroup
 Section rendergroupheader
   parameters: 
 
-%STARTSECTION{"rendergroupheader"}%<li><label for="Twk0AddToGroups">%MAKETEXT{"Select Wiki [_1] to join" args="%multiple%"}%</label>
+%STARTSECTION{"rendergroupheader"}%<li><label for="Twk0AddToGroups">%MAKETEXT{"Select Group [_1] to join" args="%multiple%"}%</label>
 <div class="joinGroups">%ENDSECTION{"rendergroupheader"}%
 
 
