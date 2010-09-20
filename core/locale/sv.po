@@ -9,10 +9,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-19 22:50+0200\n"
 "Last-Translator: Erik Åman <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
-"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -817,7 +817,8 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:109
-#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:33
+#: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
 msgid "Cancel"
@@ -863,7 +864,7 @@ msgstr "Ändra endast kommentarer och egenskaper"
 msgid "Change from"
 msgstr "Ändra från"
 
-#: core/data/System/LanguageSelector.txt:35
+#: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Byt språk"
@@ -1450,8 +1451,8 @@ msgstr "Förnamn"
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
-"it poses to you, see "
-"[[%1][the Cross-site request forgery article on Wikipedia]]."
+"it poses to you, see [[%1][the Cross-site request forgery article on "
+"Wikipedia]]."
 msgstr ""
 "För mer detaljerad information om \"cross-site request forgery\" och farorna "
 "det innebär för dig, se"
@@ -1586,7 +1587,7 @@ msgstr ""
 "Du kan inte skapa en avdelning i en annan avdelning eftersom möjligheten "
 "till hierarkiska avdelningar för närvarande är avstängd."
 
-#: core/data/System/ManagingTopics.txt:95
+#: core/data/System/ManagingTopics.txt:92
 msgid "History"
 msgstr "Historik"
 
@@ -2278,9 +2279,10 @@ msgid "Please go back in your browser and check again."
 msgstr "Gå tillbaka i webbläsaren och försök igen."
 
 #: core/templates/messages.tmpl:88
+#, fuzzy
 msgid ""
-"Please go back in your browser and choose a topic name that is a %1.WikiWord "
-"or check the allow non-Wiki Word box"
+"Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
+"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
 "Gå bakåt i webbläsaren och välj ett sidnamn som är ett %1.WikiWord eller "
 "kryssa för att tillåta icke-<nop>WikiOrd"
@@ -2690,7 +2692,8 @@ msgid "Select"
 msgstr "Välj"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
-msgid "Select Wiki %1 to join"
+#, fuzzy
+msgid "Select Group %1 to join"
 msgstr "Välj avdelning %1 för att gå med"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
@@ -2818,7 +2821,8 @@ msgstr "Statistik"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:108
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:31
 #: JQueryPlugin/data/System/JQueryValidate.txt:49
-#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:29
+#: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:78
 #: core/templates/messages.tmpl:217 core/templates/messages.tmpl:326
 msgid "Submit"
@@ -3136,9 +3140,10 @@ msgid "This could be for several reasons:"
 msgstr "Detta kan ha flera orsaker:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
+#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
-"registered e-mails are used by Foswiki for sending you e-mails, include "
+"registered addresses are used by Foswiki for sending you e-mails, including "
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
@@ -3871,9 +3876,9 @@ msgid ""
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
-"Ditt namn visas på nätet. Observera att det måste vara ett unikt [[%"
-"SYSTEMWEB%.WikiName][Wiki-namn]]. Det förvalda namnet konstrueras från ditt "
-"för- och efternamn."
+"Ditt namn visas på nätet. Observera att det måste vara ett unikt [[%SYSTEMWEB"
+"%.WikiName][Wiki-namn]]. Det förvalda namnet konstrueras från ditt för- och "
+"efternamn."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
 msgid "Your password"
@@ -3908,8 +3913,8 @@ msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
 msgstr ""
-"Dina registrerade e-postadresser används av Foswiki för att skicka dig "
-"e-post, inklusive meddelanden om lösenordsändringar."
+"Dina registrerade e-postadresser används av Foswiki för att skicka dig e-"
+"post, inklusive meddelanden om lösenordsändringar."
 
 #: core/templates/messages.tmpl:255
 msgid ""
@@ -4096,10 +4101,6 @@ msgstr "hämtades %1"
 msgid "revisions up to"
 msgstr "versioner till och med"
 
-#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
-msgid "the Cross-site request forgery article on Wikipedia"
-msgstr "sidan om \"Cross-site request forgery\" på Wikipedia"
-
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr ""
@@ -4215,6 +4216,9 @@ msgstr "visa"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "varför du blir ombedd att bekräfta"
+
+#~ msgid "the Cross-site request forgery article on Wikipedia"
+#~ msgstr "sidan om \"Cross-site request forgery\" på Wikipedia"
 
 #~ msgid "&Edit text"
 #~ msgstr "Redig&era text"

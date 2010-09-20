@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-20 10:26+0200\n"
 "Last-Translator: Jani Koskela <knaitti@gmail.com>\n"
 "Language-Team: FINNISH <heikki@osafoundation.org>\n"
-"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 "X-Poedit-Language: Finnish\n"
@@ -835,7 +835,8 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:109
-#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:33
+#: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
 msgid "Cancel"
@@ -883,7 +884,7 @@ msgstr "Muuta kommentti ja asetuksia ainoastaan"
 msgid "Change from"
 msgstr "Muuta:"
 
-#: core/data/System/LanguageSelector.txt:35
+#: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Vaihda kieli"
@@ -1483,8 +1484,8 @@ msgstr "Etunimi:"
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
-"it poses to you, see "
-"[[%1][the Cross-site request forgery article on Wikipedia]]."
+"it poses to you, see [[%1][the Cross-site request forgery article on "
+"Wikipedia]]."
 msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
@@ -1617,7 +1618,7 @@ msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 "Hierarkiset verkot ovat kielletty tällä hetkellä, et voi luoda aliverkkoja."
 
-#: core/data/System/ManagingTopics.txt:95
+#: core/data/System/ManagingTopics.txt:92
 #, fuzzy
 msgid "History"
 msgstr "&Historia"
@@ -2330,9 +2331,10 @@ msgid "Please go back in your browser and check again."
 msgstr "Ole hyvä ja palaa selaimeesi ja tarkista uudestaan."
 
 #: core/templates/messages.tmpl:88
+#, fuzzy
 msgid ""
-"Please go back in your browser and choose a topic name that is a %1.WikiWord "
-"or check the allow non-Wiki Word box"
+"Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
+"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
 "Ole hyvä ja palaa selaimeesi ja valitse aiheen nimi, joka on WikiSana tai "
 "rastita Ei-Wiki sanalaatikko"
@@ -2752,7 +2754,7 @@ msgid "Select"
 msgstr "Valitse"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
-msgid "Select Wiki %1 to join"
+msgid "Select Group %1 to join"
 msgstr ""
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
@@ -2880,7 +2882,8 @@ msgstr "Tilastot"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:108
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:31
 #: JQueryPlugin/data/System/JQueryValidate.txt:49
-#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:29
+#: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:78
 #: core/templates/messages.tmpl:217 core/templates/messages.tmpl:326
 msgid "Submit"
@@ -3189,9 +3192,10 @@ msgid "This could be for several reasons:"
 msgstr "Tämä voi johtua useasta syystä:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
+#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
-"registered e-mails are used by Foswiki for sending you e-mails, include "
+"registered addresses are used by Foswiki for sending you e-mails, including "
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
@@ -4149,10 +4153,6 @@ msgstr "noudettu %1"
 #, fuzzy
 msgid "revisions up to"
 msgstr "Versiot"
-
-#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
-msgid "the Cross-site request forgery article on Wikipedia"
-msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"

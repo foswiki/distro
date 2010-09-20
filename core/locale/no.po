@@ -804,7 +804,8 @@ msgstr "Kan ikke finne epost adresse for %1 (nødvendig for å resette passord)"
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:109
-#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:33
+#: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
 msgid "Cancel"
@@ -850,7 +851,7 @@ msgstr "Kun endre kommentar og egenskaper"
 msgid "Change from"
 msgstr "Endre fra"
 
-#: core/data/System/LanguageSelector.txt:35
+#: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Endre språk"
@@ -1435,8 +1436,8 @@ msgstr "Fornavn"
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
-"it poses to you, see "
-"[[%1][the Cross-site request forgery article on Wikipedia]]."
+"it poses to you, see [[%1][the Cross-site request forgery article on "
+"Wikipedia]]."
 msgstr ""
 "For mer detaljer informasjon om cross-site request forgery og farene det "
 "utgjør for deg, se "
@@ -1569,7 +1570,7 @@ msgstr "Skjul hjelp"
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr "Hierarkiske Web er deaktivert, du kan ikke lage nestede web."
 
-#: core/data/System/ManagingTopics.txt:95
+#: core/data/System/ManagingTopics.txt:92
 #, fuzzy
 msgid "History"
 msgstr "&Historikk"
@@ -2268,9 +2269,10 @@ msgid "Please go back in your browser and check again."
 msgstr "Vennligst gå tilbake i nettleseren og sjekk på nytt."
 
 #: core/templates/messages.tmpl:88
+#, fuzzy
 msgid ""
-"Please go back in your browser and choose a topic name that is a %1.WikiWord "
-"or check the allow non-Wiki Word box"
+"Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
+"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
 "Vennligst gå tilbake i nettleseren og velg et sidenavn som er et %1.WikiOrd "
 "eller huk av i tillat ikke-WikiOrd boksen"
@@ -2677,7 +2679,8 @@ msgid "Select"
 msgstr "Velg"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
-msgid "Select Wiki %1 to join"
+#, fuzzy
+msgid "Select Group %1 to join"
 msgstr "Velg Wiki %1 for å bli med"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
@@ -2804,7 +2807,8 @@ msgstr "Statistikk"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:108
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:31
 #: JQueryPlugin/data/System/JQueryValidate.txt:49
-#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:29
+#: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:78
 #: core/templates/messages.tmpl:217 core/templates/messages.tmpl:326
 msgid "Submit"
@@ -3123,9 +3127,10 @@ msgid "This could be for several reasons:"
 msgstr "Dette kan ha flere årsaker:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
+#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
-"registered e-mails are used by Foswiki for sending you e-mails, include "
+"registered addresses are used by Foswiki for sending you e-mails, including "
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
@@ -4078,10 +4083,6 @@ msgstr "hentet %1"
 msgid "revisions up to"
 msgstr "Versjoner opp til"
 
-#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
-msgid "the Cross-site request forgery article on Wikipedia"
-msgstr "Cross-site request forgery artikkelen på Wikipedia"
-
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr ""
@@ -4191,6 +4192,9 @@ msgstr "vis"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "hvorfor du blir bedt om å bekrefte"
+
+#~ msgid "the Cross-site request forgery article on Wikipedia"
+#~ msgstr "Cross-site request forgery artikkelen på Wikipedia"
 
 #~ msgid "&Edit text"
 #~ msgstr "R&ediger tekst"

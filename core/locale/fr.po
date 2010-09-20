@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-20 01:49+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -827,7 +827,8 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:109
-#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:33
+#: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
 msgid "Cancel"
@@ -873,7 +874,7 @@ msgstr "Modifier seulement les propriétés et commentaires"
 msgid "Change from"
 msgstr "Modifier depuis"
 
-#: core/data/System/LanguageSelector.txt:35
+#: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Changer de langue"
@@ -1473,11 +1474,11 @@ msgstr "Prénom"
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
-"it poses to you, see "
-"[[%1][the Cross-site request forgery article on Wikipedia]]."
+"it poses to you, see [[%1][the Cross-site request forgery article on "
+"Wikipedia]]."
 msgstr ""
-"Pour plus d'information sur la falsification de requête inter-domaine (CSRF "
-": cross-site request forgery), et ses dangers, voyez "
+"Pour plus d'information sur la falsification de requête inter-domaine "
+"(CSRF : cross-site request forgery), et ses dangers, voyez "
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1612,7 +1613,7 @@ msgstr ""
 "Les Webs hiérarchisés sont actuellement désactivés, vous ne pouvez pas créer "
 "de sous-webs."
 
-#: core/data/System/ManagingTopics.txt:95
+#: core/data/System/ManagingTopics.txt:92
 msgid "History"
 msgstr "Historique"
 
@@ -2330,9 +2331,10 @@ msgid "Please go back in your browser and check again."
 msgstr "Veuillez retourner à la page précédente et vérifier."
 
 #: core/templates/messages.tmpl:88
+#, fuzzy
 msgid ""
-"Please go back in your browser and choose a topic name that is a %1.WikiWord "
-"or check the allow non-Wiki Word box"
+"Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
+"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
 "Veuillez retourner à la page précédente, pour choisir, comme nom de page, un "
 "<nop>MotWiki (%1.WikiWord), ou pour cocher la case permettant de forcer le "
@@ -2755,7 +2757,7 @@ msgstr "Sélectionner"
 # A vérifier, il est étrange que l'on puisse "sélectionner un Wiki" .. est-ce que cela ne sait pas plutôt le groupe ?
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
 #, fuzzy
-msgid "Select Wiki %1 to join"
+msgid "Select Group %1 to join"
 msgstr "Sélectionner le Wiki %1 pour vous enregistrer"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
@@ -2889,7 +2891,8 @@ msgstr "Statistiques"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:108
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:31
 #: JQueryPlugin/data/System/JQueryValidate.txt:49
-#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:29
+#: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:78
 #: core/templates/messages.tmpl:217 core/templates/messages.tmpl:326
 msgid "Submit"
@@ -3228,9 +3231,10 @@ msgid "This could be for several reasons:"
 msgstr "Plusieurs raisons peuvent expliquer cela :"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
+#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
-"registered e-mails are used by Foswiki for sending you e-mails, include "
+"registered addresses are used by Foswiki for sending you e-mails, including "
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
@@ -3310,8 +3314,7 @@ msgid ""
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
 "Cette page explique une des mesures de sécurité que Foswiki, le logiciel qui "
-"fait fonctionner ce site, met en œuvre pour le sécuriser contre les "
-"attaques."
+"fait fonctionner ce site, met en œuvre pour le sécuriser contre les attaques."
 
 #: core/templates/messages.tmpl:364
 msgid "This requires the form definition to be present."
@@ -3545,7 +3548,8 @@ msgstr "Utilisez plutôt %1."
 
 #: core/data/Sandbox/WebHome.txt:22
 msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
-msgstr "Choisissez un nom de page en [[%SYSTEMWEB%.WikiNotation][NotationWiki]]"
+msgstr ""
+"Choisissez un nom de page en [[%SYSTEMWEB%.WikiNotation][NotationWiki]]"
 
 #: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:67
 #: core/data/System/WebCreateNewTopicTemplate.txt:43
@@ -3698,7 +3702,8 @@ msgstr "Serveur web <em>exécutant Foswiki</em>"
 # in French "meet people" sounds too much like a promotion for a dating site, I have used the more neutral "collaborate"
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
-msgstr "Bienvenue sur %1 ... collaborez avec les autres utilisateurs de ce site"
+msgstr ""
+"Bienvenue sur %1 ... collaborez avec les autres utilisateurs de ce site"
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
@@ -3993,9 +3998,9 @@ msgid ""
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
-"Votre nom tel que visible en ligne. Notez qu'il doit s'agir d'un [[%"
-"SYSTEMWEB%.WikiName][NomWiki]] unique. Par défaut, il est construit à partir "
-"de votre prénom et votre nom."
+"Votre nom tel que visible en ligne. Notez qu'il doit s'agir d'un [[%SYSTEMWEB"
+"%.WikiName][NomWiki]] unique. Par défaut, il est construit à partir de votre "
+"prénom et votre nom."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
 msgid "Your password"
@@ -4217,12 +4222,6 @@ msgstr "trouvées à %1"
 msgid "revisions up to"
 msgstr "versions jusqu'à"
 
-#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
-msgid "the Cross-site request forgery article on Wikipedia"
-msgstr ""
-"L'article falsification de requête inter-domaine (CSRF : cross-site request "
-"forgery) sur Wikipedia"
-
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr ""
@@ -4340,6 +4339,11 @@ msgstr "visualiser"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "pourquoi il vous est demandé de confirmer"
+
+#~ msgid "the Cross-site request forgery article on Wikipedia"
+#~ msgstr ""
+#~ "L'article falsification de requête inter-domaine (CSRF : cross-site "
+#~ "request forgery) sur Wikipedia"
 
 #~ msgid "&Edit text"
 #~ msgstr "Modifi&er le texte"

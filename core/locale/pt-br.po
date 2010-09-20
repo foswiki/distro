@@ -833,7 +833,8 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:109
-#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:33
+#: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
 msgid "Cancel"
@@ -879,7 +880,7 @@ msgstr "Apenas Alterar Propriedades"
 msgid "Change from"
 msgstr "Alterar de"
 
-#: core/data/System/LanguageSelector.txt:35
+#: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Alterar idioma"
@@ -1466,8 +1467,8 @@ msgstr "Primeiro nome"
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
-"it poses to you, see "
-"[[%1][the Cross-site request forgery article on Wikipedia]]."
+"it poses to you, see [[%1][the Cross-site request forgery article on "
+"Wikipedia]]."
 msgstr ""
 "Para obter informações detalhadas sobre 'cross-site request forgery' e os "
 "perigos que isso representa, veja "
@@ -1602,7 +1603,7 @@ msgstr ""
 "O recurso de Webs Hierárquicas está desabilitado, você não pode criar webs "
 "aninhadas."
 
-#: core/data/System/ManagingTopics.txt:95
+#: core/data/System/ManagingTopics.txt:92
 #, fuzzy
 msgid "History"
 msgstr "&Histórico"
@@ -1859,8 +1860,7 @@ msgstr ""
 "alterar o formulário anexo ao tópico. Se %1 não salvar o tópico enquanto "
 "você estiver editando, suas alterações serão combinadas com as dele(a) e "
 "nada será perdido. Mas dados de formulário não podem ser combinados "
-"facilmente, nesse caso é recomendável que você verifique com ele(a) "
-"primeiro."
+"facilmente, nesse caso é recomendável que você verifique com ele(a) primeiro."
 
 #: core/templates/foswiki.tmpl:47
 msgid ""
@@ -2308,9 +2308,10 @@ msgid "Please go back in your browser and check again."
 msgstr "Por favor, volte no seu navegador e verifique de novo."
 
 #: core/templates/messages.tmpl:88
+#, fuzzy
 msgid ""
-"Please go back in your browser and choose a topic name that is a %1.WikiWord "
-"or check the allow non-Wiki Word box"
+"Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
+"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
 "Por favor, volte no seu navegador e escolha um nome de tópico que seja uma "
 "[[%1.WikiWord][PalavraWiki]] ou marque a opção de permitir nomes que não "
@@ -2721,7 +2722,8 @@ msgid "Select"
 msgstr "Selecionar"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
-msgid "Select Wiki %1 to join"
+#, fuzzy
+msgid "Select Group %1 to join"
 msgstr "Selecione %1 Wiki para ingressar"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
@@ -2850,7 +2852,8 @@ msgstr "Estatísticas"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:108
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:31
 #: JQueryPlugin/data/System/JQueryValidate.txt:49
-#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:29
+#: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:78
 #: core/templates/messages.tmpl:217 core/templates/messages.tmpl:326
 msgid "Submit"
@@ -2891,8 +2894,8 @@ msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
 msgstr ""
-"DICA: para procurar por todos os tópicos contendo =\"SOAP\"=, =\"WSDL\"=, =\"web "
-"service\"= literalmente, mas sem =\"shampoo\"=, escreva:"
+"DICA: para procurar por todos os tópicos contendo =\"SOAP\"=, =\"WSDL\"=, ="
+"\"web service\"= literalmente, mas sem =\"shampoo\"=, escreva:"
 
 #: core/templates/messages.tmpl:605
 msgid "Template %1 does not exist"
@@ -3172,9 +3175,10 @@ msgid "This could be for several reasons:"
 msgstr "Isto pode acontecer por várias razões:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
+#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
-"registered e-mails are used by Foswiki for sending you e-mails, include "
+"registered addresses are used by Foswiki for sending you e-mails, including "
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
@@ -4147,10 +4151,6 @@ msgstr "pesquisado às %1"
 msgid "revisions up to"
 msgstr "versões até "
 
-#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
-msgid "the Cross-site request forgery article on Wikipedia"
-msgstr "Artigo na Wikipedia sobre Cross-site request forgery"
-
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr ""
@@ -4172,7 +4172,6 @@ msgstr ""
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
 msgstr ""
 "title='Editar em modo texto sem formatação' accesskey='w'>Editar texto &wiki "
-""
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
@@ -4266,6 +4265,9 @@ msgstr "ver"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "porque você é solicitado a confirmar"
+
+#~ msgid "the Cross-site request forgery article on Wikipedia"
+#~ msgstr "Artigo na Wikipedia sobre Cross-site request forgery"
 
 #~ msgid "&Edit text"
 #~ msgstr "&Editar texto"

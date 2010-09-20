@@ -12,10 +12,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-20 01:17+0200\n"
 "Last-Translator: Arthur Clemens <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
-"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -506,8 +506,8 @@ msgid ""
 "longer valid, please contact %3"
 msgstr ""
 "Een nieuw systeemgegenereerd wachtwoord voor loginnaam '%1' (wikinaam %2) is "
-"verstuurd naar jouw geregistreerde e-mailadres. Als je e-mailadres niet "
-"meer geldig is, neem dan contact op met %3"
+"verstuurd naar jouw geregistreerde e-mailadres. Als je e-mailadres niet meer "
+"geldig is, neem dan contact op met %3"
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -825,7 +825,8 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:109
-#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:33
+#: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
 msgid "Cancel"
@@ -871,7 +872,7 @@ msgstr "Alleen commentaar en eigenschappen wijzigen"
 msgid "Change from"
 msgstr "Wijzig van"
 
-#: core/data/System/LanguageSelector.txt:35
+#: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Wijzig taal"
@@ -1465,8 +1466,8 @@ msgstr "Voornaam"
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
-"it poses to you, see "
-"[[%1][the Cross-site request forgery article on Wikipedia]]."
+"it poses to you, see [[%1][the Cross-site request forgery article on "
+"Wikipedia]]."
 msgstr ""
 "Voor meer uitgebreide informatie over cross-site request forgery, en de "
 "gevaren die dit brengt, zie [[%1][het Cross-site request forgery artikel op "
@@ -1603,7 +1604,7 @@ msgstr ""
 "Hi&&euml;rarchische Webs zijn niet geactiveerd; je kunt geen genest web "
 "aanmaken."
 
-#: core/data/System/ManagingTopics.txt:95
+#: core/data/System/ManagingTopics.txt:92
 msgid "History"
 msgstr "Geschiedenis"
 
@@ -1785,8 +1786,8 @@ msgid ""
 "it."
 msgstr ""
 "In een mogelijk scenario heeft een kwaadwillend persoon een link "
-"achtergelaten om je te verleiden een pagina te bezoeken op "
-"http<nop>://misdaad.nl, met slim javascript op de pagina."
+"achtergelaten om je te verleiden een pagina te bezoeken op http<nop>://"
+"misdaad.nl, met slim javascript op de pagina."
 
 #: core/data/System/WebSearch.txt:104
 msgid "In reversed order"
@@ -2309,12 +2310,13 @@ msgid "Please go back in your browser and check again."
 msgstr "Ga terug met je browser en probeer het opnieuw."
 
 #: core/templates/messages.tmpl:88
+#, fuzzy
 msgid ""
-"Please go back in your browser and choose a topic name that is a %1.WikiWord "
-"or check the allow non-Wiki Word box"
+"Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
+"%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
-"Ga terug met je browser en kies een paginanaam die een [[%SYSTEMWEB%"
-".WikiWord][Wikiwoord]] is of vink de checkbox aan dat niet-Wikiwoorden "
+"Ga terug met je browser en kies een paginanaam die een [[%SYSTEMWEB%."
+"WikiWord][Wikiwoord]] is of vink de checkbox aan dat niet-Wikiwoorden "
 "gebruikt mogen worden"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
@@ -2723,7 +2725,8 @@ msgid "Select"
 msgstr "Selecteer"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
-msgid "Select Wiki %1 to join"
+#, fuzzy
+msgid "Select Group %1 to join"
 msgstr "Selecteer %1 om lid van te worden"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
@@ -2850,7 +2853,8 @@ msgstr "Statistieken"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:108
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:31
 #: JQueryPlugin/data/System/JQueryValidate.txt:49
-#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:29
+#: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:78
 #: core/templates/messages.tmpl:217 core/templates/messages.tmpl:326
 msgid "Submit"
@@ -3011,8 +3015,8 @@ msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
 msgstr ""
-"De bijlage moet misschien worden hernoemd als een bijlage met naam '%"
-"FILENAME%' al bestaat bij de andere pagina."
+"De bijlage moet misschien worden hernoemd als een bijlage met naam '%FILENAME"
+"%' al bestaat bij de andere pagina."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
@@ -3179,9 +3183,10 @@ msgid "This could be for several reasons:"
 msgstr "Dit kan meerdere oorzaken hebben:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
+#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
-"registered e-mails are used by Foswiki for sending you e-mails, include "
+"registered addresses are used by Foswiki for sending you e-mails, including "
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
@@ -4150,10 +4155,6 @@ msgstr "gevonden om %1"
 msgid "revisions up to"
 msgstr "revisies tot en met"
 
-#: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
-msgid "the Cross-site request forgery article on Wikipedia"
-msgstr "het Cross-site request forgery artikel op Wikipedia"
-
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr ""
@@ -4267,6 +4268,9 @@ msgstr "bekijken"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "waarom wordt mij om een bevestiging gevraagd"
+
+#~ msgid "the Cross-site request forgery article on Wikipedia"
+#~ msgstr "het Cross-site request forgery artikel op Wikipedia"
 
 #~ msgid "&Edit text"
 #~ msgstr "Tekst b&ewerken"
