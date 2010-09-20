@@ -62,7 +62,9 @@ You can also retrieve possible values for =select=, =checkbox= or =radio= types 
 | NoDisclosure      |
 | Public Supported  |
 | Public FAQ        |
-</verbatim> *Preview:*
+</verbatim>
+
+*Preview:*
      | *Name* |
      | <nop>NoDisclosure |
      | Public Supported |
@@ -91,7 +93,7 @@ When used in the value field of the form definition, this will find all topic na
 Forms have to be enabled for each individual web. The ==WEBFORMS== setting in WebPreferences is optional and defines a list of possible form definitions.
 <blockquote>
 *Example:*
-   * <nop>Set WEBFORMS = <nop>BugForm, <nop>FeatureForm, Books.<nop>BookLoanForm
+<verbatim class="tml">   * Set WEBFORMS = BugForm, FeatureForm, Books.BookLoanForm</verbatim>
 </blockquote>
    * With ==WEBFORMS== enabled, an extra button is added to the edit view. If the topic doesn't have a Form, an *Add Form* button appears at the end of the topic. If a Form is present, a *Change* button appears in the top row of the Form. The buttons open a screen that enables selection of a form specified in =WEBFORMS=, or the *No form* option.
    * You have to list the available form topics explicitly. You cannot use a =SEARCH= to define =WEBFORMS=.

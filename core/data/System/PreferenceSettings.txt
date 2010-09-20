@@ -36,20 +36,17 @@ The syntax for setting macros is the same anywhere: <br /> =[multiple of 3 space
       * Set MACRONAME = value
 </verbatim>
 Spaces between the = sign and the value will be ignored. You can split a value over several lines by indenting following lines with spaces - as long as you don't try to use * as the first character on the following line.
-<blockquote class="foswikiHelp">
+
 *Example:*
 <verbatim class="tml">   * Set MACRONAME = value starts here
      and continues here
 </verbatim>
-</blockquote>
 
 Whatever you include in your Macro will be expanded on display, exactly as if it had been entered directly.
 
-<blockquote class="foswikiHelp">
 *Example: Create a custom logo macro* <br />
    * To place a logo anywhere in a web by typing ==%<nop>MYLOGO%==, define the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] on the web's WebPreferences topic, and upload a logo file, ex: =mylogo.gif=. You can upload by [[FileAttachment][attaching the file]] to WebPreferences, or, to avoid clutter, to any other topic in the same web, e.g. =LogoTopic=. Sample preference setting in WebPreferences:
 <verbatim class="tml">   * Set MYLOGO = %PUBURL%/%WEB%/LogoTopic/mylogo.gif</verbatim>
-</blockquote>
 
 You can also set [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in a topic by clicking the link =Edit topic preference settings= under =More topic actions=. Preferences set in this manner are known as 'meta' preferences and are not visible in the topic text, but take effect nevertheless.
 

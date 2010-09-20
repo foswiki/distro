@@ -36,8 +36,9 @@ To check for the most recently edited topics while on-site, use the WebChanges l
 
 This is simply a preset =SEARCH=. The number of topics listed by the =limit= parameter.:
 <verbatim class="tml">
-%SEARCH{ "1" web="%BASEWEB%" type="query" nosearch="on" order="modified"%BR% reverse="on" 
-limit="50" }%
+%SEARCH{ "1" web="%BASEWEB%" type="query" nosearch="on"
+  order="modified" reverse="on" limit="50"
+}%
 </verbatim>
 
 #WebRssAndAtom
@@ -127,8 +128,9 @@ The notify e-mail uses the default =changes.tmpl= template, or a skin if activat
 
 ---++++ Legacy and current configuration
 
+<blockquote class="foswikiHelp">
 %X% *Caution:* Older versions of Foswiki, and especially TWiki migrations might configure e-mail in the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] topic.  Make sure you delete that setting if you are using a SitePreferences topic from a previous release of Foswiki. 
-
+</blockquote>
 %TABLE{sort="off"}%
 | *Parameter* | *[[%SCRIPTURLPATH{"configure"}%][configure]]<br/>(Current)* | *[[%SYSTEMWEB%.PreferenceSettings][preference settings]]<br/>(Legacy)* | *Default* | *Description* |
 | Global enable | ={EnableEmail}= | _n/a_ | =enabled= | Globally enable/disable email support. |

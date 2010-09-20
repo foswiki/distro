@@ -25,6 +25,23 @@
                 <li>submit: submits the form that contains the button</li>\
                 <li>save: same as =submit= but takes care of extra validation steps when saving a wiki topic </li>\
               </ul> | button | 
-   * Example: <div>%BUTTON{"%MAKETEXT{"Submit"}%" click="confirm('Are your sure?')"}%%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross" target="%WEB%.%TOPIC%"}% %CLEAR%</div>
-   * Related: JQueryButton
+   * Example: <verbatim class="tml">%BUTTON{
+    "%MAKETEXT{"Submit"}%"
+    click="confirm('Are your sure?')"
+  }%
+  %BUTTON{
+    "%MAKETEXT{"Cancel"}%"
+    icon="cross"
+    target="%WEB%.%TOPIC%"
+  }% %CLEAR%</verbatim>
+   * Expands as: <div>%BUTTON{
+    "%MAKETEXT{"Submit"}%"
+    click="confirm('Are your sure?')"
+  }%
+  %BUTTON{
+    "%MAKETEXT{"Cancel"}%"
+    icon="cross"
+    target="%WEB%.%TOPIC%"
+  }% %CLEAR%</div>
    * Note: BUTTONS are floating to the left by default. Take care to add a =%<nop>CLEAR%= after the =%<nop>BUTTON{...}%= so that further content does not overlap with the button.
+   * Related: JQueryButton

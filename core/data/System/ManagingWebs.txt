@@ -191,8 +191,7 @@ It is possible, though not recommended, to change the names of the webs in the d
 
 <blockquote class="foswikiHelp">%X% If you want to rename the %SYSTEMWEB% or %USERSWEB% webs, remember they are referred to in the Foswiki configuration. You will need to change the ={SystemWebName}=, ={UsersWebName}= and/or ={LocalSitePreferences}= settings in the configuration using the [[%SCRIPTURL{configure}%][configure]] interface.
 
-%X% Renaming the webs in the distribution is not recommended because it makes upgrades much more complicated.
-</blockquote>
+%X% Renaming the webs in the distribution is not recommended because it makes upgrades much more complicated.</blockquote>
 %ENDSECTION{"rename"}%
 
 *Related Topics:* AdminDocumentationCategory, AdminToolsCategory 

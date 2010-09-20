@@ -229,7 +229,7 @@ Foswiki uses a _skin search path_, which lets you combine skins additively. The 
 Foswiki works by asking for a template for a particular function - for example, 'view'. The detail of how templates are searched for is described in SkinTemplates, but in summary, the templates directory is searched for a file called <code>view.</code><i>skin</i><code>.tmpl</code>, where _skin_ is the name of the skin e.g. =pattern=. If no template is found, then the fallback is to use =view.tmpl=. Each skin on the path is searched for in turn. For example, if you have set the skin path to =local,pattern= then =view.local.tmpl= will be searched for first, then =view.pattern.tmpl= and finally =view.tmpl=.
 
 The basic skin is defined by the =SKIN= preference:
-   * =Set SKIN = catskin, bearskin=
+<verbatim class="tml">   * Set SKIN = catskin, bearskin</verbatim>
 
 You can override this using the URL parameter =skin=, such as
 =?skin=catskin,bearskin=:
@@ -238,7 +238,7 @@ You can override this using the URL parameter =skin=, such as
 Setting the =?skin= parameter in the URL replaces the existing skin path setting for the current request only.
 
 You can also _extend_ the existing skin path using _covers_:
-   * =Set COVER = ruskin=
+<verbatim class="tml">   * Set COVER = ruskin</verbatim>
 
 This pushes a different skin to the front of the skin search path, so the final skin path will be =ruskin, catskin, bearskin=.
 
@@ -251,8 +251,8 @@ So the final value of the skin path is given by:
    4 value of the =SKIN= preference, if the =skin= url parameter is not given
 
 For example, if we have
-   * <nop>Set SKIN = muscle,bone
-   * <nop>Set COVER = epidermis
+<pre class="tml">   * Set SKIN = muscle,bone
+   * <nop>Set COVER = epidermis</pre>
 and a URL with the parameter =?cover=hair,dermis= then the final skin path will
 be =hair=, =dermis=, =epidermis=, =muscle=, =bone=.
 

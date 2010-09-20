@@ -27,7 +27,7 @@ The default package requires [[http://www.gnu.org/software/rcs/rcs.html][RCS (Re
 A complete list of the required and optional Perl modules can be found in =lib/DEPENDENCIES=.
 
 Most of them will probably already be available in your installation. You can check version numbers with the =configure= script, or if you're still trying to get to that point, check from the command line like this:
-<verbatim class="perl">
+<!--%JQREQUIRE{"chili"}%--><verbatim class="bash">
 perl -e 'use FileHandle; print $FileHandle::VERSION."\n"'
 </verbatim>
 
