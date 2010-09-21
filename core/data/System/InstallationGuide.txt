@@ -432,7 +432,7 @@ You can check version numbers from the command line (replace "ModuleName" with t
 
 <verbatim class="bash">perl -le 'use ModuleName; print "ModuleName"->VERSION' </verbatim>
 
----+++ Optional !CPAN modules
+---+++ Optional CPAN modules
 
 The following Perl modules may be used by Foswiki. See Foswiki:Support.HowToInstallCpanModules for detailed information on how to install !CPAN libraries.
 
