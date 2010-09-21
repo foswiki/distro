@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-20 20:58+0200\n"
+"PO-Revision-Date: 2010-09-21 17:05+0200\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "Language: de\n"
@@ -2337,14 +2337,13 @@ msgstr ""
 "Bitte gehen Sie mit Ihrem Browser zurück und überprüfen Sie es noch einmal."
 
 #: core/templates/messages.tmpl:88
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
 "Bitten gehen Sie mit Ihrem Browser zurück und wählen Sie einen Topic Namen, "
-"der ein %1.WikiWord ist oder erlauben Sie die Verwendung von Nicht-"
-"<nop>WikiWörter in der Auswahlbox"
+"der ein [[%SYSTEMWEB%.WikiWord][<nop>WikiWort]] ist oder erlauben Sie die "
+"Verwendung von Nicht-<nop>WikiWörter in der Auswahlbox"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
@@ -2754,9 +2753,8 @@ msgid "Select"
 msgstr "Auswählen"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
-#, fuzzy
 msgid "Select Group %1 to join"
-msgstr "Wählen Sie Wiki %1 um beizutreten"
+msgstr "Wählen Sie die Gruppe %1 um beizutreten"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
@@ -3222,7 +3220,6 @@ msgid "This could be for several reasons:"
 msgstr "Das kann verschiedene Gründe haben:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
-#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
 "registered addresses are used by Foswiki for sending you e-mails, including "
