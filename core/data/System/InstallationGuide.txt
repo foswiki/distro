@@ -402,18 +402,29 @@ The following Perl !CPAN modules are used by Foswiki:
 
 | *Module* | *Preferred version* |
 | Algorithm::Diff (included with Foswiki) | |
+| B::Deparse | |
+| Carp | |
 | CGI | Versions 2.89, 3.37, 3.43, and 3.47 must be avoided. Most version from 3.15 and onwards should work. |
 | CGI::Carp | &gt;=1.26 |
 | CGI::Session | &gt;=4.30 (included with Foswiki) Versions 4.20 and before have Foswikitask:Item1306 |
 | Config | &gt;=0 |
 | Cwd | &gt;=3.05 |
 | Data::Dumper | &gt;=2.121 |
+| Digest::MD5 | |
 | Error (included) | |
+| Exporter | |
+| File::Basename | |
 | File::Copy | &gt;=2.06 |
 | File::Find | &gt;=1.05 |
+| File::Glob | |
+| File::Path | |
 | File::Spec | &gt;=3.05 |
+| File::Temp | |
 | !FileHandle | &gt;=2.01 |
 | IO::File | &gt;=1.10 |
+| MIME::Base64 | |
+| POSIX | |
+| Socket | |
 | Text::Diff (included with Foswiki) | |
 | Time::Local | &gt;=1.11 |
 
@@ -426,19 +437,32 @@ You can check version numbers from the command line (replace "ModuleName" with t
 The following Perl modules may be used by Foswiki. See Foswiki:Support.HowToInstallCpanModules for detailed information on how to install !CPAN libraries.
 
 | *Module* | *Preferred version* | *Description* |
+| Apache::Htpasswd | | May be required for !ApacheHtpasswd password manager |
 | Archive::Tar | | May be required by the Extensions Installer in configure if command line tar or unzip is not available |
 | Archive::Zip | | Alternative to Archive::Tar, used by the Extensions Installer if Archive::Tar also unavailable |
 | CGI::Cookie | &gt;=1.24 | Used for session support |
 | Digest::base | | |
+| Digest::SHA | | May be required for password encryption |
 | Digest::SHA1 | | |
+| Encode | | May be required for international characters; Required, for Foswiki:Extensions.WysiwygPlugin |
+| Encode::compat | | May be required for international characters |
+| FindBin | | Required if you want to use the Extensions Installer in configure |
+| Getopt::Long | | May be required for international characters |
+| HTML::Entities | | Required for Foswiki:Extensions.WysiwygPlugin |
+| HTML::Parser | | Required for Foswiki:Extensions.WysiwygPlugin |
+| I18N::Langinfo | | May be required for international characters |
 | Jcode | | Used for !I18N support with perl 5.6 |
+| Lingua::EN::Sentence | | May be required for generating new language files |
 | Locale::Maketext::Lexicon | &gt;=0 | Used for !I18N support |
+| LWP | | Required for the Configure Extensions Installer, and for external URL based INCLUDEs |
 | Net::SMTP | &gt;=2.29 | Used for sending mail |
+| Symbol | | May be required for international characters |
 | Unicode::Map | | Used for !I18N support with perl 5.6 |
 | Unicode::Map8 | | Used for !I18N support with perl 5.6 |
 | Unicode::MapUTF8 | | Used for !I18N support with perl 5.6 |
 | Unicode::String | | Used for !I18N support with perl 5.6 |
 | URI | | Used for configure |
+| Win32::Console | | May be required for Windows |
 
 Most of these modules will probably already be present in your installation. You can check version numbers with the =configure= script, or if you're still trying to get to that point, check from the command line (replace "ModuleName" with the name of the module):
 
