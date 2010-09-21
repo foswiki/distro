@@ -6,13 +6,13 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-19 22:50+0200\n"
+"PO-Revision-Date: 2010-09-21 20:01+0200\n"
 "Last-Translator: Erik Åman <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -2279,13 +2279,12 @@ msgid "Please go back in your browser and check again."
 msgstr "Gå tillbaka i webbläsaren och försök igen."
 
 #: core/templates/messages.tmpl:88
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
-"Gå bakåt i webbläsaren och välj ett sidnamn som är ett %1.WikiWord eller "
-"kryssa för att tillåta icke-<nop>WikiOrd"
+"Gå bakåt i webbläsaren och välj ett sidnamn som är ett [[%SYSTEMWEB%"
+".WikiWord][WikiOrd]] eller kryssa för att tillåta icke-<nop>WikiOrd"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
@@ -2692,9 +2691,8 @@ msgid "Select"
 msgstr "Välj"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
-#, fuzzy
 msgid "Select Group %1 to join"
-msgstr "Välj avdelning %1 för att gå med"
+msgstr "Välj grupp %1 för att gå med"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
@@ -3140,7 +3138,6 @@ msgid "This could be for several reasons:"
 msgstr "Detta kan ha flera orsaker:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
-#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
 "registered addresses are used by Foswiki for sending you e-mails, including "
@@ -3148,9 +3145,10 @@ msgid ""
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
 "Detta formulär används till att ändra dina registrerade e-postadresser. Dina "
-"registrerade e-postadresser används av TWiki för att skicka e-post till dig, "
-"t ex för att nollställa lösenord. Adresser som du registrerar med detta "
-"hålls hemliga och kommer *inte* att publiceras på webbplatsen."
+"registrerade e-postadresser används av Foswiki för att skicka e-post till "
+"dig, t ex för meddeanden om att lösenordet ändrats. Adresser som du "
+"registrerar med detta hålls hemliga och kommer *inte* att publiceras på "
+"webbplatsen."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2

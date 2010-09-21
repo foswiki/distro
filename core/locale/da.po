@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-18 10:52+0200\n"
+"PO-Revision-Date: 2010-09-21 22:31+0200\n"
 "Last-Translator: Kenneth Lavrsen <kenneth@lavrsen.dk>\n"
 "Language-Team: Danish <N/A>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -1599,9 +1599,8 @@ msgstr ""
 "underordnede webs."
 
 #: core/data/System/ManagingTopics.txt:92
-#, fuzzy
 msgid "History"
-msgstr "&Historik"
+msgstr "Historik"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1989,9 +1988,8 @@ msgid "More on hiding attachments"
 msgstr "Mere om at skjule vedhæftede filer"
 
 #: core/data/System/TopicsAndWebs.txt:49
-#, fuzzy
 msgid "More topic actions"
-msgstr "Flere muligheder med denne side..."
+msgstr "Flere muligheder med denne side"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
@@ -2095,7 +2093,6 @@ msgid "No child topics"
 msgstr "Ingen dattersider"
 
 #: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-#, fuzzy
 msgid "No group name specified"
 msgstr "Intet gruppenavn angivet"
 
@@ -2277,7 +2274,6 @@ msgid "Placeholder for trashed attachments"
 msgstr "Siden hvor slettede vedhæftede filer gemmes"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-#, fuzzy
 msgid "Please check to ensure you have permission to modify the group."
 msgstr "Kontrollér at du har rettigheder til at ændre gruppen."
 
@@ -2305,13 +2301,13 @@ msgid "Please go back in your browser and check again."
 msgstr "Benyt venligst tilbage-knappen i browseren og forsøg igen."
 
 #: core/templates/messages.tmpl:88
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
 "Benyt venligst tilbage-knapppen i din browser, og vælg et sidenavn der er et "
-"%1.WikiWord eller afkryds non-<nop>WikiWord i afkrydsningsfeltet"
+"[[%SYSTEMWEB%.WikiWord][WikiWord]] eller afkryds non-<nop>WikiWord i "
+"afkrydsningsfeltet"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
@@ -2718,9 +2714,8 @@ msgid "Select"
 msgstr "Vælg"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
-#, fuzzy
 msgid "Select Group %1 to join"
-msgstr "Vælg Wiki %1 at være med i"
+msgstr "Vælg gruppe %1 at være med i"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
@@ -3034,16 +3029,15 @@ msgstr ""
 "vist som vil tillade dig at omdøbe sider der evt. var låste)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
-#, fuzzy
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
 "after saving a page. Foswiki then uses the approach \"better safe than sorry"
 "\"."
 msgstr ""
-"Kontrollen udført af Foswiki kan ske når du gør noget helt uskyldigt som f."
-"eks. når du klikker på Tilbage knappen efter at du har gemt en side. Så "
-"bruger Foswiki kontrolmetoden"
+"Kontrollen udført af Foswiki kan ske når du gør noget helt uskyldigt som "
+"f.eks. når du klikker på Tilbage knappen efter at du har gemt en side. Så "
+"bruger Foswiki forsigtighedsprincippet."
 
 #: core/templates/messages.tmpl:308
 msgid "The e-mail address for this account is not valid."
@@ -3173,7 +3167,6 @@ msgid "This could be for several reasons:"
 msgstr "Dette kan skyldes flere forskellige årsager:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
-#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
 "registered addresses are used by Foswiki for sending you e-mails, including "
@@ -3181,10 +3174,10 @@ msgid ""
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
 "Denne formular bruges til at opdatere dine registrerede e-mail-addresser. "
-"Dine registrerede e-mail adresser bruges af Foswiki til at sende e-mails til "
-"dig, fx ved nulstilling af adgangskode. De adresser som du registrerer ved "
-"hjælp af denne formular bliver holdt hemmelige af systemet og vil ikke kunne "
-"ses nogen steder på dette site."
+"Dine registrerede e-mail-adresser bruges af Foswiki til at sende e-mails til "
+"dig, f.eks. ved nulstilling af adgangskode. De adresser som du registrerer "
+"ved hjælp af denne formular bliver holdt hemmelige af systemet og vil ikke "
+"kunne ses nogen steder på dette site."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
@@ -3457,7 +3450,6 @@ msgstr ""
 "mulighed for håndtering af brugere"
 
 #: core/templates/messages.tmpl:485
-#, fuzzy
 msgid "Upgraded group"
 msgstr "Opgraderet gruppe"
 
@@ -3841,19 +3833,16 @@ msgid "You must pass a topic name."
 msgstr "Du skal angive et sidenavn"
 
 #: core/templates/messages.tmpl:461
-#, fuzzy
 msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 "Du skal angive at gyldigt gruppenavn for at tilføje brugere til en gruppe."
 
 #: core/templates/messages.tmpl:499
-#, fuzzy
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 "Du skal angive et gyldigt gruppenavn for at fjerne brugere fra en gruppe."
 
 #: core/templates/messages.tmpl:456
-#, fuzzy
 msgid "You need to specify a valid user to add to a group."
 msgstr "Du skal angive en gyldig bruger for at tilføje til en gruppe."
 
