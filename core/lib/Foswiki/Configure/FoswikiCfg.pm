@@ -65,13 +65,15 @@ use warnings;
 use Data::Dumper ();
 
 use Foswiki::Configure::Visitor ();
-our @ISA = ( 'Foswiki::Configure::Visitor' );
+our @ISA = ('Foswiki::Configure::Visitor');
 
 use Foswiki::Configure::Util      ();
 use Foswiki::Configure::Section   ();
 use Foswiki::Configure::Value     ();
 use Foswiki::Configure::Pluggable ();
 use Foswiki::Configure::Item      ();
+
+my %dupItem;
 
 =begin TML
 
@@ -265,7 +267,7 @@ sub _parse {
                 next if ( _getValueObject( $keys, \@settings ) );
 
                 # This is an untyped value
-                $open = new Foswiki::Configure::Value( 'UNKNOWN' );
+                $open = new Foswiki::Configure::Value('UNKNOWN');
             }
             $open->set( keys => $keys );
             _pusht( \@settings, $open );
@@ -350,7 +352,7 @@ sub save {
     }
 
     if ( !$insane && -f $lsc ) {
-        open( F, '<', $lsc ); 
+        open( F, '<', $lsc );
         local $/ = undef;
         $this->{content} = <F>;
         close(F);
@@ -408,13 +410,26 @@ sub startVisit {
         my $txt = Data::Dumper->Dump( [$warble] );
         $txt =~ s/VAR1/Foswiki::cfg$keys/;
 
-        # Substitute any existing value, or append if not there
-        unless ( $this->{content} =~ s/^\s*?\$(Foswiki::)?cfg$keys\s*=.*?;\n/$txt/ms )
+ # Substitute any existing value, or append if not there
+ #unless ( $this->{content} =~ s/^\s*?\$(Foswiki::)?cfg$keys\s*=.*?;\n/$txt/ms )
+ #
+ # SMELL:  The _updateEntry call is needed to fix up configs broken by Item9699.
+        unless ( $this->{content} =~
+s/^\s*?\$(?:Foswiki::)?cfg($keys)\s*=.*?;\n/&_updateEntry($1,$txt)/msge
+          )
         {
             $this->{content} .= $txt;
         }
     }
     return 1;
+}
+
+sub _updateEntry {
+    my $keys     = shift;
+    my $newentry = shift;
+    return '' if $dupItem{"$keys"};
+    $dupItem{"$keys"} = 1;
+    return $newentry;
 }
 
 sub endVisit {
