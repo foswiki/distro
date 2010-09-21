@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-20 22:36+0200\n"
+"PO-Revision-Date: 2010-09-20 22:56+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -2365,8 +2365,8 @@ msgstr ""
 "Veuillez vous rendre sur la page %1 pour choisir un mot de passe dont vous "
 "vous rappellerez plus facilement."
 
+# Le terme plugin (qui est parfaitement compris en français) est utilisé partout, plutôt que greffon. Si nous changeons plugin en greffon, il faut le changer partout.
 #: core/lib/Foswiki/Plugins.pm:397
-#, fuzzy
 msgid "Plugin handlers"
 msgstr "Connecteurs de plugin"
 
@@ -4285,7 +4285,7 @@ msgstr "title='Voir la page' accesskey='v'>&Voir la page"
 #: core/templates/viewtopicactionbuttons.tmpl:35
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr ""
-"title='Afficher l'intégralité de l'historique' accesskey='h'>&Historique"
+"title='Afficher l\\'intégralité de l\\'historique' accesskey='h'>&Historique"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
@@ -4295,7 +4295,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"
-msgstr ""
+msgstr "sections inchangées avant et après chaque modification"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:29
 msgid "user list truncated"
