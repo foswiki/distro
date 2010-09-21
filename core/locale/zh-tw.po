@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-20 06:22+0200\n"
+"PO-Revision-Date: 2010-09-21 04:36+0200\n"
 "Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.0.5\n"
 "X-Poedit-Country: Taiwan\n"
@@ -2183,13 +2183,11 @@ msgid "Please go back in your browser and check again."
 msgstr "請返回瀏覽器的上一頁，並再檢查一次."
 
 #: core/templates/messages.tmpl:88
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
-"請返回瀏覽器的上一頁，並選擇一個 %1.WikiWord 的主題名，或是點選 \"允許非"
-"WikiWord\"選項。"
+"請返回瀏覽器，並選擇 [[%SYSTEMWEB%.WikiWord][WikiWord]]  為主題名，或是開啟允許非 WikiWord 選項。"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
@@ -2585,9 +2583,8 @@ msgid "Select"
 msgstr "選擇"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
-#, fuzzy
 msgid "Select Group %1 to join"
-msgstr "選擇 Wiki %1 加入"
+msgstr "選擇群組 %1 加入"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
@@ -3002,15 +2999,13 @@ msgid "This could be for several reasons:"
 msgstr "可能由很多問題引起:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
-#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
 "registered addresses are used by Foswiki for sending you e-mails, including "
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
-"用本表單修改註冊郵件地址。系統會發送郵件至您的註冊郵箱，包括：密碼變更通知。"
-"表中的註冊郵件地址將會隱藏保密，並*不會*顯示於網站的其他網頁內。"
+"用本表單修改註冊電子信箱。系統會發送郵件至您的註冊信箱，包括：密碼變更通知。表中的註冊電子信箱將會被隱藏，並 *不會* 顯示於網站的其他網頁內。"
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
