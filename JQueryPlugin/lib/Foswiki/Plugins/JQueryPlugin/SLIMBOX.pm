@@ -30,7 +30,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name         => 'Slimbox',
-            version      => '2.03',
+            version      => '2.04',
             author       => 'Christophe Beyls',
             homepage     => 'http://code.google.com/p/slimbox/',
             css          => ['slimbox2.css'],
@@ -41,6 +41,24 @@ sub new {
     );
 
     return $this;
+}
+
+=begin TML
+
+---++ ClassMethod init( $this )
+
+Initialize this plugin by adding the required static files to the page
+
+=cut
+
+sub init {
+    my $this = shift;
+
+    return unless $this->SUPER::init();
+
+    # add translations to head
+    my $counterText = $this->{session}->{i18n}->maketext("Image [_1] of [_2]", "{x}", "{y}");
+    Foswiki::Func::addToZone("head", "JQUERYPLUGIN::SLIMBOX::COUNTERTEXT", '<meta name="foswiki.ImagePlugin.counterText" content="'.$counterText.'" />');
 }
 
 1;

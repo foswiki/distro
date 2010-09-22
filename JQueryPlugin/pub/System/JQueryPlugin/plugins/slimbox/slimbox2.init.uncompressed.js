@@ -1,19 +1,43 @@
 jQuery(function($) {
   var defaults = {
+
+    /* slimbox2 defaults */
+    loop:false,
+    overlayOpacity:0.8,
+    overlayFadeDuration:400,
     resizeDuration:300,
+    resizeEasing:'swing',
+    initialWidth:250,
+    initialHeight:250,
+    imageFadeDuration:300,
     captionAnimationDuration:200,
-    imageFadeDuration:300
+    counterText:'Image {x} of {y}',
+
+    /* additional options part of the foswiki initialiser */
+    itemSelector:'a[href]',
+    titleAttr:'title'
   };
-  $(".jqSlimbox:not(.jqInitedSlimbox2)").livequery(function() {
+
+  $(function() {
+    // read i18n from foswiki preferences
+    var counterText = foswiki.getPreference("ImagePlugin.counterText");
+    if (counterText) {
+      defaults.counterText = counterText;
+    }
+  });
+  $(".jqSlimbox:not(.jqInitedSlimbox)").livequery(function() {
     var $this = $(this);
-    $this.addClass("jqInitedSlimbox2");
+    $this.addClass("jqInitedSlimbox");
     var opts = $.extend({}, defaults, $this.metadata());
     var groupRel = "lightbox-"+Math.floor(Math.random() * 100);
-    $this.find("a[href]").attr('rel', groupRel).slimbox(opts,
+    $this.find(opts.itemSelector).attr('rel', groupRel).slimbox(opts,
       function(el) {
-        var metadata = $(el).metadata();
-        var href = metadata.origurl || el.href;
-        return [el.href, '<a href="' + href + '">'+el.title+'</a>'];
+        var $el = $(el);
+        var imgOpts = $.extend({}, $el.metadata());
+        var href = imgOpts.origUrl || el.href;
+        var imgTitle = imgOpts.title || $el.attr(opts.titleAttr) || '';
+        imgTitle = imgTitle.replace(/\..*?$/, '').replace(/[\-_]/g, ' ');
+        return [el.href, '<a href="' + href + '">'+imgTitle+'</a>'];
       },
       function(el) {
         return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
