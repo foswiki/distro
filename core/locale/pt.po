@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-22 01:39+0200\n"
+"PO-Revision-Date: 2010-09-22 14:29+0200\n"
 "Last-Translator: Rui Procopio <rui.procopio@gmail.com>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "Language: pt\n"
@@ -64,7 +64,7 @@ msgstr "%1 adicionado ao grupo %2"
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
-msgstr ""
+msgstr "Tópico do grupo %1 actualizado."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -105,23 +105,20 @@ msgid "%1 is currently set to %2"
 msgstr "%1 actualmente tem o valor %2"
 
 #: core/templates/messages.tmpl:526
-#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 está a editar %2."
+msgstr "%1 está a editar [[%2][%3]]"
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 está em pelo menos um grupo e não pode ser removido"
 
 #: core/templates/messages.tmpl:126
-#, fuzzy
 msgid "%1 is not a valid form name"
-msgstr "'%1' não é um %2 válido"
+msgstr "%1 não tem um formato válido para um nome,"
 
 #: core/templates/messages.tmpl:122
-#, fuzzy
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "'%1' não é um %2 válido"
+msgstr "%1 não é um  valor válido para o parâmetro %2."
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
@@ -132,14 +129,12 @@ msgid "%1 may still be editing %2."
 msgstr "%1 pode ainda estar a editar %2."
 
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
-msgstr "%1 Últimas alterações na Web %2"
+msgstr "%1 últimas alterações na Web %2"
 
 #: core/templates/messages.tmpl:518
-#, fuzzy
 msgid "%1 removed from the %2 group. "
-msgstr "%1 movido de %2 em %3 por %4"
+msgstr "%1 removido do grupo %2"
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -163,9 +158,8 @@ msgstr "%1 tentou registar com o e-mail %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
 #: core/lib/Foswiki/Render.pm:229
-#, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 movido de %2 em %3 por %4"
+msgstr "%1 foi renomeado ou movido de %2 para %3 por %4"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -176,9 +170,8 @@ msgid "&History"
 msgstr "&Histórico"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:92
-#, fuzzy
 msgid "&Sequential"
-msgstr "Sequencial"
+msgstr "&Sequencial"
 
 #: core/templates/messages.tmpl:283
 msgid "'%1' is not a valid %2 "
@@ -210,7 +203,7 @@ msgstr "(=all= para mostrar todos os tópicos)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
 msgid "(This message will be removed automatically)"
-msgstr ""
+msgstr "(Esta mensagem será removida automaticamente)"
 
 #: core/templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
@@ -245,9 +238,8 @@ msgid "(changes)"
 msgstr "(alterações)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:3
-#, fuzzy
 msgid "(compare)"
-msgstr "(mais)"
+msgstr "(compare)"
 
 #: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
@@ -347,7 +339,6 @@ msgid "*Formatting help:*"
 msgstr "*Ajuda com formatação:*"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -361,12 +352,12 @@ msgstr ""
 "*Importante:* as informações fornecidas nesse formulário serão armazenadas "
 "numa base de dados no servidor do Foswiki. Esta base de dados é acessível "
 "por qualquer pessoa que tenha permissão de administrar o servidor pela web "
-"(porém as senhas serão criptografadas e os endereços de e-mail ofuscados "
+"(apesar de as senhas serem encriptadas e os endereços de e-mail ofuscados "
 "para evitar SPAM). Seu país, ou o país onde o servidor está hospedado, pode "
-"ter Leis de Protecção de Dados disciplinando as formas de manutenção desse "
-"tipo de base de dados. Se tiver dúvida e quiser obter detalhes sobre a "
-"Política de Proteção de Dados desse servidor Foswiki,  contate %1 antes de "
-"se registrar."
+"ter Leis de Protecção de Dados definindo as formas de manutenção desse tipo "
+"de base de dados. Se tiver dúvida e quiser obter detalhes sobre a Política "
+"de Protecção de Dados desse servidor Foswiki, por favor contacte %1 antes de "
+"se registar."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
