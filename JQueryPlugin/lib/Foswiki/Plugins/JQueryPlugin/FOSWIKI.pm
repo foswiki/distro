@@ -3,6 +3,7 @@ package Foswiki::Plugins::JQueryPlugin::FOSWIKI;
 use strict;
 use warnings;
 use Foswiki::Func;
+use Foswiki::Plugins;
 use Foswiki::Plugins::JQueryPlugin::Plugin;
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
@@ -33,7 +34,8 @@ sub new {
             version      => '2.01',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
-            dependencies => ['livequery'],
+            javascript   => ['jquery.foswiki.js'],
+            dependencies => ['JQUERYPLUGIN', 'livequery'],
             tags         => 'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
         ),
         $class
@@ -55,21 +57,29 @@ sub init {
 
     return unless $this->SUPER::init();
 
-    my $js = 'jquery.foswiki';
-    $js .= '.uncompressed' if $this->{debug};
-    $js .= '.js?version=' . $this->{version};
+    # get exported prefs
+    my $prefs = Foswiki::Func::getPreferencesValue('EXPORTEDPREFERENCES') || '';
 
-    # Not used
-    #my $header = '';
-    #Foswiki::Func::addToZone('head', 'JQUERYPLUGIN::FOSWIKI',
-    #                         $header, 'JQUERYPLUGIN');
+    # try a little harder for foswiki engines < 1.1 
+    if ($Foswiki::Plugins::VERSION < 2.1) {
 
-    my $footer = <<FOOTER;
-<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/foswiki/$js'></script>
-FOOTER
+      # defaults since foswiki >= 1.1.0
+      $prefs = 'PUBURL, PUBURLPATH, SCRIPTSUFFIX, SCRIPTURL, SCRIPTURLPATH, SERVERTIME, SKIN, SYSTEMWEB, TOPIC, USERNAME, USERSWEB, WEB, WIKINAME, WIKIUSERNAME, NAMEFILTER';
+      $prefs .= ', TWISTYANIMATIONSPEED' if $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled}; # can't use context during init
+    }
 
-    Foswiki::Func::addToZone( 'script', 'JQUERYPLUGIN::FOSWIKI', $footer,
-        'JQUERYPLUGIN' );
+    # init NAMEFILTER
+    unless(Foswiki::Func::getPreferencesValue('NAMEFILTER')) {
+      Foswiki::Func::setPreferencesValue('NAMEFILTER', $Foswiki::cfg{NameFilter});
+    }
+
+    # add exported preferences to head
+    my $text = '';
+    foreach my $pref (split(/\s*,\s*/, $prefs)) {
+      $text .= '<meta name="foswiki.'.$pref.'" content="%ENCODE{"%'.$pref.'%"}%" />'." <!-- $pref -->\n";
+    }
+
+    Foswiki::Func::addToZone("head", "JQUERYPLUGIN::FOSWIKI::META", $text);
 }
 
 1;
