@@ -10,109 +10,131 @@
 }%
 </verbatim>
 
-_Zones_ are specific places in the output HTML that are marked by calls to the [[VarRENDERZONE][RENDERZONE]] macro. Zones are used to collect various content together, such as Javascript and CSS, that must be included in the output HTML in a specific order, and in a specific place.
-
-You may create as many zones in addition to the standard [[#HeadAndScript][ =head= and =script= ]] zones as you like. Interesting use cases in wiki applications:
-   * Create a =sidebar= zone to add widgets,
-   * Create a =toolbar= zone to add buttons icons
-
-[[%TOPIC%][ADDTOZONE]] adds content identified with the =id= parameter to =zone=, which will later be expanded with [[VarRENDERZONE][RENDERZONE]]. =id= identifiers are unique within the zone that they are added to. An [[%TOPIC%][ADDTOZONE]] call may ensure that its content appears _after_ the content of some other [[%TOPIC%][ADDTOZONE]] calls by specifying their =ids= in the =requires= parameter. =requires= may only list =ids= within the specified =zone=, except for the special case of =head= and =script= zones when [[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][{MergeHeadAndScriptZones}]] is set ([[#HeadAndScript][read more]]).
-
 *Parameters:*
-   * ="zone"= optional, comma-separated list of the names of zones that the content should be added to. Defaults to =head=.
+   * ="zone"= optional, comma-separated list of the names of zones that the content should be added to. 
+     The only zones granted to exist are =head= and =script=. Defaults to =head=. 
    * =id= optional, =identifier= for the text being added with the =ADDTOZONE= call, to be used in the =requires= parameter of other =ADDTOZONE= calls.
       * %H% Multiple =ADDTOZONE= calls with the same =id= parameter will simply overwrite the earlier =ADDTOZONE= call.
    * =requires="..."= optional, comma separated string of =ids= of text within this =zone= that this content should follow when the zone is rendered.
    * =text="..."= optional, text to be added to the named zone, mutually exclusive with =topic=.
-   * =topic="..."= optional, full qualified =web.topic= name that contains the text to be added, mutually exclusive with =text=.
+   * =topic="..."= optional, full qualified =web.topic= name that contains the text to be added, mutually exclusive with =text=. Defaults to =%<nop>BASETOPIC%=
    * =section="..."= optional, section of the =topic= to be added,
      defaults to the default section between [[VarSTARTINCLUDE][STARTINCLUDE]] and [[VarSTOPINCLUDE][STOPINCLUDE]].
-      <blockquote class="foswikiHelp">%H% Using =topic= and =section= is actually a short form of:
-      <verbatim class="tml">
-%ADDTOZONE{
-   "myzone"
-   text="$percentINCLUDE{\"topic\" section=\"section\" warn=\"off\"}$percent"
-}%</verbatim></blockquote>
 
-__Note:__ Foswiki uses the =requires= parameter to resolve the _ordering_ of dependencies within a zone. It does *not* work across zones. If you have an id in =requires= that cannot be resolved during sorting, then =RENDERZONE= will generate an HTML comment to mark the problem.
+---++++ What is a "Zone"?
+_Zones_ are specific places in the output HTML that are marked by calls to the
+[[VarRENDERZONE][RENDERZONE]] macro. Zones are used to collect various content
+together, such as Javascript and CSS, that must be included in the output HTML
+in a specific order, and in a specific place.
 
-#HeadAndScript
----++++ How to use the =head= and =script= zones
+There are two special zones called =head= and =script=. The =head= zone is rendered
+as part of the HTML head section. It is the catch-all container for any content supposed
+to be placed into the HTML head section, except Javascript, which is collected in the
+=script= zone. 
 
-Web browsers generally process the HTML on a page from top to bottom. When a
-=&lt;script&gt;= tag is encountered with a URL to some Javascript file,
-processing of the page will stop while the file is fetched and executed before
-continuing. When a page makes heavy use of Javascript you can get a "blank
-screen" effect in the browser while each script is downloaded. To avoid this
-effect, =&lt;script&gt;= tags can be moved to the end of the HTML page, so that
-the user may view the page content while scripts are being loaded.
+All Javascript _must_ always be added to the =script= zone exclusively, in order to
+grant ordering constraints among scripts are resolved properly. Never add Javascript to
+the =head= zone -- never add non-Javascript content to the =script= zone.
 
-Foswiki makes this move possible by providing the =head= and =script= zones.
-These are _automatic_ zones - they do not require a corresponding =RENDERZONE=.
-<blockquote class="foswikiHelp">%I% Rendering the =script= zone at the end of
-the HTML body requires [[SkinTemplates][skin template]] customisation with
-[[VarRENDERZONE][%<nop>RENDERZONE{"script"}%]]</blockquote>
+Both zones are added to the HTML head section automatically just before the
+closing &lt;/head> tag as if they were specified explicitly in the skin templates using:
+<verbatim class="tml">
+<head>
+...
+%RENDERZONE{"head"}%
+%RENDERZONE{"script"}%
+</head>
+</verbatim>
 
-Notionally the =head= and =script= zones correspond to a point just before the
-HTML =&lt;/HEAD&gt;= tag. Normally you should add CSS (and other HTML
-=&lt;HEAD&gt;= content, such as =&lt;META&gt;=) to the =head= zone, and
-Javascript =&lt;script&gt;= markup to the =script= zone. The setting
-[[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][{MergeHeadAndScriptZones}]]
-in Configure controls what happens when [[VarRENDERZONE][RENDERZONE]] is called.
+You may create as many zones in addition to the standard =head= and =script=
+zones as you like.  For any non-standard zone specified in
+[[%TOPIC%][ADDTOZONE]] you will also need to provide an appropriate
+[[VarRENDERZONE][RENDERZONE]]. 
 
-Normally, dependencies between the individual [[VarADDTOZONE][ADDTOZONE]]
-statements are resolved *within each zone*. However, if
-[[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][{MergeHeadAndScriptZones}]] is
-enabled, then =head= content which =requires= an =id= that only exists in
-=script= (and vice-versa) will be re-ordered to satisfy any dependency.
+Interesting use cases in wiki applications:
+   * Create a =sidebar= zone to add widgets,
+   * Create a =toolbar= zone to add buttons icons
+   * Create a =menu= zone to add menu entries
 
-<blockquote class="foswikiHelp">%X% ={MergeHeadAndScriptZones}= is provided to
-maintain compatibility with legacy extensions that use
-[[VarADDTOHEAD][ADDTOHEAD]] to add =&lt;script&gt;= markup and require content
-that is now in the =script= zone. ={MergeHeadAndScriptZones}= will be removed
-from a future version of Foswiki.</blockquote>
+---++++ Adding content to a zone
+[[%TOPIC%][ADDTOZONE]] adds content to a zone identified with the =id= parameter.
+An =id= identifier is unique within the zone that they are added to. 
+When the same =id= is used in multiple calls to [[%TOPIC%][ADDTOZONE]] the 
+last call will win, that is previous content of the same =id= will be overwritten.
 
----+++++ Workign with ={MergeHeadAndScriptZones}= disabled (default)
+---++++ Enforcing a linear order of content within a zone
+An [[%TOPIC%][ADDTOZONE]] call may ensure that its content appears _after_ the
+content of some other [[%TOPIC%][ADDTOZONE]] calls by specifying their =ids= in
+the =requires= parameter. The =requires= parameter constraints the linear order
+of content added to a zone. When a zone is rendered, all ordering constraints
+expressed via =requires= are satisfied.  Those =ids= not found in a zone don't
+have any influence on the final ordering. Missing =ids= aren't considered an error
+rather than an over-specified ordering problem.
+
+---++++ Working with ={MergeHeadAndScriptZones}= disabled (default)
 In this mode, the =head= and =script= zones are treated separately.
 
----+++++ Working with ={MergeHeadAndScriptZones}= enabled
+Even when =head= and =script= zones are treated separately, the =head= zone will
+always be rendered before the =script= zone, unless otherwise specified using [[VarRENDERZONE][RENDERZONE]] explicitly.
+So any content in the =script= zone that depends on content placed into
+the =head= zone is satisfied intrinsicly as they are both rendered as specified above.
+
+---++++ Working with ={MergeHeadAndScriptZones}= enabled
 In this mode, the =head= and =script= zones are separate when adding to them,
 but may be treated as merged when you call [[VarRENDERZONE][RENDERZONE]] if
 there are any dependencies specified that only exist in the opposite zone. This
 allows an =ADDTOZONE{"head"...}= to to successfully require an =id= that has
 been added to =script=.
 
-Only add content to the =script= zone _that is also legal in the =&lt;HEAD&gt;=._
+<blockquote class="foswikiHelp">
+  %X% ={MergeHeadAndScriptZones}= is provided to
+  maintain compatibility with legacy extensions that use
+  [[VarADDTOHEAD][ADDTOHEAD]] to add =&lt;script&gt;= markup and require content
+  that is now in the =script= zone. ={MergeHeadAndScriptZones}= will be removed
+  from a future version of Foswiki.
+</blockquote>
 
 ---++++ Example: Adding to a zone with missing dependencies
-You must ensure that no =head= content (and no inline Javascript) depends on =script= content, or vice-versa. Any such dependency will be _ignored_. However, the HTML comment decoration which normally appears after each id's content in the rendered HTML will contain a small informative text to aid debugging<br/> *Example* <br/>
-<verbatim class="tml">%ADDTOZONE{
-  "head"
+You must ensure that no =head= content (and no inline Javascript) depends on
+=script= content.  Any such dependency will be _ignored_. 
+
+In real world application this isn't a problem as Javascript is never added
+to the =head= zone or Javascript zone part of the =script= zone never really
+depends on non-Javascript content part of the =head= zone.
+
+HTML comment decoration which normally appears after each id's
+content in the rendered HTML will contain a small informative text to aid
+debugging.
+
+*Example* 
+<verbatim class="tml">
+%ADDTOZONE{
+  "script"
   text="
   <script type='text/javascript'>
     alert('test');
   </script>"
   requires="some-id-that-exists-in-script"
   id="MY::TEST"
-}%</verbatim><br/> *Result*
-  <verbatim class="html">
+}%
+</verbatim>
+
+*Result*
+<verbatim class="html">
 <script type='text/javascript'>
   alert('test');
 </script>
-<!-- MY::TEST: requires= missing ids: some-id-that-exists-in-script --></verbatim>
-   On the other hand, as explained earlier - when [[%SCRIPTURL{configure}%#HTMLPageLayout$Tuning][{MergeHeadAndScriptZones}]] is enabled - Foswiki is able resolve such dependencies successfully.
+<!-- MY::TEST: requires= missing ids: some-id-that-exists-in-script -->
+</verbatim>
 
-Note that if you *do* have an explicit call to =%<nop>RENDERZONE{"head"}%= in
-your templates then the content expanded at that point will be the same content
-as would be inserted before the =&lt;/HEAD&gt;=.
-
-#ExampleAddingJS
 ---++++ Example: Adding Javascript to a page
-   * Make sure that all inline Javascript code in the topic (if it is allowed)
-     is added to the page using =%<nop>ADDTOZONE{"script"...requires="library-id"}%=
-     with the appropriate library-id to guarantee a correct load order. For example, jQuery code should be added as follows:
-     <verbatim class="js">
-%JQREQUIRE{"shake"}%%ADDTOZONE{
+Make sure that all inline Javascript code in the topic (if it is allowed)
+is added to the page using =%<nop>ADDTOZONE{"script"...requires="library-id"}%=
+with the appropriate library-id to guarantee a correct load order. For example, jQuery code should be added as follows:
+
+<verbatim class="tml">
+%JQREQUIRE{"shake"}%
+%ADDTOZONE{
    "script"
    id="MyApp::ShakePart"
    text="
@@ -120,9 +142,13 @@ as would be inserted before the =&lt;/HEAD&gt;=.
       jQuery('#something').shake(3, 10, 180);
    </script>"
    requires="JQUERYPLUGIN::SHAKE"
-}%</verbatim> where "MyApp::ShakePart" is a unique =id= to identify the text added to =script=; and =JQUERYPLUGIN::SHAKE= signifies that the content added with that identifier should appear beforehand.
+}%
+</verbatim> 
 
-#ExampleAddingCSS
+where "MyApp::ShakePart" is a unique =id= to identify the text added to
+=script=; and =JQUERYPLUGIN::SHAKE= signifies that the content added with that
+identifier should appear beforehand.
+
 ---++++ Example: Adding CSS to a page
 <verbatim class="tml">
 %ADDTOZONE{"head"
@@ -133,6 +159,7 @@ as would be inserted before the =&lt;/HEAD&gt;=.
       </style>"
 }%
 </verbatim>
+
 See also [[VarRENDERZONE][RENDERZONE]],
 [[Foswiki:Development.UsingADDTOZONE][Using ADDTOZONE]],
 [[Foswiki:Development.UpdatingExtensionsScriptZone][Updating applications to use =script= zone]]

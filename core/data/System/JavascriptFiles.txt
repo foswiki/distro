@@ -20,7 +20,7 @@ which uses the industry-standard JQuery framework to provide high quality
 user interface components.
 
 You can use Javascript in the body of topics, but it is highly recommended
-to use the [[VarADDTOZONE][%<nop>ADDTOZONE{"body" ...}%]] macro if you do so.
+to use the [[VarADDTOZONE][%<nop>ADDTOZONE{"script" ...}%]] macro if you do so.
 Bear in mind that inline Javascript represents a significant security risk to
 Foswiki sites, and sites vulnerable to hackers should seriously consider
 installing the Foswiki:Extensions.SafeWikiPlugin to control it.
