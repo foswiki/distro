@@ -166,7 +166,7 @@
 								writeBuffer();
 								var next = seekNext(p);
 								$(this).caret(next);
-								if (settings.completed && next == len)
+								if (settings.completed && next >= len)
 									settings.completed.call(input);
 							}
 						}
