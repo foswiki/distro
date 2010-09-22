@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-22 00:49+0200\n"
+"PO-Revision-Date: 2010-09-22 07:58+0200\n"
 "Last-Translator: Milan Mašek <milan.m.masek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
@@ -1393,9 +1393,8 @@ msgid "Errors removing users from groups"
 msgstr "Chyba při odebírání uživatelů ze skupin."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
-#, fuzzy
 msgid "Evil person"
-msgstr "Změňte vaše osobní údaje"
+msgstr "Zlá osoba"
 
 #: core/lib/Foswiki/Plugins.pm:366
 msgid "Failed plugins"
@@ -2178,28 +2177,24 @@ msgid "Optionally change topic name:"
 msgstr "Volitelně změní jméno článku:"
 
 #: core/templates/renameattachmentdelete.tmpl:34
-#, fuzzy
 msgid "Optionally enter a different attachment name:"
-msgstr "Volitelně vložte odlišné jméno článku:"
+msgstr "Volitelně vložte odlišné jméno přílohy:"
 
 #: core/templates/renameattachmentdelete.tmpl:32
 msgid "Optionally enter a different topic name:"
 msgstr "Volitelně vložte odlišné jméno článku:"
 
 #: core/templates/more.tmpl:161
-#, fuzzy
 msgid "Options"
-msgstr "Akce"
+msgstr "Vlastnosti"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:235
-#, fuzzy
 msgid "Organisation name"
 msgstr "Jméno organizace:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:242
-#, fuzzy
 msgid "Organisation website"
-msgstr "Jméno organizace:"
+msgstr "Webové stránky arganizace"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
@@ -2233,9 +2228,8 @@ msgid "Pick one of the %1."
 msgstr "Vyberte jedno z %1."
 
 #: core/data/Trash/WebPreferences.txt:10
-#, fuzzy
 msgid "Place for trashed topics and attachments."
-msgstr "Místo pro vymazané přílohy"
+msgstr "Místo pro vymazané články a přílohy."
 
 #: core/data/Trash/TrashAttachment.txt:3
 msgid "Placeholder for trashed attachments"
@@ -2243,7 +2237,7 @@ msgstr "Místo pro vymazané přílohy"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
 msgid "Please check to ensure you have permission to modify the group."
-msgstr ""
+msgstr "Prosím zkontrolujte že máte oprávnění měnit skupinu."
 
 #: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
 msgid "Please contact %1 if you have any questions."
@@ -2268,13 +2262,13 @@ msgid "Please go back in your browser and check again."
 msgstr "Prosím jděte zpět ve Vašem prohlížeči a zkontrolujte to znova."
 
 #: core/templates/messages.tmpl:88
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
 "Prosím jděte na předchozí stránku v prohlížeči a vyberte název článku, který "
-"je %1.WikiWord nebo zaškrtněte volbu \"povolit non-Wiki Word\"."
+"je [[%SYSTEMWEB%.WikiWord][WikiWord]] nebo zaškrtněte volbu \"povolit non-"
+"Wiki Word\"."
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
@@ -2302,8 +2296,9 @@ msgstr ""
 "Přejděte prosím na %1 a změňte Vaše heslo na něco, co si snáže zapamatujete."
 
 #: core/lib/Foswiki/Plugins.pm:397
+#, fuzzy
 msgid "Plugin handlers"
-msgstr ""
+msgstr "Držátka pluginů :)"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -2335,18 +2330,16 @@ msgid "Properties"
 msgstr "Vlastnosti"
 
 #: core/lib/Foswiki/Render.pm:222
-#, fuzzy
 msgid "Put it back..."
-msgstr "vložit zpátky"
+msgstr "Vložit zpět ..."
 
 #: core/data/System/WebSearch.txt:117
 msgid "Query Search"
 msgstr "Hledání pomocí dotazu"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:71
-#, fuzzy
 msgid "Question"
-msgstr "Verze"
+msgstr "Otázka"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:162
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
@@ -2432,7 +2425,7 @@ msgstr "Pamatujete si Vaše heslo?"
 
 #: core/data/Main/GroupViewTemplate.txt:168
 msgid "Remove selected users"
-msgstr ""
+msgstr "Odstraň vybrané uživatele"
 
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
