@@ -316,7 +316,7 @@ sub _getTree {
     $text .= "\n" . '%META{"attachments"}%';
 
     $session->enterContext( 'can_render_meta', $meta );
-    $text = Foswiki::Func::expandCommonVariables( $text, $topicName, $webName );
+    $text = Foswiki::Func::expandCommonVariables( $text, $topicName, $webName, $meta );
     $text = Foswiki::Func::renderText( $text, $webName );
 
     $text =~ s/^\s*//;
