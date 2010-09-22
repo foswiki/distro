@@ -30,7 +30,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name         => 'Rating',
-            version      => '3.12',
+            version      => '3.13',
             author       => 'Diego A. (Fyneworks.com)',
             homepage     => 'http://www.fyneworks.com/jquery/star-rating/',
             css          => ['jquery.rating.css'],
