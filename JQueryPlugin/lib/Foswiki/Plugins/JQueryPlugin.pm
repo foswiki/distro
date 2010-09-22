@@ -61,6 +61,11 @@ sub initPlugin {
     # init plugin handler and preload default plugins
     Foswiki::Plugins::JQueryPlugin::Plugins::init();
 
+    # backwards compatibility
+    if ($Foswiki::Plugins::VERSION < 2.1) {
+      Foswiki::Func::setPreferencesValue("CLEAR", "<span class='foswikiClear'></span>");
+    }
+
     return 1;
 }
 
