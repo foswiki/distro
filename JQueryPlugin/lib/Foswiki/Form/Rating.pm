@@ -28,7 +28,9 @@ sub finish {
 sub getOptions {
     my $this = shift;
 
-    my $options = $this->SUPER::getOptions();
+    my $options = $this->{_options};
+    return $options if $options;
+    $options = $this->SUPER::getOptions();
 
     unless (@$options) {
         for ( my $i = 1 ; $i <= $this->{size} ; $i++ ) {
@@ -61,13 +63,35 @@ sub getOptions {
 }
 
 sub renderForEdit {
-    my ( $this, $topicObject, $value ) = @_;
+    my $this = shift;
+
+    # get args in a backwards compatible manor:
+    my $metaOrWeb = shift;
+
+    my $meta;
+    my $web;
+    my $topic;
+
+    if ( ref($metaOrWeb) ) {
+
+        # new: $this, $meta, $value
+        $meta  = $metaOrWeb;
+        $web   = $meta->web;
+        $topic = $meta->topic;
+    }
+    else {
+
+        # old: $this, $web, $topic, $value
+        $web   = $metaOrWeb;
+        $topic = shift;
+        ( $meta, undef ) = Foswiki::Func::readTopic( $web, $topic );
+    }
+
+    my $value = shift;
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("rating");
 
     my $result = "<div class='jqRating {$this->{attributes}}'>\n";
-    my $found  = 0;
-    my $intVal = ($value) ? $value : 0;
     foreach my $item ( @{ $this->getOptions() } ) {
         $result .=
             '<input type="radio" name="'
@@ -76,8 +100,7 @@ sub renderForEdit {
           . $item . '" ';
         $result .= 'title="' . $this->{valueMap}{$item} . '" '
           if $this->{valueMap}{$item};
-        if ( $item == $intVal || ( $item > $intVal && !$found ) ) {
-            $found = 1;
+        if ( $item eq $value ) {
             $result .= 'checked="checked" ';
         }
         $result .= "/>\n";
@@ -94,8 +117,6 @@ sub renderForDisplay {
     Foswiki::Plugins::JQueryPlugin::createPlugin("rating");
 
     my $result = "<div class='jqRating {$this->{attributes}}'>\n";
-    my $found  = 0;
-    my $intVal = ($value) ? $value : 0;
     foreach my $item ( @{ $this->getOptions() } ) {
         $result .=
             '<input type="radio" name="'
@@ -105,8 +126,7 @@ sub renderForDisplay {
         $result .= 'title="' . $this->{valueMap}{$item} . '" '
           if $this->{valueMap}{$item};
         $result .= 'disabled="disabled" ';
-        if ( $item == $intVal || ( $item > $intVal && !$found ) ) {
-            $found = 1;
+        if ( $item eq $value ) {
             $result .= 'checked="checked" ';
         }
         $result .= "/>\n";

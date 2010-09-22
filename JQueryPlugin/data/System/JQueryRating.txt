@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265664989" format="1.1" reprev="1.4" version="1.4"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1283973127" format="1.1" reprev="4" version="5"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"rating"
@@ -30,13 +30,15 @@ radio box, or the title if present.
 The jquery rating plugin is used to implement a ==rating== formfield. Here are some examples:
 
 | *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
-| Rating1 | rating | 10 | very low, low, substandard, standard, superior, I like it, quite good, good, very good, excellent  | | |
-| Rating2 | rating | 20 | 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10   | | split:2 |
-| Rating3 | rating+values | 10 | very low=1, low=2, substandard=3, standard=4, superior=5, I like it=6, quite good=7, good=8, very good=9, excellent=10  | | |
+| Rating1 | rating | 5 | | | |
+| Rating2 | rating | 10 | very low, low, substandard, standard, superior, I like it, quite good, good, very good, excellent  | | |
+| Rating3 | rating | 20 | 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10   | | split:2 |
+| Rating4 | rating+values | 10 | very low=1, low=2, substandard=3, standard=4, superior=5, I like it=6, quite good=7, good=8, very good=9, excellent=10  | | |
 
-   * Rating1 defines a simple scheme using named categories.
-   * Rating2 defines a selection between 0-10 using 0.5 steps
-   * Rating3 defines a numeric rating where each value is mapped to a named category
+   * Rating1 defines a simple numeric rating
+   * Rating2 defines a simple scheme using named categories.
+   * Rating3 defines a selection between 0-10 using 0.5 steps
+   * Rating4 defines a numeric rating where each value is mapped to a named category
 
 Note, that the Attributes column of a rating field will be used to parametrize the jquery rating plugin. 
 
