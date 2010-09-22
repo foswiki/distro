@@ -53,14 +53,6 @@ JQUERYPLUGIN is not a hard requirement, but it must sort earlier.
 }%%TMPL:DEF{"htmldoctype"}%<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="%LANG%" lang="%LANG%">%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"meta:preferences"}%%FORMAT{"%EXPORTEDPREFERENCES%"
-  type="string"
-  format="<meta name=\"foswiki.$item\" content=\"$percntENCODE{\"$percnt$item$percnt\"}$percnt\" /><!--$item-->"
-  separator="
-"
-}%
-%TMPL:END%%{
----------------------------------------------------
 }%%TMPL:DEF{"script"}%%TMPL:P{"script:skinbase"}%%TMPL:P{"script:skintemplate"}%%TMPL:P{"script:topictemplate"}%%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"script:skinbase"}%%TMPL:END%%{
@@ -81,7 +73,6 @@ Item2476: Put IE8 into compatibility mode to work around slow, erratic textarea 
 	<link rel="icon" href="%FAVICON%" type="image/x-icon" /> <link rel="shortcut icon" href="%FAVICON%" type="image/x-icon" />
 	<link rel="alternate" href="%SCRIPTURL{edit}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%" type="application/x-wiki" title="edit %BASETOPIC%" />
 	<meta name="description" content="%TOPIC%" />
-	%TMPL:P{"meta:preferences"}%
     <base href="%SCRIPTURL{%SCRIPTNAME%}%/%WEB%/%TOPIC%" /><!--[if IE]></base><![endif]-->
 	%TMPL:P{"script"}%
 	%TMPL:P{"defaultstyle"}%
