@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1280483117" format="1.1" reprev="8" version="8"}%
+%META:TOPICINFO{author="micha" comment="save topic" date="1283353795" format="1.1" reprev="9" version="9"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 <!--
 Hidden form definition
@@ -93,10 +93,8 @@ loads the =topic= section of this topic, which expands to the topic list.
 Select from a list of webs, using =jquery.autocomplete=.
 
 __Note:__ there is currently no way to filter a list of webs in the
-default Foswiki core, so this example returns the same list of
-webs on every call, which is obviously inefficient. If autocompletion
-of web names is required, you are recommended to use the
-!FlexWebListPlugin as [[#FlexWebList][described below]].
+default Foswiki core. To use this example you will have to install
+Foswiki:Extensions.FlexWebListPlugin.
 
 ---+++ Client section
 *INCLUDE Parameters*
@@ -109,10 +107,16 @@ of web names is required, you are recommended to use the
 </verbatim>
 
 ---+++ Server section
+*URL parameters*
+   * =q=: search term substring typed so far
+   * =limit=: number of search results to return, defaults to 10
 <verbatim class="tml">
-%STARTSECTION{"web"}%%WEBLIST{
-  format="<nop>$name"
+%STARTSECTION{"web"}%%FLEXWEBLIST{
+  include="^%URLPARAM{"q" default="does not exist"}%.*"
+  limit="%URLPARAM{"limit" default="10"}%"
+  format="<nop>$web"
   separator="$n"
+  subheader="$n"
 }%%ENDSECTION{"web"}%
 </verbatim>
 
@@ -238,7 +242,7 @@ jQuery(function($){
    "^%URLPARAM{"q" default="does not exist"}%.*"
    type="regex"
    scope="topic"
-   format="$percntUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$percntFORMFIELD{\"Photo\" topic=\"$web.$topic\" default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif\" alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif\"}$percnt$n\"}$percnt"
+   format="$percntUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$percntFORMFIELD{\"Photo\" topic=\"$web.$topic\" default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\"}$percnt$n\"}$percnt"
    separator=""
    limit="%URLPARAM{"limit" default="10"}%"
    nonoise="on"
@@ -331,7 +335,7 @@ This one returns an =&lt;img...>= to a user's photo. See the User selector examp
 
 ---++++ Server section
 <verbatim class="tml">
-%STARTSECTION{"userphoto"}%<img src='%FORMFIELD{"Photo" topic="%USERINFO{"%URLPARAM{"name" default="does not exist"}%" format="$wikiusername"}%" default="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif" alttext="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif"}%' alt='%URLPARAM{"name"}%' height='%URLPARAM{"height" default="50"}%' />%ENDSECTION{"userphoto"}%
+%STARTSECTION{"userphoto"}%<img src='%FORMFIELD{"Photo" topic="%USERINFO{"%URLPARAM{"name" default="does not exist"}%" format="$wikiusername"}%" default="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif" alttext="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif"}%' alt='%URLPARAM{"name"}%' height='%URLPARAM{"height" default="50"}%' />%ENDSECTION{"userphoto"}%
 </verbatim>
 
 ---+++ Expand TML
@@ -350,30 +354,12 @@ expand a TML expression in the given scope
 The following implementations of some of the server sections depend on the
 installation of optional extensions.
 
-#FlexWebList
----+++ =web_flex=
-Foswiki:Extensions.FlexWebListPlugin implementation of the web selector
-server section. Use in place of the [[#Web_selector][ =web= selector]] server section.
-*URL parameters*
-   * =q=: search term substring typed so far
-   * =limit=: number of search results to return, defaults to 10
-<verbatim class="tml">
-%STARTSECTION{"web_flex"}%%FLEXWEBLIST{
-  include="%URLPARAM{"q" default="does not exist"}%.*"
-  exclude="%URLPARAM{"exclude"}%"
-  limit="%URLPARAM{"limit" default="10"}%"
-  format="<nop>$web"
-  separator="$n"
-  subheader="$n"
-}%%ENDSECTION{"web"}%
-</verbatim>
-
 ---+++ =user_fast=
 Foswiki:Extensions.DBCachePlugin implementation of the [[#User_selector][user selector]] server section.
 <verbatim class="tml">
 %STARTSECTION{"user_fast"}%%DBQUERY{
    "uc(topic) =~ uc('^%URLPARAM{"q" default="does not exist"}%')"
-   format="$percntUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$expand(Photo or '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ifixpng/images/pixel.gif')$n\"}$percnt"
+   format="$percntUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$expand(Photo or '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif')$n\"}$percnt"
    separator=""
    limit="%URLPARAM{"limit" default="10"}%"
    web="%USERSWEB%"
