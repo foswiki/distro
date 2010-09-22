@@ -11,7 +11,6 @@ WEBSITE: http://noteslog.com/chili/
 
 
 ( function($) {
-
 ChiliBook = { //implied global
 
 	  version:            "2.2" // 2008-07-06
@@ -229,8 +228,12 @@ $.fn.chili = function( options ) {
 							/* this is a new recipe to download */
 							try {
 								book.queue[ path ] = [ {cue: cue, subject: subject, module: module, context: context} ];
-								$.getJSON( path, function( recipeLoaded ) {
-									book.recipes[ path ] = recipeLoaded;
+                $.ajax({
+                  "url": path,
+                  "dataType": "text",
+                  "success":
+                    function( recipeLoaded ) {
+                      book.recipes[ path ] = window.eval("(function() { var recipe = "+recipeLoaded+"; return recipe; }())");
 									var q = book.queue[ path ];
 									for( var i = 0, iTop = q.length; i < iTop; i++ ) {
 										var replacement = applyModule( q[ i ].subject, q[ i ].module, q[ i ].context );
@@ -242,6 +245,7 @@ $.fn.chili = function( options ) {
 										}
 										$( '#' + q[ i ].cue ).replaceWith( replacement );
 									}
+                    }
 								} );
 							}
 							catch( recipeNotAvailable ) {
@@ -404,12 +408,17 @@ $.fn.chili = function( options ) {
 					/* this is a new recipe to download */
 					try {
 						book.queue[ path ] = [ el ];
-						$.getJSON( path, function( recipeLoaded ) {
-							book.recipes[ path ] = recipeLoaded;
+						$.ajax({
+              "url": path,
+              "dataType": "text",
+              "success":
+                function( recipeLoaded ) {
+                  book.recipes[ path ] = window.eval("(function() { var recipe = "+recipeLoaded+"; return recipe; }())");
 							var q = book.queue[ path ];
 							for( var i = 0, iTop = q.length; i < iTop; i++ ) {
 								makeDish( q[ i ], path );
 							}
+                }
 						} );
 					}
 					catch( recipeNotAvailable ) {
