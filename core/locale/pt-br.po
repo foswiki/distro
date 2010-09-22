@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-19 04:53+0200\n"
+"PO-Revision-Date: 2010-09-22 22:22+0200\n"
 "Last-Translator: Carlinhos <carlinux@terra.com.br>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -1604,9 +1604,8 @@ msgstr ""
 "aninhadas."
 
 #: core/data/System/ManagingTopics.txt:92
-#, fuzzy
 msgid "History"
-msgstr "&Histórico"
+msgstr "Histórico"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -1994,9 +1993,8 @@ msgid "More on hiding attachments"
 msgstr "Mais em anexos ocultos"
 
 #: core/data/System/TopicsAndWebs.txt:49
-#, fuzzy
 msgid "More topic actions"
-msgstr "Mais ações de tópico..."
+msgstr "Mais ações de tópico"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:22
 #: core/templates/viewtopicactionbuttons.tmpl:76
@@ -2100,9 +2098,8 @@ msgid "No child topics"
 msgstr "Nenhum tópico filho"
 
 #: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
-#, fuzzy
 msgid "No group name specified"
-msgstr "Nenhum GroupName especificado"
+msgstr "Nenhum nome de grupo especificado"
 
 #: core/templates/messages.tmpl:547
 msgid "No permission to view %1"
@@ -2281,7 +2278,6 @@ msgid "Placeholder for trashed attachments"
 msgstr "Lugar reservado para anexos removidos"
 
 #: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
-#, fuzzy
 msgid "Please check to ensure you have permission to modify the group."
 msgstr "Certifique-se de ter permissão para modificar o grupo."
 
@@ -2308,14 +2304,13 @@ msgid "Please go back in your browser and check again."
 msgstr "Por favor, volte no seu navegador e verifique de novo."
 
 #: core/templates/messages.tmpl:88
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
 "Por favor, volte no seu navegador e escolha um nome de tópico que seja uma "
-"[[%1.WikiWord][PalavraWiki]] ou marque a opção de permitir nomes que não "
-"sejam uma palavra Wiki."
+"[[%SYSTEMWEB%.WikiWord][PalavraWiki]] ou marque a opção para permitir nomes "
+"que não sejam uma Palavra Wiki."
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
@@ -2722,9 +2717,8 @@ msgid "Select"
 msgstr "Selecionar"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
-#, fuzzy
 msgid "Select Group %1 to join"
-msgstr "Selecione %1 Wiki para ingressar"
+msgstr "Selecione Grupo %1para ingressar"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
@@ -3038,7 +3032,6 @@ msgstr ""
 "_eventualmente_ permitir que você renomeie tópicos que estejam travados)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
-#, fuzzy
 msgid ""
 "The checks performed by Foswiki can sometimes be triggered when you do "
 "something perfectly innocent, for instance if you click the Back button "
@@ -3046,8 +3039,9 @@ msgid ""
 "\"."
 msgstr ""
 "As verificações efetuadas pelo Fosiki podem ser acionadas quando você faz "
-"algo sem querer, por exemplo, se você clicar no botão Voltar após salvar uma "
-"página. Na sequência Fozwiki fará a verificação"
+"algo sem querer, como por exemplo se você clicar no botão Voltar após salvar "
+"uma página. Nesses casos Foswiki acha que é \"melhor prevenir do que "
+"remediar\"."
 
 #: core/templates/messages.tmpl:308
 msgid "The e-mail address for this account is not valid."
@@ -3175,18 +3169,17 @@ msgid "This could be for several reasons:"
 msgstr "Isto pode acontecer por várias razões:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
-#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
 "registered addresses are used by Foswiki for sending you e-mails, including "
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
-"Esse formulário é utilizado para alterar os seus endereços registados de e-"
-"mail. O Foswiki utiliza esses endereços para lhe enviar e-mails, incluindo "
-"as notificações de alterações de senha. Os endereços que você registra "
-"através desse formulário serão mantidos em segredo e *não* serão publicados "
-"em qualquer lugar desse sítio."
+"Esse formulário é utilizado para alterar os seus endereços registados de "
+"e-mail. O Foswiki utiliza esses endereços para lhe enviar mensagens, "
+"incluindo as notificações de alterações de senha. Os endereços que você "
+"registra através desse formulário serão mantidos em segredo e *não* serão "
+"publicados em qualquer lugar desse sítio."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
@@ -3463,7 +3456,6 @@ msgstr ""
 "gerenciamento de usuários"
 
 #: core/templates/messages.tmpl:485
-#, fuzzy
 msgid "Upgraded group"
 msgstr "Grupo atualizado"
 
@@ -3845,21 +3837,17 @@ msgid "You must pass a topic name."
 msgstr "Você deve fornecer um nome de tópico."
 
 #: core/templates/messages.tmpl:461
-#, fuzzy
 msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
-"É necessário especificar um nome de grupo válido para acrescentar uuários."
+"É necessário especificar um nome de grupo válido para acrescentar usuários."
 
 #: core/templates/messages.tmpl:499
-#, fuzzy
 msgid "You need to specify a valid group name to remove users from a group."
-msgstr "É necessário especificar um nome de grupo válido para remover uuários."
+msgstr "É necessário especificar um nome de grupo válido para remover usuários."
 
 #: core/templates/messages.tmpl:456
-#, fuzzy
 msgid "You need to specify a valid user to add to a group."
-msgstr ""
-"É necessário especificar um usuário válido para adicioná-lo a um grupo."
+msgstr "É necessário especificar um usuário válido para adicioná-lo a um grupo."
 
 #: core/templates/messages.tmpl:494
 msgid "You need to specify a valid user to remove from a group."

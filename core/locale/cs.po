@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-22 07:58+0200\n"
+"PO-Revision-Date: 2010-09-22 22:36+0200\n"
 "Last-Translator: Milan Mašek <milan.m.masek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
@@ -2433,12 +2433,11 @@ msgstr "Odstraň nejdřive uživatele ze skupiny(skupin) %1."
 
 #: core/data/Main/GroupViewTemplate.txt:83
 msgid "Remove user..."
-msgstr ""
+msgstr "Odstraň uživatelský účet..."
 
 #: core/data/Main/GroupViewTemplate.txt:164
-#, fuzzy
 msgid "Remove users from this group"
-msgstr "Odstraň nejdřive uživatele ze skupiny(skupin) %1."
+msgstr "Odstraň uživatele z této skupiny"
 
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
@@ -2449,23 +2448,20 @@ msgid "Rename failed"
 msgstr "Přejmenování selhalo"
 
 #: core/templates/renamebase.tmpl:11
-#, fuzzy
 msgid "Rename or move %1"
-msgstr "Přejmenovat nebo přesunout článek"
+msgstr "Přejmenovat nebo přesunout %1"
 
 #: core/templates/more.tmpl:69
 msgid "Rename or move topic"
 msgstr "Přejmenovat nebo přesunout článek"
 
 #: core/templates/more.tmpl:77
-#, fuzzy
 msgid "Rename or move topic..."
-msgstr "Přejmenovat nebo přesunout článek"
+msgstr "Přejmenovat nebo přesunout článek..."
 
 #: core/data/System/RenameWeb.txt:4
-#, fuzzy
 msgid "Rename, move or delete this web"
-msgstr "Přejmenovat, přesunout nebo smazat web:"
+msgstr "Přejmenovat, přesunout nebo smazat tento web"
 
 #: core/templates/rename.tmpl:21 core/templates/renameconfirm.tmpl:33
 #: core/templates/renameweb.tmpl:32
@@ -2490,7 +2486,7 @@ msgstr "Znovunastav heslo"
 
 #: core/data/System/DefaultPreferences.txt:186
 msgid "Resetting and setting password is not handled by Foswiki"
-msgstr ""
+msgstr "Resetování a nastavování hesla není zajištěno prostředky Foswiki"
 
 #: core/templates/more.tmpl:170
 msgid "Restore topic"
@@ -2505,18 +2501,16 @@ msgid "Restore topic to this revision"
 msgstr "Obnov tuto revizi článku"
 
 #: core/templates/more.tmpl:178
-#, fuzzy
 msgid "Restore..."
-msgstr "Obnov"
+msgstr "Obnov..."
 
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
 msgstr "Výsledky z webu %1"
 
 #: core/templates/search.text.tmpl:4
-#, fuzzy
 msgid "Results from %1 web:"
-msgstr "Výsledky z webu %1"
+msgstr "Výsledky z webu %1:"
 
 #: core/templates/messages.tmpl:207
 msgid "Return to %1."
@@ -2543,9 +2537,8 @@ msgid "Revision"
 msgstr "Revize"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:14
-#, fuzzy
 msgid "Revision history of %1"
-msgstr "Historické verze %1"
+msgstr "Historie verzí pro %1"
 
 #: core/templates/more.tmpl:138
 msgid "Revisions"
@@ -2553,7 +2546,7 @@ msgstr "Verze"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:72
 msgid "Revisions %1 - %2 (out of %3)"
-msgstr ""
+msgstr "Verze %1 - %2 (mimo %3)"
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
 msgid "S = Save, C = Cancel"
@@ -2567,7 +2560,7 @@ msgstr ""
 
 #: core/data/Sandbox/WebPreferences.txt:9
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
-msgstr ""
+msgstr "Toto je oblast kde můžete tvořit bez omezení (tzv Sandbox)."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:161
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
@@ -2606,9 +2599,8 @@ msgid "Search all webs for topics that link to here"
 msgstr "Prohledej všechny weby pro články, které odkazují sem"
 
 #: core/data/System/WebSearch.txt:22
-#, fuzzy
 msgid "Search in %1 Web"
-msgstr "Hledej pouze v rámci webu %1"
+msgstr "Hledej v rámci webu %1"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search in all webs"
@@ -2619,14 +2611,12 @@ msgid "Search more topics in this web"
 msgstr "Hledej více článků na tomto webu"
 
 #: core/data/System/WebSearch.txt:39
-#, fuzzy
 msgid "Search options"
-msgstr "Ostatní možnosti při hledání:"
+msgstr "Možnosti prohledávání"
 
 #: core/templates/searchbookview.tmpl:7
-#, fuzzy
 msgid "Search result"
-msgstr "(výsledek hledání)"
+msgstr "Výsledek hledání"
 
 #: core/data/System/WebSearch.txt:122
 msgid "Search string"
@@ -2662,7 +2652,7 @@ msgstr "Přečtěte si %1 pro informaci o definici formuláře."
 #: core/templates/messages.tmpl:489 core/templates/messages.tmpl:510
 #: core/templates/messages.tmpl:520
 msgid "See %MAINWEB%.WikiGroups to see the result."
-msgstr ""
+msgstr "Výsledek uvidíš na %MAINWEB%.WikiGroups."
 
 #: core/data/System/WebIndex.txt:5
 msgid "See also the faster %1"
@@ -2686,7 +2676,7 @@ msgstr "Vyber"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
 msgid "Select Group %1 to join"
-msgstr ""
+msgstr "Pro zapojení se vyber skupinu %1"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
