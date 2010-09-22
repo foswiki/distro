@@ -33,7 +33,7 @@ sub new {
             author       => 'Rafael Alvarez, Michael Daum, Arthur Clemens',
             homepage     => 'http://foswiki.org/Extensions/TwistyPlugin',
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/TwistyPlugin',
-            dependencies => ['livequery'],
+            dependencies => ['livequery', 'JavascriptFiles/foswikiPref'],
             javascript   => ['jquery.twisty.js'],
             css          => ['jquery.twisty.css']
         ),
@@ -44,6 +44,7 @@ sub new {
     # cookie.
     my $foswikiPrefs =
       Foswiki::Func::expandTemplate('JavascriptFiles/foswikiPref');
+
     Foswiki::Func::expandCommonVariables($foswikiPrefs);
 
     return $this;
