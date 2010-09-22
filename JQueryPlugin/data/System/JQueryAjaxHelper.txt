@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" comment="save topic" date="1283353795" format="1.1" reprev="9" version="9"}%
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1283353795" format="1.1" reprev="9" version="9"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 <!--
 Hidden form definition
