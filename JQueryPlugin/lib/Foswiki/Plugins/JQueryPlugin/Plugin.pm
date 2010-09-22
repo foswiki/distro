@@ -96,10 +96,9 @@ sub init {
     }
 
     # gather dependencies
-    my @dependencies =
-      ('JQUERYPLUGIN::FOSWIKI');    # jquery.foswiki is in there by default
+    my @dependencies = ('JQUERYPLUGIN::FOSWIKI');    # jquery.foswiki is in there by default
     foreach my $dep ( @{ $this->{dependencies} } ) {
-        if ( $dep =~ /^JQUERYPLUGIN/ ) {
+        if ( $dep =~ /^(JQUERYPLUGIN|JavascriptFiles)/ ) { # SMELL: there are some jquery modules that depend on non-jquery code
             push @dependencies, $dep;
         }
         else {
