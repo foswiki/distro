@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-02 18:00+0200\n"
-"Last-Translator: GuidoBrugnara <gdo@leader.it>\n"
+"PO-Revision-Date: 2010-09-23 08:47+0200\n"
+"Last-Translator: Guido <gdo@leader.it>\n"
 "Language-Team: <it@li.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:480
@@ -105,7 +105,6 @@ msgid "%1 is currently set to %2"
 msgstr "%1 è al momento configurato con %2"
 
 #: core/templates/messages.tmpl:526
-#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 sta modificando [[%2][%3]]."
 
@@ -114,12 +113,10 @@ msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 è presente in almeno un gruppo e quindi non può essere rimosso"
 
 #: core/templates/messages.tmpl:126
-#, fuzzy
 msgid "%1 is not a valid form name"
 msgstr "%1 non è un form valido"
 
 #: core/templates/messages.tmpl:122
-#, fuzzy
 msgid "%1 is not a valid value for the %2 parameter"
 msgstr "%1 non è un valore valido per il parametro %2"
 
@@ -132,14 +129,12 @@ msgid "%1 may still be editing %2."
 msgstr "%1 sta ancora modificando %2."
 
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
-msgstr "%1 recenti modifiche nel Web %2"
+msgstr "%1 modifiche recenti nel Web %2"
 
 #: core/templates/messages.tmpl:518
-#, fuzzy
 msgid "%1 removed from the %2 group. "
-msgstr "%1 cancellato dal gruppo %2. "
+msgstr "%1 rimosso dal gruppo %2. "
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -163,9 +158,8 @@ msgstr "%1 ha cercato di registrarsi con e-mail %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
 #: core/lib/Foswiki/Render.pm:229
-#, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 è stato rinominato o spostato da %2 a %3 da %4"
+msgstr "%1 è stato rinominato o spostato da %2 a %3 dall'utente %4"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -176,7 +170,6 @@ msgid "&History"
 msgstr "Storia (&H)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:92
-#, fuzzy
 msgid "&Sequential"
 msgstr "&Sequenziale"
 
@@ -247,7 +240,6 @@ msgid "(changes)"
 msgstr "(variazioni)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:3
-#, fuzzy
 msgid "(compare)"
 msgstr "(confronta)"
 
@@ -464,6 +456,8 @@ msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
+"<strong>Richiesta di conferma!</ strong> Premere OK per confermare la "
+"modifica<br /> Altrimenti premere Annulla"
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -627,7 +621,7 @@ msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
-msgstr ""
+msgstr "Ah, no!"
 
 #: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
 msgid "All public webs"
@@ -670,6 +664,8 @@ msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
+"Un impostore può tentare di usare le tue credensiali di accesso (login) per "
+"modificare il contenuto nel tuo Wiki a tua insaputa."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -864,7 +860,7 @@ msgstr "Non posso creare il web %1 perché già esistente"
 
 #: core/templates/messages.tmpl:75 core/templates/messages.tmpl:81
 msgid "Cannot rename %1 to %2 because it already exists."
-msgstr "Non posso rinominare %1 perché %2 è già esistente."
+msgstr "Non posso rinominare %1 perché %2 già esistente."
 
 #: core/data/System/WebSearch.txt:111
 msgid "Case sensitive"
@@ -954,7 +950,7 @@ msgstr "Cambia da r%1 a r%2"
 #: core/templates/messages.tmpl:429
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
-"Verifica le impostazioni di configurazione per {TemplateDir} and "
+"Verifica le impostazioni di configurazione per {TemplateDir} e "
 "{TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
@@ -970,11 +966,11 @@ msgstr ""
 
 #: core/templates/more.tmpl:189
 msgid "Child topics in %1 web"
-msgstr "Pagine figlio nel Web %1"
+msgstr "Pagine figlie nel Web %1"
 
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
-msgstr "Scegli un nuovo form %1"
+msgstr "Scegli un nuovo form per %1"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:22
 #: core/lib/Foswiki/Form/Checkbox.pm:43
@@ -987,7 +983,7 @@ msgid ""
 "references."
 msgstr ""
 "Seleziona per spostare la pagina alla sua collocazione precedente con "
-"l'opzione di cambiare i riferimenti."
+"l'opzione di cambiare i riferimenti nelle altre pagine."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:458
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
@@ -1015,7 +1011,7 @@ msgstr "Conferma password:"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
-msgstr "Conferma rinomina o sposta"
+msgstr "Conferma rinomina / sposta"
 
 #: core/templates/messages.tmpl:31
 msgid ""
@@ -1104,9 +1100,8 @@ msgid "Could not save %1."
 msgstr "Non posso salvare %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
-#, fuzzy
 msgid "Country"
-msgstr "Nazione:"
+msgstr "Nazione"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:6
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
@@ -1232,8 +1227,8 @@ msgid ""
 "Did you spell the topic name correctly? Remember, a topic name is case "
 "sensitive."
 msgstr ""
-"Hai scritto il nome della pagina correttamente? Ricorda che il nome di una "
-"pagina è case sensitive."
+"Hai scritto il nome della pagina correttamente? Ricorda che nel nome della "
+"pagina maiuscole e minuscole sono caratteri differenti."
 
 #: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
@@ -1370,7 +1365,7 @@ msgstr "Modifica dei parametri della pagina"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
-msgstr ""
+msgstr "Ehm, permettimi di tornare indietro per correggere la pagina ..."
 
 #: core/templates/messages.tmpl:318
 msgid ""
@@ -4271,7 +4266,7 @@ msgstr "title='Wedi raw text senza formattazione' accesskey='v'>&Vista Raw"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"
-msgstr ""
+msgstr "sezioni invariate prima e dopo ogni modifica"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:29
 msgid "user list truncated"
@@ -4295,7 +4290,7 @@ msgstr "value='Salva senza notifica' accesskey='q'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:37
 msgid "value='Save and Continue' accesskey='k'"
-msgstr "value='Salva e continua' accesskey='k'"
+msgstr "value='Salva e Continua' accesskey='k'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:33
 msgid "value='Save' accesskey='s'"
@@ -4307,7 +4302,7 @@ msgstr "vista"
 
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "perché ti viene chiesto di confermare"
 
 #~ msgid "&Edit text"
 #~ msgstr "Modifica t&esto"
