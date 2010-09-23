@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-22 14:29+0200\n"
+"PO-Revision-Date: 2010-09-23 01:18+0200\n"
 "Last-Translator: Rui Procopio <rui.procopio@gmail.com>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "Language: pt\n"
@@ -47,7 +47,7 @@ msgstr "%1"
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
 msgid "%1 - Registration failure for %2 (%3)"
-msgstr "%1 - Falha ao registar %2 (%3)"
+msgstr "%1 - Falha no registo de %2 (%3)"
 
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
@@ -370,14 +370,13 @@ msgstr ""
 "arquivo deverá ter o mesmo nome daquele já existente."
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid ""
 "*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
 "*Propriedades:* o comentário e a visibilidade (i.e. se o anexo será mostrado "
-"ou não) podem ser alterados sem a necessidade de anexar o arquivo novamente. "
-"Para mudar apenas isso clique em \"Apenas Alterar Propriedades\"; veja '%1"
+"ou não) podem ser alterados sem a necessidade de anexar o arquivo "
+"novamente. Para mudar apenas isso clique em \"Apenas Alterar Propriedades\""
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -457,6 +456,8 @@ msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
+"<strong>Confirme esta alteração!</strong> Seleccione OK para confirmar esta "
+"alteração!<br />Caso contrário seleccione Cancel"
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -497,22 +498,20 @@ msgstr ""
 "página anterior. Corrija-o se necessário."
 
 #: core/data/Sandbox/WebHome.txt:32
-#, fuzzy
 msgid "A more extensive changes list is available via [[%1][Recent changes]]."
 msgstr ""
-"Uma lista de alterações mais extensa está disponível através das[[%1]"
-"[Alterações Recentes]]."
+"Uma lista de alterações mais detalhada está disponível através de [[%"
+"1][Alterações Recentes]]."
 
 #: core/templates/messages.tmpl:559
-#, fuzzy
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
 "Uma nova senha gerada pelo sistema para o seu login %1 (!NomeWiki %2) foi "
-"enviada para o seu endereço de e-mail registrado no sistema. Se seu endereço "
-"de e-mail não for válido, favor contatar %3"
+"enviada para o seu endereço de e-mail registado no sistema. Se seu endereço "
+"de e-mail não for válido, favor contactar %3"
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -527,7 +526,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:65
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -558,11 +557,11 @@ msgstr "Ação %1: %2."
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #, fuzzy
 msgid "Add"
-msgstr "Adicionar linha"
+msgstr "Adicionar "
 
 #: core/data/Main/GroupViewTemplate.txt:143
 msgid "Add a user to this group"
-msgstr ""
+msgstr "Adicione um utilizador a este grupo"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
@@ -574,16 +573,14 @@ msgid "Add row"
 msgstr "Adicionar linha"
 
 #: core/data/Main/GroupViewTemplate.txt:145
-#, fuzzy
 msgid "Add user"
-msgstr "Adicionar linha"
+msgstr "Adicionar utilizador"
 
 #: core/data/Main/GroupViewTemplate.txt:80
 msgid "Add user..."
-msgstr ""
+msgstr "Adicionar utilizador..."
 
 #: core/templates/messages.tmpl:369
-#, fuzzy
 msgid "Adding a %1 preference in WebPreferences"
 msgstr "Adicionando uma variável %1 em WebPreferences"
 
@@ -612,19 +609,18 @@ msgid "After submitting this form your password will be changed."
 msgstr "Após enviar esse formulário sua senha será alterada."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
-#, fuzzy
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
 msgstr ""
 "Após enviar esse formulário, você receberá um e-mail com sua nova senha "
-"*gerada pelo sistema*. Nesse mesmo e-mail haverá também um link para a "
-"página em que poderá alterar essa senha para uma combinação que possa melhor "
-"se lembrar."
+"gerada pelo sistema. Nesse mesmo e-mail haverá também um link para a página "
+"em que poderá alterar essa senha para uma combinação que possa melhor se "
+"lembrar."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
-msgstr ""
+msgstr "Ah, não!"
 
 #: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
 msgid "All public webs"
@@ -645,7 +641,6 @@ msgstr ""
 "diferente."
 
 #: core/lib/Foswiki/UI/Rename.pm:199
-#, fuzzy
 msgid "An attachment with the same name already exists in this topic."
 msgstr "O anexo já existe no tópico"
 
@@ -665,13 +660,12 @@ msgstr ""
 "por outro usuário."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
-#, fuzzy
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
-"Existe o risco de alguém estar a a usar a sua identidade para mudar o "
-"conteúdo de %1 sem o seu conhecimento."
+"Existe o risco de alguém estar a usar a sua identidade para mudar o conteúdo "
+"do seu wiki sem o seu conhecimento."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -689,9 +683,8 @@ msgid "Attach"
 msgstr "Anexar"
 
 #: core/templates/attach.tmpl:9
-#, fuzzy
 msgid "Attach a file"
-msgstr "Anexar novo arquivo"
+msgstr "Anexar arquivo"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -720,23 +713,20 @@ msgid "Attachment delete failed"
 msgstr "A remoção do anexo falhou"
 
 #: core/lib/Foswiki/UI/Rename.pm:166
-#, fuzzy
 msgid "Attachment does not exist."
 msgstr "O anexo não existe"
 
 #: core/templates/attachtables.tmpl:42
-#, fuzzy
 msgid "Attachment history"
-msgstr "Anexo"
+msgstr "Histórico do anexo"
 
 #: core/templates/messages.tmpl:54
 msgid "Attachment move failed"
 msgstr "A ação de *Mover* anexo falhou"
 
 #: core/templates/moveattachment.tmpl:37
-#, fuzzy
 msgid "Attachment name:"
-msgstr "Anexo"
+msgstr "Nome do anexo:"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
@@ -883,16 +873,15 @@ msgstr "Alterar Senha"
 
 #: core/templates/validate.tmpl:22
 msgid "Change cannot be completed"
-msgstr ""
+msgstr "Alteração não pode ser concluída "
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
 msgstr "Apenas Alterar Propriedades"
 
 #: core/templates/renamebase.tmpl:14
-#, fuzzy
 msgid "Change from"
-msgstr "Alterar de:"
+msgstr "Mudança de"
 
 #: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
@@ -952,7 +941,7 @@ msgstr "Alterações entre r%1 e r%2"
 
 #: core/templates/messages.tmpl:429
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
-msgstr ""
+msgstr "Verifique as suas configurações em {TemplateDir} e {TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
@@ -1006,9 +995,8 @@ msgid "Compare revisions"
 msgstr "Comparar versões"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:168
-#, fuzzy
 msgid "Confirm password"
-msgstr "Sua senha:"
+msgstr "Confirme a senha"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
@@ -1034,9 +1022,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "Contate %1 se você tiver qualquer dúvida."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:58
-#, fuzzy
 msgid "Context:"
-msgstr "País:"
+msgstr "Contexto:"
 
 #: core/templates/messages.tmpl:421
 msgid "Continue and try to rename web?"
@@ -1051,10 +1038,12 @@ msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
 msgstr ""
+"A conversão para HTML para edição WYSIWYG está desactivado devido ao "
+"conteúdo do tópico."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr ""
+msgstr "Copie este tópico (e os seus anexos) para um novo tópico."
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
@@ -1063,7 +1052,7 @@ msgstr "Copiar tópico"
 #: core/templates/more.tmpl:36
 #, fuzzy
 msgid "Copy topic..."
-msgstr "Copiar tópico"
+msgstr "Copie tópico..."
 
 #: core/data/System/DefaultPreferences.txt:40
 msgid ""
@@ -1098,9 +1087,8 @@ msgid "Could not save %1."
 msgstr "Não foi possível salvar %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
-#, fuzzy
 msgid "Country"
-msgstr "País:"
+msgstr "País"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:6
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
@@ -1119,14 +1107,12 @@ msgid "Create a link to the attached file"
 msgstr "Criar um link para o arquivo anexo."
 
 #: core/data/Main/WikiGroups.txt:7
-#, fuzzy
 msgid "Create a new group"
-msgstr "Criar Novo Tópico"
+msgstr "Crie um Novo Grupo"
 
 #: core/data/Main/WikiGroups.txt:31
-#, fuzzy
 msgid "Create group"
-msgstr "Criar Novo Tópico"
+msgstr "Criar um grupo"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:44
 #, fuzzy
