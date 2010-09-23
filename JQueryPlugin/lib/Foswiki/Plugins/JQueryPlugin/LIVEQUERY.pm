@@ -30,9 +30,9 @@ sub new {
         $class->SUPER::new(
             $session,
             name       => 'LiveQuery',
-            version    => '1.0.3',
+            version    => '1.1.1',
             author     => 'Brandon Aaron',
-            homepage   => 'http://docs.jquery.com/Plugins/livequery',
+            homepage   => 'http://github.com/brandonaaron/livequery',
             javascript => ['jquery.livequery.js'],
         ),
         $class
