@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-23 00:19+0200\n"
+"PO-Revision-Date: 2010-09-23 19:32+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -1889,11 +1889,10 @@ msgid ""
 "linking may not work. Characters not allowed in topic names, such as spaces "
 "will automatically be removed."
 msgstr ""
-"Il est généralement préférable de choisir un <nop>MotWiki (<a "
-"target='WikiWord' class='foswikiPopUp' href='%1' rel='nofollow'>WikiWord</"
-"a>) comme nouveau nom de page. Sinon, la création automatique de lien peut "
-"ne pas fonctionner. Les caractères interdits dans le nom d'une page, tels "
-"que les espaces, seront automatiquement enlevés."
+"Il est généralement préférable de choisir un <nop>MotWiki (%1) comme nouveau "
+"nom de page. Sinon, la création automatique de lien peut ne pas "
+"fonctionner. Les caractères interdits dans le nom d'une page, tels que les "
+"espaces, seront automatiquement enlevés."
 
 #: core/templates/renameweb.tmpl:16
 msgid ""
@@ -1914,7 +1913,7 @@ msgstr "Aller à"
 
 #: core/data/System/WebSearch.txt:114
 msgid "Keyword search"
-msgstr "Recherche de mots clés (keyword search)"
+msgstr "Recherche de mots clés par radical (keyword search)"
 
 #: core/data/System/WebSearch.txt:102
 msgid "Last editor"
@@ -3737,7 +3736,7 @@ msgstr "Nom Wiki"
 
 #: core/data/System/WebSearch.txt:113
 msgid "Word search"
-msgstr "Recherche de mots entiers (word search)"
+msgstr "Recherche de mots identiques (word search)"
 
 #: core/templates/messages.tmpl:19
 msgid "Would you like to go to:"
@@ -3961,7 +3960,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 msgid "Your %1.LoginName"
-msgstr "Votre %1.NomDeConnexion"
+msgstr "Votre [[%1.LoginName][NomDeConnexion]]"
 
 #: core/templates/messages.tmpl:212
 msgid ""
