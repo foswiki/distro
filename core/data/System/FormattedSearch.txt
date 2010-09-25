@@ -195,7 +195,7 @@ The following example makes use of the =$pattern()= token to extract the first l
    <verbatim class="tml"> %OUTERMACRO{
    format="$percentINNERMACRO$percent"
  }%</verbatim>
- <blockquote class="foswikiHelp">%T% When working with a given [[Macros][macro]], consult its documentation to determine which paramters support the =$percent/$percnt= [[FormatTokens][format tokens]]</blockquote>
+ %INCLUDE{"Macros" section="tokensupport"}%
 
 %INCLUDE{"Macros"
   section="insideoutlefttoright"

@@ -159,7 +159,9 @@ jQuery(document).ready(function($) {
 ---++++ Delayed form
 [[#StandardForm][Standard form]] macros can nearly always be used to build the parameter string of another macro; however, sometimes it is desirable to bypass the [[#InsideOutLeftToRight][inside-out]] expansion order and delay the inner macro until after the outer macro has finished expansion. This is accomplished by using the [[FormatTokens][$percent]] format token instead of =%=, and escaping any ="= character it uses (becomes =\"=)
 
-<blockquote class="foswikiHelp">%T% When working with a given [[Macros][macro]], consult its documentation to determine which paramters support the =$percent/$percnt= [[FormatTokens][format tokens]]. Generally only _output parameters_ like =header=, =format= and =footer= support [[FormatTokens][format tokens]].</blockquote>
+%STARTSECTION{"tokensupport"}%<blockquote class="foswikiHelp">
+  %T% When working with a given [[Macros][macro]], consult its documentation to determine which parameters support the =$percent/$percnt= [[FormatTokens][format tokens]]. Generally only _output parameters_ like =header=, =format= and =footer= support [[FormatTokens][format tokens]].
+  </blockquote>%ENDSECTION{"tokensupport"}%
 *Example:*
 <verbatim class="tml">
 %MACRO1{
