@@ -9,10 +9,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-21 20:01+0200\n"
 "Last-Translator: Erik Åman <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
-"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -168,7 +168,7 @@ msgstr "%1 döptes om eller flyttades från %2 %3 av %4"
 msgid "&Cancel"
 msgstr "Avbryt (&C)"
 
-#: core/templates/foswiki.tmpl:164
+#: core/templates/foswiki.tmpl:155
 msgid "&History"
 msgstr "&Historik"
 
@@ -820,7 +820,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
+#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:49
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -847,6 +847,11 @@ msgstr "Skiftlägeskänslig (gör skillnad VERSALER och gemener)"
 #: PatternSkin/data/System/WebLeftBarExample.txt:35
 msgid "Categories"
 msgstr "Kategorier"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
+#, fuzzy
+msgid "Change E-mail Address"
+msgstr "E-postadress"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -954,7 +959,7 @@ msgstr ""
 "att ändra referenser."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:458
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:92
 msgid "Close"
 msgstr "Stäng"
 
@@ -1095,6 +1100,10 @@ msgstr "Skapa grupp"
 #: core/data/System/FrequentlyAskedQuestions.txt:44
 msgid "Create new FAQ topic"
 msgstr "Skapa ny FAQ-sida"
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:6
+msgid "Create personal sidebar"
+msgstr "Skapa en personlig sidomeny"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1355,7 +1364,7 @@ msgstr "E-postadress"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "E-post avstängt för den här Foswiki-installationen"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Enlarge edit box"
 msgstr "Förstora redigeringsruta"
 
@@ -1518,7 +1527,7 @@ msgstr "Bli informerad om ändringar i den här sökningen"
 msgid "Globe"
 msgstr "Klot"
 
-#: core/templates/foswiki.tmpl:139
+#: core/templates/foswiki.tmpl:130
 msgid "Go back"
 msgstr "Gå tillbaka"
 
@@ -1563,7 +1572,7 @@ msgstr "Grupper"
 msgid "Hello %1"
 msgstr "Hej %1"
 
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Hello %1!"
 msgstr "Hej %1!"
 
@@ -1748,6 +1757,12 @@ msgstr ""
 "Om din personliga sida har skyddats från ändringar av andra användare och du "
 "inte registrerar en e-postadress i detta formulär, så kan ditt konto kapas "
 "av någon annan."
+
+#. ("{x}", "{y}")
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+#, fuzzy
+msgid "Image %1 of %2"
+msgstr "Avdelningen %1 i %2."
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -1982,7 +1997,7 @@ msgid "More view options:"
 msgstr "Fler alternativ för denna sida:"
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:88
 msgid "More..."
 msgstr "Mer..."
 
@@ -2155,7 +2170,7 @@ msgstr "Antal sidor: %1"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:137 core/templates/messages.tmpl:181
+#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:191 core/templates/messages.tmpl:198
 #: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:49
@@ -2283,8 +2298,8 @@ msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
-"Gå bakåt i webbläsaren och välj ett sidnamn som är ett [[%SYSTEMWEB%"
-".WikiWord][WikiOrd]] eller kryssa för att tillåta icke-<nop>WikiOrd"
+"Gå bakåt i webbläsaren och välj ett sidnamn som är ett [[%SYSTEMWEB%."
+"WikiWord][WikiOrd]] eller kryssa för att tillåta icke-<nop>WikiOrd"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
@@ -2395,9 +2410,13 @@ msgstr "Uppdatera"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Registrera dig"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
+msgid "Registered e-mail addresses for currently logged in user"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2482,6 +2501,10 @@ msgstr "Döp om, flytta eller radera denna avdelning"
 #: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
 msgstr "Döp om/flytta"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:54
+msgid "Render style:"
+msgstr ""
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2650,6 +2673,7 @@ msgstr "Sök var:"
 msgid "Searched:"
 msgstr "Sök efter:"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "Säkerhetsinformation:"
@@ -2745,7 +2769,7 @@ msgstr "Visa"
 msgid "Show help"
 msgstr "Visa hjälp"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Shrink edit box"
 msgstr "Minska redigeringsrutan"
 
@@ -2852,7 +2876,7 @@ msgstr "Användarna borttagna från gruppen"
 msgid "Summaries"
 msgstr "Sammanställningar"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Switch to monotype or propotional font"
 msgstr "Ändra till typsnitt med fast eller proportionell bredd"
 
@@ -3527,7 +3551,7 @@ msgstr "Visa mallar"
 msgid "View topic"
 msgstr "Visa sida"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:164
+#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "Visa komplett historik för sidan"
 
@@ -4079,7 +4103,7 @@ msgstr "nu %1"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:168
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:37
@@ -4562,9 +4586,6 @@ msgstr "varför du blir ombedd att bekräfta"
 
 #~ msgid "Create '%1'"
 #~ msgstr "Skapa '%1'"
-
-#~ msgid "Create personal sidebar"
-#~ msgstr "Skapa en personlig sidomeny"
 
 #~ msgid "Did you spell the %1 correctly?"
 #~ msgstr "Stavade du %1 rätt?"

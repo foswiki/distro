@@ -176,7 +176,7 @@ msgstr "%1 由 %4 从 %2 移到 %3"
 msgid "&Cancel"
 msgstr "取消(&C)"
 
-#: core/templates/foswiki.tmpl:164
+#: core/templates/foswiki.tmpl:155
 msgid "&History"
 msgstr "历史(&H)"
 
@@ -807,7 +807,7 @@ msgstr "无法找到 %1 的电子邮件位址（用于密码重置时） "
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
+#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:49
 msgid "Cancel"
 msgstr "取消"
 
@@ -834,6 +834,11 @@ msgstr "区分字母大小写"
 #: PatternSkin/data/System/WebLeftBarExample.txt:35
 msgid "Categories"
 msgstr "类别"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
+#, fuzzy
+msgid "Change E-mail Address"
+msgstr "电子邮件位址:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -940,7 +945,7 @@ msgid ""
 msgstr "点这将移动主题回到以前的位置，有选项可修改设定。 "
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:458
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:92
 msgid "Close"
 msgstr "关闭"
 
@@ -1079,6 +1084,11 @@ msgstr "建立新主题"
 #, fuzzy
 msgid "Create new FAQ topic"
 msgstr "建立新主题"
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:6
+#, fuzzy
+msgid "Create personal sidebar"
+msgstr "编辑个人资料"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1328,7 +1338,7 @@ msgstr "电子邮件位址:"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "本网站不开放电子邮件使用。"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Enlarge edit box"
 msgstr "放大编辑框"
 
@@ -1494,7 +1504,7 @@ msgstr "得到此搜寻的修改通知"
 msgid "Globe"
 msgstr "关闭"
 
-#: core/templates/foswiki.tmpl:139
+#: core/templates/foswiki.tmpl:130
 msgid "Go back"
 msgstr "返回"
 
@@ -1538,7 +1548,7 @@ msgstr "群组"
 msgid "Hello %1"
 msgstr "您好 %1"
 
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Hello %1!"
 msgstr "您好 %1！"
 
@@ -1715,6 +1725,12 @@ msgid ""
 msgstr ""
 "若您的用户主题没有上锁不让其他用户修改，且您的注册表单未填邮件地址，您的帐号"
 "可能被他人盗用。"
+
+#. ("{x}", "{y}")
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+#, fuzzy
+msgid "Image %1 of %2"
+msgstr "子网 %1 不存在"
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -1948,7 +1964,7 @@ msgid "More view options:"
 msgstr "更多主题功能..."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:88
 msgid "More..."
 msgstr "更多..."
 
@@ -2120,7 +2136,7 @@ msgstr "主题数量:"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:137 core/templates/messages.tmpl:181
+#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:191 core/templates/messages.tmpl:198
 #: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:49
@@ -2364,9 +2380,13 @@ msgstr "更新"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "注册"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
+msgid "Registered e-mail addresses for currently logged in user"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2453,6 +2473,10 @@ msgstr "改名，移动或删除子网:"
 #: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
 msgstr "改名/移动"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:54
+msgid "Render style:"
+msgstr ""
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2624,6 +2648,7 @@ msgstr "搜寻哪里:"
 msgid "Searched:"
 msgstr "搜寻:"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "安全提示:"
@@ -2717,7 +2742,7 @@ msgstr "显示说明"
 msgid "Show help"
 msgstr "显示说明"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Shrink edit box"
 msgstr "缩小编辑框"
 
@@ -2821,7 +2846,7 @@ msgstr ""
 msgid "Summaries"
 msgstr "摘要"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Switch to monotype or propotional font"
 msgstr "切换到等宽或等比的字体"
 
@@ -3458,7 +3483,7 @@ msgstr "检视范本"
 msgid "View topic"
 msgstr "检视主题"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:164
+#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "检视主题完整修订史"
 
@@ -3969,7 +3994,7 @@ msgstr "现在 %1"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:168
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:37
@@ -4102,9 +4127,6 @@ msgstr "为何您被要求确认"
 
 #~ msgid "&Edit text"
 #~ msgstr "编辑(&E)"
-
-#~ msgid "Edit personal data"
-#~ msgstr "编辑个人资料"
 
 #~ msgid "Edit text"
 #~ msgstr "编辑文本"

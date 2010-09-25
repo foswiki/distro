@@ -162,7 +162,7 @@ msgstr ""
 msgid "&Cancel"
 msgstr "취소 (&C)"
 
-#: core/templates/foswiki.tmpl:164
+#: core/templates/foswiki.tmpl:155
 msgid "&History"
 msgstr "기록 (&H)"
 
@@ -782,7 +782,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
+#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:49
 msgid "Cancel"
 msgstr "취소"
 
@@ -809,6 +809,11 @@ msgstr ""
 #: PatternSkin/data/System/WebLeftBarExample.txt:35
 msgid "Categories"
 msgstr "카테고리"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
+#, fuzzy
+msgid "Change E-mail Address"
+msgstr "이메일 주소:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -915,7 +920,7 @@ msgid ""
 msgstr ""
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:458
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:92
 msgid "Close"
 msgstr "닫기"
 
@@ -1054,6 +1059,11 @@ msgstr "새 토픽 생성하기"
 #, fuzzy
 msgid "Create new FAQ topic"
 msgstr "새 토픽 생성하기"
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:6
+#, fuzzy
+msgid "Create personal sidebar"
+msgstr "개인 정보 편집"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1302,7 +1312,7 @@ msgstr "이메일 주소:"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Enlarge edit box"
 msgstr "편집 상자 확장"
 
@@ -1464,7 +1474,7 @@ msgstr ""
 msgid "Globe"
 msgstr "닫기"
 
-#: core/templates/foswiki.tmpl:139
+#: core/templates/foswiki.tmpl:130
 msgid "Go back"
 msgstr "돌아가기"
 
@@ -1507,7 +1517,7 @@ msgstr "그룹"
 msgid "Hello %1"
 msgstr "안녕하세요 %1"
 
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Hello %1!"
 msgstr "안녕하세요 %1!"
 
@@ -1672,6 +1682,12 @@ msgid ""
 "don't register an e-mail address using this form, then your user account "
 "could be hijacked by someone else."
 msgstr ""
+
+#. ("{x}", "{y}")
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+#, fuzzy
+msgid "Image %1 of %2"
+msgstr "%1 Web은 존재하지 않습니다."
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -1905,7 +1921,7 @@ msgid "More view options:"
 msgstr "더 많은 토픽 액션..."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:88
 msgid "More..."
 msgstr "더 보기..."
 
@@ -2078,7 +2094,7 @@ msgstr "토픽의 수:"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:137 core/templates/messages.tmpl:181
+#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:191 core/templates/messages.tmpl:198
 #: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:49
@@ -2312,9 +2328,13 @@ msgstr "새로고침"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "등록하기"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
+msgid "Registered e-mail addresses for currently logged in user"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2401,6 +2421,10 @@ msgstr "다음 Web의 이름 변경, 이동 혹은 삭제하기:"
 #: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
 msgstr "이름 변경/이동"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:54
+msgid "Render style:"
+msgstr ""
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2574,6 +2598,7 @@ msgstr ""
 msgid "Searched:"
 msgstr "검색 결과:"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr ""
@@ -2666,7 +2691,7 @@ msgstr ""
 msgid "Show help"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Shrink edit box"
 msgstr ""
 
@@ -2766,7 +2791,7 @@ msgstr ""
 msgid "Summaries"
 msgstr "요약"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Switch to monotype or propotional font"
 msgstr ""
 
@@ -3390,7 +3415,7 @@ msgstr "템플릿 보기"
 msgid "View topic"
 msgstr "토픽 보기"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:164
+#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "모든 토픽 내역 보기"
 
@@ -3883,7 +3908,7 @@ msgstr ""
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:168
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:37
@@ -4016,9 +4041,6 @@ msgstr "당신의 확인이 요청된 이유입니다."
 
 #~ msgid "&Edit text"
 #~ msgstr "본문 편집 (&E)"
-
-#~ msgid "Edit personal data"
-#~ msgstr "개인 정보 편집"
 
 #~ msgid "Edit text"
 #~ msgstr "본문 편집"

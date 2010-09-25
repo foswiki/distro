@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-21 17:05+0200\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -172,7 +172,7 @@ msgstr "%1 wurde durch %4 von %2 auf %3 umbenannt oder verschoben."
 msgid "&Cancel"
 msgstr "&Abbrechen"
 
-#: core/templates/foswiki.tmpl:164
+#: core/templates/foswiki.tmpl:155
 msgid "&History"
 msgstr "&Historie"
 
@@ -837,7 +837,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
+#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:49
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -864,6 +864,11 @@ msgstr "Groß-/Kleinschreibung beachten"
 #: PatternSkin/data/System/WebLeftBarExample.txt:35
 msgid "Categories"
 msgstr "Kategorien"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
+#, fuzzy
+msgid "Change E-mail Address"
+msgstr "E-Mail Adresse"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -977,7 +982,7 @@ msgstr ""
 "Möglichkeit die Querverweise zu ändern."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:458
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:92
 msgid "Close"
 msgstr "Schließen"
 
@@ -1117,6 +1122,10 @@ msgstr "Gruppe anlegen"
 #: core/data/System/FrequentlyAskedQuestions.txt:44
 msgid "Create new FAQ topic"
 msgstr "Neues FAQ-Topic anlegen"
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:6
+msgid "Create personal sidebar"
+msgstr "Persönliche Seitenleiste anlegen"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1388,7 +1397,7 @@ msgstr "E-Mail Adresse"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "E-Mail wurde für diese Foswiki-Installation deaktiviert"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Enlarge edit box"
 msgstr "Editier-Box vergrößern"
 
@@ -1557,7 +1566,7 @@ msgstr "Bei Änderungen bezüglich dieser Suche benachrichtigt werden"
 msgid "Globe"
 msgstr "Globus"
 
-#: core/templates/foswiki.tmpl:139
+#: core/templates/foswiki.tmpl:130
 msgid "Go back"
 msgstr "Zurück"
 
@@ -1603,7 +1612,7 @@ msgstr "Gruppen"
 msgid "Hello %1"
 msgstr "Hallo %1"
 
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Hello %1!"
 msgstr "Hallo %1!"
 
@@ -1799,6 +1808,12 @@ msgstr ""
 "Falls Sie ihr Benutzer-Topic nicht vor Änderungen von anderen Benutzern "
 "geschützt haben und Sie keine E-Mail Adresse mit diesem Formular "
 "registrieren, könnte Ihr Zugang von jemand anderem entführt werden."
+
+#. ("{x}", "{y}")
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+#, fuzzy
+msgid "Image %1 of %2"
+msgstr "Das %1 Web von %2"
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2034,7 +2049,7 @@ msgid "More view options:"
 msgstr "Weitere Ansichtsoptionen:"
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:88
 msgid "More..."
 msgstr "Mehr..."
 
@@ -2208,7 +2223,7 @@ msgstr "Anzahl der Topics: %1"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:137 core/templates/messages.tmpl:181
+#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:191 core/templates/messages.tmpl:198
 #: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:49
@@ -2454,9 +2469,13 @@ msgstr "Neu laden"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Registrieren"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
+msgid "Registered e-mail addresses for currently logged in user"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2541,6 +2560,10 @@ msgstr "Dieses Web umbenennen, verschieben oder löschen"
 #: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
 msgstr "Umbenennen/Verschieben"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:54
+msgid "Render style:"
+msgstr ""
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2712,6 +2735,7 @@ msgstr "Wo suchen:"
 msgid "Searched:"
 msgstr "Gesucht:"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "Sicherheitshinweis:"
@@ -2808,7 +2832,7 @@ msgstr "Anzeigen"
 msgid "Show help"
 msgstr "Hilfe anzeigen"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Shrink edit box"
 msgstr "Editier-Box verkleinern"
 
@@ -2861,7 +2885,8 @@ msgstr "Entschuldigung, die Registrierung wurde temporär abgeschaltet"
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:83
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:18
 msgid "Sorry, the password system is currently read only, please contact %1"
-msgstr "Das Passwortsystem ist z.Z. schreibgeschützt. Bitte kontaktieren Sie %1"
+msgstr ""
+"Das Passwortsystem ist z.Z. schreibgeschützt. Bitte kontaktieren Sie %1"
 
 #: core/data/System/WebSearch.txt:98
 msgid "Sort results by:"
@@ -2915,7 +2940,7 @@ msgstr "Nutzer wurden erfolgreich aus der Gruppe entfernt"
 msgid "Summaries"
 msgstr "Zusammenfassungen"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Switch to monotype or propotional font"
 msgstr "Zeichensatz in monotype oder proportional wechseln"
 
@@ -3616,7 +3641,7 @@ msgstr "Vorlagen anzeigen"
 msgid "View topic"
 msgstr "Topic ansehen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:164
+#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "Topic-Historie ansehen"
 
@@ -4185,7 +4210,7 @@ msgstr "nun %1"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:168
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:37
@@ -4668,9 +4693,6 @@ msgstr "warum Sie zur Bestätigung aufgefordert werden"
 
 #~ msgid "Create '%1'"
 #~ msgstr "'%1' A&nlegen"
-
-#~ msgid "Create personal sidebar"
-#~ msgstr "Persönliche Seitenleiste anlegen"
 
 #~ msgid "Did you spell the %1 correctly?"
 #~ msgstr "Haben Sie %1 richtig geschrieben?"

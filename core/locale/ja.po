@@ -175,7 +175,7 @@ msgstr "%1 は %3 に %4 で %2 から 移動します"
 msgid "&Cancel"
 msgstr "キャンセル"
 
-#: core/templates/foswiki.tmpl:164
+#: core/templates/foswiki.tmpl:155
 msgid "&History"
 msgstr "履歴"
 
@@ -837,7 +837,7 @@ msgstr " %1 のメールアドレスが確認できません(パスワードの�
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
+#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:49
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -864,6 +864,11 @@ msgstr "大文字と小文字を区別します"
 #: PatternSkin/data/System/WebLeftBarExample.txt:35
 msgid "Categories"
 msgstr "カテゴリー"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
+#, fuzzy
+msgid "Change E-mail Address"
+msgstr "メールアドレス："
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -971,7 +976,7 @@ msgstr ""
 "クリックしてトピックを以前の場所へ移動します（設定への変更も含めて）。 "
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:458
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:92
 msgid "Close"
 msgstr "閉じる"
 
@@ -1115,6 +1120,10 @@ msgstr "新トピックを作成します"
 #, fuzzy
 msgid "Create new FAQ topic"
 msgstr "新トピックを作成します"
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:6
+msgid "Create personal sidebar"
+msgstr "個人サイドバーを作成します"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1376,7 +1385,7 @@ msgstr "メールアドレス："
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Enlarge edit box"
 msgstr "編集枠を拡大します"
 
@@ -1545,7 +1554,7 @@ msgstr ""
 msgid "Globe"
 msgstr "閉じる"
 
-#: core/templates/foswiki.tmpl:139
+#: core/templates/foswiki.tmpl:130
 msgid "Go back"
 msgstr "戻る"
 
@@ -1589,7 +1598,7 @@ msgstr "グループ"
 msgid "Hello %1"
 msgstr "こんにちは %1"
 
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Hello %1!"
 msgstr "こんにちは %1"
 
@@ -1774,6 +1783,12 @@ msgstr ""
 "お使いのユーザートピックが他のユーザーからに編集されるのを禁止しない場合、ま"
 "た、このフォームでメールアドレスを登録していない場合は、お使いのアカウントが"
 "他の人に不正利用される可能性があります。"
+
+#. ("{x}", "{y}")
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+#, fuzzy
+msgid "Image %1 of %2"
+msgstr "%1ウェブは存在しません"
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2016,7 +2031,7 @@ msgid "More view options:"
 msgstr "もっと多くのトピックアクション"
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:88
 msgid "More..."
 msgstr "もっと多く…"
 
@@ -2190,7 +2205,7 @@ msgstr "トピック数:"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:137 core/templates/messages.tmpl:181
+#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:191 core/templates/messages.tmpl:198
 #: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:49
@@ -2437,9 +2452,13 @@ msgstr ""
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "登録"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
+msgid "Registered e-mail addresses for currently logged in user"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2528,6 +2547,10 @@ msgstr "このウェブをリネーム、移動、削除します:"
 #: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
 msgstr "リネーム/移動"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:54
+msgid "Render style:"
+msgstr ""
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2703,6 +2726,7 @@ msgstr "検索先:"
 msgid "Searched:"
 msgstr "検索結果:"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "安全上のご注意："
@@ -2799,7 +2823,7 @@ msgstr "ヘルプを表示します"
 msgid "Show help"
 msgstr "ヘルプを表示します"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Shrink edit box"
 msgstr "編集枠を縮小します"
 
@@ -2904,7 +2928,7 @@ msgstr ""
 msgid "Summaries"
 msgstr "概要"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Switch to monotype or propotional font"
 msgstr ""
 
@@ -3564,7 +3588,7 @@ msgstr "テンプレートを確認します"
 msgid "View topic"
 msgstr "トピックを確認します"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:164
+#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "トータルトピックヒストリーを確認します"
 
@@ -4097,7 +4121,7 @@ msgstr "現在 %1"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:168
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:37
@@ -4536,9 +4560,6 @@ msgstr ""
 
 #~ msgid "Create '%1'"
 #~ msgstr "作成 '%1'"
-
-#~ msgid "Create personal sidebar"
-#~ msgstr "個人サイドバーを作成します"
 
 #~ msgid "Did you spell the %1 correctly?"
 #~ msgstr "%1 のスペルは正しいですか？"

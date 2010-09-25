@@ -174,7 +174,7 @@ msgstr "%1 переміщена з %2 до %3 користувачем %4"
 msgid "&Cancel"
 msgstr "Відмінити"
 
-#: core/templates/foswiki.tmpl:164
+#: core/templates/foswiki.tmpl:155
 msgid "&History"
 msgstr "Історія"
 
@@ -844,7 +844,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
+#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:49
 msgid "Cancel"
 msgstr "Відміна"
 
@@ -871,6 +871,11 @@ msgstr "З урахуванням регістра"
 #: PatternSkin/data/System/WebLeftBarExample.txt:35
 msgid "Categories"
 msgstr "Категорії"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
+#, fuzzy
+msgid "Change E-mail Address"
+msgstr "Адреса електронної пошти:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -986,7 +991,7 @@ msgstr ""
 "посилань."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:458
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:92
 msgid "Close"
 msgstr "Закрити"
 
@@ -1131,6 +1136,10 @@ msgstr "Створити нову тему"
 #, fuzzy
 msgid "Create new FAQ topic"
 msgstr "Створити нову тему"
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:6
+msgid "Create personal sidebar"
+msgstr "Створити особисту панель"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1394,7 +1403,7 @@ msgstr "Адреса електронної пошти:"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Enlarge edit box"
 msgstr "Розширити область редагування"
 
@@ -1562,7 +1571,7 @@ msgstr ""
 msgid "Globe"
 msgstr "Закрити"
 
-#: core/templates/foswiki.tmpl:139
+#: core/templates/foswiki.tmpl:130
 msgid "Go back"
 msgstr "Повернутися"
 
@@ -1610,7 +1619,7 @@ msgstr "Групи"
 msgid "Hello %1"
 msgstr "Привіт %1"
 
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Hello %1!"
 msgstr "Привіт %1!"
 
@@ -1797,6 +1806,12 @@ msgstr ""
 "Якщо Ваша персональна сторінка не захищена від змін іншими людьми, і Ви не "
 "реєстрували адресу електронної пошти за допомогою цієї форми, то Ваш "
 "обліковий запис може бути зламаний будь-ким."
+
+#. ("{x}", "{y}")
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+#, fuzzy
+msgid "Image %1 of %2"
+msgstr "Розділ %1 не існує"
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2044,7 +2059,7 @@ msgid "More view options:"
 msgstr "Інші операції..."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:88
 msgid "More..."
 msgstr "Більше..."
 
@@ -2220,7 +2235,7 @@ msgstr "Кількість тем:"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:137 core/templates/messages.tmpl:181
+#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:191 core/templates/messages.tmpl:198
 #: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:49
@@ -2481,9 +2496,13 @@ msgstr "Поновити"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Реєструватися"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
+msgid "Registered e-mail addresses for currently logged in user"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2573,6 +2592,10 @@ msgstr "Перейменувати, перемістити або вилучит
 #: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
 msgstr "Перейменувати/перемістити"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:54
+msgid "Render style:"
+msgstr ""
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2749,6 +2772,7 @@ msgstr "Де шукати:"
 msgid "Searched:"
 msgstr "Знайдено:"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "Примітка по безпеці:"
@@ -2845,7 +2869,7 @@ msgstr "Показати підказку"
 msgid "Show help"
 msgstr "Показати підказку"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Shrink edit box"
 msgstr "Стиснути вікно редагування"
 
@@ -2952,7 +2976,7 @@ msgstr ""
 msgid "Summaries"
 msgstr "Виводи за наслідками пошуку"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Switch to monotype or propotional font"
 msgstr ""
 
@@ -3625,7 +3649,7 @@ msgstr "Проглянути шаблони"
 msgid "View topic"
 msgstr "Проглянути тему"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:164
+#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "Проглянути повну історію змін сторінки"
 
@@ -4171,7 +4195,7 @@ msgstr "зараз %1"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:168
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:37
@@ -4591,9 +4615,6 @@ msgstr ""
 
 #~ msgid "Create '%1'"
 #~ msgstr "Створити '%1'"
-
-#~ msgid "Create personal sidebar"
-#~ msgstr "Створити особисту панель"
 
 #~ msgid "Did you spell the %1 correctly?"
 #~ msgstr "Чи правильно Ви написали %1?"

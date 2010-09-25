@@ -160,7 +160,7 @@ msgstr ""
 msgid "&Cancel"
 msgstr ""
 
-#: core/templates/foswiki.tmpl:164
+#: core/templates/foswiki.tmpl:155
 msgid "&History"
 msgstr ""
 
@@ -756,7 +756,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
+#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:49
 msgid "Cancel"
 msgstr "İptal"
 
@@ -783,6 +783,11 @@ msgstr ""
 #: PatternSkin/data/System/WebLeftBarExample.txt:35
 msgid "Categories"
 msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
+#, fuzzy
+msgid "Change E-mail Address"
+msgstr "E-Posta adresi"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -888,7 +893,7 @@ msgid ""
 msgstr ""
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:458
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:92
 msgid "Close"
 msgstr "Kapat"
 
@@ -1020,6 +1025,11 @@ msgstr "Grup oluştur"
 #: core/data/System/FrequentlyAskedQuestions.txt:44
 msgid "Create new FAQ topic"
 msgstr "Yeni bir SSS konusu oluştur"
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:6
+#, fuzzy
+msgid "Create personal sidebar"
+msgstr "Kişisel Bilgilerinizi Düzenleyin"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1266,7 +1276,7 @@ msgstr "E-Posta adresi"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Enlarge edit box"
 msgstr ""
 
@@ -1424,7 +1434,7 @@ msgstr ""
 msgid "Globe"
 msgstr ""
 
-#: core/templates/foswiki.tmpl:139
+#: core/templates/foswiki.tmpl:130
 msgid "Go back"
 msgstr ""
 
@@ -1465,7 +1475,7 @@ msgstr "Gruplar"
 msgid "Hello %1"
 msgstr "Merhaba %1"
 
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Hello %1!"
 msgstr "Merhaba %1!"
 
@@ -1630,6 +1640,11 @@ msgid ""
 "If your user topic is not protected from changes by other people, and you "
 "don't register an e-mail address using this form, then your user account "
 "could be hijacked by someone else."
+msgstr ""
+
+#. ("{x}", "{y}")
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+msgid "Image %1 of %2"
 msgstr ""
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
@@ -1855,7 +1870,7 @@ msgid "More view options:"
 msgstr ""
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:88
 msgid "More..."
 msgstr ""
 
@@ -2024,7 +2039,7 @@ msgstr ""
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:137 core/templates/messages.tmpl:181
+#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:191 core/templates/messages.tmpl:198
 #: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:49
@@ -2260,9 +2275,13 @@ msgstr "Yenile"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Kayıt Ol"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
+msgid "Registered e-mail addresses for currently logged in user"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2344,6 +2363,10 @@ msgstr ""
 #: core/templates/rename.tmpl:21 core/templates/renameconfirm.tmpl:33
 #: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:54
+msgid "Render style:"
 msgstr ""
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
@@ -2510,6 +2533,7 @@ msgstr "Arama yapılacak yerler:"
 msgid "Searched:"
 msgstr "Aranan Kelime/ler:"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr ""
@@ -2601,7 +2625,7 @@ msgstr ""
 msgid "Show help"
 msgstr "Yardımı Gizle"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Shrink edit box"
 msgstr ""
 
@@ -2703,7 +2727,7 @@ msgstr ""
 msgid "Summaries"
 msgstr ""
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Switch to monotype or propotional font"
 msgstr ""
 
@@ -3325,7 +3349,7 @@ msgstr ""
 msgid "View topic"
 msgstr "Konuyu Görüntüle"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:164
+#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr ""
 
@@ -3810,7 +3834,7 @@ msgstr ""
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:168
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:37
@@ -3936,9 +3960,6 @@ msgstr ""
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr ""
-
-#~ msgid "Edit personal data"
-#~ msgstr "Kişisel Bilgilerinizi Düzenleyin"
 
 #~ msgid "Edit text"
 #~ msgstr "Metni düzenle"

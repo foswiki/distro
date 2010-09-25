@@ -11,10 +11,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-23 01:18+0200\n"
 "Last-Translator: Rui Procopio <rui.procopio@gmail.com>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
-"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -165,7 +165,7 @@ msgstr "%1 foi renomeado ou movido de %2 para %3 por %4"
 msgid "&Cancel"
 msgstr "&Cancelar"
 
-#: core/templates/foswiki.tmpl:164
+#: core/templates/foswiki.tmpl:155
 msgid "&History"
 msgstr "&Histórico"
 
@@ -375,8 +375,8 @@ msgid ""
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
 "*Propriedades:* o comentário e a visibilidade (i.e. se o anexo será mostrado "
-"ou não) podem ser alterados sem a necessidade de anexar o arquivo "
-"novamente. Para mudar apenas isso clique em \"Apenas Alterar Propriedades\""
+"ou não) podem ser alterados sem a necessidade de anexar o arquivo novamente. "
+"Para mudar apenas isso clique em \"Apenas Alterar Propriedades\""
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -500,8 +500,8 @@ msgstr ""
 #: core/data/Sandbox/WebHome.txt:32
 msgid "A more extensive changes list is available via [[%1][Recent changes]]."
 msgstr ""
-"Uma lista de alterações mais detalhada está disponível através de [[%"
-"1][Alterações Recentes]]."
+"Uma lista de alterações mais detalhada está disponível através de [[%1]"
+"[Alterações Recentes]]."
 
 #: core/templates/messages.tmpl:559
 msgid ""
@@ -839,7 +839,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
+#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:49
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -866,6 +866,11 @@ msgstr "Diferenciar maiúsculas e minúsculas"
 #: PatternSkin/data/System/WebLeftBarExample.txt:35
 msgid "Categories"
 msgstr "Categorias"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
+#, fuzzy
+msgid "Change E-mail Address"
+msgstr "Endereço de e-mail:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -976,7 +981,7 @@ msgstr ""
 "de mudar as referências."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:458
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:92
 msgid "Close"
 msgstr "Ocultar"
 
@@ -1118,6 +1123,11 @@ msgstr "Criar um grupo"
 #, fuzzy
 msgid "Create new FAQ topic"
 msgstr "Criar Novo Tópico"
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:6
+#, fuzzy
+msgid "Create personal sidebar"
+msgstr "Editar dados pessoais"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1382,7 +1392,7 @@ msgstr "Endereço de e-mail:"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "O envio de e-mail foi desativado para essa instalação do Foswiki"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Enlarge edit box"
 msgstr "Caixa de edição ampliada"
 
@@ -1550,7 +1560,7 @@ msgstr "Receba notificações de alterações no resultado dessa busca"
 msgid "Globe"
 msgstr "Ocultar"
 
-#: core/templates/foswiki.tmpl:139
+#: core/templates/foswiki.tmpl:130
 msgid "Go back"
 msgstr "Voltar"
 
@@ -1595,7 +1605,7 @@ msgstr "Grupos"
 msgid "Hello %1"
 msgstr "Olá %1"
 
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Hello %1!"
 msgstr "Olá %1!"
 
@@ -1790,6 +1800,12 @@ msgstr ""
 "Se sua página de usuário não é protegida contra alterações por outros "
 "usuários e você não cadastrou um e-mail usando esse formulário, sua conta de "
 "usuário pode ser alterada por qualquer pessoa."
+
+#. ("{x}", "{y}")
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+#, fuzzy
+msgid "Image %1 of %2"
+msgstr "A web %1 não existe"
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2031,7 +2047,7 @@ msgid "More view options:"
 msgstr "Mais ações de tópico..."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:88
 msgid "More..."
 msgstr "Mais..."
 
@@ -2205,7 +2221,7 @@ msgstr "Número de tópicos:"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:137 core/templates/messages.tmpl:181
+#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:191 core/templates/messages.tmpl:198
 #: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:49
@@ -2457,9 +2473,13 @@ msgstr "Atualizar"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Registro"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
+msgid "Registered e-mail addresses for currently logged in user"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2548,6 +2568,10 @@ msgstr "Renomear, mover ou remover essa web:"
 #: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
 msgstr "Renomear/Mover"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:54
+msgid "Render style:"
+msgstr ""
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2721,6 +2745,7 @@ msgstr "Buscar em:"
 msgid "Searched:"
 msgstr "Busca:"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "Aviso de Segurança:"
@@ -2816,7 +2841,7 @@ msgstr "Exibir ajuda"
 msgid "Show help"
 msgstr "Exibir ajuda"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Shrink edit box"
 msgstr "Caixa de edição reduzida"
 
@@ -2924,7 +2949,7 @@ msgstr ""
 msgid "Summaries"
 msgstr "Resumos"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Switch to monotype or propotional font"
 msgstr "Trocar para fonte monoespaçada ou proporcional"
 
@@ -3605,7 +3630,7 @@ msgstr "Ver modelos"
 msgid "View topic"
 msgstr "Visualizar tópico"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:164
+#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "Ver histórico completo do tópico"
 
@@ -4157,7 +4182,7 @@ msgstr "agora %1"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:168
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:37
@@ -4297,9 +4322,6 @@ msgstr "Porque pedimos a confirmação"
 
 #~ msgid "&Edit text"
 #~ msgstr "&Editar texto"
-
-#~ msgid "Edit personal data"
-#~ msgstr "Editar dados pessoais"
 
 #~ msgid "Edit text"
 #~ msgstr "Editar texto"

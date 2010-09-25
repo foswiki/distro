@@ -12,10 +12,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-20 20:10+0200\n"
 "Last-Translator: Arthur Clemens <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
-"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -168,7 +168,7 @@ msgstr "%1 is door %4 hernoemd of verplaatst van %2 in %3"
 msgid "&Cancel"
 msgstr "&Afbreken"
 
-#: core/templates/foswiki.tmpl:164
+#: core/templates/foswiki.tmpl:155
 msgid "&History"
 msgstr "&Geschiedenis"
 
@@ -828,7 +828,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
+#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:49
 msgid "Cancel"
 msgstr "Afbreken"
 
@@ -855,6 +855,11 @@ msgstr "Hoofdlettergevoelig"
 #: PatternSkin/data/System/WebLeftBarExample.txt:35
 msgid "Categories"
 msgstr "Categorie&&euml;n"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
+#, fuzzy
+msgid "Change E-mail Address"
+msgstr "E-mailadres"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -967,7 +972,7 @@ msgstr ""
 "verwijzigen te wijzigen."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:458
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:92
 msgid "Close"
 msgstr "Sluiten"
 
@@ -1106,6 +1111,11 @@ msgstr "Groep aanmaken"
 #: core/data/System/FrequentlyAskedQuestions.txt:44
 msgid "Create new FAQ topic"
 msgstr "Nieuwe FAQ-pagina aanmaken"
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:6
+#, fuzzy
+msgid "Create personal sidebar"
+msgstr "Bewerk persoonlijke gegevens"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1367,7 +1377,7 @@ msgstr "E-mailadres"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "E-mail is gedeactiveerd voor deze Foswiki installatie"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Enlarge edit box"
 msgstr "Tekstvak vergroten"
 
@@ -1534,7 +1544,7 @@ msgstr "Abonneer je op wijzigingen op deze zoekvraag"
 msgid "Globe"
 msgstr "Wereld"
 
-#: core/templates/foswiki.tmpl:139
+#: core/templates/foswiki.tmpl:130
 msgid "Go back"
 msgstr "Terug"
 
@@ -1580,7 +1590,7 @@ msgstr "Groepen"
 msgid "Hello %1"
 msgstr "Hallo %1"
 
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Hello %1!"
 msgstr "Hallo %1!"
 
@@ -1772,6 +1782,12 @@ msgstr ""
 "Als je persoonlijke pagina niet is beschermd (en andere gebruikers deze dus "
 "kunnen veranderen), en als je je e-mailadres niet registreert met dit "
 "formulier, zou je gebruikersaccount gekaapt kunnen worden door iemand anders."
+
+#. ("{x}", "{y}")
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+#, fuzzy
+msgid "Image %1 of %2"
+msgstr "Het %1 web van %2."
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2011,7 +2027,7 @@ msgid "More view options:"
 msgstr "Meer weergave opties:"
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:88
 msgid "More..."
 msgstr "Meer..."
 
@@ -2185,7 +2201,7 @@ msgstr "Aantal pagina&#39;s: %1"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:137 core/templates/messages.tmpl:181
+#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:191 core/templates/messages.tmpl:198
 #: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:49
@@ -2427,9 +2443,13 @@ msgstr "Verversen"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Aanmelden"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
+msgid "Registered e-mail addresses for currently logged in user"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2514,6 +2534,10 @@ msgstr "Hernoem, verplaats of verwijder dit web"
 #: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
 msgstr "Hernoem/Verplaats"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:54
+msgid "Render style:"
+msgstr ""
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2683,6 +2707,7 @@ msgstr "Waar zoeken:"
 msgid "Searched:"
 msgstr "Gezocht:"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "Veiligheidsopmerking:"
@@ -2777,7 +2802,7 @@ msgstr "Tonen"
 msgid "Show help"
 msgstr "Toon hulp"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Shrink edit box"
 msgstr "Tekstvak verkleinen"
 
@@ -2884,7 +2909,7 @@ msgstr "Met succes gebruikers verwijderd van groep"
 msgid "Summaries"
 msgstr "Samenvattingen"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Switch to monotype or propotional font"
 msgstr "Wissel tussen vaste or proportionele tekenbreedte"
 
@@ -3190,8 +3215,7 @@ msgstr ""
 "Gebruik dit formulier om je geregistreerde e-mailadres te wijzigen. Je "
 "geregistreerde e-mailadressen worden gebruikt door Foswiki voor het "
 "versturen van e-mails over wachtwoordwijzigingen. De adressen die je hier "
-"registreert worden geheimgehouden en worden *niet* gepubliceerd op deze "
-"site."
+"registreert worden geheimgehouden en worden *niet* gepubliceerd op deze site."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
@@ -3579,7 +3603,7 @@ msgstr "Bekijk templates"
 msgid "View topic"
 msgstr "Bekijk pagina"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:164
+#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "Bekijk totale paginageschiedenis"
 
@@ -4133,7 +4157,7 @@ msgstr "nu %1"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:168
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:37
@@ -4272,9 +4296,6 @@ msgstr "waarom wordt mij om een bevestiging gevraagd"
 
 #~ msgid "&Edit text"
 #~ msgstr "Tekst b&ewerken"
-
-#~ msgid "Edit personal data"
-#~ msgstr "Bewerk persoonlijke gegevens"
 
 #~ msgid "Edit text"
 #~ msgstr "Bewerk tekst"

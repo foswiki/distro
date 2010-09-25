@@ -172,7 +172,7 @@ msgstr "%1 reubicado de %2 el %3 por %4"
 msgid "&Cancel"
 msgstr "&Cancelar"
 
-#: core/templates/foswiki.tmpl:164
+#: core/templates/foswiki.tmpl:155
 msgid "&History"
 msgstr "&Historial"
 
@@ -849,7 +849,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/foswiki.tmpl:135 core/templates/validate.tmpl:49
+#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:49
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -876,6 +876,11 @@ msgstr "Sensible a mayúsculas y minúsculas"
 #: PatternSkin/data/System/WebLeftBarExample.txt:35
 msgid "Categories"
 msgstr "Categorías"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
+#, fuzzy
+msgid "Change E-mail Address"
+msgstr "Dirección de correo electrónico:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -986,7 +991,7 @@ msgstr ""
 "opción de cambiar referencias."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:458
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:97
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:92
 msgid "Close"
 msgstr "Cerrar"
 
@@ -1132,6 +1137,10 @@ msgstr "Crear tema nuevo"
 #, fuzzy
 msgid "Create new FAQ topic"
 msgstr "Crear tema nuevo"
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:6
+msgid "Create personal sidebar"
+msgstr "Crear una recuadro adicional personal"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1397,7 +1406,7 @@ msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 "El correo electrónico fue deshabilitado para esta instalación de Foswiki"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Enlarge edit box"
 msgstr "Ampliar caja de edición"
 
@@ -1566,7 +1575,7 @@ msgstr "Reciba notificaciones sobre cambios de esta búsqueda"
 msgid "Globe"
 msgstr "Cerrar"
 
-#: core/templates/foswiki.tmpl:139
+#: core/templates/foswiki.tmpl:130
 msgid "Go back"
 msgstr "Regresar"
 
@@ -1612,7 +1621,7 @@ msgstr "Grupos"
 msgid "Hello %1"
 msgstr "Hola %1"
 
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Hello %1!"
 msgstr "Hola %1!"
 
@@ -1806,6 +1815,12 @@ msgstr ""
 "Si su página de usuario no está protegida contra cambios por otras personas "
 "y usted no registró un correo electrónico utilizando este formulario, "
 "entonces su cuenta de usuario podría ser utilizada por alguien más."
+
+#. ("{x}", "{y}")
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+#, fuzzy
+msgid "Image %1 of %2"
+msgstr "La web %1 no existe"
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2050,7 +2065,7 @@ msgid "More view options:"
 msgstr "&Más acciones para la página"
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:88
 msgid "More..."
 msgstr "Más..."
 
@@ -2224,7 +2239,7 @@ msgstr "Número de temas:"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:137 core/templates/messages.tmpl:181
+#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:181
 #: core/templates/messages.tmpl:191 core/templates/messages.tmpl:198
 #: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:49
@@ -2475,9 +2490,13 @@ msgstr "Recargar"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
-#: core/templates/foswiki.tmpl:168
+#: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Registrarse"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
+msgid "Registered e-mail addresses for currently logged in user"
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2566,6 +2585,10 @@ msgstr "Renombrar, mover o borrar esta web:"
 #: core/templates/renameweb.tmpl:32
 msgid "Rename/Move"
 msgstr "Renombrar/Mover"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:54
+msgid "Render style:"
+msgstr ""
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2740,6 +2763,7 @@ msgstr "Buscar donde:"
 msgid "Searched:"
 msgstr "Buscado:"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "Aviso de seguridad:"
@@ -2835,7 +2859,7 @@ msgstr "Mostrar ayuda"
 msgid "Show help"
 msgstr "Mostrar ayuda"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Shrink edit box"
 msgstr "Empequeñecer campo de edición"
 
@@ -2942,7 +2966,7 @@ msgstr ""
 msgid "Summaries"
 msgstr "Resúmenes"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:79
+#: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Switch to monotype or propotional font"
 msgstr "Cambiar a monotipo o tipo de letra proporcional"
 
@@ -3628,7 +3652,7 @@ msgstr "Ver plantillas"
 msgid "View topic"
 msgstr "Ver tema"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:164
+#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "Ver historial total del tema"
 
@@ -4184,7 +4208,7 @@ msgstr "ahora %1"
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:168
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:37
@@ -4669,9 +4693,6 @@ msgstr ""
 
 #~ msgid "Create '%1'"
 #~ msgstr "Crear '%1'"
-
-#~ msgid "Create personal sidebar"
-#~ msgstr "Crear una recuadro adicional personal"
 
 #~ msgid "Did you spell the %1 correctly?"
 #~ msgstr "¿Deletreó la %1 correctamente?"
