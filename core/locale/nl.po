@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-20 20:10+0200\n"
+"PO-Revision-Date: 2010-09-25 22:15+0200\n"
 "Last-Translator: Arthur Clemens <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -153,7 +153,7 @@ msgstr "%1 om te beginnen in het nieuwe web"
 
 #: core/templates/messages.tmpl:600 core/templates/messages.tmpl:611
 msgid "%1 topic does not exist"
-msgstr "pagina %1 bestaat niet"
+msgstr "Pagina %1 bestaat niet"
 
 #: core/templates/registerfailedremoved.tmpl:10
 msgid "%1 tried to register with e-mail %2"
@@ -190,7 +190,7 @@ msgstr "(inloggen op %1)"
 
 #: core/templates/validate.tmpl:6
 msgid "(%1 validation)"
-msgstr "(%1 validatie)"
+msgstr "(%1 bevestiging)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:3 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
@@ -214,7 +214,7 @@ msgstr "(toegang geweigerd)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:8 core/templates/attachnew.tmpl:2
 msgid "(attach)"
-msgstr "(Bijlage bijvoegen)"
+msgstr "(bijlage bijvoegen)"
 
 #: core/templates/backlinksweb.tmpl:2
 msgid "(backlinks in %1 Web)"
@@ -459,8 +459,8 @@ msgstr ""
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
-"Een <code>.txt</code>-extensie is om veiligheidsredenen aan enkele "
-"bestandsnamen toegevoegd"
+"Een =.txt= extensie is om veiligheidsredenen aan enkele bestandsnamen "
+"toegevoegd"
 
 #: core/templates/messages.tmpl:583
 msgid ""
@@ -857,9 +857,8 @@ msgid "Categories"
 msgstr "Categorie&&euml;n"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
-#, fuzzy
 msgid "Change E-mail Address"
-msgstr "E-mailadres"
+msgstr "Wijzig e-mailadres"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -1113,9 +1112,8 @@ msgid "Create new FAQ topic"
 msgstr "Nieuwe FAQ-pagina aanmaken"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
-#, fuzzy
 msgid "Create personal sidebar"
-msgstr "Bewerk persoonlijke gegevens"
+msgstr "Persoonlijke navigatie aanmaken"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1304,7 +1302,7 @@ msgstr "EXPAND mislukt - geen macro"
 
 #: core/templates/messages.tmpl:636
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr "EXPAND mislukt - pagina '%PARAM!%' bestaat niet"
+msgstr "EXPAND mislukt - pagina '%PARAM1%' bestaat niet"
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
@@ -1366,8 +1364,8 @@ msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
 msgstr ""
-"Je hebt geen bestandsnaam aangegeven, of het bestand dat je wil uploaden is "
-"leeg. Je kunt geen leeg bestand uploaden."
+"Je hebt geen bestandsnaam aangegeven, of het bestand %1 dat je wil uploaden "
+"is leeg. Je kunt geen leeg bestand uploaden."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:159
 msgid "Email address"
@@ -1785,9 +1783,8 @@ msgstr ""
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
-#, fuzzy
 msgid "Image %1 of %2"
-msgstr "Het %1 web van %2."
+msgstr "Afbeelding %1 van %2"
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2449,7 +2446,7 @@ msgstr "Aanmelden"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
 msgid "Registered e-mail addresses for currently logged in user"
-msgstr ""
+msgstr "Geregistreerde e-mailadressen van huidige ingelogde gebruiker"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2537,7 +2534,7 @@ msgstr "Hernoem/Verplaats"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:54
 msgid "Render style:"
-msgstr ""
+msgstr "Weergavestijl:"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -3136,7 +3133,7 @@ msgstr "Het nieuwe web is aangemaakt"
 #: core/templates/messages.tmpl:106
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr ""
-"Het wachtwoord dat je hebt ingevoerd in het *oude wachtwoord*-veld is "
+"Het wachtwoord dat je hebt ingevoerd in het *oude wachtwoord* veld is "
 "onjuist."
 
 #: core/templates/messages.tmpl:335
