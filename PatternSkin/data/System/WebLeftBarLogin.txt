@@ -3,5 +3,5 @@
 %STARTINCLUDE%<div class="patternLeftBarPersonal">
 %IF{"context authenticated" then='%MAKETEXT{"Hello [_1]" args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]"}%'}%%IF{"$ LOGOUT != ''" then='%BR%<ul><li class="patternLogOut">%LOGOUT%</li></ul>'}%%IF{"$ LOGIN != '' and not context authenticated" then='<ul><li class="patternLogIn">%LOGIN% %IF{"context registration_supported AND context registration_enabled" then="%MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]"}%</li></ul>'}%
 %IF{"'%USERNAME%'!='guest'" then="<div class=\"patternLeftBarPersonalContent\">
-$percentINCLUDE{$quot$percentUSERSWEB$percent.$percentWIKINAME$percentLeftBar$quot warn=$quot<ul><li><a href='%SCRIPTURLPATH{edit}%/%USERSWEB%/%WIKINAME%LeftBar?templatetopic=%SYSTEMWEB%.WebLeftBarPersonalTemplate&amp;topicparent=%WIKINAME%'>%MAKETEXT{Create personal sidebar}%</a></li></ul>$quot }$percent
+$percentINCLUDE{$quot$percentUSERSWEB$percent.$percentWIKINAME$percentLeftBar$quot warn=$quot<ul><li><a href='%SCRIPTURLPATH{edit}%/%USERSWEB%/%WIKINAME%LeftBar?templatetopic=%SYSTEMWEB%.WebLeftBarPersonalTemplate&amp;topicparent=%WIKINAME%'>%MAKETEXT{"Create personal sidebar"}%</a></li></ul>$quot }$percent
 </div>"}%</div>
