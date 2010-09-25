@@ -40,7 +40,7 @@ Format tokens that can be used in the footer string:
 | =$ntopics= | Number of topics found in current web |
 | =$nhits= | Number of hits if =multiple="on"=. Cumulative across all topics in current web. Identical to =$ntopics= unless =multiple="on"= |
 | =$pager= | pager control - can be optionally customised using the =pagerformat= below |
-%INCLUDE{FormatTokens}%
+%INCLUDE{"FormatTokens"}%
 
 <blockquote class="foswikiHelp">%X% Note that if the separator parameter for SEARCH is not defined a newline is added after the last search result.</blockquote>
 
@@ -63,7 +63,7 @@ Format tokens that can be used in the pagerformat string:
 | =$nexturl= | full URL to the previous page - _IF_ using the built in pager system |
 | =$previousbutton= | skin template (SEARCH:pager_previous) html for the full URL to the previous page - _IF_ using the built in pager system |
 | =$nextbutton= | skin template (SEARCH:pager_next) html for the full URL to the previous page - _IF_ using the built in pager system |
-%INCLUDE{FormatTokens}%
+%INCLUDE{"FormatTokens"}%
 
 ---+++ 4. =format="..."= parameter
 
@@ -112,7 +112,7 @@ Format tokens that can be used in the format string:
 | =$ntopics= | Number of topics found in current web. This is the current topic count, not the total number of topics |
 | =$nhits= | Number of hits if =multiple="on"=. Cumulative across all topics in current web. Identical to =$ntopics= unless =multiple="on"= |
 | =$pager= | pager control - can be optionally customised using the =pagerformat= below |
-%INCLUDE{FormatTokens}%
+%INCLUDE{"FormatTokens"}%
 
 ---++ Examples
 
@@ -186,10 +186,26 @@ The following example makes use of the =$pattern()= token to extract the first l
 
 #NestedSearch
 ---+++ Nested Search
+[[VarSEARCH][SEARCH]] is one of many [[Macros][macros]] that produce output which may be controlled with =format=, =header= and =footer= parameters, among others. To make use of _additional_ macros in the output, familiarity with [[#InsideOutLeftToRight][inside-out, left-to-right]] order of expansion rules is required. There are two forms:
+   1 Standard: Use =%<nop>INNERMACRO%= to build the parameter string *before* =%<nop>OUTERMACRO%= is expanded
+   <verbatim class="tml"> %OUTERMACRO{
+   format="%INNERMACRO%"
+ }%</verbatim>
+   1 Delayed: Use the parameter string to incorporate =%<nop>INNERMACRO%= into the output of =%<nop>OUTERMACRO%=
+   <verbatim class="tml"> %OUTERMACRO{
+   format="$percentINNERMACRO$percent"
+ }%</verbatim>
+ <blockquote class="foswikiHelp">%T% When working with a given [[Macros][macro]], consult its documentation to determine which paramters support the =$percent/$percnt= [[FormatTokens][format tokens]]</blockquote>
 
-[[VarSEARCH][SEARCH]], as with many TML macros, may be nested. For example: search for some topics in an initial (outer) search, and for each of them apply a second (inner) search. The idea is to use the outer search to build a series of inner seraches.
+%INCLUDE{"Macros"
+  section="insideoutlefttoright"
+  THETOPIC="%SYSTEMWEB%.FAQWhatIsWikiWiki"
+  THEFIELD="TopicClassification"
+  PARENT="UserDocumentationCategory"
+}%
 
-%INCLUDE{"Macros" section="insideoutlefttoright" THETOPIC="%SYSTEMWEB%.FAQWhatIsWikiWiki" THEFIELD="TopicClassification"}%
+---++++ Worked example
+*Problem:* search for some topics in an initial (outer) search, and for each of them apply a second (inner) search. The idea is to use the outer search to build a series of inner seraches.
 
 #NestedSearchExample
 Consider the following example. Let's search for all topics that contain the word "culture" (outer search), and find out where each topic found is linked from (inner search).
@@ -215,7 +231,7 @@ For each hit, we want this search:
 
 Now let's nest the two.
 #NestingWithEscapes
----++++ Method 1 (nesting with escapes)
+---+++++ Method 1 (nesting with escapes)
 The inner search cannot be placed directly into the format string of the outer, because of the "inside-out, left-to-right" macro expansion behaviour [[#InsideOutLeftToRight][discussed earlier]]. It must be delayed so that the outer search is evaluated first. To do this, we need to escape the inner search, i.e. let the outer search build a series of searches comprised of the inner search.
    * Use =$percent= to escape (delay) the inner search's [[VarSEARCH][SEARCH]] macro
    * Use =\"= to escape the double quotes
@@ -253,11 +269,15 @@ The inner search cannot be placed directly into the format string of the outer, 
       }$percent"
 }%
 
-#NestedSectionalInclude
----++++ Method 2 (nesting with sectional includes)
-Nested expressions can be difficult to write correctly, and are difficult to troubleshoot when they go wrong.
+<blockquote class="foswikiHelp">
+%X% When nesting with escapes, each new nesting level must "escape the escapes", e.g. write =$dollarpercentSEARCH{= for level three, =$dollardollarpercentSEARCH{= for level four, etc.
+</blockquote>
 
-The recommended approach is to make use of the [[VarSTARTSECTION][STARTSECTION]]/[[VarENDSECTION][ENDSECTION]] feature of the [[VarINCLUDE][INCLUDE]] macro. Instead of nesting the inner search expression directly inside the format string of the outer, the inner search is written as a separate stand-alone section of a topic which is INCLUDEd into the format string of the outer.
+#NestedSectionalInclude
+---+++++ Method 2 (nesting with sectional includes)
+Nested expressions with delayed macros can be difficult to write: care must be taken to escape all the quotes of the inner delayed macro, and it may become confusing whether to use =$topic=, =$dollartopic= or =$dollardollartopic=.
+
+If you find yourself using escaped tokens like =$dollartopic=, another approach is to use the [[VarSTARTSECTION][STARTSECTION]]/[[VarENDSECTION][ENDSECTION]] feature of [[VarINCLUDE][INCLUDE]]. Instead of nesting the inner search expression directly inside the format string of the outer, the inner search is written as a separate stand-alone section of a topic which is INCLUDEd into the format string of the outer.
 
 *Write this:*
 <verbatim class="tml">
@@ -287,11 +307,7 @@ The recommended approach is to make use of the [[VarSTARTSECTION][STARTSECTION]]
 
 <blockquote class="foswikiHelp">%H% Output will be the same as for the first method
 
-%X% Nested search can be slow, especially if you nest more than 3 levels deep. Nesting is limited to 16 levels.
-
-When nesting with escapes, each new nesting level must "escape the escapes", e.g. write =$dollarpercentSEARCH{= for level three, =$dollardollarpercentSEARCH{= for level four, etc.
-
-Therefore the sectional include method is strongly recommended to avoid this kind of difficult syntax.</blockquote>
+%X% Nested search can be slow, especially if you nest more than 3 levels deep. Nesting is limited to 16 levels.</blockquote>
 
 ---+++ Most recently changed pages
 
@@ -318,6 +334,7 @@ Therefore the sectional include method is strongly recommended to avoid this kin
    format="| [[$topic]] | $wikiusername  | $date |"
 }%
 
+#ConditionalOutputExample
 ---+++ Search with conditional output
 
 Sometimes it may be desirable for each hit to be displayed differently depending on some criteria. For example, maybe you want to list 20 topics modified in 2009, but decorate the hits which are children of UserDocumentationCategory with an %ICON{"info"}% icon.
@@ -340,8 +357,8 @@ Sometimes it may be desirable for each hit to be displayed differently depending
 }%</verbatim>
 <blockquote class="foswikiHelp">
 %ICON{"info"}% *Details:*
-   * The SEARCH has a deferred [[VarICON][ICON]]. The =$percent= ensures that ICON is evaluated once for each search hit
-   * The [[VarICON][ICON]] contains an [[VarIF][IF]], which again is deferred with the =$percent= token and will also be evaluated for each SEARCH hit. Additionally, the "inside-out, left-to-right" rule discussed earlier means that this IF expression will be evaluated before [[VarICON][ICON]].
+   * The SEARCH has a delayed [[VarICON][ICON]]. The =$percent= ensures that ICON is evaluated once for each search hit
+   * The [[VarICON][ICON]] contains an [[VarIF][IF]], which again is delayed with the =$percent= token and will also be evaluated for each SEARCH hit. Additionally, the [[#InsideOutLeftToRight][inside-out, left-to-right]] rule discussed earlier means that this IF expression will be evaluated before [[VarICON][ICON]].
    * If =$topic= is a child of UserDocumentationCategory, the =info= icon is used; otherwise, =gear=.
 </blockquote>
 *To get this:*
@@ -365,7 +382,7 @@ Use an HTML form and an embedded formatted search on the same topic. You can lin
 *Write this:*
 <verbatim class="tml">
 <form action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%">
-Find Topics: 
+Find Topics:
 <input type="text" name="q" size="32"\
   value="%URLPARAM{"q" encode="entity"}%" />&nbsp;<input\
   type="submit" class="foswikiSubmit" value="Search" />

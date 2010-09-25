@@ -24,8 +24,8 @@
    * Examples <pre class="tml">
    %<nop>ENCODE{"spaced name"}%= expands to
       %ENCODE{"spaced name"}%
-   %<nop>ENCODE{"| Blah | | More blah |" old="|,$n" new="&vbar;,&lt;br /&gt;"}% expands to
-      %ENCODE{"| Blah | | More blah |" old="|,$n" new="&vbar;,<br />"}%
+   %<nop>ENCODE{"| Blah | | More blah |" old="|,$n" new="&amp;#124;,&lt;br /&gt;"}% expands to
+      %ENCODE{"| Blah | | More blah |" old="|,$n" new="&#124;,<br />"}%
       - this encoding is useful to protect special TML characters in tables.
    %<nop>ENCODE{"10xx1x01x" old="1,x,0" new="A,,B"}% expands to
       %ENCODE{"10xx1x01x" old="1,x,0" new="A,,B"}%
