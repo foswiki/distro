@@ -2623,7 +2623,7 @@ sub attach {
         $attrs->{version} = $fileVersion;
         $attrs->{path}    = $opts{filepath} if ( defined( $opts{filepath} ) );
         $attrs->{size}    = $opts{filesize} if ( defined( $opts{filesize} ) );
-        $attrs->{date}    = $opts{filedate} if ( defined( $opts{filedate} ) );
+        $attrs->{date}    = defined $opts{filedate} ? $opts{filedate} : time();
 
         if ( $plugins->haveHandlerFor('afterAttachmentSaveHandler') ) {
             # *Deprecated* handler
