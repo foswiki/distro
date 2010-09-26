@@ -13,7 +13,7 @@ This is a maintenance topic, used by the Wiki administrator.
 | <nop>OrganisationName | text | 40 | | | |
 | <nop>OrganisationURL | text | 40 | | | |
 | Profession | text | 40 | | | |
-| [[%SYSTEMWEB%.CountryList][Country]] | select | 1 | | | |
+| [[System.CountryList][Country]] | select | 1 | | | |
 | State | text | 40 | | | |
 | Address | text | 40 | | | |
 | Location | text | 40 | | | |
