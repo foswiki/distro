@@ -1366,7 +1366,8 @@ sub verify_topic_meta_usermapping {
     $readMeta->attach(
         name    => "testfile.gif",
         file    => "$Foswiki::cfg{TempfileDir}/testfile.gif",
-        comment => "a comment"
+        comment => "a comment",
+        filedate => 1262347200, # 01 Jan 2010 12:00
     );
     $readMeta = Foswiki::Meta->load( $this->{session}, $web, $topic );
 
@@ -1383,10 +1384,9 @@ sub verify_topic_meta_usermapping {
 
     #Task:Item6000
     $metainfo =~ s/^.*?(\|.*\|).*?$/$1/s;
-    $metainfo =~ s/(01 Jan 1970\s*-\s*)[-\d+:]*/${1}TIME/g;
     $this->assert_html_equals( <<HERE, $metainfo );
 | *I* | *Attachment* | *Action* | *Size* | *Date* | *Who* | *Comment* |
-| <span class=foswikiIcon><img width="16" alt="testfile.gif" src="$Foswiki::cfg{PubUrlPath}/System/DocumentGraphics/gif.png" height="16" /></span><span class="foswikiHidden">gif</span> | <a href="$Foswiki::cfg{PubUrlPath}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic/testfile.gif"><noautolink>testfile.gif</noautolink></a> | <a href="$Foswiki::cfg{ScriptUrlPath}/attach$Foswiki::cfg{ScriptSuffix}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic?filename=testfile.gif;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> |  0.1&nbsp;K|<span class="foswikiNoBreak">01 Jan 1970 - TIME</span> |TemporaryFuncUsersUsersWeb.Asdf3Poiu  |a comment  |
+| <span class=foswikiIcon><img width="16" alt="testfile.gif" src="$Foswiki::cfg{PubUrlPath}/System/DocumentGraphics/gif.png" height="16" /></span><span class="foswikiHidden">gif</span> | <a href="$Foswiki::cfg{PubUrlPath}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic/testfile.gif"><noautolink>testfile.gif</noautolink></a> | <a href="$Foswiki::cfg{ScriptUrlPath}/attach$Foswiki::cfg{ScriptSuffix}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic?filename=testfile.gif;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> |  0.1&nbsp;K|<span class="foswikiNoBreak">01 Jan 2010 - 12:00</span> |TemporaryFuncUsersUsersWeb.Asdf3Poiu  |a comment  |
 HERE
 }
 
