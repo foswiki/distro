@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-25 22:40+0200\n"
+"PO-Revision-Date: 2010-09-26 11:53+0200\n"
 "Last-Translator: Lars Eik <lars.eik@gmail.com>\n"
 "Language-Team: Norwegian <LL@li.org>\n"
 "Language: no\n"
@@ -288,7 +288,7 @@ msgstr "(eller søk kun i %1 web)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42
 msgid "(raw view)"
-msgstr "(rå tekst)"
+msgstr "(wiki tekst)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -3513,7 +3513,7 @@ msgstr "Vis forrige versjon av siden"
 
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View raw text without formatting"
-msgstr "Vis rå tekst uten formatering"
+msgstr "Vis wiki tekst uten formatering"
 
 #: core/templates/more.tmpl:146
 msgid "View revision"
@@ -4038,7 +4038,7 @@ msgstr "tips om god stil"
 
 #: core/templates/more.tmpl:143
 msgid "in raw text format"
-msgstr "i rå tekst format"
+msgstr "i wiki tekst format"
 
 #: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
 msgid "indicates mandatory fields"
