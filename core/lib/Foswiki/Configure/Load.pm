@@ -80,12 +80,11 @@ sub readConfig {
                 $errorMessage = "Could not run $file" unless $return;
             }
             if ($errorMessage) {
-                print STDOUT '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"'."\n    ".'"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'."\n";
-                print STDOUT <<"GOLLYGOSH";
-<html><head></head><body><h1>Foswiki Internal Error</h1><br>$errorMessage<br />
+                die <<GOLLYGOSH;
+Content-type: text/plain
 
-If you have previously run <code>configure</code>, then the file <code>$file</code> is most likely damaged
-Please inform the site admin.</body>
+$errorMessage
+Please inform the site admin.
 GOLLYGOSH
                 exit 1;
             }
