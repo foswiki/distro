@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-25 22:36+0200\n"
+"PO-Revision-Date: 2010-09-25 22:40+0200\n"
 "Last-Translator: Lars Eik <lars.eik@gmail.com>\n"
 "Language-Team: Norwegian <LL@li.org>\n"
 "Language: no\n"
@@ -3424,9 +3424,8 @@ msgstr ""
 "formatet med brukeradministrasjons valg"
 
 #: core/templates/messages.tmpl:485
-#, fuzzy
 msgid "Upgraded group"
-msgstr "Gruppe Oppgradert"
+msgstr "Gruppe oppgradert"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
@@ -3801,19 +3800,16 @@ msgid "You must pass a topic name."
 msgstr "Du må sende et sidenavn."
 
 #: core/templates/messages.tmpl:461
-#, fuzzy
 msgid "You need to specify a valid group name to add users to a group."
 msgstr "Du må angi et gyldig gruppenavn for å legge til brukere i en gruppe."
 
 #: core/templates/messages.tmpl:499
-#, fuzzy
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr "Du må angi et gyldig gruppenavn for å fjerne brukere fra en gruppe."
 
 #: core/templates/messages.tmpl:456
-#, fuzzy
 msgid "You need to specify a valid user to add to a group."
-msgstr "Du må angi en gyldig bruker for å legge til en gruppe."
+msgstr "Du må angi en gyldig bruker for å legge til i en gruppe."
 
 #: core/templates/messages.tmpl:494
 msgid "You need to specify a valid user to remove from a group."
