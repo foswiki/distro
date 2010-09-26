@@ -252,6 +252,7 @@ sub url {
       defined $Foswiki::cfg{ScriptUrlPaths}{ $this->action }
       ? $Foswiki::cfg{ScriptUrlPaths}{ $this->action }
       : $Foswiki::cfg{ScriptUrlPath} . '/' . $this->action;
+    $name =~ s(//+)(/)g;
     $name .= $Foswiki::cfg{ScriptSuffix};
     if ($full) {
         my $vh = $this->header('X-Forwarded-Host') || $this->header('Host');
