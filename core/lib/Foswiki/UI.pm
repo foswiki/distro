@@ -307,7 +307,7 @@ sub _execute {
      # CLI environment.
 
         $session = new Foswiki(
-            ( defined $ENV{GATEWAY_INTERFACE} ) ? undef : $req->remoteUser(),
+            ( defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL} ) ? undef : $req->remoteUser(),
             $req, \%initialContext );
 
         $res = $session->{response};
