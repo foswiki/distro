@@ -387,62 +387,45 @@ Foswiki is capable of running on a variety of operating systems and supporting a
 Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as Unix and Unix-like systems (including Linux and OSX), on which it uses a number of shell commands and <a href="http://www.gnu.org/software/rcs/rcs.html" rel="nofollow" target="_top">RCS (Revision Control System)</a>, a GNU Free Software package. It should be able to run on any server platform that meets the following requirements.
 
 | *Resource* | *Required Server Environment* |
-| Perl | 5.8.4 or higher is recommended. Foswiki will run in perl 5.6.1 but only with Wysiwyg editor disabled. Wysiwyg requires Unicode support which is provided by perl 5.8.1 onwards. |
-| RCS | 5.7 or higher (including GNU =diff=) <br /> Optional. Foswiki includes a pure perl implementation of RCS (RcsLite) that can be used instead, at the cost of performance |
+| Perl | 5.8.8 or higher is recommended and it will run with Perl >=5.8.4 and <5.8.8 but this is untested. It also runs in Perl 5.6.1 but only with Wysiwyg editor disabled. Wysiwyg requires Unicode support which is provided by perl 5.8.1 onwards. |
+| RCS | 5.7 or higher (including GNU =diff=) <br /> Optional. Foswiki includes a pure Perl implementation of RCS (RcsLite) that can be used instead, at the cost of performance |
 | GNU diff | GNU diff 2.7 or higher is required when not using the all-Perl RcsLite. <br /> Install within the PATH if not included with RCS (check version with =diff -v=) <br /> Must be the version used by RCS, to avoid problems with binary attachments - RCS may have hard-coded path to =diff= |
 | Other external programs | =fgrep, egrep= |
 | Cron/scheduler | &bull; Unix: =cron= <br />&bull; Windows: =cron= equivalents <!-- SMELL: Macintosh version? --> |
 | Web server | Apache is well supported; for information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |
 
----+++ Required CPAN modules
+---+++ CPAN modules
 
-Most of the <a href="http://cpan.perl.org/" rel="nofollow" target="_top">CPAN</a> libraries listed below are part of a standard Perl installation. See Foswiki:Support.HowToInstallCpanModules for detailed information on how to install any !CPAN libraries not present in your installation.
+Most of the <a href="http://cpan.perl.org/" rel="nofollow" target="_top">CPAN</a> libraries used by Foswiki are part of a standard Perl installation >=5.8.8 (recommended). A version >=5.8.4 and <5.8.8 will also work although untested. Please see Foswiki:Support.HowToInstallCpanModules for detailed information on how to install any !CPAN libraries not yet present in your installation.
 
-The following Perl !CPAN modules are used by Foswiki:
+A more complete module status is listed in Foswiki [[%SCRIPTURLPATH{"configure"}%][configure]] (Foswiki 1.0.x: _CGI Setup_, 1.1.x: _Web Server Environment > Perl modules_). It should be easier to deal with CPAN modules from this perspective.
 
-| *Module* | *Preferred version* |
-| Algorithm::Diff (included with Foswiki) | |
-| CGI | Versions 2.89, 3.37, 3.43, and 3.47 must be avoided. Most version from 3.15 and onwards should work. |
-| CGI::Carp | &gt;=1.26 |
-| CGI::Session | &gt;=4.30 (included with Foswiki) Versions 4.20 and before have Foswikitask:Item1306 |
-| Config | &gt;=0 |
-| Cwd | &gt;=3.05 |
-| Data::Dumper | &gt;=2.121 |
-| Error (included) | |
-| File::Copy | &gt;=2.06 |
-| File::Find | &gt;=1.05 |
-| File::Spec | &gt;=3.05 |
-| !FileHandle | &gt;=2.01 |
-| IO::File | &gt;=1.10 |
-| Text::Diff (included with Foswiki) | |
-| Time::Local | &gt;=1.11 |
+The following CPAN modules are shipped with Foswiki, require a comment or may optionally be needed. In case the standard Foswiki will be enhanced with Foswiki:Extensions, please look at the related extension page for dependencies which may require additional modules.
 
-You can check version numbers from the command line (replace "ModuleName" with the name of the module):
+%TABLE{ initsort="3" initdirection="up" }%
+| *Module* | *Preferred version* | *Required/Optional* | *Description* |
+| Algorithm::Diff | | %ORANGE%Required%ENDCOLOR% | *Included* with Foswiki |
+| Apache::Htpasswd | | Optional | May be required for !ApacheHtpasswd password manager |
+| Archive::Tar | | Optional | May be required by the Extensions Installer in configure if command line tar or unzip is not available, since Perl 5.9.3 part of core. |
+| Archive::Zip | | Optional | Alternative to Archive::Tar, used by the Extensions Installer if Archive::Tar also unavailable |
+| CGI | Versions 2.89, 3.37, 3.43, and 3.47 must be avoided. Most versions from 3.15 and onwards should work. | %ORANGE%Required%ENDCOLOR% | *Included* with Perl core since Perl 5.4 |
+| CGI::Session |  | Optional | Required for Sessions support, available from the CPAN archive |
+| Error | | %ORANGE%Required%ENDCOLOR% | *Included* with Foswiki |
+| Digest::SHA | | Optional | May be required for password encryption, since Perl 5.9.3 part of core |
+| Digest::SHA1 | | Optional | |
+| Encode::compat | | Optional | May be required for international characters |
+| HTML::Entities | | Optional | Required for Foswiki:Extensions.WysiwygPlugin |
+| HTML::Parser | | Optional | Required for Foswiki:Extensions.WysiwygPlugin |
+| Lingua::EN::Sentence | | Optional | May be required for generating new language files |
+| Locale::Maketext::Lexicon | &gt;=0 | Optional | Used for !I18N support |
+| LWP | | Optional | Required for the Configure Extensions Installer, and for external URL based INCLUDEs |
+| Text::Diff | | %ORANGE%Required%ENDCOLOR% | *Included* with Foswiki |
+| URI | | Optional | Required by the [[%SCRIPTURLPATH{"configure"}%][configure]] script |
+| Win32::Console | | Optional | May be required for Windows |
+
+You can check version numbers with the [[%SCRIPTURLPATH{"configure"}%][configure]] script, or if you're still trying to get to that point, check from the command line (replace "ModuleName" with the name of the module):
 
 <verbatim class="bash">perl -le 'use ModuleName; print "ModuleName"->VERSION' </verbatim>
-
----+++ Optional !CPAN modules
-
-The following Perl modules may be used by Foswiki. See Foswiki:Support.HowToInstallCpanModules for detailed information on how to install !CPAN libraries.
-
-| *Module* | *Preferred version* | *Description* |
-| Archive::Tar | | May be required by the Extensions Installer in configure if command line tar or unzip is not available |
-| Archive::Zip | | Alternative to Archive::Tar, used by the Extensions Installer if Archive::Tar also unavailable |
-| CGI::Cookie | &gt;=1.24 | Used for session support |
-| Digest::base | | |
-| Digest::SHA1 | | |
-| Jcode | | Used for !I18N support with perl 5.6 |
-| Locale::Maketext::Lexicon | &gt;=0 | Used for !I18N support |
-| Net::SMTP | &gt;=2.29 | Used for sending mail |
-| Unicode::Map | | Used for !I18N support with perl 5.6 |
-| Unicode::Map8 | | Used for !I18N support with perl 5.6 |
-| Unicode::MapUTF8 | | Used for !I18N support with perl 5.6 |
-| Unicode::String | | Used for !I18N support with perl 5.6 |
-| URI | | Used for configure |
-
-Most of these modules will probably already be present in your installation. You can check version numbers with the =configure= script, or if you're still trying to get to that point, check from the command line (replace "ModuleName" with the name of the module):
-
-<verbatim class="bash">perl -e 'use ModuleName; print $ModuleName::VERSION."\n"' </verbatim>
 
 #ClientRequirements
 ---+++ Client requirements
