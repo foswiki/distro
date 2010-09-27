@@ -432,11 +432,8 @@ lib/Foswiki/Attach.pm 0444
 lib/Foswiki/Attrs.pm 0444
 lib/Foswiki/Cache.pm 0444
 lib/Foswiki/Cache/BDB.pm 0444
-lib/Foswiki/Cache/DB_File.pm 0444
 lib/Foswiki/Cache/FileCache.pm 0444
-lib/Foswiki/Cache/Memcached.pm 0444
 lib/Foswiki/Cache/MemoryCache.pm 0444
-lib/Foswiki/Cache/MemoryHash.pm 0444
 lib/Foswiki/Cache/MemoryLRU.pm 0444
 lib/Foswiki/Compatibility.pm 0444
 lib/Foswiki/Configure/Checker.pm 0444
