@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-25 17:43+0200\n"
+"PO-Revision-Date: 2010-09-27 17:37+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -1116,9 +1116,10 @@ msgstr "Créer groupe"
 msgid "Create new FAQ topic"
 msgstr "Créer une nouvelle page de FAQ"
 
+# La traduction exacte serait "Créer barre latérale personnelle", mais celle-ci tiendrait sur 2 lignes au lieu d'une. La traduction "Créer menu personnel" est préférée
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
 msgid "Create personal sidebar"
-msgstr "Créer votre barre latérale personnelle"
+msgstr "Créer menu personnel"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -4285,7 +4286,8 @@ msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr ""
-"title='Chercher, dans le Web %1, les liens pointant ici' accesskey='b'>We&b"
+"title='Chercher, dans le Web %1, les liens pointant ici' accesskey='b'>Liens "
+"entrants (&b)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:26
 msgid ""
