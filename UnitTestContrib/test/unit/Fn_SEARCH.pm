@@ -59,7 +59,7 @@ sub fixture_groups {
                 $alg = $1;
                 # skip forking search for now, its extremely broken
                 # on windows
-                new if ($^O eq 'MSWin32' && $alg eq 'Forking');
+                next if ($^O eq 'MSWin32' && $alg eq 'Forking');
                 $salgs{$alg} = 1;
             }
             closedir($Dir);
