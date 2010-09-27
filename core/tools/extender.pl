@@ -255,14 +255,18 @@ sub _loadInstaller {
         pub  => "$PACKAGES_URL/"
     };
 
+    use Cwd qw(abs_path);
+    use File::Basename;
+    my $fromDir = dirname(abs_path($0));
+
     _inform "Package repository set to $PACKAGES_URL \n";
     _inform
-" ... locally found installer scripts and archives will be used if available"
+" ... locally found installer scripts and archives will be used if available in $fromDir"
       if ($reuseOK);
 
     $thispkg =
       new Foswiki::Configure::Package( "$installationRoot/", $MODULE, $session,
-        { SHELL => 1, USELOCAL => $reuseOK, SIMULATE => $simulate } );
+        { SHELL => 1, USELOCAL => $reuseOK, SIMULATE => $simulate, DIR => $fromDir } );
     $thispkg->repository($repository);
 
     my ( $rslt, $err ) = $thispkg->loadInstaller()
@@ -551,6 +555,7 @@ sub install {
         usage();
         exit 0;
     }
+
 
     $reuseOK = ask(
 "Do you want to use locally found installer scripts and archives to install $MODULE and any dependencies.\nIf you reply n, then fresh copies will be downloaded from this repository."
