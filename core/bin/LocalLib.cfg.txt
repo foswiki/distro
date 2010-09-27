@@ -33,7 +33,7 @@ $foswikiLibPath = "/absolute/path/to/your/lib";
 # changing e.g. $foswikiLibPath) then add absolute paths to be removed below.
 # Do not use this to remove a system wide perl installation in favor of a
 # complete local perl installation, but change the shebang line of scripts
-# in foswiki/bin and foswiki/tools instead.
+# in foswiki/bin and foswiki/tools (see foswiki/tools/rewriteshbang.pl).
 # Please note the exact behaviour of "no lib" as described under:
 # http://perldoc.perl.org/lib.html#Deleting-directories-from-@INC
 # You can list as many directories as you want, each directory within
