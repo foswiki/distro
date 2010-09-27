@@ -1084,7 +1084,9 @@ $Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
 # The cache has a number of setup and tuning parameters. You should read
 # <a href="http://foswiki.org/System/PageCaching">Page Caching</a> on
 # foswiki.org (or your local copy of this page in the System web) before
-# enabling the cache.
+# enabling the cache. It is important that you read this topic carefully
+# as the cache also has some major disadvantages with respect to formatted
+# searches.
 
 # **BOOLEAN**
 # This setting will switch on/off caching.
