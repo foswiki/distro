@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-27 04:24+0200\n"
+"PO-Revision-Date: 2010-09-27 07:50+0200\n"
 "Last-Translator: Joel DeJesus <dejesus.joel@gmail.com>\n"
 "Language-Team: Foswiki Japanese team\n"
 "Language: ja\n"
@@ -512,7 +512,7 @@ msgstr "この名と呼ばれるトピックは、存在したのに、%1に移�
 
 #: core/data/System/WebSearch.txt:65
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -1058,9 +1058,8 @@ msgid "Could not save %1."
 msgstr "%1を保存できませんでした"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
-#, fuzzy
 msgid "Country"
-msgstr "国:"
+msgstr "国"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:6
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
@@ -1079,19 +1078,16 @@ msgid "Create a link to the attached file"
 msgstr "添付ファイルへのリンクを作成します"
 
 #: core/data/Main/WikiGroups.txt:7
-#, fuzzy
 msgid "Create a new group"
-msgstr "新トピックを作成します"
+msgstr "新しいグループを作成します"
 
 #: core/data/Main/WikiGroups.txt:31
-#, fuzzy
 msgid "Create group"
-msgstr "新トピックを作成します"
+msgstr "グループを作成します"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:44
-#, fuzzy
 msgid "Create new FAQ topic"
-msgstr "新トピックを作成します"
+msgstr "新しいFAQトピックを作成します"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
 msgid "Create personal sidebar"
@@ -4228,7 +4224,7 @@ msgstr "ビュー"
 
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "なぜ確認するか問われているか"
 
 #~ msgid "&Edit text"
 #~ msgstr "テキスト編集"

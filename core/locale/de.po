@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-21 17:05+0200\n"
+"PO-Revision-Date: 2010-09-27 09:35+0200\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -866,9 +866,8 @@ msgid "Categories"
 msgstr "Kategorien"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
-#, fuzzy
 msgid "Change E-mail Address"
-msgstr "E-Mail Adresse"
+msgstr "E-Mail Adresse ändern"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -1437,7 +1436,7 @@ msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
 msgstr ""
-"Fehler: Nicht unterstützter Inhalts-Typ: %1 (Muss =text/html=, =text/plain= "
+"Fehler: Nicht unterstützter Inhaltstyp: %1 (Muss =text/html=, =text/plain= "
 "oder =text/css= sein)"
 
 #: core/templates/messages.tmpl:549
@@ -1535,7 +1534,7 @@ msgstr "Formulardefinition fehlt"
 
 #: core/templates/login.tmpl:3
 msgid "Foswiki User Authentication"
-msgstr "Foswiki Benutzer-Authentifizierung"
+msgstr "Foswiki Benutzerauthentifizierung"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:5
 msgid ""
@@ -1548,7 +1547,7 @@ msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
-msgstr "Foswiki Passwort zurücksetzen für %1"
+msgstr "Foswiki-Passwort zurücksetzen für %1"
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
@@ -1811,9 +1810,8 @@ msgstr ""
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
-#, fuzzy
 msgid "Image %1 of %2"
-msgstr "Das %1 Web von %2"
+msgstr "Bild %1 von %2"
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2475,7 +2473,7 @@ msgstr "Registrieren"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
 msgid "Registered e-mail addresses for currently logged in user"
-msgstr ""
+msgstr "Registrierte E-Mail Adressen für den gerade angemeldeten Benutzer"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2563,7 +2561,7 @@ msgstr "Umbenennen/Verschieben"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:54
 msgid "Render style:"
-msgstr ""
+msgstr "Anzeige-Stil:"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
