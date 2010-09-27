@@ -6,15 +6,15 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-13 04:19+0000\n"
+"PO-Revision-Date: 2010-09-27 04:24+0200\n"
 "Last-Translator: Joel DeJesus <dejesus.joel@gmail.com>\n"
 "Language-Team: Foswiki Japanese team\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 1.1.0\n"
-"Language: ja\n"
+"X-Generator: Pootle 2.0.5\n"
 "X-Poedit-Country: JAPAN\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
@@ -115,7 +115,6 @@ msgid "%1 is not a valid form name"
 msgstr "'%1' は無効です。"
 
 #: core/templates/messages.tmpl:122
-#, fuzzy
 msgid "%1 is not a valid value for the %2 parameter"
 msgstr "'%1' は%2設定に対して無効です。"
 
@@ -130,7 +129,6 @@ msgstr "%1 はまだ %2を変更している可能性があります 。"
 
 # %1 are the recently made changes in %2 web.
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
 msgstr " %2 ウェブでは最近1%つの更新があります。"
 
@@ -162,12 +160,11 @@ msgstr "%1 トピックは存在しません"
 msgid "%1 tried to register with e-mail %2"
 msgstr "%1 は電子メールアドレスの %2 に登録しようとしました。"
 
-#   "&lt;nop&gt;$fromWeb.&lt;nop&gt;$fromTopic",
+#   "<nop>$fromWeb.<nop>$fromTopic",
 #   $date,
 #   $by)
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
 #: core/lib/Foswiki/Render.pm:229
-#, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 は %3 に %4 で %2 から 移動します"
 
@@ -180,7 +177,6 @@ msgid "&History"
 msgstr "履歴"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:92
-#, fuzzy
 msgid "&Sequential"
 msgstr "順次"
 
@@ -350,7 +346,6 @@ msgid "*Formatting help:*"
 msgstr "*フォーマットヘルプ：*"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -361,13 +356,10 @@ msgid ""
 "contact %1 for details of the Data Protection Policy of this web server "
 "before registering."
 msgstr ""
-"*注意:* このフォームに提出された情報はFoswikiサーバのデータベースに記憶しま"
-"す。このデータベースへの接続においては、スパムメールを防ぐように電子メールア"
-"ドレスがあいまいにしたり、パスワードが暗証化されたりするところが、サーバへの"
-"接続できる人はデータベースにも接続することができます。サーバがホストされてい"
-"る国によってはプライヴァシー守護の法律がこんなデータベースの管理に適用する可"
-"能性がありますので、もっと詳しい説明を確認したい場合には、登録する前にFoswiki"
-"のデータ守護の方針をご一覧ください。"
+"*注意:* このフォームに提出された情報はFoswikiサーバのデータベースに記憶します。このデータベースへの接続においては、迷惑メールを防ぐように電子"
+"メールアドレスがあいまいにしたり、パスワードが暗証化されたりするところが、サーバへの接続できる人はデータベースにも接続することができます。サーバがホスト"
+"されている国によってはプライヴァシー守護の法律がこのデータベースの管理に適用する可能性がありますので、もっと詳しい説明を確認したい場合には、登録する前に"
+"Foswikiのデータ守護の方針をご一覧ください。"
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -378,14 +370,12 @@ msgstr ""
 "のファイルが更新又は追加されます。"
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid ""
 "*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
-"*プロパティ:* アップロードする時に\"プロパティのみ変更\"ボタンを押下しなくて"
-"も、ファイルのコメントや可視性(例えば、隠しファイル)を変更することが出来ま"
-"す。%1参照"
+"*プロパティ:* "
+"アップロードする時に\"プロパティのみ変更\"ボタンを押下しなくても、ファイルのコメントや可視性(例えば、隠しファイル)を変更することが出来ます。"
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -455,13 +445,12 @@ msgid "<em>in all public webs</em>"
 msgstr "全てのパブリックウェブにあります"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
-#, fuzzy
 msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
-"<strong>確認が必要</strong><span>意思で変更されたのは確認して「OK」を押してく"
-"ださい。</span><span>その他は「キャンセル」を押してください。</span>"
+"<strong>確認が必要</strong><span>意思で変更されたのは確認して「OK」を押してください。</span><span>その他は「キャン"
+"セル」を押してください。</span>"
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -502,15 +491,13 @@ msgid "A more extensive changes list is available via [[%1][Recent changes]]."
 msgstr "より詳細な編集表は[[%1][最近編集]]で一覧できます。"
 
 #: core/templates/messages.tmpl:559
-#, fuzzy
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
-"システムは既に %1 (!WikiName %2 )のために*自動的に*生成された新しいパスワード"
-"をご登録のメールアドレスに送信しました。ご登録のメールアドレスが無効な場合、 "
-"%3 までご連絡ください。"
+"システムは既に %1 (!WikiName %2 "
+")のために*自動的に*生成された新しいパスワードをご登録のメールアドレスに送信しました。ご登録のメールアドレスが無効な場合、 %3 までご連絡ください。"
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -540,7 +527,6 @@ msgid "Access keys"
 msgstr "アクセスキー"
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
-#, fuzzy
 msgid "Access keys:"
 msgstr "アクセスキー"
 
@@ -554,7 +540,6 @@ msgid "Action %1: %2."
 msgstr "変更 %1: %2."
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
-#, fuzzy
 msgid "Add"
 msgstr "追加"
 
@@ -572,7 +557,6 @@ msgid "Add row"
 msgstr "行を追加します"
 
 #: core/data/Main/GroupViewTemplate.txt:145
-#, fuzzy
 msgid "Add user"
 msgstr "ユーザを追加します"
 
@@ -581,7 +565,6 @@ msgid "Add user..."
 msgstr "ユーザを追加します。"
 
 #: core/templates/messages.tmpl:369
-#, fuzzy
 msgid "Adding a %1 preference in WebPreferences"
 msgstr " %1 設定をWebPreferencesに追加します"
 
@@ -610,17 +593,14 @@ msgid "After submitting this form your password will be changed."
 msgstr "フォームをサブミットした後、あなたのパスワードが変更されます。"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
-#, fuzzy
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
-msgstr ""
-"フォームをサブミットした後、システムより自動的に生成された新しいパスワードや"
-"パスワード変更するページへのリンクがあなた宛にメールで送信されます。"
+msgstr "フォームを提出する上で、システムにより自動的に生成された新しいパスワードと共にパスワード変更ページへのリンクは、あなた宛にメールで送信します。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
-msgstr ""
+msgstr "ちょっとダメみたいです。"
 
 #: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
 msgid "All public webs"
@@ -640,9 +620,8 @@ msgstr ""
 "択してください。"
 
 #: core/lib/Foswiki/UI/Rename.pm:199
-#, fuzzy
 msgid "An attachment with the same name already exists in this topic."
-msgstr "添付ファイルは既に新トピックに存在しています"
+msgstr "同じ名称が付いた添付ファイルは既に新トピックに存在しています"
 
 #: core/templates/messages.tmpl:264
 msgid ""
@@ -662,7 +641,7 @@ msgstr ""
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
-msgstr ""
+msgstr "悪人はあなたのログインIDを使ってウィキ内容を変更しようとする可能性があります。"
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -678,7 +657,6 @@ msgid "Attach"
 msgstr "ファイルを添付します"
 
 #: core/templates/attach.tmpl:9
-#, fuzzy
 msgid "Attach a file"
 msgstr "新しいファイルを添付します"
 
@@ -709,23 +687,20 @@ msgid "Attachment delete failed"
 msgstr "添付ファイルの削除に失敗しました"
 
 #: core/lib/Foswiki/UI/Rename.pm:166
-#, fuzzy
 msgid "Attachment does not exist."
-msgstr "添付ファイルが存在しません"
+msgstr "添付ファイルは存在しません"
 
 #: core/templates/attachtables.tmpl:42
-#, fuzzy
 msgid "Attachment history"
-msgstr "添付ファイル"
+msgstr "添付ファイル履歴"
 
 #: core/templates/messages.tmpl:54
 msgid "Attachment move failed"
 msgstr "添付ファイルの移動に失敗しました"
 
 #: core/templates/moveattachment.tmpl:37
-#, fuzzy
 msgid "Attachment name:"
-msgstr "添付ファイル"
+msgstr "添付ファイルの名称"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
@@ -866,9 +841,8 @@ msgid "Categories"
 msgstr "カテゴリー"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
-#, fuzzy
 msgid "Change E-mail Address"
-msgstr "メールアドレス："
+msgstr "メールアドレス変更"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -876,14 +850,13 @@ msgstr "パスワードを変更します"
 
 #: core/templates/validate.tmpl:22
 msgid "Change cannot be completed"
-msgstr ""
+msgstr "変更の手続きは済めません。"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
 msgstr "プロパティのみ変更します"
 
 #: core/templates/renamebase.tmpl:14
-#, fuzzy
 msgid "Change from"
 msgstr "変更元："
 
@@ -945,7 +918,7 @@ msgstr " r%1 から r%2に変更します"
 
 #: core/templates/messages.tmpl:429
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
-msgstr ""
+msgstr "{TemplateDir}と{TemplatePath}は設定に確認してください。"
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
@@ -995,9 +968,8 @@ msgid "Compare revisions"
 msgstr "バージョン比較"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:168
-#, fuzzy
 msgid "Confirm password"
-msgstr "あなたのパスワード:"
+msgstr "パスワード確認:"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
@@ -1021,9 +993,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "何か疑問がございましたら、 %1までご連絡ください"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:58
-#, fuzzy
 msgid "Context:"
-msgstr "次へ"
+msgstr "コンテクスト："
 
 #: core/templates/messages.tmpl:421
 msgid "Continue and try to rename web?"
@@ -1034,10 +1005,11 @@ msgid "Continue to create the new page"
 msgstr "続けて新しいページを作成します"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:113
+#, fuzzy
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
-msgstr ""
+msgstr "WYSIWYG編集に対してHTMLへの変形はトピック内容のために無効にしました。"
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
@@ -5668,7 +5640,8 @@ msgstr ""
 #~ msgid "Update image or document on %1"
 #~ msgstr "画像又はファイル%1を更新します"
 
-#~ msgid "_:Note__:"
+#~ msgid ""
+#~ "_:Note__:"
 #~ msgstr "注意__:"
 
 #~ msgid "Request password reset"
