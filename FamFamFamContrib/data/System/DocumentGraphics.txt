@@ -518,18 +518,18 @@ the best way to do this is to create an icon skin template containing your custo
 and then to add that into your skin path.
 
 eg:
----++++ create a Skin Template for your icons
+---++++ Create a Skin Template for your icons
 Either =foswiki/templates/icons.mybook.tmpl= on the filesystem, or create a topic called =IconsMybookSkinTemplate= in the %SYSTEMWEB% web 
 (or if the icon modifications are local to a web, the topic can be created in just that web).
 <verbatim class="tml">
-%{ replace the book Icon }%
+%{ replace the book icon }%
 %{ the output of %ICONURL{book}% }%
 %TMPL:DEF{"iconurl:book"}%http://someother.corp.server/My-book-company-logo.png%TMPL:END%
 %TMPL:DEF{"iconalt:book"}%Book%TMPL:END%
 %{ the html output by %ICON{book}% }%
 %TMPL:DEF{"icon:book"}%<span class="foswikiIcon"><img src="%TMPL:P{"iconurl:book"}%" width="16" height="16" alt="%TMPL:P{"iconalt:book"}%" /></span>%TMPL:END%
 
-%{ add a new fuzzy-bunny Icon }%
+%{ add a new fuzzy-bunny icon }%
 %{ the output of %ICONURL{fuzzy}% }%
 %TMPL:DEF{"iconurl:fuzzy"}%http://someother.server/fuzzy.png%TMPL:END%
 %TMPL:DEF{"iconalt:fuzzy"}%Fuzzy Wuzzy%TMPL:END%
@@ -537,7 +537,7 @@ Either =foswiki/templates/icons.mybook.tmpl= on the filesystem, or create a topi
 %TMPL:DEF{"icon:fuzzy"}%<span class="foswikiIcon"><img src="%TMPL:P{"iconurl:fuzzy"}%" width="16" height="16" alt="%TMPL:P{"iconalt:fuzzy"}%" /></span>%TMPL:END%
 
 </verbatim>
----++++ add =mybook= to your SKIN setting
+---++++ Add =mybook= to your SKIN setting
 Assuming PatternSkin is your skin
 <pre class="tml">
 &nbsp;&nbsp;&nbsp;* Set SKIN = mybook, pattern
@@ -545,12 +545,12 @@ Assuming PatternSkin is your skin
 
 This allows you to create non-image 'ICONS', specify images from other servers, and add Icons in a foswiki Extension.
 
-see [[%SYSTEMWEB%.Skins][Skins]] and %SYSTEMWEB%.SkinTemplates for more information about how to create Skins.
+See [[%SYSTEMWEB%.Skins][Skins]] and %SYSTEMWEB%.SkinTemplates for more information about how to create Skins.
 
 ---++ Credits
 Most of these icons are from the [[http://www.famfamfam.com/lab/icons/silk/][FamFamFam Silk]] icon set, 
 some are modifications by Foswiki:Main.SvenDowideit, and a few come from the [[http://p.yusukekamiyamane.com/][Fugue icons]] set. 
-The social media icons are from  [[http://icondock.com/free/vector-social-media-icons][icondock's Vector social media]] set.
+The social media icons are from [[http://icondock.com/free/vector-social-media-icons][icondock's Vector social media]] set.
 
 ---
 *Related Topics:* [[Skins]], UserDocumentationCategory, DeveloperDocumentationCategory
