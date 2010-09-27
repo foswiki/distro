@@ -16,6 +16,8 @@ use File::Temp;
 use File::Copy;
 use File::Path;
 use Getopt::Std;
+use Cwd qw(abs_path);
+use File::Basename;
 
 no warnings 'redefine';
 
@@ -255,8 +257,6 @@ sub _loadInstaller {
         pub  => "$PACKAGES_URL/"
     };
 
-    use Cwd qw(abs_path);
-    use File::Basename;
     my $fromDir = dirname(abs_path($0));
 
     _inform "Package repository set to $PACKAGES_URL \n";
