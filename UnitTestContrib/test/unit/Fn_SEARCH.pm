@@ -31,7 +31,7 @@ sub run_in_new_process {
 }
 
 sub set_up {
-    my $this = shift;
+    my ($this, $context) = @_;
 
     $this->SUPER::set_up();
 
@@ -57,10 +57,9 @@ sub fixture_groups {
             foreach my $alg ( readdir $Dir ) {
                 next unless $alg =~ /^(.*)\.pm$/;
                 $alg = $1;
-                if ($^O eq 'MSWin32') {
-                    #skip forking search for now, its extremely broken on windows
-                    next if ($alg eq 'Forking');
-                }
+                # skip forking search for now, its extremely broken
+                # on windows
+                new if ($^O eq 'MSWin32' && $alg eq 'Forking');
                 $salgs{$alg} = 1;
             }
             closedir($Dir);
@@ -98,7 +97,7 @@ SUB
         die $@ if $@;
     }
 
-    return \@groups;
+    return (\@groups);
 }
 
 sub loadExtraConfig {
@@ -1619,9 +1618,7 @@ Apache is the [[http://www.apache.org/httpd/][well known web server]].
 }
 
 sub _getTopicList {
-    my $this    = shift;
-    my $web     = shift;
-    my $options = shift;
+    my ($this, $expected, $web, $options, $sadness) = @_;
 
     #    my $options = {
     #        casesensitive  => $caseSensitive,
@@ -1643,6 +1640,9 @@ sub _getTopicList {
         push( @topicList, $t );
     }
 
+    my $l1 = join(',', @$expected);
+    my $l2 = join(',', @topicList);
+    $this->assert_str_equals($l1, $l2, "$sadness:\nwant: $l2\n got: $l1");
     return \@topicList;
 }
 
@@ -1650,17 +1650,15 @@ sub verify_getTopicList {
     my $this = shift;
 
     #no topics specified..
-    $this->assert_deep_equals(
-        [
+    $this->_getTopicList([
             'OkATopic', 'OkBTopic',
             'OkTopic',  'TestTopicSEARCH',
             'WebPreferences'
         ],
-        $this->_getTopicList( $this->{test_web}, {} ),
+        $this->{test_web}, {},
         'no filters, all topics in test_web'
     );
-    $this->assert_deep_equals(
-        [
+    $this->_getTopicList([
             'WebAtom',           'WebChanges',
             'WebCreateNewTopic', 'WebHome',
             'WebIndex',          'WebLeftBar',
@@ -1669,18 +1667,17 @@ sub verify_getTopicList {
             'WebSearchAdvanced', 'WebStatistics',
             'WebTopicList'
         ],
-        $this->_getTopicList( '_default', {} ),
+        '_default', {},
         'no filters, all topics in test_web'
     );
 
     #use wildcards
-    $this->assert_deep_equals(
+    $this->_getTopicList(
         [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
-        $this->_getTopicList( $this->{test_web}, { includeTopics => 'Ok*' } ),
+        $this->{test_web}, { includeTopics => 'Ok*' },
         'comma separated list'
     );
-    $this->assert_deep_equals(
-        [
+    $this->_getTopicList([
             'WebAtom',           'WebChanges',
             'WebCreateNewTopic', 'WebHome',
             'WebIndex',          'WebLeftBar',
@@ -1689,40 +1686,33 @@ sub verify_getTopicList {
             'WebSearchAdvanced', 'WebStatistics',
             'WebTopicList'
         ],
-        $this->_getTopicList( '_default', { includeTopics => 'Web*' } ),
+        '_default', { includeTopics => 'Web*' },
         'no filters, all topics in test_web'
     );
 
     #comma separated list specifed for inclusion
-    $this->assert_deep_equals(
-        [ 'TestTopicSEARCH', 'OkTopic' ],
-        $this->_getTopicList(
-            $this->{test_web},
-            { includeTopics => 'TestTopicSEARCH,OkTopic,NoSuchTopic' }
-        ),
+    $this->_getTopicList(
+        [ 'OkTopic', 'TestTopicSEARCH' ],
+        $this->{test_web},
+        { includeTopics => 'TestTopicSEARCH,OkTopic,NoSuchTopic' },
         'comma separated list'
     );
-    $this->assert_deep_equals(
-        [ 'WebStatistics', 'WebCreateNewTopic' ],
-        $this->_getTopicList(
-            '_default',
-            {
-                includeTopics => 'WebStatistics, WebCreateNewTopic, NoSuchTopic'
-            }
-        ),
+    $this->_getTopicList(
+        [ 'WebCreateNewTopic', 'WebStatistics' ],
+        '_default',
+        {
+            includeTopics => 'WebStatistics, WebCreateNewTopic, NoSuchTopic'
+           },
         'no filters, all topics in test_web'
-    );
+       );
 
     #excludes
-    $this->assert_deep_equals(
+    $this->_getTopicList(
         [ 'OkATopic', 'OkTopic', 'TestTopicSEARCH', 'WebPreferences' ],
-        $this->_getTopicList(
-            $this->{test_web}, { excludeTopics => 'NoSuchTopic,OkBTopic' }
-        ),
+        $this->{test_web}, { excludeTopics => 'NoSuchTopic,OkBTopic'},
         'no filters, all topics in test_web'
     );
-    $this->assert_deep_equals(
-        [
+    $this->_getTopicList([
             'WebAtom',           'WebChanges',
             'WebCreateNewTopic', 'WebHome',
             'WebIndex',          'WebLeftBar',
@@ -1730,45 +1720,39 @@ sub verify_getTopicList {
             'WebRss',            'WebSearchAdvanced',
             'WebStatistics',     'WebTopicList'
         ],
-        $this->_getTopicList( '_default', { excludeTopics => 'WebSearch' } ),
+        '_default', { excludeTopics => 'WebSearch' },
         'no filters, all topics in test_web'
     );
 
     #Talk about missing alot of tests
-    $this->assert_deep_equals(
-        [
+    $this->_getTopicList([
             'OkATopic', 'OkBTopic',
             'OkTopic',  'TestTopicSEARCH',
             'WebPreferences'
         ],
-        $this->_getTopicList( $this->{test_web}, { includeTopics => '*' } ),
+        $this->{test_web}, { includeTopics => '*' },
         'all topics, using wildcard'
     );
-    $this->assert_deep_equals(
-        [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
-        $this->_getTopicList( $this->{test_web}, { includeTopics => 'Ok*' } ),
+    $this->_getTopicList([ 'OkATopic', 'OkBTopic', 'OkTopic' ],
+        $this->{test_web}, { includeTopics => 'Ok*' },
         'Ok* topics, using wildcard'
     );
-    $this->assert_deep_equals(
+    $this->_getTopicList(
         [],
-        $this->_getTopicList(
-            $this->{test_web},
-            {
-                includeTopics => 'ok*',
-                casesensitive => 1
-            }
-        ),
+        $this->{test_web},
+        {
+            includeTopics => 'ok*',
+            casesensitive => 1
+           },
         'case sensitive ok* topics, using wildcard'
-    );
-    $this->assert_deep_equals(
+       );
+    $this->_getTopicList(
         [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
-        $this->_getTopicList(
-            $this->{test_web},
-            {
-                includeTopics => 'ok*',
-                casesensitive => 0
-            }
-        ),
+        $this->{test_web},
+        {
+            includeTopics => 'ok*',
+            casesensitive => 0
+           },
         'case insensitive ok* topics, using wildcard'
     );
     
@@ -1776,118 +1760,102 @@ sub verify_getTopicList {
         print STDERR "WARNING: case insensitive file system, skipping a test\n";
     } else {
         # this test won't work on Mac OS X or windows.
-        $this->assert_deep_equals(
+        $this->_getTopicList(
             [],
-            $this->_getTopicList(
-                $this->{test_web},
-                {
-                    includeTopics => 'okatopic',
-                    casesensitive => 1
-                }
-            ),
+            $this->{test_web},
+            {
+                includeTopics => 'okatopic',
+                casesensitive => 1
+               },
             'case sensitive okatopic topic 1'
         );
     }
     
-    $this->assert_deep_equals(
+    $this->_getTopicList(
         ['OkATopic'],
-        $this->_getTopicList(
-            $this->{test_web},
-            {
-                includeTopics => 'okatopic',
-                casesensitive => 0
-            }
-        ),
+        $this->{test_web},
+        {
+            includeTopics => 'okatopic',
+            casesensitive => 0
+           },
         'case insensitive okatopic topic'
     );
     ##### same again, with excludes.
-    $this->assert_deep_equals(
+    $this->_getTopicList(
         [
             'OkATopic', 'OkBTopic',
             'OkTopic',  'TestTopicSEARCH',
             'WebPreferences'
-        ],
-        $this->_getTopicList(
-            $this->{test_web},
-            {
-                includeTopics => '*',
-                excludeTopics => 'web*'
-            }
-        ),
+           ],
+        $this->{test_web},
+        {
+            includeTopics => '*',
+            excludeTopics => 'web*'
+           },
         'all topics, using wildcard'
     );
-    $this->assert_deep_equals(
+    $this->_getTopicList(
         [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
-        $this->_getTopicList(
-            $this->{test_web},
-            {
-                includeTopics => 'Ok*',
-                excludeTopics => 'okatopic'
-            }
-        ),
+        $this->{test_web},
+        {
+            includeTopics => 'Ok*',
+            excludeTopics => 'okatopic'
+           },
         'Ok* topics, using wildcard'
     );
-    $this->assert_deep_equals(
+    $this->_getTopicList(
         [],
-        $this->_getTopicList(
-            $this->{test_web},
-            {
-                includeTopics => 'ok*',
-                excludeTopics => 'WebPreferences',
-                casesensitive => 1
-            }
-        ),
+        $this->{test_web},
+        {
+            includeTopics => 'ok*',
+            excludeTopics => 'WebPreferences',
+            casesensitive => 1
+           },
         'case sensitive ok* topics, using wildcard'
     );
-    $this->assert_deep_equals(
+    $this->_getTopicList(
         [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
-        $this->_getTopicList(
-            $this->{test_web},
-            {
-                includeTopics => 'ok*',
-                excludeTopics => '',
-                casesensitive => 0
-            }
-        ),
+        $this->{test_web},
+        {
+            includeTopics => 'ok*',
+            excludeTopics => '',
+            casesensitive => 0
+           },
         'case insensitive ok* topics, using wildcard'
     );
 
-    $this->assert_deep_equals(
+    $this->_getTopicList(
         [ 'OkBTopic', 'OkTopic' ],
-        $this->_getTopicList(
-            $this->{test_web},
-            {
-                includeTopics => 'Ok*',
-                excludeTopics => '*ATopic',
-                casesensitive => 1
-            }
-        ),
+        $this->{test_web},
+        {
+            includeTopics => 'Ok*',
+            excludeTopics => '*ATopic',
+            casesensitive => 1
+           },
         'case sensitive okatopic topic 2'
     );
 
-    $this->assert_deep_equals(
+    $this->_getTopicList(
         [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
-        $this->_getTopicList(
+        
             $this->{test_web},
             {
                 includeTopics => 'Ok*',
                 excludeTopics => '*atopic',
                 casesensitive => 1
             }
-        ),
+        ,
         'case sensitive okatopic topic 3'
     );
 
-    $this->assert_deep_equals(
+    $this->_getTopicList(
         [ 'OkBTopic', 'OkTopic' ],
-        $this->_getTopicList(
-            $this->{test_web},
-            {
-                includeTopics => 'ok*topic',
-                excludeTopics => 'okatopic',
-                casesensitive => 0
-            }
-        ),
+        $this->{test_web},
+        {
+            includeTopics => 'ok*topic',
+            excludeTopics => 'okatopic',
+            casesensitive => 0
+           },
         'case insensitive okatopic topic'
     );
 
@@ -2284,7 +2252,6 @@ EXPECT
 # PAGING
 sub verify_paging_three_webs_first_five {
     my $this = shift;
-
     my $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
     "web" 
@@ -2596,9 +2563,9 @@ CRUD
 %META:FIELD{name="Order" title="Order" value="2"}%
 CRUD
     $topicObject->save(forcedate=>500);
-
+    my $result;
 #order by formfield, with groupby=none
-    my $result = $this->{test_topicObject}->expandMacros( <<GNURF );
+ $result = $this->{test_topicObject}->expandMacros( <<GNURF );
 %SEARCH{"Order!=''"
  type="query"
  web="$this->{test_web}"
@@ -2715,7 +2682,6 @@ GNURF
     $this->assert_equals(
         "HEADER$this->{test_web}/A 01 Jan 1970 - 00:16, $this->{test_web}/C 01 Jan 1970 - 00:08, $this->{test_web}/B 01 Jan 1970 - 00:01FOOTER\n",
         $result );
-
 #order by modified, limit=2, with groupby=none
     $result = $this->{test_topicObject}->expandMacros( <<GNURF );
 %SEARCH{"1"
