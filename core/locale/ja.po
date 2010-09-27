@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-27 07:50+0200\n"
+"PO-Revision-Date: 2010-09-27 11:31+0200\n"
 "Last-Translator: Joel DeJesus <dejesus.joel@gmail.com>\n"
 "Language-Team: Foswiki Japanese team\n"
 "Language: ja\n"
@@ -1005,7 +1005,6 @@ msgid "Continue to create the new page"
 msgstr "続けて新しいページを作成します"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:113
-#, fuzzy
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1013,14 +1012,13 @@ msgstr "WYSIWYG編集に対してHTMLへの変形はトピック内容のため�
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr ""
+msgstr "全ての添付を含むこのトピックは新しいトピックにコピーします。"
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
 msgstr "トピックをコピーします。"
 
 #: core/templates/more.tmpl:36
-#, fuzzy
 msgid "Copy topic..."
 msgstr "トピックをコピーします。"
 
@@ -1037,9 +1035,7 @@ msgstr ""
 msgid ""
 "Copyright &&copy; by the contributing authors. All material on this site is "
 "the property of the contributing authors."
-msgstr ""
-"コピーライト &&copy; 著作者。本プラットフォームにある全ての物は本プラット"
-"フォームの貢献者たちに帰属します。"
+msgstr "著作権 &&copy; 　本サイトの資料や内容などは著作者により有されます。"
 
 #: core/templates/messages.tmpl:148
 msgid "Could not create the new web %1"
@@ -1106,13 +1102,12 @@ msgid "Create this topic"
 msgstr "このトピックを作成します"
 
 #: core/data/Sandbox/WebHome.txt:19
-#, fuzzy
 msgid "Create topic"
 msgstr "トピックを作成します"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:13
 msgid "Create your account to edit pages on this site."
-msgstr ""
+msgstr "このサイトのページを編集するために登録します。"
 
 #: core/templates/messages.tmpl:368
 msgid "Creating a suitable Form Definition topic"
@@ -1182,20 +1177,16 @@ msgid "Details in separate window"
 msgstr "クリックしてほかのウィンドウで詳細を確認します"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:7
-#, fuzzy
 msgid ""
 "Did you spell the topic name correctly? Remember, a topic name is case "
 "sensitive."
-msgstr ""
-"%1のスペルが正しいかどうかを確認してもう一度試してください。%2が大文字と小文"
-"字を区別することを忘れないでください"
+msgstr "%1の書き方が正しいかどうかを確認してもう一度試してください。%2が大文字と小文字を区別することを忘れないでください"
 
 #: core/templates/messages.tmpl:275
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr " [[%1][%2のパスワード]をリセット]したいですか?"
 
 #: core/templates/rdiff.tmpl:14
-#, fuzzy
 msgid "Difference Topic"
 msgstr "差異："
 
@@ -1206,7 +1197,7 @@ msgstr "差異："
 
 #: core/data/System/WebPreferences.txt:12
 msgid "Discover the details, and how to start your own site with Foswiki"
-msgstr ""
+msgstr "自分のFoswikiサイトを始めるなどの詳細情報をご覧ください。"
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
@@ -1229,9 +1220,8 @@ msgstr ""
 "い"
 
 #: core/templates/messages.tmpl:55
-#, fuzzy
 msgid "During move of attachment =%1= to %2 an error was found."
-msgstr "添付ファイル =%1=を削除するときにエラーが発生しました。"
+msgstr "添付ファイル =%1=を%2に変更するときにエラーが発生しました。"
 
 #: core/templates/messages.tmpl:99
 msgid ""
@@ -1261,27 +1251,27 @@ msgstr "電子メールの変更に成功しました!"
 
 #: core/templates/messages.tmpl:632
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
-msgstr ""
+msgstr "ENCODE故障 - =type= は=old=と=new=と共に使用ができません。"
 
 #: core/templates/messages.tmpl:633
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr ""
+msgstr "ENCODE故障 - =old=と=new=と一緒に提出しなければなりません。"
 
 #: core/templates/messages.tmpl:634
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr ""
+msgstr "ENCODE 故障 - トークン '%PARAM1%' は =old=に群発です。 "
 
 #: core/templates/messages.tmpl:637
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr ""
+msgstr "拡大故障 - '%PARAM1%'への接続は許されませんでした。"
 
 #: core/templates/messages.tmpl:635
 msgid "EXPAND failed - no macro"
-msgstr ""
+msgstr "拡大故障 - マクロはありません。"
 
 #: core/templates/messages.tmpl:636
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr ""
+msgstr "拡大故障 -  '%PARAM1%'と呼ぶトピックは存在ではありません。"
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
@@ -1296,17 +1286,17 @@ msgid "Edit Anyway"
 msgstr "強制編集します"
 
 #: core/templates/viewtopicactionbuttons.tmpl:61
+#, fuzzy
 msgid "Edit Wiki<nop>Text"
-msgstr ""
+msgstr "<nop>文字を編集するウィキ"
 
 #: PatternSkin/templates/edit.pattern.tmpl:11
 msgid "Edit help"
 msgstr "ヘルプを編集します"
 
 #: core/templates/more.tmpl:17
-#, fuzzy
 msgid "Edit settings for this topic..."
-msgstr "本トピック 設定を編集します"
+msgstr "このトピック 設定を編集します"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
@@ -1319,7 +1309,7 @@ msgstr "属性設定を編集します"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
-msgstr ""
+msgstr "ちょっと間違えてしまって前のページに戻りましょうか。"
 
 #: core/templates/messages.tmpl:318
 msgid ""
@@ -1330,11 +1320,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:127
 msgid "Either the name is invalid, or it refers to a non-existant form."
-msgstr ""
+msgstr "この名称のエラーは、無効か、存在しないフォームに当たるかどちらのほうも可能性です。"
 
 #: core/templates/messages.tmpl:123
 msgid "Either the name is invalid, or it refers to a non-existant topic."
-msgstr ""
+msgstr "この名称のエラーは、無効か、存在しないトピックに当たるかどちらのほうも可能性です。"
 
 #: core/templates/messages.tmpl:389
 msgid ""
@@ -1345,13 +1335,12 @@ msgstr ""
 "ん。空のファイルをアップロードできません。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:159
-#, fuzzy
 msgid "Email address"
 msgstr "メールアドレス："
 
 #: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:460
 msgid "Email has been disabled for this Foswiki installation"
-msgstr ""
+msgstr "電子メールはこのサイトでは無効にしました。"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Enlarge edit box"
@@ -1363,7 +1352,7 @@ msgstr "新しいユーザー名とパスワードを入力してアイデンテ
 
 #: core/templates/login.sudo.tmpl:18
 msgid "Enter the Wiki Administrator user or login as set in %1"
-msgstr ""
+msgstr "ウィキ管理者を入力する又は、%1の通りログインをしてください。"
 
 #: core/templates/messages.tmpl:251
 msgid "Error registering new user"
@@ -1402,22 +1391,20 @@ msgid "Errors"
 msgstr "エラー"
 
 #: core/templates/messages.tmpl:466
-#, fuzzy
 msgid "Errors adding users to group"
-msgstr "トピックの保存に失敗しました"
+msgstr "グループにユーザを追加したエラーが発生しました。"
 
 #: core/templates/messages.tmpl:504
 msgid "Errors removing users from groups"
-msgstr ""
+msgstr "グループでユーザを削除するエラーが発生しました。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
-#, fuzzy
 msgid "Evil person"
-msgstr "個人データを編集します"
+msgstr "悪人"
 
 #: core/lib/Foswiki/Plugins.pm:366
 msgid "Failed plugins"
-msgstr ""
+msgstr "無効なプラグイン"
 
 #: core/templates/messages.tmpl:560
 msgid "Failed to include URL %1"
@@ -1429,9 +1416,8 @@ msgid "Fields marked %1 are required"
 msgstr "%1とマークされたフィールドは必須入力項目です"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:32
-#, fuzzy
 msgid "Fields marked <span class='required'>*</span> are required"
-msgstr "%1とマークされたフィールドは必須入力項目です"
+msgstr "%1とのマークを付けた項目は必要です。"
 
 #: core/templates/messages.tmpl:374
 msgid "File has been uploaded with different name"
@@ -1439,14 +1425,13 @@ msgstr "ファイルは既に他の名称でアップロードされました"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
-msgstr ""
+msgstr "関係あるトピックを検索します。"
 
 #: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
 msgstr "%1へリンクするトピックを検索します..."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
-#, fuzzy
 msgid "First name"
 msgstr "名字："
 
@@ -1455,7 +1440,7 @@ msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
-msgstr ""
+msgstr "クロスサイトリクエストフォージェリについては、あなたへの危機などの詳細は、[[%1][ウィキピディアの記事]]をご覧ください."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1472,15 +1457,13 @@ msgstr "フォーム定義%1が失われました"
 #: PatternSkin/templates/formtables.pattern.tmpl:5 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:6
 msgid "Form data"
-msgstr ""
+msgstr "フォームデータ"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
-#, fuzzy
 msgid "Form definition"
-msgstr "フォーム定義が失われました"
+msgstr "フォーム定義"
 
 #: core/templates/messages.tmpl:343
-#, fuzzy
 msgid "Form definition '%1' not found"
 msgstr "フォーム定義%1が失われました"
 
@@ -1489,9 +1472,8 @@ msgid "Form definition missing"
 msgstr "フォーム定義が失われました"
 
 #: core/templates/login.tmpl:3
-#, fuzzy
 msgid "Foswiki User Authentication"
-msgstr "TWikiユーザー認証"
+msgstr "Foswikiユーザー認証"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:5
 msgid ""
