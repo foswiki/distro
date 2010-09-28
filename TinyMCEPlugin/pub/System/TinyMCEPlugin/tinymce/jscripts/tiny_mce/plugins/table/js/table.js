@@ -234,13 +234,8 @@ function insertTable() {
 	tinymce.each(dom.select('table[_mce_new]'), function(node) {
 		var td = dom.select('td', node);
 
-		try {
-			// IE9 might fail to do this selection
-			inst.selection.select(td[0], true);
-			inst.selection.collapse();
-		} catch (ex) {
-			// Ignore
-		}
+		inst.selection.select(td[0], true);
+		inst.selection.collapse();
 
 		dom.setAttrib(node, '_mce_new', '');
 	});

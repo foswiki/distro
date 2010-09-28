@@ -134,18 +134,7 @@
 					if (d.body.childNodes.length == 0) {
 						d.body.innerHTML = h;
 					} else {
-						// createContextualFragment doesn't exists in IE 9 DOMRanges
-						if (r.createContextualFragment) {
-							r.insertNode(r.createContextualFragment(h));
-						} else {
-							// Fake createContextualFragment call in IE 9
-							var frag = d.createDocumentFragment(), temp = d.createElement('div');
-
-							frag.appendChild(temp);
-							temp.outerHTML = h;
-
-							r.insertNode(frag);
-						}
+						r.insertNode(r.createContextualFragment(h));
 					}
 				}
 
@@ -465,9 +454,8 @@
 								while (marker = dom.get(bookmark.id + '_' + suffix))
 									dom.remove(marker, 1);
 
-								// If siblings are text nodes then merge them unless it's Opera since it some how removes the node
-								// and we are sniffing since adding a lot of detection code for a browser with 3% of the market isn't worth the effort. Sorry, Opera but it's just a fact
-								if (prev && next && prev.nodeType == next.nodeType && prev.nodeType == 3 && !tinymce.isOpera) {
+								// If siblings are text nodes then merge them
+								if (prev && next && prev.nodeType == next.nodeType && prev.nodeType == 3) {
 									idx = prev.nodeValue.length;
 									prev.appendData(next.nodeValue);
 									dom.remove(next);
@@ -620,7 +608,7 @@
 		 * @return {Range} Internal browser range object.
 		 */
 		getRng : function(w3c) {
-			var t = this, s, r, elm, doc = t.win.document;
+			var t = this, s, r;
 
 			// Found tridentSel object then we need to use that one
 			if (w3c && t.tridentSel)
@@ -628,24 +616,16 @@
 
 			try {
 				if (s = t.getSel())
-					r = s.rangeCount > 0 ? s.getRangeAt(0) : (s.createRange ? s.createRange() : doc.createRange());
+					r = s.rangeCount > 0 ? s.getRangeAt(0) : (s.createRange ? s.createRange() : t.win.document.createRange());
 			} catch (ex) {
 				// IE throws unspecified error here if TinyMCE is placed in a frame/iframe
-			}
-
-			// We have W3C ranges and it's IE then fake control selection since IE9 doesn't handle that correctly yet
-			if (r.setStart && tinymce.isIE && doc.selection.createRange().item) {
-				elm = doc.selection.createRange().item(0);
-				r = doc.createRange();
-				r.setStartBefore(elm);
-				r.setEndAfter(elm);
 			}
 
 			// No range found then create an empty one
 			// This can occur when the editor is placed in a hidden container element on Gecko
 			// Or on IE when there was an exception
 			if (!r)
-				r = doc.createRange ? doc.createRange() : doc.body.createTextRange();
+				r = t.win.document.createRange ? t.win.document.createRange() : t.win.document.body.createTextRange();
 
 			if (t.selectedRange && t.explicitRange) {
 				if (r.compareBoundaryPoints(r.START_TO_START, t.selectedRange) === 0 && r.compareBoundaryPoints(r.END_TO_END, t.selectedRange) === 0) {

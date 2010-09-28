@@ -1,13 +1,13 @@
 (function(win) {
 	var whiteSpaceRe = /^\s*|\s*$/g,
-		undefined, isRegExpBroken = 'B'.replace(/A(.)|B/, '$1') === '$1';
+		undefined;
 
 	var tinymce = {
 		majorVersion : '3',
 
-		minorVersion : '3.9.1',
+		minorVersion : '3.9',
 
-		releaseDate : '2010-09-23',
+		releaseDate : '2010-09-08',
 
 		_init : function() {
 			var t = this, d = document, na = navigator, ua = na.userAgent, i, nl, n, base, p, v;
@@ -378,29 +378,6 @@
 				return u + v;
 
 			return u.replace('#', v + '#');
-		},
-
-		// Fix function for IE 9 where regexps isn't working correctly
-		// Todo: remove me once MS fixes the bug
-		_replace : function(find, replace, str) {
-			// On IE9 we have to fake $x replacement
-			if (isRegExpBroken) {
-				return str.replace(find, function() {
-					var val = replace, args = arguments, i;
-
-					for (i = 0; i < args.length - 2; i++) {
-						if (args[i] === undefined) {
-							val = val.replace(new RegExp('\\$' + i, 'g'), '');
-						} else {
-							val = val.replace(new RegExp('\\$' + i, 'g'), args[i]);
-						}
-					}
-
-					return val;
-				});
-			}
-
-			return str.replace(find, replace);
 		}
 
 		};
@@ -1321,7 +1298,7 @@ tinymce.create('static tinymce.util.XHR', {
 			t.cssFlicker = false;
 			t.counter = 0;
 			t.boxModel = !tinymce.isIE || d.compatMode == "CSS1Compat"; 
-			t.stdMode = d.documentMode >= 8;
+			t.stdMode = d.documentMode === 8;
 
 			t.settings = s = tinymce.extend({
 				keep_values : false,
@@ -1510,8 +1487,7 @@ tinymce.create('static tinymce.util.XHR', {
 					o += ' ' + k + '="' + t.encode(a[k]) + '"';
 			}
 
-			// A call to tinymce.is doesn't work for some odd reason on IE9 possible bug inside their JS runtime
-			if (typeof(h) != "undefined")
+			if (tinymce.is(h))
 				return o + '>' + h + '</' + n + '>';
 
 			return o + ' />';
@@ -1823,7 +1799,7 @@ tinymce.create('static tinymce.util.XHR', {
 					default:
 						// IE has odd anonymous function for event attributes
 						if (n.indexOf('on') === 0 && v)
-							v = tinymce._replace(/^function\s+\w+\(\)\s+\{\s+(.*)\s+\}$/, '$1', '' + v);
+							v = ('' + v).replace(/^function\s+\w+\(\)\s+\{\s+(.*)\s+\}$/, '$1');
 				}
 			}
 
@@ -2026,7 +2002,7 @@ tinymce.create('static tinymce.util.XHR', {
 				// IE 8 has a bug where dynamically loading stylesheets would produce a 1 item remaining bug
 				// This fix seems to resolve that issue by realcing the document ones a stylesheet finishes loading
 				// It's ugly but it seems to work fine.
-				if (isIE && d.documentMode && d.recalc) {
+				if (isIE && d.documentMode) {
 					link.onload = function() {
 						d.recalc();
 						link.onload = null;
@@ -2234,8 +2210,8 @@ tinymce.create('static tinymce.util.XHR', {
 				h = h.replace(/\s+(disabled|checked|readonly|selected)\s*=\s*[\"\']?(false|0)[\"\']?/gi, ''); // IE doesn't handle default values correct
 			}
 
-			// Force tags open, and on IE9 replace $1$2 that got left behind due to bugs in their RegExp engine
-			h = tinymce._replace(/<a( )([^>]+)\/>|<a\/>/gi, '<a$1$2></a>', h); // Force open
+			// Fix some issues
+			h = h.replace(/<a( )([^>]+)\/>|<a\/>/gi, '<a$1$2></a>'); // Force open
 
 			// Store away src and href in _mce_src and mce_href since browsers mess them up
 			if (s.keep_values) {
@@ -2291,7 +2267,7 @@ tinymce.create('static tinymce.util.XHR', {
 					});
 				}
 
-				h = tinymce._replace(/<!\[CDATA\[([\s\S]+)\]\]>/g, '<!--[CDATA[$1]]-->', h);
+				h = h.replace(/<!\[CDATA\[([\s\S]+)\]\]>/g, '<!--[CDATA[$1]]-->');
 
 				// This function processes the attributes in the HTML string to force boolean
 				// attributes to the attr="attr" format and convert style, src and href to _mce_ versions
@@ -2560,7 +2536,7 @@ tinymce.create('static tinymce.util.XHR', {
 
 									// Remove everything but class name
 									ov = v;
-									v = tinymce._replace(/.*\.([a-z0-9_\-]+).*/i, '$1', h);
+									v = v.replace(/.*\.([a-z0-9_\-]+).*/i, '$1');
 
 									// Filter classes
 									if (f && !(v = f(v, ov)))
@@ -2714,11 +2690,8 @@ tinymce.create('static tinymce.util.XHR', {
 
 				if (node.nodeType != 9) {
 					// Keep non whitespace text nodes
-					if (node.nodeType == 3 && node.nodeValue.length > 0) {
-						// If parent element isn't a block or there isn't any useful contents for example "<p>   </p>"
-						if (!t.isBlock(node.parentNode) || tinymce.trim(node.nodeValue).length > 0)
-							return;
-					}
+					if (node.nodeType == 3 && node.nodeValue.length > 0)
+						return;
 
 					if (node.nodeType == 1) {
 						// If the only child is a bookmark then move it up
@@ -4314,18 +4287,7 @@ tinymce.create('static tinymce.util.XHR', {
 					if (d.body.childNodes.length == 0) {
 						d.body.innerHTML = h;
 					} else {
-						// createContextualFragment doesn't exists in IE 9 DOMRanges
-						if (r.createContextualFragment) {
-							r.insertNode(r.createContextualFragment(h));
-						} else {
-							// Fake createContextualFragment call in IE 9
-							var frag = d.createDocumentFragment(), temp = d.createElement('div');
-
-							frag.appendChild(temp);
-							temp.outerHTML = h;
-
-							r.insertNode(frag);
-						}
+						r.insertNode(r.createContextualFragment(h));
 					}
 				}
 
@@ -4615,9 +4577,8 @@ tinymce.create('static tinymce.util.XHR', {
 								while (marker = dom.get(bookmark.id + '_' + suffix))
 									dom.remove(marker, 1);
 
-								// If siblings are text nodes then merge them unless it's Opera since it some how removes the node
-								// and we are sniffing since adding a lot of detection code for a browser with 3% of the market isn't worth the effort. Sorry, Opera but it's just a fact
-								if (prev && next && prev.nodeType == next.nodeType && prev.nodeType == 3 && !tinymce.isOpera) {
+								// If siblings are text nodes then merge them
+								if (prev && next && prev.nodeType == next.nodeType && prev.nodeType == 3) {
 									idx = prev.nodeValue.length;
 									prev.appendData(next.nodeValue);
 									dom.remove(next);
@@ -4737,7 +4698,7 @@ tinymce.create('static tinymce.util.XHR', {
 		},
 
 		getRng : function(w3c) {
-			var t = this, s, r, elm, doc = t.win.document;
+			var t = this, s, r;
 
 			// Found tridentSel object then we need to use that one
 			if (w3c && t.tridentSel)
@@ -4745,24 +4706,16 @@ tinymce.create('static tinymce.util.XHR', {
 
 			try {
 				if (s = t.getSel())
-					r = s.rangeCount > 0 ? s.getRangeAt(0) : (s.createRange ? s.createRange() : doc.createRange());
+					r = s.rangeCount > 0 ? s.getRangeAt(0) : (s.createRange ? s.createRange() : t.win.document.createRange());
 			} catch (ex) {
 				// IE throws unspecified error here if TinyMCE is placed in a frame/iframe
-			}
-
-			// We have W3C ranges and it's IE then fake control selection since IE9 doesn't handle that correctly yet
-			if (r.setStart && tinymce.isIE && doc.selection.createRange().item) {
-				elm = doc.selection.createRange().item(0);
-				r = doc.createRange();
-				r.setStartBefore(elm);
-				r.setEndAfter(elm);
 			}
 
 			// No range found then create an empty one
 			// This can occur when the editor is placed in a hidden container element on Gecko
 			// Or on IE when there was an exception
 			if (!r)
-				r = doc.createRange ? doc.createRange() : doc.body.createTextRange();
+				r = t.win.document.createRange ? t.win.document.createRange() : t.win.document.body.createTextRange();
 
 			if (t.selectedRange && t.explicitRange) {
 				if (r.compareBoundaryPoints(r.START_TO_START, t.selectedRange) === 0 && r.compareBoundaryPoints(r.END_TO_END, t.selectedRange) === 0) {
@@ -4966,7 +4919,7 @@ tinymce.create('static tinymce.util.XHR', {
 			var h;
 
 			h = this.doc.xml || new XMLSerializer().serializeToString(this.doc);
-			h = h.replace(/<\?[^?]+\?>|<html[^>]*>|<\/html>|<html\/>|<!DOCTYPE[^>]+>/g, '');
+			h = h.replace(/<\?[^?]+\?>|<html>|<\/html>|<html\/>|<!DOCTYPE[^>]+>/g, '');
 			h = h.replace(/ ?\/>/g, ' />');
 
 			if (this.valid)
@@ -4978,8 +4931,6 @@ tinymce.create('static tinymce.util.XHR', {
 })(tinymce);
 
 (function(tinymce) {
-	var attrsCharsRegExp = /[&\"<>]/g, textCharsRegExp = /[<>&]/g, encodedChars = {'&' : '&amp;', '"' : '&quot;', '<' : '&lt;', '>' : '&gt;'};
-
 	tinymce.create('tinymce.dom.StringWriter', {
 		str : null,
 		tags : null,
@@ -5010,16 +4961,12 @@ tinymce.create('static tinymce.util.XHR', {
 			this.inAttr = true;
 			this.count++;
 			this.elementCount = this.count;
-			this.attrs = {};
 		},
 
 		writeAttribute : function(n, v) {
 			var t = this;
 
-			if (!t.attrs[n]) {
-				t.writeRaw(" " + t.encode(n, true) + '="' + t.encode(v, true) + '"');
-				t.attrs[n] = v;
-			}
+			t.writeRaw(" " + t.encode(n) + '="' + t.encode(v) + '"');
 		},
 
 		writeEndElement : function() {
@@ -5060,7 +5007,7 @@ tinymce.create('static tinymce.util.XHR', {
 
 		writeComment : function(v) {
 			this._writeAttributesEnd();
-			this.writeRaw('<!--' + v + '-->');
+			this.writeRaw('<!-- ' + v + '-->');
 			this.count++;
 		},
 
@@ -5068,9 +5015,23 @@ tinymce.create('static tinymce.util.XHR', {
 			this.str += v;
 		},
 
-		encode : function(s, attr) {
-			return s.replace(attr ? attrsCharsRegExp : textCharsRegExp, function(v) {
-				return encodedChars[v];
+		encode : function(s) {
+			return s.replace(/[<>&"]/g, function(v) {
+				switch (v) {
+					case '<':
+						return '&lt;';
+
+					case '>':
+						return '&gt;';
+
+					case '&':
+						return '&amp;';
+
+					case '"':
+						return '&quot;';
+				}
+
+				return v;
 			});
 		},
 
@@ -5116,11 +5077,6 @@ tinymce.create('static tinymce.util.XHR', {
 				t.writer = new tinymce.dom.XMLWriter();
 			} catch (ex) {
 				// IE might throw exception if ActiveX is disabled so we then switch to the slightly slower StringWriter
-				t.writer = new tinymce.dom.StringWriter();
-			}
-
-			// IE9 broke the XML attributes order so it can't be used anymore
-			if (tinymce.isIE && document.documentMode > 8) {
 				t.writer = new tinymce.dom.StringWriter();
 			}
 
@@ -5583,23 +5539,23 @@ tinymce.create('static tinymce.util.XHR', {
 				// This process is only done when getting contents out from the editor.
 				if (!o.set) {
 					// We need to replace paragraph whitespace with an nbsp before indentation to keep the \u00a0 char
-					h = tinymce._replace(/<p>\s+<\/p>|<p([^>]+)>\s+<\/p>/g, s.entity_encoding == 'numeric' ? '<p$1>&#160;</p>' : '<p$1>&nbsp;</p>', h);
+					h = h.replace(/<p>\s+<\/p>|<p([^>]+)>\s+<\/p>/g, s.entity_encoding == 'numeric' ? '<p$1>&#160;</p>' : '<p$1>&nbsp;</p>');
 
 					if (s.remove_linebreaks) {
 						h = h.replace(/\r?\n|\r/g, ' ');
-						h = tinymce._replace(/(<[^>]+>)\s+/g, '$1 ', h);
-						h = tinymce._replace(/\s+(<\/[^>]+>)/g, ' $1', h);
-						h = tinymce._replace(/<(p|h[1-6]|blockquote|hr|div|table|tbody|tr|td|body|head|html|title|meta|style|pre|script|link|object) ([^>]+)>\s+/g, '<$1 $2>', h); // Trim block start
-						h = tinymce._replace(/<(p|h[1-6]|blockquote|hr|div|table|tbody|tr|td|body|head|html|title|meta|style|pre|script|link|object)>\s+/g, '<$1>', h); // Trim block start
-						h = tinymce._replace(/\s+<\/(p|h[1-6]|blockquote|hr|div|table|tbody|tr|td|body|head|html|title|meta|style|pre|script|link|object)>/g, '</$1>', h); // Trim block end
+						h = h.replace(/(<[^>]+>)\s+/g, '$1 ');
+						h = h.replace(/\s+(<\/[^>]+>)/g, ' $1');
+						h = h.replace(/<(p|h[1-6]|blockquote|hr|div|table|tbody|tr|td|body|head|html|title|meta|style|pre|script|link|object) ([^>]+)>\s+/g, '<$1 $2>'); // Trim block start
+						h = h.replace(/<(p|h[1-6]|blockquote|hr|div|table|tbody|tr|td|body|head|html|title|meta|style|pre|script|link|object)>\s+/g, '<$1>'); // Trim block start
+						h = h.replace(/\s+<\/(p|h[1-6]|blockquote|hr|div|table|tbody|tr|td|body|head|html|title|meta|style|pre|script|link|object)>/g, '</$1>'); // Trim block end
 					}
 
 					// Simple indentation
 					if (s.apply_source_formatting && s.indent_mode == 'simple') {
 						// Add line breaks before and after block elements
-						h = tinymce._replace(/<(\/?)(ul|hr|table|meta|link|tbody|tr|object|body|head|html|map)(|[^>]+)>\s*/g, '\n<$1$2$3>\n', h);
-						h = tinymce._replace(/\s*<(p|h[1-6]|blockquote|div|title|style|pre|script|td|li|area)(|[^>]+)>/g, '\n<$1$2>', h);
-						h = tinymce._replace(/<\/(p|h[1-6]|blockquote|div|title|style|pre|script|td|li)>\s*/g, '</$1>\n', h);
+						h = h.replace(/<(\/?)(ul|hr|table|meta|link|tbody|tr|object|body|head|html|map)(|[^>]+)>\s*/g, '\n<$1$2$3>\n');
+						h = h.replace(/\s*<(p|h[1-6]|blockquote|div|title|style|pre|script|td|li|area)(|[^>]+)>/g, '\n<$1$2>');
+						h = h.replace(/<\/(p|h[1-6]|blockquote|div|title|style|pre|script|td|li)>\s*/g, '</$1>\n');
 						h = h.replace(/\n\n/g, '\n');
 					}
 				}
@@ -5607,11 +5563,11 @@ tinymce.create('static tinymce.util.XHR', {
 				h = t._unprotect(h, p);
 
 				// Restore CDATA sections
-				h = tinymce._replace(/<!--\[CDATA\[([\s\S]+)\]\]-->/g, '<![CDATA[$1]]>', h);
+				h = h.replace(/<!--\[CDATA\[([\s\S]+)\]\]-->/g, '<![CDATA[$1]]>');
 
 				// Restore the \u00a0 character if raw mode is enabled
 				if (s.entity_encoding == 'raw')
-					h = tinymce._replace(/<p>&nbsp;<\/p>|<p([^>]+)>&nbsp;<\/p>/g, '<p$1>\u00a0</p>', h);
+					h = h.replace(/<p>&nbsp;<\/p>|<p([^>]+)>&nbsp;<\/p>/g, '<p$1>\u00a0</p>');
 
 				// Restore noscript elements
 				h = h.replace(/<noscript([^>]+|)>([\s\S]*?)<\/noscript>/g, function(v, attribs, text) {
@@ -6038,11 +5994,8 @@ tinymce.create('static tinymce.util.XHR', {
 				src : tinymce._addVer(url)
 			});
 
-			// Add onload listener for non IE browsers since IE9
-			// fires onload event before the script is parsed and executed
-			if (!tinymce.isIE)
-				elm.onload = done;
-
+			// Add onload and readystate listeners
+			elm.onload = done;
 			elm.onreadystatechange = function() {
 				var state = elm.readyState;
 
@@ -9925,10 +9878,8 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 					e = e.target;
 
 					// Needs tobe the setBaseAndExtend or it will fail to select floated images
-					if (e.nodeName == 'IMG' || (e.nodeName == 'A' && t.dom.hasClass(e, 'mceItemAnchor'))) {
+					if (e.nodeName == 'IMG' || (e.nodeName == 'A' && t.dom.hasClass(e, 'mceItemAnchor')))
 						t.selection.getSel().setBaseAndExtent(e, 0, e, 1);
-						t.nodeChanged();
-					}
 				});
 			}
 
@@ -10840,14 +10791,14 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				if (isOpera)
 					o.content = o.content.replace(t.reOpera, '</' + elm + '>');
 
-				o.content = tinymce._replace(t.rePadd, '<' + elm + '$1$2$3$4$5$6>\u00a0</' + elm + '>', o.content);
+				o.content = o.content.replace(t.rePadd, '<' + elm + '$1$2$3$4$5$6>\u00a0</' + elm + '>');
 
 				if (!isIE && !isOpera && o.set) {
 					// Use &nbsp; instead of BR in padded paragraphs
 					o.content = o.content.replace(t.reNbsp2BR1, '<' + elm + '$1$2><br /></' + elm + '>');
 					o.content = o.content.replace(t.reNbsp2BR2, '<' + elm + '$1$2><br /></' + elm + '>');
 				} else
-					o.content = tinymce._replace(t.reBR2Nbsp, '<' + elm + '$1$2>\u00a0</' + elm + '>', o.content);
+					o.content = o.content.replace(t.reBR2Nbsp, '<' + elm + '$1$2>\u00a0</' + elm + '>');
 			};
 
 			ed.onBeforeSetContent.add(padd);
@@ -11071,7 +11022,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 						if (nx.nodeType != 3 || /[^\s]/g.test(nx.nodeValue)) {
 							// Store selection
 							if (si == -2 && r) {
-								if (!isIE || r.setStart) {
+								if (!isIE) {
 									// If selection is element then mark it
 									if (r.startContainer.nodeType == 1 && (n = r.startContainer.childNodes[r.startOffset]) && n.nodeType == 1) {
 										// Save the id of the selected element
@@ -11130,7 +11081,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 			// Restore selection
 			if (si != -2) {
-				if (!isIE || r.setStart) {
+				if (!isIE) {
 					bl = b.getElementsByTagName(ed.settings.element)[0];
 					r = d.createRange();
 
@@ -11162,7 +11113,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 						// Ignore
 					}
 				}
-			} else if ((!isIE || r.setStart) && (n = ed.dom.get('__mce'))) {
+			} else if (!isIE && (n = ed.dom.get('__mce'))) {
 				// Restore the id of the selected element
 				if (eid)
 					n.setAttribute('id', eid);
