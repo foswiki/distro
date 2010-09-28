@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-26 19:38+0200\n"
+"PO-Revision-Date: 2010-09-28 01:04+0200\n"
 "Last-Translator: Rui Procopio <rui.procopio@gmail.com>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "Language: pt\n"
@@ -1298,32 +1298,37 @@ msgid "E-mail changed successfully!"
 msgstr "E-mail alterado com sucesso!"
 
 #: core/templates/messages.tmpl:632
+#, fuzzy
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "ENCODE failed - =type= não pode ser usado juntamente com =old= e =new= "
 
 #: core/templates/messages.tmpl:633
+#, fuzzy
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr ""
+msgstr "ENCODE failed - ambos =old= e =new= devem ser fornecidos"
 
 #: core/templates/messages.tmpl:634
+#, fuzzy
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr ""
+msgstr "ENCODE failed - token '%PARAM1%' está repetido em =old="
 
 #: core/templates/messages.tmpl:637
+#, fuzzy
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr ""
+msgstr "EXPAND failed - acesso ao '%PARAM1%' negado"
 
 #: core/templates/messages.tmpl:635
+#, fuzzy
 msgid "EXPAND failed - no macro"
-msgstr ""
+msgstr "EXPAND failed - não existe macro "
 
 #: core/templates/messages.tmpl:636
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr ""
+msgstr "EXPAND failed - não existe nenhum tópico '%PARAM1%'"
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
-msgstr "Cada preferência tem sua sintaxe"
+msgstr "Cada preferência tem a sintaxe"
 
 #: core/templates/viewtopicactionbuttons.tmpl:45
 msgid "Edit"
@@ -1334,22 +1339,22 @@ msgid "Edit Anyway"
 msgstr "Editar assim mesmo"
 
 #: core/templates/viewtopicactionbuttons.tmpl:61
+#, fuzzy
 msgid "Edit Wiki<nop>Text"
-msgstr ""
+msgstr "Editar Wiki<nop>Text"
 
 #: PatternSkin/templates/edit.pattern.tmpl:11
 msgid "Edit help"
 msgstr "Ajuda com edição"
 
 #: core/templates/more.tmpl:17
-#, fuzzy
 msgid "Edit settings for this topic..."
-msgstr "Editar preferências para este tópico"
+msgstr "Editar configurações para este tópico..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:160
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
-msgstr "Editar essa tabela"
+msgstr "Editar esta tabela"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1357,22 +1362,21 @@ msgstr "Editar preferências do tópico"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
-msgstr ""
+msgstr "Hum, deixe-me voltar atrás para corrigir a página ..."
 
 #: core/templates/messages.tmpl:318
 msgid ""
 "Either the code is not valid, or you have already confirmed your "
 "registration using it."
-msgstr ""
-"Ou o código é inválido, ou você já o utilizou, confirmando seu registo."
+msgstr "Ou o código é inválido, ou você já o usou no seu registo."
 
 #: core/templates/messages.tmpl:127
 msgid "Either the name is invalid, or it refers to a non-existant form."
-msgstr ""
+msgstr "Ou o nome é inválido, ou refere-se a um formulário inexistente."
 
 #: core/templates/messages.tmpl:123
 msgid "Either the name is invalid, or it refers to a non-existant topic."
-msgstr ""
+msgstr "Ou o nome é inválido, ou refere-se a um tópico inexistente."
 
 #: core/templates/messages.tmpl:389
 msgid ""
@@ -1447,7 +1451,7 @@ msgstr "Erro ao salvar tópico"
 
 #: core/templates/messages.tmpl:504
 msgid "Errors removing users from groups"
-msgstr ""
+msgstr "Erros ao remover utilizadores dos grupos"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
 #, fuzzy
@@ -1456,7 +1460,7 @@ msgstr "Editar dados pessoais"
 
 #: core/lib/Foswiki/Plugins.pm:366
 msgid "Failed plugins"
-msgstr ""
+msgstr "Falha nos plugins"
 
 #: core/templates/messages.tmpl:560
 msgid "Failed to include URL %1"
@@ -1495,6 +1499,9 @@ msgid ""
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 msgstr ""
+"Para mais detalhes sobre falsificação de pedidos cross-site, e os perigos a "
+"que está sujeito, veja [[%1][the Cross-site request forgery article on "
+"Wikipedia]]."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1511,7 +1518,7 @@ msgstr "Faltando definição do formulário %1"
 #: PatternSkin/templates/formtables.pattern.tmpl:5 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:6
 msgid "Form data"
-msgstr ""
+msgstr "Dados do formulário"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
 #, fuzzy
@@ -1532,10 +1539,13 @@ msgid "Foswiki User Authentication"
 msgstr "Autenticação de usuário Foswiki"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:5
+#, fuzzy
 msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
+"Foswiki verifica todos os pedidos recebidos dos browser, e tenta verificar "
+"se as pessoas que usam os browsers enviaram os pedidos intencionalmente."
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
@@ -1548,7 +1558,7 @@ msgstr "tem mais informação sobre como anexar arquivos."
 
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
-msgstr ""
+msgstr "Obtenha ajuda na configuração de preferências tópico"
 
 #: core/data/System/WebSearch.txt:157
 msgid "Get notified on changes on this search"
@@ -1580,6 +1590,8 @@ msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
 msgstr ""
+"Volte à página anterior, e active Cookies e JavaScript antes de tentar "
+"novamente"
 
 #: core/templates/messages.tmpl:292
 msgid "Good examples:"
@@ -1684,6 +1696,8 @@ msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
 msgstr ""
+"Se o Foswiki detectar um pedido suspeito enviado de uma página web, em "
+"seguida, é-lhe pedido para confirmar o pedido."
 
 #: core/templates/messages.tmpl:431
 #, fuzzy
