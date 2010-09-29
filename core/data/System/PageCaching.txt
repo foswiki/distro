@@ -37,8 +37,9 @@ Foswiki's page cache performs a so called _deep dependency tracking_ of every
 page it caches and stores this dependency graph into its [[#metadatadb][meta-data DB]].
 Based on this information, cache entries of topics are invalidated automatically.
 
-While works out for most normal wiki use cases, this kind of cache maintenance
-is not able to fully track all required refreshes.
+While this works out for most normal wiki use cases, cache maintenance
+is not able to fully track _all_ required dependencies of a page because some
+of them are either out of scope for Foswiki or simply not available a priori.
 
 There are some things users may have to know to get the best out of the
 Foswiki cache.
