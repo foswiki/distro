@@ -675,6 +675,11 @@ sub _actionManageExtensions {
 
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
+    Foswiki::Configure::UI::getTemplateParser()->parse(
+        $html,
+        {
+        }
+    );
     Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
     print $html;
 
