@@ -100,12 +100,12 @@ To avoid this effect you can
 
 Note that page caching doesn't only affect SEARCH. Every other information that changes without the
 dependency tracker noticing it will not be rendered up-to-date on a cached page. Other candidates
-are [[VarWEBTOPICLIST][WEBTOPICLIST]], as well as any plugin reading external
+are [[VarWEBLIST][WEBLIST]], as well as any plugin reading external
 information, for instance results of an SQL, SOAP or LDAP query being rendered on a Foswiki topic.
 
 This class of SEARCH-like expressions all show the same caching artefact: results are not 100% up-to-date.
 At the same time these expressions are the candidates that benefit the most from caching as their computation
-as the most expensive ones.
+are the most expensive ones.
    
 ---++ Configuring the Cache
 
