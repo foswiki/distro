@@ -145,7 +145,7 @@ _this does not _
 %T% =verbatim= tags disable HTML code. Use =&lt;pre&gt;= and =&lt;/pre&gt;= tags instead if you want the HTML code within the tags to be interpreted.%BR% %BR%
 %X% Preferences settings (* Set NAME = value) are set within verbatim tags.
 </td><td>
-<verbatim class="java">
+<verbatim>
 <verbatim>
 class CatAnimal {
   void purr() {
@@ -155,12 +155,52 @@ class CatAnimal {
 </verbatim>
 </verbatim>
 </td><td>
-<verbatim class="java">
+<verbatim>
 class CatAnimal {
   void purr() {
     <code here>
   }
 }
+</verbatim>
+</td>
+</tr>
+<tr valign="top">
+<td>
+ *Verbatim (Literal) Code Highlighting:* %BR%
+ Surround code excerpts and other formatted text e.g. with =&lt;verbatim class="bash"&gt;= and =&lt;/verbatim&gt;= tags.%BR% %BR%
+%I% This type of code highlighting is based on Chili - the jQuery code highlighter plugin. Please find supported class attributes in %BASEWEB%.JQueryChili.%BR% %BR%
+%T% =verbatim= tags disable HTML code. Use =&lt;pre class="bash"&gt;= and =&lt;/pre&gt;= tags instead if you want the HTML code within the tags to be interpreted.%BR% %BR%
+%X% Preferences settings (* Set NAME = value) are set within verbatim tags.
+</td><td>
+<verbatim>
+<verbatim class="bash">
+#!/bin/bash
+while [ -n "$(ls . ~/ \
+~/pub* /var/www 2>/dev/null \
+| fgrep foswiki )" ] ; do
+ clear
+ printf "\nFoswiki rules!\n"
+ sleep 10
+ clear
+ printf "\nFoswiki still rules!\n"
+ sleep 10
+done; exit 0
+</verbatim>
+</verbatim>
+</td><td>
+<verbatim class="bash">
+#!/bin/bash
+while [ -n "$(ls . ~/ \
+~/pub* /var/www 2>/dev/null \
+| fgrep foswiki )" ] ; do
+ clear
+ printf "\nFoswiki rules!\n"
+ sleep 10
+ clear
+ printf "\nFoswiki still rules!\n"
+ sleep 10
+done; exit 0
+
 </verbatim>
 </td>
 </tr>
