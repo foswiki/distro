@@ -92,6 +92,7 @@ suboptimal use of these APIs.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  29 Sep 2010 | Foswikitask:Item9763 revert recent changes and forward port script zone to make it work on old foswiki engines | 
 |  06 Sep 2010 | Foswikitask:Item9588: Update ZonePlugin to match Foswiki 1.1. Removed ={OptimizePageLayout}=, replaced with ={MergeHeadAndScriptZones}=. Removed =body= zone, replaced with =script= zone. Refer to Foswikitask:Item9588 for more info |
 |  28 Mar 2010 | fix problem where Foswiki 1.0.x installations would fail with "Undefined subroutine &Foswiki::Func::addToZone" |
 |  26 Mar 2010 | suppressing plugin initialisation on Foswiki engines >= 1.1; renamed <nop>BackwardsCompatible switch to <nop>OptimizePageLayout (defaults to off) |
