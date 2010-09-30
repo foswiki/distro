@@ -2,7 +2,7 @@
 ---+!! Mailer Contrib
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
 
-Allows users to "subscribe" to regularly scheduled e-mails containing either:
+Allows users to "subscribe" to regularly scheduled emails containing either:
    * A report on changes to all topics that have changed within a particular Foswiki web.
    * A report on changes to a specific topic or set of topics the user can define flexibly.
    * The entire content of a specific topic or set of topics. This is referred to as "news mode."
@@ -24,7 +24,7 @@ Allows users to "subscribe" to regularly scheduled e-mails containing either:
 ---++ How it works
 
 !MailerContrib generates and sends out emails based on analysis of
-   1 users' subcriptions listed in the <nop>%NOTIFYTOPIC%  topic in each web, and
+   1 users' subcriptions listed in the <nop>%NOTIFYTOPIC% topic in each web, and
    1 changes within the respective webs.
 
 The mailer collates the changes emails so that each subscriber only receives one changes notification for all changes in all webs in the Foswiki. Furthermore, users can elect to receive just summaries of changes, or the entire content of topics that have changed.
@@ -38,7 +38,7 @@ The general format of a subscription is:
 
 _three spaces_ =*= _subscriber_ [ =:= _topics_ ]
 
-Where _subscriber_ can be a [[%SYSTEMWEB%.WikiName][WikiName]], an E-mail address, or a
+Where _subscriber_ can be a [[%SYSTEMWEB%.WikiName][WikiName]], an email address, or a
 group name. If _subscriber_ contains any characters that are not legal in
 an email address, then it must be enclosed in 'single' or "double" quotes.
 
@@ -49,7 +49,7 @@ Users may further customize the specific content they will receive using the fol
    * *Using wild-card character in topic names* - You can use =*= in a topic name, where it is treated as a [[http://en.wikipedia.org/wiki/Wildcard_character][wildcard character]]. A =*= will match zero or more other characters - so, for example, =Fred*= will match all topic names starting with =Fred=, =*Fred= will match all topic names _ending_ with =Fred=, and =*= will match _all_ topic names.
    * *Unsubscribing to specific topics* - Each topic may optionally be preceded by a '+' or '-' sign. The '+' sign means "subscribe to this topic". The '-' sign means "unsubscribe" or "don't send notifications regarding this particular topic". This allows users to elect to filter out certain topics. Topic filters ('-') take precedence over topic includes ('+') i.e. if you unsubscribe from a topic it will cancel out any subscriptions to that topic.
    * *Including child-topics in subscription* - Each topic may optionally be followed by an integer in parentheses, indicating the depth of the tree of children below that topic. Changes in all these children will be detected and reported along with changes to the topic itself. _Note_ This uses the Foswiki "Topic parent" feature.
-   * *Subscribing to entire topic ("news mode")* - Each topic may optionally be immediately followed by an exclamation mark ! and/or a question mark ? with no intervening spaces, indicating that the topic (and children if there is a tree depth specifier as well) should be mailed out as *complete topics* instead of change summaries. ! causes the full topic to be mailed every time _even if there have been no changes_, and ? will mail the full topic only if there have been changes. One can limit the content of the subscribed topic to send out by inserting %<nop>STARTPUBLISH% and %<nop>STOPPUBLISH% markers within the topic.
+   * *Subscribing to entire topic ("news mode")* - Each topic may optionally be immediately followed by an exclamation mark ! and/or a question mark ? with no intervening spaces, indicating that the topic (and children if there is a tree depth specifier as well) should be mailed out as *complete topics* instead of change summaries. ! causes the full topic to be mailed every time _even if there have been no changes_, and ? will mail the full topic only if there have been changes. One can limit the content of the subscribed topic to send out by inserting =%<nop>STARTPUBLISH%= and =%<nop>STOPPUBLISH%= markers within the topic.
 
 Examples:
 Subscribe Daisy to all changes to topics in this web.
@@ -60,7 +60,7 @@ Subscribe Daisy to all changes to topics that start with =Web=.
 <verbatim class="tml">
    * daisy.cutter@flowers.com : Web*
 </verbatim>
-Subscribe Daisy to changes to topics starting with =Petal=, and their immediate children, !WeedKillers and children to a depth of 3, and all topics that match start with =Pretty= and end with =Flowers= e.g. =PrettyPinkFlowers=
+Subscribe Daisy to changes to topics starting with =Petal=, and their immediate children, =WeedKillers= and children to a depth of 3, and all topics that match start with =Pretty= and end with =Flowers= e.g. =PrettyPinkFlowers=.
 <verbatim class="tml">
    * DaisyCutter: Petal* (1) WeedKillers (3) Pretty*Flowers
 </verbatim>
@@ -68,15 +68,15 @@ Subscribe !StarTrekFan to changes to all topics that start with =Star= *except* 
 <verbatim class="tml">
    * StarTrekFan: Star* - *Wars - *sInTheirEyes - *shipTroopers
 </verbatim>
-Subscribe Daisy to the full content of !NewsLetter whenever it has changed
+Subscribe Daisy to the full content of =NewsLetter= whenever it has changed.
 <verbatim class="tml">
    * daisy@flowers.com: NewsLetter?
 </verbatim>
-Subscribe buttercup to !NewsLetter and its immediate children, even if it hasn't changed.
+Subscribe buttercup to =NewsLetter= and its immediate children, even if it hasn't changed.
 <verbatim class="tml">
    * buttercup@flowers.com: NewsLetter! (1)
 </verbatim>
-Subscribe !GardenGroup (which includes Petunia) to all changed topics under !AllnewsLetters to a depth of 3. Then unsubscribe Petunia from the !ManureNewsLetter, which she would normally get as a member of GardenGroup:
+Subscribe !GardenGroup (which includes Petunia) to all changed topics under =AllNewsLetters= to a depth of 3. Then unsubscribe Petunia from the =ManureNewsLetter=, which she would normally get as a member of !GardenGroup:
 <verbatim class="tml">
    * GardenGroup: AllNewsLetters? (3)
    * petunia@flowers.com: - ManureNewsLetter
@@ -88,16 +88,16 @@ Subscribe =IT:admins= (a non-Foswiki group defined by an alternate user mapping)
 
 A user may be listed many times in the <nop>%NOTIFYTOPIC% topic. Where a user has several lines in <nop>%NOTIFYTOPIC% that all match the same topic, they will only be notified about _changes_ that topic _once_ (though they will still receive individual mails for news topics).
 
-If a _group_ is listed for notification, the group will be recursively expanded to the e-mail addresses of all members.
+If a _group_ is listed for notification, the group will be recursively expanded to the email addresses of all members.
 
-<blockquote class="foswikihelp"> *%X% Warning:* Because an email address is not linked to a user name, there is no way for Foswiki to check access controls for subscribers identified by email addresses. A subscriber identified by an email address alone will only be sent change notifications if the topic they are subscribed to is readable by guest users. You can limit what email addresses can be used in %<nop>NOTIFYTOPIC%, or even block use of emails altogther, using the ={MailerContrib}{EmailFilterIn} setting in =configure=.</blockquote>
+<blockquote class="foswikihelp"> *%X% Warning:* Because an email address is not linked to a user name, there is no way for Foswiki to check access controls for subscribers identified by email addresses. A subscriber identified by an email address alone will only be sent change notifications if the topic they are subscribed to is readable by guest users. You can limit which email addresses can be used in <nop>%NOTIFYTOPIC%, or even block use of emails altogther, using the ={MailerContrib}{EmailFilterIn}= setting in =configure=.</blockquote>
 
 <blockquote class="foswikiHelp"> *%T% Tip:* List names in alphabetical order to make it easier to find the names.</blockquote>
 %STOPINCLUDE%
 
-In the future it is intended that individual users will be able to control the frequency with which they are notified of topic changes, by changing a schedule specification in their home topic. However at present, the notification schedule is controlled by the frequency of activation of the mailer.
+In the future, it is intended that individual users will be able to control the frequency with which they are notified of topic changes, by changing a schedule specification in their home topic. However, at present, the notification schedule is controlled by the frequency of activation of the mailer.
 
-Note that when using the "news mode" =!= or =?= specifiers the entire topic text is mailed out as HTML. The =newsletter= template is used to generate the content in this mail, using whatever skin is selected in the topic being mailed.
+Note that when using the "news mode" =!= or =?= specifiers the entire topic text is mailed out as HTML. The newsletter template is used to generate the content in this email, using whichever skin is selected in the topic being mailed.
 
 In addition, the =%<nop>STARTPUBLISH%= and =%<nop>STOPPUBLISH%= markers used by Foswiki:Extensions.PublishPlugin to delimit the text to be published are respected in news mode.
 
@@ -108,7 +108,7 @@ The second part of the module is a code library that provides the services for o
 %$INSTALL_INSTRUCTIONS%
    * To make sure the installation was successful, run the =mailnotify= script from the command line, with no parameters. In this case it will print out what it would have done to =STDOUT=.
 *Additional settings*
-   * You can change the regular expression that matches email addresses in =%<nop>NOTIFYTOPIC%= using the ={MailerContrib}{EmailFilterIn}= setting in =configure=. This allows you to limit the domains to which emails can be sent, or even block email addresses altogether.
+   * You can change the regular expression that matches email addresses in <nop>%NOTIFYTOPIC% using the ={MailerContrib}{EmailFilterIn}= setting in =configure=. This allows you to limit the domains to which emails can be sent, or even block email addresses altogether.
 
 <blockquote class="foswikiHelp">%H% If you plan to use the "run from the web" feature, you *must* run =configure= and save at least once after installing for the first time.</blockquote>
 
@@ -118,12 +118,14 @@ The mailer can be run from =cron= (or an equivalent off-line job scheduler), fro
 The mailer can be invoked from the command line by the =tools/mailnotify=
 script.
 
-The script is used as follows: <code>perl -I _bin_ mailnotify [-q] [-nonews] [-nochanges] [ <i>web1 web2 ... webN</i> ]</code>
-| _bin_ | path to the Foswiki bin directory, so that the script can find the rest of Foswiki |
+The script is used as follows:%BR%
+<code>perl -I _bin_ mailnotify [-q] [-user <i>UserName</i>] [-nonews] [-nochanges] [ <i>web1 web2 ... webN</i> ]</code>
+| _bin_ | path to the Foswiki =bin= directory, so that the script can find the rest of Foswiki |
 | =-q= | Don't print progress information |
 | =-nonews= | Skip the "news mode" (do not process subscriptions that include "!" or "?" following the topic) |
 | =-nochanges= | Only run the news mode. (only process subscriptions that include "!" or "?" following the topic) |
-| <code><i>web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
+| =-user= | Process the webs and topics as the specified user; defaults to =AdminUser=.%BR%__%X% Note:__ A bug present in versions of Foswiki through 1.0.10 default this to the wrong value.  Therefore, always explicitly specify =-user <nop>AdminUser= as shown in the examples below`. |
+| <code style="white-space:nowrap"><i>web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
 
 <blockquote class="foswikiHelp">%X% Be careful what user you use to run this script. It will write the
 Foswiki log files, and if these log files are left in a state where they
@@ -145,35 +147,35 @@ Crontab syntax is 5 numbers followed by the command
    * E day of week (0-6) (Sunday=0)
 An asterix '*' means any value
 
-If you choose to setup the cron by editing the system wide /etc/crontab file the syntax is =A B C D E username command-to-be-executed=
+If you choose to setup the cron by editing the system-wide =/etc/crontab= file, the syntax is =A B C D E username command-to-be-executed=
 </blockquote>
 
 For example, assuming Foswiki was installed at =/usr/local/foswiki=, this cron entry:
 <verbatim class="bash">
-0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -q Public Private
+0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -user AdminUser -q Public Private
 </verbatim>
 will generate change notifications for the =Public= and =Private= webs every night at midnight.
 <verbatim class="bash">
-0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -q -Sandbox
+0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -user AdminUser -q -Sandbox
 </verbatim>
 will generate change notifications for all webs, except the =Sandbox= web.
 <verbatim class="bash">
-0 0 * * 0 cd /usr/local/foswiki && perl -I bin tools/mailnotify -nochanges
+0 0 * * 0 cd /usr/local/foswiki && perl -I bin tools/mailnotify -user AdminUser -nochanges
 </verbatim>
 will generate newsletters from *all* webs every week on midnight Saturday but will not process the non-newsletter subscriptions.
 <verbatim class="bash">
-0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -nonews
+0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -user AdminUser -nonews
 </verbatim>
 will generate change notifications for all webs every night at midnight but will not process the newsletter subscriptions.
 
 To learn more about cron and crontab, Google for =crontab=. 
 
-<blockquote class="foswikiHelp">%X% *Note:* Multiple instances of the mailnotify script are not allowed to be executed simutaneously. If you need to run the script multiple times with different options, make sure the cron jobs are scheduled so a previous run has finished before the next starts. You can also write a small script that runs mailnotify in sequence as described in Foswiki:Support.DuplicateNotificationsFromMailerCon.
+<blockquote class="foswikiHelp">%X% *Note:* Multiple instances of the =mailnotify= script are not allowed to be executed simutaneously. If you need to run the script multiple times with different options, make sure the cron jobs are scheduled so a previous run has finished before the next starts. You can also write a small script that runs =mailnotify= in sequence as described in Foswiki:Support.DuplicateNotificationsFromMailerCon.
 
-%X% *Note:* Even if you run separate -nonews and -nochanges cron jobs, the subscriptions using the "?" feature will only show the topics that changed since last time the mailnotify script was run even if it was run with -nonews. Separate newsletter jobs work best with the unconditional "!" mode.</blockquote>
+%X% *Note:* Even if you run separate =-nonews= and =-nochanges= cron jobs, the subscriptions using the "?" feature will only show the topics that changed since last time the =mailnotify= script was run even if it was run with =-nonews=. Separate newsletter jobs work best with the unconditional "!" mode.</blockquote>
 
 ---+++ Triggering mail notification from the browser
-You can also the mailer from within the browser, using a REST handler. For example, to notify changes in all webs, link to %SCRIPTURL{rest}%/MailerContribPlugin/notify. The URL parameters =webs=, =nonews=, =nochanges=, and =excludewebs= correspond to the different command-line parameters.
+You can also the mailer from within the browser, using a REST handler. For example, to notify changes in all webs, link to =%SCRIPTURL{rest}%/MailerContribPlugin/notify=. The URL parameters =webs=, =nonews=, =nochanges=, and =excludewebs= correspond to the different command-line parameters.
 
 Because there is a risk that a stupid person could lock up your server by
 firing multiple notification requests at it, the REST handler is only
@@ -184,35 +186,35 @@ accessible to administrators.
 %JQREQUIRE{"chili"}%
 -->
 ---+++ Tailoring the email format
-The changes mails sent to subscribers are based on a Foswiki template called =mailnotify=. This template must contain the following definitions. 
-| =HTML:before= | Section of a HTML mail before the changes |
-| =HTML:middle= | Repeated in a HTML mail for each change |
-| =HTML:after= | Section of a HTML mail after the changes |
-| =PLAIN:before= | Section of a plain text mail before the changes |
-| =PLAIN:middle= | Repeated in a plain text mail for each changes |
-| =PLAIN:after= | Section of a plain text mail after the changes |
+The changes emails sent to subscribers are based on a Foswiki template called =mailnotify=. This template must contain the following definitions. 
+| =HTML:before= | Section of an HTML email before the changes |
+| =HTML:middle= | Repeated in an HTML email for each change |
+| =HTML:after= | Section of an HTML email after the changes |
+| =PLAIN:before= | Section of a plain text email before the changes |
+| =PLAIN:middle= | Repeated in a plain text email for each changes |
+| =PLAIN:after= | Section of a plain text email after the changes |
 | =MailNotifyBody= | All the above are embedded in this. %<nop>HTML_TEXT% expands to the HTML obtained by expanding the =HTML:*= templates, and %<nop>PLAIN_TEXT% from the =PLAIN:*= templates. |
-The default template sends multipart mails containing both HTML and plaintext versions.
+The default template sends multipart emails containing both HTML and plaintext versions.
 
 <blockquote class="foswikiHelp"> %X% Avoid editing the distributed =mailnotify.tmpl= file, or you will regret it later when it gets overwritten when you upgrade Foswiki. Instead, you should either use a skin setting to choose the template file, or use the web part of the [[%SYSTEMWEB%.SkinTemplates#FindingTemplates][template search path rules]]. 
    
 It is recommended to use the skin method, as it is easier to control, and requires less hacking around. Especially if you need to use the same tailoring for many (or all) webs.</blockquote>
 
    * Simple global tailoring used in all webs using your normal default skin
-      * Make a copy of =templates/mailnotify.tmpl= called =templates/mailnotify.skiname.tmpl=. For example =templates/mailnotify.pattern.tmpl= and modify this copy to your need. If you use the !NatSkin simply use =templates/mailnotify.nat.tmpl= instead
+      * Make a copy of =templates/mailnotify.tmpl= called =templates/mailnotify.skiname.tmpl=. For example, =templates/mailnotify.pattern.tmpl=, and modify this copy to your need. If you use the !NatSkin simply use =templates/mailnotify.nat.tmpl= instead
 
    * Using a dummy skin name globally
-      * In !%USERSWEB%.SitePreferences define a setting =* Set SKIN = notifyskin,pattern= where the notifyskin is the dummy skin name and the pattern in this example is the real skin.
+      * In [[%USERSWEB%.SitePreferences]], define a setting =* Set SKIN = notifyskin,pattern= where the notifyskin is the dummy skin name and the pattern in this example is the real skin.
       * Create a =templates/mailnotify.notifyskin.tmpl= with your tailorings
    
    * Using a dummy skin name per web
-      * In each web where you want a special mailnotify template add the setting =* Set SKIN = notifywebname,pattern= where the notifywebname is the dummy skin name for this web and the pattern in this example is the real skin.
-      * For each web where you need a special mailnotify template create a =templates/mailnotify.notifywebname.tmpl= with your tailorings
+      * In each web where you want a special mailnotify template, add the setting =* Set SKIN = notifywebname,pattern= where the notifywebname is the dummy skin name for this web and the pattern in this example is the real skin.
+      * For each web where you need a special mailnotify template, create a =templates/mailnotify.notifywebname.tmpl= with your tailorings
    
    * Using the web path in the templates directory
-      * For each web where you want a special mailnotify create subdirectories in =templates= with the same names as the webs and place a =templates/mailnotify.tmpl= in these subdirectories with your tailorings
+      * For each web where you want a special mailnotify, create subdirectories in =templates= with the same names as the webs and place a =templates/mailnotify.tmpl= in these subdirectories with your tailorings
 
-Newsletters are sent after formatting using the standard =view= template, using whatever skin is selected in the topic being mailed.
+Newsletters are sent after formatting using the standard =view= template, using whichever skin is selected in the topic being mailed.
 
 ---+++ Using a topic defined email template
 
@@ -221,18 +223,18 @@ If you want to use a topic to define the notify email format this is possible wi
 The method can best be shown with an example. In the following we...
 
    * Define a custom mailnotify template based on a skin setting in !WebNotify
-   * Allow the users to define the mail format in a topic called !WebNotifyCustomTemplate
+   * Allow the users to define the email format in a topic called !WebNotifyCustomTemplate
 
-Here are the steps
+Here are the steps:
 
-First we create a file =templates/mailnotify.customnotify.tmpl= which only contains these two lines
+First, we create a file =templates/mailnotify.customnotify.tmpl= which only contains these two lines
 
 <verbatim class="tml">
 %TMPL:INCLUDE{"mailnotify"}%
 %TMPL:INCLUDE{"WebNotifyCustom"}%
 </verbatim>
 
-In the webs where you want the topic defined mail format we add the setting <verbatim class="tml">   * Set SKIN = customnotify,pattern</verbatim> (assuming pattern is the normal skin)
+In the webs where you want the topic defined email format, we add the setting <verbatim class="tml">   * Set SKIN = customnotify,pattern</verbatim> (assuming pattern is the normal skin)
 
 And we create a topic in the web called !WebNotifyCustomTemplate which contains the entire mailnotify template you want to use. Simply copy the content from =templates/mailnotify.tmpl= to this template and do the tailoring.
 
@@ -250,6 +252,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  30 Sep 2010 | Foswikitask:Item6011: document =-user= parameter and update examples in order to make fully functional on versions of Foswiki through 1.0.10; other documentation cleanup  -- Foswiki:Main.WillNorris |
 |  31 Jul 2010 | Foswikitask:Item9415: Documentation updates |
 |  9 Jul 2010 | Foswikitask:Item9261: split of the plugin more completely to make configuration cleaner. No functional changes. |
 |  18 Dec 2009 | Foswikitask:Item2511: make a new tiny plugin module, to reduce load time for when the mailer isn't used in a request |
@@ -280,7 +283,7 @@ Many thanks to the following sponsors for supporting this work:
 |  8808 | TWikibug:Item1654  mailnotify must enter the command_line context |
 |  8625 | TWikibug:Item1508  Making the dashes in the separatator clearer |
 |  8606 | TWikibug:Item1508  MailerContrib: Brushing up HTML mailnotify template |
-|  8602 | TWikibug:Item1508  MailerContrib: Cleaning up plaintext e-mail template, removing TEXTAREA |
+|  8602 | TWikibug:Item1508  MailerContrib: Cleaning up plaintext email template, removing TEXTAREA |
 |  8522 | TWikibug:Item1511  arguments to getScriptUrl in wrong order :-( |
 |  8434 | TWikibug:Item1465  Fix 'TWiki.' to '%TWIKIEB%.' |
 |  8398 | TWikibug:Item1460  polished up the comment a bit |
