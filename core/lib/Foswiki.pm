@@ -155,7 +155,7 @@ BEGIN {
         }
     }
     else {
-        $Error::Debug = 0;        # no verbose stack traces
+        $Error::Debug = 0;        # no verbose stack traces 
     }
 
     # DO NOT CHANGE THE FORMAT OF $VERSION
@@ -359,6 +359,7 @@ BEGIN {
     $macros{STATISTICSTOPIC}   = sub { $Foswiki::cfg{Stats}{TopicName} };
     $macros{SYSTEMWEB}         = sub { $Foswiki::cfg{SystemWebName} };
     $macros{TRASHWEB}          = sub { $Foswiki::cfg{TrashWebName} };
+    $macros{SANDBOXWEB}        = sub { $Foswiki::cfg{SandboxWebName} };
     $macros{WIKIADMINLOGIN}    = sub { $Foswiki::cfg{AdminUserLogin} };
     $macros{USERSWEB}          = sub { $Foswiki::cfg{UsersWebName} };
     $macros{WEBPREFSTOPIC}     = sub { $Foswiki::cfg{WebPrefsTopicName} };
@@ -3442,7 +3443,6 @@ sub _renderZone {
         $line =~ s/\$item\b/$text/g;
         $line =~ s/\$id\b/$id/g;
         $line =~ s/\$zone\b/$item->{zone}/g;
-        $line = expandStandardEscapes($line);
         push @result, $line if $line;
     }
     my $result =
