@@ -74,7 +74,7 @@ sub prepareHeaders {
         delete $this->{user};
     }
     else {
-        $req->remoteUser( $Foswiki::cfg{SuperAdminGroup} );
+        $req->remoteUser( $Foswiki::cfg{AdminUserWikiName} );
     }
 }
 
