@@ -70,7 +70,7 @@ be optimized.
 
 This plugin patches the =Foswiki::Func= API for backwards compatibility. 
 
-   * New =Foswiki::Func::addToZone($zone, $tag, $text, $requires)=
+   * New =Foswiki::Func::addToZone($zone, $id, $text, $requires)=
    * Replaces =Foswiki::Func::addToHEAD() to use the =head= namespace of this plugin instead of =Foswiki::_HTMLHEAD=
 
 The latter will try to detect =text/javascrtipt= and 

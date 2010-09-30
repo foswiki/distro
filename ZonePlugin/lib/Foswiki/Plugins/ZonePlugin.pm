@@ -98,19 +98,19 @@ s/${translationToken}RENDERZONE{(.*?)}${translationToken}/renderZoneById($1)/ge;
 sub ADDTOHEAD {
     my ( $sessions, $params, $theTopic, $theWeb ) = @_;
 
-    my $tag      = $params->{_DEFAULT} || '';
+    my $id      = $params->{_DEFAULT} || '';
     my $topic    = $params->{topic}    || '';
     my $text     = $params->{text}     || '';
     my $requires = $params->{requires} || '';
 
     # SMELL: strange use case
-    $text = $tag unless $text;
+    $text = $id unless $text;
 
     Foswiki::Func::writeWarning(
         "use of deprecated ADDTOHEAD in $theWeb.$theTopic")
       if $Foswiki::cfg{ZonePlugin}{Warnings};
 
-    addToHead( $tag, $text, $requires, 1 );
+    addToHead( $id, $text, $requires, 1 );
     return '';
 }
 
@@ -118,9 +118,9 @@ sub ADDTOHEAD {
 sub ADDTOZONE {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
-    my $zones    = $params->{_DEFAULT} || $params->{zone} || 'head';
-    my $tag      = $params->{tag}      || '';
-    my $topic    = $params->{topic}    || '';
+    my $zones = $params->{_DEFAULT} || $params->{zone} || 'head';
+    my $id    = $params->{id}       || $params->{tag}  || '';
+    my $topic = $params->{topic}    || '';
     my $section  = $params->{section}  || '';
     my $requires = $params->{requires} || '';
     my $text     = $params->{text}     || '';
@@ -140,7 +140,7 @@ sub ADDTOZONE {
             #print STDERR "WARNING: ADDTOZONE was called for zone 'body' ... rerouting it to zone 'script' ... please fix your templates\n";
             $zone = 'script';
         }
-        addToZone( $zone, $tag, $text, $requires );
+        addToZone( $zone, $id, $text, $requires );
     }
 
     return '';
@@ -149,7 +149,7 @@ sub ADDTOZONE {
 ##############################################################################
 # backwards compatibility
 sub addToHead {
-    my ( $tag, $text, $requires, $nowarn ) = @_;
+    my ( $id, $text, $requires, $nowarn ) = @_;
 
     if ( $Foswiki::cfg{ZonePlugin}{Warnings} && !$nowarn ) {
 
@@ -159,22 +159,22 @@ sub addToHead {
             "use of deprecated API addToHEAD at $package line $line");
     }
 
-    addToZone( 'head', $tag, $text, $requires );
+    addToZone( 'head', $id, $text, $requires );
 
     return '';
 }
 
 ##############################################################################
 sub addToZone {
-    my ( $zone, $tag, $text, $requires ) = @_;
+    my ( $zone, $id, $text, $requires ) = @_;
 
     return unless $text;
     $requires ||= '';
 
-    unless ($tag) {
+    unless ($id) {
 
         # get a random one
-        $tag = int( rand(10000) ) + 1;
+        $id = int( rand(10000) ) + 1;
     }
 
     # get zone, or create record
@@ -187,7 +187,7 @@ sub addToZone {
     foreach my $req ( split( /\s*,\s*/, $requires ) ) {
         unless ( $thisZone->{$req} ) {
             $thisZone->{$req} = {
-                tag      => $req,
+                id      => $req,
                 requires => [],
                 text     => '',
             };
@@ -196,10 +196,10 @@ sub addToZone {
     }
 
     # store records
-    my $record = $thisZone->{$tag};
+    my $record = $thisZone->{$id};
     unless ($record) {
-        $record = { tag => $tag };
-        $thisZone->{$tag} = $record;
+        $record = { id => $id };
+        $thisZone->{$id} = $record;
     }
 
     # override previous properties
@@ -252,7 +252,7 @@ sub renderZone {
     $params->{footer} ||= '';
     $params->{chomp}  ||= 'off';
 
-    $params->{format} = '$item <!-- $tag -->' unless defined $params->{format};
+    $params->{format} = '$item <!-- $id -->' unless defined $params->{format};
     $params->{separator} = '$n' unless defined $params->{separator};
 
     # Loop through the vertices of the graph, in any order, initiating
@@ -281,22 +281,20 @@ sub renderZone {
             $text =~ s/\s+$//g;
         }
         next unless $text;
-        my $tag = $item->{tag} || '';
+        my $id = $item->{id} || '';
         my $line = $params->{format};
         $line =~ s/\$item\b/$text/g;
-        $line =~ s/\$tag\b/$tag/g;
-        $line = Foswiki::Func::decodeFormatTokens($line);
+        $line =~ s/\$id\b/$id/g;
+        $line =~ s/\$zone\b/$zone/g;
         next unless $line;
         push @result, $line if $line;
     }
 
-    $params->{separator} =
-      Foswiki::Func::decodeFormatTokens( $params->{separator} );
-
     my $result =
-        $params->{header}
-      . join( $params->{separator}, @result )
-      . $params->{footer};
+      Foswiki::Func::decodeFormatTokens( $params->{header}
+          . join( $params->{separator}, @result )
+          . $params->{footer} );
+
     $result = Foswiki::Func::expandCommonVariables( $result, $topic, $web );
     $result = Foswiki::Func::renderText( $result, $web, $topic );
 
