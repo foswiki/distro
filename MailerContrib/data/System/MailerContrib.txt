@@ -114,11 +114,12 @@ The second part of the module is a code library that provides the services for o
 You need to set up a =cron= (or equivalent) job to run the =tools/mailnotify= perl script.
 
 The script is used as follows:<br/>
-<code>perl -I _bin_ mailnotify [-q] [-nonews] [-nochanges] [ <i>web1 web2 ... webN</i> ]</code>
+<code>perl -I _bin_ mailnotify [-q] [-user <i>UserName</i>] [-nonews] [-nochanges] [ <i>web1 web2 ... webN</i> ]</code>
 | _bin_ | Path to the Foswiki =bin= directory, so that the script can find the rest of Foswiki. |
 | =-q= | Don't print progress information. |
 | =-nonews= | Skip the "news mode" (do not process subscriptions that include "!" or "?" following the topic). |
 | =-nochanges= | Only run the news mode. (only process subscriptions that include "!" or "?" following the topic). |
+| =-user= | Process the webs and topics as the specified user.  Defaults to =AdminUser=.%BR%__%X% Note:__ A bug present in versions of Foswiki through 1.0.10 default this to the wrong value.  Therefore, always explicitly specify =-user <nop>AdminUser=. |
 | <code style="white-space:nowrap"><i>web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
 
 Setting up cron can be done in many ways. Below is an ultrashort overview which may be sufficient.
@@ -141,19 +142,19 @@ To learn more about cron and crontab Google for =crontab= for more information.
 
 For example, assuming Foswiki was installed at =/usr/local/foswiki=, this cron entry:
 <verbatim>
-0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -q Public Private
+0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -user AdminUser -q Public Private
 </verbatim>
 will generate change notifications for the =Public= and =Private= webs every night at midnight.
 <verbatim>
-0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -q -Sandbox
+0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -user AdminUser -q -Sandbox
 </verbatim>
 will generate change notifications for all webs, except the =Sandbox= web.
 <verbatim>
-0 0 * * 0 cd /usr/local/foswiki && perl -I bin tools/mailnotify -nochanges
+0 0 * * 0 cd /usr/local/foswiki && perl -I bin tools/mailnotify -user AdminUser -nochanges
 </verbatim>
 will generate newsletters from *all* webs every week on midnight Saturday but will not process the non-newsletter subscriptions.
 <verbatim>
-0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -nonews
+0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -user AdminUser -nonews
 </verbatim>
 will generate change notifications for all webs every night at midnight but will not process the newsletter subscriptions.
 
@@ -231,6 +232,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  30 Sep 2010 | Foswikitask:Item6011: document =-user= parameter and update examples in order to make fully functional on versions of Foswiki through 1.0.10; other documentation cleanup  -- Foswiki:Main.WillNorris |
 |   4 Dec 2009 | Foswikitask:Item8354: Martin Rowe fixed a problem with STARTPUBLISH in newsletters corrupting the template |
 |  17 Oct 2009 | Foswikitask:Item1302: Removed the documentation of the -news mode which was actually never really implemented. Instead added two new -nonews and -nochanges modes which enables running mailnotify in newsletter mode with another schedule than the changes mode. If you upgrade and used the -news option with mailnotify things will work like you are used to as the -news option made no difference (old bug). |
 |  15 Oct 2009 | Foswikitask:Item2260: Make the feature that allows defining the email template based in either skin or web path. And improve the documentation so people can learn how to tailor the emails that the WebNotify feature sends. <br /> Foswikitask:Item1603: use quotes to protect topic names with odd characters in them |
