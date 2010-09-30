@@ -62,9 +62,23 @@ pre {
 .foswikiFormStep {
 	height:100%;
 }
-</style>
-<![endif]-->
-%TMPL:END%
+#foswikiLogin,
+.patternShadow {
+	border:10px solid #fff;
+	margin-top:10px;
+	margin-bottom:10px;
+	border:2px solid #ccc;
+}
+</style><![endif]-->
+<!--[if gt IE 8 ]><style type="text/css" media="screen">
+#foswikiLogin,
+.patternShadow {
+	border:10px solid #fff;
+	margin-top:10px;
+	margin-bottom:10px;
+	box-shadow: 0 0 10px #ccc;
+}
+</style><![endif]-->%TMPL:END%
 
 
 %TMPL:DEF{"styles:deprecated"}%%IF{ "defined WEBHEADERART and $ WEBHEADERART != ''" then='#patternTopBarContents { background-image:url(%WEBHEADERART%); background-repeat:repeat-x;}'}%
