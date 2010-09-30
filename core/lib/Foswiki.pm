@@ -3443,7 +3443,6 @@ sub _renderZone {
         $line =~ s/\$item\b/$text/g;
         $line =~ s/\$id\b/$id/g;
         $line =~ s/\$zone\b/$item->{zone}/g;
-        $line = expandStandardEscapes($line);
         push @result, $line if $line;
     }
     my $result =
