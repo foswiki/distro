@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-30 10:01+0200\n"
+"PO-Revision-Date: 2010-09-30 12:03+0200\n"
 "Last-Translator: Guido <gdo@leader.it>\n"
 "Language-Team: <it@li.org>\n"
 "Language: it\n"
@@ -2391,30 +2391,28 @@ msgstr "Premi OK per confermare che questa modifica era intenzionale."
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
-msgstr ""
+msgstr "Problema nel riempimento 'batch'"
 
 #: PatternSkin/templates/attach.pattern.tmpl:60
 msgid "Properties"
 msgstr "Proprietà"
 
 #: core/lib/Foswiki/Render.pm:222
-#, fuzzy
 msgid "Put it back..."
-msgstr "rimettilo come prima"
+msgstr "Rimette come prima..."
 
 #: core/data/System/WebSearch.txt:117
 msgid "Query Search"
-msgstr "Cerca Query"
+msgstr "Query di ricerca"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:71
-#, fuzzy
 msgid "Question"
-msgstr "Versione"
+msgstr "Domanda"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:162
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
 msgid "Quiet save"
-msgstr "Salva senza notifica"
+msgstr "Salva senza notificare"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:11
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
@@ -2429,9 +2427,9 @@ msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
-"Leggi %1 per avere una spiegazione veloce su questa piattaforma "
-"collaborativa. Per imparare di più studia il TwentyMinuteTutorial, che è "
-"accessibile dallo steso link."
+"Leggi %1 per ottenere una preve spiegazione di questa piattaforma "
+"collaborativa. Per approfondire puoi consultare il TwentyMinuteTutorial, che "
+"è accessibile dallo stesso link."
 
 #: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
 msgid "Read on"
@@ -2456,7 +2454,7 @@ msgstr "Registra"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
 msgid "Registered e-mail addresses for currently logged in user"
-msgstr ""
+msgstr "Indirizzi di posta elettronica registrate dell'utente collegato"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2464,7 +2462,7 @@ msgstr "Registrazione"
 
 #: core/templates/messages.tmpl:318
 msgid "Registration codes can only be used once."
-msgstr "I codici di registrazione possono essere utilizzati una volta sola."
+msgstr "I codici di registrazione possono essere utilizzati una sola volta."
 
 #: core/data/System/WebSearch.txt:116
 msgid "Regular expression search"
@@ -2490,16 +2488,16 @@ msgid ""
 "Remember to update your user topic if you want your e-mail change to be "
 "reflected there as well."
 msgstr ""
-"Ricordati di agggiornare la tua pagina personale se vuoi che la variazione "
-"dell'indirizzo e-mail venga riportata anche qui"
+"Ricordati di aggiornare la tua pagina personale se vuoi che la variazione "
+"dell'indirizzo e-mail venga riportata anche qui."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
-msgstr "Ti ricordi la password?"
+msgstr "Ricordi la tua password?"
 
 #: core/data/Main/GroupViewTemplate.txt:168
 msgid "Remove selected users"
-msgstr ""
+msgstr "Rimuove gli utenti selezionati"
 
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
@@ -2507,11 +2505,11 @@ msgstr "Prima rimuovi l'utente dal gruppo(i) %1."
 
 #: core/data/Main/GroupViewTemplate.txt:83
 msgid "Remove user..."
-msgstr ""
+msgstr "Rimuove l'utente..."
 
 #: core/data/Main/GroupViewTemplate.txt:164
 msgid "Remove users from this group"
-msgstr "Rimuove gli utente da questo gruppo"
+msgstr "Rimuove gli utenti da questo gruppo"
 
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
@@ -2523,21 +2521,19 @@ msgstr "Rinomina fallito"
 
 #: core/templates/renamebase.tmpl:11
 msgid "Rename or move %1"
-msgstr "Rinomina o sposta pagina %1"
+msgstr "Rinomina o sposta %1"
 
 #: core/templates/more.tmpl:69
 msgid "Rename or move topic"
 msgstr "Rinomina o sposta pagina"
 
 #: core/templates/more.tmpl:77
-#, fuzzy
 msgid "Rename or move topic..."
-msgstr "Rinomina o sposta pagina"
+msgstr "Rinomina o sposta pagina..."
 
 #: core/data/System/RenameWeb.txt:4
-#, fuzzy
 msgid "Rename, move or delete this web"
-msgstr "Rinomina, sposta o elimina questo web:"
+msgstr "Rinomina, sposta o elimina questo Web"
 
 #: core/templates/rename.tmpl:21 core/templates/renameconfirm.tmpl:33
 #: core/templates/renameweb.tmpl:32
@@ -2546,28 +2542,27 @@ msgstr "Rinomina/Sposta"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:54
 msgid "Render style:"
-msgstr ""
+msgstr "Stile per la rappresentazione:"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
-msgstr "Sostituisci form"
+msgstr "Sostituisce form..."
 
 #: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
-#, fuzzy
 msgid "Request Validation"
-msgstr "Registrazione"
+msgstr "Richiesta di convalida"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
-msgstr "Reset Password"
+msgstr "Ripristino Password"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:28
 msgid "Reset password"
-msgstr "Reset password"
+msgstr "Ripristino della password"
 
 #: core/data/System/DefaultPreferences.txt:186
 msgid "Resetting and setting password is not handled by Foswiki"
-msgstr ""
+msgstr "Ripristino e impostazione delle password non sono gestite da Foswiki"
 
 #: core/templates/more.tmpl:170
 msgid "Restore topic"
@@ -2575,25 +2570,23 @@ msgstr "Ripristina la pagina"
 
 #: core/templates/more.tmpl:175
 msgid "Restore topic to revision:"
-msgstr "Ripristina la pagina alla revisione:"
+msgstr "Ripristina la pagina alla versione:"
 
 #: core/templates/more.tmpl:178
 msgid "Restore topic to this revision"
-msgstr "Ripristina la pagina a questa revisione"
+msgstr "Ripristina la pagina a questa versione"
 
 #: core/templates/more.tmpl:178
-#, fuzzy
 msgid "Restore..."
-msgstr "Ripristina"
+msgstr "Ripristina..."
 
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
-msgstr "Risultati dal web %1"
+msgstr "Risultati dal Web %1"
 
 #: core/templates/search.text.tmpl:4
-#, fuzzy
 msgid "Results from %1 web:"
-msgstr "Risultati dal web %1"
+msgstr "Risultati dal Web %1:"
 
 #: core/templates/messages.tmpl:207
 msgid "Return to %1."
@@ -2605,7 +2598,7 @@ msgstr "Ridigita la nuova password"
 
 #: core/templates/messages.tmpl:27
 msgid "Rev %1 was saved by %2, while you were still editing."
-msgstr "Rev %1 è stata salvata da %2, mentre tu stavi ancora editando."
+msgstr "Rev %1 è stata salvata da %2, mentre tu stavi ancora modificando."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
 #: MailerContrib/templates/mailnotify.tmpl:76
@@ -2616,24 +2609,23 @@ msgstr "Rassegna delle variazioni recenti in:"
 #: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:14
 msgid "Revision"
-msgstr "Revisione"
+msgstr "Versione"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:14
-#, fuzzy
 msgid "Revision history of %1"
-msgstr "Storia delle revisioni di %1"
+msgstr "Storia delle versioni di %1"
 
 #: core/templates/more.tmpl:138
 msgid "Revisions"
-msgstr "Revisioni"
+msgstr "Versioni"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:72
 msgid "Revisions %1 - %2 (out of %3)"
-msgstr ""
+msgstr "Versioni %1 - %2 (di %3)"
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
 msgid "S = Save, C = Cancel"
-msgstr "S = Salva, C = Annulla"
+msgstr "S = Salva, C = Rinuncia"
 
 #: PatternSkin/templates/edit.pattern.tmpl:67
 msgid ""
@@ -2645,11 +2637,12 @@ msgstr ""
 #: core/data/Sandbox/WebPreferences.txt:9
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr ""
+"Sandbox è un'area Web di test per sperimentare senza alcuna restrizione."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:161
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
 msgid "Save table"
-msgstr "Slava tabella"
+msgstr "Salva tabella"
 
 #: core/templates/registerfailednotremoved.tmpl:18
 #: core/templates/registerfailedremoved.tmpl:19
@@ -2671,36 +2664,32 @@ msgstr "Cerca"
 
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Search %1 Web only"
-msgstr "Cerca solo nel web %1"
+msgstr "Cerca solo nel Web %1"
 
 #: core/templates/backlinksweb.tmpl:5
 msgid "Search all webs"
-msgstr "Cerca in tutti i webs "
+msgstr "Cerca in tutti i Web "
 
 #: core/templates/backlinksallwebs.tmpl:6 core/templates/backlinksweb.tmpl:5
 #: core/templates/more.tmpl:87
 msgid "Search all webs for topics that link to here"
-msgstr "Cerca in tutti i web collegati qui"
+msgstr "Cerca in tutti i Web collegati qui"
 
 #: core/data/System/WebSearch.txt:22
-#, fuzzy
 msgid "Search in %1 Web"
-msgstr "Cerca solo nel web %1"
+msgstr "Cerca nel Web %1"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
-#, fuzzy
 msgid "Search in all webs"
-msgstr "Cerca in tutti i webs "
+msgstr "Cerca in tutti i Web "
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
-#, fuzzy
 msgid "Search more topics in this web"
-msgstr "Cerca le pagine simili in tutti i web pubblici"
+msgstr "Cerca le pagine simili in questo Web"
 
 #: core/data/System/WebSearch.txt:39
-#, fuzzy
 msgid "Search options"
-msgstr "Altre opzioni di ricerca:"
+msgstr "Altre opzioni di ricerca"
 
 #: core/templates/searchbookview.tmpl:7
 msgid "Search result"
@@ -2708,11 +2697,11 @@ msgstr "Risultato della ricerca"
 
 #: core/data/System/WebSearch.txt:122
 msgid "Search string"
-msgstr "Oggetto ricerca"
+msgstr "Testo della ricerca"
 
 #: core/templates/more.tmpl:89
 msgid "Search the %1 Web for topics that link to here"
-msgstr "Cerca nel web %1 Per gli argomenti collegati qui"
+msgstr "Cerca nelle pagine del Web %1 qui collegate"
 
 #: core/data/System/WebSearch.txt:74 core/data/System/WebSearch.txt:88
 msgid "Search where:"
@@ -2730,8 +2719,8 @@ msgstr "Nota di sicurezza:"
 #: core/templates/messages.tmpl:47
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr ""
-"vedi %1 per la lista degli utenti esistenti o registra come nuovo utente in %"
-"2."
+"Vedi %1 per la lista degli utenti esistenti o registrarsi come nuovo utente "
+"in %2."
 
 #: core/templates/messages.tmpl:347
 msgid "See %1 for information about Form Definitions."
@@ -2741,7 +2730,7 @@ msgstr "Vedi %1 per informazioni circa la definizione dei Form"
 #: core/templates/messages.tmpl:489 core/templates/messages.tmpl:510
 #: core/templates/messages.tmpl:520
 msgid "See %MAINWEB%.WikiGroups to see the result."
-msgstr ""
+msgstr "Vedi %MAINWEB%.WikiGroups per visionare il risultato."
 
 #: core/data/System/WebIndex.txt:5
 msgid "See also the faster %1"
@@ -2749,7 +2738,7 @@ msgstr "Vedi anche il più veloce %1"
 
 #: core/data/System/WebTopicList.txt:5
 msgid "See also the verbose %1."
-msgstr "Vedi anche il prolissi %1."
+msgstr "Vedi anche il prolisso %1."
 
 #: core/data/System/WebChanges.txt:7
 msgid "See also:"
@@ -2757,7 +2746,7 @@ msgstr "Vedi anche:"
 
 #: core/templates/edit.tmpl:59
 msgid "See below for help in editing this page."
-msgstr "Guarda in basso per l'aiuto su come editare questa pagina."
+msgstr "Guarda in basso per un aiuto su come modificare questa pagina."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -2765,11 +2754,11 @@ msgstr "Seleziona"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
 msgid "Select Group %1 to join"
-msgstr ""
+msgstr "Seleziona il Gruppo %1 a cui far parte"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
-msgstr "Selezina un nuovo file locale per aggirnare l'allegato"
+msgstr "Seleziona un nuovo file locale per aggiornare l'allegato"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:22
 msgid "Select all"
@@ -2778,19 +2767,20 @@ msgstr "Seleziona tutto"
 #: HistoryPlugin/templates/oopshistory.tmpl:71
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
+"Selezionare una versione precedente (a sinistra) e successiva (a destra) per "
+"il confronto"
 
 #: core/templates/more.tmpl:103
-#, fuzzy
 msgid "Select topic parent"
-msgstr "Seleziona la pagina genitore:"
+msgstr "Seleziona la pagina genitore"
 
 #: PatternSkin/templates/edit.pattern.tmpl:53 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
-msgstr "Seleziona copia e incolla la tua firma alla fne di quanto scritto"
+msgstr "Seleziona, copia e incolla la tua firma alla fine del testo inserito"
 
 #: core/data/System/WebSearch.txt:109
 msgid "Selections apply to search in \"text body\""
-msgstr ""
+msgstr "Le selezioni di ricerca si applicano al \"corpo del testo\""
 
 #: core/templates/more.tmpl:161
 msgid "Sequential"
@@ -2802,16 +2792,15 @@ msgstr "Definisci tutto"
 
 #: core/templates/more.tmpl:107
 msgid "Set new parent"
-msgstr "Definisci la nuova pagina genitore"
+msgstr "Definisci un nuovo genitore"
 
 #: core/templates/more.tmpl:96
 msgid "Set new topic parent"
 msgstr "Definisci la nuova pagina genitore"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:80
-#, fuzzy
 msgid "Show"
-msgstr "Mostra l'aiuto"
+msgstr "Mostra"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:11
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -2820,7 +2809,7 @@ msgstr "Mostra l'aiuto"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:78
 msgid "Shrink edit box"
-msgstr "Rimpicciolisci il box di edit"
+msgstr "Riduci la dimensione dell'area di modifica"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:56 core/templates/more.tmpl:161
 msgid "Side by side"
@@ -2828,16 +2817,17 @@ msgstr "Affianca"
 
 #: CompareRevisionsAddOn/templates/comparesidebyside.tmpl:3
 msgid "Side-by-side comparison of revisions"
-msgstr ""
+msgstr "Affianca le versioni a confronto"
 
 #: core/templates/attachtables.tmpl:4
 msgid "Size"
-msgstr "Larghezza"
+msgstr "Dimensione"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:141
 #: core/templates/registernotify.tmpl:15
 msgid "Some add schedule information and vacation notice."
-msgstr "Qualche informazione su orario e chiusura."
+msgstr ""
+"Alcuni aggiungono delle informazioni di appuntamenti e assenze per vacanza."
 
 #: core/templates/messages.tmpl:382
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
