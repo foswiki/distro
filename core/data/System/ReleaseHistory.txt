@@ -128,15 +128,15 @@ As part of the first Foswiki product release, various topics and terms were chan
    * Topics in the Foswiki distribution have been renamed to eliminate the TWiki word and to make the titles more readable (for example, Plugins, Skins, and so forth).
    * All templates, CSS and Javascript names have been changed from twikiXxxxx to foswikiXxxxx
    * Key terminology changes:
-| *TWiki term* | *Foswiki term* |
-| TWiki variable | Macro |
-| preference(s) variable | preference setting, or macro when referring to expansion of same |
-| TWiki form | Data form |
-| TWiki Plugin | Plugin |
-| TWiki Template | Skin Template |
-| Topic Template | Template Topic |
-| TWiki Markup Language (TML) | Topic Markup Language (TML) |
-| TWiki Application | Wiki Application |
+     | *TWiki term* | *Foswiki term* |
+     | TWiki variable | Macro |
+     | preference(s) variable | preference setting, or macro when referring to expansion of same |
+     | TWiki form | Data form |
+     | TWiki Plugin | Plugin |
+     | TWiki Template | Skin Template |
+     | Topic Template | Template Topic |
+     | TWiki Markup Language (TML) | Topic Markup Language (TML) |
+     | TWiki Application | Wiki Application |
 
 ---+++!! Foswiki Hall of Fame
 
