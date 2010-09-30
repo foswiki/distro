@@ -131,7 +131,7 @@ sub mapTarget {
     }
     elsif ( $file =~ s#^locale/#$Foswiki::cfg{LocalesDir}/# ) {
     }
-    elsif ( $file =~ s#^bin/(\w+)$#$Foswiki::cfg{ScriptDir}$1$Foswiki::cfg{ScriptSuffix}# ) {
+    elsif ( $file =~ s#^bin/(\w+)$#$Foswiki::cfg{ScriptDir}/$1$Foswiki::cfg{ScriptSuffix}# ) {
 
         #This makes a couple of bad assumptions
         #2. that any file going into there _is_ a script - making installing the
