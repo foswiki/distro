@@ -20,17 +20,16 @@ Allows users to "subscribe" to regularly scheduled emails containing either:
 
 %TOC%
 
----++ tools/mailnotify
+---++ How it works
 
-The central component of !MailerContrib is a script, =tools/mailnotify=, that generates and sends out the emails based on analysis of
+!MailerContrib generates and sends out emails based on analysis of
    1 users' subcriptions listed in the <nop>%NOTIFYTOPIC%  topic in each web, and
    1 changes within the respective webs.
-This script is designed to be run from =cron= (or an equivalent off-line job scheduler), or from the command-line. 
 
-The script collates the changes emails so that each subscriber only receives one changes notification for all changes in all webs in the Foswiki. Furthermore, users can elect to receive just summaries of changes, or the entire content of topics that have changed.
+The mailer collates the changes emails so that each subscriber only receives one changes notification for all changes in all webs in the Foswiki. Furthermore, users can elect to receive just summaries of changes, or the entire content of topics that have changed.
 
 Each web can optionally contain a topic called <nop>%NOTIFYTOPIC%.
-<!-- Included by %SYSTEMWEB%.WebChangesAlert -->
+<!-- Included by %SYSTEMWEB%.WebNotifyHelp -->
 %STARTINCLUDE%
 Users subscribe to email notifications using their [[%SYSTEMWEB%.WikiName][WikiName]] or an alternative email address, and can specify the webs/topics they wish to track, Whole groups of users can also be subscribed for notification.
 
@@ -119,7 +118,7 @@ The script is used as follows:<br/>
 | =-q= | Don't print progress information. |
 | =-nonews= | Skip the "news mode" (do not process subscriptions that include "!" or "?" following the topic). |
 | =-nochanges= | Only run the news mode. (only process subscriptions that include "!" or "?" following the topic). |
-| =-user= | Process the webs and topics as the specified user.  Defaults to =AdminUser=.%BR%__%X% Note:__ A bug present in versions of Foswiki through 1.0.10 default this to the wrong value.  Therefore, always explicitly specify =-user <nop>AdminUser=. |
+| =-user= | Process the webs and topics as the specified user.  Defaults to =AdminUser=.%BR%__%X% Note:__ A bug present in versions of Foswiki through 1.0.10 default this to the wrong value.  Therefore, always explicitly specify =-user <nop>AdminUser= |
 | <code style="white-space:nowrap"><i>web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
 
 Setting up cron can be done in many ways. Below is an ultrashort overview which may be sufficient.
@@ -135,7 +134,7 @@ Crontab syntax is 5 numbers followed by the command
    * E day of week (0-6) (Sunday=0)
 An asterix '*' means any value
 
-If you choose to setup the cron by editing the system wide /etc/crontab file the syntax is =A B C D E username command-to-be-executed=
+If you choose to setup the cron by editing the system-wide =/etc/crontab= file, the syntax is =A B C D E username command-to-be-executed=
 
 To learn more about cron and crontab Google for =crontab= for more information. 
 </blockquote>
