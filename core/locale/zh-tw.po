@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-21 04:36+0200\n"
+"PO-Revision-Date: 2010-10-01 18:22+0200\n"
 "Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.0.5\n"
 "X-Poedit-Country: Taiwan\n"
@@ -812,9 +812,8 @@ msgid "Categories"
 msgstr "類別"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
-#, fuzzy
 msgid "Change E-mail Address"
-msgstr "電子信箱"
+msgstr "變更電子信箱"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -1054,9 +1053,8 @@ msgid "Create new FAQ topic"
 msgstr "建立新的熱門問答主題"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
-#, fuzzy
 msgid "Create personal sidebar"
-msgstr "編輯個人資料"
+msgstr "建立個人側欄"
 
 #: core/templates/messages.tmpl:595
 msgid "Create the topic"
@@ -1677,9 +1675,8 @@ msgstr ""
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
-#, fuzzy
 msgid "Image %1 of %2"
-msgstr "%2 的子網 %1 。"
+msgstr "%2 的圖片 %1 。"
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2317,7 +2314,7 @@ msgstr "註冊"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
 msgid "Registered e-mail addresses for currently logged in user"
-msgstr ""
+msgstr "目前登入使用者的註冊電子信箱"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2403,7 +2400,7 @@ msgstr "改名/移動"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:54
 msgid "Render style:"
-msgstr ""
+msgstr "風格: "
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."

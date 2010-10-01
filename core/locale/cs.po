@@ -6,13 +6,13 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-22 23:22+0200\n"
+"PO-Revision-Date: 2010-10-01 18:35+0200\n"
 "Last-Translator: Milan Mašek <milan.m.masek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -67,7 +67,7 @@ msgstr "Předmět skupiny %1 je změněn."
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
-msgstr "%1 má seznam ostatních uživatelů Foswiki"
+msgstr "%1 obsahuje seznam ostatních uživatelů Foswiki"
 
 #: core/templates/messages.tmpl:528
 msgid ""
@@ -837,9 +837,8 @@ msgid "Categories"
 msgstr "Kategorie"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
-#, fuzzy
 msgid "Change E-mail Address"
-msgstr "Emailová adresa"
+msgstr "Změna E-mailové adresy"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -1741,9 +1740,8 @@ msgstr ""
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
-#, fuzzy
 msgid "Image %1 of %2"
-msgstr "%1 web z %2."
+msgstr "Obraz %1 z %2"
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2400,7 +2398,7 @@ msgstr "Registruj"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
 msgid "Registered e-mail addresses for currently logged in user"
-msgstr ""
+msgstr "Registrovaná e-mailová adresa aktuálně přihlášeného uživatele"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2488,7 +2486,7 @@ msgstr "Přejmenovat/Přesunout"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:54
 msgid "Render style:"
-msgstr ""
+msgstr "Styl zobrazení:"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
