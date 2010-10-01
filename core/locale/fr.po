@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-27 17:37+0200\n"
+"PO-Revision-Date: 2010-10-01 10:07+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -3367,6 +3367,7 @@ msgstr ""
 msgid "Title"
 msgstr "Titre"
 
+# OlivierRaginel proposait la traduction "Renommer en :", toutefois nous n'avons pas pu vérifier le contexte exact d'affichage de cette chaîne. En l'absence de cette référence, nous avons décidé de garder une traduction littérale.
 #: core/templates/renameconfirm.tmpl:16
 msgid "To attachment:"
 msgstr "Vers le fichier attaché :"
@@ -3387,6 +3388,7 @@ msgstr "Pour modifier la page tout de même, cliquez "
 msgid "To see if %1 has finished editing yet, click "
 msgstr "Pour savoir si %1 a terminé ses modifications, cliquez "
 
+# OlivierRaginel proposait la traduction "Cette page", toutefois nous n'avons pas pu vérifier le contexte exact d'affichage de cette chaîne. En l'absence de cette référence, nous avons décidé de garder une traduction littérale.
 #: core/templates/renamebase.tmpl:29
 msgid "To topic"
 msgstr "Vers la page"
