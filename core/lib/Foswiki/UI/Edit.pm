@@ -202,6 +202,8 @@ sub init_edit {
               ->param( -name => 'forcenewrevision', -value => '1' );
         }
         # Load $topicObject with the right revision
+        $topicObject->unload();
+        $topicObject->finish();
         $topicObject = Foswiki::Meta->load( $session, $web, $topic, $revision );
     }
 
