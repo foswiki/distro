@@ -664,8 +664,9 @@ sub createBackup {
         }
 
         my ( $rslt, $err ) =
-          Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '0' )
+          Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '1' )
           unless ( $this->{_options}->{SIMULATE} );
+
         $rslt = ' - Simulated backup, no files copied '
           if ( $this->{_options}->{SIMULATE} );
 
