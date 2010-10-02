@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-21 01:30+0200\n"
+"PO-Revision-Date: 2010-10-02 17:10+0200\n"
 "Last-Translator: Will Norris <will@biohack.net>\n"
 "Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:480
@@ -61,7 +61,7 @@ msgstr "Web %1"
 
 #: core/templates/messages.tmpl:480
 msgid "%1 added to the %2 group. "
-msgstr ""
+msgstr "%1 fue agregado al grupo %2."
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
@@ -87,7 +87,7 @@ msgstr "%1 fue registrado con el correo electrónico %2"
 
 #: core/templates/validate.tmpl:26
 msgid "%1 has received a suspicious change request from your browser."
-msgstr ""
+msgstr "%1 recibió una solicitud de cambio sospechosa de su navegador."
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -108,21 +108,20 @@ msgstr "%1 está actualmente puesto como %2"
 #: core/templates/messages.tmpl:526
 #, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 está editando %2."
+msgstr "%1 está editando [[%2][%3]]."
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 está en por lo menos un grupo y no puede ser removido"
 
 #: core/templates/messages.tmpl:126
-#, fuzzy
 msgid "%1 is not a valid form name"
-msgstr "'%1' no es un %2 válido "
+msgstr "'%1 no es un nombre válido de formulario"
 
 #: core/templates/messages.tmpl:122
 #, fuzzy
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "'%1' no es un %2 válido "
+msgstr "%1 no es un valor válido para el parámetro %2"
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
@@ -133,9 +132,8 @@ msgid "%1 may still be editing %2."
 msgstr "%1 puede estar editando %2 todavía."
 
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
-msgstr "%1 cambios recientes en la Web %2"
+msgstr "%1 cambios recientes en la web %2"
 
 #: core/templates/messages.tmpl:518
 #, fuzzy
@@ -212,7 +210,7 @@ msgstr "(=all= para mostrar todos los temas)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
 msgid "(This message will be removed automatically)"
-msgstr ""
+msgstr "(Este mensaje será eliminado automáticamente)"
 
 #: core/templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
@@ -249,7 +247,7 @@ msgstr "(cambios)"
 #: CompareRevisionsAddOn/templates/compare.tmpl:3
 #, fuzzy
 msgid "(compare)"
-msgstr "(más)"
+msgstr "(comparar)"
 
 #: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
