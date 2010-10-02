@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ru $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-10-02 14:51+0200\n"
+"PO-Revision-Date: 2010-10-02 22:35+0200\n"
 "Last-Translator: Ivan Pesin <sp_ipesin@n-ix.com.ua>\n"
 "Language-Team: Russian Team <svz@latex.pereslavl.ru, falko-mail@inbox.ru, "
 "jsinx@front.ru, alex@amibel.ru, infofarmer@FreeBSD.org>\n"
@@ -1041,6 +1041,8 @@ msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
 msgstr ""
+"Содержимое страницы не позволяет преобразовать её в HTML для редактирования "
+"в режиме WYSIWYG."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
@@ -1141,6 +1143,8 @@ msgstr "Создать тему"
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:13
 msgid "Create your account to edit pages on this site."
 msgstr ""
+"Создайте учётную запись, чтобы иметь возможность редактировать страницы на "
+"этом сайте."
 
 #: core/templates/messages.tmpl:368
 msgid "Creating a suitable Form Definition topic"
@@ -1289,26 +1293,27 @@ msgstr "Адрес электронной почты успешно изменё
 #: core/templates/messages.tmpl:632
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
+"ENCODE не удался — =type= не может использоватся вместе с  =old= и =new= "
 
 #: core/templates/messages.tmpl:633
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr ""
+msgstr "ENCODE не удался — должны быть указаны и =old=, и =new="
 
 #: core/templates/messages.tmpl:634
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr ""
+msgstr "ENCODE не удался — токен '%PARAM1%' повторяется в =old= "
 
 #: core/templates/messages.tmpl:637
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr ""
+msgstr "EXPAND не удался — отсутствут доступ к '%PARAM1%'"
 
 #: core/templates/messages.tmpl:635
 msgid "EXPAND failed - no macro"
-msgstr ""
+msgstr "EXPAND не удался — отсутствует макрос"
 
 #: core/templates/messages.tmpl:636
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr ""
+msgstr "EXPAND не удался — нет такой темы '%PARAM1%'"
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
@@ -1456,7 +1461,7 @@ msgstr "Помеченные %1 поля обязательны для запо�
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:32
 msgid "Fields marked <span class='required'>*</span> are required"
 msgstr ""
-"Помеченные звёздочкой (<span class='required'>*</span>) поля обязательны для "
+"Поля помеченные звёздочкой (<span class='required'>*</span>) обязательны для "
 "заполнения"
 
 #: core/templates/messages.tmpl:374
@@ -1501,7 +1506,7 @@ msgstr "Отсутствует Определение Формы %1"
 #: PatternSkin/templates/formtables.pattern.tmpl:5 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:6
 msgid "Form data"
-msgstr ""
+msgstr "Данные формы"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
 msgid "Form definition"
@@ -1844,7 +1849,7 @@ msgstr "Индекс"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:28
 msgid "Info"
-msgstr ""
+msgstr "Инфо"
 
 #: core/templates/messages.tmpl:383
 msgid ""
@@ -2494,9 +2499,9 @@ msgid ""
 "Remember to update your user topic if you want your e-mail change to be "
 "reflected there as well."
 msgstr ""
-"Помните, что Вам также следует обновить информацию на своей персональной "
-"странице, если Вы хотите, чтобы другим пользователям стали доступны сведения "
-"об изменениях адреса Вашей электронной почты."
+"Помните, что вам также следует обновить информацию на своей персональной "
+"странице, если вы хотите, чтобы другим пользователям стали доступны сведения "
+"об изменениях адреса вашей электронной почты."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
@@ -2783,8 +2788,7 @@ msgstr "Выберите родителя темы"
 
 #: PatternSkin/templates/edit.pattern.tmpl:53 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
-msgstr ""
-"Выделите, скопируйте и вставьте Вашу подпись под сделанной Вами записью"
+msgstr "Выделите, скопируйте и вставьте вашу подпись под сделанной записью"
 
 #: core/data/System/WebSearch.txt:109
 msgid "Selections apply to search in \"text body\""
@@ -2905,7 +2909,7 @@ msgstr "Применить"
 #: core/templates/registernotify.tmpl:18
 #: core/templates/registernotifyadmin.tmpl:12
 msgid "Submitted content:"
-msgstr "Предоставленные Вами сведения:"
+msgstr "Предоставленные сведения:"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:79
@@ -2955,9 +2959,9 @@ msgid ""
 "Thank you for registering in the %1 collaboration platform. Please save this "
 "e-mail for future reference."
 msgstr ""
-"Спасибо, что Вы зарегистрировались на информационном ресурсе %1, платформе "
+"Спасибо, что вы зарегистрировались на информационном ресурсе %1, платформе "
 "для совместного творчества и работы. Пожалуйста, сохраните это сообщение, в "
-"нем содержится информация, которая может потребоваться Вам в будущем."
+"нем содержится информация, которая может потребоваться вам в будущем."
 
 #: core/templates/registerconfirm.tmpl:9
 msgid ""
@@ -3160,7 +3164,7 @@ msgstr "Тема в старом формате"
 
 #: core/templates/messages.tmpl:237
 msgid "The two passwords you entered do not match."
-msgstr "Два введенных Вами пароля не совпадают."
+msgstr "Два введенных пароля не совпадают."
 
 #: core/templates/messages.tmpl:625
 msgid "The user %1 has already been activated, and should be able to log in."
@@ -3265,7 +3269,7 @@ msgstr ""
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:115
 msgid "This is why the conversion is disabled:"
-msgstr ""
+msgstr "Преобразование невозможно по следующей причине:"
 
 #: core/templates/login.tmpl:28
 msgid ""
@@ -3710,9 +3714,8 @@ msgid "Wiki administrators should read about the %1."
 msgstr "Администраторы вики должны прочесть о %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:144
-#, fuzzy
 msgid "Wiki name"
-msgstr "Название темы"
+msgstr "Вики-имя"
 
 #: core/data/System/WebSearch.txt:113
 #, fuzzy
@@ -3777,9 +3780,9 @@ msgid ""
 "used as a base to create new webs) choose a name that starts with an "
 "underscore and has only alphanumeric characters."
 msgstr ""
-"Рекомендуем Вам выбирать короткие имена, с числом символов менее 10, "
+"Рекомендуем вам выбирать короткие имена, с числом символов менее 10, "
 "начинающиеся с заглавной буквы и не содержащие иных символов, кроме букв и "
-"цифр. Если Вы намерены создать шаблон раздела (специальный раздел, который "
+"цифр. Если вы намерены создать шаблон раздела (специальный раздел, который "
 "используется только для создания на его основе новых разделов)  выбирайте "
 "имя, начинающееся с символа подчеркивания и не содержащие иных символов, "
 "кроме букв и цифр."
@@ -3911,8 +3914,8 @@ msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
-"Теперь необходимо подтвердить адрес Вашей электронной почты. Вы можете "
-"сделать это, введя %1 в форму, представленную Вам при отправке данного "
+"Теперь необходимо подтвердить адрес вашей электронной почты. Вы можете "
+"сделать это, введя %1 в форму, представленную вам при отправке данного "
 "сообщения, или перейдя по ссылке %2"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
@@ -3945,8 +3948,8 @@ msgid ""
 "code is of the form \"YourName.xxxxxxxxxx\")"
 msgstr ""
 "Ваш код подтверждения регистрации выслан по адресу %1.  Откройте ссылку в "
-"полученном Вами письме или введите код в текстовое поле ниже чтобы "
-"подтвердить Вашу регистрацию. (Этот код имеет вид: \"ВашеИмя.xxxxxxxxxx\")"
+"полученном вами письме или введите код в текстовое поле ниже чтобы "
+"подтвердить регистрацию (код имеет вид: \"ВашеИмя.xxxxxxxxxx\")."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:160
 msgid "Your email address will be kept confidential."
