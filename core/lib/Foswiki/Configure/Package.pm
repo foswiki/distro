@@ -663,9 +663,11 @@ sub createBackup {
             }
         }
 
+#SMELL:  Set 3rd parameter to 1 to enable removal of the backup directory
         my ( $rslt, $err ) =
           Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '0' )
           unless ( $this->{_options}->{SIMULATE} );
+
         $rslt = ' - Simulated backup, no files copied '
           if ( $this->{_options}->{SIMULATE} );
 

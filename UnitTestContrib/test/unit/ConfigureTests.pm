@@ -1393,6 +1393,16 @@ sub test_Util_createArchive_shellZip {
         'zip' );
     $this->assert( ( -f $file ),
         "$file does not appear to exist - Create zip archive" );
+    $this->assert( ( -e "$tempdir/$extbkup" ),
+        "$tempdir was incorrectly removed by the archive operation" );
+
+    ( $file, $rslt ) =
+      Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '1',
+        'zip' );
+    $this->assert( ( -f $file ),
+        "$file does not appear to exist - Create zip archive" );
+    $this->assert( (! -e "$tempdir/$extbkup" ),
+        "$tempdir was not removed by the archive operation" );
 
     unlink "$tempdir/$extbkup";    # Clean up old files if left behind
 }
@@ -1433,6 +1443,17 @@ sub test_Util_createArchive_shellTar {
         'tar' );
     $this->assert( ( -f $file ),
         "$file does not appear to exist - Create tar archive" );
+    $this->assert( ( -e "$tempdir/$extbkup" ),
+        "$tempdir was not removed by the archive operation" );
+
+    ( $file, $rslt ) =
+      Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '1',
+        'tar' );
+    $this->assert( ( -f $file ),
+        "$file does not appear to exist - Create tar archive" );
+    $this->assert( (! -e "$tempdir/$extbkup" ),
+        "$tempdir was not removed by the archive operation" );
+
     unlink($file);    # Cleanup for next test
 
 }
@@ -1468,6 +1489,16 @@ sub test_Util_createArchive_perlTar {
         'Ptar' );
     $this->assert( ( -f $file ),
         "$file does not appear to exist - Create Archive::Tar archive" );
+    $this->assert( ( -e "$tempdir/$extbkup" ),
+        "$tempdir was incorrectly removed by the archive operation" );
+
+    ( $file, $rslt ) =
+      Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '1',
+        'Ptar' );
+    $this->assert( ( -f $file ),
+        "$file does not appear to exist - Create Archive::Tar archive" );
+    $this->assert( (! -e "$tempdir/$extbkup" ),
+        "$tempdir was not removed by the archive operation" );
 
     unlink "$tempdir/$extbkup";    # Clean up old files if left behind
 }
@@ -1499,10 +1530,20 @@ sub test_Util_createArchive_perlZip {
       };
 
     ( $file, $rslt ) =
+      Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0',
+        'Pzip' );
+    $this->assert( ( -f $file ),
+        "$file does not appear to exist - Create Archive::Zip archive" );
+    $this->assert( ( -e "$tempdir/$extbkup" ),
+        "$tempdir was incorrectly removed by the archive operation" );
+
+    ( $file, $rslt ) =
       Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '1',
         'Pzip' );
     $this->assert( ( -f $file ),
         "$file does not appear to exist - Create Archive::Zip archive" );
+    $this->assert( (! -e "$tempdir/$extbkup" ),
+        "$tempdir was not removed by the archive operation" );
 
     unlink "$tempdir/$extbkup";    # Clean up old files if left behind
 }
