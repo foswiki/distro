@@ -181,21 +181,19 @@ This email message will be sent to the address responsible for approving registr
 <verbatim class="tml">
 %{ This is a default template }%From: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
 To: %REGISTRATIONAPPROVAL% <%REGISTRATIONAPPROVALEMAIL%>
-CC: %WIKIWEBMASTER%
+CC: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
 Subject: Registration request by %FIRSTLASTNAME% <%EMAILADDRESS%>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=%CHARSET%
 Content-Transfer-Encoding: 8bit
 
-Registration request by %FIRSTLASTNAME% <%EMAILADDRESS%> for %WIKITOOLNAME% needs your approval.
+Registration request by %FIRSTLASTNAME% <%EMAILADDRESS%> for %WIKITOOLNAME%
+needs your approval.
 Verification code %VERIFICATIONCODE%
 
 %SCRIPTURL{"register"}%?action=verify;code=%VERIFICATIONCODE%
-
-%MAKETEXT{"Submitted content:"}%
-
-%FORMDATA%
 </verbatim>
+<blockquote class="foswikiHelp"> %T% *Note* The line following the =Content-Transfer= *must* be completely empty, with no spaces, or the email wil fail.</blockquote>
 
 ---+++!! Registration response message =templates/messages.approval.tmpl=
 
@@ -227,6 +225,7 @@ succeeded.
 To: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
 Cc: %REGISTRATIONAPPROVAL% <%REGISTRATIONAPPROVALEMAIL%>
 Subject: %MAKETEXT{"[_1] - Registration for [_2] ([_3])" args="%WIKITOOLNAME%, %WIKINAME%, %EMAILADDRESS%"}%
+
 MIME-Version: 1.0
 Content-Type: text/plain; charset=%CHARSET%
 Content-Transfer-Encoding: 8bit
