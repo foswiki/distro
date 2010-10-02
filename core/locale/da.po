@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-21 22:31+0200\n"
+"PO-Revision-Date: 2010-10-02 10:16+0200\n"
 "Last-Translator: Kenneth Lavrsen <kenneth@lavrsen.dk>\n"
 "Language-Team: Danish <N/A>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -854,9 +854,8 @@ msgid "Categories"
 msgstr "Kategorier"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
-#, fuzzy
 msgid "Change E-mail Address"
-msgstr "E-mail-adresse"
+msgstr "Ændr e-mail-adresse"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -1775,9 +1774,8 @@ msgstr ""
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
-#, fuzzy
 msgid "Image %1 of %2"
-msgstr "Nummer %1 web af %2."
+msgstr "Billede %1 web af %2."
 
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
@@ -2440,7 +2438,7 @@ msgstr "Registrér dig"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
 msgid "Registered e-mail addresses for currently logged in user"
-msgstr ""
+msgstr "Registrerede e-mail-adresser for den nuværende bruger"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2528,7 +2526,7 @@ msgstr "Omdøb/flyt"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:54
 msgid "Render style:"
-msgstr ""
+msgstr "Visningsstil:"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
