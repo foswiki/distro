@@ -508,7 +508,7 @@ sub diff {
     my ( $olderi, $neweri );                            # indexes into history
     if ( $diffType eq 'last' ) {
         $neweri = 0;
-        $olderi = $neweri + 1;
+        $olderi = ( scalar @history > 1) ? $neweri + 1 : 0;
     }
     else {
         for ( my $i = 0 ; $i <= $#history ; $i++ ) {
