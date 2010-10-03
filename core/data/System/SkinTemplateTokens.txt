@@ -108,6 +108,58 @@ merely a placeholder that is replaced by the script.
 | %<nop>VERIFICATIONCODE% | The verification password send in the =registerconfirm.tmpl= use to confirm the email address is valid |
 | %<nop>PASSWORD% | User password - not used in current templates.  Password is expanded in the %FORMDATA% depending upon the setting of ={Register}{HidePasswd}= in =LocalSite.cfg= |
 
+---+++ =rename= script
+
+   $ =moveattachment.tmpl=: Prompts for renaming or moving an attachment
+   $ =rename.tmpl=: Prompts for newattachment, newtopic, newweb, and the submit button
+   $ =renameconfirm.tmpl=: Prompts rename/move or cancel
+   $ =renamedelete.tmpl=: Promps for renamed topic name and delete or cancel
+   $ =renameweb.tmpl=: Prompts for new webname and Rename/Move or cancel
+   $ =renamewebconfirm.tmpl=: x
+   $ =renamewebdelete.tmpl=: x
+   $ param{'template'): Accepts template name from query?
+
+| %<nop>FILENAME% | |
+| %<nop>NEW_FILENAME% | |
+| %<nop>NEW_WEB% | |
+| %<nop>NEW_TOPIC% | |
+| %<nop>NONWIKIWORDFLAG% | |
+| %<nop>GLOBAL_SEARCH% | |
+| %<nop>LOCAL_SEARCH% | |
+| %<nop>SEARCH_COUNT% | |
+| %<nop>NEW_PARENTWEB% | |
+| %<nop>NEW_SUBWEB% | |
+| %<nop>TOPIC% | |
+| %<nop>MOVE_LOCKED% | |
+| %<nop>REF_DENIED% | |
+| %<nop>REF_LOCKED% | |
+| %<nop>RENAMEWEB_SUBMIT% | |
+
+
+---+++ =rest= script
+
+%X% rest does not use any templates
+
+---+++ =save= script
+
+%X% save does not use any templates
+
+---+++ =search= script
+
+%X% search is deprecated, and redirects to the view script
+
+---+++ =statistics= script
+
+%X% statistics does not use any templates
+
+---+++ =upload= script
+
+%X% upload does not use any templates
+
+---+++ =viewfile= script
+
+%X% viewfile does not use any templates
+
 ---+++ =view= script
 
 | %<nop>REVTITLE% | |
