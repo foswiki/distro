@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ru $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-10-02 22:35+0200\n"
+"PO-Revision-Date: 2010-10-02 23:43+0200\n"
 "Last-Translator: Ivan Pesin <sp_ipesin@n-ix.com.ua>\n"
 "Language-Team: Russian Team <svz@latex.pereslavl.ru, falko-mail@inbox.ru, "
 "jsinx@front.ru, alex@amibel.ru, infofarmer@FreeBSD.org>\n"
@@ -190,9 +190,8 @@ msgid "(%1 login)"
 msgstr "(%1 login)"
 
 #: core/templates/validate.tmpl:6
-#, fuzzy
 msgid "(%1 validation)"
-msgstr "(%1 login)"
+msgstr "(проверка %1)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:3 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
@@ -549,9 +548,8 @@ msgid "Action %1: %2."
 msgstr "Действие %1: %2."
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
-#, fuzzy
 msgid "Add"
-msgstr "Добавлено"
+msgstr "Добавить"
 
 #: core/data/Main/GroupViewTemplate.txt:143
 msgid "Add a user to this group"
@@ -575,9 +573,8 @@ msgid "Add user..."
 msgstr "Добавить пользователя..."
 
 #: core/templates/messages.tmpl:369
-#, fuzzy
 msgid "Adding a %1 preference in WebPreferences"
-msgstr "Добавления переменной %1 в [[WebPreferences][Параметры Раздела]]"
+msgstr "Добавление переменной %1 в [[WebPreferences][Параметры раздела]]"
 
 #: core/templates/login.sudo.tmpl:3
 msgid "Admin Foswiki User Authentication"
@@ -709,9 +706,8 @@ msgid "Attachment does not exist."
 msgstr "Файл не существует"
 
 #: core/templates/attachtables.tmpl:42
-#, fuzzy
 msgid "Attachment history"
-msgstr "Вложения"
+msgstr "История вложения"
 
 #: core/templates/messages.tmpl:54
 msgid "Attachment move failed"
@@ -813,7 +809,7 @@ msgid ""
 msgstr ""
 "По умолчанию, просмотр раздела Мусор разрешен лишь %1. Если вы желаете "
 "разрешить всем пользователям просмотр этого раздела, удалите ограничение  "
-"=ALLOWWEBVIEW= из [[WebPreferences][Параметров Раздела]]."
+"=ALLOWWEBVIEW= из [[WebPreferences][Параметров раздела]]."
 
 #: core/templates/messages.tmpl:44 core/templates/messages.tmpl:557
 msgid "Can't find user %1"
@@ -876,9 +872,8 @@ msgid "Change comment and properties only"
 msgstr "Изменить только комментарий и свойства"
 
 #: core/templates/renamebase.tmpl:14
-#, fuzzy
 msgid "Change from"
-msgstr "Изменить с:"
+msgstr "Изменить с"
 
 #: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
@@ -1024,9 +1019,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "Свяжитесь с %1 если у вас есть вопросы."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:58
-#, fuzzy
 msgid "Context:"
-msgstr "Страна:"
+msgstr "Контекст:"
 
 #: core/templates/messages.tmpl:421
 msgid "Continue and try to rename web?"
@@ -1171,7 +1165,7 @@ msgstr "Дата"
 
 #: core/templates/mailresetpassword.tmpl:8
 msgid "Dear %1"
-msgstr "Дорогой(ая) %1"
+msgstr "Уважаемый(ая) %1"
 
 #: core/templates/more.tmpl:161
 msgid "Debug"
@@ -1225,9 +1219,8 @@ msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Вы хотите [[%1][сбросить пароль %2]]?"
 
 #: core/templates/rdiff.tmpl:14
-#, fuzzy
 msgid "Difference Topic"
-msgstr "Различия:"
+msgstr "Страница различий"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
 #: PatternSkin/templates/rdiff.pattern.tmpl:9
@@ -1549,9 +1542,8 @@ msgid "Get notified on changes on this search"
 msgstr "Получать уведомления при изменениях по этому поиску"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
-#, fuzzy
 msgid "Globe"
-msgstr "Закрыть"
+msgstr "Сфера"
 
 #: core/templates/foswiki.tmpl:130
 msgid "Go back"
@@ -1676,13 +1668,11 @@ msgstr ""
 "вас попросят подтвердить его."
 
 #: core/templates/messages.tmpl:431
-#, fuzzy
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr ""
-"Проверьте ваши настройки конфигурации {TemplateDir} и {TemplatePath}. Если "
-"проблема не в этом, то, возможно, что установленное вами свойство %1 "
+"Если проблема не в этом, то, возможно, установленное вами свойство %1 "
 "указывает на шаблон, который не существует."
 
 #: core/templates/messages.tmpl:360
@@ -1798,8 +1788,8 @@ msgstr "Изображение %1 из %2"
 #: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr ""
-"(Изображения будут отображены, для остальных прикрепленных файлов будет "
-"создана ссылка)."
+"Изображения будут показаны, для остальных прикрепленных файлов будет создана "
+"ссылка."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:7
 msgid ""
@@ -1856,12 +1846,12 @@ msgid ""
 "International (8-bit) characters are removed (replaced by US-ASCII "
 "equivalents for Latin-1)"
 msgstr ""
-"Символы международной (8-ми битовой) кодировки удалены (замещены US-ASACII "
+"Символы международной (8-ми битовой) кодировки удалены (замещены US-ASCII "
 "эквивалентами кодировки Latin-1)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:55
 msgid "Interweave"
-msgstr ""
+msgstr "Совмещённый"
 
 #: core/templates/messages.tmpl:315
 msgid "Invalid Activation Code"
@@ -1913,9 +1903,8 @@ msgid "Jump"
 msgstr "Перейти"
 
 #: core/data/System/WebSearch.txt:114
-#, fuzzy
 msgid "Keyword search"
-msgstr "Изменить поиск"
+msgstr "Поиск по ключевым словам"
 
 #: core/data/System/WebSearch.txt:102
 msgid "Last editor"
@@ -2028,9 +2017,8 @@ msgid "More topic actions..."
 msgstr "Другие операции..."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:80
-#, fuzzy
 msgid "More view options:"
-msgstr "Другие операции..."
+msgstr "Другие параметры отображения:"
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:457
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:88
@@ -2137,9 +2125,8 @@ msgid "No previous revision exists."
 msgstr "Предыдущих редакций нет."
 
 #: core/templates/renamebase.tmpl:45
-#, fuzzy
 msgid "No topics to update."
-msgstr "Переместить тему в раздел:"
+msgstr "Нет тем, в которых нужно обновлять ссылки."
 
 #: core/templates/messages.tmpl:454 core/templates/messages.tmpl:492
 msgid "No username specified"
@@ -2253,9 +2240,8 @@ msgid "Optionally enter a different topic name:"
 msgstr "Введите иное название темы, если это необходимо:"
 
 #: core/templates/more.tmpl:161
-#, fuzzy
 msgid "Options"
-msgstr "Действие"
+msgstr "Опции"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:235
 msgid "Organisation name"
@@ -2326,15 +2312,13 @@ msgstr "Пожалуйста, введите админский пароль В�
 msgid "Please go _back_ in your browser and try a new name."
 msgstr ""
 "Пожалуйста, вернитесь <a href=\"javascript:history.go(-1)\">на предыдущую "
-"страницу</a>, используя стандартные средства навигации вашего браузера, и "
-"попробуйте ввести другое имя."
+"страницу</a> и попробуйте ввести другое имя."
 
 #: core/templates/messages.tmpl:390
 msgid "Please go back in your browser and check again."
 msgstr ""
 "Пожалуйста, вернитесь <a href=\"javascript:history.go(-1)\">на предыдущую "
-"страницу</a>, используя стандартные средства навигации вашего браузера, и "
-"попытайтесь еще раз."
+"страницу</a> и попытайтесь еще раз."
 
 #: core/templates/messages.tmpl:88
 msgid ""
@@ -2408,9 +2392,8 @@ msgid "Properties"
 msgstr "Свойства"
 
 #: core/lib/Foswiki/Render.pm:222
-#, fuzzy
 msgid "Put it back..."
-msgstr "вернуть на место"
+msgstr "Вернуть на место..."
 
 #: core/data/System/WebSearch.txt:117
 msgid "Query Search"
@@ -2554,16 +2537,15 @@ msgstr "Переименовать/переместить"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:54
 msgid "Render style:"
-msgstr ""
+msgstr "Стиль отображения:"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
 msgstr "Заменить форму...."
 
 #: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
-#, fuzzy
 msgid "Request Validation"
-msgstr "Регистрация"
+msgstr "Проверка запроса"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2625,7 +2607,6 @@ msgid "Revision"
 msgstr "Редакция"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:14
-#, fuzzy
 msgid "Revision history of %1"
 msgstr "История версий %1"
 
@@ -2781,6 +2762,7 @@ msgstr "Выбрать все"
 #: HistoryPlugin/templates/oopshistory.tmpl:71
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
+"Выберите для сравнения предыдущую (левую) и последующую (правую) версии "
 
 #: core/templates/more.tmpl:103
 msgid "Select topic parent"
@@ -2811,9 +2793,8 @@ msgid "Set new topic parent"
 msgstr "Установить нового родителя для темы"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:80
-#, fuzzy
 msgid "Show"
-msgstr "Показать подсказку"
+msgstr "Показать"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:11
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -2938,9 +2919,9 @@ msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
 msgstr ""
-"CОВЕТ: например, чтобы найти все страницы, содержащие слова =\"SOAP\"=, ="
-"\"WSDL\"=, а также словосочетание =\"web service\"=, без слова =\"shampoo"
-"\"=, введите:"
+"CОВЕТ: например, чтобы найти все страницы, содержащие слова =\"SOAP\"=, "
+"=\"WSDL\"=, а также словосочетание =\"web service\"=, без слова =\"shampoo\"=, "
+"введите:"
 
 #: core/templates/messages.tmpl:605
 msgid "Template %1 does not exist"
@@ -3007,7 +2988,7 @@ msgstr ""
 "Раздел %1 это песочница, где вы можете тренироваться. Здесь каждый может "
 "добавлять или удалять что хочет. Рекомендуем для начала прочесть %2, чтобы "
 "получить вводную информацию по инструментарию %3. Хорошим тоном считается "
-"добавлять заметку в конец страницы, а также ставить подпись в виде Вашего "
+"добавлять заметку в конец страницы, а также ставить подпись в виде вашего "
 "ВикиИмени (%4) и даты."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
@@ -3065,6 +3046,8 @@ msgid ""
 "The attacker tries to use your rights to get things, like admin rights for "
 "the site."
 msgstr ""
+"Злоумышленик пытается использовать ваши права для доступа к информации, "
+"например права администратора сайта."
 
 #: core/templates/messages.tmpl:538
 msgid ""
@@ -3175,6 +3158,8 @@ msgid ""
 "Their intention is to automatically save compromising data by sending a "
 "request to your server, using your browser and your identity."
 msgstr ""
+"Используя ваш браузер и учетную запись, они хотят отправить запрос к "
+"серверу, чтобы автоматически сохранить компрометирующую информацию."
 
 #: core/templates/messages.tmpl:407
 msgid "There are problems with renaming this web:"
@@ -3319,21 +3304,19 @@ msgid ""
 "the other users changes. Please inspect the topic to make sure it is OK, "
 "especially if you made any changes to form fields."
 msgstr ""
-"Иные изменения совмещены с Вашими и создана Редакция %1. Текстовые поля "
+"Другие изменения совмещены с вашими и создана редакция %1. Текстовые поля "
 "совмещены, но другие данные, такие, как поля форм, могли быть перезаписаны "
 "изменениями других пользователей. Пожалуйста, просмотрите внимательно "
-"страницу, чтобы убедиться, что все в порядке, особенно если Вы вносили любые "
+"страницу, чтобы убедиться, что все в порядке, особенно если вы вносили любые "
 "изменения в поля форм. "
 
 #: core/data/System/FrequentlyAskedQuestions.txt:64
-#, fuzzy
 msgid "Title"
-msgstr "Заголовок темы"
+msgstr "Заголовок"
 
 #: core/templates/renameconfirm.tmpl:16
-#, fuzzy
 msgid "To attachment:"
-msgstr "Прикрепленные файлы"
+msgstr "В прикрепленный файл:"
 
 #: core/data/System/WebSearch.txt:164
 msgid ""
@@ -3394,15 +3377,13 @@ msgstr "Тема не может быть обновлена из таблицы
 
 #: PatternSkin/templates/form.pattern.tmpl:10
 #: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
-#, fuzzy
 msgid "Topic data"
-msgstr "Название темы"
+msgstr "Данные темы"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
 #: HistoryPlugin/templates/oopshistory.tmpl:40
-#, fuzzy
 msgid "Topic history"
-msgstr "Заголовок темы"
+msgstr "История темы"
 
 #: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:100
 msgid "Topic name"
@@ -3504,9 +3485,8 @@ msgstr ""
 "управления пользователями."
 
 #: core/templates/messages.tmpl:485
-#, fuzzy
 msgid "Upgraded group"
-msgstr "Создать новую тему"
+msgstr "Обновлённая группа"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
@@ -3597,9 +3577,8 @@ msgid "View raw text without formatting"
 msgstr "Просмотреть исходный текст, без форматирования"
 
 #: core/templates/more.tmpl:146
-#, fuzzy
 msgid "View revision"
-msgstr "Просмотр редакции:"
+msgstr "Просмотр редакции"
 
 #: core/templates/more.tmpl:143
 msgid "View revision:"
@@ -3632,19 +3611,18 @@ msgstr "Внимание: тема 'include' не существует!"
 
 #: core/templates/messages.tmpl:553
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
-msgstr "Внимание: Невозможно ВЛОЖИТЬ %1 несколько раз, тема уже вложена. %2"
+msgstr "Внимание: невозможно ВЛОЖИТЬ %1 несколько раз, тема уже вложена. %2"
 
 #: core/templates/messages.tmpl:554
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
-"Внимание: Невозможно ВЛОЖИТЬ '%1', путь не задан или содержит недопустимые "
+"Внимание: невозможно ВЛОЖИТЬ '%1', путь не задан или содержит недопустимые "
 "символы."
 
 #: core/templates/messages.tmpl:552
-#, fuzzy
 msgid "Warning: Can't find named section %3 in topic %1.%2"
-msgstr "Внимание: Не могу найти тему %1.%2"
+msgstr "Внимание: невозможно найти именованый раздел %3 в теме %1.%2"
 
 #: core/templates/messages.tmpl:551
 msgid "Warning: Can't find topic %1.%2"
@@ -3679,7 +3657,7 @@ msgstr "Разделы"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
 msgid "Webserver <em>running Foswiki</em>"
-msgstr ""
+msgstr "Веб-сервер <em>на котором работает Foswiki</em>"
 
 #: core/data/Main/WebPreferences.txt:12
 msgid "Welcome to %1 ... meet people on this site"
@@ -3699,11 +3677,11 @@ msgstr "Кто"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
 msgid "Who is requesting this, actually?"
-msgstr ""
+msgstr "Кто, собственно, хочет выполнить это действие?"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:59
 msgid "Whole page"
-msgstr ""
+msgstr "Вся страница"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
 msgid "Why am I being asked to confirm?"
@@ -3718,9 +3696,8 @@ msgid "Wiki name"
 msgstr "Вики-имя"
 
 #: core/data/System/WebSearch.txt:113
-#, fuzzy
 msgid "Word search"
-msgstr "Изменить поиск"
+msgstr "Поиск слова"
 
 #: core/templates/messages.tmpl:19
 msgid "Would you like to go to:"
@@ -4092,7 +4069,7 @@ msgstr "и"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr ""
+msgstr "%1"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -4109,7 +4086,7 @@ msgstr "не забудьте проверить настройки Вашей �
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "earlier"
-msgstr ""
+msgstr "предыдущая"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4123,7 +4100,7 @@ msgstr " - эти поля необходимо заполнить."
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "first"
-msgstr ""
+msgstr "первая"
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:24
@@ -4145,13 +4122,12 @@ msgstr "указывает обязательные поля"
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
 msgid "last"
-msgstr ""
+msgstr "последняя"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:36
 #: HistoryPlugin/templates/oopshistory.tmpl:46
-#, fuzzy
 msgid "later"
-msgstr "Дата"
+msgstr "следующая"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -4190,9 +4166,8 @@ msgid "retrieved at %1"
 msgstr "Найдено в %1"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:86
-#, fuzzy
 msgid "revisions up to"
-msgstr "Редакции"
+msgstr "Редакции до"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -4221,9 +4196,8 @@ msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Редактировать текст этой темы' accesskey='e'>Редактировать"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
-#, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Просмотр темы' accesskey='v'>Посмотреть тему"
+msgstr "title='Совмещённый' accesskey='v'>Совмещённый"
 
 #: core/templates/viewtopicactionbuttons.tmpl:21
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -4273,7 +4247,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:63
 msgid "unchanged sections before and after each change"
-msgstr ""
+msgstr "неизмененные секции перед и после каждого изменения"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:29
 msgid "user list truncated"
@@ -4309,7 +4283,7 @@ msgstr "Просмотреть"
 
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "почему мне нужно подтвердить изменения "
 
 #~ msgid "&Edit text"
 #~ msgstr "Редактировать текст"
