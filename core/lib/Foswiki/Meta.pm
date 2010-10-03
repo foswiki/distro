@@ -2430,17 +2430,19 @@ sub onTick {
             my $m = $this->new( $this->{_session}, $web );
             $m->onTick($time);
         }
-        $it = $this->eachTopic();
-        while ( $it->hasNext() ) {
-            my $topic = $it->next();
-            my $topicObject =
-              $this->new( $this->{_session}, $this->getPath(), $topic );
-            $topicObject->onTick($time);
+        if ( $this->{_web} ) {
+            $it = $this->eachTopic();
+            while ( $it->hasNext() ) {
+                my $topic = $it->next();
+                my $topicObject =
+                  $this->new( $this->{_session}, $this->getPath(), $topic );
+                $topicObject->onTick($time);
+            }
         }
 
         # Clean up spurious leases that may have been left behind
         # during cancelled topic creation
-        $this->{_session}->{store}->removeSpuriousLeases( $this->getPath() );
+        $this->{_session}->{store}->removeSpuriousLeases( $this->getPath() ) if $this->getPath();
     }
     else {
         my $lease = $this->getLease();
