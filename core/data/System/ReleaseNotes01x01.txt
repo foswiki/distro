@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.0 Release Candidate 1 - 28 Sep 2010
+---+!! Foswiki Release 1.1.0 - 03 Oct 2010
 
 %TOC%
 
@@ -10,11 +10,9 @@ Foswiki is an enterprise collaboration and information sharing tool targeted for
 
 Foswiki is a wiki: fundamentally, a website with editable web pages. It looks like a normal web site but it encourages contributions, edits, updates, questions, and answers from its users. It's a powerful way of enabling a community to communicate asynchronously using intranet and public internet websites. Foswiki is simple to learn and use. It aims to provide a transparent way for you to publish and exchange your ideas with others over the web and eliminates the one-webmaster syndrome of outdated intranet content.
 
-Foswiki is a structured wiki with tools that enable users without programming  skills to build powerful yet simple applications to process information and  support workflows. Developers can extend the functionality of Foswiki with plugins.
+Foswiki is a structured wiki with tools that enable users without programming skills to build powerful yet simple applications to process information and support workflows. Developers can extend the functionality of Foswiki with plugins.
 
-Foswiki is the old TWiki project under a new name. Restrictions on the use  of the TWiki brand resulted in many of its developers continuing the project  under the new Foswiki name. Foswiki is backwards compatible with all content  from older TWiki installations. Foswiki 1.1 ships with a !TWikiCompatibilityPlugin  installed and activated by default, thus enabling most extensions  made for TWiki to work under Foswiki.
-
-Since the start of the Foswiki project there have been several releases of TWiki,  However there have been very few functionality changes, and the useful changes  have all been tracked in Foswiki, so topics and wiki applications  supported by TWiki should also work with Foswiki.
+Foswiki is the old TWiki project under a new name. Restrictions on the use of the TWiki brand resulted in many of its developers continuing the project under the new Foswiki name. Foswiki is backwards compatible with all content from older TWiki installations. Foswiki 1.1 ships with a !TWikiCompatibilityPlugin, thus enabling most extensions made for TWiki to work under Foswiki. Since the start of the Foswiki project there have been several releases of TWiki, However there have been very few functionality changes, and the useful changes have all been tracked in Foswiki, so topics and wiki applications supported by TWiki should also work with Foswiki.
 
 Foswiki is released under the GNU General Public License.
 
@@ -29,7 +27,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.0.8 was built 29 Nov 2009. It is a patch release with more than 280 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevented efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded with the latest Tiny MCE editor release 3.2.7.
    * Foswiki 1.0.9 was built 17 Jan 2010. It is a patch release with more than 320 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bugs in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
    * Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.
-   * Foswiki 1.1.0 Release Candidate 1 was built 28 Sep 2010. It is a release with more than 260 bug fixes relative to 1.0.10 and more than 670 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
+   * Foswiki 1.1.0 was built 03 Oct 2010. It is a release with more than 260 bug fixes relative to 1.0.10 and more than 670 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -40,12 +38,7 @@ Foswiki 1.1 is shipped with the following:
    * *Skins:* !PatternSkin
    * *Compatibility support* - !TWikiCompatibilityPlugin
 
----++ What's new &mdash; highlights
-***UPDATE ME***
-
-See ReleaseNotes01x00 for detailed information about changes in that release.
-
-#Release01x00Changes
+#Release01x01Changes
 ---++ Important Changes since Foswiki 1.0.10
 
 Foswiki 1.1 has many enhancements that endusers as well as administrators will appreciate. In addition Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. Work has been made to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements. Here is a list of the most important enhancements in Foswiki 1.1.0
@@ -69,8 +62,8 @@ Also added are the new [[VarADDTOZONE][ADDTOZONE]] and [[VarRENDERZONE][RENDERZO
 See %SYSTEMWEB%.JQueryPlugin for details.
 
 ---+++ Powerful new =QUERY= macro
-A number of new features have been added with the goal of improving support  for wiki applications. These include the powerful new =QUERY= macro, which:
-   * supports formatted access to formfields and other meta-data in  topics using the same syntax as is used in =IF= and =SEARCH= statements,
+A number of new features have been added with the goal of improving support for wiki applications. These include the powerful new =QUERY= macro, which:
+   * supports formatted access to formfields and other meta-data in topics using the same syntax as is used in =IF= and =SEARCH= statements,
    * gives access to *all* meta-data, including that added by extensions,
    * supports reporting values using JSON and other standards, simplifying the retrieval of meta-data for REST applications,
    * replaces the =FORMFIELD= macro for most applications.
@@ -78,7 +71,7 @@ A number of new features have been added with the goal of improving support  for
 Use of the ="formfield"= parameter to the =META= macro has been deprecated (it is still available, but use is discouraged and it will be removed at some point in the future).
 
 ---+++ Re-architecting of the SEARCH macro
-To improve the speed, consistency and extendability of the most complex  and important Macro, we've started to separate the generation of search results from the outputing of FormattedSearch. The most significant user facing  improvements are speed and reliability changes - with many more unit tests written to ensure future compatibility.
+To improve the speed, consistency and extendability of the most complex and important Macro, we've started to separate the generation of search results from the outputing of FormattedSearch. The most significant user facing improvements are speed and reliability changes - with many more unit tests written to ensure future compatibility.
 
 ---+++ FORMAT macro
 The extraction of the FormattedSearch system has made it possible to provide a Macro that allows users to render a list of topics into any =header=, =footer=, =format= style, using the same formatting controls as used by =[[VarSEARCH][SEARCH]]=. This macro will be further enhanced in future Foswiki releases and will play an increaingly important role as it is extended to format other types of object lists.
@@ -88,7 +81,7 @@ The extraction of the FormattedSearch system has made it possible to provide a M
 
 For developers additional API's have been added to the Foswiki code to allow these Forms to also be used for non-Foswiki user and group backends.
 
-With some configuration, Foswiki can also add users to groups on registration -  either automatically, or allowing the users to select groups to join.
+With some configuration, Foswiki can also add users to groups on registration - either automatically, or allowing the users to select groups to join.
 
 ---+++ TinyMCEPlugin updates
 TinyMCEPlugin has been updated to the latest 3.3 release from Moxiecode. Additionally, several improvements to the Foswiki integration have been made, such as:
@@ -107,21 +100,21 @@ The "Copy Topic" function in "More topic actions" now copies attachments as well
 
 ---+++ Tailoring of user registration made easier.
 
-The topic System.UserRegistration has been enhanced so it now determines  whether a custom user registration page exists in %USERSWEB%, and  includes it if it does; otherwise it includes DefaultUserRegistration.
+The topic System.UserRegistration has been enhanced so it now determines whether a custom user registration page exists in %USERSWEB%, and includes it if it does; otherwise it includes DefaultUserRegistration.
 
-This means that your tailored version in %USERSWEB% web will not be  overwritten by future upgrades.
+This means that your tailored version in %USERSWEB% web will not be overwritten by future upgrades.
 
-You can create a custom version of the UserRegistration form by first  copying the topic DefaultUserRegistration to !UserRegistration in  %USERSWEB% web. This will ensure that your changes will remain intact next time you upgrade.
+You can create a custom version of the UserRegistration form by first copying the topic DefaultUserRegistration to !UserRegistration in %USERSWEB% web. This will ensure that your changes will remain intact next time you upgrade.
 
-A couple of common fields are hidden from normal view to make the  registration page as simple as possible. You can unhide those fields  on the page by removing =EXCLUDED_= from the =INCLUDE= tags).
+A couple of common fields are hidden from normal view to make the registration page as simple as possible. You can unhide those fields on the page by removing =EXCLUDED_= from the =INCLUDE= tags).
 
 ---+++ Easy tailoring of reset/change password and change email forms
 
-The topics %SYSTEMWEB%.ResetPassword and %SYSTEMWEB%.ChangePassword now  only show the change forms when Foswiki is managing the passwords  (the =configure= setting ={PasswordManager}= set to a manager that handles setting of passwords).
+The topics %SYSTEMWEB%.ResetPassword and %SYSTEMWEB%.ChangePassword now only show the change forms when Foswiki is managing the passwords (the =configure= setting ={PasswordManager}= set to a manager that handles setting of passwords).
 
-If the {PasswordManager} does not support password changing,  the ChangePassword and ResetPassword topics will show a simple message.  This message is defined iby the preference =CHANGEPASSWORDDISABLEDMESSAGE=  in %SYSTEMWEB%.DefaultPreferences. You can redefine this setting by copying  it to %USERSWEB%.SitePreferences and change it to include a link to the  password management website of your organisation.
+If the {PasswordManager} does not support password changing, the ChangePassword and ResetPassword topics will show a simple message. This message is defined iby the preference =CHANGEPASSWORDDISABLEDMESSAGE= in %SYSTEMWEB%.DefaultPreferences. You can redefine this setting by copying it to %USERSWEB%.SitePreferences and change it to include a link to the password management website of your organisation.
 
-ChangeEmailAddress will now guide the user to define the email address  in the user topic when the !PasswordManager does not handle hidden email addresses,  so you should not need to tailor this topic any longer.
+ChangeEmailAddress will now guide the user to define the email address in the user topic when the !PasswordManager does not handle hidden email addresses, so you should not need to tailor this topic any longer.
 
 ---+++ TMPL:DEFs may now access previous (overridden) TMPL:DEF
 SkinTemplates authors are often limited by the fact that =%<nop>TMPL:DEF{"something"}%= statements override whatever DEF may have previously existed in the SKIN path. Now, when overriding these DEFs, SkinTemplates authors may access the previous definition using the new =%<nop>TMPL:PREV%= template token.
@@ -131,7 +124,7 @@ Configure and !TemplateLogin now log authentication failures to the event logs:
 
    * =working/logs/configure.log=
    * =working/logs/events.log=
-   
+ 
 It is possible to monitor these logs with a product like =fail2ban= which will set firewall filters due to excessive failures.
 
 ---+++ =configure= user interface revamp
@@ -142,7 +135,7 @@ The configuration tool =bin/configure= now performs extensive checks of file sys
 
 Because of prior inconsistencies in the files distributed with Foswiki and TWiki core and extensions, migration of older Foswiki or TWiki installs may see excessive errors reported by configure. You are recommended to correct the file system permissions. 
 
----+++ Newer modern Icon set for DocumentGraphics.
+---+++ Newer modern Icon set for Document Graphics.
 To celebrate our new look, project and momentum, Foswiki now has a new ICON set to update the one shipped for the last 10 years. Using the !FamFamFam icon set, augmented with icons from other leading graphic artists.
 
 ---+++ Table Plugin has been improved.
@@ -176,11 +169,11 @@ __Note:__ =readTopicText= had implicit access control checks. The replacement me
 ---++++ Refactored =Foswiki::Store= and new =Foswiki::Meta= functions
 Access checking has been moved from Store up to the Meta and Func routines. This was done to improve perfomance of the Store backend and simplify implementation of different stores e.g. using databases.
 
-Store was never part of the Foswiki or TWiki API.  Extensions which violate this API and reference =Store::= functions directly could potentially have access that was previously blocked by Foswiki and/or may require other changes to be compatible with Foswiki 1.1.
+Store was never part of the Foswiki or TWiki API. Extensions which violate this API and reference =Store::= functions directly could potentially have access that was previously blocked by Foswiki and/or may require other changes to be compatible with Foswiki 1.1.
 
-Extension authors should first try to use the =Foswiki::Func= API.  This is the preferred API. Pay careful attention to whether or not each =Func::= method verifies access control and use the =Foswiki::Func::checkAccessPermission= to verify access.
+Extension authors should first try to use the =Foswiki::Func= API. This is the preferred API. Pay careful attention to whether or not each =Func::= method verifies access control and use the =Foswiki::Func::checkAccessPermission= to verify access.
 
-=Foswiki::Meta= should be used only if =Foswiki::Func= does not have a needed function. Note that =Foswiki::Meta= functions do not implicitly perform any access control checks.  Callers of =Foswiki::Meta== should first use the =Foswiki::Meta::haveAccess=  function to verify access for the planned actions.  This was done by design to reduce repetitive access control checks and improve performance.
+=Foswiki::Meta= should be used only if =Foswiki::Func= does not have a needed function. Note that =Foswiki::Meta= functions do not implicitly perform any access control checks. Callers of =Foswiki::Meta== should first use the =Foswiki::Meta::haveAccess= function to verify access for the planned actions. This was done by design to reduce repetitive access control checks and improve performance.
 
 ---++++ Tainting
 The Foswiki core now checks values used for web, topic and attachment names for 'taintedness' when FOSWIKI_ASSERTS are enabled. Tainted values are those that have been taken from user input (for example, from topic content or from form fields) without being validated. Such unchecked values are a large potential security hole, and the authors of plugins that manipulate topics or attachments need to check their plugins with Foswiki ASSERTs enabled. If you find a taint error, you can use the functions in =Foswiki::Sandbox= to validate them. For example, to validate a web name and a topic name, you would write:
