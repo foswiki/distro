@@ -5,11 +5,21 @@
 
 %TOC%
 
----++ Foswiki Beta Release 1.1.0 Beta 1 - 13 Sep 2010
+---++ Foswiki Release 1.1.0 - 03 Oct 2010
 
-Foswiki 1.1.0 Beta 1 was built 06 Sep 2010. It is a release with more than 260 bug fixes relative to 1.0.10 and more than 670 bug fixes relative to 1.0.0.
+Foswiki 1.1.0 was built 03 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0.
 
-This release adds many new enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
+This release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and much more.
+
+Foswiki 1.1 has many enhancements that endusers as well as administrators will appreciate. In addition Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. Work has been made to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements. Here is a list of the most important enhancements in Foswiki 1.1.0
+
+---+++!! Foswiki Hall of Fame
+
+The proud, free, independent Foswiki community as of the release of 1.1.0 (highlights - for full list see Foswiki:Tasks.HallOfFame)
+
+   * *Top core bug fixers* (10 or more fixes): Foswiki:Main.CrawfordCurrie, Foswiki:Main.SvenDowideit, Foswiki:Main.KennethLavrsen, Foswiki:Main.ArthurClemens, Foswiki:Main.GeorgeClark, Foswiki:Main.OlivierRaginel, Foswiki:Main.MichaelDaum, Foswiki:Main.WillNorris, Foswiki:Main.MichaelTempest, Foswiki:Main.GilmarSantosJr, Foswiki:Main.PaulHarvey, Foswiki:Main.AndrewJones, Foswiki:Main.AndreUlrich, Foswiki:Main.EugenMayer
+   * *Top contributors in general on SVN* (100 or more checkins): Foswiki:Main.SvenDowideit, Foswiki:Main.KennethLavrsen, Foswiki:Main.CrawfordCurrie, Foswiki:Main.ArthurClemens, Foswiki:Main.MichaelDaum, Foswiki:Main.WillNorris, Foswiki:Main.GeorgeClark, Foswiki:Main.OlivierRaginel, Foswiki:Main.PaulHarvey, Foswiki:Main.MichaelTempest, Foswiki:Main.EugenMayer, Foswiki:Main.AndrewJones, Foswiki:Main.GilmarSantosJr, Foswiki:Main.OliverKrueger
+   * *Development Infrastructure*: Foswiki:Main.SvenDowideit, Foswiki:Main.EugenMayer, Foswiki:Main.KoenMartens, Foswiki:Main.CrawfordCurrie, Foswiki:Main.KwangErnLiew, Foswiki:Main.OliverKrueger, Foswiki:Main.OlivierRaginel, Foswiki:Main.WillNorris, Foswiki:Main.ColasNahaboo, Foswiki:Main.KennethLavrsen
 
 ---++ Foswiki Release 1.0.10 - 09 Sep 2010
 
@@ -138,15 +148,6 @@ As part of the first Foswiki product release, various topics and terms were chan
      | TWiki Markup Language (TML) | Topic Markup Language (TML) |
      | TWiki Application | Wiki Application |
 
----+++!! Foswiki Hall of Fame
-
-The proud, free, independent Foswiki community.
-
-Highlights:
-
-   * *Top 5 core contributors on SVN*: Foswiki:Main.KennethLavrsen, Foswiki:Main.CrawfordCurrie, Foswiki:Main.SvenDowideit, Foswiki:Main.ArthurClemens, Foswiki:Main.OlivierRaginel
-   * *Top contributors in general on SVN*: Foswiki:Main.KennethLavrsen, Foswiki:Main.CrawfordCurrie, Foswiki:Main.SvenDowideit, Foswiki:Main.ArthurClemens, Foswiki:Main.OlivierRaginel, Foswiki:Main.EugenMayer, Foswiki:Main.KoenMartens, Foswiki:Main.MichaelDaum, Foswiki:Main.GilmarSantosJr, Foswiki:Main.SebastianKlus, Foswiki:Main.WillNorris, Foswiki:Main.SeanMcCarthy, Foswiki:Main.MartinCleaver, Foswiki:Main.RobManson
-   * *Development Infrastructure*: Foswiki:Main.SvenDowideit, Foswiki:Main.EugenMayer, Foswiki:Main.KoenMartens, Foswiki:Main.CrawfordCurrie, Foswiki:Main.KwangErnLiew, Foswiki:Main.OliverKrueger, Foswiki:Main.OlivierRaginel, Foswiki:Main.WillNorris, Foswiki:Main.ColasNahaboo, Foswiki:Main.KennethLavrsen
 #FreetownRelease 
 ---++ TWiki Release 4.2.1 (Freetown) released %$DATE%
 
