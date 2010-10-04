@@ -5,13 +5,13 @@
 
 %TOC%
 
----++ Foswiki Release 1.1.0 - 03 Oct 2010
+---++ Foswiki Release 1.1.0 - 04 Oct 2010
 
-Foswiki 1.1.0 was built 03 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0.
+Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0.
 
-This release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and much more.
+This release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better user interfaces for group management, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and much more.
 
-Foswiki 1.1 has many enhancements that endusers as well as administrators will appreciate. In addition Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. Work has been made to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements. Here is a list of the most important enhancements in Foswiki 1.1.0
+Foswiki 1.1 has many improvements that end-users as well as administrators will appreciate. In addition Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. Work has been made to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations. Most of these modifications should be invisible to the end user and admin, but are important to position Foswiki for the next generation of plugins. Here is a list of the most important enhancements in Foswiki 1.1.0
 
 ---+++!! Foswiki Hall of Fame
 
