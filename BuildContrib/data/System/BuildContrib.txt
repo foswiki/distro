@@ -89,6 +89,9 @@ installation tree. Every plugin has some _key files_:
          * <code><i>name</i>/</code> - directory where all your images, css, and Javascript files should go
 Contribs are held in the =lib/Foswiki/Contrib= directory instead of =lib/Foswiki/Plugins= but otherwise in exactly work the same way.
 
+<blockquote class="foswikiHelp">%X% Foswiki configure now requires a perl module in either the =Plugins= or =Contrib= directory with the same name as the
+extension.   This module should have two global variables - =$VERSION= and =$RELEASE= which are used to determine the installed version of the extension.</blockquote>
+
 Other directories normally found in a Foswiki installation may also exist under
 a root directory e.g. =bin=, =templates= etc.
 
@@ -579,10 +582,11 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
+|  3 Oct 2010: | Foswikitask:Item9785: Add BuildContrib.pm dummy module and document requirement. | 
 |  8 Sep 2010: | Foswikitask:Item9566: Foswikitask:Item9640: minor maintenance fixes |
 |  28 Aug 2010: | Foswikitask:Item721: get proxy settings from environment variables |
 |  06 Aug 2010: | Foswikitask:Item9439: fix the initial uplaod problem - we were reading the topic file before it had been built |
-|  01 Aug 2010: | Foswikitask:Item9416: Add %$FOSWIKIAUTHORS% token, which pulls in =core/AUTHORS= verbatim |
+|  01 Aug 2010: | Foswikitask:Item9416: Add %<nop>$FOSWIKIAUTHORS% token, which pulls in =core/AUTHORS= verbatim |
 |  31 Jul 2010: | Foswikitask:Item9415: Documentation updates |
 |  27 May 2010 | Foswikitask:Item8810: improve generated manifest Foswikitask:Item9071: correct corruption of field values in target_upload |
 |  30 Mar 2010 | Foswikitask:Item8804: Improve support for alternate Extension repositories.  Foswiki:Development/EasierMirroringOfExtensionRepositories |
