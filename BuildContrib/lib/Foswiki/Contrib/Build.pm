@@ -41,15 +41,14 @@ use POSIX      ();
 use Data::Dumper ();
 use warnings;
 use Foswiki::Time;
+use Foswiki::Contrib::BuildContrib;
 
 our $basedir;
 our $buildpldir;
 our $libpath;
 
-our $RELEASE = "8 Sep 2010";
-our $VERSION = '$Rev$';
-
-our $SHORTDESCRIPTION = 'Automates build and packaging process, including installer generation, for extension modules.';
+my $VERSION;
+my $RELEASE;
 
 my $UPLOADSITEPUB           = 'http://foswiki.org/pub';
 my $UPLOADSITESCRIPT        = 'http://foswiki.org/bin';
@@ -115,6 +114,10 @@ BEGIN {
     # Get the absolute dir we are executing in (where build.pl is)
     $buildpldir = $FindBin::RealBin;
     $buildpldir = File::Spec->rel2abs($buildpldir);
+
+    $VERSION = $Foswiki::Contrib::BuildContrib::VERSION;
+    $RELEASE = $Foswiki::Contrib::BuildContrib::RELEASE;
+    print "Building with BuildContrib $VERSION - $RELEASE \n";
 
     # Let's see if we are sitting in a conventional checkout structure,
     # and it has a defined LocalLib.cfg. If so then that's the basis of
