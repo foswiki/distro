@@ -77,7 +77,8 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Plugin Author: | Foswiki:Main.KennethLavrsen |
 |  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2009 Kenneth Lavrsen and Foswiki Contributors | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 09 Feb 2009 (V1.5) |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  31 Jul 2010: | 1.6 Paul Harvey: Foswikitask:Item9415 - Documentation updates | 
 |  09 Feb 2009: | 1.5 Kenneth Lavrsen: Small cosmetic updates. Changed the author name to non liked to avoid bogus links to Main.loginname. Changed some CSS names to Foswiki that I missed in 1.4 |
