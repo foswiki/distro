@@ -4,6 +4,7 @@ data/Sandbox/CompareRevisionsAddOnDemoTopic.txt,v 0644
 data/System/CompareRevisionsAddOn.txt 0644
 data/System/CompareRevisionsAddonPlugin.txt 0644
 lib/Foswiki/Plugins/CompareRevisionsAddonPlugin.pm 0444
+lib/Foswiki/Contrib/CompareRevisionsAddOn.pm 0444
 lib/Foswiki/Contrib/CompareRevisionsAddOn/Compare.pm 0444
 lib/Foswiki/Contrib/CompareRevisionsAddOn/Config.spec 0444
 pub/System/CompareRevisionsAddOn/interweave.png 0644
