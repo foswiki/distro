@@ -165,6 +165,7 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|   4 Oct 2010 | Foswikitask:Item9774:  Add CompareRevisionsAddOn.pm stub module to provide Version & Release strings | 
 |  31 Jul 2010 | Paul Harvey: Foswikitask:Item9415 - Documentation updates |
 |  19 Sep 2009 | Kenneth Lavrsen: Expert settings in plugins makes configure fail to save. Using the hidden (H) setting instead which is much better anyway as this is not a setting to be altered by a user. |
 |  18 Sep 2009 | Kenneth Lavrsen: Expert settings in plugins makes configure fail to save. Settings therefore un-experted again |
