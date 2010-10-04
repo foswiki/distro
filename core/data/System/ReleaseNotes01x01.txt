@@ -41,10 +41,10 @@ Foswiki 1.1 is shipped with the following:
 #Release01x01Changes
 ---++ Important Changes since Foswiki 1.0.10
 
-Foswiki 1.1 has many enhancements that endusers as well as administrators will appreciate. In addition Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. Work has been made to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements. Here is a list of the most important enhancements in Foswiki 1.1.0
+Foswiki 1.1 has many enhancements that end users as well as administrators will appreciate. In addition Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. Work has been made to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements. Here is a list of the most important enhancements in Foswiki 1.1.0
 
 ---+++ Adoption of the jQuery Javascript user interface framework
-From Foswiki 1.1 the industry-standard [[http://jquery.com][jQuery Javascript user interface framework]] has been more closely integrated, with the existing !JQueryPlugin being included into the core distribution. Reflecting the move to jQuery, the !BehaviourContrib has been removed from the core distribution, though it is still available for download from Foswiki.org. The default !PatternSkin now depends on this jQuery framework.
+Since Foswiki 1.1, the industry-standard [[http://jquery.com][jQuery Javascript user interface framework]] has been more closely integrated; the existing !JQueryPlugin is included into the core distribution. Reflecting the move to jQuery, the !BehaviourContrib has been removed from the core distribution; it is still available for download from Foswiki.org. The default !PatternSkin now depends on this jQuery framework.
 
 Also added are the new [[VarADDTOZONE][ADDTOZONE]] and [[VarRENDERZONE][RENDERZONE]] macros that manage dependencies between Javascript modules, making use of this sophisticated toolset much easier. See Foswiki:Development.UpdatingExtensionsScriptZone on how to replace [[VarADDTOHEAD][ADDTOHEAD]] usage.
 
@@ -135,10 +135,10 @@ The configuration tool =bin/configure= now performs extensive checks of file sys
 
 Because of prior inconsistencies in the files distributed with Foswiki and TWiki core and extensions, migration of older Foswiki or TWiki installs may see excessive errors reported by configure. You are recommended to correct the file system permissions. 
 
----+++ Newer modern Icon set for Document Graphics.
+---+++ Newer modern icon set for Document Graphics
 To celebrate our new look, project and momentum, Foswiki now has a new ICON set to update the one shipped for the last 10 years. Using the !FamFamFam icon set, augmented with icons from other leading graphic artists.
 
----+++ Table Plugin has been improved.
+---+++ Table Plugin has been improved
 HTML formatting has been replaced by pure CSS rendering. You can however enable inline markup HTML, in addition to the CSS markup, by setting the new parameter =inlinemarkup= to "on". This is useful if your users often copy/paste content of topics containing tables into HTML formatted emails or Office documents.
 
 Sorting has been improved so the plugin can now better handle mix of formats and even empty cells.
@@ -147,22 +147,23 @@ Sorting has been improved so the plugin can now better handle mix of formats and
 
 ---++++ API Enhancements
 The following functions have been added to the =Foswiki::Func= API:
-   * =copyAttachment=
+   * [[System/PerlDoc?module=Foswiki::Func#copyAttachment_40_36web_44_36topic_44_36attachment_44_36newWeb_44_36newTopic_44_36newAttachment_41
+][=copyAttachment=]]
 
 New parameters can be found on:
-   * =saveTopic= (ignorepermissions)
+   * [[System/PerlDoc?module=Foswiki::Func#saveTopic_40_36web_44_36topic_44_36meta_44_36text_44_36options_41][=saveTopic=]] (ignorepermissions)
 
 ---++++ Deprecated handlers
 The following handlers have been deprecated (i.e. they are still available, but should not be used in new code and will be removed in a future release, so if you have been used them, you need to modify your code).
 
 The =redirectCGIQueryHandler= plugin handler has been deprecated (it is still available, but should not be used in new code and will be removed in a future release, so if you have been used it, you need to modify your code). This handler assumed a level of interaction with the CGI handling process that is dangerous if misused, and severely limits the flexibility and optimisations available to the core.
 
-The =beforeAttachmentSaveHandler= and =afterAttachmentSaveHandler= plugin handlers have been deprecated in favour of the newly added =beforeUploadHandler= and =afterUploadHandler. The new handlers operate on streams, and are more efficient as well as more secure.
+The =beforeAttachmentSaveHandler= and =afterAttachmentSaveHandler= plugin handlers have been deprecated in favour of the newly-added =beforeUploadHandler= and =afterUploadHandler=. The new handlers operate on streams, and are more efficient as well as more secure.
 
 Deprecated handlers will continue to work as documented in 1.1 and for the immediate future, but will be removed in a future release. Extension authors are strongly recommended to implement the new handlers as soon as possible.
 
 ---++++ Deprecated Foswiki::Func functions
-The =readTopicText= and =saveTopicText= functions have been deprecated. Use =readTopic= and =saveTopic= instead. Both =readTopic= and =saveTopic= have always been available in Foswiki (and it's predecessor) and are a lot safer. Existing code can usually be modified to eliminate these deprecated functions without difficulty.
+The =readTopicText= and =saveTopicText= functions have been deprecated. Use =readTopic= and =saveTopic= instead. Both =readTopic= and =saveTopic= have always been available in Foswiki (and its predecessor) and are a lot safer. Existing code can usually be modified to eliminate these deprecated functions without difficulty.
 
 __Note:__ =readTopicText= had implicit access control checks. The replacement method, =readTopic= does not, so calling code must call =checkAccessPermission= explicitly.
 
@@ -176,7 +177,7 @@ Extension authors should first try to use the =Foswiki::Func= API. This is the p
 =Foswiki::Meta= should be used only if =Foswiki::Func= does not have a needed function. Note that =Foswiki::Meta= functions do not implicitly perform any access control checks. Callers of =Foswiki::Meta== should first use the =Foswiki::Meta::haveAccess= function to verify access for the planned actions. This was done by design to reduce repetitive access control checks and improve performance.
 
 ---++++ Tainting
-The Foswiki core now checks values used for web, topic and attachment names for 'taintedness' when FOSWIKI_ASSERTS are enabled. Tainted values are those that have been taken from user input (for example, from topic content or from form fields) without being validated. Such unchecked values are a large potential security hole, and the authors of plugins that manipulate topics or attachments need to check their plugins with Foswiki ASSERTs enabled. If you find a taint error, you can use the functions in =Foswiki::Sandbox= to validate them. For example, to validate a web name and a topic name, you would write:
+The Foswiki core now checks values used for web, topic and attachment names for 'taintedness' when =FOSWIKI_ASSERTS= are enabled. Tainted values are those that have been taken from user input (for example, from topic content or from form fields) without being validated. Such unchecked values are a large potential security hole, and the authors of plugins that manipulate topics or attachments need to check their plugins with Foswiki ASSERTs enabled. If you find a taint error, you can use the functions in =Foswiki::Sandbox= to validate them. For example, to validate a web name and a topic name, you would write:
 
 <verbatim>
 $validWebName = Foswiki::Sandbox::untaint(
@@ -187,7 +188,7 @@ $validTopicName = Foswiki::Sandbox::untaint(
 
 If =$webName= is not a legal web name, then =$webName= will end up being undefined. Similarly for the topic name.
 
-Note that values are only checked for taintedness when FOSWIKI_ASSERTS are enabled, so unless you run your Foswiki in this mode, you will never see the errors. To enable asserts, simply add the line:
+Note that values are only checked for taintedness when =FOSWIKI_ASSERTS= are enabled, so unless you run your Foswiki in this mode, you will never see the errors. To enable asserts, simply add the line:
 
 <verbatim>
 $ENV{FOSWIKI_ASSERTS} = 1;
