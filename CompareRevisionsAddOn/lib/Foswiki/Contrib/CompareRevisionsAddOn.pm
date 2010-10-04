@@ -1,4 +1,4 @@
-package Foswiki::Contrib::BuildContrib;
+package Foswiki::Contrib::CompareRevisionsAddOn;
 use strict;
 
 # This should always be $Rev: 4995 $ so that Foswiki can determine the
