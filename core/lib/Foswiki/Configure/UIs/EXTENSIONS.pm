@@ -135,8 +135,9 @@ sub _getListOfExtensions {
                     }
                     else {
 
-                        #probably a normal extensions FastReport
-                        $page =~ s/{(.*?)}/$this->_parseRow($1, $place)/ges;
+                        #probably a normal extensions FastReport. Item9786:
+                        #content may contain '{','}' chars so anchor to newlines
+                        $page =~ s/\n{(.*?)}\n/$this->_parseRow($1, $place)/ges;
                     }
 
                 }
