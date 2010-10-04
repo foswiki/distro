@@ -579,10 +579,11 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
+|  4 Oct 2010: | Foswikitask:Item9785: Add BuildContrib.pm module to pick up version strings |
 |  8 Sep 2010: | Foswikitask:Item9566: Foswikitask:Item9640: minor maintenance fixes |
 |  28 Aug 2010: | Foswikitask:Item721: get proxy settings from environment variables |
 |  06 Aug 2010: | Foswikitask:Item9439: fix the initial uplaod problem - we were reading the topic file before it had been built |
-|  01 Aug 2010: | Foswikitask:Item9416: Add %$FOSWIKIAUTHORS% token, which pulls in =core/AUTHORS= verbatim |
+|  01 Aug 2010: | Foswikitask:Item9416: Add %<nop>$FOSWIKIAUTHORS% token, which pulls in =core/AUTHORS= verbatim |
 |  31 Jul 2010: | Foswikitask:Item9415: Documentation updates |
 |  27 May 2010 | Foswikitask:Item8810: improve generated manifest Foswikitask:Item9071: correct corruption of field values in target_upload |
 |  30 Mar 2010 | Foswikitask:Item8804: Improve support for alternate Extension repositories.  Foswiki:Development/EasierMirroringOfExtensionRepositories |
