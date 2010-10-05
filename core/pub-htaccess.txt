@@ -17,6 +17,8 @@ Allow from all
 # and http://foswiki.org/Tasks/Item610
 # If you think you have a solution it is in your best interests to share it 
 # so others can test your idea.
+# Caution:  If your directories are reached by SymLinks,  this option will
+# result in 403 errors.  Replace it with    "Options FollowSymLinks"
 Options None
 
 # We need to protect the entire pub directory tree against any kind of script execution
