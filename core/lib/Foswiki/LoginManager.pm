@@ -1146,7 +1146,9 @@ sub _SESSION_VARIABLE {
             }
         }
         elsif ( !$secretSK{$name} ) {
-            return $this->getSessionValue($name) || '';
+            my $val = $this->getSessionValue($name);
+            $val = '' unless defined $val;
+            return $val;
         }
     }
     return '';
