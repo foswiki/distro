@@ -54,7 +54,6 @@ sub tear_down {
     my $this = shift;
     $this->removeWebFixture( $this->{session}, $web )
       if $this->{session}->webExists($web);
-    $this->{session}->finish() if $this->{twiki};
     $this->SUPER::tear_down();
 }
 

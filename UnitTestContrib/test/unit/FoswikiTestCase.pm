@@ -24,6 +24,8 @@ our @ISA = qw( Unit::TestCase );
 use Data::Dumper;
 
 use Foswiki;
+use Foswiki::Meta;
+use Foswiki::Plugins;
 use Unit::Request;
 use Unit::Response;
 use Error qw( :try );
@@ -206,6 +208,11 @@ sub tear_down {
             $ENV{$sym} = $this->{__EnvSafe}->{$sym};
         }
     }
+    # Clear down non-default META types.
+    foreach my $thing (keys %$Foswiki::Meta::VALIDATE) {
+        delete $Foswiki::Meta::VALIDATE{$thing}
+          unless$Foswiki::Meta::VALIDATE{$thing}->{_default};
+    }
 }
 
 sub _copy {
@@ -295,6 +302,7 @@ sub capture {
         $responseText = $stdout;
     } else {
         # Capture headers
+        require Foswiki::Engine;
         Foswiki::Engine->finalizeCookies($response);
         foreach my $header ( keys %{ $response->headers } ) {
             $responseText .= $header . ': ' . $_ . "\x0D\x0A"

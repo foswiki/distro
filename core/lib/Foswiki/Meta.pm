@@ -140,30 +140,47 @@ our $CHANGES_SUMMARY_PLAINTRUNC = 70;
 # Note that 'other' is *not* the same as 'allow'; it doesn't imply any
 # exclusion of tags that contain unaccepted params. It's really just for
 # documentation (and DB schema initialisation).
+# _default is set on base meta-data types (those not added by
+# Foswiki::Func::registerMETA) to differentiate the minimum required
+# meta-data and that added by extensions.
 our %VALIDATE = (
     TOPICINFO => {
-        allow => [qw( author version date format reprev rev comment encoding )]
+        allow => [qw( author version date format reprev
+                      rev comment encoding )],
+        _default => 1,
     },
-    TOPICMOVED => { require => [qw( from to by date )] },
+    TOPICMOVED => {
+        require => [qw( from to by date )],
+        _default => 1,
+    },
 
     # Special case, see Item2554; allow an empty TOPICPARENT, as this was
     # erroneously generated at some point in the past
-    TOPICPARENT    => { allow => [qw( name )] },
+    TOPICPARENT    => {
+        allow => [qw( name )],
+        _default => 1,
+    },
     FILEATTACHMENT => {
         require => [qw( name )],
         other   => [
             qw( version path size date user
               comment attr )
-        ]
+        ],
+        _default => 1,
     },
-    FORM  => { require => [qw( name )] },
+    FORM  => {
+        require => [qw( name )],
+        _default => 1,
+    },
     FIELD => {
         require => [qw( name value )],
-        other   => [qw( title )]
+        other   => [qw( title )],
+        _default => 1,
     },
     PREFERENCE => {
         require => [qw( name value )],
         other   => [qw( type )],
+        _default => 1,
     }
 );
 
