@@ -443,40 +443,42 @@ sub install {
                 my ( $tweb, $ttopic ) =
                   Foswiki::Configure::Util::getMappedWebTopic($file);
 
-                my %opts;
-                $opts{forcenewrevision} = 1;
+                if ( Foswiki::Func::webExists($tweb) ) {
+                    my %opts;
+                    $opts{forcenewrevision} = 1;
 
-                local $/ = undef;
-                open( my $fh, '<', "$dir/$file" )
-                  or return ( $feedback,
+                    local $/ = undef;
+                    open( my $fh, '<', "$dir/$file" )
+                      or return ( $feedback,
 "Cannot open $dir/$file for reading: $!\nProbably packaging error\n"
-                  );
-                my $contents = <$fh>;
-                close $fh;
+                      );
+                    my $contents = <$fh>;
+                    close $fh;
 
 # If file is not writable, and not owned, the chmod probably won't work ...  so fail.
-                $err = "Target $file is not writable\n"
-                  if ( -e "$target" && !-w "$target" && !-o "$target" );
-                if ($err) {
-                    $errors .= $err;
+                    $err = "Target $file is not writable\n"
+                      if ( -e "$target" && !-w "$target" && !-o "$target" );
+                    if ($err) {
+                        $errors .= $err;
+                        next;
+                    }
+
+                    if ($contents) {
+                        $feedback .=
+                          "${simulated}Checked in: $file  as $tweb.$ttopic\n";
+                        my $meta = Foswiki::Meta->new( $session, $tweb, $ttopic,
+                            $contents );
+
+                        ( my $afdbk, $err ) =
+                          _installAttachments( $this, $dir, "$web/$topic",
+                            "$tweb/$ttopic", $meta );
+                        $feedback .= $afdbk;
+                        $errors .= $err if ($err);
+                        $meta->saveAs( $tweb, $ttopic, %opts )
+                          unless $this->{_options}->{SIMULATE};
+                    }
                     next;
                 }
-
-                if ($contents) {
-                    $feedback .=
-                      "${simulated}Checked in: $file  as $tweb.$ttopic\n";
-                    my $meta =
-                      Foswiki::Meta->new( $session, $tweb, $ttopic, $contents );
-
-                    ( my $afdbk, $err ) =
-                      _installAttachments( $this, $dir, "$web/$topic",
-                        "$tweb/$ttopic", $meta );
-                    $feedback .= $afdbk;
-                    $errors .= $err if ($err);
-                    $meta->saveAs( $tweb, $ttopic, %opts )
-                      unless $this->{_options}->{SIMULATE};
-                }
-                next;
             }
 
             # Everything else
@@ -580,7 +582,8 @@ sub _moveFile {
     unless ( $this->{_options}->{SIMULATE} ) {
         if ( scalar(@path) ) {
             umask( oct(777) - $Foswiki::cfg{RCS}{dirPermission} );
-            File::Path::mkpath( join( '/', @path ), 0, $Foswiki::cfg{RCS}{dirPermission} );
+            File::Path::mkpath( join( '/', @path ),
+                0, $Foswiki::cfg{RCS}{dirPermission} );
         }
 
         if ( !File::Copy::move( "$from", $to ) ) {
