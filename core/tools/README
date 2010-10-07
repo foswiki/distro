@@ -26,7 +26,7 @@ The tools directory contains the following:
    * addpod.pl
    * fixHtaccess.pl
    * perlmod2www.pl
-   * rewriteshbang.pl
+   * rewriteshebang.pl
    * unisonsync.pl
    * upgradeformat
 

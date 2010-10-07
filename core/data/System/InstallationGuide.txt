@@ -71,15 +71,15 @@ If Foswiki stops working after you applied a change in access permissions and yo
 
 ---+++ Configure the locations of the Perl executable and the Foswiki modules
 
-*Make sure the Foswiki scripts can be executed by the web server.* The default location of Perl is =/usr/bin/perl=. *If it's somewhere else*, change the path to Perl in the first line of each script (you may have to give yourself write permission first) in the =bin= and =tools= directories. You can use the =tools/rewriteshbang.pl= script to do this; for example:
+*Make sure the Foswiki scripts can be executed by the web server.* The default location of Perl is =/usr/bin/perl=. *If it's somewhere else*, change the path to Perl in the first line of each script (you may have to give yourself write permission first) in the =bin= and =tools= directories. You can use the =tools/rewriteshebang.pl= script to do this; for example:
 <verbatim class="bash">
 cd /path/to/foswiki/bin
-/path/to/perl ../tools/rewriteshbang.pl
+/path/to/perl ../tools/rewriteshebang.pl
 # At the prompt, enter the full path to the perl executable, including
 # the full filename of the executable. You will be prompted twice for
 # this information in order to confirm it.
 cd /path/to/foswiki/tools
-/path/to/perl rewriteshbang.pl
+/path/to/perl rewriteshebang.pl
 </verbatim>
 
 Some web servers require a special extension on perl script files (e.g. =.cgi= or =.pl=). This is not normally required with the Apache web server, though some hosted web servers are configured to require it. If the documentation for your web server indicates that a special extension is necessary, rename all the executable scripts in =bin=; that is, rename =bin/view= to =bin/view.pl=, and so on. When configuring Foswiki (see the section "[[#ConfigureFoswiki][Configure Foswiki]]"), set the =ScriptSuffix= option to the special extension.
