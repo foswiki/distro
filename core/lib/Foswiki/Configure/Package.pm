@@ -407,9 +407,9 @@ sub install {
 
         $err = '';
 
-        if ( $file =~ /^bin\/[^\/]+$/ ) {
+        if ( $file =~ /^(:?bin|tools)\/[^\/]+$/ ) {
             my $perlLoc = Foswiki::Configure::Util::getPerlLocation();
-            Foswiki::Configure::Util::rewriteShbang( "$dir/$file", "$perlLoc" )
+            Foswiki::Configure::Util::rewriteShebang( "$dir/$file", "$perlLoc" )
               if $perlLoc;
         }
 
