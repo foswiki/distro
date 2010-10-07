@@ -71,8 +71,18 @@ Construct a Store module.
 =cut
 
 sub new {
-    my ($class) = @_;
-    my $this = bless( {}, $class );
+    my $class = shift;
+
+    # Create and register store listeners. Store listeners are subclasses
+    # of Foswiki::Store::Listener
+    my @evl;
+    foreach my $lc ( @{$Foswiki::cfg{Store}{Listeners}} ) {
+        eval "require $lc";
+        die "Failed to load $lc: $@" if $@;
+        push(@evl, $lc->new());
+    }
+    my $this = bless( { event_listeners => \@evl }, $class );
+
     return $this;
 }
 
@@ -228,6 +238,8 @@ sub attachmentExists {
 
 All parameters must be defined and must be untainted.
 
+Implementation must invoke 'update' on event listeners.
+
 =cut
 
 sub moveTopic {
@@ -240,6 +252,8 @@ sub moveTopic {
 ---++ ObjectMethod moveWeb( $oldWebObject, $newWebObject, $cUID )
 
 Move a web.
+
+Implementation must invoke 'update' on event listeners.
 
 =cut
 
@@ -430,6 +444,8 @@ Save a topic or attachment _without_ invoking plugin handlers.
 
 Returns the new revision identifier.
 
+Implementation must invoke 'update' on event listeners.
+
 =cut
 
 sub saveTopic {
@@ -463,6 +479,8 @@ to a normal save or not.
 
 Returns the id of the latest revision.
 
+Implementation must invoke 'update' on event listeners.
+
 =cut
 
 sub repRev {
@@ -486,6 +504,8 @@ revision.
 It is up to the store implementation whether this actually
 does delete a revision or not; some implementations will
 simply promote the previous revision up to the head.
+
+Implementation must invoke 'update' on event listeners.
 
 =cut
 
@@ -662,6 +682,8 @@ sub eachWeb {
    * =$attachment= - optional attachment being removed
 
 Destroy a thing, utterly.
+
+Implementation must invoke 'remove' on event listeners.
 
 =cut
 

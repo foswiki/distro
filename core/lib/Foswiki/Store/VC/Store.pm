@@ -52,29 +52,6 @@ BEGIN {
     }
 }
 
-sub new {
-    my ($class) = @_;
-    my $this = $class->SUPER::new();
-
-    # At the moment there will only ever be one event listener, viz the
-    # cache. Making this array in case there is ever more than one.
-    $this->{event_listeners} = [];
-
-    # This appears more complex than it needs to be, but we need to
-    # be able to plug in different implementations because different
-    # database engines use different dialects of SQL.
-    # TODO: refactor this to make registering a DBCache simpler, and
-    # abstracted away from the store implementation.
-    if (defined $Foswiki::cfg{Store}{DBCache}{Implementation}
-       && $Foswiki::cfg{Store}{DBCache}{Implementation} ne 'none') {
-        eval "require $Foswiki::cfg{Store}{DBCache}{Implementation}";
-        die $@ if $@;
-        push(@{$this->{event_listeners}},
-          $Foswiki::cfg{Store}{DBCache}{Implementation}->new());
-    }
-    return $this;
-}
-
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
@@ -209,8 +186,7 @@ sub moveTopic {
     $handler->moveTopic( $this, $newTopicObject->web, $newTopicObject->topic );
 
     foreach my $el (@{$this->{event_listeners}}) {
-        $el->remove($oldTopicObject);
-        $el->insert($newTopicObject);
+        $el->update($oldTopicObject, $newTopicObject);
     }
 
     if ( $newTopicObject->web ne $oldTopicObject->web ) {
@@ -231,8 +207,7 @@ sub moveWeb {
     $handler->moveWeb( $newWebObject->web );
 
     foreach my $el (@{$this->{event_listeners}}) {
-        $el->remove($oldWebObject);
-        $el->insert($oldWebObject);
+        $el->update($oldWebObject, $newWebObject);
     }
 
     # We have to log in the new web, otherwise we would re-create the dir with

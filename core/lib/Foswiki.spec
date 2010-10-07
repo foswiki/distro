@@ -959,6 +959,11 @@ $Foswiki::cfg{Store}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::BruteFo
 # is faster, but requires BerkeleyDB to be installed.
 $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 
+# **PERL EXPERT**
+# Array of full class names of objects that want to listen to changes to
+# the store.
+$Foswiki::cfg{Store}{Listeners} = [];
+
 # **OCTAL EXPERT**
 # File security for new directories created by RCS stores. You may have
 # to adjust these

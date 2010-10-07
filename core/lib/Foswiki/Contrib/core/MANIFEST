@@ -763,6 +763,7 @@ lib/Foswiki/Search/Node.pm 0444
 lib/Foswiki/Search/Parser.pm 0444
 lib/Foswiki/Search/ResultSet.pm 0444
 lib/Foswiki/Store.pm 0444
+lib/Foswiki/Store/Listener.pm 0444
 lib/Foswiki/Store/QueryAlgorithms/BruteForce.pm 0444
 lib/Foswiki/Store/RcsLite.pm 0444
 lib/Foswiki/Store/RcsWrap.pm 0444
