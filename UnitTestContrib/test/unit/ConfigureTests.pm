@@ -802,6 +802,13 @@ sub test_Util_getPerlLocation {
         "C:\\Program Files\\Strawberry\\bin\\perl.exe"
     );
 
+    _makefile( "$tempdir", "loctestf", <<'DONE');
+#! /a/b/perl
+Test file data
+DONE
+
+    $this->assert_str_equals( '/a/b/perl', Foswiki::Configure::Util::getPerlLocation("$tempdir/loctestf"));
+
     $Foswiki::cfg{ScriptSuffix} = ".pl";
     _doLocationTest( $this, $tempdir, "#!/usr/bin/perl -wT ", "/usr/bin/perl" );
 
