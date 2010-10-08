@@ -4,16 +4,8 @@
 ---+ package Foswiki::Store::Listener;
 Abstract base class (interface) for store listeners
 
-=cut
-
-=begin TML
-
 ---++ ObjectMethod insert($metaObject)
 Event triggered when a new Meta object is inserted into the store
-
-=cut
-
-=begin TML
 
 ---++ ObjectMethod update($oldMetaObject[, $newMetaObject])
 
@@ -25,10 +17,6 @@ insert($newMetaObject || $oldMetaObject)
 </verbatim>
 but listeners may optimise on this. The two parameter form is called when
 a topic is moved.
-
-=cut
-
-=begin TML
 
 ---++ ObjectMethod remove($metaObject)
 We are removing the given object.

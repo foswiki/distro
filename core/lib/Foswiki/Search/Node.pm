@@ -1,16 +1,13 @@
 # See bottom of file for license and copyright information
+package Foswiki::Search::Node;
 
 =begin TML
 
 ---+ package Foswiki::Search
 
-Foswiki::Search::Node is a refactoring mid-step that contains the legacy SEARCH tokens
-
-If if becomes useful, it will become a set of Nodes as for Foswiki::Query
+Refactoring mid-step that contains a set of SEARCH tokens and options.
 
 =cut
-
-package Foswiki::Search::Node;
 
 use strict;
 use warnings;
@@ -18,24 +15,62 @@ use warnings;
 use Assert;
 use Error qw( :try );
 
-use Foswiki::Infix::Node ();
-our @ISA = ('Foswiki::Infix::Node');
+# Some day this may usefully be an infix node
+#use Foswiki::Infix::Node ();
+#our @ISA = ('Foswiki::Infix::Node');
 
 =begin TML
 
 ---++ ClassMethod new($search, $tokens, $options)
 
-Construct a Legacy Search token container (its not yet a proper Node)
+Construct a search token container.
 
 =cut
 
 sub new {
     my ( $class, $search, $tokens, $options ) = @_;
-    my $this =
-      bless( { tokens => $tokens, search => $search, options => $options },
-        $class );
+    my $this = bless( {
+        tokens => $tokens,
+        search => $search,
+        options => $options,
+    }, $class );
     return $this;
 }
+
+=begin TML
+
+---++ ObjectMethod tokens() -> \@tokenList
+
+Return a ref to a list of tokens that are ANDed to perform the search.
+
+=cut
+
+sub tokens {
+    my $this = shift;
+    return [] unless $this->{tokens};
+    return $this->{tokens};
+}
+
+=begin TML
+
+---++ ObjectMethod isEmpty() -> boolean
+
+Return true if this search is empty (has no tokens)
+
+=cut
+
+sub isEmpty {
+    my $this = shift;
+    return !($this->{tokens} && scalar(@{$this->{tokens}}) > 0);
+}
+
+sub stringify {
+    my $this = shift;
+    return join(' ', @{$this->{tokens}})
+      .' {' .
+        join(',', map { "$_=>$this->{options}->{$_}" }
+               grep { !/^_/ } keys %{$this->{options}}) . '}';
+} 
 
 1;
 __END__

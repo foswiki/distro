@@ -1,32 +1,32 @@
 # See bottom of file for license and copyright information
+package Foswiki::Store::QueryAlgorithms::BruteForce;
 
 =begin TML
 
 ---+ package Foswiki::Store::QueryAlgorithms::BruteForce
+Implements Foswiki::Store::Interfaces::QueryAlgorithm
 
-Default brute-force query algorithm
-
-Has some basic optimisation: it hoists regular expressions out of the
-query to use with grep, so we can narrow down the set of topics that we
-have to evaluate the query on.
+Default brute-force query algorithm. Works by hoisting regular expressions
+out of the query tree to narrow down the set of topics to be tested. Then
+uses the query 'evaluate' method on each topic in turn to fully evaluate
+the remaining query.
 
 Not sure exactly where the breakpoint is between the
 costs of hoisting and the advantages of hoisting. Benchmarks suggest
 that it's around 6 topics, though this may vary depending on disk
 speed and memory size. It also depends on the complexity of the query.
 
-TODO: There is an additional opprotunity for optimisation; if we assume
-the grep is solid, we can cut those parts of the query out for the full
-evaluation path. Not done yet, because CDot strongly suspects it won't make
-much difference.
-
 =cut
 
-package Foswiki::Store::QueryAlgorithms::BruteForce;
+# TODO: There is an additional opprotunity for optimisation; if we assume
+# the grep is solid, we can cut those parts of the query out for the full
+# evaluation path. Not done yet, because CDot strongly suspects it won't make
+# much difference.
+
 use strict;
 use warnings;
 
-#@ISA = ( 'Foswiki::Query::QueryAlgorithms' ); # interface
+#@ISA = ( 'Foswiki::Store::Interfaces::QueryAlgorithm' );
 
 use Foswiki::Search::Node      ();
 use Foswiki::Meta              ();
@@ -36,7 +36,7 @@ use Foswiki::MetaCache         ();
 use Foswiki::Query::Node       ();
 use Foswiki::Query::HoistREs   ();
 
-# See Foswiki::Query::QueryAlgorithms.pm for details
+# Implements Foswiki::Store::Interfaces::QueryAlgorithm
 sub query {
     my ( $query, $inputTopicSet, $session, $options ) = @_;
 
@@ -168,16 +168,15 @@ sub _webQuery {
             type                => 'regex',
             casesensitive       => 1,
             files_without_match => 1,
+            web                 => $web,
         };
         my @filter = @{ $hoistedREs->{text} };
         my $searchQuery =
           new Foswiki::Search::Node( $query->toString(), \@filter,
             $searchOptions );
         $topicSet->reset();
-        $topicSet =
-          $session->{store}
-          ->searchInWebMetaData( $searchQuery, $web, $topicSet, $session,
-            $searchOptions );
+        $topicSet = $session->{store}->query(
+            $searchQuery, $topicSet, $session, $searchOptions );
     }
     else {
 
@@ -228,9 +227,10 @@ sub _webQuery {
     return $resultTopicSet;
 }
 
-# The getField function is here to allow for Store specific optimisations
-# such as direct database lookups.
+# Implements Foswiki::Store::Interfaces::QueryAlgorithm
 sub getField {
+    # The getField function is here to allow for Store specific optimisations
+    # such as direct database lookups.
     my ( $this, $node, $data, $field ) = @_;
 
     my $result;
@@ -361,9 +361,9 @@ sub getField {
     return $result;
 }
 
-# Get a referenced topic
-# See Foswiki::Store::QueryAlgorithms.pm for details
+# Implements Foswiki::Store::Interfaces::QueryAlgorithm
 sub getRefTopic {
+    # Get a referenced topic
     my ( $this, $relativeTo, $w, $t ) = @_;
     return Foswiki::Meta->load( $relativeTo->session, $w, $t );
 }

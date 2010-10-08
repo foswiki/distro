@@ -2805,9 +2805,6 @@ __WARNING: does not return a hash - returns an iterator (else you will crash you
 
 =cut
 
-# Note: this function used to be a direct caller of Store::searchInWebContent,
-# which is no longer the case, but this explains the naming overlap even
-# though the function definitions are quite different.
 sub searchInWebContent {
 
     my ( $searchString, $webs, $topics, $options ) = @_;

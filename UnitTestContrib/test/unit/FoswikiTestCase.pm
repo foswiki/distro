@@ -120,6 +120,11 @@ sub set_up {
         $this->{__EnvSafe}->{$sym} = $ENV{$sym};
     }
 
+    # Tell the world we are running unit tests. Nasty, but needed to
+    # avoid corruption of data spaces when unit tests are run alongside
+    # a running wiki.
+    $Foswiki::inUnitTestMode = 1;
+
     # This needs to be a deep copy
     $this->{__FoswikiSafe} =
       Data::Dumper->Dump( [ \%Foswiki::cfg ], ['*Foswiki::cfg'] );

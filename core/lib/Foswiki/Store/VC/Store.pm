@@ -61,6 +61,13 @@ sub finish {
     undef $this->{searchFn};
 }
 
+# SMELL: this module does not respect $Foswiki::inUnitTestMode; tests
+# just sit on top of the store which is configured in the current LocalSite.
+# Most of the time this is ok, as store listeners will be told that
+# the store is in test mode, so caches should be unaffected. However
+# it's very untidy, potentially risky, and causes grief when unit tests
+# don't clean up after themselves.
+
 # PACKAGE PRIVATE
 # Get a handler for the given object in the store.
 sub getHandler {
@@ -185,9 +192,7 @@ sub moveTopic {
 
     $handler->moveTopic( $this, $newTopicObject->web, $newTopicObject->topic );
 
-    foreach my $el (@{$this->{event_listeners}}) {
-        $el->update($oldTopicObject, $newTopicObject);
-    }
+    $this->tellListeners('update', $oldTopicObject, $newTopicObject);
 
     if ( $newTopicObject->web ne $oldTopicObject->web ) {
 
@@ -206,9 +211,7 @@ sub moveWeb {
     my $handler = $this->getHandler($oldWebObject);
     $handler->moveWeb( $newWebObject->web );
 
-    foreach my $el (@{$this->{event_listeners}}) {
-        $el->update($oldWebObject, $newWebObject);
-    }
+    $this->tellListeners('update', $oldWebObject, $newWebObject);
 
     # We have to log in the new web, otherwise we would re-create the dir with
     # a useless .changes. See Item9278
@@ -289,9 +292,7 @@ sub saveTopic {
     my $extra = $options->{minor} ? 'minor' : '';
     $handler->recordChange( $cUID, $nextRev, $extra );
 
-    foreach my $el (@{$this->{event_listeners}}) {
-        $el->update($topicObject);
-    }
+    $this->tellListeners('update', $topicObject);
 
     return $nextRev;
 }
@@ -308,9 +309,7 @@ sub repRev {
     my $rev = $handler->getLatestRevisionID();
     $handler->recordChange( $cUID, $rev, 'minor, reprev' );
 
-    foreach my $el (@{$this->{event_listeners}}) {
-        $el->update($topicObject);
-    }
+    $this->tellListeners('update', $topicObject);
 
     return $rev;
 }
@@ -336,9 +335,7 @@ sub delRev {
     $topicObject->unload();
     $topicObject->loadVersion();
 
-    foreach my $el (@{$this->{event_listeners}}) {
-        $el->update($topicObject);
-    }
+    $this->tellListeners('update', $topicObject);
 
     $handler->recordChange( $cUID, $rev );
 
@@ -451,9 +448,7 @@ sub remove {
     my $handler = $this->getHandler( $topicObject, $attachment );
     $handler->remove();
 
-    foreach my $el (@{$this->{event_listeners}}) {
-        $el->remove($topicObject);
-    }
+    $this->tellListeners('remove', $topicObject);
 
     # Only log when deleting topics or attachment, otherwise we would re-create
     # an empty directory with just a .changes. See Item9278
@@ -465,40 +460,11 @@ sub remove {
     }
 }
 
-#also deprecated. (use Foswiki::Meta::query)
-sub searchInWebMetaData {
-    my ( $this, $query, $webs, $inputTopicSet, $session, $options ) = @_;
-    ASSERT($query);
-    ASSERT(  UNIVERSAL::isa( $query, 'Foswiki::Query::Node' )
-          || UNIVERSAL::isa( $query, 'Foswiki::Search::Node' ) );
-
-    $options->{web} = $webs;
-    return $this->query( $query, $inputTopicSet, $session, $options );
-}
-
-#also deprecated. (use Foswiki::Meta::query)
-#yes, this code is identical to Foswiki::Func::searchInWebContent
-sub searchInWebContent {
-    my ( $this, $searchString, $webs, $topics, $session, $options ) = @_;
-
-    #my $inputTopicSet = new Foswiki::ListIterator($topics);
-    #return $handler->searchInWebContent( $searchString, $web, $inputTopicSet,
-    #    $session, $options );
-    my $inputTopicSet;
-    if ($topics) {
-        $inputTopicSet = new Foswiki::ListIterator($topics);
-    }
-    $options->{web} = $webs;
-    my $query = $session->search->parseSearch( $searchString, $options );
-
-    return Foswiki::Meta::query( $query, $inputTopicSet, $session, $options );
-}
-
 sub query {
     my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
 
     my $engine;
-    if ( $options->{type} eq 'query' ) {
+    if ( $query->isa('Foswiki::Query::Node') ) {
         unless ( $this->{queryFn} ) {
             eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
             die
@@ -509,6 +475,7 @@ sub query {
         $engine = $this->{queryFn};
     }
     else {
+        ASSERT($query->isa('Foswiki::Search::Node')) if DEBUG;
         unless ( $this->{searchQueryFn} ) {
             eval "require $Foswiki::cfg{Store}{SearchAlgorithm}";
             die

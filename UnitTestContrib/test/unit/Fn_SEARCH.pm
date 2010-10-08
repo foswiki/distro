@@ -1,6 +1,17 @@
 # tests for the correct expansion of SEARCH
 # SMELL: this test is pathetic, becase SEARCH has dozens of untested modes
-
+#
+# In order to keep this test down to a manageable run time, the fixture
+# groups are only applied to those tests where we are testing the correct
+# parsing of the search expression and its correct application in searching.
+# Where we are primarily testing formatting and pagination, we keep the
+# test out of the fixture groups on the assumption that all search and
+# query algorithms output is formatted by the same code.
+#
+# NOTE: When developing, or after modifying search or query algorithms,
+# you are highly recommended to run this suite with the "test" functions
+# converted to "verify" - just in case!
+#
 package Fn_SEARCH;
 
 use strict;
@@ -331,7 +342,7 @@ sub _septic {
 
 #####################
 
-sub verify_no_header_no_footer_no_separator_with_results {
+sub test_no_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_septic( 0, 0, undef, 1, <<EXPECT);
 OkATopic
@@ -340,40 +351,40 @@ OkTopic
 EXPECT
 }
 
-sub verify_no_header_no_footer_no_separator_no_results {
+sub test_no_header_no_footer_no_separator_no_results {
     my $this = shift;
     $this->_septic( 0, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_no_header_no_footer_empty_separator_with_results {
+sub test_no_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic( 0, 0, "", 1, <<EXPECT);
 OkATopicOkBTopicOkTopic
 EXPECT
 }
 
-sub verify_no_header_no_footer_empty_separator_no_results {
+sub test_no_header_no_footer_empty_separator_no_results {
     my $this = shift;
     $this->_septic( 0, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_no_header_no_footer_with_separator_with_results {
+sub test_no_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic( 0, 0, ",", 1, <<EXPECT);
 OkATopic,OkBTopic,OkTopic
 EXPECT
 }
 
-sub verify_no_header_no_footer_with_separator_no_results {
+sub test_no_header_no_footer_with_separator_no_results {
     my $this = shift;
     $this->_septic( 0, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 #####################
 
-sub verify_no_header_with_footer_no_separator_with_results {
+sub test_no_header_with_footer_no_separator_with_results {
     my $this = shift;
     $this->_septic( 0, 1, undef, 1, <<EXPECT);
 OkATopic
@@ -383,26 +394,26 @@ FOOT
 EXPECT
 }
 
-sub verify_no_header_with_footer_no_separator_no_results {
+sub test_no_header_with_footer_no_separator_no_results {
     my $this = shift;
     $this->_septic( 0, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_no_header_with_footer_empty_separator_with_results {
+sub test_no_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic( 0, 1, "", 1, <<EXPECT);
 OkATopicOkBTopicOkTopicFOOT
 EXPECT
 }
 
-sub verify_no_header_with_footer_empty_separator_no_results {
+sub test_no_header_with_footer_empty_separator_no_results {
     my $this = shift;
     $this->_septic( 0, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_no_header_with_footer_with_separator_with_results {
+sub test_no_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic( 0, 1, ",", 1, <<EXPECT);
 OkATopic,OkBTopic,OkTopicFOOT
@@ -411,7 +422,7 @@ EXPECT
 
 #####################
 
-sub verify_with_header_with_footer_no_separator_with_results {
+sub test_with_header_with_footer_no_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 1, undef, 1, <<EXPECT);
 HEAD
@@ -422,33 +433,33 @@ FOOT
 EXPECT
 }
 
-sub verify_with_header_with_footer_no_separator_no_results {
+sub test_with_header_with_footer_no_separator_no_results {
     my $this = shift;
     $this->_septic( 1, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_with_header_with_footer_empty_separator_with_results {
+sub test_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 1, "", 1, <<EXPECT);
 HEADOkATopicOkBTopicOkTopicFOOT
 EXPECT
 }
 
-sub verify_with_header_with_footer_empty_separator_no_results {
+sub test_with_header_with_footer_empty_separator_no_results {
     my $this = shift;
     $this->_septic( 1, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_with_header_with_footer_with_separator_with_results {
+sub test_with_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 1, ",", 1, <<EXPECT);
 HEADOkATopic,OkBTopic,OkTopicFOOT
 EXPECT
 }
 
-sub verify_with_header_with_footer_with_separator_no_results {
+sub test_with_header_with_footer_with_separator_no_results {
     my $this = shift;
     $this->_septic( 1, 1, ",", 0, <<EXPECT);
 EXPECT
@@ -456,7 +467,7 @@ EXPECT
 
 #####################
 
-sub verify_with_header_no_footer_no_separator_with_results {
+sub test_with_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 0, undef, 1, <<EXPECT);
 HEAD
@@ -466,116 +477,45 @@ OkTopic
 EXPECT
 }
 
-sub verify_with_header_no_footer_no_separator_no_results {
+sub test_with_header_no_footer_no_separator_no_results {
     my $this = shift;
     $this->_septic( 1, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_with_header_no_footer_empty_separator_with_results {
+sub test_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 0, "", 1, <<EXPECT);
 HEADOkATopicOkBTopicOkTopic
 EXPECT
 }
 
-sub verify_with_header_no_footer_empty_separator_no_results {
+sub test_with_header_no_footer_empty_separator_no_results {
     my $this = shift;
     $this->_septic( 1, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_with_header_no_footer_with_separator_with_results {
+sub test_with_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_septic( 1, 0, ",", 1, <<EXPECT);
 HEADOkATopic,OkBTopic,OkTopic
 EXPECT
 }
 
-sub verify_with_header_no_footer_with_separator_no_results {
+sub test_with_header_no_footer_with_separator_no_results {
     my $this = shift;
     $this->_septic( 1, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_no_header_no_footer_with_nl_separator {
+sub test_no_header_no_footer_with_nl_separator {
     my $this = shift;
     $this->_septic( 0, 0, '$n', 1, <<EXPECT);
 OkATopic
 OkBTopic
 OkTopic
 EXPECT
-}
-
-#####################
-
-sub verify_footer_with_ntopics {
-    my $this = shift;
-
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{"name~\'*Topic\'" type="query"  nonoise="on" footer="Total found: $ntopics" format="$topic"}%'
-      );
-
-    $this->assert_str_equals(
-        join( "\n", sort qw(OkATopic OkBTopic OkTopic) ) . "\nTotal found: 3",
-        $result );
-}
-
-sub verify_multiple_and_footer_with_ntopics_and_nhits {
-    my $this = shift;
-
-    $this->set_up_for_formatted_search();
-
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{"Bullet" type="regex" multiple="on" nonoise="on" footer="Total found: $ntopics, Hits: $nhits" format="$text - $nhits"}%'
-      );
-
-    $this->assert_str_equals(
-"   * Bullet 1 - 1\n   * Bullet 2 - 2\n   * Bullet 3 - 3\n   * Bullet 4 - 4\nTotal found: 1, Hits: 4",
-        $result
-    );
-}
-
-sub verify_footer_with_ntopics_empty_format {
-    my $this = shift;
-
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{"name~\'*Topic\'" type="query"  nonoise="on" footer="Total found: $ntopics" format="" separator=""}%'
-      );
-
-    $this->assert_str_equals( "Total found: 3", $result );
-}
-
-sub verify_nofinalnewline {
-    my $this = shift;
-
-    # nofinalnewline="off"
-    my $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{"name~\'OkTopic\'" type="query"  nonoise="on" format="$topic" nofinalnewline="off"}%'
-      );
-
-    $this->assert_str_equals( "OkTopic\n", $result );
-    
-    # nofinalnewline="on"
-    $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{"name~\'OkTopic\'" type="query"  nonoise="on" format="$topic" nofinalnewline="on"}%'
-      );
-
-    $this->assert_str_equals( "OkTopic", $result );
-
-    # nofinalnewline should default be on
-    $result =
-      $this->{test_topicObject}->expandMacros(
-'%SEARCH{"name~\'OkTopic\'" type="query"  nonoise="on" format="$topic"}%'
-      );
-
-    $this->assert_str_equals( "OkTopic", $result );
-
 }
 
 sub verify_regex_match {
@@ -1012,7 +952,76 @@ HERE
     $topicObject->save();
 }
 
-sub verify_formatted_search_summary_with_exclamation_marks {
+sub test_footer_with_ntopics {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"name~\'*Topic\'" type="query"  nonoise="on" footer="Total found: $ntopics" format="$topic"}%'
+      );
+
+    $this->assert_str_equals(
+        join( "\n", sort qw(OkATopic OkBTopic OkTopic) ) . "\nTotal found: 3",
+        $result );
+}
+
+sub test_multiple_and_footer_with_ntopics_and_nhits {
+    my $this = shift;
+
+    $this->set_up_for_formatted_search();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Bullet" type="regex" multiple="on" nonoise="on" footer="Total found: $ntopics, Hits: $nhits" format="$text - $nhits"}%'
+      );
+
+    $this->assert_str_equals(
+"   * Bullet 1 - 1\n   * Bullet 2 - 2\n   * Bullet 3 - 3\n   * Bullet 4 - 4\nTotal found: 1, Hits: 4",
+        $result
+    );
+}
+
+sub test_footer_with_ntopics_empty_format {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"name~\'*Topic\'" type="query"  nonoise="on" footer="Total found: $ntopics" format="" separator=""}%'
+      );
+
+    $this->assert_str_equals( "Total found: 3", $result );
+}
+
+sub test_nofinalnewline {
+    my $this = shift;
+
+    # nofinalnewline="off"
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"name~\'OkTopic\'" type="query"  nonoise="on" format="$topic" nofinalnewline="off"}%'
+      );
+
+    $this->assert_str_equals( "OkTopic\n", $result );
+    
+    # nofinalnewline="on"
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"name~\'OkTopic\'" type="query"  nonoise="on" format="$topic" nofinalnewline="on"}%'
+      );
+
+    $this->assert_str_equals( "OkTopic", $result );
+
+    # nofinalnewline should default be on
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"name~\'OkTopic\'" type="query"  nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_str_equals( "OkTopic", $result );
+
+}
+
+sub test_formatted_search_summary_with_exclamation_marks {
     my $this    = shift;
     my $session = $this->{session};
 
@@ -1038,7 +1047,7 @@ sub verify_formatted_search_summary_with_exclamation_marks {
 }
 
 # Item8718
-sub verify_formatted_search_with_exclamation_marks_inside_bracket_link {
+sub test_formatted_search_with_exclamation_marks_inside_bracket_link {
     my $this    = shift;
     my $session = $this->{session};
 
@@ -1056,7 +1065,7 @@ sub verify_formatted_search_with_exclamation_marks_inside_bracket_link {
     $this->assert_str_equals( $expected, $actual );
 }
 
-sub verify_METASEARCH {
+sub test_METASEARCH {
     my $this    = shift;
     my $session = $this->{session};
 
@@ -1402,7 +1411,7 @@ HERE
       "\nRE " . Benchmark::timestr($retime), "\n";
 }
 
-sub verify_4347 {
+sub test_4347 {
     my $this = shift;
 
     my $result =
@@ -1497,7 +1506,7 @@ sub verify_likeQuery2 {
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
-sub verify_pattern {
+sub test_pattern {
     my $this = shift;
 
     my $result =
@@ -1509,7 +1518,7 @@ sub verify_pattern {
     $this->assert_matches( qr/XY/,              $result );
 }
 
-sub verify_badpattern {
+sub test_badpattern {
     my $this = shift;
 
     # The (??{ pragma cannot be run at runtime since perl 5.5
@@ -1529,7 +1538,7 @@ sub verify_badpattern {
     $this->assert_equals( 3, $result =~ s/^XY$//gm );
 }
 
-sub verify_validatepattern {
+sub test_validatepattern {
     my $this = shift;
     my ( $pattern, $temp );
 
@@ -1566,7 +1575,7 @@ sub verify_validatepattern {
 }
 
 #Item977
-sub verify_formatOfLinks {
+sub test_formatOfLinks {
     my $this = shift;
 
     my $topicObject = Foswiki::Meta->new(
@@ -2037,7 +2046,7 @@ sub _multiWebSeptic {
 
 #####################
 
-sub verify_multiWeb_no_header_no_footer_no_separator_with_results {
+sub test_multiWeb_no_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 0, undef, 1, <<EXPECT);
 DefaultPreferences
@@ -2047,7 +2056,7 @@ WebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_no_separator_with_results_counters {
+sub test_multiWeb_no_header_no_footer_no_separator_with_results_counters {
     my $this = shift;
     $this->_multiWebSeptic( 0, 0, undef, 1, <<EXPECT, '$nhits, $ntopics, $index, $topic');
 1, 1, 1, DefaultPreferences
@@ -2057,40 +2066,40 @@ sub verify_multiWeb_no_header_no_footer_no_separator_with_results_counters {
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_no_separator_no_results {
+sub test_multiWeb_no_header_no_footer_no_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_empty_separator_with_results {
+sub test_multiWeb_no_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 0, "", 1, <<EXPECT);
 DefaultPreferencesWebPreferencesSitePreferencesWebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_empty_separator_no_results {
+sub test_multiWeb_no_header_no_footer_empty_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_with_separator_with_results {
+sub test_multiWeb_no_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 0, ",", 1, <<EXPECT);
 DefaultPreferences,WebPreferences,SitePreferences,WebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_no_header_no_footer_with_separator_no_results {
+sub test_multiWeb_no_header_no_footer_with_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 #####################
 
-sub verify_multiWeb_no_header_with_footer_no_separator_with_results {
+sub test_multiWeb_no_header_with_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 1, undef, 1, <<EXPECT);
 DefaultPreferences
@@ -2101,26 +2110,26 @@ FOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_no_header_with_footer_no_separator_no_results {
+sub test_multiWeb_no_header_with_footer_no_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_no_header_with_footer_empty_separator_with_results {
+sub test_multiWeb_no_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 1, "", 1, <<EXPECT);
 DefaultPreferencesWebPreferencesFOOT(2,2)SitePreferencesWebPreferencesFOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_no_header_with_footer_empty_separator_no_results {
+sub test_multiWeb_no_header_with_footer_empty_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_no_header_with_footer_with_separator_with_results {
+sub test_multiWeb_no_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 1, ",", 1, <<EXPECT);
 DefaultPreferences,WebPreferencesFOOT(2,2)SitePreferences,WebPreferencesFOOT(2,2)
@@ -2129,7 +2138,7 @@ EXPECT
 
 #####################
 
-sub verify_multiWeb_with_header_with_footer_no_separator_with_results {
+sub test_multiWeb_with_header_with_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 1, undef, 1, <<EXPECT);
 HEAD(System)
@@ -2142,33 +2151,33 @@ FOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_no_separator_no_results {
+sub test_multiWeb_with_header_with_footer_no_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 1, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_empty_separator_with_results {
+sub test_multiWeb_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 1, "", 1, <<EXPECT);
 HEAD(System)DefaultPreferencesWebPreferencesFOOT(2,2)HEAD(Main)SitePreferencesWebPreferencesFOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_empty_separator_no_results {
+sub test_multiWeb_with_header_with_footer_empty_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 1, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_with_separator_with_results {
+sub test_multiWeb_with_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 1, ",", 1, <<EXPECT);
 HEAD(System)DefaultPreferences,WebPreferencesFOOT(2,2)HEAD(Main)SitePreferences,WebPreferencesFOOT(2,2)
 EXPECT
 }
 
-sub verify_multiWeb_with_header_with_footer_with_separator_no_results {
+sub test_multiWeb_with_header_with_footer_with_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 1, ",", 0, <<EXPECT);
 EXPECT
@@ -2176,7 +2185,7 @@ EXPECT
 
 #####################
 
-sub verify_multiWeb_with_header_no_footer_no_separator_with_results {
+sub test_multiWeb_with_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 0, undef, 1, <<EXPECT);
 HEAD(System)
@@ -2188,40 +2197,40 @@ WebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_no_separator_no_results {
+sub test_multiWeb_with_header_no_footer_no_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 0, undef, 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_empty_separator_with_results {
+sub test_multiWeb_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 0, "", 1, <<EXPECT);
 HEAD(System)DefaultPreferencesWebPreferencesHEAD(Main)SitePreferencesWebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_empty_separator_no_results {
+sub test_multiWeb_with_header_no_footer_empty_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 0, "", 0, <<EXPECT);
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_with_separator_with_results {
+sub test_multiWeb_with_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 0, ",", 1, <<EXPECT);
 HEAD(System)DefaultPreferences,WebPreferencesHEAD(Main)SitePreferences,WebPreferences
 EXPECT
 }
 
-sub verify_multiWeb_with_header_no_footer_with_separator_no_results {
+sub test_multiWeb_with_header_no_footer_with_separator_no_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 0, ",", 0, <<EXPECT);
 EXPECT
 }
 
 #Item1992: calling Foswiki::Search::_makeTopicPattern repeatedly made a big mess.
-sub verify_web_and_topic_expansion {
+sub test_web_and_topic_expansion {
     my $this   = shift;
     my $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
@@ -2250,7 +2259,7 @@ EXPECT
 
 #####################
 # PAGING
-sub verify_paging_three_webs_first_five {
+sub test_paging_three_webs_first_five {
     my $this = shift;
     my $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
@@ -2279,7 +2288,7 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_three_webs_second_five {
+sub test_paging_three_webs_second_five {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2309,7 +2318,7 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_three_webs_third_five {
+sub test_paging_three_webs_third_five {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2336,7 +2345,7 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_three_webs_fourth_five {
+sub test_paging_three_webs_fourth_five {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2360,7 +2369,7 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_three_webs_way_too_far {
+sub test_paging_three_webs_way_too_far {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2386,7 +2395,7 @@ EXPECT
 
 #------------------------------------
 # PAGING with limit= does weird things.
-sub verify_paging_with_limit_first_five {
+sub test_paging_with_limit_first_five {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2415,7 +2424,7 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_with_limit_second_five {
+sub test_paging_with_limit_second_five {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2444,7 +2453,7 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_with_limit_third_five {
+sub test_paging_with_limit_third_five {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2473,7 +2482,7 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_with_limit_fourth_five {
+sub test_paging_with_limit_fourth_five {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2498,7 +2507,7 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_paging_with_limit_way_too_far {
+sub test_paging_with_limit_way_too_far {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2530,7 +2539,7 @@ EXPECT
 # formfield. The sort should be based on the value of the 'Order' field.
 #TODO: this is how the code has always worked, as the rendering of SEARCH results is done per web
 #http://foswiki.org/Development/MakeSEARCHResultPartitioningByWebOptional
-sub verify_groupby_none_using_subwebs {
+sub test_groupby_none_using_subwebs {
     my $this = shift;
 
     my $webObject =
@@ -2717,7 +2726,7 @@ sub _cut_the_crap {
     return $result;
 }
 
-sub verify_no_format_no_shit {
+sub test_no_format_no_shit {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros('%SEARCH{"BLEEGLE"}%');
@@ -3224,7 +3233,7 @@ Test the summary, default format.
 
 =cut
 
-sub verify_summary_default_word_search {
+sub test_summary_default_word_search {
     my $this = shift;
 
     $this->createSummaryTestTopic('TestSummaryTopic');
@@ -3245,7 +3254,7 @@ Test the default summary, limited to n chars.
 
 =cut
 
-sub verify_summary_short_word_search {
+sub test_summary_short_word_search {
     my $this = shift;
 
     $this->createSummaryTestTopic('TestSummaryTopic');
@@ -3266,7 +3275,7 @@ Test the summary with search context (default length).
 
 =cut
 
-sub verify_summary_searchcontext_default_word_search {
+sub test_summary_searchcontext_default_word_search {
     my $this = shift;
 
     $this->createSummaryTestTopic('TestSummaryTopic');
@@ -3287,7 +3296,7 @@ Test the summary with search context, limited to n chars (short).
 
 =cut
 
-sub verify_summary_searchcontext_short_word_search {
+sub test_summary_searchcontext_short_word_search {
     my $this = shift;
 
     $this->createSummaryTestTopic('TestSummaryTopic');
@@ -3308,7 +3317,7 @@ Test the summary with search context, limited to n chars (long)
 
 =cut
 
-sub verify_summary_searchcontext_long_word_search {
+sub test_summary_searchcontext_long_word_search {
     my $this = shift;
 
     $this->createSummaryTestTopic('TestSummaryTopic');
@@ -3500,7 +3509,7 @@ RESULT
 
 ###########################################
 #pager formatting
-sub verify_pager_on {
+sub test_pager_on {
     my $this = shift;
     
     my $viewTopicUrl = Foswiki::Func::getScriptUrl($this->{test_topicObject}->web, $this->{test_topicObject}->topic, 'view');
@@ -3566,7 +3575,7 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_pager_on_pagerformat {
+sub test_pager_on_pagerformat {
     my $this = shift;
     
     my $viewTopicUrl = Foswiki::Func::getScriptUrl($this->{test_topicObject}->web, $this->{test_topicObject}->topic, 'view');
@@ -3630,7 +3639,7 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_pager_off_pagerformat {
+sub test_pager_off_pagerformat {
     my $this = shift;
     
     my $viewTopicUrl = Foswiki::Func::getScriptUrl($this->{test_topicObject}->web, $this->{test_topicObject}->topic, 'view');
@@ -3692,7 +3701,7 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_pager_off_pagerformat_pagerinheaderfooter {
+sub test_pager_off_pagerformat_pagerinheaderfooter {
     my $this = shift;
     
     my $viewTopicUrl = Foswiki::Func::getScriptUrl($this->{test_topicObject}->web, $this->{test_topicObject}->topic, 'view');
@@ -3760,7 +3769,7 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
-sub verify_pager_off_pagerformat_pagerinall {
+sub test_pager_off_pagerformat_pagerinall {
     my $this = shift;
     
     my $result = $this->{test_topicObject}->expandMacros(
@@ -3796,7 +3805,7 @@ EXPECT
 
 }
 
-sub verify_simple_format {
+sub test_simple_format {
     my $this = shift;
 
     my $actual = $this->{test_topicObject}->expandMacros(
@@ -3831,7 +3840,7 @@ HERE
     $this->assert_str_equals( $expected, $actual );
 }
 
-sub verify_formatdotBang {
+sub test_formatdotBang {
     my $this = shift;
 
     my $actual = $this->{test_topicObject}->expandMacros(
@@ -3851,13 +3860,11 @@ sub verify_formatdotBang {
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 HERE
 
-	
-    
     $this->assert_str_equals( $expected, $actual );
 }
 
 
-sub verify_delayed_expansion {
+sub test_delayed_expansion {
     my $this = shift;
 eval "require Foswiki::Macros::SEARCH";
     
@@ -3996,7 +4003,7 @@ HERE
         $this->{test_topic} );
 }
 
-sub verify_orderTopic {
+sub test_orderTopic {
     my $this = shift;
 
     $this->set_up_for_sorting();

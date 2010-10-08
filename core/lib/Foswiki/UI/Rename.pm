@@ -1367,14 +1367,15 @@ sub _getReferringTopics {
             $searchString .= '|' . $refre
         }
 
-        my $matches =
-          Foswiki::Func::searchInWebContent( $searchString, $searchWeb, undef,
-            { casesensitive => 1, type => 'regex' } );
+        my $options = {
+            casesensitive => 1, type => 'regex', web => $searchWeb };
+        my $query = $session->search->parseSearch( $searchString, $options );
+        my $matches = Foswiki::Meta::query( $query, undef, $options );
 
         while ( $matches->hasNext ) {
             my $webtopic = $matches->next;
             my ( $web, $searchTopic ) =
-              Foswiki::Func::normalizeWebTopicName( $searchWeb, $webtopic );
+              $session->normalizeWebTopicName( $searchWeb, $webtopic );
             next
               if ( $searchWeb eq $om->web
                 && $om->topic

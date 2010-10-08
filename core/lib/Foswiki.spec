@@ -908,21 +908,30 @@ $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 $Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
 
 # **SELECTCLASS Foswiki::Store::SearchAlgorithms::***
-# Foswiki RCS has two built-in search algorithms
+# This is the algorithm used to perform plain text (not query) searches.
+# Foswiki has two built-in search algorithms, both of which are designed to
+# work with the default flat-file database.
 # <ol><li> The default 'Forking' algorithm, which forks a subprocess that
-# runs a 'grep' command and is recommended for Linux/Unix,
-# </li><li> The 'PurePerl' implementation, which is written in Perl and
+# runs a 'grep' command, is recommended for Linux/Unix.
+# Forking may also work OK on Windows if you keep the directory path to 
+# Foswiki very short.</li>
+# <li> The 'PurePerl' algorithm, which is written in Perl and
 # usually only used for native Windows installations where forking
-# does not work stable because of limitations in length of command line</li></ol>
+# is not stable, due to limitations in the length of command lines.
+# </li></ol>
 # On Linux/Unix you will be just fine with the 'Forking' implementation.
 # However if you find searches run very slowly, you may want to try a 
 # different algorithm, which may work better on your configuration.
-# Forking may work OK also on Windows if you keep the directory path to 
-# Foswiki very short.
-# Note that there is an alternative algorithm available from
+# For example, there is an alternative algorithm available from
 # <a href="http://foswiki.org/Extensions/NativeSearchContrib">
-# http://foswiki.org/Extensions/NativeSearchContrib </a>, that often
-# gives better performance with mod_perl and Speedy CGI.
+# http://foswiki.org/Extensions/NativeSearchContrib </a>, that usually
+# gives better performance with mod_perl and Speedy CGI, but requires root
+# access to install.
+# <p />
+# Other store implementations and indexing search engines (for example,
+# <a href="http://foswiki.org/Extensions/KinoSearchContrib">
+# http://foswiki.org/Extensions/KinoSearchContrib</a>) may come with their
+# own search algorithms.
 $Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
 $Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::PurePerl' if ($^O eq 'MSWin32');
 
@@ -945,11 +954,12 @@ $Foswiki::cfg{Store}{EgrepCmd} = $grepDefaultPath.'grep -E %CS{|-i}% %DET{|-l}% 
 # {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
 $Foswiki::cfg{Store}{FgrepCmd} = $grepDefaultPath.'grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
 
-# **SELECTCLASS Foswiki::Store::QueryAlgorithms::* EXPERT**
-# The standard Foswiki algorithm for performing queries is not particularly
-# fast (it is based on plain-text searching). You may be able to select
-# a different algorithm here, depending on what alternative implementations
-# may have been installed.
+# **SELECTCLASS Foswiki::Store::QueryAlgorithms::***
+# This is the algorithm used to perform query searches. The default Foswiki
+# algorithm (BruteForce) works well, but is not particularly fast (it is
+# based on plain-text searching). You may be able to select a different
+# algorithm here, depending on what alternative implementations have been
+# installed.
 $Foswiki::cfg{Store}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::BruteForce';
 
 # **SELECTCLASS Foswiki::Prefs::*RAM* EXPERT**

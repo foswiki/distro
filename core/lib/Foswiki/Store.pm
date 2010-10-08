@@ -98,6 +98,24 @@ Break circular references.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
+    undef $this->{event_listeners};
+}
+
+=begin TML
+
+---++ ObjectMethod tellListeners( $event, ... )
+Invoke listeners that have registered an interest in events on this store.
+The $event method on the listener is invoked, passing the ... parameters
+to the listener.
+
+=cut
+
+sub tellListeners {
+    my $this = shift;
+    my $event = shift;
+    foreach my $el (@{$this->{event_listeners}}) {
+        $el->$event(@_);
+    }
 }
 
 =begin TML
@@ -696,78 +714,23 @@ sub remove {
 
 ---++ ObjectMethod query($query, $inputTopicSet, $session, \%options) -> $outputTopicSet
 
-Search for data in the store (not web based). =$query= must
-be a =Foswiki::*::Node= object.
-
-    my $query = $Foswiki::Plugins::SESSION->search->parseSearch($searchString, $options);
-    #where $options->{type} is the type specifier as per SEARCH
-
-   * $inputTopicSet is a reference to an iterator containing a list of topic in this web,
-     if set to undef, the search/query algo will create a new iterator using eachTopic() 
+Search for data in the store (not web based).
+   * =$query= either a =Foswiki::Search::Node= or a =Foswiki::Query::Node=.
+   * =$inputTopicSet= is a reference to an iterator containing a list
+     of topic in this web, if set to undef, the search/query algo will
+     create a new iterator using eachTopic() 
      and the topic and excludetopics options
 
-Returns an Foswiki::Search::InfoCache iterator
+Returns a =Foswiki::Search::InfoCache= iterator
 
-This will become a 'query engine' factory that will allow us to plug in different
-query 'types' (Sven has code for 'tag' and 'attachment' waiting for this)
+This will become a 'query engine' factory that will allow us to plug in
+different query 'types' (Sven has code for 'tag' and 'attachment' waiting
+for this)
 
 =cut
 
 sub query {
     my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
-    die "Abstract base class";
-}
-
-=begin TML
-
----++ ObjectMethod searchInWebMetaData($query, $web, $inputTopicSet, $session, \%options) -> $outputTopicSet
-
-Search for a meta-data expression in the content of a web. =$query= must be a =Foswiki::Query= object.
-
-Returns an Foswiki::Search::InfoCache iterator
-
-DEPRECATED: this is the old way to search, and should not be used in new code.
-instead, use query() - using the topicSet iterator interface allows optimistations
-
-=cut
-
-sub searchInWebMetaData {
-    my( $this, $query, $web, $inputTopicSet, $session, $options ) = @_;
-    die "Abstract base class";
-}
-
-=begin TML
-
----++ ObjectMethod searchInWebContent($searchString, $web, \@topics, $session, \%options ) -> \%map
-
-Search for a string in the content of a web. The search must be over all
-content and all formatted meta-data, though the latter search type is
-deprecated (use queries instead).
-
-   * =$searchString= - the search string, in egrep format if regex
-   * =$web= - The web to search in
-   * =\@topics= - reference to a list of topics to search
-   * =$session= - the session object that provides the context of this
-     search.
-   * =\%options= - reference to an options hash
-The =\%options= hash may contain the following options:
-   * =type= - if =regex= will perform a egrep-syntax RE search (default '')
-   * =casesensitive= - false to ignore case (default true)
-   * =files_without_match= - true to return files only (default false)
-   * =wordboundaries= - true to limit the ends of the match to word boundaries
-The return value is a reference to a hash which maps each matching topic
-name to a list of the lines in that topic that matched the search,
-as would be returned by 'grep'. If =files_without_match= is specified, it will
-return on the first match in each topic (i.e. it will return only one
-match per topic, and will not return matching lines).
-
-DEPRECATED: this is the old way to search, and should not be used in new code.
-instead, use query() - using the topicSet iterator interface allows optimistations
-
-=cut
-
-sub searchInWebContent {
-    my( $this, $searchString, $web, $topics, $session, $options ) = @_;
     die "Abstract base class";
 }
 

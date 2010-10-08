@@ -1,16 +1,13 @@
 # See bottom of file for license and copyright information
+package Foswiki::Search::Parser;
 
 =begin TML
 
 ---+ package Foswiki::Search::Parser
 
-Foswiki::Search::Parser is a refactoring mid-step that contains the legacy SEARCH tokens
-
-If if becomes useful, it will become a set of Nodes as for Foswiki::Query
+Parse SEARCH token strings into Foswiki::Search::Node objects.
 
 =cut
-
-package Foswiki::Search::Parser;
 
 use strict;
 use warnings;
@@ -18,19 +15,13 @@ use warnings;
 use Assert;
 use Error qw( :try );
 
-use Foswiki::Infix::Parser ();
-our @ISA = ('Foswiki::Infix::Parser');
-
 use Foswiki::Search::Node ();
-use Foswiki::Infix::Error ();
 
 our $MARKER = "\0";
 
 =begin TML
 
 ---++ ClassMethod new($session)
-
-Construct a Legacy Search token container (its not yet a proper Node)
 
 =cut
 
@@ -66,21 +57,23 @@ Break circular references.
 sub finish {
     my $self = shift;
 
+    undef $self->{session};
     undef $self->{stopwords};
     undef $self->{initialised};
 }
 
 =begin TML
 
----++ ObjectMethod parse($string, $options) -> tokens..
+---++ ObjectMethod parse($string, $options) -> Foswiki::Search::Node.
 
-parses the legacy SEARCH string and makes a 'Node' token container to pass to the algo
+Parses a SEARCH string and makes a token container to pass to the search
+algorithm (see Foswiki::Store::SearchAlgorithm)
+
+=cut
 
 # Split the search string into tokens depending on type of search.
 # Search is an 'AND' of all tokens - various syntaxes implemented
 # by this routine.
-=cut
-
 sub parse {
     my ( $this, $searchString, $options ) = @_;
 
@@ -112,34 +105,32 @@ sub parse {
         # to regex format. Example: soap +wsdl +"web service" -shampoo
 
         # Prevent tokenizing on spaces in "literal string"
-        $searchString =~ s/(\".*?)\"/&_translateSpace($1)/geo;
-        $searchString =~ s/[\+\-]\s+//go;
+        $searchString =~ s/(\".*?)\"/_protectLiteral($1)/ge;
+        $searchString =~ s/[\+\-]\s+//g;
 
         # Tokenize string taking account of literal strings, then remove
         # stop words and convert '+' and '-' syntax.
         @tokens =
           grep { !/^($this->{stopwords})$/i }    # remove stopwords
           map {
-            s/^\+//o;
-            s/^\-/\!/o;
-            s/^"//o;
+            s/^\+//;
+            s/^\-/\!/;
+            s/^"//;
             $_
           }    # remove +, change - to !, remove "
           map { s/$MARKER/ /go; $_ }    # restore space
-          split( /[\s]+/, $searchString );    # split on spaces
+          split( /\s+/, $searchString );    # split on spaces
     }
 
-    my $result = new Foswiki::Search::Node( $searchString, \@tokens, $options );
+    my $result = new Foswiki::Search::Node(
+        $searchString, \@tokens, $options );
     return $result;
 }
 
-# Convert spaces into translation token characters (typically NULs),
-# preventing tokenization.
-#
-# FIXME: Terminology confusing here!
-sub _translateSpace {
+# Convert spaces into NULs to protect literal strings
+sub _protectLiteral {
     my $text = shift;
-    $text =~ s/\s+/$MARKER/go;
+    $text =~ s/\s+/$MARKER/g;
     return $text;
 }
 

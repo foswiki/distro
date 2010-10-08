@@ -26,6 +26,18 @@ sub new {
 
 =begin TML
 
+---++ ObjectMethod finish()
+Release memory. Subclasses must implement this if they use any fields
+in the object.
+
+=cut
+
+sub finish {
+    my $this = shift;
+}
+
+=begin TML
+
 ---++ ObjectMethod log($level, @fields)
 
 Adds a log message to a log.

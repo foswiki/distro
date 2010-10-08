@@ -80,6 +80,11 @@ our $BLOCKID = 0;
 our $OC      = "<!--\0";
 our $CC      = "\0-->";
 
+# This variable is set if Foswiki is running in unit test mode.
+# It is provided so that modules can detect unit test mode to avoid
+# corrupting data spaces.
+our $inUnitTestMode = 0;
+
 # Returns the full path of the directory containing Foswiki.pm
 sub _getLibDir {
     return $foswikiLibDir if $foswikiLibDir;
@@ -2049,34 +2054,12 @@ sub finish {
     #}
     $_->finish() foreach values %{ $this->{forms} };
     undef $this->{forms};
-    $this->{plugins}->finish() if $this->{plugins};
-    undef $this->{plugins};
-    $this->{users}->finish() if $this->{users};
-    undef $this->{users};
-    $this->{prefs}->finish() if $this->{prefs};
-    undef $this->{prefs};
-    $this->{templates}->finish() if $this->{templates};
-    undef $this->{templates};
-    $this->{renderer}->finish() if $this->{renderer};
-    undef $this->{renderer};
-    $this->{net}->finish() if $this->{net};
-    undef $this->{net};
-    $this->{store}->finish() if $this->{store};
-    undef $this->{store};
-    $this->{search}->finish() if $this->{search};
-    undef $this->{search};
-    $this->{attach}->finish() if $this->{attach};
-    undef $this->{attach};
-    $this->{security}->finish() if $this->{security};
-    undef $this->{security};
-    $this->{i18n}->finish() if $this->{i18n};
-    undef $this->{i18n};
-    $this->{cache}->finish() if $this->{cache};
-    undef $this->{cache};
-
-    #TODO: the logger doesn't seem to have a finish...
-    #    $this->{logger}->finish()      if $this->{logger};
-    undef $this->{logger};
+    foreach my $key qw(plugins users prefs templates renderer net
+                       store search attach security i18n cache logger) {
+        next unless ref($this->{$key});
+        $this->{$key}->finish();
+        undef $this->{$key};
+    }
 
     undef $this->{_zones};
     undef $this->{_renderZonePlaceholder};

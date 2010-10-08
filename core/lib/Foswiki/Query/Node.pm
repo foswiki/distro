@@ -223,6 +223,28 @@ sub simplify {
     }
 }
 
+=begin TML
+
+---++ ObjectMethod tokens() -> []
+Provided for compatibility with Foswiki::Search::Node
+
+=cut
+
+sub tokens {
+    return [];
+}
+
+=begin TML
+
+---++ ObjectMethod isEmpty() -> $boolean
+Provided for compatibility with Foswiki::Search::Node
+
+=cut
+
+sub isEmpty {
+    return 0;
+}
+
 1;
 __END__
 Author: Crawford Currie http://c-dot.co.uk

@@ -748,7 +748,6 @@ lib/Foswiki/Query/OP_ref.pm 0444
 lib/Foswiki/Query/OP_uc.pm 0444
 lib/Foswiki/Query/OP_where.pm 0444
 lib/Foswiki/Query/Parser.pm 0444
-lib/Foswiki/Query/QueryAlgorithms.pm 0444
 lib/Foswiki/Query/UnaryOP.pm 0444
 lib/Foswiki/Render.pm 0444
 lib/Foswiki/Render/Anchors.pm 0444
@@ -763,7 +762,9 @@ lib/Foswiki/Search/Node.pm 0444
 lib/Foswiki/Search/Parser.pm 0444
 lib/Foswiki/Search/ResultSet.pm 0444
 lib/Foswiki/Store.pm 0444
-lib/Foswiki/Store/Listener.pm 0444
+lib/Foswiki/Store/Interfaces/Listener.pm 0444
+lib/Foswiki/Store/Interfaces/QueryAlgorithm.pm 0444
+lib/Foswiki/Store/Interfaces/SearchAlgorithm.pm 0444
 lib/Foswiki/Store/QueryAlgorithms/BruteForce.pm 0444
 lib/Foswiki/Store/RcsLite.pm 0444
 lib/Foswiki/Store/RcsWrap.pm 0444

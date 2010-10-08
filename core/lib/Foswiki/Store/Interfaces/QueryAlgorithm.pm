@@ -2,7 +2,7 @@
 
 =begin TML
 
----+ package Foswiki::Query::QueryAlgorithms
+---+ package Foswiki::Store::Interfaces::QueryAlgorithm
 
 Interface to query algorithms (documentation only, this class does nothing).
 Implementations of this interface are found in Foswiki/Store/QueryAlgorithms.
@@ -22,8 +22,8 @@ this method to start the 'hard work' query process. That process will call
 back to the =getField= method in this module to evaluate leaf data in the
 store.
 
-To monitor the evaluation process, use the MONITOR_EVAL setting in
-Foswiki::Query::Node
+To monitor the hoisting and evaluation processes, use the MONITOR_EVAL
+setting in Foswiki::Query::Node
 
 ---++ StaticMethod getField($class, $node, $data, $field ) -> $result
    * =$class= is this package
@@ -52,7 +52,6 @@ on the '/' operator, see System.QuerySearch.
 
 1;
 __END__
-Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 

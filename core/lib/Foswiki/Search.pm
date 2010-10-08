@@ -22,6 +22,7 @@ use Foswiki::ListIterator             ();
 use Foswiki::Iterator::FilterIterator ();
 use Foswiki::WebFilter                ();
 use Foswiki::MetaCache                ();
+use Foswiki::Infix::Error             ();
 
 BEGIN {
 
@@ -760,11 +761,11 @@ sub formatResults {
 
             #TODO: should extract this somehow
 
-            if ( $doMultiple && $query->{tokens} ) {
+            if ( $doMultiple && !$query->isEmpty() ) {
 
-                #TODO: i wonder if this shoudl be a HoistRE..
+                #TODO: Sven wonders if this should be a HoistRE..
                 #TODO: well, um, and how does this work for query search?
-                my @tokens = @{ $query->{tokens} };
+                my @tokens = @{ $query->tokens() };
                 my $pattern = $tokens[$#tokens];   # last token in an AND search
                 $pattern = quotemeta($pattern) if ( $type ne 'regex' );
                 $text = $info->{tom}->text() unless defined $text;
@@ -903,16 +904,18 @@ sub formatResults {
             my $out;
             if ( $formatDefined and ( $format ne '' ) ) {
 
-      #TODO: hack to convert a bad SEARCH format to the one used by getRevInfo..
+                # SMELL: hack to convert a bad SEARCH format to the one
+                # used by getRevInfo..
                 $format =~ s/\$createdate/\$createlongdate/gs;
 
-       #it looks like $isodate in format is equive to $iso in renderRevisionInfo
-       #TODO: clean these 3 hacks up
+                # SMELL: it looks like $isodate in format is equive to $iso
+                # in renderRevisionInfo
+                # SMELL: clean these 3 hacks up
                 $format =~ s/\$isodate/\$iso/gs;
                 $format =~ s/\%TIME\%/\$date/gs;
                 $format =~ s/\$date/\$longdate/gs;
 
-                #other tmpl based renderings
+                # other tmpl based renderings
                 $format =~ s/%WEB%/\$web/go;
                 $format =~ s/%TOPICNAME%/\$topic/go;
                 $format =~ s/%AUTHOR%/\$wikiusername/g;
@@ -922,11 +925,13 @@ sub formatResults {
                     type           => $params->{type},
                     wordboundaries => $params->{wordboundaries},
                     casesensitive  => $caseSensitive,
-                    tokens         => $query->{tokens}
+                    tokens         => $query->tokens(),
                 };
 
-#TODO: why is this not part of the callback? at least the non-result element format strings can be common here.
-#or do i need a formatCommon sub that formatResult can also call.. (which then goes into the callback?
+                # SMELL: why is this not part of the callback? at least the
+                # non-result element format strings can be common here.
+                # or does Sven need a formatCommon sub that formatResult can
+                # also call.. (which then goes into the callback?
                 $out = $this->formatResult(
                     $format,
                     $info->{tom} || $webObject,    #SMELL: horrid hack

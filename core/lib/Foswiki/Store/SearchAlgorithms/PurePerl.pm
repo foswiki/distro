@@ -1,29 +1,74 @@
 # See bottom of file for license and copyright information
-
 package Foswiki::Store::SearchAlgorithms::PurePerl;
-
-use strict;
-use warnings;
-use Assert;
-use Foswiki::Search::InfoCache;
-use Foswiki::Search::ResultSet;
 
 =begin TML
 
 ---+ package Foswiki::Store::SearchAlgorithms::PurePerl
+Implements Foswiki::Store::Interfaces::SearchAlgorithm
 
-Pure perl implementation of the RCS cache search.
-
----++ search($searchString, $inputTopicSet, $session, $options) -> \%seen
-Search .txt files in $dir for $string. See RcsFile::searchInWebContent
-for details.
-
-DEPRECATED
-
+Pure perl implementation of the RCS search.
 
 =cut
 
-sub search {
+use strict;
+use warnings;
+use Assert;
+
+use Foswiki::Search::InfoCache;
+use Foswiki::Search::ResultSet;
+
+#@ISA = ( 'Foswiki::Store::Interfaces::SearchAlgorithm' );
+
+# Implements Foswiki::Store::Interfaces::SearchAlgorithm
+sub query {
+    my ( $query, $inputTopicSet, $session, $options ) = @_;
+
+    if ( $query->isEmpty() ) {
+        return new Foswiki::Search::InfoCache( $session, '' );
+    }
+
+    my $webNames = $options->{web}       || '';
+    my $recurse  = $options->{'recurse'} || '';
+    my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
+
+    my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
+    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse,
+        $searchAllFlag );
+
+    my @resultCacheList;
+    foreach my $web (@webs) {
+
+        # can't process what ain't thar
+        next unless $session->webExists($web);
+
+        my $webObject = Foswiki::Meta->new( $session, $web );
+        my $thisWebNoSearchAll = Foswiki::isTrue(
+            $webObject->getPreference('NOSEARCHALL') );
+
+        # make sure we can report this web on an 'all' search
+        # DON'T filter out unless it's part of an 'all' search.
+        next
+          if ( $searchAllFlag
+            && !$isAdmin
+            && ( $thisWebNoSearchAll || $web =~ /^[\.\_]/ )
+            && $web ne $session->{webName} );
+
+        my $infoCache =
+          _webQuery( $query, $web, $inputTopicSet, $session, $options );
+        $infoCache->sortResults($options);
+        push( @resultCacheList, $infoCache );
+    }
+    my $resultset =
+      new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
+        $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
+
+    #TODO: $options should become redundant
+    $resultset->sortResults($options);
+    return $resultset;
+}
+
+# This is the 'old' interface, prior to Sven's massive search refactoring.
+sub _search {
     my ( $searchString, $web, $inputTopicSet, $session, $options ) = @_;
 
     local $/ = "\n";
@@ -82,62 +127,10 @@ sub search {
     return \%seen;
 }
 
-=begin TML
-
-this is the new way -
-
-=cut
-
-sub query {
-    my ( $query, $inputTopicSet, $session, $options ) = @_;
-
-    if ( ( @{ $query->{tokens} } ) == 0 ) {
-        return new Foswiki::Search::InfoCache( $session, '' );
-    }
-
-    my $webNames = $options->{web}       || '';
-    my $recurse  = $options->{'recurse'} || '';
-    my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
-
-    my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
-    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse,
-        $searchAllFlag );
-
-    my @resultCacheList;
-    foreach my $web (@webs) {
-
-        # can't process what ain't thar
-        next unless $session->webExists($web);
-
-        my $webObject = Foswiki::Meta->new( $session, $web );
-        my $thisWebNoSearchAll = Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
-
-        # make sure we can report this web on an 'all' search
-        # DON'T filter out unless it's part of an 'all' search.
-        next
-          if ( $searchAllFlag
-            && !$isAdmin
-            && ( $thisWebNoSearchAll || $web =~ /^[\.\_]/ )
-            && $web ne $session->{webName} );
-
-        my $infoCache =
-          _webQuery( $query, $web, $inputTopicSet, $session, $options );
-        $infoCache->sortResults($options);
-        push( @resultCacheList, $infoCache );
-    }
-    my $resultset =
-      new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
-        $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
-
-    #TODO: $options should become redundant
-    $resultset->sortResults($options);
-    return $resultset;
-}
-
 #ok, for initial validation, naively call the code with a web.
 sub _webQuery {
     my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
-    ASSERT( scalar( @{ $query->{tokens} } ) > 0 ) if DEBUG;
+    ASSERT( !$query->isEmpty() ) if DEBUG;
 
     # default scope is 'text'
     $options->{'scope'} = 'text'
@@ -156,9 +149,10 @@ sub _webQuery {
     }
     ASSERT( UNIVERSAL::isa( $topicSet, 'Foswiki::Iterator' ) ) if DEBUG;
 
-#print STDERR "######## PurePerl search ($web) tokens ".scalar(@{$query->{tokens}})." : ".join(',', @{$query->{tokens}})."\n";
-# AND search - search once for each token, ANDing result together
-    foreach my $token ( @{ $query->{tokens} } ) {
+    #print STDERR "######## PurePerl search ($web) tokens "
+    #.scalar(@{$query->tokens()})." : ".join(',', @{$query->tokens()})."\n";
+    # AND search - search once for each token, ANDing result together
+    foreach my $token ( @{ $query->tokens() } ) {
 
         my $tokenCopy = $token;
 
@@ -198,7 +192,7 @@ sub _webQuery {
         my $textMatches;
         unless ( $options->{'scope'} eq 'topic' ) {
             $textMatches =
-              search( $tokenCopy, $web, $topicSet, $session->{store},
+              _search( $tokenCopy, $web, $topicSet, $session->{store},
                 $options );
         }
 

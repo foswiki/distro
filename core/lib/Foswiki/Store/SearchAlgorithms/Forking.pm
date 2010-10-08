@@ -1,5 +1,4 @@
 # See bottom of file for license and copyright information
-
 package Foswiki::Store::SearchAlgorithms::Forking;
 
 use strict;
@@ -11,145 +10,19 @@ use Foswiki::Search::ResultSet;
 =begin TML
 
 ---+ package Foswiki::Store::SearchAlgorithms::Forking
+Implements Foswiki::Store::Interfaces::SearchAlgorithm
 
-Forking implementation of the RCS cache search.
-
----++ search($searchString, $web, $inputTopicSet, $session, $options) -> \%seen
-Search .txt files in $dir for $searchString. See RcsFile::searchInWebContent
-for details.
-
-DEPRECATED
+Forking implementation of RCS store search. Uses grep.
 
 =cut
 
-sub search {
-    my ( $searchString, $web, $inputTopicSet, $session, $options ) = @_;
+#@ISA = ( 'Foswiki::Store::Interfaces::SearchAlgorithm' );
 
-    # Default (Forking) search
-
-    # SMELL: I18N: 'grep' must use locales if needed,
-    # for case-insensitive searching.
-    my $program = '';
-
-    if ( $options->{type}
-        && ( $options->{type} eq 'regex' || $options->{wordboundaries} ) )
-    {
-        $program = $Foswiki::cfg{Store}{EgrepCmd};
-    }
-    else {
-        $program = $Foswiki::cfg{Store}{FgrepCmd};
-    }
-
-    if ( $options->{casesensitive} ) {
-        $program =~ s/%CS{(.*?)\|.*?}%/$1/g;
-    }
-    else {
-        $program =~ s/%CS{.*?\|(.*?)}%/$1/g;
-    }
-    if ( $options->{files_without_match} ) {
-        $program =~ s/%DET{.*?\|(.*?)}%/$1/g;
-    }
-    else {
-        $program =~ s/%DET{(.*?)\|.*?}%/$1/g;
-    }
-    if ( $options->{wordboundaries} ) {
-
-# Item5529: Can't use quotemeta because $searchString may be UTF8 encoded
-# TODO when testing UTF-8 code, try quotemeta. It should work with a decent perl
-        $searchString =~ s#([][|/\\\$\^*()+{};@?.{}])#\\$1#g;
-        $searchString = '\b' . $searchString . '\b';
-    }
-
-    if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) {
-
-        #try to escape the ^ and "" for native windows grep and apache
-        $searchString =~ s/\[\^/[^^/g;
-
-        # Fix escaping and quoting for Windows
-        $searchString =~ s#\\#\\\\#g;
-        $searchString =~ s#"#\\"#g;
-        $searchString = q(") . $searchString . q(");
-    }
-
-    my $matches = '';
-
-    #SMELL, TODO, replace with Store call.
-    my $sDir = $Foswiki::cfg{DataDir} . '/' . $web . '/';
-
-    # process topics in sets, fix for Codev.ArgumentListIsTooLongForSearch
-    my $maxTopicsInSet = 512;    # max number of topics for a grep call
-      #TODO: the number is actually dependant on the length of the path to each file
-      #SMELL: the following while loop should probably be made by sysCommand, as this is a leaky abstraction.
-    ##heck, on pre WinXP its only 2048, post XP its 8191 - http://support.microsoft.com/kb/830473
-    if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) {
-
-        #tune the number based on the length of "$sDir/WebSearchAdvanced.txt"
-        #30 is a guess - wotamess
-        $maxTopicsInSet =
-          ( ( 8191 - ( length($program) + length($searchString) + 30 ) ) /
-              ( length("$sDir/LongWebSearchAdvanced.txt") + 10 ) );
-
-        #print STDERR "++++++++++++ $maxTopicsInSet \n";
-    }
-
-    #    while (my @set = splice( @take, 0, $maxTopicsInSet )) {
-    #        @set = map { "$sDir/$_.txt" } @set;
-    my @set;
-    $inputTopicSet->reset();
-    while ( $inputTopicSet->hasNext() ) {
-        my $webtopic = $inputTopicSet->next();
-        my ( $Iweb, $tn ) =
-          Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
-        push( @set, "$sDir/$tn.txt" );
-        if (
-            ( $#set >= $maxTopicsInSet )    #replace with character count..
-            || !( $inputTopicSet->hasNext() )
-          )
-        {
-            my ( $m, $exit ) = Foswiki::Sandbox->sysCommand(
-                $program,
-                TOKEN => $searchString,
-                FILES => \@set
-            );
-            @set = ();
-
-            # man grep: "Normally, exit status is 0 if selected lines are found
-            # and 1 otherwise. But the exit status is 2 if an error occurred,
-            # unless the -q or --quiet or --silent option is used and a selected
-            # line is found."
-            if ( $exit > 1 ) {
-
-    #TODO: need to work out a way to alert the admin there is a problem, without
-    #      filling up the log files with repeated SEARCH's
-
-# NOTE: we ignore the error, because grep returns an error if it comes across a broken file link
-#       or a file it does not have permission to open, so throwing here gives wrong search results.
-# throw Error::Simple("$program Grep for '$searchString' returned error")
-            }
-            $matches .= $m;
-        }
-    }
-    my %seen;
-
-    # Note use of / and \ as dir separators, to support Winblows
-    $matches =~
-      s/([^\/\\]*)\.txt(:(.*))?$/push( @{$seen{$1}}, ($3||'') ); ''/gem;
-
-    # Implicit untaint OK; data from grep
-
-    return \%seen;
-}
-
-=begin TML
-
-this is the new way -
-
-=cut
-
+# Implements Foswiki::Store::Interfaces::SearchAlgorithm
 sub query {
     my ( $query, $inputTopicSet, $session, $options ) = @_;
 
-    if ( ( @{ $query->{tokens} } ) == 0 ) {
+    if ( $query->isEmpty() ) {
         return new Foswiki::Search::InfoCache( $session, '' );
     }
 
@@ -193,12 +66,140 @@ sub query {
     return $resultset;
 }
 
+# Search .txt files in $dir for $searchString. This is the 'old' interface
+# to search algorithms (prior to Sven's massive search refactoring. It was
+# simply called 'search')
+sub _search {
+    my ( $searchString, $web, $inputTopicSet, $session, $options ) = @_;
+
+    # SMELL: I18N: 'grep' must use locales if needed,
+    # for case-insensitive searching.
+    my $program = '';
+
+    if ( $options->{type}
+        && ( $options->{type} eq 'regex' || $options->{wordboundaries} ) )
+    {
+        $program = $Foswiki::cfg{Store}{EgrepCmd};
+    }
+    else {
+        $program = $Foswiki::cfg{Store}{FgrepCmd};
+    }
+
+    if ( $options->{casesensitive} ) {
+        $program =~ s/%CS{(.*?)\|.*?}%/$1/g;
+    }
+    else {
+        $program =~ s/%CS{.*?\|(.*?)}%/$1/g;
+    }
+    if ( $options->{files_without_match} ) {
+        $program =~ s/%DET{.*?\|(.*?)}%/$1/g;
+    }
+    else {
+        $program =~ s/%DET{(.*?)\|.*?}%/$1/g;
+    }
+    if ( $options->{wordboundaries} ) {
+
+        # Item5529: Can't use quotemeta because $searchString may
+        # be UTF8 encoded
+        # TODO when testing UTF-8 code, try quotemeta. It should
+        # work with a decent perl
+        $searchString =~ s#([][|/\\\$\^*()+{};@?.{}])#\\$1#g;
+        $searchString = '\b' . $searchString . '\b';
+    }
+
+    if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) {
+
+        #try to escape the ^ and "" for native windows grep and apache
+        $searchString =~ s/\[\^/[^^/g;
+
+        # Fix escaping and quoting for Windows
+        $searchString =~ s#\\#\\\\#g;
+        $searchString =~ s#"#\\"#g;
+        $searchString = q(") . $searchString . q(");
+    }
+
+    my $matches = '';
+
+    #SMELL, TODO, replace with Store call.
+    my $sDir = $Foswiki::cfg{DataDir} . '/' . $web . '/';
+
+    # process topics in sets, fix for Codev.ArgumentListIsTooLongForSearch
+    my $maxTopicsInSet = 512;    # max number of topics for a grep call
+    # SMELL: the number is actually dependant on the length of the path
+    # to each file
+    # SMELL: the following while loop should probably be made by sysCommand,
+    # as this is a leaky abstraction.
+    # heck, on pre WinXP its only 2048, post XP its 8191 -
+    # http://support.microsoft.com/kb/830473
+    if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) {
+
+        #tune the number based on the length of "$sDir/WebSearchAdvanced.txt"
+        #30 is a guess - wotamess
+        $maxTopicsInSet =
+          ( ( 8191 - ( length($program) + length($searchString) + 30 ) ) /
+              ( length("$sDir/LongWebSearchAdvanced.txt") + 10 ) );
+
+        #print STDERR "++++++++++++ $maxTopicsInSet \n";
+    }
+
+    #    while (my @set = splice( @take, 0, $maxTopicsInSet )) {
+    #        @set = map { "$sDir/$_.txt" } @set;
+    my @set;
+    $inputTopicSet->reset();
+    while ( $inputTopicSet->hasNext() ) {
+        my $webtopic = $inputTopicSet->next();
+        my ( $Iweb, $tn ) =
+          Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
+        push( @set, "$sDir/$tn.txt" );
+        if (
+            ( $#set >= $maxTopicsInSet )    #replace with character count..
+            || !( $inputTopicSet->hasNext() )
+          )
+        {
+            my ( $m, $exit ) = Foswiki::Sandbox->sysCommand(
+                $program,
+                TOKEN => $searchString,
+                FILES => \@set
+            );
+            @set = ();
+
+            # man grep: "Normally, exit status is 0 if selected lines are found
+            # and 1 otherwise. But the exit status is 2 if an error occurred,
+            # unless the -q or --quiet or --silent option is used and a selected
+            # line is found."
+            if ( $exit > 1 ) {
+
+                # TODO: need to work out a way to alert the admin there is
+                # a problem, without filling up the log files with repeated
+                # SEARCH's
+
+                # NOTE: we ignore the error, because grep returns an error
+                # if it comes across a broken file link or a file it does
+                # not have permission to open, so throwing here gives wrong
+                # search results.
+                # throw Error::Simple(
+                #      "$program Grep for '$searchString' returned error")
+            }
+            $matches .= $m;
+        }
+    }
+    my %seen;
+
+    # Note use of / and \ as dir separators, to support Winblows
+    $matches =~
+      s/([^\/\\]*)\.txt(:(.*))?$/push( @{$seen{$1}}, ($3||'') ); ''/gem;
+
+    # Implicit untaint OK; data from grep
+
+    return \%seen;
+}
+
 #ok, for initial validation, naively call the code with a web.
 sub _webQuery {
     my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
-    ASSERT( scalar( @{ $query->{tokens} } ) > 0 ) if DEBUG;
+    ASSERT( !$query->isEmpty() ) if DEBUG;
 
-    #print STDERR "ForkingSEARCH(".join(', ', @{ $query->{tokens} }).")\n";
+    #print STDERR "ForkingSEARCH(".join(', ', @{ $query->tokens() }).")\n";
     # default scope is 'text'
     $options->{'scope'} = 'text'
       unless ( defined( $options->{'scope'} )
@@ -216,9 +217,10 @@ sub _webQuery {
     }
     ASSERT( UNIVERSAL::isa( $topicSet, 'Foswiki::Iterator' ) ) if DEBUG;
 
-#print STDERR "######## Forking search ($web) tokens ".scalar(@{$query->{tokens}})." : ".join(',', @{$query->{tokens}})."\n";
-# AND search - search once for each token, ANDing result together
-    foreach my $token ( @{ $query->{tokens} } ) {
+    #print STDERR "######## Forking search ($web) tokens "
+    # .scalar(@{$query->tokens()})." : ".join(',', @{$query->tokens()})."\n";
+    # AND search - search once for each token, ANDing result together
+    foreach my $token ( @{ $query->tokens() } ) {
 
         my $tokenCopy = $token;
 
@@ -259,7 +261,7 @@ sub _webQuery {
         # scope='text', e.g. grep search on topic text:
         unless ( $options->{'scope'} eq 'topic' ) {
             my $textMatches =
-              search( $tokenCopy, $web, $topicSet, $session, $options );
+              _search( $tokenCopy, $web, $topicSet, $session, $options );
 
             #bring the text matches into the topicMatch hash
             if ($textMatches) {

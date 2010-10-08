@@ -31,6 +31,11 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
+    # Force pure perl text search; the query alg may map to a plain text
+    # search, and we want to be sure we hit a good one.
+    $Foswiki::cfg{Store}{SearchAlgorithm} =
+        'Foswiki::Store::SearchAlgorithms::PurePerl';
+
     my $meta = Foswiki::Meta->new(
         $this->{session}, $this->{test_web}, 'HitTopic' );
     $meta->putKeyed(
@@ -136,7 +141,7 @@ SUB
 sub check {
     my ( $this, $s, %opts ) = @_;
 
-    # First check that standard evaluator
+    # First check the standard evaluator
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
     my $meta        = $this->{meta};
