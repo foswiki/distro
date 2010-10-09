@@ -925,7 +925,7 @@ sub formatResults {
                     type           => $params->{type},
                     wordboundaries => $params->{wordboundaries},
                     casesensitive  => $caseSensitive,
-                    tokens         => $query->tokens(),
+                    tokens         => $query ? $query->tokens() : undef,
                 };
 
                 # SMELL: why is this not part of the callback? at least the
