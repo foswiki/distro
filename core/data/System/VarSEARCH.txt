@@ -50,6 +50,8 @@
     format="| $topic    | $summary    |"
 }%</verbatim> _(displays results in a table with header - [[FormattedSearch#SearchTable][details]])_
 
+Results are sorted alphanumerically on the web name (major key) and topic name (minor key). Only the minor key is affected by the =order= parameter.
+
 <blockquote class="foswikiHelp">%T% The appearance of the table emitted by the [[VarSEARCH][SEARCH]] may be controlled with TablePlugin's =%<nop>TABLE{}%= macro placed just before the =%<nop>SEARCH{}%=.  Example: =%<nop>TABLE{ tablewidth="90%" }%= </blockquote>
 
 ---

@@ -28,6 +28,7 @@ use warnings;
 
 #@ISA = ( 'Foswiki::Store::Interfaces::QueryAlgorithm' );
 
+use Foswiki::Store::Interfaces::SearchAlgorithm ();
 use Foswiki::Search::Node      ();
 use Foswiki::Meta              ();
 use Foswiki::Search::InfoCache ();
@@ -49,8 +50,8 @@ sub query {
     my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
 
     my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
-    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse,
-        $searchAllFlag );
+    my @webs = Foswiki::Store::Interfaces::SearchAlgorithm::getListOfWebs(
+        $webNames, $recurse, $searchAllFlag );
 
     my @resultCacheList;
     foreach my $web (@webs) {

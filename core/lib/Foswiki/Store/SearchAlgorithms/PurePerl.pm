@@ -17,6 +17,7 @@ use Assert;
 use Foswiki::Search::InfoCache;
 use Foswiki::Search::ResultSet;
 
+use Foswiki::Store::Interfaces::SearchAlgorithm ();
 #@ISA = ( 'Foswiki::Store::Interfaces::SearchAlgorithm' );
 
 # Implements Foswiki::Store::Interfaces::SearchAlgorithm
@@ -32,8 +33,8 @@ sub query {
     my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
 
     my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
-    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse,
-        $searchAllFlag );
+    my @webs = Foswiki::Store::Interfaces::SearchAlgorithm::getListOfWebs(
+        $webNames, $recurse, $searchAllFlag );
 
     my @resultCacheList;
     foreach my $web (@webs) {

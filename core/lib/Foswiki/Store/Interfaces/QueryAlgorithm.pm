@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
-
 =begin TML
 
 ---+ package Foswiki::Store::Interfaces::QueryAlgorithm
 
-Interface to query algorithms (documentation only, this class does nothing).
+Interface to query algorithms.
 Implementations of this interface are found in Foswiki/Store/QueryAlgorithms.
 
 The contract with query algorithms is specified by this interface description,

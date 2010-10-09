@@ -294,6 +294,7 @@ VirtualLife
 EXPECT
     $this->assert_str_equals( $expected,  $result."\n" );
 }
+
 sub verify_scope_all_type_literal {
     my $this = shift;
     
@@ -325,6 +326,63 @@ VirtualBeer
 EXPECT
     $this->assert_str_equals( $expected,  $result."\n" );
 }
+
+# Verify that the default result orering is independent of the web= and
+# topic= parameters
+sub verify_default_alpha_order_query {
+    my $this   = shift;
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+                "1" 
+                type="query"
+                web="System,Main,Sandbox"
+                topic="WebSearch,WebHome,WebPreferences"
+                nonoise="on" 
+                format="$web.$topic"
+        }%'
+    );
+    my $expected = <<EXPECT;
+Main.WebHome
+Main.WebPreferences
+Main.WebSearch
+Sandbox.WebHome
+Sandbox.WebPreferences
+Sandbox.WebSearch
+System.WebHome
+System.WebPreferences
+System.WebSearch
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+}
+
+sub verify_default_alpha_order_search {
+    my $this   = shift;
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+                "." 
+                type="regex"
+                web="System,Main,Sandbox"
+                topic="WebSearch,WebHome,WebPreferences"
+                nonoise="on" 
+                format="$web.$topic"
+        }%'
+    );
+    my $expected = <<EXPECT;
+Main.WebHome
+Main.WebPreferences
+Main.WebSearch
+Sandbox.WebHome
+Sandbox.WebPreferences
+Sandbox.WebSearch
+System.WebHome
+System.WebPreferences
+System.WebSearch
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+}
+
 #####################
 sub _septic {
     my ( $this, $head, $foot, $sep, $results, $expected ) = @_;
@@ -2049,9 +2107,9 @@ sub _multiWebSeptic {
 sub test_multiWeb_no_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 0, undef, 1, <<EXPECT);
-DefaultPreferences
-WebPreferences
 SitePreferences
+WebPreferences
+DefaultPreferences
 WebPreferences
 EXPECT
 }
@@ -2059,9 +2117,9 @@ EXPECT
 sub test_multiWeb_no_header_no_footer_no_separator_with_results_counters {
     my $this = shift;
     $this->_multiWebSeptic( 0, 0, undef, 1, <<EXPECT, '$nhits, $ntopics, $index, $topic');
-1, 1, 1, DefaultPreferences
+1, 1, 1, SitePreferences
 2, 2, 2, WebPreferences
-1, 1, 3, SitePreferences
+1, 1, 3, DefaultPreferences
 2, 2, 4, WebPreferences
 EXPECT
 }
@@ -2075,7 +2133,7 @@ EXPECT
 sub test_multiWeb_no_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 0, "", 1, <<EXPECT);
-DefaultPreferencesWebPreferencesSitePreferencesWebPreferences
+SitePreferencesWebPreferencesDefaultPreferencesWebPreferences
 EXPECT
 }
 
@@ -2088,7 +2146,7 @@ EXPECT
 sub test_multiWeb_no_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 0, ",", 1, <<EXPECT);
-DefaultPreferences,WebPreferences,SitePreferences,WebPreferences
+SitePreferences,WebPreferences,DefaultPreferences,WebPreferences
 EXPECT
 }
 
@@ -2102,9 +2160,9 @@ EXPECT
 sub test_multiWeb_no_header_with_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 1, undef, 1, <<EXPECT);
-DefaultPreferences
+SitePreferences
 WebPreferences
-FOOT(2,2)SitePreferences
+FOOT(2,2)DefaultPreferences
 WebPreferences
 FOOT(2,2)
 EXPECT
@@ -2119,7 +2177,7 @@ EXPECT
 sub test_multiWeb_no_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 1, "", 1, <<EXPECT);
-DefaultPreferencesWebPreferencesFOOT(2,2)SitePreferencesWebPreferencesFOOT(2,2)
+SitePreferencesWebPreferencesFOOT(2,2)DefaultPreferencesWebPreferencesFOOT(2,2)
 EXPECT
 }
 
@@ -2132,7 +2190,7 @@ EXPECT
 sub test_multiWeb_no_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 0, 1, ",", 1, <<EXPECT);
-DefaultPreferences,WebPreferencesFOOT(2,2)SitePreferences,WebPreferencesFOOT(2,2)
+SitePreferences,WebPreferencesFOOT(2,2)DefaultPreferences,WebPreferencesFOOT(2,2)
 EXPECT
 }
 
@@ -2141,11 +2199,11 @@ EXPECT
 sub test_multiWeb_with_header_with_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 1, undef, 1, <<EXPECT);
-HEAD(System)
-DefaultPreferences
-WebPreferences
-FOOT(2,2)HEAD(Main)
+HEAD(Main)
 SitePreferences
+WebPreferences
+FOOT(2,2)HEAD(System)
+DefaultPreferences
 WebPreferences
 FOOT(2,2)
 EXPECT
@@ -2160,7 +2218,7 @@ EXPECT
 sub test_multiWeb_with_header_with_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 1, "", 1, <<EXPECT);
-HEAD(System)DefaultPreferencesWebPreferencesFOOT(2,2)HEAD(Main)SitePreferencesWebPreferencesFOOT(2,2)
+HEAD(Main)SitePreferencesWebPreferencesFOOT(2,2)HEAD(System)DefaultPreferencesWebPreferencesFOOT(2,2)
 EXPECT
 }
 
@@ -2173,7 +2231,7 @@ EXPECT
 sub test_multiWeb_with_header_with_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 1, ",", 1, <<EXPECT);
-HEAD(System)DefaultPreferences,WebPreferencesFOOT(2,2)HEAD(Main)SitePreferences,WebPreferencesFOOT(2,2)
+HEAD(Main)SitePreferences,WebPreferencesFOOT(2,2)HEAD(System)DefaultPreferences,WebPreferencesFOOT(2,2)
 EXPECT
 }
 
@@ -2188,11 +2246,11 @@ EXPECT
 sub test_multiWeb_with_header_no_footer_no_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 0, undef, 1, <<EXPECT);
-HEAD(System)
-DefaultPreferences
-WebPreferences
 HEAD(Main)
 SitePreferences
+WebPreferences
+HEAD(System)
+DefaultPreferences
 WebPreferences
 EXPECT
 }
@@ -2206,7 +2264,7 @@ EXPECT
 sub test_multiWeb_with_header_no_footer_empty_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 0, "", 1, <<EXPECT);
-HEAD(System)DefaultPreferencesWebPreferencesHEAD(Main)SitePreferencesWebPreferences
+HEAD(Main)SitePreferencesWebPreferencesHEAD(System)DefaultPreferencesWebPreferences
 EXPECT
 }
 
@@ -2219,7 +2277,7 @@ EXPECT
 sub test_multiWeb_with_header_no_footer_with_separator_with_results {
     my $this = shift;
     $this->_multiWebSeptic( 1, 0, ",", 1, <<EXPECT);
-HEAD(System)DefaultPreferences,WebPreferencesHEAD(Main)SitePreferences,WebPreferences
+HEAD(Main)SitePreferences,WebPreferencesHEAD(System)DefaultPreferences,WebPreferences
 EXPECT
 }
 
@@ -2245,12 +2303,12 @@ sub test_web_and_topic_expansion {
         }%'
     );
     my $expected = <<EXPECT;
-System.WebHome
-System.WebPreferences
-FOOT(2,2)Main.WebHome
+Main.WebHome
 Main.WebPreferences
 FOOT(2,2)Sandbox.WebHome
 Sandbox.WebPreferences
+FOOT(2,2)System.WebHome
+System.WebPreferences
 FOOT(2,2)
 EXPECT
     $expected =~ s/\n$//s;
@@ -2259,7 +2317,7 @@ EXPECT
 
 #####################
 # PAGING
-sub test_paging_three_webs_first_five {
+sub test_paging_three_webs_first_page {
     my $this = shift;
     my $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
@@ -2277,18 +2335,18 @@ sub test_paging_three_webs_first_five {
     );
 
     my $expected = <<EXPECT;
-System.WebChanges
-System.WebHome
-System.WebIndex
-System.WebPreferences
-FOOT(4,4)Main.WebChanges
+Main.WebChanges
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(4,4)Sandbox.WebChanges
 FOOT(1,1)
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 }
 
-sub test_paging_three_webs_second_five {
+sub test_paging_three_webs_second_page {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2307,18 +2365,18 @@ sub test_paging_three_webs_second_five {
     );
 
     my $expected = <<EXPECT;
-Main.WebHome
-Main.WebIndex
-Main.WebPreferences
-FOOT(3,3)Sandbox.WebChanges
 Sandbox.WebHome
+Sandbox.WebIndex
+Sandbox.WebPreferences
+FOOT(3,3)System.WebChanges
+System.WebHome
 FOOT(2,2)
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 }
 
-sub test_paging_three_webs_third_five {
+sub test_paging_three_webs_third_page {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2337,15 +2395,15 @@ sub test_paging_three_webs_third_five {
     );
 
     my $expected = <<EXPECT;
-Sandbox.WebIndex
-Sandbox.WebPreferences
+System.WebIndex
+System.WebPreferences
 FOOT(2,2)
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 }
 
-sub test_paging_three_webs_fourth_five {
+sub test_paging_three_webs_fourth_page {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2395,7 +2453,7 @@ EXPECT
 
 #------------------------------------
 # PAGING with limit= does weird things.
-sub test_paging_with_limit_first_five {
+sub test_paging_with_limit_first_page {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2415,16 +2473,16 @@ sub test_paging_with_limit_first_five {
     );
 
     my $expected = <<EXPECT;
-System.WebChanges
-System.WebHome
-System.WebIndex
+Main.WebChanges
+Main.WebHome
+Main.WebIndex
 FOOT(3,3)
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 }
 
-sub test_paging_with_limit_second_five {
+sub test_paging_with_limit_second_page {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2444,16 +2502,16 @@ sub test_paging_with_limit_second_five {
     );
 
     my $expected = <<EXPECT;
-Main.WebChanges
-Main.WebHome
-Main.WebIndex
+Sandbox.WebChanges
+Sandbox.WebHome
+Sandbox.WebIndex
 FOOT(3,3)
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 }
 
-sub test_paging_with_limit_third_five {
+sub test_paging_with_limit_third_page {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -2473,16 +2531,16 @@ sub test_paging_with_limit_third_five {
     );
 
     my $expected = <<EXPECT;
-Sandbox.WebChanges
-Sandbox.WebHome
-Sandbox.WebIndex
+System.WebChanges
+System.WebHome
+System.WebIndex
 FOOT(3,3)
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
 }
 
-sub test_paging_with_limit_fourth_five {
+sub test_paging_with_limit_fourth_page {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(
@@ -3531,11 +3589,11 @@ sub test_pager_on {
     );
 
     my $expected = <<EXPECT;
-System.WebChanges
-System.WebHome
-System.WebIndex
-System.WebPreferences
-FOOT(4,4)Main.WebChanges
+Main.WebChanges
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(4,4)Sandbox.WebChanges
 FOOT(1,1)
 ---
    Page 1 of 3   [[$viewTopicUrl?SEARCHc6139cf1d63c9614230f742fca2c6a36=2][Next >]]
@@ -3561,11 +3619,11 @@ EXPECT
     );
 
     $expected = <<EXPECT;
-Main.WebHome
-Main.WebIndex
-Main.WebPreferences
-FOOT(3,3)Sandbox.WebChanges
 Sandbox.WebHome
+Sandbox.WebIndex
+Sandbox.WebPreferences
+FOOT(3,3)System.WebChanges
+System.WebHome
 FOOT(2,2)
 ---
 [[$viewTopicUrl?SEARCH6331ae02a320baf1478c8302e38b7577=1][< Previous]]   Page 2 of 3   [[$viewTopicUrl?SEARCH6331ae02a320baf1478c8302e38b7577=3][Next >]]
@@ -3599,11 +3657,11 @@ sub test_pager_on_pagerformat {
     );
 
     my $expected = <<EXPECT;
-System.WebChanges
-System.WebHome
-System.WebIndex
-System.WebPreferences
-FOOT(4,4)Main.WebChanges
+Main.WebChanges
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(4,4)Sandbox.WebChanges
 FOOT(1,1)
 ..prev=0, 1, next=2, numberofpages=3, pagesize=5, prevurl=, nexturl=$viewTopicUrl?SEARCHe9863b5d7ec27abeb8421578b0747c25=2..
 EXPECT
@@ -3628,11 +3686,11 @@ EXPECT
     );
 
     $expected = <<EXPECT;
-Main.WebHome
-Main.WebIndex
-Main.WebPreferences
-FOOT(3,3)Sandbox.WebChanges
 Sandbox.WebHome
+Sandbox.WebIndex
+Sandbox.WebPreferences
+FOOT(3,3)System.WebChanges
+System.WebHome
 FOOT(2,2)
 ..prev=1, 2, next=3, numberofpages=3, pagesize=5, prevurl=$viewTopicUrl?SEARCHc5ceccfcec96473a9efe986cf3597eb1=1, nexturl=$viewTopicUrl?SEARCHc5ceccfcec96473a9efe986cf3597eb1=3..
 EXPECT
@@ -3662,11 +3720,11 @@ sub test_pager_off_pagerformat {
     );
 
     my $expected = <<EXPECT;
-System.WebChanges
-System.WebHome
-System.WebIndex
-System.WebPreferences
-FOOT(4,4)Main.WebChanges
+Main.WebChanges
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(4,4)Sandbox.WebChanges
 FOOT(1,1)
 EXPECT
     $expected =~ s/\n$//s;
@@ -3690,11 +3748,11 @@ EXPECT
     );
 
     $expected = <<EXPECT;
-Main.WebHome
-Main.WebIndex
-Main.WebPreferences
-FOOT(3,3)Sandbox.WebChanges
 Sandbox.WebHome
+Sandbox.WebIndex
+Sandbox.WebPreferences
+FOOT(3,3)System.WebChanges
+System.WebHome
 FOOT(2,2)
 EXPECT
     $expected =~ s/\n$//s;
@@ -3726,12 +3784,12 @@ sub test_pager_off_pagerformat_pagerinheaderfooter {
 
     my $expected = <<EXPECT;
 HEADER(..prev=0, 1, next=2, numberofpages=3, pagesize=5..)
-System.WebChanges
-System.WebHome
-System.WebIndex
-System.WebPreferences
-FOOT(4,4)(..prev=0, 1, next=2, numberofpages=3, pagesize=5..)HEADER(..prev=0, 1, next=2, numberofpages=3, pagesize=5..)
 Main.WebChanges
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(4,4)(..prev=0, 1, next=2, numberofpages=3, pagesize=5..)HEADER(..prev=0, 1, next=2, numberofpages=3, pagesize=5..)
+Sandbox.WebChanges
 FOOT(1,1)(..prev=0, 1, next=2, numberofpages=3, pagesize=5..)
 EXPECT
     $expected =~ s/\n$//s;
@@ -3757,12 +3815,12 @@ EXPECT
 
     $expected = <<EXPECT;
 HEADER(..prev=1, 2, next=3, numberofpages=3, pagesize=5..)
-Main.WebHome
-Main.WebIndex
-Main.WebPreferences
-FOOT(3,3)(..prev=1, 2, next=3, numberofpages=3, pagesize=5..)HEADER(..prev=1, 2, next=3, numberofpages=3, pagesize=5..)
-Sandbox.WebChanges
 Sandbox.WebHome
+Sandbox.WebIndex
+Sandbox.WebPreferences
+FOOT(3,3)(..prev=1, 2, next=3, numberofpages=3, pagesize=5..)HEADER(..prev=1, 2, next=3, numberofpages=3, pagesize=5..)
+System.WebChanges
+System.WebHome
 FOOT(2,2)(..prev=1, 2, next=3, numberofpages=3, pagesize=5..)
 EXPECT
     $expected =~ s/\n$//s;
@@ -3792,12 +3850,12 @@ sub test_pager_off_pagerformat_pagerinall {
 
     my $expected = <<EXPECT;
 HEADER(ntopics=0..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=0
-Main.WebHome (ntopics=1..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=1
-Main.WebIndex (ntopics=2..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=2
-Main.WebPreferences (ntopics=3..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=3
+Sandbox.WebHome (ntopics=1..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=1
+Sandbox.WebIndex (ntopics=2..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=2
+Sandbox.WebPreferences (ntopics=3..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=3
 FOOT(3,3)(ntopics=3..prev=1, 2, next=3, numberofpages=3, pagesize=5..)HEADER(ntopics=0..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=0
-Sandbox.WebChanges (ntopics=1..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=1
-Sandbox.WebHome (ntopics=2..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=2
+System.WebChanges (ntopics=1..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=1
+System.WebHome (ntopics=2..prev=1, 2, next=3, numberofpages=3, pagesize=5..)ntopics=2
 FOOT(2,2)(ntopics=2..prev=1, 2, next=3, numberofpages=3, pagesize=5..)
 EXPECT
     $expected =~ s/\n$//s;
@@ -3819,14 +3877,6 @@ sub test_simple_format {
 }%
 ');
     my $expected = <<'HERE';
-   * !TestCases.WebHome
-   * !TestCases.WebPreferences
-   * !TestCases.WebStatistics
-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
-   * !System.WebHome
-   * !System.WebPreferences
-   * !System.WebStatistics
-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
    * !Main.WebHome
    * !Main.WebPreferences
    * !Main.WebStatistics
@@ -3834,6 +3884,14 @@ sub test_simple_format {
    * !Sandbox.WebHome
    * !Sandbox.WebPreferences
    * !Sandbox.WebStatistics
+<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+   * !System.WebHome
+   * !System.WebPreferences
+   * !System.WebStatistics
+<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+   * !TestCases.WebHome
+   * !TestCases.WebPreferences
+   * !TestCases.WebStatistics
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 HERE
     
