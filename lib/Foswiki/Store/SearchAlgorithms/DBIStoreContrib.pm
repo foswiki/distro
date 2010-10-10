@@ -1,63 +1,85 @@
 # See bottom of file for license and copyright information
 package Foswiki::Store::SearchAlgorithms::DBIStoreContrib;
 
+=begin TML
+
+---+ package Foswiki::Store::SearchAlgorithms::DBIStoreContrib
+Implements Foswiki::Store::Interfaces::SearchAlgorithm
+
+DBI implementation of search.
+
+=cut
+
 use strict;
 use Assert;
 use Foswiki::Search::InfoCache ();
 use Foswiki::Query::Parser ();
+use Foswiki::Store::QueryAlgorithms::DBIStoreContrib ();
+
+#@ISA = ( 'Foswiki::Store::Interfaces::SearchAlgorithm' );
 
 # Analyse the requirements of the search, and redirect to the query
 # algorithm. This is kinda like the reverse of hoisting regexes :-)
+# Implements Foswiki::Store::Interfaces::SearchAlgorithm
 sub query {
     my ( $query, $inputTopicSet, $session, $options ) = @_;
 
-    if (( @{ $query->{tokens} } ) == 0) {
+    if ( $query->isEmpty() ) {
         return new Foswiki::Search::InfoCache($session, '');
     }
+
+    print STDERR "Search ".$query->stringify()."\n"
+      if Foswiki::Store::QueryAlgorithms::DBIStoreContrib::MONITOR;
 
     # Convert the search to a query
     # AND search - search once for each token, ANDing result together
     my @ands;
-    foreach my $token ( @{ $query->{tokens} } ) {
+    foreach my $token ( @{ $query->tokens() } ) {
 
         my $tokenCopy = $token;
         
         # flag for AND NOT search
-        my $invert = ( $tokenCopy =~ s/^\!//o ) ? 'NOT ' : '';
+        my $invert = ( $tokenCopy =~ s/^\!// ) ? 'NOT ' : '';
 
-        # scope can be 'topic' (default), 'text' or "all"
+        # scope can be 'topic', 'text' or "all"
         # scope='topic', e.g. Perl search on topic name:
+        $options->{scope} = 'text' unless defined $options->{'scope'};
+        $options->{type} ||= 'literal';
+        $options->{casesensitive} ||= 0;
+
+        $tokenCopy = "\\b$tokenCopy\\b" if $options->{wordboundaries};
+
         my %topicMatches;
         my @ors;
-        if ( $options->{'scope'} =~ /^(topic|all)$/ ) {
+        if ( $options->{scope} ne 'text' ) { # topic or all
             my $expr = $tokenCopy;
 
-            $expr = quotemeta($expr) unless ( $options->{'type'} eq 'regex' );
-            $expr = "(?i:$expr)" unless $options->{'casesensitive'};
+            $expr = quotemeta($expr) unless ( $options->{type} eq 'regex' );
+            $expr = "(?i:$expr)" unless $options->{casesensitive};
             push(@ors, "${invert}name =~ '$expr'");
         }
 
         # scope='text', e.g. grep search on topic text:
-        if ( $options->{'scope'} =~ /^(text|all)$/ ) {
+        if ( $options->{scope} ne 'topic' ) { # text or all
             my $expr = $tokenCopy;
 
-            $expr = quotemeta($expr) unless ( $options->{'type'} eq 'regex' );
-            $expr = "(?i:$expr)" unless $options->{'casesensitive'};
+            $expr = quotemeta($expr) unless ( $options->{type} eq 'regex' );
+            $expr = "(?i:$expr)" unless $options->{casesensitive};
 
             push(@ors, "${invert}raw =~ '$expr'");
         }
-        push(@ands, '(' . join(' OR ', @ors) . ')');
+        push(@ands, '(' . join($invert ? ' AND ' : ' OR ', @ors) . ')');
         
     }
     my $queryParser = Foswiki::Query::Parser->new();
-    $query = $queryParser->parse(join(' AND ', @ands));
+    my $search = join(' AND ', @ands);
+    print STDERR "Search generated query $search\n"
+      if Foswiki::Store::QueryAlgorithms::DBIStoreContrib::MONITOR;
 
-    eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
-    die $@ if $@;
-    my $fn = $Foswiki::cfg{Store}{QueryAlgorithm}.'::query';
-    no strict 'refs';
-    return &$fn($query, $inputTopicSet, $session, $options);
-    use strict 'refs';
+    $query = $queryParser->parse($search);
+
+    return Foswiki::Store::QueryAlgorithms::DBIStoreContrib::query(
+        $query, $inputTopicSet, $session, $options);
 }
 
 1;

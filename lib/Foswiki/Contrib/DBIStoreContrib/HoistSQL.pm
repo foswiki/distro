@@ -127,7 +127,7 @@ sub _hoistB {
         my $rhs = _hoistC( $node->{params}[1], "${indent}r", 0 );
         if ( $lhs && $rhs ) {
             print STDERR "${indent}L&R\n" if MONITOR;
-            return "($lhs) OR ($rhs)";
+            return "(($lhs) OR ($rhs))";
         }
     }
     else {

@@ -59,6 +59,16 @@ sub _connect {
 
     return 1 if $this->{handle};
 
+    if ($Foswiki::inUnitTestMode) {
+        # Change the DSN to a SQLite test db, which is held in the data
+        # area; that way it will be ripped down by -clean
+        $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN} =
+          $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN} =
+            "dbi:SQLite:dbname=$Foswiki::cfg{DataDir}/TemporarySQLiteCache";
+        $Foswiki::cfg{Extensions}{DBIStoreContrib}{Username} = '';
+        $Foswiki::cfg{Extensions}{DBIStoreContrib}{Password} = '';
+    }
+
     print STDERR "CONNECT $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN}..."
       if MONITOR;
     $this->{handle} = DBI->connect(

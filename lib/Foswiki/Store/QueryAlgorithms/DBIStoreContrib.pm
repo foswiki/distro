@@ -3,6 +3,7 @@
 =begin TML
 
 ---+ package Foswiki::Store::QueryAlgorithms::DBIStoreContrib
+Implements Foswiki::Store::Interfaces::QueryAlgorithm
 
 =cut
 
@@ -11,9 +12,11 @@ package Foswiki::Store::QueryAlgorithms::DBIStoreContrib;
 use strict;
 use warnings;
 
-#@ISA = ( 'Foswiki::Query::QueryAlgorithms' ); # interface
+#use Foswiki::Store::Interfaces::QueryAlgorithm ();
+#@ISA = ( 'Foswiki::Store::Interfaces::QueryAlgorithm' );
 
 use Foswiki::Search::Node      ();
+use Foswiki::Store::Interfaces::SearchAlgorithm ();
 use Foswiki::Meta              ();
 use Foswiki::Search::InfoCache ();
 use Foswiki::Search::ResultSet ();
@@ -22,7 +25,7 @@ use Foswiki::Query::Node       ();
 use Foswiki::Contrib::DBIStoreContrib::Listener ();
 
 # Debug prints
-use constant MONITOR => 1;
+use constant MONITOR => 0;
 
 # See Foswiki::Query::QueryAlgorithms.pm for details
 sub query {
@@ -40,8 +43,8 @@ sub query {
     my $webNames = $options->{web}       || '';
     my $recurse  = $options->{'recurse'} || '';
     my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
-    my @webs = Foswiki::Search::InfoCache::_getListOfWebs( $webNames, $recurse,
-        $searchAllFlag );
+    my @webs = Foswiki::Store::Interfaces::SearchAlgorithm::getListOfWebs(
+        $webNames, $recurse, $searchAllFlag );
 
     my @interestingWebs;
     foreach my $web (@webs) {
@@ -71,30 +74,33 @@ sub query {
     # can use to refine the topic set
 
     require Foswiki::Contrib::DBIStoreContrib::HoistSQL;
-    my $hoistedSQL = Foswiki::Contrib::DBIStoreContrib::HoistSQL::hoist($query) || 1;
+    my $hoistedSQL = Foswiki::Contrib::DBIStoreContrib::HoistSQL::hoist(
+        $query) || 1;
 
     if ($hoistedSQL) {
-        print STDERR "Hoisted '$hoistedSQL', remaining query: " . $query->stringify . "\n"
-          if MONITOR;
+        print STDERR "Hoisted '$hoistedSQL', remaining query: "
+          . $query->stringify . "\n" if MONITOR;
 
         # Did hoisting eliminate the dynamic query?
         if ($query->evaluatesToConstant()) {
             print STDERR "\t...eliminated static query\n" if MONITOR;
+            $query = undef;
         }
     }
-
     my $sql =
         'SELECT tid FROM topic WHERE '
       . ( $hoistedSQL ? "$hoistedSQL AND " : '' )
       . "topic.web IN ("
       . join( ',', map { "'$_'" } @interestingWebs ) . ')';
 
-    if ( $interestingTopics && scalar(@$interestingTopics) ) {
+    if ( $interestingTopics && $interestingTopics->hasNext() ) {
         $sql .= " AND topic.name IN ("
-          . join( ',', map { "'$_'" } @$interestingTopics ) . ')';
+          . join( ',', map { "'$_'" } $interestingTopics->all() ) . ')';
     } # otherwise there is no topic name filter
 
     $sql .= ' ORDER BY web,name';
+
+    print STDERR "Generated SQL: $sql\n" if MONITOR;
 
     my $topicSet = Foswiki::Contrib::DBIStoreContrib::Listener::query(
         $session, $sql );
@@ -119,7 +125,7 @@ sub query {
           new Foswiki::Search::InfoCache($Foswiki::Plugins::SESSION);
 
         if ($query) {
-            print STDERR "Processing " . $meta->getPath() . "\n" if MONITOR;
+            print STDERR "Evaluating " . $meta->getPath() . "\n" if MONITOR;
 
             # this 'lazy load' will become useful when @$topics becomes
             # an infoCache
@@ -138,9 +144,14 @@ sub query {
         }
     }
 
+    # We have to pre-sort the result sets by web name to mimic the
+    # behaviour of default search.
     my $resultset =
-      new Foswiki::Search::ResultSet( [values %results], $options->{groupby},
-        $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
+      new Foswiki::Search::ResultSet(
+          [ map { $results{$_} } sort( keys( %results )) ],
+          $options->{groupby},
+          $options->{order},
+          Foswiki::isTrue( $options->{reverse} ) );
 
     #TODO: $options should become redundant
     $resultset->sortResults($options);
@@ -286,7 +297,7 @@ sub getField {
 }
 
 # Get a referenced topic
-# See Foswiki::Store::QueryAlgorithms.pm for details
+# See Foswiki::Store::Interfaces::QueryAlgorithms.pm for details
 sub getRefTopic {
     my ( $this, $relativeTo, $w, $t ) = @_;
     return Foswiki::Meta->load( $relativeTo->session, $w, $t );
