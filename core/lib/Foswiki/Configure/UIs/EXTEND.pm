@@ -17,6 +17,7 @@ use strict;
 use warnings;
 
 use Foswiki::Configure::UI ();
+use Foswiki::Configure::Package ();
 our @ISA = ('Foswiki::Configure::UI');
 use Foswiki::Configure::Util ();
 
@@ -41,6 +42,8 @@ sub install {
 
     $this->findRepositories();
 
+    my $processExt = $query->param('processExt');
+
     my @remove = $query->param('remove');
     foreach my $extension (@remove) {
         $extension =~ /(.*)\/(\w+)$/;
@@ -48,7 +51,7 @@ sub install {
         my $extensionName  = $2;
         print "Bad extension name" unless $extensionName && $repositoryPath;
 
-        $this->_uninstall( $repositoryPath, $extensionName );
+        $this->_uninstall( $repositoryPath, $extensionName, $processExt );
     }
 
     my @add = $query->param('add');
@@ -58,13 +61,13 @@ sub install {
         my $extensionName  = $2;
         print "Bad extension name" unless $extensionName && $repositoryPath;
 
-        $this->_install( $repositoryPath, $extensionName );
+        $this->_install( $repositoryPath, $extensionName, $processExt );
     }
     return '';
 }
 
 sub _install {
-    my ( $this, $repositoryPath, $extension ) = @_;
+    my ( $this, $repositoryPath, $extension, $processExt ) = @_;
     my $err;
 
     my $feedback = '';
@@ -91,12 +94,43 @@ sub _install {
     $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
 
     my $session = new Foswiki($user);
-    require Foswiki::Configure::Package;
+
+    my $simulate = 0;
+    my $nodeps   = 0;
+
+    if ($processExt) {
+       $simulate = ($processExt eq 'sim') ? 1 : 0;
+       $nodeps = ($processExt eq 'nodep') ? 1 : 0;
+    }
 
     my $pkg =
-      new Foswiki::Configure::Package( $this->{root}, $extension, $session );
+      new Foswiki::Configure::Package( $this->{root}, $extension, $session,
+      {
+          SIMULATE => $simulate,
+          NODEPS   => $nodeps,
+      }
+    );
+
+    my $installed;
+    my $missing;
+    my $rslt = '';
+    my $plugins;
+    my $depCPAN;
+
     $pkg->repository($repository);
-    my ( $rslt, $plugins, $depCPAN ) = $pkg->fullInstall();
+    if ($processExt eq 'dep') {
+        $rslt = "Running dependency check for $extension";
+        my ( $loadrslt, $err ) = $pkg->loadInstaller();
+        $rslt .= "<pre>".$loadrslt."</pre>";
+        $rslt .= "Dependency Report<pre>";
+        ($installed, $missing) = $pkg->checkDependencies();
+        $rslt .= "===== INSTALLED =======\n$installed\n" if ($installed);
+        $rslt .= "====== MISSING ========\n$missing\n"   if ($missing);
+        $rslt .= "</pre>";
+        }
+    else {
+        ( $rslt, $plugins, $depCPAN ) = $pkg->fullInstall();
+        }
     $err = $pkg->errors();
 
     _printFeedback($rslt);
@@ -125,8 +159,18 @@ sub _install {
     else {
 
         # OK
-        $feedback .= $this->NOTE_OK(
-            "Installation of $extension and dependencies finished");
+        if ($processExt eq 'sim') {
+            $feedback .= $this->NOTE_OK(
+                "Simulated installation of $extension and dependencies finished");
+            }
+        elsif ($processExt eq 'dep') {
+            $feedback .= $this->NOTE_OK(
+                "Dependency check for $extension finished");
+            }
+        else {
+            $feedback .= $this->NOTE_OK(
+                "Installation of $extension and dependencies finished");
+        }
         $feedback .= $this->NOTE(<<HERE);
 Before proceeding, review the dependency reports of each installed
 extension and resolve any dependencies as required.  <ul><li>External
@@ -149,7 +193,7 @@ HERE
         $feedback .= "</pre>";
     }
 
-    if ( keys(%$plugins) ) {
+    if ( keys(%$plugins ) && ! $simulate ) {
         $feedback .= $this->NOTE(<<HERE);
 Note: Before you can use newly installed plugins, you must enable them in the
 "Plugins" section in the main page.
@@ -170,7 +214,7 @@ sub _printFeedback {
 }
 
 sub _uninstall {
-    my ( $this, $repositoryPath, $extension ) = @_;
+    my ( $this, $repositoryPath, $extension, $processExt ) = @_;
 
     my $feedback = '';
     $feedback .= "<h3 style='margin-top:0'>Uninstalling $extension</h3>";
@@ -179,8 +223,35 @@ sub _uninstall {
     my $rslt;
     my $err;
 
-    require Foswiki::Configure::Package;
-    my $pkg = new Foswiki::Configure::Package( $this->{root}, $extension );
+    my $simulate = 0;
+    my $sim      = '';
+
+    if ($processExt && $processExt eq 'sim') {
+       $simulate =  1;
+       $sim = "Simulated: ";
+    }
+
+    unless ( eval { require Foswiki } ) {
+        die "Can't load Foswiki: $@";
+    }
+
+    # Load up a new Foswiki session so that the install can checkin
+    # topics and attchments that are under revision control.
+    my $user    = $Foswiki::cfg{AdminUserLogin};
+
+    # Temporarily override the password and mapping manager
+    # So configure can still work if LDAP or other extensions are not functional
+    $Foswiki::cfg{PasswordManager} = 'none';
+    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
+
+    my $session = new Foswiki($user);
+
+    my $pkg =
+      new Foswiki::Configure::Package( $this->{root}, $extension, $session,
+      {
+          SIMULATE => $simulate,
+      }
+    );
 
     # For uninstall, set repository in case local installer is not found
     # it can be downloaded to recover the manifest
@@ -205,11 +276,11 @@ sub _uninstall {
 
     unless ($err) {
         my $rslt = $pkg->createBackup();
-        $feedback .= "Creating Backup: <br />\n<pre>$rslt</pre>" if $rslt;
+        $feedback .= "$sim Creating Backup: <br />\n<pre>$rslt</pre>" if $rslt;
 
         $pkg->loadExits();
 
-        if ( defined $pkg->preuninstall ) {
+        if ( defined $pkg->preuninstall && ! $simulate ) {
             $feedback .= "Running Pre-uninstall...<br />\n";
             $rslt = $pkg->preuninstall() || '';
             $feedback .= '<pre>' . $rslt . '</pre>';
@@ -217,7 +288,7 @@ sub _uninstall {
 
         @removed = $pkg->uninstall();
 
-        if ( defined $pkg->postuninstall ) {
+        if ( defined $pkg->postuninstall && ! $simulate ) {
             $feedback .= "Running Post-uninstall...<br />\n";
             $rslt = $pkg->postuninstall() || '';
             $feedback .= '<pre>' . $rslt . '</pre>';
@@ -250,7 +321,7 @@ sub _uninstall {
     $feedback .= "Removed files:<br />\n<pre>$unpackedFeedback</pre>"
       if $unpackedFeedback;
 
-    if ( scalar @plugins ) {
+    if ( scalar @plugins && ! $simulate ) {
         $feedback .= $this->WARN(<<HERE);
 Note: Don't forget to disable uninstalled plugins in the
 "Plugins" section in the main page, listed below:
