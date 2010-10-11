@@ -5,8 +5,12 @@ package Foswiki::Store::DBIStoreContrib::Handler;
 use strict;
 use warnings;
 use Assert;
-use Text::Diff;
-use Text::Patch;
+
+# SMELL: Algorithm::Diff is a standard Foswiki CPAN module; who not use it?
+# Note for Flavio: always use () with use'd modules, so code readers can
+# easily see where functions are defined
+#use Text::Diff ();
+#use Text::Patch ();
 
 use IO::File   ();
 use DBI        ();

@@ -11,7 +11,7 @@ to manage an SQL database.
 
 # See bottom of file for license and copyright information
 
-package Foswiki::Store::DBIStoreContrib::Store;
+package Foswiki::Store::DBIStoreContrib;
 
 use strict;
 use warnings;
@@ -71,12 +71,10 @@ sub finish {
     undef $this->{searchFn};
 }
 
-# PACKAGE PRIVATE
-# Get a handler for the given object in the store.
 sub getHandler {
-
-    #my ( $this, $web, $topic, $attachment ) = @_;
-    ASSERT( 0, "Must be implemented by subclasses" ) if DEBUG;
+    my $this = shift;
+    return new Foswiki::Store::DBIStoreContrib::Handler( $this,
+        @_ );
 }
 
 sub readTopic {
@@ -423,12 +421,6 @@ sub removeSpuriousLeases {
     my ( $this, $web ) = @_;
     my $handler = $this->getHandler($web);
     $handler->removeSpuriousLeases();
-}
-
-sub getHandler {
-    my $this = shift;
-    return new Foswiki::Store::DBIStoreContrib::Handler( $this,
-        @_ );
 }
 
 1;
