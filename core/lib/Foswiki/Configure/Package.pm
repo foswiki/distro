@@ -1073,10 +1073,10 @@ sub _parseManifest {
     my $tattach = '';
 
     if ( $file =~ m/^data\/.*/ ) {
-        ( $tweb, $ttopic ) = $file =~ /^data\/(.*)\/(\w+).txt$/;
+        ( $tweb, $ttopic ) = $file =~ /^data\/(.*)\/(.*?).txt$/;
     }
     if ( $file =~ m/^pub\/.*/ ) {
-        ( $tweb, $ttopic, $tattach ) = $file =~ /^pub\/(.*)\/(\w+)\/([^\/]+)$/;
+        ( $tweb, $ttopic, $tattach ) = $file =~ /^pub\/(.*)\/(.*?)\/([^\/]+)$/;
     }
 
     $this->{_manifest}->{$file}->{ci}    = ( $desc =~ /\(noci\)/ ? 0 : 1 );
