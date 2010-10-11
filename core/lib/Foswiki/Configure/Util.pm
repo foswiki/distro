@@ -533,16 +533,21 @@ sub listDir {
 
 ---++ StaticMethod getPerlLocation( )
 This routine will read in the first line of the bin/configure 
-script and recover the location of the perl interpreter.
+script and recover the location of the perl interpreter. 
+
+Optional parameter is file used to retrieve the shebang.  If not 
+specified, defaults to the configure script
 
 =cut
 
 sub getPerlLocation {
 
+    my $file = shift || "$Foswiki::cfg{ScriptDir}/configure$Foswiki::cfg{ScriptSuffix}";
+
     local $/ = "\n";
     open( my $fh, '<',
-        "$Foswiki::cfg{ScriptDir}/configure$Foswiki::cfg{ScriptSuffix}" )
-      || return '';
+        "$file" )
+      || return "";
     my $Shebang = <$fh>;
     chomp $Shebang;
     $Shebang =~ s/^#\!\s*(.*?)\s?(:?\s-.*)?$/$1/;
