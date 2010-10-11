@@ -45,6 +45,10 @@ sub set_up {
     $webObject->populateNewWeb();
     $this->{tempdir} = $Foswiki::cfg{TempfileDir} . '/test_ConfigureTests';
     mkpath( $this->{tempdir} );
+    $this->{scriptdir} = $Foswiki::cfg{TempfileDir} . '/bin';
+    $Foswiki::cfg{ScriptDir} = $this->{scriptdir};
+    $this->{toolsdir} = $Foswiki::cfg{TempfileDir} . '/tools';
+    $Foswiki::cfg{ToolsDir} = $this->{toolsdir};
 
     $Foswiki::cfg{TrashWebName}   = $this->{trash_web};
     $Foswiki::cfg{SandboxWebName} = $this->{sandbox_web};
@@ -761,6 +765,9 @@ sub test_Util_getPerlLocation {
     $Foswiki::cfg{ScriptDir} = "$tempdir/";
     my $holdsfx = $Foswiki::cfg{ScriptSuffix};
 
+    _doLocationTest( $this, $tempdir, '',
+        '' );    # Test with missing bin/configure file
+
     _doLocationTest( $this, $tempdir, "#!/usr/bin/perl -w -T ",
         "/usr/bin/perl" );
     _doLocationTest( $this, $tempdir, "#!/usr/bin/perl  ",    "/usr/bin/perl" );
@@ -806,26 +813,28 @@ sub test_Util_getPerlLocation {
 sub _doLocationTest {
     my $this     = shift;
     my $tempdir  = shift;
-    my $shbang   = shift;
+    my $shebang   = shift;
     my $expected = shift;
 
-    open( my $fh, '>', "$tempdir/configure$Foswiki::cfg{ScriptSuffix}" )
-      || die "Unable to open \n $! \n\n ";
-    print $fh "$shbang \n";
-    close($fh);
+    if ($shebang) {
+        open( my $fh, '>', "$tempdir/configure$Foswiki::cfg{ScriptSuffix}" )
+          || die "Unable to open \n $! \n\n ";
+        print $fh "$shebang \n";
+        close($fh);
+    }
 
     my $perl = Foswiki::Configure::Util::getPerlLocation();
     $this->assert_str_equals( $expected, $perl );
 
 }
 
-sub test_Util_rewriteShbang {
+sub test_Util_rewriteShebang {
     my $this = shift;
 
-    my $tempdir = $this->{tempdir} . '/test_util_rewriteShbang';
+    my $tempdir = $this->{tempdir} . '/test_util_rewriteShebang';
     mkpath($tempdir);
 
-#                                Template File         Shbang to write       Expected line
+#                                Template File         Shebang to write       Expected line
     _doRewriteTest( $this, $tempdir, '#!/usr/bin/perl -wT',
         'C:\asdf\perl.exe', '#! C:\asdf\perl.exe -wT' );
     _doRewriteTest( $this, $tempdir, '#!/usr/bin/perl -wT',
@@ -851,7 +860,7 @@ sub _doRewriteTest {
     my $this     = shift;
     my $tempdir  = shift;
     my $testline = shift;
-    my $shbang   = shift;
+    my $shebang   = shift;
     my $expected = shift;
 
     open( my $fh, '>', "$tempdir/myscript$Foswiki::cfg{ScriptSuffix}" )
@@ -863,19 +872,28 @@ bleh
 DONE
     close($fh);
 
-    my $err = Foswiki::Configure::Util::rewriteShbang(
-        "$tempdir/myscript$Foswiki::cfg{ScriptSuffix}", '$shbang' );
+    my $err = Foswiki::Configure::Util::rewriteShebang(
+        "$tempdir/myscript$Foswiki::cfg{ScriptSuffix}", "$shebang" );
 
-    open( my $bfh, '<',
-        "$Foswiki::cfg{ScriptDir}/myscript$Foswiki::cfg{ScriptSuffix}" )
-      || return '';
-    my $shBangLine = <$bfh>;
-    chomp $shBangLine;
-    close $bfh;
-
-    $this->assert_str_equals( $expected, $shBangLine );
+   _testShebang($this, "$Foswiki::cfg{ScriptDir}/myscript$Foswiki::cfg{ScriptSuffix}", "$expected");
 
 }
+
+sub _testShebang {
+    my $this     = shift;
+    my $testfile = shift;
+    my $expected = shift;
+
+    open( my $bfh, '<',
+        "$testfile" )
+      || return '';
+    my $ShebangLine = <$bfh>;
+    chomp $ShebangLine;
+    close $bfh;
+
+    $this->assert_str_equals( $expected, $ShebangLine );
+}
+
 
 sub _makefile {
     my $path    = shift;
@@ -925,7 +943,7 @@ sub test_Package_makeBackup {
     $this->assert_matches( qr/Backup saved into/, $msg );
     my @ufiles = $pkg->uninstall();
     $this->assert_num_equals(
-        6,
+        8,
         scalar @ufiles,
         'Unexpected number of files uninstalled: ' . @ufiles
     );    # 6 files + the installer file are removed
@@ -981,18 +999,22 @@ our $VERSION = '2.1';
 
 __DATA__
 <<<< MANIFEST >>>>
+bin/shbtest1,0755,
 data/Sandbox/TestTopic1.txt,0644,Documentation (noci)
 data/Sandbox/TestTopic43.txt,0644,Documentation
 pub/Sandbox/TestTopic1/file.att,0664, (noci)
 pub/Sandbox/TestTopic43/file.att,0664,
 pub/Sandbox/TestTopic43/file2.att,0664,
+tools/shbtest2,0755,
 
 <<<< MANIFEST2 >>>>
+bin/shbtest1,0755,1a9a1da563535b2dad241d8571acd170,
 data/Sandbox/TestTopic1.txt,0644,1a9a1da563535b2dad241d8571acd170,Documentation (noci)
 data/Sandbox/TestTopic43.txt,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
 pub/Sandbox/TestTopic1/file.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a, (noci)
 pub/Sandbox/TestTopic43/file.att,0664,1a9a1da563535b2dad241d8571acd170,
 pub/Sandbox/TestTopic43/file2.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a,
+tools/shbtest2,0755,1a9a1da563535b2dad241d8571acd170,
 
 <<<< DEPENDENCIES >>>>
 .\@#$%}{Filtrx::Invalid::Blah,>=0.68,1,CPAN,Required. install from CPAN
@@ -1022,12 +1044,21 @@ Test rev 132412341234
 -- Main.AdminUser - 04 Mar 2010
 DONE
     _makefile( "$tempdir/pub/Sandbox/TestTopic1", "file.att", <<'DONE');
+#! /usr/bin/perl
 Test file data
 DONE
     _makefile( "$tempdir/pub/Sandbox/TestTopic43", "file.att", <<'DONE');
 Test file data
 DONE
     _makefile( "$tempdir/pub/Sandbox/TestTopic43", "file2.att", <<'DONE');
+Test file data
+DONE
+    _makefile( "$tempdir/bin", "shbtest1", <<'DONE');
+#! /usr/bin/perl
+Test file data
+DONE
+    _makefile( "$tempdir/tools", "shbtest2", <<'DONE');
+#! /usr/bin/perl
 Test file data
 DONE
 }
@@ -1044,6 +1075,11 @@ sub test_Package_install {
     mkpath($tempdir);
 
     _makefile( $tempdir, "obsolete.pl", <<'DONE');
+Test file data
+DONE
+
+    _makefile( "$this->{scriptdir}", "configure", <<'DONE');
+#! /my/bin/perl
 Test file data
 DONE
 
@@ -1074,11 +1110,13 @@ DONE
     ( $result, $err ) = $pkg->install( { DIR => $tempdir, EXPANDED => 1 } );
     $this->assert_str_equals( '', $err );
 
-    my $expresult = "Installed:  data/Sandbox/TestTopic1.txt
+    my $expresult = "Installed:  bin/shbtest1
+Installed:  data/Sandbox/TestTopic1.txt
 Installed:  data/Sandbox/TestTopic43.txt
 Installed:  pub/Sandbox/TestTopic1/file.att
 Installed:  pub/Sandbox/TestTopic43/file.att
 Installed:  pub/Sandbox/TestTopic43/file2.att
+Installed:  tools/shbtest2
 Installed:  MyPlugin_installer
 ";
 
@@ -1087,17 +1125,23 @@ Installed:  MyPlugin_installer
 
     my @mfiles = $pkg->listFiles();
     $this->assert_num_equals(
-        5,
+        7,
         scalar @mfiles,
         'Unexpected number of files in manifest'
     );    # 5 files in manifest
 
     my @ifiles = $pkg->listFiles('1');
     $this->assert_num_equals(
-        5,
+        7,
         scalar @ifiles,
         'Unexpected number of files installed'
     );    # and 5 files installed
+
+   _testShebang($this, "$Foswiki::cfg{ScriptDir}/shbtest1", '#! /my/bin/perl');
+   _testShebang($this, "$Foswiki::cfg{ToolsDir}/shbtest2", '#! /my/bin/perl');
+
+   # Verify that we don't change shebang in attachments
+   _testShebang($this, "$Foswiki::cfg{PubDir}/Sandbox/TestTopic1/file.att", '#! /usr/bin/perl');
 
     $pkg->finish();
     undef $pkg;
@@ -1117,11 +1161,13 @@ Installed:  MyPlugin_installer
     $result = '';
     ( $result, $err ) = $pkg2->install( { DIR => $tempdir, EXPANDED => 1 } );
 
-    $expresult = "Installed:  data/Sandbox/TestTopic1.txt
+    $expresult = "Installed:  bin/shbtest1
+Installed:  data/Sandbox/TestTopic1.txt
 Checked in: data/Sandbox/TestTopic43.txt  as $this->{sandbox_web}.TestTopic43
 Attached:   pub/Sandbox/TestTopic43/file.att to $this->{sandbox_web}/TestTopic43
 Attached:   pub/Sandbox/TestTopic43/file2.att to $this->{sandbox_web}/TestTopic43
 Installed:  pub/Sandbox/TestTopic1/file.att
+Installed:  tools/shbtest2
 Installed:  MyPlugin_installer
 ";
 
@@ -1129,7 +1175,7 @@ Installed:  MyPlugin_installer
 
     $this->assert_str_equals( $expresult, $result );
     $this->assert_num_equals(
-        8,
+        10,
         scalar @ifiles2,
         'Unexpected number of files installed on 2nd install: ' . @ifiles2
     );    # + 3 rcs files after checkin
@@ -1212,7 +1258,7 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl m
     my @ufiles = $pkg2->uninstall();
 
     $this->assert_num_equals(
-        9,
+        11,
         scalar @ufiles,
         'Unexpected number of files uninstalled: ' . @ufiles
     );    # 6 files + 2 .txt,v + the installer file are removed
@@ -1302,11 +1348,13 @@ DONE
 Creating Backup of MyPlugin ...
 Nothing to backup 
 Installing MyPlugin... 
+Simulated - Installed:  bin/shbtest1
 Simulated - Installed:  data/Sandbox/TestTopic1.txt
 Simulated - Installed:  data/Sandbox/TestTopic43.txt
 Simulated - Installed:  pub/Sandbox/TestTopic1/file.att
 Simulated - Installed:  pub/Sandbox/TestTopic43/file.att
 Simulated - Installed:  pub/Sandbox/TestTopic43/file2.att
+Simulated - Installed:  tools/shbtest2
 Simulated - Installed:  MyPlugin_installer
 HERE
 
