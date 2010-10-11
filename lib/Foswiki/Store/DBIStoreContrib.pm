@@ -21,7 +21,8 @@ use Foswiki::Store::DBIStoreContrib::PostgreSQLWrapHandler ();
 
 sub getHandler {
     my $this = shift;
-    return new Foswiki::Store::DBIStoreContrib::PostgreSQLWrapHandler( $this, @_ );
+    return new Foswiki::Store::DBIStoreContrib::PostgreSQLWrapHandler( $this,
+        @_ );
 }
 
 1;
