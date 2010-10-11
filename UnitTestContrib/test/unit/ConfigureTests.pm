@@ -43,6 +43,9 @@ sub set_up {
     $this->{sandbox_web} = 'Testsandboxweb1234';
     $webObject = Foswiki::Meta->new( $this->{session}, $this->{sandbox_web} );
     $webObject->populateNewWeb();
+    $this->{sandbox_subweb} = 'Testsandboxweb1234/Subweb';
+    $webObject = Foswiki::Meta->new( $this->{session}, $this->{sandbox_subweb} );
+    $webObject->populateNewWeb();
     $this->{tempdir} = $Foswiki::cfg{TempfileDir} . '/test_ConfigureTests';
     mkpath( $this->{tempdir} );
     $this->{scriptdir} = $Foswiki::cfg{TempfileDir} . '/bin';
@@ -950,7 +953,7 @@ sub test_Package_makeBackup {
     $this->assert_matches( qr/Backup saved into/, $msg );
     my @ufiles = $pkg->uninstall();
     $this->assert_num_equals(
-        8,
+        11,
         scalar @ufiles,
         'Unexpected number of files uninstalled: ' . @ufiles
     );    # 6 files + the installer file are removed
@@ -1009,18 +1012,24 @@ __DATA__
 bin/shbtest1,0755,
 data/Sandbox/TestTopic1.txt,0644,Documentation (noci)
 data/Sandbox/TestTopic43.txt,0644,Documentation
+data/Sandbox/Subweb/TestTopic43.txt,0644,Documentation
 pub/Sandbox/TestTopic1/file.att,0664, (noci)
 pub/Sandbox/TestTopic43/file.att,0664,
 pub/Sandbox/TestTopic43/file2.att,0664,
+pub/Sandbox/Subweb/TestTopic43/file3.att,0644,Documentation
+pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att,0644,Documentation
 tools/shbtest2,0755,
 
 <<<< MANIFEST2 >>>>
 bin/shbtest1,0755,1a9a1da563535b2dad241d8571acd170,
 data/Sandbox/TestTopic1.txt,0644,1a9a1da563535b2dad241d8571acd170,Documentation (noci)
 data/Sandbox/TestTopic43.txt,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
+data/Sandbox/Subweb/TestTopic43.txt,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
 pub/Sandbox/TestTopic1/file.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a, (noci)
 pub/Sandbox/TestTopic43/file.att,0664,1a9a1da563535b2dad241d8571acd170,
 pub/Sandbox/TestTopic43/file2.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a,
+pub/Sandbox/Subweb/TestTopic43/file3.att,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
+pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
 tools/shbtest2,0755,1a9a1da563535b2dad241d8571acd170,
 
 <<<< DEPENDENCIES >>>>
@@ -1066,6 +1075,16 @@ Test file data
 DONE
     _makefile( "$tempdir/tools", "shbtest2", <<'DONE');
 #! /usr/bin/perl
+Test file data
+DONE
+    _makefile( "$tempdir/data/Sandbox/Subweb", "TestTopic43.txt", <<'DONE');
+#! /usr/bin/perl
+Test file data
+DONE
+    _makefile( "$tempdir/pub/Sandbox/Subweb/TestTopic43", "file3.att", <<'DONE');
+Test file data
+DONE
+    _makefile( "$tempdir/pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3", "file4.att", <<'DONE');
 Test file data
 DONE
 }
@@ -1118,8 +1137,11 @@ DONE
     $this->assert_str_equals( '', $err );
 
     my $expresult = "Installed:  bin/shbtest1
+Installed:  data/Sandbox/Subweb/TestTopic43.txt
 Installed:  data/Sandbox/TestTopic1.txt
 Installed:  data/Sandbox/TestTopic43.txt
+Installed:  pub/Sandbox/Subweb/TestTopic43/file3.att
+Installed:  pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att
 Installed:  pub/Sandbox/TestTopic1/file.att
 Installed:  pub/Sandbox/TestTopic43/file.att
 Installed:  pub/Sandbox/TestTopic43/file2.att
@@ -1132,14 +1154,14 @@ Installed:  MyPlugin_installer
 
     my @mfiles = $pkg->listFiles();
     $this->assert_num_equals(
-        7,
+        10,
         scalar @mfiles,
         'Unexpected number of files in manifest'
     );    # 5 files in manifest
 
     my @ifiles = $pkg->listFiles('1');
     $this->assert_num_equals(
-        7,
+        10,
         scalar @ifiles,
         'Unexpected number of files installed'
     );    # and 5 files installed
@@ -1169,10 +1191,13 @@ Installed:  MyPlugin_installer
     ( $result, $err ) = $pkg2->install( { DIR => $tempdir, EXPANDED => 1 } );
 
     $expresult = "Installed:  bin/shbtest1
+Checked in: data/Sandbox/Subweb/TestTopic43.txt  as $this->{sandbox_subweb}.TestTopic43
+Attached:   pub/Sandbox/Subweb/TestTopic43/file3.att to $this->{sandbox_subweb}/TestTopic43
 Installed:  data/Sandbox/TestTopic1.txt
 Checked in: data/Sandbox/TestTopic43.txt  as $this->{sandbox_web}.TestTopic43
 Attached:   pub/Sandbox/TestTopic43/file.att to $this->{sandbox_web}/TestTopic43
 Attached:   pub/Sandbox/TestTopic43/file2.att to $this->{sandbox_web}/TestTopic43
+Installed:  pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att
 Installed:  pub/Sandbox/TestTopic1/file.att
 Installed:  tools/shbtest2
 Installed:  MyPlugin_installer
@@ -1182,7 +1207,7 @@ Installed:  MyPlugin_installer
 
     $this->assert_str_equals( $expresult, $result );
     $this->assert_num_equals(
-        10,
+        15,
         scalar @ifiles2,
         'Unexpected number of files installed on 2nd install: ' . @ifiles2
     );    # + 3 rcs files after checkin
@@ -1265,7 +1290,7 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl m
     my @ufiles = $pkg2->uninstall();
 
     $this->assert_num_equals(
-        11,
+        16,
         scalar @ufiles,
         'Unexpected number of files uninstalled: ' . @ufiles
     );    # 6 files + 2 .txt,v + the installer file are removed
@@ -1356,8 +1381,11 @@ Creating Backup of MyPlugin ...
 Nothing to backup 
 Installing MyPlugin... 
 Simulated - Installed:  bin/shbtest1
+Simulated - Installed:  data/Sandbox/Subweb/TestTopic43.txt
 Simulated - Installed:  data/Sandbox/TestTopic1.txt
 Simulated - Installed:  data/Sandbox/TestTopic43.txt
+Simulated - Installed:  pub/Sandbox/Subweb/TestTopic43/file3.att
+Simulated - Installed:  pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att
 Simulated - Installed:  pub/Sandbox/TestTopic1/file.att
 Simulated - Installed:  pub/Sandbox/TestTopic43/file.att
 Simulated - Installed:  pub/Sandbox/TestTopic43/file2.att
