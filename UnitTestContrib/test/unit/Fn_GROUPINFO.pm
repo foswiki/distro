@@ -28,6 +28,10 @@ sub set_up {
         "   * Set GROUP = WikiGuest\n" );
     $topicObject->save();
     $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{users_web}, "NestingGroup",
+        "   * Set GROUP = GropeGroup\n" );
+    $topicObject->save();
+    $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{users_web}, "OnlyAdminCanChangeGroup",
         "   * Set GROUP = WikiGuest\n   * Set TOPICCHANGE = AdminGroup\n" );
     $topicObject->save();
@@ -39,12 +43,26 @@ sub test_basic {
     my $ui = $this->{test_topicObject}->expandMacros('%GROUPINFO%');
     $this->assert_matches(qr/\bGropeGroup\b/, $ui);
     $this->assert_matches(qr/\bPopGroup\b/, $ui);
+    $this->assert_matches(qr/\bNestingGroup\b/, $ui);
 }
 
 sub test_withName {
     my $this = shift;
 
     my $ui = $this->{test_topicObject}->expandMacros('%GROUPINFO{"GropeGroup"}%');
+    $this->assert_matches( qr/\b$this->{users_web}.ScumBag\b/, $ui);
+    $this->assert_matches( qr/\b$this->{users_web}.WikiGuest\b/, $ui);
+    my @u = split(',', $ui);
+    $this->assert(2, scalar(@u));
+}
+
+sub test_noExpand {
+    my $this = shift;
+
+    my $ui = $this->{test_topicObject}->expandMacros('%GROUPINFO{"NestingGroup" noexpand="1"}%');
+    $this->assert_matches( qr/^$this->{users_web}.GropeGroup$/, $ui);
+
+    $ui = $this->{test_topicObject}->expandMacros('%GROUPINFO{"NestingGroup"}%');
     $this->assert_matches( qr/\b$this->{users_web}.ScumBag\b/, $ui);
     $this->assert_matches( qr/\b$this->{users_web}.WikiGuest\b/, $ui);
     my @u = split(',', $ui);

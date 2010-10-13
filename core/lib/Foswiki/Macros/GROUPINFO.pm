@@ -21,11 +21,13 @@ sub GROUPINFO {
     my $show = $params->{show};
     $show = 'all' unless defined $show;
     my $zeroresults = $params->{zeroresults};
+    my $noexpand = $params->{noexpand};
+    $noexpand = '0' unless defined $noexpand;
 
     my $it;    #erator
     my @rows;
     if ($group) {
-        $it = $this->{users}->eachGroupMember($group);
+        $it = $this->{users}->eachGroupMember($group, $noexpand);
         $format = '$wikiusername' unless defined $format;
     }
     else {

@@ -246,14 +246,14 @@ sub eachUser {
 
 =begin TML
 
----++ ObjectMethod eachGroupMember ($group) -> $iterator
+---++ ObjectMethod eachGroupMember ($group, $noexp) -> $iterator
 
 Return a iterator over the canonical user ids of users that are members
 of this group. Should only be called on groups.
 
 Note that groups may be defined recursively, so a group may contain other
-groups. This method should *only* return users i.e. all contained groups
-should be fully expanded.
+groups. Unless $noexp is set, this method should *only* return users i.e. 
+all contained groups should be fully expanded.
 
 Subclasses *must* implement this method.
 
@@ -369,6 +369,7 @@ sub isAdmin {
 
 ---++ ObjectMethod isInGroup ($cUID, $group) -> $bool
 
+
 Test if the user identified by $cUID is in the given group. The default
 implementation iterates over all the members of $group, which is rather
 inefficient.
@@ -376,17 +377,28 @@ inefficient.
 =cut
 
 sub isInGroup {
-    my ( $this, $cUID, $group, $scanning ) = @_;
+    my ( $this, $cUID, $group, $scanning, $noexp ) = @_;
     ASSERT($cUID) if DEBUG;
+
+
+    $noexp ||= '0';
+#    print STDERR "UserMapping::isInGroup called $cUID in $group -- noexpand $noexp \n";
+
+
+    #use Carp;
+    #Carp::cluck "Scanning for JoeUser\n" if $cUID eq 'JoeUser';
+    #die "Scanning for JoeUser\n" if $cUID eq 'JoeUser';
+
     $scanning ||= {};    # Recursion block
     my @users;
-    my $it = $this->eachGroupMember($group);
+    my $it = $this->eachGroupMember($group, $noexp);
     while ( $it->hasNext() ) {
         my $u = $it->next();
         next if $scanning->{$u};
         $scanning->{$u} = 1;
+#        print STDERR "Checking $u \n" ;
         return 1 if $u eq $cUID;
-        if ( $this->isGroup($u) ) {
+        if ( !$noexp && $this->isGroup($u) ) {
             return 1 if $this->isInGroup( $cUID, $u, $scanning );
         }
     }

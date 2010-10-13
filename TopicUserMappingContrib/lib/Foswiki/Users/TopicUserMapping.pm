@@ -108,6 +108,7 @@ sub finish {
     undef $this->{W2U};
     undef $this->{passwords};
     undef $this->{eachGroupMember};
+    undef $this->{singleGroupMembers};
     $this->SUPER::finish();
 }
 
@@ -580,7 +581,6 @@ sub eachUser {
     return $iter;
 }
 
-my %expanding;
 
 =begin TML
 
@@ -593,19 +593,36 @@ See baseclass for documentation
 sub eachGroupMember {
     my $this  = shift;
     my $group = shift;
+    my $noexp = shift;
+    my %expanding;   # Prevents loops in nested groups
 
     if ( Scalar::Util::tainted($group) ) {
         $group = Foswiki::Sandbox::untaint( $group,
             \&Foswiki::Sandbox::validateTopicName );
     }
 
-    return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} )
-      if ( defined( $this->{eachGroupMember}->{$group} ) );
+    $noexp ||= '0';
+
+#    print STDERR "eachGroupMember called for $group - noexpand $noexp \n";
+
+    if ( $noexp && defined( $this->{singleGroupMembers}->{$group} ) ) {
+#        print STDERR "Returning cached unexpanded list for $group\n";
+        return new Foswiki::ListIterator( $this->{singleGroupMembers}->{$group} );
+        }
+
+    if ( !$noexp &&  defined( $this->{eachGroupMember}->{$group} ) ) {
+#        print STDERR "Returning cached expanded list for $group\n";
+        return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} );
+        }
+
+#    print "Cache miss for $group noexpand $noexp \n";
 
     my $session = $this->{session};
     my $users   = $session->{users};
 
     my $members = [];
+    my $singleGroupMembers = [];
+
     if (  !$expanding{$group}
         && $session->topicExists( $Foswiki::cfg{UsersWebName}, $group ) )
     {
@@ -614,12 +631,23 @@ sub eachGroupMember {
           Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
             $group );
 
-        $members =
-          _expandUserList( $this, $groupTopicObject->getPreference('GROUP') );
+        if ($noexp) {
+            $singleGroupMembers =
+              _expandUserList( $this, $groupTopicObject->getPreference('GROUP'), 1 );
+            $this->{singleGroupMembers}->{$group} = $singleGroupMembers;
+            #print "Returning iterator for singleGroupMembers $group, members $singleGroupMembers \n";
+            return new Foswiki::ListIterator( $this->{singleGroupMembers}->{$group} )
+        }
+        else {
+            $members =
+              _expandUserList( $this, $groupTopicObject->getPreference('GROUP') );
+            $this->{eachGroupMember}->{$group} = $members;
+        }
+
         delete $expanding{$group};
     }
-    $this->{eachGroupMember}->{$group} = $members;
 
+    #print "Returning iterator for eachGroupMember $group \n";
     return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} );
 }
 
@@ -789,7 +817,7 @@ sub addUserToGroup {
     if ( $usersObj->isGroup($groupName) ) {
 
        #if you set create for a group that exists, use that to force an upgrade.
-        if ( ( not $create ) and $usersObj->isInGroup( $cuid, $groupName ) ) {
+        if ( ( not $create ) and $usersObj->isInGroup( $cuid, $groupName, {}, '1' ) ) {
 
             #TODO: not sure this is the right thing to do -
             #it might make more sense to not expand the nested groups,
@@ -954,20 +982,18 @@ sub removeUserFromGroup {
             ->topicExists( $Foswiki::cfg{UsersWebName}, $groupName ) )
       )
     {
-        if ( !$usersObj->isInGroup( $cuid, $groupName ) ) {
-
+        if ( !$usersObj->isInGroup( $cuid, $groupName ) && !$usersObj->isGroup($cuid)  ) {
             return 1;    #user not in group - done
         }
         my $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
             $groupName );
         if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
-
             return 0;    #can't change topic.
         }
 
         my $WikiName  = $usersObj->getWikiName($cuid);
-        my $LoginName = $usersObj->getLoginName($cuid);
+        my $LoginName = $usersObj->getLoginName($cuid) || '';
 
         my $membersString = $groupTopicObject->getPreference('GROUP');
         my @l;
@@ -1459,7 +1485,10 @@ s/^\s*\* (?:$Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*
 # Get a list of *canonical user ids* from a text string containing a
 # list of user *wiki* names, *login* names, and *group ids*.
 sub _expandUserList {
-    my ( $this, $names ) = @_;
+    my ( $this, $names, $noexp ) = @_;
+
+    $noexp ||= '0';
+#    print STDERR "_expandUserList called  $names - noexpand $noexp \n";
 
     $names ||= '';
 
@@ -1474,9 +1503,14 @@ sub _expandUserList {
         $ident =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
         next unless $ident;
         if ( $this->isGroup($ident) ) {
-            my $it = $this->eachGroupMember($ident);
-            while ( $it->hasNext() ) {
-                push( @l, $it->next() );
+            if ( $noexp ) {
+                push( @l, $ident );
+             }
+            else {
+                my $it = $this->eachGroupMember($ident, $noexp);
+                while ( $it->hasNext() ) {
+                    push( @l, $it->next() );
+                }
             }
         }
         else {
