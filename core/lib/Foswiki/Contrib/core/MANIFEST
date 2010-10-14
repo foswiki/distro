@@ -968,7 +968,7 @@ templates/viewtopicactionbuttons.tmpl 0444
 tools/extender.pl 0444
 tools/extension_installer 0555
 tools/geturl.pl 0555
-tools/rewriteshbang.pl 0555
+tools/rewriteshebang.pl 0555
 tools/tick_foswiki.pl 0555
 working/.htaccess 0660
 working/README 0444

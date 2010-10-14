@@ -48,7 +48,7 @@ install: build
 	cp debian/Foswiki.spec debian/foswiki-core/var/lib/foswiki/lib/Foswiki.spec
 	chmod 644 debian/foswiki-core/var/lib/foswiki/lib/Foswiki.spec
 
-	perl -piOLD -e 's{#! perl}{#!/usr/bin/perl}g;' debian/foswiki-core/var/lib/foswiki/tools/rewriteshbang.pl
+	perl -piOLD -e 's{#! perl}{#!/usr/bin/perl}g;' debian/foswiki-core/var/lib/foswiki/tools/rewriteshebang.pl
 	perl -piOLD -e 's{#!perl}{#!/usr/bin/perl}g;' debian/foswiki-core/var/lib/foswiki/tools/upgrade_emails.pl
 	rm debian/foswiki-core/var/lib/foswiki/tools/*OLD
 

@@ -91,7 +91,7 @@ sub change_files {
     # ^\w+\..?cgi$ alphanumeric, a dot, 0 or 1 single char. and cgi between...
 
     my @files =
-      grep ( -f && /(^\w+$|^(?!rewriteshbang)\w+\.pl$|^\w+\..?cgi$)/,
+      grep ( -f && /(^\w+$|^(?!rewriteshebang)\w+\.pl$|^\w+\..?cgi$)/,
         readdir(D) );
     closedir(D);
 
