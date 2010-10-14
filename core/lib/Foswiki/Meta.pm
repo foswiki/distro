@@ -1247,6 +1247,11 @@ Return revision info for the loaded revision in %info with at least:
    * ={author}= canonical user ID
    * ={version}= the revision number
 
+---++ ObjectMethod getRevisionInfo() -> ( $revDate, $author, $rev, $comment )
+
+Limited backwards compatibility for plugins that assume the 1.0.x interface
+The comment is *always* blank
+
 =cut
 
 sub getRevisionInfo {
@@ -1281,7 +1286,15 @@ sub getRevisionInfo {
         # cache the result
         $this->setRevisionInfo(%$info);
     }
-    return $info;
+    if (wantarray)
+    {
+        # Backwards compatibility for 1.0.x plugins
+        return ( $info->{date}, $info->{author}, $info->{version}, '' );
+    }
+    else
+    {
+        return $info;
+    }
 }
 
 # Determines, and caches, the topic revision info of the base version,
