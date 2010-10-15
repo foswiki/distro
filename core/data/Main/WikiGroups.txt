@@ -47,7 +47,7 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
    header="<table class='foswikiTable' style='width:99%'>
              <tr>
                <th>%MAKETEXT{"Group"}%</th>
-               <th>%MAKETEXT{"Members"}%</th>
+               <th>%MAKETEXT{"Members"}%**</th>
              </tr>$n" 
    format="<tr>
      <td valign='top'> $percntIF{\"not istopic '$name'\" then=\"<nop>\" else=\"%USERSWEB%.\"}$percnt$name</td>
@@ -62,4 +62,8 @@ This is a list of all known groups that can be used to define [[%SYSTEMWEB%.Acce
    footer="</table>"
    separator="$n"
 }%
+<sticky><div class='foswikiGrayText'>** Nested groups are expanded.</div></sticky>
+
+
+
 

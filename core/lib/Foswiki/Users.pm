@@ -840,20 +840,17 @@ Test if the user identified by $cUID is in the given group.
 =cut
 
 sub isInGroup {
-    my ( $this, $cUID, $group, $hash,  $noexp ) = @_;
+    my ( $this, $cUID, $group ) = @_;
     return unless ( defined($cUID) );
-
-    $noexp ||= '0';
-#    print STDERR "Users::isInGroup called for $cUID in $group - noexpand $noexp\n";
 
     my $mapping = $this->_getMapping($cUID);
     my $otherMapping =
       ( $mapping eq $this->{basemapping} )
       ? $this->{mapping}
       : $this->{basemapping};
-    return 1 if $mapping->isInGroup( $cUID, $group, $hash,  $noexp );
+    return 1 if $mapping->isInGroup( $cUID, $group );
 
-    return $otherMapping->isInGroup( $cUID, $group, $hash,  $noexp )
+    return $otherMapping->isInGroup( $cUID, $group )
       if ( $otherMapping ne $mapping );
 }
 

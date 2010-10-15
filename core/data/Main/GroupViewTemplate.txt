@@ -25,7 +25,7 @@
   parameters: groupname, twisty
 -->
 %STARTSECTION{"rendergroup"}%<!-- rendergroup -->
-%GROUPINFO{"%groupname%" noexpand="1"
+%GROUPINFO{"%groupname%"
   format="$percntIF{\"not istopic '$wikiname'\" then=\"<nop>\"}$percnt$wikiname" 
   separator=", "
   zeroresults="%MAKETEXT{"no members"}%"
@@ -163,7 +163,7 @@ then='
 -->
 %STARTSECTION{"group_remove"}%<!-- group_remove -->
 %GROUPINFO{
-   "%groupname%" noexpand="1"
+   "%groupname%"
    header="<form action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='POST' >
      <input type='hidden' name='groupname' value='%groupname%' />
      <input type='hidden' name='action' value='removeUserFromGroup' />

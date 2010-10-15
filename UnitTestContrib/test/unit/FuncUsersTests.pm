@@ -31,7 +31,6 @@ sub AllowLoginName {
     $loginname{User86A}                     = 'user86a';
     $loginname{UserB}                       = 'userb';
     $loginname{UserC}                       = 'userc';
-    $loginname{UserE}                       = 'usere';
     $loginname{NonExistantuser}             = 'nonexistantuser';
     $loginname{ScumBag}                     = 'scum';
     $loginname{UserZ}                       = 'userz';
@@ -49,7 +48,6 @@ sub DontAllowLoginName {
     $loginname{User86A}                     = 'User86A';
     $loginname{UserB}                       = 'UserB';
     $loginname{UserC}                       = 'UserC';
-    $loginname{UserE}                       = 'UserE';
     $loginname{NonExistantuser}             = 'NonExistantuser';
     $loginname{ScumBag}                     = 'scum';
 
@@ -147,9 +145,6 @@ sub set_up_for_verify {
         $this->registerUser( $loginname{UserC}, 'User', 'C',
             'userc@example.com;userd@example.com' );
 
-        $this->registerUser( $loginname{UserE}, 'User', 'E',
-            'usere@example.com' );
-
         $this->registerUser( $loginname{UserZ}, 'User', 'Z',
             'userZ@example.com' );
 
@@ -170,10 +165,6 @@ sub set_up_for_verify {
         $topicObject =
           Foswiki::Meta->new( $this->{session}, $this->{users_web},
             'BandCGroup', "   * Set GROUP = UserC, UserB" );
-        $topicObject->save();
-        $topicObject =
-          Foswiki::Meta->new( $this->{session}, $this->{users_web},
-            'NestingGroup', "   * Set GROUP = UserE, AandCGroup, BandCGroup" );
         $topicObject->save();
         $topicObject = Foswiki::Meta->new(
             $this->{session},
@@ -258,7 +249,7 @@ sub verify_eachUser {
     }
     else {
         @correctList =
-          qw/ProjectContributor RegistrationAgent UnknownUser User86A UserA UserA86 UserB UserC UserE UserZ WikiGuest DotLogin/;
+          qw/ProjectContributor RegistrationAgent UnknownUser User86A UserA UserA86 UserB UserC UserZ WikiGuest DotLogin/;
         if ( $Foswiki::cfg{Register}{AllowLoginName} == 1 ) {
             push @correctList, 'ScumBag'
               ; # this user is created in the base class with the assumption of AllowLoginName
@@ -298,7 +289,7 @@ sub verify_eachGroupTraditional {
     }
     else {
         @correctList =
-          qw/AandBGroup AandCGroup BandCGroup NestingGroup ScumGroup AdminGroup BaseGroup/;
+          qw/AandBGroup AandCGroup BandCGroup ScumGroup AdminGroup BaseGroup/;
     }
     my $correct = join( ',', sort @correctList );
     $this->assert_str_equals( $correct, $ulist );
@@ -330,7 +321,7 @@ sub verify_eachGroupCustomAdmin {
     }
     else {
         @correctList =
-          qw/AdminGroup AandBGroup AandCGroup BandCGroup NestingGroup ScumGroup BaseGroup/;
+          qw/AdminGroup AandBGroup AandCGroup BandCGroup ScumGroup BaseGroup/;
     }
     push @correctList, $Foswiki::cfg{SuperAdminGroup};
     my $correct = join( ',', sort @correctList );
@@ -402,7 +393,7 @@ sub verify_eachMembership {
         my $g = $it->next();
         push( @list, $g );
     }
-    $this->assert_str_equals( 'AandBGroup,AandCGroup,AdminGroup,NestingGroup,ScumGroup',
+    $this->assert_str_equals( 'AandBGroup,AandCGroup,AdminGroup,ScumGroup',
         join( ',', sort @list ) );
     $it   = Foswiki::Func::eachMembership('UserB');
     @list = ();
@@ -410,7 +401,7 @@ sub verify_eachMembership {
         my $g = $it->next();
         push( @list, $g );
     }
-    $this->assert_str_equals( 'AandBGroup,BandCGroup,NestingGroup',
+    $this->assert_str_equals( 'AandBGroup,BandCGroup',
         join( ',', sort @list ) );
 
     $it   = Foswiki::Func::eachMembership('UserC');
@@ -419,16 +410,7 @@ sub verify_eachMembership {
         my $g = $it->next();
         push( @list, $g );
     }
-    $this->assert_str_equals( 'AandCGroup,BandCGroup,NestingGroup',
-        sort join( ',', @list ) );
-
-    $it   = Foswiki::Func::eachMembership('UserE');
-    @list = ();
-    while ( $it->hasNext() ) {
-        my $g = $it->next();
-        push( @list, $g );
-    }
-    $this->assert_str_equals( 'NestingGroup',
+    $this->assert_str_equals( 'AandCGroup,BandCGroup',
         sort join( ',', @list ) );
 
     $it   = Foswiki::Func::eachMembership('WikiGuest');
@@ -494,24 +476,6 @@ sub verify_eachGroupMember {
         push( @list, $g );
     }
     $this->assert_str_equals( "UserA,$Foswiki::cfg{DefaultUserWikiName},UserZ",
-        sort join( ',', @list ) );
-
-    $it   = Foswiki::Func::eachGroupMember('NestingGroup');
-    @list = ();
-    while ( $it->hasNext() ) {
-        my $g = $it->next();
-        push( @list, $g );
-    }
-    $this->assert_str_equals( "UserE,UserA,UserC,UserB",
-        sort join( ',', @list ) );
-
-    $it   = Foswiki::Func::eachGroupMember('NestingGroup', 1);
-    @list = ();
-    while ( $it->hasNext() ) {
-        my $g = $it->next();
-        push( @list, $g );
-    }
-    $this->assert_str_equals( "UserE,AandCGroup,BandCGroup",
         sort join( ',', @list ) );
 
 }
@@ -1498,73 +1462,21 @@ sub verify_addToGroup {
         !Foswiki::Func::isGroupMember( 'WiseGuyDoesntExist', 'ZeeGroup' ) );
 }
 
-sub verify_NestedGroups {
+sub DISABLEDverify_addGroupToGroup {
     my $this = shift;
 
-#   NestingGroup =   * Set GROUP = UserE, AandCGroup, BandCGroup" );
     return if ( $this->noUsersRegistered() );
 
-    # Force a re-read
-    $this->{session}->finish();
-    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
-    $Foswiki::Plugins::SESSION = $this->{session};
-
     #test nested groups
-    $this->assert( Foswiki::Func::addUserToGroup( 'UserZ',    'TeeGroup', 1 ) );
-    $this->assert( Foswiki::Func::addUserToGroup( 'NestingGroup', 'TeeGroup', 1 ) );
-
-    # Force a re-read
-    $this->{session}->finish();
-    $this->{session} = new Foswiki( 'UserZ' );
-    $Foswiki::Plugins::SESSION = $this->{session};
-
-    my $it = Foswiki::Func::eachGroupMember('TeeGroup');
-    my @list;
-    while ( $it->hasNext() ) {
-        my $g = $it->next();
-        push( @list, $g );
-    }
-    $this->assert_str_equals( "UserZ,UserE,UserA,UserC,UserB",
-        sort join( ',', @list ) );
-
-    @list = ();
-    $it = Foswiki::Func::eachGroupMember('TeeGroup', 1);
-    while ( $it->hasNext() ) {
-        my $g = $it->next();
-        push( @list, $g );
-    }
-    $this->assert_str_equals( "UserZ,NestingGroup",
-        sort join( ',', @list ) );
-
-
-    #$this->assert( !Foswiki::Func::removeUserFromGroup( 'UserE', 'TeeGroup' ) );
-    #$this->assert( Foswiki::Func::removeUserFromGroup( 'UserZ', 'TeeGroup' ) );
-    $this->assert( Foswiki::Func::removeUserFromGroup( 'NestingGroup', 'TeeGroup' ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'UserB',    'TeeGroup', 1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'ZeeGroup', 'TeeGroup', 1 ) );
 
     # Force a re-read
     $this->{session}->finish();
     $this->{session} = new Foswiki();
     $Foswiki::Plugins::SESSION = $this->{session};
-
-    @list = ();
-    $it = Foswiki::Func::eachGroupMember('TeeGroup', 1);
-    while ( $it->hasNext() ) {
-        my $g = $it->next();
-        push( @list, $g );
-    }
-    $this->assert_str_equals( "UserZ",
-        sort join( ',', @list ) );
-
-
-    $this->assert( !Foswiki::Func::isGroupMember( 'TeeGroup', 'NestingGroup' ) );
-    #$this->assert( !Foswiki::Func::isGroupMember( 'TeeGroup', 'UserA' ) );
-    #$this->assert( !Foswiki::Func::isGroupMember( 'TeeGroup', 'UserB' ) );
-    $this->assert( !Foswiki::Func::isGroupMember( 'TeeGroup', 'UserC' ) );
-    $this->assert( !Foswiki::Func::isGroupMember( 'TeeGroup', 'UserE' ) );
-    $this->assert( Foswiki::Func::isGroupMember( 'TeeGroup', 'UserZ' ) );
-    $this->assert( Foswiki::Func::isGroupMember( 'NestingGroup', 'UserE' ) );
-
-
+    $this->assert( !Foswiki::Func::isGroupMember( 'TeeGroup', 'UserB' ) );
+    $this->assert( !Foswiki::Func::isGroupMember( 'TeeGroup', 'UserA' ) );
 }
 
 sub verify_removeFromGroup {

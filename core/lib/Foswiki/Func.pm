@@ -1284,12 +1284,10 @@ Use it as follows:
 
 sub eachGroupMember {
     my $user    = shift;
-    my $noexp   = shift;
-
     my $session = $Foswiki::Plugins::SESSION;
     return
       unless $Foswiki::Plugins::SESSION->{users}->isGroup($user);
-    my $it = $Foswiki::Plugins::SESSION->{users}->eachGroupMember($user, $noexp);
+    my $it = $Foswiki::Plugins::SESSION->{users}->eachGroupMember($user);
     $it->{process} = sub {
         return $Foswiki::Plugins::SESSION->{users}->getWikiName( $_[0] );
     };
@@ -1308,12 +1306,12 @@ sub addUserToGroup {
     my ( $user, $group, $create ) = @_;
     my $users = $Foswiki::Plugins::SESSION->{users};
 
-    return () unless ($users->isGroup($group) || $create);
-    if (!$users->isGroup($user)) {     #requires isInGroup to also work on nested groupnames
-        $user = getCanonicalUserID($user);
-        return unless ( defined($user) and ( $users->userExists($user) ) );
-#        print STDERR "Func::addUserToGroup - user passed test\n";
-    }
+#    return () unless ($users->isGroup($group) || $create);
+#    if (!$users->isGroup($user)) {     #requires isInGroup to also work on nested groupnames
+    $user = getCanonicalUserID($user);
+    return unless ( defined($user) and ( $users->userExists($user) ) );
+
+    #    }
     return $users->addUserToGroup( $user, $group, $create );
 }
 
@@ -1330,11 +1328,8 @@ sub removeUserFromGroup {
     my $users = $Foswiki::Plugins::SESSION->{users};
 
     return () unless $users->isGroup($group);
-
-    if (!$users->isGroup($user)) {     #requires isInGroup to also work on nested groupnames
-        $user = getCanonicalUserID($user);
-        return unless ( defined($user) and ( $users->userExists($user) ) );
-    }
+    $user = getCanonicalUserID($user);
+    return unless ( defined($user) and ( $users->userExists($user) ) );
     return $users->removeUserFromGroup( $user, $group );
 }
 
