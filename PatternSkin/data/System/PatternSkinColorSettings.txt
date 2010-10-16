@@ -10,7 +10,7 @@ Use this topic to change the color settings of %SYSTEMWEB%.PatternSkin. When thi
 <div class="foswikiFormStep">
 ---+++!! Step 1
 Let %SYSTEMWEB%.PatternSkin point to the custom-made colors style sheet. In [[%USERSWEB%.SitePreferences]] copy this line: <verbatim class="tml">
-   * Set USERCOLORSURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/my_colors.css
+   * Set USERCOLORSURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/my_colors.css
 </verbatim>
 </div>
 <div class="foswikiFormStep">
