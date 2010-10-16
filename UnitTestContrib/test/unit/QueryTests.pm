@@ -138,6 +138,28 @@ SUB
     return \@groups;
 }
 
+
+sub loadExtraConfig {
+    my $this = shift; # the Test::Unit::TestCase object
+    
+    #turn on the MongoDBPlugin so that the saved data goes into mongoDB
+    #This is temoprary until Crawford and I cna find a way to push dependencies into unit tests
+    if (($Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongDB/) or 
+        ($Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongDB/)) {
+        $Foswiki::cfg{Plugins}{MongoDBPlugin}{Module} = 'Foswiki::Plugins::MongoDBPlugin'; 
+        $Foswiki::cfg{Plugins}{MongoDBPlugin}{Enabled} = 1; 
+        $Foswiki::cfg{Plugins}{MongoDBPlugin}{EnableOnSaveUpdates} = 1; 
+    }
+    
+    $this->SUPER::loadExtraConfig();
+    
+    if (($Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongDB/) or 
+        ($Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongDB/)) {
+        require Foswiki::Plugins::MongoDBPlugin;
+        Foswiki::Plugins::MongoDBPlugin::getMongoDB()->remove('current', {'_web' => $this->{test_web}});
+    }
+}
+
 sub check {
     my ( $this, $s, %opts ) = @_;
 
