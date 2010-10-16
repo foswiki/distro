@@ -2792,16 +2792,21 @@ as would be returned by 'grep'.
 
 To iterate over the returned topics use:
 <verbatim>
-my $result = Foswiki::Func::searchInWebContent( "Slimy Toad", $web, \@topics,
-   { casesensitive => 0, files_without_match => 0 } );
-        while ($matches->hasNext) {
-            my $webtopic = $matches->next;
-            my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName($searchWeb, $webtopic);
+    my $matches = Foswiki::Func::searchInWebContent( "Slimy Toad", $searchWeb, \@topics,
+            { casesensitive => 0, files_without_match => 0 } );
+    #convert foswiki 1.0.x result to iterator
+    $matches = new Foswiki::ListIterator(keys(%$grep)) if (ref($matches) eq 'HASH');
+    while ($matches->hasNext) {
+        my $webtopic = $matches->next;
+        my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName($searchWeb, $webtopic);
       ...etc
 </verbatim>
 
-__WARNING: does not return a hash - returns an iterator (else you will crash your server needlessly)__
+__WARNING: This function has been changed incompatibly in foswiki 1.1.0 for scalability reasons__
 (Please report a Task item if you're using the non-iterator interface)
+
+To support both foswiki 1.0.x and 1.1.0, you need to convert from using a hash of topic keys, to the 
+iterator interface returning web.topic elements.
 
 =cut
 
@@ -2810,8 +2815,8 @@ sub searchInWebContent {
     my ( $searchString, $webs, $topics, $options ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    my $inputTopicSet;
-    if ($topics) {
+    my $inputTopicSet = $topics;
+    if ($topics and (ref($topics) eq 'ARRAY')) {
         $inputTopicSet = new Foswiki::ListIterator($topics);
     }
     $options->{web} = $webs;
