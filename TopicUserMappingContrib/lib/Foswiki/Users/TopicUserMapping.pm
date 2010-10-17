@@ -1459,6 +1459,9 @@ sub _getListOfGroups {
         my $users = $this->{session}->{users};
         $this->{groupsList} = [];
 
+        # Temporarily set the user to admin, otherwise it cannot see groups
+        my $user = $this->{session}->{user};
+        $this->{session}->{user} = $Foswiki::cfg{SuperAdminGroup};
         $this->{session}->search->searchWeb(
             _callback => \&_collateGroups,
             _cbdata   => {
@@ -1478,6 +1481,9 @@ sub _getListOfGroups {
             format    => '$topic',
             separator => '',
         );
+
+        # Restore user
+        $this->{session}->{user} = $user;
     }
     return $this->{groupsList};
 }
