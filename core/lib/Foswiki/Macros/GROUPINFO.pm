@@ -21,11 +21,15 @@ sub GROUPINFO {
     my $show = $params->{show};
     $show = 'all' unless defined $show;
     my $zeroresults = $params->{zeroresults};
+    my $expand      = $params->{expand};
+    $expand = '1' unless defined $expand;
+
+    $expand = Foswiki::Func::isTrue($expand);
 
     my $it;    #erator
     my @rows;
     if ($group) {
-        $it = $this->{users}->eachGroupMember($group);
+        $it = $this->{users}->eachGroupMember( $group, $expand );
         $format = '$wikiusername' unless defined $format;
     }
     else {

@@ -108,6 +108,7 @@ sub finish {
     undef $this->{W2U};
     undef $this->{passwords};
     undef $this->{eachGroupMember};
+    undef $this->{singleGroupMembers};
     $this->SUPER::finish();
 }
 
@@ -580,7 +581,6 @@ sub eachUser {
     return $iter;
 }
 
-my %expanding;
 
 =begin TML
 
@@ -589,37 +589,73 @@ my %expanding;
 See baseclass for documentation
 
 =cut
+my %expanding;   # Prevents loops in nested groups
 
 sub eachGroupMember {
     my $this  = shift;
     my $group = shift;
+    my $expand = shift;
 
     if ( Scalar::Util::tainted($group) ) {
         $group = Foswiki::Sandbox::untaint( $group,
             \&Foswiki::Sandbox::validateTopicName );
     }
 
-    return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} )
-      if ( defined( $this->{eachGroupMember}->{$group} ) );
+    $expand = 1 unless (defined $expand);
+
+#    print STDERR "eachGroupMember called for $group - expand $expand \n";
+
+    if ( !$expand && defined( $this->{singleGroupMembers}->{$group} ) ) {
+#        print STDERR "Returning cached unexpanded list for $group\n";
+        return new Foswiki::ListIterator( $this->{singleGroupMembers}->{$group} );
+        }
+
+    if ( $expand &&  defined( $this->{eachGroupMember}->{$group} ) ) {
+#        print STDERR "Returning cached expanded list for $group\n";
+        return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} );
+        }
+
+#    print "Cache miss for $group expand $expand \n";
 
     my $session = $this->{session};
     my $users   = $session->{users};
 
     my $members = [];
+    my $singleGroupMembers = [];
+
+
+    # Determine if we are called recursively, either directly, or by the _expandUserList routine
+    unless ( (caller(1) )[3] eq (caller(0) )[3] || (caller(2) )[3] eq (caller(0) )[3]  ) {
+#        print "eachGroupMember $group  - TOP LEVEL \n";
+        %expanding = ();
+        }
+
     if (  !$expanding{$group}
         && $session->topicExists( $Foswiki::cfg{UsersWebName}, $group ) )
     {
         $expanding{$group} = 1;
+#        print "Expanding $group \n";
         my $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
             $group );
 
-        $members =
-          _expandUserList( $this, $groupTopicObject->getPreference('GROUP') );
+        if (!$expand) {
+            $singleGroupMembers =
+              _expandUserList( $this, $groupTopicObject->getPreference('GROUP'), 0 );
+            $this->{singleGroupMembers}->{$group} = $singleGroupMembers;
+#            print "Returning iterator for singleGroupMembers $group, members $singleGroupMembers \n";
+            return new Foswiki::ListIterator( $this->{singleGroupMembers}->{$group} )
+        }
+        else {
+            $members =
+              _expandUserList( $this, $groupTopicObject->getPreference('GROUP') );
+            $this->{eachGroupMember}->{$group} = $members;
+        }
+
         delete $expanding{$group};
     }
-    $this->{eachGroupMember}->{$group} = $members;
 
+#    print "Returning iterator for eachGroupMember $group \n";
     return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} );
 }
 
@@ -789,12 +825,13 @@ sub addUserToGroup {
     if ( $usersObj->isGroup($groupName) ) {
 
        #if you set create for a group that exists, use that to force an upgrade.
-        if ( ( not $create ) and $usersObj->isInGroup( $cuid, $groupName ) ) {
+        if ( ( not $create ) and $usersObj->isInGroup( $cuid, $groupName, {}, '1' ) ) {
 
             #TODO: not sure this is the right thing to do -
             #it might make more sense to not expand the nested groups,
             #and add a user if they're not listed here,
             #that way we are able to not worry about subgroups changing.
+#            print STDERR "$user is already in $groupName\n";
             return 1;    #user already in group, nothing to do
         }
         $groupTopicObject =
@@ -803,6 +840,7 @@ sub addUserToGroup {
         if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
 
             #can't change topic.
+#            print STDERR "$user cannot change $groupName\n";
             return 0;
         }
 
@@ -815,12 +853,14 @@ sub addUserToGroup {
                 $membersString,    $allowChangeString
             );
 
+#            print STDERR "cUID is not defined \n";
             return 1;
         }
     }
     else {
 
  #see if we have permission to add a topic, or to edit the existing topic, etc..
+#        print STDERR "Checking permissions ... ";
         return 0 unless ($create);
         return 0
           unless (
@@ -829,6 +869,7 @@ sub addUserToGroup {
             )
           );
 
+#        print STDERR "PASSED \n ";
         $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $groupWeb, 'GroupTemplate' );
 
@@ -850,6 +891,8 @@ sub addUserToGroup {
         $groupTopicObject, $groupWeb, $groupName,
         $membersString,    $allowChangeString
     );
+
+#    print STDERR "Write is complete \n";
 
     #reparse groups brute force :/
     _getListOfGroups( $this, 1 ) if ($create);
@@ -954,20 +997,18 @@ sub removeUserFromGroup {
             ->topicExists( $Foswiki::cfg{UsersWebName}, $groupName ) )
       )
     {
-        if ( !$usersObj->isInGroup( $cuid, $groupName ) ) {
-
+        if ( !$usersObj->isInGroup( $cuid, $groupName ) && !$usersObj->isGroup($cuid)  ) {
             return 1;    #user not in group - done
         }
         my $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
             $groupName );
         if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
-
             return 0;    #can't change topic.
         }
 
         my $WikiName  = $usersObj->getWikiName($cuid);
-        my $LoginName = $usersObj->getLoginName($cuid);
+        my $LoginName = $usersObj->getLoginName($cuid) || '';
 
         my $membersString = $groupTopicObject->getPreference('GROUP');
         my @l;
@@ -1459,7 +1500,10 @@ s/^\s*\* (?:$Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*
 # Get a list of *canonical user ids* from a text string containing a
 # list of user *wiki* names, *login* names, and *group ids*.
 sub _expandUserList {
-    my ( $this, $names ) = @_;
+    my ( $this, $names, $expand ) = @_;
+
+    $expand = 1 unless (defined $expand);
+#    print STDERR "_expandUserList called  $names - expand $expand \n";
 
     $names ||= '';
 
@@ -1474,9 +1518,14 @@ sub _expandUserList {
         $ident =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
         next unless $ident;
         if ( $this->isGroup($ident) ) {
-            my $it = $this->eachGroupMember($ident);
-            while ( $it->hasNext() ) {
-                push( @l, $it->next() );
+            if (!$expand ) {
+                push( @l, $ident );
+             }
+            else {
+                my $it = $this->eachGroupMember($ident, $expand);
+                while ( $it->hasNext() ) {
+                    push( @l, $it->next() );
+                }
             }
         }
         else {
