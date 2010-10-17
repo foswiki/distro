@@ -25,7 +25,7 @@
   parameters: groupname, twisty
 -->
 %STARTSECTION{"rendergroup"}%<!-- rendergroup -->
-%GROUPINFO{"%groupname%"
+%GROUPINFO{"%groupname%" expand="0"
   format="$percntIF{\"not istopic '$wikiname'\" then=\"<nop>\"}$percnt$wikiname" 
   separator=", "
   zeroresults="%MAKETEXT{"no members"}%"
@@ -85,10 +85,10 @@ then='
 '}%
 %TWISTYBUTTON{
   id="%groupname%_add"
-  link="<img src='%ICONURLPATH{"useradd"}%' alt='%MAKETEXT{"Add user..."}%' title='%MAKETEXT{"Add user..."}%' /> %MAKETEXT{"Add user..."}%"
+  link="<img src='%ICONURLPATH{"useradd"}%' alt='%MAKETEXT{"Add member..."}%' title='%MAKETEXT{"Add member..."}%' /> %MAKETEXT{"Add member..."}%"
 }% %TWISTYBUTTON{
   id="%groupname%_remove"
-  link="<img src='%ICONURLPATH{"userdelete"}%' alt='%MAKETEXT{"Remove user..."}%' title='%MAKETEXT{"Remove user..."}%' /> %MAKETEXT{"Remove user..."}%"
+  link="<img src='%ICONURLPATH{"userdelete"}%' alt='%MAKETEXT{"Remove member..."}%' title='%MAKETEXT{"Remove member..."}%' /> %MAKETEXT{"Remove member..."}%"
 }%
 <p class="foswikiClear" />
 </div>
@@ -148,9 +148,9 @@ then='
 <input type="hidden" name="action" value="addUserToGroup"/>
 <div class='foswikiFormSteps'>
   <div class='foswikiFormStep foswikiLast'>
-     <h3>%MAKETEXT{"Add a user to this group"}%</h3>
+     <h3>%MAKETEXT{"Add a user or group to this group"}%</h3>
 %JQREQUIRE{"autocomplete"}%
-     <input type="text" name="username" value="" size="40" class="foswikiInputField foswikiDefaultText" title="%MAKETEXT{Name of user}%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%"/> <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Add user"}%" />
+     <input type="text" name="username" value="" size="40" class="foswikiInputField foswikiDefaultText" title="%MAKETEXT{Name of user}%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%"/> <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Add member"}%" />
   </div>
 </div>
 </form></sticky>
@@ -163,17 +163,17 @@ then='
 -->
 %STARTSECTION{"group_remove"}%<!-- group_remove -->
 %GROUPINFO{
-   "%groupname%"
+   "%groupname%" expand="0"
    header="<form action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='POST' >
      <input type='hidden' name='groupname' value='%groupname%' />
      <input type='hidden' name='action' value='removeUserFromGroup' />
      <div class='foswikiFormSteps'>
      <div class='foswikiFormStep foswikiLast'>
-     <h3>%MAKETEXT{"Remove users from this group"}%</h3>$n"
+     <h3>%MAKETEXT{"Remove members from this group"}%</h3>$n"
    format="<label style='display:block'>
       <input type='checkbox' name='username' value='$wikiname' /> <nop>$wikiname
       </label>"
-   footer="<input type='submit' class='foswikiSubmit' value='%MAKETEXT{"Remove selected users"}%' />
+   footer="<input type='submit' class='foswikiSubmit' value='%MAKETEXT{"Remove selected members"}%' />
       </div>
       </form>
       </div>"

@@ -634,7 +634,7 @@ sub isInUserList {
 
     return 0 unless defined $userlist && defined $cUID;
 
-    foreach my $ident ( @$userlist ) {
+    foreach my $ident (@$userlist) {
 
         my $identCUID = $this->getCanonicalUserID($ident);
 
@@ -840,17 +840,21 @@ Test if the user identified by $cUID is in the given group.
 =cut
 
 sub isInGroup {
-    my ( $this, $cUID, $group ) = @_;
+    my ( $this, $cUID, $group, $expand ) = @_;
     return unless ( defined($cUID) );
+
+    $expand = 1 unless ( defined $expand );
+
+#    print STDERR "Users::isInGroup called for $cUID in $group - expand $expand \n";
 
     my $mapping = $this->_getMapping($cUID);
     my $otherMapping =
       ( $mapping eq $this->{basemapping} )
       ? $this->{mapping}
       : $this->{basemapping};
-    return 1 if $mapping->isInGroup( $cUID, $group );
+    return 1 if $mapping->isInGroup( $cUID, $group, $expand );
 
-    return $otherMapping->isInGroup( $cUID, $group )
+    return $otherMapping->isInGroup( $cUID, $group, $expand )
       if ( $otherMapping ne $mapping );
 }
 
