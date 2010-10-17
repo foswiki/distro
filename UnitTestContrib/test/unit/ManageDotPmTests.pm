@@ -266,9 +266,8 @@ sub test_SingleAddToNewGroupCreate {
         });
     $this->assert_null( $ret, "Simple add to new group" );
     
-    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
     $this->assert(Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
-    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
     
     #need to reload to force Foswiki to reparse Groups :(
     my $q = $this->{request};
@@ -302,10 +301,9 @@ sub test_DoubleAddToNewGroupCreate {
         });
     $this->assert_null( $ret, "Simple add to new group" );
     
-    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
     $this->assert(Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
-    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
-    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
+    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
     $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
     
     #need to reload to force Foswiki to reparse Groups :(
@@ -346,7 +344,6 @@ sub test_TwiceAddToNewGroupCreate {
         });
     $this->assert_null( $ret, "add myself" );
     
-    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
     $this->assert(Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
     $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
     $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
@@ -372,9 +369,8 @@ sub test_TwiceAddToNewGroupCreate {
         });
     $this->assert_null( $ret, "second add user" );
     
-    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
     $this->assert(Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
-    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
+    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
     $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
     $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
     
@@ -398,11 +394,10 @@ sub test_TwiceAddToNewGroupCreate {
         });
     $this->assert_null( $ret, "third add user" );
     
-    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
     $this->assert(Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ));
     $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ));
-    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
-    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
+    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ));
+    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
     
     #need to reload to force Foswiki to reparse Groups :(
     $q = $this->{request};
