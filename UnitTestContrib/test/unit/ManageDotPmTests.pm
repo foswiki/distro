@@ -420,7 +420,7 @@ sub test_TwiceAddToNewGroupCreate {
             'action'        => ['removeUserFromGroup']
         });
     $this->assert_null( $ret, "remove one user" );
-    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu4" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu4" ));
 
     #need to reload to force Foswiki to reparse Groups :(
     $q = $this->{request};
@@ -436,7 +436,8 @@ sub test_TwiceAddToNewGroupCreate {
             'action'        => ['removeUserFromGroup']
         });
     $this->assert_null( $ret, "remove two user" );
-    $this->assert(Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ));
+    $this->assert(!Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu2" ));
 
     #need to reload to force Foswiki to reparse Groups :(
     $q = $this->{request};

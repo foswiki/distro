@@ -888,11 +888,7 @@ sub addUserToGroup {
         $membersString .= $wikiName;
     }
 
-    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
-    #push(@{$this->{eachGroupMember}->{$groupName}}, $cuid);
-    #
-    delete $this->{eachGroupMember}->{$groupName};
-    delete $this->{singleGroupMembers}->{$groupName};
+    $this->_clearGroupCache($groupName);
 
     $this->_writeGroupTopic(
         $groupTopicObject, $groupWeb, $groupName,
@@ -1030,11 +1026,43 @@ sub removeUserFromGroup {
         $this->_writeGroupTopic( $groupTopicObject, $groupWeb, $groupTopic,
             $membersString );
 
+        $this->_clearGroupCache($groupName);
+
         return 1;
     }
 
     return 0;
 }
+
+=begin TML
+
+---++ ObjectMethod _clearGroupCache( $groupName )
+
+Removes the cache entries for unexpanded and expanded groups,
+and searches un-expanded groups for any nesting group references
+clearing them as well.
+
+Note:  This is not recursive and does not attempt to handle
+more than one level of nested groups.
+
+=cut
+
+sub _clearGroupCache {
+    my ($this, $groupName) = @_;
+
+    delete $this->{eachGroupMember}->{$groupName};
+    delete $this->{singleGroupMembers}->{$groupName};
+
+#SMELL:  This should probably be recursive.
+    foreach my $groupKey ( keys( %{ $this->{singleGroupMembers} } ) ) {
+        if ( $this->{singleGroupMembers}->{$groupKey} =~ m/$groupName/ ) {
+#           print STDERR "Deleting cache for $groupKey \n";
+            delete $this->{eachGroupMember}->{$groupKey};
+            delete $this->{singleGroupMembers}->{$groupKey};
+        }
+    }
+}
+
 
 =begin TML
 
