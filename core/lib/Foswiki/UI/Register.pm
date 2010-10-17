@@ -664,9 +664,11 @@ sub addUserToGroup {
 
         try {
             if ( Foswiki::Func::addUserToGroup( $u, $groupName, $create ) ) {
+#                print STDERR "Func adding $u succeeded\n";
                 push( @succeeded, $u );
             }
             else {
+#                print STDERR "Func adding $u failed\n";
                 push( @failed, $u );
 
                 # Log the error

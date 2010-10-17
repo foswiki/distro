@@ -229,7 +229,9 @@ sub getLoginName {
 sub _userReallyExists {
     my ( $this, $login ) = @_;
 
-    if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+    if (   $Foswiki::cfg{Register}{AllowLoginName}
+        || $Foswiki::cfg{PasswordManager} eq 'none' )
+    {
 
         # need to use the WikiUsers file
         $this->_loadMapping();
@@ -894,11 +896,16 @@ sub addUserToGroup {
         $allowChangeString = $groupName;
     }
 
+    #    print STDERR "Adding cUID $cuid ";
     my $wikiName = $usersObj->getWikiName($cuid);
+
+    #    print STDERR "wikiname $wikiName \n";
     if ( $membersString !~ m/$wikiName/ ) {
         $membersString .= ', ' if ( $membersString ne '' );
         $membersString .= $wikiName;
     }
+
+    #    print STDERR "membersString = $membersString \n";
 
     $this->_clearGroupCache($groupName);
 
@@ -1343,6 +1350,8 @@ sub findUserByWikiName {
     }
     elsif ( $Foswiki::cfg{Register}{AllowLoginName} ) {
 
+        #        print STDERR "AllowLoginName discovered \n";
+
         # Add additional mappings defined in WikiUsers
         $this->_loadMapping();
         if ( $this->{W2U}->{$wn} ) {
@@ -1364,9 +1373,15 @@ sub findUserByWikiName {
     }
     else {
 
+        #        print STDERR "NOT AllowLoginName \n";
+
         # The wikiname is also the login name, so we can just convert
         # it directly to a cUID
         my $cUID = $this->login2cUID($wn);
+
+        #        print STDERR "login2cUID for $wn returned $cUID \n";
+
+ #        print STDERR "$wn EXISTS \n" if ( $cUID && $this->userExists($cUID) );
         if ( $skipExistanceCheck || ( $cUID && $this->userExists($cUID) ) ) {
             push( @users, $cUID );
         }
