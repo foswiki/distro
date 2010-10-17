@@ -1587,8 +1587,7 @@ sub verify_removeFromGroup {
 
     $this->assert( Foswiki::Func::addUserToGroup( 'UserZ', 'ZeeGroup', 1 ) );
 
-    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
-    $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
+    $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
     $this->assert( Foswiki::Func::addUserToGroup( 'UserA', 'ZeeGroup', 1 ) );
     $this->assert( Foswiki::Func::addUserToGroup( 'UserB', 'ZeeGroup', 1 ) );
 

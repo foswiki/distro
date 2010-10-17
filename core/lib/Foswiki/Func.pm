@@ -1142,7 +1142,7 @@ sub isAnAdmin {
 
 =begin TML
 
----+++ isGroupMember( $group, $id ) -> $boolean
+---+++ isGroupMember( $group, $id, $expand ) -> $boolean
 
 Find out if $id is in the named group. e.g.
 <verbatim>
@@ -1153,12 +1153,16 @@ if( Foswiki::Func::isGroupMember( "HesperionXXGroup", "jordi" )) {
 If =$user= is =undef=, it defaults to the currently logged-in user.
 
    * $id can be a login name or a WikiName
+   * Nested groups are expanded unless $expand is set to false.
 
 =cut
 
 sub isGroupMember {
-    my ( $group, $user ) = @_;
+    my ( $group, $user, $expand ) = @_;
     my $users = $Foswiki::Plugins::SESSION->{users};
+
+    $expand = 1 unless ( defined $expand );
+    $expand = Foswiki::Func::isTrue($expand);
 
     return () unless $users->isGroup($group);
     if ($user) {
@@ -1170,7 +1174,7 @@ sub isGroupMember {
     else {
         $user = $Foswiki::Plugins::SESSION->{user};
     }
-    return $users->isInGroup( $user, $group );
+    return $users->isInGroup( $user, $group, $expand );
 }
 
 =begin TML

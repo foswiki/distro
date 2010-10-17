@@ -81,10 +81,11 @@ sub new {
     #SMELL: and this is a second user object
     #TODO: combine with the one in Foswiki::Users
     #$this->{U2L} = {};
-    $this->{L2U}             = {};
-    $this->{U2W}             = {};
-    $this->{W2U}             = {};
-    $this->{eachGroupMember} = {};
+    $this->{L2U}                = {};
+    $this->{U2W}                = {};
+    $this->{W2U}                = {};
+    $this->{eachGroupMember}    = {};
+    $this->{singleGroupMembers} = ();
 
     return $this;
 }
@@ -825,7 +826,7 @@ sub addUserToGroup {
     if ( $usersObj->isGroup($groupName) ) {
 
        #if you set create for a group that exists, use that to force an upgrade.
-        if ( ( not $create ) and $usersObj->isInGroup( $cuid, $groupName, {}, '1' ) ) {
+        if ( ( not $create ) and $usersObj->isInGroup( $cuid, $groupName, '0' ) ) {
 
             #TODO: not sure this is the right thing to do -
             #it might make more sense to not expand the nested groups,
@@ -880,12 +881,18 @@ sub addUserToGroup {
 
         $allowChangeString = $groupName;
     }
-    $membersString .= ', ' if ( $membersString ne '' );
+
     my $wikiName = $usersObj->getWikiName($cuid);
-    $membersString .= $wikiName;
+    if ( $membersString !~ m/$wikiName/ ) {
+        $membersString .= ', ' if ( $membersString ne '' );
+        $membersString .= $wikiName;
+    }
 
     #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
     #push(@{$this->{eachGroupMember}->{$groupName}}, $cuid);
+    #
+    delete $this->{eachGroupMember}->{$groupName};
+    delete $this->{singleGroupMembers}->{$groupName};
 
     $this->_writeGroupTopic(
         $groupTopicObject, $groupWeb, $groupName,

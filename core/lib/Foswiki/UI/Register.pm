@@ -660,6 +660,8 @@ sub addUserToGroup {
         $u =~ s/\s+$//;
         next if ( $u eq '' );
 
+        next if ( Foswiki::Func::isGroup($groupName) && Foswiki::Func::isGroupMember($groupName, $u, 0) );
+
         try {
             if ( Foswiki::Func::addUserToGroup( $u, $groupName, $create ) ) {
                 push( @succeeded, $u );
