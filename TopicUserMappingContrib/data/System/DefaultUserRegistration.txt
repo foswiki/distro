@@ -174,7 +174,7 @@ Optional field join group
 
 enable by setting =REGISTRATIONGROUPTYPE= in the %USERSWEB%.DefaultPreferences topic to automatic, one, mulitple.
      
-%STARTSECTION{"extraField_groups"}%%RELIST{
+%STARTSECTION{"extraField_groups"}%%FORMAT{
 	"%IF{"defined 'REGISTRATIONGROUPS'" then="%REGISTRATIONGROUPS%" else="%GROUPINFO{
 			show="allowchange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%"
 			format="$name"
