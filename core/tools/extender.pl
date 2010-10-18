@@ -529,14 +529,14 @@ sub getScriptDir {
       \s*;\s*$                                                  # ending bracket
     }msx;
 
-    local $/ = '';
-    open( my $fh, '<',
-      $lscFile )
-      || die 'Unable to open LocalSite.cfg';
-    my $cfgfile = <$fh>;
-    close($fh);
-    $cfgfile =~ m/$reBinDir/;
-    return $1;
+    my $cfgfh = open my $cfg, '<', "$lscFile";
+    if ( !$cfgfh ) {
+        return 0;
+    }
+    my $cfgfile = do { local $/; <$cfg> };
+
+    $cfgfile =~ m/$reBinDir/ms;
+    return $1 || $2;
 
 }
 
