@@ -24,15 +24,15 @@ Allows users to "subscribe" to regularly scheduled emails containing either:
 ---++ How it works
 
 !MailerContrib generates and sends out emails based on analysis of
-   1 users' subcriptions listed in the <nop>%NOTIFYTOPIC% topic in each web, and
+   1 users' subscriptions listed in the <nop>%NOTIFYTOPIC% topic in each web, and
    1 changes within the respective webs.
 
-The mailer collates the changes emails so that each subscriber only receives one changes notification for all changes in all webs in the Foswiki. Furthermore, users can elect to receive just summaries of changes, or the entire content of topics that have changed.
+The mailer collates the changes so that each subscriber only receives one email notification for all changes in all webs in the wiki. Furthermore, users can elect to receive just summaries of changes, or the entire content of topics that have changed.
 
 Each web can optionally contain a topic called <nop>%NOTIFYTOPIC%.
 <!-- Included by %SYSTEMWEB%.WebNotifyHelp -->
 %STARTINCLUDE%
-Users subscribe to email notifications using their [[%SYSTEMWEB%.WikiName][WikiName]] or an alternative email address, and can specify the webs/topics they wish to track, Whole groups of users can also be subscribed for notification.
+Users subscribe to email notifications using their [[%SYSTEMWEB%.WikiName][WikiName]] or an alternative email address, and can specify the webs/topics they wish to track. Whole groups of users can also be subscribed for notification.
 
 The general format of a subscription is:
 
@@ -86,7 +86,7 @@ Subscribe =IT:admins= (a non-Foswiki group defined by an alternate user mapping)
    * 'IT:admins' : Web*
 </verbatim>
 
-A user may be listed many times in the <nop>%NOTIFYTOPIC% topic. Where a user has several lines in <nop>%NOTIFYTOPIC% that all match the same topic, they will only be notified about _changes_ that topic _once_ (though they will still receive individual mails for news topics).
+A user may be listed many times in the <nop>%NOTIFYTOPIC% topic. Where a user has several lines in <nop>%NOTIFYTOPIC% that all match the same topic, they will only be notified about _changes_ in that topic _once_ (though they will still receive individual mails for news topics).
 
 If a _group_ is listed for notification, the group will be recursively expanded to the email addresses of all members.
 
