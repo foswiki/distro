@@ -1401,6 +1401,13 @@ Returns 1 on success, undef on failure.
 
 sub checkPassword {
     my ( $this, $login, $pw ) = @_;
+
+    # If we don't have a PasswordManager and use TemplateLogin,  always allow login
+    return 1
+      if ( $Foswiki::cfg{PasswordManager} eq 'none'
+        && $Foswiki::cfg{LoginManager} eq
+        'Foswiki::LoginManager::TemplateLogin' );
+
     return $this->{passwords}->checkPassword( $login, $pw );
 }
 
