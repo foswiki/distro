@@ -2035,6 +2035,30 @@ sub test_getAttachmentList {
 
 sub test_searchInWebContent {
     my $this = shift;
+    
+    my $matches = Foswiki::Func::searchInWebContent( "broken", 'System', undef,
+            { casesensitive => 0, files_without_match => 0 } );
+    my @topics =  keys(%$matches);
+    $this->assert($#topics > 1); #gosh i hope we alway have a document with the word broken in it..
+    my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName('', $topics[0]);
+    
+    #its supposed to return a list of topics, not web.topics.
+    $this->assert_str_equals( $searchTopic, $topics[0] );
+}
+
+
+sub test_query {
+    my $this = shift;
+    
+    my $matches = Foswiki::Func::query( "text ~ '*broken*'", undef,
+            { web=>'System', casesensitive => 0, files_without_match => 0 } );
+    
+    $this->assert($matches->hasNext); #gosh i hope we alway have a document with the word broken in it..
+    my $webtopic = $matches->next;
+    my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName('', $webtopic);
+    
+    #its supposed to return web.topics.
+    $this->assert_str_equals( "$web.$searchTopic", $webtopic );
 }
 
 sub test_pushPopContext {

@@ -2800,52 +2800,42 @@ sub normalizeWebTopicName {
 
 =begin TML
 
----+++ searchInWebContent($searchString, $web, \@topics, \%options ) -> iterator (resultset)
+---+++ query($searchString, $topics, \%options ) -> iterator (resultset)
 
-Search for a string in the content of a web. The search is over all content, including meta-data. 
-Meta-data matches will be returned as formatted lines within the topic content (meta-data matches are returned as lines of the format %META:\w+{.*}%)
-   * =$searchString= - the search string, in egrep format
-   * =$web= - The web/s to search in - string can have the same form as the =web= param of SEARCH
-   * =\@topics= - reference to a list of topics to search (if undef, then the store will search all topics in the specified web/webs.)
+Query the topic data in the specified webs. A programatic interface to SEARCH results.
+
+   * =$searchString= - the search string, as appropriate for the selected type
+   * =$topics= - undef OR reference to a ResultSet, Iterator, or array containing the web.topics to be evaluated. 
+                 if undef, then all the topics in the webs specified will be evaluated.
    * =\%option= - reference to an options hash
 The =\%options= hash may contain the following options:
-   * =type= - =regex=, =keyword=, =query=
+   * =type= - =regex=, =keyword=, =query=, ... defaults to =query=
+   * =web= - The web/s to search in - string can have the same form as the =web= param of SEARCH (if not specified, defaults to BASEWEB)
    * =casesensitive= - false to ignore case (defaulkt true)
-   * =files_without_match= - true to return files only (default false). If =files_without_match= is specified, it will return on the first match in each topic (i.e. it will return only one match per topic, and will not return matching lines).
-   * TODO: topic, excludetopic and other params as per SEARCH
-
-The return value is a reference to a hash which maps each matching topic
-name to a list of the lines in that topic that matched the search,
-as would be returned by 'grep'.
+   * =files_without_match= - true to return files only (default false). If =files_without_match= is specified, it will return on the first match in each topic (i.e. it will return only one match per 
+   * topic, excludetopic and other params as per SEARCH
 
 To iterate over the returned topics use:
 <verbatim>
-my $result = Foswiki::Func::searchInWebContent( "Slimy Toad", $web, \@topics,
-   { casesensitive => 0, files_without_match => 0 } );
-        while ($matches->hasNext) {
-            my $webtopic = $matches->next;
-            my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName($searchWeb, $webtopic);
+    my $matches = Foswiki::Func::query( "Slimy Toad", undef,
+            { web => 'Main,San*', casesensitive => 0, files_without_match => 0 } );
+    while ($matches->hasNext) {
+        my $webtopic = $matches->next;
+        my ($web, $topic) = Foswiki::Func::normalizeWebTopicName('', $webtopic);
       ...etc
 </verbatim>
 
-__WARNING: does not return a hash - returns an iterator (else you will crash your server needlessly)__
-(Please report a Task item if you're using the non-iterator interface)
-
 =cut
 
-# Note: this function used to be a direct caller of Store::searchInWebContent,
-# which is no longer the case, but this explains the naming overlap even
-# though the function definitions are quite different.
-sub searchInWebContent {
-
-    my ( $searchString, $webs, $topics, $options ) = @_;
+sub query {
+    my ( $searchString, $topics, $options ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
     my $inputTopicSet;
     if ($topics) {
         $inputTopicSet = new Foswiki::ListIterator($topics);
     }
-    $options->{web} = $webs;
+    $options->{type} ||= 'query';
     my $query =
       $Foswiki::Plugins::SESSION->search->parseSearch( $searchString,
         $options );
@@ -3607,6 +3597,67 @@ See Foswiki:Development/UpdatingExtensionsScriptZone for more details.
 
 sub addToHEAD {
     $Foswiki::Plugins::SESSION->addToZone( 'head', @_ );
+}
+
+
+=begin TML
+
+---+++ searchInWebContent($searchString, $web, \@topics, \%options ) -> reference to a hash - keys of which are topic names
+
+*Deprecated* 17 Oct 2010 - use =query( ...)=.
+__WARNING: This function has been deprecated in foswiki 1.1.0 for scalability reasons__
+
+
+Search for a string in the content of a web. The search is over all content, including meta-data. 
+Meta-data matches will be returned as formatted lines within the topic content (meta-data matches are returned as lines of the format %META:\w+{.*}%)
+   * =$searchString= - the search string, in egrep format
+   * =$web= - The web/s to search in - string can have the same form as the =web= param of SEARCH
+   * =\@topics= - reference to a list of topics to search (if undef, then the store will search all topics in the specified web/webs.)
+   * =\%option= - reference to an options hash
+The =\%options= hash may contain the following options:
+   * =type= - =regex=, =keyword=, =query= - defaults to =regex=
+   * =casesensitive= - false to ignore case (defaulkt true)
+   * =files_without_match= - true to return files only (default false). If =files_without_match= is specified, it will return on the first match in each topic (i.e. it will return only one match per topic, and will not return matching lines).
+   * TODO: topic, excludetopic and other params as per SEARCH
+
+The return value is a reference to a hash which maps each matching topic
+name to a list of the lines in that topic that matched the search,
+as would be returned by 'grep'.
+
+To iterate over the returned topics use:
+<verbatim>
+    my $matches = Foswiki::Func::searchInWebContent( "Slimy Toad", $searchWeb, \@topics,
+            { casesensitive => 0, files_without_match => 0 } );
+    foreach my $topic (keys(%$matches)) {
+         ...etc
+</verbatim>
+
+
+=cut
+
+sub searchInWebContent {
+
+    my ( $searchString, $webs, $topics, $options ) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+
+    my $inputTopicSet = $topics;
+    if ( $topics and ( ref($topics) eq 'ARRAY' ) ) {
+        $inputTopicSet = new Foswiki::ListIterator($topics);
+    }
+    $options->{type} ||= 'regex';
+    $options->{web} = $webs;
+    my $query =
+      $Foswiki::Plugins::SESSION->search->parseSearch( $searchString,
+        $options );
+
+    my $itr = Foswiki::Meta::query( $query, $inputTopicSet, $options );
+    my %matches;
+    while ($itr->hasNext) {
+        my $webtopic = $itr->next;
+        my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName('', $webtopic);
+        $matches{$searchTopic} = 1;
+    }
+    return \%matches
 }
 
 1;
