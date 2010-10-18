@@ -219,5 +219,15 @@ sub test_hoistName2{
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
 }
+sub test_hoist_OPMatch {
+    my $this        = shift;
+    my $s           = "text =~ '.*Green.*'";
+    my $queryParser = new Foswiki::Query::Parser();
+    my $query       = $queryParser->parse($s);
+    my @filter = Foswiki::Query::HoistREs::hoist($query);
+    $this->assert_str_equals( '.*Green.*', join( ';', map {$_->{regex}}@filter ) );
+    my $meta = $this->{meta};
+    my $val = $query->evaluate( tom => $meta, data => $meta );
+}
 
 1;

@@ -26,7 +26,7 @@ use Foswiki::Query::Node ();
 # patterns we need to look for:
 #
 # top level is defined by a sequence of AND and OR conjunctions
-# second level, = and ~
+# second level, = and ~ and =~
 # second level LHS is a field access
 # second level RHS is a static string or number
 
@@ -183,6 +183,18 @@ sub _hoistEQ {
             $rhs = quotemeta($rhs);
             $rhs          =~ s/\\\?/./g;
             $rhs          =~ s/\\\*/.*/g;
+            $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
+            $lhs->{source} = _hoistConstant( $node->{params}[1] );
+            return $lhs;
+        }
+    }
+    elsif ( $node->{op}->{name} eq '=~' ) {
+        my $lhs = _hoistDOT( $node->{params}[0] );
+        my $rhs = _hoistConstant( $node->{params}[1] );
+        if ( $lhs && $rhs ) {
+            $rhs = quotemeta($rhs);
+            $rhs          =~ s/\\\././g;
+            $rhs          =~ s/\\\*/*/g;
             $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
             $lhs->{source} = _hoistConstant( $node->{params}[1] );
             return $lhs;
