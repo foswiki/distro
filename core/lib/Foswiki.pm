@@ -2435,6 +2435,8 @@ sub expandMacrosOnTopicCreation {
         $p->{value} =
           _processMacros( $this, $p->{value}, \&_expandMacroOnTopicCreation,
             $topicObject, 16 );
+        # kill markers used to prevent variable expansion
+        $p->{value} =~  s/%NOP%//g;
     }
 }
 
