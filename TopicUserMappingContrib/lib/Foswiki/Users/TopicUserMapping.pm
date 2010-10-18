@@ -1532,7 +1532,7 @@ sub _getListOfGroups {
 sub _loadMapping {
     my $this = shift;
 
-    #return if $this->{CACHED};
+    return if $this->{CACHED};
     $this->{CACHED} = 1;
 
   #TODO: should only really do this mapping IF the user is in the password file.
