@@ -81,6 +81,7 @@ Kill me
 %STARTSECTION{name="fred" type="section"}%
 %USERINFO%
 %USERINFO{format="$emails,$username,$wikiname,$wikiusername"}%
+%USER%NOP%INFO{format="$emails,$username,$wikiname,$wikiusername"}%
 %ENDSECTION{name="fred" type="section"}%
 END
     $this->{test_topicObject}->text($text);
@@ -97,6 +98,7 @@ $this->{users_web}.ScumBag
 %STARTSECTION{name="fred" type="section"}%
 scum, $this->{users_web}.ScumBag, scumbag\@example.com
 scumbag\@example.com,scum,ScumBag,$this->{users_web}.ScumBag
+%USERINFO{format="\$emails,\$username,\$wikiname,\$wikiusername"}%
 %ENDSECTION{name="fred" type="section"}%
 END
     $this->assert_str_equals( $xpect, $this->{test_topicObject}->text() );
