@@ -141,6 +141,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  19 Oct 2010: | (3.74) Version included with Foswiki 1.1.0 + fix for code bug in SLIMBOX causing !ImageGalleryPlugin to fail |   
 |  19 Aug 2010: | (3.71) JQueryLiveQuery now loads by default; \
                   removed JQueryBgiframe and JQueryEasing plugins from default plugins |
 |  02 Jul 2010: | (3.70) removed outdated spinner and ifixpng plugins; \
