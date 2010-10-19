@@ -1319,8 +1319,8 @@ sub addUserToGroup {
     return () unless ( $users->isGroup($group) || $create );
     if ( !$users->isGroup($user) )
     {    #requires isInGroup to also work on nested groupnames
-        $user = getCanonicalUserID($user);
-        return unless ( defined($user) and ( $users->userExists($user) ) );
+        $user = getCanonicalUserID($user) || $user;
+        return unless ( defined($user) );
 
         #        print STDERR "Func::addUserToGroup - user passed test\n";
     }
@@ -1343,8 +1343,8 @@ sub removeUserFromGroup {
 
     if ( !$users->isGroup($user) )
     {    #requires isInGroup to also work on nested groupnames
-        $user = getCanonicalUserID($user);
-        return unless ( defined($user) and ( $users->userExists($user) ) );
+        $user = getCanonicalUserID($user) || $user;
+        return unless ( defined($user) );
     }
     return $users->removeUserFromGroup( $user, $group );
 }
