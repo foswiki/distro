@@ -100,6 +100,12 @@ BEGIN {
     }
     foreach my $lang (@languages) {
         my $langFile = "$Foswiki::cfg{LocalesDir}/$lang.po";
+
+        # Use the compressed version if it exists
+        if( $langFile =~ m/^(.*)\.po$/
+            && -f "$1.mo" ) {
+            $langFile = "$1.mo";
+        }
         if ( -f $langFile ) {
             unless (
                 eval {
