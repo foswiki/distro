@@ -107,7 +107,7 @@ Field specifiers and constants are combined using _operators_ to create queries.
 | <code>=</code> | Left-hand side (LHS) exactly matches the value on the Right-hand side (RHS). Numbers and strings can be compared. |
 | <code>!=</code> | Inverse of <code>=</code>. |
 | =~= | wildcard match ('*' will match any number of characters, '?' will match any single character e.g. "PersonForm.Surname ~ '*Smit?'") Note: Surname ~ 'Smith' is the same as Surname = 'Smith' |
-| <code>=~</code> | regular expression match |
+| <code>=~</code> | regular expression match, see RegularExpressions for details. |
 | <code>&lt;</code> | LHS is less than RHS. If both sides are numbers, the order is numeric. Otherwise it is lexical (applies to all comparison operators) |
 | <code>&gt;</code> | greater than |
 | <code>&lt;=</code> | less than or equal to |
