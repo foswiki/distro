@@ -1615,8 +1615,10 @@ sub _expandUserList {
               map { $_ => 1 }
               @{ $this->{session}->{users}->findUserByWikiName($ident) };
 
-            # May be a login name (login names map to a single cUID)
-            my $cUID = $this->{session}->{users}->getCanonicalUserID($ident);
+            # May be a login name (login names map to a single cUID).
+            # If user is unknown we return whatever was listed so we can
+            # remove deleted or misspelled users
+            my $cUID = $this->{session}->{users}->getCanonicalUserID($ident) || $ident;
             $namelist{$cUID} = 1 if $cUID;
             push( @l, keys %namelist );
         }
