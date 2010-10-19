@@ -34,6 +34,7 @@
   section="%IF{
     "istopic '%USERSWEB%.%groupname%' AND 
      '%groupname%' != 'NobodyGroup' AND
+     '%maint%' != 'off' AND
      '%USERSWEB%.%groupname%' allows 'change'
     " 
     then="changegroup%IF{"'%twisty%' = 'off'" then="notwisty"}%" 
