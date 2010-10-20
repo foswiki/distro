@@ -1321,8 +1321,6 @@ sub addUserToGroup {
     {    #requires isInGroup to also work on nested groupnames
         $user = getCanonicalUserID($user) || $user;
         return unless ( defined($user) );
-
-        #        print STDERR "Func::addUserToGroup - user passed test\n";
     }
     return $users->addUserToGroup( $user, $group, $create );
 }
