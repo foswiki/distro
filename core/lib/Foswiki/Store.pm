@@ -76,7 +76,8 @@ sub new {
     # Create and register store listeners. Store listeners are subclasses
     # of Foswiki::Store::Listener
     my @evl;
-    foreach my $lc ( @{$Foswiki::cfg{Store}{Listeners}} ) {
+    foreach my $lc ( keys(%{$Foswiki::cfg{Store}{Listeners}}) ) {
+        #TODO: implement an ordering based on the values(%)
         eval "require $lc";
         die "Failed to load $lc: $@" if $@;
         push(@evl, $lc->new());

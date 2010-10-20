@@ -103,6 +103,7 @@ sub _onceOnlyChecks {
 # Override in subclasses to change the config on a per-testcase basis
 sub loadExtraConfig {
     my $this = shift;
+    my $context = shift;
 }
 
 use Cwd;
@@ -112,7 +113,7 @@ use Cwd;
 sub set_up {
     my $this = shift;
 
-    $this->SUPER::set_up();
+    $this->SUPER::set_up(@_);
 
     $this->{__EnvSafe} = {};
     foreach my $sym (keys %ENV) {
@@ -193,7 +194,7 @@ sub set_up {
     # so that tests derived from this class can enable additional plugins.
     # (Core plugins may be disabled, but their initPlugin method will still
     # have been called when the first Foswiki object was created, above.)
-    $this->loadExtraConfig();
+    $this->loadExtraConfig(@_);
 
     _onceOnlyChecks();
 

@@ -42,9 +42,8 @@ sub run_in_new_process {
 }
 
 sub set_up {
-    my ($this, $context) = @_;
-
-    $this->SUPER::set_up();
+    my ($this) = shift;
+    $this->SUPER::set_up(@_);
 
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OkTopic',
@@ -113,25 +112,36 @@ SUB
 
 sub loadExtraConfig {
     my $this = shift; # the Test::Unit::TestCase object
+    my $context = shift;
     
+    $this->SUPER::loadExtraConfig($context, @_);
     #turn on the MongoDBPlugin so that the saved data goes into mongoDB
     #This is temoprary until Crawford and I cna find a way to push dependencies into unit tests
-    if (($Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongDB/) or 
-        ($Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongDB/)) {
+    if (($Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/) or 
+        ($Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongoDB/) or 
+        ($context =~ /MongoDB/)) {
         $Foswiki::cfg{Plugins}{MongoDBPlugin}{Module} = 'Foswiki::Plugins::MongoDBPlugin'; 
         $Foswiki::cfg{Plugins}{MongoDBPlugin}{Enabled} = 1; 
         $Foswiki::cfg{Plugins}{MongoDBPlugin}{EnableOnSaveUpdates} = 1; 
-    }
-    
-    $this->SUPER::loadExtraConfig();
-    
-    if (($Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongDB/) or 
-        ($Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongDB/)) {
+        
+        #push(@{$Foswiki::cfg{Store}{Listeners}}, 'Foswiki::Plugins::MongoDBPlugin::Listener');
+        $Foswiki::cfg{Store}{Listeners}{'Foswiki::Plugins::MongoDBPlugin::Listener'} = 1; 
         require Foswiki::Plugins::MongoDBPlugin;
         Foswiki::Plugins::MongoDBPlugin::getMongoDB()->remove('current', {'_web' => $this->{test_web}});
     }
 }
 
+sub tear_down {
+    my $this = shift; # the Test::Unit::TestCase object
+    
+    $this->SUPER::tear_down(@_);
+    #need to clear the web every test?
+    if (($Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/) or 
+        ($Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongoDB/)) {
+        require Foswiki::Plugins::MongoDBPlugin;
+        Foswiki::Plugins::MongoDBPlugin::getMongoDB()->remove('current', {'_web' => $this->{test_web}});
+    }
+}
 
 sub verify_simple {
     my $this = shift;
