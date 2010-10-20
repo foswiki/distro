@@ -1488,7 +1488,8 @@ sub verify_addToGroup {
     $this->assert(
         !Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
 
-    #SMELL:  missing users can be added - no checks performed
+    # Note that people that do not exist must still successfully be added to
+    # group per Item Item9848
     $this->assert(
         Foswiki::Func::addUserToGroup( 'WiseGuyDoesntExist', 'ZeeGroup' ) );
 
@@ -1497,9 +1498,11 @@ sub verify_addToGroup {
     $this->{session} = new Foswiki();
     $Foswiki::Plugins::SESSION = $this->{session};
 
-    #SMELL:  Func::isGroupMember $user = getCanonicalUserID($user); - which fails for missing users
+    # Func::isGroupMember must return success if the user is in the group
+    # Being a member of a group requires that you are listed in the group
+    # topic and you do not need to be known by the user mapper (Item9848)
     $this->assert(
-       !Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
+       Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
 
 }
 
@@ -1594,7 +1597,7 @@ sub verify_removeFromGroup {
 
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
     $this->assert( Foswiki::Func::addUserToGroup( 'UserA', 'ZeeGroup', 1 ) );
-    $this->assert( Foswiki::Func::addUserToGroup( 'UserB', 'ZeeGroup', 1 ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'WiseGuyDoesntExist', 'ZeeGroup', 1 ) );
 
     # Force a re-read
     $this->{session}->finish();
@@ -1602,15 +1605,24 @@ sub verify_removeFromGroup {
     $Foswiki::Plugins::SESSION = $this->{session};
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
-    $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserB' ) );
+
+    # We verify that the user WiseGuyDoesntExist is not a member of the group
     $this->assert(
-        !Foswiki::Func::isGroupMember( 'WiseGuyDoesntExist', 'ZeeGroup' ) );
+        !Foswiki::Func::isGroupMember( 'UserB', 'ZeeGroup' ) );
 
+    # Removing a user that is a member of the group should work no matter
+    # if he is known by user mapper or password manager
     $this->assert( Foswiki::Func::removeUserFromGroup( 'UserA', 'ZeeGroup' ) );
-
-    #SMELL: Valid users are no longer checked - Item9848
     $this->assert(
         Foswiki::Func::removeUserFromGroup( 'WiseGuyDoesntExist', 'ZeeGroup' )
+    );
+
+    # Removing a user that is not member of the group should fail
+    $this->assert(
+        !Foswiki::Func::removeUserFromGroup( 'UserB', 'ZeeGroup' )
+    );
+    $this->assert(
+        !Foswiki::Func::removeUserFromGroup( 'SillyGuyDoesntExist', 'ZeeGroup' )
     );
 
     # Force a re-read
@@ -1620,7 +1632,6 @@ sub verify_removeFromGroup {
 
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
-    $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserB' ) );
     $this->assert(
         !Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
 }
