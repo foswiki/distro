@@ -970,9 +970,9 @@ $Foswiki::cfg{Store}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::BruteFo
 $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 
 # **PERL EXPERT**
-# Array of full class names of objects that want to listen to changes to
-# the store.
-$Foswiki::cfg{Store}{Listeners} = [];
+# Hash of full class names of objects that want to listen to changes to
+# the store. The Key is the Class name, and the value may be used to create an order.
+$Foswiki::cfg{Store}{Listeners} = {};
 
 # **OCTAL EXPERT**
 # File security for new directories created by RCS stores. You may have
