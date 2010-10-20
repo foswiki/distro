@@ -16,7 +16,8 @@ use Devel::Symdump;
 use Error qw(:try);
 use File::Spec;
 
-sub CHECKLEAK {0}
+sub CHECKLEAK { 0 }
+
 BEGIN {
     if (CHECKLEAK) {
         eval "use Devel::Leak::Object qw{ GLOBAL_bless };";
@@ -136,11 +137,11 @@ sub start {
                 $action = runOne( $tester, $suite, $testToRun );
             }
 
-            if ( Cwd->cwd() ne $start_cwd) {
-                print "CWD changed to " . Cwd->cwd() 
-                  . " by previous test!! \n";
-                chdir $start_cwd or die "Cannot change back to previous $start_cwd\n";
-                }
+            if ( Cwd->cwd() ne $start_cwd ) {
+                print "CWD changed to " . Cwd->cwd() . " by previous test!! \n";
+                chdir $start_cwd
+                  or die "Cannot change back to previous $start_cwd\n";
+            }
 
             # untaint action for the case where the test is run in
             # another process
@@ -201,28 +202,28 @@ sub runOneInNewProcess {
 
     my @paths;
     push( @paths, "-I", $_ ) for ( @unshiftedOntoINC, @pushedOntoINC );
-    my @command = map
-        {
-            my $value = $_;
-            if (defined $value) {
-                $value =~ /(.*)/;
-                $value = $1; # untaint
-            }
-            $value;
+    my @command = map {
+        my $value = $_;
+        if ( defined $value ) {
+            $value =~ /(.*)/;
+            $value = $1;    # untaint
         }
-        ($^X, "-wT", @paths, File::Spec->rel2abs($0), "-worker", $suite, ,$testToRun, $tempfilename);
-    my $command = join(' ', @command);
+        $value;
+      } (
+        $^X, "-wT", @paths, File::Spec->rel2abs($0),
+        "-worker", $suite,, $testToRun, $tempfilename
+      );
+    my $command = join( ' ', @command );
     print "Running: $command\n";
 
     $ENV{PATH} =~ /(.*)/;
-    $ENV{PATH} = $1; # untaint
+    $ENV{PATH} = $1;        # untaint
     system(@command);
     if ( $? == -1 ) {
         my $error = $!;
         unlink $tempfilename;
         print "*** Could not spawn new process for $suite: $error\n";
-        return
-            'push( @{ $this->{failures} }, "' 
+        return 'push( @{ $this->{failures} }, "' 
           . $suite . '\n'
           . quotemeta($error) . '" );';
     }
@@ -231,8 +232,7 @@ sub runOneInNewProcess {
         if ($returnCode) {
             print "*** Error trying to run $suite\n";
             unlink $tempfilename;
-            return
-                'push( @{ $this->{failures} }, "Process for ' 
+            return 'push( @{ $this->{failures} }, "Process for ' 
               . $suite
               . ' returned '
               . $returnCode . '" );';
@@ -255,11 +255,12 @@ sub runOneInNewProcess {
 sub worker {
     my $numArgs = scalar(@_);
     my ( $this, $testSuiteModule, $testToRun, $tempfilename ) = @_;
-    if ($numArgs != 4 or
-        not defined $this or
-        not defined $testSuiteModule or
-        not defined $testToRun or
-        not defined $tempfilename ) {
+    if (   $numArgs != 4
+        or not defined $this
+        or not defined $testSuiteModule
+        or not defined $testToRun
+        or not defined $tempfilename )
+    {
         my $pkg = __PACKAGE__;
         die <<"DIE";
 
@@ -274,15 +275,14 @@ DIE
         $testToRun = undef;
     }
     else {
-        $testToRun =~ /(.*)/; # untaint
+        $testToRun =~ /(.*)/;    # untaint
         $testToRun = $1;
     }
 
-    $testSuiteModule =~ /(.*)/; # untaint
+    $testSuiteModule =~ /(.*)/;    # untaint
     $testSuiteModule = $1;
 
-
-    $tempfilename =~ /(.*)/; # untaint
+    $tempfilename =~ /(.*)/;       # untaint
     $tempfilename = $1;
 
     my $suite = $testSuiteModule;
@@ -355,16 +355,16 @@ sub runOne {
     if ($testToRun) {
         my @runTests = grep { /^${suite}::$testToRun$/ } @tests;
         if ( !@runTests ) {
-            @runTests   = grep { /^${suite}::$testToRun/ } @tests;
+            @runTests = grep { /^${suite}::$testToRun/ } @tests;
             if ( !@runTests ) {
                 print "*** No test matching $testToRun in $suite\n";
-                print join("\n", "\t$suite contains:", @tests, '');
+                print join( "\n", "\t$suite contains:", @tests, '' );
                 return $action;
             }
             else {
                 print "*** Running "
-                    . @runTests
-                    . " tests matching your pattern ($testToRun)\n"
+                  . @runTests
+                  . " tests matching your pattern ($testToRun)\n";
             }
         }
         @tests = @runTests;
