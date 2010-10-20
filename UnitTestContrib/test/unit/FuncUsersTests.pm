@@ -1487,15 +1487,20 @@ sub verify_addToGroup {
 
     $this->assert(
         !Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
+
+    #SMELL:  missing users can be added - no checks performed
     $this->assert(
-        !Foswiki::Func::addUserToGroup( 'WiseGuyDoesntExist', 'ZeeGroup' ) );
+        Foswiki::Func::addUserToGroup( 'WiseGuyDoesntExist', 'ZeeGroup' ) );
 
     # Force a re-read
     $this->{session}->finish();
     $this->{session} = new Foswiki();
     $Foswiki::Plugins::SESSION = $this->{session};
+
+    #SMELL:  Func::isGroupMember $user = getCanonicalUserID($user); - which fails for missing users
     $this->assert(
-        !Foswiki::Func::isGroupMember( 'WiseGuyDoesntExist', 'ZeeGroup' ) );
+       !Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
+
 }
 
 sub verify_NestedGroups {
@@ -1602,8 +1607,10 @@ sub verify_removeFromGroup {
         !Foswiki::Func::isGroupMember( 'WiseGuyDoesntExist', 'ZeeGroup' ) );
 
     $this->assert( Foswiki::Func::removeUserFromGroup( 'UserA', 'ZeeGroup' ) );
+
+    #SMELL: Valid users are no longer checked - Item9848
     $this->assert(
-        !Foswiki::Func::removeUserFromGroup( 'WiseGuyDoesntExist', 'ZeeGroup' )
+        Foswiki::Func::removeUserFromGroup( 'WiseGuyDoesntExist', 'ZeeGroup' )
     );
 
     # Force a re-read
