@@ -18,6 +18,17 @@ sub set_up {
     # Testcases are written using good anchors
     $Foswiki::cfg{RequireCompatibleAnchors} = 0;
     $VIEW_UI_FN ||= $this->getUIFn('view');
+
+    # This user is used in some testcases. All we need to do is make sure
+    # their topic exists in the test users web
+    if (!$this->{session}->topicExists(
+            $Foswiki::cfg{UsersWebName},
+            'WikiGuest')){
+        my $to = Foswiki::Meta->new(
+            $this->{session}, $Foswiki::cfg{UsersWebName},
+            'WikiGuest', 'This user is used in some testcases');
+        $to->save();
+    }
 }
 
 sub list_tests {
