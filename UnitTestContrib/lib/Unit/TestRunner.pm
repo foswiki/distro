@@ -353,11 +353,21 @@ sub runOne {
     # Get a list of the test methods in the class
     my @tests = $tester->list_tests($suite);
     if ($testToRun) {
-        @tests = grep { /^${suite}::$testToRun$/ } @tests;
-        if ( !@tests ) {
-            print "*** No test called $testToRun in $suite\n";
-            return $action;
+        my @runTests = grep { /^${suite}::$testToRun$/ } @tests;
+        if ( !@runTests ) {
+            @runTests   = grep { /^${suite}::$testToRun/ } @tests;
+            if ( !@runTests ) {
+                print "*** No test matching $testToRun in $suite\n";
+                print join("\n", "\t$suite contains:", @tests, '');
+                return $action;
+            }
+            else {
+                print "*** Running "
+                    . @runTests
+                    . " tests matching your pattern ($testToRun)\n"
+            }
         }
+        @tests = @runTests;
     }
     unless ( scalar(@tests) ) {
         print "*** No tests in $suite\n";
