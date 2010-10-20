@@ -155,7 +155,7 @@ Your Wiki Admin
 </verbatim>
 <blockquote class="foswikiHelp">%X% *Remember* to secure the topic appropriately to prevent attackers from getting emailed sensitive passwords.</blockquote>
 
----++ Manually approving registraions
+---++ Manually approving registrations
 In some installations, registration requests should be forwarded to an administrator for approval.  This can be accomplished relatively easily by
 modifying the registration email template to send the "Verification" request to an approval address instead of returning to the user.
 
