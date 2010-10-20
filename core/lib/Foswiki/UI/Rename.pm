@@ -1368,8 +1368,8 @@ sub _getReferringTopics {
         }
 
         my $matches =
-          Foswiki::Func::searchInWebContent( $searchString, $searchWeb, undef,
-            { casesensitive => 1, type => 'regex' } );
+          Foswiki::Func::query( $searchString, undef,
+            { web => $searchWeb, casesensitive => 1, type => 'regex' } );
 
         while ( $matches->hasNext ) {
             my $webtopic = $matches->next;
