@@ -845,8 +845,6 @@ sub isInGroup {
 
     $expand = 1 unless ( defined $expand );
 
-#    print STDERR "Users::isInGroup called for $cUID in $group - expand $expand \n";
-
     my $mapping = $this->_getMapping($cUID);
     my $otherMapping =
       ( $mapping eq $this->{basemapping} )

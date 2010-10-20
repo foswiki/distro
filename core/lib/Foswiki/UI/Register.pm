@@ -611,9 +611,9 @@ sub addUserToGroup {
         or ( $userNames[0] eq '' ) )
     {
 
-    #if $create is set, and there are no users in the list, and the group exists
-    #then we're trying to upgrade the user topic.
-    #I'm not sure what other mappers might make of this..
+    # if $create is set, and there are no users in the list, and the group exists
+    # then we're trying to upgrade the user topic.
+    # I'm not sure what other mappers might make of this..
         if ( $create and Foswiki::Func::isGroup($groupName) ) {
             try {
                 Foswiki::Func::addUserToGroup( undef, $groupName, $create );
@@ -643,13 +643,16 @@ sub addUserToGroup {
         @userNames = split( /,\s*/, $userNames[0] );
     }
 
-    # TODO: SMELL: if you create a new group, make sure __you__ are the
-    # first user in the list, otherwise you won't be able to add more
-    # than one user.
-    # because this code saves once per user - and the group will be
-    # restricted to that group.
-    # for now, I'll add the currently logged in user to the list..
-    if ( !Foswiki::Func::isGroup($groupName) and $create ) {
+    # If a users create a new group, make sure he is in the group
+    # Otherwise he will not be able to touch the group after the
+    # first user is added because this code saves once per user - and the
+    # group will be restricted to that group. It is also good to prevent the
+    # user from shooting himself in the foot.
+    # He can afterwards remove himself if needed
+    # We make an exception if you are an admin as they can always edit anything
+
+    if ( !Foswiki::Func::isGroup($groupName) and 
+         !$session->{users}->isAdmin($user) and $create ) {
         unshift( @userNames, $session->{users}->getLoginName($user) );
     }
 
@@ -658,17 +661,18 @@ sub addUserToGroup {
     foreach my $u (@userNames) {
         $u =~ s/^\s+//;
         $u =~ s/\s+$//;
+        # We strip off any usersweb prefix
+        $u =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
+
         next if ( $u eq '' );
 
         next if ( Foswiki::Func::isGroup($groupName) && Foswiki::Func::isGroupMember($groupName, $u, 0) );
 
         try {
             if ( Foswiki::Func::addUserToGroup( $u, $groupName, $create ) ) {
-#                print STDERR "Func adding $u succeeded\n";
                 push( @succeeded, $u );
             }
             else {
-#                print STDERR "Func adding $u failed\n";
                 push( @failed, $u );
 
                 # Log the error
@@ -686,7 +690,7 @@ sub addUserToGroup {
                 "catch: Failed to add $u to $groupName " . $e->stringify() );
         };
     }
-    if (@failed) {
+    if (@failed || !@succeeded) {
         throw Foswiki::OopsException(
             'attention',
             web    => $web,

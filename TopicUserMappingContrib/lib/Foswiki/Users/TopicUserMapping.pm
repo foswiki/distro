@@ -814,13 +814,8 @@ sub addUserToGroup {
       $this->{session}
       ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
 
-    #the registration code will call this function using the rego agent
+    # the registration code will call this function using the rego agent
     my $user = $this->{session}->{user};
-
-#open Group topic, parse for the GROUPs setting, append new user
-#find where GROUP is set, use that code if we can, so that when it goes multi-line it copes
-#TODO: LATER: check for duplicates
-#TODO: make sure the groupName ends in Group...
 
     my $usersObj = $this->{session}->{users};
 
@@ -837,25 +832,12 @@ sub addUserToGroup {
 
     if ( $usersObj->isGroup($groupName) ) {
 
-       #if you set create for a group that exists, use that to force an upgrade.
-        if ( ( not $create )
-            and $usersObj->isInGroup( $cuid, $groupName, '0' ) )
-        {
-
-            #TODO: not sure this is the right thing to do -
-            #it might make more sense to not expand the nested groups,
-            #and add a user if they're not listed here,
-            #that way we are able to not worry about subgroups changing.
-            #            print STDERR "$user is already in $groupName\n";
-            return 1;    #user already in group, nothing to do
-        }
         $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $groupWeb, $groupName );
 
         if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
 
-            #can't change topic.
-            #            print STDERR "$user cannot change $groupName\n";
+            # can't change topic.
             return 0;
         }
 
@@ -868,14 +850,13 @@ sub addUserToGroup {
                 $membersString,    $allowChangeString
             );
 
-            #            print STDERR "cUID is not defined \n";
             return 1;
         }
     }
     else {
 
- #see if we have permission to add a topic, or to edit the existing topic, etc..
- #        print STDERR "Checking permissions ... ";
+    # see if we have permission to add a topic, or to edit the existing topic, etc..
+ 
         return 0 unless ($create);
         return 0
           unless (
@@ -884,11 +865,10 @@ sub addUserToGroup {
             )
           );
 
-        #        print STDERR "PASSED \n ";
         $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $groupWeb, 'GroupTemplate' );
 
-        #expand the GroupTemplate as best we can.
+        # expand the GroupTemplate as best we can.
         $this->{session}->{request}
           ->param( -name => 'topic', -value => $groupName );
         $groupTopicObject->expandNewTopic();
@@ -896,16 +876,12 @@ sub addUserToGroup {
         $allowChangeString = $groupName;
     }
 
-    #    print STDERR "Adding cUID $cuid ";
     my $wikiName = $usersObj->getWikiName($cuid);
 
-    #    print STDERR "wikiname $wikiName \n";
     if ( $membersString !~ m/$wikiName/ ) {
         $membersString .= ', ' if ( $membersString ne '' );
         $membersString .= $wikiName;
     }
-
-    #    print STDERR "membersString = $membersString \n";
 
     $this->_clearGroupCache($groupName);
 
@@ -914,9 +890,7 @@ sub addUserToGroup {
         $membersString,    $allowChangeString
     );
 
-    #    print STDERR "Write is complete \n";
-
-    #reparse groups brute force :/
+    # reparse groups brute force :/
     _getListOfGroups( $this, 1 ) if ($create);
     return 1;
 }
@@ -1024,7 +998,7 @@ sub removeUserFromGroup {
             ->topicExists( $Foswiki::cfg{UsersWebName}, $groupName ) )
       )
     {
-        if (   !$usersObj->isInGroup( $cuid, $groupName )
+        if (   !$usersObj->isInGroup( $cuid, $groupName, 0 )
             && !$usersObj->isGroup($cuid) )
         {
             return 0;    # user not in group - report that it failed
@@ -1042,6 +1016,7 @@ sub removeUserFromGroup {
         my $membersString = $groupTopicObject->getPreference('GROUP');
         my @l;
         foreach my $ident ( split( /[\,\s]+/, $membersString ) ) {
+            $ident =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
             next if ( $ident eq $WikiName );
             next if ( $ident eq $LoginName );
             next if ( $ident eq $cuid );
