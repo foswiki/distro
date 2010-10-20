@@ -1027,7 +1027,7 @@ sub removeUserFromGroup {
         if (   !$usersObj->isInGroup( $cuid, $groupName )
             && !$usersObj->isGroup($cuid) )
         {
-            return 1;    #user not in group - done
+            return 0;    # user not in group - report that it failed
         }
         my $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
