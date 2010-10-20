@@ -1169,7 +1169,7 @@ sub isGroupMember {
 
         #my $login = wikiToUserName( $user );
         #return 0 unless $login;
-        $user = getCanonicalUserID($user);
+        $user = getCanonicalUserID($user) || $user;
     }
     else {
         $user = $Foswiki::Plugins::SESSION->{user};
