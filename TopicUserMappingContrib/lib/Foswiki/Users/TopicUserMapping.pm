@@ -802,7 +802,7 @@ sub groupAllowsChange {
 adds the user specified by the cuid to the group.
 If the group does not exist, it will return false and do nothing, unless the create flag is set.
 
-cuid _cannot_  be a groupname
+cuid be a groupname which is added like it was an unknown user
 
 =cut
 
@@ -842,6 +842,14 @@ sub addUserToGroup {
         }
 
         $membersString = $groupTopicObject->getPreference('GROUP') || '';
+        
+        my @l;
+        foreach my $ident ( split( /[\,\s]+/, $membersString ) ) {
+            $ident =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
+            push( @l, $ident ) if $ident;
+        }
+        $membersString = join( ', ', @l );
+      
         if ( $create and !defined($cuid) ) {
 
             #upgrade group topic.
