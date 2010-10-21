@@ -24,6 +24,7 @@ FindBin,>=0,cpan,Optional, required if you want to use the Extensions Installer 
 Getopt::Long,>=0,cpan,Optional, may be required for international characters
 HTML::Entities,>=1.25,cpan,Required, for WysiwygPlugin
 HTML::Parser,>=3.28,cpan,Required, for WysiwygPlugin
+HTML::Tree,>=3.23,cpan,Required. for CompareRevisionsAddOn
 I18N::Langinfo,>=0,cpan,Optional, may be required for international characters
 IO::File,>=1.10,perl,Required, for base Foswiki (upload)
 Lingua::EN::Sentence,>=0,cpan,Optional, may be required for generating new language files

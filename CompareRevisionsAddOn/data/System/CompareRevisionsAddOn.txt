@@ -15,18 +15,18 @@ Furthermore, the differences between the revisions are shown as close as possibl
 The differences may be shown in two formats, either side-by-side or as an interwoven output of the old and new revision (like it is done in  Word or !OpenOffice):
 
    * Screenshot of interwoven output: <br />
-     <div class="twikiImage"><img src="%ATTACHURLPATH%/interweave.png" alt="interweave.png" width='582' height='327' /></div>
+     <div class="foswikiImage"><img src="%ATTACHURLPATH%/interweave.png" alt="interweave.png" width='582' height='327' /></div>
 
    * Screenshot of side-by-side output: <br />
-     <div class="twikiImage"><img src="%ATTACHURLPATH%/sidebyside.png" alt="sidebyside.png" width='582' height='565' /></div>
+     <div class="foswikiImage"><img src="%ATTACHURLPATH%/sidebyside.png" alt="sidebyside.png" width='582' height='565' /></div>
 
-These screenshots have been taken from %SANDBOXWEB%.CompareRevisionsAddOnDemoTopic.
+These screenshots have been taken from Sandbox.CompareRevisionsAddOnDemoTopic.
 
 The appearance can be affected by templates and skins.
 
 ---++ Usage
 
-Call ==http:<nop>//your/twiki/bin/compare/Web/Topic?parameters== from your browser
+Call ==http:<nop>//your/foswiki/bin/compare/Web/Topic?parameters== from your browser
 
 ---+++ Parameters
 
@@ -93,24 +93,24 @@ CSS style classes, whose appearance should be defined in the templates.
 
 The following classes are used:
 
-==twikiCompareAdd== %BR%
+==craCompareAdd== %BR%
 Class for added items (i.e. items which are in the newer revision, 
 but not yet in the older one)
 
-==twikiCompareDelete== %BR%
+==craCompareDelete== %BR%
 Class for deleted items (i.e. items which are in the older revision,
 but no more in the newer one)
 
-==twikiCompareChange1== %BR%
+==craCompareChange1== %BR%
 Class for the items from the older revision which have been changed.
 
-==twikiCompareChange2== %BR%
+==craCompareChange2== %BR%
 Class for the items from the newer revision which have been changed.
 
 In the default templates files from the distribution, the classes 
-==twikiCompareAdd== and ==twikiCompareChange1== are defined with
-a light red background and stroken out text, and ==twikiCompareDelete== 
-and ==twikiCompareChange2== are defined with a light green background.
+==craCompareAdd== and ==craCompareChange1== are defined with
+a light red background and stroken out text, and ==craCompareDelete== 
+and ==craCompareChange2== are defined with a light green background.
 
 
 ---++ Add-On Installation Instructions
@@ -120,7 +120,7 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
    * This script needs some additional Perl modules.
      If necessary, download and install the required perl modules from [[http://www.cpan.org][CPAN]]. 
      If you do not want to install these modules in your standard perl location,
-     install them in /your/twiki/lib.
+     install them in /your/foswiki/lib.
      (See e.g.
      [[http://www.perldoc.com/perl5.6.1/pod/perlmodinstall.html][perldoc perlmodinstall]] on how to 
      install perl modules).%BR%
@@ -130,7 +130,7 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
          * [[http://cpan.uwinnipeg.ca/module/HTML::Tagset][HTML::Tagset]]
       * Algorithm::Diff (which is included in the standard Foswiki installation
    * Download the [[%ATTACHURL%/CompareRevisionsAddOn.zip][ZIP file]] from the Add-on Home (see below)
-   * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
+   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
      | *File:*                      | *Description:*   |
      | ==data/System/%TOPIC%.txt==   | Add-on topic     |
      | ==bin/compare==              | Add-on script  |
@@ -148,7 +148,7 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 
    * Test if the installation was successful:%BR%
      Call ==%<nop>SCRIPTURL%/compare/Web/Topic== with
-     some existing topic. (Try for instance %SANDBOXWEB%.CompareRevisionsAddOnDemoTopic and 
+     some existing topic. (Try for instance Sandbox.CompareRevisionsAddOnDemoTopic and 
      compare your output with above screenshots).
 
    * Enable the helper plugin CompareRevisionsAddonPlugin with the configure script
@@ -160,12 +160,13 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 ---++ Add-On Info
 
 |  Plugin Author: | Foswiki:Main.KennethLavrsen |
-|  Copyright &copy;: | 2006, !JChristophFuchs; 2008 Kenneth Lavrsen and Foswiki Contributors | 
+|  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2010 Kenneth Lavrsen and Foswiki Contributors | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|   4 Oct 2010 | Foswikitask:Item9774:  Add CompareRevisionsAddOn.pm stub module to provide Version & Release strings | 
+|  21 Oct 2010 | Added dependency of HTML::Tree to installer and to core MANIFEST so you see it listed in configure |
+|  04 Oct 2010 | Foswikitask:Item9774:  Add CompareRevisionsAddOn.pm stub module to provide Version & Release strings | 
 |  31 Jul 2010 | Paul Harvey: Foswikitask:Item9415 - Documentation updates |
 |  19 Sep 2009 | Kenneth Lavrsen: Expert settings in plugins makes configure fail to save. Using the hidden (H) setting instead which is much better anyway as this is not a setting to be altered by a user. |
 |  18 Sep 2009 | Kenneth Lavrsen: Expert settings in plugins makes configure fail to save. Settings therefore un-experted again |
