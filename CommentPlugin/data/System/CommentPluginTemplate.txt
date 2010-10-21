@@ -1,15 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" date="1166310108" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 
-<!-- %JQREQUIRE{"chili"}% -->
-
 ---+!! Templates for CommentPlugin
 
 See [[%SYSTEMWEB%.CommentPlugin#Customisation][CommentPlugin: Customisation]] for help.
 
 While this topic can be viewed as a topic, it is used by the CommentPlugin as a template file. The syntax is the same as used for the templates used for presentation in skins - see SkinTemplates. The important content in here is in the verbatim blocks. The rest of the topic is just comments.
 
-%ICON{"hand"}% See %SANDBOXWEB%.CommentPluginExamples to view rendered templates
+%ICON{"hand"}% See Sandbox.CommentPluginExamples to view rendered templates
 
 <div class="foswikiBroadcastMessage" style="background-color:#ffc;">WARNING: THIS FILE WILL BE OVERWRITTEN WHEN YOU UPGRADE THE COMMENT PLUGIN</div>
 
@@ -19,38 +17,21 @@ Put your local templates into %SYSTEMWEB%.UserCommentsTemplate (create if it doe
 
 ---++ Template definitions
 
-<blockquote class="foswikiHelp"> %X% Note that the use of URLPARAM in the templates should be done in a way that prevents Cross Site Scripting attacks. The safest is to let URLPARAM encode the unsafe characters (default) but this prevents the user from entering Foswiki macros in the comment input fields. It is however safe to use encode="off" when the following rules are observed.
+%X% Note that the use of URLPARAM in the templates should be done in a way that prevents Cross Site Scripting attacks. The safest is to let URLPARAM encode the unsafe characters (default) but this prevents the user from entering Foswiki macros in the comment input fields. It is however safe to use encode="off" when the following rules are observed.
    * The encode="off" option for URLPARAM is only used in this topic within verbatim tags to prevent this topic from being an XSS attack vector.
    * The encode="off" option is only used in OUTPUT defs and never in the PROMPT.
-</blockquote>
    
 ---+++ Templates used in rest of file
 Generic prompt box used by other templates
-<verbatim class="tml">
-%TMPL:DEF{promptbox}%<div class="commentPlugin commentPluginPromptBox">
-<table border="0" cellpadding="0" cellspacing="0">
-  <tr valign="middle">
-    <td>
-      <textarea %DISABLED% rows="%rows|3%" cols="%cols|70%"\
-        name="comment" class="foswikiInputField" wrap="soft"\
-        onfocus="if(this.value=='%MESSAGE%')this.value=''"\
-        onblur="if(this.value=='')this.value='%MESSAGE%'">%MESSAGE%</textarea>
-    </td>
-    <td>&nbsp;<input %DISABLED% type="submit"\
-      value="%button|Add comment%" class="foswikiButton" />
-    </td>
-  </tr>
-</table>
-</div><!--/commentPlugin-->%TMPL:END%
+<verbatim>
+%TMPL:DEF{promptbox}%<div class="commentPlugin commentPluginPromptBox"><table border="0" cellpadding="0" cellspacing="0"><tr valign="middle"><td><textarea %DISABLED% rows="%rows|3%" cols="%cols|70%" name="comment" class="foswikiInputField" wrap="soft" onfocus="if(this.value=='%MESSAGE%')this.value=''" onblur="if(this.value=='')this.value='%MESSAGE%'">%MESSAGE%</textarea></td><td>&nbsp;<input %DISABLED% type="submit" value="%button|Add comment%" class="foswikiButton" /></td></tr></table></div><!--/commentPlugin-->%TMPL:END%
 </verbatim>
 Short comment, signed and dated
-<verbatim class="tml">
-%TMPL:DEF{outputoneliner}%\
-   * %URLPARAM{"comment" encode="off"}% -- %WIKIUSERNAME% - %GMTIME{"$day $month $year"}%\
-%TMPL:END%
+<verbatim>
+%TMPL:DEF{outputoneliner}%   * %URLPARAM{"comment" encode="off"}% -- %WIKIUSERNAME% - %GMTIME{"$day $month $year"}%%TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#Default][Default]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#Default][Default]]
 
 
 
@@ -58,78 +39,73 @@ Short comment, signed and dated
 ---+++ User templates
 ---++++ top
 Comments, signed and dated, added at top of file
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:top}%%TMPL:P{promptbox}%%TMPL:END%
 </verbatim>
 
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{OUTPUT:top}%%TMPL:P{outputoneliner}%%POS:TOP%
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#top][top]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#top][top]]
 
 
 
 
 ---++++ bottom
 Comments, signed and dated, added at end of file
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:bottom}%%TMPL:P{promptbox}%%TMPL:END%
 </verbatim>
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{OUTPUT:bottom}%%POS:BOTTOM%%TMPL:P{outputoneliner}%%TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#bottom][bottom]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#bottom][bottom]]
 
 
 
 
 ---++++ above
 Comments, signed and dated, added immediately before anchor
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:above}%%TMPL:P{promptbox}%%TMPL:END%
 </verbatim>
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{OUTPUT:above}%%POS:BEFORE%%TMPL:P{OUTPUT:threadmode}%%TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#above][above]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#above][above]]
 
 
 
 
 ---++++ bulletabove
 Bullet item added immediately before anchor. The input field width is passed with parameter =inputsize=, for example:
-<blockquote><verbatim class="tml">
+<blockquote><verbatim>
 %COMMENT{type="bulletabove" inputsize="20"}%
 </verbatim></blockquote>
 
-<verbatim class="tml">
-%TMPL:DEF{PROMPT:bulletabove}%\
-  <input class="foswikiInputField" name="bullet_above_item" id="bullet_above_item"\
-    type="text" size="%inputsize|40%" value="%URLPARAM{"bullet_above_item"}%"\
-  />&nbsp;<input %DISABLED% type="submit" value="%button|Add item%" class="foswikiButton" />\
-%TMPL:END%
+<verbatim>
+%TMPL:DEF{PROMPT:bulletabove}%<input class="foswikiInputField" name="bullet_above_item" id="bullet_above_item" type="text" size="%inputsize|40%" value="%URLPARAM{"bullet_above_item"}%" />&nbsp;<input %DISABLED% type="submit" value="%button|Add item%" class="foswikiButton" />%TMPL:END%
 </verbatim>
-<verbatim class="tml">
-%TMPL:DEF{OUTPUT:bulletabove}%\
-   * %URLPARAM{"bullet_above_item" encode="off"}%%POS:BEFORE%
+<verbatim>
+%TMPL:DEF{OUTPUT:bulletabove}%   * %URLPARAM{"bullet_above_item" encode="off"}%%POS:BEFORE%
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#bulletabove][bulletabove]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#bulletabove][bulletabove]]
 
 
 
 
 ---++++ threadmode
 Wiki thread mode comment, signed and dated
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:threadmode}%%TMPL:P{promptbox}%%TMPL:END%
 </verbatim>
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{OUTPUT:threadmode}%%POS:BEFORE%
 
 %URLPARAM{"comment" encode="off"}%
@@ -138,7 +114,7 @@ Wiki thread mode comment, signed and dated
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#threadmode][threadmode]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#threadmode][threadmode]]
 
 
 
@@ -146,10 +122,10 @@ Wiki thread mode comment, signed and dated
 ---++++ belowthreadmode
 Comments, signed and dated, added recurse after comment box.
 
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:belowthreadmode}%%TMPL:P{promptbox}%%TMPL:END%
 </verbatim>
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{OUTPUT:belowthreadmode}%%POS:AFTER%
 ---++++ %WIKIUSERNAME% - %SERVERTIME%
 
@@ -158,22 +134,22 @@ Comments, signed and dated, added recurse after comment box.
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#belowthreadmode][belowthreadmode]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#belowthreadmode][belowthreadmode]]
 
 
 
 
 ---++++ below
 Comments, signed and dated, added immediately below anchor
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:below}%%TMPL:P{promptbox}%%TMPL:END%
 </verbatim>
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{OUTPUT:below}%%POS:AFTER%%TMPL:P{outputoneliner}%
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#below][below]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#below][below]]
 
 
 
@@ -181,46 +157,44 @@ Comments, signed and dated, added immediately below anchor
 ---++++ tableprepend
 Comments, signed and dated, added at top of table below the
 anchor/location/COMMENT
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:tableprepend}%%TMPL:P{promptbox}%%TMPL:END%
 </verbatim>
-<verbatim class="tml">
-%TMPL:DEF{OUTPUT:tableprepend}%\
-%POS:AFTER%| %URLPARAM{"comment" newline="<br />" encode="off"}% | %WIKIUSERNAME% | %SERVERTIME% |
+<verbatim>
+%TMPL:DEF{OUTPUT:tableprepend}%%POS:AFTER%| %URLPARAM{"comment" newline="<br />" encode="off"}% | %WIKIUSERNAME% | %SERVERTIME% |
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#tableprepend][tableprepend]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#tableprepend][tableprepend]]
 
 
 
 
 ---++++ tableappend
 Comments, signed and dated, added at end of table above the anchor/location/COMMENT
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:tableappend}%%TMPL:P{promptbox}%%TMPL:END%
 </verbatim>
-<verbatim class="tml">
-%TMPL:DEF{OUTPUT:tableappend}%\
-%POS:BEFORE%| %URLPARAM{"comment" newline="<br />" encode="off"}% | %WIKIUSERNAME% | %SERVERTIME% |
+<verbatim>
+%TMPL:DEF{OUTPUT:tableappend}%%POS:BEFORE%| %URLPARAM{"comment" newline="<br />" encode="off"}% | %WIKIUSERNAME% | %SERVERTIME% |
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#tableappend][tableappend]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#tableappend][tableappend]]
 
 
 
 
 ---++++ after: Add before the comment box, after the last comment
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:after}%%TMPL:P{promptbox}%%TMPL:END%
 </verbatim>
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{OUTPUT:after}%%NOP%%TMPL:P{outputoneliner}%
 %POS:BEFORE%%TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#after][after]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#after][after]]
 
 
 
@@ -228,83 +202,57 @@ Comments, signed and dated, added at end of table above the anchor/location/COMM
 ---++++ action
 Action added to action table directly above comment box
 (requires Foswiki:Extensions/ActionTrackerPlugin)
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:action}%
 
 %TABLE{databg="#ffffff" tableborder="0" cellborder="0"}%
-|   <label for="action_who">Action for</label>|\
-    <input class="foswikiInputField" name="action_who" id="action_who"\
-     type="text" size="50" value="%URLPARAM{"who"}%" /> |
-|   <label for="action_due">Due date</label>|\
-    <input class="foswikiInputField" name="action_due" id="action_due"\
-     type="text" size="30" value="%URLPARAM{"due"}%" /> |
-|   <label for="action_comment">Comment</label>|\
-    <textarea %DISABLED% rows="%rows|3%" cols="%cols|50%" name="action_comment"\
-     id="action_comment"\ class="foswikiInputField" wrap="soft"\
-     onfocus="if(this.value=='%MESSAGE%')this.value=''"\
-     onblur="if(this.value=='')this.value='%MESSAGE%'">%MESSAGE%</textarea> |
+|        <label for="action_who">Action for</label>| <input class="foswikiInputField" name="action_who" id="action_who" type="text" size="50" value="%URLPARAM{"who"}%" /> |
+| <label for="action_due">Due date</label>| <input class="foswikiInputField" name="action_due" id="action_due" type="text" size="30" value="%URLPARAM{"due"}%" /> |
+|    <label for="action_comment">Comment</label>| <textarea %DISABLED% rows="%rows|3%" cols="%cols|50%" name="action_comment" id="action_comment" class="foswikiInputField" wrap="soft" onfocus="if(this.value=='%MESSAGE%')this.value=''" onblur="if(this.value=='')this.value='%MESSAGE%'">%MESSAGE%</textarea> |
 || <input %DISABLED% type="submit" class="foswikiButton" value="Add action" /> |
 %TMPL:END%
 </verbatim>
-<verbatim class="tml">
-%TMPL:DEF{OUTPUT:action}%\
-%POS:BEFORE%%AC%NOP%TION{\
-   who="%URLPARAM{"action_who" encode="off"}%"\
-   due="%URLPARAM{"action_due" encode="off"}%"}%\
-   %URLPARAM{"action_comment" encode="off"}%<br />\
-   - Created by %WIKIUSERNAME%, %SERVERTIME%%ENDACTION%
+<verbatim>
+%TMPL:DEF{OUTPUT:action}%%POS:BEFORE%%AC%NOP%TION{who="%URLPARAM{"action_who" encode="off"}%" due="%URLPARAM{"action_due" encode="off"}%"}% %URLPARAM{"action_comment" encode="off"}%<br />- Created by %WIKIUSERNAME%, %SERVERTIME%%ENDACTION%
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#action][action]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#action][action]]
 
 
 
 
 ---++++ table
 Tablerows adding on end
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:table}%
 %TABLE{databg="#ffffff" tableborder="0" cellborder="0"}%
-|   <label for="comment_date">Date</label>|\
-    <input class="foswikiInputField" %DISABLED% type="text"\
-     size="40" name="comment_date" id="comment_date" />    |
-|   <label for="comment_city">City</label>|\
-    <input class="foswikiInputField" %DISABLED% type="text"\
-     size="40" name="comment_city" id="comment_city" value="" />    |
+|        <label for="comment_date">Date</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_date" id="comment_date" /> |
+|        <label for="comment_city">City</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_city" id="comment_city" value="" /> |
 || <input %DISABLED% type="submit" class="foswikiButton" value="%button|Add entry%" /> |
 %TMPL:END%
 </verbatim>
-<verbatim class="tml">
-%TMPL:DEF{OUTPUT:table}%\
-%POS:BEFORE%| %URLPARAM{"comment_date" encode="off"}% |\
- %WIKIUSERNAME% | %URLPARAM{"comment_city" encode="off"}% |
+<verbatim>
+%TMPL:DEF{OUTPUT:table}%%POS:BEFORE%| %URLPARAM{"comment_date" encode="off"}% | %WIKIUSERNAME% | %URLPARAM{"comment_city" encode="off"}% |
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#table][table]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#table][table]]
 
 
 
 
 ---++++ toctalk
 Talk using TOC adding on end
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:toctalk}%
 %TABLE{databg="#ffffff" tableborder="0" cellborder="0"}%
-|    <label for="comment_summary">Summary</label>|\
-     <input class="foswikiInputField" %DISABLED% type="text"\
-      size="40" name="comment_summary" id="comment_summary" />    |
-|    <label for="toctalk_comment_text">Message</label>|\
-     <textarea %DISABLED% rows="%rows|3%" cols="%cols|50%"\
-      name="toctalk_comment_text" id="toctalk_comment_text"\
-      class="foswikiInputField" wrap="soft"\
-      onfocus="if(this.value=='%MESSAGE%')this.value=''"\
-      onblur="if(this.value=='')this.value='%MESSAGE%'">%MESSAGE%</textarea> |
-|| <input %DISABLED% type="submit" value="%button|Add%" class="foswikiButton" />    |
+|        <label for="comment_summary">Summary</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_summary" id="comment_summary" /> |
+|        <label for="toctalk_comment_text">Message</label>| <textarea %DISABLED% rows="%rows|3%" cols="%cols|50%" name="toctalk_comment_text" id="toctalk_comment_text" class="foswikiInputField" wrap="soft" onfocus="if(this.value=='%MESSAGE%')this.value=''" onblur="if(this.value=='')this.value='%MESSAGE%'">%MESSAGE%</textarea> |
+|| <input %DISABLED% type="submit" value="%button|Add%" class="foswikiButton" /> |
 %TMPL:END%
 </verbatim>
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{OUTPUT:toctalk}%
 %POS:BEFORE%---++++ %SERVERTIME% %WIKIUSERNAME%: %URLPARAM{"comment_summary" encode="off"}%
 %POS:BEFORE%%URLPARAM{"toctalk_comment_text" encode="off"}%
@@ -312,46 +260,28 @@ Talk using TOC adding on end
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#toctalk][toctalk]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#toctalk][toctalk]]
 
 
 
 
 ---++++ bookmark
 Create a list of annotated bookmarks
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:bookmark}%
 %TABLE{databg="#ffffff" tableborder="0" cellborder="0"}%
-|    <label for="comment_url">Url</label>|\
-     <input class="foswikiInputField" %DISABLED% type="text"\
-      size="40" name="comment_url" id="comment_url" value="http://" />    |
-|    <label for="comment_link">Link label</label>|\
-     <input class="foswikiInputField" %DISABLED% type="text"\
-      size="40" name="comment_link" id="comment_link" />    |
-|    <label for="bookmark_comment_text">Comment</label>|\
-     <input class="foswikiInputField" %DISABLED% type="text"\
-      size="40" name="bookmark_comment_text"\
-      id="bookmark_comment_text" value="%MESSAGE%" />    |
+|        <label for="comment_url">Url</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_url" id="comment_url" value="http://" /> |
+| <label for="comment_link">Link label</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_link" id="comment_link" /> |
+|    <label for="bookmark_comment_text">Comment</label>| <input class="foswikiInputField" %DISABLED% type="text" size="40" name="bookmark_comment_text" id="bookmark_comment_text" value="%MESSAGE%" /> |
 || <input %DISABLED% type="submit" value="%button|Add bookmark%" class="foswikiButton" /> |
 %TMPL:END%
 </verbatim>
-<verbatim class="tml">
-%TMPL:DEF{OUTPUT:bookmark}%\
-%POS:BEFORE%   * [[%URLPARAM{
-   "comment_url"
-   encode="entity"
-}%][%URLPARAM{
-   "comment_link"
-   encode="entity"
-}%]] %IF{
-   " '%URLPARAM{"bookmark_comment_text" encode="entity"}%' = '' "
-   then=""
-   else="- "
-}%%URLPARAM{"bookmark_comment_text" encode="entity"}%
+<verbatim>
+%TMPL:DEF{OUTPUT:bookmark}%%POS:BEFORE%   * [[%URLPARAM{"comment_url" encode="entity"}%][%URLPARAM{"comment_link" encode="entity"}%]] %IF{" '%URLPARAM{"bookmark_comment_text" encode="entity"}%' = '' " then="" else="- "}%%URLPARAM{"bookmark_comment_text" encode="entity"}%
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#bookmark][bookmark]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#bookmark][bookmark]]
 
 
 
@@ -359,16 +289,16 @@ Create a list of annotated bookmarks
 ---++++ return
 Post to a different topic and return to here. The comment =target= is set in the =PROMPT=. In the form below the =redirectto= is set to the current (including) topic.
 
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{returnpromptbox}%
 <input type="hidden" name="redirectto" value="%BASEWEB%.%BASETOPIC%" />
 %TMPL:P{promptbox}%
 %TMPL:END%
 </verbatim>
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{PROMPT:return}%%TMPL:P{returnpromptbox}%%TMPL:END%
 </verbatim>
-<verbatim class="tml">
+<verbatim>
 %TMPL:DEF{OUTPUT:return}%%POS:BEFORE%%TMPL:P{OUTPUT:threadmode}%%TMPL:END%
 </verbatim>
 
@@ -391,9 +321,7 @@ contribute it back to the community, of course!
  <table border="0" cellpadding="0" cellspacing="0">
   <tr valign="middle">
     <td>
-      <textarea %DISABLED% rows="%rows|3%" cols="%cols|70%"\
-        name="comment" class="commentPluginAjax foswikiInputField"\
-        wrap="soft" title="%MESSAGE%">%MESSAGE%</textarea>
+      <textarea %DISABLED% rows="%rows|3%" cols="%cols|70%" name="comment" class="commentPluginAjax foswikiInputField" wrap="soft" title="%MESSAGE%">%MESSAGE%</textarea>
     </td>
     <td>&nbsp;<input %DISABLED% type="button"\
       value="%button|Add comment%" class="commentPluginAjax foswikiButton" />
@@ -407,12 +335,11 @@ contribute it back to the community, of course!
 %TMPL:DEF{OUTPUT:ajax}%%POS:BEFORE%%TMPL:P{OUTPUT:threadmode}%%TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#return][return]]
+%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#return][return]]
 
 
 ---++ Include !UserComments
 
 Including UserCommentsTemplate ("Template" gets automatically appended to the name):
 
-<verbatim class="tml">%TMPL:INCLUDE{"UserComments"}%</verbatim>
-
+%TMPL:INCLUDE{"UserComments"}%
