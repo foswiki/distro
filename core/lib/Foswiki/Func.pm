@@ -1319,7 +1319,7 @@ sub addUserToGroup {
     my $users = $Foswiki::Plugins::SESSION->{users};
 
     return () unless ( $users->isGroup($group) || $create );
-    if ( !$users->isGroup($user) )
+    if ( defined $user && !$users->isGroup($user) )
     {    #requires isInGroup to also work on nested groupnames
         $user = getCanonicalUserID($user) || $user;
         return unless ( defined($user) );
