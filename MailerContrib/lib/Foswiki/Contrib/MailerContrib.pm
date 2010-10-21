@@ -406,7 +406,7 @@ sub _sendChangesMails {
         my $error = Foswiki::Func::sendEmail( $mail, 5 );
 
         if ($error) {
-            print STDERR "Error sending mail forf $web: $error\n";
+            print STDERR "Error sending mail for $web: $error\n";
             $report .= $error . "\n";
         }
         else {
