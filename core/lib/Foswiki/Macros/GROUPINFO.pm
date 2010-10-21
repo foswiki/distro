@@ -29,7 +29,7 @@ sub GROUPINFO {
     my $it;    #erator
     my @rows;
     if ($group) {
-        $it = $this->{users}->eachGroupMember( $group, $expand );
+        $it = $this->{users}->eachGroupMember( $group, { expand => $expand } );
         $format = '$wikiusername' unless defined $format;
     }
     else {

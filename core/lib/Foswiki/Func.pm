@@ -1142,27 +1142,28 @@ sub isAnAdmin {
 
 =begin TML
 
----+++ isGroupMember( $group, $id, $expand ) -> $boolean
+---+++ isGroupMember( $group, $id, $options ) -> $boolean
 
-Find out if $id is in the named group. e.g.
+Find out if $id is in the named group.  The expand option controls whether or not nested groups are searched.
+
+e.g. Is jordi in the HesperionXXGroup, and not in a nested group. e.g.
 <verbatim>
-if( Foswiki::Func::isGroupMember( "HesperionXXGroup", "jordi" )) {
+if( Foswiki::Func::isGroupMember( "HesperionXXGroup", "jordi", { expand => 0 } )) {
     ...
 }
 </verbatim>
 If =$user= is =undef=, it defaults to the currently logged-in user.
 
    * $id can be a login name or a WikiName
-   * Nested groups are expanded unless $expand is set to false.
+   * Nested groups are expanded unless $options{ expand => } is set to false.
 
 =cut
 
 sub isGroupMember {
-    my ( $group, $user, $expand ) = @_;
+    my ( $group, $user, $options ) = @_;
     my $users = $Foswiki::Plugins::SESSION->{users};
 
-    $expand = 1 unless ( defined $expand );
-    $expand = Foswiki::Func::isTrue($expand);
+    my $expand = Foswiki::Func::isTrue($options->{expand}, 1);
 
     return () unless $users->isGroup($group);
     if ($user) {
@@ -1174,7 +1175,7 @@ sub isGroupMember {
     else {
         $user = $Foswiki::Plugins::SESSION->{user};
     }
-    return $users->isInGroup( $user, $group, $expand );
+    return $users->isInGroup( $user, $group, { expand => $expand } );
 }
 
 =begin TML
@@ -1271,14 +1272,17 @@ sub isGroup {
 
 ---+++ eachGroupMember($group) -> $iterator
 Get an iterator over all the members of the named group. Returns undef if
-$group is not a valid group.
+$group is not a valid group.  Nested groups are expanded unless the
+expand option is set to false.
 
-Use it as follows:
+Use it as follows:  Process all users in RadioHeadGroup without expanding nested groups
 <verbatim>
-    my $iterator = Foswiki::Func::eachGroupMember('RadioheadGroup');
+    my $iterator = Foswiki::Func::eachGroupMember('RadioheadGroup', {expand => 'false');
     while ($it->hasNext()) {
         my $user = $it->next();
         # $user is a wiki name e.g. 'TomYorke', 'PhilSelway'
+        #   With expand set to false, group names can also be returned.
+        #   Users are not checked to exist.
     }
 </verbatim>
 
@@ -1287,17 +1291,15 @@ Use it as follows:
 =cut
 
 sub eachGroupMember {
-    my $user   = shift;
-    my $expand = shift;
+    my ( $user, $options )   = @_;
 
-    $expand = 1 unless ( defined $expand );
-    $expand = Foswiki::Func::isTrue($expand);
+    my $expand = Foswiki::Func::isTrue($options->{expand}, 1);
 
     my $session = $Foswiki::Plugins::SESSION;
     return
       unless $Foswiki::Plugins::SESSION->{users}->isGroup($user);
     my $it =
-      $Foswiki::Plugins::SESSION->{users}->eachGroupMember( $user, $expand );
+      $Foswiki::Plugins::SESSION->{users}->eachGroupMember( $user, { expand => $expand } );
     $it->{process} = sub {
         return $Foswiki::Plugins::SESSION->{users}->getWikiName( $_[0] );
     };

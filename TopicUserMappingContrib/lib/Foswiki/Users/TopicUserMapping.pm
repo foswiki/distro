@@ -595,9 +595,9 @@ See baseclass for documentation
 my %expanding;    # Prevents loops in nested groups
 
 sub eachGroupMember {
-    my $this   = shift;
-    my $group  = shift;
-    my $expand = shift;
+    my ( $this, $group, $options ) = @_;
+
+    my $expand = $options->{expand};
 
     if ( Scalar::Util::tainted($group) ) {
         $group = Foswiki::Sandbox::untaint( $group,
@@ -998,7 +998,7 @@ sub removeUserFromGroup {
             ->topicExists( $Foswiki::cfg{UsersWebName}, $groupName ) )
       )
     {
-        if (   !$usersObj->isInGroup( $cuid, $groupName, 0 )
+        if (   !$usersObj->isInGroup( $cuid, $groupName, { expand => 0 } )
             && !$usersObj->isGroup($cuid) )
         {
             return 0;    # user not in group - report that it failed
@@ -1577,7 +1577,7 @@ sub _expandUserList {
                 push( @l, $ident );
             }
             else {
-                my $it = $this->eachGroupMember( $ident, $expand );
+                my $it = $this->eachGroupMember( $ident, { expand => $expand } );
                 while ( $it->hasNext() ) {
                     push( @l, $it->next() );
                 }

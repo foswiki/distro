@@ -367,29 +367,29 @@ sub isAdmin {
 
 =begin TML
 
----++ ObjectMethod isInGroup ($cUID, $group) -> $bool
+---++ ObjectMethod isInGroup ($cUID, $group, $options ) -> $bool
 
 
 Test if the user identified by $cUID is in the given group. The default
 implementation iterates over all the members of $group, which is rather
-inefficient.
+inefficient.  $options is a hash array of options effecting the search.
+Available options are:
+
+   * =expand => 1=  0/1 - should nested groups be expanded when searching for the cUID?   Default is 1 - expand nested groups
 
 =cut
 
 my %scanning;
 
 sub isInGroup {
-    my ( $this, $cUID, $group, $expand ) = @_;
+    my ( $this, $cUID, $group, $options ) = @_;
     ASSERT($cUID) if DEBUG;
 
+    my $expand = $options->{expand};
     $expand = 1 unless ( defined $expand );
-
-#    print STDERR "UserMapping::isInGroup called $cUID in $group -- expand $expand \n";
 
     # If not recursively, clear the scanning hash
     if ( ( caller(1) )[3] ne ( caller(0) )[3] ) {
-
-        #        print "isInGroup -$cUID, $group, $expand TOP LEVEL \n";
         %scanning = ();
     }
 
@@ -398,13 +398,12 @@ sub isInGroup {
     #die "Scanning for JoeUser\n" if $cUID eq 'JoeUser';
 
     my @users;
-    my $it = $this->eachGroupMember( $group, $expand );
+    my $it = $this->eachGroupMember( $group, { expand => $expand } );
     while ( $it->hasNext() ) {
         my $u = $it->next();
         next if $scanning{$u};
         $scanning{$u} = 1;
 
-        #        print STDERR "Checking $u \n" ;
         return 1 if $u eq $cUID;
         if ( $expand && $this->isGroup($u) ) {
             return 1 if $this->isInGroup( $cUID, $u );
