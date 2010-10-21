@@ -496,7 +496,7 @@ sub verify_eachGroupMember {
     $this->assert_str_equals( "UserA,$Foswiki::cfg{DefaultUserWikiName},UserZ",
         sort join( ',', @list ) );
 
-    $it   = Foswiki::Func::eachGroupMember('NestingGroup', "true");
+    $it   = Foswiki::Func::eachGroupMember('NestingGroup', { expand => "true" } );
     @list = ();
     while ( $it->hasNext() ) {
         my $g = $it->next();
@@ -505,7 +505,7 @@ sub verify_eachGroupMember {
     $this->assert_str_equals( "UserE,UserA,UserC,UserB",
         sort join( ',', @list ) );
 
-    $it   = Foswiki::Func::eachGroupMember('NestingGroup', 'off');
+    $it   = Foswiki::Func::eachGroupMember('NestingGroup', { expand => 'off' } );
     @list = ();
     while ( $it->hasNext() ) {
         my $g = $it->next();
@@ -1536,7 +1536,7 @@ sub verify_NestedGroups {
         sort join( ',', @list ) );
 
     @list = ();
-    $it = Foswiki::Func::eachGroupMember('TeeGroup', 'False');
+    $it = Foswiki::Func::eachGroupMember('TeeGroup', { expand => 'False' } );
     while ( $it->hasNext() ) {
         my $g = $it->next();
         push( @list, $g );
@@ -1555,7 +1555,7 @@ sub verify_NestedGroups {
     $Foswiki::Plugins::SESSION = $this->{session};
 
     @list = ();
-    $it = Foswiki::Func::eachGroupMember('TeeGroup', 0);
+    $it = Foswiki::Func::eachGroupMember('TeeGroup', { expand => 0 });
     while ( $it->hasNext() ) {
         my $g = $it->next();
         push( @list, $g );
