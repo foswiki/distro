@@ -662,7 +662,7 @@ sub eachGroupMember {
             $members =
               _expandUserList( $this,
                 $groupTopicObject->getPreference('GROUP') );
-            $this->{eachGroupMember}->{$group} = $members;
+            $this->{eachGroupMember}->{$group} = $members; 
         }
 
         delete $expanding{$group};
@@ -1592,17 +1592,18 @@ sub _expandUserList {
             }
         }
         else {
-
             # Might be a wiki name (wiki names may map to several cUIDs)
             my %namelist =
               map { $_ => 1 }
               @{ $this->{session}->{users}->findUserByWikiName($ident) };
-
-            # May be a login name (login names map to a single cUID).
+            # If we were not successful in finding by WikiName we assumed it
+            # may be a login name (login names map to a single cUID).
             # If user is unknown we return whatever was listed so we can
             # remove deleted or misspelled users
-            my $cUID = $this->{session}->{users}->getCanonicalUserID($ident) || $ident;
-            $namelist{$cUID} = 1 if $cUID;
+            unless ( %namelist ) {
+                my $cUID = $this->{session}->{users}->getCanonicalUserID($ident) || $ident;
+                $namelist{$cUID} = 1 if $cUID;
+            }
             push( @l, keys %namelist );
         }
     }
