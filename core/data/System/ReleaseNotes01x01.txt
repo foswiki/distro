@@ -323,6 +323,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item8298][Item8298]] | Stand-alone HTML -> TML conversion broken |
 | [[%BUGS%/Item8395][Item8395]] | TablePlugin does not recognize 01 Jan 1970 (epoch 0) as a date |
 | [[%BUGS%/Item8398][Item8398]] | Possible race writing .changes |
+| [[%BUGS%/Item8413][Item8413]] | Chrome TinyMCE copy/paste spreadsheet bug |
 | [[%BUGS%/Item8458][Item8458]] | Search cookbook is wrong |
 | [[%BUGS%/Item8460][Item8460]] | .changes inaccurate |
 | [[%BUGS%/Item8477][Item8477]] | Strikeone should warn users if they have have js turned off |
