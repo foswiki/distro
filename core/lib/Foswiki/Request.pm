@@ -248,12 +248,18 @@ sub url {
     my $url;
     $full++ if $base || !( $relative || $absolute );
     my $path = $this->pathInfo;
-    my $name =
-      defined $Foswiki::cfg{ScriptUrlPaths}{ $this->action }
-      ? $Foswiki::cfg{ScriptUrlPaths}{ $this->action }
-      : $Foswiki::cfg{ScriptUrlPath} . '/' . $this->action;
+    my $name;
+
+    if ( defined $Foswiki::cfg{ScriptUrlPaths}{ $this->{action} } ) {
+        # When this is set, it is the complete script path including prefix/suffix.
+        $name = $Foswiki::cfg{ScriptUrlPaths}{ $this->{action} }
+    }
+    else {
+        $name = $Foswiki::cfg{ScriptUrlPath} . '/' . $this->{action};
+        # Don't add suffix if no script is used.
+        $name .= $Foswiki::cfg{ScriptSuffix} if $name; 
+    }
     $name =~ s(//+)(/)g;
-    $name .= $Foswiki::cfg{ScriptSuffix} if $name;
     if ($full) {
         my $vh = $this->header('X-Forwarded-Host') || $this->header('Host');
         $url =
