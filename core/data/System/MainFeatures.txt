@@ -132,17 +132,6 @@ Foswiki is supported by a large number of volunteers who enjoy creating the best
             background-repeat:no-repeat;}
             .summary {margin:0 0 1em 0; padding:1em 0 0 0; font-size:1.55em; line-height:1.2em; color:#444; text-align:center; border-top:1px dashed #ccc;}
             .summary a:link, .summary a:visited {text-decoration:underline;}
-            .category {height:1%; margin:0 0 1em 0; padding:0 0 1em 0; border-bottom:1px solid #ccc;}
-            .category p {margin:0 0 0.75em 0;}
-            .category .text {float:left; padding:0 2em .5em 60px; margin-right:2em; border-right:1px dotted #ddd; width:40%;}
-            .category .examples { float:left; }
-            .category .examples ul {list-style-type:square; margin:0; padding:0 0 0 1em;}
-            .category h3 { color:black; font-size:1.1em; font-weight:bold; margin:.5em 0; }
-            .icon_collaboration {background:#fff url('%PUBURL%/%WEB%/%TOPIC%/icon_world.png') no-repeat 0 0;}
-            .icon_knowledge {background:#fff url('%PUBURL%/%WEB%/%TOPIC%/icon_bulb.png') no-repeat 0 0;}
-            .icon_projects {background:#fff url('%PUBURL%/%WEB%/%TOPIC%/icon_projects.png') no-repeat 0 0;}
-            .icon_documents {background:#fff url('%PUBURL%/%WEB%/%TOPIC%/icon_documents.png') no-repeat 0 0;}
-            .icon_social {background:#fff url('%PUBURL%/%WEB%/%TOPIC%/icon_social.png') no-repeat 0 0;}
         </style>"
 }%
 
