@@ -13,4 +13,3 @@ Try and make sure robots don't spam contributor names
 
 *Disclaimer:* Foswiki gets installed on many public web sites. The Foswiki contributors are not affiliated in any way with those sites.
 
-%META:FILEATTACHMENT{name="AUTHORS" attr="" comment="" date="1111932261" path="AUTHORS" size="117" user="ProjectContributor" version="1.1"}%
