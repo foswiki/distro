@@ -102,7 +102,7 @@ unsafe operations.
 sub untaintUnchecked {
     my ($string) = @_;
 
-    if ( defined($string) && $string =~ /^(.*)$/ ) {
+    if ( defined($string) && $string =~ /^(.*)$/s ) {
         return $1;
     }
     return $string;
@@ -128,7 +128,7 @@ sub untaint {
     return $datum unless defined $datum;
 
     # Untaint the datum before validating it
-    return undef unless $datum =~ /^(.*)$/;
+    return undef unless $datum =~ /^(.*)$/s;
     return &$method( $1, @_ );
 }
 
