@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-10-02 17:10+0200\n"
+"PO-Revision-Date: 2010-10-21 02:15+0200\n"
 "Last-Translator: Will Norris <will@biohack.net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -65,7 +65,7 @@ msgstr "%1 fue agregado al grupo %2."
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
-msgstr ""
+msgstr "Tema del grupo %1 actualizado."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -87,7 +87,7 @@ msgstr "%1 fue registrado con el correo electrónico %2"
 
 #: core/templates/validate.tmpl:26
 msgid "%1 has received a suspicious change request from your browser."
-msgstr "%1 recibió una solicitud de cambio sospechosa de su navegador."
+msgstr "%1 ha recibido una petición de cambio sospechosa desde su navegador"
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -112,7 +112,7 @@ msgstr "%1 está editando [[%2][%3]]."
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
-msgstr "%1 está en por lo menos un grupo y no puede ser removido"
+msgstr "%1 está en por lo menos un grupo y no puede ser eliminado"
 
 #: core/templates/messages.tmpl:126
 msgid "%1 is not a valid form name"
@@ -129,7 +129,7 @@ msgstr "%1 es la página estándar para archivos adjuntos borrados."
 
 #: core/templates/messages.tmpl:534
 msgid "%1 may still be editing %2."
-msgstr "%1 puede estar editando %2 todavía."
+msgstr "%1 quizás esté editando %2 todavía."
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
@@ -138,7 +138,7 @@ msgstr "%1 cambios recientes en la web %2"
 #: core/templates/messages.tmpl:518
 #, fuzzy
 msgid "%1 removed from the %2 group. "
-msgstr "%1 reubicado de %2 el %3 por %4"
+msgstr "%1 fue eliminado del grupo %2."
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -463,6 +463,8 @@ msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
+"<strong>Confirmación requerida!</strong>  Presione OK para confirmar que la "
+"modificación fué intencional<br />Si no es así presione Cancelar."
 
 #: core/templates/messages.tmpl:381
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -530,7 +532,7 @@ msgstr "Un tema con este nombre existió, pero fue renombrado o movido a %1."
 
 #: core/data/System/WebSearch.txt:65
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -559,13 +561,12 @@ msgid "Action %1: %2."
 msgstr "Acción %1: %2."
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
-#, fuzzy
 msgid "Add"
-msgstr "Añadido"
+msgstr "Añadir"
 
 #: core/data/Main/GroupViewTemplate.txt:143
 msgid "Add a user to this group"
-msgstr ""
+msgstr "Agregar un usuario a este grupo"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
@@ -583,7 +584,7 @@ msgstr "Añadir linea"
 
 #: core/data/Main/GroupViewTemplate.txt:80
 msgid "Add user..."
-msgstr ""
+msgstr "Añadir usuario..."
 
 #: core/templates/messages.tmpl:369
 #, fuzzy
@@ -626,7 +627,7 @@ msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
-msgstr ""
+msgstr "Ah, no!"
 
 #: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
 msgid "All public webs"
@@ -670,6 +671,8 @@ msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
+"Una persona malintencionada podría usar su información de acceso para "
+"cambiar contenido en su wiki sin su conocimiento."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -886,7 +889,7 @@ msgstr "Cambiar Contraseña"
 
 #: core/templates/validate.tmpl:22
 msgid "Change cannot be completed"
-msgstr ""
+msgstr "La modificación no puede ser completada"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
@@ -956,6 +959,7 @@ msgstr "Cambios de r%1 a r%2"
 #: core/templates/messages.tmpl:429
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
+"Verifique su estado de configuración para {TemplateDir} y {TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
@@ -1053,10 +1057,12 @@ msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
 msgstr ""
+"La conversión a HTML por función de editado de WYSIWYG no esta activada a "
+"razón del contenido del tema."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr ""
+msgstr "Copiar este tema (y todos sus datos adjuntos) a un nuevo tema. "
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
@@ -1159,7 +1165,7 @@ msgstr "Crear el tema"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:13
 msgid "Create your account to edit pages on this site."
-msgstr ""
+msgstr "Crear su cuenta para editar páginas en este sitio."
 
 #: core/templates/messages.tmpl:368
 msgid "Creating a suitable Form Definition topic"
@@ -1252,7 +1258,7 @@ msgstr "Diferencia:"
 
 #: core/data/System/WebPreferences.txt:12
 msgid "Discover the details, and how to start your own site with Foswiki"
-msgstr ""
+msgstr "Descubra los detalles, y cómo iniciar su propio sitio web con Foswiki"
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
@@ -1311,27 +1317,27 @@ msgstr "Dirección de correo electrónico fue cambiada exitosamente!"
 
 #: core/templates/messages.tmpl:632
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
-msgstr ""
+msgstr "ENCODE falló - =type= no puede ser usado junto a =old= y =new="
 
 #: core/templates/messages.tmpl:633
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr ""
+msgstr "ENCODE falló - ambos  =old= y =new= deben de ser proporcionados"
 
 #: core/templates/messages.tmpl:634
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr ""
+msgstr "ENCODE falló - token '%PARAM1%'  esta repetido en =old="
 
 #: core/templates/messages.tmpl:637
 msgid "EXPAND failed - access to '%PARAM1%' denied"
-msgstr ""
+msgstr "EXPAND falló - acceso a '%PARAM1%' denegado"
 
 #: core/templates/messages.tmpl:635
 msgid "EXPAND failed - no macro"
-msgstr ""
+msgstr "EXPAND falló - no hay macro"
 
 #: core/templates/messages.tmpl:636
 msgid "EXPAND failed - no such topic '%PARAM1%'"
-msgstr ""
+msgstr "EXPAND - no existe tal tema '%PARAM1%'"
 
 #: core/templates/settings.tmpl:26
 msgid "Each preference has the syntax"
@@ -1369,7 +1375,7 @@ msgstr "Editar las preferencias del tema"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:22
 msgid "Ehm, let me go back to correct the page..."
-msgstr ""
+msgstr "Ehm, dejame regresar para corregir la página..."
 
 #: core/templates/messages.tmpl:318
 msgid ""
@@ -1380,7 +1386,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:127
 msgid "Either the name is invalid, or it refers to a non-existant form."
-msgstr ""
+msgstr "El nombre es inválido, o se refiere a una forma no existente."
 
 #: core/templates/messages.tmpl:123
 msgid "Either the name is invalid, or it refers to a non-existant topic."
@@ -1461,7 +1467,7 @@ msgstr "Error guardando tema"
 
 #: core/templates/messages.tmpl:504
 msgid "Errors removing users from groups"
-msgstr ""
+msgstr "Errores removiendo usuarios de los grupos"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
 #, fuzzy
@@ -1470,7 +1476,7 @@ msgstr "Editar datos personales"
 
 #: core/lib/Foswiki/Plugins.pm:366
 msgid "Failed plugins"
-msgstr ""
+msgstr "Interfases fallaron"
 
 #: core/templates/messages.tmpl:560
 msgid "Failed to include URL %1"
@@ -1562,7 +1568,7 @@ msgstr "contiene más información acerca de adjuntar archivos."
 
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
-msgstr ""
+msgstr "Ayuda para configurar las preferencias del tema"
 
 #: core/data/System/WebSearch.txt:157
 msgid "Get notified on changes on this search"
@@ -1595,6 +1601,8 @@ msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
 msgstr ""
+"Regrese a la página anterior, active el uso de Cookies y Javascript antes de "
+"intentarlo de nuevo"
 
 #: core/templates/messages.tmpl:292
 msgid "Good examples:"
@@ -4343,7 +4351,7 @@ msgstr "vista"
 
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "por qué se le solicita su confirmación"
 
 #~ msgid "&Edit text"
 #~ msgstr "&Editar texto"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-27 09:35+0200\n"
+"PO-Revision-Date: 2010-10-22 00:20+0200\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "Language: de\n"
@@ -254,7 +254,7 @@ msgstr "(Anhang löschen)"
 
 #: core/templates/renamedelete.tmpl:3
 msgid "(delete)"
-msgstr "(Löschen)"
+msgstr "(löschen)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
