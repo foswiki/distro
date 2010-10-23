@@ -8,10 +8,10 @@
 
 ---++ First Read: How to modify !PatternSkin styles
 
-!PatternSkin uses 3 style sheets (attached to %SYSTEMWEB%.PatternSkin):
-   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/layout.css][layout.css]] - the positioning of main page elements (blocks), widths and heights
-   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/style.css][style.css]] - fonts, sizes, margins and paddings
-   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/colors.css][colors.css]] - border colors, text colors and background colors
+!PatternSkin uses 3 style sheets (attached to %SYSTEMWEB%.PatternSkinTheme):
+   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/layout.css][layout.css]] - the positioning of main page elements (blocks), widths and heights
+   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/style.css][style.css]] - fonts, sizes, margins and paddings
+   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/colors.css][colors.css]] - border colors, text colors and background colors
 
 When customizing your Foswiki installation, you can either choose to completely rewrite all css styles, or to selectively override some styles. The latter option is by far less time consuming, but all depends on your graphical wishes.
 
@@ -75,15 +75,15 @@ This is the complete style definition to set the height of the top bar:
 #patternClearHeaderLeft,
 #patternClearHeaderRight,
 #patternTopBarContents {
-	height:64px; /* top bar height; make room for header columns */
+	height:75px; /* top bar height; make room for header columns */
 	overflow:hidden;
 }
 </verbatim>
-Change the number from 64px to your value.
+Change the number from 75px to your value.
 
-   1 Create a new stylesheet (preferably a 'theme' file (see for instance %PUBURL%/%SYSTEMWEB%/PatternSkin/theme_foswiki.css with above definition in it
+   1 Create a new stylesheet (preferably a 'theme variant' file (see for instance %PUBURL%/%SYSTEMWEB%/PatternSkinTheme/variant_foswiki_noframe.css with above definition in it)
    1 Attach the file  to a topic
-   1 Set the value of macro =PATTERNSKIN_THEME= to that topic attachment url using =%<nop>PUBURL%/<nop>YourWebName/<nop>YourTopicName/your_theme_file.css=
+   1 Set the value of macro =PATTERNSKIN_THEME_VARIANT= to that topic attachment url using =%<nop>PUBURL%/<nop>YourWebName/<nop>YourTopicName/your_theme_variant_file.css=
 </blockquote>
 
 ---+++ No top bar
