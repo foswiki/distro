@@ -162,7 +162,7 @@ my twisty content
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
 
-*NOTE:* Twisty ids are generated automatically. If you need control over exactly _which_ Twisty should be remembered, add the parameter =id=.
+*Note:* Twisty ids are generated automatically based on web and topic names and a counter that increments for each twisty. If you need control over exactly _which_ Twisty should be remembered, add the parameter =id=. Application developers creating e.g. Ajax applications where the fetched content contains a Twisty should always provide an ID.
 
 <verbatim class="tml">
 %TWISTY{
@@ -422,6 +422,13 @@ but use format tokens:
 link="Count: ($percentCALC{$quot$dollarGET(infoCount)$quot}$percent)"
 </verbatim>
 
+---++ Generation of the twisty ID
+
+When you define the =id= parameter a twisty the actual ID is appended by a number that counts from 1 for each twisty to ensure that the ID is unique.
+
+If you do not define an =id=, the plugin autogenerates an ID based on web and topic names and a counter that counts from 1 for each twisty.
+
+In ajax application you may need to ensure that the ID is unique for each call. For this always define the id parameter in your application to ensure a unique id for each call.
 
 ---++ Syntax
 %INCLUDE{VarTWISTY}%
@@ -475,6 +482,7 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  24 Oct 2010 | 1.6.7 Foswikitask:Item9815: Changed random IDs back to predictable IDs to restore remember feature |
 |  11 Sep 2010 | 1.6.6 Foswikitask:Item9499: Recoded show/hide animation code for smooth twisties. |
 |  10 Sep 2010 | 1.6.5 Foswikitask:Item9515: Simplified code that shows/hides twisties. |
 |  05 Sep 2010 | 1.6.4 Foswikitask:Item9626: Put link class around link and image. |

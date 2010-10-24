@@ -6,7 +6,7 @@ This renders the button as well as the toggled content section contained within 
 
 Usage: =%<nop>TWISTY{ ... }% Toggable contents %<nop>ENDTWISTY%=
     | *Parameter*    | *Value* | *Description* | *Remark* |
-    | =id=           | Unique identifier | Used to link [[#VarTWISTYBUTTON][TWISTYBUTTON]] and [[#VarTWISTYTOGGLE][TWISTYTOGGLE]] | optional  |
+    | =id=           | Unique identifier | Used to link [[#VarTWISTYBUTTON][TWISTYBUTTON]] and [[#VarTWISTYTOGGLE][TWISTYTOGGLE]]. Application developers. | optional  |
     | =link=         | Link label | Link label for both show and hide links  | optional |
     | =hidelink=     | Link label | Hide link label  | optional |
     | =showlink=     | Link label | Show link label  | optional |
