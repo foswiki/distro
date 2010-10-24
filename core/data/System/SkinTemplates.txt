@@ -66,11 +66,7 @@ They are used to support a limited form of "if" condition that you can use to se
 <verbatim class="tml">
 %TMPL:DEF{"link_inactive"}%<input type="button" disabled value="Link>%TMPL:END%
 %TMPL:DEF{"link_active"}%<input type="button" onclick="link()" value="Link" />%TMPL:END%
-%TMPL:P{
-    context="inactive"
-    then="link_inactive"
-    else="link_active"
-}% for %CONTEXT%
+%TMPL:P{context="inactive" then="link_inactive" else="link_active"}% for %CONTEXT%
 </verbatim>
 When the =inactive= context is set, then this will expand the =link_inactive=
 ==TMPL:DEF==; otherwise it will expand =link_active=.
