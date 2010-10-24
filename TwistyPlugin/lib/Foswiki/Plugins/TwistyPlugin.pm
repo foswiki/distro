@@ -68,7 +68,7 @@ sub _exportAnimationSpeed {
     # add TWISTYANIMATIONSPEED to the html head so
     # that it may be used in the client JS with
     # foswiki.getPreference('TWISTYANIMATIONSPEED')
-    Foswiki::Func::addToZone("head", "TWISTYPLUGIN::META", <<"HERE");
+    Foswiki::Func::addToZone( "head", "TWISTYPLUGIN::META", <<"HERE");
 <meta name="foswiki.TWISTYANIMATIONSPEED" content="$pref" />
 HERE
 
@@ -165,8 +165,18 @@ sub _TWISTY {
     my $id = $params->{'id'};
     if ( !defined $id || $id eq '' ) {
         $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
+        my $remember = $params->{'remember'} || $prefRemember;
+        if ($remember) {
+
+            # Cannot generate random ID, otherwise remember won't work
+            $params->{'id'} .= ++$twistyCount;
+        }
+        else {
+
+            # randomize this id in case the twisty is loaded through AJAX
+            $params->{'id'} .= int( rand(10000) ) + 1;
+        }
     }
-    $params->{'id'} .= ++$twistyCount;  
     return _TWISTYBUTTON( $session, $params, $theTopic, $theWeb )
       . _TWISTYTOGGLE( $session, $params, $theTopic, $theWeb );
 }
