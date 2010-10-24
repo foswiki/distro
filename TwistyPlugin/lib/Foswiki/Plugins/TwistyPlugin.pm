@@ -162,21 +162,7 @@ sub _TWISTY {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
     _addHeader();
-    my $id = $params->{'id'};
-    if ( !defined $id || $id eq '' ) {
-        $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
-        my $remember = $params->{'remember'} || $prefRemember;
-        if ($remember) {
-
-            # Cannot generate random ID, otherwise remember won't work
-            $params->{'id'} .= ++$twistyCount;
-        }
-        else {
-
-            # randomize this id in case the twisty is loaded through AJAX
-            $params->{'id'} .= int( rand(10000) ) + 1;
-        }
-    }
+    $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
     return _TWISTYBUTTON( $session, $params, $theTopic, $theWeb )
       . _TWISTYTOGGLE( $session, $params, $theTopic, $theWeb );
 }
@@ -218,14 +204,17 @@ sub _ENDTWISTYTOGGLE {
 sub _createId {
     my ( $inRawId, $inWeb, $inTopic ) = @_;
 
-    my $id;
-    if ($inRawId) {
-        $id = $inRawId;
-    }
-    else {
-        $id = "$inWeb$inTopic";
-    }
+    my $id = $inRawId ? $inRawId : "$inWeb$inTopic";
     $id =~ s/\//subweb/go;
+
+    # Ensure uniqueness, or at least try to
+    my $remember = $params->{'remember'} || $prefRemember;
+    if ($remember) {
+        $id .= ++$twistyCount;    # For remember
+    }
+    else {    # 100 is the number of remembered cookies to avoid clashes
+        $id .= int( rand(10000) ) + 100;    # For AJAX
+    }
     return "twistyId$id";
 }
 
