@@ -162,7 +162,7 @@ sub _TWISTY {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
     _addHeader();
-    $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
+    $params->{'id'} = _createId( $params, $theWeb, $theTopic );
     return _TWISTYBUTTON( $session, $params, $theTopic, $theWeb )
       . _TWISTYTOGGLE( $session, $params, $theTopic, $theWeb );
 }
@@ -202,9 +202,9 @@ sub _ENDTWISTYTOGGLE {
 }
 
 sub _createId {
-    my ( $inRawId, $inWeb, $inTopic ) = @_;
+    my ( $params, $inWeb, $inTopic ) = @_;
 
-    my $id = $inRawId ? $inRawId : "$inWeb$inTopic";
+    my $id = $params->{'id'} || "twistyId$inWeb$inTopic";
     $id =~ s/\//subweb/go;
 
     # Ensure uniqueness, or at least try to
@@ -215,7 +215,7 @@ sub _createId {
     else {    # 100 is the number of remembered cookies to avoid clashes
         $id .= int( rand(10000) ) + 100;    # For AJAX
     }
-    return "twistyId$id";
+    return $id;
 }
 
 sub _twistyBtn {
