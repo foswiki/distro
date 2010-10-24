@@ -209,7 +209,7 @@ sub _createId {
 
     # Ensure uniqueness, or at least try to
     my $remember = $params->{'remember'} || $prefRemember;
-    if ($remember eq 'on') {
+    if ( Foswiki::Func::isTrue($remember) ) {
         $id .= ++$twistyCount;    # For remember
     }
     else {    # 100 is the number of remembered cookies to avoid clashes
@@ -335,12 +335,13 @@ sub _createHtmlProperties {
 
     my @classList = ();
     push( @classList, $class ) if $class && !$isTrigger;
-    push( @classList, 'twistyRememberSetting' ) if ( $remember eq 'on' );
-    push( @classList, 'twistyForgetSetting' )   if ( $remember eq 'off' );
-    push( @classList, 'twistyStartHide' )       if $startHidden;
-    push( @classList, 'twistyStartShow' )       if $startShown;
-    push( @classList, 'twistyFirstStartHide' )  if $firstStartHidden;
-    push( @classList, 'twistyFirstStartShow' )  if $firstStartShown;
+    push( @classList, 'twistyRememberSetting' )
+      if Foswiki::Func::isTrue($remember);
+    push( @classList, 'twistyForgetSetting' ) if $remember eq 'off';
+    push( @classList, 'twistyStartHide' )     if $startHidden;
+    push( @classList, 'twistyStartShow' )     if $startShown;
+    push( @classList, 'twistyFirstStartHide' ) if $firstStartHidden;
+    push( @classList, 'twistyFirstStartShow' ) if $firstStartShown;
 
     # Mimic the rules in twist.js, function _update()
     my $state = '';
