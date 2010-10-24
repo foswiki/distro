@@ -68,7 +68,7 @@ sub _exportAnimationSpeed {
     # add TWISTYANIMATIONSPEED to the html head so
     # that it may be used in the client JS with
     # foswiki.getPreference('TWISTYANIMATIONSPEED')
-    Foswiki::Func::addToZone("head", "TWISTYPLUGIN::META", <<"HERE");
+    Foswiki::Func::addToZone( "head", "TWISTYPLUGIN::META", <<"HERE");
 <meta name="foswiki.TWISTYANIMATIONSPEED" content="$pref" />
 HERE
 
@@ -162,11 +162,7 @@ sub _TWISTY {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
     _addHeader();
-    my $id = $params->{'id'};
-    if ( !defined $id || $id eq '' ) {
-        $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
-    }
-    $params->{'id'} .= ++$twistyCount;  
+    $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
     return _TWISTYBUTTON( $session, $params, $theTopic, $theWeb )
       . _TWISTYTOGGLE( $session, $params, $theTopic, $theWeb );
 }
@@ -208,14 +204,17 @@ sub _ENDTWISTYTOGGLE {
 sub _createId {
     my ( $inRawId, $inWeb, $inTopic ) = @_;
 
-    my $id;
-    if ($inRawId) {
-        $id = $inRawId;
-    }
-    else {
-        $id = "$inWeb$inTopic";
-    }
+    my $id = $inRawId ? $inRawId : "$inWeb$inTopic";
     $id =~ s/\//subweb/go;
+
+    # Ensure uniqueness, or at least try to
+    my $remember = $params->{'remember'} || $prefRemember;
+    if ($remember) {
+        $id .= ++$twistyCount;    # For remember
+    }
+    else {    # 100 is the number of remembered cookies to avoid clashes
+        $id .= int( rand(10000) ) + 100;    # For AJAX
+    }
     return "twistyId$id";
 }
 
