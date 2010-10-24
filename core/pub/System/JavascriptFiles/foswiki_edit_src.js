@@ -41,7 +41,7 @@ var EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE = "foswikiEditboxStyleProportional";
     foswiki.Edit = {
         textareaInited: false,
         fontStyle: null,
-        validateSuppressed: false,
+        validateSuppressed: false
     };
 
     /**
