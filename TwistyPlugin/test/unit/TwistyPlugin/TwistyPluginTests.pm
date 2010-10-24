@@ -101,7 +101,7 @@ sub test_TWISTY_mode_default_with_id {
 SOURCE
 
     my $expected = <<'EXPECTED';
-<div class="twistyPlugin foswikiMakeVisible"><span id="myidshow" class="twistyTrigger foswikiUnvisited foswikiHidden twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="myidhide" class="twistyTrigger foswikiUnvisited foswikiHidden twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a></span></div><div class="twistyPlugin"><div id="myidtoggle" class="twistyContent twistyInited">content</div></div>
+<div class="twistyPlugin foswikiMakeVisible"><span id="myid1show" class="twistyTrigger foswikiUnvisited foswikiHidden twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">More...</span></a></span><span id="myid1hide" class="twistyTrigger foswikiUnvisited foswikiHidden twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Close</span></a></span></div><div class="twistyPlugin"><div id="myid1toggle" class="twistyContent twistyInited">content</div></div>
 EXPECTED
 
     $this->do_test( $expected, $source );
@@ -113,8 +113,8 @@ sub test_TWISTY_2_instances_with_id {
     my $this = shift;
 
     my $source = <<'SOURCE';
-%TWISTY{id="myid1"}%content one%ENDTWISTY%
-%TWISTY{id="myid2"}%content two%ENDTWISTY%
+%TWISTY{id="myid"}%content one%ENDTWISTY%
+%TWISTY{id="myid"}%content two%ENDTWISTY%
 SOURCE
 
     my $expected = <<'EXPECTED';
