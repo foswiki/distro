@@ -150,7 +150,7 @@ The following functions have been added to the =Foswiki::Func= API:
    * =copyAttachment=
 
 New parameters can be found on:
-   * =saveTopic= (ignorepermissions)
+   * =saveTopic= (=ignorepermissions=)
 
 ---++++ Deprecated handlers
 The following handlers have been deprecated (i.e. they are still available, but should not be used in new code and will be removed in a future release, so if you have been used them, you need to modify your code).
