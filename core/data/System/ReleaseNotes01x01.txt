@@ -148,11 +148,10 @@ Sorting has been improved so the plugin can now better handle mix of formats and
 
 ---++++ API Enhancements
 The following functions have been added to the =Foswiki::Func= API:
-   * [[System/PerlDoc?module=Foswiki::Func#copyAttachment_40_36web_44_36topic_44_36attachment_44_36newWeb_44_36newTopic_44_36newAttachment_41
-][=copyAttachment=]]
+   * =copyAttachment=
 
 New parameters can be found on:
-   * [[System/PerlDoc?module=Foswiki::Func#saveTopic_40_36web_44_36topic_44_36meta_44_36text_44_36options_41][=saveTopic=]] (ignorepermissions)
+   * =saveTopic= (=ignorepermissions=)
 
 ---++++ Deprecated handlers
 The following handlers have been deprecated (i.e. they are still available, but should not be used in new code and will be removed in a future release, so if you have been used them, you need to modify your code).
