@@ -288,6 +288,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  25 Oct 2010 | Foswikitask:Item9870: Fix JS error on Internet Explorers |
 |  28 Sep 2010 | Foswikitask:Item9236: Enable contextmenu !TinyMCE plugin, allows table row/column copy &amp; paste<br/>\
                  Foswikitask:Item9263: Fix autosave breaking on IECollections' IE6<br/>\
                  Foswikitask:Item9424: Use non-jQuery build to avoid IE8 resizing quirks on jquery-1.3.2<br/>\
