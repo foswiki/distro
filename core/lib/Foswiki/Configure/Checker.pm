@@ -312,7 +312,7 @@ sub checkCanCreateFile {
     if ( -e $name ) {
 
         # if the file exists just check perms and return
-        return checkTreePerms( $name, 'rw' );
+        return $this->checkTreePerms( $name, 'rw' );
     }
 
     # check the containing dir
