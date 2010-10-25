@@ -576,7 +576,7 @@ $Foswiki::cfg{INCLUDE}{AllowURLs} = $FALSE;
 # Used to disallow the use of SCRIPT and LITERAL tags in topics by removing
 # them from the body of topics during rendering.
 # <font color="red">This setting is fundamentally unsafe and is now
-# DEPRECATED</font> - use SafeWikiPlugin instead.
+# DEPRECATED</font> - use <a href="http://foswiki.org/Extensions/SafeWikiPlugin">SafeWikiPlugin</a> instead.
 $Foswiki::cfg{AllowInlineScript} = $TRUE;
 
 # **BOOLEAN EXPERT**
