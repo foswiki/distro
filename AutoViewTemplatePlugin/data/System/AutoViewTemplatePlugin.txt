@@ -47,7 +47,7 @@ We have a form called =PurchaseRequestForm= which contains the usual table that 
 
 We want this form to define that the topics are viewed with =ViewFormAtTopTemplate= and edited with =EditPurchaseRequestTemplate=.
 
-Below this we place the two sections that defines the templates to be used. Note that you must ommit the ...Template from the template names.
+Below this we place the two sections that defines the templates to be used. Note that you must omit the ...Template from the template names.
 
 <verbatim class="tml">
 %STARTSECTION{"viewtemplate"}%ViewFormAtTopTemplate%ENDSECTION{"edittemplate"}%
