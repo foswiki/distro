@@ -97,7 +97,7 @@ sub usage {
     -f[orce] - force an action to complete even if there are warnings
     -e[nable] - automatically enable installed plugins in LocalSite.cfg
                 (default)
-    -m[anual] - no not automatically enable installed plugins in LocalSite.cfg
+    -m[anual] - do not automatically enable installed plugins in LocalSite.cfg
     -l[ink] - create links $linkByDefault
     -c[opy] - copy instead of linking $copyByDefault
     -u[ninstall] - self explanatory (doesn't remove dirs)
