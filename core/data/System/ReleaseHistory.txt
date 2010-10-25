@@ -5,6 +5,10 @@
 
 %TOC%
 
+---++ Foswiki Release 1.1.1 - 25 Oct 2010
+
+It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
+
 ---++ Foswiki Release 1.1.0 - 04 Oct 2010
 
 Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0.

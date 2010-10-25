@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.0 - 04 Oct 2010
+---+!! Foswiki Release 1.1.1 - 25 Oct 2010
 
 %TOC%
 
@@ -28,6 +28,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.0.9 was built 17 Jan 2010. It is a patch release with more than 320 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bugs in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
    * Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.
    * Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
+   * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
 
 ---++ Pre-installed Extensions
 
@@ -587,6 +588,56 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9587][Item9587]] | !DataDir Checker should verify that WebPreferences topic exists |
 | [[%BUGS%/Item9598][Item9598]] | Add <code>ignorepermissions</code> option to suppress acl checks in Func::saveTopic |
 | [[%BUGS%/Item9644][Item9644]] | Pass the Foswiki RELEASE & VERSION strings on to Extensions repository in configure when using install & update |
+</noautolink>
+
+---++ Foswiki Patch Release 1.1.1 Details
+
+---++ Fixes
+
+<noautolink>
+| [[%BUGS%/Item9569][Item9569]] | Non-trivial macros are rendered within verbatim blocks of included topics |
+| [[%BUGS%/Item9773][Item9773]] | Extension backup directories should be deleted after successful tar/zip archive |
+| [[%BUGS%/Item9788][Item9788]] | pub-htaccess.txt should mention symlinks |
+| [[%BUGS%/Item9799][Item9799]] | can't read null value from session_variable |
+| [[%BUGS%/Item9805][Item9805]] | Extension installer fails to install files into web with missing !WebPreferences |
+| [[%BUGS%/Item9807][Item9807]] | bin/configure should also auto-fix the shbang line of /tools/ scripts |
+| [[%BUGS%/Item9809][Item9809]] | ACLs broken in Foswiki 1.1.0 when passed a Group |
+| [[%BUGS%/Item9810][Item9810]] | WikiGroups interface does not allow to add existing Groups as members of a Group (nested Groups) and behaves inconsistently when adding them manually using "More actions" and "Edit settings for this topic" |
+| [[%BUGS%/Item9811][Item9811]] | Adding a new group with just the current user adds the user twice |
+| [[%BUGS%/Item9815][Item9815]] | Random IDs make twisties forgetful |
+| [[%BUGS%/Item9819][Item9819]] | Extensions with Topic names or directories with non-alphanumeric characters fail to install |
+| [[%BUGS%/Item9820][Item9820]] | DefaultUserRegistration broken If REGISTRATIONGROUPTYPE is  'multiple' or 'one' |
+| [[%BUGS%/Item9825][Item9825]] | DEPRECATE Foswiki::Func::searchInWebContent, and add Foswiki::Func::query |
+| [[%BUGS%/Item9826][Item9826]] | add ==~= to HoistRE so its not slower than using type='regex' - this limits its use to the documented System.RegularExpression |
+| [[%BUGS%/Item9827][Item9827]] | Foswiki::Meta interface change breaks plugins |
+| [[%BUGS%/Item9828][Item9828]] | ImageGalleryPlugin not working on Foswiki 1.1.0 because of bug in JQueryPlugin |
+| [[%BUGS%/Item9831][Item9831]] | !WikiGroups GUI broken if !PasswordManager is none |
+| [[%BUGS%/Item9837][Item9837]] | TemplateLogin fails with PasswordManager set to none |
+| [[%BUGS%/Item9838][Item9838]] | !WikiGroups runs into "premature end" error if you have many groups |
+| [[%BUGS%/Item9841][Item9841]] | Plugin installation fails due to broken extender.pl |
+| [[%BUGS%/Item9842][Item9842]] | % NOP % is not expanded when placed in a TOPICS META |
+| [[%BUGS%/Item9844][Item9844]] | Merge feature no longer working |
+| [[%BUGS%/Item9848][Item9848]] | New Groups UI only allows users registered |
+| [[%BUGS%/Item9850][Item9850]] | Change expand option to Options hash { EXPAND => } |
+| [[%BUGS%/Item9851][Item9851]] | Users prefixed with Main. cannot be removed with UI |
+| [[%BUGS%/Item9857][Item9857]] | CommentPlugin templates changes have caused trouble for ActionTrackerPlugin and plain use of tableprepend |
+| [[%BUGS%/Item9860][Item9860]] | There are still duplicate user names in the WikiGroups |
+| [[%BUGS%/Item9861][Item9861]] | CompareRevisionsAddOn needs documented dependency of HTML::Tree |
+| [[%BUGS%/Item9862][Item9862]] | !GroupTemplate lacks a trailing newline |
+| [[%BUGS%/Item9863][Item9863]] | Upgrading group topics adds the submitter to group |
+| [[%BUGS%/Item9865][Item9865]] | Remove Main or USERSWEB prefix when upgrading group topics |
+| [[%BUGS%/Item9867][Item9867]] | Setting a variable from a regex search is broken in 1.1.0 |
+| [[%BUGS%/Item9868][Item9868]] | Sort links on table headings are adding the command suffix on |
+| [[%BUGS%/Item9869][Item9869]] | Max URL shortening broken by ScriptSuffix |
+| [[%BUGS%/Item9870][Item9870]] | !TinyMCE JS error in Internet Explorers |
+| [[%BUGS%/Item9886][Item9886]] | Incorrect method call breaks configure on IIS |
+| [[%BUGS%/Item9890][Item9890]] | Attachments corrupted on Windows |
+</noautolink>
+
+---++ Enhancements
+
+<noautolink>
+| [[%BUGS%/Item8411][Item8411]] | Add registration approval described at [[Support.Question121]] to core |
 </noautolink>
 
 ---
