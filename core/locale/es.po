@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-10-25 06:09+0200\n"
+"PO-Revision-Date: 2010-10-25 22:35+0200\n"
 "Last-Translator: Will Norris <will@biohack.net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -172,9 +172,8 @@ msgid "&History"
 msgstr "&Historial"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:92
-#, fuzzy
 msgid "&Sequential"
-msgstr "Secuencial"
+msgstr "&Secuencial"
 
 #: core/templates/messages.tmpl:283
 msgid "'%1' is not a valid %2 "
@@ -189,9 +188,8 @@ msgid "(%1 login)"
 msgstr "(Entrar a %1)"
 
 #: core/templates/validate.tmpl:6
-#, fuzzy
 msgid "(%1 validation)"
-msgstr "(Entrar a %1)"
+msgstr "(validación de %1)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:3 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
@@ -1512,6 +1510,9 @@ msgid ""
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 msgstr ""
+"Para mas información en el forzamiento solicitado de cross-site, y los "
+"peligros que posee para usted [[%1][the Cross-site request forgery article "
+"on Wikipedia]]. En inglés."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1528,7 +1529,7 @@ msgstr "Falta definición de formulario %1"
 #: PatternSkin/templates/formtables.pattern.tmpl:5 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:6
 msgid "Form data"
-msgstr ""
+msgstr "Datos del formulario"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
 #, fuzzy
@@ -2700,6 +2701,8 @@ msgstr ""
 #: core/data/Sandbox/WebPreferences.txt:9
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr ""
+"El area de prueba para experimentación Sandbox en una área no restringida de "
+"web práctica."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:161
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
@@ -3104,13 +3107,15 @@ msgid ""
 "attachment of that name already exists in the target topic."
 msgstr ""
 "El archivo adjunto puede ser renombrado (al añadir un número al nombre) si "
-"un archivo adjunto con ese nombre ya existe en el tema indicado."
+"un archivo adjunto con ese nombre ya existe en el tema objetivo."
 
 #: core/templates/renameattachmentdelete.tmpl:43
 msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
 msgstr ""
+"El archivo adjunto puede que tenga que ser renombrado si un archivo adjunto "
+"llamado '%FILENAME%' ya existe actualmente en el tema objetivo."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
