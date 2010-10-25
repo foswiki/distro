@@ -1052,6 +1052,7 @@ sub openStream {
                   . ' failed: '
                   . $! );
         }
+        binmode $stream;
     }
     return $stream;
 }
