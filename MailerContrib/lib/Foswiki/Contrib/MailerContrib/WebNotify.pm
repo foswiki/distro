@@ -28,9 +28,10 @@ use Foswiki::Contrib::MailerContrib::Subscription ();
 ---++ new($web, $topic)
    * =$web= - web name
    * =$topic= - topic name
-   * =$noexpandgroups= - True will prevent expansion of  group subscriptions
-          (False is best for checking subscriptions, but True is best for
-	  writing results back to $topic)
+   * =$noexpandgroups= - True will prevent expansion of group subscriptions
+     (False is best for checking subscriptions, but True is best for
+     writing results back to $topic)
+     
 Create a new object by parsing the content of the given topic in the
 given web. This is the normal way to load a %NOTIFYTOPIC% topic. If the
 topic does not exist, it will create an empty object.
@@ -187,9 +188,9 @@ sub unsubscribe {
 ---++ stringify() -> string
 Return a string representation of this object, in %NOTIFYTOPIC% format.
 
-Optional $subscribersOnly parameter to only print the parsed subscription list.
+Optional =$subscribersOnly= parameter to only print the parsed subscription list.
 Used when running a mailnotify, where printing out the entire WebNotify topic is confusing,
-as its different from the actual topic contents, but doesn't inform the user why.
+as it's different from the actual topic contents, but doesn't inform the user why.
 
 =cut
 
