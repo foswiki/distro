@@ -197,6 +197,7 @@ $ENV{FOSWIKI_ASSERTS} = 1;
 
 to your =bin/LocalLib.cfg=.
 
+#Rel01x01x00Details
 ---++ Foswiki Release 1.1.0 Details
 
 ---+++ Fixes
@@ -590,6 +591,8 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9644][Item9644]] | Pass the Foswiki RELEASE & VERSION strings on to Extensions repository in configure when using install & update |
 </noautolink>
 
+
+#Rel01x01x01Details
 ---++ Foswiki Patch Release 1.1.1 Details
 
 ---++ Fixes
