@@ -637,7 +637,7 @@ to your =bin/LocalLib.cfg=.
 ---++ Enhancements
 
 <noautolink>
-| [[%BUGS%/Item8411][Item8411]] | Add registration approval described at [[Support.Question121]] to core |
+| [[%BUGS%/Item8411][Item8411]] | Add registration approval described at Support.Question121 to core |
 </noautolink>
 
 ---
