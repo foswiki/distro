@@ -40,7 +40,42 @@ This section is about how to configure FastCGIEngineContrib, considering many po
    * Set ROOT = %URLPARAM{"foswikiRoot" default="/var/www/foswiki"}%
 -->
 
+---+++ Installation of the FCGI CPAN library
+
+!FastCGIEngineContrib uses a CPAN library called FCGI which is not normally distributed with Perl. Version of FCGI should be 0.67 or later
+
+Generic CPAN references as well as the most popular distribution packages are listed below
+
+   * CPAN  - http://search.cpan.org/dist/FCGI/ (generic CPAN installation  =perl -MCPAN -e 'install FCGI'=)
+   * !RedHat/Centos RPM from Dag - http://dag.wieers.com/rpm/packages/perl-FCGI/
+   * Mandriva/Suse/Fedora/Redhat RPM from Dries - http://dries.ulyssis.org/ayo/packages/perl-FCGI/info.html
+   * Debian - http://packages.debian.org/search?searchon=names&keywords=libfcgi-perl
+   * Ubuntu - http://packages.ubuntu.com/search?searchon=names&keywords=libfcgi-perl
+
 ---+++ Apache
+
+---++++ Apache Module
+
+There are two options that basicly do the same thing
+
+   * mod_fastcgi which is the oldest implementation. It is released under a custom non-free license but it is free of charge.
+   * mod_fcgid which is the newer implementation released under the GPL license and now part of the Apache Foundation.
+   
+It is difficult to recommend one or the other. In some cases one will work and the other will not. Most positive reports have been with mod_fcgidbut both have been tested and work with standard out-of-the-box Apache and Foswiki setups. mod_fcgid is easier to find as package because of its GPL license so it may be the best place to start. Fedora has mod_fcgid on the installation DVD now.
+
+Below are some resources for the most common Linux distributions. The actual versions of the latest packages may have changed since this documentation was written.
+
+mod_fcgid resources
+   * Sources - http://httpd.apache.org/mod_fcgid/
+   * !RedHat/Centos EL5 64 bit - http://centos.karan.org/el5/extras/testing/x86_64/RPMS/mod_fcgid-2.2-4.el5.kb.x86_64.rpm
+   * !RedHat/Centos EL5 32 bit - http://centos.karan.org/el5/extras/testing/i386/RPMS/mod_fcgid-2.2-4.el5.kb.i386.rpm
+   * Debian - http://packages.debian.org/search?searchon=names&keywords=libapache2-mod-fcgid
+
+mod_fastcgi resources
+   * !RedHat/Centos - http://rugmonster.org/2009/03/building-mod_fastcgi-on-rhel5/ and http://www.nagare.org/trac/blog/apache_mod_fastcgi
+   * Debian - http://packages.debian.org/unstable/httpd/libapache2-mod-fastcgi
+
+---++++ Apache Configuration
 
 <blockquote class="foswikiHelp"> %X% It is strongly recommended that users work from Foswiki:Support.ApacheConfigGenerator to create initial Apache configurations. This config generator is comprehensive and well tested; the examples below may be inadequate for your needs.</blockquote>
 
@@ -276,11 +311,12 @@ Dynamic servers are more useful when foswiki access load on the server is low an
 | Release: | %$RELEASE% |
 | Version: | %$VERSION% |
 | Change History: | |
-| 17 Sep 2010 | Foswikitask:Item9701 - Documentation update, suggest =mod_fcgid= preferred over =mod_fastcgi= |
-|  3 Sep 2010 | Foswikitask:Item9456 - Taint error, Foswikitask:Item9390 - !LocalSite.cfg error handling, Foswikitask:Item8765 - Perl coding issue,  Foswikitask:Item1315 - Support information |
-| 21 Dec 2009 | Foswiki:Main.ItaloValcy: fix Foswikitask:Item8238 |
-| 24 Jan 2009 | Documentation enhancements and some fixes (Foswikitask:Item853) |
-| 25 Dec 2008 | Initial Release |
+|  26 Oct 2010 | (0.9.4) Foswikitask:Item9902 - Adding more resources about how to get and install CPAN lib and mod_fcgid or mod_fastcgi. Code has not changed so no need to upgrade |
+|  17 Sep 2010 | (0.9.3) Foswikitask:Item9701 - Documentation update, suggest =mod_fcgid= preferred over =mod_fastcgi= |
+|  03 Sep 2010 | Foswikitask:Item9456 - Taint error, Foswikitask:Item9390 - !LocalSite.cfg error handling, Foswikitask:Item8765 - Perl coding issue,  Foswikitask:Item1315 - Support information |
+|  21 Dec 2009 | Foswiki:Main.ItaloValcy: fix Foswikitask:Item8238 |
+|  24 Jan 2009 | Documentation enhancements and some fixes (Foswikitask:Item853) |
+|  25 Dec 2008 | Initial Release |
 | Dependencies: | %$DEPENDENCIES% |
 | Home page: | http://foswiki.org/Extensions/%TOPIC% |
 | Support: | http://foswiki.org/Support/%TOPIC% |
