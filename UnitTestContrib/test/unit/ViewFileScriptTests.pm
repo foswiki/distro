@@ -84,13 +84,27 @@ sub set_up {
     $topicObject->save();
     $this->sneakAttachmentsToTopic( $this->{test_subweb}, $topic,
         ( 'one.txt', 'two.txt', 'inc/file.txt' ) );
+
+    $topic = 'BinaryTopic';
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic,
+        'BinaryTopic Text', undef );
+    $topicObject->save();
+    $this->sneakAttachmentsToTopic( $this->{test_web}, $topic,
+        ( 'binaryfile.bin' ) );
 }
 
 sub touchFile {
     my ( $dir, $file ) = @_;
     my $filename = "$dir/$file";
     if ( open( my $FILE, '>', $filename ) ) {
-        print $FILE "Test attachment $file\n";
+	    binmode $FILE;
+        if ($file eq 'binaryfile.bin') {
+            print $FILE "Test\nAttach\rment\r\nEmbed\cZEOF\r\n$file\n";
+            }
+        else {
+            print $FILE "Test attachment $file\n";
+        }
         close($FILE);
     }
     else {
@@ -144,7 +158,7 @@ sub viewfile {
     );
 
     $fatwilly->finish();
-    $text =~ s/^.*\r\n//s;
+    $text =~ s/^.*?\x0d\x0a\x0d\x0a//s;
     return $text;
 }
 
@@ -410,4 +424,10 @@ sub test_MIME_types {
         Foswiki::UI::Viewfile::_suffixToMimeType('blah.wibble') );
 }
 
+sub test_binary_contents {
+    my $this = shift;
+
+    $this->assert_equals( "Test\nAttach\rment\r\nEmbed\cZEOF\r\nbinaryfile.bin\n",
+        $this->viewfile("/$this->{test_web}/BinaryTopic?filename=/binaryfile.bin") );
+}
 1;
