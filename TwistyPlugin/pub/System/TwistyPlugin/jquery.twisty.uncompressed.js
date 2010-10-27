@@ -193,8 +193,7 @@ if (!foswiki) foswiki = {};
 			},
 			ref.speed,
 			function () {
-				//$elem.css('height', ''); // somehow this doesn't work
-				elem.style.height = '';
+				$elem.css('height', 'auto'); 
 			}
 		);
     };
