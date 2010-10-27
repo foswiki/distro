@@ -167,7 +167,7 @@ sub initPlugin {
 # The function used to handle the %EXAMPLETAG{...}% macro
 # You would have one of these for each macro you want to process.
 #sub _EXAMPLETAG {
-#    my($session, $params, $theTopic, $theWeb) = @_;
+#    my($session, $params, $topicObject) = @_;
 #    # $session  - a reference to the Foswiki session object
 #    #             (you probably won't need it, but documented in Foswiki.pm)
 #    # $params=  - a reference to a Foswiki::Attrs object containing 
@@ -175,8 +175,7 @@ sub initPlugin {
 #    #             This can be used as a simple hash that maps parameter names
 #    #             to values, with _DEFAULT being the name for the default
 #    #             (unnamed) parameter.
-#    # $theTopic - name of the topic in the query
-#    # $theWeb   - name of the web in the query
+#    # $topicObject - a reference to a Foswiki::Meta object containing the topic the macro is being rendered in
 #    # Return: the result of processing the macro. This will replace the
 #    # macro call in the final text.
 #

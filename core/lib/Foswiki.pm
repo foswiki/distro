@@ -2986,8 +2986,8 @@ sub _processMacros {
 # Handle expansion of a tag during topic rendering
 # $tag is the tag name
 # $args is the bit in the {} (if there are any)
-# $topic and $web should be passed for dynamic tags (not needed for
-# session or constant tags
+# $topicObject should be passed for dynamic tags (not needed for
+# session or constant tags)
 sub _expandMacroOnTopicRendering {
     my ( $this, $tag, $args, $topicObject ) = @_;
 
