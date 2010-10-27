@@ -182,13 +182,6 @@ if (!foswiki) foswiki = {};
      */
     foswiki.TwistyPlugin.showAnimation = function (elem, ref) {
     	var $elem = $(elem);
-console.log("called showAnimation");
-console.log("ref.height="+ref.height);
-console.log("ref.marginBottom="+ref.marginBottom);
-console.log("ref.marginTop="+ref.marginTop);
-console.log("ref.marginBottom="+ref.marginBottom);
-console.log("ref.paddingTop="+ref.marginTop);
-console.log("ref.paddingBottom="+ref.marginBottom);
 		$elem.animate(
 			{
 				height:ref.height, 
@@ -200,12 +193,9 @@ console.log("ref.paddingBottom="+ref.marginBottom);
 			},
 			ref.speed,
 			function () {
-console.log("finish handler called");
 				$elem.css('height', 'auto'); 
-console.log("done 1");
 			}
 		);
-console.log("done 2");
     };
     
     /**
