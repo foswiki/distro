@@ -289,7 +289,7 @@ $HTTP["url"] =~ "^%URL%/" {
 
 Except from Apache using only =.htaccess= file, it's possible to adjust the number of !FastCGI processes. There is no _magic number_: it depends on some variables, like the hardware resources and access load. If you set this number too low, users may experience high latencies and you'll not use all hardware potential, on the other hand if this setting is adjusted too high then the server can be forced to use swap, what degrades performance a lot.
 
-Dynamic servers are more useful when foswiki access load on the server is low and/or it's used to something else. Under high loads, static servers can deliver better performance.
+Dynamic servers are more useful when Foswiki access load on the server is low and/or it's used for something in addition to Foswiki. Under high loads, static servers can deliver better performance.
 
 ---++ Known Issues
 
@@ -298,7 +298,7 @@ Dynamic servers are more useful when foswiki access load on the server is low an
 <blockquote class="foswikiHelp">
 %X% This is a persistent engine, so you need to restart the web server after some configuration update is performed. However, there is an auto-reload mechanism that apply changes without a web server restart. Unfortunately, there is a delay: after the update, each process will still serve one more request before reloading itself (e.g. if you're using 3 processes, the next 3 requests after the update will not be affected. The update will take effect on the requests made after the initial 3). This reloading mechanism works only on operating systems that have the =exec(2)= system call, like Linux and other POSIX compliant systems.
 
-%X% All examples above have an exception to =configure= script. This script *needs* to run as a plain CGI script. There are some legacy extensions (not updated to Foswiki:Development/FoswikiStandAlone design) that adds scripts to the =bin/= directory. You need to add exceptions to these scripts as well.
+%X% All examples above have an exception to =configure= script. This script *needs* to run as a plain CGI script. There are some legacy extensions (not updated to Foswiki:Development/FoswikiStandAlone design) that adds scripts to the =bin/= directory. You need to add exceptions for these scripts as well.
 
 %X% !FastCGI support on IIS 6.0 (and maybe other versions) is *broken* with respect to the =STDERR= stream. This may cause problems.
 </blockquote>
