@@ -1091,8 +1091,19 @@ sub formatResult {
 
     #SMELL: hack to stop non-topic based FORMAT's from doing topic code
     #TODO: this should be extracted into the customKeys above
-    $out = $session->renderer->renderRevisionInfo( $topicObject, $revNum, $out )
-      if ( defined($topic) );
+    # Note that we cannot send a formatted search through renderRevisionInfo
+    # without expanding tokens we should not because the function also sends
+    # the input through formatTime and probably other nasty filters
+    # So we send each token through one by one.
+    if ( defined $topic ) {
+
+        $out =~ s/\$web/$web/gs;
+        $out =~ s/\$topic\(([^\)]*)\)/Foswiki::Render::breakName( 
+                                                $topic, $1 )/ges;
+        $out =~ s/\$topic/$topic/gs;
+        $out =~ s{(\$rev|\$wikiusername|\$wikiname|\$username|\$createlongdate|\$iso|\$longdate|\$date)}
+                 {$session->renderer->renderRevisionInfo($topicObject, $revNum, $1 )}ges;
+    }
 
     if ( $out =~ m/\$text/ and defined($topic) )
     {    #TODO: don't muck with text if we're not even a topic
