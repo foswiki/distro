@@ -31,6 +31,7 @@ is total memory.
 NOTE: it uses /proc - so its linux specific...
 
 TODO: replace FOSWIKI_MONITOR with LocalSite.cfg setting that can turn on per module instrumentation.
+TODO: rewrite to use Foswiki::Loggers
 
 =cut
 
@@ -87,15 +88,28 @@ sub tidytime {
     return "wall $w CPU $c";
 }
 
+sub startMonitoring {
+    require Benchmark;
+    import Benchmark ':hireswallclock';
+    die $@ if $@;
+
+    {
+        no warnings 'redefine';
+        no strict "refs";
+
+        *MARK          = \&_mark;
+        *MonitorMethod = \&_monitorMethod;
+
+        use warnings;
+        use strict;
+    }
+    MARK('START');
+}
+
 BEGIN {
     my $caller = caller;
     if ( $ENV{FOSWIKI_MONITOR} ) {
-        require Benchmark;
-        import Benchmark ':hireswallclock';
-        die $@ if $@;
-        *MARK          = \&_mark;
-        *MonitorMethod = \&_monitorMethod;
-        MARK('START');
+        startMonitoring();
     }
     else {
         *MARK          = sub { };
@@ -160,7 +174,7 @@ sub END {
           if ( $methods{ $call->{method} }{mem_max} < $memdiff );
     }
     print STDERR
-"\n\n| Count  |  Time (Min/Max) | Memory(Min/Max) | Total      | Method |";
+"\n\n| Count  |  Time (Min/Max) | Memory(Min/Max) | Total                                                       | Method        |";
     foreach my $method ( sort keys %methods ) {
         print STDERR "\n| " 
           . sprintf( '%6u', $methods{$method}{count} ) . ' | '
@@ -178,58 +192,52 @@ sub END {
     print STDERR "\n";
 }
 
-#BEWARE - though this is extremely useful to show whats fast / slow in a Class, its also a potentially
-#deadly hack
-#method wrapper - http://chainsawblues.vox.com/library/posts/page/1/
-sub _monitorMethod {
-    my ( $package, $method ) = @_;
+#BEWARE - as above
+#provide more detailed information about a specific MACRO handler
+#this Presumes that the macro function is defined as 'sub Foswiki::MACRO' and can be loaded from 'Foswiki::Macros::MACRO'
+#
+# logs, session GET and POST params, MACRO and MACRO params and timing stats
+#
+# the $logFunction is an optional reference to a writeLog($name, hash_ref_of_values_to_log) (see DebugLogPlugin for an example)
+sub monitorMACRO {
+    my $package     = 'Foswiki';
+    my $method      = shift;
+    my $logFunction = shift;
 
-    if ( !defined($method) ) {
+    eval "require Foswiki::Macros::$method";
+    return if ($@);
+    my $old = ($package)->can($method);    # look up along MRO
+    return if ( !defined($old) );
+
+    #print STDERR "monitoring $package :: $method)";
+    {
+        no warnings 'redefine';
         no strict "refs";
-        foreach my $symname ( sort keys %{"${package}::"} ) {
-            next if ( $symname =~ /^ASSERT/ );
-            next if ( $symname =~ /^DEBUG/ );
-            next if ( $symname =~ /^UNTAINTED/ );
-            next if ( $symname =~ /^except/ );
-            next if ( $symname =~ /^otherwise/ );
-            next if ( $symname =~ /^finally/ );
-            next if ( $symname =~ /^try/ );
-            next if ( $symname =~ /^with/ );
-            _monitorMethod( $package, $symname );
-        }
-    }
-    else {
-        my $old = ($package)->can($method);    # look up along MRO
-        return if ( !defined($old) );
+        *{"${package}::$method"} = sub {
+            my ( $session, $params, $topicObject ) = @_;
 
-        #print STDERR "monitoring $package :: $method)";
-        {
-            no warnings 'redefine';
-            no strict "refs";
-            *{"${package}::$method"} = sub {
+            #Monitor::MARK("begin $package $method");
+            my $in_stat   = _get_stat_info($$);
+            my $in_bench  = new Benchmark();
+            my @result    = $session->$old( $params, $topicObject, @_ );
+            my $out_bench = new Benchmark();
 
-                #Monitor::MARK("begin $package $method");
-                my $in_stat   = _get_stat_info($$);
-                my $in_bench  = new Benchmark();
-                my $self      = shift;
-                my @result    = $self->$old(@_);
-                my $out_bench = new Benchmark();
+            #Monitor::MARK("end   $package $method  => ".($result||'undef'));
+            my $out_stat  = _get_stat_info($$);
+            my $stat_hash = {
+                method   => "${package}::$method",
+                in       => $in_bench,
+                in_stat  => $in_stat,
+                out      => $out_bench,
+                out_stat => $out_stat
+            };
 
-               #Monitor::MARK("end   $package $method  => ".($result||'undef'));
-                my $out_stat = _get_stat_info($$);
-                push(
-                    @methodStats,
-                    {
-                        method   => "${package}::$method",
-                        in       => $in_bench,
-                        in_stat  => $in_stat,
-                        out      => $out_bench,
-                        out_stat => $out_stat
-                    }
-                );
-                return wantarray ? @result : $result[0];
-              }
-        }
+            if ( defined($logFunction) ) {
+                &$logFunction( $method, { %$stat_hash, params => $params } );
+            }
+            push( @methodStats, $stat_hash );
+            return wantarray ? @result : $result[0];
+          }
     }
 }
 
