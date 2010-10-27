@@ -178,7 +178,7 @@ sub initPlugin {
 #    # $topic    - name of the topic in the query
 #    # $web      - name of the web in the query
 #    # $topicObject - a reference to a Foswiki::Meta object containing the
-#    #             topic the macro is being rendered in
+#    #             topic the macro is being rendered in (new for foswiki 1.1.x)
 #    # Return: the result of processing the macro. This will replace the
 #    # macro call in the final text.
 #
