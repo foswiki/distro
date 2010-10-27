@@ -234,6 +234,12 @@ pub/System/JQueryPlugin/plugins/bgiframe/Makefile 0644
 pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.js 0644
 pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.js.gz 0644
 pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.css
+pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.css.gz
+pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.uncompressed.css
+pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.init.js
+pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.init.js.gz
+pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.init.uncompressed.js
 pub/System/JQueryPlugin/plugins/blockui/Makefile 0644
 pub/System/JQueryPlugin/plugins/button/btn_cyan_left.gif 0644
 pub/System/JQueryPlugin/plugins/button/btn_cyan_right.gif 0644
