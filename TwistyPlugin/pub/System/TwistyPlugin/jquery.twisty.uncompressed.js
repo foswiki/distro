@@ -193,8 +193,7 @@ if (!foswiki) foswiki = {};
 			},
 			ref.speed,
 			function () {
-				//$elem.css('height', ''); // somehow this doesn't work
-				elem.style.height = '';
+				$elem.css('height', 'auto'); 
 			}
 		);
     };
@@ -363,6 +362,19 @@ if (!foswiki) foswiki = {};
 				ref.marginBottom = $this.css('margin-bottom');
 				ref.paddingTop = $this.css('padding-top');
 				ref.paddingBottom = $this.css('padding-bottom');
+
+            if (ref.marginTop == 'auto') {
+              ref.marginTop = '0px';
+            }
+            if (ref.marginBottom == 'auto') {
+              ref.marginBottom = '0px';
+            }
+            if (ref.paddingTop == 'auto') {
+              ref.paddingTop = '0px';
+            }
+            if (ref.paddingBottom == 'auto') {
+              ref.paddingBottom = '0px';
+            }
 			}	
           });
           $('.twistyTrigger').livequery(function() {
