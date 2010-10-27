@@ -125,7 +125,7 @@
 				}
 				, tml_glue_comment: {
 				  _match: /\n(#~~)(.*)/,
-				  _replace: "\n<span class='tml_glue'>$1</span><span class='comment'>$2</span>",
+				  _replace: "\n<span class='tml_glue'>$1</span><span class='comment'>$2</span>"
 				}
 				// wikilink
 				, tml_wikilink: {
@@ -177,7 +177,7 @@
 	, tml_attrs: {
 				// pseudo vars used in format strings
 				 tml_pseudovars: {
-				  _match: /\\+["']/,
+				  _match: /\\+["']/
 				}
 
 	}
