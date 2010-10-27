@@ -14,6 +14,7 @@ use Error qw( :try );
 use Assert;
 use Foswiki::Search;
 use Foswiki::Search::InfoCache;
+use Foswiki::Render;
 
 use File::Spec qw(case_tolerant);       #TODO: this really should be in the Store somehow - but its not worth doing now, as we should really obliterate the issue
 
@@ -1055,6 +1056,38 @@ sub verify_formatted_search_with_exclamation_marks_inside_bracket_link {
     $expected = '<a href=""><nop>AnnaAnchor</a>';
     
     $this->assert_str_equals( $expected, $actual );
+}
+
+sub test_format_tokens_topic_truncated {
+    my $this = shift;
+
+    $this->set_up_for_formatted_search();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Bullet" type="regex" multiple="on" nonoise="on" format="I found $topic(5,...)"}%'
+      );
+
+    $this->assert_str_equals(
+"I found Forma...\nI found Forma...\nI found Forma...\nI found Forma...",
+        $result
+    );
+}
+
+sub test_format_tokens_dont_expand {
+    my $this = shift;
+
+    $this->set_up_for_formatted_search();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Bullet" type="regex" nonoise="on" format="$topic $email $html $time"}%'
+      );
+
+    $this->assert_str_equals(
+"FormattedSearchTopic1 \$email \$html \$time",
+        $result
+    );
 }
 
 sub verify_METASEARCH {
