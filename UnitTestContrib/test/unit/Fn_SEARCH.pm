@@ -1149,6 +1149,38 @@ sub test_formatted_search_with_exclamation_marks_inside_bracket_link {
     $this->assert_str_equals( $expected, $actual );
 }
 
+sub test_format_tokens_topic_truncated {
+    my $this = shift;
+
+    $this->set_up_for_formatted_search();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Bullet" type="regex" multiple="on" nonoise="on" format="I found $topic(5,...)"}%'
+      );
+
+    $this->assert_str_equals(
+"I found Forma...\nI found Forma...\nI found Forma...\nI found Forma...",
+        $result
+    );
+}
+
+sub test_format_tokens_dont_expand {
+    my $this = shift;
+
+    $this->set_up_for_formatted_search();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Bullet" type="regex" nonoise="on" format="$topic $email $html $time"}%'
+      );
+
+    $this->assert_str_equals(
+"FormattedSearchTopic1 \$email \$html \$time",
+        $result
+    );
+}
+
 sub test_METASEARCH {
     my $this    = shift;
     my $session = $this->{session};
