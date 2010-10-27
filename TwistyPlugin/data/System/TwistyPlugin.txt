@@ -488,6 +488,7 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  27 Oct 2010 | 1.6.8 Foswikitask:Item9904: fixed compatibility with IE |
 |  24 Oct 2010 | 1.6.7 Foswikitask:Item9815: Changed random IDs back to predictable IDs if remember option is set |
 |  11 Sep 2010 | 1.6.6 Foswikitask:Item9499: Recoded show/hide animation code for smooth twisties. |
 |  10 Sep 2010 | 1.6.5 Foswikitask:Item9515: Simplified code that shows/hides twisties. |

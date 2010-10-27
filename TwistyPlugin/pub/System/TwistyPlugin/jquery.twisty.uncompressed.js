@@ -182,6 +182,13 @@ if (!foswiki) foswiki = {};
      */
     foswiki.TwistyPlugin.showAnimation = function (elem, ref) {
     	var $elem = $(elem);
+console.log("called showAnimation");
+console.log("ref.height="+ref.height);
+console.log("ref.marginBottom="+ref.marginBottom);
+console.log("ref.marginTop="+ref.marginTop);
+console.log("ref.marginBottom="+ref.marginBottom);
+console.log("ref.paddingTop="+ref.marginTop);
+console.log("ref.paddingBottom="+ref.marginBottom);
 		$elem.animate(
 			{
 				height:ref.height, 
@@ -193,9 +200,12 @@ if (!foswiki) foswiki = {};
 			},
 			ref.speed,
 			function () {
+console.log("finish handler called");
 				$elem.css('height', 'auto'); 
+console.log("done 1");
 			}
 		);
+console.log("done 2");
     };
     
     /**
@@ -362,6 +372,19 @@ if (!foswiki) foswiki = {};
 				ref.marginBottom = $this.css('margin-bottom');
 				ref.paddingTop = $this.css('padding-top');
 				ref.paddingBottom = $this.css('padding-bottom');
+
+            if (ref.marginTop == 'auto') {
+              ref.marginTop = '0px';
+            }
+            if (ref.marginBottom == 'auto') {
+              ref.marginBottom = '0px';
+            }
+            if (ref.paddingTop == 'auto') {
+              ref.paddingTop = '0px';
+            }
+            if (ref.paddingBottom == 'auto') {
+              ref.paddingBottom = '0px';
+            }
 			}	
           });
           $('.twistyTrigger').livequery(function() {
