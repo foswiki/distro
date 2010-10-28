@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-10-28 06:36+0200\n"
+"PO-Revision-Date: 2010-10-28 06:53+0200\n"
 "Last-Translator: Will Norris <will@biohack.net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -61,11 +61,11 @@ msgstr "Web %1"
 
 #: core/templates/messages.tmpl:480
 msgid "%1 added to the %2 group. "
-msgstr "%1 fue agregado al grupo %2."
+msgstr "%1 fue agregado al grupo %2. "
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
-msgstr "Tema del grupo %1 actualizado."
+msgstr "Tema del grupo %1 actualizado. "
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -135,7 +135,7 @@ msgstr "%1 cambios recientes en la web %2"
 
 #: core/templates/messages.tmpl:518
 msgid "%1 removed from the %2 group. "
-msgstr "%1 fue eliminado del grupo %2."
+msgstr "%1 fue eliminado del grupo %2. "
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -1280,11 +1280,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:201
 msgid "E-mail changed successfully!"
-msgstr "Dirección de correo electrónico fue cambiada exitosamente!"
+msgstr "¡Dirección de correo electrónico fue cambiada exitosamente!"
 
 #: core/templates/messages.tmpl:632
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
-msgstr "ENCODE falló - =type= no puede ser usado junto a =old= y =new="
+msgstr "ENCODE falló - =type= no puede ser usado junto a =old= y =new= "
 
 #: core/templates/messages.tmpl:633
 msgid "ENCODE failed - both of =old= and =new= must be given"
@@ -1292,7 +1292,7 @@ msgstr "ENCODE falló - ambos =old= y =new= deben de ser proporcionados"
 
 #: core/templates/messages.tmpl:634
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr "ENCODE falló - token '%PARAM1%' esta repetido en =old="
+msgstr "ENCODE falló - token '%PARAM1%' esta repetido en =old= "
 
 #: core/templates/messages.tmpl:637
 msgid "EXPAND failed - access to '%PARAM1%' denied"
@@ -1590,7 +1590,7 @@ msgstr "Hola %1"
 
 #: core/templates/foswiki.tmpl:159
 msgid "Hello %1!"
-msgstr "Hola %1!"
+msgstr "¡Hola %1!"
 
 #: core/data/System/WebSearch.txt:109 core/data/System/WebSearch.txt:66
 #: core/templates/login.tmpl:48
@@ -1884,7 +1884,7 @@ msgid ""
 "will automatically be removed."
 msgstr ""
 "Usualmente lo mejor es escoger un %1 para el nuevo nombre de un tema, de "
-"otra manera los enlaces automáticos podrían no funcionar. los caracteres no "
+"otra manera los enlaces automáticos podrían no funcionar. Los caracteres no "
 "permitidos en nombres de temas, como espacios serán removidos "
 "automáticamente."
 
@@ -2144,7 +2144,7 @@ msgstr "No recomendado cuando se borra un tema."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
-msgstr "No seguro que esto sea correcto, por favor confirme!"
+msgstr "No seguro que esto sea correcto, ¡por favor confirme!"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2263,7 +2263,7 @@ msgstr "Contraseña"
 
 #: core/templates/messages.tmpl:184
 msgid "Password changed successfully!"
-msgstr "Contraseña fue cambiada exitosamente!"
+msgstr "¡Contraseña fue cambiada exitosamente!"
 
 #: core/templates/messages.tmpl:194
 msgid "Password could not be changed"
@@ -2373,7 +2373,7 @@ msgstr "Preferencias para"
 
 #: core/templates/validate.tmpl:38
 msgid "Press Cancel otherwise."
-msgstr "Si no, presione Cancelar"
+msgstr "Si no, presione Cancelar."
 
 #: core/templates/validate.tmpl:37
 msgid "Press OK to confirm that this change was intentional."
@@ -2446,8 +2446,7 @@ msgstr "Registrarse"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
 msgid "Registered e-mail addresses for currently logged in user"
-msgstr ""
-"Direcciones de correo electrónico para el usuario actualmente conectado "
+msgstr "Direcciones de correo electrónico para el usuario actualmente conectado"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -2683,7 +2682,7 @@ msgstr "Buscar más temas en esta web"
 
 #: core/data/System/WebSearch.txt:39
 msgid "Search options"
-msgstr "Opciones de búsqueda:"
+msgstr "Opciones de búsqueda"
 
 #: core/templates/searchbookview.tmpl:7
 msgid "Search result"
@@ -2740,7 +2739,7 @@ msgstr "Ver también:"
 
 #: core/templates/edit.tmpl:59
 msgid "See below for help in editing this page."
-msgstr "Ver ayuda a continuación acerca de editar esta página"
+msgstr "Ver ayuda a continuación acerca de editar esta página."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -2926,7 +2925,7 @@ msgstr "Plantilla %1 no existe"
 
 #: core/data/System/WebSearch.txt:76 core/data/System/WebSearch.txt:90
 msgid "Text body"
-msgstr "Cuerpo del Texto"
+msgstr "Cuerpo del texto"
 
 #: core/templates/messages.tmpl:170 core/templates/messages.tmpl:210
 msgid "Thank you for registering"
@@ -2984,7 +2983,7 @@ msgstr ""
 "La web %1 es como una caja de arena. Todos están bienvenidos de añadir o "
 "borrar algunas cosas. Es recomendable leer %2 para apdrender a utilizar la "
 "herramienta %3. Una buena sugerencia es añadir al final de la página una "
-"firma y una fecha con su %4"
+"firma y una fecha con su %4."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
 #: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
@@ -3044,7 +3043,7 @@ msgid ""
 "the site."
 msgstr ""
 "El atacante intenta usar sus derechos para obtener cosas, como derechos de "
-"administrador para el sitio. "
+"administrador para el sitio."
 
 #: core/templates/messages.tmpl:538
 msgid ""
@@ -3117,7 +3116,7 @@ msgstr "El bloqueo a este tema expiró hace %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:153
 msgid "The login name you use to sign in."
-msgstr "El nombre de acceso que usted utiliza para ingresar. "
+msgstr "El nombre de acceso que usted utiliza para ingresar."
 
 #: core/templates/messages.tmpl:93
 msgid "The name of the topic must not be empty."
@@ -3189,11 +3188,11 @@ msgstr "Deberia haber una linea que incluya %1, busque %2 (o %3)"
 
 #: core/templates/messages.tmpl:468
 msgid "There were errors adding %1 to the %2 group. "
-msgstr "Se encontraron errores añadiendo %1 al grupo %2."
+msgstr "Se encontraron errores añadiendo %1 al grupo %2. "
 
 #: core/templates/messages.tmpl:506
 msgid "There were errors removing %1 from the %2 group. "
-msgstr "Se encontraron errores eliminando %1 del grupo %2."
+msgstr "Se encontraron errores eliminando %1 del grupo %2. "
 
 #: core/templates/messages.tmpl:366
 msgid "This can be automatically upgraded by:"
@@ -3270,8 +3269,8 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Este es su nombre escrito como !WikiWord, por ejemplo: !JuanPérez%BR% [[%"
-"1][Registrar]] si usted no tiene una cuenta aún. "
+"Este es su nombre escrito como !WikiWord, por ejemplo: !JuanPérez. %BR% [[%"
+"1][Registrar]] si usted no tiene una cuenta aún."
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
@@ -3617,7 +3616,7 @@ msgstr "¡Advertencia! Se requiere confirmación"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 msgid "Warning: 'include' topic does not exist!"
-msgstr "Advertencia: Tema 'incluido' no existe"
+msgstr "Advertencia: ¡Tema \"incluido\" no existe!"
 
 #: core/templates/messages.tmpl:553
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
@@ -3629,7 +3628,7 @@ msgstr ""
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
-"Advertencia: No se puede INCLUDE %1 repetidamente, la ruta está vacía o "
+"Advertencia: No se puede INCLUDE \"%1\" repetidamente, la ruta está vacía o "
 "contiene caracteres ilegales."
 
 #: core/templates/messages.tmpl:552
@@ -3656,7 +3655,7 @@ msgstr "Advertencia: Este sitio no permite %<nop>INCLUDE% de direcciones web"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "¡Advertencia: Tema \\'incluido\\' no existe!"
+msgstr "¡Advertencia: tema \\'incluido\\' no existe!"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
@@ -3700,7 +3699,7 @@ msgstr "¿Porqué se me está solicitando confirmar?"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid "Wiki administrators should read about the %1."
-msgstr "Los administradores WIki deben leer acerca de %1."
+msgstr "Los administradores del wIki deben leer acerca de %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:144
 msgid "Wiki name"
@@ -3786,7 +3785,7 @@ msgid ""
 "You are trying to perform an action on a topic that does not exist (action '%"
 "1')."
 msgstr ""
-"Está tratando de realizar una acción en un tema que no existe (acción '%1')"
+"Está tratando de realizar una acción en un tema que no existe (acción \"%1\")."
 
 #: core/templates/messages.tmpl:612
 msgid "You are trying to rename a topic that does not exist."
@@ -3970,7 +3969,7 @@ msgstr "Su contraseña"
 
 #: core/templates/mailresetpassword.tmpl:13
 msgid "Your password has been changed to %1."
-msgstr "Su contraseña ha sido cambiada a %1"
+msgstr "Su contraseña ha sido cambiada a %1."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:138
 #: core/templates/registernotify.tmpl:12
@@ -4011,7 +4010,7 @@ msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:53
 msgid "Your signature to copy/paste"
-msgstr "Su firma para copiar/pegar:"
+msgstr "Su firma para copiar/pegar"
 
 #: core/templates/edit.tmpl:48
 msgid "Your signature to copy/paste:"
@@ -4085,7 +4084,7 @@ msgstr "y"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr "por %1"
+msgstr "por %1 "
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -4183,7 +4182,7 @@ msgstr "recuperado de %1"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:86
 msgid "revisions up to"
-msgstr "revisiones hasta "
+msgstr "revisiones hasta"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -4212,7 +4211,7 @@ msgstr "title='Editar texto de este tema' accesskey='e'>&Editar"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='entrelazado accesskey='z'>entrela&zado"
+msgstr "title='Entrelazado' accesskey='z'>entrela&zado"
 
 #: core/templates/viewtopicactionbuttons.tmpl:21
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -4243,7 +4242,7 @@ msgstr ""
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='lado a lado ' accesskey='l'>&lado a lado"
+msgstr "title='Lado a lado ' accesskey='l'>&lado a lado"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:92
 #: core/templates/viewtopicactionbuttons.tmpl:11
@@ -4273,7 +4272,7 @@ msgstr "value='Cancelar' accesskey='c'"
 
 #: PatternSkin/templates/preview.pattern.tmpl:19
 msgid "value='Discard' accesskey='d'"
-msgstr "valor=Descartar' accesskey='d'"
+msgstr "valor='Descartar' accesskey='d'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:39
 msgid "value='Preview' accesskey='p'"
