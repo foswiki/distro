@@ -145,19 +145,21 @@ our $CHANGES_SUMMARY_PLAINTRUNC = 70;
 # meta-data and that added by extensions.
 our %VALIDATE = (
     TOPICINFO => {
-        allow => [qw( author version date format reprev
-                      rev comment encoding )],
+        allow => [
+            qw( author version date format reprev
+              rev comment encoding )
+        ],
         _default => 1,
     },
     TOPICMOVED => {
-        require => [qw( from to by date )],
+        require  => [qw( from to by date )],
         _default => 1,
     },
 
     # Special case, see Item2554; allow an empty TOPICPARENT, as this was
     # erroneously generated at some point in the past
-    TOPICPARENT    => {
-        allow => [qw( name )],
+    TOPICPARENT => {
+        allow    => [qw( name )],
         _default => 1,
     },
     FILEATTACHMENT => {
@@ -168,18 +170,18 @@ our %VALIDATE = (
         ],
         _default => 1,
     },
-    FORM  => {
-        require => [qw( name )],
+    FORM => {
+        require  => [qw( name )],
         _default => 1,
     },
     FIELD => {
-        require => [qw( name value )],
-        other   => [qw( title )],
+        require  => [qw( name value )],
+        other    => [qw( title )],
         _default => 1,
     },
     PREFERENCE => {
-        require => [qw( name value )],
-        other   => [qw( type )],
+        require  => [qw( name value )],
+        other    => [qw( type )],
         _default => 1,
     }
 );
@@ -224,11 +226,12 @@ prototype object (which must be type Foswiki::Meta).
 sub new {
     my ( $class, $session, $web, $topic, $text ) = @_;
 
-    if ($session->isa('Foswiki::Meta')) {
+    if ( $session->isa('Foswiki::Meta') ) {
+
         # Prototype
-        ASSERT(!defined($web) && !defined($topic) && !defined($text))
+        ASSERT( !defined($web) && !defined($topic) && !defined($text) )
           if DEBUG;
-        return $class->new($session->session, $session->web, $session->topic);
+        return $class->new( $session->session, $session->web, $session->topic );
     }
 
     my $this = bless(
@@ -269,6 +272,7 @@ sub new {
     $this->{FILEATTACHMENT} = [];
 
     if ( defined $text ) {
+
         # User supplied topic body forces us to consider this as the
         # latest rev
         ASSERT( defined($web),   'web is not defined' )   if DEBUG;
@@ -314,13 +318,15 @@ sub load {
     my $this;
     my $rev;
 
-    if (ref($proto)) {
+    if ( ref($proto) ) {
+
         # Existing unloaded object
-        ASSERT(!$this->{_loadedRev}) if DEBUG;
+        ASSERT( !$this->{_loadedRev} ) if DEBUG;
         $this = $proto;
         $rev  = shift;
-    } else {
-        (my $session, my $web, my $topic, $rev ) = @_;
+    }
+    else {
+        ( my $session, my $web, my $topic, $rev ) = @_;
         $this = $proto->new( $session, $web, $topic );
     }
     $this->loadVersion($rev);
@@ -340,14 +346,15 @@ which may have surprising effects on other code that shares the object.
 
 sub unload {
     my $this = shift;
-    $this->{_loadedRev} = undef;
+    $this->{_loadedRev}      = undef;
     $this->{_latestIsLoaded} = undef;
-    $this->{_text} = undef;
+    $this->{_text}           = undef;
     $this->{_preferences}->finish() if defined $this->{_preferences};
     undef $this->{_preferences};
     $this->{_preferences} = undef;
+
     # Unload meta-data
-    foreach my $type (keys %{$this->{_indices}}) {
+    foreach my $type ( keys %{ $this->{_indices} } ) {
         delete $this->{$type};
     }
     undef $this->{_indices};
@@ -640,10 +647,9 @@ sub populateNewWeb {
       )
     {
         my $prefsText = 'Preferences';
-        $prefsTopicObject = $this->new(
-            $this->{_session},                $this->{_web},
-            $Foswiki::cfg{WebPrefsTopicName}, $prefsText
-        );
+        $prefsTopicObject =
+          $this->new( $this->{_session}, $this->{_web},
+            $Foswiki::cfg{WebPrefsTopicName}, $prefsText );
         $prefsTopicObject->save();
     }
 
@@ -656,9 +662,9 @@ sub populateNewWeb {
         while ( $it->hasNext() ) {
             my $topic = $it->next();
             next unless ( $sys || $topic =~ /^Web/ );
-            my $to = Foswiki::Meta->load(
-                $this->{_session}, $templateWeb, $topic );
-            $to->saveAs( $this->{_web}, $topic, (forcenewrevision => 1) );
+            my $to =
+              Foswiki::Meta->load( $this->{_session}, $templateWeb, $topic );
+            $to->saveAs( $this->{_web}, $topic, ( forcenewrevision => 1 ) );
         }
     }
 
@@ -670,20 +676,25 @@ sub populateNewWeb {
             $Foswiki::cfg{WebPrefsTopicName} );
         my $text = $prefsTopicObject->text;
         foreach my $key ( keys %$opts ) {
+
             #don't create the required params to create web.
-            next if ($key eq 'BASEWEB');
-            next if ($key eq 'NEWWEB');
-            next if ($key eq 'NEWTOPIC');
-            next if ($key eq 'ACTION');
-            
-            if (defined($opts->{$key})) {
-                if ($text =~
-                  s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm) {
-              } else {
-                  #this setting wasn't found, so we need to append it.
-                  $text .= "\n   * Web Created with KEY set\n";
-                  $text .= "\n      * Set $key = $opts->{$key}\n";
-              }
+            next if ( $key eq 'BASEWEB' );
+            next if ( $key eq 'NEWWEB' );
+            next if ( $key eq 'NEWTOPIC' );
+            next if ( $key eq 'ACTION' );
+
+            if ( defined( $opts->{$key} ) ) {
+                if ( $text =~
+s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm
+                  )
+                {
+                }
+                else {
+
+                    #this setting wasn't found, so we need to append it.
+                    $text .= "\n   * Web Created with KEY set\n";
+                    $text .= "\n      * Set $key = $opts->{$key}\n";
+                }
             }
         }
         $prefsTopicObject->text($text);
@@ -826,23 +837,26 @@ sub loadVersion {
 
     # If no specific rev was requested, check that the latest rev is
     # loaded.
-    if (!defined $rev || !$rev) {
+    if ( !defined $rev || !$rev ) {
+
         # Trying to load the latest
         return if $this->{_latestIsLoaded};
-        ASSERT(!defined($this->{_loadedRev})) if DEBUG;
+        ASSERT( !defined( $this->{_loadedRev} ) ) if DEBUG;
     }
-    elsif (defined($this->{_loadedRev})) {
+    elsif ( defined( $this->{_loadedRev} ) ) {
+
         # Cannot load a different rev into an already-loaded
         # Foswiki::Meta object
         $rev = -1 unless defined $rev;
-        ASSERT(0, "Attempt to reload $rev over version $this->{_loadedRev}");
+        ASSERT( 0, "Attempt to reload $rev over version $this->{_loadedRev}" );
     }
 
     # Is it already loaded?
-    ASSERT( !($rev) or $rev =~ /^\s*\d+\s*/ ) if DEBUG; # looks like a number
-    return if ($rev && $this->{_loadedRev} && $rev == $this->{_loadedRev});
-    ($this->{_loadedRev}, $this->{_latestIsLoaded})
-      = $this->{_session}->{store}->readTopic( $this, $rev );
+    ASSERT( !($rev) or $rev =~ /^\s*\d+\s*/ ) if DEBUG;    # looks like a number
+    return if ( $rev && $this->{_loadedRev} && $rev == $this->{_loadedRev} );
+    ( $this->{_loadedRev}, $this->{_latestIsLoaded} ) =
+      $this->{_session}->{store}->readTopic( $this, $rev );
+
     # Make sure text always has a value once loadVersion has been called
     # once.
     $this->{_text} = '' unless defined $this->{_text};
@@ -1267,13 +1281,12 @@ sub getRevisionInfo {
         $this->setRevisionInfo(%$info);
     }
 
-    if (wantarray)
-    {
+    if (wantarray) {
+
         # Backwards compatibility for 1.0.x plugins
         return ( $info->{date}, $info->{author}, $info->{version}, '' );
     }
-    else
-    {
+    else {
         return $info;
     }
 }
@@ -1297,8 +1310,7 @@ sub getRev1Info {
     unless ( defined $info->{$attr} ) {
         my $ri = $info->{rev1info};
         unless ($ri) {
-            my $tmp = Foswiki::Meta->load(
-                $this->{_session}, $web, $topic, 1 );
+            my $tmp = Foswiki::Meta->load( $this->{_session}, $web, $topic, 1 );
             $info->{rev1info} = $ri = $tmp->getRevisionInfo();
         }
 
@@ -1580,15 +1592,18 @@ sub MONITOR_ACLS { 0 }
 # This function canonicalises the parsing of a users list. Is this the right
 # place for it?
 sub _getACL {
-    my ($this, $mode) = @_;
-    my $text = $this->getPreference( $mode );
+    my ( $this, $mode ) = @_;
+    my $text = $this->getPreference($mode);
     return undef unless defined $text;
+
     # Remove HTML tags (compatibility, inherited from Users.pm
     $text =~ s/(<[^>]*>)//g;
+
     # Dump the users web specifier if userweb
     my @list = grep { /\S/ } map {
-        s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//; $_
-    } split(/[,\s]+/, $text);
+        s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
+        $_
+    } split( /[,\s]+/, $text );
     return \@list;
 }
 
@@ -1718,8 +1733,8 @@ sub haveAccess {
 
     if (MONITOR_ACLS) {
         print STDERR "OK, permitted\n";
-        print STDERR 'ALLOW: '.join(',',@$allow)."\n" if defined $allow;
-        print STDERR 'DENY: '.join(',',@$deny)."\n"   if defined $deny;
+        print STDERR 'ALLOW: ' . join( ',', @$allow ) . "\n" if defined $allow;
+        print STDERR 'DENY: ' . join( ',', @$deny ) . "\n" if defined $deny;
     }
     return 1;
 }
@@ -1857,20 +1872,24 @@ sub saveAs {
       if DEBUG;
 
     unless ( $this->{_topic} eq $Foswiki::cfg{WebPrefsTopicName} ) {
+
         # Don't verify web existance for WebPreferences, as saving
         # WebPreferences creates the web.
         unless ( $this->{_session}->{store}->webExists( $this->{_web} ) ) {
             throw Error::Simple( 'Unable to save topic '
                   . $this->{_topic}
-                  . ' - web '. $this->{_web} . ' does not exist' );
+                  . ' - web '
+                  . $this->{_web}
+                  . ' does not exist' );
         }
     }
-     
+
     $this->_atomicLock($cUID);
     my $i = $this->{_session}->{store}->getRevisionHistory($this);
     my $currentRev = $i->hasNext() ? $i->next() : 1;
     try {
         if ( $currentRev && !$opts{forcenewrevision} ) {
+
             # See if we want to replace the existing top revision
             my $mtime1 =
               $this->{_session}->{store}
@@ -2025,9 +2044,10 @@ sub move {
 
         # Ensure latest rev is loaded
         my $from;
-        if ($this->latestIsLoaded()) {
+        if ( $this->latestIsLoaded() ) {
             $from = $this;
-        } else {
+        }
+        else {
             $from = $this->load();
         }
 
@@ -2397,9 +2417,12 @@ See =getLease= for more details about Leases.
 
 sub clearLease {
     my $this = shift;
-    ASSERT( $this->{_web} && $this->{_topic}, 
-        ($this->{_web}||'undef').'.'.($this->{_topic}||'undef').' this is not a topic object' )
-      if DEBUG;
+    ASSERT(
+        $this->{_web} && $this->{_topic},
+        ( $this->{_web} || 'undef' ) . '.'
+          . ( $this->{_topic} || 'undef' )
+          . ' this is not a topic object'
+    ) if DEBUG;
     $this->{_session}->{store}->setLease($this);
 }
 
@@ -2436,7 +2459,8 @@ sub onTick {
 
         # Clean up spurious leases that may have been left behind
         # during cancelled topic creation
-        $this->{_session}->{store}->removeSpuriousLeases( $this->getPath() ) if $this->getPath();
+        $this->{_session}->{store}->removeSpuriousLeases( $this->getPath() )
+          if $this->getPath();
     }
     else {
         my $lease = $this->getLease();
@@ -2512,6 +2536,7 @@ sub attach {
       if DEBUG;
 
     if ( $opts{file} && !$opts{stream} ) {
+
         # no stream given, but a file was given; open it.
         open( $opts{stream}, '<', $opts{file} )
           || throw Error::Simple( 'Could not open ' . $opts{file} );
@@ -2524,14 +2549,14 @@ sub attach {
         $action = 'upload';
 
         $attrs = {
-            name        => $opts{name},
-            attachment  => $opts{name},
-            stream      => $opts{stream},
-            user        => $this->{_session}->{user},    # cUID
-            comment     => $opts{comment} || '',
+            name       => $opts{name},
+            attachment => $opts{name},
+            stream     => $opts{stream},
+            user       => $this->{_session}->{user},    # cUID
+            comment    => $opts{comment} || '',
         };
 
-        if ($plugins->haveHandlerFor('beforeAttachmentSaveHandler')) {
+        if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
 
             # *Deprecated* handler.
 
@@ -2540,10 +2565,10 @@ sub attach {
             # and the stream is valid, or it may be been arrived at via a
             # call to Func::saveAttachment, in which case it's possible that
             # the stream isn't open but we have a tmpFilename instead.
-            # 
+            #
             $attrs->{tmpFilename} = $opts{file};
 
-            if ( !defined( $attrs->{tmpFilename} )) {
+            if ( !defined( $attrs->{tmpFilename} ) ) {
 
                 # CGI (or the caller) did not provide a temporary file
 
@@ -2553,26 +2578,28 @@ sub attach {
                 require File::Temp;
 
                 my $fh = new File::Temp();
-                binmode( $fh );
+                binmode($fh);
+
                 # transfer 512KB blocks
                 my $transfer;
                 my $r;
-                while( $r = sysread( $opts{stream}, $transfer, 0x80000 )) {
-                    if( !defined $r ) {
-                        next if( $! == Errno::EINTR );
+                while ( $r = sysread( $opts{stream}, $transfer, 0x80000 ) ) {
+                    if ( !defined $r ) {
+                        next if ( $! == Errno::EINTR );
                         die "system read error: $!\n";
                     }
                     my $offset = 0;
-                    while( $r ) {
+                    while ($r) {
                         my $w = syswrite( $fh, $transfer, $r, $offset );
-                        die "system write error: $!\n" unless( defined $w );
+                        die "system write error: $!\n" unless ( defined $w );
                         $offset += $w;
                         $r -= $w;
                     }
                 }
-                select((select($fh), $| = 1)[0]);
+                select( ( select($fh), $| = 1 )[0] );
+
                 # $fh->seek only in File::Temp 0.17 and later
-                seek($fh, 0, 0 ) or die "Can't seek temp: $!\n";
+                seek( $fh, 0, 0 ) or die "Can't seek temp: $!\n";
                 $opts{stream} = $fh;
                 $attrs->{tmpFilename} = $fh->filename();
             }
@@ -2592,13 +2619,16 @@ sub attach {
         }
 
         if ( $plugins->haveHandlerFor('beforeUploadHandler') ) {
+
             # Check the stream is seekable
-            ASSERT(seek($attrs->{stream}, 0, 1),
-                   'Stream for attachment is not seekable') if DEBUG;
+            ASSERT(
+                seek( $attrs->{stream}, 0, 1 ),
+                'Stream for attachment is not seekable'
+            ) if DEBUG;
 
             $plugins->dispatch( 'beforeUploadHandler', $attrs, $this );
             $opts{stream} = $attrs->{stream};
-            seek($opts{stream}, 0, 0); # seek to beginning
+            seek( $opts{stream}, 0, 0 );    # seek to beginning
             binmode( $opts{stream} );
         }
 
@@ -2622,6 +2652,7 @@ sub attach {
         $attrs->{date}    = defined $opts{filedate} ? $opts{filedate} : time();
 
         if ( $plugins->haveHandlerFor('afterAttachmentSaveHandler') ) {
+
             # *Deprecated* handler
             $plugins->dispatch( 'afterAttachmentSaveHandler', $attrs,
                 $this->{_topic}, $this->{_web} );
@@ -2877,7 +2908,8 @@ sub copyAttachment {
     my $from;
     if ( $this->latestIsLoaded() ) {
         $from = $this;
-    } else {
+    }
+    else {
         $from = $this->load();
     }
 
@@ -2889,7 +2921,7 @@ sub copyAttachment {
           ->copyAttachment( $from, $name, $to, $newName, $cUID );
 
         # Add file attachment to new topic by copying the old one
-        my $fileAttachment = { %{$from->get( 'FILEATTACHMENT', $name )} };
+        my $fileAttachment = { %{ $from->get( 'FILEATTACHMENT', $name ) } };
         $fileAttachment->{name} = $newName;
 
         $to->loadVersion() unless $to->latestIsLoaded();
@@ -2912,11 +2944,11 @@ sub copyAttachment {
         $to->fireDependency();
     };
 
-    # alert plugins of attachment move
-# SMELL: no defined handler for attachment copies
-#    $this->{_session}->{plugins}
-#      ->dispatch( 'afterCopyHandler', $this->{_web}, $this->{_topic}, $name,
-#        $to->{_web}, $to->{_topic}, $newName );
+   # alert plugins of attachment move
+   # SMELL: no defined handler for attachment copies
+   #    $this->{_session}->{plugins}
+   #      ->dispatch( 'afterCopyHandler', $this->{_web}, $this->{_topic}, $name,
+   #        $to->{_web}, $to->{_topic}, $newName );
 
     $this->{_session}->logEvent(
         'copy',
@@ -3199,15 +3231,15 @@ sub summariseChanges {
       if DEBUG;
     $nrev = $this->getLatestRev() unless $nrev;
 
-    ASSERT( $nrev =~ /^\s*\d+\s*/ ) if DEBUG; # looks like a number
+    ASSERT( $nrev =~ /^\s*\d+\s*/ ) if DEBUG;    # looks like a number
 
     $orev = $nrev - 1 unless defined($orev);
 
-    ASSERT( $orev =~ /^\s*\d+\s*/ ) if DEBUG; # looks like a number
+    ASSERT( $orev =~ /^\s*\d+\s*/ ) if DEBUG;    # looks like a number
     ASSERT( $orev >= 0 ) if DEBUG;
     ASSERT( $nrev >= $orev ) if DEBUG;
 
-    unless (defined $this->{_loadedRev} && $this->{_loadedRev} eq $nrev) {
+    unless ( defined $this->{_loadedRev} && $this->{_loadedRev} eq $nrev ) {
         $this = $this->load($nrev);
     }
 
@@ -3321,7 +3353,7 @@ sub getEmbeddedStoreForm {
     require Foswiki::Store;    # for encoding
 
     my $ti = $this->get('TOPICINFO');
-    delete $ti->{rev} if $ti; # don't want this written
+    delete $ti->{rev} if $ti;    # don't want this written
 
     my $text = $this->_writeTypes( 'TOPICINFO', 'TOPICPARENT' );
     $text .= $this->{_text};
@@ -3374,7 +3406,7 @@ sub _writeTypes {
     foreach my $type (@types) {
         next if $type eq '_session';
         my $data = $this->{$type};
-        next if ! defined $data;
+        next if !defined $data;
         foreach my $item (@$data) {
             my $sep = '';
             $text .= '%META:' . $type . '{';
@@ -3432,7 +3464,7 @@ sub setEmbeddedStoreForm {
         # Clean up SVN and other malformed rev nums. This can happen
         # when old code (e.g. old plugins) generated the meta.
         $ti->{version} = Foswiki::Store::cleanUpRevID( $ti->{version} );
-        $ti->{rev} = $ti->{version}; # not used, maintained for compatibility
+        $ti->{rev} = $ti->{version};    # not used, maintained for compatibility
         $ti->{reprev} = Foswiki::Store::cleanUpRevID( $ti->{reprev} )
           if defined $ti->{reprev};
     }
