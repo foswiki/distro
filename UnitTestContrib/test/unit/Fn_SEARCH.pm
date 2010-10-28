@@ -4287,5 +4287,97 @@ sub test_Item9502 {
     $this->assert_matches( qr/^FOO /, $result );
 }
 
+# Item9915 and Item9911
+sub test_format_tokens {
+    my $this = shift;
+    local $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
+    my $emailAddress = $this->{test_topicObject}->expandMacros(
+        '%USERINFO{"ScumBag" format="$emails"}%' );
+    $this->assert_matches( qr/^[a-z]+\@[a-z.]+$/, $emailAddress );
+    my $testTopic = 'TestFormatTokens';
+    my $header = "Search with USerinfo";
+    my $body = '   * Set POTLEADER = ScumBag';
+    my $meta = <<'METADATA';
+%META:FORM{name="TestyForm"}%
+%META:TOPICPARENT{name="WebHome"}%
+%META:FIELD{name="Option" attributes="" title="Some option" value="Some long test I can truncate later"}%
+METADATA
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $testTopic,
+        "---++ $header\n$body\n$meta\n" );
+    $topicObject->save();
+
+    my $testUser = 'WikiGuest';
+    my $nop = qr/(?:<nop>)+/o;
+    my $topicWithDashes = $testTopic;
+    $topicWithDashes =~ s/\G(.....)/$1-/g;
+    my %testFormatTokens = (
+        '$web' => $this->{test_web},
+        '$topic' => $testTopic,
+        '$topic(20)' => substr( $testTopic, 0, 20 ),
+        '$topic(5, -)' =>  $topicWithDashes,
+        '$topic(5, ...)' =>  substr( $testTopic, 0, 5 ).'...',
+        '$parent'   => 'WebHome',
+        '$parent(5)'   => 'WebHo- me',
+        '$text' => "---++ $header\n$body",
+        '$locked' => '$locked', # Does not work?
+        '$date' => qr/^\d\d \w{3} \d{4} - \d\d:\d\d$/,
+        '$createdate' => qr/^\d\d \w{3} \d{4} - \d\d:\d\d$/,
+        '$isodate' => qr/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/,
+        '$index' => 1,
+        '$nhits' => 1,
+        '$ntopics' => 1,
+        '$item' => "$this->{test_web}.$testTopic",
+        '$rev' => 1,
+        '$username' => 'guest',
+        '$wikiname' => $testUser,
+        '$wikiusername' => "$Foswiki::cfg{UsersWebName}.$testUser",
+        '$createusername' => 'guest',
+        '$createwikiname' => $testUser,
+        '$createwikiusername' => "$Foswiki::cfg{UsersWebName}.$testUser",
+        '$changes' => qr/^$header.*$nop$this->{test_web}\.$nop$testTopic 1 $header/,
+        '$changes(1)' => '', # Only 1 revision
+        '$formname' => 'TestyForm',
+        '$formfield(Option)' => 'Some long test I can truncate later',
+        '$formfield(Option, 10)' => 'Some long - test I can-  truncate - later',
+        '$formfield(Option, 20, -<br />)' => 'Some long test I can-<br /> truncate later',
+        '$formfield(Option, 30, ...)' => 'Some long test I can truncate ...',
+        '$nop' => q{},
+        '$nop()' => q{},
+        '$quot' => q{"},
+        '$percent' => q{%},
+        '$percnt' => q{%},
+        '$dollar' => q{$},
+        '$lt' => q{<},
+        '$gt' => q{>},
+        '$amp' => q{&},
+        '$comma' => q{,},
+        '$n' => q{},
+        '$n()' => q{},
+        '$pager' => '$pager',
+ '$percntUSERINFO{$quot$pattern(.*?POTLEADER *= *([^\n]*).*)$quot format=$quot$emails$quot}$percnt' => $emailAddress,
+        '$summary' => qr/^$header \* Set ${nop}POTLEADER = ${nop}ScumBag$/,
+        '$summary(29)' => qq{$header \* Set ...},
+        '$summary(showvarnames)' => qr/^$header \* Set ${nop}POTLEADER = ${nop}ScumBag$/,
+        '$summary(searchcontext)' => qr/^$header \* Set ${nop}POTLEADER = ${nop}ScumBag$/,
+        '$summary(searchcontext, 29)' => qq{$header \* Set ...},
+        '$summary(noheader)' => qr/^\* Set ${nop}POTLEADER = ${nop}ScumBag$/,
+        '$pattern(.*?POTLEADER *= *([^\n]*).*)' => 'ScumBag',
+        '$count(.*S.*)' => 2, # Not sure why...
+    );
+    while( my ($token, $expected) = each %testFormatTokens ) {
+        my $text = '%SEARCH{ "POTLEADER" topic="%TOPIC%" web="%WEB%"'
+             .' type="regex" nonoise="on" separator=""'
+            ." format=\"$token\" }%";
+        my $result = $topicObject->expandMacros( $text );
+        my $testFunction = $this->can('assert_equals');
+        if( ref($expected) eq 'Regexp' ) {
+            $testFunction = $this->can('assert_matches');
+        }
+        $this->$testFunction( $expected, $result, "Expansion of SEARCH token $token failed!\n"
+    ."Expected:'$expected'\n But got:'$result'\n" );
+    }
+}
+
 
 1;
