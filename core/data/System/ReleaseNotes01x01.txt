@@ -438,6 +438,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9386][Item9386]] | Hide shipped skin template topics behind an VIEW_TEMPLATE to reduce user confusion (they basically look broken) |
 | [[%BUGS%/Item9398][Item9398]] | div twisties controls forced to inline mode |
 | [[%BUGS%/Item9400][Item9400]] | CALC doesn't handle lists in cells as documented |
+| [[%BUGS%/Item9427][Item9427]] | WYSWIYG slow cursor movement on IEs |
 | [[%BUGS%/Item9446][Item9446]] | Put-it-back action does not restore topic references |
 | [[%BUGS%/Item9461][Item9461]] | TOC no longer works with an ampersand (trunk) |
 | [[%BUGS%/Item9462][Item9462]] | viewfile can't handle attachments with umlaute |
