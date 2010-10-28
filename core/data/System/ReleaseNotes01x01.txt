@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.1 - 25 Oct 2010
+---+!! Foswiki Release 1.1.2 - TDB 2010
 
 %TOC%
 
