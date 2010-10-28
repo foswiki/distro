@@ -1309,10 +1309,10 @@ sub getRev1Info {
     my $web   = $this->web;
     my $topic = $this->topic;
 
-    if ( !defined( $this->{getRev1Info} ) ) {
-        $this->{getRev1Info} = {};
+    if ( !defined( $this->{_getRev1Info} ) ) {
+        $this->{_getRev1Info} = {};
     }
-    my $info = $this->{getRev1Info};
+    my $info = $this->{_getRev1Info};
     unless ( defined $info->{$attr} ) {
         my $ri = $info->{rev1info};
         unless ($ri) {
@@ -3393,6 +3393,7 @@ sub _writeTypes {
     foreach my $type (@types) {
         next if $type eq '_session';
         my $data = $this->{$type};
+        next if ! defined $data;
         foreach my $item (@$data) {
             my $sep = '';
             $text .= '%META:' . $type . '{';
