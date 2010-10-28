@@ -29,6 +29,8 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.
    * Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
+   * Foswiki 1.1.2 was built TBD. It is a release that fixes a few bugs we missed in 1.1.1. Spanish translation completed
+
 
 ---++ Pre-installed Extensions
 
@@ -38,6 +40,7 @@ Foswiki 1.1 ships with the following:
    * *Contribs:* !CompareRevisionsAddOn, !FamFamFamContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib
    * *Skins:* !PatternSkin
    * *Compatibility support* - !TWikiCompatibilityPlugin
+   
 
 #Release01x01Changes
 ---++ Important Changes since Foswiki 1.0.10
@@ -646,8 +649,15 @@ to your =bin/LocalLib.cfg=.
 #Rel01x01x02Details
 ---++ Foswiki Patch Release 1.1.2 Details
 
-   * Spanish translation completed
+---++ Fixes
 
+<noautolink>
+</noautolink>
+
+---++ Enhancements
+
+<noautolink>
+</noautolink>
 
 ---
  <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
