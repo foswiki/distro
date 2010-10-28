@@ -32,7 +32,7 @@ Foswiki is released under the GNU General Public License.
 
 ---++ Pre-installed Extensions
 
-Foswiki 1.1 is shipped with the following:
+Foswiki 1.1 ships with the following:
 
    * *Plugins:* !AutoViewTemplatePlugin, !CommentPlugin, !EditTablePlugin, !EmptyPlugin, !HistoryPlugin, !InterwikiPlugin, !JQueryPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !WysiwygPlugin
    * *Contribs:* !CompareRevisionsAddOn, !FamFamFamContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib
@@ -641,6 +641,13 @@ to your =bin/LocalLib.cfg=.
 <noautolink>
 | [[%BUGS%/Item8411][Item8411]] | Add registration approval described at Support.Question121 to core |
 </noautolink>
+
+
+#Rel01x01x02Details
+---++ Foswiki Patch Release 1.1.2 Details
+
+   * Spanish translation completed
+
 
 ---
  <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
