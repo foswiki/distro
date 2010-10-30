@@ -202,6 +202,7 @@ sub END {
 sub monitorMACRO {
     my $package     = 'Foswiki';
     my $method      = shift;
+    my $logLevel    = shift;
     my $logFunction = shift;
 
     eval "require Foswiki::Macros::$method";
@@ -231,11 +232,17 @@ sub monitorMACRO {
                 out      => $out_bench,
                 out_stat => $out_stat
             };
-
-            if ( defined($logFunction) ) {
-                &$logFunction( $method, { %$stat_hash, params => $params } );
-            }
             push( @methodStats, $stat_hash );
+
+            if ( defined($logFunction) ) {  #this is effectivly the same as $logLevel>0
+                #lets not make the %stat_hash huge, as its kept in memory
+                my %hashToLog = %$stat_hash;
+                $hashToLog{params} = $params;
+                if ($logLevel > 1) {
+                    $hashToLog{result} = wantarray ? @result : $result[0];
+                }
+                &$logFunction( $method, \%hashToLog );
+            }
             return wantarray ? @result : $result[0];
           }
     }
