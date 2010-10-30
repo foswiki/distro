@@ -225,6 +225,7 @@ sub monitorMACRO {
 
             #Monitor::MARK("end   $package $method  => ".($result||'undef'));
             my $out_stat  = _get_stat_info($$);
+            
             my $stat_hash = {
                 method   => "${package}::$method",
                 in       => $in_bench,
@@ -238,6 +239,12 @@ sub monitorMACRO {
                 #lets not make the %stat_hash huge, as its kept in memory
                 my %hashToLog = %$stat_hash;
                 $hashToLog{params} = $params;
+                
+                #if we're logging this detail of information, we're less worried about performance.
+                #numbers _will be off_ if there are nested MACRO's being logged
+                $hashToLog{macroTime} = timestr(timediff( $stat_hash->{out}, $stat_hash->{in} ));
+                $hashToLog{macroMemory} = $stat_hash->{out_stat}{rss} - $stat_hash->{in_stat}{rss};
+
                 if ($logLevel > 1) {
                     $hashToLog{result} = wantarray ? @result : $result[0];
                 }
