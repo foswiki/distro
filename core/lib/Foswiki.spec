@@ -1111,7 +1111,7 @@ $Foswiki::cfg{Cache}{WebDependencies} = 'WebRss, WebAtom, WebTopicList, WebIndex
 # tracker.
 $Foswiki::cfg{Cache}{DependencyFilter} = '$Foswiki::cfg{SystemWebName}\..*|$Foswiki::cfg{TrashWebName}\..*|.*Template$|TWiki\..*';
 
-# **SELECTCLASS Foswiki::Cache::* EXPERT**
+# **SELECT Foswiki::Cache::FileCache,Foswiki::Cache::BDB,Foswiki::Cache::Memcached,Foswiki::Cache::MemoryLRU EXPERT**
 # Select the default caching mechanism. Note that individual subsystems might
 # choose a different backend for their own purposes.
 $Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
