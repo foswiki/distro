@@ -64,6 +64,11 @@ and returns it, or a status code in case of error.
 sub prepare {
     my $this = shift;
     my $req;
+
+    if ( $Foswiki::cfg{RCS}{overrideUmask} ) {
+        umask( oct(777) - ($Foswiki::cfg{RCS}{dirPermission}|$Foswiki::cfg{RCS}{filePermission}));
+        }
+
     try {
         $req = Foswiki::Request->new();
         $this->prepareConnection($req);

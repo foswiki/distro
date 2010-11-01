@@ -51,6 +51,11 @@ HERE
         $num++;
     }
 
+    # Report the Umask
+    my $pUmask = sprintf( '%03o', umask() );
+    $contents .= $this->setting( 'UMASK', $pUmask);
+    $num++;
+
     # Detect whether mod_perl was loaded into Apache
     $Foswiki::cfg{DETECTED}{ModPerlLoaded} =
       ( exists $ENV{SERVER_SOFTWARE}

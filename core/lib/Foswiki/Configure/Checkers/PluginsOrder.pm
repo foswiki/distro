@@ -65,6 +65,7 @@ sub check {
                 if ( -e "$dir/$enabled/$plugpath.pm" ) {
                     $fcount++;
                     $found = 1;
+                    #print STDERR "Found plugin $dir/$enabled/$plugpath.pm  \n";
                 }
                 $fcount++ if ( -e "$dir/$altmod/$plugpath.pm" );
             }

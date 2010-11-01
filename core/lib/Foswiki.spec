@@ -974,6 +974,15 @@ $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 # the store. The Key is the Class name, and the value may be used to create an order.
 $Foswiki::cfg{Store}{Listeners} = {};
 
+# **BOOLEAN EXPERT**
+# Some systems will override the default umask to a highly restricted setting,
+# which will block the application of the file and directory permissions.
+# If mod_suexec is enabled, the Apache umask directive will also be ignored.
+# Enable this setting if the checker reports that the umask is in conflict with
+# the permissions, or adust the expert settings {RCS}{dirPermission} and 
+# {RCS}{filePermission} to be consistent with the system umask.
+$Foswiki::cfg{RCS}{overrideUmask}= $FALSE;
+
 # **OCTAL EXPERT**
 # File security for new directories created by RCS stores. You may have
 # to adjust these
