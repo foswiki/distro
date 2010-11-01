@@ -1,11 +1,19 @@
 # Configuration of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 # See bottom of file for license and copyright information.
-#
-# This configuration file is held in 'foswiki/lib' directory. Do not edit
-# this file! Instead, create a new private file called "LocalSite.cfg" and
-# add your customised settings there. That way, there is no risk of your
-# local settings being overwritten when you upgrade.
-#
+
+# This specification file is held in 'foswiki/lib' directory. DO NOT EDIT
+# THIS FILE!
+
+# DO NOT COPY THIS FILE TO LocalSite.cfg - Run configure from your browser
+# which will guess required settings, merge the files and write a new
+# LocalSite.cfg.
+
+# If for some reason you still want to copy this file to LocalSite.cfg,  you
+# must un-comment and complete the 10 PATH and URLPATH settings that are flagged
+# as Mandatory ( M** ) and remove the __DATA__ line toward the end of the file.
+
+# Manually building LocalSite.cfg is STRONGLY DISCOURAGED.
+
 # See 'setlib.cfg' in the 'bin' directory for how to configure a non-standard
 # include path for Perl modules.
 #
