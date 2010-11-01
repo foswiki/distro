@@ -53,7 +53,7 @@ HERE
 
     # Report the Umask
     my $pUmask = sprintf( '%03o', umask() );
-    $contents .= $this->setting( 'UMASK', $pUmask);
+    $contents .= $this->setting( 'UMASK', $pUmask );
     $num++;
 
     # Detect whether mod_perl was loaded into Apache
@@ -151,8 +151,7 @@ HERE
     $contents .= $this->setting( 'System temporary directory',
         $this->_checkTmpDir( \$erk ) );
 
-    $contents .=
-      $this->setting( 'CGI bin directory', $this->_getBinDir() );
+    $contents .= $this->setting( 'CGI bin directory', $this->_getBinDir() );
 
     # Turn off fatalsToBrowser while checking module loads, to avoid
     # load errors in browser in some environments.
@@ -298,21 +297,25 @@ sub _getBinDir {
 sub _checkTmpDir {
     my ( $this, $rerk ) = @_;
     my $dir = File::Spec->tmpdir();
-    
-    if (($dir =~ /^[\/\\]$/) and ($^O eq 'MSWin32')) {
+
+    if ( ( $dir =~ /^[\/\\]$/ ) and ( $^O eq 'MSWin32' ) ) {
+
         #on windows, don't make a big old mess of c:\
         $dir = $ENV{TEMP};
-        if (defined($dir) and ($dir =~ /(.*)/)) {
+        if ( defined($dir) and ( $dir =~ /(.*)/ ) ) {
             $dir = $1;
-        } else {
+        }
+        else {
             $dir = '.';
         }
     }
-    
+
     if ( $dir eq '.' ) {
         $dir = '';
         my $newCfg = '';
-        $newCfg = "Please save your initial path settings and recheck that the guessed defaults are good." if ($Foswiki::badLSC);
+        $newCfg =
+"Please save your initial path settings and recheck that the guessed defaults are good."
+          if ($Foswiki::badLSC);
         return $this->ERROR(<<HERE);
 No writable system temporary directory. $newCfg
 HERE

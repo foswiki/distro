@@ -65,6 +65,7 @@ sub check {
                 if ( -e "$dir/$enabled/$plugpath.pm" ) {
                     $fcount++;
                     $found = 1;
+
                     #print STDERR "Found plugin $dir/$enabled/$plugpath.pm  \n";
                 }
                 $fcount++ if ( -e "$dir/$altmod/$plugpath.pm" );
@@ -77,7 +78,7 @@ sub check {
             ) if ( $enabled eq 'TWiki' && $fcount > 1 );
             $e .= $this->ERROR(
                 "$mod is enabled in LocalSite.cfg but was not found in the path"
-            ) if (! $found && $Foswiki::cfg{Plugins}{$plug}{Enabled});
+            ) if ( !$found && $Foswiki::cfg{Plugins}{$plug}{Enabled} );
         }
     }
     return $e;

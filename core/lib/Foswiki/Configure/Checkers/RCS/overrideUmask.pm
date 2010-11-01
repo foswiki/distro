@@ -10,7 +10,12 @@ sub check {
     my $this = shift;
     my $e;
 
-    my $reqUmask = ( oct(777) - ($Foswiki::cfg{RCS}{dirPermission}|$Foswiki::cfg{RCS}{filePermission}));
+    my $reqUmask = (
+        oct(777) - (
+            $Foswiki::cfg{RCS}{dirPermission} |
+              $Foswiki::cfg{RCS}{filePermission}
+        )
+    );
     my $oReqUmask = sprintf( '%03o', $reqUmask );
 
     if ( $Foswiki::cfg{RCS}{overrideUmask} ) {
@@ -21,8 +26,10 @@ PERM1
     else {
         my $sysUmask = umask;
         my $oSysUmask = sprintf( '%03o', $sysUmask );
-        my $oDirPermission = sprintf( '%03o', $Foswiki::cfg{RCS}{dirPermission}  );
-        my $oFilePermission = sprintf( '%03o', $Foswiki::cfg{RCS}{filePermission}  );
+        my $oDirPermission =
+          sprintf( '%03o', $Foswiki::cfg{RCS}{dirPermission} );
+        my $oFilePermission =
+          sprintf( '%03o', $Foswiki::cfg{RCS}{filePermission} );
         $e = $this->ERROR(<<PERM2);
 The system umask ($oSysUmask) is not compatible with the configured directory and file permissions.
 A umask of $oReqUmask is required to support the configured Directory and File masks of $oDirPermission and $oFilePermission.
