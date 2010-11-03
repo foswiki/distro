@@ -4535,4 +4535,18 @@ METADATA
     }
 }
 
+sub test_search_scope_topic {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"VarREMOTE" web="%SYSTEMWEB%" scope="topic" format="$topic" separator="," nonoise="on"}%'
+      );
+
+    my @topics = split(/,/, $result);
+    $this->assert_num_equals(3, scalar(@topics));
+    $this->assert_equals('VarREMOTEADDR,VarREMOTEPORT,VarREMOTEUSER', $result);
+}
+
+
 1;
