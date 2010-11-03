@@ -114,6 +114,7 @@ unless ( &$check_perl_module('Foswiki::Merge') ) {
 $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
 $Foswiki::cfg{PasswordManager} = 'none';
 $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
+$Foswiki::cfg{Cache}{Enabled} = 0;
 
 unless ( eval { require Foswiki } ) {
     _stop("Can't load Foswiki: $@");
