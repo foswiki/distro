@@ -97,6 +97,7 @@ sub _getSession {
     # So configure can still work if LDAP or other extensions are not functional
     $Foswiki::cfg{PasswordManager}    = 'none';
     $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
+    $Foswiki::cfg{Cache}{Enabled} = 0;
 
     my $session = new Foswiki($user);
 
