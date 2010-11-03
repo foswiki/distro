@@ -101,6 +101,7 @@ sub _getSession {
     # SMELL: The Cache uses $Foswiki::cfg variables that are not expanded when running
     # in a configure setting.   Disable the cache because the init routine fails.
     # This might leave stale cache entries for topics updated by the installer.
+    # See Item9944 for more background.
     $Foswiki::cfg{Cache}{Enabled} = 0;
 
     my $session = new Foswiki($user);
