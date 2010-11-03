@@ -114,6 +114,10 @@ unless ( &$check_perl_module('Foswiki::Merge') ) {
 $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
 $Foswiki::cfg{PasswordManager} = 'none';
 $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
+
+# SMELL: The Cache uses $Foswiki::cfg variables that are not expanded when running
+# in a configure setting.   Disable the cache because the init routine fails.
+# This might leave stale cache entries for topics updated by the installer.
 $Foswiki::cfg{Cache}{Enabled} = 0;
 
 unless ( eval { require Foswiki } ) {
