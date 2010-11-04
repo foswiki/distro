@@ -4173,7 +4173,7 @@ The current keys are longname, author, authorurl, infourl and version.
 <description>Major version of TinyMCE build.
 </description>
 </property>
-<property name="minorVersion" static="true" summary="Release date of TinyMCE build." type="String">
+<property name="releaseDate" static="true" summary="Release date of TinyMCE build." type="String">
 <description>Release date of TinyMCE build.
 </description>
 </property>

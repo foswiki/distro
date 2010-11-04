@@ -288,6 +288,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  04 Nov 2010 | Foswikitask:Item9706: Upgrade to !TinyMCE 3.3.9.2 |
 |  25 Oct 2010 | Foswikitask:Item9870: Fix JS error on Internet Explorers |
 |  28 Sep 2010 | Foswikitask:Item9236: Enable contextmenu !TinyMCE plugin, allows table row/column copy &amp; paste<br/>\
                  Foswikitask:Item9263: Fix autosave breaking on IECollections' IE6<br/>\
@@ -295,8 +296,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
                  Foswikitask:Item9427: Only update button state if cursor has been idle &gt; 300ms, improves cursor movement responsiveness in &gt;250KiB documents on IE/slow PCs<br/>\
                  Foswikitask:Item9415: Documentation updates<br/>\
                  Foswikitask:Item9570: Make table text larger, to be the same size as normal paragraph text<br/>\
-                 Foswikitask:Item9577: Apply background to protected and literal text (similar to verbatim), so that it is easier to see these special regions<br/>\
-                 Foswikitask:Item9706: Upgrade to !TinyMCE 3.3.9 |
+                 Foswikitask:Item9577: Apply background to protected and literal text (similar to verbatim), so that it is easier to see these special regions |
 |  01 Jul 2010 | Foswikitask:Item9221: Fix colour formatting problem and JS error transitioning to fullscreen<br/>\
                  Foswikitask:Item9222: Fix autosave implementation compatibility with Foswiki 1.0.x JQueryPlugin<br/>\
                  Foswikitask:Item9234: Upgrade to !TinyMCE 3.3.8 |
