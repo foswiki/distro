@@ -136,13 +136,19 @@ our $SUMMARY_DEFAULT_CONTEXT = 30;
 our $CHANGES_SUMMARY_LINECOUNT  = 6;
 our $CHANGES_SUMMARY_PLAINTRUNC = 70;
 
-# META:x validation. See Foswiki::Func::registerMETA for more information.
-# Note that 'other' is *not* the same as 'allow'; it doesn't imply any
-# exclusion of tags that contain unaccepted params. It's really just for
-# documentation (and DB schema initialisation).
-# _default is set on base meta-data types (those not added by
-# Foswiki::Func::registerMETA) to differentiate the minimum required
-# meta-data and that added by extensions.
+=begin TML
+PUBLIC %VALIDATE;
+
+META:x validation. This hash maps from META: names to the type record
+registered by registerMETA. See registerMETA for more information on what
+these records contain.
+
+_default is set on base meta-data types (those not added by
+Foswiki::Func::registerMETA) to differentiate the minimum required
+meta-data and that added by extensions.
+
+=cut
+
 our %VALIDATE = (
     TOPICINFO => {
         allow => [
@@ -150,10 +156,12 @@ our %VALIDATE = (
               rev comment encoding )
         ],
         _default => 1,
+        alias => 'info',
     },
     TOPICMOVED => {
         require  => [qw( from to by date )],
         _default => 1,
+        alias => 'moved',
     },
 
     # Special case, see Item2554; allow an empty TOPICPARENT, as this was
@@ -161,6 +169,7 @@ our %VALIDATE = (
     TOPICPARENT => {
         allow    => [qw( name )],
         _default => 1,
+        alias => 'parent',
     },
     FILEATTACHMENT => {
         require => [qw( name )],
@@ -169,37 +178,128 @@ our %VALIDATE = (
               comment attr )
         ],
         _default => 1,
+        alias    => 'attachments',
+        many     => 1,
     },
     FORM => {
         require  => [qw( name )],
         _default => 1,
+        alias => 'form',
     },
     FIELD => {
         require  => [qw( name value )],
         other    => [qw( title )],
         _default => 1,
+        alias    => 'fields',
+        many     => 1,
     },
     PREFERENCE => {
         require  => [qw( name value )],
         other    => [qw( type )],
         _default => 1,
+        alias    => 'preference',
+        many     => 1,
     }
 );
 
+our %aliases;
+our %isArrayType;
+
+BEGIN {
+    foreach my $name (keys %VALIDATE) {
+	my $d = $VALIDATE{$name};
+	$aliases{$d->{alias}} = "META:$name" if $d->{alias};
+	$isArrayType{$name} = $d->{many};
+    }
+}
+
 =begin TML
 
----++ StaticMethod registerMETA($name, $type, %check)
+---++ StaticMethod registerMETA($name, %syntax)
 
-See Foswiki::Func::registerMETA for full doc of this function.
+Foswiki supports embedding meta-data into topics. For example,
+
+=%<nop>META:BOOK{title="Transit" author="Edmund Cooper" isbn="0-571-05724-1"}%=
+
+This meta-data is validated when it is read from the store. Meta-data
+that is not registered, or doesn't pass validation, is ignored. This
+function allows you to register a new META datum, passing the name in
+=$name=. =%syntax= contains information about the syntax and semantics of
+the tag.
+
+The following entries are supported in =%syntax=
+
+=many=>1=. By default meta-data are single valued i.e. can only occur once
+in a topic. If you require the meta-data to be repeated many times (like
+META:FIELD and META:ATTACHMENT) then you must set this option. For example,
+to declare a many-valued =BOOK= meta-data type:
+<verbatim>
+registerMeta('BOOK', many => 1)
+</verbatim>
+
+=require=>[]= is used to check that a list of named parameters are present on
+the tag. For example,
+<verbatim>
+registerMETA('BOOK', require => [ 'title', 'author' ]);
+</verbatim>
+can be used to check that both =title= and =author= are present.
+
+=allow=>[]= lets you specify other optional parameters that are allowed
+on the tag. If you specify =allow= then the validation will fail if the
+tag contains any parameters that are _not_ in the =allow= or =require= lists.
+If you don't specify =allow= then all parameters will be allowed.
+
+=require= and =allow= only verify the *presence* of parameters, and
+not their *values*.
+
+=other=[]= lets you declare other legal parameters, and is provided
+mainly to support the initialisation of DB schema. It it is like
+=allow= except that it doesn't imply any exclusion of META that contains
+unallowed params.
+
+=function=>\&fn= causes the function =fn= to be called when the
+datum is encountered when reading a topic, passing in the name of the
+macro and the argument hash. The function must return a non-zero/undef
+value if the tag is acceptable, or 0 otherwise. For example:
+<verbatim>
+registerMETA('BOOK', function => sub {
+    my ($name, $args) = @_;
+    # $name will be BOOK
+    return isValidTitle($args->{title});
+}
+</verbatim>
+can be used to check that =%META:BOOK{}= contains a valid title.
+
+Checks are cumulative, so if you:
+<verbatim>
+registerMETA('BOOK',
+    function => \&checkParameters,
+    require => [ 'title' ],
+    allow => [ 'author', 'isbn' ]);
+</verbatim>
+then all these conditions will be tested. Note that =require= and =allow=
+are tested _after_ =function= is called, to give the function a chance to
+rewrite the parameter list.
+
+If no checker is registered for a META tag, then it will automatically
+be accepted into the topic meta-data.
+
+=alias=>'name'= lets you set an alias for the datum that will be added to
+the query language. For example, =alias=>'info'= is used to alias
+'META:TOPICINFO' in queries.
+<verbatim>
+registerMeta('BOOK', alias => 'book', many => 1)
+</verbatim>
+This lets you use syntax such as =books[author='Anais Nin']= in queries.
+See QuerySearch for more on aliases.
 
 =cut
 
 sub registerMETA {
-    my ( $name, $type, %check ) = @_;
-    if ($type eq 'array') {
-        $Foswiki::Query::Node::isArrayType{$name} = 1;
-    }
+    my ( $name, %check ) = @_;
     $VALIDATE{$name} = \%check;
+    $aliases{$check{alias}} = "META:$name" if $check{alias};
+    $isArrayType{$name} = $check{many};
 }
 
 ############# GENERIC METHODS #############

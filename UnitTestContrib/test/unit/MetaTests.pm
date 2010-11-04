@@ -564,7 +564,7 @@ sub test_registerMETA {
     $this->assert($o->isValidEmbedding( 'TREE', { }));
 
     # required param
-    Foswiki::Func::registerMETA('TREE', 'scalar', require => [ 'spread' ]);
+    Foswiki::Func::registerMETA('TREE', require => [ 'spread' ]);
     $this->assert(!$o->isValidEmbedding( 'TREE', { }));
     $this->assert(!$o->isValidEmbedding(
         'TREE', { type => 'ash', height => '15' }));
@@ -572,7 +572,7 @@ sub test_registerMETA {
         'TREE', { type => 'ash', height => '15', spread=>'5' }));
 
     # required param and allowed param
-    Foswiki::Func::registerMETA('TREE', 'scalar', require => [ 'spread' ],
+    Foswiki::Func::registerMETA('TREE', require => [ 'spread' ],
                      allow => [ 'height' ]);
     $this->assert(!$o->isValidEmbedding(
         'TREE', { type => 'ash', height => '15', spread=>'5' }));
@@ -580,7 +580,7 @@ sub test_registerMETA {
         'TREE', { spread => '5', height => '15' }));
 
     # Function and require.
-    Foswiki::Func::registerMETA('TREE', 'scalar', require => [ 'height' ],
+    Foswiki::Func::registerMETA('TREE', require => [ 'height' ],
                                function => sub {
                                    my ($name, $args) = @_;
                                    $this->assert_equals('TREE', $name);
@@ -590,7 +590,7 @@ sub test_registerMETA {
         'TREE', { height=>10 }));
 
     # required param, allowed param and function
-    Foswiki::Func::registerMETA('TREE', 'scalar', require => [ 'spread' ],
+    Foswiki::Func::registerMETA('TREE', require => [ 'spread' ],
                                allow => [ 'height' ],
                                function => sub {
                                    my ($name, $args) = @_;
@@ -603,7 +603,7 @@ sub test_registerMETA {
         'TREE', { spread=>15, height=>10 }), $Foswiki::Meta::reason);
 
     # allowed param only, function rewrites args
-    Foswiki::Func::registerMETA('TREE', 'scalar', allow => [ 'height' ],
+    Foswiki::Func::registerMETA('TREE', allow => [ 'height' ],
                                function => sub {
                                    my ($name, $args) = @_;
                                    $this->assert_equals('TREE', $name);
@@ -623,6 +623,7 @@ sub test_registerArrayMeta {
     my $this = shift;
     my $test = <<'TEST';
 Properties: %QUERY{"META:SLPROPERTY.name"}%
+A property: %QUERY{"slug[name='PreyOf'].values"}%
 Values: %QUERY{"META:SLPROPERTYVALUE.value"}%
 TEST
     my $text = <<'HERE';
@@ -640,12 +641,13 @@ TEST
 HERE
     Foswiki::Meta::registerMETA(
         'SLPROPERTY',
-        'array',
+        many => 1,
+	alias => 'slug',
         require => [qw(name values)],
     );
     Foswiki::Meta::registerMETA(
         'SLPROPERTYVALUE',
-        'array',
+        many => 1,
         require => [qw(name value)],
     );
     my $topicObject =
@@ -655,6 +657,7 @@ HERE
     # All meta should have found its way into text
     $this->assert_equals(<<'EXPECTED', $topicObject->expandMacros($test));
 Properties: System.SemanticIsPartOf,Example.Property,PreyOf,Eat,IsPartOf
+A property: Snakes
 Values: System.UserDocumentationCategory,UserDocumentationCategory,Snakes,Mosquitos,Flies,UserDocumentationCategory
 EXPECTED
 }
@@ -664,6 +667,7 @@ sub test_registerScalarMeta {
     my $this = shift;
     my $test = <<'TEST';
 Properties: %QUERY{"META:SLPROPERTY.name"}%
+Alias: %QUERY{"slug.name"}%
 Values: %QUERY{"META:SLPROPERTYVALUE.value"}%
 TEST
     my $text = <<'HERE';
@@ -681,12 +685,11 @@ TEST
 HERE
     Foswiki::Meta::registerMETA(
         'SLPROPERTY',
-        'scalar',
+	alias => 'slug',
         require => [qw(name values)],
     );
     Foswiki::Meta::registerMETA(
         'SLPROPERTYVALUE',
-        'scalar',
         require => [qw(name value)],
     );
     my $topicObject =
@@ -696,6 +699,7 @@ HERE
     # All meta should have found its way into text
     $this->assert_equals(<<'EXPECTED', $topicObject->expandMacros($test));
 Properties: System.SemanticIsPartOf
+Alias: System.SemanticIsPartOf
 Values: System.UserDocumentationCategory
 EXPECTED
 }
