@@ -974,8 +974,12 @@ templates/viewtopicactionbuttons.tmpl 0444
 tools/extender.pl 0444
 tools/extension_installer 0555
 tools/geturl.pl 0555
+tools/jslint4java.jar 0444
+tools/minifycss 0444
+tools/minifyjs 0444
 tools/rewriteshebang.pl 0555
 tools/tick_foswiki.pl 0555
+tools/yuicompressor.jar 0444
 working/.htaccess 0660
 working/README 0444
 working/registration_approvals/README 0444
