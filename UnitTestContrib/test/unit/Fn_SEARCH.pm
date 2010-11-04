@@ -4548,5 +4548,98 @@ sub test_search_scope_topic {
     $this->assert_equals('VarREMOTEADDR,VarREMOTEPORT,VarREMOTEUSER', $result);
 }
 
+sub test_minus_scope_all {
+    my $this = shift;
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'VirtualBeer',
+        "There are alot of Virtual Beers to go around" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RealBeer',
+        "There are alot of Virtual Beer to go around" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'FamouslyBeered',
+        "Virtually speaking there could be alot of famous Beers" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'VirtualLife',
+        "In a all life, I would expect to find fine Beer" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'NoLife',
+        "In a all life, I would expect to find fine Beer" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'NoBeer',
+        "In a all life, I would expect to find fine Beer" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SomeBeer',
+        "In a all life, I would expect to find fine Wine" );
+    $topicObject->save();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"-Virtual" scope="all" type="word" nonoise="on" format="$topic"}%'
+      );
+
+    my $expected = <<EXPECT;
+FamouslyBeered
+NoBeer
+NoLife
+OkATopic
+OkBTopic
+OkTopic
+SomeBeer
+TestTopicSEARCH
+WebPreferences
+EXPECT
+    $this->assert_str_equals( $expected, $result . "\n" );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Beer" scope="all" type="word" nonoise="on" format="$topic"}%'
+      );
+
+    $expected = <<EXPECT;
+FamouslyBeered
+NoBeer
+NoLife
+RealBeer
+SomeBeer
+VirtualBeer
+VirtualLife
+EXPECT
+    $this->assert_str_equals( $expected, $result . "\n" );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"-Virtual Beer" scope="all" type="word" nonoise="on" format="$topic"}%'
+      );
+
+    $expected = <<EXPECT;
+FamouslyBeered
+NoBeer
+NoLife
+SomeBeer
+EXPECT
+    $this->assert_str_equals( $expected, $result . "\n" );
+    
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Beer -Virtual" scope="all" type="word" nonoise="on" format="$topic"}%'
+      );
+
+    $expected = <<EXPECT;
+FamouslyBeered
+NoBeer
+NoLife
+SomeBeer
+EXPECT
+    $this->assert_str_equals( $expected, $result . "\n" );
+    
+}
 
 1;
