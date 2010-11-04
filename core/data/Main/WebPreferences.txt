@@ -7,7 +7,7 @@
 ---++ Appearance
 
    * Set WEBBGCOLOR = #FFEFA6
-      * web-specific background color, <span style='background-color: %WEBBGCOLOR%'> current color </span>
+      * <sticky>web-specific background color, <span style='background-color: %WEBBGCOLOR%'> current color </span></sticky>
    * Set SITEMAPLIST = on
    * Set WEBSUMMARY = %MAKETEXT{"Welcome to [_1] ... meet people on this site" args="<nop>%WIKITOOLNAME%"}% 
 
