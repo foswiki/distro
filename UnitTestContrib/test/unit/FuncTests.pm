@@ -381,6 +381,32 @@ NONNY
     $this->assert( !$oopsURL, $oopsURL );
 }
 
+# Verify that a round trip doesn't remove or add any newlines between the topic and
+# the metadata in the raw text.
+sub test_saveTopicRoundTrip {
+    my $this  = shift;
+    my $topic = 'SaveTopicText2';
+    my $origtext = <<NONNY;
+'Tis some text
+and a trailing newline
+
+
+
+%META:FILEATTACHMENT{name="IMG_0608.JPG" attr="" autoattached="1" comment="A Comment" date="1162233146" size="762004" user="Main.AUser" version="1"}%
+NONNY
+    Foswiki::Func::saveTopicText( $this->{test_web}, $topic, $origtext );
+    my $text1 = Foswiki::Func::readTopicText( $this->{test_web}, $topic );
+
+    my ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
+    Foswiki::Func::saveTopic( $this->{test_web}, $topic, $meta, $text,
+      { comment => 'atp save' } );
+    my $text2 = Foswiki::Func::readTopicText( $this->{test_web}, $topic );
+
+    my $matchText = '%META:TOPICINFO{author="BaseUserMapping_666" comment="save topic" date=".*?" format="1.1" reprev="1" version="1"}%' . "\n" . $origtext;
+    $this->assert_matches( qr/$matchText/, $text2 );
+
+}
+
 sub test_saveTopic {
     my $this  = shift;
     my $topic = 'SaveTopic';
