@@ -626,29 +626,27 @@ Properties: %QUERY{"META:SLPROPERTY.name"}%
 Values: %QUERY{"META:SLPROPERTYVALUE.value"}%
 TEST
     my $text = <<'HERE';
-%META:SLPROPERTYVALUE{name="System.SemanticIsPartOf__1" anchor="" property="System.SemanticIsPartOf" query="" text="User documentation" value="System.UserDocumentationCategory"}%
-%META:SLPROPERTYVALUE{name="Example.Property__1" anchor="AnchorPart" property="Example.Property" query="query=part" text="Example text" value="UserDocumentationCategory"}%
-%META:SLPROPERTYVALUE{name="PreyOf__1" anchor="" property="PreyOf" query="" text="preyed on by snakes" value="Snakes"}%
-%META:SLPROPERTYVALUE{name="Eat__1" anchor="" property="Eat" query="" text="mosquitos" value="Mosquitos"}%
-%META:SLPROPERTYVALUE{name="Eat__2" anchor="" property="Eat" query="" text="eat flies" value="Flies"}%
-%META:SLPROPERTYVALUE{name="IsPartOf__1" anchor="" property="IsPartOf" query="" text="docs::misc" value="UserDocumentationCategory"}%
-%META:SLPROPERTY{name="System.SemanticIsPartOf" num="1" values="System.UserDocumentationCategory"}%
-%META:SLPROPERTY{name="Example.Property" num="1" values="UserDocumentationCategory"}%
-%META:SLPROPERTY{name="PreyOf" num="1" values="Snakes"}%
-%META:SLPROPERTY{name="Eat" num="2" values="Mosquitos,Flies"}%
-%META:SLPROPERTY{name="IsPartOf" num="1" values="UserDocumentationCategory"}%
+%META:SLPROPERTYVALUE{name="System.SemanticIsPartOf__1" value="System.UserDocumentationCategory"}%
+%META:SLPROPERTYVALUE{name="Example.Property__1" value="UserDocumentationCategory"}%
+%META:SLPROPERTYVALUE{name="PreyOf__1" value="Snakes"}%
+%META:SLPROPERTYVALUE{name="Eat__1" value="Mosquitos"}%
+%META:SLPROPERTYVALUE{name="Eat__2" value="Flies"}%
+%META:SLPROPERTYVALUE{name="IsPartOf__1" value="UserDocumentationCategory"}%
+%META:SLPROPERTY{name="System.SemanticIsPartOf" values="System.UserDocumentationCategory"}%
+%META:SLPROPERTY{name="Example.Property" values="UserDocumentationCategory"}%
+%META:SLPROPERTY{name="PreyOf" values="Snakes"}%
+%META:SLPROPERTY{name="Eat" values="Mosquitos,Flies"}%
+%META:SLPROPERTY{name="IsPartOf" values="UserDocumentationCategory"}%
 HERE
     Foswiki::Meta::registerMETA(
         'SLPROPERTY',
         'array',
         require => [qw(name values)],
-        allow   => [qw(num)]
     );
     Foswiki::Meta::registerMETA(
         'SLPROPERTYVALUE',
         'array',
-        require => [qw(name value property)],
-        allow   => [qw(query anchor text)]
+        require => [qw(name value)],
     );
     my $topicObject =
       Foswiki::Meta->new(
@@ -669,29 +667,27 @@ Properties: %QUERY{"META:SLPROPERTY.name"}%
 Values: %QUERY{"META:SLPROPERTYVALUE.value"}%
 TEST
     my $text = <<'HERE';
-%META:SLPROPERTYVALUE{name="System.SemanticIsPartOf__1" anchor="" property="System.SemanticIsPartOf" query="" text="User documentation" value="System.UserDocumentationCategory"}%
-%META:SLPROPERTYVALUE{name="Example.Property__1" anchor="AnchorPart" property="Example.Property" query="query=part" text="Example text" value="UserDocumentationCategory"}%
-%META:SLPROPERTYVALUE{name="PreyOf__1" anchor="" property="PreyOf" query="" text="preyed on by snakes" value="Snakes"}%
-%META:SLPROPERTYVALUE{name="Eat__1" anchor="" property="Eat" query="" text="mosquitos" value="Mosquitos"}%
-%META:SLPROPERTYVALUE{name="Eat__2" anchor="" property="Eat" query="" text="eat flies" value="Flies"}%
-%META:SLPROPERTYVALUE{name="IsPartOf__1" anchor="" property="IsPartOf" query="" text="docs::misc" value="UserDocumentationCategory"}%
-%META:SLPROPERTY{name="System.SemanticIsPartOf" num="1" values="System.UserDocumentationCategory"}%
-%META:SLPROPERTY{name="Example.Property" num="1" values="UserDocumentationCategory"}%
-%META:SLPROPERTY{name="PreyOf" num="1" values="Snakes"}%
-%META:SLPROPERTY{name="Eat" num="2" values="Mosquitos,Flies"}%
-%META:SLPROPERTY{name="IsPartOf" num="1" values="UserDocumentationCategory"}%
+%META:SLPROPERTYVALUE{name="System.SemanticIsPartOf__1" value="System.UserDocumentationCategory"}%
+%META:SLPROPERTYVALUE{name="Example.Property__1" value="UserDocumentationCategory"}%
+%META:SLPROPERTYVALUE{name="PreyOf__1" value="Snakes"}%
+%META:SLPROPERTYVALUE{name="Eat__1" value="Mosquitos"}%
+%META:SLPROPERTYVALUE{name="Eat__2" value="Flies"}%
+%META:SLPROPERTYVALUE{name="IsPartOf__1" value="UserDocumentationCategory"}%
+%META:SLPROPERTY{name="System.SemanticIsPartOf" values="System.UserDocumentationCategory"}%
+%META:SLPROPERTY{name="Example.Property" values="UserDocumentationCategory"}%
+%META:SLPROPERTY{name="PreyOf" values="Snakes"}%
+%META:SLPROPERTY{name="Eat" values="Mosquitos,Flies"}%
+%META:SLPROPERTY{name="IsPartOf" values="UserDocumentationCategory"}%
 HERE
     Foswiki::Meta::registerMETA(
         'SLPROPERTY',
         'scalar',
         require => [qw(name values)],
-        allow   => [qw(num)]
     );
     Foswiki::Meta::registerMETA(
         'SLPROPERTYVALUE',
         'scalar',
-        require => [qw(name value property)],
-        allow   => [qw(query anchor text)]
+        require => [qw(name value)],
     );
     my $topicObject =
       Foswiki::Meta->new(
