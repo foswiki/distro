@@ -59,7 +59,9 @@ GetOptions(
 pod2usage(1) if $help;
 
 # untaint
-$pidfile =~ /^(.*)$/ and $pidfile = $1;
+if (defined $pidfile) {
+  $pidfile =~ /^(.*)$/ and $pidfile = $1;
+}
 
 @ARGV = @argv;
 undef @argv;
