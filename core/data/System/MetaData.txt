@@ -98,9 +98,9 @@ Reference to a file attached to this topic.
 Extra fields that are added if an attachment is moved:
 
 | *Key*   | *Comment* |
-| movedfrom | full topic name - web.topic |
+| movedfrom | full topic name - web.topic.filename |
 | movedby   | Canonical user identifier of user who moved the attachment. The exact format of this depends on the user mapping manager. |
-| movedto   | full topic name - web.topic |
+| movedto   | full topic name - web.topic.filename |
 | moveddate | epoch time |
 
 ---+++ META:FORM
