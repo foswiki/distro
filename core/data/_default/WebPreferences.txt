@@ -6,7 +6,7 @@
 ---++ Appearance
 
    * Set WEBBGCOLOR = #DDDDDD
-      * web-specific background color, <span style='background-color: %WEBBGCOLOR%'> current color </span>
+      * <sticky>web-specific background color, <span style='background-color: %WEBBGCOLOR%'> current color </span></sticky>
 
    * Set SITEMAPLIST = on
       * set to =off= to hide this web from the [[%SYSTEMWEB%.SiteMap][SiteMap]]
