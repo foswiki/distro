@@ -351,19 +351,27 @@
         ** no need to update it yet again.
          */
         _doUpdateButtonState: function (ed, cm) {
-            var selectedFormats, listbox, node = ed.selection.getNode(),
-                collapsed = ed.selection.isCollapsed();
-            if (!collapsed) {
-                // !collapsed means a selection; always update button state if
-                // there is a selection. 
-                this._updateButtonState(ed, cm)
-            } else if (node !== this._lastButtonUpdateNode) {
-                // Only update button state if it wasn't already calculated for
-                // this node already on a previous call.
-                this._updateButtonState(ed, cm, node, collapsed);
+            var selectedFormats, listbox, node, collapsed;
 
-                // Remember the node
-                this._lastButtonUpdateNode = node;
+            /* Sometimes, from fullscreen, hitting wikitext button results in
+             * event firing when the editor has no valid selection. Without a
+             * valid selection, we can't know what the button state should be.
+             */
+            if (ed.selection) {
+                node = ed.selection.getNode();
+                collapsed = ed.selection.isCollapsed();
+                if (!collapsed) {
+                    // !collapsed means a selection; always update button state if
+                    // there is a selection. 
+                    this._updateButtonState(ed, cm)
+                } else if (node !== this._lastButtonUpdateNode) {
+                    // Only update button state if it wasn't already calculated for
+                    // this node already on a previous call.
+                    this._updateButtonState(ed, cm, node, collapsed);
+
+                    // Remember the node
+                    this._lastButtonUpdateNode = node;
+                }
             }
         },
 
