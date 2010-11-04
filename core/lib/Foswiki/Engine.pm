@@ -65,7 +65,7 @@ sub prepare {
     my $this = shift;
     my $req;
 
-    if ( $Foswiki::cfg{RCS}{overrideUmask} ) {
+    if ( $Foswiki::cfg{RCS}{overrideUmask} && $Foswiki::cfg{OS} ne 'WINDOWS' ) {
         umask(
             oct(777) - (
                 $Foswiki::cfg{RCS}{dirPermission} |
