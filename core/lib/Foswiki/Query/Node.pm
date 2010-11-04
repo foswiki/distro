@@ -58,8 +58,8 @@ our %aliases = (
     preferences => 'META:PREFERENCE',
 );
 
-our %isArrayType =
-  map { $_ => 1 } qw( FILEATTACHMENT FIELD PREFERENCE );
+our %isArrayType;
+map { $isArrayType{$_} => 1 } qw( FILEATTACHMENT FIELD PREFERENCE );
 
 # Cache of the names of $Foswiki::cfg items that are accessible
 our $isAccessibleCfg;

@@ -188,14 +188,17 @@ our %VALIDATE = (
 
 =begin TML
 
----++ StaticMethod registerMETA($name, $check)
+---++ StaticMethod registerMETA($name, $type, %check)
 
 See Foswiki::Func::registerMETA for full doc of this function.
 
 =cut
 
 sub registerMETA {
-    my ( $name, %check ) = @_;
+    my ( $name, $type, %check ) = @_;
+    if ($type eq 'array') {
+        $Foswiki::Query::Node::isArrayType{$name} = 1;
+    }
     $VALIDATE{$name} = \%check;
 }
 

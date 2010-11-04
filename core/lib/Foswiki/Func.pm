@@ -674,7 +674,7 @@ sub registerRESTHandler {
 
 =begin TML
 
----+++ registerMETA($name, %syntax)
+---+++ registerMETA($name, $type, %syntax)
 
 Foswiki supports embedding meta-data into topics. For example,
 
@@ -682,9 +682,15 @@ Foswiki supports embedding meta-data into topics. For example,
 
 This meta-data is validated when it is read from the store. Meta-data
 that is not registered, or doesn't pass validation, is ignored. This
-function allows you to register a new META datum, passing the name in
-=$name=. =%syntax= is a set of optional checks that describe how to
+function allows you to register a new META datum, passing the name and type in
+=$name=. =$type=, =%syntax= is a set of optional checks that describe how to
 validate the fields of the datum.
+
+The following values for $type are supported:
+   * =scalar= - where the value for only one META datum may be returned from a
+   query on a given topic, Eg. =META:FORM=
+   * =array= - where multiple values for a META datum may be returned from a
+   query on a given topic, Eg. =META:FILEATTACHMENT=
 
 The following checks are supported:
 
@@ -733,8 +739,8 @@ not their *values*.
 =cut
 
 sub registerMETA {
-    my ( $macro, $spec ) = @_;
-    Foswiki::Meta::registerMETA( $macro, $spec );
+    my ( $macro, $type, %spec ) = @_;
+    Foswiki::Meta::registerMETA( $macro, $type, %spec );
 }
 
 =begin TML
