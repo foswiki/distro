@@ -391,7 +391,7 @@ The format tokens are the same as with %SYSTEMWEB%.FormattedSearch:
 | =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= |
 | =$nop= or =$nop()= | Is a "no operation". |
 | =$quot= | Double quote (="=) |
-| =$percent= | Percent sign (=%=) |
+| =$percnt= | Percent sign (=%=) |
 | =$dollar= | Dollar sign (=$=) |
 
 
@@ -403,13 +403,13 @@ link="%Y%"
 but use format tokens:
 
 <verbatim class="tml">
-link="$percentY$percent"
+link="$percntY$percnt"
 </verbatim>
 
 ... to get:
 
 %TWISTY{
-link="$percentY$percent"
+link="$percntY$percnt"
 showimgleft="%ICONURLPATH{toggleopen-small}%"
 hideimgleft="%ICONURLPATH{toggleclose-small}%"
 }%
@@ -425,7 +425,7 @@ link="Count: (%CALC{"$GET(infoCount)"}%)"
 but use format tokens:
 
 <verbatim class="tml">
-link="Count: ($percentCALC{$quot$dollarGET(infoCount)$quot}$percent)"
+link="Count: ($percntCALC{$quot$dollarGET(infoCount)$quot}$percnt)"
 </verbatim>
 
 ---++ Generation of the twisty ID
