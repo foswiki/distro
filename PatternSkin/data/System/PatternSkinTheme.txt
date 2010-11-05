@@ -56,7 +56,7 @@ Default pattern skin theme.
 </div>
 </form>
 
-%IF{"$'URLPARAM{viewtheme}'" then='$percentINCLUDE{$quot%BASETOPIC%$quot section=$quotstoresettings$quot}$percent'}%
+%IF{"$'URLPARAM{viewtheme}'" then='$percntINCLUDE{$quot%BASETOPIC%$quot section=$quotstoresettings$quot}$percnt'}%
 
 <verbatim class="foswikiHidden">
 %STARTSECTION{"storesettings"}%

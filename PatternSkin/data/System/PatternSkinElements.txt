@@ -232,7 +232,7 @@ Describe the file so other people know what it is.
 </div><!-- /foswikiFormStep-->
 </div><!-- /foswikiFormSteps-->
 <literal>
-%QUERYPARAMS{format="<input type='hidden' name='$name' value='$percentENCODE{$quot()$value$quot type=$quot()html$quot}$percent' />"}%
+%QUERYPARAMS{format="<input type='hidden' name='$name' value='$percntENCODE{$quot()$value$quot type=$quot()html$quot}$percnt' />"}%
 </literal>
 </form>
 

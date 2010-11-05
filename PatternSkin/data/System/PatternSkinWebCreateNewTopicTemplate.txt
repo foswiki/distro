@@ -17,25 +17,25 @@
 //<![CDATA[
 function openTemplateWindow () {
     var window = foswiki.Window.openPopup(
-        '$percentSCRIPTURL{view}$percent/',
+        '$percntSCRIPTURL{view}$percnt/',
             {
                 topic:'WebTemplateTopics',
-                web:'$percentSYSTEMWEB$percent',
+                web:'$percntSYSTEMWEB$percnt',
                 template:'viewplain',
                 attributes:'resizable=1,scrollbars=1,status=1,toolbar=1',
-                urlparams:'web=$percentBASEWEB$percent'
+                urlparams:'web=$percntBASEWEB$percnt'
             }
         );
     return false;
 }
 function getQueryUrl() {
-	return '$percentSCRIPTURLPATH{view}$percent/$percentBASEWEB$percent/$percentBASETOPIC$percent?$percentQUERYSTRING$percent;pickparent=1'
+	return '$percntSCRIPTURLPATH{view}$percnt/$percntBASEWEB$percnt/$percntBASETOPIC$percnt?$percntQUERYSTRING$percnt;pickparent=1'
 }
 /* Localized texts */
-var TEXT_FEEDBACK_HEADER = '$percentMAKETEXT{Topic will be named: }$percent';
+var TEXT_FEEDBACK_HEADER = '$percntMAKETEXT{Topic will be named: }$percnt';
 /* Url params */
-var URL_PICK_PARENT = '$percentURLPARAM{pickparent}$percent';
-var URL_TEMPLATE = '$percentURLPARAM{template}$percent';
+var URL_PICK_PARENT = '$percntURLPARAM{pickparent}$percnt';
+var URL_TEMPLATE = '$percntURLPARAM{template}$percnt';
 //]]>
 </script>" requires="JavascriptFiles/foswikiWindow"}%%TMPL:END%
 

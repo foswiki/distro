@@ -29,7 +29,7 @@ The format tokens are the same as with %SYSTEMWEB%.FormattedSearch:
 | =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= |
 | =$nop= or =$nop()= | Is a "no operation". |
 | =$quot= | Double quote (="=) |
-| =$percent= | Percent sign (=%=) |
+| =$percnt= | Percent sign (=%=) |
 | =$dollar= | Dollar sign (=$=) |
 
 

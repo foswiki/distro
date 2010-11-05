@@ -695,9 +695,9 @@ Conventions for Syntax:
 
 Specifically, how can I output some conditional text in a %SYSTEMWEB%.FormattedSearch?
 
-You need to escape the CALC so that it executes once per search hit. This can be done by escaping the =%= signs of =%<nop>CALC{...}%= with =$percent=. For example, to execute =$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-no.gif)= in the =format=""= parameter, write this:
+You need to escape the CALC so that it executes once per search hit. This can be done by escaping the =%= signs of =%<nop>CALC{...}%= with =$percnt=. For example, to execute =$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-no.gif)= in the =format=""= parameter, write this:
 
-=%<nop>SEARCH{ .... format="| $topic | $percentCALC{$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-no.gif)}$percent |" }%=
+=%<nop>SEARCH{ .... format="| $topic | $percntCALC{$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-no.gif)}$percnt |" }%=
 
 ---+++ How can I easily repeat a formula in a table?
 
