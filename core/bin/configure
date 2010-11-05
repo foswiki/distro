@@ -567,15 +567,15 @@ sub _screenAuthorize {
 
         foreach my $ext ( $query->param('add') ) {
             my ($repo, $extn) = split(/\//, $ext);
-            push (@add, "<td>$repo</td><td>$extn</td>");
+            push (@add, "<td>$extn</td><td>from $repo</td>");
             }
 
-        my $action = $processExt eq 'dep'                ? 'run a dependency Report'
-                   : $processExt eq 'sim'                ? 'Simulate Only'
-                   : $processExt eq 'nodep'              ? 'install without Dependencies'
-                   : $processExt eq 'all'                ? 'perform all actions'
+        my $action = $processExt eq 'dep'                ? 'run a dependency report'
+                   : $processExt eq 'sim'                ? 'simulate the following actions'
+                   : $processExt eq 'nodep'              ? 'install without dependencies'
+                   : $processExt eq 'all'                ? 'perform the following actions'
                    :                                        $processExt;
-
+			
         my $addCount    = scalar @add;
         my $removeCount = scalar @remove;
         my @dummy    = ();

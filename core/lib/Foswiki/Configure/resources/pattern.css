@@ -176,7 +176,7 @@ a.foswikiButton,a.foswikiButton:hover,a.foswikiButton:link:active,a.foswikiButto
 }
 
 .foswikiFormSteps {
-	margin:1em 0;
+	margin:4em 0 1em 0;
 	background-color:#edf5fc;
 	border-color:#e2e2e2;
 	border-style:solid;

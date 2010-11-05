@@ -153,15 +153,16 @@
 </#assign>
 
 <#assign extRemove>
-<h2>You are about to remove the following
-    <#if extRemoveCount == 1>
-        extension
-    <#else>
-        ${extRemoveCount} extensions
-    </#if> </h2>
+	<h3>
+		Removing 
+		<#if extRemoveCount == 1>
+			extension
+		<#else>
+			${extRemoveCount} extensions
+		</#if>
+    </h3>
     <div class='configureChangeList'>
         <table>
-                <tr><th><b>Extension</b></th></tr>
             <#list extRemoveItems as i>
                <tr>${i}</tr>
             </#list>
@@ -171,15 +172,16 @@
 </#assign>
 
 <#assign extAdd>
-<h2>You are about to add the following
-    <#if extAddCount == 1>
-        extension
-    <#else>
-        ${extAddCount} extensions
-    </#if> </h2>
+	<h3>
+		Adding 
+		<#if extAddCount == 1>
+			extension
+		<#else>
+			${extAddCount} extensions
+		</#if> 
+    </h3>
     <div class='configureChangeList'>
         <table>
-            <tr><th><b>Repository</b></th><th><b>Extension</b></th></tr>
             <#list extAddItems as i>
                 <tr>${i}</tr>
             </#list>
@@ -189,15 +191,13 @@
 </#assign>
 
 <#assign extUpdate>
-<h1>Configure will ${extAction}</h1>
+<h2>Configure extension installer will ${extAction}</h2>
 <#if extRemoveCount == 0>
-<h2>No extensions to remove</h2>
 <#else>
 ${extRemove}
 </#if>
 
 <#if extAddCount == 0>
-<h2>No extensions to install</h2>
 <#else>
 ${extAdd}
 </#if>
