@@ -556,7 +556,7 @@ sub _screenAuthorize {
     }
     elsif ( $transact eq 'EXTEND' ) {
 
-        my $processExt = $query->param('processExt');
+        my $processExt = $query->param('processExt') || 'all';
         my @remove     = ();
         my @add        = ();
 
