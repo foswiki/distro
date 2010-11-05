@@ -196,6 +196,7 @@ Test if the Plugin is correctly installed:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  06 Nov 2010: | 4.37: Paul Harvey: Foswikitask:Item9963 - Revert usage of =$<nop>percent= back to =$<nop>percnt= |
 |  31 Jul 2010: | 4.35: Paul Harvey: Foswikitask:Item9415 - Documentation updates |
 |  23 Dec 2009: | 4.34: Arthur Clemens: Fixed a problem that the button "Delete last row" would remove newly added rows. |
 |  16 Sep 2009: | 4.33: Kenneth Lavrsen: Removed debug alert when deleting rows |
