@@ -488,7 +488,7 @@ sub _actionSavechanges {
 
     my ( $authorised, $messageType ) = Foswiki::Configure::UI::authorised();
     if ( !$authorised ) {
-        _screenAuthorize($messageType);
+        _screenAuthorize('UPDATE', $messageType);
     }
     else {
         _screenFeedback($messageType);
@@ -497,17 +497,8 @@ sub _actionSavechanges {
 
 # Screen that prompts for a password
 sub _screenAuthorize {
-    my ($messageType) = @_;
+    my ($transact, $messageType) = @_;
     my $contents = '';
-    my $valuer =
-      new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
-    my %updated;
-    my $modified = $valuer->loadCGIParams( $Foswiki::query, \%updated );
-    my $changesList = ();
-    foreach my $key ( sort keys %updated ) {
-        my $valueString = $query->param($key);
-        push( @{$changesList}, { key => $key, value => $valueString } );
-    }
 
     # create the root of the UI
     my $root = new Foswiki::Configure::Root();
@@ -516,7 +507,6 @@ sub _screenAuthorize {
     my $params      = '';
     my $hasPassword = ( $Foswiki::cfg{Password} ne '' ) || 0;
 
-    @items = sort keys %updated if $modified;
 
     $ui = _checkLoadUI( 'AUTH', $root );
     return '' unless $ui;
@@ -525,21 +515,94 @@ sub _screenAuthorize {
     my $contentTemplate =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('authorize');
     my $changePassword = $Foswiki::query->param('changePassword') || undef;
-    Foswiki::Configure::UI::getTemplateParser()->parse(
-        $contentTemplate,
-        {
-            'main'           => $contents,
-            'hasPassword'    => $hasPassword,
-            'modifiedCount'  => $modified,
-            'items'          => \@items,
-            'changesList'    => $changesList,
-            'params'         => $params,
-            'messageType'    => $messageType,
-            'formAction'     => $scriptName,
-            'configureUrl'   => $url,
-            'changePassword' => $changePassword,
+
+    # displayStatus  - 1 = No Changes,  2 = Changes,  4 = No Extensions, 8 = Extensions
+
+    if ( $transact eq 'UPDATE' ) {
+        my $valuer =
+          new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
+        my %updated;
+        my $modified = $valuer->loadCGIParams( $Foswiki::query, \%updated );
+        my $changesList = ();
+        foreach my $key ( sort keys %updated ) {
+            my $valueString = $query->param($key);
+            push( @{$changesList}, { key => $key, value => $valueString } );
         }
-    );
+        @items = sort keys %updated if $modified;
+        my @dummy    = ();
+        my $displayStatus = ( $modified ) ? 2 : 1;
+
+        Foswiki::Configure::UI::getTemplateParser()->parse(
+            $contentTemplate,
+            {
+                'main'           => $contents,
+                'hasPassword'    => $hasPassword,
+                'formAction'     => $scriptName,
+                'displayStatus'  => $displayStatus,
+                'modifiedCount'  => $modified,
+                'items'          => \@items,
+                'changesList'    => $changesList,
+                'params'         => $params,
+                'messageType'    => $messageType,
+                'configureUrl'   => $url,
+                'changePassword' => $changePassword,
+                'extAction'      => '',
+                'extAddCount'    => 0,
+                'extRemoveCount' => 0,
+                'extAddItems'    => \@dummy,
+                'extRemoveItems' => \@dummy,
+            }
+        );
+    }
+    elsif ( $transact eq 'EXTEND' ) {
+
+        my $processExt = $query->param('processExt');
+        my @remove     = ();
+        my @add        = ();
+
+        foreach my $ext ( $query->param('remove') ) {
+            my ($repo, $extn) = split(/\//, $ext);
+            push (@remove, "<td>$extn</td>");
+            }
+
+        foreach my $ext ( $query->param('add') ) {
+            my ($repo, $extn) = split(/\//, $ext);
+            push (@add, "<td>$repo</td><td>$extn</td>");
+            }
+
+        my $action = $processExt eq 'dep'                ? 'run a dependency Report'
+                   : $processExt eq 'sim'                ? 'Simulate Only'
+                   : $processExt eq 'nodep'              ? 'install without Dependencies'
+                   : $processExt eq 'all'                ? 'perform all actions'
+                   :                                        $processExt;
+
+        my $addCount    = scalar @add;
+        my $removeCount = scalar @remove;
+        my @dummy    = ();
+        my $displayStatus = ( $addCount || $removeCount ) ? 8 : 4;
+
+        Foswiki::Configure::UI::getTemplateParser()->parse(
+            $contentTemplate,
+            {
+                'main'           => $contents,
+                'hasPassword'    => $hasPassword,
+                'formAction'     => $scriptName,
+                'displayStatus'  => $displayStatus,
+                'changesList'    => \@dummy,
+                'modifiedCount'  => 0,
+                'items'          => \@dummy,
+                'extAddCount'    => $addCount,
+                'extRemoveCount' => $removeCount,
+                'extAddItems'    => \@add,
+                'extRemoveItems' => \@remove,
+                'params'         => $params,
+                'messageType'    => $messageType,
+                'extAction'      => $action,
+                'configureUrl'   => $url,
+                'changePassword' => $changePassword,
+            }
+        );
+    }
 
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
@@ -551,6 +614,8 @@ sub _screenAuthorize {
         {
             'time'       => $time,
             'formAction' => $scriptName,
+            'extAddCount' => 0,
+            'extRemoveCount' => 0,
         }
     );
 
@@ -673,50 +738,51 @@ sub _actionFindMoreExtensions {
 # Invoked when extensions are to be (un)installed
 sub _actionManageExtensions {
 
-    my $html =
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
-    Foswiki::Configure::UI::getTemplateParser()->parse(
-        $html,
-        {
-        }
-    );
-    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
-    print $html;
 
     my $root = new Foswiki::Configure::Root();
     my $ui;
-    if ( !Foswiki::Configure::UI::authorised() ) {
+
+    my ( $authorised, $messageType ) = Foswiki::Configure::UI::authorised();
+
+    if ( !$authorised ) {
         $ui = _checkLoadUI( 'AUTH', $root );
         return 1 unless $ui;
-
-        # SMELL: this doesn't work - should invoke _screenAuthorize, surely?
-        print $ui->ui( 0, 'Install ' . ( $query->param('extension') || '' ) );
+        _screenAuthorize( 'EXTEND', $messageType );
     }
     else {
+        my $html =
+          Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
+        Foswiki::Configure::UI::getTemplateParser()->parse(
+            $html,
+            {
+            }
+        );
+        Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
+        print $html;
         $ui = _checkLoadUI( 'EXTEND', $root );
         return 1 unless $ui;
 
         # Warning: the 'install' method uses print for rapid feedback
         print $ui->install();
+        $html =
+          Foswiki::Configure::UI::getTemplateParser()->readTemplate('installed');
+        $html .=
+          Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
+        my $frontpageUrl =
+"$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
+       Foswiki::Configure::UI::getTemplateParser()->parse(
+            $html,
+            {
+                'frontpageUrl' => $frontpageUrl,
+                'configureUrl' => $url,
+            }
+        );
+
+        Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
+        print $html;
     }
 
-    $html =
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('installed');
-    $html .=
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
 
-    my $frontpageUrl =
-"$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
-    Foswiki::Configure::UI::getTemplateParser()->parse(
-        $html,
-        {
-            'frontpageUrl' => $frontpageUrl,
-            'configureUrl' => $url,
-        }
-    );
-
-    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
-    print $html;
 }
 
 # This is the default screen
