@@ -378,8 +378,8 @@ sub _getRenderedVersion {
 
     $text = $this->_takeOutCustomTags($text);
 
-    $text =~ s/\\\n/ /g;
     $text =~ s/\t/   /g;
+    $text =~ s/( +\\\n)/$this->_hideWhitespace($1)/ge;
 
     # Remove PRE to prevent TML interpretation of text inside it
     $text = $this->_liftOutBlocks( $text, 'pre', {} );
@@ -446,8 +446,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     $text =~ s/$TT0([$Foswiki::regex{mixedAlphaNum}]+;)/&$1/go;
 
     # Horizontal rule
-    my $hr = CGI::hr( { class => 'TMLhr' } );
-    $text =~ s/^---+$/$hr/gm;
+    $text =~ s/^(---+)$/_encodeHr($1)/gme;
 
     # Wrap tables with macros before or after them in a <div>,
     # together with the macros,
@@ -624,12 +623,14 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $line =~ s/^(<li\Q$ot\E>)\s*$/$1&nbsp;/;
 
         }
-        elsif ( $inList && $line =~ /^[ \t]/ ) {
+        elsif ( $inList && $line =~ s/^([ \t]+)/$this->_hideWhitespace("\n$1")/e ) {
 
             # Extend text of previous list item by dropping through
+            $result[-1] .= $line;
+            $line = '';
 
         }
-        elsif ( $line eq $hr ) {
+        elsif ( $line =~ /^<hr class="TMLhr"/) {
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
         }
@@ -654,13 +655,25 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             # Other line
             $this->_addListItem( \@result, '', '', '' ) if $inList;
             $inList = 0;
+            if ( $inParagraph and @result and $result[-1] !~ /<p>$/ ) {
+                # This is the second (or later) line of a paragraph
+
+                my $whitespace = "\n";
+                if ($line =~ s/^(\s+)//) {
+                    $whitespace .= $1;
+                }
+                $line = $this->_hideWhitespace($whitespace) . $line;
+            }
             unless ( $inParagraph or $inDiv ) {
                 push( @result, '<p>' );
                 $inParagraph = 1;
             }
+            $line =~ s/(\s\s+)/$this->_hideWhitespace($1)/ge;
+            $result[-1] .= $line;
+            $line = '';
         }
 
-        push( @result, $line );
+        push( @result, $line ) if length($line) > 0;
     }
 
     if ($inTable) {
@@ -719,6 +732,34 @@ s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}(
     }
 
     return $text;
+}
+
+sub _encodeHr {
+    my $dashes = shift;
+    my $style = '';
+    if ( length($dashes) > 3 ) {
+        $style = ' style="{numdashes:' . length($dashes) . '}"';
+    }
+    return '<hr class="TMLhr"' . $style . ' />';
+}
+
+sub _hideWhitespace {
+    my $this = shift;
+    my $whitespace = shift;
+
+    $whitespace =~ s/\\/b/g;
+    $whitespace =~ s/\n/n/g;
+    $whitespace =~ s/(\t+)/'t' . length($1)/ge;
+    $whitespace =~ s/( +)/'s' . length($1)/ge;
+
+    return $this->_liftOutGeneral(
+        " ",
+        {
+            tag => 'span',
+            class => "WYSIWYG_HIDDENWHITESPACE",
+            params => "style=\"{encoded:'$whitespace'}\"",
+        }
+    );
 }
 
 sub _appendClassToTag {

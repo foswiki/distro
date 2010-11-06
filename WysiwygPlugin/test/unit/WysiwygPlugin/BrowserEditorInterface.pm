@@ -10,12 +10,13 @@ use Scalar::Util;
 
 sub _DEBUG {0};
 
-my $editFrameLocator        = "css=iframe#topic_ifr";
-my $wikitextLocator         = "css=a#topic_hide";
-my $wysiwygLocator          = "css=input#topic_2WYSIWYG";
-my $editTextareaLocator     = "css=textarea#topic";
-my $editCancelButtonLocator = "css=input#cancel";
-my $editSaveButtonLocator   = "css=input#save";
+my $editFrameLocator                = "css=iframe#topic_ifr";
+my $wikitextLocator                 = "css=a#topic_hide";
+my $wysiwygLocator                  = "css=input#topic_2WYSIWYG";
+my $editTextareaLocator             = "css=textarea#topic";
+my $editCancelButtonLocator         = "css=input#cancel";
+my $editSaveButtonLocator           = "css=input#save";
+my $editSaveContinueButtonLocator   = "css=input#checkpoint";
 
 # This must match the text in foswiki_tiny.js
 my $waitForServerMessage = "Please wait... retrieving page from server.";
@@ -179,6 +180,25 @@ sub save {
     $this->{_web} = undef;
     $this->{_topic} = undef;
     delete $this->{_editorModeForBrowser}->{ $this->{_test}->browserName() };
+}
+
+sub saveAndContinue {
+    my $this = shift;
+    print STDERR "BrowserEditorInterface::saveAndContinue()\n" if _DEBUG;
+
+    $this->{_test}->assert(0, "editor not open")
+      unless exists $this->{_editorModeForBrowser}
+          ->{ $this->{_test}->browserName() };
+
+    $this->selectTopFrame();
+    $this->{_test}->selenium->click_ok($editSaveContinueButtonLocator);
+
+# The editor can take a while to open, and has to do another server request to convert TML2HTML, so use a longer timeout
+    $this->{_test}->selenium->wait_for_element_present( $editFrameLocator,
+        2 * $this->{_test}->timeout() );
+    $this->{_test}->selenium->pause()
+      ;    # Breathe for a moment; let TMCE settle before doing anything else
+
 }
 
 sub selectWysiwygEditorFrame {

@@ -476,7 +476,7 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
     
     $this->{editor}->init();
 
-    # Close the editor because this tests uses a different topic
+    # Close the editor because this test uses a different topic
     if ( $this->{editor}->editorMode() ) {
         $this->{editor}->cancelEdit();
     }
@@ -501,15 +501,26 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
         $topicName,
         "Before${testText}After\n");
     $topicObject->save();
+    $topicObject->finish();
+
+    # Reload the topic and note the topic date
+    $topicObject = Foswiki::Meta->new(
+        $this->{session},
+        $this->{test_web},
+        $topicName);
+    $topicObject->load();
+    my $topicinfo = $topicObject->get( 'TOPICINFO' );
+    my $dateBeforeSaveFromEditor = $topicinfo->{date};
+    $this->assert($dateBeforeSaveFromEditor, "Date from topic info before saving from editor");
+    $topicObject->finish();
 
     # Open the test topic in the wysiwyg editor
     $this->{editor}
       ->openWysiwygEditor( $this->{test_web}, $topicName );
 
-    # Write rubbish over the topic, which will be overwritten on save
-    $topicObject->text("Rubbish");
-    $topicObject->save();
-    undef $topicObject;
+    # Make sure the topic timestamp is different, 
+    # so that we can confirm that the save did write to the file
+    sleep(1);
 
     # Save from the editor
     $this->{editor}->save();
@@ -519,6 +530,13 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
         $this->{session},
         $this->{test_web},
         $topicName);
+    $topicObject->load();
+
+    # Make sure the topic really was saved
+    $topicinfo = $topicObject->get( 'TOPICINFO' );
+    my $dateAfterSaveFromEditor = $topicinfo->{date};
+    $this->assert($dateAfterSaveFromEditor, "Date from topic info after saving from editor");
+    $this->assert_num_not_equals($dateBeforeSaveFromEditor, $dateAfterSaveFromEditor);
 
     my $text = $topicObject->text();
 

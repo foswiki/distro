@@ -162,8 +162,6 @@ If %SYSTEMWEB%.TablePlugin is *not* enabled, then TML table cells containing onl
 
 ---+++ TinyMCEPlugin integration
 %STARTSECTION{"tinymceintegration"}%
-   * Foswikitask:Item2174 - WysiwygPlugin removes line breaks
-      * Work-around: Use the =* Set NOWYSIWYG = 1= setting to disable WYSIWYG on line-sensitive topics
    * Foswikitask:Item1396 - Anchors are not handled by WysiwygPlugin
    * Foswikitask:Item5955 - WysiwygPlugin fails to roundtrip tables with align="center", border attributes, etc.
       * Description: Sometimes tables will fail to be converted to TML syntax (will stay as HTML) because there are attributes on the table (such as alignment or border decorations) that WysiwygPlugin does not know how to preserve. If such attributes are necessary, please use [[VarTABLE]] instead.
@@ -189,6 +187,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  ?           | Foswikitask:Item2174: Protect line breaks within paragraphs in TML |
 |  04 Oct 2010 | Foswikitask:Item1391: Protect div and span tags with =style= attributes |
 |  28 Jun 2010 | Foswikitask:Item761, Foswikitask:Item2311, Foswikitask:Item5990, Foswikitask:Item9170: Fix conversion between character encodings. Any characters may be entered in the WYSIWYG editor, regardless of the site's encoding. Where possible, they are converted to the site encoding, otherwise they become entities. <br />\
                  Foswikitask:Item2254: Fix cursor-movement problems on Mozilla browsers (introduced by Foswikitask:Item1798)<br/>\
