@@ -137,6 +137,7 @@ our $CHANGES_SUMMARY_LINECOUNT  = 6;
 our $CHANGES_SUMMARY_PLAINTRUNC = 70;
 
 =begin TML
+
 PUBLIC %VALIDATE;
 
 META:x validation. This hash maps from META: names to the type record
@@ -197,21 +198,18 @@ our %VALIDATE = (
         require  => [qw( name value )],
         other    => [qw( type )],
         _default => 1,
-        alias    => 'preference',
+        alias    => 'preferences',
         many     => 1,
     }
 );
 
-our %aliases;
-our %isArrayType;
+our %aliases =
+    map { $VALIDATE{$_}->{alias} => "META:$_" }
+        grep { $VALIDATE{$_}->{alias} } keys %VALIDATE;
 
-BEGIN {
-    foreach my $name (keys %VALIDATE) {
-	my $d = $VALIDATE{$name};
-	$aliases{$d->{alias}} = "META:$name" if $d->{alias};
-	$isArrayType{$name} = $d->{many};
-    }
-}
+our %isArrayType =
+    map { $_ => 1 }
+        grep { $VALIDATE{$_}->{many} } keys %VALIDATE;
 
 =begin TML
 
