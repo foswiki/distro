@@ -192,6 +192,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  04 Oct 2010 | Foswikitask:Item1391: Protect div and span tags with =style= attributes |
 |  28 Jun 2010 | Foswikitask:Item761, Foswikitask:Item2311, Foswikitask:Item5990, Foswikitask:Item9170: Fix conversion between character encodings. Any characters may be entered in the WYSIWYG editor, regardless of the site's encoding. Where possible, they are converted to the site encoding, otherwise they become entities. <br />\
                  Foswikitask:Item2254: Fix cursor-movement problems on Mozilla browsers (introduced by Foswikitask:Item1798)<br/>\
                  Foswikitask:Item2605: Can now place cursor into empty list-item<br/>\
