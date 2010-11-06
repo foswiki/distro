@@ -42,7 +42,7 @@ PERM1
               sprintf( '%03o', $Foswiki::cfg{RCS}{filePermission} );
             $e = $this->ERROR(<<PERM2);
 The system umask ($oSysUmask) is not compatible with the configured directory and file permissions.
-A umask of $oReqUmask is required to support the configured Directory and File masks of  $Foswiki::cfg{RCS}{dirPermission} $oDirPermission and $oFilePermission.
+A umask of $oReqUmask is required to support the configured Directory and File masks of $oDirPermission and $oFilePermission.
 Enable this setting to have the Foswiki override the umask to be compatible with your configured permissions.
 PERM2
         }
