@@ -89,6 +89,20 @@ var FoswikiTiny = {
 
     initialisedFromServer: false,
 
+    removeErasedSpans: function(ed, o) {
+        // forced_root_block makes TMCE insert &nbsp; into empty spans.
+        // TML2HTML emits spans with the WYSIWYG_HIDDENWHITESPACE class
+        // that contain a single space.
+        // Some browsers (e.g. IE8 and Opera 10.60) remove the span if
+        // the user deletes the space within the span.
+        // Other browsers (e.g. various versions of Firefox) do not.
+        //
+        // This function removes spans with this class that contain
+        // only a &nbsp; as the &nbsp; is assumed to come from the
+        // forced_root_block code.
+        o.content = o.content.replace(/<span[^>]*class=['"][^'">]*WYSIWYG_HIDDENWHITESPACE[^>]+>&nbsp;<\/span>/g, '');
+    },
+
     // Set up content for the initial edit
     setUpContent: function(editor_id, body, doc) {
         // If we haven't done it before, then transform from TML
@@ -97,6 +111,9 @@ var FoswikiTiny = {
         if (FoswikiTiny.initialisedFromServer) return;
         var editor = tinyMCE.getInstanceById(editor_id);
         FoswikiTiny.switchToWYSIWYG(editor);
+
+        // Also add the handler for cleaning up after force_root_blocks
+        editor.onGetContent.add(FoswikiTiny.removeErasedSpans);
         FoswikiTiny.initialisedFromServer = true;
     },
 

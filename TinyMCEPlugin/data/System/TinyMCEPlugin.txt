@@ -288,6 +288,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  ?           | Foswikitask:Item2174: JS fix for deleting encoded-TML-whitespace on Firefox |
 |  04 Nov 2010 | Foswikitask:Item9706: Upgrade to !TinyMCE 3.3.9.2<br/>\
                  Foswikitask:Item9953: Fix JS error transitioning to !WikiText from fullscreen<br/>\
                  Foswikitask:Item9952: Fix bold & italics buttons not activating on already bolded/italicised text properly<br/>\
