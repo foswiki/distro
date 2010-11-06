@@ -66,12 +66,20 @@ sub prepare {
     my $req;
 
     if ( $Foswiki::cfg{RCS}{overrideUmask} && $Foswiki::cfg{OS} ne 'WINDOWS' ) {
-        umask(
-            oct(777) - (
-                $Foswiki::cfg{RCS}{dirPermission} |
-                  $Foswiki::cfg{RCS}{filePermission}
-            )
-        );
+
+# SMELL:   For some reason in this module, the addition of zero is required to force
+# dirPermission and filePermission to be numeric.   Without the additition, certain
+# values of the permissions cause runtime errors about illegal characters in subtraction.
+        my $oldUmask = umask( ( oct(777) - (
+                $Foswiki::cfg{RCS}{dirPermission}+0 |
+                  $Foswiki::cfg{RCS}{filePermission}+0))
+                  );
+
+        my $umask = sprintf('%04o', umask() );
+        $oldUmask = sprintf('%04o', $oldUmask );
+        my $dirPerm = sprintf('%04o', $Foswiki::cfg{RCS}{dirPermission}+0 );
+        my $filePerm = sprintf('%04o', $Foswiki::cfg{RCS}{filePermission}+0 );
+        print STDERR " ENGINE changes $oldUmask to  $umask  from $dirPerm and $filePerm \n";
     }
 
     try {

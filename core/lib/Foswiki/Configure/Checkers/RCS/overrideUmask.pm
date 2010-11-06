@@ -13,10 +13,14 @@ sub check {
     # Don't check umask on Windows
     return '' if ( $Foswiki::cfg{OS} eq 'WINDOWS' );
 
+# SMELL:   For some reason in Engine.pm, the addition of zero is required to force
+# dirPermission and filePermission to be numeric.   Without the additition, certain
+# values of the permissions cause runtime errors about illegal characters in subtraction.
+# Added here for consistency, although this code didn't fail.
     my $reqUmask = (
         oct(777) - (
-            $Foswiki::cfg{RCS}{dirPermission} |
-              $Foswiki::cfg{RCS}{filePermission}
+            $Foswiki::cfg{RCS}{dirPermission}+0 |
+              $Foswiki::cfg{RCS}{filePermission}+0
         )
     );
     my $oReqUmask = sprintf( '%03o', $reqUmask );
@@ -38,7 +42,7 @@ PERM1
               sprintf( '%03o', $Foswiki::cfg{RCS}{filePermission} );
             $e = $this->ERROR(<<PERM2);
 The system umask ($oSysUmask) is not compatible with the configured directory and file permissions.
-A umask of $oReqUmask is required to support the configured Directory and File masks of $oDirPermission and $oFilePermission.
+A umask of $oReqUmask is required to support the configured Directory and File masks of  $Foswiki::cfg{RCS}{dirPermission} $oDirPermission and $oFilePermission.
 Enable this setting to have the Foswiki override the umask to be compatible with your configured permissions.
 PERM2
         }
