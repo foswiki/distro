@@ -249,8 +249,7 @@ HERE
 
     if ( keys(%$plugins) && !$simulate ) {
         $feedback .= $this->NOTE(<<HERE);
-Note: Before you can use newly installed plugins, you must enable them in the
-"Plugins" section in the main page.
+<span class='foswikiAlert'>Note: Before you can use newly installed plugins, you must enable them in the Enabled Plugins section in the main page.</span>
 HERE
         $feedback .= "<pre>";
         foreach my $plu ( sort { lc($a) cmp lc($b) } keys %$plugins ) {
@@ -264,7 +263,7 @@ HERE
 sub _printFeedback {
     my ($feedback) = @_;
 
-    print "<div class='configureMessageBox foswikiAlert'>$feedback</div>";
+    print "<div class='configureMessageBox'>$feedback</div>";
 }
 
 sub _uninstall {
