@@ -290,7 +290,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  04 Nov 2010 | Foswikitask:Item9706: Upgrade to !TinyMCE 3.3.9.2<br/>\
                  Foswikitask:Item9953: Fix JS error transitioning to !WikiText from fullscreen<br/>\
-                 Foswikitask:Item9952: Fix bold & italics buttons not activating on already bolded/italicised text properly |
+                 Foswikitask:Item9952: Fix bold & italics buttons not activating on already bolded/italicised text properly<br/>\
+                 Foswikitask:Item9960: Fix JS error switching tabs on the attach dialogue |
 |  25 Oct 2010 | Foswikitask:Item9870: Fix JS error on Internet Explorers |
 |  28 Sep 2010 | Foswikitask:Item9236: Enable contextmenu !TinyMCE plugin, allows table row/column copy &amp; paste<br/>\
                  Foswikitask:Item9263: Fix autosave breaking on IECollections' IE6<br/>\
