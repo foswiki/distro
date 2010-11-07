@@ -159,7 +159,7 @@ sub _hoistEQ {
     if ( $node->{op}->{name} eq '=' ) {
         my $lhs = _hoistDOT( $node->{params}[0] );
         my $rhs = _hoistConstant( $node->{params}[1] );
-        if ( $lhs && $rhs ) {
+        if ( $lhs && defined $rhs ) {
             $rhs = quotemeta($rhs);
             $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
             $lhs->{source} = _hoistConstant( $node->{params}[1] );
@@ -169,7 +169,7 @@ sub _hoistEQ {
         # = is symmetric, so try the other order
         $lhs = _hoistDOT( $node->{params}[1] );
         $rhs = _hoistConstant( $node->{params}[0] );
-        if ( $lhs && $rhs ) {
+        if ( $lhs && defined $rhs ) {
             $rhs = quotemeta($rhs);
             $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
             $lhs->{source} = _hoistConstant( $node->{params}[0] );
@@ -179,7 +179,7 @@ sub _hoistEQ {
     elsif ( $node->{op}->{name} eq '~' ) {
         my $lhs = _hoistDOT( $node->{params}[0] );
         my $rhs = _hoistConstant( $node->{params}[1] );
-        if ( $lhs && $rhs ) {
+        if ( $lhs && defined $rhs ) {
             $rhs = quotemeta($rhs);
             $rhs          =~ s/\\\?/./g;
             $rhs          =~ s/\\\*/.*/g;
@@ -191,7 +191,7 @@ sub _hoistEQ {
     elsif ( $node->{op}->{name} eq '=~' ) {
         my $lhs = _hoistDOT( $node->{params}[0] );
         my $rhs = _hoistConstant( $node->{params}[1] );
-        if ( $lhs && $rhs ) {
+        if ( $lhs && defined $rhs ) {
             $rhs = quotemeta($rhs);
             $rhs          =~ s/\\\././g;
             $rhs          =~ s/\\\*/*/g;
@@ -296,6 +296,7 @@ sub _hoistDOT {
 sub _hoistConstant {
     my $node = shift;
 
+    print STDERR "hoistCONST ", $node->stringify(), "\n" if MONITOR_HOIST;
     if (
         !ref( $node->{op} )
         && (   $node->{op} eq $Foswiki::Infix::Node::STRING
