@@ -90,6 +90,10 @@ sub newLeaf {
 sub toString {
     my ($a) = @_;
     return 'undef' unless defined($a);
+    if ( UNIVERSAL::isa( $a, 'Foswiki::Query::Node' ) ) {
+        return '{ op => ' . $a->{op} . ', params => ' . toString( $a->{params}
+        ) . ' }';
+    }
     if ( ref($a) eq 'ARRAY' ) {
         return '[' . join( ',', map { toString($_) } @$a ) . ']';
     }
@@ -203,7 +207,8 @@ sub simplify {
     my $this = shift;
 
     if ( $this->evaluatesToConstant(@_) ) {
-        my $c = $this->evaluate(@_) || 0;
+        my $c = $this->evaluate(@_);
+        $c = 0 unless defined $c;
         if ( $c =~ /^[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?$/ ) {
             $this->{op} = $Foswiki::Infix::Node::NUMBER;
         }
