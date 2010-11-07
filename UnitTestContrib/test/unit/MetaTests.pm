@@ -98,6 +98,33 @@ sub test_multiple {
     $this->assert_str_equals( $vals2->{"value"}, "3" );
 }
 
+# Field with value 0 and value ''  This does not cover Item8738
+sub test_zero_empty {
+    my $this = shift;
+    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+
+    my $args_zero = {
+        name  => "a",
+        value => "0"
+    };
+    
+    my $args_empty = {
+        name  => "b",
+        value => ""
+    };
+
+    $meta->putKeyed( "FIELD", $args_zero );
+    $meta->putKeyed( "FIELD", $args_empty );
+    
+    my $vals1 = $meta->get( "FIELD", "a" );
+    $this->assert_str_equals( $vals1->{"name"},  "a" );
+    $this->assert_str_equals( $vals1->{"value"}, "0" );
+
+    my $vals2 = $meta->get( "FIELD", "b" );      
+    $this->assert_str_equals( $vals2->{"name"},  "b" );
+    $this->assert_str_equals( $vals2->{"value"}, "" );
+}
+
 sub test_removeSingle {
     my $this = shift;
     my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
