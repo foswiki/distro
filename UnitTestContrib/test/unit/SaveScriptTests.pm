@@ -645,6 +645,68 @@ sub test_simpleFormSave3 {
 
 }
 
+
+# Testing zero value form field values - Item9970
+# The purpose of this test is to confirm that we can save the value 0
+# We have made this bug several times in history 
+sub test_simpleFormSaveZeroValue {
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            text         => ['CORRECT'],
+            formtemplate => ['TestForm1'],
+            action       => ['save'],
+            'Textfield'  => ['0'],
+            topic        => [ $this->{test_web} . '.SimpleFormSave' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->assert(
+        $this->{session}->topicExists( $this->{test_web}, 'SimpleFormSave' ) );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'SimpleFormSave' );
+    my $text = $meta->text;
+    $this->assert_matches( qr/^CORRECT\s*$/, $text );
+    $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
+
+    $this->assert_str_equals( '0',
+        $meta->get( 'FIELD', 'Textfield' )->{value} );
+}
+
+
+# Testing empty value form field values - Item9970
+# The purpose of this test is to confirm that we can save an empty value
+sub test_simpleFormSaveEmptyValue {
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            text         => ['CORRECT'],
+            formtemplate => ['TestForm1'],
+            action       => ['save'],
+            'Textfield'  => [''],
+            topic        => [ $this->{test_web} . '.SimpleFormSave' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->assert(
+        $this->{session}->topicExists( $this->{test_web}, 'SimpleFormSave' ) );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'SimpleFormSave' );
+    my $text = $meta->text;
+    $this->assert_matches( qr/^CORRECT\s*$/, $text );
+    $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
+
+    $this->assert_str_equals( '',
+        $meta->get( 'FIELD', 'Textfield' )->{value} );
+}
+
+
 # meta data (other than FORM, FIELD, TOPICPARENT, etc.) is inherited from
 # templatetopic
 sub test_templateTopicWithMeta {
