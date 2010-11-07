@@ -268,7 +268,9 @@ sub populateMetaFromQueryData {
 
             # Default the value to the empty string (undef would result
             # in the old value being restored)
-            $value = $query->param( $this->{name} ) || '';
+            # Note: we test for 'defined' because value can also be 0 (zero) 
+            $value = $query->param( $this->{name} );
+            $value = '' unless defined $value;
             if ( $this->{session}->inContext('edit') ) {
                 $value = Foswiki::expandStandardEscapes($value);
             }
