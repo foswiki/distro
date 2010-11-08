@@ -214,7 +214,7 @@ sub check {
 sub verify_atoms {
     my $this = shift;
     $this->check( "'0'", eval=>          '0', simpler=>0 );
-    $this->check( "''", eval=>           '', simpler=>0 );
+    $this->check( "''", eval=>           '', simpler=>q{''} ); # Not 0 - See Item9971
     $this->check( "1", eval=>            1, simpler=>1 );
     $this->check( "-1", eval=>           -1, simpler=>-1 );
     $this->check( "-1.1965432e-3", eval=>-1.1965432e-3, simpler=>-1.1965432e-3 );
