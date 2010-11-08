@@ -66,7 +66,8 @@ sub view {
             $session->{response}->redirect( $cachedPage->{location} );
         }
         else {
-            $session->{response}->status($status);
+            # See Item9941 to understand why do not set status when 200
+            $session->{response}->status($status) unless $status eq 200;
         }
 
         # set headers
