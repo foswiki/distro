@@ -13,9 +13,9 @@ sub check {
     # Don't check umask on Windows
     return '' if ( $Foswiki::cfg{OS} eq 'WINDOWS' );
 
-# SMELL:   For some reason in Engine.pm, the addition of zero is required to force
-# dirPermission and filePermission to be numeric.   Without the additition, certain
-# values of the permissions cause runtime errors about illegal characters in subtraction.
+# Note: The addition of zero is required to force dirPermission and filePermission
+# to be numeric.   Without the additition, certain values of the permissions cause
+# runtime errors about illegal characters in subtraction.
 # Added here for consistency, although this code didn't fail.
     my $reqUmask = (
         oct(777) - (

@@ -67,9 +67,9 @@ sub prepare {
 
     if ( $Foswiki::cfg{RCS}{overrideUmask} && $Foswiki::cfg{OS} ne 'WINDOWS' ) {
 
-# SMELL:   For some reason in this module, the addition of zero is required to force
-# dirPermission and filePermission to be numeric.   Without the additition, certain
-# values of the permissions cause runtime errors about illegal characters in subtraction.
+# Note: The addition of zero is required to force dirPermission and filePermission
+# to be numeric.   Without the additition, certain values of the permissions cause
+# runtime errors about illegal characters in subtraction.
         my $oldUmask = umask( ( oct(777) - (
                 $Foswiki::cfg{RCS}{dirPermission}+0 |
                   $Foswiki::cfg{RCS}{filePermission}+0))
