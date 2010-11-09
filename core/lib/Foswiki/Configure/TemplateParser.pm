@@ -64,11 +64,7 @@ sub new {
     my $this = bless( {}, $class );
     $this->{skin} = undef;
 
-    # This is probably slow, but we need to know where the templates are
-    our $foswikiLibPath;
-    if ( !defined $foswikiLibPath && defined $main::foswikiLibPath ) {
-         $foswikiLibPath = $main::foswikiLibPath
-         }
+    our $foswikiLibPath = $main::foswikiLibPath;
     $foswikiConfigureFilesDir = "$foswikiLibPath/Foswiki/Configure";
 
     return $this;
