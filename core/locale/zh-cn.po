@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-09-18 11:50+0200\n"
-"Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
+"PO-Revision-Date: 2010-11-09 08:01+0200\n"
+"Last-Translator: Coria Xu <coria@wikidao.org>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.0.5\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
@@ -61,11 +61,11 @@ msgstr "%1 子网"
 
 #: core/templates/messages.tmpl:480
 msgid "%1 added to the %2 group. "
-msgstr ""
+msgstr "%1 加入 %2 群组。"
 
 #: core/templates/messages.tmpl:487
 msgid "%1 group topic upgraded. "
-msgstr ""
+msgstr "%1 群组页已更新。"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -104,18 +104,16 @@ msgid "%1 is currently set to %2"
 msgstr "%1 现在已设为 %2"
 
 #: core/templates/messages.tmpl:526
-#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 正在编辑 %2."
+msgstr "%1 正在编辑 %2。"
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 至少需加入一个群组，无法删除"
 
 #: core/templates/messages.tmpl:126
-#, fuzzy
 msgid "%1 is not a valid form name"
-msgstr "'%1' 不是个合法的 %2"
+msgstr "'%1' 不是个合法的表单名称"
 
 #: core/templates/messages.tmpl:122
 #, fuzzy
