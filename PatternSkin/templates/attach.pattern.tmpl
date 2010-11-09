@@ -46,6 +46,11 @@ class="foswikiHelp"
 
 <noautolink><input type="hidden" name="filename" value="%FILENAME%" /> 
 <input class="foswikiInputField" type="file" name="filepath" value="%FILEPATH%" size="70" /></noautolink>
+</div>
+%TMPL:P{"batchupload"}%%TMPL:END%
+
+%TMPL:DEF{"batchupload"}%<div class="foswikiFormStep">
+<input type="checkbox" class="foswikiCheckbox" id="batchupload" checked name="batchupload" %BATCHUPLOADCHECKBOX% /><label for="batchupload">%MAKETEXT{"Batch upload for zip file"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Extracts and uploads individual file in zip archive."}%</span>
 </div>%TMPL:END%
 
 %TMPL:DEF{"comment"}%<div class="foswikiFormStep">

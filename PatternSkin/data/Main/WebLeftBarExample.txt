@@ -11,7 +11,7 @@
    * [[WebRss][ %ICON{"feed"}% %MAKETEXT{"RSS Feed"}%]]
    * [[WebStatistics][ %ICON{"statistics"}% %MAKETEXT{"Statistics"}%]]
    * [[WebPreferences][ %ICON{"wrench"}% %MAKETEXT{"Preferences"}%]]
-   * %IF{"istopic '%USERSWEB%.%WIKIUSERSTOPIC%'" else=" $percentICON{\"person\"}$percent $percentMAKETEXT{\"Users\"}$percent" then="[[$percentUSERSWEB$percent.$percentWIKIUSERSTOPIC$percent][ $percentICON{\"person\"}$percent $percentMAKETEXT{\"Users\"}$percent]]"}%
+   * %IF{"istopic '%USERSWEB%.%WIKIUSERSTOPIC%'" else=" $percntICON{\"person\"}$percnt $percntMAKETEXT{\"Users\"}$percnt" then="[[$percntUSERSWEB$percnt.$percntWIKIUSERSTOPIC$percnt][ $percntICON{\"person\"}$percnt $percntMAKETEXT{\"Users\"}$percnt]]"}%
    * [[%USERSWEB%.WikiGroups][ %ICON{"group"}% %MAKETEXT{"Groups"}%]]
 
 %INCLUDE{ "%SYSTEMWEB%.WebLeftBarWebsList" }%
