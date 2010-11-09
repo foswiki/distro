@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.2 - TDB 2010
+---+!! Foswiki Release 1.1.2 - 09 Nov 2010
 
 %TOC%
 
@@ -29,7 +29,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.
    * Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
-   * Foswiki 1.1.2 was built TBD. It is a release that fixes a few bugs we missed in 1.1.1. Spanish translation completed
+   * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
 
 
 ---++ Pre-installed Extensions
@@ -653,6 +653,31 @@ to your =bin/LocalLib.cfg=.
 ---++ Fixes
 
 <noautolink>
+| [[%BUGS%/Item1391][Item1391]] | < div > disappears in Rich-Text-Editor |
+| [[%BUGS%/Item9901][Item9901]] | The index.html points to old release notes |
+| [[%BUGS%/Item9904][Item9904]] | Twisty is not working in IE8 both compatibility and non-compatibility |
+| [[%BUGS%/Item9908][Item9908]] | tml.js not IE compatible |
+| [[%BUGS%/Item9911][Item9911]] | SEARCH format is parsed through formatTime causing all sorts of problems |
+| [[%BUGS%/Item9913][Item9913]] | SEARCH fails to expand several tokens like topic(number, ...) |
+| [[%BUGS%/Item9914][Item9914]] | METASEARCH fails to expand topic(number, ..) and probably other |
+| [[%BUGS%/Item9936][Item9936]] | Cache feature lacks files in 1.1 |
+| [[%BUGS%/Item9937][Item9937]] | People that have manually copied Foswiki.spec to LocalSite.cfg (not recommended) have problems with new settings added. |
+| [[%BUGS%/Item9941][Item9941]] | Cache feature uses a 401 redirect which is not compatible with the suggested redirect to !UserRegistration |
+| [[%BUGS%/Item9944][Item9944]] | configure fails to upgrade a plugin if cache is enabled |
+| [[%BUGS%/Item9945][Item9945]] | Changes to Extensions installer |
+| [[%BUGS%/Item9948][Item9948]] | New Plugin API method =Foswiki::Meta::registerMETA= not working correctly |
+| [[%BUGS%/Item9952][Item9952]] | Bold & italics buttons aren't working with WysiwygPlugin |
+| [[%BUGS%/Item9953][Item9953]] | !TinyMCE JS error transitioning to !WikiText from fullscreen |
+| [[%BUGS%/Item9956][Item9956]] | Wysiwyg editor breaks the sample color in WebPreferences |
+| [[%BUGS%/Item9960][Item9960]] | Spurious JS errors |
+| [[%BUGS%/Item9963][Item9963]] | Overzealous use of =$percent= in plugins makes them incompatible with Foswiki 1.0.x |
+| [[%BUGS%/Item9970][Item9970]] | Cannot save the value 0 in a formfield |
+| [[%BUGS%/Item9971][Item9971]] | Query searches see the constant '' as the value zero making it impossible to test for empty value |
+| [[%BUGS%/Item9974][Item9974]] | setlib.cfg loaded twice but LocalLib.cfg only once |
+| [[%BUGS%/Item9975][Item9975]] | Plugin module checker finds all duplicates, not just TWiki/Foswiki |
+| [[%BUGS%/Item9980][Item9980]] | Bug found in manage interface |
+| [[%BUGS%/Item9981][Item9981]] | Fix missing and redundant files |
+| [[%BUGS%/Item9983][Item9983]] | Potentially dangerous @INC setting in scripts |
 </noautolink>
 
 ---++ Enhancements

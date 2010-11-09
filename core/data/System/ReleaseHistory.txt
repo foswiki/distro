@@ -5,6 +5,10 @@
 
 %TOC%
 
+---++ Foswiki Release 1.1.2 - 09 Nov 2010
+
+Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
+
 ---++ Foswiki Release 1.1.1 - 25 Oct 2010
 
 It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
