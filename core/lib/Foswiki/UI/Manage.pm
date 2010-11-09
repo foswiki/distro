@@ -440,6 +440,8 @@ sub _action_saveSettings {
     my $settings    = $query->param('text');
     my $originalrev = $query->param('originalrev');
 
+    Foswiki::UI::checkAccess( $session, 'CHANGE', $newTopicObject );
+
     $newTopicObject->remove('PREFERENCE');    # delete previous settings
         # Note: $Foswiki::regex{setVarRegex} cannot be used as it requires
         # use in code that parses multiline settings line by line.
@@ -463,8 +465,6 @@ s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
             $newTopicObject->merge($currTopicObject);
         }
     }
-
-    Foswiki::UI::checkAccess( $session, 'CHANGE', $newTopicObject );
 
     try {
         $newTopicObject->save( minor => 1, forcenewrevision => 1 );
