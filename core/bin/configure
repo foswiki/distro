@@ -243,13 +243,12 @@ $FindBin::Bin =~ /^(.*)$/;
 use warnings;
 chdir($1);
 my @root = File::Spec->splitdir($1);
+my $setlib = File::Spec->catfile( @root, 'setlib.cfg' );
 pop(@root);
 my $scriptName = Foswiki::getScriptName();
 
 # Try to load the LocalLib.cfg optional overload
-
-use lib '.';
-eval 'require "setlib.cfg"';
+eval "require '$setlib';";
 
 if ($@) {
 
