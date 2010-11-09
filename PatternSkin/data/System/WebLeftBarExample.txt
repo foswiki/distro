@@ -3,7 +3,7 @@
 %INCLUDE{"%IF{"context can_login" then="%SYSTEMWEB%.WebLeftBarLogin" else="<nop>"}%" warn="off"}%
 
    * *%MAKETEXT{"Toolbox"}%*
-   * %IF{"istopic '%USERSWEB%.%WIKIUSERSTOPIC%'" else=" $percentICON{\"person\"}$percent $percentMAKETEXT{\"Users\"}$percent" then="[[$percentUSERSWEB$percent.$percentWIKIUSERSTOPIC$percent][ $percentICON{\"person\"}$percent $percentMAKETEXT{\"Users\"}$percent]]"}%
+   * %IF{"istopic '%USERSWEB%.%WIKIUSERSTOPIC%'" else=" $percntICON{\"person\"}$percnt $percntMAKETEXT{\"Users\"}$percnt" then="[[$percntUSERSWEB$percnt.$percntWIKIUSERSTOPIC$percnt][ $percntICON{\"person\"}$percnt $percntMAKETEXT{\"Users\"}$percnt]]"}%
    * [[%USERSWEB%.WikiGroups][ %ICON{"group"}% %MAKETEXT{"Groups"}%]]
    * [[WebTopicList][ %ICON{"index"}% %MAKETEXT{"Index"}%]]
    * [[%BASEWEB%.WebSearch][ %ICON{"searchtopic"}% %MAKETEXT{"Search"}%]]

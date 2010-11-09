@@ -116,6 +116,7 @@ pub/System/PatternSkinTheme2009/column_right.css 0644
 pub/System/PatternSkinTheme2009/column_twiki.css 0644
 pub/System/PatternSkinTheme2009/form_gradient.gif 0644
 pub/System/PatternSkinTheme2009/layout.css 0644
+pub/System/PatternSkinTheme2009/popup.gif 0644
 pub/System/PatternSkinTheme2009/style.css 0644
 pub/System/PatternSkinTheme2009/top_bar_gradient.png 0644
 pub/System/PatternSkinTheme2009/TWiki_header.gif 0644
@@ -124,7 +125,6 @@ pub/System/PatternSkinTheme2009/variant_foswiki.css 0644
 pub/System/PatternSkinTheme2009/variant_twiki.css 0644
 data/System/PatternSkinThemeFatWilly.txt 0644
 data/System/PatternSkinThemeFatWillyNavigation.txt 0644
-pub/System/PatternSkinThemeFatWilly/attach.gif 0644
 pub/System/PatternSkinThemeFatWilly/bg_button_gradient.gif 0644
 pub/System/PatternSkinThemeFatWilly/bg_buttoncancel_gradient.gif 0644
 pub/System/PatternSkinThemeFatWilly/bg_submit_gradient.gif 0644
@@ -137,19 +137,10 @@ pub/System/PatternSkinThemeFatWilly/header-left.gif 0644
 pub/System/PatternSkinThemeFatWilly/header.gif 0644
 pub/System/PatternSkinThemeFatWilly/layout.css 0644
 pub/System/PatternSkinThemeFatWilly/menu_background.gif 0644
-pub/System/PatternSkinThemeFatWilly/page_white_add.gif 0644
-pub/System/PatternSkinThemeFatWilly/page_white_stack.gif 0644
-pub/System/PatternSkinThemeFatWilly/pencil.gif 0644
-pub/System/PatternSkinThemeFatWilly/printer.gif 0644
-pub/System/PatternSkinThemeFatWilly/screenshot_full.png 0644
-pub/System/PatternSkinThemeFatWilly/screenshot.jpg 0644
 pub/System/PatternSkinThemeFatWilly/sidebar_header_background.gif 0644
 pub/System/PatternSkinThemeFatWilly/style.css 0644
-pub/System/PatternSkinThemeFatWilly/supersleight.js 0644 Would fix transparent PNGs on IE6, but does not work, do is disabled
 pub/System/PatternSkinThemeFatWilly/text_align_left.gif 0644
 pub/System/PatternSkinThemeFatWilly/topicactions_background.gif 0644
-pub/System/PatternSkinThemeFatWilly/wrench.gif 0644
-pub/System/PatternSkinThemeFatWilly/x.gif 0644
 templates/attach.pattern.tmpl 0444
 templates/attachagain.pattern.tmpl 0444
 templates/attachnew.pattern.tmpl 0444
