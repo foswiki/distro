@@ -18,12 +18,12 @@ An add-on runs separately from the Foswiki scripts, e.g. for data import, export
 
 ---++ Installing Add-Ons
 
-   * Download an add-on from Foswiki:Extensions.AddOnPackage.
+   * Download an add-on from Foswiki:Extensions.
    * Follow the installation instructions in the add-on topic.
 
 ---++ Creating new Add-Ons
 
-   * Visit Foswiki:Extensions.AddOnPackageHowTo and follow the instructions.
+   * Visit Foswiki:Development/ExtensionDeveloperGuide and follow the instructions.
 
 %STOPINCLUDE%
 ---
