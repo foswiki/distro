@@ -1,0 +1,39 @@
+%META:TOPICINFO{author="ProjectContributor" date="1227770072" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TinyMCEPlugin"}%
+---++!! !TinyMCE FAQs
+
+Frequently Asked Questions of the TinyMCEPlugin integration.
+
+%TOC%
+
+---++ Q: The editor takes over the standard edit screen. That's OK, but how do I get access to the old (textarea) editor?
+A: Foswiki has a 'Edit Wiki Text' link on most screens that gives you access to the plain text editor, so this question is moot. In addition to this there are three ways to temporarily disable !TinyMCE:
+   1 Add=;nowysiwyg=1= to the end of the edit URL to disable it for a single edit,
+   2 =Set NOWYSIWYG = 1= in a web, topic, or personal preferences page to disable the editor for a web, topic or user,
+   3 =Set WYSIWYG_EXCLUDE= as described in WysiwygPlugin to disable the editor subject to certain content (e.g. Foswiki macros, pure Code.HTML etc) being in the page. This can also be set on a web, topic, or personal basis.
+
+---++ Q: How do I *set* a Foswiki macro inside !TinyMCE?
+A:
+   1 Create a list item using the toolbar button
+   1 In the list item, type Set NAME = value
+   1 (Optional) Select the value, and format it using =Protect on save= format.
+Step 3 is required if the value contains TML (The special Foswiki syntax called Topic Markup Language), or if you style it e.g. to add bold, or if it's sensitive to the correct number of spaces.
+
+---++ Q: How can I *protect* content from !TinyMCE?
+A:
+   1 Select the content and select the "Protect forever" format. This will add &lt;sticky>..&lt;/sticky> tags around the content, which don't interfere with display but do prevent WYSIWYG editors from trying to interpret the content as HTML.
+
+---++ Q: How do I *use* a Foswiki macro inside !TinyMCE?
+A: Just type it in. When the topic is saved, what you type will be saved just as you wrote it. If any part of your macro parameters is sensitive to spacing, then select the entire Foswiki macro and assign the ==Protect on save== style to it.
+
+---++ Q: Why doesn't copy-paste work on Internet Explorer?
+A: It does, but you have probably got your security settings in IE set up to disable it. In IE got to Tools->Security->Internet->Custom Level->Allow paste operations via script. If this is set to 'Disable', then all internet applications are blocked from pasting using Javascript. Either enable this option, or add your Foswiki site to the list of Tools->Security->Trusted Sites.
+
+---++ Q: Why do all my popups contain raw HTML?
+A: You probably have your file extensions set up in Apache so that =.htm= files are treated as plain text. Look through your Apache config (including =.htaccess= for the =pub= directory) for a line that says something like: =AddType text/plain .htm= (probably with a bunch of other extensions). You can either remove =.htm= from that list, or you can add a .htaccess for the pub/System/TinyMCEPlugin directory that contains the line =AddType text/html .htm=
+
+---++ Q: I write Foswiki applications. What is safe to edit?
+A: It's impossible to be 100% certain that the use of a WYSIWYG editor will not change existing content such that Foswiki Applications no longer work. The !WysiwygPlugin is set up by default to make it as easy as possible to create new content and import content from other applications. However some Foswiki applications are written such a way that they "just work" - they take silent advantage of the sloppy parser used in TML rendering. Sloppy syntax can break the rules that WYSWYG relies on to be able to interpret TML and present it for editing.
+
+Unfortunately there is no simple way to describe what will, and what won't, work with WYSIWYG. The best tactic is to use the &lt;sticky&gt; tag to protect such content (this tag is automatically applied by the "Protect forever" format).
+

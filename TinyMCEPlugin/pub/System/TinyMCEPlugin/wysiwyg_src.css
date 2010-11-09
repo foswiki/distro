@@ -1,0 +1,44 @@
+.WYSIWYG_LINK {
+	color:blue;
+	text-decoration:underline;
+}
+.WYSIWYG_PROTECTED,
+.WYSIWYG_STICKY,
+.WYSIWYG_LITERAL,
+.TMLverbatim,
+.WYSIWYG_TT {
+	font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
+	font-size:94%;
+}
+.WYSIWYG_PROTECTED {
+	background-image:url("watermark_protect_on_save.gif");
+	color:#7A4707;
+	white-space:pre;
+}
+.WYSIWYG_STICKY {
+	background-image:url("watermark_protect_forever.gif");
+	color:#EE3707;
+	white-space:pre;
+}
+.WYSIWYG_LITERAL {
+	background-image:url("watermark_literal.gif");
+	color:#606060;
+}
+.TMLverbatim {
+	background-image:url("watermark_verbatim.gif");
+	white-space:pre nowrap;
+}
+.WYSIWYG_TT {}
+
+/* Make the text in tables the same size as normal paragraph text */
+.mceContentBody td {
+    font-size:small;
+}
+.mceContentBody table {
+	margin:.25em 0;
+}
+.mceContentBody td,
+.mceContentBody th {
+	padding:.25em;
+	min-width:1em;
+}

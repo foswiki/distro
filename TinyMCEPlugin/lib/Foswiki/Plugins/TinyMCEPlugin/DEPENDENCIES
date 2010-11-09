@@ -1,0 +1,3 @@
+Foswiki::Contrib::BehaviourContrib,>=7682,perl,Javascript module
+Foswiki::Plugins::WysiwygPlugin,>=4315,perl,Translator module
+Foswiki::Plugins::JQueryPlugin,>=6185,perl,jQuery library
