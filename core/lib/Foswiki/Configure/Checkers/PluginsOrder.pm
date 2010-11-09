@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use Foswiki::Configure::Checker ();
+use File::stat;
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
@@ -60,23 +61,41 @@ sub check {
 
             my $found  = 0;
             my $fcount = 0;
+            my %dups   = ();
 
             foreach my $dir ( keys %libs ) {
                 if ( -e "$dir/$enabled/$plugpath.pm" ) {
                     $fcount++;
                     $found = 1;
+                    my $sb = stat("$dir/$enabled/$plugpath.pm");
+                    $dups{$plugpath} .= $this->NOTE(
+                            "$dir/$enabled/$plugpath.pm <br/>&nbsp;&nbsp;Size: "
+                          . $sb->size
+                          . " Modified: "
+                          . scalar localtime $sb->mtime );
                 }
-                $fcount++ if ( -e "$dir/$altmod/$plugpath.pm" );
+                if ( -e "$dir/$altmod/$plugpath.pm" ) {
+                    $fcount++;
+                    my $sb = stat("$dir/$altmod/$plugpath.pm");
+                    $dups{$plugpath} .= $this->NOTE(
+                            "$dir/$altmod/$plugpath.pm <br/>&nbsp;&nbsp;Size: "
+                          . $sb->size
+                          . " Modified: "
+                          . scalar localtime $sb->mtime );
+                }
+            }
+            if ( $fcount > 1 ) {
+                $e .= $this->WARN(
+" $plug found in multiple locations in the library path. Possible obsolete extensions should be removed. Duplicates listed below:"
+                );
+                $e .= $dups{$plugpath};
             }
             $e .= $this->WARN(
-" $plug found in both TWiki and Foswiki library path. Obsolete extensions should be removed."
-            ) if ( $fcount > 1 );
-            $e .= $this->WARN(
-" $mod module is enabled - be sure this is what you want. Foswiki version is also installed."
+" $mod module is enabled - be sure this is what you want. Multiple versions are possibly installed."
             ) if ( $enabled eq 'TWiki' && $fcount > 1 );
             $e .= $this->ERROR(
                 "$mod is enabled in LocalSite.cfg but was not found in the path"
-            ) if (! $found && $Foswiki::cfg{Plugins}{$plug}{Enabled});
+            ) if ( !$found && $Foswiki::cfg{Plugins}{$plug}{Enabled} );
         }
     }
     return $e;
