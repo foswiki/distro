@@ -46,6 +46,12 @@ class="foswikiHelp"
 
 <noautolink><input type="hidden" name="filename" value="%FILENAME%" /> 
 <input class="foswikiInputField" type="file" name="filepath" value="%FILEPATH%" size="70" /></noautolink>
+</div>
+%IF{"context AttachContentPluginEnabled" then="$percntTMPL:P{$quotbatchupload$quot}$percnt"}%%TMPL:END%
+
+%TMPL:DEF{"batchupload"}%<div class="foswikiFormStep">
+---+++ %MAKETEXT{"Upload multiple attachments in one zip file"}%
+<p><input type="checkbox" class="foswikiCheckbox" id="batchupload" checked name="batchupload" %BATCHUPLOADCHECKBOX% /><label for="batchupload">%MAKETEXT{"In case of a zip file, attach all included files to this topic"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Leave unchecked if you wish to attach the zip file itself"}%</span></p>
 </div>%TMPL:END%
 
 %TMPL:DEF{"comment"}%<div class="foswikiFormStep">
