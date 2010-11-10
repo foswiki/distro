@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use File::Spec;
+use FindBin qw( $Bin $Script );
 
 BEGIN {
     if ( defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL} ) {
@@ -16,11 +17,11 @@ BEGIN {
         require Carp;
         $SIG{__DIE__} = \&Carp::confess;
     }
-    my ( $volume, $binDir, $action ) = File::Spec->splitpath(__FILE__);
-    my $setlib = File::Spec->catpath( $volume, $binDir, 'setlib.cfg' );
+    my @path = File::Spec->splitpath($Bin);
+    my $setlib = File::Spec->catfile( @path, 'setlib.cfg' );
     require $setlib;
-    $action =~ s/\..*$//;    # Remove eventual file extension
-    $ENV{FOSWIKI_ACTION} = $action;
+    $Script =~ s/\..*$//;    # Remove optional file extension
+    $ENV{FOSWIKI_ACTION} = $Script;
 }
 
 use Foswiki     ();
