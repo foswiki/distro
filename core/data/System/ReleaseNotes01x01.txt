@@ -677,7 +677,6 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9975][Item9975]] | Plugin module checker finds all duplicates, not just TWiki/Foswiki |
 | [[%BUGS%/Item9980][Item9980]] | Bug found in manage interface |
 | [[%BUGS%/Item9981][Item9981]] | Fix missing and redundant files |
-| [[%BUGS%/Item9983][Item9983]] | Potentially dangerous @INC setting in scripts |
 </noautolink>
 
 ---++ Enhancements
