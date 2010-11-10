@@ -2146,11 +2146,9 @@ sub deleteMostRecentRevision {
     # TODO: delete entry in .changes
 
     # write log entry
-    $this->{_session}->writeLog(
-        'cmd',
+    $this->{_session}->logEvent( 'cmd',
         $this->{_web} . '.' . $this->{_topic},
-        " delRev $rev by " . $this->{_session}->{user}
-    );
+        "delRev $rev by " . $this->{_session}->{user} );
 }
 
 =begin TML
