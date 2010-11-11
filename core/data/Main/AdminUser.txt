@@ -5,7 +5,7 @@
 The %TOPIC% allows you to login without needing to register a user,
 or to temporarily login as %TOPIC% using the password set in configure, and then log back out to the same User and Group as before.
 
-This means it is no longer necessary to add yourself to the AdminGroup, and you will be able to quicky
+This means it is no longer necessary to add yourself to the AdminGroup, and you will be able to quickly
 change to Admin User (and back to your user) only when you need to.
 
 %STARTSECTION{"sudo_login"}%
