@@ -142,23 +142,7 @@ sub _action_createweb {
 
     # Validate and untaint
     $newWeb = Foswiki::Sandbox::untaint(
-        $newWeb,
-        sub {
-            my $newWeb = shift;
-            unless ($newWeb) {
-                throw Foswiki::OopsException( 'attention',
-                    def => 'web_missing' );
-            }
-            unless ( Foswiki::isValidWebName( $newWeb, 1 ) ) {
-                throw Foswiki::OopsException(
-                    'attention',
-                    def    => 'invalid_web_name',
-                    params => [$newWeb]
-                );
-            }
-            return $newWeb;
-        }
-    );
+        $newWeb, \&Foswiki::Sandbox::validateWebName);
 
     # For hierarchical webs, check that parent web exists
     my $parent = undef;    # default is root if no parent web
@@ -166,49 +150,26 @@ sub _action_createweb {
         $parent = $1;
     }
     if ($parent) {
-        unless ( $session->webExists($parent) ) {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'web_creation_error',
-                params => [
-                    $newWeb,
-                    $session->i18n->maketext(
-                        'The [_1] web does not exist', $parent
-                    )
-                ]
-            );
-        }
+	Foswiki::UI::checkWebExists($session, $parent, 'create');
     }
 
     # check permission, user authorized to create web here?
     my $webObject = Foswiki::Meta->new( $session, $parent );
-    unless ( $webObject->haveAccess('CHANGE') ) {
-        throw Foswiki::OopsException(
-            'accessdenied',
-            def    => 'topic_access',
-            web    => $parent,
-            params => [ 'CHANGE', $Foswiki::Meta::reason ]
-        );
-    }
+    Foswiki::UI::checkAccess($session, 'CHANGE', $webObject);
 
     my $baseWeb = $query->param('baseweb') || '';
     $baseWeb =~ s#\.#/#g;    # normalizeWebTopicName does this
 
     # Validate the base web name
     $baseWeb = Foswiki::Sandbox::untaint(
-        $baseWeb,
-        sub {
-            my $baseWeb = shift;
-            unless ( Foswiki::isValidWebName( $baseWeb, 1 ) ) {
-                throw Foswiki::OopsException(
-                    'attention',
-                    def    => 'invalid_web_name',
-                    params => [$baseWeb]
-                );
-            }
-            return $baseWeb;
-        }
-    );
+        $baseWeb, \&Foswiki::Sandbox::validateWebName);
+    unless ( Foswiki::isValidWebName( $baseWeb, 1 ) ) {
+	throw Foswiki::OopsException(
+	    'attention',
+	    def    => 'invalid_web_name',
+	    params => [$query->param('baseweb')||'']
+	    );
+    }
 
     unless ( $session->webExists($baseWeb) ) {
         throw Foswiki::OopsException(
@@ -269,25 +230,25 @@ sub _action_createweb {
     my $newTopic = $query->param('newtopic');
 
     if ($newTopic) {
-
+	my $nonww = Foswiki::isTrue( $query->param('nonwikiword'));
         # Validate
         $newTopic = Foswiki::Sandbox::untaint(
             $newTopic,
             sub {
-                my ( $topic, $nonww ) = @_;
-                if ( !Foswiki::isValidTopicName( $topic, $nonww ) ) {
-                    throw Foswiki::OopsException(
-                        'attention',
-                        web    => $newWeb,
-                        topic  => $newTopic,
-                        def    => 'not_wikiword',
-                        params => [$topic]
-                    );
-                }
-                return $topic;
-            },
-            Foswiki::isTrue( $query->param('nonwikiword') )
+                my $topic = shift;
+		return $topic if Foswiki::isValidTopicName( $topic, $nonww );
+                return;
+            }
         );
+	unless ($newTopic) {
+	    throw Foswiki::OopsException(
+		'attention',
+		web    => $newWeb,
+		topic  => $newTopic,
+		def    => 'not_wikiword',
+		params => [$query->param('newtopic')]
+		);
+	}
     }
 
     # everything OK, redirect to last message
@@ -401,6 +362,7 @@ sub _action_editSettings {
 
     my $topicObject = Foswiki::Meta->load( $session, $web, $topic );
     Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
+    Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
 
     my $settings = "";
 
@@ -436,11 +398,11 @@ sub _action_saveSettings {
     require Foswiki::Meta;
     my $newTopicObject = Foswiki::Meta->load( $session, $web, $topic );
 
+    Foswiki::UI::checkAccess( $session, 'CHANGE', $newTopicObject );
+
     my $query       = $session->{request};
     my $settings    = $query->param('text');
     my $originalrev = $query->param('originalrev');
-
-    Foswiki::UI::checkAccess( $session, 'CHANGE', $newTopicObject );
 
     $newTopicObject->remove('PREFERENCE');    # delete previous settings
         # Note: $Foswiki::regex{setVarRegex} cannot be used as it requires
@@ -507,17 +469,6 @@ sub _action_restoreRevision {
     # read the current topic
     my $meta = Foswiki::Meta->load( $session, $web, $topic );
 
-    if ( !$meta->haveAccess('CHANGE') ) {
-
-        # user has no permission to change the topic
-        throw Foswiki::OopsException(
-            'accessdenied',
-            def    => 'topic_access',
-            web    => $web,
-            topic  => $topic,
-            params => [ 'change', 'denied' ]
-        );
-    }
     $session->{cgiQuery}->delete('action');
     require Foswiki::UI::Edit;
     Foswiki::UI::Edit::edit($session);

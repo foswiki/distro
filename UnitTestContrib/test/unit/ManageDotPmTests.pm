@@ -832,7 +832,6 @@ sub verify_deleteUser {
     };
 }
 
-
 sub test_createDefaultWeb {
     my $this = shift;
     my $newWeb = $this->{test_web}.'NewExtra'; #no, this is not nested
@@ -903,9 +902,108 @@ sub test_createDefaultWeb {
         
         $this->assert_html_equals($eText, $nText);  #.($Foswiki::RELEASE =~ /1\.1\.0/?"\n":''));
     }
-
 }
 
+sub test_saveSettings_allowed {
+    my $this = shift;
+    # Create a test topic
+    my $testTopic = Foswiki::Meta->new($this->{session}, $this->{test_web},
+				       "SaveSettings", <<TEXT);
+Philosophers, philosophers, everywhere,
+   * Set TEXTSET = text set
+   * Local TEXTLOCAL = text local
+But never a one who thinks
+%META:PREFERENCE{name="METASET" type="Set" value="meta set"}%
+%META:PREFERENCE{name="METALOCAL" type="Local" value="meta local"}%
+TEXT
+    $testTopic->save();
+
+    my $query = new Unit::Request(
+        {
+            'action' => ['saveSettings'],
+	    'text' => "Ignore this line\n   * Set NEWSET = new set\n   * Local NEWLOCAL = new local\nIgnore that line",
+	    'originalrev' => 1
+        }
+    );
+    $query->path_info("/$this->{test_web}/SaveSettings");
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    try {
+        my ($stdout, $stderr, $result) = $this->captureWithKey(
+	    manage => $MAN_UI_FN, $this->{session} );
+    } catch Error::Simple with {
+	my $e = shift;
+	$this->assert(0, $e);
+    };
+    $this->{session}->finish();
+
+    $query = new Unit::Request({});
+    $query->path_info("/$this->{test_web}/SaveSettings");
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->assert_equals("text set",
+			 $this->{session}->{prefs}->getPreference('TEXTSET'));
+    $this->assert_equals("text local",
+			 $this->{session}->{prefs}->getPreference('TEXTLOCAL'));
+    $this->assert_null($this->{session}->{prefs}->getPreference('METASET'));
+    $this->assert_null($this->{session}->{prefs}->getPreference('METALOCAL'));
+    $this->assert_equals("new set",
+			 $this->{session}->{prefs}->getPreference('NEWSET'));
+    $this->assert_equals("new local",
+			 $this->{session}->{prefs}->getPreference('NEWLOCAL'));
+}
+
+# try and change the access rights on the fly
+sub test_saveSettings_denied {
+    my $this = shift;
+    # Create a test topic
+    my $testTopic = Foswiki::Meta->new($this->{session}, $this->{test_web},
+				       "SaveSettings");
+    $testTopic->text(<<TEXT);
+Philosophers, philosophers, everywhere,
+   * Set ALLOWTOPICCHANGE = ZeusAndHera
+   * Set TEXTSET = text set
+   * Local TEXTLOCAL = text local
+But never a one who thinks
+%META:PREFERENCE{name="METASET" type="Set" value="meta set"}%
+%META:PREFERENCE{name="METALOCAL" type="Local" value="meta local"}%
+TEXT
+    $testTopic->save();
+    $this->{session}->finish();
+
+    my $query = new Unit::Request(
+        {
+            'action' => ['saveSettings'],
+	    'text' => "Ignore this line\n   * Set NEWSET = new set\n   * Local NEWLOCAL = new local\n   * Set ALLOWTOPICCHANGE = $this->{test_user_wikiname}\nIgnore that line",
+	    'originalrev' => 1
+        }
+    );
+    $query->path_info("/$this->{test_web}/SaveSettings");
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    try {
+        my ($stdout, $stderr, $result) = $this->captureWithKey(
+	    manage => $MAN_UI_FN, $this->{session} );
+    } catch Foswiki::AccessControlException with {
+    } otherwise {
+	$this->assert(0);
+    };
+    $this->{session}->finish();
+
+    $query = new Unit::Request({});
+    $query->path_info("/$this->{test_web}/SaveSettings");
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->assert_equals(
+	"text set", $this->{session}->{prefs}->getPreference('TEXTSET'));
+    $this->assert_equals(
+	"text local", $this->{session}->{prefs}->getPreference('TEXTLOCAL'));
+    $this->assert_equals(
+	"meta set", $this->{session}->{prefs}->getPreference('METASET'));
+    $this->assert_equals(
+	"meta local", $this->{session}->{prefs}->getPreference('METALOCAL'));
+    $this->assert_null($this->{session}->{prefs}->getPreference('NEWSET'));
+    $this->assert_null($this->{session}->{prefs}->getPreference('NEWLOCAL'));
+}
+
+# TODO: need a test for asynchronous merge of an edit save and a settings save
 
 sub test_createEmptyWeb {
     my $this = shift;
