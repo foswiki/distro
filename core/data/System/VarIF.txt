@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarIF
 ---+++ IF{"condition" ...} -- simple conditionals
-   * Evaluate a condition and show one text or another based on the result. See details in IfStatements
+   * Evaluate a condition and show one text or another based on the result. See details in [[IfStatements]].
    * Syntax: <verbatim class="tml">%IF{"CONDITION" then="THEN" else="ELSE"}%</verbatim> shows<br/> ="THEN"= if ="CONDITION"= evaluates to =TRUE=, otherwise ="ELSE"= will be shown
    * Example: <verbatim class="tml"> %IF{"defined FUNFACTOR"
    then="FUNFACTOR is defined"
