@@ -484,7 +484,8 @@ sub finish {
 
 ---++ ObjectMethod session()
 
-Get the session associated with the object when it was created.
+Get the session (Foswiki) object associated with the object when
+it was created.
 
 =cut
 
@@ -526,7 +527,9 @@ sub topic {
 
 ---++ ObjectMethod getPath() -> $objectpath
 
-Get the canonical content access path for the object
+Get the canonical content access path for the object. For example,
+a topic "MyTopic" in subweb "Subweb" of web "Myweb" will have an
+access path "Myweb/Subweb.MyTopic"
 
 =cut
 
@@ -543,7 +546,9 @@ sub getPath {
 =begin TML
 
 ---++ ObjectMethod isSessionTopic() -> $boolean
-Return true if this object refers to the session topic
+Return true if this object refers to the session topic. The session
+topic is established from the path used to invoke Foswiki, for example
+".../view/Myweb/MyTopic" sets "Myweb.MyTopic" as the session topic.
 
 =cut
 
@@ -562,9 +567,12 @@ sub isSessionTopic {
 
 ---++ ObjectMethod getPreference( $key ) -> $value
 
-Get a value for a preference defined in the object. Note that
+Get a value for a preference defined *in* the object. Note that
 web preferences always inherit from parent webs, but topic preferences
 are strictly local to topics.
+
+Note that this is *not* the same as =Foswiki::Func::getPreferencesValue=,
+which is almost certainly what you want to call instead.
 
 =cut
 
@@ -660,7 +668,7 @@ sub stringify {
 
 ---++ ObjectMethod addDependency() -> $this
 
-This establishes a dependency between $this and the
+This establishes a caching dependency between $this and the
 base topic this session is currently rendering. The dependency
 will be asserted during Foswiki::PageCache::cachePage().
 See Foswiki::PageCache::addDependency().
@@ -704,12 +712,13 @@ an error will be thrown.
 $opts is a ref to a hash that contains settings to be modified in
 the web preferences topic in the new web.
 
-#SMELL: there seems to be no reason to call this method 'NewWeb', it can be used to copy into an existing web
-and it does not appear to be unexpectedly destructive.
-perhaps refactor into something that takes a resultset as an input list? (users have asked to be able to copy a SEARCH'd set of topics..)
-
 =cut
 
+# SMELL: there seems to be no reason to call this method 'NewWeb', it can
+# be used to copy into an existing web and it does not appear to be
+# unexpectedly destructive.
+# perhaps refactor into something that takes a resultset as an input list?
+# (users have asked to be able to copy a SEARCH'd set of topics..)
 sub populateNewWeb {
     my ( $this, $templateWeb, $opts ) = @_;
     ASSERT( $this->{_web} && !$this->{_topic}, 'this is not a web object' )
@@ -1548,7 +1557,8 @@ sub forEachSelectedValue {
 
 ---++ ObjectMethod getParent() -> $parent
 
-Gets the TOPICPARENT name.
+Gets the TOPICPARENT name. Safe shortcut for =$meta->get('TOPICPARENT')->{name}
+Returns the emty string if there is no parent.
 
 =cut
 
@@ -1590,6 +1600,7 @@ Render the form contained in the meta for display.
 
 =cut
 
+# SMELL: this is part of the View and should be moved closer to the renderer
 sub renderFormForDisplay {
     my ($this) = @_;
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
@@ -1630,6 +1641,7 @@ is rendered.
 
 =cut
 
+# SMELL: this is part of the View and should be moved closer to the renderer
 sub renderFormFieldForDisplay {
     my ( $this, $name, $format, $attrs ) = @_;
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
