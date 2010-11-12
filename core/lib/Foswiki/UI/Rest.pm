@@ -235,7 +235,7 @@ sub rest {
     }
 
     $session->logEvent( 'rest',
-        $session->{webName} . '.' . $session->{topicName}, '(cached)' );
+        $session->{webName} . '.' . $session->{topicName} );
 
     no strict 'refs';
     my $function = $record->{function};
