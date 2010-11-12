@@ -16,6 +16,7 @@ use Foswiki::Cache;
 use Foswiki::Time;
 use Foswiki::Attrs;
 use Error qw( :try );
+use CGI::Util ();
 
 use constant PAGECACHE_PAGE_KEY    => 'Foswiki::PageCache::';
 use constant PAGECACHE_VARS_KEY    => 'Foswiki::PageCache::Vars::';
@@ -117,7 +118,6 @@ sub genVariationKey {
     my $sessionValues = $session->getLoginManager()->getSessionValues();
     foreach my $key ( keys %$sessionValues ) {
 
-        # SMELL: docu this
         next
           if $key =~
 /^(_.*|VALIDATION|REMEMBER|FOSWIKISTRIKEONE.*|VALID_ACTIONS.*|BREADCRUMB_TRAIL)$/o;
@@ -131,7 +131,6 @@ sub genVariationKey {
     foreach my $key ( $request->param() ) {
 
         # filter out some params that are not relevant
-        # SMELL: needs docu
         next
           if $key =~
 /^(_.*|refresh|foswiki_redirect_cache|logout|style.*|switch.*|topic)$/;
@@ -208,6 +207,7 @@ sub cachePage {
         $lastModified = Foswiki::Time::formatTime( $time, 'http', 'gmtime' );
     }
 
+
     my $headers   = $session->{response}->headers();
     my $status    = $headers->{Status} || 200;
     my $variation = {
@@ -219,6 +219,11 @@ sub cachePage {
         status       => $status,
     };
     $variation->{location} = $headers->{Location} if $status == 302;
+
+    # get cache-expiry preferences and add it to the bucket if available
+    my $expire = $this->{session}->{prefs}->getPreference('CACHEEXPIRE');
+    $variation->{expire} = CGI::Util::expire_calc($expire)
+      if defined $expire;
 
     # store page variation
     $this->{handler}
@@ -255,8 +260,9 @@ sub getPage {
     my $session = $this->{session};
     my $refresh = $session->{request}->param('refresh') || '';
     if ( $refresh eq 'all' ) {
-        $this->{handler}
-          ->clear;    # SMELL: restrict this to admins; put this somewhere else
+
+        # SMELL: restrict this to admins; put this somewhere else
+        $this->{handler}->clear;
         return undef;
     }
     if ( $refresh =~ /on|cache|all/ ) {
@@ -271,8 +277,17 @@ sub getPage {
     # check availability
     my $variationKey = $this->genVariationKey();
 
-    return $this->{handler}
-      ->get( PAGECACHE_PAGE_KEY . $webTopic . $variationKey );
+    my $variation =
+      $this->{handler}->get( PAGECACHE_PAGE_KEY . $webTopic . $variationKey );
+
+    # check expiry date of this entry; return undef if it did expire, not deleted
+    # from cache as it will be recomputed during a normal view cycle
+    return undef
+      if defined($variation)
+          && defined( $variation->{expire} )
+          && $variation->{expire} < time();
+
+    return $variation;
 }
 
 # check if the current page is cacheable
@@ -319,6 +334,7 @@ sub addDependency {
     # exclude invalid topic names
     return unless $depTopic =~ /^[$Foswiki::regex{upperAlpha}]/o;
 
+
     # omit dependencies triggered from inside a dirtyarea
     return if $this->{session}->inContext('dirtyarea');
 
@@ -326,8 +342,14 @@ sub addDependency {
     my $depWebTopic = $depWeb . '.' . $depTopic;
 
     # exclude unwanted dependencies
-    return if $depWebTopic =~ /^($Foswiki::cfg{Cache}{DependencyFilter})$/o;
-
+    if ($depWebTopic =~ /^($Foswiki::cfg{Cache}{DependencyFilter})$/o) {
+      writeDebug("dependency on $depWebTopic ignored by filter $Foswiki::cfg{Cache}{DependencyFilter}")
+        if (TRACE);
+      return;
+    } else {
+      writeDebug("addDependency($depWeb.$depTopic)") if (TRACE);
+    }
+  
     # collect them; defer writing them to the database til we cache this page
     $this->{deps}{$depWebTopic} = 1;
 }

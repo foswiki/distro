@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1285842847" format="1.1" reprev="2" version="2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1289596896" format="1.1" reprev="2" version="3"}%
 ---+!! Page Caching
 
 %TOC%
@@ -45,6 +45,32 @@ of them are either out of scope for Foswiki or simply not available a priori.
 
 There are some things users may have to know to get the best out of the
 Foswiki cache.
+
+---+++ Cache Expiry
+Normally a page will be cached as long as it is valid, that is no newer version needs
+to be rendered. In addition to this basic strategy an expiry date or timespan can
+be added to a page specifying how long the cache entry is valid. When this timespan
+expires will a new page be created from scratch. This renewed page will then replace
+the old one in the cache.
+
+The expiry time can be specified using the =CACHEEXPIRE= preference variable. As usual,
+this variable can be set per topic, per web, or per user as you like. By default the
+expiry time falls back to infinite so that pages are invalidated only by the normal
+displacement strategy. Note that whichever constraint - either the expiry time or the
+refreshing strategy - holds first will the page be refreshed.
+
+The =CACHEEXPIRE= value can be specified using either absolute or relative values.
+Most of the time the relative timespan makes most sense in which case the page is 
+cached for that time and will be recomputed afterwards.
+
+Examples for valid cache expiry values are:
+
+   * +30s: 30 seconds from now
+   * +10m: ten minutes from now
+   * +1h: one hour from now
+   * +3m: in three months
+   * +10y: in ten years time
+   * Thursday, 25-Apr-1999 00:40:33 GMT  at the indicated time & date
 
 <a name="dirtyarea"></a>
 ---+++ Dirty Areas
@@ -114,8 +140,12 @@ There are a few things to keep in mind when caching a page with a SEARCH:
 
 To avoid this effect you can 
 
-   * Put the SEARCH inside a [[#dirtyarea][dirty area]]. This will prevent the SEARCH from being cached.
-   * List the topic with the SEARCH in WEBDEPENDENCIES. Topics in this list will be refreshed whenever a topic in this web is editted.
+   * Specify a =CACHEEXPIRE= timespan after which the SEARCH is performed again; 
+     in the meantime the same cache results will
+     be displayed
+   * Put the SEARCH inside a [[#dirtyarea][dirty area]]. 
+   * List the topic with the SEARCH in WEBDEPENDENCIES. 
+     Topics in this list will be refreshed whenever a topic in this web is editted.
    * Add a refresh button to the page to allow users to manually refresh the page.
 
 Note that page caching doesn't only affect SEARCH. Every other information that changes without the
@@ -167,7 +197,6 @@ installs. In this case you need to be able to distinguish data that is stored
 for this install versus other users of the database. To do this you can set the
 ={Cache}{Namespace}= *EXPERT* setting in =configure= to a name that is unique
 for the configured system. 
-
 
 <a name="#tuning"><a>
 ---+++ Tuning
