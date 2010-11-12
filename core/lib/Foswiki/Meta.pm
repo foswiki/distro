@@ -3441,6 +3441,8 @@ TODO: Soooo.... if we wanted to make a meta->setPreference('VARIABLE', 'Values..
    
 yay :/
 
+TODO: can we move this code into Foswiki::Serialise ?
+
 =cut
 
 sub getEmbeddedStoreForm {

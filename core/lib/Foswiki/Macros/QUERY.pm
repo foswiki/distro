@@ -3,6 +3,7 @@ package Foswiki;
 
 use strict;
 use warnings;
+use Foswiki::Serialise ();
 
 our $evalParser;    # could share $ifParser from IF.pm
 
@@ -11,7 +12,7 @@ sub QUERY {
     my $result;
     my $expr = $params->{_DEFAULT};
     $expr = '' unless defined $expr;
-    my $style = lc( $params->{style} || '' );
+    my $style = lc( $params->{style} || 'default' );
     my $rev = $params->{rev};
 
     # FORMFIELD does its own caching.
@@ -49,8 +50,7 @@ sub QUERY {
     try {
         my $node = $evalParser->parse($expr);
         $result = $node->evaluate( tom => $topicObject, data => $topicObject );
-        my $fn = "_serialise_$style";
-        $result = $this->$fn($result);
+        $result = Foswiki::Serialise::serialise($this, $result, $style);
     }
     catch Foswiki::Infix::Error with {
         my $e = shift;
@@ -63,45 +63,6 @@ sub QUERY {
     };
 
     return $result;
-}
-
-sub _serialise_perl {
-    my ( $this, $result ) = @_;
-    use Data::Dumper ();
-    local $Data::Dumper::Indent = 0;
-    local $Data::Dumper::Terse  = 1;
-    return Data::Dumper->Dump( [$result] );
-}
-
-sub _serialise_json {
-    my ( $this, $result ) = @_;
-    eval "require JSON";
-    if ($@) {
-        return $this->inlineAlert( 'alerts', 'generic',
-            'Perl JSON module is not available' );
-    }
-    return JSON::to_json( $result, { allow_nonref => 1 } );
-}
-
-# Default serialiser
-sub _serialise_ {
-    my ( $this, $result ) = @_;
-    if ( ref($result) eq 'ARRAY' ) {
-
-        # If any of the results is non-scalar, have to perl it
-        foreach my $v (@$result) {
-            if ( ref($v) ) {
-                return _serialise_perl($result);
-            }
-        }
-        return join( ',', @$result );
-    }
-    elsif ( ref($result) ) {
-        return _serialise_perl($result);
-    }
-    else {
-        return defined $result ? $result : '';
-    }
 }
 
 1;

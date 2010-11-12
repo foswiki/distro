@@ -761,6 +761,7 @@ lib/Foswiki/Search/InfoCache.pm 0444
 lib/Foswiki/Search/Node.pm 0444
 lib/Foswiki/Search/Parser.pm 0444
 lib/Foswiki/Search/ResultSet.pm 0444
+lib/Foswiki/Serialise.pm 0444
 lib/Foswiki/Store.pm 0444
 lib/Foswiki/Store/Interfaces/Listener.pm 0444
 lib/Foswiki/Store/Interfaces/QueryAlgorithm.pm 0444
