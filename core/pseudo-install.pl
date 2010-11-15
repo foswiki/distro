@@ -416,6 +416,7 @@ sub generateAlternateVersion {
                 "gzip -c "
               . _cleanPath($file) . " > "
               . _cleanPath($file) . ".gz";
+            local $ENV{PATH} = untaint( $ENV{PATH} );
             trace `$command`;
         }
     }
