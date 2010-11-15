@@ -64,20 +64,17 @@ sub fixture_groups {
             };
         }
 
-        my $package  = $dispatcher->{package} || 'Foswiki::UI';
+        my $package = $dispatcher->{package} || 'Foswiki::UI';
+        eval "require $package" or next;
         my $function = $dispatcher->{function};
-        my $sub      = $package . '::' . $function;
+        my $sub      = $package->can($function);
 
-        #print STDERR "call $sub\n";
-
-        eval <<"SUB";
-sub $script {
-    eval "require \$package" if (defined(\$package));
-	\$UI_FN = \$sub;
-	\$SCRIPT_NAME = \$script;
-}
-SUB
-        die $@ if $@;
+        no strict 'refs';
+        *$script = sub {
+            $UI_FN       = $sub;
+            $SCRIPT_NAME = $script;
+        };
+        use strict 'refs';
     }
 
     return \@groups;
@@ -193,8 +190,8 @@ sub verify_switchboard_function_nonExistantWeb {
     our %expected_status = (
         compare => 302,
         search  => 302,
-        login => 200,
-        logon => 200,
+        login   => 200,
+        logon   => 200,
     );
     $this->assert_num_equals(
         $expected_status{$SCRIPT_NAME} || 666,
