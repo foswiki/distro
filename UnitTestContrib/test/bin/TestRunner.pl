@@ -90,20 +90,22 @@ if ($ENV{FOSWIKI_ASSERTS}) {
 if ($options{-clean}) {
     require File::Path;
     my $rmDir = $Foswiki::cfg{DataDir};
-    opendir( DIR, "$rmDir" );
-    my @x = grep { s/^(Temp.*)/$rmDir\/$1/ } readdir(DIR);
+    opendir( my $dataDir, $rmDir ) or die "Can't open directory $rmDir: $!";
+    my @x = grep { s/^(Temp.*)/$rmDir\/$1/ } readdir($dataDir);
     foreach my $x (@x) {
        ($x) = $x =~ /^(.*)$/;
-        File::Path::rmtree($x) if ($x);
+        File::Path::rmtree($x) if $x;
     }
+    closedir $dataDir;
 
     $rmDir = $Foswiki::cfg{PubDir};
-    opendir( DIR, "$rmDir" );
-    @x = grep { s/^(Temp.*)/$rmDir\/$1/ } readdir(DIR);
+    opendir( my $pubDir, "$rmDir" ) or die "Can't open directory $rmDir: $!";
+    @x = grep { s/^(Temp.*)/$rmDir\/$1/ } readdir($pubDir);
     foreach my $x (@x) {
        ($x) = $x =~ /^(.*)$/;
-        File::Path::rmtree($x) if ($x);
+        File::Path::rmtree($x) if $x;
     }
+    closedir $pubDir;
 }
 
 if (not $options{-worker}) {
