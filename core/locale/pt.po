@@ -11,10 +11,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-28 01:04+0200\n"
 "Last-Translator: Rui Procopio <rui.procopio@gmail.com>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
-"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -1300,7 +1300,8 @@ msgstr "E-mail alterado com sucesso!"
 #: core/templates/messages.tmpl:632
 #, fuzzy
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
-msgstr "ENCODE failed - =type= não pode ser usado juntamente com =old= e =new= "
+msgstr ""
+"ENCODE failed - =type= não pode ser usado juntamente com =old= e =new= "
 
 #: core/templates/messages.tmpl:633
 #, fuzzy

@@ -12,10 +12,10 @@ msgstr ""
 "PO-Revision-Date: 2010-10-28 06:53+0200\n"
 "Last-Translator: Will Norris <will@biohack.net>\n"
 "Language-Team: \n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -507,8 +507,8 @@ msgid ""
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
-"Una nueva contraseña generada por el sistema para su nombre de usuario '%1' "
-"(!WikiName %2) fué envíada a su dirección de correo registrada. Si su "
+"Una nueva contraseña generada por el sistema para su nombre de usuario '%"
+"1' (!WikiName %2) fué envíada a su dirección de correo registrada. Si su "
 "direcciòn de correo electrónico ya no es válida, por favor contacte a %3"
 
 #: core/data/System/WebTemplateTopics.txt:5
@@ -1252,7 +1252,8 @@ msgstr ""
 
 #: core/templates/messages.tmpl:55
 msgid "During move of attachment =%1= to %2 an error was found."
-msgstr "Mientras se movía el archivo adjunto =%1= a %2 un error fue encontrado."
+msgstr ""
+"Mientras se movía el archivo adjunto =%1= a %2 un error fue encontrado."
 
 #: core/templates/messages.tmpl:99
 msgid ""
@@ -2378,8 +2379,7 @@ msgstr "Si no, presione Cancelar."
 #: core/templates/validate.tmpl:37
 msgid "Press OK to confirm that this change was intentional."
 msgstr ""
-"Presione OK para confirmar que se realizó esta modificación "
-"intencionalmente."
+"Presione OK para confirmar que se realizó esta modificación intencionalmente."
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
@@ -2446,7 +2446,8 @@ msgstr "Registrarse"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
 msgid "Registered e-mail addresses for currently logged in user"
-msgstr "Direcciones de correo electrónico para el usuario actualmente conectado"
+msgstr ""
+"Direcciones de correo electrónico para el usuario actualmente conectado"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
 msgid "Registration"
@@ -3269,8 +3270,8 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Este es su nombre escrito como !WikiWord, por ejemplo: !JuanPérez. %BR% [[%"
-"1][Registrar]] si usted no tiene una cuenta aún."
+"Este es su nombre escrito como !WikiWord, por ejemplo: !JuanPérez. %BR% [[%1]"
+"[Registrar]] si usted no tiene una cuenta aún."
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
@@ -3785,7 +3786,8 @@ msgid ""
 "You are trying to perform an action on a topic that does not exist (action '%"
 "1')."
 msgstr ""
-"Está tratando de realizar una acción en un tema que no existe (acción \"%1\")."
+"Está tratando de realizar una acción en un tema que no existe (acción \"%1"
+"\")."
 
 #: core/templates/messages.tmpl:612
 msgid "You are trying to rename a topic that does not exist."
@@ -3988,8 +3990,8 @@ msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
 msgstr ""
-"Su(s) dirección(es) de correo electrónico serán actualizadas a: <noautolink>"
-"%1</noautolink>."
+"Su(s) dirección(es) de correo electrónico serán actualizadas a: <noautolink>%"
+"1</noautolink>."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:51
 msgid ""
