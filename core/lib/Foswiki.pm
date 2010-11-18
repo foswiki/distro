@@ -1618,8 +1618,14 @@ sub new {
     }
     else {
 
-        # Otherwise define it for use in plugins
-        $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/events.log";
+        # Otherwise make sure it is defined for use in plugins,
+        # but don't overwrite the setting from configure, if there is one.
+        # This is especially important when the admin has *chosen*
+        # to use the compatibility logger.
+        if (not defined $Foswiki::cfg{LogFileName})
+        {
+            $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/events.log";
+        }
     }
 
     # Set command_line context if there is no query

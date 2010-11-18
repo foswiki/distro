@@ -720,11 +720,13 @@ $Foswiki::cfg{Log}{Dir} = '$Foswiki::cfg{WorkingDir}/logs';
 # implementation to be used here. Most sites should be OK with the
 # PlainFile logger, which automatically rotates the logs every month.<p />
 # Note: the Foswiki 1.0 implementation of logfiles is still supported,
-# through use of the <tt>Foswiki::Logger::Compatibility</tt> logger. This
-# logger will automatically be selected if configure detects a setting for
-# <tt>{WarningFileName}</tt> in your LocalSite.cfg. You are recommended to
-# change to the PlainFile logger at your earliest convenience by removing this
-# setting from LocalSite.cfg and re-running configure.
+# through use of the <tt>Foswiki::Logger::Compatibility</tt> logger.
+# Foswiki will automatically select the Compatibility logger if it detects
+# a setting for <tt>{WarningFileName}</tt> in your LocalSite.cfg.
+# You are recommended to change to the PlainFile logger at your earliest 
+# convenience by removing <tt>{WarningFileName}</tt>, 
+# <tt>{LogFileName}</tt> and <tt>{DebugFileName}</tt>
+# from LocalSite.cfg and re-running configure.
 $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
 
 # **PERL EXPERT**
