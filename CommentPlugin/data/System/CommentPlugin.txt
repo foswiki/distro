@@ -252,6 +252,7 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  19 Nov 2010 | Foswikitask:Item10050 - CommentPlugin prompt must not add newlines that prevent COMMENT inside TML tables |
 |  21 Oct 2010 | Foswikitask:Item9857 - Restored the !CommentPluginTemplate to how it was before. All the changes done to make it look nice causes many errors. Never again add newlines, never again add trailing \ on existing templates. It does not always work. |
 |  31 Jul 2010 | Foswikitask:Item9415 - Documentation updates |
 |  27 May 2010 | Moved example topic Sandbox.CommentPluginExamples to Sandbox web. | 

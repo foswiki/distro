@@ -141,6 +141,8 @@ sub _handleInput {
         $url = Foswiki::Func::getScriptUrl( $web, $topic, 'save' );
     }
 
+    # Note: Item10050: If CommentPlugin prompt adds newlines then it prevents
+    # COMMENT inside TML tables so avoid cosmetic \n 
     my $noform = $attrs->remove('noform') || '';
     if ( $input !~ m/^%RED%/ ) {
         $input =~ s/%DISABLED%/$disable/g;
@@ -150,42 +152,36 @@ sub _handleInput {
         if ( $disable eq '' ) {
             my $hiddenFields = "";
             $hiddenFields .=
-              "\n" . CGI::hidden( -name => 'comment_action', -value => 'save' );
+              CGI::hidden( -name => 'comment_action', -value => 'save' );
             $hiddenFields .=
-              "\n" . CGI::hidden( -name => 'comment_type', -value => $type );
+              CGI::hidden( -name => 'comment_type', -value => $type );
             if ( defined($silent) ) {
-                $hiddenFields .=
-                  "\n" . CGI::hidden( -name => 'comment_nonotify', value => 1 );
+                $hiddenFields .= 
+                  CGI::hidden( -name => 'comment_nonotify', value => 1 );
             }
             if ($templatetopic) {
-                $hiddenFields .= "\n"
-                  . CGI::hidden(
+                $hiddenFields .= CGI::hidden(
                     -name  => 'comment_templatetopic',
                     -value => $templatetopic
                   );
             }
             if ($location) {
-                $hiddenFields .= "\n"
-                  . CGI::hidden(
+                $hiddenFields .= CGI::hidden(
                     -name  => 'comment_location',
                     -value => $location
                   );
             }
             elsif ($anchor) {
-                $hiddenFields .= "\n"
-                  . CGI::hidden( -name => 'comment_anchor', -value => $anchor );
+                $hiddenFields .= CGI::hidden( -name => 'comment_anchor', -value => $anchor );
             }
             else {
-                $hiddenFields .= "\n"
-                  . CGI::hidden( -name => 'comment_index', -value => $$pidx );
+                $hiddenFields .= CGI::hidden( -name => 'comment_index', -value => $$pidx );
             }
             if ($nopost) {
-                $hiddenFields .= "\n"
-                  . CGI::hidden( -name => 'comment_nopost', -value => $nopost );
+                $hiddenFields .= CGI::hidden( -name => 'comment_nopost', -value => $nopost );
             }
             if ($remove) {
-                $hiddenFields .= "\n"
-                  . CGI::hidden( -name => 'comment_remove', -value => $$pidx );
+                $hiddenFields .= CGI::hidden( -name => 'comment_remove', -value => $$pidx );
             }
             $input .= $hiddenFields;
         }
@@ -199,14 +195,18 @@ sub _handleInput {
             }
         }
         unless ( $noform eq 'on' ) {
-            $input = CGI::start_form(
+        	my $startform = CGI::start_form(
                 -name   => $type . $n,
                 -id     => $type . $n,
                 -action => $url,
                 -method => 'post'
-              )
-              . $input
-              . CGI::end_form();
+               );
+            
+            # Item10050: CGI may add a trailing new line.
+            # This prevents using COMMENT inside TML tables   
+            $startform =~ s/\n$//;
+            
+            $input = $startform . $input . CGI::end_form(); 
         }
     }
     $$pidx++;
