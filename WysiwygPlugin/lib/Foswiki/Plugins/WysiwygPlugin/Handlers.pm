@@ -530,7 +530,7 @@ sub protectedByAttr {
         my $protection =
           Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_STICKYBITS')
           || <<'DEFAULT';
-.*=id,lang,title,dir,on.*;
+(?!img).*=id,lang,title,dir,on.*;
 a=accesskey,coords,shape,target;
 bdo=dir;
 br=clear;
@@ -750,8 +750,8 @@ sub _restHTML2TML {
         {
             web             => $session->{webName},
             topic           => $session->{topicName},
-            getViewUrl      => \&getViewUrl,
-            expandVarsInURL => \&expandVarsInURL,
+            convertImage => \&_convertImage,
+            rewriteURL   => \&postConvertURL,
             very_clean      => 1,
         }
     );
