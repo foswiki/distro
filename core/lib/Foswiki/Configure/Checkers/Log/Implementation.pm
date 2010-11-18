@@ -11,14 +11,36 @@ sub check {
     my ( $this, $value, $root ) = @_;
     my $mess = '';
 
-    if ( defined $Foswiki::cfg{LogFileName}
-        && $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' )
-    {
-        $root->{valuer}->{values}->{Log}{Implementation} =
-          'Foswiki::Logger::Compatibility';
+    if ( $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' ) {
+
+        # Look for legacy logger settings
+        my @legacyLoggerFilenames;
+        foreach my $setting (qw/LogFileName WarningFileName DebugFileName/) {
+            push @legacyLoggerFilenames, $setting
+              if defined $Foswiki::cfg{$setting};
+        }
+
+        # Select the compatibility logger and warn about it,
+        # if any legacy logger settings were found
+        if (@legacyLoggerFilenames) {
+            $Foswiki::cfg{Log}{Implementation} =
+              'Foswiki::Logger::Compatibility';
+
+            if ( scalar(@legacyLoggerFilenames) > 1 ) {
+                my $lastFilename = pop @legacyLoggerFilenames;
+                $mess .=
+                  $this->WARN( "Found settings for "
+                      . join( ", ", @legacyLoggerFilenames )
+                      . " and $lastFilename in LocalSite.cfg, "
+                      . "so I have automatically selected the Compatibility logger. "
+                  );
+            }
+            else {
         $mess .= $this->WARN(
-"Found a setting for LogFileName in LocalSite.cfg, so I have automatically selected the Compatibility logger. "
+"Found a setting for $legacyLoggerFilenames[0] in LocalSite.cfg, so I have automatically selected the Compatibility logger. "
         );
+            }
+        }
     }
     return $mess;
 }

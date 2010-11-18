@@ -209,16 +209,18 @@ sub _expandDATE {
 sub _getLogForLevel {
     my $level = shift;
     my $log;
+    my $defaultLogDir = '';
+    $defaultLogDir = "$Foswiki::cfg{DataDir}/" if $Foswiki::cfg{DataDir};
     if ( $level eq 'debug' ) {
-        $log = $Foswiki::cfg{DebugFileName} || 'debug%DATE%.txt';
+        $log = $Foswiki::cfg{DebugFileName} || $defaultLogDir.'debug%DATE%.txt';
     }
     elsif ( $level eq 'info' ) {
-        $log = $Foswiki::cfg{LogFileName} || 'log%DATE%.txt';
+        $log = $Foswiki::cfg{LogFileName} || $defaultLogDir.'log%DATE%.txt';
     }
     else {
         ASSERT( $level =~ /^(warning|error|critical|alert|emergency)$/ )
           if DEBUG;
-        $log = $Foswiki::cfg{WarningFileName} || 'warn%DATE%.txt';
+        $log = $Foswiki::cfg{WarningFileName} || $defaultLogDir.'warn%DATE%.txt';
     }
 
     # SMELL: Expand should not be needed, except if bin/configure tries
