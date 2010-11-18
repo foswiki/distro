@@ -88,6 +88,9 @@ sub prompt {
     $url = '' if $disabled;
 
     my $noform = $attrs->{noform} || '';
+
+    # Note: Item10050: If CommentPlugin prompt adds newlines then it prevents
+    # COMMENT inside TML tables so avoid cosmetic \n 
     if ( $input !~ m/^%RED%/ ) {
         $input =~ s/%DISABLED%/$disabled ? 'disabled' : '' /ge;
         $input =~ s/%MESSAGE%/$message/g;
@@ -157,14 +160,18 @@ sub prompt {
                 $input = "NOFORM $form $input";
             }
         } else {
-            $input = CGI::start_form(
+        	my $startform = CGI::start_form(
                 -name   => $type . $idx,
                 -id     => $type . $idx,
                 -action => $url,
                 -method => 'post'
-               )
-              . $input
-                . CGI::end_form();
+               );
+            
+            # Item10050: CGI may add a trailing new line.
+            # This prevents using COMMENT inside TML tables   
+            $startform =~ s/\n$//;
+            
+            $input = $startform . $input . CGI::end_form(); 
         }
     }
     return $input;
