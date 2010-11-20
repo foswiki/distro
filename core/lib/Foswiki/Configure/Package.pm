@@ -483,6 +483,7 @@ sub install {
 
             # Everything else
             $err = _moveFile( $this, "$dir/$file", "$target", $perms );
+
             $errors .= $err if ($err);
             $feedback .= "${simulated}Installed:  $file\n";
             next;
