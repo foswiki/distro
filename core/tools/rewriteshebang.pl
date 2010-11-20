@@ -1,12 +1,25 @@
 #!/usr/bin/perl -w
 # See bottom of file for license and copyright information
 # On Unix the -T switch can be used but was removed because it caused trouble
-# on Windows.
+# on Windows.   This script needs to be run with the Foswiki lib on the INC path.
+# perl -I /usr/local/foswiki/lib /usr/local/foswiki/tools/rewriteshebang
+
 use strict;
 use warnings;
 use Cwd;
 use Getopt::Long;
 use Pod::Usage;
+use File::Spec;
+
+use strict;
+
+BEGIN {
+    eval {
+         require Foswiki::Configure::Util;
+         1;
+     } or die "Please run this script as follows:\n\n perl -I /path/to/foswiki/lib rewriteshebang.pl\n  e.g. perl -I ../lib rewriteshebang.pl\n\n $@\n";
+}
+
 
 my $new_path     = '';
 my @default_dir  = ( '../tools', '../bin', );
@@ -94,7 +107,7 @@ Are you sure you want to use this path (y/n)?: ";
     $ENV{"PATH"} = ""; # untainted environment for system call
                        # Unix and Windows path matching without spaces to untain
     if ( $new_path =~
-        /(^(\.)?(\/{1}\w+)+(\.exe)?$|^[[:alpha:]]{1}:(\\{1}\w+)+(\.exe)?$|^perl$)/i )
+        /(^(\.)?(\/[^\/]+)+(\.exe)?$|^[[:alpha:]]:(\\[^\\]+)+(\.exe)?$|^perl$)/i )
     {
         $new_path = "$1";    # untainted variable
         @args      = ( "$new_path", "-Mstrict", "-w", '-e "print $];"' );
@@ -159,7 +172,7 @@ else {
         $ENV{"PATH"} = "";    # untainted environment for system call
            # Unix and Windows path matching on Perl executables to get untainted
         if ( $new_path =~
-/(^(\/{1}\w+)+\/perl(\.exe)?$|^[[:alpha:]]{1}:(\\{1}\w+)+\\perl(\.exe)?$|^perl$)/
+/(^(\/[^\/]+)+\/perl(\.exe)?$|^[[:alpha:]]:(\\[^\\]+)+\\perl(\.exe)?$|^perl$)/
           )
         {
             $new_path = "$1";    # untainted variable
@@ -214,23 +227,18 @@ sub change_files {
 
     foreach my $file (@files) {
         $scanned++;
-        $/ = undef;
-        open( F, "<$file" ) || die $!;
-        my $contents = <F>;
-        close F;
 
-        if ( $contents =~ s/^#!\s*\S+/#!$new_path/s ) {
-            my $mode = ( stat("$file") )[2];
-            chmod( oct(600), "$file" );
-            open( F, ">$file" ) || die $!;
-            print F $contents;
-            close F;
-            chmod( $mode, "$file" );
-            print "$cwd/$file\n";
-            $changed++;
-        }
+        my $rewriteErr = Foswiki::Configure::Util::rewriteShebang(
+          $file,
+          $new_path
+          );
+
+        if ($rewriteErr) {
+            print "$cwd/$file - $rewriteErr \n";
+            }
         else {
             print "$cwd/$file\n";
+            $changed++;
         }
     }
     print "$changed of $scanned files changed\n";
