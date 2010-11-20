@@ -174,7 +174,7 @@ sub _makeTID {
     return $tob->web().'/'.$tob->topic();
 }
 
-# Implements Foswiki::Store::Listener
+# Implements Foswiki::Store::Interfaces::Listener
 sub insert {
     my ($this, $mo) = @_;
 
@@ -211,7 +211,7 @@ sub insert {
     }
 }
 
-# Implements Foswiki::Store::Listener
+# Implements Foswiki::Store::Interfaces::Listener
 sub update {
     my ($this, $old, $new) = @_;
     # SMELL: there's got to be a better way
@@ -219,7 +219,7 @@ sub update {
     $this->insert($new || $old);
 }
 
-# Implements Foswiki::Store::Listener
+# Implements Foswiki::Store::Interfaces::Listener
 sub remove {
     my ($this, $mo) = @_;
 

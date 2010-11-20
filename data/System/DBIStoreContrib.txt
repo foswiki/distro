@@ -6,31 +6,32 @@
 
 %TOC%
 
-*This extension will *not* work with Foswiki 1.1.x or earlier.*
+This extension (currently) implements search operations (query and text search) using the Perl DBI interface to SQL databases. It has been tested with [[http://www.sqlite.org/][SQLite]], the popular lightweight implementation of an SQL relational database, and to a lesser extent with [[][MySQL]].
 
-This extension (currently) implements search operations (query and text search) using [[http://www.sqlite.org/][SQLite]], the popular lightweight implementation of an SQL relational database. It uses the special cache hooks recently added to the Foswiki RCS store to cache topics in the database, and executes %<nop>SEARCH= using SQL. We get over the fact that SQL does not implement all the query search features of Foswiki by _hoisting_ SQL expressions out of the Foswiki search statements, leaving behind only those parts of the expression that SQL can't handle.
+We get over the fact that SQL does not implement all the query search features of Foswiki by _hoisting_ SQL expressions out of the Foswiki search statements, leaving behind only those parts of the expression that SQL can't handle.
 
-*If you are experienced with SQLite and / or other SQL DMBS, you are invited with open arms to contribute to the further development of this extension.*
-
-The extension is currently classed as experimental because it has a number of problems:
-   1 The SQL schema (and the query generator) are (probably) sub-optimal, and require extensive tuning.
-   1 SQLite is fine for small data, but does not scale well. Large data requires use of an industrial strength DB (such as MySQL) instead.
+The extension is currently classed as experimental because the SQL schema (and the query generator) are (probably) sub-optimal, and require extensive tuning.
 
 The longer term goal is to implement a full back-end store using an SQL RDBMS, rather than just a simple cache as at present.
 
-Mapping to another DB *should* be as simple as setting up a different
-DSN, but life is never that simple. Not all DBs imlpement the REGEXP
-operator, for example. Please go ahead and try, though.
+Mapping to another DBMS *should* be as simple as setting up a different
+DSN (but life is rarely that simple. Not all DBs implement the REGEXP
+operator, for example). Please go ahead and try, though.
 
 ---++ Installation Instructions
 
 %$INSTALL_INSTRUCTIONS%
-   * Go to =configure= and set a destination
+   * Go to =configure= and:
+      1 Set a DSN for the contrib in the 'Extensions' section (the default is for sqlite3),
+      1 *For Foswiki > 1.1*, add =Foswiki::Contrib::DBIStoreContrib::Listener= to the ={Store}{Listeners}= *EXPERT* setting in the 'Store' section, *or*
+      1 *For Foswiki 1.1 and earlier*, you should enable the integrated =DBIStorePlugin=.
+      1 Select =Foswiki::Store::SearchAlgorithms::DBIStoreContrib= for the ={Store}{SearchAlgorithm}= setting.
+      1 Select =Foswiki::Store::QueryAlgorithms::DBIStoreContrib= for the ={Store}{QueryAlgorithm}= *EXPERT* setting
 
 ---++ Info
 
 |  Author(s): | Crawford Currie http://c-dot.co.uk |
-|  Copyright: | &copy; |
+|  Copyright: | &copy; 2010 C-Dot Consultants |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |

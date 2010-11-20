@@ -13,16 +13,66 @@ use strict;
 use warnings;
 
 #use Foswiki::Store::Interfaces::QueryAlgorithm ();
+#use Foswiki::Store::Interfaces::SearchAlgorithm ();
 #@ISA = ( 'Foswiki::Store::Interfaces::QueryAlgorithm' );
 
 use Foswiki::Search::Node      ();
-use Foswiki::Store::Interfaces::SearchAlgorithm ();
 use Foswiki::Meta              ();
 use Foswiki::Search::InfoCache ();
 use Foswiki::Search::ResultSet ();
 use Foswiki::MetaCache         ();
 use Foswiki::Query::Node       ();
 use Foswiki::Contrib::DBIStoreContrib::Listener ();
+
+BEGIN {
+    eval 'require  Foswiki::Store::Interfaces::SearchAlgorithm';
+    if ($@) {
+	# Foswiki 1,1 or earlier
+	require Foswiki::Search::InfoCache;
+	*getListOfWebs = \&Foswiki::Search::InfoCache::_getListOfWebs;
+	*getOptionFilter = sub {
+	    my ($options) = @_;
+
+	    my $casesensitive =
+		defined( $options->{casesensitive} ) ? $options->{casesensitive} : 1;
+
+	    # E.g. "Web*, FooBar" ==> "^(Web.*|FooBar)$"
+	    my $includeTopics;
+	    my $topicFilter;
+	    my $excludeTopics;
+	    $excludeTopics =
+		Foswiki::Search::InfoCache::convertTopicPatternToRegex( $options->{excludeTopics} )
+		if ( $options->{excludeTopics} );
+
+	    if ( $options->{includeTopics} ) {
+		# E.g. "Bug*, *Patch" ==> "^(Bug.*|.*Patch)$"
+		$includeTopics =
+		    Foswiki::Search::InfoCache::convertTopicPatternToRegex( $options->{includeTopics} );
+
+		if ( $casesensitive ) {
+		    $topicFilter = qr/$includeTopics/;
+		}
+		else {
+		    $topicFilter = qr/$includeTopics/i;
+		}
+	    }
+
+	    return sub {
+		my $item = shift;
+		return 0 unless !$topicFilter || $item =~ /$topicFilter/;
+		if ( defined $excludeTopics ) {
+		    return 0 if $item =~ /$excludeTopics/;
+		    return 0 if !$casesensitive && $item =~ /$excludeTopics/i;
+		}
+		return 1;
+	    }
+	}
+    } else {
+	# Foswiki > 1.1
+	*getListOfWebs = \&Foswiki::Store::Interfaces::SearchAlgorithm::getListOfWebs;
+	*getOptionFilter = \&Foswiki::Search::InfoCache::getOptionFilter;
+    }
+}
 
 # Debug prints
 use constant MONITOR => 0;
@@ -43,8 +93,7 @@ sub query {
     my $webNames = $options->{web}       || '';
     my $recurse  = $options->{'recurse'} || '';
     my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
-    my @webs = Foswiki::Store::Interfaces::SearchAlgorithm::getListOfWebs(
-        $webNames, $recurse, $searchAllFlag );
+    my @webs = getListOfWebs( $webNames, $recurse, $searchAllFlag );
 
     my @interestingWebs;
     foreach my $web (@webs) {
@@ -104,7 +153,7 @@ sub query {
 
     my $topicSet = Foswiki::Contrib::DBIStoreContrib::Listener::query(
         $session, $sql );
-    my $filter = Foswiki::Search::InfoCache::getOptionFilter($options);
+    my $filter = getOptionFilter($options);
 
     # Collate results into one-per-web result sets to mimic the old
     # per-web search behaviour.

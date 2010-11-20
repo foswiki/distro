@@ -52,6 +52,15 @@ use Foswiki::Query::Node ();
 
 use constant MONITOR => 0;
 
+# MUST BE KEPT IN LOCKSTEP WITH Foswiki::Infix::Node
+# Declared again here because the constants are not defined
+# in Foswiki 1.1 and earlier
+use constant {
+    NAME   => 1,
+    NUMBER => 2,
+    STRING => 3,
+};
+
 =begin TML
 
 ---++ ObjectMethod hoist($query) -> $sql_statement
@@ -84,17 +93,17 @@ sub hoist {
         my $lhs = hoist( $node->{params}[0], "${indent}l" );
         my $rhs = _hoistB( $node->{params}[1], "${indent}r" );
         if ( $lhs && $rhs ) {
-            $node->makeConstant(Foswiki::Infix::Node::NUMBER, 1);
+            $node->makeConstant(NUMBER, 1);
             print STDERR "${indent}L&R\n" if MONITOR;
             return "($lhs) AND ($rhs)";
         }
         elsif ( $lhs ) {
-            $node->{params}[0]->makeConstant(Foswiki::Infix::Node::NUMBER, 1);
+            $node->{params}[0]->makeConstant(NUMBER, 1);
             print STDERR "${indent}L\n" if MONITOR;
             return $lhs;
         }
         elsif ($rhs) {
-            $node->{params}[1]->makeConstant(Foswiki::Infix::Node::NUMBER, 1);
+            $node->{params}[1]->makeConstant(NUMBER, 1);
             print STDERR "${indent}R\n" if MONITOR;
             return $rhs;
         }
@@ -102,7 +111,7 @@ sub hoist {
     else {
         my $or = _hoistB($node, "${indent}|");
         if ($or) {
-            $node->makeConstant(Foswiki::Infix::Node::NUMBER, 1);
+            $node->makeConstant(NUMBER, 1);
             return $or;
         }
     }
@@ -244,10 +253,8 @@ sub _hoistValue {
     } elsif ( $op eq '.' ) {
         my $lhs = $node->{params}[0];
         my $rhs = $node->{params}[1];
-        if (   !ref( $lhs->{op} )
-            && !ref( $rhs->{op} )
-            && $lhs->{op} eq Foswiki::Infix::Node::NAME
-            && $rhs->{op} eq Foswiki::Infix::Node::NAME )
+        if (   !ref( $lhs->{op} ) && !ref( $rhs->{op} )
+            && $lhs->{op} == NAME && $rhs->{op} == NAME )
         {
             $lhs = $lhs->{params}[0];
             $rhs = $rhs->{params}[0];
@@ -274,8 +281,7 @@ sub _hoistValue {
                     "FIELD")
         }
     }
-    elsif ( !ref( $node->{op} )
-              && $node->{op} eq Foswiki::Infix::Node::NAME ) {
+    elsif ( !ref( $node->{op} ) && $node->{op} == NAME ) {
         # A simple name
         if ( $node->{params}[0] =~ /^(name|web|text|raw)$/ ) {
 
@@ -298,8 +304,8 @@ sub _hoistConstant {
 
     if (
         !ref( $node->{op} )
-        && (   $node->{op} eq Foswiki::Infix::Node::STRING
-            || $node->{op} eq Foswiki::Infix::Node::NUMBER )
+        && (   $node->{op} == STRING
+            || $node->{op} == NUMBER )
       )
     {
         return $node->{params}[0];
