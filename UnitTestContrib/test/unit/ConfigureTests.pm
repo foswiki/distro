@@ -852,9 +852,11 @@ sub test_Util_rewriteShebang {
     _doRewriteTest( $this, $tempdir, '#!/usr/bin/perl -wT',
         '/usr/bin/perl', '#! /usr/bin/perl -wT' );
     _doRewriteTest( $this, $tempdir, '#! /usr/bin/perl -wT',
+        '/usr/bin/perl', '#! /usr/bin/perl -wT', 'No change required' );
+    _doRewriteTest( $this, $tempdir, '#!/usr/bin/perl -wT',
         '/usr/bin/perl', '#! /usr/bin/perl -wT' );
     _doRewriteTest( $this, $tempdir, '#! /usr/bin/perl ',
-        '/usr/bin/perl', '#! /usr/bin/perl ' );
+        '/usr/bin/perl', '#! /usr/bin/perl ', 'No change required' );
     _doRewriteTest( $this, $tempdir, '#! /usr/bin/perl -wT ',
         '/my/bin/perl', '#! /my/bin/perl -wT ' );
     _doRewriteTest(
