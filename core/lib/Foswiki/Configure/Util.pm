@@ -591,6 +591,8 @@ sub rewriteShebang {
       ( substr( $contents, $perlIdx - 1, 1 ) eq ' ' ? '' : ' ' )
       . "$newShebang";
 
+    return "No change required" if ($match eq $newShebang && substr( $contents, $perlIdx - 1, 1 ) eq ' ');
+
     my $mode = ( stat($file) )[2];
     $file =~ /(.*)/;
     $file = $1;
