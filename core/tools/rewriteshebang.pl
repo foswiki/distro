@@ -223,7 +223,9 @@ sub change_files {
         readdir(D) );
     closedir(D);
 
-    print "\nModified files:\n";
+    print "\nProcessed files:\n";
+
+    @files = sort(@files);
 
     foreach my $file (@files) {
         $scanned++;
