@@ -3,7 +3,7 @@
 ---+ A List of Wiki Administrator Documentation
 
    $ [[AccessControl]] : Restricting read and write access to topics and webs, by users and groups
-   $ [[TopicUserMappingContrib]] : This describes the default Topic User Mapping. It describes the mapping between login and WikiName done using the WikiUsers topic in the %USERSWEB% web
+   $ [[TopicUserMappingContrib]] : This describes the default Topic User Mapping. It describes the mapping between login and WikiName done using the %USERSWEB%.WikiUsers topic in the %USERSWEB% web
    $ [[AdminSkillsAssumptions]] : Recommended skils the system administrator should have to administrate a Foswiki installation
    $ [[AdminToolsCategory]] : List of tools available to the Foswiki administrator
    $ [[CommandAndCGIScripts]] : These scripts are located in the bin and tools directories. This topic describes the interfaces to some of those scripts
