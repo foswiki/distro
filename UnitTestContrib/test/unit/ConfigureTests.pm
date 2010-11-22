@@ -44,14 +44,15 @@ sub set_up {
     $webObject = Foswiki::Meta->new( $this->{session}, $this->{sandbox_web} );
     $webObject->populateNewWeb();
     $this->{sandbox_subweb} = 'Testsandboxweb1234/Subweb';
-    $webObject = Foswiki::Meta->new( $this->{session}, $this->{sandbox_subweb} );
+    $webObject =
+      Foswiki::Meta->new( $this->{session}, $this->{sandbox_subweb} );
     $webObject->populateNewWeb();
     $this->{tempdir} = $Foswiki::cfg{TempfileDir} . '/test_ConfigureTests';
     mkpath( $this->{tempdir} );
-    $this->{scriptdir} = $Foswiki::cfg{TempfileDir} . '/bin';
+    $this->{scriptdir}       = $Foswiki::cfg{TempfileDir} . '/bin';
     $Foswiki::cfg{ScriptDir} = $this->{scriptdir};
-    $this->{toolsdir} = $Foswiki::cfg{TempfileDir} . '/tools';
-    $Foswiki::cfg{ToolsDir} = $this->{toolsdir};
+    $this->{toolsdir}        = $Foswiki::cfg{TempfileDir} . '/tools';
+    $Foswiki::cfg{ToolsDir}  = $this->{toolsdir};
 
     $Foswiki::cfg{TrashWebName}   = $this->{trash_web};
     $Foswiki::cfg{SandboxWebName} = $this->{sandbox_web};
@@ -768,8 +769,8 @@ sub test_Util_getPerlLocation {
     $Foswiki::cfg{ScriptDir} = "$tempdir/";
     my $holdsfx = $Foswiki::cfg{ScriptSuffix};
 
-    _doLocationTest( $this, $tempdir, '',
-        '' );    # Test with missing bin/configure file
+    _doLocationTest( $this, $tempdir, '', '' )
+      ;    # Test with missing bin/configure file
 
     _doLocationTest( $this, $tempdir, "#!/usr/bin/perl -w -T ",
         "/usr/bin/perl" );
@@ -810,7 +811,8 @@ sub test_Util_getPerlLocation {
 Test file data
 DONE
 
-    $this->assert_str_equals( '/a/b/perl', Foswiki::Configure::Util::getPerlLocation("$tempdir/loctestf"));
+    $this->assert_str_equals( '/a/b/perl',
+        Foswiki::Configure::Util::getPerlLocation("$tempdir/loctestf") );
 
     $Foswiki::cfg{ScriptSuffix} = ".pl";
     _doLocationTest( $this, $tempdir, "#!/usr/bin/perl -wT ", "/usr/bin/perl" );
@@ -823,7 +825,7 @@ DONE
 sub _doLocationTest {
     my $this     = shift;
     my $tempdir  = shift;
-    my $shebang   = shift;
+    my $shebang  = shift;
     my $expected = shift;
 
     if ($shebang) {
@@ -844,7 +846,7 @@ sub test_Util_rewriteShebang {
     my $tempdir = $this->{tempdir} . '/test_util_rewriteShebang';
     mkpath($tempdir);
 
-#                                Template File         Shebang to write       Expected line
+#                                    Target Script File       New Shebang        Expected line
     _doRewriteTest( $this, $tempdir, '#!/usr/bin/perl -wT',
         'C:\asdf\perl.exe', '#! C:\asdf\perl.exe -wT' );
     _doRewriteTest( $this, $tempdir, '#!/usr/bin/perl -wT',
@@ -852,26 +854,63 @@ sub test_Util_rewriteShebang {
     _doRewriteTest( $this, $tempdir, '#! /usr/bin/perl -wT',
         '/usr/bin/perl', '#! /usr/bin/perl -wT' );
     _doRewriteTest( $this, $tempdir, '#! /usr/bin/perl ',
-        '/usr/bin/perl', '#! /usr/bin/perl -wT' );
-    _doRewriteTest( $this, $tempdir, '#! /usr/bin/perl',
-        '/usr/bin/perl', '#! /usr/bin/perl -wT' );
-    _doRewriteTest( $this, $tempdir, '#! /usr/bin/perl',
-        '/usr/bin/perl', '#! /usr/bin/perl -wT' );
+        '/usr/bin/perl', '#! /usr/bin/perl ' );
+    _doRewriteTest( $this, $tempdir, '#! /usr/bin/perl -wT ',
+        '/my/bin/perl', '#! /my/bin/perl -wT ' );
     _doRewriteTest(
         $this, $tempdir,
         '#!/usr/bin/perl -wT',
         'C:\Program Files\Active State\perl.exe',
         '#! C:\Program Files\Active State\perl.exe -wT'
     );
+    _doRewriteTest( $this, $tempdir,
+        '#! C:\Program Files\Active State\perl.exe -wT',
+        '/usr/bin/perl', '#! /usr/bin/perl -wT' );
+
+    #  Negative testing
+    _doRewriteTest( $this, $tempdir, '#! ', '/usr/bin/perl', '#! /bin/sh',
+        'Not a perl script' );
+    _doRewriteTest( $this, $tempdir, '#! /bin/sh', '/usr/bin/perl',
+        '#! /bin/sh', 'Not a perl script' );
+    _doRewriteTest( $this, $tempdir, '#!/bin/sh', '/usr/bin/perl', '#!/bin/sh',
+        'Not a perl script' );
+    _doRewriteTest( $this, $tempdir, '#! /bin/sh ', '/usr/bin/perl',
+        '#! /bin/sh ', 'Not a perl script' );
+    _doRewriteTest( $this, $tempdir, '#! /bin/sh ', '', '#! /bin/sh ',
+        'Missing Shebang' );
+    _doRewriteTest( $this, $tempdir, '#perl', '/usr/bin/perl', '',
+        'Not a perl script' );
+    _doRewriteTest(
+        $this, $tempdir, "asdf\n#!/usr/bin/perl", '/usr/bin/perl',
+        '#! /bin/sh What a perl',
+        'Not a perl script'
+    );
+    _doRewriteTest(
+        $this, $tempdir, "\n#!/usr/bin/perl", '/usr/bin/perl',
+        '#! /bin/sh What a perl',
+        'Not a perl script'
+    );
+    _doRewriteTest(
+        $this, $tempdir, "\n#! /usr/bin/perl -wT",
+        '/usr/bin/perl',
+        '#! /bin/sh What a perl',
+        'Not a perl script'
+    );
+
+    my $err = Foswiki::Configure::Util::rewriteShebang(
+        "$tempdir/missing$Foswiki::cfg{ScriptSuffix}",
+        "/usr/shebang" );
+    $this->assert_str_equals( 'Not a file', $err );
 
 }
 
 sub _doRewriteTest {
-    my $this     = shift;
-    my $tempdir  = shift;
-    my $testline = shift;
+    my $this      = shift;
+    my $tempdir   = shift;
+    my $testline  = shift;
     my $shebang   = shift;
-    my $expected = shift;
+    my $expected  = shift;
+    my $errReturn = shift;
 
     open( my $fh, '>', "$tempdir/myscript$Foswiki::cfg{ScriptSuffix}" )
       || die "Unable to open \n $! \n\n ";
@@ -885,8 +924,14 @@ DONE
     my $err = Foswiki::Configure::Util::rewriteShebang(
         "$tempdir/myscript$Foswiki::cfg{ScriptSuffix}", "$shebang" );
 
-   _testShebang($this, "$Foswiki::cfg{ScriptDir}/myscript$Foswiki::cfg{ScriptSuffix}", "$expected");
-
+    if ($errReturn) {
+        $this->assert_str_equals( $errReturn, $err );
+    }
+    else {
+        $this->assert_str_equals( '', $err );
+        _testShebang( $this, "$tempdir/myscript$Foswiki::cfg{ScriptSuffix}",
+            "$expected" );
+    }
 }
 
 sub _testShebang {
@@ -894,16 +939,22 @@ sub _testShebang {
     my $testfile = shift;
     my $expected = shift;
 
-    open( my $bfh, '<',
-        "$testfile" )
-      || return '';
-    my $ShebangLine = <$bfh>;
-    chomp $ShebangLine;
-    close $bfh;
+    my $ShebangLine = '';
+
+    #my $bfh;
+
+    if ( open( my $bfh, '<', "$testfile" ) ) {
+
+        $ShebangLine = <$bfh>;
+        chomp $ShebangLine;
+        close $bfh;
+    }
+    else {
+        die "Open failed $! ";
+    }
 
     $this->assert_str_equals( $expected, $ShebangLine );
 }
-
 
 sub _makefile {
     my $path    = shift;
@@ -1081,10 +1132,12 @@ DONE
 #! /usr/bin/perl
 Test file data
 DONE
-    _makefile( "$tempdir/pub/Sandbox/Subweb/TestTopic43", "file3.att", <<'DONE');
+    _makefile( "$tempdir/pub/Sandbox/Subweb/TestTopic43", "file3.att",
+        <<'DONE');
 Test file data
 DONE
-    _makefile( "$tempdir/pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3", "file4.att", <<'DONE');
+    _makefile( "$tempdir/pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3",
+        "file4.att", <<'DONE');
 Test file data
 DONE
 }
@@ -1166,11 +1219,20 @@ Installed:  MyPlugin_installer
         'Unexpected number of files installed'
     );    # and 5 files installed
 
-   _testShebang($this, "$Foswiki::cfg{ScriptDir}/shbtest1", '#! /my/bin/perl');
-   _testShebang($this, "$Foswiki::cfg{ToolsDir}/shbtest2", '#! /my/bin/perl');
+    _testShebang(
+        $this,
+        "$Foswiki::cfg{ScriptDir}/shbtest1",
+        '#! /my/bin/perl'
+    );
+    _testShebang( $this, "$Foswiki::cfg{ToolsDir}/shbtest2",
+        '#! /my/bin/perl' );
 
-   # Verify that we don't change shebang in attachments
-   _testShebang($this, "$Foswiki::cfg{PubDir}/Sandbox/TestTopic1/file.att", '#! /usr/bin/perl');
+    # Verify that we don't change shebang in attachments
+    _testShebang(
+        $this,
+        "$Foswiki::cfg{PubDir}/$this->{sandbox_web}/TestTopic1/file.att",
+        '#! /usr/bin/perl'
+    );
 
     $pkg->finish();
     undef $pkg;
@@ -1456,9 +1518,9 @@ sub test_Util_createArchive_shellZip {
     _makePackage( "$tempdir/$extbkup", $extension );
 
     eval {
-        local (*STDOUT, *STDERR);
+        local ( *STDOUT, *STDERR );
         use File::Spec;
-        my $blah = system('zip -v >' . File::Spec->devnull() . ' 2>&1');
+        my $blah = system( 'zip -v >' . File::Spec->devnull() . ' 2>&1' );
 
         #print "zip returns $? ($blah) \n";
         die $! unless ( $? == 0 );
@@ -1484,7 +1546,7 @@ sub test_Util_createArchive_shellZip {
         'zip' );
     $this->assert( ( -f $file ),
         "$file does not appear to exist - Create zip archive" );
-    $this->assert( (! -e "$tempdir/$extbkup" ),
+    $this->assert( ( !-e "$tempdir/$extbkup" ),
         "$tempdir was not removed by the archive operation" );
 
     unlink "$tempdir/$extbkup";    # Clean up old files if left behind
@@ -1506,9 +1568,10 @@ sub test_Util_createArchive_shellTar {
     _makePackage( "$tempdir/$extbkup", $extension );
 
     eval {
-        local (*STDOUT, *STDERR);
+        local ( *STDOUT, *STDERR );
         use File::Spec;
-        my $blah = system('tar --version >' . File::Spec->devnull() . ' 2>&1');
+        my $blah =
+          system( 'tar --version >' . File::Spec->devnull() . ' 2>&1' );
 
         #print "tar returns $? ($blah) \n";
         die $! unless ( $? == 0 );
@@ -1534,7 +1597,7 @@ sub test_Util_createArchive_shellTar {
         'tar' );
     $this->assert( ( -f $file ),
         "$file does not appear to exist - Create tar archive" );
-    $this->assert( (! -e "$tempdir/$extbkup" ),
+    $this->assert( ( !-e "$tempdir/$extbkup" ),
         "$tempdir was not removed by the archive operation" );
 
     unlink($file);    # Cleanup for next test
@@ -1580,7 +1643,7 @@ sub test_Util_createArchive_perlTar {
         'Ptar' );
     $this->assert( ( -f $file ),
         "$file does not appear to exist - Create Archive::Tar archive" );
-    $this->assert( (! -e "$tempdir/$extbkup" ),
+    $this->assert( ( !-e "$tempdir/$extbkup" ),
         "$tempdir was not removed by the archive operation" );
 
     unlink "$tempdir/$extbkup";    # Clean up old files if left behind
@@ -1625,7 +1688,7 @@ sub test_Util_createArchive_perlZip {
         'Pzip' );
     $this->assert( ( -f $file ),
         "$file does not appear to exist - Create Archive::Zip archive" );
-    $this->assert( (! -e "$tempdir/$extbkup" ),
+    $this->assert( ( !-e "$tempdir/$extbkup" ),
         "$tempdir was not removed by the archive operation" );
 
     unlink "$tempdir/$extbkup";    # Clean up old files if left behind
