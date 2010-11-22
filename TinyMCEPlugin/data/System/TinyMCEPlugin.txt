@@ -149,6 +149,11 @@ Below is the default configuration. If it is to be modified, it should be copied
     then="%TINYMCEPLUGIN_AUTOSAVE_RETENTION%"
     else="%STARTSECTION{"AUTOSAVE_RETENTION"}%4320m%ENDSECTION{"AUTOSAVE_RETENTION"}%"
 }%",
+"entity_encoding" : "%IF{
+    "defined 'TINYMCEPLUGIN_ENTITY_ENCODING'"
+    then="%TINYMCEPLUGIN_ENTITY_ENCODING%"
+    else="%STARTSECTION{"ENTITY_ENCODING"}%numeric%ENDSECTION{"ENTITY_ENCODING"}%"
+}%",
 "theme_advanced_toolbar_location" : "top",
 "theme_advanced_resize_horizontal" : false,
 "theme_advanced_resizing" : true,
@@ -185,6 +190,7 @@ Example:
 | =NOWYSIWYG= | 0 | If this global setting is set to 1, TinyMCEPlugin (and all other WYSIWYG editors) will be disabled. |
 | =TINYMCEPLUGIN_BAD_BROWSERS= | =(?i-xsm:Konqueror)= | A regular expression that matches the user-agent string of any browser for which !TinyMCE should not be loaded. |
 | =TINYMCEPLUGIN_DEBUG= | 0 | If set to 1, the uncompressed version of !TinyMCE Javascript and CSS sources will be loaded by the browser. Useful for debugging. |
+| =TINYMCEPLUGIN_ENTITY_ENCODING= | %INCLUDE{"%TOPIC%" section="ENTITY_ENCODING"}% | Controls how entities/characters get processed by !TinyMCE. Allowed values: =named, numeric, raw= |
 
 ---+++ Browser Specific Settings
 Additional options may be set for specific browsers. You can define extra options for MSIE, OPERA, GECKO and SAFARI. For example,
@@ -248,11 +254,8 @@ Some notable plugins:
 
 The topic [[TinyMCEFrequentlyAskedQuestions]] contains more help with things like: "How do I configure the buttons in my skin?", "How do I disable the WYSIWYG?" etc.
 
-----
 ---+++ WysiwygPlugin Settings
-TinyMCEPlugin depends on WysiwygPlugin to do the conversions from HTML to TML (Topic Markup Language) and back again. For more information, see WysiwygPlugin.
-%INCLUDE{"%SYSTEMWEB%.WysiwygPluginSettings"}%
-----
+See WysiwygPluginSettings for more information
 
 ---++ Upgrading from TinyMCEPlugin versions prior to 05 Mar 2010 release
 The =TINYMCEPLUGIN_INIT= string needs to be built differently, due to the API change affecting the way custom formats are applied in !TinyMCE 3.3.x since 3.2.x
@@ -270,6 +273,9 @@ If a customised =TINYMCEPLUGIN_INIT= string is in use, it should be re-built bas
       * Work-around: Users may elect to persist with this behaviour, or alternatively, override =TINYMCEPLUGIN_MCEPLUGINS= to omit the =paste= plugin: however, this solution may introduce its own problems.
    * Foswikitask:Item9198 - After inserting new table at top of document: unable to position cursor above
       * Work-around: Use 'Save and continue' or switch to WikiText and back to WYSIWYG again to allow WysiwygPlugin to add an empty =&lt;p/&gt;= above the table
+   * Foswikitask:Item8085 - International characters (example, &Scaron;) are converted to HTML entities (IE. =&amp;Scaron;= or =&amp;#352;=)
+      * Ensure you are using the latest version of WysiwygPlugin.
+      * Work-around: Try changing the =TINYMCEPLUGIN_ENTITY_ENCODING= setting to =raw=. It's possible this may cause problems on older browsers.
 
 ---++ Known Issues of WysiwygPlugin (partial list)
 For the full list, consult [[WysiwygPlugin#Known_issues][WysiwygPlugin documentation]]
@@ -288,7 +294,9 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  ?           | Foswikitask:Item2174: JS fix for deleting encoded-TML-whitespace on Firefox |
+|  22 Nov 2010 | Foswikitask:Item9973: Fix problem where topic names with international characters prevented attach dialogue working correctly<br/> \
+                 Foswikitask:Item8085: Added =TINYMCEPLUGIN_ENTITY_ENCODING= setting; default to =numeric= |
+|  10 Nov 2010 | Foswikitask:Item2174: JS fix for deleting encoded-TML-whitespace on Firefox |
 |  04 Nov 2010 | Foswikitask:Item9706: Upgrade to !TinyMCE 3.3.9.2<br/>\
                  Foswikitask:Item9953: Fix JS error transitioning to !WikiText from fullscreen<br/>\
                  Foswikitask:Item9952: Fix bold & italics buttons not activating on already bolded/italicised text properly<br/>\

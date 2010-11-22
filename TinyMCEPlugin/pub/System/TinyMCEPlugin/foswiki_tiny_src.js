@@ -1,5 +1,6 @@
 /*
   Copyright (C) 2007 Crawford Currie http://wikiring.com and Arthur Clemens
+  Copyright (C) 2010 Foswiki Contributors http://foswiki.org
   All Rights Reserved.
 
   This program is free software; you can redistribute it and/or
@@ -372,14 +373,13 @@ var FoswikiTiny = {
     },
 
     install: function() {
-        // find the TINYMCEPLUGIN_INIT_ENCODED preference
-        var tmce_init = foswiki.getPreference('TINYMCEPLUGIN_INIT_ENCODED');
-        if (tmce_init != null) {
-            eval("tinyMCE.init({" + unescape(tmce_init) + "});");
-            return;
+        // find the TINYMCEPLUGIN_INIT preference
+        if (FoswikiTiny.init) {
+            tinyMCE.init(FoswikiTiny.init);
+        } else {
+            alert(
+'Unable to install TinyMCE: could not read "TINYMCEPLUGIN_INIT" from FoswikiTiny.init');
         }
-        alert(
-"Unable to install TinyMCE; 'TINYMCEPLUGIN_INIT_ENCODED' preference missing");
     },
 
     getTopicPath: function() {
