@@ -64,8 +64,7 @@ sub new {
     my $this = bless( {}, $class );
     $this->{skin} = undef;
 
-    our $foswikiLibPath = $main::foswikiLibPath;
-    $foswikiConfigureFilesDir = "$foswikiLibPath/Foswiki/Configure";
+    $foswikiConfigureFilesDir = "$Foswiki::foswikiLibPath/Foswiki/Configure";
 
     return $this;
 }
