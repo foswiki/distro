@@ -166,15 +166,23 @@ sub _preload {
     my $root = Foswiki::Meta->new($session);
     my $wit = $root->eachWeb();
     while ($wit->hasNext()) {
-        my $w = $wit->next();
-        print STDERR "PRELOAD $w\n" if MONITOR;
-        my $web = Foswiki::Meta->new($session , $w );
-        my $tit = $web->eachTopic();
-        while ($tit->hasNext()) {
-            my $t = $tit->next();
-            my $topic = Foswiki::Meta->load( $session, $w, $t );
-            $this->insert($topic);
-        }
+	$this->_preloadWeb($wit->next(), $session);
+    }
+}
+
+sub _preloadWeb {
+    my ($this, $w, $session) = @_;
+    print STDERR "PRELOAD $w\n" if MONITOR;
+    my $web = Foswiki::Meta->new($session , $w );
+    my $tit = $web->eachTopic();
+    while ($tit->hasNext()) {
+	my $t = $tit->next();
+	my $topic = Foswiki::Meta->load( $session, $w, $t );
+	$this->insert($topic);
+    }
+    my $wit = $web->eachWeb();
+    while ($wit->hasNext()) {
+	$this->_preloadWeb($w + '/' + $wit->next(), $session);
     }
 }
 
