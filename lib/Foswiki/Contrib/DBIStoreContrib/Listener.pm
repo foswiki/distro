@@ -182,7 +182,7 @@ sub _preloadWeb {
     }
     my $wit = $web->eachWeb();
     while ($wit->hasNext()) {
-	$this->_preloadWeb($w + '/' + $wit->next(), $session);
+	$this->_preloadWeb($w . '/' . $wit->next(), $session);
     }
 }
 
