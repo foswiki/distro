@@ -19,7 +19,7 @@ use Foswiki::Meta;
 use Error ':try';
 use Assert;
 
-use constant MONITOR => 1;
+use constant MONITOR => 0;
 
 our $db;
 our @TABLES = keys(%Foswiki::Meta::VALIDATE); # META: types
