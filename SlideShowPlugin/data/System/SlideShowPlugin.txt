@@ -152,6 +152,7 @@ The part between the rulers defines the default format of a slide:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  24 Nov 2010: | 2.1.2: Changed the VarSLIDESHOWSTART so the example does not add to the TOC of the Macros listing |
 |  12 Sep 2010: | 2.1.1: Restored default template to HTML table as the CSS one was unfinished and not at all showing what the plugin can do. Re-added the 20 empty lines after each slide so you do not see the next slide below. Changed from using cover to using skin so the left bar margin in pattern skin is not destroying the layout | 
 |  31 Jul 2010: | Foswikitask:Item9415 - Documentation updates |
 |  17 Jun 2009: | 2.0 Arthur Clemens: optimize to default template and CSS to make the plugin work with older templates. |
