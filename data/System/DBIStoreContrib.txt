@@ -23,10 +23,36 @@ operator, for example). Please go ahead and try, though.
 %$INSTALL_INSTRUCTIONS%
    * Go to =configure= and:
       1 Set a DSN for the contrib in the 'Extensions' section (the default is for sqlite3),
-      1 *For Foswiki > 1.1*, add =Foswiki::Contrib::DBIStoreContrib::Listener= to the ={Store}{Listeners}= *EXPERT* setting in the 'Store' section, *or*
-      1 *For Foswiki 1.1 and earlier*, you should enable the integrated =DBIStorePlugin=.
-      1 Select =Foswiki::Store::SearchAlgorithms::DBIStoreContrib= for the ={Store}{SearchAlgorithm}= setting.
       1 Select =Foswiki::Store::QueryAlgorithms::DBIStoreContrib= for the ={Store}{QueryAlgorithm}= *EXPERT* setting
+      1 *For Foswiki > 1.1* only
+         * add =Foswiki::Contrib::DBIStoreContrib::Listener= to the ={Store}{Listeners}= *EXPERT* setting in the 'Store' section
+         * select =Foswiki::Store::SearchAlgorithms::DBIStoreContrib= for the ={Store}{SearchAlgorithm}= setting
+      1 *For Foswiki 1.1 only*
+         * enable the integrated =DBIStorePlugin=
+         * search -> query mapping is *not* supported
+
+---++ How it works
+---+++ Searches and Queries
+Foswiki has two internal interfaces, "search algorithm" and "query algorithm", that are selected from =configure=. These two interfaces are implemented in a variety of ways in the Foswiki core, but the typical solution is to implement the query interface in terms of the search interface i.e. map _queries_ to regular expression _searches_. This is done by "hoisting" those parts of a query that can be mapped to regular expressions and using those hoisted expressions as a filter to reduce the set of matching topics. The "unhoistable" parts of the query are then applied to the remaining topics using "brute force" to give a final set of matching topics.
+
+The DBIStoreContrib turns this process on its head by mapping _searches_ to SQL _queries_. Most modern RDBMS support regular expression searches, so a text search can be expressed as a regular expression match on a "raw text" field in the DB. Structured queries, on the other hand, are hoisted to extract SQL from the Foswiki query statement.
+
+Note that you don't *have* to use the mapping search algorithm for text searches - if you have a caching full text search implementation (such as Foswiki:Extensions.SolrPlugin) you should be able to continue using that.
+
+---+++ The Database
+The database is used simply as a cache, to accelerate searches. The contrib is designed to work with the standard Foswiki RCS-based store, but can also work with *any* store implementation that calls the =Foswiki::Store::Interfaces::Listener= interface (trunk only at time of writing). It can also hook into the standard plugin handlers for a slightly reduced capability.
+
+The database is interfaced to via the standard Perl DBI interface, so any RDBMS that has an adapter can be used for the cache. This includes most standard SQL RDBMS.
+
+The schema used to represent Foswiki topics is (currently) a 1:1 mapping of the schema described in System.QuerySearch. The same schema could be used to store Foswiki topics in the actual store, and this is one of the longer term goals. Among other things, this would allow us to search topic histories.
+
+---+++ The Code
+Here's an overview of the important bits of the contrib:
+   * =lib/Foswiki/Contrib/DBIStoreContrib/HoistSQL.pm= - code that hoists SQL statements from Foswiki queries
+   * =lib/Foswiki/Contrib/DBIStoreContrib/Listener.pm= - implementation of =Foswiki::Store::Interfaces::Listener= (Foswiki >1.1 only)
+   * =lib/Foswiki/Plugins/DBIStorePlugin.pm= - plugin handlers (Foswiki <=1.1 only)
+   * =lib/Foswiki/Store/QueryAlgorithms/DBIStoreContrib.pm= - the query algorithm
+   * =lib/Foswiki/Store/SearchAlgorithms/DBIStoreContrib.pm= - the search algorithm
 
 ---++ Info
 

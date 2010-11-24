@@ -19,7 +19,7 @@ use Foswiki::Meta;
 use Error ':try';
 use Assert;
 
-use constant MONITOR => 0;
+use constant MONITOR => 1;
 
 our $db;
 our @TABLES = keys(%Foswiki::Meta::VALIDATE); # META: types
@@ -82,8 +82,15 @@ sub _connect {
         $this->{handle}->selectrow_array('SELECT * from metatypes');
     };
     if( $@ ) {
-        $this->_createTables();
-        $this->_preload($session);
+	if ($@ =~ /no such table/) {
+	    print STDERR "Loading DB schema\n" if MONITOR;
+	    $this->_createTables();
+	    print STDERR "DB schema loaded; preload\n" if MONITOR;
+	    $this->_preload($session);
+	    print STDERR "DB preloaded\n" if MONITOR;
+	} else {
+	    die $@;
+	}
     }
 
     print STDERR "connected $this->{handle}\n" if MONITOR;
@@ -93,8 +100,7 @@ sub _connect {
 # Does the table exist in the DB?
 sub _tableExists {
     my ($this, $type) = @_;
-    return 1 if $Foswiki::Meta::VALIDATE{$type}->{_default}
-      || grep { /^$type$/ } @TABLES;
+    return 1 if grep { $type } @TABLES;
     my $check = $this->{handle}->selectcol_arrayref(<<SQL, {}, $type);
 SELECT name FROM 'metatypes' WHERE name=?
 SQL
@@ -116,8 +122,9 @@ SQL
     $this->{handle}->do(<<SQL, {}, $t);
 INSERT INTO 'metatypes' (name) VALUES (?);
 SQL
-    # If it's not a default table, add it to the list of tables.
-    push(@TABLES, $t) unless $Foswiki::Meta::VALIDATE{$t}->{_default};
+    # If it's not a default table, add it to the list of tables (unless it's already
+    # there).
+    push(@TABLES, $t) unless grep { $t } @TABLES;
 }
 
 # Create all the base tables in the DB (including all default META: tables)
@@ -146,7 +153,9 @@ CREATE TABLE 'metatypes' (
 SQL
 
     # Create the tables for each known META: type
+    print STDERR join(', ',@TABLES)."\n";
     foreach my $t (@TABLES) {
+	print STDERR "Creating table for $t\n" if MONITOR;
         $this->_createTableForMETA($t);
     }
 }

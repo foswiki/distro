@@ -61,6 +61,17 @@ use constant {
     STRING => 3,
 };
 
+BEGIN {
+    # Foswiki 1.1 doesn't have makeConstant; monkey-patch it
+    unless (defined &Foswiki::Infix::Node::makeConstant) {
+	*Foswiki::Infix::Node::makeConstant = sub {
+	    my ($this, $type, $val) = @_;
+	    $this->{op} = $type;
+	    $this->{params} = [ $val ];
+	}
+    }
+}
+
 =begin TML
 
 ---++ ObjectMethod hoist($query) -> $sql_statement

@@ -1,6 +1,7 @@
 # Release manifest for DBIStoreContrib
 !noci
 data/System/DBIStoreContrib.txt 0644 Documentation
+data/System/DBIStorePlugin.txt 0644 Documentation
 lib/Foswiki/Contrib/DBIStoreContrib.pm 0644 Perl module
 lib/Foswiki/Contrib/DBIStoreContrib/Config.spec 0644 Configuration
 lib/Foswiki/Contrib/DBIStoreContrib/HoistSQL.pm
