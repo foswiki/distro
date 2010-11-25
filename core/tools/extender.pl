@@ -262,7 +262,7 @@ sub _loadInstaller {
 
     _inform "Package repository set to $PACKAGES_URL \n";
     _inform
-" ... locally found installer scripts and archives will be used if available in $fromDir"
+" ... locally found installer scripts and archives will be used if available"
       if ($reuseOK);
 
     $thispkg =

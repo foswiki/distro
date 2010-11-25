@@ -1191,17 +1191,17 @@ DONE
     ( $result, $err ) = $pkg->install( { DIR => $tempdir, EXPANDED => 1 } );
     $this->assert_str_equals( '', $err );
 
-    my $expresult = "Installed:  bin/shbtest1
-Installed:  data/Sandbox/Subweb/TestTopic43.txt
-Installed:  data/Sandbox/TestTopic1.txt
-Installed:  data/Sandbox/TestTopic43.txt
-Installed:  pub/Sandbox/Subweb/TestTopic43/file3.att
-Installed:  pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att
-Installed:  pub/Sandbox/TestTopic1/file.att
-Installed:  pub/Sandbox/TestTopic43/file.att
-Installed:  pub/Sandbox/TestTopic43/file2.att
-Installed:  tools/shbtest2
-Installed:  MyPlugin_installer
+    my $expresult = "Installed:  bin/shbtest1 as $Foswiki::cfg{ScriptDir}/shbtest1
+Installed:  data/Sandbox/Subweb/TestTopic43.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/Subweb/TestTopic43.txt
+Installed:  data/Sandbox/TestTopic1.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/TestTopic1.txt
+Installed:  data/Sandbox/TestTopic43.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/TestTopic43.txt
+Installed:  pub/Sandbox/Subweb/TestTopic43/file3.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/Subweb/TestTopic43/file3.att
+Installed:  pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/Subweb/TestTopic43/subdir-1.2.3/file4.att
+Installed:  pub/Sandbox/TestTopic1/file.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/TestTopic1/file.att
+Installed:  pub/Sandbox/TestTopic43/file.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/TestTopic43/file.att
+Installed:  pub/Sandbox/TestTopic43/file2.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/TestTopic43/file2.att
+Installed:  tools/shbtest2 as $Foswiki::cfg{ToolsDir}/shbtest2
+Installed:  MyPlugin_installer to $Foswiki::cfg{WorkingDir}/configure/pkgdata
 ";
 
     $this->assert_str_equals( $expresult, $result,
@@ -1254,17 +1254,17 @@ Installed:  MyPlugin_installer
     $result = '';
     ( $result, $err ) = $pkg2->install( { DIR => $tempdir, EXPANDED => 1 } );
 
-    $expresult = "Installed:  bin/shbtest1
+    $expresult = "Installed:  bin/shbtest1 as $Foswiki::cfg{ScriptDir}/shbtest1
 Checked in: data/Sandbox/Subweb/TestTopic43.txt  as $this->{sandbox_subweb}.TestTopic43
 Attached:   pub/Sandbox/Subweb/TestTopic43/file3.att to $this->{sandbox_subweb}/TestTopic43
-Installed:  data/Sandbox/TestTopic1.txt
+Installed:  data/Sandbox/TestTopic1.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/TestTopic1.txt
 Checked in: data/Sandbox/TestTopic43.txt  as $this->{sandbox_web}.TestTopic43
 Attached:   pub/Sandbox/TestTopic43/file.att to $this->{sandbox_web}/TestTopic43
 Attached:   pub/Sandbox/TestTopic43/file2.att to $this->{sandbox_web}/TestTopic43
-Installed:  pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att
-Installed:  pub/Sandbox/TestTopic1/file.att
-Installed:  tools/shbtest2
-Installed:  MyPlugin_installer
+Installed:  pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/Subweb/TestTopic43/subdir-1.2.3/file4.att
+Installed:  pub/Sandbox/TestTopic1/file.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/TestTopic1/file.att
+Installed:  tools/shbtest2 as $Foswiki::cfg{ToolsDir}/shbtest2
+Installed:  MyPlugin_installer to $Foswiki::cfg{WorkingDir}/configure/pkgdata
 ";
 
     my @ifiles2 = $pkg2->listFiles('1');
@@ -1438,24 +1438,23 @@ DONE
         "Unexpected CPAN Dependencies"
     );
 
-    #print $result;
-
     my $expresult = <<HERE;
 Creating Backup of MyPlugin ...
 Nothing to backup 
 Installing MyPlugin... 
-Simulated - Installed:  bin/shbtest1
-Simulated - Installed:  data/Sandbox/Subweb/TestTopic43.txt
-Simulated - Installed:  data/Sandbox/TestTopic1.txt
-Simulated - Installed:  data/Sandbox/TestTopic43.txt
-Simulated - Installed:  pub/Sandbox/Subweb/TestTopic43/file3.att
-Simulated - Installed:  pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att
-Simulated - Installed:  pub/Sandbox/TestTopic1/file.att
-Simulated - Installed:  pub/Sandbox/TestTopic43/file.att
-Simulated - Installed:  pub/Sandbox/TestTopic43/file2.att
-Simulated - Installed:  tools/shbtest2
-Simulated - Installed:  MyPlugin_installer
+Simulated - Installed:  bin/shbtest1 as $Foswiki::cfg{ScriptDir}/shbtest1
+Simulated - Installed:  data/Sandbox/Subweb/TestTopic43.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/Subweb/TestTopic43.txt
+Simulated - Installed:  data/Sandbox/TestTopic1.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/TestTopic1.txt
+Simulated - Installed:  data/Sandbox/TestTopic43.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/TestTopic43.txt
+Simulated - Installed:  pub/Sandbox/Subweb/TestTopic43/file3.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/Subweb/TestTopic43/file3.att
+Simulated - Installed:  pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/Subweb/TestTopic43/subdir-1.2.3/file4.att
+Simulated - Installed:  pub/Sandbox/TestTopic1/file.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/TestTopic1/file.att
+Simulated - Installed:  pub/Sandbox/TestTopic43/file.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/TestTopic43/file.att
+Simulated - Installed:  pub/Sandbox/TestTopic43/file2.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/TestTopic43/file2.att
+Simulated - Installed:  tools/shbtest2 as $Foswiki::cfg{ToolsDir}/shbtest2
+Simulated - Installed:  MyPlugin_installer to $Foswiki::cfg{WorkingDir}/configure/pkgdata
 HERE
+
 
     $this->assert_matches( qr#(.*)$expresult(.*)#, $result,
         "Unexpected Installed files from Simulated fullInstall" );
