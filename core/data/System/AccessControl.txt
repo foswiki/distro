@@ -21,9 +21,8 @@ Open, freeform editing is the essence of WikiCulture - what makes Foswiki differ
 As a *collaboration guideline*, create broad-based Groups (for more and varied input), and avoid creating view-only Users (if you can read it, you should be able to contribute to it).
 
 ---++ Permissions settings of the webs on this Foswiki site
-%INCLUDE{SitePermissions}%
 
-<blockquote class="foswikiHelp">%H% Above table comes from SitePermissions</blockquote>
+The topic [[SitePermissions]] gives you an overview of the access control settings for all your webs.
 
 ---++ Authentication vs. Access Control
 
