@@ -5,6 +5,7 @@ package Foswiki::Configure::Util;
 use strict;
 use warnings;
 
+
 sub getScriptName {
     my @script = File::Spec->splitdir( $ENV{SCRIPT_NAME} || 'THISSCRIPT' );
     my $scriptName = pop(@script);
@@ -131,8 +132,10 @@ sub mapTarget {
     }
     elsif ( $file =~ s#^locale/#$Foswiki::cfg{LocalesDir}/# ) {
     }
+    elsif ( $file =~ s#^lib/#$Foswiki::foswikiLibPath/# ) {
+    }
     elsif ( $file =~
-        s#^bin/(\w+)$#$Foswiki::cfg{ScriptDir}/$1$Foswiki::cfg{ScriptSuffix}# )
+        s#^bin/(.*)$#$Foswiki::cfg{ScriptDir}/$1$Foswiki::cfg{ScriptSuffix}# )
     {
 
         #This makes a couple of bad assumptions
