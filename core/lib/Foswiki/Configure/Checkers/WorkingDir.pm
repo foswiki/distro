@@ -20,6 +20,12 @@ sub check {
     #my $saveumask = umask();
     #umask ( oct(000));
 
+    if ( $mess ) {
+        $mess .= $this->NOTE('This directory will be created after the guessed settings are saved') unless (-d "$Foswiki::cfg{WorkingDir}" );
+        return $mess;   # guess will return message if a guess is made.
+    }
+
+
     unless ( -d "$Foswiki::cfg{WorkingDir}" ) {
         mkdir("$Foswiki::cfg{WorkingDir}", oct(755) )
           || return $this->ERROR(
