@@ -42,6 +42,8 @@ use Error qw(:try);
 use Assert;
 use Foswiki::Configure::Dependency;
 use Foswiki::Configure::Util;
+use File::stat;
+
 
 our $VERSION = '$Rev: 6590 $';
 
@@ -485,7 +487,7 @@ sub install {
             $err = _moveFile( $this, "$dir/$file", "$target", $perms );
 
             $errors .= $err if ($err);
-            $feedback .= "${simulated}Installed:  $file\n";
+            $feedback .= "${simulated}Installed:  $file as $target\n";
             next;
         }
     }
@@ -496,7 +498,7 @@ sub install {
         "$pkgstore/$this->{_pkgname}_installer"
     );
     $errors .= $err if ($err);
-    $feedback .= "${simulated}Installed:  $this->{_pkgname}_installer\n";
+    $feedback .= "${simulated}Installed:  $this->{_pkgname}_installer to $pkgstore\n";
 
     return ( $feedback, $errors );
 
@@ -548,7 +550,7 @@ sub _installAttachments {
               $meta->get( 'FILEATTACHMENT', $key );  # Recover existing Metadata
             $this->{_manifest}->{$file}->{I} =
               1;    # Set this to installed (assuming it all works)
-            my @stats = stat "$dir/$file";
+            my $fstats = stat "$dir/$file";
             my %opts;
             $opts{name} = $key;
             $opts{file} = "$dir/$file";
@@ -556,8 +558,9 @@ sub _installAttachments {
             #$opts{dontlog} = 1;
             $opts{attr}     = $attachinfo->{attr};
             $opts{comment}  = $attachinfo->{comment};
-            $opts{filesize} = $stats[7];
-            $opts{filedate} = $stats[9];
+            $opts{filesize} = $fstats->size;
+            $opts{filedate} = $fstats->mtime;
+            print STDERR "$opts{name} - filesize $opts{filesize}   filedate $opts{filedate} " . scalar localtime( $fstats->mtime ) . "\n";
             $meta->attach(%opts) unless ( $this->{_options}->{SIMULATE} );
             $feedback .= "Attached:   $file to $twebTopic\n";
         }
@@ -645,6 +648,7 @@ sub createBackup {
           unless ( $this->{_options}->{SIMULATE} );
 
         foreach my $file (@files) {
+            my $fstat = stat($file);
             my ($tofile) = $file =~ m/^$root(.*)$/
               ;    # Filename relative to root of Foswiki installation
             next
@@ -656,8 +660,8 @@ sub createBackup {
             if ( scalar(@path) ) {
                 File::Path::mkpath( join( '/', @path ) )
                   unless ( $this->{_options}->{SIMULATE} );
-                my $mode =
-                  ( stat($file) )[2];    # File::Copy doesn't copy permissions
+                my $mode = $fstat->mode;
+                  #( stat($file) )[2];    # File::Copy doesn't copy permissions
                 File::Copy::copy( "$file", "$pkgstore/$tofile" )
                   unless ( $this->{_options}->{SIMULATE} );
                 $mode =~ /(.*)/;
@@ -830,9 +834,15 @@ sub uninstall {
 =begin TML
 
 ---++ loadInstaller ([$options])
-This routine looks for the $extension_installer or 
+This routine looks for the $extension_installer or
 $extension_installer.pl file  and extracts the manifest,
-dependencies and pre/post Exit routines from the installer.  
+dependencies and pre/post Exit routines from the installer.
+
+The local search path is:
+   * Directory passed as parameter,  or root of installation
+      * This directory is _also_ examined for the .pl version of the _installer
+   * The =working/Configure/download= directory (recently downloaded)
+   * The =working/Configure/pkgdata= directory (previously installed)
 
 If the installer is not found and a repository is provided, the
 installer file will be retrieved from the repository.
@@ -865,31 +875,40 @@ sub loadInstaller {
     my $file;
     my $err;
 
+    my $downloadstore  = "$Foswiki::cfg{WorkingDir}/configure/download";
     my $pkgstore  = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
     my $extension = $this->{_pkgname};
     my $warn      = '';
     local $/ = "\n";
 
     if ($uselocal) {
+        #  The root for manually downloaded extensions
         if ( -e "$temproot/${extension}_installer" ) {
             $file = "$temproot/${extension}_installer";
         }
-        else {
-            if ( -e "$temproot/${extension}_installer.pl" ) {
-                $file = "$temproot/${extension}_installer.pl";
-            }
-            else {
-                if ( -e "$pkgstore/${extension}_installer" ) {
-                    $file = "$pkgstore/${extension}_installer";
-                }
-            }
+        elsif ( -e "$temproot/${extension}_installer.pl" ) {
+            $file = "$temproot/${extension}_installer.pl";
         }
-        $warn .= "Unable to find $extension locally in $temproot ..."
-          unless ($file);
+        #  The download directory for previously downloaded extensions
+        elsif ( -e "$downloadstore/${extension}_installer" ) {
+            $file = "$downloadstore/${extension}_installer";
+        }
+        #  The pkgdata directory for previously installed extensions
+        elsif ( -e "$pkgstore/${extension}_installer" ) {
+            $file = "$pkgstore/${extension}_installer";
+        }
+        else {
+        $warn .= "Unable to find $extension locally in $temproot ...";
+        }
     }
 
     if ($file) {
-        $warn .= "Using local $file for package manifest \n";
+        my $sb = stat("$file");
+        $warn .= "Using local $file, Size: "
+          . $sb->size
+          . " Modified: "
+          . scalar localtime( $sb->mtime )
+          . " for package manifest \n";
     }
     else {
         if ( defined $this->{_repository} ) {
