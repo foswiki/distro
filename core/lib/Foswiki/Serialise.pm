@@ -47,13 +47,13 @@ sub default {
         # If any of the results is non-scalar, have to perl it
         foreach my $v (@$result) {
             if ( ref($v) ) {
-                return _serialise_perl($result);
+                return perl($result);
             }
         }
         return join( ',', @$result );
     }
     elsif ( ref($result) ) {
-        return _serialise_perl($result);
+        return perl($result);
     }
     else {
         return defined $result ? $result : '';
