@@ -102,9 +102,10 @@ sub guessMajorDir {
     if ( !$Foswiki::cfg{$cfg} || $Foswiki::cfg{$cfg} eq 'NOT SET' ) {
         require FindBin;
         $FindBin::Bin =~ /^(.*)$/;
-        my @root = File::Spec->splitdir($1);
+        my $scriptDir = $1;
+        my @root = File::Spec->splitdir($scriptDir);
         pop(@root);
-        $Foswiki::cfg{$cfg} = File::Spec->catfile( @root, $dir );
+        $Foswiki::cfg{$cfg} = ( $cfg eq 'ScriptDir') ? $scriptDir : File::Spec->catfile( @root, $dir );
         $Foswiki::cfg{$cfg} =~ s|\\|/|g;
         $msg = $this->guessed();
     }
