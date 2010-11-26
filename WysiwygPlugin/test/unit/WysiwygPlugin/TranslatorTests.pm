@@ -1353,9 +1353,9 @@ hijk',
 hijk',
     },
     {
-        exec => $ROUNDTRIP,
+        exec => $ROUNDTRIP | $HTML2TML | $TML2HTML,
         name => 'variableInIMGtag',
-        html => '<img src="/MAIN/pub/Current/TestTopic/T-logo-16x16.gif" />',
+        html => "<p><img src='$Foswiki::cfg{PubUrlPath}/Current/TestTopic/T-logo-16x16.gif' /></p>",
         tml  => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
         finaltml => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
     },
@@ -2854,6 +2854,7 @@ sub TML_HTMLconverterOptions {
         topic        => 'TestTopic',
         convertImage => \&convertImage,
         rewriteURL   => \&Foswiki::Plugins::WysiwygPlugin::postConvertURL,
+        expandVarsInURL   => \&Foswiki::Plugins::WysiwygPlugin::Handlers::expandVarsInURL,
         dieOnError   => 1,
     };
 }
