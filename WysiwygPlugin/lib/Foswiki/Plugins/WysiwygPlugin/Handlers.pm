@@ -144,6 +144,7 @@ sub afterEditHandler {
 # Invoked to convert HTML to TML (best efforts)
 sub TranslateHTML2TML {
     my ( $text, $topic, $web ) = @_;
+
     # $text must be in encoded in the site charset
     ASSERT( $text !~ /[^\x00-\xff]/,
         "only octets expected in input to TranslateHTML2TML" )
@@ -614,24 +615,25 @@ sub RESTParameter2SiteCharSet {
         $text = Encode::encode_utf8($text);
     }
     else {
+
         # The site charset is a non-UTF-8 8-bit charset
 
         WC::convertNotRepresentabletoEntity($text);
-        # All characters that cannot be represented in the site charset are now encoded as entities
-        # Named entities are used if available, otherwise numeric entities,
-        # because named entities produce more readable TML
 
-        # Encode $text in the site charset
-        # The Encode::FB_HTMLCREF should not be needed, as all characters in $text
-        # are supposed to be representable in the site charset.
-        $text = Encode::encode( WC::encoding(),
-            $text, Encode::FB_HTMLCREF );
+# All characters that cannot be represented in the site charset are now encoded as entities
+# Named entities are used if available, otherwise numeric entities,
+# because named entities produce more readable TML
+
+      # Encode $text in the site charset
+      # The Encode::FB_HTMLCREF should not be needed, as all characters in $text
+      # are supposed to be representable in the site charset.
+        $text = Encode::encode( WC::encoding(), $text, Encode::FB_HTMLCREF );
     }
 
-    # $text is now encoded as per the site charset. 
-    # For UTF-8 - that means octets.
-    # For non-UTF8, Unicode characters that cannot be represented in the site charset
-    # are converted to HTML entities (preferring named entities to numeric entities)
+# $text is now encoded as per the site charset.
+# For UTF-8 - that means octets.
+# For non-UTF8, Unicode characters that cannot be represented in the site charset
+# are converted to HTML entities (preferring named entities to numeric entities)
 
     # The return value is supposed to be according to the currently selected
     # Foswiki site character set, encoded as octets.
@@ -639,6 +641,7 @@ sub RESTParameter2SiteCharSet {
     ASSERT( $text !~ /[^\x00-\xff]/,
         "only octets expected in return value for RESTParameter2SiteCharSet" )
       if DEBUG;
+
     #print STDERR "octets out [". WC::debugEncode($text). "]\n\n";
     return $text;
 }
@@ -654,8 +657,7 @@ sub returnRESTResult {
         "only octets expected in input to returnRESTResult" )
       if DEBUG;
 
-    $text = Encode::decode( WC::encoding(),
-        $text, Encode::FB_HTMLCREF );
+    $text = Encode::decode( WC::encoding(), $text, Encode::FB_HTMLCREF );
 
     #print STDERR "unicodechr[". WC::debugEncode($text). "]\n\n";
 
@@ -739,23 +741,26 @@ sub _restHTML2TML {
         $html2tml = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
     }
     my $html = Foswiki::Func::getCgiQuery()->param('text');
-    #print STDERR "param     [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($html). "]\n\n";
+
+#print STDERR "param     [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($html). "]\n\n";
 
     $html = RESTParameter2SiteCharSet($html);
-    #print STDERR "paraminSC [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($html). "]\n\n";
+
+#print STDERR "paraminSC [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($html). "]\n\n";
 
     $html =~ s/<!--$SECRET_ID-->//go;
     my $tml = $html2tml->convert(
         $html,
         {
-            web             => $session->{webName},
-            topic           => $session->{topicName},
+            web          => $session->{webName},
+            topic        => $session->{topicName},
             convertImage => \&_convertImage,
             rewriteURL   => \&postConvertURL,
-            very_clean      => 1,
+            very_clean   => 1,
         }
     );
-    #print STDERR "tml inSc  [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($tml). "]\n\n";
+
+#print STDERR "tml inSc  [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($tml). "]\n\n";
 
     returnRESTResult( $response, 200, $tml );
     return;    # to prevent further processing
@@ -894,14 +899,9 @@ sub _unquote {
 # Get, and return, a list of attachments using JSON
 sub _restAttachments {
     my ( $session, $plugin, $verb, $response ) = @_;
-    my ( $web, $topic ) =
-      Foswiki::Func::normalizeWebTopicName( undef,
-        Foswiki::Func::getCgiQuery()->param('topic') );
-    $web =
-      Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
-    $topic = Foswiki::Sandbox::untaint( $topic,
-        \&Foswiki::Sandbox::validateTopicName );
+    my ( $web, $topic ) = ( $session->{webName}, $session->{topicName} );
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+
     unless (
         Foswiki::Func::checkAccessPermission(
             'VIEW', Foswiki::Func::getWikiName(),

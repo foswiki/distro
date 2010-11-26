@@ -187,8 +187,9 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
-|  ?           | Foswikitask:Item2174: Protect line breaks within paragraphs in TML <br />
-                 Foswikitask:Item10048: Try to use Macros in the src URLs of images with titles |
+|  26 Nov 2010 | Foswikitask:Item2174: Protect line breaks within paragraphs in TML <br/> \
+                 Foswikitask:Item10048: Try to use Macros in the src URLs of images with titles <br/> \
+                 Foswikitask:Item9973: Fix attachments REST handler to deal with topics named with international characters |
 |  04 Oct 2010 | Foswikitask:Item1391: Protect div and span tags with =style= attributes |
 |  28 Jun 2010 | Foswikitask:Item761, Foswikitask:Item2311, Foswikitask:Item5990, Foswikitask:Item9170: Fix conversion between character encodings. Any characters may be entered in the WYSIWYG editor, regardless of the site's encoding. Where possible, they are converted to the site encoding, otherwise they become entities. <br />\
                  Foswikitask:Item2254: Fix cursor-movement problems on Mozilla browsers (introduced by Foswikitask:Item1798)<br/>\
