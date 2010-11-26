@@ -777,16 +777,7 @@ sub _restUpload {
         returnRESTResult( $response, 405, "Method not Allowed" );
         return;
     }
-    my ( $web, $topic ) =
-      Foswiki::Func::normalizeWebTopicName( undef, $query->param('topic') );
-    $web =
-      Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
-    $topic = Foswiki::Sandbox::untaint( $topic,
-        \&Foswiki::Sandbox::validateTopicName );
-    unless ( defined $web && defined $topic ) {
-        returnRESTResult( $response, 401, "Access denied" );
-        return;    # to prevent further processing
-    }
+    my ( $web, $topic ) = ( $session->{webName}, $session->{topicName} );
     my $hideFile    = $query->param('hidefile')    || '';
     my $fileComment = $query->param('filecomment') || '';
     my $createLink  = $query->param('createlink')  || '';
