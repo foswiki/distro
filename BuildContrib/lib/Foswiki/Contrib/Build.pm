@@ -408,10 +408,12 @@ sub new {
     $this->{INSTALL_INSTRUCTIONS} = <DATA>;
     # Item9416: Implements %$FOSWIKIAUTHORS%. Depends on $/ = undef
     $FOSWIKIAUTHORSFILE = _findRelativeTo($this->{basedir}, $FOSWIKIAUTHORSFILE);
-    open my $authorsfile, '<', $FOSWIKIAUTHORSFILE
-        or die "Couldn't open $FOSWIKIAUTHORSFILE";
-    $this->{FOSWIKIAUTHORS} = <$authorsfile>;
-    close $authorsfile;
+    if ( $FOSWIKIAUTHORSFILE ) {
+        open my $authorsfile, '<', $FOSWIKIAUTHORSFILE
+            or die "Couldn't open $FOSWIKIAUTHORSFILE";
+        $this->{FOSWIKIAUTHORS} = <$authorsfile>;
+        close $authorsfile;
+    }
 
     my $config = $this->_loadConfig();
     my $rep    = $config->{repositories}->{ $this->{project} };
