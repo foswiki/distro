@@ -130,7 +130,10 @@ sub _perlEncodeCharset {
 # they are wide characters, NOT utf-8 encoded
 sub save_test {
     my ( $this, $charset, $input, $expectedOutput, $topicName ) = @_;
-    my ($web, $topic) = Foswiki::Func::normalizeWebTopicName($this->{test_web}, $topicName || 'WysiwygPluginTest');
+    my ( $web, $topic ) =
+      Foswiki::Func::normalizeWebTopicName( $this->{test_web},
+        $topicName || 'WysiwygPluginTest' );
+
     # Is this enough? Regexes are inited before we get here, aren't they?
     $Foswiki::cfg{Site}{CharSet} = $charset;
 
@@ -175,8 +178,7 @@ sub save_test {
         }
     );
 
-    my ( $meta, $out ) =
-      Foswiki::Func::readTopic( $web, $topic );
+    my ( $meta, $out ) = Foswiki::Func::readTopic( $web, $topic );
 
     $out =~ s/\s*$//s;
 

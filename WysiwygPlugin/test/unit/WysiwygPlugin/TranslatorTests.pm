@@ -107,10 +107,10 @@ HERE
         html => $linkon . 'OtherWeb.LinkAtStart' . $linkoff,
     },
     {
-        exec     => $ROUNDTRIP,
-        name     => 'currentWebLinkAtStart',
-        tml      => 'Current.LinkAtStart',
-        html     => $linkon . 'Current.LinkAtStart' . $linkoff,
+        exec => $ROUNDTRIP,
+        name => 'currentWebLinkAtStart',
+        tml  => 'Current.LinkAtStart',
+        html => $linkon . 'Current.LinkAtStart' . $linkoff,
     },
     {
         exec => $ROUNDTRIP,
@@ -146,7 +146,7 @@ HERE
         html => <<HERE,
 <b>reminded about${linkon}http://www.koders.com${linkoff}</b>
 HERE
-        tml      => '*reminded about http://www.koders.com*',
+        tml => '*reminded about http://www.koders.com*',
     },
     {
         exec => $ROUNDTRIP,
@@ -413,8 +413,9 @@ Before &nbsp; After
     {
         exec => $ROUNDTRIP | $TML2HTML,
         name => 'simpleHR',
-        html => '<hr class="TMLhr"/><hr class="TMLhr" style="{numdashes:7}"/><p>--</p>',
-        tml  => <<'HERE',
+        html =>
+'<hr class="TMLhr"/><hr class="TMLhr" style="{numdashes:7}"/><p>--</p>',
+        tml => <<'HERE',
 ---
 -------
 --
@@ -557,7 +558,7 @@ TML
 <ol><li type="i">angel</li><li type="i">&nbsp;</li></ol>
 <p>blah</p>
 HTML
-        finaltml  => <<"TML",
+        finaltml => <<"TML",
    *$trailingSpace
    * alpha
    *$trailingSpace
@@ -674,26 +675,26 @@ HERE
 HERE
     },
     {
-        exec     => $TML2HTML | $HTML2TML | $ROUNDTRIP,
-        name     => 'centeredTableItem5955',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        name => 'centeredTableItem5955',
         html => <<"HTML",
 $deleteme<p>
 <table align="center" border="0"><tbody><tr><td> asdf</td><td>dddd <br /></td></tr><tr><td> next one empty<br /></td><td> </td></tr></tbody></table>
 </p>
 HTML
-        tml      => <<'TML',
+        tml => <<'TML',
 <table align="center" border="0"><tbody><tr><td> asdf</td><td>dddd <br /></td></tr><tr><td> next one empty<br /></td><td> </td></tr></tbody></table>
 TML
     },
     {
-        exec     => $TML2HTML | $ROUNDTRIP,
-        name     => 'literalTableFirst',
-        html => <<"HTML", # SMELL: not valid HTML
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'literalTableFirst',
+        html => <<"HTML",                 # SMELL: not valid HTML
 $deleteme<p>
 <div class="WYSIWYG_LITERAL"><table border='0'><tbody><tr><td> asdf</td></tr></tbody></table></div>
 </p>
 HTML
-        tml      => <<'TML',
+        tml => <<'TML',
 <literal><table border='0'><tbody><tr><td> asdf</td></tr></tbody></table></literal>
 TML
     },
@@ -825,16 +826,16 @@ THERE
         tml  => 'FleegleHorn#TrumpetHack',
     },
     {
-        exec     => $ROUNDTRIP,
-        name     => 'plingedVarOne',
-        html     => '!<span class="WYSIWYG_PROTECTED">%MAINWEB%</span>nowt',
-        tml      => '!%MAINWEB%nowt',
+        exec => $ROUNDTRIP,
+        name => 'plingedVarOne',
+        html => '!<span class="WYSIWYG_PROTECTED">%MAINWEB%</span>nowt',
+        tml  => '!%MAINWEB%nowt',
     },
     {
-        exec     => $ROUNDTRIP,
-        name     => 'plingedVarTwo',
-        html     => 'nowt!<span class="WYSIWYG_PROTECTED">%MAINWEB%</span>',
-        tml      => 'nowt!%MAINWEB%',
+        exec => $ROUNDTRIP,
+        name => 'plingedVarTwo',
+        html => 'nowt!<span class="WYSIWYG_PROTECTED">%MAINWEB%</span>',
+        tml  => 'nowt!%MAINWEB%',
     },
     {
         exec => $ROUNDTRIP,
@@ -1012,7 +1013,7 @@ THERE
         name => 'nestedVerbatim1',
         html => 'Outside
  <span class="TMLverbatim"><br />&nbsp;Inside<br />&nbsp;</span> Outside',
-        tml  => 'Outside <verbatim>
+        tml => 'Outside <verbatim>
  Inside
  </verbatim> Outside',
     },
@@ -1143,7 +1144,7 @@ Snide
         html => 'Outside<pre>
  Inside
     </pre> Outside',
-        tml  => 'Outside<pre>
+        tml => 'Outside<pre>
  Inside
     </pre> Outside',
     },
@@ -1167,20 +1168,20 @@ Inside
  Inside
  <span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>
  Outside</p>',
-        tml  => 'Outside <noautolink> Inside </noautolink> Outside',
+        tml => 'Outside <noautolink> Inside </noautolink> Outside',
     },
     {
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'NAL2',
         html => '<p>Outside'
-. encodedWhitespace('ns1')
-. '<span class="WYSIWYG_PROTECTED">&lt;noautolink&gt;</span>'
-. encodedWhitespace('ns1')
-. 'Inside'
-. encodedWhitespace('ns1')
-. '<span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>'
-. encodedWhitespace('ns1')
-. 'Outside</p>',
+          . encodedWhitespace('ns1')
+          . '<span class="WYSIWYG_PROTECTED">&lt;noautolink&gt;</span>'
+          . encodedWhitespace('ns1')
+          . 'Inside'
+          . encodedWhitespace('ns1')
+          . '<span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>'
+          . encodedWhitespace('ns1')
+          . 'Outside</p>',
         tml => 'Outside
  <noautolink>
  Inside
@@ -1206,14 +1207,13 @@ Inside
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'classifiedNAL2',
         html => '<p>Outside'
-. encodedWhitespace('n')
-. '<span class="WYSIWYG_PROTECTED">&lt;noautolink&nbsp;class="foswikiAlert"&gt;</span></p>
+          . encodedWhitespace('n')
+          . '<span class="WYSIWYG_PROTECTED">&lt;noautolink&nbsp;class="foswikiAlert"&gt;</span></p>
   <ul>
    <li> Inside </li>
   </ul>
 <p><span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>'
-. encodedWhitespace('ns1')
-. 'Outside
+          . encodedWhitespace('ns1') . 'Outside
  </p>',
         tml => 'Outside
 <noautolink class="foswikiAlert">
@@ -1230,12 +1230,12 @@ Inside
  <span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>
  Outside
  ',
-        tml  => 'Outside <noautolink> Inside </noautolink> Outside',
+        tml => 'Outside <noautolink> Inside </noautolink> Outside',
     },
     {
         exec => $ROUNDTRIP,
         name => 'indentedNAL2',
-        tml => 'Outside
+        tml  => 'Outside
     <noautolink>
  Inside
     </noautolink>
@@ -1255,10 +1255,10 @@ Inside
         tml => '---+++ Test with LinkInHeader',
     },
     {
-        exec     => $HTML2TML,
-        name     => 'inlineBreaks',
-        html     => 'Zadoc<br />The<br />Priest',
-        tml      => 'Zadoc<br />The<br />Priest',
+        exec => $HTML2TML,
+        name => 'inlineBreaks',
+        html => 'Zadoc<br />The<br />Priest',
+        tml  => 'Zadoc<br />The<br />Priest',
     },
     {
         exec => $HTML2TML,
@@ -1355,21 +1355,24 @@ hijk',
     {
         exec => $ROUNDTRIP | $HTML2TML | $TML2HTML,
         name => 'variableInIMGtag',
-        html => "<p><img src='$Foswiki::cfg{PubUrlPath}/Current/TestTopic/T-logo-16x16.gif' /></p>",
-        tml  => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
+        html =>
+"<p><img src='$Foswiki::cfg{PubUrlPath}/Current/TestTopic/T-logo-16x16.gif' /></p>",
+        tml      => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
         finaltml => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
     },
     {
         exec => $ROUNDTRIP | $HTML2TML | $TML2HTML,
         name => 'Item9973_cp1251',
+
         # SMELL: Actually, CharSet isn't used, but this test does fail on
         # Foswikirev:10077, whereas it passes with the Item9973 checkins
         # applied. I've left it here anticipating that more weird cases might
         # use such a parameter (no utf8 test cases yet, for example)
         CharSet => 'cp1251',
-        topic => "Test\xc9",
-        html => "<p><img src='$Foswiki::cfg{PubUrlPath}/Current/Test\xc9/T-logo-16x16.gif' /></p>",
-        tml  => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
+        topic   => "Test\xc9",
+        html =>
+"<p><img src='$Foswiki::cfg{PubUrlPath}/Current/Test\xc9/T-logo-16x16.gif' /></p>",
+        tml      => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
         finaltml => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
     },
     {
@@ -1395,26 +1398,26 @@ hijk',
    </pre>
       * Set FLEEGLE = easy gum
 HERE
-        html => '<ul>'.
-                '<li> Set FLIBBLE =<span class="WYSIWYG_PROTECTED">&nbsp;&#60;break&#62;&nbsp;&#60;cake/&#62;<br />'.
-                '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/break&#62;</span></li>'.
-                '<li><span class="WYSIWYG_PROTECTED">%FLIBBLE%</span></li>'.
-                '<li> Set Other=<span class="WYSIWYG_PROTECTED">stuff<br />'.
-                '&nbsp;&nbsp;&nbsp;&lt;sticky&gt;&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;&lt;/sticky&gt;<br />'.
-                '&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;hidden&nbsp;--&gt;<br />'.
-                '&nbsp;&nbsp;&nbsp;http://google.com/#q=foswiki<br />'.
-                '&nbsp;&nbsp;&nbsp;%FOO%&nbsp;WikiWord&nbsp;[[some&nbsp;link]]<br />'.
-                '&nbsp;&nbsp;&nbsp;&lt;img&nbsp;src=&quot;http://mysite.org/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'.
-                '&nbsp;&nbsp;&nbsp;&lt;verbatim&nbsp;class=&quot;tml&quot;&gt;%H%&lt;!--?--&gt;&lt;/verbatim&gt;<br />'.
-                '&nbsp;&nbsp;&nbsp;&lt;literal&gt;&lt;font&nbsp;color="blue"&gt;&nbsp;*|B|*&nbsp;&lt;/font&gt;&lt;/literal&gt;<br />'.
-                '&nbsp;&nbsp;&nbsp;&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'.
-                '&nbsp;&nbsp;&nbsp;&lt;sticky&gt;&nbsp;block&nbsp;&lt;/sticky&gt;<br />'.
-                '&nbsp;&nbsp;&nbsp;&lt;pre&gt;<br />'.
-                '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;123<br />'.
-                '&nbsp;&nbsp;&nbsp;&nbsp;456<br />'.
-                '&nbsp;&nbsp;&nbsp;&lt;/pre&gt;'.
-                '</span>'.
-                '<ul><li>Set FLEEGLE =<span class="WYSIWYG_PROTECTED">&nbsp;easy&nbsp;gum</span></li></ul></li></ul>',
+        html => '<ul>'
+          . '<li> Set FLIBBLE =<span class="WYSIWYG_PROTECTED">&nbsp;&#60;break&#62;&nbsp;&#60;cake/&#62;<br />'
+          . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/break&#62;</span></li>'
+          . '<li><span class="WYSIWYG_PROTECTED">%FLIBBLE%</span></li>'
+          . '<li> Set Other=<span class="WYSIWYG_PROTECTED">stuff<br />'
+          . '&nbsp;&nbsp;&nbsp;&lt;sticky&gt;&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;&lt;/sticky&gt;<br />'
+          . '&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;hidden&nbsp;--&gt;<br />'
+          . '&nbsp;&nbsp;&nbsp;http://google.com/#q=foswiki<br />'
+          . '&nbsp;&nbsp;&nbsp;%FOO%&nbsp;WikiWord&nbsp;[[some&nbsp;link]]<br />'
+          . '&nbsp;&nbsp;&nbsp;&lt;img&nbsp;src=&quot;http://mysite.org/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'
+          . '&nbsp;&nbsp;&nbsp;&lt;verbatim&nbsp;class=&quot;tml&quot;&gt;%H%&lt;!--?--&gt;&lt;/verbatim&gt;<br />'
+          . '&nbsp;&nbsp;&nbsp;&lt;literal&gt;&lt;font&nbsp;color="blue"&gt;&nbsp;*|B|*&nbsp;&lt;/font&gt;&lt;/literal&gt;<br />'
+          . '&nbsp;&nbsp;&nbsp;&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'
+          . '&nbsp;&nbsp;&nbsp;&lt;sticky&gt;&nbsp;block&nbsp;&lt;/sticky&gt;<br />'
+          . '&nbsp;&nbsp;&nbsp;&lt;pre&gt;<br />'
+          . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;123<br />'
+          . '&nbsp;&nbsp;&nbsp;&nbsp;456<br />'
+          . '&nbsp;&nbsp;&nbsp;&lt;/pre&gt;'
+          . '</span>'
+          . '<ul><li>Set FLEEGLE =<span class="WYSIWYG_PROTECTED">&nbsp;easy&nbsp;gum</span></li></ul></li></ul>',
     },
     {
         exec => $HTML2TML,
@@ -1617,8 +1620,7 @@ TML
         exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
         html => '<p>
 Paraone'
-. encodedWhitespace('n')
-. 'Paratwo
+          . encodedWhitespace('n') . 'Paratwo
 </p>
 <p>
 Parathree
@@ -1782,10 +1784,9 @@ FGFG
 <p><span class="WYSIWYG_PROTECTED">&lt;section&gt;</span></p>
 <h2 class="TML">  B </h2>
 <p>C'
-. encodedWhitespace('n')
-. '<span class="WYSIWYG_PROTECTED">&lt;/section&gt;</span>'
-. encodedWhitespace('n')
-. 'X</p>
+          . encodedWhitespace('n')
+          . '<span class="WYSIWYG_PROTECTED">&lt;/section&gt;</span>'
+          . encodedWhitespace('n') . 'X</p>
 ',
         finaltml => <<FGFG,
 ---+ A
@@ -2098,26 +2099,25 @@ nested <sticky> block </sticky>
  456
 </pre></sticky>
 GLUED
-        html => '<p>'.
-                '<div class="WYSIWYG_STICKY">&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;<br />'.
-                '<br />'.
-                '&lt;!--&nbsp;hidden&nbsp;--&gt;<br />'.
-                'http://google.com/#q=foswiki<br />'.
-                '%FOO%&nbsp;WikiWord&nbsp;[[some&nbsp;link]]<br />'.
-                '&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;bar=baz<br />'.
-                '&lt;img&nbsp;src=&quot;%!page!%/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'.
-                '<br />'.
-                '&lt;verbatim&nbsp;class=&quot;tml&quot;&gt;%H%&lt;!--?--&gt;&lt;/verbatim&gt;<br />'.
-                '&lt;literal&gt;&lt;font&nbsp;color="blue"&gt;&nbsp;*|B|*&nbsp;&lt;/font&gt;&lt;/literal&gt;<br />'.
-                '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'.
-                '<br />'.
-                'nested&nbsp;&lt;sticky&gt;&nbsp;block&nbsp;&lt;/sticky&gt;<br />'.
-                '<br />'.
-                '&lt;pre&gt;<br />'.
-                '&nbsp;&nbsp;123<br />'.
-                '&nbsp;456<br />'.
-                '&lt;/pre&gt;</div>'.
-                '</p>'
+        html => '<p>'
+          . '<div class="WYSIWYG_STICKY">&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;<br />'
+          . '<br />'
+          . '&lt;!--&nbsp;hidden&nbsp;--&gt;<br />'
+          . 'http://google.com/#q=foswiki<br />'
+          . '%FOO%&nbsp;WikiWord&nbsp;[[some&nbsp;link]]<br />'
+          . '&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;bar=baz<br />'
+          . '&lt;img&nbsp;src=&quot;%!page!%/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'
+          . '<br />'
+          . '&lt;verbatim&nbsp;class=&quot;tml&quot;&gt;%H%&lt;!--?--&gt;&lt;/verbatim&gt;<br />'
+          . '&lt;literal&gt;&lt;font&nbsp;color="blue"&gt;&nbsp;*|B|*&nbsp;&lt;/font&gt;&lt;/literal&gt;<br />'
+          . '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'
+          . '<br />'
+          . 'nested&nbsp;&lt;sticky&gt;&nbsp;block&nbsp;&lt;/sticky&gt;<br />'
+          . '<br />'
+          . '&lt;pre&gt;<br />'
+          . '&nbsp;&nbsp;123<br />'
+          . '&nbsp;456<br />'
+          . '&lt;/pre&gt;</div>' . '</p>'
     },
     {
         exec => $TML2HTML | $ROUNDTRIP | $HTML2TML,
@@ -2142,26 +2142,25 @@ nested <verbatim class="tml">%H%<!--?--></verbatim>
  456
 </pre></verbatim>
 GLUED
-        html => '<p>'.
-                '<pre class="TMLverbatim">&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;<br />'.
-                '<br />'.
-                '&lt;!--&nbsp;hidden&nbsp;--&gt;<br />'.
-                'http://google.com/#q=foswiki<br />'.
-                '%FOO%&nbsp;WikiWord&nbsp;[[some&nbsp;link]]<br />'.
-                '&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;bar=baz<br />'.
-                '&lt;img&nbsp;src=&quot;http://mysite.org/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'.
-                '<br />'.
-                'nested&nbsp;&lt;verbatim&nbsp;class=&quot;tml&quot;&gt;%H%&lt;!--?--&gt;&lt;/verbatim&gt;<br />'.
-                '&lt;literal&gt;&lt;font&nbsp;color="blue"&gt;&nbsp;*|B|*&nbsp;&lt;/font&gt;&lt;/literal&gt;<br />'.
-                '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'.
-                '<br />'.
-                '&lt;sticky&gt;&nbsp;block&nbsp;&lt;/sticky&gt;<br />'.
-                '<br />'.
-                '&lt;pre&gt;<br />'.
-                '&nbsp;&nbsp;123<br />'.
-                '&nbsp;456<br />'.
-                '&lt;/pre&gt;</pre>'.
-                '</p>'
+        html => '<p>'
+          . '<pre class="TMLverbatim">&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;<br />'
+          . '<br />'
+          . '&lt;!--&nbsp;hidden&nbsp;--&gt;<br />'
+          . 'http://google.com/#q=foswiki<br />'
+          . '%FOO%&nbsp;WikiWord&nbsp;[[some&nbsp;link]]<br />'
+          . '&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;bar=baz<br />'
+          . '&lt;img&nbsp;src=&quot;http://mysite.org/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'
+          . '<br />'
+          . 'nested&nbsp;&lt;verbatim&nbsp;class=&quot;tml&quot;&gt;%H%&lt;!--?--&gt;&lt;/verbatim&gt;<br />'
+          . '&lt;literal&gt;&lt;font&nbsp;color="blue"&gt;&nbsp;*|B|*&nbsp;&lt;/font&gt;&lt;/literal&gt;<br />'
+          . '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'
+          . '<br />'
+          . '&lt;sticky&gt;&nbsp;block&nbsp;&lt;/sticky&gt;<br />'
+          . '<br />'
+          . '&lt;pre&gt;<br />'
+          . '&nbsp;&nbsp;123<br />'
+          . '&nbsp;456<br />'
+          . '&lt;/pre&gt;</pre>' . '</p>'
     },
     {
         exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
@@ -2185,31 +2184,33 @@ http://google.com/#q=foswiki
  456
 </pre>-->
 GLUED
-        html => '<p>'.$protecton.
-                '&lt;!--&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;<br />'.
-                '<br />'.
-                'http://google.com/#q=foswiki<br />'.
-                '%FOO%&nbsp;WikiWord&nbsp;[[some&nbsp;link]]<br />'.
-                '&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;bar=baz<br />'.
-                '&lt;img&nbsp;src=&quot;%!page!%/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'.
-                '<br />'.
-                '&lt;verbatim&nbsp;class=&quot;tml&quot;&gt;%H%&lt;!--?--&gt;&lt;/verbatim&gt;<br />'.
-                '&lt;literal&gt;&lt;font&nbsp;color="blue"&gt;&nbsp;*|B|*&nbsp;&lt;/font&gt;&lt;/literal&gt;<br />'.
-                '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'.
-                '<br />'.
-                '&lt;sticky&gt;&nbsp;block&nbsp;&lt;/sticky&gt;<br />'.
-                '<br />'.
-                '&lt;pre&gt;<br />'.
-                '&nbsp;&nbsp;123<br />'.
-                '&nbsp;456<br />'.
-                '&lt;/pre&gt;--&gt;'.
-                $protectoff.'</p>',
+        html => '<p>'
+          . $protecton
+          . '&lt;!--&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;<br />'
+          . '<br />'
+          . 'http://google.com/#q=foswiki<br />'
+          . '%FOO%&nbsp;WikiWord&nbsp;[[some&nbsp;link]]<br />'
+          . '&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;bar=baz<br />'
+          . '&lt;img&nbsp;src=&quot;%!page!%/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'
+          . '<br />'
+          . '&lt;verbatim&nbsp;class=&quot;tml&quot;&gt;%H%&lt;!--?--&gt;&lt;/verbatim&gt;<br />'
+          . '&lt;literal&gt;&lt;font&nbsp;color="blue"&gt;&nbsp;*|B|*&nbsp;&lt;/font&gt;&lt;/literal&gt;<br />'
+          . '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'
+          . '<br />'
+          . '&lt;sticky&gt;&nbsp;block&nbsp;&lt;/sticky&gt;<br />'
+          . '<br />'
+          . '&lt;pre&gt;<br />'
+          . '&nbsp;&nbsp;123<br />'
+          . '&nbsp;456<br />'
+          . '&lt;/pre&gt;--&gt;'
+          . $protectoff . '</p>',
     },
     {
-        # SMELL: The macro, the *Set value and the comment 
+
+        # SMELL: The macro, the *Set value and the comment
         #        should be in WYSIWYG_PROTECTED spans
         #        but HTML2TML doesn't yet cater for that
-        # So this test captures current (long-standing) behaviour, 
+        # So this test captures current (long-standing) behaviour,
         # but the behaviour isn't really correct
         exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
         name => 'literal',
@@ -2296,7 +2297,7 @@ GLUED
 <div class="WYSIWYG_LITERAL">X<br />Y<img alt='' src='foo' /></div>
 </p>
 HTML
-        tml  => <<'GLUED',
+        tml => <<'GLUED',
 <literal>X<br />Y<img alt='' src='foo' /></literal>
 GLUED
     },
@@ -2308,7 +2309,7 @@ GLUED
 <br id="foo" />
 </p>
 HTML
-        tml  => <<'TML',
+        tml => <<'TML',
 <br id="foo" />
 TML
     },
@@ -2362,15 +2363,12 @@ DECAPS
  with one space
 No more
 SPACED
-        html => 
-'<ol>
+        html => '<ol>
 <li> One item'
-. encodedWhitespace('ns5')
-. 'spanning several lines
+          . encodedWhitespace('ns5') . 'spanning several lines
 
 </li> <li> And another item'
-. encodedWhitespace('ns1')
-. 'with one space
+          . encodedWhitespace('ns1') . 'with one space
 </li></ol> 
 <p>No more</p>
 ',
@@ -2446,14 +2444,12 @@ Blah
 <a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>
 Blah
 BLAH
-        html =>
-'<p>
+        html => '<p>
 Blah'
-. encodedWhitespace('n')
-. '<span class="WYSIWYG_PROTECTED">&#60;a&nbsp;href=&#34;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{&#34;$epoch&#34;}%&#34;&#62;</span>edit<span
+          . encodedWhitespace('n')
+          . '<span class="WYSIWYG_PROTECTED">&#60;a&nbsp;href=&#34;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{&#34;$epoch&#34;}%&#34;&#62;</span>edit<span
 class="WYSIWYG_PROTECTED">&#60;/a&#62;</span>'
-. encodedWhitespace('n')
-. 'Blah
+          . encodedWhitespace('n') . 'Blah
 </p>
 ',
     },
@@ -2478,19 +2474,19 @@ BLAH
         tml  => 'the =complete= table',
     },
     {
-        name => "alternateCodeStyleTagsToTML", # Item2259
+        name => "alternateCodeStyleTagsToTML",        # Item2259
         exec => $HTML2TML,
         html => '<kbd>kbd</kbd> <samp>samp</samp>',
         tml  => '=kbd= =samp=',
     },
     {
-        name => "flattenDfnVarBig", # Item2259
+        name => "flattenDfnVarBig",                               # Item2259
         exec => $HTML2TML,
         html => '<dfn>dfn</dfn> <var>var</var> <big>big</big>',
         tml  => 'dfn var big',
     },
     {
-        name => "preserveSmallCite", # Item2259
+        name => "preserveSmallCite",                              # Item2259
         exec => $TML2HTML | $ROUNDTRIP,
         tml  => <<'BLAH',
 <small>small</small> <cite>cite</cite>
@@ -2608,13 +2604,12 @@ HERE
 </verbatim>
 &&gt;&lt;"
 HERE
-        html => 
-'<p>
+        html => '<p>
 <span class="WYSIWYG_PROTECTED">&#60;smeg&#62;</span>'
-. encodedWhitespace('n')
-. '<pre class="TMLverbatim"><br />&#60;img&nbsp;src=&#34;ball&#38;co&#60;ck&#62;s&#34;&#62;&#38;&#62;&#60;&#34;<br /></pre>'
-. encodedWhitespace('n')
-. '&&gt;&lt;"
+          . encodedWhitespace('n')
+          . '<pre class="TMLverbatim"><br />&#60;img&nbsp;src=&#34;ball&#38;co&#60;ck&#62;s&#34;&#62;&#38;&#62;&#60;&#34;<br /></pre>'
+          . encodedWhitespace('n')
+          . '&&gt;&lt;"
 </p>
 ',
     },
@@ -2726,7 +2721,7 @@ HERE
     {
         name => "stuffInMacro",
         exec => $TML2HTML | $ROUNDTRIP,
-        tml => <<'HERE',
+        tml  => <<'HERE',
 %MACRO{"
 a%ANOTHER%
 <verbatim>V</verbatim>
@@ -2741,23 +2736,22 @@ WikiWord [[some link]]
 <img src="http://mysite.org/logo.png" alt="Alternate text" />
 "}%
 HERE
-        html => '<p>' .
-                '<span class="WYSIWYG_PROTECTED">'.
-                '%MACRO{"<br />'.
-                'a%ANOTHER%<br />'.
-                '&lt;verbatim&gt;V&lt;/verbatim&gt;<br />'.
-                '&lt;sticky&gt;S&lt;/sticky&gt;<br />'.
-                '&lt;literal&gt;L&lt;/literal&gt;<br />'.
-                '&lt;pre&gt;P&lt;/pre&gt;<br />'.
-                '&lt;!--C--&gt;<br />'.
-                '&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;foo=bar<br />'.
-                'http://google.com/#q=foswiki<br />'.
-                'WikiWord&nbsp;[[some&nbsp;link]]<br />'.
-                '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'.
-                '&lt;img&nbsp;src=&quot;http://mysite.org/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'.
-                '"}%'.
-                '</span>'.
-                '</p>'
+        html => '<p>'
+          . '<span class="WYSIWYG_PROTECTED">'
+          . '%MACRO{"<br />'
+          . 'a%ANOTHER%<br />'
+          . '&lt;verbatim&gt;V&lt;/verbatim&gt;<br />'
+          . '&lt;sticky&gt;S&lt;/sticky&gt;<br />'
+          . '&lt;literal&gt;L&lt;/literal&gt;<br />'
+          . '&lt;pre&gt;P&lt;/pre&gt;<br />'
+          . '&lt;!--C--&gt;<br />'
+          . '&nbsp;&nbsp;&nbsp;*&nbsp;Set&nbsp;foo=bar<br />'
+          . 'http://google.com/#q=foswiki<br />'
+          . 'WikiWord&nbsp;[[some&nbsp;link]]<br />'
+          . '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'
+          . '&lt;img&nbsp;src=&quot;http://mysite.org/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'
+          . '"}%'
+          . '</span>' . '</p>'
     },
     {
         name => "whitespaceEncoding",
@@ -2769,25 +2763,16 @@ a  a
      d
 e
 HERE
-        html => '<p>'
-              . 'a'
-              . encodedWhitespace('s2')
-              . 'a'
-              . encodedWhitespace('ns1')
-              . 'b'
-              . '</p>'
-              . '<ul><li>'
-              . 'c'
-              . encodedWhitespace('ns5')
-              . 'd'
-              . '</li></ul>'
-              . '<p>'
-              . 'e'
-              . '</p>',
+        html => '<p>' . 'a'
+          . encodedWhitespace('s2') . 'a'
+          . encodedWhitespace('ns1') . 'b' . '</p>'
+          . '<ul><li>' . 'c'
+          . encodedWhitespace('ns5') . 'd'
+          . '</li></ul>' . '<p>' . 'e' . '</p>',
     },
     {
         name => "failsTML2HTML",
-        exec => 0,#$TML2HTML | $HTML2TML | $ROUNDTRIP,
+        exec => 0,                 #$TML2HTML | $HTML2TML | $ROUNDTRIP,
         tml  => <<'HERE',
 %MACRO{"
 %ANOTHERMACRO%"}%
@@ -2800,9 +2785,10 @@ HERE
 
 sub encodedWhitespace {
     my $encoded = shift;
-    return '<span class="WYSIWYG_HIDDENWHITESPACE" style="{encoded:'
-        . "'$encoded'"
-        . '}"> </span>';
+    return
+        '<span class="WYSIWYG_HIDDENWHITESPACE" style="{encoded:'
+      . "'$encoded'"
+      . '}"> </span>';
 }
 
 # Run from BEGIN
@@ -2861,24 +2847,25 @@ sub normaliseEntities {
 }
 
 sub TML_HTMLconverterOptions {
-    my ($this, %overrides) = @_;
+    my ( $this, %overrides ) = @_;
     return {
         web          => 'Current',
         topic        => 'TestTopic',
         convertImage => \&convertImage,
         rewriteURL   => \&Foswiki::Plugins::WysiwygPlugin::postConvertURL,
-        expandVarsInURL   => \&Foswiki::Plugins::WysiwygPlugin::Handlers::expandVarsInURL,
-        dieOnError   => 1,
+        expandVarsInURL =>
+          \&Foswiki::Plugins::WysiwygPlugin::Handlers::expandVarsInURL,
+        dieOnError => 1,
         %overrides
     };
 }
 
 sub compareTML_HTML {
     my ( $this, $args ) = @_;
-    my ($web, $topic) = ($args->{web} || 'Current', $args->{topic} || 'TestTopic');
+    my ( $web, $topic ) =
+      ( $args->{web} || 'Current', $args->{topic} || 'TestTopic' );
 
-    my $page =
-      $this->{session}->getScriptUrl( 1, 'view', $web, $topic );
+    my $page = $this->{session}->getScriptUrl( 1, 'view', $web, $topic );
     $page =~ s/\/$web\/$topic.*$//;
     my $html = $args->{html} || '';
     $html =~ s/%!page!%/$page/g;
@@ -2891,7 +2878,9 @@ sub compareTML_HTML {
     $this->assert( !$notEditable, $notEditable );
 
     my $txer = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
-    my $tx = $txer->convert( $tml, $this->TML_HTMLconverterOptions(web => $web, topic => $topic) );
+    my $tx =
+      $txer->convert( $tml,
+        $this->TML_HTMLconverterOptions( web => $web, topic => $topic ) );
 
     $this->assert_html_equals( $html, $tx );
 }
@@ -2917,10 +2906,10 @@ sub compareNotWysiwygEditable {
 
 sub compareRoundTrip {
     my ( $this, $args ) = @_;
-    my ($web, $topic) = ($args->{web} || 'Current', $args->{topic} || 'TestTopic');
+    my ( $web, $topic ) =
+      ( $args->{web} || 'Current', $args->{topic} || 'TestTopic' );
 
-    my $page =
-      $this->{session}->getScriptUrl( 1, 'view', $web, $topic );
+    my $page = $this->{session}->getScriptUrl( 1, 'view', $web, $topic );
     $page =~ s/\/$web\/$topic.*$//;
 
     my $tml = $args->{tml} || '';
@@ -2930,12 +2919,16 @@ sub compareRoundTrip {
 
     # This conversion can throw an exception.
     # This might be expected if $args->{exec} also has $CANNOTWYSIWYG set
-    my $html =
-      eval { $txer->convert( $tml, $this->TML_HTMLconverterOptions(web => $web, topic => $topic) ); };
+    my $html = eval {
+        $txer->convert( $tml,
+            $this->TML_HTMLconverterOptions( web => $web, topic => $topic ) );
+    };
     $html = $@ if $@;
 
     $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
-    my $tx = $txer->convert( $html, $this->HTML_TMLconverterOptions(web => $web, topic => $topic) );
+    my $tx =
+      $txer->convert( $html,
+        $this->HTML_TMLconverterOptions( web => $web, topic => $topic ) );
     my $finaltml = $args->{finaltml} || $tml;
     $finaltml =~ s/%!page!%/$page/g;
 
@@ -2952,12 +2945,14 @@ sub compareRoundTrip {
     }
     else {
         $this->assert_tml_equals( $finaltml, $tx, $args->{name} );
-        if ($html =~ /WYSIWYG_WARNING/) {
-            # The HTML contains a warning message saying that this TML 
+        if ( $html =~ /WYSIWYG_WARNING/ ) {
+
+            # The HTML contains a warning message saying that this TML
             # cannot be edited as HTML, and all of the TML is protected
             # as if the whole topic were in a <sticky> block
         }
         else {
+
             # This TML really is editable in the WYSIWYG editor
             $this->assert( !$notEditable,
 "$args->{name} TML is wysiwyg-editable, but notWysiwygEditable() reports: $notEditable"
@@ -2968,7 +2963,7 @@ sub compareRoundTrip {
 }
 
 sub HTML_TMLconverterOptions {
-    my ($this, %overrides) = @_;
+    my ( $this, %overrides ) = @_;
     return {
         web          => 'Current',
         topic        => 'TestTopic',
@@ -2980,10 +2975,10 @@ sub HTML_TMLconverterOptions {
 
 sub compareHTML_TML {
     my ( $this, $args ) = @_;
-    my ($web, $topic) = ($args->{web} || 'Current', $args->{topic} || 'TestTopic');
+    my ( $web, $topic ) =
+      ( $args->{web} || 'Current', $args->{topic} || 'TestTopic' );
 
-    my $page =
-      $this->{session}->getScriptUrl( 1, 'view', $web, $topic );
+    my $page = $this->{session}->getScriptUrl( 1, 'view', $web, $topic );
     $page =~ s/\/$web\/$topic.*$//;
     my $html = $args->{html} || '';
     $html =~ s/%!page!%/$page/g;
@@ -2993,7 +2988,9 @@ sub compareHTML_TML {
     $finaltml =~ s/%!page!%/$page/g;
 
     my $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
-    my $tx = $txer->convert( $html, $this->HTML_TMLconverterOptions(web => $web, topic => $topic) );
+    my $tx =
+      $txer->convert( $html,
+        $this->HTML_TMLconverterOptions( web => $web, topic => $topic ) );
     $this->assert_tml_equals( $finaltml, $tx, $args->{name} );
 }
 

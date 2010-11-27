@@ -121,7 +121,8 @@ WARNING
             _protectVerbatimChars($content) );
     }
     else {
-        my $tagsToProtect = Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS')
+        my $tagsToProtect = Foswiki::Func::getPreferencesValue(
+            'WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS')
           || 'div,span';
         for my $tag ( split /[,\s]+/, $tagsToProtect ) {
             next unless $tag =~ /^\w+$/;
@@ -392,7 +393,8 @@ sub _getRenderedVersion {
     $text =~ s/(<img [^>]*>)/$this->_takeOutIMGTag($1)/gei;
     $text =~ s/<\/img>//gi;
 
-    $text =~ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') . $2 . ">"/ge;
+    $text =~
+s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') . $2 . ">"/ge;
 
     # Handle colour tags specially (hack, hack, hackity-HACK!)
     my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
@@ -624,14 +626,16 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $line =~ s/^(<li\Q$ot\E>)\s*$/$1&nbsp;/;
 
         }
-        elsif ( $inList && $line =~ s/^([ \t]+)/$this->_hideWhitespace("\n$1")/e ) {
+        elsif ($inList
+            && $line =~ s/^([ \t]+)/$this->_hideWhitespace("\n$1")/e )
+        {
 
             # Extend text of previous list item by dropping through
             $result[-1] .= $line;
             $line = '';
 
         }
-        elsif ( $line =~ /^<hr class="TMLhr"/) {
+        elsif ( $line =~ /^<hr class="TMLhr"/ ) {
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
         }
@@ -657,10 +661,11 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $this->_addListItem( \@result, '', '', '' ) if $inList;
             $inList = 0;
             if ( $inParagraph and @result and $result[-1] !~ /<p>$/ ) {
+
                 # This is the second (or later) line of a paragraph
 
                 my $whitespace = "\n";
-                if ($line =~ s/^(\s+)//) {
+                if ( $line =~ s/^(\s+)// ) {
                     $whitespace .= $1;
                 }
                 $line = $this->_hideWhitespace($whitespace) . $line;
@@ -737,7 +742,7 @@ s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}(
 
 sub _encodeHr {
     my $dashes = shift;
-    my $style = '';
+    my $style  = '';
     if ( length($dashes) > 3 ) {
         $style = ' style="{numdashes:' . length($dashes) . '}"';
     }
@@ -745,7 +750,7 @@ sub _encodeHr {
 }
 
 sub _hideWhitespace {
-    my $this = shift;
+    my $this       = shift;
     my $whitespace = shift;
 
     $whitespace =~ s/\\/b/g;
@@ -756,21 +761,22 @@ sub _hideWhitespace {
     return $this->_liftOutGeneral(
         " ",
         {
-            tag => 'span',
-            class => "WYSIWYG_HIDDENWHITESPACE",
+            tag    => 'span',
+            class  => "WYSIWYG_HIDDENWHITESPACE",
             params => "style=\"{encoded:'$whitespace'}\"",
         }
     );
 }
 
 sub _appendClassToTag {
-    my $this = shift;
+    my $this         = shift;
     my $tagWithAttrs = shift;
-    my $class = shift;
-    if ( $tagWithAttrs =~ /^\s*(\w+)/ 
-        and exists $this->{protectExistingTags}->{$1} ) {
+    my $class        = shift;
+    if ( $tagWithAttrs =~ /^\s*(\w+)/
+        and exists $this->{protectExistingTags}->{$1} )
+    {
         $tagWithAttrs =~ s/(\sclass=)(['"])([^'"]*)\2/$1$2$3 $class$2/
-            or $tagWithAttrs .= " class='$class' ";
+          or $tagWithAttrs .= " class='$class' ";
     }
     return $tagWithAttrs;
 }
