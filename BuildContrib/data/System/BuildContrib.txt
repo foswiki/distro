@@ -579,7 +579,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
-|  4 Oct 2010: | Foswikitask:Item9785: Add BuildContrib.pm module to pick up version strings |
+| 27 Nov 2010: | Foswikitask:Item10088: Fix assumption for =%<nop>$FOSWIKIAUTHORS%= that BuildContrib is called from a standard build checkout |
+|  3 Oct 2010: | Foswikitask:Item9785: Add BuildContrib.pm dummy module and document requirement. | 
 |  8 Sep 2010: | Foswikitask:Item9566: Foswikitask:Item9640: minor maintenance fixes |
 |  28 Aug 2010: | Foswikitask:Item721: get proxy settings from environment variables |
 |  06 Aug 2010: | Foswikitask:Item9439: fix the initial uplaod problem - we were reading the topic file before it had been built |
