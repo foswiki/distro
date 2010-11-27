@@ -6,7 +6,7 @@
 
 %TOC%
 
-This extension (currently) implements search operations (query and text search) using the Perl DBI interface to SQL databases. It has been tested with [[http://www.sqlite.org/][SQLite]], the popular lightweight implementation of an SQL relational database, and to a lesser extent with [[][MySQL]].
+This extension (currently) implements search operations (query and text search) using the Perl DBI interface to SQL databases. It has been tested with [[http://www.sqlite.org/][SQLite]], the popular lightweight implementation of an SQL relational database, and to a lesser extent with [[http://www.mysql.com/][MySQL]].
 
 We get over the fact that SQL does not implement all the query search features of Foswiki by _hoisting_ SQL expressions out of the Foswiki search statements, leaving behind only those parts of the expression that SQL can't handle.
 
