@@ -129,8 +129,8 @@ sub _perlEncodeCharset {
 # $input and $expectedOutput contain unicode codepoints;
 # they are wide characters, NOT utf-8 encoded
 sub save_test {
-    my ( $this, $charset, $input, $expectedOutput ) = @_;
-
+    my ( $this, $charset, $input, $expectedOutput, $topicName ) = @_;
+    my ($web, $topic) = Foswiki::Func::normalizeWebTopicName($this->{test_web}, $topicName || 'WysiwygPluginTest');
     # Is this enough? Regexes are inited before we get here, aren't they?
     $Foswiki::cfg{Site}{CharSet} = $charset;
 
@@ -150,7 +150,7 @@ sub save_test {
             'text'         => [$t],
         }
     );
-    $query->path_info("/$this->{test_web}/WysiwygPluginTest");
+    $query->path_info("/$web/$topic");
     $query->param( text => $t );
     $query->method('GET');
 
@@ -176,7 +176,7 @@ sub save_test {
     );
 
     my ( $meta, $out ) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'WysiwygPluginTest' );
+      Foswiki::Func::readTopic( $web, $topic );
 
     $out =~ s/\s*$//s;
 

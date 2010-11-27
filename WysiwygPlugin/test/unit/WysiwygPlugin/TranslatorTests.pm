@@ -1360,6 +1360,19 @@ hijk',
         finaltml => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
     },
     {
+        exec => $ROUNDTRIP | $HTML2TML | $TML2HTML,
+        name => 'Item9973_cp1251',
+        # SMELL: Actually, CharSet isn't used, but this test does fail on
+        # Foswikirev:10077, whereas it passes with the Item9973 checkins
+        # applied. I've left it here anticipating that more weird cases might
+        # use such a parameter (no utf8 test cases yet, for example)
+        CharSet => 'cp1251',
+        topic => "Test\xc9",
+        html => "<p><img src='$Foswiki::cfg{PubUrlPath}/Current/Test\xc9/T-logo-16x16.gif' /></p>",
+        tml  => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
+        finaltml => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
+    },
+    {
         exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
         name => 'setCommand',
         tml  => <<HERE,
@@ -2848,7 +2861,7 @@ sub normaliseEntities {
 }
 
 sub TML_HTMLconverterOptions {
-    my $this = shift;
+    my ($this, %overrides) = @_;
     return {
         web          => 'Current',
         topic        => 'TestTopic',
@@ -2856,15 +2869,17 @@ sub TML_HTMLconverterOptions {
         rewriteURL   => \&Foswiki::Plugins::WysiwygPlugin::postConvertURL,
         expandVarsInURL   => \&Foswiki::Plugins::WysiwygPlugin::Handlers::expandVarsInURL,
         dieOnError   => 1,
+        %overrides
     };
 }
 
 sub compareTML_HTML {
     my ( $this, $args ) = @_;
+    my ($web, $topic) = ($args->{web} || 'Current', $args->{topic} || 'TestTopic');
 
     my $page =
-      $this->{session}->getScriptUrl( 1, 'view', 'Current', 'TestTopic' );
-    $page =~ s/\/Current\/TestTopic.*$//;
+      $this->{session}->getScriptUrl( 1, 'view', $web, $topic );
+    $page =~ s/\/$web\/$topic.*$//;
     my $html = $args->{html} || '';
     $html =~ s/%!page!%/$page/g;
     my $finaltml = $args->{finaltml} || '';
@@ -2876,7 +2891,7 @@ sub compareTML_HTML {
     $this->assert( !$notEditable, $notEditable );
 
     my $txer = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
-    my $tx = $txer->convert( $tml, $this->TML_HTMLconverterOptions() );
+    my $tx = $txer->convert( $tml, $this->TML_HTMLconverterOptions(web => $web, topic => $topic) );
 
     $this->assert_html_equals( $html, $tx );
 }
@@ -2902,10 +2917,11 @@ sub compareNotWysiwygEditable {
 
 sub compareRoundTrip {
     my ( $this, $args ) = @_;
+    my ($web, $topic) = ($args->{web} || 'Current', $args->{topic} || 'TestTopic');
 
     my $page =
-      $this->{session}->getScriptUrl( 1, 'view', 'Current', 'TestTopic' );
-    $page =~ s/\/Current\/TestTopic.*$//;
+      $this->{session}->getScriptUrl( 1, 'view', $web, $topic );
+    $page =~ s/\/$web\/$topic.*$//;
 
     my $tml = $args->{tml} || '';
     $tml =~ s/%!page!%/$page/g;
@@ -2915,11 +2931,11 @@ sub compareRoundTrip {
     # This conversion can throw an exception.
     # This might be expected if $args->{exec} also has $CANNOTWYSIWYG set
     my $html =
-      eval { $txer->convert( $tml, $this->TML_HTMLconverterOptions() ); };
+      eval { $txer->convert( $tml, $this->TML_HTMLconverterOptions(web => $web, topic => $topic) ); };
     $html = $@ if $@;
 
     $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
-    my $tx = $txer->convert( $html, $this->HTML_TMLconverterOptions() );
+    my $tx = $txer->convert( $html, $this->HTML_TMLconverterOptions(web => $web, topic => $topic) );
     my $finaltml = $args->{finaltml} || $tml;
     $finaltml =~ s/%!page!%/$page/g;
 
@@ -2952,21 +2968,23 @@ sub compareRoundTrip {
 }
 
 sub HTML_TMLconverterOptions {
-    my $this = shift;
+    my ($this, %overrides) = @_;
     return {
         web          => 'Current',
         topic        => 'TestTopic',
         convertImage => \&convertImage,
         rewriteURL   => \&Foswiki::Plugins::WysiwygPlugin::postConvertURL,
+        %overrides
     };
 }
 
 sub compareHTML_TML {
     my ( $this, $args ) = @_;
+    my ($web, $topic) = ($args->{web} || 'Current', $args->{topic} || 'TestTopic');
 
     my $page =
-      $this->{session}->getScriptUrl( 1, 'view', 'Current', 'TestTopic' );
-    $page =~ s/\/Current\/TestTopic.*$//;
+      $this->{session}->getScriptUrl( 1, 'view', $web, $topic );
+    $page =~ s/\/$web\/$topic.*$//;
     my $html = $args->{html} || '';
     $html =~ s/%!page!%/$page/g;
     my $tml = $args->{tml} || '';
@@ -2975,7 +2993,7 @@ sub compareHTML_TML {
     $finaltml =~ s/%!page!%/$page/g;
 
     my $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
-    my $tx = $txer->convert( $html, $this->HTML_TMLconverterOptions() );
+    my $tx = $txer->convert( $html, $this->HTML_TMLconverterOptions(web => $web, topic => $topic) );
     $this->assert_tml_equals( $finaltml, $tx, $args->{name} );
 }
 

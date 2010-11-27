@@ -24,6 +24,7 @@ use Error qw( :try );
 
 use Foswiki;
 use Foswiki::Plugins::WysiwygPlugin::Constants;
+use Foswiki::Plugins::WysiwygPlugin::Handlers;
 
 use strict;
 use warnings;
