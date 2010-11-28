@@ -78,8 +78,8 @@ sub new {
     my @evl =
 	map { $_->new() }
         sort {
-	    $Foswiki::cfg{Store}{Listeners}{a} <
-	        $Foswiki::cfg{Store}{Listeners}{b} }
+	    $Foswiki::cfg{Store}{Listeners}{$a} <=>
+	        $Foswiki::cfg{Store}{Listeners}{$b} }
         map { require $_ }
         keys %{$Foswiki::cfg{Store}{Listeners}};
 
