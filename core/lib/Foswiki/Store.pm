@@ -74,14 +74,15 @@ sub new {
     my $class = shift;
 
     # Create and register store listeners. Store listeners are subclasses
-    # of Foswiki::Store::Listener
-    my @evl;
-    foreach my $lc ( keys(%{$Foswiki::cfg{Store}{Listeners}}) ) {
-        #TODO: implement an ordering based on the values(%)
-        eval "require $lc";
-        die "Failed to load $lc: $@" if $@;
-        push(@evl, $lc->new());
-    }
+    # of Foswiki::Store::Interfaces::Listener
+    my @evl =
+	map { $_->new() }
+        sort {
+	    $Foswiki::cfg{Store}{Listeners}{a} <
+	        $Foswiki::cfg{Store}{Listeners}{b} }
+        map { require $_ }
+        keys %{$Foswiki::cfg{Store}{Listeners}};
+
     my $this = bless( { event_listeners => \@evl }, $class );
 
     return $this;

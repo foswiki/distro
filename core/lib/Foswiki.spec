@@ -981,7 +981,8 @@ $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 
 # **PERL EXPERT**
 # Hash of full class names of objects that want to listen to changes to
-# the store. The Key is the Class name, and the value may be used to create an order.
+# the store. The Key is the Class name, and the value is an integer, used
+# to define the execution order (low values are executed first).
 $Foswiki::cfg{Store}{Listeners} = {};
 
 # **BOOLEAN EXPERT**
