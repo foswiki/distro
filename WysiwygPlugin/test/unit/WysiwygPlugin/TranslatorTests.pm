@@ -1368,10 +1368,22 @@ hijk',
         # Foswikirev:10077, whereas it passes with the Item9973 checkins
         # applied. I've left it here anticipating that more weird cases might
         # use such a parameter (no utf8 test cases yet, for example)
+        # \xc9 isn't valid utf8 - so the character must be encoded (for now)
+        # when the site charset is utf8
         CharSet => 'cp1251',
-        topic   => "Test\xc9",
-        html =>
-"<p><img src='$Foswiki::cfg{PubUrlPath}/Current/Test\xc9/T-logo-16x16.gif' /></p>",
+        topic   => "Test"
+          . (
+            $Foswiki::cfg{Site}{CharSet} =~ /utf-?8/i
+            ? Encode::encode( 'utf8', "\x0419" ) # same as cp1251's 0xc9
+            : "\xc9"
+          ),
+        html => "<p><img src='$Foswiki::cfg{PubUrlPath}/Current/Test"
+          . (
+            $Foswiki::cfg{Site}{CharSet} =~ /utf-?8/i
+            ? Encode::encode( 'utf8', "\x0419" )
+            : "\xc9"
+          )
+          . "/T-logo-16x16.gif' /></p>",
         tml      => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
         finaltml => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
     },
