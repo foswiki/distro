@@ -14,6 +14,15 @@ sub check {
     $this->{fileErrors} = 0;
     $this->{excessPerms} = 0;
     my $e = $this->guessMajorDir( 'PubDir', 'pub' );
+
+    $e .= $this->NOTE(<<MISSING
+If PubDir is missing, your ScriptDir is probably not located in the Foswiki
+installation directory.  All directory locations are guessed relative to the
+ScriptDir location. (<code>$Foswiki::cfg{ScriptDir}</code>)  Carefully review all of the Directory settings, especially
+the WorkingDir, which will be created in the guessed location after the settings are saved.
+MISSING
+) if ($e =~ m/Error/);
+
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{PubDir} );
 
     # Don't check directories against {RCS} permissions on Windows
