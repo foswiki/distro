@@ -29,7 +29,7 @@ $foswikiLibPath = "/absolute/path/to/your/lib";
 # will be prepended to the "@INC library path" while by default it is appended.
 
 # $CPANBASE = '/path/to/dir';         # Keep commented: Default path appended
-# $CPANBASE = '/path/to/dir';         # Uncommented: Your path appended
+# $CPANBASE = '/path/to/dir';         # Uncommented: Your path prepended
 # $CPANBASE = '/path/to/invalid/dir'; # Uncommented: Invalid, nothing added
 # $CPANBASE = '';                     # Uncommented: Default path prepended
 
