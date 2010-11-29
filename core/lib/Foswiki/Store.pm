@@ -76,12 +76,17 @@ sub new {
     # Create and register store listeners. Store listeners are subclasses
     # of Foswiki::Store::Interfaces::Listener
     my @evl =
-	map { $_->new() }
+#        map { require $_ }
+        map {
+            eval "require $_";
+            die "Failed to load $_: $@" if $@;
+            $_->new()
+        }
         sort {
 	    $Foswiki::cfg{Store}{Listeners}{$a} <=>
 	        $Foswiki::cfg{Store}{Listeners}{$b} }
-        map { require $_ }
         keys %{$Foswiki::cfg{Store}{Listeners}};
+
 
     my $this = bless( { event_listeners => \@evl }, $class );
 
