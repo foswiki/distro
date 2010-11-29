@@ -17,7 +17,9 @@ sub serialise {
     #test to make sure we exist, and other things
     
     no strict 'refs';
-    return &$style($session, $result);
+    my $data = &$style($session, $result);
+    use strict 'refs';
+    return $data;
 }
 
 
