@@ -17,7 +17,7 @@ $foswikiLibPath = "/absolute/path/to/your/lib";
 
 
 # -------------- Extra path components to include in @INC
-# The actual "@INC library path" can be found in the "configure" section
+# The actual Foswiki "@INC library path" can be found in the "configure" section
 # "Web Server Environment".
 
 # OPTIONAL
