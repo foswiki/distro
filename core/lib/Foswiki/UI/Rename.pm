@@ -65,6 +65,12 @@ sub rename {
     else {
         $new_url = _renameTopicOrAttachment( $session, $oldWeb, $oldTopic );
     }
+
+    my $redirectto_param = $query->{'param'}->{'redirectto'} || '';
+    if ( $redirectto_param ne '' ) {
+        $new_url = $session->redirectto( $redirectto_param );
+    }
+
     $session->redirect( $new_url, undef, 1 ) if $new_url;
 }
 
