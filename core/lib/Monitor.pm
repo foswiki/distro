@@ -192,6 +192,61 @@ sub END {
     print STDERR "\n";
 }
 
+#BEWARE - though this is extremely useful to show whats fast / slow in a Class, its also a potentially
+#deadly hack
+#method wrapper - http://chainsawblues.vox.com/library/posts/page/1/
+sub _monitorMethod {
+    my ( $package, $method ) = @_;
+
+    if ( !defined($method) ) {
+        no strict "refs";
+        foreach my $symname ( sort keys %{"${package}::"} ) {
+            next if ( $symname =~ /^ASSERT/ );
+            next if ( $symname =~ /^DEBUG/ );
+            next if ( $symname =~ /^UNTAINTED/ );
+            next if ( $symname =~ /^except/ );
+            next if ( $symname =~ /^otherwise/ );
+            next if ( $symname =~ /^finally/ );
+            next if ( $symname =~ /^try/ );
+            next if ( $symname =~ /^with/ );
+            _monitorMethod( $package, $symname );
+        }
+    }
+    else {
+        my $old = ($package)->can($method);    # look up along MRO
+        return if ( !defined($old) );
+
+        #print STDERR "monitoring $package :: $method)";
+        {
+            no warnings 'redefine';
+            no strict "refs";
+            *{"${package}::$method"} = sub {
+
+                #Monitor::MARK("begin $package $method");
+                my $in_stat   = _get_stat_info($$);
+                my $in_bench  = new Benchmark();
+                my $self      = shift;
+                my @result    = $self->$old(@_);
+                my $out_bench = new Benchmark();
+
+               #Monitor::MARK("end   $package $method  => ".($result||'undef'));
+                my $out_stat = _get_stat_info($$);
+                push(
+                    @methodStats,
+                    {
+                        method   => "${package}::$method",
+                        in       => $in_bench,
+                        in_stat  => $in_stat,
+                        out      => $out_bench,
+                        out_stat => $out_stat
+                    }
+                );
+                return wantarray ? @result : $result[0];
+              }
+        }
+    }
+}
+
 #BEWARE - as above
 #provide more detailed information about a specific MACRO handler
 #this Presumes that the macro function is defined as 'sub Foswiki::MACRO' and can be loaded from 'Foswiki::Macros::MACRO'
@@ -224,8 +279,8 @@ sub monitorMACRO {
             my $out_bench = new Benchmark();
 
             #Monitor::MARK("end   $package $method  => ".($result||'undef'));
-            my $out_stat  = _get_stat_info($$);
-            
+            my $out_stat = _get_stat_info($$);
+
             my $stat_hash = {
                 method   => "${package}::$method",
                 in       => $in_bench,
@@ -235,17 +290,20 @@ sub monitorMACRO {
             };
             push( @methodStats, $stat_hash );
 
-            if ( defined($logFunction) ) {  #this is effectivly the same as $logLevel>0
-                #lets not make the %stat_hash huge, as its kept in memory
+            if ( defined($logFunction) )
+            {    #this is effectivly the same as $logLevel>0
+                    #lets not make the %stat_hash huge, as its kept in memory
                 my %hashToLog = %$stat_hash;
                 $hashToLog{params} = $params;
-                
-                #if we're logging this detail of information, we're less worried about performance.
-                #numbers _will be off_ if there are nested MACRO's being logged
-                $hashToLog{macroTime} = timestr(timediff( $stat_hash->{out}, $stat_hash->{in} ));
-                $hashToLog{macroMemory} = $stat_hash->{out_stat}{rss} - $stat_hash->{in_stat}{rss};
 
-                if ($logLevel > 1) {
+#if we're logging this detail of information, we're less worried about performance.
+#numbers _will be off_ if there are nested MACRO's being logged
+                $hashToLog{macroTime} =
+                  timestr( timediff( $stat_hash->{out}, $stat_hash->{in} ) );
+                $hashToLog{macroMemory} =
+                  $stat_hash->{out_stat}{rss} - $stat_hash->{in_stat}{rss};
+
+                if ( $logLevel > 1 ) {
                     $hashToLog{result} = wantarray ? @result : $result[0];
                 }
                 &$logFunction( $method, \%hashToLog );
