@@ -98,7 +98,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiFormTableRow=           | Table container for form elements  |
 |=.foswikiFormTableFooter=        | Table container for form elements  |
 |=.foswikiEditForm=               | Edit state of data form  |
-|=.foswikiMandaroty=              | Indication of mandatory field |
+|=.foswikiMandatory=              | Indication of mandatory field |
 |=.foswikiAddFormButton=          | "Add form" button on edit screen |
 
 ---+++ HTML Forms
