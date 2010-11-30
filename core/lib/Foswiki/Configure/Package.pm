@@ -797,8 +797,8 @@ sub uninstall {
           Foswiki::Configure::Util::mapTarget( $this->{_root}, $key );
 
         if ($simulate) {
-            push( @removed, "$target" )   if ( -f "$target" );
-            push( @removed, "$target,v" ) if ( -f "$target,v" );
+            push( @removed, "simulated $target" )   if ( -f "$target" );
+            push( @removed, "simulated $target,v" ) if ( -f "$target,v" );
             $directories{$1}++ if $target =~ m!^(.*)/[^/]*$!;
         }
         else {
@@ -816,13 +816,17 @@ sub uninstall {
 
     my $pkgdata =
       "$Foswiki::cfg{WorkingDir}/configure/pkgdata/$this->{_pkgname}_installer";
-    push( @removed, $pkgdata );
     unless ($simulate) {
+        push( @removed, $pkgdata );
         unlink "$pkgdata";
         for ( keys %directories ) {
             while (rmdir) { s!/[^/]*$!!; }
         }
     }
+    else {
+        push( @removed, "simulated $pkgdata" );
+    }
+
     return sort(@removed);
 }
 
