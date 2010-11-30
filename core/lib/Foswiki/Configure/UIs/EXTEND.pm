@@ -25,6 +25,8 @@ use File::Copy ();
 use File::Spec ();
 use Cwd        ();
 
+my $installRoot;
+
 =begin TML
 
 ---++ ObjectMethod install() -> $html
@@ -39,6 +41,18 @@ the caller early feedback.
 sub install {
     my $this  = shift;
     my $query = $Foswiki::query;
+
+    #   The safest directory to use for the foswiki root is probably DataDir.
+    #   bin is possibly relocated to a cgi-bin,  and pub might be in a webroot.
+    #   data, locale, working, etc. are probably the most stable.   Unknown
+    #   directories should be created in this directory.
+    #
+    my @instRoot = File::Spec->splitdir( $Foswiki::cfg{DataDir} );
+    pop(@instRoot);
+
+    # SMELL: Force a trailing separator - Linux and Windows are inconsistent
+    $installRoot = File::Spec->catfile( @instRoot, 'x' );
+    chop $installRoot;
 
     $this->findRepositories();
 
@@ -118,7 +132,7 @@ sub _depreport {
         return;
     }
 
-    my $pkg = new Foswiki::Configure::Package( $this->{root}, $extension );
+    my $pkg = new Foswiki::Configure::Package( $installRoot, $extension );
 
     my $installed;
     my $missing;
@@ -170,7 +184,7 @@ sub _install {
     }
 
     my $pkg = new Foswiki::Configure::Package(
-        $this->{root},
+        $installRoot,
         $extension,
         $session,
         {
@@ -282,7 +296,7 @@ sub _uninstall {
     my $session = $this->_getSession();
 
     my $pkg =
-      new Foswiki::Configure::Package( $this->{root}, $extension, $session,
+      new Foswiki::Configure::Package( $installRoot, $extension, $session,
         { SIMULATE => $simulate, } );
 
     # For uninstall, set repository in case local installer is not found
