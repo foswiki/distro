@@ -28,6 +28,8 @@ sub renderHtml {
     eval "require Foswiki::Configure::UIs::EXTEND";
     $bad = 1 if ($@);
 
+    print STDERR "$@\n" if $bad;
+
     my $template = Foswiki::Configure::UI::getTemplateParser()
       ->readTemplate('findextensionsintro');
     Foswiki::Configure::UI::getTemplateParser()->parse(

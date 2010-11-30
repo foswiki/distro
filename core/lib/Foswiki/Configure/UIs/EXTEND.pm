@@ -16,7 +16,7 @@ package Foswiki::Configure::UIs::EXTEND;
 use strict;
 use warnings;
 
-use Foswiki::Configure::UI ();
+use Foswiki::Configure::UI      ();
 use Foswiki::Configure::Package ();
 our @ISA = ('Foswiki::Configure::UI');
 use Foswiki::Configure::Util ();
@@ -43,27 +43,106 @@ sub install {
     $this->findRepositories();
 
     my $processExt = $query->param('processExt');
+    my @remove     = $query->param('remove');
+    my @add        = $query->param('add');
 
-    my @remove = $query->param('remove');
-    foreach my $extension (@remove) {
-        $extension =~ /(.*)\/(\w+)$/;
-        my $repositoryPath = $1;
-        my $extensionName  = $2;
-        print "Bad extension name" unless $extensionName && $repositoryPath;
+    if ( $processExt && $processExt eq 'dep' ) {
+        my @extensions = sort ( @add, @remove );
+        my $lastext = '';
+        foreach my $extension (@extensions) {
+            next if ( $lastext eq $extension );
+            $lastext = $extension;
+            $extension =~ /(.*)\/(\w+)$/;
+            my $repositoryPath = $1;
+            my $extensionName  = $2;
+            print "Bad extension name" unless $extensionName && $repositoryPath;
 
-        $this->_uninstall( $repositoryPath, $extensionName, $processExt );
+            $this->_depreport( $repositoryPath, $extensionName );
+        }
+    }
+    else {
+
+        foreach my $extension (@remove) {
+            $extension =~ /(.*)\/(\w+)$/;
+            my $repositoryPath = $1;
+            my $extensionName  = $2;
+            print "Bad extension name" unless $extensionName && $repositoryPath;
+
+            $this->_uninstall( $repositoryPath, $extensionName, $processExt );
+        }
+
+        foreach my $extension (@add) {
+            $extension =~ /(.*)\/(\w+)$/;
+            my $repositoryPath = $1;
+            my $extensionName  = $2;
+            print "Bad extension name" unless $extensionName && $repositoryPath;
+
+            $this->_install( $repositoryPath, $extensionName, $processExt );
+        }
     }
 
-    my @add = $query->param('add');
-    foreach my $extension (@add) {
-        $extension =~ /(.*)\/(\w+)$/;
-        my $repositoryPath = $1;
-        my $extensionName  = $2;
-        print "Bad extension name" unless $extensionName && $repositoryPath;
-
-        $this->_install( $repositoryPath, $extensionName, $processExt );
-    }
     return '';
+}
+
+sub _getSession {
+    unless ( eval { require Foswiki } ) {
+        die "Can't load Foswiki: $@";
+    }
+
+    # Load up a new Foswiki session so that the install can checkin
+    # topics and attchments that are under revision control.
+    my $user = $Foswiki::cfg{AdminUserLogin};
+
+    # Temporarily override the password and mapping manager
+    # So configure can still work if LDAP or other extensions are not functional
+    $Foswiki::cfg{PasswordManager}    = 'none';
+    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
+    $Foswiki::cfg{Cache}{Enabled} = 0;
+
+    my $session = new Foswiki($user);
+
+    return $session;
+
+}
+
+sub _depreport {
+    my ( $this, $repositoryPath, $extension, $processExt ) = @_;
+
+    my $feedback = '';
+
+    my $repository = $this->getRepository($repositoryPath);
+    if ( !$repository ) {
+        $feedback .= $this->ERROR(
+            "Repository not found. <pre> " . $repository . "</pre>" );
+        _printFeedback($feedback);
+        return;
+    }
+
+    my $pkg = new Foswiki::Configure::Package( $this->{root}, $extension );
+
+    my $installed;
+    my $missing;
+    my $rslt = '';
+    my $plugins;
+    my $depCPAN;
+
+    $pkg->repository($repository);
+
+    $rslt = "Running dependency check for $extension";
+    my ( $loadrslt, $err ) = $pkg->loadInstaller();
+    $rslt .= "<pre>" . $loadrslt . "</pre>";
+    $rslt .= "Dependency Report<pre>";
+    ( $installed, $missing ) = $pkg->checkDependencies();
+    $rslt .= "===== INSTALLED =======\n$installed\n" if ($installed);
+    $rslt .= "====== MISSING ========\n$missing\n"   if ($missing);
+    $rslt .= "</pre>";
+
+    $err = $pkg->errors();
+
+    _printFeedback($rslt);
+
+    $pkg->finish();
+    undef $pkg;
 }
 
 sub _install {
@@ -80,58 +159,30 @@ sub _install {
         return;
     }
 
-    unless ( eval { require Foswiki } ) {
-        die "Can't load Foswiki: $@";
-    }
-
-    # Load up a new Foswiki session so that the install can checkin
-    # topics and attchments that are under revision control.
-    my $user    = $Foswiki::cfg{AdminUserLogin};
-
-    # Temporarily override the password and mapping manager
-    # So configure can still work if LDAP or other extensions are not functional
-    $Foswiki::cfg{PasswordManager} = 'none';
-    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
-    $Foswiki::cfg{Cache}{Enabled} = 0;
-
-    my $session = new Foswiki($user);
+    my $session = $this->_getSession();
 
     my $simulate = 0;
     my $nodeps   = 0;
 
     if ($processExt) {
-       $simulate = ($processExt eq 'sim') ? 1 : 0;
-       $nodeps = ($processExt eq 'nodep') ? 1 : 0;
+        $simulate = ( $processExt eq 'sim' )   ? 1 : 0;
+        $nodeps   = ( $processExt eq 'nodep' ) ? 1 : 0;
     }
 
-    my $pkg =
-      new Foswiki::Configure::Package( $this->{root}, $extension, $session,
-      {
-          SIMULATE => $simulate,
-          NODEPS   => $nodeps,
-      }
+    my $pkg = new Foswiki::Configure::Package(
+        $this->{root},
+        $extension,
+        $session,
+        {
+            SIMULATE => $simulate,
+            NODEPS   => $nodeps,
+        }
     );
 
-    my $installed;
-    my $missing;
-    my $rslt = '';
-    my $plugins;
-    my $depCPAN;
-
     $pkg->repository($repository);
-    if ($processExt eq 'dep') {
-        $rslt = "Running dependency check for $extension";
-        my ( $loadrslt, $err ) = $pkg->loadInstaller();
-        $rslt .= "<pre>".$loadrslt."</pre>";
-        $rslt .= "Dependency Report<pre>";
-        ($installed, $missing) = $pkg->checkDependencies();
-        $rslt .= "===== INSTALLED =======\n$installed\n" if ($installed);
-        $rslt .= "====== MISSING ========\n$missing\n"   if ($missing);
-        $rslt .= "</pre>";
-        }
-    else {
-        ( $rslt, $plugins, $depCPAN ) = $pkg->fullInstall();
-        }
+
+    my ( $rslt, $plugins, $depCPAN ) = $pkg->fullInstall();
+
     $err = $pkg->errors();
 
     _printFeedback($rslt);
@@ -160,14 +211,11 @@ sub _install {
     else {
 
         # OK
-        if ($processExt eq 'sim') {
+        if ( $processExt eq 'sim' ) {
             $feedback .= $this->NOTE_OK(
-                "Simulated installation of $extension and dependencies finished");
-            }
-        elsif ($processExt eq 'dep') {
-            $feedback .= $this->NOTE_OK(
-                "Dependency check for $extension finished");
-            }
+                "Simulated installation of $extension and dependencies finished"
+            );
+        }
         else {
             $feedback .= $this->NOTE_OK(
                 "Installation of $extension and dependencies finished");
@@ -194,7 +242,7 @@ HERE
         $feedback .= "</pre>";
     }
 
-    if ( keys(%$plugins ) && ! $simulate ) {
+    if ( keys(%$plugins) && !$simulate ) {
         $feedback .= $this->NOTE(<<HERE);
 <span class='foswikiAlert'>Note: Before you can use newly installed plugins, you must enable them in the Enabled Plugins section in the main page.</span>
 HERE
@@ -226,32 +274,16 @@ sub _uninstall {
     my $simulate = 0;
     my $sim      = '';
 
-    if ($processExt && $processExt eq 'sim') {
-       $simulate =  1;
-       $sim = "Simulated: ";
+    if ( $processExt && $processExt eq 'sim' ) {
+        $simulate = 1;
+        $sim      = "Simulated: ";
     }
 
-    unless ( eval { require Foswiki } ) {
-        die "Can't load Foswiki: $@";
-    }
-
-    # Load up a new Foswiki session so that the install can checkin
-    # topics and attchments that are under revision control.
-    my $user    = $Foswiki::cfg{AdminUserLogin};
-
-    # Temporarily override the password and mapping manager
-    # So configure can still work if LDAP or other extensions are not functional
-    $Foswiki::cfg{PasswordManager} = 'none';
-    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
-
-    my $session = new Foswiki($user);
+    my $session = $this->_getSession();
 
     my $pkg =
       new Foswiki::Configure::Package( $this->{root}, $extension, $session,
-      {
-          SIMULATE => $simulate,
-      }
-    );
+        { SIMULATE => $simulate, } );
 
     # For uninstall, set repository in case local installer is not found
     # it can be downloaded to recover the manifest
@@ -280,7 +312,7 @@ sub _uninstall {
 
         $pkg->loadExits();
 
-        if ( defined $pkg->preuninstall && ! $simulate ) {
+        if ( defined $pkg->preuninstall && !$simulate ) {
             $feedback .= "Running Pre-uninstall...<br />\n";
             $rslt = $pkg->preuninstall() || '';
             $feedback .= '<pre>' . $rslt . '</pre>';
@@ -288,7 +320,7 @@ sub _uninstall {
 
         @removed = $pkg->uninstall();
 
-        if ( defined $pkg->postuninstall && ! $simulate ) {
+        if ( defined $pkg->postuninstall && !$simulate ) {
             $feedback .= "Running Post-uninstall...<br />\n";
             $rslt = $pkg->postuninstall() || '';
             $feedback .= '<pre>' . $rslt . '</pre>';
@@ -297,6 +329,9 @@ sub _uninstall {
 
     $pkg->finish();
     undef $pkg;
+
+    $session->finish();
+    undef $session;
 
     if ($err) {
         $feedback .=
@@ -321,7 +356,7 @@ sub _uninstall {
     $feedback .= "Removed files:<br />\n<pre>$unpackedFeedback</pre>"
       if $unpackedFeedback;
 
-    if ( scalar @plugins && ! $simulate ) {
+    if ( scalar @plugins && !$simulate ) {
         $feedback .= $this->WARN(<<HERE);
 Note: Don't forget to disable uninstalled plugins in the
 "Plugins" section in the main page, listed below:
