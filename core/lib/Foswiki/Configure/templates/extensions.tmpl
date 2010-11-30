@@ -1,26 +1,4 @@
 <#-- EXTENSIONS UPDATE SCREEN TEMPLATE -->
-<script type="text/javascript">
-function submitform()
-{
-    document.update.submit();
-}
-</script>
-
-<style>
-div.floating-menu {position:fixed;background:#fff4c8;border:1px solid #ffcc00;width:35%;z-index:100; right:10px; top:5px}
-div.floating-menu a, div.floating-menu h3 {display:block;margin:0 0.5em;}
-</style>
-
-<div class="floating-menu">
-<h3>Configure Actions</h3>
-Currently installed: ${installedCount} out of ${allCount} Extensions <br /> <br />
-<div style="width:300px;"><a href="javascript: submitform()" class="foswikiSubmit" >Process selected extensions</a></div>
-<input type="radio" name="processExt" value="all" checked="checked"> Process all as selected </input><br /> 
-<input type="radio" name="processExt" value="sim"  > Simulate actions </input> <br />
-<input type="radio" name="processExt" value="dep"  > Check dependecies only </input><br />
-<input type="radio" name="processExt" value="nodep" > Install with no Dependencies </input>
-</div>
-
 <h2>Install and Update Extensions</h2>
 
 <div class="foswikiHelp" style="width:60%;";>
@@ -48,4 +26,6 @@ Backups are stored in your <code>working/configure/backups/</code> directory.   
 	<table class='configureExtensionsTable' border='0' cellspacing='0'>
 		${table}
 	</table>
+    <div class="configureActions"><div class='foswikiLeft'>Currently installed: ${installedCount} out of ${allCount}</div> <input type="submit" name="submit" class="foswikiSubmit" value="Install / uninstall selected extensions" /></div>
+
 </#if>
