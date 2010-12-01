@@ -190,7 +190,7 @@ PONG
     eval "require JSON";
     if( $@ ) {
         # Bad JSON
-        $this->assert_matches(qr/Perl JSON module is not available/, $result );
+        $this->assert_matches(qr/Perl JSON::XS or JSON module is not available/, $result );
     } else {
         # Good JSON
         $this->assert_json_equals( <<THIS, $result );
