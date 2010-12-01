@@ -13,17 +13,16 @@ use Foswiki ();
 #I think to be reusable we catually have to throw..
 sub serialise {
     my $session = shift;
-    my $result = shift;
-    my $style = shift;
-    
+    my $result  = shift;
+    my $style   = shift;
+
     #test to make sure we exist, and other things
-    
+
     no strict 'refs';
-    my $data = &$style($session, $result);
+    my $data = &$style( $session, $result );
     use strict 'refs';
     return $data;
 }
-
 
 sub perl {
     my ( $session, $result ) = @_;
@@ -33,7 +32,7 @@ sub perl {
     return Data::Dumper->Dump( [$result] );
 }
 
-#TODO: should really use encode_json / decode_json as those will use utf8, 
+#TODO: should really use encode_json / decode_json as those will use utf8,
 #but er, that'll cause other issues - as QUERY will blast the json into a topic..
 sub json {
     my ( $session, $result ) = @_;
@@ -42,7 +41,7 @@ sub json {
         return $session->inlineAlert( 'alerts', 'generic',
             'Perl JSON::XS or JSON module is not available' );
     }
-    my $j = JSON::Any->new(allow_nonref=>1);
+    my $j = JSON::Any->new( allow_nonref => 1 );
     return $j->to_json( $result, { allow_nonref => 1 } );
 }
 
@@ -79,7 +78,7 @@ sub convertMeta {
     foreach my $key ( keys(%$savedMeta) ) {
         next if ( $key eq '_session' );
         next if ( $key eq '_indices' );
-        
+
         $meta->{$key} = $savedMeta->{$key};
     }
 
@@ -88,46 +87,43 @@ sub convertMeta {
     return $meta;
 }
 
-
 #TODO: ok, ugly, and incomplete
 sub deserialise {
     my $session = shift;
-    my $result = shift;
-    my $style = shift;
-    
-    $style = $style.'_un';
+    my $result  = shift;
+    my $style   = shift;
+
+    $style = $style . '_un';
+
     #test to make sure we exist, and other things
-    
+
     no strict 'refs';
-    my $data = &$style($session, $result);
+    my $data = &$style( $session, $result );
     use strict 'refs';
     return $data;
 }
-
 
 sub perl_un {
     die 'not implemented';
 }
 
-#TODO: should really use encode_json / decode_json as those will use utf8, 
+#TODO: should really use encode_json / decode_json as those will use utf8,
 #but er, that'll cause other issues - as QUERY will blast the json into a topic..
 sub json_un {
     my ( $session, $result ) = @_;
-    eval "require JSON::Any";
+    eval "use JSON::Any";
     if ($@) {
         return $session->inlineAlert( 'alerts', 'generic',
             'Perl JSON module is not available' );
     }
-    my $j = JSON::Any->new(allow_nonref=>1);
-    return $j->from_json( $result );
+    my $j = JSON::Any->new( allow_nonref => 1 );
+    return $j->from_json($result);
 }
 
 # Default serialiser
 sub default_un {
     die 'not implemented';
 }
-
-
 
 1;
 __END__
