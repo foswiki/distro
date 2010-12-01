@@ -219,7 +219,6 @@ This Foswiki Contrib provides locally-installable versions of the following CPAN
    * [[CPAN:Test::Simple]]
    * [[CPAN:Test::Unit::Debug]]
    * [[CPAN:Test::Warn]]
-   * [[CPAN:Text::Diff]]
    * [[CPAN:Text::German]]
    * [[CPAN:Text::Glob]]
    * [[CPAN:Text::ParseWords]]
