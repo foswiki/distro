@@ -419,7 +419,6 @@ The following CPAN modules are shipped with Foswiki, require a comment or may op
 | Lingua::EN::Sentence | | Optional | May be required for generating new language files |
 | Locale::Maketext::Lexicon | &gt;=0 | Optional | Used for !I18N support |
 | LWP | | Optional | Required for the Configure Extensions Installer, and for external URL based INCLUDEs |
-| Text::Diff | | %ORANGE%Required%ENDCOLOR% | *Included* with Foswiki |
 | URI | | Optional | Required by the [[%SCRIPTURLPATH{"configure"}%][configure]] script |
 | Win32::Console | | Optional | May be required for Windows |
 
