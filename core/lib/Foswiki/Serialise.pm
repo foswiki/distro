@@ -37,12 +37,13 @@ sub perl {
 #but er, that'll cause other issues - as QUERY will blast the json into a topic..
 sub json {
     my ( $session, $result ) = @_;
-    eval "require JSON::Any";
+    eval "use JSON::Any";
     if ($@) {
         return $session->inlineAlert( 'alerts', 'generic',
-            'Perl JSON module is not available' );
+            'Perl JSON::XS or JSON module is not available' );
     }
-    return JSON::to_json( $result, { allow_nonref => 1 } );
+    my $j = JSON::Any->new(allow_nonref=>1);
+    return $j->to_json( $result, { allow_nonref => 1 } );
 }
 
 # Default serialiser
@@ -117,7 +118,8 @@ sub json_un {
         return $session->inlineAlert( 'alerts', 'generic',
             'Perl JSON module is not available' );
     }
-    return JSON::from_json( $result );
+    my $j = JSON::Any->new(allow_nonref=>1);
+    return $j->from_json( $result );
 }
 
 # Default serialiser
