@@ -5,8 +5,7 @@ use strict;
 use warnings;
 use Foswiki ();
 
-
-#NOTE that JSON::XS is essentially so fast its a nop, whereas the non-XS version is slow as a slow thing,
+#The JSON serialisation uses JSON::Any to select the 'best' available JSON implementation - JSON::XS being much faster.
 
 #should this really be a register/request?
 
@@ -38,7 +37,7 @@ sub perl {
 #but er, that'll cause other issues - as QUERY will blast the json into a topic..
 sub json {
     my ( $session, $result ) = @_;
-    eval "require JSON::XS";
+    eval "require JSON::Any";
     if ($@) {
         return $session->inlineAlert( 'alerts', 'generic',
             'Perl JSON module is not available' );
@@ -113,7 +112,7 @@ sub perl_un {
 #but er, that'll cause other issues - as QUERY will blast the json into a topic..
 sub json_un {
     my ( $session, $result ) = @_;
-    eval "require JSON::XS";
+    eval "require JSON::Any";
     if ($@) {
         return $session->inlineAlert( 'alerts', 'generic',
             'Perl JSON module is not available' );
