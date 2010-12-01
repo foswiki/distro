@@ -414,6 +414,7 @@ lib/CPAN/lib/Cache/SizeAwareFileCache.pm 0444
 lib/CPAN/lib/Cache/SizeAwareMemoryCache.pm 0444
 lib/CPAN/lib/Cache/SizeAwareSharedMemoryCache.pm 0444
 lib/CPAN/lib/Error.pm 0444
+lib/CPAN/lib/JSON/Any.pm 0444
 lib/CPAN/lib/JavaScript/Minifier.pm 0644
 lib/CPAN/lib/Locale/Maketext/Extract.pm 0444
 lib/CPAN/lib/Locale/Maketext/Extract/Run.pm 0444
