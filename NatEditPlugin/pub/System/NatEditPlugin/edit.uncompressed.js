@@ -7,8 +7,6 @@ function fixHeightOfPane () { }
 
 (function($) {
   function submitEditForm(script, action) {
-    var topicText = $("#topic").val();
-    $("#savearea").val(topicText);
     if (typeof(beforeSubmitHandler) == 'function') {
       if(beforeSubmitHandler(script, action) === false) {
         return false;
@@ -51,6 +49,10 @@ function fixHeightOfPane () { }
     $("#replaceform").click(function() {return submitEditForm('save', 'replaceform')});
     $("#addform").click(function() {return submitEditForm('save', 'addform')});
 
+    // fix browser back button quirks where checked radio buttons loose their state
+    $("input[checked=checked]").each(function() {
+      $(this).attr('checked', 'checked');
+    });
 
     jQuery(window).load(function() {
       if ((typeof(tinyMCE) === 'object') && typeof(tinyMCE.activeEditor === 'object')) {

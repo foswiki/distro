@@ -89,6 +89,10 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  01 Dec 2010 | fixed compatibility with newest foswiki; \
+                 improved !TopicTitle feature not to set a title under certain conditions; \
+                 Foswikitask:Item9006: disabling preview button on IE6,7,8; \
+                 shipping compressed and minified css+js |
 |  12 Feb 2010 | Foswikitask:Item8486, Foswikitask:Item8385: fixing edit and settings screen on !PatternSkin |
 |  04 Dec 2009 | Foswikitask:Item2453: Form data not saved when edit is invoked \
                  with ?action=form ('Edit data form of this topic' link) |

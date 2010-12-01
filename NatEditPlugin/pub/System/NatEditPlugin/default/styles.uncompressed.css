@@ -81,12 +81,8 @@
   height:23px;
   padding:0px;
   margin:0px 8px 0px 0px;
-  color:black;
 }
-.natEditBottomBar a:hover {
-  color:red;
-}
-.natEditBottomBar span {
+.natEditBottomBar li span {
   background-image:url(btn_left.gif);
   background-position:top left;
   background-repeat:no-repeat;

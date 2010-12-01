@@ -5,16 +5,19 @@
 
 %TMPL:DEF{"repeatedformrows"}% %REPEAT%
 <tr>
-  <th>%ROWTITLE%%ROWEXTRA%:</th>
-  <td>%ROWVALUE%</td>
+  <th>%ROWTITLE%:</th>
+  <td>%ROWVALUE% %ROWEXTRA%</td>
 </tr>%REPEAT%
 <tr>
   <th colspan="2">%ROWVALUE%</th>
 </tr>%REPEAT% %TMPL:END%
 
+%TMPL:DEF{"formname::dbcache"}%%DBQUERY{topic="%BASEWEB%.%BASETOPIC%" format="$expand(form.name)"}%%TMPL:END%
+%TMPL:DEF{"formname::standard"}%%QUERY{"form.name"}%%TMPL:END%
+
 %TMPL:DEF{"formtail"}% %TMPL:P{context="mandatoryfields" then="mandatory"}% %TMPL:END%
 %TAB{"Form"}%
-<h2 >%FORMTITLE%%TMPL:P{"changeform"}%</h2>
+<h2 ><nop>%TMPL:P{context="DBCachePluginEnabled" then="formname::dbcache" else="formname::standard"}%%TMPL:P{"changeform"}%</h2>
 <div class="foswikiFormSteps foswikiEditForm">
 <table class="foswikiLayoutTable">
 %TMPL:P{"repeatedformrows"}%

@@ -1,6 +1,6 @@
 Foswiki::Plugins::JQueryPlugin,>=3740,perl,Required.
-Foswiki::Plugins::SetVariablePlugin,>=4287,perl,Required.
-Foswiki::Plugins::UploadPlugin,>=1340,perl,Required.
-Foswiki::Plugins::RenderPlugin,>=3644,perl,Required.
-Foswiki::Plugins::DBCachePlugin,>=4358,perl,Required.
-Foswiki::Plugins::ZonePlugin,>=1.0,perl,Required.
+Foswiki::Plugins::SetVariablePlugin,>=4287,perl,Optional.
+Foswiki::Plugins::TopicInteractionPlugin,>=1,perl,Optional, require to be able to upload attachments from the editor.
+Foswiki::Plugins::RenderPlugin,>=3644,perl,Optional.
+ONLYIF ( $Foswiki::Plugins::VERSION < 2.1)
+Foswiki::Plugins::ZonePlugin,>=3.1,perl,Required. required for Foswiki < 1.1

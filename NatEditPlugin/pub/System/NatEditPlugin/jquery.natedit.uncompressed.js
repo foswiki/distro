@@ -71,14 +71,6 @@ $.NatEditor = function(txtarea, opts) {
     });
     self.autoExpand();
   }
-
-  window.setTimeout(function() {
-    try {
-      self.setCaretPosition(0);
-    } catch (e ){
-      // ignore
-    }
-  }, 100);
 };
 
 /*************************************************************************
@@ -91,12 +83,10 @@ $.NatEditor.prototype.initGui = function() {
   var $txtarea = $(self.txtarea);
   self.container = $txtarea.wrap('<div class="natEdit"></div>').parent();
 
-  if (self.opts.hideToolbar) {
+  if (!self.opts.showToolbar) {
     //$.log("no toolbar");
     return;
   }
-
-  var width = $txtarea.width();
 
   // toolbar
   var $headlineTools = $('<ul class="natEditButtonBox"></ul>').
@@ -203,14 +193,17 @@ $.NatEditor.prototype.initGui = function() {
       $(self.opts.linkButton).click(function() {
         self.openDialog(self.opts.linkDialog);
         return false;
-      })).
-    append(
-      $(self.opts.attachmentButton).click(function() {
-        self.openDialog(self.opts.attachmentDialog);
-        return false;
       }));
 
-  if (foswiki.MathModePluginEnabled) {
+    if (!foswiki.getPreference("TOPIC").match(/AUTOINC|XXXXXXXXXX/)) {
+      $objectTools.append(
+        $(self.opts.attachmentButton).click(function() {
+          self.openDialog(self.opts.attachmentDialog);
+          return false;
+        }));
+    }
+
+  if (foswiki.getPreference("MathModePluginEnabled") == 'true') {
     $objectTools.
       append(
         $(self.opts.mathButton).click(function() {
@@ -231,18 +224,23 @@ $.NatEditor.prototype.initGui = function() {
         return false;
       }));
     
-  var $toolbar = 
-    $('<div class="natEditToolBar"></div>').
-    append($headlineTools).
-    append($textTools).
-    append($listTools).
-    append($paragraphTools).
-    append($objectTools).
-    append('<span class="foswikiClear"></span>');
-
-  if (width) {
-    $toolbar.width(width);
+  var $toolbar = $('<div class="natEditToolBar"></div>');
+  if (self.opts.showHeadlineTools) {
+    $toolbar.append($headlineTools);
   }
+  if (self.opts.showTextTools) {
+    $toolbar.append($textTools);
+  }
+  if (self.opts.showListTools) {
+    $toolbar.append($listTools);
+  }
+  if (self.opts.showParagraphTools) {
+    $toolbar.append($paragraphTools);
+  }
+  if (self.opts.showObjectTools) {
+    $toolbar.append($objectTools);
+  }
+  $toolbar.append('<span class="foswikiClear"></span>');
 
   if (self.opts.autoHideToolbar) {
     //$.log("toggling toolbar on hover event");
@@ -380,8 +378,7 @@ $.NatEditor.prototype.getSelectionRange = function() {
   //$.log("called getSelectionRange()");
 
   if (document.selection && !$.browser.opera) { // IE
-    //$.log("IE");
-    $(self.txtarea).focus();
+    //$(self.txtarea).focus();
    
     var text = self.txtarea.value;
     var c = "\001";
@@ -576,7 +573,7 @@ $.NatEditor.prototype._openDialog = function(opts) {
     }
   });
   if (!opts._doneInit) {
-    $dialog.find(".submit").click(function() {
+    $dialog.find(".foswikiButtonSubmit").click(function() {
       $.modal.close();
       if ($.browser.msie) { // restore lost position
         self.setSelectionRange(opts._startPos, opts._endPos);
@@ -586,7 +583,7 @@ $.NatEditor.prototype._openDialog = function(opts) {
       }
       return false;
     });
-    $dialog.find(".cancel").click(function() {
+    $dialog.find(".foswikiButtonCancel").click(function() {
       $.modal.close();
       return false;
     });
@@ -615,7 +612,7 @@ $.NatEditor.prototype.fixHeight = function() {
     $txtarea = $(self.txtarea),
     windowHeight = $(window).height(),
     windowWidth = $(window).width(),
-    bottomHeight = $('.natEditBottomBar').outerHeight({margin:true}),
+    bottomHeight = $('.natEditBottomBar').outerHeight(true),
     offset = $txtarea.offset(),
     tmceEdContainer, tmceIframe,
     minWidth, minHeight, newHeight, newHeightExtra = 0, natEditTopicInfoHeight,
@@ -668,12 +665,12 @@ $.NatEditor.prototype.fixHeight = function() {
 
     /* The NatEdit Title: text sits in the jqTab above TMCE */
     natEditTopicInfoHeight = $($(tmceTable.parentNode.parentNode).siblings(
-      '.natEditTopicInfo')[0]).outerHeight({margin: true}); // SMELL: this looks strange
+      '.natEditTopicInfo')[0]).outerHeight(true); // SMELL: this looks strange
     offset = $(tmceTable).offset().top;
 
     $(tmceEdContainer.parentNode).siblings().each(	/* Iterate over TMCE layout */
       function (i, tr) {
-        newHeightExtra = newHeightExtra + $(tr).outerHeight({margin: true});
+        newHeightExtra = newHeightExtra + $(tr).outerHeight(true);
       }
     );
 
@@ -844,33 +841,6 @@ $.natedit = {
     bulletListMarkup: ['   * ','bullet item',''],
     indentMarkup: ['   ','',''],
     outdentMarkup: ['','',''],
-    tableDialog: {
-      url: foswiki.scriptUrlPath+'/rest/RenderPlugin/template?name=editdialog;expand=inserttable;topic='+foswiki.web+"."+foswiki.topic,
-      dialog: "#natEditInsertTable",
-      onSubmit: function(nateditor) {
-	$.natedit.handleInsertTable(nateditor);
-      }
-    },
-    linkDialog: {
-      url: foswiki.scriptUrlPath+'/rest/RenderPlugin/template?name=editdialog;expand=insertlink;topic='+foswiki.web+'.'+foswiki.topic,
-      dialog: '#natEditInsertLink',
-      onSubmit: function(nateditor) {
-	$.natedit.handleInsertLink(nateditor);
-      },
-      onShow: function(nateditor) {
-        $.natedit.initInsertLink(nateditor);
-      }
-    },
-    attachmentDialog: {
-      url: foswiki.scriptUrlPath+'/rest/RenderPlugin/template?name=editdialog;expand=insertattachment;topic='+foswiki.web+'.'+foswiki.topic,
-      dialog: '#natEditInsertAttachment',
-      onSubmit: function(nateditor) {
-	$.natedit.handleInsertAttachment(nateditor);
-      },
-      onShow: function(nateditor) {
-        $.natedit.initInsertAttachment(nateditor);
-      }
-    },
     imagePluginMarkup: ['%IMAGE{"','Example.jpg','|400px|Caption text|frame|center"}%'],
     imageMarkup: ['<img src="%<nop>ATTACHURLPATH%/','Example.jpg','" title="Example" />'],
     mathMarkup: ['<latex title="Example">\n','\\sum_{x=1}^{n}\\frac{1}{x}','\n</latex>'],
@@ -878,10 +848,16 @@ $.natedit = {
     signatureMarkup: ['-- ', '%WIKINAME%, ' - '%DATE%'],
 
     autoHideToolbar: false,
-    hideToolbar: false,
     autoMaxExpand:false,
     autoExpand:false,
-    minHeight:230
+    minHeight:230,
+
+    showToolbar: true,
+    showHeadlineTools: true,
+    showTextTools: true,
+    showListTools: true,
+    showParagraphTools: true,
+    showObjectTools: true
   }
 };
 
@@ -891,20 +867,41 @@ $.fn.natedit = $.natedit.build;
 /* initializer */
 $(function() {
 
-  var foundNatEdit = false;
+  // finish defaults at dom ready
+  $.natedit.defaults.tableDialog = {
+    url: foswiki.getPreference("SCRIPTURLPATH")+'/rest/RenderPlugin/template?name=editdialog;expand=inserttable;topic='+foswiki.getPreference("WEB")+"."+foswiki.getPreference("TOPIC"),
+    dialog: "#natEditInsertTable",
+    onSubmit: function(nateditor) {
+      $.natedit.handleInsertTable(nateditor);
+    }
+  };
+  $.natedit.defaults.linkDialog =  {
+    url: foswiki.getPreference("SCRIPTURLPATH")+'/rest/RenderPlugin/template?name=editdialog;expand=insertlink;topic='+foswiki.getPreference("WEB")+'.'+foswiki.getPreference("TOPIC"),
+    dialog: '#natEditInsertLink',
+    onSubmit: function(nateditor) {
+      $.natedit.handleInsertLink(nateditor);
+    },
+    onShow: function(nateditor) {
+      $.natedit.initInsertLink(nateditor);
+    }
+  };
+  $.natedit.defaults.attachmentDialog = {
+    url: foswiki.getPreference("SCRIPTURLPATH")+'/rest/RenderPlugin/template?name=editdialog;expand=insertattachment;topic='+foswiki.getPreference("WEB")+'.'+foswiki.getPreference("TOPIC"),
+    dialog: '#natEditInsertAttachment',
+    onSubmit: function(nateditor) {
+      $.natedit.handleInsertAttachment(nateditor);
+    },
+    onShow: function(nateditor) {
+      $.natedit.initInsertAttachment(nateditor);
+    }
+  };
+
   $(".natedit").each(function() {
     $(this).natedit({
       autoMaxExpand:false,
-      signatureMarkup: ['-- ', foswiki.wikiUserName, ' - '+foswiki.serverTime]
+      signatureMarkup: ['-- ', foswiki.getPreference("WIKIUSERNAME"), ' - '+foswiki.getPreference("SERVERTIME")]
     });
-    foundNatEdit = true;
   });
-  if (foundNatEdit) {
-    var savetext = $("#savearea").val();
-    if (savetext && savetext.length) {
-      $("#topic").val(savetext);
-    }
-  }
 });
 
 })(jQuery);

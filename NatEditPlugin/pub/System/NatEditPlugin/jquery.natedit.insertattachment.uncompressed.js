@@ -105,7 +105,7 @@
 	  var opts = $this.metadata();
 	  if (opts.fileName.match(/jpe?g|gif|png|bmp/i)) {
 	    var src = opts.url;
-	    if (foswiki.ImagePluginEnabled) {
+	    if (foswiki.getPreference('ImagePluginEnabled')) {
 	      src = foswiki.scriptUrlPath+"/rest/ImagePlugin/resize?"+
 		"topic="+opts.web+"."+opts.topic+";"+
 		"file="+opts.fileName+";"+
@@ -152,7 +152,7 @@
       url = "%ATTACHURL%/"+fileName;
     }
 
-    if (foswiki.ImagePluginEnabled && fileName.match(/jpe?g|gif|png|bmp/i) && !linktext) {
+    if (foswiki.getPreference('ImagePluginEnabled') && fileName.match(/jpe?g|gif|png|bmp/i) && !linktext) {
       if (web == foswiki.web && topic == foswiki.topic) {
         markup = '%IMAGE{"'+fileName+'"';
       } else {

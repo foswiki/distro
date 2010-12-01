@@ -1,4 +1,4 @@
-FOSWIKI_ROOT=~/foswiki/trunk/core
+FOSWIKI_ROOT?=~/foswiki/trunk/core
 TARGET= \
   edit.js \
   jquery.natedit.js \
@@ -6,5 +6,7 @@ TARGET= \
   jquery.natedit.insertlink.js \
   jquery.natedit.insertattachment.js \
   styles.css
+
+SUBDIRS=default
 
 -include $(FOSWIKI_ROOT)/pub/System/JQueryPlugin/Makefile.include

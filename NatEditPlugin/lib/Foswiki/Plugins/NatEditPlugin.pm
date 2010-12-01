@@ -22,12 +22,13 @@ use vars qw(
 );
 
 $VERSION = '$Rev$';
-$RELEASE = 'v4.21';
+$RELEASE = '4.30';
 
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'A Wikiwyg Editor';
 
 use constant DEBUG => 0; # toggle me
+use Foswiki::Func ();
 use Foswiki::Plugins::JQueryPlugin ();
 
 ###############################################################################
@@ -134,8 +135,20 @@ sub beforeSaveHandler {
     return;
   }
 
+  my $fieldTopicTitle = $meta->get('FIELD', 'TopicTitle');
+  writeDebug("topic=$web.$topic, topicTitle=$topicTitle");
+
+  if ($topicTitle eq $topic) {
+    writeDebug("same as topic name ... nulling");
+    $request->param("TopicTitle", "");
+    $topicTitle = '';
+    if (defined $fieldTopicTitle) {
+      $fieldTopicTitle->{value} = "";
+    }
+  }
+
   # find out if this topic can store the TopicTitle in its metadata
-  if (defined($meta->get('FIELD', 'TopicTitle'))) {
+  if (defined $fieldTopicTitle) {
     writeDebug("can deal with TopicTitles by itself");
 
     # however, check if we've got a TOPICTITLE preference setting
@@ -149,11 +162,6 @@ sub beforeSaveHandler {
   } 
 
   writeDebug("we need to store the TopicTitle in the preferences");
-
-  if ($topicTitle eq $topic) {
-    writeDebug("same as topic name");
-    $topicTitle = '';
-  }
 
 
   # if it is a topic setting, override it.

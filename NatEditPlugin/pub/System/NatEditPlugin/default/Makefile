@@ -1,13 +1,4 @@
-TARGET= \
-  styles.css
+FOSWIKI_ROOT?=~/foswiki/trunk/core
+TARGET=styles.css
 
-GZIP=gzip
-
-
-.SUFFIXES: .js .css
-
-all: $(TARGET) $(TARGET:.js=.js.gz) $(TARGET:.css=.css.gz)
-
-%.gz: %
-	@echo compressing $< to $@
-	@$(GZIP) -c $< > $@
+-include $(FOSWIKI_ROOT)/pub/System/JQueryPlugin/Makefile.include

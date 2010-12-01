@@ -48,6 +48,12 @@ ul.natEditHelpTools {
   display:none;
 }
 
+/* temporary IE hack: disable preview button */
+.natEditBottomBar ul li.natEditPreviewButton {
+  display: none\9; /* IE8 and below */
+}
+
+
 .natEditToolBar a:hover,
 .natEditToolBar a {
   text-decoration:none;
@@ -143,10 +149,6 @@ ul.natEditHelpTools {
 .patternEditPage .foswikiForm {
   margin:0px;
 }
-.jqTabContents h3 {
-  margin-top:0px;
-  margin-bottom:0px;
-}
 
 #patternPage .foswikiFormTable {
   width:99%;
@@ -166,4 +168,9 @@ ul.natEditHelpTools {
 }
 .patternEditPage .foswikiFormSteps h2 {
   margin-bottom:1em;
+}
+
+/* temporarily switched off */
+.natEditToolBar ul li.natEditAttachmentButton {
+  display:none;
 }

@@ -4,17 +4,17 @@
 %TMPL:INCLUDE{"edithelp"}%<!-- edithelp// -->
 %TMPL:INCLUDE{"editdialog"}%<!-- editdialog// -->
 %TMPL:INCLUDE{"uploadplugin"}%<!-- uploadplugin// -->
-%TMPL:DEF{"titleaction"}%(%IF{"defined 'rev'" then="%MAKETEXT{"restore"}%" else="%MAKETEXT{"edit"}%"}%)%TMPL:END%
+%TMPL:DEF{"titleaction"}%(%IF{"defined 'rev'" then="%MAKETEXT{"restore"}%" else="%default%"}%)%TMPL:END%
 %TMPL:DEF{"pagetitlestylewrapper"}%<!-- backwards compatibility -->%TMPL:END%
 %TMPL:DEF{"contenttitle"}%<h1 class="patternTemplateTitle">%IF{
   "istopic '%WEB%.%TOPIC%'" 
-  then="[[%WEB%.%TOPIC%][%TMPL:P{"topictitle"}%]] %TMPL:P{"titleaction"}%" 
-  else="<nop>%WEB%.%TOPIC% %TMPL:P{"titleaction"}%"
+  then="[[%WEB%.%TOPIC%][%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle"}%"}%]] $percntTMPL:P{\"titleaction\" default=\"%MAKETEXT{"edit"}%\"}$percnt" 
+  else="<nop>%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle"}%"}% $percntTMPL:P{\"titleaction\" default=\"%MAKETEXT{"new"}%\"}$percnt"
 }%</h1>%TMPL:END%
 
-%TMPL:DEF{"topictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="topictitle_dbcache" else="topictitle_default"}%%TMPL:END%
+%TMPL:DEF{"topictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="topictitle_dbcache" else="topictitle_default" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"topictitle_default"}%%IF{"defined 'TOPICTITLE'" then="%TOPICTITLE%" else="%BASETOPIC%"}%%TMPL:END%
-%TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{encode="entity"}%%TMPL:END%
+%TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{"%WEB%.%TOPIC%" encode="entity" hideautoinc="%hideautoinc%"}%%TMPL:END%
 
 %TMPL:DEF{"content"}%<!-- content -->
 %TMPL:P{"contenttitle"}%<!-- contenttitle// -->
@@ -24,7 +24,10 @@
 %TMPL:P{"bottomtopicactions"}%<!-- bottomtopicactions// -->
 %TMPL:P{"formend"}%<!-- formend //-->
 %TMPL:P{"dialogs"}%
-<!-- //content -->%TMPL:END%
+%ADDTOZONE{"head"
+  tag="NATEDIT::MATHMODEPLUGINENABLED"
+  text="<meta name='foswiki.MathModePluginEnabled' content='%IF{"context MathModePluginEnabled" then="true" else="false"}%' />"
+}%<!-- //content -->%TMPL:END%
 
 %TMPL:DEF{"formstart"}%<!-- formstart -->
 <div class="natEditContainer">
@@ -49,11 +52,10 @@
 <input type="hidden" name="formtemplate" value="%FORMTEMPLATE%" />
 <input type="hidden" name="templatetopic" value="%TEMPLATETOPIC%" />
 <input type="hidden" name="template" value="%URLPARAM{"template"}%" />
-<textarea rows="5" cols="22" style="display:none" id="savearea"></textarea>
 <!-- //formstart -->%TMPL:END%
 
 %TMPL:DEF{"textarea"}%<!-- textarea -->
-<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natEditTextArea natedit {autoMaxExpand:true, minHeight:215}" name="text" rows="22" cols="70" wrap="virtual">%TEXT%</textarea>
+<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natEditTextArea natedit {autoMaxExpand:true, minHeight:215}" name="text" rows="22" cols="70">%TEXT%</textarea>
 <!-- //textarea -->%TMPL:END%
 
 
@@ -84,14 +86,14 @@
   <table>
   <tr>
     <th>Title:</th>
-    <td><input class="foswikiInputField" type="text" name="TopicTitle" size="75" value="%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle"}%" encode="quote"}%" /></td>
+    <td><input class="foswikiInputField" type="text" name="TopicTitle" size="75" value="%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle" hideautoinc="on"}%" encode="quote"}%" /></td>
   </tr>
   </table>
 </literal></div>
 <!-- //topicmeta -->%TMPL:END%
 
 %TMPL:DEF{"firsttab"}%<!-- firsttab -->
-%TAB{"%MAKETEXT{"Text"}%" DISafter="$.natedit.fixHeight('#topic');"}%
+%TAB{"%MAKETEXT{"Text"}%"}%
 %TMPL:P{"topicmeta"}%<!-- topicmeta// -->
 %TMPL:P{"textarea"}%<!-- textarea// -->
 %ENDTAB%

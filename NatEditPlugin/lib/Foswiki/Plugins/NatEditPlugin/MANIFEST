@@ -22,10 +22,13 @@ pub/System/NatEditPlugin/edit.js.gz 0644
 pub/System/NatEditPlugin/edit.uncompressed.js 0644
 pub/System/NatEditPlugin/jquery.natedit.insertattachment.js 0644
 pub/System/NatEditPlugin/jquery.natedit.insertattachment.js.gz 0644
+pub/System/NatEditPlugin/jquery.natedit.insertattachment.uncompressed.js 0644
 pub/System/NatEditPlugin/jquery.natedit.insertlink.js 0644
 pub/System/NatEditPlugin/jquery.natedit.insertlink.js.gz 0644
+pub/System/NatEditPlugin/jquery.natedit.insertlink.uncompressed.js 0644
 pub/System/NatEditPlugin/jquery.natedit.inserttable.js 0644
 pub/System/NatEditPlugin/jquery.natedit.inserttable.js.gz 0644
+pub/System/NatEditPlugin/jquery.natedit.inserttable.uncompressed.js 0644
 pub/System/NatEditPlugin/jquery.natedit.js 0644
 pub/System/NatEditPlugin/jquery.natedit.js.gz 0644
 pub/System/NatEditPlugin/jquery.natedit.uncompressed.js 0644
@@ -44,7 +47,6 @@ templates/edit.natedit.tmpl 0644
 templates/editsection.natedit.tmpl 0644
 templates/edittext.natedit.tmpl 0644
 templates/edittoolbar.natedit.tmpl 0644
-templates/edittoolbar.word.natedit.tmpl 0644
 templates/form.natedit.tmpl 0644
 templates/preview.natedit.tmpl 0644
 templates/previewtoolbar.natedit.tmpl 0644

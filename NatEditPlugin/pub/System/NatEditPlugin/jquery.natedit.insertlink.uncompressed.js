@@ -14,13 +14,11 @@
     });
 
     $("#natEditInsertLinkWeb").autocomplete(
-      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=web&contenttype=text/plain&skin=text", {
-        matchCase: true
-    });
+      foswiki.getPreference("SCRIPTURLPATH")+"/view/"+foswiki.getPreference("SYSTEMWEB")+"/JQueryAjaxHelper?section=web&skin=text"
+    );
 
     $("#natEditInsertLinkTopic").autocomplete(
-      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text", {
-        matchCase: true,
+      foswiki.getPreference("SCRIPTURLPATH")+"/view/"+foswiki.getPreference("SYSTEMWEB")+"/JQueryAjaxHelper?section=topic&skin=text", {
         extraParams: {
           baseweb: function() { 
             return $('#natEditInsertLinkWeb').val();
