@@ -5,6 +5,9 @@ use strict;
 use warnings;
 use Foswiki ();
 
+
+#NOTE that JSON::XS is essentially so fast its a nop, whereas the non-XS version is slow as a slow thing,
+
 #should this really be a register/request?
 
 #TODO: do we need to use Foswiki, or can we throw a Simple exception instead?
@@ -31,9 +34,11 @@ sub perl {
     return Data::Dumper->Dump( [$result] );
 }
 
+#TODO: should really use encode_json / decode_json as those will use utf8, 
+#but er, that'll cause other issues - as QUERY will blast the json into a topic..
 sub json {
     my ( $session, $result ) = @_;
-    eval "require JSON";
+    eval "require JSON::XS";
     if ($@) {
         return $session->inlineAlert( 'alerts', 'generic',
             'Perl JSON module is not available' );
@@ -61,6 +66,67 @@ sub default {
         return defined $result ? $result : '';
     }
 }
+
+#filter out parts of a meta object that don't make sense serialise (for example, json doesn't really like being sent a blessed object
+sub convertMeta {
+    my $savedMeta = shift;
+
+    my $meta = {
+        _web   => $savedMeta->web(),
+        _topic => $savedMeta->topic()
+    };
+
+    foreach my $key ( keys(%$savedMeta) ) {
+        next if ( $key eq '_session' );
+        next if ( $key eq '_indices' );
+        
+        $meta->{$key} = $savedMeta->{$key};
+    }
+
+    $meta->{_raw_text} = $savedMeta->getEmbeddedStoreForm();
+
+    return $meta;
+}
+
+
+#TODO: ok, ugly, and incomplete
+sub deserialise {
+    my $session = shift;
+    my $result = shift;
+    my $style = shift;
+    
+    $style = $style.'_un';
+    #test to make sure we exist, and other things
+    
+    no strict 'refs';
+    my $data = &$style($session, $result);
+    use strict 'refs';
+    return $data;
+}
+
+
+sub perl_un {
+    die 'not implemented';
+}
+
+#TODO: should really use encode_json / decode_json as those will use utf8, 
+#but er, that'll cause other issues - as QUERY will blast the json into a topic..
+sub json_un {
+    my ( $session, $result ) = @_;
+    eval "require JSON::XS";
+    if ($@) {
+        return $session->inlineAlert( 'alerts', 'generic',
+            'Perl JSON module is not available' );
+    }
+    return JSON::from_json( $result );
+}
+
+# Default serialiser
+sub default_un {
+    die 'not implemented';
+}
+
+
 
 1;
 __END__

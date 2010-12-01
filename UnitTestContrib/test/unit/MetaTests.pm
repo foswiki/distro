@@ -793,6 +793,26 @@ sub test_getRevisionHistory {
     $this->assert(!$revIt->hasNext());
 }
 
+sub test_haveAccess {
+    my $this = shift;
+
+    my $topicObject = Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, 'WebHome' );
+    $this->assert($topicObject->haveAccess('VIEW'));
+    $this->assert($topicObject->haveAccess('CHANGE'));
+
+
+    my $webObject = Foswiki::Meta->new(
+          $this->{session}, $this->{test_web} );
+    $this->assert($webObject->haveAccess('VIEW'));
+    $this->assert($webObject->haveAccess('CHANGE'));
+
+    my $rootObject = Foswiki::Meta->new(
+          $this->{session} );
+    $this->assert($rootObject->haveAccess('VIEW'));
+    $this->assert(not $rootObject->haveAccess('CHANGE'));
+}
+
 # Disabled as XML functionnality has been removed from the core, see Foswikitask:Item1917
 # sub testXML_topic {
 #     my $this = shift;
