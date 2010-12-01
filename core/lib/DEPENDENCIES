@@ -1,3 +1,4 @@
+Algorithm::Diff,>=0,cpan,Required, for base Foswiki
 Apache::Htpasswd,>=0,cpan,Optional, may be required for ApacheHtpasswd password manager
 Archive::Tar,>=0,cpan,Optional, may be required by the Extensions Installer in configure if command line tar or unzip is not available
 B::Deparse,>=0,cpan,Required, for base Foswiki
@@ -15,6 +16,7 @@ Encode::compat,>=0,cpan,Optional, may be required for international characters
 Error,>=0.15,cpan,Required, for base Foswiki
 Exporter,>=0,cpan,Required, for base Foswiki
 File::Basename,>=0,cpan,Required, for base Foswiki
+File::Copy,>=0,cpan,Required, for base Foswiki
 File::Glob,>=0,cpan,Required, for base Foswiki
 File::Path,>=0,cpan,Required, for base Foswiki
 File::Spec,>=0,cpan,Required, for base Foswiki
