@@ -36,6 +36,9 @@ sub perl {
 #but er, that'll cause other issues - as QUERY will blast the json into a topic..
 sub json {
     my ( $session, $result ) = @_;
+    
+    return '' if (not(defined($result)));
+    
     eval "use JSON::Any";
     if ($@) {
         return $session->inlineAlert( 'alerts', 'generic',
@@ -113,6 +116,9 @@ sub perl_un {
 #but er, that'll cause other issues - as QUERY will blast the json into a topic..
 sub json_un {
     my ( $session, $result ) = @_;
+    
+    return if ($result eq '');
+    
     eval "use JSON::Any";
     if ($@) {
         return $session->inlineAlert( 'alerts', 'generic',
