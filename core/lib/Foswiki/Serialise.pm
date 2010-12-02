@@ -71,18 +71,20 @@ sub convertMeta {
     my $savedMeta = shift;
 
     my $meta = {
-        _web   => $savedMeta->web(),
-        _topic => $savedMeta->topic()
     };
+    $meta->{_web} = $savedMeta->web() if (defined($savedMeta->web()));
+    $meta->{_topic} = $savedMeta->topic() if (defined($savedMeta->topic()));
 
     foreach my $key ( keys(%$savedMeta) ) {
         next if ( $key eq '_session' );
         next if ( $key eq '_indices' );
+        
+        #TODO: next if ( $key is one of the array types... and has no elements..
 
         $meta->{$key} = $savedMeta->{$key};
     }
-
-    $meta->{_raw_text} = $savedMeta->getEmbeddedStoreForm();
+    my $raw = $savedMeta->getEmbeddedStoreForm();
+    $meta->{_raw_text} = $raw if (defined($raw) and defined($meta->{_topic}));#TODO: exclude attachment meta too..
 
     return $meta;
 }
