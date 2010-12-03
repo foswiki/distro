@@ -422,7 +422,6 @@ lib/CPAN/lib/Locale/Maketext/Lexicon/Gettext.pm 0444
 lib/CPAN/lib/Locale/Maketext/Lexicon/Msgcat.pm 0444
 lib/CPAN/lib/Locale/Maketext/Lexicon/Tie.pm 0444
 lib/CPAN/lib/Sort/Maker.pm 0444
-lib/CPAN/lib/Text/Diff.pm 0444
 lib/DEPENDENCIES 0444
 lib/Foswiki.pm 0444
 lib/Foswiki.spec 0444
