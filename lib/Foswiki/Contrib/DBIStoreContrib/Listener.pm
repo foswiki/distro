@@ -21,9 +21,8 @@ use Assert;
 
 use constant MONITOR => 0;
 
-our $db;
+our $db; # singleton instance of this listener
 our @TABLES = keys(%Foswiki::Meta::VALIDATE); # META: types
-our $ATTRS;
 
 # @ISA not required (base class is empty)
 #our @ISA = ('Foswiki::Store::Listener');
@@ -32,24 +31,8 @@ our $ATTRS;
 sub new {
     my $class = shift;
 
-    unless ($ATTRS) {
-        $ATTRS = {};
-        foreach my $type (@TABLES) {
-            my @keys;
-            foreach my $g qw(require allow other) {
-                if (defined $Foswiki::Meta::VALIDATE{$type}->{$g}) {
-                    push(@keys, @{$Foswiki::Meta::VALIDATE{$type}->{$g}});
-                }
-            }
-            foreach my $key (@keys) {
-                $ATTRS->{$type}->{$key} = 1;
-            }
-        }
-    }
+    $db = bless({}, $class) unless $db;
 
-    unless ($db) {
-        $db = bless({}, $class);
-    }
     return $db;
 }
 
@@ -71,6 +54,23 @@ sub _connect {
 
     print STDERR "CONNECT $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN}..."
       if MONITOR;
+
+    # $this->{schema} re-expresses the schema declared in Meta::VALIDATE by
+    # organising it as a hash keyed on table name e.g. 'FILEATTACHMENT'
+    # and sub-keyed on attribute name e.g. 'name'
+    $this->{schema} = {};
+    foreach my $type (@TABLES) {
+	my @keys;
+	foreach my $g qw(require allow other) {
+	    if (defined $Foswiki::Meta::VALIDATE{$type}->{$g}) {
+		push(@keys, @{$Foswiki::Meta::VALIDATE{$type}->{$g}});
+	    }
+	}
+	foreach my $key (@keys) {
+	    $this->{schema}->{$type}->{$key} = 1;
+	}
+    }
+
     $this->{handle} = DBI->connect(
         $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN},
         $Foswiki::cfg{Extensions}{DBIStoreContrib}{Username},
@@ -85,7 +85,7 @@ sub _connect {
 	if ($@ =~ /no such table/) {
 	    print STDERR "Loading DB schema\n" if MONITOR;
 	    $this->_createTables();
-	    print STDERR "DB schema loaded; preload\n" if MONITOR;
+	    print STDERR "DB schema loaded; preloading content\n" if MONITOR;
 	    $this->_preload($session);
 	    print STDERR "DB preloaded\n" if MONITOR;
 	} else {
@@ -111,7 +111,7 @@ SQL
 sub _createTableForMETA {
     my ($this, $t) = @_;
     my $cols = join(
-        ",\n", map { " '$_' TEXT" } keys %{$ATTRS->{$t}});
+        ",\n", map { " '$_' TEXT" } keys %{$this->{schema}->{$t}});
     $this->{handle}->do(<<SQL);
 CREATE TABLE '$t' (
  'tid' TEXT,
@@ -217,7 +217,7 @@ sub insert {
             my $data = $mo->{$type};
             foreach my $item (@$data) {
                 # Filter attrs by those legal in the schema
-                my @kn =  grep { $ATTRS->{$type}->{$_} } keys(%$item);
+                my @kn =  grep { $this->{schema}->{$type}->{$_} } keys(%$item);
                 my @kl = ('tid', @kn);
                 my $sql = "INSERT INTO $type (" . join(',', map { "'$_'" } @kl)
                   . ") VALUES (".join(',', map { '?' } @kl).");";
@@ -259,10 +259,12 @@ SQL
     }
 }
 
-# Static method invoked by Foswiki::Store::QueryAlgorithms::DBIStoreContrib
-# to perform the actual database query
+# STATIC method invoked by Foswiki::Store::QueryAlgorithms::DBIStoreContrib
+# to perform the actual database query.
 sub query {
     my ($session, $sql) = @_;
+
+    ASSERT($db, "Fatal error: queried before listeners are ready") if DEBUG;
 
     $db->_connect($session);
     print STDERR "$sql\n" if MONITOR;
