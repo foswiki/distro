@@ -371,8 +371,7 @@ sub install {
         {                   # no extension found - need to download the package
             ( $err, $tmpfilename ) = $this->_fetchFile('.tgz');
             if ($err) {
-                $this->{_errors} .= "Download failure\n $err";
-                return ( $feedback, "Download failure\n $err" );
+                $feedback .= "Download failure fetching .tgz file - $err\n Trying .zip file\n";
             }
 
             unless ( $tmpfilename && !$err )

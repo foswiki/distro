@@ -411,13 +411,23 @@ sub _unzip {
         my @members = $zip->members();
         foreach my $member (@members) {
             my $file = $member->fileName();
-            $file =~ /(.*)/;
+            $file =~ /^(.*)$/;
             $file = $1;    #yes, we must untaint
             my $target = $file;
-            my $err = $zip->extractMember( $file, $target );
-            if ($err) {
-                return "unzip failed: Failed to extract '$file' from zip file ",
-                  $zip, ". Archive may be corrupt.\n";
+            my $dest = Cwd::getcwd();
+            ($dest) = $dest =~ m/^(.*)$/;
+
+            #SMELL:  Archive::Zip->extractMember( $file)  would be better to use
+            # but it has taint issues on Perl 5.12.
+            my $contents = $zip->contents( $file );
+            if ( $contents) {
+                my ($vol,$dir,$fn) = File::Spec->splitpath( $file );
+                File::Path::mkpath( "$dest/$dir" );
+                open( my $fh, '>', "$dest/$file" )
+                 || die "Unable to open $dest/$file \n $! \n\n ";
+                binmode $fh;
+                print $fh $contents;
+                close($fh);
             }
         }
     }
