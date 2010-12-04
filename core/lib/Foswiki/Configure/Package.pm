@@ -560,7 +560,6 @@ sub _installAttachments {
             $opts{comment}  = $attachinfo->{comment};
             $opts{filesize} = $fstats->size;
             $opts{filedate} = $fstats->mtime;
-            print STDERR "$opts{name} - filesize $opts{filesize}   filedate $opts{filedate} " . scalar localtime( $fstats->mtime ) . "\n";
             $meta->attach(%opts) unless ( $this->{_options}->{SIMULATE} );
             $feedback .= "Attached:   $file to $twebTopic\n";
         }

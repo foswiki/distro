@@ -56,7 +56,7 @@ sub install {
 
     $this->findRepositories();
 
-    my $processExt = $query->param('processExt');
+    my $processExt = $query->param('processExt') || '';
     my @remove     = $query->param('remove');
     my @add        = $query->param('add');
 
