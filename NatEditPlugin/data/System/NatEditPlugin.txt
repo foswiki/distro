@@ -89,6 +89,7 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  06 Dec 2010 | Foswikitask:Item2304: fixes for Google Chrome |
 |  01 Dec 2010 | fixed compatibility with newest foswiki; \
                  improved !TopicTitle feature not to set a title under certain conditions; \
                  Foswikitask:Item9006: disabling preview button on IE6,7,8; \

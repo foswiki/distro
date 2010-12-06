@@ -618,7 +618,7 @@ $.NatEditor.prototype.fixHeight = function() {
     minWidth, minHeight, newHeight, newHeightExtra = 0, natEditTopicInfoHeight,
     $debug = $("#DEBUG");
 		
-  if ($txtarea.parents(":not(:visible)").length) { // fix for  jquery < 1.3.x
+  if ($txtarea.is(":not(:visible)")) {
     //$.log("natedit textarea not visible ... skipping fixHeight");
     return;
   }

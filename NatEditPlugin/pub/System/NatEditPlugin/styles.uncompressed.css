@@ -12,6 +12,7 @@
   width:99%;
   font-family:"Bitstream Vera Sans Mono", "Andale Mono", monospace;
   font-size:12px;
+  resize: none;
 }
 ul.natEditButtonBox {
   margin:0px 10px 0px 0px;
