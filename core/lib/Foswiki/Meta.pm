@@ -392,7 +392,8 @@ sub new {
 This constructor will load (or otherwise fetch) the meta-data for a
 named web/topic.
    * =$rev= - revision to load. If undef, 0, '' or > max available rev, will
-     load the latest rev.
+     load the latest rev. If the revision is in range but does not exist,
+     then will return an unloaded meta object (getLoadedRev() will be undef)
 
 This method is functionally identical to:
 <verbatim>
@@ -400,7 +401,7 @@ $this = Foswiki::Meta->new( $session, $web, $topic );
 $this->loadVersion( $rev );
 </verbatim>
 
-WARNING: see notes on revision numbers under =getLoadedRev=
+WARNING: see notes on revision numbers under =getLoadedRev=.
 
 ---++ ObjectMethod load($rev) -> $metaObject
 
@@ -408,7 +409,8 @@ Load an unloaded meta-data object with a given version of the data.
 Once loaded, the object is locked to that revision.
 
    * =$rev= - revision to load. If undef, 0, '' or > max available rev, will
-     load the latest rev.
+     load the latest rev. If the revision is in range but does not exist,
+     then will return an unloaded meta object (getLoadedRev() will be undef)
 
 WARNING: see notes on revision numbers under =getLoadedRev=
 
@@ -936,7 +938,8 @@ with a different rev (verified by an ASSERT)
 
 See =getLoadedRev= to determine what revision is currently being viewed.
    * =$rev= - revision to load. If undef, 0, '' or > max available rev, will
-     load the latest rev.
+     load the latest rev. If the revision is in range but does not exist,
+     then will return an unloaded meta object (getLoadedRev() will be undef)
 
 Returns the version identifier for the loaded revision.
 
@@ -3465,6 +3468,7 @@ TODO: can we move this code into Foswiki::Serialise ?
 
 sub getEmbeddedStoreForm {
     my $this = shift;
+
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
     $this->{_text} ||= '';
@@ -3565,6 +3569,7 @@ Note: line endings must be normalised to \n *before* calling this method.
 
 sub setEmbeddedStoreForm {
     my ( $this, $text ) = @_;
+
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
 
