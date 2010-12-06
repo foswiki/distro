@@ -1627,6 +1627,9 @@ Test if attachment exists
    * =$attachment= - attachment name, e.g.=logo.gif=
 $web and $topic are parsed as described in the documentation for =normalizeWebTopicName=.
 
+The attachment must exist in the store (it is not sufficient for it to be referenced
+in the object only)
+
 =cut
 
 sub attachmentExists {

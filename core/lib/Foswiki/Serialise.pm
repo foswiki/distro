@@ -81,6 +81,7 @@ sub convertMeta {
     foreach my $key ( keys(%$savedMeta) ) {
         next if ( $key eq '_session' );
         next if ( $key eq '_indices' );
+        next if ( $key eq 'store' );
         
         #TODO: next if ( $key is one of the array types... and has no elements..
 

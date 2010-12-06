@@ -459,6 +459,9 @@ sub unload {
         delete $this->{$type};
     }
     undef $this->{_indices};
+    
+    #SMELL: Sven noticed diring development that something is adding a $this->{store} to a meta obj - havn't found it yet
+    #ASSERT(not defined($this->{store})) if DEBUG;
 }
 
 =begin TML
