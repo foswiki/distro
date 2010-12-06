@@ -2403,6 +2403,9 @@ sub getLoadedRev {
 Use with great care! Removes all trace of the given web, topic
 or attachment from the store, possibly including all its history.
 
+Also does not ensure consistency of the store 
+(for eg, if you delete an attachment, it does not update the intopic META)
+
 =cut
 
 sub removeFromStore {
@@ -2428,7 +2431,7 @@ sub removeFromStore {
               . $attachment );
     }
 
-    $store->remove( $this->{_session}->{user}, $this );
+    $store->remove( $this->{_session}->{user}, $this, $attachment );
 }
 
 =begin TML
