@@ -26,7 +26,8 @@ speed and memory size. It also depends on the complexity of the query.
 use strict;
 use warnings;
 
-#@ISA = ( 'Foswiki::Store::Interfaces::QueryAlgorithm' );
+use Foswiki::Store::Interfaces::QueryAlgorithm ();
+our @ISA = ( 'Foswiki::Store::Interfaces::QueryAlgorithm' );
 
 use Foswiki::Store::Interfaces::SearchAlgorithm ();
 use Foswiki::Search::Node      ();
@@ -226,147 +227,6 @@ sub _webQuery {
     }
 
     return $resultTopicSet;
-}
-
-# Implements Foswiki::Store::Interfaces::QueryAlgorithm
-sub getField {
-    # The getField function is here to allow for Store specific optimisations
-    # such as direct database lookups.
-    my ( $this, $node, $data, $field ) = @_;
-
-    my $result;
-    if ( UNIVERSAL::isa( $data, 'Foswiki::Meta' ) ) {
-
-        # The object being indexed is a Foswiki::Meta object, so
-        # we have to use a different approach to treating it
-        # as an associative array. The first thing to do is to
-        # apply our "alias" shortcuts.
-        my $realField = $field;
-        if ( $Foswiki::Query::Node::aliases{$field} ) {
-            $realField = $Foswiki::Query::Node::aliases{$field};
-        }
-        if ( $realField eq 'META:TOPICINFO' ) {
-
-            # Ensure the revision info is populated from the store
-            $data->getRevisionInfo();
-        }
-        if ( $realField =~ s/^META:// ) {
-            if ( $Foswiki::Query::Node::isArrayType{$realField} ) {
-
-                # Array type, have to use find
-                my @e = $data->find($realField);
-                $result = \@e;
-            }
-            else {
-                $result = $data->get($realField);
-            }
-        }
-        elsif ( $realField eq 'name' ) {
-
-            # Special accessor to compensate for lack of a topic
-            # name anywhere in the saved fields of meta
-            return $data->topic();
-        }
-        elsif ( $realField eq 'text' ) {
-
-            # Special accessor to compensate for lack of the topic text
-            # name anywhere in the saved fields of meta
-            return $data->text();
-        }
-        elsif ( $realField eq 'web' ) {
-
-            # Special accessor to compensate for lack of a web
-            # name anywhere in the saved fields of meta
-            return $data->web();
-        }
-        elsif ($data->topic()) {
-
-            # The field name isn't an alias, check to see if it's
-            # the form name
-            my $form = $data->get('FORM');
-            if ( $form && $field eq $form->{name} ) {
-
-                # SHORTCUT;it's the form name, so give me the fields
-                # as if the 'field' keyword had been used.
-                # TODO: This is where multiple form support needs to reside.
-                # Return the array of FIELD for further indexing.
-                my @e = $data->find('FIELD');
-                return \@e;
-            }
-            else {
-
-                # SHORTCUT; not a predefined name; assume it's a field
-                # 'name' instead.
-                # SMELL: Needs to error out if there are multiple forms -
-                # or perhaps have a heuristic that gives access to the
-                # uniquely named field.
-                $result = $data->get( 'FIELD', $field );
-                $result = $result->{value} if $result;
-            }
-        }
-    }
-    elsif ( ref($data) eq 'ARRAY' ) {
-
-        # Array objects are returned during evaluation, e.g. when
-        # a subset of an array is matched for further processing.
-
-        # Indexing an array object. The index will be one of:
-        # 1. An integer, which is an implicit index='x' query
-        # 2. A name, which is an implicit name='x' query
-        if ( $field =~ /^\d+$/ ) {
-
-            # Integer index
-            $result = $data->[$field];
-        }
-        else {
-
-            # String index
-            my @res;
-
-            # Get all array entries that match the field
-            foreach my $f (@$data) {
-                my $val = getField( undef, $node, $f, $field );
-                push( @res, $val ) if defined($val);
-            }
-            if ( scalar(@res) ) {
-                $result = \@res;
-            }
-            else {
-
-                # The field name wasn't explicitly seen in any of the records.
-                # Try again, this time matching 'name' and returning 'value'
-                foreach my $f (@$data) {
-                    next unless ref($f) eq 'HASH';
-                    if (   $f->{name}
-                        && $f->{name} eq $field
-                        && defined $f->{value} )
-                    {
-                        push( @res, $f->{value} );
-                    }
-                }
-                if ( scalar(@res) ) {
-                    $result = \@res;
-                }
-            }
-        }
-    }
-    elsif ( ref($data) eq 'HASH' ) {
-
-        # A hash object may be returned when a sub-object of a Foswiki::Meta
-        # object has been matched.
-        $result = $data->{ $node->{params}[0] };
-    }
-    else {
-        $result = $node->{params}[0];
-    }
-    return $result;
-}
-
-# Implements Foswiki::Store::Interfaces::QueryAlgorithm
-sub getRefTopic {
-    # Get a referenced topic
-    my ( $this, $relativeTo, $w, $t ) = @_;
-    return Foswiki::Meta->load( $relativeTo->session, $w, $t );
 }
 
 1;
