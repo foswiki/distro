@@ -155,16 +155,15 @@ $SIG{'__WARN__'} = sub { die @_ };
 eval 'require 5.00503';
 die $@ if $@;
 
-# We warn against running Foswiki on an older Perl version then 5.8.4
+# We warn against running Foswiki on an older Perl version then 5.8.8
 # but we will not let configure die in this situation. The user
 # may have updated many libraries and tweaked Foswiki so let us give
 # him a chance.
 my $perlversion = $];
-if ( $perlversion < 5.006 ) {
+if ( $perlversion < 5.00608 ) {	# SMELL: check this value!!!
     print STDERR <<HERE;
-Your perl version is older than 5.6.0.
-Foswiki has only been successfully tested on Perl 5.6.X and 5.8.X,
-and there have been reports that it does not run on 5.5.
+Your perl version is older than 5.8.8.
+Foswiki has been successfully tested on Perl 5.8.8 and 5.10.X.
 Running Foswiki with an older Perl version requires upgrading of modules and
 tweaking of the Foswiki code.
 HERE

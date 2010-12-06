@@ -387,7 +387,7 @@ Foswiki is capable of running on a variety of operating systems and supporting a
 Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as Unix and Unix-like systems (including Linux and OSX), on which it uses a number of shell commands and <a href="http://www.gnu.org/software/rcs/rcs.html" rel="nofollow" target="_top">RCS (Revision Control System)</a>, a GNU Free Software package. It should be able to run on any server platform that meets the following requirements.
 
 | *Resource* | *Required Server Environment* |
-| Perl | 5.8.8 or higher is recommended and it will run with Perl >=5.8.4 and <5.8.8 but this is untested. It also runs in Perl 5.6.1 but only with Wysiwyg editor disabled. Wysiwyg requires Unicode support which is provided by perl 5.8.1 onwards. |
+| Perl | 5.8.8 or higher. It also runs in Perl 5.6.1 but only with Wysiwyg editor disabled. WYSIWYG requires Unicode support which is provided by perl 5.8.4 onwards. |
 | RCS | 5.7 or higher (including GNU =diff=) <br /> Optional. Foswiki includes a pure Perl implementation of RCS (RcsLite) that can be used instead, at the cost of performance |
 | GNU diff | GNU diff 2.7 or higher is required when not using the all-Perl RcsLite. <br /> Install within the PATH if not included with RCS (check version with =diff -v=) <br /> Must be the version used by RCS, to avoid problems with binary attachments - RCS may have hard-coded path to =diff= |
 | Other external programs | =fgrep, egrep= |
@@ -396,7 +396,7 @@ Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as
 
 ---+++ CPAN modules
 
-Most of the <a href="http://cpan.perl.org/" rel="nofollow" target="_top">CPAN</a> libraries used by Foswiki are part of a standard Perl installation >=5.8.8 (recommended). A version >=5.8.4 and <5.8.8 will also work although untested. Please see Foswiki:Support.HowToInstallCpanModules for detailed information on how to install any !CPAN libraries not yet present in your installation.
+Most of the <a href="http://cpan.perl.org/" rel="nofollow" target="_top">CPAN</a> libraries used by Foswiki are part of a standard Perl 5.8.8 (or later) installation. Please see Foswiki:Support.HowToInstallCpanModules for detailed information on how to install any !CPAN libraries not yet present in your installation.
 
 A more complete module status is listed in Foswiki [[%SCRIPTURLPATH{"configure"}%][configure]] (Foswiki 1.0.x: _CGI Setup_, 1.1.x: _Web Server Environment > Perl modules_). It should be easier to deal with CPAN modules from this perspective.
 

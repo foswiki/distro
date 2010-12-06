@@ -15,7 +15,7 @@ The code is written in Perl 5, and uses a number of shell commands from perl.
 The default package requires [[http://www.gnu.org/software/rcs/rcs.html][RCS (Revision Control System)]], a GNU Free Software package. Foswiki is developed in a basic Linux/Apache environment. It also works with Microsoft Windows, and should have no problem on any other platform that meets the requirements.
 
 | *Resource* | *Required Server Environment *<nop>* |
-| Perl | 5.8.0 or higher (5.8.4 or higher is recommended) |
+| Perl | 5.8.8 or higher |
 | RCS | 5.7 or higher (including GNU =diff=) %BR% Optional, Foswiki includes a pure perl implementation of RCS that can be used instead (although it's slower) |
 | GNU =diff= | GNU =diff= 2.7 or higher is required when not using the all-Perl <nop>RcsLite.  %BR% Install on PATH if not included with RCS (check version with =diff -v=)  %BR% Must be the version used by RCS, to avoid problems with binary attachments - RCS may have hard-coded path to =diff= |
 | GNU =patch= | For upgrades only: GNU =patch= is required when patching the code using patches in diff format submitted by the community. |
