@@ -10,6 +10,13 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
+    #NOTE:  If there are any other PasswordManagers that require .htpasswd,
+    #       they should be added to this list.
+    return if (
+        $Foswiki::cfg{PasswordManager} ne 'Foswiki::Users::HtPasswdUser' &&
+        $Foswiki::cfg{PasswordManager} ne 'Foswiki::Users::ApacheHtpasswdUser'
+    );
+
     my $f = $Foswiki::cfg{Htpasswd}{FileName};
     Foswiki::Configure::Load::expandValue($f);
 
