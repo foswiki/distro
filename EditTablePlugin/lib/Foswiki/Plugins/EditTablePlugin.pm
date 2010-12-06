@@ -11,7 +11,7 @@ our $VERSION = '$Rev$';
 
 # Please note that the second is now two digit.
 # Someone increased 4.22 to 4.3 which is not correct.
-our $RELEASE = '4.37';
+our $RELEASE = '4.38';
 
 our $pluginName        = 'EditTablePlugin';
 our $ENCODE_START      = '--EditTableEncodeStart--';
@@ -74,7 +74,7 @@ We cannot do table parsing in commonTagsHandler because by then the TML has been
 =cut
 
 sub beforeCommonTagsHandler {
-    return unless $_[0] =~ /%EDIT(?:TABLE|CELL){.*}%/o;
+    return unless $_[0] =~ /%EDIT(?:TABLE|CELL){.*}%/;
     Foswiki::Func::writeDebug(
         "EditTablePlugin::beforeCommonTagsHandler( $web.$topic )")
       if $debug;
@@ -99,7 +99,7 @@ Calls EditTablePlugin::Core::parseTables for INCLUDEd topics.
 =cut
 
 sub commonTagsHandler {
-    return unless $_[0] =~ /%EDIT(?:TABLE|CELL|TABLESTUB){.*}%/o;
+    return unless $_[0] =~ /%EDIT(?:TABLE|CELL|TABLESTUB){.*}%/;
 
     Foswiki::Func::writeDebug(
         "EditTablePlugin::commonTagsHandler( $web.$topic )")
@@ -125,7 +125,7 @@ sub postRenderingHandler {
     Foswiki::Func::writeDebug(
         "EditTablePlugin::postRenderingHandler( $web.$topic )")
       if $debug;
-    $_[0] =~ s/$ENCODE_START(.*?)$ENCODE_END/decodeValue($1)/geos;
+    $_[0] =~ s/$ENCODE_START(.*?)$ENCODE_END/decodeValue($1)/ges;
 }
 
 =pod
@@ -136,11 +136,11 @@ sub encodeValue {
 
     # FIXME: *very* crude encoding to escape Wiki rendering inside form fields
     # also prevents urls to get expanded to links
-    $_[0] =~ s/\./%dot%/gos;
-    $_[0] =~ s/(.)/\.$1/gos;
+    $_[0] =~ s/\./%dot%/gs;
+    $_[0] =~ s/(.)/\.$1/gs;
 
     # convert <br /> markup to unicode linebreak character for text areas
-    $_[0] =~ s/.<.b.r. .\/.>/&#10;/gos;
+    $_[0] =~ s/.<.b.r. .\/.>/&#10;/gs;
     $_[0] = $ENCODE_START . $_[0] . $ENCODE_END;
 }
 
@@ -151,12 +151,12 @@ sub encodeValue {
 sub decodeValue {
     my ($theText) = @_;
 
-    $theText =~ s/\.(.)/$1/gos;
-    $theText =~ s/%dot%/\./gos;
-    $theText =~ s/\&([^#a-z])/&amp;$1/go;    # escape non-entities
-    $theText =~ s/</\&lt;/go;                # change < to entity
-    $theText =~ s/>/\&gt;/go;                # change > to entity
-    $theText =~ s/\"/\&quot;/go;             # change " to entity
+    $theText =~ s/\.(.)/$1/gs;
+    $theText =~ s/%dot%/\./gs;
+    $theText =~ s/\&([^#a-z])/&amp;$1/g;    # escape non-entities
+    $theText =~ s/</\&lt;/g;                # change < to entity
+    $theText =~ s/>/\&gt;/g;                # change > to entity
+    $theText =~ s/\"/\&quot;/g;             # change " to entity
     return $theText;
 }
 
