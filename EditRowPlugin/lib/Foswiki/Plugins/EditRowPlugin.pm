@@ -61,6 +61,7 @@ sub _process {
 
     my $context = Foswiki::Func::getContext();
     return 0 unless $context->{view};
+    return 0 if $context->{static};
 
     unless ($RECURSING) {
         my $header = "<script type='text/javascript' src='";
