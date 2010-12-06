@@ -47,7 +47,7 @@ my $PLACEHOLDER_BUTTONROW_BOTTOM = 'PLACEHOLDER_BUTTONROW_BOTTOM';
 my $PLACEHOLDER_SEPARATOR_SEARCH_RESULTS =
   'PLACEHOLDER_SEPARATOR_SEARCH_RESULTS';
 my $HTML_TAGS =
-qr'var|ul|u|tt|tr|th|td|table|sup|sub|strong|strike|span|small|samp|s|pre|p|ol|li|kbd|ins|img|i|hr|h|font|em|div|dfn|del|code|cite|center|br|blockquote|big|b|address|acronym|abbr|a'o;
+qr'var|ul|u|tt|tr|th|td|table|sup|sub|strong|strike|span|small|samp|s|pre|p|ol|li|kbd|ins|img|i|hr|h|font|em|div|dfn|del|code|cite|center|br|blockquote|big|b|address|acronym|abbr|a';
 
 my $prefCHANGEROWS;
 my $prefEDIT_BUTTON;
@@ -69,10 +69,10 @@ my $PATTERN_EDITTABLEPLUGIN =
   $Foswiki::Plugins::EditTablePlugin::Data::PATTERN_EDITTABLEPLUGIN;
 my $PATTERN_TABLEPLUGIN =
   $Foswiki::Plugins::EditTablePlugin::Data::PATTERN_TABLEPLUGIN;
-my $PATTERN_EDITCELL               = qr'%EDITCELL{(.*?)}%'o;
-my $PATTERN_TABLE_ROW_FULL         = qr'^(\s*)\|.*\|\s*$'o;
-my $PATTERN_TABLE_ROW              = qr'^(\s*)\|(.*)'o;
-my $PATTERN_SPREADSHEETPLUGIN_CALC = qr'%CALC(?:{(.*?)})?%'o;
+my $PATTERN_EDITCELL               = qr'%EDITCELL{(.*?)}%';
+my $PATTERN_TABLE_ROW_FULL         = qr'^(\s*)\|.*\|\s*$';
+my $PATTERN_TABLE_ROW              = qr'^(\s*)\|(.*)';
+my $PATTERN_SPREADSHEETPLUGIN_CALC = qr'%CALC(?:{(.*?)})?%';
 my $SPREADSHEETPLUGIN_CALC_SUBSTITUTION =
   "<span class='editTableCalc'>CALC</span>";
 my $MODE = {
@@ -257,11 +257,11 @@ sub processText {
               $editTableData->{'pretag'} . $editTableData->{'posttag'};
 
             # expand macros in tagline without creating infinite recursion:
-            $editTableTag =~ s/%EDITTABLE{/%TMP_ETP_STUB_TAG{/o;
+            $editTableTag =~ s/%EDITTABLE{/%TMP_ETP_STUB_TAG{/;
             $editTableTag = Foswiki::Func::expandCommonVariables($editTableTag);
 
             # put tag back
-            $editTableTag =~ s/TMP_ETP_STUB_TAG/EDITTABLE/o;
+            $editTableTag =~ s/TMP_ETP_STUB_TAG/EDITTABLE/;
         }
 
         # END HANDLE EDITTABLE TAG
@@ -368,7 +368,7 @@ sub processText {
             my $rowNr = 0;
             for ( @{$lines} ) {
                 my $isNewRow = 0;
-s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doEdit, $doSave, $web, $topic )/eo;
+s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doEdit, $doSave, $web, $topic )/e;
             }
             @{$lines} = map { $_ .= "\n" } @{$lines};
             handleTmlInTables($lines) if !$doSave;
@@ -442,12 +442,12 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doE
               createButtonRow( $web, $topic, $inIncludingWeb, $inIncludingTopic,
                 $doEdit );
             if ( $pos eq 'top' ) {
-                $resultText =~ s/$PLACEHOLDER_BUTTONROW_BOTTOM//go;    # remove
-                $resultText =~ s/$PLACEHOLDER_BUTTONROW_TOP/$buttonRow/go;
+                $resultText =~ s/$PLACEHOLDER_BUTTONROW_BOTTOM//g;    # remove
+                $resultText =~ s/$PLACEHOLDER_BUTTONROW_TOP/$buttonRow/g;
             }
             else {
-                $resultText =~ s/$PLACEHOLDER_BUTTONROW_TOP//go;       # remove
-                $resultText =~ s/$PLACEHOLDER_BUTTONROW_BOTTOM/$buttonRow/go;
+                $resultText =~ s/$PLACEHOLDER_BUTTONROW_TOP//g;       # remove
+                $resultText =~ s/$PLACEHOLDER_BUTTONROW_BOTTOM/$buttonRow/g;
             }
         }
 
@@ -1013,8 +1013,8 @@ sub extractParams {
     $$inParams{'headerislabel'} = $tmp if ($tmp);
 
     $tmp = Foswiki::Func::extractNameValuePair( $inArguments, 'format' );
-    $tmp =~ s/^\s*\|*\s*//o;
-    $tmp =~ s/\s*\|*\s*$//o;
+    $tmp =~ s/^\s*\|*\s*//;
+    $tmp =~ s/\s*\|*\s*$//;
     $$inParams{'format'} = $tmp if ($tmp);
 
     $tmp = Foswiki::Func::extractNameValuePair( $inArguments, 'changerows' );
@@ -1044,15 +1044,15 @@ sub extractParams {
 sub parseFormat {
     my ( $theFormat, $inTopic, $inWeb, $doExpand ) = @_;
 
-    $theFormat =~ s/\$nop(\(\))?//gos;         # remove filler
-    $theFormat =~ s/\$quot(\(\))?/\"/gos;      # expand double quote
-    $theFormat =~ s/\$percnt(\(\))?/\%/gos;    # expand percent
-    $theFormat =~ s/\$dollar(\(\))?/\$/gos;    # expand dollar
+    $theFormat =~ s/\$nop(\(\))?//gs;         # remove filler
+    $theFormat =~ s/\$quot(\(\))?/\"/gs;      # expand double quote
+    $theFormat =~ s/\$percnt(\(\))?/\%/gs;    # expand percent
+    $theFormat =~ s/\$dollar(\(\))?/\$/gs;    # expand dollar
 
     if ($doExpand) {
 
         # expanded form to be able to use %-vars in format
-        $theFormat =~ s/<nop>//gos;
+        $theFormat =~ s/<nop>//gs;
         $theFormat =
           Foswiki::Func::expandCommonVariables( $theFormat, $inTopic, $inWeb );
     }
@@ -1096,7 +1096,7 @@ sub handleEditTableTag {
         else {
 
             my $text = Foswiki::Func::readTopicText( $inWeb, $iTopic );
-            $text =~ /$PATTERN_EDITTABLEPLUGIN/os;
+            $text =~ /$PATTERN_EDITTABLEPLUGIN/s;
             if ($2) {
                 my $args = $2;
                 if (   $inWeb ne $Foswiki::Plugins::EditTablePlugin::web
@@ -1121,19 +1121,19 @@ sub handleEditTableTag {
     extractParams( $arguments, \%params );
 
     # FIXME: should use Foswiki::Func::extractParameters
-    $params{'header'} = '' if ( $params{header} =~ /^(off|no)$/oi );
-    $params{'header'} =~ s/^\s*\|//o;
-    $params{'header'} =~ s/\|\s*$//o;
+    $params{'header'} = '' if ( $params{header} =~ /^(off|no)$/i );
+    $params{'header'} =~ s/^\s*\|//;
+    $params{'header'} =~ s/\|\s*$//;
     $params{'headerislabel'} = ''
-      if ( $params{headerislabel} =~ /^(off|no)$/oi );
-    $params{'footer'} = '' if ( $params{footer} =~ /^(off|no)$/oi );
-    $params{'footer'} =~ s/^\s*\|//o;
-    $params{'footer'} =~ s/\|\s*$//o;
+      if ( $params{headerislabel} =~ /^(off|no)$/i );
+    $params{'footer'} = '' if ( $params{footer} =~ /^(off|no)$/i );
+    $params{'footer'} =~ s/^\s*\|//;
+    $params{'footer'} =~ s/\|\s*$//;
 
-    $params{'changerows'} = '' if ( $params{changerows} =~ /^(off|no)$/oi );
-    $params{'quietsave'}  = '' if ( $params{quietsave}  =~ /^(off|no)$/oi );
+    $params{'changerows'} = '' if ( $params{changerows} =~ /^(off|no)$/i );
+    $params{'quietsave'}  = '' if ( $params{quietsave}  =~ /^(off|no)$/i );
     $params{'javascriptinterface'} = 'off'
-      if ( $params{javascriptinterface} =~ /^(off|no)$/oi );
+      if ( $params{javascriptinterface} =~ /^(off|no)$/i );
 
     @format         = parseFormat( $params{format}, $inTopic, $inWeb, 0 );
     @formatExpanded = parseFormat( $params{format}, $inTopic, $inWeb, 1 );
@@ -1258,7 +1258,7 @@ sub createButtonRow {
 "$preSp<input type=\"submit\" name=\"etaddrow\" id=\"etaddrow\" value=\"$prefADD_ROW_BUTTON\" class=\"foswikiButton\" />\n";
             $text .=
 "$preSp<input type=\"submit\" name=\"etdelrow\" id=\"etdelrow\" value=\"$prefDELETE_LAST_ROW_BUTTON\" class=\"foswikiButton\" />\n"
-              unless ( $params{'changerows'} =~ /^add$/oi );
+              unless ( $params{'changerows'} =~ /^add$/i );
         }
         $text .=
 "$preSp<input type=\"submit\" name=\"etcancel\" id=\"etcancel\" value=\"$prefCANCEL_BUTTON\" class=\"foswikiButtonCancel\" />\n";
@@ -1266,7 +1266,7 @@ sub createButtonRow {
         if ( $params{'helptopic'} ) {
 
             # read help topic and show below the table
-            if ( $params{'helptopic'} =~ /^([^\.]+)\.(.*)$/o ) {
+            if ( $params{'helptopic'} =~ /^([^\.]+)\.(.*)$/ ) {
                 $inWeb = $1;
                 $params{'helptopic'} = $2;
             }
@@ -1276,8 +1276,8 @@ sub createButtonRow {
             #Strip out the meta data so it won't be displayed.
             $helpText =~ s/%META:[A-Za-z0-9]+{.*?}%//g;
             if ($helpText) {
-                $helpText =~ s/.*?%STARTINCLUDE%//os;
-                $helpText =~ s/%STOPINCLUDE%.*//os;
+                $helpText =~ s/.*?%STARTINCLUDE%//s;
+                $helpText =~ s/%STOPINCLUDE%.*//s;
                 $text .= $helpText;
             }
         }
@@ -1344,8 +1344,8 @@ sub viewEditCell {
         $img = '';
         if ( $value =~ s/(.+),\s*(.+)/$1/o ) {
             $img = $2;
-            $img =~ s|%ATTACHURL%|%PUBURL%/%SYSTEMWEB%/EditTablePlugin|o;
-            $img =~ s|%WEB%|%SYSTEMWEB%|o;
+            $img =~ s|%ATTACHURL%|%PUBURL%/%SYSTEMWEB%/EditTablePlugin|;
+            $img =~ s|%WEB%|%SYSTEMWEB%|;
         }
     }
     if ($img) {
@@ -1391,7 +1391,7 @@ sub inputElement {
 
     my $cellFormat = '';
     $inValue =~
-      s/\s*$PATTERN_EDITCELL/&parseEditCellFormat( $1, $cellFormat )/eo;
+      s/\s*$PATTERN_EDITCELL/&parseEditCellFormat( $1, $cellFormat )/e;
 
     # If cell is empty we remove the space to not annoy the user when
     # he needs to add text to empty cell.
@@ -1540,7 +1540,7 @@ sub inputElement {
 
         # show label text as is, and add a hidden field with value
         my $isHeader = 0;
-        $isHeader = 1 if ( $inValue =~ s/^\s*\*(.*)\*\s*$/$1/o );
+        $isHeader = 1 if ( $inValue =~ s/^\s*\*(.*)\*\s*$/$1/ );
         $text = $inValue;
 
         # Replace CALC in labels with the fixed string CALC to avoid errors
@@ -1641,7 +1641,7 @@ sub inputElement {
 
     if ( $type ne 'textarea' ) {
         $text =~
-          s/&#10;/<br \/>/go;    # change unicode linebreak character to <br />
+          s/&#10;/<br \/>/g;    # change unicode linebreak character to <br />
     }
     return $text;
 }
@@ -1671,7 +1671,7 @@ sub handleTableRow {
     my $text = "$thePre\|";
 
     if ($doEdit) {
-        $theRow =~ s/\|\s*$//o;
+        $theRow =~ s/\|\s*$//;
 
         # retrieve any params sent by javascript interface (see edittable.js)
         my $rowID = $query->param("etrow_id$theRowNr");
@@ -1728,10 +1728,10 @@ sub handleTableRow {
             if ( defined $val ) {
 
                 # change any new line character sequences to <br />
-                $val =~ s/[\n\r]{2,}?/<br \/>/gos;
+                $val =~ s/[\n\r]{2,}?/<br \/>/gs;
 
                 # escape "|" to HTML entity
-                $val =~ s/\|/\&\#124;/gos;
+                $val =~ s/\|/\&\#124;/gs;
                 $cellDefined = 1;
 
                 # Expand %-vars
@@ -1742,7 +1742,7 @@ sub handleTableRow {
                 $cell = $cells[ $col - 1 ];
                 $digested = 1;    # Flag that we are using non-raw cell text.
                 $cellDefined = 1 if ( length($cell) > 0 );
-                $cell =~ s/^\s*(.+?)\s*$/$1/o
+                $cell =~ s/^\s*(.+?)\s*$/$1/
                   ; # remove spaces around content, but do not void a cell with just spaces
             }
             else {
@@ -1794,7 +1794,7 @@ sub handleTableRow {
                     $cell = ''
                       unless ( defined $cell && $cell ne '' )
                       ;           # Proper handling of '0'
-                    $cell =~ s/\,.*$//o
+                    $cell =~ s/\,.*$//
                       if ( $val eq 'select' || $val eq 'date' );
                 }
                 my $element = '';
@@ -1811,7 +1811,7 @@ sub handleTableRow {
     else {
 
         # render EDITCELL in view mode
-        $theRow =~ s/$PATTERN_EDITCELL/viewEditCell($1)/geo if !$doSave;
+        $theRow =~ s/$PATTERN_EDITCELL/viewEditCell($1)/ge if !$doSave;
         $text .= $theRow;
 
     }    # /if ($doEdit)
@@ -1922,7 +1922,7 @@ For debugging: removes all spaces and comments from a regular expression.
 sub stripCommentsFromRegex {
     my ($inRegex) = @_;
 
-    ( my $cleanRegex = $inRegex ) =~ s/\s*(.*?)\s*(#.*?)*(\r|\n|$)/$1/go;
+    ( my $cleanRegex = $inRegex ) =~ s/\s*(.*?)\s*(#.*?)*(\r|\n|$)/$1/g;
     return $cleanRegex;
 }
 
@@ -1938,7 +1938,7 @@ sub _handleSpreadsheetFormula {
 
     return if !$_[0];
     $_[0] =~
-      s/$PATTERN_SPREADSHEETPLUGIN_CALC/$SPREADSHEETPLUGIN_CALC_SUBSTITUTION/go;
+      s/$PATTERN_SPREADSHEETPLUGIN_CALC/$SPREADSHEETPLUGIN_CALC_SUBSTITUTION/g;
 
 }
 
@@ -1961,7 +1961,7 @@ sub handleTmlInTables {
 
     # my $lines = $_[0]
 
-    map { $_ =~ s/(%BR%)/ $1 /gox; addSpacesToTmlNextToHtml($_) } @{ $_[0] };
+    map { $_ =~ s/(%BR%)/ $1 /gx; addSpacesToTmlNextToHtml($_) } @{ $_[0] };
 }
 
 =begin TML
@@ -1986,7 +1986,7 @@ sub addSpacesToTmlNextToHtml {
     # cell, resulting in wrong alignment (when html tags are stripped in the
     # core table renderer)
 
-    my $TMLpattern = qr/[_*=]*/o;
+    my $TMLpattern = qr/[_*=]*/;
     my $pattern    = qr(
 	[[:space:]]*		# any space
 	($TMLpattern)		# i1: optional TML syntax before html tag
@@ -1999,9 +1999,9 @@ sub addSpacesToTmlNextToHtml {
 	)					# /i2
 	($TMLpattern)		# i3: optional TML syntax after html tag
 	[[:space:]]*		# any space
-	)ox;
+	)x;
 
-    $_[0] =~ s/$pattern/$1 $2 $3/go;
+    $_[0] =~ s/$pattern/$1 $2 $3/g;
 }
 
 =begin TML
@@ -2021,7 +2021,7 @@ sub getHeaderAndFooterCount {
 
     # expand macros in tagline without creating infinite recursion,
     # so delete EDITTABLE as we won't need it here
-    $tag =~ s/%EDITTABLE{/_DELETED_/o;
+    $tag =~ s/%EDITTABLE{/_DELETED_/;
     $tag = Foswiki::Func::expandCommonVariables($tag);
 
     my $headerRowCount = 0;
