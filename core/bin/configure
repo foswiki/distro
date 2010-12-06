@@ -160,7 +160,7 @@ die $@ if $@;
 # may have updated many libraries and tweaked Foswiki so let us give
 # him a chance.
 my $perlversion = $];
-if ( $perlversion < 5.00608 ) {	# SMELL: check this value!!!
+if ( $perlversion < 5.008008 ) {
     print STDERR <<HERE;
 Your perl version is older than 5.8.8.
 Foswiki has been successfully tested on Perl 5.8.8 and 5.10.X.
