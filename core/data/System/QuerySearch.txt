@@ -80,6 +80,8 @@ Fields in this plan are referenced using a simple _field specifier_ syntax:
 | =X[N]= | where =X= is an array and =N= is an integer number >= 0, gets the Nth element of the array =X=. If N is a floating point number, the integer part will be used as the index. Negative indices can be used to index the array from the end e.g. =attachments[-1]= to get the last attachment. | =attachments[3]= |
 | =X/Y= | accesses =Y= from the topic specified by the _value_ of =X=. =X= must evaluate to a topic name | =parent.name/(form.name='ExampleForm')= will evaluate to true if (1) the topic has a parent, (2) the parent topic has the main form type =ExampleForm=. |
 | ={X}= | expands to the value of the =configure= setting {X}, if it is accessible, or '' otherwise | only some configuration settings are available: %FORMAT{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}% |
+| =X@Y= | Loads version Y of topic X. By default only the latest version of a topic is referenced, but this operator lets you refer to a specific historical version. Both X and Y may be arrays. If Y is the empty array =()=, will load all revisions of the topic. | ='Minutes.BoardOfDirectors'@(1).Attendees= will get the value of the 'Attendees' field in version 1 of that topic. Note the use of brackets to prevent the '.' being interpreted as part of a decimal number. | 
+| =@Y= | As =X@Y=, but refers to versions of the current topic. Equivalent to ='%<nop>WEB%.%<nop>TOPIC%'@Y= | ='GoreVidal' in @().info.author= will tell you if !GoreVidal ever edited the current topic. =@(1).form.name= will tell you the name of the form that was attached to revision 1 of the current topic. |
 
 Note: at some point Foswiki may support multiple forms in the same topic. For this reason you are recommended *not* to use the =fields= shortcut when accessing form fields, but always use the name of the form instead.
 
@@ -88,6 +90,17 @@ There is a shortcut for accessing form fields. If you use the name of a field (f
    * =Lastname=
    * =PersonForm.Lastname=
 If =X= would conflict with the name of an entry or alias (e.g. it's =moved= or maybe =parent=), you can prepend the name of the form followed by a dot, as shown in the last example.
+
+---++ Basic Types
+The query language supports three basic types:
+   * String - string constants are delimited by single quotes. Any values taked from topics (such as field values) are by default interpreted as strings. The empty string evaluates to boolean 'false', as does the string "0". All others evaluate to 'true'.
+   * Number - numerical constants can be expressed using standard floating point number notation. Strings can also be used wherever a number is expected, in which case the string will be parsed as a number. Numerical 0 evaluates to boolean 'false', all others to 'true'.
+   * Undefined - an undefined value is a placeholder for a value.
+   * Arrays - ordered collections of values
+   * Structures - also known as a "hash", a structure is an associative array that maps names to values. Topics are structures, with fields as described in QuerySearch.
+
+---+++ Boolean values
+Foswiki is implemented in Perl, and the query language inherits perl semantics for the query operators. This is only a problem when determining if a value is "true" or not.
 
 ---++ Constants
 You use constants for the values that you compare with fields. Constants are either strings, or numbers.
@@ -103,32 +116,44 @@ String constants are always delimited by single-quotes. You can use backslash =\
 All other occurrences of backslashes are carried through into the string, so =\d= means =\d= (unless the string is used as a regular expression, in which case it means any digit).
 ---++ Numerical constants
 Numbers can be any signed or unsigned integer or floating point number using standard scientific notation e.g. -1.2e-3 represents -0.0012
+---++ Named constants
+| *Name* | *Meaning* |
+| =UNDEFINED= | The undefined value |
+| =NOW= | The current time, in seconds since midnight on 1st Jan, 1970 |
+Note that constant names are *not* case sensitive. =NOW= is the same as =now=.
+
 ---++ Operators
 
 Field specifiers and constants are combined using _operators_ to create queries.
-| *Operator* | *Meaning* |
-| <code>=</code> | Left-hand side (LHS) exactly matches the value on the Right-hand side (RHS). Numbers and strings can be compared. |
-| <code>!=</code> | Inverse of <code>=</code>. |
-| =~= | wildcard match ('*' will match any number of characters, '?' will match any single character e.g. "PersonForm.Surname ~ '*Smit?'") Note: Surname ~ 'Smith' is the same as Surname = 'Smith' |
-| <code>=~</code> | regular expression match, see RegularExpressions for details. |
-| <code>&lt;</code> | LHS is less than RHS. If both sides are numbers, the order is numeric. Otherwise it is lexical (applies to all comparison operators) |
-| <code>&gt;</code> | greater than |
-| <code>&lt;=</code> | less than or equal to |
-| <code>&gt;=</code> | greater than or equal to |
-| =lc(x)= | Converts x to lower case, Use for caseless comparisons. |
-| =uc(x)= | Converts x to UPPER CASE. Use for caseless comparisons. |
-| =d2n(x)= | Converts a text string representing a date (expressed in [[TimeSpecifications][one of the formats that Foswiki can parse]]) to a number of seconds since 1st Jan 1970. This is the format dates are stored in inside Foswiki, and you have to convert a string date using =d2n= before you can compare it with - for example - the date an attachment was uploaded. Times without a timezone are assumed to be in server local time. If the text string is not recognised as a valid date, then =d2n= will return =undefined=. |
-| =NOT= | Invert the result of the subquery |
-| =AND= | Combine two subqueries |
-| =OR= | Combine two subqueries |
-| =()= | Bracketed subquery |
+| *Operator* | *Meaning* | *Example* |
+| <code>=</code> | Left-hand side (LHS) exactly matches the value on the Right-hand side (RHS). | <code>field = 'String'</code>, <code>age = 1</code>. Numbers and strings can be compared. |
+| <code>!=</code> | Inverse of <code>=</code>. | <code>age != 2</code> |
+| <code>~</code> | wildcard match ('*' will match any number of characters, '?' will match any single character | "PersonForm.Surname ~ '*Smit?'") Note: Surname ~ 'Smith' is the same as Surname = 'Smith' |
+| <code>=~</code> | regular expression match, see RegularExpressions for details. | <code>number =~ '^\d+$'</code> |
+| <code>&lt;</code> | LHS is less than RHS. If both sides are numbers, the order is numeric. Otherwise it is lexical (applies to all comparison operators) | =5 &lt; 4= |
+| <code>&gt;</code> | greater than | =4 &gt; 5= |
+| <code>&lt;=</code> | less than or equal to | <code>2 &lt;= 1</code> |
+| <code>&gt;=</code> | greater than or equal to | <code>2 &gt;= 1</code> |
+| =LC= | Converts string to lower case, Use for caseless comparisons. | =lc 'XYZ'= will yield ='xyz'= |
+| =UC= | Converts string to UPPER CASE. Use for caseless comparisons. | =uc 'xyz'= will yield ='XYZ'= |
+| =D2N= | Converts a string representing a date (expressed in [[TimeSpecifications][one of the formats that Foswiki can parse]]) to a number of seconds since 1st Jan 1970. This is the format dates are stored in inside Foswiki, and you have to convert a string date using =D2N= before you can compare it with - for example - the date an attachment was uploaded. Times without a timezone are assumed to be in server local time. If the text string is not recognised as a valid date, then =D2N= will return =undefined=. | =d2n '25-Dec-2011'= |
+| =NOT= | Invert the result of the subquery | <code>not(Size &lt; 2)</code> |
+| =AND= | Combine two subqueries | =(Length &gt; Width) and (Age &lt; Beauty)= |
+| =OR= | Combine two subqueries | =(Length &gt; Width) or (Age &lt; Beauty)= |
+| =()= | Bracketed subquery | =(Length &gt; Width)= |
+| =,= | Array separator. | =(1,2,3)= expands to an array containing the scalar values =[1,2,3]=, If either subquery returns an array value, that array will be flattened into the result i.e. =((1,2),(3,4))= is equivalent to =(1,2,3,4)= |
+| =+= | Arithmetic addition, and string concatenation. String concatenation applies if either side of the expression does not evaluate to a number. | =1 + 2= |
+| =-= | Arithmetic subtraction | =2 - 1= |
+| =-= | Unary minus | =-Size= |
+| =*= | Arithmetic multiplication | =Buck * Doe= |
+| =DIV= | Arithmetic (real number) division | =Rabbits div Stoats= |
+| =IN= | Test if a value is in a list | =1 in (2, 3, 4)= |
+Note that operator names are *not* case sensitive. =AND= is the same as =and=.
 
 <blockquote class="foswikiHelp">
 %I% The same operators are supported by the [[VarIF][%IF]] and [[VarQUERY][%QUERY]] macros.
 
-%I% You can get the current time for date comparisons using SpreadSheetPlugin, thus: =%<nop>CALC{"$TIME()"}%=
-
-%I% If you want to know if a field is undefined (has never been given a value) then you can compare it with =undefined= (this requires that no field called =undefined= exists in the form).
+%I% If you want to know if a field is undefined (has never been given a value) then you can compare it with =undefined=.
  
 %I% In the operators (<code>&#61; !&#61; ~ &#61;~ &lt; &gt; &lt&#61; &gt&#61; NOT AND OR</code>) an undefined operand is treated the same as numerical 0. For =lc uc d2n= an undefined operand will give an undefined result. For =length= and undefined operand will give a result of 0.
 </blockquote>
