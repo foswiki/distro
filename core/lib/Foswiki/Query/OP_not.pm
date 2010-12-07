@@ -22,8 +22,11 @@ sub new {
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    my $a    = $node->{params}[0];
-    return $a->evaluate(@_) ? 0 : 1;
+    my $a    = $node->{params}[0]->evaluate(@_);
+    if (ref($a) eq 'ARRAY') {
+	return [];
+    }
+    return $a ? 0 : 1;
 }
 
 1;

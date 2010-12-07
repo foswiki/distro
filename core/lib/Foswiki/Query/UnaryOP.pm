@@ -15,16 +15,8 @@ sub evalUnary {
     my $this = shift;
     my $node = shift;
     my $sub  = shift;
-    my $a    = $node->{params}[0];
-    my $val  = $a->evaluate(@_);
-    return undef unless defined $val;
-    if ( ref($val) eq 'ARRAY' ) {
-        my @res = map { &$sub($_) } @$val;
-        return \@res;
-    }
-    else {
-        return &$sub($val);
-    }
+    my $a    = $node->{params}[0]->evaluate(@_);
+    return $this->collect($a, $sub);
 }
 
 sub evaluatesToConstant {

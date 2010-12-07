@@ -68,6 +68,21 @@ This hash is maintained by Foswiki::Meta and is *strictly read-only*
 
 use constant MONITOR_EVAL => 0;
 
+our $emptyExprOp;
+our $commaOp;
+
+BEGIN {
+    require Foswiki::Query::OP_empty;
+    $emptyExprOp = Foswiki::Query::OP_empty->new();
+    require Foswiki::Query::OP_comma;
+    $commaOp = Foswiki::Query::OP_comma->new();
+}
+
+sub emptyExpression {
+    my $this = shift;
+    return $this->newNode($emptyExprOp);
+}
+
 sub toString {
     my ($a) = @_;
     return 'undef' unless defined($a);
@@ -143,12 +158,17 @@ sub evaluate {
             && defined $domain{data} )
         {
 
-            # a name; look it up in $domain{data}
-            eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
-            die $@ if $@;
-            $result =
-              $Foswiki::cfg{Store}{QueryAlgorithm}
-              ->getField( $this, $domain{data}, $this->{params}[0] );
+	    if (lc($this->{params}[0]) eq 'now') {
+		$result = time();
+	    } elsif (lc($this->{params}[0]) eq 'undefined') {
+		$result = undef;
+	    } else {
+		# a name; look it up in $domain{data}
+		eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
+		die $@ if $@;
+		$result = $Foswiki::cfg{Store}{QueryAlgorithm}->getField(
+		    $this, $domain{data}, $this->{params}[0] );
+	    }
         }
         else {
             $result = $this->{params}[0];
@@ -212,12 +232,7 @@ sub simplify {
     if ( $this->evaluatesToConstant(@_) ) {
         my $c = $this->evaluate(@_);
         $c = 0 unless defined $c;
-        if ( $c =~ /^[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?$/ ) {
-            $this->makeConstant(Foswiki::Infix::Node::NUMBER, $c);
-        }
-        else {
-            $this->makeConstant(Foswiki::Infix::Node::STRING, $c);
-        }
+	$this->_freeze($c);
     }
     else {
         for my $f ( @{ $this->{params} } ) {
@@ -225,6 +240,35 @@ sub simplify {
                 $f->simplify(@_);
             }
         }
+    }
+}
+
+sub _freeze {
+    my ($this, $c) = @_;
+
+    if (ref($c) eq 'ARRAY') {
+	$this->_makeArray($c);
+    } elsif ( Foswiki::Query::OP::isNumber($c) ) {
+	$this->makeConstant(Foswiki::Infix::Node::NUMBER, $c);
+    }
+    else {
+	$this->makeConstant(Foswiki::Infix::Node::STRING, $c);
+    }
+}
+
+sub _makeArray {
+    my ($this, $array) = @_;
+    if (scalar(@$array) == 0) {
+	$this->{op} = $emptyExprOp;
+    } elsif (scalar(@$array) == 1) {
+	die unless defined $array->[0];
+	$this->_freeze($array->[0]);
+    } else {
+	$this->{op} = $commaOp;
+	$this->{params}[0] = Foswiki::Query::Node->newNode($commaOp);
+	$this->{params}[0]->_freeze(shift(@$array));
+	$this->{params}[1] = Foswiki::Query::Node->newNode($commaOp);
+	$this->{params}[1]->_freeze($array);
     }
 }
 

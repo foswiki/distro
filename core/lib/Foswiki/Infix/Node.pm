@@ -114,10 +114,13 @@ sub stringify {
             return $this->{params}[0];
         }
     }
-
-    return
-      $this->{op}->{name} . '{'
-      . join( ',', map { $_->stringify() } @{ $this->{params} } ) . '}';
+    if ($this->{op}->{arity}) {
+	return
+	    $this->{op}->{name} . '{'
+	    . join( ',', map { $_->stringify() } @{ $this->{params} } ) . '}';
+    } else {
+	$this->{op}->{name};
+    }
 }
 
 1;

@@ -27,11 +27,13 @@ sub evaluate {
     my $lval   = $a->evaluate(@_);
     my $b      = $node->{params}[1];
     if ( ref($lval) eq 'ARRAY' ) {
-        if ( $b->{op} == Foswiki::Infix::Node::NUMBER ) {
+	my $n;
+        if ( $b->evaluatesToConstant(@_) &&
+	     Foswiki::Query::OP::isNumber($n = $b->evaluate(@_))) {
 
             # Special case; integer index responds with array el at that
             # index.
-            return $lval->[ int( $b->{params}[0] ) ];
+            return $lval->[ int( $n ) ];
         }
 
         # Otherwise evaluate the inner query

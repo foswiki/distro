@@ -11,16 +11,18 @@ sub new {
     return $class->SUPER::new( arity => 2, @_ );
 }
 
-# Determine if a string represents a valid number
-sub _isNumber {
-    return shift =~ m/^[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?$/;
-}
-
 # Static function to apply a comparison function to two data, tolerant
 #  of whether they are numeric or not
 sub compare {
     my ( $a, $b, $sub ) = @_;
-    if ( _isNumber($a) && _isNumber($b) ) {
+    if (!defined($a)) {
+	return &$sub( 0 ) unless defined($b);
+	return -&$sub( 1 );
+    } elsif (!defined($b)) {
+	return &$sub( 1 );
+    }
+    if ( Foswiki::Query::OP::isNumber($a)
+	 && Foswiki::Query::OP::isNumber($b) ) {
         return &$sub( $a <=> $b );
     }
     else {

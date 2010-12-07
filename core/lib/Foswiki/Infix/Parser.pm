@@ -21,7 +21,7 @@ use Foswiki::Infix::Error ();
 use Foswiki::Infix::Node  ();
 
 # Set to 1 for debug
-sub MONITOR_PARSER { 0 }
+use constant MONITOR_PARSER => 0;
 
 =begin TML
 
@@ -79,7 +79,7 @@ sub new {
     $this->{numbers} =
       defined( $options->{numbers} )
       ? $options->{numbers}
-      : qr/[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?/;
+      : qr/(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?/;
 
     $this->{words} =
       defined( $options->{words} )
@@ -107,7 +107,7 @@ sub finish {
 Add an operator to the parser.
 
 =\%oper= is a hash (or an object), containing the following fields:
-   * =name= - operator string
+   * =name= - operator string.
    * =prec= - operator precedence, positive non-zero integer.
      Larger number => higher precedence.
    * =arity= - set to 1 if this operator is unary, 2 for binary. Arity 0
@@ -172,7 +172,11 @@ sub _initialise {
             push( @bracketOpsRE, $op->{InfixParser_RE} );
         }
         else {
-            $this->{standard_ops}->{ lc( $op->{name} ) } = $op;
+	    if ($op->{arity} == 1) {
+		$this->{unary_ops}->{ lc( $op->{name} ) } = $op;
+	    } else {
+		$this->{standard_ops}->{ lc( $op->{name} ) } = $op;
+	    }
             push( @stdOpsRE, $op->{InfixParser_RE} );
         }
     }
@@ -209,7 +213,8 @@ sub _parse {
     my ( $this, $expr, $input, $term ) = @_;
 
     throw Foswiki::Infix::Error("Empty expression")
-      unless defined($expr) && $expr =~ /\S/;
+      unless defined($expr);
+    $$input = "()" unless $$input =~ /\S/;
 
     my @opers  = ();
     my @opands = ();
@@ -217,20 +222,41 @@ sub _parse {
     $input ||= \$expr;
 
     print STDERR "Parse: $$input\n" if MONITOR_PARSER;
+    my $lastTokWasOper = 1;
     try {
         while ( $$input =~ /\S/ ) {
             if ( $$input =~ s/^\s*($this->{standard_op_REs})// ) {
                 my $opname = $1;
-                print STDERR "Tok: op '$opname'\n" if MONITOR_PARSER;
-                my $op = $this->{standard_ops}->{ lc($opname) };
+                my $op = $this->{unary_ops}->{ lc($opname) } ||
+		    $this->{standard_ops}->{ lc($opname) };
+		if ($lastTokWasOper && $opname =~ $this->{words}
+		    && $op->{arity} > 1) {
+		    # op is a word name, and is in an operand position,
+		    # and is not unary. Treat it as an operand.
+		    push( @opands,
+			  $this->{client_class}
+			  ->newLeaf( $opname, Foswiki::Infix::Node::NAME ) );
+		    print STDERR "Operand: name '$opname'\n" if MONITOR_PARSER;
+		    $lastTokWasOper = 0;
+		    next;
+		}
+		if ($lastTokWasOper && $this->{unary_ops}->{ lc($opname) }) {
+		    # Op immediately follows another op, and allows unary.
+		    $op = $this->{unary_ops}->{ lc($opname) };
+		} else {
+		    $op = $this->{standard_ops}->{ lc($opname) } ||
+			$this->{unary_ops}->{ lc($opname) };
+		}
+                print STDERR "Operator: $op\n" if MONITOR_PARSER;
                 ASSERT( $op, $opname ) if DEBUG;
                 _apply( $this, $op->{prec}, \@opers, \@opands );
                 push( @opers, $op );
+		$lastTokWasOper = 1;
             }
             elsif ( $$input =~ s/^\s*(['"])(|.*?[^\\])\1// ) {
                 my $q   = $1;
                 my $val = $2;
-                print STDERR "Tok: qs '$q'\n" if MONITOR_PARSER;
+                print STDERR "Operand: qs '$q'\n" if MONITOR_PARSER;
 
                 # Handle escaped characters in the string. This is where
                 # expansions such as \n are handled
@@ -239,20 +265,23 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x{[a-fA-F0-9]+}|n|t|\\|$q)/eval('"\\'.$1.'
                 push( @opands,
                     $this->{client_class}
                       ->newLeaf( $val, Foswiki::Infix::Node::STRING ) );
+		$lastTokWasOper = 0;
             }
             elsif ( $$input =~ s/^\s*($this->{numbers})// ) {
                 my $val = 0 + $1;
-                print STDERR "Tok: number '$val'\n" if MONITOR_PARSER;
+                print STDERR "Operand: number $val\n" if MONITOR_PARSER;
                 push( @opands,
                     $this->{client_class}
                       ->newLeaf( $val, Foswiki::Infix::Node::NUMBER ) );
+		$lastTokWasOper = 0;
             }
             elsif ( $$input =~ s/^\s*($this->{words})// ) {
-                print STDERR "Tok: word '$1'\n" if MONITOR_PARSER;
+                print STDERR "Operand: word '$1'\n" if MONITOR_PARSER;
                 my $val = $1;
                 push( @opands,
                     $this->{client_class}
                       ->newLeaf( $val, Foswiki::Infix::Node::NAME ) );
+		$lastTokWasOper = 0;
             }
             elsif ( $$input =~ s/^\s*($this->{bracket_op_REs})// ) {
                 my $opname = $1;
@@ -264,9 +293,13 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x{[a-fA-F0-9]+}|n|t|\\|$q)/eval('"\\'.$1.'
                 push( @opands,
                     $this->_parse( $expr, $input, $op->{InfixParser_closeRE} )
                 );
+		$lastTokWasOper = 0;
             }
             elsif ( defined($term) && $$input =~ s/^\s*$term// ) {
                 print STDERR "Tok: close bracket $term\n" if MONITOR_PARSER;
+		# if the operand stack is empty, push an empty array
+		# nonary operator
+		$this->onCloseExpr(\@opands);
                 last;
             }
             else {
@@ -318,6 +351,19 @@ sub _apply {
         }
         push( @$opands, $this->{client_class}->newNode( $op, @prams ) );
     }
+}
+
+=begin TML
+
+---++ onCloseExpr($@opands)
+Designed to be overridden by subclasses that need to perform an action on the
+operand stack (such as pushing) when a sub-expression is closed. Also called
+when the root expression is closed. The default is a no-op.
+
+=cut
+
+sub onCloseExpr {
+    my ($this, $opands) = @_;
 }
 
 1;

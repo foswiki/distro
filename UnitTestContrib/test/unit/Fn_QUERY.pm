@@ -96,7 +96,6 @@ sub test_badQUERY {
         { test => "'A'=?",   expect => "Syntax error in ''A'=?' at '?'" },
         { test => "'A'==",   expect => "Excess operators (= =) in ''A'=='" },
         { test => "'A' 'B'", expect => "Missing operator in ''A' 'B''" },
-        { test => ' ',       expect => "Empty expression" },
     );
 
     foreach my $test (@tests) {
@@ -104,14 +103,11 @@ sub test_badQUERY {
         my $result = $this->{test_topicObject}->expandMacros($text);
         $result =~ s/^.*foswikiAlert'>\s*//s;
         $result =~ s/\s*<\/span>\s*//s;
-        $this->assert( $result =~ s/^.*}:\s*//s );
+        $this->assert( $result =~ s/^.*}:\s*//s, $text );
         $this->assert_str_equals( $test->{expect}, $result );
     }
     my $result = $this->{test_topicObject}->expandMacros('%QUERY%');
-    $result =~ s/^.*foswikiAlert'>\s*//s;
-    $result =~ s/\s*<\/span>\s*//s;
-    $this->assert( $result =~ s/^.*}:\s*//s );
-    $this->assert_str_equals( 'Empty expression', $result );
+    $this->assert_str_equals( '', $result );
 }
 
 sub test_CAS {

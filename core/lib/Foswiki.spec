@@ -982,7 +982,9 @@ $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 # **PERL EXPERT**
 # Hash of full class names of objects that want to listen to changes to
 # the store. The Key is the Class name, and the value is an integer, used
-# to define the execution order (low values are executed first).
+# to define the execution order (low values are executed first). For example,
+# <tt>{ 'Foswiki::Contrib::DBIStoreContrib::Listener' => 100,
+# 'Foswiki::Plugins::MongoDBPlugin::Listener' => 200 }</tt>.
 $Foswiki::cfg{Store}{Listeners} = {};
 
 # **BOOLEAN EXPERT**
@@ -1416,18 +1418,6 @@ $Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
 # cause Foswiki to die. Provided for use by Plugin and Skin developers,
 # who should develop with it switched on.
 $Foswiki::cfg{WarningsAreErrors} = $FALSE;
-
-# **PERL H**
-# List of operators permitted in structured search queries.
-# Each operator is implemented by a class. Not visible in the
-# configure UI.
-$Foswiki::cfg{Operators}{Query} = [ 'Foswiki::Query::OP_match', 'Foswiki::Query::OP_and', 'Foswiki::Query::OP_eq', 'Foswiki::Query::OP_lc', 'Foswiki::Query::OP_lte', 'Foswiki::Query::OP_not', 'Foswiki::Query::OP_ref', 'Foswiki::Query::OP_d2n', 'Foswiki::Query::OP_gte', 'Foswiki::Query::OP_length', 'Foswiki::Query::OP_lt', 'Foswiki::Query::OP_ob', 'Foswiki::Query::OP_uc', 'Foswiki::Query::OP_dot', 'Foswiki::Query::OP_gt', 'Foswiki::Query::OP_like', 'Foswiki::Query::OP_ne', 'Foswiki::Query::OP_or', 'Foswiki::Query::OP_where' ];
-
-# **PERL H**
-# List of operators permitted in %IF statements.
-# Each operator is implemented by a class. Not visible in the
-# configure UI.
-$Foswiki::cfg{Operators}{If} = [ 'Foswiki::If::OP_allows', 'Foswiki::If::OP_defined', 'Foswiki::If::OP_isempty','Foswiki::If::OP_ingroup', 'Foswiki::If::OP_isweb', 'Foswiki::If::OP_context', 'Foswiki::If::OP_dollar', 'Foswiki::If::OP_istopic' ];
 
 #---+ Extensions -- TABS
 

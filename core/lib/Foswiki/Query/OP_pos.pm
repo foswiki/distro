@@ -1,43 +1,35 @@
 # See bottom of file for license and copyright information
-package Foswiki::Query::OP;
+
+=begin TML
+
+---+ package Foswiki::Query::OP_pos
+
+=cut
+
+package Foswiki::Query::OP_pos;
 
 use strict;
 use warnings;
 
+use Foswiki::Query::UnaryOP ();
+our @ISA = ('Foswiki::Query::UnaryOP');
+
 sub new {
-    my ( $class, %opts ) = @_;
-    return bless( \%opts, $class );
+    my $class = shift;
+    return $class->SUPER::new( name => '+', prec => 950 );
 }
 
-# Does this operator evaluate to a constant?
-# See Foswiki::Query::Node::evaluatesToConstant
+sub evaluate {
+    my $this = shift;
+    my $node = shift;
+    my $a    = $node->{params}[0]->evaluate(@_);
+    return 0 + $a;
+}
+
 sub evaluatesToConstant {
-    return 0;
-}
-
-# Determine if a string represents a valid number
-sub isNumber {
-    return shift =~ m/^[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?$/;
-}
-
-=begin TML
-
----++ collect($a, $fn)
-
-Invokes $fn once for each element of $a.
-
-=cut
-
-sub collect {
-    my ($this, $a, $fn) = @_;
-    if (ref($a) eq 'ARRAY') {
-	my @b = map { $this->collect($_, $fn) } @$a;
-	return \@b;
-    } elsif (ref($a) eq 'HASH') {
-	die "Can't collect on a hash";
-    } else {
-	return &$fn($a);
-    }
+    my $this = shift;
+    my $node = shift;
+    return $node->{params}[0]->evaluatesToConstant(@_);
 }
 
 1;
@@ -46,7 +38,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

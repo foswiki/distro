@@ -217,7 +217,7 @@ sub tear_down {
     # Clear down non-default META types.
     foreach my $thing (keys %$Foswiki::Meta::VALIDATE) {
         delete $Foswiki::Meta::VALIDATE{$thing}
-          unless$Foswiki::Meta::VALIDATE{$thing}->{_default};
+          unless $Foswiki::Meta::VALIDATE{$thing}->{_default};
     }
 }
 

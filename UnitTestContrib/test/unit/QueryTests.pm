@@ -34,10 +34,10 @@ sub set_up {
     # Force pure perl text search; the query alg may map to a plain text
     # search, and we want to be sure we hit a good one.
     $Foswiki::cfg{Store}{SearchAlgorithm} =
-      'Foswiki::Store::SearchAlgorithms::PurePerl';
+	'Foswiki::Store::SearchAlgorithms::PurePerl';
 
     my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'HitTopic' );
+	Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'HitTopic' );
     $meta->putKeyed(
         'FILEATTACHMENT',
         {
@@ -50,7 +50,7 @@ sub set_up {
             rev     => '23',
             date    => '25',
         }
-    );
+	);
     $meta->putKeyed(
         'FILEATTACHMENT',
         {
@@ -62,17 +62,15 @@ sub set_up {
             user    => 'ProjectContributor',
             rev     => '105',
             date    => '99',
-        }
-    );
+        });
     $meta->put(
-        'TOPICINFO',
-        {
-            author  => 'AlbertCamus',
-            date    => '12345',
-            format  => '1.1',
-            version => '1.1913',
-        }
-    );
+	'TOPICINFO',
+	{
+	    author  => 'AlbertCamus',
+	    date    => '12345',
+#	    format  => '1.1',
+	    version => '1.1913',
+        });
     $meta->put(
         'TOPICMOVED',
         {
@@ -81,7 +79,7 @@ sub set_up {
             from => 'BouvardEtPecuchet',
             to   => 'ThePlague',
         }
-    );
+	);
     $meta->put( 'FORM',        { name => 'TestForm' } );
     $meta->put( 'TOPICPARENT', { name => '' } );
     $meta->putKeyed( 'PREFERENCE', { name => 'Red',    value => '0' } );
@@ -90,9 +88,9 @@ sub set_up {
     $meta->putKeyed( 'PREFERENCE', { name => 'White',  value => '0' } );
     $meta->putKeyed( 'PREFERENCE', { name => 'Yellow', value => '1' } );
     $meta->putKeyed( 'FIELD',
-        { name => "number", title => "Number", value => "99" } );
+		     { name => "number", title => "Number", value => "99" } );
     $meta->putKeyed( 'FIELD',
-        { name => "string", title => "String", value => "String" } );
+		     { name => "string", title => "String", value => "String" } );
     $meta->putKeyed(
         'FIELD',
         {
@@ -100,14 +98,19 @@ sub set_up {
             title => "StringWithChars",
             value => "n\nn t\tt s\\s q'q o#o h#h X~X \\b \\a \\e \\f \\r \\cX"
         }
-    );
+	);
     $meta->putKeyed( 'FIELD',
-        { name => "boolean", title => "Boolean", value => "1" } );
+		     { name => "boolean", title => "Boolean", value => "1" } );
     $meta->putKeyed( 'FIELD', { name => "macro", value => "%RED%" } );
 
-    $meta->{_text} = "Green ideas sleep furiously";
-    $this->{meta}  = $meta;
+    $meta->text("Quantum");
     $meta->save();
+
+    $meta = Foswiki::Meta->load(
+	$this->{session}, $this->{test_web}, 'HitTopic', 1 );
+    $meta->text("Green ideas sleep furiously");
+    $meta->save(forcenewrevision => 1);
+    $this->{meta}  = $meta;
 }
 
 sub fixture_groups {
@@ -215,7 +218,7 @@ sub check {
         my $expr =
 "%SEARCH{\"$s\" type=\"query\" excludetopic=\"WebPreferences,$this->{test_topic}\" nonoise=\"on\" format=\"\$topic\"}%";
         my $list = $this->{test_topicObject}->expandMacros($expr);
-        if ( $opts{'eval'} ) {
+        if ( $opts{'eval'}||$opts{match} ) {
             $this->assert_str_equals( 'HitTopic', $list );
         }
         else {
@@ -226,14 +229,16 @@ sub check {
 
 sub verify_atoms {
     my $this = shift;
-    $this->check( "'0'", eval => '0', simpler => 0 );
+    $this->check( "", eval => [], simpler => '()' );
+    $this->check( "()", eval => [], simpler => '()' );
+    $this->check( "'0'", eval => '0', simpler => '0' );
     $this->check( "''",  eval => '',  simpler => q{''} ); # Not 0 - See Item9971
     $this->check( "1",   eval => 1,   simpler => 1 );
-    $this->check( "-1",  eval => -1,  simpler => -1 );
+
     $this->check(
-        "-1.1965432e-3",
-        eval    => -1.1965432e-3,
-        simpler => -1.1965432e-3
+        "1.1965432e-3",
+        eval    => 1.1965432e-3,
+        simpler => 1.1965432e-3
     );
     $this->check( "number",    eval => 99 );
     $this->check( "text",      eval => "Green ideas sleep furiously" );
@@ -299,16 +304,13 @@ sub verify_array_squab {
     $this->check( "preferences[value=0][name='Blue'].name", eval => "Blue" );
 }
 
-sub verify_slashes {
-    my $this = shift;
-}
-
 sub verify_boolean_uops {
     my $this = shift;
     $this->check( "not number",    eval => 0 );
     $this->check( "not boolean",   eval => 0 );
     $this->check( "not 0",         eval => 1, simpler => 1 );
     $this->check( "not notafield", eval => 1 );
+    $this->check( "not ()", eval => [], simpler => '()' );
 }
 
 sub verify_string_uops {
@@ -316,10 +318,45 @@ sub verify_string_uops {
     $this->check( "uc string",      eval => 'STRING' );
     $this->check( "uc(string)",     eval => "STRING" );
     $this->check( "lc string",      eval => 'string' );
-    $this->check( "lc(notafield)",  eval => undef );
+    $this->check( "lc(notafield)",  eval => '' );
     $this->check( "uc 'string'",    eval => 'STRING', simpler => "'STRING'" );
-    $this->check( "uc (notafield)", eval => undef );
+    $this->check( "uc (notafield)", eval => '' );
     $this->check( "lc 'STRING'",    eval => 'string', simpler => "'string'" );
+    $this->check( "length attachments",     eval => 2 );
+    $this->check( "length META:PREFERENCE", eval => 5 );
+    $this->check( "length 'five'",          eval => 4, simpler => 4 );
+    $this->check( "length info",            eval => 5 );
+    $this->check( "length notafield",       eval => 0 );
+    $this->check( "uc ()",       eval => [], simpler => '()' );
+    $this->check( "lc ()",       eval => [], simpler => '()');
+    $this->check( "length ()",       eval => 0, simpler => 0 );
+}
+
+sub verify_numeric_uops {
+    my $this = shift;
+    $this->check("-()", eval => [], simpler => "()");
+    $this->check( "-1",     eval => -1, simpler => -1 );
+    $this->check( "--1",     eval => 1, simpler => 1 );
+
+    $this->check( "int 1.5",     eval => 1, simpler => 1 );
+    $this->check( "int -1.5",     eval => -1, simpler => -1 );
+    $this->check( "int ()",     eval => [], simpler => "()" );
+
+    $this->check(
+        "d2n '" . Foswiki::Time::formatTime( 0, '$iso', 'gmtime' ) . "'",
+        eval    => 0,
+        simpler => 0
+    );
+    my $t = time;
+    $this->check(
+        "d2n '" . Foswiki::Time::formatTime( $t, '$iso', 'gmtime' ) . "'",
+        eval    => $t,
+        simpler => $t,
+    );
+    $this->check( "d2n 'not a time'", eval => undef, simpler => 0 );
+    $this->check( "d2n 0",            eval => undef, simpler => 0 );
+    $this->check( "d2n notatime",     eval => undef );
+    $this->check( "d2n ()",     eval => [], simpler => '()' );
 }
 
 sub verify_string_bops {
@@ -346,45 +383,41 @@ sub verify_string_bops {
     $this->check( "string!='String'",             eval => 0 );
     $this->check( "string!='string'",             eval => 1 );
     $this->check( "string='string'",              eval => 0 );
-    $this->check( "string~'string'",              eval => 0 );
-}
-
-sub test_string_bops {
-    my $this = shift;
+    $this->check( "'string'+'string'",            eval => 'stringstring', simpler => "'stringstring'" );
+    $this->check( "'string'+1",                   eval => 'string1', simpler => "'string1'" );
+    $this->check( "1+'string'",                   eval => '1string', simpler => "'1string'" );
     $this->check( "macro='\%RED\%'", eval => 1, syntaxOnly => 1 );
     $this->check( "macro~'\%RED?'",  eval => 1, syntaxOnly => 1 );
     $this->check( "macro~'?RED\%'",  eval => 1, syntaxOnly => 1 );
+    $this->check( "macro~'?RED\%'",  eval => 1, syntaxOnly => 1 );
 }
 
-sub verify_length {
+sub verify_constants {
     my $this = shift;
-    $this->check( "length attachments",     eval => 2 );
-    $this->check( "length META:PREFERENCE", eval => 5 );
-    $this->check( "length 'five'",          eval => 4, simpler => 4 );
-    $this->check( "length info",            eval => 5 );
-    $this->check( "length notafield",       eval => 0 );
+    $this->check("undefined=undefined", eval => 1);
+    $this->check("undefined", eval => undef);
+    $this->check("now=now", eval => 1);
+    $this->check("now", eval => time);
 }
 
-sub verify_d2n {
+sub verify_boolean_corner_cases {
     my $this = shift;
-    $this->check(
-        "d2n '" . Foswiki::Time::formatTime( 0, '$iso', 'servertime' ) . "'",
-        eval    => 0,
-        simpler => 0
-    );
-    my $t = time;
-    $this->check(
-        "d2n '" . Foswiki::Time::formatTime( $t, '$iso', 'servertime' ) . "'",
-        eval    => $t,
-        simpler => $t
-    );
-    $this->check( "d2n 'not a time'", eval => undef, simpler => 0 );
-    $this->check( "d2n 0",            eval => undef, simpler => 0 );
-    $this->check( "d2n notatime",     eval => undef );
+    $this->check("not not ''", eval => 0, simpler => 0);
+    $this->check("0", eval => 0, simpler => 0);
+    $this->check("''", eval => '', simpler => "''");
 }
 
-sub verify_num_bops {
+sub verify_numeric_bops {
     my $this = shift;
+    $this->check( "1+1", eval => 2, simpler => 2 );
+    $this->check( "2-1", eval => 1 , simpler => 1);
+    $this->check( "2*2", eval => 4, simpler => 4 );
+    $this->check( "4 div 2", eval => 2, simpler => 2 );
+}
+
+sub verify_boolean_bops {
+    my $this = shift;
+
     $this->check( "number=99",   eval => 1 );
     $this->check( "99=99",       eval => 1, simpler => 1 );
     $this->check( "number=98",   eval => 0 );
@@ -415,12 +448,6 @@ sub verify_num_bops {
     $this->check( "number<notafield",  eval => 0 );
     $this->check( "notafield<number",  eval => 1 );
 
-    $this->check( "notafield=undefined", eval => 1 );
-}
-
-sub verify_boolean_bops {
-    my $this = shift;
-
     $this->check( "1 AND 1", eval => 1, simpler => 1 );
     $this->check( "0 AND 1", eval => 0, simpler => 0 );
     $this->check( "1 AND 0", eval => 0, simpler => 0 );
@@ -445,6 +472,25 @@ sub verify_boolean_bops {
     $this->check( "1 OR notafield",  eval => 1, simpler => 1 );
     $this->check( "notafield OR 0",  eval => 0 );
     $this->check( "0 OR notafield",  eval => 0 );
+    $this->check("1='1'", eval => 1, simpler => 1);
+    $this->check("''='0'", eval => 0, simpler => 0);
+    $this->check("0=''", eval => 0, simpler => 0);
+    $this->check("''=0", eval => 0, simpler => 0);
+
+    $this->check("1 in 1", eval => 1, simpler => 1);
+    $this->check("1 in 0", eval => 0, simpler => 0);
+    $this->check("0 in 1", eval => 0, simpler => 0);
+    $this->check("2 in (1,2,3)", eval => 1, simpler => 1);
+    $this->check("4 in (1,2,3)", eval => 0, simpler => 0);
+    $this->check("4 in ()", eval => 0, simpler => 0);
+
+    $this->check("'a' in 'a'", eval => 1, simpler => 1);
+    $this->check("'a' in 'b'", eval => 0, simpler => 0);
+    $this->check("'a' in ''", eval => 0, simpler => 0);
+    $this->check("'' in 'a'", eval => 0, simpler => 0);
+    $this->check("'b' in ('a','b','c')", eval => 1, simpler => 1);
+    $this->check("'d' in ('a','b','c')", eval => 0, simpler => 0);
+    $this->check("'d' in ()", eval => 0, simpler => 0);
 }
 
 sub verify_match_fail {
@@ -486,8 +532,27 @@ sub verify_ref {
         eval    => 1,
         simpler => 1
     );
+    $this->check(
+        "'$this->{test_web}.HitTopic'/number=99",
+        eval    => 1,
+        simpler => 1
+    );
     $this->check( "'NotATopic'/rev",    eval => undef, simpler => 0 );
     $this->check( "'NotATopic'/rev=23", eval => 0,     simpler => 0 );
+}
+
+sub verify_at_bop{
+    my $this = shift;
+    $this->check( "'HitTopic'\@(1).text",    eval => "Quantum" );
+    $this->check( "'HitTopic'\@(2).text",    eval => "Green ideas sleep furiously" );
+    $this->check( "'HitTopic'\@().text",    eval => ["Green ideas sleep furiously", "Quantum"] );
+}
+
+sub verify_at_uop{
+    my $this = shift;
+    $this->check( "\@1 .text", eval => "Quantum" );
+    $this->check( "\@(2).text", eval => "Green ideas sleep furiously" );
+    $this->check( "\@().text",  eval => ["Green ideas sleep furiously", "Quantum"] );
 }
 
 sub test_backslash_match_fail {
@@ -508,6 +573,23 @@ sub test_backslash_match_good {
         syntaxOnly => 1,
         simpler    => 1
     );
+}
+
+sub test_maths {
+    my $this = shift;
+    my $queryParser = new Foswiki::Query::Parser();
+    my $query       = $queryParser->parse("1+2*-3+4 div 2 + div");
+    $this->assert_equals("+{+{+{1,*{2,-{3}}},div{4,2}},div}", $query->stringify());
+    $query       = $queryParser->parse("(-1+2*-3+4 div 2)");
+    $this->assert_equals((-1+2*-3+4 / 2), $query->evaluate());
+    $query       = $queryParser->parse("int 1.5");
+    $this->assert_equals(1, $query->evaluate());
+    $query       = $queryParser->parse("1,2,3");
+    $this->assert_deep_equals([1,2,3], $query->evaluate());
+    $query       = $queryParser->parse("2 in (1,2,3)");
+    $this->assert($query->evaluate());
+    $query       = $queryParser->parse("4 in (1,2,3)");
+    $this->assert(!$query->evaluate());
 }
 
 sub test_constant_strings {

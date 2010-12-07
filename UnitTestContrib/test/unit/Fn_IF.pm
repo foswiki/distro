@@ -1037,7 +1037,6 @@ sub test_badIF {
         { test => "'A'=?",   expect => "Syntax error in ''A'=?' at '?'" },
         { test => "'A'==",   expect => "Excess operators (= =) in ''A'=='" },
         { test => "'A' 'B'", expect => "Missing operator in ''A' 'B''" },
-        { test => ' ',       expect => "Empty expression" },
     );
 
     foreach my $test (@tests) {
