@@ -21,6 +21,21 @@ a topic is moved.
 ---++ ObjectMethod remove($metaObject)
 We are removing the given object.
 
+---++ ObjectMethod loadTopic($meta, $version) -> ($gotRev, $isLatest)
+Patterned on =Foswiki::Store::readTopic=, this listener is called when
+the store's =readTopic= method is called. The first listener to return
+a $meta will be assumed to have loaded that meta object with
+the requested revision.
+
+Implementors do *not* need to provide this method; it is called only if
+it's present in the listener.
+
+Note that the listener may re-bless the $meta into a subclass
+of =Foswiki::Meta=, should it be necessary to enhance that class.
+
+Listeners can also use this callback as a means of monitoring topic loads
+from a VC store.
+
 =cut
 
 1;

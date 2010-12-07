@@ -79,9 +79,11 @@ sub getHandler {
 sub readTopic {
     my ( $this, $topicObject, $version ) = @_;
 
-    ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
+    my ($gotRev, $isLatest) =  $this->askListeners($topicObject);
+    return ($gotRev, $isLatest) if $gotRev;
+
     my $handler = $this->getHandler($topicObject);
-    my $isLatest = 0;
+    $isLatest = 0;
 
     # check that the requested revision actually exists
     if ( defined $version ) {
@@ -96,7 +98,7 @@ sub readTopic {
     $text =~ s/\r//g;    # Remove carriage returns
     $topicObject->setEmbeddedStoreForm($text);
 
-    my $gotRev = $version;
+    $gotRev = $version;
     unless ( defined $gotRev ) {
 
         # First try the just-loaded text for the revision

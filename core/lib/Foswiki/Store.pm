@@ -127,6 +127,29 @@ sub tellListeners {
 
 =begin TML
 
+---++ ObjectMethod askListeners( $topicObject, $version )
+Ask listeners if they would like to provide the object specified in the
+$topicObject, at the given version. The first listener to respond with a
+non-zero revision will be assumed to have loaded the topic object.
+
+Listeners are expected to implement =loadTopic=. If they do not, they
+will not be asked.
+
+=cut
+
+sub askListeners {
+    my ($this, $meta) = @_;
+    my ($gotRev, $isLatest);
+
+    foreach my $el (@{$this->{event_listeners}}) {
+	next unless $el->can('loadTopic');
+	($gotRev, $isLatest) = $el->loadTopic($meta);
+	return ($gotRev, $isLatest) if $gotRev;
+    }
+}
+
+=begin TML
+
 ---++ StaticMethod cleanUpRevID( $rev ) -> $integer
 
 Cleans up (maps) a user-supplied revision ID and converts it to an integer
