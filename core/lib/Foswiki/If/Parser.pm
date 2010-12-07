@@ -19,6 +19,20 @@ our @ISA = ('Foswiki::Query::Parser');
 use Assert;
 use Foswiki::If::Node ();
 
+use Foswiki::If::OP_allows ();
+use Foswiki::If::OP_context ();
+use Foswiki::If::OP_defined ();
+use Foswiki::If::OP_dollar ();
+use Foswiki::If::OP_ingroup ();
+use Foswiki::If::OP_isempty ();
+use Foswiki::If::OP_istopic ();
+use Foswiki::If::OP_isweb ();
+
+# Additional operators specific to IF statements (not available in other
+# query types)
+use constant OPS => qw(allows context defined dollar ingroup isempty
+                       istopic isweb );
+
 sub new {
     my ($class) = @_;
 
@@ -27,12 +41,9 @@ sub new {
             nodeClass => 'Foswiki::If::Node',
         }
     );
-    die "{Operators}{If} is undefined; re-run configure"
-      unless defined( $Foswiki::cfg{Operators}{If} );
-    foreach my $op ( @{ $Foswiki::cfg{Operators}{If} } ) {
-        eval "require $op";
-        ASSERT( !$@ ) if DEBUG;
-        $this->addOperator( $op->new() );
+    foreach my $op ( OPS() ) {
+	my $on = 'Foswiki::If::OP_'.$op;
+        $this->addOperator( $on->new() );
     }
 
     return $this;
