@@ -143,6 +143,7 @@ sub readTopic {
             }
             else {
                 push @validAttachmentsFound, $foundAttachment;
+                $this->tellListeners('autoattach', $topicObject, $foundAttachment);
             }
         }
 
@@ -162,6 +163,7 @@ sub moveAttachment {
     if ( $handler->storedDataExists() ) {
         $handler->moveAttachment( $this, $newTopicObject->web,
             $newTopicObject->topic, $newAttachment );
+        $this->tellListeners('update', $oldTopicObject, $oldAttachment, $newTopicObject, $newAttachment);
         $handler->recordChange( $cUID, 0 );
     }
 }
@@ -175,6 +177,7 @@ sub copyAttachment {
     if ( $handler->storedDataExists() ) {
         $handler->copyAttachment( $this, $newTopicObject->web,
             $newTopicObject->topic, $newAttachment );
+        $this->tellListeners('insert', $newTopicObject, $newAttachment);
         $handler->recordChange( $cUID, 0 );
     }
 }
@@ -273,7 +276,9 @@ sub saveAttachment {
     my $handler    = $this->getHandler( $topicObject, $name );
     my $currentRev = $handler->getLatestRevisionID();
     my $nextRev    = $currentRev + 1;
+    my $verb = ($topicObject->hasAttachment($name)) ? 'update' : 'insert';
     $handler->addRevisionFromStream( $stream, 'save attachment', $cUID );
+    $this->tellListeners($verb, $topicObject, $name);
     $handler->recordChange( $cUID, $nextRev );
     return $nextRev;
 }
@@ -285,6 +290,8 @@ sub saveTopic {
 
     my $handler = $this->getHandler($topicObject);
 
+    my $verb = ($topicObject->existsInStore()) ? 'update' : 'insert';
+
     $handler->addRevisionFromText( $topicObject->getEmbeddedStoreForm(),
         'save topic', $cUID, $options->{forcedate} );
 
@@ -294,7 +301,7 @@ sub saveTopic {
     my $extra = $options->{minor} ? 'minor' : '';
     $handler->recordChange( $cUID, $nextRev, $extra );
 
-    $this->tellListeners('update', $topicObject);
+    $this->tellListeners($verb, $topicObject);
 
     return $nextRev;
 }
@@ -450,7 +457,7 @@ sub remove {
     my $handler = $this->getHandler( $topicObject, $attachment );
     $handler->remove();
 
-    $this->tellListeners('remove', $topicObject);
+    $this->tellListeners('remove', $topicObject, $attachment);
 
     # Only log when deleting topics or attachment, otherwise we would re-create
     # an empty directory with just a .changes. See Item9278
