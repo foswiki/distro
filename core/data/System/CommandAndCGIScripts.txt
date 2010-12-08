@@ -53,7 +53,7 @@ All the scripts accept a number of common parameters. The first two components o
 | =user= | Command-line only; set the name of the user performing the action. Note: this usage is inherently insecure, as it bypasses webserver login constraints. For this reason only authorised users should be allowed to execute scripts from the command line. | |
 | =validation_key= | part of cross-site scripting protection. Any request sent from browsers that might change data stored on the server must carry a key that indentifies the source of the request. | |
 
-Where revision parameters are required, individual versions are identified by positive, non-zero integers. Older revisions always have lower numbers, but numbers cannot be assumed to be sequential, nor can the first version of a topic be assumed to be version 1. For compatibility reasons, Some scripts accept revision numbers with '1.' (or even 'r1.') prepended to the number, but this usage is deprecated and should be corrected when encountered.
+Where revision parameters are required, individual versions are identified by positive, non-zero integers. Versions start with 1 and are sequencial. For compatibility reasons, Some scripts accept revision numbers with '1.' (or even 'r1.') prepended to the number, but this usage is deprecated and should be corrected when encountered.
 
 ---+++ =attach=
 Despite the name, this script doesn't actually attach a file to a topic - for that, use =upload=. This script is part of the transactions sequence executed when a file is uploaded from the browser. it just generates the "new attachment" page for a topic.

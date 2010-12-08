@@ -92,11 +92,7 @@ Note that if you use the [[WebCreateNewTopic][Topic Creator]], WikiWord rules ar
 <blockquote class="foswikiHelp">%I% The naming rules may be different for your installation; ask the [[mailto:%WIKIWEBMASTER%][wiki administrator]] who may have customised the ={NameFilter}= expert option under =Security and Authentication= in [[%SCRIPTURLPATH{"configure"}%#Environment$SecurityAndAuthentication][configure]]</blockquote>
 
 ---+++ Revision numbers
-Topic and attachment versions are identified by positive, non-zero, integer numbers. Older revisions always have smaller numbers, but numbers cannot be assumed to be sequential, nor can you assume that the first revision of a topic will be revision 1. For example, you might have a topic history that runs like this:
-
-=84 > 95 > 1001 > 7690=
-
-where 84 is the first version and 7690 the most recent.
+Topic and attachment versions are identified by positive, non-zero, integer numbers. Versions start with 1 and are sequencial.
 
 #RenamingTopics
 #RevisionRollback
