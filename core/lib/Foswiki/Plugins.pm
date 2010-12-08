@@ -383,8 +383,18 @@ sub _handleFAILEDPLUGINS {
         my $web = $plugin->topicWeb();
         $text .= CGI::Tr(
             { valign => 'top' },
-            CGI::td( {},
-                ' ' . ( $web ? "$web." : '!' ) . $plugin->{name} . ' ' )
+            CGI::td(
+                {},
+                ' '
+                  . ( $web ? "$web." : '!' )
+                  . $plugin->{name} . ' '
+                  . CGI::br()
+                  . (
+                      $SESSION->{users}->isAdmin( $SESSION->{user} )
+                    ? $Foswiki::cfg{Plugins}{ $plugin->{name} }{Module} . ' '
+                    : ''
+                  )
+              )
               . $td
         );
     }
