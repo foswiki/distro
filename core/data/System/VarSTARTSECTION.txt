@@ -5,7 +5,7 @@
    * Section boundaries are defined with =%<nop>STARTSECTION{}%= and =%<nop>ENDSECTION{}%=.
    * Sections may be given a name to help identify them, and/or a type, which changes how they are used.
       * =type="section"= - the default, used for a generic section, such as a named section used by [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]].
-      * =type="include"= - like =%<nop>STARTINCLUDE%= ... =%<nop>STOPINCLUDE%= except that you can have as many include blocks as you want (=%<nop>STARTINCLUDE%= is restricted to only one).
+      * =type="include"= - like =%<nop>STARTINCLUDE%= ... =%<nop>STOPINCLUDE%= except that you can have as many include blocks as you want which are all merged into one when included (=%<nop>STARTINCLUDE%= is restricted to only one). Sections of type include may not be given a name.
       * =type="expandvariables"= - all macros inside an "expandvariables" type section gets expanded when a new topic based on the template topic is created. See TemplateTopics for more information.
       * =type="templateonly"= - start position of text to be removed when a template topic is used. This is used to embed text that you _do not_ want expanded when a new topic based on the template topic is created. See TemplateTopics for more information.
    * Syntax: =%<nop>STARTSECTION{"name"}% ................... %<nop>ENDSECTION{"name"}%=
