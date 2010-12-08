@@ -26,6 +26,7 @@ Each topic has:
       * use WikiSyntax (see TextFormattingRules) and [[Macros][macros]] to write rich topic content
    * [[FileAttachment][attachments]]
       * topics may have one or more file attachments
+      * changes to attachments are automatically recorded
    * [[DataForms][DataForm]]
       * topics may have a [[DataForms][DataForm]] attached to them, which specifies [[MetaData][metadata]] fields that users may fill. This data may be [[QuerySearch][queried]] and [[FormattedSearch#Table_showing_form_field_values_of_topics_with_a_form][reported]] (see the [[FrequentlyAskedQuestions]] application as an example)
    * [[AccessControl][access controls]]
@@ -89,6 +90,13 @@ The best strategy is to use WikiWords for your topic names. In this way, linking
 Note that if you use the [[WebCreateNewTopic][Topic Creator]], WikiWord rules are strictly enforced and the resulting topic name would be ==<nop>MySpecialTopicHere== For more details on forced links, see [[EditingShorthand#HeRe][EditingShorthand]]
 
 <blockquote class="foswikiHelp">%I% The naming rules may be different for your installation; ask the [[mailto:%WIKIWEBMASTER%][wiki administrator]] who may have customised the ={NameFilter}= expert option under =Security and Authentication= in [[%SCRIPTURLPATH{"configure"}%#Environment$SecurityAndAuthentication][configure]]</blockquote>
+
+---+++ Revision numbers
+Topic and attachment versions are identified by positive, non-zero, integer numbers. Older revisions always have smaller numbers, but numbers cannot be assumed to be sequential, nor can you assume that the first revision of a topic will be revision 1. For example, you might have a topic history that runs like this:
+
+=84 > 95 > 1001 > 7690=
+
+where 84 is the first version and 7690 the most recent.
 
 #RenamingTopics
 #RevisionRollback

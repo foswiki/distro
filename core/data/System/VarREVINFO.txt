@@ -10,15 +10,15 @@
       * Expands to: <code>%REVINFO%</code>
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
-     | ="format"= | Format of revision information, see supported formatting tokens below | ="r1.$rev - $date - $wikiusername"= |
+     | ="format"= | Format of revision information, see supported formatting tokens below | ="r$rev - $date - $wikiusername"= |
      | =web="..."= | Name of web | Current web |
      | =topic="..."= | Topic name | Current topic |
-     | =rev="1.5"= | Specific revision number | Latest revision |
+     | =rev="5"= | Specific revision number | Latest revision |
    * Supported formatting tokens:
      | *Token:* | *Unit:* | *Example* |
      | =$web= | Name of web | Current web |
      | =$topic= | Topic name | Current topic |
-     | =$rev= | Revision number. Prefix =r1.= to get the usual =r1.5= format | =5= |
+     | =$rev= | Revision number. | =5= |
      | =$username= | Login username of revision | =jsmith= |
      | =$wikiname= | WikiName of revision | =JohnSmith= |
      | =$wikiusername= | <nop>WikiName with %USERSWEB% web prefix | =%USERSWEB%.JohnSmith= |
@@ -26,6 +26,6 @@
      | =$time= | Revision time | =23:24:25= |
      | =$iso= | Revision date in ISO date format | =2006-09-22T06:24:25Z= |
      | =$min=, =$sec=, etc. | Same date format qualifiers as [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME{"format"}]] | |
-   * Example, returns revision info of first revision: <verbatim class="tml">%REVINFO{"$date - $wikiusername" rev="1.1"}%</verbatim> 
+   * Example, returns revision info of revision 43: <verbatim class="tml">%REVINFO{"$date - $wikiusername" rev="43"}%</verbatim> 
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME{"format"}]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO][REVINFO]]
 <!--%JQREQUIRE{"chili"}%-->
