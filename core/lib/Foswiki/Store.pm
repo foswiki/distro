@@ -119,9 +119,12 @@ to the listener.
 
 sub tellListeners {
     my $this = shift;
-    my $event = shift;
+    my %arg = @_;
+    my $event = $arg{verb};
+    
     foreach my $el (@{$this->{event_listeners}}) {
-        $el->$event(@_);
+        next unless $el->can($event);
+        $el->$event(%arg);
     }
 }
 

@@ -457,7 +457,7 @@ sub remove {
     my $handler = $this->getHandler( $topicObject, $attachment );
     $handler->remove();
 
-    $this->tellListeners('remove', $topicObject, $attachment);
+    $this->tellListeners(verb=>'remove', oldmeta=>$topicObject, oldattachment=>$attachment);
 
     # Only log when deleting topics or attachment, otherwise we would re-create
     # an empty directory with just a .changes. See Item9278
