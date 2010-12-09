@@ -1466,8 +1466,8 @@ sub verify_badQuery1 {
     $this->set_up_for_queries();
 
     my $result =
-      $this->{test_topicObject}->expandMacros( '%SEARCH{"A * B"' . $stdCrap );
-    $this->assert_matches( qr/Error was: Syntax error in 'A \* B' at ' \* B'/s,
+      $this->{test_topicObject}->expandMacros( '%SEARCH{"A ¬ B"' . $stdCrap );
+    $this->assert_matches( qr/Error was: Syntax error in 'A ¬ B' at ' ¬ B'/s,
         $result );
 }
 
