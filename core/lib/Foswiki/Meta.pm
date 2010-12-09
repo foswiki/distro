@@ -461,9 +461,6 @@ sub unload {
         delete $this->{$type};
     }
     undef $this->{_indices};
-    
-    #SMELL: Sven noticed diring development that something is adding a $this->{store} to a meta obj - havn't found it yet
-    #ASSERT(not defined($this->{store})) if DEBUG;
 }
 
 =begin TML
@@ -483,6 +480,18 @@ sub finish {
     undef $this->{_web};
     undef $this->{_topic};
     undef $this->{_session};
+    if (DEBUG) {
+        #someone keeps adding random references to Meta so to shake them out..
+        #if its an intentional ref to an object, please add it to the undef's above.
+
+        #SMELL: Sven noticed during development that something is adding a $this->{store} to a meta obj - havn't found it yet
+        #ASSERT(not defined($this->{store})) if DEBUG;
+
+        use Scalar::Util qw(blessed);
+        foreach my $key (%$this) {
+            ASSERT(not defined(blessed($this->{$key})));
+        }
+    }
 }
 
 =begin TML

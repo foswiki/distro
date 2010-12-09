@@ -79,9 +79,14 @@ sub convertMeta {
     $meta->{_topic} = $savedMeta->topic() if (defined($savedMeta->topic()));
 
     foreach my $key ( keys(%$savedMeta) ) {
-        next if ( $key eq '_session' );
-        next if ( $key eq '_indices' );
-        next if ( $key eq 'store' );
+        use Scalar::Util qw(blessed reftype);
+        if (blessed($savedMeta->{$key})) {
+#print STDERR "WARNING: skipping $key, its a blessed object\n";
+            next;
+        }
+        else {
+#print STDERR "WARNING: using $key - itsa ".(blessed($savedMeta->{$key})||reftype($savedMeta->{$key})||ref($savedMeta->{$key}||'notaref'))."\n";
+        }
         
         #TODO: next if ( $key is one of the array types... and has no elements..
 
