@@ -143,7 +143,7 @@ sub readTopic {
             }
             else {
                 push @validAttachmentsFound, $foundAttachment;
-                $this->tellListeners('autoattach', $topicObject, $foundAttachment);
+                $this->tellListeners(verb=>'autoattach', newtopic=>$topicObject, newattachment=>$foundAttachment);
             }
         }
 
@@ -163,7 +163,7 @@ sub moveAttachment {
     if ( $handler->storedDataExists() ) {
         $handler->moveAttachment( $this, $newTopicObject->web,
             $newTopicObject->topic, $newAttachment );
-        $this->tellListeners('update', $oldTopicObject, $oldAttachment, $newTopicObject, $newAttachment);
+        $this->tellListeners(verb=>'update', oldtopic=>$oldTopicObject, oldattachment=>$oldAttachment, newtopic=>$newTopicObject, newattachment=>$newAttachment);
         $handler->recordChange( $cUID, 0 );
     }
 }
@@ -177,7 +177,7 @@ sub copyAttachment {
     if ( $handler->storedDataExists() ) {
         $handler->copyAttachment( $this, $newTopicObject->web,
             $newTopicObject->topic, $newAttachment );
-        $this->tellListeners('insert', $newTopicObject, $newAttachment);
+        $this->tellListeners(verb=>'insert', newtopic=>$newTopicObject, newattachment=>$newAttachment);
         $handler->recordChange( $cUID, 0 );
     }
 }
@@ -197,7 +197,7 @@ sub moveTopic {
 
     $handler->moveTopic( $this, $newTopicObject->web, $newTopicObject->topic );
 
-    $this->tellListeners('update', $oldTopicObject, $newTopicObject);
+    $this->tellListeners(verb=>'update', oldtopic=>$oldTopicObject, newtopic=>$newTopicObject);
 
     if ( $newTopicObject->web ne $oldTopicObject->web ) {
 
@@ -216,7 +216,7 @@ sub moveWeb {
     my $handler = $this->getHandler($oldWebObject);
     $handler->moveWeb( $newWebObject->web );
 
-    $this->tellListeners('update', $oldWebObject, $newWebObject);
+    $this->tellListeners(verb=>'update', oldtopic=>$oldWebObject, newtopic=>$newWebObject);
 
     # We have to log in the new web, otherwise we would re-create the dir with
     # a useless .changes. See Item9278
@@ -278,7 +278,7 @@ sub saveAttachment {
     my $nextRev    = $currentRev + 1;
     my $verb = ($topicObject->hasAttachment($name)) ? 'update' : 'insert';
     $handler->addRevisionFromStream( $stream, 'save attachment', $cUID );
-    $this->tellListeners($verb, $topicObject, $name);
+    $this->tellListeners(verb=>$verb, newtopic=>$topicObject, newattachment=>$name);
     $handler->recordChange( $cUID, $nextRev );
     return $nextRev;
 }
@@ -301,7 +301,7 @@ sub saveTopic {
     my $extra = $options->{minor} ? 'minor' : '';
     $handler->recordChange( $cUID, $nextRev, $extra );
 
-    $this->tellListeners($verb, $topicObject);
+    $this->tellListeners(verb=>$verb, newtopic=>$topicObject);
 
     return $nextRev;
 }
@@ -318,7 +318,7 @@ sub repRev {
     my $rev = $handler->getLatestRevisionID();
     $handler->recordChange( $cUID, $rev, 'minor, reprev' );
 
-    $this->tellListeners('update', $topicObject);
+    $this->tellListeners(verb=>'update', newtopic=>$topicObject);
 
     return $rev;
 }
@@ -344,7 +344,7 @@ sub delRev {
     $topicObject->unload();
     $topicObject->loadVersion();
 
-    $this->tellListeners('update', $topicObject);
+    $this->tellListeners(verb=>'update', newtopic=>$topicObject);
 
     $handler->recordChange( $cUID, $rev );
 
