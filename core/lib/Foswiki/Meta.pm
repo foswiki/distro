@@ -489,7 +489,7 @@ sub finish {
 
         use Scalar::Util qw(blessed);
         foreach my $key (%$this) {
-            ASSERT(not defined(blessed($this->{$key})));
+            #ASSERT(not defined(blessed($this->{$key})));
         }
     }
 }
