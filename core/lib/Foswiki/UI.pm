@@ -516,7 +516,7 @@ sub checkTopicExists {
 ---++ StaticMethod checkAccess( $session, $mode, $topicObject )
 
 Check if the given mode of access by the given user to the given
-web.topic is permissible, throwing a Foswiki::OopsException if not.
+web.topic is permissible, throwing a Foswiki::AccessControlException if not.
 
 =cut
 
