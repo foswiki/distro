@@ -27,7 +27,7 @@ use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '12 Jul 2010';
+our $RELEASE           = '10 Dec 2010';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Link !ExternalSite:Page text to external sites based on aliases defined in a rules topic';
@@ -63,28 +63,34 @@ sub initPlugin {
       Foswiki::Func::getPreferencesValue('INTERWIKIPLUGIN_INTERLINKFORMAT')
       || '<a class="interwikiLink" href="$url" title="$tooltip"><noautolink>$label</noautolink></a>';
 
-    my ( $interWeb, $interTopic ) = Foswiki::Func::normalizeWebTopicName(
-        $installWeb,
-        Foswiki::Func::getPreferencesValue('INTERWIKIPLUGIN_RULESTOPIC')
-          || 'InterWikis'
-    );
+    my $rulesTopicPref =
+      Foswiki::Func::getPreferencesValue('INTERWIKIPLUGIN_RULESTOPIC')
+      || 'InterWikis';
+    my @rulesTopics = split( ',', $rulesTopicPref );
+    foreach my $topic (@rulesTopics) {
+        $topic = _trimWhitespace($topic);
 
-    if (
-        !Foswiki::Func::checkAccessPermission(
-            'VIEW', $user, undef, $interTopic, $interWeb
-        )
-      )
-    {
-        Foswiki::Func::writeWarning(
+        my ( $interWeb, $interTopic ) =
+          Foswiki::Func::normalizeWebTopicName( $installWeb, $topic );
+
+        if (
+            !Foswiki::Func::checkAccessPermission(
+                'VIEW', $user, undef, $interTopic, $interWeb
+            )
+          )
+        {
+            Foswiki::Func::writeWarning(
 "InterwikiPlugin: user '$user' did not have permission to read the rules topic at '$interWeb.$interTopic'"
-        );
-        return 1;
-    }
-    my $text = Foswiki::Func::readTopicText( $interWeb, $interTopic, undef, 1 );
+            );
+            return 1;
+        }
+        my $text =
+          Foswiki::Func::readTopicText( $interWeb, $interTopic, undef, 1 );
 
-    # '| alias | URL | ...' table and extract into 'alias', "URL" list
-    $text =~
-s/^\|\s*$sitePattern\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|.*$/_map($1,$2,$3)/mego;
+        # '| alias | URL | ...' table and extract into 'alias', "URL" list
+        $text =~
+s/^\|\s*$sitePattern\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|.*$/_map($1,$2,$3)/meg;
+    }
 
     $sitePattern = "(" . join( "|", keys %interSiteTable ) . ")";
     return 1;
@@ -148,6 +154,13 @@ sub _link {
         $text .= "$site\:$page$postfix";
     }
     return $text;
+}
+
+sub _trimWhitespace {
+    my $string = shift;
+    $string =~ s/^\s+//;
+    $string =~ s/\s+$//;
+    return $string;
 }
 
 1;
