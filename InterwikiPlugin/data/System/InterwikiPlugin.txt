@@ -53,7 +53,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  10 Dec 2010: | Foswiki:Main.AndrewJones - Allow the =INTERWIKIPLUGIN_INTERLINKFORMAT= to be a comma separated list. Implements Foswiki:Development/InheritWikiLinksTopics. |
+|  10 Dec 2010: | Foswiki:Main.AndrewJones - Allow the =INTERWIKIPLUGIN_RULESTOPIC= to be a comma separated list. Implements Foswiki:Development/InheritWikiLinksTopics. |
 |  12 Jul 2010: | Foswiki:Main.AndrewJones - Check access controls on !InterWikis topic |
 |  10 Jul 2010: | =mod_perl= and =FastCGI= compatible |
 |  20 Sep 2009: | Version from 15 Apr now included with Foswiki 1.0.7. |
