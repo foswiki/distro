@@ -1969,7 +1969,7 @@ msgstr "Auflistung aller Topics beginnend mit folgenden Buchstaben:"
 
 #: core/data/System/WebSearch.txt:115
 msgid "Literal search"
-msgstr "Wort Suche"
+msgstr "Text Suche"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Log In"
