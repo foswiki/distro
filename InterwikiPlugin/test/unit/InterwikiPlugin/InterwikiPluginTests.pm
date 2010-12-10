@@ -46,7 +46,6 @@ sub test_link_from_local_rules_topic {
 <noautolink>
 | *Alias:* | *URL:* | *Tooltip Text:* |
 | Localrule | http://rule.invalid.url?page= | Local rule |
-| Wiki | http://c2.com/cgi/wiki? | Redefined global rule to wiki page |
 </nautolink>
 HERE
 
@@ -63,6 +62,50 @@ HERE
     );
 }
 
+sub test_link_from_inherted_rules_topic {
+    my $this              = shift;
+    my $inheritRulesTopic = "InheritInterWikis";
+
+    Foswiki::Func::saveTopic( $this->{test_web}, $inheritRulesTopic, undef,
+        <<'HERE');
+---+++ Local rules
+<noautolink>
+| *Alias:* | *URL:* | *Tooltip Text:* |
+| Localrule | http://rule.invalid.url?page= | Local rule |
+| Wiki | http://foo.bar/cgi/wiki? | Redefined rule |
+</nautolink>
+HERE
+
+    Foswiki::Func::setPreferencesValue( "INTERWIKIPLUGIN_RULESTOPIC",
+"$Foswiki::cfg{SystemWebName}.InterWikis, $this->{test_web}.$inheritRulesTopic"
+    );
+    Foswiki::Plugins::InterwikiPlugin::initPlugin(
+        $this->{test_web},  $this->{test_topic},
+        $this->{test_user}, $Foswiki::cfg{SystemWebName}
+    );
+
+    # local rule
+    $this->assert_html_equals(
+'<a class="interwikiLink" href="http://rule.invalid.url?page=Topage" title="Local rule"><noautolink>Localrule:Topage</noautolink></a>',
+        Foswiki::Func::renderText( "Localrule:Topage", $this->{test_web} ),
+        'local rule'
+    );
+
+    # default rule
+    $this->assert_html_equals(
+'<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Perl" title="\'Perl\' on \'Wikipedia\'"><noautolink>Wikipedia:Perl</noautolink></a>',
+        Foswiki::Func::renderText( "Wikipedia:Perl", $this->{test_web} ),
+        'default rule'
+    );
+
+    # redefined rule
+    $this->assert_html_equals(
+'<a class="interwikiLink" href="http://foo.bar/cgi/wiki?Perl" title="Redefined rule"><noautolink>Wiki:Perl</noautolink></a>',
+        Foswiki::Func::renderText( "Wiki:Perl", $this->{test_web} ),
+        'redefined rule'
+    );
+}
+
 sub test_cant_view_rules_topic {
     my $this       = shift;
     my $rulesTopic = "CantReadInterWikis";
@@ -72,7 +115,6 @@ sub test_cant_view_rules_topic {
 <noautolink>
 | *Alias:* | *URL:* | *Tooltip Text:* |
 | Localrule | http://rule.invalid.url?page= | Local rule |
-| Wiki | http://c2.com/cgi/wiki? | Redefined global rule to wiki page |
 </nautolink>
 
    * Set DENYTOPICVIEW = %USERSWEB%.WikiGuest
