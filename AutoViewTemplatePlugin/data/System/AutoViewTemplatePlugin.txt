@@ -50,7 +50,7 @@ We want this form to define that the topics are viewed with =ViewFormAtTopTempla
 Below this we place the two sections that defines the templates to be used. Note that you must omit the ...Template from the template names.
 
 <verbatim class="tml">
-%STARTSECTION{"viewtemplate"}%ViewFormAtTopTemplate%ENDSECTION{"edittemplate"}%
+%STARTSECTION{"viewtemplate"}%ViewFormAtTopTemplate%ENDSECTION{"viewtemplate"}%
 
 %STARTSECTION{"edittemplate"}%EditPurchaseRequest%ENDSECTION{"edittemplate"}% 
 </verbatim>
@@ -79,6 +79,7 @@ The following settings can be defined in configure
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  10 Dec 2010: | Foswikitask:Item10144: Fixed mistake in example in documentation |
 |  31 Jul 2010: | Foswikitask:Item9415: Documentation updates |
 |  06 Oct 2009: | Foswikitask:Item2213: Plugin got better documentation. No change in behaviour. |
 |  20 Aug 2009: | Foswikitask:Item8248: added forward-compatibility for newer Foswikis (MD) |
