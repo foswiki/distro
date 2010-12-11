@@ -734,7 +734,8 @@ sub writeCompletePage {
             # At least one form has been touched; add the validation
             # cookie
             $this->{response}
-              ->cookies( [ Foswiki::Validation::getCookie($cgis) ] );
+              ->cookies( [ $this->{response}->cookies,
+                Foswiki::Validation::getCookie($cgis) ] );
 
             # Add the JS module to the page. Note that this is *not*
             # incorporated into the foswikilib.js because that module
