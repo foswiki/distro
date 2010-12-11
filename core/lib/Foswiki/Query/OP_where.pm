@@ -16,7 +16,7 @@ our @ISA = ('Foswiki::Query::BinaryOP');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => '[', close => ']', prec => 800 );
+    return $class->SUPER::new( name => '[', close => ']', prec => 900 );
 }
 
 sub evaluate {
@@ -27,13 +27,13 @@ sub evaluate {
     my $lval   = $a->evaluate(@_);
     my $b      = $node->{params}[1];
     if ( ref($lval) eq 'ARRAY' ) {
-	my $n;
-        if ( $b->evaluatesToConstant(@_) &&
-	     Foswiki::Query::OP::isNumber($n = $b->evaluate(@_))) {
-
-            # Special case; integer index responds with array el at that
-            # index.
-            return $lval->[ int( $n ) ];
+        if ($b->evaluatesToConstant(@_)) {
+	    my $n = $b->evaluate(@_);
+	    if (Foswiki::Query::OP::isNumber($n)) {
+		# Special case; integer index responds with array el at that
+		# index.
+		return $lval->[ int( $n ) ];
+	    }
         }
 
         # Otherwise evaluate the inner query

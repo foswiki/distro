@@ -82,7 +82,23 @@ sub getField {
                 $result = $data->get($realField);
             }
         }
-        elsif ( $realField eq 'name' ) {
+	elsif ( $realField eq 'versions' ) {
+	    # Disallow reloading versions for an object loaded here
+	    # SMELL: violates Foswiki::Meta encapsulation
+	    return [] if $data->{_loadedByQueryAlgorithm};
+            # Oooh, this is inefficient.
+	    my $it = $data->getRevisionHistory();
+	    my @revs;
+	    while ($it->hasNext()) {
+		my $n = $it->next();
+		my $t = $this->getRefTopic(
+		    $data, $data->web(), $data->topic(), $n);
+		$t->{_loadedByQueryAlgorithm} = 1;
+		push(@revs, $t);
+	    }
+            return \@revs;
+        }
+	elsif ( $realField eq 'name' ) {
 
             # Special accessor to compensate for lack of a topic
             # name anywhere in the saved fields of meta

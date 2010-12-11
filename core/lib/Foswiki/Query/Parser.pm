@@ -19,35 +19,64 @@ our @ISA = ('Foswiki::Infix::Parser');
 
 use Foswiki::Query::Node ();
 
-use Foswiki::Query::OP_match ();
-use Foswiki::Query::OP_and ();
-use Foswiki::Query::OP_eq ();
-use Foswiki::Query::OP_lc ();
-use Foswiki::Query::OP_lte ();
-use Foswiki::Query::OP_not ();
-use Foswiki::Query::OP_ref ();
-use Foswiki::Query::OP_d2n ();
-use Foswiki::Query::OP_gte ();
-use Foswiki::Query::OP_length ();
-use Foswiki::Query::OP_lt ();
-use Foswiki::Query::OP_ob ();
-use Foswiki::Query::OP_uc ();
-use Foswiki::Query::OP_dot ();
-use Foswiki::Query::OP_gt ();
-use Foswiki::Query::OP_like ();
-use Foswiki::Query::OP_ne ();
-use Foswiki::Query::OP_or ();
-use Foswiki::Query::OP_where ();
-use Foswiki::Query::OP_at ();
-use Foswiki::Query::OP_comma ();
-use Foswiki::Query::OP_plus ();
-use Foswiki::Query::OP_minus ();
-use Foswiki::Query::OP_neg ();
-use Foswiki::Query::OP_unaryat ();
-use Foswiki::Query::OP_times ();
-use Foswiki::Query::OP_div ();
-use Foswiki::Query::OP_in ();
-use Foswiki::Query::OP_int ();
+#             operator name           precedence
+use Foswiki::Query::OP_or ();      #  100
+
+use Foswiki::Query::OP_and ();     #  200
+
+use Foswiki::Query::OP_not ();     #  300
+
+use Foswiki::Query::OP_comma ();   #  400
+
+use Foswiki::Query::OP_lte ();     #  500
+use Foswiki::Query::OP_gt ();      #  500
+use Foswiki::Query::OP_gte ();     #  500
+use Foswiki::Query::OP_lt ();      #  500
+use Foswiki::Query::OP_match ();   #  500
+use Foswiki::Query::OP_eq ();      #  500
+use Foswiki::Query::OP_like ();    #  500
+use Foswiki::Query::OP_ne ();      #  500
+use Foswiki::Query::OP_in ();      #  500
+
+use Foswiki::Query::OP_plus ();    #  600
+use Foswiki::Query::OP_minus ();   #  600
+
+use Foswiki::Query::OP_times ();   #  700
+use Foswiki::Query::OP_div ();     #  700
+
+use Foswiki::Query::OP_ref ();     #  800
+use Foswiki::Query::OP_dot ();     #  800
+
+use Foswiki::Query::OP_where ();   #  900
+
+use Foswiki::Query::OP_lc ();      # 1000
+use Foswiki::Query::OP_uc ();      # 1000
+use Foswiki::Query::OP_d2n ();     # 1000
+use Foswiki::Query::OP_length ();  # 1000
+use Foswiki::Query::OP_neg ();     # 1000
+use Foswiki::Query::OP_int ();     # 1000
+
+use Foswiki::Query::OP_ob ();      # 1100
+
+=begin TML
+Query Language BNF
+<verbatim>
+expr ::= and_expr 'or' expr | and_expr;
+and_expr ::= not_expr 'and' and_expr | not_expr;
+not_expr ::= 'not' comma_expr | comma_expr;
+comma_expr ::= cmp_expr ',' comma_expr | cmp_expr;
+cmp_expr ::= add_expr cmp_op cm_expr | add_expr;
+cmp_op ::= '<=' | '>=' | '<' | '>' | '=' | '=~' | '~' | '!=' | 'in';
+add_expr ::= mul_expr add_op add_expr | mul_expr;
+mul_expr ::= ref_expr mul_op mul_expr | ref_expr;
+mul_op ::= '*' | 'div';
+ref_expr ::= u_expr ref_op ref_expr | u_expr;
+ref_op ::= '/' | '.';
+u_expr ::= value uop u_expr | value;
+uop ::= 'lc' | 'uc' | 'd2n' | 'length' | '-' | 'int' | '@';
+value ::= <name> | <string> | <number>;
+</verbatim>
+=cut
 
 # Operators
 #
@@ -68,12 +97,12 @@ use Foswiki::Query::OP_int ();
 # OP_empty is *not* included here; it is a pseudo-operator and does
 # not participate in parsing.
 use constant OPS => qw (match and eq lc lte not ref d2n gte length lt ob
-                        uc dot gt like ne or where at comma plus minus
-                        neg unaryat times div in int );
+                        uc dot gt like ne or where comma plus minus
+                        neg times div in int );
 sub new {
     my ( $class, $options ) = @_;
 
-    $options->{words}     ||= qr/([A-Z][A-Z0-9_:]*|({[A-Z][A-Z0-9_]*})+)/i;
+    $options->{words}     ||= qr/([A-Z:][A-Z0-9_:]*|({[A-Z][A-Z0-9_]*})+)/i;
     $options->{nodeClass} ||= 'Foswiki::Query::Node';
     my $this = $class->SUPER::new($options);
     foreach my $op ( OPS() ) {

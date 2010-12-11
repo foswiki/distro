@@ -106,6 +106,15 @@ sub set_up {
     $meta->text("Quantum");
     $meta->save();
 
+    # Copy to a new topic
+    $meta->topic("AnotherTopic");
+    $meta->save();
+
+    $meta = Foswiki::Meta->load(
+	$this->{session}, $this->{test_web}, 'AnotherTopic', 1 );
+    $meta->text("Superintelligent shades of the colour blue");
+    $meta->save(forcenewrevision => 1);
+
     $meta = Foswiki::Meta->load(
 	$this->{session}, $this->{test_web}, 'HitTopic', 1 );
     $meta->text("Green ideas sleep furiously");
@@ -216,7 +225,7 @@ sub check {
 
         # Next check the search algorithm
         my $expr =
-"%SEARCH{\"$s\" type=\"query\" excludetopic=\"WebPreferences,$this->{test_topic}\" nonoise=\"on\" format=\"\$topic\"}%";
+"%SEARCH{\"$s\" type=\"query\" excludetopic=\"WebPreferences,$this->{test_topic},AnotherTopic\" nonoise=\"on\" format=\"\$topic\"}%";
         my $list = $this->{test_topicObject}->expandMacros($expr);
         if ( $opts{'eval'}||$opts{match} ) {
             $this->assert_str_equals( 'HitTopic', $list );
@@ -525,15 +534,15 @@ sub verify_word_end_match_fail {
 
 sub verify_ref {
     my $this = shift;
-    $this->check( "'HitTopic'/number",    eval => 99, simpler => 99 );
-    $this->check( "'HitTopic'/number=99", eval => 1,  simpler => 1 );
+    $this->check( "'AnotherTopic'/number",    eval => 99, simpler => 99 );
+    $this->check( "'AnotherTopic'/number=99", eval => 1,  simpler => 1 );
     $this->check(
-        "'$this->{test_web}.HitTopic'/number=99",
+        "'$this->{test_web}.AnotherTopic'/number=99",
         eval    => 1,
         simpler => 1
     );
     $this->check(
-        "'$this->{test_web}.HitTopic'/number=99",
+        "'$this->{test_web}.AnotherTopic'/number=99",
         eval    => 1,
         simpler => 1
     );
@@ -541,18 +550,21 @@ sub verify_ref {
     $this->check( "'NotATopic'/rev=23", eval => 0,     simpler => 0 );
 }
 
-sub verify_at_bop{
+sub verify_versions_on_other_topic {
     my $this = shift;
-    $this->check( "'HitTopic'\@(1).text",    eval => "Quantum" );
-    $this->check( "'HitTopic'\@(2).text",    eval => "Green ideas sleep furiously" );
-    $this->check( "'HitTopic'\@().text",    eval => ["Green ideas sleep furiously", "Quantum"] );
+    $this->check( "'AnotherTopic'/versions[0].text",    eval => "Superintelligent shades of the colour blue" );
+    $this->check( "'AnotherTopic'/versions[1].text",    eval => "Quantum" );
+    $this->check( "'AnotherTopic'/versions.text",    eval => ["Superintelligent shades of the colour blue", "Quantum"] );
+    $this->check("'AnotherTopic'/versions[text =~ 'blue'].text", ,    eval => "Superintelligent shades of the colour blue" );
 }
 
-sub verify_at_uop{
+sub verify_versions_on_cur_topic{
     my $this = shift;
-    $this->check( "\@1 .text", eval => "Quantum" );
-    $this->check( "\@(2).text", eval => "Green ideas sleep furiously" );
-    $this->check( "\@().text",  eval => ["Green ideas sleep furiously", "Quantum"] );
+    $this->check( "versions[0].text", eval => "Green ideas sleep furiously" );
+    $this->check( "versions[1].text", eval => "Quantum" );
+    $this->check( "versions[info.version=1].text", eval => "Quantum" );
+    $this->check( "versions.text",  eval => ["Green ideas sleep furiously", "Quantum"] );
+    $this->check("versions[text =~ 'Green'].text", ,    eval => "Green ideas sleep furiously" );
 }
 
 sub test_backslash_match_fail {

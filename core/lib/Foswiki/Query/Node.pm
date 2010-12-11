@@ -200,17 +200,12 @@ simply pass an arbitrary Foswiki::Meta.
 
 sub evaluatesToConstant {
     my $this = shift;
-    if (
-        !ref( $this->{op} )
-        && (   $this->{op} == Foswiki::Infix::Node::NUMBER
-            || $this->{op} == Foswiki::Infix::Node::STRING )
-      )
-    {
-        return 1;
-    }
-    elsif ( ref( $this->{op} ) ) {
+    if ( ref( $this->{op} ) ) {
         return $this->{op}->evaluatesToConstant( $this, @_ );
     }
+    return 1 if ($this->{op} == Foswiki::Infix::Node::NUMBER);
+    return 1 if ($this->{op} == Foswiki::Infix::Node::STRING);
+
     return 0;
 }
 

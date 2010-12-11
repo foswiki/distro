@@ -256,7 +256,7 @@ sub _parse {
             elsif ( $$input =~ s/^\s*(['"])(|.*?[^\\])\1// ) {
                 my $q   = $1;
                 my $val = $2;
-                print STDERR "Operand: qs '$q'\n" if MONITOR_PARSER;
+                print STDERR "Operand: qs '$val'\n" if MONITOR_PARSER;
 
                 # Handle escaped characters in the string. This is where
                 # expansions such as \n are handled

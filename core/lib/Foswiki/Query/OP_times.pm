@@ -16,7 +16,7 @@ our @ISA = ('Foswiki::Query::BinaryOP');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => '*', prec => 575 );
+    return $class->SUPER::new( name => '*', prec => 700 );
 }
 
 sub evaluate {

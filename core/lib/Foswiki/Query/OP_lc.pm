@@ -17,11 +17,7 @@ our @ISA = ('Foswiki::Query::UnaryOP');
 sub new {
     my $class = shift;
 
-    return $class->SUPER::new(
-        name        => 'lc',
-        prec        => 600,
-        casematters => 1
-    );
+    return $class->SUPER::new( name => 'lc', prec => 1000, casematters => 1 );
 }
 
 sub evaluate {

@@ -18,7 +18,7 @@ use Assert;
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => '/', prec => 700 );
+    return $class->SUPER::new( name => '/', prec => 800 );
 }
 
 sub evaluate {
