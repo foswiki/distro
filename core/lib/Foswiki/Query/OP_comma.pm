@@ -16,20 +16,22 @@ our @ISA = ('Foswiki::Query::BinaryOP');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => ',', prec => 400 );
+    return $class->SUPER::new( name => ',', prec => 400, canfold => 1 );
 }
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    my $a    = $node->{params}[0]->evaluate(@_);
-    my $b = $node->{params}[1]->evaluate(@_);
-    if (ref($a) eq 'ARRAY') {
-	return [ @$a, @$b ] if (ref($b) eq 'ARRAY');
-	return [ @$a, $b ];
+    my @res;
+    foreach my $p (@{$node->{params}}) {
+	my $a = $p->evaluate(@_);
+	if (ref($a) eq 'ARRAY') {
+	    push(@res, @$a);
+	} else {
+	    push(@res, $a);
+	}
     }
-    return [ $a, @$b ] if (ref($b) eq 'ARRAY');
-    return [ $a, $b ];
+    return \@res;
 }
 
 sub evaluatesToConstant {

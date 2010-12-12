@@ -57,14 +57,15 @@ All meta-data in a topic is referenced according to a simple plan.
          * =value=
 By default all queries are performed on the _latest_ version of a topic. If you need to access _older_ versions of the topic, then you can use the =versions= field to do so:
    * =versions=
-      * _for each older version (most recent first, including the latest)_
+      * _for each older version (*most recent first*)_
          * _repeat of all the above fields_ (except =versions=).
+         * See [[#Working_with_Versions][Working with Versions]] for more details.
 
 See MetaData for details of what all these entries mean. Note that the set
 of meta-data types (and the aliases used to refer to them) may be extended
 by Foswiki extensions.
 
-Most things at the top level of the plan - =META:TOPICPARENT=, =META:TOPICINFO= etc - are _structures_ which are indexed by _keys_. For example, =META:TOPICINFO= has 4 entries, which are indexed by the keys =author=, =date=, =format= and =version=. =META:FILEATTACHMENT=, =META:FIELD= and =META:PREFERENCE= are all _arrays_, which means they can have any number of records under them. Arrays are indexed by _numbers_ - for example, the first entry in the =META:FIELD= array is entry 0.
+Most things at the top level of the plan - =META:TOPICPARENT=, =META:TOPICINFO= etc - are _structures_ which are indexed by _keys_. For example, =META:TOPICINFO= has 4 entries, which are indexed by the keys =author=, =date=, =format= and =version=. =META:FILEATTACHMENT=, =META:FIELD= and =META:PREFERENCE= are all _[[#Working_with_Arrays][arrays]]_, which means they can have any number of records under them. Arrays are indexed by _numbers_ - for example, the first entry in the =META:FIELD= array is entry [0].
 
 It's a bit clumsy having to type =META:FILEATTACHMENT= every time you want to refer to the array of attachments in a topic, so there are some predefined aliases that make it a bit less typing:
    * =attachments= means the same as =META:FILEATTACHMENT=
@@ -79,9 +80,9 @@ It's a bit clumsy having to type =META:FILEATTACHMENT= every time you want to re
 Fields in this plan are referenced using a simple _field specifier_ syntax:
 | *Syntax* | *Means* | *Examples* |
 | =X= | refers to the field named =X=. | =info=, =META:TOPICMOVED=, =attachments=, =name=. |
-| =X.Y= | refers to the entry with the key =Y= in the structure named =X=. If =X= is an array of structure, then returns an array made up from the =Y= entry of each member of the array. | =info.date=, =moved.by=, =META:TOPICPARENT.name=, =attachments.name= |
-| =X[<i>query</i>]= | refers to all the elements of the array =X= that match _query_. If <i>query</i> is of the form =name='Y'= then you can use the same =X.Y= syntax as is used for accessing structures. | =attachments[size>1024]=, =DocumentContainer[name!='Summary' AND value~'top secret'].value=|
-| =X[N]= | where =X= is an array and =N= is an integer number >= 0, gets the Nth element of the array =X=. If N is a floating point number, the integer part will be used as the index. Negative indices can be used to index the array from the end e.g. =attachments[-1]= to get the last attachment. | =attachments[3]= |
+| =X.Y= | refers to the entry with the key =Y= in the structure named =X=. If =X= is an array of structure, then it returns an array made up from the =Y= entry of each member of the array. | =info.date=, =moved.by=, =META:TOPICPARENT.name=, =attachments.name= |
+| =X[<i>query</i>]= | refers to all the elements of the [[#Working_with_Arrays][array]] =X= that match _query_. | =attachments[size>1024]=, =DocumentContainer[name!='Summary' AND value~'top secret'].value=|
+| =X[N]= | where =X= is an [[#Working_with_Arrays][array]] and =N= is an integer number >= 0, gets the Nth element of the array =X=. Negative indices can be used to index the array from the end e.g. =attachments[-1]= to get the last attachment. | =attachments[3]= |
 | =X/Y= | accesses =Y= from the topic specified by the _value_ of =X=. =X= must evaluate to a topic name | =parent.name/(form.name='ExampleForm')= will evaluate to true if (1) the topic has a parent, (2) the parent topic has the main form type =ExampleForm=. |
 | ={X}= | expands to the value of the =configure= setting {X}, if it is accessible, or '' otherwise | only some configuration settings are available: %FORMAT{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}% |
 
@@ -143,7 +144,7 @@ Field specifiers and constants are combined using _operators_ to create queries.
 | =AND= | Combine two subqueries | =(Length &gt; Width) and (Age &lt; Beauty)= |
 | =OR= | Combine two subqueries | =(Length &gt; Width) or (Age &lt; Beauty)= |
 | =()= | Bracketed subquery | =(Length &gt; Width)= |
-| =,= | Array separator. | =(1,2,3)= expands to an array containing the scalar values =[1,2,3]=, If either subquery returns an array value, that array will be flattened into the result i.e. =((1,2),(3,4))= is equivalent to =(1,2,3,4)= |
+| =,= | Array separator. | =(1,2,3)= expands to an array containing the scalar values =[1,2,3]=, If either side of this operator returns an array value, that array will be flattened into the result i.e. =((1,2),(3,4))= is equivalent to =(1,2,3,4)= |
 | =+= | Arithmetic addition, and string concatenation. String concatenation applies if either side of the expression does not evaluate to a number. | =1 + 2= |
 | =-= | Arithmetic subtraction | =2 - 1= |
 | =-= | Unary minus | =-Size= |
@@ -167,9 +168,40 @@ When a query is applied to a topic, the goal is to reduce to a TRUE or FALSE val
 
 A query matches if the query returns one or more values when it is applied to the topic. So if I have a very simple query, such as ="attachments"=, then this will return TRUE for all topics that have one or more attachments. If I write ="attachments[size>1024 AND name ~ '*.gif']"= then it will return TRUE for all topics that have at least one attachment larger than 1024 bytes with a name ending in =.gif=.
 
+---++ Working with Arrays
+A number of fields in a topic are _arrays_, meaning that they refer to a list of values rather than a single value. Arrays are accessed using the square brackets ([]) and dot (.) operators.
+
+The square brackets operator is actually a bit more clever than a simple query or array index. You can use the _comma_ =,= operator inside the brackets to select a number of matching elements. For example,
+<verbatim>
+versions[0,-1]
+</verbatim>
+will select the _most recent_ version (stored at index 0) and the _oldest_ version.
+
+You can even _mix_ integer indices and conditions. For example, let's say we want to select all versions that are authored by 'RoaldDahl' and also select the _oldest_ revision.
+<verbatim>
+versions[-1,info.author='RoaldDahl']
+</verbatim>
+Note that if 'RoaldDahl' authored the first revision, then you will get that revision _twice_ in the result.
+
+When the dot operator is applied to an array, it is applied to each element of the array, and the result is a new array containing the results of each application.
+
+---++ Working with Versions
+The =versions= field is mainly used with =[[VarQUERY][%<nop>QUERY]]= to provide a powerful view into the history of a topic. It is an [[#Working_with_Arrays][array]] of objects, one for each revision of the topic (including the most recent), where the most recent revision is in position [0] in the array, and the second most recent in [1] etc. You can use the =versions= field to select old versions based on a query. For example,
+<verbatim>
+versions[info.author='RoaldDahl']
+</verbatim>
+will return a list of all versions authored by !RoaldDahl. You can access field
+values in the topics _as they were at the time_ - for example,
+<verbatim>
+versions[info.author='RoaldDahl'].Published
+</verbatim>
+will return an array of the values of the Published field in all versions authored by !RoaldDahl.
+
+%X% When you access the topic history using the =versions= field, the history of the topic is loaded with the *most recent revision first* i.e. at index [0]. So versions[1] does *not* refer to version 1 of the topic; it refers to the version at position 1 in the array i.e. one before the most recent revision. If you want to access the version numbered '1', then you must use =versions[info.version=1]= (or =versions[-1]=).
+
 ---++ Gotchas
    * Remember that in the query language, topic names are _constants_. You cannot write =%USERSWEB%.UserTopic/UserForm.firstName= because =%USERSWEB%.UserTopic= will be interpreted as a form field name. If you want to refer to topics you *must* enclose the topic name in quotes i.e. ='%USERSWEB%.UserTopic'/UserForm.firstName=
-   * When you access the topic history using the =versions= field, the history of the topic is loaded with the *most recent revision first* i.e. at index [0]. So versions[1] does *not* refer to version 1 of the topic; it refers to the version at position 1 in the array i.e. latest-1. If you want to access the version numbered '1', then you must use =versions[info.version=1]=.
+
 
 ---++ Examples
 

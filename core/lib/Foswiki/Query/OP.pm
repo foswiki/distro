@@ -4,6 +4,10 @@ package Foswiki::Query::OP;
 use strict;
 use warnings;
 
+# Does not need to subclass, but is a subclass of...
+#use Foswiki::Infix::OP ();
+#our @ISA = ( 'Foswiki::Infix::OP' );
+
 sub new {
     my ( $class, %opts ) = @_;
     return bless( \%opts, $class );

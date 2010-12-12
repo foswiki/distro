@@ -67,6 +67,7 @@ This hash is maintained by Foswiki::Meta and is *strictly read-only*
 # <DEBUG SUPPORT>
 
 use constant MONITOR_EVAL => 0;
+use constant MONITOR_FOLD => 0;
 
 our $emptyExprOp;
 our $commaOp;
@@ -200,13 +201,16 @@ simply pass an arbitrary Foswiki::Meta.
 
 sub evaluatesToConstant {
     my $this = shift;
+    my $c = 0;
     if ( ref( $this->{op} ) ) {
-        return $this->{op}->evaluatesToConstant( $this, @_ );
+        $c = $this->{op}->evaluatesToConstant( $this, @_ );
+    } elsif ($this->{op} == Foswiki::Infix::Node::NUMBER) {
+	$c = 1;
+    } elsif ($this->{op} == Foswiki::Infix::Node::STRING) {
+	$c = 1;
     }
-    return 1 if ($this->{op} == Foswiki::Infix::Node::NUMBER);
-    return 1 if ($this->{op} == Foswiki::Infix::Node::STRING);
-
-    return 0;
+    print STDERR $this->stringify()." is constant\n" if MONITOR_FOLD;
+    return $c;
 }
 
 =begin TML

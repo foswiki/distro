@@ -648,6 +648,7 @@ lib/Foswiki/IncludeHandlers/http.pm 0444
 lib/Foswiki/IncludeHandlers/https.pm 0444
 lib/Foswiki/Infix/Error.pm 0444
 lib/Foswiki/Infix/Node.pm 0444
+lib/Foswiki/Infix/OP.pm 0444
 lib/Foswiki/Infix/Parser.pm 0444
 lib/Foswiki/Iterator.pm 0444
 lib/Foswiki/Iterator/FilterIterator.pm 0444

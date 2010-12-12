@@ -219,8 +219,8 @@ sub check {
                 $query->stringify() . " is not $opts{simpler}" );
         }
         elsif ( $query->evaluatesToConstant() ) {
-            $this->assert( $opts{simpler},
-                $query->stringify() . " should be variable" );
+            $this->assert( 0,
+                $query->stringify() . " should not evaluate to a constant" );
         }
 
         # Next check the search algorithm
@@ -274,25 +274,30 @@ sub verify_meta_dot {
 
 sub verify_array_integer_index {
     my $this = shift;
-    $this->check( "preferences[0].name", eval => 'Red' );
-    $this->check( "preferences[1]", eval => { name => 'Green', value => 1 } );
-    $this->check( "preferences[2].name", eval => 'Blue' );
-    $this->check( "preferences[3].name", eval => 'White' );
-    $this->check( "preferences[4].name", eval => 'Yellow' );
+#    $this->check( "preferences[0].name", eval => 'Red' );
+#    $this->check( "preferences[1]", eval => { name => 'Green', value => 1 } );
+#    $this->check( "preferences[2].name", eval => 'Blue' );
+#    $this->check( "preferences[3].name", eval => 'White' );
+#    $this->check( "preferences[4].name", eval => 'Yellow' );
+#
+#    # Integer part used as the index
+#    $this->check( "preferences[1.9].name", eval => 'Green' );
+#
+#    # From-the-end indices
+#    $this->check( "preferences[-1].name", eval => 'Yellow' );
+#    $this->check( "preferences[-2].name", eval => 'White' );
+#    $this->check( "preferences[-3].name", eval => 'Blue' );
+#    $this->check( "preferences[-4].name", eval => 'Green' );
+#    $this->check( "preferences[-5].name", eval => 'Red' );
+#
+#    # Out-of-range indices
+#    $this->check( "preferences[5]",  eval => undef );
+#    $this->check( "preferences[-6]", eval => undef );
 
-    # Integer part used as the index
-    $this->check( "preferences[1.9].name", eval => 'Green' );
-
-    # From-the-end indices
-    $this->check( "preferences[-1].name", eval => 'Yellow' );
-    $this->check( "preferences[-2].name", eval => 'White' );
-    $this->check( "preferences[-3].name", eval => 'Blue' );
-    $this->check( "preferences[-4].name", eval => 'Green' );
-    $this->check( "preferences[-5].name", eval => 'Red' );
-
-    # Out-of-range indices
-    $this->check( "preferences[5]",  eval => undef );
-    $this->check( "preferences[-6]", eval => undef );
+    # Range of indices using commas
+    $this->check( "preferences[0,2,4].name", eval => ['Red','Blue','Yellow'] );
+    $this->check( "preferences[2,-1,0].name", eval => ['Blue','Yellow','Red'] );
+    $this->check( "preferences[-1,name='White'].name", eval => ['Yellow','White'] );
 }
 
 sub verify_array_dot {
@@ -552,10 +557,22 @@ sub verify_ref {
 
 sub verify_versions_on_other_topic {
     my $this = shift;
-    $this->check( "'AnotherTopic'/versions[0].text",    eval => "Superintelligent shades of the colour blue" );
-    $this->check( "'AnotherTopic'/versions[1].text",    eval => "Quantum" );
-    $this->check( "'AnotherTopic'/versions.text",    eval => ["Superintelligent shades of the colour blue", "Quantum"] );
-    $this->check("'AnotherTopic'/versions[text =~ 'blue'].text", ,    eval => "Superintelligent shades of the colour blue" );
+    $this->check( "'AnotherTopic'/versions[0].text",
+		  eval => "Superintelligent shades of the colour blue" );
+    $this->check( "'AnotherTopic'/versions[1].text", eval => "Quantum" );
+    $this->check( "'AnotherTopic'/versions[-1].text", eval => "Quantum" );
+    $this->check( "'AnotherTopic'/versions[-2].text",
+		  eval => "Superintelligent shades of the colour blue" );
+    $this->check( "'AnotherTopic'/versions.text",
+		  eval => ["Superintelligent shades of the colour blue", "Quantum"] );
+    $this->check("'AnotherTopic'/versions[text =~ 'blue'].text",
+		 eval => "Superintelligent shades of the colour blue" );
+}
+
+sub verify_versions_out_of_range {
+    my $this = shift;
+    $this->check( "'AnotherTopic'/versions[-3]", eval => undef, simpler => 0 );
+    $this->check( "'AnotherTopic'/versions[3]", eval => undef, simpler => 0 );
 }
 
 sub verify_versions_on_cur_topic{
