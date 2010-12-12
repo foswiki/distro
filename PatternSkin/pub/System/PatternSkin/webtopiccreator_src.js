@@ -23,7 +23,7 @@
           // or not.
           var inputName = inForm.topic.value,
               nameFilterRegex = foswiki.getPreference('NAMEFILTER'),
-              re = new RegExp(nameFilterRegex, "g"),
+              re = new RegExp(nameFilterRegex, 'g'),
               userAllowsNonWikiWord = true,
               finalName,
               feedbackHeader,
@@ -31,10 +31,10 @@
           
           /* Topic names of zero length are not allowed */
           if (inputName.length === 0) {
-              $(inForm.submit).addClass("foswikiSubmitDisabled")
+              $(inForm.submit).addClass('foswikiSubmitDisabled')
               .attr('disabled', true);
               /* Update feedback field */
-              $("#webTopicCreatorFeedback").html("");
+              $('#webTopicCreatorFeedback').html('');
               return false;
           }
 
@@ -43,19 +43,21 @@
                   userAllowsNonWikiWord = el.checked;
               });
 
-          var cleanName;
+          var cleanName = foswiki.String.trimSpaces(inputName);
+          if (cleanName.length === 0) {
+              return false;
+          }
+        
           if (userAllowsNonWikiWord) {
               // Take out all illegal chars
-              cleanName = inputName.replace(re, "");
+              cleanName = inputName.replace(re, '');
               // Capitalize just the first character
               finalName = cleanName.substr(0,1).toLocaleUpperCase() + cleanName.substr(1);
           } else {
               // Replace illegal chars with spaces
-              cleanName = inputName.replace(re, " ");
-              // Capitalize each word in the string
+              cleanName = inputName.replace(re, ' ');
               finalName = foswiki.String.capitalize(cleanName);
-              // And remove whitespace
-              finalName = finalName.replace(/\s+/, '', 'g');
+              finalName = finalName.replace(/\s+/g, '');
           }
 
           
@@ -65,19 +67,19 @@
           
           /* Update feedback field */
           if (finalName != inputName) {
-              feedbackHeader = "<strong>" + TEXT_FEEDBACK_HEADER + "</strong>";
+              feedbackHeader = '<strong>' + TEXT_FEEDBACK_HEADER + '</strong>';
               feedbackText = feedbackHeader + finalName;
-              $("#webTopicCreatorFeedback").html(feedbackText);
+              $('#webTopicCreatorFeedback').html(feedbackText);
           } else {
-              $("#webTopicCreatorFeedback").html("");
+              $('#webTopicCreatorFeedback').html('');
           }
           
           if (foswiki.String.isWikiWord(finalName) || userAllowsNonWikiWord) {
-              $(inForm.submit).removeClass("foswikiSubmitDisabled")
+              $(inForm.submit).removeClass('foswikiSubmitDisabled')
               .attr('disabled', false);
               return true;
           } else {
-              $(inForm.submit).addClass("foswikiSubmitDisabled")
+              $(inForm.submit).addClass('foswikiSubmitDisabled')
               .attr('disabled', true);
               return false;
           }
@@ -97,19 +99,19 @@
           var url = inUrl;
           // remove current parameters so we can override these with
           // newly entered values
-          url = url.split("?")[0];
+          url = url.split('?')[0];
           // read values from form
-          var params = "";
+          var params = '';
           var newtopic = document.forms.newtopicform.topic.value;
-          params += ";newtopic=" + newtopic;
+          params += ';newtopic=' + newtopic;
           var topicparent = document.forms.newtopicform.topicparent.value;
-          params += ";topicparent=" + topicparent;
+          params += ';topicparent=' + topicparent;
           var templatetopic = document.forms.newtopicform.templatetopic.value;
-          params += ";templatetopic=" + templatetopic;
+          params += ';templatetopic=' + templatetopic;
           var pickparent = URL_PICK_PARENT;
-          params += ";pickparent=" + pickparent;
-          params += ";template=" + URL_TEMPLATE;
-          url += "?" + params;
+          params += ';pickparent=' + pickparent;
+          params += ';template=' + URL_TEMPLATE;
+          url += '?' + params;
           document.location.href = url;
           return false;
       }
@@ -133,7 +135,6 @@
                   })
               .keyup(
                   function(e) {
-                      //alert("onkeyup topic");
                       foswiki.webTopicCreator._canSubmit(this.form,false);
                   })
               .change(
