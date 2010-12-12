@@ -168,6 +168,7 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  12 Dec 2010: | v.5.4.3: Fix trimming and stripping spaces in web topic creator javascript. |
 |  09 Nov 2010: | v.5.4.2: Remove redundant files from repository. v.5.4.1: Revert usage of =$<nop>percent= back to =$<nop>percnt= |
 |  19 Aug 2010: | v.5.4 - Version for Foswiki 1.1. |
 |  31 Jul 2010: | v.5.3.1 - Documentation updates |

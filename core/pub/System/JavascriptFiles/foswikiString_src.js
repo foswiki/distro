@@ -72,18 +72,7 @@ foswiki.String = {
      * @return A new string free from spaces.
      */
 	removeSpaces:function(inValue) {
-		if (!inValue) return null;
-		var sIn = inValue;
-		var sOut = '';
-		for ( var i = 0; i < sIn.length; i++ ) {
-			ch = sIn.charAt( i );
-			if( ch==' ' ) {
-				chgUpper = true;
-				continue;
-			}
-			sOut += ch;
-		}
-		return sOut;
+		return inValue.replace(/\s/g, '');
 	},
 	
 	/**
