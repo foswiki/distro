@@ -75,6 +75,32 @@ the form tag.
 
 sub addValidationKey {
     my ( $cgis, $context, $strikeone ) = @_;
+
+    my $nonce = generateValidationKey($cgis, $context, $strikeone);
+
+    # Don't use CGI::hidden; it will inherit the URL param value of
+    # validation key and override our value :-(
+    return "<input type='hidden' name='validation_key' value='?$nonce' />";
+}
+
+=begin TML
+
+---++ StaticMethod generateValidationKey( $cgis, $context, $strikeone ) -> $nonce
+
+Generate a new validation key. The key will time out after
+{Validation}{ValidForTime}.
+   * =$cgis= - a CGI::Session
+   * =$context= - the context for the key, usually the URL of the target
+     page plus the time. This should be unique for each rendered page.
+   * =$strikeone= - if set, expect the nonce to be combined with the
+     session secret before it is posted back.
+The validation key wcan then be used in a HTML form, or headers for RestPlugin API etc.
+TODO: should this be assable from Foswiki::Func so that RestHandlers can use it too?
+
+=cut
+
+sub generateValidationKey {
+    my ( $cgis, $context, $strikeone ) = @_;
     my $actions = $cgis->param('VALID_ACTIONS') || {};
     my $nonce = Digest::MD5::md5_hex( $context, $cgis->id() );
     my $action = $nonce;
@@ -96,12 +122,12 @@ sub addValidationKey {
       . $timeout . "\n"
       if TRACE && !defined $actions->{$action};
     $actions->{$action} = $timeout;
-
+    
+    #used to store the actions in case there are more than one form..
     $cgis->param( 'VALID_ACTIONS', $actions );
 
-    # Don't use CGI::hidden; it will inherit the URL param value of
-    # validation key and override our value :-(
-    return "<input type='hidden' name='validation_key' value='?$nonce' />";
+
+    return $nonce;
 }
 
 =begin TML
@@ -166,10 +192,25 @@ Return false if not.
 
 sub isValidNonce {
     my ( $cgis, $nonce ) = @_;
+    my $actions = $cgis->param('VALID_ACTIONS');
+    return isValidNonceHash($actions, $nonce)
+}
+
+
+=begin TML
+
+---++ StaticMethod isValidNonceHash( $actions, $key ) -> $boolean
+
+Check that the given validation key is valid for the session.
+Return false if not.
+
+=cut
+
+sub isValidNonceHash {
+    my ( $actions, $nonce ) = @_;
     return 1 if ( $Foswiki::cfg{Validation}{Method} eq 'none' );
     return 0 unless defined $nonce;
     $nonce =~ s/^\?// if ( $Foswiki::cfg{Validation}{Method} ne 'strikeone' );
-    my $actions = $cgis->param('VALID_ACTIONS');
     return 0 unless ref($actions) eq 'HASH';
     print STDERR "V: CHECK $nonce -> " . ( $actions->{$nonce} ? 1 : 0 ) . "\n"
       if TRACE;

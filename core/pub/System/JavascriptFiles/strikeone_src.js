@@ -200,8 +200,7 @@ var md5 = {
 
 var StrikeOne = {
     /**
-     * Action on form submission (this is the only function called
-     * outside this file)
+     * Action on form submission (called outside this file for HTML Form submits)
      */
     submit: function(form) {
         // Read the cookie to get the secret
@@ -209,12 +208,22 @@ var StrikeOne = {
         //console.debug("Submit "+form.name);
         var input = form.validation_key;
         if (input && input.value && input.value.charAt(0) == '?') {
+            input.value = calculateNewKey(input);
+        }
+    },
+    /**
+     * calculate a new key response to validate the SUBMIIT (called outside this file for non HTML Form submits)
+     */
+    calculateNewKey: function(input) {
+        // Read the cookie to get the secret
+        var secret = StrikeOne.readCookie('FOSWIKISTRIKEONE');
+        if (input  && input.charAt(0) == '?') {
             // combine the validation key with the secret in a way
             // that can't easily be reverse-engineered, but can be
             // duplicated on the server (which also knows the secret)
-            var key = input.value.substring(1);
+            var key = input.substring(1);
             var newkey = md5.hex(key + secret);
-            input.value = newkey;
+            return newkey;
             //console.debug("Revise "+key+" + "+secret+" -> "+newkey);
         }
     },
