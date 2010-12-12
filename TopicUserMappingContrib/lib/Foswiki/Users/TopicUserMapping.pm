@@ -1484,6 +1484,7 @@ sub _getListOfGroups {
         $this->{groupsList} = [];
 
         # Temporarily set the user to admin, otherwise it cannot see groups
+        # where %USERSWEB% is protected from view
         local $this->{session}->{user} = $Foswiki::cfg{SuperAdminGroup};
 
         $this->{session}->search->searchWeb(
