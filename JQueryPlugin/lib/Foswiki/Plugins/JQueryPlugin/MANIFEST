@@ -213,6 +213,12 @@ pub/System/JQueryPlugin/jquery-1.3.2.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.4.2.js 0644
 pub/System/JQueryPlugin/jquery-1.4.2.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.4.2.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-1.4.3.js 0644
+pub/System/JQueryPlugin/jquery-1.4.3.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.4.3.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-1.4.4.js 0644
+pub/System/JQueryPlugin/jquery-1.4.4.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.4.4.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery.noconflict.js 0644
 pub/System/JQueryPlugin/jquery.patch 0644
 pub/System/JQueryPlugin/Makefile 0644
