@@ -75,6 +75,16 @@ foswiki.String = {
 		return inValue.replace(/\s/g, '');
 	},
 	
+	trimSpaces:function(inValue) {
+    	if (inValue) {
+    		inValue = inValue.replace(/^\s\s*/, '');
+		}
+		if (inValue) {
+			inValue = inValue.replace(/\s\s*$/, '');
+		}
+		return inValue;
+	},
+	
 	/**
      * Removes filtered punctuation characters from a string by stripping all characters
      * identified in the Foswiki::cfg{NameFilter} passed as NAMEFILTER+.
