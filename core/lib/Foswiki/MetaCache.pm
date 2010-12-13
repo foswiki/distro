@@ -124,18 +124,6 @@ sub get {
     unless ( $this->{cache}->{$web} ) {
         $this->{cache}->{$web} = {};
     }
-    #if we've _returned_ to the real session user, after promotion, undef cached topic's loaded during promotion
-    #see Item10097 WARNING: this is a pretty dangerous 'fix' as any developer that writes a replacement metacache for their store/search needs to make sure they too grok that the session user is promoted to admin several times per request :(
-    if (
-        #($this->{non_session_user_entries}) and       #BUGGER. turns out we start with the same local user=admin rubbish to get the WebPrefs
-        (defined($this->{cache}->{$web}{$topic})) and
-        (defined($this->{cache}->{$web}{$topic}->{allowViewUser}))) {
-            undef $this->{cache}->{$web}{$topic};
-            delete $this->{cache}->{$web}{$topic};
-            $this->{undef_count}++;
-#print STDERR "---- discard $web . $topic\n";
-
-    }
     unless ( $this->{cache}->{$web}{$topic} ) {
 #print STDERR "---- create new $web . $topic\n";
         
@@ -162,15 +150,17 @@ sub get {
         $this->{cache}->{$web}{$topic}->{modified} = $ri->{date};
         $this->{cache}->{$web}{$topic}->{revNum}   = $ri->{version};
 
-        $this->{cache}->{$web}{$topic}->{allowView} =
-          $this->{cache}->{$web}{$topic}->{tom}->haveAccess('VIEW');
-        if ($this->{session}->{user} ne $this->{meta_cache_session_user}) {
-            $this->{non_session_user_entries} = 1;
-            $this->{cache}->{$web}{$topic}->{allowViewUser} = $this->{session}->{user};
-#print STDERR "---- switched from ".$this->{meta_cache_session_user}." to ".$this->{session}->{user}." for $web . $topic\n";
-        }
-        
     }
+    #Item10097: make the cache multi-user safe by storing the haveAccess on a per user basis
+    if (not defined($this->{cache}->{$web}{$topic}->{$this->{session}->{user}})) {
+        $this->{cache}->{$web}{$topic}->{$this->{session}->{user}} = ();
+    }
+    if (not defined($this->{cache}->{$web}{$topic}->{$this->{session}->{user}}{allowView})) {
+        $this->{cache}->{$web}{$topic}->{$this->{session}->{user}}{allowView} =
+            $this->{cache}->{$web}{$topic}->{tom}->haveAccess('VIEW');
+    }
+    #use the cached permission
+    $this->{cache}->{$web}{$topic}->{allowView} = $this->{cache}->{$web}{$topic}->{$this->{session}->{user}}{allowView};
 
     ASSERT( $this->{cache}->{$web}{$topic}->{tom}->isa('Foswiki::Meta') )
       if DEBUG;
