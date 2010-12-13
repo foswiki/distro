@@ -208,7 +208,7 @@ var StrikeOne = {
         //console.debug("Submit "+form.name);
         var input = form.validation_key;
         if (input && input.value && input.value.charAt(0) == '?') {
-            input.value = calculateNewKey(input);
+            input.value = StrikeOne.calculateNewKey(input.value);
         }
     },
     /**
