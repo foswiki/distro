@@ -572,11 +572,6 @@ pub/System/JQueryPlugin/plugins/themeswitcher/themeswitcher.init.uncompressed.js
 pub/System/JQueryPlugin/plugins/themeswitcher/themeswitcher.js 0644
 pub/System/JQueryPlugin/plugins/themeswitcher/themeswitcher.js.gz 0644
 pub/System/JQueryPlugin/plugins/themeswitcher/themeswitcher.uncompressed.js 0644
-pub/System/JQueryPlugin/plugins/tooltip/black_arrow.png 0644
-pub/System/JQueryPlugin/plugins/tooltip/black_tooltip_bottom.png 0644
-pub/System/JQueryPlugin/plugins/tooltip/black_tooltip_left.png 0644
-pub/System/JQueryPlugin/plugins/tooltip/black_tooltip_right.png 0644
-pub/System/JQueryPlugin/plugins/tooltip/black_tooltip_top.png 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.css 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.css.gz 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.init.js 0644
