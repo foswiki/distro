@@ -685,43 +685,6 @@ s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm
 
 =begin TML
 
----++ ObjectMethod searchInText($searchString, \@topics, \%options ) -> \%map
-
-Search for a string in the content of a web. The search must be over all
-content and all formatted meta-data, though the latter search type is
-deprecated (use queries instead).
-
-   * =$searchString= - the search string, in egrep format if regex
-   * =\@topics= - reference to a list of names of topics to search, or undef to search all topics in the web
-   * =\%options= - reference to an options hash
-The =\%options= hash may contain the following options:
-   * =type= - if =regex= will perform a egrep-syntax RE search (default '')
-   * =casesensitive= - false to ignore case (default true)
-   * =files_without_match= - true to return files only (default false)
-
-The return value is a reference to a hash which maps each matching topic
-name to a list of the lines in that topic that matched the search,
-as would be returned by 'grep'. If =files_without_match= is specified, it will
-return on the first match in each topic (i.e. it will return only one
-match per topic, and will not return matching lines).
-
-=cut
-
-sub THISISBEINGDELETEDsearchInText {
-    my ( $this, $searchString, $topics, $options ) = @_;
-    ASSERT( !$this->{_topic} ) if DEBUG;
-    unless ($topics) {
-        my $it   = $this->eachTopic();
-        my @list = $it->all();
-        $topics = \@list;
-    }
-    return $this->{_session}->{store}
-      ->searchInWebContent( $searchString, $this->{_web}, $topics,
-        $this->{_session}, $options );
-}
-
-=begin TML
-
 ---++ StaticMethod query($query, $inputTopicSet, \%options) -> $outputTopicSet
 
 Search for topic information
