@@ -108,6 +108,8 @@ Options ExecCGI FollowSymLinks
 
 # Limit access to configure to specific IP addresses and or users.
 # Make sure configure is not open to the general public.
+# IP addresses are entered space delimited, and can wildcarded by
+# omitting octets from the end,  ie,  Allow from 127 192.168
 # The configure script is designed for administrators only.
 # The script itself and the information it reveals can be abused by
 # attackers if not properly protected against public access.
@@ -117,7 +119,7 @@ Options ExecCGI FollowSymLinks
 	SetHandler cgi-script
 	Order Deny,Allow
 	Deny from all
-	Allow from 127.0.0.1, 192.168.1.10
+	Allow from 127.0.0.1 192.168.1.10
 	Require user {Administrators}
 	Satisfy Any
 	ErrorDocument 401 default
