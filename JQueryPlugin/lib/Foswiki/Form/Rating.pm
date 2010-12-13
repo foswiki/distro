@@ -92,20 +92,42 @@ sub renderForEdit {
     Foswiki::Plugins::JQueryPlugin::createPlugin("rating");
 
     my $result = "<div class='jqRating {$this->{attributes}}'>\n";
+    my $found  = 0;
+
     foreach my $item ( @{ $this->getOptions() } ) {
+
         $result .=
-            '<input type="radio" name="'
+            '<input type="radio" autocomplete="off" name="'
           . $this->{name} . '" '
           . ' value="'
           . $item . '" ';
+
         $result .= 'title="' . $this->{valueMap}{$item} . '" '
-          if $this->{valueMap}{$item};
-        if ( $item eq $value ) {
+          if defined $this->{valueMap}{$item};
+
+        my $isNumeric = ( $value =~ /[^\-\+\.\d]|^$/ ) ? 0 : 1;
+
+        # value was found if it is well defined and > 0 and item >= value; a
+        # zero values is not marked as a star; instead it is stored in the
+        # hidden input field at the end; as a consequence any empty string
+        # value is normalized to a zero rating on save; note also, that values
+        # not matching the raster of allowed rating values are rounded up to
+        # the next matching value
+        if (
+               !$found
+            && defined($value)
+            && $value ne "\0"
+            && (   ( $isNumeric && $value > 0 && $item >= $value )
+                || ( !$isNumeric && $item eq $value ) )
+          )
+        {
             $result .= 'checked="checked" ';
+            $found = 1;
         }
+
         $result .= "/>\n";
     }
-    $result .= '<input type="hidden" name="' . $this->{name} . '" value="" />';
+    $result .= '<input type="hidden" name="' . $this->{name} . '" value="0" />';
     $result .= "</div>\n";
 
     return ( '', $result );
@@ -117,17 +139,33 @@ sub renderForDisplay {
     Foswiki::Plugins::JQueryPlugin::createPlugin("rating");
 
     my $result = "<div class='jqRating {$this->{attributes}}'>\n";
+    my $found  = 0;
+
     foreach my $item ( @{ $this->getOptions() } ) {
+
         $result .=
-            '<input type="radio" name="'
+            '<input type="radio" autocomplete="off" name="'
           . $this->{name} . '" '
           . ' value="'
           . $item . '" ';
+
         $result .= 'title="' . $this->{valueMap}{$item} . '" '
           if $this->{valueMap}{$item};
+
         $result .= 'disabled="disabled" ';
-        if ( $item eq $value ) {
+
+        my $isNumeric = ( $value =~ /[^\-\+\.\d]|^$/ ) ? 0 : 1;
+
+        if (
+               !$found
+            && defined($value)
+            && $value ne "\0"
+            && (   ( $isNumeric && $value > 0 && $item >= $value )
+                || ( !$isNumeric && $item eq $value ) )
+          )
+        {
             $result .= 'checked="checked" ';
+            $found = 1;
         }
         $result .= "/>\n";
     }

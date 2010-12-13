@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1280485478" format="1.1" reprev="3" version="3"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1292246103" format="1.1" reprev="4" version="4"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"textboxlist"
@@ -53,6 +53,88 @@ Note, that you will need Foswiki:Extensions.FilterPlugin to run the example succ
 ---++ Backend Implementation
 <verbatim class="tml">
 %STARTSECTION{"data"}%%FORMATLIST{
+  "admin,
+   backup,
+   bash,
+   emulation,
+   games,
+   irc,
+   linux,
+   mercurial,
+   patches,
+   perl,
+   php,
+   python,
+   site,
+   surfing,
+   tag,
+   test,
+   foswiki,
+   web,
+   wiki,
+   windows,
+   windsurfing,
+   wine
+  "
+  split="\s*,\s*"
+  format=" $1 "
+  separator="$n"
+  include="\s*%URLPARAM{"q"}%.*"
+}%%ENDSECTION{"data"}%
+</verbatim>
+---+ %TOPIC%
+%JQPLUGINS{"textboxlist"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Turns a text input into a Facebook like list widget with autocompletion.
+This plugin adds a new formfield type =textboxlist= to DataForms.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"textboxlist"}%
+
+---+++ Tagging
+<form>
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+    <h3>Tags:</h3>
+    <input type="text" class="foswikiInputField jqTextboxList" size="20" name="tags" value="%URLPARAM{"tags" multiple="on" separator=", " default="foo, bar, baz"}%" />
+    <div class="foswikiGrayText">
+       Type in some keywords
+    </div>
+  </div>
+  <div class="foswikiFormStep">
+    %BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" type="submit"}%
+    %CLEAR%
+  </div>
+</div>
+</form>
+
+---+++ Tagging with autocomplete suggestions
+
+Note, that you will need Foswiki:Extensions.FilterPlugin to run the example successfully. 
+
+<form>
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+    <h3>Tags:</h3>
+    <input class="foswikiInputField jqTextboxList {autocomplete:'%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=data;skin=text'}" id="example" size='42'  />
+    <div class="foswikiFormDescription">
+      Tags are suggested as you type.
+    </div>
+  </div>
+</div>
+</form>
+
+---++ Backend Implementation
+<verbatim class="tml">
+%STARTSECTION{"data"}%%FORMATLIST!{
   "
     admin
     backup
@@ -80,6 +162,171 @@ Note, that you will need Foswiki:Extensions.FilterPlugin to run the example succ
   split="\n"
   format=" $1 "
   separator="$n"
-  include=".*%URLPARAM{"q"}%.*"
+  include="%URLPARAM{"q"}%.*"
+}%%ENDSECTION{"data"}%
+</verbatim>
+---+ %TOPIC%
+%JQPLUGINS{"textboxlist"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Turns a text input into a Facebook like list widget with autocompletion.
+This plugin adds a new formfield type =textboxlist= to DataForms.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"textboxlist"}%
+
+---+++ Tagging
+<form>
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+    <h3>Tags:</h3>
+    <input type="text" class="foswikiInputField jqTextboxList" size="20" name="tags" value="%URLPARAM{"tags" multiple="on" separator=", " default="foo, bar, baz"}%" />
+    <div class="foswikiGrayText">
+       Type in some keywords
+    </div>
+  </div>
+  <div class="foswikiFormStep">
+    %BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" type="submit"}%
+    %CLEAR%
+  </div>
+</div>
+</form>
+
+---+++ Tagging with autocomplete suggestions
+
+Note, that you will need Foswiki:Extensions.FilterPlugin to run the example successfully. 
+
+<form>
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+    <h3>Tags:</h3>
+    <input class="foswikiInputField jqTextboxList {autocomplete:'%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=data;skin=text'}" id="example" size='42'  />
+    <div class="foswikiFormDescription">
+      Tags are suggested as you type.
+    </div>
+  </div>
+</div>
+</form>
+
+---++ Backend Implementation
+<verbatim class="tml">
+%STARTSECTION{"data"}%%FORMATLIST!{
+  " admin
+    backup
+    bash
+    emulation
+    games
+    irc
+    linux
+    mercurial
+    patches
+    perl
+    php
+    python
+    site
+    surfing
+    tag
+    test
+    foswiki
+    web
+    wiki
+    windows
+    windsurfing
+    wine
+  "
+  split="\n"
+  format=" $1 "
+  separator="$n"
+  include="%URLPARAM{"q"}%.*"
+}%%ENDSECTION{"data"}%
+</verbatim>
+---+ %TOPIC%
+%JQPLUGINS{"textboxlist"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Turns a text input into a Facebook like list widget with autocompletion.
+This plugin adds a new formfield type =textboxlist= to DataForms.
+%ENDSECTION{"summary"}%
+
+---++ Examples
+%JQREQUIRE{"textboxlist"}%
+
+---+++ Tagging
+<form>
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+    <h3>Tags:</h3>
+    <input type="text" class="foswikiInputField jqTextboxList" size="20" name="tags" value="%URLPARAM{"tags" multiple="on" separator=", " default="foo, bar, baz"}%" />
+    <div class="foswikiGrayText">
+       Type in some keywords
+    </div>
+  </div>
+  <div class="foswikiFormStep">
+    %BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" type="submit"}%
+    %CLEAR%
+  </div>
+</div>
+</form>
+
+---+++ Tagging with autocomplete suggestions
+
+Note, that you will need Foswiki:Extensions.FilterPlugin to run the example successfully. 
+
+<form>
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+    <h3>Tags:</h3>
+    <input class="foswikiInputField jqTextboxList {autocomplete:'%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=data;skin=text'}" id="example" size='42'  />
+    <div class="foswikiFormDescription">
+      Tags are suggested as you type.
+    </div>
+  </div>
+</div>
+</form>
+
+---++ Backend Implementation
+<verbatim class="tml">
+%STARTSECTION{"data"}%%FORMATLIST!{
+  "
+    admin
+    backup
+    bash
+    emulation
+    games
+    irc
+    linux
+    mercurial
+    patches
+    perl
+    php
+    python
+    site
+    surfing
+    tag
+    test
+    foswiki
+    web
+    wiki
+    windows
+    windsurfing
+    wine
+  "
+  split="\n"
+  format=" $1 "
+  separator="$n"
+  include="%URLPARAM{"q"}%.*"
 }%%ENDSECTION{"data"}%
 </verbatim>

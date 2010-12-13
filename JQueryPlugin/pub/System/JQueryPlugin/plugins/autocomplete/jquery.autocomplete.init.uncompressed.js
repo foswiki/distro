@@ -4,8 +4,10 @@ jQuery(function($) {
     autoFill:false,
     matchCase:false,
     matchSubset:false,
-    matchContains:false
+    matchContains:false,
+    scrollHeight: 200
   };
+
   $("[autocomplete][autocomplete!=off]:not(.jqInitedAutocomplete)").livequery(function() {
     var $this = $(this);
     var options = $.extend({}, defaults, $this.metadata());

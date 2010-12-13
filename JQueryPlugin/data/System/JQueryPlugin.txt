@@ -141,7 +141,19 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  01 Dec 2010: | (3.75) update forms plugin to 2.43 to improve jQuery 1.4 compatibility |   
+|  13 Dec 2010: | (4.00) adding jquery-1.4.2/3/4 (default is 1.4.3); \
+                  removing jquery-1.2.6, deprecating jquery-1.3.x (incompatible with shipped jquery-ui); \
+                  upgraded to jquery-ui 1.8.5 (needs jquery-1.4+); \
+                  upgraded jquery-cookie; \
+                  added themeswitcher; \
+                  fixed spinner in autocomplete; \
+                  various fixes to jquery.tooltip; \
+                  improved tooltip themes (added blackbox theme); \
+                  fixed rating formfield; \
+                  improved printout of tabpanes; \
+                  added new jquery-ui theme flickr; \
+                  update forms plugin to 2.49 to improve jQuery 1.4 compatibility |
+|  27 Oct 2010: | (3.75) fixed IE error in chili recipe for TML |
 |  19 Oct 2010: | (3.74) Version included with Foswiki 1.1.0 + fix for code bug in SLIMBOX causing !ImageGalleryPlugin to fail |   
 |  19 Aug 2010: | (3.71) JQueryLiveQuery now loads by default; \
                   removed JQueryBgiframe and JQueryEasing plugins from default plugins |

@@ -1,5 +1,10 @@
 SUBDIRS=i18n plugins themes ui
-TARGET=jquery-1.2.6.js jquery-1.3.2.js jquery-1.3.2p1.js jquery-1.4.2.js
+TARGET=\
+  jquery-1.3.2.js \
+  jquery-1.3.2p1.js \
+  jquery-1.4.2.js \
+  jquery-1.4.3.js \
+  jquery-1.4.4.js
 
 -include Makefile.include
 

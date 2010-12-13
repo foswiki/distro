@@ -30,10 +30,9 @@ sub new {
         $class->SUPER::new(
             $session,
             name    => 'Cookie',
-            version => '20070917',   # based on the blog posting on the homepage
-            author  => 'Klaus Hartl',
-            homepage =>
-              'http://www.stilbuero.de/2006/09/17/cookie-plugin-for-jquery',
+            version => '20100921',   # based on the blog posting on the homepage
+            author  => 'Klaus Hartl, Uzbekjon',
+            homepage => 'http://jquery-howto.blogspot.com/2010/09/jquery-cookies-getsetdelete-plugin.html',
             javascript => ['jquery.cookie.js'],
         ),
         $class

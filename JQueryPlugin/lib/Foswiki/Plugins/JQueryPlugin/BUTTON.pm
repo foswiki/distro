@@ -73,7 +73,7 @@ sub handleButton {
     my $theType        = $params->{type} || 'button';
 
     $theId = "id='$theId'" if $theId;
-    $theClass =~ s/\b([a-z]+)\b/'jqButton'.ucfirst($1)/ge;
+    $theClass =~ s/\b(simple|cyan|red|green|right)\b/'jqButton'.ucfirst($1)/ge;
 
     my $theIcon;
     $theIcon =
@@ -136,8 +136,7 @@ sub handleButton {
         my $callbacks = '{' . join( ', ', @callbacks ) . '}';
 
         # entity encode
-        $callbacks =~
-          s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_])/'&#'.ord($1).';'/ge;
+        $callbacks = _encode($callbacks);
         push @class, $callbacks;
     }
     my $class = join( ' ', @class );
@@ -152,6 +151,15 @@ sub handleButton {
       if $theType eq 'submit';
 
     return $result;
+}
+
+# local version
+sub _encode {
+  my $text = shift;
+
+  $text =~ s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_])/'&#'.ord($1).';'/ge;
+
+  return $text;
 }
 
 1;

@@ -113,6 +113,7 @@ Foswiki:Extensions.FlexWebListPlugin.
 <verbatim class="tml">
 %STARTSECTION{"web"}%%FLEXWEBLIST{
   include="^%URLPARAM{"q" default="does not exist"}%.*"
+  ignorecase="on"
   limit="%URLPARAM{"limit" default="10"}%"
   format="<nop>$web"
   separator="$n"

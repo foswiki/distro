@@ -79,6 +79,14 @@ $.Autocompleter = function(input, options) {
 	var select = $.Autocompleter.Select(options, input, selectCurrent, config);
 	
 	var blockSubmit;
+
+        // add spinner
+        var margin = parseInt($input.css("margin-right"), 10) || 0;
+        var height = $input.outerHeight(true)+1;
+        var $spinner = $("<span class='ac_spinner' />").insertAfter($input).css({
+          'height': height,
+          'margin-left': -20-margin
+        });
 	
 	// prevent form submit in opera when selecting with return key
 	$.browser.opera && $(input.form).bind("submit.autocomplete", function() {
@@ -338,6 +346,8 @@ $.Autocompleter = function(input, options) {
 				extraParams[key] = typeof param == "function" ? param() : param;
 			});
 			
+                        $spinner.css('display', 'inline');
+                        $input.trigger("beforeSearch");
 			$.ajax({
 				// try to leverage ajaxQueue plugin to abort previous requests
 				mode: "abort",
@@ -353,6 +363,8 @@ $.Autocompleter = function(input, options) {
 					var parsed = options.parse && options.parse(data) || parse(data);
 					cache.add(term, parsed);
 					success(term, parsed);
+                                        $input.trigger("afterSearch");
+                                        $spinner.css('display', 'none');
 				}
 			});
 		} else {
@@ -409,7 +421,7 @@ $.Autocompleter.defaults = {
 		return value.replace(new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + term.replace(/([\^\$\(\)\[\]\{\}\*\.\+\?\|\\])/gi, "\\$1") + ")(?![^<>]*>)(?![^&;]+;)", "gi"), "<strong>$1</strong>");
 	},
     scroll: true,
-    scrollHeight: 180
+    scrollHeight: 200
 };
 
 $.Autocompleter.Cache = function(options) {

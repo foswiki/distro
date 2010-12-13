@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1280485393" format="1.1" reprev="3" version="4"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1292242485" format="1.1" reprev="3" version="5"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"autocomplete"
@@ -67,7 +67,7 @@ Here's the code that the client browser runs:
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep">
     <h3>Enter tags:</h3>
-    <input class="foswikiInputField {multiple:true, matchCase:false, matchSubset:true, minChars:1}" id="example" size='42' autocomplete="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=data;skin=text" />
+    <input class="foswikiInputField {multiple:true, matchCase:false, matchSubset:true, minChars:1}" size='42' autocomplete="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=data;skin=text" />
     <div class="foswikiFormDescription">
       Tags are suggested as you type. Separate multiple tags using a comma (,).
     </div>
@@ -108,7 +108,7 @@ based on a regular expression passed from Javascript.
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep">
     <h3>Enter tags:</h3>
-    <input class="foswikiInputField {multiple:true, matchCase:false, matchSubset:true, minChars:1}" id="example" size='42' autocomplete="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=data_fp;skin=text" />
+    <input class="foswikiInputField {multiple:true, matchCase:false, matchSubset:true, minChars:1}" size='42' autocomplete="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=data_fp;skin=text" />
     <div class="foswikiFormDescription">
       Tags are suggested as you type. Separate multiple tags using a comma (,).
     </div>

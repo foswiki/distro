@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1280242257" format="1.1" reprev="4" version="4"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1286374614" format="1.1" reprev="4" version="5"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"simplemodal"
@@ -48,7 +48,7 @@ overlayCss and/or containerCss options.
 
 ---++ Examples
 
-%JQREQUIRE{"simplemodal, debug"}%
+%JQREQUIRE{"simplemodal"}%
 %JQICON{"email"}% <a href="#" class="jqSimpleModal {data:'#helpText', onSubmit:function() {alert('you clicked submit')}, onCancel:function() {alert('cancelled')}}">Contact</a>: opens a modal dialog located in the #helpText div.
 
 %JQICON{"email"}% <a href="#" class="jqSimpleModal {url:'%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?skin=text;section=helpText', onSubmit:function() {alert('you clicked submit in the async example')}, onCancel:function() {alert('you cancelled the async example')}}">Contact (async)</a>: opens a modal dialog with content loaded asynchronously from a named section of a topic

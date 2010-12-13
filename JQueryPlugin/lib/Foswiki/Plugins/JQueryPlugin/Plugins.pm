@@ -46,15 +46,15 @@ sub init () {
     # load jquery
     my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || "jquery-1.3.2";
     $jQuery .= ".uncompressed" if $debug;
-    my $footer =
+    my $code =
 "<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>";
 
     # switch on noconflict mode
-    $footer .=
-"\n<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.noconflict.js'></script>"
+    $code .=
+      "\n<script type='text/javascript'>var \$j = jQuery.noConflict();</script>"
       if $Foswiki::cfg{JQueryPlugin}{NoConflict};
 
-    Foswiki::Func::addToZone( 'script', 'JQUERYPLUGIN', $footer );
+    Foswiki::Func::addToZone( 'script', 'JQUERYPLUGIN', $code );
 
     # initial plugins
     createPlugin('Foswiki');    # this one is needed anyway
@@ -98,10 +98,12 @@ sub createTheme {
     $themeName ||= 'base';
     $currentTheme = $themeName;
 
-    Foswiki::Func::addToHEAD( "JQUERYPLUGIN::THEME",
-        <<"HERE", "JQUERYPLUGIN::FOSWIKI" );
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/$themeName/ui.all.css" type="text/css" media="all" />
+    if ( $themeName ne 'base' ) {
+        Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::THEME",
+            <<HERE, "JQUERYPLUGIN::FOSWIKI, JQUERYPLUGIN::UI" );
+<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/$themeName/jquery-ui.css" type="text/css" media="all" />
 HERE
+    }
 
     return $themeName;
 }
@@ -243,7 +245,7 @@ sub getIconUrlPath {
 
     unless (@iconSearchPath) {
         my $iconSearchPath = $Foswiki::cfg{JQueryPlugin}{IconSearchPath}
-          || 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
+          || 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamSilkCompanion2Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
         @iconSearchPath = split( /\s*,\s*/, $iconSearchPath );
     }
 

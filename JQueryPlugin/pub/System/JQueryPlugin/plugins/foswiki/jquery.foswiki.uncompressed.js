@@ -4,7 +4,7 @@
  * $Rev$
 */
 var foswiki;
-if (foswiki === undefined) {
+if (typeof(foswiki) === 'undefined') {
   foswiki = {};
 }
 if (foswiki.preferences === undefined) {

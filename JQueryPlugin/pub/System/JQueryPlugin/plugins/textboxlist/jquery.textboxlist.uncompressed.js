@@ -114,7 +114,6 @@
       self.clear();
     });
 
-
     // init
     self.currentValues = [];
     self.titleOfValue = [];
@@ -123,6 +122,8 @@
     }
     self.initialValues = self.currentValues.slice();
     self.input.removeClass('foswikiHidden').show();
+
+    return this;
   };
  
   // clear selection *****************************************************
@@ -178,7 +179,7 @@
       title = val;
       if (val.match(/^(.*)=(.*)$/)) {
         values[i] = val = RegExp.$1
-        self.titleOfValue[val] = RegExp.$2
+        self.titleOfValue["_"+val] = RegExp.$2
       }
     }
 
@@ -223,7 +224,7 @@
       if (!val) {
         continue;
       }
-      title = self.titleOfValue[val] || val;
+      title = self.titleOfValue["_"+val] || val;
       $.log("TEXTBOXLIST: val="+val+" title="+title);
       input = "<input type='hidden' name='"+self.opts.inputName+"' value='"+val+"' title='"+title+"' />";
       close = $("<a href='#' title='remove "+title+"'></a>").
