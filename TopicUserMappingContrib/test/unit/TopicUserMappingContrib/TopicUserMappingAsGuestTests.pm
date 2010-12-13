@@ -194,9 +194,6 @@ sub groupFix {
     $fatwilly->{users}->{mapping}->addUser( "auser", "AaronUser",    $me );
     $fatwilly->{users}->{mapping}->addUser( "guser", "GeorgeUser",   $me );
     $fatwilly->{users}->{mapping}->addUser( "zuser", "ZebediahUser", $me );
-    $fatwilly->{users}->{mapping}->addUser( "auser", "AaronUser",    $me );
-    $fatwilly->{users}->{mapping}->addUser( "guser", "GeorgeUser",   $me );
-    $fatwilly->{users}->{mapping}->addUser( "zuser", "ZebediahUser", $me );
     $fatwilly->{users}->{mapping}->addUser( "scum",  "ScumUser",     $me );
     Foswiki::Func::saveTopic( $testUsersWeb, 'AmishGroup', undef,
         "   * Set GROUP = AaronUser,%MAINWEB%.GeorgeUser, scum\n" );
@@ -225,6 +222,25 @@ HERE
    * Set ALLOWTOPICVIEW = $Foswiki::cfg{SuperAdminGroup}
 HERE
     );
+    
+    ###########################
+    Foswiki::Func::saveTopic(
+        $testUsersWeb, 'TopGroup', undef, <<"HERE"
+   * Set GROUP = AaronUser, NextHiddenGroup
+HERE
+    );
+    Foswiki::Func::saveTopic(
+        $testUsersWeb, 'NextHiddenGroup', undef, <<"HERE"
+   * Set GROUP = GeorgeUser, BottomGroup
+   * Set ALLOWTOPICVIEW = NextHiddenGroup
+   
+HERE
+    );
+    Foswiki::Func::saveTopic(
+        $testUsersWeb, 'BottomGroup', undef, <<"HERE"
+   * Set GROUP = ZebediahUser
+HERE
+    );
 }
 
 sub verify_getListOfGroups {
@@ -235,12 +251,24 @@ sub verify_getListOfGroups {
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
     my $k = join( ',', sort @l );
     $this->assert_str_equals(
-        "AdminGroup,AmishGroup,BaptistGroup,BaseGroup,MultiLineGroup", $k );
+        "AdminGroup,AmishGroup,BaptistGroup,BaseGroup,BottomGroup,MultiLineGroup,TopGroup", $k );
+}
+
+#this is the test for Item9808
+sub verify_eachGroupMember {
+    my $this = shift;
+    $this->groupFix();
+    my $i = $fatwilly->{users}->eachGroupMember('TopGroup');
+    my @l = ();
+    while ( $i->hasNext() ) { push( @l, $i->next() ) }
+    my $k = join( ',', sort @l );
+    $this->assert_str_equals(
+        "auser,guser,zuser", $k );
 }
 
 sub verify_secretGroupIsHidden {
     my $this     = shift;
-    my $expected = 'AdminGroup,AmishGroup,BaptistGroup,MultiLineGroup';
+    my $expected = 'AdminGroup,AmishGroup,BaptistGroup,BottomGroup,MultiLineGroup,TopGroup';
     my $result;
     my $oldSession = $this->{session};
 
