@@ -179,4 +179,13 @@ HERE
     );
 }
 
+# http://foswiki.org/Tasks/Item10151
+sub test_link_with_parentheses {
+    my $this = shift;
+    $this->assert_html_equals(
+'<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Fork_(software_development)" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>Wikipedia:Fork_(software_development)</noautolink></a>',
+        Foswiki::Func::renderText( "Wikipedia:Fork_(software_development)", $this->{test_web} )
+    );
+}
+
 1;
