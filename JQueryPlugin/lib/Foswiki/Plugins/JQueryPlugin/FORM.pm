@@ -29,7 +29,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name       => 'Form',
-            version    => '2.25',
+            version    => '2.49',
             author     => 'M. Alsup',
             homepage   => 'http://malsup.com/jquery/form',
             javascript => ['jquery.form.js'],
