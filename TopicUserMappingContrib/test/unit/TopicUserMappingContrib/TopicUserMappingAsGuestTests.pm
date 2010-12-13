@@ -297,6 +297,47 @@ HERE
     return;
 }
 
+sub verify_secretGroupIsHiddenFromGROUPINFO {
+    my $this     = shift;
+    my $expected = 'AdminGroup,AmishGroup,BaptistGroup,BottomGroup,MultiLineGroup,TopGroup';
+    my $result;
+    my $oldSession = $this->{session};
+
+    $this->{session} = new Foswiki( $Foswiki::cfg{DefaultUserLogin} );
+    $this->groupFix();
+    my $i = $this->{session}->{users}->eachGroup();
+
+    $result = Foswiki::Func::expandCommonVariables(<<'HERE');
+%GROUPINFO{
+}%
+HERE
+    chomp($result);
+    $this->assert_str_equals( $expected, $result );
+    $this->{session}->finish();
+    $this->{session} = $oldSession;
+
+    return;
+}
+
+#this is the test for Item9808
+#however, Sven is a bit bothered by the fact that this expanded result reveals the Content of the hidden group :(
+sub verify_eachGroupMemberGROUPINFO {
+    my $this = shift;
+    $this->groupFix();
+    #my $i = $fatwilly->{users}->eachGroupMember('TopGroup');
+    my $i = $fatwilly->{users}->eachGroup();    #prime the cache
+
+    my $result = Foswiki::Func::expandCommonVariables(<<'HERE');
+%GROUPINFO{"TopGroup"}%
+HERE
+    chomp($result);
+    $this->assert_str_equals(
+    'TemporaryTopicUserMappingAsGuestTestsUsersWeb.AaronUser, TemporaryTopicUserMappingAsGuestTestsUsersWeb.GeorgeUser, TemporaryTopicUserMappingAsGuestTestsUsersWeb.ZebediahUser',
+         $result );
+}
+
+#TODO: consider what happens if the user topic is hidden..
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
