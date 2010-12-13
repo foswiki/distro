@@ -263,7 +263,9 @@ sub verify_eachGroupMember {
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
     my $k = join( ',', sort @l );
     $this->assert_str_equals(
-        "auser,guser,zuser", $k );
+        $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID.'auser,'.
+        $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID.'guser,'.
+        $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID.'zuser', $k );
 }
 
 sub verify_secretGroupIsHidden {
@@ -274,6 +276,8 @@ sub verify_secretGroupIsHidden {
 
     $this->{session} = new Foswiki( $Foswiki::cfg{DefaultUserLogin} );
     $this->groupFix();
+    my $i = $this->{session}->{users}->eachGroup();
+
     $result = Foswiki::Func::expandCommonVariables(<<'HERE');
 %SEARCH{
   "Group$"

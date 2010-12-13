@@ -1483,6 +1483,8 @@ sub _getListOfGroups {
         my $users = $this->{session}->{users};
         $this->{groupsList} = [];
 
+        #create a MetaCache _before_ we do silly things with the session's users
+        $this->{session}->search->metacache();
         # Temporarily set the user to admin, otherwise it cannot see groups
         # where %USERSWEB% is protected from view
         local $this->{session}->{user} = $Foswiki::cfg{SuperAdminGroup};
