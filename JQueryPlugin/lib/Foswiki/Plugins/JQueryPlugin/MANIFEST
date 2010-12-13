@@ -55,7 +55,7 @@ data/System/VarJQTHEME.txt 0644
 data/System/VarPOPUPWINDOW.txt 0644
 data/System/VarTABPANE.txt 0644
 data/System/VarTAB.txt 0644
-lib/Foswiki/Form/Color.pm 0646
+lib/Foswiki/Form/Color.pm 0644
 lib/Foswiki/Form/Rating.pm 0644
 lib/Foswiki/Form/Textboxlist.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/AUTOCOMPLETE.pm 0644
@@ -116,7 +116,6 @@ pub/System/JQueryInnerFade/rt_arch.jpg 0644
 pub/System/JQueryInnerFade/tuev.jpg 0644
 pub/System/JQueryInnerFade/whizzkids.gif 0644
 pub/System/JQueryMasonry/jQuery-Masonry.jpg 0644
-pub/System/JQueryPlugin/genpdf_JQueryPlugin.pdf 0644
 pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-af.js 0644
 pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-af.js.gz 0644
 pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-ar.js 0644
