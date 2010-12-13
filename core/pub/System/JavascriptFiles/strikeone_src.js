@@ -203,21 +203,21 @@ var StrikeOne = {
      * Action on form submission (called outside this file for HTML Form submits)
      */
     submit: function(form) {
-        // Read the cookie to get the secret
-        var secret = StrikeOne.readCookie('FOSWIKISTRIKEONE');
         //console.debug("Submit "+form.name);
         var input = form.validation_key;
         if (input && input.value && input.value.charAt(0) == '?') {
             input.value = StrikeOne.calculateNewKey(input.value);
         }
     },
+
     /**
-     * calculate a new key response to validate the SUBMIIT (called outside this file for non HTML Form submits)
+     * calculate a new key response to validate the SUBMIIT (called
+     * outside this file for non HTML Form submits)
      */
     calculateNewKey: function(input) {
-        // Read the cookie to get the secret
-        var secret = StrikeOne.readCookie('FOSWIKISTRIKEONE');
-        if (input  && input.charAt(0) == '?') {
+        if (input && input.charAt(0) == '?') {
+            // Read the cookie to get the secret
+            var secret = StrikeOne.readCookie('FOSWIKISTRIKEONE');
             // combine the validation key with the secret in a way
             // that can't easily be reverse-engineered, but can be
             // duplicated on the server (which also knows the secret)
@@ -244,9 +244,6 @@ var StrikeOne = {
             }
         }
         return null;
-    },
-
-    pcd: function() {
     }
 };
 
