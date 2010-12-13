@@ -645,15 +645,55 @@ sub test_eachAttachment {
         comment => "a comment"
     );
     $meta->save();
+    #load the disk version
+    $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        $this->{test_topic});
+
     my $f =
       "$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/noise.dat";
     $this->assert( open( F, ">", $f ) );
     print F "Naff\n";
     close(F);
     $this->assert( -e $f );
+
+    $meta->save();
+    $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        $this->{test_topic});
+
     my $it = $this->{session}->{store}->eachAttachment($meta);
     my $list = join( ' ', sort $it->all() );
     $this->assert_str_equals( "noise.dat testfile.gif", $list );
+
+   $this->assert(Foswiki::Func::attachmentExists($this->{test_web}, $this->{test_topic}, 'testfile.gif'));
+   $this->assert(Foswiki::Func::attachmentExists($this->{test_web}, $this->{test_topic}, 'noise.dat'));
+
+    my $preDeleteMeta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        $this->{test_topic});
+
+   sleep(1); #ensure different timestamp on topic text
+   $meta->removeFromStore('testfile.gif');
+   
+   $this->assert(Foswiki::Func::topicExists($this->{test_web}, $this->{test_topic}));
+   $this->assert(not Foswiki::Func::attachmentExists($this->{test_web}, $this->{test_topic}, 'testfile.gif'));
+   $this->assert(Foswiki::Func::attachmentExists($this->{test_web}, $this->{test_topic}, 'noise.dat'));
+
+    my $postDeleteMeta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        $this->{test_topic});
+
+    #Item10124: SvenDowideit thinks that the Meta API should retain consistency, so if you 'remove' an attachment, its META entry should also be removed
+    #if we do this, the following line will fail.
+    $this->assert_deep_equals( $preDeleteMeta->{FILEATTACHMENT}, $postDeleteMeta->{FILEATTACHMENT} );
+
+    $it = $this->{session}->{store}->eachAttachment($postDeleteMeta);
+    $list = join( ' ', sort $it->all() );
+    $this->assert_str_equals( "noise.dat", $list );
+
+    
+
 }
 
 1;
