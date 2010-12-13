@@ -1,16 +1,46 @@
 (function($) { 
-  function openDialog(data, opts) { 
+  /**************************************************************************/
+  foswiki.openDialog = function(data, opts) { 
     $.log("SM: called openDialog data="+data);
-    var $dialog = $(data);
-    $dialog.modal(opts); 
+    $("body").css("cursor", "process"); // reset in init()
+    if (!opts._origOnShow) {
+      opts._origOnShow = opts.onShow;
+      opts.onShow = function(dialog) {
+        if ($.isFunction(opts._origOnShow)) {
+          opts._origOnShow(dialog);
+        }
+        init(dialog, opts);
+      }
+    }
+    opts.onOpen = function(dialog) {
+      $.log("SM: called onOpen");
+      dialog.overlay.show();
+      dialog.container.hide();
+      dialog.data.show();
+    };
+    $(data).modal(opts); 
+  } 
 
+  /**************************************************************************/
+  function init(dialog, opts) {
+    $.log("SM: called init");
+
+    // restore cursor
+    $("body").css("cursor", "auto");
+
+    //  fix position
+    setTimeout(function() {
+      $(window).trigger("resize.simplemodal"); 
+      dialog.container.fadeIn();
+    });
+    
     // OK button
-    $(".jqSimpleModalOK:not(.jqInitedSimpleModalOK)", $dialog).each(function() {
+    dialog.container.find(".jqSimpleModalOK:not(.jqInitedSimpleModalOK)").each(function() {
       $(this).addClass("jqInitedSimpleModalOK").click(function(e) {
         $.log("SM: clicked ok");
         $.modal.close(); 
         if (typeof(opts.onSubmit) == 'function') { 
-          opts.onSubmit($dialog); 
+          opts.onSubmit(dialog); 
         } 
         e.preventDefault();
         return false; 
@@ -18,27 +48,27 @@
     });
 
     // Cancel button
-    $(".jqSimpleModalCancel:not(.jqInitedSimpleModalCancel)", $dialog).each(function() {
+    dialog.container.find(".jqSimpleModalCancel:not(.jqInitedSimpleModalCancel)").each(function() {
       $(this).addClass("jqInitedSimpleModalCancel").click(function(e) {
         $.log("SM: clicked cancel");
         $.modal.close(); 
         if (typeof(opts.onCancel) == 'function') { 
-          opts.onCancel($dialog); 
+          opts.onCancel(dialog); 
         } 
         e.preventDefault();
         return false; 
       }); 
     }); 
-  } 
+  }
 
+  /**************************************************************************/
   var defaults = {
     persist:false,
     close:false, 
-    onShow: function() { 
-      $(window).trigger("resize.simplemodal"); 
-    } 
+    opacity: 40
   };
 
+  /**************************************************************************/
   $(function() { 
     // opener
     $(".jqSimpleModal:not(.jqInitedSimpleModal)").livequery(function() { 
@@ -57,11 +87,11 @@
               $("body").append($content);
             }
             $this.attr('simple-modal-data', '#'+id);
-            openDialog("#"+id, opts); 
+            foswiki.openDialog("#"+id, opts); 
           }); 
         } else { 
           // inline
-          openDialog(id, opts); 
+          foswiki.openDialog(id, opts); 
         } 
         e.preventDefault();
         return false;

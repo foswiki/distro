@@ -4,14 +4,15 @@
  *   or textarea of a form when the page is loade
  * 
  */
-;(function($) {
-  $(function() {
+jQuery(function($) {
+  $(".jqFocus").livequery(function() {
+    var $this = $(this);
     window.setTimeout(function() {
       try {
-        $('.jqFocus:first').focus();
+        $this.focus();
       } catch (error) {
         // ignore
       };
-    }, 200);
+    }, 100);
   });
-})(jQuery);
+});

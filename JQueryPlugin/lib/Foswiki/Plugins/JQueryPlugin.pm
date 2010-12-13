@@ -20,7 +20,7 @@ use vars qw(
 );
 
 $VERSION           = '$Rev: 20090710 (2010-08-18) $';
-$RELEASE           = '3.75';
+$RELEASE           = '4.00';
 $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
@@ -60,6 +60,11 @@ sub initPlugin {
 
     # init plugin handler and preload default plugins
     Foswiki::Plugins::JQueryPlugin::Plugins::init();
+
+    # backwards compatibility
+    if ($Foswiki::Plugins::VERSION < 2.1) {
+      Foswiki::Func::setPreferencesValue("CLEAR", "<span class='foswikiClear'></span>");
+    }
 
     return 1;
 }

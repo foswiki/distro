@@ -34,6 +34,7 @@ ul.jqTabGroup a {
   white-space:nowrap;
   float:left;
   display:block;
+  text-shadow:0px 1px #fff;
 }
 .foswikiFormSteps ul.jqTabGroup li.current {
   background-color: inherit;
@@ -92,12 +93,26 @@ ul.jqTabGroup a {
   color:red;
 }
 
+/* limitted support for printouts */
+@media print {
+  .jqTab {
+    display:block;
+  }
+  .jqAjaxTab {
+    display:none;
+  }
+  .jqTabLabel {
+    margin-top:1em;
+    margin-left:1em;
+    margin-right:1em;
+  }
+}
 
 /* simple theme */
 .jqTabPaneSimple ul.jqTabGroup li {
   background:transparent;
-  margin:6px 6px -1px 0;
-  *height:30px; /* IE7 */
+  margin:0.4615em 0.4615em -1px 0; /* 6px 6px ... */
+  *height:2.3077em; /* IE7 ... 30px */
 }
 .jqTabPaneSimple ul.jqTabGroup li.current a {
   background:#fff;

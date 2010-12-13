@@ -1,2 +1,7 @@
-TARGET=jquery.blockUI.js $(JQUERYPLUGIN_LIB)/BLOCKUI.pm
+TARGET=\
+  jquery.blockUI.css \
+  jquery.blockUI.js \
+  jquery.blockUI.init.js \
+  $(JQUERYPLUGIN_LIB)/BLOCKUI.pm
+
 -include ../../Makefile.include

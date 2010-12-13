@@ -15,7 +15,7 @@ jQuery(function($) {
         $tip.html(getVal());
       },
       callback: function (val) {
-        if (val == '') {
+        if (typeof(val) === 'undefined' || val == '') {
           val = "&nbsp;"
         } 
         $tip.html(val);

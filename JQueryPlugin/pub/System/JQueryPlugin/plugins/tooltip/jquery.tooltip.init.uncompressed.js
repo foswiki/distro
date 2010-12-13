@@ -6,10 +6,21 @@ jQuery(function($) {
     showBody:':',
     extraClass:'foswiki'
   };
-  $(".jqTooltip [title]:not(.jqInitedTooltip)").livequery(function() {
+  var globalOpts;
+
+  function initTooltip(elem) {
+    var $elem = $(elem);
+    var opts = $.extend({}, globalOpts, $elem.metadata());
+    $elem.tooltip(opts);
+  }
+
+  $(".jqTooltip:not(.jqInitedTooltip)").livequery(function() {
     var $this = $(this);
     $this.addClass("jqInitedTooltip");
-    var opts = $.extend({}, defaults , $this.metadata());
-    $this.tooltip(opts);
+    globalOpts = $.extend({}, defaults , $this.metadata());
+    initTooltip(this);
+    $this.find("[title]").each(function() {
+      initTooltip(this);
+    });
   });
 });

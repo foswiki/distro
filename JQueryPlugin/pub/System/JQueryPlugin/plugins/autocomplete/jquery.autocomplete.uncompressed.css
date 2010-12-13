@@ -35,8 +35,15 @@
 	overflow: hidden;
 }
 
-.ac_loading {
-	background: white url('../../images/spinner.gif') right center no-repeat;
+.ac_spinner {
+	background-image: url('../../images/spinner.gif');
+        background-position:left center;
+        background-repeat:no-repeat;
+        height:16px;
+        width:16px;
+        position:absolute;
+        margin-left:-20px;
+        display:none;
 }
 
 .ac_odd {

@@ -3,10 +3,10 @@
   margin:0px 8px 0px 0px;
   display:block;
   float:left;
+  font-size: 13px;
   height:23px;
   padding:0px;
   color:#000;
-  font-size:13px;
   white-space:nowrap;
 }
 .jqButton:hover,
@@ -23,6 +23,9 @@
 .jqButton.foswikiRight {
   float:right;
   margin:0px 0px 0px 8px;
+}
+.jqButton {
+  text-shadow:0px 1px #fff;
 }
 
 .jqButtonSimple:hover,
@@ -44,12 +47,12 @@
   line-height:23px;
   padding:0px 5px 0px 8px;
   margin:0px 3px 0px 0px;
-  font-size:13px;
   /* ie 6 */
   _margin:0px 1px 0px 0px;
 }
 .jqButtonSimple {
   color:inherit;
+  text-shadow:none;
 }
 .jqButtonSimple span {
   padding:0px;

@@ -1,23 +1,18 @@
 /* jquery.simplemodal */
 #simplemodal-container {
   background-color:#fff;
-  border:3px solid #ccc;
   text-align:left;
 }
 #simplemodal-container .simplemodal-data {
-  margin:1em;
   height:auto;
   width:auto;
 }
 #simplemodal-overlay {
-  /** for those that don't have support for opacity via css
-  background-color:transparent;
-  background-image:url(opacity40.png);
-  opacity:1.0 !important;
-  */
   cursor:wait;
   background:#000;
-  opacity:0.4;
+  opacity:0.5;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)"; 
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40); 
 }
 a.simplemodal-close {
   width:25px;
@@ -42,8 +37,3 @@ a.simplemodal-close {
   /* TODO: how can we make this work on different puburlpaths */
   filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/pub/System/JQueryPlugin/plugins/simplempdal/x.png',sizingMethod='scale');
 }
-* html #simplemodal-overlay {
-  background:#000;
-  opacity:0.4;
-}
-

@@ -30,10 +30,11 @@ sub new {
         $class->SUPER::new(
             $session,
             name       => 'blockUI',
-            version    => '2.18',
+            version    => '2.35',
             author     => 'M. Alsup',
             homepage   => 'http://malsup.com/jquery/block/',
-            javascript => ['jquery.blockUI.js'],
+            css => ['jquery.blockUI.css'],
+            javascript => ['jquery.blockUI.js', 'jquery.blockUI.init.js'],
         ),
         $class
     );

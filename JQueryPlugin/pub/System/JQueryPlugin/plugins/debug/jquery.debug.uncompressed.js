@@ -71,7 +71,7 @@ var DEBUG = true;
                                   
                           }
                   }
-                  console.debug(str);
+                  console.log(str);
           }
   };
 })(jQuery);

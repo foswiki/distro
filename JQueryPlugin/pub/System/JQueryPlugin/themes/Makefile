@@ -2,7 +2,8 @@ SUBDIRS=\
   base \
   smoothness \
   lightness \
-  redmond
+  redmond \
+  flickr
 
 all: $(SUBDIRS)
 

@@ -32,7 +32,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name        => 'UI',
-            version     => '1.7.2',
+            version     => '1.8.5',
             puburl      => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
             author      => 'see http://jqueryui.com/about',
             homepage    => 'http://docs.jquery.com/UI',
@@ -58,8 +58,14 @@ sub init {
 
     return unless $this->SUPER::init();
 
-    my $themeName = $Foswiki::cfg{JQueryPlugin}{JQueryTheme} || 'base';
-    Foswiki::Plugins::JQueryPlugin::Plugins::createTheme($themeName);
+    # add the base theme
+    Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::UI",
+        <<HERE, "JQUERYPLUGIN::FOSWIKI" );
+<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/base/jquery-ui.css" type="text/css" media="all" />
+HERE
+
+    # load the custom theme
+    Foswiki::Plugins::JQueryPlugin::Plugins::createTheme($Foswiki::cfg{JQueryPlugin}{JQueryTheme});
 
     # open matching localization file if it exists
     my $langTag = $this->{session}->i18n->language();
@@ -67,12 +73,14 @@ sub init {
         $Foswiki::cfg{SystemWebName}
       . '/JQueryPlugin/i18n/ui.datepicker-'
       . $langTag . '.js';
+
     my $messageFile = $Foswiki::cfg{PubDir} . '/' . $messagePath;
     if ( -f $messageFile ) {
-        my $text .=
-"<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
-        Foswiki::Func::addToZone( 'script', "JQUERYPLUGIN::UI::LANG", $text,
-            'JQUERYPLUGIN::UI' );
+        Foswiki::Func::addToZone(
+            'script', "JQUERYPLUGIN::UI::LANG",
+            <<"HERE", 'JQUERYPLUGIN::UI' );
+<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>";
+HERE
     }
 }
 1;

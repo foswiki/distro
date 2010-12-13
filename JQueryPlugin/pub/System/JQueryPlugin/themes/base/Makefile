@@ -1,26 +1,22 @@
-TARGET=ui.base.css ui.all.css
+TARGET=jquery-ui.css
 
-UI_BASE_SOURCE= \
-  ui.core.css \
-  ui.resizable.css \
-  ui.accordion.css \
-  ui.dialog.css \
-  ui.slider.css \
-  ui.tabs.css \
-  ui.datepicker.css \
-  ui.progressbar.css
-
-UI_ALL_SOURCE= \
-  $(UI_BASE_SOURCE) \
-  ui.theme.css
+UI_SOURCE= \
+  jquery.ui.core.css \
+  jquery.ui.resizable.css \
+  jquery.ui.accordion.css \
+  jquery.ui.dialog.css \
+  jquery.ui.slider.css \
+  jquery.ui.tabs.css \
+  jquery.ui.datepicker.css \
+  jquery.ui.progressbar.css \
+  jquery.ui.autocomplete.css \
+  jquery.ui.selectable.css \
+  jquery.ui.button.css \
+  jquery.ui.theme.css
 
 -include ../../Makefile.include
 
-ui.base.uncompressed.css: $(UI_BASE_SOURCE)
+jquery-ui.uncompressed.css: $(UI_SOURCE)
 	@echo creating $@
-	@$(CAT) $(UI_BASE_SOURCE) > $@
-
-ui.all.uncompressed.css: $(UI_ALL_SOURCE)
-	@echo creating $@
-	@$(CAT) $(UI_ALL_SOURCE) > $@
+	@$(CAT) $(UI_SOURCE) |sed 's/@VERSION/1.8.5/g' > $@
 
