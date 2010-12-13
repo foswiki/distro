@@ -226,9 +226,6 @@ pub/System/JQueryPlugin/i18n/Makefile 0644
 pub/System/JQueryPlugin/images/nobody.gif 0644
 pub/System/JQueryPlugin/images/spinner_arrows.gif 0644
 pub/System/JQueryPlugin/images/spinner.gif 0644
-pub/System/JQueryPlugin/jquery-1.3.2.js 0644
-pub/System/JQueryPlugin/jquery-1.3.2.js.gz 0644
-pub/System/JQueryPlugin/jquery-1.3.2.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.4.2.js 0644
 pub/System/JQueryPlugin/jquery-1.4.2.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.4.2.uncompressed.js 0644
@@ -581,10 +578,10 @@ pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.js.gz 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/tooltip/jquery.tooltip.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/tooltip/Makefile 0644
-pub/System/JQueryPlugin/plugins/tooltip/tooltip-bubble.png 0644
-pub/System/JQueryPlugin/plugins/tooltip/tooltip-bubble-reverse.png 0644
-pub/System/JQueryPlugin/plugins/tooltip/tooltip-bubble-reverse-bottom.png 0644
 pub/System/JQueryPlugin/plugins/tooltip/tooltip-bubble-bottom.png 0644
+pub/System/JQueryPlugin/plugins/tooltip/tooltip-bubble.png 0644
+pub/System/JQueryPlugin/plugins/tooltip/tooltip-bubble-reverse-bottom.png 0644
+pub/System/JQueryPlugin/plugins/tooltip/tooltip-bubble-reverse.png 0644
 pub/System/JQueryPlugin/plugins/treeview/images/file.gif 0644
 pub/System/JQueryPlugin/plugins/treeview/images/folder-closed.gif 0644
 pub/System/JQueryPlugin/plugins/treeview/images/folder.gif 0644
