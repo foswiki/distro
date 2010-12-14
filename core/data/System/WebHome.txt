@@ -3,7 +3,7 @@
 This is where Foswiki keeps system documentation, including
 documentation that is included with optional extensions.
 
-For most people, the System web is read-only; even administrators should not
+For most people, the %SYSTEMWEB% web is read-only; even administrators should not
 need to modify any of the topics here, though you may want to add your own
 topics - for example, to answer frequently asked questions from your users.
 
