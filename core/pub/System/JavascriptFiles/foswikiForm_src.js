@@ -53,13 +53,15 @@ As per the GPL, removal of this notice is prohibited.
          * @example
          * <code>
          * var queryString = foswiki.Form.formData2QueryString(
-         * 	document.getElementById('myForm'),
-         * 	{collapseMulti:true}
+         *     document.getElementById('myForm'),
+         *     {collapseMulti:true}
          * );
          * </code>
          */
         formData2QueryString:function (inForm, inFormatOptions) {
-            if (!inForm) return null;
+            if (!inForm) {
+                return null;
+            }
             var opts = inFormatOptions || {};
             var str = '';
             var formElem;
@@ -70,82 +72,66 @@ As per the GPL, removal of this notice is prohibited.
                 
                 switch (formElem.type) {
                     // Text fields, hidden form elements
-				case 'text':
-				case 'hidden':
-				case 'password':
-				case 'textarea':
-				case 'select-one':
-					str += formElem.name
-						+ '='
-						+ encodeURI(formElem.value)
-						+ foswiki.Form.KEYVALUEPAIR_DELIMITER;
-					break;
+                case 'text':
+                case 'hidden':
+                case 'password':
+                case 'textarea':
+                case 'select-one':
+                    str += (formElem.name + '=' + encodeURI(formElem.value) + foswiki.Form.KEYVALUEPAIR_DELIMITER);
+                    break;
                     
                     // Multi-option select
-				case 'select-multiple':
-					var isSet = false;
-					for(var j = 0; j < formElem.options.length; j++) {
-						var currOpt = formElem.options[j];
-						if(currOpt.selected) {
-							if (opts.collapseMulti) {
-								if (isSet) {
-									str += ','
-										+ encodeURI(currOpt.text);
-								} else {
-									str += formElem.name
-										+ '='
-										+ encodeURI(currOpt.text);
-									isSet = true;
-								}
-							} else {
-								str += formElem.name
-									+ '='
-									+ encodeURI(currOpt.text)
-									+ foswiki.Form.KEYVALUEPAIR_DELIMITER;
-							}
-						}
-					}
-					if (opts.collapseMulti) {
-						str += foswiki.Form.KEYVALUEPAIR_DELIMITER;
-					}
-					break;
+                case 'select-multiple':
+                    var isSet = false;
+                    for(var j = 0; j < formElem.options.length; j++) {
+                        var currOpt = formElem.options[j];
+                        if(currOpt.selected) {
+                            if (opts.collapseMulti) {
+                                if (isSet) {
+                                    str += (',' + encodeURI(currOpt.text));
+                                } else {
+                                    str += (formElem.name + '=' + encodeURI(currOpt.text));
+                                    isSet = true;
+                                }
+                            } else {
+                                str += (formElem.name + '=' + encodeURI(currOpt.text) + foswiki.Form.KEYVALUEPAIR_DELIMITER);
+                            }
+                        }
+                    }
+                    if (opts.collapseMulti) {
+                        str += foswiki.Form.KEYVALUEPAIR_DELIMITER;
+                    }
+                    break;
                     
                     // Radio buttons
-				case 'radio':
-					if (formElem.checked) {
-						str += formElem.name
-							+ '='
-							+ encodeURI(formElem.value)
-							+ foswiki.Form.KEYVALUEPAIR_DELIMITER;
-					}
-					break;
+                case 'radio':
+                    if (formElem.checked) {
+                        str += (formElem.name + '=' + encodeURI(formElem.value) + foswiki.Form.KEYVALUEPAIR_DELIMITER);
+                    }
+                    break;
                     
                     // Checkboxes
-				case 'checkbox':
-					if (formElem.checked) {
-						// Collapse multi-select into comma-separated list
-						if (opts.collapseMulti
-                            && (formElem.name == lastElemName)) {
+                case 'checkbox':
+                    if (formElem.checked) {
+                        // Collapse multi-select into comma-separated list
+                        if (opts.collapseMulti && (formElem.name === lastElemName)) {
                             // Strip of end ampersand if there is one
                             if (str.lastIndexOf('&') == str.length-1) {
                                 str = str.substr(0, str.length - 1);
                             }
                             // Append value as comma-delimited string
-                            str += ','
-                                + encodeURI(formElem.value);
-						}
-						else {
-                            str += formElem.name
-                                + '='
-                                + encodeURI(formElem.value);
-						}
-						str += foswiki.Form.KEYVALUEPAIR_DELIMITER;
-						lastElemName = formElem.name;
-					}
-					break;
+                            str += (',' + encodeURI(formElem.value));
+                        }
+                        else {
+                            str += (formElem.name + '=' + encodeURI(formElem.value));
+                        }
+                        str += foswiki.Form.KEYVALUEPAIR_DELIMITER;
+                        lastElemName = formElem.name;
+                    }
+                    break;
                     
-				} // switch
-			} // for
+                } // switch
+            } // for
             // Remove trailing separator
             str = str.substr(0, str.length - 1);
             return str;
@@ -158,20 +144,21 @@ As per the GPL, removal of this notice is prohibited.
          * @param inForm: (String) the form to make safe
          */
         makeSafeForTableEntry:function(inForm) {
-            if (!inForm)
+            if (!inForm) {
                 return null;
+            }
             var formElem;
             
             for (i = 0; i < inForm.elements.length; i++) {
                 formElem = inForm.elements[i];
                 switch (formElem.type) {
                     // Text fields, hidden form elements
-				case 'text':
-				case 'password':
-				case 'textarea':
-					formElem.value = foswiki.String.makeTextSafeForTableEntry(
+                case 'text':
+                case 'password':
+                case 'textarea':
+                    formElem.value = foswiki.String.makeTextSafeForTableEntry(
                         formElem.value);
-					break;
+                    break;
                 }
             }
         },
@@ -258,9 +245,9 @@ As per the GPL, removal of this notice is prohibited.
 
 jQuery(document).ready(
     function ($) {
-    	$('input[type="text"].foswikiDefaultText')
+        $('input[type="text"].foswikiDefaultText')
             .each(
-            	function(index, el) {
+                function(index, el) {
                     foswiki.Form.initBeforeFocusText(this, this.title);
                 })
             .focus(
@@ -271,5 +258,17 @@ jQuery(document).ready(
                 function() {
                     foswiki.Form.restoreBeforeFocusText(this);
                 });
+        $('.foswikiCheckAllOn').click(
+            function(e) {
+                var form = $(this).parents('form:first');
+                $('.foswikiCheckBox', form).attr('checked', true);
+            }
+        );
+        $('.foswikiCheckAllOff').click(
+            function(e) {
+                var form = $(this).parents('form:first');
+                $('.foswikiCheckBox', form).attr('checked', false);
+            }
+        );
     }
 );
