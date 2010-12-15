@@ -334,6 +334,7 @@ sub _createHtmlProperties {
     $mode ||= $prefMode;
 
     my @classList = ();
+    my @styleList = ();
     push( @classList, $class ) if $class && !$isTrigger;
     push( @classList, 'twistyRememberSetting' )
       if Foswiki::Func::isTrue($remember);
@@ -372,7 +373,7 @@ sub _createHtmlProperties {
         {
             $shouldHideTrigger = 0;
         }
-        push( @classList, 'foswikiHidden' ) if $shouldHideTrigger;
+        push( @styleList, 'display:none' ) if $shouldHideTrigger;
     }
 
     # assume content should be hidden
@@ -391,8 +392,13 @@ sub _createHtmlProperties {
     push( @classList, 'twistyInited' . $state );
 
     push( @propList, 'id="' . $idTag . '"' );
+
+    my $styleListString = join( ", ", @styleList );
+    push( @propList, 'style="' . $styleListString . '"' );
+
     my $classListString = join( " ", @classList );
     push( @propList, 'class="' . $classListString . '"' );
+
     return @propList;
 }
 

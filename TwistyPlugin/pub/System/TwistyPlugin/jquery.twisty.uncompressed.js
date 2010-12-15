@@ -144,80 +144,32 @@ if (!foswiki) foswiki = {};
      * Show the twisty content
      */
     foswiki.TwistyPlugin.show = function (elem, ref) {
-    	var $elem = $(elem);
-    	$elem.removeClass('foswikiHidden').css(
-			{
-				opacity:1,
-                                height: 'auto',
-				marginTop:ref.marginTop,
-				marginBottom:ref.marginBottom,
-				paddingTop:ref.paddingTop,
-				paddingBottom:ref.paddingBottom
-			}
-		);
+        $(elem).show();
     }
     
     /**
      * Hide the twisty content
      */
     foswiki.TwistyPlugin.hide = function (elem, ref) {
-    	var $elem = $(elem);
-    	$elem.addClass('foswikiHidden').css(
-			{
-				opacity:0,
-				height:0,
-				marginTop:0,
-				marginBottom:0,
-				paddingTop:0,
-				paddingBottom:0
-			}
-		);
+    	$(elem).hide();
     }
     
     /**
      * Show callback when animating the twisty
      */
     foswiki.TwistyPlugin.showAnimation = function (elem, ref) {
-    	var $elem = $(elem);
-
-		$elem.removeClass("foswikiHidden").animate(
-			{
-				height:ref.height, 
-				opacity:1,
-				marginTop:ref.marginTop,
-				marginBottom:ref.marginBottom,
-				paddingTop:ref.paddingTop,
-				paddingBottom:ref.paddingBottom
-			},
-			ref.speed,
-			function () {
-				$elem.css('height', 'auto');
-			}
-		);
+		$(elem).animate({
+          height:'toggle',
+          opacity:'toggle'
+        },
+        ref.speed
+      );
     };
     
     /**
      * Hide callback when animating the twisty
      */
-    foswiki.TwistyPlugin.hideAnimation = function (elem, ref) {
-    	var $elem = $(elem);
-
-		$elem.animate(
-			{
-				height:0, 
-				opacity:0,
-				marginTop:0,
-				marginBottom:0,
-				paddingTop:0,
-				paddingBottom:0
-			},
-			ref.speed,
-			function () {
-				$elem.addClass('foswikiHidden');
-			}
-		);
-        
-    };
+    foswiki.TwistyPlugin.hideAnimation = foswiki.TwistyPlugin.showAnimation;
 
     /**
      * Public constants.
@@ -354,26 +306,6 @@ if (!foswiki) foswiki = {};
 				}
 			}
 			ref.speed = speed;
-            if (speed != 0) {
-				ref.height = $this.height() || 'toggle';
-				ref.marginTop = $this.css('margin-top');
-				ref.marginBottom = $this.css('margin-bottom');
-				ref.paddingTop = $this.css('padding-top');
-				ref.paddingBottom = $this.css('padding-bottom');
-
-            if (ref.marginTop == 'auto') {
-              ref.marginTop = '0px';
-            }
-            if (ref.marginBottom == 'auto') {
-              ref.marginBottom = '0px';
-            }
-            if (ref.paddingTop == 'auto') {
-              ref.paddingTop = '0px';
-            }
-            if (ref.paddingBottom == 'auto') {
-              ref.paddingBottom = '0px';
-            }
-			}	
           });
           $('.twistyTrigger').livequery(function() {
             foswiki.TwistyPlugin.init(this);
