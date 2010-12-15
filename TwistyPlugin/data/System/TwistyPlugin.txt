@@ -488,6 +488,7 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 Dec 2010 | 1.6.11 Foswikitask:Item10161: improved compatibility with jquery-1.4.3/4 |
 |  06 Nov 2010 | 1.6.10 Foswikitask:Item9963: Revert usage of =$<nop>percent= back to =$<nop>percnt= |
 |  29 Oct 2010 | 1.6.9 Foswikitask:Item9918: fixed twisty animation on jquery-1.4.3 |
 |  27 Oct 2010 | 1.6.8 Foswikitask:Item9904: fixed compatibility with IE |
