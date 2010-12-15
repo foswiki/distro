@@ -363,7 +363,7 @@ sub _handleFAILEDPLUGINS {
         {
             border  => 1,
             class   => 'foswikiTable',
-            summary => '%MAKETEXT{"Failed plugins"}%'
+            summary => $this->{session}->i18n->maketext("Failed plugins")
         }
     ) . CGI::Tr( {}, CGI::th( {}, 'Plugin' ) . CGI::th( {}, 'Errors' ) );
 
@@ -404,7 +404,7 @@ sub _handleFAILEDPLUGINS {
         {
             border  => 1,
             class   => 'foswikiTable',
-            summary => '%MAKETEXT{"Plugin handlers"}%'
+            summary => $this->{session}->i18n->maketext("Plugin handlers")
         }
       ) . CGI::Tr( {}, CGI::th( {}, 'Handler' ) . CGI::th( {}, 'Plugins' ) );
 
