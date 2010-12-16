@@ -33,12 +33,12 @@ my @directories;
 my @args;
 $/ = "\n";
 
-my $man  = 0;
-my $help = 0;
-
 # Parse options and print usage if there is a syntax error,
 # or if usage was explicitly requested.
-
+# Also consider perldoc availability.
+my $help    = 0;
+my $man     = 0;
+my $perldoc = qx| perldoc 2>&1 1>/dev/null |;
 GetOptions(
     'help|?'        => \$help,
     man             => \$man,
@@ -47,7 +47,12 @@ GetOptions(
     'ask!'          => \$ask
 ) or pod2usage(2);
 pod2usage(1) if $help;
-pod2usage( -verbose => 2 ) if $man;
+if ( $perldoc =~ /^Usage: perldoc.*/ ) {
+    pod2usage( -verbose => 2 ) if $man;
+}
+else {
+    pod2usage( -verbose => 2, -noperldoc => 1 ) if $man;
+}
 
 unless ($new_path) {
     $new_path = $^X;
