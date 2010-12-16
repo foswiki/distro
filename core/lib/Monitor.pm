@@ -117,6 +117,13 @@ BEGIN {
     }
 }
 
+#a bit of a hack to allow us to display the time it took to render
+sub getRunTimeSoFar {
+        my $ibm = timestr( timediff( $times[$#times]->[1], $times[0]->[1] ) );
+        return $ibm;
+}
+
+
 sub END {
     return unless ( $ENV{FOSWIKI_MONITOR} );
     MARK('END');
