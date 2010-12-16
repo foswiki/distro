@@ -26,7 +26,7 @@
 -->
 %STARTSECTION{"rendergroup"}%<!-- rendergroup -->
 %GROUPINFO{"%groupname%" expand="0"
-  format="$percntIF{\"not istopic '$wikiname'\" then=\"<nop>\"}$percnt$wikiname" 
+  format="$percntIF{\"not istopic '%USERSWEB%.$wikiname'\" then=\"<nop>\"}$percnt$wikiname" 
   separator=", "
   zeroresults="%MAKETEXT{"no members"}%"
 }%<!-- list of members// -->
@@ -83,7 +83,7 @@ then='
 %IF{"'%BASEWEB%.%BASETOPIC%'='%USERSWEB%.%groupname%'"
 then='
 ---++ %MAKETEXT{"Administration"}%
-'}%
+'}%<!-- -->
 %TWISTYBUTTON{
   id="%groupname%_add"
   link="<img src='%ICONURLPATH{"useradd"}%' alt='%MAKETEXT{"Add member..."}%' title='%MAKETEXT{"Add member..."}%' /> %MAKETEXT{"Add member..."}%"
@@ -91,8 +91,8 @@ then='
   id="%groupname%_remove"
   link="<img src='%ICONURLPATH{"userdelete"}%' alt='%MAKETEXT{"Remove member..."}%' title='%MAKETEXT{"Remove member..."}%' /> %MAKETEXT{"Remove member..."}%"
 }%
-<p class="foswikiClear" />
 </div>
+<p class="foswikiClear" />
 %INCLUDE{"%WEB%.%TOPIC%"
   section="%IF{"
     istopic '%USERSWEB%.%groupname%' AND 

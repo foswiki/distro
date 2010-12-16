@@ -63,7 +63,7 @@ from this page.  Maintenance can be done from the individual group topics.
                <th>%MAKETEXT{"Members"}%</th>
              </tr>$n" 
    format="<tr>
-     <td valign='top'> $percntIF{\"not istopic '$name'\" then=\"<nop>\" else=\"%USERSWEB%.\"}$percnt$name</td>
+     <td valign='top'> $percntIF{\"not istopic '%USERSWEB%.$name'\" then=\"<nop>\" else=\"%USERSWEB%.\"}$percnt$name</td>
      <td valign='top'> 
        $percntINCLUDE{\"%USERSWEB%.GroupViewTemplate\"
          section=\"rendergroup\"
