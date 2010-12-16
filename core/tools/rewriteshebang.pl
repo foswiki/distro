@@ -15,11 +15,12 @@ use strict;
 
 BEGIN {
     eval {
-         require Foswiki::Configure::Util;
-         1;
-     } or die "Please run this script as follows:\n\n perl -I /path/to/foswiki/lib rewriteshebang.pl\n  e.g. perl -I ../lib rewriteshebang.pl\n\n $@\n";
+        require Foswiki::Configure::Util;
+        1;
+      }
+      or die
+"Please run this script as follows:\n\n perl -I /path/to/foswiki/lib rewriteshebang.pl\n  e.g. perl -I ../lib rewriteshebang.pl\n\n $@\n";
 }
-
 
 my $new_path     = '';
 my @default_dir  = ( '../tools', '../bin', );
@@ -107,7 +108,8 @@ Are you sure you want to use this path (y/n)?: ";
     $ENV{"PATH"} = ""; # untainted environment for system call
                        # Unix and Windows path matching without spaces to untain
     if ( $new_path =~
-        /(^(\.)?(\/[^\/]+)+(\.exe)?$|^[[:alpha:]]:(\\[^\\]+)+(\.exe)?$|^perl$)/i )
+        /(^(\.)?(\/[^\/]+)+(\.exe)?$|^[[:alpha:]]:(\\[^\\]+)+(\.exe)?$|^perl$)/i
+      )
     {
         $new_path = "$1";    # untainted variable
         @args      = ( "$new_path", "-Mstrict", "-w", '-e "print $];"' );
@@ -230,14 +232,12 @@ sub change_files {
     foreach my $file (@files) {
         $scanned++;
 
-        my $rewriteErr = Foswiki::Configure::Util::rewriteShebang(
-          $file,
-          $new_path
-          );
+        my $rewriteErr =
+          Foswiki::Configure::Util::rewriteShebang( $file, $new_path );
 
         if ($rewriteErr) {
             print "$cwd/$file - $rewriteErr \n";
-            }
+        }
         else {
             print "$cwd/$file\n";
             $changed++;
