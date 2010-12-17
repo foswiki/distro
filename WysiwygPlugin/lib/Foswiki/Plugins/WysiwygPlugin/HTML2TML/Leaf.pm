@@ -59,6 +59,7 @@ sub generate {
     unless ( $options & $WC::KEEP_ENTITIES ) {
         $t =~ s/&($text_entities_re);/chr($text_entities{$1})/ego;
         $t =~ s/&nbsp;/$WC::NBSP/g;
+        $t =~ s/&#160;/$WC::NBSP/g;
     }
     return ( 0, $t );
 }

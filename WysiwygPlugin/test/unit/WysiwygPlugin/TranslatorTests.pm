@@ -1371,12 +1371,11 @@ hijk',
         # \xc9 isn't valid utf8 - so the character must be encoded (for now)
         # when the site charset is utf8
         CharSet => 'cp1251',
-        topic   => "Test"
-          . (
+        topic   => "Test" . (
             $Foswiki::cfg{Site}{CharSet} =~ /utf-?8/i
-            ? Encode::encode( 'utf8', "\x0419" ) # same as cp1251's 0xc9
+            ? Encode::encode( 'utf8', "\x0419" )    # same as cp1251's 0xc9
             : "\xc9"
-          ),
+        ),
         html => "<p><img src='$Foswiki::cfg{PubUrlPath}/Current/Test"
           . (
             $Foswiki::cfg{Site}{CharSet} =~ /utf-?8/i
@@ -2895,6 +2894,17 @@ sub compareTML_HTML {
         $this->TML_HTMLconverterOptions( web => $web, topic => $topic ) );
 
     $this->assert_html_equals( $html, $tx );
+
+    # Item10171: Ensure &#160; works the same as &nbsp;
+    my $tml160  = convertNbspTo160($tml);
+    my $html160 = convertNbspTo160($html);
+    if ( $html160 ne $html or $tml160 ne $tml ) {
+        $tx =
+          $txer->convert( $tml160,
+            $this->TML_HTMLconverterOptions( web => $web, topic => $topic ) );
+
+        $this->assert_html_equals( $html160, $tx );
+    }
 }
 
 sub compareNotWysiwygEditable {
@@ -3004,6 +3014,36 @@ sub compareHTML_TML {
       $txer->convert( $html,
         $this->HTML_TMLconverterOptions( web => $web, topic => $topic ) );
     $this->assert_tml_equals( $finaltml, $tx, $args->{name} );
+
+    # Item10171: Ensure &#160; works the same as &nbsp;
+    my $html160     = convertNbspTo160($html);
+    my $finaltml160 = convertNbspTo160($finaltml);
+    if ( $html160 ne $html or $finaltml160 ne $finaltml ) {
+        $tx =
+          $txer->convert( $html160,
+            $this->HTML_TMLconverterOptions( web => $web, topic => $topic ) );
+        $this->assert_tml_equals( $finaltml160, $tx,
+            $args->{name} . ' nbsp as #160' );
+    }
+}
+
+sub convertNbspTo160 {
+    my ($text) = @_;
+
+    $text =~
+      s/(<verbatim[^>]*>)(.*?)(<\/verbatim>)/$1 . escapeNbsp($2) . $3/gemxs;
+    $text =~ s/\&nbsp;/\&#160;/g;
+    $text =~ s/\&\0nbsp;/&nbsp;/g;
+
+    return $text;
+}
+
+sub escapeNbsp {
+    my ($text) = @_;
+
+    $text =~ s/\&nbsp;/\&\0nbsp;/g;
+
+    return $text;
 }
 
 sub convertImage {
