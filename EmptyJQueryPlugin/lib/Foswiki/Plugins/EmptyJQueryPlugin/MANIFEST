@@ -1,0 +1,8 @@
+lib/Foswiki/Plugins/EmptyJQueryPlugin/YOUR.pm
+lib/Foswiki/Plugins/EmptyJQueryPlugin/DEPENDENCIES
+lib/Foswiki/Plugins/EmptyJQueryPlugin/build.pl
+lib/Foswiki/Plugins/EmptyJQueryPlugin/MANIFEST
+lib/Foswiki/Plugins/EmptyJQueryPlugin.pm
+data/System/EmptyJQueryPlugin.txt
+data/System/JQueryYour.txt
+
