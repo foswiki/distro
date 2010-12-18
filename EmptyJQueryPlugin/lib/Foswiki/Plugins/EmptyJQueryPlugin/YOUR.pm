@@ -12,7 +12,7 @@ our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 ---+ package Foswiki::Plugins::JQueryExtrasPlugin::YOUR
 
-This is the perl stub for the jquery.qtip plugin.
+This is the perl stub for the jquery.your plugin.
 
 =cut
 
@@ -32,8 +32,8 @@ sub new {
     $session,
     name => 'your',
     version => '0.0.1',
-    author => 'The Author of The JS',
-    homepage => 'jq module's URL',
+    author => 'The Author of the JQuery plugin',
+    homepage => 'jq module\'s URL',
     documentation => "$Foswiki::cfg{SystemWebName}.JQueryYour",
     puburl => '%PUBURLPATH%/%SYSTEMWEB%/JQueryExtrasPlugin/your',
     javascript => ['jquery.your.js']

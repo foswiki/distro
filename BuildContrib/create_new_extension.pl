@@ -67,13 +67,14 @@ sub prompt {
 }
 
 sub usage {
+    my %param = @_;
     print STDERR <<HERE;
 This script will generate a new extension in a directory under
 the current directory, suitable for building using the
 BuildContrib. Stubs for all required files will be generated.
 
 You must be cd'ed to the 'core' directory, and you must
-pass the name of your extension - which must end in Skin, Plugin,
+pass the name of your extension - which must end in Skin, JQueryPlugin, Plugin,
 or Contrib - to the script. The extension directory
 must not already exist.
 
@@ -82,6 +83,7 @@ move it to the root of your checkout before adding to SVN.
 
 Usage: $0 <name of new extension>
 HERE
+    print STDERR "\n\nERROR: $param{error}\n\n" if (defined($param{error}));
 }
 
 use File::Path;
@@ -92,13 +94,15 @@ use File::Path;
 my %def;
 $def{MODULE} = $ARGV[0];
 usage(), exit 1 unless $def{MODULE};
-usage(), exit 1 if -d $def{MODULE};
+usage(error=>$def{MODULE}.' already exists'), exit 1 if -d $def{MODULE};
 
-$def{MODULE} =~ /^.*?(Skin|Plugin|Contrib|AddOn)$/;
+$def{MODULE} =~ /^.*?(Skin|JQueryPlugin|Plugin|Contrib|AddOn)$/;
 $def{TYPE} = $1;
 usage(), exit 1 unless $def{TYPE};
 
-$def{STUBS} = $def{TYPE} eq 'Plugin' ? 'Plugins' : 'Contrib';
+$def{STUBS} = $def{TYPE} =~ /Plugin$/ ? 'Plugins' : 'Contrib';
+
+print STDERR "creating $def{MODULE}, a $def{TYPE} (will go in /lib/Foswiki/$def{STUBS})\n";
 
 $def{SHORTDESCRIPTION} =
   prompt( "Enter a one-line description of the extension: ", '' );
@@ -110,7 +114,95 @@ my @DATA = split( /<<<< (.*?) >>>>\s*\n/, <DATA> );
 shift @DATA;
 my %data     = @DATA;
 my $stubPath = "$def{MODULE}/lib/Foswiki/$def{STUBS}";
-if ( $def{TYPE} eq 'Plugin' ) {
+if ( $def{TYPE} eq 'JQueryPlugin' ) {
+    
+    
+$def{JQUERYPLUGIN} =
+  prompt( "Enter the name of the JQuery plugin you're wrapping: ", '' );
+$def{JQUERYPLUGIN} =~ s/'/\\'/g;
+$def{JQUERYPLUGINMODULE} = uc($def{JQUERYPLUGIN});
+$def{JQUERYPLUGINMODULELC} = lc($def{JQUERYPLUGIN});
+
+    
+    my $rewrite;
+    # Look in all the possible places for EmptyJQueryPlugin
+    if (-e "EmptyJQueryPlugin/lib/Foswiki/Plugins/EmptyJQueryPlugin.pm") {
+        # probably running in a checkout
+        $rewrite = getFile("EmptyJQueryPlugin/lib/Foswiki/Plugins/EmptyJQueryPlugin.pm");
+    } elsif (-e "../EmptyJQueryPlugin/lib/Foswiki/Plugins/EmptyJQueryPlugin.pm") {
+        # core subdir in a new-style checkout
+        $rewrite = getFile("../EmptyJQueryPlugin/lib/Foswiki/Plugins/EmptyJQueryPlugin.pm");
+    } elsif (-e "lib/Foswiki/Plugins/EmptyJQueryPlugin.pm") {
+        # last ditch, get it from the install
+        $rewrite = getFile("lib/Foswiki/Plugins/EmptyJQueryPlugin.pm");
+    }
+
+    
+    # Tidy up
+    $rewrite =~ s/Copyright .*(# This program)/$1/s;
+    $rewrite =~ s/^.*?__NOTE:__ /$data{PLUGIN_HEADER}/s;
+    $rewrite =~ s/^# change the package name.*$//m;
+    $rewrite =~ s/(SHORTDESCRIPTION = ').*?'/$1%\$SHORTDESCRIPTION%'/;
+    $rewrite =~ s/EmptyJQueryPlugin/%\$MODULE%/sg;
+    $rewrite =~ s/Your/%\$JQUERYPLUGIN%/sg;
+    $rewrite =~ s/YOUR/%\$JQUERYPLUGINMODULE%/sg;
+    writeFile( $stubPath, "$def{MODULE}.pm", $rewrite );
+
+#EmptyJQueryPlugin/lib/Foswiki/Plugins/EmptyJQueryPlugin/YOUR.pm
+    # Look in all the possible places for EmptyJQueryPlugin
+    if (-e "EmptyJQueryPlugin/lib/Foswiki/Plugins/EmptyJQueryPlugin/YOUR.pm") {
+        # probably running in a checkout
+        $rewrite = getFile("EmptyJQueryPlugin/lib/Foswiki/Plugins/EmptyJQueryPlugin/YOUR.pm");
+    } elsif (-e "../EmptyJQueryPlugin/lib/Foswiki/Plugins/EmptyJQueryPlugin/YOUR.pm") {
+        # core subdir in a new-style checkout
+        $rewrite = getFile("../EmptyJQueryPlugin/lib/Foswiki/Plugins/EmptyJQueryPlugin/YOUR.pm");
+    } elsif (-e "lib/Foswiki/Plugins/EmptyJQueryPlugin/YOUR.pm") {
+        # last ditch, get it from the install
+        $rewrite = getFile("lib/Foswiki/Plugins/EmptyJQueryPlugin/YOUR.pm");
+    }
+
+    
+    # Tidy up
+    $rewrite =~ s/Copyright .*(# This program)/$1/s;
+    $rewrite =~ s/^.*?__NOTE:__ /$data{PLUGIN_HEADER}/s;
+    $rewrite =~ s/^# change the package name.*$//m;
+    $rewrite =~ s/(SHORTDESCRIPTION = ').*?'/$1%\$SHORTDESCRIPTION%'/;
+    $rewrite =~ s/EmptyJQueryPlugin/%\$MODULE%/sg;
+    $rewrite =~ s/your/%\$JQUERYPLUGINMODULELC%/sg;
+    $rewrite =~ s/Your/%\$JQUERYPLUGIN%/sg;
+    $rewrite =~ s/YOUR/%\$JQUERYPLUGINMODULE%/sg;
+      
+    writeFile( $stubPath."/$def{MODULE}", "$def{JQUERYPLUGINMODULE}.pm", $rewrite );
+
+
+#TODO: 
+#EmptyJQueryPlugin/data/System/JQueryYour.txt
+    # Look in all the possible places for EmptyJQueryPlugin
+    if (-e "EmptyJQueryPlugin/data/System/JQueryYour.txt") {
+        # probably running in a checkout
+        $rewrite = getFile("EmptyJQueryPlugin/data/System/JQueryYour.txt");
+    } elsif (-e "../EmptyJQueryPlugin/data/System/JQueryYour.txt") {
+        # core subdir in a new-style checkout
+        $rewrite = getFile("../EmptyJQueryPlugin/data/System/JQueryYour.txt");
+    } elsif (-e "data/System/JQueryYour.txt") {
+        # last ditch, get it from the install
+        $rewrite = getFile("data/System/JQueryYour.txt");
+    }
+
+    
+    # Tidy up
+    $rewrite =~ s/Copyright .*(# This program)/$1/s;
+    $rewrite =~ s/^.*?__NOTE:__ /$data{PLUGIN_HEADER}/s;
+    $rewrite =~ s/^# change the package name.*$//m;
+    $rewrite =~ s/(SHORTDESCRIPTION = ').*?'/$1%\$SHORTDESCRIPTION%'/;
+    $rewrite =~ s/EmptyJQueryPlugin/%\$MODULE%/sg;
+    $rewrite =~ s/your/%\$JQUERYPLUGINMODULELC%/sg;
+    $rewrite =~ s/Your/%\$JQUERYPLUGIN%/sg;
+    $rewrite =~ s/YOUR/%\$JQUERYPLUGINMODULE%/sg;
+    
+    writeFile( "$def{MODULE}/data/System", "JQuery$def{JQUERYPLUGIN}.txt", $rewrite );
+}
+elsif ( $def{TYPE} eq 'Plugin' ) {
     my $rewrite;
     # Look in all the possible places for EmptyPlugin
     if (-e "EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm") {
