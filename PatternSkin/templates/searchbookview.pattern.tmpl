@@ -1,2 +1,2 @@
 %TMPL:INCLUDE{searchbookview}%
-%TMPL:DEF{SEARCH:format}%<div class="patternBookView"><div class="foswikiTopRow"><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a> (<a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a> - %REVISION% - [[%AUTHOR%][$wikiname]])</div><div class="foswikiBottomRow">%TEXTHEAD%</div></div>%TMPL:END%
+%TMPL:DEF{SEARCH:format}%<div class="patternBookView"><div class="foswikiTopRow"><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a> (<a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a> - %REVISION% - %IF{"istopic '%AUTHOR%'" then="[[%AUTHOR%][$wikiname]]" else="$wikiname"}%)</div><div class="foswikiBottomRow">%TEXTHEAD%</div></div>%TMPL:END%

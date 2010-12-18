@@ -3,7 +3,7 @@
 %TMPL:DEF{SEARCH:format}%<div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a>
 <div class="foswikiSummary">%TEXTHEAD%</div></div>
-<div class="foswikiBottomRow"><span class="foswikiSRRev">%REVISION% - <a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a></span> <span class="foswikiSRAuthor">%MAKETEXT{"by [_1] " args="[[%AUTHOR%][$wikiname]]"}%</span></div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev">%REVISION% - <a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a></span> <span class="foswikiSRAuthor">%MAKETEXT{"by [_1] " args="%IF{"istopic '%AUTHOR%'" then="[[%AUTHOR%][$wikiname]]" else="$wikiname"}%"}%</span></div>
 </div>%TMPL:END%
 
 %TMPL:DEF{SEARCH:footer}%%TMPL:END%
