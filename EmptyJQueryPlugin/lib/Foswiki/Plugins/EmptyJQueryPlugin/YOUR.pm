@@ -2,7 +2,7 @@
 # copyright for plugin and for jquery code
 # license..
 
-package Foswiki::Plugins::JQueryExtrasPlugin::YOUR;
+package Foswiki::Plugins::EmptyJQueryPlugin::YOUR;
 use strict;
 use warnings;
 use Foswiki::Plugins::JQueryPlugin::Plugin;
@@ -10,7 +10,7 @@ our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
----+ package Foswiki::Plugins::JQueryExtrasPlugin::YOUR
+---+ package Foswiki::Plugins::EmptyJQueryPlugin::YOUR
 
 This is the perl stub for the jquery.your plugin.
 
@@ -35,7 +35,7 @@ sub new {
     author => 'The Author of the JQuery plugin',
     homepage => 'jq module\'s URL',
     documentation => "$Foswiki::cfg{SystemWebName}.JQueryYour",
-    puburl => '%PUBURLPATH%/%SYSTEMWEB%/JQueryExtrasPlugin/your',
+    puburl => '%PUBURLPATH%/%SYSTEMWEB%/EmptyJQueryPlugin/your',
     javascript => ['jquery.your.js']
   ), $class);
 

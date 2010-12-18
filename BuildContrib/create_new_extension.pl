@@ -201,6 +201,11 @@ $def{JQUERYPLUGINMODULELC} = lc($def{JQUERYPLUGIN});
     $rewrite =~ s/YOUR/%\$JQUERYPLUGINMODULE%/sg;
     
     writeFile( "$def{MODULE}/data/System", "JQuery$def{JQUERYPLUGIN}.txt", $rewrite );
+    
+    #make the pub/System/JSONEditorJQueryPlugin/jsoneditor dir for the jquer plugin to go in
+    writeFile( "$def{MODULE}/pub/System/$def{MODULE}/$def{JQUERYPLUGINMODULELC}", "jquery.$def{JQUERYPLUGINMODULELC}.js", $rewrite );
+
+    
 }
 elsif ( $def{TYPE} eq 'Plugin' ) {
     my $rewrite;
