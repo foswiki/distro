@@ -37,6 +37,7 @@ sub new {
     documentation => "$Foswiki::cfg{SystemWebName}.JQueryYour",
     puburl => '%PUBURLPATH%/%SYSTEMWEB%/EmptyJQueryPlugin/your',
     javascript => ['jquery.your.js']
+#    ,css => ['jquery.your.js']
   ), $class);
 
   return $this;
