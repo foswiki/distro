@@ -43,6 +43,19 @@ sub set_up {
       Foswiki::Meta->new( $this->{session}, $this->{users_web}, "HiddenGroup",
         "   * Set GROUP = ScumBag\n   * Set ALLOWTOPICVIEW = AdminUser\n" );
     $topicObject->save();
+
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{users_web}, "HiddenUserGroup",
+        "   * Set GROUP = ScumBag,HidemeGood\n" );
+    $topicObject->save();
+
+    $topicObject =
+      Foswiki::Meta->load( $this->{session}, $this->{users_web}, "HidemeGood");
+    my $topText = $topicObject->text();
+    $topText .= "   * Set ALLOWTOPICVIEW = AdminUser\n";
+    $topText = $topicObject->text($topText);
+    $topicObject->save();
+
 }
 
 sub test_basic {
@@ -83,8 +96,8 @@ sub test_noExpandHidden {
     my $this = shift;
 
     my $ui = $this->{test_topicObject}->expandMacros('%GROUPINFO{"GroupWithHiddenGroup" expand="off"}%');
-    $this->assert_matches( qr/^$this->{users_web}.WikiGuest$/, $ui);
-    $this->assert_does_not_match( qr/^$this->{users_web}.HiddenGroup$/, $ui);
+    $this->assert_matches( qr/\b$this->{users_web}.WikiGuest\b/, $ui);
+    $this->assert_does_not_match( qr/\b$this->{users_web}.HiddenGroup\b/, $ui);
     my @u = split(',', $ui);
     $this->assert(1, scalar(@u));
 }
@@ -93,11 +106,40 @@ sub test_expandHidden {
     my $this = shift;
 
     my $ui = $this->{test_topicObject}->expandMacros('%GROUPINFO{"GroupWithHiddenGroup" expand="on"}%');
-    $this->assert_matches( qr/^$this->{users_web}.WikiGuest$/, $ui);
-    $this->assert_does_not_match( qr/^$this->{users_web}.HiddenGroup$/, $ui);
-    $this->assert_does_not_match( qr/^$this->{users_web}.ScumBag$/, $ui);
+    $this->assert_matches( qr/\b$this->{users_web}.WikiGuest\b/, $ui);
+    $this->assert_does_not_match( qr/\b$this->{users_web}.HiddenGroup\b/, $ui, 'HiddenGroup revealed');
+    $this->assert_does_not_match( qr/\b$this->{users_web}.ScumBag\b/, $ui, 'ScumBag revealed');
     my @u = split(',', $ui);
     $this->assert(1, scalar(@u));
+}
+
+sub test_expandHiddenUser {
+    my $this = shift;
+
+    my $ui = $this->{test_topicObject}->expandMacros('%GROUPINFO{"HiddenUserGroup" expand="on"}%');
+    $this->assert_matches( qr/\b$this->{users_web}.ScumBag\b/, $ui, 'ScumBag missing from HiddenUserGroup');
+    $this->assert_does_not_match( qr/\b$this->{users_web}.HidemeGood\b/, $ui, 'HidemeGood revealed');
+    my @u = split(',', $ui);
+    $this->assert(1, scalar(@u));
+}
+
+sub test_expandHiddenUserAsAdmin {
+    my $this = shift;
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
+    $this->{test_topicObject} = Foswiki::Meta->new(
+        $this->{session},    $this->{test_web},
+        $this->{test_topic}, "BLEEGLE\n"
+    );
+    $this->{test_topicObject}->save();
+
+    my $ui = $this->{test_topicObject}->expandMacros('%GROUPINFO{"HiddenUserGroup" expand="on"}%');
+    print STDERR "($ui)";
+    $this->assert_matches( qr/$this->{users_web}.ScumBag/, $ui);
+    $this->assert_matches( qr/$this->{users_web}.HidemeGood/, $ui);
+    my @u = split(',', $ui);
+    $this->assert(2, scalar(@u));
 }
 
 sub test_formatted {
