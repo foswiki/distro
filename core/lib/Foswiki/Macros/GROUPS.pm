@@ -12,6 +12,7 @@ sub GROUPS {
     my @table;
     while ( $groups->hasNext() ) {
         my $group = $groups->next();
+        next unless ( $this->{users}->groupAllowsView($group) );
 
         # Nop it to prevent wikiname expansion unless the topic exists.
         my $groupLink = "<nop>$group";
@@ -22,6 +23,7 @@ sub GROUPS {
         my $limit_output = 32;
         while ( $it->hasNext() ) {
             my $user = $it->next();
+            next unless ( $this->{users}->groupAllowsView($user) );
             $descr .= ' [['
               . $this->{users}->webDotWikiName($user) . ']['
               . $this->{users}->getWikiName($user) . ']]';
