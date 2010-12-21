@@ -40,8 +40,8 @@ sub GROUPINFO {
         my $cUID = $it->next();
         my $row  = $format;
         if ($group) {
-            next unless ( $this->{users}->groupAllowsView($group) );
-            my $change = $this->{users}->groupAllowsChange($group);
+            next unless ( $this->{users}->groupAllowsView($cUID) );
+            my $change = $this->{users}->groupAllowsChange($cUID);
 
             #filter by show="" param
             next if ( ( $show eq 'allowchange' ) and ( not $change ) );

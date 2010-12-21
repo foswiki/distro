@@ -35,6 +35,14 @@ sub set_up {
       Foswiki::Meta->new( $this->{session}, $this->{users_web}, "OnlyAdminCanChangeGroup",
         "   * Set GROUP = WikiGuest\n   * Set TOPICCHANGE = AdminGroup\n" );
     $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{users_web}, "GroupWithHiddenGroup",
+        "   * Set GROUP = HiddenGroup,WikiGuest\n" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{users_web}, "HiddenGroup",
+        "   * Set GROUP = ScumBag\n   * Set ALLOWTOPICVIEW = AdminUser\n" );
+    $topicObject->save();
 }
 
 sub test_basic {
@@ -44,6 +52,8 @@ sub test_basic {
     $this->assert_matches(qr/\bGropeGroup\b/, $ui);
     $this->assert_matches(qr/\bPopGroup\b/, $ui);
     $this->assert_matches(qr/\bNestingGroup\b/, $ui);
+    $this->assert_matches(qr/\bGroupWithHiddenGroup\b/, $ui);
+    $this->assert_does_not_match(qr/\bHiddenGroup\b/, $ui);
 }
 
 sub test_withName {
@@ -67,6 +77,27 @@ sub test_noExpand {
     $this->assert_matches( qr/\b$this->{users_web}.WikiGuest\b/, $ui);
     my @u = split(',', $ui);
     $this->assert(2, scalar(@u));
+}
+
+sub test_noExpandHidden {
+    my $this = shift;
+
+    my $ui = $this->{test_topicObject}->expandMacros('%GROUPINFO{"GroupWithHiddenGroup" expand="off"}%');
+    $this->assert_matches( qr/^$this->{users_web}.WikiGuest$/, $ui);
+    $this->assert_does_not_match( qr/^$this->{users_web}.HiddenGroup$/, $ui);
+    my @u = split(',', $ui);
+    $this->assert(1, scalar(@u));
+}
+
+sub test_expandHidden {
+    my $this = shift;
+
+    my $ui = $this->{test_topicObject}->expandMacros('%GROUPINFO{"GroupWithHiddenGroup" expand="on"}%');
+    $this->assert_matches( qr/^$this->{users_web}.WikiGuest$/, $ui);
+    $this->assert_does_not_match( qr/^$this->{users_web}.HiddenGroup$/, $ui);
+    $this->assert_does_not_match( qr/^$this->{users_web}.ScumBag$/, $ui);
+    my @u = split(',', $ui);
+    $this->assert(1, scalar(@u));
 }
 
 sub test_formatted {
