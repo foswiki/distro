@@ -20,6 +20,15 @@ sub initPlugin {
     require Foswiki::Contrib::DBIStoreContrib::Listener;
     $listener = Foswiki::Contrib::DBIStoreContrib::Listener->new();
     die "Cannot create listener" unless $listener;
+
+    # If the getField method is missing, then get it from the BruteForce
+    # module that it was moved from.
+    require Foswiki::Store::QueryAlgorithms::DBIStoreContrib;
+    unless (Foswiki::Store::QueryAlgorithms::DBIStoreContrib->can('getField')) {
+	require Foswiki::Store::QueryAlgorithms::BruteForce;
+	*Foswiki::Store::QueryAlgorithms::DBIStoreContrib::getField =
+	    \&Foswiki::Store::QueryAlgorithms::BruteForce::getField;
+    }
     print STDERR "Constructed listener\n";
     return 1;
 }

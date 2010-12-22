@@ -84,9 +84,11 @@ sub _connect {
     if( $@ ) {
 	if ($@ =~ /no such table/) {
 	    print STDERR "Loading DB schema\n" if MONITOR;
+	    $this->{handle}->do('BEGIN;');
 	    $this->_createTables();
 	    print STDERR "DB schema loaded; preloading content\n" if MONITOR;
 	    $this->_preload($session);
+	    $this->{handle}->do('COMMIT;');
 	    print STDERR "DB preloaded\n" if MONITOR;
 	} else {
 	    die $@;
@@ -271,6 +273,17 @@ sub query {
     my $names = $db->{handle}->selectcol_arrayref($sql);
     print STDERR "HITS: ".scalar(@$names)."\n" if MONITOR;
     return $names;
+}
+
+sub loadTopic {
+    my ($meta, $version) = @_;
+
+    return (0, 0) if $version;
+
+    $db->_connect($meta->session);
+    # Load from the DB
+
+    return (0, 0);
 }
 
 1;
