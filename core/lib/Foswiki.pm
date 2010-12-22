@@ -3001,8 +3001,17 @@ sub _expandMacroOnTopicRendering {
     require Foswiki::Attrs;
     my $e = $this->{prefs}->getPreference($tag);
     if ( defined $e ) {
-
-        # Preferences aren't supposed to have parameters - so ignore them
+        if ($args && $args =~ /\S/) {
+	    my $attrs = new Foswiki::Attrs( $args, 0 );
+	    $attrs->{DEFAULT} = $attrs->{_DEFAULT};
+	    $e = $this->_processMacros(
+		$e,
+		sub {
+		    my ($this, $tag, $args, $topicObject) = @_;
+		    return $attrs->{$tag};
+		},
+		$topicObject, 1 );
+	}
     }
     else {
         if ( exists( $macros{$tag} ) ) {
