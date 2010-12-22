@@ -1,4 +1,6 @@
 // to please pattern skin < 4.2
+var beforeSubmitHandler, foswikiStrikeOne, tinyMCE, FoswikiTiny;
+
 function initTextAreaHeight () { }
 function handleKeyDown () { }
 
@@ -6,52 +8,88 @@ function handleKeyDown () { }
 function fixHeightOfPane () { }
 
 (function($) {
-  function submitEditForm(script, action) {
-    if (typeof(beforeSubmitHandler) == 'function') {
-      if(beforeSubmitHandler(script, action) === false) {
-        return false;
-      }
-    }
-    var editForm = $('#EditForm');
-    if (action == 'add form') {
-      editForm.find("input[name='submitChangeForm']").val(action);
-    }
-    editForm.find("input[name='action_preview']").val('');
-    editForm.find("input[name='action_save']").val('');
-    editForm.find("input[name='action_checkpoint']").val('');
-    editForm.find("input[name='action_addform']").val('');
-    editForm.find("input[name='action_replaceform']").val('');
-    editForm.find("input[name='action_cancel']").val('');
-    editForm.find("input[name='action_"+action+"']").val('foobar');
-    if (typeof(foswikiStrikeOne) != 'undefined') {
-      foswikiStrikeOne(editForm[0]);
-    }
-    if ((typeof(tinyMCE) === 'object') && 
-      (typeof(tinyMCE.activeEditor) === 'object') &&
-      (tinyMCE.activeEditor !== null)) {
-      tinyMCE.activeEditor.onSubmit.dispatch();
-    }
-    editForm.submit();
-    return false;
-  }
+  var editAction, $editForm;
 
   $(function() {
+    $editForm = $("#EditForm");
+
     /* remove the second TopicTitle */
     $("input[name='TopicTitle']:eq(1)").parents(".foswikiFormStep").remove();
     /* remove the second Summary */
     $("input[name='Summary']:eq(1)").parents(".foswikiFormStep").remove();
   
     /* add click handler */
-    $("#save").click(function() {return submitEditForm('save', 'save')});
-    $("#checkpoint").click(function() {return submitEditForm('save', 'checkpoint')});
-    $("#preview").click(function() {return submitEditForm('preview', 'preview')});
-    $("#cancel").click(function() {return submitEditForm('save', 'cancel')});
-    $("#replaceform").click(function() {return submitEditForm('save', 'replaceform')});
-    $("#addform").click(function() {return submitEditForm('save', 'addform')});
+    $("#save").click(function() {
+      editAction = "save";
+      $editForm.submit();
+      return false;
+    });
+    $("#checkpoint").click(function() {
+      editAction = "checkpoint";
+      $editForm.submit();
+      return false;
+    });
+    $("#preview").click(function() {
+      editAction = "preview";
+      $editForm.submit();
+      return false;
+    });
+    $("#cancel").click(function() {
+      editAction = "cancel";
+      $editForm.submit();
+      return false;
+    });
+    $("#replaceform").click(function() {
+      editAction = "replaceform";
+      $editForm.submit();
+      return false;
+    });
+    $("#addform").click(function() {
+      editAction = "addform";
+      $editForm.submit();
+      return false;
+    });
 
     // fix browser back button quirks where checked radio buttons loose their state
     $("input[checked=checked]").each(function() {
       $(this).attr('checked', 'checked');
+    });
+
+    // add submit handler
+    $editForm.submit(function() {
+      var topicParentField = $editForm.find("input[name=topicparent]");
+
+      if (typeof(beforeSubmitHandler) == 'function') {
+        if(beforeSubmitHandler("save", editAction) === false) {
+          return false;
+        }
+      }
+
+
+      if (topicParentField.val() === "") {
+        topicParentField.val("none"); // trick in unsetting the topic parent
+      }
+
+      if (editAction === 'addform') {
+        $editForm.find("input[name='submitChangeForm']").val(editAction);
+      }
+      $editForm.find("input[name='action_preview']").val('');
+      $editForm.find("input[name='action_save']").val('');
+      $editForm.find("input[name='action_checkpoint']").val('');
+      $editForm.find("input[name='action_addform']").val('');
+      $editForm.find("input[name='action_replaceform']").val('');
+      $editForm.find("input[name='action_cancel']").val('');
+      $editForm.find("input[name='action_"+editAction+"']").val('foobar');
+
+      if (typeof(foswikiStrikeOne) != 'undefined') {
+        foswikiStrikeOne($editForm[0]);
+      }
+
+      if ((typeof(tinyMCE) === 'object') && 
+        (typeof(tinyMCE.activeEditor) === 'object') &&
+        (tinyMCE.activeEditor !== null)) {
+        tinyMCE.activeEditor.onSubmit.dispatch();
+      }
     });
 
     jQuery(window).load(function() {

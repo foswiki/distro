@@ -10,16 +10,15 @@
  * Revision: $Id$
  *
  */
-
-;(function($) {
+(function($) {
 
 /*****************************************************************************
  * class definition
  */
 $.NatEditor = function(txtarea, opts) {
-  var self = this;
-
-  var $txtarea = $(txtarea);
+  var self = this,
+      $txtarea = $(txtarea),
+      style;
 
   // build element specific options. 
   // note you may want to install the Metadata plugin
@@ -50,7 +49,7 @@ $.NatEditor = function(txtarea, opts) {
     $txtarea.css('overflow', 'hidden');
 
     // get text styles and apply them to the helper
-    var style = {
+    style = {
       fontFamily: $txtarea.css('fontFamily')||'',
       fontSize: $txtarea.css('fontSize')||'',
       fontWeight: $txtarea.css('fontWeight')||'',
@@ -65,9 +64,9 @@ $.NatEditor = function(txtarea, opts) {
     self.helper.css(style);
 
     $txtarea.keydown(function() {
-      self.autoExpand()
-    }).keypress(function() {;
-      self.autoExpand()
+      self.autoExpand();
+    }).keypress(function() {
+      self.autoExpand();
     });
     self.autoExpand();
   }
@@ -77,10 +76,12 @@ $.NatEditor = function(txtarea, opts) {
  * init the gui
  */
 $.NatEditor.prototype.initGui = function() {
-  var self = this;
+  var self = this, $txtarea, $headlineTools, $textTools, $paragraphTools,
+    $listTools, $objectTools, $toolbar, toolbarState, toggleToolbarState,
+    tmp;
   //$.log("called initGui this="+self);
 
-  var $txtarea = $(self.txtarea);
+  $txtarea = $(self.txtarea);
   self.container = $txtarea.wrap('<div class="natEdit"></div>').parent();
 
   if (!self.opts.showToolbar) {
@@ -89,7 +90,7 @@ $.NatEditor.prototype.initGui = function() {
   }
 
   // toolbar
-  var $headlineTools = $('<ul class="natEditButtonBox"></ul>').
+  $headlineTools = $('<ul class="natEditButtonBox"></ul>').
     append(
       $(self.opts.h1Button).click(function() {
         self.insertLineTag(self.opts.h1Markup);
@@ -111,7 +112,7 @@ $.NatEditor.prototype.initGui = function() {
         return false;
       }));
 
-  var $textTools = $('<ul class="natEditButtonBox"></ul>').
+  $textTools = $('<ul class="natEditButtonBox"></ul>').
     append(
       $(self.opts.boldButton).click(function() {
         self.insertTag(self.opts.boldMarkup);
@@ -138,7 +139,7 @@ $.NatEditor.prototype.initGui = function() {
         return false;
       }));
 
-  var $paragraphTools = $('<ul class="natEditButtonBox"></ul>').
+  $paragraphTools = $('<ul class="natEditButtonBox"></ul>').
     append(
       $(self.opts.leftButton).click(function() {
         self.insertTag(self.opts.leftMarkup);
@@ -160,7 +161,7 @@ $.NatEditor.prototype.initGui = function() {
         return false;
       }));
 
-  var $listTools = $('<ul class="natEditButtonBox"></ul>').
+  $listTools = $('<ul class="natEditButtonBox"></ul>').
     append(
       $(self.opts.numberedButton).click(function() {
         self.insertLineTag(self.opts.numberedListMarkup);
@@ -182,8 +183,7 @@ $.NatEditor.prototype.initGui = function() {
         return false;
       }));
 
-
-  var $objectTools = $('<ul class="natEditButtonBox"></ul>').
+  $objectTools = $('<ul class="natEditButtonBox"></ul>').
     append(
       $(self.opts.tableButton).click(function() {
         self.openDialog(self.opts.tableDialog);
@@ -224,7 +224,7 @@ $.NatEditor.prototype.initGui = function() {
         return false;
       }));
     
-  var $toolbar = $('<div class="natEditToolBar"></div>');
+  $toolbar = $('<div class="natEditToolBar"></div>');
   if (self.opts.showHeadlineTools) {
     $toolbar.append($headlineTools);
   }
@@ -246,11 +246,12 @@ $.NatEditor.prototype.initGui = function() {
     //$.log("toggling toolbar on hover event");
     $toolbar.hide();
 
-    var toolbarState = 0;
-    function toggleToolbarState () {
-      if (toolbarState < 0) 
+    toolbarState = 0;
+    toggleToolbarState = function() {
+      if (toolbarState < 0) {
         return;
-      var tmp = self.txtarea.value;
+      }
+      tmp = self.txtarea.value;
       if (toolbarState) {
         //$.log("slide down");
         $toolbar.slideDown("fast");
@@ -266,7 +267,7 @@ $.NatEditor.prototype.initGui = function() {
         $(window).trigger("resize.natedit");
       }
       toolbarState = -1;
-    }
+    };
     
     $txtarea.focus(
       function() {
@@ -289,14 +290,15 @@ $.NatEditor.prototype.initGui = function() {
  * insert stuff at the given cursor position
  */
 $.NatEditor.prototype.insert = function(newText) {
+  var self = this, startPos, text, prefix, postfix;
+
   //$.log("called insert("+newText+")");
-  var self = this;
 
   self.getSelectionRange();
-  var startPos = self.txtarea.selectionStart;
-  var text = self.txtarea.value;
-  var prefix = text.substring(0, startPos);
-  var postfix = text.substring(startPos+1);
+  startPos = self.txtarea.selectionStart;
+  text = self.txtarea.value;
+  prefix = text.substring(0, startPos);
+  postfix = text.substring(startPos+1);
   self.txtarea.value = prefix + newText + postfix;
   
   //$.log("startPos="+startPos);
@@ -310,13 +312,13 @@ $.NatEditor.prototype.insert = function(newText) {
  * remove the selected substring
  */
 $.NatEditor.prototype.remove = function() {
-  var self = this;
+  var self = this, startPos, endPos, text, selection;
 
   self.getSelectionRange();
-  var startPos = self.txtarea.selectionStart;
-  var endPos = self.txtarea.selectionEnd;
-  var text = self.txtarea.value;
-  var selection = text.substring(startPos, endPos);
+  startPos = self.txtarea.selectionStart;
+  endPos = self.txtarea.selectionEnd;
+  text = self.txtarea.value;
+  selection = text.substring(startPos, endPos);
   self.txtarea.value = text.substring(0, startPos) + text.substring(endPos);
   self.setSelectionRange(startPos, startPos);
   return selection;
@@ -326,19 +328,22 @@ $.NatEditor.prototype.remove = function() {
  * insert a topic markup tag 
  */
 $.NatEditor.prototype.insertTag = function(markup) {
-  var self = this;
+  var self = this,
+      tagOpen = markup[0],
+      sampleText = markup[1],
+      tagClose = markup[2],
+      startPos, endPos, 
+      text, scrollTop, theSelection,
+      subst;
 
-  var tagOpen = markup[0];
-  var sampleText = markup[1];
-  var tagClose = markup[2];
   //$.log("called insertTag("+tagOpen+", "+sampleText+", "+tagClose+")");
     
   self.getSelectionRange();
-  var startPos = self.txtarea.selectionStart;
-  var endPos = self.txtarea.selectionEnd;
-  var text = self.txtarea.value;
-  var scrollTop = self.txtarea.scrollTop;
-  var theSelection = text.substring(startPos, endPos);
+  startPos = self.txtarea.selectionStart;
+  endPos = self.txtarea.selectionEnd;
+  text = self.txtarea.value;
+  scrollTop = self.txtarea.scrollTop;
+  theSelection = text.substring(startPos, endPos);
 
   //$.log("startPos="+startPos+" endPos="+endPos);
 
@@ -346,7 +351,7 @@ $.NatEditor.prototype.insertTag = function(markup) {
     theSelection = sampleText;
   }
 
-  if (theSelection.charAt(theSelection.length - 1) == " ") { 
+  if (theSelection.charAt(theSelection.length - 1) === " ") { 
     // exclude ending space char, if any
     subst = 
       tagOpen + 
@@ -373,21 +378,21 @@ $.NatEditor.prototype.insertTag = function(markup) {
  * txtarea.selectionEnd of the current selection in the given textarea 
  */
 $.NatEditor.prototype.getSelectionRange = function() {
-  var self = this;
+  var self = this, text, c, range, rangeCopy, pos, selection;
 
   //$.log("called getSelectionRange()");
 
   if (document.selection && !$.browser.opera) { // IE
     //$(self.txtarea).focus();
    
-    var text = self.txtarea.value;
-    var c = "\001";
-    var range = document.selection.createRange();
-    var selection = range.text || "";
-    var rangeCopy = range.duplicate();
+    text = self.txtarea.value;
+    c = "\01";
+    range = document.selection.createRange();
+    selection = range.text || "";
+    rangeCopy = range.duplicate();
     rangeCopy.moveToElementText(self.txtarea);
     range.text = c;
-    var pos = (rangeCopy.text.indexOf(c));
+    pos = (rangeCopy.text.indexOf(c));
    
     range.moveStart("character", -1);
     range.text = selection;
@@ -413,10 +418,12 @@ $.NatEditor.prototype.getSelectionRange = function() {
  * returns the current selection
  */
 $.NatEditor.prototype.getSelection = function() {
-  var self = this;
+  var self = this, startPos, endPos;
+
   self.getSelectionRange();
-  var startPos = self.txtarea.selectionStart
-  var endPos = self.txtarea.selectionEnd;
+  startPos = self.txtarea.selectionStart;
+  endPos = self.txtarea.selectionEnd;
+
   return self.txtarea.value.substring(startPos, endPos);
 };
 
@@ -424,12 +431,13 @@ $.NatEditor.prototype.getSelection = function() {
  * set the selection
  */
 $.NatEditor.prototype.setSelectionRange = function(start, end) {
-  var self = this;
+  var self = this, lineFeeds, range;
+
   //$.log("setSelectionRange("+self.txtarea+", "+start+", "+end+")");
   $(self.txtarea).focus();
   if (self.txtarea.createTextRange && !$.browser.opera) {
-    var lineFeeds = self.txtarea.value.substring(0, start).replace(/[^\r]/g, "").length;
-    var range = self.txtarea.createTextRange();
+    lineFeeds = self.txtarea.value.substring(0, start).replace(/[^\r]/g, "").length;
+    range = self.txtarea.createTextRange();
     range.collapse(true);
     range.moveStart('character', start-lineFeeds);
     range.moveEnd('character', end-start);
@@ -447,7 +455,7 @@ $.NatEditor.prototype.setSelectionRange = function(start, end) {
 $.NatEditor.prototype.setCaretPosition = function(caretPos) {
   //$.log("setCaretPosition("+this.txtarea+", "+caretPos+")");
   this.setSelectionRange(caretPos, caretPos);
-},
+};
  
 /*************************************************************************
  * used for line oriented tags - like bulleted lists
@@ -456,18 +464,20 @@ $.NatEditor.prototype.setCaretPosition = function(caretPos) {
  * if there is a selection, select the entire line for each line selected
  */
 $.NatEditor.prototype.insertLineTag = function(markup) {
-  var self = this;
+  var self = this, tagOpen, sampleText, tagClose, startPos, endPos, text,
+    scrollTop, theSelection, pre, post, lines, isMultiline, modifiedSelection,
+    i, line, subst;
 
   //$.log("called inisertLineTag("+self.txtarea+", "+markup+")");
-  var tagOpen = markup[0];
-  var sampleText = markup[1];
-  var tagClose = markup[2];
+  tagOpen = markup[0];
+  sampleText = markup[1];
+  tagClose = markup[2];
 
   self.getSelectionRange();
 
-  var startPos = self.txtarea.selectionStart
-  var endPos = self.txtarea.selectionEnd;
-  var text = self.txtarea.value;
+  startPos = self.txtarea.selectionStart;
+  endPos = self.txtarea.selectionEnd;
+  text = self.txtarea.value;
 
   //$.log("startPos="+startPos+" endPos="+endPos);
 
@@ -488,23 +498,22 @@ $.NatEditor.prototype.insertLineTag = function(markup) {
 
   //$.log("startPos="+startPos+" endPos="+endPos);
 
-  var scrollTop = self.txtarea.scrollTop;
-  var theSelection = text.substring(startPos, endPos);
+  scrollTop = self.txtarea.scrollTop;
+  theSelection = text.substring(startPos, endPos);
 
   if (!theSelection) {
     theSelection = sampleText;
   }
 
-  var pre = text.substring(0, startPos);
-  var post = text.substring(endPos, text.length);
+  pre = text.substring(0, startPos);
+  post = text.substring(endPos, text.length);
 
   // test if it is a multi-line selection, and if so, add tagOpen&tagClose to each line
-  var lines = theSelection.split(/\r?\n/);
-  var isMultiline = lines.length>1?true:false;
-  var modifiedSelection = '';
-  for (var i = 0; i < lines.length; i++) {
-    var line = lines[i];
-    var subst;
+  lines = theSelection.split(/\r?\n/);
+  isMultiline = lines.length>1?true:false;
+  modifiedSelection = '';
+  for (i = 0; i < lines.length; i++) {
+    line = lines[i];
     
     if (line.match(/^\s*$/)) {
       // don't append tagOpen to empty lines
@@ -512,15 +521,16 @@ $.NatEditor.prototype.insertLineTag = function(markup) {
     } else {
       // special case - undent (remove 3 spaces, and bullet or numbered list if outdenting away)
       if ((tagOpen == '') && (sampleText == '') && (tagClose == '')) {
-        subst = line.replace(/^   (\* |\d+ |\d+\. )?/, '');
+        subst = line.replace(/^ {3}(\* |\d+ |\d+\. )?/, '');
       } else {
         subst = tagOpen + line + tagClose;
       }
     }
 
     modifiedSelection += subst;
-    if (i+1 < lines.length) 
+    if (i+1 < lines.length) {
       modifiedSelection += '\n';
+    }
   }
 
   self.txtarea.value = pre + modifiedSelection + post;
@@ -551,12 +561,12 @@ $.NatEditor.prototype.openDialog = function(opts) {
 };
 
 $.NatEditor.prototype._openDialog = function(opts) {
-  var self = this;
+  var self = this, selection, $dialog;
 
-  var selection = self.getSelection() || '';
+  selection = self.getSelection() || '';
   opts._startPos = self.txtarea.selectionStart;
   opts._endPos = self.txtarea.selectionEnd;
-  var $dialog = $(opts.dialog);
+  $dialog = $(opts.dialog);
 
   $dialog.modal({
     minHeight: 'auto',
@@ -596,6 +606,7 @@ $.NatEditor.prototype._openDialog = function(opts) {
  */
 $.NatEditor.prototype.autoMaxExpand = function() {
   var self = this;
+
   window.setTimeout(function() {
     self.fixHeight();
     $(window).one("resize.natedit", function() {
@@ -615,7 +626,7 @@ $.NatEditor.prototype.fixHeight = function() {
     bottomHeight = $('.natEditBottomBar').outerHeight(true),
     offset = $txtarea.offset(),
     tmceEdContainer, tmceIframe,
-    minWidth, minHeight, newHeight, newHeightExtra = 0, natEditTopicInfoHeight,
+    minWidth, minHeight, newWidth, newHeight, newHeightExtra = 0, natEditTopicInfoHeight,
     $debug = $("#DEBUG");
 		
   if ($txtarea.is(":not(:visible)")) {
@@ -703,13 +714,13 @@ $.NatEditor.prototype.fixHeight = function() {
  * adjust height of textarea according to content
  */
 $.NatEditor.prototype.autoExpand = function() {
-  var self = this;
-  var $txtarea = $(self.txtarea);
+  var self = this, 
+      $txtarea = $(self.txtarea),
+      now, width, text, height;
 
   //$.log("called autoExpand()");
-
-  var now = new Date();
-  //
+  now = new Date();
+  
   // don't do it too often
   if (self._time && now.getTime() - self._time.getTime() < 100) {
     //$.log("suppressing events within 100ms");
@@ -718,12 +729,12 @@ $.NatEditor.prototype.autoExpand = function() {
   self._time = now;
 
   window.setTimeout(function() {
-    var width = $txtarea.width();
-    var text = self.txtarea.value+'x';
-    if (text == self._lastText || width == 0) {
+    width = $txtarea.width();
+    text = self.txtarea.value+'x';
+    if (text == self._lastText || width === 0) {
       $.log("suppressing events");
-      return
-    };
+      return;
+    }
     self._lastText = text;
     text = $.natedit.htmlEntities(text);
     self.helper.width(width);
@@ -731,7 +742,7 @@ $.NatEditor.prototype.autoExpand = function() {
 
     //$.log("helper text="+text);
     self.helper.html(text);
-    var height = self.helper.height() + 12;
+    height = self.helper.height() + 12;
     height = Math.max($txtarea.height(), height);
     //$.log("helper height="+height);
     $txtarea.height(height).width(width);
@@ -750,17 +761,10 @@ $.natedit = {
     //$.log("called natedit()");
 
     // build main options before element iteration
-    var opts = $.extend({}, $.natedit.defaults, opts);
+    var thisOpts = $.extend({}, $.natedit.defaults, opts);
 
     return this.each(function() {
-      new $.NatEditor(this, opts);
-    });
-
-    // We use a helper div to measure text. We wrap it an overflow: hidden
-    // container to avoid lengthening the page scrollbar.
-
-    // iterate and reformat each matched element
-    return this.each(function() {
+      new $.NatEditor(this, thisOpts);
     });
   },
 
@@ -775,7 +779,7 @@ $.natedit = {
       '"':'&quot;',
       "\\n": "<br />"
     };
-    for(i in entities) {
+    for(var i in entities) {
       text = text.replace(new RegExp(i,'g'),entities[i]);
     }
     return text;
@@ -783,6 +787,7 @@ $.natedit = {
 
   /*************************************************************************
    * add a handler to the submit process
+   * DEPRECATED: please use jquery to add to the submit event of the form
    */
   addSubmitHandler: function(handler) {
     var oldSubmitHandler = beforeSubmitHandler || function() {};
@@ -793,7 +798,7 @@ $.natedit = {
       } else {
         return true;
       }
-    }
+    };
   },
 
   /***************************************************************************
