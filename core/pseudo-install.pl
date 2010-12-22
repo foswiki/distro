@@ -26,6 +26,35 @@ my $autoenable = 0;
 my $installing = 1;
 my $autoconf   = 0;
 
+# TODO: Make these repos configurable from LocalSite.cfg
+my @repos = (
+    {
+        name     => 'official',
+        type     => 'svn',
+        url      => 'http://svn.foswiki.org',
+        branches => {
+            pharvey =>
+              { WikiDrawPlugin => 'branches/scratch/pharvey/WikiDrawPlugin' },
+            ItaloValcy => {
+                ImageGalleryPlugin =>
+                  'branches/scratch/ItaloValcy/ImageGalleryPlugin_5x10'
+            },
+            'foswikidotorg' => { path => 'branches/foswiki.org' },
+            'Release01x00'  => { path => 'branches/Release01x00' },
+            'Release01x01'  => { path => 'branches/Release01x01' },
+            'trunk'         => { path => 'trunk' }
+        }
+    },
+    {
+        name => 'trin',
+        type => 'git',
+        url  => 'http://git.trin.org.au/foswiki',
+        svn  => 'official',
+        bare => 1
+    }
+);
+my $fetchedExtensionsPath;
+
 my @error_log;
 
 BEGIN {
@@ -33,7 +62,8 @@ BEGIN {
     $FindBin::Bin =~ /(.*)/;    # core dir
     $basedir = $1;
     use re 'taint';
-    $parentdir = "$basedir/..";
+    $parentdir             = "$basedir/..";
+    $fetchedExtensionsPath = $parentdir;
     my $path = $ENV{FOSWIKI_EXTENSIONS} || '';
     $path .=
         $Config::Config{path_sep}
@@ -105,7 +135,7 @@ sub usage {
     all - install core + all extensions (big job)
     default - install core + extensions listed in lib/MANIFEST
     developer - core + default + key developer environment
-    <module>... one or more extensions to install
+    <module>... one or more extensions to install (by name or git URL)
     -[A]utoconf - make a simplistic LocalSite.cfg, using just the defaults in lib/Foswiki.spec
 
  Example:
@@ -121,6 +151,12 @@ sub usage {
         cd test/unit
         ../bin/TestRunner.pl -clean FoswikiSuite.pm
 
+    check out a new trunk using git, then install and enable an extension from
+    an abritrary git repository
+        git clone http://git.trin.org.au/foswiki/core.git
+        cd core
+        ./pseudo-install.pl -A developer
+        ./pseudo-install.pl -e git://github.com/somebody/SomePlugin.git
 EOM
 
 }
@@ -138,7 +174,41 @@ sub findRelativeTo {
     return;
 }
 
+sub findModuleDir {
+    my ($module) = @_;
+    my $moduleDir;
+
+    foreach my $dir (@extensions_path) {
+        if ( -d "$dir/$module/" ) {
+            $moduleDir = "$dir/$module";
+            last;
+        }
+    }
+
+    return $moduleDir;
+}
+
+sub urlToModuleName {
+    my ($url) = @_;
+
+    $url =~ /^.*\/([^\.\/]+)(\.git)?\/?$/;
+
+    return $1;
+}
+
 sub installModule {
+    my ($module) = @_;
+
+    # Assume that only URLs will have '.' or '/', never module names
+    if ( $module =~ /[\/\.]/ ) {
+        fetchModuleByURL( $fetchedExtensionsPath, $module );
+        $module = urlToModuleName($module);
+    }
+
+    return installModuleByName($module);
+}
+
+sub installModuleByName {
     my $module = shift;
     $module =~ s#/+$##;    #remove trailing slashes
     print "Processing $module\n";
@@ -159,15 +229,14 @@ sub installModule {
         $ignoreBlock = 1;
     }
     else {
-        foreach my $dir (@extensions_path) {
-            if ( -d "$dir/$module/" ) {
-                $moduleDir = "$dir/$module";
-                last;
-            }
-        }
+        $moduleDir = findModuleDir($module);
     }
 
-    unless ( -d $moduleDir ) {
+    if ( not defined $moduleDir ) {
+        $moduleDir = fetchModuleByName($module);
+    }
+
+    unless ( defined $moduleDir and -d $moduleDir ) {
         warn "--> Could not find $module\n";
         return;
     }
@@ -190,6 +259,178 @@ sub installModule {
     }
 
     return $libDir;
+}
+
+sub populateSVNRepoListings {
+    my ($svninfo) = @_;
+    use SVN::Client;
+    my $ctx = SVN::Client->new();
+
+    $svninfo->{extensions} = {};
+    while ( my ( $branch, $branchdata ) = each( %{ $svninfo->{branches} } ) ) {
+
+        # If it contains a path key, then assume we need to populate the list
+        # of extensions this branch contains via SVN listing
+        if ( $branchdata->{path} ) {
+            my @branchextensions;
+            print "Listing $svninfo->{url}/$branchdata->{path}\n";
+            @branchextensions =
+              keys %{
+                $ctx->ls( $svninfo->{url} . '/' . $branchdata->{path},
+                    'HEAD', 0 )
+              };
+            foreach my $ext (@branchextensions) {
+                if ( $ext ne 't2fos.sh' ) {
+                    $branchdata->{$ext} = $branchdata->{path} . '/' . $ext;
+                    push(
+                        @{ $svninfo->{extensions}->{$ext} },
+                        { branch => $branch, path => $branchdata->{$ext} }
+                    );
+                }
+            }
+        }
+
+        # Else, we have a manual branch+path mapping for a given extension
+        else {
+            while ( my ( $ext, $path ) = each %{$branchdata} ) {
+                push(
+                    @{ $svninfo->{extensions}->{$ext} },
+                    { branch => $branch, path => $path }
+                );
+            }
+        }
+    }
+
+    return;
+}
+
+sub gitClone2GitSVN {
+    my ( $module, $moduleDir, $svninfo ) = @_;
+    my $success = 0;
+
+    if ( $svninfo->{extensions}->{$module} ) {
+        foreach my $branchdata ( @{ $svninfo->{extensions}->{$module} } ) {
+            if ( $branchdata->{branch} ne 'trunk' ) {
+
+#print "Aliasing refs/remotes/$branchpath->{path} as origin/$branchpath->{branch}\n";
+                do_commands(<<"HERE");
+cd $moduleDir
+git update-ref refs/remotes/$branchdata->{path} origin/$branchdata->{branch}
+HERE
+            }
+        }
+
+        #print "Aliasing $svnrepo/trunk as origin/master\n";
+        do_commands(<<"HERE");
+cd $moduleDir
+git update-ref refs/remotes/trunk origin/master
+git svn init $svninfo->{url} -T $svninfo->{branches}->{trunk}->{path}/$module
+HERE
+        $success = 1;
+    }
+    else {
+        print STDERR "Couldn't find $module at $svninfo->{url} in the branches";
+    }
+
+    return $success;
+}
+
+sub do_commands {
+    my ($commands) = @_;
+
+    #print $commands . "\n";
+    local $ENV{PATH} = untaint( $ENV{PATH} );
+    trace `$commands`;
+
+    return;
+}
+
+sub connectGitRepoToSVN {
+    my ( $module, $moduleDir, $svninfo ) = @_;
+
+    if ( not $svninfo->{extensions}->{$module} ) {
+        populateSVNRepoListings($svninfo);
+    }
+    gitClone2GitSVN( $module, $moduleDir, $svninfo );
+
+    return;
+}
+
+sub connectGitRepoToSVNByRepoName {
+    my ( $module, $moduleDir, $svnreponame ) = @_;
+    my $lookingupname = 1;
+    my $repoIndex     = 0;
+
+    while ( $lookingupname and $repoIndex < scalar(@repos) ) {
+        if ( $repos[$repoIndex]->{name} eq $svnreponame ) {
+            $lookingupname = 0;
+            connectGitRepoToSVN( $module, $moduleDir, $repos[$repoIndex] );
+        }
+        else {
+            $repoIndex = $repoIndex + 1;
+        }
+    }
+
+    return;
+}
+
+sub fetchModuleByName {
+    my ($module)  = @_;
+    my $cloned    = 0;
+    my $repoIndex = 0;
+    my $moduleDir = "$fetchedExtensionsPath/$module";
+
+    while ( not $cloned and ( $repoIndex < scalar(@repos) ) ) {
+        if ( $repos[$repoIndex]->{type} eq 'git' ) {
+            my $url = $repos[$repoIndex]->{url} . "/$module";
+
+            if ( $repos[$repoIndex]->{bare} ) {
+                $url .= '.git';
+            }
+            fetchModuleByURL( $fetchedExtensionsPath, $url );
+            if ( -d $moduleDir ) {
+                $cloned = 1;
+                if ( $repos[$repoIndex]->{svn} ) {
+                    connectGitRepoToSVNByRepoName( $module, $moduleDir,
+                        $repos[$repoIndex]->{svn} );
+                }
+                print "Cloned $module OK\n";
+            }
+            else {
+                $repoIndex = $repoIndex + 1;
+            }
+        }
+        else {
+            $repoIndex = $repoIndex + 1;
+        }
+    }
+
+    return $moduleDir;
+}
+
+sub fetchModuleByURL {
+    my ( $target, $source ) = @_;
+
+    #TODO: Make this capable of using svn as an alternative
+
+    return gitCloneFromURL( $target, $source );
+}
+
+sub gitCloneFromURL {
+    my ( $target, $source ) = @_;
+    my $command   = "cd $target && git clone $source";
+    my $moduleDir = "$target/" . urlToModuleName($source);
+
+    if ( not -d $moduleDir ) {
+        print "Trying clone from $source...\n";
+        local $ENV{PATH} = untaint( $ENV{PATH} );
+        trace `$command`;
+    }
+    else {
+        print STDERR "$moduleDir already exists\n";
+    }
+
+    return;
 }
 
 sub installFromMANIFEST {
