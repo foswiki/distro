@@ -263,7 +263,10 @@ sub installModuleByName {
 
 sub populateSVNRepoListings {
     my ($svninfo) = @_;
-    use SVN::Client;
+    if( !eval "use SVN::Client; 1" ) {
+        warn "Please install SVN::Client!";
+        exit 1;
+    }
     my $ctx = SVN::Client->new();
 
     $svninfo->{extensions} = {};
