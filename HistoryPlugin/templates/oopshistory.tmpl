@@ -1,11 +1,9 @@
 %{
-This template has deliberately been made with CSS embedded in HTML tags because
-of backwards compatibility with TWiki 4.1.
 The script:skintemplate was introduced in 4.2.0 so the CSS in this template only
 works in 4.2.0 and onwards so this feature has not been used.
 Also please note that HistoryPlugin must be tested in context with both RevCommentPlugin and CompareRevisionsAddOn
 The 3 extensions form a working entity. Never modify this template without testing the 3 in combination.
-This version is tested with TWiki 4.2.0 and 4.1.2 and Foswiki in IE6, IE7 and FF3.
+This version is tested with Foswiki in IE6, IE7 and FF3.
 }%
 %TMPL:INCLUDE{"oops"}%
 %TMPL:DEF{"titleaction"}%(history)%TMPL:END%
@@ -26,42 +24,88 @@ This version is tested with TWiki 4.2.0 and 4.1.2 and Foswiki in IE6, IE7 and FF
 %TMPL:DEF{"historytable"}%%TMPL:P{context="RevCommentPluginEnabled" then="historytable_rcp_enabled" else="historytable_rcp_disabled"}%%TMPL:END%
 
 
-%TMPL:DEF{"historytable_rcp_enabled"}%<table class="historySelectTable" border="0" cellspacing="0" cellpadding="5" summary="%MAKETEXT{"Topic history"}%">
+%TMPL:DEF{"historytable_rcp_enabled"}%<table class="foswikiTable historySelectTable" summary="%MAKETEXT{"Topic history"}%">
 <tr>
 <th colspan="3">%MAKETEXT{"Revision"}%</th>
-<th>%MAKETEXT{"Date"}%</th>
-<th>%MAKETEXT{"Username"}%</th>
+<th>%MAKETEXT{"Changed on"}%</th>
+<th>%MAKETEXT{"Last edited by"}%</th>
 <th>%MAKETEXT{"Comment"}%</th>
 </tr>
-%HISTORY{"<tr style=\"vertical-align:top;\"><td align="right"><a href=\"%SCRIPTURL{view}%/%WEB%/%TOPIC%?rev=$rev\">$rev</a></td><td style=\"background-color:#fffaf2; text-align:center;\"><input type=\"radio\" name=\"rev2\" value=\"$rev\" style=\"border:none; background-color:#fffaf2;\" /></td><td style=\"background-color:#f2f7fc; text-align:center;\"><input type=\"radio\" name=\"rev1\" value=\"$rev\" style=\"border:none; background-color:#f2f7fc;\" /></td><td style="white-space: nowrap;">$date</td><td><nop>$wikiname</td><td>%REVCOMMENT[$rev]%&nbsp;</td></tr>" rev1="%URLPARAM{"rev1"}%" rev2="%URLPARAM{"rev2"}%" nrev="%URLPARAM{"nrev"}%" header="" footer="<tr><td colspan=\"6\">$next{'%MAKETEXT{"last"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&nrev=$nrev'} $next{'%MAKETEXT{"later"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"earlier"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"first"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=1&nrev=$nrev'}</td></tr>"}%
-</table>%TMPL:END%
+%HISTORY{"<tr><td align="right"><a href=\"%SCRIPTURL{view}%/%WEB%/%TOPIC%?rev=$rev\">$rev</a></td><td style=\"background-color:#fffaf2; text-align:center;\"><input type=\"radio\" name=\"rev2\" value=\"$rev\" style=\"border:none; background-color:#fffaf2;\" /></td><td style=\"background-color:#f2f7fc; text-align:center;\"><input type=\"radio\" name=\"rev1\" value=\"$rev\" style=\"border:none; background-color:#f2f7fc;\" /></td><td style="white-space: nowrap;">$date</td><td>[[$wikiusername][$wikiname]]</td><td><div class="historyRevComment">%REVCOMMENT[$rev]%</div></td></tr>" rev1="%URLPARAM{"rev1"}%" rev2="%URLPARAM{"rev2"}%" nrev="%URLPARAM{"nrev"}%" header="" footer="</table>$n%TMPL:P{"historytable:navigation"}%%TMPL:END%
 
 
-%TMPL:DEF{"historytable_rcp_disabled"}%<table class="historySelectTable" border="0" cellspacing="0" cellpadding="5" summary="%MAKETEXT{"Topic history"}%">
+%TMPL:DEF{"historytable:navigation"}%$next{'%MAKETEXT{"Jump to latest revision ([_1])" args="%HISTORY_MAXREV%"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&nrev=$nrev'} $next{'%MAKETEXT{"View later"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"View earlier"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"Jump to first revision ([_1])" args="$rev1"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=1&nrev=$nrev'}"}%%TMPL:END%
+
+
+%TMPL:DEF{"historytable_rcp_disabled"}%<table class="foswikiTable historySelectTable" summary="%MAKETEXT{"Topic history"}%">
 <tr>
 <th colspan="3">%MAKETEXT{"Revision"}%</th>
-<th>%MAKETEXT{"Date"}%</th>
-<th>%MAKETEXT{"Username"}%</th>
+<th>%MAKETEXT{"Changed on"}%</th>
+<th>%MAKETEXT{"Last edited by"}%</th>
 </tr>
-%HISTORY{"<tr style=\"vertical-align:top;\"><td align="right"><a href=\"%SCRIPTURL{view}%/%WEB%/%TOPIC%?rev=$rev\">$rev</a></td><td style=\"background-color:#fffaf2; text-align:center;\"><input type=\"radio\" name=\"rev2\" value=\"$rev\" style=\"border:none; background-color:#fffaf2;\" /></td><td style=\"background-color:#f2f7fc; text-align:center;\"><input type=\"radio\" name=\"rev1\" value=\"$rev\" style=\"border:none; background-color:#f2f7fc;\" /></td><td style="white-space: nowrap;">$date</td><td>[[$wikiusername][$wikiname]]</td></tr>" rev1="%URLPARAM{"rev1"}%" rev2="%URLPARAM{"rev2"}%" nrev="%URLPARAM{"nrev"}%" header="" footer="<tr><td colspan=\"4\">$next{'%MAKETEXT{"last"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&nrev=$nrev'} $next{'%MAKETEXT{"later"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"earlier"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"first"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=1&nrev=$nrev'}</td></tr>"}%
-</table>%TMPL:END%
+%HISTORY{"<tr><td align="right"><a href=\"%SCRIPTURL{view}%/%WEB%/%TOPIC%?rev=$rev\">$rev</a></td><td style=\"background-color:#fffaf2; text-align:center;\"><input type=\"radio\" name=\"rev2\" value=\"$rev\" style=\"border:none; background-color:#fffaf2;\" /></td><td style=\"background-color:#f2f7fc; text-align:center;\"><input type=\"radio\" name=\"rev1\" value=\"$rev\" style=\"border:none; background-color:#f2f7fc;\" /></td><td style="white-space: nowrap;">$date</td><td>[[$wikiusername][$wikiname]]</td></tr>" rev1="%URLPARAM{"rev1"}%" rev2="%URLPARAM{"rev2"}%" nrev="%URLPARAM{"nrev"}%" header="" footer="</table>$n%TMPL:P{"historytable:navigation"}%%TMPL:END%
 
 
 %TMPL:DEF{"renderstyle"}%%TMPL:P{context="CompareRevisionsAddonPluginEnabled" then="renderstyle_cra_enabled" else="renderstyle_cra_disabled"}%%TMPL:END%
 
 
-%TMPL:DEF{"renderstyle_cra_enabled"}%<br />
-%MAKETEXT{"Render style:"}% <select name="render">
-<option value="interweave">%MAKETEXT{"Interweave"}%</option>
-<option value="sidebyside">%MAKETEXT{"Side by side"}%</option>
-</select>&nbsp;&nbsp;&nbsp;
-%MAKETEXT{"Context:"}% <select name="context">
+%TMPL:DEF{"cssFoswikiDiffOptions"}%%ADDTOZONE{"head" id="cssFoswikiDiffOptions" text="<style type='text/css' media='all'>
+table.historySelectTable {
+	background:#fff;
+	margin:.5em 0;
+}
+table.historySelectTable td,
+table.historySelectTable th {
+	background:#fff;
+	padding-left:.7em;
+	padding-right:.7em;
+}
+.historyRevComment ul {
+	list-style:none;
+	padding:0;
+	margin:0 0 0 1em;
+}
+.historyRevComment li {
+	padding:0;
+	margin:0;
+}
+table.foswikiDiffOptions {
+	margin:.5em 0;
+	border:none;
+}
+table.foswikiDiffOptions td {
+	border:none;
+	text-align:center;
+}
+table.foswikiDiffOptions img {
+	padding:0 10px;
+	border-width:1px;
+	border-style:solid;
+	background:#fff;
+}
+table.foswikiDiffOptions input {
+	border:0;
+}
+table.foswikiDiffOptions img {
+	border-color:#ccc;
+}
+</style>"}%%TMPL:END%
+
+
+%TMPL:DEF{"renderstyle_cra_enabled"}%<div class="foswikiFormStep">
+---++++ %MAKETEXT{"Render style"}%
+<table class="foswikiTable foswikiDiffOptions" summary="%MAKETEXT{"Options"}%"><tr><td><label for="interweave"><img src="%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/oopsmore_diff_sequential.gif" alt="interweave" width="80" height="80" /></label></td><td><label for="sidebyside"><img src="%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/oopsmore_diff_sidebyside.gif" alt="side by side" width="80" height="80" /></label></td><!--<td><label for="debug"><img src="%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/oopsmore_diff_debug.gif" alt="debug" width="80" height="80" /></label></td>--></tr><tr><td><input type="radio" name="render" id="interweave" value="interweave"%IF{ "$ DIFFRENDERSTYLE='sequential' or not defined 'DIFFRENDERSTYLE'" then=" checked=\"checked\"" }% /><label for="interweave"> %MAKETEXT{"Sequential"}%</label></td><td><input type="radio" name="render" id="sidebyside" value="sidebyside"%IF{ "$ DIFFRENDERSTYLE='sidebyside'" then=" checked=\"checked\"" }% /><label for="sidebyside"> %MAKETEXT{"Side by side"}%</label></td><!--<td><input type="radio" name="render" id="debug" value="debug"%IF{ "$ DIFFRENDERSTYLE='debug'" then=" checked=\"checked\"" }% /><label for="debug"> %MAKETEXT{"Debug"}%</label></td>--></tr></table>
+</div>
+<div class="foswikiFormStep">
+---++++ %MAKETEXT{"Context"}%
+<p>%MAKETEXT{"Unchanged sections before and after each change"}%</p>
+<p><select name="context" class="foswikiSelect">
 <option value="-1">%MAKETEXT{"Whole page"}%</option>
 <option value="1">1</option>
 <option value="2">2</option>
 <option value="5">10</option>
-</select>&nbsp;&nbsp;&nbsp;(%MAKETEXT{"unchanged sections before and after each change"}%)
-<br /><br />%TMPL:END%
+</select></p>
+</div>%TMPL:END%
 
 
 %TMPL:DEF{"renderstyle_cra_disabled"}%%TMPL:END%
@@ -69,24 +113,32 @@ This version is tested with TWiki 4.2.0 and 4.1.2 and Foswiki in IE6, IE7 and FF
 
 %TMPL:DEF{"message"}%
 ---++ %MAKETEXT{"Select an earlier (left) and a later (right) revision to compare"}%
----++++ %MAKETEXT{"Revisions [_1] - [_2] (out of [_3])" args="%HISTORY_REV1%,%HISTORY_REV2%,%HISTORY_MAXREV%"}%
+%TMPL:P{"cssFoswikiDiffOptions"}%<div class="foswikiFormSteps">
+<div class="foswikiFormStep">%TMPL:P{"viewoptions"}%</div>
 <form name="main" action="%SCRIPTURL{"%TMPL:P{"diffbin"}%"}%/%WEB%/%TOPIC%">
+<div class="foswikiFormStep"><h4>%MAKETEXT{"Showing revisions [_1] - [_2] (out of [_3])" args="%HISTORY_REV1%,%HISTORY_REV2%,%HISTORY_MAXREV%"}%</h4>
 %TMPL:P{"historytable"}%
-%TMPL:P{"renderstyle"}%
+</div>
+%TMPL:P{"renderstyle"}%<div class="foswikiFormStep">
 <input type="submit" class="foswikiSubmit" value="%MAKETEXT{"Compare revisions"}%" />
+</div>
 </form>
-<br /><br />
-<form action="%SCRIPTURL{oops}%/%WEB%/%TOPIC%">
-*%MAKETEXT{"More view options:"}%* %MAKETEXT{"Show"}% <select class="foswikiSelect" name="nrev" size="1">
-<option selected="selected">%HISTORY_NREV%</option>
+</div>%TMPL:END%
+
+%TMPL:DEF{"viewoptions"}%<form action="%SCRIPTURL{oops}%/%WEB%/%TOPIC%">
+%MAKETEXT{"Show [_1] revisions up to revision [_2]" args="%TMPL:P{viewoptions:amount}%, %TMPL:P{viewoptions:upto}%"}% <input type="submit" class="foswikiButton" value="%MAKETEXT{"Refresh"}%" />
+<input type="hidden" name="template" value="oopshistory" />
+</form>%TMPL:END%
+
+%TMPL:DEF{"viewoptions:amount"}%<select class='foswikiSelect' name='nrev' size='1'>
+<option selected='selected'>%HISTORY_NREV%</option>
 <option>5</option>
 <option>10</option>
 <option>20</option>
 <option>50</option>
-</select> %MAKETEXT{"revisions up to"}% <input type="text" class="foswikiInputField" name="rev2" value="%HISTORY_REV2%" size="2" />&nbsp;<input type="submit" class="foswikiButton" value="%MAKETEXT{"Refresh"}%" />
-<input type="hidden" name="template" value="oopshistory" />
-</form>
-%TMPL:END%
+</select>%TMPL:END%
+
+%TMPL:DEF{"viewoptions:upto"}%<input type='text' class='foswikiInputField' name='rev2' value='%HISTORY_REV2%' size='2' />%TMPL:END%
 
 
 %TMPL:DEF{"topicactionbuttons"}%<a href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%' rel='nofollow' %MAKETEXT{"title='View topic' accesskey='v'>&View topic"}%</a>%TMPL:P{"sep"}%<a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="%MAKETEXT{"View total topic history"}%" accesskey="S" rel="nofollow">%MAKETEXT{"&Sequential"}%</a>%TMPL:END%
