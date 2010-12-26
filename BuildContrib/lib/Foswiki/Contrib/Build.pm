@@ -994,7 +994,7 @@ sub target_tidy {
 }
 
 sub _isPerl {
-    if ( $File::Find::name =~ /(CVS|\.svn|~)$/ ) {
+    if ( $File::Find::name =~ /(CVS|\.svn|\.git|~)$/ ) {
         $File::Find::prune = 1;
     }
     elsif ( !-d $File::Find::name ) {
@@ -2444,7 +2444,7 @@ sub target_manifest {
 }
 
 sub _manicollect {
-    if (/^(CVS|\.svn)$/) {
+    if (/^(CVS|\.svn|\.git)$/) {
         $File::Find::prune = 1;
     }
     elsif (!-d 
@@ -2452,7 +2452,9 @@ sub _manicollect {
         && !/^(DEPENDENCIES|MANIFEST|(PRE|POST)INSTALL|build\.pl)$/
         && !/\.bak$/
         && !/^$collector->{project}_installer(\.pl)?$/
-        && !/^$collector->{project}\.(md5|zip|tgz|txt|sha1)$/ )
+        # Item10188: Ignore build output, but still want data/System/Project.txt
+        # $basedir in \Q...\E makes it a literal string (ignore regex chars)
+        && not $File::Find::name =~ /\Q$basedir\E\W$collector->{project}\.(md5|zip|tgz|txt|sha1)$/ )
     {
         my $n     = $File::Find::name;
         my @a     = stat($n);
