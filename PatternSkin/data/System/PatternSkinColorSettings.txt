@@ -438,7 +438,7 @@ a:hover.twistyTrigger {
 }
 
 /* RevCommentPlugin */
-.revComment .patternTopicAction {
+.revComment .patternTopicActions {
    background-color:%ATTACHMENT_AND_FORM_BACKGROUND%;
 }
 
@@ -483,8 +483,7 @@ table.foswikiFormTable,
    background-color:%ACTIVE_FORM_BACKGROUND%;
    border-color:%FORM_STEP_BORDER%;
 }
-.foswikiFormStep,
-.patternPreviewFormStep {
+.foswikiFormStep {
    border-color:%FORM_STEP_BORDER%;
 }
 .foswikiFormStep h2 {
@@ -622,27 +621,26 @@ a:hover .foswikiAccessKey {
     color:%SIDEBAR_TEXT%;
 }
 
-.patternTopicActions {
+.patternViewPage .patternTopicActions {
    background-color:%TOPIC_ACTION_BACKGROUND%;
-   color:%MAIN_TEXT%;
 }
 .patternActionButtons a:link,
 .patternActionButtons a:visited,
 .patternActionButtons a:hover {
    color:%LINK_TEXT_NORMAL%;
 }
-.patternTopicAction s,
-.patternTopicAction strike {
+.patternTopicActions s,
+.patternTopicActions strike {
    color:%DISABLED_TEXT%;
 }
-.patternTopicAction .foswikiAccessKey {
+.patternTopicActions .foswikiAccessKey {
    color:%LINK_TEXT_NORMAL%;
    border-color:%LINK_TEXT_NORMAL%;
 }
-.patternTopicAction a:hover .foswikiAccessKey {
+.patternTopicActions a:hover .foswikiAccessKey {
    color:%LINK_TEXT_HOVER%;
 }
-.patternTopicAction label {
+.patternTopicActions label {
    color:%GENERAL_TEXT%;
 }
 .patternHelpCol {
@@ -985,9 +983,6 @@ li.patternLogIn {
 	-moz-box-shadow: 0 0 10px %STRONG_BORDER%;
 	-webkit-box-shadow: 0 0 10px %STRONG_BORDER%;
 	box-shadow: 0 0 10px %STRONG_BORDER%;
-}
-.patternBorder {
-	border-color:%NEUTRAL_BORDER%;
 }
 .foswikiJs a.jqPopUpWindow:link,
 .foswikiJs a.jqPopUpWindow:visited,

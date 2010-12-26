@@ -24,7 +24,7 @@
 %TMPL:DEF{"forcerevisioncheckbox"}%<div class="patternSaveOptionsContents"><input type="checkbox" class="foswikiCheckbox" title="Creates a new topic revision when saving" id="forcenewrevision" name="forcenewrevision" %FORCENEWREVISIONCHECKBOX% /><label for="forcenewrevision">%MAKETEXT{"Force new revision"}%</label> %POPUPWINDOW{"%SYSTEMWEB%.ForceNewRevision" label="%MAKETEXT{"help"}%"}%</div>%TMPL:END%
 
 
-%TMPL:DEF{"saveoptions"}%<div class="patternSaveOptions">%TMPL:P{"forcerevisioncheckbox"}%</div>%TMPL:END%
+%TMPL:DEF{"saveoptions"}%<div class="foswikiFormStep patternSaveOptions">%TMPL:P{"forcerevisioncheckbox"}%</div>%TMPL:END%
 
 
 %TMPL:DEF{"action_buttons"}%%TMPL:P{"button_save"}%&nbsp;%TMPL:P{"button_quietsave"}%&nbsp;%TMPL:P{"button_checkpoint"}% %TMPL:P{"button_preview"}% %TMPL:P{"button_cancel"}%%TMPL:END%
@@ -41,7 +41,7 @@
 %TMPL:DEF{"button_cancel"}%<input type="submit" class="foswikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}% />%TMPL:END%
 
 
-%TMPL:DEF{"topicinfo"}%%TMPL:P{"revCommentPluginOptions"}%<div class="patternTopicActions"><div class="patternTopicAction"><div class="patternActionButtons">%TMPL:P{"saveoptions"}%%TMPL:P{"action_buttons"}%<div class="foswikiClear"></div></div></div></div>%TMPL:END%
+%TMPL:DEF{"topicinfo"}%%TMPL:P{"revCommentPluginOptions"}%%TMPL:P{"saveoptions"}%<div class="patternTopicActions foswikiFormStep"><div class="patternActionButtons">%TMPL:P{"action_buttons"}%<div class="foswikiClear"></div></div></div>%TMPL:END%
 
 
 %TMPL:DEF{"textarea"}%<div class="patternEditTopic"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%'>%TEXT%</textarea>%TMPL:P{"sig_textareabuttons"}%</div>%TMPL:END%
@@ -72,12 +72,10 @@ noscript="hide"
 %TMPL:DEF{"content"}%%TMPL:P{"formstart"}%%TMPL:P{"formtop"}%
 %TMPL:P{"toolbar"}%
 %TMPL:P{"textarea"}%
-<div class="patternBorder">
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 %TMPL:P{"formbottom"}%
 <div class="foswikiClear"></div>
-</div>
 </div>%TMPL:P{"topicinfo"}%
 </div>
 %TMPL:P{"formend"}%%TMPL:END%

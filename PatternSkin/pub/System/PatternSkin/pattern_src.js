@@ -1,14 +1,6 @@
 
 jQuery(document).ready(
     function ($) {
-        // Mark a form step with a hoopy styled character
-        $("div.foswikiFormStep h3").each(
-            function(index, el) {
-                $(el).before(
-                    '<span class="foswikiActionFormStepSign">&#9658;</span>'
-                    );
-            });
-
         // Create an attachment counter in the attachment table twisty.
         $('div.foswikiAttachments')
             .each(

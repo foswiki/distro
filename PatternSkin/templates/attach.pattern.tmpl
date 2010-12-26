@@ -35,9 +35,6 @@ class="foswikiHelp"
 
 %TMPL:DEF{"formend"}%</form>%TMPL:END%
 
-%TMPL:DEF{"attachformstart"}%<div class="foswikiFormSteps">%TMPL:END%
-
-%TMPL:DEF{"attachformend"}%</div>%TMPL:END%
 
 %TMPL:DEF{"newfile"}%<div class="foswikiFormStep">
 ---+++ %MAKETEXT{"Attach new file"}%
@@ -62,7 +59,7 @@ class="foswikiHelp"
 <input class="foswikiInputField" type="text" name="filecomment" value="%FILECOMMENT%" size="70" />
 </div>%TMPL:END%
 
-%TMPL:DEF{"properties"}%<div class="foswikiFormStep foswikiLast">
+%TMPL:DEF{"properties"}%<div class="foswikiFormStep">
 ---+++ %MAKETEXT{"Properties"}%
 
 <input type="checkbox" class="foswikiCheckbox" id="createlink" name="createlink" %ATTACHLINKBOX% /><label for="createlink">%MAKETEXT{"Create a link to the attached file"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Images will be displayed, for other attachments a link will be created."}%</span>
@@ -71,10 +68,14 @@ class="foswikiHelp"
 </div>%TMPL:P{"changepropertiesaction"}%%TMPL:END%
 
 
+%TMPL:DEF{"attachformend"}%%TMPL:END%
+
+
+%TMPL:DEF{"attachform"}%<div class="foswikiFormSteps">%TMPL:P{"newfile"}%%TMPL:P{"comment"}%%TMPL:P{"properties"}%%TMPL:P{"hiddenfields"}%%TMPL:P{"attachformend"}%%TMPL:P{"topicactionbuttonsrow"}%</div>%TMPL:END%
+
 %TMPL:DEF{"content"}%%TMPL:P{"toolbar"}%
-%TMPL:P{"formstart"}%<div class="patternBorder">
+%TMPL:P{"formstart"}%
 %TMPL:P{"attachform"}%
-%TMPL:P{"topicinfo"}%</div>
 %TMPL:P{"formend"}%
 %TMPL:P{"movedelete"}%
 %TMPL:P{"versions"}%
