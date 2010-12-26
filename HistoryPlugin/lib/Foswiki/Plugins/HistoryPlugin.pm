@@ -10,7 +10,7 @@ use Foswiki::Func;
 use vars qw( $VERSION $RELEASE $NO_PREFS_IN_TOPIC $SHORTDESCRIPTION);
 
 $VERSION           = '$Rev: 15950 $';
-$RELEASE           = '1.6';
+$RELEASE           = '1.7';
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION  = 'Shows a complete history of a document';
 
