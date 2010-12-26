@@ -1132,7 +1132,7 @@ sub _newTopicOrAttachmentScreen {
             class => 'foswikiCheckBox foswikiGlobalCheckable',
             name  => 'referring_topics'
         };
-        $checkboxAttrs->{checked} = 1 if !$isDelete;
+        $checkboxAttrs->{checked} = 'checked' if !$isDelete;
 
         if ($currentWebOnly) {
             $search = $session->i18n->maketext('(skipped)');
