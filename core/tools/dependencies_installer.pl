@@ -127,40 +127,8 @@ my %deb_unidentified = (
     'WWW::Shorten::Bitly'  => 'insufficient: libwww-shorten-perl',
 );
 
-# Alternative Debian installation (currently disabled, may be removed completely, untested)
-#
-# trunk/core/tools/pkg/debian/control contains basic dependencies
-# grep -rE '(Depends:.*\-perl|Suggests:.*)' * | fgrep -v .svn
-# pkg/debian/control:Depends: ${perl:Depends}, ${misc:Depends}, libnet-perl, libmime-base64-perl, rcs (>= 5.7), apache | apache2 | apache2.2, debconf (>=  0.5) | debconf-2.0, libalgorithm-diff-perl, liberror-perl, libdigest-sha1-perl, libtext-diff-perl, liblocale-maketext-lexicon-perl, libcgi-session-perl, liburi-perl, libhtml-parser-perl
-# pkg/debian/control:Suggests: libunicode-maputf8-perl, libapache-mod-perl, libapache2-mod-perl2, libapache2-mod-auth-plain
-#
-# Default dependencies as used by the Foswiki package for Debian
-my @deb_install_virtual_depends = qw (
-  libnet-perl
-  libmime-base64-perl
-  libalgorithm-diff-perl
-  liberror-perl
-  libdigest-sha1-perl
-  libtext-diff-perl
-  liblocale-maketext-lexicon-perl
-  libcgi-session-perl
-  liburi-perl
-  libhtml-parser-perl
-);
-
-# Default suggestions as used by the Foswiki package for Debian
-my @deb_install_virtual_suggests = qw (
-  libunicode-maputf8-perl
-  libapache-mod-perl
-  libapache2-mod-perl2
-  libapache2-mod-auth-plain
-);
-
 # Other global variables
 #
-# Class::MakeMethods ??
-#    'FreezeThaw'                => 'libfreezethaw-perl',     	# no hard requirement, maybe useful but not handled
-# YAML ??
 my @modules_prereq = qw (
   CPANPLUS
 );
@@ -189,7 +157,6 @@ $myname =~ s/^(\.\/)?([^.]*)\..*/$2/;
 my $cpanplus = 1;
 my $show_special;
 my $selection;
-my $deb_install_mode;
 my $install_sum;
 my $install_bool;
 my $count_success = 0;
@@ -376,6 +343,8 @@ sub undefine_arrays {
     undef(@modules_ext_unspecified);
     undef(@modules_tools_optional);
     undef(@modules_unavailable);
+    undef(@modules_apache1);
+    undef(@modules_apache2);
     undef(@modules_install);
     undef(@modules_cpan_only);
     undef($show_special);
@@ -1068,42 +1037,7 @@ Please install programs manually or use another install method.
         }
     }
 
-    # Following commented code is most likely unnecessary
-    # If removing it entirely, then please also remove related variables
-
-    #    print "\nInstalling:\n";
-
- #    while (1) {
- #        print "\nThere are 2 options:
- #1. Only install Debian packages which are directly related to the
- #   actually required Perl module. This will install:\n";
- #        foreach (@deb_inst_dir_fin) {
- #            print "     $_\n";
- #        }
- #        print
- #          "2. Install virtual Debian packages most likely installing more than
- #   absolutely required. This will install:\n";
- #        foreach (@deb_install_virtual_depends) {
- #            print "     $_\n";
- #        }
- #        print
- #          "   Later on you may also decide to install suggested packages:\n";
- #        foreach (@deb_install_virtual_suggests) {
- #            print "     $_\n";
- #        }
- #        print "Please select (1/2): ";
- #        my $n = <>;
- #        chomp $n;
- #        $deb_install_mode = $n;
- #        last if ( $n =~ /^(1|2)$/ );
- #    }
-
-# Legacy code related to the above comments, remove after initial SVN checkin
-# For some reason I want to keep it in SVN, who knows what it may be good for...
-    $deb_install_mode = 1;
-
     # Real installation
-    if ( $deb_install_mode == 1 ) {
         print "\nInstalling \"deb\" packages using command:\n";
         if (`which aptitude`) {
             print "aptitude install [packages]\n\n";
@@ -1132,14 +1066,6 @@ Please install programs manually or use another install method.
         else {
             print "\nERROR: aptitude nor apt-get were found.\n";
         }
-    }
-
-    #    elsif ( $deb_install_mode == 2 ) {
-    #        print "\nInstalling \"virtual\" Debian packages.\n";
-    #        foreach (@deb_install_virtual_depends) {
-    #            print "call aptitude installation 1 for $_\n";
-    #        }
-    #    }
     &ask_cpan_install;
 }
 
