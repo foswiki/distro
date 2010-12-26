@@ -230,7 +230,7 @@ a:hover.twistyTrigger {
 }
 
 /* RevCommentPlugin */
-.revComment .patternTopicAction {
+.revComment .patternTopicActions {
    background-color:#f6f6f5;
 }
 
@@ -275,26 +275,22 @@ table.foswikiFormTable,
    background-color:#f6f6f5;
    border-color:#ddd;
 }
-.foswikiFormStep,
-.patternPreviewFormStep {
+.foswikiFormStep {
    border-color:#ddd;
 }
-.foswikiFormStep h2 {
+.foswikiFormSteps h2 {
    color:#333;
 }
-.foswikiFormStep h3,
-.foswikiFormStep h4 {
+.foswikiFormSteps h3,
+.foswikiFormSteps h4 {
    color:#333;
 }
-.foswikiFormStep h3,
-.foswikiFormStep h4 {
+.foswikiFormSteps h3,
+.foswikiFormSteps h4 {
    background-color:transparent;
 }
-.foswikiActionFormStepSign {
-   color:#aaa;
-}
-.foswikiFormStep .foswikiHelp,
-.foswikiFormStep .foswikiAllowNonWikiWord {
+.foswikiFormSteps .foswikiHelp,
+.foswikiFormSteps .foswikiAllowNonWikiWord {
 	background:#fff;
 }
 .foswikiToc .foswikiTocTitle {
@@ -414,27 +410,26 @@ a:hover .foswikiAccessKey {
     color:#333;
 }
 
-.patternTopicActions {
+.patternViewPage .patternTopicActions {
    background-color:#fff;
-   color:#000;
 }
 .patternActionButtons a:link,
 .patternActionButtons a:visited,
 .patternActionButtons a:hover {
    color:#06c;
 }
-.patternTopicAction s,
-.patternTopicAction strike {
+.patternTopicActions s,
+.patternTopicActions strike {
    color:#aaa;
 }
-.patternTopicAction .foswikiAccessKey {
+.patternTopicActions .foswikiAccessKey {
    color:#06c;
    border-color:#06c;
 }
-.patternTopicAction a:hover .foswikiAccessKey {
+.patternTopicActions a:hover .foswikiAccessKey {
    color:#06c;
 }
-.patternTopicAction label {
+.patternTopicActions label {
    color:#000;
 }
 .patternHelpCol {
@@ -577,8 +572,6 @@ tr.foswikiDiffDebug td {
 .foswikiDiffLineNumberHeader th {
    background-color:#f5f5f5 !important;
 }
-
-
 
 
 /* IMAGES */
@@ -777,9 +770,6 @@ li.patternLogIn {
 	-moz-box-shadow: 0 0 10px #ccc;
 	-webkit-box-shadow: 0 0 10px #ccc;
 	box-shadow: 0 0 10px #ccc;
-}
-.patternBorder {
-	border-color:#ddd;
 }
 .foswikiJs a.jqPopUpWindow:link,
 .foswikiJs a.jqPopUpWindow:visited,

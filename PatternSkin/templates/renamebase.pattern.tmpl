@@ -15,13 +15,20 @@
 
 %TMPL:DEF{"checkuncheck"}%%{
    foswikiCheckAllOn and foswikiCheckAllOff are handled in foswikiForm.js
-}%<div class="foswikiMakeVisibleBlock"><hr />
+}%<div class="foswikiMakeVisibleBlock">
 <p><input type="button" class="foswikiButton foswikiCheckAllOn" value='%MAKETEXT{"Select all"}%' />&nbsp;<input type="button" class="foswikiButton foswikiCheckAllOff" value='%MAKETEXT{"Clear all"}%' /> %MAKETEXT{"checkboxes of referenced topics"}%</p></div>%TMPL:END%
+
+
+%TMPL:DEF{"renameformsteps"}%<div class="foswikiFormSteps">
+<div class="foswikiFormStep">%TMPL:P{"changefrom"}%</div>
+<div class="foswikiFormStep">%TMPL:P{"toweb"}%</div>
+<div class="foswikiFormStep">%TMPL:P{"totopic"}%</div>%TMPL:P{"searchresultsstep"}%
+%TMPL:P{"topicactionbuttonsrow"}%
+</div>%TMPL:END%
 
 
 %TMPL:DEF{"content"}%%TMPL:P{"toolbar"}%
 %TMPL:P{"pagehelp"}%
-<div class="patternBorder">%TMPL:P{"formstart"}%
+%TMPL:P{"formstart"}%
 %TMPL:P{"renameformsteps"}%
-%TMPL:P{"topicaction"}%
-%TMPL:P{"formend"}%</div>%TMPL:P{"pagehelp_nojavascript"}%%TMPL:END%
+%TMPL:P{"formend"}%%TMPL:P{"pagehelp_nojavascript"}%%TMPL:END%

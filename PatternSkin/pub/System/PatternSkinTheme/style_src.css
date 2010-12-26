@@ -21,6 +21,7 @@
 /* GENERAL HTML ELEMENTS */
 
 html body {
+	font-family:arial, verdana, sans-serif;
 	font-size:104%; /* to change the site's font size, change .foswikiPage below */
 	voice-family:"\"}\""; 
 	voice-family:inherit;
@@ -301,7 +302,6 @@ a.foswikiSubmit:visited:active {
 	-----------------------------------------------------------	*/
 
 .foswikiPage {
-	font-family:arial, verdana, sans-serif;
 	line-height:1.5em; /*S1*/
 	/* change font size here */
 	font-size:103%;
@@ -316,7 +316,10 @@ a.foswikiSubmit:visited:active {
 	border-width:10px;
 }
 #foswikiLogin .foswikiFormSteps {
-	border:none;
+	text-align:left;
+}
+#foswikiLogin .foswikiFormStep {
+	border-style:solid none;
 }
 #foswikiLogin .patternLoginNotification {
 	padding-left:.5em;
@@ -408,48 +411,46 @@ h3 .foswikiSmall {
 	margin:0 0 0 .15em;
 }
 .foswikiFormSteps {
-	text-align:left;
-	border-style:none;
-}
-.foswikiFormStep,
-.patternPreviewFormStep {
-	line-height:140%;
-	padding:10px 20px;
-	border-width:0 0 1px 0;
+	padding:0 20px;
+	border-width:1px;
 	border-style:solid;
+}
+.foswikiFormStep {
+	line-height:140%;
+	padding:12px 20px;
+	margin:-1px -20px -1px -20px;
+	border-width:1px;
+	border-style:solid none;
 }
 .foswikiFormStep h2,
 .foswikiFormStep h3,
 .foswikiFormStep h4 {
-	margin:.5em 0;
+	border:none;
+	margin-top:0;
 	padding:0;
+	background:none;
 }
-.foswikiFormStep h2 {
+.foswikiFormStep p {
+	margin:.5em 0;
+}
+.foswikiFormSteps h2 {
 	font-size:115%;
 	font-weight:bold;
 }
-.foswikiFormStep h3 {
+.foswikiFormSteps h3 {
 	font-size:100%;
 	font-weight:bold;
 }
-.foswikiFormStep h4 {
+.foswikiFormSteps h4 {
 	font-size:100%;
 	font-weight:bold;
 }
-.foswikiFormStep p {
-	margin:.25em 0;
-}
-.foswikiFormStep blockquote {
+.foswikiFormSteps blockquote {
 	margin-left:1em;
 	padding-top:.25em;
 	padding-bottom:.25em;
 }
-.foswikiActionFormStepSign {
-	display:none;
-}
-.foswikiLast {
-	border-bottom:none;
-}
+.foswikiLast {}
 .foswikiToc {
 	margin:1em 0;
 	padding:.3em 0 .6em 0;
@@ -744,22 +745,16 @@ html>body #patternSideBarContents li { /* Mozilla */
 	text-decoration:none;
 }
 
-.patternTopicActions {
-	border-style:none;
-}
-.patternTopicAction {
-	padding:10px 20px; /*S5*/
-}
 .patternActionButtons a:link,
 .patternActionButtons a:visited {
 	padding:1px 1px 2px 1px;
 }
-.patternTopicAction .patternActionButtons a:link,
-.patternTopicAction .patternActionButtons a:visited {
+.patternTopicActions .patternActionButtons a:link,
+.patternTopicActions .patternActionButtons a:visited {
 	text-decoration:none;
 }
-.patternTopicAction .patternActionButtons span s,
-.patternTopicAction .patternActionButtons span strike {
+.patternTopicActions .patternActionButtons span s,
+.patternTopicActions .patternActionButtons span strike {
 	text-decoration:none;
 }
 .patternActionButtons a.foswikiButton,
@@ -783,14 +778,6 @@ html>body #patternSideBarContents li { /* Mozilla */
 }
 .patternSimpleLogo {
 	margin:1em 0 0 0;
-}
-.patternBorder {
-	border-style:solid;
-	border-width:1px;
-}
-.patternBorder .patternBorder {
-	border-style:solid none none none;
-	margin-top:-1px;
 }
 .patternTop {}
 
@@ -928,21 +915,13 @@ h4.foswikiSearchResultsHeader {
 .patternButtonFontSelector {
 	margin:0 8px 0 0;
 }
-.patternSaveOptionsContents {
-	margin:.5em 0;
-}
-.patternSaveHelp {}
-.patternSaveOptions {
-	margin:0.25em 0 0 0;
-	clear:both;
-}
 
 /* preview.pattern.tmpl */
 
 .foswikiPreviewArea {
 	border:none;
-	margin:0;
-	padding:10px 20px;
+	margin:0 0 2em 0;
+	padding:0;
 }
 
 /* attach.pattern.tmpl */

@@ -19,14 +19,10 @@
 %TMPL:DEF{"button_discard"}%<input id="discard" type="submit" class="foswikiButtonCancel" name="action_cancel" %MAKETEXT{"value='Discard' accesskey='d'"}% />%TMPL:END%
 
 
-%TMPL:DEF{"content"}%%TMPL:P{"pagehelp"}%
-%TMPL:P{"formstart"}%
-<div class="patternBorder">
-<div class="foswikiFormSteps">
-<div class="patternPreviewFormStep">
+%TMPL:DEF{"content"}%%TMPL:P{"formstart"}%
 <div class='foswikiPreviewArea'>%TEXT%</div>
-</div>%META{"form"}%
-</div>
+<div class="foswikiFormSteps">
+%META{"form"}%
 %TMPL:P{"topicinfo"}%
 </div>
 %TMPL:P{"formend"}%%TMPL:END%
