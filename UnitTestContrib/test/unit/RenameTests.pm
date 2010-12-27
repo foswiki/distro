@@ -72,6 +72,9 @@ protected $this->{test_web}.OldTopic
 rename [[OldTopic]]
 rename [[$this->{test_web}.OldTopic]]
 </noautolink>
+22 "OldTopic"
+23 %INCLUDE{"OldTopic"}%
+24 %INCLUDE{"$this->{test_web}.OldTopic"}%
 THIS
 
     # Strategically-selected set of identical topics in the test web
@@ -814,6 +817,9 @@ sub test_renameTopic_same_web_new_topic_name {
         $this->{session}->topicExists( $this->{test_web}, 'NewTopic' ) );
     $this->assert(
         !$this->{session}->topicExists( $this->{test_web}, 'OldTopic' ) );
+
+# Verify NewTopic references in test_web.NewTopic are updated
+#
     $this->check( $this->{test_web}, 'NewTopic', undef, <<THIS, 1 );
 1 $this->{test_web}.NewTopic
 $this->{test_web}.NewTopic 2
@@ -850,7 +856,13 @@ protected $this->{test_web}.OldTopic
 rename [[NewTopic]]
 rename [[$this->{test_web}.NewTopic]]
 </noautolink>
+22 "OldTopic"
+23 %INCLUDE{"NewTopic"}%
+24 %INCLUDE{"$this->{test_web}.NewTopic"}%
 THIS
+#
+# Verify NewTopic references in test_web.OtherTopic  are updated
+#
     $this->check( $this->{test_web}, 'OtherTopic', undef, <<THIS, 2 );
 1 $this->{test_web}.NewTopic
 $this->{test_web}.NewTopic 2
@@ -887,8 +899,13 @@ protected $this->{test_web}.OldTopic
 rename [[NewTopic]]
 rename [[$this->{test_web}.NewTopic]]
 </noautolink>
+22 "OldTopic"
+23 %INCLUDE{"NewTopic"}%
+24 %INCLUDE{"$this->{test_web}.NewTopic"}%
 THIS
-
+#
+# Verify NewTopic references in new_web.OtherTopic  are updated
+#
     $this->check( $this->{new_web}, 'OtherTopic', undef, <<THIS, 3 );
 1 $this->{test_web}.NewTopic
 $this->{test_web}.NewTopic 2
@@ -925,6 +942,9 @@ protected $this->{test_web}.OldTopic
 rename [[$this->{test_web}.NewTopic]]
 rename [[$this->{test_web}.NewTopic]]
 </noautolink>
+22 "OldTopic"
+23 %INCLUDE{"$this->{test_web}.NewTopic"}%
+24 %INCLUDE{"$this->{test_web}.NewTopic"}%
 THIS
 }
 
