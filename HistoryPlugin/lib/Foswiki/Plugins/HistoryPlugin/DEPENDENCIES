@@ -1,0 +1,1 @@
+Foswiki::Plugins::ZonePlugin,>=2.1,perl,Optional, required for Foswiki < 1.1

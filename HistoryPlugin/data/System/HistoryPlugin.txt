@@ -16,29 +16,29 @@ This plugins is designed to work together with !CompareRevisionsAddOn and !RevCo
 
 ---++ Syntax Rules
 
-   * %<nop>HISTORY%
-   * %<nop>HISTORY{parameters}%BR%
+   * =%<nop>HISTORY%=
+   * =%<nop>HISTORY{parameters}%= %BR%
      Supported parameters: %BR%
      |*Parameter* | *Description* | *Default* |
-     |"format" _or_ format="format" |Format of one line, may include any variable which is supported by %<nop>REVINFO% |"r$rev - $date - $wikiusername" |
-     |topic="topic" |Topic name |Current topic |
-     |web="web" |Web name |Current web |
-     |nrev="nrev" |Number of revisions to show. Ignored, if both rev1 and rev2 are specified | Plugin preference variable NREV |
-     |rev2="rev2" |Newest revision to show | rev1+nrev, if rev1 is specified, latest revision otherwise |
-     |rev1="rev1" |Oldest revision to show | rev2-nrev |
-     |reverse="on/off" |Show newest revisions first, if _on_ |"on" |
-     |header="text" |Text to print before the list. May contain the variables $next and $previous (see below) |"$next" |
-     |footer="text" |Text to print after the list. May contain the variables $next and $previous (see below) |"$previous" |
+     | ="format"= or =format="format"= | Format of one line, may include any variable which is supported by =%<nop>REVINFO%= | <code>"r$rev - $date - $wikiusername"</code> |
+     | =topic="topic"= |Topic name | current topic |
+     | =web="web"= |Web name | current web |
+     | =nrev="nrev"= |Number of revisions to show. Ignored if both =rev1= and =rev2= are specified. | Plugin preference variable =NREV= |
+     | =rev2="rev2"= |Newest revision to show | =rev1+nrev= if =rev1= is specified, latest revision otherwise |
+     | =rev1="rev1"= |Oldest revision to show | =rev2-nrev= |
+     | =reverse="on/off"= |Show newest revisions first, if =on= | ="on"= |
+     | =header="text"= |Text to print before the list. May contain the variables =$next= and =$previous= (see below) | ="$next"= |
+     | =footer="text"= |Text to print after the list. May contain the variables =$next= and =$previous= (see below) | ="$previous"= |
 
      The parameters _header_ and _footer_ may contain the variables $next and $previous, which will only be evaluated, if there are newer or older revisions available for the topic which are not listed according to _rev1_, _rev2_, _nrev_. These variables take the syntax =$next{'text' url='url'}= (analog for $previous). _text_ is the text which should be printed, _url_ is the url for a corresponding link. The variables $rev1, $rev2, $nrev in _text_ or _url_ will be replaced by appropriate values for the next or previous block of revisions. See the attached =oopshistory.tmpl= for an example of how to use this.
 
 The following variables are replaced only, if there is a corresponding %<nop>HISTORY% on the page. If more than
 one %<nop>HISTORY% is used on the same page, the values from the last one  will be used.
 
-   * %<nop>HISTORY_REV1%: Oldest revision from the printed history
-   * %<nop>HISTORY_REV2%: Latest revision from the printed history
-   * %<nop>HISTORY_NREV%: Number of the printed revisions
-   * %<nop>HISTORY_MAXREV%: Latest available revision of the document
+   * =%<nop>HISTORY_REV1%=: Oldest revision from the printed history
+   * =%<nop>HISTORY_REV2%=: Latest revision from the printed history
+   * =%<nop>HISTORY_NREV%=: Number of the printed revisions
+   * =%<nop>HISTORY_MAXREV%=: Latest available revision of the document
    
 ---++ Examples
 
@@ -51,8 +51,9 @@ r1 - 15 Nov 2003 - 01:23 - YetAnotherUser
 
 For a more complex example see the attached =oopshistory.tmpl= which also allows the comparison of two selected revisions. 
 
-Example screenshot of the topic history with !HistoryPlugin enabled and working with !CompareRevisionsAddOn and !RevCommentPlugin <br />
-     <div class="twikiImage"><img src="%ATTACHURLPATH%/screenshot.png" alt="screenshot.png" width='573' height='538' /></div>
+Example screenshot of the topic history with !HistoryPlugin enabled and working with !CompareRevisionsAddOn and !RevCommentPlugin.
+
+<div class="foswikiImage"><img src="%ATTACHURLPATH%/screenshot.png" alt="screenshot" width='785' height='592' /></div>
 
 ---++ Plugin Installation Instructions
 
@@ -80,7 +81,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  26 Dec 2010: | 1.7 Arthur Clemens: update of screen layout. |
+|  27 Dec 2010: | 1.7 Arthur Clemens: update of screen layout. |
 |  31 Jul 2010: | 1.6 Paul Harvey: Foswikitask:Item9415 - Documentation updates | 
 |  09 Feb 2009: | 1.5 Kenneth Lavrsen: Small cosmetic updates. Changed the author name to non liked to avoid bogus links to Main.loginname. Changed some CSS names to Foswiki that I missed in 1.4 |
 |  08 Dec 2008: | 1.4 Kenneth Lavrsen: Changed the author to myself. !JChristophFuchs is the original author but announced in 2006 that he no longer maintains this plugin. So now I officially take the task as maintainer. Plugin is changed to Foswiki namespace and tested and works under Foswiki 1.0.0 | 
