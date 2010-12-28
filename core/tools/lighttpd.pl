@@ -4,9 +4,20 @@ use strict;
 use File::Basename;
 use File::Spec;
 use Cwd;
+use Getopt::Long;
+use Pod::Usage;
 
 # defaults
-my $PORT = 8080;
+my $__fastcgi = undef;
+my $__help = undef;
+my $__port = 8080;
+
+GetOptions(
+  'fastcgi|f'   => \$__fastcgi,
+  'help|h'      => \$__help,
+  'port|p=i'    => \$__port,
+);
+pod2usage(1) if $__help;
 
 # calculate paths
 my $foswiki_core = Cwd::abs_path( File::Spec->catdir( dirname(__FILE__), '..' ) );
@@ -71,7 +82,7 @@ $mime_mapping = q(mimetype.assign             = \(
   ".tar.bz2"      =>      "application/x-bzip-compressed-tar",
   # default mime type
   ""              =>      "application/octet-stream",
- \)) ;
+  \)) ;
 }
 
 # write configuration file
@@ -80,9 +91,14 @@ print CONF "server.document-root = \"$foswiki_core\"\n";
 print CONF  <<EOC
 server.modules = (
    "mod_rewrite",
-   "mod_cgi"
+   "mod_alias",
+   "mod_cgi",
+   "mod_fastcgi"
 )
-server.port = $PORT
+server.port = $__port
+
+# ipv6 support
+\$SERVER["socket"] == "[::]:$__port" { }
 
 server.errorlog = "$foswiki_core/working/tmp/error.log"
 
@@ -90,9 +106,34 @@ server.errorlog = "$foswiki_core/working/tmp/error.log"
 $mime_mapping
 
 url.rewrite-repeat = ( "^/?(index.*)?\$" => "/bin/view/Main" )
-\$HTTP["url"] =~ "^/bin" { cgi.assign = ( "" => "" ) }
 EOC
-;;
+;
+
+if ($__fastcgi) {
+  print CONF "
+\$HTTP[\"url\"] =~ \"^/bin/\" {
+    alias.url += ( \"/bin\" => \"$foswiki_core/bin/foswiki.fcgi\" )
+    fastcgi.server = ( \".fcgi\" => (
+         (
+            \"socket\"    => \"$foswiki_core/working/tmp/foswiki.sock\",
+            \"bin-path\"  => \"$foswiki_core/bin/foswiki.fcgi\",
+            \"max-procs\" => 1
+         ),
+      )
+    )
+}
+  ";
+  # the configure script must always be run as CGI
+  print CONF "
+\$HTTP[\"url\"] =~ \"^/bin/configure\" {
+    alias.url += ( \"/bin/configure\" => \"$foswiki_core/bin/configure\" )
+    cgi.assign = ( \"\" => \"\" )
+}
+  ";
+} else {
+  print CONF '$HTTP["url"] =~ "^/bin" { cgi.assign = ( "" => "" ) }', "\n";
+}
+
 close(CONF);
 
 # print banner
@@ -101,14 +142,28 @@ print "Foswiki Development Server\n";
 system('lighttpd -v 2>/dev/null');
 print "Server root: $foswiki_core\n";
 print "************************************************************\n";
-print "Browse to http://localhost:$PORT/bin/configure to configure your Foswiki\n";
-print "Browse to http://localhost:$PORT/bin/view to start testing your Foswiki checkout\n";
+print "Browse to http://localhost:$__port/bin/configure to configure your Foswiki\n";
+print "Browse to http://localhost:$__port/bin/view to start testing your Foswiki checkout\n";
 print "Hit Control-C at any time to stop\n";
 print "************************************************************\n";
-
 
 # execute lighttpd
 system("lighttpd -f $conffile -D");
 
 # finalize
 system("rm -rf $conffile");
+
+__END__
+
+=head1 SYNOPSIS
+
+lightpd.pl [options]
+
+    Runs Foswiki with lighttpd.
+
+    Options:
+        -f --fastcgi               Use FastCGI instead of plain CGI
+        -h --help                  Displays this help and exits
+        -p PORT, --port PORT       Runs the server in the given port.
+                                   (default: 8080)
+
