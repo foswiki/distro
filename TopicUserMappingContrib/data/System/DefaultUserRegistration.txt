@@ -150,7 +150,7 @@ $(document).ready(
 				Twk1WikiName: {
 					required: true,
 					remote: function() {
-						return '%SCRIPTURL{view}%/%BASEWEB%/%BASETOPIC%?section=checkname;skin=text;name=' + $('#Twk1WikiName').val();
+						return '%SCRIPTURL{view}%/%WEB%/%TOPIC%?section=checkname;skin=text;name=' + $('#Twk1WikiName').val();
 					}
 				},
 				Twk1LoginName: 'required',
