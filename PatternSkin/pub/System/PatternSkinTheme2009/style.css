@@ -201,7 +201,13 @@ a.foswikiSubmit:link:active,
 a.foswikiSubmit:visited:active {
 	text-decoration:none;
 }
-
+.jqButton.foswikiButtonCancel,
+.jqButton.foswikiButtonCancel:hover {
+	border:none;
+	padding:0;
+	font-weight:normal;
+	margin:0;
+}
 .foswikiCheckbox,
 .foswikiRadioButton {
 	margin:1px .25em 1px .1em;
