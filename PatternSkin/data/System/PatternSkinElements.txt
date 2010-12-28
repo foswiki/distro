@@ -274,3 +274,31 @@ Describe the file so other people know what it is.
 </li> <li> <strong>Bug:</strong> Internet Explorer 4.0 or earlier: If you get an "Internal Server Error" message when you upload a file, you need to try again. It should work the second time.
 </li></ul> 
 </div>
+
+---++ JQuery buttons
+
+%BUTTON{
+"Create a new topic"
+icon="add"
+}%
+%CLEAR%
+
+%BUTTON{
+"Cancel"
+icon="cross"
+class="foswikiButtonCancel"
+}%
+%CLEAR%
+
+%BUTTON{
+"Cyan"
+class="cyan"
+}%
+%CLEAR%
+
+%BUTTON{
+"Simple"
+class="simple"
+}%
+%CLEAR%
+
