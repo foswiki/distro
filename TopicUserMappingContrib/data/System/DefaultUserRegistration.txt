@@ -153,9 +153,6 @@ $(document).ready(
 		}, '%MAKETEXT{"This is not a valid Wiki name"}%');
 		$('#foswikiRegistration').livequery(function() {
 			$(this).validate({
-				submitHandler: function() {
-					alert('submitted!');
-				},
 				rules: {
 					Twk1FirstName: 'required',
 					Twk1LastName:  'required',
