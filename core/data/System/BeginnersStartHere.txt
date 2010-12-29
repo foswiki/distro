@@ -202,8 +202,8 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
    * Text in equals signs <nop>=like this= looks =like this= <br />
    * Bulleted lists use three spaces followed by an asterisk (<tt>*</tt>) at the start of the line
       * The depth of the bullet is given by the number of spaces, in multiples of three
-| *You type* | *You see* |
-| <font color="black"><code>&nbsp;&nbsp;&nbsp;* Bullet</code><br /><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Sub-bullet</code></font> | <ul><li><font color="black">Bullet</font><ul><li><font color="black">Sub-bullet</font></li></ul></li></ul> |
+        | *You type* | *You see* |
+        | <font color="black"><code>&nbsp;&nbsp;&nbsp;* Bullet</code><br /><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Sub-bullet</code></font> | <ul><li><font color="black">Bullet</font><ul><li><font color="black">Sub-bullet</font></li></ul></li></ul> |
    * Numbered lists use a number in place of the <tt>*</tt>.  The list is numbered automatically, so you can just use a =1=
 
 ---++ Even more.....
@@ -381,4 +381,4 @@ If you get stuck, you can refer to the http://foswiki.org/Support web, which has
    * The latest version of this presentation is available at Foswiki:%WEB%.%TOPIC%, where you can also provide feedback
 %SLIDESHOWEND%
 
-__Related topics:__ WelcomeGuest, WikiCulture, TwentyMinuteTutorial, TopicsAndWebs, WorkingTopics
+__Related topics:__ WelcomeGuest, WikiCulture, TwentyMinuteTutorial, TopicsAndWebs
