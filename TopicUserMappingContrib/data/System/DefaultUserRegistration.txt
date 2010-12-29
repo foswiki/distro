@@ -17,7 +17,7 @@ else=" %IF{"$REGISTRATION_DISABLED!='DISABLED'" then=" *%MAKETEXT{"Create your a
 <!--
 Show the form, if not REGISTRATION_DISABLED
 -->
-%INCLUDE{"%TOPIC%" section="form%REGISTRATION_DISABLED%" warn="on"}%<p>
+%INCLUDE{"%TOPIC%" section="form%REGISTRATION_DISABLED%" warn="off"}%%INCLUDE{"%TOPIC%" section="resources%REGISTRATION_DISABLED%" warn="off"}%<p>
 %MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%
 </p>
 <verbatim class="foswikiHidden">
@@ -26,10 +26,14 @@ All the topic sections.
 The main section is "form", INCLUDEd when REGISTRATION_DISABLED is not 'DISABLED'.
 Other sections define the fields and extra info text.
 
-%STARTSECTION{"form"}%<div class="registration"><form name="registration" id="foswikiRegistration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
+
+%STARTSECTION{"form"}%%INCLUDE{"%TOPIC%" section="htmlform%REGISTRATION_DISABLED%" warn="off"}%%INCLUDE{"%TOPIC%" section="resources%REGISTRATION_DISABLED%" warn="off"}%%ENDSECTION{"form"}%
+
+
+%STARTSECTION{"htmlform"}%<div class="registration"><form name="registration" id="foswikiRegistration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
 	<div class="foswikiFormSteps">
 		<div class="foswikiFormStep">
-			<p><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required"}%</em></p>
+			<p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required"}%</em></p>
 			<ul>
 <!-- REQUIRED FIELDS -->
 %INCLUDE{"%TOPIC%" section="requiredField_firstName"}%
@@ -49,8 +53,9 @@ $REGISTRATIONGROUPTYPE = "automatic"' then='$percentINCLUDE{"%WEB%.%TOPIC%" sect
 <input type="hidden" name="topic" value="%TOPIC%" />
 <input type="hidden" name="action" value="register" />
 </form>
-</div>
-%ADDTOZONE{
+</div>%ENDSECTION{"htmlform"}%
+
+%STARTSECTION{"resources"}%%ADDTOZONE{
 "head"
 id="UserRegistrationStyle"
 text="<style type='text/css' media='all'>
@@ -84,13 +89,12 @@ text="<style type='text/css' media='all'>
 }
 .registration label.expl,
 .registration label.error {	
-	float:left;
-	width:40%;
-	padding:0 0 0 27px;
-	text-align:left;
+	display:block;
+	margin:0 0 0 43%;
+	padding:2px 0 2px 26px;
 	color:#666;
-	font-size:86%;
-	line-height:125%;
+	font-size:94%;
+	line-height:130%;
 }
 /* END horizontal layout */
 .registration ul {
@@ -120,7 +124,7 @@ text="<style type='text/css' media='all'>
 	float:left;
 	margin-top:-2px;
 }
-.registration .required {
+.registration span.required {
 	padding:0 .3em;
 	color:#f00;
 }
@@ -137,71 +141,85 @@ text="<style type='text/css' media='all'>
 </style>"
 }%
 %JQREQUIRE{"validate"}%
+%TMPL:P{JavascriptFiles/foswikiString"}%
 %ADDTOZONE{
 "script"
 id="UserRegistrationValidation"
 text="<script type='text/javascript'>
 $(document).ready(
 	function() {
-		$('#foswikiRegistration').validate({
-			rules: {
-				Twk1FirstName: 'required',
-				Twk1LastName:  'required',
-				Twk1WikiName: {
-					required: true,
-					remote: function() {
-						return '%SCRIPTURL{view}%/%WEB%/%TOPIC%?section=checkname;skin=text;name=' + $('#Twk1WikiName').val();
+		jQuery.validator.addMethod('wikiname', function(value, element) {
+			return foswiki.String.isWikiWord(value);
+		}, '%MAKETEXT{"This is not a valid Wiki name"}%');
+		$('#foswikiRegistration').livequery(function() {
+			$(this).validate({
+				submitHandler: function() {
+					alert('submitted!');
+				},
+				rules: {
+					Twk1FirstName: 'required',
+					Twk1LastName:  'required',
+					Twk1WikiName: {
+						required: true,
+						wikiname:true,
+						remote: {
+							url: '%SCRIPTURL{view}%/%WEB%/%TOPIC%',
+							type: 'post',
+							data: {
+								section: 'isWikiNameAvailable',
+								skin: 'text',
+								name: function() {
+									return $('#Twk1WikiName').val();
+								}
+							}
+						}
+					},
+					Twk1LoginName: 'required',
+					Twk1Email: {
+						required: true,
+						email: true
+					},
+					Twk1Password: {
+						required: true,
+						minlength: %QUERY{"{MinPasswordLength}"}% 
+					},
+					Twk1Confirm: {
+						required: true,
+						minlength: %QUERY{"{MinPasswordLength}"}%,
+						equalTo: '#Twk1Password'
 					}
 				},
-				Twk1LoginName: 'required',
-				Twk1Email: {
-					required: true,
-					email: true
+				messages: {
+					Twk1FirstName: '%MAKETEXT{"Please enter your first name"}%',
+					Twk1LastName: '%MAKETEXT{"Please enter your last name"}%',
+					Twk1WikiName: {
+						required: '%MAKETEXT{"Please enter a Wiki name"}%',
+						remote: '%MAKETEXT{"This Wiki name is already in use"}%'
+					},
+					Twk1Email: '%MAKETEXT{"Please enter a valid email address"}%',
+					Twk1LoginName: '%MAKETEXT{"Please enter a login name"}%',
+					Twk1Password: {
+						required: '%MAKETEXT{"Please enter a password"}%',
+						minlength: '%MAKETEXT{"Your password must be at least [_1] characters long" args="%QUERY{"{MinPasswordLength}"}%"}%'
+					},
+					Twk1Confirm: {
+						required: '%MAKETEXT{"Please confirm your password"}%',
+						equalTo: '%MAKETEXT{"Please enter the same password as above"}%',
+						minlength: '%MAKETEXT{"Your password must be at least [_1] characters long" args="%QUERY{"{MinPasswordLength}"}%"}%'
+					}
 				},
-				Twk1Password: {
-					required: true,
-					minlength: %QUERY{"{MinPasswordLength}"}% 
-				},
-				Twk1Confirm: {
-					required: true,
-					minlength: %QUERY{"{MinPasswordLength}"}%,
-					equalTo: '#Twk1Password'
+				success: function(label) {
+					// remove generated label
+					label.remove();
 				}
-			},
-			messages: {
-				Twk1FirstName: '%MAKETEXT{"Please enter your first name"}%',
-				Twk1LastName: '%MAKETEXT{"Please enter your last name"}%',
-				Twk1WikiName: {
-					required: '%MAKETEXT{"Please enter a valid Wiki name"}%',
-					remote: jQuery.format('{0} is already in use')
-				},
-				Twk1Email: '%MAKETEXT{"Please enter a valid email address"}%',
-				Twk1LoginName: '%MAKETEXT{"Please enter a login name"}%',
-				Twk1Password: {
-					required: '%MAKETEXT{"Please enter a password"}%',
-					minlength: '%MAKETEXT{"Your password must be at least [_1] characters long" args="%QUERY{"{MinPasswordLength}"}%"}%'
-				},
-				Twk1Confirm: {
-					required: '%MAKETEXT{"Please confirm your password"}%',
-					equalTo: '%MAKETEXT{"Please enter the same password as above"}%',
-					minlength: '%MAKETEXT{"Your password must be at least [_1] characters long" args="%QUERY{"{MinPasswordLength}"}%"}%'
-				}
-			},
-			success: function(label) {
-				// remove generated label
-				var generated = $(label).parent().attr('generated');
-				if (generated) { 
-					generated.remove();
-				}
-			}
+			});
 		});
 	}
 );
 </script>"
 requires="JQUERYPLUGIN::VALIDATE"
 }%
-%TMPL:P{JavascriptFiles/foswikiString"}%
-%ENDSECTION{"form"}%
+%ENDSECTION{"resources"}%
 
 
 
@@ -222,7 +240,7 @@ Required field last name
 Required field wiki name
 
 %STARTSECTION{"requiredField_wikiName"}%<li><label class="desc" for="Twk1WikiName"><span class="required">*</span>%MAKETEXT{"Wiki name"}%</label>
-<div><input type="text" id="Twk1WikiName" name="Twk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" onblur="" /><label class="expl">%MAKETEXT{"Your name as displayed online. This must be a unique [[%SYSTEMWEB%.WikiName][Wiki name]]."}%</em></div></li>%ENDSECTION{"requiredField_wikiName"}%
+<div><input type="text" id="Twk1WikiName" name="Twk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" onblur="" /><label class="expl">%MAKETEXT{"Your name as displayed online. This must be a unique [_1]" args="%POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"Wiki name"}%"}%."}%</em></div></li>%ENDSECTION{"requiredField_wikiName"}%
 
 
 
@@ -354,7 +372,7 @@ Optional privacy information
 
 Test if user topic exists. Used for form validation.
 
-%STARTSECTION{"checkname"}%%IF{"istopic '%USERSWEB%.%URLPARAM{"name"}%'" then="false" else="true"}%%ENDSECTION{"checkname"}%
+%STARTSECTION{"isWikiNameAvailable"}%%IF{"istopic '%USERSWEB%.%URLPARAM{"name"}%'" then="false" else="true"}%%ENDSECTION{"isWikiNameAvailable"}%
 
 </verbatim>
 
