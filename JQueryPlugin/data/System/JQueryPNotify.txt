@@ -1,0 +1,74 @@
+%META:TOPICINFO{author="ProjectContributor" date="1265665229" format="1.1" version="1.3"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"pnotify"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version 
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Full featured plugin to show temporary floating messages for status updates, actions and errors.
+%ENDSECTION{"summary"}%
+
+---++ Usage
+
+Call =$.pnotify(options)= to show a notification.
+
+Options:
+
+   * =pnotify_title=: the title
+   * =pnotify_text=: the message text
+   * =pnotify_delay=: milliseconds to show the message
+   * =pnotify_opacity=: value from =0= (fully transparent) to =1= (opaque)
+   * =pnotify_nonblock=: =true= if items below the message should be clickable
+   * =pnotify_type=: ='error'= if an error message
+
+More options can be found in the source code of the [[http://pines.sourceforge.net/pnotify/][example page]].
+
+The plugin uses the jQuery UI CSS library for styling, which means it is fully and easily themeable.
+ 
+---++ Examples
+%JQREQUIRE{"pnotify"}%
+%JQTHEME{"lightness"}%
+%ADDTOZONE{
+"script"
+id="PNotifyDemoScript"
+text="<literal><script type='text/javascript'>
+// example with a message stack
+var stack_topleft = {'dir1': 'down', 'dir2': 'right', 'push': 'top'};
+function showMessage(title, text, err) {
+	var err = Math.round(Math.random());
+	var opts = {
+		pnotify_title: title,
+		pnotify_text: text,
+		pnotify_addclass: 'stack-topleft',
+		pnotify_stack: stack_topleft,
+		pnotify_closer: false,
+		pnotify_delay: 4000,
+		pnotify_nonblock: true,
+		pnotify_opacity: 0.9
+	};
+	if (err) {
+		opts.pnotify_type = 'error';
+	}
+	$.pnotify(opts);
+};
+</script></literal>"
+require="JQUERYPLUGIN::PNOTIFY"
+}%
+%ADDTOZONE{
+"head"
+id="PNotifyDemoStyle"
+text="<literal><style type='text/css' media='all'>
+.ui-pnotify.stack-topleft {
+	top: 15px;
+	left: 15px;
+	right: auto;
+}
+</style></literal>"}%
+%BUTTON{"Show message" onclick="showMessage('Note', 'This is a notification. Click again to see more.')"}%
+%CLEAR%
+
