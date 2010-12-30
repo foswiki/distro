@@ -140,30 +140,29 @@ text="<style type='text/css' media='all'>
 }
 </style>"
 }%
-%JQREQUIRE{"validate"}%
+%JQREQUIRE{"validate, wikiword"}%
 %TMPL:P{JavascriptFiles/foswikiString"}%
 %ADDTOZONE{
 "script"
 id="UserRegistrationValidation"
+requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::WIKIWORD"
 text="<script type='text/javascript'>
 $(document).ready(
 	function() {
-		jQuery.validator.addMethod('wikiname', function(value, element) {
-			return foswiki.String.isWikiWord(value);
-		}, '%MAKETEXT{"This is not a valid Wiki name"}%');
 		$('#foswikiRegistration').livequery(function() {
+			$('#Twk1WikiName').wikiword('#Twk1FirstName, #Twk1LastName');
 			$(this).validate({
 				rules: {
 					Twk1FirstName: 'required',
 					Twk1LastName:  'required',
 					Twk1WikiName: {
 						required: true,
-						wikiname:true,
+						wikiword: true,
 						remote: {
 							url: '%SCRIPTURL{view}%/%WEB%/%TOPIC%',
 							type: 'post',
 							data: {
-								section: 'isWikiNameAvailable',
+								section: 'checkWikiName',
 								skin: 'text',
 								name: function() {
 									return $('#Twk1WikiName').val();
@@ -171,7 +170,20 @@ $(document).ready(
 							}
 						}
 					},
-					Twk1LoginName: 'required',
+					Twk1LoginName: {
+						required: true,
+						remote: {
+							url: '%SCRIPTURL{view}%/%WEB%/%TOPIC%',
+							type: 'post',
+							data: {
+								section: 'checkLoginName',
+								skin: 'text',
+								name: function() {
+									return $('#Twk1LoginName').val();
+								}
+							}
+						}
+					},
 					Twk1Email: {
 						required: true,
 						email: true
@@ -191,10 +203,14 @@ $(document).ready(
 					Twk1LastName: '%MAKETEXT{"Please enter your last name"}%',
 					Twk1WikiName: {
 						required: '%MAKETEXT{"Please enter a Wiki name"}%',
+						wikiword: '%MAKETEXT{"This is not a valid Wiki name"}%',
 						remote: '%MAKETEXT{"This Wiki name is already in use"}%'
 					},
 					Twk1Email: '%MAKETEXT{"Please enter a valid email address"}%',
-					Twk1LoginName: '%MAKETEXT{"Please enter a login name"}%',
+					Twk1LoginName: {
+						required: '%MAKETEXT{"Please enter a login name"}%',
+						remote: '%MAKETEXT{"This login name is already in use"}%',
+					},
 					Twk1Password: {
 						required: '%MAKETEXT{"Please enter a password"}%',
 						minlength: '%MAKETEXT{"Your password must be at least [_1] characters long" args="%QUERY{"{MinPasswordLength}"}%"}%'
@@ -214,30 +230,28 @@ $(document).ready(
 	}
 );
 </script>"
-requires="JQUERYPLUGIN::VALIDATE"
-}%
-%ENDSECTION{"resources"}%
+}%%ENDSECTION{"resources"}%
 
 
 
 Required field first name
 
 %STARTSECTION{"requiredField_firstName"}%<li><label class="desc" for="Twk1FirstName"><span class="required">*</span>%MAKETEXT{"First name"}%</label>
-<div><input type="text" id="Twk1FirstName" name="Twk1FirstName" size="40" class="foswikiInputField foswikiFocus" value="" tabindex="1" onblur="this.form.Twk1WikiName.value=foswiki.String.makeWikiWord(this.value+' '+this.form.Twk1LastName.value)" /></div></li>%ENDSECTION{"requiredField_firstName"}%
+<div><input type="text" id="Twk1FirstName" name="Twk1FirstName" size="40" class="foswikiInputField foswikiFocus" value="" tabindex="1" /></div></li>%ENDSECTION{"requiredField_firstName"}%
 
 
 
 Required field last name
 
 %STARTSECTION{"requiredField_lastName"}%<li><label class="desc" for="Twk1LastName"><span class="required">*</span>%MAKETEXT{"Last name"}%</label>
-<div><input type="text" id="Twk1LastName" name="Twk1LastName" size="40" class="foswikiInputField" value="" tabindex="2" onblur="this.form.Twk1WikiName.value=foswiki.String.makeWikiWord(this.form.Twk1FirstName.value+' '+this.value)" /></div></li>%ENDSECTION{"requiredField_lastName"}%
+<div><input type="text" id="Twk1LastName" name="Twk1LastName" size="40" class="foswikiInputField" value="" tabindex="2" /></div></li>%ENDSECTION{"requiredField_lastName"}%
 
 
 
 Required field wiki name
 
 %STARTSECTION{"requiredField_wikiName"}%<li><label class="desc" for="Twk1WikiName"><span class="required">*</span>%MAKETEXT{"Wiki name"}%</label>
-<div><input type="text" id="Twk1WikiName" name="Twk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" onblur="" /><label class="expl">%MAKETEXT{"Your name as displayed online. This must be a unique [_1]" args="%POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"Wiki name"}%"}%."}%</em></div></li>%ENDSECTION{"requiredField_wikiName"}%
+<div><input type="text" id="Twk1WikiName" name="Twk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" /><label class="expl">%MAKETEXT{"Your name as displayed online. This must be a unique [_1]" args="%POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"Wiki name"}%"}%."}%</em></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_wikiName"}%
 
 
 
@@ -245,14 +259,14 @@ Required field login name
 Only shown if ALLOWLOGINNAME is true.
 
 %STARTSECTION{"requiredField_loginName"}%<li><label class="desc" for="Twk1LoginName"><span class="required">*</span>%MAKETEXT{"Login name"}%</label>
-<div><input type="text" id="Twk1LoginName" name="Twk1LoginName" size="40" class="foswikiInputField" value="%REMOTE_USER%" tabindex="4" onblur="" /><label class="expl">%MAKETEXT{"The login name you use to sign in."}%</em></div></li>%ENDSECTION{"requiredField_loginName"}%
+<div><input type="text" id="Twk1LoginName" name="Twk1LoginName" size="40" class="foswikiInputField" value="%REMOTE_USER%" tabindex="4" /><label class="expl">%MAKETEXT{"The login name you use to sign in."}%</em></div></li>%ENDSECTION{"requiredField_loginName"}%
 
 
 
 Required field email
 
 %STARTSECTION{"requiredField_email"}%<li><label class="desc" for="Twk1Email"><span class="required">*</span>%MAKETEXT{"Email address"}%</label>
-<div><input type="text" id="Twk1Email" name="Twk1Email" size="40" class="foswikiInputField" value="" tabindex="5" onblur="" /><label class="expl">%MAKETEXT{"Your email address will be kept confidential."}%</em></div></li>%ENDSECTION{"requiredField_email"}%
+<div><input type="text" id="Twk1Email" name="Twk1Email" size="40" class="foswikiInputField" value="" tabindex="5" /><label class="expl">%MAKETEXT{"Your email address will be kept confidential."}%</em></div></li>%ENDSECTION{"requiredField_email"}%
 
 
 
@@ -260,8 +274,8 @@ Required field password
 Only shown if the password manager supports changing the password / email.
 
 %STARTSECTION{"requiredField_password"}%<li><label class="desc" for="Twk1Password"><span class="required">*</span>%MAKETEXT{"Your password"}%</label>
-<div><input type="password" id="Twk1Password" name="Twk1Password" size="40" class="foswikiInputField" value="" tabindex="6" onblur="" /></div></li>%IF{"NOT {Register}{DisablePasswordConfirmation}" then="<li><label class=\"desc\" for=\"Twk1Confirm\"><span class=\"required\">*</span>$percntMAKETEXT{\"Confirm password\"}$percnt</label>
-<div><input type=\"password\" id=\"Twk1Confirm\" name=\"Twk1Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" tabindex=\"7\" onblur=\"\" /></div></li>"}%%ENDSECTION{"requiredField_password"}%
+<div><input type="password" id="Twk1Password" name="Twk1Password" size="40" class="foswikiInputField" value="" tabindex="6" /></div></li>%IF{"NOT {Register}{DisablePasswordConfirmation}" then="<li><label class=\"desc\" for=\"Twk1Confirm\"><span class=\"required\">*</span>$percntMAKETEXT{\"Confirm password\"}$percnt</label>
+<div><input type=\"password\" id=\"Twk1Confirm\" name=\"Twk1Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" tabindex=\"7\" /></div></li>"}%%ENDSECTION{"requiredField_password"}%
 
 
 
@@ -328,7 +342,7 @@ Section hiddenrendergroupheader
 Optional field organisation name
 
 %STARTSECTION{"extraField_organisationName"}%<li><label class="desc" for="Twk0OrganisationName">%MAKETEXT{"Organisation name"}%</label>
-<div><input type="text" id="Twk0OrganisationName" name="Twk0OrganisationName" size="40" class="foswikiInputField" value="" tabindex="8" onblur="" /></div></li>%ENDSECTION{"extraField_organisationName"}%
+<div><input type="text" id="Twk0OrganisationName" name="Twk0OrganisationName" size="40" class="foswikiInputField" value="" tabindex="8" /></div></li>%ENDSECTION{"extraField_organisationName"}%
 
 
 
@@ -369,7 +383,17 @@ Optional privacy information
 
 Test if user topic exists. Used for form validation.
 
-%STARTSECTION{"isWikiNameAvailable"}%%IF{"istopic '%USERSWEB%.%URLPARAM{"name"}%'" then="false" else="true"}%%ENDSECTION{"isWikiNameAvailable"}%
+
+%STARTSECTION{"checkWikiName"}%%IF{"istopic '%USERSWEB%.%URLPARAM{"name"}%'" 
+  then="false" 
+  else="true"
+}%%ENDSECTION{"checkWikiName"}%
+
+%STARTSECTION{"checkLoginName"}%%IF{
+  "'%USERINFO{"%URLPARAM{"name"}%" format="$username"}%'!=''" 
+  then="false" 
+  else="true"
+}%%ENDSECTION{"checkLoginName"}%
 
 </verbatim>
 
