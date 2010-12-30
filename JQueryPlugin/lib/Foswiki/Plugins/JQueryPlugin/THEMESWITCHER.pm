@@ -29,10 +29,10 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             $session,
-            name       => 'Themeswitcher',
+            name       => 'ThemeSwitcher',
             version    => '20101001',
             author     => 'unknown',
-            homepage   => 'http://jqueryui.com//themeroller/',
+            homepage   => 'http://jqueryui.com/docs/Theming/ThemeSwitcher',
             javascript => ['themeswitcher.js', 'themeswitcher.init.js'],
             dependencies => ['cookie', 'ui'],
         ),

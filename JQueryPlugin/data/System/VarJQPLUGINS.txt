@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1277985432" format="1.1" reprev="1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarJQPLUGINS
----+++ JQPLUGINS{"plugins" ... } -- display a summary of avaliable plugins
+---+++ JQPLUGINS{"plugins" ... } -- display a summary of available plugins
    * Parameters:
      | *Parameter:* | *Description:* | *Default:* |
      | "plugins" | this is a regular expression that the plugin identifier must match to be displayed | |

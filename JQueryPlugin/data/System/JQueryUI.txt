@@ -10,7 +10,7 @@
 }%
 
 %STARTSECTION{"summary"}%
-Widget collection for jQuery. This is the official userinterface library.
+Widget collection for jQuery. This is the official user interface library.
 %ENDSECTION{"summary"}%
 
 ---++ Installed themes
@@ -22,32 +22,4 @@ The following themes are provided:
 
 ---++ Examples
 
-%JQREQUIRE{"ui"}%
-
----+++ Date picker
-See also: http://jqueryui.com/demos/datepicker/
-
-%ADDTOZONE{"script" section="init" requires="JQUERYPLUGIN::UI"}%
-<verbatim style="display:none">
-%STARTSECTION{"init"}%<literal><script type="text/javascript">
-jQuery(function($) {
-  $(".jqDatepicker").not(".jqInited").each(function() {
-    var $this = $(this);
-    var options = $.extend(
-      { // defaults
-        firstDay: 1,
-        showAnim: 'fadeIn'
-      }, $this.metadata());
-    $this.datepicker(options);
-  });
-});
-</script></literal>%ENDSECTION{"init"}%
-</verbatim>
-
-*Date 1:* <input type="text" size="30" name="date1" value="%GMTIME%" class="foswikiInputField jqDatepicker" />
-
-*Date 2:* <input type="text" size="30" name="date2" value="%GMTIME%" class="foswikiInputField jqDatepicker {dateFormat:'d M yy'}" />
-
-*Date 3:* <input type="text" size="30" name="date3" value="%GMTIME%" class="foswikiInputField jqDatepicker {dateFormat:'@'}" />
-
-*Date 4:* <input type="text" size="30" name="date4" value="%GMTIME%" class="foswikiInputField jqDatepicker {dateFormat:'DD, dd-M-y'}" />
+See JqueryThemeSwitcher to view available themes.
