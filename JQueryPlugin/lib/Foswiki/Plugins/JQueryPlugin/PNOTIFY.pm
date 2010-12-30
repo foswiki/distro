@@ -34,7 +34,8 @@ sub new {
             author       => 'Hunter Perrin',
             homepage     => 'http://pines.sourceforge.net/pnotify/',
             css          => ['jquery.pnotify.default.css'],
-            javascript   => ['jquery.pnotify.js']
+            javascript   => ['jquery.pnotify.js'],
+            dependencies => ['ui']
         ),
         $class
     );
