@@ -177,7 +177,7 @@ Context identifiers are used in Foswiki to label various stages of the rendering
 | =viewfile= | in viewfile script (see CommandAndCGIScripts) |
 | =rest= | in rest script (see CommandAndCGIScripts) |
 | =registration_supported= | registration is supported by the current UserMapper |
-| =registration_enabled= | set if ={Register}{EnableNewUserRegistration}= is on, and registrationis supported |
+| =registration_enabled= | set if ={Register}{EnableNewUserRegistration}= is on, and registration is supported |
 | =passwords_modifyable= | set if the password manager supports changing the password / email |
 
 In addition there is a context identifier for each enabled plugin; for example, if =Gallous<nop>BreeksPlugin= is installed *and enabled*, then the context ID =Gallous<nop>BreeksPluginEnabled= will be set. Other extensions may set additional context identifiers.
