@@ -139,10 +139,7 @@ text="<style type='text/css' media='all'>
 	background:none;
 }
 </style>"
-}%
-%JQREQUIRE{"validate, wikiword"}%
-%TMPL:P{JavascriptFiles/foswikiString"}%
-%ADDTOZONE{
+}%%JQREQUIRE{"validate, wikiword"}%%ADDTOZONE{
 "script"
 id="UserRegistrationValidation"
 requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::WIKIWORD"
