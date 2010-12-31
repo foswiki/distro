@@ -153,6 +153,7 @@ templates/form.pattern.tmpl 0444
 templates/formtables.pattern.tmpl 0444
 templates/foswiki.pattern.tmpl 0444
 templates/login.pattern.tmpl 0444
+templates/login.sudo.pattern.tmpl 0444
 templates/moveattachment.pattern.tmpl 0444
 templates/oops.pattern.tmpl 0444
 templates/preview.pattern.tmpl 0444
