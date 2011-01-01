@@ -41,9 +41,12 @@ sub new {
     $this->{error} = undef;
     if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
         require Digest::MD5;
-        if ($Foswiki::cfg{AuthRealm} =~ /\:/) {
-            print STDERR "ERROR: the AuthRealm cannot contain a ':' (colon) as it corrumpts the password file\n";
-            throw Error::Simple("ERROR: the AuthRealm cannot contain a ':' (colon) as it corrumpts the password file");
+        if ( $Foswiki::cfg{AuthRealm} =~ /\:/ ) {
+            print STDERR
+"ERROR: the AuthRealm cannot contain a ':' (colon) as it corrumpts the password file\n";
+            throw Error::Simple(
+"ERROR: the AuthRealm cannot contain a ':' (colon) as it corrumpts the password file"
+            );
         }
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt' ) {
@@ -53,20 +56,27 @@ sub new {
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
         require Digest::SHA;
     }
-    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' )
-    {
+    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) {
         if ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) {
             print STDERR "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)\n";
-            throw Error::Simple("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
+            throw Error::Simple(
+                "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
         }
         use Config;
         if ( $Config{myuname} =~ /strawberry/i ) {
-            print STDERR "ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010)\n";
-            throw Error::Simple("ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010)");
+            print STDERR
+"ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010)\n";
+            throw Error::Simple(
+"ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010)"
+            );
         }
-    } else {
-            print STDERR "ERROR: unknown {Htpasswd}{Encoding} setting : ".$Foswiki::cfg{Htpasswd}{Encoding}."\n";
-            throw Error::Simple("ERROR: unknown {Htpasswd}{Encoding} setting : ".$Foswiki::cfg{Htpasswd}{Encoding}."\n");
+    }
+    else {
+        print STDERR "ERROR: unknown {Htpasswd}{Encoding} setting : "
+          . $Foswiki::cfg{Htpasswd}{Encoding} . "\n";
+        throw Error::Simple( "ERROR: unknown {Htpasswd}{Encoding} setting : "
+              . $Foswiki::cfg{Htpasswd}{Encoding}
+              . "\n" );
     }
 
     return $this;
@@ -113,9 +123,10 @@ sub canFetchUsers {
 }
 
 sub fetchUsers {
-    my $this  = shift;
+    my $this = shift;
+
     # Read passwords with shared lock
-    my $db    = $this->_readPasswd( 1 );
+    my $db    = $this->_readPasswd(1);
     my @users = sort keys %$db;
     require Foswiki::ListIterator;
     return new Foswiki::ListIterator( \@users );
@@ -124,16 +135,16 @@ sub fetchUsers {
 # Lock the htpasswd semaphore file (create if it does not exist)
 # Returns a file handle that you can later simply close with _unlockPasswdFile
 sub _lockPasswdFile {
-    my $operator = @_;
+    my $operator     = @_;
     my $lockFileName = $Foswiki::cfg{WorkingDir} . '/htpasswd.lock';
 
-    sysopen(my $fh, $lockFileName, O_RDWR|O_CREAT, 0666)
-      || throw Error::Simple(
-        $lockFileName . 
-        ' open or create password lock file failed -' . 
-        'check access rights: ' . $! );
+    sysopen( my $fh, $lockFileName, O_RDWR | O_CREAT, 0666 )
+      || throw Error::Simple( $lockFileName
+          . ' open or create password lock file failed -'
+          . 'check access rights: '
+          . $! );
     flock $fh, $operator;
-    
+
     return $fh;
 }
 
@@ -161,7 +172,7 @@ sub _readPasswd {
     }
 
     $lockShared |= 0;
-    my $lockHandle = _lockPasswdFile( LOCK_SH ) if $lockShared;
+    my $lockHandle = _lockPasswdFile(LOCK_SH) if $lockShared;
     my $IN_FILE;
     open( $IN_FILE, '<', "$Foswiki::cfg{Htpasswd}{FileName}" )
       || throw Error::Simple(
@@ -186,8 +197,8 @@ sub _readPasswd {
         }
     }
     close($IN_FILE);
-    _unlockPasswdFile( $lockHandle ) if $lockShared;
-    
+    _unlockPasswdFile($lockHandle) if $lockShared;
+
     $this->{passworddata} = $data;
     return $data;
 }
@@ -213,17 +224,17 @@ sub _savePasswd {
     my $db = shift;
 
     my $content = _dumpPasswd($db);
-    
-    my $oldMask = umask(077);  # Access only by owner
+
+    my $oldMask = umask(077);    # Access only by owner
     my $fh;
 
     open( $fh, '>', $Foswiki::cfg{Htpasswd}{FileName} )
       || throw Error::Simple(
-          "$Foswiki::cfg{Htpasswd}{FileName} open failed: $!" );
+        "$Foswiki::cfg{Htpasswd}{FileName} open failed: $!");
     print $fh $content;
-    
+
     close($fh);
-    umask($oldMask);           # Restore original umask
+    umask($oldMask);             # Restore original umask
 }
 
 sub encrypt {
@@ -300,8 +311,9 @@ sub fetchPass {
 
     if ($login) {
         try {
+
             # Read passwords with shared lock
-            my $db = $this->_readPasswd( 1 );
+            my $db = $this->_readPasswd(1);
             if ( exists $db->{$login} ) {
                 $ret = $db->{$login}->{pass};
             }
@@ -335,12 +347,13 @@ sub setPassword {
 
     my $lockHandle;
     try {
-        $lockHandle = _lockPasswdFile( LOCK_EX );
+        $lockHandle = _lockPasswdFile(LOCK_EX);
+
         # Read password without shared lock as we have already exclusive lock
-        my $db = $this->_readPasswd( 0 );
+        my $db = $this->_readPasswd(0);
         $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
         $db->{$login}->{emails} ||= '';
-        _savePasswd( $db );
+        _savePasswd($db);
     }
     catch Error::Simple with {
         my $e = shift;
@@ -365,15 +378,16 @@ sub removeUser {
 
     my $lockHandle;
     try {
-        $lockHandle = _lockPasswdFile( LOCK_EX );
+        $lockHandle = _lockPasswdFile(LOCK_EX);
+
         # Read password without shared lock as we have already exclusive lock
-        my $db = $this->_readPasswd( 0 );
+        my $db = $this->_readPasswd(0);
         unless ( $db->{$login} ) {
             $this->{error} = 'No such user ' . $login;
         }
         else {
             delete $db->{$login};
-            _savePasswd( $db );
+            _savePasswd($db);
             $result = 1;
         }
     }
@@ -383,7 +397,7 @@ sub removeUser {
     finally {
         _unlockPasswdFile($lockHandle) if $lockHandle;
     };
-    
+
     return $result;
 }
 
@@ -418,7 +432,7 @@ sub getEmails {
 
     # first try the mapping cache
     # read passwords with shared lock
-    my $db = $this->_readPasswd( 1 );
+    my $db = $this->_readPasswd(1);
     if ( $db->{$login}->{emails} ) {
         return split( /;/, $db->{$login}->{emails} );
     }
@@ -434,9 +448,10 @@ sub setEmails {
     my $lockHandle;
 
     try {
-        $lockHandle = _lockPasswdFile( LOCK_EX );
+        $lockHandle = _lockPasswdFile(LOCK_EX);
+
         # Read password without shared lock as we have already exclusive lock
-        my $db = $this->_readPasswd( 0 );
+        my $db = $this->_readPasswd(0);
         unless ( $db->{$login} ) {
 
             # Make sure the user is in the auth system, by adding them with
@@ -446,7 +461,7 @@ sub setEmails {
 
         $db->{$login}->{emails} = $emails;
 
-        _savePasswd( $db );
+        _savePasswd($db);
     }
     finally {
         _unlockPasswdFile($lockHandle) if $lockHandle;
@@ -458,8 +473,9 @@ sub setEmails {
 sub findUserByEmail {
     my ( $this, $email ) = @_;
     my $logins = [];
+
     # read passwords with shared lock
-    my $db     = $this->_readPasswd( 1 );
+    my $db = $this->_readPasswd(1);
     while ( my ( $k, $v ) = each %$db ) {
         my %ems = map { $_ => 1 } split( ';', $v->{emails} );
         if ( $ems{$email} ) {
