@@ -214,7 +214,7 @@ sub _savePasswd {
 
     my $content = _dumpPasswd($db);
     
-    umask(077);
+    my $oldMask = umask(077);  # Access only by owner
     my $fh;
 
     open( $fh, '>', $Foswiki::cfg{Htpasswd}{FileName} )
@@ -223,6 +223,7 @@ sub _savePasswd {
     print $fh $content;
     
     close($fh);
+    umask($oldMask);           # Restore original umask
 }
 
 sub encrypt {
