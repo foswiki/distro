@@ -45,7 +45,7 @@ print "Building in $Config->{root}\n" if $Config->{debug};
 
 find( \&eachfile, ( $Config->{root}.'/lib' ));
 
-open(F, '>', "$Config->{root}/data/Foswiki/SourceCode.txt") or die $!;
+open(F, '>', "$Config->{root}/data/System/SourceCode.txt") or die $!;
 print F <<__TOPIC__;
 ---+!! Foswiki Source Code Packages
 
@@ -160,14 +160,14 @@ sub eachfile {
             $howSmelly = "\n\nThis package doesn't smell\n";
         }
     }
-    $Config->{debug} && print STDERR "$pmfile -> $Config->{root}/data/Foswiki/$topic.txt\n";
+    $Config->{debug} && print STDERR "$pmfile -> $Config->{root}/data/System/$topic.txt\n";
     push(@index, "---++ [[$topic][$packageName]] \n$packageSpec$howSmelly");
     $text = "---+ Package =$packageName=$extends\n$packageSpec\n%TOC%$text";
     foreach my $method ( sort keys %spec ) {
         $text =~ s/!!!$method!!!/$spec{$method}/;
     }
 
-    open(F, '>', "$Config->{root}/data/Foswiki/$topic.txt") || die "$! : $Config->{root}/data/Foswiki/$topic.txt \n";
+    open(F, '>', "$Config->{root}/data/System/$topic.txt") || die "$! : $Config->{root}/data/System/$topic.txt \n";
     print F $text;
     close F;
 }
