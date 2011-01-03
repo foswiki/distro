@@ -400,12 +400,6 @@ table.foswikiFormTable th.foswikiFormTableHRow a:link,
 table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	text-decoration:none;
 }
-.patternAttachmentHeader {
-	/* behaviour class */
-}
-.patternAttachmentHeader .foswikiSmall {
-	font-weight:normal;
-}
 .patternTwistyButton {
 	font-weight:bold;
 	margin:.5em 0;
@@ -422,7 +416,6 @@ h3 .foswikiSmall {
 	border-style:solid;
 }
 .foswikiFormStep {
-	line-height:140%;
 	padding:12px 20px;
 	margin:-1px -20px -1px -20px;
 	border-width:1px;

@@ -413,10 +413,6 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	/* always add class foswikiButton as well */
 	padding:.1em .2em;
 }
-.patternAttachmentHeader {
-        font-size: 1.1em;
-	/* behaviour class */
-}
 .foswikiForm h3 a:link,
 .foswikiForm h3 a:visited {
 	text-decoration:none;
@@ -437,7 +433,6 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	border-style:solid;
 }
 .foswikiFormStep {
-	line-height:140%;
 	padding:12px 40px;
 	margin:-1px -40px -1px -40px;
 	border-width:1px;

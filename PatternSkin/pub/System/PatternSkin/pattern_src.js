@@ -1,17 +1,6 @@
 
 jQuery(document).ready(
     function ($) {
-        // Create an attachment counter in the attachment table twisty.
-        $('div.foswikiAttachments').livequery(function() {
-					var count = $(this).find('table.foswikiTable').attr('rows').length - 1;
-					var countStr = " <span class='foswikiSmall'>" + count + "<\/span>";
-					$(this).find('.patternAttachmentHeader').livequery(function() {
-							$(this).append(countStr);
-						}
-					);
-                }
-            );
-
         var searchResultsCount = 0;
 
         // Search page handling
