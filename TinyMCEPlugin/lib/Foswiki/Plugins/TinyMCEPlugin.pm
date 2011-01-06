@@ -8,7 +8,7 @@ use warnings;
 use Assert;
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '04 Nov 2010';
+our $RELEASE           = '22 Nov 2010';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -170,17 +170,6 @@ sub beforeEditHandler {
     my $pluginURL = '%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin';
     my $tmceURL   = $pluginURL . '/tinymce/jscripts/tiny_mce';
 
-    # expand the init string
-    my $metainit = $init;    #Already expanded
-
-    # URL-encode the init string
-    $metainit =~ s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
-
-    # <meta> tags really do have to be in the head!
-    Foswiki::Func::addToHEAD( 'TINYMCEPLUGIN_INIT_ENCODED', <<"META" );
-<meta name="foswiki.TINYMCEPLUGIN_INIT_ENCODED" content="$metainit" />
-META
-
     # URL-encode the version number to include in the .js URLs, so that
     # the browser re-fetches the .js when this plugin is upgraded.
     my $encodedVersion = $VERSION;
@@ -191,10 +180,19 @@ META
     $encodedVersion =~
       s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
 
+    # Inline JS to set config? Heresy! Well, we were encoding into <meta tags
+    # but this caused problems with non-8bit encodings (See Item9973). Given
+    # that we blindly eval'd the unescaped TINYMCEPLUGIN_INIT anyway, PaulHarvey
+    # doesn't think it was any more secure anyway. Alternative is to use
+    # https://github.com/douglascrockford/JSON-js lib
     my $scripts = <<"SCRIPT";
-<script language="javascript" type="text/javascript" src="$tmceURL/tiny_mce$USE_SRC.js?v=$encodedVersion"></script>
-<script language="javascript" type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js?v=$encodedVersion"></script>
-<script language="javascript" type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>
+<script type="text/javascript" src="$tmceURL/tiny_mce$USE_SRC.js?v=$encodedVersion"></script>
+<script type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js?v=$encodedVersion"></script>
+<script type="text/javascript">
+FoswikiTiny.init = {
+  $init
+};</script>
+<script type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>
 SCRIPT
 
     Foswiki::Func::addToZone( 'script', 'TinyMCEPlugin', $scripts,
