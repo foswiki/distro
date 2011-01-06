@@ -38,7 +38,7 @@ my %jqueryChiliClass = map { $_ => 1 }
 
 my %tml2htmlClass = map { $_ => 1 }
     qw( WYSIWYG_PROTECTED WYSIWYG_STICKY TMLverbatim WYSIWYG_LINK
-        TMLhtml );
+        TMLhtml WYSIWYG_HIDDENWHITESPACE );
 
 =pod
 
@@ -1513,7 +1513,15 @@ sub _handleHR {
 
     my ( $f, $kids ) = $this->_flatten($options);
     return ( $f, '<hr />' . $kids ) if ( $options & $WC::NO_BLOCK_TML );
-    return ( $f | $WC::BLOCK_TML, $WC::CHECKn . '---' . $WC::CHECKn . $kids );
+
+    my $dashes = 3;
+    if ( $this->{attrs}->{style} and
+         $this->{attrs}->{style} =~ s/\bnumdashes\s*:\s*(\d+)\b// ) {
+        $dashes = $1;
+        $dashes = 3 if $dashes < 3;
+        $dashes = 160 if $dashes > 160; # Filter out probably-bad data
+    }
+    return ( $f | $WC::BLOCK_TML, $WC::CHECKn . ('-' x $dashes) . $WC::CHECKn . $kids );
 }
 
 sub _handleHTML { return _flatten(@_); }
@@ -1675,6 +1683,46 @@ sub _handleSPAN {
         if ( defined $percentColour ) {
             my ( $f, $kids ) = $this->_flatten($options);
             return ( $f, '%' . $percentColour . '%' . $kids . '%ENDCOLOR%' );
+        }
+    }
+
+    if ( _removeClass( \%atts, 'WYSIWYG_HIDDENWHITESPACE' ) ) {
+        # This regular expression ensures the encoded whitespace is valid.
+        # The limit on the number of digits will ensure that the numbers are reasonable.
+        if ( $atts{style} and $atts{style} =~ s/\bencoded\s*:\s*(['"])((?:b|n|t\d{1,2}|s\d{1,3})+)\1;?// ) {
+            my $whitespace = $2;
+            #print STDERR "'$whitespace' -> ";
+            $whitespace =~ s/b/\\/g;
+            $whitespace =~ s/n/$WC::NBBR/g;
+            $whitespace =~ s/t(\d+)/'\t' x $1/ge;
+            $whitespace =~ s/s(\d+)/$WC::NBSP x $1/ge;
+            #print STDERR "'$whitespace'\n";
+            #require Data::Dumper;
+            my ( $f, $kids ) = $this->_flatten($options | $WC::KEEP_WS | $WC::KEEP_ENTITIES);
+            #die Data::Dumper::Dumper($kids); 
+            if ( $kids eq ' ' ) {
+                # The space was not changed
+                # So restore the encoded whitespace
+                return ( $f, $whitespace );
+            }
+            elsif ( length($kids) == 0 ) {
+                # The user deleted the space
+                # So return blank
+                return ( 0, '' );
+            }
+            #else {die "'".ord($kids)."'";}if(1){}
+            elsif ( 0 and ($kids eq '&nbsp;' or $kids eq chr(160)) ) { # SMELL: Firefox-specific
+                # This was probably inserted by Firefox after the user deleted the space.
+                # So return blank
+                return ( 0, '' );
+            }
+            else {
+                # The user entered some new text
+                # Return the combination.
+                # Assume that a leading space corresponds to the encoded whitespace
+                $kids =~ s/^ //;
+                return ( $f, $whitespace . $kids );
+            }
         }
     }
 
