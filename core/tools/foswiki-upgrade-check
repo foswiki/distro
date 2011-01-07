@@ -113,6 +113,7 @@ V () { if $verbose; then echo "$@"; fi; }
 doit () { if $doit; then "$@"; fi; }
 dolist () { if ! $doit; then if $dolist; then echo $1; fi; fi; }
 
+
 if $listall; then
   cd $I; for d in "$O" "$U";do ( cd $d; find * -type f );done|sort|uniq \
     | while read f; do if test -e "$f"; then echo "$f";fi;done
@@ -130,7 +131,7 @@ merge_none   () { :; }
 
 is_binary () {
   case "$1" in
-    *.gif|*.GIF|*.png|*.PNG|*.jpg|*.JPG) return 0;;
+    *.gif|*.GIF|*.png|*.PNG|*.jpg|*.JPG|*.gz|*.GZ) return 0;;
     *) return 1;;
   esac
 }
@@ -139,7 +140,12 @@ is_binary () {
 # O the old distribution used to install it, 
 # U the new upgrade or full distrib 
 cd $U
-find * -type f | while read i; do
+
+file_list=( $(find * -type f) )
+
+for element in $(seq 0 $((${#file_list[@]} - 1))); do
+  i=${file_list[$element]}
+  #echo "Processing file $i "
   if test -e $I/$i; then
     if ! cmp -s $i $I/$i; then
       if cmp -s $O/$i $I/$i; then
@@ -160,7 +166,17 @@ find * -type f | while read i; do
 	  if is_binary "$i"; then
 	    echo "WARNING: copied $U/$i over your $I/$i . Revert if wrong"
 	  else
-	    echo "Merging $i"; doit $merge $i
+            echo "How do you want to handle conflict: $U/$i ?"
+	        #ls -la $O/$i $U/$i $I/$i 
+            select ans in "Merge files" "Keep original" "Use new file"
+	    do
+	       echo "Answer $ans "
+               case $ans in 
+                  "Merge files" ) echo "merge"; doit $merge $i; break;;
+                  "Keep original" ) echo "keeping original"; break;;
+                  "Use new file" ) echo "using new"; doit cp $U/$i $I/$i; break;; 
+                esac
+            done
 	  fi
 	elif test -n "$showdiff"; then
 	  if is_binary "$i"; then ls -l $orig $I/$1 $U/$1
