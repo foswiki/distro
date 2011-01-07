@@ -1,0 +1,183 @@
+#!/bin/bash
+set -a
+USAGE='foswiki-upgrade-check [options] install_dir old_release new_release
+This allows you to check what a foswiki upgrade would do, and perform it
+with interactive merging. Arguments are:
+  - install_dir your foswiki installation directory
+  - old_release a directory containing the distributed release for it
+  - new_release a directory containing the distributed new version
+e.g:
+foswiki-upgrade-check /www/fw /tmp/Foswiki-1.0.4 /tmp/Foswiki-1.0.5
+
+By default it just list the files that conflicts and would need a merge.
+This is useful, as it allows you to make a list of these files for later use
+by -mfd or -nom. For instance, if you have a production foswiki on a distant
+server that you can copy locally on your dev machine, you can: 
+  foswiki-upgrade-check on prod, save output in a file V
+  foswiki-upgrade-check -y on a local copy on dev
+  make a tar on local of files listed in V, upload to prod
+  foswiki-upgrade-check -y -nom on prod, then untar your tar in prod
+
+Options:
+  -v      verbose: lists all operations that will be done
+  -a      list all files that would be modified, not just the to merge ones.
+  -s      do not merge, but show the diffs for all conflicts (use kdiff3)
+  -y      yes, really "do it" performs the copy & merge
+          you must have write permission to the install_dir files.
+          Please make a BACKUP before!!!
+          If you do not want to make a full backup, you can backup the files
+          listed with the -a option that will be changed by the upgrade.
+  -l      list all files of the installation that will be probed for upgrade
+  -kd3    use kdiff3 to perform interactive merges (default)
+  -xxd    use xxdiff to perform interactive merges
+  -tkd    use tkdiff to perform interactive merges
+  -mld    use meld to perform interactive merges
+  -mfd DIR do not merge interactively, but instead in case of conflict take
+          file from DIR. Useful if DIR is a copy of your prod instance you 
+          upgraded previously to test things and do not want to repeat manual
+          process and copy what you did there
+  -nom    no merge, for all conflicts keep your files
+
+PS: do not forget to fix files permissions after this, for instance by a 
+chown -R apache:apache ., chown -R www-data:www-data ., chmod -R a+rwX .
+depending on your installation
+
+PS: the "new_release" dir can also be the distributed "upgrade" package, but
+it is advised to use the full release for the new version as otherwise small
+discrepencies may appear on susequent upgrades
+
+To upgrade a server with no graphical environment (remote), do:
+   * run foswiki-upgrade-check on the server to list the conflicting files. 
+     take note of them for instance by a: (I O N are the installation, old and
+     new dirs respectively)
+     foswiki-upgrade-check $I $O $N >/tmp/fwu.list 
+     Do a backup via:
+     cd $I; tar cfz /tmp/wiki-backup.tgz $(foswiki-upgrade-check -a $I $O $N)
+   * copy the server install on your local workstation, by
+     rsync -aHSx --delete --force SERVER:SRC/ DEST/ 
+     If your installation is big, you can copy only the useful files for this 
+     upgrade by copying and untarring /tmp/fwi.tgz made on the server by:
+     tar cfz /tmp/fwi.tgz $(foswiki-upgrade-check -l $I $O $N)
+   * do the "foswiki-upgrade-check -y" locally (in DEST/) with your graphical 
+     merge tool
+   * either re-upload your upgraded local copy to another place on the server 
+     (lets say /tmp/fwu ), or better just the resolved conflicts: 
+     rsync  -aHSx --delete --force -R `cat /tmp/fwu.list`  SERVER:/tmp/fwu/ 
+     if you copied /tmp/fwu.list from the server to your workstation
+   * on the server, perform the automatic merge with 
+     foswiki-upgrade-check -y -mfd /tmp/fwu $I $O $N
+
+v1.0 2009-04-26 published on http://foswiki.org/Support/HowDoIUpgradeSafelyACustomizedFoswikiInstallation
+v1.1 2009-08-18 -nom was not working
+v1.2 2009-09-22 -s option, kdiff3 merge is now automatic if no conflicts
+                detects case where file is new but different
+                avoid merging binary files, just copy over.
+v1.3 2010-02-26 dir arguments can now be relative
+v1.4 2010-03-28 -a and -l options to help backuping
+'
+
+merge=merge_kdiff3
+doit=false
+dolist=false
+listall=false
+verbose=false
+mfd=
+showdiff=
+# Options processing
+while test "_${1#-}" != "_$1" -a "_${1//-/}" != "_";do case "$1" in
+  -kd3) merge=merge_kdiff3;;
+  -tkd) merge=merge_tkdiff;;
+  -xxd) merge=merge_xxdiff;;
+  -mld) merge=merge_meld;;
+  -mfd) merge=merge_mfd; mfd=$2;shift;;
+  -nom) merge=merge_none;;
+  -s) showdiff=show_kdiff3;;
+  -a) dolist=true;;
+  -l) listall=true;;
+  -y) doit=true;;
+  -v) verbose=true;;
+  *) echo "$USAGE"; exit 1;
+esac;shift; done; if test "_$1" = "_--";then shift; fi
+if test $# != 3; then echo ERROR: 3 arguments needed; echo "$USAGE"; exit 1; fi
+for d in "$@" $mfd; do
+  if test ! -e $d/lib/Foswiki.pm; then
+    echo ERROR: "$d" is not a foswiki directory; exit 1
+  fi
+done
+I="$1"; O="$2"; U="$3"
+case "$I" in /*) : ;; *) I="$PWD/$I";; esac
+case "$O" in /*) : ;; *) O="$PWD/$O";; esac
+case "$U" in /*) : ;; *) U="$PWD/$U";; esac
+
+V () { if $verbose; then echo "$@"; fi; }
+doit () { if $doit; then "$@"; fi; }
+dolist () { if ! $doit; then if $dolist; then echo $1; fi; fi; }
+
+if $listall; then
+  cd $I; for d in "$O" "$U";do ( cd $d; find * -type f );done|sort|uniq \
+    | while read f; do if test -e "$f"; then echo "$f";fi;done
+  exit 0
+fi
+
+# merge args are is the file, merge into installation
+merge_kdiff3 () { kdiff3 -m --auto $orig $I/$1 $U/$1 -o $I/$1; }
+show_kdiff3 () { kdiff3 $orig $I/$1 $U/$1; }
+merge_tkdiff () { tkdiff -a $orig -o $I/$1 $I/$1 $U/$1; }
+merge_xxdiff () { xxdiff --show-merged-pane -O -m -M $I/$1 $I/$1 $orig $U/$1; }
+merge_meld   () { meld $orig $I/$1 $U/$1; }
+merge_mfd    () { cp $mfd/$1 $I/$1; }
+merge_none   () { :; }
+
+is_binary () {
+  case "$1" in
+    *.gif|*.GIF|*.png|*.PNG|*.jpg|*.JPG) return 0;;
+    *) return 1;;
+  esac
+}
+
+# I is the installed wiki, 
+# O the old distribution used to install it, 
+# U the new upgrade or full distrib 
+cd $U
+find * -type f | while read i; do
+  if test -e $I/$i; then
+    if ! cmp -s $i $I/$i; then
+      if cmp -s $O/$i $I/$i; then
+        V $i LOCALLY_SAME, DIST_CHANGED, COPY
+        doit cp $U/$i $I/$i
+        dolist $i
+      elif cmp -s $i $O/$i; then
+        V $i LOCALLY_CHANGED, DIST_SAME. KEEP
+      else
+        if test ! -e $O/$i; then
+          V $i NEW FILE, BUT DIFFERENT IN LOCAL AND UPGRADE
+          orig=/dev/null
+	else
+	  V $i CONFLICT, MERGE
+	  orig=$O/$i
+	fi
+	if $doit; then
+	  if is_binary "$i"; then
+	    echo "WARNING: copied $U/$i over your $I/$i . Revert if wrong"
+	  else
+	    echo "Merging $i"; doit $merge $i
+	  fi
+	elif test -n "$showdiff"; then
+	  if is_binary "$i"; then ls -l $orig $I/$1 $U/$1
+	  else $showdiff $i
+	  fi
+	else echo $i
+	fi
+      fi
+    else
+      V $i SAME, IGNORE
+    fi
+  else
+    V $i NEW FILE, COPY
+    if $doit; then
+      dir=$I/$i; dir=${dir%/*}
+      if test ! -d $dir; then mkdir -p $dir; fi
+      cp $U/$i $I/$i
+    fi
+  fi
+done
