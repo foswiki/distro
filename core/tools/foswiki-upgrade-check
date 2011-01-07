@@ -27,6 +27,7 @@ Options:
 		  Please make a BACKUP before!!!
 		  If you do not want to make a full backup, you can backup the files
 		  listed with the -a option that will be changed by the upgrade.
+  -r      remove any files missing from the new release. (optional)
   -l      list all files of the installation that will be probed for upgrade
   -kd3    use kdiff3 to perform interactive merges (default)
   -xxd    use xxdiff to perform interactive merges
@@ -83,6 +84,7 @@ doit=false
 dolist=false
 listall=false
 verbose=false
+remove=false
 mfd=
 showdiff=
 # Options processing
@@ -98,6 +100,7 @@ while test "_${1#-}" != "_$1" -a "_${1//-/}" != "_";do case "$1" in
    -l) listall=true;;
    -y) doit=true;;
    -v) verbose=true;;
+   -r) remove=true;;
    *) echo "$USAGE"; exit 1;
 esac;shift; done; if test "_$1" = "_--";then shift; fi
 if test $# != 3; then echo ERROR: 3 arguments needed; echo "$USAGE"; exit 1; fi
@@ -201,23 +204,25 @@ for element in $(seq 0 $((${#file_list[@]} - 1))); do
     fi
 done
 
-cd $O
+if $remove; then
+    cd $O
 
-old_list=( $(find * -type f) )
+    old_list=( $(find * -type f) )
 
-for element in $(seq 0 $((${#old_list[@]} - 1))); do
-    i=${old_list[$element]}
-    if test -e $I/$i; then
-        if test ! -e $U/$i; then
-            if ! cmp -s $i $I/$i; then
-               V $i LOCALLY_MODIFIED, DIST_REMOVED, REMOVE
-            else
-               V $i LOCALLY_PRESENT, DIST_REMOVED, REMOVE
-            fi
-            doit rm -v $I/$i
-            if ! $doit; then
-               echo "$i (remove)"
+    for element in $(seq 0 $((${#old_list[@]} - 1))); do
+        i=${old_list[$element]}
+        if test -e $I/$i; then
+            if test ! -e $U/$i; then
+                if ! cmp -s $i $I/$i; then
+                   V $i LOCALLY_MODIFIED, DIST_REMOVED, REMOVE
+                else
+                   V $i LOCALLY_PRESENT, DIST_REMOVED, REMOVE
+                fi
+                doit rm -v $I/$i
+                if ! $doit; then
+                   echo "$i (remove)"
+                fi
             fi
         fi
-    fi
-done
+    done
+fi
