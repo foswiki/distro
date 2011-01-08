@@ -48,7 +48,7 @@ my @repos = (
     {
         name => 'trin',
         type => 'git',
-        url  => 'http://git.trin.org.au/foswiki',
+        url  => 'git://github.com/foswiki',
         svn  => 'official',
         bare => 1
     }
