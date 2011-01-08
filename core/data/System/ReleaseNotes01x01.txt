@@ -43,6 +43,27 @@ Foswiki 1.1 ships with the following:
    
 
 #Release01x01Changes
+---++ Important Changes since Foswiki 1.1.2
+
+---+++ Changes to %<nop>GROUPS% and %<nop>GROUPINFO% Macros
+
+See Foswiki:Tasks/Item10176. On releases prior to Foswiki 1.1.3. it was possible that the GROUP related macros could expose User WikiNames that would be hidden from the currently autenticated user.  This has been changed, and if the current user does not have VIEW authority for the user's topic, then the user will not be shown as a group member.
+
+There is a subtle difference in operation when using "Hidden" groups, especially when nested in other groups.  Consider the following group structure.
+   * !SomeGroup
+      * !UserOne
+      * !SomeHiddenGroup (VIEW is denied to guest)
+         * UserTwo
+         * SecretUser (VIEW is denied to guest)
+
+If the Guest uses %<nop>GROUPINFO% or %<nop>GROUPS% to list !SomeGroup,  they will see !UserOne and !UserTwo.   The !SecretUser will not be revealed,  but !SomeHiddenGroup will be expanded.
+
+If the Guest uses %<nop>GROUPINFO% to list groups without expanding nested groups (or visits the %USERSWEB%.WikiGroups topic),  then !SomeHiddenGroup will not be revealed, either directly or as a member of !SomeGroup.
+
+By comparing the expanded list of users of !SomeGroup with the un-expanded list, it is possible to infer by the presence of !UserTwo that there is a hidden group,  but the hidden group name or the hidden users are not revealed.
+
+The important thing to remember:  *If you need to hide the existance of users, protect their user topics.*
+
 ---++ Important Changes since Foswiki 1.0.10
 
 Foswiki 1.1 has many improvements that end users as well as administrators will appreciate. In addition Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. Work has been made to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements. Here is a list of the most important enhancements in Foswiki 1.1.0
