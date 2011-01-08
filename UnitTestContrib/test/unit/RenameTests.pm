@@ -74,7 +74,7 @@ rename [[$this->{test_web}.OldTopic]]
 </noautolink>
 22 %INCLUDE{"OldTopic"}%
 23 %INCLUDE{"$this->{test_web}.OldTopic"}%
-24 "OldTopic"
+24 "OldTopic, OtherTopic"
 THIS
 
     # Strategically-selected set of identical topics in the test web
@@ -820,6 +820,12 @@ sub test_renameTopic_same_web_new_topic_name {
 
 # Verify NewTopic references in test_web.NewTopic are updated
 #
+# SMELL: Line 24 - a quoted topic name - should probably not be renamed.  But it is
+# important to handle topic names referenced inside %MACRO{ statements.  It was decided
+# that it is more important to rename those quoted topics than to be 100% correct
+# and renaming only references that result in a link, and missing the references used on
+# line 22 and 23.
+#
     $this->check( $this->{test_web}, 'NewTopic', undef, <<THIS, 1 );
 1 $this->{test_web}.NewTopic
 $this->{test_web}.NewTopic 2
@@ -858,7 +864,7 @@ rename [[$this->{test_web}.NewTopic]]
 </noautolink>
 22 %INCLUDE{"NewTopic"}%
 23 %INCLUDE{"$this->{test_web}.NewTopic"}%
-24 "OldTopic"
+24 "NewTopic, OtherTopic"
 THIS
 #
 # Verify NewTopic references in test_web.OtherTopic  are updated
@@ -901,7 +907,7 @@ rename [[$this->{test_web}.NewTopic]]
 </noautolink>
 22 %INCLUDE{"NewTopic"}%
 23 %INCLUDE{"$this->{test_web}.NewTopic"}%
-24 "OldTopic"
+24 "NewTopic, OtherTopic"
 THIS
 #
 # Verify NewTopic references in new_web.OtherTopic  are updated
@@ -944,7 +950,7 @@ rename [[$this->{test_web}.NewTopic]]
 </noautolink>
 22 %INCLUDE{"$this->{test_web}.NewTopic"}%
 23 %INCLUDE{"$this->{test_web}.NewTopic"}%
-24 "OldTopic"
+24 "$this->{test_web}.NewTopic, OtherTopic"
 THIS
 }
 
