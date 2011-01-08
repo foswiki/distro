@@ -250,6 +250,8 @@ sub verify_getListOfGroups {
     my @l = ();
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
     my $k = join( ',', sort @l );
+    $this->expect_failure();
+    $this->annotate("Internal API expected to reveal hidden groups  See Tasks/Item10176 ");
     $this->assert_str_equals(
         "AdminGroup,AmishGroup,BaptistGroup,BaseGroup,BottomGroup,MultiLineGroup,TopGroup", $k );
 }
@@ -299,7 +301,7 @@ HERE
 
 sub verify_secretGroupIsHiddenFromGROUPINFO {
     my $this     = shift;
-    my $expected = 'AdminGroup,AmishGroup,BaptistGroup,BottomGroup,MultiLineGroup,TopGroup';
+    my $expected = 'AdminGroup, BaseGroup, AmishGroup, BaptistGroup, BottomGroup, MultiLineGroup, TopGroup';
     my $result;
     my $oldSession = $this->{session};
 
