@@ -2887,27 +2887,37 @@ sub test_no_format_no_shit {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros('%SEARCH{"BLEEGLE"}%');
-    $this->assert_html_equals( <<CRUD, _cut_the_crap($result) );
+    $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME
 
 <a href="">OkATopic</a>
 <nop>BLEEGLE dontmatchme.blah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by WikiGuest
 
 <a href="">OkBTopic</a>
 <nop>BLEEGLE dont.matchmeblah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by WikiGuest
 
 <a href="">OkTopic</a>
 <nop>BLEEGLE blah/matchme.blah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by WikiGuest
 
 <a href="">TestTopicSEARCH</a>
 <nop>BLEEGLE
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by WikiGuest
 
 Number of topics: 4
 CRUD
+
+    # Now we create the WikiGuest user topic, to test both outputs
+    my $session = $this->{session};
+    if( !$session->topicExists(  'TemporarySEARCHUsersWeb', 'WikiGuest' ) ) {
+        my $userTopic =
+          Foswiki::Meta->new( $session, 'TemporarySEARCHUsersWeb', 'WikiGuest', 'Just this poor old WikiGuest' );
+        $userTopic->save();
+    }
+    $this->assert( $session->topicExists(  'TemporarySEARCHUsersWeb', 'WikiGuest' ), 'Failed to create user topic in TemporarySEACHUsersWeb' );
+
     $result =
       $this->{test_topicObject}
       ->expandMacros('%SEARCH{"BLEEGLE" nosummary="on"}%');
@@ -2915,16 +2925,16 @@ CRUD
 Searched: <noautolink>BLEEGLE</noautolink>Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME
 
 <a href="">OkATopic</a>
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkBTopic</a>
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkTopic</a>
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">TestTopicSEARCH</a>
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 Number of topics: 4
 CRUD
@@ -2936,20 +2946,20 @@ Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME
 
 <a href="">OkATopic</a>
 <nop>BLEEGLE dontmatchme.blah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkBTopic</a>
 <nop>BLEEGLE dont.matchmeblah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkTopic</a>
 <nop>BLEEGLE blah/matchme.blah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 
 <a href="">TestTopicSEARCH</a>
 <nop>BLEEGLE
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 Number of topics: 4
 CRUD
@@ -2962,21 +2972,21 @@ Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME
 
 <a href="">OkATopic</a>
 <nop>BLEEGLE dontmatchme.blah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkBTopic</a>
 <nop>BLEEGLE dont.matchmeblah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 
 
 <a href="">OkTopic</a>
 <nop>BLEEGLE blah/matchme.blah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">TestTopicSEARCH</a>
 <nop>BLEEGLE
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 CRUD
     $result =
@@ -2986,19 +2996,19 @@ CRUD
 Searched: <noautolink>BLEEGLE</noautolink>
 <a href="">OkATopic</a>
 <nop>BLEEGLE dontmatchme.blah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkBTopic</a>
 <nop>BLEEGLE dont.matchmeblah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkTopic</a>
 <nop>BLEEGLE blah/matchme.blah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">TestTopicSEARCH</a>
 <nop>BLEEGLE
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 Number of topics: 4
 CRUD
@@ -3014,19 +3024,19 @@ Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME
 
 <a href="">OkATopic</a>
 <nop>BLEEGLE dontmatchme.blah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkBTopic</a>
 <nop>BLEEGLE dont.matchmeblah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkTopic</a>
 <nop>BLEEGLE blah/matchme.blah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">TestTopicSEARCH</a>
 <nop>BLEEGLE
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 Number of topics: 4
 CRUD
@@ -3042,19 +3052,19 @@ Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME
 
 <a href="">OkATopic</a>
 <nop>BLEEGLE dontmatchme.blah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkBTopic</a>
 <nop>BLEEGLE dont.matchmeblah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">OkTopic</a>
 <nop>BLEEGLE blah/matchme.blah
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 <a href="">TestTopicSEARCH</a>
 <nop>BLEEGLE
-NEW - <a href="">DATE - TIME</a> by TemporarySEARCHUsersWeb.WikiGuest
+NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
 
 Number of topics: 4
 CRUD
