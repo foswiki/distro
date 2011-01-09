@@ -14,7 +14,7 @@ sub check {
         && $Foswiki::cfg{PubUrlPath} ne 'NOT SET' )
     {
         my $guess = $Foswiki::cfg{ScriptUrlPath};
-        $guess =~ s/\/.*?bin$/\/pub/;
+        $guess =~ s/\/[^\/]*?bin$/\/pub/;
         $guess .= '/pub' unless ($guess =~ m/pub$/);
         $Foswiki::cfg{PubUrlPath} = $guess;
         return $this->guessed(0);
