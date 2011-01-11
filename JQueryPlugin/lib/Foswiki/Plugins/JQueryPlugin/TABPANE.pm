@@ -30,7 +30,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name         => 'Tabpane',
-            version      => '1.2',
+            version      => '1.2.1',
             author       => 'Michael Daum',
             homepage     => 'http://michaeldaumconsutling.com',
             tags         => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',

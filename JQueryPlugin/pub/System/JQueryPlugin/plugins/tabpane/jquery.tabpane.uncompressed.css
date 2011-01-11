@@ -5,7 +5,7 @@
   margin:0px;
   padding:0px;
 }
-.jqTab {
+.foswikiJs .jqTab {
   display:none; /* switched on by plugin */
   border:1px solid #BDBEC5;
   padding:0px;
@@ -14,7 +14,7 @@
 .jqTab.current {
   display:block;
 }
-.jqTabContents {
+.foswikiJs .jqTabContents {
   padding:1em;
 }
 ul.jqTabGroup {
