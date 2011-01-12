@@ -144,88 +144,86 @@ text="<style type='text/css' media='all'>
 id="UserRegistrationValidation"
 requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::WIKIWORD"
 text="<script type='text/javascript'>
-$(document).ready(
-	function() {
-		$('#foswikiRegistration').livequery(function() {
-			$('#Twk1WikiName').wikiword('#Twk1FirstName, #Twk1LastName');
-			$(this).validate({
-				rules: {
-					Twk1FirstName: 'required',
-					Twk1LastName:  'required',
-					Twk1WikiName: {
-						required: true,
-						wikiword: true,
-						remote: {
-							url: '%SCRIPTURL{view}%/%WEB%/%TOPIC%',
-							type: 'post',
-							data: {
-								section: 'checkWikiName',
-								skin: 'text',
-								name: function() {
-									return $('#Twk1WikiName').val();
-								}
+$(document).ready(function() {
+	$('#foswikiRegistration').livequery(function() {
+		$('#Twk1WikiName').wikiword('#Twk1FirstName, #Twk1LastName');
+		$(this).validate({
+			rules: {
+				Twk1FirstName: 'required',
+				Twk1LastName: 'required',
+				Twk1WikiName: {
+					required: true,
+					wikiword: true,
+					remote: {
+						url: '%SCRIPTURL{view}%/%WEB%/%TOPIC%',
+						type: 'post',
+						data: {
+							section: 'checkWikiName',
+							skin: 'text',
+							name: function() {
+								return $('#Twk1WikiName').val();
 							}
 						}
-					},
-					Twk1LoginName: {
-						required: true,
-						remote: {
-							url: '%SCRIPTURL{view}%/%WEB%/%TOPIC%',
-							type: 'post',
-							data: {
-								section: 'checkLoginName',
-								skin: 'text',
-								name: function() {
-									return $('#Twk1LoginName').val();
-								}
+					}
+				},
+				Twk1LoginName: {
+					required: true,
+					remote: {
+						url: '%SCRIPTURL{view}%/%WEB%/%TOPIC%',
+						type: 'post',
+						data: {
+							section: 'checkLoginName',
+							skin: 'text',
+							name: function() {
+								return $('#Twk1LoginName').val();
 							}
 						}
-					},
-					Twk1Email: {
-						required: true,
-						email: true
-					},
-					Twk1Password: {
-						required: true,
-						minlength: %QUERY{"{MinPasswordLength}"}% 
-					},
-					Twk1Confirm: {
-						required: true,
-						minlength: %QUERY{"{MinPasswordLength}"}%,
-						equalTo: '#Twk1Password'
 					}
 				},
-				messages: {
-					Twk1FirstName: '%MAKETEXT{"Please enter your first name"}%',
-					Twk1LastName: '%MAKETEXT{"Please enter your last name"}%',
-					Twk1WikiName: {
-						required: '%MAKETEXT{"Please enter a Wiki name"}%',
-						wikiword: '%MAKETEXT{"This is not a valid Wiki name"}%',
-						remote: '%MAKETEXT{"This Wiki name is already in use"}%'
-					},
-					Twk1Email: '%MAKETEXT{"Please enter a valid email address"}%',
-					Twk1LoginName: {
-						required: '%MAKETEXT{"Please enter a login name"}%',
-						remote: '%MAKETEXT{"This login name is already in use"}%',
-					},
-					Twk1Password: {
-						required: '%MAKETEXT{"Please enter a password"}%',
-						minlength: '%MAKETEXT{"Your password must be at least [_1] characters long" args="%QUERY{"{MinPasswordLength}"}%"}%'
-					},
-					Twk1Confirm: {
-						required: '%MAKETEXT{"Please confirm your password"}%',
-						equalTo: '%MAKETEXT{"Please enter the same password as above"}%',
-						minlength: '%MAKETEXT{"Your password must be at least [_1] characters long" args="%QUERY{"{MinPasswordLength}"}%"}%'
-					}
+				Twk1Email: {
+					required: true,
+					email: true
 				},
-				success: function(label) {
-					// remove generated label
-					label.remove();
+				Twk1Password: {
+					required: true,
+					minlength: %QUERY{"{MinPasswordLength}"}% 
+				},
+				Twk1Confirm: {
+					required: true,
+					minlength: %QUERY{"{MinPasswordLength}"}%,
+					equalTo: '#Twk1Password'
 				}
-			});
+			},
+			messages: {
+				Twk1FirstName: '%MAKETEXT{"Please enter your first name"}%',
+				Twk1LastName: '%MAKETEXT{"Please enter your last name"}%',
+				Twk1WikiName: {
+					required: '%MAKETEXT{"Please enter a Wiki name"}%',
+					wikiword: '%MAKETEXT{"This is not a valid Wiki name"}%',
+					remote: '%MAKETEXT{"This Wiki name is already in use"}%'
+				},
+				Twk1Email: '%MAKETEXT{"Please enter a valid email address"}%',
+				Twk1LoginName: {
+					required: '%MAKETEXT{"Please enter a login name"}%',
+					remote: '%MAKETEXT{"This login name is already in use"}%',
+				},
+				Twk1Password: {
+					required: '%MAKETEXT{"Please enter a password"}%',
+					minlength: '%MAKETEXT{"Your password must be at least [_1] characters long" args="%QUERY{"{MinPasswordLength}"}%"}%'
+				},
+				Twk1Confirm: {
+					required: '%MAKETEXT{"Please confirm your password"}%',
+					equalTo: '%MAKETEXT{"Please enter the same password as above"}%',
+					minlength: '%MAKETEXT{"Your password must be at least [_1] characters long" args="%QUERY{"{MinPasswordLength}"}%"}%'
+				}
+			},
+			success: function(label) {
+				// remove generated label
+				label.remove();
+			}
 		});
-	}
-);
+	});
+});
 </script>"
 }%%ENDSECTION{"resources"}%
 
@@ -248,7 +246,7 @@ Required field last name
 Required field wiki name
 
 %STARTSECTION{"requiredField_wikiName"}%<li><label class="desc" for="Twk1WikiName"><span class="required">*</span>%MAKETEXT{"Wiki name"}%</label>
-<div><input type="text" id="Twk1WikiName" name="Twk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" />%MAKETEXT{"Your name as displayed online. This must be a unique [_1]" args="%POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"Wiki name"}%"}%."}%</div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_wikiName"}%
+<div><input type="text" id="Twk1WikiName" name="Twk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" /><label class="expl">%MAKETEXT{"Your name as displayed online. This must be a unique [_1]" args="%POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"Wiki name"}%"}%."}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_wikiName"}%
 
 
 
@@ -256,14 +254,14 @@ Required field login name
 Only shown if ALLOWLOGINNAME is true.
 
 %STARTSECTION{"requiredField_loginName"}%<li><label class="desc" for="Twk1LoginName"><span class="required">*</span>%MAKETEXT{"Login name"}%</label>
-<div><input type="text" id="Twk1LoginName" name="Twk1LoginName" size="40" class="foswikiInputField" value="%REMOTE_USER%" tabindex="4" />%MAKETEXT{"The login name you use to sign in."}%</div></li>%ENDSECTION{"requiredField_loginName"}%
+<div><input type="text" id="Twk1LoginName" name="Twk1LoginName" size="40" class="foswikiInputField" value="%REMOTE_USER%" tabindex="4" /><label class="expl">%MAKETEXT{"The login name you use to sign in."}%</label></div></li>%ENDSECTION{"requiredField_loginName"}%
 
 
 
 Required field email
 
 %STARTSECTION{"requiredField_email"}%<li><label class="desc" for="Twk1Email"><span class="required">*</span>%MAKETEXT{"Email address"}%</label>
-<div><input type="text" id="Twk1Email" name="Twk1Email" size="40" class="foswikiInputField" value="" tabindex="5" />%MAKETEXT{"Your email address will be kept confidential."}%</div></li>%ENDSECTION{"requiredField_email"}%
+<div><input type="text" id="Twk1Email" name="Twk1Email" size="40" class="foswikiInputField" value="" tabindex="5" /><label class="expl">%MAKETEXT{"Your email address will be kept confidential."}%</label></div></li>%ENDSECTION{"requiredField_email"}%
 
 
 
@@ -279,7 +277,7 @@ Only shown if the password manager supports changing the password / email.
 Optional field join group
 
 enable by setting =REGISTRATIONGROUPTYPE= in the %USERSWEB%.DefaultPreferences topic to automatic, one, multiple.
-     
+   
 %STARTSECTION{"extraField_groups"}%%FORMAT{
 	"%IF{"defined 'REGISTRATIONGROUPS'" then="%REGISTRATIONGROUPS%" else="%GROUPINFO{
 			show="allowchange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%"
