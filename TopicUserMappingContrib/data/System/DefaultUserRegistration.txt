@@ -5,21 +5,10 @@
 Read general customisation instructions in System.UserAuthentication
 -->
 <!--
-Registration enabled/disabled messages
--->
-%IF{
-"not context registration_enabled"
-then=" *%MAKETEXT{"You cannot register on this site."}%* "
-else=" %IF{"$REGISTRATION_DISABLED!='DISABLED'" then=" *%MAKETEXT{"Create your account to edit pages on this site."}%* "}%
-%IF{"$REGISTRATION_DISABLED='DISABLED'" then=" *%MAKETEXT{"Sorry, Registration has been temporarily disabled"}%* "}%
-"
-}%
-<!--
 Show the form, if not REGISTRATION_DISABLED
 -->
-%INCLUDE{"%TOPIC%" section="form%REGISTRATION_DISABLED%" warn="off"}%%INCLUDE{"%TOPIC%" section="resources%REGISTRATION_DISABLED%" warn="off"}%<p>
-%MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%
-</p>
+%INCLUDE{"%TOPIC%" section="notes"}%%INCLUDE{"%TOPIC%" section="form%REGISTRATION_DISABLED%" warn="off"}%%INCLUDE{"%TOPIC%" section="resources%REGISTRATION_DISABLED%" warn="off"}%<p>
+%MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%</p>
 <verbatim class="foswikiHidden">
 
 All the topic sections.
@@ -27,10 +16,25 @@ The main section is "form", INCLUDEd when REGISTRATION_DISABLED is not 'DISABLED
 Other sections define the fields and extra info text.
 
 
+%STARTSECTION{"notes" REGISTRATION_DISABLED="%REGISTRATION_DISABLED%"}%%INCLUDE{"%TOPIC%" section="registrationEnabledNotes"}%%INCLUDE{"%TOPIC%" section="requiredNotes%REGISTRATION_DISABLED%" warn="off"}%%INCLUDE{"%TOPIC%" section="okNotes%REGISTRATION_DISABLED%" warn="off"}%%ENDSECTION{"notes"}%
+
+%STARTSECTION{"requiredNotes"}%<div class="foswikiMakeHidden foswikiNotification foswikiAlert">%MAKETEXT{"We noticed you have disabled Javascript. Please switch on Javascript if you want to register."}%</div><div class="foswikiNotification foswikiAlert foswikiMakeVisible showIfNoCookies">%MAKETEXT{"We noticed you have disabled cookies. Please enable cookies if you want to register."}%</div>%ENDSECTION{"requiredNotes"}%
+
+%STARTSECTION{"okNotes"}%<div class="foswikiMakeVisible hideIfNoCookies"><strong>%MAKETEXT{"Create your account to edit pages on this site."}%</strong></div>%ENDSECTION{"okNotes"}%
+
+
+%STARTSECTION{"registrationEnabledNotes"}%%IF{
+"not context registration_enabled"
+then=" *%MAKETEXT{"You cannot register on this site."}%* "
+else="%IF{"$REGISTRATION_DISABLED='DISABLED'" then=" *%MAKETEXT{"Sorry, registration has been temporarily disabled"}%* "}%
+"
+}%%ENDSECTION{"registrationEnabledNotes"}%
+
+
 %STARTSECTION{"form"}%%INCLUDE{"%TOPIC%" section="htmlform%REGISTRATION_DISABLED%" warn="off"}%%INCLUDE{"%TOPIC%" section="resources%REGISTRATION_DISABLED%" warn="off"}%%ENDSECTION{"form"}%
 
 
-%STARTSECTION{"htmlform"}%<div class="registration"><form name="registration" id="foswikiRegistration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
+%STARTSECTION{"htmlform"}%<div class="foswikiMakeVisible hideIfNoCookies registration"><form name="registration" id="foswikiRegistration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
 	<div class="foswikiFormSteps">
 		<div class="foswikiFormStep">
 			<p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required"}%</em></p>
@@ -59,6 +63,20 @@ $REGISTRATIONGROUPTYPE = "automatic"' then='$percentINCLUDE{"%WEB%.%TOPIC%" sect
 "head"
 id="UserRegistrationStyle"
 text="<style type='text/css' media='all'>
+.hideIfNoCookies,
+.foswikiJs .foswikiMakeVisible.hideIfNoCookies {
+	display:none;
+}
+.foswikiCookiesEnabled .hideIfNoCookies,
+.foswikiCookiesEnabled .foswikiMakeVisible.hideIfNoCookies {
+	display:block;
+}
+.foswikiJs .showIfNoCookies {
+	display:block;
+}
+.foswikiJs.foswikiCookiesEnabled .showIfNoCookies {
+	display:none;
+}
 .registration .foswikiFormSteps {
 	margin:.5em 0 1em 0;
 }
@@ -139,12 +157,22 @@ text="<style type='text/css' media='all'>
 	background:none;
 }
 </style>"
-}%%JQREQUIRE{"validate, wikiword"}%%ADDTOZONE{
+}%%JQREQUIRE{"validate, wikiword, cookie"}%%ADDTOZONE{
 "script"
 id="UserRegistrationValidation"
-requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::WIKIWORD"
+requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::WIKIWORD, JQUERYPLUGIN::COOKIE"
 text="<script type='text/javascript'>
 $(document).ready(function() {
+	// cookie check
+	var testCookieValue = String(Math.floor(10000000 * Math.random()));
+	var testCookieName = 'foswikiRegistrationTest';
+	$.cookie(testCookieName, testCookieValue);
+	if ( $.cookie(testCookieName) === testCookieValue) {
+		if (document.documentElement) {
+			$(document.documentElement).addClass('foswikiCookiesEnabled');
+		}
+	}
+	// inline form validation
 	$('#foswikiRegistration').livequery(function() {
 		$('#Twk1WikiName').wikiword('#Twk1FirstName, #Twk1LastName');
 		$(this).validate({
