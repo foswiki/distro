@@ -124,11 +124,6 @@ sub viewfile {
         $fileName = join( '/', @path );
     }
 
-    # Note that there may be directories below the pub/web/topic, so
-    # simply sanitizing the attachment name won't work.
-    $fileName = Foswiki::Sandbox::untaint( $fileName,
-        \&Foswiki::Sandbox::validateAttachmentName );
-
     if ( !$fileName ) {
         throw Foswiki::OopsException(
             'attention',
@@ -144,6 +139,12 @@ sub viewfile {
     $fileName = Foswiki::urlDecode($fileName);
     my $decodedFileName = $session->UTF82SiteCharSet($fileName);
     $fileName = $decodedFileName if defined $decodedFileName;
+
+    # Note that there may be directories below the pub/web/topic, so
+    # simply sanitizing the attachment name won't work.
+    $fileName = Foswiki::Sandbox::untaint( $fileName,
+        \&Foswiki::Sandbox::validateAttachmentName );
+
 
     #print STDERR "VIEWFILE: web($web), topic($topic), file($fileName)\n";
 
