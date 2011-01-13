@@ -1589,6 +1589,8 @@ sub _handleOL       { return _LIST(@_); }
 sub _handleP {
     my ( $this, $options ) = @_;
 
+    my $nbnl = $this->hasClass('WYSIWYG_NBNL');
+
     if ( $this->hasClass('WYSIWYG_WARNING') ) {
         return ( 0, '' );
     }
@@ -1622,6 +1624,7 @@ sub _handleP {
     else {
         $pre = $WC::NBBR;
     }
+    $pre = $WC::NBBR . $pre if $nbnl;
     return ( $f | $WC::BLOCK_TML, $pre . $kids . $WC::NBBR );
 }
 

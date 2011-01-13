@@ -510,10 +510,10 @@ HERE
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'orderedList_Item1341',
         html => <<'HERE',
-<ol><li>Sushi</li><li>Banana</li></ol><p />
-<ol><li type="A">Sushi</li><li type="A">Banana</li></ol><p />
-<ol><li type="i">Sushi</li><li type="i">Banana</li></ol><p />
-<ol><li type="I">Sushi</li><li type="I">Banana</li></ol><p />
+<ol><li>Sushi</li><li>Banana</li></ol><p class="WYSIWYG_NBNL"/>
+<ol><li type="A">Sushi</li><li type="A">Banana</li></ol><p class="WYSIWYG_NBNL"/>
+<ol><li type="i">Sushi</li><li type="i">Banana</li></ol><p class="WYSIWYG_NBNL"/>
+<ol><li type="I">Sushi</li><li type="I">Banana</li></ol><p class="WYSIWYG_NBNL"/>
 <ol><li>Sushi</li><li type="A">Sushi</li><li type="i">Sushi</li></ol>
 HERE
         tml => <<'HERE',
@@ -553,8 +553,10 @@ HERE
 blah
 TML
         html => <<'HTML',
-<ul><li>&nbsp;</li><li>alpha</li><li>&nbsp;</li><li>beta</li><li>&nbsp;</li></ul><p />
-<ol><li>&nbsp;</li><li>charlie</li><li>&nbsp;</li></ol><p />
+<ul><li>&nbsp;</li><li>alpha</li><li>&nbsp;</li><li>beta</li><li>&nbsp;</li></ul>
+<p class="WYSIWYG_NBNL"/>
+<ol><li>&nbsp;</li><li>charlie</li><li>&nbsp;</li></ol>
+<p class="WYSIWYG_NBNL"/>
 <ol><li type="i">angel</li><li type="i">&nbsp;</li></ol>
 <p>blah</p>
 HTML
@@ -1684,6 +1686,24 @@ Paraone',
         html => '<ul><li>list</li></ul>Paraone',
     },
     {
+        name => 'blankLineAndParaAfterList',
+        exec => $TML2HTML | $ROUNDTRIP,
+        tml  => '   * list
+
+Paraone',
+        html => '<ul><li>list'
+          . '</li></ul><p class="WYSIWYG_NBNL">Paraone</p>',
+    },
+    {
+        name => 'blankLineAndParaWithLeadingSpacesAfterList',
+        exec => $ROUNDTRIP,
+        tml  => <<'TML',
+   * list
+
+     Paraone
+TML
+    },
+    {
         name => 'brInText',
         exec => $HTML2TML,
         tml  => 'pilf<br />flip',
@@ -2689,7 +2709,7 @@ ZAT
 HERE
         html => <<'HERE',
 <hr class="TMLhr" />
-<p>
+<p class="WYSIWYG_NBNL">
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{search=&#34;Sven&#34;}%</span>
 </p>
 HERE

@@ -135,14 +135,9 @@ HERE
 
 %SEARCH{search="Sven"}%
 HERE
-        finaltml => <<'HERE',
----
-
-%SEARCH{search="Sven"}%
-HERE
         html => <<'HERE',
 <hr class="TMLhr" />
-<p>
+<p class="WYSIWYG_NBNL">
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{search=&#34;Sven&#34;}%</span>
 </p>
 HERE
