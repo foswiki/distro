@@ -1,19 +1,51 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252805976" format="1.1" version="$Rev: 6542 $"}%
 <noautolink>
 ---+ %MAKETEXT{"Registration"}%
-<!--
-Read general customisation instructions in System.UserAuthentication
--->
-<!--
+	<!--
+	Read general customisation instructions in System.UserAuthentication
+	-->
+%INCLUDE{"%TOPIC%" section="introduction"}%
+
+<verbatim class="foswikiHidden">
+
+	All the topic sections.
+	The main section is "form", INCLUDEd when REGISTRATION_DISABLED is not 'DISABLED'.
+	The section 'optionalfields' defines the optional fields.
+
+%STARTSECTION{"optionalfields"}%
+<!-- START OPTIONAL FIELDS -->
+<!-- remove EXCLUDED_ from section names to show fields -->%IF{'$REGISTRATIONGROUPTYPE = "one" OR
+$REGISTRATIONGROUPTYPE = "multiple" OR
+$REGISTRATIONGROUPTYPE = "automatic"' then='$percentINCLUDE{"%WEB%.%TOPIC%" section="extraField_groups" warn="off"}$percent' else='<!-- -->'}%%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationName" warn="off"}%%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationUrl" warn="off"}%%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_country" warn="off"}%
+%ENDSECTION{"optionalfields"}%
+
+
+%STARTSECTION{"htmlform"}%<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" id="foswikiRegistration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
+	<div class="foswikiFormSteps">
+		<div class="foswikiFormStep">
+			<p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required"}%</em></p>
+			<ul>
+<!-- REQUIRED FIELDS -->
+%INCLUDE{"%TOPIC%" section="requiredField_firstName"}%
+%INCLUDE{"%TOPIC%" section="requiredField_lastName"}%
+%INCLUDE{"%TOPIC%" section="requiredField_wikiName"}%%IF{'$ALLOWLOGINNAME' then='%INCLUDE{"%TOPIC%" section="requiredField_loginName"}%' else='<!-- -->'}%
+%INCLUDE{"%TOPIC%" section="requiredField_email"}%%IF{'context passwords_modifyable' then='%INCLUDE{"%TOPIC%" section="requiredField_password"}%' else='<!-- -->'}%%INCLUDE{"%TOPIC%" section="optionalfields"}%<!-- SUBMIT BUTTON -->
+%INCLUDE{"%TOPIC%" section="requiredButton_submit"}%
+			</ul>
+		</div>
+	</div>
+%INCLUDE{"%TOPIC%" section="EXCLUDED_privacyInformation" warn="off"}%%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percentBLACKLISTPLUGIN{action=$quotmagic$quot}$percent" />' else='<!-- -->'}%
+<input type="hidden" name="topic" value="%TOPIC%" />
+<input type="hidden" name="action" value="register" />
+</form>
+</div>%ENDSECTION{"htmlform"}%
+
+
+%STARTSECTION{"introduction"}%<!--
 Show the form, if not REGISTRATION_DISABLED
 -->
 %INCLUDE{"%TOPIC%" section="notes"}%%INCLUDE{"%TOPIC%" section="form%REGISTRATION_DISABLED%" warn="off"}%%INCLUDE{"%TOPIC%" section="resources%REGISTRATION_DISABLED%" warn="off"}%<p>
-%MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%</p>
-<verbatim class="foswikiHidden">
-
-All the topic sections.
-The main section is "form", INCLUDEd when REGISTRATION_DISABLED is not 'DISABLED'.
-Other sections define the fields and extra info text.
+%MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%</p>%ENDSECTION{"introduction"}%
 
 
 %STARTSECTION{"notes" REGISTRATION_DISABLED="%REGISTRATION_DISABLED%"}%%INCLUDE{"%TOPIC%" section="registrationEnabledNotes"}%%INCLUDE{"%TOPIC%" section="requiredNotes%REGISTRATION_DISABLED%%IF{"{Validation}{Method}='none'" then="donotshow"}%" warn="off"}%%INCLUDE{"%TOPIC%" section="okNotes%REGISTRATION_DISABLED%" warn="off"}%%ENDSECTION{"notes"}%
@@ -33,31 +65,6 @@ else="%IF{"$REGISTRATION_DISABLED='DISABLED'" then=" *%MAKETEXT{"Sorry, registra
 
 %STARTSECTION{"form"}%%INCLUDE{"%TOPIC%" section="htmlform%REGISTRATION_DISABLED%" warn="off"}%%INCLUDE{"%TOPIC%" section="resources%REGISTRATION_DISABLED%" warn="off"}%%ENDSECTION{"form"}%
 
-
-%STARTSECTION{"htmlform"}%<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" id="foswikiRegistration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
-	<div class="foswikiFormSteps">
-		<div class="foswikiFormStep">
-			<p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required"}%</em></p>
-			<ul>
-<!-- REQUIRED FIELDS -->
-%INCLUDE{"%TOPIC%" section="requiredField_firstName"}%
-%INCLUDE{"%TOPIC%" section="requiredField_lastName"}%
-%INCLUDE{"%TOPIC%" section="requiredField_wikiName"}%%IF{'$ALLOWLOGINNAME' then='%INCLUDE{"%TOPIC%" section="requiredField_loginName"}%' else='<!-- -->'}%
-%INCLUDE{"%TOPIC%" section="requiredField_email"}%%IF{'context passwords_modifyable' then='%INCLUDE{"%TOPIC%" section="requiredField_password"}%' else='<!-- -->'}%
-<!-- START OPTIONAL FIELDS -->
-<!-- remove EXCLUDED_ from section names to show fields -->%IF{'$REGISTRATIONGROUPTYPE = "one" OR
-$REGISTRATIONGROUPTYPE = "multiple" OR
-$REGISTRATIONGROUPTYPE = "automatic"' then='$percentINCLUDE{"%WEB%.%TOPIC%" section="extraField_groups" warn="off"}$percent' else='<!-- -->'}%%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationName" warn="off"}%%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationUrl" warn="off"}%%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_country" warn="off"}%
-<!-- SUBMIT BUTTON -->
-%INCLUDE{"%TOPIC%" section="requiredButton_submit"}%
-			</ul>
-		</div>
-	</div>
-%INCLUDE{"%TOPIC%" section="EXCLUDED_privacyInformation" warn="off"}%%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percentBLACKLISTPLUGIN{action=$quotmagic$quot}$percent" />' else='<!-- -->'}%
-<input type="hidden" name="topic" value="%TOPIC%" />
-<input type="hidden" name="action" value="register" />
-</form>
-</div>%ENDSECTION{"htmlform"}%
 
 %STARTSECTION{"resources"}%%IF{"{Validation}{Method}!='none'" then="$percntADDTOZONE{
 $quothead$quot
