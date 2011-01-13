@@ -74,7 +74,10 @@ url param t is %IF{
 }% 
 </verbatim>
 
-6. Configuration item set or not (item must be one of  %FORMAT{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}%)
+6. Configuration item <br />
+(item must be one of  %FORMAT{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}%)
+
+Testing an item set or not 
 <verbatim class="tml">
 User details are %IF{
    "{AntiSpam}{HideUserDetails}"
@@ -87,6 +90,21 @@ User details are %IF{
    "{AntiSpam}{HideUserDetails}"
    then="hidden"
    else="shown"
+}%
+
+Testing the value of an item
+<verbatim class="tml">
+Validation method is %IF{
+   "{Validation}{Method}='strikeone'"
+   then="'strikeone'"
+   else="no 'strikeone'"
+}%
+</verbatim>
+expands to:
+Validation method is %IF{
+   "{Validation}{Method}='strikeone'"
+   then="'strikeone'"
+   else="no 'strikeone'"
 }%
 
 7. Plugin enabled test
