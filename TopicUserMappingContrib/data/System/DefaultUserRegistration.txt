@@ -16,11 +16,11 @@ The main section is "form", INCLUDEd when REGISTRATION_DISABLED is not 'DISABLED
 Other sections define the fields and extra info text.
 
 
-%STARTSECTION{"notes" REGISTRATION_DISABLED="%REGISTRATION_DISABLED%"}%%INCLUDE{"%TOPIC%" section="registrationEnabledNotes"}%%INCLUDE{"%TOPIC%" section="requiredNotes%REGISTRATION_DISABLED%" warn="off"}%%INCLUDE{"%TOPIC%" section="okNotes%REGISTRATION_DISABLED%" warn="off"}%%ENDSECTION{"notes"}%
+%STARTSECTION{"notes" REGISTRATION_DISABLED="%REGISTRATION_DISABLED%"}%%INCLUDE{"%TOPIC%" section="registrationEnabledNotes"}%%INCLUDE{"%TOPIC%" section="requiredNotes%REGISTRATION_DISABLED%%IF{"{Validation}{Method}='none'" then="donotshow"}%" warn="off"}%%INCLUDE{"%TOPIC%" section="okNotes%REGISTRATION_DISABLED%" warn="off"}%%ENDSECTION{"notes"}%
 
-%STARTSECTION{"requiredNotes"}%<div class="foswikiMakeHidden foswikiNotification foswikiAlert">%MAKETEXT{"We noticed you have disabled Javascript. Please switch on Javascript if you want to register."}%</div><div class="foswikiNotification foswikiAlert foswikiMakeVisible showIfNoCookies">%MAKETEXT{"We noticed you have disabled cookies. Please enable cookies if you want to register."}%</div>%ENDSECTION{"requiredNotes"}%
+%STARTSECTION{"requiredNotes"}%<div class="registerMakeHidden foswikiNotification foswikiAlert">%MAKETEXT{"We noticed you have disabled Javascript. Please switch on Javascript if you want to register."}%</div><div class="foswikiNotification foswikiAlert registerMakeVisible showIfNoCookies">%MAKETEXT{"We noticed you have disabled cookies. Please enable cookies if you want to register."}%</div>%ENDSECTION{"requiredNotes"}%
 
-%STARTSECTION{"okNotes"}%<div class="foswikiMakeVisible hideIfNoCookies"><strong>%MAKETEXT{"Create your account to edit pages on this site."}%</strong></div>%ENDSECTION{"okNotes"}%
+%STARTSECTION{"okNotes"}%<div class="registerMakeVisible hideIfNoCookies"><strong>%MAKETEXT{"Create your account to edit pages on this site."}%</strong></div>%ENDSECTION{"okNotes"}%
 
 
 %STARTSECTION{"registrationEnabledNotes"}%%IF{
@@ -34,7 +34,7 @@ else="%IF{"$REGISTRATION_DISABLED='DISABLED'" then=" *%MAKETEXT{"Sorry, registra
 %STARTSECTION{"form"}%%INCLUDE{"%TOPIC%" section="htmlform%REGISTRATION_DISABLED%" warn="off"}%%INCLUDE{"%TOPIC%" section="resources%REGISTRATION_DISABLED%" warn="off"}%%ENDSECTION{"form"}%
 
 
-%STARTSECTION{"htmlform"}%<div class="foswikiMakeVisible hideIfNoCookies registration"><form name="registration" id="foswikiRegistration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
+%STARTSECTION{"htmlform"}%<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" id="foswikiRegistration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
 	<div class="foswikiFormSteps">
 		<div class="foswikiFormStep">
 			<p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required"}%</em></p>
@@ -59,16 +59,25 @@ $REGISTRATIONGROUPTYPE = "automatic"' then='$percentINCLUDE{"%WEB%.%TOPIC%" sect
 </form>
 </div>%ENDSECTION{"htmlform"}%
 
-%STARTSECTION{"resources"}%%ADDTOZONE{
-"head"
-id="UserRegistrationStyle"
-text="<style type='text/css' media='all'>
+%STARTSECTION{"resources"}%%IF{"{Validation}{Method}!='none'" then="$percntADDTOZONE{
+$quothead$quot
+id=$quotUserRegistrationRequiredStyle$quot
+text=$quot<style type='text/css' media='all'>
+.registerMakeVisible {
+	display:none;
+}
+.foswikiJs .registerMakeVisible {
+	display:block;
+}
+.foswikiJs .registerMakeHidden {
+	display:none;
+}
 .hideIfNoCookies,
-.foswikiJs .foswikiMakeVisible.hideIfNoCookies {
+.foswikiJs .registerMakeVisible.hideIfNoCookies {
 	display:none;
 }
 .foswikiCookiesEnabled .hideIfNoCookies,
-.foswikiCookiesEnabled .foswikiMakeVisible.hideIfNoCookies {
+.foswikiCookiesEnabled .registerMakeVisible.hideIfNoCookies {
 	display:block;
 }
 .foswikiJs .showIfNoCookies {
@@ -76,7 +85,11 @@ text="<style type='text/css' media='all'>
 }
 .foswikiJs.foswikiCookiesEnabled .showIfNoCookies {
 	display:none;
-}
+}</style>$quot
+}$percnt"}%%ADDTOZONE{
+"head"
+id="UserRegistrationFormStyle"
+text="<style type='text/css' media='all'>
 .registration .foswikiFormSteps {
 	margin:.5em 0 1em 0;
 }
