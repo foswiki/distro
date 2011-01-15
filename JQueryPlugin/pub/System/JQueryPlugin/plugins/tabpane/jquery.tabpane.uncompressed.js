@@ -85,10 +85,8 @@ $.tabpane = {
 
     var oldTabId = thisOpts.currentTabId;
 
-	if ($.log) {
-	    $.log("TABPANE: switching from "+oldTabId+" to "+newTabId);
-	}
-	
+    $.log("TABPANE: switching from "+oldTabId+" to "+newTabId);
+
     var $newTab  = jQuery("#"+newTabId);
     var $oldTab = jQuery("#"+oldTabId);
     var $newContainer = $newTab.find('.jqTabContents:first');
