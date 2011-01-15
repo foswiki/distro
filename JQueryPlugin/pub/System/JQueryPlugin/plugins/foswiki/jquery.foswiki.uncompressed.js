@@ -21,19 +21,20 @@ if (foswiki.preferences === undefined) {
   /*
   Set 'has javascript' (classname 'foswikiJs') to document as quickly as possible
   */
-  if (document.documentElement) 
+  if (document.documentElement) {
       $(document.documentElement).addClass('foswikiJs');
+      $(document.documentElement).removeClass('foswikiNoJs');
+  }
   
   /**
    * generates an unique ID. 
    */
   foswiki.getUniqueID = function() {
-    var uid = new Date().getTime().toString(32), i;
-
+    var uid = new Date().getTime().toString(32)i;
+    var i;
     for (i = 0; i < 5; i++) {
       uid += Math.floor(Math.random() * 65535).toString(32);
     }
-
     return uid;
   };
 
