@@ -1485,6 +1485,7 @@ $this->{test_web}EdNet.SubWeb.SomeTopic
 $this->{test_web}EdNet/SubWeb.SomeTopic
 $this->{test_web}EdNet/EdNetSubWeb.EdNetSomeTopic
 "$this->{test_web}EdNet.SomeTopic"
+"$this->{test_web}EdNet.SomeTopic, Otherweb.$this->{test_web}EdNetSomeTopic"
 CONTENT
     $m->save();
 
@@ -1562,6 +1563,11 @@ EOF
     $this->assert_str_equals(
         "\"$this->{test_web}RenamedEdNet.SomeTopic\"",
         $lines[6] );
+
+    # A quoted topic referencing the old web should be renamed
+    $this->assert_str_equals(
+        "\"$this->{test_web}RenamedEdNet.SomeTopic, Otherweb.$this->{test_web}EdNetSomeTopic\"",
+        $lines[7] );
 
 }
 
