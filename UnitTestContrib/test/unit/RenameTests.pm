@@ -1480,6 +1480,10 @@ sub test_renameWeb_10259 {
         'ReferringTopic', <<CONTENT );
 Otherweb.$this->{test_web}EdNetSomeTopic
 $this->{test_web}EdNet.SomeTopic
+$this->{test_web}EdNetTwo.SomeTopic
+$this->{test_web}EdNet.SubWeb.SomeTopic
+$this->{test_web}EdNet/SubWeb.SomeTopic
+$this->{test_web}EdNet/EdNetSubWeb.EdNetSomeTopic
 CONTENT
     $m->save();
 
@@ -1517,20 +1521,42 @@ EOF
       Foswiki::Meta->load( $this->{session}, "$this->{test_web}RenamedEdNet",
         'ReferringTopic' );
     my @lines = split( /\n/, $m->text() );
-    foreach my $ln ( @lines ) {
-        print "LINE ($ln)\n";
-        }
+    #foreach my $ln ( @lines ) {
+    #    print "LINE ($ln)\n";
+    #    }
 
     # A topic referencing the old web should be renamed
     $this->assert_str_equals(
         "$this->{test_web}RenamedEdNet.SomeTopic",
         $lines[1] );
 
+    # A topic referencing a similar old web should not be renamed
+    $this->assert_str_equals(
+        "$this->{test_web}EdNetTwo.SomeTopic",
+        $lines[2],
+        "A webname containing the renamed webname should not be renamed.");
+
     # But a topic that contains the webname inside the topic name should not be modified.
     $this->assert_str_equals(
         "Otherweb.$this->{test_web}EdNetSomeTopic",
         $lines[0],
         "A topic containing the web name should not be renamed");
+
+    # A subweb topic referencing the old web should be renamed
+    $this->assert_str_equals(
+        "$this->{test_web}RenamedEdNet.SubWeb.SomeTopic",
+        $lines[3] );
+
+    # A subweb topic referencing the old web should be renamed
+    $this->assert_str_equals(
+        "$this->{test_web}RenamedEdNet/SubWeb.SomeTopic",
+        $lines[4] );
+
+    # A subweb topic referencing the old web should be renamed
+    $this->assert_str_equals(
+        "$this->{test_web}RenamedEdNet/EdNetSubWeb.EdNetSomeTopic",
+        $lines[5] );
+
 }
 
 sub test_rename_attachment {
