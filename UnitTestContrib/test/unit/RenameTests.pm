@@ -1484,6 +1484,7 @@ $this->{test_web}EdNetTwo.SomeTopic
 $this->{test_web}EdNet.SubWeb.SomeTopic
 $this->{test_web}EdNet/SubWeb.SomeTopic
 $this->{test_web}EdNet/EdNetSubWeb.EdNetSomeTopic
+"$this->{test_web}EdNet.SomeTopic"
 CONTENT
     $m->save();
 
@@ -1525,6 +1526,12 @@ EOF
     #    print "LINE ($ln)\n";
     #    }
 
+    # But a topic that contains the webname inside the topic name should not be modified.
+    $this->assert_str_equals(
+        "Otherweb.$this->{test_web}EdNetSomeTopic",
+        $lines[0],
+        "A topic containing the web name should not be renamed");
+
     # A topic referencing the old web should be renamed
     $this->assert_str_equals(
         "$this->{test_web}RenamedEdNet.SomeTopic",
@@ -1535,12 +1542,6 @@ EOF
         "$this->{test_web}EdNetTwo.SomeTopic",
         $lines[2],
         "A webname containing the renamed webname should not be renamed.");
-
-    # But a topic that contains the webname inside the topic name should not be modified.
-    $this->assert_str_equals(
-        "Otherweb.$this->{test_web}EdNetSomeTopic",
-        $lines[0],
-        "A topic containing the web name should not be renamed");
 
     # A subweb topic referencing the old web should be renamed
     $this->assert_str_equals(
@@ -1556,6 +1557,11 @@ EOF
     $this->assert_str_equals(
         "$this->{test_web}RenamedEdNet/EdNetSubWeb.EdNetSomeTopic",
         $lines[5] );
+
+    # A quoted topic referencing the old web should be renamed
+    $this->assert_str_equals(
+        "\"$this->{test_web}RenamedEdNet.SomeTopic\"",
+        $lines[6] );
 
 }
 
