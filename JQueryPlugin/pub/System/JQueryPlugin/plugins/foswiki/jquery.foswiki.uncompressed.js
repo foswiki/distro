@@ -17,23 +17,15 @@ if (foswiki.preferences === undefined) {
    */
   $.log = function(message){};
   $.fn.debug = function() {};
-
-  /*
-  Set 'has javascript' (classname 'foswikiJs') to document as quickly as possible
-  */
-  if (document.documentElement) 
-      $(document.documentElement).addClass('foswikiJs');
   
   /**
    * generates an unique ID. 
    */
   foswiki.getUniqueID = function() {
     var uid = new Date().getTime().toString(32), i;
-
     for (i = 0; i < 5; i++) {
       uid += Math.floor(Math.random() * 65535).toString(32);
     }
-
     return uid;
   };
 
@@ -157,3 +149,10 @@ if (foswiki.preferences === undefined) {
   }
 	
 })(jQuery);
+
+$(document).ready(function() {
+	/**
+	Remove 'has no javascript' class from body element (written in template).
+	*/
+	$('body').removeClass('foswikiNoJs');
+});

@@ -1,15 +1,18 @@
 %{ Headers for TwistyPlugin, selected in the code }%
 
-%TMPL:DEF{"TwistyPlugin/twisty.css"}%
-%ADDTOZONE{
-  "head"
-  tag="TwistyPlugin/twisty.css"
-  text="<link rel='stylesheet' type='text/css' media='all' href='%PUBURL%/%SYSTEMWEB%/TwistyPlugin/twisty%FWUNCOMPRESSED%.css' />"
-}%
-%TMPL:END%
+%TMPL:DEF{"TwistyPlugin/twisty.css"}%%ADDTOZONE{
+	"head"
+	id="TwistyPlugin/twisty.css"
+	text="<link rel='stylesheet' type='text/css' media='all' href='%PUBURL%/%SYSTEMWEB%/TwistyPlugin/twisty%FWUNCOMPRESSED%.css' />"
+	requires=""
+}%%TMPL:END%
 
-%TMPL:DEF{"TwistyPlugin/twisty"}%%{
-}%TMPL:P{"JavascriptFiles/foswikiPref"}%%{
-}%%TMPL:P{"LIBJS" id="TwistyPlugin/twisty" requires="JavascriptFiles/foswikiPref"}%
-
-%TMPL:END%
+%TMPL:DEF{"TwistyPlugin/twisty"}%%TMPL:P{
+	"LIBJS"
+	id="JavascriptFiles/foswikiPref"
+	requires="JQUERYPLUGIN::FOSWIKI"
+}%%TMPL:P{
+	"LIBJS"
+	id="TwistyPlugin/twisty"
+	requires="JavascriptFiles/foswikiPref"
+}%%TMPL:END%
