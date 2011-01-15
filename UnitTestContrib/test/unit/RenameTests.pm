@@ -1466,6 +1466,73 @@ EOF
         $lines[8] );
 }
 
+# Move a root web, ensuring that topics containing web in topic name are not updated. 
+sub test_renameWeb_10259 {
+    my $this = shift;
+    my $m = Foswiki::Meta->new( $this->{session}, "$this->{test_web}EdNet" );
+    $m->populateNewWeb();
+
+    my $vue =
+"$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
+
+    $m =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}EdNet",
+        'ReferringTopic', <<CONTENT );
+Otherweb.$this->{test_web}EdNetSomeTopic
+$this->{test_web}EdNet.SomeTopic
+CONTENT
+    $m->save();
+
+    # need rename access on the root for this one, which is a bit of a
+    # faff to set up, so we'll cheat a bit and add the user to the admin
+    # group. Fortunately we have a private users web.
+    my $grope =
+      Foswiki::Meta->new( $this->{session}, $this->{users_web},
+        $Foswiki::cfg{SuperAdminGroup}, <<EOF);
+   * Set GROUP = $this->{test_user_wikiname}
+EOF
+    $grope->save();
+
+    my $query = new Unit::Request(
+        {
+            action           => 'renameweb',
+            newsubweb     => "$this->{test_web}RenamedEdNet",
+            referring_topics => [ $m->getPath() ],
+        }
+    );
+    $query->path_info("/$this->{test_web}EdNet/WebHome");
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    my ($text) =
+      $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    $this->assert(
+        Foswiki::Func::webExists("$this->{test_web}RenamedEdNet")
+    );
+    $this->assert( !Foswiki::Func::webExists("$this->{test_web}EdNet") );
+    $this->assert( Foswiki::Func::webExists("$this->{test_web}RenamedEdNet") );
+
+    $m =
+      Foswiki::Meta->load( $this->{session}, "$this->{test_web}RenamedEdNet",
+        'ReferringTopic' );
+    my @lines = split( /\n/, $m->text() );
+    foreach my $ln ( @lines ) {
+        print "LINE ($ln)\n";
+        }
+
+    # A topic referencing the old web should be renamed
+    $this->assert_str_equals(
+        "$this->{test_web}RenamedEdNet.SomeTopic",
+        $lines[1] );
+
+    # But a topic that contains the webname inside the topic name should not be modified.
+    $this->assert_str_equals(
+        "Otherweb.$this->{test_web}EdNetSomeTopic",
+        $lines[0],
+        "A topic containing the web name should not be renamed");
+}
+
 sub test_rename_attachment {
     my $this = shift;
 
