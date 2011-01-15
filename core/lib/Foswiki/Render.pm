@@ -1914,16 +1914,16 @@ sub getReferenceRE {
                         $squabo
                       . $matchWeb
                       . "(([\/\.][$Foswiki::regex{upperAlpha}]"
-                      . "[$Foswiki::regex{mixedAlphaNum}_]*)*"
-                      . "\.[$Foswiki::regex{mixedAlphaNum}]+)"
+                      . "[$Foswiki::regex{mixedAlphaNum}_]*)+"
+                      . "\.[$Foswiki::regex{mixedAlphaNum}]*)"
                       . $squabc;
                 } else {
                     $re =
                         $bow
                       . $matchWeb
                       . "(([\/\.][$Foswiki::regex{upperAlpha}]"
-                      . "[$Foswiki::regex{mixedAlphaNum}_]*)*"
-                      . "\.[$Foswiki::regex{mixedAlphaNum}]+)"
+                      . "[$Foswiki::regex{mixedAlphaNum}_]*)+"
+                      . "\.[$Foswiki::regex{mixedAlphaNum}]*)"
                       . $eow;
                 }
             }
