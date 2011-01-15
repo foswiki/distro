@@ -1,71 +1,128 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252805976" format="1.1" version="$Rev: 6542 $"}%
 <noautolink>
----+ %MAKETEXT{"Registration"}%
-	<!--
+<!--
 	Read general customisation instructions in System.UserAuthentication
-	-->
-%INCLUDE{"%TOPIC%" section="introduction"}%
+	
+	To create a custom UserRegistration page yourself:
+	1. make a copy of this topic in your %SYSTEM% web
+	2. name the copy "UserRegistration"
+	3. place it in %USERSWEB% (by default called 'Main')
+	
+	Customize your registration page by adding fields to section 'optionalFields' (see description below)
+-->
+<!--
+	Sections of this page
+	Optionally include section 'privacyInformation':
+	
+	%FORMAT{
+		"title,notes,resources,form,help,privacyInformation"
+		... (leave rest as is)
+	}%
+-->
+%FORMAT{
+	"title,notes,resources,form,help"
+	separator=""
+	type="string"
+	format="$percntINCLUDE{$quot%TOPIC%$quot section=$quot$item$quot}$percnt"
+}%
+
 
 <verbatim class="foswikiHidden">
 
-	All the topic sections.
-	The main section is "form", INCLUDEd when REGISTRATION_DISABLED is not 'DISABLED'.
-	The section 'optionalfields' defines the optional fields.
+<!--
+	All the topic sections
+-->
 
-%STARTSECTION{"optionalfields"}%
-<!-- START OPTIONAL FIELDS -->
-<!-- remove EXCLUDED_ from section names to show fields -->%IF{'$REGISTRATIONGROUPTYPE = "one" OR
-$REGISTRATIONGROUPTYPE = "multiple" OR
-$REGISTRATIONGROUPTYPE = "automatic"' then='$percentINCLUDE{"%WEB%.%TOPIC%" section="extraField_groups" warn="off"}$percent' else='<!-- -->'}%%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationName" warn="off"}%%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_organisationUrl" warn="off"}%%INCLUDE{"%TOPIC%" section="EXCLUDED_extraField_country" warn="off"}%
-%ENDSECTION{"optionalfields"}%
+<!--
+	Optional form fields.
+	Add fields as FORMAT parameter, for example to show group fields, use:
+	%FORMAT{			
+		"extraField_groups, extraField_organisationName, extraField_organisationUrl, extraField_country"
+		... (leave rest unchanged)
+	}%
+	
+	Possible field names:
+		extraField_groups
+		extraField_organisationName
+		extraField_organisationUrl
+		extraField_country
+-->
+%STARTSECTION{"optionalFields"}%%FORMAT{
+	""
+	separator="$n"
+	type="string"
+	format="$percntINCLUDE{$quot%TOPIC%$quot section=$quot$item$quot}$percnt"
+}%%ENDSECTION{"optionalFields"}%
 
 
-%STARTSECTION{"htmlform"}%<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" id="foswikiRegistration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
+<!--
+	Required form fields. Do not modify these fields
+-->
+%STARTSECTION{"requiredFields"}%%FORMAT{
+	"requiredField_firstName, requiredField_lastName, requiredField_wikiName%IF{"$ALLOWLOGINNAME" then=", requiredField_loginName"}%, requiredField_email%IF{"context passwords_modifyable" then=", requiredField_password"}%"
+	separator="$n"
+	type="string"
+	format="$percntINCLUDE{$quot%TOPIC%$quot section=$quot$item$quot}$percnt"
+}%%ENDSECTION{"requiredFields"}%
+
+
+<!--
+	Page title
+-->
+%STARTSECTION{"title"}%---+ %MAKETEXT{"Registration"}%
+%ENDSECTION{"title"}%
+
+
+<!--
+	Feedback whether registration is enabled and required browser settings (javascript and cookies must be on)
+-->
+%STARTSECTION{"notes"}%%IF{
+"not context registration_enabled"
+then="%INCLUDE{"%TOPIC%" section="note:registrationNotEnabled"}%"
+else="%IF{
+	"$REGISTRATION_DISABLED='DISABLED'"
+	then="%INCLUDE{"%TOPIC%" section="note:registrationTemporarilyDisabled"}%"
+	else="%INCLUDE{"%TOPIC%" section="note:registrationOk"}%%INCLUDE{"%TOPIC%" section="note:requiredBrowserSettings"}%"
+}%"
+}%%ENDSECTION{"notes"}%
+
+%STARTSECTION{"note:registrationNotEnabled"}%<strong>%MAKETEXT{"You cannot register on this site."}%</strong>%ENDSECTION{"note:registrationNotEnabled"}%
+
+%STARTSECTION{"note:registrationTemporarilyDisabled"}%<strong>%MAKETEXT{"Sorry, registration has been temporarily disabled."}%</strong>%ENDSECTION{"note:registrationTemporarilyDisabled"}%
+
+%STARTSECTION{"note:registrationOk"}%<strong>%MAKETEXT{"Create your account to edit pages on this site."}%</strong>%ENDSECTION{"note:registrationOk"}%
+
+%STARTSECTION{"note:requiredBrowserSettings"}%<div class='registerMakeHidden foswikiNotification foswikiAlert'>%MAKETEXT{"We noticed you have disabled Javascript. Please switch on Javascript if you want to register."}%</div><div class='foswikiNotification foswikiAlert registerMakeVisible showIfNoCookies'>%MAKETEXT{"We noticed you have disabled cookies. Please enable cookies if you want to register."}%</div>%ENDSECTION{"note:requiredBrowserSettings"}%
+
+
+<!--
+	Help text in footer
+-->
+%STARTSECTION{"help"}%<p>
+%MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%</p>%ENDSECTION{"help"}%
+
+
+<!--
+	The registration form
+-->
+%STARTSECTION{"form"}%<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" id="foswikiRegistration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
 	<div class="foswikiFormSteps">
 		<div class="foswikiFormStep">
 			<p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required"}%</em></p>
-			<ul>
-<!-- REQUIRED FIELDS -->
-%INCLUDE{"%TOPIC%" section="requiredField_firstName"}%
-%INCLUDE{"%TOPIC%" section="requiredField_lastName"}%
-%INCLUDE{"%TOPIC%" section="requiredField_wikiName"}%%IF{'$ALLOWLOGINNAME' then='%INCLUDE{"%TOPIC%" section="requiredField_loginName"}%' else='<!-- -->'}%
-%INCLUDE{"%TOPIC%" section="requiredField_email"}%%IF{'context passwords_modifyable' then='%INCLUDE{"%TOPIC%" section="requiredField_password"}%' else='<!-- -->'}%%INCLUDE{"%TOPIC%" section="optionalfields"}%<!-- SUBMIT BUTTON -->
-%INCLUDE{"%TOPIC%" section="requiredButton_submit"}%
-			</ul>
+			<ul>%INCLUDE{"%TOPIC%" section="requiredFields"}%%INCLUDE{"%TOPIC%" section="optionalFields"}%%INCLUDE{"%TOPIC%" section="requiredButton_submit"}%</ul>
 		</div>
 	</div>
 %INCLUDE{"%TOPIC%" section="EXCLUDED_privacyInformation" warn="off"}%%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percentBLACKLISTPLUGIN{action=$quotmagic$quot}$percent" />' else='<!-- -->'}%
 <input type="hidden" name="topic" value="%TOPIC%" />
 <input type="hidden" name="action" value="register" />
 </form>
-</div>%ENDSECTION{"htmlform"}%
+</div>%ENDSECTION{"form"}%
 
 
-%STARTSECTION{"introduction"}%<!--
-Show the form, if not REGISTRATION_DISABLED
+<!--
+	Extra CSS and Javascript resources for this page.
+	Javascript contains inline form validation
 -->
-%INCLUDE{"%TOPIC%" section="notes"}%%INCLUDE{"%TOPIC%" section="form%REGISTRATION_DISABLED%" warn="off"}%%INCLUDE{"%TOPIC%" section="resources%REGISTRATION_DISABLED%" warn="off"}%<p>
-%MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%</p>%ENDSECTION{"introduction"}%
-
-
-%STARTSECTION{"notes" REGISTRATION_DISABLED="%REGISTRATION_DISABLED%"}%%INCLUDE{"%TOPIC%" section="registrationEnabledNotes"}%%INCLUDE{"%TOPIC%" section="requiredNotes%REGISTRATION_DISABLED%%IF{"{Validation}{Method}='none'" then="donotshow"}%" warn="off"}%%INCLUDE{"%TOPIC%" section="okNotes%REGISTRATION_DISABLED%" warn="off"}%%ENDSECTION{"notes"}%
-
-%STARTSECTION{"requiredNotes"}%<div class="registerMakeHidden foswikiNotification foswikiAlert">%MAKETEXT{"We noticed you have disabled Javascript. Please switch on Javascript if you want to register."}%</div><div class="foswikiNotification foswikiAlert registerMakeVisible showIfNoCookies">%MAKETEXT{"We noticed you have disabled cookies. Please enable cookies if you want to register."}%</div>%ENDSECTION{"requiredNotes"}%
-
-%STARTSECTION{"okNotes"}%<div class="registerMakeVisible hideIfNoCookies"><strong>%MAKETEXT{"Create your account to edit pages on this site."}%</strong></div>%ENDSECTION{"okNotes"}%
-
-
-%STARTSECTION{"registrationEnabledNotes"}%%IF{
-"not context registration_enabled"
-then=" *%MAKETEXT{"You cannot register on this site."}%* "
-else="%IF{"$REGISTRATION_DISABLED='DISABLED'" then=" *%MAKETEXT{"Sorry, registration has been temporarily disabled"}%* "}%
-"
-}%%ENDSECTION{"registrationEnabledNotes"}%
-
-
-%STARTSECTION{"form"}%%INCLUDE{"%TOPIC%" section="htmlform%REGISTRATION_DISABLED%" warn="off"}%%INCLUDE{"%TOPIC%" section="resources%REGISTRATION_DISABLED%" warn="off"}%%ENDSECTION{"form"}%
-
-
 %STARTSECTION{"resources"}%%IF{"{Validation}{Method}!='none'" then="$percntADDTOZONE{
 $quothead$quot
 id=$quotUserRegistrationRequiredStyle$quot
@@ -276,57 +333,64 @@ $(document).ready(function() {
 }%%ENDSECTION{"resources"}%
 
 
-
-Required field first name
-
+<!--
+	Required field first name
+-->
 %STARTSECTION{"requiredField_firstName"}%<li><label class="desc" for="Twk1FirstName"><span class="required">*</span>%MAKETEXT{"First name"}%</label>
 <div><input type="text" id="Twk1FirstName" name="Twk1FirstName" size="40" class="foswikiInputField foswikiFocus" value="" tabindex="1" /></div></li>%ENDSECTION{"requiredField_firstName"}%
 
 
-
-Required field last name
-
+<!--
+	Required field last name
+-->
 %STARTSECTION{"requiredField_lastName"}%<li><label class="desc" for="Twk1LastName"><span class="required">*</span>%MAKETEXT{"Last name"}%</label>
 <div><input type="text" id="Twk1LastName" name="Twk1LastName" size="40" class="foswikiInputField" value="" tabindex="2" /></div></li>%ENDSECTION{"requiredField_lastName"}%
 
 
-
-Required field wiki name
-
+<!--
+	Required field wiki name
+-->
 %STARTSECTION{"requiredField_wikiName"}%<li><label class="desc" for="Twk1WikiName"><span class="required">*</span>%MAKETEXT{"Wiki name"}%</label>
 <div><input type="text" id="Twk1WikiName" name="Twk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" /><label class="expl">%MAKETEXT{"Your name as displayed online. This must be a unique [_1]" args="%POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"Wiki name"}%"}%."}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_wikiName"}%
 
 
-
-Required field login name
-Only shown if ALLOWLOGINNAME is true.
-
+<!--
+	Required field login name
+	Only shown if ALLOWLOGINNAME is true.
+-->
 %STARTSECTION{"requiredField_loginName"}%<li><label class="desc" for="Twk1LoginName"><span class="required">*</span>%MAKETEXT{"Login name"}%</label>
 <div><input type="text" id="Twk1LoginName" name="Twk1LoginName" size="40" class="foswikiInputField" value="%REMOTE_USER%" tabindex="4" /><label class="expl">%MAKETEXT{"The login name you use to sign in."}%</label></div></li>%ENDSECTION{"requiredField_loginName"}%
 
 
-
-Required field email
-
+<!--
+	Required field email
+-->
 %STARTSECTION{"requiredField_email"}%<li><label class="desc" for="Twk1Email"><span class="required">*</span>%MAKETEXT{"Email address"}%</label>
 <div><input type="text" id="Twk1Email" name="Twk1Email" size="40" class="foswikiInputField" value="" tabindex="5" /><label class="expl">%MAKETEXT{"Your email address will be kept confidential."}%</label></div></li>%ENDSECTION{"requiredField_email"}%
 
 
-
-Required field password
-Only shown if the password manager supports changing the password / email.
-
+<!--
+	Required field password
+	Only shown if the password manager supports changing the password / email.
+	Displays one password field and (if {Register}{DisablePasswordConfirmation} is not unset) one confirmation password field.
+-->
 %STARTSECTION{"requiredField_password"}%<li><label class="desc" for="Twk1Password"><span class="required">*</span>%MAKETEXT{"Your password"}%</label>
 <div><input type="password" id="Twk1Password" name="Twk1Password" size="40" class="foswikiInputField" value="" tabindex="6" /></div></li>%IF{"NOT {Register}{DisablePasswordConfirmation}" then="<li><label class=\"desc\" for=\"Twk1Confirm\"><span class=\"required\">*</span>$percntMAKETEXT{\"Confirm password\"}$percnt</label>
 <div><input type=\"password\" id=\"Twk1Confirm\" name=\"Twk1Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" tabindex=\"7\" /></div></li>"}%%ENDSECTION{"requiredField_password"}%
 
 
+<!--
+	Optional field join group
+	
+	enable by setting =REGISTRATIONGROUPTYPE= in the %USERSWEB%.SitePreferences topic to automatic, one, multiple.
+-->
+%STARTSECTION{"extraField_groups"}%%INCLUDE{"%TOPIC%" section="groups"}%%ENDSECTION{"extraField_groups"}%
 
-Optional field join group
+%IF{'$REGISTRATIONGROUPTYPE = "one" OR
+$REGISTRATIONGROUPTYPE = "multiple" OR
+$REGISTRATIONGROUPTYPE = "automatic"'
 
-enable by setting =REGISTRATIONGROUPTYPE= in the %USERSWEB%.DefaultPreferences topic to automatic, one, multiple.
-   
-%STARTSECTION{"extraField_groups"}%%FORMAT{
+%STARTSECTION{"groups"}%%FORMAT{
 	"%IF{"defined 'REGISTRATIONGROUPS'" then="%REGISTRATIONGROUPS%" else="%GROUPINFO{
 			show="allowchange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%"
 			format="$name"
@@ -337,67 +401,69 @@ enable by setting =REGISTRATIONGROUPTYPE= in the %USERSWEB%.DefaultPreferences t
 						then="hidden"
 					}%rendergroupheader$quot multiple=$quot%IF{
 						"'%REGISTRATIONGROUPTYPE%' = 'multiple'" 
-						then="Groups" 
-						else="Group"
+						then="groups" 
+						else="group"
 					}%$quot}$percent"
 	footer="$percentINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupfooter$quot}$percent"
-	zeroresults="<!-- no groups available -->"
+	zeroresults="no groups<!-- no groups available -->"
 	format="$percentINCLUDE{$quot%WEB%.%TOPIC%$quot
 		section=$quotrendergroup$quot
 		groupname=$quot$topic$quot
 		inputtype=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="hidden"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'one'" then="radio"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="checkbox"}%$quot
        }$percent"
       separator=" "
-}%%ENDSECTION{"extraField_groups"}%
+}%%ENDSECTION{"groups"}%
 
 
+<!--
 Section nochange
-
+-->
 %STARTSECTION{"nochange"}%<!-- nochange// --> %ENDSECTION{"nochange"}%
 
-
+<!--
 Section rendergroup
   parameters: groupname, inputtype
-
+-->
 %STARTSECTION{"rendergroup"}%<input type="%inputtype%" name="Twk0AddToGroups" id="cb_%groupname%" value="%groupname%" />
 	<label class="desc" for="cb_%groupname%">%IF{"istopic '%USERSWEB%.%groupname%'" then=" [[%USERSWEB%.%groupname%][%groupname%]] " else="%groupname%" }%</label>%ENDSECTION{"rendergroup"}%
 
-
+<!--
 Section rendergroupheader
   parameters: 
-
-%STARTSECTION{"rendergroupheader"}%<li><label class="desc" for="Twk0AddToGroups">%MAKETEXT{"Select Group [_1] to join" args="%multiple%"}%</label>
+-->
+%STARTSECTION{"rendergroupheader"}%<li><label class="desc" for="Twk0AddToGroups">%MAKETEXT{"Select [_1] to join" args="%multiple%"}%</label>
 <div class="joinGroups">%ENDSECTION{"rendergroupheader"}%
 
-
+<!--
 Section rendergroupfooter
   parameters: 
-
+-->
 %STARTSECTION{"rendergroupfooter"}%</div></li>%ENDSECTION{"rendergroupfooter"}%
 
+<!--
 Section hiddenrendergroupheader
   parameters: 
-
+-->
 %STARTSECTION{"hiddenrendergroupheader"}%<li class="foswikiHidden">
 <div class="joinGroups">%ENDSECTION{"hiddenrendergroupheader"}%
 
-
-Optional field organisation name
-
+<!--
+	Optional field organisation name
+-->
 %STARTSECTION{"extraField_organisationName"}%<li><label class="desc" for="Twk0OrganisationName">%MAKETEXT{"Organisation name"}%</label>
 <div><input type="text" id="Twk0OrganisationName" name="Twk0OrganisationName" size="40" class="foswikiInputField" value="" tabindex="8" /></div></li>%ENDSECTION{"extraField_organisationName"}%
 
 
-
-Optional field organisation url
-
+<!--
+	Optional field organisation url
+-->
 %STARTSECTION{"extraField_organisationUrl"}%<li><label class="desc" for="Twk0OrganisationURL">%MAKETEXT{"Organisation website"}%</label>
 <div><input type="text" id="Twk0OrganisationURL" name="Twk0OrganisationURL" size="40" class="foswikiInputField" value="http://" tabindex="9" /></div></li>%ENDSECTION{"extraField_organisationUrl"}%  
 
 
-
-Optional field country
-
+<!--
+	Optional field country
+-->
 %STARTSECTION{"extraField_country"}%<li><label class="desc" for="Twk0Country">%MAKETEXT{"Country"}%</label>
 <div><select class="foswikiSelect" id="Twk0Country" name="Twk0Country" size="1" tabindex="10">%SEARCH{
 "^\|[^\*\|]*\|"
@@ -411,22 +477,21 @@ format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
 }%</select></div></li>%ENDSECTION{"extraField_country"}% 
 
 
-
-Required submit button
-
+<!--
+	Required submit button
+-->
 %STARTSECTION{"requiredButton_submit"}%<li><label class="desc">&nbsp;</label><div><input type="submit" tabindex="99" class="foswikiSubmit" value="%MAKETEXT{"Register"}%" /></div></li>%ENDSECTION{"requiredButton_submit"}%
 
 
-
-Optional privacy information
-
+<!--
+	Optional privacy information
+-->
 %STARTSECTION{"privacyInformation"}%<p> %MAKETEXT{"*Important:* the information provided in this form will be stored in a database on the web server. This database is accessible to anyone who can access the server through the web (though passwords will be encrypted, and e-mail addresses will be obfuscated to help prevent spamming). Your country, or the country where the server is hosted, may have Data Protection laws governing the maintenance of such databases. If you are in doubt, you should contact [_1] for details of the Data Protection Policy of this web server before registering." args="[[mailto:%WIKIWEBMASTER%?subject=Data%20Protection%20Policy][%WIKIWEBMASTER%]]"}%</p>%ENDSECTION{"privacyInformation"}%
 
 
-
-Test if user topic exists. Used for form validation.
-
-
+<!--
+	Test if user topic exists. Used for form validation.
+-->
 %STARTSECTION{"checkWikiName"}%%IF{"istopic '%USERSWEB%.%URLPARAM{"name"}%'" 
   then="false" 
   else="true"
@@ -439,8 +504,6 @@ Test if user topic exists. Used for form validation.
 }%%ENDSECTION{"checkLoginName"}%
 
 </verbatim>
-
-
 
 
 <!--
