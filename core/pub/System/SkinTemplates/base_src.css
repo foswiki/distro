@@ -3,30 +3,33 @@
 /* Javascript related classes */
 
 /* made visible if javascript available */
-.foswikiMakeVisible,
-.foswikiMakeVisibleInline,
-.foswikiMakeVisibleBlock {
+/* specified in js.css */
+.foswikiNoJs .foswikiMakeVisible,
+.foswikiNoJs .foswikiMakeVisibleInline,
+.foswikiNoJs .foswikiMakeVisibleBlock {
 	display:none;
 }
-.foswikiJs .foswikiMakeVisible {
+
+.foswikiMakeVisible {
 	display:;
 }
-.foswikiJs div.foswikiMakeVisible {
+div.foswikiMakeVisible {
 	display:block;
 }
-.foswikiJs span.foswikiMakeVisible {
+span.foswikiMakeVisible {
 	display:inline;
 }
-.foswikiJs .foswikiMakeVisibleInline {
+.foswikiMakeVisibleInline {
 	/* deprecated */
 	display:inline;
 }
-.foswikiJs .foswikiMakeVisibleBlock {
+.foswikiMakeVisibleBlock {
 	/* deprecated */
 	display:block;
 }
+
 /* made hidden if javascript available */
-.foswikiJs .foswikiMakeHidden {
+.foswikiMakeHidden {
 	display:none;
 }
 
