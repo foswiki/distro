@@ -123,7 +123,7 @@ else="%IF{
 	Extra CSS and Javascript resources for this page.
 	Javascript contains inline form validation
 -->
-%STARTSECTION{"resources"}%%IF{"{Validation}{Method}!='none'" then="$percntADDTOZONE{
+%STARTSECTION{"resources"}%%IF{"$REGISTRATION_DISABLED!='DISABLED'" then="$percntADDTOZONE{
 $quothead$quot
 id=$quotUserRegistrationRequiredStyle$quot
 text=$quot<style type='text/css' media='all'>
@@ -240,14 +240,14 @@ id="UserRegistrationValidation"
 requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::WIKIWORD, JQUERYPLUGIN::COOKIE"
 text="<script type='text/javascript'>
 $(document).ready(function() {
+	// have javascript
+	$('body').addClass('foswikiJs');
 	// cookie check
 	var testCookieValue = String(Math.floor(10000000 * Math.random()));
 	var testCookieName = 'foswikiRegistrationTest';
 	$.cookie(testCookieName, testCookieValue);
 	if ( $.cookie(testCookieName) === testCookieValue) {
-		if (document.documentElement) {
-			$(document.documentElement).addClass('foswikiCookiesEnabled');
-		}
+		$('body').addClass('foswikiCookiesEnabled');
 	}
 	// inline form validation
 	$('#foswikiRegistration').livequery(function() {
