@@ -1571,6 +1571,113 @@ EOF
 
 }
 
+# Move a sub web, ensuring that topics containing web in topic name are not updated. 
+sub test_renameSubWeb_10259 {
+    my $this = shift;
+    my $m = Foswiki::Meta->new( $this->{session}, "$this->{test_web}Root" );
+    $m->populateNewWeb();
+
+    $m = Foswiki::Meta->new( $this->{session}, "$this->{test_web}Root/EdNet" );
+    $m->populateNewWeb();
+
+    my $vue =
+"$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
+
+    $m =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}Root/EdNet",
+        'ReferringTopic', <<CONTENT );
+Otherweb.$this->{test_web}EdNetSomeTopic
+$this->{test_web}Root/EdNet.SomeTopic
+$this->{test_web}Root/EdNetTwo.SomeTopic
+$this->{test_web}Root/EdNet.SubWeb.SomeTopic
+$this->{test_web}Root/EdNet/SubWeb.SomeTopic
+$this->{test_web}Root/EdNet/EdNetSubWeb.EdNetSomeTopic
+"$this->{test_web}Root/EdNet.SomeTopic"
+"$this->{test_web}Root/EdNet.SomeTopic, Otherweb.$this->{test_web}EdNetSomeTopic"
+CONTENT
+    $m->save();
+
+    # need rename access on the root for this one, which is a bit of a
+    # faff to set up, so we'll cheat a bit and add the user to the admin
+    # group. Fortunately we have a private users web.
+    my $grope =
+      Foswiki::Meta->new( $this->{session}, $this->{users_web},
+        $Foswiki::cfg{SuperAdminGroup}, <<EOF);
+   * Set GROUP = $this->{test_user_wikiname}
+EOF
+    $grope->save();
+
+    my $query = new Unit::Request(
+        {
+            action           => 'renameweb',
+            newsubweb     => "$this->{test_web}Root/NewEdNet",
+            referring_topics => [ $m->getPath() ],
+        }
+    );
+    $query->path_info("/$this->{test_web}Root/EdNet/WebHome");
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    my ($text) =
+      $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    $this->assert(
+        Foswiki::Func::webExists("$this->{test_web}Root/NewEdNet")
+    );
+    $this->assert( !Foswiki::Func::webExists("$this->{test_web}EdNet") );
+    $this->assert( Foswiki::Func::webExists("$this->{test_web}Root/NewEdNet") );
+
+    $m =
+      Foswiki::Meta->load( $this->{session}, "$this->{test_web}Root/NewEdNet",
+        'ReferringTopic' );
+    my @lines = split( /\n/, $m->text() );
+    #foreach my $ln ( @lines ) {
+    #    print "LINE ($ln)\n";
+    #    }
+
+    # But a topic that contains the webname inside the topic name should not be modified.
+    $this->assert_str_equals(
+        "Otherweb.$this->{test_web}EdNetSomeTopic",
+        $lines[0],
+        "A topic containing the web name should not be renamed");
+
+    # A topic referencing the old web should be renamed
+    $this->assert_str_equals(
+        "$this->{test_web}Root/NewEdNet.SomeTopic",
+        $lines[1] );
+
+    # A topic referencing a similar old web should not be renamed
+    $this->assert_str_equals(
+        "$this->{test_web}Root/EdNetTwo.SomeTopic",
+        $lines[2],
+        "A webname containing the renamed webname should not be renamed.");
+
+    # A subweb topic referencing the old web should be renamed
+    $this->assert_str_equals(
+        "$this->{test_web}Root/NewEdNet.SubWeb.SomeTopic",
+        $lines[3] );
+
+    # A subweb topic referencing the old web should be renamed
+    $this->assert_str_equals(
+        "$this->{test_web}Root/NewEdNet/SubWeb.SomeTopic",
+        $lines[4] );
+
+    # A subweb topic referencing the old web should be renamed
+    $this->assert_str_equals(
+        "$this->{test_web}Root/NewEdNet/EdNetSubWeb.EdNetSomeTopic",
+        $lines[5] );
+
+    # A quoted topic referencing the old web should be renamed
+    $this->assert_str_equals(
+        "\"$this->{test_web}Root/NewEdNet.SomeTopic\"",
+        $lines[6] );
+
+    # A quoted topic referencing the old web should be renamed
+    $this->assert_str_equals(
+        "\"$this->{test_web}Root/NewEdNet.SomeTopic, Otherweb.$this->{test_web}EdNetSomeTopic\"",
+        $lines[7] );
+
+}
 sub test_rename_attachment {
     my $this = shift;
 
