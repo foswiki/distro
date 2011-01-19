@@ -181,25 +181,27 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://www.carrier.com][Carrier Corporation]]
    * [[http://twiki.net][TWIKI.NET]]
 
-|  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright | &copy; ILOG 2005 http://www.ilog.fr |
+|  Author: | [[http://c-dot.co.uk][Crawford Currie]], Foswiki Contributors |
+|  Copyright | &copy; ILOG 2005 http://www.ilog.fr %BR% \
+               &copy; 2008-2011 Foswiki Contributors |
 |  License | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
-|  26 Nov 2010 | Foswikitask:Item2174: Protect line breaks within paragraphs in TML <br/> \
-                 Foswikitask:Item10048: Try to use Macros in the src URLs of images with titles <br/> \
-                 Foswikitask:Item9973: Fix attachments REST handler to deal with topics named with international characters |
-|  04 Oct 2010 | Foswikitask:Item1391: Protect div and span tags with =style= attributes |
-|  28 Jun 2010 | Foswikitask:Item761, Foswikitask:Item2311, Foswikitask:Item5990, Foswikitask:Item9170: Fix conversion between character encodings. Any characters may be entered in the WYSIWYG editor, regardless of the site's encoding. Where possible, they are converted to the site encoding, otherwise they become entities. <br />\
-                 Foswikitask:Item2254: Fix cursor-movement problems on Mozilla browsers (introduced by Foswikitask:Item1798)<br/>\
-                 Foswikitask:Item2605: Can now place cursor into empty list-item<br/>\
-                 Foswikitask:Item1417: Can now move cursor above a table at start of a topic and below a table at the end of the topic <br />\
-                 Foswikitask:Item9148: Protect &lt;br /&gt; tags at the end of a protected line (e.g. in a macro parameter)<br/>\
-                 Foswikitask:Item6068: Protect newlines within a &lt;pre&gt; block<br/>\
-                 Foswikitask:Item2259: Keep the content of &lt;big&gt; and &lt;var&gt; tags <br />\
+|  1.1.2       | Foswikitask:Item2174: Protect line breaks within paragraphs in TML |
+|  1.1.1       | Foswikitask:Item10271: Switch to x.y.z release numbering %BR \
+                 Foswikitask:Item10048: Try to use Macros in the src URLs of images with titles %BR% \
+                 Foswikitask:Item9973: Fix attachments REST handler to deal with topics named with international characters %BR%\
+                 Foswikitask:Item1391: Protect div and span tags with =style= attributes |
+|  28 Jun 2010 | Foswikitask:Item761, Foswikitask:Item2311, Foswikitask:Item5990, Foswikitask:Item9170: Fix conversion between character encodings. Any characters may be entered in the WYSIWYG editor, regardless of the site's encoding. Where possible, they are converted to the site encoding, otherwise they become entities. %BR%\
+                 Foswikitask:Item2254: Fix cursor-movement problems on Mozilla browsers (introduced by Foswikitask:Item1798)%BR%\
+                 Foswikitask:Item2605: Can now place cursor into empty list-item%BR%\
+                 Foswikitask:Item1417: Can now move cursor above a table at start of a topic and below a table at the end of the topic %BR%\
+                 Foswikitask:Item9148: Protect &lt;br /&gt; tags at the end of a protected line (e.g. in a macro parameter)%BR%\
+                 Foswikitask:Item6068: Protect newlines within a &lt;pre&gt; block%BR%\
+                 Foswikitask:Item2259: Keep the content of &lt;big&gt; and &lt;var&gt; tags %BR%\
                  Foswikitask:Item8289: Fix stand-alone (command-line) HTML-to-TML conversion |
-|  21 May 2010 | Foswikitask:Item5221: Use Wysiwyg transition to remove usually unwanted paragraph html tags in table cells, which are otherwise impossible to remove in !TinyMCE up to at least 3.3.6<br/>\
+|  21 May 2010 | Foswikitask:Item5221: Use Wysiwyg transition to remove usually unwanted paragraph html tags in table cells, which are otherwise impossible to remove in !TinyMCE up to at least 3.3.6%BR%\
                  Foswikitask:Item8274: Fix problem where Wysiwyg transition merges two consecutive lists (a result of work on Foswikitask:Item2254) |
 |  17 Jan 2010 | Foswikitask:Item2337: ATTACHFILESIZELIMIT check fails confusingly if value is "0 " |
 |  18 Dec 2009 | Foswikitask:Item2511: move code out of the plugin module to accelerate loading |
