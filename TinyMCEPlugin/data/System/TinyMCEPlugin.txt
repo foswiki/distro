@@ -294,7 +294,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|        1.1.7 | Foswikitask:Item9406: Fix =legacyoutput= plugin breaking bold/italics/etc buttons, and switch to using x.y.z version numbering %BR%\
+|        1.1.7 | Foswikitask:Item10271: Update to !TinyMCE 3.3.9.3 and switch to using =x.y.z= version numbering %BR%\
                  Foswikitask:Item9973: Fix problem where topic names with international characters prevented attach dialogue working correctly%BR% \
                  Foswikitask:Item8085: Added =TINYMCEPLUGIN_ENTITY_ENCODING= setting; default to =numeric= %BR%\
                  Foswikitask:Item2174: JS fix for deleting encoded-TML-whitespace on Firefox |
