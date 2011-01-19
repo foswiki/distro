@@ -33,23 +33,7 @@
 <div class="version">
 <span>Author(s):</span>Moxiecode</div>
 <h4>Example</h4>
-<pre class="brush: js;">// Add a class to all paragraphs in the editor.
-tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('p'), 'someclass');
-
-// Gets the current editors selection as text
-tinyMCE.activeEditor.selection.getContent({format : 'text'});
-
-// Creates a new editor instance
-var ed = new tinymce.Editor('textareaid', {
-    some_setting : 1
-});
-
-// Select each item the user clicks on
-ed.onClick.add(function(ed, e) {
-    ed.selection.select(e.target);
-});
-
-ed.render();</pre>
+<pre class="brush: js;"/>
 <div class="summaryLists">
 <h2>Public Properties</h2>
 <table class="Properties summary">
@@ -72,13 +56,21 @@ ed.render();</pre>
 <tr class="even">
 <td class="first">
 <div>
+<a class="memberName" href="class_tinymce.Editor.html#contentCSS">contentCSS</a> : Array</div>
+<div class="summary">Array with CSS files to load into the iframe.</div>
+</td>
+<td class="last">Editor</td>
+</tr>
+<tr>
+<td class="first">
+<div>
 <a class="memberName" href="class_tinymce.Editor.html#controlManager">controlManager</a> : <a href="class_tinymce.ControlManager.html">ControlManager</a>
 </div>
 <div class="summary">Control manager instance for the editor.</div>
 </td>
 <td class="last">Editor</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.Editor.html#documentBaseURI">documentBaseURI</a> : <a href="class_tinymce.util.URI.html">URI</a>
@@ -87,7 +79,7 @@ ed.render();</pre>
 </td>
 <td class="last">Editor</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.Editor.html#dom">dom</a> : <a href="class_tinymce.dom.DOMUtils.html">DOMUtils</a>
@@ -96,7 +88,7 @@ ed.render();</pre>
 </td>
 <td class="last">Editor</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.Editor.html#formatter">formatter</a> : <a href="class_tinymce.Formatter.html">Formatter</a>
@@ -105,7 +97,7 @@ ed.render();</pre>
 </td>
 <td class="last">Editor</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.Editor.html#id">id</a> : String</div>
@@ -113,11 +105,20 @@ ed.render();</pre>
 </td>
 <td class="last">Editor</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.Editor.html#isNotDirty">isNotDirty</a> : Boolean</div>
 <div class="summary">State to force the editor to return false on a isDirty call.</div>
+</td>
+<td class="last">Editor</td>
+</tr>
+<tr>
+<td class="first">
+<div>
+<a class="memberName" href="class_tinymce.Editor.html#parser">parser</a> : <a href="class_tinymce.html.DomParser.html">DomParser</a>
+</div>
+<div class="summary">HTML parser will be used when contents is inserted into the editor.</div>
 </td>
 <td class="last">Editor</td>
 </tr>
@@ -132,7 +133,7 @@ ed.render();</pre>
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.Editor.html#schema">schema</a> : <a href="class_tinymce.dom.Schema.html">Schema</a>
+<a class="memberName" href="class_tinymce.Editor.html#schema">schema</a> : <a href="class_tinymce.html.Schema.html">Schema</a>
 </div>
 <div class="summary">Schema instance, enables you to validate elements and it's children.</div>
 </td>
@@ -150,8 +151,7 @@ ed.render();</pre>
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.Editor.html#serializer">serializer</a> : <a href="class_tinymce.dom.Serializer.html">Serializer</a>
-</div>
+<a class="memberName" href="class_tinymce.Editor.html#serializer">serializer</a> : tinymce.dom.Serializer</div>
 <div class="summary">DOM serializer for the editor.</div>
 </td>
 <td class="last">Editor</td>
@@ -221,7 +221,7 @@ ed.render();</pre>
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.Editor.html#addCommand">addCommand</a>(n:String, f:function, s:Object):void</div>
+<a class="memberName" href="class_tinymce.Editor.html#addCommand">addCommand</a>(name:String, callback:tinymce.Editor.addCommandCallback, scope:Object):void</div>
 <div class="summary">Adds a custom command to the editor, you can also override existing commands with this method.</div>
 </td>
 <td class="last">Editor</td>
@@ -229,7 +229,7 @@ ed.render();</pre>
 <tr class="even">
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.Editor.html#addQueryStateHandler">addQueryStateHandler</a>(n:String, f:function, s:Object):void</div>
+<a class="memberName" href="class_tinymce.Editor.html#addQueryStateHandler">addQueryStateHandler</a>(name:String, callback:tinymce.Editor.addQueryStateHandlerCallback, scope:Object):void</div>
 <div class="summary">Adds a custom query state command to the editor, you can also override existing commands with this method.</div>
 </td>
 <td class="last">Editor</td>
@@ -237,7 +237,7 @@ ed.render();</pre>
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.Editor.html#addQueryValueHandler">addQueryValueHandler</a>(n:String, f:function, s:Object):void</div>
+<a class="memberName" href="class_tinymce.Editor.html#addQueryValueHandler">addQueryValueHandler</a>(name:String, callback:tinymce.Editor.addQueryValueHandlerCallback, scope:Object):void</div>
 <div class="summary">Adds a custom query value command to the editor, you can also override existing commands with this method.</div>
 </td>
 <td class="last">Editor</td>
@@ -317,7 +317,7 @@ ed.render();</pre>
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.Editor.html#getContent">getContent</a>(o:Object):String</div>
+<a class="memberName" href="class_tinymce.Editor.html#getContent">getContent</a>(args:Object):String</div>
 <div class="summary">Gets the content from the editor instance, this will cleanup the content before it gets returned using the different cle...</div>
 </td>
 <td class="last">Editor</td>
@@ -461,7 +461,7 @@ ed.render();</pre>
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.Editor.html#setContent">setContent</a>(h:String, o:Object):String</div>
+<a class="memberName" href="class_tinymce.Editor.html#setContent">setContent</a>(content:String, args:Object):String</div>
 <div class="summary">Sets the specified content to the editor instance, this will cleanup the content before it gets set using the different ...</div>
 </td>
 <td class="last">Editor</td>
@@ -811,6 +811,13 @@ ed.render();</pre>
 <div class="memberDescription">URI object to current document that holds the TinyMCE editor instance.
 </div>
 </div>
+<div class="memberDetails" id="contentCSS">
+<h3>contentCSS<span class="memberType">property</span>
+</h3>
+<code class="syntax">public contentCSS : Array</code>
+<div class="memberDescription">Array with CSS files to load into the iframe.
+</div>
+</div>
 <div class="memberDetails" id="controlManager">
 <h3>controlManager<span class="memberType">property</span>
 </h3>
@@ -857,6 +864,14 @@ ed.render();</pre>
 <div class="memberDescription">State to force the editor to return false on a isDirty call.
 </div>
 </div>
+<div class="memberDetails" id="parser">
+<h3>parser<span class="memberType">property</span>
+</h3>
+<code class="syntax">public parser : <a href="class_tinymce.html.DomParser.html">DomParser</a>
+</code>
+<div class="memberDescription">HTML parser will be used when contents is inserted into the editor.
+</div>
+</div>
 <div class="memberDetails" id="plugins">
 <h3>plugins<span class="memberType">property</span>
 </h3>
@@ -867,7 +882,7 @@ ed.render();</pre>
 <div class="memberDetails" id="schema">
 <h3>schema<span class="memberType">property</span>
 </h3>
-<code class="syntax">public schema : <a href="class_tinymce.dom.Schema.html">Schema</a>
+<code class="syntax">public schema : <a href="class_tinymce.html.Schema.html">Schema</a>
 </code>
 <div class="memberDescription">Schema instance, enables you to validate elements and it's children.
 </div>
@@ -883,9 +898,8 @@ ed.render();</pre>
 <div class="memberDetails" id="serializer">
 <h3>serializer<span class="memberType">property</span>
 </h3>
-<code class="syntax">public serializer : <a href="class_tinymce.dom.Serializer.html">Serializer</a>
-</code>
-<div class="memberDescription">DOM serializer for the editor.
+<code class="syntax">public serializer : tinymce.dom.Serializer</code>
+<div class="memberDescription">DOM serializer for the editor. Will be used when contents is extracted from the editor.
 </div>
 </div>
 <div class="memberDetails" id="settings">
@@ -968,22 +982,22 @@ powerfull if you need more control use the ControlManagers factory methods inste
 <h3>addCommand<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function addCommand(n:String, f:function, s:Object):void</code>
+						function addCommand(name:String, callback:tinymce.Editor.addCommandCallback, scope:Object):void</code>
 <div class="memberDescription">Adds a custom command to the editor, you can also override existing commands with this method.
 The command that you add can be executed with execCommand.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">n:String</td>
+<td class="first">name:String</td>
 <td class="last">Command name to add/override.</td>
 </tr>
 <tr>
-<td class="first">f:function</td>
+<td class="first">callback:tinymce.Editor.addCommandCallback</td>
 <td class="last">Function to execute when the command occurs.</td>
 </tr>
 <tr>
-<td class="first">s:Object</td>
+<td class="first">scope:Object</td>
 <td class="last">Optional scope to execute the function in.</td>
 </tr>
 </table>
@@ -992,22 +1006,22 @@ The command that you add can be executed with execCommand.
 <h3>addQueryStateHandler<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function addQueryStateHandler(n:String, f:function, s:Object):void</code>
+						function addQueryStateHandler(name:String, callback:tinymce.Editor.addQueryStateHandlerCallback, scope:Object):void</code>
 <div class="memberDescription">Adds a custom query state command to the editor, you can also override existing commands with this method.
 The command that you add can be executed with queryCommandState function.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">n:String</td>
+<td class="first">name:String</td>
 <td class="last">Command name to add/override.</td>
 </tr>
 <tr>
-<td class="first">f:function</td>
+<td class="first">callback:tinymce.Editor.addQueryStateHandlerCallback</td>
 <td class="last">Function to execute when the command state retrival occurs.</td>
 </tr>
 <tr>
-<td class="first">s:Object</td>
+<td class="first">scope:Object</td>
 <td class="last">Optional scope to execute the function in.</td>
 </tr>
 </table>
@@ -1016,22 +1030,22 @@ The command that you add can be executed with queryCommandState function.
 <h3>addQueryValueHandler<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function addQueryValueHandler(n:String, f:function, s:Object):void</code>
+						function addQueryValueHandler(name:String, callback:tinymce.Editor.addQueryValueHandlerCallback, scope:Object):void</code>
 <div class="memberDescription">Adds a custom query value command to the editor, you can also override existing commands with this method.
 The command that you add can be executed with queryCommandValue function.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">n:String</td>
+<td class="first">name:String</td>
 <td class="last">Command name to add/override.</td>
 </tr>
 <tr>
-<td class="first">f:function</td>
+<td class="first">callback:tinymce.Editor.addQueryValueHandlerCallback</td>
 <td class="last">Function to execute when the command value retrival occurs.</td>
 </tr>
 <tr>
-<td class="first">s:Object</td>
+<td class="first">scope:Object</td>
 <td class="last">Optional scope to execute the function in.</td>
 </tr>
 </table>
@@ -1215,14 +1229,14 @@ all the elements added to the page for the editor. Such as UI, iframe etc.
 <h3>getContent<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function getContent(o:Object):String</code>
+						function getContent(args:Object):String</code>
 <div class="memberDescription">Gets the content from the editor instance, this will cleanup the content before it gets returned using
 the different cleanup rules options.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">o:Object</td>
+<td class="first">args:Object</td>
 <td class="last">Optional content object, this gets passed around through the whole get process.</td>
 </tr>
 </table>
@@ -1460,18 +1474,18 @@ so all events etc that method has will get dispatched as well.
 <h3>setContent<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function setContent(h:String, o:Object):String</code>
+						function setContent(content:String, args:Object):String</code>
 <div class="memberDescription">Sets the specified content to the editor instance, this will cleanup the content before it gets set using
 the different cleanup rules options.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">h:String</td>
+<td class="first">content:String</td>
 <td class="last">Content to set to editor, normally HTML contents but can be other formats as well.</td>
 </tr>
 <tr>
-<td class="first">o:Object</td>
+<td class="first">args:Object</td>
 <td class="last">Optional content object, this gets passed around through the whole set process.</td>
 </tr>
 </table>
