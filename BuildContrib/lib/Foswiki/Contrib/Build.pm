@@ -1169,17 +1169,48 @@ sub _cpanMinify {
 }
 
 sub _yuiMinify {
-    my ( $this, $from, $to, $type ) = @_;
-    delete $ENV{'LC_ALL'};
-    my $cmd = "java -jar $basedir/tools/yuicompressor.jar --type $type $from";
+    my ( $this, $from, $to, $type, $cmdtype ) = @_;
+    my $lcall = $ENV{'LC_ALL'};
+    my $cmd;
+    
+    if ($cmdtype == 2) {
+        $cmd = "java -jar $basedir/tools/yuicompressor.jar --type $type $from";
+    } else {
+        $cmd = "yui-compressor --type $type $from";
+    }
     unless ( $this->{-n} ) {
         $cmd .= " -o $to";
     }
 
     #warn "$cmd\n";
     my $out = `$cmd`;
-    $ENV{'LC_ALL'} = 'C';
+    $ENV{'LC_ALL'} = $lcall;
     return $out;
+}
+
+=begin TML
+
+---++++ _haveYUI
+return 1 if we have YUI as a command yui-compressor
+return 2 if we have YUI as a jar file in tools
+
+=cut
+
+sub _haveYUI {
+    my $info =  `yui-compressor -h 2>&1`;
+    my $result = 0;
+
+    if (not $?) {
+        $result = 1;
+    } elsif ( -e "$basedir/tools/yuicompressor.jar" ) {
+        # Do we have java?
+        $info = `java -version 2>&1` || '';
+        if (not $?) {
+            $result = 2;
+        }
+    }
+
+    return $result;
 }
 
 =begin TML
@@ -1199,14 +1230,12 @@ These are selected between depending on which exist on disk.
 sub build_js {
     my ( $this, $to ) = @_;
 
-    # Check for Java and the YUI compressor
-    if ( !$minifiers{js} && -e "$basedir/tools/yuicompressor.jar" ) {
+    if ( !$minifiers{js} ) {
+        my $yui = _haveYUI();
 
-        # Do we have java?
-        my $info = `java -version 2>&1` || '';
-        unless ($?) {
+        if ($yui) {
             $minifiers{js} = sub {
-                return $this->_yuiMinify( @_, 'js' );
+                return $this->_yuiMinify(@_, 'js', $yui );
             };
         }
     }
@@ -1250,14 +1279,12 @@ Several different name mappings are supported:
 sub build_css {
     my ( $this, $to ) = @_;
 
-    # Check for Java and the YUI compressor
-    if ( -e "$basedir/tools/yuicompressor.jar" ) {
+    if ( !$minifiers{css} ) {
+        my $yui = _haveYUI();
 
-        # Do we have java?
-        my $info = `java -version 2>&1` || '';
-        unless ($?) {
+        if ($yui) {
             $minifiers{css} = sub {
-                return $this->_yuiMinify( @_, 'css' );
+                return $this->_yuiMinify(@_, 'css', $yui );
             };
         }
     }
