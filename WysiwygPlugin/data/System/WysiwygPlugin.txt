@@ -189,7 +189,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Release: | %$RELEASE% |
 |  Change History: | |
 |  1.1.2       | Foswikitask:Item2174: Protect line breaks within paragraphs in TML |
-|  1.1.1       | Foswikitask:Item10271: Switch to x.y.z release numbering %BR \
+|  1.1.1       | Foswikitask:Item10271: Switch to x.y.z release numbering %BR% \
                  Foswikitask:Item10048: Try to use Macros in the src URLs of images with titles %BR% \
                  Foswikitask:Item9973: Fix attachments REST handler to deal with topics named with international characters %BR%\
                  Foswikitask:Item1391: Protect div and span tags with =style= attributes |
