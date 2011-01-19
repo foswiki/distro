@@ -1150,6 +1150,7 @@ third line
 %META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peel"}%
 %META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
 %META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
+%META:FIELD{name="NewField" attributes="" title="Item10269" value="TaxonProfile/Builder.TermForm"}%
 %META:FILEATTACHMENT{name="porn.gif" comment="Cor" date="15062" size="15504"}%
 %META:FILEATTACHMENT{name="flib.xml" comment="Cor" date="1157965062" size="1"}%
 HERE
@@ -4464,6 +4465,18 @@ METADATA
                 "Expansion of SEARCH token $token failed!\n"
               . "Expected:'$expected'\n But got:'$result'\n" );
     }
+}
+
+#TaxonProfile/Builder.TermForm
+sub verify_Item10269 {
+    my $this = shift;
+
+    $this->set_up_for_queries();
+
+    my $result =
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"NewField=\'TaxonProfile/Builder.TermForm\'"' . $stdCrap );
+    $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
 1;

@@ -32,7 +32,7 @@ sub search {
 
         # Escape /, used as delimiter. This also blocks any attempt to use
         # the search string to execute programs on the server.
-        $searchString =~ s!/!\\/!g;
+        $searchString =~ s!/!\/!g;
     }
     else {
 
