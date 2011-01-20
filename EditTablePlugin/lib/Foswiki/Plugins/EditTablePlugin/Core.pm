@@ -1115,6 +1115,7 @@ sub handleEditTableTag {
 
     # We allow expansion of macros in the EDITTABLE arguments so one can
     # set a macro that defines the arguments
+
     my $arguments =
       Foswiki::Func::expandCommonVariables( $inArguments, $inTopic, $inWeb );
 
@@ -1592,10 +1593,16 @@ sub inputElement {
 
     }
     elsif ( $type eq 'date' ) {
+    
+        # calendar format
         my $ifFormat = '';
         $ifFormat = $bits[3] if ( @bits > 3 );
         $ifFormat ||= $Foswiki::cfg{JSCalendarContrib}{format} || '%e %B %Y';
+        # protect format from parsing
+        Foswiki::Plugins::EditTablePlugin::encodeValue($ifFormat);
+        
         $size = 10 if ( !$size || $size < 1 );
+        
         Foswiki::Plugins::EditTablePlugin::encodeValue($inValue)
           unless ( $inValue eq '' );
         $text .= CGI::textfield(
@@ -2072,7 +2079,7 @@ sub _debug {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -38,10 +38,14 @@ The format tokens are the same as with %SYSTEMWEB%.FormattedSearch:
 
 <img src="%ATTACHURLPATH%/EditTablePluginCalendarExample.gif" alt="Edit Table Calendar Example" width="638" height="250" />
 
-The =date= field type allows one to choose a date with a popup calendar. Popup calendar works with all modern browsers. The date picker button is inactive if the browser cannot support the popup calendar or if javascript is disabled. 
+The =date= field type allows one to choose a date with a popup calendar. Popup calendar works with all modern browsers. The date picker button is inactive if the browser cannot support the popup calendar or if Javascript is disabled. 
 
-The optional DHTML date format specifiers are described in the [[System.JSCalendarContrib#FormatSpecifiers][JSCalendarContrib]] documentation. When time specifiers are used, the calendar allows one to choose a date and a time.
+The optional date format specifiers are described in the [[System.JSCalendarContrib#FormatSpecifiers][JSCalendarContrib]] documentation. When time specifiers are used, the calendar allows one to choose a date and a time.
 
+In some rare cases, if you pass the date format in =%<nop>EDITTABLE{format="..."}%= and the date format components are adjacent, you must escape the =%= characters to =$percnt= to prevent that the components are expanded as macros. For example:
+<verbatim>
+%EDITTABLE{format="|date,15,,$percntY$percntm$percntd|"}%
+</verbatim>
 
 ---++ Per Cell Settings
 
@@ -191,12 +195,13 @@ Test if the Plugin is correctly installed:
 
 ---++ Plugin Info
 
-|  Copyright: | &copy; 2008-2010, Arthur Clemens and Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  | 
+|  Copyright: | &copy; 2008-2011, Arthur Clemens and Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  06 Dec 2010: | 4.38: Andrew Jones: Foswikitast:Item10126 - Intermittent rendering issues under !FastCGI |
+|  20 Jan 2011: | 4.39: Arthur Clemens: Foswikitask:Item10274 - Collision between Date formatting and Wiki variables |
+|  06 Dec 2010: | 4.38: Andrew Jones: Foswikitask:Item10126 - Intermittent rendering issues under !FastCGI |
 |  06 Nov 2010: | 4.37: Paul Harvey: Foswikitask:Item9963 - Revert usage of =$<nop>percent= back to =$<nop>percnt= |
 |  31 Jul 2010: | 4.35: Paul Harvey: Foswikitask:Item9415 - Documentation updates |
 |  23 Dec 2009: | 4.34: Arthur Clemens: Fixed a problem that the button "Delete last row" would remove newly added rows. |
@@ -223,7 +228,7 @@ Test if the Plugin is correctly installed:
 |  01 Dec 2007: | 4.3: Arthur Clemens: added support for TablePlugin =headerrows= and =footerrows=; updated edit button |
 |  16 Oct 2007: | 4.2: Arthur Clemens: refactoring, bug fixes. |
 |  07 Oct 2007: | 15182: PTh: Added !VarEDITTABLE to have it listed in !TWikiVariables |
-|  15 Mar 2007: | Arthur Clemens: Fixed eating of double newlines; icons for javascript buttons and interface improvements. By default the javascript interface is turned off, set =JAVASCRIPTINTERFACE= to use it in edit mode. |
+|  15 Mar 2007: | Arthur Clemens: Fixed eating of double newlines; icons for Javascript buttons and interface improvements. By default the Javascript interface is turned off, set =JAVASCRIPTINTERFACE= to use it in edit mode. |
 |  05 Mar 2007: | Byron Darrah: Added ability to dynamically move and delete rows. |
 |  12 Oct 2006: | <a rel="nofollow" href="http://develop.twiki.org/~develop/cgi-bin/view/Bugs/Item2982">Item2982</a> Use default date format from JSCalendarContrib |
 |  02 Oct 2006: | <a rel="nofollow" href="http://develop.twiki.org/~develop/cgi-bin/view/Bugs/Item2884">Item2884</a> Check also for access permission in meta data; proper fix to not warn if oneself has a lock on topic |
@@ -240,7 +245,7 @@ Test if the Plugin is correctly installed:
 |  20 Dec 2003: | Fixed bug where calendar did not work after adding a row (TWiki:Main/PaulineCheung); added all language files of Mishoo DHTML calendar 0.9.5 |
 |  13 Dec 2003: | Added CHANGEROWS, JSCALENDARDATEFORMAT, JSCALENDARLANGUAGE, JSCALENDAROPTIONS settings |
 |  16 Oct 2003: | small typo fixed (garbled if ---<nop>+ header on top) |
-|  15 Oct 2003: | new date field type with javascript calendar - CN |
+|  15 Oct 2003: | new date field type with Javascript calendar - CN |
 |  14 Oct 2003: | docfix: the documentation page was an old one - CN |
 |  13 Oct 2003: | bugfix: %-vars in select were resetted to first on add/del row - CN |
 |  18 Sep 2003: | incompatibility: changed default of =changerows= to =on=; support for %-vars, Quiet save for saving without notification; all other fixes in Dev topic integrated - CN |
