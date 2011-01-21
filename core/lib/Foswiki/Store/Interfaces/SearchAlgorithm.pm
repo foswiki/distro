@@ -5,11 +5,11 @@ use strict;
 use warnings;
 use Assert;
 
-use Foswiki ();
-use Foswiki::Plugins ();
-use Foswiki::Sandbox ();
+use Foswiki            ();
+use Foswiki::Plugins   ();
+use Foswiki::Sandbox   ();
 use Foswiki::WebFilter ();
-use Foswiki::Meta ();
+use Foswiki::Meta      ();
 
 =begin TML
 
@@ -49,7 +49,7 @@ sub getListOfWebs {
     my %excludeWeb;
     my @tmpWebs;
 
-    #$web = Foswiki::Sandbox::untaint( $web,\&Foswiki::Sandbox::validateWebName );
+  #$web = Foswiki::Sandbox::untaint( $web,\&Foswiki::Sandbox::validateWebName );
 
     if ($webName) {
         foreach my $web ( split( /[\,\s]+/, $webName ) ) {

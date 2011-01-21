@@ -50,6 +50,7 @@ on the query schema.
 
 # Implements Foswiki::Store::Interfaces::QueryAlgorithm
 sub getField {
+
     # The getField function allows for Store specific optimisations
     # such as direct database lookups. The default implementation
     # works with the Foswiki::Meta object.
@@ -82,23 +83,25 @@ sub getField {
                 $result = $data->get($realField);
             }
         }
-	elsif ( $realField eq 'versions' ) {
-	    # Disallow reloading versions for an object loaded here
-	    # SMELL: violates Foswiki::Meta encapsulation
-	    return [] if $data->{_loadedByQueryAlgorithm};
+        elsif ( $realField eq 'versions' ) {
+
+            # Disallow reloading versions for an object loaded here
+            # SMELL: violates Foswiki::Meta encapsulation
+            return [] if $data->{_loadedByQueryAlgorithm};
+
             # Oooh, this is inefficient.
-	    my $it = $data->getRevisionHistory();
-	    my @revs;
-	    while ($it->hasNext()) {
-		my $n = $it->next();
-		my $t = $this->getRefTopic(
-		    $data, $data->web(), $data->topic(), $n);
-		$t->{_loadedByQueryAlgorithm} = 1;
-		push(@revs, $t);
-	    }
+            my $it = $data->getRevisionHistory();
+            my @revs;
+            while ( $it->hasNext() ) {
+                my $n = $it->next();
+                my $t =
+                  $this->getRefTopic( $data, $data->web(), $data->topic(), $n );
+                $t->{_loadedByQueryAlgorithm} = 1;
+                push( @revs, $t );
+            }
             return \@revs;
         }
-	elsif ( $realField eq 'name' ) {
+        elsif ( $realField eq 'name' ) {
 
             # Special accessor to compensate for lack of a topic
             # name anywhere in the saved fields of meta
@@ -116,7 +119,13 @@ sub getField {
             # name anywhere in the saved fields of meta
             return $data->web();
         }
-        elsif ($data->topic()) {
+        elsif ( $realField eq ':topic_meta:' ) {
+            #TODO: Sven expects this to be replaced with a fast call to verions[0] - atm, thats needlessly slow
+            # return the meta obj itself
+            #actually should do this the way the versions feature is supposed to return a particular one..
+            return $data;
+        }
+        elsif ( $data->topic() ) {
 
             # The field name isn't an alias, check to see if it's
             # the form name
@@ -216,6 +225,7 @@ operators by abstracting the loading of a topic referred to in a string.
 
 # Default implements gets a new Foswiki::Meta
 sub getRefTopic {
+
     # Get a referenced topic
     my ( $this, $relativeTo, $w, $t, $rev ) = @_;
     return Foswiki::Meta->load( $relativeTo->session, $w, $t, $rev );
