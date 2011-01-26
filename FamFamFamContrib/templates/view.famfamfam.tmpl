@@ -1,37 +1,37 @@
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"top:toolbarbutton_edit"}%<span>
-	<a href="%SCRIPTURL{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%" title="Edit this topic">
-		<img alt="edit" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/pencil.png" width="16" height="16" />
+	<a href="%SCRIPTURL{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%" title="%MAKETEXT{"Edit this topic text (e)"}%">
+		<img alt="%MAKETEXT{"Edit this topic text (e)"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/pencil.png" width="16" height="16" />
 	</a></span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_attach"}%<span>
-	<a href="%SCRIPTURL{"attach"}%/%WEB%/%TOPIC%" title="Attach files and manage existing attachments">
-		<img alt="attach" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/attach.png" width="16" height="16" />
+	<a href="%SCRIPTURL{"attach"}%/%WEB%/%TOPIC%" title="%MAKETEXT{"Attach an image or document to this topic (a)"}%">
+		<img alt="%MAKETEXT{"Attach an image or document to this topic (a)"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/attach.png" width="16" height="16" />
 	</a></span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_rdiff"}%<span>
-	<a href="%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="View topic history">
-		<img alt="history" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_stack.png" width="16" height="16" />
+	<a href="%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="%MAKETEXT{"View sequential topic history"}%">
+		<img alt="%MAKETEXT{"View sequential topic history"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_stack.png" width="16" height="16" />
 	</a></span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_raw"}%<span>
-	<a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=on&rev=%REVINFO{"$rev"}%" title="View raw topic text">
-		<img alt="raw" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/text_align_left.png" width="16" height="16" />
+	<a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=on&rev=%REVINFO{"$rev"}%" title="%MAKETEXT{"View without formatting (v)"}%">
+		<img alt="%MAKETEXT{"View without formatting (v)"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/text_align_left.png" width="16" height="16" />
 	</a></span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_create"}%<span>
-	<a href="%SCRIPTURL{"view"}%/%WEB%/WebCreateNewTopic?topicparent=%TOPIC%" title="Create new topic">
-		<img alt="new" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_add.png" width="16" height="16" />
+	<a href="%SCRIPTURL{"view"}%/%WEB%/WebCreateNewTopic?topicparent=%TOPIC%" title="%MAKETEXT{"Create new topic"}%">
+		<img alt="%MAKETEXT{"Create new topic"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_add.png" width="16" height="16" />
 	</a></span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_print"}%<span>
-	<a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?cover=print" title="Print this topic">
-		<img alt="print" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/printer.png" width="16" height="16" />
+	<a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?cover=print" title="%MAKETEXT{"Printable version of this topic (p)"}%">
+		<img alt="%MAKETEXT{"Printable version of this topic (p)"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/printer.png" width="16" height="16" />
 	</a></span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_more"}%<span>
-	<a href="%SCRIPTURL{"oops"}%/%WEB%/%TOPIC%?template=more&maxrev=%REVINFO{"$rev"}%&currrev=%REVINFO{"$rev"}%" title="More actions">
-		<img alt="more" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/wrench.png" width="16" height="16" />
+        <a href="%SCRIPTURL{"oops"}%/%WEB%/%TOPIC%?template=more&maxrev=%REVINFO{"$rev"}%&currrev=%REVINFO{"$rev"}%" title="%MAKETEXT{"More: delete or rename this topic; set parent topic; view and compare revisions (m)"}%">
+                <img alt="%MAKETEXT{"More: delete or rename this topic; set parent topic; view and compare revisions (m)"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/wrench.png" width="16" height="16" />
 	</a></span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbuttons_notauthenticated"}% %LOGIN% %TMPL:END%
