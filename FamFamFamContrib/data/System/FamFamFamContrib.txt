@@ -70,6 +70,7 @@ eg
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  Jan 2011: | Foswikitask:Item10275, Foswikitask:Item10283, Foswikitask:Item10285 - toolbar related fixes -- Foswiki:Main.IngoKappler  |
 |  Jul 2010: | Foswikitask:Item9415 - Documentation updates |
 |  Apr 2010: | finish finding matching icons for all the legacy icon names - readying for 1.1 release |
 |  Mar 2010: | include into foswiki 1.1 core and make it the default =ICONTOPIC= |
