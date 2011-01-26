@@ -966,7 +966,8 @@ sub loadInstaller {
                 next;
             }
             chomp $_;
-            _parseManifest( $this, $_, ( $found eq 'M2' ) );
+            my $e = _parseManifest( $this, $_, ( $found eq 'M2' ) );
+            $warn .= "$e";
             next;
         }
 
@@ -1087,7 +1088,7 @@ sub _parseManifest {
         ( $file, $perms, $desc ) = split( ',', $_[0], 3 );
     }
 
-    return unless ($file);
+    return "No file found in $_[1] - line bypassed" unless ($file);
 
     my $tweb    = '';
     my $ttopic  = '';
@@ -1095,10 +1096,19 @@ sub _parseManifest {
 
     if ( $file =~ m/^data\/.*/ ) {
         ( $tweb, $ttopic ) = $file =~ /^data\/(.*)\/(.*?).txt$/;
+        unless (length ($tweb) > 0 && length($ttopic) > 0) {
+            my $err = "$file is not a topic - file will be bypassed\n";
+            return $err;
+        }
     }
     if ( $file =~ m/^pub\/.*/ ) {
         ( $tweb, $ttopic, $tattach ) = $file =~ /^pub\/(.*)\/(.*?)\/([^\/]+)$/;
+        unless (length ($tweb) > 0 && length($ttopic) > 0 && length($tattach) > 0) {
+            my $err = "Unable to identify attachment $file name or location - file will be bypassed\n";
+            return $err;
+        }
     }
+
 
     $this->{_manifest}->{$file}->{ci}    = ( $desc =~ /\(noci\)/ ? 0 : 1 );
     $this->{_manifest}->{$file}->{perms} = $perms;
