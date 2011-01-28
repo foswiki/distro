@@ -6,7 +6,6 @@
      Use [[%SCRIPTURLPATH{"configure"}%][configure]] to change this site wide. Use JQTHEME if you decide to use a different
      theme on the current page. 
    * Note: some Foswiki skins may come with their own jQuery UI matching the overall user experience of the web design. 
-   * 
    * Parameters:
      | *Parameter:* | *Description:* | *Default:* |
      | "name" | name of theme: !JQueryPlugin knows the following themes =base=, =lightness=, =redmod=, =smoothness=; \
