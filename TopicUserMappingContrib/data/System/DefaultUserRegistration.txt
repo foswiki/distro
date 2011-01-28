@@ -105,7 +105,7 @@ else="%IF{
 <!--
 	The registration form
 -->
-%STARTSECTION{"form"}%<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" id="foswikiRegistration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
+%STARTSECTION{"form"}%<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
 	<div class="foswikiFormSteps">
 		<div class="foswikiFormStep">
 			<p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required"}%</em></p>
@@ -182,14 +182,17 @@ text="<style type='text/css' media='all'>
 .registration em {
 	font-style:normal;
 }
+.registration .expl,
+.registration .error {
+	font-size:94%;
+	line-height:130%;
+}
 .registration label.expl,
 .registration label.error {	
+	color:#666;
 	display:block;
 	margin:0 0 0 43%;
 	padding:2px 0 2px 26px;
-	color:#666;
-	font-size:94%;
-	line-height:130%;
 }
 /* END horizontal layout */
 .registration ul {
@@ -233,6 +236,9 @@ text="<style type='text/css' media='all'>
 .registration label.checked {
 	background:none;
 }
+.registration .expl {
+	margin:0 0 0 .75em;
+}
 </style>"
 }%%JQREQUIRE{"validate, wikiword, cookie"}%%ADDTOZONE{
 "script"
@@ -249,10 +255,12 @@ $(document).ready(function() {
 	if ( $.cookie(testCookieName) === testCookieValue) {
 		$('body').addClass('foswikiCookiesEnabled');
 	}
+	$.cookie(testCookieName, undefined);
+	//
 	// inline form validation
-	$('#foswikiRegistration').livequery(function() {
+	$('form[name=registration]').livequery(function() {
 		$('#Twk1WikiName').wikiword('#Twk1FirstName, #Twk1LastName');
-		$(this).validate({
+		var validator = $(this).validate({
 			rules: {
 				Twk1FirstName: 'required',
 				Twk1LastName: 'required',
@@ -325,6 +333,15 @@ $(document).ready(function() {
 			success: function(label) {
 				// remove generated label
 				label.remove();
+				if (validator.numberOfInvalids() === 0) {
+					$(':submit').removeClass('foswikiSubmitDisabled');
+					$('.expl').addClass('foswikiHidden');
+				}
+			},
+			showErrors: function(errorMap, errorList) {
+				$(':submit').addClass('foswikiSubmitDisabled');
+				$('.expl').removeClass('foswikiHidden');
+				validator.defaultShowErrors();
 			}
 		});
 	});
@@ -480,7 +497,7 @@ format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
 <!--
 	Required submit button
 -->
-%STARTSECTION{"requiredButton_submit"}%<li><label class="desc">&nbsp;</label><div><input type="submit" tabindex="99" class="foswikiSubmit" value="%MAKETEXT{"Register"}%" /></div></li>%ENDSECTION{"requiredButton_submit"}%
+%STARTSECTION{"requiredButton_submit"}%<li><label class="desc">&nbsp;</label><div><input type="submit" tabindex="99" class="foswikiSubmit" value="%MAKETEXT{"Register"}%" /><span class="expl foswikiHidden">%MAKETEXT{"Please correct the entered data before you continue"}%</span></div></li>%ENDSECTION{"requiredButton_submit"}%
 
 
 <!--
