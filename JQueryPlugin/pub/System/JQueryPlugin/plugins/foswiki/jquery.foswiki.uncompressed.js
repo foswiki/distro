@@ -147,12 +147,14 @@ if (foswiki.preferences === undefined) {
   for (var pref in mapping) {
     foswiki[mapping[pref]] = foswiki.getPreference(pref);
   }
+
+  /**
+   * document ready handler 
+   */
+
+  $(function() {
+    /* Remove 'has no javascript' class from body element (written in template). */
+    $('body').removeClass('foswikiNoJs').addClass("foswikiJs");
+  });
 	
 })(jQuery);
-
-$(document).ready(function() {
-	/**
-	Remove 'has no javascript' class from body element (written in template).
-	*/
-	$('body').removeClass('foswikiNoJs');
-});
