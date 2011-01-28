@@ -32,7 +32,7 @@ sub new {
             name       => 'Themeswitcher',
             version    => '20101001',
             author     => 'unknown',
-            homepage   => 'http://jqueryui.com//themeroller/',
+            homepage   => 'http://jqueryui.com/themeroller',
             javascript => ['themeswitcher.js', 'themeswitcher.init.js'],
             dependencies => ['cookie', 'ui'],
         ),

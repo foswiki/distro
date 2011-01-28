@@ -177,7 +177,7 @@ $.tabpane = {
 
     // async loader
     if (typeof(data.url) != "undefined") {
-      $innerContainer.load(data.url, undefined, function() {
+      $innerContainer.load(data.url, undefined, function(response, status, xhr) {
         if (typeof(data.afterLoadHandler) == "function") {
           //jQuery.log("after load handler "+command);
           data.afterLoadHandler.call(this, oldTabId, newTabId);

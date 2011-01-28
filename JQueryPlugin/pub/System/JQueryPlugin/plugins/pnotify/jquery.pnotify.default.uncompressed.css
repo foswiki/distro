@@ -14,6 +14,7 @@
 	right: 18px;
 	position: absolute;
 	height: auto;
+        text-align:left;
 	/* Ensure that the notices are on top of everything else. */
 	z-index: 9999;
 }

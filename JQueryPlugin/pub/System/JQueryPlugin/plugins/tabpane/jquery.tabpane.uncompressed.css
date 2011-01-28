@@ -5,19 +5,24 @@
   margin:0px;
   padding:0px;
 }
-.foswikiJs .jqTab {
-  display:none; /* switched on by plugin */
-}
 .jqTab {
+  display:none; /* switched on by plugin */
   border:1px solid #BDBEC5;
   padding:0px;
   margin:0px;
+}
+.foswikiNoJs .jqTab {
+  display:block;
+  border:none;
 }
 .jqTab.current {
   display:block;
 }
 .jqTabContents {
   padding:1em;
+}
+.foswikiNoJs .jqTabContents {
+  padding:0;
 }
 ul.jqTabGroup {
   margin:0px;

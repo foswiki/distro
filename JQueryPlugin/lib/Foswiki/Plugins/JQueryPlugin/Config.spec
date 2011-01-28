@@ -29,7 +29,7 @@ $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 # **SELECT jquery-1.4.4, jquery-1.4.3**
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.4.3';
 
-# **SELECT flickr, lightness, redmond, smoothness**
+# **SELECT ,flickr, lightness, redmond, smoothness**
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = '';
 
 # ---+++ jQuery plugins - EXPERT
