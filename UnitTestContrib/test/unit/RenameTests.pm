@@ -78,7 +78,8 @@ rename [[$this->{test_web}.OldTopic]]
 THIS
 
     # Strategically-selected set of identical topics in the test web
-    foreach my $topic ( 'OldTopic', 'OtherTopic', 'random', 'Random', 'ranDom', 'Tmp1' )
+    foreach my $topic ( 'OldTopic', 'OtherTopic', 'random', 'Random', 'ranDom',
+        'Tmp1' )
     {
         my $meta =
           Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic,
@@ -190,9 +191,10 @@ THIS
    * Set SOME_TEMPLATE = $this->{new_web}.OldViewTemplate
 THIS
 
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TmplRefTopic',
-      $origTemplateRefs );
+    $meta = Foswiki::Meta->new(
+        $this->{session}, $this->{test_web},
+        'TmplRefTopic',   $origTemplateRefs
+    );
     $meta->putKeyed(
         'PREFERENCE',
         {
@@ -213,9 +215,10 @@ THIS
     );
     $meta->save();
 
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TmplRefTopic2',
-      $origTemplateRefs );
+    $meta = Foswiki::Meta->new(
+        $this->{session}, $this->{test_web},
+        'TmplRefTopic2',  $origTemplateRefs
+    );
     $meta->putKeyed(
         'PREFERENCE',
         {
@@ -238,7 +241,7 @@ THIS
 
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TmplRefMeta1',
-      "Meta Only" );
+        "Meta Only" );
     $meta->putKeyed(
         'PREFERENCE',
         {
@@ -252,7 +255,7 @@ THIS
 
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TmplRefMeta2',
-      "Meta Only" );
+        "Meta Only" );
     $meta->putKeyed(
         'PREFERENCE',
         {
@@ -266,7 +269,7 @@ THIS
 
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TmplRefMeta3',
-      "Meta Only" );
+        "Meta Only" );
     $meta->putKeyed(
         'PREFERENCE',
         {
@@ -279,8 +282,8 @@ THIS
     $meta->save();
 
     $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OldViewTemplate',
-      "Template" );
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'OldViewTemplate', "Template" );
     $meta->save();
 }
 
@@ -347,12 +350,12 @@ sub checkReferringTopics {
     $this->assert_equals(
         0,
         scalar( keys %not_expected ),
-        'not expected: '.join( ' ', keys %not_expected )
+        'not expected: ' . join( ' ', keys %not_expected )
     );
     $this->assert_equals(
         0,
         scalar( keys %expected_but_unseen ),
-        'expected but missing: '.join( ' ', keys %expected_but_unseen )
+        'expected but missing: ' . join( ' ', keys %expected_but_unseen )
     );
 
     my $i = scalar( keys %$refs );
@@ -382,8 +385,10 @@ sub test_referringTemplateThisWeb {
         'OldViewTemplate',
         0,
         [
-            "$this->{test_web}.TmplRefTopic", "$this->{test_web}.TmplRefTopic2",
-            "$this->{test_web}.TmplRefMeta1", "$this->{test_web}.TmplRefMeta2",
+            "$this->{test_web}.TmplRefTopic",
+            "$this->{test_web}.TmplRefTopic2",
+            "$this->{test_web}.TmplRefMeta1",
+            "$this->{test_web}.TmplRefMeta2",
             "$this->{test_web}.TmplRefMeta3"
         ]
     );
@@ -399,9 +404,11 @@ sub test_renameTemplateThisWeb {
             newweb           => [ $this->{test_web} ],
             newtopic         => ['NewViewTemplate'],
             referring_topics => [
-               "$this->{test_web}.TmplRefTopic", "$this->{test_web}.TmplRefTopic2",
-               "$this->{test_web}.TmplRefMeta1", "$this->{test_web}.TmplRefMeta2",
-               "$this->{test_web}.TmplRefMeta3"
+                "$this->{test_web}.TmplRefTopic",
+                "$this->{test_web}.TmplRefTopic2",
+                "$this->{test_web}.TmplRefMeta1",
+                "$this->{test_web}.TmplRefMeta2",
+                "$this->{test_web}.TmplRefMeta3"
             ],
             topic => 'OldViewTemplate'
         }
@@ -418,74 +425,52 @@ sub test_renameTemplateThisWeb {
     $this->assert(
         $this->{session}->topicExists( $this->{test_web}, 'NewViewTemplate' ) );
     $this->assert(
-        !$this->{session}->topicExists( $this->{test_web}, 'OldViewTemplate' ) );
+        !$this->{session}->topicExists( $this->{test_web}, 'OldViewTemplate' )
+    );
+
     # All of the topics refer to the new template
     $this->checkReferringTopics(
         $this->{test_web},
         'NewViewTemplate',
         0,
         [
-            "$this->{test_web}.TmplRefTopic", "$this->{test_web}.TmplRefTopic2",
-            "$this->{test_web}.TmplRefMeta1", "$this->{test_web}.TmplRefMeta2",
+            "$this->{test_web}.TmplRefTopic",
+            "$this->{test_web}.TmplRefTopic2",
+            "$this->{test_web}.TmplRefMeta1",
+            "$this->{test_web}.TmplRefMeta2",
             "$this->{test_web}.TmplRefMeta3"
         ]
     );
 
     # Nothing except the template itself refers to the old template
-    $this->checkReferringTopics(
-        $this->{test_web},
-        'OldViewTemplate',
-        0,
-        [
-            "$this->{test_web}.NewViewTemplate"
-        ]
-    );
+    $this->checkReferringTopics( $this->{test_web}, 'OldViewTemplate', 0,
+        [ "$this->{test_web}.NewViewTemplate" ] );
 
     my $m =
       Foswiki::Meta->load( $this->{session}, "$this->{test_web}",
         'TmplRefTopic' );
     my @lines = split( /\n/, $m->text() );
-    $this->assert_str_equals(
-        " $this->{test_web}.OldView",
-        $lines[0] );
-    $this->assert_str_equals(
-        " $this->{test_web}.NewViewTemplate" ,
-        $lines[1] );
-    $this->assert_str_equals(
-        "   * Set VIEW_TEMPLATE = NewView",
-        $lines[2] );
-    $this->assert_str_equals(
-        "   * Local VIEW_TEMPLATE = NewView",
-        $lines[3] );
-    $this->assert_str_equals(
-        "      * Set VIEW_TEMPLATE = NewViewTemplate",
+    $this->assert_str_equals( " $this->{test_web}.OldView",         $lines[0] );
+    $this->assert_str_equals( " $this->{test_web}.NewViewTemplate", $lines[1] );
+    $this->assert_str_equals( "   * Set VIEW_TEMPLATE = NewView",   $lines[2] );
+    $this->assert_str_equals( "   * Local VIEW_TEMPLATE = NewView", $lines[3] );
+    $this->assert_str_equals( "      * Set VIEW_TEMPLATE = NewViewTemplate",
         $lines[4] );
-    $this->assert_str_equals(
-        "      * Local VIEW_TEMPLATE = NewViewTemplate",
+    $this->assert_str_equals( "      * Local VIEW_TEMPLATE = NewViewTemplate",
         $lines[5] );
-    $this->assert_str_equals(
-        "   * Set EDIT_TEMPLATE = NewView",
-        $lines[6] );
-    $this->assert_str_equals(
-        "      * Local EDIT_TEMPLATE = NewView",
+    $this->assert_str_equals( "   * Set EDIT_TEMPLATE = NewView", $lines[6] );
+    $this->assert_str_equals( "      * Local EDIT_TEMPLATE = NewView",
         $lines[7] );
-    $this->assert_str_equals(
-        "   * Set VIEW_TEMPLATE = NewView",
-        $lines[8] );
-    $this->assert_str_equals(
-        "   * Local VIEW_TEMPLATE = NewView",
-        $lines[9] );
+    $this->assert_str_equals( "   * Set VIEW_TEMPLATE = NewView",   $lines[8] );
+    $this->assert_str_equals( "   * Local VIEW_TEMPLATE = NewView", $lines[9] );
     $this->assert_str_equals(
         "      * Set VIEW_TEMPLATE = $this->{test_web}.NewViewTemplate",
         $lines[10] );
     $this->assert_str_equals(
         "      * Local VIEW_TEMPLATE = $this->{test_web}.NewViewTemplate",
         $lines[11] );
-    $this->assert_str_equals(
-        "   * Set EDIT_TEMPLATE = NewView",
-        $lines[12] );
-    $this->assert_str_equals(
-        "      * Local EDIT_TEMPLATE = NewView",
+    $this->assert_str_equals( "   * Set EDIT_TEMPLATE = NewView", $lines[12] );
+    $this->assert_str_equals( "      * Local EDIT_TEMPLATE = NewView",
         $lines[13] );
     $this->assert_str_equals(
         "   * Set VIEW_TEMPLATE = $this->{new_web}.OldView",
@@ -540,9 +525,11 @@ Refer to $ott and $lott
 THIS
     $topicObject->save();
 
-    if ($^O eq 'MSWin32') {
+    if ( $^O eq 'MSWin32' ) {
         $this->expect_failure();
-        $this->annotate("this test fails on a non-case sensitive filesystem - OSX default, Windows..");
+        $this->annotate(
+"this test fails on a non-case sensitive filesystem - OSX default, Windows.."
+        );
     }
 
     # Just Web
@@ -672,9 +659,11 @@ THIS
 THIS
     $topicObject->save();
 
-    if ($^O eq 'MSWin32') {
+    if ( $^O eq 'MSWin32' ) {
         $this->expect_failure();
-        $this->annotate("this test fails on a non-case sensitive filesystem - OSX default, Windows..");
+        $this->annotate(
+"this test fails on a non-case sensitive filesystem - OSX default, Windows.."
+        );
     }
 
     $this->checkReferringTopics(
@@ -701,7 +690,7 @@ THIS
         [
             "$this->{test_web}.MatchMeSeven", "$this->{test_web}.OldTopic",
             "$this->{test_web}.OtherTopic",   "$this->{test_web}.random",
-            "$this->{test_web}.ranDom",     "$this->{test_web}.Tmp1",
+            "$this->{test_web}.ranDom",       "$this->{test_web}.Tmp1",
         ]
     );
 }
@@ -712,82 +701,75 @@ sub test_rename_topic_reference_in_denied_web {
     my $this = shift;
 
     # Make sure the reference can't exist outside the text fixture
-    my $fnord = "FnordMustNotBeFound".time;
+    my $fnord = "FnordMustNotBeFound" . time;
 
     # Create the referred-to topic that we're renaming
-    my $m =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $fnord );
+    my $m = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $fnord );
     $m->text("");
     $m->save();
 
     # Create a subweb
-    $m =
-      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Swamp" );
+    $m = Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Swamp" );
     $m->populateNewWeb();
 
     # Create a topic in the subweb that refers to the topic we're renaming
-    $m = Foswiki::Meta->new(
-        $this->{session}, "$this->{test_web}/Swamp", 'TopSecret' );
+    $m =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Swamp",
+        'TopSecret' );
     $m->text("[[$this->{test_web}.$fnord]]");
     $m->save();
 
     # Make sure the subweb is unprotected (readable)
-    $m = Foswiki::Meta->new(
-        $this->{session}, "$this->{test_web}/Swamp", 'WebPreferences' );
+    $m =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Swamp",
+        'WebPreferences' );
     $m->text("   * Set ALLOWWEBCHANGE = \n   * Set ALLOWWEBVIEW = \n");
     $m->save();
 
     # Have to restart to clear prefs cache
     $this->{session}->finish();
-    $this->{session} = new Foswiki( $this->{test_user_login},
-        new Unit::Request( ) );
+    $this->{session} =
+      new Foswiki( $this->{test_user_login}, new Unit::Request() );
 
-    $this->checkReferringTopics(
-        $this->{test_web}, $fnord,
-        1,
-        [
-            "$this->{test_web}/Swamp.TopSecret"
-        ]
-    );
+    $this->checkReferringTopics( $this->{test_web}, $fnord, 1,
+        [ "$this->{test_web}/Swamp.TopSecret" ] );
 
     # Protect the web we made (deny view access)
-    $m = Foswiki::Meta->new(
-        $this->{session}, "$this->{test_web}/Swamp", 'WebPreferences' );
+    $m =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Swamp",
+        'WebPreferences' );
     $m->text("   * Set ALLOWWEBVIEW = PickMeOhPickMe");
     $m->save();
 
     # Have to restart to clear prefs cache
     $this->{session}->finish();
-    $this->{session} = new Foswiki( $this->{test_user_login},
-        new Unit::Request( ) );
+    $this->{session} =
+      new Foswiki( $this->{test_user_login}, new Unit::Request() );
 
     $this->checkReferringTopics(
-        $this->{test_web}, $fnord,
-        1,
+        $this->{test_web},
+        $fnord, 1,
         [
+
             # Should be empty
         ]
     );
 
     # Protect the web we made (deny change access)
     # We need to be able to see these references.
-    $m = Foswiki::Meta->new(
-        $this->{session}, "$this->{test_web}/Swamp", 'WebPreferences' );
+    $m =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Swamp",
+        'WebPreferences' );
     $m->text("   * Set ALLOWWEBCHANGE = PickMeOhPickMe");
     $m->save();
 
     # Have to restart to clear prefs cache
     $this->{session}->finish();
-    $this->{session} = new Foswiki( $this->{test_user_login},
-        new Unit::Request( ) );
+    $this->{session} =
+      new Foswiki( $this->{test_user_login}, new Unit::Request() );
 
-    $this->checkReferringTopics(
-        $this->{test_web}, $fnord,
-        1,
-        [
-            "$this->{test_web}/Swamp.TopSecret"
-        ]
-    );
+    $this->checkReferringTopics( $this->{test_web}, $fnord, 1,
+        [ "$this->{test_web}/Swamp.TopSecret" ] );
 }
 
 # Rename OldTopic to NewTopic within the same web
@@ -826,7 +808,7 @@ sub test_renameTopic_same_web_new_topic_name {
 # that it is more important to rename those quoted topics than to be 100% correct
 # and renaming only references that result in a link, and missing the references used on
 # line 22 and 23.
-#
+    #
     $this->check( $this->{test_web}, 'NewTopic', undef, <<THIS, 1 );
 1 $this->{test_web}.NewTopic
 $this->{test_web}.NewTopic 2
@@ -867,9 +849,10 @@ rename [[$this->{test_web}.NewTopic]]
 23 %INCLUDE{"$this->{test_web}.NewTopic"}%
 24 "NewTopic, OtherTopic"
 THIS
-#
-# Verify NewTopic references in test_web.OtherTopic  are updated
-#
+
+    #
+    # Verify NewTopic references in test_web.OtherTopic  are updated
+    #
     $this->check( $this->{test_web}, 'OtherTopic', undef, <<THIS, 2 );
 1 $this->{test_web}.NewTopic
 $this->{test_web}.NewTopic 2
@@ -910,9 +893,10 @@ rename [[$this->{test_web}.NewTopic]]
 23 %INCLUDE{"$this->{test_web}.NewTopic"}%
 24 "NewTopic, OtherTopic"
 THIS
-#
-# Verify NewTopic references in new_web.OtherTopic  are updated
-#
+
+    #
+    # Verify NewTopic references in new_web.OtherTopic  are updated
+    #
     $this->check( $this->{new_web}, 'OtherTopic', undef, <<THIS, 3 );
 1 $this->{test_web}.NewTopic
 $this->{test_web}.NewTopic 2
@@ -1098,21 +1082,15 @@ THIS
 
 # Rename non-wikiword OldTopic to NewTopic within the same web
 sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
-    my $this  = shift;
+    my $this = shift;
 
     my $meta =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'OldTopic' );
     $meta->put( "TOPICPARENT", { name => 'Tmp1' } );
     $meta->save();
 
-    $this->checkReferringTopics(
-        $this->{test_web},
-        'Tmp1',
-        0,
-        [
-            "$this->{test_web}.OldTopic",
-        ]
-    );
+    $this->checkReferringTopics( $this->{test_web}, 'Tmp1', 0,
+        [ "$this->{test_web}.OldTopic", ] );
 
     my $query = new Unit::Request(
         {
@@ -1120,10 +1098,8 @@ sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
             newweb           => [ $this->{test_web} ],
             newtopic         => ['Tmp2'],
             nonwikiword      => '1',
-            referring_topics => [
-                "$this->{test_web}.OldTopic",
-                ],
-            topic => 'Tmp1'
+            referring_topics => [ "$this->{test_web}.OldTopic", ],
+            topic            => 'Tmp1'
         }
     );
 
@@ -1133,13 +1109,14 @@ sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
     $query->path_info("/$this->{test_web}/SanityCheck");
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
+
     #print STDERR "Doing Rename\n";
-    my ($stdout, $stderr, $result) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    my ( $stdout, $stderr, $result ) =
+      $this->captureWithKey( rename => $UI_FN, $this->{session} );
 
-    #print STDERR "Rename STDOUT = ($this->{stdout})\n STDERR = ($this->{stderr})\n RESULT = ($result)\n" ;
+#print STDERR "Rename STDOUT = ($this->{stdout})\n STDERR = ($this->{stderr})\n RESULT = ($result)\n" ;
 
-    $this->assert(
-        $this->{session}->topicExists( $this->{test_web}, 'Tmp2' ) );
+    $this->assert( $this->{session}->topicExists( $this->{test_web}, 'Tmp2' ) );
     $this->assert(
         !$this->{session}->topicExists( $this->{test_web}, 'Tmp1' ) );
 
@@ -1149,7 +1126,6 @@ sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
     $this->assert_str_equals( 'Tmp2', $meta->getParent() );
 }
 
-
 # Purpose:  Rename a topic which starts with a lowercase letter
 # Verifies:
 #    * Return status is a redirect
@@ -1157,13 +1133,15 @@ sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
 #    * New topic name is changed
 #    * In the new topic, the initial letter is changed to upper case
 sub test_renameTopic_with_lowercase_first_letter {
-    my $this      = shift;
-    
-    if ($^O eq 'MSWin32') {
+    my $this = shift;
+
+    if ( $^O eq 'MSWin32' ) {
         $this->expect_failure();
-        $this->annotate("this test fails on a non-case sensitive filesystem - OSX default, Windows..");
+        $this->annotate(
+"this test fails on a non-case sensitive filesystem - OSX default, Windows.."
+        );
     }
-    
+
     my $topictext = <<THIS;
 One lowercase
 Twolowercase
@@ -1187,15 +1165,15 @@ THIS
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ($text) =
-      $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
     my $ext = $Foswiki::cfg{ScriptSuffix};
     $this->assert_matches( qr/^Status:\s+302/s, $text );
 
-    my $ss = '/view' . $Foswiki::cfg{ScriptSuffix}.'/';
-    $ss =  $Foswiki::cfg{ScriptUrlPaths}{view}.'/' if (defined $Foswiki::cfg{ScriptUrlPaths}{view} );
-    $this->assert_matches(
-        qr([lL]ocation:\s+$ss$this->{test_web}/UpperCase)s, $text );
+    my $ss = '/view' . $Foswiki::cfg{ScriptSuffix} . '/';
+    $ss = $Foswiki::cfg{ScriptUrlPaths}{view} . '/'
+      if ( defined $Foswiki::cfg{ScriptUrlPaths}{view} );
+    $this->assert_matches( qr([lL]ocation:\s+$ss$this->{test_web}/UpperCase)s,
+        $text );
     $this->check( $this->{test_web}, 'UpperCase', $topicObject, <<THIS, 100 );
 One lowercase
 Twolowercase
@@ -1231,7 +1209,9 @@ sub test_renameTopic_TOPICRENAME_access_denied {
     }
     catch Foswiki::AccessControlException with {
         $this->assert_str_equals(
-'AccessControlException: Access to RENAME '.$this->{test_web}.'.OldTopic for scum is denied. access not allowed on topic',
+            'AccessControlException: Access to RENAME '
+              . $this->{test_web}
+              . '.OldTopic for scum is denied. access not allowed on topic',
             shift->stringify()
         );
     }
@@ -1265,24 +1245,26 @@ sub test_renameTopic_WEBRENAME_access_denied {
     }
     catch Foswiki::AccessControlException with {
         $this->assert_str_equals(
-'AccessControlException: Access to RENAME '.$this->{test_web}.'.OldTopic for scum is denied. access not allowed on web',
+            'AccessControlException: Access to RENAME '
+              . $this->{test_web}
+              . '.OldTopic for scum is denied. access not allowed on web',
             shift->stringify()
         );
     }
 }
 
 # Test rename does not corrupt history, see Foswikibug:2299
-sub test_renameTopic_preserves_history
-{
+sub test_renameTopic_preserves_history {
     my $this      = shift;
     my $topicName = 'RenameWithHistory';
     my $time      = time();
     my @history   = qw( First Second Third );
 
     for my $depth ( 0 .. $#history ) {
-        my $topicObject =
-        Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topicName,
-            $history[$depth] );
+        my $topicObject = Foswiki::Meta->new(
+            $this->{session}, $this->{test_web},
+            $topicName,       $history[$depth]
+        );
         $topicObject->save( forcenewrevision => 1 );
         $topicObject->finish();
     }
@@ -1300,12 +1282,16 @@ sub test_renameTopic_preserves_history
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
     $this->captureWithKey( rename => $UI_FN, $this->{session} );
-    my $m = Foswiki::Meta->load( $this->{session}, $this->{test_web}, $topicName . 'Renamed' );
+    my $m =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        $topicName . 'Renamed' );
     $this->assert_equals( $history[$#history], $m->text );
     my $info = $m->getRevisionInfo();
-    $this->assert_equals( $#history + 1, $info->{version} ); # rename adds a revision
+    $this->assert_equals( $#history + 1, $info->{version} )
+      ;    # rename adds a revision
 
 }
+
 # Purpose: verify that leases are removed when a topic is renamed
 sub test_renameTopic_ensure_leases_are_released {
     my $this = shift;
@@ -1404,8 +1390,7 @@ CONTENT
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ($text) =
-      $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert(
         Foswiki::Func::webExists("$this->{test_web}/Notrenamedweb/Renamedweb")
     );
@@ -1430,8 +1415,7 @@ CONTENT
     $this->assert_str_equals(
         "$vue/$this->{test_web}/Notrenamedweb/Renamedweb/SubwebWebHome",
         $lines[5] );
-    $this->assert_str_equals(
-        "$this->{test_web}.Renamedweb.Subweb",
+    $this->assert_str_equals( "$this->{test_web}.Renamedweb.Subweb",
         $lines[7] );
     $this->assert_str_equals(
         "[[$this->{test_web}/Notrenamedweb/Renamedweb.Subweb]]",
@@ -1489,8 +1473,7 @@ EOF
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ($text) =
-      $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert(
         Foswiki::Func::webExists("$this->{test_web}/Renamed$this->{test_web}")
     );
@@ -1513,15 +1496,13 @@ EOF
     $this->assert_str_equals(
         "$vue/$this->{test_web}/Renamed$this->{test_web}/SubwebWebHome",
         $lines[5] );
-    $this->assert_str_equals(
-        "Renamed$this->{test_web}.Subweb",
-        $lines[7] );
+    $this->assert_str_equals( "Renamed$this->{test_web}.Subweb", $lines[7] );
     $this->assert_str_equals(
         "[[$this->{test_web}/Renamed$this->{test_web}.Subweb]]",
         $lines[8] );
 }
 
-# Move a root web, ensuring that topics containing web in topic name are not updated. 
+# Move a root web, ensuring that topics containing web in topic name are not updated.
 sub test_renameWeb_10259 {
     my $this = shift;
     my $m = Foswiki::Meta->new( $this->{session}, "$this->{test_web}EdNet" );
@@ -1557,7 +1538,7 @@ EOF
     my $query = new Unit::Request(
         {
             action           => 'renameweb',
-            newsubweb     => "$this->{test_web}RenamedEdNet",
+            newsubweb        => "$this->{test_web}RenamedEdNet",
             referring_topics => [ $m->getPath() ],
         }
     );
@@ -1566,47 +1547,38 @@ EOF
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ($text) =
-      $this->captureWithKey( rename => $UI_FN, $this->{session} );
-    $this->assert(
-        Foswiki::Func::webExists("$this->{test_web}RenamedEdNet")
-    );
+    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    $this->assert( Foswiki::Func::webExists("$this->{test_web}RenamedEdNet") );
     $this->assert( !Foswiki::Func::webExists("$this->{test_web}EdNet") );
     $this->assert( Foswiki::Func::webExists("$this->{test_web}RenamedEdNet") );
 
-    $m =
-      Foswiki::Meta->load( $this->{session}, "$this->{test_web}RenamedEdNet",
+    $m = Foswiki::Meta->load( $this->{session}, "$this->{test_web}RenamedEdNet",
         'ReferringTopic' );
     my @lines = split( /\n/, $m->text() );
+
     #foreach my $ln ( @lines ) {
     #    print "LINE ($ln)\n";
     #    }
 
-    # But a topic that contains the webname inside the topic name should not be modified.
-    $this->assert_str_equals(
-        "Otherweb.$this->{test_web}EdNetSomeTopic",
-        $lines[0],
-        "A topic containing the web name should not be renamed");
+# But a topic that contains the webname inside the topic name should not be modified.
+    $this->assert_str_equals( "Otherweb.$this->{test_web}EdNetSomeTopic",
+        $lines[0], "A topic containing the web name should not be renamed" );
 
     # A topic referencing the old web should be renamed
-    $this->assert_str_equals(
-        "$this->{test_web}RenamedEdNet.SomeTopic",
+    $this->assert_str_equals( "$this->{test_web}RenamedEdNet.SomeTopic",
         $lines[1] );
 
     # A topic referencing a similar old web should not be renamed
-    $this->assert_str_equals(
-        "$this->{test_web}EdNetTwo.SomeTopic",
+    $this->assert_str_equals( "$this->{test_web}EdNetTwo.SomeTopic",
         $lines[2],
-        "A webname containing the renamed webname should not be renamed.");
+        "A webname containing the renamed webname should not be renamed." );
 
     # A subweb topic referencing the old web should be renamed
-    $this->assert_str_equals(
-        "$this->{test_web}RenamedEdNet.SubWeb.SomeTopic",
+    $this->assert_str_equals( "$this->{test_web}RenamedEdNet.SubWeb.SomeTopic",
         $lines[3] );
 
     # A subweb topic referencing the old web should be renamed
-    $this->assert_str_equals(
-        "$this->{test_web}RenamedEdNet/SubWeb.SomeTopic",
+    $this->assert_str_equals( "$this->{test_web}RenamedEdNet/SubWeb.SomeTopic",
         $lines[4] );
 
     # A subweb topic referencing the old web should be renamed
@@ -1615,18 +1587,18 @@ EOF
         $lines[5] );
 
     # A quoted topic referencing the old web should be renamed
-    $this->assert_str_equals(
-        "\"$this->{test_web}RenamedEdNet.SomeTopic\"",
+    $this->assert_str_equals( "\"$this->{test_web}RenamedEdNet.SomeTopic\"",
         $lines[6] );
 
     # A quoted topic referencing the old web should be renamed
     $this->assert_str_equals(
-        "\"$this->{test_web}RenamedEdNet.SomeTopic, Otherweb.$this->{test_web}EdNetSomeTopic\"",
-        $lines[7] );
+"\"$this->{test_web}RenamedEdNet.SomeTopic, Otherweb.$this->{test_web}EdNetSomeTopic\"",
+        $lines[7]
+    );
 
 }
 
-# Move a sub web, ensuring that topics containing web in topic name are not updated. 
+# Move a sub web, ensuring that topics containing web in topic name are not updated.
 sub test_renameSubWeb_10259 {
     my $this = shift;
     my $m = Foswiki::Meta->new( $this->{session}, "$this->{test_web}Root" );
@@ -1665,7 +1637,7 @@ EOF
     my $query = new Unit::Request(
         {
             action           => 'renameweb',
-            newsubweb     => "$this->{test_web}Root/NewEdNet",
+            newsubweb        => "$this->{test_web}Root/NewEdNet",
             referring_topics => [ $m->getPath() ],
         }
     );
@@ -1674,11 +1646,8 @@ EOF
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ($text) =
-      $this->captureWithKey( rename => $UI_FN, $this->{session} );
-    $this->assert(
-        Foswiki::Func::webExists("$this->{test_web}Root/NewEdNet")
-    );
+    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    $this->assert( Foswiki::Func::webExists("$this->{test_web}Root/NewEdNet") );
     $this->assert( !Foswiki::Func::webExists("$this->{test_web}EdNet") );
     $this->assert( Foswiki::Func::webExists("$this->{test_web}Root/NewEdNet") );
 
@@ -1686,35 +1655,30 @@ EOF
       Foswiki::Meta->load( $this->{session}, "$this->{test_web}Root/NewEdNet",
         'ReferringTopic' );
     my @lines = split( /\n/, $m->text() );
+
     #foreach my $ln ( @lines ) {
     #    print "LINE ($ln)\n";
     #    }
 
-    # But a topic that contains the webname inside the topic name should not be modified.
-    $this->assert_str_equals(
-        "Otherweb.$this->{test_web}EdNetSomeTopic",
-        $lines[0],
-        "A topic containing the web name should not be renamed");
+# But a topic that contains the webname inside the topic name should not be modified.
+    $this->assert_str_equals( "Otherweb.$this->{test_web}EdNetSomeTopic",
+        $lines[0], "A topic containing the web name should not be renamed" );
 
     # A topic referencing the old web should be renamed
-    $this->assert_str_equals(
-        "$this->{test_web}Root/NewEdNet.SomeTopic",
+    $this->assert_str_equals( "$this->{test_web}Root/NewEdNet.SomeTopic",
         $lines[1] );
 
     # A topic referencing a similar old web should not be renamed
-    $this->assert_str_equals(
-        "$this->{test_web}Root/EdNetTwo.SomeTopic",
+    $this->assert_str_equals( "$this->{test_web}Root/EdNetTwo.SomeTopic",
         $lines[2],
-        "A webname containing the renamed webname should not be renamed.");
+        "A webname containing the renamed webname should not be renamed." );
 
     # A subweb topic referencing the old web should be renamed
-    $this->assert_str_equals(
-        "$this->{test_web}Root/NewEdNet.SubWeb.SomeTopic",
+    $this->assert_str_equals( "$this->{test_web}Root/NewEdNet.SubWeb.SomeTopic",
         $lines[3] );
 
     # A subweb topic referencing the old web should be renamed
-    $this->assert_str_equals(
-        "$this->{test_web}Root/NewEdNet/SubWeb.SomeTopic",
+    $this->assert_str_equals( "$this->{test_web}Root/NewEdNet/SubWeb.SomeTopic",
         $lines[4] );
 
     # A subweb topic referencing the old web should be renamed
@@ -1723,16 +1687,17 @@ EOF
         $lines[5] );
 
     # A quoted topic referencing the old web should be renamed
-    $this->assert_str_equals(
-        "\"$this->{test_web}Root/NewEdNet.SomeTopic\"",
+    $this->assert_str_equals( "\"$this->{test_web}Root/NewEdNet.SomeTopic\"",
         $lines[6] );
 
     # A quoted topic referencing the old web should be renamed
     $this->assert_str_equals(
-        "\"$this->{test_web}Root/NewEdNet.SomeTopic, Otherweb.$this->{test_web}EdNetSomeTopic\"",
-        $lines[7] );
+"\"$this->{test_web}Root/NewEdNet.SomeTopic, Otherweb.$this->{test_web}EdNetSomeTopic\"",
+        $lines[7]
+    );
 
 }
+
 sub test_rename_attachment {
     my $this = shift;
 
@@ -1766,8 +1731,7 @@ sub test_rename_attachment {
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ($text) =
-      $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert_matches( qr/Status: 302/,                 $text );
     $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );
     $this->assert(
@@ -1811,8 +1775,7 @@ sub test_rename_attachment_not_in_meta {
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ($text) =
-      $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert_matches( qr/Status: 302/,                 $text );
     $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );
     $this->assert(
@@ -1911,8 +1874,7 @@ sub do_not_test_rename_attachment_not_on_disc {
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    my ($text) =
-      $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
     $this->assert_matches( qr/Status: 302/,                 $text );
     $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );
     $this->assert(

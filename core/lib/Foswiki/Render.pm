@@ -96,7 +96,7 @@ sub _newLinkFormat {
     my $this = shift;
     unless ( $this->{NEWLINKFORMAT} ) {
         $this->{NEWLINKFORMAT} =
-             $this->{session}->{prefs}->getPreference('NEWLINKFORMAT')
+          $this->{session}->{prefs}->getPreference('NEWLINKFORMAT')
           || DEFAULT_NEWLINKFORMAT;
     }
     return $this->{NEWLINKFORMAT};
@@ -184,11 +184,11 @@ Render moved meta-data
 
 sub renderMoved {
     my ( $this, $topicObject, $params ) = @_;
-    my $text  = '';
-    my $moved = $topicObject->get('TOPICMOVED');
+    my $text   = '';
+    my $moved  = $topicObject->get('TOPICMOVED');
     my $prefix = $params->{prefix} || '';
     my $suffix = $params->{suffix} || '';
-    
+
     if ($moved) {
         my ( $fromWeb, $fromTopic ) =
           $this->{session}
@@ -223,9 +223,9 @@ sub renderMoved {
               );
         }
         $text = $this->{session}->i18n->maketext(
-                "[_1] was renamed or moved from [_2] on [_3] by [_4]",
-                "<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",
-                $date, $by
+            "[_1] was renamed or moved from [_2] on [_3] by [_4]",
+            "<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",
+            $date, $by
         ) . $putBack;
     }
     $text = "$prefix$text$suffix" if $text;
@@ -1613,7 +1613,7 @@ sub renderRevisionInfo {
     my $users = $this->{session}->{users};
     if ($rrev) {
         my $loadedRev = $topicObject->getLoadedRev() || 0;
-        unless ($rrev == $loadedRev) {
+        unless ( $rrev == $loadedRev ) {
             $topicObject = Foswiki::Meta->new($topicObject);
             $topicObject->load($rrev);
         }
@@ -1776,12 +1776,11 @@ sub getReferenceRE {
     $matchWeb =~ s#[./]#$REMARKER#g;
     $matchWeb = quotemeta($matchWeb);
 
-    # SMELL: Item10176 -  Adding doublequote as a WikiWord delimiter.   This causes non-linking quoted
-    # WikiWords in tml to be incorrectly renamed.   But does handle quoted topic names inside macro parameters.
-    # But this doesn't really fully fix the issue - $quotWikiWord for example.  
+# SMELL: Item10176 -  Adding doublequote as a WikiWord delimiter.   This causes non-linking quoted
+# WikiWords in tml to be incorrectly renamed.   But does handle quoted topic names inside macro parameters.
+# But this doesn't really fully fix the issue - $quotWikiWord for example.
     my $reSTARTWW = qr/^|(?<=[\s\("])/m;
     my $reENDWW   = qr/$|(?=[\s",.;:!?)])/m;
-
 
     # $REMARKER is escaped by quotemeta so we need to match the escape
     $matchWeb =~ s#\\$REMARKER#[./]#go;
@@ -1833,8 +1832,13 @@ sub getReferenceRE {
                     $re = "$bow$matchWeb\\.$topic$eow";
                 }
                 elsif ( $options{template} ) {
-                    # $1 is used in replace.  Can't use lookbehind because of variable length restriction
-                    $re = '('.$Foswiki::regex{setRegex}.'(?:VIEW|EDIT)_TEMPLATE\s*=\s*)('.$matchWeb.'\\.'.$topic.')\s*$';
+
+# $1 is used in replace.  Can't use lookbehind because of variable length restriction
+                    $re = '('
+                      . $Foswiki::regex{setRegex}
+                      . '(?:VIEW|EDIT)_TEMPLATE\s*=\s*)('
+                      . $matchWeb . '\\.'
+                      . $topic . ')\s*$';
                 }
                 elsif ( $options{in_noautolink} ) {
                     $re = "$squabo$matchWeb\\.$topic$squabc";
@@ -1845,6 +1849,7 @@ sub getReferenceRE {
 
                 # Matching of spaced out topic names.
                 if ($sot) {
+
                     # match spaced out in squabs only
                     $re .= "|$squabo$matchWeb\\.$sot$squabc";
                 }
@@ -1861,8 +1866,12 @@ sub getReferenceRE {
                         $re = "(($back\[^./])|^)$bow($matchWeb\\.)?$topic$eow";
                     }
                     elsif ( $options{template} ) {
-                        # $1 is used in replace.  Can't use lookbehind because of variable length restriction
-                        $re = '('.$Foswiki::regex{setRegex}.'(?:VIEW|EDIT)_TEMPLATE\s*=\s*)'."($matchWeb\\.)?$topic".'\s*$';
+
+# $1 is used in replace.  Can't use lookbehind because of variable length restriction
+                        $re = '('
+                          . $Foswiki::regex{setRegex}
+                          . '(?:VIEW|EDIT)_TEMPLATE\s*=\s*)'
+                          . "($matchWeb\\.)?$topic" . '\s*$';
                     }
                     elsif ( $options{in_noautolink} ) {
                         $re = "$squabo($matchWeb\\.)?$topic$squabc";
@@ -1879,14 +1888,16 @@ sub getReferenceRE {
                 }
                 else {
                     if ( $options{inMeta} ) {
-                        $re = "^($matchWeb\\.)?$topic\$";     # Updating a META item,  Exact match, no delimiters
+                        $re = "^($matchWeb\\.)?$topic\$"
+                          ;  # Updating a META item,  Exact match, no delimiters
                     }
                     else {
 
-                    # Non-wikiword; require web specifier or squabs
-                    $re = "$squabo$topic$squabc";
-                    $re .= "|\"$topic\"";
-                    $re .= "|(($back\[^./])|^)$bow$matchWeb\\.$topic$eow" unless ($options{in_noautolink});
+                        # Non-wikiword; require web specifier or squabs
+                        $re = "$squabo$topic$squabc";
+                        $re .= "|\"$topic\"";
+                        $re .= "|(($back\[^./])|^)$bow$matchWeb\\.$topic$eow"
+                          unless ( $options{in_noautolink} );
                     }
                 }
             }
@@ -1896,27 +1907,29 @@ sub getReferenceRE {
             # Searching for a web
             if ( $options{interweb} ) {
 
-                if ( $options{in_noautolink}) {
+                if ( $options{in_noautolink} ) {
+
                     # web name used to refer to a topic
                     $re =
-                    $squabo
-                  . $matchWeb
-                  . "(\.[$Foswiki::regex{mixedAlphaNum}]+)"
-                  . $squabc;
-                } else {
+                        $squabo
+                      . $matchWeb
+                      . "(\.[$Foswiki::regex{mixedAlphaNum}]+)"
+                      . $squabc;
+                }
+                else {
                     $re =
-                    $bow
-                  . $matchWeb
-                  . "(\.[$Foswiki::regex{mixedAlphaNum}]+)"
-                  . $eow;
-               }
+                        $bow
+                      . $matchWeb
+                      . "(\.[$Foswiki::regex{mixedAlphaNum}]+)"
+                      . $eow;
+                }
             }
             else {
 
                 # most general search for a reference to a topic or subweb
                 # note that Foswiki::UI::Rename::_replaceWebReferences()
                 # uses $1 from this regex
-                if ( $options{in_noautolink}) {
+                if ( $options{in_noautolink} ) {
                     $re =
                         $squabo
                       . $matchWeb
@@ -1924,7 +1937,8 @@ sub getReferenceRE {
                       . "[$Foswiki::regex{mixedAlphaNum}_]*)+"
                       . "\.[$Foswiki::regex{mixedAlphaNum}]*)"
                       . $squabc;
-                } else {
+                }
+                else {
                     $re =
                         $bow
                       . $matchWeb
@@ -1936,13 +1950,14 @@ sub getReferenceRE {
             }
         }
     }
-    #my $optsx = '';
-    #$optsx .= "NOSOT=$options{nosot} " if ($options{nosot});
-    #$optsx .= "GREP=$options{grep} " if ($options{grep});
-    #$optsx .= "URL=$options{url} " if ($options{url});
-    #$optsx .= "INNOAUTOLINK=$options{in_noautolink} " if ($options{in_noautolink});
-    #$optsx .= "INTERWEB=$options{interweb} " if ($options{interweb});
-    #print STDERR "ReferenceRE returns $re $optsx  \n";
+
+#my $optsx = '';
+#$optsx .= "NOSOT=$options{nosot} " if ($options{nosot});
+#$optsx .= "GREP=$options{grep} " if ($options{grep});
+#$optsx .= "URL=$options{url} " if ($options{url});
+#$optsx .= "INNOAUTOLINK=$options{in_noautolink} " if ($options{in_noautolink});
+#$optsx .= "INTERWEB=$options{interweb} " if ($options{interweb});
+#print STDERR "ReferenceRE returns $re $optsx  \n";
     return $re;
 }
 
