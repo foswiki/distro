@@ -113,7 +113,6 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiInputFieldReadOnly=    | Read-only text input field |
 |=.foswikiInputFieldFocus=       | Text input field with insert focus; for Internet Explorer that does not recognize the =:focus= pseudo class selector |
 |=.foswikiInputFieldBeforeFocus= | The color of the input text field when not clicked in the field; usually a grayed text color with a hint, for instance "Search" |
-|=.foswikiFocus=                 | Behaviour marker so a field can be given input focus |
 |=.foswikiRadioButton=           | Radio button  |
 |=.foswikiCheckbox=              | Checkbox |
 |=.foswikiSelect=                | Select dropdown menu |
@@ -157,13 +156,24 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 #BehaviourClasses
 ---+++ Behaviour classes
 Markers to invoke behaviour with unobtrusive !JavaScript.
-|=.foswikiPopUp=                         | Behaviour marker so a popup-window can be invoked. DEPRECATED as of Foswiki 1.1: use %<nop>POPUPWINDOW{"topic"}% instead. |
-|=.foswikiFocus=                         | Behaviour marker so a field can be given input focus |
+|=.foswikiFocus=                         | Behaviour marker so a field can be given input focus. As of Foswiki 1.2 this also requires to add =%<nop>JQREQUIRE{"focus"}%= to the page. |
 |=.foswikiChangeFormButton=              | "Replace form" button; clicking calls !JavaScript function =suppressSaveValidation=  |
 |=#foswikiNumberOfResultsContainer=      | Container identifier to write the number of search results into |
 |=input[type="text"].foswikiDefaultText= | Behaviour marker so the field will contain default text that disappears when clicked into. The visual style is set with =foswikiInputFieldBeforeFocus= and =foswikiInputFieldFocus=. The default text is provided by the =title= attribute of the form field. |
+|=.foswikiPopUp=                         | Behaviour marker so a popup-window can be invoked. DEPRECATED as of Foswiki 1.1: use %<nop>POPUPWINDOW{"topic"}% instead. |
 
----+++ Other classes
+---++++ Troubleshooting behaviour classes
+#TestFoswikiFocus
+---+++++ =.foswikiFocus=
+   * Test for loading error of focus plugin (no message means ok): %JQREQUIRE{"focus"}%
+   * [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?testfocus=1#TestFoswikiFocus][Test foswikiFocus]]
+
+%IF{"$'URLPARAM{testfocus}'='1'" then="
+$percntJQREQUIRE{$quotfocus$quot}$percnt
+<input type=$quottext$quot class=$quotfoswikiInputField foswikiFocus$quot size=$quot40$quot />
+"}%
+
+---+++ Various classes
 |=.foswikiWebIndent=                | Used by =%<nop>WEBLIST%= to indent sub-web names |
 |=.foswikiAccessKey=                | Access key demarkation |
 |=.foswikiSeparator=                | Separator element between sequential elements; usually a pipe character |

@@ -15,17 +15,29 @@ or textarea of a form when the page is loaded.
 %ENDSECTION{"summary"}%
 
 ---++ Usage
-Add the css class ==jqFocus== to the input field you'd like to
-focus.
+Add the css class ==jqFocus== (or ==foswikiFocus==) to the input field you'd like to focus.
 
----++ Examples
+---++ Example
+<verbatim class="tml">
 %JQREQUIRE{"focus"}%
-
-<input type="text" class="jqFocus" size="40" id="employeeID" />
+<input type="text" class="foswikiInputField jqFocus" size="40" />
 
 <style type="text/css">
-#employeeID:focus {
-  background-color:#FFFFC0;
-  color:black;
+input[type="text"]:focus {
+	background-color:#FFFFC0;
+	color:black;
+}
+</style>
+</verbatim>
+
+creates:
+
+%JQREQUIRE{"focus"}%
+<input type="text" class="foswikiInputField foswikiFocus" size="40" />
+
+<style type="text/css">
+input[type="text"]:focus {
+	background-color:#FFFFC0;
+	color:black;
 }
 </style>

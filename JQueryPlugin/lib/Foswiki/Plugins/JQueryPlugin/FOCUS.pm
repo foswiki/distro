@@ -30,7 +30,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name       => 'Focus',
-            version    => '1.0',
+            version    => '1.0.1',
             author     => 'Michael Daum',
             homepage   => 'http://michaeldaumconsulting.com',
             javascript => ['jquery.focus.js'],
