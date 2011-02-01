@@ -186,6 +186,8 @@ sub check {
     # First check the standard evaluator
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
+use Data::Dumper;
+print STDERR "query: $s\nresult: ".Data::Dumper::Dumper($query)."\n";
     my $meta        = $this->{meta};
     my $val         = $query->evaluate( tom => $meta, data => $meta );
     if ( ref( $opts{'eval'} ) ) {
@@ -681,6 +683,23 @@ sub test_regex_name {
 "%SEARCH{\"name~'Hit*'\" type=\"query\" nonoise=\"on\" format=\"\$topic\"}%";
     my $list = $this->{test_topicObject}->expandMacros($expr);
     $this->assert_str_equals( 'HitTopic', $list );
+}
+
+sub verify_string_bops_with_mods {
+    my $this = shift;
+    $this->check( "uc(string)='String'",              eval => 0 );
+    $this->check( "uc(string)='STRING'",              eval => 1 );
+
+    $this->check( "string=uc('String')",              eval => 0 );
+    $this->check( "string=('String')",              eval => 1 );
+
+    $this->check( "'String'=uc(string)",              eval => 0 );
+    $this->check( "'STRING'=uc(string)",              eval => 1 );
+
+    $this->check( "uc('String')=string",              eval => 0 );
+    $this->check( "('String')=string",              eval => 1 );
+
+
 }
 
 1;
