@@ -44,7 +44,7 @@ Foswiki 1.1 is shipped with the following:
 
 ---+++ Changes to %<nop>GROUPS% and %<nop>GROUPINFO% Macros
 
-See Foswiki:Tasks/Item10176. On releases prior to Foswiki 1.1.3. it was possible that the GROUP related macros could expose User WikiNames that would be hidden from the currently autenticated user.  This has been changed, and if the current user does not have VIEW authority for the user's topic, then the user will not be shown as a group member.
+See Foswikitask:Item10176. On releases prior to Foswiki 1.1.3 it was possible that the GROUP related macros could expose User WikiNames that would be hidden from the currently autenticated user.  This has been changed, and if the current user does not have VIEW authority for the user's topic, then the user will not be shown as a group member.
 
 There is a subtle difference in operation when using "Hidden" groups, especially when nested in other groups.  Consider the following group structure.
    * !SomeGroup
@@ -60,6 +60,13 @@ If the Guest uses %<nop>GROUPINFO% to list groups without expanding nested group
 By comparing the expanded list of users of !SomeGroup with the un-expanded list, it is possible to infer by the presence of !UserTwo that there is a hidden group,  but the hidden group name or the hidden users are not revealed.
 
 The important thing to remember:  *If you need to hide the existance of users, protect their user topics.*
+
+---+++ JQueryPlugin update to jQuery 1.4.4
+
+On releases prior to Foswiki 1.1.3, JQueryPlugin shipped with jQuery 1.3.2 enabled. It now uses 1.4.4, and some Foswiki javascript will no longer work correclty with 1.3.2 and earlier. As a result, upgraders will need to
+   1 set ={JQueryVersion}= in [[%SCRIPTURLPATH{"configure"}%#JQueryPlugin$Extensions][configure]] under Extensions -> JQueryPlugin to =1.4.4=
+   1 [[UpgradeGuide#ManagingBrowserCache][Clear browser cache]]
+   1 test non-default plugins and any custom jQuery javascript code for compatibility with jQuery 1.4.4.
 
 ---++ Important Changes since Foswiki 1.0.10
 
