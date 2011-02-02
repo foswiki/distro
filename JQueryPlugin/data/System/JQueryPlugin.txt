@@ -141,7 +141,8 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  30 Dec 2010: | (4.01) added pnotify. |
+|  02 Feb 2011: | (4.01) added pnotify, configure checker to check that \
+                  configured ={JQueryVersion}= is sane |
 |  13 Dec 2010: | (4.00) adding jquery-1.4.2/3/4 (default is 1.4.3); \
                   removing jquery-1.2.6, deprecating jquery-1.3.x (incompatible with shipped jquery-ui); \
                   upgraded to jquery-ui 1.8.5 (needs jquery-1.4+); \
