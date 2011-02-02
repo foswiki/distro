@@ -1,3 +1,2 @@
-
-Foswiki::Contrib::BehaviourContrib,>=0,perl,Javascript module
 Foswiki::Contrib::JSCalendarContrib,>=14754,perl,Javascript calendar module
+Foswiki::Plugins::JQueryPlugin,>0,perl,JQuery

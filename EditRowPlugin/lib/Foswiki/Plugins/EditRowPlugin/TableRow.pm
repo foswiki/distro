@@ -9,19 +9,19 @@ use Foswiki::Func;
 use Foswiki::Plugins::EditRowPlugin::TableCell;
 
 sub new {
-    my ($class, $table, $number, $precruft, $postcruft, $cols) = @_;
-    my $this = bless({}, $class);
-    $this->{table} = $table;
-    $this->{number} = $number;
-    $this->{isHeader} = 0;
-    $this->{isFooter} = 0;
-    $this->{precruft} = $precruft;
+    my ( $class, $table, $number, $precruft, $postcruft, $cols ) = @_;
+    my $this = bless( {}, $class );
+    $this->{table}     = $table;
+    $this->{number}    = $number;
+    $this->{isHeader}  = 0;
+    $this->{isFooter}  = 0;
+    $this->{precruft}  = $precruft;
     $this->{postcruft} = $postcruft;
 
     # pad out the cols to the width of the format
-    my $ncols = scalar(@{$table->{colTypes}});
-    while (scalar(@$cols) < $ncols) {
-        push(@$cols, '');
+    my $ncols = scalar( @{ $table->{colTypes} } );
+    while ( scalar(@$cols) < $ncols ) {
+        push( @$cols, '' );
     }
     $this->{cols} = [];
     $this->set($cols);
@@ -30,60 +30,75 @@ sub new {
 
 sub getID {
     my $this = shift;
-    return $this->{table}->getID().'_'.$this->{number};
+    return $this->{table}->getID() . '_' . $this->{number};
 }
 
 sub getAnchor {
     my $this = shift;
-    return 'erp_'.$this->getID();
+    return 'erp_' . $this->getID();
 }
 
 sub getEditAnchor {
     my $this = shift;
-    return 'erp_edit_'.$this->getID();
+    return 'erp_edit_' . $this->getID();
+}
+
+sub isHeader {
+    my $this = shift;
+    foreach my $cell ( @{ $this->{cols} } ) {
+        return 0 unless $cell->{isHeader};
+        return 1 if $cell->{isHeader};
+    }
+    return 0;
 }
 
 # Find a row anchor within range of the row being edited that gives a
 # reasonable amount of context (3 rows) above the edited row
 sub getRowAnchor {
-    my $this = shift;
+    my $this       = shift;
     my $row_anchor = 1;
-    if ($this->{number} > 3) {
+    if ( $this->{number} > 3 ) {
         $row_anchor = $this->{number} - 1;
     }
-    return 'erp_'.$this->{table}->getID().'_'.$row_anchor;
+    return 'erp_' . $this->{table}->getID() . '_' . $row_anchor;
 }
 
 # break cycles to ensure we release back to garbage
 sub finish {
     my $this = shift;
     $this->{table} = undef;
-    foreach my $cell (@{$this->{cols}}) {
+    foreach my $cell ( @{ $this->{cols} } ) {
         $cell->finish();
     }
-    undef($this->{cols});
+    undef( $this->{cols} );
 }
 
 # Set the columns in the row. Adapts to widen or narrow the row as required.
 sub set {
-    my ($this, $cols) = @_;
-    while (scalar(@{$this->{cols}}) > scalar(@$cols)) {
-        pop(@{$this->{cols}})->finish();
+    my ( $this, $cols ) = @_;
+    while ( scalar( @{ $this->{cols} } ) > scalar(@$cols) ) {
+        pop( @{ $this->{cols} } )->finish();
     }
     my $n = 0;
     foreach my $val (@$cols) {
-        if ($n < scalar(@{$this->{cols}})) {
+        if ( $n < scalar( @{ $this->{cols} } ) ) {
+
             # Restore the EDITCELL from the old value, if present
             my $old = $this->{cols}->[$n]->{text};
-            if ($val !~ /%EDITCELL{.*?}%/
-                  && $this->{cols}->[$n]->{text} =~ /(%EDITCELL{.*?}%)/) {
+            if (   $val !~ /%EDITCELL{.*?}%/
+                && $this->{cols}->[$n]->{text} =~ /(%EDITCELL{.*?}%)/ )
+            {
                 $val .= $1;
             }
             $this->{cols}->[$n]->{text} = $val;
-        } else {
-            push(@{$this->{cols}},
-                 new Foswiki::Plugins::EditRowPlugin::TableCell(
-                     $this, $val, $n + 1));
+        }
+        else {
+            push(
+                @{ $this->{cols} },
+                new Foswiki::Plugins::EditRowPlugin::TableCell(
+                    $this, $val, $n + 1
+                )
+            );
         }
         $n++;
     }
@@ -92,93 +107,103 @@ sub set {
 sub stringify {
     my $this = shift;
 
-    return '|'.join('|', map { $_->stringify() } @{$this->{cols}}).'|';
+    return '|' . join( '|', map { $_->stringify() } @{ $this->{cols} } ) . '|';
 }
 
 sub renderForEdit {
-    my ($this, $colDefs, $showControls, $orient) = @_;
+    my ( $this, $colDefs, $showControls, $orient ) = @_;
 
     my $id = $this->getID();
-    my $anchor = CGI::a({ name => $this->getAnchor() }).' ';
+    my $anchor = CGI::a( { name => $this->getAnchor() } ) . ' ';
     my @rows;
-    my $empties = '|' x (scalar(@{$this->{cols}}) - 1);
+    my $empties = '|' x ( scalar( @{ $this->{cols} } ) - 1 );
     my $help = '';
 
-    if ($orient eq 'vertical') {
+    if ( $orient eq 'vertical' ) {
+
         # Each column is presented as a row
         # Number of empty columns at end of each row
         my $hdrs = $this->{table}->getLabelRow();
-        my $col = 0;
-        foreach my $cell (@{$this->{cols}}) {
+        my $col  = 0;
+        foreach my $cell ( @{ $this->{cols} } ) {
+
             # get the column label
             my $hdr = $hdrs->{cols}->[$col];
             $hdr = $hdr->{text} if $hdr;
-            $hdr ||= '';
-            my $text = $cell->renderForEdit($colDefs, $this->{isHeader});
-            push(@rows, "| $hdr|$text$anchor|$empties");
+            my $text = $cell->renderForEdit( $colDefs, $this->{isHeader} );
+            push( @rows, "| $hdr|$text$anchor|$empties" );
             $anchor = '';
             $col++;
         }
         if ($showControls) {
-            my $buttons = $this->{table}->generateEditButtons(
-                $this->{number}, 0);
-            push(@rows, "| $buttons ||$empties");
+            my $buttons =
+              $this->{table}->generateEditButtons( $this->{number}, 0 );
+            push( @rows, "| $buttons ||$empties" );
         }
-    } else {
+    }
+    else {
+
         # Generate the editors for each cell in the row
         my @cols = ();
-        foreach my $cell (@{$this->{cols}}) {
-            my $text = $cell->renderForEdit($colDefs, $this->{isHeader});
-            push(@cols, $text);
+        foreach my $cell ( @{ $this->{cols} } ) {
+            my $text = $cell->renderForEdit( $colDefs, $this->{isHeader} );
+            push( @cols, $text );
         }
 
         my $help = '';
         if ($showControls) {
-            my $buttons = $this->{table}->generateEditButtons(
-                $this->{number}, 1);
-            unshift(@cols, $buttons);
+            my $buttons =
+              $this->{table}->generateEditButtons( $this->{number}, 1 );
+            unshift( @cols, $buttons );
         }
 
-        push(@rows, $this->{precruft}.$anchor.join('|', @cols).
-               $this->{postcruft});
+        push( @rows,
+                $this->{precruft} 
+              . $anchor
+              . join( '|', @cols )
+              . $this->{postcruft} );
     }
     if ($showControls) {
         $help = $this->{table}->generateHelp();
-        push(@rows, "| $help ||$empties") if $help;
+        push( @rows, "| $help ||$empties" ) if $help;
     }
     return @rows;
 }
 
 sub renderForDisplay {
-    my ($this, $colDefs, $withControls) = @_;
+    my ( $this, $colDefs, $withControls ) = @_;
     my @out;
-    my $id = $this->getID();
+    my $id        = $this->getID();
     my $addAnchor = $this->{table}->isEditable();
-    my $anchor = '<a name="'.$this->getAnchor().'"></a>';
+    my $anchor    = '<a name="' . $this->getAnchor() . '"></a>';
 
-    foreach my $cell (@{$this->{cols}}) {
+    foreach my $cell ( @{ $this->{cols} } ) {
+
         # Add the row anchor for editing. It's added to the first non-empty
         # cell or, failing that, the first cell. This is to minimise the
         # risk of breaking up implied colspans.
-        my $text = $cell->renderForDisplay($colDefs, $this->{isHeader});
-        if ($addAnchor && $text =~ /\S/) {
+        my $text = $cell->renderForDisplay( $colDefs, $this->{isHeader} );
+        if ( $addAnchor && $text =~ /\S/ ) {
+
             # If the cell has *'s, it is seen by TablePlugin as a header.
             # We have to respect that.
-            if ($text =~ /^(\s*.*)(\*\s*)$/) {
-                $text = $1.$anchor.$2;
-            } else {
+            if ( $text =~ /^(\s*.*)(\*\s*)$/ ) {
+                $text = $1 . $anchor . $2;
+            }
+            else {
                 $text .= $anchor;
             }
             $addAnchor = 0;
         }
-        push(@out, $text);
+        push( @out, $text );
     }
 
     if ($withControls) {
-        my $active_topic = $this->{table}->getWeb().'.'
-          .$this->{table}->getTopic();
+        my $active_topic =
+          $this->{table}->getWeb() . '.' . $this->{table}->getTopic();
 
-        if ($this->{isHeader} || $this->{isFooter}) {
+        if ( $this->{isHeader} || $this->{isFooter} ) {
+
             # The ** fools TablePlugin into thinking this is a header.
             # Otherwise it disables sorting :-(
             my $text = '';
@@ -186,10 +211,11 @@ sub renderForDisplay {
                 $text .= $anchor;
                 $addAnchor = 0;
             }
-            unshift(@out, " *$text* ");
-        } else {
+            unshift( @out, " *$text* " );
+        }
+        else {
             my $script = 'view';
-            if (!Foswiki::Func::getContext()->{authenticated}) {
+            if ( !Foswiki::Func::getContext()->{authenticated} ) {
                 $script = 'viewauth';
             }
             my $url = Foswiki::Func::getScriptUrl(
@@ -198,32 +224,30 @@ sub renderForDisplay {
                 $script,
                 erp_active_topic => $active_topic,
                 erp_active_table => $this->{table}->getID(),
-                erp_active_row => $this->{number},
-                '#' => $this->getRowAnchor());
+                erp_active_row   => $this->{number},
+                '#'              => $this->getRowAnchor()
+            );
 
-            my $button =
-              "<a href='$url' class='EditRowPluginDiscardAction'>" . CGI::img({
-                  -name => $this->getEditAnchor(),
-                  -border => 0,
-                  -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittopic.gif'
-                 }) . "</a>";
+            my $button = "<a href='$url' class='editRowPlugin_willDiscard ui-icon ui-icon-pencil'>edit</a>";
             if ($addAnchor) {
                 $button .= $anchor;
                 $addAnchor = 0;
             }
-            unshift(@out, $button);
+            unshift( @out, $button );
         }
     }
 
     if ($addAnchor) {
+
         # All cells were empty; we have to shoehorn the anchor into the
         # final cell.
         my $cell = $this->{cols}->[-1];
         pop(@out);
         $cell->{text} .= $anchor;
-        push(@out, $cell->renderForDisplay($colDefs, $this->{isHeader}));
+        push( @out, $cell->renderForDisplay( $colDefs, $this->{isHeader} ) );
     }
-    my $row = $this->{precruft}.join('|', @out).$this->{postcruft};
+    my $row = $this->{precruft} . join( '|', @out ) . $this->{postcruft};
+
     #$row =~ s/</&lt;/g; # DEBUG
     #$row =~ s/\*/STAR/g; #DEBUG
     #$row = '<br>'.$row; # DEBUG

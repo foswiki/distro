@@ -31,10 +31,9 @@ some of !TablePlugin. Features:
    1 (geeky) Uses a simple REST interface for saving changes, which allows
      Javascript table editors to use the same interface to save.
 
-
 ---++ Usage
 
-Works like the !EditTablePlugin (it uses exactly the same =%EDITTABLE= tags)
+Works like the !EditTablePlugin (it uses exactly the same =%EDITTABLE= macro)
 and you can use it to edit the entire table, or just one row at a time.
 
 A =%<nop>EDITTABLE{...}%= in the topic will be associated with the next table
@@ -103,7 +102,7 @@ edited, then a number of buttons may be shown depending on the
 settings of =changerows= and =quietsave=.
    * %ICON{save}% saves the changes
    * <img src="%ATTACHURLPATH%/quiet.gif" /> saves without notification
-   * %ICON{plus}% adds a new row after the current row, taking for its contents whatever you entered into the current row
+   * %ICON{plus}% adds a new row after the current row, taking for its contents the initial values specified in the EDITTABLE macro
    * %ICON{minus}% deletes the row
    * %ICON{arrowup}% Move this row up one row in the table
    * %ICON{arrowdown}% Move this row down one row in the table
@@ -224,6 +223,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007 Wind<nop>River Inc. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  2 Feb 2011 | Foswiki:Tasks/Item2016: doesn't save "0" in table cells; fixed.Foswiki:Tasks/Item2229: needs better headings support; fixed. Foswiki:Tasks/Item1186: textarea newlines are not saved with whitespace around br; fixed. Foswiki:Tasks/Item9091: orientrowedit=vertical does not show the header labels; fixed. Foswiki:Tasks/Item9775: missing section headings from Config.spec; fixed. |
 |  24 Feb 2009 | Foswikitask:Item1139: fixed restoration of labels after an edit Foswikitask:Item1140: fixed loading of multi-valued parameters |
 |  15 Feb 2009 | Foswikitask:Item451: ported to foswiki Foswikitask:Item5757: not respecting footer rows when saving Foswikitask:Item5681: help not fully rendered before inclusion in a TML table Foswikitask:Item1086: Macros were being expanded before editing Foswikitask:Item5924: refactor for reusability |
 |  15 May 2008: | TWikibug:Item5621: helptopics were getting munged because of use of BR to replace newlines. This was to prevent accidental table concatenation, but breaks other things worse so I removed it. TWikibug:Item5624: handle comments with embedded tables. TWikibug:Item5625: don't count generated tables in the table count. TWikibug:Item5594: typo was causing strange behaviour with row management tools. TWikibug:Item5595: fixed problem with included tables. TWikibug:Item5596: changed default behaviour for empty cells to ignore pre-existing spaces if there is no other content. TWikibug:Item5616: row moving was failing on 4.1.2 due to bad URL construction. |
@@ -251,7 +251,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  13159 | Fixed issue with short rows, and added perms check. Thanks also to TWiki:Main.MichaelDaum for more fixes and testing. Now works on IE. |
 |  13148 | TWikibug:Item3770: Bugfixes |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Home Page: | http://foswiki.org/cgi-bin/view/Extensions/EditRowPlugin |
+|  Home Page: | http://foswiki.org/Extensions/EditRowPlugin |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please use the Foswiki support pages to ask questions and report problems instead. -->
 
