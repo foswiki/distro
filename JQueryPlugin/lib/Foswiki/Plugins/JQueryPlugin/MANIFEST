@@ -57,6 +57,7 @@ data/System/VarJQTHEME.txt 0644
 data/System/VarPOPUPWINDOW.txt 0644
 data/System/VarTABPANE.txt 0644
 data/System/VarTAB.txt 0644
+lib/Foswiki/Configure/Checkers/Plugins/JQueryPlugin/JQueryVersion.pm 0644
 lib/Foswiki/Form/Color.pm 0644
 lib/Foswiki/Form/Rating.pm 0644
 lib/Foswiki/Form/Textboxlist.pm 0644
