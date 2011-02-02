@@ -357,6 +357,7 @@ The currently used log file is always the same name. They are renamed to somehth
 
 <blockquote>%T% For more detailed information on new and deprecated features, especially API changes, refer to the [[ReleaseNotes01x01#Release01x00Changes][release notes]]</blockquote>
 
+#ManagingBrowserCache
 ---+++ Managing caches of static files during upgrade
 %INCLUDE{"%TOPIC%" section="cacheadvice"}%
 
