@@ -67,6 +67,7 @@ It's a part of the default distribution of the Foswiki Core.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.3.2 | Foswikitask:Item10304 - Move %USERSWEB%.AdminGroup into Foswiki core |
 |  4.3.1 | Foswikitask:Item9415 - Documentation updates |
 |  4.3 | 13 Mar 2010 - Made !UserRegistration customizable. |
 |  4.2.4 | 25 Feb 2010 - Updated documentation in !UserForm. |
