@@ -9,6 +9,7 @@ our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
 use Error qw( :try );
+use Benchmark qw(:hireswallclock);    # test_manysections
 
 sub new {
     my $self = shift()->SUPER::new( 'SECTION', @_ );
@@ -146,27 +147,125 @@ sub test_sections10 {
     );
 }
 
-# Item10316
-sub test_continuedsections {
-    my ($this) = @_;
-    my $text = <<'HERE';
-Pre-INCLUDEable %STARTINCLUDE% In-the-INCLUDEable bit
-%STARTSECTION{"1"}% 1 content %ENDSECTION{"1"}%
-%STARTSECTION{"2"}% 2 content
-%STARTSECTION{"21"}% 2.1 content %ENDSECTION{"21"}%
-%STARTSECTION{"22"}% 2.2 content
-%STARTSECTION{"221"}% 2.2.1 content %ENDSECTION{"221"}%
-%STARTSECTION{"222"}% 2.2.2 content %ENDSECTION{"222"}%
-%STARTSECTION{"223"}% 2.2.3 content %ENDSECTION{"223"}%
-%STARTSECTION{"224"}% 2.2.4 continued content %ENDSECTION{"224"}%
-%ENDSECTION{"22"}%
-%STARTSECTION{"23"}% 2.3 content %ENDSECTION{"23"}%
-%ENDSECTION{"2"}%
-%STARTSECTION{"3"}% 3 content %ENDSECTION{"3"}%
-Still-in-the-INCLUDEable bit
-%STOPINCLUDE% Post-INCLUDEable
+# For test_manysections, Item10316
+sub _manysections_inc {
+    my ( $this, $section ) = @_;
+    my $text = Foswiki::Func::expandCommonVariables(<<"HERE");
+%INCLUDE{"$this->{test_web}.$this->{test_topic}" section="$section"}%
 HERE
 
+    chomp($text);
+
+    return $text;
+}
+
+sub _manysections_setup {
+    my ($this) = @_;
+    my $junk   = "I am a fish.\n" x 100;
+    my $text   = <<"HERE";
+Pre-INCLUDEable %STARTINCLUDE% In-the-INCLUDEable bit $junk
+%STARTSECTION{"1"}% 1 content $junk%ENDSECTION{"1"}%
+%STARTSECTION{"2"}% 2 content
+%STARTSECTION{"21"}% 2.1 content $junk%ENDSECTION{"21"}%
+%STARTSECTION{"22"}% 2.2 content
+%STARTSECTION{"221"}% 2.2.1 content $junk%ENDSECTION{"221"}%
+%STARTSECTION{"222"}% 2.2.2 content $junk%ENDSECTION{"222"}%
+%STARTSECTION{"223"}% 2.2.3 content $junk%ENDSECTION{"223"}%
+%STARTSECTION{"224"}% 2.2.4 start continued content $junk%ENDSECTION{"224"}%
+%STARTSECTION{"224"}% 2.2.4b continue continued content $junk%ENDSECTION{"224"}%$junk%ENDSECTION{"22"}%
+%STARTSECTION{"23"}% 2.3 content %STARTSECTION{"224"}% 2.2.4c continue again continued content $junk%ENDSECTION{"224"}%$junk%ENDSECTION{"23"}%
+%STARTSECTION{"224"}% 2.2.4d continue yet again continued content $junk%ENDSECTION{"224"}%
+$junk
+%ENDSECTION{"2"}%
+Still-in-the-INCLUDEable bit
+%STARTSECTION{"224"}% 2.2.4e continue yet again more continued content $junk%ENDSECTION{"224"}%
+$junk%STOPINCLUDE% Post-INCLUDEable 
+%STARTSECTION{"3"}% 3 content %STARTSECTION{"224"}% 2.2.4f continue yet again even more continued content $junk%ENDSECTION{"224"}%$junk%ENDSECTION{"3"}%
+HERE
+    my $topicObj =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic}, $text );
+    my $c1   = ' 1 content ' . $junk;
+    my $c21  = ' 2.1 content ' . $junk;
+    my $c221 = ' 2.2.1 content ' . $junk;
+    my $c222 = ' 2.2.2 content ' . $junk;
+    my $c223 = ' 2.2.3 content ' . $junk;
+    my $c224 = ' 2.2.4 start continued content ' . $junk;
+    my $c23 =
+      " 2.3 content  2.2.4c continue again continued content $junk$junk";
+    my $c22 = <<"HERE";
+ 2.2 content
+$c221
+$c222
+$c223
+ 2.2.4 start continued content $junk
+ 2.2.4b continue continued content $junk$junk
+HERE
+    chomp($c22);
+    my $c2 = <<"HERE";
+ 2 content
+$c21
+$c22
+$c23
+ 2.2.4d continue yet again continued content $junk
+$junk
+HERE
+    my $c3 =
+        ' 3 content  2.2.4f continue yet again even more continued content '
+      . $junk
+      . $junk;
+    my $time;
+
+    $topicObj->save();
+    $topicObj->finish();
+
+    return (
+        1   => $c1,
+        2   => $c2,
+        22  => $c22,
+        221 => $c221,
+        222 => $c222,
+        223 => $c223,
+        224 => $c224,
+        23  => $c23,
+        3   => $c3
+    );
+}
+
+sub test_manysections {
+    my ($this) = @_;
+    my %sections = $this->_manysections_setup();
+
+    foreach my $section ( keys %sections ) {
+        $this->assert_str_equals( $sections{$section},
+            $this->_manysections_inc($section) );
+    }
+
+    return;
+}
+
+sub test_manysections_timing {
+    my ($this)      = @_;
+    my %sections    = $this->_manysections_setup();
+    my $numsections = scalar( keys %sections );
+    my $start       = Benchmark->new();
+    my $end;
+    my $cycles = 50;
+
+    foreach ( 1 .. $cycles ) {
+        foreach my $section ( keys %sections ) {
+            Foswiki::Func::expandCommonVariables(<<"HERE");
+%INCLUDE{"$this->{test_web}.$this->{test_topic}" section="$section"}%
+HERE
+        }
+    }
+    $end = Benchmark->new();
+    print "Time for $cycles cycles of $numsections sections ("
+      . $numsections * $cycles
+      . " INCLUDEs) was:\n"
+      . timestr( timediff( $end, $start ) ) . "\n";
+
+    return;
 }
 
 1;
