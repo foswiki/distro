@@ -146,4 +146,27 @@ sub test_sections10 {
     );
 }
 
+# Item10316
+sub test_continuedsections {
+    my ($this) = @_;
+    my $text = <<'HERE';
+Pre-INCLUDEable %STARTINCLUDE% In-the-INCLUDEable bit
+%STARTSECTION{"1"}% 1 content %ENDSECTION{"1"}%
+%STARTSECTION{"2"}% 2 content
+%STARTSECTION{"21"}% 2.1 content %ENDSECTION{"21"}%
+%STARTSECTION{"22"}% 2.2 content
+%STARTSECTION{"221"}% 2.2.1 content %ENDSECTION{"221"}%
+%STARTSECTION{"222"}% 2.2.2 content %ENDSECTION{"222"}%
+%STARTSECTION{"223"}% 2.2.3 content %ENDSECTION{"223"}%
+%STARTSECTION{"224"}% 2.2.4 continued content %ENDSECTION{"224"}%
+%ENDSECTION{"22"}%
+%STARTSECTION{"23"}% 2.3 content %ENDSECTION{"23"}%
+%ENDSECTION{"2"}%
+%STARTSECTION{"3"}% 3 content %ENDSECTION{"3"}%
+Still-in-the-INCLUDEable bit
+%STOPINCLUDE% Post-INCLUDEable
+HERE
+
+}
+
 1;
