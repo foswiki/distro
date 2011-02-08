@@ -14,6 +14,7 @@ use Foswiki::Func();
 # status code with a human readable message. This allows the handler
 # to be used by Javascript table editors.
 sub process {
+    my ( $session, $plugin, $verb, $response ) = @_;
     my $query = Foswiki::Func::getCgiQuery();
 
     unless ($query) {
@@ -21,13 +22,12 @@ sub process {
         return undef;
     }
 
-    my $saveType = $query->param('editrowplugin_save') || '';
     my $active_topic = $query->param('erp_active_topic');
     $active_topic =~ /(.*)/;
     my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( undef, $1 );
 
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
-    my ( $url, $mess );
+    my ( $url, $mess, $result );
     if (
         !Foswiki::Func::checkAccessPermission(
             'CHANGE', Foswiki::Func::getWikiName(),
@@ -43,7 +43,7 @@ sub process {
             param1   => 'CHANGE',
             param2   => 'access not allowed to topic'
         );
-        $mess = "ACCESS DENIED";
+        $result = $mess = "ACCESS DENIED";
     }
     else {
         $text =~ s/\\\n//gs;
@@ -56,6 +56,7 @@ sub process {
             # lists. This is what checkboxes, select+multi etc. use.
             $urps->{$p} = join( ',', @vals );
         }
+	#die join(' ',map { "'$_'=>'$urps->{$_}'"} keys %$urps);
         require Foswiki::Plugins::EditRowPlugin::TableParser;
         ASSERT( !$@ ) if DEBUG;
         my $content =
@@ -75,11 +76,15 @@ sub process {
 	# Dispatch whichever button was pressed
 	my $clicked = $query->param('erp_action') || '';
         if ( $clicked eq 'erp_save' ) {
-            $action    = 'change';
+            $action    = 'changeRow';
+            $no_return = 1;
+        }
+        elsif ( $clicked eq 'erp_saveCell' ) {
+            $action    = 'changeCell';
             $no_return = 1;
         }
         elsif ( $clicked eq 'erp_quietSave' ) {
-            $action    = 'change';
+            $action    = 'changeRow';
             $minor     = 1;
             $no_return = 1;
         }
@@ -112,7 +117,7 @@ sub process {
                 if (   $active_topic eq $urps->{erp_active_topic}
                     && $urps->{erp_active_table} eq "${macro}_$active_table" )
                 {
-                    $table->$action($urps);
+                    $result = $table->$action($urps);
                 }
                 $line = $table->stringify();
                 $table->finish();
@@ -148,13 +153,19 @@ sub process {
 
     unless ( $query->param('erp_noredirect') ) {
         Foswiki::Func::redirectCgiQuery( undef, $url );
+	return undef;
     }
-    elsif ($mess) {
-        print CGI::header( -status => "500 $mess" );
+    my $status = $mess ? 500 : 200;
+    $response->header(
+	-status  => $status,
+	-type    => 'text/html',
+	-charset => 'UTF-8'
+        );
+    if ($result) {
+	$result = Foswiki::Func::expandCommonVariables($result, $topic, $web);
+	$result = Foswiki::Func::renderText($result, $web, $topic);
     }
-    else {
-        print CGI::header( -status => 200 );
-    }
+    $response->print($result);
 
     return undef;    # Suppress standard redirection mechanism
 }

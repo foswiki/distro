@@ -1,19 +1,26 @@
-# See bottom of file for copyright
+# See bottom of file for copyright and license information
 package Foswiki::Plugins::EditRowPlugin::TableCell;
 
 use strict;
 use Assert;
 
 use Foswiki::Func;
+use JSON;
+# Default editor, used if another editor can't be loaded
+use Foswiki::Plugins::EditRowPlugin::Editor;
 
 # Default format if no other format is defined for a cell
 my $defCol ||= { type => 'text', size => 20, values => [] };
+
+# Map of type name to editor object. This is dynamically populated on demand with
+# editor instances.
+our %editors = ( _default => Foswiki::Plugins::EditRowPlugin::Editor->new() );
 
 sub new {
     my ( $class, $row, $text, $number ) = @_;
     my $this = bless( {}, $class );
     $this->{row}    = $row;
-    $this->{number} = $number;
+    $this->{number} = $number; # index of the column in the *raw* table
     if ( $text =~ /\S/ ) {
         $text =~ s/^(\s*)//;
         $this->{precruft} = $1 || '';
@@ -74,196 +81,78 @@ sub getCellName {
       . $this->{number};
 }
 
-sub renderForDisplay {
-    my ( $this, $colDefs, $isHeader ) = @_;
+sub render {
+    my ( $this, $colDefs, $inRow, $forEdit ) = @_;
     my $colDef = $colDefs->[ $this->{number} - 1 ] || $defCol;
     my $text = $this->{text};
-    $text = '-' unless defined($text);
 
-    if ( !$this->{isHeader} && !$this->{isFooter} ) {
-        if ( $colDef->{type} eq 'row' ) {
-            $text = $this->rowIndex($colDef);
-        }
-        else {
-            $text =~ s/%EDITCELL{(.*?)}%\s*$//;
-        }
+    if ( $text =~ s/%EDITCELL{(.*?)}%\s*$// ) {
+	my $cd = $this->{row}->{table}->parseFormat($1);
+	$colDef = $cd->[0];
     }
-    if ( $this->{isHeader} ) {
-        $text = CGI::span(
-            {
-		# head and foot sizes passed in metadata
-                class   => 'editRowPluginSort {headrows: '.
-		    $this->{row}->{table}->getHeaderRows()
-		    . ',footrows:'
-		    . $this->{row}->{table}->getFooterRows() . '}',
-            },
-            $text
-        );
+    
+    my $editor = $editors{$colDef->{type}};
+    unless ($editor) {
+	my $class = "Foswiki::Plugins::EditRowPlugin::Editor::$colDef->{type}";
+	eval("require $class");
+	if ($@) {
+	    Foswiki::Func::writeWarning(
+		"EditRowPlugin could not load cell type $class: $@" );
+	    $editor = $editors{_default};
+	} else {
+	    $editor = $class->new();
+	}
+	$editors{$colDef->{type}} = $editor;
+    }
+
+    if ($forEdit) {
+	$text = $editor->htmlEditor($this, $colDef, $inRow, $text || '');
+	$text = Foswiki::Plugins::EditRowPlugin::defend($text);
+    } else {
+	$text = '-' unless defined($text);
+
+	unless ( $this->{isHeader} || $this->{isFooter} ) {
+	    if ( $colDef->{type} eq 'row' ) {
+		$text = $this->rowIndex($colDef);
+	    }
+	    else {
+		$text =~ s/%EDITCELL{(.*?)}%\s*$//;
+	    }
+	}
+	if ( $this->{isHeader} ) {
+	    $text = CGI::span(
+		{
+		    # head and foot sizes passed in metadata
+		    class   => 'editRowPluginSort {headrows: '.
+			$this->{row}->{table}->getHeaderRows()
+			. ',footrows:'
+			. $this->{row}->{table}->getFooterRows() . '}',
+		},
+		$text);
+	} else {
+	    my %opts = ();
+	    if ($this->can_edit()) {
+		my $data = $editor->jQueryMetadata($this, $colDef, $text);
+		$data->{url} = $this->getSaveURL();
+		$opts{class} = 'editRowPluginCell '
+		    . Foswiki::Plugins::EditRowPlugin::defend(JSON::to_json($data), 1);
+	    }
+	    $text = CGI::span( \%opts, " $text ");
+	}
     }
     return $this->{precruft} . $text . $this->{postcruft};
 }
 
-sub renderForEdit {
-    my ( $this, $colDefs, $isHeader ) = @_;
-    my $colDef = $colDefs->[ $this->{number} - 1 ] || $defCol;
-    my $unexpandedValue = $this->{text} || '';
+sub can_edit {
+    my $this = shift;
+    return $this->{row}->can_edit();
+}
 
-    if ( $unexpandedValue =~ s/%EDITCELL{(.*?)}%\s*$// ) {
-        my $cd = $this->{row}->{table}->parseFormat($1);
-        $colDef = $cd->[0];
-    }
-
-    my $expandedValue = Foswiki::Func::expandCommonVariables($unexpandedValue);
-    $expandedValue =~ s/^\s*(.*?)\s*$/$1/;
-
-    my $text     = '';
-    my $cellName = $this->getCellName();
-
-    if ( $colDef->{type} eq 'select' ) {
-
-        # Explicit HTML used because CGI gets it wrong
-        $text =
-            "<select name='$cellName' size='"
-          . $colDef->{size}
-          . "' class='editRowPluginInput'>";
-        foreach my $option ( @{ $colDef->{values} } ) {
-            my $expandedOption = Foswiki::Func::expandCommonVariables($option);
-            $expandedOption =~ s/^\s*(.*?)\s*$/$1/;
-            my %opts;
-            if ( $expandedOption eq $expandedValue ) {
-                $opts{selected} = 'selected';
-            }
-            $text .= CGI::option( \%opts, $option );
-        }
-        $text .= "</select>";
-
-    }
-    elsif ( $colDef->{type} =~ /^(checkbox|radio)/ ) {
-
-        my %attrs;
-        my @defaults;
-        my @options;
-        $expandedValue = ",$expandedValue,";
-
-        my $i = 0;
-        foreach my $option ( @{ $colDef->{values} } ) {
-            push( @options, $option );
-            my $expandedOption = Foswiki::Func::expandCommonVariables($option);
-            $expandedOption =~ s/^\s*(.*?)\s*$/$1/;
-            $expandedOption =~ s/(\W)/\\$1/g;
-            $attrs{$option}{label} = $expandedOption;
-            if ( $colDef->{type} eq 'checkbox' ) {
-                $attrs{$option}{class} = 'foswikiCheckBox editRowPluginInput';
-            }
-            else {
-                $attrs{$option}{class} =
-                  'foswikiRadioButton editRowPluginInput';
-            }
-
-            if ( $expandedValue =~ /,\s*$expandedOption\s*,/ ) {
-                $attrs{$option}{checked} = 'checked';
-                push( @defaults, $option );
-            }
-        }
-        if ( $colDef->{type} eq 'checkbox' ) {
-            $text = CGI::checkbox_group(
-                -name       => $cellName,
-                -values     => \@options,
-                -defaults   => \@defaults,
-                -columns    => $colDef->{size},
-                -attributes => \%attrs
-            );
-
-        }
-        else {
-            $text = CGI::radio_group(
-                -name       => $cellName,
-                -values     => \@options,
-                -default    => $defaults[0],
-                -columns    => $colDef->{size},
-                -attributes => \%attrs
-            );
-        }
-
-    }
-    elsif ( $colDef->{type} eq 'row' ) {
-
-        $text = $isHeader ? '' : $this->rowIndex($colDef);
-
-    }
-    elsif ( $colDef->{type} eq 'textarea' ) {
-
-        my ( $rows, $cols ) = split( /x/i, $colDef->{size} );
-        $rows =~ s/[^\d]//;
-        $cols =~ s/[^\d]//;
-        $rows = 3  if $rows < 1;
-        $cols = 30 if $cols < 1;
-
-        # Jeff Crawford, Item5043:
-        # replace BRs to display multiple lines nicely
-        my $tmptext = $unexpandedValue;
-        $tmptext =~ s#<br( /)?>#\r\n#gi;
-        $tmptext =~ s/%BR%/\r\n/gi;
-
-        $text = CGI::textarea(
-            {
-                class   => 'editRowPluginInput',
-                rows    => $rows,
-                columns => $cols,
-                name    => $cellName,
-                value   => $tmptext
-            }
-        );
-
-    }
-    elsif ( $colDef->{type} eq 'date' ) {
-
-        eval 'require Foswiki::Contrib::JSCalendarContrib';
-
-        if ($@) {
-
-            # Calendars not available
-            $text = CGI::textfield(
-                {
-                    name  => $cellName,
-                    size  => 10,
-                    class => 'editRowPluginInput'
-                }
-            );
-        }
-        else {
-
-            # NOTE: old versions of JSCalendarContrib won't fire onchange
-            $text = Foswiki::Contrib::JSCalendarContrib::renderDateForEdit(
-                $cellName, $unexpandedValue,
-                $colDef->{values}->[1],
-                { class => 'editRowPluginInput' }
-            );
-        }
-
-    }
-    elsif ( $colDef->{type} eq 'label' ) {
-
-        # Labels are not editable.
-        $text = $unexpandedValue;
-
-    }
-    else {    #  if( $colDef->{type} =~ /^text.*$/)
-
-        $text = CGI::textfield(
-            {
-                class => 'editRowPluginInput',
-                name  => $cellName,
-                size  => $colDef->{size},
-                value => $unexpandedValue
-            }
-        );
-
-    }
-    return
-        $this->{precruft}
-      . Foswiki::Plugins::EditRowPlugin::defend($text)
-      . $this->{postcruft};
+sub getSaveURL {
+    my ($this, %more) = @_;
+    return $this->{row}->getSaveURL(
+	erp_noredirect => 1,
+	erp_active_col => $this->{number}, %more);
 }
 
 1;
@@ -305,10 +194,7 @@ otherwise make a Table and its rows and cells self-referential.
 ---++ stringify()
 Generate a TML representation of the cell
 
----++ renderForEdit() -> $text
-Render the cell for editing. Standard TML is used to construct the table.
-
----++ renderForDisplay() -> $text
-Render the cell for display. Standard TML is used to construct the table.
+---++ render -> $text
+Render the cell for display or edit. Standard TML is used to construct the table.
 
 =cut

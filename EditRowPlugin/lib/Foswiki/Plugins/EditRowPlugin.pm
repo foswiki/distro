@@ -52,15 +52,16 @@ sub save {
 our @refs;
 
 sub defend {
-    my ($text) = @_;
+    my ($text, $dequote) = @_;
     my $n = scalar(@refs);
+    $text =~ s/"/&quot;/g if $dequote;
     push( @refs, $text );
-    return "X\07$n\07X";
+    return "#\07$n\07#";
 }
 
 # Replace protected content.
 sub postRenderingHandler {
-    while ( $_[0] =~ s/X\07([0-9]+)\07X/$refs[$1]/gi ) {
+    while ( $_[0] =~ s/#\07([0-9]+)\07#/$refs[$1]/g ) {
     }
 }
 

@@ -66,15 +66,9 @@ sub process {
     my $displayOnly = 0;
 
     # Without change access, there is no way you can edit.
-    if (
-        !Foswiki::Func::checkAccessPermission(
-            'CHANGE', Foswiki::Func::getWikiName(),
-            $text, $topic, $web, $meta
-        )
-      )
-    {
-        $displayOnly = 1;
-    }
+    $displayOnly = 1 unless ( Foswiki::Func::checkAccessPermission(
+				  'CHANGE', Foswiki::Func::getWikiName(),
+				  $text, $topic, $web, $meta));
 
     my $hasTables = 0; # set to true if there is at least one table
     my $needHead  = 0; # set to true if we need JS included
@@ -88,14 +82,14 @@ sub process {
         if ( UNIVERSAL::isa( $_, 'Foswiki::Plugins::EditRowPlugin::Table' ) ) {
             my $line = '';
             $table = $_;
+	    $table->{can_edit} = !$displayOnly;
             $active_table++;
             if (  !$displayOnly
                 && $active_topic eq $urps->{erp_active_topic}
                 && $urps->{erp_active_table} eq "${macro}_$active_table" ) {
 
                 my $active_row = $urps->{erp_active_row};
-                my $saveUrl =
-                  Foswiki::Func::getScriptUrl( 'EditRowPlugin', 'save', 'rest' );
+                my $saveUrl = $_->getSaveURL();
                 $line = CGI::start_form(
                     -method => 'POST',
                     -name   => "erp_form_${macro}_$active_table",
@@ -136,12 +130,12 @@ sub process {
                     }
                 }
                 $line .= "\n"
-                  . $table->renderForEdit( $active_row, $real_table ) . "\n";
+                  . $table->render( 0, $active_row, $real_table ) . "\n";
                 $line .= CGI::end_form();
                 $needHead = 1;
             }
             else {
-                $line = $table->renderForDisplay( !$displayOnly );
+                $line = $table->render( $displayOnly ? 1 : 2 );
             }
 
             $table->finish();

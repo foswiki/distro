@@ -12,7 +12,7 @@ sub new {
     my ( $class, $table, $number, $precruft, $postcruft, $cols ) = @_;
     my $this = bless( {}, $class );
     $this->{table}     = $table;
-    $this->{number}    = $number;
+    $this->{number}    = $number; # 0-based index of the row in the *raw* table
     $this->{isHeader}  = 0;
     $this->{isFooter}  = 0;
     $this->{precruft}  = $precruft;
@@ -24,7 +24,7 @@ sub new {
         push( @$cols, '' );
     }
     $this->{cols} = [];
-    $this->set($cols);
+    $this->setRow($cols);
     return $this;
 }
 
@@ -74,7 +74,7 @@ sub finish {
 }
 
 # Set the columns in the row. Adapts to widen or narrow the row as required.
-sub set {
+sub setRow {
     my ( $this, $cols ) = @_;
     while ( scalar( @{ $this->{cols} } ) > scalar(@$cols) ) {
         pop( @{ $this->{cols} } )->finish();
@@ -110,16 +110,32 @@ sub stringify {
     return '|' . join( '|', map { $_->stringify() } @{ $this->{cols} } ) . '|';
 }
 
-sub renderForEdit {
-    my ( $this, $colDefs, $showControls, $orient ) = @_;
+sub can_edit {
+    my $this = shift;
+    return $this->{table}->can_edit();
+}
 
-    my $id = $this->getID();
-    my $anchor = CGI::a( { name => $this->getAnchor() } ) . ' ';
-    my @rows;
+sub getSaveURL {
+    my ($this, %more) = @_;
+    return $this->{table}->getSaveURL(erp_active_row => $this->{number}, %more);
+}
+
+sub render {
+    my ( $this, $colDefs, $withControls, $forEdit, $orient ) = @_;
+    my @out;
+    my $id        = $this->getID();
+    my $addAnchor = $this->{table}->isEditable();
+    my $anchor    = '<a name="' . $this->getAnchor() . '"></a> ';
     my $empties = '|' x ( scalar( @{ $this->{cols} } ) - 1 );
-    my $help = '';
+    my @cols = ();
+    my $buttons = '';
+ 
+    if ($forEdit) {
+	$buttons = $this->{table}->generateEditButtons( $this->{number}, $orient eq 'vertical' );
+	$addAnchor = 0;
+    }
 
-    if ( $orient eq 'vertical' ) {
+    if ( $forEdit && $orient eq 'vertical' ) {
 
         # Each column is presented as a row
         # Number of empty columns at end of each row
@@ -130,128 +146,97 @@ sub renderForEdit {
             # get the column label
             my $hdr = $hdrs->{cols}->[$col];
             $hdr = $hdr->{text} if $hdr;
-            my $text = $cell->renderForEdit( $colDefs, $this->{isHeader} );
-            push( @rows, "| $hdr|$text$anchor|$empties" );
+            my $text = $cell->render( $colDefs, $this, 1 );
+            push( @out, "| $hdr|$text$anchor|$empties" );
             $anchor = '';
             $col++;
         }
-        if ($showControls) {
-            my $buttons =
-              $this->{table}->generateEditButtons( $this->{number}, 0 );
-            push( @rows, "| $buttons ||$empties" );
+        if ($withControls) {
+            push( @out, "| $buttons ||$empties" );
         }
     }
     else {
+	# Not for edit, or orientation horizontal
+	my $text;
 
-        # Generate the editors for each cell in the row
-        my @cols = ();
-        foreach my $cell ( @{ $this->{cols} } ) {
-            my $text = $cell->renderForEdit( $colDefs, $this->{isHeader} );
-            push( @cols, $text );
-        }
+	foreach my $cell ( @{ $this->{cols} } ) {
 
-        my $help = '';
-        if ($showControls) {
-            my $buttons =
-              $this->{table}->generateEditButtons( $this->{number}, 1 );
-            unshift( @cols, $buttons );
-        }
+	    $text = $cell->render( $colDefs, $this, $forEdit );
 
-        push( @rows,
-                $this->{precruft} 
-              . $anchor
-              . join( '|', @cols )
-              . $this->{postcruft} );
-    }
-    if ($showControls) {
-        $help = $this->{table}->generateHelp();
-        push( @rows, "| $help ||$empties" ) if $help;
-    }
-    return @rows;
-}
-
-sub renderForDisplay {
-    my ( $this, $colDefs, $withControls ) = @_;
-    my @out;
-    my $id        = $this->getID();
-    my $addAnchor = $this->{table}->isEditable();
-    my $anchor    = '<a name="' . $this->getAnchor() . '"></a>';
-
-    foreach my $cell ( @{ $this->{cols} } ) {
-
-        # Add the row anchor for editing. It's added to the first non-empty
-        # cell or, failing that, the first cell. This is to minimise the
-        # risk of breaking up implied colspans.
-        my $text = $cell->renderForDisplay( $colDefs, $this->{isHeader} );
-        if ( $addAnchor && $text =~ /\S/ ) {
-
-            # If the cell has *'s, it is seen by TablePlugin as a header.
-            # We have to respect that.
-            if ( $text =~ /^(\s*.*)(\*\s*)$/ ) {
-                $text = $1 . $anchor . $2;
-            }
-            else {
-                $text .= $anchor;
-            }
-            $addAnchor = 0;
-        }
-        push( @out, $text );
+	    # Add the row anchor for editing. It's added to the first non-empty
+	    # cell or, failing that, the first cell. This is to minimise the
+	    # risk of breaking up implied colspans.
+	    if ( $addAnchor && $text =~ /\S/ ) {
+		
+		# If the cell has *'s, it is seen by TablePlugin as a header.
+		# We have to respect that.
+		if ( $text =~ /^(\s*.*)(\*\s*)$/ ) {
+		    $text = $1 . $anchor . $2;
+		}
+		else {
+		    $text .= $anchor;
+		}
+		$addAnchor = 0;
+	    }
+	    push( @cols, $text );
+	}
     }
 
     if ($withControls) {
-        my $active_topic =
-          $this->{table}->getWeb() . '.' . $this->{table}->getTopic();
+	if ($forEdit) {
+	    unshift( @cols, $buttons );
+	    my $help = $this->{table}->generateHelp();
+	    # If there's help, terminate the current row with a | before adding a new row
+	    push( @cols, "\n", $help, '', $empties) if $help;
+	} else {
+	    my $active_topic =
+		$this->{table}->getWeb() . '.' . $this->{table}->getTopic();
 
-        if ( $this->{isHeader} || $this->{isFooter} ) {
+	    if ( $this->{isHeader} || $this->{isFooter} ) {
 
-            # The ** fools TablePlugin into thinking this is a header.
-            # Otherwise it disables sorting :-(
-            my $text = '';
-            if ($addAnchor) {
-                $text .= $anchor;
-                $addAnchor = 0;
-            }
-            unshift( @out, " *$text* " );
-        }
-        else {
-            my $script = 'view';
-            if ( !Foswiki::Func::getContext()->{authenticated} ) {
-                $script = 'viewauth';
-            }
-            my $url = Foswiki::Func::getScriptUrl(
-                $this->{table}->getWeb(),
-                $this->{table}->getTopic(),
-                $script,
-                erp_active_topic => $active_topic,
-                erp_active_table => $this->{table}->getID(),
-                erp_active_row   => $this->{number},
-                '#'              => $this->getRowAnchor()
-            );
+		# The ** fools TablePlugin into thinking this is a header.
+		# Otherwise it disables sorting :-(
+		my $text = '';
+		if ($addAnchor) {
+		    $text .= $anchor;
+		    $addAnchor = 0;
+		}
+		unshift( @cols, " *$text* " );
+	    }
+	    else {
+		my $script = 'view';
+		if ( !Foswiki::Func::getContext()->{authenticated} ) {
+		    $script = 'viewauth';
+		}
+		my $url = Foswiki::Func::getScriptUrl(
+		    $this->{table}->getWeb(),
+		    $this->{table}->getTopic(),
+		    $script,
+		    erp_active_topic => $active_topic,
+		    erp_active_table => $this->{table}->getID(),
+		    erp_active_row   => $this->{number},
+		    '#'              => $this->getRowAnchor()
+		    );
 
-            my $button = "<a href='$url' class='editRowPlugin_willDiscard ui-icon ui-icon-pencil'>edit</a>";
-            if ($addAnchor) {
-                $button .= $anchor;
-                $addAnchor = 0;
-            }
-            unshift( @out, $button );
-        }
+		my $button = "<a href='$url' class='editRowPlugin_willDiscard ui-icon ui-icon-pencil'>edit</a>";
+		if ($addAnchor) {
+		    $button .= $anchor;
+		    $addAnchor = 0;
+		}
+		unshift( @cols, $button );
+	    }
+	    if ($addAnchor) {
+
+		# All cells were empty; we have to shoehorn the anchor into the
+		# final cell.
+		my $cell = $this->{cols}->[-1];
+		pop(@out);
+		$cell->{text} .= $anchor;
+		push( @out, $cell->render( $colDefs, $this->{isHeader}, 0 ) );
+	    }
+	}
     }
-
-    if ($addAnchor) {
-
-        # All cells were empty; we have to shoehorn the anchor into the
-        # final cell.
-        my $cell = $this->{cols}->[-1];
-        pop(@out);
-        $cell->{text} .= $anchor;
-        push( @out, $cell->renderForDisplay( $colDefs, $this->{isHeader} ) );
-    }
-    my $row = $this->{precruft} . join( '|', @out ) . $this->{postcruft};
-
-    #$row =~ s/</&lt;/g; # DEBUG
-    #$row =~ s/\*/STAR/g; #DEBUG
-    #$row = '<br>'.$row; # DEBUG
-    return $row;
+    return $this->{precruft} . join( '|', @cols ) . $this->{postcruft};
 }
 
 1;
@@ -293,10 +278,7 @@ otherwise make a Table and its rows and cells self-referential.
 ---++ stringify()
 Generate a TML representation of the row
 
----++ renderForEdit() -> $text
-Render the row for editing. Standard TML is used to construct the table.
-
----++ renderForDisplay() -> $text
-Render the row for display. Standard TML is used to construct the table.
+---++ render() -> $text
+Render the row for editing or display. Standard TML is used to construct the table.
 
 =cut
