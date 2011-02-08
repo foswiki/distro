@@ -143,6 +143,7 @@ Field specifiers and constants are combined using _operators_ to create queries.
 | =NOT= | Invert the result of the subquery | <code>not(Size &lt; 2)</code> |
 | =AND= | Combine two subqueries | =(Length &gt; Width) and (Age &lt; Beauty)= |
 | =OR= | Combine two subqueries | =(Length &gt; Width) or (Age &lt; Beauty)= |
+| =INT= | return the integer portion of a value (returns undef if the string isn't an integer, so beware.) | =int SomeField= or =int -1.5= |
 | =()= | Bracketed subquery | =(Length &gt; Width)= |
 | =,= | Array separator. | =(1,2,3)= expands to an array containing the scalar values =[1,2,3]=, If either side of this operator returns an array value, that array will be flattened into the result i.e. =((1,2),(3,4))= is equivalent to =(1,2,3,4)= |
 | =+= | Arithmetic addition, and string concatenation. String concatenation applies if either side of the expression does not evaluate to a number. | =1 + 2= |
