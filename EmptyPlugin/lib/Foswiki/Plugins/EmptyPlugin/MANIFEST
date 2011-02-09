@@ -1,3 +1,4 @@
 data/System/EmptyPlugin.txt 0644 Plugin doc page
-lib/Foswiki/Plugins/EmptyPlugin.pm 0444 Plugin Perl module
+data/System/VarEXAMPLETAG.txt 0644 Tag documentation
 data/Sandbox/PluginTestEmptyPlugin.txt 0644 Plugin examples
+lib/Foswiki/Plugins/EmptyPlugin.pm 0444 Plugin Perl module

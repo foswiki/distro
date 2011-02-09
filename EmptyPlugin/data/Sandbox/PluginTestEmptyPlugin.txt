@@ -1,4 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1042728360" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1297235194" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="EmptyPlugin"}%
+---+!! Testing !EmptyPlugin 
 
 SOME EXAMPLES OF THE PLUGIN
+
+__Related:__ %SYSTEMWEB%.EmptyPlugin

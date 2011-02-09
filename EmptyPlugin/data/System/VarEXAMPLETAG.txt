@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1297235055" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="EmptyPlugin"}%
+#VarEXAMPLETAG
+---+++ EXAMPLETAG -- example variable
+   * The =%<nop>EXAMPLETAG{}%= variable is handled by the ExamplePlugin
+   * Syntax: =%<nop>EXAMPLETAG{"text" format="..."}%=
+   * Parameter =text="..."= - example text.
+   * Parameter =format="..."= - format of report.
+   * Example: =%<nop>EXAMPLETAG{"hello" format="| $topic: $summary |"}%=
+   * Related: ExamplePlugin
