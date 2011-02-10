@@ -28,6 +28,8 @@ sub process {
 
     return 0 if Foswiki::Func::getPreferencesFlag('EDITROWPLUGIN_DISABLE');
 
+    my $require_js = Foswiki::Func::getPreferencesFlag('EDITROWPLUGIN_REQUIRE_JS');
+
     Foswiki::Plugins::JQueryPlugin::registerPlugin(
 	'EditRow',
 	'Foswiki::Plugins::EditRowPlugin::JQuery');
@@ -82,23 +84,25 @@ sub process {
         if ( UNIVERSAL::isa( $_, 'Foswiki::Plugins::EditRowPlugin::Table' ) ) {
             my $line = '';
             $table = $_;
-	    $table->{can_edit} = !$displayOnly;
+	    $table->{editable} = !$displayOnly;
             $active_table++;
             if (  !$displayOnly
                 && $active_topic eq $urps->{erp_active_topic}
                 && $urps->{erp_active_table} eq "${macro}_$active_table" ) {
 
                 my $active_row = $urps->{erp_active_row};
-                my $saveUrl = $_->getSaveURL();
-                $line = CGI::start_form(
-                    -method => 'POST',
-                    -name   => "erp_form_${macro}_$active_table",
-                    -action => $saveUrl
-                );
-                $line .= CGI::hidden( 'erp_active_topic', $active_topic );
-                $line .=
-                  CGI::hidden( 'erp_active_table', "${macro}_$active_table" );
-                $line .= CGI::hidden( 'erp_active_row', $active_row );
+		unless ($require_js) {
+		    my $saveUrl = $_->getSaveURL();
+		    $line .= CGI::start_form(
+			-method => 'POST',
+			-name   => "erp_form_${macro}_$active_table",
+			-action => $saveUrl
+			);
+		    $line .= CGI::hidden( 'erp_active_topic', $active_topic );
+		    $line .=
+			CGI::hidden( 'erp_active_table', "${macro}_$active_table" );
+		    $line .= CGI::hidden( 'erp_active_row', $active_row );
+		}
 
                 # To avoid with the situation where macros like
                 # %CALC% have already been processed and end up getting saved
@@ -130,12 +134,16 @@ sub process {
                     }
                 }
                 $line .= "\n"
-                  . $table->render( 0, $active_row, $real_table ) . "\n";
-                $line .= CGI::end_form();
+                  . $table->render({ for_edit => 1,
+				     require_js => $require_js,
+				     active_row => $active_row,
+				     real_table => $real_table }) . "\n";
+                $line .= CGI::end_form() unless $require_js;
                 $needHead = 1;
             }
             else {
-                $line = $table->render( $displayOnly ? 1 : 2 );
+                $line = $table->render({ with_controls => !$displayOnly,
+					 require_js => $require_js });
             }
 
             $table->finish();

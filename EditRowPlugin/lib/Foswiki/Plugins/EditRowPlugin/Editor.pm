@@ -78,9 +78,8 @@ sub jQueryMetadata {
     my ( $this, $cell, $colDef, $text ) = @_;
     my $data = {};
     $data->{type} = $this->{type};
-    $data->{name} = $cell->getCellName();
+    $data->{name} = "CELLDATA"; #$cell->getCellName();
     $data->{size} = $colDef->{size} if defined $colDef->{size};
-    $data->{text} = $cell->{text};
     return $data;
 }
 

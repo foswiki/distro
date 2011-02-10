@@ -12,24 +12,22 @@ One line description, required for extensions repository catalog.
 
 A replacement for most of !EditTablePlugin, some of !EditTablerowPlugin and
 some of !TablePlugin. Features:
-   1 You can edit one row at a time, instead of having to edit the entire
+   1 You can edit one cell at a time, instead of having to edit the entire
      table. This solves the problem with the long page rendering times
      required to show all the HTML for a full table edit on big tables.
-   1 Row being edited can be presented horizontally, as with !EditTablePlugin,
-     or Form-style, like !EditTablerowPlugin. Makes it easier to edit very
-     wide tables.
    1 Supports footer rows.
    1 Supports sorting columns in tables using Javascript, avoiding the
-     round-trip to the server required by !TablePlugin. Can fall back to
-     !TablePlugin if Javascript isn't available.
+     round-trip to the server required by !TablePlugin.
    1 Simple interface to moving rows around in the table, deleting and
      adding rows.
    1 Gets row numbering right (takes account of headers).
-   1 It's faster than the individual plugins it replaces.
+   1 It's _much_ faster than the individual plugins it replaces.
    1 (geeky) Coded using a clean object-oriented architecture, which
      makes it easily extensible.
    1 (geeky) Uses a simple REST interface for saving changes, which allows
      Javascript table editors to use the same interface to save.
+   1 (geeky) Tolerant to Javascript being disabled in the browser (with some
+     loss of functionality)
 
 ---++ Usage
 
@@ -94,7 +92,7 @@ Parameters:
      editing very wide tables much easier. Has no effect in whole table
      editing mode.
    * ==helptopic== Topic name containing help text shown when editing a table. The [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]] markers can be used in the topic to specify what is shown. Note that newlines are removed from the included text so the that text can be used inside a table.
-
+   * ==requirejs== "on" or "off" depending on whether the plugin should require Javascript in the browser or not. This is a local version of the global EDITROWPLUGIN_REQUIRE_JS switch described below.
 Table rows are shown with a row edit button %ICON{edittopic}% in the first column,
 and a table edit button <img src="%ATTACHURLPATH%/edittable.gif" /> after the
 table. When the table is
@@ -168,7 +166,8 @@ then="enabled in this site. Click on the buttons to try it out."}%
 The plugin interprets a couple of [[%SYSTEMWEB%.Macros][preferences]], in common with the !EditTablePlugin.
 | =QUIETSAVE= | Gives a default value for the =quietsave= parameter. Default is =off=. |
 | =CHANGEROWS= | Gives a default value for the =changerows= parameter. Default is =off=. |
-Also, the plugin can be selectively disabled using
+Also, the plugin has a couple of it's own settings:
+| =EDITROWPLUGIN_REQUIRE_JS= | Set to =on= if the plugin can _assume_ that Javascript is available in the browser. When this setting is enabled the plugin will not generate the fallback controls that allow tables to be edited when Javascript is disabled. Enabling this option makes tables easier to use for people who work with Javascript enabled, but the plugin will not work at all for people who do not enable Javascript. This is =off= by default. |
 | =EDITROWPLUGIN_DISABLE= | Set to =on= to disable the plugin. Default is =off=. |
 These preferences can be defined in %USERSWEB%.SitePreferences, in !WebPreferences for an individual web, or in the topic.
 

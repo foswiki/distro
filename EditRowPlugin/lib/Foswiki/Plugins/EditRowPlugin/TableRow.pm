@@ -95,7 +95,7 @@ sub setRow {
         else {
             push(
                 @{ $this->{cols} },
-                new Foswiki::Plugins::EditRowPlugin::TableCell(
+                Foswiki::Plugins::EditRowPlugin::TableCell->new(
                     $this, $val, $n + 1
                 )
             );
@@ -120,22 +120,28 @@ sub getSaveURL {
     return $this->{table}->getSaveURL(erp_active_row => $this->{number}, %more);
 }
 
+# col_defs - column definitions (required)
+# for_edit - true if we are editing
+# orient - "horizontal" or "vertical" editor orientation
+# with_controls - if we want row controls
+# require_js - if javascript is required (no non-JS controls)
 sub render {
-    my ( $this, $colDefs, $withControls, $forEdit, $orient ) = @_;
+    my ( $this, $opts ) = @_;
     my @out;
     my $id        = $this->getID();
-    my $addAnchor = $this->{table}->isEditable();
+    my $addAnchor = 1;
     my $anchor    = '<a name="' . $this->getAnchor() . '"></a> ';
     my $empties = '|' x ( scalar( @{ $this->{cols} } ) - 1 );
     my @cols = ();
     my $buttons = '';
  
-    if ($forEdit) {
-	$buttons = $this->{table}->generateEditButtons( $this->{number}, $orient eq 'vertical' );
+    if ($opts->{for_edit} && !$opts->{require_js}) {
+	$buttons = $this->{table}->generateEditButtons(
+	    $this->{number}, $opts->{orient} eq 'vertical' );
 	$addAnchor = 0;
     }
 
-    if ( $forEdit && $orient eq 'vertical' ) {
+    if ( $opts->{for_edit} && $opts->{orient} eq 'vertical' && !$opts->{require_js}) {
 
         # Each column is presented as a row
         # Number of empty columns at end of each row
@@ -146,27 +152,31 @@ sub render {
             # get the column label
             my $hdr = $hdrs->{cols}->[$col];
             $hdr = $hdr->{text} if $hdr;
-            my $text = $cell->render( $colDefs, $this, 1 );
+            my $text = $cell->render({
+		col_defs => $opts->{col_defs},
+		in_row => $this,
+		for_edit => 1} );
             push( @out, "| $hdr|$text$anchor|$empties" );
             $anchor = '';
             $col++;
         }
-        if ($withControls) {
+        if ($opts->{with_controls}) {
             push( @out, "| $buttons ||$empties" );
         }
     }
     else {
-	# Not for edit, or orientation horizontal
+	# Not for edit, or orientation horizontal, or JS required
 	my $text;
 
+	$opts->{in_row} = $this;
 	foreach my $cell ( @{ $this->{cols} } ) {
 
-	    $text = $cell->render( $colDefs, $this, $forEdit );
+	    $text = $cell->render($opts);
 
 	    # Add the row anchor for editing. It's added to the first non-empty
 	    # cell or, failing that, the first cell. This is to minimise the
 	    # risk of breaking up implied colspans.
-	    if ( $addAnchor && $text =~ /\S/ ) {
+	    if ( $addAnchor && !$opts->{require_js} && $text =~ /\S/ ) {
 		
 		# If the cell has *'s, it is seen by TablePlugin as a header.
 		# We have to respect that.
@@ -182,8 +192,8 @@ sub render {
 	}
     }
 
-    if ($withControls) {
-	if ($forEdit) {
+    if ($opts->{with_controls} && !$opts->{require_js}) {
+	if ($opts->{for_edit}) {
 	    unshift( @cols, $buttons );
 	    my $help = $this->{table}->generateHelp();
 	    # If there's help, terminate the current row with a | before adding a new row
@@ -232,7 +242,7 @@ sub render {
 		my $cell = $this->{cols}->[-1];
 		pop(@out);
 		$cell->{text} .= $anchor;
-		push( @out, $cell->render( $colDefs, $this->{isHeader}, 0 ) );
+		push( @out, $cell->render( { col_defs => $opts->{col_defs} } ) );
 	    }
 	}
     }

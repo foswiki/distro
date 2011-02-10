@@ -80,7 +80,7 @@ sub parseTables {
         # next table encountered in the topic.
         if ( !$disable && $line =~ s/(%$macro(?:{(.*)})?%)// ) {
             my $spec  = $1;
-            my $attrs = new Foswiki::Attrs(
+            my $attrs = Foswiki::Attrs->new(
                 Foswiki::Func::expandCommonVariables( $2 || '', $web, $topic )
             );
             push( @tables, $line ) if $line =~ /\S/;
@@ -110,7 +110,7 @@ sub parseTables {
                     $params =
                       Foswiki::Func::expandCommonVariables( $params, $iw, $it );
                 }
-                $attrs = new Foswiki::Attrs($params);
+                $attrs = Foswiki::Attrs->new($params);
             }
 
             # is there a format in the query? if there is,
@@ -152,7 +152,7 @@ sub parseTables {
 
                 # Uneditable table
                 $nTables++;
-                my $attrs => new Foswiki::Attrs('');
+                my $attrs => Foswiki::Attrs->new('');
                 $active_table =
                   $table_class->new( $nTables, 0, $line, $attrs, $web, $topic );
                 push( @tables, $active_table );

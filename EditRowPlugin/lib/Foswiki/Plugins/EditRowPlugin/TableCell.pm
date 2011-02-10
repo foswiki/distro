@@ -82,8 +82,9 @@ sub getCellName {
 }
 
 sub render {
-    my ( $this, $colDefs, $inRow, $forEdit ) = @_;
-    my $colDef = $colDefs->[ $this->{number} - 1 ] || $defCol;
+    my ( $this, $opts ) = @_;
+    
+    my $colDef = $opts->{col_defs}->[ $this->{number} - 1 ] || $defCol;
     my $text = $this->{text};
 
     if ( $text =~ s/%EDITCELL{(.*?)}%\s*$// ) {
@@ -95,6 +96,7 @@ sub render {
     unless ($editor) {
 	my $class = "Foswiki::Plugins::EditRowPlugin::Editor::$colDef->{type}";
 	eval("require $class");
+	ASSERT(!$@, $@) if DEBUG;
 	if ($@) {
 	    Foswiki::Func::writeWarning(
 		"EditRowPlugin could not load cell type $class: $@" );
@@ -105,8 +107,8 @@ sub render {
 	$editors{$colDef->{type}} = $editor;
     }
 
-    if ($forEdit) {
-	$text = $editor->htmlEditor($this, $colDef, $inRow, $text || '');
+    if ($opts->{for_edit} && !$opts->{require_js}) {
+	$text = $editor->htmlEditor($this, $colDef, $opts->{in_row}, $text || '');
 	$text = Foswiki::Plugins::EditRowPlugin::defend($text);
     } else {
 	$text = '-' unless defined($text);
@@ -130,14 +132,24 @@ sub render {
 		},
 		$text);
 	} else {
-	    my %opts = ();
+	    my $sopts = {};
 	    if ($this->can_edit()) {
 		my $data = $editor->jQueryMetadata($this, $colDef, $text);
-		$data->{url} = $this->getSaveURL();
-		$opts{class} = 'editRowPluginCell '
+		my $saveURL = $this->getSaveURL();
+		# Carve off the URL params and push to meta-data; they are wanted
+		# for ajax.
+		if ($saveURL =~ s/\?(.*)$//) {
+		    $data->{erp_data} = {};
+		    for my $tup (split(/[;&]/, $1)) {
+			$tup =~ /(.*?)=(.*)$/;
+			$data->{erp_data}->{$1} = $2;
+		    }
+		}
+		$data->{url} = $saveURL;
+		$sopts->{class} = 'editRowPluginCell '
 		    . Foswiki::Plugins::EditRowPlugin::defend(JSON::to_json($data), 1);
 	    }
-	    $text = CGI::span( \%opts, " $text ");
+	    $text = CGI::span( $sopts, " $text ");
 	}
     }
     return $this->{precruft} . $text . $this->{postcruft};

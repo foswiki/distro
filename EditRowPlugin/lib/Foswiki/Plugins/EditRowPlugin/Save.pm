@@ -4,6 +4,7 @@ package Foswiki::Plugins::EditRowPlugin::Save;
 use strict;
 use warnings;
 use Assert;
+use Error ':try';
 
 use Foswiki;
 use Foswiki::Func();
@@ -21,6 +22,8 @@ sub process {
         print CGI::header( -status => 500 );
         return undef;
     }
+
+    my $ajax = $query->param('erp_noredirect');
 
     my $active_topic = $query->param('erp_active_topic');
     $active_topic =~ /(.*)/;
@@ -48,7 +51,7 @@ sub process {
     else {
         $text =~ s/\\\n//gs;
         my @ps   = $query->param();
-        my $urps = {};
+	my $urps = {};
         foreach my $p (@ps) {
             my @vals = $query->param($p);
 
@@ -68,8 +71,8 @@ sub process {
         my $active_table = 0;
         my $action;
         my $minor        = 0;          # If true, this is a quiet save
+	my $no_return = 0; # if true, we want to finish editing after the action
         my $no_save      = 0;          # if true, we are cancelling
-        my $no_return = 0; # if true, we want to finish editing after the action
         my $macro = $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro}
           || 'EDITTABLE';
 
@@ -97,6 +100,9 @@ sub process {
         elsif ( $clicked eq 'erp_addRow' ) {
             $action = 'addRow';
         }
+        elsif ( $clicked eq 'erp_moveRow' ) {
+            $action = 'moveRow';
+        }
         elsif ( $clicked eq 'erp_deleteRow' ) {
             $action = 'deleteRow';
         }
@@ -105,7 +111,8 @@ sub process {
             $no_save   = 1;
             $no_return = 1;
         }
-        foreach my $line (@$content) {
+      LINE:
+	foreach my $line (@$content) {
             if (
                 UNIVERSAL::isa(
                     $line, 'Foswiki::Plugins::EditRowPlugin::Table'
@@ -117,7 +124,15 @@ sub process {
                 if (   $active_topic eq $urps->{erp_active_topic}
                     && $urps->{erp_active_table} eq "${macro}_$active_table" )
                 {
-                    $result = $table->$action($urps);
+		    eval {
+			$result = $table->$action($urps);
+		    };
+		    if ($@) {
+			throw $@ unless $ajax;
+			$mess = $@;
+			$no_save = 1;
+			last LINE;
+		    }
                 }
                 $line = $table->stringify();
                 $table->finish();
@@ -131,43 +146,48 @@ sub process {
             Foswiki::Func::saveTopic( $web, $topic, $meta, $nlines,
                 { minor => $minor } );
         }
-
-        # Use a row anchor within range of the row being edited as
-        # the goto target
-        my $anchor = 'erp_' . $urps->{erp_active_table};
-        if ( $urps->{erp_active_row} > 5 ) {
-            my $before = $urps->{erp_active_row} - 1;
-            $anchor .= '_' . $before;
-        }
-        else {
-            $anchor .= '_1';
-        }
-        my @p = ( '#' => $anchor );
-        unless ($no_return) {
-            push( @p, erp_active_topic => $urps->{erp_active_topic} );
-            push( @p, erp_active_table => $urps->{erp_active_table} );
-            push( @p, erp_active_row   => $urps->{erp_active_row} );
-        }
-        $url = Foswiki::Func::getScriptUrl( $web, $topic, 'view', @p );
+	# $url will be set if there's been an error
+	unless ($ajax) {
+	    # Use a row anchor within range of the row being edited as
+	    # the goto target
+	    my $anchor = 'erp_' . $urps->{erp_active_table};
+	    if ( $urps->{erp_active_row} > 5 ) {
+		my $before = $urps->{erp_active_row} - 1;
+		$anchor .= '_' . $before;
+	    }
+	    else {
+		$anchor .= '_1';
+	    }
+	    my @p = ( '#' => $anchor );
+	    unless ($no_return) {
+		push( @p, erp_active_topic => $urps->{erp_active_topic} );
+		push( @p, erp_active_table => $urps->{erp_active_table} );
+		push( @p, erp_active_row   => $urps->{erp_active_row} );
+	    }
+	    $url = Foswiki::Func::getScriptUrl( $web, $topic, 'view', @p );
+	}
     }
 
-    unless ( $query->param('erp_noredirect') ) {
+    if ( $ajax ) {
+	# $mess will be set if there's been an error
+	my $status = $mess ? 500 : 200;
+	$response->header(
+	    -status  => $status,
+	    -type    => 'text/html',
+	    -charset => 'UTF-8'
+	    );
+	if ($result) {
+	    $result = Foswiki::Func::expandCommonVariables($result, $topic, $web);
+	    $result = Foswiki::Func::renderText($result, $web, $topic);
+	} else {
+	    $result = $mess || '';
+	}
+	$response->print($result);
+
+    } else {
         Foswiki::Func::redirectCgiQuery( undef, $url );
-	return undef;
     }
-    my $status = $mess ? 500 : 200;
-    $response->header(
-	-status  => $status,
-	-type    => 'text/html',
-	-charset => 'UTF-8'
-        );
-    if ($result) {
-	$result = Foswiki::Func::expandCommonVariables($result, $topic, $web);
-	$result = Foswiki::Func::renderText($result, $web, $topic);
-    }
-    $response->print($result);
-
-    return undef;    # Suppress standard redirection mechanism
+    return undef;
 }
 
 1;

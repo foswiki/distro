@@ -1,3 +1,17 @@
 .editRowPluginSort {
     text-decoration: underline;
 }
+
+.drop_top !important {
+    border-top: 2px solid red;
+background-color: green;
+}
+
+.drop_bottom !important {
+    border-bottom: 2px solid red;
+background-color: yellow;
+}
+
+.drop-hover {
+background-color: magenta;
+}

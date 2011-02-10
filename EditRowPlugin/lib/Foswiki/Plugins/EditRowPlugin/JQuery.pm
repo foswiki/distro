@@ -35,7 +35,7 @@ sub new {
 	puburl => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin',
 	css => [ "erp${src}.css" ],
 	documentation => "$Foswiki::cfg{SystemWebName}.EditRowPlugin",
-	javascript => [ "jquery.jeditable${src}.js", "erp${src}.js", "TableSort${src}.js" ],
+	javascript => [ "jquery.jeditable${src}.js", "jquery.json-2.2${src}.js", "erp${src}.js", "TableSort${src}.js" ],
 	dependencies => [ 'UI' ]);
 
   return $this;

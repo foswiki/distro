@@ -88,6 +88,24 @@
 	}
     });
 
+    // $.metadata() ignoring the cache
+    $.fn.myMeta = function() {
+ 	var oc = $(this).attr("class");
+	var m = /({.*})/.exec(this.attr("class"));
+	if (!m) return null;
+	return eval('(' + m[1] + ')');
+    }
+
+     var setMetadata = function(e, keys, v) {
+	var obj = $(e).myMeta();
+	var i, fld = obj;
+	for (i = 0; i < keys.length - 1; i++)
+	    fld = fld[keys[i]];
+	fld[keys[keys.length - 1]] = v;
+	var oc = $(e).attr("class");
+	$(e).attr("class", oc.replace(/{.*}/, $.toJSON(obj)));
+    };
+
     $(document).ready(function() {
 	var erp_rowDirty = false;
 
@@ -125,8 +143,114 @@
 	});
 
 	$(".editRowPluginCell").livequery(function() {
-	    var m = /({.*})/.exec($(this).attr("class"));
-	    var p = eval('(' + m[1] + ')');
+	    // WARNING: this was a complete PITA to get right! Meddle at your own peril!
+
+	    // Make the containing row draggable
+	    var tr = $(this).closest("tr");
+	    if (!tr.hasClass('ui-draggable')) {
+		// only once per row
+		var dragee, container, rows;
+
+		var onDrop = function( event, ui ) {
+		    var target = $(this);
+		    var edge;
+		    // A drop outside the table
+		    // is triggered on the drag helper instead of the
+		    // droppable at the end of the table.
+		    if (target.hasClass("drag-helper")) {
+			var top = rows.first().offset().top;
+			var posY = event.pageY - top;
+			edge = (posY < (rows.last().offset().top() +
+					rows.last().height() - top) / 2)
+			    ? 'top' :'bottom';
+			if (edge == 'top')
+			    target = rows.first();
+			else
+			    target = rows.last();
+		    } else {
+			var posY = event.pageY - target.offset().top;
+			edge = (posY < target.height() / 2)
+			    ? 'top' :'bottom';
+		    }
+		    var old_pos = dragee.myMeta().erp_data.erp_active_row;
+		    var new_pos = target.myMeta().erp_data.erp_active_row;
+		    if (edge == 'bottom')
+			new_pos++;
+
+		    if (new_pos == old_pos)
+			return;
+
+		    // Send the good news to the server
+		    dragee.fadeTo("slow", 0.0); // to show it's being moved
+		    container.css("cursor", "wait");
+		    var p = $(this).myMeta();
+		    p.erp_data.erp_action = 'erp_moveRow';
+		    p.erp_data.old_pos = old_pos;
+		    p.erp_data.new_pos = new_pos;
+		    $.ajax({
+			url: p.url,
+			type: "POST",
+			data: p.erp_data,
+			success: function() {
+			    if (edge == 'top')
+				dragee.insertBefore(target);
+			    else
+				dragee.insertAfter(target);
+
+			    // Renumber the rows. Need to re-find the rows as the
+			    // order has changed
+			    rows = container.find(".editRowPluginRow");
+			    rows.each(function(ri, re) {
+				if ($(re).myMeta()) {
+				    setMetadata($(re), ['erp_data', 'erp_active_row'],
+						ri + 1);
+				    $(re).find(".editRowPluginCell").each(
+					function(ci, ce) {
+					    if ($(ce).myMeta())
+						setMetadata($(ce),
+							    ['erp_data', 'erp_active_row'],
+							    ri + 1);
+					});
+				}
+			    });
+			    dragee.fadeTo("fast", 1.0);
+			    container.css("cursor", "auto");
+			},
+			error: function() {
+			    dragee.fadeTo("fast", 1.0);
+			    container.css("cursor", "auto");
+			}
+		    });
+		};
+
+		tr.draggable({
+		    // constrain to the container
+		    containment: $(this).closest("tbody,thead,table"),
+		    axis: 'y',
+		    helper: function(event) {
+			var helper = $(event.target).closest('tr').clone();
+			return $('<div><table></table></div>')
+			    .find('table')
+			    .append(helper.addClass("drag-helper"))
+			    .end();
+		    },
+		    start: function(event, ui) {
+			dragee = $(this);
+			dragee.fadeTo("fast", 0.3); // to show it's moving
+			container = dragee.closest("table");
+			rows = container.find(".editRowPluginRow");
+			rows.not(dragee).not('.drag-helper').droppable({
+			    drop: onDrop
+			});
+		    },
+		    stop: function() {
+			dragee.fadeTo("fast", 1.0);
+		    }
+		});
+	    }
+
+	    var p = $(this).myMeta();
+
 	    if (!p.type || p.type == 'label')
 		return;
 
@@ -134,20 +258,31 @@
 		p.tooltip = 'Click to edit...';
 	    p.onblur = 'cancel';
 
-	    if (m = /(.*)\?(.*)/.exec(p.url)) {
-		p.url = m[1];
-		p.submitdata = {
-		    erp_action: 'erp_saveCell',
-		};
-		var params = m[2].split(/[;&]/), i;
-		for (i in params) {
-		    if (m = /^(.*?)=(.*)/.exec(params[i]))
-			p.submitdata[m[1]] = unescape(m[2]);
-		    else
-			alert("Invalid param "+params[i]);
-		}
+	    // We can't row-number when generating the table because it's done by the
+	    // core table rendering. So we have to promote the cell information up
+	    // to the row when we have it.
+	    if (!tr.hasClass('editRowPluginRow') && p.erp_data
+		&& p.erp_data.erp_active_row) {
+		var m = /({.*})/.exec($(this).attr("class"));
+		var metadata = m[1];
+		tr.addClass("editRowPluginRow " + metadata);
 	    }
-	    #console.debug(p.type + " " + p.url);
+
+	    // use a function to get the submit data from the class attribute, because
+	    // the row index may change if rows are moved/added/deleted
+	    p.submitdata = function(value, settings) {
+		var sd = $(this).myMeta().erp_data;
+		sd.erp_action = 'erp_saveCell';
+		return sd;
+	    }
+
+            if (p.type == "text" || p.type == "textarea") {
+		// Add changed text (unexpanded) to meta
+		p.callback = function(value, settings) {   
+		    setMetadata($(this), ['data'], value);
+		};
+	    }
+
 	    $(this).editable(p.url, p);
  	});
     });
