@@ -949,12 +949,9 @@ sub renderFORMFIELD {
         $title = $field->{title} || $name;
         if ( $title eq $formField || $name eq $formField ) {
             $found = 1;
-            $text =~ s/\$title/$title/go;
             my $value = $field->{value};
-
-            if ( !length($value) ) {
-                $value = defined($default) ? $default : '';
-            }
+            $text = $default if ( !length($value) && defined($default));
+            $text =~ s/\$title/$title/go;
             $text =~ s/\$value/$value/go;
             $text =~ s/\$name/$name/g;
             if ( $text =~ m/\$form/ ) {

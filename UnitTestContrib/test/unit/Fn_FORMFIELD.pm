@@ -69,6 +69,9 @@ sub test_FORMFIELD_default {
     $result = $topicObject->expandMacros(
         '%FORMFIELD{"Priscilla" default="Clementina"}%');
     $this->assert_str_equals('Clementina', $result);
+    $result = $topicObject->expandMacros(
+        '%FORMFIELD{"Priscilla" format="Beauty queen: $value" default="Clementina"}%');
+    $this->assert_str_equals('Clementina', $result);
 
 }
 
@@ -86,6 +89,9 @@ sub test_FORMFIELD_alttext {
     $result = $topicObject->expandMacros(
         '%FORMFIELD{"Ffiona" alttext="Candida" default="Cressida"}%');
     $this->assert_str_equals('Candida', $result);
+    $result = $topicObject->expandMacros(
+        '%FORMFIELD{"Ffiona" format="Beauty queen: $value" alttext="Candida" default="Clementina"}%');
+    $this->assert_str_equals('Candida', $result);
 }
 
 # format="..." Format string. =$value= expands to the field value, and =$name= expands to the field name, =$title= to the field title, =$form= to the name of the form the field is in. The [[FormatTokens][standard format tokens]] are also expanded.
@@ -99,6 +105,16 @@ sub test_FORMFIELD_format {
     $result = $topicObject->expandMacros(
         '%FORMFIELD{"Marjorie" format=""}%');
     $this->assert_str_equals('', $result);
+
+    # with default
+    $result = $topicObject->expandMacros(
+        '%FORMFIELD{"Priscilla" format="Beauty queen: $value" default="Clementina"}%');
+    $this->assert_str_equals('Clementina', $result);
+    
+    # with alttext
+    $result = $topicObject->expandMacros(
+        '%FORMFIELD{"Ffiona" format="Beauty queen: $value" alttext="Candida" default="Clementina"}%');
+    $this->assert_str_equals('Candida', $result);
 }
 
 # topic="..." Topic where form data is located. May be of the form Web.<nop>TopicName
