@@ -29,9 +29,9 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ $max = $2 if ($2 > $max); "[$1]"/ge;
 
     my @args = split( /\s*,\s*/, $argsStr );
 
-    # fill omitted args with zeros
+    # fill omitted args with empty strings
     while ( ( scalar @args ) < $max ) {
-        push( @args, 0 );
+        push( @args, '' );
     }
 
     # do the magic:
