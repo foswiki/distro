@@ -22,11 +22,11 @@ if ( grep('-sven', @ARGV) ) {
 
 
 
-my $foswikiBranch = 'trunk';
+my $foswikiBranch = 'Release01x01';
 
 unless ( -e $foswikiBranch ) {
    print STDERR "doing a fresh checkout\n";
-   `svn co http://svn.foswiki.org/$foswikiBranch > Foswiki-svn.log`;
+   `svn co http://svn.foswiki.org/branches/$foswikiBranch > Foswiki-svn.log`;
    chdir($foswikiBranch.'/core');
 } else {
 #TODO: should really do an svn revert..
