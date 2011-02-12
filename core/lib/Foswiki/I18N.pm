@@ -248,7 +248,7 @@ sub maketext {
         import CGI();
 
         return CGI::span(
-            { -style => 'color:red;' },
+            { -class => 'foswikiAlert' },
             "Error: MAKETEXT argument's can't start with an underscore (\"_\")."
         );
     }
