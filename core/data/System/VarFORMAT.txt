@@ -6,9 +6,9 @@
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
      | ="one, two, three"= | The list to be expanded into the format. Required. Currently only two types of list data are supported; topic names (=type="topic"=) and plain strings (=type="string"=). | =""= |
-     | =format="..."= | Format string | =""= |
-     | =header="..."= | Text to come before the formated output | =""= |
-     | =footer="..."= | Text to come after the formated output | =""= |
+     | =format="..."= | Format string. Use =$item= to refer to the list item value. | =""= |
+     | =header="..."= | Text to come before the formatted output | =""= |
+     | =footer="..."= | Text to come after the formatted output | =""= |
      | =separator="n"= | Separator between formatted elements | ="$n"= |
      | =type=""= | Treat input list as either =topic= or =string= | ="topic"= |
    * Examples:
