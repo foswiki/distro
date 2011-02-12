@@ -912,8 +912,8 @@ sub renderFORMFIELD {
 
     my $formField = $params->{_DEFAULT};
     return '' unless defined $formField;
-    my $altText = $params->{alttext};
-    my $default = $params->{default};
+    my $altText = $params->{alttext} || '';
+    my $default = $params->{default} || '';
     my $rev     = $params->{rev} || '';
     my $format  = $params->{format};
 
@@ -950,7 +950,7 @@ sub renderFORMFIELD {
         if ( $title eq $formField || $name eq $formField ) {
             $found = 1;
             my $value = $field->{value};
-            $text = $default if ( !length($value) && defined($default));
+            $text = $default if !length($value);
             $text =~ s/\$title/$title/go;
             $text =~ s/\$value/$value/go;
             $text =~ s/\$name/$name/g;

@@ -69,10 +69,11 @@ sub test_FORMFIELD_default {
     $result = $topicObject->expandMacros(
         '%FORMFIELD{"Priscilla" default="Clementina"}%');
     $this->assert_str_equals('Clementina', $result);
+    
+    # with format
     $result = $topicObject->expandMacros(
         '%FORMFIELD{"Priscilla" format="Beauty queen: $value" default="Clementina"}%');
     $this->assert_str_equals('Clementina', $result);
-
 }
 
 # alttext="..." Text shown when field is not found in the form
@@ -111,10 +112,20 @@ sub test_FORMFIELD_format {
         '%FORMFIELD{"Priscilla" format="Beauty queen: $value" default="Clementina"}%');
     $this->assert_str_equals('Clementina', $result);
     
+    # with 'default' default (empty string)
+    $result = $topicObject->expandMacros(
+        '%FORMFIELD{"Priscilla" format="Beauty queen: $value"}%');
+    $this->assert_str_equals('', $result);
+    
     # with alttext
     $result = $topicObject->expandMacros(
         '%FORMFIELD{"Ffiona" format="Beauty queen: $value" alttext="Candida" default="Clementina"}%');
     $this->assert_str_equals('Candida', $result);
+    
+    # with default alttext (empty string)
+    $result = $topicObject->expandMacros(
+        '%FORMFIELD{"Ffiona" format="Beauty queen: $value"}%');
+    $this->assert_str_equals('', $result);
 }
 
 # topic="..." Topic where form data is located. May be of the form Web.<nop>TopicName
