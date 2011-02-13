@@ -34,6 +34,7 @@ sub loadExtraConfig {
 
 sub setLocalSite {
     $Foswiki::cfg{WebMasterEmail} = 'a.b@c.org';
+    $Foswiki::cfg{UserInterfaceInternationalisation} = 1;
 }
 
 sub test_MAKETEXT_simple {
