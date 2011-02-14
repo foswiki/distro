@@ -261,7 +261,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please use the Foswiki support pages to ask questions and report problems instead. -->
 
-%META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="screenshot2.png" attr="h" comment="" version="1"}%
 %META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
 %META:FILEATTACHMENT{name="edittable.gif" attr="h" comment="" version="1"}%
 %META:FILEATTACHMENT{name="quiet.gif" attr="h" comment="" version="1"}%
