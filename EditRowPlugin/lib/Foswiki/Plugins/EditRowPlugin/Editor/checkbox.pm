@@ -31,6 +31,7 @@ sub jQueryMetadata {
     my $this = shift;
     my ( $cell, $colDef, $text ) = @_;
     my $data = $this->SUPER::jQueryMetadata(@_);
+    $data->{text} = $text;
 
     if ($colDef->{values} && scalar(@{$colDef->{values}})) {
 	$data->{data} = {};

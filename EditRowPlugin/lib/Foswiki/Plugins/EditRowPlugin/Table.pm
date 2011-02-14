@@ -8,16 +8,16 @@ use Foswiki::Attrs;
 use Foswiki::Func;
 use Foswiki::Plugins::EditRowPlugin::TableRow;
 
-use vars
-  qw($ADD_ROW $DELETE_ROW $QUIET_SAVE $NOISY_SAVE $EDIT_ROW $CANCEL_ROW $UP_ROW $DOWN_ROW);
-$ADD_ROW    = 'Add new row after this row / at the end';
-$DELETE_ROW = 'Delete this row / last row';
-$QUIET_SAVE = 'Quiet Save';
-$NOISY_SAVE = 'Save';
-$EDIT_ROW   = 'Edit';
-$CANCEL_ROW = 'Cancel';
-$UP_ROW     = 'Move this row up';
-$DOWN_ROW   = 'Move this row down';
+use constant {
+    ADD_ROW    => 'Add new row after this row / at the end',
+    DELETE_ROW => 'Delete this row / last row',
+    QUIET_SAVE => 'Quiet Save',
+    NOISY_SAVE => 'Save',
+    EDIT_ROW   => 'Edit',
+    CANCEL_ROW => 'Cancel',
+    UP_ROW     => 'Move this row up',
+    DOWN_ROW   => 'Move this row down',
+};
 
 sub new {
     my ( $class, $tno, $editable, $spec, $attrs, $web, $topic ) = @_;
@@ -64,6 +64,10 @@ sub new {
       : Foswiki::Func::getPreferencesValue('QUIETSAVE');
     $attrs->{quietsave} = Foswiki::Func::isTrue($q);
 
+    $attrs->{require_js} = Foswiki::Func::isTrue(
+	$attrs->{require_js} ||
+	Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_REQUIRE_JS'),
+	0);
     $this->{attrs} = $attrs;
 
     return $this;
@@ -197,7 +201,6 @@ sub getLabelRow() {
 #      display. This is used when the contents of the table have already been
 #      processed by other plugins, but we want to get back to basics for the
 #      edit.
-#   require_js is true if no-js is not wanted
 sub render {
     my ( $this, $opts ) = @_;
     my @out;
@@ -208,13 +211,14 @@ sub render {
     my $editing = ($opts->{for_edit} && $this->can_edit());
     my $wholeTable  = ( defined $opts->{active_row} && $opts->{active_row} <= 0 );
 
-    push(@out, "<a name='erp_$this->{id}'></a>") unless $opts->{require_js};
+    push(@out, "<a name='erp_$this->{id}'></a>")
+	unless $this->{attrs}->{require_js};
 
     my $orientation = $this->{attrs}->{orientrowedit} || 'horizontal';
     # Disallow vertical display for whole table edits
     $orientation = 'horizontal' if $wholeTable;
 
-    if ($editing && !$opts->{require_js}) {
+    if ($editing && !$this->{attrs}->{require_js}) {
 	my $format = $attrs->{format} || '';
 	# SMELL: Have to double-encode the format param to defend it
 	# against the rest of Foswiki. We use the escape char '-' as it
@@ -235,7 +239,7 @@ sub render {
     my $r           = 0;                # real row index
     my %row_opts = (
 	col_defs => $this->{colTypes},
-	require_js => $opts->{require_js},
+	require_js => $this->{attrs}->{require_js},
 	with_controls => $this->can_edit()
 	&& (($editing && !$wholeTable)
 	    || (!$editing &&
@@ -263,12 +267,13 @@ sub render {
 	push( @out, $rowtext );
     }
     if ($editing) {
-	if ($wholeTable && !$opts->{require_js}) {
+	if ($wholeTable && !$this->{attrs}->{require_js}) {
 	    push( @out, $this->generateEditButtons( 0, 0 ) );
 	    my $help = $this->generateHelp();
 	    push( @out, $help ) if $help;
 	}
-    } elsif ($opts->{with_controls} && $this->can_edit() && !$opts->{require_js}) {
+    } elsif ($opts->{with_controls} && $this->can_edit() &&
+	     !$this->{attrs}->{require_js}) {
 	# Generate the buttons at the bottom of the table
 
 	# A  bit of a hack. If the user isn't logged in, then show the
@@ -326,7 +331,7 @@ sub render {
 	    $url = $this->getSaveURL(
 		erp_active_row => -2,
 		erp_unchanged  => 1,
-		erp_action     => 'erp_addRow',
+		erp_action     => 'addRow',
 		'#'            => 'erp_' . $this->{id}
 		);
 
@@ -342,6 +347,8 @@ sub can_edit {
     return $this->{editable};
 }
 
+# Override this if you want to use a different rest handler in a subclass
+# or derived plugin.
 sub getSaveURL {
     my ($this, %more) = @_;
     return Foswiki::Func::getScriptUrl(
@@ -394,7 +401,7 @@ sub _getCols {
 }
 
 # Action on row saved
-sub changeRow {
+sub saveRow {
     my ( $this, $urps ) = @_;
 
     my $row = $urps->{erp_active_row};
@@ -414,7 +421,7 @@ sub changeRow {
 }
 
 # Action on single cell saved (JEditable)
-sub changeCell {
+sub saveCell {
     my ( $this, $urps ) = @_;
 
     my $row = $urps->{erp_active_row};
@@ -424,7 +431,7 @@ sub changeCell {
 }
 
 # Action on move up; save and shift row
-sub moveUp {
+sub upRow {
     my ( $this, $urps ) = @_;
     change( $this, $urps );
     my $row = $urps->{erp_active_row};
@@ -435,7 +442,7 @@ sub moveUp {
 }
 
 # Action on move down; save and shift row
-sub moveDown {
+sub downRow {
     my ( $this, $urps ) = @_;
     change( $this, $urps );
     my $row = $urps->{erp_active_row};
@@ -518,14 +525,18 @@ sub deleteRow {
 
 sub moveRow {
     my ( $this, $urps ) = @_;
-    my $from = $urps->{old_pos};
-    my $to = $urps->{new_pos};
-    my @moving = splice( @{ $this->{rows} }, $from - 1, 1 );
+    my $from = $urps->{old_pos} - 1;
+    my $to = $urps->{new_pos} - 1;
+    my @moving = splice( @{ $this->{rows} }, $from, 1 );
     if ($from < $to) {
 	# from is below to, so decrement the $to row
 	$to--;
     }
-    splice( @{ $this->{rows} }, $to - 1, 0, @moving );
+    splice( @{ $this->{rows} }, $to, 0, @moving );
+    for (my $i = 0; $i < scalar( @{ $this->{rows} } ); $i++) {
+	$this->{rows}->[$i]->{number} = $i + 1;
+    }
+    return $this->render({});
 }
 
 # Action on edit cancelled
@@ -622,30 +633,30 @@ sub generateEditButtons {
     my $buttons = CGI::hidden(-name => 'erp_action', -value => '');
     $buttons .= CGI::a(
         {
-            href  => 'erp_save',
-            title => $NOISY_SAVE,
+            href  => 'saveRow',
+            title => NOISY_SAVE,
 	    class => 'erp_submit ui-icon ui-icon-disk'
         },
-	$NOISY_SAVE
+	NOISY_SAVE
     );
 
     if ( $attrs->{quietsave} ) {
         $buttons .= CGI::image_button(
             {
-                href  => 'erp_quietSave',
-                title => $QUIET_SAVE,
+                href  => 'saveRowQuietly',
+                title => QUIET_SAVE,
                 src   => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/quiet.gif'
             },
-            $QUIET_SAVE
+            QUIET_SAVE
         );
     }
     $buttons .= CGI::a(
         {
             href  => 'erp_cancel',
-            title => $CANCEL_ROW,
+            title => CANCEL_ROW,
 	    class => 'erp_submit ui-icon ui-icon-cancel'
         },
-        $CANCEL_ROW
+        CANCEL_ROW
     );
 
     if ( $this->{attrs}->{changerows} ) {
@@ -654,40 +665,40 @@ sub generateEditButtons {
             if ( !$topRow ) {
                 $buttons .= CGI::a(
                     {
-                        href  => 'erp_upRow',
-                        title => $UP_ROW,
+                        href  => 'upRow',
+                        title => UP_ROW,
 			class => 'erp_submit ui-icon ui-icon-arrow-1-n'
                     },
-		    $UP_ROW
+		    UP_ROW
                 );
             }
             if ( !$bottomRow ) {
                 $buttons .= CGI::a(
                     {
-                        href  => 'erp_downRow',
-                        title => $DOWN_ROW,
+                        href  => 'downRow',
+                        title => DOWN_ROW,
  			class => 'erp_submit ui-icon ui-icon-arrow-1-s'
                     },
-		    $DOWN_ROW
+		    DOWN_ROW
                 );
             }
         }
         $buttons .= CGI::a(
             {
-                href  => 'erp_addRow',
-                title => $ADD_ROW,
+                href  => 'addRow',
+                title => ADD_ROW,
                 class => 'erp_submit ui-icon ui-icon-plusthick'
             },
-	    $ADD_ROW
+	    ADD_ROW
         );
 
         $buttons .= CGI::a(
             {
-                href  => 'erp_deleteRow',
+                href  => 'deleteRow',
                 class => 'editRowPlugin_willDiscard erp_submit ui-icon ui-icon-minusthick',
-                title => $DELETE_ROW
+                title => DELETE_ROW
             },
-	    $DELETE_ROW
+	    DELETE_ROW
         );
     }
     return $buttons;
@@ -744,7 +755,7 @@ Generate a TML representation of the table
 ---++ render() -> $text
 Render the table for display or edit. Standard TML is used to construct the table.
 
----++ changeRow(\%urps)
+---++ saveRow(\%urps)
 Commit changes from the query into the table.
    * $urps - url parameters
 

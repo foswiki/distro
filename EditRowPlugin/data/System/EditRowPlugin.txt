@@ -6,7 +6,7 @@ One line description, required for extensions repository catalog.
 
 %SHORTDESCRIPTION%
 
-<img src="%ATTACHURLPATH%/screenshot.gif" alt="screenshot.gif" style="float:right" />
+<img src="%ATTACHURLPATH%/screenshot1.png" alt="" style="float:right" />
 
 %TOC%
 
@@ -92,7 +92,7 @@ Parameters:
      editing very wide tables much easier. Has no effect in whole table
      editing mode.
    * ==helptopic== Topic name containing help text shown when editing a table. The [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]] markers can be used in the topic to specify what is shown. Note that newlines are removed from the included text so the that text can be used inside a table.
-   * ==requirejs== "on" or "off" depending on whether the plugin should require Javascript in the browser or not. This is a local version of the global EDITROWPLUGIN_REQUIRE_JS switch described below.
+   * ==require_js== "on" or "off" depending on whether the plugin should require Javascript in the browser or not. This is a local version of the global EDITROWPLUGIN_REQUIRE_JS switch described below.
 Table rows are shown with a row edit button %ICON{edittopic}% in the first column,
 and a table edit button <img src="%ATTACHURLPATH%/edittable.gif" /> after the
 table. When the table is
@@ -128,7 +128,7 @@ then="enabled in this site. Click on the buttons to try it out."}%
 | 3 | Self-eating burritos | ongoing | :-D | 1 Apr 2008 | 
 | 4 | Unified field theory | completed | :-) | 1 Apr 2012 |
 </verbatim>
-<img src="%ATTACHURLPATH%/screenshot.gif" alt='Example 2' />
+<img src="%ATTACHURLPATH%/screenshot1.png" alt='Example 2' />
 
 ---+++ Example 2
 <verbatim>
@@ -161,6 +161,12 @@ then="enabled in this site. Click on the buttons to try it out."}%
 | City: | New York |
 </verbatim>
 <img src="%ATTACHURLPATH%/example5.gif" alt='Example 4'/>
+
+---+++ Javascript Editing
+<img src="%ATTACHURLPATH%/screenshot2.png" style="float:right" />
+When a table is editable and Javascript is enabled, then each individual table
+cell can be clicked on to open an in-place editor. The table can also be
+manually sorted using drag-and-drop (though beware that a =TABLE= tag with an =initsort= will override this). Also, table columns can be sorted in the browser, by clicking the heading above the row.
 
 ---++ Preferences
 The plugin interprets a couple of [[%SYSTEMWEB%.Macros][preferences]], in common with the !EditTablePlugin.
@@ -205,23 +211,24 @@ The handler accepts the following parameters:
    * =erp_active_table= the table to be changed (numbered from 1)
    * =erp_active_row= - the row to be changed (numbered from 1, or -1 for the whole table)
    * =erp_active_format= - the =format= parameter from the =EDITTABLE= tag
-   * =erp_save.x= - if nonzero, this is a save
-   * =erp_quietSave.x= - if nonzero, this is a quietsave
-   * =erp_upRow.x= - if nonzero, this is a row move
-   * =erp_downRow.x= - if nonzero, this is a  row move
-   * =erp_deleteRow.x= - if nonzero, this is a row deletion
-   * =erp_cancel.x= - if nonzero, this is a cancel
-   * =erp_noredirect= - if set, suppresses the redirect and gets a status code instead
+   * =saveRow.x= - if nonzero, this is a save
+   * =saveRowQueitly.x= - if nonzero, this is a quietsave
+   * =upRow.x= - if nonzero, this is a row move
+   * =downRow.x= - if nonzero, this is a  row move
+   * =deleteRow.x= - if nonzero, this is a row deletion
+   * =cancel.x= - if nonzero, this is a cancel
+   * =noredirect= - if set, suppresses the redirect and gets a status code instead
 The value of each individual cell is stored in a parameter called =erp_&lt;table>_&lt;row>_&lt;column>=
 
 ---++ Plugin Info
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
-|  Plugin Author(s): | Crawford Currie http://c-dot.co.uk |
-|  Plugin Version: | %$VERSION% |
-|  Copyright: | &copy; 2007 Wind<nop>River Inc. |
+|  Author(s): | Crawford Currie http://c-dot.co.uk |
+|  Version: | %$VERSION% |
+|  Copyright: | &copy; 2007-2011 Wind<nop>River Inc. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  14 Feb 2011 | Foswiki:Tasks/Item5618: Foswiki:Tasks/Item5714: Foswiki:Tasks/Item5715: row moves and single-cell edits are now done client-side as much as possible. Row moves are drag and drop. Using JS lets us maintain the column numbering so that other plugins still work (e.g. table plugin init sort) as well as being a lot faster. |
 |  2 Feb 2011 | Foswiki:Tasks/Item2016: doesn't save "0" in table cells; fixed.Foswiki:Tasks/Item2229: needs better headings support; fixed. Foswiki:Tasks/Item1186: textarea newlines are not saved with whitespace around br; fixed. Foswiki:Tasks/Item9091: orientrowedit=vertical does not show the header labels; fixed. Foswiki:Tasks/Item9775: missing section headings from Config.spec; fixed. |
 |  24 Feb 2009 | Foswikitask:Item1139: fixed restoration of labels after an edit Foswikitask:Item1140: fixed loading of multi-valued parameters |
 |  15 Feb 2009 | Foswikitask:Item451: ported to foswiki Foswikitask:Item5757: not respecting footer rows when saving Foswikitask:Item5681: help not fully rendered before inclusion in a TML table Foswikitask:Item1086: Macros were being expanded before editing Foswikitask:Item5924: refactor for reusability |

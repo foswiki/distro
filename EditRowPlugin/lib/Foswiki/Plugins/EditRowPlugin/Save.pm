@@ -10,7 +10,7 @@ use Foswiki;
 use Foswiki::Func();
 
 # REST handler for table row edit save with redirect on completion.
-# The erp_noredirect URL parameter can be passed to prevent
+# The noredirect URL parameter can be passed to prevent
 # the redirection. If it is set, the request will respond with a 500
 # status code with a human readable message. This allows the handler
 # to be used by Javascript table editors.
@@ -23,7 +23,7 @@ sub process {
         return undef;
     }
 
-    my $ajax = $query->param('erp_noredirect');
+    my $ajax = $query->param('noredirect');
 
     my $active_topic = $query->param('erp_active_topic');
     $active_topic =~ /(.*)/;
@@ -78,32 +78,32 @@ sub process {
 
 	# Dispatch whichever button was pressed
 	my $clicked = $query->param('erp_action') || '';
-        if ( $clicked eq 'erp_save' ) {
-            $action    = 'changeRow';
+        if ( $clicked eq 'saveRow' ) {
+            $action    = 'saveRow';
             $no_return = 1;
         }
-        elsif ( $clicked eq 'erp_saveCell' ) {
-            $action    = 'changeCell';
+        elsif ( $clicked eq 'saveCell' ) {
+            $action    = 'saveCell';
             $no_return = 1;
         }
-        elsif ( $clicked eq 'erp_quietSave' ) {
-            $action    = 'changeRow';
+        elsif ( $clicked eq 'saveRowQuietly' ) {
+            $action    = 'saveRow';
             $minor     = 1;
             $no_return = 1;
         }
-        elsif ( $clicked eq 'erp_upRow' ) {
-            $action = 'moveUp';
+        elsif ( $clicked eq 'upRow' ) {
+            $action = 'upRow';
         }
-        elsif ( $clicked eq 'erp_downRow' ) {
-            $action = 'moveDown';
+        elsif ( $clicked eq 'downRow' ) {
+            $action = 'downRow';
         }
-        elsif ( $clicked eq 'erp_addRow' ) {
+        elsif ( $clicked eq 'addRow' ) {
             $action = 'addRow';
         }
-        elsif ( $clicked eq 'erp_moveRow' ) {
+        elsif ( $clicked eq 'moveRow' ) {
             $action = 'moveRow';
         }
-        elsif ( $clicked eq 'erp_deleteRow' ) {
+        elsif ( $clicked eq 'deleteRow' ) {
             $action = 'deleteRow';
         }
         else {

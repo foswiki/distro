@@ -28,8 +28,6 @@ sub process {
 
     return 0 if Foswiki::Func::getPreferencesFlag('EDITROWPLUGIN_DISABLE');
 
-    my $require_js = Foswiki::Func::getPreferencesFlag('EDITROWPLUGIN_REQUIRE_JS');
-
     Foswiki::Plugins::JQueryPlugin::registerPlugin(
 	'EditRow',
 	'Foswiki::Plugins::EditRowPlugin::JQuery');
@@ -91,7 +89,7 @@ sub process {
                 && $urps->{erp_active_table} eq "${macro}_$active_table" ) {
 
                 my $active_row = $urps->{erp_active_row};
-		unless ($require_js) {
+		unless ($table->{attrs}->{require_js}) {
 		    my $saveUrl = $_->getSaveURL();
 		    $line .= CGI::start_form(
 			-method => 'POST',
@@ -135,15 +133,13 @@ sub process {
                 }
                 $line .= "\n"
                   . $table->render({ for_edit => 1,
-				     require_js => $require_js,
 				     active_row => $active_row,
 				     real_table => $real_table }) . "\n";
-                $line .= CGI::end_form() unless $require_js;
+                $line .= CGI::end_form() unless $table->{attrs}->{require_js};
                 $needHead = 1;
             }
             else {
-                $line = $table->render({ with_controls => !$displayOnly,
-					 require_js => $require_js });
+                $line = $table->render({ with_controls => !$displayOnly });
             }
 
             $table->finish();

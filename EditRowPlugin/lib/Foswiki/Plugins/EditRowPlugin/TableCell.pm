@@ -163,7 +163,7 @@ sub can_edit {
 sub getSaveURL {
     my ($this, %more) = @_;
     return $this->{row}->getSaveURL(
-	erp_noredirect => 1,
+	noredirect => 1,
 	erp_active_col => $this->{number}, %more);
 }
 
@@ -172,7 +172,7 @@ __END__
 
 Author: Crawford Currie http://c-dot.co.uk
 
-Copyright (c) 2009 Foswiki Contributors
+Copyright (c) 2009-2011 Foswiki Contributors
 Copyright (C) 2007 WindRiver Inc. and TWiki Contributors.
 All Rights Reserved. Foswiki Contributors are listed in the
 AUTHORS file in the root of this distribution.
@@ -191,22 +191,5 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 Do not remove this copyright notice.
 
 This is an object that represents a single cell in a table.
-
-=pod
-
----++ new(\$row, $cno)
-Constructor
-   * \$row - pointer to the row
-   * $cno - what cell number this is (start at 1)
-
----++ finish()
-Must be called to dispose of the object. This method disconnects internal pointers that would
-otherwise make a Table and its rows and cells self-referential.
-
----++ stringify()
-Generate a TML representation of the cell
-
----++ render -> $text
-Render the cell for display or edit. Standard TML is used to construct the table.
 
 =cut
