@@ -112,6 +112,7 @@ optionally the $meta parameter can be used to add that to the cache - useful if 
 sub get {
     my ( $this, $web, $topic, $meta ) = @_;
     ASSERT( $meta->isa('Foswiki::Meta') ) if ( defined($meta) and DEBUG );
+    ASSERT( defined($meta->{_loadedRev}) ) if ( defined($meta) and DEBUG );
 
     if ( !defined($topic) ) {
 

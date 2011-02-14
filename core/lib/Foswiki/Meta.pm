@@ -950,7 +950,7 @@ See =getLoadedRev= to determine what revision is currently being viewed.
      load the latest rev. If the revision is in range but does not exist,
      then will return an unloaded meta object (getLoadedRev() will be undef)
 
-Returns the version identifier for the loaded revision.
+Returns the version identifier for the loaded revision. (and undef if it failed to load)
 
 WARNING: see notes on revision numbers under =getLoadedRev=
 
@@ -965,7 +965,11 @@ sub loadVersion {
     if ( !defined $rev || !$rev ) {
 
         # Trying to load the latest
-        return if $this->{_latestIsLoaded};
+        if ($this->{_latestIsLoaded}) {
+            ASSERT(defined($this->{_loadedRev})) if DEBUG;
+            ASSERT($rev == $this->{_loadedRev}) if DEBUG;
+            return;
+        }
         ASSERT( !defined( $this->{_loadedRev} ) ) if DEBUG;
     }
     elsif ( defined( $this->{_loadedRev} ) ) {
@@ -978,15 +982,21 @@ sub loadVersion {
 
     # Is it already loaded?
     ASSERT( !($rev) or $rev =~ /^\s*\d+\s*/ ) if DEBUG;    # looks like a number
-    return if ( $rev && $this->{_loadedRev} && $rev == $this->{_loadedRev} );
+    return $this->{_loadedRev} if ( $rev && $this->{_loadedRev} && $rev == $this->{_loadedRev} );
+
+    ASSERT(not defined($this->{_loadedRev})) if DEBUG;
+    
     ( $this->{_loadedRev}, $this->{_latestIsLoaded} ) =
       $this->{_session}->{store}->readTopic( $this, $rev );
+    if (defined($this->{_loadedRev})) {
+        # Make sure text always has a value once loadVersion has been called
+        # once.
+        $this->{_text} = '' unless defined $this->{_text};
 
-    # Make sure text always has a value once loadVersion has been called
-    # once.
-    $this->{_text} = '' unless defined $this->{_text};
-
-    $this->addDependency();
+        $this->addDependency();
+    }
+    
+    return $this->{_loadedRev};
 }
 
 =begin TML

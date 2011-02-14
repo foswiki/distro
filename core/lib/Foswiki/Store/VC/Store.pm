@@ -80,7 +80,9 @@ sub readTopic {
     my ( $this, $topicObject, $version ) = @_;
 
     my ($gotRev, $isLatest) =  $this->askListeners($topicObject);
-    return ($gotRev, $isLatest) if $gotRev;
+    if (defined($gotRev) and ($gotRev > 0)) {
+        return ($gotRev, $isLatest) 
+    }
 
     my $handler = $this->getHandler($topicObject);
     $isLatest = 0;
@@ -93,7 +95,9 @@ sub readTopic {
     }
 
     (my $text, $isLatest) = $handler->getRevision($version);
-    return (undef, $isLatest) unless defined $text;
+    unless (defined $text) {
+        return (undef, $isLatest) 
+    }
 
     $text =~ s/\r//g;    # Remove carriage returns
     $topicObject->setEmbeddedStoreForm($text);
@@ -150,7 +154,8 @@ sub readTopic {
         $topicObject->putAll( 'FILEATTACHMENT', @validAttachmentsFound )
           if @validAttachmentsFound;
     }
-
+    
+    ASSERT(defined($gotRev)) if DEBUG;
     return ($gotRev, $isLatest);
 }
 
