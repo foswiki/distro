@@ -39,6 +39,8 @@ my %STRINGOPMAP = (
     '>=' => 'ge'
 );
 
+my $MAXINT = 0x7FFFFFFF;
+
 =begin TML
 
 ---++ ClassMethod new( %opts ) 
@@ -187,14 +189,14 @@ sub studyInstallation {
         return 1 if ( $this->_recover_versions($path) );
         return;
     }
-    elsif ( $load_errors =~ m/^Died/) {
+    elsif ( $load_errors =~ m/^Died/ ) {
         $this->{notes} = "module died with errors when loaded";
         print STDERR
 "Unexpected errors attempting to determine version of dependency\n$load_errors\n";
         return 1 if ( $this->_recover_versions($path) );
         return;
     }
-    elsif ( $load_errors ) {
+    elsif ($load_errors) {
         $this->{notes} = "Unknown errors loading module";
         print STDERR
 "Unexpected errors attempting to determine version of dependency\n$load_errors\n";
@@ -269,9 +271,13 @@ sub _recover_versions {
 sub compare_versions {
     my $this = shift;
     if ( $this->{type} eq 'perl' ) {
+
+        #print STDERR "Comparing TYPE PERL\n";
         return $this->_compare_extension_versions(@_);
     }
     else {
+
+        #print STDERR "Comparing TYPE cpan\n";
         return $this->_compare_cpan_versions(@_);
     }
 }
@@ -391,140 +397,215 @@ s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$M2N{ lc($2) }.$separator
 }
 
 # Compare foswiki extension versions using more rigorous rules
+# Returns true if the condition is true, false if not true, or invalid comparison
 sub _compare_extension_versions {
 
     # $aRELEASE, $aVERSION - module release and svn version
-    # $b - what we are comparing to (from DEPENDENCIES)
-    my ( $this, $op, $b ) = @_;
+    # $b - what we are comparing to (from DEPENDENCIES or configure FastReport)
+    my ( $this, $op, $reqVer ) = @_;
 
     my $aRELEASE = $this->{installedRelease};
     my $aVERSION = $this->{installedVersion};
 
-    return 0 if not defined $op or not exists $STRINGOPMAP{$op};
+    # If the operator is not defined, or invalid, return false
+    if ( not defined $op or not exists $STRINGOPMAP{$op} ) {
+        $op = '"undefined"' unless defined $op;
+
+        #print STDERR "Unknown Operator $op \n";
+        return 0;
+    }
+
     my $string_op = $STRINGOPMAP{$op};
     my $e         = $b;
-
-    # remove leading and trailing whitespace
-    # because ' X' should compare equal to 'X'
-    $b =~ s/^\s+//;
-    $b =~ s/\s+$//;
-
-    # What format is the version identifier? We support comparison
-    # of four formats:
-    # 1. A simple number (subversion revision). Also support $Rev$
-    # 2. A dd Mmm yyyy format date
-    # 3. An ISO yyyy-mm-dd format date
-    # 4. A tuple N(.M)+
 
     # First see what format the RELEASE string is in, and break it
     # down into a tuple (most significant first)
     my @atuple;
     my @btuple;
-    my $expect = 'svn';
-    my $maxInt = 0x7FFFFFFF;
+    my $baseType = '';    # Type of version/release string for this module
+    my $reqType  = '';    # Type of version/release string requested
+
     if ( defined $aRELEASE ) {
-        $aRELEASE =~ s/^\s+//;
-        $aRELEASE =~ s/\s+$//;
-        if ( $aRELEASE =~ /^(\d{4})-(\d{2})-(\d{2}).*$/ ) {
 
-            # ISO date
-            @atuple = ( $1, $2, $3 );
-            $expect = 'date';
-        }
-        elsif ( $aRELEASE =~ /^(\d+)\s+($MNAME)\s+(\d+).*$/io ) {
+        #print STDERR "Release $aRELEASE defined\n";
+        ( $baseType, @atuple ) = _decodeReleaseString($aRELEASE);
+    }
+    elsif ( defined $aVERSION ) {
 
-            # dd Mmm YYY date
-            @atuple = ( $3, $M2N{ lc $2 }, $1 );
-            $expect = 'date';
-        }
-        elsif ( $aRELEASE =~ s/^V?(\d+([-_.]\d+)*).*?$/$1/i ) {
+        # for some reason, no Release defined, fall back to the Version.
+        #print STDERR "Version $aVERSION defined\n";
+        ( $baseType, @atuple ) =
+          _decodeReleaseString($aVERSION);    # if defined $aVERSION;
+    }
+    else {
 
-            # tuple e.g. 1.23.4
-            @atuple = split( /[-_.]/, $aRELEASE );
-            $expect = 'tuple';
-        }
-        else {
-            print STDERR
-              "Warning: $this->{name} has badly formatted RELEASE: $aRELEASE\n";
-
-            # otherwise format not recognised; fall through to using $aVERSION
-        }
+        #print STDERR "Neither RELEASE or VERSION defined\n";
+        return 0;
     }
 
-# SMELL:  Deal with poorly written DEPENDENCY files that compare for SVN release number.
-    $expect = 'svn'
-      if ( $b =~ m/^[0-9]{4,5}$/ )
-      ;    # If we are looking for a 4 digit number, assume SVN
+    unless ( defined $reqVer ) {
 
-    if ( $b =~ m/^r([0-9]){1,6}$/ )
-    {      # If we are looking for a r followed by 1-6 digit number, compare SVN
-        $b      = $1;      # Strip the leading r
-        $expect = 'svn'    # And force SVN comparison
+        #print STDERR "Comparison not defined\n";
+        return 0;
     }
 
-    if ( $expect eq 'svn' ) {
+    ( $reqType, @btuple ) = _decodeReleaseString($reqVer);
 
-        # Didn't get a good RELEASE; fall back to subversion
-        return 0 unless defined $aVERSION;
-        $aVERSION =~ s/^\s+//;
-        $aVERSION =~ s/\s+$//;
-        $aVERSION =~ s/^\$Rev: (\d+).*\$$/$1/;
-        $aVERSION =~ s/^\$Rev:?.*\$$/$maxInt/;
-        @atuple = ( $aVERSION || 0 );
+    #print STDERR "EXPECT $baseType $string_op BEXPECT $reqType \n";
 
-        # $Rev$
-        $b =~ s/^\$Rev:?\s*\$.*$/$maxInt/;
+# Requested version is a svn release,  Need to use VERSION instead of RELEASE stirng
+    if ( $reqType eq 'svn' ) {
 
-        # $Rev: 1234$
-        $b =~ s/^\$Rev: (\d+) \$.*$/$1/;
+        #print STDERR "Expecting SVN comparison, but RELEASE was $baseType \n";
+        ( $baseType, @atuple ) = _decodeReleaseString($aVERSION)
+          if ( defined $aVERSION && $baseType ne 'svn' );
+        return 0 unless ( $baseType eq 'svn' );
 
-        # 1234 (7 Aug 2009)
-        # 1234 (2009-08-07)
-        $b =~ s/^(\d+)\s*\(.*\)$/$1/;
+    }
 
-        unless ( $b =~ /^\d+$/ ) {
-            print STDERR
-"Warning: $this->{name} has badly formatted svn id in DEPENDENCIES: $e\n";
+    # See if request is for anything > 0.  If so, return true.
+    if (   $reqType eq 'tuple'
+        && scalar @btuple == 1
+        && $btuple[0] == 0
+        && $string_op eq 'gt' )
+    {
+
+        #print STDERR "'SPECIAL CASE - zero expected just means present\n";
+        return 1;
+    }
+
+    # special handling for dates.
+    if ( $reqType eq 'date' || $baseType eq 'date' ) {
+
+      # special case,  if requested tuple, and installed date,  this is probably
+      # a migration to a version tuple, so return true to trigger an update
+        return 1
+          if ( $reqType eq 'tuple'
+            && $baseType  eq 'date'
+            && $string_op eq 'gt' );
+
+        if ( $reqType ne $baseType ) {
+
+       #print STDERR "Mismatch types - cannot compare $baseType to $reqType \n";
             return 0;
         }
-        @btuple = ($b);
-    }
-    elsif ( $expect eq 'date' ) {
-        if ( $b =~ /^(\d{4})-(\d{2})-(\d{2}).*$/ ) {
 
-            # ISO date
-            @btuple = ( $1, $2, $3 );
-        }
-        elsif ( $b =~ /^(\d+)\s+($mnamess)\s+(\d+).*$/io ) {
+        if ( scalar @btuple != scalar @atuple || scalar @btuple != 3 ) {
 
-            # dd Mmm YYY date
-            @btuple = ( $3, $M2N{ lc $2 }, $1 );
+            #print STDERR "Incorrectly formatted date in $aRELEASE or $b\n";
         }
-        elsif ( $b =~ /^\d+$/ ) {
-            @btuple = ($b);    # special case
-        }
-        else {
-            print STDERR
-"Warning: $this->{name} has badly formatted date in DEPENDENCIES: $e\n";
-            return 0;
-        }
+
+        # Simple validations - grossly invalid year, month or day.
+        return 0 if ( $atuple[0] < 1970 || $btuple[0] < 1970 );
+        return 0 if ( $atuple[1] > 12   || $btuple[1] > 12 );
+        return 0 if ( $atuple[1] < 1    || $btuple[1] < 1 );
+        return 0 if ( $atuple[2] > 31   || $btuple[2] > 31 );
+        return 0 if ( $atuple[2] < 1    || $btuple[2] < 1 );
     }
-    elsif ( $expect eq 'tuple' ) {
-        if ( $b =~ s/^[Vv]?(\d+([-._]\d+)*).*?$/$1/ ) {
-            @btuple = split( /[-._]/, $b );
-        }
-        else {
-            print STDERR
-"Warning: $this->{name} has badly formatted tuple in DEPENDENCIES: $e\n";
-            return 0;
-        }
-    }
+
+    # We can't figure out the types, so just return false.
+    return 0 if ( $baseType eq 'unknown' || $reqType eq 'unknown' );
+
+    # Do the comparisons
     ( my $a, $b ) = _digitise_tuples( \@atuple, \@btuple );
     my $comparison = "'$a' $string_op '$b'";
     my $result     = eval $comparison;
 
     #print "[$comparison]->$result\n";
     return $result;
+}
+
+#  Returns the type of the passed string
+#
+# What format is the release identifier? We support comparison
+# of five formats:
+# 1. A simple number (subversion revision).
+# 2  Encoded SVN $Rev$ formats
+# 3. A dd Mmm yyyy format date
+# 4. An ISO yyyy-mm-dd format date
+# 5. A tuple N(.M)+
+
+# SVN Versions should always be an SVN release number
+# coded in 3 formats
+# 1. $Rev: <some number> $
+# 2. $Rev: <some number> (date)$   (Date is ignored)
+# 3. $Rev$ An unassigned Rev indicating a SVN checkout.
+
+sub _decodeReleaseString {
+
+    my ($rel) = @_;
+    my $form;
+    my @tuple;
+
+    $rel =~ s/^\s+//;
+    $rel =~ s/\s+$//;
+
+    if ( $rel =~ /^(\d{4})-(\d{2})-(\d{2}).*$/ ) {
+
+        # ISO date
+        @tuple = ( $1, $2, $3 );
+        $form = 'date';
+    }
+    elsif ( $rel =~ /^(\d+)\s+($MNAME)\s+(\d+).*$/io ) {
+
+        # dd Mmm YYY date
+        @tuple = ( $3, $M2N{ lc $2 }, $1 );
+        $form = 'date';
+    }
+    elsif ( $rel =~ /^([0-9]{4,5})$/ ) {
+
+        #print STDERR "matching a svn VERSION\n";
+        # svn rev,  4-5 digit number
+        @tuple = ($1);
+        $form  = 'svn';
+    }
+    elsif ( $rel =~ /^r([0-9]{1,6})$/ ) {
+
+        # svn rev, a 1-6 digit number prefixed by 'r'
+        @tuple = ($1);
+        $form  = 'svn';
+    }
+    elsif ( $rel =~ /^V?(\d+([-_.]\d+)*).*?$/i ) {
+
+     # tuple e.g. 1.23.4   Note that a simple tuple could also be a low SVN rev.
+        @tuple = split( /[-_.]/, $1 );
+        $form = 'tuple';
+    }
+    elsif ( $rel =~ /^\$Rev: (\d+)\s*\(.*\)$/ ) {
+
+        # 1234 (7 Aug 2009)
+        # 1234 (2009-08-07)
+        @tuple = ($1);
+        $form  = 'svn';
+    }
+    elsif ( $rel =~ /^\$Rev: (\d+).*\$$/ ) {
+
+        # $Rev: 1234$
+        @tuple = ($1);
+        $form  = 'svn';
+    }
+    elsif ( $rel =~ /^\$Rev:?\s*\$.*$/ ) {
+
+        # $Rev$
+        @tuple = ($MAXINT);
+        $form  = 'svn';
+    }
+    elsif ( $rel =~ /^\s?$/ ) {
+
+        # Blank or empty version
+        @tuple = (0);
+        $form  = 'tuple';
+    }
+    else {
+
+        # Some other format
+        @tuple = (0);
+        $form  = 'unknown';
+    }
+
+    #print STDERR "RELEASE $rel decodes as $form, @tuple \n";
+
+    return ( $form, @tuple );
 }
 
 # Given two tuples, convert them both into number strings, padding with
