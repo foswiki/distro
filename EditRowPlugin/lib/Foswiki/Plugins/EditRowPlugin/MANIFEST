@@ -26,12 +26,14 @@ pub/System/EditRowPlugin/arrowup.gif 0777
 pub/System/EditRowPlugin/edittable.gif 0777
 pub/System/EditRowPlugin/edittopic.gif 0777
 pub/System/EditRowPlugin/erp.js 0777
+pub/System/EditRowPlugin/erp.css 0777
 pub/System/EditRowPlugin/erp_src.css 0644
 pub/System/EditRowPlugin/erp.js 0777
 pub/System/EditRowPlugin/erp_src.js 0777
 pub/System/EditRowPlugin/example3.gif 0777
 pub/System/EditRowPlugin/example4.gif 0777
 pub/System/EditRowPlugin/example5.gif 0777
+pub/System/EditRowPlugin/jquery.jeditable.js 0644
 pub/System/EditRowPlugin/jquery.jeditable_src.js 0644
 pub/System/EditRowPlugin/minus.gif 0777
 pub/System/EditRowPlugin/plus.gif 0777

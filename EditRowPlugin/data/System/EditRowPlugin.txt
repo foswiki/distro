@@ -228,6 +228,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2011 Wind<nop>River Inc. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 Feb 2011 | Foswiki:Tasks/Item10354: Re-release with corrected manifest |
 |  14 Feb 2011 | Foswiki:Tasks/Item5618: Foswiki:Tasks/Item5714: Foswiki:Tasks/Item5715: row moves and single-cell edits are now done client-side as much as possible. Row moves are drag and drop. Using JS lets us maintain the column numbering so that other plugins still work (e.g. table plugin init sort) as well as being a lot faster. |
 |  2 Feb 2011 | Foswiki:Tasks/Item2016: doesn't save "0" in table cells; fixed.Foswiki:Tasks/Item2229: needs better headings support; fixed. Foswiki:Tasks/Item1186: textarea newlines are not saved with whitespace around br; fixed. Foswiki:Tasks/Item9091: orientrowedit=vertical does not show the header labels; fixed. Foswiki:Tasks/Item9775: missing section headings from Config.spec; fixed. |
 |  24 Feb 2009 | Foswikitask:Item1139: fixed restoration of labels after an edit Foswikitask:Item1140: fixed loading of multi-valued parameters |

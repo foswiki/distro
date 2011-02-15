@@ -115,24 +115,6 @@
 	}
     });
 
-    // $.metadata() ignoring the cache
-    $.fn.myMeta = function() {
- 	var oc = $(this).attr("class");
-	var m = /({.*})/.exec(this.attr("class"));
-	if (!m) return null;
-	return eval('(' + m[1] + ')');
-    }
-
-     var setMetadata = function(e, keys, v) {
-	var obj = $(e).myMeta();
-	var i, fld = obj;
-	for (i = 0; i < keys.length - 1; i++)
-	    fld = fld[keys[i]];
-	fld[keys[keys.length - 1]] = v;
-	var oc = $(e).attr("class");
-	$(e).attr("class", oc.replace(/{.*}/, $.toJSON(obj)));
-    };
-
     var makeDraggable = function(tr) {
 	// only once per row
 	var dragee, container, rows;
@@ -158,8 +140,8 @@
 		edge = (posY < target.height() / 2)
 		    ? 'top' :'bottom';
 	    }
-	    var old_pos = dragee.myMeta().erp_data.erp_active_row;
-	    var new_pos = target.myMeta().erp_data.erp_active_row;
+	    var old_pos = dragee.metadata().erp_data.erp_active_row;
+	    var new_pos = target.metadata().erp_data.erp_active_row;
 	    if (edge == 'bottom')
 		new_pos++;
 	    
@@ -169,7 +151,7 @@
 	    // Send the good news to the server
 	    dragee.fadeTo("slow", 0.0); // to show it's being moved
 	    container.css("cursor", "wait");
-	    var p = $(this).myMeta();
+	    var p = $(this).metadata();
 	    p.erp_data.erp_action = 'moveRow';
 	    p.erp_data.old_pos = old_pos;
 	    p.erp_data.new_pos = new_pos;
@@ -265,7 +247,7 @@
 	    if (!tr.hasClass('ui-draggable'))
 		makeDraggable(tr);
 
-	    var p = $(this).myMeta();
+	    var p = $(this).metadata();
 
 	    if (!p.type || p.type == 'label')
 		return;
@@ -288,7 +270,7 @@
 	    // attribute, because
 	    // the row index may change if rows are moved/added/deleted
 	    p.submitdata = function(value, settings) {
-		var sd = $(this).myMeta().erp_data;
+		var sd = $(this).metadata().erp_data;
 		sd.erp_action = 'saveCell';
 		return sd;
 	    }
@@ -296,7 +278,7 @@
             if (p.type == "text" || p.type == "textarea") {
 		// Add changed text (unexpanded) to meta
 		p.callback = function(value, settings) {   
-		    setMetadata($(this), ['data'], value);
+		    $.data($(this), 'data', value);
 		};
 	    }
 
