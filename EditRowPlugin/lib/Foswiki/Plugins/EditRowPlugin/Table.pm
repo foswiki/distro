@@ -633,7 +633,7 @@ sub generateEditButtons {
     my $buttons = CGI::hidden(-name => 'erp_action', -value => '');
     $buttons .= CGI::a(
         {
-            href  => 'saveRow',
+            href  => '#saveRow',
             title => NOISY_SAVE,
 	    class => 'erp_submit ui-icon ui-icon-disk'
         },
@@ -643,7 +643,7 @@ sub generateEditButtons {
     if ( $attrs->{quietsave} ) {
         $buttons .= CGI::image_button(
             {
-                href  => 'saveRowQuietly',
+                href  => '#saveRowQuietly',
                 title => QUIET_SAVE,
                 src   => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/quiet.gif'
             },
@@ -652,7 +652,7 @@ sub generateEditButtons {
     }
     $buttons .= CGI::a(
         {
-            href  => 'erp_cancel',
+            href  => '#erp_cancel',
             title => CANCEL_ROW,
 	    class => 'erp_submit ui-icon ui-icon-cancel'
         },
@@ -665,7 +665,7 @@ sub generateEditButtons {
             if ( !$topRow ) {
                 $buttons .= CGI::a(
                     {
-                        href  => 'upRow',
+                        ref  => '#upRow',
                         title => UP_ROW,
 			class => 'erp_submit ui-icon ui-icon-arrow-1-n'
                     },
@@ -675,7 +675,7 @@ sub generateEditButtons {
             if ( !$bottomRow ) {
                 $buttons .= CGI::a(
                     {
-                        href  => 'downRow',
+                        href  => '#downRow',
                         title => DOWN_ROW,
  			class => 'erp_submit ui-icon ui-icon-arrow-1-s'
                     },
@@ -685,7 +685,7 @@ sub generateEditButtons {
         }
         $buttons .= CGI::a(
             {
-                href  => 'addRow',
+                href  => '#addRow',
                 title => ADD_ROW,
                 class => 'erp_submit ui-icon ui-icon-plusthick'
             },
@@ -694,7 +694,7 @@ sub generateEditButtons {
 
         $buttons .= CGI::a(
             {
-                href  => 'deleteRow',
+                href  => '#deleteRow',
                 class => 'editRowPlugin_willDiscard erp_submit ui-icon ui-icon-minusthick',
                 title => DELETE_ROW
             },
