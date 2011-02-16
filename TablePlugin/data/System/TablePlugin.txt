@@ -173,11 +173,12 @@ Sort icons in the header are read from System.DocumentGraphics.
 ---++ Plugin Info
 
 %TABLE{columnwidths="10%,90%"}%
-|  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2010 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2011 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  16 Feb 2011 | 1.127: Michael Daum: Foswikitask:Item10357: only emit inline css when there's a foswikiTable on the current page |
 |  18 Aug 2010 | 1.126: Paul harvey: Foswikitask:Item9415: minor documentation changes |
 |  09 Aug 2010 | 1.125: Crawford Currie: Foswikitask:Item8303: fixed sorting with multiple headers |
 |  31 Jul 2010 | 1.124: Arthur Clemens: Added attribute =inlinemarkup= to optionally add HTML markup for better copy/pasting. |
