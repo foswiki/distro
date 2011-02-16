@@ -185,7 +185,6 @@ for element in $(doseq 0 $((${#file_list[@]} - 1))); do
                             echo "WARNING: copied $U/$i over your $I/$i . Revert if wrong"
                         else
                             echo "How do you want to handle conflict: $U/$i ?"
-                            #ls -la $O/$i $U/$i $I/$i
                             select ans in "Merge files" "Keep original" "Use new file"
                             do
                                 echo "Answer $ans "
@@ -228,12 +227,22 @@ if $remove; then
             if test ! -e $U/$i; then
                 if ! cmp -s $i $I/$i; then
                    V $i LOCALLY_MODIFIED, DIST_REMOVED, REMOVE
+                    echo "Warning, file to be removed has been locally modified: $U/$i ?"
+                    echo "How do you want to handle conflict: ?"
+                    select ans in "Keep original" "Remove anyway"
+                    do
+                        echo "Answer $ans "
+                        case $ans in
+                           "Keep original" ) echo "keeping original"; break;;
+                           "Remove anyway" ) echo "removing anyway"; doit rm -v $I/$i; break;;
+                        esac
+                    done
                 else
                    V $i LOCALLY_PRESENT, DIST_REMOVED, REMOVE
-                fi
-                doit rm -v $I/$i
-                if ! $doit; then
-                   echo "$i (remove)"
+                   doit rm -v $I/$i
+                   if ! $doit; then
+                      echo "$i (remove)"
+                   fi
                 fi
             fi
         fi
