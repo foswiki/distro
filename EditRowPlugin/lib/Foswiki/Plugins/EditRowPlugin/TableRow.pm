@@ -134,14 +134,16 @@ sub render {
     my $empties = '|' x ( scalar( @{ $this->{cols} } ) - 1 );
     my @cols = ();
     my $buttons = '';
- 
-    if ($opts->{for_edit} && !$opts->{require_js}) {
+    my $editing = $opts->{for_edit} &&!$opts->{require_js};
+    my $buttons_right = ($this->{table}->{attrs}->{buttons} eq "right");
+
+    if ($editing) {
 	$buttons = $this->{table}->generateEditButtons(
-	    $this->{number}, $opts->{orient} eq 'vertical' );
+	    $this->{number}, $opts->{orient} eq 'vertical' ).$anchor;
 	$addAnchor = 0;
     }
 
-    if ( $opts->{for_edit} && $opts->{orient} eq 'vertical' && !$opts->{require_js}) {
+    if ( $editing && $opts->{orient} eq 'vertical') {
 
         # Each column is presented as a row
         # Number of empty columns at end of each row
@@ -194,9 +196,12 @@ sub render {
 
     if ($opts->{with_controls} && !$opts->{require_js}) {
 	if ($opts->{for_edit}) {
-	    unshift( @cols, $buttons );
+	    if ($buttons_right) {
+		push( @cols, $buttons );
+	    } else {
+		unshift( @cols, $buttons );
+	    }
 	    my $help = $this->{table}->generateHelp();
-	    # If there's help, terminate the current row with a | before adding a new row
 	    push( @cols, "\n", $help, '', $empties) if $help;
 	} else {
 	    my $active_topic =
@@ -211,7 +216,7 @@ sub render {
 		    $text .= $anchor;
 		    $addAnchor = 0;
 		}
-		unshift( @cols, " *$text* " );
+		push( @cols, " *$text* " );
 	    }
 	    else {
 		my $script = 'view';
@@ -233,7 +238,11 @@ sub render {
 		    $button .= $anchor;
 		    $addAnchor = 0;
 		}
-		unshift( @cols, $button );
+		if ($buttons_right) {
+		    push( @cols, $button );
+		} else {
+		    unshift( @cols, $button );
+		}
 	    }
 	    if ($addAnchor) {
 

@@ -132,9 +132,11 @@ sub process {
                     }
                 }
                 $line .= "\n"
-                  . $table->render({ for_edit => 1,
-				     active_row => $active_row,
-				     real_table => $real_table }) . "\n";
+		    . $table->render({
+			for_edit => 1,
+			active_row => $active_row,
+			real_table => $real_table })
+		    . "\n";
                 $line .= CGI::end_form() unless $table->{attrs}->{require_js};
                 $needHead = 1;
             }

@@ -48,16 +48,19 @@ sub new {
 
     $attrs->{headerrows} ||= 0;
     $attrs->{footerrows} ||= 0;
+
     my $disable =
       defined( $attrs->{disable} )
       ? $attrs->{disable}
       : Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_DISABLE');
     $attrs->{disable} = $disable || '';
+
     my $changerows =
       defined( $attrs->{changerows} )
       ? $attrs->{changerows}
       : Foswiki::Func::getPreferencesValue('CHANGEROWS');
     $attrs->{changerows} = Foswiki::Func::isTrue($changerows);
+
     my $q =
       defined( $attrs->{quietsave} )
       ? $attrs->{quietsave}
@@ -68,6 +71,9 @@ sub new {
 	$attrs->{require_js} ||
 	Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_REQUIRE_JS'),
 	0);
+
+    $attrs->{buttons} ||= "left";
+
     $this->{attrs} = $attrs;
 
     return $this;

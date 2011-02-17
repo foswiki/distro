@@ -16,7 +16,6 @@ use CGI            ();
    * =$topic= - topic
    * =$meta= - meta-data for web.topic
    * =$urps= - URL parameter hash, may be undef
-   * =$macro= - name of macro; defaults to EDITTABLE if undef
    * =$table_class= - name of table factory class. Defaults to
      Foswiki::Plugins::EditRowPlugin::Table
 
