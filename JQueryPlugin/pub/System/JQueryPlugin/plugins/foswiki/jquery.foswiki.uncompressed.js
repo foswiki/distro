@@ -155,18 +155,5 @@ if (foswiki.preferences === undefined) {
   $(function() {
     /* Remove 'has no javascript' class from body element (written in template). */
     $('body').removeClass('foswikiNoJs').addClass("foswikiJs");
-    
-    /* Focus to form input elements with class foswikiFocus
-	*/
-	$('input.foswikiFocus').livequery(function() {
-      var $this = $(this);
-      window.setTimeout(function() {
-        try {
-          $this.focus();
-        } catch (error) {
-          // ignore
-        };
-      }, 100);
-    });
   });
 })(jQuery);
