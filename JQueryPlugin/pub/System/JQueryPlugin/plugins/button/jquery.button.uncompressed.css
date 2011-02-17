@@ -32,8 +32,8 @@
 .jqButton:hover {
   color:red;
 }
-.foswikiTopic .jqButton:hover,
-.foswikiTopic .jqButton:active { /* pattern skin */
+.jqButton:hover,
+.jqButton:active { /* pattern skin */
   color:red;
 }
 
