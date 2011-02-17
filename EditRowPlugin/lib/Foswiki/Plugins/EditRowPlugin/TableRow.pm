@@ -127,7 +127,6 @@ sub getSaveURL {
 # require_js - if javascript is required (no non-JS controls)
 sub render {
     my ( $this, $opts ) = @_;
-    my @out;
     my $id        = $this->getID();
     my $addAnchor = 1;
     my $anchor    = '<a name="' . $this->getAnchor() . '"></a> ';
@@ -149,6 +148,7 @@ sub render {
         # Number of empty columns at end of each row
         my $hdrs = $this->{table}->getLabelRow();
         my $col  = 0;
+	my @rows;
         foreach my $cell ( @{ $this->{cols} } ) {
 
             # get the column label
@@ -158,40 +158,42 @@ sub render {
 		col_defs => $opts->{col_defs},
 		in_row => $this,
 		for_edit => 1} );
-            push( @out, "| $hdr|$text$anchor|$empties" );
+
+            push( @rows, "| $hdr|$text$anchor|$empties" );
             $anchor = '';
             $col++;
         }
         if ($opts->{with_controls}) {
-            push( @out, "| $buttons ||$empties" );
+            push( @rows, "| $buttons ||$empties" );
         }
+	# Th edit controls override the with_controls, so simply....
+	return join("\n", @rows);
     }
-    else {
-	# Not for edit, or orientation horizontal, or JS required
-	my $text;
 
-	$opts->{in_row} = $this;
-	foreach my $cell ( @{ $this->{cols} } ) {
+    # Not for edit, or orientation horizontal, or JS required
+    my $text;
 
-	    $text = $cell->render($opts);
+    $opts->{in_row} = $this;
+    foreach my $cell ( @{ $this->{cols} } ) {
 
-	    # Add the row anchor for editing. It's added to the first non-empty
-	    # cell or, failing that, the first cell. This is to minimise the
-	    # risk of breaking up implied colspans.
-	    if ( $addAnchor && !$opts->{require_js} && $text =~ /\S/ ) {
+	$text = $cell->render($opts);
+
+	# Add the row anchor for editing. It's added to the first non-empty
+	# cell or, failing that, the first cell. This is to minimise the
+	# risk of breaking up implied colspans.
+	if ( $addAnchor && !$opts->{require_js} && $text =~ /\S/ ) {
 		
-		# If the cell has *'s, it is seen by TablePlugin as a header.
-		# We have to respect that.
-		if ( $text =~ /^(\s*.*)(\*\s*)$/ ) {
-		    $text = $1 . $anchor . $2;
-		}
-		else {
-		    $text .= $anchor;
-		}
-		$addAnchor = 0;
+	    # If the cell has *'s, it is seen by TablePlugin as a header.
+	    # We have to respect that.
+	    if ( $text =~ /^(\s*.*)(\*\s*)$/ ) {
+		$text = $1 . $anchor . $2;
 	    }
-	    push( @cols, $text );
+	    else {
+		$text .= $anchor;
+	    }
+	    $addAnchor = 0;
 	}
+	push( @cols, $text );
     }
 
     if ($opts->{with_controls} && !$opts->{require_js}) {
@@ -253,10 +255,9 @@ sub render {
 
 		# All cells were empty; we have to shoehorn the anchor into the
 		# final cell.
-		my $cell = $this->{cols}->[-1];
-		pop(@out);
+		my $cell = pop(@cols);
 		$cell->{text} .= $anchor;
-		push( @out, $cell->render( { col_defs => $opts->{col_defs} } ) );
+		push( @cols, $cell->render( { col_defs => $opts->{col_defs} } ) );
 	    }
 	}
     }
