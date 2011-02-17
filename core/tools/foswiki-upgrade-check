@@ -227,16 +227,18 @@ if $remove; then
             if test ! -e $U/$i; then
                 if ! cmp -s $i $I/$i; then
                    V $i LOCALLY_MODIFIED, DIST_REMOVED, REMOVE
-                    echo "Warning, file to be removed has been locally modified: $U/$i ?"
-                    echo "How do you want to handle conflict: ?"
-                    select ans in "Keep original" "Remove anyway"
-                    do
-                        echo "Answer $ans "
-                        case $ans in
-                           "Keep original" ) echo "keeping original"; break;;
-                           "Remove anyway" ) echo "removing anyway"; doit rm -v $I/$i; break;;
-                        esac
-                    done
+                   if $doit; then
+                       echo "Warning, file to be removed has been locally modified: $U/$i ?"
+                       echo "How do you want to handle conflict: ?"
+                       select ans in "Keep original" "Remove anyway"
+                       do
+                           echo "Answer $ans "
+                           case $ans in
+                              "Keep original" ) echo "keeping original"; break;;
+                              "Remove anyway" ) echo "removing anyway"; doit rm -v $I/$i; break;;
+                           esac
+                       done
+                   fi
                 else
                    V $i LOCALLY_PRESENT, DIST_REMOVED, REMOVE
                    doit rm -v $I/$i
