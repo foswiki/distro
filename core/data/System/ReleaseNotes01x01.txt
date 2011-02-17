@@ -151,6 +151,75 @@ ChangeEmailAddress will now guide the user to define the email address in the us
 ---+++ TMPL:DEFs may now access previous (overridden) TMPL:DEF
 SkinTemplates authors are often limited by the fact that =%<nop>TMPL:DEF{"something"}%= statements override whatever DEF may have previously existed in the SKIN path. Now, when overriding these DEFs, SkinTemplates authors may access the previous definition using the new =%<nop>TMPL:PREV%= template token.
 
+---+++ New Logging architecture and location for log files
+The Foswiki logging architecture has been changed to make processing of the "current" logs easier, and the logs have been moved from the =data/= directory into =working/logs=.  The configuration of the logging files have also been updated.  
+
+*If Foswiki detects the presence of the old logging configuration, it will continue to use the old files.  =configure= will issue warnings about the deprecated settings.*
+
+|  *Foswiki 1.0.x*  |  *Foswiki 1.1.x*  ||
+|  *Current & Prior*  |  *Current Month*  |  *Prior Months*  |
+| =foswiki-root/data/logYYYYMM= | =foswiki-root/working/logs/events.log= | =foswiki-root/working/logs/events.YYYYMM= |
+| =foswiki-root/data/warnYYYYMM= | =foswiki-root/working/logs/warn.log= | =foswiki-root/working/logs/warn.YYYYMM= |
+| =foswiki-root/data/error.log= | =foswiki-root/working/logs/error.log= | =foswiki-root/working/logs/error.YYYYMM= |
+| =foswiki-root/data/debug.txt= | =foswiki-root/working/logs/debug.log= | =foswiki-root/working/logs/debug.YYYYMM= | 
+| =foswiki-root/data/configurationlog.txt= | =foswiki-root/working/logs/configure.log= | _The configuratiog log does not roll_  |
+
+---++++ Migration considerations
+
+Foswiki provides two Logger implementations selectable in =configure=.  =Foswiki::Logger::Plainfile= implements the new file naming conventions and locations.  =Foswiki::Logger::Compatibility= uses the old locations and settings.  The Compatibility logger is used if the old file locations are detected in the configuration.
+
+The primary use of the logs by Foswiki is for generation of Statistics. If changing to the new logger ( *strongly recommended* ) it is best to get a full statistics refresh prior to migration. Copy / rename the log files into their new location using the above table as a guide.  Manually edit =lib/LocalSite.cfg= to remove the obsolete parameters, and then run configure to verify the new settings.
+
+---+++++ Logging Configuration 
+
+The 1.0 configuration settings should be manually removed from LocalSite.cfg, and configure then used to verify the new settings.  With 1.1.3, if any of the 1.0 Debug, Warning or Log filenames are found, the "compatibility" logger will be used regardless of the =Implementation= setting.
+<table>
+<tr>
+<td>
+*Foswiki 1.0.x Defaults*
+<verbatim>
+$Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
+$Foswiki::cfg{Log}{view} = 1;
+$Foswiki::cfg{Log}{search} = 1;
+$Foswiki::cfg{Log}{changes} = 1;
+$Foswiki::cfg{Log}{rdiff} = 1;
+$Foswiki::cfg{Log}{edit} = 1;
+$Foswiki::cfg{Log}{save} = 1;
+$Foswiki::cfg{Log}{upload} = 1;
+$Foswiki::cfg{Log}{attach} = 1;
+$Foswiki::cfg{Log}{rename} = 1;
+$Foswiki::cfg{Log}{register} = 1;
+$Foswiki::cfg{ConfigurationLogName} = 'foswiki-root/data/configurationlog.txt';
+$Foswiki::cfg{DebugFileName} = 'foswiki-root/data/debug.txt';
+$Foswiki::cfg{LogFileName} = 'foswiki-root/data/log%DATE%.txt';
+$Foswiki::cfg{WarningFileName} = 'foswiki-root/data/warn%DATE%.txt';
+
+</verbatim>
+</td>
+<td>
+*Foswiki 1.1 Defaults*
+<verbatim>
+$Foswiki::cfg{Log}{Dir} = '$Foswiki::cfg{WorkingDir}/logs';
+$Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
+$Foswiki::cfg{Log}{Action} = {
+          'search' => 1,
+          'rest' => 1,
+          'viewfile' => 1,
+          'edit' => 1,
+          'register' => 1,
+          'save' => 1,
+          'rename' => 1,
+          'changes' => 1,
+          'view' => 1,
+          'rdiff' => 1,
+          'upload' => 1,
+          'attach' => 1
+        };
+</verbatim>
+</td>
+</tr>
+</table>
+
 ---+++ Logging of access failures
 Configure and !TemplateLogin now log authentication failures to the event logs:
 
