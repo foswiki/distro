@@ -274,7 +274,7 @@ sub render {
     }
     if ($editing) {
 	if ($wholeTable && !$this->{attrs}->{require_js}) {
-	    push( @out, $this->generateEditButtons( 0, 0 ) );
+	    push( @out, $this->generateEditButtons( 0, 0, 1 ) );
 	    my $help = $this->generateHelp();
 	    push( @out, $help ) if $help;
 	}
@@ -406,23 +406,24 @@ sub _getCols {
     return \@cols;
 }
 
+# Action on whole table saved
+sub saveTable {
+    my ( $this, $urps ) = @_;
+
+    # Whole table (sans header and footer rows)
+    my $end = scalar( @{ $this->{rows} } ) - $this->{attrs}->{footerrows};
+    for ( my $i = $this->{attrs}->{headerrows} ; $i < $end ; $i++ ) {
+	$this->{rows}->[$i]->setRow( $this->_getCols( $urps, $i + 1 ) );
+    }
+}
+
 # Action on row saved
 sub saveRow {
     my ( $this, $urps ) = @_;
 
     my $row = $urps->{erp_active_row};
     if ( $row > 0 ) {
-
-        # Single row
         $this->{rows}->[ $row - 1 ]->setRow( $this->_getCols( $urps, $row ) );
-    }
-    else {
-
-        # Whole table (sans header and footer rows)
-        my $end = scalar( @{ $this->{rows} } ) - $this->{attrs}->{footerrows};
-        for ( my $i = $this->{attrs}->{headerrows} ; $i < $end ; $i++ ) {
-            $this->{rows}->[$i]->setRow( $this->_getCols( $urps, $i + 1 ) );
-        }
     }
 }
 
@@ -439,7 +440,7 @@ sub saveCell {
 # Action on move up; save and shift row
 sub upRow {
     my ( $this, $urps ) = @_;
-    change( $this, $urps );
+    $this->saveRow( $urps );
     my $row = $urps->{erp_active_row};
     my $tmp = $this->{rows}->[ $row - 1 ];
     $this->{rows}->[ $row - 1 ] = $this->{rows}->[ $row - 2 ];
@@ -450,7 +451,7 @@ sub upRow {
 # Action on move down; save and shift row
 sub downRow {
     my ( $this, $urps ) = @_;
-    change( $this, $urps );
+    $this->saveRow( $urps );
     my $row = $urps->{erp_active_row};
     my $tmp = $this->{rows}->[ $row - 1 ];
     $this->{rows}->[ $row - 1 ] = $this->{rows}->[$row];
@@ -465,7 +466,7 @@ sub addRow {
     my $row = $urps->{erp_active_row};
 
     unless ( $urps->{erp_unchanged} ) {
-        $this->change($urps);    # in case data has changed
+        $this->saveRow($urps);    # in case data has changed
     }
 
     if ( $row < 0 ) {
@@ -503,7 +504,7 @@ sub addRow {
 sub deleteRow {
     my ( $this, $urps ) = @_;
 
-    $this->change($urps);    # in case data hase changed
+    $this->saveRow($urps);    # in case data hase changed
 
     my $row = $urps->{erp_active_row};
     if ( $row < $this->getFirstLiveRow() ) {
@@ -629,7 +630,7 @@ sub generateHelp {
 }
 
 sub generateEditButtons {
-    my ( $this, $id, $multirow ) = @_;
+    my ( $this, $id, $multirow, $wholeTable ) = @_;
     my $attrs     = $this->{attrs};
     my $topRow    = ( $id == $attrs->{headerrows} + 1 );
     my $sz        = scalar( @{ $this->{rows} } );
@@ -639,7 +640,7 @@ sub generateEditButtons {
     my $buttons = CGI::hidden(-name => 'erp_action', -value => '');
     $buttons .= CGI::a(
         {
-            href  => '#saveRow',
+            href  => $wholeTable ? '#saveTable' : '#saveRow',
             title => NOISY_SAVE,
 	    class => 'erp_submit ui-icon ui-icon-disk'
         },
@@ -649,7 +650,7 @@ sub generateEditButtons {
     if ( $attrs->{quietsave} ) {
         $buttons .= CGI::image_button(
             {
-                href  => '#saveRowQuietly',
+                href  => $wholeTable ? '#saveTableQuietly' : '#saveRowQuietly',
                 title => QUIET_SAVE,
                 src   => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/quiet.gif'
             },
@@ -665,13 +666,13 @@ sub generateEditButtons {
         CANCEL_ROW
     );
 
-    if ( $this->{attrs}->{changerows} ) {
+    if ( !$wholeTable && $this->{attrs}->{changerows} ) {
         $buttons .= '<br />' if $multirow;
         if ($id) {
             if ( !$topRow ) {
                 $buttons .= CGI::a(
                     {
-                        ref  => '#upRow',
+                        href  => '#upRow',
                         title => UP_ROW,
 			class => 'erp_submit ui-icon ui-icon-arrow-1-n'
                     },

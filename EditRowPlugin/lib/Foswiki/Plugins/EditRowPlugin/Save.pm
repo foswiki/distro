@@ -78,39 +78,20 @@ sub process {
 
 	# Dispatch whichever button was pressed
 	my $clicked = $query->param('erp_action') || '';
-        if ( $clicked eq 'saveRow' ) {
-            $action    = 'saveRow';
+        if ( $clicked =~ /^#?(save(Table|Row|Cell))(Quietly)?$/ ) {
+            $action    = $1;
+            $minor     = ($3 && $3 eq 'Quietly');
             $no_return = 1;
         }
-        elsif ( $clicked eq 'saveCell' ) {
-            $action    = 'saveCell';
-            $no_return = 1;
-        }
-        elsif ( $clicked eq 'saveRowQuietly' ) {
-            $action    = 'saveRow';
-            $minor     = 1;
-            $no_return = 1;
-        }
-        elsif ( $clicked eq 'upRow' ) {
-            $action = 'upRow';
-        }
-        elsif ( $clicked eq 'downRow' ) {
-            $action = 'downRow';
-        }
-        elsif ( $clicked eq 'addRow' ) {
-            $action = 'addRow';
-        }
-        elsif ( $clicked eq 'moveRow' ) {
-            $action = 'moveRow';
-        }
-        elsif ( $clicked eq 'deleteRow' ) {
-            $action = 'deleteRow';
+        elsif ( $clicked =~ /^#?((up|down|add|move|delete)Row)$/ ) {
+            $action = $1;
         }
         else {
 	    $action = 'cancel';
             $no_save   = 1;
             $no_return = 1;
         }
+
       LINE:
 	foreach my $line (@$content) {
             if (

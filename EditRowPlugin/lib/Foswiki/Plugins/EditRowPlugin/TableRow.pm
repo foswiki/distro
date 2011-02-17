@@ -138,7 +138,7 @@ sub render {
 
     if ($editing) {
 	$buttons = $this->{table}->generateEditButtons(
-	    $this->{number}, $opts->{orient} eq 'vertical' ).$anchor;
+	    $this->{number}, $opts->{orient} eq 'vertical', 0 ).$anchor;
 	$addAnchor = 0;
     }
 
@@ -166,7 +166,7 @@ sub render {
         if ($opts->{with_controls}) {
             push( @rows, "| $buttons ||$empties" );
         }
-	# Th edit controls override the with_controls, so simply....
+	# The edit controls override the with_controls, so simply....
 	return join("\n", @rows);
     }
 
