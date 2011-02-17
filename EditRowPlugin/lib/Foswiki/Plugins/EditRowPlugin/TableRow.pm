@@ -195,6 +195,7 @@ sub render {
     }
 
     if ($opts->{with_controls} && !$opts->{require_js}) {
+	# Generate the controls column
 	if ($opts->{for_edit}) {
 	    if ($buttons_right) {
 		push( @cols, $buttons );
@@ -216,7 +217,11 @@ sub render {
 		    $text .= $anchor;
 		    $addAnchor = 0;
 		}
-		push( @cols, " *$text* " );
+		if ($buttons_right) {
+		    push( @cols, " *$text* " );
+		} else {
+		    unshift( @cols, " *$text* " );
+		}
 	    }
 	    else {
 		my $script = 'view';
