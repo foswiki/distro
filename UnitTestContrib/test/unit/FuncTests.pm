@@ -1759,6 +1759,16 @@ sub test_isTrue {
     $this->assert_equals( 1,
         Foswiki::Func::isTrue( { a => 'me', b => 'ed' } ) );
 
+
+#examples of perl insanity (inspired by Item10324, Sven thought he'd add a few tests to show what Foswiki::isTrue actually does')
+    $this->assert_equals( 1, Foswiki::Func::isTrue( 'onon' ) );
+    $this->assert_equals( 1, Foswiki::Func::isTrue( 'truetrue' ) );
+    $this->assert_equals( 1, Foswiki::Func::isTrue( '11' ) );
+    $this->assert_equals( 0, Foswiki::Func::isTrue( 'offoff' ) );
+    $this->assert_equals( 0, Foswiki::Func::isTrue( 'falsefalse' ) );
+    $this->assert_equals( 1, Foswiki::Func::isTrue( '00' ) );
+
+
     #FALSE
     $this->assert_equals( 0, Foswiki::Func::isTrue( 'off',   'bad' ) );
     $this->assert_equals( 0, Foswiki::Func::isTrue( 'no',    'bad' ) );
@@ -1775,6 +1785,7 @@ sub test_isTrue {
     $this->assert_equals( 0, Foswiki::Func::isTrue(0) );
     $this->assert_equals( 0, Foswiki::Func::isTrue('0') );
     $this->assert_equals( 0, Foswiki::Func::isTrue(' 0') );
+
 
     #SPACES
     $this->assert_equals( 0, Foswiki::Func::isTrue( '  off',     'bad' ) );
