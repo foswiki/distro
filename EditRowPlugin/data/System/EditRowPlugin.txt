@@ -165,9 +165,10 @@ then="enabled in this site. Click on the buttons to try it out."}%
 
 ---+++ Javascript Editing
 <img src="%ATTACHURLPATH%/screenshot2.png" style="float:right" />
-When a table is editable and Javascript is enabled, then each individual table
-cell can be clicked on to open an in-place editor. The table can also be
-manually sorted using drag-and-drop (though beware that a =TABLE= tag with an =initsort= will override this). Also, table columns can be sorted in the browser, by clicking the heading above the row.
+When a table is editable and Javascript is enabled, then:
+   * each individual table cell can be double-clicked on to open an in-place editor,
+   * table rows can be manually sorted using drag-and-drop (though beware that a =TABLE= tag with an =initsort= will override this, which can be confusing),
+   * table columns can be sorted in the browser, by clicking the heading above the row.
 
 ---++ Preferences
 The plugin interprets a couple of [[%SYSTEMWEB%.Macros][preferences]], in common with the !EditTablePlugin.

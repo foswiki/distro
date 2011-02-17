@@ -292,6 +292,7 @@
 		    $.data($(this), 'data', value);
 		};
 	    }
+	    p.event = "dblclick";
 
 	    $(this).editable(p.url, p);
  	});
