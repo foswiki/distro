@@ -1,7 +1,7 @@
 /*
- * jQuery NatEdit plugin 2.0
+ * jQuery NatEdit plugin 
  *
- * Copyright (c) 2008-2010 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2011 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -383,7 +383,7 @@ $.NatEditor.prototype.getSelectionRange = function() {
   //$.log("called getSelectionRange()");
 
   if (document.selection && !$.browser.opera) { // IE
-    //$(self.txtarea).focus();
+    $(self.txtarea).focus();
    
     text = self.txtarea.value;
     c = "\01";

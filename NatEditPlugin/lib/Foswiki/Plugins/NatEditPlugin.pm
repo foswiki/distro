@@ -1,4 +1,4 @@
-# Copyright (C) 2007-2010 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2007-2011 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,7 +22,7 @@ use vars qw(
 );
 
 $VERSION = '$Rev$';
-$RELEASE = '4.32';
+$RELEASE = '4.33';
 
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'A Wikiwyg Editor';

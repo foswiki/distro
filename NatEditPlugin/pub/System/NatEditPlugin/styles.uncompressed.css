@@ -98,6 +98,12 @@ ul.natEditHelpTools {
   border:0px;
 }
 
+/* table dialog */
+#natEditInsertTable .foswikiLayoutTable {
+  width:180px;
+  height:96px;
+}
+
 /* link dialog */
 #natEditInsertLink .jqTabContents {
   width:480px;

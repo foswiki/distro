@@ -84,11 +84,12 @@ Testing has been carried out using Safari, Firefox, Opera and Internet Explorer.
 Sponsored by [[http://www.trivadis.com][Trivadis AG]] 
 
 |  Author: | Michael Daum |
-|  Copyright &copy;: | 2007-2010 Michael Daum http://michaeldaumconsulting.com |
+|  Copyright &copy;: | 2007-2011 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  17 Feb 2011 | fixed insert table in IE7+8 |
 |  22 Dec 2010 | fixed some errors reported by jslint; improved the way forms are submitted to be more jquery-friendly |
 |  06 Dec 2010 | Foswikitask:Item2304: fixes for Google Chrome |
 |  01 Dec 2010 | fixed compatibility with newest foswiki; \
