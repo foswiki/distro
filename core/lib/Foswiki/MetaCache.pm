@@ -106,7 +106,7 @@ sub hasCached {
 sub removeMeta {
     my ( $this, $web, $topic) = @_;
 
-    if (defined($topic)) {
+    if (defined($topic) and defined($this->{cache}->{$web}{$topic})) {
         $this->{cache}->{$web}{$topic}->finish();
         delete $this->{cache}->{$web}{$topic};
     } else {
