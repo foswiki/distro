@@ -115,6 +115,14 @@
 	}
     });
 
+    var my_metadata = function(el) {
+	var c = el.attr("class"), m;
+	if (m = /({.*})/.exec(el.attr("class"))) {
+	    return eval('(' + m[1] + ')');
+	}
+	return null;
+    };
+
     var makeDraggable = function(tr) {
 	// only once per row
 	var dragee, container, rows;
@@ -140,8 +148,8 @@
 		edge = (posY < target.height() / 2)
 		    ? 'top' :'bottom';
 	    }
-	    var old_pos = dragee.metadata().erp_data.erp_active_row;
-	    var new_pos = target.metadata().erp_data.erp_active_row;
+	    var old_pos = my_metadata(dragee).erp_data.erp_active_row;
+	    var new_pos = my_metadata(target).erp_data.erp_active_row;
 	    if (edge == 'bottom')
 		new_pos++;
 	    
@@ -151,7 +159,7 @@
 	    // Send the good news to the server
 	    dragee.fadeTo("slow", 0.0); // to show it's being moved
 	    container.css("cursor", "wait");
-	    var p = $(this).metadata();
+	    var p = my_metadata($(this));
 	    p.erp_data.erp_action = 'moveRow';
 	    p.erp_data.old_pos = old_pos;
 	    p.erp_data.new_pos = new_pos;
@@ -247,7 +255,7 @@
 	    if (!tr.hasClass('ui-draggable'))
 		makeDraggable(tr);
 
-	    var p = $(this).metadata();
+	    var p = my_metadata($(this));
 
 	    if (!p.type || p.type == 'label')
 		return;
@@ -270,7 +278,7 @@
 	    // attribute, because
 	    // the row index may change if rows are moved/added/deleted
 	    p.submitdata = function(value, settings) {
-		var sd = $(this).metadata().erp_data;
+		var sd = my_metadata($(this)).erp_data;
 		sd.erp_action = 'saveCell';
 		return sd;
 	    }
