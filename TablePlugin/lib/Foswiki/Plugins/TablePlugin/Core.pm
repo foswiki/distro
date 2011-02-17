@@ -18,6 +18,7 @@ my $defaultAttrs;          # to write generic table CSS
 my $tableSpecificAttrs;    # to write table specific table CSS
 my $combinedTableAttrs;    # default and specific table attributes
 my $styles = {};           # hash of default and specific styles
+my $doneDefaults = 0;
 
 # not yet refactored:
 my $tableCount;
@@ -119,6 +120,7 @@ $TABLE_FRAME->{border} = 'border-style:solid';
 
 BEGIN {
     $translationToken = "\0";
+    $doneDefaults = 0;
 
     # the maximum number of columns we will handle
     $MAX_SORT_COLS        = 10000;
@@ -142,6 +144,12 @@ sub _initDefaults {
         %{Foswiki::Plugins::TablePlugin::pluginAttributes} );
 
     $combinedTableAttrs = _mergeHashes( {}, $defaultAttrs );
+}
+
+sub _addDefaultStyles {
+
+    return if $doneDefaults;
+    $doneDefaults = 1;
 
     # create CSS styles tables in general
     my ( $id, @styles ) = _createCssStyles( 1, $defaultAttrs );
@@ -1310,6 +1318,8 @@ sub addDefaultSizeUnit {
 
 sub emitTable {
 
+    _addDefaultStyles();
+
     _debug('emitTable');
 
     #Validate headerrows/footerrows and modify if out of range
@@ -1875,7 +1885,7 @@ sub _debugData {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
