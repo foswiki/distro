@@ -739,11 +739,16 @@ sub formatResults {
                 $cache->addDependency( $web, $topic );
             }
 
-            $info = $this->metacache->get( $web, $topic );
+#TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
+#lets change that.
+            my $topicMeta = new Foswiki::Meta($session, $web, $topic);
+            $info = $this->metacache->get( $web, $topic, $topicMeta );
+            ASSERT(defined($info->{tom})) if DEBUG;
 
 # Check security (don't show topics the current user does not have permission to view)
-            next unless $info->{allowView};
+            next unless ($info->{allowView});
 
+            $text = '';
             # Special handling for format='...'
             if ($formatDefined) {
                 $text = $info->{tom}->text();
@@ -951,19 +956,23 @@ sub formatResults {
   #    $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
   #      $infoCache->getRev1Info( $topic, "create$1" )/ges;
                         '\$createlongdate' => sub {
-                            return $this->metacache->get( $web, $topic )->{tom}
+                            my $info = $this->metacache->get( $_[0]->web, $_[0]->topic, $_[0] );
+                            return $info->{tom}
                               ->getRev1Info("createlongdate");
                         },
                         '\$createusername' => sub {
-                            return $this->metacache->get( $web, $topic )->{tom}
+                            my $info = $this->metacache->get( $_[0]->web, $_[0]->topic, $_[0] );
+                            return $info->{tom}
                               ->getRev1Info("createusername");
                         },
                         '\$createwikiname' => sub {
-                            return $this->metacache->get( $web, $topic )->{tom}
+                            my $info = $this->metacache->get( $_[0]->web, $_[0]->topic, $_[0] );
+                            return $info->{tom}
                               ->getRev1Info("createwikiname");
                         },
                         '\$createwikiusername' => sub {
-                            return $this->metacache->get( $web, $topic )->{tom}
+                            my $info = $this->metacache->get( $_[0]->web, $_[0]->topic, $_[0] );
+                            return $info->{tom}
                               ->getRev1Info("createwikiusername");
                         },
 
@@ -1086,7 +1095,7 @@ sub formatResult {
     }
 
     foreach my $key ( keys(%$customKeys) ) {
-        $out =~ s/$key/&{$customKeys->{$key}}()/ges;
+        $out =~ s/$key/&{$customKeys->{$key}}($topicObject)/ges;
     }
 
     #SMELL: hack to stop non-topic based FORMAT's from doing topic code

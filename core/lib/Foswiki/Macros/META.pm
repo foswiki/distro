@@ -14,7 +14,7 @@ sub META {
 
     # make sure the topicObject is loaded
     my $loadedRev = $topicObject->getLoadedRev();
-    $topicObject->load() unless defined $loadedRev;
+    $topicObject = $topicObject->load() unless defined $loadedRev;
 
     if ( $option eq 'form' ) {
 

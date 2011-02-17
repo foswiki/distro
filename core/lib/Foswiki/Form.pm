@@ -112,6 +112,12 @@ sub new {
                 $web, $form, $Foswiki::Meta::reason );
         }
 
+        if (ref($this) ne 'Foswiki::Form') {
+            #recast if we have to - allowing the cache to work its magic
+            $this = bless($this, 'Foswiki::Form');
+            $session->{forms}->{"$web.$form"} = $this;
+        }
+
         unless ($def) {
             $this->{fields} = $this->_parseFormDefinition();
         }

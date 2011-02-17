@@ -769,7 +769,7 @@ sub _moveTopicOrAttachment {
         # because the $to object is entirely local to the code in this
         # package.
         $to->unload();
-        $to->load();
+        $to = $to->load();
 
         if ( $from->web ne $to->web ) {
 

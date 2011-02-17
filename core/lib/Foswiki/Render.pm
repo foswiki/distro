@@ -1612,7 +1612,7 @@ sub renderRevisionInfo {
         my $loadedRev = $topicObject->getLoadedRev() || 0;
         unless ( $rrev == $loadedRev ) {
             $topicObject = Foswiki::Meta->new($topicObject);
-            $topicObject->load($rrev);
+            $topicObject = $topicObject->load($rrev);
         }
     }
     my $info = $topicObject->getRevisionInfo();

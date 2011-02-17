@@ -96,7 +96,7 @@ sub addTopic {
     push( @{ $this->{list} }, $webtopic );
     $this->{count}++;
     if ( defined($meta) ) {
-        $this->{_session}->search->metacache->get( $web, $topic, $meta );
+        $this->{_session}->search->metacache->addMeta( $web, $topic, $meta );
     }
     undef $this->{sorted};
 }

@@ -24,7 +24,7 @@ sub REVINFO {
         $topicObject = Foswiki::Meta->new( $this, $web, $topic );
         # haveAccess will try to load the object on the fly, so make sure
         # it is loaded if rev is defined
-        $topicObject->load($rev) if ($rev);
+        $topicObject = $topicObject->load($rev) if ($rev);
         unless ( $topicObject->haveAccess('VIEW') ) {
             return $this->inlineAlert( 'alerts', 'access_denied', $web,
                 $topic );

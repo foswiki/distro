@@ -414,6 +414,9 @@ Once loaded, the object is locked to that revision.
 
 WARNING: see notes on revision numbers under =getLoadedRev=
 
+
+TODO: this is insane. load() can fail - but it will give you a seemingly fine Meta object anyway.
+
 =cut
 
 sub load {
@@ -422,7 +425,6 @@ sub load {
     my $rev;
 
     if ( ref($proto) ) {
-
         # Existing unloaded object
         ASSERT( !$this->{_loadedRev} ) if DEBUG;
         $this = $proto;
@@ -432,8 +434,28 @@ sub load {
         ( my $session, my $web, my $topic, $rev ) = @_;
         $this = $proto->new( $session, $web, $topic );
     }
-    $this->loadVersion($rev);
+    
+    my $session = $this->{_session};
+    if (defined($this->topic) and (not defined($rev)) and $this->existsInStore()) {
+        #TODO: need to extract the metacache from search, and extract the additional derived info from it too
+        #TODO: this mess is because the Listeners cannot assign a cached meta object to an already existing unloaded meta
+        #       which in Sven's opinion means we need to invert things better. (I get ~10% (.2S on 2S req's) speedup on simpler SEARCH topics doing reuse)
+        my $m = $session->search->metacache->getMeta( $this->web, $this->topic );
+        #print STDERR "metacache->getMeta ".join(',', ( $this->web, $this->topic, ref($m) ))."\n";
+        return $m if (defined($m));
+    }
 
+    my $loadedRev = $this->loadVersion($rev);
+    #insane as this seems, load can fail to load, but will give you some kind of valid seeming Meta obecjt.
+    if (not defined($loadedRev)) {
+        ASSERT( not defined( $this->{_loadedRev} ) ) if DEBUG;
+        #_latestIsloaded is mostly undef when the topic is not ondisk, except Fn_SEARCH::verify_refQuery_ForkingSearch and friends
+        #ASSERT( not defined($this->{_latestIsLoaded}) ) if DEBUG;
+    } else {
+        ASSERT( defined( $this->{_loadedRev} ) and ($this->{_loadedRev} >0)) if DEBUG;
+        ASSERT( defined($this->{_latestIsLoaded}) ) if DEBUG;
+    }
+    
     return $this;
 }
 
@@ -958,6 +980,7 @@ WARNING: see notes on revision numbers under =getLoadedRev=
 
 sub loadVersion {
     my ( $this, $rev ) = @_;
+
     return unless $this->{_topic};
 
     # If no specific rev was requested, check that the latest rev is
@@ -1300,6 +1323,7 @@ sub copyFrom {
             if ( !$filter
                 || ( $item->{name} && $item->{name} =~ /$filter/ ) )
             {
+                ASSERT (defined($item)) if DEBUG;
                 my %datum = %$item;
                 push( @data, \%datum );
             }
@@ -1389,6 +1413,18 @@ sub getRevisionInfo {
       if DEBUG;
 
     my $info;
+    if (not defined($this->{_loadedRev}) and not Foswiki::Func::topicExists($this->{_web}, $this->{_topic})) {
+        #print STDERR "topic does not exist - at least, _loadedRev is not set..(".$this->{_web} .' '. $this->{_topic}.")\n";
+        #this does not exist on disk - no reason to goto the store for the defaults
+        #TODO: Sven is not 100% sure this is the right decision, but it feels better not to do a trip into the deep for an application default
+        $info = {
+            date    => 0,
+            author  => $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,
+            verstion => 0,
+            format => $EMBEDDING_FORMAT_VERSION,
+        };
+        return $info;
+    }
 
     # This used to try and get revision info from the meta
     # information and only kick down to the Store module for the
@@ -2205,6 +2241,7 @@ sub move {
             $from->save();    # to save the metadata change
             $from->{_session}->{store}->moveTopic( $from, $to, $cUID );
             $to->loadVersion();
+            ASSERT(defined($to) and defined($to->{_loadedRev}) ) if DEBUG;
         }
         finally {
             $from->_atomicUnlock($cUID);
@@ -3487,6 +3524,7 @@ TODO: can we move this code into Foswiki::Serialise ?
 
 sub getEmbeddedStoreForm {
     my $this = shift;
+#print STDERR "&&&&&&&&&&&&&&&&&&&&&getEmbeddedStoreForm(".$this->web.' . '.$this->topic.")\n";
 
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
@@ -3588,6 +3626,7 @@ Note: line endings must be normalised to \n *before* calling this method.
 
 sub setEmbeddedStoreForm {
     my ( $this, $text ) = @_;
+#print STDERR "&&&&&&&&&&&&&&&&&&&&&setEmbeddedStoreForm(".$this->web.' . '.$this->topic.")\n";
 
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;

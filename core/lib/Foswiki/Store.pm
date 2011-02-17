@@ -145,10 +145,11 @@ sub askListeners {
     my ($gotRev, $isLatest);
 
     foreach my $el (@{$this->{event_listeners}}) {
-	next unless $el->can('loadTopic');
-	($gotRev, $isLatest) = $el->loadTopic($meta);
-	return ($gotRev, $isLatest) if $gotRev;
+	    next unless $el->can('loadTopic');
+	    ($gotRev, $isLatest) = $el->loadTopic($meta);
+	    return ($gotRev, $isLatest) if $gotRev;
     }
+    return (undef, undef);
 }
 
 =begin TML

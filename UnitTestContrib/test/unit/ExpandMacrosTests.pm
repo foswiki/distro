@@ -136,7 +136,16 @@ sub test_delayedExpansionInline {
     my $this = shift;
 
     my $result = $this->_expand(<<'END');
-%FORMAT{"OneHump,TwoEyes,ThreeTeeth" format="$percntSPACEOUT{\"$topic\"}$percnt" separator=","}%
+%FORMAT{"OneHump,TwoEyes,ThreeTeeth" format="$percntSPACEOUT{\"$topic\"}$percnt" separator="," }%
+END
+    $this->assert_str_equals("One Hump,Two Eyes,Three Teeth\n", $result);
+}
+
+sub test_delayedExpansionInlineTypeString {
+    my $this = shift;
+
+    my $result = $this->_expand(<<'END');
+%FORMAT{"OneHump,TwoEyes,ThreeTeeth" format="$percntSPACEOUT{\"$item\"}$percnt" separator="," type="string"}%
 END
     $this->assert_str_equals("One Hump,Two Eyes,Three Teeth\n", $result);
 }
