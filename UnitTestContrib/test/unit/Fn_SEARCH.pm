@@ -3523,6 +3523,26 @@ RESULT
       ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults="off"}%');
     $this->assert_equals( '', $result );
 
+    #Item10324: should return the string '0' ? (I'm not so sure)
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults="0"}%');
+    $this->assert_equals( '', $result );
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults="%NOP%0"}%');
+    $this->assert_equals( '<nop>0', $result );
+
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults=" 0"}%');
+    $this->assert_equals( '', $result );
+
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros('%SEARCH{"NOBLEEGLE" zeroresults="1"}%');
+    $this->assert_equals( '1', $result );
+
     $result =
       $this->{test_topicObject}->expandMacros(
         '%SEARCH{"NOBLEEGLE" zeroresults="I did not find anything."}%');

@@ -25,7 +25,7 @@
      | =nosearch="on"= | Suppress search string | Show search string |
      | =noheader="on"= | Suppress default search header <br /> <span style='background: #FFB0B0;'> *Topics: Changed: By:* </span>, unless a =header= is explicitly specified  | Show default search header, unless search is inline and a format is specified (Cairo compatibility) |
      | =nototal="on"= | Do not show number of topics found | Show number |
-     | =zeroresults="off"= <br /> or =zeroresults="..."= | Suppress/replace _all_ output if there are no hits - can also be set to a *[[FormattedSearch]]* string to customise the output | =zeroresults="on"= - displays the summary, and number of topics found. "Number of topics: 0" |
+     | =zeroresults="off"= <br /> or =zeroresults="..."= | Suppress/replace _all_ output if there are no hits (the boolean nature of the setting uses =true=, =false=, =on=, =off=, =0= so those cannot be used as a format string on their own (insert a =%NOP%= to escape them))- can also be set to a *[[FormattedSearch]]* string to customise the output | =zeroresults="on"= - displays the summary, and number of topics found. "Number of topics: 0" |
      | =noempty="on"= | Suppress results for webs that have no hits. | Show webs with no hits |
      | =header="..."= <br /> =format="..."= <br /> =footer="..."= | Custom format results: see *[[FormattedSearch]]* for usage &amp; examples | Results in table |
      | =expandvariables="on"= | Expand embedded macros before applying a FormattedSearch on a search hit. Useful to show the expanded text, e.g. to show the result of a SpreadSheetPlugin =%<nop>CALC{}%= instead of the formula | Raw text |
