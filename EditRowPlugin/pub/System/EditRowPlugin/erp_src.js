@@ -47,7 +47,7 @@
 		onClose: function(dateText) {
 		    original.reset.apply(form, [settings, original]);
 		    $(original).addClass( settings.cssdecoration );
-		},
+		}
 	    });
 	}});
 
@@ -174,8 +174,7 @@
 		type: "POST",
 		data: p.erp_data,
 		success: function(response) {
-		    container.html(response);
-		    container.css("cursor", "auto");
+		    container.replaceWith($(response));
 		},
 		error: function() {
 		    dragee.fadeTo("fast", 1.0);
@@ -188,12 +187,16 @@
 	    // constrain to the container
 	    containment: tr.closest("tbody,thead,table"),
 	    axis: 'y',
+	    appendTo: 'body',
 	    helper: function(event) {
-		var helper = $(event.target).closest('tr').clone();
-		return $('<div><table></table></div>')
+		var tr = $(event.target).closest('tr');
+		var helper = tr.clone();
+		var dv = $('<div><table></table></div>')
 		    .find('table')
 		    .append(helper.addClass("drag-helper"))
 		    .end();
+		dv.css("margin-left", tr.offset().left + "px");
+		return dv;
 	    },
 	    start: function(event, ui) {
 		dragee = $(this);
