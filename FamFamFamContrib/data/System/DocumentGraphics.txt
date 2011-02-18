@@ -519,7 +519,7 @@ and then to add that into your skin path.
 
 eg:
 ---++++ Create a Skin Template for your icons
-Either =foswiki/templates/icons.mybook.tmpl= on the filesystem, or create a topic called =IconsMybookSkinTemplate= in the %SYSTEMWEB% web 
+Either =foswiki/templates/icons.mybook.tmpl= on the filesystem, or create a topic called =MybookSkinIconsTemplate= in the %SYSTEMWEB% web 
 (or if the icon modifications are local to a web, the topic can be created in just that web).
 <verbatim class="tml">
 %{ replace the book icon }%
