@@ -4067,6 +4067,7 @@ somethig after
 %META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peal"}%
 %META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
 %META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
+%META:FIELD{name="Date" attributes="" title="Date" value="12 Dec 2010"}%
 %META:FILEATTACHMENT{name="porn.gif" comment="Cor" date="15062" size="15504"}%
 %META:FILEATTACHMENT{name="flib.xml" comment="Cor" date="1157965062" size="1"}%
 HERE
@@ -4092,6 +4093,7 @@ third line
 %META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peel"}%
 %META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
 %META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
+%META:FIELD{name="Date" attributes="" title="Date" value="15 Nov 2010"}%
 %META:FILEATTACHMENT{name="porn.gif" comment="Cor" date="15062" size="15504"}%
 %META:FILEATTACHMENT{name="flib.xml" comment="Cor" date="1157965062" size="1"}%
 HERE
@@ -4117,6 +4119,7 @@ third line
 %META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peel"}%
 %META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
 %META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
+%META:FIELD{name="Date" attributes="" title="Date" value="30 Jan 2010"}%
 %META:FILEATTACHMENT{name="porn.gif" comment="Cor" date="15062" size="15504"}%
 %META:FILEATTACHMENT{name="flib.xml" comment="Cor" date="1157965062" size="1"}%
 HERE
@@ -4315,6 +4318,27 @@ sub verify_orderTopic {
 #$this->assert_str_equals( "QueryTopic (Pedro),QueryTopicTwo (John),QueryTopicThree (Jason),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
     $this->assert_str_equals(
 "QueryTopic (Pedro),QueryTopicTwo (John),QueryTopicThree (Jason),OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic ()",
+        $result
+    );
+    
+    #order=formfield(Date)
+    $result =
+      $this->{test_topicObject}->expandMacros( $search
+          . 'order="formfield(Date)" format="$topic ($formfield(Date))"}%'
+      );
+
+    $this->assert_str_equals(
+"OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic (),QueryTopicThree (30 Jan 2010),QueryTopicTwo (15 Nov 2010),QueryTopic (12 Dec 2010)",
+        $result
+    );
+
+    $result =
+      $this->{test_topicObject}->expandMacros( $search
+          . 'order="formfield(Date)" reverse="on" format="$topic ($formfield(Date))"}%'
+      );
+
+    $this->assert_str_equals(
+"QueryTopic (12 Dec 2010),QueryTopicTwo (15 Nov 2010),QueryTopicThree (30 Jan 2010),OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic ()",
         $result
     );
 

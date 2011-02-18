@@ -361,20 +361,38 @@ $NUMBER = qr/^[-+]?[0-9]+(\.[0-9]*)?([Ee][-+]?[0-9]+)?$/s;
 sub _compare {
     my $x = shift;
     my $y = shift;
-
+ 
     ASSERT( defined($x) ) if DEBUG;
     ASSERT( defined($y) ) if DEBUG;
-
+ 
     if ( $x =~ /$NUMBER/o && $y =~ /$NUMBER/o ) {
-
+ 
         # when sorting numbers do it largest first; this is just because
         # this is what date comparisons need.
         return $y <=> $x;
+    }
+
+    my $datex = undef;
+    my $datey = undef;
+    
+    # parseTime can error if you give it a date out of range so we skip
+    # testing if pure number
+    # We skip testing for dates the first character is not a digit
+    # as all formats we recognise as dates are  
+    if ( $x =~ /^\d/ && $x !~ /$NUMBER/o &&
+         $y =~ /^\d/ && $y !~ /$NUMBER/o ) {
+        $datex = Foswiki::Time::parseTime($x);
+        $datey = Foswiki::Time::parseTime($y) if $datex;
+    }
+
+    if ( $datex && $datey ) {
+        return $datey <=> $datex;
     }
     else {
         return $y cmp $x;
     }
 }
+
 
 #convert a comma separated list of webs into the list we'll process
 #TODO: this is part of the Store now, and so should not need to reference Meta - it rather uses the store..
