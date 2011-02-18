@@ -445,12 +445,14 @@ sub load {
         return $m if (defined($m));
     }
 
+    ASSERT( not ($this->{_latestIsLoaded}) ) if DEBUG;
+
     my $loadedRev = $this->loadVersion($rev);
     #insane as this seems, load can fail to load, but will give you some kind of valid seeming Meta obecjt.
     if (not defined($loadedRev)) {
         ASSERT( not defined( $this->{_loadedRev} ) ) if DEBUG;
-        #_latestIsloaded is mostly undef when the topic is not ondisk, except Fn_SEARCH::verify_refQuery_ForkingSearch and friends
-        #ASSERT( not defined($this->{_latestIsLoaded}) ) if DEBUG;
+        #_latestIsloaded is mostly undef / 0 when the topic is not ondisk, except Fn_SEARCH::verify_refQuery_ForkingSearch and friends
+        ASSERT( not ($this->{_latestIsLoaded}) ) if DEBUG;
     } else {
         ASSERT( defined( $this->{_loadedRev} ) and ($this->{_loadedRev} >0)) if DEBUG;
         ASSERT( defined($this->{_latestIsLoaded}) ) if DEBUG;
@@ -1017,6 +1019,9 @@ sub loadVersion {
         $this->{_text} = '' unless defined $this->{_text};
 
         $this->addDependency();
+    } else {
+        #we didn't load, so how could it be latest?
+        ASSERT(not $this->{_latestIsLoaded}) if DEBUG;
     }
     
     return $this->{_loadedRev};

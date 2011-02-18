@@ -84,6 +84,7 @@ sub readTopic {
     if (defined($gotRev) and ($gotRev > 0)) {
         return ($gotRev, $isLatest) 
     }
+    ASSERT(not $isLatest) if DEBUG;
 
     my $handler = $this->getHandler($topicObject);
     $isLatest = 0;
@@ -97,6 +98,7 @@ sub readTopic {
 
     (my $text, $isLatest) = $handler->getRevision($version);
     unless (defined $text) {
+        ASSERT(not $isLatest) if DEBUG;
         return (undef, $isLatest) 
     }
 

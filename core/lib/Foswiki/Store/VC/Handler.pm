@@ -433,7 +433,7 @@ sub getRevision {
     if ( -e $this->{file} ) {
         return (readFile( $this, $this->{file} ), 1 );
     }
-    return (undef, 1);
+    return (undef, 0);
 }
 
 =begin TML
