@@ -18,8 +18,8 @@ cd /usr/home/trunk.foswiki.org
 # Revert Foswiki.pm as we modified it to show the last revision
 svn revert core/lib/Foswiki.pm
 
-# Update to the latest version
-svn update
+# Update to the latest version (and don't stall on conflicts)
+svn update --accept 'theirs-full'
 
 # Install the default modules
 cd core
