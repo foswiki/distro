@@ -33,6 +33,7 @@ sub loadExtraConfig {
 }
 
 sub setLocalSite {
+	delete $INC{'Foswiki/I18N.pm'}
     $Foswiki::cfg{WebMasterEmail} = 'a.b@c.org';
     $Foswiki::cfg{UserInterfaceInternationalisation} = 1;
 }
