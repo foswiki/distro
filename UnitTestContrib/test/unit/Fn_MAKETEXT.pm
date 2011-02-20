@@ -12,6 +12,10 @@ use Error qw( :try );
 
 my $topicObject;
 
+BEGIN {
+    delete $INC{'Foswiki/I18N.pm'};
+}
+
 sub new {
     my $self = shift()->SUPER::new( 'MAKETEXT', @_ );
     return $self;
@@ -33,26 +37,25 @@ sub loadExtraConfig {
 }
 
 sub setLocalSite {
-	delete $INC{'Foswiki/I18N.pm'};
     $Foswiki::cfg{WebMasterEmail} = 'a.b@c.org';
     $Foswiki::cfg{UserInterfaceInternationalisation} = 1;
 }
 
-sub test_MAKETEXT_simple {
+sub test_simple {
     my $this = shift;
 
     my $result = $topicObject->expandMacros('%MAKETEXT{"edit"}%');
     $this->assert_str_equals( 'edit', $result );
 }
 
-sub test_MAKETEXT_doc_example_1 {
+sub test_doc_example_1 {
     my $this = shift;
 
     my $result = $topicObject->expandMacros('%MAKETEXT{string="Notes:"}%');
     $this->assert_str_equals( 'Notes:', $result );
 }
 
-sub test_MAKETEXT_doc_example_2 {
+sub test_doc_example_2 {
     my $this = shift;
 
     my $result = $topicObject->expandMacros(
@@ -65,7 +68,7 @@ args="%WIKIWEBMASTER%"
         'If you have any questions, please contact a.b@c.org.', $result );
 }
 
-sub test_MAKETEXT_doc_example_3 {
+sub test_doc_example_3 {
     my $this = shift;
 
     my $result = $topicObject->expandMacros(
@@ -78,7 +81,7 @@ sub test_MAKETEXT_doc_example_3 {
     );
 }
 
-sub test_MAKETEXT_single_arg {
+sub test_single_arg {
     my $this = shift;
 
     my $result =
@@ -86,7 +89,7 @@ sub test_MAKETEXT_single_arg {
     $this->assert_str_equals( 'edit WebHome', $result );
 }
 
-sub test_MAKETEXT_expand_variables_in_args {
+sub test_expand_variables_in_args {
     my $this = shift;
 
     my $result =
@@ -94,7 +97,7 @@ sub test_MAKETEXT_expand_variables_in_args {
     $this->assert_str_equals( 'edit WebHome', $result );
 }
 
-sub test_MAKETEXT_multiple_args {
+sub test_multiple_args {
     my $this = shift;
 
     my $result = $topicObject->expandMacros(
@@ -102,7 +105,7 @@ sub test_MAKETEXT_multiple_args {
     $this->assert_str_equals( 'edit WebHome now', $result );
 }
 
-sub test_MAKETEXT_multiple_args_one_empty {
+sub test_multiple_args_one_empty {
     my $this = shift;
 
     my $result =
@@ -110,7 +113,7 @@ sub test_MAKETEXT_multiple_args_one_empty {
     $this->assert_str_equals( 'edit WebHome', $result );
 }
 
-sub test_MAKETEXT_multiple_args_forgot_to_reference_one {
+sub test_multiple_args_forgot_to_reference_one {
     my $this = shift;
 
     my $result =
@@ -118,7 +121,7 @@ sub test_MAKETEXT_multiple_args_forgot_to_reference_one {
     $this->assert_str_equals( 'edit WebHome', $result );
 }
 
-sub test_MAKETEXT_underscore {
+sub test_underscore {
     my $this = shift;
 
     # name starts with underscore: error
@@ -129,7 +132,7 @@ sub test_MAKETEXT_underscore {
     );
 }
 
-sub test_MAKETEXT_access_key {
+sub test_access_key {
     my $this = shift;
 
     my $result = $topicObject->expandMacros('%MAKETEXT{"ed&it"}%');
