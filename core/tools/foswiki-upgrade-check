@@ -53,12 +53,12 @@ To upgrade a server with no graphical environment (remote), do:
 	new dirs respectively)
 	foswiki-upgrade-check $I $O $N >/tmp/fwu.list
 	Do a backup via:
-	cd $I; tar cfz /tmp/wiki-backup.tgz $(foswiki-upgrade-check -a $I $O $N)
+	cd $I; tar cfz /tmp/wiki-backup.tgz $(foswiki-upgrade-check -a $I $O $N)
   * copy the server install on your local workstation, by
 	rsync -aHSx --delete --force SERVER:SRC/ DEST/
 	If your installation is big, you can copy only the useful files for this
 	upgrade by copying and untarring /tmp/fwi.tgz made on the server by:
-	tar cfz /tmp/fwi.tgz $(foswiki-upgrade-check -l $I $O $N)
+	tar cfz /tmp/fwi.tgz $(foswiki-upgrade-check -l $I $O $N)
   * do the "foswiki-upgrade-check -y" locally (in DEST/) with your graphical
 	merge tool
   * either re-upload your upgraded local copy to another place on the server
@@ -78,6 +78,7 @@ v1.4 2010-03-28 -a and -l options to help backuping
 v1.5 2010-09-23 -f option
 v1.6 2011-01-07 -r option (remove missing files).  Also prompt for optional merge.
 v1.7 2011-02-16 Use jot if seq command does not exist (FreeBSD)
+V1.8 2011-02-19 exclude commonly tailored files,  Better handle files missing from old release
 '
 
 merge=merge_kdiff3
@@ -89,9 +90,32 @@ remove=false
 mfd=
 showdiff=
 seqcmd=true
+excluded=( WebHome.txt WebPreferences.txt WebStatistics.txt WebNotify.txt SitePreferences.txt AdminGroup.txt TrashAttachment.txt )
 
 doseq () { if $seqcmd; then seq $@;  else jot - $@; fi; }
 
+function elementExists()
+{
+    file=${1##*/}
+
+    if [ -z "$file" ]
+    then
+        return
+    fi
+
+    for exfile in ${excluded[@]}
+    do
+        if [ $exfile == $file ]
+        then
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+
+# Determine if the seq command is useful, otherwise we use jot
 if command -v seq &>/dev/null
     then
         seqcmd=true
@@ -164,6 +188,10 @@ file_list=( $(find * -type f) )
 
 for element in $(doseq 0 $((${#file_list[@]} - 1))); do
     i=${file_list[$element]}
+    if elementExists $i; then
+        echo "SKIPPING $U/$i - file is not normally updated"
+        continue
+    fi
     #echo "Processing file $i "
     if test -e $I/$i; then                                  # File exists in installed Wiki
         if ! cmp -s $i $I/$i; then                          # Installed not same as New
@@ -171,36 +199,39 @@ for element in $(doseq 0 $((${#file_list[@]} - 1))); do
                V $i LOCALLY_SAME, DIST_CHANGED, COPY
                doit cp $U/$i $I/$i
                dolist $i
-               elif cmp -s $i $O/$i; then
+            elif cmp -s $i $O/$i; then
                V $i LOCALLY_CHANGED, DIST_SAME. KEEP
             else                                           # Old file has changed
                 if test ! -e $O/$i; then
                     V $i NEW FILE, BUT DIFFERENT IN LOCAL AND UPGRADE
+                    echo "WARNING: New file $U/$i conflicts with existing file $I/$i "
                     orig=/dev/null
-                else                                        # file exists, conflict
+                else
                     V $i CONFLICT, MERGE
                     orig=$O/$i
-                    if $doit; then
-                        if is_binary "$i"; then
-                            echo "WARNING: copied $U/$i over your $I/$i . Revert if wrong"
-                        else
-                            echo "How do you want to handle conflict: $U/$i ?"
-                            select ans in "Merge files" "Keep original" "Use new file"
-                            do
-                                echo "Answer $ans "
-                                case $ans in
-                                   "Merge files" ) echo "merge"; doit $merge $i; break;;
-                                   "Keep original" ) echo "keeping original"; break;;
-                                   "Use new file" ) echo "using new"; doit cp $U/$i $I/$i; break;;
-                                esac
-                            done
-                        fi
-                    elif test -n "$showdiff"; then
-                        if is_binary "$i"; then ls -l $orig $I/$1 $U/$1
-                        else $showdiff $i
-                        fi
-                    else echo $i
+                fi
+                if $doit; then
+                    if is_binary "$i"; then
+                        echo "WARNING: copied $U/$i over your $I/$i . Revert if wrong"
+                        doit cp $U/$i $I/$i
+                        dolist $i
+                    else
+                        echo "How do you want to handle conflict: $U/$i ?"
+                        select ans in "Merge files" "Keep original" "Use new file"
+                        do
+                            echo "Answer $ans "
+                            case $ans in
+                               "Merge files" ) echo "merge"; doit $merge $i; break;;
+                               "Keep original" ) echo "keeping original"; break;;
+                               "Use new file" ) echo "using new"; doit cp $U/$i $I/$i; break;;
+                            esac
+                        done
                     fi
+                elif test -n "$showdiff"; then
+                    if is_binary "$i"; then ls -l $orig $I/$1 $U/$1
+                    else $showdiff $i
+                    fi
+                else echo $i
                 fi
             fi
         else
