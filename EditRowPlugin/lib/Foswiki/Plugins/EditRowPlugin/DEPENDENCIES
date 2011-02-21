@@ -1,2 +1,3 @@
 Foswiki::Contrib::JSCalendarContrib,>=14754,perl,Javascript calendar module
-Foswiki::Plugins::JQueryPlugin,>0,perl,JQuery
+Foswiki::Plugins::JQueryPlugin,>4.02,perl,JQuery
+Foswiki::Contrib::JEditableAddOn,>1.7.1,perl,Required, JQuery plugin
