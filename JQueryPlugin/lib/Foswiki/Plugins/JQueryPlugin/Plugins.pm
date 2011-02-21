@@ -119,7 +119,9 @@ Helper method to register a plugin.
 sub registerPlugin {
     my ( $pluginName, $class ) = @_;
 
-    $class ||= 'Foswiki::Plugins::JQueryPlugin::' . uc($pluginName);
+    $class ||= 
+	$Foswiki::cfg{JQueryPlugin}{Plugins}{$pluginName}{Module} ||
+	'Foswiki::Plugins::JQueryPlugin::' . uc($pluginName);
 
     return $plugins{ lc($pluginName) } = {
         'class'    => $class,

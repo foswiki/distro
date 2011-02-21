@@ -36,20 +36,11 @@ loaded automatically. See [[%SCRIPTURLPATH{"configure"}%][configure]].
 Those plugins coming with their own [[#Macros][macro]] will take care of loading their javascript and css by themselves. So you won't need to 
 call JQREQUIRE explicitly for those listed below.
 
-!JQueryPlugin provides a special framework for integrating third party jQuery plugins into Foswiki.
-The framework allows plugins to be loaded as needed and makes sure any dependencies are satisfied.
-Examples are 
-Foswiki:Extensions/JQGridPlugin, Foswiki:Extensions/JQTablePlugin,
-Foswiki:Extensions/JQFullCanendarPlugin, Foswiki:Extensions/ImagePlugin,
-Foswiki:Extensions/ImageGalleryPlugin or Foswiki:Extensions/NatEditPlugin.
+---++ Adding new plugins
 
----++ Coding Standards
-
-See [[JQuery Coding Standards]]
-This plugin contains the latest version of the [[http://jquery.com][jQuery]]
-<nop>JavaScript library. 
-See also Foswiki:Development.UsingJQueryWithFoswiki for more information on
-using jQuery with Foswiki.
+The JQuery ecosystem has a huge number of plugins - more than can be included by default
+by this plugin. If you want to add new plugins, then you will find instructions for adding
+them at Foswiki:Development.UsingJQueryWithFoswiki#adding_plugins.
 
 ---++ References and tutorials
    * [[http://docs.jquery.com/How_jQuery_Works][Getting the feet wet]]
@@ -141,6 +132,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  21 Feb 2011: | (4.02) cleaned up and documented the process for adding new plugins |
 |  02 Feb 2011: | (4.01) added pnotify, configure checker to check that \
                   configured ={JQueryVersion}= is sane |
 |  13 Dec 2010: | (4.00) adding jquery-1.4.2/3/4 (default is 1.4.3); \
