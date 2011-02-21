@@ -3622,14 +3622,15 @@ HERE
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, "VeryOldTopic",
         $text );
-    my $rev = $topicObject->save( forcedate => 123 );
+    my $rev = $topicObject->save( forcedate => 86420 ); # > 86400, see Item10389
     $this->assert_num_equals( 1, $rev );
-    my $file_date =
-      $this->{session}->{store}
-      ->getApproxRevTime( $this->{test_web}, "VeryOldTopic" );
 
-  #TODO: sadly, the core Handlers don't set the filedate, even though they could
-  #$this->assert_num_equals(123, $file_date);
+    #TODO: sadly, the core Handlers don't set the filedate
+    # even though they could
+    # my $file_date =
+    #   $this->{session}->{store}
+    #   ->getApproxRevTime( $this->{test_web}, "VeryOldTopic" );
+    # $this->assert_num_equals(86420, $file_date);
 
     my $result = $this->{test_topicObject}
 
