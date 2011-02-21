@@ -121,7 +121,10 @@ THIS
         );
         $meta->put( "TOPICPARENT", { name => "$this->{test_web}.OldTopic" } );
         $meta->save();
+    $this->assert(
+        $this->{session}->topicExists( $this->{test_web}, $topic ) );
     }
+
 
     # Topic in the new web
     my $meta =
@@ -214,6 +217,8 @@ THIS
         }
     );
     $meta->save();
+    $this->assert(
+        $this->{session}->topicExists( $this->{test_web}, 'TmplRefTopic' ) );
 
     $meta = Foswiki::Meta->new(
         $this->{session}, $this->{test_web},
