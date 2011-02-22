@@ -134,6 +134,10 @@
 ---+++ %MAKETEXT{"Base web [_1] is missing or does not exist" args="%PARAM1%"}%
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
+%TMPL:DEF{"restore_invalid_rev"}%
+---+++ %MAKETEXT{"Requested revision ([_1]) is illegal or invalid. It does not exist in history, or is the same or later than the current revision ([_2])" args="'%PARAM1%','%PARAM2%'"}%
+%MAKETEXT{"Please go back in your browser and try again."}%
+%TMPL:END%
 %TMPL:DEF{"invalid_web_color"}%
 ---+++ %MAKETEXT{"Color [_1] has an invalid format" args="=%PARAM1%="}%
 %MAKETEXT{"A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. =#FFFF00=."}%
