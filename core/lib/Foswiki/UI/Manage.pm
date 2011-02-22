@@ -470,6 +470,18 @@ sub _action_restoreRevision {
     # read the current topic
     my $meta = Foswiki::Meta->load( $session, $web, $topic );
 
+    if ( !$meta->haveAccess('CHANGE') ) {
+
+        # user has no permission to change the topic
+        throw Foswiki::OopsException(
+            'accessdenied',
+            def    => 'topic_access',
+            web    => $web,
+            topic  => $topic,
+            params => [ 'change', 'denied' ]
+        );
+    }
+
     # read the old topic
     my $rev = $query->param('rev');
     my $requestedRev = Foswiki::Store::cleanUpRevID( $query->param('rev') );
