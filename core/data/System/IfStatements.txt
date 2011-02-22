@@ -1,17 +1,17 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252718830" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1298392080" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
----+ IF Statements
+---+!! IF statements
 
-The =%<nop>IF%= construct gives Foswiki the power to include content in topics based on the value of simple expressions.
+The =%<nop>IF%= macro gives you the ability to test for macro values, URL parameters, access permissions, topic existence and more.
 
 %TOC%
 
 ---++ Syntax
 <verbatim class="tml">%IF{"CONDITION" then="THEN" else="ELSE"}%</verbatim>
 
-In the example above, if CONDITION evaluates to TRUE, then THEN will be included in the topic; otherwise ELSE will be included.
+In the example above, if =CONDITION= evaluates to TRUE, then =THEN= will be included in the topic; otherwise =ELSE= will be included.
 
-Note that because of the way Foswiki evaluates, then whatever is in the THEN and ELSE parameters will already have been expanded by the time the condition is actually evaluated. The standard FormatTokens can be used in the THEN and ELSE parameters when you need to delay evaluation of (for example) a macro.
+Note that because of the way Foswiki evaluates, whatever is in the THEN and ELSE parameters will already have been expanded by the time the condition is actually evaluated. The standard FormatTokens can be used in the THEN and ELSE parameters when you need to delay evaluation of (for example) a macro.
 
 The basic syntax of a condition is the same as [[QuerySearch][the syntax used for queries]], with the addition of the following special operators:
 
@@ -22,23 +22,30 @@ The basic syntax of a condition is the same as [[QuerySearch][the syntax used fo
 | =ingroup= | ='X' ingroup 'Y'= is true if user 'X' is in group 'Y'. 'X' can be a login name or a wikiname. |
 | =defined= | True if a [[PreferenceSettings][preference setting]] or url parameter of this name is defined. |
 | =isempty= | True if a [[PreferenceSettings][preference setting]], url parameter or session variable of this name has an empty value. It is equivalent to the expression =(!defined(x) &#124;&#124; $x='')= |
-| =$= | expands a URL parameter or [[Macros][macro]] name. Plugin handlers *are not called*. You can pass a limited subset of parameters to macros by enclosing the parameter string in single quotes; for example, =$ 'MACRO{value}'=. The ='MACRO{value}'= string may *not* contain quotes (' or "). |
+| =$= | expands a URL parameter or [[Macros][macro]] name. Plugin handlers *are not called*. You can pass a limited subset of parameters to macros by enclosing the parameter string in single quotes; for example, =$'MACRO{value}'=. The ='MACRO{value}'= string may *not* contain quotes: ='= or ="=. |
 
----+++ Examples
+The =%<nop>IF%= statement is deliberately kept simple. In particular, note that there is no way to conditionally execute a Set statement. If you need more sophisticated control over formatting, then consider using the SpreadSheetPlugin.
 
-1. Macro defined or not
+---+++ Macros
+---++++ Test if macro is defined
+<verbatim class="tml">%IF{"defined MACRO" then="THEN" else="ELSE"}%</verbatim>
+
+Example:
 <verbatim class="tml">
 %IF{
-   "defined 'WIKINAME'"
+   "defined WIKINAME"
    then="WIKINAME is defined"
    else="WIKINAME is not defined"
 }%
 </verbatim>
 
-2. Compare macro definition
+---++++ Compare macro definition
+<verbatim class="tml">%IF{"$MACRO='VALUE'" then="THEN" else="ELSE"}%</verbatim>
+
+Example:
 <verbatim class="tml">
 You are %IF{
-   "$ WIKINAME='WikiGuest' and not defined 'OPEN_DAY'"
+   "$WIKINAME='WikiGuest' and not defined 'OPEN_DAY'"
    then="not"
 }% allowed to
 %IF{
@@ -48,36 +55,154 @@ You are %IF{
 }% this Foswiki today.
 </verbatim>
 
-3. URL parameter
+---+++ URL parameters
+---++++ Test if URL param is passed
+<verbatim class="tml">%IF{"defined PARAM" then="THEN" else="ELSE"}%</verbatim>
+
+Example:
 <verbatim class="tml">
 %IF{
-   "defined 'search'"
-   then="Search: $percentURLPARAM{search}$percent"
+   "defined search"
+   then="Search:%URLPARAM{"search"}%"
    else="No search passed in"
 }%
 </verbatim>
 
-4. Range test on URL parameter
+Note that macro =URLPARAM= is evaluated before the =IF= macro, therefore the expression does not need to be escaped.
+
+---++++ Range test on URL parameter
+<verbatim class="tml">%IF{"$PARAM < NUMBER" then="THEN" else="ELSE"}%</verbatim>
+
+Example:
 <verbatim class="tml">
 url param t is %IF{
-   "0 < $ t and $ t < 1000"
+   "0 < $t and $t < 1000"
    then="in"
    else="out of"
 }% range.
 </verbatim>
 
-5. Text comparison of URL parameter
+---++++ Text comparison of URL parameter
+<verbatim class="tml">%IF{"$PARAM='VALUE'" then="THEN" else="ELSE"}%</verbatim>
+or
+<verbatim class="tml">%IF{"$'URLPARAM{PARAM}'='VALUE'" then="THEN" else="ELSE"}%</verbatim>
+
+Example:
+<verbatim class="tml">
+%IF{
+   "$scope='text'"
+   then="Plain text search"
+}%
+</verbatim>
+
+or
+
 <verbatim class="tml">
 %IF{
    "$'URLPARAM{scope}'='text'"
    then="Plain text search"
-}% 
+}%
 </verbatim>
 
-6. Configuration item <br />
-(item must be one of  %FORMAT{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}%)
+#ParamTest
+---++++ URL parameter test
+Be careful when you test for an empty value: if the URL parameter is not defined (not passed in the URL), the outcome might not be what you expected. Use the parameter test to check your assumptions.
 
-Testing an item set or not 
+%TABLE{databg="#ffffff" headeralign="left" headerrows="2"}%
+| *Test* \
+| *IF query* \
+| *no param* \
+| *empty param* \
+| *param=text* |
+| \
+| \
+| [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?paramtest=1;noparam=1#ParamTest][test: no param]] %IF{"$paramtest=1 and $noparam=1" then="<code>URLPARAM</code> value=%URLPARAM{"scope"}%."}% \
+| [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?paramtest=1;emptyparam=1;scope=#ParamTest][test: empty param]] %IF{"$paramtest=1 and $emptyparam=1" then="<code>URLPARAM</code> value=%URLPARAM{"scope"}%."}% \
+| [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?paramtest=1;paramvalue=1;scope=text#ParamTest][test: param=text]] %IF{"$paramtest=1 and $paramvalue=1" then="<code>URLPARAM</code> value=<code>%URLPARAM{"scope"}%</code>."}% |
+| is defined \
+| =defined scope= \
+| %IF{"$paramtest=1 and $noparam=1" then='%IF{"defined scope" else='false'}%'}% \
+| %IF{"$paramtest=1 and $emptyparam=1" then='%IF{"defined scope" then='true'}%'}% \
+| %IF{"$paramtest=1 and $paramvalue=1" then='%IF{"defined scope" then='true'}%'}% |
+| is empty \
+| =$scope=''= \
+| %IF{"$paramtest=1 and $noparam=1" then='%IF{"$scope=''" else='false %RED%NOTE: value is undefined, so not empty%ENDCOLOR%'}%'}% \
+| %IF{"$paramtest=1 and $emptyparam=1" then='%IF{"$scope=''" then='true'}%'}% \
+| %IF{"$paramtest=1 and $paramvalue=1" then='%IF{"$scope=''" else='false'}%'}% |
+| is not empty \
+| =$scope!=''= \
+| %IF{"$paramtest=1 and $noparam=1" then='%IF{"$scope!=''" then='true %RED%NOTE: value is undefined, so also \\'not empty\\'%ENDCOLOR%'}%'}% \
+| %IF{"$paramtest=1 and $emptyparam=1" then='%IF{"$scope!=''" else='false'}%'}% \
+| %IF{"$paramtest=1 and $paramvalue=1" then='%IF{"$scope!=''" then='true'}%'}% |
+| has value =text= \
+| =$scope='text'"= \
+| %IF{"$paramtest=1 and $noparam=1" then='%IF{"$scope='text'" else='false'}%'}% \
+| %IF{"$paramtest=1 and $emptyparam=1" then='%IF{"$scope='text'" else='false'}%'}% \
+| %IF{"$paramtest=1 and $paramvalue=1" then='%IF{"$scope='text'" then='true'}%'}% |
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%#ParamTest][Reset test]]
+
+
+---+++ INCLUDE parameters
+<verbatim class="tml">%IF{"$PARAM" then="THEN" else="ELSE"}%</verbatim>
+
+Parameters that are passed to the =INCLUDE= macro are evaluated the same as URL parameters. Combining those may lead to unexpected results!
+
+Example:
+<verbatim class="tml">
+%INCLUDE{"%TOPIC%" section="people" name="Barry"}%
+%STARTSECTION{"people"}%
+%IF{"$name" then="%name%"}%
+%ENDSECTION{"people"}%
+</verbatim>
+
+---++++ INCLUDE parameter test
+<verbatim>
+%INCLUDE{"%TOPIC%" section="includetest" name="Barry"}%
+</verbatim>
+
+%INCLUDE{"%TOPIC%" section="includetest" name="Barry"}%
+<verbatim class='foswikiHidden'>
+%STARTSECTION{"includetest"}%
+%TABLE{databg="#ffffff" headeralign="left"}%
+| *Test* \
+| *IF query param 'name'* \
+| *Result param 'name'* \
+| *IF query param 'yo'* \
+| *Result param 'yo'* |
+| is defined \
+| =defined name= \
+| %IF{"defined name" then='true'}% \
+| =defined yo= \
+| %IF{"defined yo" else='false'}% |
+| is empty \
+| =$name=''= \
+| %IF{"$name=''" else='false'}% \
+| =$yo=''= \
+| %IF{"$yo=''" else='false %RED%NOTE: value is undefined, so not empty%ENDCOLOR%'}% |
+| is not empty \
+| =$name!=''= \
+| %IF{"$name!=''" then='true'}% \
+| =$yo!=''= \
+| %IF{"$yo=''" else='false %RED%NOTE: value is undefined, so not \'not empty\'%ENDCOLOR%'}% |
+| has value =Barry= \
+| =$name='Barry'= \
+| %IF{"$name='Barry'" then='true'}% \
+| =$yo='Barry'= \
+| %IF{"$yo='Barry'" else='false'}% |
+%ENDSECTION{"includetest"}%
+</verbatim>
+
+
+---+++ Configuration values
+*Configuration items* are defined in [[%SCRIPTURLPATH{"configure"}%][configure]]. You cannot see the value of a configuration item, you can only test if the item is set, or test the value against a string.
+
+Items must be one of  %FORMAT{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}%.
+
+---++++ Testing if item is set
+<verbatim class="tml">%IF{"{CONFIGURATION}" then="THEN" else="ELSE"}%</verbatim>
+
+Example:
 <verbatim class="tml">
 User details are %IF{
    "{AntiSpam}{HideUserDetails}"
@@ -85,14 +210,11 @@ User details are %IF{
    else="shown"
 }%
 </verbatim>
-expands to:
-User details are %IF{
-   "{AntiSpam}{HideUserDetails}"
-   then="hidden"
-   else="shown"
-}%
 
-Testing the value of an item
+---++++ Testing the value of an item
+<verbatim class="tml">%IF{"{CONFIGURATION}='VALUE'" then="THEN" else="ELSE"}%</verbatim>
+
+Example:
 <verbatim class="tml">
 Validation method is %IF{
    "{Validation}{Method}='strikeone'"
@@ -100,66 +222,53 @@ Validation method is %IF{
    else="no 'strikeone'"
 }%
 </verbatim>
-expands to:
-Validation method is %IF{
-   "{Validation}{Method}='strikeone'"
-   then="'strikeone'"
-   else="no 'strikeone'"
+
+---+++ Plugin states
+<verbatim class="tml">%IF{"context PLUGINEnabled" then="THEN" else="ELSE"}%</verbatim>
+
+Example:
+<verbatim class="tml">
+TablePlugin is %IF{
+   "context TablePluginEnabled"
+   then="enabled"
+   else="disabled"
+}%.
+</verbatim>
+
+---+++ Access permissions
+<verbatim class="tml">%IF{"'TOPIC' allows 'ACCESS'" then="THEN" else="ELSE"}%</verbatim>
+
+Example:
+<verbatim class="tml">
+You %IF{"'%TOPIC%' allows 'change'" then="can" else="cannot"}% change this topic.
+You %IF{"'Sandbox.TestTopic' allows 'change'" then="can" else="cannot"}% change Sandbox.TestTopic.
+You %IF{"'Sandbox' allows 'change'" then="can" else="cannot"}% change Sandbox web
+</verbatim>
+
+---+++ Topic existence
+<verbatim class="tml">%IF{"istopic 'TOPIC'" then="THEN" else="ELSE"}%</verbatim>
+
+Example:
+<verbatim class="tml">
+Topic Sandbox.TestTopic %IF{"istopic 'Sandbox.TestTopic'" then="exists" else="does not exist"}%.
+Web Sandbox %IF{"isweb 'Sandbox'" then="exists" else="does not exist"}%.
+</verbatim>
+
+---+++ Group membership
+<verbatim class="tml">%IF{"$USER ingroup 'GROUP'" then="THEN" else="ELSE"}%</verbatim>
+
+Example:
+<verbatim class="tml">
+You are %IF{
+   "$USERNAME ingroup 'AdminGroup'"
+   then="an admin"
+   else="a normal user"
 }%
-
-7. Plugin enabled test
-<verbatim class="tml">
-TablePlugin is %IF{
-   "context TablePluginEnabled"
-   then="enabled"
-   else="disabled"
-}%.
 </verbatim>
-expands to: %BR%
-TablePlugin is %IF{
-   "context TablePluginEnabled"
-   then="enabled"
-   else="disabled"
-}%.
 
-8. Check access permissions
-<verbatim class="tml">
-You %IF{"'%TOPIC%' allows 'change'" then="can" else="cannot"}% change this topic.
-You %IF{"'Sandbox.TestTopic' allows 'change'" then="can" else="cannot"}% change Sandbox.TestTopic.
-You %IF{"'Sandbox' allows 'change'" then="can" else="cannot"}% change Sandbox web
-</verbatim>
-expands to: %BR%
-You %IF{"'%TOPIC%' allows 'change'" then="can" else="cannot"}% change this topic.
-You %IF{"'Sandbox.TestTopic' allows 'change'" then="can" else="cannot"}% change Sandbox.TestTopic.
-You %IF{"'Sandbox' allows 'change'" then="can" else="cannot"}% change Sandbox web
+---+++ Context identifiers
+<verbatim class="tml">%IF{"context CONTEXT" then="THEN" else="ELSE"}%</verbatim>
 
-9. Check topic existance
-<verbatim class="tml">
-Topic Sandbox.TestTopic %IF{"istopic 'Sandbox.TestTopic'" then="exists" else="does not exist"}%
-Web Sandbox.TestTopic %IF{"isweb 'Sandbox'" then="exists" else="does not exist"}%
-</verbatim>
-expands to: %BR%
-Topic Sandbox.TestTopic %IF{"istopic 'Sandbox.TestTopic'" then="exists" else="does not exist"}%
-Web Sandbox.TestTopic %IF{"isweb 'Sandbox'" then="exists" else="does not exist"}%
-
-10. Group membership
-<verbatim class="tml">
-You are %IF{
-   "'%USERNAME%' ingroup 'AdminGroup'"
-   then="an admin"
-   else="a normal user"
-}% 
-</verbatim>
-expands to: %BR%
-You are %IF{
-   "'%USERNAME%' ingroup 'AdminGroup'"
-   then="an admin"
-   else="a normal user"
-}% 
-
-*Configuration items* are defined in [[%SCRIPTURLPATH{"configure"}%][configure]]. You cannot see the value of a configuration item, you can only see if the item is set or not.
-
----++ Context identifiers
 Context identifiers are used in Foswiki to label various stages of the rendering process. They are especially useful for [[Skins][skin]] authors to find out where they are in the rendering process. The following context identifiers are available:
 | *id* | *context* |
 | =absolute_urls= | Set if absolute URLs are required |
@@ -194,17 +303,15 @@ Context identifiers are used in Foswiki to label various stages of the rendering
 | =view= | in view script (see CommandAndCGIScripts) |
 | =viewfile= | in viewfile script (see CommandAndCGIScripts) |
 | =rest= | in rest script (see CommandAndCGIScripts) |
-| =registration_supported= | registration is supported by the current UserMapper |
+| =registration_supported= | registration is supported by the current user mapper |
 | =registration_enabled= | set if ={Register}{EnableNewUserRegistration}= is on, and registration is supported |
 | =passwords_modifyable= | set if the password manager supports changing the password / email |
 
 In addition there is a context identifier for each enabled plugin; for example, if =Gallous<nop>BreeksPlugin= is installed *and enabled*, then the context ID =Gallous<nop>BreeksPluginEnabled= will be set. Other extensions may set additional context identifiers.
 
-The =%<nop>IF%= statement is deliberately kept simple. In particular, note that there is no way to conditionally execute a Set statement. If you need more sophisticated control over formatting, then consider using the SpreadSheetPlugin.
 
 ---++ Query syntax
-
-Note that while the [[QuerySearch][query syntax]] can be used to access form fields, there are some contexts in which an IF statement may be used where there is no topic context, or the topic context is not what you want. In these cases you can use the =/= operator to indicate the name of the topic:
+<verbatim class="tml">%IF{"QUERY" then="THEN" else="ELSE"}%</verbatim>
 
 ---+++ Examples
 Display the value of a form field if the topic has form field "Summary":
@@ -216,6 +323,8 @@ Display the value of a form field if the topic has form field "Summary":
    }%"
 }%
 </verbatim>
+Note that while a [[QuerySearch][query search]] can be used to access form fields, there are some contexts in which an IF statement may be used where there is no topic context, or the topic context is not what you want. In these cases you can use the =/= operator to indicate the name of the topic:
+
 <blockquote>%H% The [[VarIF][IF]] macro is expanded before [[VarFORMFIELD][FORMFIELD]]. [[FormattedSearch#InsideOutLeftToRight][Read more]]</blockquote>
 
 Test if the topic has attachments:
