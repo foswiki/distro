@@ -409,7 +409,10 @@ sub _action_editSettings {
         my $name  = $field->{name};
         my $value = $field->{value};
         $settings .= '   * '
-          . ( ( defined($field->{type}) and $field->{type} eq 'Local' ) ? 'Local' : 'Set' ) . ' '
+          . ( ( defined( $field->{type} ) and $field->{type} eq 'Local' )
+            ? 'Local'
+            : 'Set' )
+          . ' '
           . $name . ' = '
           . $value . "\n";
     }
@@ -500,7 +503,7 @@ sub _parsePreferenceValue {
 
 sub _action_restoreRevision {
     my ($session) = @_;
-    my $query     = $session->{request};
+    my $query = $session->{request};
     my ( $web, $topic ) =
       $session->normalizeWebTopicName( $session->{webName},
         $session->{topicName} );
@@ -521,49 +524,49 @@ sub _action_restoreRevision {
     }
 
     # read the old topic
-    my $rev = $query->param('rev');
+    my $rev          = $query->param('rev');
     my $requestedRev = Foswiki::Store::cleanUpRevID( $query->param('rev') );
 
     unless ($requestedRev) {
         throw Foswiki::OopsException(
             'attention',
             def    => 'restore_invalid_rev',
-            params => [$rev, $meta->getLoadedRev()]
+            params => [ $rev, $meta->getLoadedRev() ]
         );
     }
 
     my $oldmeta = Foswiki::Meta->load( $session, $web, $topic, $requestedRev );
 
-    #print STDERR "REVS (".$meta->getLoadedRev().") (".$oldmeta->getLoadedRev().") ($requestedRev) \n";
+#print STDERR "REVS (".$meta->getLoadedRev().") (".$oldmeta->getLoadedRev().") ($requestedRev) \n";
 
-    if ( ! defined $oldmeta->getLoadedRev()
-      || $meta->getLoadedRev() == $oldmeta->getLoadedRev()
-      || $oldmeta->getLoadedRev() != $rev
-      ) {
+    if (   !defined $oldmeta->getLoadedRev()
+        || $meta->getLoadedRev() == $oldmeta->getLoadedRev()
+        || $oldmeta->getLoadedRev() != $rev )
+    {
         throw Foswiki::OopsException(
             'attention',
             def    => 'restore_invalid_rev',
-            params => [$rev, $meta->getLoadedRev()]
+            params => [ $rev, $meta->getLoadedRev() ]
         );
     }
 
-    foreach my $k (sort keys %$meta ) {
+    foreach my $k ( sort keys %$meta ) {
         next if $k =~ m/^_/;
-        next if $k eq 'TOPICINFO';          # Don't revert topicinfo
-        next if $k eq 'FILEATTACHMENT';     # Don't revert attachments
-        $meta->remove($k)  unless $oldmeta->{$k};
-        }
+        next if $k eq 'TOPICINFO';         # Don't revert topicinfo
+        next if $k eq 'FILEATTACHMENT';    # Don't revert attachments
+        $meta->remove($k) unless $oldmeta->{$k};
+    }
 
-    foreach my $k (sort keys %$oldmeta ) {
+    foreach my $k ( sort keys %$oldmeta ) {
         next if $k =~ m/^_/;
-        next if $k eq 'TOPICINFO';          # Don't revert topicinfo
-        next if $k eq 'FILEATTACHMENT';     # Don't revert attachments
+        next if $k eq 'TOPICINFO';         # Don't revert topicinfo
+        next if $k eq 'FILEATTACHMENT';    # Don't revert attachments
         $meta->copyFrom( $oldmeta, $k );
-        }
+    }
 
-    $meta->text($oldmeta->text());          # copy the old text
+    $meta->text( $oldmeta->text() );       # copy the old text
 
-    $meta->save(( forcenewrevision => 1 ) );
+    $meta->save( ( forcenewrevision => 1 ) );
 
     $session->{cgiQuery}->delete('action');
 
