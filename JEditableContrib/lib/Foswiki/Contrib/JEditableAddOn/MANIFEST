@@ -1,0 +1,8 @@
+# Release manifest for JEditableAddOn
+data/System/JEditableAddOn.txt 0644 Documentation
+lib/Foswiki/Contrib/JEditableAddOn.pm 0644 Perl module
+lib/Foswiki/Contrib/JEditableAddOn/JEDITABLE.pm 0644 Perl module
+lib/Foswiki/Contrib/JEditableAddOn/Config.spec 0644 Configuration info
+lib/Foswiki/Plugins/JEditableAddOnPlugin.pm 0644 Plugin stub
+pub/System/JEditableAddOn/jquery.jeditable_src.js
+pub/System/JEditableAddOn/jquery.jeditable.js

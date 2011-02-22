@@ -1,0 +1,32 @@
+---+!! !%TOPIC%
+<!--
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
+%SHORTDESCRIPTION%
+
+%TOC%
+
+This add-on packages up the jQuery "JEditable" plugin from Miko Tuupala. This excellent
+little plugin gives you edit-in-place capability with many common form input types.
+
+See http://www.appelsiini.net/projects/jeditable for more information.
+
+---++ Installation Instructions
+
+%$INSTALL_INSTRUCTIONS%
+
+With JQueryPlugin versions *before* 4.02, you will have to enable the JEditableAddOnPlugin.
+
+---++ Info
+
+|  Author(s): | Crawford Currie http://c-dot.co.uk |
+|  Copyright: | &copy; 2011 Foswiki Contributors |
+|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Release: | %$RELEASE% |
+|  Version: | %$VERSION% |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Home page: | http://foswiki.org/bin/view/Extensions/%TOPIC% |
+|  Support: | http://foswiki.org/bin/view/Support/%TOPIC% |
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
