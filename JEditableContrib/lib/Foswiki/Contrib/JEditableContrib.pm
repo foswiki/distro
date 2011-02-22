@@ -1,4 +1,4 @@
-package Foswiki::Contrib::JEditableAddOn;
+package Foswiki::Contrib::JEditableContrib;
 
 use strict;
 use warnings;
@@ -11,8 +11,8 @@ our $SHORTDESCRIPTION = 'The JQuery "JEditable" plugin, packaged for use in Fosw
 
 Call this from any other extension to include this plugin. For example,
 <verbatim>
-require Foswiki::Contrib::JEditableAddOn ();
-Foswiki::Contrib::JEditableAddOn::init();
+require Foswiki::Contrib::JEditableContrib ();
+Foswiki::Contrib::JEditableContrib::init();
 </verbatim>
 
 =cut
@@ -20,7 +20,7 @@ Foswiki::Contrib::JEditableAddOn::init();
 sub init {
     unless (Foswiki::Plugins::JQueryPlugin::registerPlugin(
 		'JEditable',
-		'Foswiki::Contrib::JEditableAddOn::JEDITABLE')) {
+		'Foswiki::Contrib::JEditableContrib::JEDITABLE')) {
 	die 'Failed to register JEditable plugin';
     }
     unless ( Foswiki::Plugins::JQueryPlugin::createPlugin( "JEditable" )) {

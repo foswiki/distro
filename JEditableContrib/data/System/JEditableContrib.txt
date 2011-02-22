@@ -15,7 +15,7 @@ See http://www.appelsiini.net/projects/jeditable for more information.
 
 %$INSTALL_INSTRUCTIONS%
 
-With JQueryPlugin versions *before* 4.02, you will have to enable the JEditableAddOnPlugin.
+With JQueryPlugin versions *before* 4.02, you will have to enable the JEditableContribPlugin.
 
 ---++ Info
 

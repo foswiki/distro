@@ -1,4 +1,4 @@
-package Foswiki::Contrib::JEditableAddOn::JEDITABLE;
+package Foswiki::Contrib::JEditableContrib::JEDITABLE;
 use strict;
 use warnings;
 
@@ -6,7 +6,7 @@ use Foswiki::Plugins::JQueryPlugin ();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 use Foswiki::Plugins::JQueryPlugin::Plugin ();
-use Foswiki::Contrib::JEditableAddOn ();
+use Foswiki::Contrib::JEditableContrib ();
 
 sub new {
     my $class = shift;
@@ -15,12 +15,12 @@ sub new {
     my $this = $class->SUPER::new( 
 	$session,
 	name          => 'JEditable',
-	version       => $Foswiki::Contrib::JEditableAddOn::RELEASE,
+	version       => $Foswiki::Contrib::JEditableContrib::RELEASE,
 	author        => 'Mika Tuupola',
 	homepage      => 'http://www.appelsiini.net/projects/jeditable',
-	puburl        => '%PUBURLPATH%/%SYSTEMWEB%/JEditableAddOn',
-	documentation => "$Foswiki::cfg{SystemWebName}.JEditableAddOn",
-	summary       => $Foswiki::Contrib::JEditableAddOn::SHORTDESCRIPTION,
+	puburl        => '%PUBURLPATH%/%SYSTEMWEB%/JEditableContrib',
+	documentation => "$Foswiki::cfg{SystemWebName}.JEditableContrib",
+	summary       => $Foswiki::Contrib::JEditableContrib::SHORTDESCRIPTION,
 	javascript    => [ "jquery.jeditable.js" ]);
     
     return $this;
