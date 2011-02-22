@@ -666,30 +666,32 @@ sub generateEditButtons {
         CANCEL_ROW
     );
 
-    if ( !$wholeTable && $this->{attrs}->{changerows} ) {
+    if ( $this->{attrs}->{changerows} ) {
         $buttons .= '<br />' if $multirow;
-        if ($id) {
-            if ( !$topRow ) {
-                $buttons .= CGI::a(
-                    {
-                        href  => '#upRow',
-                        title => UP_ROW,
-			class => 'erp_submit ui-icon ui-icon-arrow-1-n'
-                    },
-		    UP_ROW
-                );
-            }
-            if ( !$bottomRow ) {
-                $buttons .= CGI::a(
-                    {
-                        href  => '#downRow',
-                        title => DOWN_ROW,
- 			class => 'erp_submit ui-icon ui-icon-arrow-1-s'
-                    },
-		    DOWN_ROW
-                );
-            }
-        }
+	unless ($wholeTable) {
+	    if ($id) {
+		if ( !$topRow ) {
+		    $buttons .= CGI::a(
+			{
+			    href  => '#upRow',
+			    title => UP_ROW,
+			    class => 'erp_submit ui-icon ui-icon-arrow-1-n'
+			},
+			UP_ROW
+			);
+		}
+		if ( !$bottomRow ) {
+		    $buttons .= CGI::a(
+			{
+			    href  => '#downRow',
+			    title => DOWN_ROW,
+			    class => 'erp_submit ui-icon ui-icon-arrow-1-s'
+			},
+			DOWN_ROW
+			);
+		}
+	    }
+	}
         $buttons .= CGI::a(
             {
                 href  => '#addRow',
