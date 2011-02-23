@@ -996,7 +996,7 @@ sub loadVersion {
             #ASSERT($rev == $this->{_loadedRev}) if DEBUG;
             return;
         }
-        ASSERT( !defined( $this->{_loadedRev} ) ) if DEBUG;
+        ASSERT( not( $this->{_loadedRev} ) ) if DEBUG;
     }
     elsif ( defined( $this->{_loadedRev} ) ) {
 
@@ -1010,7 +1010,7 @@ sub loadVersion {
     ASSERT( !($rev) or $rev =~ /^\s*\d+\s*/ ) if DEBUG;    # looks like a number
     return $this->{_loadedRev} if ( $rev && $this->{_loadedRev} && $rev == $this->{_loadedRev} );
 
-    ASSERT(not defined($this->{_loadedRev})) if DEBUG;
+    ASSERT(not ($this->{_loadedRev})) if DEBUG;
     
     ( $this->{_loadedRev}, $this->{_latestIsLoaded} ) =
       $this->{_session}->{store}->readTopic( $this, $rev );
