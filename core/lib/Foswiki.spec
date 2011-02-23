@@ -738,6 +738,7 @@ $Foswiki::cfg{Log}{Action} = {
     search   => 1,
     changes  => 1,
     rdiff    => 1,
+    compare  => 1,
     edit     => 1,
     save     => 1,
     upload   => 1,
