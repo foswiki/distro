@@ -183,4 +183,15 @@ sub test_FORMFIELD_Item9269 {
     $this->assert_str_equals('$value = <nop>ElleBelle', $result);
 }
 
+sub test_FORMFIELD_Item10398 {
+    my $this = shift;
+
+#topic does not exist.
+    my $topicObject = $this->{test_topicObject};
+    my $result = $topicObject->expandMacros(
+        '%FORMFIELD{"Daphne" format="$dollarvalue = $value" topic="SomeNonExistantTopicThatReallyShouldNotBeThere"}%');
+    $this->assert_str_equals('', $result);
+}
+
+
 1;
