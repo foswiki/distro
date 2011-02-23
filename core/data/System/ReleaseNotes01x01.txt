@@ -233,6 +233,24 @@ The configuration tool =bin/configure= now performs extensive checks of file sys
 
 Because of prior inconsistencies in the files distributed with Foswiki and TWiki core and extensions, migration of older Foswiki or TWiki installs may see excessive errors reported by configure. You are recommended to correct the file system permissions. 
 
+---+++ CompareRevisionsAddOn - security considerations
+
+CompareRevisionsAddOn is now included by default.  If you choose to use this
+extensions to replace the =rdiff= command, the following items must be
+addressed.
+
+   * If =rdiff= or =rdiffauth= are listed in $Foswiki::cfg{AuthScripts} - then compare should be added. As there is no equivalent =compareauth= script, then compare should be protected.
+   * The =compare= script should be added to the Apache configuration if Apache authentication is required.  Protect =compare= explicitly as it will not be covered by the match for *auth.
+   * The =compare= script should also be added to the Log actions list
+<verbatim>
+$Foswiki::cfg{Log}{Action} = {
+...
+          'compare' => 1,
+...
+                  };
+</verbatim>
+
+
 ---+++ Newer modern icon set for Document Graphics
 To celebrate our new look, project and momentum, Foswiki now has a new ICON set to update the one shipped for the last 10 years. Using the !FamFamFam icon set, augmented with icons from other leading graphic artists.
 
@@ -245,8 +263,7 @@ Sorting has been improved so the plugin can now better handle mix of formats and
 
 ---++++ API Enhancements
 The following functions have been added to the =Foswiki::Func= API:
-   * [[System/PerlDoc?module=Foswiki::Func#copyAttachment_40_36web_44_36topic_44_36attachment_44_36newWeb_44_36newTopic_44_36newAttachment_41
-][=copyAttachment=]]
+   * [[System/PerlDoc?module=Foswiki::Func#copyAttachment_40_36web_44_36topic_44_36attachment_44_36newWeb_44_36newTopic_44_36newAttachment_41][=copyAttachment=]]
 
 New parameters can be found on:
 
