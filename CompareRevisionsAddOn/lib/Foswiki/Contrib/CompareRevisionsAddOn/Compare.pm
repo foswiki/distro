@@ -39,10 +39,8 @@ sub compare {
     my $webName = $session->{webName};
     my $topic   = $session->{topicName};
 
-    unless ( Foswiki::Func::topicExists( $webName, $topic ) ) {
-        Foswiki::Func::redirectCgiQuery( $query,
-            Foswiki::Func::getOopsUrl( $webName, $topic, 'oopsmissing' ) );
-    }
+    Foswiki::UI::checkWebExists( $session, $webName, 'compare' );
+    Foswiki::UI::checkTopicExists( $session, $webName, $topic, 'compare' );
 
     $scripturl = Foswiki::Func::getScriptUrl( $webName, $topic, 'compare' );
 
@@ -299,6 +297,8 @@ sub compare {
     $tree2->delete();
     
     $session->writeCompletePage( $output, 'view' );
+    $session->logEvent( 'compare', $webName . '.' . $topic,
+            "(r$rev1-r$rev2)" );
 
 }
 
