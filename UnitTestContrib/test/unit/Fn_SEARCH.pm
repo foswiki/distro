@@ -4710,4 +4710,23 @@ sub verify_Item10269 {
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
+#TaxonProfile/Builder.TermForm
+sub verify_Item10398 {
+    my $this = shift;
+
+    $this->set_up_for_queries();
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'Trash.MainBobTest',
+        "BLEEGLE blah/matchme.blah" );
+    $topicObject->save();
+
+
+    my $result =
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"name=\'WebPreferences\'" type="query" web="'.$this->{test_web}.'" recurse="on" nonoise="on"}%' );
+    $this->assert_str_equals( 'QueryTopicTwo', $result );
+}
+
+
 1;
