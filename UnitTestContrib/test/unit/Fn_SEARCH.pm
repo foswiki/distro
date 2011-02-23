@@ -4724,8 +4724,8 @@ sub verify_Item10398 {
 
     my $result =
       $this->{test_topicObject}
-      ->expandMacros( '%SEARCH{"name=\'WebPreferences\'" type="query" web="'.$this->{test_web}.'" recurse="on" nonoise="on"}%' );
-    $this->assert_str_equals( 'QueryTopicTwo', $result );
+      ->expandMacros( '%SEARCH{"name=\'WebPreferences\'" type="query" web="'.$this->{test_web}.'" recurse="on" nonoise="on" format="$topic"}%' );
+    $this->assert_str_equals( 'WebPreferences', $result );
 }
 
 

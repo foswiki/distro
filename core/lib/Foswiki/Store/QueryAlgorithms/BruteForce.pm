@@ -209,10 +209,10 @@ sub _webQuery {
             $resultTopicSet->addTopics( $Iweb, $topic );
         }
         else {
-            my $cache =
-              $Foswiki::Plugins::SESSION->search->metacache->get( $Iweb,
+            my $meta =
+              $Foswiki::Plugins::SESSION->search->metacache->addMeta( $Iweb,
                 $topic );
-            my $meta = $cache->{tom};
+            next unless (defined($meta));   #not a valid or loadable topic
 
             # this 'lazy load' will become useful when @$topics becomes
             # an infoCache
