@@ -42,6 +42,9 @@ sub compare {
     Foswiki::UI::checkWebExists( $session, $webName, 'compare' );
     Foswiki::UI::checkTopicExists( $session, $webName, $topic, 'compare' );
 
+    my $topicObject = Foswiki::Meta->load( $session, $webName, $topic );
+    Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
+
     $scripturl = Foswiki::Func::getScriptUrl( $webName, $topic, 'compare' );
 
     # Check, if interweave or sidebyside
