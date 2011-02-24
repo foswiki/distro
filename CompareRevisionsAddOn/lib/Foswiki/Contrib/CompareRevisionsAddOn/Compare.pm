@@ -301,7 +301,7 @@ sub compare {
     
     $session->writeCompletePage( $output, 'view' );
     $session->logEvent( 'compare', $webName . '.' . $topic,
-            "(r$rev1-r$rev2)" );
+            "$rev1 $rev2" );
 
 }
 
