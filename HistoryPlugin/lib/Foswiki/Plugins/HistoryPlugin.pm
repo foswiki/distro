@@ -4,7 +4,9 @@ package Foswiki::Plugins::HistoryPlugin;
 
 use strict;
 use warnings;
-use Foswiki::Func;
+use Foswiki::Func ();
+use Error qw(:try);
+use Foswiki::AccessControlException ();
 
 # =========================
 use vars qw( $VERSION $RELEASE $NO_PREFS_IN_TOPIC $SHORTDESCRIPTION);
@@ -45,6 +47,11 @@ sub handleHistory {
 
     unless ( Foswiki::Func::topicExists( $web, $topic ) ) {
         return "Topic $web.$topic does not exist";
+    }
+
+    unless (Foswiki::Func::checkAccessPermission("VIEW", $session->{user}, undef, $topic, $web)) {
+      throw Foswiki::AccessControlException("VIEW", $session->{user},
+          $web, $topic, $Foswiki::Meta::reason );
     }
 
     # Get revisions
@@ -99,7 +106,7 @@ sub handleHistory {
         $checkFlag++;
         $revinfo =~ s/\$web/$web/g;
         $revinfo =~ s/\$topic/$topic/g;
-        $revinfo =~ s/\$rev/$revout/g;
+        $revinfo =~ s/\$rev/$rev/g;
         $revinfo =~ s/\$date/Foswiki::Func::formatTime($date)/ge;
         $revinfo =~ s/\$username/$user/g;
         $revinfo =~ s/\$wikiname/$wikiName/g;
