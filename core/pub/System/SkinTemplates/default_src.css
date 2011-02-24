@@ -530,6 +530,10 @@ h4.foswikiSearchResultsHeader {
 .foswikiSearchResult {
 	margin:0 0 1em 0;
 }
+.foswikiSearchResultsPager {
+	margin:1em 0;
+	padding:.25em 0;
+}
 .foswikiSummary {}
 .foswikiEmulatedLink {
 	text-decoration:underline;

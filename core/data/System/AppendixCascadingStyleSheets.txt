@@ -122,8 +122,10 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiTextareaRawView=       | Raw topic view textarea |
 
 ---+++ Search
-|=.foswikiSearchResultsHeader=      | Search results header with search string, number of hits |
+|=.foswikiSearchResults=            | List of search results |
 |=.foswikiSearchResult=             | Search result with title, summary, author and date |
+|=.foswikiSearchResultsHeader=      | Search results header with search string, number of hits |
+|=.foswikiSearchResultsPager=       | Search results pagination |
 |=.foswikiSummary=                  | Summary of search results  |
 |=.foswikiSummary em=               | Highlighted search term in summary  |
 |=.foswikiNew=                      | Identifier of new topics: topics without a revision history   |
@@ -131,8 +133,8 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiBottomRow=                | Last row in search results |
 |=.foswikiSRRev=                    | Revision number in search results listing |
 |=.foswikiSRAuthor=                 | Author in search results listing |
-|=.foswikiSearchResultCount=        | Search results count  |
-|=#foswikiNumberOfResultsContainer= | See [[%TOPIC%#BehaviourClasses][Behaviour classes]] below  |
+|=.foswikiSearchResultCount=        | Search results count |
+|=#foswikiNumberOfResultsContainer= | See [[%TOPIC%#BehaviourClasses][Behaviour classes]] below |
 |=.foswikiWebSearchForm=            | Container around the search form |
 
 ---+++ History
