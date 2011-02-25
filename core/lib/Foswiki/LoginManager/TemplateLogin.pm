@@ -208,7 +208,8 @@ sub login {
                 # Unpack params encoded in the origurl and restore them
                 # to the query. If they were left in the query string they
                 # would be lost if we redirect with passthrough.
-                if ( $origurl =~ s/\?(.*)// ) {
+		# First extract the params, ignoring any trailing fragment.
+                if ( $origurl =~ s/\?([^#]*)// ) {
                     foreach my $pair ( split( /[&;]/, $1 ) ) {
                         if ( $pair =~ /(.*?)=(.*)/ ) {
                             $query->param( $1, TAINT($2) );
