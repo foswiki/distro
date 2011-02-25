@@ -1424,9 +1424,10 @@ sub _make_params {
     my $notfirst = shift;
     my $url      = '';
     my $ps       = '';
+    my $anchor = '';
     while ( my $p = shift @_ ) {
         if ( $p eq '#' ) {
-            $url .= '#' . urlEncode( shift(@_) );
+            $anchor = '#' . urlEncode( shift(@_) );
         }
         else {
             my $v = shift(@_);
@@ -1438,7 +1439,7 @@ sub _make_params {
         $ps =~ s/^;/?/ unless $notfirst;
         $url .= $ps;
     }
-    return $url;
+    return $url . $anchor;
 }
 
 =begin TML
