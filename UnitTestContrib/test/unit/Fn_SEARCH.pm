@@ -3736,10 +3736,9 @@ Main.WebHome
 Main.WebIndex
 Main.WebPreferences
 FOOT(4,4)Sandbox.WebChanges
-FOOT(1,1)
----
+FOOT(1,1)<div class="foswikiSearchResultsPager">
    Page 1 of 3   [[$viewTopicUrl?SEARCHc6139cf1d63c9614230f742fca2c6a36=2][Next >]]
----
+</div>
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
@@ -3766,10 +3765,9 @@ Sandbox.WebIndex
 Sandbox.WebPreferences
 FOOT(3,3)System.WebChanges
 System.WebHome
-FOOT(2,2)
----
+FOOT(2,2)<div class="foswikiSearchResultsPager">
 [[$viewTopicUrl?SEARCH6331ae02a320baf1478c8302e38b7577=1][< Previous]]   Page 2 of 3   [[$viewTopicUrl?SEARCH6331ae02a320baf1478c8302e38b7577=3][Next >]]
----
+</div>
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );
