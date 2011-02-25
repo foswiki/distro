@@ -36,6 +36,7 @@ use Assert;
 use Error qw( :try );
 
 use File::Spec ();
+use File::Temp qw( tempfile );
 
 use Foswiki ();
 
@@ -506,7 +507,15 @@ sub sysCommand {
     my $cmd;
     # Writing to a cache file is the only way I can find of redirecting
     # STDERR.
-    my $stderrCache = File::Spec->tmpdir() . '/' . $$ . '.stderr';
+
+    # Note:  Use of the file handle $fh returned here would be safer than
+    # using the file name. But it is less portable, so filename wil have to do.
+    my ( $fh, $stderrCache  ) = tempfile(
+     "STDERR.$$.XXXXXXXXXX",
+     DIR    => "$Foswiki::cfg{WorkingDir}/tmp",
+     UNLINK => 0
+    );
+    close $fh;
 
     # Item5449: A random key known by both parent and child.
     # Used to make it possible that the parent detects when
