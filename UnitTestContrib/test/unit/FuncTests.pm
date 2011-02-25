@@ -291,6 +291,17 @@ sub test_getScriptUrl {
 
     $result = Foswiki::Func::getScriptUrl( "", "AndMash", 'wibble' );
     $this->assert_matches( qr!/$ss/$this->{users_web}/AndMash!, $result );
+
+    $result = Foswiki::Func::getScriptUrl( $this->{users_web}, "WebHome", 'wibble',
+					   wobble => 'wimple', '#' => 'wazzock');
+    $this->assert_matches( qr!/$ss/$this->{users_web}/WebHome#wazzock\?wobble=wimple$!, $result );
+
+    $result = Foswiki::Func::getScriptUrl( $this->{users_web}, "WebHome", 'wibble',
+					   wobble => 1, wimple => 2);
+    $this->assert_matches( qr!wobble=1!, $result );
+    $this->assert_matches( qr!wimple=2!, $result );
+    $this->assert_matches( qr!/$ss/$this->{users_web}/WebHome\?w\w+=\d[;&]w\w+=\d$!, $result );
+
     $Foswiki::Plugins::SESSION->finish();
 }
 
