@@ -196,7 +196,7 @@ sub TOC {
         # create linked bullet item, using a relative link to anchor
         my $target =
           $isSameTopic
-          ? Foswiki::_make_params( 0, '#' => $a->{anchor}, @qparams )
+          ? Foswiki::make_params( @qparams ).'#' .$a->{anchor}
           : $session->getScriptUrl(
             0, 'view', $topicObject->web, $topicObject->topic,
             '#' => $a->{anchor},

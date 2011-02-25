@@ -1419,33 +1419,38 @@ sub getScriptUrl {
 
         $url .= urlEncode( '/' . $web . '/' . $topic );
 
-        $url .= _make_params( 0, @params );
+        $url .= make_params( @params );
     }
 
     return $url;
 }
 
-sub _make_params {
-    my $notfirst = shift;
+=begin TML
+
+---++ StaticMethod make_params(...)
+Generate a URL parameters string from parameters given. A parameter named '#' will
+generate an anchor.
+
+=cut
+
+sub make_params {
     my $url      = '';
-    my $ps       = '';
-    my $anchor   = '';
+    my @ps;
+    my $anchor = '';
     while ( my $p = shift @_ ) {
         if ( $p eq '#' ) {
-            $anchor .= '#' . urlEncode( shift(@_) );
+            $anchor = '#' . urlEncode( shift(@_) );
         }
         else {
             my $v = shift(@_);
             $v = '' unless defined $v;
-            $ps .= ';' . urlEncode($p) . '=' . urlEncode($v);
+            push(@ps, urlEncode($p) . '=' . urlEncode($v));
         }
     }
-    if ($ps) {
-        $ps =~ s/^;/?/ unless $notfirst;
-        $url .= $ps;
+    if (scalar(@ps)) {
+        $url .= '?' . join(';', @ps);
     }
-    $url .= $anchor;
-    return $url;
+    return $url . $anchor;
 }
 
 =begin TML
