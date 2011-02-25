@@ -648,13 +648,13 @@ sub generateEditButtons {
     );
 
     if ( $attrs->{quietsave} ) {
-        $buttons .= CGI::image_button(
-            {
-                href  => $wholeTable ? '#saveTableQuietly' : '#saveRowQuietly',
-                title => QUIET_SAVE,
-                src   => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/quiet.gif'
-            },
-            QUIET_SAVE
+	$buttons .= CGI::a(
+	    {
+		href  => $wholeTable ? '#saveTableQuietly' : '#saveRowQuietly',
+		title => QUIET_SAVE,
+		class => 'erp_submit ui-icon erp-icon-quietsave'
+	    },
+	    QUIET_SAVE
         );
     }
     $buttons .= CGI::a(

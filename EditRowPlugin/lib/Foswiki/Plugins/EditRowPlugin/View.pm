@@ -58,6 +58,7 @@ sub process {
     $urps->{erp_active_topic} ||= $active_topic;
     $urps->{erp_active_table} ||= "${macro}_$active_table";
     $urps->{erp_active_row}   ||= 0;
+    $urps->{erp_active_row}   =~ s/#.*$//; # workaround for Item10412
 
     my $nlines = '';
     my $table  = undef;

@@ -231,15 +231,18 @@
 	    return true;
 	});
 
-	$('.erp_submit').livequery("click", function() {
-	    var form = $(this).closest("form");
-	    if (form && form.length > 0) {
-		form[0].erp_action.value = $(this).attr('href');
-		form.submit();
-		return false;
-	    }
-	    return true;
-	}).button();
+	$('.erp_submit').livequery(function() {
+	    $(this).button();
+	    $(this).click(function() {
+		var form = $(this).closest("form");
+		if (form && form.length > 0) {
+		    form[0].erp_action.value = $(this).attr('href');
+		    form.submit();
+		    return false;
+		}
+		return true;
+	    });
+	});
 
 	$('.editRowPluginSort').livequery("click", function() {
 	    var m = /{(.*)}/.exec($(this).attr("class"));
