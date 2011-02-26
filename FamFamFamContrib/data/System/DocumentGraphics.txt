@@ -307,84 +307,84 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | skin | %ICON{skin}% | Skin |  =%<nop>ICON{skin}%= |
 | irc | %ICON{irc}% | irc |  =%<nop>ICON{irc}%= |
 
----+++ %ICON{twitter}% Other Websites Icons
+---+++ %ICON{twitter}% Social and other website icons
 
 %RENDERTABLES%
 | *Name* | *Icon* |  *Description* | *Write...* |
-| bitly | %ICON{bitly}% | bitly |  =%<nop>ICON{bitly}%= |
-| twitter | %ICON{twitter}% | twitter |  =%<nop>ICON{twitter}%= |
-| stumbleupon | %ICON{stumbleupon}% | stumbleupon |  =%<nop>ICON{stumbleupon}%= |
-| digg | %ICON{digg}% | digg |  =%<nop>ICON{digg}%= |
-| button-yellow | %ICON{button-yellow}% | button-yellow |  =%<nop>ICON{button-yellow}%= |
-| bebo | %ICON{bebo}% | bebo |  =%<nop>ICON{bebo}%= |
-| virb | %ICON{virb}% | virb |  =%<nop>ICON{virb}%= |
-| mobileme | %ICON{mobileme}% | mobileme |  =%<nop>ICON{mobileme}%= |
-| retweet | %ICON{retweet}% | retweet |  =%<nop>ICON{retweet}%= |
-| button-red | %ICON{button-red}% | button-red |  =%<nop>ICON{button-red}%= |
-| friendster | %ICON{friendster}% | friendster |  =%<nop>ICON{friendster}%= |
-| microsoft | %ICON{microsoft}% | microsoft |  =%<nop>ICON{microsoft}%= |
-| vimeo | %ICON{vimeo}% | vimeo |  =%<nop>ICON{vimeo}%= |
-| button-white | %ICON{button-white}% | button-white |  =%<nop>ICON{button-white}%= |
-| sharethis | %ICON{sharethis}% | sharethis |  =%<nop>ICON{sharethis}%= |
-| metacafe | %ICON{metacafe}% | metacafe |  =%<nop>ICON{metacafe}%= |
-| slideshare | %ICON{slideshare}% | slideshare |  =%<nop>ICON{slideshare}%= |
-| yahoo-buzz | %ICON{yahoo-buzz}% | yahoo-buzz |  =%<nop>ICON{yahoo-buzz}%= |
-| ebay | %ICON{ebay}% | ebay |  =%<nop>ICON{ebay}%= |
-| facebook | %ICON{facebook}% | facebook |  =%<nop>ICON{facebook}%= |
-| mister-wong | %ICON{mister-wong}% | mister-wong |  =%<nop>ICON{mister-wong}%= |
-| podcast | %ICON{podcast}% | podcast |  =%<nop>ICON{podcast}%= |
-| qik | %ICON{qik}% | qik |  =%<nop>ICON{qik}%= |
-| viddler | %ICON{viddler}% | viddler |  =%<nop>ICON{viddler}%= |
-| youtube | %ICON{youtube}% | youtube |  =%<nop>ICON{youtube}%= |
-| picasa | %ICON{picasa}% | picasa |  =%<nop>ICON{picasa}%= |
-| button-green | %ICON{button-green}% | button-green |  =%<nop>ICON{button-green}%= |
-| friendfeed | %ICON{friendfeed}% | friendfeed |  =%<nop>ICON{friendfeed}%= |
-| aol | %ICON{aol}% | aol |  =%<nop>ICON{aol}%= |
-| blogger | %ICON{blogger}% | blogger |  =%<nop>ICON{blogger}%= |
 | amazon | %ICON{amazon}% | amazon |  =%<nop>ICON{amazon}%= |
-| gowalla | %ICON{gowalla}% | gowalla |  =%<nop>ICON{gowalla}%= |
-| button-blue | %ICON{button-blue}% | button-blue |  =%<nop>ICON{button-blue}%= |
-| myspace | %ICON{myspace}% | myspace |  =%<nop>ICON{myspace}%= |
-| posterous | %ICON{posterous}% | posterous |  =%<nop>ICON{posterous}%= |
-| google-buzz | %ICON{google-buzz}% | google-buzz |  =%<nop>ICON{google-buzz}%= |
-| xing | %ICON{xing}% | xing |  =%<nop>ICON{xing}%= |
-| google | %ICON{google}% | google |  =%<nop>ICON{google}%= |
-| wordpress-blue | %ICON{wordpress-blue}% | wordpress-blue |  =%<nop>ICON{wordpress-blue}%= |
-| linkedin | %ICON{linkedin}% | linkedin |  =%<nop>ICON{linkedin}%= |
-| reddit | %ICON{reddit}% | reddit |  =%<nop>ICON{reddit}%= |
-| msn | %ICON{msn}% | msn |  =%<nop>ICON{msn}%= |
-| google-talk | %ICON{google-talk}% | google-talk |  =%<nop>ICON{google-talk}%= |
-| slashdot | %ICON{slashdot}% | slashdot |  =%<nop>ICON{slashdot}%= |
-| paypal | %ICON{paypal}% | paypal |  =%<nop>ICON{paypal}%= |
-| drupal | %ICON{drupal}% | drupal |  =%<nop>ICON{drupal}%= |
-| icq | %ICON{icq}% | icq |  =%<nop>ICON{icq}%= |
-| bing | %ICON{bing}% | bing |  =%<nop>ICON{bing}%= |
-| delicious | %ICON{delicious}% | delicious |  =%<nop>ICON{delicious}%= |
-| technorati | %ICON{technorati}% | technorati |  =%<nop>ICON{technorati}%= |
-| button-light-blue | %ICON{button-light-blue}% | button-light-blue |  =%<nop>ICON{button-light-blue}%= |
-| squidoo | %ICON{squidoo}% | squidoo |  =%<nop>ICON{squidoo}%= |
-| behance | %ICON{behance}% | behance |  =%<nop>ICON{behance}%= |
-| meetup | %ICON{meetup}% | meetup |  =%<nop>ICON{meetup}%= |
-| email | %ICON{email}% | email |  =%<nop>ICON{email}%= |
-| yelp | %ICON{yelp}% | yelp |  =%<nop>ICON{yelp}%= |
-| yahoo | %ICON{yahoo}% | yahoo |  =%<nop>ICON{yahoo}%= |
-| feedburner | %ICON{feedburner}% | feedburner |  =%<nop>ICON{feedburner}%= |
-| mixx | %ICON{mixx}% | mixx |  =%<nop>ICON{mixx}%= |
-| lastfm | %ICON{lastfm}% | lastfm |  =%<nop>ICON{lastfm}%= |
-| wordpress | %ICON{wordpress}% | wordpress |  =%<nop>ICON{wordpress}%= |
-| star | %ICON{star}% | star |  =%<nop>ICON{star}%= |
-| newsvine | %ICON{newsvine}% | newsvine |  =%<nop>ICON{newsvine}%= |
-| apple | %ICON{apple}% | apple |  =%<nop>ICON{apple}%= |
+| aol | %ICON{aol}% | aol |  =%<nop>ICON{aol}%= |
 | app-store | %ICON{app-store}% | app-store |  =%<nop>ICON{app-store}%= |
-| flickr | %ICON{flickr}% | flickr |  =%<nop>ICON{flickr}%= |
-| deviant-art | %ICON{deviant-art}% | deviant-art |  =%<nop>ICON{deviant-art}%= |
+| apple | %ICON{apple}% | apple |  =%<nop>ICON{apple}%= |
+| bebo | %ICON{bebo}% | bebo |  =%<nop>ICON{bebo}%= |
+| behance | %ICON{behance}% | behance |  =%<nop>ICON{behance}%= |
+| bing | %ICON{bing}% | bing |  =%<nop>ICON{bing}%= |
+| bitly | %ICON{bitly}% | bitly |  =%<nop>ICON{bitly}%= |
+| blogger | %ICON{blogger}% | blogger |  =%<nop>ICON{blogger}%= |
+| button-blue | %ICON{button-blue}% | button-blue |  =%<nop>ICON{button-blue}%= |
+| button-green | %ICON{button-green}% | button-green |  =%<nop>ICON{button-green}%= |
+| button-light-blue | %ICON{button-light-blue}% | button-light-blue |  =%<nop>ICON{button-light-blue}%= |
 | button-orange | %ICON{button-orange}% | button-orange |  =%<nop>ICON{button-orange}%= |
-| netvibes | %ICON{netvibes}% | netvibes |  =%<nop>ICON{netvibes}%= |
-| designfloat | %ICON{designfloat}% | designfloat |  =%<nop>ICON{designfloat}%= |
-| tumblr | %ICON{tumblr}% | tumblr |  =%<nop>ICON{tumblr}%= |
+| button-red | %ICON{button-red}% | button-red |  =%<nop>ICON{button-red}%= |
+| button-white | %ICON{button-white}% | button-white |  =%<nop>ICON{button-white}%= |
+| button-yellow | %ICON{button-yellow}% | button-yellow |  =%<nop>ICON{button-yellow}%= |
+| delicious | %ICON{delicious}% | delicious |  =%<nop>ICON{delicious}%= |
 | design-bump | %ICON{design-bump}% | design-bump |  =%<nop>ICON{design-bump}%= |
+| designfloat | %ICON{designfloat}% | designfloat |  =%<nop>ICON{designfloat}%= |
+| deviant-art | %ICON{deviant-art}% | deviant-art |  =%<nop>ICON{deviant-art}%= |
+| digg | %ICON{digg}% | digg |  =%<nop>ICON{digg}%= |
+| drupal | %ICON{drupal}% | drupal |  =%<nop>ICON{drupal}%= |
+| ebay | %ICON{ebay}% | ebay |  =%<nop>ICON{ebay}%= |
+| email | %ICON{email}% | email |  =%<nop>ICON{email}%= |
+| facebook | %ICON{facebook}% | facebook |  =%<nop>ICON{facebook}%= |
+| feedburner | %ICON{feedburner}% | feedburner |  =%<nop>ICON{feedburner}%= |
+| flickr | %ICON{flickr}% | flickr |  =%<nop>ICON{flickr}%= |
+| friendfeed | %ICON{friendfeed}% | friendfeed |  =%<nop>ICON{friendfeed}%= |
+| friendster | %ICON{friendster}% | friendster |  =%<nop>ICON{friendster}%= |
+| github | %ICON{github}% | github |  =%<nop>ICON{github}%= |
+| google | %ICON{google}% | google |  =%<nop>ICON{google}%= |
+| google-buzz | %ICON{google-buzz}% | google-buzz |  =%<nop>ICON{google-buzz}%= |
+| google-talk | %ICON{google-talk}% | google-talk |  =%<nop>ICON{google-talk}%= |
+| gowalla | %ICON{gowalla}% | gowalla |  =%<nop>ICON{gowalla}%= |
+| icq | %ICON{icq}% | icq |  =%<nop>ICON{icq}%= |
+| lastfm | %ICON{lastfm}% | lastfm |  =%<nop>ICON{lastfm}%= |
+| linkedin | %ICON{linkedin}% | linkedin |  =%<nop>ICON{linkedin}%= |
+| meetup | %ICON{meetup}% | meetup |  =%<nop>ICON{meetup}%= |
+| metacafe | %ICON{metacafe}% | metacafe |  =%<nop>ICON{metacafe}%= |
+| microsoft | %ICON{microsoft}% | microsoft |  =%<nop>ICON{microsoft}%= |
+| mister-wong | %ICON{mister-wong}% | mister-wong |  =%<nop>ICON{mister-wong}%= |
+| mixx | %ICON{mixx}% | mixx |  =%<nop>ICON{mixx}%= |
+| mobileme | %ICON{mobileme}% | mobileme |  =%<nop>ICON{mobileme}%= |
+| msn | %ICON{msn}% | msn |  =%<nop>ICON{msn}%= |
+| myspace | %ICON{myspace}% | myspace |  =%<nop>ICON{myspace}%= |
+| netvibes | %ICON{netvibes}% | netvibes |  =%<nop>ICON{netvibes}%= |
+| newsvine | %ICON{newsvine}% | newsvine |  =%<nop>ICON{newsvine}%= |
+| paypal | %ICON{paypal}% | paypal |  =%<nop>ICON{paypal}%= |
+| picasa | %ICON{picasa}% | picasa |  =%<nop>ICON{picasa}%= |
+| podcast | %ICON{podcast}% | podcast |  =%<nop>ICON{podcast}%= |
+| posterous | %ICON{posterous}% | posterous |  =%<nop>ICON{posterous}%= |
+| qik | %ICON{qik}% | qik |  =%<nop>ICON{qik}%= |
+| reddit | %ICON{reddit}% | reddit |  =%<nop>ICON{reddit}%= |
+| retweet | %ICON{retweet}% | retweet |  =%<nop>ICON{retweet}%= |
+| sharethis | %ICON{sharethis}% | sharethis |  =%<nop>ICON{sharethis}%= |
 | skype | %ICON{skype}% | skype |  =%<nop>ICON{skype}%= |
-
+| slashdot | %ICON{slashdot}% | slashdot |  =%<nop>ICON{slashdot}%= |
+| slideshare | %ICON{slideshare}% | slideshare |  =%<nop>ICON{slideshare}%= |
+| squidoo | %ICON{squidoo}% | squidoo |  =%<nop>ICON{squidoo}%= |
+| star | %ICON{star}% | star |  =%<nop>ICON{star}%= |
+| stumbleupon | %ICON{stumbleupon}% | stumbleupon |  =%<nop>ICON{stumbleupon}%= |
+| technorati | %ICON{technorati}% | technorati |  =%<nop>ICON{technorati}%= |
+| tumblr | %ICON{tumblr}% | tumblr |  =%<nop>ICON{tumblr}%= |
+| twitter | %ICON{twitter}% | twitter |  =%<nop>ICON{twitter}%= |
+| viddler | %ICON{viddler}% | viddler |  =%<nop>ICON{viddler}%= |
+| vimeo | %ICON{vimeo}% | vimeo |  =%<nop>ICON{vimeo}%= |
+| virb | %ICON{virb}% | virb |  =%<nop>ICON{virb}%= |
+| wordpress | %ICON{wordpress}% | wordpress |  =%<nop>ICON{wordpress}%= |
+| wordpress-blue | %ICON{wordpress-blue}% | wordpress-blue |  =%<nop>ICON{wordpress-blue}%= |
+| xing | %ICON{xing}% | xing |  =%<nop>ICON{xing}%= |
+| yahoo | %ICON{yahoo}% | yahoo |  =%<nop>ICON{yahoo}%= |
+| yahoo-buzz | %ICON{yahoo-buzz}% | yahoo-buzz |  =%<nop>ICON{yahoo-buzz}%= |
+| yelp | %ICON{yelp}% | yelp |  =%<nop>ICON{yelp}%= |
+| youtube | %ICON{youtube}% | youtube |  =%<nop>ICON{youtube}%= |
 
 ---+++ %ICON{line_ur}% Block graphics
 
@@ -624,6 +624,8 @@ The social media icons are from [[http://icondock.com/free/vector-social-media-i
 %META:FILEATTACHMENT{name="empty.png" attr="h" comment="" date="1169565034" path="empty.png" size="100" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="exe.png" attr="h" comment="" date="1169565034" path="exe.png" size="372" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="external.png" attr="h" comment="" date="1169565034" path="external.png" size="79" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="facebook.png" attr="h" comment="" date="1193349525" path="facebook.png" size="122" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="github.png" attr="h" comment="" date="1193349525" path="github.png" size="122" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="fax.png" attr="h" comment="" date="1193349525" path="fax.png" size="122" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="feed.png" attr="h" comment="" date="1193349525" path="feed.png" size="1023" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="filter.png" attr="h" comment="" date="1169565034" path="filter.png" size="341" user="ProjectContributor" version=""}%
