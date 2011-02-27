@@ -175,18 +175,36 @@ If you install Foswiki on a Windows server, using an external grep program can c
 #DefineAdminUser
 ---+++ Define the administrator user(s)
 
-Administrators have read and write access to any topic, regardless of any access controls that have been applied to the topic or its web. After installing Foswiki, you should register a user that you will use to administer Foswiki. To make this user an administrator, add the WikiName for the user to the =AdminGroup=, defined in the =[[%USERSWEB%.AdminGroup]]= topic in your Foswiki installation.
+---++++ About Administrators
 
+Administrators have read and write access to any topic, regardless of any access controls that have been applied to the topic or its web. The _special user_ [[%USERSWEB%.AdminUser]] ships with Foswiki and is accessed using by logging in with user =admin= and the password established when initially saving the configuration. *Don't log in with the wikiname* ==AdminUser==.
+
+After installing Foswiki, you can also register other users that you will use to administer Foswiki. To make a user an administrator, add the WikiName for the user to the =AdminGroup=, defined in the =[[%USERSWEB%.AdminGroup]]= topic in your Foswiki installation.
+
+Note that with the _sudo_ or internal admin login, it is not necessary to add other users to the AdminGroup.  However if you have more than one administrator, you may still want to do this to ensure that topic changes are attributed to a specific user instead of the default %USERSWEB%.AdminUser.
+
+By adding users to %USERSWEB%.AdminGroup:
+   * Users with Admin rights will have routine access to topics that might normally be denied.
+   * These users will be unable to test or demonstrate access controls.
+   * Changes made are always attributed to a unique logged in user.
+   * Password sharing of the =bin/configure= password is not required
+
+By using the _internal admin login_:
+   * You don't need to grant admin rights to individual users
+   * All users will be subject to access controls.
+   * Changes made while using the _internal admin login_ are attributed to %USERSWEB%.AdminUser
+   * The "save" password for =bin/configure= will need to be shared among administrators
+
+---++++ Adding users to the %USERSWEB%.AdminGroup
 To make it easier to follow the instructions in this section, you can view this installation guide using your Foswiki site by entering =%SYSTEMWEB%.InstallationGuide= into the "Jump" text box. By doing this instead of using the =INSTALL.html= file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
 
 To add an initial administrator to the =AdminGroup=, perform the following steps:
 
    * If you are not already logged in with your WikiName, then login.
    * Go to the =[[%USERSWEB%.AdminGroup]]= topic and select the "internal admin login" link. Login using the password you set on the =configure= page.
-   * After logging as the internal admin, edit the =%USERSWEB%.AdminGroup= topic. Follow the instructions on the page carefully and add your WikiName to the group.
-   * Test that you have been added successfully: On the =[[%USERSWEB%.AdminGroup]]= page, select the "Logout link" and logout from being the internal admin. Select the "Edit" link for the =[[%USERSWEB%.AdminGroup]]= page. If you successfully added yourself as an admin user, you should see the edit page.
+   * After logging as the internal admin, view the =%USERSWEB%.AdminGroup= topic. Follow the instructions on the page to add users to the AdminGroup. You do _not_ need to edit the topic.
 
-Once the =AdminGroup= is no longer empty, then any member of the group can add subsequent members &mdash; you do not have to use the internal admin login.
+Any member of the %USERSWEB%.AdminGroup can add subsequent members &mdash; you do not have to use the internal admin login.
 
 To more easily debug access control issues, you may want to have a regular Foswiki user account for daily use, and a special one that belongs to the =AdminGroup= that you use only for administering your Foswiki site. See [[%SYSTEMWEB%.AccessControls]] for more information on access controls and user groups.
 
