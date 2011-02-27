@@ -177,13 +177,6 @@ sub getCookie {
         -value => $secret,
         -path  => '/',
         -httponly => 0,    # we *want* JS to be able to read it!
-        -secure   => (
-            (
-                     ( $ENV{HTTPS} && ( uc( $ENV{HTTPS} ) eq 'ON' ) )
-                  || ( $ENV{SERVER_PORT} && ( $ENV{SERVER_PORT} == 443 ) )
-            ) ? 1 : 0
-        ),
-
     );
 
     return $cookie;

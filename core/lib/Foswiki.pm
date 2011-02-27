@@ -160,7 +160,7 @@ BEGIN {
         }
     }
     else {
-        $Error::Debug = 0;        # no verbose stack traces 
+        $Error::Debug = 0;        # no verbose stack traces
     }
 
     # DO NOT CHANGE THE FORMAT OF $VERSION
@@ -330,7 +330,7 @@ BEGIN {
     # readConfig is defined in Foswiki::Configure::Load to allow overriding it
     if ( Foswiki::Configure::Load::readConfig() ) {
         $Foswiki::cfg{isVALID} = 1;
-        }
+    }
 
     if ( $Foswiki::cfg{WarningsAreErrors} ) {
 
@@ -733,9 +733,10 @@ sub writeCompletePage {
 
             # At least one form has been touched; add the validation
             # cookie
+            my $valCookie = Foswiki::Validation::getCookie($cgis);
+            $valCookie->secure( $this->{request}->secure );
             $this->{response}
-              ->cookies( [ $this->{response}->cookies,
-                Foswiki::Validation::getCookie($cgis) ] );
+              ->cookies( [ $this->{response}->cookies, $valCookie ] );
 
             # Add the JS module to the page. Note that this is *not*
             # incorporated into the foswikilib.js because that module
@@ -1419,7 +1420,7 @@ sub getScriptUrl {
 
         $url .= urlEncode( '/' . $web . '/' . $topic );
 
-        $url .= make_params( @params );
+        $url .= make_params(@params);
     }
 
     return $url;
@@ -1434,7 +1435,7 @@ generate an anchor.
 =cut
 
 sub make_params {
-    my $url      = '';
+    my $url = '';
     my @ps;
     my $anchor = '';
     while ( my $p = shift @_ ) {
@@ -1444,11 +1445,11 @@ sub make_params {
         else {
             my $v = shift(@_);
             $v = '' unless defined $v;
-            push(@ps, urlEncode($p) . '=' . urlEncode($v));
+            push( @ps, urlEncode($p) . '=' . urlEncode($v) );
         }
     }
-    if (scalar(@ps)) {
-        $url .= '?' . join(';', @ps);
+    if ( scalar(@ps) ) {
+        $url .= '?' . join( ';', @ps );
     }
     return $url . $anchor;
 }
@@ -1607,7 +1608,8 @@ script run. Session objects do not persist between mod_perl runs.
 sub new {
     my ( $class, $defaultUser, $query, $initialContext ) = @_;
     Monitor::MARK("Static init over; make Foswiki object");
-    ASSERT( !$query || UNIVERSAL::isa( $query, 'Foswiki::Request' ) ) if DEBUG;
+    ASSERT( !$query || UNIVERSAL::isa( $query, 'Foswiki::Request' ) )
+      if DEBUG;
 
     # Compatibility; not used except maybe in plugins
     $Foswiki::cfg{TempfileDir} = "$Foswiki::cfg{WorkingDir}/tmp"
@@ -1628,8 +1630,7 @@ sub new {
         # but don't overwrite the setting from configure, if there is one.
         # This is especially important when the admin has *chosen*
         # to use the compatibility logger.
-        if (not defined $Foswiki::cfg{LogFileName})
-        {
+        if ( not defined $Foswiki::cfg{LogFileName} ) {
             $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/events.log";
         }
     }
@@ -2067,13 +2068,14 @@ sub finish {
     $_->finish() foreach values %{ $this->{forms} };
     undef $this->{forms};
     foreach my $key qw(plugins users prefs templates renderer net
-                       store search attach security i18n cache logger) {
-        next unless ref($this->{$key});
+      store search attach security i18n cache logger) {
+        next
+          unless ref( $this->{$key} );
         $this->{$key}->finish();
-        undef $this->{$key};
-    }
+          undef $this->{$key};
+      }
 
-    undef $this->{_zones};
+      undef $this->{_zones};
     undef $this->{_renderZonePlaceholder};
 
     undef $this->{request};
@@ -2447,8 +2449,9 @@ sub expandMacrosOnTopicCreation {
         $p->{value} =
           _processMacros( $this, $p->{value}, \&_expandMacroOnTopicCreation,
             $topicObject, 16 );
+
         # kill markers used to prevent variable expansion
-        $p->{value} =~  s/%NOP%//g;
+        $p->{value} =~ s/%NOP%//g;
     }
 }
 
@@ -3006,17 +3009,19 @@ sub _expandMacroOnTopicRendering {
     require Foswiki::Attrs;
     my $e = $this->{prefs}->getPreference($tag);
     if ( defined $e ) {
-        if ($args && $args =~ /\S/) {
-	    my $attrs = new Foswiki::Attrs( $args, 0 );
-	    $attrs->{DEFAULT} = $attrs->{_DEFAULT};
-	    $e = $this->_processMacros(
-		$e,
-		sub {
-		    my ($this, $tag, $args, $topicObject) = @_;
-		    return $attrs->{$tag};
-		},
-		$topicObject, 1 );
-	}
+        if ( $args && $args =~ /\S/ ) {
+            my $attrs = new Foswiki::Attrs( $args, 0 );
+            $attrs->{DEFAULT} = $attrs->{_DEFAULT};
+            $e = $this->_processMacros(
+                $e,
+                sub {
+                    my ( $this, $tag, $args, $topicObject ) = @_;
+                    return $attrs->{$tag};
+                },
+                $topicObject,
+                1
+            );
+        }
     }
     else {
         if ( exists( $macros{$tag} ) ) {
