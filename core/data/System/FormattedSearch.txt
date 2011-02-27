@@ -49,7 +49,7 @@ Format tokens that can be used in the footer string:
 Use the pagerformat parameter to customise the appearance of the paging control. 
 It should correspond to the format of the format parameter. 
 This parameter is optional.
-*Example:* <verbatim class="tml">pagerformat="Page $showpage of $numberofpages [[$nexturl][next page]]"</verbatim>
+*Example:* <verbatim class="tml">pagerformat="Page $currentpage of $numberofpages [[$nexturl][next page]]"</verbatim>
 
 Format tokens that can be used in the pagerformat string:
 
