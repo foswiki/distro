@@ -424,7 +424,7 @@ You can introduce new [[PreferenceSettings][preference settings]] and use them i
 
 <blockquote class="foswikiHelp"> %X% The sequential order of the [[PreferenceSettings][preference settings]] is significant. Define preferences that use other preferences FIRST. For example, set ==<nop>WEBCOPYRIGHT== before ==<nop>WIKIWEBMASTER== since the copyright notice uses the Wiki administrator e-mail address.
 
-%X% In order to protect your custom preferences from being overwritten when upgrading the [[%SYSTEMWEB%.%TOPIC%]] topic, it is recommended that all custom settings are defined in [[%USERSWEB%.%TOPIC%]].</blockquote>
+%X% In order to protect your custom preferences from being overwritten when upgrading the [[%SYSTEMWEB%.%TOPIC%]] topic, it is recommended that all custom settings are defined in [[%LOCALSITEPREFS%]].</blockquote>
 
 ---++ Protected System Settings
 
