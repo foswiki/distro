@@ -151,7 +151,12 @@ sub getCookie {
         -value => $secret,
         -path  => '/',
         -httponly => 0,    # we *want* JS to be able to read it!
-        -secure   => ((($ENV{HTTPS} && (uc( $ENV{HTTPS} ) eq 'ON')) || ($ENV{SERVER_PORT} && ($ENV{SERVER_PORT} == 443)))  ? 1 : 0),
+        -secure   => (
+            (
+                     ( $ENV{HTTPS} && ( uc( $ENV{HTTPS} ) eq 'ON' ) )
+                  || ( $ENV{SERVER_PORT} && ( $ENV{SERVER_PORT} == 443 ) )
+            ) ? 1 : 0
+        ),
 
     );
 
@@ -245,7 +250,7 @@ sub validate {
     my $topic     = $session->{topicName};
     my $cgis      = $session->getCGISession();
 
-    my $tmpl = $session->templates->readTemplate( 'validate' );
+    my $tmpl = $session->templates->readTemplate('validate');
 
     if ( $query->param('response') ) {
         my $cacheUID = $query->param('foswikioriginalquery');

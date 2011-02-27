@@ -285,7 +285,7 @@ sub loadSession {
     # is configured
     return $authUser if $ENV{NO_FOSWIKI_SESSION};
 
-    if( $Foswiki::cfg{UseClientSessions}
+    if ( $Foswiki::cfg{UseClientSessions}
         && !$session->inContext('command_line') )
     {
 
@@ -374,6 +374,7 @@ sub loadSession {
             unless ($validation) {
                 my $res = $session->{response};
                 my $err = "ERROR: (401) Can't login as $login";
+
                 # Item1953: You might think that this is needed:
                 #    $res->header( -type => 'text/html', -status => '401' );
                 #    throw Foswiki::EngineException( 401, $err, $res );
@@ -817,7 +818,12 @@ sub _addSessionCookieToResponse {
         -path     => '/',
         -domain   => $Foswiki::cfg{Sessions}{CookieRealm} || '',
         -httponly => 1,
-        -secure   => ((($ENV{HTTPS} && (uc( $ENV{HTTPS} ) eq 'ON')) || ($ENV{SERVER_PORT} && ($ENV{SERVER_PORT} == 443)))  ? 1 : 0),
+        -secure   => (
+            (
+                     ( $ENV{HTTPS} && ( uc( $ENV{HTTPS} ) eq 'ON' ) )
+                  || ( $ENV{SERVER_PORT} && ( $ENV{SERVER_PORT} == 443 ) )
+            ) ? 1 : 0
+        ),
     );
 
     # An expiry time is only set if the session has the REMEMBER variable
