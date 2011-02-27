@@ -817,7 +817,7 @@ sub _addSessionCookieToResponse {
         -path     => '/',
         -domain   => $Foswiki::cfg{Sessions}{CookieRealm} || '',
         -httponly => 1,
-        -secure   => ( ((uc( $ENV{HTTPS} ) eq 'ON') || ($ENV{SERVER_PORT} == 443)) ? 1 : 0),
+        -secure   => ((($ENV{HTTPS} && (uc( $ENV{HTTPS} ) eq 'ON')) || ($ENV{SERVER_PORT} && ($ENV{SERVER_PORT} == 443)))  ? 1 : 0),
     );
 
     # An expiry time is only set if the session has the REMEMBER variable
