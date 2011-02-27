@@ -554,8 +554,8 @@ sub formatResults {
 
     my ( $callback, $cbdata ) = setup_callback($params);
 
-    my $baseTopic = $params->{basetopic} || $session->{topicName};
-    my $baseWeb   = $params->{baseweb}   || $session->{webName};
+    my $baseTopic = $session->{topicName};
+    my $baseWeb   = $session->{webName};
     my $doBookView    = Foswiki::isTrue( $params->{bookview} );
     my $caseSensitive = Foswiki::isTrue( $params->{casesensitive} );
     my $doExpandVars  = Foswiki::isTrue( $params->{expandvariables} );
