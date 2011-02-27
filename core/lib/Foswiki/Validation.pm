@@ -144,12 +144,14 @@ sub getCookie {
     my $secret = _getSecret($cgis);
 
     # Add the cookie to the response
+    # TODO: -secure option should be abstraced out - see comments on Item:10061
     require CGI::Cookie;
     my $cookie = CGI::Cookie->new(
         -name  => _getSecretCookieName(),
         -value => $secret,
         -path  => '/',
         -httponly => 0,    # we *want* JS to be able to read it!
+        -secure => ( ((uc( $ENV{HTTPS} ) eq 'ON') || ($ENV{SERVER_PORT} == 443)) ? 1 : 0),
     );
 
     return $cookie;
