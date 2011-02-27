@@ -810,20 +810,13 @@ s/(<form[^>]*(?<=\s)(?:action)=(["']))(.*?)(\2[^>]*>)/$1._rewriteFORM( $this,$3,
 sub _addSessionCookieToResponse {
     my $this = shift;
 
-    # TODO: -secure operand should be abstracted out.  See comments on Item10061
-
     my $cookie = CGI::Cookie->new(
         -name     => $Foswiki::LoginManager::Session::NAME,
         -value    => $this->{_cgisession}->id(),
         -path     => '/',
         -domain   => $Foswiki::cfg{Sessions}{CookieRealm} || '',
         -httponly => 1,
-        -secure   => (
-            (
-                     ( $ENV{HTTPS} && ( uc( $ENV{HTTPS} ) eq 'ON' ) )
-                  || ( $ENV{SERVER_PORT} && ( $ENV{SERVER_PORT} == 443 ) )
-            ) ? 1 : 0
-        ),
+        -secure   => $this->{session}{request}->secure,
     );
 
     # An expiry time is only set if the session has the REMEMBER variable
