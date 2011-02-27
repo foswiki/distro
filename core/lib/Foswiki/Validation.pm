@@ -136,6 +136,9 @@ Get a double submission cookie
 The cookie is a non-HttpOnly cookie that contains the current session ID
 and a secret. The secret is constant for a given session.
 
+The caller should adjust the =-secure= flag of the cookie, according to the
+request being processed.
+
 =cut
 
 sub getCookie {
@@ -144,20 +147,12 @@ sub getCookie {
     my $secret = _getSecret($cgis);
 
     # Add the cookie to the response
-    # TODO: -secure option should be abstraced out - see comments on Item:10061
     require CGI::Cookie;
     my $cookie = CGI::Cookie->new(
         -name  => _getSecretCookieName(),
         -value => $secret,
         -path  => '/',
         -httponly => 0,    # we *want* JS to be able to read it!
-        -secure   => (
-            (
-                     ( $ENV{HTTPS} && ( uc( $ENV{HTTPS} ) eq 'ON' ) )
-                  || ( $ENV{SERVER_PORT} && ( $ENV{SERVER_PORT} == 443 ) )
-            ) ? 1 : 0
-        ),
-
     );
 
     return $cookie;

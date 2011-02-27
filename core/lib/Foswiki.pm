@@ -155,7 +155,7 @@ BEGIN {
         }
     }
     else {
-        $Error::Debug = 0;        # no verbose stack traces 
+        $Error::Debug = 0;        # no verbose stack traces
     }
 
     # DO NOT CHANGE THE FORMAT OF $VERSION
@@ -325,7 +325,7 @@ BEGIN {
     # readConfig is defined in Foswiki::Configure::Load to allow overriding it
     if ( Foswiki::Configure::Load::readConfig() ) {
         $Foswiki::cfg{isVALID} = 1;
-        }
+    }
 
     if ( $Foswiki::cfg{WarningsAreErrors} ) {
 
@@ -728,9 +728,10 @@ sub writeCompletePage {
 
             # At least one form has been touched; add the validation
             # cookie
+            my $valCookie = Foswiki::Validation::getCookie($cgis);
+            $valCookie->secure( $this->{request}->secure );
             $this->{response}
-              ->cookies( [ $this->{response}->cookies,
-                Foswiki::Validation::getCookie($cgis) ] );
+              ->cookies( [ $this->{response}->cookies, $valCookie ] );
 
             # Add the JS module to the page. Note that this is *not*
             # incorporated into the foswikilib.js because that module
@@ -1424,7 +1425,7 @@ sub _make_params {
     my $notfirst = shift;
     my $url      = '';
     my $ps       = '';
-    my $anchor = '';
+    my $anchor   = '';
     while ( my $p = shift @_ ) {
         if ( $p eq '#' ) {
             $anchor = '#' . urlEncode( shift(@_) );
@@ -1617,8 +1618,7 @@ sub new {
         # but don't overwrite the setting from configure, if there is one.
         # This is especially important when the admin has *chosen*
         # to use the compatibility logger.
-        if (not defined $Foswiki::cfg{LogFileName})
-        {
+        if ( not defined $Foswiki::cfg{LogFileName} ) {
             $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/events.log";
         }
     }
@@ -2458,8 +2458,9 @@ sub expandMacrosOnTopicCreation {
         $p->{value} =
           _processMacros( $this, $p->{value}, \&_expandMacroOnTopicCreation,
             $topicObject, 16 );
+
         # kill markers used to prevent variable expansion
-        $p->{value} =~  s/%NOP%//g;
+        $p->{value} =~ s/%NOP%//g;
 
     }
 }
