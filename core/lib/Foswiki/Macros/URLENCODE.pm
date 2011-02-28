@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki;
+use Foswiki::Macros::ENCODE ();
 
 use strict;
 use warnings;
