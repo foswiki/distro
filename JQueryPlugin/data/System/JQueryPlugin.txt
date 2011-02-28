@@ -141,6 +141,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 Feb 2011: | (4.02) update forms plugin to 2.43 to improve jQuery 1.4 compatibility |   
 |  02 Feb 2011: | (4.01) added pnotify, configure checker to check that \
                   configured ={JQueryVersion}= is sane |
 |  13 Dec 2010: | (4.00) adding jquery-1.4.2/3/4 (default is 1.4.3); \
