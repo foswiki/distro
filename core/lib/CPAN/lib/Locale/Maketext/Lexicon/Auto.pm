@@ -1,7 +1,7 @@
 package Locale::Maketext::Lexicon::Auto;
-use strict;
+$Locale::Maketext::Lexicon::Auto::VERSION = '0.10';
 
-$Locale::Maketext::Lexicon::Auto::VERSION = '0.02';
+use strict;
 
 =head1 NAME
 
@@ -10,8 +10,7 @@ Locale::Maketext::Lexicon::Auto - Auto fallback lexicon for Maketext
 =head1 SYNOPSIS
 
     package Hello::I18N;
-    use Locale::Maketext;
-    our @ISA = qw( Locale::Maketext );
+    use base 'Locale::Maketext';
     use Locale::Maketext::Lexicon {
         en => ['Auto'],
         # ... other languages
@@ -35,7 +34,7 @@ FAILURE> for how to prevent it.
 =cut
 
 sub parse {
-    return { _AUTO => 1 };
+    +{ _AUTO => 1 };
 }
 
 1;
@@ -46,15 +45,32 @@ L<Locale::Maketext>, L<Locale::Maketext::Lexicon>
 
 =head1 AUTHORS
 
-Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>
+Audrey Tang E<lt>cpan@audreyt.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002, 2003, 2004 by Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>.
+Copyright 2002, 2003, 2004, 2007 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
-This program is free software; you can redistribute it and/or 
-modify it under the same terms as Perl itself.
+This software is released under the MIT license cited below.
 
-See L<http://www.perl.com/perl/misc/Artistic.html>
+=head2 The "MIT" License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
 
 =cut

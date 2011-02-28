@@ -1,8 +1,8 @@
 package Locale::Maketext::Lexicon;
+$Locale::Maketext::Lexicon::VERSION = '0.86';
 
+use 5.004;
 use strict;
-
-$Locale::Maketext::Lexicon::VERSION = '0.49';
 
 =head1 NAME
 
@@ -10,8 +10,8 @@ Locale::Maketext::Lexicon - Use other catalog formats in Maketext
 
 =head1 VERSION
 
-This document describes version 0.49 of Locale::Maketext::Lexicon,
-released April 13, 2005.
+This document describes version 0.80 of Locale::Maketext::Lexicon,
+released December 29, 2008.
 
 =head1 SYNOPSIS
 
@@ -19,18 +19,23 @@ As part of a localization class, automatically glob for available
 lexicons:
 
     package Hello::I18N;
-    use Locale::Maketext;
-    our @ISA = qw( Locale::Maketext );
+    use base 'Locale::Maketext';
     use Locale::Maketext::Lexicon {
         '*' => [Gettext => '/usr/local/share/locale/*/LC_MESSAGES/hello.mo'],
-        _decode => 1,   # decode lexicon entries into utf8-strings
+        ### Uncomment to fallback when a key is missing from lexicons
+        # _auto   => 1,
+        ### Uncomment to decode lexicon entries into Unicode strings
+        # _decode => 1,
+        ### Uncomment to load and parse everything right away
+        # _preload => 1,
+        ### Uncomment to use %1 / %quant(%1) instead of [_1] / [quant, _1]
+        # _style  => 'gettext',
     };
 
 Explicitly specify languages, during compile- or run-time:
 
     package Hello::I18N;
-    use Locale::Maketext;
-    our @ISA = qw( Locale::Maketext );
+    use base 'Locale::Maketext';
     use Locale::Maketext::Lexicon {
         de => [Gettext => 'hello_de.po'],
         fr => [
@@ -46,8 +51,7 @@ Explicitly specify languages, during compile- or run-time:
 Alternatively, as part of a localization subclass:
 
     package Hello::I18N::de;
-    use Hello::I18N;
-    our @ISA = qw( Hello::I18N );
+    use base 'Hello::I18N';
     use Locale::Maketext::Lexicon (Gettext => \*DATA);
     __DATA__
     # Some sample data
@@ -72,8 +76,8 @@ This module provides lexicon-handling modules to read from other
 localization formats, such as I<Gettext>, I<Msgcat>, and so on.
 
 If you are unfamiliar with the concept of lexicon modules, please
-consult L<Locale::Maketext> and L<http://www.autrijus.org/webl10n/>
-first.
+consult L<Locale::Maketext> and the C<webl10n> HTML files in the C<docs/>
+directory of this module.
 
 A command-line utility L<xgettext.pl> is also installed with this
 module, for extracting translatable strings from source files.
@@ -125,6 +129,12 @@ the filename, the last one is used as the language name.
 
 =over 4
 
+=item C<_auto>
+
+If set to a true value, missing lookups on lexicons are handled
+silently, as if an C<Auto> lexicon has been appended on all
+language lexicons.
+
 =item C<_decode>
 
 If set to a true value, source entries will be converted into
@@ -141,6 +151,14 @@ utf8-strings.
 
 If C<_encoding> is set to C<locale>, the encoding from the
 current locale setting is used.
+
+=item C<_preload>
+
+By default parsing is delayed until first use of the lexicon,
+set this option to true value to parse it asap. Increment
+adding lexicons forces parsing.
+
+=back
 
 =head2 Subclassing format handlers
 
@@ -172,41 +190,47 @@ initialized previously.
 =cut
 
 our %Opts;
-sub option { shift if ref($_[0]); $Opts{lc $_[0]} }
-sub set_option { shift if ref($_[0]); $Opts{lc $_[0]} = $_[1] }
+sub option { shift if ref( $_[0] ); $Opts{ lc $_[0] } }
+sub set_option { shift if ref( $_[0] ); $Opts{ lc $_[0] } = $_[1] }
 
 sub encoding {
-    my $encoding = option(@_, 'encoding') or return;
+    my $encoding = option( @_, 'encoding' ) or return;
     return $encoding unless lc($encoding) eq 'locale';
 
-    no warnings 'uninitialized';
-    my ($country_language, $locale_encoding);
+    local $^W;    # no warnings 'uninitialized', really.
+    my ( $country_language, $locale_encoding );
 
     local $@;
     eval {
         require I18N::Langinfo;
-        $locale_encoding = I18N::Langinfo::langinfo(I18N::Langinfo::CODESET());
-    } or eval {
+        $locale_encoding
+            = I18N::Langinfo::langinfo( I18N::Langinfo::CODESET() );
+        }
+        or eval {
         require Win32::Console;
-        $locale_encoding = 'cp'.Win32::Console::OutputCP();
-    };
-    if (!$locale_encoding) {
+        $locale_encoding = 'cp' . Win32::Console::OutputCP();
+        };
+    if ( !$locale_encoding ) {
         foreach my $key (qw( LANGUAGE LC_ALL LC_MESSAGES LANG )) {
             $ENV{$key} =~ /^([^.]+)\.([^.:]+)/ or next;
-            ($country_language, $locale_encoding) = ($1, $2);
+            ( $country_language, $locale_encoding ) = ( $1, $2 );
             last;
         }
     }
-    if (defined $locale_encoding &&
-        lc($locale_encoding) eq 'euc' &&
-        defined $country_language) {
-        if ($country_language =~ /^ja_JP|japan(?:ese)?$/i) {
+    if (   defined $locale_encoding
+        && lc($locale_encoding) eq 'euc'
+        && defined $country_language )
+    {
+        if ( $country_language =~ /^ja_JP|japan(?:ese)?$/i ) {
             $locale_encoding = 'euc-jp';
-        } elsif ($country_language =~ /^ko_KR|korean?$/i) {
+        }
+        elsif ( $country_language =~ /^ko_KR|korean?$/i ) {
             $locale_encoding = 'euc-kr';
-        } elsif ($country_language =~ /^zh_CN|chin(?:a|ese)?$/i) {
+        }
+        elsif ( $country_language =~ /^zh_CN|chin(?:a|ese)?$/i ) {
             $locale_encoding = 'euc-cn';
-        } elsif ($country_language =~ /^zh_TW|taiwan(?:ese)?$/i) {
+        }
+        elsif ( $country_language =~ /^zh_TW|taiwan(?:ese)?$/i ) {
             $locale_encoding = 'euc-tw';
         }
     }
@@ -219,17 +243,18 @@ sub import {
     return unless @_;
 
     my %entries;
-    if (UNIVERSAL::isa($_[0], 'HASH')) {
+    if ( UNIVERSAL::isa( $_[0], 'HASH' ) ) {
+
         # a hashref with $lang as keys, [$format, $src ...] as values
-        %entries = %{$_[0]};
+        %entries = %{ $_[0] };
     }
-    elsif (@_ % 2) {
-        %entries = ( '' => [ @_ ] );
+    elsif ( @_ % 2 == 0 ) {
+        %entries = ( '' => [ splice @_, 0, 2 ], @_ );
     }
 
     # expand the wildcard entry
-    if (my $wild_entry = delete $entries{'*'}) {
-        while (my ($format, $src) = splice(@$wild_entry, 0, 2)) {
+    if ( my $wild_entry = delete $entries{'*'} ) {
+        while ( my ( $format, $src ) = splice( @$wild_entry, 0, 2 ) ) {
             next if ref($src); # XXX: implement globbing for the 'Tie' backend
 
             my $pattern = quotemeta($src);
@@ -243,151 +268,203 @@ sub import {
             ]eg;
 
             require File::Glob;
-            foreach my $file (File::Glob::bsd_glob($src)) {
+            foreach my $file ( File::Glob::bsd_glob($src) ) {
                 $file =~ /$pattern/ or next;
-                push @{$entries{$1}}, ($format => $file) if $1;
+                push @{ $entries{$1} }, ( $format => $file ) if $1;
             }
             delete $entries{$1}
                 unless !defined($1)
-                    or exists $entries{$1} and @{$entries{$1}};
+                    or exists $entries{$1} and @{ $entries{$1} };
         }
     }
 
     %Opts = ();
-    foreach my $key (grep /^_/, keys %entries) {
-        set_option(lc(substr($key, 1)) => delete($entries{$key}));
+    foreach my $key ( grep /^_/, keys %entries ) {
+        set_option( lc( substr( $key, 1 ) ) => delete( $entries{$key} ) );
     }
-    my $OptsRef = { %Opts };
+    my $OptsRef = {%Opts};
 
-    while (my ($lang, $entry) = each %entries) {
+    while ( my ( $lang, $entry ) = each %entries ) {
         my $export = caller;
 
-        if (length $lang) {
+        if ( length $lang ) {
+
             # normalize language tag to Maketext's subclass convention
             $lang = lc($lang);
             $lang =~ s/-/_/g;
             $export .= "::$lang";
         }
 
-        my @pairs = @{$entry||[]} or die "no format specified";
+        my @pairs = @{ $entry || [] } or die "no format specified";
 
-        while (my ($format, $src) = splice(@pairs, 0, 2)) {
-            if (defined($src) and !ref($src) and $src =~ /\*/) {
-                unshift(@pairs, $format => $_) for File::Glob::bsd_glob($src);
+        while ( my ( $format, $src ) = splice( @pairs, 0, 2 ) ) {
+            if ( defined($src) and !ref($src) and $src =~ /\*/ ) {
+                unshift( @pairs, $format => $_ )
+                    for File::Glob::bsd_glob($src);
                 next;
             }
 
-            local $@;
-            my @content = eval {
-                $class->lexicon_get($src, scalar caller, $lang);
-            };
-            next if $@ and $@ eq 'next';
+            my @content
+                = eval { $class->lexicon_get( $src, scalar caller(1), $lang ); };
+            next if $@ and $@ =~ /^next\b/;
             die $@ if $@;
 
             no strict 'refs';
             eval "use $class\::$format; 1" or die $@;
 
-            if (defined %{"$export\::Lexicon"}) {
-                if (ref(tied %{"$export\::Lexicon"}) eq __PACKAGE__) {
-                    tied(%{"$export\::Lexicon"})->_force;
+            if ( %{"$export\::Lexicon"} ) {
+                my $lexicon = \%{"$export\::Lexicon"};
+                if ( my $obj = tied %$lexicon ) {
+
+                    # if it's our tied hash then force loading
+                    # otherwise late load will rewrite
+                    $obj->_force if $obj->isa(__PACKAGE__);
                 }
-                # be very careful not to pollute the possibly tied lexicon
-                *{"$export\::Lexicon"} = {
-                    %{"$export\::Lexicon"},
-                    %{"$class\::$format"->parse(@content)},
-                };
+
+                # clear the memoized cache for old entries:
+                Locale::Maketext->clear_isa_scan;
+
+                my $new = "$class\::$format"->parse(@content);
+
+                # avoid hash rebuild, on big sets
+                @{$lexicon}{ keys %$new } = values %$new;
             }
             else {
-                my $promise;
-                tie %{"$export\::Lexicon"}, __PACKAGE__, {
-                    Opts => $OptsRef,
-                    Export => "$export\::Lexicon",
-                    Class => "$class\::$format",
+                local $^W if $] >= 5.009;    # no warnings 'once', really.
+                tie %{"$export\::Lexicon"}, __PACKAGE__,
+                    {
+                    Opts    => $OptsRef,
+                    Export  => "$export\::Lexicon",
+                    Class   => "$class\::$format",
                     Content => \@content,
-                };
+                    };
+                tied( %{"$export\::Lexicon"} )->_force
+                    if $OptsRef->{'preload'};
             }
 
-            push(@{"$export\::ISA"}, scalar caller) if length $lang;
+            length $lang or next;
+
+            # Avoid re-entry
+            my $caller = caller();
+            next if $export->isa($caller);
+
+            push( @{"$export\::ISA"}, scalar caller );
+
+            if ( my $style = option('style') ) {
+                my $cref
+                    = $class->can( lc("_style_$style") )
+                    ->( $class, $export->can('maketext') )
+                    or die "Unknown style: $style";
+
+                # Avoid redefinition warnings
+                local $SIG{__WARN__} = sub {1};
+                *{"$export\::maketext"} = $cref;
+            }
         }
     }
 }
 
+sub _style_gettext {
+    my ( $self, $orig ) = @_;
+
+    require Locale::Maketext::Lexicon::Gettext;
+
+    sub {
+        my $lh  = shift;
+        my $str = shift;
+        return $orig->(
+            $lh,
+            Locale::Maketext::Lexicon::Gettext::_gettext_to_maketext($str), @_
+        );
+        }
+}
+
 sub TIEHASH {
-    my ($class, $args) = @_;
-    return bless($args, $class);
+    my ( $class, $args ) = @_;
+    return bless( $args, $class );
 
 }
 
 {
     no strict 'refs';
+
     sub _force {
         my $args = shift;
-        if (!$args->{Done}++) {
+        unless ( $args->{'Done'} ) {
+            $args->{'Done'} = 1;
             local *Opts = $args->{Opts};
-            *{$args->{Export}} = $args->{Class}->parse(@{$args->{Content}});
+            *{ $args->{Export} }
+                = $args->{Class}->parse( @{ $args->{Content} } );
+            $args->{'Export'}{'_AUTO'} = 1
+                if option('auto');
         }
-        return \%{$args->{Export}};
+        return $args->{'Export'};
     }
-    sub FETCH { _force($_[0])->{$_[1]} }
-    sub EXISTS { _force($_[0])->{$_[1]} }
-    sub DELETE { delete _force($_[0])->{$_[1]} }
-    sub SCALAR { scalar %{_force($_[0])} }
-    sub STORE { _force($_[0])->{$_[1]} = $_[2] }
-    sub CLEAR { %{_force($_[0])->{$_[1]}} = () }
-    sub NEXTKEY { each %{_force($_[0])} }
+    sub FETCH   { _force( $_[0] )->{ $_[1] } }
+    sub EXISTS  { _force( $_[0] )->{ $_[1] } }
+    sub DELETE  { delete _force( $_[0] )->{ $_[1] } }
+    sub SCALAR  { scalar %{ _force( $_[0] ) } }
+    sub STORE   { _force( $_[0] )->{ $_[1] } = $_[2] }
+    sub CLEAR   { %{ _force( $_[0] )->{ $_[1] } } = () }
+    sub NEXTKEY { each %{ _force( $_[0] ) } }
+
     sub FIRSTKEY {
-        my $hash = _force($_[0]);
-        my $a = scalar keys %$hash;
+        my $hash = _force( $_[0] );
+        my $a    = scalar keys %$hash;
         each %$hash;
     }
 }
 
 sub lexicon_get {
-    my ($class, $src, $caller, $lang) = @_;
+    my ( $class, $src, $caller, $lang ) = @_;
     return unless defined $src;
 
-    foreach my $type (qw(ARRAY HASH SCALAR GLOB), ref($src)) {
-        next unless UNIVERSAL::isa($src, $type);
+    foreach my $type ( qw(ARRAY HASH SCALAR GLOB), ref($src) ) {
+        next unless UNIVERSAL::isa( $src, $type );
 
         my $method = 'lexicon_get_' . lc($type);
         die "cannot handle source $type for $src: no $method defined"
             unless $class->can($method);
 
-        return $class->$method($src, $caller, $lang);
+        return $class->$method( $src, $caller, $lang );
     }
 
     # default handler
-    return $class->lexicon_get_($src, $caller, $lang);
+    return $class->lexicon_get_( $src, $caller, $lang );
 }
 
 # for scalarrefs and arrayrefs we just dereference the $src
-sub lexicon_get_scalar { ${$_[1]} }
-sub lexicon_get_array  { @{$_[1]} }
+sub lexicon_get_scalar { ${ $_[1] } }
+sub lexicon_get_array  { @{ $_[1] } }
 
-sub lexicon_get_hash   {
-    my ($class, $src, $caller, $lang) = @_;
+sub lexicon_get_hash {
+    my ( $class, $src, $caller, $lang ) = @_;
     return map { $_ => $src->{$_} } sort keys %$src;
 }
 
-sub lexicon_get_glob   {
-    my ($class, $src, $caller, $lang) = @_;
+sub lexicon_get_glob {
+    my ( $class, $src, $caller, $lang ) = @_;
 
     no strict 'refs';
+    local $^W if $] >= 5.009;    # no warnings 'once', really.
 
     # be extra magical and check for DATA section
-    if (eof($src) and $src eq \*{"$caller\::DATA"} or $src eq \*{"main\::DATA"}) {
+    if ( eof($src) and $src eq \*{"$caller\::DATA"}
+        or $src eq \*{"main\::DATA"} )
+    {
+
         # okay, the *DATA isn't initiated yet. let's read.
         #
         require FileHandle;
         my $fh = FileHandle->new;
-        my $package = ( ($src eq \*{"main\::DATA"}) ? 'main' : $caller );
+        my $package = ( ( $src eq \*{"main\::DATA"} ) ? 'main' : $caller );
 
         if ( $package eq 'main' and -e $0 ) {
             $fh->open($0) or die "Can't open $0: $!";
         }
         else {
             my $level = 1;
-            while ( my ($pkg, $filename) = caller($level++) ) {
+            while ( my ( $pkg, $filename ) = caller( $level++ ) ) {
                 next unless $pkg eq $package;
                 next unless -e $filename;
                 next;
@@ -398,6 +475,7 @@ sub lexicon_get_glob   {
         }
 
         while (<$fh>) {
+
             # okay, this isn't foolproof, but good enough
             last if /^__DATA__$/;
         }
@@ -406,33 +484,43 @@ sub lexicon_get_glob   {
     }
 
     # fh containing the lines
-    my $pos = tell($src);
+    my $pos   = tell($src);
     my @lines = <$src>;
-    seek($src, $pos, 0);
+    seek( $src, $pos, 0 );
     return @lines;
 }
 
 # assume filename - search path, open and return its contents
 sub lexicon_get_ {
-    my ($class, $src, $caller, $lang) = @_;
-
-    require FileHandle;
-    require File::Spec;
-
-    my $fh = FileHandle->new;
-    my @path = split('::', $caller);
-    push @path, $lang if length $lang;
-
-    $src = (grep { -e } map {
-        my @subpath = @path[0..$_];
-        map { File::Spec->catfile($_, @subpath, $src) } @INC;
-    } -1 .. $#path)[-1] unless -e $src;
-
+    my ( $class, $src, $caller, $lang ) = @_;
+    $src = $class->lexicon_find( $src, $caller, $lang );
     defined $src or die 'next';
 
+    require FileHandle;
+    my $fh = FileHandle->new;
     $fh->open($src) or die "Cannot read $src (called by $caller): $!";
     binmode($fh);
     return <$fh>;
+}
+
+sub lexicon_find {
+    my ( $class, $src, $caller, $lang ) = @_;
+    return $src if -e $src;
+
+    require File::Spec;
+
+    my @path = split '::', $caller;
+    push @path, $lang if length $lang;
+
+    while (@path) {
+        foreach (@INC) {
+            my $file = File::Spec->catfile( $_, @path, $src );
+            return $file if -e $file;
+        }
+        pop @path;
+    }
+
+    return undef;
 }
 
 1;
@@ -463,15 +551,32 @@ L<Locale::Maketext::Lexicon::Tie>
 
 =head1 AUTHORS
 
-Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>
+Audrey Tang E<lt>cpan@audreyt.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002, 2003, 2004, 2005 by Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>.
+Copyright 2002-2008 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
-This program is free software; you can redistribute it and/or 
-modify it under the same terms as Perl itself.
+This software is released under the MIT license cited below.
 
-See L<http://www.perl.com/perl/misc/Artistic.html>
+=head2 The "MIT" License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
 
 =cut
