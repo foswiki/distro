@@ -3,9 +3,6 @@
 use strict;
 use warnings;
 
-use File::Spec;
-use FindBin qw( $Bin $Script );
-
 BEGIN {
     if ( defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL} ) {
         $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
@@ -17,11 +14,9 @@ BEGIN {
         require Carp;
         $SIG{__DIE__} = \&Carp::confess;
     }
-    my @path = File::Spec->splitpath($Bin);
-    my $setlib = File::Spec->catfile( @path, 'setlib.cfg' );
-    require $setlib;
-    $Script =~ s/\..*$//;    # Remove optional file extension
-    $ENV{FOSWIKI_ACTION} = $Script;
+    $ENV{FOSWIKI_ACTION} = 'test';
+    @INC = ('.', grep { $_ ne '.' } @INC);
+    require 'setlib.cfg';
 }
 
 use Foswiki     ();
