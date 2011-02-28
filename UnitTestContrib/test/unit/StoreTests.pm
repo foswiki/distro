@@ -191,6 +191,58 @@ sub test_getRevisionInfo {
     $webObject->removeFromStore();
 }
 
+sub test_getRevisionInfoNoRcsFile {
+    my $this = shift;
+
+    Foswiki::Func::createWeb( $web, '_default' );
+    $this->assert( $this->{session}->webExists($web) );
+
+    my $ttext   = <<DONE;
+%INCLUDE{"%USERSWEB%.AdminUser" section="sudo_login"}%
+
+Edit this topic to add a description to the AdminGroup
+DONE
+
+    my $rawtext = <<DONE;
+%META:TOPICINFO{author="BaseUserMapping_333" comment="save topic" date="1282246509" format="1.1" reprev="1" version="1"}%
+%META:TOPICPARENT{name="WikiGroups"}%
+$ttext
+DONE
+
+    open( my $fh, '>', "$Foswiki::cfg{DataDir}/$web/$topic.txt" )
+      || die "Unable to open \n $! \n\n ";
+    print $fh $rawtext;
+    close $fh;
+
+    # A file without history should be rev 0, not rev 1.
+    my $meta = Foswiki::Meta->load( $this->{session}, $web, $topic );
+    #$this->assert_equals( 0, $meta->getLatestRev() );
+    $this->assert_str_equals( $ttext, $meta->text() );
+
+    $meta->text( $ttext . "\nnewline" );
+    # Save without force revision still should create a new rev due to missing history
+    $meta->save( forcenewrevision => 0 );
+
+    # Save of a file without an existing RCS file should not modify Rev 1,
+    # but should instead create the next revision, so rev 1 represents
+    # the original file before history started.
+
+    my $readMeta = Foswiki::Meta->load( $this->{session}, $web, $topic );
+    $this->assert_str_equals( $ttext . "\nnewline", $readMeta->text() );
+
+    $this->assert_equals( 2,     $readMeta->getLatestRev() );
+    my $info = $readMeta->getRevisionInfo();
+    $this->assert_str_equals( $this->{session}->{user}, $info->{author} );
+    $this->assert_num_equals( 2, $info->{version} );
+
+    # Make sure that rev 1 exists and has the original text pr-history.
+    my $oldMeta = Foswiki::Meta->load( $this->{session}, $web, $topic, '1');
+    $this->assert_str_equals( $ttext, $oldMeta->text() );
+
+    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
+    $webObject->removeFromStore();
+}
+
 sub test_moveTopic {
     my $this = shift;
 
