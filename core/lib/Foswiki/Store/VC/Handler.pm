@@ -256,7 +256,7 @@ Get an iterator over the identifiers of revisions. Returns the most
 recent revision first.
 
 The default is to return an iterator from the current version number
-down to 1.
+down to 1.   Return rev 0 if the file exists without history.
 
 =cut
 
@@ -265,7 +265,7 @@ sub getRevisionHistory {
     ASSERT( $this->{file} ) if DEBUG;
     unless ( -e $this->{rcsFile} ) {
         if ( -e $this->{file} ) {
-            return new Foswiki::ListIterator( [1] );
+            return new Foswiki::ListIterator( [0] );
         }
         else {
             return new Foswiki::ListIterator( [] );
@@ -298,11 +298,15 @@ Get the ID of the next (as yet uncreated) revision. The handler is required
 to implement this because the store has to be able to embed the revision
 ID into TOPICINFO before the revision is actually created.
 
+If the file exists without revisions, then rev 1 does exist, so next rev
+should be rev 2, not rev 1, so the first change with missing history
+doesn't get merged into rev 1.
+
 =cut
 
 sub getNextRevisionID {
     my $this = shift;
-    return ( $this->numRevisions() || 0 ) + 1;
+    return ( $this->numRevisions() || ( ( -e $this->{file} ) ? 1 : 0 ) ) + 1 ;
 }
 
 =begin TML
