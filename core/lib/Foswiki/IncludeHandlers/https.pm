@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright information
 
-use strict;
+# SMELL: Item10426  Can't use strict when monkey patching references
+#use strict;
 use warnings;
 
 =begin TML
