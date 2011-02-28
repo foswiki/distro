@@ -73,6 +73,7 @@ ppa ppt
 pps ppt
 ppt ppt
 pptx ppt
+ppsx ppt
 proj sniff
 ps ps
 psd psd
