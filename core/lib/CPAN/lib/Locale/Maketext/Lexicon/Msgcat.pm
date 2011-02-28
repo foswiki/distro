@@ -1,7 +1,7 @@
 package Locale::Maketext::Lexicon::Msgcat;
-use strict;
+$Locale::Maketext::Lexicon::Msgcat::VERSION = '0.03';
 
-$Locale::Maketext::Lexicon::Msgcat::VERSION = '0.02';
+use strict;
 
 =head1 NAME
 
@@ -10,8 +10,7 @@ Locale::Maketext::Lexicon::Msgcat - Msgcat catalog parser Maketext
 =head1 SYNOPSIS
 
     package Hello::I18N;
-    use Locale::Maketext;
-    our @ISA = qw( Locale::Maketext );
+    use base 'Locale::Maketext';
     use Locale::Maketext::Lexicon {
         en => ['Msgcat', 'en_US/hello.pl.m'],
     };
@@ -39,31 +38,39 @@ calls to this lexicon will I<not> take any additional arguments.
 sub parse {
     my $set = 0;
     my $msg = undef;
-    my ($qr, $qq, $qc)  = (qr//, '', '');
+    my ($qr, $qq, $qc) = (qr//, '', '');
     my @out;
 
     # Set up the msgcat handler
-    { no strict 'refs';
-      *{Locale::Maketext::msgcat} = \&_msgcat; }
+    {
+        no strict 'refs';
+        no warnings 'once';
+        *{Locale::Maketext::msgcat} = \&_msgcat;
+    }
 
     # Parse *.m files; Locale::Msgcat objects and *.cat are not yet supported.
     foreach (@_) {
-        s/[\015\012]*\z//; # fix CRLF issues
+        s/[\015\012]*\z//;    # fix CRLF issues
 
-        /^\$set (\d+)/                          ? do {  # set_id
+        /^\$set (\d+)/
+          ? do {              # set_id
             $set = int($1);
             push @out, $1, "[msgcat,$1,_1]";
-        } :
+          }
+          :
 
-        /^\$quote (.)/                          ? do {  # quote character
+          /^\$quote (.)/
+          ? do {              # quote character
             $qc = $1;
             $qq = quotemeta($1);
             $qr = qr/$qq?/;
-        } :
+          }
+          :
 
-        /^(\d+) ($qr)(.*?)\2(\\?)$/                     ? do {  # msg_id and msg_str
+          /^(\d+) ($qr)(.*?)\2(\\?)$/
+          ? do {              # msg_id and msg_str
             local $^W;
-            push @out, "$set,".int($1);
+            push @out, "$set," . int($1);
             if ($4) {
                 $msg = $3;
             }
@@ -71,9 +78,11 @@ sub parse {
                 push @out, unescape($qq, $qc, $3);
                 undef $msg;
             }
-        } : 
+          }
+          :
 
-        (defined $msg and /^($qr)(.*?)\1(\\?)$/)        ? do {  # continued string
+          (defined $msg and /^($qr)(.*?)\1(\\?)$/)
+          ? do {    # continued string
             local $^W;
             if ($3) {
                 $msg .= $2;
@@ -82,17 +91,18 @@ sub parse {
                 push @out, unescape($qq, $qc, $msg . $2);
                 undef $msg;
             }
-        } : ();
+          }
+          : ();
     }
 
     push @out, '' if defined $msg;
 
-    return { @out };
+    return {@out};
 }
 
 sub _msgcat {
     my ($self, $set_id, $msg_id, @args) = @_;
-    return $self->maketext(int($set_id).','.int($msg_id), @args)
+    return $self->maketext(int($set_id) . ',' . int($msg_id), @args);
 }
 
 sub unescape {
@@ -110,15 +120,32 @@ L<Locale::Maketext>, L<Locale::Maketext::Lexicon>
 
 =head1 AUTHORS
 
-Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>
+Audrey Tang E<lt>cpan@audreyt.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002, 2003, 2004 by Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>.
+Copyright 2002, 2003, 2004, 2007 by Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
-This program is free software; you can redistribute it and/or 
-modify it under the same terms as Perl itself.
+This software is released under the MIT license cited below.
 
-See L<http://www.perl.com/perl/misc/Artistic.html>
+=head2 The "MIT" License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
 
 =cut

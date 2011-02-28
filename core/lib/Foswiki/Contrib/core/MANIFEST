@@ -424,6 +424,17 @@ lib/CPAN/lib/Locale/Maketext/Lexicon/Auto.pm 0444
 lib/CPAN/lib/Locale/Maketext/Lexicon/Gettext.pm 0444
 lib/CPAN/lib/Locale/Maketext/Lexicon/Msgcat.pm 0444
 lib/CPAN/lib/Locale/Maketext/Lexicon/Tie.pm 0444
+lib/CPAN/lib/Locale/Maketext/Extract/Plugin/Base.pm 444
+lib/CPAN/libLocale/Maketext/Extract/Plugin/FormFu.pm 444
+lib/CPAN/libLocale/Maketext/Extract/Plugin/Generic.pm 444
+lib/CPAN/libLocale/Maketext/Extract/Plugin/Mason.pm 444
+lib/CPAN/libLocale/Maketext/Extract/Plugin/PPI.pm 444
+lib/CPAN/libLocale/Maketext/Extract/Plugin/Perl.pm 444
+lib/CPAN/libLocale/Maketext/Extract/Plugin/TT2.pm 444
+lib/CPAN/libLocale/Maketext/Extract/Plugin/TextTemplate.pm 444
+lib/CPAN/libLocale/Maketext/Extract/Plugin/YAML.pm 444
+lib/CPAN/libLocale/Maketext/Guts.pm 444
+lib/CPAN/libLocale/Maketext/GutsLoader.pm 444
 lib/CPAN/lib/Sort/Maker.pm 0444
 lib/DEPENDENCIES 0444
 lib/Foswiki.pm 0444
