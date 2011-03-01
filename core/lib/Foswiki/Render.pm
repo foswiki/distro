@@ -1893,10 +1893,12 @@ sub getReferenceRE {
                     else {
 
                         # Non-wikiword; require web specifier or squabs
-                        $re = "$squabo$topic$squabc";
-                        $re .= "|\"$topic\"";
+                        $re = "$squabo$topic$squabc";    # Squabbed topic
+                        $re .= "|\"(?:$matchWeb\\.)?$topic\""
+                          ;    # Quoted string in Meta and Macros
                         $re .= "|(($back\[^./])|^)$bow$matchWeb\\.$topic$eow"
-                          unless ( $options{in_noautolink} );
+                          unless ( $options{in_noautolink} )
+                          ;    # Web qualified topic outside of autolink blocks.
                     }
                 }
             }
@@ -1904,6 +1906,9 @@ sub getReferenceRE {
         else {
 
             # Searching for a web
+            # SMELL:  Does this web search also need to allow for quoted
+            # "Web.Topic" strings found in macros and META usage?
+
             if ( $options{interweb} ) {
 
                 if ( $options{in_noautolink} ) {
