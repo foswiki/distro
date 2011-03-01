@@ -54,7 +54,6 @@ sub tear_down {
     my $this = shift;
     $this->removeWebFixture( $this->{session}, $web )
       if $this->{session}->webExists($web);
-    $this->{session}->finish() if $this->{twiki};
     $this->SUPER::tear_down();
 }
 
@@ -592,7 +591,7 @@ sub test_registerMETA {
     $this->assert($o->isValidEmbedding( 'TREE', { }));
 
     # required param
-    Foswiki::Meta::registerMETA('TREE', require => [ 'spread' ]);
+    Foswiki::Func::registerMETA('TREE', require => [ 'spread' ]);
     $this->assert(!$o->isValidEmbedding( 'TREE', { }));
     $this->assert(!$o->isValidEmbedding(
         'TREE', { type => 'ash', height => '15' }));
@@ -600,7 +599,7 @@ sub test_registerMETA {
         'TREE', { type => 'ash', height => '15', spread=>'5' }));
 
     # required param and allowed param
-    Foswiki::Meta::registerMETA('TREE', require => [ 'spread' ],
+    Foswiki::Func::registerMETA('TREE', require => [ 'spread' ],
                      allow => [ 'height' ]);
     $this->assert(!$o->isValidEmbedding(
         'TREE', { type => 'ash', height => '15', spread=>'5' }));
@@ -608,7 +607,7 @@ sub test_registerMETA {
         'TREE', { spread => '5', height => '15' }));
 
     # Function and require.
-    Foswiki::Meta::registerMETA('TREE', require => [ 'height' ],
+    Foswiki::Func::registerMETA('TREE', require => [ 'height' ],
                                function => sub {
                                    my ($name, $args) = @_;
                                    $this->assert_equals('TREE', $name);
@@ -618,7 +617,7 @@ sub test_registerMETA {
         'TREE', { height=>10 }));
 
     # required param, allowed param and function
-    Foswiki::Meta::registerMETA('TREE', require => [ 'spread' ],
+    Foswiki::Func::registerMETA('TREE', require => [ 'spread' ],
                                allow => [ 'height' ],
                                function => sub {
                                    my ($name, $args) = @_;
@@ -631,7 +630,7 @@ sub test_registerMETA {
         'TREE', { spread=>15, height=>10 }), $Foswiki::Meta::reason);
 
     # allowed param only, function rewrites args
-    Foswiki::Meta::registerMETA('TREE', allow => [ 'height' ],
+    Foswiki::Func::registerMETA('TREE', allow => [ 'height' ],
                                function => sub {
                                    my ($name, $args) = @_;
                                    $this->assert_equals('TREE', $name);
@@ -644,6 +643,92 @@ sub test_registerMETA {
         'TREE', { height => '15' }));
     $this->assert($o->isValidEmbedding(
         'TREE', { spread => '5', height => '15' }));
+}
+
+# Item9948
+sub test_registerArrayMeta {
+    my $this = shift;
+    my $test = <<'TEST';
+Properties: %QUERY{"META:SLPROPERTY.name"}%
+A property: %QUERY{"slug[name='PreyOf'].values"}%
+Values: %QUERY{"META:SLPROPERTYVALUE.value"}%
+TEST
+    my $text = <<'HERE';
+%META:SLPROPERTYVALUE{name="System.SemanticIsPartOf__1" value="System.UserDocumentationCategory"}%
+%META:SLPROPERTYVALUE{name="Example.Property__1" value="UserDocumentationCategory"}%
+%META:SLPROPERTYVALUE{name="PreyOf__1" value="Snakes"}%
+%META:SLPROPERTYVALUE{name="Eat__1" value="Mosquitos"}%
+%META:SLPROPERTYVALUE{name="Eat__2" value="Flies"}%
+%META:SLPROPERTYVALUE{name="IsPartOf__1" value="UserDocumentationCategory"}%
+%META:SLPROPERTY{name="System.SemanticIsPartOf" values="System.UserDocumentationCategory"}%
+%META:SLPROPERTY{name="Example.Property" values="UserDocumentationCategory"}%
+%META:SLPROPERTY{name="PreyOf" values="Snakes"}%
+%META:SLPROPERTY{name="Eat" values="Mosquitos,Flies"}%
+%META:SLPROPERTY{name="IsPartOf" values="UserDocumentationCategory"}%
+HERE
+    Foswiki::Meta::registerMETA(
+        'SLPROPERTY',
+        many => 1,
+	alias => 'slug',
+        require => [qw(name values)],
+    );
+    Foswiki::Meta::registerMETA(
+        'SLPROPERTYVALUE',
+        many => 1,
+        require => [qw(name value)],
+    );
+    my $topicObject =
+      Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, "registerArrayMetaTest", $text );
+    $topicObject->save();
+    # All meta should have found its way into text
+    $this->assert_equals(<<'EXPECTED', $topicObject->expandMacros($test));
+Properties: System.SemanticIsPartOf,Example.Property,PreyOf,Eat,IsPartOf
+A property: Snakes
+Values: System.UserDocumentationCategory,UserDocumentationCategory,Snakes,Mosquitos,Flies,UserDocumentationCategory
+EXPECTED
+}
+
+# Item9948
+sub test_registerScalarMeta {
+    my $this = shift;
+    my $test = <<'TEST';
+Properties: %QUERY{"META:SLPROPERTY.name"}%
+Alias: %QUERY{"slug.name"}%
+Values: %QUERY{"META:SLPROPERTYVALUE.value"}%
+TEST
+    my $text = <<'HERE';
+%META:SLPROPERTYVALUE{name="System.SemanticIsPartOf__1" value="System.UserDocumentationCategory"}%
+%META:SLPROPERTYVALUE{name="Example.Property__1" value="UserDocumentationCategory"}%
+%META:SLPROPERTYVALUE{name="PreyOf__1" value="Snakes"}%
+%META:SLPROPERTYVALUE{name="Eat__1" value="Mosquitos"}%
+%META:SLPROPERTYVALUE{name="Eat__2" value="Flies"}%
+%META:SLPROPERTYVALUE{name="IsPartOf__1" value="UserDocumentationCategory"}%
+%META:SLPROPERTY{name="System.SemanticIsPartOf" values="System.UserDocumentationCategory"}%
+%META:SLPROPERTY{name="Example.Property" values="UserDocumentationCategory"}%
+%META:SLPROPERTY{name="PreyOf" values="Snakes"}%
+%META:SLPROPERTY{name="Eat" values="Mosquitos,Flies"}%
+%META:SLPROPERTY{name="IsPartOf" values="UserDocumentationCategory"}%
+HERE
+    Foswiki::Meta::registerMETA(
+        'SLPROPERTY',
+	alias => 'slug',
+        require => [qw(name values)],
+    );
+    Foswiki::Meta::registerMETA(
+        'SLPROPERTYVALUE',
+        require => [qw(name value)],
+    );
+    my $topicObject =
+      Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, "registerArrayMetaTest", $text );
+    $topicObject->save();
+    # All meta should have found its way into text
+    $this->assert_equals(<<'EXPECTED', $topicObject->expandMacros($test));
+Properties: System.SemanticIsPartOf
+Alias: System.SemanticIsPartOf
+Values: System.UserDocumentationCategory
+EXPECTED
 }
 
 #lets see what happens when we use silly TOPICINFO
@@ -706,6 +791,26 @@ sub test_getRevisionHistory {
     $this->assert($revIt->hasNext());
     $this->assert_equals(1, $revIt->next());
     $this->assert(!$revIt->hasNext());
+}
+
+sub test_haveAccess {
+    my $this = shift;
+
+    my $topicObject = Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, 'WebHome' );
+    $this->assert($topicObject->haveAccess('VIEW'));
+    $this->assert($topicObject->haveAccess('CHANGE'));
+
+
+    my $webObject = Foswiki::Meta->new(
+          $this->{session}, $this->{test_web} );
+    $this->assert($webObject->haveAccess('VIEW'));
+    $this->assert($webObject->haveAccess('CHANGE'));
+
+    my $rootObject = Foswiki::Meta->new(
+          $this->{session} );
+    $this->assert($rootObject->haveAccess('VIEW'));
+    $this->assert(not $rootObject->haveAccess('CHANGE'));
 }
 
 # Disabled as XML functionnality has been removed from the core, see Foswikitask:Item1917
