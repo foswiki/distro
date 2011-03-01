@@ -10,7 +10,7 @@ If you haven't previously set up an administrator, follow these steps:
    * *Note:* This help text will disappear once you have added a user to this group, so read it all before adding your first user.
    1 Authenticate as the internal administrator:
       * %ADMINLOGIN%
-   1 Scroll down to the [[%BASEWEB%.%BASETOPIC%#AdministrationHeading][Administration]] section at the bottom of this page
+   1 Scroll down to the [[%BASEWEB%.%BASETOPIC%#Administration][Administration]] section at the bottom of this page
    1 Expand the "Add Member" twisty if necessary
    1 Enter one or more users into the provided field;  eg. =<nop>JoeUser, <nop>JimUser=
    1 Click the Add Member button
