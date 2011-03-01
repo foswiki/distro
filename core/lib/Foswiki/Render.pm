@@ -1894,7 +1894,7 @@ sub getReferenceRE {
 
                         # Non-wikiword; require web specifier or squabs
                         $re = "$squabo$topic$squabc";    # Squabbed topic
-                        $re .= "|\"(?:$matchWeb\\.)?$topic\""
+                        $re .= "|\"($matchWeb\\.)?$topic\""
                           ;    # Quoted string in Meta and Macros
                         $re .= "|(($back\[^./])|^)$bow$matchWeb\\.$topic$eow"
                           unless ( $options{in_noautolink} )
