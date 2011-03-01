@@ -1752,6 +1752,7 @@ sub forEachLine {
       * =nosot= - If true, do not generate "Spaced out text" match
       * =template= - If true, match for template setting in Set/Local statement
       * =in_noautolink= - Only match explicit (squabbed) WikiWords.   Used in <noautolink> blocks
+      * =inMeta= - Re should match exact string. No delimiters needed.
       * =url= - if set, generates an expression that will match a Foswiki
         URL that points to the web/topic, instead of the default which
         matches topic links in plain text.
@@ -1876,10 +1877,16 @@ sub getReferenceRE {
                     }
                 }
                 else {
+                    if ( $options{inMeta} ) {
+                        $re = "^($matchWeb\\.)?$topic\$";     # Updating a META item,  Exact match, no delimiters
+                    }
+                    else {
 
                     # Non-wikiword; require web specifier or squabs
                     $re = "$squabo$topic$squabc";
+                    $re .= "|\"$topic\"";
                     $re .= "|(($back\[^./])|^)$bow$matchWeb\\.$topic$eow" unless ($options{in_noautolink});
+                    }
                 }
             }
         }

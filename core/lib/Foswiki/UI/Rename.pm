@@ -986,10 +986,12 @@ sub _replaceWebInternalReferences {
     $text =
       $renderer->forEachLine( $text || '', \&_replaceInternalRefs, $options );
 
+    $options->{inMeta} = 1;
     $to->forEachSelectedValue( qw/^(FIELD|TOPICPARENT)$/, undef,
         \&_replaceInternalRefs, $options );
     $to->forEachSelectedValue( qw/^TOPICMOVED$/, qw/^by$/,
         \&_replaceInternalRefs, $options );
+    $options->{inMeta} = 0;
     $to->forEachSelectedValue( qw/^FILEATTACHMENT$/, qw/^user$/,
         \&_replaceInternalRefs, $options );
 
@@ -1020,10 +1022,12 @@ sub _replaceWebInternalReferences {
 
     $to->text($text);
 
+    $options->{inMeta} = 1;
     $to->forEachSelectedValue( qw/^(FIELD|TOPICPARENT)$/, undef,
         \&_replaceInternalRefs, $options );
     $to->forEachSelectedValue( qw/^TOPICMOVED$/, qw/^by$/,
         \&_replaceInternalRefs, $options );
+    $options->{inMeta} = 0;
     $to->forEachSelectedValue( qw/^FILEATTACHMENT$/, qw/^user$/,
         \&_replaceInternalRefs, $options );
 
@@ -1421,9 +1425,11 @@ sub _updateReferringTopics {
             $options->{inWeb} = $itemWeb;
             my $text =
               $renderer->forEachLine( $topicObject->text(), $fn, $options );
+            $options->{inMeta} = 1;
             $topicObject->forEachSelectedValue(
                 qw/^(FIELD|FORM|PREFERENCE|TOPICPARENT)$/,
                 undef, $fn, $options );
+            $options->{inMeta} = 0;
             $topicObject->text($text);
             $topicObject->save( minor => 1 );
         }

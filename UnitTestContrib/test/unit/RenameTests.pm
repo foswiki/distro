@@ -1099,6 +1099,21 @@ THIS
 # Rename non-wikiword OldTopic to NewTopic within the same web
 sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
     my $this  = shift;
+
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'OldTopic' );
+    $meta->put( "TOPICPARENT", { name => 'Tmp1' } );
+    $meta->save();
+
+    $this->checkReferringTopics(
+        $this->{test_web},
+        'Tmp1',
+        0,
+        [
+            "$this->{test_web}.OldTopic",
+        ]
+    );
+
     my $query = new Unit::Request(
         {
             action           => ['rename'],
@@ -1106,9 +1121,8 @@ sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
             newtopic         => ['Tmp2'],
             nonwikiword      => '1',
             referring_topics => [
-                "$this->{test_web}.NewTopic", "$this->{test_web}.OtherTopic",
-                "$this->{new_web}.OtherTopic"
-            ],
+                "$this->{test_web}.OldTopic",
+                ],
             topic => 'Tmp1'
         }
     );
@@ -1119,13 +1133,20 @@ sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
     $query->path_info("/$this->{test_web}/SanityCheck");
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
-    $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    #print STDERR "Doing Rename\n";
+    my ($stdout, $stderr, $result) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
+
+    #print STDERR "Rename STDOUT = ($this->{stdout})\n STDERR = ($this->{stderr})\n RESULT = ($result)\n" ;
 
     $this->assert(
         $this->{session}->topicExists( $this->{test_web}, 'Tmp2' ) );
     $this->assert(
         !$this->{session}->topicExists( $this->{test_web}, 'Tmp1' ) );
 
+    $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'OldTopic' );
+
+    $this->assert_str_equals( 'Tmp2', $meta->getParent() );
 }
 
 
