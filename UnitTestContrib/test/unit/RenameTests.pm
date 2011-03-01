@@ -78,7 +78,7 @@ rename [[$this->{test_web}.OldTopic]]
 THIS
 
     # Strategically-selected set of identical topics in the test web
-    foreach my $topic ( 'OldTopic', 'OtherTopic', 'random', 'Random', 'ranDom' )
+    foreach my $topic ( 'OldTopic', 'OtherTopic', 'random', 'Random', 'ranDom', 'Tmp1' )
     {
         my $meta =
           Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic,
@@ -553,7 +553,8 @@ THIS
         [
             "$this->{test_web}.OtherTopic", "$this->{test_web}.MatchMeOne",
             "$this->{test_web}.MatchMeTwo", "$this->{test_web}.random",
-            "$this->{test_web}.Random",     "$this->{test_web}.ranDom"
+            "$this->{test_web}.Random",     "$this->{test_web}.ranDom",
+            "$this->{test_web}.Tmp1",
         ]
     );
 }
@@ -682,7 +683,7 @@ THIS
         [
             "$this->{test_web}.MatchMeFive", "$this->{test_web}.OldTopic",
             "$this->{test_web}.OtherTopic",  "$this->{test_web}.Random",
-            "$this->{test_web}.ranDom"
+            "$this->{test_web}.ranDom",      "$this->{test_web}.Tmp1",
         ]
     );
     $this->checkReferringTopics(
@@ -691,7 +692,7 @@ THIS
         [
             "$this->{test_web}.MatchMeSix", "$this->{test_web}.OldTopic",
             "$this->{test_web}.OtherTopic", "$this->{test_web}.Random",
-            "$this->{test_web}.random"
+            "$this->{test_web}.random",     "$this->{test_web}.Tmp1",
         ]
     );
     $this->checkReferringTopics(
@@ -700,7 +701,7 @@ THIS
         [
             "$this->{test_web}.MatchMeSeven", "$this->{test_web}.OldTopic",
             "$this->{test_web}.OtherTopic",   "$this->{test_web}.random",
-            "$this->{test_web}.ranDom"
+            "$this->{test_web}.ranDom",     "$this->{test_web}.Tmp1",
         ]
     );
 }
@@ -1094,6 +1095,39 @@ rename [[$this->{new_web}.OldTopic]]
 </noautolink>
 THIS
 }
+
+# Rename non-wikiword OldTopic to NewTopic within the same web
+sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            action           => ['rename'],
+            newweb           => [ $this->{test_web} ],
+            newtopic         => ['Tmp2'],
+            nonwikiword      => '1',
+            referring_topics => [
+                "$this->{test_web}.NewTopic", "$this->{test_web}.OtherTopic",
+                "$this->{new_web}.OtherTopic"
+            ],
+            topic => 'Tmp1'
+        }
+    );
+
+    $this->{session}->finish();
+
+    # The topic in the path should not matter
+    $query->path_info("/$this->{test_web}/SanityCheck");
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->captureWithKey( rename => $UI_FN, $this->{session} );
+
+    $this->assert(
+        $this->{session}->topicExists( $this->{test_web}, 'Tmp2' ) );
+    $this->assert(
+        !$this->{session}->topicExists( $this->{test_web}, 'Tmp1' ) );
+
+}
+
 
 # Purpose:  Rename a topic which starts with a lowercase letter
 # Verifies:
