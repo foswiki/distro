@@ -674,67 +674,14 @@ sub registerRESTHandler {
 
 =begin TML
 
----+++ registerMETA($name, %syntax)
-
-Foswiki supports embedding meta-data into topics. For example,
-
-=%<nop>META:BOOK{title="Transit" author="Edmund Cooper" isbn="0-571-05724-1"}%=
-
-This meta-data is validated when it is read from the store. Meta-data
-that is not registered, or doesn't pass validation, is ignored. This
-function allows you to register a new META datum, passing the name in
-=$name=. =%syntax= is a set of optional checks that describe how to
-validate the fields of the datum.
-
-The following checks are supported:
-
-=function=>\&fn= In this case the function =fn= will be called when the
-datum is encountered, passing in the name of the macro and the
-argument hash. The function must return a non-zero/undef value if the tag
-is acceptable, or 0 otherwise. For example:
-<verbatim>
-registerMETA('BOOK', function => sub {
-    my ($name, $args) = @_;
-    # $name will be BOOK
-    return defined $args->{title};
-}
-</verbatim>
-can be used to check that =%META:BOOK{}= contains a title.
-
-=require=>[]= is used to check that a list of named parameters are present on
-the tag. For example,
-<verbatim>
-registerMETA('BOOK', require => [ 'title', 'author' ]);
-</verbatim>
-can be used to check that both =title= and =author= are present.
-
-=allow=>[]= lets you specify other optional parameters that are allowed
-on the tag. If you specify =allow= then the validation will fail if the
-tag contains any parameters that are _not_ in the =allow= or =require= lists.
-If you don't specify =allow= then all parameters will be allowed.
-
-Checks are cumulative, so if you:
-<verbatim>
-registerMETA('BOOK',
-    function => \&checkParameters,
-    require => [ 'title' ],
-    allow => [ 'author', 'isbn' ]);
-</verbatim>
-then all these conditions will be tested. Note that =require= and =allow=
-are tested _after_ =function= is called, to give the function a chance to
-rewrite the parameter list.
-
-If no checker is registered for a META tag, then it will automatically
-be accepted into the topic meta-data.
-
-Note that the checker only verifies the *presence* of parameters, and
-not their *values*.
+---+++ registerMETA($macro, $spec)
+Deprecated: please use Foswiki::Meta::registerMETA instead.
 
 =cut
 
 sub registerMETA {
-    my ( $macro, $spec ) = @_;
-    Foswiki::Meta::registerMETA( $macro, $spec );
+    #my ( $macro, %spec ) = @_;
+    Foswiki::Meta::registerMETA( @_ )
 }
 
 =begin TML

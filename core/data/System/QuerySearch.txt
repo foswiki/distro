@@ -56,7 +56,9 @@ All meta-data in a topic is referenced according to a simple plan.
          * =name=
          * =value=
 
-See MetaData for details of what all these entries mean.
+See MetaData for details of what all these entries mean. Note that the set
+of meta-data types (and the aliases used to refer to them) may be extended
+by Foswiki extensions.
 
 Most things at the top level of the plan - =META:TOPICPARENT=, =META:TOPICINFO= etc - are _structures_ which are indexed by _keys_. For example, =META:TOPICINFO= has 4 entries, which are indexed by the keys =author=, =date=, =format= and =version=. =META:FILEATTACHMENT=, =META:FIELD= and =META:PREFERENCE= are all _arrays_, which means they can have any number of records under them. Arrays are indexed by _numbers_ - for example, the first entry in the =META:FIELD= array is entry 0.
 
@@ -68,6 +70,7 @@ It's a bit clumsy having to type =META:FILEATTACHMENT= every time you want to re
    * =form= means the same as =META:FORM=, so to test if a topic has a form named 'UserForm' you test for ="form.name ~ '*.UserForm'"=
    * =fields= means the same as =META:FIELD=, You can also use the name of the form (the value of =form.name= e.g. =PersonForm=)
    * =preferences= means the same as =META:PREFERENCE=
+   * extensions may add additional aliases when they register new meta-data types 
 
 Fields in this plan are referenced using a simple _field specifier_ syntax:
 | *Syntax* | *Means* | *Examples* |
