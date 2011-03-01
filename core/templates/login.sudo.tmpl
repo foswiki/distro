@@ -7,7 +7,7 @@
 %TMPL:DEF{"title"}%---++ %MAKETEXT{"Please enter the Wiki admin password"}%
 %TMPL:END%
 
-%TMPL:DEF{"usernamefield"}%<input tabindex='1' disabled="disabled" class="foswikiInputFieldDisabled" type="text" size="40" name="username" value="<nop>%WIKIADMINLOGIN%"  %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
+%TMPL:DEF{"usernamefield"}%<input tabindex='1' readonly="readonly" class="foswikiInputFieldDisabled" type="text" size="40" name="username" value="<nop>%WIKIADMINLOGIN%"  %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
 
 %TMPL:DEF{"usernamefieldhelp"}%%TMPL:END%
 
