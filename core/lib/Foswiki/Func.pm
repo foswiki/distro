@@ -3495,7 +3495,7 @@ sub readTopicText {
 
 =begin TML
 
----+++ saveTopicText( $web, $topic, $text, \%options ) -> $oopsUrl
+---+++ saveTopicText( $web, $topic, $text, $ignorePermissions, $dontNotify ) -> $oopsUrl
 
 Save topic text, typically obtained by readTopicText(). Topic data usually includes meta data; the file attachment meta data is replaced by the meta data from the topic file if it exists.
    * =$web=                - Web name, e.g. ='Main'=, or empty
