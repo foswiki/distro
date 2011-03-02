@@ -1,5 +1,5 @@
 package Locale::Maketext::Extract::Run;
-$Locale::Maketext::Lexicon::Extract::Run::VERSION = '0.35';
+$Locale::Maketext::Lexicon::Extract::Run::VERSION = '0.34';
 
 use strict;
 use vars qw( @ISA @EXPORT_OK );
@@ -70,11 +70,9 @@ sub run {
                wanted => sub {
                    if (-d) {
                        $File::Find::prune
-                           = /^(\.svn|blib|autogen|var|m4|local|CVS|\.git)$/;
+                           = /^(\.svn|blib|autogen|var|m4|local|CVS)$/;
                        return;
                    }
-                   # Only extract from non-binary, normal files
-                   return unless (-f or -s) and -T;
                    return
                        if (/\.po$|\.bak$|~|,D|,B$/i)
                        || (/^[\.#]/);

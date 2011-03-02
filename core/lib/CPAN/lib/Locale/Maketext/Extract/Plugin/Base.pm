@@ -200,7 +200,7 @@ sub _compile_file_types {
     }
 
 Determines whether the current file should be handled by this parser, based
-either on the list of file_types specified when this object was created,
+either on the list of file_types speficied when this object was created,
 or the default file_types specified in the module.
 
 =cut
