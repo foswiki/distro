@@ -1,5 +1,5 @@
 package Locale::Maketext::Lexicon;
-$Locale::Maketext::Lexicon::VERSION = '0.86';
+$Locale::Maketext::Lexicon::VERSION = '0.79';
 
 use 5.004;
 use strict;
@@ -10,7 +10,7 @@ Locale::Maketext::Lexicon - Use other catalog formats in Maketext
 
 =head1 VERSION
 
-This document describes version 0.80 of Locale::Maketext::Lexicon,
+This document describes version 0.79 of Locale::Maketext::Lexicon,
 released December 29, 2008.
 
 =head1 SYNOPSIS
@@ -22,12 +22,10 @@ lexicons:
     use base 'Locale::Maketext';
     use Locale::Maketext::Lexicon {
         '*' => [Gettext => '/usr/local/share/locale/*/LC_MESSAGES/hello.mo'],
-        ### Uncomment to fallback when a key is missing from lexicons
-        # _auto   => 1,
         ### Uncomment to decode lexicon entries into Unicode strings
         # _decode => 1,
-        ### Uncomment to load and parse everything right away
-        # _preload => 1,
+        ### Uncomment to fallback when a key is missing from lexicons
+        # _auto   => 1,
         ### Uncomment to use %1 / %quant(%1) instead of [_1] / [quant, _1]
         # _style  => 'gettext',
     };
@@ -152,12 +150,6 @@ utf8-strings.
 If C<_encoding> is set to C<locale>, the encoding from the
 current locale setting is used.
 
-=item C<_preload>
-
-By default parsing is delayed until first use of the lexicon,
-set this option to true value to parse it asap. Increment
-adding lexicons forces parsing.
-
 =back
 
 =head2 Subclassing format handlers
@@ -203,13 +195,13 @@ sub encoding {
     local $@;
     eval {
         require I18N::Langinfo;
-        $locale_encoding
-            = I18N::Langinfo::langinfo( I18N::Langinfo::CODESET() );
-        }
-        or eval {
+        $locale_encoding =
+          I18N::Langinfo::langinfo( I18N::Langinfo::CODESET() );
+      }
+      or eval {
         require Win32::Console;
         $locale_encoding = 'cp' . Win32::Console::OutputCP();
-        };
+      };
     if ( !$locale_encoding ) {
         foreach my $key (qw( LANGUAGE LC_ALL LC_MESSAGES LANG )) {
             $ENV{$key} =~ /^([^.]+)\.([^.:]+)/ or next;
@@ -255,7 +247,7 @@ sub import {
     # expand the wildcard entry
     if ( my $wild_entry = delete $entries{'*'} ) {
         while ( my ( $format, $src ) = splice( @$wild_entry, 0, 2 ) ) {
-            next if ref($src); # XXX: implement globbing for the 'Tie' backend
+            next if ref($src);   # XXX: implement globbing for the 'Tie' backend
 
             my $pattern = quotemeta($src);
             $pattern =~ s/\\\*(?=[^*]+$)/\([-\\w]+\)/g or next;
@@ -273,8 +265,8 @@ sub import {
                 push @{ $entries{$1} }, ( $format => $file ) if $1;
             }
             delete $entries{$1}
-                unless !defined($1)
-                    or exists $entries{$1} and @{ $entries{$1} };
+              unless !defined($1)
+                  or exists $entries{$1} and @{ $entries{$1} };
         }
     }
 
@@ -299,13 +291,13 @@ sub import {
 
         while ( my ( $format, $src ) = splice( @pairs, 0, 2 ) ) {
             if ( defined($src) and !ref($src) and $src =~ /\*/ ) {
-                unshift( @pairs, $format => $_ )
-                    for File::Glob::bsd_glob($src);
+                unshift( @pairs, $format => $_ ) for File::Glob::bsd_glob($src);
                 next;
             }
 
-            my @content
-                = eval { $class->lexicon_get( $src, scalar caller(1), $lang ); };
+            local $@;
+            my @content =
+              eval { $class->lexicon_get( $src, scalar caller(1), $lang ); };
             next if $@ and $@ =~ /^next\b/;
             die $@ if $@;
 
@@ -313,33 +305,28 @@ sub import {
             eval "use $class\::$format; 1" or die $@;
 
             if ( %{"$export\::Lexicon"} ) {
-                my $lexicon = \%{"$export\::Lexicon"};
-                if ( my $obj = tied %$lexicon ) {
-
-                    # if it's our tied hash then force loading
-                    # otherwise late load will rewrite
-                    $obj->_force if $obj->isa(__PACKAGE__);
+                if ( ref( tied %{"$export\::Lexicon"} ) eq __PACKAGE__ ) {
+                    tied( %{"$export\::Lexicon"} )->_force;
                 }
 
                 # clear the memoized cache for old entries:
                 Locale::Maketext->clear_isa_scan;
 
-                my $new = "$class\::$format"->parse(@content);
-
-                # avoid hash rebuild, on big sets
-                @{$lexicon}{ keys %$new } = values %$new;
+                # be very careful not to pollute the possibly tied lexicon
+                *{"$export\::Lexicon"} = {
+                    %{"$export\::Lexicon"},
+                    %{ "$class\::$format"->parse(@content) },
+                };
             }
             else {
                 local $^W if $] >= 5.009;    # no warnings 'once', really.
                 tie %{"$export\::Lexicon"}, __PACKAGE__,
-                    {
+                  {
                     Opts    => $OptsRef,
                     Export  => "$export\::Lexicon",
                     Class   => "$class\::$format",
                     Content => \@content,
-                    };
-                tied( %{"$export\::Lexicon"} )->_force
-                    if $OptsRef->{'preload'};
+                  };
             }
 
             length $lang or next;
@@ -351,13 +338,13 @@ sub import {
             push( @{"$export\::ISA"}, scalar caller );
 
             if ( my $style = option('style') ) {
-                my $cref
-                    = $class->can( lc("_style_$style") )
-                    ->( $class, $export->can('maketext') )
-                    or die "Unknown style: $style";
+                my $cref =
+                  $class->can( lc("_style_$style") )
+                  ->( $class, $export->can('maketext') )
+                  or die "Unknown style: $style";
 
                 # Avoid redefinition warnings
-                local $SIG{__WARN__} = sub {1};
+                local $SIG{__WARN__} = sub { 1 };
                 *{"$export\::maketext"} = $cref;
             }
         }
@@ -373,10 +360,10 @@ sub _style_gettext {
         my $lh  = shift;
         my $str = shift;
         return $orig->(
-            $lh,
-            Locale::Maketext::Lexicon::Gettext::_gettext_to_maketext($str), @_
+            $lh, Locale::Maketext::Lexicon::Gettext::_gettext_to_maketext($str),
+            @_
         );
-        }
+      }
 }
 
 sub TIEHASH {
@@ -390,15 +377,15 @@ sub TIEHASH {
 
     sub _force {
         my $args = shift;
-        unless ( $args->{'Done'} ) {
-            $args->{'Done'} = 1;
+        if ( !$args->{Done}++ ) {
             local *Opts = $args->{Opts};
-            *{ $args->{Export} }
-                = $args->{Class}->parse( @{ $args->{Content} } );
-            $args->{'Export'}{'_AUTO'} = 1
-                if option('auto');
+            *{ $args->{Export} } =
+              $args->{Class}->parse( @{ $args->{Content} } );
+            if ( option('auto') ) {
+                ( \%{ $args->{Export} } )->{'_AUTO'} = 1;
+            }
         }
-        return $args->{'Export'};
+        return \%{ $args->{Export} };
     }
     sub FETCH   { _force( $_[0] )->{ $_[1] } }
     sub EXISTS  { _force( $_[0] )->{ $_[1] } }
@@ -424,7 +411,7 @@ sub lexicon_get {
 
         my $method = 'lexicon_get_' . lc($type);
         die "cannot handle source $type for $src: no $method defined"
-            unless $class->can($method);
+          unless $class->can($method);
 
         return $class->$method( $src, $caller, $lang );
     }
@@ -493,34 +480,27 @@ sub lexicon_get_glob {
 # assume filename - search path, open and return its contents
 sub lexicon_get_ {
     my ( $class, $src, $caller, $lang ) = @_;
-    $src = $class->lexicon_find( $src, $caller, $lang );
-    defined $src or die 'next';
 
     require FileHandle;
+    require File::Spec;
+
     my $fh = FileHandle->new;
+    my @path = split( '::', $caller );
+    push @path, $lang if length $lang;
+
+    $src = (
+        grep { -e } map {
+            my @subpath = @path[ 0 .. $_ ];
+            map { File::Spec->catfile( $_, @subpath, $src ) } @INC;
+          } -1 .. $#path
+      )[-1]
+      unless -e $src;
+
+    defined $src or die 'next';
+
     $fh->open($src) or die "Cannot read $src (called by $caller): $!";
     binmode($fh);
     return <$fh>;
-}
-
-sub lexicon_find {
-    my ( $class, $src, $caller, $lang ) = @_;
-    return $src if -e $src;
-
-    require File::Spec;
-
-    my @path = split '::', $caller;
-    push @path, $lang if length $lang;
-
-    while (@path) {
-        foreach (@INC) {
-            my $file = File::Spec->catfile( $_, @path, $src );
-            return $file if -e $file;
-        }
-        pop @path;
-    }
-
-    return undef;
 }
 
 1;

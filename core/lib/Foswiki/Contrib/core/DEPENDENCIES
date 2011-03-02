@@ -19,6 +19,7 @@ Socket,>=0,cpan,Required, for base Foswiki
 Archive::Tar,>=0,cpan,Optional, may be required by the Extensions Installer in configure if command line tar or unzip is not available
 CGI::Cookie,>=1.24,cpan,Optional, required for Sessions support, available from the CPAN archive.
 CGI::Session,>=4.30,cpan,Required, for Sessions support, available from the CPAN archive.
+Locale::Maketext,>=0,cpan,Optional, may be required for international characters
 Locale::Maketext::Lexicon,>=0,cpan,Optional, may be required for international characters
 Net::SMTP,>=2.29,cpan,Optional, may be required for sending mail
 Apache::Htpasswd,>=0,cpan,Optional, may be required for ApacheHtpasswd password manager
