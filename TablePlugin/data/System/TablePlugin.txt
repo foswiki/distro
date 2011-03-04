@@ -178,6 +178,7 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  04 Mar 2011 | 1.128: Arthur Clemens: disable sorting if =sort="off"= is set in =TABLEPLUGIN_TABLEATTRIBUTES=. |
 |  16 Feb 2011 | 1.127: Michael Daum: Foswikitask:Item10357: only emit inline css when there's a foswikiTable on the current page |
 |  18 Aug 2010 | 1.126: Paul harvey: Foswikitask:Item9415: minor documentation changes |
 |  09 Aug 2010 | 1.125: Crawford Currie: Foswikitask:Item8303: fixed sorting with multiple headers |

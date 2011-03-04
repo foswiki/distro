@@ -9,7 +9,7 @@ use strict;
 use warnings;
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.127';
+our $RELEASE = '1.128';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -42,6 +42,8 @@ sub initPlugin {
 
     $initialised = 0;
 
+    debug( 'TablePlugin', "inited" );
+    
     return 1;
 }
 
