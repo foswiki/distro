@@ -17,7 +17,7 @@ my $didWriteDefaultStyle;
 my $defaultAttrs;          # to write generic table CSS
 my $tableSpecificAttrs;    # to write table specific table CSS
 my $combinedTableAttrs;    # default and specific table attributes
-my $styles = {};           # hash of default and specific styles
+my $styles       = {};     # hash of default and specific styles
 my $doneDefaults = 0;
 
 # not yet refactored:
@@ -120,7 +120,7 @@ $TABLE_FRAME->{border} = 'border-style:solid';
 
 BEGIN {
     $translationToken = "\0";
-    $doneDefaults = 0;
+    $doneDefaults     = 0;
 
     # the maximum number of columns we will handle
     $MAX_SORT_COLS        = 10000;
@@ -225,37 +225,11 @@ sub _parseTableSpecificTableAttributes {
 
 =cut
 
-sub _cleanParamValue {
-    my ($inValue) = @_;
-
-    return undef if !$inValue;
-
-    $inValue =~ s/ //go;    # remove spaces
-    return $inValue;
-}
-
-=pod
-
-=cut
-
-sub _arrayRefFromParam {
-    my ($inValue) = @_;
-
-    return undef if !$inValue;
-
-    $inValue =~ s/ //go;    # remove spaces
-    my @list = split( /,/, $inValue );
-    return \@list;
-}
-
-=pod
-
-=cut
-
 sub _parseAttributes {
-    my ( $modeSpecific, $inCollection, $inParams ) = @_;
+    my ( $isTableSpecific, $inCollection, $inParams ) = @_;
 
-    _debugData( "modeSpecific=$modeSpecific; _parseAttributes=", $inParams );
+    _debugData( "isTableSpecific=$isTableSpecific; _parseAttributes=",
+        $inParams );
 
     # include topic to read definitions
     my $includeTopicParam = $inParams->{include};
@@ -266,44 +240,44 @@ sub _parseAttributes {
 
     _storeAttribute( 'generateInlineMarkup',
         Foswiki::Func::isTrue( $inParams->{inlinemarkup} ),
-        $inCollection ) if defined $inParams->{inlinemarkup};
-            
+        $inCollection )
+      if defined $inParams->{inlinemarkup};
+
     # sort attributes
-    if ($modeSpecific) {
-        my $sort = Foswiki::Func::isTrue( $inParams->{sort} || 'on' );
-        _storeAttribute( 'sort', $sort, $inCollection );
-        _storeAttribute( 'initSort', $inParams->{initsort}, $inCollection )
-          if defined( $inParams->{initsort} )
-              and $inParams->{initsort} =~ /\s*[0-9]+\s*/;
-        _storeAttribute( 'sortAllTables', $sort, $inCollection );
-        if ( $inParams->{initdirection} ) {
-            _storeAttribute( 'initDirection', $SORT_DIRECTION->{'ASCENDING'},
-                $inCollection )
-              if $inParams->{initdirection} =~ /^down$/i;
-            _storeAttribute( 'initDirection', $SORT_DIRECTION->{'DESCENDING'},
-                $inCollection )
-              if $inParams->{initdirection} =~ /^up$/i;
-        }
-
-        # If EditTablePlugin is installed and we are editing a table,
-        # the CGI parameter 'sort' is defined as "off" to disable all
-        # header sorting ((Item5135)
-        my $cgi          = Foswiki::Func::getCgiQuery();
-        my $urlParamSort = $cgi->param('sort');
-        if ( $urlParamSort && $urlParamSort =~ /^off$/oi ) {
-            delete $inCollection->{sortAllTables};
-        }
-
-      # If EditTablePlugin is installed and we are editing a table, the
-      # 'disableallsort' TABLE parameter is added to disable initsort and header
-      # sorting in the table that is being edited. (Item5135)
-        if ( Foswiki::Func::isTrue( $inParams->{disableallsort} ) ) {
-            $inCollection->{sortAllTables} = 0;
-            delete $inCollection->{initSort};
-        }
+    my $sort = Foswiki::Func::isTrue( $inParams->{sort} || 'on' );
+    _debug("sort=$sort");
+    _storeAttribute( 'sort', $sort, $inCollection );
+    _storeAttribute( 'initSort', $inParams->{initsort}, $inCollection )
+      if defined( $inParams->{initsort} )
+          and $inParams->{initsort} =~ /\s*[0-9]+\s*/;
+    _storeAttribute( 'sortAllTables', $sort, $inCollection );
+    if ( $inParams->{initdirection} ) {
+        _storeAttribute( 'initDirection', $SORT_DIRECTION->{'ASCENDING'},
+            $inCollection )
+          if $inParams->{initdirection} =~ /^down$/i;
+        _storeAttribute( 'initDirection', $SORT_DIRECTION->{'DESCENDING'},
+            $inCollection )
+          if $inParams->{initdirection} =~ /^up$/i;
     }
 
-    if ($modeSpecific) {
+    # If EditTablePlugin is installed and we are editing a table,
+    # the CGI parameter 'sort' is defined as "off" to disable all
+    # header sorting ((Item5135)
+    my $cgi          = Foswiki::Func::getCgiQuery();
+    my $urlParamSort = $cgi->param('sort');
+    if ( $urlParamSort && $urlParamSort =~ /^off$/oi ) {
+        delete $inCollection->{sortAllTables};
+    }
+
+    # If EditTablePlugin is installed and we are editing a table, the
+    # 'disableallsort' TABLE parameter is added to disable initsort and header
+    # sorting in the table that is being edited. (Item5135)
+    if ( Foswiki::Func::isTrue( $inParams->{disableallsort} ) ) {
+        $inCollection->{sortAllTables} = 0;
+        delete $inCollection->{initSort};
+    }
+
+    if ($isTableSpecific) {
 
         _storeAttribute( 'summary', $inParams->{summary}, $inCollection );
         my $id = $inParams->{id}
@@ -1460,6 +1434,7 @@ sub emitTable {
     my $singleIndent     = "\n\t";
     my $doubleIndent     = "\n\t\t";
     my $tripleIndent     = "\n\t\t\t";
+
     # Only *one* row of the table has sort links, and it will either
     # be the last row in the header or the first row in the footer.
     my $sortLinksWritten = 0;
@@ -1470,8 +1445,8 @@ sub emitTable {
 
         # keep track of header cells: if all cells are header cells, do not
         # update the data color count
-        my $headerCellCount = 0;
-        my $numberOfCols    = scalar(@$row);
+        my $headerCellCount  = 0;
+        my $numberOfCols     = scalar(@$row);
         my $writingSortLinks = 0;
 
         foreach my $fcell (@$row) {
@@ -1566,10 +1541,13 @@ sub emitTable {
 
                 # END html attribute
 
-                if ( $sortThisTable
-                       && (!$combinedTableAttrs->{headerrows}
-                             || $rowCount == $combinedTableAttrs->{headerrows} - 1)
-                         && ($writingSortLinks || !$sortLinksWritten)) {
+                if (
+                    $sortThisTable
+                    && (  !$combinedTableAttrs->{headerrows}
+                        || $rowCount == $combinedTableAttrs->{headerrows} - 1 )
+                    && ( $writingSortLinks || !$sortLinksWritten )
+                  )
+                {
                     $writingSortLinks = 1;
                     my $linkAttributes = {
                         href => $url
@@ -1865,6 +1843,33 @@ sub _mergeHashes {
         $merged{$k} = $v;
     }
     return \%merged;
+}
+
+=pod
+
+=cut
+
+sub _cleanParamValue {
+    my ($inValue) = @_;
+
+    return undef if !$inValue;
+
+    $inValue =~ s/ //go;    # remove spaces
+    return $inValue;
+}
+
+=pod
+
+=cut
+
+sub _arrayRefFromParam {
+    my ($inValue) = @_;
+
+    return undef if !$inValue;
+
+    $inValue =~ s/ //go;    # remove spaces
+    my @list = split( /,/, $inValue );
+    return \@list;
 }
 
 =pod
