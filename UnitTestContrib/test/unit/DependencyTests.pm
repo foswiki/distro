@@ -48,7 +48,7 @@ sub test_check_dep_carp {
     # Check a normally installed dependency
     # 1, Carp v1.03 loaded
     my $dep = new Foswiki::Configure::Dependency(
-        type => "perl", module => "Carp" );
+        type => "cpan", module => "Carp" );
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok );
     $this->assert_matches( qr/Carp version .* loaded/, $message );
@@ -61,7 +61,7 @@ sub test_check_dep_carp_with_version {
     # Check a normally installed dependency
     # 1, Carp v1.03 loaded
     my $dep = new Foswiki::Configure::Dependency(
-        type => "perl", module => "Carp", version => 0.1 );
+        type => "cpan", module => "Carp", version => 0.1 );
     my ( $ok, $message ) =
       $dep->check();
     $this->assert_equals( 1, $ok );
@@ -280,8 +280,9 @@ sub test_compare_extension_versions {
 
     # Each tuple describes one version comparison and the expected result
     # The first value is the expected result. 1 means "true" and 0 means "false.
-    # The second and fourth values are the versions to compare.
-    # The third value is the comparison operator as a string.
+    # The second and third are the "installed" Release and Version strings.
+    # The forth value is the comparison operator as a string.
+    # and the fifth value is the version/release to compare.
     my @comparisons = (
         # Plain integer versions
         [1, 2, undef, '<',  10],
@@ -423,6 +424,13 @@ sub test_compare_extension_versions {
         [1, '2009-04-14', undef, '<', '2009-11-14'],
         [1, '2010-04-14', undef, '>', '2009-04-14'],
 
+        # Invalid  dates
+        [0, '31 Abc 2000', undef, '<', '1 Jan 2001'],
+        [0, '2009-13-14', undef, '>', '2009-04-13'],
+        [0, '2009-00-14', undef, '>', '2009-04-13'],
+        [0, '0 Jan 2009', undef,  '<', '2 Jan 2010'],
+        [0, '1800-04-14', undef, '>', '1900-04-14'],
+
         # Various versions that must be greater than 0
         [1, '0.1', undef,        '>', 0],
         [1, '0.0.0.1', undef,    '>', 0],
@@ -449,6 +457,10 @@ sub test_compare_extension_versions {
         [0, undef, '', '>',  1],
         [0, undef, '', '>=', 1],
         [0, undef, '', '=',  1],
+
+        # Undef Version and Release or comparsion  version always return 0
+        [0, undef, undef, '<', 1],
+        [0, 0, undef, '=',  undef],
 
         # Blank comparator operator always gives false result
         # And undef inputs generate no warnings
@@ -482,6 +494,11 @@ sub test_compare_extension_versions {
         [0, undef, undef, undef, 0],
         [0, undef, undef, undef, undef],
 
+        # dd Mmm yyyy dates compared to Triplet
+        [0, '1 Jan 2009', undef,  '<', '1.2.3'],
+        [1, '1 Jan 2009', undef,  '>', '1.2.3'],
+        [0, 'November 2007', undef,  '<', '1.2.3'],
+        [0, 'November 2007', undef,  '>', '1.2.3'],
     );
     foreach my $set (@comparisons) {
         my $expected = $set->[0];
@@ -491,6 +508,9 @@ sub test_compare_extension_versions {
             installedRelease => $set->[1],
             installedVersion => $set->[2]);
         my $actual = $dep->compare_versions($set->[3], $set->[4]) ? 1 : 0;
+        #print STDERR  join(' ', '[', map({ defined($_) ? $_ : 'undef' } @$set),
+        #         '] should give', $expected, "\n") ;
+
         $this->assert_equals(
             $expected, 
             $actual,
