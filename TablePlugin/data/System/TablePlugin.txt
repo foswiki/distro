@@ -107,6 +107,23 @@ Results in:
 | ^ | Two Two | Two Three |
 | Three One | ^ | Three Three |
 
+*Note:* Row spans do not work across the header and body boundaries of a table. So it you have a header row, the row cells beneath (in the body section) cannot be merged with the header row cells. Row spans within header cells are possible.
+
+<verbatim class="tml">
+%TABLE{headerrows="2" sort="off"}%
+| *One One* | *One Two* | *One Three* |
+| ^ | *Two Two* | *Two Three* |
+| Two One | Two Two | Two Three |
+| Three One | ^ | Three Three |
+</verbatim>
+
+Results in:
+%TABLE{headerrows="2" sort="off"}%
+| *One One* | *One Two* | *One Three* | 
+| ^ | *Two Two* | *Two Three* | 
+| Two One | Two Two | Two Three | 
+| Three One | ^ | Three Three |
+
 ---+++ Col spans
 Col spans can be achieved by writing table cell separators without contents or spacing:
 <verbatim class="tml">
@@ -178,6 +195,10 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  05 Mar 2011 | 1.129: Arthur Clemens: Foswikitask:Item8302: init sorting is broken if no header row. \
+Foswikitask:Item10016: No rowspan in header rows possible. \
+Foswikitask:Item5864: documentation needs better coverage of spans from header row. \
+Foswikitask:Item8991: header-only table violates XHTML DTD. |
 |  04 Mar 2011 | 1.128: Arthur Clemens: disable sorting if =sort="off"= is set in =TABLEPLUGIN_TABLEATTRIBUTES=. |
 |  16 Feb 2011 | 1.127: Michael Daum: Foswikitask:Item10357: only emit inline css when there's a foswikiTable on the current page |
 |  18 Aug 2010 | 1.126: Paul harvey: Foswikitask:Item9415: minor documentation changes |

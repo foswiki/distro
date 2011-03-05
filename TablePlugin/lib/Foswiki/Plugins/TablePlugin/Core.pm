@@ -134,7 +134,7 @@ BEGIN {
 sub _initDefaults {
     _debug('_initDefaults');
     $defaultAttrs = {
-        headerrows    => 1,
+        headerrows    => 0,
         footerrows    => 0,
         class         => 'foswikiTable',
         sortAllTables => $sortTablesInText,
@@ -542,7 +542,6 @@ sub _processTableRow {
             $currentSortDirection =
               _getCurrentSortDirection( $combinedTableAttrs->{initDirection} );
         }
-
     }
 
     $theRow =~ s/\t/   /go;    # change tabs to space
@@ -721,19 +720,20 @@ sub _processTableRow {
       . '<nop>';    # Avoid Foswiki converting empty lines to new paras
 }
 
-# Determine whether to generate sorting headers for this table. The header
-# indicates the context of the table (body or file attachment)
-sub _shouldISortThisTable {
-    my ($header) = @_;
+sub _headerRowCount {
+    my ($table) = @_;
 
-    return 0 unless $combinedTableAttrs->{sortAllTables};
-
+    my $count = 0;
     # All cells in header are headings?
-    #foreach my $cell (@$header) {
-    #return 0 if ( $cell->{type} ne 'th' );
-    #}
+    foreach my $row (@$table) {
+    	my $isHeader = 1;
+    	foreach my $cell (@$row) {
+       		 $isHeader = 0 if ( $cell->{type} ne 'th' );
+    	}
+    	$count++ if $isHeader;
+    }
 
-    return 1;
+    return $count;
 }
 
 =pod
@@ -1308,9 +1308,14 @@ sub emitTable {
           $combinedTableAttrs->{headerrows};    # and footer to whatever is left
     }
 
-    my $sortThisTable = _shouldISortThisTable(
-        $curTable[ $combinedTableAttrs->{headerrows} - 1 ] );
-
+    my $sortThisTable = $combinedTableAttrs->{sortAllTables} == 0 ? 0 : 1; 
+    if ( $combinedTableAttrs->{headerrows} == 0) {
+		my $headerRowCount = _headerRowCount( \@curTable );
+		$headerRowCount -= $combinedTableAttrs->{footerrows};
+		# override default setting with calculated header count
+		$combinedTableAttrs->{headerrows} = $headerRowCount;
+	}
+	
     my $tableTagAttributes = {};
     $tableTagAttributes->{class}       = $combinedTableAttrs->{class};
     $tableTagAttributes->{border}      = $combinedTableAttrs->{border};
@@ -1682,7 +1687,7 @@ sub emitTable {
         my $rowHTML =
           $doubleIndent . CGI::Tr( { class => $trClassName }, $rowtext );
 
-        my $isHeaderRow = ( $headerCellCount == $colCount );
+        my $isHeaderRow = $rowCount < $combinedTableAttrs->{headerrows}; #( $headerCellCount == $colCount );
         my $isFooterRow =
           ( ( $numberOfRows - $rowCount ) <=
               $combinedTableAttrs->{footerrows} );
@@ -1726,11 +1731,20 @@ sub emitTable {
       . "$singleIndent</tfoot>";
     $text .= $currTablePre . $tfoot if scalar @footerRowList;
 
-    my $tbody =
-        "$singleIndent<tbody>"
-      . join( "", @bodyRowList )
-      . "$singleIndent</tbody>";
-    $text .= $currTablePre . $tbody if scalar @bodyRowList;
+    my $tbody;
+    if (scalar @bodyRowList) {
+      $tbody =
+          "$singleIndent<tbody>"
+        . join( "", @bodyRowList )
+        . "$singleIndent</tbody>";
+    }
+    else {
+      # A HTML table requires a body, which cannot be empty (Item8991).
+      # So we provide one, but prevent it from being displayed.
+      $tbody =
+          "$singleIndent<tbody>$doubleIndent<tr style=\"display:none;\">$tripleIndent<td></td>$doubleIndent</tr>$singleIndent</tbody>\n";
+    }
+    $text .= $currTablePre . $tbody ;
 
     $text .= $currTablePre . CGI::end_table() . "\n";
 
