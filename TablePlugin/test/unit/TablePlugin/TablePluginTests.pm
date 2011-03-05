@@ -48,7 +48,7 @@ sub do_test {
 
 =cut
 
-sub test_simpleTableusing {
+sub test_simpleTable {
     my $this = shift;
 
     my $expected = <<EXPECTED;
@@ -125,7 +125,7 @@ ACTUAL
 
 =cut
 
-sub test_simpleTfootTableusingTablePlugin {
+sub test_simpleTfootTableUsingTablePlugin {
     my $this = shift;
 
     my $cgi      = $this->{request};
@@ -181,12 +181,12 @@ sub test_doubleTheadTableUsingTablePlugin {
 <table class="foswikiTable" rules="none" border="1">
 	<thead>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" title="Sort by this column">a</a> </th>
-			<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=$tableCount;up=0#sorted_table" title="Sort by this column">b</a> </th>
+			<th class="foswikiTableCol0 foswikiFirstCol"> a </th>
+			<th class="foswikiTableCol1 foswikiLastCol"> b </th>
 		</tr>
 		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th class="foswikiTableCol0 foswikiFirstCol"> c </th>
-			<th class="foswikiTableCol1 foswikiLastCol"> c </th>
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">c</a> </th>
+			<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">c</a> </th>
 		</tr>
 	</thead>
 	<tbody>
@@ -198,8 +198,7 @@ sub test_doubleTheadTableUsingTablePlugin {
 			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> ok </td>
 			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> bad </td>
 		</tr>
-	</tbody>
-</table>
+	</tbody></table>
 EXPECTED
     my $actual = <<ACTUAL;
 | *a* | *b* |
@@ -214,7 +213,7 @@ ACTUAL
 
 =cut
 
-sub test_doubleTheadandTfootTableusingTablePlugin {
+sub test_doubleTheadandTfootTableUsingTablePlugin {
     my $this = shift;
 
     my $cgi = $this->{request};
@@ -257,6 +256,38 @@ EXPECTED
 | *c* | *d* |
 | 2 | 3 |
 | *ok* | *bad* |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_onlyHeaderRow {
+    my $this = shift;
+
+    my $cgi = $this->{request};
+    my $url = $cgi->url( -absolute => 1 );
+
+    my $expected = <<EXPECTED;
+<nop>
+<table class="foswikiTable" rules="none" border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">a</a> </th>
+			<th class="foswikiTableCol1 foswikiLastCol foswikiLast"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">b</a> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr style="display:none;">
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+EXPECTED
+    my $actual = <<ACTUAL;
+| *a* | *b* |
 ACTUAL
     $this->do_test( $expected, $actual );
 }
@@ -762,7 +793,6 @@ EXPECTED
     $this->do_test( $expected, $actual );
 }
 
-
 =pod
 
 Test sorting of Date column with HTML tags before the date
@@ -1265,7 +1295,7 @@ sub _trimSpaces {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
