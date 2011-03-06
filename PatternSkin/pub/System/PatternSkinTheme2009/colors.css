@@ -213,12 +213,15 @@ select {
 .foswikiTable,
 .foswikiTable td,
 .foswikiTable th {
-   border-color:#e2e2e2;
+   border-color:#eee;
 }
+.foswikiTable th {
+	background:#d6d3cf;
+}
+.foswikiTable th,
 .foswikiTable th a:link,
-.foswikiTable th a:visited,
-.foswikiTable th a font {
-   color:#fff;
+.foswikiTable th a:visited {
+   color:#000;
 }
 
 /* TwistyContrib */

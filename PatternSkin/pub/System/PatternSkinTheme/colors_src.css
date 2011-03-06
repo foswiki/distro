@@ -210,10 +210,13 @@ select {
 .foswikiTable th {
    border-color:#eee;
 }
+.foswikiTable th {
+	background:#d6d3cf;
+}
 .foswikiTable th,
 .foswikiTable th a:link,
 .foswikiTable th a:visited {
-   color:#fff;
+   color:#000;
 }
 
 /* TwistyContrib */
