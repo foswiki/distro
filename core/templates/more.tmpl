@@ -172,14 +172,14 @@ id="cssFoswikiDiffOptions"}%%TMPL:END%
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <p>
-%MAKETEXT{"Restore topic to revision:"}% <input class="foswikiInputField" type="text" name="rev" size="6" value="%URLPARAM{currrev}%" /></p>
+%ICON{info}% %MAKETEXT{"Restore will save an exact copy of your selected revision into a new revision. Because each revision will be preserved in the topic history, you can always revisit the revision you are replacing. Note that attachments will be left unchanged."}%</p>
 </div>
 <div class="foswikiFormStep">
 <p>
-%MAKETEXT{"Restore will immediately save an exact copy of your selected revision into a new revision. (Attachments are not changed)"}%</p>
+%MAKETEXT{"Restore topic to revision:"}% <input class="foswikiInputField" type="text" name="rev" size="6" value="%URLPARAM{currrev}%" /></p>
 </div>
 <div class="foswikiFormStep foswikiLast">
-<p><input type="submit" class="foswikiButton" title="%MAKETEXT{"Restore topic to this revision"}%" value='%MAKETEXT{"Restore..."}%' /></p>
+<p><input type="submit" class="foswikiButton" title="%MAKETEXT{"Restore topic to this revision"}%" value='%MAKETEXT{"Restore"}%' /></p>
 </div>
 </div>	
 <input type="hidden" name="action" value="restoreRevision" />
