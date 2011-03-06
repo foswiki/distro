@@ -185,7 +185,7 @@ sub login {
 
             # SUCCESS our user is authenticated. Note that we may already
             # have been logged in by the userLoggedIn call in loadSession,
-            # becuase the username-password URL params are the same as
+            # because the username-password URL params are the same as
             # the params passed to this script, and they will be used
             # in loadSession if no other user info is available.
             $this->userLoggedIn($loginName);
