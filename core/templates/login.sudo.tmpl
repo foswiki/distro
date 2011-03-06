@@ -4,7 +4,7 @@
 %TMPL:DEF{"LOGGED_IN_BANNER"}%%MAKETEXT{"[_1] is currently logged in" args="%USERSWEB%.%WIKINAME%"}%%TMPL:END%
 %TMPL:DEF{"UNRECOGNISED_USER"}%%MAKETEXT{"Unrecognised user and/or password"}%%TMPL:END%
 
-%TMPL:DEF{"title"}%---++ %MAKETEXT{"Please enter the Wiki admin password"}%
+%TMPL:DEF{"title"}%<h2>%MAKETEXT{"Please enter the Wiki admin password"}%</h2>
 %TMPL:END%
 
 %TMPL:DEF{"usernamefield"}%<input tabindex='1' readonly="readonly" class="foswikiInputFieldDisabled" type="text" size="40" name="username" value="<nop>%WIKIADMINLOGIN%"  %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%

@@ -450,16 +450,14 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 }
 .foswikiFormSteps {
 	text-align:left;
-	padding:.25em 0 0 0;
-	border-width:1px 0 0 0;
+	border-width:1px;
 	border-style:solid;
 }
 .foswikiFormStep {
-	clear:both;
-	line-height:140%;
-	padding:1em 20px; /*S5*/
-	border-width:0 0 1px 0;
-	border-style:solid;
+	padding:12px 20px;
+	margin:-1px 0;
+	border-width:1px;
+	border-style:solid none;
 }
 .foswikiFormStep h2,
 .foswikiFormStep h3,
@@ -469,27 +467,25 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	padding:0;
 	background:none;
 }
-.foswikiFormStep h2 {
-	font-size:130%;
-	font-weight:bold;
-}
-.foswikiFormStep h3 {
-	font-size:115%;
-	font-weight:bold;
-}
-.foswikiFormStep h4 {
-	font-size:115%;
-	font-weight:normal;
-}
 .foswikiFormStep p {
-	margin:.3em 0;
+	margin:.5em 0;
 }
-.foswikiFormStep ul {
-	margin:0;
+.foswikiFormSteps h2 {
+	font-size:125%;
+	font-weight:bold;
 }
-.foswikiFormSteps .foswikiLast {
-	border-bottom-style:solid;
-	border-bottom-width:0px;
+.foswikiFormSteps h3 {
+	font-size:117%;
+	font-weight:bold;
+}
+.foswikiFormSteps h4 {
+	font-size:110%;
+	font-weight:bold;
+}
+.foswikiFormSteps blockquote {
+	margin-left:1em;
+	padding-top:.25em;
+	padding-bottom:.25em;
 }
 
 .foswikiToc {
