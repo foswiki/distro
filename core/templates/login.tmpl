@@ -11,10 +11,9 @@
 
 %TMPL:DEF{"title"}%<h2>%MAKETEXT{"Log on with your username and password"}%</h2>%TMPL:END%
 
-%TMPL:DEF{"titlestep"}%
-%TMPL:P{"title"}%
+%TMPL:DEF{"titlestep"}%<div class='foswikiFormStep'>%TMPL:P{"title"}%
 %TMPL:P{"notestep"}%
-%TMPL:P{"errorstep"}%%TMPL:END%
+%TMPL:P{"errorstep"}%</div>%TMPL:END%
 
 
 %TMPL:DEF{"notestep"}%<div style="display:%IF{'defined ERROR or defined NOTE or defined BANNER' then='block' else='none'}%;">
@@ -38,12 +37,14 @@
 
 %TMPL:DEF{"usernamestep"}%<div class="foswikiFormStep">
 <h3>%MAKETEXT{"Username"}%</h3>
-%TMPL:P{"usernamefield"}% %TMPL:P{"usernamefieldhelp"}%
+<p>%TMPL:P{"usernamefield"}% %TMPL:P{"usernamefieldhelplink"}%</p>%TMPL:P{"usernamefieldhelpcontents"}%
 </div>%TMPL:END%
 
 %TMPL:DEF{"usernamenote"}%%TMPL:P{"authrealm"}%%TMPL:END%
 
-%TMPL:DEF{"usernamefieldhelp"}%%TWISTYBUTTON{mode="span" id="loginhelp" showlink="%MAKETEXT{"Help"}%" hidelink="%MAKETEXT{"Hide help"}%" remember="on"}%%TWISTYTOGGLE{id="loginhelp" mode="div" class="foswikiHelp"}%%TMPL:P{"usernamenote"}%%ENDTWISTYTOGGLE%%TMPL:END%
+%TMPL:DEF{"usernamefieldhelplink"}%%TWISTYBUTTON{mode="span" id="loginhelp" showlink="%MAKETEXT{"Help"}%" hidelink="%MAKETEXT{"Hide help"}%" remember="on"}%%TMPL:END%
+
+%TMPL:DEF{"usernamefieldhelpcontents"}%%TWISTYTOGGLE{id="loginhelp" mode="div" class="foswikiHelp"}%%TMPL:P{"usernamenote"}%%ENDTWISTYTOGGLE%%TMPL:END%
 
 %TMPL:DEF{"passwordfield"}%<input tabindex='2' type='password' class='foswikiInputField' size='40' name='password' value='' %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
 
@@ -62,14 +63,14 @@
 
 %TMPL:DEF{"rememberbox"}%%BR%<input tabindex='3' id="remember" name="remember" type="checkbox" value="1" /><label for="remember">&nbsp;%MAKETEXT{"Remember me on this computer"}%</label>%TMPL:END%
 
-%TMPL:DEF{"submitstep"}%<div class="foswikiFormStep">%TMPL:P{"submit"}%</div>%TMPL:END%
+%TMPL:DEF{"submitstep"}%<div class="foswikiFormStep"><p>%TMPL:P{"submit"}%</p></div>%TMPL:END%
 
 %TMPL:DEF{"submit"}%<input tabindex='4' type='submit' class='foswikiSubmit' value='%MAKETEXT{"Logon"}%' />%TMPL:END%
 
 %{ please keep the spaces between the div and the TMPL seealsonote, it allows Foswiki to process the emailaddress }%
-%TMPL:DEF{"seealsostep"}%%TMPL:P{"seealsonote"}%%TMPL:END%
+%TMPL:DEF{"seealsostep"}%<div class="foswikiFormStep"><p class="foswikiGrayText">%TMPL:P{"seealsonote"}%</p></div>%TMPL:END%
 
-%TMPL:DEF{"seealsonote"}%<p class="foswikiGrayText">%MAKETEXT{"If you have any questions, please contact [_1]" args="%IF{"defined WIKIWEBMASTER AND $WIKIWEBMASTER != ''" then="%WIKIWEBMASTER%" else="your Wiki administrator"}%"}%</p>%TMPL:END%
+%TMPL:DEF{"seealsonote"}%%MAKETEXT{"If you have any questions, please contact [_1]" args="%IF{"defined WIKIWEBMASTER AND $WIKIWEBMASTER != ''" then="%WIKIWEBMASTER%" else="your Wiki administrator"}%"}%%TMPL:END%
 
 %TMPL:DEF{"form"}%<div id="foswikiLogin">
 <div class="foswikiFormSteps">%TMPL:P{"formstart"}%%TMPL:P{"titlestep"}%
