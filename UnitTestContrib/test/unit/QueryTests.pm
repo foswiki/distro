@@ -606,6 +606,31 @@ sub test_backslash_match_good {
     );
 }
 
+sub test_match_fields_longhand {
+    my $this = shift;
+    $this->check(
+        "fields[name='string' AND value=~'^St.(i|n).*'].name!=''",
+        eval => 1
+    );
+}
+
+sub test_nomatch_fields_longhand {
+    my $this = shift;
+    $this->check(
+        "fields[name='string' AND value=~'^qSt.(i|n).*'].name!=''",
+        eval => 0
+    );
+}
+
+
+sub test_match_field {
+    my $this = shift;
+    $this->check(
+        "string=~'^St.(i|n).*'",
+        eval => 1
+    );
+}
+
 sub test_maths {
     my $this = shift;
     my $queryParser = new Foswiki::Query::Parser();
