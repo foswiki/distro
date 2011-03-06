@@ -53,7 +53,7 @@ sub generate {
             type  => 'radio',
             name  => 'formtemplate',
             id    => $formElemId,
-            value => $form
+            value => $topicObject->web . '.' . $form
         };
         $props->{checked} = 'checked' if $form eq $formName;
         $formList .= CGI::input($props);
