@@ -1134,13 +1134,13 @@ sub test_addform {
     try {
         my ($text) =
           $this->captureWithKey( save => $UI_FN, $this->{session} );
-        $this->assert_matches( qr/input value="TestForm1" name="formtemplate"/,
+        $this->assert_matches( qr/input value="$this->{test_web}.TestForm1" name="formtemplate"/,
             $text );
-        $this->assert_matches( qr/value="TestForm2" name="formtemplate"/,
+        $this->assert_matches( qr/value="$this->{test_web}.TestForm2" name="formtemplate"/,
             $text );
-        $this->assert_matches( qr/value="TestForm3" name="formtemplate"/,
+        $this->assert_matches( qr/value="$this->{test_web}.TestForm3" name="formtemplate"/,
             $text );
-        $this->assert_matches( qr/value="TestForm4" name="formtemplate"/,
+        $this->assert_matches( qr/value="$this->{test_web}.TestForm4" name="formtemplate"/,
             $text );
     }
     catch Error::Simple with {
