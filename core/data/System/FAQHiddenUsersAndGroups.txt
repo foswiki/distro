@@ -1,0 +1,42 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1299436925" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
+
+Both users and groups can be hidden from common view and made visible only to the admin or to selected users and groups.
+
+You do this the same way as you access control normal topics. You use the ALLOWTOPICVIEW setting.
+
+See [[AccessControl]] for information about how access controls function.
+
+Hiding a user means hiding the users hometopic in the %USERSWEB% web. You set an ALLOWTOPICVIEW setting in the users topic. Only the admin and the users granted access can see the content of the users topic.
+
+%X% This does not hide the users name from appearing in topic that the user has edited.
+
+When you do not have view access to a users home topic ....
+
+   * The users topic will not show up in searches
+   * The user will not be shown as a member of a group with GROUPINFO or GROUPS
+   
+You can also hide a Group topic from view. Then the group is not listed with GROUPINFO or GROUPS.
+
+There is a subtle difference in operation when using "Hidden" groups, especially when nested in other groups.  Consider the following group structure.
+   * !SomeGroup
+      * !UserOne
+      * !SomeHiddenGroup (VIEW is denied to guest)
+         * !UserTwo
+         * !SecretUser (VIEW is denied to guest)
+
+If the Guest uses %<nop>GROUPINFO% or %<nop>GROUPS% to list !SomeGroup,  they will see !UserOne and !UserTwo.   The !SecretUser will not be revealed,  but !SomeHiddenGroup will be expanded.
+
+If the Guest uses %<nop>GROUPINFO% to list groups without expanding nested groups (or visits the %USERSWEB%.WikiGroups topic),  then !SomeHiddenGroup will not be revealed, either directly or as a member of !SomeGroup.
+
+By comparing the expanded list of users of !SomeGroup with the un-expanded list, it is possible to infer by the presence of !UserTwo that there is a hidden group,  but the hidden group name or the hidden users are not revealed.
+
+The important thing to remember:  *If you need to hide the existance of users, protect their user topics.*  It is not enough to protect the group topic.
+
+
+%META:FORM{name="System.FAQForm"}%
+%META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="HiddenUsersAndGroups"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
+%META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="How to hide groups and users from common view"}%
+%META:FIELD{name="InterestedParties" attributes="" title="Interested Parties" value=""}%
+%META:FIELD{name="RelatedTopics" attributes="" title="Related Topics" value="VarGROUPINFO, AccessControl"}%
