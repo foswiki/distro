@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.2 - 09 Nov 2010
+---+!! Foswiki Release 1.1.3-beta1 - 07 Mar 2011
 
 %TOC%
 
@@ -30,7 +30,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
-
+   * Foswiki 1.1.3-beta1 was built 07 Mar 2011. It is an internal release made for upgrading foswiki.org. The real 1.1.3 release is waiting for a few urgent bugs to be fixed.
 
 ---++ Pre-installed Extensions
 
@@ -47,22 +47,7 @@ Foswiki 1.1 ships with the following:
 
 ---+++ Changes to %<nop>GROUPS% and %<nop>GROUPINFO% Macros
 
-See Foswikitask:Item10176. On releases prior to Foswiki 1.1.3 it was possible that the GROUP related macros could expose User WikiNames that would be hidden from the currently autenticated user.  This has been changed, and if the current user does not have VIEW authority for the user's topic, then the user will not be shown as a group member.
-
-There is a subtle difference in operation when using "Hidden" groups, especially when nested in other groups.  Consider the following group structure.
-   * !SomeGroup
-      * !UserOne
-      * !SomeHiddenGroup (VIEW is denied to guest)
-         * UserTwo
-         * SecretUser (VIEW is denied to guest)
-
-If the Guest uses %<nop>GROUPINFO% or %<nop>GROUPS% to list !SomeGroup,  they will see !UserOne and !UserTwo.   The !SecretUser will not be revealed,  but !SomeHiddenGroup will be expanded.
-
-If the Guest uses %<nop>GROUPINFO% to list groups without expanding nested groups (or visits the %USERSWEB%.WikiGroups topic),  then !SomeHiddenGroup will not be revealed, either directly or as a member of !SomeGroup.
-
-By comparing the expanded list of users of !SomeGroup with the un-expanded list, it is possible to infer by the presence of !UserTwo that there is a hidden group,  but the hidden group name or the hidden users are not revealed.
-
-The important thing to remember:  *If you need to hide the existance of users, protect their user topics.*
+See Foswikitask:Item10176. On releases prior to Foswiki 1.1.3 it was possible that the GROUP related macros could expose User WikiNames that would be hidden from the currently autenticated user.  This has been changed, and if the current user does not have VIEW authority for the user's topic, then the user will not be shown as a group member. See the new FAQHiddenUsersAndGroups topic for more information.
 
 ---+++ JQueryPlugin update to jQuery 1.4.4
 
@@ -70,6 +55,12 @@ On releases prior to Foswiki 1.1.3, JQueryPlugin shipped with jQuery 1.3.2 enabl
    1 set ={JQueryVersion}= in [[%SCRIPTURLPATH{"configure"}%#JQueryPlugin$Extensions][configure]] under Extensions -> JQueryPlugin to =1.4.4=
    1 [[UpgradeGuide#ManagingBrowserCache][Clear browser cache]]
    1 test non-default plugins and any custom jQuery javascript code for compatibility with jQuery 1.4.4.
+   
+---+++ Improved handling of legacy logging format
+
+Foswiki 1.1 changed the logging format and the default location of the log files. See below for more information. 
+
+As of 1.1.3, if any of the 1.0 Debug, Warning or Log filenames are found, the "compatibility" logger will be used regardless of the =Implementation= setting.
 
 ---++ Important Changes since Foswiki 1.0.10
 
@@ -172,7 +163,7 @@ The primary use of the logs by Foswiki is for generation of Statistics. If chang
 
 ---+++++ Logging Configuration 
 
-The 1.0 configuration settings should be manually removed from LocalSite.cfg, and configure then used to verify the new settings.  With 1.1.3, if any of the 1.0 Debug, Warning or Log filenames are found, the "compatibility" logger will be used regardless of the =Implementation= setting.
+The 1.0 configuration settings should be manually removed from !LocalSite.cfg, and configure then used to verify the new settings. If any of the 1.0 Debug, Warning or Log filenames are found, the "compatibility" logger will be used regardless of the =Implementation= setting.
 <table>
 <tr>
 <td>

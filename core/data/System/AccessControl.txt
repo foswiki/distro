@@ -56,17 +56,24 @@ if you are in doubt.</blockquote>
 
 The following describes the standard Foswiki support for groups. Your local Foswiki may have an alternate group mapping manager installed. Check with your Wiki administrator if you are in doubt.
 
-Groups are defined by group topics located in the ==%USERSWEB%== web. To create a new group, visit  %USERSWEB%.WikiGroups and enter the name of the new group ending in ==Group== into the "new group" form field. This will create a new group topic with two important settings:
-   * ==Set <nop>GROUP = &lt; list of users and/or groups &gt;==
-   * ==Set <nop>ALLOWTOPICCHANGE = &lt; list of users and/or groups &gt;==
-
-The GROUP setting is a comma-separated list of users and/or other groups. Example:
-   * ==Set GROUP = %USERSWEB%.<nop>SomeUser, %USERSWEB%.<nop>OtherUser, %USERSWEB%.<nop>SomeGroup==
+Groups are defined by group topics located in the ==%USERSWEB%== web. To create a new group, visit  %USERSWEB%.WikiGroups. You will find a "Create a new group" link at the top which reveals a form to create a new group. Enter the name of the new group ending in ==Group== into the "Group Name" form field and the initial members in the "Members" field. This creates a new group topic.
+  
+By default any member of a group has access rights to both adding and removing users from the group through the nice user interface. If you need to limit this access further, change the ALLOWTOPICCHANGE setting through "More Topic Action" -> "Edit topic preference settings".
 
 The =ALLOWTOPICCHANGE= setting defines who is allowed to change the group topic; it is a comma delimited list of users and groups. You typically want to restrict that to the members of the group itself, so it should contain the name of the topic. This prevents users not in the group from editing the topic to give themselves or others access. For example, for the <nop>KasabianGroup topic write:
    * ==Set <nop>ALLOWTOPICCHANGE = %USERSWEB%.<nop>KasabianGroup==
 
-<blockquote class="foswikiHelp">%X% Foswiki has strict formatting rules. Make sure you have three spaces, an asterisk, and an extra space in front of any access control rule.</blockquote>
+<blockquote class="foswikiHelp">
+%X% Foswiki has strict formatting rules. Make sure you have three spaces, an asterisk, and an extra space in front of any access control rule. See below for more information about ALLOWTOPICCHANGE.
+
+Background: A group topic is an empty topic with 3 hidden preference settings.
+
+   * GROUP: Comma separated list of users and/or groups
+   * ALLOWTOPICCHANGE:  Comma separated list of users and groups that are allowed to add and remove users from the group
+   * VIEW_TEMPLATE: Always set to the value =GroupView=. This alters the way the topic is presented to include a nice user interface for adding and removing users.
+
+Foswiki 1.1 introduced the smart user interface for adding and removing members of a group. Group topics from prior versions of Foswiki will still work. These have the GROUP setting visible in the topic text itself and you edit it by editing the topic. Foswiki 1.1 %USERSWEB%.WikiGroups will show these old group topics with an "Upgrade Group Topic button". The administrator can upgrade an old group topic to the nice new user interface with one easy click.
+</blockquote>
 
 #SuperAdminGroup
 ---+++ The Super Admin Group
