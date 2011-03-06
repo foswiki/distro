@@ -15,5 +15,3 @@
     format="<literal>$web.$topic</literal>"
 }%%ENDSECTION{"topics"}%</verbatim>
 <!-- %JQREQUIRE{"chili"}% -->
-
-%META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="BasicForm" to="FAQForm"}%
