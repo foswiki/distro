@@ -176,7 +176,7 @@ Edit this topic, and change the color as you like.
 ---++++ TABLE_BORDER Table border, sup (light neutral tone)
    * Local TABLE_BORDER = #eee
 ---++++ LINK_TEXT_NORMAL_TABLE_HEADER Table header link text
-   * Local LINK_TEXT_NORMAL_TABLE_HEADER = #fff
+   * Local LINK_TEXT_NORMAL_TABLE_HEADER = #000
 ---++++ LINK_TEXT_NORMAL_BORDER_TABLE_HEADER Table header link border
    * Local LINK_TEXT_NORMAL_BORDER_TABLE_HEADER = #bbb
 ---++++ LINK_TEXT_SORTED_TABLE_HEADER Sorted table header link text
@@ -417,6 +417,9 @@ select {
 .foswikiTable td,
 .foswikiTable th {
    border-color:%TABLE_BORDER%;
+}
+.foswikiTable th {
+	background:%TABLE_HEADER_BACKGROUND%;
 }
 .foswikiTable th,
 .foswikiTable th a:link,
