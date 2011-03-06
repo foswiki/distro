@@ -6,7 +6,7 @@
 
 Class that implements default CGI behavior.
 
-Refer to Foswiki::Engine documentation for explanation about methos below.
+Refer to Foswiki::Engine documentation for explanation about methods below.
 
 =cut
 
