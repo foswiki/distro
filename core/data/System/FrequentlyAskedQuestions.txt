@@ -29,6 +29,7 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
 %SEARCH{
     "form.name~'*FAQForm'"
     type="query"
+    excludetopic="FAQTemplate"
     nonoise="on"
     web="%SYSTEMWEB%,%USERSWEB%"
     format="   * $formfield(TopicSummary) [[$web.$topic][Answer]]"
