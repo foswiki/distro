@@ -301,6 +301,7 @@ See baseclass for documentation.
 
 sub isGroup {
     my ( $this, $name ) = @_;
+    $name ||= "";
 
     #TODO: what happens to the code if we implement this using an iterator too?
     return ( $this->{GROUPS}->{$name} );
