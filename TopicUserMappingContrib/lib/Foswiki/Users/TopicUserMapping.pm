@@ -377,8 +377,10 @@ sub addUser {
                 $name  = $2;
                 $odate = $3;
 
-                # Filter-in date format dd Mmm yyyy
-                $odate = '' unless $odate =~ /^\d+\s+[A-Za-z]+\s+\d+$/;
+                # Filter-in date format matching {DefaultDateFormat}
+                # The admin may have changed the format at some point of time
+                # so we test with a generic format that matches all 4 formats.
+                $odate = '' unless $odate =~ /^\d+[- .\/]+[A-Za-z0-9]+[- .\/]+\d+$/;
                 $insidelist = 1;
             }
             elsif ( $line =~ /^\s+\*\s([A-Z]) - / ) {
