@@ -168,25 +168,39 @@ id="cssFoswikiDiffOptions"}%%TMPL:END%
 
 
 <h3>%MAKETEXT{"Restore topic"}%</h3>
-<form name="main" action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
-<div class="foswikiFormSteps">
-<div class="foswikiFormStep">
+<form name='main' action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='post'>
+<div class='foswikiFormSteps'>
+<div class='foswikiFormStep'>
 <p>
 %ICON{info}% %MAKETEXT{"Restore will save an exact copy of your selected revision into a new revision. Because each revision will be preserved in the topic history, you can always revisit the revision you are replacing. Note that attachments will be left unchanged."}%</p>
 </div>
-<div class="foswikiFormStep">
-<p>
-%MAKETEXT{"Restore topic to revision:"}% <input class="foswikiInputField" type="text" name="rev" size="6" value="%URLPARAM{currrev}%" /></p>
+<div class='foswikiFormStep'>
+%IF{
+"$maxrev='1'"
+then="%MAKETEXT{"Restoring is disabled because this topic is at revision 1."}%"
+else="<p>
+%MAKETEXT{"Latest revision: [_1]" args="%URLPARAM{maxrev}%"}%
+</p>
 </div>
-<div class="foswikiFormStep foswikiLast">
-<p><input type="submit" class="foswikiButton" title="%MAKETEXT{"Restore topic to this revision"}%" value='%MAKETEXT{"Restore"}%' /></p>
+<div class='foswikiFormStep'><p>
+%MAKETEXT{"Restore topic to revision:"}% <input class='foswikiInputField' type='text' name='rev' size='6' value='%URLPARAM{currrev}%' /></p>
+</div>
+<div class='foswikiFormStep foswikiLast'>
+<p><input type='submit' class='foswikiButton' title='%MAKETEXT{"Restore topic to this revision"}%' value='%MAKETEXT{"Restore"}%' /></p>"
+}%
 </div>
 </div>	
-<input type="hidden" name="action" value="restoreRevision" />
-<input type="hidden" name="nowysiwyg" value="1" />
-</form>
-%IF{"$ maxrev='0'" then="-->" }%%IF{"$ maxrev!='0'" then="<!--" }%
-%MAKETEXT{"No previous revision exists."}%%IF{"$ maxrev!='0'" then="-->" }%%TMPL:END%
+<input type='hidden' name='action' value='restoreRevision' />
+<input type='hidden' name='nowysiwyg' value='1' />
+</form>%IF{
+"$ maxrev='0'"
+then="-->" }%%IF{
+"$ maxrev!='0'"
+then="<!--"
+}%%MAKETEXT{"No previous revision exists."}%%IF{
+"$ maxrev!='0'"
+then="-->"
+}%%TMPL:END%
 
 
 
