@@ -55,7 +55,7 @@ Include meta navigation with:
     "'$ID' and '%ID%'!=''"
     then=" id=\"%ID%\""
 }%><a href="%SCRIPTURL{"view"}%/%DESTWEB%/%DESTTOPIC%" class="%IF{
-    "'%DESTWEB%'='%WEB%'"
+    "'%DESTWEB%'='%BASEWEB%'"
     then="active"
     else="inactive"
 }%">%LABEL%</a></li>%ENDSECTION{"topbarbutton"}%
