@@ -82,30 +82,6 @@ END
     my @olds = sort grep { /^FoswikiRelease\d+x\d+x\d+$/ }
       split( '/\n', `svn ls http://svn.foswiki.org/tags` );
 
-    my $lastName = 'Foswiki';
-    my $last; #leave undefiend to stop us from later trying an unsucceful svn co
-    if ( scalar(@olds) ) {
-        my $lastName = pop(@olds);
-        my $last     = $lastName;
-        $last =~ s/FoswikiRelease//;
-        $last =~ s/^0+//;
-        $last =~ s/x0+(\d)/x$1/g;
-        $last =~ s/x/./g;
-        print <<END;
-
-I have detected that the last release was $last. I will automatically
-generate histories for any data or pub files that changed since then.
-
-END
-    }
-    else {
-        print <<END;
-	
-Impressive. This must be the first ever release of Foswiki. Good luck :)
-
-END
-    }
-
     unless ($autoBuild) {
         if (
             $name
@@ -152,8 +128,6 @@ END
     }
 
     my $this = $class->SUPER::new( $name, "Foswiki" );
-    $this->{last}     = $last;
-    $this->{lastName} = $lastName;
     return $this;
 }
 
@@ -173,10 +147,10 @@ sub target_stage {
     $this->makepath( $this->{tmpDir} );
     $this->SUPER::target_stage();
 
-   #use a Cairo install to create new ,v files for the data, and pub
-   #WARNING: I don't know how to get the 'last' release, so i'm hardcoding Cairo
     $this->stage_gendocs();
-    $this->stage_rcsfiles();
+    
+    # Reactivate this line if we want to build with ,v files
+    # $this->stage_rcsfiles();   
 }
 
 sub target_archive {
@@ -326,33 +300,20 @@ sub stage_gendocs {
 sub stage_rcsfiles() {
     my $this = shift;
 
-    return unless ( defined( $this->{last} ) );
+    # Quick hack to force the old RCS code in this script
+    # to just build a rev 1 ,v file for all files
+    my $rcsCheckinDir = '/tmp/NoneExistingDir';
 
-# svn co cairo to a new dir
-#foreach file in data|pub in tmpDir, cp ,v file from svnCo
-#do a ci
-#if there was no existing ,v file, make one and ci
-#my $lastReleaseDir = $this->{tmpDir}.'/lastRel'.($$ +1);
-#TODO: too unixy - but I'd like to stop checking out the entire release every nightly build
-#TODO: verify that this is an unadulterated version of the checkout
-    my $lastReleaseDir = '/tmp/' . $this->{lastName};
-
-    $this->makepath($lastReleaseDir);
-    $this->pushd($lastReleaseDir);
-    print "Checking out release $this->{last} to $lastReleaseDir\n";
-    `svn co http://svn.foswiki.org/tags/$this->{lastName}/ .`;
-    $this->popd();
-    print "Creating ,v files.\n";
-    $this->_checkInDir( $lastReleaseDir, $this->{tmpDir}, 'data',
+    $this->_checkInDir( $rcsCheckinDir, $this->{tmpDir}, 'data',
         sub { return shift =~ /\.txt$/ } );
 
-    $this->_checkInDir( $lastReleaseDir, $this->{tmpDir}, 'pub',
+    $this->_checkInDir( $rcsCheckinDir, $this->{tmpDir}, 'pub',
         sub { return -f shift; } );
 
     # Fix perms mangled by RCS
     $this->apply_perms( $this->{files}, $this->{tmpDir} );
 
-    $this->rm($lastReleaseDir);
+    $this->rm($rcsCheckinDir);
 }
 
 # Create the build object
