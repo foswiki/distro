@@ -76,8 +76,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 			<div class="foswikiClear"></div>
 		</div><!--//foswikiFormStep-->
 		<div class="foswikiFormStep">
-			%TWISTYBUTTON{ id="additionalSettings" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" showlink="Show additional settings..." hidelink="Hide additional settings" remember="on"}%
-			%TWISTYTOGGLE{ id="additionalSettings" }%
+            <h3>Additional Settings</h3>Leave these settings as default if you do not understand what they mean.
 			<div class="additionalSettings">
 				<div class="foswikiFormSteps">
 					<div class="foswikiFormStep">
@@ -150,7 +149,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 						<div class="foswikiClear"></div>
 					</div><!--//foswikiFormStep-->
 				</div><!--//foswikiFormSteps-->
-			</div><!--//additionalSettings-->%ENDTWISTYTOGGLE%
+			</div><!--//additionalSettings-->
 		</div><!--//foswikiFormStep-->
 		<div class="foswikiFormStep">
 			<input type="submit" class="foswikiSubmit" value="Create Web" /> 
