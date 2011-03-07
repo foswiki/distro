@@ -106,6 +106,9 @@ sub set_up {
 
 sub tear_down {
     my $this = shift;
+    # Restore the PIPE settings in Sandbox
+    $Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN     = 1;
+    $Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 1;
     unlink $Foswiki::cfg{WarningFileName};
     unlink "$Foswiki::cfg{TempfileDir}/itme3122";
     File::Path::rmtree("$Foswiki::cfg{DataDir}/$testWeb");
