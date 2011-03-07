@@ -202,7 +202,7 @@ The =ATTACH:row= macros are expanded for each file in the attachment table, usin
 
 ---++ Packaging and Publishing Skins
 
-See Foswiki:Extensions/SkinPackagingHowTo and Foswiki:Extensions/SkinDeveloperFAQ
+See Foswiki:Development/ExtensionDeveloperGuide
 
 For your own skin you are encouraged to show a small 88x31 pixel logo at the bottom of your skin:
 
