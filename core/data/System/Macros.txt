@@ -333,7 +333,7 @@ The following macros are [[%SYSTEMWEB%.PreferenceSettings][preference settings]]
    * =%<nop>N%= - %N% New icon
    * =%<nop>P%= - %P% Refactor icon
    * =%<nop>Q%= - %Q% Question icon
-   * =%<nop>S%= - %S% Pick icon
+   * =%<nop>S%= - %S% Red star icon
    * =%<nop>T%= - %T% Tip icon
    * =%<nop>U%= - %U% Updated icon
    * =%<nop>X%= - %X% Alert icon
