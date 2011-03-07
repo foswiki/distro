@@ -5,6 +5,10 @@
 
 %TOC%
 
+---++ Foswiki Release 1.1.3-beta1 - 07 Mar 2011
+
+Foswiki 1.1.3-beta1 is an internal development release which has not been made public. It is mainly used to upgrade the foswiki.org site so we could test the release well before we build the real one.
+
 ---++ Foswiki Release 1.1.2 - 09 Nov 2010
 
 Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
