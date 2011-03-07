@@ -46,6 +46,10 @@ Include meta navigation with:
 }%
 %INCLUDE{
     "%TOPIC%" section="topbarbutton"
+    ID="" DESTWEB="Tasks" DESTTOPIC="WebHome" LABEL="Tasks"
+}%
+%INCLUDE{
+    "%TOPIC%" section="topbarbutton"
     ID="" DESTWEB="Download" DESTTOPIC="WebHome" LABEL="Download"
 }%
 </ul><br class="foswikiClear" /></div>%ENDSECTION{"main"}%
