@@ -1332,9 +1332,6 @@ sub _getReferringTopics {
     my $renderer = $session->renderer;
     require Foswiki::Render;
 
-    my $caller = ( caller(1) )[3];
-    my $debRE = ($caller eq "RenameTests::checkReferringTopics") ? 1 : 0;
-
     my @webs = ( $om->web );
 
     if ($allWebs) {
@@ -1378,15 +1375,12 @@ sub _getReferringTopics {
             $searchString .= '|' . $refre;
         }
 
-        print STDERR "SEARCHSTRING = ($searchString) web ($searchWeb)\n" if ($debRE);
-
         my $matches =
           Foswiki::Func::query( $searchString, undef,
             { web => $searchWeb, casesensitive => 1, type => 'regex' } );
 
         while ( $matches->hasNext ) {
             my $webtopic = $matches->next;
-            print STDERR "...FOUND ($webtopic)\n" if ($debRE);
             my ( $web, $searchTopic ) =
               Foswiki::Func::normalizeWebTopicName( $searchWeb, $webtopic );
             next
@@ -1399,7 +1393,6 @@ sub _getReferringTopics {
             my $m = Foswiki::Meta->new( $session, $searchWeb, $searchTopic );
             next unless $m->haveAccess('VIEW');
 
-            print STDERR "...RETURNS ($searchWeb).($searchTopic)\n" if ($debRE);
             $results{ $searchWeb . '.' . $searchTopic } = 1;
         }
     }
