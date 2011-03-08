@@ -9,7 +9,7 @@ use strict;
 use warnings;
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.129';
+our $RELEASE = '1.130';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -23,7 +23,7 @@ our $initialised;
 my $DEFAULT_TABLE_SETTINGS =
 'tableborder="1" valign="top" headercolor="#000000" headerbg="#d6d3cf" headerbgsorted="#c4c1ba" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
 my $styles        = {};    # hash to keep track of web->topic
-my $writtenToHead = 0;
+our $writtenToHead = 0;
 
 sub initPlugin {
     ( $topic, $web, $user, $installWeb ) = @_;
@@ -41,6 +41,7 @@ sub initPlugin {
     return 0 unless $cgi;
 
     $initialised = 0;
+    $writtenToHead = 0;
 
     debug( 'TablePlugin', "inited" );
 
