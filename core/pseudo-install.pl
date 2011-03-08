@@ -492,15 +492,23 @@ sub installFromMANIFEST {
         $deps =~ s/MANIFEST/DEPENDENCIES/;
         if ( open( $df, '<', $deps ) ) {
             trace "read deps from $deps";
+            my $skipnext = 0;
             foreach my $dep (<$df>) {
                 chomp($dep);
+                if ($skipnext) {
+                    $skipnext = 0;
+                    next;
+                }
                 next unless $dep =~ /^\w+/;
-                # We skip the rest if we reach an ONLYIF assuming these
+                # We skip the next line if we each an ONLYIF assuming these
                 # are dependencies only for old versions of Foswiki
                 # and not something a developer needs to worry about
                 # Otherwise we get a lot of false warnings about
                 # ZonePlugin missing
-                last if $dep =~ /^ONLYIF/;
+                if ( $dep =~ /^ONLYIF/ ) {
+                    $skipnext = 1;
+                    next;
+                }
                 satisfyDependency( split( /\s*,\s*/, $dep ) );
             }
             close $df;
