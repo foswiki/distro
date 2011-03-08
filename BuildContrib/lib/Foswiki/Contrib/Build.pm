@@ -1090,9 +1090,8 @@ sub filter_txt {
         sub {
             my ( $this, $text ) = @_;
 
-            # Replace the SVN revision with rev 1.
-            # In release builds this gets replaced by latest revision later.
-            $text =~ s/^(%META:TOPICINFO{.*)\$Rev:.*\$(.*}%)$/${1}1$2/m;
+            # Replace the version (SVN Rev or wrongly saved number) with rev 1.
+            $text =~ s/^(%META:TOPICINFO{.*version=").*?(".*}%)$/${1}1$2/m;
             $text =~ s/%\$(\w+)%/&_expand($this,$1)/geo;
             return $text;
         }
