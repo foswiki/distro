@@ -1730,7 +1730,7 @@ sub test_getExternalResource {
 
     # need a known, simple, robust URL to get
     my $response = Foswiki::Func::getExternalResource(
-        'http://foswiki.org/System/WhatIsWikiWiki');
+        'http://foswiki.org/System/FAQWhatIsWikiWiki');
     $this->assert_equals( 200, $response->code() );
     $this->assert_matches(
 qr/A set of pages of information that are open and free for anyone to edit as they wish. They are stored in a server and managed using some software. The system creates cross-reference hyperlinks between pages automatically./s,
