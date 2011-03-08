@@ -1,6 +1,8 @@
 # See bottom of file for license and copyright information
 package Foswiki::Store::Interfaces::QueryAlgorithm;
 
+use constant MONITOR => 0;
+
 =begin TML
 
 ---+ package Foswiki::Store::Interfaces::QueryAlgorithm
@@ -84,7 +86,7 @@ sub getField {
             }
         }
         elsif ( $realField eq 'versions' ) {
-
+print STDERR "----- getField(versions)\n" if MONITOR;
             # Disallow reloading versions for an object loaded here
             # SMELL: violates Foswiki::Meta encapsulation
             return [] if $data->{_loadedByQueryAlgorithm};
@@ -102,24 +104,29 @@ sub getField {
             return \@revs;
         }
         elsif ( $realField eq 'name' ) {
+print STDERR "----- getField(name)\n" if MONITOR;
 
             # Special accessor to compensate for lack of a topic
             # name anywhere in the saved fields of meta
             return $data->topic();
         }
         elsif ( $realField eq 'text' ) {
+print STDERR "----- getField(text)\n" if MONITOR;
 
             # Special accessor to compensate for lack of the topic text
             # name anywhere in the saved fields of meta
             return $data->text();
         }
         elsif ( $realField eq 'web' ) {
+print STDERR "----- getField(web)\n" if MONITOR;
 
             # Special accessor to compensate for lack of a web
             # name anywhere in the saved fields of meta
             return $data->web();
         }
         elsif ( $realField eq ':topic_meta:' ) {
+print STDERR "----- getField(:topic_meta:)\n" if MONITOR;
+
             #TODO: Sven expects this to be replaced with a fast call to verions[0] - atm, thats needlessly slow
             # return the meta obj itself
             #actually should do this the way the versions feature is supposed to return a particular one..
@@ -131,6 +138,7 @@ sub getField {
             # the form name
             my $form = $data->get('FORM');
             if ( $form && $field eq $form->{name} ) {
+print STDERR "----- getField(FORM: $field)\n" if MONITOR;
 
                 # SHORTCUT;it's the form name, so give me the fields
                 # as if the 'field' keyword had been used.
@@ -140,6 +148,12 @@ sub getField {
                 return \@e;
             }
             else {
+ if (MONITOR) {
+    print STDERR "----- getField(FIELD value $field)\n" if MONITOR;
+    use Data::Dumper;
+    print STDERR Dumper($data)."\n";
+ 
+ }
 
                 # SHORTCUT; not a predefined name; assume it's a field
                 # 'name' instead.
@@ -160,6 +174,7 @@ sub getField {
         # 1. An integer, which is an implicit index='x' query
         # 2. A name, which is an implicit name='x' query
         if ( $field =~ /^\d+$/ ) {
+print STDERR "----- getField(index $field)\n" if MONITOR;
 
             # Integer index
             $result = $data->[$field];
@@ -197,12 +212,15 @@ sub getField {
         }
     }
     elsif ( ref($data) eq 'HASH' ) {
+print STDERR "----- getField(HASH ".$node->{params}[0].")\n" if MONITOR;
 
         # A hash object may be returned when a sub-object of a Foswiki::Meta
         # object has been matched.
         $result = $data->{ $node->{params}[0] };
     }
     else {
+print STDERR "----- getField(value ".$node->{params}[0].")\n" if MONITOR;
+    
         $result = $node->{params}[0];
     }
     return $result;
@@ -228,7 +246,9 @@ sub getRefTopic {
 
     # Get a referenced topic
     my ( $this, $relativeTo, $w, $t, $rev ) = @_;
-    return Foswiki::Meta->load( $relativeTo->session, $w, $t, $rev );
+    my $meta = Foswiki::Meta->load( $relativeTo->session, $w, $t, $rev );
+print STDERR "----- getRefTopic($w, $t) -> ".($meta->getLoadedRev())."\n" if MONITOR;
+    return $meta;
 }
 
 1;

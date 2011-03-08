@@ -158,7 +158,7 @@ sub evaluate {
         if ( $this->{op} == Foswiki::Infix::Node::NAME
             && defined $domain{data} )
         {
-
+print STDERR '.' if MONITOR_EVAL;
 	    if (lc($this->{params}[0]) eq 'now') {
 		$result = time();
 	    } elsif (lc($this->{params}[0]) eq 'undefined') {
@@ -166,12 +166,16 @@ sub evaluate {
 	    } else {
 		# a name; look it up in $domain{data}
 		eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
-		die $@ if $@;
+		if ($@) {
+            print STDERR ' BOOM ' if MONITOR_EVAL;
+    		die $@ ;
+		}
 		$result = $Foswiki::cfg{Store}{QueryAlgorithm}->getField(
 		    $this, $domain{data}, $this->{params}[0] );
 	    }
         }
         else {
+print STDERR ',' if MONITOR_EVAL;
             $result = $this->{params}[0];
         }
     }

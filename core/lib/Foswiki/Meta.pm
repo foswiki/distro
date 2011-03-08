@@ -1203,6 +1203,8 @@ sub get {
     my $data = $this->{$type};
     if ($data) {
         if ( defined $name ) {
+            #this code presumes the _indices are there (Sven would like it to re-create when needed..)
+            ASSERT(defined($this->{_indices})) if DEBUG;
             my $indices = $this->{_indices}->{$type};
             return undef unless defined $indices;
             return undef unless defined $indices->{$name};
