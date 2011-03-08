@@ -251,6 +251,12 @@ sub installFromMANIFEST {
             foreach my $dep (<$df>) {
                 chomp($dep);
                 next unless $dep =~ /^\w+/;
+                # We skip the rest if we reach an ONLYIF assuming these
+                # are dependencies only for old versions of Foswiki
+                # and not something a developer needs to worry about
+                # Otherwise we get a lot of false warnings about
+                # ZonePlugin missing
+                last if $dep =~ /^ONLYIF/;
                 satisfyDependency( split( /\s*,\s*/, $dep ) );
             }
             close $df;
