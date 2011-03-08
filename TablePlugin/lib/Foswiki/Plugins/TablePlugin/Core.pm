@@ -2,10 +2,11 @@
 
 use strict;
 use warnings;
-use Foswiki::Func;
 
 package Foswiki::Plugins::TablePlugin::Core;
 
+use Foswiki::Func;
+use Foswiki::Plugins::TablePlugin ();;
 use Foswiki::Time;
 use Error qw(:try);
 
@@ -18,7 +19,6 @@ my $defaultAttrs;          # to write generic table CSS
 my $tableSpecificAttrs;    # to write table specific table CSS
 my $combinedTableAttrs;    # default and specific table attributes
 my $styles       = {};     # hash of default and specific styles
-my $doneDefaults = 0;
 
 # not yet refactored:
 my $tableCount;
@@ -120,7 +120,6 @@ $TABLE_FRAME->{border} = 'border-style:solid';
 
 BEGIN {
     $translationToken = "\0";
-    $doneDefaults     = 0;
 
     # the maximum number of columns we will handle
     $MAX_SORT_COLS        = 10000;
@@ -148,8 +147,8 @@ sub _initDefaults {
 
 sub _addDefaultStyles {
 
-    return if $doneDefaults;
-    $doneDefaults = 1;
+    return if $Foswiki::Plugins::TablePlugin::writtenToHead;
+    $Foswiki::Plugins::TablePlugin::writtenToHead = 1;
 
     # create CSS styles tables in general
     my ( $id, @styles ) = _createCssStyles( 1, $defaultAttrs );

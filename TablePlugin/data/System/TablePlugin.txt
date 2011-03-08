@@ -195,6 +195,7 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  08 Mar 2011 | 1.130: Michael Daum: Foswikitask:Item10456: fixed initialization in persistent perl environments |
 |  05 Mar 2011 | 1.129: Arthur Clemens: Foswikitask:Item8302: init sorting is broken if no header row. \
 Foswikitask:Item10016: No rowspan in header rows possible. \
 Foswikitask:Item5864: documentation needs better coverage of spans from header row. \
