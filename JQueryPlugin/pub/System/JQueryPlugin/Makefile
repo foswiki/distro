@@ -4,7 +4,9 @@ TARGET=\
   jquery-1.3.2p1.js \
   jquery-1.4.2.js \
   jquery-1.4.3.js \
-  jquery-1.4.4.js
+  jquery-1.4.4.js \
+  jquery-1.5.js \
+  jquery-1.5.1.js
 
 -include Makefile.include
 
