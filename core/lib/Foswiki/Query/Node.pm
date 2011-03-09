@@ -158,7 +158,7 @@ sub evaluate {
         if ( $this->{op} == Foswiki::Infix::Node::NAME
             && defined $domain{data} )
         {
-print STDERR '.' if MONITOR_EVAL;
+	    print STDERR '.' if MONITOR_EVAL;
 	    if (lc($this->{params}[0]) eq 'now') {
 		$result = time();
 	    } elsif (lc($this->{params}[0]) eq 'undefined') {
@@ -175,7 +175,7 @@ print STDERR '.' if MONITOR_EVAL;
 	    }
         }
         else {
-print STDERR ',' if MONITOR_EVAL;
+	    print STDERR ',' if MONITOR_EVAL;
             $result = $this->{params}[0];
         }
     }
@@ -213,7 +213,7 @@ sub evaluatesToConstant {
     } elsif ($this->{op} == Foswiki::Infix::Node::STRING) {
 	$c = 1;
     }
-    print STDERR $this->stringify()." is constant\n" if MONITOR_FOLD;
+    print STDERR $this->stringify()." is ".($c?'':'not ')."constant\n" if MONITOR_FOLD;
     return $c;
 }
 

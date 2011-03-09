@@ -30,7 +30,8 @@ use Foswiki::Query::Node ();
 # second level LHS is a field access
 # second level RHS is a static string or number
 
-sub MONITOR_HOIST { 0 }
+use constant MONITOR_HOIST => 0;
+
 
 =begin TML
 
@@ -55,6 +56,11 @@ sub collatedHoist {
         push( @{ $collation{ $op->{node} } },             $op->{regex} );
         push( @{ $collation{ $op->{node} . '_source' } }, $op->{source} );
     }
+    
+    #use Data::Dumper;
+    #print STDERR "--- hoisted: ".Dumper(%collation)."\n" if MONITOR_HOIST;
+
+    
     return \%collation;
 }
 
@@ -119,9 +125,8 @@ sub _hoistOR {
         return _hoistOR( $node->{params}[0] );
     }
 
-    print STDERR "hoistOR ", $node->stringify(), "\n" if MONITOR_HOIST;
-
     if ( $node->{op}->{name} eq 'or' ) {
+        print STDERR "hoistOR ", $node->stringify(), "\n" if MONITOR_HOIST;
         my $lhs = _hoistOR( $node->{params}[0] );
         my $rhs = _hoistEQ( $node->{params}[1] );
         if ( $lhs && $rhs ) {
@@ -192,9 +197,23 @@ sub _hoistEQ {
         my $lhs = _hoistDOT( $node->{params}[0] );
         my $rhs = _hoistConstant( $node->{params}[1] );
         if ( $lhs && defined $rhs ) {
-            $rhs = quotemeta($rhs);
-            $rhs          =~ s/\\\././g;
-            $rhs          =~ s/\\\*/*/g;
+#need to detect if its a field, or in a text, and if its a field, remove the ^$ chars...
+#or if there are no ^$, add .*'s if they are not present
+            if ($lhs->{regex} ne "\000RHS\001") {
+                if ((not ($rhs =~ /^\^/)) and
+                    (not ($rhs =~ /^\.\*/))) {
+                        $rhs = '.*'.$rhs;
+                }
+                
+                if ((not ($rhs =~ /\$$/)) and
+                    (not ($rhs =~ /\.\*$/))) {
+                        $rhs = $rhs.'.*';
+                }
+
+                #if we're embedding the regex into another, then remove the ^'s
+                $rhs =~ s/^\^//;
+                $rhs =~ s/\$$//;
+            }
             $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
             $lhs->{source} = _hoistConstant( $node->{params}[1] );
             return $lhs;

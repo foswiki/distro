@@ -38,13 +38,17 @@ use Foswiki::MetaCache         ();
 use Foswiki::Query::Node       ();
 use Foswiki::Query::HoistREs   ();
 
+use constant MONITOR => 0;
+
 # Implements Foswiki::Store::Interfaces::QueryAlgorithm
 sub query {
     my ( $query, $inputTopicSet, $session, $options ) = @_;
 
     # Fold constants
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
+print STDERR "--- before: ".$query->toString()."\n" if MONITOR;
     $query->simplify( tom => $context, data => $context );
+print STDERR "--- simplified: ".$query->toString()."\n" if MONITOR;
 
     my $webNames = $options->{web}       || '';
     my $recurse  = $options->{'recurse'} || '';
@@ -100,7 +104,7 @@ sub _webQuery {
     my $queryIsAConstantFastpath;    # undefined if this is a 'real' query'
     $query->simplify();
     if ( $query->evaluatesToConstant() ) {
-
+        print STDERR "-- constant?\n" if MONITOR;
         # SMELL: use any old topic
         my $cache = $Foswiki::Plugins::SESSION->search->metacache->get(
             $web, 'WebPreferences' );
@@ -111,12 +115,14 @@ sub _webQuery {
 
     if ( defined($queryIsAConstantFastpath) ) {
         if ( not $queryIsAConstantFastpath ) {
+            print STDERR "-- no results\n" if MONITOR;
 
             #CONSTANT _and_ FALSE - return no results
             return $resultTopicSet;
         }
     }
     else {
+        print STDERR "-- not constant\n" if MONITOR;
 
         # from here on, FALSE means its not a constant, TRUE
         # means is is a constant and evals to TRUE
@@ -152,6 +158,7 @@ sub _webQuery {
 
     my $topicSet = $inputTopicSet;
     if ( !defined($topicSet) ) {
+        print STDERR "-- new topic Set from $web\n" if MONITOR;
 
         # then we start with the whole web?
         # TODO: i'm sure that is a flawed assumption
@@ -176,6 +183,9 @@ sub _webQuery {
         my $searchQuery =
           new Foswiki::Search::Node( $query->toString(), \@filter,
             $searchOptions );
+        #use Data::Dumper;
+        #print STDERR "--- hoisted: ".Dumper($hoistedREs)."\n" if MONITOR;
+
         $topicSet->reset();
         $topicSet = $session->{store}->query(
             $searchQuery, $topicSet, $session, $searchOptions );
@@ -186,7 +196,7 @@ sub _webQuery {
         # and if we are able to use the sorting hints (ie DB Store)
         # can propogate all the way to FORMAT
 
-        #print STDERR "WARNING: couldn't hoistREs on ".$query->toString();
+        print STDERR "WARNING: couldn't hoistREs on ".$query->toString();
     }
 
     local $/;
@@ -195,7 +205,10 @@ sub _webQuery {
         my $webtopic = $topicSet->next();
         my ( $Iweb, $topic ) =
           Foswiki::Func::normalizeWebTopicName( $web, $webtopic );
+        print STDERR "--  $Iweb, $topic\n" if MONITOR;
+
         if ($queryIsAConstantFastpath) {
+            print STDERR "-- add $Iweb, $topic\n" if MONITOR;
             if ( defined( $options->{date} ) ) {
 
                 # TODO: preload the meta cache if we're doing date
@@ -212,6 +225,7 @@ sub _webQuery {
             my $meta =
               $Foswiki::Plugins::SESSION->search->metacache->addMeta( $Iweb,
                 $topic );
+            print STDERR "-- evaluate $Iweb, $topic\n" if MONITOR;
             next unless (defined($meta));   #not a valid or loadable topic
 
             # this 'lazy load' will become useful when @$topics becomes
