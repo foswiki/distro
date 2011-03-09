@@ -195,7 +195,7 @@ sub _webQuery {
         # and if we are able to use the sorting hints (ie DB Store)
         # can propogate all the way to FORMAT
 
-        print STDERR "WARNING: couldn't hoistREs on ".$query->toString();
+        print STDERR "WARNING: couldn't hoistREs on ".$query->toString() if MONITOR;
     }
 
     local $/;
