@@ -101,7 +101,7 @@ Extra fields that are added if an attachment is moved:
 | movedfrom | full topic name - web.topic.filename |
 | movedby   | Canonical user identifier of user who moved the attachment. The exact format of this depends on the user mapping manager. |
 | movedto   | full topic name - web.topic.filename |
-| moveddate | epoch time |
+| movedwhen | epoch time |
 
 ---+++ META:FORM
 
