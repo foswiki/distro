@@ -929,6 +929,63 @@ END
 
 =pod
 
+This test should set table attribute sort="off" in WebPreferences, so that table sorting is disabled. But I can't get it to work.
+
+=cut
+
+=pod
+sub test_pluginAttributes {
+	my $this = shift;
+	
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}",
+        'WebPreferences' );
+    $meta->text('   * Set TABLEPLUGIN_TABLEATTRIBUTES = sort="off"');
+    $meta->save();
+
+    # Have to restart to clear prefs cache
+    $this->{session}->finish();
+    $this->{session} =
+      new Foswiki( $this->{test_user_login}, new Unit::Request() );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    
+    my $cgi      = $this->{request};
+    my $url      = $cgi->url( -absolute => 1 );
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<table class="foswikiTable" rules="none" border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=$tableCount;up=0#sorted_table" title="Sort by this column">a</a> </th>
+			<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=$tableCount;up=0#sorted_table" title="Sort by this column">b</a> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td class="foswikiTableCol0 foswikiFirstCol"> 2 </td>
+			<td class="foswikiTableCol1 foswikiLastCol"> 3 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> ok </td>
+			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> bad </td>
+		</tr>
+	</tbody>
+</table>
+EXPECTED
+    my $actual = <<ACTUAL;
+%TABLE{}%
+| *a* | *b* |
+| 2 | 3 |
+| ok | bad |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+=cut
+
+=pod
+
 Tests that two tables have IDs suffixed by 1 and 2
 
 =cut

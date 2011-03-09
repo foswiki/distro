@@ -6,7 +6,7 @@ use warnings;
 package Foswiki::Plugins::TablePlugin::Core;
 
 use Foswiki::Func;
-use Foswiki::Plugins::TablePlugin ();;
+use Foswiki::Plugins::TablePlugin ();
 use Foswiki::Time;
 use Error qw(:try);
 
@@ -18,7 +18,7 @@ my $didWriteDefaultStyle;
 my $defaultAttrs;          # to write generic table CSS
 my $tableSpecificAttrs;    # to write table specific table CSS
 my $combinedTableAttrs;    # default and specific table attributes
-my $styles       = {};     # hash of default and specific styles
+my $styles = {};           # hash of default and specific styles
 
 # not yet refactored:
 my $tableCount;
@@ -135,6 +135,7 @@ sub _initDefaults {
     $defaultAttrs = {
         headerrows    => 0,
         footerrows    => 0,
+        sort          => 1,
         class         => 'foswikiTable',
         sortAllTables => $sortTablesInText,
     };
@@ -243,13 +244,14 @@ sub _parseAttributes {
       if defined $inParams->{inlinemarkup};
 
     # sort attributes
-    my $sort = Foswiki::Func::isTrue( $inParams->{sort} || 'on' );
-    _debug("sort=$sort");
-    _storeAttribute( 'sort', $sort, $inCollection );
+    if ( defined $inParams->{sort} ) {
+        my $sort = Foswiki::Func::isTrue( $inParams->{sort} );
+        _storeAttribute( 'sort',          $sort, $inCollection );
+        _storeAttribute( 'sortAllTables', $sort, $inCollection );
+    }
     _storeAttribute( 'initSort', $inParams->{initsort}, $inCollection )
       if defined( $inParams->{initsort} )
           and $inParams->{initsort} =~ /\s*[0-9]+\s*/;
-    _storeAttribute( 'sortAllTables', $sort, $inCollection );
     if ( $inParams->{initdirection} ) {
         _storeAttribute( 'initDirection', $SORT_DIRECTION->{'ASCENDING'},
             $inCollection )
@@ -279,8 +281,10 @@ sub _parseAttributes {
     if ($isTableSpecific) {
 
         _storeAttribute( 'summary', $inParams->{summary}, $inCollection );
-        my $id = $inParams->{id}
-          || 'table'
+        my $id =
+          defined $inParams->{id}
+          ? $inParams->{id}
+          : 'table'
           . $Foswiki::Plugins::TablePlugin::topic
           . ( $tableCount + 1 );
         _storeAttribute( 'id',         $id,                     $inCollection );
@@ -723,13 +727,14 @@ sub _headerRowCount {
     my ($table) = @_;
 
     my $count = 0;
+
     # All cells in header are headings?
     foreach my $row (@$table) {
-    	my $isHeader = 1;
-    	foreach my $cell (@$row) {
-       		 $isHeader = 0 if ( $cell->{type} ne 'th' );
-    	}
-    	$count++ if $isHeader;
+        my $isHeader = 1;
+        foreach my $cell (@$row) {
+            $isHeader = 0 if ( $cell->{type} ne 'th' );
+        }
+        $count++ if $isHeader;
     }
 
     return $count;
@@ -1307,14 +1312,19 @@ sub emitTable {
           $combinedTableAttrs->{headerrows};    # and footer to whatever is left
     }
 
-    my $sortThisTable = $combinedTableAttrs->{sortAllTables} == 0 ? 0 : 1; 
-    if ( $combinedTableAttrs->{headerrows} == 0) {
-		my $headerRowCount = _headerRowCount( \@curTable );
-		$headerRowCount -= $combinedTableAttrs->{footerrows};
-		# override default setting with calculated header count
-		$combinedTableAttrs->{headerrows} = $headerRowCount;
-	}
-	
+    my $sortThisTable =
+      $combinedTableAttrs->{sortAllTables} == 0
+      ? 0
+      : $combinedTableAttrs->{sort};
+
+    if ( $combinedTableAttrs->{headerrows} == 0 ) {
+        my $headerRowCount = _headerRowCount( \@curTable );
+        $headerRowCount -= $combinedTableAttrs->{footerrows};
+
+        # override default setting with calculated header count
+        $combinedTableAttrs->{headerrows} = $headerRowCount;
+    }
+
     my $tableTagAttributes = {};
     $tableTagAttributes->{class}       = $combinedTableAttrs->{class};
     $tableTagAttributes->{border}      = $combinedTableAttrs->{border};
@@ -1354,7 +1364,8 @@ sub emitTable {
 
     if (
         (
-               defined $sortCol
+               $sortThisTable
+            && defined $sortCol
             && defined $requestedTable
             && $requestedTable == $tableCount
         )
@@ -1404,7 +1415,9 @@ sub emitTable {
 
         _debug("currentSortDirection:$currentSortDirection");
 
-        if ( $currentSortDirection == $SORT_DIRECTION->{'ASCENDING'} ) {
+        if (   $combinedTableAttrs->{sort}
+            && $currentSortDirection == $SORT_DIRECTION->{'ASCENDING'} )
+        {
             @curTable = sort {
                      $a->[$sortCol]->{sortText} cmp $b->[$sortCol]->{sortText}
                   || $a->[$sortCol]->{number} <=> $b->[$sortCol]->{number}
@@ -1412,7 +1425,9 @@ sub emitTable {
                   cmp $b->[$sortCol]->{dateString}
             } @curTable;
         }
-        elsif ( $currentSortDirection == $SORT_DIRECTION->{'DESCENDING'} ) {
+        elsif ($combinedTableAttrs->{sort}
+            && $currentSortDirection == $SORT_DIRECTION->{'DESCENDING'} )
+        {
             @curTable = sort {
                      $b->[$sortCol]->{sortText} cmp $a->[$sortCol]->{sortText}
                   || $b->[$sortCol]->{number} <=> $a->[$sortCol]->{number}
@@ -1686,7 +1701,9 @@ sub emitTable {
         my $rowHTML =
           $doubleIndent . CGI::Tr( { class => $trClassName }, $rowtext );
 
-        my $isHeaderRow = $rowCount < $combinedTableAttrs->{headerrows}; #( $headerCellCount == $colCount );
+        my $isHeaderRow =
+          $rowCount <
+          $combinedTableAttrs->{headerrows}; #( $headerCellCount == $colCount );
         my $isFooterRow =
           ( ( $numberOfRows - $rowCount ) <=
               $combinedTableAttrs->{footerrows} );
@@ -1731,19 +1748,20 @@ sub emitTable {
     $text .= $currTablePre . $tfoot if scalar @footerRowList;
 
     my $tbody;
-    if (scalar @bodyRowList) {
-      $tbody =
-          "$singleIndent<tbody>"
-        . join( "", @bodyRowList )
-        . "$singleIndent</tbody>";
+    if ( scalar @bodyRowList ) {
+        $tbody =
+            "$singleIndent<tbody>"
+          . join( "", @bodyRowList )
+          . "$singleIndent</tbody>";
     }
     else {
-      # A HTML table requires a body, which cannot be empty (Item8991).
-      # So we provide one, but prevent it from being displayed.
-      $tbody =
-          "$singleIndent<tbody>$doubleIndent<tr style=\"display:none;\">$tripleIndent<td></td>$doubleIndent</tr>$singleIndent</tbody>\n";
+
+        # A HTML table requires a body, which cannot be empty (Item8991).
+        # So we provide one, but prevent it from being displayed.
+        $tbody =
+"$singleIndent<tbody>$doubleIndent<tr style=\"display:none;\">$tripleIndent<td></td>$doubleIndent</tr>$singleIndent</tbody>\n";
     }
-    $text .= $currTablePre . $tbody ;
+    $text .= $currTablePre . $tbody;
 
     $text .= $currTablePre . CGI::end_table() . "\n";
 
