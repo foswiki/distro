@@ -9,12 +9,13 @@ use strict;
 use warnings;
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.130';
+our $RELEASE = '1.131';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
 our %pluginAttributes;
 
+our $DEBUG_FROM_UNIT_TEST = 0;
 our $topic;
 our $web;
 our $user;
@@ -22,7 +23,7 @@ our $installWeb;
 our $initialised;
 my $DEFAULT_TABLE_SETTINGS =
 'tableborder="1" valign="top" headercolor="#000000" headerbg="#d6d3cf" headerbgsorted="#c4c1ba" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
-my $styles        = {};    # hash to keep track of web->topic
+my $styles = {};    # hash to keep track of web->topic
 our $writtenToHead = 0;
 
 sub initPlugin {
@@ -40,7 +41,7 @@ sub initPlugin {
     my $cgi = Foswiki::Func::getCgiQuery();
     return 0 unless $cgi;
 
-    $initialised = 0;
+    $initialised   = 0;
     $writtenToHead = 0;
 
     debug( 'TablePlugin', "inited" );
@@ -119,9 +120,11 @@ sub _readPluginSettings {
     my $pluginAttrStr =
       Foswiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES');
 
-    debug("\t configureAttrStr=$configureAttrStr") if $configureAttrStr;
-    debug("\t pluginAttrStr=$pluginAttrStr")       if $pluginAttrStr;
-    debug("\t no settings from configure could be read; using default values")
+    debug( 'TablePlugin', "\t configureAttrStr=$configureAttrStr" )
+      if $configureAttrStr;
+    debug( 'TablePlugin', "\t pluginAttrStr=$pluginAttrStr" ) if $pluginAttrStr;
+    debug( 'TablePlugin',
+        "\t no settings from configure could be read; using default values" )
       if !$configureAttrStr;
     $configureAttrStr ||= $DEFAULT_TABLE_SETTINGS;
 
@@ -191,7 +194,7 @@ sub debug {
     $origin ||= 'TablePlugin';
     $text = "$origin: $text";
 
-    #print STDERR $text . "\n";
+    print STDERR $text . "\n" if $DEBUG_FROM_UNIT_TEST;
     Foswiki::Func::writeDebug("$text");
 }
 
@@ -201,9 +204,11 @@ sub debugData {
     return if !$Foswiki::cfg{Plugins}{TablePlugin}{Debug};
     $origin ||= 'TablePlugin';
     Foswiki::Func::writeDebug("$origin: $text:");
+    print STDERR "$origin: $text:" . "\n" if $DEBUG_FROM_UNIT_TEST;
     if ($data) {
         eval
 'use Data::Dumper; local $Data::Dumper::Terse = 1; local $Data::Dumper::Indent = 1; Foswiki::Func::writeDebug(Dumper($data));';
+        print STDERR Dumper($data) . "\n" if $DEBUG_FROM_UNIT_TEST;
     }
 }
 
