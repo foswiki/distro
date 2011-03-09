@@ -50,6 +50,7 @@ msgstr "%1"
 msgid "%1 - Registration failure for %2 (%3)"
 msgstr "%1 - %2 (%3) 註冊失敗"
 
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:227
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
@@ -59,11 +60,11 @@ msgstr "%1 - %2 (%3) 註冊"
 msgid "%1 Web"
 msgstr "%1 子網"
 
-#: core/templates/messages.tmpl:480
+#: core/templates/messages.tmpl:484
 msgid "%1 added to the %2 group. "
 msgstr "%1 加入 %2 群組。"
 
-#: core/templates/messages.tmpl:487
+#: core/templates/messages.tmpl:491
 msgid "%1 group topic upgraded. "
 msgstr "%1 群組主題已更新。"
 
@@ -72,7 +73,12 @@ msgstr "%1 群組主題已更新。"
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 列出其他用戶"
 
-#: core/templates/messages.tmpl:528
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
+#, fuzzy
+msgid "%1 has been approved and registered with e-mail %2"
+msgstr "%1 已使用電子郵件地址 %2 註冊"
+
+#: core/templates/messages.tmpl:532
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -99,11 +105,11 @@ msgstr "%1 是個非法的新子網名稱"
 msgid "%1 is currently logged in"
 msgstr "%1 已經登入"
 
-#: core/templates/messages.tmpl:433
+#: core/templates/messages.tmpl:437
 msgid "%1 is currently set to %2"
 msgstr "%1 現在已設為 %2"
 
-#: core/templates/messages.tmpl:526
+#: core/templates/messages.tmpl:530
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 正在編輯 [[%2][%3]] 。"
 
@@ -123,7 +129,7 @@ msgstr "%1 不是參數 %2 的合適值"
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 是附件刪除後的預設主題。"
 
-#: core/templates/messages.tmpl:534
+#: core/templates/messages.tmpl:538
 msgid "%1 may still be editing %2."
 msgstr "%1 可能仍在編輯 %2 。"
 
@@ -134,7 +140,7 @@ msgstr "子網 %2 內的更新 %1 "
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
 # $by)
-#: core/templates/messages.tmpl:518
+#: core/templates/messages.tmpl:522
 msgid "%1 removed from the %2 group. "
 msgstr "%1 由群組 %2 移出。"
 
@@ -150,7 +156,7 @@ msgstr "%1 設定子網屬性"
 msgid "%1 to start working on the new web"
 msgstr "%1 開始使用新子網"
 
-#: core/templates/messages.tmpl:600 core/templates/messages.tmpl:611
+#: core/templates/messages.tmpl:604 core/templates/messages.tmpl:615
 msgid "%1 topic does not exist"
 msgstr "%1 主題不存在"
 
@@ -161,7 +167,7 @@ msgstr "%1 試著以電子郵件 %2 註冊"
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
 # $by)
-#. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
+#. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
 #: core/lib/Foswiki/Render.pm:229
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%4 將 %3 的 %2 更名或移到 %1"
@@ -174,11 +180,11 @@ msgstr "取消(&C)"
 msgid "&History"
 msgstr "歷史(&H)"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92
+#: HistoryPlugin/templates/oopshistory.tmpl:144
 msgid "&Sequential"
 msgstr "連續(&S)"
 
-#: core/templates/messages.tmpl:283
+#: core/templates/messages.tmpl:287
 msgid "'%1' is not a valid %2 "
 msgstr "'%1' 不是個合法的 %2"
 
@@ -198,7 +204,7 @@ msgstr "(%1 驗證)"
 msgid "(%1 vs. %2)"
 msgstr "(%1 比上 %2)"
 
-#: core/templates/messages.tmpl:172
+#: core/templates/messages.tmpl:176
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*建議：*上傳您的圖片?)"
 
@@ -206,7 +212,7 @@ msgstr "(*建議：*上傳您的圖片?)"
 msgid "(=all= to show all topics)"
 msgstr "(=所有= 顯示所有主題)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:118
 msgid "(This message will be removed automatically)"
 msgstr "(本訊息將自動移除)"
 
@@ -282,12 +288,12 @@ msgstr "(移動附件)"
 msgid "(no parent, orphaned topic)"
 msgstr "(無父主題，孤立主題)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1136 core/lib/Foswiki/UI/Rename.pm:1160
-#: core/lib/Foswiki/UI/Rename.pm:1216 core/lib/Foswiki/UI/Rename.pm:1219
-#: core/lib/Foswiki/UI/Rename.pm:1222 core/lib/Foswiki/UI/Rename.pm:1257
-#: core/lib/Foswiki/UI/Rename.pm:1280 core/lib/Foswiki/UI/Rename.pm:545
-#: core/lib/Foswiki/UI/Rename.pm:549 core/lib/Foswiki/UI/Rename.pm:553
-#: core/lib/Foswiki/UI/Rename.pm:557
+#: core/lib/Foswiki/UI/Rename.pm:1153 core/lib/Foswiki/UI/Rename.pm:1167
+#: core/lib/Foswiki/UI/Rename.pm:1223 core/lib/Foswiki/UI/Rename.pm:1226
+#: core/lib/Foswiki/UI/Rename.pm:1229 core/lib/Foswiki/UI/Rename.pm:1264
+#: core/lib/Foswiki/UI/Rename.pm:1287 core/lib/Foswiki/UI/Rename.pm:552
+#: core/lib/Foswiki/UI/Rename.pm:556 core/lib/Foswiki/UI/Rename.pm:560
+#: core/lib/Foswiki/UI/Rename.pm:564
 msgid "(none)"
 msgstr "(無)"
 
@@ -317,15 +323,15 @@ msgstr "(存檔錯誤)"
 msgid "(set preferences)"
 msgstr "(設定屬性)"
 
-#: core/templates/messages.tmpl:296
+#: core/templates/messages.tmpl:300
 msgid "(single character first name)"
 msgstr "(單字元名字)"
 
-#: core/templates/messages.tmpl:295
+#: core/templates/messages.tmpl:299
 msgid "(single character last name)"
 msgstr "(單字元姓氏)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1115
+#: core/lib/Foswiki/UI/Rename.pm:1142
 msgid "(skipped)"
 msgstr "(忽略)"
 
@@ -439,11 +445,11 @@ msgid ""
 "intentional<br />Press Cancel otherwise"
 msgstr "<strong>需要確認！</strong>按 OK 確認變更<br />若否按取消"
 
-#: core/templates/messages.tmpl:381
+#: core/templates/messages.tmpl:385
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "因安全考量，部分檔案加上 =.txt= 的副檔名"
 
-#: core/templates/messages.tmpl:583
+#: core/templates/messages.tmpl:587
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -451,18 +457,18 @@ msgstr ""
 "Foswiki 網站分成多個子網；每個子網包含一個主題/合作計劃。您想瀏覽的 %2 子網不"
 "存在。"
 
-#: core/templates/messages.tmpl:139
+#: core/templates/messages.tmpl:143
 msgid ""
 "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
 "=#FFFF00=."
 msgstr "顏色記號始於 # 標記，後面由 6 個位元的 16 進位數組成，如 =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:927
+#: core/lib/Foswiki/UI/Register.pm:935
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "確認的電子郵件已寄往 %1 "
 
-#: core/templates/messages.tmpl:587
+#: core/templates/messages.tmpl:591
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -474,7 +480,7 @@ msgstr ""
 msgid "A more extensive changes list is available via [[%1][Recent changes]]."
 msgstr "[[%1][最近更新]]內有更完整的變更清單。 "
 
-#: core/templates/messages.tmpl:559
+#: core/templates/messages.tmpl:563
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
@@ -499,7 +505,7 @@ msgstr "A-Z"
 msgid "Access Denied"
 msgstr "禁止訪問"
 
-#: core/templates/messages.tmpl:567
+#: core/templates/messages.tmpl:571
 msgid "Access check on %1 failed"
 msgstr "訪問檢查%1失敗"
 
@@ -516,7 +522,7 @@ msgstr "快捷鍵："
 msgid "Action"
 msgstr "功能"
 
-#: core/templates/messages.tmpl:568
+#: core/templates/messages.tmpl:572
 msgid "Action %1: %2."
 msgstr "功能 %1: %2."
 
@@ -524,28 +530,31 @@ msgstr "功能 %1: %2."
 msgid "Add"
 msgstr "增加"
 
-#: core/data/Main/GroupViewTemplate.txt:143
-msgid "Add a user to this group"
+#: core/data/Main/GroupViewTemplate.txt:152
+#, fuzzy
+msgid "Add a user or group to this group"
 msgstr "增加一個使用者到此群組"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
 msgstr "增加表單"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:163
+#: core/data/Main/GroupViewTemplate.txt:154
+#, fuzzy
+msgid "Add member"
+msgstr "沒有成員"
+
+#: core/data/Main/GroupViewTemplate.txt:89
+#, fuzzy
+msgid "Add member..."
+msgstr "增加使用者…"
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
 msgid "Add row"
 msgstr "加一列"
 
-#: core/data/Main/GroupViewTemplate.txt:145
-msgid "Add user"
-msgstr "增加使用者"
-
-#: core/data/Main/GroupViewTemplate.txt:80
-msgid "Add user..."
-msgstr "增加使用者…"
-
-#: core/templates/messages.tmpl:369
+#: core/templates/messages.tmpl:373
 msgid "Adding a %1 preference in WebPreferences"
 msgstr "增加一個 %1 設定到 WebPreferences"
 
@@ -556,6 +565,12 @@ msgstr "Foswiki 管理員認證"
 #: PatternSkin/data/System/WebLeftBarExample.txt:26
 msgid "Admin Maintenance"
 msgstr "管理員維護"
+
+#: core/data/Main/GroupViewTemplate.txt:63
+#: core/data/Main/GroupViewTemplate.txt:85
+#, fuzzy
+msgid "Administration"
+msgstr "註冊"
 
 #: core/data/System/WebSearch.txt:64
 msgid "Advanced search"
@@ -590,17 +605,17 @@ msgstr "所有公開的子網"
 msgid "Allow non <nop>WikiWord for the new topic name"
 msgstr "允許新主題名稱使用非<nop>WikiWord"
 
-#: core/templates/messages.tmpl:277
+#: core/templates/messages.tmpl:281
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
 msgstr "點擊\"返回\"回到 %SYSTEMWEB%.UserRegistration 並選擇另一個用戶名稱。 "
 
-#: core/lib/Foswiki/UI/Rename.pm:199
+#: core/lib/Foswiki/UI/Rename.pm:205
 msgid "An attachment with the same name already exists in this topic."
 msgstr "相同檔名的附件已在主題中。"
 
-#: core/templates/messages.tmpl:264
+#: core/templates/messages.tmpl:268
 msgid ""
 "An e-mail could not be delivered. Please notify your %1 administrator, %2"
 msgstr "電子郵件寄送失敗，請通知您的 %1 管理員 %2"
@@ -635,6 +650,13 @@ msgstr "附件"
 msgid "Attach a file"
 msgstr "附加新檔"
 
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:8
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:9
+#, fuzzy
+msgid ""
+"Attach an image or document to this topic; manage existing attachments (a)"
+msgstr "title='為這個主題增加圖片或檔案' accesskey='a'>增加附件(&A)"
+
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
 msgid "Attach file to %1"
@@ -644,7 +666,7 @@ msgstr "為 %1 附檔"
 msgid "Attach image or document on %1"
 msgstr "為 %1 附圖"
 
-#: PatternSkin/templates/attach.pattern.tmpl:43 core/templates/attach.tmpl:15
+#: PatternSkin/templates/attach.pattern.tmpl:40 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
 msgstr "增加新檔"
@@ -653,7 +675,7 @@ msgstr "增加新檔"
 msgid "Attachment"
 msgstr "附件"
 
-#: core/templates/messages.tmpl:617
+#: core/templates/messages.tmpl:621
 msgid "Attachment '%1' does not exist"
 msgstr "附件 '%1' 不存在"
 
@@ -661,7 +683,7 @@ msgstr "附件 '%1' 不存在"
 msgid "Attachment delete failed"
 msgstr "附件刪除失敗"
 
-#: core/lib/Foswiki/UI/Rename.pm:166
+#: core/lib/Foswiki/UI/Rename.pm:172
 msgid "Attachment does not exist."
 msgstr "附件不存在。"
 
@@ -690,7 +712,7 @@ msgstr "附件說明"
 msgid "Attachments of %1"
 msgstr "%1 的附件"
 
-#: PatternSkin/templates/attach.pattern.tmpl:64 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "主題瀏覽時將不顯示附件。"
 
@@ -737,7 +759,7 @@ msgstr "%2 子網中指向 %1 的反向連結"
 msgid "Backlinks to %1 in all Webs"
 msgstr "所有子網中指向 %1 的反向連結"
 
-#: core/templates/messages.tmpl:301
+#: core/templates/messages.tmpl:305
 msgid "Bad password"
 msgstr "密碼錯誤"
 
@@ -768,15 +790,15 @@ msgstr ""
 "預設情況下，只有 %1 成員能瀏覽垃圾子網，若要讓所有用戶瀏覽，請刪除垃圾子網 "
 "WebPreferences 中 =ALLOWWEBVIEW= 的相關限制。"
 
-#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:557
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:561
 msgid "Can't find user %1"
 msgstr "無法找到用戶%1"
 
-#: core/templates/messages.tmpl:558
+#: core/templates/messages.tmpl:562
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時） "
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:165
+#: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:109
@@ -868,6 +890,12 @@ msgstr "改變主題"
 msgid "Changed by"
 msgstr "變更者:"
 
+#: HistoryPlugin/templates/oopshistory.tmpl:30
+#: HistoryPlugin/templates/oopshistory.tmpl:43
+#, fuzzy
+msgid "Changed on"
+msgstr "已變更"
+
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
 msgstr "已變更:"
@@ -887,7 +915,7 @@ msgstr "更新"
 msgid "Changes from r%1 to r%2"
 msgstr "由 r%1 改成 r%2"
 
-#: core/templates/messages.tmpl:429
+#: core/templates/messages.tmpl:433
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr "檢查您的 {TemplateDir} 與 {TemplatePath} 設定。"
 
@@ -899,7 +927,7 @@ msgstr "選擇的主題，文中連結將更改為新主題。"
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "選定的主題，文中連結將更改為新子網。"
 
-#: core/templates/more.tmpl:189
+#: core/templates/more.tmpl:207
 msgid "Child topics in %1 web"
 msgstr "在%1子網中的子主題"
 
@@ -907,7 +935,7 @@ msgstr "在%1子網中的子主題"
 msgid "Choose a new form for %1"
 msgstr "為 %1 選個新表單"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:22
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
 #: core/lib/Foswiki/Form/Checkbox.pm:43
 msgid "Clear all"
 msgstr "全部清除"
@@ -918,22 +946,22 @@ msgid ""
 "references."
 msgstr "點這將移動主題回到以前的位置，有選項可修改設定。 "
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:458
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:92
+#: TwistyPlugin/data/System/TwistyPlugin.txt:471
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
 msgid "Close"
 msgstr "關閉"
 
-#: core/templates/messages.tmpl:138
+#: core/templates/messages.tmpl:142
 msgid "Color %1 has an invalid format"
 msgstr "顏色 %1包含非法格式"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:34
-#: PatternSkin/templates/attach.pattern.tmpl:52 core/templates/attach.tmpl:24
+#: HistoryPlugin/templates/oopshistory.tmpl:32
+#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "評論"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:76 core/templates/more.tmpl:152
+#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:152
 msgid "Compare revisions"
 msgstr "比較版本"
 
@@ -955,18 +983,19 @@ msgstr "使用 [[%1][主題版本比較工具 (diff)]] 確認您的修改"
 msgid "Conflict"
 msgstr "衝突"
 
-#: core/templates/messages.tmpl:570 core/templates/messages.tmpl:576
-#: core/templates/messages.tmpl:597 core/templates/messages.tmpl:608
-#: core/templates/messages.tmpl:614 core/templates/messages.tmpl:620
-#: core/templates/messages.tmpl:629
+#: core/templates/messages.tmpl:574 core/templates/messages.tmpl:580
+#: core/templates/messages.tmpl:601 core/templates/messages.tmpl:612
+#: core/templates/messages.tmpl:618 core/templates/messages.tmpl:624
+#: core/templates/messages.tmpl:633
 msgid "Contact %1 if you have any questions."
 msgstr "如有問題，請聯繫 %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:58
-msgid "Context:"
+#: HistoryPlugin/templates/oopshistory.tmpl:100
+#, fuzzy
+msgid "Context"
 msgstr "模式："
 
-#: core/templates/messages.tmpl:421
+#: core/templates/messages.tmpl:425
 msgid "Continue and try to rename web?"
 msgstr "繼續為子網改名?"
 
@@ -974,7 +1003,7 @@ msgstr "繼續為子網改名?"
 msgid "Continue to create the new page"
 msgstr "繼續建立新頁面"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:113
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:114
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1004,19 +1033,19 @@ msgid ""
 "the property of the contributing authors."
 msgstr "版權所有 &&copy; 所有作者。本合作平臺的所有資料歸內容提貢者所有。"
 
-#: core/templates/messages.tmpl:148
+#: core/templates/messages.tmpl:152
 msgid "Could not create the new web %1"
 msgstr "無法建立新子網 %1"
 
-#: core/templates/messages.tmpl:427
+#: core/templates/messages.tmpl:431
 msgid "Could not find template"
 msgstr "找不到範本"
 
-#: core/templates/messages.tmpl:562
+#: core/templates/messages.tmpl:566
 msgid "Could not perform search. Error was: %1"
 msgstr "無法搜尋，錯誤: %1"
 
-#: core/templates/messages.tmpl:333
+#: core/templates/messages.tmpl:337
 msgid "Could not save %1."
 msgstr "%1 無法存檔。"
 
@@ -1036,32 +1065,38 @@ msgstr "建立新主題"
 msgid "Create New Topic in %1 Web"
 msgstr "在 %1 子網中建立新主題"
 
-#: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "建立附件連結"
 
-#: core/data/Main/WikiGroups.txt:7
+#: core/data/Main/WikiGroups.txt:18
 msgid "Create a new group"
 msgstr "建立新群組"
 
-#: core/data/Main/WikiGroups.txt:31
+#: core/data/Main/WikiGroups.txt:42
 msgid "Create group"
 msgstr "建立群組"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:44
+#: core/data/System/FrequentlyAskedQuestions.txt:45
 msgid "Create new FAQ topic"
+msgstr "建立新的熱門問答主題"
+
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:23
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:24
+#, fuzzy
+msgid "Create new topic"
 msgstr "建立新的熱門問答主題"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
 msgid "Create personal sidebar"
 msgstr "建立個人側欄"
 
-#: core/templates/messages.tmpl:595
+#: core/templates/messages.tmpl:599
 msgid "Create the topic"
 msgstr "建立主題"
 
-#: core/data/System/DefaultPreferences.txt:377
-#: core/data/System/DefaultPreferences.txt:379
+#: core/data/System/DefaultPreferences.txt:378
+#: core/data/System/DefaultPreferences.txt:380
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicTemplate.txt:64
 #: core/lib/Foswiki/Render.pm:49
@@ -1076,7 +1111,7 @@ msgstr "建立主題"
 msgid "Create your account to edit pages on this site."
 msgstr "建立您的帳號才能編輯本站的網頁。"
 
-#: core/templates/messages.tmpl:368
+#: core/templates/messages.tmpl:372
 msgid "Creating a suitable Form Definition topic"
 msgstr "建立適當的表單定義主題"
 
@@ -1093,8 +1128,6 @@ msgstr "目前父主題:"
 msgid "Current password"
 msgstr "目前密碼"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Date"
 msgstr "日期"
@@ -1103,7 +1136,7 @@ msgstr "日期"
 msgid "Dear %1"
 msgstr "親愛的 %1"
 
-#: core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
 msgid "Debug"
 msgstr "除錯"
 
@@ -1122,7 +1155,7 @@ msgstr "刪除"
 msgid "Delete attachment"
 msgstr "刪除附件"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:164
+#: EditTablePlugin/data/System/EditTablePlugin.txt:168
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:983
 msgid "Delete last row"
 msgstr "刪除最後一行"
@@ -1135,7 +1168,7 @@ msgstr "刪除主題"
 msgid "Delete topic..."
 msgstr "刪除主題..."
 
-#: PatternSkin/templates/attach.pattern.tmpl:54
+#: PatternSkin/templates/attach.pattern.tmpl:57
 msgid "Describe the file so other people know what it is."
 msgstr "檔案說明，方便其他人瞭解檔案內容。"
 
@@ -1149,7 +1182,7 @@ msgid ""
 "sensitive."
 msgstr "主題名稱是否拼寫正確？注意主題名稱是有大小寫的區分。"
 
-#: core/templates/messages.tmpl:275
+#: core/templates/messages.tmpl:279
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "您是否想 [[%1][重設 %2 的密碼]]?"
 
@@ -1170,7 +1203,7 @@ msgstr "觀察細節及如何建立你自己的 Foswiki 網站"
 msgid "Do not forget to save your changes"
 msgstr "別忘記儲存變更"
 
-#: PatternSkin/templates/attach.pattern.tmpl:64 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "表格內不顯示附件"
 
@@ -1200,37 +1233,37 @@ msgid ""
 "administrator."
 msgstr "子網改名 %1 到 %2 時發生錯誤 (%3)。請通知 %4 管理員。"
 
-#: core/templates/messages.tmpl:398 core/templates/oopssaveerr.tmpl:16
+#: core/templates/messages.tmpl:402 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
 msgstr "主題 %1 存檔時發生版本控制錯誤。請通知 %2 管理員。"
 
-#: core/templates/messages.tmpl:201
+#: core/templates/messages.tmpl:205
 msgid "E-mail changed successfully!"
 msgstr "電子郵件變更成功!"
 
-#: core/templates/messages.tmpl:632
+#: core/templates/messages.tmpl:636
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "編碼失敗 - =type= 不能與 =old= 和 =new= 同時使用"
 
-#: core/templates/messages.tmpl:633
+#: core/templates/messages.tmpl:637
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "編碼失敗 - 必須同時指定 =old= 和 =new="
 
-#: core/templates/messages.tmpl:634
+#: core/templates/messages.tmpl:638
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "編碼失敗 - 符號 '%PARAM1%' 在 =old= 中重複"
 
-#: core/templates/messages.tmpl:637
+#: core/templates/messages.tmpl:641
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "編碼失敗 - '%PARAM1%' 拒絕讀取"
 
-#: core/templates/messages.tmpl:635
+#: core/templates/messages.tmpl:639
 msgid "EXPAND failed - no macro"
 msgstr "編碼失敗 - 無巨集"
 
-#: core/templates/messages.tmpl:636
+#: core/templates/messages.tmpl:640
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "擴展失敗 - 無 '%PARAM1%' 主題"
 
@@ -1258,10 +1291,16 @@ msgstr "編輯說明"
 msgid "Edit settings for this topic..."
 msgstr "編輯本主題的設定…"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:160
+#: EditTablePlugin/data/System/EditTablePlugin.txt:164
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
 msgstr "編輯這個表格"
+
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:3
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:4
+#, fuzzy
+msgid "Edit this topic text (e)"
+msgstr "編輯這個主題"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1271,7 +1310,7 @@ msgstr "編輯主題屬性設定"
 msgid "Ehm, let me go back to correct the page..."
 msgstr "讓我返回更正此頁…"
 
-#: core/templates/messages.tmpl:318
+#: core/templates/messages.tmpl:322
 msgid ""
 "Either the code is not valid, or you have already confirmed your "
 "registration using it."
@@ -1285,7 +1324,7 @@ msgstr "名稱無效或指向一個不存在的清單。"
 msgid "Either the name is invalid, or it refers to a non-existant topic."
 msgstr "名稱無效或指向一個不存在的清單。"
 
-#: core/templates/messages.tmpl:389
+#: core/templates/messages.tmpl:393
 msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
@@ -1299,7 +1338,7 @@ msgstr "電子信箱"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "本網站不開放電子郵件使用。"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:78
+#: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Enlarge edit box"
 msgstr "放大編輯框"
 
@@ -1307,50 +1346,50 @@ msgstr "放大編輯框"
 msgid "Enter a new username and password to change identity"
 msgstr "輸入新用戶名和密碼以改變身份"
 
-#: core/templates/login.sudo.tmpl:18
+#: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "輸入 Wiki 管理員或依 %1 設定登入"
 
-#: core/templates/messages.tmpl:251
+#: core/templates/messages.tmpl:255
 msgid "Error registering new user"
 msgstr "註冊新用戶發生錯誤"
 
-#: core/templates/messages.tmpl:242
+#: core/templates/messages.tmpl:246
 msgid "Error registering user %1"
 msgstr "註冊用戶 %1 發生錯誤"
 
-#: core/templates/messages.tmpl:397
+#: core/templates/messages.tmpl:401
 msgid "Error saving topic"
 msgstr "主題存檔失敗"
 
-#: core/templates/login.tmpl:26
+#: core/templates/login.tmpl:25
 msgid "Error: %1"
 msgstr "錯誤: %1"
 
-#: core/templates/messages.tmpl:548
+#: core/templates/messages.tmpl:552
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "錯誤: %1 的附件 %2 不存在"
 
-#: core/templates/messages.tmpl:550
+#: core/templates/messages.tmpl:554
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
 msgstr ""
 "錯誤: 不支援的內容類別: %1 (必須是 =text/html=, =text/plain= 或 =text/css=)"
 
-#: core/templates/messages.tmpl:549
+#: core/templates/messages.tmpl:553
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "錯誤: 不支援的協定 (必須是 'http://domain/...')"
 
-#: core/templates/messages.tmpl:268
+#: core/templates/messages.tmpl:272
 msgid "Errors"
 msgstr "錯誤"
 
-#: core/templates/messages.tmpl:466
+#: core/templates/messages.tmpl:470
 msgid "Errors adding users to group"
 msgstr "增加使用者至群組錯誤"
 
-#: core/templates/messages.tmpl:504
+#: core/templates/messages.tmpl:508
 msgid "Errors removing users from groups"
 msgstr "移除群組使用者錯誤"
 
@@ -1362,7 +1401,7 @@ msgstr "駭客"
 msgid "Failed plugins"
 msgstr "外掛失敗"
 
-#: core/templates/messages.tmpl:560
+#: core/templates/messages.tmpl:564
 msgid "Failed to include URL %1"
 msgstr "無法包含 URL %1"
 
@@ -1375,7 +1414,7 @@ msgstr "必填標為 %1 的欄位"
 msgid "Fields marked <span class='required'>*</span> are required"
 msgstr "必填標 <span class='required'>*</span>  的欄位"
 
-#: core/templates/messages.tmpl:374
+#: core/templates/messages.tmpl:378
 msgid "File has been uploaded with different name"
 msgstr "檔案已用其他名稱上傳"
 
@@ -1408,7 +1447,7 @@ msgstr "強制新版本"
 msgid "Forgotten your password?"
 msgstr "忘記密碼?"
 
-#: core/templates/messages.tmpl:346
+#: core/templates/messages.tmpl:350
 msgid "Form Definition %1 missing"
 msgstr "表單定義 %1 遺失"
 
@@ -1421,11 +1460,11 @@ msgstr "表單資料"
 msgid "Form definition"
 msgstr "表單定義"
 
-#: core/templates/messages.tmpl:343
+#: core/templates/messages.tmpl:347
 msgid "Form definition '%1' not found"
 msgstr "表單定義 '%1' 遺失"
 
-#: core/templates/messages.tmpl:351
+#: core/templates/messages.tmpl:355
 msgid "Form definition missing"
 msgstr "表單定義遺失"
 
@@ -1464,13 +1503,13 @@ msgstr "球形"
 msgid "Go back"
 msgstr "返回"
 
-#: core/templates/messages.tmpl:337
+#: core/templates/messages.tmpl:341
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
 msgstr "回到瀏覽器的上一頁，並再存檔前輸入所有必備的欄位"
 
-#: core/templates/messages.tmpl:404 core/templates/oopssaveerr.tmpl:20
+#: core/templates/messages.tmpl:408 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr "回瀏覽器的上一頁並儲存本地所有變更。"
 
@@ -1480,15 +1519,15 @@ msgid ""
 "trying again"
 msgstr "回上一頁，並在使用前啟用 Cookies 與 Javascript"
 
-#: core/templates/messages.tmpl:292
+#: core/templates/messages.tmpl:296
 msgid "Good examples:"
 msgstr "好範例:"
 
-#: core/data/Main/WikiGroups.txt:49
+#: core/data/Main/WikiGroups.txt:62
 msgid "Group"
 msgstr "群組"
 
-#: core/data/Main/WikiGroups.txt:17
+#: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
 msgstr "群組名稱"
 
@@ -1506,7 +1545,7 @@ msgid "Hello %1!"
 msgstr "您好 %1！"
 
 #: core/data/System/WebSearch.txt:109 core/data/System/WebSearch.txt:66
-#: core/templates/login.tmpl:48
+#: core/templates/login.tmpl:45
 msgid "Help"
 msgstr "説明"
 
@@ -1514,8 +1553,8 @@ msgstr "説明"
 msgid "Hide file"
 msgstr "隱藏檔案 "
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:11
-#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:48
+#: PatternSkin/templates/renamebase.pattern.tmpl:8
+#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:45
 msgid "Hide help"
 msgstr "隱藏説明"
 
@@ -1552,13 +1591,13 @@ msgstr ""
 "然而，確認的電子郵件無法寄給 %2，表示可能是個假註冊。用戶 '%1' 已自動移除，但"
 "您需手動移除用戶個人主題。"
 
-#: core/templates/messages.tmpl:376
+#: core/templates/messages.tmpl:380
 msgid ""
 "However, the filename has been changed from %1 to %2. Please make a note of "
 "it."
 msgstr "檔案已從 %1 改名為 %2。請加上備註。"
 
-#: core/templates/login.tmpl:63
+#: core/templates/login.tmpl:62
 msgid "I forgot my password"
 msgstr "我忘記密碼"
 
@@ -1573,21 +1612,21 @@ msgid ""
 "page, then you are asked to confirm the request."
 msgstr "若 Foswiki 發現一個來自某網頁的可疑的請求，將會要求您確認。"
 
-#: core/templates/messages.tmpl:431
+#: core/templates/messages.tmpl:435
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr "若不是這個問題，可能是您有個設定 %1 指向不存在的範本。"
 
-#: core/templates/messages.tmpl:360
+#: core/templates/messages.tmpl:364
 msgid "If this line isn't present see _upgrade_ section below"
 msgstr "如果未顯示這行，請看下面 _升級_ 的段落"
 
-#: core/templates/messages.tmpl:354
+#: core/templates/messages.tmpl:358
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr "若此主題不存在，請建立它。否則請檢查錯誤。"
 
-#: core/templates/messages.tmpl:448
+#: core/templates/messages.tmpl:452
 msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
 "correct parameters."
@@ -1597,11 +1636,11 @@ msgstr "若您將開發 Foswiki 應用程式，請參考 %1 內正確的參數�
 msgid "If you are unsure what this means, read: %1"
 msgstr "若您不確定這是什麼意思，請讀: %1"
 
-#: core/templates/messages.tmpl:585
+#: core/templates/messages.tmpl:589
 msgid "If you came here by clicking on a question mark link"
 msgstr "若您是點問號連結才來這裏"
 
-#: core/templates/messages.tmpl:257
+#: core/templates/messages.tmpl:261
 msgid "If you don't receive a verification email within the next hour, "
 msgstr "若您未在一小時內收到確認的電子郵件，"
 
@@ -1625,7 +1664,7 @@ msgstr "有任何關於註冊的問題，請寄電子郵件給 %1。"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:64
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/templates/login.tmpl:74
+#: core/templates/login.tmpl:73
 msgid "If you have any questions, please contact %1"
 msgstr "任何問題，請聯繫 %1。"
 
@@ -1639,7 +1678,7 @@ msgstr "任何問題，請聯繫 %1。"
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr "若您尚未設定密碼，或想重設密碼，請到: %1"
 
-#: core/templates/messages.tmpl:446
+#: core/templates/messages.tmpl:450
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
@@ -1647,11 +1686,11 @@ msgstr ""
 "若您從收到的電子郵件連到這兒或只是瀏覽這個主題，請 [[%1][取消存檔]] 並轉到 %"
 "2。"
 
-#: core/templates/messages.tmpl:594
+#: core/templates/messages.tmpl:598
 msgid "If you want to create the topic"
 msgstr "讓您想建立這主題"
 
-#: core/templates/messages.tmpl:590
+#: core/templates/messages.tmpl:594
 msgid "If you would like to create this web"
 msgstr "讓您想建立這子網"
 
@@ -1678,7 +1717,7 @@ msgstr ""
 msgid "Image %1 of %2"
 msgstr "%2 的圖片 %1 。"
 
-#: PatternSkin/templates/attach.pattern.tmpl:62 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr "將顯示圖片，或建立其他附件的連結。"
 
@@ -1691,21 +1730,25 @@ msgstr ""
 "在一個可能的情境中，駭客引誘你連結到 http<nop>://crime.org ，網站中有一些聰明"
 "的 javascript。"
 
+#: PatternSkin/templates/attach.pattern.tmpl:51
+msgid "In case of a zip file, attach all included files to this topic"
+msgstr ""
+
 #: core/data/System/WebSearch.txt:104
 msgid "In reversed order"
 msgstr "反向排序"
 
-#: core/templates/messages.tmpl:379
+#: core/templates/messages.tmpl:383
 msgid ""
 "In some cases, Foswiki changes the name of the uploaded file to make it safe "
 "and accessible across all platforms:"
 msgstr "某些情況下，系統會修改上傳的檔名以確保各平台都能使用:"
 
-#: core/templates/messages.tmpl:282 core/templates/messages.tmpl:289
+#: core/templates/messages.tmpl:286 core/templates/messages.tmpl:293
 msgid "Incorrect %1"
 msgstr "不正確的 %1"
 
-#: core/templates/messages.tmpl:292
+#: core/templates/messages.tmpl:296
 msgid "Incorrect %1.WikiNames:"
 msgstr "不正確的 %1.WikiNames"
 
@@ -1713,7 +1756,7 @@ msgstr "不正確的 %1.WikiNames"
 msgid "Incorrect Password"
 msgstr "不正確的密碼"
 
-#: core/templates/messages.tmpl:444
+#: core/templates/messages.tmpl:448
 msgid "Incorrect parameters to the =%1= script"
 msgstr "=%1= 腳本的參數錯誤"
 
@@ -1730,25 +1773,21 @@ msgstr "索引"
 msgid "Info"
 msgstr "資訊"
 
-#: core/templates/messages.tmpl:383
+#: core/templates/messages.tmpl:387
 msgid ""
 "International (8-bit) characters are removed (replaced by US-ASCII "
 "equivalents for Latin-1)"
 msgstr "國際字元 (8位元) 已刪除 (並以 Latin-1 相同的 US-ASCII 字元替代)"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:55
-msgid "Interweave"
-msgstr "交織"
-
-#: core/templates/messages.tmpl:315
+#: core/templates/messages.tmpl:319
 msgid "Invalid Activation Code"
 msgstr "啟動碼錯誤"
 
-#: core/templates/messages.tmpl:307
+#: core/templates/messages.tmpl:311
 msgid "Invalid e-mail address"
 msgstr "電子郵件地址錯誤"
 
-#: core/templates/messages.tmpl:530
+#: core/templates/messages.tmpl:534
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -1784,9 +1823,24 @@ msgstr ""
 msgid "Jump"
 msgstr "到"
 
+#: HistoryPlugin/templates/oopshistory.tmpl:37
+#, fuzzy
+msgid "Jump to first revision (%1)"
+msgstr "(修訂版 %1)"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:37
+msgid "Jump to latest revision (%1)"
+msgstr ""
+
 #: core/data/System/WebSearch.txt:114
 msgid "Keyword search"
 msgstr "關鍵字搜尋"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:31
+#: HistoryPlugin/templates/oopshistory.tmpl:44
+#, fuzzy
+msgid "Last edited by"
+msgstr "最後編輯者"
 
 #: core/data/System/WebSearch.txt:102
 msgid "Last editor"
@@ -1799,6 +1853,15 @@ msgstr "最後修改時間"
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:137
 msgid "Last name"
 msgstr "姓"
+
+#: core/templates/more.tmpl:182
+#, fuzzy
+msgid "Latest revision: %1"
+msgstr "(修訂版 %1)"
+
+#: PatternSkin/templates/attach.pattern.tmpl:51
+msgid "Leave unchecked if you wish to attach the zip file itself"
+msgstr ""
 
 #: core/data/System/WebSearch.txt:128
 msgid "Limit results to:"
@@ -1848,11 +1911,11 @@ msgid "Login name %1"
 msgstr "登入名 %1"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:231
-#: core/templates/login.tmpl:69
+#: core/templates/login.tmpl:68
 msgid "Logon"
 msgstr "登入"
 
-#: core/templates/messages.tmpl:266
+#: core/templates/messages.tmpl:270
 msgid "Mail to"
 msgstr "郵寄給"
 
@@ -1860,12 +1923,12 @@ msgstr "郵寄給"
 msgid "Make search:"
 msgstr "搜尋:"
 
-#: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:26
-#: core/data/Main/WikiGroups.txt:50
+#: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:37
+#: core/data/Main/WikiGroups.txt:63
 msgid "Members"
 msgstr "成員"
 
-#: core/templates/messages.tmpl:230
+#: core/templates/messages.tmpl:234
 msgid "Missing Fields"
 msgstr "缺少欄位"
 
@@ -1873,7 +1936,7 @@ msgstr "缺少欄位"
 msgid "Missing action command"
 msgstr "缺少功能命令"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:45
+#: PatternSkin/templates/foswiki.pattern.tmpl:48
 msgid "Modify search"
 msgstr "修改搜尋:"
 
@@ -1898,14 +1961,20 @@ msgstr "更多主題功能"
 msgid "More topic actions..."
 msgstr "更多主題功能..."
 
-#: HistoryPlugin/templates/oopshistory.tmpl:80
-msgid "More view options:"
-msgstr "更多瀏覽選項:"
-
-#: TwistyPlugin/data/System/TwistyPlugin.txt:457
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:88
+#: TwistyPlugin/data/System/TwistyPlugin.txt:470
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:89
 msgid "More..."
 msgstr "更多..."
+
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:33
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:34
+#, fuzzy
+msgid ""
+"More: delete or rename this topic; set parent topic; view and compare "
+"revisions (m)"
+msgstr ""
+"title='主題刪除或改名；設定父主題；查看和比較版本' accesskey='m'>更多主題功能"
+"(&M)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -1933,11 +2002,11 @@ msgstr "移動到子網:"
 msgid "Move topic to web:"
 msgstr "移動主題到子網:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1229
+#: core/lib/Foswiki/UI/Rename.pm:1236
 msgid "Move/Rename"
 msgstr "移動/更名"
 
-#: core/lib/Foswiki/Search.pm:1111
+#: core/lib/Foswiki/Search.pm:1122
 msgid "NEW"
 msgstr "新"
 
@@ -1953,11 +2022,11 @@ msgstr "新子網名稱遺失"
 msgid "Navigate to a similar topic"
 msgstr "查看相關主題"
 
-#: core/templates/messages.tmpl:161
+#: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
 msgstr "禁止新用戶註冊"
 
-#: core/templates/messages.tmpl:152
+#: core/templates/messages.tmpl:156
 msgid "New User Registration not supported"
 msgstr "不支援新用戶註冊"
 
@@ -1990,19 +2059,19 @@ msgstr "新子網名稱:"
 msgid "Newer revision:"
 msgstr "新版本:"
 
-#: core/templates/more.tmpl:190
+#: core/templates/more.tmpl:208
 msgid "No child topics"
 msgstr "無子主題"
 
-#: core/templates/messages.tmpl:460 core/templates/messages.tmpl:498
+#: core/templates/messages.tmpl:464 core/templates/messages.tmpl:502
 msgid "No group name specified"
 msgstr "未指定群組名稱"
 
-#: core/templates/messages.tmpl:547
+#: core/templates/messages.tmpl:551
 msgid "No permission to view %1"
 msgstr "無瀏覽 %1 的權限"
 
-#: core/templates/more.tmpl:185
+#: core/templates/more.tmpl:200
 msgid "No previous revision exists."
 msgstr "前一個版本不存在。"
 
@@ -2010,11 +2079,11 @@ msgstr "前一個版本不存在。"
 msgid "No topics to update."
 msgstr "無主題更新。"
 
-#: core/templates/messages.tmpl:454 core/templates/messages.tmpl:492
+#: core/templates/messages.tmpl:458 core/templates/messages.tmpl:496
 msgid "No username specified"
 msgstr "未指定使用者。"
 
-#: core/templates/messages.tmpl:223
+#: core/templates/messages.tmpl:227
 msgid "No users to reset passwords for."
 msgstr "沒有用戶重設密碼."
 
@@ -2033,7 +2102,7 @@ msgid ""
 msgstr "移動後，任何引用此附件的 URL 都將失效。"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
-#: core/templates/messages.tmpl:320 core/templates/messages.tmpl:378
+#: core/templates/messages.tmpl:324 core/templates/messages.tmpl:382
 #: core/templates/registerconfirm.tmpl:13
 #: core/templates/registernotify.tmpl:22
 msgid "Note:"
@@ -2064,7 +2133,7 @@ msgstr "說明通知"
 msgid "Notifications"
 msgstr "通知"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:44
+#: PatternSkin/templates/foswiki.pattern.tmpl:47
 msgid "Number of topics:"
 msgstr "主題數量:"
 
@@ -2074,8 +2143,8 @@ msgstr "主題數量: %1"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:181
-#: core/templates/messages.tmpl:191 core/templates/messages.tmpl:198
+#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:185
+#: core/templates/messages.tmpl:195 core/templates/messages.tmpl:202
 #: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:49
 msgid "OK"
@@ -2089,7 +2158,7 @@ msgstr "OK，這仍是我！"
 msgid "Older revision:"
 msgstr "舊版本:"
 
-#: core/templates/messages.tmpl:574
+#: core/templates/messages.tmpl:578
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "只有 %1 的成員允許使用這些功能。"
 
@@ -2118,7 +2187,7 @@ msgstr "輸入不同的附件名稱（非必要）:"
 msgid "Optionally enter a different topic name:"
 msgstr "輸入不同的主題名稱（非必要）:"
 
-#: core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
 msgid "Options"
 msgstr "選項"
 
@@ -2132,23 +2201,23 @@ msgstr "組織網站"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
-#: core/templates/login.tmpl:58
+#: core/templates/login.tmpl:57
 msgid "Password"
 msgstr "密碼"
 
-#: core/templates/messages.tmpl:184
+#: core/templates/messages.tmpl:188
 msgid "Password changed successfully!"
 msgstr "密碼修改成功!"
 
-#: core/templates/messages.tmpl:194
+#: core/templates/messages.tmpl:198
 msgid "Password could not be changed"
 msgstr "密碼無法修改"
 
-#: core/templates/messages.tmpl:222 core/templates/messages.tmpl:226
+#: core/templates/messages.tmpl:226 core/templates/messages.tmpl:230
 msgid "Password reset failed"
 msgstr "密碼重設失敗"
 
-#: core/templates/messages.tmpl:236
+#: core/templates/messages.tmpl:240
 msgid "Passwords do not match"
 msgstr "密碼不相同"
 
@@ -2157,7 +2226,7 @@ msgstr "密碼不相同"
 msgid "Pick from a list"
 msgstr "自清單中選擇"
 
-#: core/templates/messages.tmpl:141
+#: core/templates/messages.tmpl:145
 msgid "Pick one of the %1."
 msgstr "從 %1 選一個。"
 
@@ -2169,16 +2238,16 @@ msgstr "存放刪除主題與附件的地方。"
 msgid "Placeholder for trashed attachments"
 msgstr "丟棄附件的存放地"
 
-#: core/templates/messages.tmpl:470 core/templates/messages.tmpl:508
+#: core/templates/messages.tmpl:474 core/templates/messages.tmpl:512
 msgid "Please check to ensure you have permission to modify the group."
 msgstr "請確認您有足夠權限可修改此群組。"
 
-#: core/templates/messages.tmpl:279 core/templates/messages.tmpl:329
+#: core/templates/messages.tmpl:283 core/templates/messages.tmpl:333
 msgid "Please contact %1 if you have any questions."
 msgstr "如有問題請聯繫 %1."
 
-#: core/templates/messages.tmpl:156 core/templates/messages.tmpl:165
-#: core/templates/messages.tmpl:246 core/templates/messages.tmpl:258
+#: core/templates/messages.tmpl:160 core/templates/messages.tmpl:169
+#: core/templates/messages.tmpl:250 core/templates/messages.tmpl:262
 msgid "Please contact %1."
 msgstr "請聯繫 %1."
 
@@ -2191,7 +2260,7 @@ msgstr "請輸入 Wiki 管理員的密碼"
 msgid "Please go _back_ in your browser and try a new name."
 msgstr "請_返回_瀏覽器的上一頁，並試一個新名字."
 
-#: core/templates/messages.tmpl:390
+#: core/templates/messages.tmpl:394
 msgid "Please go back in your browser and check again."
 msgstr "請返回瀏覽器的上一頁，並再檢查一次."
 
@@ -2205,12 +2274,13 @@ msgstr ""
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
-#: core/templates/messages.tmpl:135 core/templates/messages.tmpl:145
-#: core/templates/messages.tmpl:233 core/templates/messages.tmpl:239
-#: core/templates/messages.tmpl:286 core/templates/messages.tmpl:298
-#: core/templates/messages.tmpl:304 core/templates/messages.tmpl:312
-#: core/templates/messages.tmpl:37 core/templates/messages.tmpl:41
-#: core/templates/messages.tmpl:59 core/templates/messages.tmpl:95
+#: core/templates/messages.tmpl:135 core/templates/messages.tmpl:139
+#: core/templates/messages.tmpl:149 core/templates/messages.tmpl:237
+#: core/templates/messages.tmpl:243 core/templates/messages.tmpl:290
+#: core/templates/messages.tmpl:302 core/templates/messages.tmpl:308
+#: core/templates/messages.tmpl:316 core/templates/messages.tmpl:37
+#: core/templates/messages.tmpl:41 core/templates/messages.tmpl:59
+#: core/templates/messages.tmpl:95
 msgid "Please go back in your browser and try again."
 msgstr "請返回瀏覽器的上一頁，並再試一次."
 
@@ -2250,11 +2320,17 @@ msgstr "其他，按「取消」。"
 msgid "Press OK to confirm that this change was intentional."
 msgstr "按「OK」確認此修改是故意的。"
 
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:28
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:29
+#, fuzzy
+msgid "Printable version of this topic (p)"
+msgstr "title='列印本主題' accesskey='p' >列印(&P)"
+
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
 msgstr "充填澡盆有問題"
 
-#: PatternSkin/templates/attach.pattern.tmpl:60
+#: PatternSkin/templates/attach.pattern.tmpl:63
 msgid "Properties"
 msgstr "屬性"
 
@@ -2266,11 +2342,11 @@ msgstr "放回…"
 msgid "Query Search"
 msgstr "查詢式檢索"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:71
+#: core/data/System/FrequentlyAskedQuestions.txt:72
 msgid "Question"
 msgstr "問題"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:162
+#: EditTablePlugin/data/System/EditTablePlugin.txt:166
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
 msgid "Quiet save"
 msgstr "快速存檔"
@@ -2299,13 +2375,13 @@ msgstr "閱讀"
 msgid "Recently changed topics"
 msgstr "最近更新的主題"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:86
-#: core/lib/Foswiki/UI/Rename.pm:1228
+#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: core/lib/Foswiki/UI/Rename.pm:1235
 msgid "Refresh"
 msgstr "更新"
 
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
-#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
 #: core/templates/foswiki.tmpl:159
@@ -2320,7 +2396,7 @@ msgstr "目前登入使用者的註冊電子信箱"
 msgid "Registration"
 msgstr "註冊"
 
-#: core/templates/messages.tmpl:318
+#: core/templates/messages.tmpl:322
 msgid "Registration codes can only be used once."
 msgstr "註冊碼只能使用一次。"
 
@@ -2331,19 +2407,19 @@ msgstr "正則運算式搜尋"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:890
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:930
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:943
 #: core/data/Main/GroupViewTemplate.txt:14
 #: core/data/System/SkinTemplateViewTemplate.txt:8
-#: core/templates/messages.tmpl:572 core/templates/messages.tmpl:579
+#: core/templates/messages.tmpl:576 core/templates/messages.tmpl:583
 msgid "Related topics:"
 msgstr "相關主題:"
 
-#: core/templates/login.tmpl:65
+#: core/templates/login.tmpl:64
 msgid "Remember me on this computer"
 msgstr "在此電腦上記住我"
 
-#: core/templates/messages.tmpl:203
+#: core/templates/messages.tmpl:207
 msgid ""
 "Remember to update your user topic if you want your e-mail change to be "
 "reflected there as well."
@@ -2353,21 +2429,24 @@ msgstr "請記得更新您用戶主題中的郵件位址，以反應實情。"
 msgid "Remember your password?"
 msgstr "記住密碼?"
 
-#: core/data/Main/GroupViewTemplate.txt:168
-msgid "Remove selected users"
+#: core/data/Main/GroupViewTemplate.txt:92
+#, fuzzy
+msgid "Remove member..."
+msgstr "移除使用者…"
+
+#: core/data/Main/GroupViewTemplate.txt:173
+#, fuzzy
+msgid "Remove members from this group"
+msgstr "將用戶自群組中刪除"
+
+#: core/data/Main/GroupViewTemplate.txt:177
+#, fuzzy
+msgid "Remove selected members"
 msgstr "移除選擇的使用者"
 
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
 msgstr "請先將用戶從 %1 群組刪除。"
-
-#: core/data/Main/GroupViewTemplate.txt:83
-msgid "Remove user..."
-msgstr "移除使用者…"
-
-#: core/data/Main/GroupViewTemplate.txt:164
-msgid "Remove users from this group"
-msgstr "將用戶自群組中刪除"
 
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
@@ -2398,8 +2477,9 @@ msgstr "改名，移動或刪除子網:"
 msgid "Rename/Move"
 msgstr "改名/移動"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:54
-msgid "Render style:"
+#: HistoryPlugin/templates/oopshistory.tmpl:96
+#, fuzzy
+msgid "Render style"
 msgstr "風格: "
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
@@ -2410,6 +2490,12 @@ msgstr "取代表單..."
 msgid "Request Validation"
 msgstr "請求驗證"
 
+#: core/templates/messages.tmpl:138
+msgid ""
+"Requested revision (%1) is illegal or invalid. It does not exist in history, "
+"or is the same or later than the current revision (%2)"
+msgstr ""
+
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
 msgstr "重設密碼"
@@ -2418,25 +2504,39 @@ msgstr "重設密碼"
 msgid "Reset password"
 msgstr "重設密碼"
 
-#: core/data/System/DefaultPreferences.txt:186
+#: core/data/System/DefaultPreferences.txt:187
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "重設或設定密碼並非由 Foswiki 處理"
+
+#: core/templates/more.tmpl:189
+#, fuzzy
+msgid "Restore"
+msgstr "還原…"
 
 #: core/templates/more.tmpl:170
 msgid "Restore topic"
 msgstr "還原主題"
 
-#: core/templates/more.tmpl:175
+#: core/templates/more.tmpl:186
 msgid "Restore topic to revision:"
 msgstr "還原主題至版本:"
 
-#: core/templates/more.tmpl:178
+#: core/templates/more.tmpl:189
 msgid "Restore topic to this revision"
 msgstr "還原主題至這個版本"
 
-#: core/templates/more.tmpl:178
-msgid "Restore..."
-msgstr "還原…"
+#: core/templates/more.tmpl:175
+msgid ""
+"Restore will save an exact copy of your selected revision into a new "
+"revision. Because each revision will be preserved in the topic history, you "
+"can always revisit the revision you are replacing. Note that attachments "
+"will be left unchanged."
+msgstr ""
+
+#: core/templates/more.tmpl:180
+#, fuzzy
+msgid "Restoring is disabled because this topic is at revision 1."
+msgstr "因主題內容禁止在 WYSIWYG 編輯中轉換成 HTML。 "
 
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
@@ -2446,7 +2546,7 @@ msgstr "%1 子網中的結果"
 msgid "Results from %1 web:"
 msgstr "%1 子網中的結果:"
 
-#: core/templates/messages.tmpl:207
+#: core/templates/messages.tmpl:211
 msgid "Return to %1."
 msgstr "回到 %1."
 
@@ -2463,23 +2563,19 @@ msgstr "在您編輯期間，用戶 %2 以版本 %1 存檔。"
 msgid "Review recent changes in:"
 msgstr "檢查最近的更新:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:31
+#: HistoryPlugin/templates/oopshistory.tmpl:29
 #: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:14
 msgid "Revision"
 msgstr "修訂版"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:14
+#: HistoryPlugin/templates/oopshistory.tmpl:12
 msgid "Revision history of %1"
 msgstr "%1 的版本歷史"
 
 #: core/templates/more.tmpl:138
 msgid "Revisions"
 msgstr "修訂版"
-
-#: HistoryPlugin/templates/oopshistory.tmpl:72
-msgid "Revisions %1 - %2 (out of %3)"
-msgstr "修訂版 %1 - %2 (出自 %3)"
 
 #: PatternSkin/templates/settings.pattern.tmpl:21
 msgid "S = Save, C = Cancel"
@@ -2494,11 +2590,12 @@ msgstr "S = 存檔，Q = 快速存檔，K = 存檔並繼續編輯，P = 預覽�
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr "沙箱試驗區是可進行無限制的動手子網。"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:161
+#: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
 msgid "Save table"
 msgstr "儲存表格"
 
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:241
 #: core/templates/registerfailednotremoved.tmpl:18
 #: core/templates/registerfailedremoved.tmpl:19
 #: core/templates/registernotifyadmin.tmpl:16
@@ -2575,13 +2672,13 @@ msgstr "安全提示:"
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr "查看 %1 的用戶列表或在 %2 註冊新用戶."
 
-#: core/templates/messages.tmpl:347
+#: core/templates/messages.tmpl:351
 msgid "See %1 for information about Form Definitions."
 msgstr "更多關於表單定義的資訊，請參考 %1."
 
-#: core/templates/messages.tmpl:472 core/templates/messages.tmpl:482
-#: core/templates/messages.tmpl:489 core/templates/messages.tmpl:510
-#: core/templates/messages.tmpl:520
+#: core/templates/messages.tmpl:476 core/templates/messages.tmpl:486
+#: core/templates/messages.tmpl:493 core/templates/messages.tmpl:514
+#: core/templates/messages.tmpl:524
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr "參考 %MAINWEB%.WikiGroups 的結果。"
 
@@ -2613,11 +2710,11 @@ msgstr "選擇群組 %1 加入"
 msgid "Select a new local file to update attachment"
 msgstr "選擇本地的新檔來更新附件"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:22
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
 msgid "Select all"
 msgstr "全選"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:71
+#: HistoryPlugin/templates/oopshistory.tmpl:115
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr "選擇一個較早（左）和一個較晚（右）的版本比較"
 
@@ -2633,7 +2730,7 @@ msgstr "在您輸入的段落底部選擇/複製/貼上您的簽名文字"
 msgid "Selections apply to search in \"text body\""
 msgstr "套用於「文字框」內的選項"
 
-#: core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
 msgid "Sequential"
 msgstr "連續的"
 
@@ -2649,20 +2746,26 @@ msgstr "設定新父主題 "
 msgid "Set new topic parent"
 msgstr "設定新父主題"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:80
-msgid "Show"
-msgstr "顯示"
+#: HistoryPlugin/templates/oopshistory.tmpl:129
+#, fuzzy
+msgid "Show %1 revisions up to revision %2"
+msgstr "檢視主題的前一個版本"
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:11
+#: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
 msgid "Show help"
 msgstr "顯示說明"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:78
+#: HistoryPlugin/templates/oopshistory.tmpl:119
+#, fuzzy
+msgid "Showing revisions %1 - %2 (out of %3)"
+msgstr "修訂版 %1 - %2 (出自 %3)"
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Shrink edit box"
 msgstr "縮小編輯框"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:56 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
 msgid "Side by side"
 msgstr "並列"
 
@@ -2679,11 +2782,11 @@ msgstr "大小"
 msgid "Some add schedule information and vacation notice."
 msgstr "加上某些時間表資訊和假期通知。"
 
-#: core/templates/messages.tmpl:382
+#: core/templates/messages.tmpl:386
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
 msgstr "已刪除一些像於 =&#126;=, =$=, =@=, =%= 的字元"
 
-#: core/templates/messages.tmpl:321
+#: core/templates/messages.tmpl:325
 msgid ""
 "Some mail tools have an error that causes them to send the same request "
 "twice when you click on a link. It you did this, it is possible that you "
@@ -2714,7 +2817,7 @@ msgstr "抱歉，目前密碼系統是唯讀，請聯繫 %1"
 msgid "Sort results by:"
 msgstr "對結果排序:"
 
-#: core/templates/messages.tmpl:380
+#: core/templates/messages.tmpl:384
 msgid "Spaces are replaced by underscores"
 msgstr "空格已以下劃線替代"
 
@@ -2727,16 +2830,21 @@ msgid "Statistics"
 msgstr "統計"
 
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:108
+#: JQueryPlugin/data/System/JQueryTextboxList.txt:113
+#: JQueryPlugin/data/System/JQueryTextboxList.txt:196
+#: JQueryPlugin/data/System/JQueryTextboxList.txt:278
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:31
 #: JQueryPlugin/data/System/JQueryValidate.txt:49
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
-#: core/data/System/FrequentlyAskedQuestions.txt:78
-#: core/templates/messages.tmpl:217 core/templates/messages.tmpl:326
+#: core/data/System/FrequentlyAskedQuestions.txt:79
+#: core/data/System/PerlDoc.txt:9 core/templates/messages.tmpl:221
+#: core/templates/messages.tmpl:330
 msgid "Submit"
 msgstr "提交"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:152
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:237
 #: core/templates/registerfailednotremoved.tmpl:14
 #: core/templates/registerfailedremoved.tmpl:15
 #: core/templates/registernotify.tmpl:18
@@ -2750,11 +2858,11 @@ msgstr "提交內容:"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "訂閱/退訂:"
 
-#: core/templates/messages.tmpl:478
+#: core/templates/messages.tmpl:482
 msgid "Success adding users to group"
 msgstr "成功將使用者加入群組"
 
-#: core/templates/messages.tmpl:516
+#: core/templates/messages.tmpl:520
 msgid "Success removing users from group"
 msgstr "成功將使用者自群組中移除"
 
@@ -2762,7 +2870,7 @@ msgstr "成功將使用者自群組中移除"
 msgid "Summaries"
 msgstr "摘要"
 
-#: PatternSkin/templates/foswiki.pattern.tmpl:78
+#: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Switch to monotype or propotional font"
 msgstr "切換到等寬或等比的字體"
 
@@ -2774,7 +2882,7 @@ msgstr ""
 "技巧：搜尋所有包含 =\"SOAP\"=, =\"WSDL\"=, 逐字的 =\"web service\"=，但不包"
 "含 =\"shampoo\"=  的主題: "
 
-#: core/templates/messages.tmpl:605
+#: core/templates/messages.tmpl:609
 msgid "Template %1 does not exist"
 msgstr "範本 %1 不存在"
 
@@ -2782,7 +2890,8 @@ msgstr "範本 %1 不存在"
 msgid "Text body"
 msgstr "內容"
 
-#: core/templates/messages.tmpl:170 core/templates/messages.tmpl:210
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:208
+#: core/templates/messages.tmpl:174 core/templates/messages.tmpl:214
 msgid "Thank you for registering"
 msgstr "謝謝您註冊"
 
@@ -2798,17 +2907,17 @@ msgid ""
 "verification code is %2."
 msgstr "謝謝您在 %1 合作平臺註冊。您的校驗碼是 %2."
 
-#: core/templates/messages.tmpl:623
+#: core/templates/messages.tmpl:627
 msgid "That user has already been activated "
 msgstr "用戶已經啟動"
 
-#: core/templates/messages.tmpl:290
+#: core/templates/messages.tmpl:294
 msgid ""
 "The %1 field must be your first and last name in %2, e.g. your capitalized "
 "first and last name with spaces removed."
 msgstr "%1 欄位必須是姓名，姓氏在 %2 ，如：大寫的姓名拼字但去掉空格。 "
 
-#: core/templates/messages.tmpl:284
+#: core/templates/messages.tmpl:288
 msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
 msgstr "%1 欄位必須符合本站的註冊名稱的 {LoginNameFilterIn} 過濾規則"
 
@@ -2817,7 +2926,7 @@ msgid "The %1 topic already exists"
 msgstr "主題 %1 已存在"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:582
+#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:586
 msgid "The %1 web does not exist"
 msgstr "子網 %1 不存在"
 
@@ -2845,11 +2954,11 @@ msgstr "%2 的子網 %1 。"
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
 msgstr "Foswiki 的 %1 子網，Foswiki 是自由且開放源碼的 Wiki。"
 
-#: core/templates/messages.tmpl:440
+#: core/templates/messages.tmpl:444
 msgid "The =%1= script can only be called with POST method."
 msgstr "=％1= 的程式只以 POST 的方式呼叫。"
 
-#: core/templates/messages.tmpl:163
+#: core/templates/messages.tmpl:167
 msgid "The Administrator has disabled new user registration."
 msgstr "系統管理員禁止新用戶註冊。"
 
@@ -2857,7 +2966,7 @@ msgstr "系統管理員禁止新用戶註冊。"
 msgid "The Free and Open Source Wiki."
 msgstr "自由且開源的 Wiki。"
 
-#: core/templates/messages.tmpl:316
+#: core/templates/messages.tmpl:320
 msgid "The activation code %1 is invalid."
 msgstr "啟動碼 %1 不合法."
 
@@ -2883,7 +2992,7 @@ msgid ""
 "the site."
 msgstr "攻擊者試著利用您的權限，像是網站管理者權限。"
 
-#: core/templates/messages.tmpl:538
+#: core/templates/messages.tmpl:542
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -2905,37 +3014,37 @@ msgstr ""
 "Foswiki 執行的檢查工作有時會由您無意進行的事件觸發，例如，儲存網頁後，點「回"
 "到上頁」。Foswiki 會使用這「較安全但比事後後悔好的方法」。"
 
-#: core/templates/messages.tmpl:308
+#: core/templates/messages.tmpl:312
 msgid "The e-mail address for this account is not valid."
 msgstr "這個帳號的電子郵件位址不合法。"
 
-#: core/templates/messages.tmpl:556
+#: core/templates/messages.tmpl:560
 msgid "The entry for user %1 was missing in the password system."
 msgstr "%1 的用戶資料不在密碼系統中。"
 
-#: core/templates/messages.tmpl:375
+#: core/templates/messages.tmpl:379
 msgid "The file has been uploaded and attached properly to the %1 topic."
 msgstr "檔案已上傳並附於主題 %1 內。"
 
-#: core/templates/messages.tmpl:411
+#: core/templates/messages.tmpl:415
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr "以下主題正在編輯中而被鎖定，且無法移動:"
 
-#: core/templates/messages.tmpl:417
+#: core/templates/messages.tmpl:421
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr "以主題屬於本子網內的文章，但正在編輯中:"
 
-#: core/templates/messages.tmpl:414
+#: core/templates/messages.tmpl:418
 msgid ""
 "The following topics refer to topics in this web, but you are denied access "
 "to them:"
 msgstr "以主題屬於本子網內的文章，但您沒有存取的權限:"
 
-#: core/templates/messages.tmpl:353
+#: core/templates/messages.tmpl:357
 msgid "The form should be defined in the topic %1"
 msgstr "主題 %1 內應定義此表單"
 
-#: core/templates/messages.tmpl:536
+#: core/templates/messages.tmpl:540
 msgid "The lease on this topic expired %1 ago."
 msgstr "本主題的鎖定期於 %1 前到期。"
 
@@ -2959,23 +3068,23 @@ msgstr "新子網已建立"
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr "*舊密碼* 欄內的密碼錯誤."
 
-#: core/templates/messages.tmpl:335
+#: core/templates/messages.tmpl:339
 msgid "The required field %1 was not filled in."
 msgstr "必備的欄位%1沒有填寫"
 
-#: core/templates/messages.tmpl:154
+#: core/templates/messages.tmpl:158
 msgid "The selected User System does not support new user registration."
 msgstr "選擇的用戶系統並不支援新用戶註冊。"
 
-#: core/templates/messages.tmpl:356
+#: core/templates/messages.tmpl:360
 msgid "The topic is in an old format"
 msgstr "本主題屬於舊格式"
 
-#: core/templates/messages.tmpl:237
+#: core/templates/messages.tmpl:241
 msgid "The two passwords you entered do not match."
 msgstr "兩次輸入的密碼不相同。"
 
-#: core/templates/messages.tmpl:625
+#: core/templates/messages.tmpl:629
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "用戶 %1 已經啟動並可登入。"
 
@@ -2986,11 +3095,11 @@ msgid ""
 msgstr ""
 "他們使用您的瀏覽器及您的身份，發送請求到服務器，意圖影響資料的自動儲存。"
 
-#: core/templates/messages.tmpl:407
+#: core/templates/messages.tmpl:411
 msgid "There are problems with renaming this web:"
 msgstr "此子網改名時出現錯誤:"
 
-#: core/templates/messages.tmpl:244
+#: core/templates/messages.tmpl:248
 msgid "There has been a problem adding your user id to the Password system."
 msgstr "新增您的用戶資料到密碼系統時出現錯誤。"
 
@@ -3001,23 +3110,23 @@ msgid ""
 msgstr ""
 "有個風險，就是在您不知情的情況下，有人可能試著以您的身份變更 ％1 的內容。"
 
-#: core/templates/messages.tmpl:359
+#: core/templates/messages.tmpl:363
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "必須包含一行包含 %1，參考 %2 (或 %3)"
 
-#: core/templates/messages.tmpl:468
+#: core/templates/messages.tmpl:472
 msgid "There were errors adding %1 to the %2 group. "
 msgstr "將 %1 加入 %2 群組時發生錯誤。"
 
-#: core/templates/messages.tmpl:506
+#: core/templates/messages.tmpl:510
 msgid "There were errors removing %1 from the %2 group. "
 msgstr "將 %1 自 %2 群組移除時發生錯誤。"
 
-#: core/templates/messages.tmpl:366
+#: core/templates/messages.tmpl:370
 msgid "This can be automatically upgraded by:"
 msgstr "這將被自動更新:"
 
-#: core/templates/messages.tmpl:349
+#: core/templates/messages.tmpl:353
 msgid "This could be for several reasons:"
 msgstr "可能由很多問題引起:"
 
@@ -3055,6 +3164,7 @@ msgstr "這就是跨站偽請求，或 CSRF。"
 msgid "This is an automated e-mail from %1."
 msgstr "這是一封由 %1 自動發的送電子郵件。"
 
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:233
 #: core/templates/registerfailednotremoved.tmpl:8
 #: core/templates/registerfailedremoved.tmpl:8
 #: core/templates/registernotifyadmin.tmpl:8
@@ -3068,11 +3178,11 @@ msgid ""
 msgstr ""
 "這是垃圾區。您可以在這裏還回刪除的主題；刪除的附件放在 TrashAttachment 中。"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:115
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:116
 msgid "This is why the conversion is disabled:"
 msgstr "這是本對話被禁止的原因："
 
-#: core/templates/login.tmpl:28
+#: core/templates/login.tmpl:27
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
 "[Register]] if you do not have an account yet."
@@ -3093,7 +3203,7 @@ msgstr ""
 "本頁解釋本網站使用的軟體 Foswiki 所採用的安全措施之一 ，以確避免網站受到攻"
 "擊。"
 
-#: core/templates/messages.tmpl:364
+#: core/templates/messages.tmpl:368
 msgid "This requires the form definition to be present."
 msgstr "這兒需要表單定義。"
 
@@ -3101,7 +3211,7 @@ msgstr "這兒需要表單定義。"
 msgid "This site is powered by Foswiki"
 msgstr "本站使用 Foswiki"
 
-#: core/templates/messages.tmpl:302
+#: core/templates/messages.tmpl:306
 msgid "This site requires at least %1 character passwords"
 msgstr "本站的密碼至少要 %1 個字元"
 
@@ -3119,7 +3229,7 @@ msgstr ""
 "您的修改已經和版本 %1 合併。內文欄位已合併，但其他資料，如表單內的資料可能被"
 "其他用戶覆蓋。若您修改表單內容，請檢查表單資料。"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:64
+#: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title"
 msgstr "標題"
 
@@ -3170,7 +3280,7 @@ msgstr "工具箱"
 msgid "Topic %1 does not exist"
 msgstr "主題 %1 不存在"
 
-#: core/templates/messages.tmpl:332
+#: core/templates/messages.tmpl:336
 msgid "Topic Save Error"
 msgstr "主題存檔錯誤"
 
@@ -3178,7 +3288,7 @@ msgstr "主題存檔錯誤"
 msgid "Topic attachments"
 msgstr "主題附件"
 
-#: core/templates/messages.tmpl:362
+#: core/templates/messages.tmpl:366
 msgid "Topic can not be upgraded from old style category table"
 msgstr "主題無法由舊風格的類別表格升級"
 
@@ -3187,7 +3297,7 @@ msgstr "主題無法由舊風格的類別表格升級"
 msgid "Topic data"
 msgstr "主題資料"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:29
+#: HistoryPlugin/templates/oopshistory.tmpl:27
 #: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
 msgstr "主題歷史"
@@ -3259,6 +3369,11 @@ msgstr "完全符合"
 msgid "Try Again"
 msgstr "再試一次"
 
+#: HistoryPlugin/templates/oopshistory.tmpl:101
+#, fuzzy
+msgid "Unchanged sections before and after each change"
+msgstr "每個更改不變章節"
+
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
 msgstr "無法識別用戶和/或密碼"
@@ -3275,17 +3390,17 @@ msgstr "在 %2 更新附件 %1"
 msgid "Update links"
 msgstr "更新連結"
 
-#: core/data/Main/GroupViewTemplate.txt:126
+#: core/data/Main/GroupViewTemplate.txt:135
 msgid "Upgrade group topic"
 msgstr "群組主題更新"
 
-#: core/data/Main/GroupViewTemplate.txt:130
+#: core/data/Main/GroupViewTemplate.txt:139
 msgid ""
 "Upgrade will adjust the format of this group topic to the new format with "
 "user management options"
 msgstr "升級將更新群組主題的格式，有新的用戶管理選項"
 
-#: core/templates/messages.tmpl:485
+#: core/templates/messages.tmpl:489
 msgid "Upgraded group"
 msgstr "更新群組"
 
@@ -3295,15 +3410,20 @@ msgstr "更新群組"
 msgid "Upload file"
 msgstr "上傳檔案"
 
-#: PatternSkin/templates/attach.pattern.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:50
+#, fuzzy
+msgid "Upload multiple attachments in one zip file"
+msgstr "在 %2 更新附件 %1"
+
+#: PatternSkin/templates/attach.pattern.tmpl:42
 msgid "Upload up to %1 KB."
 msgstr "上傳檔案大小上限 %1 KB."
 
-#: core/templates/messages.tmpl:394
+#: core/templates/messages.tmpl:398
 msgid "Uploaded file %1 exceeds limit of %2 KB"
 msgstr "上傳檔案 %1 的大小超過上限 %2 KB"
 
-#: core/templates/messages.tmpl:393
+#: core/templates/messages.tmpl:397
 msgid "Uploaded file is too big"
 msgstr "上傳的檔案過大"
 
@@ -3329,10 +3449,8 @@ msgstr "刪除用戶帳號 %1"
 msgid "User Reference"
 msgstr "用戶手冊"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:33
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 #: PatternSkin/data/System/PatternSkinElements.txt:220
-#: core/templates/login.tmpl:40
+#: core/templates/login.tmpl:39
 msgid "Username"
 msgstr "用戶名"
 
@@ -3341,7 +3459,7 @@ msgstr "用戶名"
 msgid "Users"
 msgstr "用戶"
 
-#: core/templates/messages.tmpl:179
+#: core/templates/messages.tmpl:183
 msgid ""
 "Users with automatically generated passwords should proceed immediately to "
 "[[%1][change password]] to change their password to something memorable."
@@ -3367,6 +3485,16 @@ msgstr "檢視差異"
 msgid "View differences"
 msgstr "檢視差異"
 
+#: HistoryPlugin/templates/oopshistory.tmpl:37
+#, fuzzy
+msgid "View earlier"
+msgstr "更早的"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:37
+#, fuzzy
+msgid "View later"
+msgstr "檢視範本"
+
 #: core/templates/more.tmpl:139
 msgid "View previous topic revision"
 msgstr "檢視主題的前一個版本"
@@ -3383,6 +3511,12 @@ msgstr "檢視修訂版"
 msgid "View revision:"
 msgstr "檢視修訂版:"
 
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#, fuzzy
+msgid "View sequential topic history"
+msgstr "檢視主題完整修訂史"
+
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
 msgid "View templates"
 msgstr "檢視範本"
@@ -3392,9 +3526,16 @@ msgstr "檢視範本"
 msgid "View topic"
 msgstr "檢視主題"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92 core/templates/foswiki.tmpl:155
+#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "檢視主題完整修訂史"
+
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:18
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:19
+#, fuzzy
+msgid "View without formatting (v)"
+msgstr "檢視源碼"
 
 #: core/lib/Foswiki/OopsException.pm:46
 msgid "Warning"
@@ -3404,36 +3545,36 @@ msgstr "警告"
 msgid "Warning! Confirmation required"
 msgstr "要求確認"
 
-#: EditTablePlugin/data/System/EditTablePlugin.txt:166
+#: EditTablePlugin/data/System/EditTablePlugin.txt:170
 msgid "Warning: 'include' topic does not exist!"
 msgstr "警告:  \"包含\" 的主題不存在！"
 
-#: core/templates/messages.tmpl:553
+#: core/templates/messages.tmpl:557
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr "警告: 無法重複包含 %1，主題已經包含。%2"
 
-#: core/templates/messages.tmpl:554
+#: core/templates/messages.tmpl:558
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr "警告: 無法包含 %1，路徑空白或包含非法字元。"
 
-#: core/templates/messages.tmpl:552
+#: core/templates/messages.tmpl:556
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr "警告: 主題 %1. %2 內找不到命名的段落 %3"
 
-#: core/templates/messages.tmpl:551
+#: core/templates/messages.tmpl:555
 msgid "Warning: Can't find topic %1.%2"
 msgstr "警告: 找不到主題%1. %2"
 
-#: core/lib/Foswiki/UI/Register.pm:920
+#: core/lib/Foswiki/UI/Register.pm:928
 msgid "Warning: Could not send confirmation email"
 msgstr "警告: 無法寄送確認郵件"
 
-#: core/lib/Foswiki/UI/Register.pm:932
+#: core/lib/Foswiki/UI/Register.pm:940
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "警告: 無法寄送確認郵件，郵件已禁用。"
 
-#: core/templates/messages.tmpl:561
+#: core/templates/messages.tmpl:565
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告: 本網站不允許 %<nop>INCLUDE% 連結"
 
@@ -3461,7 +3602,7 @@ msgstr "歡迎來到 %1 …與站上朋友相會"
 msgid "Welcome to the %1 web"
 msgstr "歡迎來到 %1 子網"
 
-#: core/templates/messages.tmpl:253
+#: core/templates/messages.tmpl:257
 msgid "While attempting to email <noautolink>%1</noautolink>."
 msgstr "正試寄電子郵件給 <noautolink>%1</noautolink>."
 
@@ -3473,7 +3614,7 @@ msgstr "誰"
 msgid "Who is requesting this, actually?"
 msgstr "到底是誰提出這個要求？"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:59
+#: HistoryPlugin/templates/oopshistory.tmpl:103
 msgid "Whole page"
 msgstr "全頁"
 
@@ -3502,27 +3643,28 @@ msgid "You"
 msgstr "你"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
+#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
-"have forgotten your password, contact %1."
+"have forgotten your password, contact %1"
 msgstr ""
 "您 *必須* 至少有個有效的註冊電子信箱才能重設密碼。若您忘記密碼且註冊用的電子"
 "信箱已失效，後請聯繫 %1。"
 
-#: core/templates/messages.tmpl:272
+#: core/templates/messages.tmpl:276
 msgid "You are already registered"
 msgstr "您已註冊"
 
-#: core/templates/messages.tmpl:173
+#: core/templates/messages.tmpl:177
 msgid "You are also listed in the %1 topic"
 msgstr "您也被列在%1主題中"
 
-#: core/templates/messages.tmpl:408
+#: core/templates/messages.tmpl:412
 msgid "You are denied access to the following topics in the web:"
 msgstr "在本子網中，您禁止瀏覽在以下主題:"
 
-#: core/templates/messages.tmpl:540
+#: core/templates/messages.tmpl:544
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -3550,31 +3692,31 @@ msgstr ""
 "您想建立子網範本（建立新子網用的子網），子網名稱必須始於下劃線，且之後只用英"
 "文字母及數字。"
 
-#: core/templates/messages.tmpl:618
+#: core/templates/messages.tmpl:622
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr "%1 的附件不存在。"
 
-#: core/templates/messages.tmpl:606
+#: core/templates/messages.tmpl:610
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "您將建立的主題，其範本並不存在。"
 
-#: core/templates/messages.tmpl:601
+#: core/templates/messages.tmpl:605
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action '%"
 "1')."
 msgstr "您將處理的主題並不存在（處理 %1）。"
 
-#: core/templates/messages.tmpl:612
+#: core/templates/messages.tmpl:616
 msgid "You are trying to rename a topic that does not exist."
 msgstr "您將更名的主題並不存在。"
 
-#: core/templates/messages.tmpl:591
+#: core/templates/messages.tmpl:595
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
 msgstr "若有授權，您可以 [[%1][建立新子網]]。如有任何問題，聯繫 %2。"
 
-#: core/templates/messages.tmpl:143
+#: core/templates/messages.tmpl:147
 msgid ""
 "You can also use the names of the standard HTML colors (black, silver, gray, "
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
@@ -3602,7 +3744,7 @@ msgstr "因為您的瀏覽器未啟用 Cookies 或 Javascript，您將無法手�
 msgid "You cannot register on this site."
 msgstr "您不能在本站註冊。"
 
-#: core/templates/messages.tmpl:273
+#: core/templates/messages.tmpl:277
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "您不能註冊 2 次，%1 已經註冊過。"
 
@@ -3615,24 +3757,24 @@ msgstr ""
 "您能在您的使用者主題表單的電子信箱欄位變更您的電子信箱。若這個欄位不存在，請"
 "尋找像這樣的一行設定: "
 
-#: core/templates/messages.tmpl:158 core/templates/messages.tmpl:167
-#: core/templates/messages.tmpl:248
+#: core/templates/messages.tmpl:162 core/templates/messages.tmpl:171
+#: core/templates/messages.tmpl:252
 msgid "You have *not* been registered."
 msgstr "您*尚未*註冊。"
 
-#: core/templates/messages.tmpl:384
+#: core/templates/messages.tmpl:388
 msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr "若覺得設定不適合您的環境，請通知管理員協助修改。"
 
-#: core/templates/messages.tmpl:627
+#: core/templates/messages.tmpl:631
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
 msgstr "您已點擊曾經瀏覽過的註冊驗證連結。"
 
-#: core/templates/messages.tmpl:188
+#: core/templates/messages.tmpl:192
 msgid "You may need to close your browser to make this change take effect."
 msgstr "您需關閉瀏覽器，使變更生效。"
 
@@ -3640,19 +3782,19 @@ msgstr "您需關閉瀏覽器，使變更生效。"
 msgid "You must pass a topic name."
 msgstr "您必須輸入主題名稱。"
 
-#: core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:465
 msgid "You need to specify a valid group name to add users to a group."
 msgstr "您必須指定有效的群組才能將使用者加入群組。"
 
-#: core/templates/messages.tmpl:499
+#: core/templates/messages.tmpl:503
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr "您必須指定有效的群組才能將使用者移除群組。"
 
-#: core/templates/messages.tmpl:456
+#: core/templates/messages.tmpl:460
 msgid "You need to specify a valid user to add to a group."
 msgstr "您必須指定有效的使用者才能加入群組。"
 
-#: core/templates/messages.tmpl:494
+#: core/templates/messages.tmpl:498
 msgid "You need to specify a valid user to remove from a group."
 msgstr "您必須指定有效的使用者才能移除群組。"
 
@@ -3675,7 +3817,7 @@ msgstr ""
 "將在您的用戶主題的表單中尋找電子信箱的欄位。若這個表單不存在，它將尋找以下這"
 "行: "
 
-#: core/templates/messages.tmpl:371
+#: core/templates/messages.tmpl:375
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "或許您需要詢問管理員 %1 以進行這個工作。"
 
@@ -3685,7 +3827,7 @@ msgstr "或許您需要詢問管理員 %1 以進行這個工作。"
 msgid "Your %1.LoginName"
 msgstr "您的 %1.LoginName"
 
-#: core/templates/messages.tmpl:212
+#: core/templates/messages.tmpl:216
 msgid ""
 "Your activation code has been sent to %1.  Either click on the link in your "
 "e-mail or enter the code in the box below to activate your membership. (This "
@@ -3728,11 +3870,11 @@ msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
 msgstr "您在 %2 內的個人 %1 主題。可按您的習慣修改。 "
 
-#: core/templates/messages.tmpl:171
+#: core/templates/messages.tmpl:175
 msgid "Your personal Foswiki topic %1 has been created"
 msgstr "已建立您的個人主題 %1"
 
-#: core/templates/messages.tmpl:205
+#: core/templates/messages.tmpl:209
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
@@ -3744,7 +3886,7 @@ msgid ""
 "notifications of password changes."
 msgstr "系統會將郵件寄到您註冊的電子信箱，如：密碼變更通知。"
 
-#: core/templates/messages.tmpl:255
+#: core/templates/messages.tmpl:259
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
@@ -3758,7 +3900,7 @@ msgstr "複製/貼上您的簽名"
 msgid "Your signature to copy/paste:"
 msgstr "複製/貼上您的簽名:"
 
-#: core/templates/messages.tmpl:196
+#: core/templates/messages.tmpl:200
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
@@ -3772,7 +3914,7 @@ msgstr "您的用戶名稱已從認證系統刪除。"
 msgid "Your user topic has not been renamed. Please e-mail %1 to request this."
 msgstr "您的用戶主題尚未更名。請用電子郵件向 %1 申請。"
 
-#: core/templates/messages.tmpl:358
+#: core/templates/messages.tmpl:362
 msgid "[[%1][Debug topic text]]."
 msgstr "[[%1][主題內文除錯]]。"
 
@@ -3782,31 +3924,31 @@ msgid ""
 msgstr "[3 個空格] * [空格] Set [空格] VARIABLENAME [空格] = [值]"
 
 # please enter the name of your language here (written in the native language):
-#: core/lib/Foswiki/I18N.pm:318
+#: core/lib/Foswiki/I18N.pm:324
 msgid "_language_name"
 msgstr "正體中文"
 
-#: core/lib/Foswiki/Meta.pm:1708
+#: core/lib/Foswiki/Meta.pm:1817
 msgid "access denied on root"
 msgstr "禁止瀏覽根目錄"
 
-#: core/lib/Foswiki/Meta.pm:1646
+#: core/lib/Foswiki/Meta.pm:1755
 msgid "access denied on topic"
 msgstr "禁止瀏覽主題"
 
-#: core/lib/Foswiki/Meta.pm:1681
+#: core/lib/Foswiki/Meta.pm:1790
 msgid "access denied on web"
 msgstr "禁止瀏覽子網"
 
-#: core/lib/Foswiki/Meta.pm:1718
+#: core/lib/Foswiki/Meta.pm:1827
 msgid "access not allowed on root"
 msgstr "不允許瀏覽根目錄"
 
-#: core/lib/Foswiki/Meta.pm:1665
+#: core/lib/Foswiki/Meta.pm:1774
 msgid "access not allowed on topic"
 msgstr "不允許瀏覽主題"
 
-#: core/lib/Foswiki/Meta.pm:1693
+#: core/lib/Foswiki/Meta.pm:1802
 msgid "access not allowed on web"
 msgstr "不允許瀏覽子網"
 
@@ -3826,32 +3968,22 @@ msgstr "靠 %1"
 msgid "change, update, previous revisions, move, delete..."
 msgstr "變更，更新，前一個版本，移動，刪除..."
 
-#: PatternSkin/templates/renamebase.pattern.tmpl:22
+#: PatternSkin/templates/renamebase.pattern.tmpl:19
 msgid "checkboxes of referenced topics"
 msgstr "勾選參考主題"
 
-#: core/templates/messages.tmpl:435
+#: core/templates/messages.tmpl:439
 msgid "don't forget to check your Topic Settings"
 msgstr "別忘了檢查您的主題設定"
-
-#: HistoryPlugin/templates/oopshistory.tmpl:36
-#: HistoryPlugin/templates/oopshistory.tmpl:46
-msgid "earlier"
-msgstr "更早的"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
 msgid "edit"
 msgstr "編輯"
 
-#: core/templates/messages.tmpl:231
+#: core/templates/messages.tmpl:235
 msgid "fields are required."
 msgstr "必填欄位。"
-
-#: HistoryPlugin/templates/oopshistory.tmpl:36
-#: HistoryPlugin/templates/oopshistory.tmpl:46
-msgid "first"
-msgstr "第一"
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:24
@@ -3870,16 +4002,6 @@ msgstr "源碼模式"
 msgid "indicates mandatory fields"
 msgstr "指出必填欄位"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:36
-#: HistoryPlugin/templates/oopshistory.tmpl:46
-msgid "last"
-msgstr "最後"
-
-#: HistoryPlugin/templates/oopshistory.tmpl:36
-#: HistoryPlugin/templates/oopshistory.tmpl:46
-msgid "later"
-msgstr "較晚"
-
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
 msgstr "管理"
@@ -3897,7 +4019,7 @@ msgid "now %1"
 msgstr "現在 %1"
 
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
-#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
@@ -3915,10 +4037,6 @@ msgstr "預覽"
 #: core/data/System/WebChanges.txt:3 core/templates/searchformat.tmpl:15
 msgid "retrieved at %1"
 msgstr "自 %1 找出"
-
-#: HistoryPlugin/templates/oopshistory.tmpl:86
-msgid "revisions up to"
-msgstr "修訂至"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -3972,7 +4090,7 @@ msgstr "title='搜尋 %1 子網中連結至此的主題' accesskey='b'>子網搜
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='並列瀏覽' accesskey='s'>並列(&S)"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:92
+#: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='瀏覽主題' accesskey='v'>瀏覽(&V)"
@@ -3986,11 +4104,7 @@ msgstr "title='瀏覽主題歷史' accesskey='h'>歷史(&H)"
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='檢視源碼' accesskey='v'>檢視源碼(&V)"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:63
-msgid "unchanged sections before and after each change"
-msgstr "每個更改不變章節"
-
-#: core/lib/Foswiki/Macros/GROUPS.pm:29
+#: core/lib/Foswiki/Macros/GROUPS.pm:31
 msgid "user list truncated"
 msgstr "用戶列表被刪節"
 
@@ -4026,6 +4140,30 @@ msgstr "瀏覽"
 msgid "why you are being asked to confirm"
 msgstr "為何您被要求確認"
 
+#~ msgid "Add user"
+#~ msgstr "增加使用者"
+
+#~ msgid "Interweave"
+#~ msgstr "交織"
+
+#~ msgid "More view options:"
+#~ msgstr "更多瀏覽選項:"
+
+#~ msgid "Show"
+#~ msgstr "顯示"
+
+#~ msgid "first"
+#~ msgstr "第一"
+
+#~ msgid "last"
+#~ msgstr "最後"
+
+#~ msgid "later"
+#~ msgstr "較晚"
+
+#~ msgid "revisions up to"
+#~ msgstr "修訂至"
+
 #~ msgid "the Cross-site request forgery article on Wikipedia"
 #~ msgstr "維基百科有關跨站偽請求的文章"
 
@@ -4034,9 +4172,6 @@ msgstr "為何您被要求確認"
 
 #~ msgid "Edit text"
 #~ msgstr "編輯文本"
-
-#~ msgid "Edit this topic text"
-#~ msgstr "編輯這個主題"
 
 #~ msgid "Commenting is disabled when not in view context"
 #~ msgstr "非瀏覽模式，禁止評論"
@@ -4129,9 +4264,6 @@ msgstr "為何您被要求確認"
 
 #~ msgid "Advanced Search"
 #~ msgstr "進階搜尋"
-
-#~ msgid "Changed"
-#~ msgstr "已變更"
 
 #~ msgid "Comments:"
 #~ msgstr "評論:"
