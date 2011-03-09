@@ -52,7 +52,7 @@ Include meta navigation with:
     "%TOPIC%" section="topbarbutton"
     ID="" DESTWEB="Download" DESTTOPIC="WebHome" LABEL="Download"
 }%
-</ul><br class="foswikiClear" /></div>%ENDSECTION{"main"}%
+</ul><div class="foswikiClear"></div></div>%ENDSECTION{"main"}%
 
 
 %STARTSECTION{"topbarbutton"}%<li%IF{
@@ -76,7 +76,7 @@ Include meta navigation with:
     then='<li>%LOGOUT%</li>'
 }%%IF{
     "$ LOGIN != '' and not context authenticated"
-    then='<li>You are visiting this site as: [[%WIKIUSERNAME%][%WIKINAME%]]</li>
+    then='<li>Hello [[%WIKIUSERNAME%][%WIKINAME%]]</li>
         <li>%LOGIN% %IF{
             "context registration_supported AND context registration_enabled"
             then="%MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]"
