@@ -18,10 +18,6 @@ Include meta navigation with:
 %STARTSECTION{"main"}%<div id="patternTopBarButtons"><ul>
 %INCLUDE{
     "%TOPIC%" section="topbarbutton"
-    ID="" DESTWEB="Home" DESTTOPIC="WebHome" LABEL="Home"
-}%
-%INCLUDE{
-    "%TOPIC%" section="topbarbutton"
     ID="" DESTWEB="About" DESTTOPIC="WebHome" LABEL="About"
 }%
 %INCLUDE{
