@@ -81,6 +81,17 @@ sub set_up {
         $this->{test_user_2_surname}, $this->{test_user_2_email}
     );
 
+    $this->{test_user_3_forename} = 'Duck';
+    $this->{test_user_3_surname}  = 'Dodgers';
+    $this->{test_user_3_wikiname} =
+      $this->{test_user_3_forename} . $this->{test_user_3_surname};
+    $this->{test_user_3_login} = 'duck';
+    $this->{test_user_3_email} = 'dodgers@example.com';
+    $this->registerUser(
+        $this->{test_user_3_login},   $this->{test_user_3_forename},
+        $this->{test_user_3_surname}, $this->{test_user_3_email}
+    );
+
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm1',
         $testform1, undef );
@@ -105,6 +116,7 @@ sub set_up {
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $Foswiki::cfg{WebPrefsTopicName}, <<CONTENT);
    * Set WEBFORMS = TestForm1,TestForm2,TestForm3,TestForm4
+   * Set DENYWEBCHANGE = DuckDodgers
 CONTENT
     $topicObject->save();
 
@@ -297,6 +309,46 @@ sub test_simpleTextSave {
     my $text = $meta->text;
     $this->assert_matches( qr/CORRECT/, $text );
     $this->assert_null( $meta->get('FORM') );
+}
+
+sub test_simpleTextSaveDeniedWebCHANGE {
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            text   => ['CORRECT'],
+            action => ['save'],
+            topic  => [ $this->{test_web} . '.DeleteTestSaveScriptTopic3' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_3_login}, $query );
+
+    my $exception;
+    try {
+        $this->captureWithKey( save => $UI_FN, $this->{session} );
+    }
+    catch Foswiki::OopsException with {
+        $exception = shift;
+        if (   ( "attention" eq $exception->{template} )
+            && ( "thanks" eq $exception->{def} ) )
+        {
+            print STDERR "---------".$exception->stringify()."\n" if ($Error::Debug);
+            $exception = undef;    #the only correct answer
+        }
+    }
+    catch Foswiki::AccessControlException with {
+        $exception = shift;
+    }
+    catch Error::Simple with {
+        $exception = shift;
+    }
+    otherwise {
+        $exception = new Error::Simple();
+    };
+
+    $this->assert_matches( qr/AccessControlException: Access to CHANGE TemporarySaveTestWebSave. for duck is denied. access denied on web/, $exception );
+    $this->assert( !$this->{session}->topicExists( $this->{test_web},
+        'DeleteTestSaveScriptTopic3'  ) );
 }
 
 sub test_templateTopicTextSave {
