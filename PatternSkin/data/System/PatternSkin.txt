@@ -168,7 +168,7 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
-|  10 Mar 2011: | v.5.4.9: Visual fixes for Fatwilly theme. |
+|  11 Mar 2011: | v.5.4.10: Visual fixes for Fatwilly theme. |
 |  06 Mar 2011: | v.5.4.8: Now that !TablePlugin styles are not automatically loaded to every page, header style needs a small change. |
 |  30 Dec 2010: | v.5.4.7: Added custom login.sudo template. |
 |  26 Dec 2010: | v.5.4.6: Clean up templates regarding =foswikiFormStep= elements. |
