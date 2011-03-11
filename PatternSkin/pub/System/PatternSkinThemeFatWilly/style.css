@@ -73,10 +73,9 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited,
 	text-decoration:none;
 }
 
-#foswikisiteUserBar a:hover {
+#foswikisiteUserBar:hover a:hover {
 	text-decoration:underline;
 }
-
 
 .twistyTrigger a:link,
 .twistyTrigger a:visited,
@@ -288,7 +287,7 @@ th {
 
 #foswikiLogin {
 	margin:0 auto;
-	text-align:center;
+	text-align:left;
 	width:44em;
 }
 
@@ -405,6 +404,9 @@ th {
 #patternBottomBarContents {
 	padding:1em 0 2em;
 }
+#patternBottomBarContents:hover a:hover {
+	text-decoration:underline;
+}
 
 #patternMainContents {
 	border-style:none;
@@ -431,8 +433,6 @@ th {
 
 #patternSideBarContents .patternLeftBarPersonal,
 #patternSideBarContents .patternWebIndicator {
-	border-style:none none solid;
-	border-width:1px;
 	margin:0 -1em .75em;
 	padding:.5em 1em .75em;
 }
@@ -656,7 +656,7 @@ table.foswikiFormTable {
 	border-style:solid;
 }
 .foswikiFormStep {
-	padding:12px 20px;
+	padding:10px 20px;
 	margin:-1px -20px -1px -20px;
 	border-width:1px;
 	border-style:solid none;
@@ -1076,17 +1076,8 @@ table.foswikiFormTable {
 	font-size:94%;
 	white-space:nowrap;
 }
-
-.patternHomePath .patternRevInfo a:hover {
-	border-style:none none solid;
-	border-width:1px;
-}
-
-.patternHomePath a:link,
-.patternHomePath a:visited {
-	border-style:none none solid;
-	border-width:1px;
-	text-decoration:none;
+.patternHomePath:hover a:hover {
+	text-decoration:underline;
 }
 
 .patternContent {
@@ -1325,7 +1316,7 @@ table.foswikiFormTable {
 }
 
 .tipsOfTheDay {
-	padding:10px;
+	padding:10px 0;
 }
 
 
