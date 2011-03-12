@@ -59,7 +59,7 @@ By default all queries are performed on the _latest_ version of a topic. If you 
    * =versions=
       * _for each older version (*most recent first*)_
          * _repeat of all the above fields_ (except =versions=).
-         * See [[#Working_with_Versions][Working with Versions]] for more details.
+         * See [[#Working_with_Versions][Working with versions]] for more details.
 
 See MetaData for details of what all these entries mean. Note that the set
 of meta-data types (and the aliases used to refer to them) may be extended
@@ -169,7 +169,7 @@ When a query is applied to a topic, the goal is to reduce to a TRUE or FALSE val
 
 A query matches if the query returns one or more values when it is applied to the topic. So if I have a very simple query, such as ="attachments"=, then this will return TRUE for all topics that have one or more attachments. If I write ="attachments[size>1024 AND name ~ '*.gif']"= then it will return TRUE for all topics that have at least one attachment larger than 1024 bytes with a name ending in =.gif=.
 
----++ Working with Arrays
+---++ Working with arrays
 A number of fields in a topic are _arrays_, meaning that they refer to a list of values rather than a single value. Arrays are accessed using the square brackets ([]) and dot (.) operators.
 
 The square brackets operator is actually a bit more clever than a simple query or array index. You can use the _comma_ =,= operator inside the brackets to select a number of matching elements. For example,
@@ -186,7 +186,7 @@ Note that if 'RoaldDahl' authored the first revision, then you will get that rev
 
 When the dot operator is applied to an array, it is applied to each element of the array, and the result is a new array containing the results of each application.
 
----++ Working with Versions
+---++ Working with versions
 The =versions= field is mainly used with =[[VarQUERY][%<nop>QUERY]]= to provide a powerful view into the history of a topic. It is an [[#Working_with_Arrays][array]] of objects, one for each revision of the topic (including the most recent), where the most recent revision is in position [0] in the array, and the second most recent in [1] etc. You can use the =versions= field to select old versions based on a query. For example,
 <verbatim>
 versions[info.author='RoaldDahl']
