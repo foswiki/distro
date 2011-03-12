@@ -2545,6 +2545,41 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
+# Item10471
+#------------------------------------
+# non-PAGING with limit= should apply a per-web limit
+sub verify_non_paging_with_limit {
+    my $this = shift;
+
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    ".*"
+    type="regex"
+    web="System,Main,Sandbox"
+    topic="WebPreferences"
+    scope="text"
+    nonoise="on"
+    format="$web.$topic"
+    limit="1"
+    footer="FOOT($ntopics,$nhits)$n()"
+}%'
+    );
+
+    my $expected = <<EXPECT;
+System.WebPreferences
+
+FOOT(1,1)
+Main.WebPreferences
+
+FOOT(1,1)
+Sandbox.WebPreferences
+
+FOOT(1,1)
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+}
+
 #------------------------------------
 # PAGING with limit= does weird things.
 sub test_paging_with_limit_first_page {
