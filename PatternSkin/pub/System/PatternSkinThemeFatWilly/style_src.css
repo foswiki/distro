@@ -598,7 +598,7 @@ table.foswikiFormTable {
 }
 
 .foswikiBroadcastMessage {
-	margin:0;
+	margin:-20px 0 20px 0;
 }
 
 .foswikiBroadcastMessage,
@@ -639,7 +639,7 @@ table.foswikiFormTable {
 	border-style:solid;
 }
 .foswikiFormStep {
-	padding:15px 20px;
+	padding:10px 20px;
 	margin:-1px -20px -1px -20px;
 	border-width:1px;
 	border-style:solid none;
@@ -783,7 +783,7 @@ table.foswikiFormTable {
 	border-style:solid;
 }
 .foswikiTable {
-	margin:2px 0;
+	margin:5px 0;
 	border-collapse:collapse;
 }
 .foswikiTable td {
