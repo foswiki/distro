@@ -12,6 +12,10 @@ my @required = (
         name  => 'Locale::Maketext::Lexicon',
         usage => 'I18N translations',
     },
+    {
+        name  => 'Locale::Msgfmt',
+        usage => 'I18N Language file compression',
+    },
 );
 
 my @perl56 = (
@@ -61,6 +65,49 @@ sub check {
     else {
         $n .= $this->checkPerlModules( 0, \@perl56 );
     }
+
+    # If Internalization is enabled, compile the .po files into .mo files
+    # for all enabled languages.
+    #
+    if ( $Foswiki::cfg{UserInterfaceInternationalisation} ) {
+        eval "require Locale::Msgfmt";
+        if ($@) {
+            $n .= $this->WARN(
+"Cannot compile language files - error loading 'Locale::Msgfmt'\n"
+            );
+        }
+        else {
+            my $compMsgs = '';
+            my $svUmask =
+              umask( oct(777) - $Foswiki::cfg{RCS}{filePermission} );
+            foreach my $lang ( keys %{ $Foswiki::cfg{Languages} } ) {
+                if ( $Foswiki::cfg{Languages}{$lang}{Enabled}
+                    && -e "$Foswiki::cfg{LocalesDir}/$lang.po" )
+                {
+                    next
+                      if (
+                        -e "$Foswiki::cfg{LocalesDir}/$lang.mo"
+                        && ( -M "$Foswiki::cfg{LocalesDir}/$lang.po" >=
+                            -M "$Foswiki::cfg{LocalesDir}/$lang.mo" )
+                      );
+                    $compMsgs .= "Compiling $lang.po into $lang.mo <br/>\n";
+                    Locale::Msgfmt::msgfmt(
+                        {
+                            in      => "$Foswiki::cfg{LocalesDir}/$lang.po",
+                            out     => "$Foswiki::cfg{LocalesDir}/$lang.mo",
+                            verbose => 0
+                            , # verbose is not documented, but prints results to STDERR
+                        }
+                    );
+                }
+            }
+            umask($svUmask);    # Restore modified umask
+            $n .= $this->NOTE(
+                "<b>Compiling modified Language files</b><br/>\n$compMsgs")
+              if $compMsgs;
+        }
+    }
+
     return $n;
 }
 
