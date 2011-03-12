@@ -170,13 +170,12 @@ sub test_compatibility1 {
     # The wikiname must be for a user who is in WikiUsers.
     # This test is specific to the "traditional" text database implementation,
     # either RcsWrap or RcsLite.
-    if (   $Foswiki::cfg{Store}{Implementation} !~ /Rcs(Lite|Wrap)$/ )
-    {
+    if ( $Foswiki::cfg{Store}{Implementation} !~ /Rcs(Lite|Wrap)$/ ) {
         return;
     }
     my $topicObject =
-      Foswiki::Meta->new(
-          $this->{session}, $this->{test_web}, 'CrikeyMoses', <<'HERE');
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'CrikeyMoses',
+        <<'HERE');
 %META:TOPICINFO{author="ScumBag" date="1120846368" format="1.1" version="$Rev$"}%
 HERE
     $topicObject->save();
@@ -195,13 +194,12 @@ sub test_compatibility2 {
     # The login must be for a user who is in WikiUsers.
     # This test is specific to the "traditional" text database implementation,
     # either RcsWrap or RcsLite.
-    if (   $Foswiki::cfg{Store}{Implementation} !~ /Rcs(Lite|Wrap)$/ )
-    {
+    if ( $Foswiki::cfg{Store}{Implementation} !~ /Rcs(Lite|Wrap)$/ ) {
         return;
     }
     my $topicObject =
-      Foswiki::Meta->new(
-          $this->{session}, $this->{test_web}, 'CrikeyMoses', <<'HERE');
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'CrikeyMoses',
+        <<'HERE');
 %META:TOPICINFO{author="scum" date="1120846368" format="1.1" version="$Rev$"}%
 HERE
     $topicObject->save();
@@ -220,8 +218,7 @@ sub test_5873 {
     # The login must be for a user who does not exist.
     # This test is specific to the "traditional" text database implementation,
     # either RcsWrap or RcsLite.
-    if (   $Foswiki::cfg{Store}{Implementation} !~ /Rcs(Lite|Wrap)$ / )
-    {
+    if ( $Foswiki::cfg{Store}{Implementation} !~ /Rcs(Lite|Wrap)$ / ) {
         return;
     }
     $this->assert(
@@ -270,12 +267,10 @@ sub test_42 {
 #so I've removed it.
 sub test_CaseSensitiveFormatString {
     my $this = shift;
-     
+
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'GlumDrop' );
-    my $ui = $topicObject->expandMacros(
-            '%REVINFO{format="$DATE"}%',
-    );
+    my $ui = $topicObject->expandMacros( '%REVINFO{format="$DATE"}%', );
     $this->assert_str_equals( '$DATE', $ui );
 }
 
@@ -283,15 +278,7 @@ sub test_CaseSensitiveFormatString {
 sub test_Item9538 {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'BlessMySoul' );
-    $topicObject->save(); # rev 1
-    $topicObject->text("Spontaneous eructation");
-    $topicObject->save(forcenewrevision => 1); # rev 2
-    $topicObject->text("Inspired delusion");
-    $topicObject->save(forcenewrevision => 1); # rev 3
-    $topicObject->text("Painful truth");
-    $topicObject->save(forcenewrevision => 1); # rev 4
+    my $topicObject = $this->_createHistory();
 
     my $ui = $topicObject->expandMacros(<<'OFNIVER');
 %REVINFO{"$rev" rev="1"}%
@@ -315,20 +302,60 @@ BlessMySoul 4
 OFNIVER
 
     my $t = $topicObject->expandMacros('%REVINFO{"$epoch"}%');
-    $this->assert($t =~ /^\d+$/ && $t != 0, $t);
+    $this->assert( $t =~ /^\d+$/ && $t != 0, $t );
 
-    my $x = Foswiki::Time::formatTime($t, '$hour:$min:$sec');
+    my $x = Foswiki::Time::formatTime( $t, '$hour:$min:$sec' );
     my $y = $topicObject->expandMacros('%REVINFO{"$time"}%');
-    $x = Foswiki::Time::formatTime($t, $Foswiki::cfg{DefaultDateFormat});
+    $x = Foswiki::Time::formatTime( $t, $Foswiki::cfg{DefaultDateFormat} );
     $y = $topicObject->expandMacros('%REVINFO{"$date"}%');
 
     foreach my $f qw(rcs http email iso longdate sec min hou day wday
-                   dow week mo ye epoch tz) {
-        my $tf = '$'.$f;
-        $x = Foswiki::Time::formatTime($t, $tf);
-        $y = $topicObject->expandMacros("%REVINFO{\"$tf\"}%");
-        $this->assert_str_equals($x, $y);
-    }
+      dow week mo ye epoch tz) {
+        my $tf = '$' . $f;
+          $x = Foswiki::Time::formatTime( $t, $tf );
+          $y = $topicObject->expandMacros("%REVINFO{\"$tf\"}%");
+          $this->assert_str_equals( $x, $y );
+      };
 }
 
+# test for combinations of format strings
+sub test_Item10476 {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $format =
+'sec=$sec, seconds=$seconds, min=$min, minutes=$minutes, hou=$hou, hours=$hours, day=$day, wday=$wday, dow=$dow, week=$week, month=$month, mo=$mo, ye=$ye, year=$year, ye=$ye, tz=$tz, iso=$iso, isotz=$isotz, rcs=$rcs, http=$http, epoch=$epoch, longdate=$longdate';
+
+    my $ui = $topicObject->expandMacros( '%REVINFO{"' . $format . '"}%' );
+
+    my $epoch = $topicObject->expandMacros('%REVINFO{"$epoch"}%');
+    my $expected = Foswiki::Time::formatTime( $epoch, $format );
+    $this->assert_str_equals( $ui, $expected );
+}
+
+sub _createHistory {
+    my ( $this, $topic, $num ) = @_;
+
+    $topic ||= 'BlessMySoul';
+    $num   ||= 4;
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    $topicObject->save();    # rev 1
+
+    my @texts = [
+        'Spontaneous eructation',
+        'Inspired delusion',
+        'Painful truth',
+        'Shitload of money'
+    ];
+    my @versionTexts = @texts[ 1 .. $num - 1 ];
+
+    foreach my $text (@versionTexts) {
+        $topicObject->text($text);
+        $topicObject->save( forcenewrevision => 1 );
+    }
+
+    return $topicObject;
+}
 1;
