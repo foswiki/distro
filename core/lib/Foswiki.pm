@@ -1157,7 +1157,7 @@ sub redirect {
             param1   => 'redirect',
             param2   => 'unsafe redirect to ' 
               . $url
-              . ': host does not match {DefaultUrlHost} , and is not in {PermittedRedirectHostUrls}"'
+              . ': host does not match {DefaultUrlHost} , and is not in {PermittedRedirectHostUrls} "'
               . $Foswiki::cfg{DefaultUrlHost} . '"'
         );
     }
