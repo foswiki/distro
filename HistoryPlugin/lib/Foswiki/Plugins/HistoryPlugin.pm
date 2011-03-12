@@ -12,9 +12,9 @@ use Foswiki::AccessControlException ();
 use vars qw( $VERSION $RELEASE $NO_PREFS_IN_TOPIC $SHORTDESCRIPTION);
 
 $VERSION           = '$Rev: 15950 $';
-$RELEASE           = '1.7';
+$RELEASE           = '1.8';
 $NO_PREFS_IN_TOPIC = 1;
-$SHORTDESCRIPTION  = 'Shows a complete history of a document';
+$SHORTDESCRIPTION  = 'Shows a complete history of a topic';
 
 # =========================
 sub initPlugin {
@@ -108,6 +108,7 @@ sub handleHistory {
         $revinfo =~ s/\$topic/$topic/g;
         $revinfo =~ s/\$rev/$rev/g;
         $revinfo =~ s/\$date/Foswiki::Func::formatTime($date)/ge;
+        $revinfo =~ s/\$(year|ye|week|web|wday|tz|topic|time|seconds|rev|rcs|month|mo|minutes|longdate|isotz|iso|http|hours|epoch|email|dow|day)/_formatTime("\$$1", $topic, $web)/ge;
         $revinfo =~ s/\$username/$user/g;
         $revinfo =~ s/\$wikiname/$wikiName/g;
         $revinfo =~ s/\$wikiusername/$wikiUserName/g;
@@ -125,6 +126,12 @@ sub handleHistory {
     $out = Foswiki::Func::decodeFormatTokens($out);
 
     return $out;
+}
+
+sub _formatTime {
+	my ($format, $topic, $web) = @_;
+	
+	return Foswiki::Func::expandCommonVariables('%REVINFO{"' . $format . '"}%', $topic, $web);
 }
 
 sub handleHeadFoot {
@@ -192,7 +199,7 @@ sub handleHeadFoot {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -1,4 +1,5 @@
 data/System/HistoryPlugin.txt 0644
+data/System/VarHISTORY.txt 0644
 lib/Foswiki/Plugins/HistoryPlugin.pm 0444
 pub/System/HistoryPlugin/screenshot.png 0644
 templates/oopshistory.tmpl 0444
