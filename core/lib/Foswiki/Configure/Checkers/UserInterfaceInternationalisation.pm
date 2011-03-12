@@ -80,6 +80,7 @@ sub check {
             my $compMsgs = '';
             my $svUmask =
               umask( oct(777) - $Foswiki::cfg{RCS}{filePermission} );
+
             foreach my $lang ( keys %{ $Foswiki::cfg{Languages} } ) {
                 if ( $Foswiki::cfg{Languages}{$lang}{Enabled}
                     && -e "$Foswiki::cfg{LocalesDir}/$lang.po" )
@@ -90,6 +91,19 @@ sub check {
                         && ( -M "$Foswiki::cfg{LocalesDir}/$lang.po" >=
                             -M "$Foswiki::cfg{LocalesDir}/$lang.mo" )
                       );
+                    if (
+                        !$Foswiki::cfg{LanguageFileCompression}
+                        &&   -e "$Foswiki::cfg{LocalesDir}/$lang.mo"
+                        && ( -M "$Foswiki::cfg{LocalesDir}/$lang.po" <
+                            -M "$Foswiki::cfg{LocalesDir}/$lang.mo" )
+                      )
+                    {
+                        $n .= $this->WARN(
+"Stale language file $Foswiki::cfg{LocalesDir}/$lang.mo should be removed - Language file compression is disabled"
+                        );
+                    }
+                    next unless $Foswiki::cfg{LanguageFileCompression};
+
                     $compMsgs .= "Compiling $lang.po into $lang.mo <br/>\n";
                     Locale::Msgfmt::msgfmt(
                         {
@@ -103,7 +117,7 @@ sub check {
             }
             umask($svUmask);    # Restore modified umask
             $n .= $this->NOTE(
-                "<b>Compiling modified Language files</b><br/>\n$compMsgs")
+                "<b>Compiling modified Language files</b> found in $Foswiki::cfg{LocalesDir}<br/>\n$compMsgs")
               if $compMsgs;
         }
     }
