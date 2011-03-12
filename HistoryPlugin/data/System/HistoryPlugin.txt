@@ -2,7 +2,9 @@
 %META:TOPICPARENT{name="Plugins"}%
 ---+ History Plugin
 
-This plugin shows a complete or partial history of a document. The output can arbitrarily be formatted. An example for a Wikipedia-like history is included.
+%$SHORTDESCRIPTION%.
+
+The output can arbitrarily be formatted. An example for a Wikipedia-like history is included.
 
 When using PatternSkin enabling the !HistoryPlugin changes the "History" link in the bottom action bar so it opens a page with a nice user interface where you can select the versions to compare.
 
@@ -15,30 +17,9 @@ If [[Foswiki:Extensions.RevCommentPlugin][RevCommentPlugin]] is installed and ac
 This plugins is designed to work together with !CompareRevisionsAddOn and !RevCommentPlugin but works well on its own or with just one of the two other plugins.
 
 ---++ Syntax Rules
+Syntax: =%<nop>HISTORY{ _attributes_ }%=
 
-   * =%<nop>HISTORY%=
-   * =%<nop>HISTORY{parameters}%= %BR%
-     Supported parameters: %BR%
-     |*Parameter* | *Description* | *Default* |
-     | ="format"= or =format="format"= | Format of one line, may include any variable which is supported by =%<nop>REVINFO%= | <code>"r$rev - $date - $wikiusername"</code> |
-     | =topic="topic"= |Topic name | current topic |
-     | =web="web"= |Web name | current web |
-     | =nrev="nrev"= |Number of revisions to show. Ignored if both =rev1= and =rev2= are specified. | Plugin preference variable =NREV= |
-     | =rev2="rev2"= |Newest revision to show | =rev1+nrev= if =rev1= is specified, latest revision otherwise |
-     | =rev1="rev1"= |Oldest revision to show | =rev2-nrev= |
-     | =reverse="on/off"= |Show newest revisions first, if =on= | ="on"= |
-     | =header="text"= |Text to print before the list. May contain the variables =$next= and =$previous= (see below) | ="$next"= |
-     | =footer="text"= |Text to print after the list. May contain the variables =$next= and =$previous= (see below) | ="$previous"= |
-
-     The parameters _header_ and _footer_ may contain the variables $next and $previous, which will only be evaluated, if there are newer or older revisions available for the topic which are not listed according to _rev1_, _rev2_, _nrev_. These variables take the syntax =$next{'text' url='url'}= (analog for $previous). _text_ is the text which should be printed, _url_ is the url for a corresponding link. The variables $rev1, $rev2, $nrev in _text_ or _url_ will be replaced by appropriate values for the next or previous block of revisions. See the attached =oopshistory.tmpl= for an example of how to use this.
-
-The following variables are replaced only, if there is a corresponding %<nop>HISTORY% on the page. If more than
-one %<nop>HISTORY% is used on the same page, the values from the last one  will be used.
-
-   * =%<nop>HISTORY_REV1%=: Oldest revision from the printed history
-   * =%<nop>HISTORY_REV2%=: Latest revision from the printed history
-   * =%<nop>HISTORY_NREV%=: Number of the printed revisions
-   * =%<nop>HISTORY_MAXREV%=: Latest available revision of the document
+%INCLUDE{"%SYSTEMWEB%.VarHISTORY" section="history_attributes"}%
    
 ---++ Examples
 
@@ -76,11 +57,12 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 -->
 
 |  Plugin Author: | Foswiki:Main.KennethLavrsen |
-|  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2010 Kenneth Lavrsen and Foswiki Contributors | 
+|  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2011 Kenneth Lavrsen and Foswiki Contributors | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  13 Mar 2011: | 1.8 Arthur Clemens: fix rendering of =REVINFO= date and time parameters; add unit tests. |
 |  27 Dec 2010: | 1.7 Arthur Clemens: update of screen layout. |
 |  31 Jul 2010: | 1.6 Paul Harvey: Foswikitask:Item9415 - Documentation updates | 
 |  09 Feb 2009: | 1.5 Kenneth Lavrsen: Small cosmetic updates. Changed the author name to non liked to avoid bogus links to Main.loginname. Changed some CSS names to Foswiki that I missed in 1.4 |

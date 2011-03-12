@@ -1,0 +1,30 @@
+%META:TOPICINFO{author="ProjectContributor" date="1252718616" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="HistoryPlugin"}%
+#VarHISTORY
+---+++ HISTORY{ _attributes_ } -- control attributes of tables and sorting of table columns
+   * The =%<nop>HISTORY{}%= macro is handled by the HistoryPlugin
+   * Syntax: =%<nop>HISTORY{ _attributes_ }%=
+%STARTSECTION{"history_attributes"}%
+%TABLE{tablewidth="100%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
+     | *Argument*         | *Description*  | *Default&nbsp;value*  |
+     | none       | Default layout: a simple list of topic revisions using the default format (see below) | |
+     | ="format"= or =format="format"= | Format of one line, may include any variable which is supported by macro [[%SYSTEMWEB%.VarREVINFO][REVINFO]] | <code>"r$rev - $date - $wikiusername"</code> |
+     | =topic="topic"= |Topic name | current topic |
+     | =web="web"= |Web name | current web |
+     | =nrev="nrev"= |Number of revisions to show. Ignored if both =rev1= and =rev2= are specified. | Plugin preference variable =NREV= |
+     | =rev2="rev2"= |Newest revision to show | =rev1+nrev= if =rev1= is specified, latest revision otherwise |
+     | =rev1="rev1"= |Oldest revision to show | =rev2-nrev= |
+     | =reverse="on/off"= |Show newest revisions first, if =on= | ="on"= |
+     | =header="text"= |Text to print before the list. May contain the variables =$next= and =$previous= (see below) | ="$next"= |
+     | =footer="text"= |Text to print after the list. May contain the variables =$next= and =$previous= (see below) | ="$previous"= |
+
+     The parameters _header_ and _footer_ may contain the variables $next and $previous, which will only be evaluated, if there are newer or older revisions available for the topic which are not listed according to _rev1_, _rev2_, _nrev_. These variables take the syntax =$next{'text' url='url'}= (analog for $previous). _text_ is the text which should be printed, _url_ is the url for a corresponding link. The variables $rev1, $rev2, $nrev in _text_ or _url_ will be replaced by appropriate values for the next or previous block of revisions. See the attached =oopshistory.tmpl= for an example of how to use this.
+
+The following variables are replaced only, if there is a corresponding %<nop>HISTORY% on the page. If more than
+one %<nop>HISTORY% is used on the same page, the values from the last one  will be used.
+
+   * =%<nop>HISTORY_REV1%=: Oldest revision from the printed history
+   * =%<nop>HISTORY_REV2%=: Latest revision from the printed history
+   * =%<nop>HISTORY_NREV%=: Number of the printed revisions
+   * =%<nop>HISTORY_MAXREV%=: Latest available revision of the document
+%ENDSECTION{"history_attributes"}%
