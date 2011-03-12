@@ -384,7 +384,7 @@ sub test_format {
     my $date        = $this->_getDate($topicObject);
 
     my $epoch    = $topicObject->{TOPICINFO}->[0]->{date};
-    my $time     = Foswiki::Time::formatTime( $epoch, '$hour:$min' );
+    my $time     = Foswiki::Time::formatTime( $epoch, '$hour:$min:$sec' );
     my $seconds  = Foswiki::Time::formatTime( $epoch, '$seconds' );
     my $minutes  = Foswiki::Time::formatTime( $epoch, '$minutes' );
     my $hours    = Foswiki::Time::formatTime( $epoch, '$hour' );
@@ -409,11 +409,11 @@ sub test_format {
         $topicObject->{topic}, $topicObject->{web} );
 
     my $expected = <<EXPECTED;
-<br /><noautolink>web=TemporaryHistoryPluginTestWebHistoryPlugin, topic=BlessMySoul, rev=1, username=ScumBag, ScumBag=ScumBag, wikiusername=TemporaryHistoryPluginUsersWeb.ScumBag, seconds=$seconds, minutes=$minutes, hours=$hours, day=$day, wday=$wday, dow=$dow, week=$week, month=$month, mo=$mo, year=$year, ye=$ye, tz=$tz, iso=$iso, rcs=$rcs, http=$http, epoch=$epoch, longdate=$longdate</noautolink>
+<br /><noautolink>web=TemporaryHistoryPluginTestWebHistoryPlugin, topic=BlessMySoul, rev=1, username=ScumBag, ScumBag=ScumBag, wikiusername=TemporaryHistoryPluginUsersWeb.ScumBag, date=$date, time=$time, seconds=$seconds, minutes=$minutes, hours=$hours, day=$day, wday=$wday, dow=$dow, week=$week, month=$month, mo=$mo, year=$year, ye=$ye, tz=$tz, iso=$iso, rcs=$rcs, http=$http, epoch=$epoch, longdate=$longdate</noautolink>
 EXPECTED
 
     my $actual = $topicObject->expandMacros(
-'%HISTORY{format="<noautolink>web=$web, topic=$topic, rev=$rev, username=$username, $wikiname=$wikiname, wikiusername=$wikiusername, date=$date, time=$time '
+'%HISTORY{format="<noautolink>web=$web, topic=$topic, rev=$rev, username=$username, $wikiname=$wikiname, wikiusername=$wikiusername, date=$date, time=$time, '
           . $revInfoFormat
           . '</noautolink>"}%' );
 
