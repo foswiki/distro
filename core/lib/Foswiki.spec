@@ -771,7 +771,7 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 $Foswiki::cfg{UserInterfaceInternationalisation} = $FALSE;
 
 # **BOOLEAN EXPERT**
-# <p>Enable complation of .po string files into compressed .mo files.
+# <p>Enable compilation of .po string files into compressed .mo files.
 # This results in a significant performance improvement for I18N, but if the
 # string files are being edited, it requires that configure be rerun to recompile
 # modified files.  Disable this option to prevent compling of string files.  If disabled,
