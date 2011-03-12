@@ -129,7 +129,7 @@ sub parseTime {
         # undef, resulting in a mad $tzadj. So we simply offset the
         # base by 24 hours (86400 seconds). The params are simply the
         # result of gmtime(86400);
-        $tzadj = 86400 - Time::Local::timelocal(0, 0, 0, 2, 0, 70, 5, 1, 0);
+        $tzadj = 86400 - Time::Local::timelocal( 0, 0, 0, 2, 0, 70, 5, 1, 0 );
     }
 
     # try "31 Dec 2001 - 23:59"  (Foswiki date)
@@ -232,14 +232,14 @@ sub parseTime {
 ---++ StaticMethod formatTime ($epochSeconds, $formatString, $outputTimeZone) -> $value
 
    * =$epochSeconds= epochSecs GMT
-   * =$formatString= twiki time date format, default =$day $month $year - $hour:$min=
+   * =$formatString= Foswiki time date format, default =$day $month $year - $hour:$min=
    * =$outputTimeZone= timezone to display, =gmtime= or =servertime=, default is whatever is set in $Foswiki::cfg{DisplayTimeValues}
 
 =$formatString= supports:
    | $seconds | secs |
    | $minutes | mins |
    | $hours | hours |
-   | $day | date |
+   | $day | day |
    | $wday | weekday name |
    | $dow | day number (0 = Sunday) |
    | $week | week number (ISO 8601) |
@@ -263,7 +263,7 @@ sub formatTime {
     my $value = $epochSeconds;
 
     # use default Foswiki format "31 Dec 1999 - 23:59" unless specified
-    $formatString   ||= 'longdate';
+    $formatString   ||= '$longdate';
     $outputTimeZone ||= $Foswiki::cfg{DisplayTimeValues};
 
     if ( $formatString =~ /http|email/i ) {
@@ -280,27 +280,28 @@ sub formatTime {
           gmtime($epochSeconds);
     }
 
-    #standard twiki date time formats
-    if ( $formatString =~ /rcs/i ) {
+    #standard Foswiki date time formats
 
-        # RCS format, example: "2001/12/31 23:59:59"
-        $formatString = '$year/$mo/$day $hour:$min:$sec';
-    }
-    elsif ( $formatString =~ /http|email/i ) {
+    # RCS format, example: "2001/12/31 23:59:59"
+    $formatString =~ s/\$rcs/\$year\/\$mo\/\$day \$hour:\$min:\$sec/gi;
 
-        # HTTP and email header format, e.g. "Thu, 23 Jul 1998 07:21:56 EST"
-        # RFC 822/2616/1123
-        $formatString = '$wday, $day $month $year $hour:$min:$sec $tz';
-    }
-    elsif ( $formatString =~ /iso/i ) {
+    # HTTP and email header format, e.g. "Thu, 23 Jul 1998 07:21:56 EST"
+    # RFC 822/2616/1123
+    $formatString =~
+      s/\$(http|email)/\$wday, \$day \$month \$year \$hour:\$min:\$sec \$tz/gi;
 
-        # ISO Format, see spec at http://www.w3.org/TR/NOTE-datetime
-        # e.g. "2002-12-31T19:30:12Z"
-        $formatString = '$year-$mo-$dayT$hour:$min:$sec$isotz';
-    }
-    elsif ( $formatString =~ /longdate/i ) {
-        $formatString = $Foswiki::cfg{DefaultDateFormat} . ' - $hour:$min';
-    }
+    # ISO Format, see spec at http://www.w3.org/TR/NOTE-datetime
+    # e.g. "2002-12-31T19:30:12Z"
+    # Undocumented: formatString='iso'
+    $formatString = '$year-$mo-$dayT$hour:$min:$sec$isotz'
+      if lc($formatString) eq 'iso';
+
+    # Undocumented, but used in renderers: formatString can contain '$iso'
+    $formatString =~ s/\$iso\b/\$year-\$mo-\$dayT\$hour:\$min:\$sec\$isotz/gi;
+
+    # longdate
+    $formatString =~
+      s/\$longdate/$Foswiki::cfg{DefaultDateFormat} - \$hour:\$min/gi;
 
     $value = $formatString;
     $value =~ s/\$seco?n?d?s?/sprintf('%.2u',$sec)/gei;
@@ -627,7 +628,7 @@ sub _parseDuration {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

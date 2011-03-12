@@ -48,6 +48,7 @@ sub list_tests {
         if ($@) {
 
             print "   Warning: can't use tzset on strawberry perl\n";
+
             #print STDERR "error: $@\n";
             return ();
         }
@@ -316,4 +317,17 @@ sub test_week {
     $this->assert_equals( 1, $week );
 }
 
+sub test_parseTimeFormatString {
+    my $this = shift;
+
+    my $format =
+'sec=$sec, seconds=$seconds, min=$min, minutes=$minutes, hou=$hou, hours=$hours, day=$day, wday=$wday, dow=$dow, week=$week, month=$month, mo=$mo, ye=$ye, year=$year, ye=$ye, tz=$tz, iso=$iso, isotz=$isotz, rcs=$rcs, http=$http, epoch=$epoch, longdate=$longdate';
+
+    my $time = Time::Local::timegm( 1, 0, 0, 1, 0, 104 );
+    my $formatted = Foswiki::Time::formatTime( $time, $format );
+    my $expected =
+'sec=01, seconds=01, min=00, minutes=00, hou=00, hours=00, day=01, wday=Thu, dow=4, week=1, month=Jan, mo=01, ye=04, year=2004, ye=04, tz=GMT, iso=2004-01-01T00:00:01Z, isotz=Z, rcs=2004/01/01 00:00:01, http=Thu, 01 Jan 2004 00:00:01 GMT, epoch=1072915201, longdate=01 Jan 2004 - 00:00';
+
+    $this->assert_equals( $expected, $formatted );
+}
 1;

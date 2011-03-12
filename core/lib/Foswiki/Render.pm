@@ -914,7 +914,7 @@ sub renderFORMFIELD {
     return '' unless defined $formField;
     my $altText = $params->{alttext} || '';
     my $default = $params->{default} || '';
-    my $rev     = $params->{rev} || '';
+    my $rev     = $params->{rev}     || '';
     my $format  = $params->{format};
 
     unless ( defined $format ) {
@@ -1374,12 +1374,10 @@ sub _filterScript {
 
 ---++ ObjectMethod TML2PlainText( $text, $topicObject, $opts ) -> $plainText
 
-Clean up TML for display as plain text without pushing it
-through the full rendering pipeline. Intended for generation of
-topic and change summaries. Adds nop tags to prevent
-subsequent rendering; nops get removed at the very end.
-
-Defuses TML.
+Strip TML markup from text for display as plain text without
+pushing it through the full rendering pipeline. Intended for 
+generation of topic and change summaries. Adds nop tags to 
+prevent subsequent rendering; nops get removed at the very end.
 
 $opts:
    * showvar - shows !%VAR% names if not expanded
@@ -1589,7 +1587,6 @@ Obtain and render revision info for a topic.
    | =$web= | the web name |
    | =$topic= | the topic name |
    | =$rev= | the rev number |
-   | =$comment= | the comment |
    | =$username= | the login of the saving user |
    | =$wikiname= | the wikiname of the saving user |
    | =$wikiusername= | the web.wikiname of the saving user |
@@ -1604,17 +1601,16 @@ sub renderRevisionInfo {
     my $value = $format || 'r$rev - $date - $time - $wikiusername';
 
     # nop if there are no format tokens
-    return $value unless $value =~ /\$
-       (comment|date|day|dow|email|epoch|hou|http|iso|longdate
-       |min|mo|rcs|rev|sec|time|topic|tz|username|wday|web|week
-       |wikiname|wikiusername|ye)/x;
+    return $value
+      unless $value =~
+/\$(year|ye|wikiusername|wikiname|week|web|wday|username|tz|topic|time|seconds|sec|rev|rcs|month|mo|minutes|min|longdate|isotz|iso|http|hours|hou|epoch|email|dow|day|date)/x;
 
     my $users = $this->{session}->{users};
     if ($rrev) {
         my $loadedRev = $topicObject->getLoadedRev() || 0;
         unless ( $rrev == $loadedRev ) {
             $topicObject = Foswiki::Meta->new($topicObject);
-            $topicObject->load($rrev);
+            $topicObject = $topicObject->load($rrev);
         }
     }
     my $info = $topicObject->getRevisionInfo();
@@ -1665,10 +1661,13 @@ sub renderRevisionInfo {
     $value =~ s/\$date/
       Foswiki::Time::formatTime(
           $info->{date}, $Foswiki::cfg{DefaultDateFormat} )/ge;
-    $value =~ s/(\$(rcs|http|email|iso|longdate))/
+    $value =~ s/(\$(rcs|longdate|isotz|iso|http|email|))/
       Foswiki::Time::formatTime($info->{date}, $1 )/ge;
 
-    if ( $value =~ /\$(sec|min|hou|day|wday|dow|week|mo|ye|epoch|tz)/ ) {
+    if ( $value =~
+/\$(year|ye|week|web|wday|username|tz|seconds|sec|rcs|month|mo|minutes|min|longdate|hours|hou|epoch|dow|day)/
+      )
+    {
         $value = Foswiki::Time::formatTime( $info->{date}, $value );
     }
     $value =~ s/\$username/$un/g;
@@ -2118,7 +2117,7 @@ sub renderIconImage {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
