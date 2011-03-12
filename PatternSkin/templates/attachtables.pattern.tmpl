@@ -1,7 +1,7 @@
 %TMPL:INCLUDE{"attachtables"}%
 %{ These templates define the tables used to display attachments. }%
 
-%TMPL:DEF{"commonattachtableattributes"}%valign="middle" dataalign="center,left,left,right,left,left,left,center" datavalign="top" headercolor="#0066cc" databg="#ffffff" headerbg="#ffffff" headerbgsorted="#eeeeee" databgsorted="#f5f5f5" tablerules="rows" %TMPL:END%
+%TMPL:DEF{"commonattachtableattributes"}%valign="middle" dataalign="left,left,left,right,left,left,left,left" datavalign="top" headeralign="left" headercolor="#0066cc" databg="#ffffff" headerbg="#ffffff" headerbgsorted="#eeeeee" databgsorted="#f5f5f5" %TMPL:END%
 
 %TMPL:DEF{"topicattachmentwisty"}%%TWISTY{id="topicattachmentslist" mode="div" remember="on" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" link="%MAKETEXT{"Attachments ([_1])" args="%QUERY{"length(attachments[NOT lc(attr)=~'h'])"}%"}%" linkclass="patternTwistyButton"}%%TMPL:END%
 
