@@ -89,8 +89,9 @@ Generate a summary string. This is mainly for debugging.
 
 sub stringify {
     my $this = shift;
+    my $topic = $this->{topic} || '';      # Access checks of Web objects causes uninitialized string errors
     return
-"AccessControlException: Access to $this->{mode} $this->{web}.$this->{topic} for $this->{user} is denied. $this->{reason}";
+"AccessControlException: Access to $this->{mode} $this->{web}.$topic for $this->{user} is denied. $this->{reason}";
 }
 
 1;
