@@ -516,7 +516,7 @@ WARN
         $p{template} = $edittemplate if $edittemplate;
 
         # Pass through selected parameters
-        foreach my $pthru qw(redirectto skin cover nowysiwyg) {
+        foreach my $pthru qw(redirectto skin cover nowysiwyg action) {
             $p{$pthru} = $query->param($pthru);
         }
 
