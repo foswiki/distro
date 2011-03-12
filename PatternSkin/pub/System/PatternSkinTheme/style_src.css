@@ -373,25 +373,18 @@ table.foswikiFormTable {
 	border-style:none none solid solid;
 	border-width:1px;
 }
-.foswikiAttachments .foswikiTable th,
 table.foswikiFormTable th.foswikiFormTableHRow {
 	padding:3px 6px;
 	height:2.5em;
 	vertical-align:middle;
 }
-.foswikiFormTableFooter {}
 .foswikiAttachments .foswikiTable td,
+.foswikiAttachments .foswikiTable th,
 table.foswikiFormTable td {
-	padding:3px 2em 3px 1em;
+	padding:3px 1em;
 	height:1.5em; /*S1*/
 	text-align:left;
 	vertical-align:top;
-}
-.foswikiAttachments .foswikiTable th.foswikiFirstCol,
-.foswikiAttachments .foswikiTable td.foswikiFirstCol {
-	/* make more width for the icon column */
-	width:26px;
-	text-align:center;
 }
 .foswikiAttachments .foswikiTable caption {
 	display:none;
