@@ -58,6 +58,56 @@ sub do_test {
     $this->assert_html_equals( $expected, $actual );
 }
 
+sub _createHistory {
+    my ( $this, $topic, $num ) = @_;
+
+    $topic ||= 'BlessMySoul';
+    $num   ||= 4;
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    $topicObject->save();    # rev 1
+
+    my @texts = [
+        'Spontaneous eructation',
+        'Inspired delusion',
+        'Painful truth',
+        'Shitload of money'
+    ];
+    my @versionTexts = @texts[ 1 .. $num - 1 ];
+
+    foreach my $text (@versionTexts) {
+        $topicObject->text($text);
+        $topicObject->save( forcenewrevision => 1 );
+    }
+
+    return $topicObject;
+}
+
+sub _getDate {
+    my ( $this, $topicObject ) = @_;
+
+    my $epoch = $topicObject->{TOPICINFO}->[0]->{date};
+    my $date =
+      Foswiki::Time::formatTime( $epoch, '$day $month $year - $hour:$min' );
+    return $date;
+}
+
+sub _getTopicUrl {
+    my ( $this, $topicObject ) = @_;
+
+    my $url = $topicObject->expandMacros("%SCRIPTURLPATH{view}%");
+    return $url;
+}
+
+sub _trimSpaces {
+
+    #my $text = $_[0]
+
+    $_[0] =~ s/^[[:space:]]+//s;    # trim at start
+    $_[0] =~ s/[[:space:]]+$//s;    # trim at end
+}
+
 =pod
 
 =cut
@@ -78,292 +128,6 @@ EXPECTED
 
     my $actual = $topicObject->expandMacros(<<'ACTUAL');
 %HISTORY{}%
-ACTUAL
-
-    _trimSpaces($expected);
-    _trimSpaces($actual);
-
-    $this->do_test( $expected, $actual );
-}
-
-=pod
-
-=cut
-
-sub test_rev1 {
-    my $this = shift;
-
-    my $topicObject = $this->_createHistory();
-    my $url         = $this->_getTopicUrl($topicObject);
-    my $date        = $this->_getDate($topicObject);
-
-    my $expected = <<EXPECTED;
-<br />r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-...
-EXPECTED
-
-    my $actual = $topicObject->expandMacros(<<'ACTUAL');
-%HISTORY{rev1="3"}%
-ACTUAL
-
-    _trimSpaces($expected);
-    _trimSpaces($actual);
-
-    $this->do_test( $expected, $actual );
-}
-
-=pod
-
-=cut
-
-sub test_rev1_invalid {
-    my $this = shift;
-
-    my $topicObject = $this->_createHistory();
-    my $url         = $this->_getTopicUrl($topicObject);
-    my $date        = $this->_getDate($topicObject);
-
-    my $expected = <<EXPECTED;
-<br />r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-EXPECTED
-
-    my $actual = $topicObject->expandMacros(<<'ACTUAL');
-%HISTORY{rev1="-1"}%
-ACTUAL
-
-    _trimSpaces($expected);
-    _trimSpaces($actual);
-
-    $this->do_test( $expected, $actual );
-}
-
-=pod
-
-=cut
-
-sub test_rev2 {
-    my $this = shift;
-
-    my $topicObject = $this->_createHistory();
-    my $url         = $this->_getTopicUrl($topicObject);
-    my $date        = $this->_getDate($topicObject);
-
-    my $expected = <<EXPECTED;
-...<br />
-r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-EXPECTED
-
-    my $actual = $topicObject->expandMacros(<<'ACTUAL');
-%HISTORY{rev2="3"}%
-ACTUAL
-
-    _trimSpaces($expected);
-    _trimSpaces($actual);
-
-    $this->do_test( $expected, $actual );
-}
-
-=pod
-
-=cut
-
-sub test_rev2_invalid_small {
-    my $this = shift;
-
-    my $topicObject = $this->_createHistory();
-    my $url         = $this->_getTopicUrl($topicObject);
-    my $date        = $this->_getDate($topicObject);
-
-    my $expected = <<EXPECTED;
-...<br />
-r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-EXPECTED
-
-    my $actual = $topicObject->expandMacros(<<'ACTUAL');
-%HISTORY{rev2="-1"}%
-ACTUAL
-
-    _trimSpaces($expected);
-    _trimSpaces($actual);
-
-    $this->do_test( $expected, $actual );
-}
-
-=pod
-
-=cut
-
-sub test_rev1_rev2 {
-    my $this = shift;
-
-    my $topicObject = $this->_createHistory();
-    my $url         = $this->_getTopicUrl($topicObject);
-    my $date        = $this->_getDate($topicObject);
-
-    my $expected = <<EXPECTED;
-...<br />
-r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-...
-EXPECTED
-
-    my $actual = $topicObject->expandMacros(<<'ACTUAL');
-%HISTORY{
-rev1="2"
-rev2="3"
-}%
-ACTUAL
-
-    _trimSpaces($expected);
-    _trimSpaces($actual);
-
-    $this->do_test( $expected, $actual );
-}
-
-=pod
-
-=cut
-
-sub test_rev1_rev2_reverseorder {
-    my $this = shift;
-
-    my $topicObject = $this->_createHistory();
-    my $url         = $this->_getTopicUrl($topicObject);
-    my $date        = $this->_getDate($topicObject);
-
-    my $expected = <<EXPECTED;
-...<br />
-r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-...
-EXPECTED
-
-    my $actual = $topicObject->expandMacros(<<'ACTUAL');
-%HISTORY{rev2="2" rev1="3"}%
-ACTUAL
-
-    _trimSpaces($expected);
-    _trimSpaces($actual);
-
-    $this->do_test( $expected, $actual );
-}
-
-=pod
-
-=cut
-
-sub test_reverse_off {
-    my $this = shift;
-
-    my $topicObject = $this->_createHistory();
-    my $url         = $this->_getTopicUrl($topicObject);
-    my $date        = $this->_getDate($topicObject);
-
-    my $expected = <<EXPECTED;
-<br />r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-EXPECTED
-
-    my $actual = $topicObject->expandMacros(<<'ACTUAL');
-%HISTORY{reverse="off"}%
-ACTUAL
-
-    _trimSpaces($expected);
-    _trimSpaces($actual);
-
-    $this->do_test( $expected, $actual );
-}
-
-=pod
-
-=cut
-
-sub test_reverse_off_rev1_rev2 {
-    my $this = shift;
-
-    my $topicObject = $this->_createHistory();
-    my $url         = $this->_getTopicUrl($topicObject);
-    my $date        = $this->_getDate($topicObject);
-
-    my $expected = <<EXPECTED;
-...<br />r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-...
-EXPECTED
-
-    my $actual = $topicObject->expandMacros(<<'ACTUAL');
-%HISTORY{
-reverse="off"
-rev1="2"
-rev2="3"
-}%
-ACTUAL
-
-    _trimSpaces($expected);
-    _trimSpaces($actual);
-
-    $this->do_test( $expected, $actual );
-}
-
-=pod
-
-=cut
-
-sub test_nrev {
-    my $this = shift;
-
-    my $topicObject = $this->_createHistory();
-    my $url         = $this->_getTopicUrl($topicObject);
-    my $date        = $this->_getDate($topicObject);
-
-    my $expected = <<EXPECTED;
-<br />r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-...
-EXPECTED
-
-    my $actual = $topicObject->expandMacros(<<'ACTUAL');
-%HISTORY{nrev="2"}%
-ACTUAL
-
-    _trimSpaces($expected);
-    _trimSpaces($actual);
-
-    $this->do_test( $expected, $actual );
-}
-
-=pod
-
-=cut
-
-sub test_nrev_rev1_rev2 {
-    my $this = shift;
-
-    my $topicObject = $this->_createHistory();
-    my $url         = $this->_getTopicUrl($topicObject);
-    my $date        = $this->_getDate($topicObject);
-
-    my $expected = <<EXPECTED;
-...<br />
-r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-...
-EXPECTED
-
-    my $actual = $topicObject->expandMacros(<<'ACTUAL');
-%HISTORY{
-nrev="2"
-rev1="2"
-rev2="3"
-}%
 ACTUAL
 
     _trimSpaces($expected);
@@ -604,57 +368,632 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
-sub _createHistory {
-    my ( $this, $topic, $num ) = @_;
+=pod
 
-    $topic ||= 'BlessMySoul';
-    $num   ||= 4;
+=cut
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
-    $topicObject->save();    # rev 1
+sub test_versions_start {
+    my $this = shift;
 
-    my @texts = [
-        'Spontaneous eructation',
-        'Inspired delusion',
-        'Painful truth',
-        'Shitload of money'
-    ];
-    my @versionTexts = @texts[ 1 .. $num - 1 ];
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
 
-    foreach my $text (@versionTexts) {
-        $topicObject->text($text);
-        $topicObject->save( forcenewrevision => 1 );
-    }
+    my $expected = <<EXPECTED;
+...<br />r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+...
+EXPECTED
 
-    return $topicObject;
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+versions="2"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
 }
 
-sub _getDate {
-    my ( $this, $topicObject ) = @_;
+=pod
 
-    my $epoch = $topicObject->{TOPICINFO}->[0]->{date};
-    my $date =
-      Foswiki::Time::formatTime( $epoch, '$day $month $year - $hour:$min' );
-    return $date;
+=cut
+
+sub test_versions_start_dotdot {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+<br />r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+...
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+versions="2.."
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
 }
 
-sub _getTopicUrl {
-    my ( $this, $topicObject ) = @_;
+=pod
 
-    my $url = $topicObject->expandMacros("%SCRIPTURLPATH{view}%");
-    return $url;
+=cut
+
+sub test_versions_start_dotdot_end {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+...<br />r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+...
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+versions="2..3"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
 }
 
-sub _trimSpaces {
+=pod
 
-    #my $text = $_[0]
+=cut
 
-    $_[0] =~ s/^[[:space:]]+//s;    # trim at start
-    $_[0] =~ s/[[:space:]]+$//s;    # trim at end
+sub test_versions_dotdot_end {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+...<br />r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+versions="..2"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_versions_dotdot {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+<br />r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+versions=".."
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+versions="-1" equals versions="3" (with 4 revisions)
+
+=cut
+
+sub test_versions_start_minus_one {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+...<br />r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+...
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+versions="-1"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+versions="..-1" equals versions="3.." (with 4 revisions)
+
+=cut
+
+sub test_versions_end_minus_one {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+...<br />r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+versions="..-1"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_versions_start_zero {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+<br />r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+versions="0.."
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_versions_end_zero {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+...<br />r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+versions="..0"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_versions_end_invalid_large {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+<br />r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+versions="..99"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_versions_reverse_order {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+<br />r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+...
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+versions="4..2"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_deprecated_rev1 {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+<br />r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+...
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+rev1="3"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_deprecated_rev1_invalid {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+<br />r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+rev1="-1"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_deprecated_rev2 {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+...<br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+rev2="3"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_deprecated_rev2_invalid_small {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+...<br />
+r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+rev2="-1"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_deprecated_rev1_rev2 {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+...<br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+...
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+rev1="2"
+rev2="3"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_deprecated_rev1_rev2_reverseorder {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+...<br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+...
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+rev2="2"
+rev1="3"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_deprecated_reverse_off {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+<br />r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+reverse="off"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_deprecated_reverse_off_rev1_rev2 {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+...<br />r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+...
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+reverse="off"
+rev1="2"
+rev2="3"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_deprecated_nrev {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+<br />r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+...
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+nrev="2"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+sub test_deprecated_nrev_rev1_rev2 {
+    my $this = shift;
+
+    my $topicObject = $this->_createHistory();
+    my $url         = $this->_getTopicUrl($topicObject);
+    my $date        = $this->_getDate($topicObject);
+
+    my $expected = <<EXPECTED;
+...<br />
+r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
+...
+EXPECTED
+
+    my $actual = $topicObject->expandMacros(<<'ACTUAL');
+%HISTORY{
+nrev="2"
+rev1="2"
+rev2="3"
+}%
+ACTUAL
+
+    _trimSpaces($expected);
+    _trimSpaces($actual);
+
+    $this->do_test( $expected, $actual );
 }
 
 1;
+
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
