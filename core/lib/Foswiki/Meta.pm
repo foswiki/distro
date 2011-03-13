@@ -1428,7 +1428,7 @@ sub getRevisionInfo {
         $info = {
             date    => 0,
             author  => $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,
-            verstion => 0,
+            version => 0,
             format => $EMBEDDING_FORMAT_VERSION,
         };
         return $info;
