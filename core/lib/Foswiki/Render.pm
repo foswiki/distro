@@ -1182,7 +1182,7 @@ sub getRenderedVersion {
         # Lists and paragraphs
         if ( $line =~ m/^\s*$/ ) {
             unless ( $tableRow || $isFirst ) {
-                $line = '<p />';    # SMELL: should be <p></p>
+                $line = '<p></p>';
             }
             $isList = 0;
         }
