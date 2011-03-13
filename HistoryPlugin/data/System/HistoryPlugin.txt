@@ -85,3 +85,4 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
 __Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
+%META:FILEATTACHMENT{name="screenshot.png" attachment="screenshot.png" attr="" comment="" date="1299981906" path="screenshot.png" size="72043" user="BaseUserMapping_333" version="1"}%
