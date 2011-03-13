@@ -86,7 +86,14 @@ else="%IF{
 }%"
 }%%ENDSECTION{"notes"}%
 
-%STARTSECTION{"note:registrationNotEnabled"}%<strong>%MAKETEXT{"You cannot register on this site."}%</strong>%ENDSECTION{"note:registrationNotEnabled"}%
+%STARTSECTION{"note:registrationNotEnabled"}%%IF{
+   "$USERNAME ingroup 'AdminGroup'"
+   then="<strong>%MAKETEXT{"Registration is disabled either by configuration setting {EnableNewUserRegistration}, or due to errors with the password system.  Check the configuration for errors."}%</strong>
+
+          %MAKETEXT{"If registration is not disabled by errors, administrators can still register users to this site using"}% [[%SYSTEMWEB%.BulkRegistration][BulkRegistration]]."
+   else="<strong>%MAKETEXT{"You cannot register on this site."}%</strong>"
+}%
+%ENDSECTION{"note:registrationNotEnabled"}%
 
 %STARTSECTION{"note:registrationTemporarilyDisabled"}%<strong>%MAKETEXT{"Sorry, registration has been temporarily disabled."}%</strong>%ENDSECTION{"note:registrationTemporarilyDisabled"}%
 
