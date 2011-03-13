@@ -26,12 +26,12 @@ sub initPlugin {
         return 0;
     }
 
-    Foswiki::Func::registerTagHandler( 'HISTORY', \&handleHistory );
+    Foswiki::Func::registerTagHandler( 'HISTORY', \&_handleHistory );
 
     return 1;
 }
 
-sub handleHistory {
+sub _handleHistory {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
     my $web   = $params->{web}   || $theWeb;
@@ -94,23 +94,22 @@ sub handleHistory {
         }
     }
     else {
-
-        $rev1 =~ s/1\.// if $rev1;
-        $rev2 =~ s/1\.// if $rev2;
-
-        if ( defined $params->{rev1} || defined $params->{rev2} ) {
-            $rev2 ||= $rev1 ? $rev1 + $nrev - 1 : $maxrev;
-            $rev1 ||= $rev2 - $nrev + 1;
-        }
-        else {
-            $rev1 = ( $rev2 - $nrev ) + 1;
-        }
-
-        ( $rev1, $rev2 ) = ( $rev2, $rev1 ) if $rev1 > $rev2;
-        $rev1 = $maxrev if $rev1 > $maxrev;
-        $rev1 = 1       if $rev1 < 1;
-        $rev2 = $maxrev if $rev2 > $maxrev;
-        $rev2 = 1       if $rev2 < 1;
+        # deprecated syntax
+        
+        $rev1 = $params->{rev1};
+		$rev1 =~ s/1\.// if $rev1;
+		$rev2 = $params->{rev2};
+		$rev2 =~ s/1\.// if $rev2;
+		$nrev = $params->{nrev} || 10;
+	
+		$rev2 ||= $rev1 ? $rev1 + $nrev - 1 : $maxrev;
+		$rev1 ||= $rev2 - $nrev + 1;
+	
+		( $rev1, $rev2 ) = ( $rev2, $rev1 ) if $rev1 > $rev2;
+		$rev1 = $maxrev if $rev1 > $maxrev;
+		$rev1 = 1       if $rev1 < 1;
+		$rev2 = $maxrev if $rev2 > $maxrev;
+		$rev2 = 1       if $rev2 < 1;
     }
 
     my $format =
