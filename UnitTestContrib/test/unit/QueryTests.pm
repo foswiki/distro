@@ -102,6 +102,8 @@ sub set_up {
     $meta->putKeyed( 'FIELD',
 		     { name => "boolean", title => "Boolean", value => "1" } );
     $meta->putKeyed( 'FIELD', { name => "macro", value => "%RED%" } );
+    $meta->putKeyed( 'FIELD',
+		     { name => "brace", title => "Brace", value => "Some text (really) we have text" } );
 
     $meta->text("Quantum");
     $meta->save();
@@ -180,6 +182,7 @@ sub loadExtraConfig {
     }
 }
 
+#TODO: doccome!
 sub check {
     my ( $this, $s, %opts ) = @_;
 
@@ -512,6 +515,15 @@ sub verify_boolean_bops {
 sub verify_match_fail {
     my $this = shift;
     $this->check( "'A'=~'B'", eval => 0, simpler => 0 );
+}
+
+sub verify_match_ok_brace {
+    my $this = shift;
+    $this->check( "fields[name~'*' AND value=~'\\(']", eval =>  [{value=>'Some text (really) we have text',name=>'brace',title=>'Brace'}] );
+}
+sub verify_match_fail_brace {
+    my $this = shift;
+    $this->check( "fields[name~'*' AND value=~'(']", eval => 1, simpler => 1 );
 }
 
 sub verify_match_good {
