@@ -1080,6 +1080,7 @@ $Foswiki::cfg{RCS}{delRevCmd} =
 #---+ Tuning
 
 #---++ HTTP Compression
+# <p>Expert settings controlling compression of the generated HTML.</p>
 # **BOOLEAN EXPERT**
 # Enable gzip/deflate page compression. Modern browsers can uncompress content
 # encoded using gzip compression. You will save a lot of bandwidth by compressing
@@ -1090,6 +1091,7 @@ $Foswiki::cfg{RCS}{delRevCmd} =
 $Foswiki::cfg{HttpCompress} = $FALSE;
 
 #---++ HTML Page Layout
+# <p>Expert setting controlling the layout of the generated HTML.</p>
 # **BOOLEAN EXPERT**
 # <p><code>{MergeHeadAndScriptZones}</code> is provided to maintain compatibility with legacy extensions that use <code>ADDTOHEAD</code> to add <code>&lt;script&gt;</code> markup and require content that is now in the <code>script</code> zone.</p>
 # <p>Normally, dependencies between individual <code>ADDTOZONE</code> statements are resolved within each zone. However, if <code>{MergeHeadAndScriptZones}</code> is enabled, then <code>head</code> content which requires an <code>id</code> that only exists in <code>script</code> (and vice-versa) will be re-ordered to satisfy any dependency.</p>
@@ -1505,6 +1507,7 @@ $Foswiki::cfg{Plugins}{MailerContribPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Plugins::MailerContribPlugin';
 
 #---++ Plugin settings
+#<p>Expert settings controlling extension operation.</p>
 # **STRING 80 EXPERT**
 # Search path (web names) for plugin topics. Note that the session web
 # is searched last, after this list.
