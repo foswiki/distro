@@ -9,7 +9,14 @@ Registration enabled/disabled messages
 -->
 %IF{
 "not context registration_enabled"
-then=" *%MAKETEXT{"You cannot register on this site."}%* "
+then="
+%IF{
+   "$USERNAME ingroup 'AdminGroup'"
+   then=" %MAKETEXT{"Registration is disabled either by configuration setting {EnableNewUserRegistration}, or due to errors with the password system.  Check the configuration for errors."}%
+
+          %MAKETEXT{"If registration is not disabled by errors, administrators can still register users to this site using"}% [[%SYSTEMWEB%.BulkRegistration][BulkRegistration]]."
+   else=" *%MAKETEXT{"You cannot register on this site."}%*  "
+}%  "
 else=" %IF{"$REGISTRATION_DISABLED!='DISABLED'" then=" *%MAKETEXT{"Create your account to edit pages on this site."}%* "}%
 %IF{"$REGISTRATION_DISABLED='DISABLED'" then=" *%MAKETEXT{"Sorry, Registration has been temporarily disabled"}%* "}%
 "
