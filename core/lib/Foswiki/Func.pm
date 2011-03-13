@@ -1915,7 +1915,7 @@ use Error qw( :try );
 my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
 $text =~ s/APPLE/ORANGE/g;
 try {
-    saveTopic( $web, $topic, $meta, $text );
+    Foswiki::Func::saveTopic( $web, $topic, $meta, $text );
 } catch Foswiki::AccessControlException with {
     my $e = shift;
     # see documentation on Foswiki::AccessControlException
