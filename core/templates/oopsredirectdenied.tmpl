@@ -1,0 +1,11 @@
+%{ This is a default template }%%{ Templates for redirect denied messages. One DEF is selected and inserted at %INSTANTIATE }%
+%TMPL:INCLUDE{"oops"}%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(redirect denied)"}% %TMPL:END%
+%TMPL:DEF{"webaction"}% *%MAKETEXT{"Attention"}%* %TMPL:END%
+%TMPL:DEF{"heading"}%%MAKETEXT{"Redirect Denied"}%%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}% <span>[[%WEB%.%TOPIC%][%MAKETEXT{"OK"}%]]</span> %TMPL:END%
+
+%TMPL:DEF{"message"}%
+%INSTANTIATE%
+%TMPL:END%
