@@ -52,6 +52,7 @@ All the scripts accept a number of common parameters. The first two components o
 | =topic= | Overrides the web.topic path given in the URL (specify Web.<nop>TopicName) | |
 | =user= | Command-line only; set the name of the user performing the action. Note: this usage is inherently insecure, as it bypasses webserver login constraints. For this reason only authorised users should be allowed to execute scripts from the command line. | |
 | =validation_key= | part of cross-site scripting protection. Any request sent from browsers that might change data stored on the server must carry a key that indentifies the source of the request. | |
+| _&lt;any name&gt;_ | Any other parameter name passed to the script is passed through for possible use by the script.  This is _typically_ only applicable to the =edit=, =save= and =view= scripts. | |
 
 ---+++ =attach=
 Despite the name, this script doesn't actually attach a file to a topic - for that, use =upload=. This script is part of the transactions sequence executed when a file is uploaded from the browser. it just generates the "new attachment" page for a topic.
@@ -362,6 +363,7 @@ The =save= script performs a range of save-related functions.
 | =templatetopic= | Name of a topic to use as a template for the text and form (new topic _only_) | |
 | =text= | New text of the topic | |
 | =topicparent= | If 'none' remove any current topic parent. If the name of a topic, set the topic parent to this. | |
+| _&lt;any name&gt;_ | If the topic has a form with a field called _&lt;any name&gt;_, it will set the value of that field. | |
 
 Any errors will cause a redirect to another page, either an =oops= page to report the error, or a =login= if the save is not authorized.
 
@@ -449,6 +451,7 @@ Used for viewing topics.
 | =SEARCH&lt;hex number&gt;= | Identifies a result set that is being paged through | |
 | =section= | Allows to view only a part of the topic delimited by a named section (see %SYSTEMWEB%.VarSTARTSECTION). If the given section is not present, no topic content is displayed. | |
 | =template= | Allows you to specify a different skin template, overriding the 'view' template the view script would normally use. The default template is =view=. For example, you could specify [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit][%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit]]. This is mainly useful when you have specialised templates for a Wiki Application. | |
+| _&lt;any name&gt;_ | It can be expanded in the topic text during rendering and referenced in IF statements  - See the %SYSTEMWEB%.VarURLPARAM macro and %SYSTEMWEB%.IfStatements | |
 
 <blockquote class="foswikiHelp"> %X% For historical reasons, the view script has a special interpretation of the =text= skin. This skin cannot be redefined.</blockquote>
 
@@ -483,6 +486,18 @@ It is intended to be run as a cron job or a scheduled task once a week. Example 
 *Note:* The script has to be run by a user who can write files created by the webserver user.
 
 Extensions, such as the MailerContrib, also install tool scripts. Check the documentation of the extension for details.
+
+---+++ =extension_installer=
+This script will download and install, or remove an extension.
+
+For more details, execute it from the Foswiki root directory with the =usage= parameter:
+<verbatim>
+./tools/extension_installer usage
+</verbatim>
+Note that this script is a generic version of the =_installer= script shipped with each extension.  There are 3 ways to install a script using these scripts:
+   * Download =SomePlugin_installer= and execute it from the Foswiki root directory
+   * run =./tools/extension_installer !SomePlugin= - the extension will be downloaded and installed
+   * Use the configure web interface to the Extensions Installer.
 
 ---
 *Related Topics:* AdminDocumentationCategory, DeveloperDocumentationCategory
