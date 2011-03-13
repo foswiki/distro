@@ -308,6 +308,8 @@ sub _renameTopicOrAttachment {
 
         # redirect to new topic
         $new_url = $session->getScriptUrl( 0, 'view', $newWeb, $newTopic );
+        $session->{webName} = $newWeb;
+        $session->{topicName} = $newTopic;
     }
 
     return $new_url;
@@ -670,6 +672,8 @@ sub _renameWeb {
         $new_url =
           $session->getScriptUrl( 0, 'view', $newWeb,
             $Foswiki::cfg{HomeTopicName} );
+        $session->{webName} = $newWeb;
+        $session->{topicName} = $Foswiki::cfg{HomeTopicName};
     }
 
     return $new_url;

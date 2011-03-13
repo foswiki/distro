@@ -1150,15 +1150,12 @@ sub redirect {
         # goto oops if URL is trying to take us somewhere dangerous
         $url = $this->getScriptUrl(
             1, 'oops',
-            $this->{web}   || $Foswiki::cfg{UsersWebName},
-            $this->{topic} || $Foswiki::cfg{HomeTopicName},
-            template => 'oopsaccessdenied',
-            def      => 'topic_access',
-            param1   => 'redirect',
-            param2   => 'unsafe redirect to ' 
-              . $url
-              . ': host does not match {DefaultUrlHost} , and is not in {PermittedRedirectHostUrls} "'
-              . $Foswiki::cfg{DefaultUrlHost} . '"'
+            $this->{webName}   || $Foswiki::cfg{UsersWebName},
+            $this->{topicName} || $Foswiki::cfg{HomeTopicName},
+            template => 'oopsredirectdenied',
+            def      => 'redirect_denied',
+            param1   => "$url",
+            param2   => "$Foswiki::cfg{DefaultUrlHost}",
         );
     }
 

@@ -574,6 +574,10 @@
 %MAKETEXT{"Contact [_1] if you have any questions." args="<a href=\"mailto:%WIKIWEBMASTER%?subject=%ENCODE{"%PARAM1% access denied for '%WEB%.%TOPIC%'"}%\">%WIKIWEBMASTER%</a>"}%
 
 *%MAKETEXT{"Related topics:"}%* %USERSWEB%.WikiGroups, %SYSTEMWEB%.AccessControl %TMPL:END%
+%TMPL:DEF{"redirect_denied"}%
+%MAKETEXT{"Rename completed, but unsafe redirect to [_1] is denied.: The requested host does not match [_2], and is not in {PermittedRedirectHostUrls}." args="%PARAM1%, %PARAM2%"}%
+
+%MAKETEXT{"Contact [_1] if you have any questions." args="<a href=\"mailto:%WIKIWEBMASTER%?subject=%ENCODE{"%PARAM1% access denied for '%WEB%.%TOPIC%'"}%\">%WIKIWEBMASTER%</a>"}% %TMPL:END%
 %TMPL:DEF{"only_group"}%
 %MAKETEXT{"Only members of the [_1] are allowed to perform this action." args="%PARAM1%"}%
 
