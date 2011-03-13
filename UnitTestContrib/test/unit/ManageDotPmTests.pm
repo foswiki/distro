@@ -34,6 +34,11 @@ sub set_up {
 sub tear_down {
     my $this = shift;
 
+    $this->removeWebFixture( $this->{session}, "$this->{test_web}NewExtra" )
+      if ( $this->{session}->webExists("$this->{test_web}NewExtra") );
+    $this->removeWebFixture( $this->{session}, "$this->{test_web}EmptyNewExtra" )
+      if ( $this->{session}->webExists("$this->{test_web}EmptyNewExtra") );
+
     $this->SUPER::tear_down();
 }
 
