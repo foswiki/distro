@@ -297,6 +297,12 @@ sub tear_down {
     $this->removeWebFixture( $this->{session}, $this->{new_web} );
     $this->removeWebFixture( $this->{session}, "Renamedweb$this->{test_web}" )
       if ( $this->{session}->webExists("Renamedweb$this->{test_web}") );
+    $this->removeWebFixture( $this->{session}, "$this->{test_web}EdNet" )
+      if ( $this->{session}->webExists("$this->{test_web}EdNet") );
+    $this->removeWebFixture( $this->{session}, "$this->{test_web}RenamedEdNet" )
+      if ( $this->{session}->webExists("$this->{test_web}RenamedEdNet") );
+    $this->removeWebFixture( $this->{session}, "$this->{test_web}Root" )
+      if ( $this->{session}->webExists("$this->{test_web}Root") );
     $this->SUPER::tear_down();
 }
 
