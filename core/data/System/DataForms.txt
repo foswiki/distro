@@ -181,6 +181,7 @@ For example, a simple form just supporting entry of a name and a date would look
    * You can space out the title of the field, and it will still find the topic e.g. =Aeroplane Manufacturers= is equivalent to =AeroplaneManufacturers=.
    * If a =label= field has no name, it will *not* be shown when the form is *viewed*, only when it is *edited*.
    * Field names can in theory include any text, but you should stick to alphanumeric characters. If you want to use a non-wikiname for a =select=, =checkbox= or =radio= field, and want to get the values from another topic, you can use  ==[<nop>[...]]== links. This notation can also be used when referencing another topic to obtain field values, but a name other than the topic name is required as the name of the field. 
+   * If you want the Field name to include embedded spaces, use the format [&lt;nop&gt;[FieldName][Descriptive human-friendly Field Name]].
    * Leading and trailing spaces are _not_ significant.
 *Field Value Notes:*
    * The field value will be used to initialize a field when a form is created, unless specific values are given by the topic template or query parameters. The first item in the list for a select or radio type is the default item. For =label=, =text=, and =textarea= fields the value may also contain commas. =checkbox= fields cannot be initialized through the form definition.
