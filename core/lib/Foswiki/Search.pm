@@ -995,7 +995,10 @@ sub formatResults {
             &$callback( $cbdata, $out );
         } while (@multipleHitLines);    # multiple=on loop
 
-        if ( defined( $params->{pager_skip_results_from} )) {
+        if (
+            ( defined( $params->{pager_skip_results_from} )) or
+            ($params->{groupby} ne 'web')
+            ) {
             last if ( $ttopics >= $limit );
         } else {
             if ( $ntopics >= $limit ) {
