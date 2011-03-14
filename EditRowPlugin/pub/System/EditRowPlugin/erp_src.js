@@ -267,7 +267,7 @@
 		return;
 
 	    if (!p.tooltip)
-		p.tooltip = 'Click to edit...';
+		p.tooltip = 'Double-click to edit...';
 	    p.onblur = 'cancel';
 
 	    // We can't row-number when generating the table because it's

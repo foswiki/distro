@@ -397,7 +397,7 @@ sub _getCols {
                 # value for them. If there is no value in the cell, restore
                 # the initial value.
                 $urps->{$cellName} =
-                  ($cell->{text} || $colDef->{initial_value} );
+                  (defined $cell->{text} ? $cell->{text} : $colDef->{initial_value} );
             }
         }
         $urps->{$cellName} = '' unless defined $urps->{$cellName};

@@ -80,7 +80,7 @@ sub parseTables {
         if ( !$disable && $line =~ s/(%$macro(?:{(.*)})?%)// ) {
             my $spec  = $1;
             my $attrs = Foswiki::Attrs->new(
-                Foswiki::Func::expandCommonVariables( $2 || '', $web, $topic )
+                Foswiki::Func::expandCommonVariables( defined $2 ? $2 : '', $web, $topic )
             );
             push( @tables, $line ) if $line =~ /\S/;
 

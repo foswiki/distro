@@ -23,9 +23,9 @@ sub new {
     $this->{number} = $number; # index of the column in the *raw* table
     if ( $text =~ /\S/ ) {
         $text =~ s/^(\s*)//;
-        $this->{precruft} = $1 || '';
+        $this->{precruft} = defined $1 ? $1 : '';
         $text =~ s/(\s*)$//;
-        $this->{postcruft} = $1 || '';
+        $this->{postcruft} = defined $1 ? $1 : '';
     }
     else {
 
@@ -108,7 +108,7 @@ sub render {
     }
 
     if ($opts->{for_edit} && !$opts->{require_js}) {
-	$text = $editor->htmlEditor($this, $colDef, $opts->{in_row}, $text || '');
+	$text = $editor->htmlEditor($this, $colDef, $opts->{in_row}, defined $text ? $text : '');
 	$text = Foswiki::Plugins::EditRowPlugin::defend($text);
     } else {
 	$text = '-' unless defined($text);
