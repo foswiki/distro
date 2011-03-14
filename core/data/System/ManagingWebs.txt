@@ -24,6 +24,19 @@ At file level, a Web is a directory located inside the =data= directory, with te
 A number of Webs are fixed: =%SYSTEMWEB%= for documentation, =%USERSWEB%= to store user pages and site-wide preferences, =%TRASHWEB%= for the topic recycle bin. %BR%
 Other webs can be created as needed.
 
+%TWISTY{
+  link="%BUTTON{"List all Webs" icon="add"}%%CLEAR%"
+  mode="div"
+}%
+<div class="foswikiHelp">
+*Public%IF{"$USERNAME ingroup 'AdminGroup'" then=" and hidden"}% webs:*
+%WEBLIST{"[[$name.%HOMETOPIC%][$name]]" separator=", "}%
+
+*Template webs:*
+%WEBLIST{format="[[$name.%WEBPREFSTOPIC%][$name]]" webs="webtemplate" separator=", "}%
+</div>
+%ENDTWISTY{}%
+
 #CreateNewWeb
 ---++ Create a new web
 To use this form you must be administrator.
