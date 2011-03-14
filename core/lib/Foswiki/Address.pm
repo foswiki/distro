@@ -231,53 +231,64 @@ sub new {
     }
     if ( $opts{string} ) {
         ASSERT( not $opts{topic} or ( $opts{webs} and $opts{topic} ) ) if DEBUG;
-        $this->{parseopts} = {
-            web           => $opts{web},
-            webs          => $opts{webs},
-            topic         => $opts{topic},
-            attachment    => $opts{attachment},
-            rev           => $opts{rev},
-            meta          => $opts{meta},
-            metamember    => $opts{metamember},
-            metamemberkey => $opts{metamemberkey},
-            metakey       => $opts{metakey},
-            isA           => $opts{isA},
-            existAs       => undef,
-            catchAs       => $opts{catchAs},
-            existHints    => $opts{existHints},
-            string        => $opts{string}
-        };
 
-        # transpose the existAs array into hash keys
-        if ( $opts{existAs} ) {
-            ASSERT( ref( $opts{existAs} ) eq 'ARRAY' ) if DEBUG;
-            ASSERT( scalar( @{ $opts{existAs} } ) ) if DEBUG;
-            $this->{parseopts}->{existAsList} = $opts{existAs};
-            %{ $this->{parseopts}->{existAs} } =
-              map { $_ => 1 } @{ $opts{existAs} };
+        #        $this->{parseopts} = {
+        #            web           => $opts{web},
+        #            webs          => $opts{webs},
+        #            topic         => $opts{topic},
+        #            attachment    => $opts{attachment},
+        #            rev           => $opts{rev},
+        #            meta          => $opts{meta},
+        #            metamember    => $opts{metamember},
+        #            metamemberkey => $opts{metamemberkey},
+        #            metakey       => $opts{metakey},
+        #            isA           => $opts{isA},
+        #            existAs       => undef,
+        #            catchAs       => $opts{catchAs},
+        #            existHints    => $opts{existHints},
+        #            string        => $opts{string}
+        #        };
+        # 15% faster if we do it like this...
+        $this->{parseopts} = \%opts;
+
+        if ( $opts{isA} ) {
+            $this->{parseopts}->{existAsList} = [ $opts{isA} ];
+            $this->{parseopts}->{existAs} = { $opts{isA} => 1 };
         }
-        elsif ( not $opts{isA} ) {
-            $this->{parseopts}->{existAsList} = [qw(attachment topic)];
-            $this->{parseopts}->{existAs} = { attachment => 1, topic => 1 };
-        }
-        if ( not defined $this->{parseopts}->{existHints} ) {
-            $this->{parseopts}->{existHints} = 1;
+        else {
+
+            # transpose the existAs array into hash keys
+            if ( $opts{existAs} ) {
+                ASSERT( ref( $opts{existAs} ) eq 'ARRAY' ) if DEBUG;
+                ASSERT( scalar( @{ $opts{existAs} } ) ) if DEBUG;
+                $this->{parseopts}->{existAsList} = $opts{existAs};
+                $this->{parseopts}->{existAs} =
+                  { map { $_ => 1 } @{ $opts{existAs} } };
+            }
+            else {
+                $this->{parseopts}->{existAsList} = [qw(attachment topic)];
+                $this->{parseopts}->{existAs} = { attachment => 1, topic => 1 };
+            }
+            if ( not defined $this->{parseopts}->{existHints} ) {
+                $this->{parseopts}->{existHints} = 1;
+            }
         }
         $this = bless( $this, $class );
         $this->parse( $opts{string} );
     }
     else {
-        $this = {
-            webs          => $opts{webs},
-            topic         => $opts{topic},
-            attachment    => $opts{attachment},
-            rev           => $opts{rev},
-            meta          => $opts{meta},
-            metamember    => $opts{metamember},
-            metamemberkey => $opts{metamemberkey},
-            metakey       => $opts{metakey}
-        };
-        $this = bless( $this, $class );
+
+        #        $this = {
+        #            webs          => $opts{webs},
+        #            topic         => $opts{topic},
+        #            attachment    => $opts{attachment},
+        #            rev           => $opts{rev},
+        #            meta          => $opts{meta},
+        #            metamember    => $opts{metamember},
+        #            metamemberkey => $opts{metamemberkey},
+        #            metakey       => $opts{metakey}
+        #        };
+        $this = bless( \%opts, $class );
     }
 
     return $this;
@@ -446,8 +457,8 @@ sub parse {
 
     $this->_invalidate();
     %opts = ( %{ $this->{parseopts} }, %opts );
-    $path =~ s/(\@([-\+]?\d+))$//;
-    $this->{rev} = $2;
+    $path =~ s/\@([-\+]?\d+)$//;
+    $this->{rev} = $1;
     ASSERT( defined $opts{existHints} ) if DEBUG;
     ASSERT( defined $opts{existAs} )    if DEBUG;
 
@@ -486,7 +497,8 @@ sub parse {
 
     # Here we go... short-circuit testing if we already have an isA spec
     if ( $opts{isA} ) {
-        $this->_atomiseAs( $this, $path, $opts{isA}, \%opts );
+        ASSERT( $atommap{ $opts{isA} } ) if DEBUG;
+        $atommap{ $opts{isA} }->( $this, $this, $path, \%opts );
     }
     else {
         my @separators = ( $path =~ m/([\.\/])/g );
@@ -571,17 +583,21 @@ sub parse {
                     my $type = $trylist[$i];
 
                     $i += 1;
+                    ASSERT( $atommap{$type} ) if DEBUG;
                     $typeatoms{$type} =
-                      $this->_atomiseAs( {}, $path, $type, \%opts );
+                      $atommap{$type}->( $this, {}, $path, \%opts );
                     print "Atomised $path as $type, result: "
                       . Dumper( $typeatoms{$type} )
                       if TRACE;
                     ( $besttype, $score ) =
                       $this->_existScore( $typeatoms{$type}, $type );
                     print "existScore: $score, besttype: $besttype\n" if TRACE;
-                    if ( $score and (not defined $bestscore or $bestscore < $score ) ) {
+
+                    if ( $score
+                        and ( not defined $bestscore or $bestscore < $score ) )
+                    {
                         $bestscoredtype = $type;
-                        $bestscore = $score;
+                        $bestscore      = $score;
                     }
                 }
 
@@ -607,7 +623,9 @@ sub parse {
             my $type = $normalform || $opts{catchAs};
 
             if ($type) {
-                $this->_atomiseAs( $this, $path, $type, \%opts );
+                ASSERT( $atommap{$type} ) if DEBUG;
+                $typeatoms{$type} =
+                  $atommap{$type}->( $this, $this, $path, \%opts );
             }
         }
     }
@@ -615,16 +633,16 @@ sub parse {
     return $this->isValid();
 }
 
-sub _atomiseAs {
-    my ( $this, $that, $path, $type, $opts ) = @_;
-
-    ASSERT($path)             if DEBUG;
-    ASSERT($type)             if DEBUG;
-    ASSERT( $atommap{$type} ) if DEBUG;
-    $atommap{$type}->( $this, $that, $path, $opts );
-
-    return $that;
-}
+#sub _atomiseAs {
+#    my ( $this, $that, $path, $type, $opts ) = @_;
+#
+#    ASSERT($path)             if DEBUG;
+#    ASSERT($type)             if DEBUG;
+#    ASSERT( $atommap{$type} ) if DEBUG;
+#    $atommap{$type}->( $this, $that, $path, $opts );
+#
+#    return $that;
+#}
 
 sub _atomiseAsWeb {
     my ( $this, $that, $path, $opts ) = @_;
