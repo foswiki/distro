@@ -33,6 +33,8 @@ sub FORMAT {
       if defined $params->{_DEFAULT};
     $params->{type} = $this->{prefs}->getPreference('SEARCHVARDEFAULTTYPE')
       unless ( $params->{type} );
+      
+    undef $params->{limit};     #do not polute FORMAT with the per web legacy mess (the code would be horrid.)
 
     try {
         my $listIterator;

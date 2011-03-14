@@ -728,8 +728,8 @@ sub formatResults {
         my @multipleHitLines = ();
         if (
             ( $infoCache->isa('Foswiki::Search::ResultSet') ) or    #SEARCH
-            ( $infoCache->isa('Foswiki::Search::InfoCache') )
-          )                                                         #FORMAT
+            ( $infoCache->isa('Foswiki::Search::InfoCache') )       #FORMAT
+          )
         {
             ( $web, $topic ) =
               Foswiki::Func::normalizeWebTopicName( '', $listItem );
@@ -995,7 +995,13 @@ sub formatResults {
             &$callback( $cbdata, $out );
         } while (@multipleHitLines);    # multiple=on loop
 
-        last if ( $ttopics >= $limit );
+        if ( defined( $params->{pager_skip_results_from} )) {
+            last if ( $ttopics >= $limit );
+        } else {
+            if ( $ntopics >= $limit ) {
+                $infoCache->nextWeb();
+            }
+        }
     }    # end topic loop
 
     # output footer only if hits in web

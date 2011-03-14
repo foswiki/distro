@@ -21,6 +21,8 @@ use Foswiki::Iterator ();
 our @ISA = ('Foswiki::Iterator');
 
 use Foswiki::Search::InfoCache;
+use Assert;
+
 
 =begin TML
 
@@ -157,6 +159,23 @@ sub next {
     $this->{next} = undef;
 
     return $n;
+}
+
+=begin TML
+
+---++ nextWeb() -> $data
+
+switch tot he next Web (only works on partition==web, and if we've already started iterating.
+=cut
+
+sub nextWeb {
+    my $this = shift;
+    
+    ASSERT($this->{partition} eq 'web') if DEBUG;
+    ASSERT($this->{list}) if DEBUG;
+    
+    $this->{list} = undef;
+    $this->hasNext();
 }
 
 =begin TML
