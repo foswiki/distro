@@ -456,6 +456,15 @@ sub parse {
     my ( $this, $path, %opts ) = @_;
 
     $this->_invalidate();
+    if ( not $this->{parseopts} ) {
+        $this->{parseopts} = {
+            web        => $opts{web},
+            webs       => $opts{webs},
+            topic      => $opts{topic},
+            attachment => $opts{attachment},
+            rev        => $opts{rev},
+        };
+    }
     %opts = ( %{ $this->{parseopts} }, %opts );
     $path =~ s/\@([-\+]?\d+)$//;
     $this->{rev} = $1;
@@ -514,25 +523,28 @@ sub parse {
 
         ASSERT( $opts{existAsList} ) if DEBUG;
 
-        # build the separator-based identity of the path string, Eg.
-        # Foo/Bar/Dog.Cat/B.a.t = 'SdsD'
-        # TemporaryAddressTestsTestWeb/SubWeb/SubSubWeb.Topic/Atta.hme.t
-        foreach my $sep (@separators) {
-            if ( defined $lastsep ) {
-                if ( $lastsep ne $sep ) {
-                    $sepident .= $sepidentchars{$sepboost}->{$lastsep};
-                    $lastsep  = $sep;
-                    $sepboost = 0;
+        if ( scalar(@separators) ) {
+
+            # build the separator-based identity of the path string, Eg.
+            # Foo/Bar/Dog.Cat/B.a.t = 'SdsD'
+            # TemporaryAddressTestsTestWeb/SubWeb/SubSubWeb.Topic/Atta.hme.t
+            foreach my $sep (@separators) {
+                if ( defined $lastsep ) {
+                    if ( $lastsep ne $sep ) {
+                        $sepident .= $sepidentchars{$sepboost}->{$lastsep};
+                        $lastsep  = $sep;
+                        $sepboost = 0;
+                    }
+                    else {
+                        $sepboost = 1;
+                    }
                 }
                 else {
-                    $sepboost = 1;
+                    $lastsep = $sep;
                 }
             }
-            else {
-                $lastsep = $sep;
-            }
+            $sepident .= $sepidentchars{$sepboost}->{$lastsep};
         }
-        $sepident .= $sepidentchars{$sepboost}->{$lastsep};
         $plaus = $plausibletable{$sepident};
         print "Identity\t$sepident calculated for $path, plaustable: "
           . Dumper($plaus)
