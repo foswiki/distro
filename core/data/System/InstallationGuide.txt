@@ -397,6 +397,19 @@ If you are not upgrading an existing TWiki installation and do not plan to insta
 
 If a plugin exists both in a TWiki version and a Foswiki version, it is strongly recommended that you use the Foswiki version, as this is coded to work optimally with Foswiki. As part of the Foswiki project, the Foswiki community is evaluating all of the extensions that are available for TWiki, and porting them over to the Foswiki name space. Many of them are being enhanced through the removal of bugs and security vulnerabilities, resulting in better, more functional extensions for Foswiki.
 
+---+++ Web Acceleration (mod_perl, FastCGI, ...)
+
+Foswiki is installed by default supporting standard CGI scripts as well as CLI access.  For best performance, Foswiki can be accelerated using one of the several accelerators, however, *you must install the required Foswiki extension and host modules before enabling accelereation*!  See the listed extensions for more information.
+
+| Fast CGI | [[http://foswiki.org/Extensions/FastCGIEngineContrib][FastCGIEngineContrib]] | Supports the mod_fastcgi and mod_fcgid extensions |
+| mod_perl | [[http://foswiki.org/Extensions/ModPerlEngineContrib][ModPerlEngineContrib]] | supports the apache mod_perl extension |
+
+%X% *Caution*
+   * Ensure your site is fully configured and working before enabling either of these extensions.  They can be challenging to configure.  
+   * The [[http://foswiki.org/Support/ApacheConfigGenerator][ApacheConfigGenerator]] will help creating a valid configuration for these accelerators.
+   * Enabling the apache configuration without installing the pre-req modules and extensions will break your site!
+   * The core default extensions are well tested with web acceleration, other extensions can exhibit inconsistent behaviour when accelerated.
+
 ---++ Troubleshooting
 
    * Re-run the =configure= script and make sure you have resolved all errors and are satisfied that you understand any warnings.
