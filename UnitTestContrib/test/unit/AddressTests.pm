@@ -7,7 +7,8 @@ our @ISA = qw( FoswikiTestCase );
 
 use Assert;
 use Data::Dumper;
-use Foswiki::Address;
+use Benchmark qw(:hireswallclock);
+use Foswiki::Address();
 use constant TRACE => 0;
 
 my $FoswikiSESSION;
@@ -141,7 +142,8 @@ HERE
                             print $fh "$filedata/$attachment @ $rev";
                             close($fh);
                             open( $fh, '<', $filepath );
-                            print "gentopics(): \t\tattachment $attachment\n" if TRACE;
+                            print "gentopics(): \t\tattachment $attachment\n"
+                              if TRACE;
                             Foswiki::Func::saveAttachment( $web, $topic,
                                 $attachment, { stream => $fh } );
                             close($fh);
@@ -244,40 +246,42 @@ sub gen_tests {
 }
 
 sub test_meta1 {
+    my ($this) = @_;
     my $objAddr = Foswiki::Address->new(
-        webs => [$test_web, 'SubWeb'],
-        topic => 'Topic',
-        rev => '2',
-        meta => 'FIELD',
-        metamember => 'Colour',
+        webs          => [ $test_web, 'SubWeb' ],
+        topic         => 'Topic',
+        rev           => '2',
+        meta          => 'FIELD',
+        metamember    => 'Colour',
         metamemberkey => 'name',
-        metakey => 'value'
+        metakey       => 'value'
     );
     my $parsedObjAddr = Foswiki::Address->new(
-        string => $objAddr->stringify(),
+        string  => $objAddr->stringify(),
         existAs => [qw(attachment meta topic)]
     );
 
-    ASSERT( $parsedObjAddr->equiv( $objAddr ) );
+    ASSERT( $parsedObjAddr->equiv($objAddr) );
 
     return;
 }
 
 sub test_meta2 {
+    my ($this) = @_;
     my $objAddr = Foswiki::Address->new(
-        webs => [$test_web, 'SubWeb'],
-        topic => 'Topic',
-        rev => '2',
-        meta => 'FIELD',
+        webs       => [ $test_web, 'SubWeb' ],
+        topic      => 'Topic',
+        rev        => '2',
+        meta       => 'FIELD',
         metamember => 2,
-        metakey => 'value'
+        metakey    => 'value'
     );
     my $parsedObjAddr = Foswiki::Address->new(
-        string => $objAddr->stringify(),
+        string  => $objAddr->stringify(),
         existAs => [qw(attachment meta topic)]
     );
 
-    ASSERT( $parsedObjAddr->equiv( $objAddr ) );
+    ASSERT( $parsedObjAddr->equiv($objAddr) );
     ASSERT( $parsedObjAddr->type() eq 'metakey' );
     $parsedObjAddr->metakey(undef);
     ASSERT( $parsedObjAddr->type() eq 'metamember' );
@@ -290,43 +294,156 @@ sub test_meta2 {
 }
 
 sub test_meta3 {
+    my ($this) = @_;
     my $objAddr = Foswiki::Address->new(
-        webs => [$test_web, 'SubWeb'],
-        topic => 'Topic',
-        rev => '2',
-        meta => 'FIELD',
-        metamember => 'Colour',
+        webs          => [ $test_web, 'SubWeb' ],
+        topic         => 'Topic',
+        rev           => '2',
+        meta          => 'FIELD',
+        metamember    => 'Colour',
         metamemberkey => 'name',
-        metakey => 'value'
+        metakey       => 'value'
     );
     my $parsedObjAddr = Foswiki::Address->new(
-        string => "'$test_web/SubWeb.Topic\@2'/fields[name='Colour'].value",
+        string  => "'$test_web/SubWeb.Topic\@2'/fields[name='Colour'].value",
         existAs => [qw(attachment meta topic)]
     );
 
-    ASSERT( $parsedObjAddr->equiv( $objAddr ) );
+    ASSERT( $parsedObjAddr->equiv($objAddr) );
     ASSERT( $parsedObjAddr->type() eq 'metakey' );
 
     return;
 }
 
 sub test_meta4 {
+    my ($this) = @_;
     my $objAddr = Foswiki::Address->new(
-        webs => [$test_web, 'SubWeb'],
-        topic => 'Topic',
-        rev => '2',
-        meta => 'FIELD',
-        metamember => 'Colour',
+        webs          => [ $test_web, 'SubWeb' ],
+        topic         => 'Topic',
+        rev           => '2',
+        meta          => 'FIELD',
+        metamember    => 'Colour',
         metamemberkey => 'name',
-        metakey => 'value'
+        metakey       => 'value'
     );
     my $parsedObjAddr = Foswiki::Address->new(
-        string => "'$test_web/SubWeb.Topic\@2'/Colour",
+        string  => "'$test_web/SubWeb.Topic\@2'/Colour",
         existAs => [qw(attachment meta topic)]
     );
 
-    ASSERT( $parsedObjAddr->equiv( $objAddr ) );
+    ASSERT( $parsedObjAddr->equiv($objAddr) );
     ASSERT( $parsedObjAddr->type() eq 'metakey' );
+
+    return;
+}
+
+sub test_normaliseWebTopicName_timing {
+    my ($this) = @_;
+    my $web;
+    my $topic;
+    my $benchmark = timeit(
+        15000,
+        sub {
+            ( $web, $topic ) =
+              Foswiki::Func::normalizeWebTopicName( '', 'Web/SubWeb.Topic' );
+        }
+    );
+
+    print timestr($benchmark);
+
+    return;
+}
+
+sub test_timing_normaliseWebTopicName_default {
+    my ($this) = @_;
+    my $web;
+    my $topic;
+    my $benchmark = timeit(
+        20000,
+        sub {
+            ( $web, $topic ) =
+              Foswiki::Func::normalizeWebTopicName( 'Web/SubWeb', 'Topic' );
+        }
+    );
+
+    print timestr($benchmark);
+
+    return;
+}
+
+sub test_timing_normaliseWebTopicName_equiv {
+    my ($this) = @_;
+    my $addr;
+    my $benchmark = timeit(
+        10000,
+        sub {
+            $addr = Foswiki::Address->new(
+                string => 'Web/SubWeb.Topic',
+                isA    => 'topic'
+            );
+        }
+    );
+
+    print timestr($benchmark);
+
+    return;
+}
+
+sub test_timing_normaliseWebTopicName_equiv_default {
+    my ($this) = @_;
+    my $addr;
+    my $benchmark = timeit(
+        10000,
+        sub {
+            $addr = Foswiki::Address->new(
+                string => 'Topic',
+                isA    => 'topic',
+                web    => 'Web/SubWeb'
+            );
+        }
+    );
+
+    print timestr($benchmark);
+
+    return;
+}
+
+sub test_timing_creation {
+    my ($this) = @_;
+    my $addr;
+    my $benchmark = timeit(
+        100000,
+        sub {
+            $addr = Foswiki::Address->new(
+                webs       => [qw(Web SubWeb)],
+                topic      => 'Topic',
+                attachment => 'Attachment.pdf',
+                rev        => 3
+            );
+        }
+    );
+
+    print timestr($benchmark);
+
+    return;
+}
+
+sub test_timing_hashref_creation {
+    my ($this) = @_;
+    my $addr;
+    my $benchmark = timeit(
+        200000,
+        sub {
+            $addr = {
+                webs       => [qw(Web SubWeb)],
+                topic      => 'Topic',
+                attachment => 'Attachment.pdf',
+                rev        => 3
+            };
+        }
+    );
+
+    print timestr($benchmark);
 
     return;
 }
