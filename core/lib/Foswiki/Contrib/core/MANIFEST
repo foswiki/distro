@@ -443,6 +443,7 @@ lib/DEPENDENCIES 0444
 lib/Foswiki.pm 0444
 lib/Foswiki.spec 0444
 lib/Foswiki/AccessControlException.pm 0444
+lib/Foswiki/Address.pm 0444
 lib/Foswiki/AggregateIterator.pm 0444
 lib/Foswiki/Attach.pm 0444
 lib/Foswiki/Attrs.pm 0444
