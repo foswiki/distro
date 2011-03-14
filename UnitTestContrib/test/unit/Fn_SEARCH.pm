@@ -371,6 +371,15 @@ OkATopic,OkBTopic,OkTopic
 EXPECT
 }
 
+sub verify_no_header_no_footer_with_nl_separator_with_results {
+    my $this = shift;
+    $this->_septic( 0, 0, '$n', 1, <<EXPECT);
+OkATopic
+OkBTopic
+OkTopic
+EXPECT
+}
+
 sub verify_no_header_no_footer_with_separator_no_results {
     my $this = shift;
     $this->_septic( 0, 0, ",", 0, <<EXPECT);
