@@ -15,6 +15,7 @@ lib/Unit/TestRunner.pm 0644
 lib/Unit/TestSuite.pm 0644
 test/bin/TestRunner.pl 0755
 test/unit/AccessControlTests.pm 0644
+test/unit/AddressTests.pm 0644
 test/unit/AttrsTests.pm 0644
 test/unit/AutoAttachTests.pm 0644
 test/unit/CacheTests.pm 0755
