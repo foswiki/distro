@@ -337,7 +337,7 @@ sub test_meta4 {
     return;
 }
 
-sub test_normaliseWebTopicName_timing {
+sub test_timing_normaliseWebTopicName {
     my ($this) = @_;
     my $web;
     my $topic;
@@ -349,7 +349,7 @@ sub test_normaliseWebTopicName_timing {
         }
     );
 
-    print timestr($benchmark);
+    print timestr($benchmark) . "\n";
 
     return;
 }
@@ -366,7 +366,7 @@ sub test_timing_normaliseWebTopicName_default {
         }
     );
 
-    print timestr($benchmark);
+    print timestr($benchmark) . "\n";
 
     return;
 }
@@ -384,7 +384,7 @@ sub test_timing_normaliseWebTopicName_equiv {
         }
     );
 
-    print timestr($benchmark);
+    print timestr($benchmark) . "\n";
 
     return;
 }
@@ -403,7 +403,7 @@ sub test_timing_normaliseWebTopicName_equiv_default {
         }
     );
 
-    print timestr($benchmark);
+    print timestr($benchmark) . "\n";
 
     return;
 }
@@ -423,7 +423,7 @@ sub test_timing_creation {
         }
     );
 
-    print timestr($benchmark);
+    print timestr($benchmark) . "\n";
 
     return;
 }
@@ -443,7 +443,46 @@ sub test_timing_hashref_creation {
         }
     );
 
-    print timestr($benchmark);
+    print timestr($benchmark) . "\n";
+
+    return;
+}
+
+sub test_timing_reparse_default {
+    my ($this) = @_;
+    my $addr =
+      Foswiki::Address->new( topic => 'Topic', webs => [qw(Web SubWeb)] );
+    my $benchmark = timeit(
+        15000,
+        sub {
+            $addr->parse(
+                'AnotherTopic',
+                isA  => 'topic',
+                webs => [qw(OtherWeb OtherSubWeb)]
+            );
+        }
+    );
+
+    print timestr($benchmark) . "\n";
+
+    return;
+}
+
+sub test_timing_reparse {
+    my ($this) = @_;
+    my $addr =
+      Foswiki::Address->new( topic => 'Topic', webs => [qw(Web SubWeb)] );
+    my $benchmark = timeit(
+        15000,
+        sub {
+            $addr->parse(
+                'AnotherWeb/AnotherSubWeb.AnotherTopic',
+                isA  => 'topic',
+            );
+        }
+    );
+
+    print timestr($benchmark) . "\n";
 
     return;
 }
