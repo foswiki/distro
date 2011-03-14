@@ -1197,12 +1197,12 @@ sub isA {
 
 Returns true if the instance addresses a resource which is one of the following
 types:
-   * web
-   * topic
-   * attachment
-   * meta
-   * metamember
-   * metamemberkey
+   * web, Eg. =Web/SubWeb/=
+   * topic, Eg. =Web/SubWeb.Topic=
+   * attachment, Eg. =Web/SubWeb.Topic/Attachment=
+   * meta, Eg. ='Web/SubWeb.Topic'/META:FIELD=
+   * metamember, Eg. ='Web/SubWeb.Topic'/META:FIELD[name='Colour']=
+   * metakey, Eg. ='Web/SubWeb.Topic'/META:FIELD[name='Colour'].value=
 
 =cut
 
