@@ -490,20 +490,26 @@ It is highly recommended that you configure Foswiki by using your browser to acc
 
 Perform the following steps to manually configure Foswiki:
    * Copy the file =lib/Foswiki.spec= to =lib/LocalSite.cfg=
-   * Remove the # in front of the following settings, and ensure that they are set to the correct values:<sticky><verbatim class="perl">
+   * Remove the # in front of the following settings, and ensure that they are set to the correct values: Note: The settings must not reference other $Foswiki::cfg variables.<sticky><verbatim class="perl">
    $Foswiki::cfg{DefaultUrlHost}
    $Foswiki::cfg{ScriptUrlPath}
+   $Foswiki::cfg{ScriptDir}
    $Foswiki::cfg{PubUrlPath}
    $Foswiki::cfg{PubDir}
-   $Foswiki::cfg{TemplateDir}
    $Foswiki::cfg{DataDir}
+   $Foswiki::cfg{ToolsDir}
+   $Foswiki::cfg{TemplateDir}
    $Foswiki::cfg{LocalesDir}
+   $Foswiki::cfg{WorkingDir}
    $Foswiki::cfg{OS}</verbatim></sticky>
+
    * Make sure the following settings are defined:<sticky><verbatim class="perl">
    $Foswiki::cfg{LoginManager}
    $Foswiki::cfg{WebMasterEmail}
    $Foswiki::cfg{SMTP}{MAILHOST}
    $Foswiki::cfg{SMTP}{SENDERHOST}</verbatim></sticky>
+
+   * Remove the line containing ==__END__== and everything following it.
 %STOPINCLUDE%
 
 ---
