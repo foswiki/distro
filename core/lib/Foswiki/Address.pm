@@ -555,13 +555,15 @@ sub parse {
             }
 
             # Exist hinting. The first complete hit, or the hit which matches
-            # the most (out of web, topic, attachment) wins. The former should
-            # naturally fall out of the latter, unless the existAs list is not
-            # ordered smallestthing-first (Eg. attachment, topic, web).
+            # the most (out of the existAsList, Eg.: attachment, topic, web)
+            # wins. The former should naturally fall out of the latter, unless
+            # the existAs list is not ordered smallestthing-first
             if ( $opts{existHints} ) {
                 my $i        = 0;
                 my $ntrylist = scalar(@trylist);
                 my $besttype;
+                my $bestscore;
+                my $bestscoredtype;
 
                 # If a complete hit is detected, we set $besttype & exit early
                 while ( $ntrylist > $i and not $besttype ) {
@@ -577,20 +579,16 @@ sub parse {
                     ( $besttype, $score ) =
                       $this->_existScore( $typeatoms{$type}, $type );
                     print "existScore: $score, besttype: $besttype\n" if TRACE;
-                    if ( $score and not defined $typescores{$score} ) {
-                        $typescores{$score} = $type;
+                    if ( $score and (not defined $bestscore or $bestscore < $score ) ) {
+                        $bestscoredtype = $type;
+                        $bestscore = $score;
                     }
                 }
 
                 # Unless we already got a perfect hit; find the type for this
                 # path that gives the highest score
                 if ( not $besttype ) {
-                    my $bestscore = 3;
-
-                    while ( 0 < $bestscore and not $typescores{$bestscore} ) {
-                        $bestscore -= 1;
-                    }
-                    $besttype = $typescores{$bestscore};
+                    $besttype = $bestscoredtype;
                 }
 
                 # Copy the atoms from the best hit into our instance.
