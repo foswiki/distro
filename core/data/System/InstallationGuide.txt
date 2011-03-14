@@ -339,7 +339,7 @@ Foswiki:Extensions is an extensive library of [[plugins]] for Foswiki that enhan
    * [[Contribs]] and [[ContributedAddOns][AddOns]] are any other Extension that provides added functionality beyond Plugins and Skins
 
 ---++++ Installing extensions
-In the _Extensions_ section of the =configure= page, you can select the _Find More Extensions_ button to download and install additional plugins from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
+Visit [[%SCRIPTURL{configure}%#Extensions][configure:Extensions]]. Use the _Find More Extensions_ button to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
 
 When installing an extension from the =configure= interface:
    * Even if available, local Extension installers and archives are not used
