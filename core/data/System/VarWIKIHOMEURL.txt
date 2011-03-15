@@ -6,4 +6,4 @@
    * Expands to =%WIKIHOMEURL%=
    * Normally by default set to =%<nop>SCRIPTURLPATH{"view"}%=
    <blockquote class="foswikiHelp">%X% For the top bar logo URL use =%<nop>WIKILOGOURL%= defined in WebPreferences instead.</blockquote>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarVarWIKITOOLNAME][WIKITOOLNAME]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKITOOLNAME][WIKITOOLNAME]]
