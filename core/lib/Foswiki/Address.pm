@@ -253,7 +253,8 @@ sub new {
 
         if ( $opts{isA} ) {
             $this->{parseopts}->{existAsList} = [ $opts{isA} ];
-            $this->{parseopts}->{existAs} = { $opts{isA} => 1 };
+            $this->{parseopts}->{existAs}     = { $opts{isA} => 1 };
+            $this->{parseopts}->{existHints}  = 0;
         }
         else {
 
@@ -458,11 +459,14 @@ sub parse {
     $this->_invalidate();
     if ( not $this->{parseopts} ) {
         $this->{parseopts} = {
-            web        => $opts{web},
-            webs       => $opts{webs},
-            topic      => $opts{topic},
-            attachment => $opts{attachment},
-            rev        => $opts{rev},
+            web         => $opts{web},
+            webs        => $opts{webs},
+            topic       => $opts{topic},
+            attachment  => $opts{attachment},
+            rev         => $opts{rev},
+            existHints  => 1,
+            existAsList => [qw(attachment topic)],
+            existAs     => { attachment => 1, topic => 1 }
         };
     }
     %opts = ( %{ $this->{parseopts} }, %opts );
