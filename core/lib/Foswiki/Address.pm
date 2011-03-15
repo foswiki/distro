@@ -466,8 +466,8 @@ sub parse {
         };
     }
     %opts = ( %{ $this->{parseopts} }, %opts );
-    $path =~ s/\@([-\+]?\d+)$//;
-    $this->{rev} = $1;
+    $path =~ s/(\@([-\+]?\d+))$//;
+    $this->{rev} = $2;
     ASSERT( defined $opts{existHints} ) if DEBUG;
     ASSERT( defined $opts{existAs} )    if DEBUG;
 
@@ -546,7 +546,7 @@ sub parse {
             $sepident .= $sepidentchars{$sepboost}->{$lastsep};
         }
         $plaus = $plausibletable{$sepident};
-        print "Identity\t$sepident calculated for $path, plaustable: "
+        print STDERR "Identity\t$sepident calculated for $path, plaustable: "
           . Dumper($plaus)
           if TRACE;
 
@@ -598,12 +598,13 @@ sub parse {
                     ASSERT( $atommap{$type} ) if DEBUG;
                     $typeatoms{$type} =
                       $atommap{$type}->( $this, {}, $path, \%opts );
-                    print "Atomised $path as $type, result: "
+                    print STDERR "Atomised $path as $type, result: "
                       . Dumper( $typeatoms{$type} )
                       if TRACE;
                     ( $besttype, $score ) =
                       $this->_existScore( $typeatoms{$type}, $type );
-                    print "existScore: $score, besttype: $besttype\n" if TRACE;
+                    print STDERR "existScore: $score, besttype: $besttype\n"
+                      if TRACE;
 
                     if ( $score
                         and ( not defined $bestscore or $bestscore < $score ) )
@@ -1346,6 +1347,7 @@ sub equiv {
                       if DEBUG;
                     if ( $this->{webs}->[$i] ne $other->{webs}->[$i] ) {
                         $equal = 0;
+                        print STDERR "equiv(): web paths not equal\n" if TRACE;
                     }
                     else {
                         $i += 1;
@@ -1363,19 +1365,33 @@ sub equiv {
                                 or $this->{$part} ne $other->{$part} )
                             {
                                 $equal = 0;
+                                print STDERR "equiv(): $part part not equal\n"
+                                  if TRACE;
                             }
                         }
                         elsif ( defined $other->{$part} ) {
                             $equal = 0;
+                            print STDERR
+                              "equiv(): $part undef in one and not the other\n"
+                              if TRACE;
                         }
                         $i += 1;
                     }
                 }
             }
+            elsif (TRACE) {
+                print STDERR "equiv(): web paths different sizes\n";
+            }
+        }
+        elsif (TRACE) {
+            print STDERR "equiv(): webs empty\n";
         }
     }
+    elsif (TRACE) {
+        print STDERR "equiv(): types were not equal\n";
+    }
     if ( not $equal ) {
-        print "equiv(): NOT equal "
+        print STDERR "equiv(): NOT equal "
           . Dumper($this) . " vs "
           . Dumper($other) . "\n"
           if TRACE;
