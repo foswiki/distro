@@ -13,13 +13,18 @@
 %STARTSECTION{"secretEmailEnabled"}%
 <strong>%MAKETEXT{"This form is used to change your registered e-mail addresses. Your registered addresses are used by Foswiki for sending you e-mails, including notifications of password changes. The addresses you register via this form are kept secret and will *not* be published anywhere on this site."}%</strong>
 
-<blockquote class="foswikiHelp">%X% *%MAKETEXT{"Security Note:"}%* %MAKETEXT{"You really ought to register a valid e-mail address. If Foswiki can't find a registered e-mail for you in the secret database, it will look in your user topic for a form field called Email. If this form field does not exist it will look for a line like this:"}%</blockquote>
+<blockquote class="foswikiHelp">%X% *%MAKETEXT{"Security Note:"}%* %MAKETEXT{"You really ought to register a valid e-mail address. If Foswiki can't find a registered e-mail for you in the secret database, it will look in your user topic for a form field called Email. If this form field does not exist it will look for a line like this:"}%
 
-=&nbsp;&nbsp;&nbsp;* Set Email = <nop>user@example.com=
+==&nbsp;&nbsp;&nbsp;* Set Email = <nop>user@example.com==
+</blockquote>
 
 %MAKETEXT{"If your user topic is not protected from changes by other people, and you don't register an e-mail address using this form, then your user account could be hijacked by someone else."}%
 
 %MAKETEXT{"If your old e-mail addresses are all invalid (you can't receive mail there any more) and you have forgotten your password, please contact [_1] for help." args="%WIKIWEBMASTER%"}%
+
+%IF{"$USERNAME ingroup 'AdminGroup'" then="
+%MAKETEXT{"*Administrators:* You can change user's e-mail address using this form. Enter the users Login or WikiName and the new e-mail address."}%
+"}%
 
 <form name="manage" action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
 <div class="foswikiFormSteps">
@@ -32,8 +37,8 @@
 <div class="foswikiFormStep">
 %TABLE{databg="transparent" tableborder="0" tablerules="none"}%
 | | %MAKETEXT{"Fields marked [_1] are required" args="=<font color='red'>**</font>="}% |
-|  %MAKETEXT{"Your [_1].LoginName" args="%SYSTEMWEB%"}%: | <input type="text" name="username" value="%URLPARAM{"username" default="%USERNAME%"}%" size="40" class="foswikiInputField" /> =<font color="red">**</font>= |
-|  %MAKETEXT{"Password"}%: | <input %NOTMODIFYABLE% type="password" name="oldpassword" value="%URLPARAM{oldpassword}%" size="40" class="foswikiInputField" /> =<font color="red">**</font>= |
+|  %IF{"$USERNAME NOT ingroup 'AdminGroup'" then="%MAKETEXT{"Your"}%"}% %MAKETEXT{"[_1].LoginName" args="%SYSTEMWEB%"}%: | <input type="text" name="username" value="%URLPARAM{"username" default="%USERNAME%"}%" size="40" class="foswikiInputField" /> =<font color="red">**</font>= |%IF{"$USERNAME NOT ingroup 'AdminGroup'" then="
+|  %MAKETEXT{"Password"}%: | <input %NOTMODIFYABLE% type=\"password\" name=\"oldpassword\" value=\"%URLPARAM{oldpassword}%\" size=\"40\" class=\"foswikiInputField\" /> =<font color=\"red\">**</font>= |"}%
 |  %MAKETEXT{"New e-mails (space-separated list)"}%: | <input type="text" name="email" size="40" class="foswikiInputField" /> =<font color="red">**</font>= |
 </div>
 <div class="foswikiFormStep foswikiLast">
