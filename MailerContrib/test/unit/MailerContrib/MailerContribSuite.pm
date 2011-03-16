@@ -181,6 +181,19 @@ sub set_up {
             entry     => "'IT:admins': TestTopic1",
             topicsout => "",
         },
+
+	# Item9898: trailing space
+	{
+	    email => "email9\@example.com",
+	    entry => "FruitBat:  ",
+	    topicsout => ""
+	},
+
+	{
+	    email => "jeltz\@vogsphere.com",
+	    entry => "ProstectnicVogonJeltz - jeltz\@vogsphere.com",
+	    topicsout => "*"
+	}
     );
 
     if (  !$Foswiki::cfg{Site}{CharSet}
@@ -812,6 +825,20 @@ sub test_changeSubscription_and_isSubScribedTo_API {
     #  new Foswiki::Contrib::MailerContrib::WebNotify(
     #    $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
     #$this->assert_str_equals( "   * $who: WebIndex\n", $wn->stringify(1) );
+}
+
+# There have been several reports of legacy formats not working, so here's a test
+sub test_parseRealTopic {
+    my $this = shift;
+    Foswiki::Func::saveTopic( $this->{test_web}, "TestWebNotify", undef, <<'SEE');
+   * FruitBat: 
+   * ProstectnicVogonJeltz - jeltz@vogsphere.com
+SEE
+    my $expect = <<'EXPECT';
+   * jeltz@vogsphere.com: *
+EXPECT
+    my $wn = new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},'TestWebNotify',1);
+    $this->assert_equals($expect,  $wn->stringify());
 }
 
 1;
