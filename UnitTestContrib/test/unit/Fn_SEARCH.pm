@@ -4807,5 +4807,78 @@ sub verify_Item10398 {
     $this->assert_str_equals( 'WebPreferences', $result );
 }
 
+#%SEARCH{"SomeString" web="Tasks"  scope="all" order="topic" type="word" }%
+sub verify_Item10491_nonoise {
+    my $this = shift;
+
+    $this->set_up_for_queries();
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'Item10491',
+        "in conversation\n we happen to have SomeString.txt that might be matched, and SomeString, and a other." );
+    $topicObject->save();
+
+
+    my $result =
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"SomeString" type="word" web="'.$this->{test_web}.'"  scope="all" order="topic" recurse="on" nonoise="on" format="$topic"}%' );
+    $this->assert_str_equals( 'Item10491', $result );
+}
+sub verify_Item10491_default {
+    my $this = shift;
+
+    $this->set_up_for_queries();
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'Item10491',
+        "in conversation\n we happen to have SomeString.txt that might be matched, and SomeString, and a other." );
+    $topicObject->save();
+
+
+    my $result =
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"SomeString" type="word" web="'.$this->{test_web}.'"  scope="all" order="topic"}%' );
+    $this->assert_str_equals( _cut_the_crap(<<RESULT), _cut_the_crap($result."\n") );
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>SomeString</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+<h4 class="foswikiSearchResultsHeader"  style="border-color:\#FF00FF"><b>Results from <nop>TemporarySEARCHTestWebSEARCH web</b> retrieved at 02:54 (GMT)</h4>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="/~sven/core/bin/view/TemporarySEARCHTestWebSEARCH/Item10491"><b>Item10491</b></a>
+<div class="foswikiSummary"><b>&hellip;</b>  we happen to have <em><nop>SomeString</em>.txt that might be matched,  <b>&hellip;</b> and <em><nop>SomeString</em>, and a other <b>&hellip;</b> </div></div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/~sven/core/bin/rdiff/TemporarySEARCHTestWebSEARCH/Item10491" rel='nofollow'>16 Mar 2011 - 02:54</a></span> <span class="foswikiSRAuthor">by WikiGuest </span></div>
+</div>
+<div class="foswikiSearchResultCount">Number of topics: <span>1</span></div>
+RESULT
+}
+
+sub verify_Item10491_defaultSEARCH {
+    my $this = shift;
+
+    $this->set_up_for_queries();
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'Item10491',
+        "in conversation\n we happen to have SomeString.txt that might be matched, and SomeString, and a other.\n----\n%SEARCH{\"SomeString\" web=\"".$this->{test_web}."\"  scope=\"all\" order=\"topic\" type=\"word\" }%\n----\n" );
+    $topicObject->save();
+
+
+    my $result =
+      $this->{test_topicObject}
+      ->expandMacros( $topicObject->text );
+    $this->assert_str_equals( _cut_the_crap(<<RESULT), _cut_the_crap($result."\n") );
+in conversation
+ we happen to have SomeString.txt that might be matched, and SomeString, and a other.
+----
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>SomeString</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+<h4 class="foswikiSearchResultsHeader"  style="border-color:\#FF00FF"><b>Results from <nop>TemporarySEARCHTestWebSEARCH web</b> retrieved at 03:16 (GMT)</h4>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="/~sven/core/bin/view/TemporarySEARCHTestWebSEARCH/Item10491"><b>Item10491</b></a>
+<div class="foswikiSummary"><b>&hellip;</b>  we happen to have <em><nop>SomeString</em>.txt that might be matched,  <b>&hellip;</b> and <em><nop>SomeString</em>, and a other <b>&hellip;</b> </div></div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/~sven/core/bin/rdiff/TemporarySEARCHTestWebSEARCH/Item10491" rel='nofollow'>16 Mar 2011 - 03:16</a></span> <span class="foswikiSRAuthor">by WikiGuest </span></div>
+</div>
+<div class="foswikiSearchResultCount">Number of topics: <span>1</span></div>
+----
+
+RESULT
+}
 
 1;
