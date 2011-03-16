@@ -1660,6 +1660,9 @@ read to be successful.  Access control violations are flagged by a
 Foswiki::AccessControlException. Permissions are checked for the current user.
 
 <verbatim>
+use Error qw(:try);
+use Foswiki::AccessControlException ();
+
 my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
 my @attachments = $meta->find( 'FILEATTACHMENT' );
 foreach my $a ( @attachments ) {
@@ -1900,7 +1903,8 @@ sub setTopicEditLock {
 
    * =$web= - web for the topic
    * =$topic= - topic name
-   * =$meta= - reference to Foswiki::Meta object
+   * =$meta= - reference to Foswiki::Meta object 
+     (optional, set to undef to create a new topic, or to just change that topic's text)
    * =$text= - text of the topic (without embedded meta-data!!!
    * =\%options= - ref to hash of save options
      =\%options= may include:
@@ -1911,6 +1915,7 @@ sub setTopicEditLock {
 For example,
 <verbatim>
 use Error qw( :try );
+use Foswiki::AccessControlException ();
 
 my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
 $text =~ s/APPLE/ORANGE/g;
