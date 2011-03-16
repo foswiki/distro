@@ -133,7 +133,7 @@ sub search {
 
     # Note use of / and \ as dir separators, to support Winblows
     $matches =~
-      s/([^\/\\]*)\.txt(:(.*))?$/push( @{$seen{$1}}, ($3||'') ); ''/gem;
+      s/([^\/\\]*?)\.txt(:(.*))?$/push( @{$seen{$1}}, ($3||'') ); ''/gem;
 
     # Implicit untaint OK; data from grep
 
