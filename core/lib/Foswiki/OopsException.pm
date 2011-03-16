@@ -35,17 +35,18 @@ This will raise an exception that uses the =bathplugin.tmpl= template. If
 <verbatim>
 oops?template=bathplugin;param1=bigtoe;param2=hot%20tap
 </verbatim>
-The =bathplugin.tmpl= might contain:
+The =bathplugin.tmpl= might contain: 
+(&lt;nop> inserted to prevent translation interface from extracting these examples)
 <verbatim>
 %TMPL:INCLUDE{"oops"}%
-%TMPL:DEF{"titleaction"}% %MAKETEXT{"Bathing problem"}% %TMPL:END%
-%TMPL:DEF{"heading"}%%MAKETEXT{"Problem filling bath"}%%TMPL:END%
+%TMPL:DEF{"titleaction"}% %<nop>MAKETEXT{"Bathing problem"}% %TMPL:END%
+%TMPL:DEF{"heading"}%%<nop>MAKETEXT{"Problem filling bath"}%%TMPL:END%
 %TMPL:DEF{"topicactionbuttons"}%%TMPL:P{"oktopicaction"}%%TMPL:END%
 %TMPL:DEF{"script"}%<meta http-equiv="refresh" content="0;url=%SCRIPTURL{view}%/%WEB%/%TOPIC%" />%TMPL:END%
 %TMPL:DEF{"pagetitle"}%%TMPL:P{"heading"}%%TMPL:END%
-%TMPL:DEF{"webaction"}% *%MAKETEXT{"Warning"}%* %TMPL:END%
+%TMPL:DEF{"webaction"}% *%<nop>MAKETEXT{"Warning"}%* %TMPL:END%
 %TMPL:DEF{"message"}%
-%MAKETEXT{"Your bath cannot be filled because your [_1] is [_2] the [_3]%TMPL:END%
+%<nop>MAKETEXT{"Your bath cannot be filled because your [_1] is [_2] the [_3]" args="drain,flooding,basement"}%%TMPL:END%
 </verbatim>
 In this case the =oops= page will be rendered with a 418 ("I'm a teapot")
 status in the HTTP header.
