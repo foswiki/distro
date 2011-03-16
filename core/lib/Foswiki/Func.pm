@@ -1904,7 +1904,8 @@ sub setTopicEditLock {
    * =$web= - web for the topic
    * =$topic= - topic name
    * =$meta= - reference to Foswiki::Meta object 
-     (optional, set to undef to create a new topic, or to just change that topic's text)
+     (optional, set to undef to create a new topic containing just text,
+     or to just change that topic's text)
    * =$text= - text of the topic (without embedded meta-data!!!
    * =\%options= - ref to hash of save options
      =\%options= may include:
@@ -1917,7 +1918,15 @@ For example,
 use Error qw( :try );
 use Foswiki::AccessControlException ();
 
-my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+my( $meta, $text );
+if (Foswiki::Func::topicExists($web, $topic)) {
+    ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+} else {
+    #if the topic doesn't exist, we can either leave $meta undefined
+    #or if we need to set more than just the topic text, we create a new Meta object and use it.
+    $meta = new Foswiki::Meta($Foswiki::Plugins::SESSION, $web, $topic );
+    $text = '';
+}
 $text =~ s/APPLE/ORANGE/g;
 try {
     Foswiki::Func::saveTopic( $web, $topic, $meta, $text );
