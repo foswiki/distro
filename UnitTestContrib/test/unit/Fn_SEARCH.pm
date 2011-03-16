@@ -1031,6 +1031,46 @@ sub verify_search_numpty_word {
     $this->assert_str_equals( "", $result );
 }
 
+sub set_up_for_Item10491 {
+    my $this = shift;
+
+    my $text = <<'HERE';
+%META:TOPICINFO{author="ProjectContributor" date="1169714817" format="1.1" version="1.2"}%
+%META:TOPICPARENT{name="TestCaseAutoFormattedSearch"}%
+
+  somestring.txt
+
+HERE
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'Item10419Topic1', $text );
+    $topicObject->save();
+}
+
+sub verify_Item10491 {
+    my $this    = shift;
+    my $session = $this->{session};
+
+    $this->set_up_for_Item10491();
+    my $actual, my $expected;
+
+    $actual =
+      $this->{test_topicObject}->expandMacros(
+"%SEARCH{\"SomeString\" web=\"$this->{test_web}\"  scope=\"all\" order=\"topic\" type=\"word\" }%"
+      );
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = <<'HERE';
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>SomeString</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+<h4 class="foswikiSearchResultsHeader"  style="border-color:\#FF00FF"><b>Results from <nop>Item10419Topic1 web</b> retrieved at 20:58 (GMT)</h4>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="/Item10419Topic1/txt:  somestring"><b>txt:  somestring</b></a>
+<div class="foswikiSummary"></div></div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/rdiff/Item10419Topic1/txt:  somestring" rel='nofollow'>01 Jan 1970 - 00:00</a></span> <span class="foswikiSRAuthor">by <span class="foswikiNewLink">WikiGuest<a href="/edit/TemporarySEARCHTestWebSEARCH/WikiGuest?topicparent=TemporarySEARCHTestWebSEARCH.TestTopicSEARCH" rel="nofollow" title="Create this topic">?</a></span> </span></div>
+    $this->assert_str_equals( $expected, $actual );
+HERE
+}
+
 sub set_up_for_formatted_search {
     my $this = shift;
 
