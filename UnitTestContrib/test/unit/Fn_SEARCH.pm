@@ -1031,46 +1031,6 @@ sub verify_search_numpty_word {
     $this->assert_str_equals( "", $result );
 }
 
-sub set_up_for_Item10491 {
-    my $this = shift;
-
-    my $text = <<'HERE';
-%META:TOPICINFO{author="ProjectContributor" date="1169714817" format="1.1" version="1.2"}%
-%META:TOPICPARENT{name="TestCaseAutoFormattedSearch"}%
-
-  somestring.txt
-
-HERE
-
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        'Item10419Topic1', $text );
-    $topicObject->save();
-}
-
-sub verify_Item10491 {
-    my $this    = shift;
-    my $session = $this->{session};
-
-    $this->set_up_for_Item10491();
-    my $actual, my $expected;
-
-    $actual =
-      $this->{test_topicObject}->expandMacros(
-"%SEARCH{\"SomeString\" web=\"$this->{test_web}\"  scope=\"all\" order=\"topic\" type=\"word\" }%"
-      );
-    $actual = $this->{test_topicObject}->renderTML($actual);
-    $expected = <<'HERE';
-<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>SomeString</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
-<h4 class="foswikiSearchResultsHeader"  style="border-color:\#FF00FF"><b>Results from <nop>Item10419Topic1 web</b> retrieved at 20:58 (GMT)</h4>
-<div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="/Item10419Topic1/txt:  somestring"><b>txt:  somestring</b></a>
-<div class="foswikiSummary"></div></div>
-<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/rdiff/Item10419Topic1/txt:  somestring" rel='nofollow'>01 Jan 1970 - 00:00</a></span> <span class="foswikiSRAuthor">by <span class="foswikiNewLink">WikiGuest<a href="/edit/TemporarySEARCHTestWebSEARCH/WikiGuest?topicparent=TemporarySEARCHTestWebSEARCH.TestTopicSEARCH" rel="nofollow" title="Create this topic">?</a></span> </span></div>
-    $this->assert_str_equals( $expected, $actual );
-HERE
-}
-
 sub set_up_for_formatted_search {
     my $this = shift;
 
@@ -4808,30 +4768,60 @@ sub verify_Item10398 {
 }
 
 #%SEARCH{"SomeString" web="Tasks"  scope="all" order="topic" type="word" }%
-sub verify_Item10491_nonoise {
+sub verify_Item10491 {
     my $this = shift;
 
-    $this->set_up_for_queries();
+    #$this->set_up_for_queries();
 
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'Item10491',
-        "in conversation\n we happen to have SomeString.txt that might be matched, and SomeString, and a other." );
-    $topicObject->save();
+        <<TOPICTEXT );
+Search on Foswiki.org has been showing some signs of corruption.   The topic Tasks/Item968 appeared to be related, however it can be created  From IRC:
+
+ SomeString.txt
+
+So hopefully this topic will cause the same issue once I save it...
+
+-- Main.GeorgeClark - 15 Mar 2011
 
 
-    my $result =
-      $this->{test_topicObject}
-      ->expandMacros( '%SEARCH{"SomeString" type="word" web="'.$this->{test_web}.'"  scope="all" order="topic" recurse="on" nonoise="on" format="$topic"}%' );
-    $this->assert_str_equals( 'Item10491', $result );
-}
-sub verify_Item10491_default {
-    my $this = shift;
 
-    $this->set_up_for_queries();
+The WikiWord is being expanded in the first hit of the search results.  2nd and subsequent hits don't get corrupted.
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'Item10491',
-        "in conversation\n we happen to have SomeString.txt that might be matched, and SomeString, and a other." );
+<verbatim>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="/Item10491/txt: <span class="foswikiNewLink">SomeString<a href="/bin/edit/System/SomeString?topicparent=System.WebSearch" rel="nofollow" title="Create this topic">?</a></span> "><b>txt: <span class="foswikiNewLink">SomeString<a href="/bin/edit/System/SomeString?topicparent=System.WebSearch" rel="nofollow" title="Create this topic">?</a></span> </b></a>
+<div class="foswikiSummary"></div></div>
+</verbatim>
+
+And worse,  the string is then interpreted as if it were a web.  See the following search results:  Reports 2 webs: Results from Tasks web, and Results from Item10491 web
+
+http://foswiki.org/System/WebSearch?tab=searchadvanced&search=SomeString&scope=all&order=topic&type=word&limit=;web=Tasks
+
+
+-- %USERSWEB%.GeorgeClark - 15 Mar 2011
+
+
+Sample search
+-------
+<verbatim>
+%SEARCH{"SomeString" web="Tasks"  scope="text" order="topic" type="word" }%
+</verbatim>
+--------
+%SEARCH{"SomeString" web="Tasks"  scope="text" order="topic" type="word" }%
+--------
+
+-- %USERSWEB%.GeorgeClark - 15 Mar 2011
+
+
+This might be related to Trunk issue [[Item10479]] in that the searches that exhibit corruption on Release11 cause the crash on Trunk.  There were some patches applied to Foswiki.org by PaulHarvey that I've removed.  But that did not improve the issue.
+
+I'm able to duplicate the issue locally on a 1.1.3 checkout (two webs returned with a single web search).  However the same search macro run from the Unit Test framework only returns a single web,  so unable to reproduce for a unit test.
+
+
+-- %USERSWEB%.GeorgeClark - 15 Mar 2011
+%COMMENT%
+TOPICTEXT
     $topicObject->save();
 
 
@@ -4840,44 +4830,13 @@ sub verify_Item10491_default {
       ->expandMacros( '%SEARCH{"SomeString" type="word" web="'.$this->{test_web}.'"  scope="all" order="topic"}%' );
     $this->assert_str_equals( _cut_the_crap(<<RESULT), _cut_the_crap($result."\n") );
 <div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>SomeString</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
-<h4 class="foswikiSearchResultsHeader"  style="border-color:\#FF00FF"><b>Results from <nop>TemporarySEARCHTestWebSEARCH web</b> retrieved at 02:54 (GMT)</h4>
+<h4 class="foswikiSearchResultsHeader"  style="border-color:\#FF00FF"><b>Results from <nop>TemporarySEARCHTestWebSEARCH web</b> retrieved at 04:34 (GMT)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="/~sven/core/bin/view/TemporarySEARCHTestWebSEARCH/Item10491"><b>Item10491</b></a>
-<div class="foswikiSummary"><b>&hellip;</b>  we happen to have <em><nop>SomeString</em>.txt that might be matched,  <b>&hellip;</b> and <em><nop>SomeString</em>, and a other <b>&hellip;</b> </div></div>
-<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/~sven/core/bin/rdiff/TemporarySEARCHTestWebSEARCH/Item10491" rel='nofollow'>16 Mar 2011 - 02:54</a></span> <span class="foswikiSRAuthor">by WikiGuest </span></div>
+<div class="foswikiSummary"><b>&hellip;</b> it can be created From <nop>IRC<nop>: <em><nop>SomeString</em>.txt So hopefully this topic  <b>&hellip;</b>  hits don't get corrupted. <em><nop>SomeString</em>? " txt<nop>: <nop>SomeString? And  <b>&hellip;</b> ?tab=searchadvanced search=<em><nop>SomeString</em> scope=all order=topic type= <b>&hellip;</b> </div></div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/~sven/core/bin/rdiff/TemporarySEARCHTestWebSEARCH/Item10491" rel='nofollow'>16 Mar 2011 - 04:34</a></span> <span class="foswikiSRAuthor">by WikiGuest </span></div>
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>1</span></div>
-RESULT
-}
-
-sub verify_Item10491_defaultSEARCH {
-    my $this = shift;
-
-    $this->set_up_for_queries();
-
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'Item10491',
-        "in conversation\n we happen to have SomeString.txt that might be matched, and SomeString, and a other.\n----\n%SEARCH{\"SomeString\" web=\"".$this->{test_web}."\"  scope=\"all\" order=\"topic\" type=\"word\" }%\n----\n" );
-    $topicObject->save();
-
-
-    my $result =
-      $this->{test_topicObject}
-      ->expandMacros( $topicObject->text );
-    $this->assert_str_equals( _cut_the_crap(<<RESULT), _cut_the_crap($result."\n") );
-in conversation
- we happen to have SomeString.txt that might be matched, and SomeString, and a other.
-----
-<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>SomeString</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
-<h4 class="foswikiSearchResultsHeader"  style="border-color:\#FF00FF"><b>Results from <nop>TemporarySEARCHTestWebSEARCH web</b> retrieved at 03:16 (GMT)</h4>
-<div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="/~sven/core/bin/view/TemporarySEARCHTestWebSEARCH/Item10491"><b>Item10491</b></a>
-<div class="foswikiSummary"><b>&hellip;</b>  we happen to have <em><nop>SomeString</em>.txt that might be matched,  <b>&hellip;</b> and <em><nop>SomeString</em>, and a other <b>&hellip;</b> </div></div>
-<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/~sven/core/bin/rdiff/TemporarySEARCHTestWebSEARCH/Item10491" rel='nofollow'>16 Mar 2011 - 03:16</a></span> <span class="foswikiSRAuthor">by WikiGuest </span></div>
-</div>
-<div class="foswikiSearchResultCount">Number of topics: <span>1</span></div>
-----
-
 RESULT
 }
 
