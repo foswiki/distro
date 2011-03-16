@@ -448,9 +448,12 @@ $Foswiki::cfg{Htpasswd}{FileName} = '$Foswiki::cfg{DataDir}/.htpasswd';
 # **SELECT crypt,sha1,md5,plain,crypt-md5**
 # Password encryption, for the Foswiki::Users::HtPasswdUser password manager.
 # You can use the <tt>htpasswd</tt> Apache program to create a new
-# password file with the right encoding.
+# password file with the right encoding. <b>Caution:</b> Changing the password
+# encoding will invalidate all current passwords.
 # <dl>
-# <dt>crypt</dt><dd>is the default, and should be used on Linux/Unix.</dd>
+# <dt>crypt</dt><dd>is the default. <b>Caution:</b>
+# crypt encoding only uses the first 8 characters of the password. Extra characters
+# are silently discarded.</dd>
 # <dt>sha1</dt><dd> is recommended for use on Windows.</dd>
 # <dt>md5</dt><dd> htdigest format - useful on sites where password files are required
 # to be portable. In this case, the {AuthRealm} is used with the username
