@@ -11,8 +11,10 @@ sub check {
     my $this = shift;
 
     my $val = $Foswiki::cfg{PasswordManager};
+    my $msg = '';
 
     if ( $val eq 'Foswiki::Users::ApacheHtpasswdUser' ) {
+        $msg = $this->WARN("ApacheHtpasswdUser is demonstration code and has limitations.  HtPasswdUser is recommended");
         my @perlModules = (
             {
                 name  => 'Apache::Htpasswd',
@@ -23,14 +25,14 @@ sub check {
         );
         my $set = $this->checkPerlModules( 0, \@perlModules );
 
-        return $this->ERROR(
+        $msg .= $this->ERROR(
 'CPAN module Apache::Htpasswd required for ApacheHtpasswd password manager'
         ) if ( not defined( $perlModules[0]->{installedVersion} ) );
 
 #TODO: consider creating the .htpasswd file if the cpan module is there, as Apache::Htpasswd will not create it..
     }
 
-    return '';
+    return $msg;
 }
 
 1;
