@@ -997,7 +997,8 @@ sub formatResults {
 
         if (
             ( defined( $params->{pager_skip_results_from} )) or
-            ($params->{groupby} ne 'web')
+            (( defined( $params->{groupby} ) )
+                and ($params->{groupby} ne 'web'))
             ) {
             last if ( $ttopics >= $limit );
         } else {
