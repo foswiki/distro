@@ -180,14 +180,20 @@ sub _readPasswd {
     my $line = '';
     while ( defined( $line = <$IN_FILE> ) ) {
         if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {    # htdigest format
-            if ( $line =~ /^(.*?):(.*?):(.*?)(?::(.*))?$/ ) {
 
-                # implicit untaint OK; data from htpasswd
-                $data->{$1}->{pass} = $3;
-                $data->{$1}->{emails} = $4 || '';
+            # implicit untaint OK; data from htpasswd
+            my ($hID, $hRealm, $hPasswd, $hEmail ) = $line =~ /^(.*?):(.*?):(.*?)(?::(.*))?$/;
+
+            if (! $hEmail && $hPasswd =~ m/@/ ) {   # Missing email and Password might contain an email address
+                $data->{$hID}->{pass} = $hRealm;
+                $data->{$hID}->{emails} = $hPasswd || '';
+            }
+            else {
+                $data->{$hID}->{pass} = $hPasswd;
+                $data->{$hID}->{emails} = $hEmail || '';
             }
         }
-        else {                                                 # htpasswd format
+        else {                                      # htpasswd format
             if ( $line =~ /^(.*?):(.*?)(?::(.*))?$/ ) {
 
                 # implicit untaint OK; data from htpasswd
