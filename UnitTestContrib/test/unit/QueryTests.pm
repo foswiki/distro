@@ -333,8 +333,12 @@ sub verify_length {
 
 sub verify_d2n {
     my $this = shift;
+
+    my $dst = (localtime(time))[8];
+    my $zeroTime = ( $dst ) ? 3600 : 0;
+
     $this->check(
-        "d2n '" . Foswiki::Time::formatTime( 0, '$iso', 'servertime' ) . "'",
+        "d2n '" . Foswiki::Time::formatTime( $zeroTime, '$iso', 'servertime' ) . "'",
         eval    => 0,
         simpler => 0
     );
