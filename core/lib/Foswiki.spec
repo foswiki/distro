@@ -418,9 +418,9 @@ $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
 #   passwords encoded as per the HtpasswdEncoding
 # </li><li>
 # Foswiki::Users::ApacheHtpasswdUser - should behave identically to
-# HtpasswdUser, but uses the CPAN:Apache::Htpasswd package to interact
+# HtpasswdUser for crypt encoding, but uses the CPAN:Apache::Htpasswd package to interact
 # with Apache. It is shipped mainly as a demonstration of how to write
-# a new password manager.
+# a new password manager.  It is not recommended for production.
 # </li></ol>
 # You can provide your own alternative by implementing a new subclass of
 # Foswiki::Users::Password, and pointing {PasswordManager} at it in

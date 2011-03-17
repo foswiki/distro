@@ -70,6 +70,10 @@ sub check {
         }
     }
 
+    if ( $enc ne 'crypt' && $Foswiki::cfg{PasswordManager} eq 'Foswiki::Users::ApacheHtpasswdUser' ) {
+        $e .= $this->ERROR("PasswordManager ApacheHtpasswdUser only supports crypt encryption.  Use HtPasswdUser for other Encoding types.");
+    }
+
     return $e;
 }
 
