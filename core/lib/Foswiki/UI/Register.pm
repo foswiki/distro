@@ -603,17 +603,23 @@ sub addUserToGroup {
     my $groupName = $query->param('groupname');
     my $create = Foswiki::isTrue( $query->param('create'), 0 );
     if ( !$groupName or $groupName eq '' ) {
-        throw Foswiki::OopsException( 'attention',
-            def => 'no_group_specified_for_add_to_group' );
+        my $userNames = scalar @userNames ? join( ',', @userNames ) : '';
+        throw Foswiki::OopsException(
+            'attention',
+            def    => 'no_group_specified_for_add_to_group',
+            web    => $web,
+            topic  => $topic,
+            params => [$userNames]
+        );
     }
 
     if (   ( $#userNames < 0 )
         or ( $userNames[0] eq '' ) )
     {
 
-    # if $create is set, and there are no users in the list, and the group exists
-    # then we're trying to upgrade the user topic.
-    # I'm not sure what other mappers might make of this..
+   # if $create is set, and there are no users in the list, and the group exists
+   # then we're trying to upgrade the user topic.
+   # I'm not sure what other mappers might make of this..
         if ( $create and Foswiki::Func::isGroup($groupName) ) {
             try {
                 Foswiki::Func::addUserToGroup( undef, $groupName, $create );
@@ -636,8 +642,13 @@ sub addUserToGroup {
             );
         }
 
-        throw Foswiki::OopsException( 'attention',
-            def => 'no_users_to_add_to_group' );
+        throw Foswiki::OopsException(
+            'attention',
+            def    => 'no_users_to_add_to_group',
+            web    => $web,
+            topic  => $topic,
+            params => [$groupName]
+        );
     }
     if ( $#userNames == 0 ) {
         @userNames = split( /,\s*/, $userNames[0] );
@@ -651,8 +662,10 @@ sub addUserToGroup {
     # He can afterwards remove himself if needed
     # We make an exception if you are an admin as they can always edit anything
 
-    if ( !Foswiki::Func::isGroup($groupName) and 
-         !$session->{users}->isAdmin($user) and $create ) {
+    if (    !Foswiki::Func::isGroup($groupName)
+        and !$session->{users}->isAdmin($user)
+        and $create )
+    {
         unshift( @userNames, $session->{users}->getLoginName($user) );
     }
 
@@ -661,12 +674,16 @@ sub addUserToGroup {
     foreach my $u (@userNames) {
         $u =~ s/^\s+//;
         $u =~ s/\s+$//;
+
         # We strip off any usersweb prefix
         $u =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
 
         next if ( $u eq '' );
 
-        next if ( Foswiki::Func::isGroup($groupName) && Foswiki::Func::isGroupMember($groupName, $u, { expand => 0 } ) );
+        next
+          if ( Foswiki::Func::isGroup($groupName)
+            && Foswiki::Func::isGroupMember( $groupName, $u, { expand => 0 } )
+          );
 
         try {
             if ( Foswiki::Func::addUserToGroup( $u, $groupName, $create ) ) {
@@ -690,7 +707,7 @@ sub addUserToGroup {
                 "catch: Failed to add $u to $groupName " . $e->stringify() );
         };
     }
-    if (@failed || !@succeeded) {
+    if ( @failed || !@succeeded ) {
         throw Foswiki::OopsException(
             'attention',
             web    => $web,
@@ -1084,11 +1101,13 @@ sub _populateUserTopicForm {
             my $item = $meta->get( 'FIELD', $fd->{name} );
             if ($item) {
                 $item->{value} = $fd->{value};
-            } else {
+            }
+            else {
+
                 # Field missing from the new user template - create
                 # from scratch
                 $item = {
-                    name => $fd->{name},
+                    name  => $fd->{name},
                     value => $fd->{value},
                 };
             }
@@ -1342,8 +1361,9 @@ sub _validateRegistration {
         }
 
         # check if passwords are identical
-        if ( !$Foswiki::cfg{Register}{DisablePasswordConfirmation}
-               && $data->{Password} ne $data->{Confirm} ) {
+        if (  !$Foswiki::cfg{Register}{DisablePasswordConfirmation}
+            && $data->{Password} ne $data->{Confirm} )
+        {
             throw Foswiki::OopsException(
                 'attention',
                 web   => $data->{webName},
