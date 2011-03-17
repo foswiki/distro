@@ -14,6 +14,14 @@ my $topicObject;
 
 BEGIN {
     delete $INC{'Foswiki/I18N.pm'};
+
+    # SMELL:  On some systems the delete is not sufficient.
+    # If the tests are failing with a subroutine redefined error
+    # Install Class:Unload and Class::Inspector from CPAN and
+    # replace the delete with the following:
+
+    #require Class::Unload;
+    #Class::Unload->unload('Foswiki::I18N');
 }
 
 sub new {
