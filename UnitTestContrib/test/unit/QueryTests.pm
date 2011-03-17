@@ -34,10 +34,10 @@ sub set_up {
     # Force pure perl text search; the query alg may map to a plain text
     # search, and we want to be sure we hit a good one.
     $Foswiki::cfg{Store}{SearchAlgorithm} =
-	'Foswiki::Store::SearchAlgorithms::PurePerl';
+      'Foswiki::Store::SearchAlgorithms::PurePerl';
 
     my $meta =
-	Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'HitTopic' );
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'HitTopic' );
     $meta->putKeyed(
         'FILEATTACHMENT',
         {
@@ -50,7 +50,7 @@ sub set_up {
             rev     => '23',
             date    => '25',
         }
-	);
+    );
     $meta->putKeyed(
         'FILEATTACHMENT',
         {
@@ -62,15 +62,18 @@ sub set_up {
             user    => 'ProjectContributor',
             rev     => '105',
             date    => '99',
-        });
+        }
+    );
     $meta->put(
-	'TOPICINFO',
-	{
-	    author  => 'AlbertCamus',
-	    date    => '12345',
-#	    format  => '1.1',
-	    version => '1.1913',
-        });
+        'TOPICINFO',
+        {
+            author => 'AlbertCamus',
+            date   => '12345',
+
+            #	    format  => '1.1',
+            version => '1.1913',
+        }
+    );
     $meta->put(
         'TOPICMOVED',
         {
@@ -79,7 +82,7 @@ sub set_up {
             from => 'BouvardEtPecuchet',
             to   => 'ThePlague',
         }
-	);
+    );
     $meta->put( 'FORM',        { name => 'TestForm' } );
     $meta->put( 'TOPICPARENT', { name => '' } );
     $meta->putKeyed( 'PREFERENCE', { name => 'Red',    value => '0' } );
@@ -88,9 +91,9 @@ sub set_up {
     $meta->putKeyed( 'PREFERENCE', { name => 'White',  value => '0' } );
     $meta->putKeyed( 'PREFERENCE', { name => 'Yellow', value => '1' } );
     $meta->putKeyed( 'FIELD',
-		     { name => "number", title => "Number", value => "99" } );
+        { name => "number", title => "Number", value => "99" } );
     $meta->putKeyed( 'FIELD',
-		     { name => "string", title => "String", value => "String" } );
+        { name => "string", title => "String", value => "String" } );
     $meta->putKeyed(
         'FIELD',
         {
@@ -98,12 +101,18 @@ sub set_up {
             title => "StringWithChars",
             value => "n\nn t\tt s\\s q'q o#o h#h X~X \\b \\a \\e \\f \\r \\cX"
         }
-	);
+    );
     $meta->putKeyed( 'FIELD',
-		     { name => "boolean", title => "Boolean", value => "1" } );
+        { name => "boolean", title => "Boolean", value => "1" } );
     $meta->putKeyed( 'FIELD', { name => "macro", value => "%RED%" } );
-    $meta->putKeyed( 'FIELD',
-		     { name => "brace", title => "Brace", value => "Some text (really) we have text" } );
+    $meta->putKeyed(
+        'FIELD',
+        {
+            name  => "brace",
+            title => "Brace",
+            value => "Some text (really) we have text"
+        }
+    );
 
     $meta->text("Quantum");
     $meta->save();
@@ -112,16 +121,17 @@ sub set_up {
     $meta->topic("AnotherTopic");
     $meta->save();
 
-    $meta = Foswiki::Meta->load(
-	$this->{session}, $this->{test_web}, 'AnotherTopic', 1 );
+    $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'AnotherTopic',
+        1 );
     $meta->text("Superintelligent shades of the colour blue");
-    $meta->save(forcenewrevision => 1);
+    $meta->save( forcenewrevision => 1 );
 
-    $meta = Foswiki::Meta->load(
-	$this->{session}, $this->{test_web}, 'HitTopic', 1 );
+    $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'HitTopic', 1 );
     $meta->text("Green ideas sleep furiously");
-    $meta->save(forcenewrevision => 1);
-    $this->{meta}  = $meta;
+    $meta->save( forcenewrevision => 1 );
+    $this->{meta} = $meta;
 }
 
 sub fixture_groups {
@@ -189,10 +199,10 @@ sub check {
     # First check the standard evaluator
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-use Data::Dumper;
-print STDERR "query: $s\nresult: ".Data::Dumper::Dumper($query)."\n";
-    my $meta        = $this->{meta};
-    my $val         = $query->evaluate( tom => $meta, data => $meta );
+    use Data::Dumper;
+    print STDERR "query: $s\nresult: " . Data::Dumper::Dumper($query) . "\n";
+    my $meta = $this->{meta};
+    my $val = $query->evaluate( tom => $meta, data => $meta );
     if ( ref( $opts{'eval'} ) ) {
         $this->assert_deep_equals( $opts{'eval'}, $val,
                 "Expected "
@@ -232,7 +242,7 @@ print STDERR "query: $s\nresult: ".Data::Dumper::Dumper($query)."\n";
         my $expr =
 "%SEARCH{\"$s\" type=\"query\" excludetopic=\"WebPreferences,$this->{test_topic},AnotherTopic\" nonoise=\"on\" format=\"\$topic\"}%";
         my $list = $this->{test_topicObject}->expandMacros($expr);
-        if ( $opts{'eval'}||$opts{match} ) {
+        if ( $opts{'eval'} || $opts{match} ) {
             $this->assert_str_equals( 'HitTopic', $list );
         }
         else {
@@ -243,8 +253,8 @@ print STDERR "query: $s\nresult: ".Data::Dumper::Dumper($query)."\n";
 
 sub verify_atoms {
     my $this = shift;
-    $this->check( "", eval => [], simpler => '()' );
-    $this->check( "()", eval => [], simpler => '()' );
+    $this->check( "",    eval => [],  simpler => '()' );
+    $this->check( "()",  eval => [],  simpler => '()' );
     $this->check( "'0'", eval => '0', simpler => '0' );
     $this->check( "''",  eval => '',  simpler => q{''} ); # Not 0 - See Item9971
     $this->check( "1",   eval => 1,   simpler => 1 );
@@ -279,30 +289,34 @@ sub verify_meta_dot {
 
 sub verify_array_integer_index {
     my $this = shift;
-#    $this->check( "preferences[0].name", eval => 'Red' );
-#    $this->check( "preferences[1]", eval => { name => 'Green', value => 1 } );
-#    $this->check( "preferences[2].name", eval => 'Blue' );
-#    $this->check( "preferences[3].name", eval => 'White' );
-#    $this->check( "preferences[4].name", eval => 'Yellow' );
-#
-#    # Integer part used as the index
-#    $this->check( "preferences[1.9].name", eval => 'Green' );
-#
-#    # From-the-end indices
-#    $this->check( "preferences[-1].name", eval => 'Yellow' );
-#    $this->check( "preferences[-2].name", eval => 'White' );
-#    $this->check( "preferences[-3].name", eval => 'Blue' );
-#    $this->check( "preferences[-4].name", eval => 'Green' );
-#    $this->check( "preferences[-5].name", eval => 'Red' );
-#
-#    # Out-of-range indices
-#    $this->check( "preferences[5]",  eval => undef );
-#    $this->check( "preferences[-6]", eval => undef );
+
+ #    $this->check( "preferences[0].name", eval => 'Red' );
+ #    $this->check( "preferences[1]", eval => { name => 'Green', value => 1 } );
+ #    $this->check( "preferences[2].name", eval => 'Blue' );
+ #    $this->check( "preferences[3].name", eval => 'White' );
+ #    $this->check( "preferences[4].name", eval => 'Yellow' );
+ #
+ #    # Integer part used as the index
+ #    $this->check( "preferences[1.9].name", eval => 'Green' );
+ #
+ #    # From-the-end indices
+ #    $this->check( "preferences[-1].name", eval => 'Yellow' );
+ #    $this->check( "preferences[-2].name", eval => 'White' );
+ #    $this->check( "preferences[-3].name", eval => 'Blue' );
+ #    $this->check( "preferences[-4].name", eval => 'Green' );
+ #    $this->check( "preferences[-5].name", eval => 'Red' );
+ #
+ #    # Out-of-range indices
+ #    $this->check( "preferences[5]",  eval => undef );
+ #    $this->check( "preferences[-6]", eval => undef );
 
     # Range of indices using commas
-    $this->check( "preferences[0,2,4].name", eval => ['Red','Blue','Yellow'] );
-    $this->check( "preferences[2,-1,0].name", eval => ['Blue','Yellow','Red'] );
-    $this->check( "preferences[-1,name='White'].name", eval => ['Yellow','White'] );
+    $this->check( "preferences[0,2,4].name",
+        eval => [ 'Red', 'Blue', 'Yellow' ] );
+    $this->check( "preferences[2,-1,0].name",
+        eval => [ 'Blue', 'Yellow', 'Red' ] );
+    $this->check( "preferences[-1,name='White'].name",
+        eval => [ 'Yellow', 'White' ] );
 }
 
 sub verify_array_dot {
@@ -329,7 +343,7 @@ sub verify_boolean_uops {
     $this->check( "not boolean",   eval => 0 );
     $this->check( "not 0",         eval => 1, simpler => 1 );
     $this->check( "not notafield", eval => 1 );
-    $this->check( "not ()", eval => [], simpler => '()' );
+    $this->check( "not ()",        eval => [], simpler => '()' );
 }
 
 sub verify_string_uops {
@@ -346,20 +360,20 @@ sub verify_string_uops {
     $this->check( "length 'five'",          eval => 4, simpler => 4 );
     $this->check( "length info",            eval => 5 );
     $this->check( "length notafield",       eval => 0 );
-    $this->check( "uc ()",       eval => [], simpler => '()' );
-    $this->check( "lc ()",       eval => [], simpler => '()');
-    $this->check( "length ()",       eval => 0, simpler => 0 );
+    $this->check( "uc ()",                  eval => [], simpler => '()' );
+    $this->check( "lc ()",                  eval => [], simpler => '()' );
+    $this->check( "length ()",              eval => 0, simpler => 0 );
 }
 
 sub verify_numeric_uops {
     my $this = shift;
-    $this->check("-()", eval => [], simpler => "()");
-    $this->check( "-1",     eval => -1, simpler => -1 );
-    $this->check( "--1",     eval => 1, simpler => 1 );
+    $this->check( "-()", eval => [], simpler => "()" );
+    $this->check( "-1",  eval => -1, simpler => -1 );
+    $this->check( "--1", eval => 1,  simpler => 1 );
 
-    $this->check( "int 1.5",     eval => 1, simpler => 1 );
-    $this->check( "int -1.5",     eval => -1, simpler => -1 );
-    $this->check( "int ()",     eval => [], simpler => "()" );
+    $this->check( "int 1.5",  eval => 1,  simpler => 1 );
+    $this->check( "int -1.5", eval => -1, simpler => -1 );
+    $this->check( "int ()",   eval => [], simpler => "()" );
 
     $this->check(
         "d2n '" . Foswiki::Time::formatTime( 0, '$iso', 'gmtime' ) . "'",
@@ -375,7 +389,7 @@ sub verify_numeric_uops {
     $this->check( "d2n 'not a time'", eval => undef, simpler => 0 );
     $this->check( "d2n 0",            eval => undef, simpler => 0 );
     $this->check( "d2n notatime",     eval => undef );
-    $this->check( "d2n ()",     eval => [], simpler => '()' );
+    $this->check( "d2n ()",           eval => [],    simpler => '()' );
 }
 
 sub verify_string_bops {
@@ -402,9 +416,13 @@ sub verify_string_bops {
     $this->check( "string!='String'",             eval => 0 );
     $this->check( "string!='string'",             eval => 1 );
     $this->check( "string='string'",              eval => 0 );
-    $this->check( "'string'+'string'",            eval => 'stringstring', simpler => "'stringstring'" );
-    $this->check( "'string'+1",                   eval => 'string1', simpler => "'string1'" );
-    $this->check( "1+'string'",                   eval => '1string', simpler => "'1string'" );
+    $this->check(
+        "'string'+'string'",
+        eval    => 'stringstring',
+        simpler => "'stringstring'"
+    );
+    $this->check( "'string'+1", eval => 'string1', simpler => "'string1'" );
+    $this->check( "1+'string'", eval => '1string', simpler => "'1string'" );
     $this->check( "macro='\%RED\%'", eval => 1, syntaxOnly => 1 );
     $this->check( "macro~'\%RED?'",  eval => 1, syntaxOnly => 1 );
     $this->check( "macro~'?RED\%'",  eval => 1, syntaxOnly => 1 );
@@ -413,24 +431,24 @@ sub verify_string_bops {
 
 sub verify_constants {
     my $this = shift;
-    $this->check("undefined=undefined", eval => 1);
-    $this->check("undefined", eval => undef);
-    $this->check("now=now", eval => 1);
-    $this->check("now", eval => time);
+    $this->check( "undefined=undefined", eval => 1 );
+    $this->check( "undefined",           eval => undef );
+    $this->check( "now=now",             eval => 1 );
+    $this->check( "now",                 eval => time );
 }
 
 sub verify_boolean_corner_cases {
     my $this = shift;
-    $this->check("not not ''", eval => 0, simpler => 0);
-    $this->check("0", eval => 0, simpler => 0);
-    $this->check("''", eval => '', simpler => "''");
+    $this->check( "not not ''", eval => 0,  simpler => 0 );
+    $this->check( "0",          eval => 0,  simpler => 0 );
+    $this->check( "''",         eval => '', simpler => "''" );
 }
 
 sub verify_numeric_bops {
     my $this = shift;
-    $this->check( "1+1", eval => 2, simpler => 2 );
-    $this->check( "2-1", eval => 1 , simpler => 1);
-    $this->check( "2*2", eval => 4, simpler => 4 );
+    $this->check( "1+1",     eval => 2, simpler => 2 );
+    $this->check( "2-1",     eval => 1, simpler => 1 );
+    $this->check( "2*2",     eval => 4, simpler => 4 );
     $this->check( "4 div 2", eval => 2, simpler => 2 );
 }
 
@@ -491,25 +509,25 @@ sub verify_boolean_bops {
     $this->check( "1 OR notafield",  eval => 1, simpler => 1 );
     $this->check( "notafield OR 0",  eval => 0 );
     $this->check( "0 OR notafield",  eval => 0 );
-    $this->check("1='1'", eval => 1, simpler => 1);
-    $this->check("''='0'", eval => 0, simpler => 0);
-    $this->check("0=''", eval => 0, simpler => 0);
-    $this->check("''=0", eval => 0, simpler => 0);
+    $this->check( "1='1'",           eval => 1, simpler => 1 );
+    $this->check( "''='0'",          eval => 0, simpler => 0 );
+    $this->check( "0=''",            eval => 0, simpler => 0 );
+    $this->check( "''=0",            eval => 0, simpler => 0 );
 
-    $this->check("1 in 1", eval => 1, simpler => 1);
-    $this->check("1 in 0", eval => 0, simpler => 0);
-    $this->check("0 in 1", eval => 0, simpler => 0);
-    $this->check("2 in (1,2,3)", eval => 1, simpler => 1);
-    $this->check("4 in (1,2,3)", eval => 0, simpler => 0);
-    $this->check("4 in ()", eval => 0, simpler => 0);
+    $this->check( "1 in 1",       eval => 1, simpler => 1 );
+    $this->check( "1 in 0",       eval => 0, simpler => 0 );
+    $this->check( "0 in 1",       eval => 0, simpler => 0 );
+    $this->check( "2 in (1,2,3)", eval => 1, simpler => 1 );
+    $this->check( "4 in (1,2,3)", eval => 0, simpler => 0 );
+    $this->check( "4 in ()",      eval => 0, simpler => 0 );
 
-    $this->check("'a' in 'a'", eval => 1, simpler => 1);
-    $this->check("'a' in 'b'", eval => 0, simpler => 0);
-    $this->check("'a' in ''", eval => 0, simpler => 0);
-    $this->check("'' in 'a'", eval => 0, simpler => 0);
-    $this->check("'b' in ('a','b','c')", eval => 1, simpler => 1);
-    $this->check("'d' in ('a','b','c')", eval => 0, simpler => 0);
-    $this->check("'d' in ()", eval => 0, simpler => 0);
+    $this->check( "'a' in 'a'",           eval => 1, simpler => 1 );
+    $this->check( "'a' in 'b'",           eval => 0, simpler => 0 );
+    $this->check( "'a' in ''",            eval => 0, simpler => 0 );
+    $this->check( "'' in 'a'",            eval => 0, simpler => 0 );
+    $this->check( "'b' in ('a','b','c')", eval => 1, simpler => 1 );
+    $this->check( "'d' in ('a','b','c')", eval => 0, simpler => 0 );
+    $this->check( "'d' in ()",            eval => 0, simpler => 0 );
 }
 
 sub verify_match_fail {
@@ -519,8 +537,18 @@ sub verify_match_fail {
 
 sub verify_match_ok_brace {
     my $this = shift;
-    $this->check( "fields[name~'*' AND value=~'\\(']", eval =>  [{value=>'Some text (really) we have text',name=>'brace',title=>'Brace'}] );
+    $this->check(
+        "fields[name~'*' AND value=~'\\(']",
+        eval => [
+            {
+                value => 'Some text (really) we have text',
+                name  => 'brace',
+                title => 'Brace'
+            }
+        ]
+    );
 }
+
 sub verify_match_fail_brace {
     my $this = shift;
     $this->check( "fields[name~'*' AND value=~'(']", eval => 1, simpler => 1 );
@@ -572,30 +600,34 @@ sub verify_ref {
 sub verify_versions_on_other_topic {
     my $this = shift;
     $this->check( "'AnotherTopic'/versions[0].text",
-		  eval => "Superintelligent shades of the colour blue" );
-    $this->check( "'AnotherTopic'/versions[1].text", eval => "Quantum" );
+        eval => "Superintelligent shades of the colour blue" );
+    $this->check( "'AnotherTopic'/versions[1].text",  eval => "Quantum" );
     $this->check( "'AnotherTopic'/versions[-1].text", eval => "Quantum" );
     $this->check( "'AnotherTopic'/versions[-2].text",
-		  eval => "Superintelligent shades of the colour blue" );
+        eval => "Superintelligent shades of the colour blue" );
     $this->check( "'AnotherTopic'/versions.text",
-		  eval => ["Superintelligent shades of the colour blue", "Quantum"] );
-    $this->check("'AnotherTopic'/versions[text =~ 'blue'].text",
-		 eval => "Superintelligent shades of the colour blue" );
+        eval => [ "Superintelligent shades of the colour blue", "Quantum" ] );
+    $this->check(
+        "'AnotherTopic'/versions[text =~ 'blue'].text",
+        eval => "Superintelligent shades of the colour blue"
+    );
 }
 
 sub verify_versions_out_of_range {
     my $this = shift;
     $this->check( "'AnotherTopic'/versions[-3]", eval => undef, simpler => 0 );
-    $this->check( "'AnotherTopic'/versions[3]", eval => undef, simpler => 0 );
+    $this->check( "'AnotherTopic'/versions[3]",  eval => undef, simpler => 0 );
 }
 
-sub verify_versions_on_cur_topic{
+sub verify_versions_on_cur_topic {
     my $this = shift;
     $this->check( "versions[0].text", eval => "Green ideas sleep furiously" );
     $this->check( "versions[1].text", eval => "Quantum" );
     $this->check( "versions[info.version=1].text", eval => "Quantum" );
-    $this->check( "versions.text",  eval => ["Green ideas sleep furiously", "Quantum"] );
-    $this->check("versions[text =~ 'Green'].text", ,    eval => "Green ideas sleep furiously" );
+    $this->check( "versions.text",
+        eval => [ "Green ideas sleep furiously", "Quantum" ] );
+    $this->check( "versions[text =~ 'Green'].text",
+        , eval => "Green ideas sleep furiously" );
 }
 
 sub test_backslash_match_fail {
@@ -620,52 +652,44 @@ sub test_backslash_match_good {
 
 sub test_match_fields_longhand {
     my $this = shift;
-    $this->check(
-        "fields[name='string' AND value=~'^St.(i|n).*'].name!=''",
-        eval => 1
-    );
+    $this->check( "fields[name='string' AND value=~'^St.(i|n).*'].name!=''",
+        eval => 1 );
 }
 
 sub test_nomatch_fields_longhand {
     my $this = shift;
-    $this->check(
-        "fields[name='string' AND value=~'^qSt.(i|n).*'].name!=''",
-        eval => 0
-    );
+    $this->check( "fields[name='string' AND value=~'^qSt.(i|n).*'].name!=''",
+        eval => 0 );
 }
-
 
 sub test_match_field {
     my $this = shift;
-    $this->check(
-        "string=~'^St.(i|n).*'",
-        eval => 1
-    );
+    $this->check( "string=~'^St.(i|n).*'", eval => 1 );
 }
 
 sub test_match_lc_field {
-	my $this = shift;
-	$this->check(
-	   "'$this->{test_web}.HitTopic'/fields[NOT lc(name)=~'(s)'].name",
-		   eval => [qw(number boolean macro brace)]
-	);
+    my $this = shift;
+    $this->check(
+        "'$this->{test_web}.HitTopic'/fields[NOT lc(name)=~'(s)'].name",
+        eval => [qw(number boolean macro brace)] );
 }
 
 sub test_maths {
-    my $this = shift;
+    my $this        = shift;
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse("1+2*-3+4 div 2 + div");
-    $this->assert_equals("+{+{+{1,*{2,-{3}}},div{4,2}},div}", $query->stringify());
-    $query       = $queryParser->parse("(-1+2*-3+4 div 2)");
-    $this->assert_equals((-1+2*-3+4 / 2), $query->evaluate());
-    $query       = $queryParser->parse("int 1.5");
-    $this->assert_equals(1, $query->evaluate());
-    $query       = $queryParser->parse("1,2,3");
-    $this->assert_deep_equals([1,2,3], $query->evaluate());
-    $query       = $queryParser->parse("2 in (1,2,3)");
-    $this->assert($query->evaluate());
-    $query       = $queryParser->parse("4 in (1,2,3)");
-    $this->assert(!$query->evaluate());
+    $this->assert_equals( "+{+{+{1,*{2,-{3}}},div{4,2}},div}",
+        $query->stringify() );
+    $query = $queryParser->parse("(-1+2*-3+4 div 2)");
+    $this->assert_equals( ( -1 + 2 * -3 + 4 / 2 ), $query->evaluate() );
+    $query = $queryParser->parse("int 1.5");
+    $this->assert_equals( 1, $query->evaluate() );
+    $query = $queryParser->parse("1,2,3");
+    $this->assert_deep_equals( [ 1, 2, 3 ], $query->evaluate() );
+    $query = $queryParser->parse("2 in (1,2,3)");
+    $this->assert( $query->evaluate() );
+    $query = $queryParser->parse("4 in (1,2,3)");
+    $this->assert( !$query->evaluate() );
 }
 
 sub test_constant_strings {
@@ -732,18 +756,17 @@ sub test_regex_name {
 
 sub verify_string_bops_with_mods {
     my $this = shift;
-    $this->check( "uc(string)='String'",              eval => 0 );
-    $this->check( "uc(string)='STRING'",              eval => 1 );
+    $this->check( "uc(string)='String'", eval => 0 );
+    $this->check( "uc(string)='STRING'", eval => 1 );
 
-    $this->check( "string=uc('String')",              eval => 0 );
-    $this->check( "string=('String')",              eval => 1 );
+    $this->check( "string=uc('String')", eval => 0 );
+    $this->check( "string=('String')",   eval => 1 );
 
-    $this->check( "'String'=uc(string)",              eval => 0 );
-    $this->check( "'STRING'=uc(string)",              eval => 1 );
+    $this->check( "'String'=uc(string)", eval => 0 );
+    $this->check( "'STRING'=uc(string)", eval => 1 );
 
-    $this->check( "uc('String')=string",              eval => 0 );
-    $this->check( "('String')=string",              eval => 1 );
-
+    $this->check( "uc('String')=string", eval => 0 );
+    $this->check( "('String')=string",   eval => 1 );
 
 }
 
