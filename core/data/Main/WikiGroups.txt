@@ -10,13 +10,13 @@ page can be significantly improved by enabling the following Set statement.
 
    * #Set maint=off
 
-With this enabled, the twisties and maintenance forms for each group are omitted
-from this page.  Maintenance can be done from the individual group topics.
+With this enabled, adding and removing members and also topic upgrades for each group are omitted from this page.  Maintenance can be done from the individual group topics.
 -->
 
 %TWISTY{
   link="<img src='%ICONURLPATH{"persons"}%' /> %MAKETEXT{"Create a new group"}%"
   mode="div"
+  %IF{"$expand='1'" then='start="show"'}%
 }%
 
 <sticky>
@@ -26,7 +26,7 @@ from this page.  Maintenance can be done from the individual group topics.
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep ">
     <h3>%MAKETEXT{"Group name"}%</h3>
-    <input type="text" name="groupname" size="30" class="foswikiInputField"/> 
+    <input type="text" name="groupname" size="30" class="foswikiInputField" value="%URLPARAM{"groupname"}%" /> 
     <div class="foswikiFormDescription">
       *Note:* 
       A group name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and *must* end in =...Group=. 
@@ -35,7 +35,7 @@ from this page.  Maintenance can be done from the individual group topics.
   </div>
   <div class="foswikiFormStep">
     <h3>%MAKETEXT{"Members"}%</h3>
-    <input type="text" name="username" value="" size="60" class="foswikiInputField" />
+    <input type="text" name="username" value="%URLPARAM{"username"}%" size="60" class="foswikiInputField" />
     <div class="foswikiFormDescription">Comma separated list. You will be added to the group automatically to allow you to continue to manage the new group.</div>
   </div>
   <div class="foswikiFormStep">

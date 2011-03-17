@@ -458,12 +458,15 @@
 ---+++ %MAKETEXT{"No username specified"}%
 
 %MAKETEXT{"You need to specify a valid user to add to a group."}%
+
+<a href='%SCRIPTURLPATH{view}%/%WEB%/%TOPIC%?groupname=%PARAM1%;expand=1'>%MAKETEXT{"Go back"}%</a>
 %TMPL:END%
 
 %TMPL:DEF{"no_group_specified_for_add_to_group"}%
 ---+++ %MAKETEXT{"No group name specified"}%
 %MAKETEXT{"You need to specify a valid group name to add users to a group."}%
 
+<a href='%SCRIPTURLPATH{view}%/%WEB%/%TOPIC%?username=%PARAM1%;expand=1'>%MAKETEXT{"Go back"}%</a>
 %TMPL:END%
 
 %TMPL:DEF{"problem_adding_to_group"}%
