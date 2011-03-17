@@ -478,35 +478,26 @@ sub test_backslash_match_good {
 
 sub test_match_fields_longhand {
     my $this = shift;
-    $this->check(
-        "fields[name='string' AND value=~'^St.(i|n).*'].name!=''",
-        eval => 1
-    );
+    $this->check( "fields[name='string' AND value=~'^St.(i|n).*'].name!=''",
+        eval => 1 );
 }
 
 sub test_nomatch_fields_longhand {
     my $this = shift;
-    $this->check(
-        "fields[name='string' AND value=~'^qSt.(i|n).*'].name!=''",
-        eval => 0
-    );
+    $this->check( "fields[name='string' AND value=~'^qSt.(i|n).*'].name!=''",
+        eval => 0 );
 }
-
 
 sub test_match_field {
     my $this = shift;
-    $this->check(
-        "string=~'^St.(i|n).*'",
-        eval => 1
-    );
+    $this->check( "string=~'^St.(i|n).*'", eval => 1 );
 }
 
 sub test_match_lc_field {
-	my $this = shift;
-	$this->check(
-	   "'$this->{test_web}.HitTopic'/fields[NOT lc(name)=~'(s)'].name",
-		   eval => [qw(number boolean macro brace)]
-	);
+    my $this = shift;
+    $this->check(
+        "'$this->{test_web}.HitTopic'/fields[NOT lc(name)=~'(s)'].name",
+        eval => [qw(number boolean macro brace)] );
 }
 
 sub test_constant_strings {
