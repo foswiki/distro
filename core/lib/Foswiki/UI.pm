@@ -477,7 +477,7 @@ sub checkWebExists {
     unless ( $session->webExists($webName) ) {
         throw Foswiki::OopsException(
             'accessdenied',
-            status => 403,
+            status => 404,
             def    => 'no_such_web',
             web    => $webName,
             topic  => $Foswiki::cfg{WebPrefsTopicName},
@@ -502,7 +502,7 @@ sub checkTopicExists {
     unless ( $session->topicExists( $web, $topic ) ) {
         throw Foswiki::OopsException(
             'accessdenied',
-            status => 403,
+            status => 404,
             def    => 'no_such_topic',
             web    => $web,
             topic  => $topic,
