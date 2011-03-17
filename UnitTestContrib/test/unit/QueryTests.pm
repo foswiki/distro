@@ -643,6 +643,14 @@ sub test_match_field {
     );
 }
 
+sub test_match_lc_field {
+	my $this = shift;
+	$this->check(
+	   "'$this->{test_web}.HitTopic'/fields[NOT lc(name)=~'(s)'].name",
+		   eval => [qw(number boolean macro brace)]
+	);
+}
+
 sub test_maths {
     my $this = shift;
     my $queryParser = new Foswiki::Query::Parser();
