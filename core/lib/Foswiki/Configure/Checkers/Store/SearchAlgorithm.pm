@@ -11,7 +11,7 @@ sub check {
 
     my $mess = '';
     if ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /Native$/ ) {
-        eval 'use Native';
+        eval 'use Foswiki::Store::SearchAlgorithms::Native';
         if ($@) {
             $mess .= $this->ERROR(<<EOF);
 Sorry, I could not find the required components for Native search. The
