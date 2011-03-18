@@ -27,11 +27,11 @@ sub new {
 sub ok {
     my ( $this, $session, $web ) = @_;
 
+    return 0 if $this->{template} && $web !~ /(?:^_|\/_)/;
+
     return 1 if ( $web eq $session->{webName} );
 
     return 0 if $this->{user} && $web =~ /(?:^_|\/_)/;
-
-    return 0 if $this->{template} && $web !~ /(?:^_|\/_)/;
 
     return 0 if !$session->webExists($web);
 

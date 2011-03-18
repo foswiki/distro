@@ -1932,14 +1932,17 @@ sub test_4308 {
     my $this = shift;
     my @list = Foswiki::Func::getListOfWebs('user');
     foreach my $web (@list) {
+        $this->assert_does_not_match( qr#^_|\/_#, $web, "template web returned as user web from Func\n");
         $this->assert( Foswiki::Func::webExists($web), $web );
     }
     @list = Foswiki::Func::getListOfWebs('user public');
     foreach my $web (@list) {
+        $this->assert_does_not_match( qr#^_|\/_#, $web, "template web returned as user web from Func\n");
         $this->assert( Foswiki::Func::webExists($web), $web );
     }
     @list = Foswiki::Func::getListOfWebs('template');
     foreach my $web (@list) {
+        $this->assert_matches( qr#^_|\/_#, $web, "non-template web returned as template from Func\n");
         $this->assert( Foswiki::Func::webExists($web), $web );
     }
     @list = Foswiki::Func::getListOfWebs('public template');
