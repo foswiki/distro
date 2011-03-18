@@ -16,6 +16,8 @@
 
 Check [[DevelopingPlugins][Developing plugins]] and [[Foswiki:Development.DevelopersBible][Developer's Bible]] for more information.
 
+%SMELLS%
+
 %TOC%
 
 %INCLUDE{"doc:%URLPARAM{module}%" level="2"}%
