@@ -46,7 +46,7 @@ my $naddressparts;
 my %plausibletable;
 my %sepidentchars;
 my %formregexes;
-my %atommap;
+my %atomiseAs;
 
 BEGIN {
 
@@ -54,7 +54,7 @@ BEGIN {
     @addressparts =
       qw(webs topic attachment rev meta metamember metamemberkey metakey);
     $naddressparts = scalar(@addressparts);
-    %atommap       = (
+    %atomiseAs     = (
         web           => \&_atomiseAsWeb,
         topic         => \&_atomiseAsTopic,
         attachment    => \&_atomiseAsAttachment,
@@ -219,16 +219,6 @@ sub new {
     my ( $class, %opts ) = @_;
     my $this;
 
-    # 'Web/SubWeb' vs [qw(Web SubWeb)] (supplied as web vs webs): if the latter
-    # is absent, derive it from the former (supplied as web vs webs)
-    if ( not $opts{webs} and $opts{web} ) {
-        $opts{webs} = [ split( /[\/\.]/, $opts{web} ) ];
-
-        # The final element is empty if we have 'Web/'
-        if ( not $opts{webs}->[-1] ) {
-            pop( @{ $opts{webs} } );
-        }
-    }
     if ( $opts{string} ) {
         ASSERT( not $opts{topic} or ( $opts{webs} and $opts{topic} ) ) if DEBUG;
 
@@ -251,12 +241,7 @@ sub new {
         # 15% faster if we do it like this...
         $this->{parseopts} = \%opts;
 
-        if ( $opts{isA} ) {
-            $this->{parseopts}->{existAsList} = [ $opts{isA} ];
-            $this->{parseopts}->{existAs}     = { $opts{isA} => 1 };
-            $this->{parseopts}->{existHints}  = 0;
-        }
-        else {
+        if ( not $opts{isA} ) {
 
             # transpose the existAs array into hash keys
             if ( $opts{existAs} ) {
@@ -270,14 +255,17 @@ sub new {
                 $this->{parseopts}->{existAsList} = [qw(attachment topic)];
                 $this->{parseopts}->{existAs} = { attachment => 1, topic => 1 };
             }
-            if ( not defined $this->{parseopts}->{existHints} ) {
-                $this->{parseopts}->{existHints} = 1;
-            }
         }
         $this = bless( $this, $class );
         $this->parse( $opts{string} );
     }
     else {
+
+     # 'Web/SubWeb' vs [qw(Web SubWeb)] (supplied as web vs webs): if the latter
+     # is absent, derive it from the former (supplied as web vs webs)
+        if ( not $opts{webs} and $opts{web} ) {
+            $opts{webs} = [ split( /[\/\.]/, $opts{web} ) ];
+        }
 
         #        $this = {
         #            webs          => $opts{webs},
@@ -464,16 +452,14 @@ sub parse {
             topic       => $opts{topic},
             attachment  => $opts{attachment},
             rev         => $opts{rev},
-            existHints  => 1,
             existAsList => [qw(attachment topic)],
             existAs     => { attachment => 1, topic => 1 }
         };
     }
     %opts = ( %{ $this->{parseopts} }, %opts );
+    ASSERT( $opts{isA} or defined $opts{existAs} ) if DEBUG;
     $path =~ s/(\@([-\+]?\d+))$//;
     $this->{rev} = $2;
-    ASSERT( defined $opts{existHints} ) if DEBUG;
-    ASSERT( defined $opts{existAs} )    if DEBUG;
 
     # if necessary, populate webs from web parameter
     if ( not $opts{webs} and $opts{web} ) {
@@ -510,8 +496,8 @@ sub parse {
 
     # Here we go... short-circuit testing if we already have an isA spec
     if ( $opts{isA} ) {
-        ASSERT( $atommap{ $opts{isA} } ) if DEBUG;
-        $atommap{ $opts{isA} }->( $this, $this, $path, \%opts );
+        ASSERT( $atomiseAs{ $opts{isA} } ) if DEBUG;
+        $atomiseAs{ $opts{isA} }->( $this, $this, $path, \%opts );
     }
     else {
         my @separators = ( $path =~ m/([\.\/])/g );
@@ -557,6 +543,11 @@ sub parse {
         # Is the identity known?
         if ($plaus) {
 
+            # Default to exist hinting enabled
+            if ( not defined $opts{existHints} ) {
+                $opts{existHints} = 1;
+            }
+
             # (ab)using %opts to match values from the plausible table
             $opts{1} = 1;
             $opts{2} = 1;
@@ -599,16 +590,20 @@ sub parse {
                     my $type = $trylist[$i];
 
                     $i += 1;
-                    ASSERT( $atommap{$type} ) if DEBUG;
+                    ASSERT( $atomiseAs{$type} ) if DEBUG;
                     $typeatoms{$type} =
-                      $atommap{$type}->( $this, {}, $path, \%opts );
+                      $atomiseAs{$type}->( $this, {}, $path, \%opts );
                     print STDERR "Atomised $path as $type, result: "
                       . Dumper( $typeatoms{$type} )
                       if TRACE;
                     ( $besttype, $score ) =
                       $this->_existScore( $typeatoms{$type}, $type );
-                    print STDERR "existScore: $score, besttype: $besttype\n"
-                      if TRACE;
+                    if (TRACE) {
+                        print STDERR 'existScore: '
+                          . ( $score || '' )
+                          . 'besttype: '
+                          . ( $besttype || '' ) . "\n";
+                    }
 
                     if ( $score
                         and ( not defined $bestscore or $bestscore < $score ) )
@@ -640,9 +635,9 @@ sub parse {
             my $type = $normalform || $opts{catchAs};
 
             if ($type) {
-                ASSERT( $atommap{$type} ) if DEBUG;
+                ASSERT( $atomiseAs{$type} ) if DEBUG;
                 $typeatoms{$type} =
-                  $atommap{$type}->( $this, $this, $path, \%opts );
+                  $atomiseAs{$type}->( $this, $this, $path, \%opts );
             }
         }
     }
@@ -655,15 +650,14 @@ sub parse {
 #
 #    ASSERT($path)             if DEBUG;
 #    ASSERT($type)             if DEBUG;
-#    ASSERT( $atommap{$type} ) if DEBUG;
-#    $atommap{$type}->( $this, $that, $path, $opts );
+#    ASSERT( $atomiseAs{$type} ) if DEBUG;
+#    $atomiseAs{$type}->( $this, $that, $path, $opts );
 #
 #    return $that;
 #}
 
 sub _atomiseAsWeb {
     my ( $this, $that, $path, $opts ) = @_;
-    my $rev = $that->{rev};
 
     $that->{web} = $path;
     $that->{webs} = [ split( /[\.\/]/, $path ) ];
@@ -673,19 +667,19 @@ sub _atomiseAsWeb {
         pop( @{ $that->{webs} } );
         chop( $that->{web} );
     }
-    foreach my $part ( @addressparts[ 1 .. ( $naddressparts - 1 ) ] ) {
-        $that->{$part} = undef;
-    }
-    $that->{rev} = $rev;
+    $that->{topic}      = undef;
+    $that->{attachment} = undef;
+    $that->{meta}       = undef;
+    $that->{metamember} = undef;
+    $that->{metakey}    = undef;
 
     return $that;
 }
 
 sub _atomiseAsTopic {
     my ( $this, $that, $path, $opts ) = @_;
-    my @parts  = split( /[\.\/]/, $path );
+    my @parts = split( /[\.\/]/, $path );
     my $nparts = scalar(@parts);
-    my $rev    = $that->{rev};
 
     ASSERT($path) if DEBUG;
     if ( $nparts == 1 ) {
@@ -697,21 +691,24 @@ sub _atomiseAsTopic {
     }
     else {
         $that->{webs} = [ @parts[ 0 .. ( $nparts - 2 ) ] ];
-        $that->{web} = join( '/', @{ $that->{webs} } );
+        $that->{web} = undef;
+
+        #        $that->{web} = join( '/', @{ $that->{webs} } );
         $that->{topic} = $parts[-1];
     }
-    foreach my $part ( @addressparts[ 2 .. ( $naddressparts - 1 ) ] ) {
-        $that->{$part} = undef;
-    }
-    $that->{rev} = $rev;
-    ASSERT( $that->{webs} and $that->{web} ) if DEBUG;
+    $that->{attachment} = undef;
+    $that->{meta}       = undef;
+    $that->{metamember} = undef;
+    $that->{metakey}    = undef;
+    ASSERT( $that->{webs} ) if DEBUG;
+
+    #	ASSERT( $that->{web} ) if DEBUG;
 
     return $that;
 }
 
 sub _atomiseAsAttachment {
     my ( $this, $that, $path, $opts ) = @_;
-    my $rev = $that->{rev};
 
     if ( my ( $lhs, $attachment ) = ( $path =~ /^(.*?)\/([^\/]+)$/ ) ) {
         $that = $this->_atomiseAsTopic( $that, $lhs, $opts );
@@ -719,16 +716,15 @@ sub _atomiseAsAttachment {
     }
     else {
         if ( $opts->{webs} and $opts->{topic} ) {
-            $that->{web}        = $opts->{web};
             $that->{webs}       = $opts->{webs};
+            $that->{web}        = $opts->{web};
             $that->{topic}      = $opts->{topic};
             $that->{attachment} = $path;
+            $that->{meta}       = undef;
+            $that->{metamember} = undef;
+            $that->{metakey}    = undef;
         }
     }
-    foreach my $part ( @addressparts[ 3 .. ( $naddressparts - 1 ) ] ) {
-        $that->{$part} = undef;
-    }
-    $that->{rev} = $rev;
 
     return $that;
 }
@@ -1310,12 +1306,8 @@ sub isValid {
 sub _invalidate {
     my ($this) = @_;
 
-    $this->{stringified}         = undef;
-    $this->{stringifiedwebsep}   = undef;
-    $this->{stringifiedtopicsep} = undef;
-    $this->{isA}                 = undef;
-    $this->{web}                 = undef;
-    $this->{type}                = undef;
+    $this->{stringified} = undef;
+    $this->{isA}         = undef;
 
     return;
 }
