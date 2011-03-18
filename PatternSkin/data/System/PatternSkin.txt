@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="BaseUserMapping_333" comment="save topic" date="1270244482" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1270244482" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 <!--
