@@ -946,6 +946,7 @@ $.extend($.validator, {
 							validator.prepareElement(element);
 							validator.formSubmitted = submitted;
 							validator.successList.push(element);
+							delete validator.invalid[element.name];
 							validator.showErrors();
 						} else {
 							var errors = {};
