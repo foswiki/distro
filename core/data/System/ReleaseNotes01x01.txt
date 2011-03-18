@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.3-beta1 - 07 Mar 2011
+---+!! Foswiki Release 1.1.3-beta2 - 18 Mar 2011
 
 %TOC%
 
@@ -30,7 +30,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
-   * Foswiki 1.1.3-beta1 was built 07 Mar 2011. It is an internal release made for upgrading foswiki.org. The real 1.1.3 release is waiting for a few urgent bugs to be fixed.
+   * Foswiki 1.1.3-beta2 was built 18 Mar 2011. It is an internal release made for upgrading foswiki.org. The real 1.1.3 release is waiting for a few urgent bugs to be fixed.
 
 ---++ Pre-installed Extensions
 
