@@ -24,14 +24,23 @@ sub set_up {
     my $webObject =
       Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Dive1" );
     $webObject->populateNewWeb();
+
     $webObject =
       Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Dive1/Dive2" );
     $webObject->populateNewWeb();
+
     $webObject =
       Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Dive1/Dive2/Dive3" );
-    $webObject->populateNewWeb();    Foswiki::Func::readTemplate('foswiki');
+    $webObject->populateNewWeb();
+
+    $webObject =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Dive1/_Dive2tmpl" );
+    $webObject->populateNewWeb();
+
+    Foswiki::Func::readTemplate('foswiki');
     @allWebs      = Foswiki::Func::getListOfWebs('user,public,allowed');
     @templateWebs = Foswiki::Func::getListOfWebs('template,allowed');
+
 }
 
 # The spec of the "webs" and "subwebs" parameters are utterly fucked.
@@ -59,10 +68,18 @@ sub test_public {
 sub test_template {
     my $this = shift;
 
-    # separator=", " 	Line separator Default: "$n" (new line)
+    foreach my $tweb ( @templateWebs ) {
+        $this->assert_matches( qr#^_|\/_#, $tweb, "non-template web returned from Func\n");
+    }
+
     my $text =
       $this->{test_topicObject}->expandMacros('%WEBLIST{webs="webtemplate"}%');
     $this->assert_str_equals( join( "\n", @templateWebs ), $text );
+
+    $text =
+      $this->{test_topicObject}->expandMacros("%WEBLIST{webs=\"webtemplate\" subwebs=\"$this->{test_web}\"}%");
+    $this->assert_str_equals( "$this->{test_web}/Dive1/_Dive2tmpl", $text );
+
 }
 
 sub test_no_format_no_separator {
