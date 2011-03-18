@@ -777,18 +777,28 @@ to your =bin/LocalLib.cfg=.
 
 ---+++ Fixes
 <noautolink>
+| [[%BUGS%/Item92][Item92]] | need to give the admin a web UI to change user's hidden email address |
+| [[%BUGS%/Item770][Item770]] | there is no obvious way for an admin to see what webs exist when they are on ManagingWebs topic |
+| [[%BUGS%/Item1412][Item1412]] | Documentation needs to mention ModPerlEngineContrib |
+| [[%BUGS%/Item1562][Item1562]] | redirect failure OK button goes to wrong place |
 | [[%BUGS%/Item2531][Item2531]] | Net::SMTP fails silently if MIME::Base64 or Authen::SASL are missing |
 | [[%BUGS%/Item5864][Item5864]] | TablePlugin documentation needs better coverage of  spans from header row |
+| [[%BUGS%/Item6021][Item6021]] | Custom CGI script parameter 'anyname' misleadingly mentioned only in the edit script parameter section. This parameter should be mentioned also in the those script sections (e.g. view etc) that support this parameter as well. |
 | [[%BUGS%/Item8302][Item8302]] | Init Sorting in TablePlugin is broken if no header row. |
+| [[%BUGS%/Item8766][Item8766]] | Login screen is not obvious to use for non-registered users |
 | [[%BUGS%/Item8991][Item8991]] | Header-only table violates XHTML DTD |
+| [[%BUGS%/Item9314][Item9314]] | configure UI looks odd when there are headings with no NON-EXPERT options |
 | [[%BUGS%/Item9437][Item9437]] | maketext and wikiwebmaster |
 | [[%BUGS%/Item9462][Item9462]] | viewfile can't handle attachments with umlaute |
+| [[%BUGS%/Item9607][Item9607]] | Fix XHTML validation by not self-closing the paragraph tag |
+| [[%BUGS%/Item9658][Item9658]] | New ICONs have some naming inconsistency |
 | [[%BUGS%/Item9739][Item9739]] | upgrade to jquery-1.4.3  |
 | [[%BUGS%/Item9774][Item9774]] | Dependency issues with Foswiki 1.1 |
 | [[%BUGS%/Item9930][Item9930]] | HtPasswdUser.pm leaves umask set to 077 which could impact other directories/files |
 | [[%BUGS%/Item9965][Item9965]] | Replace calls to the configure script by the variable view in configure's CSS files |
-| [[%BUGS%/Item9973][Item9973]] | !TinyMCE attach dialogue lists no attachments for topics named with international characters |
+| [[%BUGS%/Item9973][Item9973]] | TinyMCE attach dialogue lists no attachments for topics named with international characters |
 | [[%BUGS%/Item9988][Item9988]] | delRev fails because the logger code change was missed |
+| [[%BUGS%/Item10010][Item10010]] | RestHandler claimes in the log to be cached, even when its not. |
 | [[%BUGS%/Item10016][Item10016]] | No rowspan in header rows possible |
 | [[%BUGS%/Item10022][Item10022]] | Upgrading multiple extensions only performs first action |
 | [[%BUGS%/Item10024][Item10024]] | ICON{mp3} shows a photo icon |
@@ -799,6 +809,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10058][Item10058]] | Extension installer too aggressive in rewriting perl Shebang |
 | [[%BUGS%/Item10060][Item10060]] | rewriteshebang.pl rewrites shebang for bash & sh scripts |
 | [[%BUGS%/Item10061][Item10061]] | Cookies not properly forced to be secure if HTTPS connection |
+| [[%BUGS%/Item10064][Item10064]] | redirectto in Rename broken since 1.1 |
 | [[%BUGS%/Item10069][Item10069]] | Web extension installer mis-locates Foswiki root if scripts in cgi-bin |
 | [[%BUGS%/Item10073][Item10073]] | SLIDESHOWSTART example goofs the TOC of Macros |
 | [[%BUGS%/Item10075][Item10075]] | Rename UI's 'select all' and 'clear all' buttons appear to do nothing |
@@ -812,9 +823,9 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10116][Item10116]] | Installer fails to try zip file if tgz missing.  Also taint errors in Zip expansion |
 | [[%BUGS%/Item10122][Item10122]] | Warning: file .htpasswd is not found. (when not using the Foswiki::Users::HtPasswdUser password manager.) |
 | [[%BUGS%/Item10124][Item10124]] | Meta::removeFromStore('attachmentname') deltes the topic, totally and completely |
-| [[%BUGS%/Item10126][Item10126]] | Intermittent rendering issues under !FastCGI |
+| [[%BUGS%/Item10126][Item10126]] | Intermittent rendering issues under FastCGI |
 | [[%BUGS%/Item10128][Item10128]] | Foswiki::Meta::searchInText renamed/removed but docs not updated |
-| [[%BUGS%/Item10131][Item10131]] | !TopicUserMapping loses creation date when updating existing user |
+| [[%BUGS%/Item10131][Item10131]] | TopicUserMapping loses creation date when updating existing user |
 | [[%BUGS%/Item10137][Item10137]] | Upgrade guide should mention clearing browser cache |
 | [[%BUGS%/Item10143][Item10143]] | webtopiccreator.js only removes first space |
 | [[%BUGS%/Item10144][Item10144]] | Mistake in example in documentation of AutoViewTemplatePlugin |
@@ -833,8 +844,11 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10177][Item10177]] | Entering an email address in the login name field breaks login form |
 | [[%BUGS%/Item10189][Item10189]] | sample bin/.htaccess should not have , in "Allow from" |
 | [[%BUGS%/Item10194][Item10194]] | Extraneous p elements in rename templates |
+| [[%BUGS%/Item10195][Item10195]] | Fix foswikiFormStep layout in css and templates |
+| [[%BUGS%/Item10199][Item10199]] | Broken links in System.Skins |
 | [[%BUGS%/Item10200][Item10200]] | Pattern button style breaks jquery foswikiButtonCancel |
 | [[%BUGS%/Item10205][Item10205]] | html error in BeginnersStartHere |
+| [[%BUGS%/Item10207][Item10207]] | Update pattern js to work with ajax |
 | [[%BUGS%/Item10209][Item10209]] | rewriteshebang Failure with unexpected perl path input |
 | [[%BUGS%/Item10213][Item10213]] | Make sudo login more logical |
 | [[%BUGS%/Item10226][Item10226]] | Documentation of DefaultPreferences should mention SitePreferences |
@@ -847,8 +861,9 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10267][Item10267]] | I18N.pm: Use of uninitialized value in lc  |
 | [[%BUGS%/Item10269][Item10269]] | PurePerl search for form.name in a subweb (using the / web separator) over-escapes and so give no results |
 | [[%BUGS%/Item10274][Item10274]] | Collision between Date formatting and Wiki variables |
-| [[%BUGS%/Item10275][Item10275]] | The 'More actions' button of !FamFamFamContrib toolbar doesn't work |
+| [[%BUGS%/Item10275][Item10275]] | The 'More actions' button of FamFamFamContrib toolbar doesn't work |
 | [[%BUGS%/Item10283][Item10283]] | The 'Create new topic' button of FamFamFamContrib toolbar always creates in 'Main' Web only |
+| [[%BUGS%/Item10284][Item10284]] | If Topic is not WikiWord, Rename will not list children to update |
 | [[%BUGS%/Item10285][Item10285]] | FamFamFamContrib toolbar isn't multi language capable |
 | [[%BUGS%/Item10290][Item10290]] | Package.pm fails parsing MANIFEST if non-topic files are installed into data |
 | [[%BUGS%/Item10298][Item10298]] | Handle foswikiFocus in jquery plugin |
@@ -856,9 +871,11 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10308][Item10308]] | Need to check if JQuery version is sane |
 | [[%BUGS%/Item10311][Item10311]] | Restore topic fails to restore META preferences |
 | [[%BUGS%/Item10320][Item10320]] | Documentation on DocumentGraphics customization mentions wrong topic |
+| [[%BUGS%/Item10324][Item10324]] | =zeroresults="0"= doesn't print anything |
 | [[%BUGS%/Item10334][Item10334]] | provide documentation template for tag |
 | [[%BUGS%/Item10345][Item10345]] | FORMFIELD renders 'format' text with 'default' value as $value |
 | [[%BUGS%/Item10346][Item10346]] | MAKETEXT renders 0 if arg is empty |
+| [[%BUGS%/Item10352][Item10352]] | Query optimizer regexes beyond simple plain text fail |
 | [[%BUGS%/Item10362][Item10362]] | Logger documentation is insufficient |
 | [[%BUGS%/Item10380][Item10380]] | INCLUDEd SEARCH pager creates links to topic, not to basetopic |
 | [[%BUGS%/Item10389][Item10389]] | Fn_SEARCH unit test is not TZ compliant |
@@ -869,8 +886,8 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10402][Item10402]] | compare script uses deleted oopsmissing template to report missing topic |
 | [[%BUGS%/Item10406][Item10406]] | hr lines in SEARCH pager makes it hard to skin |
 | [[%BUGS%/Item10408][Item10408]] | Temporary File Hazard in Sandbox.pm and FileCache.pm |
-| [[%BUGS%/Item10410][Item10410]] | TablePlugin  and sort="off" in WebPreferences |
 | [[%BUGS%/Item10412][Item10412]] | Subtle problem with fragments |
+| [[%BUGS%/Item10413][Item10413]] | Fn_MAKETEXT tests fail with deprecated defined hash syntax |
 | [[%BUGS%/Item10418][Item10418]] | registerMETA API changes didn't make it into 1.1.2 |
 | [[%BUGS%/Item10422][Item10422]] | Add ppsx mime type |
 | [[%BUGS%/Item10423][Item10423]] | Add ppsx to icon type list |
@@ -878,23 +895,41 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10426][Item10426]] | Stack-Trace when using https-includes |
 | [[%BUGS%/Item10444][Item10444]] | Group documentation not up to date |
 | [[%BUGS%/Item10445][Item10445]] | Option to restore topic is offered even if the current revision is 1 |
-| [[%BUGS%/Item10447][Item10447]] | !BaseUserMapping::isGroup() throws "Use of uninitialized value" |
+| [[%BUGS%/Item10447][Item10447]] | BaseUserMapping::isGroup() throws "Use of uninitialized value" |
+| [[%BUGS%/Item10448][Item10448]] | Regardless of which web I vist, "Documentation" button is highlighted |
+| [[%BUGS%/Item10456][Item10456]] | defaults not initialized in persistent perl environments |
+| [[%BUGS%/Item10464][Item10464]] | FAQ app issue creates topics |
+| [[%BUGS%/Item10471][Item10471]] | Search limit= not applied per web (breaks FoswikiSiteChanges) |
+| [[%BUGS%/Item10476][Item10476]] | Combination of REVINFO format tokens results to broken result |
+| [[%BUGS%/Item10478][Item10478]] | When editing a form only, Save and Continue should not show the topic text |
+| [[%BUGS%/Item10481][Item10481]] | REVINFO params are not processed as documentation promises |
+| [[%BUGS%/Item10485][Item10485]] | The 8 char password trunc behavior of the crypt encoding should be stated on the configure info texts |
+| [[%BUGS%/Item10486][Item10486]] | WEBLIST macro includes curent web when webs=webtemplate requested |
+| [[%BUGS%/Item10491][Item10491]] | Search corrupted if substring matches larger string ending in .txt |
+| [[%BUGS%/Item10494][Item10494]] | htpasswd emails lost if changing to htdigest auth |
+| [[%BUGS%/Item10495][Item10495]] | Fix compare unit tests; default Foswiki::UI topic/web missing response status should be 404, not 403. |
+| [[%BUGS%/Item10497][Item10497]] | Store::SearchAlgorithms checker fails to find Native |
+| [[%BUGS%/Item10501][Item10501]] | Creating a group without members creates an error page that leads nowhere |
 </noautolink>
 
 ---+++ Enhancements
 
 <noautolink>
-| [[%BUGS%/Item8085][Item8085]] | !TinyMCE converting international characters into HTML entities |
+| [[%BUGS%/Item1939][Item1939]] | Update INSTALL_INSTRUCTIONS |
+| [[%BUGS%/Item8085][Item8085]] | TinyMCE converting international characters into HTML entities |
+| [[%BUGS%/Item8456][Item8456]] | Blanks in form field names are cropped in search |
+| [[%BUGS%/Item8876][Item8876]] | the UserRegistration topic is unhelpful to an admin of a rego disabled site. |
 | [[%BUGS%/Item9260][Item9260]] | Allow the INTERWIKIPLUGIN_RULESTOPIC to be a comma separated list |
 | [[%BUGS%/Item9524][Item9524]] | Update interface of History Plugin |
 | [[%BUGS%/Item10095][Item10095]] | Provide field for user to enter perl module |
 | [[%BUGS%/Item10148][Item10148]] | Upgrade to jquery-ui to 1.8 |
-| [[%BUGS%/Item10170][Item10170]] | Release !ScanForMissingPerlModules |
+| [[%BUGS%/Item10170][Item10170]] | Release ScanForMissingPerlModules |
 | [[%BUGS%/Item10210][Item10210]] | Add pnotify for notifications |
 | [[%BUGS%/Item10271][Item10271]] | Update to TinyMCE 3.3.9.3 |
 | [[%BUGS%/Item10357][Item10357]] | Only emit inline css when there's a foswikiTable on the current page |
 | [[%BUGS%/Item10373][Item10373]] | Default to jquery 1.4.3 |
 | [[%BUGS%/Item10416][Item10416]] | Add github to icons |
+| [[%BUGS%/Item10443][Item10443]] | Add option to not show the current revision in the list |
 </noautolink>
 
 ---
