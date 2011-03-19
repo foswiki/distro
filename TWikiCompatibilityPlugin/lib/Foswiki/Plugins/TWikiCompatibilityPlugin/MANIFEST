@@ -1,3 +1,4 @@
+!noci
 # Release manifest for TWikiCompatibilityPlugin
 data/System/TWikiCompatibilityPlugin.txt 0644 Documentation
 templates/twiki.tmpl 0644 compatibility template
@@ -34,9 +35,6 @@ data/TWiki/WebAtom.txt  0644 make it a valid web
 
 #OriginalDocumentGraphics icons
 data/System/OriginalDocumentGraphics.txt 0644
-
-# Do not attach these to their topics, otherwise it takes forever to install this extension
-!noci
 
 pub/System/OriginalDocumentGraphics/_filetypes.txt 0644
 pub/System/OriginalDocumentGraphics/addon.gif 0644

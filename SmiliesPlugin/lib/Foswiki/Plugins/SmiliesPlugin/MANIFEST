@@ -1,3 +1,4 @@
+!noci
 data/System/SmiliesPlugin.txt 0644
 lib/Foswiki/Plugins/SmiliesPlugin.pm 0444
 pub/System/SmiliesPlugin/biggrin.gif 0644

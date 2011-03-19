@@ -1,3 +1,4 @@
+!noci
 data/System/AutoViewTemplatePlugin.txt 0644 Plugin doc page
 lib/Foswiki/Plugins/AutoViewTemplatePlugin.pm 0444 Plugin Perl module
 lib/Foswiki/Plugins/AutoViewTemplatePlugin/Config.spec 0444 Config spec

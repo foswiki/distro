@@ -1,4 +1,4 @@
-
+!noci
 templates/icons.tmpl 0444
 templates/view.famfamfam.tmpl 0444
 
@@ -14,8 +14,6 @@ data/System/FamFamFamSilkIcons.txt 0644 Documentation
 
 lib/Foswiki/Contrib/FamFamFamContrib.pm 0644 Perl module
 
-# Do not attach these to their topics, otherwise it takes forever to install this extension
-!noci
 pub/System/DocumentGraphics/add.gif 0644
 pub/System/DocumentGraphics/addon.gif 0644
 pub/System/DocumentGraphics/addon.png 0644
