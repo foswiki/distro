@@ -225,7 +225,12 @@ sub _renameTopicOrAttachment {
         }
     }
 
-    Foswiki::UI::checkAccess( $session, 'RENAME', $old );
+    if ( $newWeb || $newTopic ) {
+        Foswiki::UI::checkAccess( $session, 'RENAME', $old );
+    }
+    else {
+        Foswiki::UI::checkAccess( $session, 'CHANGE', $old );
+    }
 
     my $new = Foswiki::Meta->new(
         $session,

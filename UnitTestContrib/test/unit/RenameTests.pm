@@ -1091,6 +1091,55 @@ rename [[$this->{new_web}.OldTopic]]
 THIS
 }
 
+# Rename OldTopic to a different web no change access on target web
+sub test_renameTopic_new_web_same_topic_name_no_access {
+    my $this  = shift;
+
+    my $m =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Targetweb" );
+    $m->populateNewWeb();
+    $this->assert( Foswiki::Func::webExists("$this->{test_web}/Targetweb") );
+
+    $m =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Targetweb",
+        'WebPreferences' );
+    $m->text("   * Set ALLOWWEBCHANGE = NotMe\n   * Set ALLOWWEBVIEW = \n");
+    $m->save();
+
+    my $query = new Unit::Request(
+        {
+            action           => ['rename'],
+            newweb           => ["$this->{test_web}/Targetweb" ],
+            newtopic         => ['OldTopic'],
+            topic => 'OldTopic'
+        }
+    );
+
+    $query->path_info("/$this->{test_web}");
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+
+    try {
+        my ($text) =
+          $this->captureWithKey( rename => $UI_FN, $this->{session} );
+        $this->assert( 0, $text );
+    }
+    catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert_equals( 'OldTopic',                    $e->{topic} );
+        $this->assert_equals( 'CHANGE',                      $e->{mode} );
+        $this->assert_equals( 'access not allowed on web',   $e->{reason} );
+    }
+    otherwise {
+        $this->assert( 0, shift );
+    };
+
+    $this->assert( $this->{session}->topicExists( "$this->{test_web}", 'OldTopic' ) );
+    $this->assert( !$this->{session}->topicExists( "$this->{test_web}/Targetweb", 'OldTopic' ) );
+
+}
+
 # Rename non-wikiword OldTopic to NewTopic within the same web
 sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
     my $this = shift;
@@ -1753,6 +1802,111 @@ sub test_rename_attachment {
     $this->assert(
         Foswiki::Func::attachmentExists(
             $this->{test_web}, 'NewTopic', 'dis.dat'
+        )
+    );
+}
+
+# Item5464 - Rename of attachment requires change access, not rename access
+sub test_rename_attachment_Rename_Denied_Change_Allowed {
+    my $this = shift;
+
+    my $to =
+      new Foswiki::Meta( $this->{session}, $this->{test_web}, 'NewTopic' );
+    $to->text("Wibble\n   * Set ALLOWTOPICRENAME = NotMe\n");
+    $to->save();
+
+    # returns undef on OSX with 3.15 version of CGI module (works on 3.42)
+    my $stream = new File::Temp( UNLINK => 0 );
+    print $stream "Blah Blah";
+    $stream->close();
+    $stream->unlink_on_destroy(1);
+
+    $to =
+      new Foswiki::Meta( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
+    $to->attach( name => 'dis.dat', file => $stream->filename );
+
+    $this->{session}->finish();
+
+    my $query = new Unit::Request(
+        {
+            attachment    => ['dis.dat'],
+            newattachment => ['doh.dat'],
+            newtopic      => ['NewTopic'],
+            newweb        => $this->{test_web},
+        }
+    );
+
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    $this->assert_matches( qr/Status: 302/,                 $text );
+    $this->assert_matches( qr#/$this->{test_web}/NewTopic#, $text );
+    $this->assert(
+        !Foswiki::Func::attachmentExists(
+            $this->{test_web}, $this->{test_topic}, 'dis.dat'
+        )
+    );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, 'NewTopic', 'doh.dat'
+        )
+    );
+}
+
+# Item5464 - Rename of attachment requires change access, not rename access
+sub test_rename_attachment_Rename_Allowed_Change_Denied {
+    my $this = shift;
+
+    my $to =
+      new Foswiki::Meta( $this->{session}, $this->{test_web}, 'NewTopic' );
+    $to->text("Wibble\n   * Set ALLOWTOPICCHANGE = NotMe\n");
+    $to->save();
+
+    # returns undef on OSX with 3.15 version of CGI module (works on 3.42)
+    my $stream = new File::Temp( UNLINK => 0 );
+    print $stream "Blah Blah";
+    $stream->close();
+    $stream->unlink_on_destroy(1);
+
+    $to =
+      new Foswiki::Meta( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
+    $to->attach( name => 'dis.dat', file => $stream->filename );
+
+    $this->{session}->finish();
+
+    my $query = new Unit::Request(
+        {
+            attachment    => ['dis.dat'],
+            newattachment => ['doh.dat'],
+            newtopic      => ['NewTopic'],
+            newweb        => $this->{test_web},
+        }
+    );
+
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    try {
+        my ($text) =
+          $this->captureWithKey( rename => $UI_FN, $this->{session} );
+        $this->assert( 0, $text );
+    }
+    catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert_equals( 'NewTopic',                    $e->{topic} );
+        $this->assert_equals( 'CHANGE',                      $e->{mode} );
+        $this->assert_equals( 'access not allowed on topic', $e->{reason} );
+    }
+    otherwise {
+        $this->assert( 0, shift );
+    };
+
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, $this->{test_topic}, 'dis.dat'
         )
     );
 }
