@@ -34,11 +34,9 @@
                 <img alt="%MAKETEXT{"More: delete or rename this topic; set parent topic; view and compare revisions (m)"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/wrench.png" width="16" height="16" />
 	</a></span>%TMPL:END%
 
-%TMPL:DEF{"top:toolbarbuttons_notauthenticated"}% %LOGIN% %TMPL:END%
+%{ TODO: add a conditional SubScribePlugin icon? }%
 
-%{ TODO: add a conditional SubScribePlugin icon }%
-
-%TMPL:DEF{"top:toolbarbuttons_authenticated"}%		%TMPL:P{
+%TMPL:DEF{"top:toolbarbuttons"}%		%TMPL:P{
 			"top:toolbarbutton_edit"
 		}%%TMPL:P{
 			"top:toolbarbutton_attach"
@@ -54,6 +52,9 @@
 			"top:toolbarbutton_more"
 		}% %LOGOUT% %TMPL:END%
 
-%TMPL:DEF{"top:toolbarbuttons"}%<span class="foswikiToolBar foswikiRight">
-%TMPL:P{context="authenticated" then="top:toolbarbuttons_authenticated" else="top:toolbarbuttons_notauthenticated"}%
+%TMPL:DEF{"authenticatedClass"}% foswikiAuthenticated%TMPL:END%
+%TMPL:DEF{"unauthenticatedClass"}% foswikiUnauthenticated%TMPL:END%
+
+%TMPL:DEF{"top:toolbarbuttons"}%<span class="foswikiToolBar foswikiRight%TMPL:P{context="authenticated" then="authenticatedClass" else="unauthenticatedClass"}%">
+%TMPL:P{"top:toolbarbuttons"}%
 		</span>%TMPL:END% 
