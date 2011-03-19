@@ -363,7 +363,8 @@ sub sendEmail {
         }
         catch Error::Simple with {
             my $e = shift->stringify();
-            $this->{session}->logger->log( 'warning', $e );
+            (my $to) = $text =~ /^To:\s*(.*?)$/im;
+            $this->{session}->logger->log( 'warning', "Emailing $to - $e" );
 
             # be nasty to errors that we didn't throw. They may be
             # caused by SMTP or perl, and give away info about the
@@ -374,9 +375,9 @@ sub sendEmail {
 
                 # SMELL: maketext; and WIKIWEBMASTER is an email address
                 $e =
-"Mail could not be sent - please ask your %WIKIWEBMASTER% to look at the Foswiki warning log.";
+"Mail could not be sent to $to - please ask your %WIKIWEBMASTER% to look at the Foswiki warning log.";
             }
-            $errors .= $e . "\n";
+            $errors .= "Emailing $to - $e\n";
             sleep($back_off);
             $back_off *= 2;
             $errors .= "Too many failures sending mail"
