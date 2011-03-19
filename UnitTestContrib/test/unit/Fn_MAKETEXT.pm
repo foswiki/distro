@@ -12,16 +12,17 @@ use Error qw( :try );
 
 my $topicObject;
 
-BEGIN {
-    delete $INC{'Foswiki/I18N.pm'};
+# Force reload of I18N in case it wasn't enabled
+if( delete $INC{'Foswiki/I18N.pm'} ) {
 
-    # SMELL:  On some systems the delete is not sufficient.
-    # If the tests are failing with a subroutine redefined error
-    # Install Class:Unload and Class::Inspector from CPAN and
-    # replace the delete with the following:
-
-    #require Class::Unload;
-    #Class::Unload->unload('Foswiki::I18N');
+    # Clean the symbol table to remove loaded subs
+    no strict 'refs';
+    @Foswiki::I18N::ISA = ();
+    my $symtab = "Foswiki::I18N::";
+    foreach my $symbol ( keys %{$symtab} ) {
+        next if $symbol =~ /\A[^:]+::\z/;
+        delete $symtab->{$symbol};
+    }
 }
 
 sub new {
