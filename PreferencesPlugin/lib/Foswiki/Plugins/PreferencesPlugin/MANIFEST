@@ -1,3 +1,4 @@
+!noci
 data/System/PreferencesPlugin.txt 0644
 data/System/DefaultPreferencesForm.txt 0644
 lib/Foswiki/Plugins/PreferencesPlugin.pm 0444

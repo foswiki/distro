@@ -1,3 +1,4 @@
+!noci
 bin/compare 0555
 data/Sandbox/CompareRevisionsAddOnDemoTopic.txt 0644
 data/System/CompareRevisionsAddOn.txt 0644
