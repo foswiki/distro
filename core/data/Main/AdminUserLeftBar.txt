@@ -1,0 +1,14 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="AdminUser"}%
+%TABLE{databg="red"}%
+| ADMIN USER |
+
+<!--
+Customise this topic; samples and ideas available at
+%SYSTEMWEB%.WebLeftBarCookbook.
+--> *My links:*
+   * [[Main.AdminUser][My home page]]
+   * [[%SCRIPTURL{search}%/%BASEWEB%/WebHome?search=AdminUser;type=word;scope=text;reverse=on;casesensitive=on;order=modified;limit=50;zeroresults=on][AdminUser %BASEWEB% activities]]
+   * [[%LOGOUTURL%][Logout]] 
+<a class="foswikiSmallish" href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%">edit</a>
+
