@@ -72,7 +72,7 @@ With this enabled, adding and removing members and also topic upgrades for each 
          allowschange=\"$allowschange\"
        }$percnt 
      </td>
-     <td>
+     <td class=\"wikiGroupsActions\">
         $percntINCLUDE{\"%USERSWEB%.GroupViewTemplate\"
          section=\"groupactions\"
          groupname=\"$name\"
