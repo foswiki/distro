@@ -2534,13 +2534,10 @@ sub verify_non_paging_with_limit {
 
     my $expected = <<EXPECT;
 System.WebPreferences
-
 FOOT(1,1)
 Main.WebPreferences
-
 FOOT(1,1)
 Sandbox.WebPreferences
-
 FOOT(1,1)
 EXPECT
     $expected =~ s/\n$//s;
