@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="AdminUser"}%
-%TABLE{databg="red"}%
-| ADMIN USER |
+%TABLE{headerbg="red" tablebordercolor="black" headercolor="white"}%
+| *ADMIN USER* |
 
 <!--
 Customise this topic; samples and ideas available at
