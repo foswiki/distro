@@ -13,7 +13,7 @@ use Error qw( :try );
 my $topicObject;
 
 # Force reload of I18N in case it wasn't enabled
-if( delete $INC{'Foswiki/I18N.pm'} ) {
+if ( delete $INC{'Foswiki/I18N.pm'} ) {
 
     # Clean the symbol table to remove loaded subs
     no strict 'refs';
@@ -46,7 +46,7 @@ sub loadExtraConfig {
 }
 
 sub setLocalSite {
-    $Foswiki::cfg{WebMasterEmail} = 'a.b@c.org';
+    $Foswiki::cfg{WebMasterEmail}                    = 'a.b@c.org';
     $Foswiki::cfg{UserInterfaceInternationalisation} = 1;
 }
 
