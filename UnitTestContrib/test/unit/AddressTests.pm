@@ -25,18 +25,232 @@ my %testrange = (
         [ $test_web,             'MissingSubWeb', 'MissingSubSubWeb' ],
         [ 'Missing' . $test_web, 'MissingSubWeb', 'MissingSubSubWeb' ]
     ],
-    topics      => [ undef, 'Topic', 'MissingTopic' ],
-    attachments => [
-        undef,               'Attachment',
-        'Attach.ent',        'Atta.h.ent',
-        'MissingAttachment', 'MissingAttach.ent',
-        'MissingAtta.h.ent'
-    ],
+    topics => [ undef, 'Topic', 'MissingTopic' ],
+    parts  => {
+        undef => [undef],
+        FILE  => [
+            undef,               'Attachment',
+            'Attach.ent',        'Atta.h.ent',
+            'MissingAttachment', 'MissingAttach.ent',
+            'MissingAtta.h.ent'
+        ],
+        SECTION => [ undef, [ { name => 'something' } ] ],
+        META => [
+            undef,
+            ['FIELD'],
+            [ 'FIELD', { name => 'Colour' } ],
+            [ 'FIELD', { name => 'Colour' }, 'value' ],
+            [ 'FIELD', { name => 'Colour', form => 'MyForm' } ],
+            [ 'FIELD', { name => 'Colour', form => 'MyForm' }, 'value' ]
+        ],
+        text => [undef]
+    },
     revs            => [ undef, 2 ],
     webseparators   => [ '/',   '.' ],
     topicseparators => [ '/',   '.' ]
 );
-my %testitems;
+my %testspec = (
+    meta_root => {
+        string => "'$test_web.Topic'/META",
+        atoms  => { web => $test_web, topic => 'Topic', part => 'META' },
+        type   => 'meta'
+    },
+    meta_info => {
+        string => "'$test_web.Topic'/info",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => ['TOPICINFO']
+        },
+        type => 'metatype'
+    },
+    meta_topicinfo => {
+        string => "'$test_web.Topic'/META:TOPICINFO",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => ['TOPICINFO']
+        },
+        type => 'metatype'
+    },
+    meta_info_version => {
+        string => "'$test_web.Topic'/info.version",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => [ 'TOPICINFO', undef, 'version' ]
+        },
+        type => 'metakey'
+    },
+    meta_topicinfo_version => {
+        string => "'$test_web.Topic'/META:TOPICINFO.version",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => [ 'TOPICINFO', undef, 'version' ]
+        },
+        type => 'metakey'
+    },
+    meta_field => {
+        string => "'$test_web.Topic'/META:FIELD",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => ['FIELD']
+        },
+        type => 'metatype'
+    },
+    meta_field_colour => {
+        string => "'$test_web.Topic'/META:FIELD[name='Colour']",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => [ 'FIELD', { name => 'Colour' } ]
+        },
+        type => 'metamember'
+    },
+    meta_field_3 => {
+        string => "'$test_web.Topic'/META:FIELD[3]",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => [ 'FIELD', 3 ]
+        },
+        type => 'metamember'
+    },
+    meta_field_colour_value => {
+        string => "'$test_web.Topic'/META:FIELD[name='Colour'].value",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => [ 'FIELD', { name => 'Colour' }, 'value' ]
+        },
+        type => 'metakey'
+    },
+    meta_field_3_value => {
+        string => "'$test_web.Topic'/META:FIELD[3].value",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => [ 'FIELD', 3, 'value' ]
+        },
+        type => 'metakey'
+    },
+    meta_fields => {
+        string => "'$test_web.Topic'/fields",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => ['FIELD']
+        },
+        type => 'metatype'
+    },
+    meta_fields_colour => {
+        string => "'$test_web.Topic'/fields[name='Colour']",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => [ 'FIELD', { name => 'Colour' } ]
+        },
+        type => 'metamember'
+    },
+    meta_fields_3 => {
+        string => "'$test_web.Topic'/fields[3]",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => [ 'FIELD', 3 ]
+        },
+        type => 'metamember'
+    },
+    meta_fields_colour_value => {
+        string => "'$test_web.Topic'/fields[name='Colour'].value",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => [ 'FIELD', { name => 'Colour' }, 'value' ]
+        },
+        type => 'metakey'
+    },
+    meta_fields_3_value => {
+        string => "'$test_web.Topic'/fields[3].value",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => [ 'FIELD', 3, 'value' ]
+        },
+        type => 'metakey'
+    },
+    meta_myform => {
+        string => "'$test_web.Topic'/MyForm",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => [ 'FIELD', { form => 'MyForm' } ]
+        },
+        type       => 'metatype',
+        expectfail => 1
+    },
+    meta_myform_colour => {
+        string => "'$test_web.Topic'/MyForm[name='Colour']",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => [ 'FIELD', { form => 'MyForm', name => 'Colour' } ]
+        },
+        type => 'metamember'
+    },
+    meta_myform_colour_value => {
+        string => "'$test_web.Topic'/MyForm[name='Colour'].value",
+        atoms  => {
+            web   => $test_web,
+            topic => 'Topic',
+            part  => 'META',
+            subpart =>
+              [ 'FIELD', { form => 'MyForm', name => 'Colour' }, 'value' ]
+        },
+        type => 'metakey'
+    },
+    meta_myform_dt_colour => {
+        string => "'$test_web.Topic'/MyForm.Colour",
+        atoms  => {
+            web   => $test_web,
+            topic => 'Topic',
+            part  => 'META',
+            subpart =>
+              [ 'FIELD', { form => 'MyForm', name => 'Colour' }, 'value' ]
+        },
+        type => 'metakey'
+    },
+    meta_colour => {
+        string => "'$test_web.Topic'/Colour",
+        atoms  => {
+            web     => $test_web,
+            topic   => 'Topic',
+            part    => 'META',
+            subpart => [ 'FIELD', { name => 'Colour' }, 'value' ]
+        },
+        type => 'metakey'
+    }
+);
+my %rangetestitems;
+my %spectestitems;
 my $done_init;
 
 sub new {
@@ -45,7 +259,8 @@ sub new {
 
     $this->{test_web}   = $test_web;
     $this->{test_topic} = 'TestTopic' . $class;
-    $this->gen_test_fns();
+    $this->gen_testrange_fns();
+    $this->gen_testspec_fns();
 
     return $this;
 }
@@ -128,7 +343,7 @@ sub gentopics {
                         <<"HERE", { forcenewrevision => 1 } );
 This is topic: $web.$topic @ $rev
 HERE
-                    foreach my $attachment ( @{ $range->{attachments} } ) {
+                    foreach my $attachment ( @{ $range->{parts}->{FILE} } ) {
                         if ( defined $attachment
                             and not $attachment =~ /^Missing/ )
                         {
@@ -163,24 +378,61 @@ sub test_nothing {
     return;
 }
 
-sub gen_test_fns {
+sub gen_testrange_fns {
     my ($this) = @_;
 
-    if ( not scalar( keys %testitems ) ) {
-        %testitems = $this->gen_tests( \%testrange );
+    if ( not scalar( keys %rangetestitems ) ) {
+        %rangetestitems = ( $this->gen_range_tests( \%testrange ) );
     }
-    while ( my ( $testname, $testitem ) = each %testitems ) {
+    while ( my ( $testname, $testitem ) = each %rangetestitems ) {
+        my $fn = __PACKAGE__ . '::test_' . $testname;
+        my %extraopts;
+
+        if ( $testitem->{addrObj}->isA('webs') ) {
+            %extraopts = ( existAs => [qw(file topic web)] );
+        }
+        no strict 'refs';
+        *{$fn} = sub {
+            my $parsedaddrObj = Foswiki::Address->new(
+                string => $testitem->{addrObj}->stringify(),
+                %extraopts
+            );
+
+            ASSERT( $parsedaddrObj->equiv( $testitem->{addrObj} ) );
+
+            return;
+        };
+        use strict 'refs';
+    }
+
+    return;
+}
+
+sub gen_testspec_fns {
+    my ($this) = @_;
+
+    if ( not scalar( keys %spectestitems ) ) {
+        %spectestitems = ( $this->gen_spec_tests( \%testspec ) );
+    }
+    while ( my ( $testname, $testitem ) = each %spectestitems ) {
         my $fn = __PACKAGE__ . '::test_' . $testname;
         my %extraopts;
 
         no strict 'refs';
         *{$fn} = sub {
-            my $parsedObjAddr = Foswiki::Address->new(
-                string => $testitem->{objAddr}->stringify(),
+            my $parsedaddrObj = Foswiki::Address->new(
+                string => $testitem->{string},
                 %extraopts
             );
 
-            ASSERT( $parsedObjAddr->equiv( $testitem->{objAddr} ) );
+            if ( $testitem->{expectfail} ) {
+                ASSERT( not $parsedaddrObj->equiv( $testitem->{addrObj} ) );
+                ASSERT( $parsedaddrObj->type() ne $testitem->{type} );
+            }
+            else {
+                ASSERT( $parsedaddrObj->equiv( $testitem->{addrObj} ) );
+                ASSERT( $parsedaddrObj->type() eq $testitem->{type} );
+            }
 
             return;
         };
@@ -194,17 +446,18 @@ sub list_tests {
     my ( $this, $suite ) = @_;
     my @testnames;
 
-    if ( not scalar( keys %testitems ) ) {
-        %testitems = $this->gen_tests( \%testrange );
+    if ( not scalar( keys %rangetestitems ) ) {
+        %rangetestitems = $this->gen_range_tests( \%testrange );
+        %spectestitems  = $this->gen_spec_tests( \%testspec );
     }
-    foreach my $testname ( keys %testitems ) {
+    foreach my $testname ( keys %rangetestitems, keys %spectestitems ) {
         push( @testnames, __PACKAGE__ . '::test_' . $testname );
     }
 
     return @testnames, $this->SUPER::list_tests($suite);
 }
 
-sub gen_tests {
+sub gen_range_tests {
     my ( $this, $range ) = @_;
     my %tests;
 
@@ -212,28 +465,42 @@ sub gen_tests {
         foreach my $topicseparator ( @{ $range->{topicseparators} } ) {
             foreach my $webs ( @{ $range->{webs} } ) {
                 foreach my $topic ( @{ $range->{topics} } ) {
-                    foreach my $attachment ( @{ $range->{attachments} } ) {
-                        foreach my $rev ( @{ $range->{revs} } ) {
-                            if (
-                                $webs
-                                and ( not defined $attachment and defined $topic
-                                    or defined $topic )
-                              )
-                            {
-                                my $objAddr = Foswiki::Address->new(
-                                    webseparator   => $webseparator,
-                                    topicseparator => $topicseparator,
-                                    webs           => $webs,
-                                    topic          => $topic,
-                                    attachment     => $attachment,
-                                    rev            => $rev
-                                );
-                                my $name = 'range_' . $objAddr->stringify();
+                    foreach my $part ( keys %{ $range->{parts} } ) {
+                        foreach my $subpart ( @{ $range->{parts}->{$part} } ) {
+                            foreach my $rev ( @{ $range->{revs} } ) {
+                                if (
+                                    $webs
+                                    and ( $part and $part ne 'FILE'
+                                        or ( defined $topic ) )
+                                  )
+                                {
+                                    $part = undef if $part and $part eq 'undef';
+                                    my $addrObj = Foswiki::Address->new(
+                                        webseparator   => $webseparator,
+                                        topicseparator => $topicseparator,
+                                        webs           => $webs,
+                                        topic          => $topic,
+                                        part           => $part,
+                                        subpart        => $subpart,
+                                        rev            => $rev
+                                    );
+                                    my $string = $addrObj->stringify();
 
-                                $name =~ s/\//_sl_/g;
-                                $name =~ s/\./_dt_/g;
-                                $name =~ s/\@/_at_/g;
-                                $tests{$name} = { objAddr => $objAddr };
+                                    if ($string) {
+                                        my $name = 'range_' . $string;
+
+                                        $name =~ s/\//_sl_/g;
+                                        $name =~ s/\./_dt_/g;
+                                        $name =~ s/\@/_at_/g;
+                                        $name =~ s/'/_qt_/g;
+                                        $name =~ s/\[/_ls_/g;
+                                        $name =~ s/\]/_rs_/g;
+                                        $name =~ s/=/_eq_/g;
+                                        $name =~ s/:/_co_/g;
+                                        $name =~ s/\ /_/g;
+                                        $tests{$name} = { addrObj => $addrObj };
+                                    }
+                                }
                             }
                         }
                     }
@@ -245,94 +512,105 @@ sub gen_tests {
     return %tests;
 }
 
+sub gen_spec_tests {
+    my ( $this, $spec ) = @_;
+    my %tests;
+
+    while ( my ( $testname, $test ) = each %{$spec} ) {
+        $tests{$testname} = {
+            addrObj    => Foswiki::Address->new( %{ $test->{atoms} } ),
+            string     => $test->{string},
+            type       => $test->{type},
+            expectfail => $test->{expectfail}
+        };
+    }
+
+    return %tests;
+}
+
 sub test_meta1 {
     my ($this) = @_;
-    my $objAddr = Foswiki::Address->new(
-        webs          => [ $test_web, 'SubWeb' ],
-        topic         => 'Topic',
-        rev           => '2',
-        meta          => 'FIELD',
-        metamember    => 'Colour',
-        metamemberkey => 'name',
-        metakey       => 'value'
+    my $addrObj = Foswiki::Address->new(
+        webs  => [ $test_web, 'SubWeb' ],
+        topic => 'Topic',
+        rev   => '2',
+        part  => 'META',
+        subpart => [ 'FIELD', { name => 'Colour' }, 'value' ]
     );
-    my $parsedObjAddr = Foswiki::Address->new(
-        string  => $objAddr->stringify(),
-        existAs => [qw(attachment meta topic)]
+    my $parsedaddrObj = Foswiki::Address->new(
+        string  => $addrObj->stringify(),
+        existAs => [qw(file meta topic)]
     );
 
-    ASSERT( $parsedObjAddr->equiv($objAddr) );
+    ASSERT( $parsedaddrObj->equiv($addrObj) );
 
     return;
 }
 
 sub test_meta2 {
     my ($this) = @_;
-    my $objAddr = Foswiki::Address->new(
-        webs       => [ $test_web, 'SubWeb' ],
-        topic      => 'Topic',
-        rev        => '2',
-        meta       => 'FIELD',
-        metamember => 2,
-        metakey    => 'value'
+    my $addrObj = Foswiki::Address->new(
+        webs  => [ $test_web, 'SubWeb' ],
+        topic => 'Topic',
+        rev   => '2',
+        part  => 'META',
+        subpart => [ 'FIELD', 2, 'value' ]
     );
-    my $parsedObjAddr = Foswiki::Address->new(
-        string  => $objAddr->stringify(),
-        existAs => [qw(attachment meta topic)]
+    my $parsedaddrObj = Foswiki::Address->new(
+        string  => $addrObj->stringify(),
+        existAs => [qw(file meta topic)]
     );
 
-    ASSERT( $parsedObjAddr->equiv($objAddr) );
-    ASSERT( $parsedObjAddr->type() eq 'metakey' );
-    $parsedObjAddr->metakey(undef);
-    ASSERT( $parsedObjAddr->type() eq 'metamember' );
-    $parsedObjAddr->metamember(undef);
-    ASSERT( $parsedObjAddr->type() eq 'meta' );
-    $parsedObjAddr->meta(undef);
-    ASSERT( $parsedObjAddr->type() eq 'topic' );
+    ASSERT( $parsedaddrObj->equiv($addrObj) );
+    ASSERT( $parsedaddrObj->type() eq 'metakey' );
+    $parsedaddrObj->subpart( [ 'FIELD', 2 ] );
+    ASSERT( $parsedaddrObj->type() eq 'metamember' );
+    $parsedaddrObj->subpart( ['FIELD'] );
+    ASSERT( $parsedaddrObj->type() eq 'metatype' );
+    $parsedaddrObj->subpart(undef);
+    ASSERT( $parsedaddrObj->type() eq 'meta' );
+    $parsedaddrObj->part(undef);
+    ASSERT( $parsedaddrObj->type() eq 'topic' );
 
     return;
 }
 
 sub test_meta3 {
     my ($this) = @_;
-    my $objAddr = Foswiki::Address->new(
-        webs          => [ $test_web, 'SubWeb' ],
-        topic         => 'Topic',
-        rev           => '2',
-        meta          => 'FIELD',
-        metamember    => 'Colour',
-        metamemberkey => 'name',
-        metakey       => 'value'
+    my $addrObj = Foswiki::Address->new(
+        webs  => [ $test_web, 'SubWeb' ],
+        topic => 'Topic',
+        rev   => '2',
+        part  => 'META',
+        subpart => [ 'FIELD', { name => 'Colour' }, 'value' ]
     );
-    my $parsedObjAddr = Foswiki::Address->new(
+    my $parsedaddrObj = Foswiki::Address->new(
         string  => "'$test_web/SubWeb.Topic\@2'/fields[name='Colour'].value",
-        existAs => [qw(attachment meta topic)]
+        existAs => [qw(file meta topic)]
     );
 
-    ASSERT( $parsedObjAddr->equiv($objAddr) );
-    ASSERT( $parsedObjAddr->type() eq 'metakey' );
+    ASSERT( $parsedaddrObj->equiv($addrObj) );
+    ASSERT( $parsedaddrObj->type() eq 'metakey' );
 
     return;
 }
 
 sub test_meta4 {
     my ($this) = @_;
-    my $objAddr = Foswiki::Address->new(
-        webs          => [ $test_web, 'SubWeb' ],
-        topic         => 'Topic',
-        rev           => '2',
-        meta          => 'FIELD',
-        metamember    => 'Colour',
-        metamemberkey => 'name',
-        metakey       => 'value'
+    my $addrObj = Foswiki::Address->new(
+        webs  => [ $test_web, 'SubWeb' ],
+        topic => 'Topic',
+        rev   => '2',
+        part  => 'META',
+        subpart => [ 'FIELD', { name => 'Colour' }, 'value' ]
     );
-    my $parsedObjAddr = Foswiki::Address->new(
+    my $parsedaddrObj = Foswiki::Address->new(
         string  => "'$test_web/SubWeb.Topic\@2'/Colour",
-        existAs => [qw(attachment meta topic)]
+        existAs => [qw(file meta topic)]
     );
 
-    ASSERT( $parsedObjAddr->equiv($objAddr) );
-    ASSERT( $parsedObjAddr->type() eq 'metakey' );
+    ASSERT( $parsedaddrObj->equiv($addrObj) );
+    ASSERT( $parsedaddrObj->type() eq 'metakey' );
 
     return;
 }
@@ -415,10 +693,11 @@ sub test_timing_creation {
         100000,
         sub {
             $addr = Foswiki::Address->new(
-                webs       => [qw(Web SubWeb)],
-                topic      => 'Topic',
-                attachment => 'Attachment.pdf',
-                rev        => 3
+                webs    => [qw(Web SubWeb)],
+                topic   => 'Topic',
+                part    => 'FILE',
+                subpart => 'Attachment.pdf',
+                rev     => 3
             );
         }
     );
@@ -435,10 +714,11 @@ sub test_timing_hashref_creation {
         200000,
         sub {
             $addr = {
-                webs       => [qw(Web SubWeb)],
-                topic      => 'Topic',
-                attachment => 'Attachment.pdf',
-                rev        => 3
+                webs    => [qw(Web SubWeb)],
+                topic   => 'Topic',
+                part    => 'FILE',
+                subpart => 'Attachment.pdf',
+                rev     => 3
             };
         }
     );
@@ -475,10 +755,8 @@ sub test_timing_reparse {
     my $benchmark = timeit(
         15000,
         sub {
-            $addr->parse(
-                'AnotherWeb/AnotherSubWeb.AnotherTopic',
-                isA  => 'topic',
-            );
+            $addr->parse( 'AnotherWeb/AnotherSubWeb.AnotherTopic',
+                isA => 'topic', );
         }
     );
 
