@@ -937,7 +937,6 @@ sub loadInstaller {
     my $depth = 0;
     while (<$fh>) {
 
-        #if ( $_ =~ m/my PACKAGEURL
         if ( $_ eq "<<<< MANIFEST >>>>\n" ) {
             $found = 'M1';
             next;
@@ -1118,6 +1117,8 @@ sub _parseManifest {
     $this->{_manifest}->{$file}->{desc} = $desc;
     $this->{_manifest}->{ATTACH}->{"$tweb/$ttopic"}->{$tattach} = $file
       if ($tattach);
+
+    return '';
 }
 
 =begin TML
