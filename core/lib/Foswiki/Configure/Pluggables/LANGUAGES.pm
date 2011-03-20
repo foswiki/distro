@@ -28,7 +28,7 @@ sub new {
     opendir( DIR, $Foswiki::cfg{LocalesDir} )
       or return $this;
 
-    foreach my $file ( readdir DIR ) {
+    foreach my $file ( sort ( readdir DIR ) ) {
         next unless ( $file =~ m/^([\w-]+)\.po$/ );
         my $lang = $1;
         $lang = "'$lang'" if $lang =~ /\W/;
