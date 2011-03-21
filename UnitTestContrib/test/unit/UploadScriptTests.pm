@@ -149,7 +149,9 @@ sub test_redirectto_param {
         redirectto       => 'http://blah.com/',
         changeproperties => 0,
     );
-    $this->assert_matches( qr#Location: http://(.*?)$this->{test_web}/$this->{test_topic}#ms, $result );
+    $this->assert_matches(
+        qr#Location: http://(.*?)$this->{test_web}/$this->{test_topic}#ms,
+        $result );
 }
 
 sub test_oversized_upload {
@@ -209,7 +211,8 @@ sub test_illegal_upload {
     my $this = shift;
     local $/;
     my $data = 'asdfasdf';
-    my ($goodfilename, $badfilename) = Foswiki::Sandbox::sanitizeAttachmentName( 'F$%^&&**()_ .php' );
+    my ( $goodfilename, $badfilename ) =
+      Foswiki::Sandbox::sanitizeAttachmentName('F$%^&&**()_ .php');
     try {
         $this->do_upload(
             $badfilename,
@@ -223,7 +226,7 @@ sub test_illegal_upload {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( $goodfilename, $e->{params}[1] ); 
+        $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
         $this->assert_str_equals( "upload_name_changed", $e->{def} );
     };
 }
@@ -232,7 +235,8 @@ sub test_illegal_propschange {
     my $this = shift;
     local $/;
     my $data = 'asdfasdf';
-    my ($goodfilename, $badfilename) = Foswiki::Sandbox::sanitizeAttachmentName( 'F$%^&&**()_ .php' );
+    my ( $goodfilename, $badfilename ) =
+      Foswiki::Sandbox::sanitizeAttachmentName('F$%^&&**()_ .php');
     try {
         $this->do_upload(
             $badfilename,
@@ -246,7 +250,7 @@ sub test_illegal_propschange {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( $goodfilename, $e->{params}[1] ); 
+        $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
         $this->assert_str_equals( "upload_name_changed", $e->{def} );
     };
     try {
@@ -262,7 +266,7 @@ sub test_illegal_propschange {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( $goodfilename, $e->{params}[1] ); 
+        $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
         $this->assert_str_equals( "upload_name_changed", $e->{def} );
     };
 }
@@ -308,7 +312,7 @@ qr/\[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate the hedg
 sub test_imagelink {
     my $this = shift;
     local $/;
-    my $imageFile = $Foswiki::cfg{PubDir}.'/System/DocumentGraphics/bomb.png';
+    my $imageFile = $Foswiki::cfg{PubDir} . '/System/DocumentGraphics/bomb.png';
     open FILE, '<', $imageFile;
     my $data = do { local $/; <FILE> };
     my $filename = 'bomb.png';
@@ -323,7 +327,7 @@ sub test_imagelink {
     );
     $this->assert_matches( qr/^Status: 302/, $result );
     $filename = Assert::TAINT($filename);
-    $result = $this->do_upload(
+    $result   = $this->do_upload(
         $filename,
         $data,
         hidefile         => 1,
