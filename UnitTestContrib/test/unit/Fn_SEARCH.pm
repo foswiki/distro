@@ -4767,6 +4767,18 @@ sub verify_Item10398 {
     $this->assert_str_equals( 'WebPreferences', $result );
 }
 
+#Item10515
+sub verify_lhs_lc_field_rhs_lc_string {
+    my $this = shift;
+
+    $this->set_up_for_queries();
+
+    my $result =
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"lc(Firstname)=lc(\'JOHN\')"' . $stdCrap );
+    $this->assert_str_equals( 'QueryTopicTwo', $result );
+}
+
 #%SEARCH{"SomeString" web="Tasks"  scope="all" order="topic" type="word" }%
 sub verify_Item10491 {
     my $this = shift;
