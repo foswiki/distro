@@ -48,7 +48,7 @@
 
 %TMPL:DEF{"notegethelp"}%
    * %POPUPWINDOW{"%SYSTEMWEB%.ManagingWebs?section=rename" label="Get help on renaming and deleting webs"}%%JQREQUIRE{"popupwindow"}%
-   * Select the %TRASHWEB% Web to delete the topic.
+   * %IF{"{EnableHierarchicalWebs}='1'" then="Select the %TRASHWEB% Web to delete the web." else="Webs cannot be deleted. Hierarchical webs are disabled"}%
 %TMPL:P{"notecheckmarkedtopics"}%
 %TMPL:END%
 

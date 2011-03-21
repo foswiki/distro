@@ -189,7 +189,7 @@ The Pattern skin (default) indicates Subwebs by indenting them in the sidebar re
 #RenameWeb
 %STARTSECTION{"rename"}%
 ---++ Renaming or Deleting a Web
-Rename a web via the Tools section in each %WEBPREFSTOPIC% topic. You may delete a web by moving it into a Trash web.
+Rename a web via the Tools section in each %WEBPREFSTOPIC% topic. %IF{"{EnableHierarchicalWebs}='1'" then="You may delete a web by moving it into a Trash web." else="Webs cannot be deleted. Hierarchical webs are disabled"}%
 
 ---+++ Permissions
 You may only rename a web if you have the following permissions
