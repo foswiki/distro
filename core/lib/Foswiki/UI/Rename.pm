@@ -1373,7 +1373,7 @@ sub _getReferringTopics {
           );
 
         # If the topic is a Template,  search for set or meta that references it
-        if ( $om->topic() =~ m/(.*)Template$/ ) {
+        if ( $om->topic() && $om->topic() =~ m/(.*)Template$/ ) {
             my $refre = '(VIEW|EDIT)_TEMPLATE.*';
             $refre .= Foswiki::Render::getReferenceRE(
                 $om->web(), $1,
