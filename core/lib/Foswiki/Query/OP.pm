@@ -1,6 +1,15 @@
 # See bottom of file for license and copyright information
 package Foswiki::Query::OP;
 
+=begin TML
+
+---+ package Foswiki::Query::OP
+
+Base class of operators used in queries. Operators are singleton objects that are attached
+to nodes in the parse tree to provide semantics for the nodes.
+
+=cut
+
 use strict;
 use warnings;
 
@@ -13,22 +22,60 @@ sub new {
     return bless( \%opts, $class );
 }
 
-# Does this operator evaluate to a constant?
-# See Foswiki::Query::Node::evaluatesToConstant
+=begin TML
+
+---++ ObjectMethod evaluate($node, %domain) -> $value
+
+Pure virtual method that evaluates the operator in the give domain.
+The domain is a reference to a hash that contains the
+data being operated on, and a reference to the meta-data of the topic being worked on
+(the "topic object"). The data being operated on can be a
+Meta object, a reference to an array (such as attachments), a reference
+to a hash or a scalar. Arrays can contain other arrays
+and hashes.
+
+See Foswiki::Query::Node::evaluate for more information.
+
+=cut
+
+sub evaluate {
+    my $this = shift;
+    die "Operator '$this->{name}' does not define evaluate()";
+}
+
+=begin TML
+
+---++ ObjectMethod evaluatesToConstant() -> $boolean
+Does this operator always evaluate to a constant?
+See Foswiki::Query::Node::evaluatesToConstant
+
+Used in hoisting/optimisation.
+
+=cut
+
 sub evaluatesToConstant {
     return 0;
 }
 
-# Determine if a string represents a valid number
+=begin TML
+
+---++ StaticMethod isNumber($string) -> $boolean
+
+Determine if a string represents a valid number (signed decimal)
+
+Used in hoisting/optimisation.
+
+=cut
+
 sub isNumber {
     return shift =~ m/^[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?$/;
 }
 
 =begin TML
 
----++ collect($a, $fn)
+---++ StaticMethod collect($a, $fn) -> []
 
-Invokes $fn once for each element of $a.
+Invokes $fn once for each element of $a and return an array built from the results.
 
 =cut
 
@@ -50,7 +97,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

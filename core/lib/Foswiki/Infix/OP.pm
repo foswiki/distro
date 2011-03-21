@@ -5,8 +5,8 @@ package Foswiki::Infix::OP;
 
 ---+ package Foswiki::Infix::OP
 
-Base class of operators recognised by the infix parser. Predefined fields
-in this object are:
+Base class of operators recognised by the Foswiki::Infix::Parser. Predefined fields
+in this object used by Foswiki::Infix::Parser are:
    * =name= - operator string.
    * =prec= - operator precedence, positive non-zero integer.
      Larger number => higher precedence.
@@ -41,7 +41,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

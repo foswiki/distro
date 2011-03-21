@@ -192,15 +192,33 @@ sub loadExtraConfig {
     }
 }
 
-#TODO: doccome!
+# Check that the query expression $s parses, and that the result of evaluation is as expected.
+# Options are:
+# eval - the expected result of evaluate() (deep equals)
+# fail - expect a parse failure, with this exception
+# syntaxOnly - if set, don't try to fold or match
+# match - if !syntaxOnly, list of topics expected to match
+# simpler - if !syntaxOnly, what the expression should reduce to after constant folding
 sub check {
     my ( $this, $s, %opts ) = @_;
 
     # First check the standard evaluator
     my $queryParser = new Foswiki::Query::Parser();
-    my $query       = $queryParser->parse($s);
+    my $query;
+    eval {
+	$query = $queryParser->parse($s);
+    };
+    if ($@) {
+	if (defined $opts{fail}) {
+	    $this->assert_str_equals($opts{fail}, $@);
+	} else {
+	    $this->assert(0, $@);
+	}
+    };
+    return if defined $opts{fail};
+
     use Data::Dumper;
-    print STDERR "query: $s\nresult: " . Data::Dumper::Dumper($query) . "\n";
+    #print STDERR "query: $s\nresult: " . Data::Dumper::Dumper($query) . "\n";
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     if ( ref( $opts{'eval'} ) ) {
@@ -551,7 +569,7 @@ sub verify_match_ok_brace {
 
 sub verify_match_fail_brace {
     my $this = shift;
-    $this->check( "fields[name~'*' AND value=~'(']", eval => 1, simpler => 1 );
+    $this->check( "fields[name~'*' AND value=~'(']", fail => "Illegal regular expression in '('");
 }
 
 sub verify_match_good {

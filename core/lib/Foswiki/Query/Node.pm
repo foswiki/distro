@@ -4,21 +4,21 @@
 
 ---+ package Foswiki::Query::Node
 
-A Query object is a representation of a query over the Foswiki database.
+A Node object is a single node in a query (either a tree node or a leaf node).
+A tree of node objects represents a query over the Foswiki database.
 
-Fields are given by name, and values by strings or numbers. Strings should always be surrounded by 'single-quotes'. Numbers can be signed integers or decimals. Single quotes in values may be escaped using backslash (\).
-
-See %SYSTEMWEB%.QuerySearch for details of the query language. At the time of writing
-only a subset of the entire query language is supported, for use in searching.
+Fields are given by name, and values by strings or numbers.
 
 A query object implements the =evaluate= method as its general
-contract with the rest of the world. This method does a "hard work" evaluation
-of the parser tree. Of course, smarter Store implementations should be
-able to do it better....
+contract with the rest of the world. This method is a "reference implementation" -
+it does a brute force evaluation of the expression represented by the node in a given
+data domain. It is expected that smarter store implementations will analyse the parse tree
+and derive as many optimisations as possible, minimising fallback to this brute force
+evaluation.
 
-The "hard work" evaluation uses the =getField= method in the
-{Store}{QueryAlgorithm} to get data from the store. This decouples the query
-object from the detail of the store.
+The reference implementation of evaluation uses the =getField= method in the
+{Store}{QueryAlgorithm} to get data from the store. This further decouples the query
+object from the detail of the store implementation.
 
 See Foswiki::Store::QueryAlgorithms for a full spec of the interface to
 query algorithms.
@@ -131,21 +131,27 @@ sub newLeaf {
     }
 }
 
-# Evaluate this node by invoking the operator function named in the 'exec'
-# field of the operator. The return result is either an array ref (for many
-# results) or a scalar (for a single result)
-#
-# This is the default evaluator for queries. However it may not be the only
-# engine that evaluates them; external engines, such as SQL, might be delegated
-# the responsibility of evaluating queries in a search context.
-#
-# Note that the name resolution simply executes the getField function in the
-# query algorithm. It is placed there to allow for Store specific optimisations
-# such as direct database lookups.
-#
+=begin TML
+
+---++ ObjectMethod evaluate(...) -> $result
+
+Evaluate this node by invoking the =evaluate= method of the attached operator.
+The return result is either an array ref (for many results) or a scalar (for a
+single result)
+
+This is the reference evaluator for queries. However it may not be the only
+engine that evaluates them; external engines, such as SQL, might be delegated
+the responsibility of evaluating queries in a search context.
+
+Note that the name resolution simply executes the getField function in the
+query algorithm. It is placed there to allow for Store specific optimisations
+such as direct database lookups.
+
+=cut
+
 # SMELL: is the getField passed enough domain information? It can see the data
-# object (usually a Meta) but cannot see the context of the name in the query.
-#
+# object (usually a Meta) but cannot see the context of the name in the query (SD)
+
 sub evaluate {
     my $this = shift;
     ASSERT( scalar(@_) % 2 == 0 );
@@ -167,8 +173,8 @@ sub evaluate {
 		# a name; look it up in $domain{data}
 		eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
 		if ($@) {
-            print STDERR ' BOOM ' if MONITOR_EVAL;
-    		die $@ ;
+		    print STDERR ' BOOM ' if MONITOR_EVAL;
+		    die $@ ;
 		}
 		$result = $Foswiki::cfg{Store}{QueryAlgorithm}->getField(
 		    $this, $domain{data}, $this->{params}[0] );
@@ -194,6 +200,8 @@ sub evaluate {
 =begin TML
 
 ---++ evaluatesToConstant(%opts)
+
+Support for expression optimisation/hoisting.
 
 Determine if this node evaluates to a constant or not. "Constant" is defined
 as "anything that doesn't involve actually looking in searched topics".
@@ -252,10 +260,10 @@ sub _freeze {
     if (ref($c) eq 'ARRAY') {
 	$this->_makeArray($c);
     } elsif ( Foswiki::Query::OP::isNumber($c) ) {
-	$this->makeConstant(Foswiki::Infix::Node::NUMBER, $c);
+	$this->convertToLeaf(Foswiki::Infix::Node::NUMBER, $c);
     }
     else {
-	$this->makeConstant(Foswiki::Infix::Node::STRING, $c);
+	$this->convertToLeaf(Foswiki::Infix::Node::STRING, $c);
     }
 }
 

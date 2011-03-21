@@ -4,7 +4,11 @@
 
 ---+ package Foswiki::Query::Parser
 
-Parser for queries
+Parser for queries, using the Foswiki::Infix::Parser.
+
+The default node type in the generated parse tree is Foswiki::Query::Node,
+though you can pass your own alternative class as an option (it must implement
+Foswiki::Infix::Node)
 
 =cut
 
@@ -76,23 +80,13 @@ u_expr ::= value uop u_expr | value;
 uop ::= 'lc' | 'uc' | 'd2n' | 'length' | '-' | 'int' | '@';
 value ::= <name> | <string> | <number>;
 </verbatim>
+String and Numbers are as defined in Foswiki::Infix::Parser. Names default
+to =/([A-Z:][A-Z0-9_:]*|({[A-Z][A-Z0-9_]*})+)/i=.
+
+See %SYSTEMWEB%.QuerySearch for details of the query language.
+
 =cut
 
-# Operators
-#
-# In the following, the standard InfixParser node structure is extended by
-# one field, 'exec'.
-#
-# exec is the name of a member function of the 'Query' class that evaluates
-# the node. It is called on the node and is passed a $domain. The $domain
-# is a reference to a hash that contains the data being operated on, and a
-# reference to the meta-data of the topic being worked on (this is
-# effectively the "topic object"). The data being operated on can be a
-# Meta object, a reference to an array (such as attachments), a reference
-# to a hash (such as TOPICINFO) or a scalar. Arrays can contain other arrays
-# and hashes.
-
-# List of operators permitted in structured search queries.
 # Each operator is implemented by a class in Foswiki::Query. Note that
 # OP_empty is *not* included here; it is a pseudo-operator and does
 # not participate in parsing.
@@ -118,7 +112,7 @@ sub onCloseExpr {
     my ($this, $opands) = @_;
     if (!scalar(@$opands)) {
 	require Foswiki::Query::OP_empty;
-	push( @$opands, $this->{client_class}->emptyExpression() );
+	push( @$opands, $this->{node_factory}->emptyExpression() );
     }
 }
 
@@ -128,7 +122,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -6,7 +6,7 @@
 
 This package is designed to be lazy-loaded when Foswiki sees
 an INCLUDE macro with the doc: protocol. It implements a single
-method INCLUDE.
+method INCLUDE which generates perl documentation for a Foswiki class.
 
 =cut
 
@@ -42,8 +42,14 @@ sub INCLUDE {
     my $pod   = '';
     my $howSmelly  = 0;
     my $showSmells = !Foswiki::Func::isGuest();
-    local $/ = "\n";
-    while ( my $line = <$PMFILE> ) {
+    local $/ = undef;
+    my $perl = <$PMFILE>;
+    my $isa;
+    if ($perl =~ /our\s+\@ISA\s*=\s*\(\s*['"](.*?)['"]\s*\)/) {
+	$isa = " ==is a== $1";
+	$isa =~ s#\s(Foswiki(?:::[A-Z]\w+)+)# [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=$1][$1]]#g;
+    }
+    foreach my $line (split ( /\r?\n/, $perl) ) {
         if ( $line =~ /^=(begin (twiki|TML|html)|pod)/ ) {
             $inPod = 1;
         }
@@ -51,7 +57,19 @@ sub INCLUDE {
             $inPod = 0;
         }
         elsif ($inPod) {
-            $pod .= $line;
+	    if ($line =~ /^---\+(!!)?\s+package\s+\S+\s*$/) {
+		if ($isa) {
+		    $line .= $isa;
+		    $isa = undef;
+		}
+		$line =~ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =package= $1/;
+	    } else {
+		$line =~ s#\b(Foswiki(?:::[A-Z]\w+)+)#[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=$1][$1]]#g;
+	    }
+	    if ($line =~ s/^(---\++\s+)(\w+Method)\s+/$1=$2= /) {
+		$line =~ s/\s+[-=]>\s+/ &rarr; /;
+	    }
+            $pod .= "$line\n";
         }
         if ( $line =~ /(SMELL|FIXME|TODO)/ && $showSmells ) {
             $howSmelly++;

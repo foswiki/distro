@@ -26,7 +26,7 @@ sub serialise {
 
 sub perl {
     my ( $session, $result ) = @_;
-    use Data::Dumper ();
+    require Data::Dumper;
     local $Data::Dumper::Indent = 0;
     local $Data::Dumper::Terse  = 1;
     return Data::Dumper->Dump( [$result] );
