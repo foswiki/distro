@@ -75,11 +75,11 @@ sub prepare {
                   $Foswiki::cfg{RCS}{filePermission}+0))
                   );
 
-        my $umask = sprintf('%04o', umask() );
-        $oldUmask = sprintf('%04o', $oldUmask );
-        my $dirPerm = sprintf('%04o', $Foswiki::cfg{RCS}{dirPermission}+0 );
-        my $filePerm = sprintf('%04o', $Foswiki::cfg{RCS}{filePermission}+0 );
-        print STDERR " ENGINE changes $oldUmask to  $umask  from $dirPerm and $filePerm \n";
+        #my $umask = sprintf('%04o', umask() );
+        #$oldUmask = sprintf('%04o', $oldUmask );
+        #my $dirPerm = sprintf('%04o', $Foswiki::cfg{RCS}{dirPermission}+0 );
+        #my $filePerm = sprintf('%04o', $Foswiki::cfg{RCS}{filePermission}+0 );
+        #print STDERR " ENGINE changes $oldUmask to  $umask  from $dirPerm and $filePerm \n";
     }
 
     try {
