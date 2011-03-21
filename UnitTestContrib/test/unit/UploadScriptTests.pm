@@ -209,9 +209,10 @@ sub test_illegal_upload {
     my $this = shift;
     local $/;
     my $data = 'asdfasdf';
+    my ($goodfilename, $badfilename) = Foswiki::Sandbox::sanitizeAttachmentName( 'F$%^&&**()_ .php' );
     try {
         $this->do_upload(
-            'F$%^&&**()_ .php',
+            $badfilename,
             $data,
             hidefile         => 0,
             filecomment      => 'Elucidate the goose',
@@ -222,7 +223,7 @@ sub test_illegal_upload {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "F__.php.txt", $e->{params}[1] ); 
+        $this->assert_str_equals( $goodfilename, $e->{params}[1] ); 
         $this->assert_str_equals( "upload_name_changed", $e->{def} );
     };
 }
@@ -231,9 +232,10 @@ sub test_illegal_propschange {
     my $this = shift;
     local $/;
     my $data = 'asdfasdf';
+    my ($goodfilename, $badfilename) = Foswiki::Sandbox::sanitizeAttachmentName( 'F$%^&&**()_ .php' );
     try {
         $this->do_upload(
-            'F$%^&&**()_ .php',
+            $badfilename,
             $data,
             hidefile         => 0,
             filecomment      => 'Elucidate the goose',
@@ -244,12 +246,12 @@ sub test_illegal_propschange {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "F__.php.txt", $e->{params}[1] );
+        $this->assert_str_equals( $goodfilename, $e->{params}[1] ); 
         $this->assert_str_equals( "upload_name_changed", $e->{def} );
     };
     try {
         $this->do_upload(
-            'F$%^&&**()_ .php',
+            $badfilename,
             $data,
             hidefile         => 1,
             filecomment      => 'Educate the goose',
@@ -260,7 +262,7 @@ sub test_illegal_propschange {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "F__.php.txt", $e->{params}[1] );
+        $this->assert_str_equals( $goodfilename, $e->{params}[1] ); 
         $this->assert_str_equals( "upload_name_changed", $e->{def} );
     };
 }
