@@ -67,8 +67,8 @@ use Assert;
 use Foswiki::Func();
 use Foswiki::Meta();
 
-use Data::Dumper;
-use constant TRACE  => 1;    # Don't forget to uncomment dumper
+#use Data::Dumper;
+use constant TRACE  => 0;    # Don't forget to uncomment dumper
 use constant TRACE2 => 0;
 
 my %plausibletable;
