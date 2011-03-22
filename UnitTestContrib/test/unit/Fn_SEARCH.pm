@@ -1383,6 +1383,7 @@ sub verify_formQuery {
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
+#Item10520: in Sven's reading of System.QuerySearch, this should return no results, as there is no field of the name 'TestForm'
 sub verify_formQuery2 {
     my $this = shift;
 
