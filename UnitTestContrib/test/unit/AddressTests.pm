@@ -25,26 +25,26 @@ my %testrange = (
         [ $test_web,             'MissingSubWeb', 'MissingSubSubWeb' ],
         [ 'Missing' . $test_web, 'MissingSubWeb', 'MissingSubSubWeb' ]
     ],
-    topics => [ undef, 'Topic', 'MissingTopic' ],
-    parts  => {
-        undef => [undef],
-        FILE  => [
-            undef,               'Attachment',
-            'Attach.ent',        'Atta.h.ent',
-            'MissingAttachment', 'MissingAttach.ent',
-            'MissingAtta.h.ent'
-        ],
-        SECTION => [ undef, [ { name => 'something' } ] ],
-        META => [
-            undef,
-            ['FIELD'],
-            [ 'FIELD', { name => 'Colour' } ],
-            [ 'FIELD', { name => 'Colour' }, 'value' ],
-            [ 'FIELD', { name => 'Colour', form => 'MyForm' } ],
-            [ 'FIELD', { name => 'Colour', form => 'MyForm' }, 'value' ]
-        ],
-        text => [undef]
-    },
+    topics   => [ undef, 'Topic', 'MissingTopic' ],
+    tompaths => [
+        undef,
+        ['FILE'],
+        [ 'FILE', 'Attachment' ],
+        [ 'FILE', 'Attach.ent' ],
+        [ 'FILE', 'Atta.h.ent' ],
+        [ 'FILE', 'MissingAttachment' ],
+        [ 'FILE', 'MissingAttach.ent' ],
+        [ 'FILE', 'MissingAtta.h.ent' ],
+        ['SECTION'],
+        [ 'SECTION', { name => 'something' } ],
+        ['META'],
+        [ 'META', 'FIELD' ],
+        [ 'META', 'FIELD', { name => 'Colour' } ],
+        [ 'META', 'FIELD', { name => 'Colour' }, 'value' ],
+        [ 'META', 'FIELD', { name => 'Colour', form => 'MyForm' } ],
+        [ 'META', 'FIELD', { name => 'Colour', form => 'MyForm' }, 'value' ],
+        ['text']
+    ],
     revs            => [ undef, 2 ],
     webseparators   => [ '/',   '.' ],
     topicseparators => [ '/',   '.' ]
@@ -52,7 +52,7 @@ my %testrange = (
 my %testspec = (
     meta_root => {
         string => "'$test_web.Topic'/META",
-        atoms  => { web => $test_web, topic => 'Topic', part => 'META' },
+        atoms  => { web => $test_web, topic => 'Topic', tompath => ['META'] },
         type   => 'meta'
     },
     meta_info => {
@@ -60,8 +60,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => ['TOPICINFO']
+            tompath => [ 'META', 'TOPICINFO' ]
         },
         type => 'metatype'
     },
@@ -70,8 +69,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => ['TOPICINFO']
+            tompath => [ 'META', 'TOPICINFO' ]
         },
         type => 'metatype'
     },
@@ -80,8 +78,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => [ 'TOPICINFO', undef, 'version' ]
+            tompath => [ 'META', 'TOPICINFO', undef, 'version' ]
         },
         type => 'metakey'
     },
@@ -90,8 +87,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => [ 'TOPICINFO', undef, 'version' ]
+            tompath => [ 'META', 'TOPICINFO', undef, 'version' ]
         },
         type => 'metakey'
     },
@@ -100,8 +96,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => ['FIELD']
+            tompath => [ 'META', 'FIELD' ]
         },
         type => 'metatype'
     },
@@ -110,8 +105,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => [ 'FIELD', { name => 'Colour' } ]
+            tompath => [ 'META', 'FIELD', { name => 'Colour' } ]
         },
         type => 'metamember'
     },
@@ -120,8 +114,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => [ 'FIELD', 3 ]
+            tompath => [ 'META', 'FIELD', 3 ]
         },
         type => 'metamember'
     },
@@ -130,8 +123,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => [ 'FIELD', { name => 'Colour' }, 'value' ]
+            tompath => [ 'META', 'FIELD', { name => 'Colour' }, 'value' ]
         },
         type => 'metakey'
     },
@@ -140,8 +132,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => [ 'FIELD', 3, 'value' ]
+            tompath => [ 'META', 'FIELD', 3, 'value' ]
         },
         type => 'metakey'
     },
@@ -150,8 +141,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => ['FIELD']
+            tompath => [ 'META', 'FIELD' ]
         },
         type => 'metatype'
     },
@@ -160,8 +150,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => [ 'FIELD', { name => 'Colour' } ]
+            tompath => [ 'META', 'FIELD', { name => 'Colour' } ]
         },
         type => 'metamember'
     },
@@ -170,8 +159,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => [ 'FIELD', 3 ]
+            tompath => [ 'META', 'FIELD', 3 ]
         },
         type => 'metamember'
     },
@@ -180,8 +168,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => [ 'FIELD', { name => 'Colour' }, 'value' ]
+            tompath => [ 'META', 'FIELD', { name => 'Colour' }, 'value' ]
         },
         type => 'metakey'
     },
@@ -190,8 +177,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => [ 'FIELD', 3, 'value' ]
+            tompath => [ 'META', 'FIELD', 3, 'value' ]
         },
         type => 'metakey'
     },
@@ -200,8 +186,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => [ 'FIELD', { form => 'MyForm' } ]
+            tompath => [ 'META', 'FIELD', { form => 'MyForm' } ]
         },
         type       => 'metatype',
         expectfail => 1
@@ -209,32 +194,34 @@ my %testspec = (
     meta_myform_colour => {
         string => "'$test_web.Topic'/MyForm[name='Colour']",
         atoms  => {
-            web     => $test_web,
-            topic   => 'Topic',
-            part    => 'META',
-            subpart => [ 'FIELD', { form => 'MyForm', name => 'Colour' } ]
+            web   => $test_web,
+            topic => 'Topic',
+            tompath =>
+              [ 'META', 'FIELD', { form => 'MyForm', name => 'Colour' } ]
         },
         type => 'metamember'
     },
     meta_myform_colour_value => {
         string => "'$test_web.Topic'/MyForm[name='Colour'].value",
         atoms  => {
-            web   => $test_web,
-            topic => 'Topic',
-            part  => 'META',
-            subpart =>
-              [ 'FIELD', { form => 'MyForm', name => 'Colour' }, 'value' ]
+            web     => $test_web,
+            topic   => 'Topic',
+            tompath => [
+                'META', 'FIELD',
+                { form => 'MyForm', name => 'Colour' }, 'value'
+            ]
         },
         type => 'metakey'
     },
     meta_myform_dt_colour => {
         string => "'$test_web.Topic'/MyForm.Colour",
         atoms  => {
-            web   => $test_web,
-            topic => 'Topic',
-            part  => 'META',
-            subpart =>
-              [ 'FIELD', { form => 'MyForm', name => 'Colour' }, 'value' ]
+            web     => $test_web,
+            topic   => 'Topic',
+            tompath => [
+                'META', 'FIELD',
+                { form => 'MyForm', name => 'Colour' }, 'value'
+            ]
         },
         type => 'metakey'
     },
@@ -243,8 +230,7 @@ my %testspec = (
         atoms  => {
             web     => $test_web,
             topic   => 'Topic',
-            part    => 'META',
-            subpart => [ 'FIELD', { name => 'Colour' }, 'value' ]
+            tompath => [ 'META', 'FIELD', { name => 'Colour' }, 'value' ]
         },
         type => 'metakey'
     }
@@ -343,25 +329,33 @@ sub gentopics {
                         <<"HERE", { forcenewrevision => 1 } );
 This is topic: $web.$topic @ $rev
 HERE
-                    foreach my $attachment ( @{ $range->{parts}->{FILE} } ) {
-                        if ( defined $attachment
-                            and not $attachment =~ /^Missing/ )
+                    foreach my $tompath ( @{ $range->{tompaths} } ) {
+                        if (    $tompath
+                            and $tompath->[0]
+                            and $tompath->[0] eq 'FILE' )
                         {
-                            my $filepath =
-                              File::Spec->catfile(
-                                File::Spec->splitdir($tmpdir), $attachment )
-                              or die $!;
+                            my $attachment = $tompath->[1];
+                            if ( defined $attachment
+                                and not $attachment =~ /^Missing/ )
+                            {
+                                my $filepath =
+                                  File::Spec->catfile(
+                                    File::Spec->splitdir($tmpdir), $attachment )
+                                  or die $!;
 
-                            open( my $fh, '>', $filepath )
-                              or die "Couldn't open $filepath, '$filedata': $!";
-                            print $fh "$filedata/$attachment @ $rev";
-                            close($fh);
-                            open( $fh, '<', $filepath );
-                            print "gentopics(): \t\tattachment $attachment\n"
-                              if TRACE;
-                            Foswiki::Func::saveAttachment( $web, $topic,
-                                $attachment, { stream => $fh } );
-                            close($fh);
+                                open( my $fh, '>', $filepath )
+                                  or die
+                                  "Couldn't open $filepath, '$filedata': $!";
+                                print $fh "$filedata/$attachment @ $rev";
+                                close($fh);
+                                open( $fh, '<', $filepath );
+                                print
+                                  "gentopics(): \t\tattachment $attachment\n"
+                                  if TRACE;
+                                Foswiki::Func::saveAttachment( $web, $topic,
+                                    $attachment, { stream => $fh } );
+                                close($fh);
+                            }
                         }
                     }
                 }
@@ -465,23 +459,32 @@ sub gen_range_tests {
         foreach my $topicseparator ( @{ $range->{topicseparators} } ) {
             foreach my $webs ( @{ $range->{webs} } ) {
                 foreach my $topic ( @{ $range->{topics} } ) {
-                    foreach my $part ( keys %{ $range->{parts} } ) {
-                        foreach my $subpart ( @{ $range->{parts}->{$part} } ) {
+                    foreach my $tompath ( @{ $range->{tompaths} } ) {
+                        if ( $tompath and $tompath eq 'undef' ) {
+
+                            # WTF?
+                        }
+                        else {
                             foreach my $rev ( @{ $range->{revs} } ) {
                                 if (
                                     $webs
-                                    and ( $part and $part ne 'FILE'
+                                    and
+                                    ( $tompath->[0] and $tompath->[0] ne 'FILE'
                                         or ( defined $topic ) )
                                   )
                                 {
-                                    $part = undef if $part and $part eq 'undef';
+                                    if (    defined $tompath
+                                        and ref($tompath) eq 'ARRAY'
+                                        and not scalar( @{$tompath} ) )
+                                    {
+                                        $tompath = undef;
+                                    }
                                     my $addrObj = Foswiki::Address->new(
                                         webseparator   => $webseparator,
                                         topicseparator => $topicseparator,
                                         webs           => $webs,
                                         topic          => $topic,
-                                        part           => $part,
-                                        subpart        => $subpart,
+                                        tompath        => $tompath,
                                         rev            => $rev
                                     );
                                     my $string = $addrObj->stringify();
@@ -534,8 +537,7 @@ sub test_meta1 {
         webs  => [ $test_web, 'SubWeb' ],
         topic => 'Topic',
         rev   => '2',
-        part  => 'META',
-        subpart => [ 'FIELD', { name => 'Colour' }, 'value' ]
+        tompath => [ 'META', 'FIELD', { name => 'Colour' }, 'value' ]
     );
     my $parsedaddrObj = Foswiki::Address->new(
         string  => $addrObj->stringify(),
@@ -553,8 +555,7 @@ sub test_meta2 {
         webs  => [ $test_web, 'SubWeb' ],
         topic => 'Topic',
         rev   => '2',
-        part  => 'META',
-        subpart => [ 'FIELD', 2, 'value' ]
+        tompath => [ 'META', 'FIELD', 2, 'value' ]
     );
     my $parsedaddrObj = Foswiki::Address->new(
         string  => $addrObj->stringify(),
@@ -563,13 +564,13 @@ sub test_meta2 {
 
     ASSERT( $parsedaddrObj->equiv($addrObj) );
     ASSERT( $parsedaddrObj->type() eq 'metakey' );
-    $parsedaddrObj->subpart( [ 'FIELD', 2 ] );
+    $parsedaddrObj->tompath( [ 'META', 'FIELD', 2 ] );
     ASSERT( $parsedaddrObj->type() eq 'metamember' );
-    $parsedaddrObj->subpart( ['FIELD'] );
+    $parsedaddrObj->tompath( [ 'META', 'FIELD' ] );
     ASSERT( $parsedaddrObj->type() eq 'metatype' );
-    $parsedaddrObj->subpart(undef);
+    $parsedaddrObj->tompath( ['META'] );
     ASSERT( $parsedaddrObj->type() eq 'meta' );
-    $parsedaddrObj->part(undef);
+    $parsedaddrObj->tompath(undef);
     ASSERT( $parsedaddrObj->type() eq 'topic' );
 
     return;
@@ -581,8 +582,7 @@ sub test_meta3 {
         webs  => [ $test_web, 'SubWeb' ],
         topic => 'Topic',
         rev   => '2',
-        part  => 'META',
-        subpart => [ 'FIELD', { name => 'Colour' }, 'value' ]
+        tompath => [ 'META', 'FIELD', { name => 'Colour' }, 'value' ]
     );
     my $parsedaddrObj = Foswiki::Address->new(
         string  => "'$test_web/SubWeb.Topic\@2'/fields[name='Colour'].value",
@@ -601,8 +601,7 @@ sub test_meta4 {
         webs  => [ $test_web, 'SubWeb' ],
         topic => 'Topic',
         rev   => '2',
-        part  => 'META',
-        subpart => [ 'FIELD', { name => 'Colour' }, 'value' ]
+        tompath => [ 'META', 'FIELD', { name => 'Colour' }, 'value' ]
     );
     my $parsedaddrObj = Foswiki::Address->new(
         string  => "'$test_web/SubWeb.Topic\@2'/Colour",
@@ -695,8 +694,7 @@ sub test_timing_creation {
             $addr = Foswiki::Address->new(
                 webs    => [qw(Web SubWeb)],
                 topic   => 'Topic',
-                part    => 'FILE',
-                subpart => 'Attachment.pdf',
+                tompath => [ 'FILE', 'Attachment.pdf' ],
                 rev     => 3
             );
         }
@@ -716,8 +714,7 @@ sub test_timing_hashref_creation {
             $addr = {
                 webs    => [qw(Web SubWeb)],
                 topic   => 'Topic',
-                part    => 'FILE',
-                subpart => 'Attachment.pdf',
+                tompath => [ 'FILE', 'Attachment.pdf' ],
                 rev     => 3
             };
         }
