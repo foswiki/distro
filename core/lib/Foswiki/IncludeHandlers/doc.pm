@@ -20,6 +20,7 @@ use Foswiki ();
 # Include embedded doc in a core module
 sub INCLUDE {
     my ( $ignore, $session, $control, $params ) = @_;
+    my %removedblocks = ();
     my $class = $control->{_DEFAULT};
     Foswiki::Func::setPreferencesValue('SMELLS', '');
     $class =~ s/[a-z]+://;    # remove protocol
@@ -49,6 +50,7 @@ sub INCLUDE {
 	$isa = " ==is a== $1";
 	$isa =~ s#\s(Foswiki(?:::[A-Z]\w+)+)# [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=$1][$1]]#g;
     }
+    $perl = Foswiki::takeOutBlocks($perl, 'verbatim', \%removedblocks);
     foreach my $line (split ( /\r?\n/, $perl) ) {
         if ( $line =~ /^=(begin (twiki|TML|html)|pod)/ ) {
             $inPod = 1;
@@ -77,6 +79,7 @@ sub INCLUDE {
         }
     }
     close($PMFILE);
+    Foswiki::putBackBlocks(\$pod, \%removedblocks, 'verbatim', 'verbatim');
 
     $pod =~ s/.*?%STARTINCLUDE%//s;
     $pod =~ s/%STOPINCLUDE%.*//s;
