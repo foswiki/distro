@@ -6,10 +6,21 @@ package Foswiki::Address;
 
 ---+ package Foswiki::Address
 
-Instances represent a pointer (address) to a web, topic (or parts thereof) or
-file, optionally of a specific revision. This class does not offer any interface
-to interact with Foswiki resources; rather, it provides the functionality
-necessary to hold, manipulate, test and de/serialise addresses only.
+This class is used to handle pointers to Foswiki 'resources', which might be
+webs, topics or parts of topics (such as attachments or metadata), optionally
+of a specific revision.
+
+The primary goal is to end the tyranny of arbitrary
+=(web, topic, attachment, rev...)= tuples. Users of =Foswiki::Address= should
+be able to enjoy programmatically updating, stringifying, parsing, validating,
+comparing and passing around of _address objects_ that might eventually be
+understood by the wider Foswiki universe, without having to maintain proprietary
+parse/stringify/validate/comparison handling code that must always be
+considerate of the recipient for such tuples.
+
+This class does not offer any interaction with resources themselves; rather,
+functionality is provided to create, hold, manipulate, test
+__and de/serialise addresses__
 
 Fundamentally, =Foswiki::Address= can be thought of as an interface to a hash of
 the components necessary to address a specific Foswiki resource.
@@ -18,13 +29,34 @@ the components necessary to address a specific Foswiki resource.
 my $addr = {
     webs     => [qw(Web SubWeb)],
     topic    => 'Topic',
-    part     => 'FILE', # As in attachments; not to be confused with
-                        # attachments metadata
-             # part types: META, FILE, SECTION, text
-    subpart  => 'Attachment.pdf',
+    tompath  => ['FILE', 'Attachment.pdf'],
     rev => 3
 };
 </verbatim>
+
+<blockquote class="foswikiHelp">%X% __Unresolved issues__
+   * Is this class necessary, or should we make a cleaner, lighter
+   =Foswiki::Meta2= - where 'unloaded' objects are no heavier than
+   =Foswiki::Address= and provide the same functionality?
+   * Should the physical file attachment be treated separately to the metadata
+   view of the file attachment(s)? Desirables:
+      * ability to unambiguously create pointers to an attachment's data (file)
+      * ability for Foswiki core to calculate an http URL for it
+      * ability to create pointers to properties (metadata) of the attachment
+         * _These questions are slightly loaded in favour of distinguishing
+      between the datastream and metadata about the attachment. In an ideal
+      world a file attachment would be a first-class citizen to topics: rather
+      than topic text, we have the iostream; attachments would have their own
+      user metadata, dataforms..._
+   * Duplicating %SYSTEMWEB%.QuerySearch parser functionality. 80% of the code
+   in this class is related to parsing "string forms" of addresses of Foswiki
+   resources... querysearch parser needs some refactoring so we can delete the
+   parser code here.
+   * API usability - can we stop passing around (web, topic, attachment, rev)
+   tuples - will the =->new()= constructor make sense to plugin authors, core
+   hackers? __FEEDBACK WELCOME__, please comment at
+   Foswiki:Development.TopicAddressing
+</blockquote>
 
 =cut
 
@@ -36,13 +68,13 @@ use Foswiki::Func();
 use Foswiki::Meta();
 
 use Data::Dumper;
-use constant TRACE  => 0;    # Don't forget to uncomment dumper
+use constant TRACE  => 1;    # Don't forget to uncomment dumper
 use constant TRACE2 => 0;
 
 my %plausibletable;
 my %sepidentchars;
 my %atomiseAs;
-my %parttypes;
+my %pathtypes;
 
 BEGIN {
 
@@ -58,14 +90,14 @@ BEGIN {
         '*'     => \&_atomiseAsTOM
     );
 
-# The question is: what do we have? The hash is accessed as follows:
-# $parttypes{ $part }->{ defined $subpart? (ref($subpart) eq 'ARRAY'? scalar(@{$subpart}) : 1) : 0 }
-    %parttypes = (
-        FILE => { 0 => 'files', 1 => 'file' },
+    # The question is: what do we have? The hash is accessed as follows:
+    # $pathtypes{ $tompath[0] }->{ scalar(@tompath) }
+    %pathtypes = (
+        FILE => { 1 => 'files', 2 => 'file' },
         META =>
-          { 0 => 'meta', 1 => 'metatype', 2 => 'metamember', 3 => 'metakey' },
-        SECTION => { 0 => 'sections', 1 => 'section' },
-        text    => { 0 => 'text' }
+          { 1 => 'meta', 2 => 'metatype', 3 => 'metamember', 4 => 'metakey' },
+        SECTION => { 1 => 'sections', 2 => 'section' },
+        text    => { 1 => 'text' }
     );
 
     # I tried to create a logical parser, but it kept ending up as spaghetti.
@@ -169,44 +201,41 @@ The constructor takes two main forms:
 *Example:*
 <verbatim>
 my $addrObj = Foswiki::Address->new(
-    webs => [qw(Web SubWeb)],
-    topic => 'Topic',
-    part => 'FILE',
-    subpart => 'Attachment.pdf',
+    webs     => [qw(Web SubWeb)],
+    topic    => 'Topic',
+    tompath  => ['FILE', 'Attachment.pdf'],
     rev => 3
 );</verbatim>
 
 *Options:*
-| *Param*         | *Description* | *Notes* |
-| =web=           | =$string= of web path, %BR% used if =webs= is empty/null | |
-| =webs=          | =\@arrayref= of web path, root web first | |
-| =topic=         | =$string= topic name | |
-| =rev=           | =$integer= revision number. | If the part is an =files= member, rev applies to that file; topic rev otherwise |
-| =part=          | =$string= topic root part, one of:%BR% =META=, =text=, =SECTION=, =FILE=.  | See table below |
-| =subpart=       | =$scalar= or =\@arrayref= selector to a specific topic part | See table below |
+| *Param*   | *Description* | *Notes* |
+| =web=     | =$string= of web path, %BR% used if =webs= is empty/null | |
+| =webs=    | =\@arrayref= of web path, root web first | |
+| =topic=   | =$string= topic name | |
+| =rev=     | =$integer= revision number. | If the tompath is to a =FILE= datastream, rev applies to that file; topic rev otherwise |
+| =tompath= | =\@arrayref= of a "TOM" path, one of:%BR% =META=, =text=, =SECTION=, =FILE=.  | See table below |
 
-*part forms:*
-| *part*      | *subpart*             | *Description* |
-| ='FILE'=    |                       | All files attached to a topic |
-| ='FILE'=    | ='Attachment.pdf'=    | File named 'Attachment.pdf' |
-| ='META'=    |                       | All =META= on a topic |
-| ='META'=    | =['FIELD']=           | All =META:FIELD= members on a topic |
-| ='META'=    | =['FIELD', { name => 'Colour' }]= | The =META:FIELD= member whose =name='Colour'= |
-| ='META'=    | =['FIELD', 3]=        | The fourth =META:FIELD= member |
-| ='META'=    | =['FIELD', { name => 'Colour' }, 'title']= | The ='title'= attribute on the =META:FIELD= member whose =name='Colour'= |
-| ='META'=    | =['FIELD', 3, 'title']=        | The ='title'= attribute on the fourth =META:FIELD= member |
-| ='text'=    | =undef=               | The topic text |
-| ='SECTION'= | =undef=               | All topic sections |
-| ='SECTION'= | =[{name => 'foo'}]=     | The topic section named 'foo' |
-| ='SECTION'= | =[{name => 'foo', type => 'include'}]=  | The topic section named 'foo' of =type='include'= |
+*path forms:*
+| *tompath*                                           | *Description* |
+| =['FILE']=                                          | All datastreams attached to a topic |
+| =['FILE', 'Attachment.pdf']=                        | Datastream of the file attachment named 'Attachment.pdf' |
+| =['META']=                                          | All =META= on a topic |
+| =['META', 'FIELD']=                                 | All =META:FIELD= members on a topic |
+| =['META', 'FIELD', { name => 'Colour' }]=           | The =META:FIELD= member whose =name='Colour'= |
+| =['META', 'FIELD', 3]=                              | The fourth =META:FIELD= member |
+| =['META', 'FIELD', { name => 'Colour' }, 'title']=  | The ='title'= attribute on the =META:FIELD= member whose =name='Colour'= |
+| =['META', 'FIELD', 3, 'title']=                     | The ='title'= attribute on the fourth =META:FIELD= member |
+| =['text']=                                          | The topic text |
+| =['SECTION']=                                       | All topic sections as defined by %SYSTEMWEB%.VarSTARTSECTION |
+| =['SECTION', {name => 'foo'}]=                      | The topic section named 'foo' |
+| =['SECTION', {name => 'foo', type => 'include'}]=   | The topic section named 'foo' of =type='include'= |
 
 *Example:* Point to the value of a formfield =LastName= in =Web/SubWeb.Topic=,
 <verbatim>
 my $addrObj = Foswiki::Address->new(
   webs => [qw(Web SubWeb)],
   topic => 'Topic',
-  part => 'META',
-  subpart => ['FIELD', {name => LastName}, 'value'],
+  tompath => ['META', 'FIELD', {name => LastName}, 'value']
 );</verbatim>
 
 *Equivalent:* %JQREQUIRE{"chili"}%<verbatim class="tml">
@@ -241,8 +270,6 @@ sub new {
         #            webs       => $opts{webs},
         #            topic      => $opts{topic},
         #            rev        => $opts{rev},
-        #            part       => $opts{part},
-        #            subpart    => $opts{subpart},
         #            isA        => $opts{isA},
         #            existAs    => undef,
         #            catchAs    => $opts{catchAs},
@@ -281,9 +308,8 @@ sub new {
         #        $this = {
         #            webs    => $opts{webs},
         #            topic   => $opts{topic},
+        #            tompath => $opts{tompath},
         #            rev     => $opts{rev},
-        #            part    => $opts{part},
-        #            subpart => $opts{subpart},
         #        };
         $this = bless( \%opts, $class );
     }
@@ -306,8 +332,7 @@ sub finish {
     $this->{webs}                = undef;
     $this->{topic}               = undef;
     $this->{rev}                 = undef;
-    $this->{part}                = undef;
-    $this->{subpart}             = undef;
+    $this->{tompath}             = undef;
     $this->{isA}                 = undef;
     $this->{type}                = undef;
     $this->{parseopts}           = undef;
@@ -625,8 +650,7 @@ sub parse {
                     $this->{web}     = $typeatoms{$besttype}->{web};
                     $this->{webs}    = $typeatoms{$besttype}->{webs};
                     $this->{topic}   = $typeatoms{$besttype}->{topic};
-                    $this->{part}    = $typeatoms{$besttype}->{part};
-                    $this->{subpart} = $typeatoms{$besttype}->{subpart};
+                    $this->{tompath} = $typeatoms{$besttype}->{tompath};
                     $parsed          = 1;
                 }
             }
@@ -699,8 +723,7 @@ sub _atomiseAsTopic {
         # $that->{web} = join( '/', @{ $that->{webs} } );
         $that->{topic} = $parts[-1];
     }
-    $that->{part}    = undef;
-    $that->{subpart} = undef;
+    $that->{tompath} = undef;
     ASSERT( $that->{webs} or not $that->{topic} ) if DEBUG;
 
     # ASSERT( $that->{web} ) if DEBUG;
@@ -715,16 +738,14 @@ sub _atomiseAsFILE {
     ASSERT($path) if DEBUG;
     if ( my ( $lhs, $file ) = ( $path =~ /^(.*?)\/([^\/]+)$/ ) ) {
         $that = $this->_atomiseAsTopic( $that, $lhs, $opts );
-        $that->{part}    = 'FILE';
-        $that->{subpart} = $file;
+        $that->{tompath} = [ 'FILE', $file ];
     }
     else {
         if ( $opts->{webs} and $opts->{topic} ) {
             $that->{webs}    = $opts->{webs};
             $that->{web}     = $opts->{web};
             $that->{topic}   = $opts->{topic};
-            $that->{part}    = 'FILE';
-            $that->{subpart} = $path;
+            $that->{tompath} = [ 'FILE', $path ];
         }
     }
 
@@ -746,22 +767,22 @@ supported:
    * ='Web/SubWeb.Topic@3'/META:FIELD[name='Colour'].value=
    * =META:FIELD[name='Colour'].value=
 
-| *Form*                            | *part* | *subpart* | *type* |
-| =META=                            | =META= |                               | meta       |
-| =META:FIELD=                      | =META= | =['FIELD']=                     | metatype   |
-| =META:FIELD[name='Colour']=       | =META= | =['FIELD', {name => 'Colour'}]= | metamember |
-| =META:FIELD[3]=                   | =META= | =['FIELD', 3]=                  | metamember |
-| =META:FIELD[name='Colour'].value= | =META= | =['FIELD', {name => 'Colour'}, 'value']= | metakey |
-| =META:FIELD[3].value=             | =META= | =['FIELD', 3, 'value']=         | metakey |
-| =fields=                          | =META= | =['FIELD']=                     | metatype   |
-| =fields[name='Colour']=           | =META= | =['FIELD', {name => 'Colour'}]= | metamember |
-| =fields[3]=                       | =META= | =['FIELD', 3]=                  | metamember |
-| =fields[name='Colour'].value=     | =META= | =['FIELD', 3, 'value']=         | metakey |
-| =MyForm=                          | =META= | =['FIELD', {form => 'MyForm'}]= | metatype |
-| =MyForm[name='Colour']=           | =META= | =['FIELD', {form => 'MyForm', name => 'Colour'}]= | metamember |
-| =MyForm[name='Colour'].value=     | =META= | =['FIELD', {form => 'MyForm', name => 'Colour'}, 'value']= | metakey |
-| =MyForm.Colour=                   | =META= | =['FIELD', {form => 'MyForm', name => 'Colour'}, 'value']= | metakey |
-| =Colour=                          | =META= | =['FIELD', {name => 'Colour'}, 'value']= | metakey |
+| *Form*                            | *tompath*                             | *type* |
+| =META=                            | =['META']=                            | meta       |
+| =META:FIELD=                      | =['META', 'FIELD']=                     | metatype   |
+| =META:FIELD[name='Colour']=       | =['META', 'FIELD', {name => 'Colour'}]= | metamember |
+| =META:FIELD[3]=                   | =['META', 'FIELD', 3]=                  | metamember |
+| =META:FIELD[name='Colour'].value= | =['META', 'FIELD', {name => 'Colour'}, 'value']= | metakey |
+| =META:FIELD[3].value=             | =['META', 'FIELD', 3, 'value']=         | metakey |
+| =fields=                          | =['META', 'FIELD']=                     | metatype   |
+| =fields[name='Colour']=           | =['META', 'FIELD', {name => 'Colour'}]= | metamember |
+| =fields[3]=                       | =['META', 'FIELD', 3]=                  | metamember |
+| =fields[name='Colour'].value=     | =['META', 'FIELD', 3, 'value']=         | metakey |
+| =MyForm=                          | =['META', 'FIELD', {form => 'MyForm'}]= | metatype |
+| =MyForm[name='Colour']=           | =['META', 'FIELD', {form => 'MyForm', name => 'Colour'}]=          | metamember |
+| =MyForm[name='Colour'].value=     | =['META', 'FIELD', {form => 'MyForm', name => 'Colour'}, 'value']= | metakey |
+| =MyForm.Colour=                   | =['META', 'FIELD', {form => 'MyForm', name => 'Colour'}, 'value']= | metakey |
+| =Colour=                          | =['META', 'FIELD', {name => 'Colour'}, 'value']=                   | metakey |
 =cut
 
 sub _atomiseAsTOM {
@@ -804,61 +825,61 @@ sub _atomiseAsTOM {
       )
     {
         my $topic = $2;
-        my @subpart;
+        my @tompath;
         my $doneselector;
         my $doneaccessor;
 
         if ($3) {    # META:
-            $that->{part} = 'META';
-            push( @subpart, $4 );
+            @tompath = ('META');
+            push( @tompath, $4 );
             if ( not $5 and $14 ) {    # Eg. META:TOPICINFO.author
-                push( @subpart, undef, $14 );
+                push( @tompath, undef, $14 );
                 $doneselector = 1;
                 $doneaccessor = 1;
             }
         }
-        elsif ( $parttypes{$4} ) {     # META, FILE, SECTION, text
-            $that->{part} = $4;
+        elsif ( $pathtypes{$4} ) {     # META, FILE, SECTION, text
+            @tompath = ($4);
         }
         elsif ( $Foswiki::Meta::aliases{$4} ) {    # fields, attachments, info
-            $that->{part} = 'META';
+            @tompath = ('META');
 
             # strip off the 'META:' part
-            push( @subpart, substr( $Foswiki::Meta::aliases{$4}, 5 ) );
+            push( @tompath, substr( $Foswiki::Meta::aliases{$4}, 5 ) );
             if ( not $5 and $14 ) {                # Eg. info.author
-                push( @subpart, undef, $14 );
+                push( @tompath, undef, $14 );
                 $doneselector = 1;
                 $doneaccessor = 1;
             }
         }
         elsif ($4) {    # SomeFormField or SomethingForm
-            $that->{part} = 'META';
-            push( @subpart, 'FIELD' );
+            @tompath = ('META');
+            push( @tompath, 'FIELD' );
             if ( not( $14 or $6 ) ) {    # SomeFormField
                     # SMELL: This catches "'Web.Topic@123'/MyForm" & "MyForm"
-                push( @subpart, { name => $4 }, 'value' );
+                push( @tompath, { name => $4 }, 'value' );
                 $doneselector = 1;
                 $doneaccessor = 1;
             }
             elsif ( substr( $4, -4, 4 ) eq 'Form' ) {    # SomethingForm
-                push( @subpart, { form => $4 } );
+                push( @tompath, { form => $4 } );
                 if ($8) {                                # SomethingForm[a=b
                     ASSERT( defined $9 ) if DEBUG;
-                    $subpart[-1]->{$8} = $9;
+                    $tompath[-1]->{$8} = $9;
                     if ($11) {    # SomethingForm[a=b AND c=d]
                         ASSERT( defined $12 ) if DEBUG;
-                        $subpart[-1]->{$11} = $12;
+                        $tompath[-1]->{$11} = $12;
                     }
                     $doneselector = 1;
                 }
                 elsif ($6) {      # SomethingForm[n]
-                    push( @subpart, $6 );
+                    push( @tompath, $6 );
                     $doneselector = 1;
                     ASSERT( $6 =~ /^\d+$/ ) if DEBUG;
                 }
                 elsif ($14) {
-                    $subpart[-1]->{name} = $14;
-                    push( @subpart, 'value' );
+                    $tompath[-1]->{name} = $14;
+                    push( @tompath, 'value' );
                     $doneaccessor = 1;
                 }
             }
@@ -872,26 +893,23 @@ sub _atomiseAsTOM {
         if ( not $doneselector and $6 ) {    # SOMETHING[...]
             if ($8) {                        # SOMETHING[a=b
                 ASSERT( defined $9 ) if DEBUG;
-                push( @subpart, { $8 => $9 } );
+                push( @tompath, { $8 => $9 } );
                 if ($11) {                   # SOMETHING[a=b AND c=d]
                     ASSERT( defined $12 ) if DEBUG;
-                    $subpart[-1]->{$11} = $12;
+                    $tompath[-1]->{$11} = $12;
                 }
             }
             else {                           # SOMETHING[n]
                 ASSERT($6) if DEBUG;
-                push( @subpart, $6 );
+                push( @tompath, $6 );
                 ASSERT( $6 =~ /^\d+$/ ) if DEBUG;
             }
             $doneselector = 1;
         }
         if ( not $doneaccessor and $14 ) {
-            push( @subpart, $14 );
+            push( @tompath, $14 );
         }
-        if ( scalar(@subpart) ) {
-            ASSERT( $that->{part} ) if DEBUG;
-            $that->{subpart} = \@subpart;
-        }
+        $that->{tompath} = \@tompath;
         if ($topic) {
             my $refAddr = Foswiki::Address->new(
                 string => $topic,
@@ -923,10 +941,11 @@ sub _existScore {
     my $perfecttype;
 
     if (
-            $atoms->{part}
-        and $atoms->{part} eq 'FILE'
+            $atoms->{tompath}
+        and scalar( @{ $atoms->{tompath} } ) == 2
+        and $atoms->{tompath}->[0] eq 'FILE'
         and Foswiki::Func::attachmentExists(
-            $atoms->{web}, $atoms->{topic}, $atoms->{subpart}
+            $atoms->{web}, $atoms->{topic}, $atoms->{tompath}->[1]
         )
       )
     {
@@ -1008,11 +1027,14 @@ sub stringify {
         if ( $this->{topic} ) {
             $this->{stringified} .=
               $this->{stringifiedtopicsep} . $this->{topic};
-            if ( $this->{part} ) {
-                if ( $this->{part} eq 'FILE' and $this->{subpart} ) {
-                    ASSERT( $this->{subpart} and not ref( $this->{subpart} ) )
-                      if DEBUG;
-                    $this->{stringified} .= '/' . $this->{subpart};
+            if ( $this->{tompath} ) {
+                ASSERT( ref( $this->{tompath} ) eq 'ARRAY'
+                      and scalar( @{ $this->{tompath} } ) )
+                  if DEBUG;
+                if ( $this->{tompath}->[0] eq 'FILE'
+                    and scalar( @{ $this->{tompath} } ) == 2 )
+                {
+                    $this->{stringified} .= '/' . $this->{tompath}->[1];
                     if ( defined $this->{rev} ) {
                         $this->{stringified} .= '@' . $this->{rev};
                     }
@@ -1021,53 +1043,46 @@ sub stringify {
                     if ( defined $this->{rev} ) {
                         $this->{stringified} .= '@' . $this->{rev};
                     }
-                    $this->{stringified} =
-                      '\'' . $this->{stringified} . '\'/' . $this->{part};
-                    if ( $this->{subpart} ) {
-                        my @subpart;
+                    $this->{stringified} = '\''
+                      . $this->{stringified} . '\'/'
+                      . $this->{tompath}->[0];
+                    if ( $this->{tompath}->[1] ) {
+                        my @path = @{ $this->{tompath} };
+                        my $root = shift(@path);
 
-                        if ( ref( $this->{subpart} ) eq 'HASH' ) {
-                            @subpart = ( $this->{subpart} );
+                        if ( $root eq 'META' and scalar(@path) ) {
+                            $this->{stringified} .= ':' . shift(@path);
                         }
-                        else {
-                            ASSERT( ref( $this->{subpart} ) eq 'ARRAY' )
-                              if DEBUG;
-                            @subpart = @{ $this->{subpart} };
-                        }
-
-                        if ( $this->{part} eq 'META' and scalar(@subpart) ) {
-                            $this->{stringified} .= ':' . shift(@subpart);
-                        }
-                        if ( scalar(@subpart) ) {
-                            if ( defined $subpart[0] ) {
+                        if ( scalar(@path) ) {
+                            if ( defined $path[0] ) {
                                 $this->{stringified} .= '[';
-                                if ( ref( $subpart[0] ) eq 'HASH' ) {
+                                if ( ref( $path[0] ) eq 'HASH' ) {
                                     my @selectorparts;
                                     while ( my ( $key, $value ) =
-                                        each %{ $subpart[0] } )
+                                        each %{ $path[0] } )
                                     {
                                         push( @selectorparts,
                                             $key . '=\'' . $value . '\'' );
                                     }
                                     $this->{stringified} .=
                                       join( ' AND ', @selectorparts );
-                                    shift(@subpart);
+                                    shift(@path);
                                 }
                                 else {
-                                    ASSERT( $subpart[0] =~ /^\d+$/ ) if DEBUG;
-                                    $this->{stringified} .= shift(@subpart);
+                                    ASSERT( $path[0] =~ /^\d+$/ ) if DEBUG;
+                                    $this->{stringified} .= shift(@path);
                                 }
                                 $this->{stringified} .= ']';
                             }
                             else {
-                                shift @subpart;
+                                shift @path;
                             }
-                            if ( scalar(@subpart) ) {
-                                ASSERT( scalar(@subpart) == 1 ) if DEBUG;
-                                $this->{stringified} .= '.' . shift(@subpart);
+                            if ( scalar(@path) ) {
+                                ASSERT( scalar(@path) == 1 ) if DEBUG;
+                                $this->{stringified} .= '.' . shift(@path);
                             }
                         }
-                        ASSERT( not scalar(@subpart) ) if DEBUG;
+                        ASSERT( not scalar(@path) ) if DEBUG;
                     }
                 }
             }
@@ -1080,7 +1095,8 @@ sub stringify {
             $this->{stringified} .= $this->{stringifiedwebsep};
         }
     }
-    print STDERR "stringify(): $this->{stringified}\n" if TRACE2;
+    print STDERR "stringify(): $this->{stringified}\n"
+      if TRACE2 and $this->{stringified};
 
     return $this->{stringified};
 }
@@ -1156,32 +1172,6 @@ sub topic {
 
 =begin TML
 
----++ ClassMethod file( [$name] ) => $name
-
-   * =$name= - optional, set a new file name
-
-Get/set the file name
-
-=cut
-
-sub file {
-    my ( $this, $file ) = @_;
-
-    if ( scalar(@_) == 2 ) {
-        $this->{part}    = 'FILE';
-        $this->{subpart} = $file;
-        $this->_invalidate();
-        ASSERT( $this->isValid() ) if DEBUG;
-    }
-    else {
-        $this->isValid();
-    }
-
-    return $this->{subpart};
-}
-
-=begin TML
-
 ---++ ClassMethod rev( [$rev] ) => $rev
 
    * =$rev= - optional, set rev number
@@ -1207,63 +1197,47 @@ sub rev {
 
 =begin TML
 
----++ ClassMethod part( [$name] ) => $name
+---++ ClassMethod tompath( [\@tompath] ) => \@tompath
 
-   * =$name= - optional, set the topic part - one of: FILE, META, SECTION, text
+   * =\@tompath= - optional, =tompath= specification into the containing topic.
+   The first =$tompath->[0]= element in the array should be one of the following
+      * ='FILE'=: =$tompath->[1]= should be a string, Eg. ='Attachment.pdf'=.
+      * ='META'=: =$tompath->[1..3]= identify which =META:&lt;type&gt;= or member
+      or member key is being addressed:
+         * =$tompath->[1]= contains the =META:&lt;type&gt;=, Eg. ='FIELD'=
+         * =$tompath->[2]= contains a selector to identify a member of the type:
+            * =undef=, for singleton types (such as ='TOPICINFO'=)
+            * integer array index
+            * hashref =key => 'value'= pairs, Eg. ={name => 'Colour'}=.
+            ={name => 'Colour', form => 'MyForm'}= is also supported.
+         * =$tompath->[3]= contains the name of a key on the selected member,
+         Eg. ='value'=
+      * ='SECTION'=: =$tompath->[1]= should be a hashref, Eg.
+      ={name => 'mysection', type => 'include'}=
+      * ='text'=: addresses the topic text
 
-Get/set the part name
-
-=cut
-
-sub part {
-    my ( $this, $name ) = @_;
-
-    if ( scalar(@_) == 2 ) {
-        $this->{part} = $name;
-        $this->_invalidate();
-    }
-    else {
-        $this->isValid();
-    }
-
-    return $this->{part};
-}
-
-=begin TML
-
----++ ClassMethod subpart( [$subpart] ) => $subpart
-
-   * =$subpart= - optional, =subpart= specification into the containing topic
-   =part=.
-      * =FILE= parts: =$subpart= is a string, Eg. ='Attachment.pdf'=.
-      * =META= parts: =$subpart= is an array reference, Eg.
-      =['FIELD', {name => 'Colour'}, 'value']=
-      * =SECTION= parts: =$subpart= is a hash reference, Eg.
-      =[{name => 'mysection', type => 'include'}]=
-      * =text= part: does not support =$subpart= at this time.
-
-Get/set the subpart
+Get/set the tompath into a topic
 
 =cut
 
-sub subpart {
-    my ( $this, $subpart ) = @_;
+sub tompath {
+    my ( $this, $tompath ) = @_;
 
     if ( scalar(@_) == 2 ) {
-        $this->{subpart} = $subpart;
+        $this->{tompath} = $tompath;
         $this->_invalidate();
         ASSERT(
-                 not defined $subpart
-              or not ref($subpart)
-              or scalar( @{$subpart} )
+            not defined $tompath
+              or (  defined $tompath
+                and ref($tompath) eq 'ARRAY'
+                and scalar( @{$tompath} ) )
         ) if DEBUG;
-        ASSERT( $this->{part} or not $this->{subpart} ) if DEBUG;
     }
     else {
         $this->isValid();
     }
 
-    return $this->{subpart};
+    return $this->{tompath};
 }
 
 =begin TML
@@ -1301,7 +1275,7 @@ sub isA {
 
 =begin TML
 
----++ ClassMethod isValid() => $boolean
+---++ ClassMethod isValid() => $resourcetype
 
 Returns true if the instance addresses a resource which is one of the following
 types:
@@ -1325,35 +1299,22 @@ sub isValid {
     if ( not defined $this->{isA} ) {
         if ( $this->{topic} ) {
             if ( $this->{webs} ) {
-                if ( $this->{part} ) {
-                    ASSERT( $parttypes{ $this->{part} } ) if DEBUG;
-                    ASSERT(
-                             not defined $this->{subpart}
-                          or not ref( $this->{subpart} ) eq 'ARRAY'
-                          or scalar( @{ $this->{subpart} } )
-                    ) if DEBUG;
-                    ASSERT(
-                             not defined $this->{subpart}
-                          or not ref( $this->{subpart} ) eq 'HASH'
-                          or scalar( keys %{ $this->{subpart} } )
-                    ) if DEBUG;
-                    $this->{type} = $parttypes{ $this->{part} }->{
-                        defined $this->{subpart}
-                        ? (
-                            ref( $this->{subpart} ) eq 'ARRAY'
-                            ? scalar( @{ $this->{subpart} } )
-                            : 1
-                          )
-                        : 0
-                      };
+                if ( $this->{tompath} ) {
+                    ASSERT( ref( $this->{tompath} ) eq 'ARRAY'
+                          and scalar( @{ $this->{tompath} } ) )
+                      if DEBUG;
+                    ASSERT( $pathtypes{ $this->{tompath}->[0] } ) if DEBUG;
+                    $this->{type} =
+                      $pathtypes{ $this->{tompath}->[0] }
+                      ->{ scalar( @{ $this->{tompath} } ) };
                 }
-                elsif ( not defined $this->{subpart} ) {
+                elsif ( not defined $this->{tompath} ) {
                     $this->{type} = 'topic';
                 }
             }
         }
         elsif ( $this->{webs}
-            and not( $this->{part} or defined $this->{subpart} ) )
+            and not defined $this->{tompath} )
         {
             $this->{type} = 'webs';
         }
@@ -1400,132 +1361,107 @@ sub equiv {
 
     # Same type?
     if ( $thistype and $othertype and $thistype eq $othertype ) {
+
+        # Confirm the ->type() is sane
         ASSERT(
-            ( not $this->{part} and not $other->{part} )
-              or (  $this->{part}
-                and $other->{part}
-                and $this->{part} eq $other->{part} )
+            ( not defined $this->{tompath} and not defined $other->{tompath} )
+              or (  defined $this->{tompath}
+                and defined $other->{tompath}
+                and ref( $this->{tompath} )  eq 'ARRAY'
+                and ref( $other->{tompath} ) eq 'ARRAY'
+                and scalar( @{ $this->{tompath} } )
+                and scalar( @{ $other->{tompath} } )
+                and scalar( @{ $this->{tompath} } ) ==
+                scalar( @{ $other->{tompath} } ) )
+        ) if DEBUG;
+        ASSERT(
+            ( not defined $this->{tompath} and not defined $other->{tompath} )
+              or (  defined $this->{tompath}
+                and defined $other->{tompath}
+                and $this->{tompath}->[0] eq $other->{tompath}->[0] )
         ) if DEBUG;
         if ( $this->{webs} ) {
-            $nWebs = scalar( @{ $this->{webs} } );
-
-            # Do the web paths have equal number of elements?
-            if ( $nWebs == scalar( @{ $other->{webs} } ) ) {
-                my $i = 0;
-                $equal = 1;
-
-                # Are the web path elements equal?
-                while ( $equal and $i < $nWebs ) {
-                    ASSERT( $this->{webs}->[$i] and $other->{webs}->[$i] )
-                      if DEBUG;
-                    if ( $this->{webs}->[$i] ne $other->{webs}->[$i] ) {
-                        $equal = 0;
-                        print STDERR "equiv(): web paths not equal\n" if TRACE;
+            if ( $this->_eq( $this->{webs}, $other->{webs} ) ) {
+                if ( $this->_eq( $this->{topic}, $other->{topic} ) ) {
+                    if ( $this->_eq( $this->{tompath}, $other->{tompath} ) ) {
+                        $equal = 1;
                     }
-                    else {
-                        $i += 1;
+                    elsif (TRACE) {
+                        print STDERR "equiv(): tompaths weren't equal\n";
                     }
                 }
-
-                # And the subparts?
-                if ($equal) {
-                    if ( ref( $other->{subpart} ) eq ref( $this->{subpart} ) ) {
-                        if ( ref( $this->{subpart} ) eq 'ARRAY' ) {
-                            my $nsubparts = scalar( @{ $this->{subpart} } );
-                            ASSERT( ref( $other->{subpart} ) eq 'ARRAY' )
-                              if DEBUG;
-                            ASSERT(
-                                scalar( @{ $other->{subpart} } ) == $nsubparts )
-                              if DEBUG;
-
-                            $i = 0;
-                            while ( $equal and $i < $nsubparts ) {
-                                if ( ref( $this->{subpart}->[$i] ) eq 'HASH' ) {
-                                    my @subkeys =
-                                      keys %{ $this->{subpart}->[$i] };
-                                    my $nsubkeys = scalar(@subkeys);
-                                    my $s        = 0;
-
-                                    while ( $equal and $s < $nsubkeys ) {
-                                        if ( $this->{subpart}->[$i]
-                                            ->{ $subkeys[$s] } ne
-                                            $other->{subpart}->[$i]
-                                            ->{ $subkeys[$s] } )
-                                        {
-                                            $equal = 0;
-                                            print STDERR
-"equiv(): subpart[$i] as hashref: different $subkeys[$s] keys\n"
-                                              if TRACE;
-                                        }
-                                        $s += 1;
-                                    }
-                                }
-                                else {
-                                    if (    $this->{subpart}->[$i]
-                                        and $other->{subpart}->[$i]
-                                        and $this->{subpart}->[$i] ne
-                                        $other->{subpart}->[$i] )
-                                    {
-                                        $equal = 0;
-                                        print STDERR
-"equiv(): subpart[$i] different values\n"
-                                          if TRACE;
-                                    }
-                                }
-                                $i += 1;
-                            }
-                        }
-                        elsif ( ref( $this->{subpart} ) eq 'HASH' ) {
-                            my @subkeys  = keys %{ $this->{subpart} };
-                            my $nsubkeys = scalar(@subkeys);
-                            my $s        = 0;
-
-                            ASSERT( ref( $other->{subpart} ) eq 'HASH' )
-                              if DEBUG;
-                            $s = 0;
-                            while ( $equal and $s < $nsubkeys ) {
-                                if ( $this->{subpart}->{ $subkeys[$s] } ne
-                                    $other->{subpart}->{ $subkeys[$s] } )
-                                {
-                                    $equal = 0;
-                                    print STDERR
-"equiv(): subpart{$subkeys[$s]} different values\n"
-                                      if TRACE;
-                                }
-                                $s += 1;
-                            }
-                        }
-                        elsif ( defined $this->{subpart} ) {
-                            ASSERT( defined $other->{subpart} ) if DEBUG;
-                            if ( $this->{subpart} ne $other->{subpart} ) {
-                                $equal = 0;
-                                print STDERR
-                                  "equiv(): subpart different values\n"
-                                  if TRACE;
-                            }
-                        }
-                    }
-                    else {
-                        $equal = 0;
-                    }
+                elsif (TRACE) {
+                    print STDERR "equiv(): topics weren't equal\n";
                 }
             }
             elsif (TRACE) {
-                print STDERR "equiv(): web paths different sizes\n";
+                print STDERR "equiv(): webs weren't equal\n";
             }
-        }
-        elsif (TRACE) {
-            print STDERR "equiv(): webs empty\n";
         }
     }
     elsif (TRACE) {
-        print STDERR "equiv(): types were not equal\n";
+        print STDERR "equiv(): types weren't equal\n";
     }
     if ( not $equal ) {
         print STDERR "equiv(): NOT equal "
           . Dumper($this) . " vs "
           . Dumper($other) . "\n"
           if TRACE;
+    }
+
+    return $equal;
+}
+
+sub _eq {
+    my ( $this, $a, $b ) = @_;
+    my $equal = 1;
+    my $refA  = ref($a);
+    my $refB  = ref($b);
+
+    if ($refA) {
+        if ( $refB and $refA eq $refB ) {
+            if ( $refA eq 'ARRAY' ) {
+                my $n = scalar( @{$a} );
+
+                if ( $n == scalar( @{$b} ) ) {
+                    my $i = 0;
+
+                    while ( $equal and $i < $n ) {
+                        $equal = $this->_eq( $a->[$i], $b->[$i] );
+                        $i += 1;
+                    }
+                }
+                else {
+                    $equal = 0;
+                }
+            }
+            elsif ( $refB eq 'HASH' ) {
+                my @keys = keys %{$a};
+                my $n    = scalar(@keys);
+
+                if ( $n == scalar( keys %{$b} ) ) {
+                    my $i = 0;
+
+                    while ( $equal and $i < $n ) {
+                        if ( exists $b->{ $keys[$i] } ) {
+                            $equal =
+                              $this->_eq( $a->{ $keys[$i] },
+                                $b->{ $keys[$i] } );
+                            $i += 1;
+                        }
+                        else {
+                            $equal = 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    elsif ($refB
+        or ( defined $a and not defined $b or not defined $a and defined $b )
+        or ( defined $a and defined $b and $a ne $b ) )
+    {
+        $equal = 0;
     }
 
     return $equal;
