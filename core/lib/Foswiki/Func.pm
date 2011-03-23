@@ -1389,6 +1389,7 @@ which may include one of:
 out webs that have NOSEARCHALL set on them.
 'allowed' filters out webs the current user can't read.
    * =$web= - (*Since* 2009-01-01) name of web to get list of subwebs for. Defaults to the root.
+              note that if set, the list will not contain the web specified in $web
 
 For example, the deprecated getPublicWebList function can be duplicated
 as follows:
