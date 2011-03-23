@@ -739,9 +739,12 @@ sub formatResults {
                 $cache->addDependency( $web, $topic );
             }
 
+            my $topicMeta = $this->metacache->addMeta( $web, $topic );
+            if (not defined($topicMeta)) {
 #TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
-#lets change that.
-            my $topicMeta = new Foswiki::Meta($session, $web, $topic);
+#lets change that
+                $topicMeta = new Foswiki::Meta($session, $web, $topic);
+            }
             $info = $this->metacache->get( $web, $topic, $topicMeta );
             ASSERT(defined($info->{tom})) if DEBUG;
 

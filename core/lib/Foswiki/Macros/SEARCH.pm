@@ -37,6 +37,7 @@ sub SEARCH {
         # Block recursions kicked off by the text being repeated in the
         # error message
         $message =~ s/%([A-Z]*[{%])/%<nop>$1/g;
+        $message =~ s/\n/<br \/>/g;
         $s = $this->inlineAlert( 'alerts', 'bad_search', $message );
     };
 
