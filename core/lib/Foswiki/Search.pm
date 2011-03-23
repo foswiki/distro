@@ -273,7 +273,10 @@ sub searchWeb {
     # 1-based system; 0 is not a valid page number
     my $showpage = $session->{request}->param($paging_ID) || $params{showpage};
 
-    if ( defined( $params{pagesize} ) or defined($showpage) ) {
+    if ( defined( $params{pagesize} ) or defined($showpage) or Foswiki::isTrue($params{pager}) ) {
+        if ( !defined($params{pagesize}) ) {
+		$params{pagesize} = $pagesize;
+        }
         if ( !defined($showpage) ) {
             $showpage = 1;
         }

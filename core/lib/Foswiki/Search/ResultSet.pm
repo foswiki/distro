@@ -53,10 +53,13 @@ sub new {
 sub numberOfTopics {
     my $this = shift;
 
+    return $this->{count} if (defined($this->{count}));
+
     my $count = 0;
     foreach my $infocache ( @{ $this->{Itr_list} } ) {
         $count += $infocache->numberOfTopics();
     }
+    $this->{count} = $count;
 
     return $count;
 }
