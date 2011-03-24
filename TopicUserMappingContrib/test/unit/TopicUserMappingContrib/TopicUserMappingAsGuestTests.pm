@@ -250,10 +250,16 @@ sub verify_getListOfGroups {
     my @l = ();
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
     my $k = join( ',', sort @l );
-    $this->expect_failure();
-    $this->annotate("Internal API expected to reveal hidden groups  See Tasks/Item10176 ");
+
+    # SMELL: Tasks/Item10176 - Questions about should Func API expose hidden groups.  Concensus was yes.
+    #$this->expect_failure();
+    #$this->annotate("Internal API expected to reveal hidden groups  See Tasks/Item10176 ");
+    #  - Topic list that should be returned if hidden groups remain hidden to Func.
+    #"AdminGroup,AmishGroup,BaptistGroup,BaseGroup,BottomGroup,MultiLineGroup,TopGroup"
+
     $this->assert_str_equals(
-        "AdminGroup,AmishGroup,BaptistGroup,BaseGroup,BottomGroup,MultiLineGroup,TopGroup", $k );
+"AaanotherSecretGroup,AanotherSecretGroup,AdminGroup,AmishGroup,BaptistGroup,BaseGroup,BottomGroup,MultiLineGroup,NextHiddenGroup,SecretGroup,TopGroup",
+    $k );
 }
 
 #this is the test for Item9808
