@@ -37,6 +37,7 @@ $.NatEditor = function(txtarea, opts) {
     $txtarea.addClass("natEditAutoMaxExpand");
     self.autoMaxExpand();
   }
+  
 
   /* establish auto expand */
   if (self.opts.autoExpand) {
@@ -90,7 +91,7 @@ $.NatEditor.prototype.initGui = function() {
   }
 
   // toolbar
-  $headlineTools = $('<ul class="natEditButtonBox"></ul>').
+  $headlineTools = $('<ul class="natEditButtonBox natEditButtonBoxHeadline"></ul>').
     append(
       $(self.opts.h1Button).click(function() {
         self.insertLineTag(self.opts.h1Markup);
@@ -112,7 +113,7 @@ $.NatEditor.prototype.initGui = function() {
         return false;
       }));
 
-  $textTools = $('<ul class="natEditButtonBox"></ul>').
+  $textTools = $('<ul class="natEditButtonBox natEditButtonBoxText"></ul>').
     append(
       $(self.opts.boldButton).click(function() {
         self.insertTag(self.opts.boldMarkup);
@@ -139,7 +140,7 @@ $.NatEditor.prototype.initGui = function() {
         return false;
       }));
 
-  $paragraphTools = $('<ul class="natEditButtonBox"></ul>').
+  $paragraphTools = $('<ul class="natEditButtonBox natEditButtonBoxParagraph"></ul>').
     append(
       $(self.opts.leftButton).click(function() {
         self.insertTag(self.opts.leftMarkup);
@@ -161,7 +162,7 @@ $.NatEditor.prototype.initGui = function() {
         return false;
       }));
 
-  $listTools = $('<ul class="natEditButtonBox"></ul>').
+  $listTools = $('<ul class="natEditButtonBox natEditButtonBoxList"></ul>').
     append(
       $(self.opts.numberedButton).click(function() {
         self.insertLineTag(self.opts.numberedListMarkup);
@@ -183,7 +184,7 @@ $.NatEditor.prototype.initGui = function() {
         return false;
       }));
 
-  $objectTools = $('<ul class="natEditButtonBox"></ul>').
+  $objectTools = $('<ul class="natEditButtonBox natEditButtonBoxObject"></ul>').
     append(
       $(self.opts.tableButton).click(function() {
         self.openDialog(self.opts.tableDialog);

@@ -92,7 +92,7 @@ function fixHeightOfPane () { }
       }
     });
 
-    jQuery(window).load(function() {
+    $(window).load(function() {
       if ((typeof(tinyMCE) === 'object') && typeof(tinyMCE.activeEditor === 'object')) {
         $(".natEditToolBar").hide(); /* switch off natedit toolbar */
         $("#topic_fullscreen").parent().remove(); /* remove full-screen feature ... til fixed */

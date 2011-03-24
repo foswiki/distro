@@ -89,6 +89,7 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  24 Mar 2011 | added specific css classes for each button box |
 |  17 Feb 2011 | fixed insert table in IE7+8 |
 |  22 Dec 2010 | fixed some errors reported by jslint; improved the way forms are submitted to be more jquery-friendly |
 |  06 Dec 2010 | Foswikitask:Item2304: fixes for Google Chrome |

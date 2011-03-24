@@ -15,6 +15,7 @@
 %TMPL:DEF{"topictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="topictitle_dbcache" else="topictitle_default" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"topictitle_default"}%%IF{"defined 'TOPICTITLE'" then="%TOPICTITLE%" else="%BASETOPIC%"}%%TMPL:END%
 %TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{"%WEB%.%TOPIC%" encode="entity" hideautoinc="%hideautoinc%"}%%TMPL:END%
+%TMPL:DEF{"sig_textareabuttons"}%%TMPL:END%
 
 %TMPL:DEF{"content"}%<!-- content -->
 %TMPL:P{"contenttitle"}%<!-- contenttitle// -->
@@ -127,5 +128,3 @@
 }%
 <!-- //revCommentPluginOptions -->%TMPL:END%
 
-%TMPL:DEF{"sig_textareabuttons"}%%TMPL:END%
-%TMPL:DEF{"bottombar"}%%TMPL:END%
