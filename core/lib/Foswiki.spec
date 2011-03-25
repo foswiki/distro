@@ -328,7 +328,9 @@ $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
 # authenticate. This setting is used with TemplateLogin; any time an
 # unauthenticated user attempts to access one of these scripts, they will be
 # required to authenticate. With ApacheLogin, the web server must be configured
-# to require a valid user for access to these scripts.
+# to require a valid user for access to these scripts.  <code>edit</code> and
+# <code>save</code> should be removed from this list if the guest user is permitted to
+# edit topics without authentication.
 $Foswiki::cfg{AuthScripts} = 'attach,edit,manage,rename,save,upload,viewauth,rdiffauth,rest';
 
 # **BOOLEAN EXPERT**
