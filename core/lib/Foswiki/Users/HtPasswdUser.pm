@@ -229,6 +229,20 @@ sub _dumpPasswd {
 sub _savePasswd {
     my $db = shift;
 
+    unless (-e "$Foswiki::cfg{Htpasswd}{FileName}" ) {
+        # Item4544: Document special format used in .htpasswd for email addresses
+        open( FILE, ">$Foswiki::cfg{Htpasswd}{FileName}.README" ) ||
+          throw Error::Simple( $Foswiki::cfg{Htpasswd}{FileName}.
+                                 '.README open failed: '.$! );
+
+        print FILE "# Foswiki uses a specially crafted .htpasswd file format that should not be\n";
+        print FILE "# manipulated using a standard htpasswd utility or loss of registered emails might occur..\n";
+        print FILE "# (3rd-party utilities do not support the email address format used by Foswiki).\n";
+        print FILE "# \n";
+        print FILE "# More information available at: http://foswiki.org/System/UserAuthentication.\n";
+        close( FILE);
+    }
+
     my $content = _dumpPasswd($db);
 
     my $oldMask = umask(077);    # Access only by owner
