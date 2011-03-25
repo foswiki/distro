@@ -1,4 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252805976" format="1.1" version="$Rev: 6542 $"}%
+%ADDTOZONE{ "script" id="JavascriptFiles/foswikiString"
+            text="<script type='text/javascript' src='%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiString.js'></script>"
+}%
 <noautolink>
 ---+ %MAKETEXT{"Registration"}%
 <!--
