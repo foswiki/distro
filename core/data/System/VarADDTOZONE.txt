@@ -12,7 +12,7 @@
 
 *Parameters:*
    * ="zone"= optional, comma-separated list of the names of zones that the content should be added to. 
-     The only zones granted to exist are =head= and =script=. Defaults to =head=. 
+     The only zones guaranteed to exist are =head= and =script=. Defaults to =head=. 
    * =id= optional, =identifier= for the text being added with the =ADDTOZONE= call, to be used in the =requires= parameter of other =ADDTOZONE= calls.
       * %H% Multiple =ADDTOZONE= calls with the same =id= parameter will simply overwrite the earlier =ADDTOZONE= call.
    * =requires="..."= optional, comma separated string of =ids= of text within this =zone= that this content should follow when the zone is rendered.

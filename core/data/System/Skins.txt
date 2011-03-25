@@ -209,7 +209,7 @@ For your own skin you are encouraged to show a small 88x31 pixel logo at the bot
 <verbatim class="tml"><a href="http://foswiki.org/">
      <img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif"\
           alt="This site is powered by Foswiki" width="80" height="15"\
-          title="This site is powered by Forwiki" border="0" />
+          title="This site is powered by Foswiki" border="0" />
 </a></verbatim>
 
 Generating:

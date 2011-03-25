@@ -108,7 +108,7 @@ This is achieved by using the preference variable =CACHEABLE= in a topic, the !S
 
 Adding it to a single topic will prevent this page from being cached. Adding it to !WebPreferences will
 disable the page cache for the complete web. Adding it to !SitePreferences will switch off
-the page cache for the complete site. This makes only sense when switch _on_ the page cache for
+the page cache for the complete site. This makes sense only when switching _on_ the page cache explicitly for
 a subset of pages and webs again using
 
 <verbatim>
