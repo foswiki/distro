@@ -45,7 +45,7 @@ In standard Foswiki a user can create an account in UserRegistration. The follow
    * A user home page with the WikiName of the user is created in the %USERSWEB% web.
    * The user is added to the %USERSWEB%.%WIKIUSERSTOPIC% topic.
 
-The default visitor name is %USERSWEB%.WikiGuest. This is the non-authenticated user.
+The default visitor name is %USERSWEB%.WikiGuest. This is the non-authenticated user.  By default the non-authenticated user is not permitted to edit topics.  If you require anonymous editing, see [[UserAuthentication#IndividualScripts]].
 
 <blockquote class="foswikiHelp">%X% Your local Foswiki may have an alternate user mapping manager installed
 which doesn't support user registration. Check with your Wiki administrator
