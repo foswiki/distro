@@ -26,7 +26,7 @@ With JQueryPlugin versions *before* 4.02, you will have to enable the JEditableC
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Home page: | http://foswiki.org/bin/view/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/bin/view/Support/%TOPIC% |
+|  Home page: | http://foswiki.org/Extensions/%TOPIC% |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
