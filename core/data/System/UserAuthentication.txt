@@ -31,6 +31,10 @@ Please note FileAttachments are not protected by %WIKITOOLNAME% User Authenticat
 
 As shipped, %WIKITOOLNAME% supports the Apache 'htpasswd' password manager. This manager supports the use of =.htpasswd= files on the server. These files can be unique to %WIKITOOLNAME%, or can be shared with other applications (such as an Apache webserver). A variety of password encodings are supported for flexibility when re-using existing files. See the descriptive comments in the Security Settings section of the [[%SCRIPTURLPATH{"configure"}%][configure]] interface for more details.
 
+<div class=foswikiHelp>
+%X% *Caution:* Foswiki uses the =.htpasswd= file to also store the email addresses of registered users.  If the =.htpasswd= file will be shared with another application, it is critical to preserve the email address stored as the last field in each line of the file.
+</div>
+
 You can easily plug in alternate password management modules to support interfaces to other third-party authentication databases.
 
 The password manager is selected using the ={PasswordManager}= setting in =configure=.
