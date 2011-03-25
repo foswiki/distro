@@ -135,7 +135,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | folder | %ICON{folder}% | Folder |  =%<nop>ICON{folder}%= |
 | table | %ICON{table}% | Table |  =%<nop>ICON{table}%= |
 | edittable | %ICON{edittable}% | Edit table |  =%<nop>ICON{edittable}%= |
-| uweb-bo | %ICON{uweb-bo}% | UWEB ([[http://www.aboutus.org/UniversalWikiEditButton][Universal Wiki Edit Button]]), blue, outline |  =%<nop>ICON{uweb-bo}%= |
+| uweb-bo | %ICON{uweb-bo}% | UWEB ([[http://universaleditbutton.org/][Universal Wiki Edit Button]]), blue, outline |  =%<nop>ICON{uweb-bo}%= |
 | uweb-bo12 | %ICON{uweb-bo12}% | UWEB, blue, outline, small 12x12 |  =%<nop>ICON{uweb-bo12}%= |
 | uweb-g | %ICON{uweb-g}% | UWEB, green (default) |  =%<nop>ICON{uweb-g}%= |
 | uweb-gs | %ICON{uweb-gs}% | UWEB, green, square |  =%<nop>ICON{uweb-gs}%= |
