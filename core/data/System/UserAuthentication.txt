@@ -212,9 +212,9 @@ If the ={PasswordManager}= does not support password changing, ChangeEmailAddres
 
 #IndividualScripts
 ---++ Controlling access to individual scripts
-You may want to add or remove scripts from the list of scripts that require authentication. The method for doing this is different for each of Template Login and Apache Login.
+You may want to add or remove scripts from the list of scripts that require authentication. The method for doing this is different for each of Template Login and Apache Login.  %T% Any scripts listed as requiring authentication will not be usable by the Guest user.  If you require that %USERSWEB%.WikiGuest be allowed to edit topics on your site, =edit= and =save= must be removed from the list of scripts requiring authentication.
    * For Template Login, update the ={AuthScripts}= list using [[%SCRIPTURLPATH{"configure"}%#Login$SecurityAndAuthentication][configure]]
-   * For Apache Login, add/remove the script from =.htaccess=
+   * For Apache Login, add/remove the script from =.htaccess=, or from the !FilesMatch line in the Apache configuration.
 #HowTo
 ---++ How to choose an authentication method
 
