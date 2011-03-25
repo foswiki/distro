@@ -40,7 +40,7 @@ included in other Groups.
 ---+++ Managing Users
 
 In standard Foswiki a user can create an account in UserRegistration. The following actions are performed:
-   * WikiName and encrypted password are recorded using the password manager if authentication is enabled.
+   * WikiName, encrypted password and email address are recorded using the password manager if authentication is enabled.
    * A confirmation e-mail is sent to the user.
    * A user home page with the WikiName of the user is created in the %USERSWEB% web.
    * The user is added to the %USERSWEB%.%WIKIUSERSTOPIC% topic.
