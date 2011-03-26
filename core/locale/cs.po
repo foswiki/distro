@@ -17,22 +17,22 @@ msgstr ""
 "X-Generator: Pootle 2.0.5\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:480
+#: core/lib/Foswiki/Time.pm:481
 msgid "%*(%1,day) "
 msgstr "%*(%1,den) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:483
+#: core/lib/Foswiki/Time.pm:484
 msgid "%*(%1,hour) "
 msgstr "%*(%1,hodin) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:486
+#: core/lib/Foswiki/Time.pm:487
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minut) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:489
+#: core/lib/Foswiki/Time.pm:490
 msgid "%*(%1,second) "
 msgstr "%*(%1,sekund) "
 
@@ -57,15 +57,15 @@ msgstr "%1 - Registrace pro %2 (%3)"
 msgid "%1 Web"
 msgstr "%1 Web"
 
-#: core/templates/messages.tmpl:484
+#: core/templates/messages.tmpl:487
 msgid "%1 added to the %2 group. "
 msgstr "%1 přidán do skupiny %2."
 
-#: core/templates/messages.tmpl:491
+#: core/templates/messages.tmpl:494
 msgid "%1 group topic upgraded. "
 msgstr "Předmět skupiny %1 je změněn."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:70
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 obsahuje seznam ostatních uživatelů Foswiki"
@@ -75,7 +75,7 @@ msgstr "%1 obsahuje seznam ostatních uživatelů Foswiki"
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "%1 byl zaregistrován s e-mailem %2"
 
-#: core/templates/messages.tmpl:532
+#: core/templates/messages.tmpl:535
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -106,7 +106,7 @@ msgstr "%1 je v současnosti přihlášen"
 msgid "%1 is currently set to %2"
 msgstr "%1 je nastaven na %2"
 
-#: core/templates/messages.tmpl:530
+#: core/templates/messages.tmpl:533
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 edituje [[%2][%3]]."
 
@@ -126,7 +126,7 @@ msgstr "%1 není platnou hodnotou pro parametr %2."
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 je přednastaveným článkem pro smazané přílohy."
 
-#: core/templates/messages.tmpl:538
+#: core/templates/messages.tmpl:541
 msgid "%1 may still be editing %2."
 msgstr "%1 stále může editovat %2."
 
@@ -134,7 +134,7 @@ msgstr "%1 stále může editovat %2."
 msgid "%1 recent changes in %2 Web"
 msgstr "%1 poslední změny na webu %2."
 
-#: core/templates/messages.tmpl:522
+#: core/templates/messages.tmpl:525
 msgid "%1 removed from the %2 group. "
 msgstr "%1 odstraněn ze skupiny %2."
 
@@ -150,7 +150,7 @@ msgstr "%1 pro změnu preferencí webu"
 msgid "%1 to start working on the new web"
 msgstr "%1 pro začátek práce na novém webu"
 
-#: core/templates/messages.tmpl:604 core/templates/messages.tmpl:615
+#: core/templates/messages.tmpl:611 core/templates/messages.tmpl:622
 msgid "%1 topic does not exist"
 msgstr "článek %1 neexistuje"
 
@@ -162,6 +162,11 @@ msgstr "%1 se pokusil o registraci s e-mailem %2"
 #: core/lib/Foswiki/Render.pm:229
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 byl přejmenován nebo přesunut z %2 do %3. Kým/čím - %4."
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#, fuzzy
+msgid "%1.LoginName"
+msgstr "Vaše %1.PřihlašovacíJméno"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -279,12 +284,12 @@ msgstr "(přesun přílohy)"
 msgid "(no parent, orphaned topic)"
 msgstr "(bez rodiče, osiřelý článek)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1153 core/lib/Foswiki/UI/Rename.pm:1167
-#: core/lib/Foswiki/UI/Rename.pm:1223 core/lib/Foswiki/UI/Rename.pm:1226
-#: core/lib/Foswiki/UI/Rename.pm:1229 core/lib/Foswiki/UI/Rename.pm:1264
-#: core/lib/Foswiki/UI/Rename.pm:1287 core/lib/Foswiki/UI/Rename.pm:552
-#: core/lib/Foswiki/UI/Rename.pm:556 core/lib/Foswiki/UI/Rename.pm:560
-#: core/lib/Foswiki/UI/Rename.pm:564
+#: core/lib/Foswiki/UI/Rename.pm:1162 core/lib/Foswiki/UI/Rename.pm:1176
+#: core/lib/Foswiki/UI/Rename.pm:1232 core/lib/Foswiki/UI/Rename.pm:1235
+#: core/lib/Foswiki/UI/Rename.pm:1238 core/lib/Foswiki/UI/Rename.pm:1273
+#: core/lib/Foswiki/UI/Rename.pm:1296 core/lib/Foswiki/UI/Rename.pm:559
+#: core/lib/Foswiki/UI/Rename.pm:563 core/lib/Foswiki/UI/Rename.pm:567
+#: core/lib/Foswiki/UI/Rename.pm:571
 msgid "(none)"
 msgstr "(nic)"
 
@@ -322,9 +327,15 @@ msgstr "(první písmeno křestního jména)"
 msgid "(single character last name)"
 msgstr "(první písmeno přijmení)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1142
+#: core/lib/Foswiki/UI/Rename.pm:1151
 msgid "(skipped)"
 msgstr "(přeskočeno)"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:26
+msgid ""
+"*Administrators:* You can change user's e-mail address using this form. "
+"Enter the users Login or WikiName and the new e-mail address."
+msgstr ""
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -340,7 +351,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Nápověda k formátování:*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:281
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -453,7 +464,7 @@ msgstr "Vyžadováno potvrzení! Pro potvrzení stiskni OK, jinak Cancel."
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "Přiloha =.txt= je připojena k některým souborům, kvůli bezpečnosti"
 
-#: core/templates/messages.tmpl:587
+#: core/templates/messages.tmpl:594
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -470,11 +481,11 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:935
+#: core/lib/Foswiki/UI/Register.pm:952
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Potvrzovací e-mail byl odeslán %1"
 
-#: core/templates/messages.tmpl:591
+#: core/templates/messages.tmpl:598
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -488,7 +499,7 @@ msgstr ""
 msgid "A more extensive changes list is available via [[%1][Recent changes]]."
 msgstr "Rozšířený výpis změn je dostupný přes odkaz [[%1][Současné změny]]."
 
-#: core/templates/messages.tmpl:563
+#: core/templates/messages.tmpl:566
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
@@ -516,7 +527,7 @@ msgstr "A-Z"
 msgid "Access Denied"
 msgstr "Přístup odepřen"
 
-#: core/templates/messages.tmpl:571
+#: core/templates/messages.tmpl:574
 msgid "Access check on %1 failed"
 msgstr "Přístup k %1 byl odepřen"
 
@@ -533,7 +544,7 @@ msgstr "Přístupové klíče:"
 msgid "Action"
 msgstr "Akce"
 
-#: core/templates/messages.tmpl:572
+#: core/templates/messages.tmpl:575
 msgid "Action %1: %2."
 msgstr "Akce %1: %2."
 
@@ -587,7 +598,7 @@ msgstr "Registrace"
 msgid "Advanced search"
 msgstr "Rozšířené hledání"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:27
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
@@ -698,7 +709,7 @@ msgstr "Připoj nový soubor"
 msgid "Attachment"
 msgstr "Příloha"
 
-#: core/templates/messages.tmpl:621
+#: core/templates/messages.tmpl:628
 msgid "Attachment '%1' does not exist"
 msgstr "Přiloha '%1' neexistuje"
 
@@ -790,10 +801,6 @@ msgstr "Špatné heslo"
 msgid "Base web %1 is missing or does not exist"
 msgstr "Základní web %1 není dostupný nebo neexistuje"
 
-#: core/lib/Foswiki/OopsException.pm:41
-msgid "Bathing problem"
-msgstr "Plážový problém (just a test string within the documentation)"
-
 #: core/data/System/WebSearch.txt:78 core/data/System/WebSearch.txt:92
 msgid "Both body and title"
 msgstr "Tělo článku i nadpis"
@@ -816,11 +823,11 @@ msgstr ""
 "všichni uživatelé viděli Trash web, odstraňte =ALLOWWEBVIEW= restrikci ve "
 "WebPreferences."
 
-#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:561
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:564
 msgid "Can't find user %1"
 msgstr "Nemohu nalézt uživatele %1"
 
-#: core/templates/messages.tmpl:562
+#: core/templates/messages.tmpl:565
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
 "Nemohu zjistit emailovou adresu pro %1 (požadovaná pro nové nastavení hesla)"
@@ -993,7 +1000,7 @@ msgstr "Komentář"
 msgid "Compare revisions"
 msgstr "Porovnejte revize"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:168
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
 msgid "Confirm password"
 msgstr "Potvrď heslo"
 
@@ -1013,10 +1020,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "Konflikt"
 
-#: core/templates/messages.tmpl:574 core/templates/messages.tmpl:580
-#: core/templates/messages.tmpl:601 core/templates/messages.tmpl:612
-#: core/templates/messages.tmpl:618 core/templates/messages.tmpl:624
-#: core/templates/messages.tmpl:633
+#: core/templates/messages.tmpl:577 core/templates/messages.tmpl:583
+#: core/templates/messages.tmpl:587 core/templates/messages.tmpl:608
+#: core/templates/messages.tmpl:619 core/templates/messages.tmpl:625
+#: core/templates/messages.tmpl:631 core/templates/messages.tmpl:640
 msgid "Contact %1 if you have any questions."
 msgstr "Kontaktujte %1 pokud máte nějaké otázky."
 
@@ -1076,7 +1083,7 @@ msgstr "Nemohu vytvořit nový web %1"
 msgid "Could not find template"
 msgstr "Nemohu nalézt šablonu"
 
-#: core/templates/messages.tmpl:566
+#: core/templates/messages.tmpl:569
 msgid "Could not perform search. Error was: %1"
 msgstr "Nemůžu vykonat vyhledávání. Chyba byla: %1"
 
@@ -1084,7 +1091,7 @@ msgstr "Nemůžu vykonat vyhledávání. Chyba byla: %1"
 msgid "Could not save %1."
 msgstr "Nemohu uložit %1"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:259
 msgid "Country"
 msgstr "Země"
 
@@ -1104,7 +1111,7 @@ msgstr "Nový článek v %1"
 msgid "Create a link to the attached file"
 msgstr "Odkaz na přilohu"
 
-#: core/data/Main/WikiGroups.txt:18
+#: core/data/Main/WikiGroups.txt:17
 msgid "Create a new group"
 msgstr "Vytvoř novou skupinu"
 
@@ -1126,7 +1133,7 @@ msgstr "Vytvoř nový článek FAQ (často kladené dotazy)"
 msgid "Create personal sidebar"
 msgstr "Vaše osobní stránka"
 
-#: core/templates/messages.tmpl:599
+#: core/templates/messages.tmpl:606
 msgid "Create the topic"
 msgstr "Vytvořit článek"
 
@@ -1142,7 +1149,7 @@ msgstr "Vytvořit tento článek"
 msgid "Create topic"
 msgstr "Vytvoř článek"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:13
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:23
 msgid "Create your account to edit pages on this site."
 msgstr "Pro editaci stránek na tomto webu si vytvoř účet. "
 
@@ -1288,27 +1295,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "Email byl úspěšně změněn!"
 
-#: core/templates/messages.tmpl:636
+#: core/templates/messages.tmpl:643
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "ENCODE selhalo - =type= nemůže být použit dohromady s =old= a =new="
 
-#: core/templates/messages.tmpl:637
+#: core/templates/messages.tmpl:644
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "ENCODE selhalo - oba ( =old= and =new= ) musí být uvedeny."
 
-#: core/templates/messages.tmpl:638
+#: core/templates/messages.tmpl:645
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE selhalo - symbol '%PARAM1%' je opakován v =old="
 
-#: core/templates/messages.tmpl:641
+#: core/templates/messages.tmpl:648
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "EXPAND selhal - přístup do '%PARAM1%' je zamítnut."
 
-#: core/templates/messages.tmpl:639
+#: core/templates/messages.tmpl:646
 msgid "EXPAND failed - no macro"
 msgstr "EXPAND selhal - neexistuje makro."
 
-#: core/templates/messages.tmpl:640
+#: core/templates/messages.tmpl:647
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND selhal - článek '%PARAM1%' neexistuje"
 
@@ -1377,7 +1384,7 @@ msgstr ""
 "Buď jste nevložil jméno souboru nebo soubor %1, který se pokoušíte nahrát "
 "nemá žádný obsah. Nemůžete nahrát prázdný soubor."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:159
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:169
 msgid "Email address"
 msgstr "Emailová adresa"
 
@@ -1413,11 +1420,11 @@ msgstr "Chyba při uložení ćlánku"
 msgid "Error: %1"
 msgstr "Chyba: %1"
 
-#: core/templates/messages.tmpl:552
+#: core/templates/messages.tmpl:555
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Chyba: Příloha v %1,%2 neexistuje"
 
-#: core/templates/messages.tmpl:554
+#: core/templates/messages.tmpl:557
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
@@ -1425,7 +1432,7 @@ msgstr ""
 "Chyba: Nepodporovaný typ souboru: %1 (Musí být =text/html=, =text/plain= "
 "nebo =text/css=)"
 
-#: core/templates/messages.tmpl:553
+#: core/templates/messages.tmpl:556
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "Chyba: Nepodporovaný protokol. (Musí být 'http://domain/...')"
 
@@ -1433,11 +1440,11 @@ msgstr "Chyba: Nepodporovaný protokol. (Musí být 'http://domain/...')"
 msgid "Errors"
 msgstr "Chyby"
 
-#: core/templates/messages.tmpl:470
+#: core/templates/messages.tmpl:473
 msgid "Errors adding users to group"
 msgstr "Chyba při přidávání uživatelů do skupiny."
 
-#: core/templates/messages.tmpl:508
+#: core/templates/messages.tmpl:511
 msgid "Errors removing users from groups"
 msgstr "Chyba při odebírání uživatelů ze skupin."
 
@@ -1449,16 +1456,16 @@ msgstr "Zlá osoba"
 msgid "Failed plugins"
 msgstr "Chybné pluginy"
 
-#: core/templates/messages.tmpl:564
+#: core/templates/messages.tmpl:567
 msgid "Failed to include URL %1"
 msgstr "Chyba při vložení URL %1"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:34
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
 msgstr "Pole označená %1 jsou nutná"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:32
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:42
 msgid "Fields marked <span class='required'>*</span> are required"
 msgstr "Pole označená <span class='required'>*</span> jsou nutná"
 
@@ -1474,7 +1481,7 @@ msgstr "Najít obdobné články"
 msgid "Find topics that link to %1 ..."
 msgstr "Najít články které odkazují na %1 ..."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:140
 msgid "First name"
 msgstr "Křestní jméno"
 
@@ -1548,7 +1555,8 @@ msgstr "Nechte se upozornit o změnách tohoto vyhledávání"
 msgid "Globe"
 msgstr "Glóbus"
 
-#: core/templates/foswiki.tmpl:130
+#: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:462
+#: core/templates/messages.tmpl:469
 msgid "Go back"
 msgstr "Jdi zpět"
 
@@ -1673,6 +1681,12 @@ msgstr ""
 "Jestliže Foswiki detekuje podezřelý požadavek, poté se vás zeptá na "
 "potvrzení."
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:20
+msgid ""
+"If registration is not disabled by errors, administrators can still register "
+"users to this site using"
+msgstr ""
+
 #: core/templates/messages.tmpl:435
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
@@ -1701,7 +1715,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr "Jestliže si nejste jisti co toto přesně znamená, čtěte: %1"
 
-#: core/templates/messages.tmpl:589
+#: core/templates/messages.tmpl:596
 msgid "If you came here by clicking on a question mark link"
 msgstr "Pokud jste sem přišel stiskem otazníku"
 
@@ -1722,11 +1736,11 @@ msgstr ""
 "Pokud jste dostal tento mail omylem: Někdo (%1) se zaregistroval na %2 "
 "serveru s použitím Vaší emailové adresy %3. Kontaktujte %4 pokud je to chyba."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:31
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "Pokud máte libovolné otázky o registraci, pošlete email %1."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:64
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:73
@@ -1752,16 +1766,16 @@ msgstr ""
 "Pokud jste obdržel odkaz na tento článek v emailu nebo se chcete pouze "
 "podívat na článek, stiskněte [[%1][přerušit uložit]] aby jste přešli na %2."
 
-#: core/templates/messages.tmpl:598
+#: core/templates/messages.tmpl:605
 msgid "If you want to create the topic"
 msgstr "Pokud chcete vytvořit článek"
 
-#: core/templates/messages.tmpl:594
+#: core/templates/messages.tmpl:601
 msgid "If you would like to create this web"
 msgstr "Pokud chcete vytvořit tento web"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:22
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:57
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:62
 msgid ""
 "If your old e-mail addresses are all invalid (you can't receive mail there "
 "any more) and you have forgotten your password, please contact %1 for help."
@@ -1769,7 +1783,7 @@ msgstr ""
 "Pokud je Vaše emailová adresa nefunkční (nemůžete odsud přijímat žádnou "
 "poštu) a zapomněl jste své heslo, pro pomoc kontaktujte %1."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
 msgid ""
 "If your user topic is not protected from changes by other people, and you "
 "don't register an e-mail address using this form, then your user account "
@@ -1859,7 +1873,7 @@ msgstr "Chybný aktivační kód"
 msgid "Invalid e-mail address"
 msgstr "Chybná emailová adresa"
 
-#: core/templates/messages.tmpl:534
+#: core/templates/messages.tmpl:537
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -1901,7 +1915,7 @@ msgstr "Přejdi na"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 #, fuzzy
-msgid "Jump to first revision (%1)"
+msgid "Jump to first revision"
 msgstr "(revize %1)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
@@ -1926,7 +1940,7 @@ msgstr "Poslední editor"
 msgid "Last modified time"
 msgstr "Naposledy změněno"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:137
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:147
 msgid "Last name"
 msgstr "Příjmení"
 
@@ -1978,7 +1992,7 @@ msgstr "Odhlásit"
 msgid "Log on with your username and password"
 msgstr "Přihlašte se pomocí vášeho jména a hesla"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:152
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
 msgid "Login name"
 msgstr "Přihlašovací jméno"
 
@@ -2078,11 +2092,11 @@ msgstr "Přesun do:"
 msgid "Move topic to web:"
 msgstr "Přesun článku do:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1236
+#: core/lib/Foswiki/UI/Rename.pm:1245
 msgid "Move/Rename"
 msgstr "Přesunout/Přejmenovat"
 
-#: core/lib/Foswiki/Search.pm:1122
+#: core/lib/Foswiki/Search.pm:1132
 msgid "NEW"
 msgstr "NOVÝ"
 
@@ -2106,7 +2120,7 @@ msgstr "Registrace nových uživatelů je vypnutá"
 msgid "New User Registration not supported"
 msgstr "Registrace nových uživatelů není podporována"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:42
 msgid "New e-mails (space-separated list)"
 msgstr "Nové emailové adresy (mezerou oddělený seznam)"
 
@@ -2139,11 +2153,11 @@ msgstr "Novější revize:"
 msgid "No child topics"
 msgstr "Žádné podřízené články"
 
-#: core/templates/messages.tmpl:464 core/templates/messages.tmpl:502
+#: core/templates/messages.tmpl:466 core/templates/messages.tmpl:505
 msgid "No group name specified"
 msgstr "Nebylo uvedeno jméno skupiny"
 
-#: core/templates/messages.tmpl:551
+#: core/templates/messages.tmpl:554
 msgid "No permission to view %1"
 msgstr "Nemáte právo pro prohlížení %1"
 
@@ -2155,7 +2169,7 @@ msgstr "Neexistují žádné předchozí revize článku."
 msgid "No topics to update."
 msgstr "Žádné články k aktualizaci"
 
-#: core/templates/messages.tmpl:458 core/templates/messages.tmpl:496
+#: core/templates/messages.tmpl:458 core/templates/messages.tmpl:499
 msgid "No username specified"
 msgstr "Nebylo uvedeno jméno uživatele"
 
@@ -2237,7 +2251,7 @@ msgstr "OK, toto jsem stále já!"
 msgid "Older revision:"
 msgstr "Starší revize"
 
-#: core/templates/messages.tmpl:578
+#: core/templates/messages.tmpl:585
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Pouze členové %1 jsou oprávnění provést tuto akci."
 
@@ -2272,16 +2286,16 @@ msgstr "Volitelně vložte odlišné jméno článku:"
 msgid "Options"
 msgstr "Vlastnosti"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:235
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:245
 msgid "Organisation name"
 msgstr "Jméno organizace:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:242
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:252
 msgid "Organisation website"
 msgstr "Webové stránky arganizace"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:226
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:41
 #: core/templates/login.tmpl:57
 msgid "Password"
 msgstr "Heslo"
@@ -2319,7 +2333,7 @@ msgstr "Místo pro vymazané články a přílohy."
 msgid "Placeholder for trashed attachments"
 msgstr "Místo pro vymazané přílohy"
 
-#: core/templates/messages.tmpl:474 core/templates/messages.tmpl:512
+#: core/templates/messages.tmpl:477 core/templates/messages.tmpl:515
 msgid "Please check to ensure you have permission to modify the group."
 msgstr "Prosím zkontrolujte že máte oprávnění měnit skupinu."
 
@@ -2411,10 +2425,6 @@ msgstr "Stiskněte OK jako potvrzení že tato změna byla mezinárodní."
 msgid "Printable version of this topic (p)"
 msgstr "title='Verze pro tisk' accesskey='p'>&Print version"
 
-#: core/lib/Foswiki/OopsException.pm:42
-msgid "Problem filling bath"
-msgstr "Problém vyplňování lázně (just a test string within the documentation)"
-
 #: PatternSkin/templates/attach.pattern.tmpl:63
 msgid "Properties"
 msgstr "Vlastnosti"
@@ -2462,23 +2472,23 @@ msgid "Recently changed topics"
 msgstr "Naposledy změněné články"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
-#: core/lib/Foswiki/UI/Rename.pm:1235
+#: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
 msgstr "Obnov"
 
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
-#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
 #: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Registruj"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:35
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr "Registrovaná e-mailová adresa aktuálně přihlášeného uživatele"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:6
 msgid "Registration"
 msgstr "Registrace"
 
@@ -2486,18 +2496,25 @@ msgstr "Registrace"
 msgid "Registration codes can only be used once."
 msgstr "Registrační kódy mohou být použity pouze jednou."
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:18
+msgid ""
+"Registration is disabled either by configuration setting "
+"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"Check the configuration for errors."
+msgstr ""
+
 #: core/data/System/WebSearch.txt:116
 msgid "Regular expression search"
 msgstr "Hledání pomocí regulárních výrazů"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:930
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:943
 #: core/data/Main/GroupViewTemplate.txt:14
 #: core/data/System/SkinTemplateViewTemplate.txt:8
-#: core/templates/messages.tmpl:576 core/templates/messages.tmpl:583
+#: core/templates/messages.tmpl:579 core/templates/messages.tmpl:590
 msgid "Related topics:"
 msgstr "Podobné články:"
 
@@ -2539,6 +2556,12 @@ msgstr "Odstraň nejdřive uživatele ze skupiny(skupin) %1."
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
 msgstr "Přejmenovat"
+
+#: core/templates/messages.tmpl:581
+msgid ""
+"Rename completed, but unsafe redirect to %1 is denied.: The requested host "
+"does not match %2, and is not in {PermittedRedirectHostUrls}."
+msgstr ""
 
 #: core/templates/messages.tmpl:74 core/templates/messages.tmpl:80
 msgid "Rename failed"
@@ -2769,9 +2792,9 @@ msgstr ""
 msgid "See %1 for information about Form Definitions."
 msgstr "Přečtěte si %1 pro informaci o definici formuláře."
 
-#: core/templates/messages.tmpl:476 core/templates/messages.tmpl:486
-#: core/templates/messages.tmpl:493 core/templates/messages.tmpl:514
-#: core/templates/messages.tmpl:524
+#: core/templates/messages.tmpl:479 core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:496 core/templates/messages.tmpl:517
+#: core/templates/messages.tmpl:527
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr "Výsledek uvidíš na %MAINWEB%.WikiGroups."
 
@@ -2795,7 +2818,7 @@ msgstr "Viz nápověda níže pro editaci této stránky."
 msgid "Select"
 msgstr "Vyber"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:227
 msgid "Select Group %1 to join"
 msgstr "Pro zapojení se vyber skupinu %1"
 
@@ -2898,7 +2921,7 @@ msgstr ""
 "Někteří lidé to změní na svůj personální portál s nejoblíbenějšími odkazy, "
 "na čem pracují, apod."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:14
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:24
 msgid "Sorry, Registration has been temporarily disabled"
 msgstr "Omlouváme se, registrování je dočasně mimo provoz."
 
@@ -2954,11 +2977,11 @@ msgstr "Potvrzený obsah:"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Příhlásit/ Odhlásit z:"
 
-#: core/templates/messages.tmpl:482
+#: core/templates/messages.tmpl:485
 msgid "Success adding users to group"
 msgstr "Přidání uživatelů do skupiny bylo úspěšné"
 
-#: core/templates/messages.tmpl:520
+#: core/templates/messages.tmpl:523
 msgid "Success removing users from group"
 msgstr "Odstranění uživatelů ze skupiny bylo úspěšné"
 
@@ -2978,7 +3001,7 @@ msgstr ""
 "TIP: pro hledání všech článků, které obsahují =\"SOAP\"=, =\"WSDL\"=, a "
 "literal =\"web service\"=, ale ne =\"shampoo\"=, napište:"
 
-#: core/templates/messages.tmpl:609
+#: core/templates/messages.tmpl:616
 msgid "Template %1 does not exist"
 msgstr "Šablona %1 neexistuje"
 
@@ -3007,7 +3030,7 @@ msgstr ""
 "Díky za Vaši registraci v %1 - platformě pro spolupráci. Váš verifikační kód "
 "je %2."
 
-#: core/templates/messages.tmpl:627
+#: core/templates/messages.tmpl:634
 msgid "That user has already been activated "
 msgstr "Konto tohoto uživatele již bylo aktivováno."
 
@@ -3028,7 +3051,7 @@ msgid "The %1 topic already exists"
 msgstr "Článek %1 už existuje"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:586
+#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:593
 msgid "The %1 web does not exist"
 msgstr "Web %1 neexistuje"
 
@@ -3102,7 +3125,7 @@ msgstr ""
 "Útočník se pokouší zneužít vašich práv pro získání věcí jako jsou např. "
 "administrátorská oprávnění k tomuto webu."
 
-#: core/templates/messages.tmpl:542
+#: core/templates/messages.tmpl:545
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -3132,7 +3155,7 @@ msgstr ""
 msgid "The e-mail address for this account is not valid."
 msgstr "Emailová adresa pro tento účet není správná."
 
-#: core/templates/messages.tmpl:560
+#: core/templates/messages.tmpl:563
 msgid "The entry for user %1 was missing in the password system."
 msgstr "Záznam pro uživatele %1 chyběl systému."
 
@@ -3161,11 +3184,11 @@ msgstr ""
 msgid "The form should be defined in the topic %1"
 msgstr "Formulář měl být definován ve článku %1"
 
-#: core/templates/messages.tmpl:540
+#: core/templates/messages.tmpl:543
 msgid "The lease on this topic expired %1 ago."
 msgstr "Zámek na tomto článku vypršel před %1"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:153
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "The login name you use to sign in."
 msgstr "Nízev účtu kterů používáte pro přihlášení."
 
@@ -3201,7 +3224,7 @@ msgstr "Článek je ve starém formátu"
 msgid "The two passwords you entered do not match."
 msgstr "Hesla, která jste vložil nesouhlasí."
 
-#: core/templates/messages.tmpl:629
+#: core/templates/messages.tmpl:636
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 "Uživatel %1 byl již aktivován a měl by být schopen se přihlásit do systému."
@@ -3234,11 +3257,11 @@ msgstr ""
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Měly by zde být řádky, které obsahují %1, hledejte %2 (nebo%3)"
 
-#: core/templates/messages.tmpl:472
+#: core/templates/messages.tmpl:475
 msgid "There were errors adding %1 to the %2 group. "
 msgstr "Při přidání skupiny %1 do skupiny %2 se vyskytly chyby."
 
-#: core/templates/messages.tmpl:510
+#: core/templates/messages.tmpl:513
 msgid "There were errors removing %1 from the %2 group. "
 msgstr "Při odebrání skupiny %1 ze skupiny %2 se vyskytly chyby."
 
@@ -3534,7 +3557,7 @@ msgstr ""
 "Upgrade upraví formát názvu skupiny na nový s vlastnostmi pro user "
 "management."
 
-#: core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:492
 msgid "Upgraded group"
 msgstr "Upgradovaná skupina"
 
@@ -3673,10 +3696,6 @@ msgstr "Ukaž celou historii článku"
 msgid "View without formatting (v)"
 msgstr "Prohlédni nepracovaný text (bez formátování)"
 
-#: core/lib/Foswiki/OopsException.pm:46
-msgid "Warning"
-msgstr "Varování"
-
 #: core/templates/validate.tmpl:20
 msgid "Warning! Confirmation required"
 msgstr "Varování! Je vyžadováno potvrzení."
@@ -3685,34 +3704,34 @@ msgstr "Varování! Je vyžadováno potvrzení."
 msgid "Warning: 'include' topic does not exist!"
 msgstr "Varování: 'include' článek ještě neexistuje!"
 
-#: core/templates/messages.tmpl:557
+#: core/templates/messages.tmpl:560
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr "Varování: INCLUDE %1 nelze provést opakovaně, článek je už zahrnut. %2"
 
-#: core/templates/messages.tmpl:558
+#: core/templates/messages.tmpl:561
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
 "Varování: Nemohu provést INCLUDE '%1', cesta je prázdná nebo obsahuje "
 "nepovolené znaky."
 
-#: core/templates/messages.tmpl:556
+#: core/templates/messages.tmpl:559
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr "Varování: Nemohu najít sekci %3 v článku %1.%2"
 
-#: core/templates/messages.tmpl:555
+#: core/templates/messages.tmpl:558
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Varování: Nemohu najít článek %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:928
+#: core/lib/Foswiki/UI/Register.pm:945
 msgid "Warning: Could not send confirmation email"
 msgstr "Varování: Nemohu odeslat konfirmační email."
 
-#: core/lib/Foswiki/UI/Register.pm:940
+#: core/lib/Foswiki/UI/Register.pm:957
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "Varování: Nemohu zaslat konfirmační email, zasílání emailů je vypnuté."
 
-#: core/templates/messages.tmpl:565
+#: core/templates/messages.tmpl:568
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Varování: Tento server nepovoluje %<nop>INCLUDE% odkazů"
 
@@ -3764,7 +3783,7 @@ msgstr "Proč jsem byl dotazován na potvrzení?"
 msgid "Wiki administrators should read about the %1."
 msgstr "Administrátoři Wiki by si měli přečíst %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:144
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:154
 msgid "Wiki name"
 msgstr "Wiki jméno"
 
@@ -3803,7 +3822,7 @@ msgstr "Také jste uveden v článku %1"
 msgid "You are denied access to the following topics in the web:"
 msgstr "Nemáte přístup k tomuto článku:"
 
-#: core/templates/messages.tmpl:544
+#: core/templates/messages.tmpl:547
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -3835,25 +3854,25 @@ msgstr ""
 "webů), vyberte jméno, které  začíná podtržitkem a obsahuje pouze "
 "alfanumerické znaky."
 
-#: core/templates/messages.tmpl:622
+#: core/templates/messages.tmpl:629
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr "Zkoušíte %1 k příloze, která neexistuje."
 
-#: core/templates/messages.tmpl:610
+#: core/templates/messages.tmpl:617
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Pokoušíte se vytvořit článek ze šablony která neexistuje."
 
-#: core/templates/messages.tmpl:605
+#: core/templates/messages.tmpl:612
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action '%"
 "1')."
 msgstr "Pokoušíte se provést akci '%1' článkem který neexistuje."
 
-#: core/templates/messages.tmpl:616
+#: core/templates/messages.tmpl:623
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Zkoušíte přejmenovat článek který neexistuje."
 
-#: core/templates/messages.tmpl:595
+#: core/templates/messages.tmpl:602
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -3888,7 +3907,7 @@ msgstr ""
 "Nemůžete manuálně potvrdit tuto změnu, protože buď Cookies nebo Javascript "
 "jsou ve vašem prohlížeči zakázány."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:12
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "You cannot register on this site."
 msgstr "Na tomto webu se nemůžete zaregistrovat."
 
@@ -3896,7 +3915,7 @@ msgstr "Na tomto webu se nemůžete zaregistrovat."
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "Nemůžete se registrovat dvakrát, účet %1 už je zaregistrováno."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:58
 msgid ""
 "You change your email address by setting the form field called Email in your "
 "user topic. If this form field does not exist it will look for a line like "
@@ -3918,7 +3937,7 @@ msgstr ""
 "Váš Wiki administrátor může změnit nastavení, pokud jsou nevhodné pro Vaše "
 "prostředí."
 
-#: core/templates/messages.tmpl:631
+#: core/templates/messages.tmpl:638
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -3934,11 +3953,11 @@ msgstr "Musíte zavřít Váš prohlížeč, aby se změny projevily."
 msgid "You must pass a topic name."
 msgstr "Musíte zadat název stránky."
 
-#: core/templates/messages.tmpl:465
+#: core/templates/messages.tmpl:467
 msgid "You need to specify a valid group name to add users to a group."
 msgstr "Pro přidání uživatelů je třeba uvést platné jméno skupiny."
 
-#: core/templates/messages.tmpl:503
+#: core/templates/messages.tmpl:506
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr "Pro odebrání uživatelů je třeba uvést platné jméno skupiny."
 
@@ -3946,7 +3965,7 @@ msgstr "Pro odebrání uživatelů je třeba uvést platné jméno skupiny."
 msgid "You need to specify a valid user to add to a group."
 msgstr "Pro přidání do skupiny je třeba uvést platné jméno uživatele."
 
-#: core/templates/messages.tmpl:498
+#: core/templates/messages.tmpl:501
 msgid "You need to specify a valid user to remove from a group."
 msgstr "Pro odebrání za skupiny je třeba uvést platné jméno uživatele."
 
@@ -3976,7 +3995,11 @@ msgstr ""
 "Pravděpodobně se budete muset zeptat Vašeho administrátora - %1, aby jste "
 "toto mohl udělat."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:35
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#, fuzzy
+msgid "Your"
+msgstr "Ty"
+
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 msgid "Your %1.LoginName"
@@ -3992,7 +4015,7 @@ msgstr ""
 "nebo vložte kód do pole níže, aby jste aktivoval Vaše členství. (Tento kód "
 "je ve formě \"VašeJméno.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:160
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
 msgid "Your email address will be kept confidential."
 msgstr "Vaše emailová adresa bude vedena v tajnosti."
 
@@ -4004,7 +4027,7 @@ msgstr ""
 "Váš jazyk bude od další obrazovky změněn na %1. Nyní tam budete "
 "přesměrováni. Pokud ne, [[%2][klikněte zde]] pro pokračování."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:145
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
 msgid ""
 "Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%."
 "WikiName][Wiki name]]. By default it is derived from your first and last "
@@ -4014,7 +4037,7 @@ msgstr ""
 "WikiName][Wiki name]]. Výchozí nastavení je takové, že je odvozeno z "
 "křestního jména a příjmení."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
 msgid "Your password"
 msgstr "Vaše heslo"
 
@@ -4039,7 +4062,7 @@ msgid ""
 msgstr ""
 "Vaše zaregistrovaná adresa(y) jsou změnény na: <noautolink>%1</noautolink>"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:51
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:56
 msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
@@ -4186,7 +4209,7 @@ msgid "now %1"
 msgstr "nyní je %1"
 
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
-#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
@@ -4312,6 +4335,16 @@ msgstr "náhled"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "proč jste byl dotazován na potvrzení"
+
+#~ msgid "Bathing problem"
+#~ msgstr "Plážový problém (just a test string within the documentation)"
+
+#~ msgid "Problem filling bath"
+#~ msgstr ""
+#~ "Problém vyplňování lázně (just a test string within the documentation)"
+
+#~ msgid "Warning"
+#~ msgstr "Varování"
 
 #~ msgid "Add user"
 #~ msgstr "Přidej uživatele"

@@ -14,22 +14,22 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:480
+#: core/lib/Foswiki/Time.pm:481
 msgid "%*(%1,day) "
 msgstr "%*(%1,ημέρα)  "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:483
+#: core/lib/Foswiki/Time.pm:484
 msgid "%*(%1,hour) "
 msgstr "%*(%1,ώρα) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:486
+#: core/lib/Foswiki/Time.pm:487
 msgid "%*(%1,minute) "
 msgstr "%*(%1,λεπτό) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:489
+#: core/lib/Foswiki/Time.pm:490
 msgid "%*(%1,second) "
 msgstr "%*(%1,δευτερόλεπτο) "
 
@@ -54,15 +54,15 @@ msgstr "%1 - Εγγραφή για %2 (%3)"
 msgid "%1 Web"
 msgstr "Ιστός %1"
 
-#: core/templates/messages.tmpl:484
+#: core/templates/messages.tmpl:487
 msgid "%1 added to the %2 group. "
 msgstr ""
 
-#: core/templates/messages.tmpl:491
+#: core/templates/messages.tmpl:494
 msgid "%1 group topic upgraded. "
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:65
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:70
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 έχει ένα κατάλογο από άλλους χρήστες του Foswiki"
@@ -72,7 +72,7 @@ msgstr "%1 έχει ένα κατάλογο από άλλους χρήστες �
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "Ο/Η %1 έχει εγγραφεί με το e-mail %2"
 
-#: core/templates/messages.tmpl:532
+#: core/templates/messages.tmpl:535
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -104,7 +104,7 @@ msgstr "%1 είναι συνδεδεμένος"
 msgid "%1 is currently set to %2"
 msgstr "%1 για την ώρα έχει τεθεί στο %2"
 
-#: core/templates/messages.tmpl:530
+#: core/templates/messages.tmpl:533
 #, fuzzy
 msgid "%1 is editing [[%2][%3]]."
 msgstr "Ο %1 διορθώνει το %2."
@@ -127,7 +127,7 @@ msgstr "Το '%1' δεν είναι έγκυρο %2 "
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 είναι το προεπιλεγμένο θέμα για διεγραμμένα συννημένα."
 
-#: core/templates/messages.tmpl:538
+#: core/templates/messages.tmpl:541
 msgid "%1 may still be editing %2."
 msgstr "Ο %1 μπορεί ακόμη να επεξεργάζεται το %2."
 
@@ -136,7 +136,7 @@ msgstr "Ο %1 μπορεί ακόμη να επεξεργάζεται το %2."
 msgid "%1 recent changes in %2 Web"
 msgstr "%1 Πρόσφατες αλλαγές στον Ιστό %2"
 
-#: core/templates/messages.tmpl:522
+#: core/templates/messages.tmpl:525
 #, fuzzy
 msgid "%1 removed from the %2 group. "
 msgstr "%1 μετακινήθηκε από το %2 την %3 ανά %4"
@@ -153,7 +153,7 @@ msgstr "%1 για να παραμετροποιήσεις τις ειδικές 
 msgid "%1 to start working on the new web"
 msgstr "%1 για να αρχίσεις να εργάζεσαι στον νέο ιστό"
 
-#: core/templates/messages.tmpl:604 core/templates/messages.tmpl:615
+#: core/templates/messages.tmpl:611 core/templates/messages.tmpl:622
 msgid "%1 topic does not exist"
 msgstr "Το θέμα %1 δεν υπάρχει"
 
@@ -166,6 +166,11 @@ msgstr "Ο/Η %1 δοκίμασε να εγγραφεί με το e-mail %2"
 #, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 μετακινήθηκε από το %2 την %3 ανά %4"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#, fuzzy
+msgid "%1.LoginName"
+msgstr "Your %1.LoginName"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -287,12 +292,12 @@ msgstr "(μετακίνησε συννημένο)"
 msgid "(no parent, orphaned topic)"
 msgstr "(χωρίς γονέα, ορφανό θέμα)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1153 core/lib/Foswiki/UI/Rename.pm:1167
-#: core/lib/Foswiki/UI/Rename.pm:1223 core/lib/Foswiki/UI/Rename.pm:1226
-#: core/lib/Foswiki/UI/Rename.pm:1229 core/lib/Foswiki/UI/Rename.pm:1264
-#: core/lib/Foswiki/UI/Rename.pm:1287 core/lib/Foswiki/UI/Rename.pm:552
-#: core/lib/Foswiki/UI/Rename.pm:556 core/lib/Foswiki/UI/Rename.pm:560
-#: core/lib/Foswiki/UI/Rename.pm:564
+#: core/lib/Foswiki/UI/Rename.pm:1162 core/lib/Foswiki/UI/Rename.pm:1176
+#: core/lib/Foswiki/UI/Rename.pm:1232 core/lib/Foswiki/UI/Rename.pm:1235
+#: core/lib/Foswiki/UI/Rename.pm:1238 core/lib/Foswiki/UI/Rename.pm:1273
+#: core/lib/Foswiki/UI/Rename.pm:1296 core/lib/Foswiki/UI/Rename.pm:559
+#: core/lib/Foswiki/UI/Rename.pm:563 core/lib/Foswiki/UI/Rename.pm:567
+#: core/lib/Foswiki/UI/Rename.pm:571
 msgid "(none)"
 msgstr "(καμία)"
 
@@ -330,9 +335,15 @@ msgstr "(μονός χαρακτήρας μικρού ονόματος)"
 msgid "(single character last name)"
 msgstr "(μονός χαρακτήρας επιθέτου)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1142
+#: core/lib/Foswiki/UI/Rename.pm:1151
 msgid "(skipped)"
 msgstr "(παρελήφθει)"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:26
+msgid ""
+"*Administrators:* You can change user's e-mail address using this form. "
+"Enter the users Login or WikiName and the new e-mail address."
+msgstr ""
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -349,7 +360,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Βοήθεια Μορφοποίησης:*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:281
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -470,7 +481,7 @@ msgstr ""
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "Για λόγους ασφαλείας σε μερικά αρχεία προστίθεται μια κατάληξη  =.txt="
 
-#: core/templates/messages.tmpl:587
+#: core/templates/messages.tmpl:594
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -488,11 +499,11 @@ msgstr ""
 "αριθμούς, πχ =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:935
+#: core/lib/Foswiki/UI/Register.pm:952
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Ένα επιβεβαιωτικό e-mail έχει αποσταλεί στο %1"
 
-#: core/templates/messages.tmpl:591
+#: core/templates/messages.tmpl:598
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -509,7 +520,7 @@ msgstr ""
 "Ένας πιο αναλυτικός κατάλογος αλλαγών είναι διαθέσιμος μέσω του [[%1]"
 "[Πρόσφατες Αλλαγές]]."
 
-#: core/templates/messages.tmpl:563
+#: core/templates/messages.tmpl:566
 #, fuzzy
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
@@ -539,7 +550,7 @@ msgstr ""
 msgid "Access Denied"
 msgstr "Δεν επιτρέπεται η πρόσβαση"
 
-#: core/templates/messages.tmpl:571
+#: core/templates/messages.tmpl:574
 msgid "Access check on %1 failed"
 msgstr "Απέτυχε ο έλεγχος πρόσβασης στο %1"
 
@@ -557,7 +568,7 @@ msgstr "Πλήκτρα πρόσβασης"
 msgid "Action"
 msgstr "Ενέργεια"
 
-#: core/templates/messages.tmpl:572
+#: core/templates/messages.tmpl:575
 msgid "Action %1: %2."
 msgstr "Ενέργεια %1 : %2."
 
@@ -612,7 +623,7 @@ msgstr "Εγγραφή"
 msgid "Advanced search"
 msgstr "Σύνθετη αναζήτηση"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:27
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
@@ -730,7 +741,7 @@ msgstr "Επισύναψη νέου αρχείου"
 msgid "Attachment"
 msgstr "Συννημένο"
 
-#: core/templates/messages.tmpl:621
+#: core/templates/messages.tmpl:628
 msgid "Attachment '%1' does not exist"
 msgstr "Το συννημένο %1' δεν υπάρχει"
 
@@ -825,10 +836,6 @@ msgstr "Κακός κωδικός"
 msgid "Base web %1 is missing or does not exist"
 msgstr "Ο κύριος ιστός %1 λείπει ή δεν υπάρχει"
 
-#: core/lib/Foswiki/OopsException.pm:41
-msgid "Bathing problem"
-msgstr "Bathing problem"
-
 #: core/data/System/WebSearch.txt:78 core/data/System/WebSearch.txt:92
 msgid "Both body and title"
 msgstr "Τόσο το σώμα όσο και στον τίτλο"
@@ -851,11 +858,11 @@ msgstr ""
 "επιτρέψετε σε όλους τους χρήστες να βλέπουν τον ιστό Trash, αφαιρέστε τον "
 "περιορισμό =ALLOWWEBVIEW= στις WebPreferences."
 
-#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:561
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:564
 msgid "Can't find user %1"
 msgstr "Δεν μπορώ να βρώ το χρήστη %1"
 
-#: core/templates/messages.tmpl:562
+#: core/templates/messages.tmpl:565
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
 "Δεν μπορώ να βρω μια διεύθυνση e-mail για τον %1 (απαιτείται για επανάταξη "
@@ -1037,7 +1044,7 @@ msgstr "Σχόλιο"
 msgid "Compare revisions"
 msgstr "Συγκρίνετε τις αναθεωρήσεις"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:168
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
 #, fuzzy
 msgid "Confirm password"
 msgstr "Ο κωδικός πρόσβασής σας:"
@@ -1058,10 +1065,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "Σύγκρουση"
 
-#: core/templates/messages.tmpl:574 core/templates/messages.tmpl:580
-#: core/templates/messages.tmpl:601 core/templates/messages.tmpl:612
-#: core/templates/messages.tmpl:618 core/templates/messages.tmpl:624
-#: core/templates/messages.tmpl:633
+#: core/templates/messages.tmpl:577 core/templates/messages.tmpl:583
+#: core/templates/messages.tmpl:587 core/templates/messages.tmpl:608
+#: core/templates/messages.tmpl:619 core/templates/messages.tmpl:625
+#: core/templates/messages.tmpl:631 core/templates/messages.tmpl:640
 msgid "Contact %1 if you have any questions."
 msgstr "Επικοινωνήστε με τον %1, αν έχετε απορίες."
 
@@ -1121,7 +1128,7 @@ msgstr "Δεν μπόρεσα να δημιουργήσω τον νέο ιστό
 msgid "Could not find template"
 msgstr "Δεν μπόρεσα να βρω το πρότυπο"
 
-#: core/templates/messages.tmpl:566
+#: core/templates/messages.tmpl:569
 msgid "Could not perform search. Error was: %1"
 msgstr "Δεν ήταν δυνατή η εκτέλεση αναζήτησης. Το σφάλμα ήταν: %1"
 
@@ -1129,7 +1136,7 @@ msgstr "Δεν ήταν δυνατή η εκτέλεση αναζήτησης. �
 msgid "Could not save %1."
 msgstr "Δεν είναι δυνατή η αποθήκευση του αρχείου %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:259
 #, fuzzy
 msgid "Country"
 msgstr "Χώρα:"
@@ -1150,7 +1157,7 @@ msgstr "Δημιουργία Νέου Θέματος στον Ιστό %1"
 msgid "Create a link to the attached file"
 msgstr "Δημιουργήστε ένα σύνδεσμο προς το συνημμένο αρχείο"
 
-#: core/data/Main/WikiGroups.txt:18
+#: core/data/Main/WikiGroups.txt:17
 #, fuzzy
 msgid "Create a new group"
 msgstr "Δημιουργία νέου θέματος"
@@ -1176,7 +1183,7 @@ msgstr "Δημιουργία νέου θέματος"
 msgid "Create personal sidebar"
 msgstr "Επεξεργασία προσωπικών δεδομένων"
 
-#: core/templates/messages.tmpl:599
+#: core/templates/messages.tmpl:606
 msgid "Create the topic"
 msgstr "Δημιουργήστε το θέμα"
 
@@ -1193,7 +1200,7 @@ msgstr "Δημιουργήστε αυτό το θέμα"
 msgid "Create topic"
 msgstr "Δημιουργήστε το θέμα"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:13
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:23
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
@@ -1343,27 +1350,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "To e-mail άλλαξε με επιτυχία!"
 
-#: core/templates/messages.tmpl:636
+#: core/templates/messages.tmpl:643
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
 
-#: core/templates/messages.tmpl:637
+#: core/templates/messages.tmpl:644
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr ""
 
-#: core/templates/messages.tmpl:638
+#: core/templates/messages.tmpl:645
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr ""
 
-#: core/templates/messages.tmpl:641
+#: core/templates/messages.tmpl:648
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr ""
 
-#: core/templates/messages.tmpl:639
+#: core/templates/messages.tmpl:646
 msgid "EXPAND failed - no macro"
 msgstr ""
 
-#: core/templates/messages.tmpl:640
+#: core/templates/messages.tmpl:647
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr ""
 
@@ -1435,7 +1442,7 @@ msgstr ""
 "Είτε δεν καταχωρήσατε το όνομα του αρχείου, ή το αρχείο %1 που προσπαθείτε "
 "να ανεβάσετε δεν έχει περιεχόμενο. Δεν μπορείτε να ανεβάσετε ένα κενό αρχείο."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:159
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:169
 #, fuzzy
 msgid "Email address"
 msgstr "Διεύθυνση e-mail:"
@@ -1474,11 +1481,11 @@ msgstr "Λάθος κατά την αποθήκευση θέματος"
 msgid "Error: %1"
 msgstr "Σφάλμα: %1"
 
-#: core/templates/messages.tmpl:552
+#: core/templates/messages.tmpl:555
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Σφάλμα: Το συνημμένο αρχείο στο %1,%2 δεν υπάρχει"
 
-#: core/templates/messages.tmpl:554
+#: core/templates/messages.tmpl:557
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
@@ -1486,7 +1493,7 @@ msgstr ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
 
-#: core/templates/messages.tmpl:553
+#: core/templates/messages.tmpl:556
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "Error: Unsupported protocol. (Must be 'http://domain/...')"
 
@@ -1494,12 +1501,12 @@ msgstr "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgid "Errors"
 msgstr "Σφάλματα"
 
-#: core/templates/messages.tmpl:470
+#: core/templates/messages.tmpl:473
 #, fuzzy
 msgid "Errors adding users to group"
 msgstr "Λάθος κατά την αποθήκευση θέματος"
 
-#: core/templates/messages.tmpl:508
+#: core/templates/messages.tmpl:511
 msgid "Errors removing users from groups"
 msgstr ""
 
@@ -1512,16 +1519,16 @@ msgstr "Επεξεργασία προσωπικών δεδομένων"
 msgid "Failed plugins"
 msgstr ""
 
-#: core/templates/messages.tmpl:564
+#: core/templates/messages.tmpl:567
 msgid "Failed to include URL %1"
 msgstr "Αποτυχία συμπερίληψης URL %1"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:34
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
 msgstr "Fields marked %1 are required"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:32
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:42
 #, fuzzy
 msgid "Fields marked <span class='required'>*</span> are required"
 msgstr "Fields marked %1 are required"
@@ -1538,7 +1545,7 @@ msgstr "Βρείτε παρόμοια θέματα"
 msgid "Find topics that link to %1 ..."
 msgstr "Βρείτε θέματα με συνδέσμους προς το %1 ..."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:130
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:140
 #, fuzzy
 msgid "First name"
 msgstr "Μικρό Όνομα:"
@@ -1613,7 +1620,8 @@ msgstr "Ενημερωθείτε για τις αλλαγές σε αυτή τη
 msgid "Globe"
 msgstr "Κλείσε"
 
-#: core/templates/foswiki.tmpl:130
+#: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:462
+#: core/templates/messages.tmpl:469
 msgid "Go back"
 msgstr "Πηγαίνετε πίσω"
 
@@ -1743,6 +1751,12 @@ msgid ""
 "page, then you are asked to confirm the request."
 msgstr ""
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:20
+msgid ""
+"If registration is not disabled by errors, administrators can still register "
+"users to this site using"
+msgstr ""
+
 #: core/templates/messages.tmpl:435
 #, fuzzy
 msgid ""
@@ -1774,7 +1788,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr "If you are unsure what this means, read:"
 
-#: core/templates/messages.tmpl:589
+#: core/templates/messages.tmpl:596
 msgid "If you came here by clicking on a question mark link"
 msgstr "Εάν έφτασες εδώ κάνοντας κλικ σε ένα σύνδεσμο με αγγλικό ερωτηματικό"
 
@@ -1800,13 +1814,13 @@ msgstr ""
 "χρησιμοποιώντας τη δική σου διεύθυνση e-mail %3. Επικοινωνήστε με %4, αν "
 "αυτό είναι λάθος."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:31
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr ""
 "Αν έχετε οποιαδήποτε απορία σχετικά με την εγγραφή, στείλτε ένα e-mail στη "
 "διεύθυνση %1."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:64
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:73
@@ -1833,16 +1847,16 @@ msgstr ""
 "Εάν έχετε λάβει ένα σύνδεσμο προς αυτό το θέμα σε ένα e-mail ή απλά θέλετε "
 "να το δείτε, [[%1] [ακυρώστε το σώσιμο]] για να πάτει στο %2."
 
-#: core/templates/messages.tmpl:598
+#: core/templates/messages.tmpl:605
 msgid "If you want to create the topic"
 msgstr "Εάν θέλετε να δημιουργήσετε το θέμα"
 
-#: core/templates/messages.tmpl:594
+#: core/templates/messages.tmpl:601
 msgid "If you would like to create this web"
 msgstr "Αν θέλετε να δημιουργήσετε αυτό τον ιστό"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:22
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:57
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:62
 msgid ""
 "If your old e-mail addresses are all invalid (you can't receive mail there "
 "any more) and you have forgotten your password, please contact %1 for help."
@@ -1851,7 +1865,7 @@ msgstr ""
 "μηνύματα εκεί πια) και έχετε ξεχάσει τον κωδικό σας, παρακαλώ επικοινωνήστε "
 "με τον %1 για να βοηθήσει."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
 msgid ""
 "If your user topic is not protected from changes by other people, and you "
 "don't register an e-mail address using this form, then your user account "
@@ -1941,7 +1955,7 @@ msgstr "Εσφαλμένος κωδικός ενεργοποίησης"
 msgid "Invalid e-mail address"
 msgstr "Άκυρη διεύθυνση e-mail"
 
-#: core/templates/messages.tmpl:534
+#: core/templates/messages.tmpl:537
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -1985,7 +1999,7 @@ msgstr "Μεταπήδησε"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 #, fuzzy
-msgid "Jump to first revision (%1)"
+msgid "Jump to first revision"
 msgstr "(αναθεώρηση %1)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
@@ -2011,7 +2025,7 @@ msgstr "Τελευταίος συντάκτης"
 msgid "Last modified time"
 msgstr "Ώρα τελευταίας τροποποίησης"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:137
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:147
 #, fuzzy
 msgid "Last name"
 msgstr "Επώνυμο:"
@@ -2065,7 +2079,7 @@ msgstr "Αποσύνδεση"
 msgid "Log on with your username and password"
 msgstr "Παρακαλώ εισάγετε το όνομα χρήστη και τον κωδικό σας"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:152
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
 #, fuzzy
 msgid "Login name"
 msgstr "Όνομα Σύνδεσης %1"
@@ -2168,11 +2182,11 @@ msgstr "Μετακίνηση στον ιστό:"
 msgid "Move topic to web:"
 msgstr "Μετακινήστε το θέμα στον ιστό:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1236
+#: core/lib/Foswiki/UI/Rename.pm:1245
 msgid "Move/Rename"
 msgstr "Μετακίνηση / Μετονομασία"
 
-#: core/lib/Foswiki/Search.pm:1122
+#: core/lib/Foswiki/Search.pm:1132
 msgid "NEW"
 msgstr "ΝΕΟ"
 
@@ -2197,7 +2211,7 @@ msgstr "Η εγγραφή Νέου Χρήστη έχει απενεργοποι�
 msgid "New User Registration not supported"
 msgstr "Η εγγραφή Νέου Χρήστη δεν υποστηρίζεται"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:42
 msgid "New e-mails (space-separated list)"
 msgstr "New e-mails (space-separated list)"
 
@@ -2230,11 +2244,11 @@ msgstr "Νεότερη αναθεώρηση:"
 msgid "No child topics"
 msgstr "No child topics"
 
-#: core/templates/messages.tmpl:464 core/templates/messages.tmpl:502
+#: core/templates/messages.tmpl:466 core/templates/messages.tmpl:505
 msgid "No group name specified"
 msgstr ""
 
-#: core/templates/messages.tmpl:551
+#: core/templates/messages.tmpl:554
 msgid "No permission to view %1"
 msgstr "Δεν δικαιώματα προβολής %1"
 
@@ -2247,7 +2261,7 @@ msgstr "Δεν υπάρχει προηγούμενη αναθεώρηση."
 msgid "No topics to update."
 msgstr "Μετακινήστε το θέμα στον ιστό:"
 
-#: core/templates/messages.tmpl:458 core/templates/messages.tmpl:496
+#: core/templates/messages.tmpl:458 core/templates/messages.tmpl:499
 msgid "No username specified"
 msgstr ""
 
@@ -2327,7 +2341,7 @@ msgstr ""
 msgid "Older revision:"
 msgstr "Παλαιότερη αναθεώρηση:"
 
-#: core/templates/messages.tmpl:578
+#: core/templates/messages.tmpl:585
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Μόνο μέλη του %1 επιτρέπεται να εκτελέσουν αυτή την ενέργεια."
 
@@ -2366,18 +2380,18 @@ msgstr "Προαιρετικά εισάγετε μια διαφορετική ο
 msgid "Options"
 msgstr "Ενέργεια"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:235
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:245
 #, fuzzy
 msgid "Organisation name"
 msgstr "Ονομασία οργανισμού:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:242
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:252
 #, fuzzy
 msgid "Organisation website"
 msgstr "Ονομασία οργανισμού:"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:226
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:41
 #: core/templates/login.tmpl:57
 msgid "Password"
 msgstr "Κωδικός Πρόσβασης"
@@ -2416,7 +2430,7 @@ msgstr "Placeholder for trashed attachments"
 msgid "Placeholder for trashed attachments"
 msgstr "Placeholder for trashed attachments"
 
-#: core/templates/messages.tmpl:474 core/templates/messages.tmpl:512
+#: core/templates/messages.tmpl:477 core/templates/messages.tmpl:515
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
@@ -2510,10 +2524,6 @@ msgid "Printable version of this topic (p)"
 msgstr ""
 "title='Εκτυπώσιμη έκδοση αυτού του θέματος' accesskey='p'>&Print version"
 
-#: core/lib/Foswiki/OopsException.pm:42
-msgid "Problem filling bath"
-msgstr "Problem filling bath"
-
 #: PatternSkin/templates/attach.pattern.tmpl:63
 msgid "Properties"
 msgstr "Ιδιότητες"
@@ -2563,23 +2573,23 @@ msgid "Recently changed topics"
 msgstr "Πρόσφατα τροποποιημένα θέματα"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
-#: core/lib/Foswiki/UI/Rename.pm:1235
+#: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
 msgstr "Ενημέρωση"
 
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
-#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:265
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
 #: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Εγγραφή"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:30
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:35
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:3
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:6
 msgid "Registration"
 msgstr "Εγγραφή"
 
@@ -2587,18 +2597,25 @@ msgstr "Εγγραφή"
 msgid "Registration codes can only be used once."
 msgstr "Οι κωδικοί καταχώρισης μπορούν να χρησιμοποιηθούν μόνο μία φορά."
 
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:18
+msgid ""
+"Registration is disabled either by configuration setting "
+"{EnableNewUserRegistration}, or due to errors with the password system.  "
+"Check the configuration for errors."
+msgstr ""
+
 #: core/data/System/WebSearch.txt:116
 msgid "Regular expression search"
 msgstr "Αναζήτηση με έκφραση PERL"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:930
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:943
 #: core/data/Main/GroupViewTemplate.txt:14
 #: core/data/System/SkinTemplateViewTemplate.txt:8
-#: core/templates/messages.tmpl:576 core/templates/messages.tmpl:583
+#: core/templates/messages.tmpl:579 core/templates/messages.tmpl:590
 msgid "Related topics:"
 msgstr "Σχετιζόμενα θέματα:"
 
@@ -2638,6 +2655,12 @@ msgstr "Remove the user from the group(s) %1 first."
 #: core/templates/rename.tmpl:6 core/templates/renameweb.tmpl:6
 msgid "Rename"
 msgstr "Μετονομασία"
+
+#: core/templates/messages.tmpl:581
+msgid ""
+"Rename completed, but unsafe redirect to %1 is denied.: The requested host "
+"does not match %2, and is not in {PermittedRedirectHostUrls}."
+msgstr ""
 
 #: core/templates/messages.tmpl:74 core/templates/messages.tmpl:80
 msgid "Rename failed"
@@ -2871,9 +2894,9 @@ msgstr "See %1 for a list of existing users or register as new user in %2."
 msgid "See %1 for information about Form Definitions."
 msgstr "Βλ.%1 για πληροφορίες σχετικά με Ορισμούς Φορμών."
 
-#: core/templates/messages.tmpl:476 core/templates/messages.tmpl:486
-#: core/templates/messages.tmpl:493 core/templates/messages.tmpl:514
-#: core/templates/messages.tmpl:524
+#: core/templates/messages.tmpl:479 core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:496 core/templates/messages.tmpl:517
+#: core/templates/messages.tmpl:527
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr ""
 
@@ -2897,7 +2920,7 @@ msgstr "Βλέπε παρακάτω για βοήθεια για την επεξ
 msgid "Select"
 msgstr "Επιλογή"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:217
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:227
 msgid "Select Group %1 to join"
 msgstr ""
 
@@ -3002,7 +3025,7 @@ msgstr ""
 "Some people turn it into a personal portal with favorite links, what they "
 "work on, what help they'd like, etc."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:14
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:24
 msgid "Sorry, Registration has been temporarily disabled"
 msgstr "Λυπούμαστε, η εγγραφή έχει απενεργοποιηθεί προσωρινά"
 
@@ -3058,11 +3081,11 @@ msgstr "Υποβεβλημένο περιεχόμενο:"
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Συνδρομή / Διαγφραφή Συνδρομής σε:"
 
-#: core/templates/messages.tmpl:482
+#: core/templates/messages.tmpl:485
 msgid "Success adding users to group"
 msgstr ""
 
-#: core/templates/messages.tmpl:520
+#: core/templates/messages.tmpl:523
 msgid "Success removing users from group"
 msgstr ""
 
@@ -3083,7 +3106,7 @@ msgstr ""
 "\"WSDL\" =, κυριολεκτικά = \"web service\" =, αλλά όχι = \"shampoo\" =, "
 "γράψτε:"
 
-#: core/templates/messages.tmpl:609
+#: core/templates/messages.tmpl:616
 msgid "Template %1 does not exist"
 msgstr "Το Πρότυπο %1 δεν υπάρχει"
 
@@ -3112,7 +3135,7 @@ msgstr ""
 "Ευχαριστούμε για την εγγραφή στην πλατφόρμας συνεργασίας %1. Ο κωδικός σας "
 "επαλήθευσης είναι ο %2."
 
-#: core/templates/messages.tmpl:627
+#: core/templates/messages.tmpl:634
 msgid "That user has already been activated "
 msgstr "Αυτός ο χρήστης έχει ήδη ενεργοποιηθεί "
 
@@ -3133,7 +3156,7 @@ msgid "The %1 topic already exists"
 msgstr "Το θέμα %1 υπάρχει ήδη"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:586
+#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:593
 msgid "The %1 web does not exist"
 msgstr "Ο ιστός %1 δεν υπάρχει"
 
@@ -3204,7 +3227,7 @@ msgid ""
 "the site."
 msgstr ""
 
-#: core/templates/messages.tmpl:542
+#: core/templates/messages.tmpl:545
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -3232,7 +3255,7 @@ msgstr ""
 msgid "The e-mail address for this account is not valid."
 msgstr "Η διεύθυνση e-mail για το λογαριασμό αυτό δεν είναι έγκυρη."
 
-#: core/templates/messages.tmpl:560
+#: core/templates/messages.tmpl:563
 msgid "The entry for user %1 was missing in the password system."
 msgstr "Η καταχώρηση για το χρήστη %1 έλειπε από το σύστημα κωδικών πρόσβασης."
 
@@ -3264,11 +3287,11 @@ msgstr ""
 msgid "The form should be defined in the topic %1"
 msgstr "The form should be defined in the topic %1"
 
-#: core/templates/messages.tmpl:540
+#: core/templates/messages.tmpl:543
 msgid "The lease on this topic expired %1 ago."
 msgstr "Η κράτηση για το θέμα αυτό έληξε πριν από %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:153
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "The login name you use to sign in."
 msgstr ""
 
@@ -3306,7 +3329,7 @@ msgstr "Το θέμα είναι σε ένα παλαιότερη μορφοπο
 msgid "The two passwords you entered do not match."
 msgstr "Οι δύο κωδικοί που δώσατε δεν ταιριάζουν."
 
-#: core/templates/messages.tmpl:629
+#: core/templates/messages.tmpl:636
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 "Ο χρήστης %1 έχει ήδη ενεργοποιηθεί, και θα πρέπει να είναι σε θέση να "
@@ -3338,11 +3361,11 @@ msgstr ""
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "There should be a line that includes %1, look for %2 (or %3)"
 
-#: core/templates/messages.tmpl:472
+#: core/templates/messages.tmpl:475
 msgid "There were errors adding %1 to the %2 group. "
 msgstr ""
 
-#: core/templates/messages.tmpl:510
+#: core/templates/messages.tmpl:513
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
@@ -3650,7 +3673,7 @@ msgid ""
 "user management options"
 msgstr ""
 
-#: core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:492
 msgid "Upgraded group"
 msgstr ""
 
@@ -3792,10 +3815,6 @@ msgstr "Προβολή συνολικού ιστορικού του θέματο
 msgid "View without formatting (v)"
 msgstr "Προβολή αδιαμόρφωτου κείμενου χωρίς μορφοποίηση"
 
-#: core/lib/Foswiki/OopsException.pm:46
-msgid "Warning"
-msgstr "Προειδοποίηση"
-
 #: core/templates/validate.tmpl:20
 msgid "Warning! Confirmation required"
 msgstr "Προειδοποίηση! Απαιτείται επιβεβαίωση"
@@ -3804,33 +3823,33 @@ msgstr "Προειδοποίηση! Απαιτείται επιβεβαίωση"
 msgid "Warning: 'include' topic does not exist!"
 msgstr "Warning: 'include' topic does not exist!"
 
-#: core/templates/messages.tmpl:557
+#: core/templates/messages.tmpl:560
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 
-#: core/templates/messages.tmpl:558
+#: core/templates/messages.tmpl:561
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 
-#: core/templates/messages.tmpl:556
+#: core/templates/messages.tmpl:559
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr "Warning: Can't find named section %3 in topic %1.%2"
 
-#: core/templates/messages.tmpl:555
+#: core/templates/messages.tmpl:558
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Warning: Can't find topic %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:928
+#: core/lib/Foswiki/UI/Register.pm:945
 msgid "Warning: Could not send confirmation email"
 msgstr "Warning: Could not send confirmation email"
 
-#: core/lib/Foswiki/UI/Register.pm:940
+#: core/lib/Foswiki/UI/Register.pm:957
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "Warning: Could not send confirmation email, email has been disabled"
 
-#: core/templates/messages.tmpl:565
+#: core/templates/messages.tmpl:568
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 
@@ -3885,7 +3904,7 @@ msgstr "γιατί καλείσται να το επιβεβαιώσετε"
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:144
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:154
 #, fuzzy
 msgid "Wiki name"
 msgstr "Ονομασία θέματος"
@@ -3927,7 +3946,7 @@ msgstr "You are also listed in the %1 topic"
 msgid "You are denied access to the following topics in the web:"
 msgstr "Δεν έχεται πρόσβαση στα ακόλουθα θέματα στον ιστό:"
 
-#: core/templates/messages.tmpl:544
+#: core/templates/messages.tmpl:547
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -3959,15 +3978,15 @@ msgstr ""
 "used as a base to create new webs) choose a name that starts with an "
 "underscore and has only alphanumeric characters."
 
-#: core/templates/messages.tmpl:622
+#: core/templates/messages.tmpl:629
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr "Προσπαθείτε να %1 για ένα συνημμένο που δεν υπάρχει."
 
-#: core/templates/messages.tmpl:610
+#: core/templates/messages.tmpl:617
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Προσπαθείτε να δημιουργήσετε ένα θέμα από ένα πρότυπο που δεν υπάρχει."
 
-#: core/templates/messages.tmpl:605
+#: core/templates/messages.tmpl:612
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action '%"
 "1')."
@@ -3975,11 +3994,11 @@ msgstr ""
 "Προσπαθείτε να εκτελέσετε μια ενέργεια για ένα θέμα που δεν υπάρχει "
 "(ενέργεια'%1')."
 
-#: core/templates/messages.tmpl:616
+#: core/templates/messages.tmpl:623
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Προσπαθείτε να μετονομάσετε ένα θέμα που δεν υπάρχει."
 
-#: core/templates/messages.tmpl:595
+#: core/templates/messages.tmpl:602
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -4012,7 +4031,7 @@ msgid ""
 "are disabled in your browser."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:12
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 #, fuzzy
 msgid "You cannot register on this site."
 msgstr ""
@@ -4023,7 +4042,7 @@ msgid "You cannot register twice, the name %1 is already registered."
 msgstr ""
 "Δεν μπορείτε να εγγραφείτε δύο φορές, το όνομα %1 έχει ήδη καταχωρηθεί."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:58
 msgid ""
 "You change your email address by setting the form field called Email in your "
 "user topic. If this form field does not exist it will look for a line like "
@@ -4043,7 +4062,7 @@ msgstr ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 
-#: core/templates/messages.tmpl:631
+#: core/templates/messages.tmpl:638
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -4061,11 +4080,11 @@ msgstr ""
 msgid "You must pass a topic name."
 msgstr "Θα πρέπει να περάσετε ένα όνομα θέματος."
 
-#: core/templates/messages.tmpl:465
+#: core/templates/messages.tmpl:467
 msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 
-#: core/templates/messages.tmpl:503
+#: core/templates/messages.tmpl:506
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 
@@ -4073,7 +4092,7 @@ msgstr ""
 msgid "You need to specify a valid user to add to a group."
 msgstr ""
 
-#: core/templates/messages.tmpl:498
+#: core/templates/messages.tmpl:501
 msgid "You need to specify a valid user to remove from a group."
 msgstr ""
 
@@ -4101,7 +4120,11 @@ msgstr ""
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "You will probably have to ask your administrator, %1, to do this."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:35
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#, fuzzy
+msgid "Your"
+msgstr "ή"
+
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 msgid "Your %1.LoginName"
@@ -4117,7 +4140,7 @@ msgstr ""
 "your e-mail or enter the code in the box below to activate your membership. "
 "(Ο κωδικός αυτός είναι της μορφής «YourName.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:160
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -4129,14 +4152,14 @@ msgstr ""
 "Η γλώσσα σας θα αλλάξει σε %1 από την επόμενη οθόνη. You will be redirected "
 "to there right now. If you aren't, [[%2][click to proceed]]."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:145
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
 msgid ""
 "Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%."
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:167
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
 #, fuzzy
 msgid "Your password"
 msgstr "Ο κωδικός πρόσβασής σας:"
@@ -4165,7 +4188,7 @@ msgstr ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:51
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:56
 msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
@@ -4309,7 +4332,7 @@ msgid "now %1"
 msgstr "τώρα %1"
 
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
-#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
@@ -4444,6 +4467,15 @@ msgstr "προβολή"
 #: core/templates/validate.tmpl:41
 msgid "why you are being asked to confirm"
 msgstr "γιατί καλείσται να το επιβεβαιώσετε"
+
+#~ msgid "Bathing problem"
+#~ msgstr "Bathing problem"
+
+#~ msgid "Problem filling bath"
+#~ msgstr "Problem filling bath"
+
+#~ msgid "Warning"
+#~ msgstr "Προειδοποίηση"
 
 #, fuzzy
 #~ msgid "More view options:"
