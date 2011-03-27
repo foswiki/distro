@@ -2,7 +2,7 @@
 
 =begin TML
 
----+ package EmptyPlugin
+---+ package Foswiki::Plugins::EmptyPlugin
 
 Foswiki plugins 'listen' to events happening in the core by registering an
 interest in those events. They do this by declaring 'plugin handlers'. These
@@ -83,7 +83,7 @@ our $VERSION = '$Rev$';
 # date    - a date in 1 Jun 2009 format. Three letter English month names only.
 # Note: it's important that this string is exactly the same in the extension
 # topic - if you use %$RELEASE% with BuildContrib this is done automatically.
-our $RELEASE = '1.1.1';
+our $RELEASE = '1.0.0';
 
 # Short description of this plugin
 # One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
@@ -925,7 +925,9 @@ issues. Please use =afterUploadHandler()= instead.
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Author: %$AUTHOR%
+
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

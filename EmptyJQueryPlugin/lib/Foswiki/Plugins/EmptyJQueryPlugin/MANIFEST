@@ -1,8 +1,7 @@
+!noci
 lib/Foswiki/Plugins/EmptyJQueryPlugin/YOUR.pm
-lib/Foswiki/Plugins/EmptyJQueryPlugin/DEPENDENCIES
-lib/Foswiki/Plugins/EmptyJQueryPlugin/build.pl
-lib/Foswiki/Plugins/EmptyJQueryPlugin/MANIFEST
-lib/Foswiki/Plugins/EmptyJQueryPlugin.pm
-data/System/EmptyJQueryPlugin.txt
-data/System/JQueryYour.txt
-
+lib/Foswiki/Plugins/EmptyJQueryPlugin.pm 0444 Perl module
+data/System/EmptyJQueryPlugin.txt 0644 Documentation page
+data/System/JQueryYour.txt 0644 Documentation page
+lib/Foswiki/Plugins/EmptyJQueryPlugin/Config.spec 0444 Configuration
+pub/System/EmptyJQueryPlugin/jquery.your.js 0444 Javascript

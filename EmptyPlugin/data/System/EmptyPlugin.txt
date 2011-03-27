@@ -1,11 +1,15 @@
 %META:TOPICPARENT{name="Plugins"}%
----+ Empty Plugin
+<!--
+One line description, required for extensions repository catalog.
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
+---+!! Empty Plugin
 
 %SHORTDESCRIPTION%
 
 Learn how to create your own plugin in %SYSTEMWEB%.DevelopingPlugins.
 
----++ Plugin Preferences
+---++ Preferences
 
 Plugin preferences should be set using =configure=, as described in
 %SYSTEMWEB%.DevelopingPlugins. You can also use
@@ -21,23 +25,18 @@ clashes with other extensions that may try to use the same name.
    * Set EMPTYPLUGIN_EXAMPLE = Example setting
    * Set EMPTYPLUGIN_FORMAT  = %d-%m-%y
 
-<!--
-One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
-
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%
 
----++ Plugin Info
+---++ Info
 
-|  Author: | Foswiki:Main.PluginAuthor |
+|  Author: | %$AUTHOR% |
 |  Copyright: | &copy; 2011, Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
-|  XX Mmm 20XX (1.0) | Description of change |
+|  1.0.0 (XX Mmm 20XX): | Initial version |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
