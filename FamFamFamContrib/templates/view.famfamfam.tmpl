@@ -36,7 +36,7 @@
 
 %{ TODO: add a conditional SubScribePlugin icon? }%
 
-%TMPL:DEF{"top:toolbarbuttons"}%		%TMPL:P{
+%TMPL:DEF{"top:toolbarbuttons_inner"}%		%TMPL:P{
 			"top:toolbarbutton_edit"
 		}%%TMPL:P{
 			"top:toolbarbutton_attach"
@@ -56,5 +56,5 @@
 %TMPL:DEF{"unauthenticatedClass"}% foswikiUnauthenticated%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbuttons"}%<span class="foswikiToolBar foswikiRight%TMPL:P{context="authenticated" then="authenticatedClass" else="unauthenticatedClass"}%">
-%TMPL:P{"top:toolbarbuttons"}%
+%TMPL:P{"top:toolbarbuttons_inner"}%
 		</span>%TMPL:END% 
