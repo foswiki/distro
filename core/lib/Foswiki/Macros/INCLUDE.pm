@@ -150,8 +150,11 @@ sub INCLUDE {
     if ( $control{_DEFAULT} =~ /^([a-z]+):/ ) {
         my $handler = $1;
         eval 'use Foswiki::IncludeHandlers::' . $handler . ' ()';
-        die $@ if ($@);
-        unless ($@) {
+        if ($@) {
+            return $this->_includeWarning( $control{warn}, 'bad_include_path',
+                $control{_DEFAULT} );
+        }
+        else {
             $handler = 'Foswiki::IncludeHandlers::' . $handler;
             return $handler->INCLUDE( $this, \%control, $params );
         }
