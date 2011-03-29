@@ -71,17 +71,15 @@ BEGIN {
         function => 'preview',
         context  => { preview => 1 },
     };
-    $Foswiki::cfg{SwitchBoard}{rdiffauth} = {
-        package  => 'Foswiki::UI::RDiff',
-        function => 'diff',
-        context  => { diff => 1 },
-    };
+    $Foswiki::cfg{SwitchBoard}{previewauth} =
+      $Foswiki::cfg{SwitchBoard}{preview};
     $Foswiki::cfg{SwitchBoard}{rdiff} = {
         package  => 'Foswiki::UI::RDiff',
         function => 'diff',
         context  => { diff => 1 },
     };
-    $Foswiki::cfg{SwitchBoard}{register} = {
+    $Foswiki::cfg{SwitchBoard}{rdiffauth} = $Foswiki::cfg{SwitchBoard}{rdiff};
+    $Foswiki::cfg{SwitchBoard}{register}  = {
         package  => 'Foswiki::UI::Register',
         function => 'register_cgi',
         context  => { register => 1 },
@@ -108,12 +106,8 @@ BEGIN {
         function => 'rest',
         context  => { rest => 1 },
     };
-    $Foswiki::cfg{SwitchBoard}{restauth} = {
-        package  => 'Foswiki::UI::Rest',
-        function => 'rest',
-        context  => { rest => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{save} = {
+    $Foswiki::cfg{SwitchBoard}{restauth} = $Foswiki::cfg{SwitchBoard}{rest};
+    $Foswiki::cfg{SwitchBoard}{save}     = {
         package  => 'Foswiki::UI::Save',
         function => 'save',
         context  => { save => 1 },
@@ -135,21 +129,19 @@ BEGIN {
         context  => { upload => 1 },
         allow    => { POST => 1 },
     };
-    $Foswiki::cfg{SwitchBoard}{viewauth} = {
-        package  => 'Foswiki::UI::View',
-        function => 'view',
-        context  => { view => 1 },
-    };
     $Foswiki::cfg{SwitchBoard}{viewfile} = {
         package  => 'Foswiki::UI::Viewfile',
         function => 'viewfile',
         context  => { viewfile => 1 },
     };
+    $Foswiki::cfg{SwitchBoard}{viewfileauth} =
+      $Foswiki::cfg{SwitchBoard}{viewfile};
     $Foswiki::cfg{SwitchBoard}{view} = {
         package  => 'Foswiki::UI::View',
         function => 'view',
         context  => { view => 1 },
     };
+    $Foswiki::cfg{SwitchBoard}{viewauth} = $Foswiki::cfg{SwitchBoard}{view};
 
     #Monitor::MARK("End of BEGIN block in UI.pm");
 }
@@ -312,8 +304,11 @@ sub _execute {
      # CLI environment.
 
         $session = new Foswiki(
-            ( defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL} ) ? undef : $req->remoteUser(),
-            $req, \%initialContext );
+            ( defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL} )
+            ? undef
+            : $req->remoteUser(),
+            $req, \%initialContext
+        );
 
         $res = $session->{response};
         unless ( defined $res->status() && $res->status() =~ /^\s*3\d\d/ ) {

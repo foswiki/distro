@@ -331,7 +331,7 @@ $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
 # to require a valid user for access to these scripts.  <code>edit</code> and
 # <code>save</code> should be removed from this list if the guest user is permitted to
 # edit topics without authentication.
-$Foswiki::cfg{AuthScripts} = 'attach,edit,manage,rename,save,upload,viewauth,rdiffauth,restauth,rest';
+$Foswiki::cfg{AuthScripts} = 'attach,edit,manage,rename,save,upload,viewauth,viewfileauth,previewauth,rdiffauth,restauth,rest';
 
 # **BOOLEAN EXPERT**
 # Browsers typically remember your login and passwords to make authentication
