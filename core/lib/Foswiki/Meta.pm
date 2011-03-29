@@ -3359,11 +3359,11 @@ sub summariseChanges {
         $renderer->TML2PlainText( $ntext, $this, 'nonop' ) . "\n"
       . $this->stringify($metaPick);
 
-    my $oldTopicObject = $this->new( $session, $this->web, $this->topic );
+    my $oldTopicObject = Foswiki::Meta->load( $session, $this->web, $this->topic, $orev );
     unless ( $oldTopicObject->haveAccess('VIEW') ) {
 
         # No access to old rev, make a blank topic object
-        $oldTopicObject = $this->new( $session, $this->web, $this->topic, '' );
+        $oldTopicObject = Foswiki::Meta->new( $session, $this->web, $this->topic, '' );
     }
     my $otext =
       $renderer->TML2PlainText( $oldTopicObject->text(), $oldTopicObject,

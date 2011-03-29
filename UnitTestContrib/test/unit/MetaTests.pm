@@ -793,6 +793,69 @@ sub test_getRevisionHistory {
     $this->assert(!$revIt->hasNext());
 }
 
+sub test_summariseChanges {
+    my $this = shift;
+    my $topicObject = Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, 'RevIt', "Line 1\nLine 2\nLine 3" );
+    $this->assert_equals(1, $topicObject->save());
+    $topicObject =
+      Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt' );
+    my $revIt  = $topicObject->getRevisionHistory();
+    $this->assert($revIt->hasNext());
+    $this->assert_equals(1, $revIt->next());
+    $this->assert(!$revIt->hasNext());
+    #print "REV1 \n(".$topicObject->text().")\n";
+
+    $topicObject->text("Line 1\n\nLine 3");
+    $this->assert_equals(
+        2, $topicObject->save(forcenewrevision => 1));
+    $topicObject =
+      Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt' );
+    $revIt  = $topicObject->getRevisionHistory();
+    $this->assert($revIt->hasNext());
+    $this->assert_equals(2, $revIt->next());
+    $this->assert($revIt->hasNext());
+    $this->assert_equals(1, $revIt->next());
+    $this->assert(!$revIt->hasNext());
+    #print "REV2 \n(".$topicObject->text().")\n";
+
+    $topicObject->text("Line 1\n<nop>SomeOtherData\nLine 3");
+    $this->assert_equals(
+        3, $topicObject->save(forcenewrevision => 1));
+    $topicObject =
+      Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt' );
+    $revIt  = $topicObject->getRevisionHistory();
+    $this->assert($revIt->hasNext());
+    $this->assert_equals(3, $revIt->next());
+    $this->assert($revIt->hasNext());
+    $this->assert_equals(2, $revIt->next());
+    $this->assert($revIt->hasNext());
+    $this->assert_equals(1, $revIt->next());
+    $this->assert(!$revIt->hasNext());
+    #print "REV3 \n(".$topicObject->text().")\n";
+
+    # Verify the plain text summary
+    my $diff = $topicObject->summariseChanges('1', '3', 0);
+    #print "\nTEXT rev1:rev3\n" . $diff . "\n";
+    my $expected = <<RESULT;
+ Line 1
+-Line 2
++ nop <nop>SomeOtherData
+ Line 3
+-<nop>TemporaryMetaTestsTestWebMetaTests.RevIt 1
++<nop>TemporaryMetaTestsTestWebMetaTests.RevIt 3
+RESULT
+    chomp $expected;
+    $this->assert_equals( $expected, $diff);
+
+    # Verify the HTML summary
+    #print "\nHTML rev1:rev3\n" . $topicObject->summariseChanges('1', '3', 1) . "\n";
+    $this->assert_equals(
+      " Line 1<br /><del>Line 2</del><br /><ins> nop SomeOtherData</ins><br /> Line 3<br /><del>TemporaryMetaTestsTestWebMetaTests.RevIt 1</del><br /><ins>TemporaryMetaTestsTestWebMetaTests.RevIt 3</ins>",
+      $topicObject->summariseChanges('1', '3', 1)
+      );
+}
+
 sub test_haveAccess {
     my $this = shift;
 
