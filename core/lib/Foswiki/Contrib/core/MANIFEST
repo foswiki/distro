@@ -21,6 +21,7 @@ bin/register 0555
 bin/rename 0555
 bin/resetpasswd 0555
 bin/rest 0555
+bin/restauth 0555
 bin/save 0555
 bin/search 0555
 bin/setlib.cfg 0444

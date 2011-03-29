@@ -108,6 +108,11 @@ BEGIN {
         function => 'rest',
         context  => { rest => 1 },
     };
+    $Foswiki::cfg{SwitchBoard}{restauth} = {
+        package  => 'Foswiki::UI::Rest',
+        function => 'rest',
+        context  => { rest => 1 },
+    };
     $Foswiki::cfg{SwitchBoard}{save} = {
         package  => 'Foswiki::UI::Save',
         function => 'save',
