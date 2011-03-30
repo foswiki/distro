@@ -681,7 +681,8 @@ msgstr "Legg ved en fil"
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
-"Legg ved et bilde eller dokument til denne siden; administrer eksisterende vedlegg (a) "
+"Legg ved et bilde eller dokument til denne siden; administrer eksisterende "
+"vedlegg (a) "
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -1674,7 +1675,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:20
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
-"users to this site using"
+"users to this site using %1."
 msgstr ""
 
 #: core/templates/messages.tmpl:435
@@ -2407,8 +2408,7 @@ msgstr "Trykk OK for å bekrefte at du virkelig mener å utføre denne endringen
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:28
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:29
 msgid "Printable version of this topic (p)"
-msgstr ""
-"Utskriftsvennlig versjon av siden (p)"
+msgstr "Utskriftsvennlig versjon av siden (p)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:63
 msgid "Properties"
