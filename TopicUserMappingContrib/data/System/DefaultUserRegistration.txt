@@ -267,7 +267,8 @@ $(document).ready(function() {
 	// inline form validation
 	$('form[name=registration]').livequery(function() {
 		$('#Twk1WikiName').wikiword('#Twk1FirstName, #Twk1LastName');
-		var validator = $(this).validate({
+		var validator;
+		validator = $(this).validate({
 			rules: {
 				Twk1FirstName: 'required',
 				Twk1LastName: 'required',
@@ -325,7 +326,7 @@ $(document).ready(function() {
 				Twk1Email: '%MAKETEXT{"Please enter a valid email address"}%',
 				Twk1LoginName: {
 					required: '%MAKETEXT{"Please enter a login name"}%',
-					remote: '%MAKETEXT{"This login name is already in use"}%',
+					remote: '%MAKETEXT{"This login name is already in use"}%'
 				},
 				Twk1Password: {
 					required: '%MAKETEXT{"Please enter a password"}%',
