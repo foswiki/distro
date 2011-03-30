@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-25 22:15+0200\n"
+"PO-Revision-Date: 2011-03-29 23:12+0200\n"
 "Last-Translator: Arthur Clemens <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -74,9 +74,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "%1 heeft een lijst van andere Foswiki gebruikers"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 is geregistreerd met e-mail %2"
+msgstr "%1 is goedgekeurd en geregistreerd met e-mail %2"
 
 #: core/templates/messages.tmpl:535
 msgid ""
@@ -171,9 +170,8 @@ msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 is door %4 hernoemd of verplaatst van %2 in %3"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
-#, fuzzy
 msgid "%1.LoginName"
-msgstr "Je [[%1.LoginName][Log in naam]]"
+msgstr "[[%1.LoginName][Login naam]]"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -343,6 +341,9 @@ msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
 msgstr ""
+"*Beheerders:* jullie kunnen emailadressen van gebruikers wijzigen met dit "
+"formulier. Vul de login naam of gebruikersnaam in, samen met het nieuwe "
+"e-mailadres."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -572,23 +573,20 @@ msgid "Add"
 msgstr "Toevoegen"
 
 #: core/data/Main/GroupViewTemplate.txt:152
-#, fuzzy
 msgid "Add a user or group to this group"
-msgstr "Voeg een gebruiker toe aan deze groep"
+msgstr "Voeg een gebruiker of groep toe aan deze groep"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
 msgstr "Formulier toevoegen"
 
 #: core/data/Main/GroupViewTemplate.txt:154
-#, fuzzy
 msgid "Add member"
-msgstr "geen leden"
+msgstr "Lid toevoegen"
 
 #: core/data/Main/GroupViewTemplate.txt:89
-#, fuzzy
 msgid "Add member..."
-msgstr "Gebruiker toevoegen..."
+msgstr "Lid toevoegen..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
@@ -609,9 +607,8 @@ msgstr "Admin onderhoud"
 
 #: core/data/Main/GroupViewTemplate.txt:63
 #: core/data/Main/GroupViewTemplate.txt:85
-#, fuzzy
 msgid "Administration"
-msgstr "Registreren"
+msgstr "Beheer"
 
 #: core/data/System/WebSearch.txt:64
 msgid "Advanced search"
@@ -704,12 +701,11 @@ msgstr "Bijlage toevoegen"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
-#, fuzzy
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
-"title='Voeg een afbeelding of document toe aan deze pagina' "
-"accesskey='l'>Bij&lage"
+"Voeg een afbeelding of document toe aan deze pagina; beheer bestaande "
+"bijlagen (a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -946,9 +942,8 @@ msgstr "Gewijzigd door"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
-#, fuzzy
 msgid "Changed on"
-msgstr "Gewijzigd"
+msgstr "Gewijzigd op"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
@@ -1054,9 +1049,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "Neem bij vragen contact op met %1."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
-#, fuzzy
 msgid "Context"
-msgstr "Context:"
+msgstr "Context"
 
 #: core/templates/messages.tmpl:425
 msgid "Continue and try to rename web?"
@@ -1151,9 +1145,8 @@ msgstr "Nieuwe FAQ-pagina aanmaken"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:23
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:24
-#, fuzzy
 msgid "Create new topic"
-msgstr "Nieuwe FAQ-pagina aanmaken"
+msgstr "Nieuwe pagina aanmaken"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
 msgid "Create personal sidebar"
@@ -1377,9 +1370,8 @@ msgstr "Bewerk deze tabel"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
-#, fuzzy
 msgid "Edit this topic text (e)"
-msgstr "Bewerk de paginatekst"
+msgstr "Bewerk de paginatekst (e)"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
