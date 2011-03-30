@@ -370,17 +370,17 @@ Any errors will cause a redirect to another page, either an =oops= page to repor
 The string AUTOINC followed by one or more digits anywhere in the topic name will be converted to a number such that the resulting topic name is unique in the target web.
 
 When the action is =save=, =checkpoint=, =quietsave=, or =preview=:
-  1 The new text is taken from the =text= parameter, if it is defined,
-     * otherwise it is taken from the =templatetopic=, if it is defined, (new topic _only_)
-     * otherwise it is taken from the previous version of the topic, if any,
-  1 The name of the new form is taken from the =formtemplate=, if defined
-     * otherwise it is taken from the =templatetopic=, if defined, (new topic _only_)
-     * otherwise it is taken from the previous version of the topic, if any,
-     * otherwise no form is attached.
-  1 The value for each field in the form is taken from the query, if it is defined
-     * otherwise it is taken from the =templatetopic=, if defined, (new topic _only_)
-     * otherwise it is taken from the previous version of the topic, if any,
-     * otherwise it defaults to the empty string.
+   1 The new text is taken from the =text= parameter, if it is defined,
+      * otherwise it is taken from the =templatetopic=, if it is defined, (new topic _only_)
+      * otherwise it is taken from the previous version of the topic, if any,
+   1 The name of the new form is taken from the =formtemplate=, if defined
+      * otherwise it is taken from the =templatetopic=, if defined, (new topic _only_)
+      * otherwise it is taken from the previous version of the topic, if any,
+      * otherwise no form is attached.
+   1 The value for each field in the form is taken from the query, if it is defined
+      * otherwise it is taken from the =templatetopic=, if defined, (new topic _only_)
+      * otherwise it is taken from the previous version of the topic, if any,
+      * otherwise it defaults to the empty string.
 
 Merging is only enabled if the topic text comes from =text= and =originalrev= is &gt; 0 and is not the same as the revision number of the most recent revision. If merging is enabled both the topic and the meta-data are merged.
 
