@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-09-26 11:53+0200\n"
+"PO-Revision-Date: 2011-03-30 11:53+0200\n"
 "Last-Translator: Lars Eik <lars.eik@gmail.com>\n"
 "Language-Team: Norwegian <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -71,9 +71,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "%1 har en liste over andre Foswiki brukere"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 er registrert med epost %2"
+msgstr "%1 er godkjent og registrert med epost %2"
 
 #: core/templates/messages.tmpl:535
 msgid ""
@@ -164,9 +163,8 @@ msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 har endret navn eller flyttet fra %2 på %3 av %4"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
-#, fuzzy
 msgid "%1.LoginName"
-msgstr "Ditt %1.LoginName"
+msgstr "%1.LoginName"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -556,23 +554,20 @@ msgid "Add"
 msgstr "Legg til"
 
 #: core/data/Main/GroupViewTemplate.txt:152
-#, fuzzy
 msgid "Add a user or group to this group"
-msgstr "Legg til en bruker i denne gruppen"
+msgstr "Legg en bruker eller gruppe til i denne gruppen"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
 msgstr "Legg til skjema"
 
 #: core/data/Main/GroupViewTemplate.txt:154
-#, fuzzy
 msgid "Add member"
-msgstr "ingen medlemmer"
+msgstr "Legg til medlem"
 
 #: core/data/Main/GroupViewTemplate.txt:89
-#, fuzzy
 msgid "Add member..."
-msgstr "Legg til bruker..."
+msgstr "Legg til medlem..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
@@ -593,9 +588,8 @@ msgstr "Administrator Vedlikehold"
 
 #: core/data/Main/GroupViewTemplate.txt:63
 #: core/data/Main/GroupViewTemplate.txt:85
-#, fuzzy
 msgid "Administration"
-msgstr "Registrering"
+msgstr "Administrasjon"
 
 #: core/data/System/WebSearch.txt:64
 msgid "Advanced search"
@@ -684,12 +678,10 @@ msgstr "Legg ved en fil"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
-#, fuzzy
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
-"title='Legg ved et bilde eller dokument til denne siden' accesskey='a'>Legg "
-"ved (&a)"
+"Legg ved et bilde eller dokument til denne siden; administrer eksisterende vedlegg (a) "
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -925,7 +917,6 @@ msgstr "Endret av"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
-#, fuzzy
 msgid "Changed on"
 msgstr "Endret"
 
@@ -1029,9 +1020,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "Kontakt %1 dersom du har spørsmål."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
-#, fuzzy
 msgid "Context"
-msgstr "Kontekst:"
+msgstr "Kontekst"
 
 #: core/templates/messages.tmpl:425
 msgid "Continue and try to rename web?"
@@ -1127,9 +1117,8 @@ msgstr "Lag ny FAQ side"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:23
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:24
-#, fuzzy
 msgid "Create new topic"
-msgstr "Lag ny FAQ side"
+msgstr "Lag nytt dokument"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
 msgid "Create personal sidebar"
@@ -1352,9 +1341,8 @@ msgstr "Rediger denne tabellen"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
-#, fuzzy
 msgid "Edit this topic text (e)"
-msgstr "Rediger teksten på denne siden"
+msgstr "Rediger teksten på denne siden (e)"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1917,13 +1905,12 @@ msgid "Jump"
 msgstr "Hopp"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "Jump to first revision"
-msgstr "(revisjon %1)"
+msgstr "Gå til første versjon"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
-msgstr ""
+msgstr "Gå til siste versjon"
 
 #: core/data/System/WebSearch.txt:114
 msgid "Keyword search"
@@ -1931,9 +1918,8 @@ msgstr "Nøkkelord søk"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
-#, fuzzy
 msgid "Last edited by"
-msgstr "Siste redigerer"
+msgstr "Siste redigert av"
 
 #: core/data/System/WebSearch.txt:102
 msgid "Last editor"
@@ -1948,9 +1934,8 @@ msgid "Last name"
 msgstr "Etternavn"
 
 #: core/templates/more.tmpl:182
-#, fuzzy
 msgid "Latest revision: %1"
-msgstr "(revisjon %1)"
+msgstr "Siste versjon: %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Leave unchecked if you wish to attach the zip file itself"
@@ -2061,13 +2046,12 @@ msgstr "Mer..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:33
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:34
-#, fuzzy
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
 msgstr ""
-"title='Slett eller navngi denne siden; set foreldreside;vis og sammenlign "
-"versjoner' accesskey='m'>Flere valg (&m)"
+"Mer: slett eller navngi denne siden; set foreldreside;vis og sammenlign "
+"versjoner (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -2422,11 +2406,9 @@ msgstr "Trykk OK for å bekrefte at du virkelig mener å utføre denne endringen
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:28
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:29
-#, fuzzy
 msgid "Printable version of this topic (p)"
 msgstr ""
-"title='Vis utskriftsvennlig versjon av siden' accesskey='p'>Utskriftsvennlig "
-"versjon (&p)"
+"Utskriftsvennlig versjon av siden (p)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:63
 msgid "Properties"
@@ -2537,19 +2519,16 @@ msgid "Remember your password?"
 msgstr "Husker du ditt passord?"
 
 #: core/data/Main/GroupViewTemplate.txt:92
-#, fuzzy
 msgid "Remove member..."
-msgstr "Fjern bruker..."
+msgstr "Fjern medlem..."
 
 #: core/data/Main/GroupViewTemplate.txt:173
-#, fuzzy
 msgid "Remove members from this group"
-msgstr "Fjern brukere fra denne gruppen"
+msgstr "Fjern medlemmer fra denne gruppen"
 
 #: core/data/Main/GroupViewTemplate.txt:177
-#, fuzzy
 msgid "Remove selected members"
-msgstr "Fjern valgte brukere"
+msgstr "Fjern valgte medlemmer"
 
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
@@ -2591,9 +2570,8 @@ msgid "Rename/Move"
 msgstr "Navngi/Flytt"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:96
-#, fuzzy
 msgid "Render style"
-msgstr "Visningsstil:"
+msgstr "Visningsstil"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2622,9 +2600,8 @@ msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "Tilbakestilling av passord håndteres ikke av Foswiki"
 
 #: core/templates/more.tmpl:189
-#, fuzzy
 msgid "Restore"
-msgstr "Gjenopprett..."
+msgstr "Gjenopprett"
 
 #: core/templates/more.tmpl:170
 msgid "Restore topic"
@@ -2647,11 +2624,8 @@ msgid ""
 msgstr ""
 
 #: core/templates/more.tmpl:180
-#, fuzzy
 msgid "Restoring is disabled because this topic is at revision 1."
-msgstr ""
-"Konvertering til HTML for WYSIWYG redigering er deaktivert på grunnav "
-"innholdet på siden."
+msgstr "Gjenoppretting er deaktivert fordi dette er versjon 1."
 
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
@@ -2867,9 +2841,8 @@ msgid "Set new topic parent"
 msgstr "Set ny forelder for siden"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
-#, fuzzy
 msgid "Show %1 revisions up to revision %2"
-msgstr "Vis forrige versjon av siden"
+msgstr "Vis %1 versjoner til versjon %2"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -2877,9 +2850,8 @@ msgid "Show help"
 msgstr "Vis hjelp"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:119
-#, fuzzy
 msgid "Showing revisions %1 - %2 (out of %3)"
-msgstr "Versjoner %1 - %2 (av %3)"
+msgstr "Viser versjoner %1 - %2 (av %3)"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Shrink edit box"
@@ -3535,9 +3507,8 @@ msgid "Try Again"
 msgstr "Forsøk igjen"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:101
-#, fuzzy
 msgid "Unchanged sections before and after each change"
-msgstr "uendrede seksjoner for og etter hver endring"
+msgstr "Uendrede seksjoner for og etter hver endring"
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
@@ -3578,9 +3549,8 @@ msgid "Upload file"
 msgstr "Last opp fil"
 
 #: PatternSkin/templates/attach.pattern.tmpl:50
-#, fuzzy
 msgid "Upload multiple attachments in one zip file"
-msgstr "Oppdater vedlegg %1 på %2"
+msgstr "Last opp flere vedlegg i en zip fil"
 
 #: PatternSkin/templates/attach.pattern.tmpl:42
 msgid "Upload up to %1 KB."
@@ -3655,14 +3625,12 @@ msgid "View differences"
 msgstr "Vis differanser"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View earlier"
-msgstr "tidligere"
+msgstr "Vis tidligere"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View later"
-msgstr "Vis maler"
+msgstr "Vis senere"
 
 #: core/templates/more.tmpl:139
 msgid "View previous topic revision"
@@ -3682,9 +3650,8 @@ msgstr "Vis versjon:"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
-#, fuzzy
 msgid "View sequential topic history"
-msgstr "Vis all side historikk"
+msgstr "Vis sekvensiell dokument historikk"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
 msgid "View templates"
@@ -3702,9 +3669,8 @@ msgstr "Vis all side historikk"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:18
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:19
-#, fuzzy
 msgid "View without formatting (v)"
-msgstr "Vis wiki tekst uten formatering"
+msgstr "Vis uten formatering (v)"
 
 #: core/templates/validate.tmpl:20
 msgid "Warning! Confirmation required"
@@ -3811,7 +3777,6 @@ msgid "You"
 msgstr "Du"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
@@ -4007,9 +3972,8 @@ msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "Du må trolig spørre din administrator, %1, om å få gjøre dette."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
-#, fuzzy
 msgid "Your"
-msgstr "Du"
+msgstr "Din"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
