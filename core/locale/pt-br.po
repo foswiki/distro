@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-10-02 18:58+0200\n"
+"PO-Revision-Date: 2011-03-30 14:37+0200\n"
 "Last-Translator: Carlinhos <carlinux@terra.com.br>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -73,9 +73,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "%1 tem uma lista dos outros usuários do Foswiki."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 foi registrado com o e-mail %2"
+msgstr "%1 foi aprovado e registrado com o e-mail %2"
 
 #: core/templates/messages.tmpl:535
 msgid ""
@@ -168,9 +167,8 @@ msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 foi movido ou renomeado de %2 em %3 por %4"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
-#, fuzzy
 msgid "%1.LoginName"
-msgstr "Seu [[%1.LoginName][Nome de Usuário]]"
+msgstr "[[%1.LoginName][Nome de Usuário]]"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -340,6 +338,9 @@ msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
 msgstr ""
+"*Administradores:* Pode-se mudar endereços de email dos usuários através "
+"desse formulário. Informe o login do usuário ou seu WikiName e o novo "
+"endereço de e-mail."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -576,23 +577,20 @@ msgid "Add"
 msgstr "Adicionar"
 
 #: core/data/Main/GroupViewTemplate.txt:152
-#, fuzzy
 msgid "Add a user or group to this group"
-msgstr "Adicionar um usuário para o grupo"
+msgstr "Adicionar um usuário ou grupo para esse grupo"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
 msgstr "Adicionar formulário"
 
 #: core/data/Main/GroupViewTemplate.txt:154
-#, fuzzy
 msgid "Add member"
-msgstr "sem membros"
+msgstr "Adicionar membro"
 
 #: core/data/Main/GroupViewTemplate.txt:89
-#, fuzzy
 msgid "Add member..."
-msgstr "Adicionar usuário..."
+msgstr "Adicionar membro..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
@@ -613,9 +611,8 @@ msgstr "Manutenção administrativa"
 
 #: core/data/Main/GroupViewTemplate.txt:63
 #: core/data/Main/GroupViewTemplate.txt:85
-#, fuzzy
 msgid "Administration"
-msgstr "Registro"
+msgstr "Administração"
 
 #: core/data/System/WebSearch.txt:64
 msgid "Advanced search"
@@ -711,11 +708,11 @@ msgstr "Anexar um arquivo"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
-#, fuzzy
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
-"title='Anexar uma imagem ou documento a este tópico' accesskey='a'>&Anexar"
+"Anexar uma imagem ou documento a este tópico; gerenciar anexos (a) "
+"existentes"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -953,9 +950,8 @@ msgstr "Alterado por"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
-#, fuzzy
 msgid "Changed on"
-msgstr "Alterado"
+msgstr "Alterado em"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
@@ -1059,9 +1055,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "Contate %1 se você tiver qualquer dúvida."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
-#, fuzzy
 msgid "Context"
-msgstr "Contexto:"
+msgstr "Contexto"
 
 #: core/templates/messages.tmpl:425
 msgid "Continue and try to rename web?"
@@ -1157,9 +1152,8 @@ msgstr "Criar novo tópico de FAQ"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:23
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:24
-#, fuzzy
 msgid "Create new topic"
-msgstr "Criar novo tópico de FAQ"
+msgstr "Criar novo tópico"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
 msgid "Create personal sidebar"
@@ -1382,9 +1376,8 @@ msgstr "Editar essa tabela"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
-#, fuzzy
 msgid "Edit this topic text (e)"
-msgstr "Editar o texto desse tópico"
+msgstr "Editar o texto desse tópico (e)"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1722,6 +1715,8 @@ msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
 msgstr ""
+"Se o registro não é desativado por erros, os administradores ainda podem "
+"registrar usuários para este site usando"
 
 #: core/templates/messages.tmpl:435
 msgid ""
@@ -1856,6 +1851,8 @@ msgstr ""
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
+"No caso de um arquivo zip, anexa todos os arquivos compactados para esse "
+"tópico"
 
 #: core/data/System/WebSearch.txt:104
 msgid "In reversed order"
@@ -1955,13 +1952,12 @@ msgid "Jump"
 msgstr "Pular para"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "Jump to first revision"
-msgstr "(versão %1)"
+msgstr "Pular para a primeira versão"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
-msgstr ""
+msgstr "Pular para a última versão (%1)"
 
 #: core/data/System/WebSearch.txt:114
 msgid "Keyword search"
@@ -1969,9 +1965,8 @@ msgstr "Busca por palavra chave"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
-#, fuzzy
 msgid "Last edited by"
-msgstr "Último usuário a alterar"
+msgstr "Última edição por"
 
 #: core/data/System/WebSearch.txt:102
 msgid "Last editor"
@@ -1986,13 +1981,12 @@ msgid "Last name"
 msgstr "Último Nome"
 
 #: core/templates/more.tmpl:182
-#, fuzzy
 msgid "Latest revision: %1"
-msgstr "(versão %1)"
+msgstr "Última versão: %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Leave unchecked if you wish to attach the zip file itself"
-msgstr ""
+msgstr "Deixe desmarcado se pretende anexar o próprio arquivo zip"
 
 #: core/data/System/WebSearch.txt:128
 msgid "Limit results to:"
@@ -2099,13 +2093,12 @@ msgstr "Mais..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:33
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:34
-#, fuzzy
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
 msgstr ""
-"title='Apagar ou renomear este tópico; alterar o tópico pai; ver e comparar "
-"versões' accesskey='m'>&Mais ações de tópico"
+"Mais: apagar ou renomear este tópico; alterar o tópico pai; ver e comparar "
+"versões (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -2463,9 +2456,8 @@ msgstr "Clique OK para confirmar que esta mudança foi intencional."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:28
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:29
-#, fuzzy
 msgid "Printable version of this topic (p)"
-msgstr "title='Versão para impressão deste tópico' accesskey='p'>Im&primir"
+msgstr "Versão para impressão deste tópico (p)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:63
 msgid "Properties"
@@ -2544,6 +2536,9 @@ msgid ""
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
 "Check the configuration for errors."
 msgstr ""
+"O registo é desativado na configuração de {EnableNewUserRegistration}, ou em "
+"razão de erros no sistema de senhas. Verifique sua configuração e se há "
+"erros."
 
 #: core/data/System/WebSearch.txt:116
 msgid "Regular expression search"
@@ -2577,19 +2572,16 @@ msgid "Remember your password?"
 msgstr "Lembrar sua senha?"
 
 #: core/data/Main/GroupViewTemplate.txt:92
-#, fuzzy
 msgid "Remove member..."
-msgstr "Remover usuário..."
+msgstr "Remover membro..."
 
 #: core/data/Main/GroupViewTemplate.txt:173
-#, fuzzy
 msgid "Remove members from this group"
-msgstr "Remover usuários desse grupo"
+msgstr "Remover membros desse grupo"
 
 #: core/data/Main/GroupViewTemplate.txt:177
-#, fuzzy
 msgid "Remove selected members"
-msgstr "Remover usuários selecionados"
+msgstr "Remover membros selecionados"
 
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
@@ -2604,6 +2596,8 @@ msgid ""
 "Rename completed, but unsafe redirect to %1 is denied.: The requested host "
 "does not match %2, and is not in {PermittedRedirectHostUrls}."
 msgstr ""
+"Ação de renomear concluída, mas redirecionamento para 1% é negado. A "
+"requisição não corresponde a %2, e não está em {PermittedRedirectHostUrls}."
 
 #: core/templates/messages.tmpl:74 core/templates/messages.tmpl:80
 msgid "Rename failed"
@@ -2631,7 +2625,6 @@ msgid "Rename/Move"
 msgstr "Renomear/Mover"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:96
-#, fuzzy
 msgid "Render style"
 msgstr "Estilo renderizado"
 
@@ -2648,6 +2641,8 @@ msgid ""
 "Requested revision (%1) is illegal or invalid. It does not exist in history, "
 "or is the same or later than the current revision (%2)"
 msgstr ""
+"A versão solicitada (%1) é inválida ou ilegal. Ela não existe no histórico, "
+"ou é a mesma ou superior à versão atual (%2)"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2662,9 +2657,8 @@ msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "Restauração e configuração de senha não são executadas pelo Foswiki"
 
 #: core/templates/more.tmpl:189
-#, fuzzy
 msgid "Restore"
-msgstr "Restaurar..."
+msgstr "Restaurar"
 
 #: core/templates/more.tmpl:170
 msgid "Restore topic"
@@ -2685,13 +2679,14 @@ msgid ""
 "can always revisit the revision you are replacing. Note that attachments "
 "will be left unchanged."
 msgstr ""
+"A ação de restaurar salvará uma cópia exata da revisão selecionada em uma "
+"nova versão. Isso assim é feito porque cada versão é preservada no histórico "
+"do tópico. Pode-se sempre rever a versão que está substituindo. Note que os "
+"anexos serão mantidos inalterados."
 
 #: core/templates/more.tmpl:180
-#, fuzzy
 msgid "Restoring is disabled because this topic is at revision 1."
-msgstr ""
-"Conversão para HTML da edição WYSIWYG está desabilitada em razão do conteúdo "
-"do tópico."
+msgstr "Ação de restaurar está desabilitada porque o tópico está na versão 1."
 
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
@@ -2908,9 +2903,8 @@ msgid "Set new topic parent"
 msgstr "Indicar novo tópico pai"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
-#, fuzzy
 msgid "Show %1 revisions up to revision %2"
-msgstr "Ver versão anterior do tópico"
+msgstr "Mostrar versão %1 até versão %2"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -2918,9 +2912,8 @@ msgid "Show help"
 msgstr "Exibir ajuda"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:119
-#, fuzzy
 msgid "Showing revisions %1 - %2 (out of %3)"
-msgstr "Versões %1 - %2 (de 3%)"
+msgstr "Mostrando versões %1 - %2 (de 3%)"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Shrink edit box"
@@ -3586,7 +3579,6 @@ msgid "Try Again"
 msgstr "Tente novamente"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:101
-#, fuzzy
 msgid "Unchanged sections before and after each change"
 msgstr "Seções inalteradas antes e depois de cada alteração"
 
@@ -3629,9 +3621,8 @@ msgid "Upload file"
 msgstr "Anexar arquivo"
 
 #: PatternSkin/templates/attach.pattern.tmpl:50
-#, fuzzy
 msgid "Upload multiple attachments in one zip file"
-msgstr "Atualizar o anexo %1 em %2"
+msgstr "Enviar vários arquivos em um arquivos zip"
 
 #: PatternSkin/templates/attach.pattern.tmpl:42
 msgid "Upload up to %1 KB."
@@ -3707,14 +3698,12 @@ msgid "View differences"
 msgstr "Ver diferenças"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View earlier"
-msgstr "anterior"
+msgstr "Ver antes"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View later"
-msgstr "Ver modelos"
+msgstr "Ver depois"
 
 #: core/templates/more.tmpl:139
 msgid "View previous topic revision"
@@ -3734,9 +3723,8 @@ msgstr "Ver versão:"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
-#, fuzzy
 msgid "View sequential topic history"
-msgstr "Ver histórico completo do tópico"
+msgstr "Ver histórico sequencial do tópico"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
 msgid "View templates"
@@ -3754,9 +3742,8 @@ msgstr "Ver histórico completo do tópico"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:18
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:19
-#, fuzzy
 msgid "View without formatting (v)"
-msgstr "Ver em modo texto, sem formatação"
+msgstr "Ver em modo texto, sem formatação (v)"
 
 #: core/templates/validate.tmpl:20
 msgid "Warning! Confirmation required"
@@ -3866,7 +3853,6 @@ msgid "You"
 msgstr "Você"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
@@ -3874,7 +3860,7 @@ msgid ""
 msgstr ""
 "Você *precisa* ter ao menos um e-mail válido registrado para poder restaurar "
 "sua senha. Caso nenhum de seus endereços registrados seja um e-mail válido, "
-"ou você esqueceu sua senha, contate %1. "
+"ou você esqueceu sua senha, contate %1"
 
 #: core/templates/messages.tmpl:276
 msgid "You are already registered"
@@ -4069,9 +4055,8 @@ msgstr ""
 "isso."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
-#, fuzzy
 msgid "Your"
-msgstr "Você"
+msgstr "Seu"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
