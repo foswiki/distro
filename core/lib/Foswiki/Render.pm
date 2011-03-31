@@ -1460,7 +1460,7 @@ sub TML2PlainText {
     $text =~ s/${STARTWW}\=(\S+?|\S[^\n]*?\S)\=$ENDWW/$1/gem;
 
     #SMELL: need to correct these too
-    $text =~ s/[\[\]\|\&\<\>]/ /g;    # remove remaining Wiki formatting chars
+    $text =~ s/[\[\]\|\&]/ /g;    # remove remaining Wiki formatting chars
 
     $text =~ s/^\-\-\-+\+*\s*\!*/ /gm;    # remove heading formatting and hbar
     $text =~ s/[\+\-]+/ /g;               # remove special chars
@@ -1476,6 +1476,9 @@ sub TML2PlainText {
                    ($Foswiki::regex{wikiWordRegex}
                    | $Foswiki::regex{abbrevRegex}))}
               {$2.<nop>$3}gx;
+    $text =~ s/\<nop\>//g;                # remove any remaining nops
+    $text =~ s/[\<\>]/ /g;                # remove any remaining formatting
+
 
     return $text;
 }

@@ -817,7 +817,7 @@ sub test_summariseChanges {
     $this->assert($revIt->hasNext());
     $this->assert_equals(1, $revIt->next());
     $this->assert(!$revIt->hasNext());
-    print "REV2 \n(".$topicObject->text().")\n";
+    #print "REV2 \n(".$topicObject->text().")\n";
 
     $topicObject->text("Line 1\n<nop>SomeOtherData\nLine 3");
     $this->assert_equals(
@@ -832,18 +832,18 @@ sub test_summariseChanges {
     $this->assert($revIt->hasNext());
     $this->assert_equals(1, $revIt->next());
     $this->assert(!$revIt->hasNext());
-    print "REV3 \n(".$topicObject->text().")\n";
+    #print "REV3 \n(".$topicObject->text().")\n";
 
     # Verify the plain text summary
     my $diff = $topicObject->summariseChanges('1', '3', 0);
     #print "\nTEXT rev1:rev3\n" . $diff . "\n";
     my $expected = <<RESULT;
- Line 1
--Line 2
-+ nop <nop>SomeOtherData
- Line 3
 -<nop>$this->{test_web}.RevIt 1
 +<nop>$this->{test_web}.RevIt 3
+ Line 1
+-Line 2
++<nop>SomeOtherData
+ Line 3
 RESULT
     chomp $expected;
     $this->assert_equals( $expected, $diff);
@@ -851,25 +851,25 @@ RESULT
     # Verify the HTML summary
     #print "\nHTML rev1:rev3\n" . $topicObject->summariseChanges('1', '3', 1) . "\n";
     $this->assert_equals(
-      " Line 1<br /><del>Line 2</del><br /><ins> nop SomeOtherData</ins><br /> Line 3<br /><del>$this->{test_web}.RevIt 1</del><br /><ins>$this->{test_web}.RevIt 3</ins>",
+      "<del>$this->{test_web}.RevIt 1</del><br /><ins>$this->{test_web}.RevIt 3</ins><br /> Line 1<br /><del>Line 2</del><br /><ins>SomeOtherData</ins><br /> Line 3",
       $topicObject->summariseChanges('1', '3', 1)
       );
 
     # Verify default summary - should be text for rev 3 vs. rev 2
     $diff = $topicObject->summariseChanges();
+    $expected = qr/-<nop>TemporaryMetaTestsTestWebMetaTests.RevIt 2
+\+<nop>TemporaryMetaTestsTestWebMetaTests.RevIt 3
+ Line 1
+-<nop>SomeOtherData
+-
 
-    $expected = qr/ Line 3
--<nop>$this->{test_web}.RevIt 2
-\+<nop>$this->{test_web}.RevIt 3
--<nop>%<nop><nop>META:<nop>TOPICINFO{author="<nop>BaseUserMapping_666" date="[0-9]{10}" format\.\.\.
-\+<nop>%<nop><nop>META:<nop>TOPICINFO{author="<nop>BaseUserMapping_666" date="[0-9]{10}" format\.\.\.
- Line 1/ms;
-    print "This summary doesn't make any sense: comparing rev2:rev3\n($diff)\n";
+ Line 3/ms;
+    #print "This summary doesn't make any sense: comparing rev2:rev3\n($diff)\n";
     $this->assert_matches( $expected, $diff);
 
     # Verify the HTML default summary
-    print "\nThis summary doesn't make any sense either:  comparing rev2:rev3\n(" . $topicObject->summariseChanges(undef,undef,1) . ")\n";
-    $expected = qr# Line 3<br /><del>$this->{test_web}.RevIt 2</del><br /><ins>$this->{test_web}.RevIt 3</ins><br /><del>%META:TOPICINFO{author="BaseUserMapping_666" date="[0-9]{10}" format="1.1" version="2"}%</del><br /><ins>%META:TOPICINFO{author="BaseUserMapping_666" date="[0-9]{10}" format="1.1" version="3"}%</ins><br /> Line 1#;
+    #print "\nThis summary doesn't make any sense either:  comparing rev2:rev3\n(" . $topicObject->summariseChanges(undef,undef,1) . ")\n";
+    $expected = qr#<del>$this->{test_web}.RevIt 2</del><br /><ins>$this->{test_web}.RevIt 3</ins><br /> Line 1#;
     $this->assert_matches( $expected,
       $topicObject->summariseChanges(undef, undef, 1)
       );

@@ -3436,11 +3436,12 @@ sub summariseChanges {
 
     return '' if ( $orev == $nrev );    # same rev, no differences
 
-    my $metaPick = qr/^[A-Z](?!OPICINFO)/;    # all except TOPICINFO
+    my $nstring = $this->stringify(1);
+    $nstring =~ s/^%META:TOPICINFO{.*?}%//ms;
+    #print "SSSSSS nstring\n($nstring)\nSSSSSS\n\n";
 
-    $ntext =
-        $renderer->TML2PlainText( $ntext, $this, 'nonop' ) . "\n"
-      . $this->stringify($metaPick);
+    $ntext = $renderer->TML2PlainText( $nstring, $this, 'showvar showmeta' );
+    #print "SSSSSS ntext\n($ntext)\nSSSSSS\n\n";
 
     my $oldTopicObject = Foswiki::Meta->load( $session, $this->web, $this->topic, $orev );
     unless ( $oldTopicObject->haveAccess('VIEW') ) {
@@ -3448,14 +3449,20 @@ sub summariseChanges {
         # No access to old rev, make a blank topic object
         $oldTopicObject = Foswiki::Meta->new( $session, $this->web, $this->topic, '' );
     }
-    my $otext =
-      $renderer->TML2PlainText( $oldTopicObject->text(), $oldTopicObject,
-        'nonop' )
-      . "\n"
-      . $oldTopicObject->stringify($metaPick);
+
+    my $ostring = $oldTopicObject->stringify(1);
+    $ostring =~ s/^%META:TOPICINFO{.*?}%$//ms;
+    #print "SSSSSS ostring\n$ostring\nSSSSSS\n\n";
+
+    my $otext = $renderer->TML2PlainText( $ostring , $oldTopicObject, 'showvar showmeta' );
+    #print "SSSSSS otext\n($otext)\nSSSSSS\n\n";
 
     require Foswiki::Merge;
     my $blocks = Foswiki::Merge::simpleMerge( $otext, $ntext, qr/[\r\n]+/ );
+
+    #foreach $b ( @$blocks ) {
+    #   print "BBBB\n($b)\nBBBB\n\n";
+    #   }
 
     # sort through, keeping one line of context either side of a change
     my @revised;
@@ -3505,6 +3512,7 @@ sub summariseChanges {
     unless ($summary) {
         $summary = $this->summariseText( '', $ntext );
     }
+    #print "SUMMARY\n===================\n($summary)\n============\n\n";
 
     if ( !$tml ) {
         $summary = $renderer->protectPlainText($summary);
