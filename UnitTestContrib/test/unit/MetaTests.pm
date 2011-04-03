@@ -796,7 +796,7 @@ sub test_getRevisionHistory {
 sub test_summariseChanges {
     my $this = shift;
     my $topicObject = Foswiki::Meta->new(
-          $this->{session}, $this->{test_web}, 'RevIt', "Line 1\nLine 2\nLine 3" );
+          $this->{session}, $this->{test_web}, 'RevIt', "Line 1\n\nLine 2\n\nLine 3" );
     $this->assert_equals(1, $topicObject->save());
     $topicObject =
       Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt' );
@@ -836,7 +836,7 @@ sub test_summariseChanges {
 
     # Verify the plain text summary
     my $diff = $topicObject->summariseChanges('1', '3', 0);
-    #print "\nTEXT rev1:rev3\n" . $diff . "\n";
+    #print "\nTEXT rev1:rev3\n====\n" . $diff . "\n====\n\n";
     my $expected = <<RESULT;
 -<nop>$this->{test_web}.RevIt 1
 +<nop>$this->{test_web}.RevIt 3
@@ -857,23 +857,31 @@ RESULT
 
     # Verify default summary - should be text for rev 3 vs. rev 2
     $diff = $topicObject->summariseChanges();
-    $expected = qr/-<nop>TemporaryMetaTestsTestWebMetaTests.RevIt 2
+    $expected = qr/^-<nop>TemporaryMetaTestsTestWebMetaTests.RevIt 2
 \+<nop>TemporaryMetaTestsTestWebMetaTests.RevIt 3
  Line 1
--<nop>SomeOtherData
--
-
- Line 3/ms;
+\+<nop>SomeOtherData
+ Line 3$/ms;
     #print "This summary doesn't make any sense: comparing rev2:rev3\n($diff)\n";
+    #print "\nTEXT rev2:rev3\n====\n" . $diff . "\n====\n\n";
     $this->assert_matches( $expected, $diff);
 
     # Verify the HTML default summary
     #print "\nThis summary doesn't make any sense either:  comparing rev2:rev3\n(" . $topicObject->summariseChanges(undef,undef,1) . ")\n";
-    $expected = qr#<del>$this->{test_web}.RevIt 2</del><br /><ins>$this->{test_web}.RevIt 3</ins><br /> Line 1#;
+    $expected = qr#^<del>$this->{test_web}.RevIt 2</del><br /><ins>$this->{test_web}.RevIt 3</ins><br /> Line 1<br /><ins>SomeOtherData</ins><br /> Line 3$#;
     $this->assert_matches( $expected,
       $topicObject->summariseChanges(undef, undef, 1)
       );
 
+    #$topicObject =
+    #  Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt', '1' );
+    #print "REV1 \n====\n".$topicObject->text()."\n====\n";
+    #$topicObject =
+    #  Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt', '2' );
+    #print "REV2 \n====\n".$topicObject->text()."\n====\n";
+    #$topicObject =
+    #  Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt', '3' );
+    #print "REV3 \n====\n".$topicObject->text()."\n====\n";
 }
 
 sub test_haveAccess {

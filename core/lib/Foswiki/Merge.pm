@@ -206,6 +206,15 @@ sub simpleMerge {
     my @a = split( /($sep)/, $ia );
     my @b = split( /($sep)/, $ib );
 
+    #print "\n====\nMerge DUMP A \n";
+    #foreach my $l ( @a ) {
+    #    print "$l";
+    #    }
+    #print "\n====\nMerge DUMP B \n";
+    #foreach my $l ( @b ) {
+    #    print "$l";
+    #    }
+
     my $out = [];
     require Algorithm::Diff;
     Algorithm::Diff::traverse_balanced(
@@ -239,7 +248,7 @@ sub _sDiscardA {
 sub _sDiscardB {
     my ( $a, $b, $out, $ai, $bi ) = @_;
     #print "DIFF DiscardB ($ai->[$a]) ($bi->[$b]) \n";
-    push( @$out, '-' . $bi->[$b] );
+    push( @$out, '+' . $bi->[$b] ) unless $bi->[$b] eq "\n";
 }
 
 sub _sChange {
