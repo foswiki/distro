@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-03-29 23:12+0200\n"
+"PO-Revision-Date: 2011-04-03 16:07+0200\n"
 "Last-Translator: Arthur Clemens <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -1716,6 +1716,8 @@ msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
 msgstr ""
+"Beheerders kunnen gebruikers registreren met %1 - als registratie niet is "
+"geblokkeerd door foutmeldingen."
 
 #: core/templates/messages.tmpl:435
 msgid ""
@@ -1851,7 +1853,7 @@ msgstr ""
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "In case of a zip file, attach all included files to this topic"
-msgstr ""
+msgstr "Bij een zip bestand: voeg alle gezipte bestanden toe aan de pagina"
 
 #: core/data/System/WebSearch.txt:104
 msgid "In reversed order"
@@ -1953,13 +1955,12 @@ msgid "Jump"
 msgstr "Direct naar pagina"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "Jump to first revision"
-msgstr "(revisie %1)"
+msgstr "Spring naar de eerste revisie"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
-msgstr ""
+msgstr "Spring naar de laatste revisie (%1)"
 
 #: core/data/System/WebSearch.txt:114
 msgid "Keyword search"
@@ -1967,9 +1968,8 @@ msgstr "Keyword zoeken"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
-#, fuzzy
 msgid "Last edited by"
-msgstr "Laatste bewerker"
+msgstr "Laatst bewerkt door"
 
 #: core/data/System/WebSearch.txt:102
 msgid "Last editor"
@@ -1984,13 +1984,12 @@ msgid "Last name"
 msgstr "Achternaam"
 
 #: core/templates/more.tmpl:182
-#, fuzzy
 msgid "Latest revision: %1"
-msgstr "(revisie %1)"
+msgstr "Laatste revisie: %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Leave unchecked if you wish to attach the zip file itself"
-msgstr ""
+msgstr "Niet aanvinken als je het zip bestand zelf wilt toevoegen"
 
 #: core/data/System/WebSearch.txt:128
 msgid "Limit results to:"
@@ -2097,13 +2096,12 @@ msgstr "Meer..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:33
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:34
-#, fuzzy
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
 msgstr ""
-"title='Verwijder of hernoem deze pagina; bovenliggende pagina instellen; "
-"bekijk en vergelijk revisies' accesskey='m'>&Meer pagina-acties"
+"Meer: verwijder of hernoem deze pagina; bovenliggende pagina instellen, "
+"bekijk en vergelijk revisies (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -2461,9 +2459,8 @@ msgstr "Klik op OK om te bevestigen dat jij deze wijziging wil maken."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:28
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:29
-#, fuzzy
 msgid "Printable version of this topic (p)"
-msgstr "title='Printbare versie van deze pagina' accesskey='p'>&Printversie"
+msgstr "Printbare versie van deze pagina (p)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:63
 msgid "Properties"
@@ -2542,6 +2539,9 @@ msgid ""
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
 "Check the configuration for errors."
 msgstr ""
+"Registratie is uitgeschakeld of door de configuratie setting "
+"{EnableNewUserRegistration} of door fouten met het wachtwoordsysteem. "
+"Controleer de configuratie op foutmeldingen."
 
 #: core/data/System/WebSearch.txt:116
 msgid "Regular expression search"
@@ -2575,19 +2575,16 @@ msgid "Remember your password?"
 msgstr "Weet je je wachtwoord toch?"
 
 #: core/data/Main/GroupViewTemplate.txt:92
-#, fuzzy
 msgid "Remove member..."
-msgstr "Verwijder gebruiker..."
+msgstr "Verwijder lid..."
 
 #: core/data/Main/GroupViewTemplate.txt:173
-#, fuzzy
 msgid "Remove members from this group"
-msgstr "Verwijder gebruikers van deze groep"
+msgstr "Verwijder leden van deze groep"
 
 #: core/data/Main/GroupViewTemplate.txt:177
-#, fuzzy
 msgid "Remove selected members"
-msgstr "Verwijder geselecteerde gebruikers"
+msgstr "Verwijder geselecteerde leden"
 
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
@@ -2602,6 +2599,9 @@ msgid ""
 "Rename completed, but unsafe redirect to %1 is denied.: The requested host "
 "does not match %2, and is not in {PermittedRedirectHostUrls}."
 msgstr ""
+"Hernoemen is compleet, maar de onveilige verwijzing naar %1 is niet "
+"toegestaan: De host komt niet overeen met %2, en is niet vermeld in "
+"{PermittedRedirectHostUrls}."
 
 #: core/templates/messages.tmpl:74 core/templates/messages.tmpl:80
 msgid "Rename failed"
@@ -2629,9 +2629,8 @@ msgid "Rename/Move"
 msgstr "Hernoem/Verplaats"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:96
-#, fuzzy
 msgid "Render style"
-msgstr "Weergavestijl:"
+msgstr "Weergavestijl"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2646,6 +2645,8 @@ msgid ""
 "Requested revision (%1) is illegal or invalid. It does not exist in history, "
 "or is the same or later than the current revision (%2)"
 msgstr ""
+"Verzochte revisie (%1) is illegaal of ongeldig. Deze bestaat niet in de "
+"geschiedenis, of is gelijk aan of later dan de huidige revisie (%2)."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2661,9 +2662,8 @@ msgstr ""
 "Opnieuw instellen van het wachtwoord wordt niet ondersteund door Foswiki"
 
 #: core/templates/more.tmpl:189
-#, fuzzy
 msgid "Restore"
-msgstr "Herstellen..."
+msgstr "Herstellen"
 
 #: core/templates/more.tmpl:170
 msgid "Restore topic"
