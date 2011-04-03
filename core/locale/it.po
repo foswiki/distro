@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-04-02 17:50+0200\n"
+"PO-Revision-Date: 2011-04-02 18:16+0200\n"
 "Last-Translator: Guido <gdo@leader.it>\n"
 "Language-Team: <it@li.org>\n"
 "Language: it\n"
@@ -2341,7 +2341,7 @@ msgstr "La password non può essere cambiata"
 
 #: core/templates/messages.tmpl:226 core/templates/messages.tmpl:230
 msgid "Password reset failed"
-msgstr "LReset password fallito"
+msgstr "Reset password fallito"
 
 #: core/templates/messages.tmpl:240
 msgid "Passwords do not match"
@@ -3470,11 +3470,11 @@ msgstr "Alla pagina:"
 
 #: core/templates/renamebase.tmpl:22
 msgid "To web"
-msgstr "Al Web"
+msgstr "Al web"
 
 #: core/templates/renameconfirm.tmpl:9
 msgid "To web:"
-msgstr "Al Web:"
+msgstr "Al web:"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:5
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
