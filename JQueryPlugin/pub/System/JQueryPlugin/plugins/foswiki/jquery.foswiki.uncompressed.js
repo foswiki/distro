@@ -55,7 +55,7 @@ if (foswiki.preferences === undefined) {
     }
       
     // Check for a preference passed in a meta tag (this is the classical method)
-    var metaVal = $("meta[name=foswiki."+key+"]").attr("content");
+    var metaVal = $("meta[name=\"foswiki."+key+"\"]").attr("content");
     if (metaVal !== undefined) {
       metaVal = unescape(metaVal);
       // Cache it for future reference
@@ -124,7 +124,7 @@ if (foswiki.preferences === undefined) {
    */
   foswiki.getElementsByClassName = function(inRootElem, inClassName, inTag) {
     var tag = inTag || '';
-    return $(inRootElem).find(inTag+"."+inClassName).get();
+    return $(inRootElem).find(tag+"."+inClassName).get();
   };
 
   // WARNING: the following list of properties are DEPRECATED and only provided for compatibility reasons.
@@ -144,9 +144,9 @@ if (foswiki.preferences === undefined) {
     'WIKIUSERNAME': 'wikiUserName', 
     'SERVERTIME': 'serverTime'
   };
-  for (var pref in mapping) {
-    foswiki[mapping[pref]] = foswiki.getPreference(pref);
-  }
+  $.each(mapping, function(index, elem) {
+    foswiki[mapping[elem]] = foswiki.getPreference(elem);
+  });
 
   /**
    * document ready handler 
@@ -156,4 +156,4 @@ if (foswiki.preferences === undefined) {
     /* Remove 'has no javascript' class from body element (written in template). */
     $('body').removeClass('foswikiNoJs').addClass("foswikiJs");
   });
-})(jQuery);
+}(jQuery));
