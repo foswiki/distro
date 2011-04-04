@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-04-03 16:07+0200\n"
+"PO-Revision-Date: 2011-04-04 12:32+0200\n"
 "Last-Translator: Arthur Clemens <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -2684,12 +2684,14 @@ msgid ""
 "can always revisit the revision you are replacing. Note that attachments "
 "will be left unchanged."
 msgstr ""
+"Herstellen maakt een exacte kopie van de geselecteerde revisie en bewaart "
+"deze in een nieuwe versie. Omdat elke revisie bewaard blijft in de "
+"paginageschiedenis kun je altijd terug naar de huidige (te vervangen) "
+"revisie. Let op dat bijlagen ongewijzigd blijven."
 
 #: core/templates/more.tmpl:180
-#, fuzzy
 msgid "Restoring is disabled because this topic is at revision 1."
-msgstr ""
-"Conversie naar HTML is uitgeschakeld vanwege de inhoud van deze pagina."
+msgstr "Hertellen is uitgeschakeld omdat de pagina bij revisie 1 is."
 
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
@@ -2906,9 +2908,8 @@ msgid "Set new topic parent"
 msgstr "Bovenliggende pagina instellen"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
-#, fuzzy
 msgid "Show %1 revisions up to revision %2"
-msgstr "Bekijk vorige paginarevisie"
+msgstr "Bekijk %1 revisies tot en met revisie %2"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -2916,7 +2917,6 @@ msgid "Show help"
 msgstr "Toon hulp"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:119
-#, fuzzy
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Revisies %1 - %2 (van %3)"
 
@@ -3592,9 +3592,8 @@ msgid "Try Again"
 msgstr "Probeer opnieuw"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:101
-#, fuzzy
 msgid "Unchanged sections before and after each change"
-msgstr "onveranderde secties voor en na elke wijziging"
+msgstr "Onveranderde secties voor en na elke wijziging"
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
@@ -3635,9 +3634,8 @@ msgid "Upload file"
 msgstr "Bestand uploaden"
 
 #: PatternSkin/templates/attach.pattern.tmpl:50
-#, fuzzy
 msgid "Upload multiple attachments in one zip file"
-msgstr "Bijlage %1 van %2 bijwerken"
+msgstr "Voeg meerdere bijlagen toe met 1 zip bestand"
 
 #: PatternSkin/templates/attach.pattern.tmpl:42
 msgid "Upload up to %1 KB."
@@ -3712,14 +3710,12 @@ msgid "View differences"
 msgstr "Bekijk verschillen"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View earlier"
-msgstr "eerder"
+msgstr "Bekijk eerdere"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View later"
-msgstr "Bekijk templates"
+msgstr "Bekijk latere"
 
 #: core/templates/more.tmpl:139
 msgid "View previous topic revision"
@@ -3739,7 +3735,6 @@ msgstr "Bekijk revisie:"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
-#, fuzzy
 msgid "View sequential topic history"
 msgstr "Bekijk totale paginageschiedenis"
 
@@ -3759,9 +3754,8 @@ msgstr "Bekijk totale paginageschiedenis"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:18
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:19
-#, fuzzy
 msgid "View without formatting (v)"
-msgstr "Bekijk brontekst zonder opmaak"
+msgstr "Bekijk brontekst zonder opmaak (v)"
 
 #: core/templates/validate.tmpl:20
 msgid "Warning! Confirmation required"
@@ -3872,15 +3866,14 @@ msgid "You"
 msgstr "Jij"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1"
 msgstr ""
 "Je *moet* tenminste één geldig geregistreerd e-mailadres hebben om je "
-"wachtwoord opnieuw te kunnen instellen. Als geen van je geregistreerde e-"
-"mailadressen geldig is en je je wachtwoord bent vergeten, neem dan contact "
+"wachtwoord opnieuw te kunnen instellen. Als geen van je geregistreerde "
+"e-mailadressen geldig is en je je wachtwoord bent vergeten, neem dan contact "
 "op met %1."
 
 #: core/templates/messages.tmpl:276
@@ -4076,9 +4069,8 @@ msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "Je moet waarschijnlijk je administrator, %1, vragen om dit te doen."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
-#, fuzzy
 msgid "Your"
-msgstr "Jij"
+msgstr "Jouw"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
