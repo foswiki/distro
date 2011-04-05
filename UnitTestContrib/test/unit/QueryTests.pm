@@ -188,7 +188,7 @@ sub loadExtraConfig {
           {'Foswiki::Plugins::MongoDBPlugin::Listener'} = 1;
         require Foswiki::Plugins::MongoDBPlugin;
         Foswiki::Plugins::MongoDBPlugin::getMongoDB()
-          ->remove( 'current', { '_web' => $this->{test_web} } );
+          ->remove( $this->{test_web}, 'current', { '_web' => $this->{test_web} } );
     }
 }
 

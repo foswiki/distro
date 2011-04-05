@@ -134,7 +134,7 @@ sub loadExtraConfig {
           {'Foswiki::Plugins::MongoDBPlugin::Listener'} = 1;
         require Foswiki::Plugins::MongoDBPlugin;
         Foswiki::Plugins::MongoDBPlugin::getMongoDB()
-          ->remove( 'current', { '_web' => $this->{test_web} } );
+          ->remove( $this->{test_web}, 'current', { '_web' => $this->{test_web} } );
     }
 }
 
@@ -149,7 +149,7 @@ sub tear_down {
     {
         require Foswiki::Plugins::MongoDBPlugin;
         Foswiki::Plugins::MongoDBPlugin::getMongoDB()
-          ->remove( 'current', { '_web' => $this->{test_web} } );
+          ->remove( $this->{test_web}, 'current', { $this->{test_web}, '_web' => $this->{test_web} } );
     }
 }
 
