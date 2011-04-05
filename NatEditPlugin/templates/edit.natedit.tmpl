@@ -4,13 +4,19 @@
 %TMPL:INCLUDE{"edithelp"}%<!-- edithelp// -->
 %TMPL:INCLUDE{"editdialog"}%<!-- editdialog// -->
 %TMPL:INCLUDE{"uploadplugin"}%<!-- uploadplugin// -->
-%TMPL:DEF{"titleaction"}%(%IF{"defined 'rev'" then="%MAKETEXT{"restore"}%" else="%default%"}%)%TMPL:END%
+%TMPL:DEF{"titleaction"}%(%IF{"defined 'rev'" 
+  then="%MAKETEXT{"restore"}%" 
+  else="%IF{"istopic '%WEB%.%TOPIC%'" 
+    then="%MAKETEXT{"edit"}%" 
+    else="%MAKETEXT{"new"}%"
+  }%"
+}%)%TMPL:END%
 %TMPL:DEF{"pagetitlestylewrapper"}%<!-- backwards compatibility -->%TMPL:END%
-%TMPL:DEF{"contenttitle"}%<h1 class="patternTemplateTitle">%IF{
+%TMPL:DEF{"contenttitle"}%<h1 class="natEditTitle">%IF{
   "istopic '%WEB%.%TOPIC%'" 
-  then="[[%WEB%.%TOPIC%][%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle"}%"}%]] $percntTMPL:P{\"titleaction\" default=\"%MAKETEXT{"edit"}%\"}$percnt" 
-  else="<nop>%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle"}%"}% $percntTMPL:P{\"titleaction\" default=\"%MAKETEXT{"new"}%\"}$percnt"
-}%</h1>%TMPL:END%
+  then="[[%WEB%.%TOPIC%][%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle"}%"}%]]" 
+  else="<nop>%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle"}%"}%"
+}% %TMPL:P{"titleaction"}%</h1>%TMPL:END%
 
 %TMPL:DEF{"topictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="topictitle_dbcache" else="topictitle_default" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"topictitle_default"}%%IF{"defined 'TOPICTITLE'" then="%TOPICTITLE%" else="%BASETOPIC%"}%%TMPL:END%
@@ -25,7 +31,7 @@
 %TMPL:P{"bottomtopicactions"}%<!-- bottomtopicactions// -->
 %TMPL:P{"formend"}%<!-- formend //-->
 %TMPL:P{"dialogs"}%
-%JQREQUIRE{"natedit"}%<!-- -->
+%JQREQUIRE{"natedit, blockui, form"}%<!-- -->
 %ADDTOZONE{"head"
   tag="NATEDIT::MATHMODEPLUGINENABLED"
   text="<meta name='foswiki.MathModePluginEnabled' content='%IF{"context MathModePluginEnabled" then="true" else="false"}%' />"

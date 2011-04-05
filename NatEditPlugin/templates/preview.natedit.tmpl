@@ -1,27 +1,24 @@
-%TMPL:INCLUDE{"preview"}%<!-- template: prewview.natedit.tmpl -->
-%TMPL:INCLUDE{"previewtoolbar"}%<!-- previewtoolbar// -->
-%TMPL:INCLUDE{"editjavascript"}%<!-- editjavascript// -->
-%TMPL:DEF{"patterntopiccontents"}%<div class="foswikiTopic">%TMPL:P{"pagetitlestylewrapper"}% %TMPL:P{"content_pattern"}%</div><!-- /foswikiTopic-->%TMPL:END%
-%TMPL:DEF{"content"}%%TMPL:P{context="NatSkinPluginEnabled" then="content_natskin" else="content_pattern"}%%TMPL:END%
-%TMPL:DEF{"content_pattern"}%<!-- content_pattern -->
-%JQREQUIRE{"natedit"}%<!-- natedit// -->
-%TMPL:P{"formstart"}%<!-- formstart// -->
-%TMPL:P{"previewtoolbar"}%<!-- previewtoolbar// -->
-<div class="patternContent">
-<div class="foswikiTopic">
-<div class="foswikiPreviewArea">%TEXT%</div>
-%META{"form"}%
+<div class="foswikiFormSteps foswikiDialog">
+  <h2 class="foswikiDialogTitle">%MAKETEXT{"Preview"}%</h2>
+  <div class="foswikiPreviewArea" style="height:25em; overflow-x:auto;margin-bottom:2.6em;">
+    <div class="foswikiFormStep" style="height:25em; overflow-x:auto;margin-bottom:2.6em;">%TEXT%</div>
+      %RENDERFORDISPLAY{
+        topic="%BASEWEB%.%BASETOPIC%"
+        header="<div class='foswikiFormStep foswikiMetaData'> 
+         <h2 > $title </h2><table class='foswikiLayoutTable'>"
+        format="<tr>
+          <th class='foswikiTableFirstCol'><nop>$title: </th>
+          <td class='foswikiFormValue'> $value </td>
+          </tr>"
+        footer="</table></div>"
+      }%<!-- -->
+  </div>
+  <hr />
+  <div class="foswikiFormStep foswikiFormLast foswikiFormButtons" DISstyle="position:absolute;bottom:1.3076em">
+    %BUTTON{"%MAKETEXT{"Close"}%" 
+      class="jqSimpleModalCancel" 
+      icon="cross" 
+    }%
+    %CLEAR%
+  </div>
 </div>
-</div>
-</div>
-<input type="hidden" name="action_addform" value="" />
-<input type="hidden" name="action_cancel" value="" />
-<input type="hidden" name="action_checkpoint" value="" />
-<input type="hidden" name="action_preview" value="" />
-<input type="hidden" name="action_replaceform" value="" />
-<input type="hidden" name="action_save" value="" />
-<input type="hidden" name="text" value="%HIDDENTEXT%" />
-%TMPL:P{"formbottom"}%<!-- formbottom// -->
-%TMPL:P{"formend"}%<!-- formend// -->
-%TMPL:P{"nojavascript_pagehelp"}%<!-- nojavascript_pagehelp// -->
-<!-- //content_pattern -->%TMPL:END%

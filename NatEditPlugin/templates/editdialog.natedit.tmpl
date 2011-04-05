@@ -1,27 +1,28 @@
 %TMPL:INCLUDE{"dialog"}%<!-- template: editidialog.natedit.tmpl -->
-%TMPL:DEF{"inserttable"}%<div id="natEditInsertTable" class="foswikiPage foswikiFormSteps" style="display:none">
+%TMPL:DEF{"inserttable"}%<div id="natEditInsertTable" class="foswikiDialog foswikiFormSteps" style="display:none">
 %ADDTOZONE{
   "script"
   text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/jquery.natedit.inserttable.js'></script>"
   requires="JQUERYPLUGIN::NATEDIT"
 }%<!-- inserttable -->
   <div class="foswikiFormStep">
-    <h2>%MAKETEXT{"Create a new table:"}%</h2>
+    <h2 class="foswikiDialogTitle">%MAKETEXT{"Create a new table:"}%</h2>
     <table class="foswikiLayoutTable" width="100%">
       <tr>
         <th>%MAKETEXT{"Headings:"}%</th>
-        <td><input type="text" id="natEditInsertTableHeads" size="10" name="heads" class="foswikiInputField" value="1" /></td>
+        <td><input type="text" id="natEditInsertTableHeads" size="20" name="heads" class="foswikiInputField" value="1" /></td>
       </tr>
       <tr>
         <th>%MAKETEXT{"Rows:"}%</th>
-        <td><input type="text" id="natEditInsertTableRows" size="10" name="rows" class="foswikiInputField" value="4" /></td>
+        <td><input type="text" id="natEditInsertTableRows" size="20" name="rows" class="foswikiInputField" value="4" /></td>
       </tr>
       <tr>
         <th>%MAKETEXT{"Columns:"}%</th>
-        <td><input type="text" id="natEditInsertTableCols" size="10" name="cols" class="foswikiInputField" value="4" /></td>
+        <td><input type="text" id="natEditInsertTableCols" size="20" name="cols" class="foswikiInputField" value="4" /></td>
       </tr>
     </table>
   </div>
+  <hr />
   <div class="foswikiFormStep foswikiFormLast foswikiFormButtons">
     %BUTTON{"Ok" class="foswikiButtonSubmit" icon="tick"}%
     %BUTTON{"Cancel" class="foswikiButtonCancel" icon="cross"}%
@@ -29,7 +30,7 @@
   </div>
 </div>%TMPL:END%
 
-%TMPL:DEF{"insertlink"}%<div id="natEditInsertLink" class="foswikiPage foswikiFormSteps" style="display:none">
+%TMPL:DEF{"insertlink"}%<div id="natEditInsertLink" class="foswikiDialog foswikiFormSteps" style="display:none">
 %ADDTOZONE{
   "script"
   text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/jquery.natedit.insertlink.js'></script>"
@@ -37,7 +38,7 @@
 }%<!-- insertlink -->
   <input type="hidden" name="insertlinkflag" id="natEditInsertLinkFlag" value="topic" />
   <div class="foswikiFormStep">
-    <h2>%MAKETEXT{"Insert link:"}%</h2>
+    <h2 class="foswikiDialogTitle">%MAKETEXT{"Insert link:"}%</h2>
     %TABPANE%
     %TAB{"Topic" after="jQuery('#natEditInsertLinkFlag').val('topic');" }%
       <table class="foswikiLayoutTable" width="100%">
@@ -99,14 +100,14 @@ Only included if UploadPlugin is enabled
       </div>
 %TMPL:END%
 
-%TMPL:DEF{"insertattachment"}%<div id="natEditInsertAttachment" class="foswikiPage foswikiFormSteps" style="display:none">
+%TMPL:DEF{"insertattachment"}%<div id="natEditInsertAttachment" class="foswikiDialog foswikiFormSteps" style="display:none">
 %ADDTOZONE{
   "script"
   text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/jquery.natedit.insertattachment.js'></script>"
   requires="JQUERYPLUGIN::NATEDIT"
 }%<!-- insertattachment -->
   <div class="foswikiFormStep">
-    <h2>%MAKETEXT{"Attachment:"}%</h2>
+    <h2 class="foswikiDialogTitle">%MAKETEXT{"Attachment:"}%</h2>
     %TABPANE%
     %TAB{"Insert" after="jQuery('#ok_button').show();jQuery('#upload_button').hide()"}%
       <div class="foswikiFormStep">

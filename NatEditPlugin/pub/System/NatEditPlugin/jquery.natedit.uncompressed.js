@@ -573,7 +573,6 @@ $.NatEditor.prototype._openDialog = function(opts) {
     minHeight: 'auto',
     minWidth: 'auto',
     persist: true,
-    close:false,
     onShow: function(dialog) {
       $(window).trigger("resize.simplemodal");
       dialog.data.find("input:visible:first").focus();

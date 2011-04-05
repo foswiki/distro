@@ -89,6 +89,7 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  04 Apr 2011 | using a modal dialog for preview; save+continue is done in the background async'ly now |
 |  24 Mar 2011 | added specific css classes for each button box |
 |  17 Feb 2011 | fixed insert table in IE7+8 |
 |  22 Dec 2010 | fixed some errors reported by jslint; improved the way forms are submitted to be more jquery-friendly |
