@@ -16,7 +16,12 @@ use strict;
 use warnings;
 use Assert;
 
-use Foswiki::Contrib::MailerContrib::Constants;
+# Always mail out this subscription, even if there have been no changes
+use constant ALWAYS => 1;
+# Always mail out the full topic, not just the changes
+use constant FULL_TOPIC => 2;
+# ? = FULL_TOPIC
+# ! = FULL_TOPIC | ALWAYS
 
 =begin TML
 
@@ -24,7 +29,7 @@ use Foswiki::Contrib::MailerContrib::Constants;
    * =$pages= - Wildcarded expression matching subscribed pages
    * =$childDepth= - Depth of children of $topic to notify changes
      for. Defaults to 0
-   * =$options= - bitmask of Foswiki::Contrib::MailerContrib::Constants options
+   * =$options= - bitmask of Foswiki::Contrib::MailerContrib::Subscription options
 Create a new subscription.
 
 =cut
@@ -119,13 +124,13 @@ specified by another subscription. Thus:
 sub covers {
     my ( $this, $tother, $db ) = @_;
 
-    #* should win always.
-    return 1 if ( $this->{topics} eq '*' );
-
     # Does the mode cover the other subscription?
-    return 0
-      unless (
-        ( $this->{options} & $tother->{options} ) == $tother->{options} );
+    # ALWAYS covers (ALWAYS and not ALWAYS).
+    # FULL_TOPIC covers (FULL_TOPIC and not FULL_TOPIC)
+    return 0 unless ( $this->{options} & $tother->{options} ) == $tother->{options};
+
+    # A * always covers if the options match
+    return 1 if ( $this->{topics} eq '*' );
 
     # do they match without taking into account the depth?
     return 0 unless ( $this->matches( $tother->{topics}, undef, 0 ) );
@@ -154,12 +159,10 @@ specified in WebNotify.
 sub getMode {
     my $this = shift;
 
-    if ( $this->{options} &
-        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC )
+    if ( $this->{options} & FULL_TOPIC )
     {
         return '!'
-          if ( $this->{options} &
-            $Foswiki::Contrib::MailerContrib::Constants::ALWAYS );
+          if ( $this->{options} & ALWAYS );
         return '?';
     }
     return '';

@@ -27,7 +27,7 @@ use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
 our $VERSION          = '$Rev$';
-our $RELEASE          = '30 Sep 2010';
+our $RELEASE          = '2.5.0';
 our $SHORTDESCRIPTION = 'Supports email notification of changes';
 
 our $verbose   = 0;
@@ -353,19 +353,10 @@ sub _sendChangesMails {
     my $template = Foswiki::Func::readTemplate( 'mailnotify', $skin );
     Foswiki::Func::popTopicContext();
 
-    my $homeTopic = $Foswiki::cfg{HomeTopicName};
-
-    my $before_html = Foswiki::Func::expandTemplate('HTML:before');
-    my $middle_html = Foswiki::Func::expandTemplate('HTML:middle');
-    my $after_html  = Foswiki::Func::expandTemplate('HTML:after');
-
-    my $before_plain = Foswiki::Func::expandTemplate('PLAIN:before');
-    my $middle_plain = Foswiki::Func::expandTemplate('PLAIN:middle');
-    my $after_plain  = Foswiki::Func::expandTemplate('PLAIN:after');
-
     my $mailtmpl = Foswiki::Func::expandTemplate('MailNotifyBody');
     $mailtmpl =
-      Foswiki::Func::expandCommonVariables( $mailtmpl, $homeTopic, $web );
+      Foswiki::Func::expandCommonVariables(
+          $mailtmpl, $Foswiki::cfg{HomeTopicName}, $web );
     if ( $Foswiki::cfg{RemoveImgInMailnotify} ) {
 
         # change images to [alt] text if there, else remove image
@@ -376,25 +367,13 @@ sub _sendChangesMails {
     my $sentMails = 0;
 
     foreach my $email ( keys %{$changeset} ) {
-        my $html  = '';
-        my $plain = '';
-        foreach my $change ( sort { $a->{TIME} cmp $b->{TIME} }
-            @{ $changeset->{$email} } )
-        {
-
-            $html  .= $change->expandHTML($middle_html);
-            $plain .= $change->expandPlain($middle_plain);
-        }
-
-        $plain =~ s/\($Foswiki::cfg{UsersWebName}\./\(/go;
 
         my $mail = $mailtmpl;
 
-        $mail =~ s/%EMAILTO%/$email/go;
-        $mail =~ s/%HTML_TEXT%/$before_html$html$after_html/go;
-        $mail =~ s/%PLAIN_TEXT%/$before_plain$plain$after_plain/go;
-        $mail =~ s/%LASTDATE%/$lastTime/geo;
-        $mail = Foswiki::Func::expandCommonVariables( $mail, $homeTopic, $web );
+        $mail =~ s/%EMAILTO%/$email/g;
+        $mail =~ s/%(HTML|PLAIN|DIFF)_TEXT%/
+          _generateChangeDetail($email, $changeset, $1, $web)/ge;
+        $mail =~ s/%LASTDATE%/$lastTime/ge;
 
         my $base = $Foswiki::cfg{DefaultUrlHost} . $Foswiki::cfg{ScriptUrlPath};
         $mail =~ s/(href=\")([^"]+)/$1.relativeURL($base,$2)/goei;
@@ -417,6 +396,48 @@ sub _sendChangesMails {
     $report .= "\t$sentMails change notifications from $web\n";
 
     return $report;
+}
+
+sub _generateChangeDetail {
+    my ($email, $changeset, $style, $web) = @_;
+
+    my @wns = Foswiki::Func::emailToWikiNames($email);
+    my @ep = ($Foswiki::cfg{HomeTopicName}, $web);
+
+    # If there is only one user with this email, we can load preferences
+    # for them by expanding preferences in the context of their home
+    # topic.
+    if ( scalar(@wns) == 1 && Foswiki::Func::topicExists(
+        $Foswiki::cfg{UsersWebName}, $wns[0])
+           && defined &Foswiki::Meta::load ) {
+        my ($ww, $wt) = Foswiki::Func::normalizeWebTopicName(undef, $wns[0]);
+        my $userTopic = Foswiki::Meta->load(
+            $Foswiki::Plugins::SESSION, $ww, $wt);
+        my $uStyle = $userTopic->getPreference('PREFERRED_MAIL_CHANGE_FORMAT');
+        $style = $uStyle if $uStyle && $uStyle =~ /^(HTML|PLAIN|DIFF)$/;
+    }
+
+    my $template = Foswiki::Func::expandTemplate($style.':middle');
+    my $text = '';
+    foreach my $change ( sort { $a->{TIME} cmp $b->{TIME} }
+                           @{ $changeset->{$email} } ) {
+        if ($style eq 'HTML') {
+            $text .= Foswiki::Func::expandCommonVariables(
+                $change->expandHTML($template), @ep);
+        } elsif ($style eq 'PLAIN') {
+            $text .= Foswiki::Func::expandCommonVariables(
+                $change->expandPlain($template), @ep);
+        } elsif ($style eq 'DIFF') {
+            # Note: no macro expansion; this is a verbatim format
+            $text  .= $change->expandDiff($template);
+        }
+    }
+    return
+      Foswiki::Func::expandCommonVariables(
+          Foswiki::Func::expandTemplate($style.':before'), @ep)
+          . $text
+            . Foswiki::Func::expandCommonVariables(
+                Foswiki::Func::expandTemplate($style.':after'), @ep);
 }
 
 sub relativeURL {

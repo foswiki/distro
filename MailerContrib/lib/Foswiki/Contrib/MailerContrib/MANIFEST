@@ -4,7 +4,6 @@ lib/Foswiki/Contrib/MailerContrib/WebNotify.pm 0444
 lib/Foswiki/Contrib/MailerContrib/Subscriber.pm 0444
 lib/Foswiki/Contrib/MailerContrib/Subscription.pm 0444
 lib/Foswiki/Contrib/MailerContrib/Change.pm 0444
-lib/Foswiki/Contrib/MailerContrib/Constants.pm 0444
 lib/Foswiki/Contrib/MailerContrib/UpData.pm 0444
 lib/Foswiki/Configure/Checkers/Plugins/MailerContribPlugin/Module.pm 0444
 lib/Foswiki/Configure/Checkers/Plugins/MailerContribPlugin/Enabled.pm 0444

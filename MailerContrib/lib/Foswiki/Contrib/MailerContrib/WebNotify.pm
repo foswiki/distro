@@ -254,13 +254,13 @@ sub processChange {
                       if (
                         !(
                             $subs->{options} &
-                            $Foswiki::Contrib::MailerContrib::Constants::ALWAYS
+                            Foswiki::Contrib::MailerContrib::Subscription::ALWAYS
                         )
                         && $authors{$email}
                       );
 
                     if ( $subs->{options} &
-                        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC
+                        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC
                       )
                     {
                         push( @{ $allSet->{$topic} }, $email );
@@ -302,7 +302,7 @@ sub processCompulsory {
         next unless $subs;
         next
           unless ( $subs->{options} &
-            $Foswiki::Contrib::MailerContrib::Constants::ALWAYS );
+            Foswiki::Contrib::MailerContrib::Subscription::ALWAYS );
         unless ( $subscriber->isUnsubscribedFrom( $topic, $db ) ) {
             my $emails = $subscriber->getEmailAddresses();
             if ($emails) {
@@ -433,9 +433,9 @@ sub _subscribeTopic {
     #print STDERR "_subscribeTopic($topic)\n";
     my $opts = 0;
     if ($options) {
-        $opts |= $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC;
+        $opts |= Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC;
         if ( $options =~ /!/ ) {
-            $opts |= $Foswiki::Contrib::MailerContrib::Constants::ALWAYS;
+            $opts |= Foswiki::Contrib::MailerContrib::Subscription::ALWAYS;
         }
     }
     my $kids = $childDepth or 0;

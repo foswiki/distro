@@ -191,7 +191,10 @@ The changes emails sent to subscribers are based on a Foswiki template called =m
 | =PLAIN:before= | Section of a plain text email before the changes |
 | =PLAIN:middle= | Repeated in a plain text email for each changes |
 | =PLAIN:after= | Section of a plain text email after the changes |
-| =MailNotifyBody= | All the above are embedded in this. %<nop>HTML_TEXT% expands to the HTML obtained by expanding the =HTML:*= templates, and %<nop>PLAIN_TEXT% from the =PLAIN:*= templates. |
+| =DIFF:before= | Section of a plain text email before the changes |
+| =DIFF:middle= | Repeated in a plain text email for each changes |
+| =DIFF:after= | Section of a plain text email after the changes |
+| =MailNotifyBody= | All the above are embedded in this. %<nop>HTML_TEXT% expands to the HTML obtained by expanding the =HTML:*= templates, %<nop>PLAIN_TEXT% from the =PLAIN:*= templates, and %<nop>DIFF_TEXT from the =DIFF:*= templates%. |
 The default template sends multipart emails containing both HTML and plaintext versions.
 
 <blockquote class="foswikiHelp"> %X% Avoid editing the distributed =mailnotify.tmpl= file, or you will regret it later when it gets overwritten when you upgrade Foswiki. Instead, you should either use a skin setting to choose the template file, or use the web part of the [[%SYSTEMWEB%.SkinTemplates#FindingTemplates][template search path rules]]. 
@@ -250,17 +253,19 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
-|  30 Sep 2010 | Foswikitask:Item6011: document =-user= parameter and update examples in order to make fully functional on versions of Foswiki through 1.0.10; other documentation cleanup  -- Foswiki:Main.WillNorris |
-|  31 Jul 2010 | Foswikitask:Item9415: Documentation updates |
-|  9 Jul 2010 | Foswikitask:Item9261: split of the plugin more completely to make configuration cleaner. No functional changes. |
-|  18 Dec 2009 | Foswikitask:Item2511: make a new tiny plugin module, to reduce load time for when the mailer isn't used in a request |
-|  8 Dec 2009 | Foswikitask:Item8316: Added REST handler, Foswikitask:Item2473: Foswikitask:Item2480: doc & dead code tidy-ups |
-|  4 Dec 2009 | Foswikitask:Item8354: Martin Rowe fixed a problem with STARTPUBLISH in newsletters corrupting the template |
-|  17 Oct 2009 | Foswikitask:Item1302: Removed the documentation of the -news mode which was actually never really implemented. Instead added two new -nonews and -nochanges modes which enables running mailnotify in newsletter mode with another schedule than the changes mode. If you upgrade and used the -news option with mailnotify things will work like you are used to as the -news option made no difference (old bug). |
-|  15 Oct 2009 | Foswikitask:Item2260: Make the feature that allows defining the email template based in either skin or web path. And improve the documentation so people can learn how to tailor the emails that the WebNotify feature sends. <br /> Foswikitask:Item1603: use quotes to protect topic names with odd characters in them |
-|  20 Sep 2009 | Small documentation update for Foswiki 1.0.7 release (RELEASE and adding parent) |
-|  23 Apr 2009 | Foswikitask:Item1501: Minor bug in logfile output fixed |
-|  03 Dec 2008 | Re-released for the Foswiki project |
+|  2.5.0 (5 Apr 2011) | Foswiki:Tasks/Item9459: add DIFF template for improved change presentation |
+|  2.4.4 (5 Apr 2011) | Foswiki:Tasks/Item10545: Fix overriding rules |
+|  2.4.3 (30 Sep 2010) | Foswikitask:Item6011: document =-user= parameter and update examples in order to make fully functional on versions of Foswiki through 1.0.10; other documentation cleanup  -- Foswiki:Main.WillNorris |
+|  2.4.2 (31 Jul 2010) | Foswikitask:Item9415: Documentation updates |
+|  2.4.1 (9 Jul 2010) | Foswikitask:Item9261: split of the plugin more completely to make configuration cleaner. No functional changes. |
+|  2.4.0 (18 Dec 2009) | Foswikitask:Item2511: make a new tiny plugin module, to reduce load time for when the mailer isn't used in a request |
+|  2.3.0 (8 Dec 2009) | Foswikitask:Item8316: Added REST handler, Foswikitask:Item2473: Foswikitask:Item2480: doc & dead code tidy-ups |
+|  2.2.1 (4 Dec 2009) | Foswikitask:Item8354: Martin Rowe fixed a problem with STARTPUBLISH in newsletters corrupting the template |
+|  2.2.0 (17 Oct 2009) | Foswikitask:Item1302: Removed the documentation of the -news mode which was actually never really implemented. Instead added two new -nonews and -nochanges modes which enables running mailnotify in newsletter mode with another schedule than the changes mode. If you upgrade and used the -news option with mailnotify things will work like you are used to as the -news option made no difference (old bug). |
+|  2.1.0 (15 Oct 2009) | Foswikitask:Item2260: Make the feature that allows defining the email template based in either skin or web path. And improve the documentation so people can learn how to tailor the emails that the WebNotify feature sends. <br /> Foswikitask:Item1603: use quotes to protect topic names with odd characters in them |
+|  2.0.2 (20 Sep 2009) | Small documentation update for Foswiki 1.0.7 release (RELEASE and adding parent) |
+|  2.0.1 (23 Apr 2009) | Foswikitask:Item1501: Minor bug in logfile output fixed |
+|  2.0.0 (03 Dec 2008) | Re-released for the Foswiki project |
 |  15 Oct 2008 | TWikibug:Item: generalised code to enable Foswiki:Extensions.SubscribePlugin to delegate parsing to %TOPIC% - Foswiki:Main.SvenDowideit |
 |  14 Oct 2008 | TWikibug:Item6066: fixed issue for user mappings where cuid != login  - Foswiki:Main.SvenDowideit |
 |  27 Aug 2008 | TWikibug:Item5949: fixed problem with unsubscribe that should result in an empty subscription |

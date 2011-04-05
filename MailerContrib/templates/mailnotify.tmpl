@@ -57,6 +57,15 @@
 --------------------------------
 %TMPL:DEF{PLAIN:after}%%TMPL:END%
 --------------------------------
+%TMPL:DEF{DIFF:before}%%TMPL:END%
+--------------------------------
+%TMPL:DEF{DIFF:middle}%- %TOPIC% (%AUTHOR%, %TIME%) %REVISION%
+%SCRIPTURL{"view"}%/%ENCODE{%WEB%}%/%ENCODE{%TOPIC%}%
+%TEXTHEAD%
+%TMPL:END%
+--------------------------------
+%TMPL:DEF{DIFF:after}%%TMPL:END%
+--------------------------------
 %TMPL:DEF{MailNotifyBody}%From: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
 To: %EMAILTO%
 Subject: %WIKITOOLNAME%.%WEB% - %MAKETEXT{"Automated notification of topic changes"}%
