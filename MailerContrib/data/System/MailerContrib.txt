@@ -24,15 +24,15 @@ Allows users to "subscribe" to regularly scheduled emails containing either:
 ---++ How it works
 
 !MailerContrib generates and sends out emails based on analysis of
-   1 users' subcriptions listed in the <nop>%NOTIFYTOPIC% topic in each web, and
+   1 users' subscriptions listed in the <nop>%NOTIFYTOPIC% topic in each web, and
    1 changes within the respective webs.
 
-The mailer collates the changes emails so that each subscriber only receives one changes notification for all changes in all webs in the Foswiki. Furthermore, users can elect to receive just summaries of changes, or the entire content of topics that have changed.
+The mailer collates the changes so that each subscriber only receives one email notification for all changes in all webs in the wiki. Furthermore, users can elect to receive just summaries of changes, or the entire content of topics that have changed.
 
 Each web can optionally contain a topic called <nop>%NOTIFYTOPIC%.
 <!-- Included by %SYSTEMWEB%.WebNotifyHelp -->
 %STARTINCLUDE%
-Users subscribe to email notifications using their [[%SYSTEMWEB%.WikiName][WikiName]] or an alternative email address, and can specify the webs/topics they wish to track, Whole groups of users can also be subscribed for notification.
+Users subscribe to email notifications using their [[%SYSTEMWEB%.WikiName][WikiName]] or an alternative email address, and can specify the webs/topics they wish to track. Whole groups of users can also be subscribed for notification.
 
 The general format of a subscription is:
 
@@ -84,7 +84,7 @@ Subscribe =IT:admins= (a non-Foswiki group defined by an alternate user mapping)
    * 'IT:admins' : Web*
 </verbatim>
 
-A user may be listed many times in the <nop>%NOTIFYTOPIC% topic. Where a user has several lines in <nop>%NOTIFYTOPIC% that all match the same topic, they will only be notified about _changes_ that topic _once_ (though they will still receive individual mails for news topics).
+A user may be listed many times in the <nop>%NOTIFYTOPIC% topic. Where a user has several lines in <nop>%NOTIFYTOPIC% that all match the same topic, they will only be notified about _changes_ in that topic _once_ (though they will still receive individual mails for news topics).
 
 If a _group_ is listed for notification, the group will be recursively expanded to the email addresses of all members.
 
@@ -250,17 +250,18 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
-|  30 Sep 2010 | Foswikitask:Item6011: document =-user= parameter and update examples in order to make fully functional on versions of Foswiki through 1.0.10; other documentation cleanup  -- Foswiki:Main.WillNorris |
-|  31 Jul 2010 | Foswikitask:Item9415: Documentation updates |
-|  9 Jul 2010 | Foswikitask:Item9261: split of the plugin more completely to make configuration cleaner. No functional changes. |
-|  18 Dec 2009 | Foswikitask:Item2511: make a new tiny plugin module, to reduce load time for when the mailer isn't used in a request |
-|  8 Dec 2009 | Foswikitask:Item8316: Added REST handler, Foswikitask:Item2473: Foswikitask:Item2480: doc & dead code tidy-ups |
-|  4 Dec 2009 | Foswikitask:Item8354: Martin Rowe fixed a problem with STARTPUBLISH in newsletters corrupting the template |
-|  17 Oct 2009 | Foswikitask:Item1302: Removed the documentation of the -news mode which was actually never really implemented. Instead added two new -nonews and -nochanges modes which enables running mailnotify in newsletter mode with another schedule than the changes mode. If you upgrade and used the -news option with mailnotify things will work like you are used to as the -news option made no difference (old bug). |
-|  15 Oct 2009 | Foswikitask:Item2260: Make the feature that allows defining the email template based in either skin or web path. And improve the documentation so people can learn how to tailor the emails that the WebNotify feature sends. <br /> Foswikitask:Item1603: use quotes to protect topic names with odd characters in them |
-|  20 Sep 2009 | Small documentation update for Foswiki 1.0.7 release (RELEASE and adding parent) |
-|  23 Apr 2009 | Foswikitask:Item1501: Minor bug in logfile output fixed |
-|  03 Dec 2008 | Re-released for the Foswiki project |
+|  2.4.4 (5 Apr 2011) | Foswiki:Tasks/Item10545: Fix overriding rules |
+|  2.4.3 (30 Sep 2010) | Foswikitask:Item6011: document =-user= parameter and update examples in order to make fully functional on versions of Foswiki through 1.0.10; other documentation cleanup  -- Foswiki:Main.WillNorris |
+|  2.4.2 (31 Jul 2010) | Foswikitask:Item9415: Documentation updates |
+|  2.4.1 (9 Jul 2010) | Foswikitask:Item9261: split of the plugin more completely to make configuration cleaner. No functional changes. |
+|  2.4.0 (18 Dec 2009) | Foswikitask:Item2511: make a new tiny plugin module, to reduce load time for when the mailer isn't used in a request |
+|  2.3.0 (8 Dec 2009) | Foswikitask:Item8316: Added REST handler, Foswikitask:Item2473: Foswikitask:Item2480: doc & dead code tidy-ups |
+|  2.2.1 (4 Dec 2009) | Foswikitask:Item8354: Martin Rowe fixed a problem with STARTPUBLISH in newsletters corrupting the template |
+|  2.2.0 (17 Oct 2009) | Foswikitask:Item1302: Removed the documentation of the -news mode which was actually never really implemented. Instead added two new -nonews and -nochanges modes which enables running mailnotify in newsletter mode with another schedule than the changes mode. If you upgrade and used the -news option with mailnotify things will work like you are used to as the -news option made no difference (old bug). |
+|  2.1.0 (15 Oct 2009) | Foswikitask:Item2260: Make the feature that allows defining the email template based in either skin or web path. And improve the documentation so people can learn how to tailor the emails that the WebNotify feature sends. <br /> Foswikitask:Item1603: use quotes to protect topic names with odd characters in them |
+|  2.0.2 (20 Sep 2009) | Small documentation update for Foswiki 1.0.7 release (RELEASE and adding parent) |
+|  2.0.1 (23 Apr 2009) | Foswikitask:Item1501: Minor bug in logfile output fixed |
+|  2.0.0 (03 Dec 2008) | Re-released for the Foswiki project |
 |  15 Oct 2008 | TWikibug:Item: generalised code to enable Foswiki:Extensions.SubscribePlugin to delegate parsing to %TOPIC% - Foswiki:Main.SvenDowideit |
 |  14 Oct 2008 | TWikibug:Item6066: fixed issue for user mappings where cuid != login  - Foswiki:Main.SvenDowideit |
 |  27 Aug 2008 | TWikibug:Item5949: fixed problem with unsubscribe that should result in an empty subscription |

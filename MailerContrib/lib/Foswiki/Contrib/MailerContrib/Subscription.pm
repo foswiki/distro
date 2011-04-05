@@ -119,13 +119,13 @@ specified by another subscription. Thus:
 sub covers {
     my ( $this, $tother, $db ) = @_;
 
-    #* should win always.
-    return 1 if ( $this->{topics} eq '*' );
-
     # Does the mode cover the other subscription?
     return 0
       unless (
         ( $this->{options} & $tother->{options} ) == $tother->{options} );
+
+    #* should win always.
+    return 1 if ( $this->{topics} eq '*' );
 
     # do they match without taking into account the depth?
     return 0 unless ( $this->matches( $tother->{topics}, undef, 0 ) );
