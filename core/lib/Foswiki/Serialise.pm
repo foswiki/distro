@@ -56,13 +56,13 @@ sub default {
         # If any of the results is non-scalar, have to perl it
         foreach my $v (@$result) {
             if ( ref($v) ) {
-                return perl($result);
+                return perl($session, $result);
             }
         }
         return join( ',', @$result );
     }
     elsif ( ref($result) ) {
-        return perl($result);
+        return perl($session, $result);
     }
     else {
         return defined $result ? $result : '';
