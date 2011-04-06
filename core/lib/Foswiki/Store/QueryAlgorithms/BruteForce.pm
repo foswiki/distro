@@ -181,7 +181,7 @@ sub _webQuery {
         };
         my @filter = @{ $hoistedREs->{text} };
         my $searchQuery =
-          new Foswiki::Search::Node( '$query->toString()', #TODO: toString() commented out - see Item10479 as it still needs fixing)
+          new Foswiki::Search::Node( $query->toString(),
             \@filter, $searchOptions );
         #use Data::Dumper;
         #print STDERR "--- hoisted: ".Dumper($hoistedREs)."\n" if MONITOR;

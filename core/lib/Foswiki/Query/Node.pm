@@ -85,20 +85,24 @@ sub emptyExpression {
 }
 
 sub toString {
-    my ($a) = @_;
+    my $a = shift;
     return 'undef' unless defined($a);
+    # Suppress the recursion check; the tree can easily be more than
+    # 100 levels deep.
+    no warnings 'recursion';
     if ( UNIVERSAL::isa( $a, 'Foswiki::Query::Node' ) ) {
         return '{ op => ' . $a->{op} . ', params => ' . toString( $a->{params}
         ) . ' }';
     }
     if ( ref($a) eq 'ARRAY' ) {
-        return '[' . join( ',', map { toString($_) } @$a ) . ']';
+	return '[' . join( ',', map { toString($_) } @$a ) . ']';
     }
     if ( ref($a) eq 'HASH' ) {
         return
           '{'
           . join( ',', map { "$_=>" . toString( $a->{$_} ) } keys %$a ) . '}';
     }
+    use warnings 'recursion';
     if ( UNIVERSAL::isa( $a, 'Foswiki::Meta' ) ) {
         return $a->stringify();
     }
