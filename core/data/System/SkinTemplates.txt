@@ -240,7 +240,7 @@ the =%<nop>MAKETEXT= macro to simplify translation into different languages.
 
 =attachtables.tmpl= is another template worthy of separate mention. This
 template defines the different parts of the page that are involved in
-displaying tables of attachments. The blockes defined in this template are
+displaying tables of attachments. The blocks defined in this template are
 instantiated directly from code, rather than via =%<nop>TMPL:P=.
 
 The remainder of the templates are used for varying purposes; their names,
