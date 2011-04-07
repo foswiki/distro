@@ -146,6 +146,60 @@ When installing extensions from the command line:
 
 Plugins are activated in the _Plugins_ section of the =configure= page. In addition, some plugins are also configured in this section.
 
+The instructions for using the extensions installer from the shell are
+retrieved by using the "usage" command:  =tools/extension_installer usage= or
+=./SomePlugin_installer usage= 
+
+<verbatim>
+perl working/configure/pkgdata/X509UserPlugin_installer usage
+
+Usage as a custom installer:
+
+       X509UserPlugin_installer -a -n -d -r -u -c install
+       X509UserPlugin_installer -a -n uninstall
+       X509UserPlugin_installer manifest
+       X509UserPlugin_installer dependencies
+
+Usage as a generic installer:
+
+       tools/extension_installer X509UserPlugin -a -n -d -r -u -c install
+       tools/extension_installer X509UserPlugin -a -n uninstall
+       tools/extension_installer X509UserPlugin manifest
+       tools/extension_installer X509UserPlugin dependencies
+
+If command (install, uninstall ..) is not provided, default is to 
+install the extension.
+
+Operates on the directory tree below where it is run from,
+so should be run from the top level of your Foswiki installation.
+
+Depending upon your installation, you may need to execute perl directly
+  perl tools/extension_installer ...   or
+  perl X509UserPlugin_installer ...
+
+"install" will check dependencies and perform any required
+post-install steps.
+
+"uninstall" will remove all files that were installed for
+X509UserPlugin even if they have been locally modified.
+
+-a means don't prompt for confirmation before resolving
+   dependencies
+-d means auto-download if -a (no effect if not -a)
+-r means reuse packages on disc if -a (no effect if not -a)
+-u means the archive has already been downloaded and unpacked
+-n means don't write any files into my current install, just
+   tell me what you would have done
+-c means don't try to use CPAN to install missing libraries
+
+"manifest" will generate a list of the files in the package on
+standard output. The list is generated in the same format as
+the MANIFEST files used by BuildContrib.
+
+"dependencies" will generate a list of dependencies on standard
+output.
+</verbatim>
+
 ---++++ Removing (uninstalling) extensions
 
 <blockquote class="foswikiHelp"> %X% *Caution:*  When removing an extension, no dependency checking is performed.
@@ -159,6 +213,9 @@ The web and command line interfaces can also be used to uninstall extensions.  W
    * The Extension files along with any =,v= revision control files will be removed, including the =_installer=. 
       * Any additional files saved locally are not removed.
    * Plugin modules __are not disabled in the configuration__ - they must be disabled manually.
+
+Run the uninstall from the "root" of the Foswiki installation:
+=working/configure/pkgdata/SomeExtension_installer uninstall=
 
 ---++++ Restoring a removed, or previous version of an extension
 
