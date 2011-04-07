@@ -147,14 +147,14 @@ This is the reference evaluator for queries. However it may not be the only
 engine that evaluates them; external engines, such as SQL, might be delegated
 the responsibility of evaluating queries in a search context.
 
-Note that the name resolution simply executes the getField function in the
-query algorithm. It is placed there to allow for Store specific optimisations
-such as direct database lookups.
+Name resolution depends on the context in which the name is used. A name
+on the LHS of the dot and where operators may only be a form name, or a META:
+name, referred to as a "restricted name". A name anywhere else can be
+a META: name, a field name, or one of the shortcuts (such as "web", "name"
+etc). Fields and forms are looked up by calling the =getField= and
+=getForm= methods in the query engine respectively.
 
 =cut
-
-# SMELL: is the getField passed enough domain information? It can see the data
-# object (usually a Meta) but cannot see the context of the name in the query (SD)
 
 sub evaluate {
     my $this = shift;
@@ -168,20 +168,31 @@ sub evaluate {
         if ( $this->{op} == Foswiki::Infix::Node::NAME
             && defined $domain{data} )
         {
-	    print STDERR '.' if MONITOR_EVAL;
+	    print STDERR 'atom ' if MONITOR_EVAL;
 	    if (lc($this->{params}[0]) eq 'now') {
 		$result = time();
 	    } elsif (lc($this->{params}[0]) eq 'undefined') {
 		$result = undef;
 	    } else {
-		# a name; look it up in $domain{data}
+		# a name; either the form name or a field name.
+		# Look it up in $domain{data}
 		eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
 		if ($@) {
 		    print STDERR ' BOOM ' if MONITOR_EVAL;
 		    die $@ ;
 		}
-		$result = $Foswiki::cfg{Store}{QueryAlgorithm}->getField(
-		    $this, $domain{data}, $this->{params}[0] );
+		my $name = $this->{params}[0];
+		$name = $Foswiki::Meta::aliases{$name} || $name;
+		if ($domain{restricted_name} && $name !~ /^META:/) {
+		    # Only a form name and META: expressions are
+		    # legal on the LHS of a dot or where expression
+		    print STDERR " form $name" if MONITOR_EVAL;
+ 		    $result = $Foswiki::cfg{Store}{QueryAlgorithm}->getForm(
+			$this, $domain{data}, $name );
+		} else {
+		    print STDERR " field $name" if MONITOR_EVAL;
+		    $result = $this->_getField($domain{data}, $name)
+		}
 	    }
         }
         else {
@@ -192,13 +203,73 @@ sub evaluate {
     else {
         print STDERR " {\n" if MONITOR_EVAL;
         $ind++ if MONITOR_EVAL;
-        $result = $this->{op}->evaluate( $this, @_ );
+	my %params = @_;
+	delete $params{no_fields}; # kill semaphore
+        $result = $this->{op}->evaluate( $this, %params );
         $ind-- if MONITOR_EVAL;
         print STDERR ( '-' x $ind ) . '}' . $this->{op}->{name} if MONITOR_EVAL;
     }
     print STDERR ' -> ' . toString($result) . "\n" if MONITOR_EVAL;
 
     return $result;
+}
+
+# Private method to fetch field values
+sub _getField {
+    my ($this, $data, $name) = @_;
+
+    if ( UNIVERSAL::isa( $data, 'Foswiki::Meta' ) ) {
+	# If the data is a Foswiki::Meta, pass on to the query algorithm
+	return $Foswiki::cfg{Store}{QueryAlgorithm}->getField(
+	    $this, $data, $name);
+    }
+
+    if ( ref($data) eq 'ARRAY' ) {
+
+        # Array objects are returned during evaluation, e.g. when
+        # a subset of an array is matched for further processing.
+
+        # Indexing an array object. The index will be one of:
+        # 1. An integer, which is an implicit index='x' query
+        # 2. A name, which is an implicit name='x' query
+        if ( $name =~ /^\d+$/ ) {
+            # Integer index
+            return $data->[$name];
+        }
+
+	# String index
+	my @res;
+
+	# Get all array entries that match the field
+	foreach my $f (@$data) {
+	    my $val = $this->_getField( $f, $name );
+	    push( @res, $val ) if defined($val);
+	}
+	return \@res if ( scalar(@res) );
+
+	# The field name wasn't explicitly seen in any of the records.
+	# Try again, this time matching 'name' and returning 'value'
+	foreach my $f (@$data) {
+	    next unless ref($f) eq 'HASH';
+	    if (   $f->{name}
+		   && $f->{name} eq $name
+		   && defined $f->{value} )
+	    {
+		push( @res, $f->{value} );
+	    }
+	}
+	return \@res if ( scalar(@res) );
+	return undef;
+    }
+
+    if ( ref($data) eq 'HASH' ) {
+        # A hash object may be returned when a sub-object of a Foswiki::Meta
+        # object has been matched.
+        return $data->{ $this->{params}[0] };
+    }
+
+    # Last ditch - treat it as a constant
+    return $this->{params}[0];
 }
 
 =begin TML
@@ -315,7 +386,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

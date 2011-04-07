@@ -11,12 +11,12 @@ package Foswiki::Query::OP_where;
 use strict;
 use warnings;
 
-use Foswiki::Query::BinaryOP ();
-our @ISA = ('Foswiki::Query::BinaryOP');
+use Foswiki::Query::OP ();
+our @ISA = ('Foswiki::Query::OP');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => '[', close => ']', prec => 900 );
+    return $class->SUPER::new( arity => 2, name => '[', close => ']', prec => 900 );
 }
 
 sub evaluate {
@@ -25,7 +25,8 @@ sub evaluate {
     my %domain = @_;
 
     my $lhs_node = $node->{params}[0];
-    my $lhs_values = $lhs_node->evaluate(@_);
+    # See Foswiki/Query/Node.pm for an explanation of restricted names
+    my $lhs_values = $lhs_node->evaluate(restricted_name => 1, @_);
     $lhs_values = [ $lhs_values ] unless ( ref($lhs_values) eq 'ARRAY' );
 
     my $rhs_node = $node->{params}[1];
@@ -91,7 +92,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

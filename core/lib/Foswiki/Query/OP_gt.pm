@@ -11,8 +11,8 @@ package Foswiki::Query::OP_gt;
 use strict;
 use warnings;
 
-use Foswiki::Query::BinaryOP ();
-our @ISA = ('Foswiki::Query::BinaryOP');
+use Foswiki::Query::ConditionalOP ();
+our @ISA = ('Foswiki::Query::ConditionalOP');
 
 sub new {
     my $class = shift;
@@ -24,7 +24,7 @@ sub evaluate {
     my $node = shift;
     return $this->evalTest(
         $node, \@_,
-        \&Foswiki::Query::BinaryOP::compare,
+        \&Foswiki::Query::ConditionalOP::compare,
         sub { $_[0] > 0 ? 1 : 0 }
     );
 }
@@ -35,7 +35,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

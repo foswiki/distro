@@ -10,15 +10,15 @@ package Foswiki::Query::OP_ref;
 
 use strict;
 use warnings;
-use Foswiki::Query::BinaryOP ();
-our @ISA = ('Foswiki::Query::BinaryOP');
+use Foswiki::Query::OP ();
+our @ISA = ('Foswiki::Query::OP');
 
 use Error qw( :try );
 use Assert;
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => '/', prec => 800 );
+    return $class->SUPER::new( arity => 2, name => '/', prec => 800 );
 }
 
 sub evaluate {
@@ -83,7 +83,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

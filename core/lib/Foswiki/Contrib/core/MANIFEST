@@ -745,7 +745,7 @@ lib/Foswiki/Prefs/Parser.pm 0444
 lib/Foswiki/Prefs/Stack.pm 0444
 lib/Foswiki/Prefs/TopicRAM.pm 0444
 lib/Foswiki/Prefs/Web.pm 0444
-lib/Foswiki/Query/BinaryOP.pm 0444
+lib/Foswiki/Query/ConditionalOP.pm 0444
 lib/Foswiki/Query/HoistREs.pm 0444
 lib/Foswiki/Query/Node.pm 0444
 lib/Foswiki/Query/OP.pm 0444

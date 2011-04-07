@@ -3,6 +3,8 @@
 =begin TML
 
 ---+ package Foswiki::Query::OP_or
+N-ary OR function. Given an expression like a OR b OR c, this operator
+will build a single node that has 3 parameters, a, b, and c.
 
 =cut
 
@@ -11,32 +13,37 @@ package Foswiki::Query::OP_or;
 use strict;
 use warnings;
 
-use Foswiki::Query::BinaryOP ();
-our @ISA = ('Foswiki::Query::BinaryOP');
+use Foswiki::Query::OP ();
+our @ISA = ('Foswiki::Query::OP');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => 'or', prec => 100 );
+    # Treated as arity 2 for parsing, but folds to n-ary
+    return $class->SUPER::new(
+	arity => 2, canfold => 1,
+	name => 'or',
+	prec => 100 );
 }
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    my $a    = $node->{params}[0];
-    return 1 if $a->evaluate(@_);
-    my $b = $node->{params}[1];
-    return $b->evaluate(@_) ? 1 : 0;
+    foreach my $i (@{$node->{params}}) {
+	return 1 if $i->evaluate(@_);
+    }
+    return 0;
 }
 
 sub evaluatesToConstant {
     my $this = shift;
     my $node = shift;
-    my $ac   = $node->{params}[0]->evaluatesToConstant(@_);
-    my $bc   = $node->{params}[1]->evaluatesToConstant(@_);
-    return 1 if ( $ac && $bc );
-    return 1 if $ac && $node->{params}[0]->evaluate(@_);
-    return 1 if $bc && $node->{params}[1]->evaluate(@_);
-    return 0;
+    my $all_const = 1;
+    foreach my $i (@{$node->{params}}) {
+	my $ac   = $i->evaluatesToConstant(@_);
+	return 1 if $ac && $i->evaluate(@_);
+	$all_const = 0 unless $ac;
+    }
+    return $all_const;
 }
 
 1;
@@ -45,7 +52,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

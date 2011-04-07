@@ -19,19 +19,13 @@ sub evalUnary {
     return $this->collect($a, $sub);
 }
 
-sub evaluatesToConstant {
-    my $this = shift;
-    my $node = shift;
-    return $node->{params}[0]->evaluatesToConstant(@_);
-}
-
 1;
 __END__
 Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

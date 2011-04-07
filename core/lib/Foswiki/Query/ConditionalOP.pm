@@ -1,5 +1,12 @@
 # See bottom of file for license and copyright information
-package Foswiki::Query::BinaryOP;
+package Foswiki::Query::ConditionalOP;
+
+=begin TML
+
+---+ package Foswiki::Query::ConditionalOP
+Base class for binary conditional operators.
+
+=cut
 
 use strict;
 use warnings;
@@ -11,8 +18,17 @@ sub new {
     return $class->SUPER::new( arity => 2, @_ );
 }
 
-# Static function to apply a comparison function to two data, tolerant
-#  of whether they are numeric or not
+=begin TML
+
+---++ StaticMethod compare($a, $b, \&fn) -> $boolean
+
+Apply a binary comparison function to two data, tolerant
+of whether they are numeric or not. =\&fn= takes a single parameter,
+which is the result of a =<=>= comparison on =$a= and =$b=. The result
+of applying =\&fn= is returned.
+
+=cut
+
 sub compare {
     my ( $a, $b, $sub ) = @_;
     if (!defined($a)) {
@@ -30,8 +46,17 @@ sub compare {
     }
 }
 
-# Evaluate a node using the comparison function passed in. Extra parameters
-# are passed on to the comparison function.
+=begin TML
+
+---++ ObjectMethod evalTest($node, $clientData, \&fn) -> $result
+Evaluate a node using the comparison function passed in. Extra parameters
+are passed on to the comparison function. If the LHS of the node
+evaluates to an array, the result will be an array made by
+applying =\&fn= to each member of the LHS array. The RHS is passed on
+untouched to \&fn. Thus =(1,-1) > 1= will yield (1,0)
+
+=cut
+
 sub evalTest {
     my $this       = shift;
     my $node       = shift;
@@ -62,20 +87,13 @@ sub evalTest {
     }
 }
 
-sub evaluatesToConstant {
-    my $this = shift;
-    my $node = shift;
-    return 0 unless $node->{params}[0]->evaluatesToConstant(@_);
-    return $node->{params}[1]->evaluatesToConstant(@_);
-}
-
 1;
 __END__
 Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

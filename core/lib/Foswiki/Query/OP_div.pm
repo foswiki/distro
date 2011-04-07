@@ -11,12 +11,12 @@ package Foswiki::Query::OP_div;
 use strict;
 use warnings;
 
-use Foswiki::Query::BinaryOP ();
-our @ISA = ('Foswiki::Query::BinaryOP');
+use Foswiki::Query::OP ();
+our @ISA = ('Foswiki::Query::OP');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => 'div', prec => 700 );
+    return $class->SUPER::new( arity => 2, name => 'div', prec => 700 );
 }
 
 sub evaluate {
@@ -25,13 +25,6 @@ sub evaluate {
     my $a    = $node->{params}[0]->evaluate(@_);
     my $b = $node->{params}[1]->evaluate(@_);
     return $a / $b;
-}
-
-sub evaluatesToConstant {
-    my $this = shift;
-    my $node = shift;
-    return 0 unless $node->{params}[0]->evaluatesToConstant(@_);
-    return $node->{params}[1]->evaluatesToConstant(@_);
 }
 
 1;

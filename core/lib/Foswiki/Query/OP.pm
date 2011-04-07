@@ -4,9 +4,12 @@ package Foswiki::Query::OP;
 =begin TML
 
 ---+ package Foswiki::Query::OP
+Base class of operators used in queries. Operators are singleton
+objects that specify the parser behaviour and are attached to
+nodes in the parse tree to provide semantics for the nodes.
 
-Base class of operators used in queries. Operators are singleton objects that are attached
-to nodes in the parse tree to provide semantics for the nodes.
+See Foswiki::Infix::OP for details of the different options used
+to define operator nodes.
 
 =cut
 
@@ -51,10 +54,18 @@ See Foswiki::Query::Node::evaluatesToConstant
 
 Used in hoisting/optimisation.
 
+Default behaviour is to call evaluatesAsConstant on all
+parameters and return true if they all return true.
+
 =cut
 
 sub evaluatesToConstant {
-    return 0;
+    my $this = shift;
+    my $node = shift;
+    foreach my $i (@{$node->{params}}) {
+	return 0 unless $i->evaluatesToConstant(@_);
+    }
+    return 1;
 }
 
 =begin TML

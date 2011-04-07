@@ -200,6 +200,11 @@ our %VALIDATE = (
         _default => 1,
         alias    => 'preferences',
         many     => 1,
+    },
+    VERSIONS => {
+        # In trad text based data store, this does not occur in the
+        # topic text, but is pulled on demand during queries
+        alias    => 'versions',
     }
 );
 
@@ -3874,7 +3879,7 @@ sub dataDecode {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

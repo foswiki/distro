@@ -292,9 +292,10 @@ sub verify_atoms {
 
 sub verify_meta_dot {
     my $this = shift;
-    $this->check( "META:FORM", eval => { name => 'TestForm' } );
-    $this->check( "META:FORM.name", eval => 'TestForm' );
-    $this->check( "form.name",      eval => 'TestForm' );
+    $this->check( "META:FORM",        eval => { name => 'TestForm' } );
+    $this->check( "META:FORM.name",   eval => 'TestForm' );
+    $this->check( "form.name",        eval => 'TestForm' );
+
     my $info = $this->{meta}->getRevisionInfo();
     $this->check( "info.date",        eval => $info->{date} );
     $this->check( "info.format",      eval => 1.1 );
@@ -786,6 +787,17 @@ sub verify_string_bops_with_mods {
     $this->check( "uc('String')=string", eval => 0 );
     $this->check( "('String')=string",   eval => 1 );
 
+}
+
+sub verify_long_or {
+    my $this = shift;
+    my $text = "0";
+    # make this at least 100 deep to trigger recursion traps
+    for (my $i = 202; $i > 98; $i--) {
+	$text .= " OR 0";
+    }
+    $text .= " OR 1";
+    $this->check( $text, eval => 1, simpler => 1 );
 }
 
 1;

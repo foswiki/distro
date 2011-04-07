@@ -3,6 +3,7 @@
 =begin TML
 
 ---+ package Foswiki::If::OP_allows
+Test that the topic name on the LHS allows the access mode on the RHS.
 
 =cut
 
@@ -11,15 +12,15 @@ package Foswiki::If::OP_allows;
 use strict;
 use warnings;
 
-use Foswiki::Query::BinaryOP ();
-our @ISA = ('Foswiki::Query::BinaryOP');
+use Foswiki::Query::OP ();
+our @ISA = ('Foswiki::Query::OP');
 
 use Assert;
 use Foswiki::Meta ();
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => 'allows', prec => 600 );
+    return $class->SUPER::new( arity => 2, name => 'allows', prec => 600 );
 }
 
 sub evaluate {
@@ -74,7 +75,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

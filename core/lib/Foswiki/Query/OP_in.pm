@@ -11,8 +11,8 @@ package Foswiki::Query::OP_in;
 use strict;
 use warnings;
 
-use Foswiki::Query::BinaryOP ();
-our @ISA = ('Foswiki::Query::BinaryOP');
+use Foswiki::Query::ConditionalOP ();
+our @ISA = ('Foswiki::Query::ConditionalOP');
 
 sub new {
     my $class = shift;
@@ -26,15 +26,8 @@ sub evaluate {
     my $b = $node->{params}[1]->evaluate(@_);
     $b = [ $b ] unless ref($b) eq 'ARRAY';
     return scalar(grep {
-	Foswiki::Query::BinaryOP::compare(
+	Foswiki::Query::ConditionalOP::compare(
 	    $_, $a, sub { $_[0] == 0}) } @$b) > 0 ? 1 : 0;
-}
-
-sub evaluatesToConstant {
-    my $this = shift;
-    my $node = shift;
-    return 0 unless $node->{params}[0]->evaluatesToConstant(@_);
-    return $node->{params}[1]->evaluatesToConstant(@_);
 }
 
 1;

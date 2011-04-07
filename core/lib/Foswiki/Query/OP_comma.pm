@@ -3,6 +3,7 @@
 =begin TML
 
 ---+ package Foswiki::Query::OP_comma
+List-building n-ary operator.
 
 =cut
 
@@ -11,12 +12,17 @@ package Foswiki::Query::OP_comma;
 use strict;
 use warnings;
 
-use Foswiki::Query::BinaryOP ();
-our @ISA = ('Foswiki::Query::BinaryOP');
+use Foswiki::Query::OP ();
+our @ISA = ('Foswiki::Query::OP');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => ',', prec => 400, canfold => 1 );
+    # Treated as arity 2 for parsing, but folds to n-ary
+    return $class->SUPER::new(
+	arity => 2, canfold => 1,
+	name => ',',
+	prec => 400,
+	canfold => 1 );
 }
 
 sub evaluate {
@@ -32,13 +38,6 @@ sub evaluate {
 	}
     }
     return \@res;
-}
-
-sub evaluatesToConstant {
-    my $this = shift;
-    my $node = shift;
-    return 0 unless $node->{params}[0]->evaluatesToConstant(@_);
-    return $node->{params}[1]->evaluatesToConstant(@_);
 }
 
 1;

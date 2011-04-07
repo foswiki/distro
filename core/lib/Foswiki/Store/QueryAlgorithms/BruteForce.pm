@@ -46,9 +46,9 @@ sub query {
 
     # Fold constants
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
-print STDERR "--- before: ".$query->toString()."\n" if MONITOR;
+    print STDERR "--- before: ".$query->toString()."\n" if MONITOR;
     $query->simplify( tom => $context, data => $context );
-print STDERR "--- simplified: ".$query->toString()."\n" if MONITOR;
+    print STDERR "--- simplified: ".$query->toString()."\n" if MONITOR;
 
     my $webNames = $options->{web}       || '';
     my $recurse  = $options->{'recurse'} || '';
@@ -249,7 +249,7 @@ Authors: Crawford Currie http://c-dot.co.uk, Sven Dowideit http://fosiki.com
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

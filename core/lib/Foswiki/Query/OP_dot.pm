@@ -11,12 +11,12 @@ package Foswiki::Query::OP_dot;
 use strict;
 use warnings;
 
-use Foswiki::Query::BinaryOP ();
-our @ISA = ('Foswiki::Query::BinaryOP');
+use Foswiki::Query::OP ();
+our @ISA = ('Foswiki::Query::OP');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( name => '.', prec => 800 );
+    return $class->SUPER::new( arity => 2, name => '.', prec => 800 );
 }
 
 sub evaluate {
@@ -24,7 +24,8 @@ sub evaluate {
     my $node   = shift;
     my %domain = @_;
     my $a      = $node->{params}[0];
-    my $lval   = $a->evaluate(@_);
+    # See Foswiki/Query/Node.pm for an explanation of restricted names
+    my $lval   = $a->evaluate(restricted_name => 1, @_);
     return unless ( defined $lval );
     my $b = $node->{params}[1];
     my $res = $b->evaluate( data => $lval, tom => $domain{tom} );
@@ -34,13 +35,16 @@ sub evaluate {
     return $res;
 }
 
+# Data sensitive, never evaluates to a constant
+sub evaluatesToConstant { 0 }
+
 1;
 __END__
 Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

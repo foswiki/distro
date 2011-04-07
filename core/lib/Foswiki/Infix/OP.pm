@@ -11,7 +11,8 @@ in this object used by Foswiki::Infix::Parser are:
    * =prec= - operator precedence, positive non-zero integer.
      Larger number => higher precedence.
    * =arity= - set to 1 if this operator is unary, 2 for binary. Arity 0
-     is legal, should you ever need it.
+     is legal, should you ever need it. Use arity=2 and canfold=1 for
+     n-ary operators.
    * =close= - used with bracket operators. =name= should be the open
      bracket string, and =close= the close bracket. The existance of =close=
      marks this as a bracket operator.
@@ -21,9 +22,10 @@ in this object used by Foswiki::Infix::Parser are:
      names must be caselessly unique i.e. you can't define 'AND' and 'and'
      as different operators in the same parser. Does not affect the
      interpretation of non-operator terminals (names).
-   * =canfold= - means that adjacent operators of the same name can be
-     folded together i.e. the operands of the second operator can be added
-     to the parameter list of the first. This is mainly used for comma lists.
+   * =canfold= - means that adjacent nodes with identical operators
+     can be folded together i.e. the operands of the second node can
+     be pushed onto the parameter list of the first. This is used (for
+     example) for comma lists.
 Other fields in the object can be used for other purposes. However field
 names in the hash starting with =InfixParser_= are reserved for use
 by the parser.
