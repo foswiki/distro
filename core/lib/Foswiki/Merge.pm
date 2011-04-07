@@ -213,8 +213,8 @@ sub simpleMerge {
         \@b,
         {
             MATCH     => \&_sAcceptA,
-            DISCARD_A => \&_sAcceptA,
-            DISCARD_B => \&_sAcceptB,
+            DISCARD_A => \&_sDiscardA,
+            DISCARD_B => \&_sDiscardB,
             CHANGE    => \&_sChange
         },
         undef, $out,
@@ -226,20 +226,26 @@ sub simpleMerge {
 
 sub _sAcceptA {
     my ( $a, $b, $out, $ai, $bi ) = @_;
-
+    #print "DIFF AcceptA ($ai->[$a]) ($bi->[$b]) \n";
     push( @$out, ' ' . $ai->[$a] );
 }
 
-sub _sAcceptB {
+sub _sDiscardA {
     my ( $a, $b, $out, $ai, $bi ) = @_;
+    #print "DIFF DiscardA ($ai->[$a]) ($bi->[$b]) \n";
+    push( @$out, '-' . $ai->[$a] );
+}
 
-    push( @$out, ' ' . $bi->[$b] );
+sub _sDiscardB {
+    my ( $a, $b, $out, $ai, $bi ) = @_;
+    #print "DIFF DiscardB ($ai->[$a]) ($bi->[$b]) \n";
+    push( @$out, '-' . $bi->[$b] );
 }
 
 sub _sChange {
     my ( $a, $b, $out, $ai, $bi ) = @_;
     my $simpleInsert = 0;
-
+    #print "DIFF Change ($ai->[$a]) ($bi->[$b]) \n";
     if ( $ai->[$a] =~ /\S/ ) {
 
         # there is some non-white text to delete
