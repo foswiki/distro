@@ -800,4 +800,12 @@ sub verify_long_or {
     $this->check( $text, eval => 1, simpler => 1 );
 }
 
+sub verify_form_name_context {
+    my $this = shift;
+    $this->check( "TestForm", eval => undef );
+    $this->check( "TestForm[title='Number']",
+		  eval => [{value=>99,name=>'number',title=>'Number'}] );
+    $this->check( "TestForm.number", eval => 99 );
+}
+
 1;

@@ -86,24 +86,25 @@ Fields in this plan are referenced using a simple _field specifier_ syntax:
 | =X/Y= | accesses =Y= from the topic specified by the _value_ of =X=. =X= must evaluate to a topic name | =parent.name/(form.name='ExampleForm')= will evaluate to true if (1) the topic has a parent, (2) the parent topic has the main form type =ExampleForm=. |
 | ={X}= | expands to the value of the =configure= setting {X}, if it is accessible, or '' otherwise | only some configuration settings are available: %FORMAT{"%QUERY{"{AccessibleCFG}"}%" type="string" format="=$item=" separator=", "}% |
 
-Note: at some point Foswiki may support multiple forms in the same topic. For this reason you are recommended *not* to use the =fields= shortcut when accessing form fields, but always use the name of the form instead.
+Note: at some point Foswiki may support multiple forms in the same topic. For this reason you can use the name of the form on the left-hand side of =.= and =[]= expressions. As long as there is only one form in the topic, it will have the same effect as the =fields= accessor.
 
-There is a shortcut for accessing form fields. If you use the name of a field (for example, =LastName=) in the query without a . before it, that is taken to mean "the value of the field named this". This works if and only if the field name isn't the same as of the top level entry names or their aliases described above. For example, the following expressions will all evaluate to the same thing:
+If you use the name of a field (for example, =LastName=) in the query without a . before it, that is taken to mean "the value of the field named this". This works if and only if the field name isn't the same as of the top level entry names or their aliases described above. For example, the following expressions will all evaluate to the same thing:
    * =PersonForm[name='Lastname'].value=
    * =Lastname=
    * =PersonForm.Lastname=
-If =X= would conflict with the name of an entry or alias (e.g. it's =moved= or maybe =parent=), you can prepend the name of the form followed by a dot, as shown in the last example.
+If the field name would conflict with the name of an entry or alias (e.g. it's =moved= or maybe =parent=), you can prepend the name of the form followed by a dot, as shown in the last example. You cannot refer to fields that have
+the same name as operators (e.g. =AND=, =not= etc)
 
 ---++ Basic Types
-The query language supports three basic types:
+The query language supports five basic types:
    * String - string constants are delimited by single quotes. Any values taked from topics (such as field values) are by default interpreted as strings. The empty string evaluates to boolean 'false', as does the string "0". All others evaluate to 'true'.
    * Number - numerical constants can be expressed using standard floating point number notation. Strings can also be used wherever a number is expected, in which case the string will be parsed as a number. Numerical 0 evaluates to boolean 'false', all others to 'true'.
    * Undefined - an undefined value is a placeholder for a value.
-   * Arrays - ordered collections of values
-   * Structures - also known as a "hash", a structure is an associative array that maps names to values. Topics are structures, with fields as described in QuerySearch.
+   * Array - ordered collections of values
+   * Structure - also known as a "hash", a structure is an associative array that maps names to values. Topics are structures, with fields as described above.
 
 ---+++ Boolean values
-Foswiki is implemented in Perl, and the query language inherits perl semantics for the query operators. This is only a problem when determining if a value is "true" or not.
+Foswiki is implemented in Perl, and the query language inherits perl semantics for the query operators. This is usually only a problem when determining if a value is "true" or not.
 
 ---++ Constants
 You use constants for the values that you compare with fields. Constants are either strings, or numbers.
