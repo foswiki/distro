@@ -252,7 +252,7 @@ text="<style type='text/css' media='all'>
 id="UserRegistrationValidation"
 requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::WIKIWORD, JQUERYPLUGIN::COOKIE"
 text="<script type='text/javascript'>
-$(document).ready(function() {
+jQuery(function($) {
 	// have javascript
 	$('body').addClass('foswikiJs');
 	// cookie check
