@@ -20,7 +20,7 @@ sub new {
     my $class = shift;
     # Treated as arity 2 for parsing, but folds to n-ary
     return $class->SUPER::new(
-	arity => 2,  canfold => 1,
+	arity => 2,  canfold => 0, # folding disable for now
 	name => 'and',
 	prec => 200 );
 }

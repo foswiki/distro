@@ -182,8 +182,8 @@ sub evaluate {
 		    die $@ ;
 		}
 		my $name = $this->{params}[0];
-		$name = $Foswiki::Meta::aliases{$name} || $name;
-		if ($domain{restricted_name} && $name !~ /^META:/) {
+		my $realname = $Foswiki::Meta::aliases{$name} || $name;
+		if ($domain{restricted_name} && $realname !~ /^META:/) {
 		    # Only a form name and META: expressions are
 		    # legal on the LHS of a dot or where expression
 		    print STDERR " form $name" if MONITOR_EVAL;
@@ -191,6 +191,8 @@ sub evaluate {
 			$this, $domain{data}, $name );
 		} else {
 		    print STDERR " field $name" if MONITOR_EVAL;
+		    $name = $realname if
+			UNIVERSAL::isa($domain{data}, 'Foswiki::Meta');
 		    $result = $this->_getField($domain{data}, $name)
 		}
 	    }

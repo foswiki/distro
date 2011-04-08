@@ -1392,7 +1392,7 @@ sub verify_formQuery2 {
     my $result =
       $this->{test_topicObject}
       ->expandMacros( '%SEARCH{"TestForm"' . $stdCrap );
-    $this->assert_str_equals( 'QueryTopic', $result );
+    $this->assert_str_equals( '', $result );
 }
 
 sub verify_formQuery3 {
