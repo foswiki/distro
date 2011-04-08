@@ -24,12 +24,14 @@ our %expected_status = (
 
 #TODO: this is beause we're calling the UI::function, not UI:Execute - need to re-write it to use the full engine
 our %expect_non_html = (
-    rest        => 1,
-    viewfile    => 1,
-    register    => 1,    #TODO: missing action make it throw an exception
-    manage      => 1,    #TODO: missing action make it throw an exception
-    upload      => 1,    #TODO: zero size upload
-    resetpasswd => 1,
+    rest         => 1,
+    restauth     => 1,
+    viewfile     => 1,
+    viewfileauth => 1,
+    register     => 1,    #TODO: missing action make it throw an exception
+    manage       => 1,    #TODO: missing action make it throw an exception
+    upload       => 1,    #TODO: zero size upload
+    resetpasswd  => 1,
 );
 
 # Thanks to Foswiki::Form::Radio, and a default -columns attribute = 4,
@@ -416,7 +418,7 @@ sub expected_in_scan {
     if ($got) {
         $_got = 1;
     }
-    if ( $expected or not (defined $expected) ) {
+    if ( $expected or not( defined $expected ) ) {
         $_expected = 1;
     }
     if ( $_expected != $_got ) {
@@ -450,11 +452,14 @@ sub scan_for_checked {
       ( $text =~
 m/<input([^>]*?(name|id)=['"]$name['"][^>]*?value=['"]\Q${value}\E['"][^>]*?)\/>/
       );
-    $success = $success + $this->expected_in_scan( $expected->{input},
-        $fragment, "to find <input (name|id)='$name' with value '$value'" );
+    $success =
+      $success +
+      $this->expected_in_scan( $expected->{input}, $fragment,
+        "to find <input (name|id)='$name' with value '$value'" );
     ($checked) = ( $fragment =~ m/checked=[\'"]checked[\'"]/ );
-    $success = $success + $this->expected_in_scan( $expected->{checked},
-        $checked,
+    $success =
+      $success +
+      $this->expected_in_scan( $expected->{checked}, $checked,
         "to find <input (name|id)='$name' with checked value '$value'" );
 
     return ( $success == 2 );
@@ -476,8 +481,10 @@ sub scan_for_selected {
     # special characters being interpreted as part of the regex
     ( undef, $fragment ) = ( $text =~
           m/<select[^>]*?(name|id)=['"]\Q${name}\E['"][^>]*?>(.*?)<\/select>/ );
-    $success = $success + $this->expected_in_scan( $expected->{select},
-        $fragment, "to find <select (name|id)='$name'" );
+    $success =
+      $success +
+      $this->expected_in_scan( $expected->{select}, $fragment,
+        "to find <select (name|id)='$name'" );
 
     # Match contents of the option markup
     ($optattributes) =
@@ -490,8 +497,9 @@ sub scan_for_selected {
 m/<option([^>]*?value=[\'"]\Q${option}\E[\'"][^>]*?)>[^<]*?<\/option>/
           );
     }
-    $success = $success + $this->expected_in_scan( $expected->{option},
-        $optattributes,
+    $success =
+      $success +
+      $this->expected_in_scan( $expected->{option}, $optattributes,
         "to find <select (name|id)='$name' with <option '$option'" );
     my $selected;
     if ( $optattributes =~ m/selected=[\'"]selected[\'"]/ ) {
@@ -500,8 +508,9 @@ m/<option([^>]*?value=[\'"]\Q${option}\E[\'"][^>]*?)>[^<]*?<\/option>/
     else {
         $selected = 0;
     }
-    $success = $success + $this->expected_in_scan( $expected->{selected},
-        $selected,
+    $success =
+      $success +
+      $this->expected_in_scan( $expected->{selected}, $selected,
         "to find <select (name|id)='$name' with selected <option '$option'" );
 
     return ( $success == 3 );
@@ -547,10 +556,9 @@ sub test_edit_without_urlparam_presets {
     return;
 }
 
-
 # SMELL: This test created because a fix to Item9007 in Foswiki::Form::Checkbox
 # lost us the ability to set checkbox values from url parameters. However, this
-# test still passed against the faulty code, where a real web browser 
+# test still passed against the faulty code, where a real web browser
 # demonstrated the fault...
 sub test_edit_with_urlparam_presets {
     my ($this) = @_;
