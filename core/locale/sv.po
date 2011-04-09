@@ -6,13 +6,13 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-10-01 19:26+0200\n"
+"PO-Revision-Date: 2011-04-09 00:15+0200\n"
 "Last-Translator: Erik Åman <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -71,9 +71,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "%1 är en lista över andra Foswiki-användare"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 är nu registrerad med e-postadressen %2"
+msgstr "%1 är nu godkänd och registrerad med e-postadressen %2"
 
 #: core/templates/messages.tmpl:535
 msgid ""
@@ -171,9 +170,8 @@ msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 döptes om eller flyttades från %2 %3 av %4"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
-#, fuzzy
 msgid "%1.LoginName"
-msgstr "Ditt [[%1.LoginName][inloggningsnamn]]"
+msgstr "%1.LoginName"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -343,6 +341,9 @@ msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
 msgstr ""
+"*För administratörer:* Du kan ändra användarens e-postadress med detta "
+"formulär. Skriv in användarnamnet eller WikiNamnet och den nya "
+"e-postadressen."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -566,23 +567,20 @@ msgid "Add"
 msgstr "Lägg till"
 
 #: core/data/Main/GroupViewTemplate.txt:152
-#, fuzzy
 msgid "Add a user or group to this group"
-msgstr "Lägg till en användare i denna grupp"
+msgstr "Lägg till en användare eller grupp i denna grupp"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
 msgstr "Lägg till formulär"
 
 #: core/data/Main/GroupViewTemplate.txt:154
-#, fuzzy
 msgid "Add member"
-msgstr "inga medlemmar"
+msgstr "Lägg till medlem"
 
 #: core/data/Main/GroupViewTemplate.txt:89
-#, fuzzy
 msgid "Add member..."
-msgstr "Lägg till användare..."
+msgstr "Lägg till medlem..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
@@ -603,9 +601,8 @@ msgstr "För administratörer"
 
 #: core/data/Main/GroupViewTemplate.txt:63
 #: core/data/Main/GroupViewTemplate.txt:85
-#, fuzzy
 msgid "Administration"
-msgstr "Registrering"
+msgstr "Administration"
 
 #: core/data/System/WebSearch.txt:64
 msgid "Advanced search"
@@ -696,12 +693,11 @@ msgstr "Bifoga en fil"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
-#, fuzzy
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
-"title='Bifoga en bild eller ett dokument till denna sida' "
-"accesskey='a'>Bifog&a"
+"Bifoga en bild eller ett dokument till denna sida; hantera befintliga "
+"bilagor (a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -938,7 +934,6 @@ msgstr "Ändrat av"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
-#, fuzzy
 msgid "Changed on"
 msgstr "Ändrat"
 
@@ -1042,7 +1037,6 @@ msgstr "Om du har frågor så kontakta %1."
 
 # The word "context" could have different translations depending on the context.
 #: HistoryPlugin/templates/oopshistory.tmpl:100
-#, fuzzy
 msgid "Context"
 msgstr "Kontext:"
 
@@ -1140,9 +1134,8 @@ msgstr "Skapa ny FAQ-sida"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:23
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:24
-#, fuzzy
 msgid "Create new topic"
-msgstr "Skapa ny FAQ-sida"
+msgstr "Skapa ny sida"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
 msgid "Create personal sidebar"
@@ -1367,9 +1360,8 @@ msgstr "Redigera denna tabell"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
-#, fuzzy
 msgid "Edit this topic text (e)"
-msgstr "Redigera sidan"
+msgstr "Redigera sidan (e)"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1705,6 +1697,8 @@ msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
 msgstr ""
+"Om registrering inte är avstängt på grund av fel, kan administratörer "
+"fortfarande registrera användare med %1."
 
 #: core/templates/messages.tmpl:435
 msgid ""
@@ -1832,7 +1826,7 @@ msgstr ""
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "In case of a zip file, attach all included files to this topic"
-msgstr ""
+msgstr "För zip-filer, bifoga alla inkluderade filer till denna sida"
 
 #: core/data/System/WebSearch.txt:104
 msgid "In reversed order"
@@ -1932,13 +1926,12 @@ msgid "Jump"
 msgstr "Hoppa"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "Jump to first revision"
-msgstr "(version %1)"
+msgstr "Hoppa till första versionen"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
-msgstr ""
+msgstr "Hoppa till senaste versionen (%1)"
 
 #: core/data/System/WebSearch.txt:114
 msgid "Keyword search"
@@ -1946,9 +1939,8 @@ msgstr "Nyckelordssökning"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
-#, fuzzy
 msgid "Last edited by"
-msgstr "Senast ändrat av"
+msgstr "Senast ändrad av"
 
 #: core/data/System/WebSearch.txt:102
 msgid "Last editor"
@@ -1963,13 +1955,12 @@ msgid "Last name"
 msgstr "Efternamn"
 
 #: core/templates/more.tmpl:182
-#, fuzzy
 msgid "Latest revision: %1"
-msgstr "(version %1)"
+msgstr "Senaste version: %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Leave unchecked if you wish to attach the zip file itself"
-msgstr ""
+msgstr "Kryssa inte i om du vill bifoga själva zip-filen"
 
 #: core/data/System/WebSearch.txt:128
 msgid "Limit results to:"
@@ -2076,13 +2067,12 @@ msgstr "Mer..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:33
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:34
-#, fuzzy
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
 msgstr ""
-"title='Radera eller döp om denna sida; sätt föräldrasida; se och jämför "
-"versioner' accesskey='m'>Fler alternativ för sidan (&M)"
+"Mer: Radera eller döp om denna sida; sätt föräldrasida; se och jämför "
+"versioner (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -2438,11 +2428,8 @@ msgstr "Klicka på OK för att bekräfta att denna förändring var avsiktlig."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:28
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:29
-#, fuzzy
 msgid "Printable version of this topic (p)"
-msgstr ""
-"title='Utskriftsvänlig version av denna sida' accesskey='p'>Utskriftsvänlig "
-"(&P)"
+msgstr "Utskriftsvänlig version av denna sida (p)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:63
 msgid "Properties"
@@ -2520,6 +2507,9 @@ msgid ""
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
 "Check the configuration for errors."
 msgstr ""
+"Registrering är avstängd antingen i konfigurationen "
+"{EnableNewUserRegistration}, eller på grund av fel i lösenordssystemet. "
+"Kontrollera om det finns fel i konfigurationen."
 
 #: core/data/System/WebSearch.txt:116
 msgid "Regular expression search"
@@ -2553,19 +2543,16 @@ msgid "Remember your password?"
 msgstr "Kommer du ihåg ditt lösenord?"
 
 #: core/data/Main/GroupViewTemplate.txt:92
-#, fuzzy
 msgid "Remove member..."
-msgstr "Ta bort användare..."
+msgstr "Ta bort medlem..."
 
 #: core/data/Main/GroupViewTemplate.txt:173
-#, fuzzy
 msgid "Remove members from this group"
-msgstr "Ta bort användarna från denna grupp"
+msgstr "Ta bort medlemmar från denna grupp"
 
 #: core/data/Main/GroupViewTemplate.txt:177
-#, fuzzy
 msgid "Remove selected members"
-msgstr "Ta bort valda användare"
+msgstr "Ta bort valda medlemmar"
 
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
@@ -2580,6 +2567,8 @@ msgid ""
 "Rename completed, but unsafe redirect to %1 is denied.: The requested host "
 "does not match %2, and is not in {PermittedRedirectHostUrls}."
 msgstr ""
+"Omdöpning klar, men ompekning till %1 stoppades av säkerhetsskäl.: "
+"Servernamnet matchar inte %2 och finns inte i {PermittedRedirectHostUrls}."
 
 #: core/templates/messages.tmpl:74 core/templates/messages.tmpl:80
 msgid "Rename failed"
@@ -2607,9 +2596,8 @@ msgid "Rename/Move"
 msgstr "Döp om/flytta"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:96
-#, fuzzy
 msgid "Render style"
-msgstr "Visningsstil:"
+msgstr "Visningsstil"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2624,6 +2612,8 @@ msgid ""
 "Requested revision (%1) is illegal or invalid. It does not exist in history, "
 "or is the same or later than the current revision (%2)"
 msgstr ""
+"Den efterfrågade versionen (%1) är inte giltig. Den finns inte i historiken "
+"eller är samma eller senare än nuvarande version (%2)"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2638,9 +2628,8 @@ msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "Foswiki hanterar inte att ange eller nollställa lösenord"
 
 #: core/templates/more.tmpl:189
-#, fuzzy
 msgid "Restore"
-msgstr "Återställ..."
+msgstr "Återställ"
 
 #: core/templates/more.tmpl:170
 msgid "Restore topic"
@@ -2661,13 +2650,13 @@ msgid ""
 "can always revisit the revision you are replacing. Note that attachments "
 "will be left unchanged."
 msgstr ""
+"Återställning sparar en exakt kopia av den valda versionen som en ny "
+"version. Eftersom varje version sparas i sidhistoriken, kan du alltid hitta "
+"den version du ersätter igen. Observera att bilagor lämnas oförändrade."
 
 #: core/templates/more.tmpl:180
-#, fuzzy
 msgid "Restoring is disabled because this topic is at revision 1."
-msgstr ""
-"Konvertering till HTML för WYSIWYG-redigering är avstängd på grund av sidans "
-"innehåll."
+msgstr "Återställning är avstängd eftersom sidan är i version 1."
 
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
@@ -2885,9 +2874,8 @@ msgid "Set new topic parent"
 msgstr "Välj ny förälder till sidan"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
-#, fuzzy
 msgid "Show %1 revisions up to revision %2"
-msgstr "Visa en tidigare version av sidan"
+msgstr "Visa %1 versioner till och med version %2"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -2895,9 +2883,8 @@ msgid "Show help"
 msgstr "Visa hjälp"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:119
-#, fuzzy
 msgid "Showing revisions %1 - %2 (out of %3)"
-msgstr "Version %1 - %2 (av %3)"
+msgstr "Visar version %1 - %2 (av %3)"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Shrink edit box"
@@ -3552,9 +3539,8 @@ msgid "Try Again"
 msgstr "Försök igen"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:101
-#, fuzzy
 msgid "Unchanged sections before and after each change"
-msgstr "oförändrade avsnitt före och efter varje förändring"
+msgstr "Oförändrade avsnitt före och efter varje förändring"
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
@@ -3595,9 +3581,8 @@ msgid "Upload file"
 msgstr "Ladda upp fil"
 
 #: PatternSkin/templates/attach.pattern.tmpl:50
-#, fuzzy
 msgid "Upload multiple attachments in one zip file"
-msgstr "Uppdatera den bifogade filen %1 på sidan %2"
+msgstr "Lada upp flera bilagor i en zip-fil"
 
 #: PatternSkin/templates/attach.pattern.tmpl:42
 msgid "Upload up to %1 KB."
@@ -3672,14 +3657,12 @@ msgid "View differences"
 msgstr "Visa skillnader"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View earlier"
-msgstr "tidigare"
+msgstr "Visa tidigare"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View later"
-msgstr "Visa mallar"
+msgstr "Visa senare"
 
 #: core/templates/more.tmpl:139
 msgid "View previous topic revision"
@@ -3699,9 +3682,8 @@ msgstr "Visa version:"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
-#, fuzzy
 msgid "View sequential topic history"
-msgstr "Visa komplett historik för sidan"
+msgstr "Visa historik för sidan"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
 msgid "View templates"
@@ -3719,9 +3701,8 @@ msgstr "Visa komplett historik för sidan"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:18
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:19
-#, fuzzy
 msgid "View without formatting (v)"
-msgstr "Visa källtext utan formatering"
+msgstr "Visa utan formatering (v)"
 
 #: core/templates/validate.tmpl:20
 msgid "Warning! Confirmation required"
@@ -3833,7 +3814,6 @@ msgid "You"
 msgstr "Du"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
@@ -3841,7 +3821,7 @@ msgid ""
 msgstr ""
 "Du *måste* ha minst en giltig registrerad e-postadress för att kunna "
 "nollställa ditt lösenord. Om ingen av dina registrerade e-postadresser är "
-"giltig och du glömt ditt lösenord så kontakta %1."
+"giltig och du glömt ditt lösenord så kontakta %1"
 
 #: core/templates/messages.tmpl:276
 msgid "You are already registered"
@@ -4030,9 +4010,8 @@ msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "Du måste förmodligen fråga din administratör, %1, för att göra detta."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
-#, fuzzy
 msgid "Your"
-msgstr "Du"
+msgstr "Din"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
