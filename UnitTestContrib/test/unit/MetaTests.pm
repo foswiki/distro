@@ -838,8 +838,6 @@ sub test_summariseChanges {
     my $diff = $topicObject->summariseChanges('1', '3', 0);
     #print "\nTEXT rev1:rev3\n====\n" . $diff . "\n====\n\n";
     my $expected = <<RESULT;
--<nop>$this->{test_web}.RevIt 1
-+<nop>$this->{test_web}.RevIt 3
  Line 1
 -Line 2
 +<nop>SomeOtherData
@@ -851,15 +849,13 @@ RESULT
     # Verify the HTML summary
     #print "\nHTML rev1:rev3\n" . $topicObject->summariseChanges('1', '3', 1) . "\n";
     $this->assert_equals(
-      "<del>$this->{test_web}.RevIt 1</del><br /><ins>$this->{test_web}.RevIt 3</ins><br /> Line 1<br /><del>Line 2</del><br /><ins>SomeOtherData</ins><br /> Line 3",
+      " Line 1<br /><del>Line 2</del><br /><ins>SomeOtherData</ins><br /> Line 3",
       $topicObject->summariseChanges('1', '3', 1)
       );
 
     # Verify default summary - should be text for rev 3 vs. rev 2
     $diff = $topicObject->summariseChanges();
-    $expected = qr/^-<nop>TemporaryMetaTestsTestWebMetaTests.RevIt 2
-\+<nop>TemporaryMetaTestsTestWebMetaTests.RevIt 3
- Line 1
+    $expected = qr/^ Line 1
 \+<nop>SomeOtherData
  Line 3$/ms;
     #print "This summary doesn't make any sense: comparing rev2:rev3\n($diff)\n";
@@ -868,7 +864,7 @@ RESULT
 
     # Verify the HTML default summary
     #print "\nThis summary doesn't make any sense either:  comparing rev2:rev3\n(" . $topicObject->summariseChanges(undef,undef,1) . ")\n";
-    $expected = qr#^<del>$this->{test_web}.RevIt 2</del><br /><ins>$this->{test_web}.RevIt 3</ins><br /> Line 1<br /><ins>SomeOtherData</ins><br /> Line 3$#;
+    $expected = qr#^ Line 1<br /><ins>SomeOtherData</ins><br /> Line 3$#;
     $this->assert_matches( $expected,
       $topicObject->summariseChanges(undef, undef, 1)
       );

@@ -3353,7 +3353,7 @@ sub summariseChanges {
 
     return '' if ( $orev == $nrev );    # same rev, no differences
 
-    my $nstring = $this->stringify(1);
+    my $nstring = $this->stringify();
     $nstring =~ s/^%META:TOPICINFO{.*?}%//ms;
     #print "SSSSSS nstring\n($nstring)\nSSSSSS\n\n";
 
@@ -3367,7 +3367,7 @@ sub summariseChanges {
         $oldTopicObject = Foswiki::Meta->new( $session, $this->web, $this->topic, '' );
     }
 
-    my $ostring = $oldTopicObject->stringify(1);
+    my $ostring = $oldTopicObject->stringify();
     $ostring =~ s/^%META:TOPICINFO{.*?}%$//ms;
     #print "SSSSSS ostring\n$ostring\nSSSSSS\n\n";
 
