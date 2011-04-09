@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-03-28 23:05+0200\n"
+"PO-Revision-Date: 2011-04-09 09:18+0200\n"
 "Last-Translator: Kenneth Lavrsen <kenneth@lavrsen.dk>\n"
 "Language-Team: Danish <N/A>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
@@ -1702,13 +1702,12 @@ msgstr ""
 "sådan en side, så bliver du bedt om a bekræfte forespørgslen."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:20
-#, fuzzy
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
 msgstr ""
 "Hvis registrering ikke er deaktiveret på grund af fejl, så kan "
-"administratorer stadig registrere brugere ved hjælp af"
+"administratorer stadig registrere brugere ved hjælp af %1."
 
 #: core/templates/messages.tmpl:435
 msgid ""
