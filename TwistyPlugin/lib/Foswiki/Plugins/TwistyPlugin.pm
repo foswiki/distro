@@ -427,7 +427,7 @@ sub _readCookie {
     return unless ( defined($key) && defined($cookie) );
 
     my $value = '';
-    if ( $cookie =~ m/\b$key\=(.+?)\b/gi ) {
+    if ( $cookie =~ m/\b\Q$key=\E(.+?)\b/gi ) {
         $value = $1;
     }
 
