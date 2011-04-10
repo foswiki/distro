@@ -12,7 +12,7 @@ use Foswiki::AccessControlException ();
 use vars qw( $VERSION $RELEASE $NO_PREFS_IN_TOPIC $SHORTDESCRIPTION);
 
 $VERSION           = '$Rev: 15950 $';
-$RELEASE           = '1.9';
+$RELEASE           = '1.10';
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION  = 'Shows a complete history of a topic';
 
