@@ -70,13 +70,20 @@ eg
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  Jan 2011: | Foswikitask:Item10275, Foswikitask:Item10283, Foswikitask:Item10285 - toolbar related fixes -- Foswiki:Main.IngoKappler  |
-|  Jul 2010: | Foswikitask:Item9415 - Documentation updates |
+|  11 Apr 2011 (1.4): | New homepage for "Universal Wiki Edit Button". <br />\
+                        Remove !FamFamFam login/logout links and add foswikiAuthenticated class to allow conditional disabling of some buttons in some skins <br />\
+                        Add ppsx to icon type list <br />\
+                        Red star fixed so it is a star <br />\
+                        Use more representative media icons <br />\
+                        github icon added <br />\
+                        To over-ride or add to the DocumentGraphics, you need to define a MybookSkinIconsTemplate - we had gotten it the wrong way around |
+|  26 Jan 2011 (1.3): | Foswikitask:Item10275, Foswikitask:Item10283, Foswikitask:Item10285 - toolbar related fixes -- Foswiki:Main.IngoKappler  |
+|  31 Jul 2010 (1.2): | Foswikitask:Item9415 - Documentation updates |
 |  Apr 2010: | finish finding matching icons for all the legacy icon names - readying for 1.1 release |
 |  Mar 2010: | include into foswiki 1.1 core and make it the default =ICONTOPIC= |
 |  Jan 2010: | fix DocumentGraphics to be gif's because the foswiki 1.0 core is hardcoded to use gif |
 |  Dec 2009: | add DocumentGraphics topic to allow replacement of ICONTOPIC, and add Silk Companion 2 icons by Chris Cagle | 
-|  2 Aug 2009: | add a view template to allow us to use famfamfam icons for the top toolbar |
+|  02 Aug 2009: | add a view template to allow us to use famfamfam icons for the top toolbar |
 |  21 Jan 2009: | added Silk Companion 1 icons by Damien Guard |
 |  26 Nov 2008: | compatibility Foswiki |
 |  Dependencies: | %$DEPENDENCIES% |

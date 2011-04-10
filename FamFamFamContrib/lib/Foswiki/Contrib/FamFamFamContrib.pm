@@ -7,7 +7,7 @@ use warnings;
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 
 $VERSION = '$Rev$';
-$RELEASE = '1.3.1';
+$RELEASE = '1.4';
 $SHORTDESCRIPTION =
   'FamFamFam Silk is a smooth, free icon set, containing over 2000 icons';
 
