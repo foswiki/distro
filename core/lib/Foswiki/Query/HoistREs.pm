@@ -10,6 +10,41 @@ representation to pre-filter topic lists for more efficient query matching.
 
 See =Store/QueryAlgorithms/BruteForce.pm= for an example of usage.
 
+Note that this hoisting is very crude. At this point of time the
+functions don't attempt to do anything complicated, like re-ordering
+the query. They simply hoist up expressions on either side of an AND,
+where the expressions apply to a single domain.
+
+The ideal would be to rewrite the query for AND/OR evaluation i.e. an
+expression of the form (A and B) or (C and D). However this is
+complicated by the fact that there are three search domains (the web
+name, the topic name, and the topic text) that may be freely
+intermixed in the query, but cannot be mixed in the generated search
+expressions. The problem becomes one of rewriting the query to
+separate these three sets. For example, a query such as:
+
+name='Topic' OR Field='maes' OR web='Trash'
+
+requires three searches. We have to filter on name='Topic', and
+separately filter on Field='maes' and then union the sets.
+
+This gets complicated when the sets are intermixed; for example,
+
+(name='Topic' OR Field='maes') AND (web='Trash' OR Maes="field")
+
+Because the Field= terms on each side of the AND could potentially
+match any topic, we can't usefully hoist the name= or web= sub-terms.
+We can, however, hoist the Field subqueries. Now, what happens when we
+have an expression like this?
+
+(name='Topic' OR Field='maes') AND (web='Trash')
+
+Obviously we can pre-filter on the web='Trash' term, but we can't
+filter on name="Topic" because it is part of an OR.
+
+If you think I'm making this too complicated, please feel free to
+implement your own superior heuristics!
+
 =cut
 
 package Foswiki::Query::HoistREs;
@@ -20,102 +55,93 @@ use warnings;
 use Foswiki::Infix::Node ();
 use Foswiki::Query::Node ();
 
-# Try to optimise a query by hoisting regular expression searches
-# out of the query
-#
-# patterns we need to look for:
-#
-# top level is defined by a sequence of AND and OR conjunctions
-# second level, = and ~ and =~
-# second level LHS is a field access
-# second level RHS is a static string or number
-
 use constant MONITOR_HOIST => 0;
 
+our $indent = 0;
 
-=begin TML
-
----++ ObjectMethod collatedHoist($query) -> $hasRef
-
-retuns a hashRef where the keys are the node's (web|name|text) 
-for which we have hoisted regex's
-and who's values are a list of regex's
-
-and also keys of "(web|name|text)_source" where the list contains 
-the non-regex version (ie what the user entered)
-
-=cut
-
-sub collatedHoist {
-    my $node = shift;
-
-    my %collation;
-
-    my @ops = hoist($node);
-    foreach my $op (@ops) {
-        push( @{ $collation{ $op->{node} } },             $op->{regex} );
-        push( @{ $collation{ $op->{node} . '_source' } }, $op->{source} );
-    }
-    
-    #use Data::Dumper;
-    #print STDERR "--- hoisted: ".Dumper(%collation)."\n" if MONITOR_HOIST;
-
-    
-    return \%collation;
+sub _monitor {
+    my @p = map { ref($_) ? $_->stringify() : $_ } @_;
+    print STDERR (' ' x $indent) . join(' ', @p) . "\n";
 }
 
 =begin TML
 
----++ ObjectMethod hoist($query) -> @hashRefs
+---++ StaticMethod hoist($query) -> \%regex_lists
 
-Extract useful filter REs from the given query. The list returned is a list
-of filter expressions that can be used with a cache search to refine the
-list of topics. The full query should still be applied to topics that remain
-after the filter match has been applied; this is purely an optimisation.
+Main entry point for the hoister.
 
-each hash in the array contains the node the regex is for, and a regex string
+Returns a hash where the keys are the aspects to be tested
+(web|name|text) and the AND terms represented as lists of regexes,
+each of which is one OR term.
 
-{
-    node => 'web|name|text',
-    regex => 'Web.*'
-    source => 'Web*'
-}
+There are also keys named "(web|name|text)_source" where the list
+contains what the user entered for that term.
+
+A final key, "full_coverage", is set to 1 if the hoisting managed to
+extract the entire query. If "full_coverage" is not set, the caller
+will still have to evaluate the full query after the hoisted match is
+applied, as some terms could not be hoisted.
 
 =cut
 
 sub hoist {
     my $node = shift;
+    my %collation;
+
+    # Gather up all the terms applicable to a particular field
+    my @terms = _hoistAND($node);
+    foreach my $term (@terms) {
+        push( @{ $collation{ $term->{field} } }, $term->{regex} );
+        push( @{ $collation{ $term->{field} . '_source' } }, $term->{source} );
+    }
+    
+    #use Data::Dumper;
+    #print STDERR "--- hoisted: ".Dumper(%collation)."\n" if MONITOR_HOIST;
+    return \%collation;
+}
+
+# Each collection object in the result contains the field the regex is for, a
+# regex string, and the source string that the user entered. e.g.
+# {
+#     field => 'web|name|text',
+#     regex => 'Web.*'
+#     source => 'Web*'
+# }
+sub _hoistAND {
+    my $node = shift;
 
     return () unless ref( $node->{op} );
 
     if ( $node->{op}->{name} eq '(' ) {
-        return hoist( $node->{params}[0] );
+        return _hoistAND( $node->{params}[0] );
     }
 
-    print STDERR "hoist ", $node->stringify(), "\n" if MONITOR_HOIST;
     if ( $node->{op}->{name} eq 'and' ) {
-        my @lhs = hoist( $node->{params}[0] );
-        my $rhs = _hoistOR( $node->{params}[1] );
-        if ( scalar(@lhs) && $rhs ) {
-            return ( @lhs, $rhs );
+	# An 'and' conjunction yields a set of individual expressions,
+	# each of which must match the data
+	my @list = @{$node->{params}};
+	$indent++;
+	my @collect = _hoistAND( shift( @list ));
+	while (scalar(@list)) {
+	    my $term = _hoistOR( shift @list );
+	    next unless $term;
+	    push ( @collect, $term );
         }
-        elsif ( scalar(@lhs) ) {
-            return @lhs;
-        }
-        elsif ($rhs) {
-            return ($rhs);
-        }
+	$indent--;
+	_monitor( "hoistAND ", $node ) if MONITOR_HOIST;
+	return @collect;
     }
     else {
         my $or = _hoistOR($node);
         return ($or) if $or;
     }
 
-    print STDERR "\tFAILED\n" if MONITOR_HOIST;
+    _monitor( "hoistAND FAILED" ) if MONITOR_HOIST;
     return ();
 }
 
-# depth 1; we can handle a sequence of ORs
+# depth 1; we can handle a sequence of ORs, which we collapse into
+# a common subexpression when they apply to the same field.
 sub _hoistOR {
     my $node = shift;
 
@@ -126,27 +152,40 @@ sub _hoistOR {
     }
 
     if ( $node->{op}->{name} eq 'or' ) {
-        print STDERR "hoistOR ", $node->stringify(), "\n" if MONITOR_HOIST;
-        my $lhs = _hoistOR( $node->{params}[0] );
-        my $rhs = _hoistEQ( $node->{params}[1] );
-        if ( $lhs && $rhs ) {
-            if ( $lhs->{node} eq $rhs->{node} ) {
-                return {
-                    node   => $lhs->{node},
-                    regex  => $lhs->{regex} . '|' . $rhs->{regex},
-                    source => $lhs->{source} . ',' . $rhs->{source}
-                };
-            }
-            return ( $lhs, $rhs );
-        }
+	my @list = @{$node->{params}};
+	$indent++;
+	my %collection;
+	while (scalar(@list)) {
+	    my $term = _hoistEQ( shift( @list ));
+	    next unless $term;
+	    my $collect = $collection{$term->{field}};
+	    if ($collect) {
+		# Combine with previous
+		$collect->{regex} .= '|' . $term->{regex};
+		$collect->{source} .= ',' . $term->{source};
+	    } else {
+		$collection{$term->{field}} = $term;
+	    }
+	}
+	$indent--;
+        _monitor( "hoistOR ", $node ) if MONITOR_HOIST;
+	# At this point we have collected terms for all the domains, and
+	# if there is only one we can just return it. However if the
+	# expression involved more than one domain, we have a "mixed or"
+	# and we can't hoist.
+	if (scalar(keys %collection) == 1) {
+	    return (values(%collection))[0];
+	}
     }
     else {
         return _hoistEQ($node);
     }
 
-    print STDERR "\tFAILED\n" if MONITOR_HOIST;
+    _monitor( "hoistOR FAILED" ) if MONITOR_HOIST;
     return;
 }
+
+our $PHOLD = "\000RHS\001";
 
 # depth 2: can handle = and ~ expressions
 sub _hoistEQ {
@@ -158,69 +197,82 @@ sub _hoistEQ {
         return _hoistEQ( $node->{params}[0] );
     }
 
-    print STDERR "hoistEQ ", $node->stringify(), "\n" if MONITOR_HOIST;
-
-    # \000RHS\001 is a placholder for the RHS term
+    # $PHOLD is a placeholder for the RHS term in the regex
     if ( $node->{op}->{name} eq '=' ) {
+	$indent++;
         my $lhs = _hoistDOT( $node->{params}[0] );
         my $rhs = _hoistConstant( $node->{params}[1] );
+	$indent--;
         if ( $lhs && defined $rhs ) {
             $rhs = quotemeta($rhs);
-            $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
+            $lhs->{regex} =~ s/$PHOLD/$rhs/g;
             $lhs->{source} = _hoistConstant( $node->{params}[1] );
+	    _monitor( "hoistEQ ", $node, " =>" ) if MONITOR_HOIST;
             return $lhs;
         }
 
         # = is symmetric, so try the other order
-        $lhs = _hoistDOT( $node->{params}[1] );
+	$indent++;
+	$lhs = _hoistDOT( $node->{params}[1] );
         $rhs = _hoistConstant( $node->{params}[0] );
+	$indent--;
         if ( $lhs && defined $rhs ) {
             $rhs = quotemeta($rhs);
-            $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
+            $lhs->{regex} =~ s/$PHOLD/$rhs/g;
             $lhs->{source} = _hoistConstant( $node->{params}[0] );
-            return $lhs;
+	    _monitor( "hoistEQ ", $node, " <=" )
+		if MONITOR_HOIST;
+	    return $lhs;
         }
     }
     elsif ( $node->{op}->{name} eq '~' ) {
+	$indent++;
         my $lhs = _hoistDOT( $node->{params}[0] );
         my $rhs = _hoistConstant( $node->{params}[1] );
+	$indent--;
         if ( $lhs && defined $rhs ) {
             $rhs = quotemeta($rhs);
             $rhs          =~ s/\\\?/./g;
             $rhs          =~ s/\\\*/.*/g;
-            $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
+            $lhs->{regex} =~ s/$PHOLD/$rhs/g;
             $lhs->{source} = _hoistConstant( $node->{params}[1] );
-            return $lhs;
+	    _monitor( "hoistEQ ", $node, " ~" )
+	 	if MONITOR_HOIST;
+	    return $lhs;
         }
     }
     elsif ( $node->{op}->{name} eq '=~' ) {
+	$indent++;
         my $lhs = _hoistDOT( $node->{params}[0] );
         my $rhs = _hoistConstant( $node->{params}[1] );
+	$indent--;
         if ( $lhs && defined $rhs ) {
 #need to detect if its a field, or in a text, and if its a field, remove the ^$ chars...
 #or if there are no ^$, add .*'s if they are not present
-            if ($lhs->{regex} ne "\000RHS\001") {
+            if ($lhs->{regex} ne $PHOLD) {
                 if ((not ($rhs =~ /^\^/)) and
                     (not ($rhs =~ /^\.\*/))) {
-                        $rhs = '.*'.$rhs;
+		    $rhs = '.*'.$rhs;
                 }
                 
                 if ((not ($rhs =~ /\$$/)) and
                     (not ($rhs =~ /\.\*$/))) {
-                        $rhs = $rhs.'.*';
+		    $rhs = $rhs.'.*';
                 }
 
                 #if we're embedding the regex into another, then remove the ^'s
                 $rhs =~ s/^\^//;
                 $rhs =~ s/\$$//;
             }
-            $lhs->{regex} =~ s/\000RHS\001/$rhs/g;
+            $lhs->{regex} =~ s/$PHOLD/$rhs/g;
             $lhs->{source} = _hoistConstant( $node->{params}[1] );
-            return $lhs;
+	    _monitor( "hoistEQ ", $node, " =~" )
+	 	if MONITOR_HOIST;
+	    return $lhs;
         }
     }
 
-    print STDERR "\tFAILED\n" if MONITOR_HOIST;
+    _monitor( "hoistEQ FAILED" ) if MONITOR_HOIST;
     return;
 }
 
@@ -236,14 +288,13 @@ sub _hoistDOT {
         return _hoistDOT( $node->{params}[0] );
     }
 
-    print STDERR "hoistDOT ", $node->stringify(), "\n" if MONITOR_HOIST;
     if ( ref( $node->{op} ) && $node->{op}->{name} eq '.' ) {
         my $lhs = $node->{params}[0];
         my $rhs = $node->{params}[1];
         if (   !ref( $lhs->{op} )
-            && !ref( $rhs->{op} )
-            && $lhs->{op} eq Foswiki::Infix::Node::NAME
-            && $rhs->{op} eq Foswiki::Infix::Node::NAME )
+	       && !ref( $rhs->{op} )
+	       && $lhs->{op} eq Foswiki::Infix::Node::NAME
+	       && $rhs->{op} eq Foswiki::Infix::Node::NAME )
         {
             $lhs = $lhs->{params}[0];
             $rhs = $rhs->{params}[0];
@@ -252,28 +303,36 @@ sub _hoistDOT {
             }
             if ( $lhs =~ /^META:/ ) {
 
-                # \000RHS\001 is a placholder for the RHS term
+		_monitor( "hoist DOT ", $node, " => $rhs" )
+		    if MONITOR_HOIST;
+
+                # $PHOLD is a placholder for the RHS term
                 return {
-                    node  => 'text',
+                    field => 'text',
                     regex => '^%' 
-                      . $lhs 
-                      . '{.*\\b' 
-                      . $rhs
-                      . "=\\\"\000RHS\001\\\""
+			. $lhs 
+			. '{.*\\b' 
+			. $rhs
+			. "=\\\"$PHOLD\\\""
                 };
             }
 
             # Otherwise assume the term before the dot is the form name
             if ( $rhs eq 'text' ) {
 
+		_monitor( "hoist DOT ", $node, " => formname" )
+		    if MONITOR_HOIST;
+
                 # Special case for the text body
-                return { node => 'text', regex => "\000RHS\001" };
+                return { field => 'text', regex => $PHOLD };
             }
             else {
+		_monitor( "hoist DOT ", $node, " => fieldname" )
+		    if MONITOR_HOIST;
                 return {
-                    node => 'text',
+                    field => 'text',
                     regex =>
-"^%META:FIELD{name=\\\"$rhs\\\".*\\bvalue=\\\"\000RHS\001\\\""
+			"^%META:FIELD{name=\\\"$rhs\\\".*\\bvalue=\\\"$PHOLD\\\""
                 };
             }
 
@@ -284,30 +343,36 @@ sub _hoistDOT {
         if ( $node->{params}[0] eq 'name' ) {
 
             # Special case for the topic name
-            return { node => 'name', regex => "\000RHS\001" };
-            return;
+	    _monitor( "hoist DOT ", $node, " => topic" )
+	 	if MONITOR_HOIST;
+            return { field => 'name', regex => $PHOLD };
         }
         elsif ( $node->{params}[0] eq 'web' ) {
 
             # Special case for the web name
-            return { node => 'web', regex => "\000RHS\001" };
-            return;
+	    _monitor( "hoist DOT ", $node, " => web" )
+	 	if MONITOR_HOIST;
+	    return { field => 'web', regex => $PHOLD };
         }
         elsif ( $node->{params}[0] eq 'text' ) {
 
             # Special case for the text body
-            return { node => 'text', regex => "\000RHS\001" };
+	    _monitor( "hoist DOT ", $node, " => text" )
+	 	if MONITOR_HOIST;
+            return { field => 'text', regex => $PHOLD };
         }
         else {
-            return {
-                node => 'text',
+ 	    _monitor( "hoist DOT ", $node, " => field" )
+	 	if MONITOR_HOIST;
+	    return {
+                field => 'text',
                 regex =>
-"^%META:FIELD{name=\\\"$node->{params}[0]\\\".*\\bvalue=\\\"\0RHS\1\\\""
+		    "^%META:FIELD{name=\\\"$node->{params}[0]\\\".*\\bvalue=\\\"$PHOLD\\\""
             };
         }
     }
 
-    print STDERR "\tFAILED\n" if MONITOR_HOIST;
+    _monitor( "hoistDOT FAILED" ) if MONITOR_HOIST;
     return;
 }
 
@@ -315,13 +380,14 @@ sub _hoistDOT {
 sub _hoistConstant {
     my $node = shift;
 
-    print STDERR "hoistCONST ", $node->stringify(), "\n" if MONITOR_HOIST;
     if (
         !ref( $node->{op} )
         && (   $node->{op} eq Foswiki::Infix::Node::STRING
-            || $node->{op} eq Foswiki::Infix::Node::NUMBER )
-      )
+	       || $node->{op} eq Foswiki::Infix::Node::NUMBER )
+	)
     {
+	_monitor( "hoist CONST ", $node, " => $node->{params}[0]" )
+	    if MONITOR_HOIST;
         return $node->{params}[0];
     }
     return;

@@ -276,7 +276,7 @@ sub _getField {
 
 =begin TML
 
----++ evaluatesToConstant(%opts)
+---++ ObjectMethod evaluatesToConstant(%opts)
 
 Support for expression optimisation/hoisting.
 
@@ -304,7 +304,7 @@ sub evaluatesToConstant {
 
 =begin TML
 
----++ simplify(%opts)
+---++ ObjectMethod simplify(%opts)
 
 Simplify the query by spotting constant expressions and evaluating them,
 replacing the constant expression with an atomic value in the expression tree.

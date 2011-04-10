@@ -132,7 +132,7 @@ sub _webQuery {
     # Try and hoist regular expressions out of the query that we
     # can use to refine the topic set
 
-    my $hoistedREs = Foswiki::Query::HoistREs::collatedHoist($query);
+    my $hoistedREs = Foswiki::Query::HoistREs::hoist($query);
 
     # Reduce the input topic set by matching simple topic names hoisted
     # from the query.
