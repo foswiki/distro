@@ -147,7 +147,9 @@ Just customize the attached slideshow.css file to improve the view
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  19 Sep 2010 | 3.0: Arthur Clemens: Based on <nop>JQueryPlugin's [[%SYSTEMWEB%.JQueryCycle][Cycle Plugin]]. Changed implementation to use a template to make it possible to have skin overrides. The templates uses full window width and height. If no control buttons are used in the template (the new default template for instance, a new control bar at the top is displayed including a jump field to go directly to a slide number; proceed by clicking on the slide or by using the left and right arrow keys. Created legacy/fallback template SlideShowPluginTableTemplate that uses a table layout. |
+|  FIXME: | Never released 3.0: Arthur Clemens: Based on <nop>JQueryPlugin's [[%SYSTEMWEB%.JQueryCycle][Cycle Plugin]]. Changed implementation to use a template to make it possible to have skin overrides. The templates uses full window width and height. If no control buttons are used in the template (the new default template for instance, a new control bar at the top is displayed including a jump field to go directly to a slide number; proceed by clicking on the slide or by using the left and right arrow keys. Created legacy/fallback template SlideShowPluginTableTemplate that uses a table layout. |
+|  11 Apr 2011 | 2.1.3: Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
+|  24 Nov 2010 | 2.1.2: Changed the VarSLIDESHOWSTART so the example does not add to the TOC of the Macros listing |
 |  31 Jul 2010 | Foswikitask:Item9415 - Documentation updates |
 |  17 Jun 2009 | 2.0: Arthur Clemens: optimize to default template and CSS to make the plugin work with older templates. |
 |  31 Mar 2009 | [[Foswiki:Main.GilmarSantosJr][GilmarSantosJr]]: [[Foswiki:Tasks/Item1401]] - Make it work in persistent environments |
