@@ -188,11 +188,11 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
-|  1.1.2       | Foswikitask:Item2174: Protect line breaks within paragraphs in TML |
-|  1.1.1       | Foswikitask:Item10271: Switch to x.y.z release numbering %BR% \
-                 Foswikitask:Item10048: Try to use Macros in the src URLs of images with titles %BR% \
-                 Foswikitask:Item9973: Fix attachments REST handler to deal with topics named with international characters %BR%\
-                 Foswikitask:Item1391: Protect div and span tags with =style= attributes |
+|  11 Apr 2011 (1.1.2) | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
+|  19 Jan 2011 (1.1.1) | Foswikitask:Item10271: Switch to x.y.z release numbering %BR% \
+                         Foswikitask:Item10048: Try to use Macros in the src URLs of images with titles %BR% \
+                         Foswikitask:Item9973: Fix attachments REST handler to deal with topics named with international characters %BR%\
+                         Foswikitask:Item1391: Protect div and span tags with =style= attributes |
 |  28 Jun 2010 | Foswikitask:Item761, Foswikitask:Item2311, Foswikitask:Item5990, Foswikitask:Item9170: Fix conversion between character encodings. Any characters may be entered in the WYSIWYG editor, regardless of the site's encoding. Where possible, they are converted to the site encoding, otherwise they become entities. %BR%\
                  Foswikitask:Item2254: Fix cursor-movement problems on Mozilla browsers (introduced by Foswikitask:Item1798)%BR%\
                  Foswikitask:Item2605: Can now place cursor into empty list-item%BR%\
