@@ -57,13 +57,15 @@ If the contrib is installed, you will see such a field here:
 
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
+<!-- Warning Do not merge trunk version of this contrib to release branch. It is currently not compatible. -->
+
 |  Author: | Foswiki:Main/CrawfordCurrie http://c-dot.co.uk |
 |  Copyright &copy;: | See [[%ATTACHURL%/doc/html/reference.html][the Mishoo documentation]] |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 | Change History: | |
-|  Warning | Do not merge trunk version of this contrib to release branch. It is currently not compatible.  |
+|  11 Apr 2011 | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  31 Jul 2010 | Foswikitask:Item9415 - Documentation updates |
 |  03 Apr 2010 | Added possibility of local configuration of the calendar (Foswiki:Main.AntonioTerceiro).|
 |  01 Apr 2010 | Calendar displays the built-in Time-Picker if the optional format string contains time format specifiers (Foswiki:Main.RaulFRodriguez) |
