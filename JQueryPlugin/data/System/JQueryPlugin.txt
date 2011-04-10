@@ -132,6 +132,13 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  11 Apr 2011: | (4.03) jQuery default corrected to be 1.4.3. \
+                  Fixed syntax for accessing meta variables. \
+                  Improved iterating hash. \
+                  Updated forms jq plugin from 2.25 to 2.43. \
+                  Removed useless BOM code from blockUI. \
+                  Compress using utf8 encoding by default\
+                  This version is shipping with Foswiki 1.1.3 |
 |  21 Feb 2011: | (4.02) cleaned up and documented the process for adding new plugins |
 |  02 Feb 2011: | (4.01) added pnotify, configure checker to check that \
                   configured ={JQueryVersion}= is sane |
