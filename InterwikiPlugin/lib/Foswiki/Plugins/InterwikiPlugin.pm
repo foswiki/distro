@@ -27,7 +27,7 @@ use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '13 Dec 2010';
+our $RELEASE           = '10 Apr 2011';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Link !ExternalSite:Page text to external sites based on aliases defined in a rules topic';
@@ -113,7 +113,7 @@ s/(\[\[)$sitePattern:$pagePattern(\]\]|\]\[[^\]]+\]\])/_link($1,$2,$3,$4)/ge;
 
     # ref in text
     $_[0] =~
-s/(^|[\s\-\*\(])$sitePattern:$pagePattern(?=[\s\.\,\;\:\!\?\|]*(\s|$))/_link($1,$2,$3)/ge;
+s/(^|[\s\-\*\=\_\(])$sitePattern:$pagePattern(?=[\s\.\,\;\:\!\?\)\*\=\_\|]*(\s|$))/_link($1,$2,$3)/ge;
 
     return;
 }
@@ -167,7 +167,7 @@ sub _trimWhitespace {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
