@@ -98,12 +98,12 @@ $Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki
 # **NUMBER EXPERT**
 # This is the maximum number of files and directories that will be checked 
 # for permissions for the pub and data Directory paths.  This limit is initially set to 
-# 4200, which should be reasonable for a default installation.  If it is 
+# 5000, which should be reasonable for a default installation.  If it is 
 # exceeded, then an informational message is returned stating that incomplete
 # checking was performed.  If this is set to a large number on large installations,
 # then a significant delay will be incurred when configure is run, due to the 
 # recursive directory checking.
-$Foswiki::cfg{PathCheckLimit} = 4200;
+$Foswiki::cfg{PathCheckLimit} = 5000;
 
 # **PATH M**
 # Attachments store (file path, not URL), must match /foswiki/pub e.g.
