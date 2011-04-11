@@ -67,14 +67,27 @@ It's a part of the default distribution of the Foswiki Core.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  4.3.2 | Foswikitask:Item10304 - %USERSWEB%.AdminGroup moved from this extension to Foswiki core |
-|  4.3.1 | Foswikitask:Item9415 - Documentation updates |
-|  4.3 | 13 Mar 2010 - Made !UserRegistration customizable. |
-|  4.2.4 | 25 Feb 2010 - Updated documentation in !UserForm. |
-|  4.2.3 | 20 Sep 2009 - Foswiki 1.0.7 version |
-|  4.2.2 | 16 Dec 2008 - Foswiki version |
-|  4.2.1 | 03 Aug 2008 - Distributed with TWiki 4.2.1 |
-|  4.2.0 | 22 Jan 2008 - Distributed with TWiki 4.2.0 |
+|  4.3.2 (11 Apr 2011) | Foswikitask:Item10304 - !AdminGroup moved from this extension to Foswiki core to avoid it gets overwritten when upgrading the contrib from configure <br />\
+                         Foswikitask:Item10590 - !ChangeEmailAddress has query error <br />\
+                         Foswikitask:Item10536 - !UserRegistration !WikiName JS support for all skins <br />\
+                         Foswikitask:Item92: Document admin behaviour of !ChangeEmailAddress <br />\
+                         Foswikitask:Item8876: Add admin help when registration disabled <br />\
+                         Foswikitask:Item10131: !TopicUserMapping loses creation date when updating existing user if the admin had changed the {DefaultDateFormat} <br />\
+                         Foswikitask:Item9437: Dot after wikiwebmasters email becomes part of mailto <br />\
+                         Foswikitask:Item9851, Foswikitask:Item9848, Foswikitask:Item9810: <br />\
+                         Fixed problem with not being able to remove users when they has Main suffix <br />\
+                         Fixed problem where users were seen as different if prefixed by Main when added. <br />\
+                         Correct reporting when duplicate user is attempted added <br />\
+                         Removed code no longer used <br />\
+                         The creator of new group is not added to group if the user is admin unless he specifies it <br />\
+                         Fixed problem with removing duplicate users |
+|  4.3.1 (10 Nov 2010) | Foswikitask:Item9415 - Documentation updates. |
+|  4.3.0 (13 Mar 2010) | Made !UserRegistration customizable. |
+|  4.2.4 (25 Feb 2010) | Updated documentation in !UserForm. |
+|  4.2.3 (20 Sep 2009) | Foswiki 1.0.7 version |
+|  4.2.2 (16 Dec 2008) | Foswiki version |
+|  4.2.1 (03 Aug 2008) | Distributed with TWiki 4.2.1 |
+|  4.2.0 (22 Jan 2008) | Distributed with TWiki 4.2.0 |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Contrib Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% | 
