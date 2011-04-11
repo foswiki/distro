@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.3 Release Candidate 1 - 09 Apr 2011
+---+!! Foswiki Release 1.1.3 Release Candidate 1 - 11 Apr 2011
 
 %TOC%
 
@@ -30,7 +30,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
-   * Foswiki 1.1.3-RC1 was built 09 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
+   * Foswiki 1.1.3-RC1 was built 11 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
 
 ---++ Pre-installed Extensions
 
@@ -835,13 +835,13 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10143][Item10143]] | webtopiccreator.js only removes first space |
 | [[%BUGS%/Item10144][Item10144]] | Mistake in example in documentation of AutoViewTemplatePlugin |
 | [[%BUGS%/Item10147][Item10147]] | Foswiki::writeCompletePage deletes session ID cookie if page contains a form |
-| [[%BUGS%/Item10151][Item10151]] | interwiki links do not work when destination topic contains parentheses |
+| [[%BUGS%/Item10151][Item10151]] | Interwiki links do not work when destination topic contains parentheses |
 | [[%BUGS%/Item10154][Item10154]] | System web name hard-coded into WebHome text |
 | [[%BUGS%/Item10156][Item10156]] | Delete template checks all checkboxes even if the warning text says it is not recommended to do so |
 | [[%BUGS%/Item10159][Item10159]] | FAILEDPLUGINS generates invalid HTML |
 | [[%BUGS%/Item10161][Item10161]] | 4.00 of JQueryPlugin breaks a number of Twisties on 1.1.2 |
 | [[%BUGS%/Item10164][Item10164]] | NOAUTOLINK also disables the author name in the topic's REVINFO and in WebChanges |
-| [[%BUGS%/Item10166][Item10166]] | fixes to groups interface |
+| [[%BUGS%/Item10166][Item10166]] | Fixes to groups interface |
 | [[%BUGS%/Item10167][Item10167]] | Rename does not update backlinking INCLUDEs |
 | [[%BUGS%/Item10168][Item10168]] | Fix display of manual page in rewriteshebang.pl if perldoc isn't available |
 | [[%BUGS%/Item10174][Item10174]] | Javascript _src files shipped without their shrinked versions |
@@ -852,7 +852,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10195][Item10195]] | Fix foswikiFormStep layout in css and templates |
 | [[%BUGS%/Item10199][Item10199]] | Broken links in System.Skins |
 | [[%BUGS%/Item10200][Item10200]] | Pattern button style breaks jquery foswikiButtonCancel |
-| [[%BUGS%/Item10205][Item10205]] | html error in BeginnersStartHere |
+| [[%BUGS%/Item10205][Item10205]] | HTML error in BeginnersStartHere |
 | [[%BUGS%/Item10207][Item10207]] | Update pattern js to work with ajax |
 | [[%BUGS%/Item10209][Item10209]] | rewriteshebang Failure with unexpected perl path input |
 | [[%BUGS%/Item10213][Item10213]] | Make sudo login more logical |
@@ -861,7 +861,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10248][Item10248]] | TOC rendering wrong anchors for INCLUDEd content |
 | [[%BUGS%/Item10253][Item10253]] | IfStatements page does not tell about checking the value of configure setting |
 | [[%BUGS%/Item10258][Item10258]] | SEARCH order=created and order=formfield(date) doesn't work as expected |
-| [[%BUGS%/Item10259][Item10259]] | renaming web may incorrectly modify links within topic starting with old web name |
+| [[%BUGS%/Item10259][Item10259]] | Renaming web may incorrectly modify links within topic starting with old web name |
 | [[%BUGS%/Item10263][Item10263]] | Fix html validation errors |
 | [[%BUGS%/Item10267][Item10267]] | I18N.pm: Use of uninitialized value in lc  |
 | [[%BUGS%/Item10269][Item10269]] | PurePerl search for form.name in a subweb (using the / web separator) over-escapes and so give no results |
@@ -877,7 +877,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10311][Item10311]] | Restore topic fails to restore META preferences |
 | [[%BUGS%/Item10320][Item10320]] | Documentation on DocumentGraphics customization mentions wrong topic |
 | [[%BUGS%/Item10324][Item10324]] | =zeroresults="0"= doesn't print anything |
-| [[%BUGS%/Item10334][Item10334]] | provide documentation template for tag |
+| [[%BUGS%/Item10334][Item10334]] | Provide documentation template for tag in EmptyPlugin |
 | [[%BUGS%/Item10336][Item10336]] | can the configure Languages selection list be sorted? |
 | [[%BUGS%/Item10345][Item10345]] | FORMFIELD renders 'format' text with 'default' value as $value |
 | [[%BUGS%/Item10346][Item10346]] | MAKETEXT renders 0 if arg is empty |
@@ -892,7 +892,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10402][Item10402]] | compare script uses deleted oopsmissing template to report missing topic |
 | [[%BUGS%/Item10406][Item10406]] | hr lines in SEARCH pager makes it hard to skin |
 | [[%BUGS%/Item10408][Item10408]] | Temporary File Hazard in Sandbox.pm and FileCache.pm |
-| [[%BUGS%/Item10412][Item10412]] | Subtle problem with fragments |
+| [[%BUGS%/Item10412][Item10412]] | Subtle problem with fragments in login form |
 | [[%BUGS%/Item10413][Item10413]] | Fn_MAKETEXT tests fail with deprecated defined hash syntax |
 | [[%BUGS%/Item10415][Item10415]] | Document overriding effect of {AuthScripts} in AccessControl |
 | [[%BUGS%/Item10418][Item10418]] | registerMETA API changes didn't make it into 1.1.2 |
@@ -927,6 +927,9 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10564][Item10564]] | using : in an INCLUDE will crash your foswiki |
 | [[%BUGS%/Item10571][Item10571]] | =configure= to provide keyboard shortcut for "Save" |
 | [[%BUGS%/Item10587][Item10587]] | New jquery gives error when accessing meta variable |
+| [[%BUGS%/Item10617][Item10617]] | Interwiki links include trailing bracket |
+| [[%BUGS%/Item10618][Item10618]] | TwistyPlugin crashes Foswiki when topic has a trailing ) |
+| [[%BUGS%/Item10619][Item10619]] | InterwikiPlugin links can not be formatted |
 </noautolink>
 
 ---+++ Enhancements
