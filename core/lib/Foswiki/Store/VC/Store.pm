@@ -79,12 +79,12 @@ sub getHandler {
 sub readTopic {
     my ( $this, $topicObject, $version ) = @_;
 
-    my ($gotRev, $isLatest) =  $this->askListeners($topicObject);
+    my ( $gotRev, $isLatest ) = $this->askListeners($topicObject);
 
-    if (defined($gotRev) and ($gotRev > 0)) {
-        return ($gotRev, $isLatest) 
+    if ( defined($gotRev) and ( $gotRev > 0 ) ) {
+        return ( $gotRev, $isLatest );
     }
-    ASSERT(not $isLatest) if DEBUG;
+    ASSERT( not $isLatest ) if DEBUG;
 
     my $handler = $this->getHandler($topicObject);
     $isLatest = 0;
@@ -96,10 +96,10 @@ sub readTopic {
         }
     }
 
-    (my $text, $isLatest) = $handler->getRevision($version);
-    unless (defined $text) {
-        ASSERT(not $isLatest) if DEBUG;
-        return (undef, $isLatest) 
+    ( my $text, $isLatest ) = $handler->getRevision($version);
+    unless ( defined $text ) {
+        ASSERT( not $isLatest ) if DEBUG;
+        return ( undef, $isLatest );
     }
 
     $text =~ s/\r//g;    # Remove carriage returns
@@ -121,7 +121,7 @@ sub readTopic {
 
         # No revision from any other source; must be latest
         $gotRev = $handler->getLatestRevisionID();
-        ASSERT(defined $gotRev) if DEBUG;
+        ASSERT( defined $gotRev ) if DEBUG;
     }
 
     # Add attachments that are new from reading the pub directory.
@@ -150,16 +150,20 @@ sub readTopic {
             }
             else {
                 push @validAttachmentsFound, $foundAttachment;
-                $this->tellListeners(verb=>'autoattach', newmeta=>$topicObject, newattachment=>$foundAttachment);
+                $this->tellListeners(
+                    verb          => 'autoattach',
+                    newmeta       => $topicObject,
+                    newattachment => $foundAttachment
+                );
             }
         }
 
         $topicObject->putAll( 'FILEATTACHMENT', @validAttachmentsFound )
           if @validAttachmentsFound;
     }
-    
-    ASSERT(defined($gotRev)) if DEBUG;
-    return ($gotRev, $isLatest);
+
+    ASSERT( defined($gotRev) ) if DEBUG;
+    return ( $gotRev, $isLatest );
 }
 
 sub moveAttachment {
@@ -171,7 +175,13 @@ sub moveAttachment {
     if ( $handler->storedDataExists() ) {
         $handler->moveAttachment( $this, $newTopicObject->web,
             $newTopicObject->topic, $newAttachment );
-        $this->tellListeners(verb=>'update', oldmeta=>$oldTopicObject, oldattachment=>$oldAttachment, newmeta=>$newTopicObject, newattachment=>$newAttachment);
+        $this->tellListeners(
+            verb          => 'update',
+            oldmeta       => $oldTopicObject,
+            oldattachment => $oldAttachment,
+            newmeta       => $newTopicObject,
+            newattachment => $newAttachment
+        );
         $handler->recordChange( $cUID, 0 );
     }
 }
@@ -185,7 +195,11 @@ sub copyAttachment {
     if ( $handler->storedDataExists() ) {
         $handler->copyAttachment( $this, $newTopicObject->web,
             $newTopicObject->topic, $newAttachment );
-        $this->tellListeners(verb=>'insert', newmeta=>$newTopicObject, newattachment=>$newAttachment);
+        $this->tellListeners(
+            verb          => 'insert',
+            newmeta       => $newTopicObject,
+            newattachment => $newAttachment
+        );
         $handler->recordChange( $cUID, 0 );
     }
 }
@@ -205,7 +219,11 @@ sub moveTopic {
 
     $handler->moveTopic( $this, $newTopicObject->web, $newTopicObject->topic );
 
-    $this->tellListeners(verb=>'update', oldmeta=>$oldTopicObject, newmeta=>$newTopicObject);
+    $this->tellListeners(
+        verb    => 'update',
+        oldmeta => $oldTopicObject,
+        newmeta => $newTopicObject
+    );
 
     if ( $newTopicObject->web ne $oldTopicObject->web ) {
 
@@ -224,7 +242,11 @@ sub moveWeb {
     my $handler = $this->getHandler($oldWebObject);
     $handler->moveWeb( $newWebObject->web );
 
-    $this->tellListeners(verb=>'update', oldmeta=>$oldWebObject, newmeta=>$newWebObject);
+    $this->tellListeners(
+        verb    => 'update',
+        oldmeta => $oldWebObject,
+        newmeta => $newWebObject
+    );
 
     # We have to log in the new web, otherwise we would re-create the dir with
     # a useless .changes. See Item9278
@@ -284,9 +306,13 @@ sub saveAttachment {
     my $handler    = $this->getHandler( $topicObject, $name );
     my $currentRev = $handler->getLatestRevisionID();
     my $nextRev    = $currentRev + 1;
-    my $verb = ($topicObject->hasAttachment($name)) ? 'update' : 'insert';
+    my $verb = ( $topicObject->hasAttachment($name) ) ? 'update' : 'insert';
     $handler->addRevisionFromStream( $stream, 'save attachment', $cUID );
-    $this->tellListeners(verb=>$verb, newmeta=>$topicObject, newattachment=>$name);
+    $this->tellListeners(
+        verb          => $verb,
+        newmeta       => $topicObject,
+        newattachment => $name
+    );
     $handler->recordChange( $cUID, $nextRev );
     return $nextRev;
 }
@@ -298,7 +324,7 @@ sub saveTopic {
 
     my $handler = $this->getHandler($topicObject);
 
-    my $verb = ($topicObject->existsInStore()) ? 'update' : 'insert';
+    my $verb = ( $topicObject->existsInStore() ) ? 'update' : 'insert';
 
     $handler->addRevisionFromText( $topicObject->getEmbeddedStoreForm(),
         'save topic', $cUID, $options->{forcedate} );
@@ -309,7 +335,7 @@ sub saveTopic {
     my $extra = $options->{minor} ? 'minor' : '';
     $handler->recordChange( $cUID, $nextRev, $extra );
 
-    $this->tellListeners(verb=>$verb, newmeta=>$topicObject);
+    $this->tellListeners( verb => $verb, newmeta => $topicObject );
 
     return $nextRev;
 }
@@ -326,7 +352,7 @@ sub repRev {
     my $rev = $handler->getLatestRevisionID();
     $handler->recordChange( $cUID, $rev, 'minor, reprev' );
 
-    $this->tellListeners(verb=>'update', newmeta=>$topicObject);
+    $this->tellListeners( verb => 'update', newmeta => $topicObject );
 
     return $rev;
 }
@@ -352,7 +378,7 @@ sub delRev {
     $topicObject->unload();
     $topicObject->loadVersion();
 
-    $this->tellListeners(verb=>'update', newmeta=>$topicObject);
+    $this->tellListeners( verb => 'update', newmeta => $topicObject );
 
     $handler->recordChange( $cUID, $rev );
 
@@ -391,10 +417,11 @@ sub webExists {
     # do not want the TWiki web to appear as a valid web to anyone.
     if ( $web eq 'TWiki' ) {
         unless ( exists $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
-          && defined $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
-          && $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} == 1 ) {
-        return 0;
-       }
+            && defined $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
+            && $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} == 1 )
+        {
+            return 0;
+        }
     }
 
     my $handler = $this->getHandler( $web, $Foswiki::cfg{WebPrefsTopicName} );
@@ -476,7 +503,11 @@ sub remove {
     my $handler = $this->getHandler( $topicObject, $attachment );
     $handler->remove();
 
-    $this->tellListeners(verb=>'remove', oldmeta=>$topicObject, oldattachment=>$attachment);
+    $this->tellListeners(
+        verb          => 'remove',
+        oldmeta       => $topicObject,
+        oldattachment => $attachment
+    );
 
     # Only log when deleting topics or attachment, otherwise we would re-create
     # an empty directory with just a .changes. See Item9278
@@ -503,7 +534,7 @@ sub query {
         $engine = $this->{queryFn};
     }
     else {
-        ASSERT($query->isa('Foswiki::Search::Node')) if DEBUG;
+        ASSERT( $query->isa('Foswiki::Search::Node') ) if DEBUG;
         unless ( $this->{searchQueryFn} ) {
             eval "require $Foswiki::cfg{Store}{SearchAlgorithm}";
             die
