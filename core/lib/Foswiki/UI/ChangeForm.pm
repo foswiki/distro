@@ -17,6 +17,7 @@ use Assert;
 
 use Foswiki       ();
 use Foswiki::Form ();
+use Foswiki::Func ();
 
 =begin TML
 
@@ -53,7 +54,12 @@ sub generate {
             type  => 'radio',
             name  => 'formtemplate',
             id    => $formElemId,
-            value => $topicObject->web . '.' . $form
+            value => join(
+                '.',
+                Foswiki::Func::normalizeWebTopicName(
+                    $topicObject->web(), $form
+                )
+            )
         };
         $props->{checked} = 'checked' if $form eq $formName;
         $formList .= CGI::input($props);
