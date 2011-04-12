@@ -3,7 +3,7 @@
 data/System/TWikiCompatibilityPlugin.txt 0644 Documentation
 templates/twiki.tmpl 0644 compatibility template
 lib/Foswiki/Plugins/TWikiCompatibilityPlugin.pm 0644 Perl module
-lib/Foswiki/Plugins/TWikiCompatibilityPlugin/Config.spec configuration defaults
+lib/Foswiki/Plugins/TWikiCompatibilityPlugin/Config.spec 0644 configuration defaults
 lib/TWiki/Plugins.pm 0644 Perl module
 lib/TWiki/Form.pm 0644 Perl module
 lib/TWiki/Func.pm 0644 Perl module
