@@ -96,10 +96,7 @@ then='
 %INCLUDE{"%WEB%.%TOPIC%"
   section="%IF{"
     istopic '%USERSWEB%.%groupname%' AND 
-    not ( '%USERSWEB%.%groupname%'/preferences[name='VIEW_TEMPLATE'].value = 'GroupView'
-       AND 
-          defined('%USERSWEB%.%groupname%'/preferences[name='VIEW_TEMPLATE'])
-    )
+    not ( '%USERSWEB%.%groupname%'/preferences[name='VIEW_TEMPLATE'].value = 'GroupView' )
   " 
   then="group_upgrade"
   else="nochange" 
