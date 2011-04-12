@@ -217,7 +217,7 @@ sub check {
     };
     return if defined $opts{fail};
 
-    use Data::Dumper;
+    #use Data::Dumper;
     #print STDERR "query: $s\nresult: " . Data::Dumper::Dumper($query) . "\n";
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
@@ -382,8 +382,14 @@ sub verify_string_uops {
     $this->check( "uc ()",                  eval => [], simpler => '()' );
     $this->check( "lc ()",                  eval => [], simpler => '()' );
     $this->check( "length ()",              eval => 0, simpler => 0 );
-}
 
+    $this->check( "brace",      eval => 'Some text (really) we have text' );
+    $this->check( "lc(brace)",      eval => 'some text (really) we have text' );
+    $this->check( "uc(brace)",      eval => 'SOME TEXT (REALLY) WE HAVE TEXT' );
+    $this->check( "length(brace)",      eval => 31 );
+   
+    
+}
 sub verify_numeric_uops {
     my $this = shift;
     $this->check( "-()", eval => [], simpler => "()" );
@@ -450,10 +456,14 @@ sub verify_string_bops {
 
 sub verify_constants {
     my $this = shift;
-    $this->check( "undefined=undefined", eval => 1 );
     $this->check( "undefined",           eval => undef );
-    $this->check( "now=now",             eval => 1 );
+    $this->check( "undefined=undefined", eval => 1 );   #TODO: should really be able to simplify to '1'
+    $this->check( "brace=undefined", eval => 0 );
+    $this->check( "NoFieldThere=undefined", eval => 1 );
     $this->check( "now",                 eval => time );
+    $this->check( "number<now",             eval => 1 );
+    $this->check( "now>number",             eval => 0 );
+    $this->check( "now=now",             eval => 1 );
 }
 
 sub verify_boolean_corner_cases {
