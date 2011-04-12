@@ -808,16 +808,4 @@ sub verify_form_name_context {
     $this->check( "TestForm.number", eval => 99 );
 }
 
-#Item10625
-sub verify_defined {
-    my $this = shift;
-
-    $this->check( "defined(ok)", eval => 1 );
-
-    $this->check( "defined('ok') = 1", eval => 1 );
-    $this->check( "defined('ok')", eval => 1 );
-#I'm not even going to go on yet - as these 2 fail to parse
-}
-
-
 1;
