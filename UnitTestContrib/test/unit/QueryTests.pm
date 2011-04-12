@@ -462,7 +462,7 @@ sub verify_constants {
     $this->check( "NoFieldThere=undefined", eval => 1 );
     $this->check( "now",                 eval => time );
     $this->check( "number<now",             eval => 1 );
-    $this->check( "now>number",             eval => 0 );
+    $this->check( "now>number",             eval => 1 );
     $this->check( "now=now",             eval => 1 );
 }
 
