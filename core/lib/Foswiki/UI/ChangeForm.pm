@@ -49,17 +49,20 @@ sub generate {
     foreach my $form (@forms) {
         $formElemCount++;
         $formList .= CGI::br() if ($formList);
+        if ( $form ne 'none' ) {
+            $form = join(
+                '.',
+                Foswiki::Func::normalizeWebTopicName(
+                    $topicObject->web(), $form
+                )
+            );
+        }
         my $formElemId = 'formtemplateelem' . $formElemCount;
         my $props      = {
             type  => 'radio',
             name  => 'formtemplate',
             id    => $formElemId,
-            value => join(
-                '.',
-                Foswiki::Func::normalizeWebTopicName(
-                    $topicObject->web(), $form
-                )
-            )
+            value => $form
         };
         $props->{checked} = 'checked' if $form eq $formName;
         $formList .= CGI::input($props);
