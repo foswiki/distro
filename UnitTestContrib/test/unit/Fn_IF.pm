@@ -80,7 +80,8 @@ sub test_8a {
 sub test_9 {
     my $this = shift;
     $this->simpleTest( test => 'defined EDITBOXHEIGHT', then => 1, else => 0 );
-    $this->simpleTest( test => 'defined(EDITBOXHEIGHT)', then => 1, else => 0 );
+	#Item10625: no, braces or any nested ops fail for define
+    $this->simpleTest( test => 'defined(EDITBOXHEIGHT)', then => 0, else => 1 );
     $this->simpleTest( test => 'defined RANDOM', then => 0, else => 1 );
     $this->simpleTest( test => 'defined(RANDOM)', then => 0, else => 1 );
 }
@@ -97,6 +98,31 @@ sub test_9a {
         then => 1,
         else => 0
     );
+
+    #Item10625: one has to wonder why the groups IF appeared to work for 1.1.0, but now does not
+    # especially in light of the fact the OP_if::evaluate code can't handle braces, or any nested ops at all
+    $this->simpleTest(
+        test => 'defined preferences[name=\'EDITBOXHEIGHT\']',
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => 'defined(preferences[name=\'EDITBOXHEIGHT\'])',
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => 'defined \'%WEB%.%TOPIC%\'/preferences[name=\'EDITBOXHEIGHT\']',
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => 'defined(\'%WEB%.%TOPIC%\'/preferences[name=\'EDITBOXHEIGHT\'])',
+        then => 0,
+        else => 1
+    );
+
+
     $this->simpleTest(
         test => 'defined \'RANDOM\'',
         then => 0,
@@ -108,6 +134,7 @@ sub test_9a {
         else => 1
     );
 }
+
 
 sub test_10 {
     my $this = shift;
