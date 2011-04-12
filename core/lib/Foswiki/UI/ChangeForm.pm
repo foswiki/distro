@@ -36,6 +36,9 @@ sub generate {
 
     my $formName = $q->param('formtemplate') || '';
     unless ($formName) {
+        if ( not defined $topicObject->getLoadedRev() ) {
+            $topicObject->load();
+        }
         my $form = $topicObject->get('FORM');
         $formName = $form->{name} if $form;
     }
