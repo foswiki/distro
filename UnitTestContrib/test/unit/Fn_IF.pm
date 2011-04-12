@@ -80,6 +80,9 @@ sub test_8a {
 sub test_9 {
     my $this = shift;
     $this->simpleTest( test => 'defined EDITBOXHEIGHT', then => 1, else => 0 );
+    $this->simpleTest( test => 'defined(EDITBOXHEIGHT)', then => 1, else => 0 );
+    $this->simpleTest( test => 'defined RANDOM', then => 0, else => 1 );
+    $this->simpleTest( test => 'defined(RANDOM)', then => 0, else => 1 );
 }
 
 sub test_9a {
@@ -88,6 +91,21 @@ sub test_9a {
         test => 'defined \'EDITBOXHEIGHT\'',
         then => 1,
         else => 0
+    );
+    $this->simpleTest(
+        test => 'defined(\'EDITBOXHEIGHT\')',
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => 'defined \'RANDOM\'',
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => 'defined(\'RANDOM\')',
+        then => 0,
+        else => 1
     );
 }
 
