@@ -92,8 +92,8 @@ sub check {
                             -M "$Foswiki::cfg{LocalesDir}/$lang.mo" )
                       );
                     if (
-                        !$Foswiki::cfg{LanguageFileCompression}
-                        &&   -e "$Foswiki::cfg{LocalesDir}/$lang.mo"
+                           !$Foswiki::cfg{LanguageFileCompression}
+                        && -e "$Foswiki::cfg{LocalesDir}/$lang.mo"
                         && ( -M "$Foswiki::cfg{LocalesDir}/$lang.po" <
                             -M "$Foswiki::cfg{LocalesDir}/$lang.mo" )
                       )
@@ -105,7 +105,8 @@ sub check {
                     next unless $Foswiki::cfg{LanguageFileCompression};
 
                     $compMsgs .= "Compiling $lang.po into $lang.mo <br/>\n";
-                    eval { Locale::Msgfmt::msgfmt(
+                    eval {
+                        Locale::Msgfmt::msgfmt(
                             {
                                 in      => "$Foswiki::cfg{LocalesDir}/$lang.po",
                                 out     => "$Foswiki::cfg{LocalesDir}/$lang.mo",
@@ -114,17 +115,19 @@ sub check {
                             }
                         );
                     };
-                    if ( $@ ) {
-                        $n .= $this->ERROR( "Compile of locale $lang.po failed - further compiles skipped");
-                        $compMsgs .= $this->NOTE( $@ );
+                    if ($@) {
+                        $n .= $this->ERROR(
+"Compile of locale $lang.po failed - further compiles skipped"
+                        );
+                        $compMsgs .= $this->NOTE($@);
                         last;
                     }
                 }
             }
             umask($svUmask);    # Restore modified umask
             $n .= $this->NOTE(
-                "<b>Compiling modified Language files</b> found in $Foswiki::cfg{LocalesDir}<br/>\n$compMsgs")
-              if $compMsgs;
+"<b>Compiling modified Language files</b> found in $Foswiki::cfg{LocalesDir}<br/>\n$compMsgs"
+            ) if $compMsgs;
         }
     }
 
