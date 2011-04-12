@@ -355,7 +355,7 @@ sub webExists {
           && $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} == 1 ) {
         return 0;
        }
-   }
+    }
 
     my $handler = $this->getHandler( $web, $Foswiki::cfg{WebPrefsTopicName} );
     return $handler->storedDataExists();

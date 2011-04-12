@@ -11,6 +11,7 @@ use strict;
 use warnings;
 use TWiki;
 use TWiki::Func;
+use Foswiki::Func;
 
 sub new {
     my $self = shift()->SUPER::new( "Func", @_ );
@@ -46,6 +47,21 @@ sub test_web {
         $this->{test_web} . "/Blah2" );
     $this->assert( !TWiki::Func::webExists( $this->{test_web} . "/Blah" ) );
     $this->assert( TWiki::Func::webExists( $this->{test_web} . "/Blah2" ) );
+}
+
+sub test_TWiki_web {
+    my $this = shift;
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
+
+    $this->assert( Foswiki::Func::webExists( 'TWiki' ) );
+
+    $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 0;
+
+    $this->assert( ! Foswiki::Func::webExists( 'TWiki'  ) );
+
+    $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 1;
 }
 
 sub test_getViewUrl {
