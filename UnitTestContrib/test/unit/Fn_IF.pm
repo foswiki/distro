@@ -1,8 +1,7 @@
-use strict;
-
 # tests for the correct expansion of IF
-
 package Fn_IF;
+
+use strict;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
@@ -985,6 +984,16 @@ sub test_95 {
 sub test_96 {
     my $this = shift;
     $this->simpleTest( test => 'defined SYSTEMWEB', then => 1, else => 0 );
+}
+
+sub test_96a {
+    my $this = shift;
+    $this->simpleTest( test => 'defined( SYSTEMWEB )', then => 1, else => 0 );
+}
+
+sub test_96b {
+    my $this = shift;
+    $this->simpleTest( test => "defined( 'SYSTEMWEB' )", then => 1, else => 0 );
 }
 
 sub test_97 {
