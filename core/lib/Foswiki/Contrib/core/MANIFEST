@@ -958,6 +958,7 @@ templates/oopschangelanguage.tmpl 0444
 templates/oopsgeneric.tmpl 0444
 templates/oopslanguagechanged.tmpl 0444
 templates/oopsleaseconflict.tmpl 0444
+templates/oopsredirectdenied.tmpl 0444
 templates/oopssaveerr.tmpl 0444
 templates/preview.tmpl 0444
 templates/rdiff.tmpl 0444
