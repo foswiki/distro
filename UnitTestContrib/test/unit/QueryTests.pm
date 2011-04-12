@@ -558,4 +558,17 @@ sub verify_evaluatesToConstant {
     $this->assert( !$query->evaluatesToConstant(), "non-constant" );
 }
 
+#Item10625
+sub verify_defined {
+    my $this = shift;
+
+    $this->check( "defined(preferences[name='VIEW_TEMPLATE'])", eval => 0 );
+
+
+    $this->check( "defined(ok)", eval => 1 );
+
+    $this->check( "defined('ok') = 1", eval => 1 );
+    $this->check( "defined('ok')", eval => 1 );
+#I'm not even going to go on yet - as these 2 fail to parse
+}
 1;
