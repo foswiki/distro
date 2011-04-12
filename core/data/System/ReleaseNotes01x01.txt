@@ -934,6 +934,8 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10624][Item10624]] | Configure file check limit is lower than the number of files we ship |
 | [[%BUGS%/Item10625][Item10625]] | The defined in an IF has problems with syntax precedence when used in a more complex way |
 | [[%BUGS%/Item10626][Item10626]] | TWiki web is revealed even if TWikiCompatibilityPlugin is disabled |
+| [[%BUGS%/Item10629][Item10629]] | CompareRevisionsAddOn demo topic cannot demo when the ,v file is not distributed |
+ 
 </noautolink>
 
 ---+++ Enhancements
