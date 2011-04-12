@@ -16,16 +16,18 @@ use warnings;
 use Foswiki::Query::Node ();
 our @ISA = ('Foswiki::Query::Node');
 
-# Used wherever a plain string is expected, this method suppresses automatic
-# lookup of names in meta-data
+# Used wherever a plain string is expected, this method
+# suppresses automatic lookup of names in meta-data
 sub _evaluate {
     my $this = shift;
-    my $result;
 
     if ( !ref( $this->{op} ) ) {
         return $this->{params}[0];
     }
     else {
+	if ($this->{op}->{name} eq '(') {
+	    return $this->{params}[0]->_evaluate(@_);
+	}
         return $this->evaluate(@_);
     }
 }

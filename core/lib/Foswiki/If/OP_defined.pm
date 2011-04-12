@@ -22,13 +22,15 @@ sub new {
 sub evaluate {
     my $this    = shift;
     my $node    = shift;
-    my $a       = $node->{params}->[0];
+    my $a       = $node->{params}[0];
     my %domain  = @_;
     my $session = $domain{tom}->session;
     throw Error::Simple(
         'No context in which to evaluate "' . $a->stringify() . '"' )
       unless $session;
+    # NOTE: If::Node::_evaluate(), not Query::Node::evaluate
     my $eval = $a->_evaluate(@_);
+    #print STDERR "Evaluate ".$node->stringify()." -> ".(defined $eval ? $eval : 'undef')."\n";
     return 0 unless $eval;
     return 1 if ( defined( $session->{request}->param($eval) ) );
     return 1 if ( defined( $domain{tom}->getPreference($eval) ) );

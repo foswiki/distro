@@ -79,10 +79,6 @@ sub test_8a {
 sub test_9 {
     my $this = shift;
     $this->simpleTest( test => 'defined EDITBOXHEIGHT', then => 1, else => 0 );
-	#Item10625: no, braces or any nested ops fail for define
-    $this->simpleTest( test => 'defined(EDITBOXHEIGHT)', then => 0, else => 1 );
-    $this->simpleTest( test => 'defined RANDOM', then => 0, else => 1 );
-    $this->simpleTest( test => 'defined(RANDOM)', then => 0, else => 1 );
 }
 
 sub test_9a {
@@ -994,6 +990,16 @@ sub test_96a {
 sub test_96b {
     my $this = shift;
     $this->simpleTest( test => "defined( 'SYSTEMWEB' )", then => 1, else => 0 );
+}
+
+sub test_96c {
+    my $this = shift;
+    $this->simpleTest( test => 'defined( UNDEF )', then => 0, else => 1 );
+}
+
+sub test_96d {
+    my $this = shift;
+    $this->simpleTest( test => "defined( 'UNDEF' )", then => 0, else => 1 );
 }
 
 sub test_97 {
