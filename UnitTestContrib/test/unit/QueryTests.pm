@@ -85,6 +85,7 @@ sub set_up {
     $meta->putKeyed( 'PREFERENCE', { name => 'Blue',   value => '0' } );
     $meta->putKeyed( 'PREFERENCE', { name => 'White',  value => '0' } );
     $meta->putKeyed( 'PREFERENCE', { name => 'Yellow', value => '1' } );
+    $meta->putKeyed( 'PREFERENCE', { name => 'ALLCAPS', value => 'sometext' } );
     $meta->putKeyed( 'FIELD',
         { name => "number", title => "Number", value => "99" } );
     $meta->putKeyed( 'FIELD',
@@ -561,6 +562,29 @@ sub verify_evaluatesToConstant {
 #Item10625
 sub verify_defined {
     my $this = shift;
+
+#ok, that is bizzare
+#preference
+    $this->check( "defined SKIN", eval => undef );
+
+    $this->check( "defined ALLCAPS", eval => 1 );
+
+    $this->check( "defined Green", eval => 1 );
+    $this->check( "defined Red", eval => 1 );
+
+#fields
+    $this->check( "defined Number", eval => 1 );
+    $this->check( "defined Boolean", eval => 1 );
+
+
+#fields
+    $this->check( "defined(Number)", eval => 1 );
+    $this->check( "defined(Boolean)", eval => 1 );
+
+#preference
+    $this->check( "defined(Green)", eval => 1 );
+    $this->check( "defined(Red)", eval => 1 );
+
 
     $this->check( "defined(preferences[name='VIEW_TEMPLATE'])", eval => 0 );
 
