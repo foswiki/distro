@@ -56,10 +56,12 @@ sub test_TWiki_web {
     $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
 
     $this->assert( Foswiki::Func::webExists( 'TWiki' ) );
+    $this->assert( TWiki::Func::webExists( 'TWiki' ) );
 
     $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 0;
 
     $this->assert( ! Foswiki::Func::webExists( 'TWiki'  ) );
+    $this->assert( ! TWiki::Func::webExists( 'TWiki'  ) );
 
     $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 1;
 }
