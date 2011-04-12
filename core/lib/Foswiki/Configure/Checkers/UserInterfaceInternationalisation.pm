@@ -105,14 +105,20 @@ sub check {
                     next unless $Foswiki::cfg{LanguageFileCompression};
 
                     $compMsgs .= "Compiling $lang.po into $lang.mo <br/>\n";
-                    Locale::Msgfmt::msgfmt(
-                        {
-                            in      => "$Foswiki::cfg{LocalesDir}/$lang.po",
-                            out     => "$Foswiki::cfg{LocalesDir}/$lang.mo",
-                            verbose => 0
-                            , # verbose is not documented, but prints results to STDERR
-                        }
-                    );
+                    eval { Locale::Msgfmt::msgfmt(
+                            {
+                                in      => "$Foswiki::cfg{LocalesDir}/$lang.po",
+                                out     => "$Foswiki::cfg{LocalesDir}/$lang.mo",
+                                verbose => 0
+                                , # verbose is not documented, but prints results to STDERR
+                            }
+                        );
+                    };
+                    if ( $@ ) {
+                        $n .= $this->ERROR( "Compile of locale $lang.po failed - further compiles skipped");
+                        $compMsgs .= $this->NOTE( $@ );
+                        last;
+                    }
                 }
             }
             umask($svUmask);    # Restore modified umask
