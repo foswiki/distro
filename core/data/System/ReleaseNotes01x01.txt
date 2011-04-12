@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.3 Release Candidate 1 - 11 Apr 2011
+---+!! Foswiki Release 1.1.3 Release Candidate 1 - 12 Apr 2011
 
 %TOC%
 
@@ -30,7 +30,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
-   * Foswiki 1.1.3-RC1 was built 11 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
+   * Foswiki 1.1.3-RC1 was built 12 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
 
 ---++ Pre-installed Extensions
 
@@ -818,7 +818,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10069][Item10069]] | Web extension installer mis-locates Foswiki root if scripts in cgi-bin |
 | [[%BUGS%/Item10073][Item10073]] | SLIDESHOWSTART example goofs the TOC of Macros |
 | [[%BUGS%/Item10075][Item10075]] | Rename UI's 'select all' and 'clear all' buttons appear to do nothing |
-| [[%BUGS%/Item10076][Item10076]] | If Foswiki is installed with a relocated cgi-bin, initiall guesses for directories are wrong. |
+| [[%BUGS%/Item10076][Item10076]] | If Foswiki is installed with a relocated cgi-bin, initial guesses for directories are wrong |
 | [[%BUGS%/Item10078][Item10078]] | Separate, enhance, and test documentation of ACL preferences |
 | [[%BUGS%/Item10091][Item10091]] | Sections of type="include" not clearly documented |
 | [[%BUGS%/Item10093][Item10093]] | Is the CPAN module Text::Diff really required? |
@@ -902,6 +902,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10426][Item10426]] | Stack-Trace when using https-includes |
 | [[%BUGS%/Item10444][Item10444]] | Group documentation not up to date |
 | [[%BUGS%/Item10445][Item10445]] | Option to restore topic is offered even if the current revision is 1 |
+| [[%BUGS%/Item10446][Item10446]] | When a topic is created, the Add form action adds an unexisting form (wrong web reference) |
 | [[%BUGS%/Item10447][Item10447]] | BaseUserMapping::isGroup() throws "Use of uninitialized value" |
 | [[%BUGS%/Item10448][Item10448]] | Regardless of which web I vist, "Documentation" button is highlighted |
 | [[%BUGS%/Item10456][Item10456]] | defaults not initialized in persistent perl environments |
@@ -930,6 +931,9 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10617][Item10617]] | Interwiki links include trailing bracket |
 | [[%BUGS%/Item10618][Item10618]] | TwistyPlugin crashes Foswiki when topic has a trailing ) |
 | [[%BUGS%/Item10619][Item10619]] | InterwikiPlugin links can not be formatted |
+| [[%BUGS%/Item10624][Item10624]] | Configure file check limit is lower than the number of files we ship |
+| [[%BUGS%/Item10625][Item10625]] | The defined in an IF has problems with syntax precedence when used in a more complex way |
+| [[%BUGS%/Item10626][Item10626]] | TWiki web is revealed even if TWikiCompatibilityPlugin is disabled |
 </noautolink>
 
 ---+++ Enhancements
