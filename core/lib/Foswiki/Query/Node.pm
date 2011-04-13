@@ -161,14 +161,14 @@ sub evaluate {
     ASSERT( scalar(@_) % 2 == 0 );
     my $result;
 
-    print STDERR ( '-' x $ind ) . $this->stringify() if MONITOR_EVAL;
+    print STDERR ( '  ' x $ind ) . $this->stringify() if MONITOR_EVAL;
 
     if ( !ref( $this->{op} ) ) {
         my %domain = @_;
         if ( $this->{op} == Foswiki::Infix::Node::NAME
             && defined $domain{data} )
         {
-	    print STDERR 'atom ' if MONITOR_EVAL;
+	    print STDERR ' NAME' if MONITOR_EVAL;
 	    if (lc($this->{params}[0]) eq 'now') {
 		$result = time();
 	    } elsif (lc($this->{params}[0]) eq 'undefined') {
@@ -198,7 +198,7 @@ sub evaluate {
 	    }
         }
         else {
-	    print STDERR ',' if MONITOR_EVAL;
+	    print STDERR ' constant' if MONITOR_EVAL;
             $result = $this->{params}[0];
         }
     }
@@ -209,10 +209,15 @@ sub evaluate {
 	delete $params{no_fields}; # kill semaphore
         $result = $this->{op}->evaluate( $this, %params );
         $ind-- if MONITOR_EVAL;
-        print STDERR ( '-' x $ind ) . '}' . $this->{op}->{name} if MONITOR_EVAL;
+        print STDERR ( '  ' x $ind ) . '}' . $this->{op}->{name} if MONITOR_EVAL;
     }
-    print STDERR ' -> ' . toString($result) . "\n" if MONITOR_EVAL;
-
+    if (MONITOR_EVAL) {
+	print STDERR ' -> ' . toString($result);
+	my %domain = @_;
+	print STDERR " IN ".$domain{tom}->getPath()."\n"
+	    if ref($domain{tom}) && !$ind;
+	print STDERR "\n";
+    }
     return $result;
 }
 

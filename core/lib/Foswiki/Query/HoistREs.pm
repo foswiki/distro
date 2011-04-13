@@ -77,11 +77,6 @@ each of which is one OR term.
 There are also keys named "(web|name|text)_source" where the list
 contains what the user entered for that term.
 
-A final key, "full_coverage", is set to 1 if the hoisting managed to
-extract the entire query. If "full_coverage" is not set, the caller
-will still have to evaluate the full query after the hoisted match is
-applied, as some terms could not be hoisted.
-
 =cut
 
 sub hoist {
@@ -98,6 +93,12 @@ sub hoist {
     #use Data::Dumper;
     #print STDERR "--- hoisted: ".Dumper(%collation)."\n" if MONITOR_HOIST;
     return \%collation;
+}
+
+# Used for MONITOR_HOIST
+sub _monTerm {
+    my $term = shift;
+    return "$term->{field} => /$term->{regex}/";
 }
 
 # Each collection object in the result contains the field the regex is for, a
@@ -128,7 +129,8 @@ sub _hoistAND {
 	    push ( @collect, $term );
         }
 	$indent--;
-	_monitor( "hoistAND ", $node ) if MONITOR_HOIST;
+	_monitor( "hoistAND ", $node,
+	    join(', ', map { _monTerm($_) } @collect)) if MONITOR_HOIST;
 	return @collect;
     }
     else {
@@ -136,12 +138,12 @@ sub _hoistAND {
         return ($or) if $or;
     }
 
-    _monitor( "hoistAND FAILED" ) if MONITOR_HOIST;
+    _monitor( "hoistAND ", $node," FAILED" ) if MONITOR_HOIST;
     return ();
 }
 
 # depth 1; we can handle a sequence of ORs, which we collapse into
-# a common subexpression when they apply to the same field.
+# a common regular expression when they apply to the same field.
 sub _hoistOR {
     my $node = shift;
 
@@ -157,7 +159,14 @@ sub _hoistOR {
 	my %collection;
 	while (scalar(@list)) {
 	    my $term = _hoistEQ( shift( @list ));
-	    next unless $term;
+	    # If we fail to hoist the subexpression then it can't
+	    # be expressed using simple regexes. In this event we can't
+	    # account for this term in a top-level and, so we have
+	    # to abort the entire hoist.
+	    unless( $term ) {
+		%collection = ();
+		last;
+	    }
 	    my $collect = $collection{$term->{field}};
 	    if ($collect) {
 		# Combine with previous
@@ -168,7 +177,9 @@ sub _hoistOR {
 	    }
 	}
 	$indent--;
-        _monitor( "hoistOR ", $node ) if MONITOR_HOIST;
+        _monitor( "hoistOR ", $node,
+	    join(', ', map { _monTerm($_) } values %collection ))
+		  if MONITOR_HOIST;
 	# At this point we have collected terms for all the domains, and
 	# if there is only one we can just return it. However if the
 	# expression involved more than one domain, we have a "mixed or"
@@ -181,7 +192,7 @@ sub _hoistOR {
         return _hoistEQ($node);
     }
 
-    _monitor( "hoistOR FAILED" ) if MONITOR_HOIST;
+    _monitor( "hoistOR ", $node, " FAILED" ) if MONITOR_HOIST;
     return;
 }
 
@@ -272,7 +283,7 @@ sub _hoistEQ {
         }
     }
 
-    _monitor( "hoistEQ FAILED" ) if MONITOR_HOIST;
+    _monitor( "hoistEQ ", $node,"  FAILED" ) if MONITOR_HOIST;
     return;
 }
 
@@ -372,7 +383,7 @@ sub _hoistDOT {
         }
     }
 
-    _monitor( "hoistDOT FAILED" ) if MONITOR_HOIST;
+    _monitor( "hoistDOT ", $node,"  FAILED" ) if MONITOR_HOIST;
     return;
 }
 

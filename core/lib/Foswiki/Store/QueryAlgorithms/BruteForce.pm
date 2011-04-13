@@ -46,9 +46,9 @@ sub query {
 
     # Fold constants
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
-    print STDERR "--- before: ".$query->toString()."\n" if MONITOR;
+    print STDERR "--- before: ".$query->stringify()."\n" if MONITOR;
     $query->simplify( tom => $context, data => $context );
-    print STDERR "--- simplified: ".$query->toString()."\n" if MONITOR;
+    print STDERR "--- simplified: ".$query->stringify()."\n" if MONITOR;
 
     my $webNames = $options->{web}       || '';
     my $recurse  = $options->{'recurse'} || '';
@@ -133,6 +133,8 @@ sub _webQuery {
     # can use to refine the topic set
 
     my $hoistedREs = Foswiki::Query::HoistREs::hoist($query);
+    print STDERR "-- hoisted ".Data::Dumper->Dump([$hoistedREs])."\n"
+	if MONITOR;
 
     # Reduce the input topic set by matching simple topic names hoisted
     # from the query.
