@@ -1,0 +1,4 @@
+This is the directory where Foswiki keep its log files.
+These are security-sensitive temporary files, and should *not* be browseable
+from the web, or accessible to anyone on the server except the webserver
+user.
