@@ -1039,7 +1039,7 @@ sub verify_formatted_search_summary_with_exclamation_marks {
       );
     $actual = $this->{test_topicObject}->renderTML($actual);
     $expected =
-'<nop>MichaelAnchor, One/<nop>WIKI.<nop><nop>NET and <nop>AnnaAnchor lived in Skagen in <nop>DenmarkEurope!. There is a very nice museum you can visit!';
+'<nop>MichaelAnchor, <nop>One/WIKI.NET and <nop>AnnaAnchor lived in Skagen in <nop>DenmarkEurope!. There is a very nice museum you can visit!';
     $this->assert_str_equals( $expected, $actual );
 
     $actual =
@@ -4537,7 +4537,7 @@ METADATA
         '$createwikiname'     => $testUser,
         '$createwikiusername' => "$Foswiki::cfg{UsersWebName}.$testUser",
         '$changes' =>
-          qr/^$header.*$nop$this->{test_web}\.$nop$testTopic 1 $header/,
+          qr/^$nop$this->{test_web}\.$testTopic $header/,
         '$changes(1)' => '',            # Only 1 revision
         '$formname'   => 'TestyForm',
         '$formfield(Option)'     => 'Some long test I can truncate later',

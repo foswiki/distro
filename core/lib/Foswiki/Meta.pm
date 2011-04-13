@@ -3427,7 +3427,7 @@ sub summariseChanges {
     }
 
     unless ($summary) {
-        $summary = $this->summariseText( '', $ntext );
+        return $this->summariseText( '', $ntext );
     }
     #print "SUMMARY\n===================\n($summary)\n============\n\n";
 
