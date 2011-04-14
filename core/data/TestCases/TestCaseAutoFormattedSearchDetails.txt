@@ -17,21 +17,21 @@ The major risk is the default formatting where web's are separated - for paging 
 <h4 class="foswikiSearchResultsHeader" style="border-color:#FFEFA6"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Main/WebHome"><b>WebHome</b></a>
-<div class="foswikiSummary">Welcome to the nop web Congratulations, you have finished installing Foswiki. This site is running Foswiki version *, Plugin API version * To learn more about Foswiki ...</div></div>
+<div class="foswikiSummary">Welcome to the web Congratulations, you have finished installing Foswiki. This site is running Foswiki version *, Plugin API version * To learn more about Foswiki ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Main/WebPreferences"><b>WebPreferences</b></a>
-<div class="foswikiSummary">nop Main Web Preferences Appearance * Set WEBBGCOLOR = #FFEFA6 * web specific background color, current color * Set SITEMAPLIST = on * Set WEBSUMMARY ...</div></div>
+<div class="foswikiSummary">Main Web Preferences Appearance * Set WEBBGCOLOR = #FFEFA6 * web specific background color, current color * Set SITEMAPLIST = on * Set WEBSUMMARY ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Main/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for nop Main Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads ...</div></div>
+<div class="foswikiSummary">Statistics for Main Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads: ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
@@ -48,14 +48,14 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebPreferences"><b>WebPreferences</b></a>
-<div class="foswikiSummary">nop Sandbox Web Preferences Appearance * Set WEBBGCOLOR = #B9DAFF * Set WEBSUMMARY = * Set SITEMAPLIST = on Wiki application settings * WebTopicEditTemplate ...</div></div>
+<div class="foswikiSummary">Sandbox Web Preferences Appearance * Set WEBBGCOLOR = #B9DAFF * Set WEBSUMMARY = * Set SITEMAPLIST = on Wiki application settings * WebTopicEditTemplate ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for nop Sandbox Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads ...</div></div>
+<div class="foswikiSummary">Statistics for Sandbox Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads: ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
@@ -72,14 +72,14 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a>
-<div class="foswikiSummary">nop System Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set SITEMAPLIST = on * Set WEBSUMMARY = TOC settings * Set TOC_HIDE_IF_INCLUDED ...</div></div>
+<div class="foswikiSummary">System Web Preferences Appearance * Set WEBBGCOLOR = #FFD8AA * Set SITEMAPLIST = on * Set WEBSUMMARY = TOC settings * Set TOC_HIDE_IF_INCLUDED = ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for nop System Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads ...</div></div>
+<div class="foswikiSummary">Statistics for System Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads: ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
@@ -96,14 +96,14 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a>
-<div class="foswikiSummary">nop TestCases Web Preferences * Set BROADCASTMESSAGE = NOTE: This is the nop TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web ...</div></div>
+<div class="foswikiSummary">TestCases Web Preferences * Set BROADCASTMESSAGE = NOTE: This is the TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web, you can ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for nop TestCases Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads ...</div></div>
+<div class="foswikiSummary">Statistics for TestCases Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
