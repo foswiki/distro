@@ -29,6 +29,7 @@ our @ISA = qw( HTML::Parser );
 use strict;
 use warnings;
 
+use Assert;
 use Encode;
 use HTML::Parser;
 use HTML::Entities;
