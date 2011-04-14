@@ -14,7 +14,6 @@ BEGIN {
         require Carp;
         $SIG{__DIE__} = \&Carp::confess;
     }
-     }
     $ENV{FOSWIKI_ACTION} = 'changes';
     @INC = ( '.', grep { $_ ne '.' } @INC );
     require 'setlib.cfg';
