@@ -275,6 +275,10 @@ sub _default {
     my ( $this, $event, $text ) = @_;
 
     # Unexpected $event event from HTML::Parser; text contains '$text'
+    #
+    # Foswiki:Main.PaulHarvey triggered this assert with some crusty
+    # HTML containing an '<?i?>' tag. Says CDot: "it means an unrecognised
+    # construction was used; check the doc of HTML::Parser"
     ASSERT(0);
 }
 
