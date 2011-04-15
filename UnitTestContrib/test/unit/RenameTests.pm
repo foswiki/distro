@@ -75,6 +75,9 @@ rename [[$this->{test_web}.OldTopic]]
 22 %INCLUDE{"OldTopic"}%
 23 %INCLUDE{"$this->{test_web}.OldTopic"}%
 24 "OldTopic, OtherTopic"
+25 =OldTopic Fixed link to OldTopic=
+26 *OldTopic Bold link to OldTopic*
+27 _OldTopic Italic link to OldTopic_
 THIS
 
     # Strategically-selected set of identical topics in the test web
@@ -859,6 +862,9 @@ rename [[$this->{test_web}.NewTopic]]
 22 %INCLUDE{"NewTopic"}%
 23 %INCLUDE{"$this->{test_web}.NewTopic"}%
 24 "NewTopic, OtherTopic"
+25 =NewTopic Fixed link to NewTopic=
+26 *NewTopic Bold link to NewTopic*
+27 _NewTopic Italic link to NewTopic_
 THIS
 
     #
@@ -903,6 +909,9 @@ rename [[$this->{test_web}.NewTopic]]
 22 %INCLUDE{"NewTopic"}%
 23 %INCLUDE{"$this->{test_web}.NewTopic"}%
 24 "NewTopic, OtherTopic"
+25 =NewTopic Fixed link to NewTopic=
+26 *NewTopic Bold link to NewTopic*
+27 _NewTopic Italic link to NewTopic_
 THIS
 
     #
@@ -947,6 +956,9 @@ rename [[$this->{test_web}.NewTopic]]
 22 %INCLUDE{"$this->{test_web}.NewTopic"}%
 23 %INCLUDE{"$this->{test_web}.NewTopic"}%
 24 "$this->{test_web}.NewTopic, OtherTopic"
+25 =$this->{test_web}.NewTopic Fixed link to $this->{test_web}.NewTopic=
+26 *$this->{test_web}.NewTopic Bold link to $this->{test_web}.NewTopic*
+27 _$this->{test_web}.NewTopic Italic link to $this->{test_web}.NewTopic_
 THIS
 }
 
