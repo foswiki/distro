@@ -5,9 +5,9 @@
 
 %TOC%
 
----++ Foswiki Release 1.1.3-RC1 - 12 Apr 2011
+---++ Foswiki Release 1.1.3 - 16 Apr 2011
 
-Foswiki 1.1.3-RC1 was built 12 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
+Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
 
 ---++ Foswiki Release 1.1.2 - 09 Nov 2010
 

@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.3 Release Candidate 1 - 12 Apr 2011
+---+!! Foswiki Release 1.1.3 16 Apr 2011
 
 %TOC%
 
@@ -30,7 +30,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
-   * Foswiki 1.1.3-RC1 was built 12 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
+   * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
 
 ---++ Pre-installed Extensions
 
@@ -777,7 +777,7 @@ to your =bin/LocalLib.cfg=.
 
 ---+++ Fixes
 <noautolink>
-| [[%BUGS%/Item92][Item92]] | need to give the admin a web UI to change user's hidden email address |
+| [[%BUGS%/Item92][Item92]] | Need to give the admin a web UI to change user's hidden email address |
 | [[%BUGS%/Item770][Item770]] | there is no obvious way for an admin to see what webs exist when they are on ManagingWebs topic |
 | [[%BUGS%/Item1412][Item1412]] | Documentation needs to mention ModPerlEngineContrib |
 | [[%BUGS%/Item1562][Item1562]] | redirect failure OK button goes to wrong place |
@@ -801,6 +801,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9909][Item9909]] | sendEmail failure messages should be specific about which email recipient failed |
 | [[%BUGS%/Item9930][Item9930]] | HtPasswdUser.pm leaves umask set to 077 which could impact other directories/files |
 | [[%BUGS%/Item9965][Item9965]] | Replace calls to the configure script by the variable view in configure's CSS files |
+| [[%BUGS%/Item9966][Item9966]] | Rename/Move of a parent topic with a non-WikiWord name breaks parent-child linkage |
 | [[%BUGS%/Item9973][Item9973]] | TinyMCE attach dialogue lists no attachments for topics named with international characters |
 | [[%BUGS%/Item9988][Item9988]] | delRev fails because the logger code change was missed |
 | [[%BUGS%/Item10010][Item10010]] | RestHandler claimes in the log to be cached, even when its not. |
@@ -884,7 +885,6 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10352][Item10352]] | Query optimizer regexes beyond simple plain text fail |
 | [[%BUGS%/Item10362][Item10362]] | Logger documentation is insufficient |
 | [[%BUGS%/Item10380][Item10380]] | INCLUDEd SEARCH pager creates links to topic, not to basetopic |
-| [[%BUGS%/Item10389][Item10389]] | Fn_SEARCH unit test is not TZ compliant |
 | [[%BUGS%/Item10393][Item10393]] | Update IF documentation |
 | [[%BUGS%/Item10395][Item10395]] | Package installer appends Contrib to Contrib::...AddOn packages |
 | [[%BUGS%/Item10400][Item10400]] | Auto-remove missing plugins from LocalSite.cfg |
@@ -934,8 +934,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10624][Item10624]] | Configure file check limit is lower than the number of files we ship |
 | [[%BUGS%/Item10625][Item10625]] | The defined in an IF has problems with syntax precedence when used in a more complex way |
 | [[%BUGS%/Item10626][Item10626]] | TWiki web is revealed even if TWikiCompatibilityPlugin is disabled |
-| [[%BUGS%/Item10629][Item10629]] | CompareRevisionsAddOn demo topic cannot demo when the ,v file is not distributed |
- 
+| [[%BUGS%/Item10634][Item10634]] | Add a README in working/logs to make sure it is in the distrubution with the right access rights |
 </noautolink>
 
 ---+++ Enhancements
