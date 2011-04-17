@@ -41,6 +41,8 @@ Options:
 		  upgraded previously to test things and do not want to repeat manual
 		  process and copy what you did there
   -x [ask old new merge] Conflict handling - default=ask.
+  -f      force:  Treat local change dist same as a conflict to rethink your changes 
+  -c      clean up old ,v rcs files
 
 PS: do not forget to fix files permissions after this, for instance by a
 chown -R apache:apache ., chown -R www-data:www-data ., chmod -R a+rwX .
@@ -84,6 +86,7 @@ v1.7 2011-02-16 Use jot if seq command does not exist (FreeBSD)
 V1.8 2011-02-19 exclude commonly tailored files,  Better handle files missing from old release
                 added -b option to backup files prior to modification
                 Deprecate -nom, and add -x option.  Copy files with -f option to override readonly
+V1.9 2011-04-16 Add -c to clean up old rcs ,v files.
 '
 
 merge=merge_kdiff3
@@ -94,6 +97,8 @@ listall=false
 verbose=false
 remove=false
 conflict=ask
+force=false
+cleanup=false
 mfd=
 showdiff=
 seqcmd=true
@@ -147,6 +152,8 @@ while test "_${1#-}" != "_$1" -a "_${1//-/}" != "_";do case "$1" in
    -y) doit=true;;
    -v) verbose=true;;
    -r) remove=true;;
+   -f) force=true;;
+   -c) cleanup=true;;
    *) echo "$USAGE"; exit 1;
 esac;shift; done; if test "_$1" = "_--";then shift; fi
 
@@ -166,9 +173,9 @@ case "$U" in /*) : ;; *) U="$PWD/$U";; esac
 autoresp=0;
 case $conflict in
    ask) autoresp=0;;
-   merge) autoresp=1;;
-   old) autoresp=2;;
-   new) autoresp=3;;
+   merge) autoresp="Merge files";;
+   old) autoresp="Keep original";;
+   new) autoresp="Use new file";;
    *) echo "ERROR: incorrect option for -x: $conflict.  must be ask, old, new, merge."; exit 1;;
 esac
 
@@ -202,11 +209,17 @@ fi
 V () { if $verbose; then echo "$@"; fi; }
 doit () { if $doit; then "$@"; fi; }
 dolist () { if ! $doit; then if $dolist; then echo $1; fi; fi; }
+rmrcs () { if $cleanup && test -e $I/$1,v; then
+    bkit $1,v
+    echo REMOVING stale rcs file: $I/$1,v
+    if $doit; then rm -f $I/$1,v; fi
+    fi
+}
 
 bkit () { if $doit && $backup; then
-    dir=$B/_bkup/$i; dir=${dir%/*}
+    dir=$B/_bkup/$1; dir=${dir%/*}
     if test ! -d $dir; then mkdir -p $dir; fi
-    cp -f $I/$i $B/_bkup/$i
+    cp -f $I/$1 $B/_bkup/$1
    fi
 }
 
@@ -252,9 +265,10 @@ for element in $(doseq 0 $((${#file_list[@]} - 1))); do
             if cmp -s $O/$i $I/$i; then                     # Old same as installed
                V $i LOCALLY_SAME, DIST_CHANGED, COPY
                bkit $i
+               rmrcs $i
                doit cp -f $U/$i $I/$i
                dolist $i
-            elif cmp -s $i $O/$i; then
+            elif ! $force && cmp -s $i $O/$i; then
                V $i LOCALLY_CHANGED, DIST_SAME. KEEP
             else                                           # Old file has changed
                 if test ! -e $O/$i; then
@@ -269,10 +283,12 @@ for element in $(doseq 0 $((${#file_list[@]} - 1))); do
                     if is_binary "$i"; then
                         echo "WARNING: copied $U/$i over your $I/$i . Revert if wrong"
                         bkit $i
+                        rmrcs $i
                         doit cp -f $U/$i $I/$i
                         dolist $i
                     else
                         if  [ "$autoresp" = "0" ] ; then
+                            diff $I/$i $U/$i
                             echo "How do you want to handle conflict: $U/$i ?"
                             select ans in "Merge files" "Keep original" "Use new file"
                             do
@@ -287,9 +303,9 @@ for element in $(doseq 0 $((${#file_list[@]} - 1))); do
                             ans=$autoresp
                         fi
                         case $ans in
-                           "1" ) echo "merge $i"; bkit $i;  doit $merge $i;;
-                           "2" ) echo "keeping original $i";;
-                           "3" ) echo "using new $i"; bkit $i; doit cp -f $U/$i $I/$i;;
+                           "Merge files" ) echo "merge $i"; bkit $i; doit $merge $i;;
+                           "Keep original" ) echo "keeping original $i";;
+                           "Use new file" ) echo "using new $i"; bkit $i; rmrcs $i; doit cp -f $U/$i $I/$i;;
                         esac
 
                     fi
@@ -301,10 +317,12 @@ for element in $(doseq 0 $((${#file_list[@]} - 1))); do
                 fi
             fi
         else
-        V $i SAME, IGNORE
+            V $i SAME, IGNORE
+            rmrcs $i;
         fi
     else
         V $i NEW FILE, COPY
+        rmrcs $i
         if $doit; then
             dir=$I/$i; dir=${dir%/*}
             if test ! -d $dir; then mkdir -p $dir; fi
@@ -332,13 +350,14 @@ if $remove; then
                            echo "Answer $ans "
                            case $ans in
                               "Keep original" ) echo "keeping original"; break;;
-                              "Remove anyway" ) echo "removing anyway"; bkit $i; doit rm -v $I/$i; break;;
+                              "Remove anyway" ) echo "removing anyway"; bkit $i; rmrcs $1; doit rm -v $I/$i; break;;
                            esac
                        done
                    fi
                 else
                    V $i LOCALLY_PRESENT, DIST_REMOVED, REMOVE
                    bkit $i
+                   rmrcs $1
                    doit rm -v $I/$i
                    if ! $doit; then
                       echo "$i (remove)"
