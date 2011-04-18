@@ -169,6 +169,8 @@ Redefine your custom [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in 
 
 You can also set =WEBHEADERART= per web, by setting the preference in the Web's !WebPreferences.
 
+%X% *Note:* For more precise control, the top bar can be controlled using CSS, however: If WEBHEADERART defaults, or is set to anything other than the empty string, the CSS for the =#foswikiTopBarContents= is expanded inline from =templates/css.pattern.tmpl=.  Overrides using css files will not be possible.
+
 ---+++ I want to have the web color in the top bar
 
 Redefine =WEBHEADERBGCOLOR= in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):

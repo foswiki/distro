@@ -203,7 +203,7 @@ override one message from the large collection of messages in =templates/message
 This ="confirm"= message will be returned to the user when they submit the registration request.
 
 <verbatim class="tml">
-TMPL:INCLUDE{"messages"}%
+%TMPL:INCLUDE{"messages"}%
 %TMPL:DEF{"confirm"}%
 ---+++ %MAKETEXT{"Thank you for registering"}%
 
