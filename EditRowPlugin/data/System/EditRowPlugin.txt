@@ -62,7 +62,7 @@ Parameters:
    * ==changerows== - Rows can be added and removed if ="on"=. Rows can be
      added but not removed if ="add"=. Defaults to the value of the
      [[%SYSTEMWEB%.Macros][preference]] =CHANGEROWS=, or =off= if it isn't set.
-   * ==disable== - By default, the plugin shows both full table and individual row editing controls. You can choose to disable one or both of these modes using the =disable= parameter, by setting it to =row= or =full= (or =row,full= to disable all editing and just leave sorting). If full table editing is disabled, but =changerows= is =on=, then the <img src="%ATTACHURLPATH%/edittable.gif" /> (edit table) button will be replaced with a <img src="%ATTACHURLPATH%/addrow.gif" /> (add row) button. Defaults to the value of the
+   * ==disable== - By default, the plugin shows both full table and individual row editing controls. You can choose to disable one or both of these modes using the =disable= parameter, by setting it to =row= or =full= (or =row,full= to disable all editing and just leave sorting). If full table editing is disabled, but =changerows= is =on=, then the <img src="%ATTACHURLPATH%/edittable.png" /> (edit table) button will be replaced with a <img src="%ATTACHURLPATH%/addrow.png" /> (add row) button. Defaults to the value of the
      [[%SYSTEMWEB%.Macros][preference]] =EDITROWPLUGIN_DISABLE=, or =none= if it isn't set.
    * ==buttons== - set to =left= (the default) or =right= to position edit controls in the first or last columns in the table. =buttons="right"= may be required if you are using other plugins that expect a certain column order.
    * ==quietsave== - Quiet Save button is shown if ="on"=. Defaults to the
@@ -95,12 +95,12 @@ Parameters:
    * ==helptopic== Topic name containing help text shown when editing a table. The [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]] markers can be used in the topic to specify what is shown. Note that newlines are removed from the included text so the that text can be used inside a table.
    * ==require_js== "on" or "off" depending on whether the plugin should require Javascript in the browser or not. This is a local version of the global EDITROWPLUGIN_REQUIRE_JS switch described below.
 Table rows are shown with a row edit button %ICON{edittopic}% in the first column,
-and a table edit button <img src="%ATTACHURLPATH%/edittable.gif" /> after the
+and a table edit button <img src="%ATTACHURLPATH%/edittable.png" /> after the
 table. When the table is
 edited, then a number of buttons may be shown depending on the
 settings of =changerows= and =quietsave=.
    * %ICON{save}% saves the changes
-   * <img src="%ATTACHURLPATH%/quiet.gif" /> saves without notification
+   * <img src="%ATTACHURLPATH%/quiet.png" /> saves without notification
    * %ICON{plus}% adds a new row after the current row, taking for its contents the initial values specified in the EDITTABLE macro
    * %ICON{minus}% deletes the row
    * %ICON{arrowup}% Move this row up one row in the table
@@ -139,7 +139,7 @@ then="enabled in this site. Click on the buttons to try it out."}%
 | 9A-11 | A new model for 2007, but not quite as pretty as the 9A-10 |
 | RR717-D | Solid performer, dependable in vacuum grinders |
 </verbatim>
-<img src="%ATTACHURLPATH%/example3.gif" alt='Example 1'/>
+<img src="%ATTACHURLPATH%/example3.png" alt='Example 1'/>
 
 ---+++ Example 3
 <verbatim>
@@ -150,7 +150,7 @@ then="enabled in this site. Click on the buttons to try it out."}%
 | So rested he by the _Tumtum_ tree, | Tumtum is a Nilo-Saharan language and people |
 | And stood awhile in _thought_ | _thought_ a process not often employed by example writers |
 </verbatim>
-<img src="%ATTACHURLPATH%/example4.gif" alt='Example 3'/>
+<img src="%ATTACHURLPATH%/example4.png" alt='Example 3'/>
 
 ---+++ Example 4
 <verbatim>
@@ -161,7 +161,7 @@ then="enabled in this site. Click on the buttons to try it out."}%
 | DOB: | 18 October 2007 %EDITCELL{date, 10}% |
 | City: | New York |
 </verbatim>
-<img src="%ATTACHURLPATH%/example5.gif" alt='Example 4'/>
+<img src="%ATTACHURLPATH%/example5.png" alt='Example 4'/>
 
 ---+++ Javascript Editing
 <img src="%ATTACHURLPATH%/screenshot2.png" style="float:right" />
@@ -231,36 +231,37 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2011 Wind<nop>River Inc. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  14 Mar 2011 | Foswiki:Tasks/Item2016: editor was not handling a table cell that contained only "0" correctly |
-|  25 Feb 2011 | Some minor tweaks |
-|  21 Feb 2011 | Foswiki:Tasks/Item5618: Foswiki:Tasks/Item5714: Foswiki:Tasks/Item5715: row moves and single-cell edits are now done client-side as much as possible. Row moves are drag and drop. Using JS lets us maintain the column numbering so that other plugins still work (e.g. table plugin init sort) as well as being a lot faster. Foswiki:Tasks/Item10363: Support button placement at the ends of table rows. Foswiki:Tasks/Item10388: broke out JEditable into a separate package |
-|  2 Feb 2011 | Foswiki:Tasks/Item2016: doesn't save "0" in table cells; fixed.Foswiki:Tasks/Item2229: needs better headings support; fixed. Foswiki:Tasks/Item1186: textarea newlines are not saved with whitespace around br; fixed. Foswiki:Tasks/Item9091: orientrowedit=vertical does not show the header labels; fixed. Foswiki:Tasks/Item9775: missing section headings from Config.spec; fixed. |
-|  24 Feb 2009 | Foswikitask:Item1139: fixed restoration of labels after an edit Foswikitask:Item1140: fixed loading of multi-valued parameters |
-|  15 Feb 2009 | Foswikitask:Item451: ported to foswiki Foswikitask:Item5757: not respecting footer rows when saving Foswikitask:Item5681: help not fully rendered before inclusion in a TML table Foswikitask:Item1086: Macros were being expanded before editing Foswikitask:Item5924: refactor for reusability |
-|  15 May 2008: | TWikibug:Item5621: helptopics were getting munged because of use of BR to replace newlines. This was to prevent accidental table concatenation, but breaks other things worse so I removed it. TWikibug:Item5624: handle comments with embedded tables. TWikibug:Item5625: don't count generated tables in the table count. TWikibug:Item5594: typo was causing strange behaviour with row management tools. TWikibug:Item5595: fixed problem with included tables. TWikibug:Item5596: changed default behaviour for empty cells to ignore pre-existing spaces if there is no other content. TWikibug:Item5616: row moving was failing on 4.1.2 due to bad URL construction. |
-|  8 Mar 2008 | TWikibug:Item5386: fixed problem with editing of tables embedded from an included topic TWikibug:Item5043: added Jeff Crawford's patch to fix multiline textareas |
-|  4 Jan 2008 | TWikibug:Item5320: fixed destructive save when add row is pressed outside edit mode |
-|  13 Dec 2007 | TWikibug:Item4970: removed beforeCommonTagsHandler, which was causing problems when interacting with other plugins that use unregistered tag handlers. |
-|  23 Nov 2007 | TWikibug:Item4853: remove duplicated %EDITCELL |
-|  9 Nov 2007 | TWikibug:Item4947: added missing _src.js versions to MANIFEST |
-|  6 Nov 2007 | TWikibug:Item4935: fixed problem with embedded TWiki variables |
-|  20 Oct 2007 | TWikibug:Item4853: support %EDITCELL TWikibug:Item4861: rework the rules for associating tag with adjacent table TWikibug:Item4862: avoid expanding TWiki variables on edit |
-|  18 Oct 2007 | TWikibug:Item4834: added automatic save on row add TWikibug:Item4853: added %EDITCELL support TWikibug:Item4651: fixed validation of date change |
-|  26 Sep 2007 | TWikibug:Item4696 Keep table in full-table edit mode after a row is added TWikibug:Item4651 add JS to handle navigating away with pending changes (requires BehaviourContrib) |
-|  10 Sep 2007 | TWikibug:Item4552 Can use row buttons to delete the header, even though headerrows is set TWikibug:Item4565 "row" parameter not supported TWikibug:Item4567 header parameter not correctly handled TWikibug:Item4602 Header row gets eaten |
-|  13685 | TWikibug:Item4040 Support for =helptopic= and =disable=, which allows more flexible configuration of the UI, especially when vertical editing |
-|  13641 | TWikibug:Item4020 Improved the table anchors for a better editing experience. Fixed calendar formats. Fixed table footer sorting. Disabled label edits. Fixed multi-malued checkboxes. |
-|  13615 | TWikibug:Item3882 added initial values support TWikibug:Item4009 fixed included tables. Also fixed a bug with variable expansion reported in the dev topic. |
-|  13609 | TWikibug:Item4003: fixed colspan. Also added support for headerrows and footerrows parameters from %TABLE |
-|  13560 | TWikibug:Item4002 Problems with blank lines, multi-value edits, and line continuations resolved |
-|  13596 | TWikibug:Item4000 Added =orientrowedit=, global control options, fixed issue with wikiwords in edited data, added column sorting |
-|  13487 | TWikibug:Item3925 - fixed infinite loop when included format doesn't exist |
-|  13359 | TWikibug:Item3875 - can now edit top row of tables. Also now writes row numbers back to the topic, which was needed to support some compatible apps. |
+|  2.1.3 (18 Apr 2011) | Foswiki:Tasks/Item10583: support for sort order in select cells |
+|  2.1.2 (14 Mar 2011) | Foswiki:Tasks/Item2016: editor was not handling a table cell that contained only "0" correctly |
+|  2.1.1 (25 Feb 2011) | Some minor tweaks |
+|  2.1.0 (21 Feb 2011) | Foswiki:Tasks/Item5618: Foswiki:Tasks/Item5714: Foswiki:Tasks/Item5715: row moves and single-cell edits are now done client-side as much as possible. Row moves are drag and drop. Using JS lets us maintain the column numbering so that other plugins still work (e.g. table plugin init sort) as well as being a lot faster. Foswiki:Tasks/Item10363: Support button placement at the ends of table rows. Foswiki:Tasks/Item10388: broke out JEditable into a separate package |
+|  2.0.2 (2 Feb 2011) | Foswiki:Tasks/Item2016: doesn't save "0" in table cells; fixed.Foswiki:Tasks/Item2229: needs better headings support; fixed. Foswiki:Tasks/Item1186: textarea newlines are not saved with whitespace around br; fixed. Foswiki:Tasks/Item9091: orientrowedit=vertical does not show the header labels; fixed. Foswiki:Tasks/Item9775: missing section headings from Config.spec; fixed. |
+|  2.0.1 (24 Feb 2009) | Foswikitask:Item1139: fixed restoration of labels after an edit Foswikitask:Item1140: fixed loading of multi-valued parameters |
+|  2.0.0 (15 Feb 2009) | Foswikitask:Item451: ported to foswiki Foswikitask:Item5757: not respecting footer rows when saving Foswikitask:Item5681: help not fully rendered before inclusion in a TML table Foswikitask:Item1086: Macros were being expanded before editing Foswikitask:Item5924: refactor for reusability |
+|  15 May 2008: | helptopics were getting munged because of use of BR to replace newlines. This was to prevent accidental table concatenation, but breaks other things worse so I removed it. handle comments with embedded tables. don't count generated tables in the table count. typo was causing strange behaviour with row management tools. fixed problem with included tables. changed default behaviour for empty cells to ignore pre-existing spaces if there is no other content. row moving was failing on 4.1.2 due to bad URL construction. |
+|  8 Mar 2008 | fixed problem with editing of tables embedded from an included topic added Jeff Crawford's patch to fix multiline textareas |
+|  4 Jan 2008 | fixed destructive save when add row is pressed outside edit mode |
+|  13 Dec 2007 | removed beforeCommonTagsHandler, which was causing problems when interacting with other plugins that use unregistered tag handlers. |
+|  23 Nov 2007 | remove duplicated %EDITCELL |
+|  9 Nov 2007 | added missing _src.js versions to MANIFEST |
+|  6 Nov 2007 | fixed problem with embedded TWiki variables |
+|  20 Oct 2007 | support %EDITCELL rework the rules for associating tag with adjacent table avoid expanding TWiki variables on edit |
+|  18 Oct 2007 | added automatic save on row add added %EDITCELL support fixed validation of date change |
+|  26 Sep 2007 | eep table in full-table edit mode after a row is added dd JS to handle navigating away with pending changes (requires BehaviourContrib) |
+|  10 Sep 2007 | an use row buttons to delete the header, even though headerrows is set row" parameter not supported eader parameter not correctly handled eader row gets eaten |
+|  13685 | upport for =helptopic= and =disable=, which allows more flexible configuration of the UI, especially when vertical editing |
+|  13641 | mproved the table anchors for a better editing experience. Fixed calendar formats. Fixed table footer sorting. Disabled label edits. Fixed multi-malued checkboxes. |
+|  13615 | dded initial values support ixed included tables. Also fixed a bug with variable expansion reported in the dev topic. |
+|  13609 | fixed colspan. Also added support for headerrows and footerrows parameters from %TABLE |
+|  13560 | roblems with blank lines, multi-value edits, and line continuations resolved |
+|  13596 | dded =orientrowedit=, global control options, fixed issue with wikiwords in edited data, added column sorting |
+|  13487 |  fixed infinite loop when included format doesn't exist |
+|  13359 |  can now edit top row of tables. Also now writes row numbers back to the topic, which was needed to support some compatible apps. |
 |  13335 | Fixed broken date prompt, and problem with radio buttons, improved and documented REST interface for Javascript authors |
 |  13291 | Added full table editing, including moving rows within the table |
 |  13161 | Bulletproofed against issues with rows that are shorter or longer than the format. |
 |  13159 | Fixed issue with short rows, and added perms check. Thanks also to TWiki:Main.MichaelDaum for more fixes and testing. Now works on IE. |
-|  13148 | TWikibug:Item3770: Bugfixes |
+|  13148 | Bugfixes |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home Page: | http://foswiki.org/Extensions/EditRowPlugin |
 
@@ -269,9 +270,9 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 %META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" version="1"}%
 %META:FILEATTACHMENT{name="screenshot2.png" attr="h" comment="" version="1"}%
 %META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="edittable.gif" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="quiet.gif" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="addrow.gif" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="example3.gif" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="example4.gif" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="example5.gif" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="edittable.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="quiet.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="addrow.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="example3.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="example4.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="example5.png" attr="h" comment="" version="1"}%

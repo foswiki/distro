@@ -4,7 +4,7 @@ package Foswiki::Plugins::EditRowPlugin;
 use strict;
 
 our $VERSION          = '$Rev$';
-our $RELEASE          = '14 Mar 2011';
+our $RELEASE          = '2.1.3';
 our $SHORTDESCRIPTION = 'Inline edit for tables';
 our $NO_PREFS_IN_TOPIC = 1;
 

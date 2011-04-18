@@ -10,7 +10,7 @@ our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor' );
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new('select');
+    return $class->SUPER::new('erpselect');
 }
 
 sub htmlEditor {
@@ -43,12 +43,17 @@ sub jQueryMetadata {
     my $data = $this->SUPER::jQueryMetadata(@_);
 
     if ($colDef->{values} && scalar(@{$colDef->{values}})) {
-	# Format suitable for passing to a "select" type
-	$data->{data} = {};
+	# Format suitable for passing to an "erpselect" type
+	my %d = (
+	    order => [ @{$colDef->{values}} ],
+	    selected => $cell->{text},
+	    keys => {}
+	);
 	map {
-	    $data->{data}->{$_} =
-		Foswiki::Func::renderText(Foswiki::Func::expandCommonVariables($_))
+	    $d{keys}->{$_} =
+		Foswiki::Func::renderText(Foswiki::Func::expandCommonVariables($_));
 	} @{$colDef->{values}};
+	$data->{data} = \%d;
     }
     $this->_addSaveButton($data);
     return $data;

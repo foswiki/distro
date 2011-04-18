@@ -1,5 +1,5 @@
 # See bottom of file for copyright and license information
-package Foswiki::Plugins::EditRowPlugin::Editor::row;
+package Foswiki::Plugins::EditRowPlugin::Editor::editbutton;
 
 use strict;
 use Assert;
@@ -11,7 +11,7 @@ our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor::label' );
 # Uneditable row index label
 sub htmlEditor {
     my ( $this, $cell, $colDef, $inRow, $unexpandedValue ) = @_;
-    return $inRow->{isHeader} ? '<nop>' : $cell->rowIndex($colDef);
+    return '<nop>';
 }
 
 1;

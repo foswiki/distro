@@ -87,14 +87,14 @@ sub _addSaveButton {
     my ($this, $data) = @_;
     my $purl = Foswiki::Func::getPubUrlPath();
     $data->{submit} =
-	"<button type'submit'><img src='$purl/System/EditRowPlugin/save.gif' /></button>";
+	"<button type'submit'><img src='$purl/System/EditRowPlugin/save.png' /></button>";
 }
 
 sub _addCancelButton {
     my ($this, $data) = @_;
     my $purl = Foswiki::Func::getPubUrlPath();
     $data->{cancel} =
-	"<button type'submit'><img src='$purl/System/EditRowPlugin/stop.gif' /></button>";
+	"<button type'submit'><img src='$purl/System/EditRowPlugin/stop.png' /></button>";
 }
 
 1;

@@ -87,8 +87,9 @@ sub render {
     my $colDef = $opts->{col_defs}->[ $this->{number} - 1 ] || $defCol;
     my $text = $this->{text};
 
-    if ( $text =~ s/%EDITCELL{(.*?)}%\s*$// ) {
-	my $cd = $this->{row}->{table}->parseFormat($1);
+    if ( $text =~ s/%EDITCELL{(.*?)}%// ) {
+	my %p = Foswiki::Func::extractParameters($1);
+	my $cd = $this->{row}->{table}->parseFormat($p{_DEFAULT});
 	$colDef = $cd->[0];
     }
     

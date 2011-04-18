@@ -78,6 +78,43 @@
         }
     });
 
+    // The default JEditable select does not retain the sorting of the selection options,
+    // so we need a sorted version. Assumes three keys in the json data: 'order', 'keys'
+    // and 'selected'. 'order' is an array containing the sort order of the keys; 'keys'
+    // contains the key mapped to the string title of the key; and 'selected' contains
+    // the string value of the currently selected key.
+    $.editable.addInputType('erpselect', {
+        element : function(settings, original) {
+            var select = $('<select />');
+            $(this).append(select);
+            return(select);
+        },
+        content: function(data, settings, original) {
+            /* If it is string assume it is json. */
+            if (String == data.constructor) {      
+                eval ('var json = ' + data);
+            } else {
+                /* Otherwise assume it is a hash already. */
+                var json = data;
+            }
+
+	    for (var i in json.order) {
+		var key = json.order[i];
+                if (json.keys[key] == null)
+		    continue;
+                var option = $('<option />').val(key).append(json.keys[key]);
+                $('select', this).append(option);    
+	    }
+	    /* Loop option again to set selected. IE needed this... */ 
+	    $('select', this).children().each(function() {
+                if ($(this).val() == json.selected || 
+		    $(this).text() == $.trim(original.revert)) {
+		    $(this).attr('selected', 'selected');
+                }
+	    });
+        }
+    });
+
     // Checkbox editable
     $.editable.addInputType('checkbox', {
         element : function(settings, original) {

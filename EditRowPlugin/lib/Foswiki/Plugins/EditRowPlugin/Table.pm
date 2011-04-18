@@ -299,7 +299,7 @@ sub render {
 		    -name   => "erp_edit_$this->{id}",
 		    -border => 0,
 		    -src =>
-			'%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittable.gif',
+			'%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittable.png',
 			-title => $title,
 		});
 	    my $url = Foswiki::Func::getScriptUrl(
@@ -324,7 +324,7 @@ sub render {
 		{
 		    -name   => "erp_edit_$this->{id}",
 		    -border => 0,
-		    -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/addrow.gif',
+		    -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/addrow.png',
 		    -title => $title,
 		},
 		''
