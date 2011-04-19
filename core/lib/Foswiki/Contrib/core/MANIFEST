@@ -4,7 +4,7 @@ AUTHORS 0444
 COPYING 0444
 COPYRIGHT 0444
 LICENSE 0444
-bin/.htaccess.txt 0644
+bin-htaccess.txt 0444
 bin/LocalLib.cfg.txt 0644
 bin/attach 0555
 bin/changes 0555
@@ -999,7 +999,6 @@ tools/extension_installer 0555
 tools/geturl.pl 0555
 tools/rewriteshebang.pl 0555
 tools/tick_foswiki.pl 0555
-working/.htaccess 0660
 working/README 0444
 working/registration_approvals/README 0444
 working/tmp/README 0444

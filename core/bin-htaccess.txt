@@ -1,7 +1,8 @@
-# bin/.htaccess.txt
+# Sample bin/.htaccess file.   If you require .htaccess files for your apache
+# configuration, tailor this file using the below instructions.
 #
 # Controls access to Foswiki scripts - to make Apache use it, rename this
-# file to '.htaccess' and REPLACE THE FOLLOWING STRINGS WHEREVER YOU SEE
+# file to 'bin/.htaccess' and REPLACE THE FOLLOWING STRINGS WHEREVER YOU SEE
 # THEM IN THIS FILE WITH PATHS SPECIFIC TO YOUR INSTALLATION.
 # Most required values have corresponding items in the  Path Settings section of
 # configure.   The following 4 strings must be updated:

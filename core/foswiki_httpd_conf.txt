@@ -1,15 +1,15 @@
 # Example httpd.conf file for Foswiki.
 #
-# You are recommended to take a copy of this file and edit
+# You are recommended to use  http://foswiki.org/Support/ApacheConfigGenerator
+# to help you configure Apache.
+#
+# You could also take a copy of this file and edit
 # the paths to match your installation. Most Linux distributions are setup so
 # Apache includes all config files that ends with .conf within a specific
 # directory. If your distribution does not have this feature then add:
 # include "/var/www/foswiki/foswiki_httpd.conf"
 # to the end of your main httpd.conf file.
 #
-# See also http://foswiki.org/Support/ApacheConfigGenerator
-# that helps you configure Apache
-
 # The first parameter will be part of the URL to your installation e.g.
 # http://example.com/foswiki/bin/view/...
 # The second parameter must point to the physical path on your disk. Be
