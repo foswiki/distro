@@ -231,7 +231,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2011 Wind<nop>River Inc. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  2.1.3 (18 Apr 2011) | Foswiki:Tasks/Item10583: support for sort order in select cells |
+|  2.1.3 (19 Apr 2011) | Foswiki:Tasks/Item10583: support for sort order in select cells Foswiki:Tasks/Item10583: fixes for EDITCELL |
 |  2.1.2 (14 Mar 2011) | Foswiki:Tasks/Item2016: editor was not handling a table cell that contained only "0" correctly |
 |  2.1.1 (25 Feb 2011) | Some minor tweaks |
 |  2.1.0 (21 Feb 2011) | Foswiki:Tasks/Item5618: Foswiki:Tasks/Item5714: Foswiki:Tasks/Item5715: row moves and single-cell edits are now done client-side as much as possible. Row moves are drag and drop. Using JS lets us maintain the column numbering so that other plugins still work (e.g. table plugin init sort) as well as being a lot faster. Foswiki:Tasks/Item10363: Support button placement at the ends of table rows. Foswiki:Tasks/Item10388: broke out JEditable into a separate package |

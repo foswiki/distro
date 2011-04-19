@@ -433,7 +433,13 @@ sub saveCell {
 
     my $row = $urps->{erp_active_row};
     my $col = $urps->{erp_active_col};
-    $this->{rows}->[ $row - 1 ]->{cols}->[ $col - 1 ]->{text} = $urps->{CELLDATA};
+    my $ot = $this->{rows}->[ $row - 1 ]->{cols}->[ $col - 1 ]->{text};
+    my $nt = $urps->{CELLDATA};
+    if ($ot =~ /(%EDITCELL{.*?}%)/) {
+	# Restore the %EDITCELL
+	$nt = $1 . $nt;
+    }
+    $this->{rows}->[ $row - 1 ]->{cols}->[ $col - 1 ]->{text} = $nt;
     return $urps->{CELLDATA};
 }
 
