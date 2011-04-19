@@ -134,19 +134,19 @@ To setup Apache Login, perform the following steps:
       1 Select =Foswiki::Users::HtPasswdUser= for ={PasswordManager}=.
       1 Select =Foswiki::Users::TopicUserMapping= for ={UserMappingManager}=.
       1 Save your settings.
-      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin/.htaccess= file to set the following Apache directives on the =bin= scripts:<sticky>
+      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin-htaccess.txt= file to set the following Apache directives on the =bin= scripts:<sticky>
       <verbatim>
  <FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|rest|.*auth).*">
  require valid-user
  </FilesMatch></verbatim></sticky>
-      You can also refer to the sample =foswiki_httpd_conf.txt= and =bin/.htaccess.txt= files to see how the appropriate Apache directives are specified.
+      You can also refer to the sample =foswiki_httpd_conf.txt= and =bin-htaccess.txt= files to see how the appropriate Apache directives are specified.
 %INCLUDE{"UserAuthentication" section="TESTING"}%%ENDSECTION{"ApacheLogin"}%
 
 ---++++ Logons via bin/logon
 
 Any time a user requests a page that needs authentication, they will be forced to log on. It may be convenient to have a "logon" link as well, to give the system a chance to identify the user and retrieve their personal settings. It may be convenient to force them to log on.
 
-The ==bin/logon== script enables this. If you are using Apache Login, the ==bin/logon== script must be setup in the ==bin/.htaccess== file to be a script which requires a =valid user=. Once authenticated, it will redirect the user to the view URL for the page from which the =logon= script was linked.
+The ==bin/logon== script enables this. If you are using Apache Login, the ==bin/logon== script must be setup in the Apache configuration or ==bin/.htaccess== file to be a script which requires a =valid user=. Once authenticated, it will redirect the user to the view URL for the page from which the =logon= script was linked.
 
 #TrackSessions
 ---++ Sessions
@@ -218,7 +218,7 @@ If the ={PasswordManager}= does not support password changing, ChangeEmailAddres
 ---++ Controlling access to individual scripts
 You may want to add or remove scripts from the list of scripts that require authentication. The method for doing this is different for each of Template Login and Apache Login.  %T% Any scripts listed as requiring authentication will not be usable by the Guest user.  If you require that %USERSWEB%.WikiGuest be allowed to edit topics on your site, =edit= and =save= must be removed from the list of scripts requiring authentication.
    * For Template Login, update the ={AuthScripts}= list using [[%SCRIPTURLPATH{"configure"}%#Login$SecurityAndAuthentication][configure]]
-   * For Apache Login, add/remove the script from =.htaccess=, or from the !FilesMatch line in the Apache configuration.
+   * For Apache Login, add/remove the script from =bin/.htaccess=, or from the !FilesMatch line in the Apache configuration.
 #HowTo
 ---++ How to choose an authentication method
 

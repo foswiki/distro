@@ -110,14 +110,15 @@ First choose the best configuration method for your web server. With Apache, the
    * *Note:* you must restart Apache after making changes to your config files for the changes to take effect.
 
 *If you are using a .htaccess file:* 
-   * In the root of the foswiki installation and in the =bin= directory, there are sample =.htaccess= files for various subdirectories in your installation. Each file has help text explaining how to modify it for your configuration. For more information, see Foswiki:Support.SupplementalDocuments.<sticky>
+   * In the root of the foswiki installation, there are sample =.htaccess= files for various subdirectories in your installation. Each file has help text explaining how to modify it for your configuration. For more information, see Foswiki:Support.SupplementalDocuments.<sticky>
    | *location and name of sample .htaccess file* | *copy sample file to the following location* |
    | =foswiki/root-htaccess.txt= | =foswiki/.htaccess= |
-   | =foswiki/bin/.htaccess.txt= | =foswiki/bin/.htaccess= |
+   | =foswiki/bin-htaccess.txt= | =foswiki/bin/.htaccess= |
    | =foswiki/pub-htaccess.txt= | =foswiki/pub/.htaccess= |
-   | =foswiki/subdir-htaccess.txt= | =.htaccess= in all other subdirectories below =foswiki= |</sticky>
-   * Ensure that web access is denied to all Foswiki subdirectories other than =bin= and =pub=. The sample =.htaccess= files show how to configure Apache appropriately.
+   | =foswiki/subdir-htaccess.txt= | =foswiki/&lt;subdir&gt;/.htaccess= <br />Copy to all other subdirectories below =foswiki=, including =data=, =lib=, =locale=, =templates=, =tools=, =working=.  Copy to any other directories except for =bin= and  =pub= addressed above. |</sticky>
+   * Ensure that web access is denied to all Foswiki subdirectories other than =bin= and =pub=. The sample =.htaccess= files show how to configure Apache appropriately.  It is important to verify that none of these directories can be directly accessed.
    * Ensure that the =foswiki/bin/.htaccess= files contains the line =SetHandler cgi-script= so that all scripts in the =bin= directory will be executed by Apache.
+   * *Note:* On Linux systems, files named with the leading "." like =.htaccess= are hidden files and will not be listed unless using the -a option, ex. =ls -la=
 
 *Turn off any kind of PHP, Perl, Python, Server Side Includes, or other software execution mechanisms supported by your web server in the =pub= directory.* For example, most Linux distributions have a default Apache installation with PHP and server side include (SSI) enabled. This would allow PHP scripts uploaded as attachments to be executed, which is a security risk, so it should be disabled in the Apache configuration with =php_admin_flag engine off=.
 
