@@ -775,6 +775,15 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 # modules to be installed.</p>
 $Foswiki::cfg{UserInterfaceInternationalisation} = $FALSE;
 
+# **BOOLEAN EXPERT**
+# <p>Enable compilation of .po string files into compressed .mo files.
+# This results in a significant performance improvement for I18N, but if the
+# string files are being edited, it requires that configure be rerun to recompile
+# modified files.  Disable this option to prevent compling of string files.  If disabled,
+# stale <code>&lt;language&gt;.mo</code> files should be removed from the
+# Foswiki locale directory so that the modified .po file will be used.
+$Foswiki::cfg{LanguageFileCompression} = $TRUE;
+
 # *LANGUAGES* Marker used by bin/configure script - do not remove!
 # <p>These settings control the languages that are available for the
 # user interface. Check every language that you want your site to support.</p>
