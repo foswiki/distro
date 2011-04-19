@@ -1780,8 +1780,8 @@ sub getReferenceRE {
 # SMELL: Item10176 -  Adding doublequote as a WikiWord delimiter.   This causes non-linking quoted
 # WikiWords in tml to be incorrectly renamed.   But does handle quoted topic names inside macro parameters.
 # But this doesn't really fully fix the issue - $quotWikiWord for example.
-    my $reSTARTWW = qr/^|(?<=[\s\("])/m;
-    my $reENDWW   = qr/$|(?=[\s",.;:!?)])/m;
+    my $reSTARTWW = qr/^|(?<=[\s"\*=_\(])/m;
+    my $reENDWW   = qr/$|(?=[\s"\*=_,.;:!?)])/m;
 
     # $REMARKER is escaped by quotemeta so we need to match the escape
     $matchWeb =~ s#\\$REMARKER#[./]#go;
@@ -1791,10 +1791,10 @@ sub getReferenceRE {
 
     # Note use of \b to match the empty string at the
     # edges of a word.
-    my ( $bow, $eow, $forward, $back ) = ( '\b', '\b', '?=', '?<=' );
+    my ( $bow, $eow, $forward, $back ) = ( '\b_?', '_?\b', '?=', '?<=' );
     if ( $options{grep} ) {
-        $bow     = '\b';
-        $eow     = '\b';
+        $bow     = '\b_?';
+        $eow     = '_?\b';
         $forward = '';
         $back    = '';
     }
