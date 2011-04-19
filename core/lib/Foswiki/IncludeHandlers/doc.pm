@@ -21,6 +21,7 @@ use Foswiki ();
 sub INCLUDE {
     my ( $ignore, $session, $control, $params ) = @_;
     my $class = $control->{_DEFAULT};
+    Foswiki::Func::setPreferencesValue('SMELLS', '');
     $class =~ s/[a-z]+://;    # remove protocol
     return '' unless $class && $class =~ /^Foswiki/;
     $class =~ s/[^\w:]//g;
@@ -39,6 +40,8 @@ sub INCLUDE {
     open( $PMFILE, '<', $pmfile ) || return '';
     my $inPod = 0;
     my $pod   = '';
+    my $howSmelly  = 0;
+    my $showSmells = !Foswiki::Func::isGuest();
     local $/ = "\n";
     while ( my $line = <$PMFILE> ) {
         if ( $line =~ /^=(begin (twiki|TML|html)|pod)/ ) {
@@ -50,11 +53,23 @@ sub INCLUDE {
         elsif ($inPod) {
             $pod .= $line;
         }
+        if ( $line =~ /(SMELL|FIXME|TODO)/ && $showSmells ) {
+            $howSmelly++;
+            $pod .= "<blockquote class=\"foswikiAlert\">$line</blockquote>";
+        }
     }
     close($PMFILE);
 
     $pod =~ s/.*?%STARTINCLUDE%//s;
     $pod =~ s/%STOPINCLUDE%.*//s;
+    if ($howSmelly) {
+        my $podSmell =
+            '<blockquote class="foswikiAlert">'
+          . " *SMELL / FIX / TODO count: $howSmelly*\n"
+          . '</blockquote>';
+        $pod .= $podSmell;
+        Foswiki::Func::setPreferencesValue('SMELLS', $podSmell);
+    }
 
     $pod = Foswiki::applyPatternToIncludedText( $pod, $control->{pattern} )
       if ( $control->{pattern} );
