@@ -873,6 +873,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10285][Item10285]] | FamFamFamContrib toolbar isn't multi language capable |
 | [[%BUGS%/Item10290][Item10290]] | Package.pm fails parsing MANIFEST if non-topic files are installed into data |
 | [[%BUGS%/Item10298][Item10298]] | Handle foswikiFocus in jquery plugin |
+| [[%BUGS%/Item10304][Item10304]] | Updating TopicUserMappingContrib overwrites the AdminGroup |
 | [[%BUGS%/Item10307][Item10307]] | First save of files without rcs ,v file fails to create a new revision |
 | [[%BUGS%/Item10308][Item10308]] | Need to check if JQuery version is sane |
 | [[%BUGS%/Item10311][Item10311]] | Restore topic fails to restore META preferences |
