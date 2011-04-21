@@ -73,8 +73,12 @@ sub changes {
                 $change->{user}
               ? $session->{users}->webDotWikiName( $change->{user} )
               : '';
+            my $wikiname =
+                $change->{user}
+              ? $session->{users}->getWikiName( $change->{user} )
+              : '';
             $thisChange =~ s/%AUTHOR%/$wikiuser/go;
-            $thisChange =~ s/\$wikiname/<nop>$wikiuser/go;
+            $thisChange =~ s/\$wikiname/<nop>$wikiname/go;
             my $time = Foswiki::Time::formatTime( $change->{time} );
             $change->{revision} = 1 unless $change->{revision};
             my $srev = 'r' . $change->{revision};
