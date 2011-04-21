@@ -19,6 +19,9 @@ most likely not be expanded by the =attach= script.
 Unlike Foswiki Macros, tokens do not support {...} parameters.  They are
 merely a placeholder that is replaced by the script.
 
+%T% *Note:* The SEARCH macro also uses tokens in the =search= templates,
+%however they are in the format of ==$token==.
+
 ---++ Foswiki scripts
 
 ---+++ =attach= script
@@ -35,10 +38,11 @@ merely a placeholder that is replaced by the script.
 | %<nop>REPEAT% | |
 | %<nop>TEXT% | |
 | %<nop>TOPICNAME% | |
-| %<nop>AUTHOR% | |
+| %<nop>AUTHOR% | The name of the author of the change |
 | %<nop>TIME% | |
 | %<nop>REVISION% | |
 | %<nop>TEXTHEAD% | |
+| $wikiname | The name of the author of the change |
 
 ---+++ =edit= script
 
