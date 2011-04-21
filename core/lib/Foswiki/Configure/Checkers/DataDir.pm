@@ -51,12 +51,12 @@ ERRMSG
     }
 
     if ( $this->{missingFile} ) {
-        my $singularOrPlural = $this->{missingFile} == 1 ? "$this->{missingFile} required file is missing." : "$this->{missingFile} files are missing.";
+    my $singularOrPlural = $this->{missingFile} == 1 ? "$this->{missingFile} file is missing." : "$this->{missingFile} files are missing.";
         $e .= $this->WARN(<<PREFS)
-$singularOrPlural.  The web directories have been checked for a $Foswiki::cfg{WebPrefsTopicName} topic.
+This warning can be safely ignored in many cases.  The web directories have been checked for a $Foswiki::cfg{WebPrefsTopicName} topic and $singularOrPlural
 If this file is missing, Foswiki will not recognize the directory as a Web and the contents will not be 
-accessible to Foswiki.  Verify that each directory is intented to be a web and either copy in a $Foswiki::cfg{WebPrefsTopicName}
-topic or remove the directory to correct the warning.
+accessible to Foswiki.  This is expected with some extensions and might not be a problem. <br /><br />Verify whether or not each directory listed as missing $Foswiki::cfg{WebPrefsTopicName} is
+intended to be a web.  If Foswiki web access is desired, copy in a $Foswiki::cfg{WebPrefsTopicName} topic.
 PREFS
     }
 
