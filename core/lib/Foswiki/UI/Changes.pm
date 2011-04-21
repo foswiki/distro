@@ -66,7 +66,7 @@ sub changes {
             my $topicObject =
               Foswiki::Meta->new( $session, $webObject->web, $change->{topic} );
             my $summary =
-              $topicObject->summariseChanges( undef, $change->{revision} );
+              $topicObject->summariseChanges( undef, $change->{revision}, 1 );
             my $thisChange = $eachChange;
             $thisChange =~ s/%TOPICNAME%/$change->{topic}/go;
             my $wikiuser =
@@ -74,6 +74,7 @@ sub changes {
               ? $session->{users}->webDotWikiName( $change->{user} )
               : '';
             $thisChange =~ s/%AUTHOR%/$wikiuser/go;
+            $thisChange =~ s/\$wikiname/<nop>$wikiuser/go;
             my $time = Foswiki::Time::formatTime( $change->{time} );
             $change->{revision} = 1 unless $change->{revision};
             my $srev = 'r' . $change->{revision};
@@ -84,7 +85,6 @@ sub changes {
             $thisChange =~ s/%TIME%/$time/g;
             $thisChange =~ s/%REVISION%/$srev/go;
             $thisChange =~ s/%TEXTHEAD%/$summary/go;
-            $thisChange = $topicObject->renderTML($thisChange);
             $page .= $thisChange;
         }
         catch Foswiki::AccessControlException with {
