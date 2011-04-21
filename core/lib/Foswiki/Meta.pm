@@ -2654,7 +2654,7 @@ sub attach {
             attachment => $opts{name},
             stream     => $opts{stream},
             user       => $this->{_session}->{user},    # cUID
-            comment    => $opts{comment} || '',
+            comment    => defined $opts{comment} ? $opts{comment} : '',
         };
 
         if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
@@ -3034,6 +3034,7 @@ sub copyAttachment {
 
         $to->saveAs(
             undef, undef,
+            author => $cUID,
             dontlog => 1,                    # no statistics
             comment => 'gained' . $newName
         );
@@ -3785,7 +3786,7 @@ sub dataDecode {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
