@@ -38,11 +38,11 @@ merely a placeholder that is replaced by the script.
 | %<nop>REPEAT% | |
 | %<nop>TEXT% | |
 | %<nop>TOPICNAME% | |
-| %<nop>AUTHOR% | The name of the author of the change |
+| %<nop>AUTHOR% | The web qualified WikiName of the change |
 | %<nop>TIME% | |
 | %<nop>REVISION% | |
 | %<nop>TEXTHEAD% | |
-| $wikiname | The name of the author of the change |
+| $wikiname | The &lt;nop> escaped WikiName of the change |
 
 ---+++ =edit= script
 
