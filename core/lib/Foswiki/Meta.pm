@@ -2742,7 +2742,7 @@ sub attach {
             attachment => $opts{name},
             stream     => $opts{stream},
             user       => $this->{_session}->{user},    # cUID
-            comment    => $opts{comment} || '',
+            comment    => defined $opts{comment}?$opts{comment} : '',
         };
 
         if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
@@ -3122,6 +3122,7 @@ sub copyAttachment {
 
         $to->saveAs(
             undef, undef,
+            author => $cUID,
             dontlog => 1,                    # no statistics
             comment => 'gained' . $newName
         );
