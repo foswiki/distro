@@ -72,26 +72,60 @@ Construct a Store module.
 
 sub new {
     my $class = shift;
-
-    # Create and register store listeners. Store listeners are subclasses
-    # of Foswiki::Store::Interfaces::Listener
-    my @evl =
-#        map { require $_ }
-        map {
-            eval "require $_";
-            die "Failed to load $_: $@" if $@;
-            $_->new()
-        }
-        sort {
-	    $Foswiki::cfg{Store}{Listeners}{$a} <=>
-	        $Foswiki::cfg{Store}{Listeners}{$b} }
-        keys %{$Foswiki::cfg{Store}{Listeners}};
+    
 
 
-    my $this = bless( { event_listeners => \@evl }, $class );
+
+    my $this = bless( { }, $class );
+    $this->_LoadAndRegisterListeners();
 
     return $this;
 }
+
+#extracted so we can re-jig the list while running (for eg, non-optionally load a listener from code.
+sub _LoadAndRegisterListeners {
+    my $this= shift;
+    
+    # Create and register store listeners. Store listeners are subclasses
+    # of Foswiki::Store::Interfaces::Listener
+    
+    my @evl;
+    foreach my $key (
+            sort {
+                    $Foswiki::cfg{Store}{Listeners}{$a} <=>
+                    $Foswiki::cfg{Store}{Listeners}{$b} } keys(%{$Foswiki::cfg{Store}{Listeners}})
+                    ) {
+            if ($Foswiki::cfg{Store}{Listeners}{$key}) {
+                #print STDERR "loading $key\n";
+                eval "require $key";
+                die "Failed to load $key: $@" if $@;
+                push(@evl, $key->new());
+            } else {
+                #don't try (and thus potentially crash on disabled listener
+                delete $Foswiki::cfg{Store}{Listeners}{$key};
+            }
+        }
+        
+      $this->{event_listeners} = \@evl;
+}
+
+=begin TML
+
+---++ ObjectMethod setListenerPriority()
+allows you to enable/disable (set priority to 0) a new Listener, or to change its priority
+
+=cut
+
+sub setListenerPriority {
+    my $this = shift;
+    my $classname = shift;
+    my $priority = shift;
+     
+    $Foswiki::cfg{Store}{Listeners}{$classname} = $priority;
+    $this->_LoadAndRegisterListeners();
+}
+
+
 
 =begin TML
 
