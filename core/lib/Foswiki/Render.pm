@@ -1781,7 +1781,7 @@ sub getReferenceRE {
 # WikiWords in tml to be incorrectly renamed.   But does handle quoted topic names inside macro parameters.
 # But this doesn't really fully fix the issue - $quotWikiWord for example.
     my $reSTARTWW = qr/^|(?<=[\s"\*=_\(])/m;
-    my $reENDWW   = qr/$|(?=[\s"\*=_,.;:!?)])/m;
+    my $reENDWW   = qr/$|(?=[\s"\*#=_,.;:!?)])/m;
 
     # $REMARKER is escaped by quotemeta so we need to match the escape
     $matchWeb =~ s#\\$REMARKER#[./]#go;
@@ -1799,7 +1799,7 @@ sub getReferenceRE {
         $back    = '';
     }
     my $squabo = "($back\\[\\[)";
-    my $squabc = "($forward\\][][])";
+    my $squabc = "($forward(?:#.*?)?\\][][])";
 
     my $re = '';
 
