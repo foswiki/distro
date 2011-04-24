@@ -2784,7 +2784,7 @@ Query the topic data in the specified webs. A programatic interface to SEARCH re
 The =\%options= hash may contain the following options:
    * =type= - =regex=, =keyword=, =query=, ... defaults to =query=
    * =web= - The web/s to search in - string can have the same form as the =web= param of SEARCH (if not specified, defaults to BASEWEB)
-   * =casesensitive= - false to ignore case (defaulkt true)
+   * =casesensitive= - false to ignore case (default true)
    * =files_without_match= - true to return files only (default false). If =files_without_match= is specified, it will return on the first match in each topic (i.e. it will return only one match per 
    * topic, excludetopic and other params as per SEARCH
 
@@ -3589,7 +3589,7 @@ Meta-data matches will be returned as formatted lines within the topic content (
    * =\%option= - reference to an options hash
 The =\%options= hash may contain the following options:
    * =type= - =regex=, =keyword=, =query= - defaults to =regex=
-   * =casesensitive= - false to ignore case (defaulkt true)
+   * =casesensitive= - false to ignore case (default true)
    * =files_without_match= - true to return files only (default false). If =files_without_match= is specified, it will return on the first match in each topic (i.e. it will return only one match per topic, and will not return matching lines).
    * TODO: topic, excludetopic and other params as per SEARCH
 
