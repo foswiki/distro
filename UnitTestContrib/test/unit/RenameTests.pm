@@ -84,6 +84,8 @@ rename [[$this->{test_web}.OldTopic]]
 31 [[OldTopic#anchor]]
 32 http://site/$this->{test_web}/OldTopic#anchor
 33 https://site/$this->{test_web}/OldTopic#anchor
+34 OldTopic#OldTopic
+35 [[OldTopic#OldTopic]]
 THIS
 
     # Strategically-selected set of identical topics in the test web
@@ -877,6 +879,8 @@ rename [[$this->{test_web}.NewTopic]]
 31 [[NewTopic#anchor]]
 32 http://site/$this->{test_web}/NewTopic#anchor
 33 https://site/$this->{test_web}/NewTopic#anchor
+34 NewTopic#OldTopic
+35 [[NewTopic#OldTopic]]
 THIS
 
     #
@@ -930,6 +934,8 @@ rename [[$this->{test_web}.NewTopic]]
 31 [[NewTopic#anchor]]
 32 http://site/$this->{test_web}/NewTopic#anchor
 33 https://site/$this->{test_web}/NewTopic#anchor
+34 NewTopic#OldTopic
+35 [[NewTopic#OldTopic]]
 THIS
 
     #
@@ -983,6 +989,8 @@ rename [[$this->{test_web}.NewTopic]]
 31 [[$this->{test_web}.NewTopic#anchor]]
 32 http://site/$this->{test_web}/NewTopic#anchor
 33 https://site/$this->{test_web}/NewTopic#anchor
+34 $this->{test_web}.NewTopic#OldTopic
+35 [[$this->{test_web}.NewTopic#OldTopic]]
 THIS
 }
 
