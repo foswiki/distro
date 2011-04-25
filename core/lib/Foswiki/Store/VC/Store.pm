@@ -79,7 +79,7 @@ sub getHandler {
 sub readTopic {
     my ( $this, $topicObject, $version ) = @_;
 
-    my ( $gotRev, $isLatest ) = $this->askListeners($topicObject);
+    my ( $gotRev, $isLatest ) = $this->askListeners($topicObject, $version);
 
     if ( defined($gotRev) and ( $gotRev > 0 ) ) {
         return ( $gotRev, $isLatest );

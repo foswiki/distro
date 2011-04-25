@@ -72,11 +72,8 @@ Construct a Store module.
 
 sub new {
     my $class = shift;
-    
 
-
-
-    my $this = bless( { }, $class );
+    my $this = bless( {}, $class );
     $this->_LoadAndRegisterListeners();
 
     return $this;
@@ -84,29 +81,34 @@ sub new {
 
 #extracted so we can re-jig the list while running (for eg, non-optionally load a listener from code.
 sub _LoadAndRegisterListeners {
-    my $this= shift;
-    
+    my $this = shift;
+
     # Create and register store listeners. Store listeners are subclasses
     # of Foswiki::Store::Interfaces::Listener
-    
+
     my @evl;
     foreach my $key (
-            sort {
-                    $Foswiki::cfg{Store}{Listeners}{$a} <=>
-                    $Foswiki::cfg{Store}{Listeners}{$b} } keys(%{$Foswiki::cfg{Store}{Listeners}})
-                    ) {
-            if ($Foswiki::cfg{Store}{Listeners}{$key}) {
-                #print STDERR "loading $key\n";
-                eval "require $key";
-                die "Failed to load $key: $@" if $@;
-                push(@evl, $key->new());
-            } else {
-                #don't try (and thus potentially crash on disabled listener
-                delete $Foswiki::cfg{Store}{Listeners}{$key};
-            }
+        sort {
+            $Foswiki::cfg{Store}{Listeners}{$a} <=> $Foswiki::cfg{Store}
+              {Listeners}{$b}
+        } keys( %{ $Foswiki::cfg{Store}{Listeners} } )
+      )
+    {
+        if ( $Foswiki::cfg{Store}{Listeners}{$key} ) {
+
+            #print STDERR "loading $key\n";
+            eval "require $key";
+            die "Failed to load $key: $@" if $@;
+            push( @evl, $key->new() );
         }
-        
-      $this->{event_listeners} = \@evl;
+        else {
+
+            #don't try (and thus potentially crash on disabled listener
+            delete $Foswiki::cfg{Store}{Listeners}{$key};
+        }
+    }
+
+    $this->{event_listeners} = \@evl;
 }
 
 =begin TML
@@ -117,15 +119,13 @@ allows you to enable/disable (set priority to 0) a new Listener, or to change it
 =cut
 
 sub setListenerPriority {
-    my $this = shift;
+    my $this      = shift;
     my $classname = shift;
-    my $priority = shift;
-     
+    my $priority  = shift;
+
     $Foswiki::cfg{Store}{Listeners}{$classname} = $priority;
     $this->_LoadAndRegisterListeners();
 }
-
-
 
 =begin TML
 
@@ -152,11 +152,11 @@ to the listener.
 =cut
 
 sub tellListeners {
-    my $this = shift;
-    my %arg = @_;
+    my $this  = shift;
+    my %arg   = @_;
     my $event = $arg{verb};
-    
-    foreach my $el (@{$this->{event_listeners}}) {
+
+    foreach my $el ( @{ $this->{event_listeners} } ) {
         next unless $el->can($event);
         $el->$event(%arg);
     }
@@ -175,15 +175,15 @@ will not be asked.
 =cut
 
 sub askListeners {
-    my ($this, $meta) = @_;
-    my ($gotRev, $isLatest);
+    my ( $this, $meta, $version ) = @_;
+    my ( $gotRev, $isLatest );
 
-    foreach my $el (@{$this->{event_listeners}}) {
-	    next unless $el->can('loadTopic');
-	    ($gotRev, $isLatest) = $el->loadTopic($meta);
-	    return ($gotRev, $isLatest) if $gotRev;
+    foreach my $el ( @{ $this->{event_listeners} } ) {
+        next unless $el->can('loadTopic');
+        ( $gotRev, $isLatest ) = $el->loadTopic($meta, $version);
+        return ( $gotRev, $isLatest ) if $gotRev;
     }
-    return (undef, undef);
+    return ( undef, undef );
 }
 
 =begin TML
