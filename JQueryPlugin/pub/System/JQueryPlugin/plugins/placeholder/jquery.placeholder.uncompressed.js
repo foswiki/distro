@@ -4,9 +4,9 @@
 * http://www.hagenburger.net/BLOG/HTML5-Input-Placeholder-Fix-With-jQuery.html
 * 
 * Usage:
-* 	
-* 	<input type="text" class="foswikiInputField" placeholder="Fill me ...">
-* 
+*
+*  <input type="text" class="foswikiInputField" placeholder="Fill me ...">
+*
 */
 jQuery.placeholder = function() {
   $('[placeholder]').focus(function() {
@@ -38,11 +38,6 @@ jQuery.placeholder = function() {
   });
 };
 
-/* when using AJAX */
 $('[placeholder]').livequery(function() {
     $.placeholder($(this));
 }); 
-    
-$(document).ready(function() {
-	$.placeholder();
-});
