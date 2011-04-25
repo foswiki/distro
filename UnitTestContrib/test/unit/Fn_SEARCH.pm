@@ -4330,10 +4330,12 @@ sub test_orderTopic {
         $search . 'order="editby" format="$topic ($wikiname)"}%' );
 
 #    $this->assert_str_equals( "QueryTopicThree (Gerald),OkATopic (WikiGuest),OkBTopic (WikiGuest),OkTopic (WikiGuest),TestTopicSEARCH (WikiGuest),WebPreferences (WikiGuest),QueryTopicTwo (admin),QueryTopic (simon)", $result );
-    $this->assert_str_equals(
-"QueryTopicThree (Gerald),OkTopic (WikiGuest),OkBTopic (WikiGuest),WebPreferences (WikiGuest),TestTopicSEARCH (WikiGuest),OkATopic (WikiGuest),QueryTopicTwo (admin),QueryTopic (simon)",
-        $result
-    );
+#    $this->assert_str_equals(
+#"QueryTopicThree (Gerald),OkTopic (WikiGuest),OkBTopic (WikiGuest),WebPreferences (WikiGuest),TestTopicSEARCH (WikiGuest),OkATopic (WikiGuest),QueryTopicTwo (admin),QueryTopic (simon)",
+#        $result
+#    );
+    #needed to allow for store based differences in non-specified fields (ie, if sort on editby, then topic order is random - dependent on store impl)
+    $this->assert_matches( qr/^QueryTopicThree \(Gerald\),.*WikiGuest\),QueryTopicTwo \(admin\),QueryTopic \(simon\)$/, $result );
 
     #TODO: why is this different from 1.0.x?
 
@@ -4342,10 +4344,13 @@ sub test_orderTopic {
         $search . 'order="editby" reverse="on" format="$topic ($wikiname)"}%' );
 
 #    $this->assert_str_equals( "QueryTopic (simon),QueryTopicTwo (admin),OkATopic (WikiGuest),OkBTopic (WikiGuest),OkTopic (WikiGuest),TestTopicSEARCH (WikiGuest),WebPreferences (WikiGuest),QueryTopicThree (Gerald)", $result );
-    $this->assert_str_equals(
-"QueryTopic (simon),QueryTopicTwo (admin),OkTopic (WikiGuest),OkBTopic (WikiGuest),WebPreferences (WikiGuest),TestTopicSEARCH (WikiGuest),OkATopic (WikiGuest),QueryTopicThree (Gerald)",
-        $result
-    );
+#    $this->assert_str_equals(
+#"QueryTopic (simon),QueryTopicTwo (admin),OkTopic (WikiGuest),OkBTopic (WikiGuest),WebPreferences (WikiGuest),TestTopicSEARCH (WikiGuest),OkATopic (WikiGuest),QueryTopicThree (Gerald)",
+#        $result
+#    );
+    #needed to allow for store based differences in non-specified fields (ie, if sort on editby, then topic order is random - dependent on store impl)
+    $this->assert_matches( qr/^QueryTopic \(simon\),QueryTopicTwo \(admin\),.*\(WikiGuest\),QueryTopicThree \(Gerald\)$/, $result );
+
 
     #TODO: why is this different from 1.0.x?
 
@@ -4356,10 +4361,11 @@ sub test_orderTopic {
       );
 
 #$this->assert_str_equals( "OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (2),QueryTopicTwo (7),QueryTopic (1234)", $result );
-    $this->assert_str_equals(
-"OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic (),QueryTopicThree (2),QueryTopicTwo (7),QueryTopic (1234)",
-        $result
-    );
+#    $this->assert_str_equals(
+#"OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic (),QueryTopicThree (2),QueryTopicTwo (7),QueryTopic (1234)",
+#        $result
+#    );
+    $this->assert_matches( qr/\(\),QueryTopicThree \(2\),QueryTopicTwo \(7\),QueryTopic \(1234\)$/, $result );
 
     $result =
       $this->{test_topicObject}->expandMacros( $search
