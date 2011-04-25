@@ -52,15 +52,17 @@ of how to call it.
 sub new {
     my ($class) = @_;
 
+#use handler method names to allow of subclassing of HTML2TML
     my $this = new HTML::Parser(
-        start_h          => [ \&_openTag,  'self,tagname,attr' ],
-        end_h            => [ \&_closeTag, 'self,tagname' ],
-        text_h           => [ \&_text,     'self,text' ],
-        comment_h        => [ \&_comment,  'self,text' ],
-        declaration_h    => [ \&_ignore,   'self' ],
-        start_document_h => [ \&_ignore,   'self' ],
-        end_document_h   => [ \&_ignore,   'self' ],
-        default_h        => [ \&_default,  'self,event,text' ]
+        start_h          => [ '_openTag',  'self,tagname,attr' ],
+        end_h            => [ '_closeTag', 'self,tagname' ],
+        text_h           => [ '_text',     'self,text' ],
+        comment_h        => [ '_comment',  'self,text' ],
+        declaration_h    => [ '_ignore',   'self' ],
+        start_document_h => [ '_ignore',   'self' ],
+        end_document_h   => [ '_ignore',   'self' ],
+        default_h        => [ '_default',  'self,event,text' ],
+        comment_h         => [ '_ignore',   'self' ]
     );
 
     $this = bless( $this, $class );
@@ -201,7 +203,7 @@ sub convert {
 
 # Autoclose tags without waiting for a /tag
 my %autoClose = map { $_ => 1 }
-  qw( area base basefont br col embed frame hr input link meta param );
+  qw( area base basefont br col embed frame hr input link meta param img );
 
 # Support auto-close of the tags that are most typically incorrectly
 # nested. Autoclose triggers when a second tag of the same type is
