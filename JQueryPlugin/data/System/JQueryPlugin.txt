@@ -136,11 +136,12 @@ reduce bandwidth and speed up interactive performance.
 
 ---++ Plugin Info
 |  Author(s): | Michael Daum |
-|  Copyright: | 2007-2010 Michael Daum http://michaeldaumconsulting.com |
+|  Copyright: | 2007-2011 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  25 Apr 2011: | (4.04) Added JQueryPlaceholder. |
 |  11 Apr 2011: | (4.03) jQuery default corrected to be 1.4.3. \
                   Fixed syntax for accessing meta variables. \
                   Improved iterating hash. \
