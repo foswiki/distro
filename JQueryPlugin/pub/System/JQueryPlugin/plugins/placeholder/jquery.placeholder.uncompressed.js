@@ -3,6 +3,8 @@
 * based on
 * http://www.hagenburger.net/BLOG/HTML5-Input-Placeholder-Fix-With-jQuery.html
 * 
+* Adapted for Foswiki by Arthur Clemens
+* 
 * Usage:
 *
 *  <input type="text" class="foswikiInputField" placeholder="Fill me ...">
@@ -30,11 +32,6 @@ jQuery.placeholder = function() {
         input.val('');
       }
     });
-  });
-  
-  // Clear input on refresh so that the placeholder class gets added back
-  $(window).unload(function() {
-    $('[placeholder]').val('');
   });
 };
 
