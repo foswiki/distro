@@ -106,6 +106,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Media}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Metadata}{Enabled} = 1;
 
 # **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Placeholder}{Enabled} = 1;
+
+# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{PNotify}{Enabled} = 1;
 
 # **BOOLEAN**

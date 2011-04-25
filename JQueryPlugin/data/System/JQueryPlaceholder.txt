@@ -1,0 +1,22 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265652004" format="1.1" reprev="1.3" version="1.3"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"placeholder"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+Creates a 'hint' or 'example' text in a textfield that disappears when the field has focus or has custom input text.
+%ENDSECTION{"summary"}%
+
+---++ Usage
+
+HTML or TML:
+<verbatim class="tml">
+%JQREQUIRE{"placeholder"}%
+<input type="text" class="foswikiInputField" placeholder="Fill me ...">
+</verbatim>
