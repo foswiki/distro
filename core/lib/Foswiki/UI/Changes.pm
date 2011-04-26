@@ -62,39 +62,34 @@ sub changes {
         next if $done{ $change->{topic} };
         next
           unless $session->topicExists( $webObject->web, $change->{topic} );
-        try {
-            my $topicObject =
-              Foswiki::Meta->new( $session, $webObject->web, $change->{topic} );
-            my $summary =
-              $topicObject->summariseChanges( undef, $change->{revision}, 1 );
-            my $thisChange = $eachChange;
-            $thisChange =~ s/%TOPICNAME%/$change->{topic}/go;
-            my $wikiuser =
-                $change->{user}
-              ? $session->{users}->webDotWikiName( $change->{user} )
-              : '';
-            my $wikiname =
-                $change->{user}
-              ? $session->{users}->getWikiName( $change->{user} )
-              : '';
-            $thisChange =~ s/%AUTHOR%/$wikiuser/go;
-            $thisChange =~ s/\$wikiname/<nop>$wikiname/go;
-            my $time = Foswiki::Time::formatTime( $change->{time} );
-            $change->{revision} = 1 unless $change->{revision};
-            my $srev = 'r' . $change->{revision};
+        my $topicObject =
+          Foswiki::Meta->new( $session, $webObject->web, $change->{topic} );
+        next unless $topicObject->haveAccess('VIEW');
+        my $summary =
+          $topicObject->summariseChanges( undef, $change->{revision}, 1 );
+        my $thisChange = $eachChange;
+        $thisChange =~ s/%TOPICNAME%/$change->{topic}/go;
+        my $wikiuser =
+            $change->{user}
+          ? $session->{users}->webDotWikiName( $change->{user} )
+          : '';
+        my $wikiname =
+            $change->{user}
+          ? $session->{users}->getWikiName( $change->{user} )
+          : '';
+        $thisChange =~ s/%AUTHOR%/$wikiuser/go;
+        $thisChange =~ s/\$wikiname/<nop>$wikiname/go;
+        my $time = Foswiki::Time::formatTime( $change->{time} );
+        $change->{revision} = 1 unless $change->{revision};
+        my $srev = 'r' . $change->{revision};
 
-            if ( $change->{revision} == 1 ) {
-                $srev = CGI::span( { class => 'foswikiNew' }, 'NEW' );
-            }
-            $thisChange =~ s/%TIME%/$time/g;
-            $thisChange =~ s/%REVISION%/$srev/go;
-            $thisChange =~ s/%TEXTHEAD%/$summary/go;
-            $page .= $thisChange;
+        if ( $change->{revision} == 1 ) {
+            $srev = CGI::span( { class => 'foswikiNew' }, 'NEW' );
         }
-        catch Foswiki::AccessControlException with {
-
-            # ignore changes we can't see
-        };
+        $thisChange =~ s/%TIME%/$time/g;
+        $thisChange =~ s/%REVISION%/$srev/go;
+        $thisChange =~ s/%TEXTHEAD%/$summary/go;
+        $page .= $thisChange;
         $done{ $change->{topic} } = 1;
     }
 
