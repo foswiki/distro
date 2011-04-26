@@ -1,5 +1,6 @@
 SUBDIRS=\
   empty \
+  placeholder \
   themeswitcher \
   popupwindow \
   pnotify \

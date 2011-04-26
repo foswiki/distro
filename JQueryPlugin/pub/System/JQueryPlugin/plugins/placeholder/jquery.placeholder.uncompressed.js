@@ -10,31 +10,47 @@
 *  <input type="text" class="foswikiInputField" placeholder="Fill me ...">
 *
 */
-jQuery.placeholder = function() {
-  $('[placeholder]').focus(function() {
-    var input = $(this);
-    if (input.hasClass('placeholder')) {
-      input.val('');
-      input.removeClass('placeholder');
-      input.removeClass('foswikiInputFieldBeforeFocus');
-    }
-  }).blur(function() {
-    var input = $(this);
-    if (input.val() === '') {
-      input.addClass('placeholder');
-      input.addClass('foswikiInputFieldBeforeFocus');
-      input.val(input.attr('placeholder'));
-    }
-  }).blur().parents('form').submit(function() {
-    $(this).find('[placeholder]').each(function() {
-      var input = $(this);
-      if (input.hasClass('placeholder')) {
-        input.val('');
-      }
-    });
-  });
-};
+(function($) {
+  var defaults = {
+    css_class: 'placeholder'
+  };
 
-$('[placeholder]').livequery(function() {
-    $.placeholder($(this));
-}); 
+  $.fn.placeholder = function(options) {
+    var opts = $.extend(defaults, options);
+
+    $('[placeholder]').focus(function() {
+      var input = $(this);
+      if (input.hasClass(opts.css_class)) {
+        input.val('');
+        input.removeClass(opts.css_class);
+        input.removeClass('foswikiInputFieldBeforeFocus');
+      }
+    }).blur(function() {
+      var input = $(this);
+      if (input.val() === '') {
+        input.addClass(opts.css_class);
+        input.addClass('foswikiInputFieldBeforeFocus');
+        input.val(input.attr('placeholder'));
+      }
+    }).blur().parents('form').submit(function() {
+      $(this).find('[placeholder]').each(function() {
+        var input = $(this);
+        if (input.hasClass(opts.css_class)) {
+          input.val('');
+        }
+      });
+    });
+  };
+
+  function hasPlaceholderSupport() {
+    var input = document.create('input');
+    return ('placeholder' in input)
+  };
+
+  if (!hasPlaceholderSupport) {
+    $('[placeholder]').livequery(function() {
+        $(this).placeholder();
+    }); 
+  }
+
+})(jQuery);
