@@ -81,7 +81,7 @@ sub readTopic {
 
     my ( $gotRev, $isLatest ) = $this->askListeners($topicObject, $version);
 
-    if ( defined($gotRev) and ( $gotRev > 0 ) ) {
+    if ( defined($gotRev) and ( $gotRev > 0 or ($isLatest)) ) {
         return ( $gotRev, $isLatest );
     }
     ASSERT( not $isLatest ) if DEBUG;
@@ -269,6 +269,12 @@ sub openAttachment {
 
 sub getRevisionHistory {
     my ( $this, $topicObject, $attachment ) = @_;
+    
+    my $itr = $this->askListenersRevisionHistory($topicObject, $attachment);
+
+    if ( defined($itr) ) {
+        return $itr;
+    }
 
     my $handler = $this->getHandler( $topicObject, $attachment );
     return $handler->getRevisionHistory();

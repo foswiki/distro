@@ -118,6 +118,9 @@ use Error qw(:try);
 use Assert;
 use Errno 'EINTR';
 
+#use Foswiki::Iterator::NumberRangeIterator;
+
+
 our $reason;
 our $VERSION = '$Rev$';
 
@@ -459,6 +462,7 @@ sub load {
         #_latestIsloaded is mostly undef / 0 when the topic is not ondisk, except Fn_SEARCH::verify_refQuery_ForkingSearch and friends
         ASSERT( not ($this->{_latestIsLoaded}) ) if DEBUG;
     } else {
+        #while there is docco, intent and code assuming that loadedRev=0 means the topic is not loaded, its not true - topics with no TOPICINFO get a valid rev=0
         ASSERT( defined( $this->{_loadedRev} ) and ($this->{_loadedRev} >0)) if DEBUG;
         ASSERT( defined($this->{_latestIsLoaded}) ) if DEBUG;
     }
@@ -2404,6 +2408,12 @@ sub getRevisionHistory {
     my ( $this, $attachment ) = @_;
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
+      
+#    if ((not defined($attachment)) and ($this->{_latestIsLoaded})) {
+#        #why poke around in revision history (slow) if we 'have the latest'
+#        return new Foswiki::Iterator::NumberRangeIterator( $this->{_loadedRev}, 1 );
+#    }
+      
     return $this->{_session}->{store}->getRevisionHistory( $this, $attachment );
 }
 
