@@ -1767,7 +1767,7 @@ sub createWeb {
     }
 
     my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
-    $webObject->populateNewWeb($baseweb, @_);
+    $webObject->populateNewWeb($baseweb);
 }
 
 =begin TML
