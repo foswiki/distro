@@ -14,6 +14,7 @@ sub new {
 }
 
 my @allTopics;
+my @allTopicsH;
 my @allSubwebTopics;
 
 sub set_up {
@@ -24,11 +25,47 @@ sub set_up {
     my $webObject =
       Foswiki::Meta->new( $this->{session}, "$this->{test_web}/SubWeb" );
     $webObject->populateNewWeb();
+
+    my $webObjectH =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}Hidden" );
+    $webObjectH->populateNewWeb();
+
+    my $webPrefsObj =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}Hidden",
+        $Foswiki::cfg{WebPrefsTopicName}, <<THIS);
+If ALLOW is set to a list of wikiname
+   * people not in the list are DENIED access
+   * Set ALLOWWEBVIEW = $this->{users_web}.AdminUser
+THIS
+    $webPrefsObj->save();
+
     Foswiki::Func::readTemplate('foswiki');
 
     @allTopics       = Foswiki::Func::getTopicList( $this->{test_web} );
     @allSubwebTopics = Foswiki::Func::getTopicList("$this->{test_web}/SubWeb");
+    @allTopicsH      = Foswiki::Func::getTopicList("$this->{test_web}Hidden" );
 }
+
+sub tear_down {
+    my $this = shift;
+    $this->removeWebFixture( $this->{session}, "$this->{test_web}Hidden" )
+      if ( $this->{session}->webExists("$this->{test_web}Hidden") );
+    $this->removeWebFixture( $this->{session}, "$this->{test_web}/SubWeb" )
+      if ( $this->{session}->webExists("$this->{test_web}/SubWeb") );
+    $this->removeWebFixture( $this->{session}, "$this->{test_web}" )
+      if ( $this->{session}->webExists("$this->{test_web}") );
+}
+
+sub test_hidden_web_list {
+    my $this = shift;
+
+    # Item10690:   If the entire web is hidden, TOPICLIST should not reveal the
+    # contents of the web.
+    my $text = $this->{test_topicObject}->expandMacros(
+        "%TOPICLIST{ web=\"$this->{test_web}Hidden\"}%");
+    $this->assert_str_equals( '', $text );
+}
+
 
 sub test_no_format_no_separator {
     my $this = shift;
