@@ -50,10 +50,7 @@ sub tear_down {
     my $this = shift;
     $this->removeWebFixture( $this->{session}, "$this->{test_web}Hidden" )
       if ( $this->{session}->webExists("$this->{test_web}Hidden") );
-    $this->removeWebFixture( $this->{session}, "$this->{test_web}/SubWeb" )
-      if ( $this->{session}->webExists("$this->{test_web}/SubWeb") );
-    $this->removeWebFixture( $this->{session}, "$this->{test_web}" )
-      if ( $this->{session}->webExists("$this->{test_web}") );
+    $this->SUPER::tear_down();
 }
 
 sub test_hidden_web_list {
