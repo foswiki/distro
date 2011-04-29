@@ -278,7 +278,12 @@ sub verify_eachGroupMember {
 
 sub verify_secretGroupIsHidden {
     my $this     = shift;
-    my $expected = 'AdminGroup,AmishGroup,BaptistGroup,BottomGroup,MultiLineGroup,TopGroup';
+
+    # SMELL: Tasks/Item10176 - Questions about should Func API expose hidden groups.  Concensus was yes.
+    #  - Topic list that should be returned if hidden groups remain hidden to Func.
+    #"AdminGroup,AmishGroup,BaptistGroup,BottomGroup,MultiLineGroup,TopGroup"
+
+    my $expected = 'AaanotherSecretGroup,AanotherSecretGroup,AdminGroup,AmishGroup,BaptistGroup,BottomGroup,MultiLineGroup,NextHiddenGroup,SecretGroup,TopGroup';
     my $result;
     my $oldSession = $this->{session};
 
