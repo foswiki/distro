@@ -1,0 +1,45 @@
+#!/usr/bin/perl -wT
+# Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+#
+# Copyright (C) 2011 Michael Daum http://michaeldaumconsulting.com
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version. For
+# more details read LICENSE in the root of this distribution.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# As per the GPL, removal of this notice is prohibited.
+use strict;
+use warnings;
+
+use File::Spec;
+use FindBin qw( $Bin $Script );
+
+BEGIN {
+  if (defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL}) {
+    $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
+    use CGI::Carp qw(fatalsToBrowser);
+    $SIG{__DIE__} = \&CGI::Carp::confess;
+  } else {
+    $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
+    require Carp;
+    $SIG{__DIE__} = \&Carp::confess;
+  }
+
+  my @path = File::Spec->splitpath($Bin);
+  my $setlib = File::Spec->catfile(@path, 'setlib.cfg');
+  require $setlib;
+  $Script =~ s/\..*$//;    # Remove optional file extension
+  $ENV{FOSWIKI_ACTION} = $Script;
+}
+
+use Foswiki ();
+use Foswiki::UI ();
+$Foswiki::engine->run();
+
+1;

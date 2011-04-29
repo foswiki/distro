@@ -1,0 +1,16 @@
+bin/jsonrpc 0755
+data/System/JsonRpcContrib.txt 0644
+lib/Foswiki/Contrib/JsonRpcContrib/Config.spec 0644
+lib/Foswiki/Contrib/JsonRpcContrib/Error.pm 0644
+lib/Foswiki/Contrib/JsonRpcContrib/JQueryPlugin.pm 0644
+lib/Foswiki/Contrib/JsonRpcContrib.pm 0644
+lib/Foswiki/Contrib/JsonRpcContrib/Request.pm 0644
+lib/Foswiki/Contrib/JsonRpcContrib/Response.pm 0644
+lib/Foswiki/Contrib/JsonRpcContrib/Server.pm 0644
+pub/System/JsonRpcContrib/jquery.jsonrpc.js 0644
+pub/System/JsonRpcContrib/jquery.jsonrpc.js.gz 0644
+pub/System/JsonRpcContrib/jquery.jsonrpc.uncompressed.js 0644
+pub/System/JsonRpcContrib/json2.js 0644
+pub/System/JsonRpcContrib/json2.js.gz 0644
+pub/System/JsonRpcContrib/json2.uncompressed.js 0644
+pub/System/JsonRpcContrib/Makefile 0644

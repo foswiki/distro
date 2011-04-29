@@ -1,0 +1,183 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1304090140" format="1.1" reprev="3" version="3"}%
+---+!! %TOPIC%
+%SHORTDESCRIPTION%
+
+%TOC%
+
+---++ Summary
+This package implements an [[http://en.wikipedia.org/wiki/JSON-RPC][JSON-RPC 2.0]] protocol to interface
+with Foswiki and its plugins. 
+In contrast to the normal REST interface of Foswiki, a JSON-RPC interface offers a well defined calling
+semantics for requests and responses. The interface will also take care that any received data is recoded
+to the site's character encoding. JSON-RPC is normally called as part of some !JavaScript ajax application.
+<nop>%TOPIC% also comes with a jQuery plugin to ease sending JSON-RPC. This is a simple wrapper around jQuery's own
+ajax capabilities which in addition takes care calls are well-formed.
+
+---++ Registering procedures
+Foswiki plugins are able to register their own handler to be responsible for a specific method in a given namespace,
+like this:
+
+<verbatim>
+use Foswiki::Contrib::JsonRpcContrib ();
+Foswiki::Contrib::JsonRpcContrib::registerMethod(
+  "MyNamespace", 
+  "someMethod", 
+  \$jsonRpcSomeMethod
+);
+
+sub jsonRpcSomeMethod {
+  my ($session, $request) = @_;
+
+...
+}
+</verbatim>
+
+---++ Calling procedures
+
+Once a handler is registered it may be called using an URL of the format
+
+=%SCRIPTURL{"jsonrpc"}%/MyNamespace=
+
+... while POSTing a JSON encoded request according to the JSON-RPC 2.0 specification,
+like,
+
+<verbatim>
+{
+  jsonrpc: "2.0", 
+  method: "someMethod", 
+  params: {
+     topic: "Web.Topic",
+     ...
+     param1: "value1",
+     param2: "value2",
+     ...
+  }, 
+  id: "caller's id"
+}
+</verbatim>
+
+Optionally, the jQuery plugin can be used by requesting it via =%!JQREQUIRE{"jsonrpc"}%=. JSON-RPC can now
+be issued like this:
+
+<verbatim>
+$.jsonRpc(
+  endpoint, /* %SCRIPTURL{"jsonrpc"}% */
+  {
+    namespace: "MyNamespace",
+    method: "someMethod",
+    id: "some caller's id",
+    params: {
+     topic: "Web.Topic",
+     ...
+     param1: "value1",
+     param2: "value2", 
+    },
+    beforeSend: function(xhr) { ... },
+    error: function(jsonResponse, textStatus, xhr) { ... },
+    success: function(jsonResponse, textStatus, xhr) { ... }
+  }
+);
+</verbatim>
+
+In case of an error the JSON response will have the format
+
+<verbatim>
+{
+  jsonrpc: "2.0",
+  error: {
+    code: errorCode,
+    message: "error description"
+  },
+  id: "caller's id"
+}
+</verbatim>
+
+In case of a successfull call the JSON response will be of the format
+
+<verbatim>
+{
+   jsonrpc: "2.0",
+   result: some-result-object,
+   id: "caller's id"
+}
+</verbatim>
+
+---++ Extensions to the standard
+
+JSON-RPC 2.0 normally only allows to pass parameters to a remote procedure using a well formed request object as described
+above. However in real-live web applications data to be transmitted to a specific endpoint using URL parameter as is the case for a normal HTML form. Instead of requiring all form fields to be converted into a JSON-RPC request object on the client side the Foswiki server interface converts data transmitted this way to a proper request object transparently. 
+This way any JSON-RPC call feels much like a standard REST interface. 
+
+The called namespace and method can thus be specified much like a subject/verb url to a REST interface, that is
+these calls are equivalent:
+
+<verbatim>
+$.jsonRpc(
+  "%SCRIPTURL{"jsonrpc"}%" 
+  namespace: "MyNamespace",
+  method: "someMethod",
+  ...
+);
+</verbatim>
+
+<verbatim>
+$.jsonRpc(
+  "%SCRIPTURL{"jsonrpc"}%/MyNamespace" 
+  method: "someMethod",
+  ...
+);
+</verbatim>
+
+<verbatim>
+$.jsonRpc(
+  "%SCRIPTURL{"jsonrpc"}%/MyNamespace/someMethod" 
+  ...
+);
+</verbatim>
+
+As well as using a proper HTML form
+
+<verbatim>
+<form action="%SCRIPTURL{"jsonrpc"}%" method="post">
+<input type="hidden" name="namespace" value="MyNamespace" />
+<input type="hidden" name="method" value="someMethod" />
+...
+</form>
+</verbatim>
+
+<verbatim>
+<form action="%SCRIPTURL{"jsonrpc"}%/Mynamespace" method="post">
+<input type="hidden" name="method" value="someMethod" />
+...
+</form>
+</verbatim>
+
+<verbatim>
+<form action="%SCRIPTURL{"jsonrpc"}%/Mynamespace/someMethod" method="post">
+...
+</form>
+</verbatim>
+
+Forms of this kind can be send over to the backend using %SYSTEMWEB%.JQueryForm's =$.ajaxSubmit()= method without a problem.
+
+In case a namespace, method or parameters are specified as part of a JSON-RPC request object as well as using URL parameters, the latter take higher precedence and are effectively merged into the request object.
+
+---++ Installation Instructions
+
+%$INSTALL_INSTRUCTIONS%
+
+---++ Info
+<!--
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
+
+|  Author(s): | Michael Daum|
+|  Copyright: | &copy; 2011 Michael Daum http://michaeldaumconsulting.com |
+|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Release: | %$RELEASE% |
+|  Version: | %$VERSION% |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  2011-04-29 | initial release |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Home page: | Foswiki:Extensions/%TOPIC% |
+|  Support: | Foswiki:Support/%TOPIC% |
