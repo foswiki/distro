@@ -28,10 +28,19 @@
 <input type="hidden" name="layout" value="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinThemeFatWilly/layout.css" />
 <input type="hidden" name="style" value="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinThemeFatWilly/style.css" />
 <input type="hidden" name="colors" value="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinThemeFatWilly/colors.css" />
-<input type="hidden" name="column" value="" />
 <input type="hidden" name="variant" value="" />
 <input type="hidden" name="navigation" value="%SYSTEMWEB%/PatternSkinThemeFatWillyNavigation" />
 <div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+---+++ Choose column
+<select name="column" class="foswikiSelect">
+%IF{"$'URLPARAM{column}'" then="<optgroup label='Current selection'><option value='%URLPARAM{"column"}%' selected='selected'>%URLPARAM{"column"}%</option></optgroup>"}%
+<optgroup label='Column options:'>
+<option value="%SYSTEMWEB%/PatternSkinThemeFatWilly/column_right.css">Column right</option>
+<option value="%SYSTEMWEB%/PatternSkinThemeFatWilly/column_none.css">No column</option>
+</optgroup>
+</select>
+</div>
 <div class="foswikiFormStep">
 <input type="submit" class="foswikiSubmit" value="View theme" /> <a href="%SCRIPTURLPATH{view}%/%BASEWEB%/%BASETOPIC%" class="foswikiButton">Hide theme</a>
 </div>
@@ -53,7 +62,7 @@ Skin styles:
    * Set FOSWIKI_STYLE_URL = %DISPLAY_FOSWIKI_STYLE_URL%
    * Set FOSWIKI_COLORS_URL = %DISPLAY_FOSWIKI_COLORS_URL%
 Theme variants:
-   * Set PATTERNSKIN_COLUMNS =
+   * Set PATTERNSKIN_COLUMNS = %DISPLAY_PATTERNSKIN_COLUMNS%
    * Set PATTERNSKIN_THEME_VARIANT =
 Navigation:
    * Set PATTERNSKIN_NAVIGATION_TOPIC = %DISPLAY_PATTERNSKIN_NAVIGATION_TOPIC%
