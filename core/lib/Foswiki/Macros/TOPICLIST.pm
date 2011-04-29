@@ -23,6 +23,8 @@ sub TOPICLIST {
       if !defined($params->{web}) && $web ne $this->{webName}
           && $thisWebNoSearchAll;
 
+    return '' unless $webObject->haveAccess();
+
     my @items;
     my $it = $webObject->eachTopic();
     while ( $it->hasNext() ) {
