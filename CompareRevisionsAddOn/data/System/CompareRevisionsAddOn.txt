@@ -1,7 +1,11 @@
 %META:TOPICINFO{author="ProjectContributor" date="1144955876" format="1.1" version="1.1"}%
 ---+ Compare Revisions Add-On
-
-This add-on compares the renderd HTML output of two revisions and shows the differences broken down to the word-by-word level if necessary. The output can be formatted by templates and skins.
+<!--
+One line description, required for extensions repository catalog.
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+%JQREQUIRE{"chili"}%
+-->
+%SHORTDESCRIPTION%
 
 %TOC%
 
@@ -14,10 +18,10 @@ Furthermore, the differences between the revisions are shown as close as possibl
 
 The differences may be shown in two formats, either side-by-side or as an interwoven output of the old and new revision (like it is done in  Word or !OpenOffice):
 
-   * Screenshot of interwoven output: <br />
+   * Screenshot of interwoven output: %BR%
      <div class="foswikiImage"><img src="%ATTACHURLPATH%/interweave.png" alt="interweave.png" width='582' height='327' /></div>
 
-   * Screenshot of side-by-side output: <br />
+   * Screenshot of side-by-side output: %BR%
      <div class="foswikiImage"><img src="%ATTACHURLPATH%/sidebyside.png" alt="sidebyside.png" width='582' height='565' /></div>
 
 These screenshots have been taken from Sandbox.CompareRevisionsAddOnDemoTopic.
@@ -26,7 +30,7 @@ The appearance can be affected by templates and skins.
 
 ---++ Usage
 
-Call ==http:<nop>//your/foswiki/bin/compare/Web/Topic?parameters== from your browser
+Call ==<noautolink>%SCRIPTURL{"compare"}%/Web/Topic?parameters</noautolink>== from your browser
 
 ---+++ Parameters
 
@@ -59,10 +63,10 @@ The templates itself are broken into 7 parts
 <verbatim class="tml">
 template for start of page
 %REPEAT%
-template for unchanged section 
+template for unchanged section
 which is not printed according to context
 %REPEAT%
-template for unchanged section 
+template for unchanged section
 which is printed
 %REPEAT%
 template for changed section
@@ -114,48 +118,17 @@ and ==craCompareChange2== are defined with a light green background.
 
 
 ---++ Add-On Installation Instructions
+This Add-On comes pre-installed on Foswiki. You should only need to re-install if there is an upgrade to the Add-On.
 
-__Note:__ You do not need to install anything on the browser to use this add-on. The following instructions are for the administrator who installs the add-on on the server where Foswiki is running. 
-
-   * This script needs some additional Perl modules.
-     If necessary, download and install the required perl modules from [[http://www.cpan.org][CPAN]]. 
-     If you do not want to install these modules in your standard perl location,
-     install them in /your/foswiki/lib.
-     (See e.g.
-     [[http://www.perldoc.com/perl5.6.1/pod/perlmodinstall.html][perldoc perlmodinstall]] on how to 
-     install perl modules).%BR%
-     These modules are required:
-      * [[http://cpan.uwinnipeg.ca/module/HTML::Tree][HTML::Tree]] (with HTML::TreeBuilder and HTML::Element). These modules in turn need
-         * [[http://cpan.uwinnipeg.ca/module/HTML::Parser][HTML::Parser]]
-         * [[http://cpan.uwinnipeg.ca/module/HTML::Tagset][HTML::Tagset]]
-      * Algorithm::Diff (which is included in the standard Foswiki installation
-   * Download the [[%ATTACHURL%/CompareRevisionsAddOn.zip][ZIP file]] from the Add-on Home (see below)
-   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
-     | *File:*                      | *Description:*   |
-     | ==data/System/%TOPIC%.txt==   | Add-on topic     |
-     | ==bin/compare==              | Add-on script  |
-     | ==lib/Foswiki/UI/Compare.pm==  | Perl package used by the script |
-     | ==templates/compare.tmpl==   | Template for side-by-side output |
-     | ==templates/compare.pattern.tmpl== | Same for pattern skin |
-     | ==templates/interweave.tmpl==   | Template for interwoven output |
-     | ==templates/interweave.pattern.tmpl== | Same for pattern skin |
-     | ==lib/Foswiki/Plugins/CompareRevisionsAddonPlugin.pm== | Helper plugin |
-     | ==data/System/CompareRevisionsAddonPlugin.txt== | Plugin topic |
-     | ==pub/System/CompareRevisionsAddOn/interweaved.png== | Interwoven screenshot |
-     | ==pub/System/CompareRevisionsAddOn/sidebyside.png== | Side-by-side screenshot |
-     | ==data/Sandbox/CompareRevisionsAddOnDemoTopic.txt== | Demonstration topic |
-     | ==data/Sandbox/CompareRevisionsAddOnDemoTopic.txt,v== | Demonstration topic history |
+%$INSTALL_INSTRUCTIONS%
 
    * Test if the installation was successful:%BR%
-     Call ==%<nop>SCRIPTURL%/compare/Web/Topic== with
+     Call ==<noautolink>%SCRIPTURL{"compare"}%/Web/Topic</noautolink>== with
      some existing topic. (Try for instance Sandbox.CompareRevisionsAddOnDemoTopic and 
      compare your output with above screenshots).
-
    * Enable the helper plugin CompareRevisionsAddonPlugin with the configure script
    * This plugin will support the HistoryPlugin, if it is enabled
    * If you disable this plugin, the skin will behave like standard <nop>PatternSkin again
-   
-   
 
 ---++ Add-On Info
 
@@ -165,7 +138,11 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  10 Apr 2011 | Foswikitask:Item10401 - Call logEvent in compare <br /> Foswikitask:Item10402 - Don't use obsolete template for missing web/topic. <br /> Version shipping with 1.1.3 |
+|  30 Apr 2011 (1.1.4) | Foswikitask:Item10566 - Add =compareauth= script for !ApacheLogin users %BR%\
+                         - Switch to x.y.z version numbering %BR%\
+                         - Moved dependency list from documentation into DEPENDENCIES manifest \
+                         - Modernize system topic for !BuildContrib |
+|  10 Apr 2011 | Foswikitask:Item10401 - Call logEvent in compare %BR% Foswikitask:Item10402 - Don't use obsolete template for missing web/topic. %BR% Version shipping with 1.1.3 |
 |  21 Oct 2010 | Added dependency of HTML::Tree to installer and to core MANIFEST so you see it listed in configure |
 |  04 Oct 2010 | Foswikitask:Item9774:  Add CompareRevisionsAddOn.pm stub module to provide Version & Release strings | 
 |  31 Jul 2010 | Paul Harvey: Foswikitask:Item9415 - Documentation updates |
@@ -182,14 +159,11 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 |  02 Mar 2005 | Corrected bug concerning uninitialized elements |
 |  03 Feb 2005 | Removed blank paragraphs before comparing |
 |  20 Jan 2005 | Initial version |
-|  CPAN Dependencies: | [[http://cpan.uwinnipeg.ca/module/HTML::Parser][HTML::Parser]], [[http://cpan.uwinnipeg.ca/module/HTML::Tagset][HTML::Tagset]], [[http://cpan.uwinnipeg.ca/module/HTML::Tree][HTML::Tree]] |
-|  Other Dependencies: | none |
-|  Perl Version: | 5.008 |
+|  Dependencies: | %$DEPENDENCIES% |
 |  Add-on Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
 __Related Topic:__ %SYSTEMWEB%.ContributedAddOns
-<!-- %JQREQUIRE{"chili"}% -->
 
 %META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1144955876" path="interweave.png" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1144955876" path="sidebyside.png" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%
