@@ -235,51 +235,6 @@ sub sortResults {
 
 ######OLD methods
 
-# Determins, and caches, the topic revision info of the base version,
-sub getRev1Info {
-    my ( $webtopic, $attr ) = @_;
-
-    my $session   = $Foswiki::Plugins::SESSION;
-    my $metacache = $session->search->metacache;
-
-    my ( $web, $topic ) =
-      Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
-        $webtopic );
-
-    my $info = $metacache->get( $web, $topic );
-    unless ( defined $info->{$attr} ) {
-        my $ri = $info->{rev1info};
-        unless ($ri) {
-            my $tmp = Foswiki::Meta->load( $session, $web, $topic, 1 );
-            $info->{rev1info} = $ri = $tmp->getRevisionInfo();
-        }
-
-        if ( $attr eq 'createusername' ) {
-            $info->{createusername} =
-              $session->{users}->getLoginName( $ri->{author} );
-        }
-        elsif ( $attr eq 'createwikiname' ) {
-            $info->{createwikiname} =
-              $session->{users}->getWikiName( $ri->{author} );
-        }
-        elsif ( $attr eq 'createwikiusername' ) {
-            $info->{createwikiusername} =
-              $session->{users}->webDotWikiName( $ri->{author} );
-        }
-        elsif ($attr eq 'createdate'
-            or $attr eq 'createlongdate'
-            or $attr eq 'created' )
-        {
-            $info->{created} = $ri->{date};
-            require Foswiki::Time;
-            $info->{createdate} = Foswiki::Time::formatTime( $ri->{date} );
-
-            #TODO: wow thats disgusting.
-            $info->{created} = $info->{createlongdate} = $info->{createdate};
-        }
-    }
-    return $info->{$attr};
-}
 
 # Sort a topic list using cached info
 sub sortTopics {
@@ -317,10 +272,14 @@ sub sortTopics {
 
     # populate the cache for each topic
     foreach my $webtopic ( @{$listRef} ) {
+
+        my $info = $metacache->get($webtopic);
+
         if ( $sortfield =~ /^creat/ ) {
 
             # The act of getting the info will cache it
-            getRev1Info( $webtopic, $sortfield );
+            #$metacache->getRev1Info( $webtopic, $sortfield );
+            $info->{$sortfield} = $info->{tom}->getRev1Info($sortfield);
         }
         else {
 
@@ -328,7 +287,6 @@ sub sortTopics {
             # but i'm not sure if i can.
             $sortfield =~ s/^formfield\((.*)\)$/$1/;    # form field
 
-            my $info = $metacache->get($webtopic);
             if ( !defined( $info->{$sortfield} ) ) {
                 if ( $sortfield eq 'modified' ) {
                     my $ri = $info->getRevisionInfo();
@@ -344,7 +302,6 @@ sub sortTopics {
 
         # SMELL: CDot isn't clear why this is needed, but it is otherwise
         # we end up with the users all being identified as "undef"
-        my $info = $metacache->get($webtopic);
         $info->{editby} =
           $info->{tom}->session->{users}->getWikiName( $info->{editby} );
     }
