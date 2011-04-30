@@ -63,82 +63,83 @@ sub getField {
     my ( $this, $node, $data, $field ) = @_;
 
     my $result;
-    ASSERT( UNIVERSAL::isa( $data, 'Foswiki::Meta' )) if DEBUG;
+    ASSERT( UNIVERSAL::isa( $data, 'Foswiki::Meta' ) ) if DEBUG;
 
     print STDERR "\n----- getField($field)\n" if MONITOR;
 
     if ( $field eq 'META:VERSIONS' ) {
-	# Disallow reloading versions for an object loaded here
-	# SMELL: violates Foswiki::Meta encapsulation
-	return [] if $data->{_loadedByQueryAlgorithm};
-	
-	# Oooh, this is inefficient.
-	my $it = $data->getRevisionHistory();
-	my @revs;
-	while ( $it->hasNext() ) {
-	    my $n = $it->next();
-	    my $t =
-		$this->getRefTopic( $data, $data->web(), $data->topic(), $n );
-	    $t->{_loadedByQueryAlgorithm} = 1;
-	    push( @revs, $t );
-	}
-	return \@revs;
+
+        # Disallow reloading versions for an object loaded here
+        # SMELL: violates Foswiki::Meta encapsulation
+        return [] if $data->{_loadedByQueryAlgorithm};
+
+        # Oooh, this is inefficient.
+        my $it = $data->getRevisionHistory();
+        my @revs;
+        while ( $it->hasNext() ) {
+            my $n = $it->next();
+            my $t =
+              $this->getRefTopic( $data, $data->web(), $data->topic(), $n );
+            $t->{_loadedByQueryAlgorithm} = 1;
+            push( @revs, $t );
+        }
+        return \@revs;
     }
-    
+
     if ( $field =~ s/^META:// ) {
-	if ( $field eq 'TOPICINFO' ) {
+        if ( $field eq 'TOPICINFO' ) {
 
-	    # Ensure the revision info is populated from the store
-	    $data->getRevisionInfo();
-	}
+            # Ensure the revision info is populated from the store
+            $data->getRevisionInfo();
+        }
 
-	if ( $Foswiki::Query::Node::isArrayType{$field} ) {
-	    
-	    # Array type, have to use find
-	    my @e = $data->find($field);
-	    return \@e;
-	}
-	return $data->get($field);
+        if ( $Foswiki::Query::Node::isArrayType{$field} ) {
+
+            # Array type, have to use find
+            my @e = $data->find($field);
+            return \@e;
+        }
+        return $data->get($field);
     }
 
     if ( $field eq 'name' ) {
-	
-	# Special accessor to compensate for lack of a topic
-	# name anywhere in the saved fields of meta
-	return $data->topic();
+
+        # Special accessor to compensate for lack of a topic
+        # name anywhere in the saved fields of meta
+        return $data->topic();
     }
 
     if ( $field eq 'text' ) {
 
-	# Special accessor to compensate for lack of the topic text
-	# name anywhere in the saved fields of meta
-	return $data->text();
+        # Special accessor to compensate for lack of the topic text
+        # name anywhere in the saved fields of meta
+        return $data->text();
     }
 
     if ( $field eq 'web' ) {
 
-	# Special accessor to compensate for lack of a web
-	# name anywhere in the saved fields of meta
-	return $data->web();
+        # Special accessor to compensate for lack of a web
+        # name anywhere in the saved fields of meta
+        return $data->web();
     }
 
     if ( $field eq ':topic_meta:' ) {
 
-	#TODO: Sven expects this to be replaced with a fast call to
-	# versions[0] - atm, thats needlessly slow
-	# return the meta obj itself
-	# actually should do this the way the versions feature is
-	# supposed to return a particular one..
-	# SMELL: CDot can't work out what this is for....
-	return $data;
+        #TODO: Sven expects this to be replaced with a fast call to
+        # versions[0] - atm, thats needlessly slow
+        # return the meta obj itself
+        # actually should do this the way the versions feature is
+        # supposed to return a particular one..
+        # SMELL: CDot can't work out what this is for....
+        return $data;
     }
 
     return undef unless $data->topic();
 
     if (MONITOR) {
-	print STDERR "----- getField(FIELD value $field)\n";
-	use Data::Dumper;
-	print STDERR Dumper($data)."\n";
+        print STDERR "----- getField(FIELD value $field)\n";
+        use Data::Dumper;
+        print STDERR Dumper($data) . "\n";
     }
 
     # SHORTCUT; not a predefined name; assume it's a field
@@ -165,7 +166,7 @@ sub getForm {
     my $form = $data->get('FORM');
     return undef unless $form && $formname eq $form->{name};
     print STDERR "----- getForm($formname)\n" if MONITOR;
-		
+
     # TODO: This is where multiple form support needs to reside.
     # Return the array of FIELD for further indexing.
     my @e = $data->find('FIELD');
@@ -193,7 +194,9 @@ sub getRefTopic {
     # Get a referenced topic
     my ( $this, $relativeTo, $w, $t, $rev ) = @_;
     my $meta = Foswiki::Meta->load( $relativeTo->session, $w, $t, $rev );
-    print STDERR "----- getRefTopic($w, $t) -> ".($meta->getLoadedRev())."\n" if MONITOR;
+    print STDERR "----- getRefTopic($w, $t) -> "
+      . ( $meta->getLoadedRev() ) . "\n"
+      if MONITOR;
     return $meta;
 }
 
