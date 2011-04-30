@@ -45,19 +45,21 @@ sub run_in_new_process {
 sub set_up {
     my ($this) = shift;
     $this->SUPER::set_up(@_);
-
+    
+    my $timestamp = time();
+    
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OkTopic',
         "BLEEGLE blah/matchme.blah" );
-    $topicObject->save();
+    $topicObject->save(forcedate=>$timestamp+120);
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OkATopic',
         "BLEEGLE dontmatchme.blah" );
-    $topicObject->save();
+    $topicObject->save(forcedate=>$timestamp+240);
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OkBTopic',
         "BLEEGLE dont.matchmeblah" );
-    $topicObject->save();
+    $topicObject->save(forcedate=>$timestamp+480);
 }
 
 #TODO: figure out how to bomb out informativly if a dependency for one of the algo's isn't met - like no grep...
@@ -4197,10 +4199,11 @@ HERE
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'QueryTopic',
         $text );
-    $topicObject->save( forcedate => 1178612772, author => 'simon' );
+    $topicObject->save( forcedate => 1178412772, author => 'admin', forcenewrevision=>1 );
+    $topicObject->save( forcedate => 1178612772, author => 'simon', forcenewrevision=>1  );
 
     $text = <<'HERE';
-%META:TOPICINFO{author="BaseUserMapping_666" date="12" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="BaseUserMapping_666" date="1108412772" format="1.1" version="1.2"}%
 first line
 This is QueryTopicTwo SMONG
 third line
@@ -4223,10 +4226,11 @@ HERE
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'QueryTopicTwo',
         $text );
-    $topicObject->save( forcedate => 12, author => 'admin' );
+    $topicObject->save( forcedate => 1108312772, author => 'admin', forcenewrevision=>1   );
+    $topicObject->save( forcedate => 1178612772, author => 'simon', forcenewrevision=>1  );
 
     $text = <<'HERE';
-%META:TOPICINFO{author="TopicUserMapping_Gerald" date="14" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="TopicUserMapping_Gerald" date="1108412782" format="1.1" version="1.2"}%
 first line
 This is QueryTopicThree SMONG
 third line
@@ -4249,7 +4253,7 @@ HERE
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         'QueryTopicThree', $text );
-    $topicObject->save( forcedate => 14, author => 'Gerald' );
+    $topicObject->save( forcedate => 1108413782, author => 'Gerald' );
 
     $this->{session}->finish();
     my $query = new Unit::Request("");
@@ -4298,30 +4302,30 @@ sub test_orderTopic {
     );
 
 #order=created
-#TODO: looks like forcedate is broken? so the date tests are unlikely to have enough difference to order.
     $result =
       $this->{test_topicObject}->expandMacros(
-        $search . 'order="created" format="$topic ($createdate)"}%' );
+        $search . 'order="created" format="$topic"}%' );
 
-#$this->assert_str_equals( "OkATopic,OkBTopic,OkTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences", $result );
+$this->assert_str_equals( "QueryTopicTwo,QueryTopicThree,QueryTopic,WebPreferences,TestTopicSEARCH,OkTopic,OkATopic,OkBTopic", $result );
 
     $result =
       $this->{test_topicObject}
       ->expandMacros( $search . 'order="created" reverse="on"}%' );
 
-#$this->assert_str_equals( "WebPreferences,TestTopicSEARCH,QueryTopicTwo,QueryTopicThree,QueryTopic,OkTopic,OkBTopic,OkATopic", $result );
+$this->assert_str_equals( "OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferences,QueryTopic,QueryTopicThree,QueryTopicTwo", $result );
 
     #order=modified
     $result =
       $this->{test_topicObject}->expandMacros( $search . 'order="modified"}%' );
 
-#$this->assert_str_equals( "OkATopic,OkBTopic,OkTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences", $result );
+$this->assert_str_equals( "QueryTopicThree,QueryTopicTwo,QueryTopic,WebPreferences,TestTopicSEARCH,OkTopic,OkATopic,OkBTopic", $result );
 
     $result =
       $this->{test_topicObject}
-      ->expandMacros( $search . 'order="modified" reverse="on"}%' );
+      ->expandMacros( $search . 'order="modified" reverse="on" format="$topic"}%' );
 
-#$this->assert_str_equals( "WebPreferences,TestTopicSEARCH,QueryTopicTwo,QueryTopicThree,QueryTopic,OkTopic,OkBTopic,OkATopic", $result );
+#be very careful with this test and the one above - the change in order between QueryTopicTwo,QueryTopic is due to them having the same date, so its sorting by topicname
+$this->assert_str_equals( "OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferences,QueryTopicTwo,QueryTopic,QueryTopicThree", $result );
 
     #order=editby
     #TODO: imo this is a bug - alpha sorting should be caseinsensitive
@@ -4335,7 +4339,7 @@ sub test_orderTopic {
 #        $result
 #    );
     #needed to allow for store based differences in non-specified fields (ie, if sort on editby, then topic order is random - dependent on store impl)
-    $this->assert_matches( qr/^QueryTopicThree \(Gerald\),.*WikiGuest\),QueryTopicTwo \(admin\),QueryTopic \(simon\)$/, $result );
+    $this->assert_matches( qr/^QueryTopicThree \(Gerald\),.*WikiGuest\),QueryTopicTwo \(simon\),QueryTopic \(simon\)$/, $result );
 
     #TODO: why is this different from 1.0.x?
 
@@ -4349,7 +4353,7 @@ sub test_orderTopic {
 #        $result
 #    );
     #needed to allow for store based differences in non-specified fields (ie, if sort on editby, then topic order is random - dependent on store impl)
-    $this->assert_matches( qr/^QueryTopic \(simon\),QueryTopicTwo \(admin\),.*\(WikiGuest\),QueryTopicThree \(Gerald\)$/, $result );
+    $this->assert_matches( qr/^QueryTopicTwo \(simon\),QueryTopic \(simon\),.*\(WikiGuest\),QueryTopicThree \(Gerald\)$/, $result );
 
 
     #TODO: why is this different from 1.0.x?

@@ -112,7 +112,7 @@ sub set_up {
         $this->{session},    $this->{test_web},
         $this->{test_topic}, "BLEEGLE\n"
     );
-    $this->{test_topicObject}->save();
+    $this->{test_topicObject}->save(forcedate=>(time()+60));
 }
 
 sub tear_down {

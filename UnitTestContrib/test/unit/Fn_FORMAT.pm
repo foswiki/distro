@@ -159,9 +159,9 @@ HERE
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
 
     $result = $this->{test_topicObject}->expandMacros( <<'HERE');
-%FORMAT{"OkTopic" format="$createwikiname $createwikiusername" nonoise="on" }%
+%FORMAT{"OkTopic" format="$createdate $createusername $createwikiname $createwikiusername" nonoise="on" }%
 HERE
-    $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
+    $this->assert_str_equals( "01 Jan 1970 - 00:00 guest $wn $this->{users_web}.$wn\n", $result );
 }
 
 
