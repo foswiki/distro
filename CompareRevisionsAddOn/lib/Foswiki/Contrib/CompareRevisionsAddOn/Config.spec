@@ -9,4 +9,11 @@ $Foswiki::cfg{SwitchBoard}{compare} = {
                   comparing => 1
                 },
     };
+$Foswiki::cfg{SwitchBoard}{compareauth} = {
+    package  => 'Foswiki::Contrib::CompareRevisionsAddOn::Compare',
+    function => 'compare',
+    context  => { diff => 1,
+                  comparing => 1
+                },
+    };
 1;
