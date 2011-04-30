@@ -22,7 +22,9 @@ our %expected_status_main_webhome = (
 # re-write it to use the full engine
 our %expect_non_html = (
     rest        => 1,
+    restauth        => 1,
     viewfile    => 1,
+    viewfileauth => 1,
     register    => 1,    # TODO: missing action make it throw an exception
     manage      => 1,    # TODO: missing action make it throw an exception
     upload      => 1,    # TODO: zero size upload
