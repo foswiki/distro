@@ -15,12 +15,14 @@ bin/logon 0555
 bin/manage 0555
 bin/oops 0555
 bin/preview 0555
+bin/previewauth 0555
 bin/rdiff 0555
 bin/rdiffauth 0555
 bin/register 0555
 bin/rename 0555
 bin/resetpasswd 0555
 bin/rest 0555
+bin/restauth 0555
 bin/save 0555
 bin/search 0555
 bin/setlib.cfg 0444
@@ -29,6 +31,7 @@ bin/upload 0555
 bin/view 0555
 bin/viewauth 0555
 bin/viewfile 0555
+bin/viewfileauth 0555
 data/Main/AdminUser.txt 0644
 data/Main/AdminUserLeftBar.txt 0644
 data/Main/AdminGroup.txt 0644
