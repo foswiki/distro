@@ -248,22 +248,20 @@ sub test_manysections_timing {
     my ($this)      = @_;
     my %sections    = $this->_manysections_setup();
     my $numsections = scalar( keys %sections );
-    my $start       = Benchmark->new();
-    my $end;
-    my $cycles = 50;
-
-    foreach ( 1 .. $cycles ) {
-        foreach my $section ( keys %sections ) {
-            Foswiki::Func::expandCommonVariables(<<"HERE");
+    my $numcycles   = 50;
+    my $benchmark   = timeit(
+        $numcycles,
+        sub {
+            foreach my $section ( keys %sections ) {
+                Foswiki::Func::expandCommonVariables(<<"HERE");
 %INCLUDE{"$this->{test_web}.$this->{test_topic}" section="$section"}%
 HERE
+            }
         }
-    }
-    $end = Benchmark->new();
-    print "Time for $cycles cycles of $numsections sections ("
-      . $numsections * $cycles
-      . " INCLUDEs) was:\n"
-      . timestr( timediff( $end, $start ) ) . "\n";
+    );
+
+    print "Timing for $numcycles cycles of $numsections sections: "
+      . timestr($benchmark) . "\n";
 
     return;
 }
