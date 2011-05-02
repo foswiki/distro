@@ -14,7 +14,7 @@ use constant TRACE => 0;
 my $FoswikiSESSION;
 my $test_web  = 'Temporary' . __PACKAGE__ . 'TestWeb';
 my %testrange = (
-    webs => [
+    webpath => [
         [$test_web],
         [ 'Missing' . $test_web ],
         [ $test_web,             'SubWeb' ],
@@ -296,15 +296,18 @@ sub gendata {
     my ( $this, $range ) = @_;
     my %created;
 
-    foreach my $webpath ( @{ $range->{webs} } ) {
+    foreach my $webpath ( @{ $range->{webpath} } ) {
         if ($webpath) {
             my $web = join( '/', @{$webpath} );
 
-            if ( $web and not $created{webs}{$web} and not $web =~ /Missing/ ) {
+            if (    $web
+                and not $created{webpath}{$web}
+                and not $web =~ /Missing/ )
+            {
                 print "gendata(): web $web\n" if TRACE;
                 Foswiki::Func::createWeb($web);
                 $this->gentopics( $web, $range );
-                $created{webs}{$web} = 1;
+                $created{webpath}{$web} = 1;
             }
         }
     }
@@ -382,7 +385,7 @@ sub gen_testrange_fns {
         my $fn = __PACKAGE__ . '::test_' . $testname;
         my %extraopts;
 
-        if ( $testitem->{addrObj}->isA('webs') ) {
+        if ( $testitem->{addrObj}->isA('webpath') ) {
             %extraopts = ( existAs => [qw(file topic web)] );
         }
         no strict 'refs';
@@ -457,7 +460,7 @@ sub gen_range_tests {
 
     foreach my $webseparator ( @{ $range->{webseparators} } ) {
         foreach my $topicseparator ( @{ $range->{topicseparators} } ) {
-            foreach my $webs ( @{ $range->{webs} } ) {
+            foreach my $webpath ( @{ $range->{webpath} } ) {
                 foreach my $topic ( @{ $range->{topics} } ) {
                     foreach my $tompath ( @{ $range->{tompaths} } ) {
                         if ( $tompath and $tompath eq 'undef' ) {
@@ -467,7 +470,7 @@ sub gen_range_tests {
                         else {
                             foreach my $rev ( @{ $range->{revs} } ) {
                                 if (
-                                    $webs
+                                    $webpath
                                     and
                                     ( $tompath->[0] and $tompath->[0] ne 'FILE'
                                         or ( defined $topic ) )
@@ -482,7 +485,7 @@ sub gen_range_tests {
                                     my $addrObj = Foswiki::Address->new(
                                         webseparator   => $webseparator,
                                         topicseparator => $topicseparator,
-                                        webs           => $webs,
+                                        webpath        => $webpath,
                                         topic          => $topic,
                                         tompath        => $tompath,
                                         rev            => $rev
@@ -534,9 +537,9 @@ sub gen_spec_tests {
 sub test_meta1 {
     my ($this) = @_;
     my $addrObj = Foswiki::Address->new(
-        webs  => [ $test_web, 'SubWeb' ],
-        topic => 'Topic',
-        rev   => '2',
+        webpath => [ $test_web, 'SubWeb' ],
+        topic   => 'Topic',
+        rev     => '2',
         tompath => [ 'META', 'FIELD', { name => 'Colour' }, 'value' ]
     );
     my $parsedaddrObj = Foswiki::Address->new(
@@ -552,9 +555,9 @@ sub test_meta1 {
 sub test_meta2 {
     my ($this) = @_;
     my $addrObj = Foswiki::Address->new(
-        webs  => [ $test_web, 'SubWeb' ],
-        topic => 'Topic',
-        rev   => '2',
+        webpath => [ $test_web, 'SubWeb' ],
+        topic   => 'Topic',
+        rev     => '2',
         tompath => [ 'META', 'FIELD', 2, 'value' ]
     );
     my $parsedaddrObj = Foswiki::Address->new(
@@ -579,9 +582,9 @@ sub test_meta2 {
 sub test_meta3 {
     my ($this) = @_;
     my $addrObj = Foswiki::Address->new(
-        webs  => [ $test_web, 'SubWeb' ],
-        topic => 'Topic',
-        rev   => '2',
+        webpath => [ $test_web, 'SubWeb' ],
+        topic   => 'Topic',
+        rev     => '2',
         tompath => [ 'META', 'FIELD', { name => 'Colour' }, 'value' ]
     );
     my $parsedaddrObj = Foswiki::Address->new(
@@ -598,9 +601,9 @@ sub test_meta3 {
 sub test_meta4 {
     my ($this) = @_;
     my $addrObj = Foswiki::Address->new(
-        webs  => [ $test_web, 'SubWeb' ],
-        topic => 'Topic',
-        rev   => '2',
+        webpath => [ $test_web, 'SubWeb' ],
+        topic   => 'Topic',
+        rev     => '2',
         tompath => [ 'META', 'FIELD', { name => 'Colour' }, 'value' ]
     );
     my $parsedaddrObj = Foswiki::Address->new(
@@ -692,7 +695,7 @@ sub test_timing_creation {
         100000,
         sub {
             $addr = Foswiki::Address->new(
-                webs    => [qw(Web SubWeb)],
+                webpath => [qw(Web SubWeb)],
                 topic   => 'Topic',
                 tompath => [ 'FILE', 'Attachment.pdf' ],
                 rev     => 3
@@ -712,7 +715,7 @@ sub test_timing_hashref_creation {
         200000,
         sub {
             $addr = {
-                webs    => [qw(Web SubWeb)],
+                webpath => [qw(Web SubWeb)],
                 topic   => 'Topic',
                 tompath => [ 'FILE', 'Attachment.pdf' ],
                 rev     => 3
@@ -728,14 +731,14 @@ sub test_timing_hashref_creation {
 sub test_timing_reparse_default {
     my ($this) = @_;
     my $addr =
-      Foswiki::Address->new( topic => 'Topic', webs => [qw(Web SubWeb)] );
+      Foswiki::Address->new( topic => 'Topic', webpath => [qw(Web SubWeb)] );
     my $benchmark = timeit(
         15000,
         sub {
             $addr->parse(
                 'AnotherTopic',
-                isA  => 'topic',
-                webs => [qw(OtherWeb OtherSubWeb)]
+                isA     => 'topic',
+                webpath => [qw(OtherWeb OtherSubWeb)]
             );
         }
     );
@@ -748,7 +751,7 @@ sub test_timing_reparse_default {
 sub test_timing_reparse {
     my ($this) = @_;
     my $addr =
-      Foswiki::Address->new( topic => 'Topic', webs => [qw(Web SubWeb)] );
+      Foswiki::Address->new( topic => 'Topic', webpath => [qw(Web SubWeb)] );
     my $benchmark = timeit(
         15000,
         sub {
