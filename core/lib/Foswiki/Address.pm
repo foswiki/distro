@@ -27,7 +27,7 @@ the components necessary to address a specific Foswiki resource.
 
 <verbatim>
 my $addr = {
-    webs     => [qw(Web SubWeb)],
+    webpath  => [qw(Web SubWeb)],
     topic    => 'Topic',
     tompath  => ['FILE', 'Attachment.pdf'],
     rev => 3
@@ -113,77 +113,77 @@ BEGIN {
         #
         # sub keys are the type considered; values of the sub keys indicate
         # the plausibility that the given form could be the type indicated:
-        # 0/undef - not plausible
-        #       1 - plausible without using any context
-        #       2 - normal ("unambiguous") form
-        #  'webs' - plausible if given webs context
-        # 'topic' - plausible if given webs & topic context
+        #   0/undef - not plausible
+        #         1 - plausible without using any context
+        #         2 - normal ("unambiguous") form
+        # 'webpath' - plausible if given webpath context
+        #   'topic' - plausible if given webpath & topic context
         #
         # Foo
-        '' => { webs => 1, topic => 'webs', file => 'topic' },
+        '' => { webpath => 1, topic => 'webpath', file => 'topic' },
 
         # Foo.Bar
-        'd' => { webs => 1, topic => 2, file => 'topic' },
+        'd' => { webpath => 1, topic => 2, file => 'topic' },
 
         # Foo/Bar
-        's' => { webs => 1, topic => 1, file => 'webs' },
+        's' => { webpath => 1, topic => 1, file => 'webpath' },
 
         # Foo/Bar.Dog
-        'sd' => { webs => 0, topic => 2, file => 'webs' },
+        'sd' => { webpath => 0, topic => 2, file => 'webpath' },
 
         # Foo.Bar/Dog
-        'ds' => { webs => 0, topic => 1, file => 2 },
+        'ds' => { webpath => 0, topic => 1, file => 2 },
 
         # Foo/Bar/Dog
-        'S' => { webs => 1, topic => 1, file => 1 },
+        'S' => { webpath => 1, topic => 1, file => 1 },
 
         # Foo.Bar.Dog
-        'D' => { webs => 1, topic => 1, file => 'topic' },
+        'D' => { webpath => 1, topic => 1, file => 'topic' },
 
         # Foo.Bar/Cat/Dog
-        'dS' => { webs => 0, topic => 1, file => 1 },
+        'dS' => { webpath => 0, topic => 1, file => 1 },
 
         # Foo/Bar.Cat.Dog
-        'sD' => { webs => 0, topic => 0, file => 'webs' },
+        'sD' => { webpath => 0, topic => 0, file => 'webpath' },
 
         # Foo/Bar/Dog.Cat
-        'Sd' => { webs => 0, topic => 2, file => 1 },
+        'Sd' => { webpath => 0, topic => 2, file => 1 },
 
         # Foo.Bar.Dog/Cat
-        'Ds' => { webs => 0, topic => 1, file => 1 },
+        'Ds' => { webpath => 0, topic => 1, file => 1 },
 
         # Foo.Bar.Dog/Cat/Bat
-        'DS' => { webs => 0, topic => 0, file => 1 },
+        'DS' => { webpath => 0, topic => 0, file => 1 },
 
         # Foo/Bar/Dog.Cat.Bat
-        'SD' => { webs => 0, topic => 0, file => 1 },
+        'SD' => { webpath => 0, topic => 0, file => 1 },
 
         # Foo/Bar.Dog/Cat
-        'sds' => { webs => 0, topic => 0, file => 2 },
+        'sds' => { webpath => 0, topic => 0, file => 2 },
 
         # Foo/Bar/Dog.Cat/Bat
-        'Sds' => { webs => 0, topic => 0, file => 2 },
+        'Sds' => { webpath => 0, topic => 0, file => 2 },
 
         # Foo.Bar/Dog.Cat
-        'dsd' => { webs => 0, topic => 0, file => 2 },
+        'dsd' => { webpath => 0, topic => 0, file => 2 },
 
         # Foo.Bar.Dog/Cat.Bat
-        'Dsd' => { webs => 0, topic => 0, file => 1 },
+        'Dsd' => { webpath => 0, topic => 0, file => 1 },
 
         # Foo.Bar/Dog.Cat.Bat
-        'dsD' => { webs => 0, topic => 0, file => 2 },
+        'dsD' => { webpath => 0, topic => 0, file => 2 },
 
         # Foo/Bar.Dog/Cat.Bat
-        'sdsd' => { webs => 0, topic => 0, file => 2 },
+        'sdsd' => { webpath => 0, topic => 0, file => 2 },
 
         # Foo/Bar.Dog/Cat.B.a.t
-        'sdsD' => { webs => 0, topic => 0, file => 2 },
+        'sdsD' => { webpath => 0, topic => 0, file => 2 },
 
         # Foo/Bar/Dog.Cat/B.at
-        'Sdsd' => { webs => 0, topic => 0, file => 2 },
+        'Sdsd' => { webpath => 0, topic => 0, file => 2 },
 
         # Foo/Bar/Dog.Cat/B.a.t
-        'SdsD' => { webs => 0, topic => 0, file => 2 }
+        'SdsD' => { webpath => 0, topic => 0, file => 2 }
     );
     %sepidentchars =
       ( 0 => { '.' => 'd', '/' => 's' }, 1 => { '.' => 'D', '/' => 'S' } );
@@ -201,7 +201,7 @@ The constructor takes two main forms:
 *Example:*
 <verbatim>
 my $addrObj = Foswiki::Address->new(
-    webs     => [qw(Web SubWeb)],
+    webpath  => [qw(Web SubWeb)],
     topic    => 'Topic',
     tompath  => ['FILE', 'Attachment.pdf'],
     rev => 3
@@ -209,8 +209,8 @@ my $addrObj = Foswiki::Address->new(
 
 *Options:*
 | *Param*   | *Description* | *Notes* |
-| =web=     | =$string= of web path, %BR% used if =webs= is empty/null | |
-| =webs=    | =\@arrayref= of web path, root web first | |
+| =web=     | =$string= of web path, %BR% used if =webpath= is empty/null | |
+| =webpath= | =\@arrayref= of web path, root web first | |
 | =topic=   | =$string= topic name | |
 | =rev=     | =$integer= revision number. | If the tompath is to a =FILE= datastream, rev applies to that file; topic rev otherwise |
 | =tompath= | =\@arrayref= of a "TOM" path, one of:%BR% =META=, =text=, =SECTION=, =FILE=.  | See table below |
@@ -233,8 +233,8 @@ my $addrObj = Foswiki::Address->new(
 *Example:* Point to the value of a formfield =LastName= in =Web/SubWeb.Topic=,
 <verbatim>
 my $addrObj = Foswiki::Address->new(
-  webs => [qw(Web SubWeb)],
-  topic => 'Topic',
+  webpath => [qw(Web SubWeb)],
+  topic   => 'Topic',
   tompath => ['META', 'FIELD', {name => LastName}, 'value']
 );</verbatim>
 
@@ -263,11 +263,12 @@ sub new {
     my $this;
 
     if ( $opts{string} ) {
-        ASSERT( not $opts{topic} or ( $opts{webs} and $opts{topic} ) ) if DEBUG;
+        ASSERT( not $opts{topic} or ( $opts{webpath} and $opts{topic} ) )
+          if DEBUG;
 
         #        $this->{parseopts} = {
         #            web        => $opts{web},
-        #            webs       => $opts{webs},
+        #            webpath    => $opts{webpath},
         #            topic      => $opts{topic},
         #            rev        => $opts{rev},
         #            isA        => $opts{isA},
@@ -299,14 +300,14 @@ sub new {
     }
     else {
 
-     # 'Web/SubWeb' vs [qw(Web SubWeb)] (supplied as web vs webs): if the latter
-     # is absent, derive it from the former (supplied as web vs webs)
-        if ( not $opts{webs} and $opts{web} ) {
-            $opts{webs} = [ split( /[\/\.]/, $opts{web} ) ];
+  # 'Web/SubWeb' vs [qw(Web SubWeb)] (supplied as web vs webpath): if the latter
+  # is absent, derive it from the former (supplied as web vs webpath)
+        if ( not $opts{webpath} and $opts{web} ) {
+            $opts{webpath} = [ split( /[\/\.]/, $opts{web} ) ];
         }
 
         #        $this = {
-        #            webs    => $opts{webs},
+        #            webpath => $opts{webpath},
         #            topic   => $opts{topic},
         #            tompath => $opts{tompath},
         #            rev     => $opts{rev},
@@ -329,7 +330,7 @@ sub finish {
     my ($this) = @_;
 
     $this->{web}                 = undef;
-    $this->{webs}                = undef;
+    $this->{webpath}             = undef;
     $this->{topic}               = undef;
     $this->{rev}                 = undef;
     $this->{tompath}             = undef;
@@ -379,7 +380,7 @@ hinting algorithm, the parameters and hints supplied to it, and the existence
 
 *Options:*
 | *Param*         | *Description* | *Values* | *Notes* |
-| =webs= or =web= %BR% =topic= | context hints | refer to explicit form |\
+| =webpath= or =web= %BR% =topic= | context hints | refer to explicit form |\
  if =string= is ambiguous (and possibly not fully qualified, Eg. topic-only or\
  attachment-only), the hinting algorithm tests =string= against them |
 | =isA=     | resource type specification | =$type= - 'web', 'topic',\
@@ -401,7 +402,8 @@ hinting algorithm, the parameters and hints supplied to it, and the existence
 
 To build less ambiguous address strings, use the following conventions:
    * Terminate web addresses with '/'
-   * Separate topics from webs with '.'
+   * Separate subwebs in the web path with '/'
+   * Separate topic from web path with '.'
    * Separate file attachments from topics with '/'
 Examples:
    * =Web/SubWeb/=, =Web/=
@@ -478,7 +480,7 @@ sub parse {
     if ( not $this->{parseopts} ) {
         $this->{parseopts} = {
             web         => $opts{web},
-            webs        => $opts{webs},
+            webpath     => $opts{webpath},
             topic       => $opts{topic},
             rev         => $opts{rev},
             existAsList => [qw(file topic)],
@@ -490,19 +492,19 @@ sub parse {
     $path =~ s/(\@([-\+]?\d+))$//;
     $this->{rev} = $2;
 
-    # if necessary, populate webs from web parameter
-    if ( not $opts{webs} and $opts{web} ) {
-        $opts{webs} = [ split( /[\/\.]/, $opts{web} ) ];
+    # if necessary, populate webpath from web parameter
+    if ( not $opts{webpath} and $opts{web} ) {
+        $opts{webpath} = [ split( /[\/\.]/, $opts{web} ) ];
     }
 
     # Because of the way we split, 'Foo/' causes final element to be empty
-    if ( not $opts{webs}->[-1] ) {
-        pop( @{ $opts{webs} } );
+    if ( not $opts{webpath}->[-1] ) {
+        pop( @{ $opts{webpath} } );
     }
 
     # pre-compute web's string form (avoid unnecessary join()s)
-    if ( not $opts{web} and $opts{webs} ) {
-        $opts{web} = join( '/', @{ $opts{webs} } );
+    if ( not $opts{web} and $opts{webpath} ) {
+        $opts{web} = join( '/', @{ $opts{webpath} } );
     }
 
     # Is the path explicit?
@@ -648,7 +650,7 @@ sub parse {
                 # Copy the atoms from the best hit into our instance.
                 if ($besttype) {
                     $this->{web}     = $typeatoms{$besttype}->{web};
-                    $this->{webs}    = $typeatoms{$besttype}->{webs};
+                    $this->{webpath} = $typeatoms{$besttype}->{webpath};
                     $this->{topic}   = $typeatoms{$besttype}->{topic};
                     $this->{tompath} = $typeatoms{$besttype}->{tompath};
                     $parsed          = 1;
@@ -685,11 +687,11 @@ sub _atomiseAsWeb {
 
     print STDERR "_atomiseAsWeb():\n" if TRACE2;
     $that->{web} = $path;
-    $that->{webs} = [ split( /[\.\/]/, $path ) ];
+    $that->{webpath} = [ split( /[\.\/]/, $path ) ];
 
     # If we had a path that looks like 'Foo/'
-    if ( not $that->{webs}->[-1] ) {
-        pop( @{ $that->{webs} } );
+    if ( not $that->{webpath}->[-1] ) {
+        pop( @{ $that->{webpath} } );
         chop( $that->{web} );
     }
     $that->{topic}   = undef;
@@ -707,24 +709,24 @@ sub _atomiseAsTopic {
     print STDERR "_atomiseAsTopic(): path: $path, nparts: $nparts\n" if TRACE2;
     ASSERT($path) if DEBUG;
     if ( $nparts == 1 ) {
-        if (    $opts->{webs}
-            and ref( $opts->{webs} ) eq 'ARRAY'
-            and scalar( @{ $opts->{webs} } ) )
+        if (    $opts->{webpath}
+            and ref( $opts->{webpath} ) eq 'ARRAY'
+            and scalar( @{ $opts->{webpath} } ) )
         {
-            $that->{web}   = $opts->{web};
-            $that->{webs}  = $opts->{webs};
-            $that->{topic} = $path;
+            $that->{web}     = $opts->{web};
+            $that->{webpath} = $opts->{webpath};
+            $that->{topic}   = $path;
         }
     }
     else {
-        $that->{webs} = [ @parts[ 0 .. ( $nparts - 2 ) ] ];
+        $that->{webpath} = [ @parts[ 0 .. ( $nparts - 2 ) ] ];
         $that->{web} = undef;
 
-        # $that->{web} = join( '/', @{ $that->{webs} } );
+        # $that->{web} = join( '/', @{ $that->{webpath} } );
         $that->{topic} = $parts[-1];
     }
     $that->{tompath} = undef;
-    ASSERT( $that->{webs} or not $that->{topic} ) if DEBUG;
+    ASSERT( $that->{webpath} or not $that->{topic} ) if DEBUG;
 
     # ASSERT( $that->{web} ) if DEBUG;
 
@@ -741,8 +743,8 @@ sub _atomiseAsFILE {
         $that->{tompath} = [ 'FILE', $file ];
     }
     else {
-        if ( $opts->{webs} and $opts->{topic} ) {
-            $that->{webs}    = $opts->{webs};
+        if ( $opts->{webpath} and $opts->{topic} ) {
+            $that->{webpath} = $opts->{webpath};
             $that->{web}     = $opts->{web};
             $that->{topic}   = $opts->{topic};
             $that->{tompath} = [ 'FILE', $path ];
@@ -912,23 +914,23 @@ sub _atomiseAsTOM {
         $that->{tompath} = \@tompath;
         if ($topic) {
             my $refAddr = Foswiki::Address->new(
-                string => $topic,
-                isA    => 'topic',
-                webs   => $opts->{webs},
-                web    => $opts->{web}
+                string  => $topic,
+                isA     => 'topic',
+                webpath => $opts->{webpath},
+                web     => $opts->{web}
             );
 
-            $that->{web}   = $refAddr->{web};
-            $that->{webs}  = $refAddr->{webs};
-            $that->{topic} = $refAddr->{topic};
-            $that->{rev}   = $refAddr->{rev};
+            $that->{web}     = $refAddr->{web};
+            $that->{webpath} = $refAddr->{webpath};
+            $that->{topic}   = $refAddr->{topic};
+            $that->{rev}     = $refAddr->{rev};
         }
         else {
-            $that->{webs}  = $opts->{webs};
-            $that->{topic} = $opts->{topic};
-            $that->{rev}   = undef;
-            ASSERT( $that->{webs} )  if DEBUG;
-            ASSERT( $that->{topic} ) if DEBUG;
+            $that->{webpath} = $opts->{webpath};
+            $that->{topic}   = $opts->{topic};
+            $that->{rev}     = undef;
+            ASSERT( $that->{webpath} ) if DEBUG;
+            ASSERT( $that->{topic} )   if DEBUG;
         }
     }
 
@@ -950,7 +952,7 @@ sub _existScore {
       )
     {
         $perfecttype = $type;
-        $score       = 2 + scalar( @{ $atoms->{webs} } );
+        $score       = 2 + scalar( @{ $atoms->{webpath} } );
     }
     elsif ( $atoms->{topic}
         and Foswiki::Func::topicExists( $atoms->{web}, $atoms->{topic} ) )
@@ -958,25 +960,25 @@ sub _existScore {
         if ( $type eq 'topic' ) {
             $perfecttype = $type;
         }
-        $score = 1 + scalar( @{ $atoms->{webs} } );
+        $score = 1 + scalar( @{ $atoms->{webpath} } );
     }
     elsif ( $atoms->{web} and Foswiki::Func::webExists( $atoms->{web} ) ) {
         if ( $type eq 'web' ) {
             $perfecttype = $type;
         }
-        $score = scalar( @{ $atoms->{webs} } );
+        $score = scalar( @{ $atoms->{webpath} } );
     }
-    elsif ( $atoms->{webs} ) {
-        ASSERT( scalar( @{ $atoms->{webs} } ) ) if DEBUG;
-        ASSERT( ref( $atoms->{webs} ) eq 'ARRAY' ) if DEBUG;
-        my $i      = scalar( @{ $atoms->{webs} } );
-        my $nAtoms = scalar( @{ $atoms->{webs} } );
+    elsif ( $atoms->{webpath} ) {
+        ASSERT( scalar( @{ $atoms->{webpath} } ) ) if DEBUG;
+        ASSERT( ref( $atoms->{webpath} ) eq 'ARRAY' ) if DEBUG;
+        my $i      = scalar( @{ $atoms->{webpath} } );
+        my $nAtoms = scalar( @{ $atoms->{webpath} } );
 
         while ( $i > 0 and not $score ) {
             $i -= 1;
             if (
                 Foswiki::Func::webExists(
-                    join( '/', @{ $atoms->{webs} }[ 0 .. $i ] )
+                    join( '/', @{ $atoms->{webpath} }[ 0 .. $i ] )
                 )
               )
             {
@@ -1023,7 +1025,7 @@ sub stringify {
         $this->{stringifiedtopicsep} = $opts{topicseparator}
           || '.';
         $this->{stringified} =
-          join( $this->{stringifiedwebsep}, @{ $this->{webs} } );
+          join( $this->{stringifiedwebsep}, @{ $this->{webpath} } );
         if ( $this->{topic} ) {
             $this->{stringified} .=
               $this->{stringifiedtopicsep} . $this->{topic};
@@ -1091,7 +1093,7 @@ sub stringify {
             }
         }
         else {
-            ASSERT( $this->{webs} );
+            ASSERT( $this->{webpath} );
             $this->{stringified} .= $this->{stringifiedwebsep};
         }
     }
@@ -1115,10 +1117,10 @@ sub web {
     my ( $this, $web ) = @_;
 
     if ( scalar(@_) == 2 ) {
-        $this->webs( [ split( /[\/\.]/, $web ) ] );
+        $this->webpath( [ split( /[\/\.]/, $web ) ] );
     }
     if ( not $this->{web} ) {
-        $this->{web} = join( '/', @{ $this->{webs} } );
+        $this->{web} = join( '/', @{ $this->{webpath} } );
     }
 
     return $this->{web};
@@ -1126,23 +1128,23 @@ sub web {
 
 =begin TML
 
----++ ClassMethod webs( [\@webs] ) => \@webs
+---++ ClassMethod webpath( [\@webpath] ) => \@webpath
 
-   * =\@webs= - optional, set a new webs arrayref
+   * =\@webpath= - optional, set a new webpath arrayref
 
-Get/set the webs arrayref
+Get/set the webpath arrayref
 
 =cut
 
-sub webs {
-    my ( $this, $webs ) = @_;
+sub webpath {
+    my ( $this, $webpath ) = @_;
 
     if ( scalar(@_) == 2 ) {
-        $this->{webs} = $webs;
+        $this->{webpath} = $webpath;
         $this->_invalidate();
     }
 
-    return $this->{webs};
+    return $this->{webpath};
 }
 
 =begin TML
@@ -1279,7 +1281,7 @@ sub isA {
 
 Returns true if the instance addresses a resource which is one of the following
 types:
-   * webs, Eg. =Web/SubWeb/=
+   * webpath, Eg. =Web/SubWeb/=
    * topic, Eg. =Web/SubWeb.Topic=
    * file, Eg. =Web/SubWeb.Topic/Attachment.pdf=
    * files, Eg. ='Web/SubWeb.Topic/FILE'=
@@ -1298,7 +1300,7 @@ sub isValid {
 
     if ( not defined $this->{isA} ) {
         if ( $this->{topic} ) {
-            if ( $this->{webs} ) {
+            if ( $this->{webpath} ) {
                 if ( $this->{tompath} ) {
                     ASSERT( ref( $this->{tompath} ) eq 'ARRAY'
                           and scalar( @{ $this->{tompath} } ) )
@@ -1313,10 +1315,10 @@ sub isValid {
                 }
             }
         }
-        elsif ( $this->{webs}
+        elsif ( $this->{webpath}
             and not defined $this->{tompath} )
         {
-            $this->{type} = 'webs';
+            $this->{type} = 'webpath';
         }
         else {
             $this->{type} = undef;
@@ -1354,7 +1356,7 @@ Return true if this address resolves to the same resource as =$otherAddr=
 
 sub equiv {
     my ( $this, $other ) = @_;
-    my $nWebs;
+    my $nwebpath;
     my $equal     = 0;
     my $thistype  = $this->type();
     my $othertype = $other->type();
@@ -1380,8 +1382,8 @@ sub equiv {
                 and defined $other->{tompath}
                 and $this->{tompath}->[0] eq $other->{tompath}->[0] )
         ) if DEBUG;
-        if ( $this->{webs} ) {
-            if ( $this->_eq( $this->{webs}, $other->{webs} ) ) {
+        if ( $this->{webpath} ) {
+            if ( $this->_eq( $this->{webpath}, $other->{webpath} ) ) {
                 if ( $this->_eq( $this->{topic}, $other->{topic} ) ) {
                     if ( $this->_eq( $this->{tompath}, $other->{tompath} ) ) {
                         $equal = 1;
@@ -1395,7 +1397,7 @@ sub equiv {
                 }
             }
             elsif (TRACE) {
-                print STDERR "equiv(): webs weren't equal\n";
+                print STDERR "equiv(): webpath wasn't equal\n";
             }
         }
     }
