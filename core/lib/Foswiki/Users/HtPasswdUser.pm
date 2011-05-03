@@ -238,15 +238,13 @@ sub _savePasswd {
           or throw Error::Simple(
             $Foswiki::cfg{Htpasswd}{FileName} . '.README open failed: ' . $! );
 
-        print $readme
-"# Foswiki uses a specially crafted .htpasswd file format that should not be\n";
-        print $readme
-"# manipulated using a standard htpasswd utility or loss of registered emails might occur..\n";
-        print $readme
-"# (3rd-party utilities do not support the email address format used by Foswiki).\n";
-        print $readme "# \n";
-        print $readme
-"# More information available at: http://foswiki.org/System/UserAuthentication.\n";
+        print $readme <<'EoT';
+Foswiki uses a specially crafted .htpasswd file format that should not be
+manipulated using a standard htpasswd utility or loss of registered emails might occur.
+(3rd-party utilities do not support the email address format used by Foswiki).
+
+More information available at: http://foswiki.org/System/UserAuthentication.
+EoT
         close($readme);
     }
 
