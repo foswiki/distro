@@ -31,12 +31,6 @@ use warnings;
 use Foswiki::Infix::Node ();
 our @ISA = ('Foswiki::Infix::Node');
 
-# <DEBUG SUPPORT>
-
-use constant MONITOR_EVAL => 0;
-use constant MONITOR_FOLD => 0;
-
-
 use Assert;
 use Error qw( :try );
 
@@ -67,8 +61,13 @@ This hash is maintained by Foswiki::Meta and is *strictly read-only*
 
 # These used to be declared here, but have been refactored back into
 # Foswiki::Meta
-*aliases     = \%Foswiki::Meta::aliases;
+*aliases = \%Foswiki::Meta::aliases;
 *isArrayType = \%Foswiki::Meta::isArrayType;
+
+# <DEBUG SUPPORT>
+
+use constant MONITOR_EVAL => 0;
+use constant MONITOR_FOLD => 0;
 
 our $emptyExprOp;
 our $commaOp;
@@ -88,19 +87,15 @@ sub emptyExpression {
 sub toString {
     my $a = shift;
     return 'undef' unless defined($a);
-
     # Suppress the recursion check; the tree can easily be more than
     # 100 levels deep.
     no warnings 'recursion';
     if ( UNIVERSAL::isa( $a, 'Foswiki::Query::Node' ) ) {
-        return
-            '{ op => '
-          . $a->{op}
-          . ', params => '
-          . toString( $a->{params} ) . ' }';
+        return '{ op => ' . $a->{op} . ', params => ' . toString( $a->{params}
+        ) . ' }';
     }
     if ( ref($a) eq 'ARRAY' ) {
-        return '[' . join( ',', map { toString($_) } @$a ) . ']';
+	return '[' . join( ',', map { toString($_) } @$a ) . ']';
     }
     if ( ref($a) eq 'HASH' ) {
         return
@@ -125,17 +120,14 @@ my $ind = 0;
 sub newLeaf {
     my ( $class, $val, $type ) = @_;
 
-    if (   $type == Foswiki::Infix::Node::NAME
-        && $val =~ /^({[A-Z][A-Z0-9_]*})+$/i )
-    {
-
+    if ( $type == Foswiki::Infix::Node::NAME
+           && $val =~ /^({[A-Z][A-Z0-9_]*})+$/i ) {
         # config var name, make sure it's accessible.
-        unless ( defined $isAccessibleCfg ) {
+        unless (defined $isAccessibleCfg) {
             $isAccessibleCfg =
-              { map { $_ => 1 } @{ $Foswiki::cfg{AccessibleCFG} } };
+              { map { $_ => 1 } @{$Foswiki::cfg{AccessibleCFG}} };
         }
-        $val =
-          ( $isAccessibleCfg->{$val} ) ? eval( '$Foswiki::cfg' . $val ) : '';
+        $val = ($isAccessibleCfg->{$val}) ? eval( '$Foswiki::cfg'.$val ) : '';
         return $class->SUPER::newLeaf( $val, Foswiki::Infix::Node::STRING );
     }
     else {
@@ -176,90 +168,69 @@ sub evaluate {
         if ( $this->{op} == Foswiki::Infix::Node::NAME
             && defined $domain{data} )
         {
-            print STDERR ' NAME' if MONITOR_EVAL;
-            if ( lc( $this->{params}[0] ) eq 'now' ) {
-                $result = time();
-            }
-            elsif ( lc( $this->{params}[0] ) eq 'undefined' ) {
-                $result = undef;
-            }
-            else {
-
-                # a name; either the form name or a field name.
-                # Look it up in $domain{data}
-                eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
-                if ($@) {
-                    print STDERR ' BOOM ' if MONITOR_EVAL;
-                    die $@;
-                }
-                my $name = $this->{params}[0];
-                my $realname = $Foswiki::Meta::aliases{$name} || $name;
-                if ( $domain{restricted_name} && $realname !~ /^META:/ ) {
-
-                    # Only a form name and META: expressions are
-                    # legal on the LHS of a dot or where expression
-                    print STDERR " form $name" if MONITOR_EVAL;
-                    $result =
-                      $Foswiki::cfg{Store}{QueryAlgorithm}
-                      ->getForm( $this, $domain{data}, $name );
-                }
-                else {
-                    print STDERR " field $name" if MONITOR_EVAL;
-                    $name = $realname
-                      if (UNIVERSAL::isa( $domain{data}, 'Foswiki::Meta' ) or
-                          UNIVERSAL::isa( $domain{data}, 'Foswiki::Address' ));
-                    $result = $this->_getField( $domain{data}, $name );
-                }
-            }
+	    print STDERR ' NAME' if MONITOR_EVAL;
+	    if (lc($this->{params}[0]) eq 'now') {
+		$result = time();
+	    } elsif (lc($this->{params}[0]) eq 'undefined') {
+		$result = undef;
+	    } else {
+		# a name; either the form name or a field name.
+		# Look it up in $domain{data}
+		eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
+		if ($@) {
+		    print STDERR ' BOOM ' if MONITOR_EVAL;
+		    die $@ ;
+		}
+		my $name = $this->{params}[0];
+		my $realname = $Foswiki::Meta::aliases{$name} || $name;
+		if ($domain{restricted_name} && $realname !~ /^META:/) {
+		    # Only a form name and META: expressions are
+		    # legal on the LHS of a dot or where expression
+		    print STDERR " form $name" if MONITOR_EVAL;
+ 		    $result = $Foswiki::cfg{Store}{QueryAlgorithm}->getForm(
+			$this, $domain{data}, $name );
+		} else {
+		    print STDERR " field $name" if MONITOR_EVAL;
+		    $name = $realname if
+			UNIVERSAL::isa($domain{data}, 'Foswiki::Meta');
+		    $result = $this->_getField($domain{data}, $name)
+		}
+	    }
         }
         else {
-            print STDERR ' constant' if MONITOR_EVAL;
+	    print STDERR ' constant' if MONITOR_EVAL;
             $result = $this->{params}[0];
         }
     }
     else {
         print STDERR " {\n" if MONITOR_EVAL;
         $ind++ if MONITOR_EVAL;
-        my %params = @_;
-        delete $params{no_fields};    # kill semaphore
+	my %params = @_;
+	delete $params{no_fields}; # kill semaphore
         $result = $this->{op}->evaluate( $this, %params );
         $ind-- if MONITOR_EVAL;
-        print STDERR ( '  ' x $ind ) . '}' . $this->{op}->{name}
-          if MONITOR_EVAL;
+        print STDERR ( '  ' x $ind ) . '}' . $this->{op}->{name} if MONITOR_EVAL;
     }
     if (MONITOR_EVAL) {
-        print STDERR ' -> ' . toString($result);
-        my %domain = @_;
-        print STDERR " IN " . $domain{tom}->getPath() . "\n"
-          if ref( $domain{tom} ) && !$ind;
-        print STDERR "\n";
+	print STDERR ' -> ' . toString($result);
+	my %domain = @_;
+	print STDERR " IN ".$domain{tom}->getPath()."\n"
+	    if ref($domain{tom}) && !$ind;
+	print STDERR "\n";
     }
     return $result;
 }
 
 # Private method to fetch field values
 sub _getField {
-    my ( $this, $data, $name ) = @_;
+    my ($this, $data, $name) = @_;
 
     if ( UNIVERSAL::isa( $data, 'Foswiki::Meta' ) ) {
-
-        # If the data is a Foswiki::Meta, pass on to the query algorithm
-        return $Foswiki::cfg{Store}{QueryAlgorithm}
-          ->getField( $this, $data, $name );
+	# If the data is a Foswiki::Meta, pass on to the query algorithm
+	return $Foswiki::cfg{Store}{QueryAlgorithm}->getField(
+	    $this, $data, $name);
     }
 
-    require Foswiki::Address;
-    if ( UNIVERSAL::isa( $data, 'Foswiki::Address' ) ) {
-        return $Foswiki::cfg{Store}{QueryAlgorithm}
-          ->getField( $this, $data, $name );
-        #for now, the only addresses I'm tossing around are to meta
-        my $meta = Foswiki::Meta->load( $this->session, $data->web, $data->topic, $data->rev );
-
-        # If the data is a Foswiki::Meta, pass on to the query algorithm
-        return $Foswiki::cfg{Store}{QueryAlgorithm}
-          ->getField( $this, $meta, $name );
-    }
-    
     if ( ref($data) eq 'ARRAY' ) {
 
         # Array objects are returned during evaluation, e.g. when
@@ -269,38 +240,36 @@ sub _getField {
         # 1. An integer, which is an implicit index='x' query
         # 2. A name, which is an implicit name='x' query
         if ( $name =~ /^\d+$/ ) {
-
             # Integer index
             return $data->[$name];
         }
 
-        # String index
-        my @res;
+	# String index
+	my @res;
 
-        # Get all array entries that match the field
-        foreach my $f (@$data) {
-            my $val = $this->_getField( $f, $name );
-            push( @res, $val ) if defined($val);
-        }
-        return \@res if ( scalar(@res) );
+	# Get all array entries that match the field
+	foreach my $f (@$data) {
+	    my $val = $this->_getField( $f, $name );
+	    push( @res, $val ) if defined($val);
+	}
+	return \@res if ( scalar(@res) );
 
-        # The field name wasn't explicitly seen in any of the records.
-        # Try again, this time matching 'name' and returning 'value'
-        foreach my $f (@$data) {
-            next unless ref($f) eq 'HASH';
-            if (   $f->{name}
-                && $f->{name} eq $name
-                && defined $f->{value} )
-            {
-                push( @res, $f->{value} );
-            }
-        }
-        return \@res if ( scalar(@res) );
-        return undef;
+	# The field name wasn't explicitly seen in any of the records.
+	# Try again, this time matching 'name' and returning 'value'
+	foreach my $f (@$data) {
+	    next unless ref($f) eq 'HASH';
+	    if (   $f->{name}
+		   && $f->{name} eq $name
+		   && defined $f->{value} )
+	    {
+		push( @res, $f->{value} );
+	    }
+	}
+	return \@res if ( scalar(@res) );
+	return undef;
     }
 
     if ( ref($data) eq 'HASH' ) {
-
         # A hash object may be returned when a sub-object of a Foswiki::Meta
         # object has been matched.
         return $data->{ $this->{params}[0] };
@@ -326,20 +295,15 @@ simply pass an arbitrary Foswiki::Meta.
 
 sub evaluatesToConstant {
     my $this = shift;
-    my $c    = 0;
+    my $c = 0;
     if ( ref( $this->{op} ) ) {
         $c = $this->{op}->evaluatesToConstant( $this, @_ );
+    } elsif ($this->{op} == Foswiki::Infix::Node::NUMBER) {
+	$c = 1;
+    } elsif ($this->{op} == Foswiki::Infix::Node::STRING) {
+	$c = 1;
     }
-    elsif ( $this->{op} == Foswiki::Infix::Node::NUMBER ) {
-        $c = 1;
-    }
-    elsif ( $this->{op} == Foswiki::Infix::Node::STRING ) {
-        $c = 1;
-    }
-    print STDERR $this->stringify() . " is "
-      . ( $c ? '' : 'not ' )
-      . "constant\n"
-      if MONITOR_FOLD;
+    print STDERR $this->stringify()." is ".($c?'':'not ')."constant\n" if MONITOR_FOLD;
     return $c;
 }
 
@@ -361,7 +325,7 @@ sub simplify {
     if ( $this->evaluatesToConstant(@_) ) {
         my $c = $this->evaluate(@_);
         $c = 0 unless defined $c;
-        $this->_freeze($c);
+	$this->_freeze($c);
     }
     else {
         for my $f ( @{ $this->{params} } ) {
@@ -373,34 +337,31 @@ sub simplify {
 }
 
 sub _freeze {
-    my ( $this, $c ) = @_;
+    my ($this, $c) = @_;
 
-    if ( ref($c) eq 'ARRAY' ) {
-        $this->_makeArray($c);
-    }
-    elsif ( Foswiki::Query::OP::isNumber($c) ) {
-        $this->convertToLeaf( Foswiki::Infix::Node::NUMBER, $c );
+    if (ref($c) eq 'ARRAY') {
+	$this->_makeArray($c);
+    } elsif ( Foswiki::Query::OP::isNumber($c) ) {
+	$this->convertToLeaf(Foswiki::Infix::Node::NUMBER, $c);
     }
     else {
-        $this->convertToLeaf( Foswiki::Infix::Node::STRING, $c );
+	$this->convertToLeaf(Foswiki::Infix::Node::STRING, $c);
     }
 }
 
 sub _makeArray {
-    my ( $this, $array ) = @_;
-    if ( scalar(@$array) == 0 ) {
-        $this->{op} = $emptyExprOp;
-    }
-    elsif ( scalar(@$array) == 1 ) {
-        die unless defined $array->[0];
-        $this->_freeze( $array->[0] );
-    }
-    else {
-        $this->{op} = $commaOp;
-        $this->{params}[0] = Foswiki::Query::Node->newNode($commaOp);
-        $this->{params}[0]->_freeze( shift(@$array) );
-        $this->{params}[1] = Foswiki::Query::Node->newNode($commaOp);
-        $this->{params}[1]->_freeze($array);
+    my ($this, $array) = @_;
+    if (scalar(@$array) == 0) {
+	$this->{op} = $emptyExprOp;
+    } elsif (scalar(@$array) == 1) {
+	die unless defined $array->[0];
+	$this->_freeze($array->[0]);
+    } else {
+	$this->{op} = $commaOp;
+	$this->{params}[0] = Foswiki::Query::Node->newNode($commaOp);
+	$this->{params}[0]->_freeze(shift(@$array));
+	$this->{params}[1] = Foswiki::Query::Node->newNode($commaOp);
+	$this->{params}[1]->_freeze($array);
     }
 }
 

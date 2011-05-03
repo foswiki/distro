@@ -61,14 +61,6 @@ sub getField {
     # such as direct database lookups. The default implementation
     # works with the Foswiki::Meta object.
     my ( $this, $node, $data, $field ) = @_;
-    
-        require Foswiki::Address;
-    if ( UNIVERSAL::isa( $data, 'Foswiki::Address' ) ) {
-        #for now, the only addresses I'm tossing around are to meta
-        $data = Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $data->web, $data->topic, $data->rev );
-        #print STDERR "\nloaded new Meta from Foswiki::Address(".$data->web.", ".$data->topic.", ".$data->getLoadedRev.")\n";
-    }
-
 
     my $result;
     ASSERT( UNIVERSAL::isa( $data, 'Foswiki::Meta' ) ) if DEBUG;
@@ -76,15 +68,6 @@ sub getField {
     print STDERR "\n----- getField($field)\n" if MONITOR;
 
     if ( $field eq 'META:VERSIONS' ) {
-        #require Foswiki::Iterator::ProcessIterator;
-        require Foswiki::Address;
-        
-        #defer loading the topics til later.
-        #return new Foswiki::Iterator::ProcessIterator($data->getRevisionHistory(), sub {
-        #                                                                                  return new Foswiki::Address($data->web(), $data->topic(), $_);
-        #                                                                               });
-        #WHILE I'D RATHER NOT ITERATE OVER ALL 10,000 REVISIONS OF wEBsTATISTICS, FOR NOW, i DON'T FEEL LIKE WRITING A RANDOM ACCESS ITERATOR
-        
 
         # Disallow reloading versions for an object loaded here
         # SMELL: violates Foswiki::Meta encapsulation
@@ -95,13 +78,9 @@ sub getField {
         my @revs;
         while ( $it->hasNext() ) {
             my $n = $it->next();
-            #my $t =
-            #  $this->getRefTopic( $data, $data->web(), $data->topic(), $n );
-            #This way we avoid loading the eta object unless its one of the selected arrany indexes, or if we have to to test the conditional
-            my $t = new Foswiki::Address(web => $data->web(), topic=>$data->topic(), rev=>$n);
-            
+            my $t =
+              $this->getRefTopic( $data, $data->web(), $data->topic(), $n );
             $t->{_loadedByQueryAlgorithm} = 1;
-            
             push( @revs, $t );
         }
         return \@revs;
