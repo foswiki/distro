@@ -113,6 +113,8 @@ sub set_up {
             value => "Some text (really) we have text"
         }
     );
+    $meta->putKeyed( 'FIELD',
+        { name => 'SillyFuel', title => 'Silly fuel', value => 'Petrol' } );
 
     $meta->text("Quantum");
     $meta->save();
@@ -124,7 +126,13 @@ sub set_up {
     $meta =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'AnotherTopic',
         1 );
+    $meta->text("Singularity");
+    $meta->putKeyed( 'FIELD',
+        { name => 'SillyFuel', title => 'Silly fuel', value => 'Petroleum' } );
+    $meta->save( forcenewrevision => 1 );
     $meta->text("Superintelligent shades of the colour blue");
+    $meta->putKeyed( 'FIELD',
+        { name => 'SillyFuel', title => 'Silly fuel', value => 'Diesel' } );
     $meta->save( forcenewrevision => 1 );
 
     $meta =
@@ -188,7 +196,8 @@ sub loadExtraConfig {
           {'Foswiki::Plugins::MongoDBPlugin::Listener'} = 1;
         require Foswiki::Plugins::MongoDBPlugin;
         Foswiki::Plugins::MongoDBPlugin::getMongoDB()
-          ->remove( $this->{test_web}, 'current', { '_web' => $this->{test_web} } );
+          ->remove( $this->{test_web}, 'current',
+            { '_web' => $this->{test_web} } );
     }
 }
 
@@ -205,16 +214,15 @@ sub check {
     # First check the standard evaluator
     my $queryParser = new Foswiki::Query::Parser();
     my $query;
-    eval {
-	$query = $queryParser->parse($s);
-    };
+    eval { $query = $queryParser->parse($s); };
     if ($@) {
-	if (defined $opts{fail}) {
-	    $this->assert_str_equals($opts{fail}, $@);
-	} else {
-	    $this->assert(0, $@);
-	}
-    };
+        if ( defined $opts{fail} ) {
+            $this->assert_str_equals( $opts{fail}, $@ );
+        }
+        else {
+            $this->assert( 0, $@ );
+        }
+    }
     return if defined $opts{fail};
 
     #use Data::Dumper;
@@ -292,9 +300,9 @@ sub verify_atoms {
 
 sub verify_meta_dot {
     my $this = shift;
-    $this->check( "META:FORM",        eval => { name => 'TestForm' } );
-    $this->check( "META:FORM.name",   eval => 'TestForm' );
-    $this->check( "form.name",        eval => 'TestForm' );
+    $this->check( "META:FORM", eval => { name => 'TestForm' } );
+    $this->check( "META:FORM.name", eval => 'TestForm' );
+    $this->check( "form.name",      eval => 'TestForm' );
 
     my $info = $this->{meta}->getRevisionInfo();
     $this->check( "info.date",        eval => $info->{date} );
@@ -383,13 +391,13 @@ sub verify_string_uops {
     $this->check( "lc ()",                  eval => [], simpler => '()' );
     $this->check( "length ()",              eval => 0, simpler => 0 );
 
-    $this->check( "brace",      eval => 'Some text (really) we have text' );
-    $this->check( "lc(brace)",      eval => 'some text (really) we have text' );
-    $this->check( "uc(brace)",      eval => 'SOME TEXT (REALLY) WE HAVE TEXT' );
-    $this->check( "length(brace)",      eval => 31 );
-   
-    
+    $this->check( "brace",         eval => 'Some text (really) we have text' );
+    $this->check( "lc(brace)",     eval => 'some text (really) we have text' );
+    $this->check( "uc(brace)",     eval => 'SOME TEXT (REALLY) WE HAVE TEXT' );
+    $this->check( "length(brace)", eval => 31 );
+
 }
+
 sub verify_numeric_uops {
     my $this = shift;
     $this->check( "-()", eval => [], simpler => "()" );
@@ -457,13 +465,14 @@ sub verify_string_bops {
 sub verify_constants {
     my $this = shift;
     $this->check( "undefined",           eval => undef );
-    $this->check( "undefined=undefined", eval => 1 );   #TODO: should really be able to simplify to '1'
-    $this->check( "brace=undefined", eval => 0 );
+    $this->check( "undefined=undefined", eval => 1 )
+      ;    #TODO: should really be able to simplify to '1'
+    $this->check( "brace=undefined",        eval => 0 );
     $this->check( "NoFieldThere=undefined", eval => 1 );
-    $this->check( "now",                 eval => time );
+    $this->check( "now",                    eval => time );
     $this->check( "number<now",             eval => 1 );
     $this->check( "now>number",             eval => 1 );
-    $this->check( "now=now",             eval => 1 );
+    $this->check( "now=now",                eval => 1 );
 }
 
 sub verify_boolean_corner_cases {
@@ -580,7 +589,10 @@ sub verify_match_ok_brace {
 
 sub verify_match_fail_brace {
     my $this = shift;
-    $this->check( "fields[name~'*' AND value=~'(']", fail => "Illegal regular expression in '('");
+    $this->check(
+        "fields[name~'*' AND value=~'(']",
+        fail => "Illegal regular expression in '('"
+    );
 }
 
 sub verify_match_good {
@@ -630,22 +642,46 @@ sub verify_versions_on_other_topic {
     my $this = shift;
     $this->check( "'AnotherTopic'/versions[0].text",
         eval => "Superintelligent shades of the colour blue" );
-    $this->check( "'AnotherTopic'/versions[1].text",  eval => "Quantum" );
+    $this->check( "'AnotherTopic'/versions[2].text",  eval => "Quantum" );
     $this->check( "'AnotherTopic'/versions[-1].text", eval => "Quantum" );
-    $this->check( "'AnotherTopic'/versions[-2].text",
-        eval => "Superintelligent shades of the colour blue" );
-    $this->check( "'AnotherTopic'/versions.text",
-        eval => [ "Superintelligent shades of the colour blue", "Quantum" ] );
+    $this->check( "'AnotherTopic'/versions[-2].text", eval => "Singularity" );
+    $this->check(
+        "'AnotherTopic'/versions.text",
+        eval => [
+            "Superintelligent shades of the colour blue", "Singularity",
+            "Quantum"
+        ]
+    );
     $this->check(
         "'AnotherTopic'/versions[text =~ 'blue'].text",
         eval => "Superintelligent shades of the colour blue"
     );
+    $this->check( "'AnotherTopic'/versions[SillyFuel~'Petrol*'].SillyFuel",
+        eval => [qw(Petroleum Petrol)] );
+    $this->check( "'AnotherTopic'/versions[0].SillyFuel", eval => 'Diesel' );
+    $this->check(
+        "'AnotherTopic'/versions.SillyFuel",
+        eval => [qw(Diesel Petroleum Petrol)]
+    );
+
+    return;
+}
+
+sub verify_versions_on_other_topic_fail {
+    my $this = shift;
+
+    # These aren't working :( - PH
+    $this->expect_failure();
+    $this->check( "'AnotherTopic'/versions.META:FIELD[name='SillyFuel'].value",
+        eval => [qw(Diesel Petroleum Petrol)] );
+    $this->check( "'AnotherTopic'/versions[META:FIELD.name='SillyFuel'].value",
+        eval => [qw(Diesel Petroleum Petrol)] );
 }
 
 sub verify_versions_out_of_range {
     my $this = shift;
-    $this->check( "'AnotherTopic'/versions[-3]", eval => undef, simpler => 0 );
-    $this->check( "'AnotherTopic'/versions[3]",  eval => undef, simpler => 0 );
+    $this->check( "'AnotherTopic'/versions[-4]", eval => undef, simpler => 0 );
+    $this->check( "'AnotherTopic'/versions[4]",  eval => undef, simpler => 0 );
 }
 
 sub verify_versions_on_cur_topic {
@@ -802,9 +838,10 @@ sub verify_string_bops_with_mods {
 sub verify_long_or {
     my $this = shift;
     my $text = "0";
+
     # make this at least 100 deep to trigger recursion traps
-    for (my $i = 202; $i > 98; $i--) {
-	$text .= " OR 0";
+    for ( my $i = 202 ; $i > 98 ; $i-- ) {
+        $text .= " OR 0";
     }
     $text .= " OR 1";
     $this->check( $text, eval => 1, simpler => 1 );
@@ -814,7 +851,7 @@ sub verify_form_name_context {
     my $this = shift;
     $this->check( "TestForm", eval => undef );
     $this->check( "TestForm[title='Number']",
-		  eval => [{value=>99,name=>'number',title=>'Number'}] );
+        eval => [ { value => 99, name => 'number', title => 'Number' } ] );
     $this->check( "TestForm.number", eval => 99 );
 }
 
