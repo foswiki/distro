@@ -182,9 +182,11 @@ sub _readPasswd {
         if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {    # htdigest format
 
             # implicit untaint OK; data from htpasswd
-            my ($hID, $hRealm, $hPasswd, $hEmail ) = $line =~ /^(.*?):(.*?):(.*?)(?::(.*))?$/;
+            my ( $hID, $hRealm, $hPasswd, $hEmail ) =
+              $line =~ /^(.*?):(.*?):(.*?)(?::(.*))?$/;
 
-            if (! $hEmail && $hPasswd =~ m/@/ ) {   # Missing email and Password might contain an email address
+            if ( !$hEmail && $hPasswd =~ m/@/ )
+            {    # Missing email and Password might contain an email address
                 $data->{$hID}->{pass} = $hRealm;
                 $data->{$hID}->{emails} = $hPasswd || '';
             }
@@ -193,7 +195,7 @@ sub _readPasswd {
                 $data->{$hID}->{emails} = $hEmail || '';
             }
         }
-        else {                                      # htpasswd format
+        else {    # htpasswd format
             if ( $line =~ /^(.*?):(.*?)(?::(.*))?$/ ) {
 
                 # implicit untaint OK; data from htpasswd
@@ -229,18 +231,23 @@ sub _dumpPasswd {
 sub _savePasswd {
     my $db = shift;
 
-    unless (-e "$Foswiki::cfg{Htpasswd}{FileName}" ) {
-        # Item4544: Document special format used in .htpasswd for email addresses
-        open( my $readme, '>', "$Foswiki::cfg{Htpasswd}{FileName}.README" ) or
-          throw Error::Simple( $Foswiki::cfg{Htpasswd}{FileName}.
-                                 '.README open failed: '.$! );
+    unless ( -e "$Foswiki::cfg{Htpasswd}{FileName}" ) {
 
-        print $readme "# Foswiki uses a specially crafted .htpasswd file format that should not be\n";
-        print $readme "# manipulated using a standard htpasswd utility or loss of registered emails might occur..\n";
-        print $readme "# (3rd-party utilities do not support the email address format used by Foswiki).\n";
+       # Item4544: Document special format used in .htpasswd for email addresses
+        open( my $readme, '>', "$Foswiki::cfg{Htpasswd}{FileName}.README" )
+          or throw Error::Simple(
+            $Foswiki::cfg{Htpasswd}{FileName} . '.README open failed: ' . $! );
+
+        print $readme
+"# Foswiki uses a specially crafted .htpasswd file format that should not be\n";
+        print $readme
+"# manipulated using a standard htpasswd utility or loss of registered emails might occur..\n";
+        print $readme
+"# (3rd-party utilities do not support the email address format used by Foswiki).\n";
         print $readme "# \n";
-        print $readme "# More information available at: http://foswiki.org/System/UserAuthentication.\n";
-        close( $readme );
+        print $readme
+"# More information available at: http://foswiki.org/System/UserAuthentication.\n";
+        close($readme);
     }
 
     my $content = _dumpPasswd($db);
