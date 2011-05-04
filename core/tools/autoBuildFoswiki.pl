@@ -5,7 +5,8 @@
 # run the unit tests
 # run other tests
 # build a release tarball & upload...
-# Sven Dowideit Copyright (C) 2006-2008 All rights reserved.
+# Sven Dowideit Copyright (C) 2006-2011 All rights reserved.
+# gpl3 or later licensed.
 #
 # If you are Sven (used by Sven's automated nightly build system) - call with perl autoBuildFoswiki.pl -sven
 # everyone else, can just run perl autoBuildFoswiki.pl
@@ -13,6 +14,12 @@
 #
 
 use strict;
+
+
+if ( grep('-update', @ARGV) ) {
+	`curl http://svn.foswiki.org/trunk/core/tools/autoBuildFoswiki.pl > autoBuildFoswiki.pl`;
+	exit;
+}
 
 my $SvensAutomatedBuilds = 0;
 if ( grep('-sven', @ARGV) ) {
