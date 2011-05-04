@@ -38,6 +38,10 @@ All meta-data in a topic is referenced according to a simple plan.
       * =date=
       * =format=
       * =version= - topic version (integer)
+   * =META:CREATEINFO= - version info for the first version of the topic
+      * =author=
+      * =date=
+      * =version= - topic version (integer)
    * =META:TOPICMOVED=
       * =by=
       * =date=

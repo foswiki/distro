@@ -312,6 +312,39 @@ sub verify_meta_dot {
     $this->check( "fields.number",    eval => 99 );
     $this->check( "fields.string",    eval => 'String' );
     $this->check( "notafield.string", eval => undef );
+    
+    #longhand
+    $this->check( "META:TOPICINFO.date",        eval => $info->{date} );
+    $this->check( "META:TOPICINFO.format",      eval => 1.1 );
+    $this->check( "META:TOPICINFO.version",     eval => $info->{version} );
+    $this->check( "META:TOPICINFO.author",      eval => $info->{author} );
+    
+    #longhand to a topic that as more than one rev
+    my $anotherTopic = Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'AnotherTopic' );
+    my $anotherTopicInfo = $anotherTopic->getRevisionInfo();
+    $this->check( "'AnotherTopic'/META:TOPICINFO.date",        eval => $anotherTopicInfo->{date} );
+    $this->check( "'AnotherTopic'/META:TOPICINFO.format",      eval => 1.1 );
+    $this->check( "'AnotherTopic'/META:TOPICINFO.version",     eval => $anotherTopicInfo->{version} );
+    $this->check( "'AnotherTopic'/META:TOPICINFO.author",      eval => $anotherTopicInfo->{author} );
+
+    $anotherTopic->getRev1Info('createdate');
+    my $anotherTopicInfoRev1 = $anotherTopic->{_getRev1Info}->{rev1info};
+    $this->check( "'AnotherTopic'/META:CREATEINFO.date",        eval => $anotherTopicInfoRev1->{date} );
+#interestingly, format is not compulsory
+#    $this->check( "'AnotherTopic'/META:CREATEINFO.format",      eval => 1.1 );
+    $this->check( "'AnotherTopic'/META:CREATEINFO.version",     eval => $anotherTopicInfoRev1->{version} );
+    $this->check( "'AnotherTopic'/META:CREATEINFO.author",      eval => $anotherTopicInfoRev1->{author} );
+    
+    $this->assert($anotherTopicInfoRev1->{version} < $anotherTopicInfo->{version}, $anotherTopicInfoRev1->{version}.' < '.$anotherTopicInfo->{version});
+
+
+    #longhand to a topic that doesn't exist
+    $this->check( "'DoesNotExist'/META:TOPICINFO.date",        syntaxOnly=>1, eval => undef );
+    $this->check( "'DoesNotExist'/META:TOPICINFO.format",      syntaxOnly=>1, eval => undef );
+    $this->check( "'DoesNotExist'/META:TOPICINFO.version",     syntaxOnly=>1, eval => undef );
+    $this->check( "'DoesNotExist'/META:TOPICINFO.author",      syntaxOnly=>1, eval => undef );
+
+
 }
 
 sub verify_array_integer_index {

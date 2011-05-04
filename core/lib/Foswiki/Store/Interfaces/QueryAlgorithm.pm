@@ -92,6 +92,11 @@ sub getField {
             # Ensure the revision info is populated from the store
             $data->getRevisionInfo();
         }
+        if ( $field eq 'CREATEINFO' ) {
+
+            # Ensure the revision info is populated from the store
+            return $this->getRev1Info($data);
+        }
 
         if ( $Foswiki::Query::Node::isArrayType{$field} ) {
 
@@ -198,6 +203,26 @@ sub getRefTopic {
       . ( $meta->getLoadedRev() ) . "\n"
       if MONITOR;
     return $meta;
+}
+
+=begin TML
+
+---++ StaticMethod getRev1Info($meta) -> %info
+
+Return revision info for the first revision in %info with at least:
+   * ={date}= in epochSec
+   * ={author}= canonical user ID
+   * ={version}= the revision number
+
+=cut
+
+# Default implements gets a new Foswiki::Meta
+sub getRev1Info {
+    my $this = shift;
+    my $meta = shift;
+    
+    my $wikiname = $meta->getRev1Info('createwikiname');
+    return $meta->{_getRev1Info}->{rev1info};
 }
 
 1;
