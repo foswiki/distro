@@ -13,6 +13,7 @@ package Foswiki::Infix::Node;
 
 use strict;
 use warnings;
+use Assert;
 
 # 1 for debug
 use constant MONITOR => 0;
@@ -69,9 +70,9 @@ Not used by the Foswiki::Infix::Parser.
 =cut
 
 sub convertToLeaf {
-    my ($this, $type, $val) = @_;
-    $this->{op} = $type;
-    $this->{params} = [ $val ];
+    my ( $this, $type, $val ) = @_;
+    $this->{op}     = $type;
+    $this->{params} = [$val];
 }
 
 =begin TML
@@ -84,7 +85,7 @@ Return true if this node was created by =newLeaf()= (or converted by =convertToL
 
 sub isLeaf {
     my $this = shift;
-    return !ref($this->{op});
+    return !ref( $this->{op} );
 }
 
 =begin TML
@@ -101,18 +102,23 @@ sub stringify {
 
     unless ( ref( $this->{op} ) ) {
         if ( $this->{op} == STRING ) {
+            ASSERT(ref($this->{params}[0]) eq '') if DEBUG;
             return "'$this->{params}[0]'";
         }
         else {
             return $this->{params}[0];
         }
     }
-    if ($this->{op}->{arity}) {
-	return
-	    $this->{op}->{name} . '{'
-	    . join( ',', map { $_->stringify() } @{ $this->{params} } ) . '}';
-    } else {
-	$this->{op}->{name};
+    if ( $this->{op}->{arity} ) {
+        use Foswiki::Query::Node;
+        return
+          $this->{op}->{name} . '{'
+          . join( ',', map { 
+								stringify($_) 
+							} @{ $this->{params} } ) . '}';
+    }
+    else {
+        $this->{op}->{name};
     }
 }
 

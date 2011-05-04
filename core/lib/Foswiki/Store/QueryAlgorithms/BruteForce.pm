@@ -102,7 +102,9 @@ sub _webQuery {
     # go in Search.pm
     # TODO: what about simplify to constant in _this_ web?
     my $queryIsAConstantFastpath;    # undefined if this is a 'real' query'
-    $query->simplify();
+    my $context = Foswiki::Meta->new( $session, $session->{webName} );
+    $query->simplify( tom => $context, data => $context );
+
     if ( $query->evaluatesToConstant() ) {
         print STDERR "-- constant?\n" if MONITOR;
         # SMELL: use any old topic
