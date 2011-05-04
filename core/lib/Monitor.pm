@@ -102,6 +102,9 @@ sub startMonitoring {
 
         use warnings;
         use strict;
+        #reset the loged time
+        @times = ();
+        @methodStats = ();
     }
     MARK('START');
 }
