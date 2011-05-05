@@ -51,14 +51,16 @@ var EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE = "foswikiEditboxStyleProportional";
      *  EDITBOX_FONTSTYLE_PROPORTIONAL
      */
     foswiki.Edit.getFontStyle = function() {
-        if (foswiki.Edit.fontStyle)
+        if (foswiki.Edit.fontStyle) {
             return foswiki.Edit.fontStyle;
+        }
         
         var pref = foswiki.Pref.getPref(EDITBOX_PREF_FONTSTYLE_ID);
         
-        if (!pref || (pref != EDITBOX_FONTSTYLE_PROPORTIONAL
-                      && pref != EDITBOX_FONTSTYLE_MONO))
+        if (!pref || (pref !== EDITBOX_FONTSTYLE_PROPORTIONAL
+                      && pref !== EDITBOX_FONTSTYLE_MONO)) {
             pref = EDITBOX_FONTSTYLE_PROPORTIONAL;
+        }
         
         return pref;
     };
@@ -70,12 +72,12 @@ var EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE = "foswikiEditboxStyleProportional";
      *  EDITBOX_FONTSTYLE_PROPORTIONAL
      */
     foswiki.Edit.setFontStyle = function(inFontStyle) {
-        if (inFontStyle == EDITBOX_FONTSTYLE_MONO) {
+        if (inFontStyle === EDITBOX_FONTSTYLE_MONO) {
             $('#' + EDITBOX_ID).removeClass(
                 EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE).addClass(
                 EDITBOX_FONTSTYLE_MONO_STYLE);
         }
-        if (inFontStyle == EDITBOX_FONTSTYLE_PROPORTIONAL) {
+        if (inFontStyle === EDITBOX_FONTSTYLE_PROPORTIONAL) {
             $('#' + EDITBOX_ID).removeClass(
                 EDITBOX_FONTSTYLE_MONO_STYLE).addClass(
                 EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE);
@@ -104,78 +106,79 @@ var EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE = "foswikiEditboxStyleProportional";
     foswiki.Edit.validateMandatoryFields = function() {
         // Provided for use by editors that need to
         // validate form elements before navigating away
-        if (foswiki.Edit.validateSuppressed)
+        if (foswiki.Edit.validateSuppressed) {
             return true;
+        }
         
         var alerts = [];
-        $('select.foswikiMandatory').each(
-            function(index, el) {
-                var one = false;
-                for (var k = 0; k < el.options.length; k++) {
-                    if (el.options[k].selected) {
-                        one = true;
-                        break;
-                    }
-                }
-                if (!one)
-                    alerts.push("The required form field '"
-                                + el.name +
-                                "' has no value.");
-            });
+        $('select.foswikiMandatory').each(function(index, el) {
+			var one = false;
+			var k;
+			for (k = 0; k < el.options.length; k=k+1) {
+				if (el.options[k].selected) {
+					one = true;
+					break;
+				}
+			}
+			if (!one) {
+				alerts.push("The required form field '"
+							+ el.name +
+							"' has no value.");
+			}
+		});
 
-        $('textarea.foswikiMandatory, input.foswikiMandatory').each(
-            function(index, el) {
-                if (el.value == null || el.value.length == 0) {
-                    alerts.push("The required form field '"
-                                + el.name +
-                                "' has no value.");
-                }
-            });
+        $('textarea.foswikiMandatory, input.foswikiMandatory').each(function(index, el) {
+			if (el.value === null || el.value.length === 0) {
+				alerts.push("The required form field '"
+							+ el.name +
+							"' has no value.");
+			}
+		});
 
         if (alerts.length > 0) {
             alert(alerts.join("\n"));
             return false;
-        } else
+        } else {
             return true;
-    }
+        }
+    };
 
-    $(document).ready(
-        function($) {
-            
-            try {
-                document.main.text.focus();
-            } catch (er) {
-            };
-            
-            var pref = foswiki.Pref.getPref(EDITBOX_PREF_ROWS_ID);
-            if (pref)
-                $('#' + EDITBOX_ID).attr('rows', parseInt(pref) );
-            
-            // Set the font style (monospace or proportional space) of the edit
-            // box to the style read from cookie.
-            var pref  = foswiki.Edit.getFontStyle();
-            foswiki.Edit.setFontStyle(pref);
+    $(function() {
 
-            $('.foswikiEditForm').submit(
-                function() {
-                    return foswiki.Edit.validateMandatoryFields();
-                });
+		try {
+			document.main.text.focus();
+		} catch (er) {
+			//
+		}
+		
+		var prefRowsId = foswiki.Pref.getPref(EDITBOX_PREF_ROWS_ID);
+		if (prefRowsId) {
+			$('#' + EDITBOX_ID).attr('rows', parseInt(prefRowsId, 10) );
+		}
+		
+		// Set the font style (monospace or proportional space) of the edit
+		// box to the style read from cookie.
+		var prefStyle  = foswiki.Edit.getFontStyle();
+		foswiki.Edit.setFontStyle(prefStyle);
 
-            $('.foswikiTextarea').keydown(
-                function(e) {
-                    // Disables the use of ESCAPE in the edit box, because some
-                    // browsers will interpret this as cancel and will remove
-                    // all changes.
-                    var code;
-                    if (e.keyCode)
-                        code = e.keyCode;
-                    return (code != 27); // ESC
-                });
+		$(document.forms[name='main']).submit(function(e) {
+			return foswiki.Edit.validateMandatoryFields();
+		});
 
-            $('.foswikiButtonCancel').click(
-                function(e) {
-                    // Used to dynamically set validation suppression
-                    foswiki.Edit.validateSuppressed = true;
-                });
-        });
-})(jQuery);
+		$('.foswikiTextarea').keydown(function(e) {
+			// Disables the use of ESCAPE in the edit box, because some
+			// browsers will interpret this as cancel and will remove
+			// all changes.
+			var code;
+			if (e.keyCode) {
+				code = e.keyCode;
+			}
+			return (code !== 27); // ESC
+		});
+
+		$('.foswikiButtonCancel').click(function(e) {
+			// Used to dynamically set validation suppression
+			foswiki.Edit.validateSuppressed = true;
+		});
+	});
+}(jQuery));
