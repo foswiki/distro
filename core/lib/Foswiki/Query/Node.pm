@@ -88,8 +88,11 @@ sub newLeaf {
 }
 
 sub toString {
-    my ($a) = @_;
+    my $a = shift;
     return 'undef' unless defined($a);
+    # Suppress the recursion check; the tree can easily be more than 
+    # 100 levels deep. 
+    no warnings 'recursion'; 
     if ( UNIVERSAL::isa( $a, 'Foswiki::Query::Node' ) ) {
         return '{ op => ' . $a->{op} . ', params => ' . toString( $a->{params}
         ) . ' }';
@@ -102,6 +105,7 @@ sub toString {
           '{'
           . join( ',', map { "$_=>" . toString( $a->{$_} ) } keys %$a ) . '}';
     }
+    use warnings 'recursion';
     if ( UNIVERSAL::isa( $a, 'Foswiki::Meta' ) ) {
         return $a->stringify();
     }
