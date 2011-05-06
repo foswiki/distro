@@ -257,11 +257,11 @@ Describe the file so other people know what it is.
 
 ---++ Form elements
 
-<input type=submit" class="foswikiButton" value="foswikiButton" />
+<input type="submit" class="foswikiButton" value="foswikiButton" />
 
-<input type=submit" class="foswikiSubmit" value="foswikiSubmit" />
+<input type="submit" class="foswikiSubmit" value="foswikiSubmit" />
 
-<input type=submit" class="foswikiButtonCancel" value="foswikiButtonCancel" />
+<input type="submit" class="foswikiButtonCancel" value="foswikiButtonCancel" />
 
 <input size="30" class="foswikiInputField" />
 
