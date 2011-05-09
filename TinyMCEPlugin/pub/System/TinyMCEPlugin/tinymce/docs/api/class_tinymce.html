@@ -31,7 +31,14 @@
 <div class="classDescription">Core namespace with core functionality for the TinyMCE API all sub classes will be added to this namespace/object.
 </div>
 <h4>Example</h4>
-<pre class="brush: js;"/>
+<pre class="brush: js;">// Using each method
+tinymce.each([1, 2, 3], function(v, i) {
+  console.log(i + '=' + v);
+});
+
+// Checking for a specific browser
+if (tinymce.isIE)
+  console.log("IE");</pre>
 <div class="summaryLists">
 <h2>Public Properties</h2>
 <table class="Properties summary">
@@ -124,13 +131,22 @@
 <tr class="even">
 <td class="first">
 <div>
+<a class="memberName" href="class_tinymce.html#isIE9">isIE9</a> : Boolean</div>
+<div class="summary">
+<span class="static">[static] </span>Constant that is true if the browser is IE 9 or newer.</div>
+</td>
+<td class="last">tinymce</td>
+</tr>
+<tr>
+<td class="first">
+<div>
 <a class="memberName" href="class_tinymce.html#isMac">isMac</a> : Boolean</div>
 <div class="summary">
 <span class="static">[static] </span>Constant that is true if the os is Mac OS.</div>
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#isOpera">isOpera</a> : Boolean</div>
@@ -139,7 +155,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#isWebKit">isWebKit</a> : Boolean</div>
@@ -148,7 +164,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#majorVersion">majorVersion</a> : String</div>
@@ -157,7 +173,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#minorVersion">minorVersion</a> : String</div>
@@ -166,7 +182,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#releaseDate">releaseDate</a> : String</div>
@@ -215,7 +231,7 @@
 <tr class="even">
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.html#create">create</a>(s:String, p:Object, root:Object):void</div>
+<a class="memberName" href="class_tinymce.html#create">create</a>(s:String, o:Object):void</div>
 <div class="summary">
 <span class="static">[static] </span>Creates a class, subclass or static singleton.</div>
 </td>
@@ -331,22 +347,13 @@
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.html#makeMap">makeMap</a>(items:Array/String, delim:String, map:Object):Object</div>
-<div class="summary">
-<span class="static">[static] </span>Makes a name/object map out of an array with names.</div>
-</td>
-<td class="last">tinymce</td>
-</tr>
-<tr class="even">
-<td class="first">
-<div>
 <a class="memberName" href="class_tinymce.html#map">map</a>(a:Array, f:function):Array</div>
 <div class="summary">
 <span class="static">[static] </span>Creates a new array by the return value of each iteration function call.</div>
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#remove">remove</a>(e:<a href="class_tinymce.Editor.html">Editor</a>):<a href="class_tinymce.Editor.html">Editor</a>
@@ -355,7 +362,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#removeUnload">removeUnload</a>(f:function):function</div>
@@ -364,7 +371,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#resolve">resolve</a>(n:String, o:Object):Object</div>
@@ -373,7 +380,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#triggerSave">triggerSave</a>():void</div>
@@ -381,7 +388,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#trim">trim</a>(s:String):String</div>
@@ -390,7 +397,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#walk">walk</a>(o:Object, f:function, n:String, s:String):void</div>
@@ -495,6 +502,13 @@
 </h3>
 <code class="syntax">public static isIE6 : Boolean</code>
 <div class="memberDescription">Constant that is true if the browser is IE 6 or older.
+</div>
+</div>
+<div class="memberDetails" id="isIE9">
+<h3>isIE9<span class="memberType">property</span>
+</h3>
+<code class="syntax">public static isIE9 : Boolean</code>
+<div class="memberDescription">Constant that is true if the browser is IE 9 or newer.
 </div>
 </div>
 <div class="memberDetails" id="isMac">
@@ -607,7 +621,7 @@ This method is useful for dealing with browser memory leaks where it might be vi
 <h3>create<span class="memberType">method</span>
 </h3>
 <code class="syntax">public static 
-						function create(s:String, p:Object, root:Object):void</code>
+						function create(s:String, o:Object):void</code>
 <div class="memberDescription">Creates a class, subclass or static singleton.
 More details on this method can be found in the Wiki.
 </div>
@@ -618,12 +632,8 @@ More details on this method can be found in the Wiki.
 <td class="last">Class name, inheritage and prefix.</td>
 </tr>
 <tr>
-<td class="first">p:Object</td>
+<td class="first">o:Object</td>
 <td class="last">Collection of methods to add to the class.</td>
-</tr>
-<tr>
-<td class="first">root:Object</td>
-<td class="last">Optional root object defaults to the global window object.</td>
 </tr>
 </table>
 </div>
@@ -673,7 +683,9 @@ The callback has the following format: cb(value, key_or_index).
 </tr>
 </table>
 <h4>Example</h4>
-<pre class="brush: js;"/>
+<pre class="brush: js;">tinymce.each([1, 2, 3], function(v, i) {
+  console.log(i + '=' + v);
+});</pre>
 </div>
 <div class="memberDetails" id="execCommand">
 <h3>execCommand<span class="memberType">method</span>
@@ -895,31 +907,6 @@ If the function returns false the item will be excluded if it returns true it wi
 </table>
 <h4>Returns</h4>
 <div class="returns">Boolean - true/false if the object is of the specified type.</div>
-</div>
-<div class="memberDetails" id="makeMap">
-<h3>makeMap<span class="memberType">method</span>
-</h3>
-<code class="syntax">public static 
-						function makeMap(items:Array/String, delim:String, map:Object):Object</code>
-<div class="memberDescription">Makes a name/object map out of an array with names.
-</div>
-<h4>Parameters</h4>
-<table class="params">
-<tr>
-<td class="first">items:Array/String</td>
-<td class="last">Items to make map out of.</td>
-</tr>
-<tr>
-<td class="first">delim:String</td>
-<td class="last">Optional delimiter to split string by.</td>
-</tr>
-<tr>
-<td class="first">map:Object</td>
-<td class="last">Optional map to add items to.</td>
-</tr>
-</table>
-<h4>Returns</h4>
-<div class="returns">Object - Name/value map of items.</div>
 </div>
 <div class="memberDetails" id="map">
 <h3>map<span class="memberType">method</span>

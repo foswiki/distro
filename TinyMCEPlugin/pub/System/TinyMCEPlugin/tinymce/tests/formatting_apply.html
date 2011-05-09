@@ -22,10 +22,40 @@ function getContent() {
 test('Formatter - apply (inline)', function() {
 	var rng, format;
 
-	expect(37);
+	expect(43);
+
+	// Toggle OFF - Inline element on selected text
+	editor.formatter.register('format', {inline : 'b', toggle: false});
+	editor.getBody().innerHTML = '<p><b>1234</b></p>';
+	rng = editor.dom.createRng();
+	rng.setStart(editor.dom.select('b')[0].firstChild, 0);
+	rng.setEnd(editor.dom.select('b')[0].firstChild, 4);
+	editor.selection.setRng(rng);
+	editor.formatter.toggle('format');
+	equals(getContent(), '<p><b>1234</b></p>', 'Toggle OFF - Inline element on selected text');
+
+	// Toggle OFF - Inline element on partially selected text
+	editor.formatter.register('format', {inline : 'b', toggle: 0});
+	editor.getBody().innerHTML = '<p>1<b>23</b>4</p>';
+	rng = editor.dom.createRng();
+	rng.setStart(editor.dom.select('b')[0].firstChild, 0);
+	rng.setEnd(editor.dom.select('b')[0].firstChild, 2);
+	editor.selection.setRng(rng);
+	editor.formatter.toggle('format');
+	equals(getContent(), '<p>1<b>23</b>4</p>', 'Toggle OFF - Inline element on partially selected text');
+
+	// Toggle OFF - Inline element on partially selected text in start/end elements
+	editor.formatter.register('format', {inline : 'b', toggle: false});
+	editor.getBody().innerHTML = '<p>1<b>234</b></p><p><b>123</b>4</p>';//'<p>1234</p><p>1234</p>';
+	rng = editor.dom.createRng();
+	rng.setStart(editor.dom.select('b')[0].firstChild, 0);
+	rng.setEnd(editor.dom.select('b')[1].firstChild, 3);
+	editor.selection.setRng(rng);
+	editor.formatter.toggle('format');
+	equals(getContent(), '<p>1<b>234</b></p><p><b>123</b>4</p>', 'Toggle OFF - Inline element on partially selected text in start/end elements');
 
 	// Inline element on selected text
-	editor.formatter.register('format', {inline : 'b'});
+	editor.formatter.register('format', {inline : 'b', toggle: true});
 	editor.getBody().innerHTML = '<p>1234</p>';
 	rng = editor.dom.createRng();
 	rng.setStart(editor.dom.select('p')[0].firstChild, 0);
@@ -33,6 +63,18 @@ test('Formatter - apply (inline)', function() {
 	editor.selection.setRng(rng);
 	editor.formatter.apply('format');
 	equals(getContent(), '<p><b>1234</b></p>', 'Inline element on selected text');
+	editor.formatter.toggle('format');
+	equals(getContent(), '<p>1234</p>', 'Toggle ON - NO inline element on selected text');
+
+	// Selection spanning from within format to outside format with toggle off
+	editor.formatter.register('format', {inline : 'b', toggle: false});
+	editor.getBody().innerHTML = '<p><b>12</b>34</p>';
+	rng = editor.dom.createRng();
+	rng.setStart(editor.dom.select('b')[0].firstChild, 0);
+	rng.setEnd(editor.dom.select('p')[0].lastChild, 2);
+	editor.selection.setRng(rng);
+	editor.formatter.toggle('format');
+	equals(getContent(), '<p><b>1234</b></p>', 'Extend formating if start of selection is already formatted');
 
 	// Inline element on partially selected text
 	editor.formatter.register('format', {inline : 'b'});
@@ -43,6 +85,8 @@ test('Formatter - apply (inline)', function() {
 	editor.selection.setRng(rng);
 	editor.formatter.apply('format');
 	equals(getContent(), '<p>1<b>23</b>4</p>', 'Inline element on partially selected text');
+	editor.formatter.toggle('format');
+	equals(getContent(), '<p>1234</p>', 'Toggle ON - NO inline element on partially selected text');
 
 	// Inline element on partially selected text in start/end elements
 	editor.formatter.register('format', {inline : 'b'});
@@ -430,6 +474,56 @@ test('Formatter - apply (inline)', function() {
 	equals(getContent(), '<p><b style="color: #ff00ff;" title="title2">1234</b></p>', 'Inline element on selected text with function values');
 });
 
+test('Formatter - apply inline formats ignore trailing space', function() {
+	var rng;
+	editor.formatter.register('format', {inline : 'b'});
+	editor.getBody().innerHTML = '<p>1234 6789 1234</p>';
+	rng = editor.dom.createRng();
+	rng.setStart(editor.dom.select('p')[0].firstChild, 4);
+	rng.setEnd(editor.dom.select('p')[0].firstChild, 10);
+	editor.selection.setRng(rng);
+	editor.formatter.apply('format');
+	equals(getContent(), '<p>1234<b> 6789</b> 1234</p>', 'Inline element on selected text excludes trailing space');
+
+	// Now undo it so that we leave some nasty split text nodes around.
+	editor.formatter.remove('format');
+	equals(getContent(), '<p>1234 6789 1234</p>', 'Inline element on selected text excludes trailing space when unapplying');
+
+	editor.formatter.apply('format');
+	equals(getContent(), '<p>1234<b> 6789</b> 1234</p>', 'Inline element on selected text excludes trailing space with split text nodes');
+
+	editor.setContent('<p>1234<i> </i>6789</p>');
+	rng = editor.dom.createRng();
+	rng.setStart(editor.dom.select('p')[0].firstChild, 0);
+	rng.setEnd(editor.dom.select('p')[0].firstChild.nextSibling, 1);
+	editor.selection.setRng(rng);
+	editor.formatter.apply('format');
+	equals(getContent(), '<p><b>1234<i> </i></b>6789</p>', 'Apply to space if it already has special formatting');
+
+	editor.setContent('<p>123<i>4</i> 6789</p>');
+	rng = editor.dom.createRng();
+	rng.setStart(editor.dom.select('p')[0].firstChild, 0);
+	rng.setEnd(editor.dom.select('p')[0].lastChild, 1);
+	editor.selection.setRng(rng);
+	editor.formatter.apply('format');
+	equals(getContent(), '<p><b>123<i>4</i></b> 6789</p>', 'Skip space when it is at start of element');
+
+	// Create a lot of empty text nodes.
+	editor.setContent('<p>1234 6789</p>');
+	editor.dom.select('p')[0].firstChild.splitText(4);
+	editor.dom.select('p')[0].firstChild.splitText(4);
+	editor.dom.select('p')[0].firstChild.splitText(4);
+	editor.dom.select('p')[0].firstChild.splitText(4);
+	editor.dom.select('p')[0].lastChild.splitText(1);
+	rng = editor.dom.createRng();
+	rng.setStart(editor.dom.select('p')[0].firstChild, 0);
+	rng.setEnd(editor.dom.select('p')[0].lastChild, 0);
+	editor.selection.setRng(rng);
+	editor.formatter.apply('format');
+	equals(getContent(), '<p><b>1234</b> 6789</p>', 'Skip empty text nodes');
+	
+});
+
 test('Formatter - apply (block)', function() {
 	var rng;
 
@@ -553,13 +647,13 @@ test('Formatter - apply (block wrapper)', function() {
 
 	// Block element wrapper 3
 	editor.formatter.register('format', {block : 'blockquote', wrapper : 1});
-	editor.getBody().innerHTML = '<br /><h1>1234</h1><br />';
+	editor.getBody().innerHTML = '<br /><h1>1234</h1><br /><p>foo</p>';
 	rng = editor.dom.createRng();
 	rng.setStart(editor.getBody(), 0);
-	rng.setEnd(editor.getBody(), 3);
+	rng.setEnd(editor.getBody(), 4);
 	editor.selection.setRng(rng);
 	editor.formatter.apply('format');
-	equals(getContent(), '<blockquote><h1>1234</h1></blockquote>', 'Block element wrapper 3');
+	equals(getContent(), '<blockquote><h1>1234</h1><p>foo</p></blockquote>', 'Block element wrapper 3');
 });
 
 test('Formatter - apply (selector)', function() {
@@ -606,6 +700,84 @@ test('Formatter - apply (selector)', function() {
 	editor.selection.setRng(rng);
 	editor.formatter.apply('format');
 	equals(getContent(), '<p class="c d a b" style="color: #00ff00;" title="test2">1234</p>', 'Apply format on top of existing selector element');
+});
+
+test('Formatter - Bold and italics is applied to text that is not highlighted', function() {
+	var rng = editor.dom.createRng();
+	editor.setContent('<p><span style="font-family: Arial;"><strong>test1 test2</strong> test3 test4 test5 test6</span></p>');
+	rng.setStart(editor.dom.select('strong')[0].firstChild, 6);
+	rng.setEnd(editor.dom.select('strong')[0].firstChild, 11);
+	editor.selection.setRng(rng);
+	editor.execCommand('Italic');
+	equals(editor.getContent(), '<p><span style="font-family: ' + fontFace('Arial') + ';"><strong>test1 <em>test2</em></strong> test3 test4 test5 test6</span></p>', 'Selected text should be bold.');
+});
+
+//This is a hack to work around the fact that for some reason in ie9 the ' char is converted to &quot; for the first span.
+function quotes(text){
+	if (tinymce.isIE9) {
+		var replaceAll = text.replace(/\\'/g,"&quot;");
+
+		return text.replace(/&quot;/g,"'");;
+	}
+
+	return text;
+}
+
+test('Colored elements in a paragraph', function() {
+	editor.formatter.register('format', {inline: 'span', styles : {'color' : '#ff0000'}});
+	editor.setContent('<p><span style="font-family: \'arial black\'; text-decoration: underline;">test</span></p>');
+	editor.execCommand('SelectAll');
+	editor.formatter.apply('format');
+	equals(quotes(editor.getContent()), '<p><span style="color: #ff0000; font-family: \'arial black\'; text-decoration: underline;">test</span></p>', 'Coloring an underlined text should result in a colored underline');
+
+	editor.formatter.register('format', {inline: "span", exact: true, styles: {'textDecoration' : 'underline'}});
+	editor.setContent('<p><span style="font-family: \'arial black\'; color: rgb(255, 0, 0);">test</span></p>');
+	editor.execCommand('SelectAll');
+	editor.formatter.apply('format');
+	equals(quotes(editor.getContent()), quotes('<p><span style="text-decoration: underline;"><span style="color: #ff0000; font-family: \'arial black\'; text-decoration: underline;">test</span></span></p>'), 'Underlining colored text should result in a colored underline');
+
+	editor.formatter.register('format', {inline: "span", exact: true, styles: {'textDecoration' : 'underline'}});
+	editor.setContent('<p><span style="font-family: \'arial black\'; text-decoration: underline;"><em><strong>This is some <span style="color: rgb(255, 0, 0);">example</span></strong></em> text</span></p>');
+	editor.execCommand('SelectAll');
+	editor.formatter.apply('format');
+	equals(quotes(editor.getContent()), quotes('<p><span style="text-decoration: underline;"><span style="font-family: \'arial black\';"><em><strong>This is some <span style="color: #ff0000; text-decoration: underline;">example</span></strong></em> text</span></span></p>'), 'Underlining colored and underlined text should result in a colored underline');
+
+	editor.formatter.register('format', {inline: 'span', styles : {'color' : '#ff0000'}});
+	editor.setContent('<p style="font-size: 22pt;"><span style=\"text-decoration: underline;\"><span style=\"color: yellow; text-decoration: underline;\">yellowredyellow</span></span></p>');
+	rng = editor.dom.createRng();
+	rng.setStart(editor.dom.select('span')[1].firstChild, 6);
+	rng.setEnd(editor.dom.select('span')[1].firstChild, 9);
+	editor.selection.setRng(rng);
+	editor.formatter.apply('format');
+	equals(quotes(getContent()), '<p style="font-size: 22pt;"><span style="text-decoration: underline;"><span style="color: yellow; text-decoration: underline;">yellow<span style="color: #ff0000; text-decoration: underline;">red</span>yellow</span></span></p>', 'Coloring an colored underdlined text should result in newly colored underline');
+
+	editor.formatter.register('format', {inline: "span", exact: true, styles: {'textDecoration' : 'underline'}});
+	editor.setContent('<p><span style="font-family: \'arial black\',\'avant garde\';"><em><strong>This is some <span style="color: rgb(255, 0, 0);">example</span></strong></em> text</span></p><p><span style="font-family: \'arial black\',\'avant garde\';"><em><strong>This is some <span style="color: rgb(255, 0, 0);">example</span></strong></em> text</span></p><p><span style="font-family: \'arial black\', \'avant garde\';"><em><strong>This is some <span style="color: rgb(255, 0, 0);">example</span></strong></em> text</span></p>');
+	rng = editor.dom.createRng();
+	rng.setStart(editor.dom.select('strong')[0].firstChild, 0);
+	rng.setEnd(editor.dom.select('span')[4].lastChild, 5);
+	editor.selection.setRng(rng);
+	editor.formatter.apply('format');
+	equals(quotes(editor.getContent()), '<p><span style="text-decoration: underline;"><span style="font-family: \'arial black\',\'avant garde\';"><em><strong>This is some <span style="color: #ff0000; text-decoration: underline;">example</span></strong></em> text</span></span></p><p><span style="text-decoration: underline;"><span style="font-family: \'arial black\',\'avant garde\';"><em><strong>This is some <span style="color: #ff0000; text-decoration: underline;">example</span></strong></em> text</span></span></p><p><span style="text-decoration: underline;"><span style="font-family: \'arial black\', \'avant garde\';"><em><strong>This is some <span style="color: #ff0000; text-decoration: underline;">example</span></strong></em> text</span></span></p>', 'Colored elements should be underlined when selection is across multiple paragraphs');
+
+	editor.formatter.register('format', {inline: 'span', exact: true, styles : {'color' : '#ff0000'}});
+	editor.setContent('<p><span style="text-decoration: underline;">This is some text.</span></p>');
+	rng = editor.dom.createRng();
+	rng.setStart(editor.dom.select('span')[0].firstChild, 8);
+	rng.setEnd(editor.dom.select('span')[0].firstChild, 12);
+	editor.selection.setRng(rng);
+	editor.formatter.apply('format');
+	editor.formatter.remove('format');
+	equals(quotes(editor.getContent()), '<p><span style="text-decoration: underline;">This is some text.</span></p>', 'Children nodes that are underlined should be removed if their parent nodes are underlined');
+
+	editor.formatter.register('format', {inline: 'span', exact: true, styles : {'color' : '#ff0000'}});
+	editor.setContent('<p><span style="text-decoration: underline;">This is <span style="color: #ff0000; text-decoration: underline; background-color: #ff0000">some</span> text.</span></p>');
+	rng = editor.dom.createRng();
+	rng.setStart(editor.dom.select('span')[1].firstChild, 0);
+	rng.setEnd(editor.dom.select('span')[1].firstChild, 4);
+	editor.selection.setRng(rng);
+	editor.formatter.remove('format');
+	equals(quotes(editor.getContent()), '<p><span style=\"text-decoration: underline;\">This is <span style=\"background-color: #ff0000;\">some</span> text.</span></p>', 'Children nodes that are underlined should be removed if their parent nodes are underlined');
 });
 
 /*

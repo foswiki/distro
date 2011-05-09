@@ -1,7 +1,6 @@
 // Namespaces
 tinymce = {}
 tinymce.dom = {}
-tinymce.html = {}
 tinymce.ui = {}
 tinymce.util = {}
 tinymce.plugins = {}
@@ -167,14 +166,12 @@ tinymce.Editor = function(id, s) {
 	/// <field name="settings" type="Object">Name/value collection with editor settings.</field>
 	/// <field name="documentBaseURI" type="tinymce.util.URI">URI object to document configured for the TinyMCE instance.</field>
 	/// <field name="baseURI" type="tinymce.util.URI">URI object to current document that holds the TinyMCE editor instance.</field>
-	/// <field name="contentCSS" type="Array">Array with CSS files to load into the iframe.</field>
 	/// <field name="windowManager" type="tinymce.WindowManager">Window manager reference, use this to open new windows and dialogs.</field>
 	/// <field name="theme" type="tinymce.Theme">Reference to the theme instance that was used to generate the UI.</field>
 	/// <field name="controlManager" type="tinymce.ControlManager">Control manager instance for the editor. Will enables you to create new UI elements and change their states etc.</field>
-	/// <field name="schema" type="tinymce.html.Schema">Schema instance, enables you to validate elements and it's children.</field>
 	/// <field name="dom" type="tinymce.dom.DOMUtils">DOM instance for the editor.</field>
-	/// <field name="parser" type="tinymce.html.DomParser">HTML parser will be used when contents is inserted into the editor.</field>
-	/// <field name="serializer" type="tinymce.dom.Serializer">DOM serializer for the editor. Will be used when contents is extracted from the editor.</field>
+	/// <field name="schema" type="tinymce.dom.Schema">Schema instance, enables you to validate elements and it's children.</field>
+	/// <field name="serializer" type="tinymce.dom.Serializer">DOM serializer for the editor.</field>
 	/// <field name="selection" type="tinymce.dom.Selection">Selection instance for the editor.</field>
 	/// <field name="formatter" type="tinymce.Formatter">Formatter instance.</field>
 	/// <field name="undoManager" type="tinymce.UndoManager">Undo manager instance, responsible for handling undo levels.</field>
@@ -197,7 +194,7 @@ tinymce.Editor = function(id, s) {
 	/// <field name="onSubmit" type="tinymce.util.Dispatcher">Fires when a form submit event is intercepted. Editor instance.W3C DOM Event instance.</field>
 	/// <field name="onReset" type="tinymce.util.Dispatcher">Fires when a form reset event is intercepted. Editor instance.W3C DOM Event instance.</field>
 	/// <field name="onPaste" type="tinymce.util.Dispatcher">Fires when a paste event is intercepted inside the editor. Editor instance.W3C DOM Event instance.</field>
-	/// <field name="onPreProcess" type="tinymce.util.Dispatcher">Fires when the Serializer does a preProcess on the contents. Editor instance.PreProcess object.DOM node for the item being serialized.The specified output format normally "html".Is true if the process is on a getContent operation.Is true if the process is on a setContent operation.Is true if the process is on a cleanup operation.</field>
+	/// <field name="onPreProcess" type="tinymce.util.Dispatcher">Fires when the Serializer does a preProcess on the contents. Editor instance.PreProcess object.</field>
 	/// <field name="onPostProcess" type="tinymce.util.Dispatcher">Fires when the Serializer does a postProcess on the contents. Editor instance.PreProcess object.</field>
 	/// <field name="onBeforeSetContent" type="tinymce.util.Dispatcher">Fires before new contents is added to the editor. Using for example setContent. Editor instance.</field>
 	/// <field name="onBeforeGetContent" type="tinymce.util.Dispatcher">Fires before contents is extracted from the editor using for example getContent. Editor instance.W3C DOM Event instance.</field>
@@ -273,25 +270,25 @@ tinymce.Editor.prototype.addButton = function(n, s) {
 	/// <param name="s" type="Object">Settings object with title, cmd etc.</param>
 }
 
-tinymce.Editor.prototype.addCommand = function(name, callback, scope) {
+tinymce.Editor.prototype.addCommand = function(n, f, s) {
 	/// <summary>Adds a custom command to the editor, you can also override existing commands with this method.</summary>
-	/// <param name="name" type="String">Command name to add/override.</param>
-	/// <param name="callback" type="tinymce.Editor.addCommandCallback">Function to execute when the command occurs.</param>
-	/// <param name="scope" type="Object">Optional scope to execute the function in.</param>
+	/// <param name="n" type="String">Command name to add/override.</param>
+	/// <param name="f" type="function">Function to execute when the command occurs.</param>
+	/// <param name="s" type="Object">Optional scope to execute the function in.</param>
 }
 
-tinymce.Editor.prototype.addQueryStateHandler = function(name, callback, scope) {
+tinymce.Editor.prototype.addQueryStateHandler = function(n, f, s) {
 	/// <summary>Adds a custom query state command to the editor, you can also override existing commands with this method.</summary>
-	/// <param name="name" type="String">Command name to add/override.</param>
-	/// <param name="callback" type="tinymce.Editor.addQueryStateHandlerCallback">Function to execute when the command state retrival occurs.</param>
-	/// <param name="scope" type="Object">Optional scope to execute the function in.</param>
+	/// <param name="n" type="String">Command name to add/override.</param>
+	/// <param name="f" type="function">Function to execute when the command state retrival occurs.</param>
+	/// <param name="s" type="Object">Optional scope to execute the function in.</param>
 }
 
-tinymce.Editor.prototype.addQueryValueHandler = function(name, callback, scope) {
+tinymce.Editor.prototype.addQueryValueHandler = function(n, f, s) {
 	/// <summary>Adds a custom query value command to the editor, you can also override existing commands with this method.</summary>
-	/// <param name="name" type="String">Command name to add/override.</param>
-	/// <param name="callback" type="tinymce.Editor.addQueryValueHandlerCallback">Function to execute when the command value retrival occurs.</param>
-	/// <param name="scope" type="Object">Optional scope to execute the function in.</param>
+	/// <param name="n" type="String">Command name to add/override.</param>
+	/// <param name="f" type="function">Function to execute when the command value retrival occurs.</param>
+	/// <param name="s" type="Object">Optional scope to execute the function in.</param>
 }
 
 tinymce.Editor.prototype.addShortcut = function(pa, desc, cmd_func, sc) {
@@ -357,16 +354,16 @@ tinymce.Editor.prototype.save = function(o) {
 	/// <returns type="String">HTML string that got set into the textarea/div.</returns>
 }
 
-tinymce.Editor.prototype.setContent = function(content, args) {
+tinymce.Editor.prototype.setContent = function(h, o) {
 	/// <summary>Sets the specified content to the editor instance, this will cleanup the content before it gets set using the different ...</summary>
-	/// <param name="content" type="String">Content to set to editor, normally HTML contents but can be other formats as well.</param>
-	/// <param name="args" type="Object">Optional content object, this gets passed around through the whole set process.</param>
+	/// <param name="h" type="String">Content to set to editor, normally HTML contents but can be other formats as well.</param>
+	/// <param name="o" type="Object">Optional content object, this gets passed around through the whole set process.</param>
 	/// <returns type="String">HTML string that got set into the editor.</returns>
 }
 
-tinymce.Editor.prototype.getContent = function(args) {
+tinymce.Editor.prototype.getContent = function(o) {
 	/// <summary>Gets the content from the editor instance, this will cleanup the content before it gets returned using the different cle...</summary>
-	/// <param name="args" type="Object">Optional content object, this gets passed around through the whole get process.</param>
+	/// <param name="o" type="Object">Optional content object, this gets passed around through the whole get process.</param>
 	/// <returns type="String">Cleaned content string, normally HTML contents.</returns>
 }
 
@@ -526,9 +523,6 @@ tinymce.Formatter.prototype.canApply = function(name) {
 
 tinymce.UndoManager = function() {
 	/// <summary>This class handles the undo/redo history levels for the editor.</summary>
-	/// <field name="onAdd" type="tinymce.util.Dispatcher">This event will fire each time a new undo level is added to the undo manager. UndoManager instance that got the new level.The new level object containing a bookmark and contents.</field>
-	/// <field name="onUndo" type="tinymce.util.Dispatcher">This event will fire when the user make an undo of a change. UndoManager instance that got the new level.The old level object containing a bookmark and contents.</field>
-	/// <field name="onRedo" type="tinymce.util.Dispatcher">This event will fire when the user make an redo of a change. UndoManager instance that got the new level.The old level object containing a bookmark and contents.</field>
 }
 
 tinymce.UndoManager.prototype.add = function(l) {
@@ -646,6 +640,20 @@ tinymce.dom.DOMUtils.prototype.get = function(n) {
 	/// <summary>Returns the specified element by ID or the input element if it isn't a string.</summary>
 	/// <param name="n" type="">Element id to look for or element to just pass though.</param>
 	/// <returns type="Element" domElement="true">Element matching the specified id or null if it wasn't found.</returns>
+}
+
+tinymce.dom.DOMUtils.prototype.getNext = function(node, selector) {
+	/// <summary>Returns the next node that matches selector or function</summary>
+	/// <param name="node" type="Node">Node to find siblings from.</param>
+	/// <param name="selector" type="">Selector CSS expression or function.</param>
+	/// <returns type="Node">Next node item matching the selector or null if it wasn't found.</returns>
+}
+
+tinymce.dom.DOMUtils.prototype.getPrev = function(node, selector) {
+	/// <summary>Returns the previous node that matches selector or function</summary>
+	/// <param name="node" type="Node">Node to find siblings from.</param>
+	/// <param name="selector" type="">Selector CSS expression or function.</param>
+	/// <returns type="Node">Previous node item matching the selector or null if it wasn't found.</returns>
 }
 
 tinymce.dom.DOMUtils.prototype.select = function(p, s) {
@@ -810,9 +818,15 @@ tinymce.dom.DOMUtils.prototype.setHTML = function(e, h) {
 	/// <param name="h" type="String">HTML content to set as inner HTML of the element.</param>
 }
 
-tinymce.dom.DOMUtils.prototype.getOuterHTML = function(elm) {
+tinymce.dom.DOMUtils.prototype.processHTML = function(h) {
+	/// <summary>Processes the HTML by replacing strong, em, del in gecko since it doesn't support them properly in a RTE environment.</summary>
+	/// <param name="h" type="String">HTML to process.</param>
+	/// <returns type="String">Processed HTML code.</returns>
+}
+
+tinymce.dom.DOMUtils.prototype.getOuterHTML = function(e) {
 	/// <summary>Returns the outer HTML of an element.</summary>
-	/// <param name="elm" type="">Element ID or element object to get outer HTML from.</param>
+	/// <param name="e" type="">Element ID or element object to get outer HTML from.</param>
 	/// <returns type="String">Outer HTML string.</returns>
 }
 
@@ -829,9 +843,9 @@ tinymce.dom.DOMUtils.prototype.decode = function(s) {
 	/// <returns type="String">Entity decoded string.</returns>
 }
 
-tinymce.dom.DOMUtils.prototype.encode = function(text) {
+tinymce.dom.DOMUtils.prototype.encode = function(s) {
 	/// <summary>Entity encodes a string, encodes the most common entities <>"& into entities.</summary>
-	/// <param name="text" type="String">String to encode with entities.</param>
+	/// <param name="s" type="String">String to encode with entities.</param>
 	/// <returns type="String">Entity encoded string.</returns>
 }
 
@@ -842,9 +856,9 @@ tinymce.dom.DOMUtils.prototype.insertAfter = function(node, reference_node) {
 	/// <returns type="">Element that got added or an array with elements.</returns>
 }
 
-tinymce.dom.DOMUtils.prototype.isBlock = function(node) {
+tinymce.dom.DOMUtils.prototype.isBlock = function(n) {
 	/// <summary>Returns true/false if the specified element is a block element or not.</summary>
-	/// <param name="node" type="">Element/Node to check.</param>
+	/// <param name="n" type="Node">Element/Node to check.</param>
 	/// <returns type="Boolean">True/False state if the node is a block element or not.</returns>
 }
 
@@ -1029,6 +1043,17 @@ tinymce.dom.EventUtils.prototype.destroy = function() {
 	/// <summary>Destroys the instance.</summary>
 }
 
+tinymce.dom.Schema = function() {
+	/// <summary>Schema validator class.</summary>
+}
+
+tinymce.dom.Schema.prototype.isValid = function(name, child_name) {
+	/// <summary>Returns true/false if the specified element and optionally it's child is valid or not according to the XHTML transitiona...</summary>
+	/// <param name="name" type="String">Element name to check for.</param>
+	/// <param name="child_name" type="String">Element child name to check for.</param>
+	/// <returns type="boolean">true/false if the element is valid or not.</returns>
+}
+
 tinymce.dom.Selection = function(dom, win, serializer) {
 	/// <summary>This class handles text and control selection it's an crossbrowser utility class.</summary>
 	/// <param name="dom" type="tinymce.dom.DOMUtils">DOMUtils object reference.</param>
@@ -1069,6 +1094,12 @@ tinymce.dom.Selection.prototype.moveToBookmark = function(bookmark) {
 	/// <summary>Restores the selection to the specified bookmark.</summary>
 	/// <param name="bookmark" type="Object">Bookmark to restore selection from.</param>
 	/// <returns type="Boolean">true/false if it was successful or not.</returns>
+}
+
+tinymce.dom.Selection.prototype.moveAfterNode = function(node) {
+	/// <summary>Moves the selection to be collapsed immediately after the node.</summary>
+	/// <param name="node" type="Element" domElement="true">HTML DOM element to position caret after.</param>
+	/// <returns type="Element" domElement="true">the same element as the one that got passed in.</returns>
 }
 
 tinymce.dom.Selection.prototype.select = function(node, content) {
@@ -1115,299 +1146,158 @@ tinymce.dom.Selection.prototype.getNode = function() {
 	/// <returns type="Element" domElement="true">Currently selected element or common ancestor element.</returns>
 }
 
-tinymce.html.DomParser = function(settings, schema) {
-	/// <summary>This class parses HTML code into a DOM like structure of nodes it will remove redundant whitespace and make sure that th...</summary>
-	/// <param name="settings" type="Object">Name/value collection of settings. comment, cdata, text, start and end are callbacks.</param>
-	/// <param name="schema" type="tinymce.html.Schema">HTML Schema class to use when parsing.</param>
+tinymce.dom.Serializer = function(s) {
+	/// <summary>This class is used to serialize DOM trees into a string.</summary>
+	/// <param name="s" type="Object">Optional name/Value collection of settings for the serializer.</param>
 }
 
-tinymce.html.DomParser.prototype.addNodeFilter = function(callback) {
-	/// <summary>Adds a node filter function to the parser, the parser will collect the specified nodes by name and then execute the call...</summary>
-	/// <param name="callback" type="function">Callback function to execute once it has collected nodes.</param>
+tinymce.dom.Serializer.prototype.setEntities = function(s) {
+	/// <summary>Sets a list of entities to use for the named entity encoded.</summary>
+	/// <param name="s" type="String">List of entities in the following format: number,name,....</param>
 }
 
-tinymce.html.DomParser.prototype.addAttributeFilter = function(callback) {
-	/// <summary>Adds a attribute filter function to the parser, the parser will collect nodes that has the specified attributes and then...</summary>
-	/// <param name="callback" type="function">Callback function to execute once it has collected nodes.</param>
+tinymce.dom.Serializer.prototype.setRules = function(s) {
+	/// <summary>Sets the valid elements rules of the serializer this enables you to specify things like what elements should be outputte...</summary>
+	/// <param name="s" type="String">Valid elements rules string.</param>
 }
 
-tinymce.html.DomParser.prototype.parse = function(html, args) {
-	/// <summary>Parses the specified HTML string into a DOM like node tree and returns the result.</summary>
-	/// <param name="html" type="String">Html string to sax parse.</param>
-	/// <param name="args" type="Object">Optional args object that gets passed to all filter functions.</param>
-	/// <returns type="tinymce.html.Node">Root node containing the tree.</returns>
+tinymce.dom.Serializer.prototype.addRules = function(s) {
+	/// <summary>Adds valid elements rules to the serializer this enables you to specify things like what elements should be outputted an...</summary>
+	/// <param name="s" type="String">Valid elements rules string to add.</param>
 }
 
-tinymce.html.SaxParser = function(settings, schema) {
-	/// <summary>This class parses HTML code using pure JavaScript and executes various events for each item it finds.</summary>
-	/// <param name="settings" type="Object">Name/value collection of settings. comment, cdata, text, start and end are callbacks.</param>
-	/// <param name="schema" type="tinymce.html.Schema">HTML Schema class to use when parsing.</param>
+tinymce.dom.Serializer.prototype.findRule = function(n) {
+	/// <summary>Finds a rule object by name.</summary>
+	/// <param name="n" type="String">Name to look for in rules collection.</param>
+	/// <returns type="Object">Rule object found or null if it wasn't found.</returns>
 }
 
-tinymce.html.SaxParser.encodeRaw = function(text, attr) {
-	/// <summary>Encodes the specified string using raw entities.</summary>
-	/// <param name="text" type="String">Text to encode.</param>
-	/// <param name="attr" type="Boolean">Optional flag to specify if the text is attribute contents.</param>
-	/// <returns type="String">Entity encoded text.</returns>
+tinymce.dom.Serializer.prototype.findAttribRule = function(ru, n) {
+	/// <summary>Finds an attribute rule object by name.</summary>
+	/// <param name="ru" type="Object">Rule object to search though.</param>
+	/// <param name="n" type="String">Name of the rule to retrive.</param>
+	/// <returns type="Object">Rule object of the specified attribute.</returns>
 }
 
-tinymce.html.SaxParser.encodeAllRaw = function(text) {
-	/// <summary>Encoded the specified text with both the attributes and text entities.</summary>
-	/// <param name="text" type="String">Text to encode.</param>
-	/// <returns type="String">Entity encoded text.</returns>
+tinymce.dom.Serializer.prototype.serialize = function(n, o) {
+	/// <summary>Serializes the specified node into a HTML string.</summary>
+	/// <param name="n" type="Element" domElement="true">Element/Node to serialize.</param>
+	/// <param name="o" type="Object">Object to add serialized contents to, this object will also be passed to the event listeners.</param>
+	/// <returns type="String">Serialized HTML contents.</returns>
 }
 
-tinymce.html.SaxParser.encodeNumeric = function(text, attr) {
-	/// <summary>Encodes the specified string using numeric entities.</summary>
-	/// <param name="text" type="String">Text to encode.</param>
-	/// <param name="attr" type="Boolean">Optional flag to specify if the text is attribute contents.</param>
-	/// <returns type="String">Entity encoded text.</returns>
+tinymce.dom.StringWriter = function(s) {
+	/// <summary>This class writes nodes into a string.</summary>
+	/// <param name="s" type="Object">Optional settings object.</param>
 }
 
-tinymce.html.SaxParser.encodeNamed = function(text, attr, entities) {
-	/// <summary>Encodes the specified string using named entities.</summary>
-	/// <param name="text" type="String">Text to encode.</param>
-	/// <param name="attr" type="Boolean">Optional flag to specify if the text is attribute contents.</param>
-	/// <param name="entities" type="Object">Optional parameter with entities to use.</param>
-	/// <returns type="String">Entity encoded text.</returns>
+tinymce.dom.StringWriter.prototype.reset = function() {
+	/// <summary>Resets the writer so it can be reused the contents of the writer is cleared.</summary>
 }
 
-tinymce.html.SaxParser.getEncodeFunc = function(name, entities) {
-	/// <summary>Returns an encode function based on the name(s) and it's optional entities.</summary>
-	/// <param name="name" type="String">Comma separated list of encoders for example named,numeric.</param>
-	/// <param name="entities" type="String">Optional parameter with entities to use instead of the built in set.</param>
-	/// <returns type="function">Encode function to be used.</returns>
+tinymce.dom.StringWriter.prototype.writeStartElement = function(n) {
+	/// <summary>Writes the start of an element like for example: <tag.</summary>
+	/// <param name="n" type="String">Name of element to write.</param>
 }
 
-tinymce.html.SaxParser.prototype.parse = function(html) {
-	/// <summary>Parses the specified HTML string and executes the callbacks for each item it finds.</summary>
-	/// <param name="html" type="String">Html string to sax parse.</param>
+tinymce.dom.StringWriter.prototype.writeAttribute = function(n, v) {
+	/// <summary>Writes an attrubute like for example: myattr="valie"</summary>
+	/// <param name="n" type="String">Attribute name to write.</param>
+	/// <param name="v" type="String">Attribute value to write.</param>
 }
 
-tinymce.html.Node = function(name, type) {
-	/// <summary>This class is a minimalistic implementation of a DOM like node used by the DomParser class.</summary>
-	/// <param name="name" type="String">Name of the node type.</param>
-	/// <param name="type" type="Number" integer="true">Numeric type representing the node.</param>
+tinymce.dom.StringWriter.prototype.writeEndElement = function() {
+	/// <summary>Write the end of a element.</summary>
 }
 
-tinymce.html.Node.prototype.replace = function(node) {
-	/// <summary>Replaces the current node with the specified one.</summary>
-	/// <param name="node" type="tinymce.html.Node">Node to replace the current node with.</param>
-	/// <returns type="tinymce.html.Node">The old node that got replaced.</returns>
+tinymce.dom.StringWriter.prototype.writeFullEndElement = function() {
+	/// <summary>Writes the end of a element.</summary>
 }
 
-tinymce.html.Node.prototype.attr = function(name, value) {
-	/// <summary>Gets/sets or removes an attribute by name.</summary>
-	/// <param name="name" type="String">Attribute name to set or get.</param>
-	/// <param name="value" type="String">Optional value to set.</param>
-	/// <returns type="">String or undefined on a get operation or the current node on a set operation.</returns>
+tinymce.dom.StringWriter.prototype.writeText = function(v) {
+	/// <summary>Writes a text node value.</summary>
+	/// <param name="v" type="String">Value to append as a text node.</param>
 }
 
-tinymce.html.Node.prototype.clone = function() {
-	/// <summary>Does a shallow clones the node into a new node.</summary>
-	/// <returns type="tinymce.html.Node">New copy of the original node.</returns>
+tinymce.dom.StringWriter.prototype.writeCDATA = function(v) {
+	/// <summary>Writes a CDATA section.</summary>
+	/// <param name="v" type="String">Value to write in CDATA.</param>
 }
 
-tinymce.html.Node.prototype.wrap = function() {
-	/// <summary>Wraps the node in in another node.</summary>
+tinymce.dom.StringWriter.prototype.writeComment = function(v) {
+	/// <summary>Writes a comment.</summary>
+	/// <param name="v" type="String">Value of the comment.</param>
 }
 
-tinymce.html.Node.prototype.unwrap = function() {
-	/// <summary>Unwraps the node in other words it removes the node but keeps the children.</summary>
+tinymce.dom.StringWriter.prototype.writeRaw = function(v) {
+	/// <summary>String writer specific function.</summary>
+	/// <param name="v" type="String">String with raw contents to write.</param>
 }
 
-tinymce.html.Node.prototype.remove = function() {
-	/// <summary>Removes the node from it's parent.</summary>
-	/// <returns type="tinymce.html.Node">Current node that got removed.</returns>
+tinymce.dom.StringWriter.prototype.encode = function(s) {
+	/// <summary>String writer specific method.</summary>
+	/// <param name="s" type="String">String to encode.</param>
+	/// <returns type="String">String with entity encoding of the raw elements like <>&".</returns>
 }
 
-tinymce.html.Node.prototype.append = function(node) {
-	/// <summary>Appends a new node as a child of the current node.</summary>
-	/// <param name="node" type="tinymce.html.Node">Node to append as a child of the current one.</param>
-	/// <returns type="tinymce.html.Node">The node that got appended.</returns>
+tinymce.dom.StringWriter.prototype.getContent = function() {
+	/// <summary>Returns a string representation of the elements/nodes written.</summary>
+	/// <returns type="String">String representation of the written elements/nodes.</returns>
 }
 
-tinymce.html.Node.prototype.insert = function(node, ref_node, before) {
-	/// <summary>Inserts a node at a specific position as a child of the current node.</summary>
-	/// <param name="node" type="tinymce.html.Node">Node to insert as a child of the current node.</param>
-	/// <param name="ref_node" type="tinymce.html.Node">Reference node to set node before/after.</param>
-	/// <param name="before" type="Boolean">Optional state to insert the node before the reference node.</param>
-	/// <returns type="tinymce.html.Node">The node that got inserted.</returns>
+tinymce.dom.XMLWriter = function(s) {
+	/// <summary>This class writes nodes into a XML document structure.</summary>
+	/// <param name="s" type="Object">Optional settings object.</param>
 }
 
-tinymce.html.Node.prototype.getAll = function(name) {
-	/// <summary>Get all children by name.</summary>
-	/// <param name="name" type="String">Name of the child nodes to collect.</param>
-	/// <returns type="Array">Array with child nodes matchin the specified name.</returns>
+tinymce.dom.XMLWriter.prototype.reset = function() {
+	/// <summary>Resets the writer so it can be reused the contents of the writer is cleared.</summary>
 }
 
-tinymce.html.Node.prototype.empty = function() {
-	/// <summary>Removes all children of the current node.</summary>
-	/// <returns type="tinymce.html.Node">The current node that got cleared.</returns>
+tinymce.dom.XMLWriter.prototype.writeStartElement = function(n) {
+	/// <summary>Writes the start of an element like for example: <tag.</summary>
+	/// <param name="n" type="String">Name of element to write.</param>
 }
 
-tinymce.html.Node.prototype.isEmpty = function(elements) {
-	/// <summary>Returns true/false if the node is to be considered empty or not</summary>
-	/// <param name="elements" type="Object">Name/value object with elements that are automatically treated as non empty elements.</param>
-	/// <returns type="Boolean">true/false if the node is empty or not.</returns>
+tinymce.dom.XMLWriter.prototype.writeAttribute = function(n, v) {
+	/// <summary>Writes an attrubute like for example: myattr="valie"</summary>
+	/// <param name="n" type="String">Attribute name to write.</param>
+	/// <param name="v" type="String">Attribute value to write.</param>
 }
 
-tinymce.html.Node.create = function(name, attrs) {
-	/// <summary>Creates a node of a specific type.</summary>
-	/// <param name="name" type="String">Name of the node type to create for example "b" or "#text".</param>
-	/// <param name="attrs" type="Object">Name/value collection of attributes that will be applied to elements.</param>
+tinymce.dom.XMLWriter.prototype.writeEndElement = function() {
+	/// <summary>Write the end of a element.</summary>
 }
 
-tinymce.html.Schema = function(settings) {
-	/// <summary>Schema validator class.</summary>
-	/// <param name="settings" type="Object">Name/value settings object.</param>
+tinymce.dom.XMLWriter.prototype.writeFullEndElement = function() {
+	/// <summary>Writes the end of a element.</summary>
 }
 
-tinymce.html.Schema.prototype.getBoolAttrs = function() {
-	/// <summary>Returns a map with boolean attributes.</summary>
-	/// <returns type="Object">Name/value lookup map for boolean attributes.</returns>
+tinymce.dom.XMLWriter.prototype.writeText = function(v) {
+	/// <summary>Writes a text node value.</summary>
+	/// <param name="v" type="String">Value to append as a text node.</param>
 }
 
-tinymce.html.Schema.prototype.getBoolAttrs = function() {
-	/// <summary>Returns a map with block elements.</summary>
-	/// <returns type="Object">Name/value lookup map for block elements.</returns>
+tinymce.dom.XMLWriter.prototype.writeCDATA = function(v) {
+	/// <summary>Writes a CDATA section.</summary>
+	/// <param name="v" type="String">Value to write in CDATA.</param>
 }
 
-tinymce.html.Schema.prototype.getEmptyElements = function() {
-	/// <summary>Returns a map with empty elements.</summary>
-	/// <returns type="Object">Name/value lookup map for empty elements.</returns>
+tinymce.dom.XMLWriter.prototype.writeComment = function(v) {
+	/// <summary>Writes a comment.</summary>
+	/// <param name="v" type="String">Value of the comment.</param>
 }
 
-tinymce.html.Schema.prototype.getWhiteSpaceElements = function() {
-	/// <summary>Returns a map with elements where white space is to be preserved like PRE or SCRIPT.</summary>
-	/// <returns type="Object">Name/value lookup map for white space elements.</returns>
+tinymce.dom.XMLWriter.prototype.getContent = function() {
+	/// <summary>Returns a string representation of the elements/nodes written.</summary>
+	/// <returns type="String">String representation of the written elements/nodes.</returns>
 }
 
-tinymce.html.Schema.prototype.isValidChild = function(name, child) {
-	/// <summary>Returns true/false if the specified element and it's child is valid or not according to the schema.</summary>
-	/// <param name="name" type="String">Element name to check for.</param>
-	/// <param name="child" type="String">Element child to verify.</param>
-	/// <returns type="Boolean">True/false if the element is a valid child of the specified parent.</returns>
-}
-
-tinymce.html.Schema.prototype.getElementRule = function(name) {
-	/// <summary>Returns true/false if the specified element is valid or not according to the schema.</summary>
-	/// <param name="name" type="String">Element name to check for.</param>
-	/// <returns type="Object">Element object or undefined if the element isn't valid.</returns>
-}
-
-tinymce.html.Schema.prototype.addValidElements = function(valid_elements) {
-	/// <summary>Parses a valid elements string and adds it to the schema.</summary>
-	/// <param name="valid_elements" type="String">String in the valid elements format to be parsed.</param>
-}
-
-tinymce.html.Schema.prototype.setValidElements = function(valid_elements) {
-	/// <summary>Parses a valid elements string and sets it to the schema.</summary>
-	/// <param name="valid_elements" type="String">String in the valid elements format to be parsed.</param>
-}
-
-tinymce.html.Schema.prototype.addCustomElements = function(custom_elements) {
-	/// <summary>Adds custom non HTML elements to the schema.</summary>
-	/// <param name="custom_elements" type="String">Comma separated list of custom elements to add.</param>
-}
-
-tinymce.html.Schema.prototype.addValidChildren = function(valid_children) {
-	/// <summary>Parses a valid children string and adds them to the schema structure.</summary>
-	/// <param name="valid_children" type="String">Valid children elements string to parse</param>
-}
-
-tinymce.html.Serializer = function(settings, schema) {
-	/// <summary>This class is used to serialize down the DOM tree into a string using a Writer instance.</summary>
-	/// <param name="settings" type="Object">Name/value settings object.</param>
-	/// <param name="schema" type="tinymce.html.Schema">Schema instance to use.</param>
-}
-
-tinymce.html.Serializer.prototype.serialize = function(node) {
-	/// <summary>Serializes the specified node into a string.</summary>
-	/// <param name="node" type="tinymce.html.Node">Node instance to serialize.</param>
-	/// <returns type="String">String with HTML based on DOM tree.</returns>
-}
-
-tinymce.html.Styles = function() {
-	/// <summary>This class is used to parse CSS styles it also compresses styles to reduce the output size.</summary>
-}
-
-tinymce.html.Styles.prototype.toHex = function(color) {
-	/// <summary>Parses the specified RGB color value and returns a hex version of that color.</summary>
-	/// <param name="color" type="String">RGB string value like rgb(1,2,3)</param>
-	/// <returns type="String">Hex version of that RGB value like #FF00FF.</returns>
-}
-
-tinymce.html.Styles.prototype.parse = function(css) {
-	/// <summary>Parses the specified style value into an object collection.</summary>
-	/// <param name="css" type="String">Style value to parse for example: border:1px solid red;.</param>
-	/// <returns type="Object">Object representation of that style like {border : '1px solid red'}</returns>
-}
-
-tinymce.html.Styles.prototype.serialize = function(styles, element_name) {
-	/// <summary>Serializes the specified style object into a string.</summary>
-	/// <param name="styles" type="Object">Object to serialize as string for example: {border : '1px solid red'}</param>
-	/// <param name="element_name" type="String">Optional element name, if specified only the styles that matches the schema will be serialized.</param>
-	/// <returns type="String">String representation of the style object for example: border: 1px solid red.</returns>
-}
-
-tinymce.html.Writer = function(settings) {
-	/// <summary>This class is used to write HTML tags out it can be used with the Serializer or the SaxParser.</summary>
-	/// <param name="settings" type="Object">Name/value settings object.</param>
-}
-
-tinymce.html.Writer.prototype.start = function(name, attrs, empty) {
-	/// <summary>Writes the a start element such as .</summary>
-	/// <param name="name" type="String">Name of the element.</param>
-	/// <param name="attrs" type="Array">Optional attribute array or undefined if it hasn't any.</param>
-	/// <param name="empty" type="Boolean">Optional empty state if the tag should end like <br />.</param>
-}
-
-tinymce.html.Writer.prototype.end = function(name) {
-	/// <summary>Writes the a end element such as .</summary>
-	/// <param name="name" type="String">Name of the element.</param>
-}
-
-tinymce.html.Writer.prototype.text = function(text, raw) {
-	/// <summary>Writes a text node.</summary>
-	/// <param name="text" type="String">String to write out.</param>
-	/// <param name="raw" type="Boolean">Optional raw state if true the contents wont get encoded.</param>
-}
-
-tinymce.html.Writer.prototype.cdata = function(text) {
-	/// <summary>Writes a cdata node such as .</summary>
-	/// <param name="text" type="String">String to write out inside the cdata.</param>
-}
-
-tinymce.html.Writer.prototype.cdata = function(text) {
-	/// <summary>Writes a comment node such as .</summary>
-	/// <param name="text" type="String">String to write out inside the comment.</param>
-}
-
-tinymce.html.Writer.prototype.pi = function(name, text) {
-	/// <summary>Writes a PI node such as .</summary>
-	/// <param name="name" type="String">Name of the pi.</param>
-	/// <param name="text" type="String">String to write out inside the pi.</param>
-}
-
-tinymce.html.Writer.prototype.doctype = function(text) {
-	/// <summary>Writes a doctype node such as .</summary>
-	/// <param name="text" type="String">String to write out inside the doctype.</param>
-}
-
-tinymce.html.Writer.prototype.reset = function() {
-	/// <summary>Resets the internal buffer if one wants to reuse the writer.</summary>
-}
-
-tinymce.html.Writer.prototype.getContent = function() {
-	/// <summary>Returns the contents that got serialized.</summary>
-	/// <returns type="String">HTML contents that got written down.</returns>
-}
-
-tinymce.ui.Button = function(id, s) {
+tinymce.ui.Button = function(id, s, ed) {
 	/// <summary>This class is used to create a UI button.</summary>
 	/// <param name="id" type="String">Control id for the button.</param>
 	/// <param name="s" type="Object">Optional name/value settings object.</param>
+	/// <param name="ed" type="Editor">Optional the editor instance this button is for.</param>
 }
 
 tinymce.ui.Button.prototype.renderHTML = function() {
@@ -1455,10 +1345,11 @@ tinymce.ui.Button.prototype.destroy = function() {
 	/// <summary></summary>
 }
 
-tinymce.ui.ColorSplitButton = function(id, s) {
+tinymce.ui.ColorSplitButton = function(id, s, ed) {
 	/// <summary>This class is used to create UI color split button.</summary>
 	/// <param name="id" type="String">Control id for the color split button.</param>
 	/// <param name="s" type="Object">Optional name/value settings object.</param>
+	/// <param name="ed" type="Editor">The editor instance this button is for.</param>
 	/// <field name="settings" type="Object">Settings object.</field>
 	/// <field name="value" type="String">Current color value.</field>
 	/// <field name="onShowMenu" type="tinymce.util.Dispatcher">Fires when the menu is shown.</field>
@@ -1480,6 +1371,11 @@ tinymce.ui.ColorSplitButton.prototype.renderMenu = function() {
 
 tinymce.ui.ColorSplitButton.prototype.setColor = function(c) {
 	/// <summary>Sets the current color for the control and hides the menu if it should be visible.</summary>
+	/// <param name="c" type="String">Color code value in hex for example: #FF00FF</param>
+}
+
+tinymce.ui.ColorSplitButton.prototype.displayColor = function(c) {
+	/// <summary>Change the currently selected color for the control.</summary>
 	/// <param name="c" type="String">Color code value in hex for example: #FF00FF</param>
 }
 
@@ -1770,10 +1666,17 @@ tinymce.ui.DropMenu.prototype.renderTo = function() {
 	/// <summary></summary>
 }
 
-tinymce.ui.ListBox = function(id, s) {
+tinymce.ui.KeyboardNavigation = function(settings, dom) {
+	/// <summary>This class provides basic keyboard navigation using the arrow keys to children of a component.</summary>
+	/// <param name="settings" type="Object">the settings object to define how keyboard navigation works.</param>
+	/// <param name="dom" type="DOMUtils">the DOMUtils instance to use.</param>
+}
+
+tinymce.ui.ListBox = function(id, s, ed) {
 	/// <summary>This class is used to create list boxes/select list.</summary>
 	/// <param name="id" type="String">Control id for the list box.</param>
 	/// <param name="s" type="Object">Optional name/value settings object.</param>
+	/// <param name="ed" type="Editor">Optional the editor instance this button is for.</param>
 	/// <field name="items" type="Array">Array of ListBox items.</field>
 	/// <field name="onChange" type="tinymce.util.Dispatcher">Fires when the selection has been changed.</field>
 	/// <field name="onPostRender" type="tinymce.util.Dispatcher">Fires after the element has been rendered to DOM.</field>
@@ -1967,10 +1870,11 @@ tinymce.ui.Menu.prototype.destroy = function() {
 	/// <summary></summary>
 }
 
-tinymce.ui.MenuButton = function(id, s) {
+tinymce.ui.MenuButton = function(id, s, ed) {
 	/// <summary>This class is used to create a UI button.</summary>
 	/// <param name="id" type="String">Control id for the split button.</param>
 	/// <param name="s" type="Object">Optional name/value settings object.</param>
+	/// <param name="ed" type="Editor">Optional the editor instance this button is for.</param>
 	/// <field name="onRenderMenu" type="tinymce.util.Dispatcher">Fires when the menu is rendered.</field>
 }
 
@@ -2233,10 +2137,11 @@ tinymce.ui.Separator.prototype.destroy = function() {
 	/// <summary></summary>
 }
 
-tinymce.ui.SplitButton = function(id, s) {
+tinymce.ui.SplitButton = function(id, s, ed) {
 	/// <summary>This class is used to create a split button.</summary>
 	/// <param name="id" type="String">Control id for the split button.</param>
 	/// <param name="s" type="Object">Optional name/value settings object.</param>
+	/// <param name="ed" type="Editor">Optional the editor instance this button is for.</param>
 }
 
 tinymce.ui.SplitButton.prototype.renderHTML = function() {
@@ -2342,6 +2247,64 @@ tinymce.ui.Toolbar.prototype.destroy = function() {
 	/// <summary></summary>
 }
 
+tinymce.ui.ToolbarGroup = function() {
+	/// <summary>This class is used to group a set of toolbars together and control the keyboard navigation and focus.</summary>
+	/// <field name="controls" type=""></field>
+}
+
+tinymce.ui.ToolbarGroup.prototype.renderHTML = function() {
+	/// <summary>Renders the toolbar group as a HTML string.</summary>
+	/// <returns type="String">HTML for the toolbar control.</returns>
+}
+
+tinymce.ui.ToolbarGroup.prototype.add = function() {
+	/// <summary></summary>
+}
+
+tinymce.ui.ToolbarGroup.prototype.get = function() {
+	/// <summary></summary>
+}
+
+tinymce.ui.ToolbarGroup.prototype.setDisabled = function() {
+	/// <summary></summary>
+}
+
+tinymce.ui.ToolbarGroup.prototype.isDisabled = function() {
+	/// <summary></summary>
+}
+
+tinymce.ui.ToolbarGroup.prototype.setActive = function() {
+	/// <summary></summary>
+}
+
+tinymce.ui.ToolbarGroup.prototype.isActive = function() {
+	/// <summary></summary>
+}
+
+tinymce.ui.ToolbarGroup.prototype.setState = function() {
+	/// <summary></summary>
+}
+
+tinymce.ui.ToolbarGroup.prototype.isRendered = function() {
+	/// <summary></summary>
+}
+
+tinymce.ui.ToolbarGroup.prototype.renderTo = function() {
+	/// <summary></summary>
+}
+
+tinymce.ui.ToolbarGroup.prototype.postRender = function() {
+	/// <summary></summary>
+}
+
+tinymce.ui.ToolbarGroup.prototype.remove = function() {
+	/// <summary></summary>
+}
+
+tinymce.ui.ToolbarGroup.prototype.destroy = function() {
+	/// <summary></summary>
+}
+
 tinymce.util.Cookie = function() {
 	/// <summary>This class contains simple cookie manangement functions.</summary>
 }
@@ -2419,10 +2382,9 @@ tinymce.util.JSON = function() {
 	/// <summary>JSON parser and serializer class.</summary>
 }
 
-tinymce.util.JSON.serialize = function(obj, quote) {
+tinymce.util.JSON.serialize = function(o) {
 	/// <summary>Serializes the specified object as a JSON string.</summary>
-	/// <param name="obj" type="Object">Object to serialize as a JSON string.</param>
-	/// <param name="quote" type="String">Optional quote string defaults to ".</param>
+	/// <param name="o" type="Object">Object to serialize as a JSON string.</param>
 	/// <returns type="string">JSON string serialized from input.</returns>
 }
 
@@ -2664,6 +2626,7 @@ tinymce.isOpera = new Boolean();
 tinymce.isWebKit = new Boolean();
 tinymce.isIE = new Boolean();
 tinymce.isIE6 = new Boolean();
+tinymce.isIE9 = new Boolean();
 tinymce.isGecko = new Boolean();
 tinymce.isMac = new Boolean();
 tinymce.isAir = new Boolean();
@@ -2733,14 +2696,6 @@ tinymce.is = function(o, t) {
 	/// <returns type="Boolean">true/false if the object is of the specified type.</returns>
 }
 
-tinymce.makeMap = function(items, delim, map) {
-	/// <summary>Makes a name/object map out of an array with names.</summary>
-	/// <param name="items" type="">Items to make map out of.</param>
-	/// <param name="delim" type="String">Optional delimiter to split string by.</param>
-	/// <param name="map" type="Object">Optional map to add items to.</param>
-	/// <returns type="Object">Name/value map of items.</returns>
-}
-
 tinymce.each = function(o, cb, s) {
 	/// <summary>Performs an iteration of all items in a collection such as an object or array.</summary>
 	/// <param name="o" type="Object">Collection to iterate.</param>
@@ -2782,11 +2737,10 @@ tinymce.trim = function(s) {
 	/// <returns type="String">New string with removed whitespace.</returns>
 }
 
-tinymce.create = function(s, p, root) {
+tinymce.create = function(s, o) {
 	/// <summary>Creates a class, subclass or static singleton.</summary>
 	/// <param name="s" type="String">Class name, inheritage and prefix.</param>
-	/// <param name="p" type="Object">Collection of methods to add to the class.</param>
-	/// <param name="root" type="Object">Optional root object defaults to the global window object.</param>
+	/// <param name="o" type="Object">Collection of methods to add to the class.</param>
 }
 
 tinymce.walk = function(o, f, n, s) {
