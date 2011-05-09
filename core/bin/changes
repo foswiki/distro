@@ -18,6 +18,7 @@ BEGIN {
     }
     my ( $volume, $binDir, $action ) = File::Spec->splitpath(__FILE__);
     my $setlib = File::Spec->catpath( $volume, $binDir, 'setlib.cfg' );
+    @INC = ( '.', grep { $_ ne '.' } @INC ) unless $binDir;
     require $setlib;
     $action =~ s/\..*$//;    # Remove eventual file extension
     $ENV{FOSWIKI_ACTION} = $action;

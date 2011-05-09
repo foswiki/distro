@@ -19,6 +19,7 @@ BEGIN {
     }
     my @path = File::Spec->splitpath($Bin);
     my $setlib = File::Spec->catfile( @path, 'setlib.cfg' );
+    @INC = ( '.', grep { $_ ne '.' } @INC ) unless $binDir;
     require $setlib;
     $Script =~ s/\..*$//;    # Remove optional file extension
     $ENV{FOSWIKI_ACTION} = $Script;
