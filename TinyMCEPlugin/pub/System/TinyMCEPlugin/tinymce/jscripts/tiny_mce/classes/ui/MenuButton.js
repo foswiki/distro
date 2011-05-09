@@ -26,9 +26,10 @@
 		 * @method MenuButton
 		 * @param {String} id Control id for the split button.
 		 * @param {Object} s Optional name/value settings object.
+		 * @param {Editor} ed Optional the editor instance this button is for.
 		 */
-		MenuButton : function(id, s) {
-			this.parent(id, s);
+		MenuButton : function(id, s, ed) {
+			this.parent(id, s, ed);
 
 			/**
 			 * Fires when the menu is rendered.
@@ -90,7 +91,10 @@
 				icons : t.settings.icons
 			});
 
-			m.onHideMenu.add(t.hideMenu, t);
+			m.onHideMenu.add(function() {
+				t.hideMenu();
+				t.focus();
+			});
 
 			t.onRenderMenu.dispatch(t, m);
 			t.menu = m;

@@ -43,7 +43,7 @@ Consult the TinyMCE Wiki API for more details and examples on how to use this cl
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.dom.Selection.html#Selection">Selection</a>(dom:<a href="class_tinymce.dom.DOMUtils.html">DOMUtils</a>, win:Window, serializer:tinymce.dom.Serializer)</div>
+<a class="memberName" href="class_tinymce.dom.Selection.html#Selection">Selection</a>(dom:<a href="class_tinymce.dom.DOMUtils.html">DOMUtils</a>, win:Window, serializer:<a href="class_tinymce.dom.Serializer.html">Serializer</a>)</div>
 <div class="summary">Constructs a new selection instance.</div>
 </td>
 <td class="last">Selection</td>
@@ -123,12 +123,20 @@ Consult the TinyMCE Wiki API for more details and examples on how to use this cl
 <tr>
 <td class="first">
 <div>
+<a class="memberName" href="class_tinymce.dom.Selection.html#moveAfterNode">moveAfterNode</a>(node:Element):Element</div>
+<div class="summary">Moves the selection to be collapsed immediately after the node.</div>
+</td>
+<td class="last">Selection</td>
+</tr>
+<tr class="even">
+<td class="first">
+<div>
 <a class="memberName" href="class_tinymce.dom.Selection.html#moveToBookmark">moveToBookmark</a>(bookmark:Object):Boolean</div>
 <div class="summary">Restores the selection to the specified bookmark.</div>
 </td>
 <td class="last">Selection</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.Selection.html#select">select</a>(node:Element, content:Boolean):Element</div>
@@ -136,7 +144,7 @@ Consult the TinyMCE Wiki API for more details and examples on how to use this cl
 </td>
 <td class="last">Selection</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.Selection.html#setContent">setContent</a>(h:String, s:Object):void</div>
@@ -144,7 +152,7 @@ Consult the TinyMCE Wiki API for more details and examples on how to use this cl
 </td>
 <td class="last">Selection</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.Selection.html#setNode">setNode</a>(n:Element):Element</div>
@@ -152,7 +160,7 @@ Consult the TinyMCE Wiki API for more details and examples on how to use this cl
 </td>
 <td class="last">Selection</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.Selection.html#setRng">setRng</a>(r:Range):void</div>
@@ -170,7 +178,7 @@ Consult the TinyMCE Wiki API for more details and examples on how to use this cl
 <h3>Selection<span class="memberType">constructor</span>
 </h3>
 <code class="syntax">public 
-						function Selection(dom:<a href="class_tinymce.dom.DOMUtils.html">DOMUtils</a>, win:Window, serializer:tinymce.dom.Serializer)</code>
+						function Selection(dom:<a href="class_tinymce.dom.DOMUtils.html">DOMUtils</a>, win:Window, serializer:<a href="class_tinymce.dom.Serializer.html">Serializer</a>)</code>
 <div class="memberDescription">Constructs a new selection instance.
 </div>
 <h4>Parameters</h4>
@@ -185,7 +193,8 @@ Consult the TinyMCE Wiki API for more details and examples on how to use this cl
 <td class="last">Window to bind the selection object to.</td>
 </tr>
 <tr>
-<td class="first">serializer:tinymce.dom.Serializer</td>
+<td class="first">serializer:<a href="class_tinymce.dom.Serializer.html">Serializer</a>
+</td>
 <td class="last">DOM serialization class to use for getContent.</td>
 </tr>
 </table>
@@ -312,6 +321,23 @@ node the parent element will be returned.
 </div>
 <h4>Returns</h4>
 <div class="returns">Boolean - true/false state if the selection range is collapsed or not. Collapsed means if it's a caret or a larger selection.</div>
+</div>
+<div class="memberDetails" id="moveAfterNode">
+<h3>moveAfterNode<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function moveAfterNode(node:Element):Element</code>
+<div class="memberDescription">Moves the selection to be collapsed immediately after the node.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">node:Element</td>
+<td class="last">HTML DOM element to position caret after.</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">Element - the same element as the one that got passed in.</div>
 </div>
 <div class="memberDetails" id="moveToBookmark">
 <h3>moveToBookmark<span class="memberType">method</span>

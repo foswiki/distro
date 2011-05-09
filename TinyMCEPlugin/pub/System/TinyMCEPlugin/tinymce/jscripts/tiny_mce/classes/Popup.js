@@ -141,7 +141,7 @@ tinyMCEPopup = {
 				t.getWindowArg('mce_height') - vp.h,
 				t.id || window
 			);
-		}, 0);
+		}, 10);
 	},
 
 	/**
@@ -324,6 +324,8 @@ tinyMCEPopup = {
 				document.title = ti = nv;
 		}
 
+		if (!t.editor.getParam('browser_preferred_colors', false) || !t.isWindow)
+			t.dom.addClass(document.body, 'forceColors');
 		document.body.style.display = '';
 
 		// Restore selection in IE when focus is placed on a non textarea or input element of the type text

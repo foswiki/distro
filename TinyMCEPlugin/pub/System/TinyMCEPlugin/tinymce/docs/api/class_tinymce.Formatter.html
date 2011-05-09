@@ -33,7 +33,12 @@ etc to the current selection or specific nodes. This engine was build to replace
 default formatting logic for execCommand due to it's inconsistant and buggy behavior.
 </div>
 <h4>Example</h4>
-<pre class="brush: js;"/>
+<pre class="brush: js;">tinymce.activeEditor.formatter.register('mycustomformat', {
+   inline : 'span',
+   styles : {color : '#ff0000'}
+ });
+
+ tinymce.activeEditor.formatter.apply('mycustomformat');</pre>
 <div class="summaryLists">
 <h2>Public Methods</h2>
 <table class="Methods summary">
