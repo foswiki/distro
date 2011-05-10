@@ -14,28 +14,28 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
 # As per the GPL, removal of this notice is prohibited.
+
 use strict;
 use warnings;
 
 use File::Spec;
-use FindBin qw( $Bin $Script );
 
 BEGIN {
-  if (defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL}) {
-    $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
-    use CGI::Carp qw(fatalsToBrowser);
-    $SIG{__DIE__} = \&CGI::Carp::confess;
-  } else {
-    $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
-    require Carp;
-    $SIG{__DIE__} = \&Carp::confess;
-  }
-
-  my @path = File::Spec->splitpath($Bin);
-  my $setlib = File::Spec->catfile(@path, 'setlib.cfg');
-  require $setlib;
-  $Script =~ s/\..*$//;    # Remove optional file extension
-  $ENV{FOSWIKI_ACTION} = $Script;
+    if ( defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL} ) {
+        $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
+        use CGI::Carp qw(fatalsToBrowser);
+        $SIG{__DIE__} = \&CGI::Carp::confess;
+    }
+    else {
+        $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
+        require Carp;
+        $SIG{__DIE__} = \&Carp::confess;
+    }
+    my ( $volume, $binDir, $action ) = File::Spec->splitpath(__FILE__);
+    my $setlib = File::Spec->catpath( $volume, $binDir, 'setlib.cfg' );
+    require $setlib;
+    $action =~ s/\..*$//;    # Remove eventual file extension
+    $ENV{FOSWIKI_ACTION} = $action;
 }
 
 use Foswiki ();

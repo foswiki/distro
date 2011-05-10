@@ -25,7 +25,7 @@ use warnings;
 =cut
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.00';
+our $RELEASE = '1.10';
 our $SHORTDESCRIPTION = 'JSON-RPC interface for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SERVER;

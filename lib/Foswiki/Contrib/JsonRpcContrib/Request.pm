@@ -52,9 +52,12 @@ sub new {
   # override json-rpc params using url params
   foreach my $key ($request->param()) {
     next if $key =~ /^(POSTDATA|method|id|jsonrpc)$/; # these are different
-    my $val = fromUtf8($request->param($key));
-    $request->param($key => $val); # play back to request
-    $this->param($key, $val); # override json-rpc params using url params
+    my @vals = map(fromUtf8($_), $request->param($key));
+    if (scalar(@vals) == 1) {
+      $this->param($key => $vals[0]); # set json-rpc params using url params
+    } else {
+      $this->param($key => \@vals); # set json-rpc params using url params
+    }
   }
 
   # copy id from url params to  json-rpc request if required
@@ -66,8 +69,9 @@ sub new {
   $this->method($method) if defined $method;
 
   # check that this is a http POST
+  my $httpMethod = $request->method() || "jsonrpc";
   throw Foswiki::Contrib::JsonRpcContrib::Error(-32600, "Method must be POST")
-    unless $request->method() =~ /post|jsonrpc/i;
+    unless $httpMethod =~ /post|jsonrpc/i;
 
   # some basic checks if this is a proper json-rpc 2.0 request
   

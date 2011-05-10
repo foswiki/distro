@@ -177,7 +177,10 @@ In case a namespace, method or parameters are specified as part of a JSON-RPC re
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  2011-04-29 | initial release |
+|  10 May 2011: | fixed jsonrpc script to work on old foswikis; \
+                  fixed multi-value params; \
+                  fixed compatibility with various JSON cpan libraries |
+|  29 Apr 2011: | initial release |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home page: | Foswiki:Extensions/%TOPIC% |
 |  Support: | Foswiki:Support/%TOPIC% |

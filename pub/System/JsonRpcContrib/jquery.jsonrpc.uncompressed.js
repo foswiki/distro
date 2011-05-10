@@ -12,8 +12,6 @@
       data.id = options.id;
     }
 
-    console.log("json request=",data);
-
     return data;
   }
 

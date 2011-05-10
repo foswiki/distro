@@ -82,7 +82,6 @@ sub isError {
 ################################################################################
 sub encode  {
   my $this = shift;
-  #my ($this, $code, $text, $id, $params) = @_;
 
   my $code = $this->code();
   my $message = $this->message();
@@ -105,10 +104,7 @@ sub encode  {
   my $id = $this->id();
   $message->{id} = $id if defined $id; 
 
-  $params ||= {};
-  $params->{pretty} = 1 if DEBUG;
-
-  return $this->parser->encode($message, $params);
+  return $this->parser->encode($message);
 }
 
 ##############################################################################
