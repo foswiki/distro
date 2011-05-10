@@ -46,14 +46,10 @@ cd ${FOSWIKI_HOME}/tools
 ./build.pl release -auto || echo build.pl returned $?
 
 #
-# copy the tarball to the package build directory
-#
-cp  ../Foswiki-*.tgz ${FOSWIKI_HOME}/tools/pkg/
-
-#
 # Get the last real release number and the version number on the tarball
 #
-tarversion=`echo ../Foswiki-*.tgz | sed 's%../Foswiki-%%' | sed 's/.tgz//'`
+RELEASE=`egrep "RELEASE =" ../lib/Foswiki.pm`
+tarversion=`echo $RELEASE | sed s/.*Foswiki-// | sed s/.\;//`-auto
 releaseversion=`echo $tarversion | sed s/-.*//`
 
 # unless this is an already released tree, make these packages sort
@@ -97,8 +93,8 @@ tmpdir=`mktemp -d /tmp/stage1-1.0.XXXXXXXXXX`
 #
 pkgversion="${releaseversion}${versionextension}auto${branchrev}"
 debversion="0"
-cp Foswiki-${tarversion}.tgz ${tmpdir}/foswiki_${pkgversion}.orig.tar.gz
-tar zxf Foswiki-${tarversion}.tgz -C ${tmpdir}
+cp ../../Foswiki-${tarversion}.tgz ${tmpdir}/foswiki_${pkgversion}.orig.tar.gz
+tar zxf ../../Foswiki-${tarversion}.tgz -C ${tmpdir}
 
 # Put or generate necessary debian control files into the stage1 package
 # build directory
