@@ -1,0 +1,90 @@
+foswiki (1.0.10-0) stable; urgency=high
+
+  * upgrade to 1.0.10
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com> Mon, 17 Dec 2010 12:00:00 +1000 
+
+foswiki (1.0.9-1) unstable; urgency=high
+
+  * upgrade to 1.0.9
+  * tighten up the too greedy ShorterUrls rewrite match
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Mon, 18 Jan 2010 13:22:35 -0700
+
+foswiki (1.0.7-3) unstable; urgency=high
+
+  * fix up the legacy redirect from /cgi-bin/foswiki
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Thu, 08 Oct 2009 13:22:35 -0700
+
+foswiki (1.0.7-2) unstable; urgency=high
+
+  * Remove cp of the cgi-bin dir, just package files now - Item2219
+  * I can't sign a package for Drake :/ so I've changed the line below
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Wed, 07 Oct 2009 13:22:35 -0700
+
+foswiki (1.0.7-1) stable; urgency=high
+
+  * update to foswiki 1.0.7
+  * remove mod_perl bits - they're now in foswiki-modperlenginecontrib
+  * add localhost and 127.0.0.1 to permitted redirecthosts by default
+  * remove foswiki cgi's from cgi-bin to bring it more into line with foswiki
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Sun, 4 Oct 2009 09:53:40 +0100
+
+foswiki (1.0.6-3) unstable; urgency=high
+
+  * fix bad URL generation when logging on from / and using ShorterUrls Item1766
+  * fix for problems with validation - Item1830
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Sat, 11 Sep 2009 09:53:40 +0100
+
+foswiki (1.0.6-2) unstable; urgency=high
+
+  * fix fresh installation :/
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Sat, 18 Jun 2009 09:53:40 +0100
+
+foswiki (1.0.6-1) unstable; urgency=high
+
+  * package now upgrades distributed topics and attachments, by looking for
+    ,v files and skipping those. (no merging)
+  * Upgrade to foswiki 1.0.6 - resolves Security Alert CVE-2009-1434
+    This version introduces a major enhancement in security against Cross-Site Request Forgery
+  * point configure logos to /var/www/foswiki/logos
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Sun, 5 Jul 2009 09:53:40 +0100
+
+foswiki (1.0.5-2) unstable; urgency=low
+
+  *  Item1601: make /usr/lib/cgi-bin/foswiki/LocalLib.cfg a config file 
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Sun, 26 Apr 2009 09:53:40 +0100
+
+foswiki (1.0.5-1) unstable; urgency=high
+
+  * upgrade to foswiki 1.0.5
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Sun, 26 Apr 2009 09:53:40 +0100
+
+foswiki (1.0.4-2) unstable; urgency=low
+
+  * add a ShorterUrl.conf that can be 'just linked'
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Fri, 20 Mar 2009 09:53:40 +0100
+
+foswiki (1.0.4-1) unstable; urgency=low
+
+  * upgrade to foswiki 1.0.4
+  * added Warning to configure Extension installer to _not_ use it
+  * switched to TemplateLogin - its much more useful
+  * set configure password from the debconf too
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Fri, 20 Mar 2009 09:53:40 +0100
+
+foswiki (1.0.0-1) unstable; urgency=low
+
+  * migrate twiki packaging to foswiki fork to avoid trademark issues
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Fri, 09 Jan 2009 09:53:40 +0100

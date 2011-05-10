@@ -1,0 +1,20 @@
+foswiki (1.0.5-1) unstable; urgency=high
+
+  In order to improve the package's security, Foswiki configuration
+  script can now only be accessed at
+  http://localhost/cgi-bin/foswiki/configure with an authentified HTTP
+  session.
+
+  This means that Foswiki configuration is only possible (in
+  the default Debian package's apache configuration) :
+   - through the Web interface, from the server's local accounts,
+   - or by changing the /etc/foswiki/LocalSite.cfg file.
+
+  The username and password for this 'configure' access are defined
+  during package install (so-called "apache user" debconf questions,
+  with a username by default 'admin').
+
+  Note that contents of the NEWS.Debian file were removed as format was
+  not good, and contents was redundant with README.Debian.
+
+ -- Olivier Berger <olivier.berger@it-sudparis.eu>  Sat, 28 Jun 2008 10:19:11 +0200

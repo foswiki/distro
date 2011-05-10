@@ -1,0 +1,65 @@
+Template: foswiki/defaultUrlHost
+Type: string
+Default: http://localhost/
+_Description: URL of the server Foswiki runs under:
+ Please enter the web server URL (such as "http://www.example.org/").
+ Complete Foswiki URLs will be constructed from this value plus the
+ string "foswiki/".
+
+Template: foswiki/wikiwebmaster
+Type: string
+Default: webmaster@localhost
+_Description: Email address of the webmaster for this Foswiki:
+ Please enter the email address that will receive new user registration
+ mail. This address will also be displayed in the "oops" page when errors
+ occur.
+
+Template: foswiki/samplefiles
+Type: boolean
+Default: true
+_Description: Perform install or upgrade of default wiki Topic Set?
+ Foswiki includes a complete "starter kit" which includes user
+ registration pages, documentation, and tutorials.
+ .
+ Deselect this option ONLY if you know what will break, and know how to 
+ update the distributed files manually. Upgrading will only update 
+ topics that have not been  modified through the wiki. 
+ (it looks for rcs history files, and skips those files).
+ .
+ The starter kit files can be found in
+ /usr/share/foswiki/foswiki-data.tar.gz (and foswiki-pub.tar.gz) if you
+ want to install it manually or compare the topics with the new
+ version.
+
+Template: foswiki/apacheUserCreationNote
+Type: note
+_Description: Admin User Registration configuration required
+ After you have created yourself a user, edit the Main.AdminGroup
+ to restrict Admin privileges to that user.
+
+Template: foswiki/adminuser
+Type: string
+Default: admin
+#flag:comment:2
+# Translators, do not translate "'configure'" script's name
+_Description: Apache user allowed access to 'configure' script:
+ Please enter the username of the apache user who will be allowed to
+ run the configure script at http://localhost/foswiki/bin/configure.
+
+Template: foswiki/adminpassword
+Type: password
+#flag:comment:1
+# Translators, do not translate "configuser" in the variable
+_Description: Password for '${configuser}':
+ Please enter the password of the apache user who will be allowed to
+ run the configure script at http://localhost/foswiki/bin/configure.
+
+Template: foswiki/adminpassword_again
+Type: password
+_Description: Password confirmation:
+ Please re-enter the same password, for verification.
+
+Template: foswiki/password_mismatch
+Type: error
+_Description: Password mismatch
+ The passwords you entered didn't match. You will have to enter them again.

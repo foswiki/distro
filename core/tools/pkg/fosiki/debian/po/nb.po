@@ -1,0 +1,209 @@
+# translation of nb.po to
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Bjørn Steensrud <bjornst@powertech.no>, 2007.
+# Bjørn Steensrud <bsteensr@skogkatt.homelinux.org>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: nb\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
+"POT-Creation-Date: 2008-07-16 11:58+0200\n"
+"PO-Revision-Date: 2008-06-28 16:17+0200\n"
+"Last-Translator: Bjørn Steensrud <bsteensr@skogkatt.homelinux.org>\n"
+"Language-Team:  <nb@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid "URL of the server Foswiki runs under:"
+msgstr "Nettadresse for den tjeneren der Foswiki kjører:"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"Please enter the web server URL (such as \"http://www.example.org/\"). "
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
+msgstr ""
+"Oppgi nett-tjenerens URL (slik som «http://www.example.org/»). Komplette "
+"Foswiki-URLer blir laget fra denne teksten pluss strengen «foswiki»."
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid "Email address of the webmaster for this Foswiki:"
+msgstr "E-postadresse til ansvarshavende for denne Foswiki-en:"
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid ""
+"Please enter the email address that will receive new user registration mail. "
+"This address will also be displayed in the \"oops\" page when errors occur."
+msgstr ""
+"Oppgi e-postadressen som får post for registrering av nye brukere, og vises "
+"på «oops»-sida når noe går galt."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Perform install of default wiki Topic Set?"
+msgstr "Skal standard wiki emneliste installeres?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Foswiki includes a complete \"starter kit\" which includes user registration "
+"pages, documentation, and tutorials."
+msgstr ""
+"Foswiki inneholder et komplett «begynnersett» som inneholder registreringssider "
+"for brukere, dokumentasjon og veiledninger."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Accept this option unless you want to use an existing Foswiki data set (for "
+"instance, one left over from a previous installation)."
+msgstr ""
+"Velg dette om du ikke vil bruke eksisterende Foswiki-data (f.eks. det som "
+"ligger igjen etter en tidligere installasjon)."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
+"topics with the new version."
+msgstr ""
+"Hvis fila data/Main/WebHome.txt finnes, så blir begynnersettet ikke pakket "
+"ut. Filene i begynnersettet finnes i /usr/share/foswiki/foswiki-data.tar.gz  (og "
+"foswiki-pub.tar.gz), om du vil installere dem manuelt eller sammenlikne dine "
+"emnermed den nye versjonen."
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid "Admin User Registration configuration required"
+msgstr "Registrering for administrativ bruker må settes opp"
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid ""
+"After you have created yourself a user, edit the Main.AdminGroup to "
+"restrict Admin privileges to that user."
+msgstr ""
+"Når du har opprettet en bruker for deg selv, så rediger Main.AdminGroup "
+"for å gi administrasjonsrettigheter bare til den brukeren."
+
+#. Type: string
+#. Description
+#: ../templates:5001
+msgid "Apache user allowed access to 'configure' script:"
+msgstr "Apache-bruker som har tilgang til «configure»-skriptet:"
+
+#. Type: string
+#. Description
+#. Translators, do not translate "'configure'" script's name
+#: ../templates:5001
+msgid ""
+"Please enter the username of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+"Oppgi brukernavn for den apache-brukeren som skal få lov til å kjøre "
+"oppsettsskriptet med adressen http://localhost/cgi-bin/foswiki/configure."
+
+#. Type: password
+#. Description
+#. Translators, do not translate "configuser" in the variable
+#: ../templates:6001
+msgid "Password for '${configuser}':"
+msgstr "Passord for «${configuser}»:"
+
+#. Type: password
+#. Description
+#: ../templates:6001
+msgid ""
+"Please enter the password of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+"Oppgi passord for den apache-brukeren som skal få lov til å kjøre "
+"oppsettsskriptet med adressen http://localhost/cgi-bin/foswiki/configure."
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Password confirmation:"
+msgstr "Passordbekreftelse:"
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Please re-enter the same password, for verification."
+msgstr "Oppgi samme passord igjen, for verifisering."
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid "Password mismatch"
+msgstr "Passordene er ikke like"
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid ""
+"The passwords you entered didn't match. You will have to enter them again."
+msgstr "Passordene du oppga var ikke like. Du må oppgi dem igjen."
+
+#~ msgid "Top-level URL of the server Foswiki runs under:"
+#~ msgstr "Nettadresse for topp-nivået på den tjeneren der Foswiki kjører:"
+
+#~ msgid ""
+#~ "For a normal install, this should be a URL for your web server's full "
+#~ "name, which is used to construct URLs on some pages.  The install will "
+#~ "serve up the data by adding \"foswiki\" to the end of this setting; it is "
+#~ "also needed for certain redirections."
+#~ msgstr ""
+#~ "I en vanlig installasjon bør dette være en URL til det fulle navnet på "
+#~ "nett-tjeneren din. URL-en brukes til å bygge nettaddresser på noen sider. "
+#~ "Installasjonen henter fram data ved å legge til «foswiki» på enden av denne "
+#~ "strengen, og den brukes også for noen omadresseringer."
+
+#~ msgid ""
+#~ "This email address gets mail for new user registration, and is listed on "
+#~ "the \"oops\" page when things go wrong."
+#~ msgstr ""
+#~ "Denne e-postadressen får post for registrering av nye brukere, og vises "
+#~ "på «oops»-sida når noe går galt."
+
+#~ msgid "Install default wiki Topic Set on initial install?"
+#~ msgstr "Skal standard wiki emneliste installeres på første installering?"
+
+#~ msgid ""
+#~ "Foswiki includes a complete \"starter kit\" which includes user "
+#~ "registration pages, documentation, and tutorials.  Only decline if you're "
+#~ "re-installing Foswiki after deleting the package and want to keep the old "
+#~ "data, or if you've got a Foswiki data set from your own manual install.  If "
+#~ "data/Main/WebHome.txt is present, the starter kit will not be unpacked.  "
+#~ "The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+#~ "(and foswiki-pub.tar.gz), if you want to install it manually or compare "
+#~ "your topics with the new version."
+#~ msgstr ""
+#~ "Foswiki inneholder et komplett «begynnersett», deriblant sider for "
+#~ "registrering av nye brukere, dokumentasjon og veiledninger. Si nei takk "
+#~ "bare hvis du nå installerer foswiki på nytt etter at pakka er slettet og du "
+#~ "vil beholde de gamle dataene, eller om du har foswiki-data fra din egen "
+#~ "manuelle installasjon. Hvis fila data/Main/WebHome.txt finnes, så blir "
+#~ "begynnersettet ikke pakket ut. Filene i begynnersettet finnes i /usr/"
+#~ "share/foswiki/foswiki-data.tar.gz  (og foswiki-pub.tar.gz), om du vil "
+#~ "installere dem manuelt eller sammenlikne dine emnermed den nye versjonen."

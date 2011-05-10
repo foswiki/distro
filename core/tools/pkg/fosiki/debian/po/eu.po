@@ -1,0 +1,166 @@
+# translation of foswiki-eu.po to Euskara
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Piarres Beobide <pi@beobide.net>, 2007, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: foswiki-eu\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
+"POT-Creation-Date: 2008-07-16 11:58+0200\n"
+"PO-Revision-Date: 2008-07-02 10:14+0200\n"
+"Last-Translator: Piarres Beobide <pi@beobide.net>\n"
+"Language-Team: Euskara <debian-l10n-basque@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid "URL of the server Foswiki runs under:"
+msgstr "Foswiki exekutatzen duen zerbitzariaren URLa:"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"Please enter the web server URL (such as \"http://www.example.org/\"). "
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
+msgstr ""
+"Mesedez idatzi web-zerbitzariaren URLa (\"http://www.adibidea.org\" "
+"antzerakoa). Foswiki URL osoak balio honi \"foswiki/\" gehituaz osatuko dira."
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid "Email address of the webmaster for this Foswiki:"
+msgstr "Foswiki honen arduradunaren eposta helbidea:"
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid ""
+"Please enter the email address that will receive new user registration mail. "
+"This address will also be displayed in the \"oops\" page when errors occur."
+msgstr ""
+"Eposta honek harpidedun berrien postak jasoko ditu eta berau bistaraziko da "
+"\"ooops\" orrietan errorerik balego."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Perform install of default wiki Topic Set?"
+msgstr "Lehenetsiriko wiki izenburu bilduma instalatu?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Foswiki includes a complete \"starter kit\" which includes user registration "
+"pages, documentation, and tutorials."
+msgstr ""
+"Foswikik erregistro orriak, dokumentazioa eta manualak dakartzan \"hasiera "
+"bilduma\" bat du."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Accept this option unless you want to use an existing Foswiki data set (for "
+"instance, one left over from a previous installation)."
+msgstr ""
+"Aukera hau onartu ez baduzu dagoeneko dagoen Foswiki datu bilduma bat erabili "
+"(adibidez instalazio zahar batetan utzitakoak)."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
+"topics with the new version."
+msgstr ""
+"data/Main/WebHome.txt aurkitzen badu, hasiera tresna-jokoak ez da "
+"despaketatuko. F itxategi horiek /usr/share/foswiki/foswiki-data.tar.gz  (eta "
+"foswiki-pub.tar.gz)-en aurki ditzakezu eskuz instalatu edo zure gaiak bertsio "
+"berriarekin parekatu nahi badituzu."
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid "Admin User Registration configuration required"
+msgstr "Kudeatzaile erabiltzaile harpidetza konfigurazioa beharrezkoa"
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid ""
+"After you have created yourself a user, edit the Main.AdminGroup to "
+"restrict Admin privileges to that user."
+msgstr ""
+"Zure erabiltzailea sortu ondoren, Main.AdminGroup editatu kudeaketa "
+"baimenak erabiltzaile horri mugatzeko."
+
+#. Type: string
+#. Description
+#: ../templates:5001
+msgid "Apache user allowed access to 'configure' script:"
+msgstr "'configure' scripta exekutatzeko baimena duen apache erabiltzailea:"
+
+#. Type: string
+#. Description
+#. Translators, do not translate "'configure'" script's name
+#: ../templates:5001
+msgid ""
+"Please enter the username of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+"Mesedez idatzi http://localhost/cgi-bin/foswiki/configure-eko 'configure' "
+"scripta exekutatzeko baimena duen apache erabiltzaile-izena."
+
+#. Type: password
+#. Description
+#. Translators, do not translate "configuser" in the variable
+#: ../templates:6001
+msgid "Password for '${configuser}':"
+msgstr "'${configuser}'-ren pasahitza:"
+
+#. Type: password
+#. Description
+#: ../templates:6001
+msgid ""
+"Please enter the password of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+"Mesedez idatzi http://localhost/cgi-bin/foswiki/configure-eko 'configure' "
+"scripta exekutatzeko baimena duen apache erabiltzailearen pasahitza."
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Password confirmation:"
+msgstr "Pasahitz berrespena:"
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Please re-enter the same password, for verification."
+msgstr "Mesedez idatzi berriz pasahitz berdina egiaztapenerako."
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid "Password mismatch"
+msgstr "Pasahitz ezberdinak"
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid ""
+"The passwords you entered didn't match. You will have to enter them again."
+msgstr ""
+"Idatzi dituzun bi pasahitzak ez dira berdinak. Berriz sartu beharko dituzu."

@@ -1,0 +1,107 @@
+# Vietnamese translation for Foswiki.
+# Copyright © 2007 Free Software Foundation, Inc.
+# Clytie Siddall <clytie@riverland.net.au>, 2005-2007.
+# 
+msgid ""
+""
+msgstr "Project-Id-Version: foswiki 1:4.0.5-9\n"
+"Report-Msgid-Bugs-To: svenud@ozemail.com.au\n"
+"POT-Creation-Date: 2007-02-16 20:22+0100\n"
+"PO-Revision-Date: 2007-05-31 19:08+0930\n"
+"Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
+"Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"X-Generator: LocFactoryEditor 1.6.3b1\n"
+
+#.Type: string
+#.Description
+#: ../templates:1001
+msgid "Top-level URL of the server Foswiki runs under:"
+msgstr "URL cấp đầu của máy phục vụ dưới đó chạy Foswiki:"
+
+#.Type: string
+#.Description
+#: ../templates:1001
+msgid ""
+"For a normal install, this should be a URL for your web server's full name, "
+"which is used to construct urls on some pages.  The install will serve up "
+"the data by adding \"foswiki\" to the end of this setting; it is also needed "
+"for certain redirections."
+msgstr "Khi cài đặt chuẩn, giá trị này nên là địa chỉ Mạng cho tên đầy đủ của trình phục vụ Mạng, mà được dùng để tạo URL khác trong một số trang. Việc cài đặt sẽ cung cấp dữ liệu bằng cách thêm « foswiki » vào kết thúc của giá trị này; cũng cần thiết nó để chuyển hướng trong một số trường hợp."
+
+#.Type: string
+#.Description
+#: ../templates:2001
+msgid "Email address of the webmaster for this Foswiki:"
+msgstr "Địa chỉ thư của chủ Mạng cho Foswiki này:"
+
+#.Type: string
+#.Description
+#: ../templates:2001
+msgid ""
+"This email address gets mail for new user registration, and is listed on the "
+"\"oops\" page when things go wrong."
+msgstr "Địa chỉ thư này nhận thư khi người dùng mới đăng ký, cũng được hiển thị trên trang « rõ tiếc! » khi gặp lỗi."
+
+#.Type: boolean
+#.Description
+#: ../templates:3001
+msgid "Install default wiki Topic Set on initial install?"
+msgstr "Cài đặt Bộ Chủ đề wiki mặc định khi mới cơ sở dữ liệu không?"
+
+#.Type: boolean
+#.Description
+#: ../templates:3001
+msgid ""
+"Foswiki includes a complete \"starter kit\" which includes user registration "
+"pages, documentation, and tutorials.  Only decline if you're re-installing "
+"foswiki after deleting the package and want to keep the old data, or if you've "
+"got a foswiki data set from your own manual install. If data/Main/WebHome.txt "
+"is present, the starter kit will not be unpacked. The starter kit files can "
+"be found in /usr/share/foswiki/foswiki-data.tar.gz  (and foswiki-pub.tar.gz), if "
+"you want to install it manually or compare your  topics with the new version."
+msgstr "Foswiki bao gồm một bộ công cụ bắt đầu hoàn thành, gồm trang đăng ký người "
+"dùng, tài liệu hướng dẫn và trợ lý học tập. Chỉ từ chối nếu bạn đang cài đặt lại foswiki sau khi xoá gói và muốn giữ lại dữ liệu cũ, hoặc nếu bạn có dữ liệu foswiki từ việc cài đặt thủ công. Có « data/Main/WebHome.txt » thì không mở bộ công cụ bắt đầu. Các tập tin công cụ bắt đầu nằm trong « /usr/share/foswiki/foswiki-data.tar.gz »  (và « foswiki-pub.tar.gz »), nếu bạn muốn tự cài đặt hay so sánh chủ đề với phiên bản mới."
+
+#.Type: note
+#.Description
+#: ../templates:4001
+msgid "Admin User Registration configuration required"
+msgstr "Cần thiết cấu hình kiểu đăng ký người dùng quản trị"
+
+#.Type: note
+#.Description
+#: ../templates:4001
+msgid ""
+"After you have created yourself a user, edit the Main.AdminGroup to "
+"restrict Admin privileges to that user."
+msgstr "Sau khi bạn tạo người dùng mình, sửa Main.AdminGroup để giới hạn quyền hạn quản trị chỉ cho người dùng đó."
+
+#~ msgid "http://localhost/"
+#~ msgstr "http://localhost/"
+
+#~ msgid "webmaster@localhost"
+#~ msgstr "webmaster@localhost"
+
+#~ msgid ""
+#~ "The default debian installation of the Foswiki is configured to create new "
+#~ "users automatically when a user Registers. This is not as secure as the "
+#~ "default Foswiki but is more useful for trying Foswiki out. To change it so "
+#~ "the users are created manually by the administrator use Foswiki RenameTopic "
+#~ "to rename the FoswikiRegistration to FoswikiRegistrationPub, and "
+#~ "FoswikiRegistrationDefault to FoswikiRegistration. IMPORTANT: After you have "
+#~ "created yourself a user, edit the Main.AdminGroup to restrict Admin "
+#~ "privileges"
+#~ msgstr "Bản cài đặt Foswiki Debian mặc định được cấu hình để tự động tạo người dùng "
+#~ "mới khi người ấy đăng ký. Cách này không phải bảo mật như Foswiki mặc định, "
+#~ "nhưng mà hữu ích hơn khi thử ra Foswiki. Để thay đổi thiết lập này, để mà "
+#~ "quản trị tự tạo người dùng, hãy dùng « Foswiki RenameTopic » (Foswiki thay "
+#~ "đổi tên của chủ đề) để thay đổi tên của FoswikiRegistration (đang ký Foswiki) "
+#~ "thành FoswikiRegistrationPub (đang ký công Foswiki), và "
+#~ "FoswikiRegistrationDefault (đang ký Foswiki mặc định) thành FoswikiRegistration "
+#~ "(đang ký Foswiki). QUAN TRỌNG: sau khi bạn đã tạo người dùng cho chính bạn, "
+#~ "hãy hiệu chỉnh Main.AdminGroup (chính: nhóm quản lý Foswiki) để giới "
+#~ "hạn quyền truy cập quản lý."

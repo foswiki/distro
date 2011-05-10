@@ -1,0 +1,170 @@
+# translation of ru.po to Russian
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Yuri Kozlov <kozlov.y@gmail.com>, 2007, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: foswiki 1:4.1.2-3.2\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
+"POT-Creation-Date: 2008-07-16 11:58+0200\n"
+"PO-Revision-Date: 2008-07-06 21:19+0400\n"
+"Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
+"Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid "URL of the server Foswiki runs under:"
+msgstr "URL сервера для доступа к Foswiki:"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"Please enter the web server URL (such as \"http://www.example.org/\"). "
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
+msgstr ""
+"Введите URL для доступа к веб-серверу (такой как \"http://www.example.org/"
+"\"). Полные Foswiki URL-ы будут создаваться из этого значения и строки \"foswiki/"
+"\"."
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid "Email address of the webmaster for this Foswiki:"
+msgstr "Адрес электронной почты вебмастера данного Foswiki:"
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid ""
+"Please enter the email address that will receive new user registration mail. "
+"This address will also be displayed in the \"oops\" page when errors occur."
+msgstr ""
+"Введите адрес электронной почты, с которого пользователи будут получать "
+"письма о регистрации. Также он будет показан на странице \"oops\", если что-"
+"то заработает неправильно."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Perform install of default wiki Topic Set?"
+msgstr "Выполнить установку набор тем вики по умолчанию?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Foswiki includes a complete \"starter kit\" which includes user registration "
+"pages, documentation, and tutorials."
+msgstr ""
+"Foswiki содержит полный \"набор новичка\", который включает страницы "
+"регистрации пользователей, документацию и обучающее руководство."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Accept this option unless you want to use an existing Foswiki data set (for "
+"instance, one left over from a previous installation)."
+msgstr ""
+"Ответьте отрицательно, если хотите использовать существующие данные Foswiki "
+"(например, оставшиеся от предыдущей установки)."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
+"topics with the new version."
+msgstr ""
+"Если существует файл data/Main/WebHome.txt, то набор новичка распакован не "
+"будет. Файлы набора новичка можно найти в архиве /usr/share/foswiki/foswiki-data."
+"tar.gz (и foswiki-pub.tar.gz), если вдруг вы захотите установить их вручную "
+"или сравнить темы с новой версией."
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid "Admin User Registration configuration required"
+msgstr "Требуется настройка зарегистрированного административного пользователя"
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid ""
+"After you have created yourself a user, edit the Main.AdminGroup to "
+"restrict Admin privileges to that user."
+msgstr ""
+"После того как создадите себя как пользователя, отредактируйте Main."
+"AdminGroup, чтобы ограничить административные привилегии этого "
+"пользователя."
+
+#. Type: string
+#. Description
+#: ../templates:5001
+msgid "Apache user allowed access to 'configure' script:"
+msgstr "Пользователь Apache, имеющий права доступа к сценарию 'configure':"
+
+#. Type: string
+#. Description
+#. Translators, do not translate "'configure'" script's name
+#: ../templates:5001
+msgid ""
+"Please enter the username of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+"Введите имя учётной записи пользователя apache, которой будет разрешено "
+"выполнять сценарий configure через http://localhost/cgi-bin/foswiki/configure."
+
+#. Type: password
+#. Description
+#. Translators, do not translate "configuser" in the variable
+#: ../templates:6001
+msgid "Password for '${configuser}':"
+msgstr "Пароль для '${configuser}':"
+
+#. Type: password
+#. Description
+#: ../templates:6001
+msgid ""
+"Please enter the password of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+"Введите пароль для пользователя apache, которому будет разрешено выполнять "
+"сценарий configure через http://localhost/cgi-bin/foswiki/configure."
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Password confirmation:"
+msgstr "Подтверждение пароля:"
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Please re-enter the same password, for verification."
+msgstr "Введите тот же пароль ещё раз для проверки."
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid "Password mismatch"
+msgstr "Пароли не совпадают"
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid ""
+"The passwords you entered didn't match. You will have to enter them again."
+msgstr "Введённые вами пароли не совпали. Введите их ещё раз."

@@ -1,0 +1,235 @@
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#    Developers do not need to manually edit POT or PO files.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: foswiki\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
+"POT-Creation-Date: 2008-07-16 11:58+0200\n"
+"PO-Revision-Date: 2008-07-05 20:55+0200\n"
+"Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
+"Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid "URL of the server Foswiki runs under:"
+msgstr "URL serveru, pod kterým poběží Foswiki:"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"Please enter the web server URL (such as \"http://www.example.org/\"). "
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
+msgstr ""
+"Zadejte prosím URL webového serveru (např. „http://www.priklad.cz“). "
+"Výsledné URL vznikne složením této hodnoty a řetězce „foswiki“."
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid "Email address of the webmaster for this Foswiki:"
+msgstr "E-mailová adresa správce tohoto Foswiki:"
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid ""
+"Please enter the email address that will receive new user registration mail. "
+"This address will also be displayed in the \"oops\" page when errors occur."
+msgstr ""
+"Zadejte prosím emailovou adresu, na kterou budou zasílány požadavky o "
+"registraci nových uživatelů. Tato adresa se bude také zobrazovat na webové "
+"stránce v případě, že se věci pokazí."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Perform install of default wiki Topic Set?"
+msgstr "Instalovat výchozí sadu stránek?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Foswiki includes a complete \"starter kit\" which includes user registration "
+"pages, documentation, and tutorials."
+msgstr ""
+"Foswiki obsahuje kompletní „sadu pro začátečníky“, ve které se nachází stránky "
+"pro registraci uživatelů, dokumentace a návody."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Accept this option unless you want to use an existing Foswiki data set (for "
+"instance, one left over from a previous installation)."
+msgstr ""
+"Pokud neplánujete použít stávající data (například z předchozí instalace "
+"Foswiki), odpovězte kladně."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
+"topics with the new version."
+msgstr ""
+"Pokud existuje soubor data/Main/WebHome.txt, sada pro začátečníky se "
+"nerozbalí. Budete-li chtít sadu nainstalovat ručně, nachází se v souboru /"
+"usr/share/doc/foswiki/foswiki-data.tar.gz (a foswiki-pub.tar.gz)."
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid "Admin User Registration configuration required"
+msgstr "Vyžadována změna v nastavení registrace uživatelů"
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid ""
+"After you have created yourself a user, edit the Main.AdminGroup to "
+"restrict Admin privileges to that user."
+msgstr ""
+"Až si pro sebe vytvoříte uživatele, upravte Main.AdminGroup a omezte "
+"správcovská oprávnění na vytvořeného uživatele."
+
+#. Type: string
+#. Description
+#: ../templates:5001
+msgid "Apache user allowed access to 'configure' script:"
+msgstr ""
+"Apache uživatel, který bude moci přistupovat ke konfiguračnímu skriptu:"
+
+#. Type: string
+#. Description
+#. Translators, do not translate "'configure'" script's name
+#: ../templates:5001
+msgid ""
+"Please enter the username of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+"Zadejte prosím uživatelské jméno apache uživatele, který bude moci používat "
+"konfigurační skript na http://localhost/cgi-bin/foswiki/configure."
+
+#. Type: password
+#. Description
+#. Translators, do not translate "configuser" in the variable
+#: ../templates:6001
+msgid "Password for '${configuser}':"
+msgstr "Heslo pro „${configuser}“:"
+
+#. Type: password
+#. Description
+#: ../templates:6001
+msgid ""
+"Please enter the password of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+"Zadejte prosím heslo pro apache uživatele, který bude moci používat "
+"konfigurační skript na http://localhost/cgi-bin/foswiki/configure."
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Password confirmation:"
+msgstr "Potvrzení hesla:"
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Please re-enter the same password, for verification."
+msgstr "Pro ověření zadejte heslo ještě jednou."
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid "Password mismatch"
+msgstr "Hesla nesouhlasí"
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid ""
+"The passwords you entered didn't match. You will have to enter them again."
+msgstr "Zadaná hesla nesouhlasí. Zkuste je zadat znovu."
+
+#~ msgid "Top-level URL of the server Foswiki runs under:"
+#~ msgstr "Vrcholové URL serveru, pod kterým Foswiki poběží:"
+
+#~ msgid ""
+#~ "For a normal install, this should be a URL for your web server's full "
+#~ "name, which is used to construct URLs on some pages.  The install will "
+#~ "serve up the data by adding \"foswiki\" to the end of this setting; it is "
+#~ "also needed for certain redirections."
+#~ msgstr ""
+#~ "Pro běžné instalace by to měla být celá adresa vašeho webového serveru. "
+#~ "Instalace přidá na konec této adresy řetězec \"foswiki\", čímž vznikne URL, "
+#~ "pod kterým bude vaše wiki dostupné. Zadané URL se použije pro vytváření "
+#~ "odkazů na některých stránkách."
+
+#~ msgid ""
+#~ "This email address gets mail for new user registration, and is listed on "
+#~ "the \"oops\" page when things go wrong."
+#~ msgstr ""
+#~ "Na tuto emailovou adresu budou zasílány požadavky o registraci nových "
+#~ "uživatelů a také se bude zobrazovat na webové stránce v případě, že se "
+#~ "věci pokazí."
+
+#~ msgid "Install default wiki Topic Set on initial install?"
+#~ msgstr "Instalovat při prvotní instalaci výchozí sadu stránek?"
+
+#~ msgid ""
+#~ "Foswiki includes a complete \"starter kit\" which includes user "
+#~ "registration pages, documentation, and tutorials.  Only decline if you're "
+#~ "re-installing Foswiki after deleting the package and want to keep the old "
+#~ "data, or if you've got a Foswiki data set from your own manual install.  If "
+#~ "data/Main/WebHome.txt is present, the starter kit will not be unpacked.  "
+#~ "The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+#~ "(and foswiki-pub.tar.gz), if you want to install it manually or compare "
+#~ "your topics with the new version."
+#~ msgstr ""
+#~ "Foswiki obsahuje kompletní \"sadu pro začátečníky\", která zahrnuje stránky "
+#~ "s registrací uživatelů, dokumentací a návody. Zamítněte pouze pokud "
+#~ "reinstalujete foswiki po předchozím odstranění balíku a chcete zachovat svá "
+#~ "stará data, nebo pokud máte data po dřívější ruční instalaci. Sada pro "
+#~ "začátečníky se nerozbalí, pokud existuje soubor data/Main/WebHome.txt. "
+#~ "Budete-li chtít data nainstalovat ručně, nachází se v souboru /usr/share/"
+#~ "doc/foswiki/foswiki-data.tar.gz (a foswiki-pub.tar.gz).)"
+
+#~ msgid ""
+#~ "The default debian installation of the Foswiki is configured to create new "
+#~ "users automatically when a user Registers. This is not as secure as the "
+#~ "default Foswiki but is more useful for trying Foswiki out. To change it so "
+#~ "the users are created manually by the administrator use Foswiki RenameTopic "
+#~ "to rename the FoswikiRegistration to FoswikiRegistrationPub, and "
+#~ "FoswikiRegistrationDefault to FoswikiRegistration. IMPORTANT: After you have "
+#~ "created yourself a user, edit the Main.AdminGroup to restrict Admin "
+#~ "privileges"
+#~ msgstr ""
+#~ "Výchozí instalace Foswiki v Debianu je nastavena tak, aby při registraci "
+#~ "uživatele automaticky vytvářela nové uživatele. To není tak bezpečné, "
+#~ "jako výchozí nastavení Foswiki, avšak pro pouhé vyzkoušení Foswiki je to "
+#~ "užitečnější. Změnu, aby uživatele zakládal administrátor ručně, provedete "
+#~ "pomocí Foswiki RenameToppic, kde přejmenujete FoswikiRegistration na "
+#~ "FoswikiRegistrationPub a poté FoswikiRegistrationDefault na "
+#~ "FoswikiRegistration. DŮLEŽITÉ: Až si pro sebe vytvoříte uživatele, omezte "
+#~ "administrátorská oprávnění úpravou Main.AdminGroup."

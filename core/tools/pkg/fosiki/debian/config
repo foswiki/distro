@@ -1,0 +1,42 @@
+#!/bin/sh
+
+set -e
+
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+# What is the top-level URL of the server Foswiki runs under?
+# high = Items that don't have a reasonable default
+# unless we preload it with mailname...
+db_input high foswiki/defaultUrlHost || true
+db_input high foswiki/wikiwebmaster || true
+# medium = Normal items that have reasonable defaults.
+db_input medium foswiki/samplefiles || true
+
+db_go || true
+
+# ask for config user (default: configuser)
+# medium = may be initialized to default value
+db_input medium foswiki/adminuser || true
+
+db_go || true
+
+# if not yet seen configpassword, we need to process with password input
+# otherwise, nothing to do
+db_fget foswiki/adminpassword seen
+if [ "$RET" = "false" ]; then
+
+    db_get foswiki/adminuser
+    configuser="$RET"
+    db_subst "foswiki/adminpassword" "configuser" "$configuser"
+
+    # Ask for password
+    # high : password must be typed-in
+    db_input high foswiki/adminpassword || [ $? -eq 30 ]
+fi
+
+# add info due to 3-4 bug reports
+db_input high foswiki/apacheUserCreationNote || true
+db_go || true
+
+db_stop

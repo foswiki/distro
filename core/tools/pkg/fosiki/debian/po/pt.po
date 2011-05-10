@@ -1,0 +1,214 @@
+# Portuguese translation for foswiki's debconf messages
+# Copyright (C) 2007 Miguel Figueiredo <elmig@debianpt.org>
+# This file is distributed under the same license as the foswiki package.
+# Miguel Figueiredo <elmig@debianpt.org>, 2007-2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: foswiki\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
+"POT-Creation-Date: 2008-07-16 11:58+0200\n"
+"PO-Revision-Date: 2008-07-01 23:22+0100\n"
+"Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
+"Language-Team: Portuguese <traduz@debianpt.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid "URL of the server Foswiki runs under:"
+msgstr "O URL do servidor onde corre o Foswiki:"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"Please enter the web server URL (such as \"http://www.example.org/\"). "
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
+msgstr ""
+"Por favor introduza o URL do servidor web (tal como \"http://www.exemplo.org/"
+"\"). Os URLs completos do Foswiki podem ser construidos a partir deste valor "
+"adicionando a string \"foswiki/\"."
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid "Email address of the webmaster for this Foswiki:"
+msgstr "Endereço de email do webmaster para este Foswiki:"
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid ""
+"Please enter the email address that will receive new user registration mail. "
+"This address will also be displayed in the \"oops\" page when errors occur."
+msgstr ""
+"Por favor introduza o endereço de email que irá receber o mail de registo de "
+"novo utilizador. Este endereço também será mostrado na página \"oops\" "
+"quando ocorrerem erros."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Perform install of default wiki Topic Set?"
+msgstr "Instalar o 'Topic Set' pré-definido do wiki?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Foswiki includes a complete \"starter kit\" which includes user registration "
+"pages, documentation, and tutorials."
+msgstr ""
+"O Foswiki inclui um \"kit de iniciação\" completo que inclui páginas de "
+"registo de utilizadores, documentação e tutoriais."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Accept this option unless you want to use an existing Foswiki data set (for "
+"instance, one left over from a previous installation)."
+msgstr ""
+"Aceite esta opção a menos que queira utilizar um conjunto de dados do Foswiki "
+"já existentes (por exemplo, um conjunto deixado de uma instalação anterior)."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
+"topics with the new version."
+msgstr ""
+"Se data/Main/WebHome.txt estiver presente, o kit de iniciação não será "
+"desempacotado. Se quiser instala-lo manualmente ou comparar os tópicos com a "
+"nova versão o kit de iniciação poderá ser encontrado em /usr/share/doc/foswiki/"
+"foswiki-data.tar.gz (e foswiki-pub.tar.gz)"
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid "Admin User Registration configuration required"
+msgstr "É necessária a configuração do Registo do Utilizador"
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid ""
+"After you have created yourself a user, edit the Main.AdminGroup to "
+"restrict Admin privileges to that user."
+msgstr ""
+"Após ter criado você mesmo um utilizador, edite Main.AdminGroup para "
+"restringir os privilégios de Administrador a esse utilizador."
+
+#. Type: string
+#. Description
+#: ../templates:5001
+msgid "Apache user allowed access to 'configure' script:"
+msgstr "Utilizador do Apache ao qual é permitido aceder ao script 'configure':"
+
+#. Type: string
+#. Description
+#. Translators, do not translate "'configure'" script's name
+#: ../templates:5001
+msgid ""
+"Please enter the username of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+"Por favor introduza o nome de utilizador do utilizador do apache ao qual "
+"será permitido correr o script configure em http://localhost/cgi-bin/foswiki/"
+"configure."
+
+#. Type: password
+#. Description
+#. Translators, do not translate "configuser" in the variable
+#: ../templates:6001
+msgid "Password for '${configuser}':"
+msgstr "Palavra-passe para '${configuser}':"
+
+#. Type: password
+#. Description
+#: ../templates:6001
+msgid ""
+"Please enter the password of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+"Por favor introduza a palavra-passe do utilizador de apache ao qual será "
+"permitido correr o script configure em http://localhost/cgi-bin/foswiki/"
+"configure."
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Password confirmation:"
+msgstr "Confirmação da palavra-passe:"
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Please re-enter the same password, for verification."
+msgstr "Por favor introduza novamente a mesma palavra-passe, para verificação."
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid "Password mismatch"
+msgstr "As palavras-passe não coincidem"
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid ""
+"The passwords you entered didn't match. You will have to enter them again."
+msgstr ""
+"As palavras-chave que introduziu não coincidem. Terá de as introduzir "
+"novamente."
+
+#~ msgid "Top-level URL of the server Foswiki runs under:"
+#~ msgstr "O URL de nível mais alto onde corre o servidor Foswiki:"
+
+#~ msgid ""
+#~ "For a normal install, this should be a URL for your web server's full "
+#~ "name, which is used to construct URLs on some pages.  The install will "
+#~ "serve up the data by adding \"foswiki\" to the end of this setting; it is "
+#~ "also needed for certain redirections."
+#~ msgstr ""
+#~ "Para uma instalação normal, isto deve ser o URL do nome completo do seu "
+#~ "servidor web, o qual é utilizado para construir urls em algumas páginas.  "
+#~ "A instalação irá servir os dados acrescentando \"foswiki\" ao fim desta "
+#~ "secção; também é necessário para alguns redireccionamentos."
+
+#~ msgid ""
+#~ "This email address gets mail for new user registration, and is listed on "
+#~ "the \"oops\" page when things go wrong."
+#~ msgstr ""
+#~ "O endereço de email recebe email para o registo de novos utilizadores, e "
+#~ "é listado na página \"oops\" quando as coisas correm mal."
+
+#~ msgid "Install default wiki Topic Set on initial install?"
+#~ msgstr "Instalar o Topic Set do wiki por omissão na instalação inicial?"
+
+#~ msgid ""
+#~ "Foswiki includes a complete \"starter kit\" which includes user "
+#~ "registration pages, documentation, and tutorials.  Only decline if you're "
+#~ "re-installing Foswiki after deleting the package and want to keep the old "
+#~ "data, or if you've got a Foswiki data set from your own manual install.  If "
+#~ "data/Main/WebHome.txt is present, the starter kit will not be unpacked.  "
+#~ "The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+#~ "(and foswiki-pub.tar.gz), if you want to install it manually or compare "
+#~ "your topics with the new version."
+#~ msgstr ""
+#~ "O Foswiki inclui um \"kit de iniciação\" completo que inclui páginas de "
+#~ "registo de utilizadores, documentação, e tutoriais.  Apenas rejeite se "
+#~ "está a reinstalar o foswiki após ter apagado o pacote e desejar manter os "
+#~ "dados antigos, ou se tem um conjunto de dados do foswiki da sua instalação "
+#~ "manual. Se estiver presente data/main/WebHome.txt, o lit de iniciação não "
+#~ "será desempacotado. Os ficheiros do kit de iniciação podem ser "
+#~ "encontrados em /usr/share/doc/foswiki/foswiki-data.tar.gz (e foswiki-pub.tar."
+#~ "gz) se desejar instalar manualmente ou comparar os seus tópicos com a "
+#~ "nova versão."

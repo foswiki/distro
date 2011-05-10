@@ -1,0 +1,5 @@
+var/lib/foswiki
+var/log/foswiki
+etc/foswiki
+usr/share/doc/foswiki
+usr/share/foswiki

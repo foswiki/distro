@@ -1,0 +1,65 @@
+Foswiki for Debian
+----------------
+
+Initial wiki contents
+=====================
+
+/usr/share/Foswiki/Foswiki-data.tar.gz has the initial data set, if
+you find you want to restore the data in /var/lib/Foswiki/data/ after
+experimenting.
+/usr/share/Foswiki/Foswiki-pub.tar.gz has the initial pub data set.
+It should also be unpacked to /var/lib/Foswiki/pub
+
+Post-install Foswiki configuration
+================================
+
+The Debian Foswiki package provides a default generic configuration, but
+additional configuration steps are required from the administrator,
+considering the versatile nature of Foswiki. Most of them are described
+in Foswiki's standard documentation available in the 'Foswiki' wiki/web
+installed by default (see
+http://localhost/cgi-bin/foswiki/view/Foswiki/InstallationGuide#Next_Steps
+for a start).
+
+Access to the 'configure' script is protected with an authentified
+HTTP session. This means that Foswiki configuration through the Web
+interface, is only possible by launching a web browser from the
+server's local accounts.  It is still possible to configure it by
+editing the /etc/foswiki/LocalSite.cfg file it that's more convenient.
+
+The username and password for this 'configure' CGI access are defined
+during package install (so-called "apache user" debconf questions,
+with a username by default 'admin').
+
+
+ATTENTION :
+
+Note that you should create yourself (inside Foswiki, with it's user
+registration mechanism) a Foswiki user account, and add it
+Main.AdminGroup to restrict Admin privileges to that user.
+
+The procedure for doing so is described in the Foswiki documentation.
+
+The Debian package only protects access to the 'configure' script, and
+in no way deals with Foswiki's users and groups, so the default ACLs
+right after install more or less allow anyone to modify contents of
+the Wiki, including locking other users out.
+
+
+Installing multiple Foswiki instances on the same server
+======================================================
+
+For multiple Foswiki's on the same machine, it is recommended that you
+just have multiple data sets on one Foswiki.  If you really need more
+than one, in particular to isolate the data under a different uid,
+there are a bunch of things you need to do; I can make suggestions, or
+if you figure it out let me know and I'll try and integrate such
+enhancements into the package.
+
+Bug reporting
+=============
+
+To report upstream issues (and feedback) please goto
+     http://foswiki.org/Support/DebianPackage
+
+ -- Olivier Berger <olivier.berger@it-sudparis.eu>, Sat, 28 Jun 2008 10:47:57 +0200

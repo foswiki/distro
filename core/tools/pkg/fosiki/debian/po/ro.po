@@ -1,0 +1,223 @@
+# translation of ro.po to Romanian
+# Romanian translations for PACKAGE package
+# Traducerea în limba română pentru pachetul PACKAGE.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Eddy Petrișor <eddy.petrisor@gmail.com>, 2007, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: ro\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
+"POT-Creation-Date: 2008-07-16 11:58+0200\n"
+"PO-Revision-Date: 2008-06-28 21:09+0300\n"
+"Last-Translator: Eddy Petrișor <eddy.petrisor@gmail.com>\n"
+"Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid "URL of the server Foswiki runs under:"
+msgstr "URL-ul pentru serverul pe care rulează Foswiki:"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"Please enter the web server URL (such as \"http://www.example.org/\"). "
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
+msgstr ""
+"Introduceți URL-ul serverului web (de exemplu „http://www.example.org/”). "
+"URL-urile complete ale lui Foswiki vor fi construite din acestă valoare plus "
+"șirul „foswiki”."
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid "Email address of the webmaster for this Foswiki:"
+msgstr "Adresa de poștă electronică a administratorului acestui Foswiki:"
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid ""
+"Please enter the email address that will receive new user registration mail. "
+"This address will also be displayed in the \"oops\" page when errors occur."
+msgstr ""
+"Introduceți adresa de email care va primi mesajele legate de înregistrările "
+"noi. Această adresă va fi afișată și pe pagina care este vizibilă atunci "
+"când apar probleme."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Perform install of default wiki Topic Set?"
+msgstr "Se instalează setul implicit pentru wiki?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Foswiki includes a complete \"starter kit\" which includes user registration "
+"pages, documentation, and tutorials."
+msgstr ""
+"Foswiki include un set complet „de început” care include paginile de "
+"înregistrare pentru utilizatori, documentație și tutoriale."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Accept this option unless you want to use an existing Foswiki data set (for "
+"instance, one left over from a previous installation)."
+msgstr ""
+"Acceptați această opțiune doar dacă nu intenționați să folosiți un set de "
+"date Foswiki existent (de exemplu, unul rămas de la o instalare anterioară)."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
+"topics with the new version."
+msgstr ""
+"Dacă data/Main/WebHome.txt este prezent, „setul implicit de pornire” nu va "
+"fi despachetat. Fișierele parte din setul implicit pot fi găsite în /usr/"
+"share/foswiki/foswiki-data.tar.gz (și foswiki-pub.tar.gz), dacă doriți să le "
+"instalați manual sau să comparați ce aveți dumneavoastră cu ce este în "
+"versiunile noi."
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid "Admin User Registration configuration required"
+msgstr "Trebuie să configurați utilizatorul care administrează înregistrările"
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid ""
+"After you have created yourself a user, edit the Main.AdminGroup to "
+"restrict Admin privileges to that user."
+msgstr ""
+"După ce ați creat un utilizator pentru dumneavoastră, editați Main."
+"AdminGroup pentru a acorda privilegii de administrare doar acelui "
+"utilizator."
+
+#. Type: string
+#. Description
+#: ../templates:5001
+msgid "Apache user allowed access to 'configure' script:"
+msgstr ""
+"Utilizatorul apache căruia îi este permis accesul la scriptul „configure”:"
+
+#. Type: string
+#. Description
+#. Translators, do not translate "'configure'" script's name
+#: ../templates:5001
+msgid ""
+"Please enter the username of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+"Introduceți numele utilizatorului Apache căruia îi va fi permis să ruleze "
+"scriptul de configurare de la http://localhost/cgi-bin/foswiki/configure."
+
+#. Type: password
+#. Description
+#. Translators, do not translate "configuser" in the variable
+#: ../templates:6001
+msgid "Password for '${configuser}':"
+msgstr "Parola pentru '${configuser}':"
+
+#. Type: password
+#. Description
+#: ../templates:6001
+msgid ""
+"Please enter the password of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+"Introduceți parola utilizatorului apache căruia îi va fi permis să ruleze "
+"scriptul de configurare de la http://localhost/cgi-bin/foswiki/configure."
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Password confirmation:"
+msgstr "Confirmarea parolei:"
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Please re-enter the same password, for verification."
+msgstr "Introduceți din nou aceiași parolă, pentru verificare."
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid "Password mismatch"
+msgstr "Nepotrivire de parole"
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid ""
+"The passwords you entered didn't match. You will have to enter them again."
+msgstr ""
+"Parolele introduse nu s-au potrivit. Va trebui să le introduceți din nou."
+
+#~ msgid "Top-level URL of the server Foswiki runs under:"
+#~ msgstr ""
+#~ "URL-ul pentru nivelul cel mai de sus pentru serverul pe care rulează "
+#~ "Foswiki:"
+
+#~ msgid ""
+#~ "For a normal install, this should be a URL for your web server's full "
+#~ "name, which is used to construct URLs on some pages.  The install will "
+#~ "serve up the data by adding \"foswiki\" to the end of this setting; it is "
+#~ "also needed for certain redirections."
+#~ msgstr ""
+#~ "Pentru o instalare normală, acesta ar trebui să fie URL-ul complet al "
+#~ "serverului care va fi folosit pentru a crea URL-uri pe unele pagini. "
+#~ "Sistemul va furniza datele de la adresa precizată la care se va adăuga la "
+#~ "sfârșit șirul de caractere „foswiki”; acest lucru este necesar și pentru "
+#~ "anumite redirectări."
+
+#~ msgid ""
+#~ "This email address gets mail for new user registration, and is listed on "
+#~ "the \"oops\" page when things go wrong."
+#~ msgstr ""
+#~ "Această adresă va primi mesajele legate de înregistrările noi și este "
+#~ "afișată pe pagina vizibilă atunci când apar probleme."
+
+#~ msgid "Install default wiki Topic Set on initial install?"
+#~ msgstr "Se instalează și setul implicit pentru wiki la instalarea inițială?"
+
+#~ msgid ""
+#~ "Foswiki includes a complete \"starter kit\" which includes user "
+#~ "registration pages, documentation, and tutorials.  Only decline if you're "
+#~ "re-installing Foswiki after deleting the package and want to keep the old "
+#~ "data, or if you've got a Foswiki data set from your own manual install.  If "
+#~ "data/Main/WebHome.txt is present, the starter kit will not be unpacked.  "
+#~ "The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+#~ "(and foswiki-pub.tar.gz), if you want to install it manually or compare "
+#~ "your topics with the new version."
+#~ msgstr ""
+#~ "Foswiki include un „set implicit de pornire” complet care include paginile "
+#~ "pentru înregistrarea utilizatorilor, documentație și ghiduri. Refuzați "
+#~ "doar dacă reinstalați Foswiki după ștergerea pachetului și doriți să "
+#~ "păstrați datele vechi, sau dacă aveți un set de date pentru Foswiki "
+#~ "rezultat dintr-o instalare proprie făcută manual. Dacă data/Main/WebHome."
+#~ "txt este prezent, „setul implicit de pornire” nu va fi despachetat. "
+#~ "Fișierele parte din setul implicit pot fi găsite în /usr/share/foswiki/"
+#~ "foswiki-data.tar.gz (și foswiki-pub.tar.gz), dacă doriți să le instalați "
+#~ "manual sau să comparați ce aveți dumneavoastră cu ce este în versiunile "
+#~ "noi."
