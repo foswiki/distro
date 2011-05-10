@@ -57,7 +57,7 @@ install: build
 	cp -pR data debian/foswiki/var/lib/foswiki/
 
     #move configure's logos and css to /var/lib/foswiki/pub/logos
-	mv debian/foswiki/var/lib/foswiki/bin/logos debian/foswiki/var/lib/foswiki/pub/
+#	mv debian/foswiki/var/lib/foswiki/bin/logos debian/foswiki/var/lib/foswiki/pub/
 
 	#create mailnotify timestamps
 	date +%s > debian/foswiki/var/lib/foswiki/data/System/.mailnotify

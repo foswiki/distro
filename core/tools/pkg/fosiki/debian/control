@@ -14,3 +14,4 @@ Description: A Web Based Collaboration Platform
  originally developed for OOP/Patterns collaboration.  In addition to the
  traditional Wiki feature of allowing any web browser to serve as a contributing
  client, Foswiki adds rcs-based version control and user management.
+Provides: foswiki-famfamfamcontrib, foswiki-zoneplugin, foswiki-jqueryplugin

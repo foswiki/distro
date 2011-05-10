@@ -4,21 +4,21 @@ if [ -e /tmp/build_deb ]; then
 	echo '/tmp/build_deb already exists, please move aside'
 	exit -1;
 fi
-if [ ! -e Foswiki-1.0.10.tgz ]; then
-	echo 'need Foswiki-1.0.10.tgz file to build'
+if [ ! -e Foswiki-1.1.3.tgz ]; then
+	echo 'need Foswiki-1.1.3.tgz file to build'
 	exit -1;
 fi
 
 mkdir /tmp/build_deb
 cp -r debian /tmp/build_deb/
-cp Foswiki-1.0.10.tgz /tmp/build_deb/foswiki_1.0.10.orig.tar.gz
+cp Foswiki-1.1.3.tgz /tmp/build_deb/foswiki_1.1.3.orig.tar.gz
 
 cd /tmp/build_deb
-tar zxvf /tmp/build_deb/foswiki_1.0.10.orig.tar.gz
+tar zxvf /tmp/build_deb/foswiki_1.1.3.orig.tar.gz
 
 #add * to allow for -beta, -auto etc
-mv /tmp/build_deb/Foswiki-1.0.10*/ /tmp/build_deb/foswiki-1.0.10/
-cd /tmp/build_deb/foswiki-1.0.10
+mv /tmp/build_deb/Foswiki-1.1.3*/ /tmp/build_deb/foswiki-1.1.3/
+cd /tmp/build_deb/foswiki-1.1.3
 
 mv ../debian .
 
