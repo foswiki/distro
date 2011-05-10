@@ -40,14 +40,6 @@
 
 				callback();
 			};
-			
-			function error() {
-				// Report the error and then try to carry on anyway - it's probably just a plugin that will go missing.
-				if (typeof(console) !== "undefined" && console.log)
-					console.log("Failed to load: " + url);
-				
-				done();
-			};
 
 			id = dom.uniqueId();
 
@@ -72,9 +64,7 @@
 							dom.remove(script);
 
 							done();
-						},
-						
-						error : error
+						}
 					});
 
 					return;
@@ -92,7 +82,6 @@
 			// fires onload event before the script is parsed and executed
 			if (!tinymce.isIE)
 				elm.onload = done;
-			elm.onerror = error;
 
 			elm.onreadystatechange = function() {
 				var state = elm.readyState;
@@ -106,7 +95,7 @@
 
 			// Most browsers support this feature so we report errors
 			// for those at least to help users track their missing plugins etc
-			// TODO: Removed since it produced error if the document is unloaded by navigating away, re-add it as an option
+			// todo: Removed since it produced error if the document is unloaded by navigating away, re-add it as an option
 			/*elm.onerror = function() {
 				alert('Failed to load: ' + url);
 			};*/

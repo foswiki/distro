@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <model>
 <namespace fullname="tinymce" name="tinymce">
+<description>Root level namespace this contains classes directly releated to the TinyMCE editor.</description>
 <class fullname="tinymce.AddOnManager" name="AddOnManager" summary="This class handles the loading of themes/plugins or other add-ons and their language packs.">
 <description>This class handles the loading of themes/plugins or other add-ons and their language packs.
 </description>
@@ -288,7 +289,6 @@ depends on the use_native_selects settings state.
 <class author="Moxiecode" fullname="tinymce.Editor" name="Editor" summary="This class contains the core logic for a TinyMCE editor.">
 <description>This class contains the core logic for a TinyMCE editor.
 </description>
-<example>
 <example>// Add a class to all paragraphs in the editor.
 tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('p'), 'someclass');
 
@@ -306,7 +306,6 @@ ed.onClick.add(function(ed, e) {
 });
 
 ed.render();</example>
-</example>
 <members>
 <method author="Moxiecode" constructor="true" name="Editor" summary="Constructs a editor instance by id.">
 <description>Constructs a editor instance by id.
@@ -509,6 +508,21 @@ ed.render();</example>
 </param>
 <param name="obj" type="Object">
 <description>PreProcess object.</description>
+<option name="node" type="Node">
+<description>DOM node for the item being serialized.</description>
+</option>
+<option name="format" type="String">
+<description>The specified output format normally "html".</description>
+</option>
+<option name="get" type="Boolean">
+<description>Is true if the process is on a getContent operation.</description>
+</option>
+<option name="set" type="Boolean">
+<description>Is true if the process is on a setContent operation.</description>
+</option>
+<option name="cleanup" type="Boolean">
+<description>Is true if the process is on a cleanup operation.</description>
+</option>
 </param>
 </event>
 <event name="onPostProcess" summary="Fires when the Serializer does a postProcess on the contents.">
@@ -640,6 +654,10 @@ ed.render();</example>
 <description>URI object to current document that holds the TinyMCE editor instance.
 </description>
 </property>
+<property name="contentCSS" summary="Array with CSS files to load into the iframe." type="Array">
+<description>Array with CSS files to load into the iframe.
+</description>
+</property>
 <method name="render" summary="Renderes the editor/adds it to the page.">
 <description>Renderes the editor/adds it to the page.
 </description>
@@ -668,16 +686,20 @@ It will fill the iframe with contents, setups DOM and selection objects for the 
 This method should not be called directly.
 </description>
 </method>
+<property name="schema" summary="Schema instance, enables you to validate elements and it's children." type="tinymce.html.Schema">
+<description>Schema instance, enables you to validate elements and it's children.
+</description>
+</property>
 <property name="dom" summary="DOM instance for the editor." type="tinymce.dom.DOMUtils">
 <description>DOM instance for the editor.
 </description>
 </property>
-<property name="schema" summary="Schema instance, enables you to validate elements and it's children." type="tinymce.dom.Schema">
-<description>Schema instance, enables you to validate elements and it's children.
+<property name="parser" summary="HTML parser will be used when contents is inserted into the editor." type="tinymce.html.DomParser">
+<description>HTML parser will be used when contents is inserted into the editor.
 </description>
 </property>
 <property name="serializer" summary="DOM serializer for the editor." type="tinymce.dom.Serializer">
-<description>DOM serializer for the editor.
+<description>DOM serializer for the editor. Will be used when contents is extracted from the editor.
 </description>
 </property>
 <property name="selection" summary="Selection instance for the editor." type="tinymce.dom.Selection">
@@ -776,44 +798,71 @@ powerfull if you need more control use the ControlManagers factory methods inste
 <description>Adds a custom command to the editor, you can also override existing commands with this method.
 The command that you add can be executed with execCommand.
 </description>
-<param name="n" type="String">
+<param name="name" type="String">
 <description>Command name to add/override.</description>
 </param>
-<param name="f" type="function">
+<param name="callback" type="tinymce.Editor.addCommandCallback">
 <description>Function to execute when the command occurs.</description>
 </param>
-<param name="s" type="Object">
+<param name="scope" type="Object">
 <description>Optional scope to execute the function in.</description>
 </param>
 </method>
+<callback fullname="tinymce.Editor.addCommandCallback" name="addCommandCallback" summary="Callback function that gets called when a command is executed.">
+<description>Callback function that gets called when a command is executed.
+</description>
+<param name="ui" type="Boolean">
+<description>Display UI state true/false.</description>
+</param>
+<param name="value" type="Object">
+<description>Optional value for command.</description>
+</param>
+<return type="Boolean">
+<description>True/false state if the command was handled or not.</description>
+</return>
+</callback>
 <method name="addQueryStateHandler" summary="Adds a custom query state command to the editor, you can also override existing commands with this method.">
 <description>Adds a custom query state command to the editor, you can also override existing commands with this method.
 The command that you add can be executed with queryCommandState function.
 </description>
-<param name="n" type="String">
+<param name="name" type="String">
 <description>Command name to add/override.</description>
 </param>
-<param name="f" type="function">
+<param name="callback" type="tinymce.Editor.addQueryStateHandlerCallback">
 <description>Function to execute when the command state retrival occurs.</description>
 </param>
-<param name="s" type="Object">
+<param name="scope" type="Object">
 <description>Optional scope to execute the function in.</description>
 </param>
 </method>
+<callback fullname="tinymce.Editor.addQueryStateHandlerCallback" name="addQueryStateHandlerCallback" summary="Callback function that gets called when a queryCommandState is executed.">
+<description>Callback function that gets called when a queryCommandState is executed.
+</description>
+<return type="Boolean">
+<description>True/false state if the command is enabled or not like is it bold.</description>
+</return>
+</callback>
 <method name="addQueryValueHandler" summary="Adds a custom query value command to the editor, you can also override existing commands with this method.">
 <description>Adds a custom query value command to the editor, you can also override existing commands with this method.
 The command that you add can be executed with queryCommandValue function.
 </description>
-<param name="n" type="String">
+<param name="name" type="String">
 <description>Command name to add/override.</description>
 </param>
-<param name="f" type="function">
+<param name="callback" type="tinymce.Editor.addQueryValueHandlerCallback">
 <description>Function to execute when the command value retrival occurs.</description>
 </param>
-<param name="s" type="Object">
+<param name="scope" type="Object">
 <description>Optional scope to execute the function in.</description>
 </param>
 </method>
+<callback fullname="tinymce.Editor.addQueryValueHandlerCallback" name="addQueryValueHandlerCallback" summary="Callback function that gets called when a queryCommandValue is executed.">
+<description>Callback function that gets called when a queryCommandValue is executed.
+</description>
+<return type="Object">
+<description>Value of the command or undefined.</description>
+</return>
+</callback>
 <method name="addShortcut" summary="Adds a keyboard shortcut for some command or function.">
 <description>Adds a keyboard shortcut for some command or function.
 </description>
@@ -937,10 +986,10 @@ so all events etc that method has will get dispatched as well.
 <description>Sets the specified content to the editor instance, this will cleanup the content before it gets set using
 the different cleanup rules options.
 </description>
-<param name="h" type="String">
+<param name="content" type="String">
 <description>Content to set to editor, normally HTML contents but can be other formats as well.</description>
 </param>
-<param name="o" type="Object">
+<param name="args" type="Object">
 <description>Optional content object, this gets passed around through the whole set process.</description>
 </param>
 <return type="String">
@@ -951,7 +1000,7 @@ the different cleanup rules options.
 <description>Gets the content from the editor instance, this will cleanup the content before it gets returned using
 the different cleanup rules options.
 </description>
-<param name="o" type="Object">
+<param name="args" type="Object">
 <description>Optional content object, this gets passed around through the whole get process.</description>
 </param>
 <return type="String">
@@ -1111,14 +1160,12 @@ overrides for native browser commands to address various bugs and issues.
 etc to the current selection or specific nodes. This engine was build to replace the browsers
 default formatting logic for execCommand due to it's inconsistant and buggy behavior.
 </description>
-<example>
 <example>tinymce.activeEditor.formatter.register('mycustomformat', {
    inline : 'span',
    styles : {color : '#ff0000'}
  });
 
  tinymce.activeEditor.formatter.apply('mycustomformat');</example>
-</example>
 <members>
 <method name="get" summary="Returns the format by name or all formats if no name is specified.">
 <description>Returns the format by name or all formats if no name is specified.
@@ -1249,6 +1296,36 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 <description>This class handles the undo/redo history levels for the editor. Since the build in undo/redo has major drawbacks a custom one was needed.
 </description>
 <members>
+<event name="onAdd" summary="This event will fire each time a new undo level is added to the undo manager.">
+<description>This event will fire each time a new undo level is added to the undo manager.
+</description>
+<param name="sender" type="tinymce.UndoManager">
+<description>UndoManager instance that got the new level.</description>
+</param>
+<param name="level" type="Object">
+<description>The new level object containing a bookmark and contents.</description>
+</param>
+</event>
+<event name="onUndo" summary="This event will fire when the user make an undo of a change.">
+<description>This event will fire when the user make an undo of a change.
+</description>
+<param name="sender" type="tinymce.UndoManager">
+<description>UndoManager instance that got the new level.</description>
+</param>
+<param name="level" type="Object">
+<description>The old level object containing a bookmark and contents.</description>
+</param>
+</event>
+<event name="onRedo" summary="This event will fire when the user make an redo of a change.">
+<description>This event will fire when the user make an redo of a change.
+</description>
+<param name="sender" type="tinymce.UndoManager">
+<description>UndoManager instance that got the new level.</description>
+</param>
+<param name="level" type="Object">
+<description>The old level object containing a bookmark and contents.</description>
+</param>
+</event>
 <method name="add" summary="Adds a new undo level/snapshot to the undo list.">
 <description>Adds a new undo level/snapshot to the undo list.
 </description>
@@ -1363,6 +1440,7 @@ native version use the callback method instead then it can be extended.
 </members>
 </class>
 <namespace fullname="tinymce.dom" name="dom">
+<description>Contains classes for handling the browsers DOM.</description>
 <class fullname="tinymce.dom.DOMUtils" name="DOMUtils" summary="Utility class for various DOM manipulation and retrival functions.">
 <description>Utility class for various DOM manipulation and retrival functions.</description>
 <members>
@@ -1468,36 +1546,6 @@ If the function then returns true indicating that it has found what it was looki
 </param>
 <return type="Element">
 <description>Element matching the specified id or null if it wasn't found.</description>
-</return>
-</method>
-<method name="getNext" summary="Returns the next node that matches selector or function">
-<description>Returns the next node that matches selector or function
-</description>
-<param name="node" type="Node">
-<description>Node to find siblings from.</description>
-</param>
-<param name="selector">
-<type fullname="String"/>
-<type fullname="function"/>
-<description>Selector CSS expression or function.</description>
-</param>
-<return type="Node">
-<description>Next node item matching the selector or null if it wasn't found.</description>
-</return>
-</method>
-<method name="getPrev" summary="Returns the previous node that matches selector or function">
-<description>Returns the previous node that matches selector or function
-</description>
-<param name="node" type="Node">
-<description>Node to find siblings from.</description>
-</param>
-<param name="selector">
-<type fullname="String"/>
-<type fullname="function"/>
-<description>Selector CSS expression or function.</description>
-</param>
-<return type="Node">
-<description>Previous node item matching the selector or null if it wasn't found.</description>
 </return>
 </method>
 <method name="select" summary="Selects specific elements by a CSS level 3 pattern.">
@@ -1856,22 +1904,10 @@ URLs will get converted, hex color values fixed etc. Check processHTML for detai
 <description>HTML content to set as inner HTML of the element.</description>
 </param>
 </method>
-<method name="processHTML" summary="Processes the HTML by replacing strong, em, del in gecko since it doesn't support them properly in a RTE environment.">
-<description>Processes the HTML by replacing strong, em, del in gecko since it doesn't support them
-properly in a RTE environment. It also converts any URLs in links and images and places
-a converted value into a separate attribute with the mce prefix like _mce_src or _mce_href.
-</description>
-<param name="h" type="String">
-<description>HTML to process.</description>
-</param>
-<return type="String">
-<description>Processed HTML code.</description>
-</return>
-</method>
 <method name="getOuterHTML" summary="Returns the outer HTML of an element.">
 <description>Returns the outer HTML of an element.
 </description>
-<param name="e">
+<param name="elm">
 <type fullname="String"/>
 <type fullname="Element"/>
 <description>Element ID or element object to get outer HTML from.</description>
@@ -1909,7 +1945,7 @@ a converted value into a separate attribute with the mce prefix like _mce_src or
 <method name="encode" summary="Entity encodes a string, encodes the most common entities &lt;&gt;&quot;&amp; into entities.">
 <description>Entity encodes a string, encodes the most common entities &lt;&gt;"&amp; into entities.
 </description>
-<param name="s" type="String">
+<param name="text" type="String">
 <description>String to encode with entities.</description>
 </param>
 <return type="String">
@@ -1937,7 +1973,9 @@ a converted value into a separate attribute with the mce prefix like _mce_src or
 <method name="isBlock" summary="Returns true/false if the specified element is a block element or not.">
 <description>Returns true/false if the specified element is a block element or not.
 </description>
-<param name="n" type="Node">
+<param name="node">
+<type fullname="Node"/>
+<type fullname="String"/>
 <description>Element/Node to check.</description>
 </param>
 <return type="Boolean">
@@ -2309,30 +2347,6 @@ and handler references to be able to clean elements to reduce IE memory leaks.
 </method>
 </members>
 </class>
-<class fullname="tinymce.dom.Schema" name="Schema" summary="Schema validator class.">
-<description>Schema validator class.
-</description>
-<example>
-<example>if (tinymce.activeEditor.schema.isValid('p', 'span'))
-   alert('span is valid child of p.');</example>
-</example>
-<members>
-<method name="isValid" summary="Returns true/false if the specified element and optionally it's child is valid or not according to the XHTML transitiona...">
-<description>Returns true/false if the specified element and optionally it's child is valid or not
-according to the XHTML transitional DTD.
-</description>
-<param name="name" type="String">
-<description>Element name to check for.</description>
-</param>
-<param name="child_name" type="String">
-<description>Element child name to check for.</description>
-</param>
-<return type="boolean">
-<description>true/false if the element is valid or not.</description>
-</return>
-</method>
-</members>
-</class>
 <class fullname="tinymce.dom.Selection" name="Selection" summary="This class handles text and control selection it's an crossbrowser utility class.">
 <description>This class handles text and control selection it's an crossbrowser utility class.
 Consult the TinyMCE Wiki API for more details and examples on how to use this class.</description>
@@ -2412,16 +2426,6 @@ can then be used to restore the selection after some content modification to the
 <description>true/false if it was successful or not.</description>
 </return>
 </method>
-<method name="moveAfterNode" summary="Moves the selection to be collapsed immediately after the node.">
-<description>Moves the selection to be collapsed immediately after the node.
-</description>
-<param name="node" type="Element">
-<description>HTML DOM element to position caret after.</description>
-</param>
-<return type="Element">
-<description>the same element as the one that got passed in.</description>
-</return>
-</method>
 <method name="select" summary="Selects the specified element.">
 <description>Selects the specified element. This will place the start and end of the selection range around the element.
 </description>
@@ -2492,236 +2496,6 @@ can then be used to restore the selection after some content modification to the
 </method>
 </members>
 </class>
-<class fullname="tinymce.dom.Serializer" name="Serializer" summary="This class is used to serialize DOM trees into a string.">
-<description>This class is used to serialize DOM trees into a string.
-Consult the TinyMCE Wiki API for more details and examples on how to use this class.</description>
-<members>
-<method constructor="true" name="Serializer" summary="Constucts a new DOM serializer class.">
-<description>Constucts a new DOM serializer class.
-</description>
-<param name="s" type="Object">
-<description>Optional name/Value collection of settings for the serializer.</description>
-</param>
-</method>
-<method name="setEntities" summary="Sets a list of entities to use for the named entity encoded.">
-<description>Sets a list of entities to use for the named entity encoded.
-</description>
-<param name="s" type="String">
-<description>List of entities in the following format: number,name,....</description>
-</param>
-</method>
-<method name="setRules" summary="Sets the valid elements rules of the serializer this enables you to specify things like what elements should be outputte...">
-<description>Sets the valid elements rules of the serializer this enables you to specify things like what elements should be
-outputted and what attributes specific elements might have.
-Consult the Wiki for more details on this format.
-</description>
-<param name="s" type="String">
-<description>Valid elements rules string.</description>
-</param>
-</method>
-<method name="addRules" summary="Adds valid elements rules to the serializer this enables you to specify things like what elements should be outputted an...">
-<description>Adds valid elements rules to the serializer this enables you to specify things like what elements should be
-outputted and what attributes specific elements might have.
-Consult the Wiki for more details on this format.
-</description>
-<param name="s" type="String">
-<description>Valid elements rules string to add.</description>
-</param>
-</method>
-<method name="findRule" summary="Finds a rule object by name.">
-<description>Finds a rule object by name.
-</description>
-<param name="n" type="String">
-<description>Name to look for in rules collection.</description>
-</param>
-<return type="Object">
-<description>Rule object found or null if it wasn't found.</description>
-</return>
-</method>
-<method name="findAttribRule" summary="Finds an attribute rule object by name.">
-<description>Finds an attribute rule object by name.
-</description>
-<param name="ru" type="Object">
-<description>Rule object to search though.</description>
-</param>
-<param name="n" type="String">
-<description>Name of the rule to retrive.</description>
-</param>
-<return type="Object">
-<description>Rule object of the specified attribute.</description>
-</return>
-</method>
-<method name="serialize" summary="Serializes the specified node into a HTML string.">
-<description>Serializes the specified node into a HTML string.
-</description>
-<param name="n" type="Element">
-<description>Element/Node to serialize.</description>
-</param>
-<param name="o" type="Object">
-<description>Object to add serialized contents to, this object will also be passed to the event listeners.</description>
-</param>
-<return type="String">
-<description>Serialized HTML contents.</description>
-</return>
-</method>
-</members>
-</class>
-<class fullname="tinymce.dom.StringWriter" name="StringWriter" summary="This class writes nodes into a string.">
-<description>This class writes nodes into a string.</description>
-<members>
-<method constructor="true" name="StringWriter" summary="Constructs a new StringWriter.">
-<description>Constructs a new StringWriter.
-</description>
-<param name="s" type="Object">
-<description>Optional settings object.</description>
-</param>
-</method>
-<method name="reset" summary="Resets the writer so it can be reused the contents of the writer is cleared.">
-<description>Resets the writer so it can be reused the contents of the writer is cleared.
-</description>
-</method>
-<method name="writeStartElement" summary="Writes the start of an element like for example: &lt;tag.">
-<description>Writes the start of an element like for example: &lt;tag.
-</description>
-<param name="n" type="String">
-<description>Name of element to write.</description>
-</param>
-</method>
-<method name="writeAttribute" summary="Writes an attrubute like for example: myattr=&quot;valie&quot;">
-<description>Writes an attrubute like for example: myattr="valie"
-</description>
-<param name="n" type="String">
-<description>Attribute name to write.</description>
-</param>
-<param name="v" type="String">
-<description>Attribute value to write.</description>
-</param>
-</method>
-<method name="writeEndElement" summary="Write the end of a element.">
-<description>Write the end of a element. This will add a short end for elements with out children like for example a img element.
-</description>
-</method>
-<method name="writeFullEndElement" summary="Writes the end of a element.">
-<description>Writes the end of a element. This will add a full end to the element even if it didn't have any children.
-</description>
-</method>
-<method name="writeText" summary="Writes a text node value.">
-<description>Writes a text node value.
-</description>
-<param name="v" type="String">
-<description>Value to append as a text node.</description>
-</param>
-</method>
-<method name="writeCDATA" summary="Writes a CDATA section.">
-<description>Writes a CDATA section.
-</description>
-<param name="v" type="String">
-<description>Value to write in CDATA.</description>
-</param>
-</method>
-<method name="writeComment" summary="Writes a comment.">
-<description>Writes a comment.
-</description>
-<param name="v" type="String">
-<description>Value of the comment.</description>
-</param>
-</method>
-<method name="writeRaw" summary="String writer specific function.">
-<description>String writer specific function. Enables you to write raw contents to the string.
-</description>
-<param name="v" type="String">
-<description>String with raw contents to write.</description>
-</param>
-</method>
-<method name="encode" summary="String writer specific method.">
-<description>String writer specific method. This encodes the raw entities of a string.
-</description>
-<param name="s" type="String">
-<description>String to encode.</description>
-</param>
-<return type="String">
-<description>String with entity encoding of the raw elements like &lt;&gt;&amp;".</description>
-</return>
-</method>
-<method name="getContent" summary="Returns a string representation of the elements/nodes written.">
-<description>Returns a string representation of the elements/nodes written.
-</description>
-<return type="String">
-<description>String representation of the written elements/nodes.</description>
-</return>
-</method>
-</members>
-</class>
-<class fullname="tinymce.dom.XMLWriter" name="XMLWriter" summary="This class writes nodes into a XML document structure.">
-<description>This class writes nodes into a XML document structure. This structure can then be
-serialized down to a HTML string later on.</description>
-<members>
-<method constructor="true" name="XMLWriter" summary="Constructs a new XMLWriter.">
-<description>Constructs a new XMLWriter.
-</description>
-<param name="s" type="Object">
-<description>Optional settings object.</description>
-</param>
-</method>
-<method name="reset" summary="Resets the writer so it can be reused the contents of the writer is cleared.">
-<description>Resets the writer so it can be reused the contents of the writer is cleared.
-</description>
-</method>
-<method name="writeStartElement" summary="Writes the start of an element like for example: &lt;tag.">
-<description>Writes the start of an element like for example: &lt;tag.
-</description>
-<param name="n" type="String">
-<description>Name of element to write.</description>
-</param>
-</method>
-<method name="writeAttribute" summary="Writes an attrubute like for example: myattr=&quot;valie&quot;">
-<description>Writes an attrubute like for example: myattr="valie"
-</description>
-<param name="n" type="String">
-<description>Attribute name to write.</description>
-</param>
-<param name="v" type="String">
-<description>Attribute value to write.</description>
-</param>
-</method>
-<method name="writeEndElement" summary="Write the end of a element.">
-<description>Write the end of a element. This will add a short end for elements with out children like for example a img element.
-</description>
-</method>
-<method name="writeFullEndElement" summary="Writes the end of a element.">
-<description>Writes the end of a element. This will add a full end to the element even if it didn't have any children.
-</description>
-</method>
-<method name="writeText" summary="Writes a text node value.">
-<description>Writes a text node value.
-</description>
-<param name="v" type="String">
-<description>Value to append as a text node.</description>
-</param>
-</method>
-<method name="writeCDATA" summary="Writes a CDATA section.">
-<description>Writes a CDATA section.
-</description>
-<param name="v" type="String">
-<description>Value to write in CDATA.</description>
-</param>
-</method>
-<method name="writeComment" summary="Writes a comment.">
-<description>Writes a comment.
-</description>
-<param name="v" type="String">
-<description>Value of the comment.</description>
-</param>
-</method>
-<method name="getContent" summary="Returns a string representation of the elements/nodes written.">
-<description>Returns a string representation of the elements/nodes written.
-</description>
-<return type="String">
-<description>String representation of the written elements/nodes.</description>
-</return>
-</method>
-</members>
-</class>
 <members>
 <property fullname="tinymce.dom.Event" name="Event" summary="Instance of EventUtils for the current document." type="tinymce.dom.EventUtils">
 <description>Instance of EventUtils for the current document.
@@ -2729,7 +2503,607 @@ serialized down to a HTML string later on.</description>
 </property>
 </members>
 </namespace>
+<namespace fullname="tinymce.html" name="html">
+<description>Contains html parser and serializer logic.</description>
+<class fullname="tinymce.html.DomParser" name="DomParser" summary="This class parses HTML code into a DOM like structure of nodes it will remove redundant whitespace and make sure that th..." version="3.4">
+<description>This class parses HTML code into a DOM like structure of nodes it will remove redundant whitespace and make
+sure that the node tree is valid according to the specified schema. So for example: &lt;p&gt;a&lt;p&gt;b&lt;/p&gt;c&lt;/p&gt; will become &lt;p&gt;a&lt;/p&gt;&lt;p&gt;b&lt;/p&gt;&lt;p&gt;c&lt;/p&gt;
+</description>
+<example>var parser = new tinymce.html.DomParser({validate: true}, schema);
+var rootNode = parser.parse('&lt;h1&gt;content&lt;/h1&gt;');</example>
+<members>
+<method constructor="true" name="DomParser" summary="Constructs a new DomParser instance.">
+<description>Constructs a new DomParser instance.
+</description>
+<param name="settings" type="Object">
+<description>Name/value collection of settings. comment, cdata, text, start and end are callbacks.</description>
+</param>
+<param name="schema" type="tinymce.html.Schema">
+<description>HTML Schema class to use when parsing.</description>
+</param>
+</method>
+<method name="addNodeFilter" summary="Adds a node filter function to the parser, the parser will collect the specified nodes by name and then execute the call...">
+<description>Adds a node filter function to the parser, the parser will collect the specified nodes by name
+and then execute the callback ones it has finished parsing the document.
+</description>
+<param name="callback" type="function">
+<description>Callback function to execute once it has collected nodes.</description>
+</param>
+<example>parser.addNodeFilter('p,h1', function(nodes, name) {
+	for (var i = 0; i &lt; nodes.length; i++) {
+		console.log(nodes[i].name);
+	}
+});</example>
+</method>
+<method name="addAttributeFilter" summary="Adds a attribute filter function to the parser, the parser will collect nodes that has the specified attributes and then...">
+<description>Adds a attribute filter function to the parser, the parser will collect nodes that has the specified attributes
+and then execute the callback ones it has finished parsing the document.
+</description>
+<param name="callback" type="function">
+<description>Callback function to execute once it has collected nodes.</description>
+</param>
+<example>parser.addAttributeFilter('src,href', function(nodes, name) {
+	for (var i = 0; i &lt; nodes.length; i++) {
+		console.log(nodes[i].name);
+	}
+});</example>
+</method>
+<method name="parse" summary="Parses the specified HTML string into a DOM like node tree and returns the result.">
+<description>Parses the specified HTML string into a DOM like node tree and returns the result.
+</description>
+<param name="html" type="String">
+<description>Html string to sax parse.</description>
+</param>
+<param name="args" type="Object">
+<description>Optional args object that gets passed to all filter functions.</description>
+</param>
+<return type="tinymce.html.Node">
+<description>Root node containing the tree.</description>
+</return>
+<example>var rootNode = new DomParser({...}).parse('&lt;b&gt;text&lt;/b&gt;');</example>
+</method>
+</members>
+</class>
+<class fullname="tinymce.html.SaxParser" name="SaxParser" static="true" summary="This class parses HTML code using pure JavaScript and executes various events for each item it finds." version="3.4">
+<description>Entity encoder class.
+</description>
+<members>
+<method name="encodeRaw" static="true" summary="Encodes the specified string using raw entities.">
+<description>Encodes the specified string using raw entities. This means only the required XML base entities will be endoded.
+</description>
+<param name="text" type="String">
+<description>Text to encode.</description>
+</param>
+<param name="attr" type="Boolean">
+<description>Optional flag to specify if the text is attribute contents.</description>
+</param>
+<return type="String">
+<description>Entity encoded text.</description>
+</return>
+</method>
+<method name="encodeAllRaw" static="true" summary="Encoded the specified text with both the attributes and text entities.">
+<description>Encoded the specified text with both the attributes and text entities. This function will produce larger text contents
+since it doesn't know if the context is within a attribute or text node. This was added for compatibility
+and is exposed as the DOMUtils.encode function.
+</description>
+<param name="text" type="String">
+<description>Text to encode.</description>
+</param>
+<return type="String">
+<description>Entity encoded text.</description>
+</return>
+</method>
+<method name="encodeNumeric" static="true" summary="Encodes the specified string using numeric entities.">
+<description>Encodes the specified string using numeric entities. The core entities will be encoded as named ones but all non lower ascii characters
+will be encoded into numeric entities.
+</description>
+<param name="text" type="String">
+<description>Text to encode.</description>
+</param>
+<param name="attr" type="Boolean">
+<description>Optional flag to specify if the text is attribute contents.</description>
+</param>
+<return type="String">
+<description>Entity encoded text.</description>
+</return>
+</method>
+<method name="encodeNamed" static="true" summary="Encodes the specified string using named entities.">
+<description>Encodes the specified string using named entities. The core entities will be encoded as named ones but all non lower ascii characters
+will be encoded into named entities.
+</description>
+<param name="text" type="String">
+<description>Text to encode.</description>
+</param>
+<param name="attr" type="Boolean">
+<description>Optional flag to specify if the text is attribute contents.</description>
+</param>
+<param name="entities" type="Object">
+<description>Optional parameter with entities to use.</description>
+</param>
+<return type="String">
+<description>Entity encoded text.</description>
+</return>
+</method>
+<method name="getEncodeFunc" static="true" summary="Returns an encode function based on the name(s) and it's optional entities.">
+<description>Returns an encode function based on the name(s) and it's optional entities.
+</description>
+<param name="name" type="String">
+<description>Comma separated list of encoders for example named,numeric.</description>
+</param>
+<param name="entities" type="String">
+<description>Optional parameter with entities to use instead of the built in set.</description>
+</param>
+<return type="function">
+<description>Encode function to be used.</description>
+</return>
+</method>
+<method constructor="true" name="SaxParser" summary="Constructs a new SaxParser instance.">
+<description>Constructs a new SaxParser instance.
+</description>
+<param name="settings" type="Object">
+<description>Name/value collection of settings. comment, cdata, text, start and end are callbacks.</description>
+</param>
+<param name="schema" type="tinymce.html.Schema">
+<description>HTML Schema class to use when parsing.</description>
+</param>
+</method>
+<method name="parse" summary="Parses the specified HTML string and executes the callbacks for each item it finds.">
+<description>Parses the specified HTML string and executes the callbacks for each item it finds.
+</description>
+<param name="html" type="String">
+<description>Html string to sax parse.</description>
+</param>
+<example>new SaxParser({...}).parse('&lt;b&gt;text&lt;/b&gt;');</example>
+</method>
+</members>
+<description>This class parses HTML code using pure JavaScript and executes various events for each item it finds. It will
+always execute the events in the right order for tag soup code like &lt;b&gt;&lt;p&gt;&lt;/b&gt;&lt;/p&gt;. It will also remove elements
+and attributes that doesn't fit the schema if the validate setting is enabled.
+</description>
+<example>var parser = new tinymce.html.SaxParser({
+    validate: true,
+
+    comment: function(text) {
+        console.log('Comment:', text);
+    },
+
+    cdata: function(text) {
+        console.log('CDATA:', text);
+    },
+
+    text: function(text, raw) {
+        console.log('Text:', text, 'Raw:', raw);
+    },
+
+    start: function(name, attrs, empty) {
+        console.log('Start:', name, attrs, empty);
+    },
+
+    end: function(name) {
+        console.log('End:', name);
+    },
+
+    pi: function(name, text) {
+        console.log('PI:', name, text);
+    },
+
+    doctype: function(text) {
+        console.log('DocType:', name);
+    }
+}, schema);</example>
+</class>
+<class fullname="tinymce.html.Node" name="Node" summary="This class is a minimalistic implementation of a DOM like node used by the DomParser class." version="3.4">
+<description>This class is a minimalistic implementation of a DOM like node used by the DomParser class.
+</description>
+<example>var node = new tinymce.html.Node('strong', 1);
+someRoot.append(node);</example>
+<members>
+<method constructor="true" name="Node" summary="Constructs a new Node instance.">
+<description>Constructs a new Node instance.
+</description>
+<param name="name" type="String">
+<description>Name of the node type.</description>
+</param>
+<param name="type" type="Number">
+<description>Numeric type representing the node.</description>
+</param>
+</method>
+<method name="replace" summary="Replaces the current node with the specified one.">
+<description>Replaces the current node with the specified one.
+</description>
+<param name="node" type="tinymce.html.Node">
+<description>Node to replace the current node with.</description>
+</param>
+<return type="tinymce.html.Node">
+<description>The old node that got replaced.</description>
+</return>
+<example>someNode.replace(someNewNode);</example>
+</method>
+<method name="attr" summary="Gets/sets or removes an attribute by name.">
+<description>Gets/sets or removes an attribute by name.
+</description>
+<param name="name" type="String">
+<description>Attribute name to set or get.</description>
+</param>
+<param name="value" type="String">
+<description>Optional value to set.</description>
+</param>
+<return>
+<type fullname="String"/>
+<type fullname="tinymce.html.Node"/>
+<description>String or undefined on a get operation or the current node on a set operation.</description>
+</return>
+<example>someNode.attr("name", "value"); // Sets an attribute
+console.log(someNode.attr("name")); // Gets an attribute
+someNode.attr("name", null); // Removes an attribute</example>
+</method>
+<method name="clone" summary="Does a shallow clones the node into a new node.">
+<description>Does a shallow clones the node into a new node. It will also exclude id attributes since
+there should only be one id per document.
+</description>
+<return type="tinymce.html.Node">
+<description>New copy of the original node.</description>
+</return>
+<example>var clonedNode = node.clone();</example>
+</method>
+<method name="wrap" summary="Wraps the node in in another node.">
+<description>Wraps the node in in another node.
+</description>
+<example>node.wrap(wrapperNode);</example>
+</method>
+<method name="unwrap" summary="Unwraps the node in other words it removes the node but keeps the children.">
+<description>Unwraps the node in other words it removes the node but keeps the children.
+</description>
+<example>node.unwrap();</example>
+</method>
+<method name="remove" summary="Removes the node from it's parent.">
+<description>Removes the node from it's parent.
+</description>
+<return type="tinymce.html.Node">
+<description>Current node that got removed.</description>
+</return>
+<example>node.remove();</example>
+</method>
+<method name="append" summary="Appends a new node as a child of the current node.">
+<description>Appends a new node as a child of the current node.
+</description>
+<param name="node" type="tinymce.html.Node">
+<description>Node to append as a child of the current one.</description>
+</param>
+<return type="tinymce.html.Node">
+<description>The node that got appended.</description>
+</return>
+<example>node.append(someNode);</example>
+</method>
+<method name="insert" summary="Inserts a node at a specific position as a child of the current node.">
+<description>Inserts a node at a specific position as a child of the current node.
+</description>
+<param name="node" type="tinymce.html.Node">
+<description>Node to insert as a child of the current node.</description>
+</param>
+<param name="ref_node" type="tinymce.html.Node">
+<description>Reference node to set node before/after.</description>
+</param>
+<param name="before" type="Boolean">
+<description>Optional state to insert the node before the reference node.</description>
+</param>
+<return type="tinymce.html.Node">
+<description>The node that got inserted.</description>
+</return>
+<example>parentNode.insert(newChildNode, oldChildNode);</example>
+</method>
+<method name="getAll" summary="Get all children by name.">
+<description>Get all children by name.
+</description>
+<param name="name" type="String">
+<description>Name of the child nodes to collect.</description>
+</param>
+<return type="Array">
+<description>Array with child nodes matchin the specified name.</description>
+</return>
+</method>
+<method name="empty" summary="Removes all children of the current node.">
+<description>Removes all children of the current node.
+</description>
+<return type="tinymce.html.Node">
+<description>The current node that got cleared.</description>
+</return>
+</method>
+<method name="isEmpty" summary="Returns true/false if the node is to be considered empty or not">
+<description>Returns true/false if the node is to be considered empty or not
+</description>
+<param name="elements" type="Object">
+<description>Name/value object with elements that are automatically treated as non empty elements.</description>
+</param>
+<return type="Boolean">
+<description>true/false if the node is empty or not.</description>
+</return>
+<example>node.isEmpty({img : true});</example>
+</method>
+<method name="create" static="true" summary="Creates a node of a specific type.">
+<description>Creates a node of a specific type.
+</description>
+<param name="name" type="String">
+<description>Name of the node type to create for example "b" or "#text".</description>
+</param>
+<param name="attrs" type="Object">
+<description>Name/value collection of attributes that will be applied to elements.</description>
+</param>
+</method>
+</members>
+</class>
+<class fullname="tinymce.html.Schema" name="Schema" summary="Schema validator class." version="3.4">
+<description>Schema validator class.
+</description>
+<example>if (tinymce.activeEditor.schema.isValidChild('p', 'span'))
+   alert('span is valid child of p.');
+
+ if (tinymce.activeEditor.schema.getElementRule('p'))
+   alert('P is a valid element.');</example>
+<members>
+<method constructor="true" name="Schema" summary="Constructs a new Schema instance.">
+<description>Constructs a new Schema instance.
+</description>
+<param name="settings" type="Object">
+<description>Name/value settings object.</description>
+</param>
+</method>
+<method name="getBoolAttrs" summary="Returns a map with boolean attributes.">
+<description>Returns a map with boolean attributes.
+</description>
+<return type="Object">
+<description>Name/value lookup map for boolean attributes.</description>
+</return>
+</method>
+<method name="getBoolAttrs" summary="Returns a map with block elements.">
+<description>Returns a map with block elements.
+</description>
+<return type="Object">
+<description>Name/value lookup map for block elements.</description>
+</return>
+</method>
+<method name="getEmptyElements" summary="Returns a map with empty elements.">
+<description>Returns a map with empty elements.
+</description>
+<return type="Object">
+<description>Name/value lookup map for empty elements.</description>
+</return>
+</method>
+<method name="getWhiteSpaceElements" summary="Returns a map with elements where white space is to be preserved like PRE or SCRIPT.">
+<description>Returns a map with elements where white space is to be preserved like PRE or SCRIPT.
+</description>
+<return type="Object">
+<description>Name/value lookup map for white space elements.</description>
+</return>
+</method>
+<method name="isValidChild" summary="Returns true/false if the specified element and it's child is valid or not according to the schema.">
+<description>Returns true/false if the specified element and it's child is valid or not
+according to the schema.
+</description>
+<param name="name" type="String">
+<description>Element name to check for.</description>
+</param>
+<param name="child" type="String">
+<description>Element child to verify.</description>
+</param>
+<return type="Boolean">
+<description>True/false if the element is a valid child of the specified parent.</description>
+</return>
+</method>
+<method name="getElementRule" summary="Returns true/false if the specified element is valid or not according to the schema.">
+<description>Returns true/false if the specified element is valid or not
+according to the schema.
+</description>
+<param name="name" type="String">
+<description>Element name to check for.</description>
+</param>
+<return type="Object">
+<description>Element object or undefined if the element isn't valid.</description>
+</return>
+</method>
+<method name="addValidElements" summary="Parses a valid elements string and adds it to the schema.">
+<description>Parses a valid elements string and adds it to the schema. The valid elements format is for example "element[attr=default|otherattr]".
+Existing rules will be replaced with the ones specified, so this extends the schema.
+</description>
+<param name="valid_elements" type="String">
+<description>String in the valid elements format to be parsed.</description>
+</param>
+</method>
+<method name="setValidElements" summary="Parses a valid elements string and sets it to the schema.">
+<description>Parses a valid elements string and sets it to the schema. The valid elements format is for example "element[attr=default|otherattr]".
+Existing rules will be replaced with the ones specified, so this extends the schema.
+</description>
+<param name="valid_elements" type="String">
+<description>String in the valid elements format to be parsed.</description>
+</param>
+</method>
+<method name="addCustomElements" summary="Adds custom non HTML elements to the schema.">
+<description>Adds custom non HTML elements to the schema.
+</description>
+<param name="custom_elements" type="String">
+<description>Comma separated list of custom elements to add.</description>
+</param>
+</method>
+<method name="addValidChildren" summary="Parses a valid children string and adds them to the schema structure.">
+<description>Parses a valid children string and adds them to the schema structure. The valid children format is for example: "element[child1|child2]".
+</description>
+<param name="valid_children" type="String">
+<description>Valid children elements string to parse</description>
+</param>
+</method>
+</members>
+</class>
+<class fullname="tinymce.html.Serializer" name="Serializer" summary="This class is used to serialize down the DOM tree into a string using a Writer instance." version="3.4">
+<description>This class is used to serialize down the DOM tree into a string using a Writer instance.
+
+</description>
+<example>new tinymce.html.Serializer().serialize(new tinymce.html.DomParser().parse('&lt;p&gt;text&lt;/p&gt;'));</example>
+<members>
+<method constructor="true" name="Serializer" summary="Constructs a new Serializer instance.">
+<description>Constructs a new Serializer instance.
+</description>
+<param name="settings" type="Object">
+<description>Name/value settings object.</description>
+</param>
+<param name="schema" type="tinymce.html.Schema">
+<description>Schema instance to use.</description>
+</param>
+</method>
+<method name="serialize" summary="Serializes the specified node into a string.">
+<description>Serializes the specified node into a string.
+</description>
+<param name="node" type="tinymce.html.Node">
+<description>Node instance to serialize.</description>
+</param>
+<return type="String">
+<description>String with HTML based on DOM tree.</description>
+</return>
+<example>new tinymce.html.Serializer().serialize(new tinymce.html.DomParser().parse('&lt;p&gt;text&lt;/p&gt;'));</example>
+</method>
+</members>
+</class>
+<class fullname="tinymce.html.Styles" name="Styles" summary="This class is used to parse CSS styles it also compresses styles to reduce the output size." version="3.4">
+<description>This class is used to parse CSS styles it also compresses styles to reduce the output size.
+</description>
+<example>var Styles = new tinymce.html.Styles({
+   url_converter: function(url) {
+      return url;
+   }
+});
+
+styles = Styles.parse('border: 1px solid red');
+styles.color = 'red';
+
+console.log(new tinymce.html.StyleSerializer().serialize(styles));</example>
+<members>
+<method name="toHex" summary="Parses the specified RGB color value and returns a hex version of that color.">
+<description>Parses the specified RGB color value and returns a hex version of that color.
+</description>
+<param name="color" type="String">
+<description>RGB string value like rgb(1,2,3)</description>
+</param>
+<return type="String">
+<description>Hex version of that RGB value like #FF00FF.</description>
+</return>
+</method>
+<method name="parse" summary="Parses the specified style value into an object collection.">
+<description>Parses the specified style value into an object collection. This parser will also
+merge and remove any redundant items that browsers might have added. It will also convert non hex
+colors to hex values. Urls inside the styles will also be converted to absolute/relative based on settings.
+</description>
+<param name="css" type="String">
+<description>Style value to parse for example: border:1px solid red;.</description>
+</param>
+<return type="Object">
+<description>Object representation of that style like {border : '1px solid red'}</description>
+</return>
+</method>
+<method name="serialize" summary="Serializes the specified style object into a string.">
+<description>Serializes the specified style object into a string.
+</description>
+<param name="styles" type="Object">
+<description>Object to serialize as string for example: {border : '1px solid red'}</description>
+</param>
+<param name="element_name" type="String">
+<description>Optional element name, if specified only the styles that matches the schema will be serialized.</description>
+</param>
+<return type="String">
+<description>String representation of the style object for example: border: 1px solid red.</description>
+</return>
+</method>
+</members>
+</class>
+<class fullname="tinymce.html.Writer" name="Writer" summary="This class is used to write HTML tags out it can be used with the Serializer or the SaxParser." version="3.4">
+<description>This class is used to write HTML tags out it can be used with the Serializer or the SaxParser.
+</description>
+<example>var writer = new tinymce.html.Writer({indent : true});
+var parser = new tinymce.html.SaxParser(writer).parse('&lt;p&gt;&lt;br&gt;&lt;/p&gt;');
+console.log(writer.getContent());</example>
+<members>
+<method constructor="true" name="Writer" summary="Constructs a new Writer instance.">
+<description>Constructs a new Writer instance.
+</description>
+<param name="settings" type="Object">
+<description>Name/value settings object.</description>
+</param>
+</method>
+<method name="start" summary="Writes the a start element such as .">
+<description>Writes the a start element such as &lt;p id="a"&gt;.
+</description>
+<param name="name" type="String">
+<description>Name of the element.</description>
+</param>
+<param name="attrs" type="Array">
+<description>Optional attribute array or undefined if it hasn't any.</description>
+</param>
+<param name="empty" type="Boolean">
+<description>Optional empty state if the tag should end like &lt;br /&gt;.</description>
+</param>
+</method>
+<method name="end" summary="Writes the a end element such as .">
+<description>Writes the a end element such as &lt;/p&gt;.
+</description>
+<param name="name" type="String">
+<description>Name of the element.</description>
+</param>
+</method>
+<method name="text" summary="Writes a text node.">
+<description>Writes a text node.
+</description>
+<param name="text" type="String">
+<description>String to write out.</description>
+</param>
+<param name="raw" type="Boolean">
+<description>Optional raw state if true the contents wont get encoded.</description>
+</param>
+</method>
+<method name="cdata" summary="Writes a cdata node such as .">
+<description>Writes a cdata node such as &lt;![CDATA[data]]&gt;.
+</description>
+<param name="text" type="String">
+<description>String to write out inside the cdata.</description>
+</param>
+</method>
+<method name="cdata" summary="Writes a comment node such as .">
+<description>Writes a comment node such as &lt;!-- Comment --&gt;.
+</description>
+<param name="text" type="String">
+<description>String to write out inside the comment.</description>
+</param>
+</method>
+<method name="pi" summary="Writes a PI node such as .">
+<description>Writes a PI node such as &lt;?xml attr="value" ?&gt;.
+</description>
+<param name="name" type="String">
+<description>Name of the pi.</description>
+</param>
+<param name="text" type="String">
+<description>String to write out inside the pi.</description>
+</param>
+</method>
+<method name="doctype" summary="Writes a doctype node such as .">
+<description>Writes a doctype node such as &lt;!DOCTYPE data&gt;.
+</description>
+<param name="text" type="String">
+<description>String to write out inside the doctype.</description>
+</param>
+</method>
+<method name="reset" summary="Resets the internal buffer if one wants to reuse the writer.">
+<description>Resets the internal buffer if one wants to reuse the writer.
+</description>
+</method>
+<method name="getContent" summary="Returns the contents that got serialized.">
+<description>Returns the contents that got serialized.
+</description>
+<return type="String">
+<description>HTML contents that got written down.</description>
+</return>
+</method>
+</members>
+</class>
+</namespace>
 <namespace fullname="tinymce.ui" name="ui">
+<description>Contains the different UI types such as buttons, listboxes etc.</description>
 <class extends="tinymce.ui.Control" fullname="tinymce.ui.Button" name="Button" summary="This class is used to create a UI button.">
 <description>This class is used to create a UI button. A button is basically a link
 that is styled to look like a button or icon.
@@ -2743,9 +3117,6 @@ that is styled to look like a button or icon.
 </param>
 <param name="s" type="Object">
 <description>Optional name/value settings object.</description>
-</param>
-<param name="ed" type="Editor">
-<description>Optional the editor instance this button is for.</description>
 </param>
 </method>
 <method name="renderHTML" summary="Renders the button as a HTML string.">
@@ -2789,9 +3160,6 @@ when you press the open menu.
 <param name="s" type="Object">
 <description>Optional name/value settings object.</description>
 </param>
-<param name="ed" type="Editor">
-<description>The editor instance this button is for.</description>
-</param>
 </method>
 <property name="settings" summary="Settings object." type="Object">
 <description>Settings object.
@@ -2828,13 +3196,6 @@ doesn't close them menu if it was a event inside the menu.
 </method>
 <method name="setColor" summary="Sets the current color for the control and hides the menu if it should be visible.">
 <description>Sets the current color for the control and hides the menu if it should be visible.
-</description>
-<param name="c" type="String">
-<description>Color code value in hex for example: #FF00FF</description>
-</param>
-</method>
-<method name="displayColor" summary="Change the currently selected color for the control.">
-<description>Change the currently selected color for the control.
 </description>
 <param name="c" type="String">
 <description>Color code value in hex for example: #FF00FF</description>
@@ -3124,23 +3485,6 @@ context menu, or a menu for a list box or a menu bar.
 <class-ref class="tinymce.ui.Control"/>
 </super-classes>
 </class>
-<class fullname="tinymce.ui.KeyboardNavigation" name="KeyboardNavigation" summary="This class provides basic keyboard navigation using the arrow keys to children of a component.">
-<description>This class provides basic keyboard navigation using the arrow keys to children of a component.
-For example, this class handles moving between the buttons on the toolbars.
-</description>
-<members>
-<method constructor="true" name="KeyboardNavigation" summary="Create a new KeyboardNavigation instance to handle the focus for a specific element.">
-<description>Create a new KeyboardNavigation instance to handle the focus for a specific element.
-</description>
-<param name="settings" type="Object">
-<description>the settings object to define how keyboard navigation works.</description>
-</param>
-<param name="dom" type="DOMUtils">
-<description>the DOMUtils instance to use.</description>
-</param>
-</method>
-</members>
-</class>
 <class extends="tinymce.ui.Control" fullname="tinymce.ui.ListBox" name="ListBox" summary="This class is used to create list boxes/select list.">
 <description>This class is used to create list boxes/select list. This one will generate
 a non native control. This one has the benefits of having visual items added.
@@ -3154,9 +3498,6 @@ a non native control. This one has the benefits of having visual items added.
 </param>
 <param name="s" type="Object">
 <description>Optional name/value settings object.</description>
-</param>
-<param name="ed" type="Editor">
-<description>Optional the editor instance this button is for.</description>
 </param>
 </method>
 <property name="items" summary="Array of ListBox items." type="Array">
@@ -3384,9 +3725,6 @@ that is styled to look like a button or icon.
 </param>
 <param name="s" type="Object">
 <description>Optional name/value settings object.</description>
-</param>
-<param name="ed" type="Editor">
-<description>Optional the editor instance this button is for.</description>
 </param>
 </method>
 <event name="onRenderMenu" summary="Fires when the menu is rendered.">
@@ -3629,9 +3967,6 @@ creating a whole toolbar with buttons it does make a lot of difference.
 <param name="s" type="Object">
 <description>Optional name/value settings object.</description>
 </param>
-<param name="ed" type="Editor">
-<description>Optional the editor instance this button is for.</description>
-</param>
 </method>
 <method name="renderHTML" summary="Renders the split button as a HTML string.">
 <description>Renders the split button as a HTML string. This method is much faster than using the DOM and when
@@ -3692,38 +4027,9 @@ creating a whole toolbar with buttons it does make a lot of difference.
 <class-ref class="tinymce.ui.Control"/>
 </super-classes>
 </class>
-<class extends="tinymce.ui.Container" fullname="tinymce.ui.ToolbarGroup" name="ToolbarGroup" summary="This class is used to group a set of toolbars together and control the keyboard navigation and focus.">
-<description>This class is used to group a set of toolbars together and control the keyboard navigation and focus.
-</description>
-<members>
-<method name="renderHTML" summary="Renders the toolbar group as a HTML string.">
-<description>Renders the toolbar group as a HTML string.
-</description>
-<return type="String">
-<description>HTML for the toolbar control.</description>
-</return>
-</method>
-<property inherited-from="tinymce.ui.Container" name="controls"/>
-<method inherited-from="tinymce.ui.Container" name="add"/>
-<method inherited-from="tinymce.ui.Container" name="get"/>
-<method inherited-from="tinymce.ui.Control" name="setDisabled"/>
-<method inherited-from="tinymce.ui.Control" name="isDisabled"/>
-<method inherited-from="tinymce.ui.Control" name="setActive"/>
-<method inherited-from="tinymce.ui.Control" name="isActive"/>
-<method inherited-from="tinymce.ui.Control" name="setState"/>
-<method inherited-from="tinymce.ui.Control" name="isRendered"/>
-<method inherited-from="tinymce.ui.Control" name="renderTo"/>
-<method inherited-from="tinymce.ui.Control" name="postRender"/>
-<method inherited-from="tinymce.ui.Control" name="remove"/>
-<method inherited-from="tinymce.ui.Control" name="destroy"/>
-</members>
-<super-classes>
-<class-ref class="tinymce.ui.Container"/>
-<class-ref class="tinymce.ui.Control"/>
-</super-classes>
-</class>
 </namespace>
 <namespace fullname="tinymce.util" name="util">
+<description>Contains various utility classes such as json parser, cookies etc.</description>
 <class fullname="tinymce.util.Cookie" name="Cookie" static="true" summary="This class contains simple cookie manangement functions.">
 <description>This class contains simple cookie manangement functions.
 </description>
@@ -3871,8 +4177,11 @@ All internal events inside TinyMCE uses this class.
 <method name="serialize" static="true" summary="Serializes the specified object as a JSON string.">
 <description>Serializes the specified object as a JSON string.
 </description>
-<param name="o" type="Object">
+<param name="obj" type="Object">
 <description>Object to serialize as a JSON string.</description>
+</param>
+<param name="quote" type="String">
+<description>Optional quote string defaults to ".</description>
 </param>
 <return type="string">
 <description>JSON string serialized from input.</description>
@@ -4005,6 +4314,7 @@ Consult the Wiki for details on what settings this method takes.
 </class>
 </namespace>
 <namespace fullname="tinymce.plugins" name="plugins">
+<description>Contains plugin classes.</description>
 <class fullname="tinymce.plugins.AutoSave" name="AutoSave" summary="This plugin adds auto-save capability to the TinyMCE text editor to rescue content inadvertently lost.">
 <description>This plugin adds auto-save capability to the TinyMCE text editor to rescue content
 inadvertently lost. By using localStorage.
@@ -4302,10 +4612,6 @@ The current keys are longname, author, authorurl, infourl and version.
 <description>Constant that is true if the browser is IE 6 or older.
 </description>
 </property>
-<property final="true" name="isIE9" static="true" summary="Constant that is true if the browser is IE 9 or newer." type="Boolean">
-<description>Constant that is true if the browser is IE 9 or newer.
-</description>
-</property>
 <property final="true" name="isGecko" static="true" summary="Constant that is true if the browser is Gecko." type="Boolean">
 <description>Constant that is true if the browser is Gecko.
 </description>
@@ -4335,6 +4641,24 @@ The current keys are longname, author, authorurl, infourl and version.
 <description>true/false if the object is of the specified type.</description>
 </return>
 </method>
+<method name="makeMap" static="true" summary="Makes a name/object map out of an array with names.">
+<description>Makes a name/object map out of an array with names.
+</description>
+<param name="items">
+<type fullname="Array"/>
+<type fullname="String"/>
+<description>Items to make map out of.</description>
+</param>
+<param name="delim" type="String">
+<description>Optional delimiter to split string by.</description>
+</param>
+<param name="map" type="Object">
+<description>Optional map to add items to.</description>
+</param>
+<return type="Object">
+<description>Name/value map of items.</description>
+</return>
+</method>
 <method name="each" static="true" summary="Performs an iteration of all items in a collection such as an object or array.">
 <description>Performs an iteration of all items in a collection such as an object or array. This method will execure the
 callback function for each item in the collection, if the callback returns false the iteration will terminate.
@@ -4349,11 +4673,9 @@ The callback has the following format: cb(value, key_or_index).
 <param name="s" type="Object">
 <description>Optional scope to execute the callback in.</description>
 </param>
-<example>
 <example>tinymce.each([1, 2, 3], function(v, i) {
   console.log(i + '=' + v);
 });</example>
-</example>
 </method>
 <method name="map" static="true" summary="Creates a new array by the return value of each iteration function call.">
 <description>Creates a new array by the return value of each iteration function call. This enables you to convert
@@ -4428,8 +4750,11 @@ More details on this method can be found in the Wiki.
 <param name="s" type="String">
 <description>Class name, inheritage and prefix.</description>
 </param>
-<param name="o" type="Object">
+<param name="p" type="Object">
 <description>Collection of methods to add to the class.</description>
+</param>
+<param name="root" type="Object">
+<description>Optional root object defaults to the global window object.</description>
 </param>
 </method>
 <method name="walk" static="true" summary="Executed the specified function for each item in a object tree.">
@@ -4511,7 +4836,6 @@ This method is useful for dealing with browser memory leaks where it might be vi
 </members>
 <description>Core namespace with core functionality for the TinyMCE API all sub classes will be added to this namespace/object.
 </description>
-<example>
 <example>// Using each method
 tinymce.each([1, 2, 3], function(v, i) {
   console.log(i + '=' + v);
@@ -4520,7 +4844,6 @@ tinymce.each([1, 2, 3], function(v, i) {
 // Checking for a specific browser
 if (tinymce.isIE)
   console.log("IE");</example>
-</example>
 </class>
 <class fullname="tinyMCEPopup" name="tinyMCEPopup" static="true" summary="TinyMCE popup/dialog helper class.">
 <description>TinyMCE popup/dialog helper class. This gives you easy access to the

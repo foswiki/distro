@@ -11,7 +11,7 @@
 (function(tinymce) {
 	// Shorten class names
 	var DOM = tinymce.DOM, is = tinymce.is;
-	
+
 	/**
 	 * This class is the base class for all controls like buttons, toolbars, containers. This class should not
 	 * be instantiated directly other controls should inherit from this one.
@@ -27,7 +27,7 @@
 		 * @param {String} id Control id.
 		 * @param {Object} s Optional name/value settings object.
 		 */
-		Control : function(id, s, editor) {
+		Control : function(id, s) {
 			this.id = id;
 			this.settings = s = s || {};
 			this.rendered = false;
@@ -36,18 +36,6 @@
 			this.scope = s.scope || this;
 			this.disabled = 0;
 			this.active = 0;
-			this.editor = editor;
-		},
-		
-		setAriaProperty : function(property, value) {
-			var element = DOM.get(this.id + '_aria') || DOM.get(this.id);
-			if (element) {
-				DOM.setAttrib(element, 'aria-' + property, !!value);
-			}
-		},
-		
-		focus : function() {
-			DOM.get(this.id).focus();
 		},
 
 		/**
@@ -58,8 +46,19 @@
 		 * @param {Boolean} s Boolean state if the control should be disabled or not.
 		 */
 		setDisabled : function(s) {
+			var e;
+
 			if (s != this.disabled) {
-				this.setAriaProperty('disabled', s);
+				e = DOM.get(this.id);
+
+				// Add accessibility title for unavailable actions
+				if (e && this.settings.unavailable_prefix) {
+					if (s) {
+						this.prevTitle = e.title;
+						e.title = this.settings.unavailable_prefix + ": " + e.title;
+					} else
+						e.title = this.prevTitle;
+				}
 
 				this.setState('Disabled', s);
 				this.setState('Enabled', !s);
@@ -89,7 +88,6 @@
 			if (s != this.active) {
 				this.setState('Active', s);
 				this.active = s;
-				this.setAriaProperty('pressed', s);
 			}
 		},
 

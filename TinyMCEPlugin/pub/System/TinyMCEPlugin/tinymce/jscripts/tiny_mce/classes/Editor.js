@@ -591,8 +591,6 @@
 			var n, t = this, s = t.settings, w, h, e = t.getElement(), o, ti, u, bi, bc, re;
 
 			tinymce.add(t);
-			
-			s.aria_label = s.aria_label || DOM.getAttrib(e, 'aria-label', t.getLang('aria.rich_text_area'));
 
 			/**
 			 * Reference to the theme instance that was used to generate the UI. 
@@ -763,13 +761,10 @@
 			}
 
 			// Create iframe
-			//TODO: ACC add the appropriate description on this.
-			n = DOM.add(o.iframeContainer, 'iframe', { 
+			n = DOM.add(o.iframeContainer, 'iframe', {
 				id : t.id + "_ifr",
 				src : u || 'javascript:""', // Workaround for HTTPS warning in IE6/7
 				frameBorder : '0',
-				title : s.aria_label,
-
 				style : {
 					width : '100%',
 					height : h
@@ -779,7 +774,6 @@
 			t.contentAreaContainer = o.iframeContainer;
 			DOM.get(o.editorContainer).style.display = t.orgDisplay;
 			DOM.get(t.id).style.display = 'none';
-			DOM.setAttrib(t.id, 'aria-hidden', true);
 
 			if (!isIE || !tinymce.relaxedDomain)
 				t.setupIframe();
@@ -1344,10 +1338,8 @@
 				}
 
 				// Is not content editable
-				if (!ce) {
-					if (t.getWin().frameElement) t.getWin().frameElement.focus();
+				if (!ce)
 					t.getWin().focus();
-				}
 
 				// Restore selected control element
 				// This is needed when for example an image is selected within a
@@ -2287,7 +2279,7 @@
 								}
 							});
 						} else
-							dom.bind(isGecko ? t.getDoc() : t.getBody(), k, eventHandler);
+							dom.bind(t.getBody(), k, eventHandler);
 						break;
 
 					case 'paste':
@@ -2519,19 +2511,25 @@
 				});
 
 				t.onKeyDown.add(function(ed, e) {
-					var sel;
-
 					switch (e.keyCode) {
 						case 8:
-							sel = t.getDoc().selection;
-
 							// Fix IE control + backspace browser bug
-							if (sel.createRange && sel.createRange().item) {
-								ed.dom.remove(sel.createRange().item(0));
+							if (t.selection.getRng().item) {
+								ed.dom.remove(t.selection.getRng().item(0));
 								return Event.cancel(e);
 							}
 					}
 				});
+
+				/*if (t.dom.boxModel) {
+					t.getBody().style.height = '100%';
+
+					Event.add(t.getWin(), 'resize', function(e) {
+						var docElm = t.getDoc().documentElement;
+
+						docElm.style.height = (docElm.offsetHeight - 10) + 'px';
+					});
+				}*/
 			}
 
 			if (tinymce.isOpera) {
@@ -2551,27 +2549,10 @@
 					if (!t.removed && t.undoManager.typing)
 						addUndo();
 				});
-				
-				t.dom.bind(t.dom.getRoot(), 'dragend', function(e) {
-					addUndo();
-				});
 
 				t.onKeyUp.add(function(ed, e) {
-					var rng, parent, bookmark;
 					if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 13 || e.keyCode == 45 || e.ctrlKey)
 						addUndo();
-
-					// Fix for bug #3168, to remove odd ".." nodes from the DOM we need to get/set the HTML of the parent node.
-					if (isIE && e.keyCode == 8) {
-						rng = t.selection.getRng();
-						if (rng.parentElement) {
-							parent = rng.parentElement();
-							bookmark = t.selection.getBookmark();
-							parent.innerHTML = parent.innerHTML;
-							t.selection.moveToBookmark(bookmark);
-						}
-					}
-
 				});
 
 				t.onKeyDown.add(function(ed, e) {
@@ -2585,7 +2566,6 @@
 						rng = t.selection.getRng();
 
 						if (rng.parentElement) {
-							addUndo();
 							parent = rng.parentElement();
 
 							// Select next word when ctrl key is used in combo with delete
@@ -2612,22 +2592,14 @@
 								t.selection.moveToBookmark(bookmark);
 							}
 
-							addUndo();
-
 							// Block the default delete behavior since it might be broken
 							e.preventDefault();
 							return;
 						}
 					}
 
-					// Special handling for enter to ensure typing is still set to true
-					if (e.keyCode == 13 && t.undoManager.typing) {
-						addUndo();
-						t.undoManager.typing = 1;
-					}
-					
 					// Is caracter positon keys
-					if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 45) {
+					if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 13 || e.keyCode == 45) {
 						if (t.undoManager.typing)
 							addUndo();
 
@@ -2643,50 +2615,6 @@
 				t.onMouseDown.add(function() {
 					if (t.undoManager.typing)
 						addUndo();
-				});
-			}
-			
-			// Bug fix for FireFox keeping styles from end of selection instead of start.
-			if (tinymce.isGecko) {
-				function getAttributeApplyFunction() {
-					t.undoManager.typing = 0;
-					t.undoManager.add();
-					var template = t.dom.getAttribs(t.selection.getStart().cloneNode(false));
-					return function() {
-						var target = t.selection.getStart();
-						t.dom.removeAllAttribs(target);
-						each(template, function(attr) {
-							target.setAttributeNode(attr.cloneNode(true));
-						});
-						//t.dom.setAttribs(target, template);
-						t.undoManager.typing = 0;
-						t.undoManager.add();
-					};
-				}
-				
-				function isSelectionAcrossElements() {
-					var s = t.selection;
-					return !s.isCollapsed() && s.getStart() != s.getEnd();
-				}
-				
-				t.onKeyPress.add(function(ed, e) {
-					if ((e.keyCode == 8 || e.keyCode == 46) && isSelectionAcrossElements()) {
-						var applyAttributes = getAttributeApplyFunction();
-						t.getDoc().execCommand('delete', false, null);
-						applyAttributes();
-						return Event.cancel(e);
-					}
-				});
-				
-				t.dom.bind(t.getDoc(), 'cut', function(e) {
-					if (isSelectionAcrossElements()) {
-						var applyAttributes = getAttributeApplyFunction();
-						t.onKeyUp.addToTop(Event.cancel, Event);
-						setTimeout(function() {
-							applyAttributes();
-							t.onKeyUp.remove(Event.cancel, Event);
-						}, 0);
-					}
 				});
 			}
 		},
