@@ -11,11 +11,12 @@ sub check {
     my $this = shift;
     my $currentSuffix;
 
-    ($currentSuffix) = $ENV{SCRIPT_NAME} =~ m/configure(.*)$/;
+    my $scriptName = Foswiki::getScriptName();
+    ($currentSuffix) = $scriptName =~ m/configure(.*)$/;
 
     if ( defined $currentSuffix && $currentSuffix ) {
         return $this->WARN( 'this script ('
-              . $ENV{SCRIPT_NAME}
+              . $scriptName
               . ') has a different suffix than the current ScriptSuffix setting ('
               . $Foswiki::cfg{ScriptSuffix}
               . ')' )
@@ -23,7 +24,7 @@ sub check {
     }
     else {
         return $this->WARN( 'this script ('
-              . $ENV{SCRIPT_NAME}
+              . $scriptName
               . ') does not use the script suffix ('
               . $Foswiki::cfg{ScriptSuffix}
               . ')' )
