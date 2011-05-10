@@ -166,7 +166,7 @@ ARGH
             last;
         }
     }
-    die 'Could not find LocalSite.cfg anywhere in @INC - build aborted'
+    warn 'Could not find LocalSite.cfg anywhere in @INC - build aborted'
       unless $haveLSC;
 
     # Find the project lib root
