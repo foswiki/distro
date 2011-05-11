@@ -107,9 +107,9 @@ install: build
 #move LocalSite.cfg to /etc/foswiki
 	cp debian/LocalSite.cfg debian/foswiki/etc/foswiki/LocalSite.cfg
 
-	perl -pi~ -e 's|^(.foswikiLibPath).*|\1 = \"/etc/foswiki\";|;' debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
+	perl -pi~ -e 's|^(.foswikiLibPath).*|\1 = \"/var/lib/foswiki/lib\";|;' debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
 	#enable /var/lib/foswiki/lib as an extra lib dir for plugin installers (configure, fosiki extras and unziping)
-	perl -pi~ -e 's|^# (.localPerlLibPath).*|\1 = \"/var/lib/foswiki/lib\";\n\$$CPANBASE = 1;|;' debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
+	perl -pi~ -e 's|^# (.localPerlLibPath).*|\1 = \"/etc/foswiki\";\n\$$CPANBASE = 1;|;' debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
 	rm debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg~
 
 	chmod -R 644 debian/foswiki/etc/foswiki/*

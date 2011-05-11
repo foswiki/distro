@@ -72,6 +72,13 @@ perl -pi~ -e '$U=q{'"$RET"'}; s/^([^#]*Require user).*/$1 $U/g;' /etc/foswiki/ap
 db_get foswiki/adminpassword
 configpassword="$RET"
 
+#upgrade from 1.0 to 1.1
+#remove ZonePlugin
+perl -pi~ -e 's{^.*ZonePlugin.*$}{}g;' /etc/foswiki/LocalSite.cfg
+#update JQueryPlugin to use 1.4.3
+perl -pi~ -e 's{jquery-1.\d*.\d*}{jquery-1.4.3}g;' /etc/foswiki/LocalSite.cfg
+
+
 # prevent further confusion: done with debconfig
 
 # regrettably, this doesn't actually permit us to do further I/O.
