@@ -36,6 +36,9 @@ Type: note
 _Description: Admin User Registration configuration required
  After you have created yourself a user, edit the Main.AdminGroup
  to restrict Admin privileges to that user.
+.
+************REMEMBER to run configure and save after upgrading 
+to update new settings********************
 
 Template: foswiki/adminuser
 Type: string
