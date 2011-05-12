@@ -24,6 +24,7 @@ use constant {
     NUMBER => 2,
     STRING => 3,
     HASH => 4,
+    META => 5,
 };
 
 =begin TML
@@ -111,6 +112,9 @@ sub stringify {
                 return join(',', map{
                                     $_.'=>'.$this->{params}[0]->{$_}
                                     } keys(%{$this->{params}[0]}));
+            } 
+            if (ref($this->{params}[0]) eq 'Foswiki::Meta') {
+                return $this->{params}[0]->web.'.'.$this->{params}[0]->topic;
             } 
             return $this->{params}[0];
         }

@@ -36,6 +36,12 @@ use Error qw( :try );
 
 use Foswiki::Meta ();
 
+# <DEBUG SUPPORT>
+
+use constant MONITOR_EVAL => 0;
+use constant MONITOR_FOLD => 0;
+
+
 # Cache of the names of $Foswiki::cfg items that are accessible
 our $isAccessibleCfg;
 
@@ -63,11 +69,6 @@ This hash is maintained by Foswiki::Meta and is *strictly read-only*
 # Foswiki::Meta
 *aliases     = \%Foswiki::Meta::aliases;
 *isArrayType = \%Foswiki::Meta::isArrayType;
-
-# <DEBUG SUPPORT>
-
-use constant MONITOR_EVAL => 1;
-use constant MONITOR_FOLD => 1;
 
 our $emptyExprOp;
 our $commaOp;
@@ -365,6 +366,8 @@ sub _freeze {
         $this->_makeArray($c);
     } elsif ( ref($c) eq 'HASH' ) {
         $this->convertToLeaf( Foswiki::Infix::Node::HASH, $c );
+    } elsif ( ref($c) eq 'Foswiki::Meta' ) {
+        $this->convertToLeaf( Foswiki::Infix::Node::META, $c );
     }
     elsif ( Foswiki::Query::OP::isNumber($c) ) {
         $this->convertToLeaf( Foswiki::Infix::Node::NUMBER, $c );
@@ -374,7 +377,7 @@ sub _freeze {
         if (ref($c) eq '') {
             $this->convertToLeaf( Foswiki::Infix::Node::STRING, $c );
         } else {
-            print STDERR "_freeze".ref($c)."\n"
+            print STDERR "_freeze".ref($c)."\n" if MONITOR_FOLD;
         }
     }
 }

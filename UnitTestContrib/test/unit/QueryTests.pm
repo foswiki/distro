@@ -20,6 +20,8 @@ use Foswiki::Query::Node;
 use Foswiki::Meta;
 use strict;
 
+use constant MONITOR => 0;
+
 my %qalgs;
 
 sub new {
@@ -229,12 +231,6 @@ sub check {
     #print STDERR "query: $s\nresult: " . Data::Dumper::Dumper($query) . "\n";
     my $meta = $this->{meta};
     
-#print STDERR "before simplification: ".$query->stringify()."\n";
-#            $query->simplify( tom => $meta, data => $meta );
-#print STDERR "after simplification: ".$query->stringify()."\n";
-#print STDERR "after simplification: \n".Data::Dumper::Dumper($query)."\n";
-    
-
     my $val = $query->evaluate( tom => $meta, data => $meta );
     if ( ref( $opts{'eval'} ) ) {
         $this->assert_deep_equals( $opts{'eval'}, $val,
@@ -261,10 +257,10 @@ sub check {
     }
     unless ( $opts{syntaxOnly} ) {
         if ( defined $opts{simpler} ) {
-print STDERR "before simplification: ".$query->stringify()."\n";
+print STDERR "before simplification: ".$query->stringify()."\n" if MONITOR;
             $query->simplify( tom => $meta, data => $meta );
-print STDERR "after simplification: ".$query->stringify()."\n";
-print STDERR "after simplification: \n".Data::Dumper::Dumper($query)."\n";
+print STDERR "after simplification: ".$query->stringify()."\n" if MONITOR;
+print STDERR "after simplification: \n".Data::Dumper::Dumper($query)."\n" if MONITOR;
             $this->assert_str_equals( $opts{simpler}, $query->stringify(),
                 $query->stringify() . " is not $opts{simpler}" );
         }
