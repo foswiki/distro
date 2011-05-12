@@ -228,6 +228,13 @@ sub check {
     #use Data::Dumper;
     #print STDERR "query: $s\nresult: " . Data::Dumper::Dumper($query) . "\n";
     my $meta = $this->{meta};
+    
+#print STDERR "before simplification: ".$query->stringify()."\n";
+#            $query->simplify( tom => $meta, data => $meta );
+#print STDERR "after simplification: ".$query->stringify()."\n";
+#print STDERR "after simplification: \n".Data::Dumper::Dumper($query)."\n";
+    
+
     my $val = $query->evaluate( tom => $meta, data => $meta );
     if ( ref( $opts{'eval'} ) ) {
         $this->assert_deep_equals( $opts{'eval'}, $val,
@@ -254,7 +261,10 @@ sub check {
     }
     unless ( $opts{syntaxOnly} ) {
         if ( defined $opts{simpler} ) {
+print STDERR "before simplification: ".$query->stringify()."\n";
             $query->simplify( tom => $meta, data => $meta );
+print STDERR "after simplification: ".$query->stringify()."\n";
+print STDERR "after simplification: \n".Data::Dumper::Dumper($query)."\n";
             $this->assert_str_equals( $opts{simpler}, $query->stringify(),
                 $query->stringify() . " is not $opts{simpler}" );
         }
@@ -774,6 +784,20 @@ sub test_match_field {
 
 sub test_match_lc_field {
     my $this = shift;
+
+    $this->check(
+        "'$this->{test_web}.HitTopic'/fields",
+        eval =>  [
+            {value=>99,name=>'number',title=>'Number'},
+            {value=>'String',name=>'string',title=>'String'},
+            {value=>"n\nn t\tt s\\s q'q o#o h#h X~X \\b \\a \\e \\f \\r \\cX",name=>'StringWithChars',title=>'StringWithChars'},
+            {value=>1,name=>'boolean',title=>'Boolean'},
+            {value=>'%RED%',name=>'macro'},
+            {value=>'Some text (really) we have text',name=>'brace',title=>'Brace'},
+            {value=>'Petrol',name=>'SillyFuel',title=>'Silly fuel'}],
+        simpler =>  ',{value=>99,name=>number,title=>Number,,{value=>String,name=>string,title=>String,,{value=>n'."\n".'n t	t s\s q\'q o#o h#h X~X \b \a \e \f \r \cX,name=>StringWithChars,title=>StringWithChars,,{value=>1,name=>boolean,title=>Boolean,,{value=>%RED%,name=>macro,,{value=>Some text (really) we have text,name=>brace,title=>Brace,value=>Petrol,name=>SillyFuel,title=>Silly fuel}}}}}}'
+            );
+
     $this->check(
         "'$this->{test_web}.HitTopic'/fields[NOT lc(name)=~'(s)'].name",
         eval => [qw(number boolean macro brace)] );

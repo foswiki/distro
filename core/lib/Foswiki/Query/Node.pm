@@ -66,8 +66,8 @@ This hash is maintained by Foswiki::Meta and is *strictly read-only*
 
 # <DEBUG SUPPORT>
 
-use constant MONITOR_EVAL => 0;
-use constant MONITOR_FOLD => 0;
+use constant MONITOR_EVAL => 1;
+use constant MONITOR_FOLD => 1;
 
 our $emptyExprOp;
 our $commaOp;
@@ -363,6 +363,8 @@ sub _freeze {
 
     if ( ref($c) eq 'ARRAY' ) {
         $this->_makeArray($c);
+    } elsif ( ref($c) eq 'HASH' ) {
+        $this->convertToLeaf( Foswiki::Infix::Node::HASH, $c );
     }
     elsif ( Foswiki::Query::OP::isNumber($c) ) {
         $this->convertToLeaf( Foswiki::Infix::Node::NUMBER, $c );
@@ -371,6 +373,8 @@ sub _freeze {
         #Item10703: can't convert a non-scalar to a STRING without further processing.
         if (ref($c) eq '') {
             $this->convertToLeaf( Foswiki::Infix::Node::STRING, $c );
+        } else {
+            print STDERR "_freeze".ref($c)."\n"
         }
     }
 }

@@ -23,6 +23,7 @@ use constant {
     NAME   => 1,
     NUMBER => 2,
     STRING => 3,
+    HASH => 4,
 };
 
 =begin TML
@@ -106,6 +107,11 @@ sub stringify {
             return "'$this->{params}[0]'";
         }
         else {
+            if (ref($this->{params}[0]) eq 'HASH') {
+                return join(',', map{
+                                    $_.'=>'.$this->{params}[0]->{$_}
+                                    } keys(%{$this->{params}[0]}));
+            } 
             return $this->{params}[0];
         }
     }
