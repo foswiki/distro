@@ -374,7 +374,8 @@ sub verify_switchboard_function {
         else {
             for ($output) {    # Remove OK warnings
                                # Empty title, no easy fix and harmless
-s/^$testcase \(\d+:\d+\) Warning: trimming empty <(?:h1|span)>\n?$//gm;
+s/^$testcase \(\d+:\d+\) Warning: trimming empty <(?:h1|span|ins)>\n?$//gm;
+s/^$testcase \(\d+:\d+\) Warning: inserting implicit <(?:ins)>\n?$//gm;
                 s/^\s*$//;
             }
             if ( defined( $expect_table_summary_warnings{$SCRIPT_NAME} )
