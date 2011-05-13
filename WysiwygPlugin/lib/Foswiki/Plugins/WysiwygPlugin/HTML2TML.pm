@@ -61,8 +61,7 @@ sub new {
         declaration_h    => [ '_ignore',   'self' ],
         start_document_h => [ '_ignore',   'self' ],
         end_document_h   => [ '_ignore',   'self' ],
-        default_h        => [ '_default',  'self,event,text' ],
-        comment_h         => [ '_ignore',   'self' ]
+        default_h        => [ '_default',  'self,event,text' ]
     );
 
     $this = bless( $this, $class );
