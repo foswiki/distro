@@ -14,4 +14,6 @@ Description: A Web Based Collaboration Platform
  originally developed for OOP/Patterns collaboration.  In addition to the
  traditional Wiki feature of allowing any web browser to serve as a contributing
  client, Foswiki adds rcs-based version control and user management.
-Provides: foswiki-famfamfamcontrib, foswiki-zoneplugin, foswiki-jqueryplugin
+Provides: foswiki-autoviewtemplateplugin, foswiki-comparerevisionsaddon, foswiki-commentplugin, foswiki-edittableplugin, foswiki-emptyplugin, foswiki-famfamfamcontrib, foswiki-historyplugin, foswiki-interwikiplugin, foswiki-jscalendarcontrib, foswiki-jqueryplugin, foswiki-mailercontrib, foswiki-tableplugin, foswiki-twistyplugin, foswiki-patternskin, foswiki-preferencesplugin, foswiki-renderlistplugin, foswiki-slideshowplugin, foswiki-smiliesplugin, foswiki-spreadsheetplugin, foswiki-tipscontrib, foswiki-wysiwygplugin, foswiki-tinymceplugin, foswiki-topicusermappingcontrib, foswiki-twikicompatibilityplugin, foswiki-zoneplugin
+Replaces: foswiki-autoviewtemplateplugin, foswiki-comparerevisionsaddon, foswiki-famfamfamcontrib, foswiki-historyplugin, foswiki-jqueryplugin, foswiki-zoneplugin 
+Conflicts: foswiki-autoviewtemplateplugin, foswiki-comparerevisionsaddon, foswiki-famfamfamcontrib, foswiki-historyplugin, foswiki-jqueryplugin, foswiki-zoneplugin, foswiki-ratingcontrib, foswiki-voteplugin
