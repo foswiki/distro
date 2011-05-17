@@ -16,13 +16,13 @@
 use strict;
 
 
-if ( grep('-update', @ARGV) ) {
+if ( grep(/-update/, @ARGV) ) {
 	`curl http://svn.foswiki.org/trunk/core/tools/autoBuildFoswiki.pl > autoBuildFoswiki.pl`;
 	exit;
 }
 
 my $SvensAutomatedBuilds = 0;
-if ( grep('-sven', @ARGV) ) {
+if ( grep(/-sven/, @ARGV) ) {
    $SvensAutomatedBuilds = 1;
    print STDERR "doing an automated Sven build";
 }
