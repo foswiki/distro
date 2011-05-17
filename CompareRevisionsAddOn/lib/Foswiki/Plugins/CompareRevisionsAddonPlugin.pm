@@ -70,6 +70,7 @@ sub _handleRdiff2Compare {
 
 }
 
+1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
