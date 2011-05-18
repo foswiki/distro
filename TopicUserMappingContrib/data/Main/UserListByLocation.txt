@@ -5,4 +5,14 @@
 %INCLUDE{"UserListHeader"}%
 
 %TABLE{initsort="1"}%
-%SEARCH{"form.name~'*UserForm'" type="query" header="|*Country* | *State* | *FirstName* | *LastName* | *Organization* |" format="| $formfield(Country) | $formfield(State) | [[$topic][$formfield(FirstName)]] | [[$topic][$formfield(LastName)]] | $formfield(OrganisationName) |" excludetopic="Web*, *Template" nosearch="on" order="formfield(Country)"}%
+%SEARCH{
+        "form.name~'*UserForm'" 
+        type="query" 
+        header="|*Country* | *State* | *FirstName* | *LastName* | *Organization* |" 
+        format="| $formfield(Country) | $formfield(State) | [[$topic][$formfield(FirstName)]] | [[$topic][$formfield(LastName)]] | $formfield(OrganisationName) |" 
+        excludetopic="Web*, *Template" 
+        nosearch="on" 
+        order="formfield(Country)"
+        pager="on"
+        pagesize="%DEFAULTPAGESIZE%"
+     }%

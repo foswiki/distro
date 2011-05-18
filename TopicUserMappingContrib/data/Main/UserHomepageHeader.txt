@@ -8,7 +8,13 @@ The part between the horizontal rules gets included at the top of every [[%WIKIU
 
 -----
 %STARTINCLUDE%
-%SEARCH{ "%BASETOPIC%" scope="topic" topic="%BASETOPIC%" nonoise="on" format="---+!! $formfield(FirstName) $formfield(LastName)$n()$n()| Organization: | <b> $formfield(OrganisationName) </b> |&nbsp;| Country: | <b> $formfield(Country) </b> |&nbsp;| Location: | <b> $formfield(Location) </b> |$n()| Telephone: | <b> $formfield(Telephone) </b> |&nbsp;| E-mail: | <b> $formfield(Email) </b> |" }%
+%SEARCH{ 
+        "%BASETOPIC%" 
+        scope="topic" 
+        topic="%BASETOPIC%" 
+        nonoise="on" 
+        format="---+!! $formfield(FirstName) $formfield(LastName)$n()$n()| Organization: | <b> $formfield(OrganisationName) </b> |&nbsp;| Country: | <b> $formfield(Country) </b> |&nbsp;| Location: | <b> $formfield(Location) </b> |$n()| Telephone: | <b> $formfield(Telephone) </b> |&nbsp;| E-mail: | <b> $formfield(Email) </b> |" 
+    }%
 %TOC%
 %STOPINCLUDE%
 

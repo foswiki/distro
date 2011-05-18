@@ -124,7 +124,7 @@ Each web has:
   nonoise="on"
   web="_default"
   excludetopic="%HOMETOPIC%"
-  format="      * $topic"
+  format="      * $web.$topic"
   separator="$n"
 }%
 

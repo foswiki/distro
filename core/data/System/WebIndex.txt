@@ -1,5 +1,12 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WebHome"}%
-%SEARCH{"'1'" scope="topic" type="query" nosearch="on"}%
+%SEARCH{
+    "'1'" 
+    scope="topic" 
+    type="query" 
+    nosearch="on"
+    pager="on"
+    pagesize="%DEFAULTPAGESIZE%"
+  }%
 
 %MAKETEXT{"See also the faster [_1]" args="[[%BASEWEB%.WebTopicList][WebTopicList]]"}%

@@ -27,7 +27,17 @@
 
 ---++ %MAKETEXT{"Recently changed topics"}%
 <dl>
-%SEARCH{ ".*" regex="on" nosearch="on" nototal="on" order="modified" reverse="on" limit="7" format="<dt>[[$topic]]</dt><dd>$summary<br /><span class='foswikiGrayText'>$date - $wikiusername</span></dd>"}%
+%SEARCH{ 
+  ".*" 
+  regex="on" 
+  nosearch="on" 
+  nototal="on" 
+  order="modified" 
+  reverse="on" 
+  format="<dt>[[$topic]]</dt><dd>$summary<br /><span class='foswikiGrayText'>$date - $wikiusername</span></dd>"
+  pager="on"
+  pagesize="7"
+ }%
 </dl>
 %MAKETEXT{"A more extensive changes list is available via ~[~[[_1]~]~[Recent changes~]~]." args="WebChanges"}%
 

@@ -1,8 +1,18 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WebHome"}%
----+ %MAKETEXT{"[_1] recent changes in [_2] Web" args="%URLPARAM{"limit" default="50"}%, <nop>%BASEWEB%"}% <span style="font-size: 50%">%MAKETEXT{"retrieved at [_1]" args="%DISPLAYTIME{"$hour:$min ($tz)"}%"}%</span>
+---+ %MAKETEXT{"[_1] recent changes in [_2] Web" args="%URLPARAM{"limit" default="%DEFAULTPAGESIZE%"}%, <nop>%BASEWEB%"}% <span style="font-size: 50%">%MAKETEXT{"retrieved at [_1]" args="%DISPLAYTIME{"$hour:$min ($tz)"}%"}%</span>
 
-%SEARCH{"'1'" web="%BASEWEB%" type="query" nosearch="on" noheader="on" order="modified" limit="%URLPARAM{"limit" default="50"}%" reverse="on"}%
+%SEARCH{
+    "'1'" 
+    web="%BASEWEB%" 
+    type="query" 
+    nosearch="on" 
+    noheader="on" 
+    order="modified" 
+    pager="on"
+    pagesize="%URLPARAM{"limit" default="%DEFAULTPAGESIZE%"}%" 
+    reverse="on"
+    }%
 
 <strong><em>%MAKETEXT{"See also:"}%</em></strong>
 %ICON{rss-small}%

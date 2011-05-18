@@ -1,3 +1,12 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="UserList"}%
-*Related topics:* %SEARCH{"name='WikiUsers' OR name='WikiGroups' OR name='UserList' OR name~'UserListBy*'" type="query" web="%USERSWEB%" scope="topic" separator=", " nonoise="on" format="[[$web.$topic][$topic]]" excludetopic="%INCLUDINGTOPIC%"}%
+*Related topics:* %SEARCH{
+                "name='WikiUsers' OR name='WikiGroups' OR name='UserList' OR name~'UserListBy*'" 
+                type="query" 
+                web="%USERSWEB%" 
+                scope="topic" 
+                separator=", " 
+                nonoise="on" 
+                format="[[$web.$topic][$topic]]" 
+                excludetopic="%INCLUDINGTOPIC%"
+            }%

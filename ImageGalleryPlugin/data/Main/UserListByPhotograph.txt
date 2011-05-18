@@ -3,6 +3,12 @@
 
 %INCLUDE{"UserListHeader"}%
 
-%IMAGEGALLERY{thumbtitle="[[$topic]]" topics="%SEARCH{"form.name='UserForm'" type="query" nonoise="on" separator="," format="$topic"}%" size="large" title="[[$topic]]"}%
+%IMAGEGALLERY{thumbtitle="[[$topic]]" topics="%SEARCH{
+                        "form.name='UserForm'" 
+                        type="query" 
+                        nonoise="on" 
+                        separator="," 
+                        format="$topic"
+                    }%" size="large" title="[[$topic]]"}%
 
 If Foswiki:Extensions.ImageGalleryPlugin is installed this page will show photos and names of all registered users. 

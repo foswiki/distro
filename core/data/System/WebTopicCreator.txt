@@ -17,5 +17,11 @@ Please replace all web's !WebTopicCreator topic contents with this text:
 </textarea>
 
 All !WebTopicCreator topics on this site:
-%SEARCH{"WebTopicCreator" scope="topic" nonoise="on" web="all,-%SYSTEMWEB%" format="   * [[%SCRIPTURL{edit}%/$web/$topic?t=%GMTIME{$epoch}%][Edit $web.$topic]]"}%
+%SEARCH{
+   "WebTopicCreator" 
+   scope="topic" 
+   nonoise="on" 
+   web="all,-%SYSTEMWEB%" 
+   format="   * [[%SCRIPTURL{edit}%/$web/$topic?t=%GMTIME{$epoch}%][Edit $web.$topic]]"
+ }%
 </div>
