@@ -39,6 +39,16 @@ sub SEARCH {
         $message =~ s/%([A-Z]*[{%])/%<nop>$1/g;
         $message =~ s/\n/<br \/>/g;
         $s = $this->inlineAlert( 'alerts', 'bad_search', $message );
+
+        $Foswiki::Plugins::SESSION->logger->log( 'debug',
+                'SEARCH crash: '
+              . $topicObject->web . '.'
+              . $topicObject->topic
+              . ': SEARCH{"'
+              . $params->{search}
+              . "\"...\nCaused the following error:\n"
+              . $message
+              . "\n-------\n" );
     };
 
     return $s;
