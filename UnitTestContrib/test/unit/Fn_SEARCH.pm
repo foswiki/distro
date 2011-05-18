@@ -60,6 +60,13 @@ sub set_up {
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OkBTopic',
         "BLEEGLE dont.matchmeblah" );
     $topicObject->save(forcedate=>$timestamp+480);
+
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'InvisibleTopic',
+        "BLEEGLE dont.matchmeblah" );
+    $topicObject->putKeyed( 'PREFERENCE', { name => 'ALLOWTOPICVIEW', value =>'OnlySuperman' } );
+    $topicObject->save(forcedate=>$timestamp+480);
+
 }
 
 #TODO: figure out how to bomb out informativly if a dependency for one of the algo's isn't met - like no grep...
@@ -1792,6 +1799,7 @@ sub _getTopicList {
     ASSERT( UNIVERSAL::isa( $iter, 'Foswiki::Iterator' ) ) if DEBUG;
     my @topicList = ();
     while ( my $t = $iter->next() ) {
+        next if ($t eq 'InvisibleTopic'); #and user != admin or...
         push( @topicList, $t );
     }
 
