@@ -80,7 +80,18 @@ sub log {
       '| ' . join( ' | ', map { s/\|/&vbar;/g; $_ } @fields ) . ' |';
 
     my $file;
-    if ( open( $file, '>>', $log ) ) {
+    my $mode = '>>';
+
+    # Item10764, TODO: actually, perhaps we should open the stream this way
+    # for any encoding, not just utf8. Babar says: check what Catalyst does.
+    # TODO: 'utf8' vs 'utf-8'
+    if ( $Foswiki::cfg{Site}{CharSet} eq 'utf-8' ) {
+	$mode .= ':encoding(utf8)';
+    } elsif ( utf8::is_utf8($message) ) {
+        require Encode;
+	$message = Encode::encode( $Foswiki::cfg{Site}{CharSet}, $message, 0 );
+    }
+    if ( open( $file, $mode, $log ) ) {
         print $file "$message\n";
         close($file);
     }
