@@ -80,94 +80,93 @@ sub process {
     # edit.
     my $editable_content;
     foreach (@$content) {
-        if ( UNIVERSAL::isa( $_, 'Foswiki::Plugins::EditRowPlugin::Table' ) ) {
-            my $line = '';
-            $table = $_;
-	    $table->{editable} = !$displayOnly;
-            $active_table++;
-            if (  !$displayOnly
-                && $active_topic eq $urps->{erp_active_topic}
-                && $urps->{erp_active_table} eq "${macro}_$active_table" ) {
+        next unless ( UNIVERSAL::isa( $_, 'Foswiki::Plugins::EditRowPlugin::Table' ) );
+	my $line = '';
+	$table = $_;
+	$table->{editable} = !$displayOnly;
+	$active_table++;
+	if (  !$displayOnly
+	      && $active_topic eq $urps->{erp_active_topic}
+	      && $urps->{erp_active_table} eq "${macro}_$active_table" ) {
 
-                my $active_row = $urps->{erp_active_row};
-		unless ($table->{attrs}->{require_js}) {
-		    my $saveUrl = $_->getSaveURL();
-		    $line .= CGI::start_form(
-			-method => 'POST',
-			-name   => "erp_form_${macro}_$active_table",
-			-action => $saveUrl
-			);
-		    $line .= CGI::hidden( 'erp_active_topic', $active_topic );
-		    $line .=
-			CGI::hidden( 'erp_active_table', "${macro}_$active_table" );
-		    $line .= CGI::hidden( 'erp_active_row', $active_row );
-		}
+	    my $active_row = $urps->{erp_active_row};
+	    unless ($table->{attrs}->{require_js}) {
+		my $saveUrl = $_->getSaveURL();
+		$line .= CGI::start_form(
+		    -method => 'POST',
+		    -name   => "erp_form_${macro}_$active_table",
+		    -action => $saveUrl
+		    );
+		$line .= CGI::hidden( 'erp_active_topic', $active_topic );
+		$line .=
+		    CGI::hidden( 'erp_active_table', "${macro}_$active_table" );
+		$line .= CGI::hidden( 'erp_active_row', $active_row );
+	    }
 
-                # To avoid with the situation where macros like
-                # %CALC% have already been processed and end up getting saved
-                # in the table that way (processed), we need to read in the
-                # topic again in raw format
-                unless ($editable_content) {
-                    my ( $junkmeta, $raw ) =
-                      Foswiki::Func::readTopic( $web, $topic );
-                    $editable_content =
-                      Foswiki::Plugins::EditRowPlugin::TableParser::parseTables(
+	    # To avoid with the situation where macros like
+	    # %CALC% have already been processed and end up getting saved
+	    # in the table that way (processed), we need to read in the
+	    # topic again in raw format
+	    unless ($editable_content) {
+		my ( $junkmeta, $raw ) =
+		    Foswiki::Func::readTopic( $web, $topic );
+		$editable_content =
+		    Foswiki::Plugins::EditRowPlugin::TableParser::parseTables(
                         $raw, $web, $topic, $junkmeta, $urps );
-                }
+	    }
 
-                # get the corresponding table in the editable content
-                my $ea_table   = 0;
-                my $real_table = undef;
-                foreach my $ee (@$editable_content) {
-                    if (
-                        UNIVERSAL::isa(
-                            $ee, 'Foswiki::Plugins::EditRowPlugin::Table'
-                        )
-                      )
-                    {
-                        $ea_table++;
-                        if ( $ea_table == $active_table ) {
-                            $real_table = $ee;
-                            last;
-                        }
-                    }
-                }
-                $line .= "\n"
-		    . $table->render({
-			for_edit => 1,
-			active_row => $active_row,
-			real_table => $real_table })
-		    . "\n";
-                $line .= CGI::end_form() unless $table->{attrs}->{require_js};
-                $needHead = 1;
-            }
-            else {
-                $line = $table->render({ with_controls => !$displayOnly });
-            }
+	    # get the corresponding table in the editable content
+	    my $ea_table   = 0;
+	    my $real_table = undef;
+	    foreach my $ee (@$editable_content) {
+		if (
+		    UNIVERSAL::isa(
+			$ee, 'Foswiki::Plugins::EditRowPlugin::Table'
+		    )
+		    )
+		{
+		    $ea_table++;
+		    if ( $ea_table == $active_table ) {
+			$real_table = $ee;
+			last;
+		    }
+		}
+	    }
+	    $line .= "\n"
+		. $table->render({
+		    for_edit => 1,
+		    active_row => $active_row,
+		    real_table => $real_table })
+		. "\n";
+	    $line .= CGI::end_form() unless $table->{attrs}->{require_js};
+	    $needHead = 1;
+	}
+	else {
+	    $line = $table->render({ with_controls => !$displayOnly });
+	}
 
-            $table->finish();
+	$table->finish();
 
-            # If this is an included topic, mark the table as having
-            # being included so we don't attempt to reprocess it
-            my ( $precruft, $postcruft ) = ( '', '' );
-            if (
-                defined Foswiki::Func::getPreferencesValue('INCLUDINGTOPIC')
+	# If this is an included topic, mark the table as having
+	# being included so we don't attempt to reprocess it
+	my ( $precruft, $postcruft ) = ( '', '' );
+	if (
+	    defined Foswiki::Func::getPreferencesValue('INCLUDINGTOPIC')
 
-                # NOTE: SESSION_TAGS used to be private to Foswiki.pm, but
-                # the "official" mechanism for accessing its value was
-                # just silly i.e.
-                # Foswiki::Func::expandCommonVariables("%INCLUDINGTOPIC%");
-                || defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}
-                && defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}
-                {INCLUDINGTOPIC}
-              )
-            {
-                $precruft  = "<!-- STARTINCLUDE $_[2].$_[1] -->\n";
-                $postcruft = "\n<!-- STOPINCLUDE $_[2].$_[1] -->";
-            }
-            $_         = $precruft . $line . $postcruft;
-            $hasTables = 1;
-        }
+	    # NOTE: SESSION_TAGS used to be private to Foswiki.pm, but
+	    # the "official" mechanism for accessing its value was
+	    # just silly i.e.
+	    # Foswiki::Func::expandCommonVariables("%INCLUDINGTOPIC%");
+	    || defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}
+	    && defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}
+	    {INCLUDINGTOPIC}
+	    )
+	{
+	    $precruft  = "<!-- STARTINCLUDE $_[2].$_[1] -->\n";
+	    $postcruft = "\n<!-- STOPINCLUDE $_[2].$_[1] -->";
+	}
+	$_ = $precruft . $line . $postcruft;
+	$hasTables = 1;
     }
 
     if ($hasTables) {

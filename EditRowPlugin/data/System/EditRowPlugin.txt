@@ -231,6 +231,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2011 Wind<nop>River Inc. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  2.1.4 (18 May 2011) | Foswiki:Tasks/Item10752: fix HTML comments in cells |
 |  2.1.3 (19 Apr 2011) | Foswiki:Tasks/Item10583: support for sort order in select cells Foswiki:Tasks/Item10583: fixes for EDITCELL |
 |  2.1.2 (14 Mar 2011) | Foswiki:Tasks/Item2016: editor was not handling a table cell that contained only "0" correctly |
 |  2.1.1 (25 Feb 2011) | Some minor tweaks |
