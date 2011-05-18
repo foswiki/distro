@@ -350,7 +350,42 @@ sub searchWeb {
 #setting the inputTopicSet to be undef allows the search/query algo to use
 #the topic="" and excludetopic="" params and web Obj to get a new list of topics.
 #this allows the algo's to customise and optimise the getting of this list themselves.
-    my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
+    my $raw_infoCache = Foswiki::Meta::query( $query, undef, \%params );
+    
+    #add filtering for paging
+    #add filtering for ACL test - probably should make it a seperate filter
+    my $infoCache = new Foswiki::Iterator::FilterIterator($raw_infoCache, sub {
+                                                                    my $listItem = shift;
+                                                                    my $params = shift;
+                                                                    #pager..
+                                                                    if ( defined( $params->{pager_skip_results_from} )
+                                                                        and $params->{pager_skip_results_from} > 0 )
+                                                                    {
+                                                                        $params->{pager_skip_results_from}--;
+                                                                        return 0;
+                                                                    }
+                                                                    #ACL test
+                                                                    my ( $web, $topic ) =
+                                                                      Foswiki::Func::normalizeWebTopicName( '', $listItem );
+
+                                                        # add dependencies (TODO: unclear if this should be before the paging, or after the allowView - sadly, it can't be _in_ the infoCache)
+#                                                                    if ( my $cache = $session->{cache} ) {
+#                                                                        $cache->addDependency( $web, $topic );
+#                                                                    }
+
+                                                                    my $topicMeta = $this->metacache->addMeta( $web, $topic );
+                                                                    if (not defined($topicMeta)) {
+                                                        #TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
+                                                        #lets change that
+                                                                        $topicMeta = new Foswiki::Meta($session, $web, $topic);
+                                                                    }
+                                                                    my $info = $this->metacache->get( $web, $topic, $topicMeta );
+                                                                    ASSERT(defined($info->{tom})) if DEBUG;
+
+                                                        # Check security (don't show topics the current user does not have permission to view)
+                                                                    return 0 unless ($info->{allowView});
+                                                                    return 1;}, 
+                                                            \%params);
 
 ################### Do the Rendering
 
@@ -715,14 +750,6 @@ sub formatResults {
         my $listItem = $infoCache->next();
         ASSERT( defined($listItem) ) if DEBUG;
 
-        #pager..
-        if ( defined( $params->{pager_skip_results_from} )
-            and $params->{pager_skip_results_from} > 0 )
-        {
-            $params->{pager_skip_results_from}--;
-            next;
-        }
-
         #############################################################
         #TOPIC specific
         my $topic = $listItem;
@@ -731,6 +758,7 @@ sub formatResults {
         my @multipleHitLines = ();
         if (
             ( $infoCache->isa('Foswiki::Search::ResultSet') ) or    #SEARCH
+            ( $infoCache->isa('Foswiki::Iterator::FilterIterator') ) or    #SEARCH
             ( $infoCache->isa('Foswiki::Search::InfoCache') )       #FORMAT
           )
         {
@@ -742,7 +770,7 @@ sub formatResults {
                 $cache->addDependency( $web, $topic );
             }
 
-            my $topicMeta = $this->metacache->addMeta( $web, $topic );
+            my $topicMeta = $this->metacache->getMeta( $web, $topic );
             if (not defined($topicMeta)) {
 #TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
 #lets change that
@@ -750,9 +778,6 @@ sub formatResults {
             }
             $info = $this->metacache->get( $web, $topic, $topicMeta );
             ASSERT(defined($info->{tom})) if DEBUG;
-
-# Check security (don't show topics the current user does not have permission to view)
-            next unless ($info->{allowView});
 
             $text = '';
             # Special handling for format='...'

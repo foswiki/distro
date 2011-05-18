@@ -41,6 +41,19 @@ sub new {
     return $this;
 }
 
+#lie - give the unfiltered count for speed.
+sub numberOfTopics {
+    my $this = shift;
+    return $this->{iterator}->numberOfTopics();
+}
+sub nextWeb {
+    my $this = shift;
+    $this->{iterator}->nextWeb();
+}
+sub sortResults {
+    my $this = shift;
+    $this->{iterator}->sortResults();
+}
 # See Foswiki::Iterator for a description of the general iterator contract
 sub hasNext {
     my $this = shift;
