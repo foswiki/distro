@@ -61,7 +61,7 @@ Parameters:
       * =date, &lt;size&gt;, &lt;initial value&gt;, &lt;DHTML date format&gt;= Date. Initial value and date format are both optional.
    * ==changerows== - Rows can be added and removed if ="on"=. Rows can be
      added but not removed if ="add"=. Defaults to the value of the
-     [[%SYSTEMWEB%.Macros][preference]] =CHANGEROWS=, or =off= if it isn't set.
+     [[%SYSTEMWEB%.Macros][preference]] =CHANGEROWS=, or ="off"= if it isn't set.
    * ==disable== - By default, the plugin shows both full table and individual row editing controls. You can choose to disable one or both of these modes using the =disable= parameter, by setting it to =row= or =full= (or =row,full= to disable all editing and just leave sorting). If full table editing is disabled, but =changerows= is =on=, then the <img src="%ATTACHURLPATH%/edittable.png" /> (edit table) button will be replaced with a <img src="%ATTACHURLPATH%/addrow.png" /> (add row) button. Defaults to the value of the
      [[%SYSTEMWEB%.Macros][preference]] =EDITROWPLUGIN_DISABLE=, or =none= if it isn't set.
    * ==buttons== - set to =left= (the default) or =right= to position edit controls in the first or last columns in the table. =buttons="right"= may be required if you are using other plugins that expect a certain column order.
@@ -231,7 +231,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2011 Wind<nop>River Inc. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  2.1.4 (18 May 2011) | Foswiki:Tasks/Item10752: fix HTML comments in cells |
+|  2.1.4 (18 May 2011) | Foswiki:Tasks/Item10752: fix HTML comments in cells Foswiki:Tasks/Item10753: correct interpretation of changerows="add" |
 |  2.1.3 (19 Apr 2011) | Foswiki:Tasks/Item10583: support for sort order in select cells Foswiki:Tasks/Item10583: fixes for EDITCELL |
 |  2.1.2 (14 Mar 2011) | Foswiki:Tasks/Item2016: editor was not handling a table cell that contained only "0" correctly |
 |  2.1.1 (25 Feb 2011) | Some minor tweaks |

@@ -59,7 +59,7 @@ sub new {
       defined( $attrs->{changerows} )
       ? $attrs->{changerows}
       : Foswiki::Func::getPreferencesValue('CHANGEROWS');
-    $attrs->{changerows} = Foswiki::Func::isTrue($changerows);
+    $attrs->{changerows} = $changerows;
 
     my $q =
       defined( $attrs->{quietsave} )
@@ -316,7 +316,7 @@ sub render {
 		  . $button
 		  . '</a><br />' );
 	}
-	elsif ($this->{attrs}->{changerows}
+	elsif (Foswiki::Func::isTrue($this->{attrs}->{changerows})
 	       && $this->{attrs}->{disable} !~ /row/ )
 	{
 	    my $title  = "Add row to end of table";
@@ -672,7 +672,7 @@ sub generateEditButtons {
         CANCEL_ROW
     );
 
-    if ( $this->{attrs}->{changerows} ) {
+    if ( Foswiki::Func::isTrue($this->{attrs}->{changerows}) ) {
         $buttons .= '<br />' if $multirow;
 	unless ($wholeTable) {
 	    if ($id) {
@@ -706,15 +706,16 @@ sub generateEditButtons {
             },
 	    ADD_ROW
         );
-
-        $buttons .= CGI::a(
-            {
-                href  => '#deleteRow',
-                class => 'editRowPlugin_willDiscard erp_submit ui-icon ui-icon-minusthick',
-                title => DELETE_ROW
-            },
-	    DELETE_ROW
-        );
+	unless ($this->{attrs}->{changerows} eq 'add') {
+	    $buttons .= CGI::a(
+		{
+		    href  => '#deleteRow',
+		    class => 'editRowPlugin_willDiscard erp_submit ui-icon ui-icon-minusthick',
+		    title => DELETE_ROW
+		},
+		DELETE_ROW
+	    );
+	}
     }
     return $buttons;
 }
