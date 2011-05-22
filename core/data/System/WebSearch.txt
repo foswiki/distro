@@ -52,10 +52,10 @@ hideimgleft="%ICONURLPATH{toggleclose}%"
 </div></noautolink>%ENDSECTION{"form"}%
 
 
-%STARTSECTION{"searchparamssimple"}%search=%URLPARAM{"search" encode="url"}%;scope=%URLPARAM{"scope" encode="url" default="all"}%;web=%URLPARAM{"web" encode="url"}%%ENDSECTION{"searchparamssimple"}%
+%STARTSECTION{"searchparamssimple"}%search=%URLPARAM{"search" encode="url"}%;scope=%URLPARAM{"scope" encode="url" default="all"}%;web=%URLPARAM{"web" encode="url";type=%URLPARAM{"type" encode="url" default="%SEARCHDEFAULTTTYPE%"}%}%%ENDSECTION{"searchparamssimple"}%
 
 
-%STARTSECTION{"searchparamsadvanced"}%%INCLUDE{"%TOPIC%" section="searchparamssimple"}%;type=%URLPARAM{"type" encode="url" default="word"}%;nosearch=%URLPARAM{"nosearch" encode="url"}%;limit=%URLPARAM{"limit" encode="url"}%;excludetopic=%URLPARAM{"excludetopic" encode="url"}%;casesensitive=%URLPARAM{"casesensitive" encode="url"}%%ENDSECTION{"searchparamsadvanced"}%
+%STARTSECTION{"searchparamsadvanced"}%%INCLUDE{"%TOPIC%" section="searchparamssimple"}%;type=%URLPARAM{"type" encode="url" default="%SEARCHDEFAULTTTYPE%"}%;nosearch=%URLPARAM{"nosearch" encode="url"}%;limit=%URLPARAM{"limit" encode="url"}%;excludetopic=%URLPARAM{"excludetopic" encode="url"}%;casesensitive=%URLPARAM{"casesensitive" encode="url"}%%ENDSECTION{"searchparamsadvanced"}%
 
 
 %STARTSECTION{"tabs"}%<noautolink><div class="foswikiTabs">
@@ -110,8 +110,8 @@ hideimgleft="%ICONURLPATH{toggleclose}%"
 <hr />
 <input type="checkbox" class="foswikiCheckbox" id="casesensitive" name="casesensitive" %IF{" '%URLPARAM{casesensitive}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="casesensitive"> %MAKETEXT{"Case sensitive"}%</label><br />
 <hr />
-<input type="radio" class="foswikiRadioButton" id="word" name="type" value="word" %IF{" '%URLPARAM{"type" default="word"}%' = 'word' " then="checked=\"checked\"" else=""}% /><label for="topic"> %MAKETEXT{"Word search"}%</label><br />
-<input type="radio" class="foswikiRadioButton" id="keyword" name="type" value="keyword" %IF{" '%URLPARAM{type}%' = 'keyword' " then="checked=\"checked\"" else=""}% /><label for="topic"> %MAKETEXT{"Keyword search"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="word" name="type" value="word" %IF{" '%URLPARAM{"type" default="%SEARCHDEFAULTTTYPE%"}%' = 'word' " then="checked=\"checked\"" else=""}% /><label for="topic"> %MAKETEXT{"Word search"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="keyword" name="type" value="keyword" %IF{" '%URLPARAM{"type" default="%SEARCHDEFAULTTTYPE%"}%' = 'keyword' " then="checked=\"checked\"" else=""}% /><label for="topic"> %MAKETEXT{"Keyword search"}%</label><br />
 <input type="radio" class="foswikiRadioButton" id="literal" name="type" value="literal" %IF{" '%URLPARAM{type}%' = 'literal' " then="checked=\"checked\"" else=""}% /><label for="modified"> %MAKETEXT{"Literal search"}%</label><br />
 <input type="radio" class="foswikiRadioButton" id="regex" name="type" value="regex" %IF{" '%URLPARAM{type}%' = 'regex' " then="checked=\"checked\"" else=""}% /><label for="editby"> %MAKETEXT{"Regular expression search"}%</label><br />
 <input type="radio" class="foswikiRadioButton" id="query" name="type" value="query" %IF{" '%URLPARAM{type}%' = 'query' " then="checked=\"checked\"" else=""}% /><label for="editby"> %MAKETEXT{"Query Search"}%</label>
@@ -167,7 +167,7 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
 <pre class="foswikiSmall">
 %<nop>SEARCH{
    "%URLPARAM{"search" encode="quote"}%"
-   type="%URLPARAM{"type" default="word"}%"
+   type="%URLPARAM{"type" default="%SEARCHDEFAULTTTYPE%"}%"
 %IF{"defined scope" then="   scope=\"%URLPARAM{"scope" encode="quote"}%\"$n"}%%IF{"defined web" then="   web=\"%URLPARAM{"web" encode="quote"}%\"$n"}%%IF{"defined nosearch" then="   nosearch=\"%URLPARAM{"nosearch" encode="quote"}%\"$n"}%%IF{"defined casesensitive" then="   casesensitive=\"%URLPARAM{"casesensitive" encode="quote"}%\"$n"}%%IF{"defined nosummary" then="   nosummary=\"%URLPARAM{"nosummary" encode="quote"}%\"$n"}%%IF{"defined nototal" then="   nototal=\"%URLPARAM{"nototal" encode="quote"}%\"$n"}%%IF{"defined order" then="   order=\"%URLPARAM{"order" encode="quote"}%\"$n"}%%IF{"defined reverse" then="   reverse=\"%URLPARAM{"reverse" encode="quote"}%\"$n"}%%IF{"defined limit" then="   limit=\"%URLPARAM{"limit" encode="quote"}%\"$n"}%   zeroresults="%IF{ "defined search" then="on" else="off" }%"
 }%
 </pre>
