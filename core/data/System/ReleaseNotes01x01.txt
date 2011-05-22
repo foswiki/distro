@@ -43,6 +43,22 @@ Foswiki 1.1 ships with the following:
    
 
 #Release01x01Changes
+---++ Important Changes since Foswiki 1.1.3
+
+---+++ SEARCHDEFAULTTTYPE restored
+
+The default search type used in the WebSearch page was not carried forward from 1.0. to 1.1.   This option has been restored in 1.1.4, with some changes:
+
+   * It only applies to the WebSearch and WebSearchAdvanced.  On Foswiki 1.0 it also applied to the =%SEARCH= macro.
+   * The (ignored) default in DefaultPreferences is =keyword=,  but on 1.1, WebSearch defaulted to =word=
+   * WebSearchAdvanced had a hardcoded default of =word= on both 1.0 and 1.1. This is changed to use the SEARCHDEFAULTTTYPE setting.
+   * The historical mis-spelling =(SEARCHDEFAULT<b>T</b>TYPE)= is preserved.
+
+| *Migration* | ==%SEARCH== | ==WebSearch== | ==WebSearchAdvanced== |
+| 1.0 to &lt;= 1.1.3 | Default type is =word=, configuration setting no longer used. | Type =word=, not configurable. | No change |
+| 1.0 to 1.1.4 | Default type is =word=, configuration setting no longer used. | No Change | Default type changes from =word= to configured =%<nop>SEARCHDEFAULTTTYPE% (%SEARCHDEFAULTTTYPE%)= |
+| 1.1.x to 1.1.4 | No Change | Default changes from =word= to configured =%SEARCHDEFAULTTTYPE% (%SEARCHDEFAULTTTYPE%=  | Default type changes from =word= to configured =%<nop>SEARCHDEFAULTTTYPE% (%SEARCHDEFAULTTTYPE%)= |
+
 ---++ Important Changes since Foswiki 1.1.2
 
 ---+++ Changes to %<nop>GROUPS% and %<nop>GROUPINFO% Macros
