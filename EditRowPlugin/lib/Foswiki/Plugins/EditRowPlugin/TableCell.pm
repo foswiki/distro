@@ -150,6 +150,7 @@ sub render {
 		    }
 		}
 		$data->{url} = $saveURL;
+		# Note: Any table row that has a cell with editRowPluginCell will be made draggable
 		$sopts->{class} = 'editRowPluginCell '
 		    . Foswiki::Plugins::EditRowPlugin::defend(JSON::to_json($data), 1);
 	    }

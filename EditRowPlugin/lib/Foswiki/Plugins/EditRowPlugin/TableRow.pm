@@ -240,15 +240,16 @@ sub render {
 		    '#'              => $this->getRowAnchor()
 		    );
 
-		my $button = "<a href='$url' class='editRowPlugin_willDiscard ui-icon ui-icon-pencil'>edit</a>";
+		my $buttons = "<a href='$url' class='editRowPlugin_willDiscard ui-icon ui-icon-pencil'>edit</a>";
 		if ($addAnchor) {
-		    $button .= $anchor;
+		    $buttons .= $anchor;
 		    $addAnchor = 0;
 		}
+		$buttons = "<div class='editRowPluginContainer'>$buttons</div>";
 		if ($buttons_right) {
-		    push( @cols, $button );
+		    push( @cols, $buttons );
 		} else {
-		    unshift( @cols, $button );
+		    unshift( @cols, $buttons );
 		}
 	    }
 	    if ($addAnchor) {
