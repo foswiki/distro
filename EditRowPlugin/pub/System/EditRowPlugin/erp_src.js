@@ -45,8 +45,8 @@
 		    $(form).trigger("submit");
 		},
 		onClose: function(dateText) {
-		    original.reset.apply(form, [settings, original]);
-		    $(original).addClass( settings.cssdecoration );
+		    original.reset.apply(original, [ form ]);
+		    $(original).addClass(settings.cssdecoration);
 		}
 	    });
 	}});
@@ -160,8 +160,7 @@
 	return null;
     };
 
-    var makeDraggable = function(tr) {
-	// only once per row
+    var makeRowDraggable = function(tr) {
 	var dragee, container, rows;
 
 	var onDrop = function( event, ui ) {
@@ -220,7 +219,12 @@
 	    });
 	};
 
-	tr.draggable({
+	// Add a "drag handle" element to the first cell.... except, this will be included as part of the content :-(
+	// so can only do it during hover.
+	var handle = $("<a href='#' class='erp_drag_button ui-icon ui-icon-arrowthick-2-n-s' title='Click and drag to move row'>move</a>");
+	tr.find("td").first().find("div.editRowPluginContainer").append(handle);
+	tr.addClass("ui-draggable");
+	handle.draggable({
 	    // constrain to the container
 	    containment: tr.closest("tbody,thead,table"),
 	    axis: 'y',
@@ -236,7 +240,7 @@
 		return dv;
 	    },
 	    start: function(event, ui) {
-		dragee = $(this);
+		dragee = tr;
 		dragee.fadeTo("fast", 0.3); // to show it's moving
 		container = dragee.closest("table");
 		rows = container.find(".editRowPluginRow");
@@ -301,7 +305,7 @@
 	    // Make the containing row draggable
 	    var tr = $(this).closest("tr");
 	    if (!tr.hasClass('ui-draggable'))
-		makeDraggable(tr);
+		makeRowDraggable(tr);
 
 	    var p = my_metadata($(this));
 
@@ -329,7 +333,7 @@
 
 	    p.onedit = function(settings, self) {
 		// Hide the edit button
- 		$(self).prev().hide();
+ 		$(self).next().hide();
 	    };
 
 	    p.onblur = 'cancel';
@@ -341,27 +345,29 @@
 	    };
 
 	    p.onsubmit = function(settings, self) {
+		// For some reason we get a double-submit, that we have to defend
 		if (self.isSubmitting)
 		    return false;
 		self.isSubmitting = true;
-		$(self).next().show();
+		// Add a clock to feedback on the save
+		$("<div class='erp_clock_button'></div>").insertAfter($(self).next());
 		return true;
-	    };
-
-	    p.callback = function(html, settings) {
-		this.isSubmitting = false;
 	    };
 
 	    p.onerror = function(settings, self, xhr) {
 		self.isSubmitting = false;
+		$(self).parent().find('.erp_clock_button').remove();
+		$(self).next().show();
 	    };
 
-            if (p.type == "text" || p.type == "textarea") {
-		// Add changed text (unexpanded) to meta
-		p.callback = function(value, settings) {   
-		    $.data($(this), 'data', value);
-		};
-	    }
+	    p.callback = function(value, settings) {   
+		if (p.type == "text" || p.type == "textarea")
+		    // Add changed text (unexpanded) to settings
+		    settings.data = value;
+		this.isSubmitting = false;
+		$(this).parent().find('.erp_clock_button').remove();
+		$(this).next().show();
+	    };
 
 	    $(this).editable(p.url, p);
  	});
