@@ -66,15 +66,6 @@ use Foswiki::LoginManager      ();
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users');
 
-BEGIN {
-
-    # no point calling rand() without this
-    # See Camel-3 pp 800.  "Do not call =srand()= multiple times in your
-    # program ... just do it once at the top of your program or you won't
-    # get random numbers out of =rand()=
-    srand( time() ^ ( $$ + ( $$ << 15 ) ) );
-}
-
 =begin TML
 
 ---++ ClassMethod new ($session)

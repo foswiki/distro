@@ -31,8 +31,6 @@ BEGIN {
         require locale;
         import locale();
     }
-
-#moved srand call to Foswiki::Users::BEGIN, as there is a call to rand there that would not be covered if some other Foswiki::Users::Password impl was used.
 }
 
 sub new {
