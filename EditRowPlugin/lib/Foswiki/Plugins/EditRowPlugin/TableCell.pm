@@ -134,8 +134,11 @@ sub render {
 		$text);
 	} else {
 	    my $sopts = {};
+	    my $trigger = '';
 	    if ($this->can_edit()) {
 		my $data = $editor->jQueryMetadata($this, $colDef, $text);
+		# The "edit this cell" trigger button
+		$trigger = CGI::div({ class => "erp_edit_button", title => "Click to edit" }, '');
 		my $saveURL = $this->getSaveURL();
 		# Carve off the URL params and push to meta-data; they are wanted
 		# for ajax.
@@ -150,7 +153,7 @@ sub render {
 		$sopts->{class} = 'editRowPluginCell '
 		    . Foswiki::Plugins::EditRowPlugin::defend(JSON::to_json($data), 1);
 	    }
-	    $text = CGI::span( $sopts, " $text ");
+	    $text = CGI::div({class => 'editRowPluginContainer'}, CGI::span( $sopts, " $text ") . $trigger);
 	}
     }
     return $this->{precruft} . $text . $this->{postcruft};

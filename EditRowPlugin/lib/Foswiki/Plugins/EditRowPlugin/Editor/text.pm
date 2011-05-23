@@ -5,6 +5,8 @@ package Foswiki::Plugins::EditRowPlugin::Editor::text;
 # it is not the base class, because it may be overridden selectively with different
 # functionality by installing a new text.pm, and we don't want to break the base
 # class when we override.
+#
+# Note that textarea subclasses this class.
 
 use strict;
 use Assert;
@@ -14,8 +16,9 @@ use Foswiki::Plugins::EditRowPlugin::Editor;
 our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor' );
 
 sub new {
-    my $class = shift;
-    return $class->SUPER::new('text');
+    my ($class, $type) = @_;
+    # Subclasses may specify a different type
+    return $class->SUPER::new($type || 'text');
 }
 
 sub jQueryMetadata {
@@ -23,6 +26,9 @@ sub jQueryMetadata {
     my ( $cell, $colDef, $text ) = @_;
     my $data = $this->SUPER::jQueryMetadata(@_);
 
+    # Silence the noisy "Click to edit" placeholder
+    $data->{placeholder} = '';
+    $data->{tooltip} = '';
     $data->{data} = $text;
     $this->_addSaveButton($data);
     return $data;

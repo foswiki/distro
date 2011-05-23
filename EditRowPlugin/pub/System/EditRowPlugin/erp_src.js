@@ -257,6 +257,11 @@
 	    erp_rowDirty = true;
 	});
 
+	$('.erp_edit_button').livequery("click", function() {
+	    // Send the event to the span
+	    $(this).prev().triggerHandler("erp_edit");
+	});
+
 	// Action on select row and + row. Check if the current row is
 	// dirty, and if it is, prompt for save
 	$('.editRowPlugin_willDiscard').livequery("click", function() {
@@ -303,10 +308,6 @@
 	    if (!p.type || p.type == 'label')
 		return;
 
-	    if (!p.tooltip)
-		p.tooltip = 'Double-click to edit...';
-	    p.onblur = 'cancel';
-
 	    // We can't row-number when generating the table because it's
 	    // done by the core table rendering. So we have to promote
 	    // the cell information up to the row when we have it.
@@ -326,13 +327,41 @@
 		return sd;
 	    }
 
+	    p.onedit = function(settings, self) {
+		// Hide the edit button
+ 		$(self).prev().hide();
+	    };
+
+	    p.onblur = 'cancel';
+
+	    // submit and reset must restore the edit button
+	    p.onreset = function(settings, self) {
+		$(self).next().show();
+		return true;
+	    };
+
+	    p.onsubmit = function(settings, self) {
+		if (self.isSubmitting)
+		    return false;
+		self.isSubmitting = true;
+		$(self).next().show();
+		return true;
+	    };
+
+	    p.callback = function(html, settings) {
+		this.isSubmitting = false;
+	    };
+
+	    p.onerror = function(settings, self, xhr) {
+		self.isSubmitting = false;
+	    };
+
             if (p.type == "text" || p.type == "textarea") {
 		// Add changed text (unexpanded) to meta
 		p.callback = function(value, settings) {   
 		    $.data($(this), 'data', value);
 		};
 	    }
-	    p.event = "dblclick";
 
 	    $(this).editable(p.url, p);
  	});

@@ -6,7 +6,7 @@ use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor;
 
-our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor' );
+our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor::text' );
 
 sub new {
     my $class = shift;
@@ -47,8 +47,8 @@ sub jQueryMetadata {
 	$data->{rows} = $1 if $1 > 0;
 	$data->{cols} = $2 if $2 > 0;
     }
+    delete $data->{data}; # data comes from the tag
     delete $data->{size};
-    $this->_addSaveButton($data);
     return $data;
 }
 

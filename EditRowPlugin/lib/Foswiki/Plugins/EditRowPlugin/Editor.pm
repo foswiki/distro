@@ -80,6 +80,9 @@ sub jQueryMetadata {
     $data->{type} = $this->{type};
     $data->{name} = "CELLDATA"; #$cell->getCellName();
     $data->{size} = $colDef->{size} if defined $colDef->{size};
+    # By default we respond to an internally-raised edit event, which is raised
+    # when the cell edit icon is clicked
+    $data->{event} = "erp_edit";
     return $data;
 }
 
