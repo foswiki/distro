@@ -132,8 +132,16 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  25 May 2011: | (4.04) Added JQueryPlaceholder. \
-                  Updated JQueryAutocomplete to work around Firefox 4 problem breaking up/down arrow keys in edit fields. |
+|  25 May 2011: | (4.10) Added JQueryPlaceholder; \
+                  Updated jquery.autocomplete to work around Firefox 4 problem breaking up/down arrow keys in edit fields; \
+                  Added jquery.tmpl; \
+                  Updated jquery.metadata to support html5 attributes; \
+                  Updated jquery.validate to 1.8.0; \
+                  Added jquery-1.5.[0-2] and jquery-1.6.1; \
+                  Implemented history support for jquery.tabpane; \
+                  Updated jquery.media and added more skins to the swf player; \
+                  Fixed jquery.shake to work with elements positioned relatively; \
+                  Adding context variables for all enabled jQuery modules; |
 |  11 Apr 2011: | (4.03) jQuery default corrected to be 1.4.3. \
                   Fixed syntax for accessing meta variables. \
                   Improved iterating hash. \

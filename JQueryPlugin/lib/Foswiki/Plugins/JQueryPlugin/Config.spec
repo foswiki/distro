@@ -26,7 +26,7 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 # **STRING**
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
-# **SELECT jquery-1.4.4, jquery-1.4.3, jquery-1.5, jquery-1.5.1**
+# **SELECT jquery-1.4.4, jquery-1.4.3, jquery-1.5, jquery-1.5.1, jquery-1.5.2, jquery-1.6.1**
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.4.3';
 
 # **SELECT ,flickr, lightness, redmond, smoothness**
@@ -156,6 +156,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{TextboxList}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Themeswitcher}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Tmpl}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Tooltip}{Enabled} = 1;
