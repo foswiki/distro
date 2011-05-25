@@ -1,9 +1,10 @@
 (function($) { 
   /**************************************************************************/
   foswiki.openDialog = function(data, opts) { 
-    $.log("SM: called openDialog data="+data);
+    $.log("SM: called openDialog data");
     $("body").css("cursor", "process"); // reset in init()
-    if (!opts._origOnShow) {
+    opts = $.extend({}, opts);
+    if (typeof(opts._origOnShow) !== undefined) {
       opts._origOnShow = opts.onShow;
       opts.onShow = function(dialog) {
         if ($.isFunction(opts._origOnShow)) {
@@ -32,7 +33,7 @@
     setTimeout(function() {
       $(window).trigger("resize.simplemodal"); 
       dialog.container.fadeIn();
-    });
+    }, 100);
     
     // OK button
     dialog.container.find(".jqSimpleModalOK:not(.jqInitedSimpleModalOK)").each(function() {
@@ -64,7 +65,7 @@
   /**************************************************************************/
   var defaults = {
     persist:false,
-    close:false, 
+    close:true, 
     opacity: 40
   };
 

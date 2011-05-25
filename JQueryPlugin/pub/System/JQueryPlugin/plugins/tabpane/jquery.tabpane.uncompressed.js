@@ -1,7 +1,7 @@
 /*
- * jQuery Tabpane plugin 1.1
+ * jQuery Tabpane plugin 1.2
  *
- * Copyright (c) 2008-2010 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2011 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -19,62 +19,89 @@ $.tabpane = {
    * plugin definition 
    */
   build: function(options) {
-
-    if (typeof(options) == 'undefined') {
-      options = {};
-    }
-   
     // build main options before element iteration
-    var opts = $.extend({}, $.tabpane.defaults, options);
+    var opts = $.extend({}, $.tabpane.defaults, options), prevHash;
    
     // iterate and reformat each matched element
     return this.each(function() {
+      var $thisPane = $(this),
+          thisOpts = $.extend({}, opts, $thisPane.metadata()),
+          $tabContainer, $tabGroup;
 
-      var $thisPane = $(this);
-      var thisOpts = $.extend({}, opts, $thisPane.metadata());
+      function initCurrentTab() {
+        var currentHash = window.location.hash.replace(/^.*#/, "");
+
+        if (typeof(prevHash) !== undefined && prevHash == currentHash) {
+          return;
+        }
+
+        //$.log("TABPANE: initCurrentTab, currentHash="+currentHash+", prevHash="+prevHash);
+        prevHash = currentHash;
+
+        $thisPane.find("> .jqTab").filter(function(index) {
+          if (currentHash == '') {
+            return (index+1 == thisOpts.select || $(this).hasClass(thisOpts.select));
+          } else {
+            return ('!'+this.id == currentHash);
+          }
+        }).each(function() {
+          $.tabpane.switchTab($thisPane, thisOpts, this.id);
+        });
+      }
+
       if ($.browser.msie) {
         thisOpts.animate = false; // force animation off on all msies because that fucks up font aliasing
       }
 
       if (!$thisPane.is(".jqTabPaneInitialized")) {
         $thisPane.addClass("jqTabPaneInitialized");
-   
+
         // create tab group
-        var $tabContainer = $thisPane;
+        $tabContainer = $thisPane;
         $('<span class="foswikiClear"></span>').prependTo($thisPane);
-        var $tabGroup = $('<ul class="jqTabGroup"></ul>').prependTo($thisPane);
+        $tabGroup = $('<ul class="jqTabGroup"></ul>').prependTo($thisPane);
 
         // get all headings and create tabs
-        var index = 1;
+        index = 1;
         $thisPane.find("> .jqTab").each(function() {
-          var $this = $(this);
-          var title = $this.find('h2:first').remove().html();
+          var $this = $(this),
+              title = $this.find('h2:first').remove().html();
           $tabGroup.append('<li><a href="#" data="'+this.id+'">'+title+'</a></li>');
-          if (index == thisOpts.select || $this.hasClass(thisOpts.select)) {
-            thisOpts.currentTabId = this.id;
+          $this.data("hash", '!'+this.id);
+          if(index == thisOpts.select || $(this).hasClass(thisOpts.select)) {
+            $.tabpane.switchTab($thisPane, thisOpts, this.id);
           }
           index++;
         });
-        if (thisOpts.currentTabId) {
-          $.tabpane.switchTab($thisPane, thisOpts, thisOpts.currentTabId);
-        }
 
+        
         /* establish auto max expand */
         if (thisOpts.autoMaxExpand) {
           $.tabpane.autoMaxExpand($thisPane, thisOpts);
         }
 
         $thisPane.find(".jqTabGroup > li > a").click(function() {
-          $(this).blur();
           var newTabId = $(this).attr('data');
+          $(this).blur();
+
           if (newTabId != thisOpts.currentTabId) {
             $.tabpane.switchTab($thisPane, thisOpts, newTabId);
+            
+            // set hash
+            var newHash = $("#"+newTabId).data("hash"), oldHash = window.location.hash.replace(/^.*#/, "");
+            if (newHash != oldHash) {
+              window.location.hash = newHash;
+            }
           }
           return false;
         });
 
+        initCurrentTab();
+        $(window).bind("hashchange", function() {
+          //$.log("TABPANE: got hashchange event");
+          initCurrentTab();
+        });
       }
-
     });
   },
 
@@ -82,16 +109,19 @@ $.tabpane = {
    * switching from tab1 to tab2
    */
   switchTab: function($thisPane, thisOpts, newTabId) {
+    var oldTabId = thisOpts.currentTabId,
+        $newTab  = jQuery("#"+newTabId),
+        $oldTab = jQuery("#"+oldTabId),
+        $newContainer = $newTab.find('.jqTabContents:first'),
+        $oldContainer = $oldTab.find('.jqTabContents:first'),
+        oldHeight = $oldContainer.height(), // why does the container not work
+        data, $innerContainer, isInnerContainer;
 
-    var oldTabId = thisOpts.currentTabId;
+    if (oldTabId == newTabId) {
+      return;
+    }
 
     $.log("TABPANE: switching from "+oldTabId+" to "+newTabId);
-
-    var $newTab  = jQuery("#"+newTabId);
-    var $oldTab = jQuery("#"+oldTabId);
-    var $newContainer = $newTab.find('.jqTabContents:first');
-    var $oldContainer = $oldTab.find('.jqTabContents:first');
-    var oldHeight = $oldContainer.height(); // why does the container not work
 
     $oldTab.removeClass("current");
     $newTab.addClass("current");
@@ -101,7 +131,7 @@ $.tabpane = {
     if (!thisOpts[newTabId]) {
       thisOpts[newTabId] = $newTab.metadata();
     }
-    var data = thisOpts[newTabId];
+    data = thisOpts[newTabId];
 
     // before click handler
     if (typeof(data.beforeHandler) == "function") {
@@ -109,12 +139,12 @@ $.tabpane = {
     }
 
     if ((thisOpts.animate || thisOpts.autoMaxExpand) && oldHeight > 0) {
-      $.log("TABPANE: setting height to "+oldHeight);
+      //$.log("TABPANE: setting height to "+oldHeight);
       $newContainer.height(oldHeight);
     }
 
-    var $innerContainer = $newContainer;
-    var isInnerContainer = false;
+    $innerContainer = $newContainer;
+    isInnerContainer = false;
     if(typeof(data.container) != "undefined") {
       $innerContainer = $newContainer.find(data.container);
       if ($innerContainer.length) {
@@ -125,8 +155,8 @@ $.tabpane = {
     }
 
     function _finally () {
-      
-      var effect = 'none';
+      var effect = 'none', newHeight;
+
       if (oldHeight > 0) {
         effect = 'easeInOutQuad';
       }
@@ -144,7 +174,7 @@ $.tabpane = {
         if (thisOpts.animate) {
           $newContainer.height('auto');
           if (effect != 'none') {
-            var newHeight = $newContainer.height();
+            newHeight = $newContainer.height();
             if (isInnerContainer) {
               $newContainer.height(oldHeight).animate({
                 height: newHeight
@@ -209,29 +239,28 @@ $.tabpane = {
    * adjust height of pane to window height
    */
   fixHeight: function($thisPane, opts) {
+    var $container = $thisPane.find("> .jqTab.current .jqTabContents:first"),
+        paneOffset = $container.offset(),
+        paneTop, windowHeight, height, $debug;
 
     jQuery.log("TABPANE: called fixHeight()");
-
-    var $container = $thisPane.find("> .jqTab.current .jqTabContents:first");
-
-    var paneOffset = $container.offset();
 
     if (typeof(paneOffset) == 'undefined') {
       return;
     }
 
-    var paneTop = paneOffset.top; // || $container[0].offsetTop;
+    paneTop = paneOffset.top; // || $container[0].offsetTop;
     if (bottomBarHeight <= 0) {
       bottomBarHeight = jQuery('.natEditBottomBar').outerHeight(true);
     }
 
-    var windowHeight = jQuery(window).height();
+    windowHeight = jQuery(window).height();
     if (!windowHeight) {
       windowHeight = window.innerHeight; // woops, jquery, whats up for konqi
     }
 
-    var height = windowHeight-paneTop-2*bottomBarHeight+0.5;
-    var $debug = $("#DEBUG");
+    height = windowHeight-paneTop-2*bottomBarHeight+0.5;
+    $debug = $("#DEBUG");
     if ($debug) {
       height -= $debug.outerHeight(true);
     }

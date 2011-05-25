@@ -1,0 +1,227 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1305310213" format="1.1" reprev="1" version="1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+!! %TOPIC%
+
+%JQPLUGINS{"tmpl"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+jQuery templates contain markup with binding expressions ('Template tags'). Templates are applied to data objects or arrays, and rendered into the HTML DOM
+
+Documentation for the jQuery Templates plugin can be found on the jQuery documentation site: http://api.jquery.com/category/plugins/templates
+
+See also http://www.borismoore.com/2010/10/jquery-templates-is-now-official-jquery.html for more background.
+%ENDSECTION{"summary"}%
+
+_Note: This plugin is currently in beta form and may change significantly before version 1.0 is released. See tagged versions for stable Beta releases. Requires jquery version 1.4.2._
+
+---++ Example
+%JQREQUIRE{"tmpl"}%
+
+---+++ Local data
+This is a template stored in a script section of type =text/x-jquery-tmpl=. This is going to be used
+by jquery.tmpl in a loop over all data provided and render a list item for each by inserting the data
+from the array into this template and append it to the movie list
+
+<verbatim class="js">
+<script id="movieTemplate" type="text/x-jquery-tmpl"> 
+<li>
+  <b>${Name}</b> (${ReleaseYear})
+</li>
+</script> 
+</verbatim>
+
+<literal>
+<script id="movieTemplate" type="text/x-jquery-tmpl"> 
+<li>
+  <b>${Name}</b> (${ReleaseYear})
+</li>
+</script>
+</literal> 
+
+This is example stores data locally in a javascript array. You may also fetch this data using remote data. See the second example.
+
+<verbatim class="js">
+<script> 
+jQuery(function($) {
+  var movies = [
+    { Name: "The Red Violin", ReleaseYear: "1998" },
+    { Name: "Eyes Wide Shut", ReleaseYear: "1999" },
+    { Name: "The Inheritance", ReleaseYear: "1976" }
+  ];
+
+  $("#movieTemplate").tmpl(movies).appendTo( "#movieList");
+});
+</script> 
+</verbatim>
+
+<literal>
+<script> 
+jQuery(function($) {
+  var movies = [
+    { Name: "The Red Violin", ReleaseYear: "1998" },
+    { Name: "Eyes Wide Shut", ReleaseYear: "1999" },
+    { Name: "The Inheritance", ReleaseYear: "1976" }
+  ];
+
+  $("#movieTemplate").tmpl(movies).appendTo( "#movieList");
+});
+</script> 
+</literal>
+
+The result will be appended to the =movieList= element:
+
+<verbatim class="html">
+<ul id="movieList"></ul> 
+</verbatim>
+
+<ul id="movieList"></ul> 
+
+---+++ Remote data
+
+Below is a little movie application using the [[http://developer.netflix.com/docs/read/oData_Catalog][Open Data API of Netflix.com]] to query movies from their database. The returned json object is then formatted using a template similar to the
+above local data example.
+
+%JQREQUIRE{"blockui"}%
+
+<literal>
+<script type="text/javascript"> 
+(function($) {
+function getMovies(genre, skip, top) {
+  $.blockUI({"message": "<h1>Loading ...</h1>"});
+  $("#movieMessage").empty()
+  $.ajax({
+    dataType: "jsonp",
+    url: "http://odata.netflix.com/Catalog/Genres('"  + genre + "')/Titles",
+    data: {
+      "$format": "json",
+      "$skip": skip,
+      "$top": top,
+      "$orderby": "Name"
+    },
+    jsonp: "$callback",
+    error: function(xhr, msg) {
+      $.unblockUI();
+      $("#errorMessage").append("<div class='foswikiErrorMessage'>Error: "+msg+"</div>");
+    },
+    success: function( data ) {
+      var movies = data.d; 
+      $.unblockUI();
+      $("#movieList2").empty().data("skip", skip);
+      $("#movieTemplate2").tmpl(movies).appendTo("#movieList2"); 
+      $("#movieNext").show();
+      if(skip == 0) {
+         $("#moviePrev").hide();
+      } else {
+         $("#moviePrev").show();
+      }
+    }
+  });
+}
+
+function getGenres() {
+  $("#movieMessage").empty()
+  $.ajax({
+    dataType: "jsonp",
+    url: "http://odata.netflix.com/Catalog/Genres",
+    data: {
+      "$format": "json"
+    },
+    jsonp: "$callback",
+    error: function(xhr, msg) {
+      $("#errorMessage").append("<div class='foswikiErrorMessage'>Error: "+msg+"</div>");
+    },
+    success: function( data ) {
+      var genres = data.d; 
+      $("#genreSelect").empty();
+      $("<option value=''>select one ...</option>").appendTo("#genreSelect");
+      $("#genreTemplate").tmpl(genres).appendTo("#genreSelect");
+     }
+  });
+}
+
+$(function() {
+  getGenres();
+
+  $("#genreSelect").change(function() {
+    var genre = $(this).val();
+    if (genre) {
+      getMovies(genre, 0, 5);
+    } else {
+      $("#movieList2").empty();
+      $("#movieNext, #moviePrev").hide();
+    }
+  });
+
+  $("#moviePrev").click(function() {
+    var skip = $("#movieList2").data("skip") || 0,
+        genre = $("#genreSelect").val();
+    skip -= 5;
+    if (skip < 0) {
+      skip = 0;
+    }
+    getMovies(genre, skip, 5); 
+    return false;
+  });
+  $("#movieNext").click(function() {
+    var skip = $("#movieList2").data("skip") || 0,
+        genre = $("#genreSelect").val();
+    getMovies(genre, skip+5, 5);
+    return false;
+  });
+});
+})(jQuery);
+</script> 
+<style>
+.foswikiImage.foswikiLeft {
+  margin:0px 1em 1em 0px;
+}
+.movieSynopsis {
+  margin-bottom:0.5em;
+}
+#moviePrev, #movieNext {
+  display:none;
+}
+</style>
+</literal>
+
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+  <h3>Genre:</h3>
+  %BUTTON{"%MAKETEXT{"Next"}%" id="movieNext" icon="arrow_right" class="foswikiRight"}%
+  %BUTTON{"%MAKETEXT{"Previous"}%" id="moviePrev" icon="arrow_left" class="foswikiRight"}%
+  <select id="genreSelect" class="foswikiSelect">
+    <option value="">loading ...</option>
+  </select>
+  %CLEAR%
+</div>
+</div>
+
+<div id="movieList2"></div>
+<div id="movieMessage"></div>
+
+<literal>
+<script id="genreTemplate" type="text/x-jquery-tmpl"> 
+<option>${Name}</option>
+</script>
+<script id="movieTemplate2" type="text/x-jquery-tmpl"> 
+<div class="movie">
+  <div class='foswikiImage foswikiLeft'>
+    <img src="${__metadata.media_src}" width="110" height="152" />
+  </div>
+  <h2><a href="${Url}">${Name} (${ReleaseYear})</a></h2>
+  <div class="movieSynopsis">
+     ${Synopsis}
+  </div>
+  <div class="foswikiRight">
+    &hellip; <a href="${Url}">more</a>
+  </div>
+  %CLEAR%
+</div>
+</script>
+</literal> 

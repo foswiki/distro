@@ -119,6 +119,8 @@ sub registerPlugin {
 	$Foswiki::cfg{JQueryPlugin}{Plugins}{$pluginName}{Module} ||
 	'Foswiki::Plugins::JQueryPlugin::' . uc($pluginName);
 
+    Foswiki::Func::getContext()->{$pluginName.'Enabled'} = 1;
+
     return $plugins{ lc($pluginName) } = {
         'class'    => $class,
         'name'     => $pluginName,

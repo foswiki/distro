@@ -36,18 +36,11 @@ loaded automatically. See [[%SCRIPTURLPATH{"configure"}%][configure]].
 Those plugins coming with their own [[#Macros][macro]] will take care of loading their javascript and css by themselves. So you won't need to 
 call JQREQUIRE explicitly for those listed below.
 
+---++ Adding new plugins
 
 The JQuery ecosystem has a huge number of plugins - more than can be included by default
 by this plugin. If you want to add new plugins, then you will find instructions for adding
 them at Foswiki:Development.UsingJQueryWithFoswiki#adding_plugins.
-
----++ Coding Standards
-
-See [[JQuery Coding Standards]]
-This plugin contains the latest version of the [[http://jquery.com][jQuery]]
-<nop>JavaScript library. 
-See also Foswiki:Development.UsingJQueryWithFoswiki for more information on
-using jQuery with Foswiki.
 
 ---++ References and tutorials
    * [[http://docs.jquery.com/How_jQuery_Works][Getting the feet wet]]
@@ -139,8 +132,16 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  25 May 2011: | (4.04) Added JQueryPlaceholder. \
-                  Updated JQueryAutocomplete to work around Firefox 4 problem breaking up/down arrow keys in edit fields. |
+|  25 May 2011: | (4.10) Added JQueryPlaceholder; \
+                  Updated jquery.autocomplete to work around Firefox 4 problem breaking up/down arrow keys in edit fields; \
+                  Added jquery.tmpl; \
+                  Updated jquery.metadata to support html5 attributes; \
+                  Updated jquery.validate to 1.8.0; \
+                  Added jquery-1.5.[0-2] and jquery-1.6.1; \
+                  Implemented history support for jquery.tabpane; \
+                  Updated jquery.media and added more skins to the swf player; \
+                  Fixed jquery.shake to work with elements positioned relatively; \
+                  Adding context variables for all enabled jQuery modules; |
 |  11 Apr 2011: | (4.03) jQuery default corrected to be 1.4.3. \
                   Fixed syntax for accessing meta variables. \
                   Improved iterating hash. \
@@ -148,6 +149,7 @@ reduce bandwidth and speed up interactive performance.
                   Removed useless BOM code from blockUI. \
                   Compress using utf8 encoding by default\
                   This version is shipping with Foswiki 1.1.3 |
+|  21 Feb 2011: | (4.02) cleaned up and documented the process for adding new plugins |
 |  02 Feb 2011: | (4.01) added pnotify, configure checker to check that \
                   configured ={JQueryVersion}= is sane |
 |  13 Dec 2010: | (4.00) adding jquery-1.4.2/3/4 (default is 1.4.3); \

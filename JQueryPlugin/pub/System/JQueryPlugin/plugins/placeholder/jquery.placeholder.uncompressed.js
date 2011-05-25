@@ -23,13 +23,11 @@
       if (input.hasClass(opts.css_class)) {
         input.val('');
         input.removeClass(opts.css_class);
-        input.removeClass('foswikiInputFieldBeforeFocus');
       }
     }).blur(function() {
       var input = $(this);
       if (input.val() === '') {
         input.addClass(opts.css_class);
-        input.addClass('foswikiInputFieldBeforeFocus');
         input.val(input.attr('placeholder'));
       }
     }).blur().parents('form').submit(function() {

@@ -8,11 +8,14 @@ jQuery(function($) {
     scrollHeight: 200
   };
 
-  $("[autocomplete][autocomplete!=off]:not(.jqInitedAutocomplete)").livequery(function() {
-    var $this = $(this);
-    var options = $.extend({}, defaults, $this.metadata());
-    var urlOrData = $this.attr('autocomplete') || '';
-    $this.attr('autocomplete', 'off');
+  $("input[autocomplete]:not([autocomplete=off]):not(.jqInitedAutocomplete)").livequery(function() {
+    var $this = $(this), 
+        urlOrData = 
+          $this.attr("autocomplete") 
+          || $this[0].getAttribute("autocomplete") /* fix for firefox-4 */
+          || '',
+        options = $.extend({}, defaults, $this.metadata());
+
     if (!urlOrData.match("^https?://")) {
       urlOrData = urlOrData.split(/\s*,\s*/);
     }

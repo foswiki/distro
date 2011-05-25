@@ -1,0 +1,10 @@
+--- /foswiki/JQueryPlugin/pub/System/JQueryPlugin/plugins/validate/jquery.validate.uncompressed.orig.js	2011-03-29 08:17:12.000000000 +0200
++++ /foswiki/JQueryPlugin/pub/System/JQueryPlugin/plugins/validate/jquery.validate.uncompressed.js	2011-03-29 08:13:44.000000000 +0200
+@@ -950,6 +950,7 @@
+ 						validator.prepareElement(element);
+ 						validator.formSubmitted = submitted;
+ 						validator.successList.push(element);
++						delete validator.invalid[element.name];
+ 						validator.showErrors();
+ 					} else {
+ 						var errors = {};

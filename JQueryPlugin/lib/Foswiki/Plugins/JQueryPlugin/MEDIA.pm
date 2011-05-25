@@ -31,7 +31,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name         => 'Media',
-            version      => '0.89',
+            version      => '0.96',
             author       => 'M. Alsup',
             homepage     => 'http://malsup.com/jquery/media',
             javascript   => [ 'jquery.media.js', 'jquery.media.init.js' ],

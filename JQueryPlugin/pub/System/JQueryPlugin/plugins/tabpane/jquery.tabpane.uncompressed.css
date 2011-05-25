@@ -59,7 +59,7 @@ ul.jqTabGroup a {
 }
 
 /* default theme */
-.jqTabPaneDefault ul.jqTabGroup li {
+.jqTabPaneDefault > .jqTabGroup li {
   background-color: transparent;
   background-image: url('tab_right.png');
   background-repeat: no-repeat;
@@ -69,8 +69,8 @@ ul.jqTabGroup a {
   *margin:5px 4px -6px 0px; /* IE7 */
   height:29px;
 }
-.jqTabPaneDefault ul.jqTabGroup a:hover,
-.jqTabPaneDefault ul.jqTabGroup a {
+.jqTabPaneDefault > .jqTabGroup a:hover,
+.jqTabPaneDefault > .jqTabGroup a {
   background-color:transparent;
   background-image: url('tab_left.png');
   background-repeat: no-repeat;
@@ -82,21 +82,26 @@ ul.jqTabGroup a {
   font-size:12px;
   line-height:100%;
 }
-.jqTabPaneDefault ul.jqTabGroup li.current {
+.jqTabPaneDefault > .jqTabGroup li.current {
   background-image: url('tab_right_on.png');
   background-color: #fff;
   background-repeat: no-repeat;
   background-position: right top;
 }
-.jqTabPaneDefault ul.jqTabGroup li.current a:hover,
-.jqTabPaneDefault ul.jqTabGroup li.current a {
+.jqTabPaneDefault > .jqTabGroup li.current a:hover,
+.jqTabPaneDefault > .jqTabGroup li.current a {
   background-image: url('tab_left_on.png');
   background-repeat:no-repeat;
   background-position:left top;
   color: #333;
 }
-.jqTabPaneDefault ul.jqTabGroup a:hover,
-.jqTabPaneDefault ul.jqTabGroup a:focus {
+.jqTabPaneDefault > .jqTabGroup a:hover,
+.jqTabPaneDefault > .jqTabGroup a:focus {
+  color:red;
+}
+
+/* error */
+.jqTabPane > .jqTabGroup a.error {
   color:red;
 }
 
@@ -116,23 +121,54 @@ ul.jqTabGroup a {
 }
 
 /* simple theme */
-.jqTabPaneSimple ul.jqTabGroup li {
+.jqTabPaneSimple > .jqTabGroup li {
   background:transparent;
-  margin:0.4615em 0.4615em -1px 0; /* 6px 6px ... */
+  margin:0px 0.4615em -1px 0; /* 0px 6px ... */
   *height:2.3077em; /* IE7 ... 30px */
 }
-.jqTabPaneSimple ul.jqTabGroup li.current a {
+.jqTabPaneSimple > .jqTabGroup li.current a {
   background:#fff;
   border-bottom:1px solid #fff;
 }
-.jqTabPaneSimple ul.jqTabGroup a:hover,
-.jqTabPaneSimple ul.jqTabGroup a {
+.jqTabPaneSimple > .jqTabGroup a:hover,
+.jqTabPaneSimple > .jqTabGroup a {
   background:#eee;
   border: 1px solid #ccc;
   color:inherit;
   *color:#000; /* IE7 */
   padding:5px 10px;
 }
-.jqTabPaneSimple ul.jqTabGroup a:hover {
+.jqTabPaneSimple > .jqTabGroup a:hover {
   color:red;
+}
+
+/* plain theme */
+.jqTabPanePlain > .jqTabGroup li {
+  background:transparent;
+  margin:0px 0.4615em -1px 0; /* 0px 6px ... */
+  *height:2.3077em; /* IE7 ... 30px */
+}
+.jqTabPanePlain > .jqTabGroup li.current a {
+  background:#fff;
+  border-bottom:1px solid #fff;
+}
+.jqTabPanePlain > .jqTabGroup a:hover,
+.jqTabPanePlain > .jqTabGroup a {
+  background:#eee;
+  border: 1px solid #ccc;
+  color:inherit;
+  *color:#000; /* IE7 */
+  padding:5px 10px;
+}
+.jqTabPanePlain > .jqTabGroup a:hover {
+  color:red;
+}
+.jqTabPanePlain .jqTab {
+  border-left:0px;
+  border-right:0px;
+  border-bottom:0px;
+  border-top-color:#ccc;
+}
+.jqTabPanePlain .jqTabContents {
+  padding:0px;
 }

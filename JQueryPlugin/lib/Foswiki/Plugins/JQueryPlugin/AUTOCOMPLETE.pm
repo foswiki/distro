@@ -10,7 +10,7 @@ our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 ---+ pacakage Foswiki::Plugins::JQueryPlugin::AUTOCOMPLETE
 
-Autocomplete - jQuery plugin 1.1pre
+Autocomplete - jQuery plugin 1.2.1
 
 =cut
 
@@ -31,13 +31,10 @@ sub new {
             $session,
             name    => 'Autocomplete',
             version => '1.2.1',
-            author =>
-              'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Joern Zaefferer',
-            homepage =>
-'http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/',
+            author => 'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Joern Zaefferer',
+            homepage => 'https://github.com/agarzola/jQueryAutocompletePlugin',
             css => ['jquery.autocomplete.css'],
-            javascript =>
-              [ 'jquery.autocomplete.js', 'jquery.autocomplete.init.js' ],
+            javascript => [ 'jquery.autocomplete.js', 'jquery.autocomplete.init.js' ],
             dependencies => [ 'metadata', 'livequery', 'JQUERYPLUGIN::UI' ],
         ),
         $class

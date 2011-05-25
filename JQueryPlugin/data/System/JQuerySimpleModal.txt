@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1286374614" format="1.1" reprev="4" version="5"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1302187339" format="1.1" reprev="6" version="7"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"simplemodal"
@@ -53,28 +53,20 @@ overlayCss and/or containerCss options.
 
 %JQICON{"email"}% <a href="#" class="jqSimpleModal {url:'%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?skin=text;section=helpText', onSubmit:function() {alert('you clicked submit in the async example')}, onCancel:function() {alert('you cancelled the async example')}}">Contact (async)</a>: opens a modal dialog with content loaded asynchronously from a named section of a topic
 
-%STARTSECTION{"helpText"}%
-<div id="helpText" class="foswikiPage foswikiHidden">
-<div style="width:600px; height:400px; overflow:auto;margin-bottom:1em;padding-right:1em">
----+!! Contact
- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mattis nisl
- venenatis augue. Nullam lacinia dapibus enim. Duis ut enim at neque viverra
- vestibulum. Nullam blandit massa non tellus. Integer eget justo. Maecenas
- vitae nisl nec justo pellentesque adipiscing. Cras nulla. Phasellus interdum
- mi dapibus nisi. Suspendisse sodales leo ac dui. Duis rhoncus neque sed felis.
- Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-
- <div class="foswikiFormSteps">
-   <div class="foswikiFormStep">
-     <h3>First Name:</h3>
-     <input type="text" size="30" class="foswikiInputField" />
-   </div>
-   <div class="foswikiFormStep">
-     <h3>Last Name:</h3>
-     <input type="text" size="30" class="foswikiInputField" />
-   </div>
- </div>
-
+<div class="foswikiHidden">
+%STARTSECTION{"helpText"}%<form>
+<div id="helpText" class="foswikiFormSteps">
+<h2 class="foswikiDialogTitle">Contact</h2>
+<div style="width:600px; height:400px; overflow:auto">
+<div class="foswikiFormStep">
+  <h3>First Name:</h3>
+  <input type="text" size="30" class="foswikiInputField" />
+</div>
+<div class="foswikiFormStep">
+  <h3>Last Name:</h3>
+  <input type="text" size="30" class="foswikiInputField" />
+</div>
+<div class="foswikiFormStep">
  Aenean neque lectus, gravida nec, egestas at, scelerisque quis, lectus.
  Suspendisse potenti. Morbi id urna at magna tristique mollis. Praesent
  fermentum sollicitudin turpis. Sed tincidunt gravida est. Morbi non nibh
@@ -103,10 +95,13 @@ overlayCss and/or containerCss options.
  magna est, venenatis et, eleifend sit amet, vulputate eu, mi. Suspendisse sed
  arcu at orci scelerisque lobortis. Sed venenatis pede quis nibh. Vivamus at
  nulla. Etiam congue. Ut eu eros. Nullam tempor rutrum massa.
-
 </div>
+</div>
+---
+<div class="foswikiFormStep">
 %BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" class="jqSimpleModalOK"}%
 %BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross" class="jqSimpleModalCancel foswikiRight"}%
 %CLEAR%
 </div>
-%ENDSECTION{"helpText"}%
+</form>%ENDSECTION{"helpText"}%
+</div>

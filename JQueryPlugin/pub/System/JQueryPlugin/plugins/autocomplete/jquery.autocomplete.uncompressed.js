@@ -1,13 +1,13 @@
 /*
  * jQuery Autocomplete plugin 1.2.1
  *
- * Copyright (c) 2009 Jörn Zaefferer
+ * Copyright (c) 2009 Joern Zaefferer
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * With small modifications by Alfonso Gómez-Arzola.
+ * With small modifications by Alfonso Gomez-Arzola.
  * See changelog for details.
  *
  */
@@ -72,7 +72,7 @@ $.Autocompleter = function(input, options) {
 	}
 
 	// Create $ object for input element
-	var $input = $(input).attr("autocomplete", "off").addClass(options.inputClass);
+        var $input = $(input).attr("autocomplete", "off").addClass(options.inputClass);
 
 	var timeout;
 	var previousValue = "";
@@ -85,6 +85,18 @@ $.Autocompleter = function(input, options) {
 	var select = $.Autocompleter.Select(options, input, selectCurrent, config);
 	
 	var blockSubmit;
+
+        // add spinner
+        $input.wrap("<div style='position:relative; display:inline; white-space:nowrap'></div>");
+        var $spinner = $("<span class='ac_spinner' />").insertAfter($input);
+        
+        // delay until the interface has been repainted
+        window.setTimeout(function() {
+          var margin = parseInt($input.css("margin-right"), 10) || 0;
+          $spinner.css({
+            'margin-left': -20-margin
+          });
+        }, 500);
 	
 	// prevent form submit in opera when selecting with return key
 	$.browser.opera && $(input.form).bind("submit.autocomplete", function() {
@@ -157,7 +169,7 @@ $.Autocompleter = function(input, options) {
 				
 			default:
 				clearTimeout(timeout);
-				timeout = setTimeout(onChange, options.delay);
+				timeout = window.setTimeout(onChange, options.delay);
 				break;
 		}
 	}).focus(function(){
@@ -258,9 +270,9 @@ $.Autocompleter = function(input, options) {
 		}
 		
 		var currentValue = $input.val();
-		
-		if ( !skipPrevCheck && currentValue == previousValue )
+		if ( !skipPrevCheck && currentValue == previousValue ) {
 			return;
+                }
 		
 		previousValue = currentValue;
 		
@@ -370,7 +382,7 @@ $.Autocompleter = function(input, options) {
 				timestamp: +new Date()
 			};
 			$.each(options.extraParams, function(key, param) {
-				extraParams[key] = typeof param == "function" ? param() : param;
+				extraParams[key] = typeof param == "function" ? param($input) : param;
 			});
 			
 			$.ajax({
@@ -445,6 +457,8 @@ $.Autocompleter.defaults = {
 	width: 0,
 	multiple: false,
 	multipleSeparator: " ",
+	inputFocus: true,
+	clickFire: false,
 	inputFocus: true,
 	clickFire: false,
 	highlight: function(value, term) {
