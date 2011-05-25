@@ -19,7 +19,6 @@
 	padding: 2px 5px;
 	cursor: default;
 	display: block;
-        text-align: left;
 	/* 
 	if width will be 100% horizontal scrollbar will apear 
 	when scroll mode will be used
@@ -35,19 +34,12 @@
 	overflow: hidden;
 }
 
-.ac_spinner {
-	background-image: url('../../images/spinner.gif');
-        background-position:left center;
-        background-repeat:no-repeat;
-        height:16px;
-        width:16px;
-        position:absolute;
-        margin-left:-20px;
-        display:none;
+.ac_loading {
+	background: white url('indicator.gif') right center no-repeat;
 }
 
 .ac_odd {
-	/*background-color: #eee;*/
+	background-color: #eee;
 }
 
 .ac_over {
