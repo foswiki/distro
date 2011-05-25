@@ -132,8 +132,8 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  25 May 2011: | (4.05) Updated JQueryAutocomplete to work around Firefox 4 problem breaking up/down arrow keys in edit fields. |
-|  25 Apr 2011: | (4.04) Added JQueryPlaceholder. |
+|  25 May 2011: | (4.04) Added JQueryPlaceholder. \
+                  Updated JQueryAutocomplete to work around Firefox 4 problem breaking up/down arrow keys in edit fields. |
 |  11 Apr 2011: | (4.03) jQuery default corrected to be 1.4.3. \
                   Fixed syntax for accessing meta variables. \
                   Improved iterating hash. \
