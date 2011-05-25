@@ -231,7 +231,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2011 Wind<nop>River Inc. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  2.2.0 (23 May 2011) | Foswiki:Tasks/Item10591: silence noisy "Click to edit" statements; change to a control for editing cells, due to the "wikiword selection" problem Foswiki:Tasks/Item10592: row move now uses an external handle, to allow for cursor select of table contents. Add feedback for saves. |
+|  2.2.0 (25 May 2011) | Foswiki:Tasks/Item10591: silence noisy "Click to edit" statements; change to a control for editing cells, due to the "wikiword selection" problem Foswiki:Tasks/Item10592: row move now uses an external handle, to allow for cursor select of table contents. Add feedback for saves. Foswiki:Tasks/Item10777: make sure full table edit is working, and there is no risk of data loss when adding/removing rows; Foswiki:Tasks/Item2016: work around core code limitations when cell content is 0 |
 |  2.1.4 (18 May 2011) | Foswiki:Tasks/Item10752: fix HTML comments in cells Foswiki:Tasks/Item10753: correct interpretation of changerows="add" |
 |  2.1.3 (19 Apr 2011) | Foswiki:Tasks/Item10583: support for sort order in select cells Foswiki:Tasks/Item10583: fixes for EDITCELL |
 |  2.1.2 (14 Mar 2011) | Foswiki:Tasks/Item2016: editor was not handling a table cell that contained only "0" correctly |

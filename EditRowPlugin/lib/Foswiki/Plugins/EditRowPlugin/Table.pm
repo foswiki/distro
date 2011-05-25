@@ -702,7 +702,7 @@ sub generateEditButtons {
             {
                 href  => '#addRow',
                 title => ADD_ROW,
-                class => 'erp_submit ui-icon ui-icon-plusthick'
+                class => 'editRowPlugin_willDiscard erp_submit ui-icon ui-icon-plusthick'
             },
 	    ADD_ROW
         );

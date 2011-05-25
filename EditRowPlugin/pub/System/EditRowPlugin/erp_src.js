@@ -219,8 +219,7 @@
 	    });
 	};
 
-	// Add a "drag handle" element to the first cell.... except, this will be included as part of the content :-(
-	// so can only do it during hover.
+	// Add a "drag handle" element to the first cell
 	var handle = $("<a href='#' class='erp_drag_button ui-icon ui-icon-arrowthick-2-n-s' title='Click and drag to move row'>move</a>");
 	tr.find("td").first().find("div.editRowPluginContainer").append(handle);
 	tr.addClass("ui-draggable");
@@ -256,6 +255,7 @@
 
     $(document).ready(function() {
 	var erp_rowDirty = false;
+	var erp_dirtyVeto = false;
 
 	$('.editRowPluginInput').livequery("change", function() {
 	    erp_rowDirty = true;
@@ -268,25 +268,34 @@
 
 	// Action on select row and + row. Check if the current row is
 	// dirty, and if it is, prompt for save
-	$('.editRowPlugin_willDiscard').livequery("click", function() {
-	    if (erp_rowDirty) {
-		if (!confirm("This action will discard your changes.")) {
-		    return false;
+	$('.editRowPlugin_willDiscard').livequery(function() {
+	    $(this).click(function(event) {
+		if (erp_rowDirty) {
+		    if (!confirm("This action will discard your changes.")) {
+			erp_dirtyVeto = true;
+			return false;
+		    }
 		}
-	    }
-	    return true;
+		return true;
+	    });
 	});
 
 	$('.erp_submit').livequery(function() {
 	    $(this).button();
 	    $(this).click(function() {
-		var form = $(this).closest("form");
-		if (form && form.length > 0) {
-		    form[0].erp_action.value = $(this).attr('href');
-		    form.submit();
-		    return false;
+		var cont = true;
+		if (erp_dirtyVeto) {
+		    erp_dirtyVeto = false;
+		    cont = false;
+		} else {
+		    var form = $(this).closest("form");
+		    if (form && form.length > 0) {
+			form[0].erp_action.value = $(this).attr('href');
+			form.submit();
+			cont = false;
+		    }
 		}
-		return true;
+		return cont;
 	    });
 	});
 
@@ -360,7 +369,9 @@
 		$(self).next().show();
 	    };
 
-	    p.callback = function(value, settings) {   
+	    p.callback = function(value, settings) {
+		value = value.replace(/^RESPONSE/, '');
+                $(this).html(value);
 		if (p.type == "text" || p.type == "textarea")
 		    // Add changed text (unexpanded) to settings
 		    settings.data = value;

@@ -157,13 +157,18 @@ sub process {
 	    -type    => 'text/html',
 	    -charset => 'UTF-8'
 	    );
-	if ($result) {
-	    $result = Foswiki::Func::expandCommonVariables($result, $topic, $web);
-	    $result = Foswiki::Func::renderText($result, $web, $topic);
+	if (defined $result) {
+	    if ($result) {
+		# renderText("0") clears the output, so don't do it.
+		$result = Foswiki::Func::expandCommonVariables($result, $topic, $web);
+		$result = Foswiki::Func::renderText($result, $web, $topic);
+	    }
 	} else {
 	    $result = $mess || '';
 	}
-	$response->print($result);
+	# The leading text RESPONSE is done so that a single 0 value can
+	# be returbned - see Item10794
+	$response->body("RESPONSE$result");
 
     } else {
         Foswiki::Func::redirectCgiQuery( undef, $url );
