@@ -30,7 +30,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name    => 'Autocomplete',
-            version => '1.1pre',
+            version => '1.2.1',
             author =>
               'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Joern Zaefferer',
             homepage =>
