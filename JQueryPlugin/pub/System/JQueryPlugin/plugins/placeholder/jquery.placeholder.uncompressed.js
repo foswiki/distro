@@ -42,15 +42,15 @@
     });
   };
 
-  function hasPlaceholderSupport() {
-    var input = document.create('input');
-    return ('placeholder' in input)
-  };
+  $(function() {
+    var test = document.createElement('input');
+    $.support.placeholder = ('placeholder' in test);
 
-  if (!hasPlaceholderSupport) {
-    $('[placeholder]').livequery(function() {
-        $(this).placeholder();
-    }); 
-  }
+    if (!$.support.placeholder) {
+      $('[placeholder]').livequery(function() {
+          $(this).placeholder();
+      }); 
+    }
+  });
 
 })(jQuery);
