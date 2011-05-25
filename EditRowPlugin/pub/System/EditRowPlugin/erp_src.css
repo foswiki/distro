@@ -1,3 +1,7 @@
+/* Hide nasty dotted borders on moz; jquery-ui breaks them */
+.erp_submit:focus { outline: none; }
+.erp_submit::-moz-focus-inner { outline: none; }
+
 .editRowPluginSort {
     text-decoration: underline;
 }

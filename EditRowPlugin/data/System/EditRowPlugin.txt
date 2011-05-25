@@ -189,8 +189,12 @@ are:
    * Plugin preferences (though global preferences are compatible)
 ---+++ !TablePlugin
 Javascript sorting in !EditRowPlugin is much faster than !TablePlugin. However
-!TablePlugin has many features this plugin does not support. The two plugins
-can safely be used together.
+!TablePlugin has many features this plugin does not support. For the most part,
+the two plugins can safely be used together. *However* if you use a TABLE statement with
+an =initsort= parameter, it is likely to cause great confusion, as the table will be
+re-sorted each time a row is opened for edit, and when the table is edited in full table
+mode.
+
 ---+++ !EditTablerowPlugin
 Provides the vertical row editing interface like
 !EditTablerowPlugin, with the row being edited shown in context in the table.
