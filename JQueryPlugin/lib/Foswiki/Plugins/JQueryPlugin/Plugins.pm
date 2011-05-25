@@ -11,10 +11,6 @@ our $currentTheme;
 
 use Foswiki::Func;
 
-BEGIN {
-    srand() if $] < 5.004;
-}
-
 =begin TML
 
 ---+ package Foswiki::Plugins::JQueryPlugin
