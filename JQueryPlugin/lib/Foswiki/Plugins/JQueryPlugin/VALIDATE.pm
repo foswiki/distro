@@ -30,7 +30,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name    => 'Validate',
-            version => '1.7',
+            version => '1.8.0',
             author  => 'Joern Zaefferer',
             homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-validation',
             javascript => [ 'jquery.validate.js', 'jquery.validate.methods.js' ],
