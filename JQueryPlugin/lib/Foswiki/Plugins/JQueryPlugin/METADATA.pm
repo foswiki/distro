@@ -30,7 +30,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name    => 'Metadata',
-            version => '3630',
+            version => '2.1',
             author =>
               'John Resig, Yehuda Katz, Joern Zaefferer, Paul <nop>McLanahan',
             homepage   => 'http://plugins.jquery.com/project/metadata',
