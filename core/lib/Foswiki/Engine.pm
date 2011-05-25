@@ -387,7 +387,7 @@ as needed, sou engines should redefine that method insted of this one.
 sub finalizeBody {
     my ( $this, $res, $req ) = @_;
     my $body = $res->body;
-    return unless $body;
+    return unless defined $body;
     $this->prepareWrite($res);
     if ( Scalar::Util::blessed($body) && $body->can('read')
         or ref $body eq 'GLOB' )

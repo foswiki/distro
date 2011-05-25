@@ -417,7 +417,8 @@ Add content to the end of the body.
 
 sub print {
     my $this = shift;
-    $this->body( ( $this->{body} || '' ) . join( '', @_ ) );
+    $this->{body} = '' unless defined $this->{body};
+    $this->body( $this->{body} . join( '', @_ ) );
 }
 
 =begin TML
