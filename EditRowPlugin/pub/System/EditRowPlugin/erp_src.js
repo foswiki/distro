@@ -281,7 +281,9 @@
 	});
 
 	$('.erp_submit').livequery(function() {
-	    $(this).button();
+	    if (!$.browser.msie || parseInt($.browser.version) >= 8)
+		// No button support in IE 7 and below
+		$(this).button();
 	    $(this).click(function() {
 		var cont = true;
 		if (erp_dirtyVeto) {
