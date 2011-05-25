@@ -989,7 +989,7 @@ sub getRenderedVersion {
     my ( $this, $text, $topicObject ) = @_;
     ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
 
-    return '' unless $text;    # nothing to do
+    return '' unless defined $text;    # nothing to do
 
     my $session = $this->{session};
     my $plugins = $session->{plugins};
