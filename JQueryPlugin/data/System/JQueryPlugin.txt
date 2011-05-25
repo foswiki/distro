@@ -36,12 +36,10 @@ loaded automatically. See [[%SCRIPTURLPATH{"configure"}%][configure]].
 Those plugins coming with their own [[#Macros][macro]] will take care of loading their javascript and css by themselves. So you won't need to 
 call JQREQUIRE explicitly for those listed below.
 
-!JQueryPlugin provides a special framework for integrating third party jQuery plugins into Foswiki.
-The framework allows plugins to be loaded as needed and makes sure any dependencies are satisfied.
-Examples are 
-Foswiki:Extensions/JQGridPlugin, Foswiki:Extensions/JQTablePlugin,
-Foswiki:Extensions/JQFullCanendarPlugin, Foswiki:Extensions/ImagePlugin,
-Foswiki:Extensions/ImageGalleryPlugin or Foswiki:Extensions/NatEditPlugin.
+
+The JQuery ecosystem has a huge number of plugins - more than can be included by default
+by this plugin. If you want to add new plugins, then you will find instructions for adding
+them at Foswiki:Development.UsingJQueryWithFoswiki#adding_plugins.
 
 ---++ Coding Standards
 
@@ -141,8 +139,8 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  25 May 2011: | (4.05) Updated JQueryAutocomplete to work around Firefox 4 problem breaking up/down arrow keys in edit fields. |
-|  25 Apr 2011: | (4.04) Added JQueryPlaceholder. |
+|  25 May 2011: | (4.04) Added JQueryPlaceholder. \
+                  Updated JQueryAutocomplete to work around Firefox 4 problem breaking up/down arrow keys in edit fields. |
 |  11 Apr 2011: | (4.03) jQuery default corrected to be 1.4.3. \
                   Fixed syntax for accessing meta variables. \
                   Improved iterating hash. \
