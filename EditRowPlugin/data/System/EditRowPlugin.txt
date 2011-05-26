@@ -2,6 +2,9 @@
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = Replacement for some of !EditTablePlugin, some of !EditTablerowPlugin and some of !TablePlugin.
+%JQREQUIRE{"UI"}%
+   * Set UICON = <img class="ui-icon ui-icon-demo ui-icon-
+   * Set NOCIU = " style="display:inline" src="%ATTACHURLPATH%/onepixel.png"/>
 -->
 
 %SHORTDESCRIPTION%
@@ -10,9 +13,8 @@ One line description, required for extensions repository catalog.
 
 %TOC%
 
-A replacement for most of !EditTablePlugin, some of !EditTablerowPlugin and
-some of !TablePlugin. Features:
-   1 You can edit one cell at a time, instead of having to edit the entire
+Features:
+   1 You can edit one row, or even one cell at a time, instead of having to edit the entire
      table. This solves the problem with the long page rendering times
      required to show all the HTML for a full table edit on big tables.
    1 Supports footer rows.
@@ -94,24 +96,24 @@ Parameters:
      editing mode.
    * ==helptopic== Topic name containing help text shown when editing a table. The [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]] markers can be used in the topic to specify what is shown. Note that newlines are removed from the included text so the that text can be used inside a table.
    * ==require_js== "on" or "off" depending on whether the plugin should require Javascript in the browser or not. This is a local version of the global EDITROWPLUGIN_REQUIRE_JS switch described below.
-Table rows are shown with a row edit button %ICON{edittopic}% in the first column,
+Table rows are shown with a row edit button %UICON%pencil%NOCIU% in the first column,
 and a table edit button <img src="%ATTACHURLPATH%/edittable.png" /> after the
 table. When the table is
 edited, then a number of buttons may be shown depending on the
 settings of =changerows= and =quietsave=.
-   * %ICON{save}% saves the changes
+   * %UICON%disk%NOCIU% saves the changes
    * <img src="%ATTACHURLPATH%/quiet.png" /> saves without notification
-   * %ICON{plus}% adds a new row after the current row, taking for its contents the initial values specified in the EDITTABLE macro
-   * %ICON{minus}% deletes the row
-   * %ICON{arrowup}% Move this row up one row in the table
-   * %ICON{arrowdown}% Move this row down one row in the table
-   * %ICON{stop}% cancels the open edit
+   * %UICON%plusthick%NOCIU% adds a new row after the current row, taking for its contents the initial values specified in the EDITTABLE macro
+   * %UICON%minusthick%NOCIU% deletes the row
+   *  %UICON%arrow-1-n%NOCIU% Move this row up one row in the table
+   * %UICON%arrow-1-s%NOCIU% Move this row down one row in the table
+   * %UICON%cancel%NOCIU% cancels the open edit
 
 ---++ Per Cell Settings
 
-An individual edit field type can be defined for each individual table cell. Place an =%<nop>EDITCELL{ "type, ..." }%= variable at the end of the cell content. This is useful to override the per column =%<nop>EDITTABLE{ format="..." }%= settings, or to create tables with key/value rows. All edit field types of the =format="..."= parameter are supported. For example, to define a text field, type: =| cell content %<nop>EDITCELL{ "text, 20" }% |=
+An individual edit field type can be defined for each individual table cell. Place an =%<nop>EDITCELL{ "type, ..." }%= macro at the end of the cell content. This is useful to override the per column =%<nop>EDITTABLE{ format="..." }%= settings, or to create tables with key/value rows. All edit field types of the =format="..."= parameter are supported. For example, to define a text field, type: =| cell content %<nop>EDITCELL{ "text, 20" }% |=
 
-__Note:__ The =%<nop>EDITCELL{ }%=variable cannot be used by itself; place an =%<nop>EDITTABLE{ }%=variable at the beginning of a table where you want to use =%<nop>EDITCELL{ }%= variables.
+__Note:__ The =%<nop>EDITCELL{}%= macro cannot be used by itself; place an =%<nop>EDITTABLE{ }%= macro at the beginning of a table where you want to use =%<nop>EDITCELL{ }%= macros.
 
 ---++ Examples
 Copy the following examples and paste them into a topic in the Sandbox web
@@ -129,7 +131,7 @@ then="enabled in this site. Click on the buttons to try it out."}%
 | 3 | Self-eating burritos | ongoing | :-D | 1 Apr 2008 | 
 | 4 | Unified field theory | completed | :-) | 1 Apr 2012 |
 </verbatim>
-<img src="%ATTACHURLPATH%/screenshot1.png" alt='Example 2' />
+<img src="%ATTACHURLPATH%/screenshot1.png" alt='Example 1' />
 
 ---+++ Example 2
 <verbatim>
@@ -166,8 +168,8 @@ then="enabled in this site. Click on the buttons to try it out."}%
 ---+++ Javascript Editing
 <img src="%ATTACHURLPATH%/screenshot2.png" style="float:right" />
 When a table is editable and Javascript is enabled, then:
-   * individual table cells have a yellow stain on the corner that can be clicked to open an in-place editor,
-   * table rows can be manually sorted using drag-and-drop (though beware that a =TABLE= tag with an =initsort= will override this, which can be confusing),
+   * individual table cells have a yellow stain <img src="%ATTACHURL%/editbutton.png"> on the corner that can be clicked to open an in-place editor,
+   * table rows can be manually sorted using drag-and-drop, by dragging the %UICON%arrowthick-2-n-s%NOCIU% (though beware that a =TABLE= tag with an =initsort= will override this, which can be confusing),
    * table columns can be sorted in the browser, by clicking the heading above the row.
 
 ---++ Preferences
@@ -250,8 +252,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  13 Dec 2007 | removed beforeCommonTagsHandler, which was causing problems when interacting with other plugins that use unregistered tag handlers. |
 |  23 Nov 2007 | remove duplicated %EDITCELL |
 |  9 Nov 2007 | added missing _src.js versions to MANIFEST |
-|  6 Nov 2007 | fixed problem with embedded TWiki variables |
-|  20 Oct 2007 | support %EDITCELL rework the rules for associating tag with adjacent table avoid expanding TWiki variables on edit |
+|  6 Nov 2007 | fixed problem with embedded variables |
+|  20 Oct 2007 | support %EDITCELL rework the rules for associating tag with adjacent table avoid expanding variables on edit |
 |  18 Oct 2007 | added automatic save on row add added %EDITCELL support fixed validation of date change |
 |  26 Sep 2007 | eep table in full-table edit mode after a row is added dd JS to handle navigating away with pending changes (requires BehaviourContrib) |
 |  10 Sep 2007 | an use row buttons to delete the header, even though headerrows is set row" parameter not supported eader parameter not correctly handled eader row gets eaten |
@@ -266,7 +268,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  13335 | Fixed broken date prompt, and problem with radio buttons, improved and documented REST interface for Javascript authors |
 |  13291 | Added full table editing, including moving rows within the table |
 |  13161 | Bulletproofed against issues with rows that are shorter or longer than the format. |
-|  13159 | Fixed issue with short rows, and added perms check. Thanks also to TWiki:Main.MichaelDaum for more fixes and testing. Now works on IE. |
+|  13159 | Fixed issue with short rows, and added perms check. Thanks also to Foswiki:Main.MichaelDaum for more fixes and testing. Now works on IE. |
 |  13148 | Bugfixes |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home Page: | http://foswiki.org/Extensions/EditRowPlugin |

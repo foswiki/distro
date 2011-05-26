@@ -1,5 +1,5 @@
----
-*WikiRing %PUBURL%/%SYSTEMWEB%/EditRowPlugin/wikiringlogo20x20.png Projects*
+---+ Example 1
+
 %EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, not started, starting, ongoing, completed | radio, 3,:-),:-I,:-( | date, 20 |" changerows="on" quietsave="on"}%
 | *Nr* | *Project* | *State* | *Progress* | *Timestamp* |
 | 1 | Sliced yoghourt | completed | :-) | 26 Jun 2002 |
@@ -7,7 +7,9 @@
 | 3 | Self-eating burritos | ongoing | :-D | 1 Apr 2008 | 
 | 4 | Unified field theory | completed | :-) | 1 Apr 2012 | 
 
----
+(used to create attachments: screenshot1.png, example5.png)
+
+---+ Example 2
 
 %EDITTABLE{ format="| label,12 | textarea, 3x30 |" }%
 | *Model* | *Description* |
@@ -15,7 +17,9 @@
 | 9A-11 | A new model for 2007, but not quite as pretty as the 9A-10 |
 | RR717-D | Solid performer, dependable in vacuum grinders |
 
----
+(used to create attachment: example3.png)
+
+---+ Example 3
 
 %EDITTABLE{ format="| text,100 | text,100 |" orientrowedit="vertical" headerislabel="on"}%
 | *Line* | *Explanation* |
@@ -24,7 +28,9 @@
 | So rested he by the _Tumtum_ tree, | Tumtum is a Nilo-Saharan language and people |
 | And stood awhile in _thought_ | _thought_ a process not often employed by example writers |
 
----
+(used to create attachment: example4.png)
+
+---+ Example 4
 
 %EDITTABLE{ format="| label | text, 40 |" }%
 |*Key*|*Value*|
@@ -32,3 +38,5 @@
 | Gender: | M %EDITCELL{select, 1, , F, M}% |
 | DOB: | 18 October 2007 %EDITCELL{date, 10}% |
 | City: | New York |
+
+(used to create attachment: example5.png)
