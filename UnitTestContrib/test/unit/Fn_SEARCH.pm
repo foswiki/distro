@@ -4482,6 +4482,25 @@ $this->assert_str_equals( "OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferen
 
 }
 
+sub test_bad_order {
+    my $this = shift;
+
+    $this->set_up_for_sorting();
+    my $search =
+        '%SEARCH{".*" type="regex" scope="topic" web="'
+      . $this->{test_web}
+      . '" format="$topic" separator="," nonoise="on" ';
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+	  $search .
+	  'order="formfield()"}%' );
+    # Should get the default search order (or an error message, perhaps?)
+    $this->assert_str_equals(
+"OkATopic,OkBTopic,OkTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences",
+        $result
+    );
+}
+
 sub test_Item9269 {
     my $this = shift;
 
