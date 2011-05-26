@@ -2,18 +2,14 @@ tinyMCEPopup.requireLangPack();
 
 var SearchReplaceDialog = {
 	init : function(ed) {
-		var t = this, f = document.forms[0], m = tinyMCEPopup.getWindowArg("mode");
+		var f = document.forms[0], m = tinyMCEPopup.getWindowArg("mode");
 
-		t.switchMode(m);
+		this.switchMode(m);
 
 		f[m + '_panel_searchstring'].value = tinyMCEPopup.getWindowArg("search_string");
 
 		// Focus input field
 		f[m + '_panel_searchstring'].focus();
-		
-		mcTabs.onChange.add(function(tab_id, panel_id) {
-			t.switchMode(tab_id.substring(0, tab_id.indexOf('_')));
-		});
 	},
 
 	switchMode : function(m) {
@@ -55,14 +51,16 @@ var SearchReplaceDialog = {
 
 		function fix() {
 			// Correct Firefox graphics glitches
-			// TODO: Verify if this is actually needed any more, maybe it was for very old FF versions? 
 			r = se.getRng().cloneRange();
 			ed.getDoc().execCommand('SelectAll', false, null);
 			se.setRng(r);
 		};
 
 		function replace() {
-			ed.selection.setContent(rs); // Needs to be duplicated due to selection bug in IE
+			if (tinymce.isIE)
+				ed.selection.getRng().duplicate().pasteHTML(rs); // Needs to be duplicated due to selection bug in IE
+			else
+				ed.getDoc().execCommand('InsertHTML', false, rs);
 		};
 
 		// IE flags

@@ -114,7 +114,7 @@
 <tr class="even">
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.dom.DOMUtils.html#encode">encode</a>(s:String):String</div>
+<a class="memberName" href="class_tinymce.dom.DOMUtils.html#encode">encode</a>(text:String):String</div>
 <div class="summary">Entity encodes a string, encodes the most common entities &lt;&gt;"&amp; into entities.</div>
 </td>
 <td class="last">DOMUtils</td>
@@ -162,20 +162,12 @@
 <tr class="even">
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.dom.DOMUtils.html#getNext">getNext</a>(node:Node, selector:String/function):Node</div>
-<div class="summary">Returns the next node that matches selector or function</div>
-</td>
-<td class="last">DOMUtils</td>
-</tr>
-<tr>
-<td class="first">
-<div>
-<a class="memberName" href="class_tinymce.dom.DOMUtils.html#getOuterHTML">getOuterHTML</a>(e:String/Element):String</div>
+<a class="memberName" href="class_tinymce.dom.DOMUtils.html#getOuterHTML">getOuterHTML</a>(elm:String/Element):String</div>
 <div class="summary">Returns the outer HTML of an element.</div>
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#getParent">getParent</a>(n:Node/String, f:function, r:Node):Node</div>
@@ -183,7 +175,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#getParents">getParents</a>(n:Node/String, f:function, r:Node):Array</div>
@@ -191,19 +183,11 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#getPos">getPos</a>(n:Element/String, ro:Element):object</div>
 <div class="summary">Returns the absolute x, y position of a node.</div>
-</td>
-<td class="last">DOMUtils</td>
-</tr>
-<tr>
-<td class="first">
-<div>
-<a class="memberName" href="class_tinymce.dom.DOMUtils.html#getPrev">getPrev</a>(node:Node, selector:String/function):Node</div>
-<div class="summary">Returns the previous node that matches selector or function</div>
 </td>
 <td class="last">DOMUtils</td>
 </tr>
@@ -282,7 +266,7 @@
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.dom.DOMUtils.html#isBlock">isBlock</a>(n:Node):Boolean</div>
+<a class="memberName" href="class_tinymce.dom.DOMUtils.html#isBlock">isBlock</a>(node:Node/String):Boolean</div>
 <div class="summary">Returns true/false if the specified element is a block element or not.</div>
 </td>
 <td class="last">DOMUtils</td>
@@ -314,20 +298,12 @@
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.dom.DOMUtils.html#processHTML">processHTML</a>(h:String):String</div>
-<div class="summary">Processes the HTML by replacing strong, em, del in gecko since it doesn't support them properly in a RTE environment.</div>
-</td>
-<td class="last">DOMUtils</td>
-</tr>
-<tr class="even">
-<td class="first">
-<div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#remove">remove</a>(node:String/Element/Array, keep_children:Boolean):Element/Array</div>
 <div class="summary">Removes/deletes the specified element(s) from the DOM.</div>
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#removeClass">removeClass</a>(Element:String/Element/Array, c:String):String/Array</div>
@@ -335,7 +311,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#rename">rename</a>(elm:Element, name:String):Object</div>
@@ -343,7 +319,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#replace">replace</a>(n:Element, o:Element/String/Array, k:Boolean):void</div>
@@ -351,7 +327,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#run">run</a>(Element:String/Element/Array, f:function, s:Object):Object/Array</div>
@@ -359,7 +335,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#select">select</a>(p:String, s:Object):Array</div>
@@ -367,7 +343,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#serializeStyle">serializeStyle</a>(o:Object, name:String):String</div>
@@ -375,7 +351,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#setAttrib">setAttrib</a>(e:Element/String/Array, n:String, v:String):void</div>
@@ -383,7 +359,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#setAttribs">setAttribs</a>(e:Element/String/Array, o:Object):void</div>
@@ -391,7 +367,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#setHTML">setHTML</a>(e:Element/String/Array, h:String):void</div>
@@ -399,7 +375,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#setOuterHTML">setOuterHTML</a>(e:Element/String/Array, h:Object, d:Document):void</div>
@@ -407,7 +383,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#setStyle">setStyle</a>(n:String/Element/Array, na:String, v:String):void</div>
@@ -415,7 +391,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#setStyles">setStyles</a>(e:Element/String/Array, o:Object):void</div>
@@ -423,7 +399,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#show">show</a>(e:String/Element/Array):void</div>
@@ -431,7 +407,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#split">split</a>(pe:Element, e:Element, re:Element):Element</div>
@@ -439,7 +415,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#toHex">toHex</a>(s:String):String</div>
@@ -447,7 +423,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#unbind">unbind</a>(o:String/Element/Array, n:String, f:function):bool/Array</div>
@@ -455,7 +431,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#uniqueId">uniqueId</a>(p:String):String</div>
@@ -661,13 +637,13 @@ available if it's not it will fallback to the custom TinyMCE implementation.
 <h3>encode<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function encode(s:String):String</code>
+						function encode(text:String):String</code>
 <div class="memberDescription">Entity encodes a string, encodes the most common entities <>"& into entities.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">s:String</td>
+<td class="first">text:String</td>
 <td class="last">String to encode with entities.</td>
 </tr>
 </table>
@@ -765,38 +741,17 @@ rule like ".class" complex ones like "div td.class" will not be added to output.
 <h4>Returns</h4>
 <div class="returns">Array - Array with class objects each object has a class field might be other fields in the future.</div>
 </div>
-<div class="memberDetails" id="getNext">
-<h3>getNext<span class="memberType">method</span>
-</h3>
-<code class="syntax">public 
-						function getNext(node:Node, selector:String/function):Node</code>
-<div class="memberDescription">Returns the next node that matches selector or function
-</div>
-<h4>Parameters</h4>
-<table class="params">
-<tr>
-<td class="first">node:Node</td>
-<td class="last">Node to find siblings from.</td>
-</tr>
-<tr>
-<td class="first">selector:String/function</td>
-<td class="last">Selector CSS expression or function.</td>
-</tr>
-</table>
-<h4>Returns</h4>
-<div class="returns">Node - Next node item matching the selector or null if it wasn't found.</div>
-</div>
 <div class="memberDetails" id="getOuterHTML">
 <h3>getOuterHTML<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function getOuterHTML(e:String/Element):String</code>
+						function getOuterHTML(elm:String/Element):String</code>
 <div class="memberDescription">Returns the outer HTML of an element.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">e:String/Element</td>
+<td class="first">elm:String/Element</td>
 <td class="last">Element ID or element object to get outer HTML from.</td>
 </tr>
 </table>
@@ -877,27 +832,6 @@ If the function then returns true indicating that it has found what it was looki
 </table>
 <h4>Returns</h4>
 <div class="returns">object - Absolute position of the specified element object with x, y fields.</div>
-</div>
-<div class="memberDetails" id="getPrev">
-<h3>getPrev<span class="memberType">method</span>
-</h3>
-<code class="syntax">public 
-						function getPrev(node:Node, selector:String/function):Node</code>
-<div class="memberDescription">Returns the previous node that matches selector or function
-</div>
-<h4>Parameters</h4>
-<table class="params">
-<tr>
-<td class="first">node:Node</td>
-<td class="last">Node to find siblings from.</td>
-</tr>
-<tr>
-<td class="first">selector:String/function</td>
-<td class="last">Selector CSS expression or function.</td>
-</tr>
-</table>
-<h4>Returns</h4>
-<div class="returns">Node - Previous node item matching the selector or null if it wasn't found.</div>
 </div>
 <div class="memberDetails" id="getRect">
 <h3>getRect<span class="memberType">method</span>
@@ -1066,13 +1000,13 @@ go above the point of this root node.
 <h3>isBlock<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function isBlock(n:Node):Boolean</code>
+						function isBlock(node:Node/String):Boolean</code>
 <div class="memberDescription">Returns true/false if the specified element is a block element or not.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">n:Node</td>
+<td class="first">node:Node/String</td>
 <td class="last">Element/Node to check.</td>
 </tr>
 </table>
@@ -1129,25 +1063,6 @@ colors to hex values. Urls inside the styles will also be converted to absolute/
 </table>
 <h4>Returns</h4>
 <div class="returns">Object - Object representation of that style like {border : '1px solid red'}</div>
-</div>
-<div class="memberDetails" id="processHTML">
-<h3>processHTML<span class="memberType">method</span>
-</h3>
-<code class="syntax">public 
-						function processHTML(h:String):String</code>
-<div class="memberDescription">Processes the HTML by replacing strong, em, del in gecko since it doesn't support them
-properly in a RTE environment. It also converts any URLs in links and images and places
-a converted value into a separate attribute with the mce prefix like _mce_src or _mce_href.
-</div>
-<h4>Parameters</h4>
-<table class="params">
-<tr>
-<td class="first">h:String</td>
-<td class="last">HTML to process.</td>
-</tr>
-</table>
-<h4>Returns</h4>
-<div class="returns">String - Processed HTML code.</div>
 </div>
 <div class="memberDetails" id="remove">
 <h3>remove<span class="memberType">method</span>

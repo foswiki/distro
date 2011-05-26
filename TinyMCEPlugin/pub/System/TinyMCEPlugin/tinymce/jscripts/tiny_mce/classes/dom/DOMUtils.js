@@ -280,7 +280,6 @@
 		/**
 		 * Returns the next node that matches selector or function
 		 *
-		 * @method getNext
 		 * @param {Node} node Node to find siblings from.
 		 * @param {String/function} selector Selector CSS expression or function.
 		 * @return {Node} Next node item matching the selector or null if it wasn't found.
@@ -292,7 +291,6 @@
 		/**
 		 * Returns the previous node that matches selector or function
 		 *
-		 * @method getPrev
 		 * @param {Node} node Node to find siblings from.
 		 * @param {String/function} selector Selector CSS expression or function.
 		 * @return {Node} Previous node item matching the selector or null if it wasn't found.
@@ -498,7 +496,7 @@
 					case 'float':
 						isIE ? s.styleFloat = v : s.cssFloat = v;
 						break;
-
+					
 					default:
 						s[na] = v || '';
 				}
@@ -578,20 +576,6 @@
 		},
 
 		/**
-		 * Removes all attributes from an element or elements.
-		 * 
-		 * @param {Element/String/Array} e DOM element, element id string or array of elements/ids to remove attributes from.
-		 */
-		removeAllAttribs: function(e) {
-			return this.run(e, function(e) {
-				var attrs = e.attributes;
-				for (var i = attrs.length - 1; i >= 0; i--) {
-					e.removeAttributeNode(attrs.item(i));
-				}
-			});
-		},
-
-		/**
 		 * Sets the specified attributes value of a element or elements.
 		 *
 		 * @method setAttrib
@@ -648,7 +632,7 @@
 						}
 
 						break;
-
+					
 					case "shape":
 						e.setAttribute('_mce_style', v);
 						break;
@@ -894,30 +878,19 @@
 				delete o[p + '-left' + s];
 			};
 
-			function canCompress(key) {
-				var split, value = o[key];
-				if (!value || value.indexOf(' ') < 0) {
-					return;
-				}
-				split = value.split(' ');
-				if (each(split, function(v) { return v === split[0]; })) {
-					o[key] = split[0];
-					return true;
-				} else {
-					return false;
-				}
-			}
-
 			function compress2(ta, a, b, c) {
 				var t;
-				
-				if (!canCompress(a))
+
+				t = o[a];
+				if (!t)
 					return;
 
-				if (!canCompress(b))
+				t = o[b];
+				if (!t)
 					return;
 
-				if (!canCompress(c))
+				t = o[c];
+				if (!t)
 					return;
 
 				// Compress
@@ -1199,7 +1172,7 @@
 					function set() {
 						// Remove all child nodes
 						while (e.firstChild)
-								e.removeChild(e.firstChild);
+							e.firstChild.removeNode();
 
 						try {
 							// IE will remove comments from the beginning
@@ -1267,7 +1240,7 @@
 								n = nl[i];
 
 								// Is it a temp div
-								if (n.hasAttribute("_mce_tmp")) {
+								if (n._mce_tmp) {
 									// Create new paragraph
 									p = t.doc.createElement('p');
 
@@ -1554,7 +1527,7 @@
 		 * @method insertAfter
 		 * @param {Element} node Element to insert after the reference.
 		 * @param {Element/String/Array} reference_node Reference element, element id or array of elements to insert after.
-		 * @return {Element/Array} Element that got added or an array with elements.
+		 * @return {Element/Array} Element that got added or an array with elements. 
 		 */
 		insertAfter : function(node, reference_node) {
 			reference_node = this.get(reference_node);
@@ -1878,7 +1851,7 @@
 		 * @return {Number} Index of the specified node.
 		 */
 		nodeIndex : function(node, normalized) {
-			var idx = 0, lastNodeType, lastNode, nodeType, nodeValueExists;
+			var idx = 0, lastNodeType, lastNode, nodeType;
 
 			if (node) {
 				for (lastNodeType = node.nodeType, node = node.previousSibling, lastNode = node; node; node = node.previousSibling) {
@@ -1886,13 +1859,10 @@
 
 					// Normalize text nodes
 					if (normalized && nodeType == 3) {
-						// ensure that text nodes that have been removed are handled correctly in Internet Explorer.
-						// (the nodeValue attribute will not exist, and will error here).
-						nodeValueExists = false;
-						try {nodeValueExists == node.nodeValue.length} catch (c) {}
-						if (nodeType == lastNodeType || !nodeValueExists)
+						if (nodeType == lastNodeType || !node.nodeValue.length)
 							continue;
 					}
+
 					idx++;
 					lastNodeType = nodeType;
 				}
@@ -1904,7 +1874,7 @@
 		/**
 		 * Splits an element into two new elements and places the specified split
 		 * element or element between the new ones. For example splitting the paragraph at the bold element in
-		 * this example <p>abc<b>abc</b>123</p> would produce <p>abc</p><b>abc</b><p>123</p>.
+		 * this example <p>abc<b>abc</b>123</p> would produce <p>abc</p><b>abc</b><p>123</p>. 
 		 *
 		 * @method split
 		 * @param {Element} pe Parent element to split.

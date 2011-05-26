@@ -142,7 +142,7 @@ var ImageDialog = {
 		}
 
 		tinymce.extend(args, {
-			src : nl.src.value.replace(/ /g, '%20'),
+			src : nl.src.value,
 			width : nl.width.value,
 			height : nl.height.value,
 			alt : nl.alt.value,
@@ -177,8 +177,6 @@ var ImageDialog = {
 			ed.undoManager.add();
 		}
 
-		tinyMCEPopup.editor.execCommand('mceRepaint');
-		tinyMCEPopup.editor.focus();
 		tinyMCEPopup.close();
 	},
 
