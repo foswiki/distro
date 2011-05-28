@@ -168,6 +168,7 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  28 May 2011: | v.5.4.14: Fixed search results on Foswiki 1.0.x versions. |
 |  29 Apr 2011: | v.5.4.13: Added no-column CSS for Fatwilly theme. |
 |  12 Mar 2011: | v.5.4.12: Visual fixes for Fatwilly theme. |
 |  06 Mar 2011: | v.5.4.8: Now that !TablePlugin styles are not automatically loaded to every page, header style needs a small change. |
