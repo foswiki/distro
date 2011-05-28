@@ -10,6 +10,9 @@ $Foswiki::cfg{SwitchBoard}{compare} = {
         comparing => 1
     }
 };
+
+# **PERL**
+# This setting is required when using ApacheLogin and the user needs to be authenticated when executing the compare script
 $Foswiki::cfg{SwitchBoard}{compareauth} = {
     package  => 'Foswiki::Contrib::CompareRevisionsAddOn::Compare',
     function => 'compare',
