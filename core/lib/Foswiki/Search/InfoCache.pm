@@ -201,7 +201,7 @@ sub sortResults {
     elsif (
         $sortOrder =~ /^creat/ ||    # topic creation time
         $sortOrder eq 'editby' ||    # author
-        $sortOrder =~ s/^formfield\((.*)\)$/$1/    # form field
+        $sortOrder =~ s/^formfield\((.+)\)$/$1/    # form field
       )
     {
     }
