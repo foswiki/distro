@@ -646,3 +646,8 @@
 %TMPL:DEF{"EXPAND_nomacro"}%%MAKETEXT{"EXPAND failed - no macro"}%%TMPL:END%
 %TMPL:DEF{"EXPAND_noscope"}%%MAKETEXT{"EXPAND failed - no such topic '%PARAM1%'"}% %TMPL:END%
 %TMPL:DEF{"EXPAND_noaccess"}%%MAKETEXT{"EXPAND failed - access to '%PARAM1%' denied"}%%TMPL:END%
+
+%TMPL:DEF{"template_recursion"}%
+---+++ %MAKETEXT{"Too many recursions parsing template [_1]" args="%PARAM1%"}%
+%MAKETEXT{"Please notify your [_1] administrator." args="<nop>%WIKITOOLNAME%"}%
+%TMPL:END%
