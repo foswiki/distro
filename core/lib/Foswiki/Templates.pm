@@ -41,6 +41,8 @@ use Foswiki::Attrs ();
 # normally you should use it with a bin/view command-line.
 use constant TRACE => 0;
 
+my $MAX_EXPANSION_RECURSIONS = 999;
+
 =begin TML
 
 ---++ ClassMethod new ( $session )
@@ -55,7 +57,7 @@ sub new {
     my $this = bless( { session => $session }, $class );
 
     $this->{VARS} = { sep => ' | ' };
-
+    $this->{expansionRecursions} = {};
     return $this;
 }
 
@@ -73,6 +75,7 @@ sub finish {
     my $this = shift;
     undef $this->{VARS};
     undef $this->{session};
+    undef $this->{expansionRecursions};
 }
 
 =begin TML
@@ -162,6 +165,19 @@ sub tmplP {
     }
 
     return '' unless $template;
+
+    $this->{expansionRecursions}->{$template} += 1;
+
+    #print STDERR "template=$template; recursion = " . $this->{expansionRecursions}->{$template} . "\n";
+    
+    if ( $this->{expansionRecursions}->{$template} > $MAX_EXPANSION_RECURSIONS )
+    {
+        throw Foswiki::OopsException(
+            'attention',
+            def    => 'template_recursion',
+            params => [$template]
+        );
+    }
 
     my $val = '';
     if ( exists( $this->{VARS}->{$template} ) ) {
