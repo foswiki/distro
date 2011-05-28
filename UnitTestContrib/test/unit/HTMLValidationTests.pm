@@ -105,15 +105,21 @@ sub fixture_groups {
         my $sub      = $package . '::' . $function;
 
         #print STDERR "call $sub\n";
-        my $evalsub = <<"SUB";
-            sub $script {
-                eval "require \$package" if (defined(\$package));
-                    \$UI_FN = \$sub;
-                    \$SCRIPT_NAME = \$script;
-            }
-            1;
-SUB
-        if ( not( eval $evalsub ) ) {
+        if (
+            not(
+                eval {
+                    no strict 'refs';
+                    *{$script} = sub {
+                        eval "require $package" if ( defined($package) );
+                        $UI_FN       = $sub;
+                        $SCRIPT_NAME = $script;
+                    };
+                    use strict 'refs';
+                    1;
+                }
+            )
+          )
+        {
             die $@;
         }
     }
@@ -126,11 +132,13 @@ SUB
         next if ( defined(&$skin) );
 
         #print STDERR "defining sub $skin()\n";
-        eval <<"SUB";
-		sub $skin {
-			\$SKIN_NAME = \$skin;
-		}
-SUB
+        eval {
+            no strict 'refs';
+            *{$skin} = sub {
+                $SKIN_NAME = $skin;
+            };
+            use strict 'refs';
+        };
     }
 
     my @groups;
