@@ -479,32 +479,84 @@ SKIN=pattern An faca sibh?
 ', $data );
 }
 
+sub baseskin_shortcutPREV_setup {
+    write_template(
+        'xview', '%TMPL:DEF{"mytoolbar"}%%TMPL:END%
+%TMPL:DEF{"mywindow"}%%TMPL:END%
+%TMPL:P{"mywindow"}%'
+    );
+    write_template(
+        'xview.skin1', '%TMPL:INCLUDE{"xview"}%%TMPL:DEF{"mytoolbar"}%format,style,%TMPL:END%
+%TMPL:DEF{"mywindow"}%%TMPL:P{"mytoolbar"}%body,footbar,%TMPL:END%'
+    );
+    write_template(
+        'xview.skin2', '%TMPL:INCLUDE{"xview"}%%TMPL:DEF{"mytoolbar"}%%TMPL:PREV%table,%TMPL:END%'
+    );
+    write_template(
+        'xview.skin3', '%TMPL:INCLUDE{"xview"}%%TMPL:DEF{"mytoolbar"}%spellchecker,%TMPL:PREV%%TMPL:END%'
+    );
+}
+
+=pod
+
+Tests shortcut notation %PREV%
+
+=cut
+
 sub test_TMPLPREV {
     my $this = shift;
     my $data;
 
-    language_setup();
-    
+    baseskin_shortcutPREV_setup();
+
+    $data = $tmpls->readTemplate( 'xview', skins => 'skin1' );
+    $this->assert_str_equals( 'format,style,body,footbar,', $data );
+
+    $data = $tmpls->readTemplate( 'xview', skins => 'skin2,skin1' );
+    $this->assert_str_equals( 'format,style,table,body,footbar,', $data );
+
+    $data = $tmpls->readTemplate( 'xview', skins => 'skin3,skin2,skin1' );
+    $this->assert_str_equals( 'spellchecker,format,style,table,body,footbar,', $data );
+}
+
+sub baseskin_PREV_setup {
     write_template(
-        'strings.prev', '%TMPL:INCLUDE{strings}%
-%TMPL:DEF{"Question"}%%TMPL:PREV% - 1234%TMPL:END%
-'
+        'yview', '%TMPL:DEF{"mytoolbar"}%%TMPL:END%
+%TMPL:DEF{"mywindow"}%%TMPL:END%
+%TMPL:P{"mywindow"}%'
     );
+    write_template(
+        'yview.skin1', '%TMPL:INCLUDE{"yview"}%%TMPL:DEF{"mytoolbar"}%format,style,%TMPL:END%
+%TMPL:DEF{"mywindow"}%%TMPL:P{"mytoolbar"}%body,footbar,%TMPL:END%'
+    );
+    write_template(
+        'yview.skin2', '%TMPL:INCLUDE{"yview"}%%TMPL:DEF{"mytoolbar"}%%TMPL:P{"mytoolbar:_PREV"}%table,%TMPL:END%'
+    );
+    write_template(
+        'yview.skin3', '%TMPL:INCLUDE{"yview"}%%TMPL:DEF{"mytoolbar"}%spellchecker,%TMPL:P{"mytoolbar:_PREV:_PREV"}%%TMPL:END%'
+    );
+}
+
+=pod
+
+Tests non-shorthand $TMPL:P{tmpl:_PREV}%
+
+=cut
+
+sub test_TMPL_PREV {
+    my $this = shift;
+    my $data;
+
+    baseskin_PREV_setup();
     
-    $data = $tmpls->readTemplate( 'example', skins => 'prev,gaelic,pattern' );
-    $this->assert_str_equals( '
-SKIN=pattern An faca sibh? - 1234
-<input type="button" value="Chan fhaca">
-<input type="button" value="Chunnaic">
-', $data );
+    $data = $tmpls->readTemplate( 'yview', skins => 'skin1' );
+    $this->assert_str_equals( 'format,style,body,footbar,', $data );
 
-    $data = $tmpls->readTemplate( 'example', skins => 'prev,pattern' );
-    $this->assert_str_equals( '
-SKIN=pattern Do you see? - 1234
-<input type="button" value="No">
-<input type="button" value="Yes">
-', $data );
+    $data = $tmpls->readTemplate( 'yview', skins => 'skin2,skin1' );
+    $this->assert_str_equals( 'format,style,table,body,footbar,', $data );
 
+    $data = $tmpls->readTemplate( 'yview', skins => 'skin3,skin2,skin1' );
+    $this->assert_str_equals( 'spellchecker,format,style,body,footbar,', $data );
 }
 
 1;
