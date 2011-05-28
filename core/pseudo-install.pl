@@ -39,14 +39,13 @@ my @repos = (
                 ImageGalleryPlugin =>
                   'branches/scratch/ItaloValcy/ImageGalleryPlugin_5x10'
             },
-            'foswikidotorg' => { path => 'branches/foswiki.org' },
-            'Release01x00'  => { path => 'branches/Release01x00' },
-            'Release01x01'  => { path => 'branches/Release01x01' },
-            'trunk'         => { path => 'trunk' }
+            'Release01x00' => { path => 'branches/Release01x00' },
+            'Release01x01' => { path => 'branches/Release01x01' },
+            'trunk'        => { path => 'trunk' }
         }
     },
     {
-        name => 'trin',
+        name => 'official-github',
         type => 'git',
         url  => 'git://github.com/foswiki',
         svn  => 'official',
@@ -153,10 +152,10 @@ sub usage {
 
     check out a new trunk using git, then install and enable an extension from
     an abritrary git repository
-        git clone http://git.trin.org.au/foswiki/core.git
+        git clone git://github.com/foswiki/core.git
         cd core
         ./pseudo-install.pl -A developer
-        ./pseudo-install.pl -e git://github.com/somebody/SomePlugin.git
+        ./pseudo-install.pl -e git\@github.com:/me/MyPlugin.git
 EOM
 
 }
@@ -263,7 +262,7 @@ sub installModuleByName {
 
 sub populateSVNRepoListings {
     my ($svninfo) = @_;
-    if( !eval "use SVN::Client; 1" ) {
+    if ( !eval { use SVN::Client; 1 } ) {
         warn "Please install SVN::Client!";
         exit 1;
     }
@@ -314,16 +313,26 @@ sub gitClone2GitSVN {
     if ( $svninfo->{extensions}->{$module} ) {
         foreach my $branchdata ( @{ $svninfo->{extensions}->{$module} } ) {
             if ( $branchdata->{branch} ne 'trunk' ) {
-
-#print "Aliasing refs/remotes/$branchpath->{path} as origin/$branchpath->{branch}\n";
+                my $svnremoteref = "refs/remotes/$branchdata->{path}";
+                my $gitremoteref = "origin/$branchdata->{branch}";
+                my $svnurl =
+"$svninfo->{url}/$svninfo->{branches}->{$branchdata->{branch}}->{path}/$module";
+                print "Aliasing $svnremoteref as $gitremoteref\n";
                 do_commands(<<"HERE");
 cd $moduleDir
-git update-ref refs/remotes/$branchdata->{path} origin/$branchdata->{branch}
+git update-ref $svnremoteref $gitremoteref
+HERE
+                print "\tfetch from SVN url $svnurl :$svnremoteref\n";
+                do_commands(<<"HERE");
+cd $moduleDir
+git config svn-remote.$branchdata->{branch}.url $svnurl
+git config svn-remote.$branchdata->{branch}.fetch :$svnremoteref
 HERE
             }
         }
-
-        #print "Aliasing $svnrepo/trunk as origin/master\n";
+        print
+"Aliasing refs/remotes/$svninfo->{branches}->{trunk}->{path}/$module as refs/remotes/trunk &\n";
+        print "Aliasing refs/remotes/trunk as origin/master\n";
         do_commands(<<"HERE");
 cd $moduleDir
 git update-ref refs/remotes/trunk origin/master
@@ -343,9 +352,8 @@ sub do_commands {
 
     #print $commands . "\n";
     local $ENV{PATH} = untaint( $ENV{PATH} );
-    trace `$commands`;
 
-    return;
+    return `$commands`;
 }
 
 sub connectGitRepoToSVN {
@@ -354,9 +362,8 @@ sub connectGitRepoToSVN {
     if ( not $svninfo->{extensions}->{$module} ) {
         populateSVNRepoListings($svninfo);
     }
-    gitClone2GitSVN( $module, $moduleDir, $svninfo );
 
-    return;
+    return gitClone2GitSVN( $module, $moduleDir, $svninfo );
 }
 
 sub connectGitRepoToSVNByRepoName {
@@ -407,8 +414,52 @@ sub fetchModuleByName {
             $repoIndex = $repoIndex + 1;
         }
     }
+    if ( not checkModuleByNameHasSVNBranch( 'core', 'Release01x01' ) ) {
+        my $svnRepo = getSVNRepoByModuleBranchName( 'core', 'Release01x01' );
+
+        print "It seems your 'core' checkout isn't connected to a svn repo... ";
+        if ($svnRepo) {
+            print "connecting\n";
+            connectGitRepoToSVNByRepoName( 'core',
+                "$fetchedExtensionsPath/core", $svnRepo->{name} );
+        }
+        else {
+            print "couldn't find any svn repo containing 'core'\n";
+        }
+    }
 
     return $moduleDir;
+}
+
+sub getSVNRepoByModuleBranchName {
+    my ( $module, $branch ) = @_;
+    my $svnRepo;
+    my $nRepos = scalar(@repos);
+    my $i      = 0;
+
+    while ( not $svnRepo and $i < $nRepos ) {
+        my $repo = $repos[$i];
+
+        if ( $repo->{type} eq 'svn' ) {
+            if ( $repo->{branches}->{$branch} ) {
+                if ( $repo->{branches}->{$branch}->{$module} ) {
+                    $svnRepo = $repo;
+                }
+            }
+        }
+        $i += 1;
+    }
+
+    return $svnRepo;
+}
+
+sub checkModuleByNameHasSVNBranch {
+    my ( $module, $branch ) = @_;
+
+    return do_commands(<<"HERE") ? 1 : 0;
+cd $fetchedExtensionsPath/$module
+git config --get svn-remote.$branch.url
+HERE
 }
 
 sub fetchModuleByURL {
@@ -500,6 +551,7 @@ sub installFromMANIFEST {
                     next;
                 }
                 next unless $dep =~ /^\w+/;
+
                 # We skip the next line if we each an ONLYIF assuming these
                 # are dependencies only for old versions of Foswiki
                 # and not something a developer needs to worry about
