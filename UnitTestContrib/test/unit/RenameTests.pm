@@ -78,6 +78,12 @@ rename [[$this->{test_web}.OldTopic]]
 25 =OldTopic Fixed link to OldTopic=
 26 *OldTopic Bold link to OldTopic*
 27 _OldTopic Italic link to OldTopic_
+28 OldTopic#anchor
+29 $this->{test_web}.OldTopic#anchor
+30 [[$this->{test_web}.OldTopic#anchor]]
+31 [[OldTopic#anchor]]
+32 http://site/$this->{test_web}/OldTopic#anchor
+33 https://site/$this->{test_web}/OldTopic#anchor
 THIS
 
     # Strategically-selected set of identical topics in the test web
@@ -865,6 +871,12 @@ rename [[$this->{test_web}.NewTopic]]
 25 =NewTopic Fixed link to NewTopic=
 26 *NewTopic Bold link to NewTopic*
 27 _NewTopic Italic link to NewTopic_
+28 NewTopic#anchor
+29 $this->{test_web}.NewTopic#anchor
+30 [[$this->{test_web}.NewTopic#anchor]]
+31 [[NewTopic#anchor]]
+32 http://site/$this->{test_web}/NewTopic#anchor
+33 https://site/$this->{test_web}/NewTopic#anchor
 THIS
 
     #
@@ -912,6 +924,12 @@ rename [[$this->{test_web}.NewTopic]]
 25 =NewTopic Fixed link to NewTopic=
 26 *NewTopic Bold link to NewTopic*
 27 _NewTopic Italic link to NewTopic_
+28 NewTopic#anchor
+29 $this->{test_web}.NewTopic#anchor
+30 [[$this->{test_web}.NewTopic#anchor]]
+31 [[NewTopic#anchor]]
+32 http://site/$this->{test_web}/NewTopic#anchor
+33 https://site/$this->{test_web}/NewTopic#anchor
 THIS
 
     #
@@ -959,6 +977,12 @@ rename [[$this->{test_web}.NewTopic]]
 25 =$this->{test_web}.NewTopic Fixed link to $this->{test_web}.NewTopic=
 26 *$this->{test_web}.NewTopic Bold link to $this->{test_web}.NewTopic*
 27 _$this->{test_web}.NewTopic Italic link to $this->{test_web}.NewTopic_
+28 $this->{test_web}.NewTopic#anchor
+29 $this->{test_web}.NewTopic#anchor
+30 [[$this->{test_web}.NewTopic#anchor]]
+31 [[$this->{test_web}.NewTopic#anchor]]
+32 http://site/$this->{test_web}/NewTopic#anchor
+33 https://site/$this->{test_web}/NewTopic#anchor
 THIS
 }
 
