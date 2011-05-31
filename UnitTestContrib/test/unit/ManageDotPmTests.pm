@@ -17,6 +17,8 @@ use Foswiki::UI::Manage;
 use Foswiki::UI::Save;
 use FileHandle;
 
+#$Error::Debug = 1;
+
 our $REG_UI_FN;
 our $MAN_UI_FN;
 
@@ -185,10 +187,12 @@ sub addUserToGroup {
     $query->path_info("/$this->{users_web}/WikiGroups");
     my $fatwilly = new Foswiki( undef, $query );
 
+my ( $responseText, $result, $stdout, $stderr );
+
     my $exception;
     try {
         no strict 'refs';
-        $this->captureWithKey( manage => $this->getUIFn('manage'), $fatwilly );
+        ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey( manage => $this->getUIFn('manage'), $fatwilly );
         no strict 'refs';
     }
     catch Foswiki::OopsException with {
@@ -213,6 +217,7 @@ sub addUserToGroup {
         print STDERR "--------- otherwise\n" if ($Error::Debug);
         $exception = new Error::Simple();
     };
+print STDERR $responseText;
     return $exception;
 }
 

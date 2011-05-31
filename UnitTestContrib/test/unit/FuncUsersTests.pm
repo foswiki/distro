@@ -23,6 +23,33 @@ sub new {
     return $self;
 }
 
+
+sub loadExtraConfig {
+    my $this    = shift;    # the Test::Unit::TestCase object
+    my $context = shift;
+
+    $this->SUPER::loadExtraConfig( $context, @_ );
+
+#turn on the MongoDBPlugin so that the saved data goes into mongoDB
+#This is temoprary until Crawford and I cna find a way to push dependencies into unit tests
+    if (   ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/ )
+        or ( $Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongoDB/ )
+        or ( $context                             =~ /MongoDB/ ) )
+    {
+        $Foswiki::cfg{Plugins}{MongoDBPlugin}{Module} =
+          'Foswiki::Plugins::MongoDBPlugin';
+        $Foswiki::cfg{Plugins}{MongoDBPlugin}{Enabled}             = 1;
+        $Foswiki::cfg{Plugins}{MongoDBPlugin}{EnableOnSaveUpdates} = 1;
+
+#push(@{$Foswiki::cfg{Store}{Listeners}}, 'Foswiki::Plugins::MongoDBPlugin::Listener');
+        $Foswiki::cfg{Store}{Listeners}
+          {'Foswiki::Plugins::MongoDBPlugin::Listener'} = 1;
+        require Foswiki::Plugins::MongoDBPlugin;
+        Foswiki::Plugins::MongoDBPlugin::getMongoDB()
+          ->remove( $this->{test_web}, 'current', { '_web' => $this->{test_web} } );
+    }
+}
+
 sub AllowLoginName {
     my $this = shift;
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
@@ -1580,6 +1607,8 @@ sub verify_removeFromGroup {
 
     return if ( $this->noUsersRegistered() );
 
+    $this->assert( !Foswiki::Func::topicExists( undef, 'ZeeGroup' ) );
+
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserB' ) );
@@ -1592,12 +1621,26 @@ sub verify_removeFromGroup {
             'ZeeGroup', 1
         )
     );
+    $this->assert( Foswiki::Func::topicExists( undef, 'ZeeGroup' ) );
+    my ( $date, $user, $rev, $comment );
+    ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo(undef, 'ZeeGroup');
+    $this->assert( $rev == 1 );
+    $this->assert( Foswiki::Func::isGroupMember('ZeeGroup',  'guest' ) );
 
     $this->assert( Foswiki::Func::addUserToGroup( 'UserZ', 'ZeeGroup', 1 ) );
-
+    ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo(undef, 'ZeeGroup');
+    $this->assert( $rev == 2 );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
+    
     $this->assert( Foswiki::Func::addUserToGroup( 'UserA', 'ZeeGroup', 1 ) );
+    ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo(undef, 'ZeeGroup');
+    $this->assert( $rev == 3 );
+    $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
+    
     $this->assert( Foswiki::Func::addUserToGroup( 'WiseGuyDoesntExist', 'ZeeGroup', 1 ) );
+    ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo(undef, 'ZeeGroup');
+    $this->assert( $rev == 4 );
+    $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
 
     # Force a re-read
     $this->{session}->finish();

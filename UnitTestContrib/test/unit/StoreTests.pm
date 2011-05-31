@@ -115,6 +115,72 @@ sub test_CreateWebWithNonExistantBaseWeb {
     $this->assert( !$this->{session}->webExists($web) );
 }
 
+sub test_noForceRev {
+    my $this = shift;
+
+    Foswiki::Func::createWeb( $web, '_default' );
+    $this->assert( $this->{session}->webExists($web) );
+    $this->assert( !$this->{session}->topicExists( $web, $topic ) );
+
+    my ( $date, $user, $rev, $comment );
+    ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo($web, $topic);
+    $this->assert( $rev == 0 );
+
+    my $text = "This is some test text\n   * some list\n   * content\n :) :)";
+    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, $text );
+    $meta->save();
+    $this->assert( $this->{session}->topicExists( $web, $topic ) );
+    ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo($web, $topic );
+    $this->assert( $rev == 1 );
+
+    my $readMeta = Foswiki::Meta->load( $this->{session}, $web, $topic );
+    $this->assert_str_equals( $text, $readMeta->text );
+    
+    $text = "new text";
+    $meta->text($text);
+    $meta->save();
+    $this->assert( $this->{session}->topicExists( $web, $topic ) );
+    ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo($web, $topic );
+    $this->assert( $rev == 1 );
+    
+    #cleanup
+    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
+    $webObject->removeFromStore();
+}
+
+sub test_ForceRev {
+    my $this = shift;
+
+    Foswiki::Func::createWeb( $web, '_default' );
+    $this->assert( $this->{session}->webExists($web) );
+    $this->assert( !$this->{session}->topicExists( $web, $topic ) );
+
+    my ( $date, $user, $rev, $comment );
+    ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo($web, $topic);
+    $this->assert( $rev == 0 );
+
+    my $text = "This is some test text\n   * some list\n   * content\n :) :)";
+    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, $text );
+    $meta->save(forcenewrevision=>1);
+    $this->assert( $this->{session}->topicExists( $web, $topic ) );
+    ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo($web, $topic );
+    $this->assert( $rev == 1 );
+
+    my $readMeta = Foswiki::Meta->load( $this->{session}, $web, $topic );
+    $this->assert_str_equals( $text, $readMeta->text );
+    
+    $text = "new text";
+    $meta->text($text);
+    $meta->save(forcenewrevision=>1);
+    $this->assert( $this->{session}->topicExists( $web, $topic ) );
+    ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo($web, $topic );
+    $this->assert( $rev == 2 );
+    
+    #cleanup
+    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
+    $webObject->removeFromStore();
+}
+
 sub test_CreateSimpleTextTopic {
     my $this = shift;
 
