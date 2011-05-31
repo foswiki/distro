@@ -981,7 +981,7 @@ sub _writeGroupTopic {
 
     #TODO: should also consider securing the new topic?
     my $user = $this->{session}->{user};
-    $groupTopicObject->saveAs( $groupWeb, $groupName, author => $user, forcenewrevision=>1 );
+    $groupTopicObject->saveAs( $groupWeb, $groupName, author => $user, forcenewrevision=>0 );
 
 }
 

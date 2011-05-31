@@ -1629,17 +1629,17 @@ sub verify_removeFromGroup {
 
     $this->assert( Foswiki::Func::addUserToGroup( 'UserZ', 'ZeeGroup', 1 ) );
     ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo(undef, 'ZeeGroup');
-    $this->assert( $rev == 2 );
+    $this->assert( $rev == 1 );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
     
     $this->assert( Foswiki::Func::addUserToGroup( 'UserA', 'ZeeGroup', 1 ) );
     ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo(undef, 'ZeeGroup');
-    $this->assert( $rev == 3 );
+    $this->assert( $rev == 1 );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
     
     $this->assert( Foswiki::Func::addUserToGroup( 'WiseGuyDoesntExist', 'ZeeGroup', 1 ) );
     ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo(undef, 'ZeeGroup');
-    $this->assert( $rev == 4 );
+    $this->assert( $rev == 1 );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
 
     # Force a re-read
