@@ -4482,7 +4482,7 @@ $this->assert_str_equals( "OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferen
 
 }
 
-sub test_bad_order {
+sub verify_bad_order {
     my $this = shift;
 
     $this->set_up_for_sorting();
