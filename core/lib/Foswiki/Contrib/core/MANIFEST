@@ -675,6 +675,7 @@ lib/Foswiki/Infix/Parser.pm 0444
 lib/Foswiki/Iterator.pm 0444
 lib/Foswiki/Iterator/FilterIterator.pm 0444
 lib/Foswiki/Iterator/NumberRangeIterator.pm 0444
+lib/Foswiki/Iterator/PagerIterator.pm 0444
 lib/Foswiki/Iterator/ProcessIterator.pm 0444
 lib/Foswiki/LineIterator.pm 0444
 lib/Foswiki/ListIterator.pm 0444

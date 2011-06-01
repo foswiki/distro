@@ -39,9 +39,10 @@ sub new {
     
     $this->{pagesize} = $pagesize || $Foswiki::cfg{Search}{DefaultPageSize} || 25;
     $this->{showpage} = $showpage;
-    $this->{showpage} = 0 unless (defined($this->{showpage}));
+    $this->{showpage} = 1 unless (defined($this->{showpage}));
     
     $this->{pager_skip_results_from} = $this->{pagesize} * ($this->{showpage}-1);
+print STDERR "    $this->{pager_skip_results_from} = $this->{pagesize} * ($this->{showpage}-1);\n" if Foswiki::Iterator::MONITOR;
     $this->{pager_result_count} = $this->{pagesize};
    
     return $this;
@@ -106,24 +107,30 @@ sub skip {
     my $this = shift;
     my $count = shift;
 
+    print STDERR "--------------------------------------------PagerIterator::skip($count)\n"   if Foswiki::Iterator::MONITOR  ;
     #ask CAN skip() for faster path
     if ($this->{iterator}->can('skip')) {
         $count = $this->{iterator}->skip($count);
+        $this->{next} = $this->{iterator}->{next};
+        $this->{pending} = defined($this->{next});
     } else {
         #brute force
         while (
-            ($count > 0 )   #must come first - don't want to advance the inner itr if count ==0
+            ($count >= 0 )   #must come first - don't want to advance the inner itr if count ==0
                 and $this->{iterator}->hasNext()) {
             $count--;
             $this->{next} = $this->{iterator}->next();  #drain next, so hasNext goes to next element
+            $this->{pending} = defined($this->{next});
         }
     }
 
-    if ($count > 0) {
+    if ($count >= 0) {
                     #finished.
                     $this->{next} = undef;
                     $this->{pending} = 0;
     }
+    print STDERR "--------------------------------------------PagerIterator::skip() => $count\n"   if Foswiki::Iterator::MONITOR  ;
+
     return $count;
 }
 

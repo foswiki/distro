@@ -148,6 +148,63 @@ sub hasNext {
     return 1;
 }
 
+
+=begin TML
+
+---++ skip(count) -> $countremaining
+
+skip X elements (returns 0 if successful, or number of elements remaining to skip if there are not enough elements to skip)
+skip must set up next as though hasNext was called.
+
+=cut
+
+sub skip {
+    my $this = shift;
+    my $count = shift;
+    
+    return 0 if ($count <= 0);
+    print STDERR "--------------------------------------------ResultSet::skip($count)\n"  if Foswiki::Iterator::MONITOR   ;
+    
+    #ask CAN skip() for faster path
+    if (
+        ( $this->{partition} eq 'web' )
+        or (
+            (scalar( @{ $this->{Itr_list} } ) == 0) and
+            ($this->{Itr_list}->[0]->can('skip'))
+        ) #no reason to got through the more complex case if there's only one itr
+       )
+     {
+        if (not defined($this->{list})) {
+            $this->{list} = $this->{Itr_list}->[ $this->{Itr_index}++ ];
+        }
+        while ($count > 0) {
+            return $count if (not defined($this->{list}));
+            $count = $this->{list}->skip($count);
+            $this->{next} = $this->{list}->{next};
+            if ($count > 0) {
+                $this->{list} = $this->{Itr_list}->[ $this->{Itr_index}++ ];
+                $this->{next} = undef;
+            }
+        }
+    } else {
+        
+        #brute force - 
+        while (
+            ($count > 0 )   #must come first - don't want to advance the inner itr if count ==0
+                and $this->hasNext()) {
+            $count--;
+            $this->{next} = $this->next();  #drain next, so hasNext goes to next element
+        }
+    }
+
+    if ($count >= 0) {
+                    #finished.
+                    $this->{next} = undef;
+    }
+    print STDERR "--------------------------------------------ResultSet::skip() => $count\n"  if Foswiki::Iterator::MONITOR   ;
+    return $count;
+}
+
 =begin TML
 
 ---++ next() -> $data
