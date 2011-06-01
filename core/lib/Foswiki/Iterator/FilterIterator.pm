@@ -52,7 +52,7 @@ sub nextWeb {
 }
 sub sortResults {
     my $this = shift;
-    $this->{iterator}->sortResults();
+    $this->{iterator}->sortResults(@_);
 }
 # See Foswiki::Iterator for a description of the general iterator contract
 sub hasNext {

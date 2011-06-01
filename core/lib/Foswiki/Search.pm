@@ -20,6 +20,7 @@ use Foswiki::Search::InfoCache        ();
 use Foswiki::Search::ResultSet        ();
 use Foswiki::ListIterator             ();
 use Foswiki::Iterator::FilterIterator ();
+use Foswiki::Iterator::PagerIterator  ();
 use Foswiki::WebFilter                ();
 use Foswiki::MetaCache                ();
 use Foswiki::Infix::Error             ();
@@ -258,32 +259,6 @@ sub searchWeb {
     $params{noempty}  = Foswiki::isTrue( $params{noempty}, $params{nonoise} );
 ###    $params{zeroresults} = Foswiki::isTrue( ( $params{zeroresults} ), $params{nonoise} );
 
-#paging - this code should be hidden in the InfoCache iterator, but atm, that won't let me do multi-web
-#TODO: or... I may wrap an AggregateIterator in a PagingIterator which then is evaluated by a Formattingiterator.
-    my $pagesize =
-         $params{pagesize}
-      || $Foswiki::cfg{Search}{DefaultPageSize}
-      || 25;
-
-    require Digest::MD5;
-    my $string_id = $params{_RAW} || 'we had better not go there';
-    my $paging_ID = 'SEARCH' . Digest::MD5::md5_hex($string_id);
-    $params{pager_urlparam_id} = $paging_ID;
-
-    # 1-based system; 0 is not a valid page number
-    my $showpage = $session->{request}->param($paging_ID) || $params{showpage};
-
-    if ( defined( $params{pagesize} ) or defined($showpage) or Foswiki::isTrue($params{pager}) ) {
-        if ( !defined($params{pagesize}) ) {
-		$params{pagesize} = $pagesize;
-        }
-        if ( !defined($showpage) ) {
-            $showpage = 1;
-        }
-        $params{pager_skip_results_from} = $pagesize * ( $showpage - 1 );
-        $params{pager_show_results_to} = $pagesize;
-    }
-
     #TODO: refactorme
     my $header  = $params{header};
     my $footer  = $params{footer};
@@ -350,28 +325,16 @@ sub searchWeb {
 #setting the inputTopicSet to be undef allows the search/query algo to use
 #the topic="" and excludetopic="" params and web Obj to get a new list of topics.
 #this allows the algo's to customise and optimise the getting of this list themselves.
-    my $raw_infoCache = Foswiki::Meta::query( $query, undef, \%params );
+    my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
     
-    #add filtering for paging
     #add filtering for ACL test - probably should make it a seperate filter
-    my $infoCache = new Foswiki::Iterator::FilterIterator($raw_infoCache, sub {
+    $infoCache = new Foswiki::Iterator::FilterIterator($infoCache, sub {
                                                                     my $listItem = shift;
                                                                     my $params = shift;
-                                                                    #pager..
-                                                                    if ( defined( $params->{pager_skip_results_from} )
-                                                                        and $params->{pager_skip_results_from} > 0 )
-                                                                    {
-                                                                        $params->{pager_skip_results_from}--;
-                                                                        return 0;
-                                                                    }
+
                                                                     #ACL test
                                                                     my ( $web, $topic ) =
                                                                       Foswiki::Func::normalizeWebTopicName( '', $listItem );
-
-                                                        # add dependencies (TODO: unclear if this should be before the paging, or after the allowView - sadly, it can't be _in_ the infoCache)
-#                                                                    if ( my $cache = $session->{cache} ) {
-#                                                                        $cache->addDependency( $web, $topic );
-#                                                                    }
 
                                                                     my $topicMeta = $this->metacache->addMeta( $web, $topic );
                                                                     if (not defined($topicMeta)) {
@@ -386,7 +349,27 @@ sub searchWeb {
                                                                     return 0 unless ($info->{allowView});
                                                                     return 1;}, 
                                                             \%params);
+#paging - this code should be hidden in the InfoCache iterator, but atm, that won't let me do multi-web
+#TODO: push all the paging stuff into the formatResults() (this will cause issues with the $zeroResults feature)
+    require Digest::MD5;
+    my $string_id = $params{_RAW} || 'we had better not go there';
+    my $paging_ID = 'SEARCH' . Digest::MD5::md5_hex($string_id);
+    $params{pager_urlparam_id} = $paging_ID;
+    # 1-based system; 0 is not a valid page number
+    my $showpage = $session->{request}->param($paging_ID) || $params{showpage};
 
+    if ( defined( $params{pagesize} ) or defined($showpage) or Foswiki::isTrue($params{pager}) ) {
+        if ( !defined($params{pagesize}) ) {
+            $params{pagesize} = $Foswiki::cfg{Search}{DefaultPageSize} || 25;
+        }
+        if ( !defined($showpage) ) {
+            $showpage = 1;
+        }
+        $infoCache = new Foswiki::Iterator::PagerIterator($infoCache, $params{pagesize}, $showpage);
+    }
+    
+    #sorting
+    $infoCache->sortResults(\%params);
 ################### Do the Rendering
 
     # If the search did not return anything, return the rendered zeroresults
@@ -625,29 +608,17 @@ sub formatResults {
 
     #pager formatting
     my %pager_formatting;
-    if ( defined( $params->{pager_show_results_to} )
-        and $params->{pager_show_results_to} > 0 )
+    if ( $infoCache->isa('Foswiki::Iterator::PagerIterator') )  #TODO: if can skip()
     {
-        $limit = $params->{pager_show_results_to};
+        $limit = $infoCache->pagesize();
 
-#paging - this code should be hidden in the InfoCache iterator, but atm, that won't let me do multi-web
-        my $pagesize =
-             $params->{pagesize}
-          || $Foswiki::cfg{Search}{DefaultPageSize}
-          || 25;
-
-        #TODO: paging only implemented for SEARCH atm :/
         my $paging_ID = $params->{pager_urlparam_id};
 
         # 1-based system; 0 is not a valid page number
-        my $showpage =
-             $session->{request}->param($paging_ID)
-          || $params->{showpage}
-          || 1;
+        my $showpage = $infoCache->showpage();
 
         #TODO: need to ask the result set
-        my $numberofpages = $infoCache->numberOfTopics / $params->{pagesize};
-        $numberofpages = int($numberofpages) + 1;
+        my $numberofpages = $infoCache->numberOfPages();
 
         #TODO: excuse me?
         my $sep = ' ';
@@ -689,7 +660,7 @@ sub formatResults {
             '\$currentpage'   => sub { return $showpage },
             '\$nextpage'      => sub { return $showpage + 1 },
             '\$numberofpages' => sub { return $numberofpages },
-            '\$pagesize'      => sub { return $pagesize },
+            '\$pagesize'      => sub { return $infoCache->pagesize() },
             '\$previousurl'   => sub { return $previouspageurl },
             '\$nexturl'       => sub { return $nextpageurl },
             '\$sep'           => sub { return $sep; }
@@ -759,6 +730,7 @@ sub formatResults {
         if (
             ( $infoCache->isa('Foswiki::Search::ResultSet') ) or    #SEARCH
             ( $infoCache->isa('Foswiki::Iterator::FilterIterator') ) or    #SEARCH
+            ( $infoCache->isa('Foswiki::Iterator::PagerIterator') ) or    #SEARCH
             ( $infoCache->isa('Foswiki::Search::InfoCache') )       #FORMAT
           )
         {
@@ -1027,7 +999,7 @@ sub formatResults {
         } while (@multipleHitLines);    # multiple=on loop
 
         if (
-            ( defined( $params->{pager_skip_results_from} )) or
+            ( $infoCache->isa('Foswiki::Iterator::PagerIterator')) or
             (( defined( $params->{groupby} ) )
                 and ($params->{groupby} ne 'web'))
             ) {

@@ -47,6 +47,7 @@ sub new {
         },
         $class
     );
+
     return $this;
 }
 
