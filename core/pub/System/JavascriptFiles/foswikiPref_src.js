@@ -59,11 +59,9 @@ foswiki.Pref = {
      *  instance '1'
      */
 	setPref:function(inPrefName, inPrefValue) {
-		var prefName = foswiki.Pref._getSafeString(inPrefName);
-		var prefValue = (isNaN(inPrefValue))
-        ? foswiki.Pref._getSafeString(inPrefValue) : inPrefValue;
 		var cookieString = foswiki.Pref._getPrefCookie();
 		var prefs = cookieString.split(foswiki.Pref.COOKIE_PREF_SEPARATOR);
+		var prefName = foswiki.Pref._getSafeString(inPrefName);
 		var index = foswiki.Pref._getKeyValueLoc(prefs, prefName);
 		if (index != -1) {
 			// updating this entry is done by removing the existing entry
@@ -71,9 +69,27 @@ foswiki.Pref = {
 			prefs.splice(index, 1);
 		}
 		// else not found, so don't remove an existing entry
+		var prefValue = (isNaN(inPrefValue))
+        ? foswiki.Pref._getSafeString(inPrefValue) : inPrefValue;
 		var keyvalueString = prefName
         + foswiki.Pref.COOKIE_PREF_VALUE_SEPARATOR + prefValue;
 		prefs.push(keyvalueString);
+		foswiki.Pref._writePrefValues(prefs);
+	},
+	
+	/**
+	* Clears the preference.
+	*/
+	clearPref:function(inPrefName) {
+		var cookieString = foswiki.Pref._getPrefCookie();
+		var prefs = cookieString.split(foswiki.Pref.COOKIE_PREF_SEPARATOR);
+		var prefName = foswiki.Pref._getSafeString(inPrefName);
+		var index = foswiki.Pref._getKeyValueLoc(prefs, prefName);
+		if (index != -1) {
+			// updating this entry is done by removing the existing entry
+            // from the array and then pushing the new key-value onto it
+			prefs.splice(index, 1);
+		}
 		foswiki.Pref._writePrefValues(prefs);
 	},
 	
