@@ -154,11 +154,11 @@ sub sortResults {
 
     # TODO: this is really an ugly hack to get around the rather
     # horrible limit 'performance' hack
-    if ( defined( $params->{pager_show_results_to} )
-        and $params->{pager_show_results_to} > 0 )
+    if ( defined( $params->{showpage} )
+        and $params->{showpage} > 1 )
     {
         $limit =
-          $params->{pager_skip_results_from} + $params->{pager_show_results_to};
+          (2+$params->{showpage}) * $params->{pagesize};
     }
 
     # sort the topic list by date, author or topic name, and cache the

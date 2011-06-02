@@ -319,6 +319,24 @@ sub searchWeb {
         $params{groupby} = 'web';
     }
 
+    # need to tell the Meta::query pager settings so it can optimise
+    require Digest::MD5;
+    my $string_id = $params{_RAW} || 'we had better not go there';
+    my $paging_ID = 'SEARCH' . Digest::MD5::md5_hex($string_id);
+    $params{pager_urlparam_id} = $paging_ID;
+    # 1-based system; 0 is not a valid page number
+    $params{showpage} = $session->{request}->param($paging_ID) || $params{showpage};
+
+    if ( defined( $params{pagesize} ) or defined($params{showpage}) or Foswiki::isTrue($params{pager}) ) {
+        if ( !defined($params{pagesize}) ) {
+            $params{pagesize} = $Foswiki::cfg{Search}{DefaultPageSize} || 25;
+        }
+	$params{showpage} = 1 unless (defined($params{showpage}));
+        $params{pager} = 1;
+    } else {
+        #denote the pager is off.
+	$params{pager} = 0;
+    }
 ################### Perform The Search
     my $query = $this->parseSearch( $searchString, \%params );
 
@@ -349,27 +367,10 @@ sub searchWeb {
                                                                     return 0 unless ($info->{allowView});
                                                                     return 1;}, 
                                                             \%params);
-#paging - this code should be hidden in the InfoCache iterator, but atm, that won't let me do multi-web
-#TODO: push all the paging stuff into the formatResults() (this will cause issues with the $zeroResults feature)
-    require Digest::MD5;
-    my $string_id = $params{_RAW} || 'we had better not go there';
-    my $paging_ID = 'SEARCH' . Digest::MD5::md5_hex($string_id);
-    $params{pager_urlparam_id} = $paging_ID;
-    # 1-based system; 0 is not a valid page number
-    my $showpage = $session->{request}->param($paging_ID) || $params{showpage};
-
-    if ( defined( $params{pagesize} ) or defined($showpage) or Foswiki::isTrue($params{pager}) ) {
-        if ( !defined($params{pagesize}) ) {
-            $params{pagesize} = $Foswiki::cfg{Search}{DefaultPageSize} || 25;
-        }
-        if ( !defined($showpage) ) {
-            $showpage = 1;
-        }
-        $infoCache = new Foswiki::Iterator::PagerIterator($infoCache, $params{pagesize}, $showpage);
+    if ($params{pager}) {
+        $infoCache = new Foswiki::Iterator::PagerIterator($infoCache, $params{pagesize}, $params{showpage});
     }
     
-    #sorting
-    $infoCache->sortResults(\%params);
 ################### Do the Rendering
 
     # If the search did not return anything, return the rendered zeroresults
@@ -608,7 +609,7 @@ sub formatResults {
 
     #pager formatting
     my %pager_formatting;
-    if ( $infoCache->isa('Foswiki::Iterator::PagerIterator') )  #TODO: if can skip()
+    if ( $params->{pager} )  #TODO: if can skip()
     {
         $limit = $infoCache->pagesize();
 
@@ -999,7 +1000,7 @@ sub formatResults {
         } while (@multipleHitLines);    # multiple=on loop
 
         if (
-            ( $infoCache->isa('Foswiki::Iterator::PagerIterator')) or
+            ( $params->{pager}) or
             (( defined( $params->{groupby} ) )
                 and ($params->{groupby} ne 'web'))
             ) {
@@ -1026,7 +1027,7 @@ sub formatResults {
             $footer .= $params->{footercounter};
         }
 
-        if ( ( defined( $params->{pager} ) ) and ( $params->{pager} eq 'on' ) )
+        if ( $params->{pager} )
         {
             $footer .= '$pager';
         }

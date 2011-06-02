@@ -86,7 +86,7 @@ sub query {
         $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
 
     #TODO: $options should become redundant
-    #$resultset->sortResults($options);
+    $resultset->sortResults($options);
     return $resultset;
 }
 
