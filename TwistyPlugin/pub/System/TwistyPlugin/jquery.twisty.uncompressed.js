@@ -84,8 +84,8 @@ if (!foswiki) foswiki = {};
                                      + ref.name, ref.state);
             }
             if (ref.clearSetting) {
-                foswiki.Pref.setPref(foswiki.TwistyPlugin.COOKIE_PREFIX
-                                     + ref.name, '');
+                foswiki.Pref.clearPref(foswiki.TwistyPlugin.COOKIE_PREFIX
+                                     + ref.name);
             }
         }
         
