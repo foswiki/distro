@@ -1,4 +1,4 @@
-%TMPL:DEF{"topicactionbuttons"}%%TMPL:P{"action_activatable_edit_or_create"}%%TMPL:P{"action_activatable_attach"}%%TMPL:P{"action_printable"}%%TMPL:P{"action_revisions"}%%TMPL:P{"action_backlinks_simple"}%%TMPL:P{"action_raw_or_view"}%%TMPL:P{"action_activatable_raw_edit"}%%TMPL:P{"activatable_more"}%%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%%TMPL:P{"action_activatable_edit_or_create"}%%TMPL:P{"action_activatable_attach"}%%TMPL:P{"action_activatable_subscribe"}%%TMPL:P{"action_printable"}%%TMPL:P{"action_revisions"}%%TMPL:P{"action_backlinks_simple"}%%TMPL:P{"action_raw_or_view"}%%TMPL:P{"action_activatable_raw_edit"}%%TMPL:P{"activatable_more"}%%TMPL:END%
 
 
 %TMPL:DEF{"create_topic_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%IF{"context TinyMCEPluginEnabled" else=";nowysiwyg=1"}%' rel='nofollow' %MAKETEXT{"title='Create new topic' accesskey='c'>&Create"}%</a></span>%TMPL:END%
@@ -13,6 +13,7 @@
 
 %TMPL:DEF{"attach_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURLPATH{"attach"}%/%BASEWEB%/%BASETOPIC%' rel='nofollow' %MAKETEXT{"title='Attach an image or document to this topic' accesskey='a'>&Attach"}%</a></span>%TMPL:END%
 
+%TMPL:DEF{"subscribe_link"}%<span>%SUBSCRIBE{format="<a href='$url' rel='nofollow' %MAKETEXT{"title='Subscribe to this topic' accesskey='s'>&Subscribe"}%</a>" formatunsubscribe="<a href='$url' rel='nofollow' %MAKETEXT{"title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"}%</a>"}%</span>%TMPL:END%
 
 %TMPL:DEF{"more_link"}%<span><a href='%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?template=more&maxrev=%MAXREV%&currrev=%CURRREV%' rel='nofollow' %MAKETEXT{"title='Delete or rename this topic; set parent topic; view and compare revisions' accesskey='m'>&More topic actions"}%</a></span>%TMPL:END%
 
@@ -69,6 +70,16 @@
 
 %TMPL:DEF{"activatable_attach"}%%TMPL:P{context="inactive" then="inactive_attach" else="active_attach"}%%TMPL:END%
 
+
+%TMPL:DEF{"active_subscribe"}%%TMPL:P{"subscribe_link"}%%TMPL:P{"sep"}%%TMPL:END%
+
+%TMPL:DEF{"inactive_subscribe"}%<span><strike>%MAKETEXT{"Subscribe"}%%TMPL:P{"sep"}%</strike></span>%TMPL:END%
+
+%TMPL:DEF{"enabled_active_subscribe"}%%TMPL:P{context="authenticated" then="activatable_subscribe"}%%TMPL:END%
+
+%TMPL:DEF{"action_activatable_subscribe"}%%TMPL:P{context="SubscribePluginEnabled" then="enabled_active_subscribe"}%%TMPL:END%
+
+%TMPL:DEF{"activatable_subscribe"}%%TMPL:P{context="inactive" then="inactive_subscribe" else="active_subscribe"}%%TMPL:END%
 
 
 %TMPL:DEF{"active_more"}%%TMPL:P{"more_link"}%%TMPL:END%

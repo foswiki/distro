@@ -8,6 +8,13 @@
 	<a href="%SCRIPTURL{"attach"}%/%WEB%/%TOPIC%" title="%MAKETEXT{"Attach an image or document to this topic; manage existing attachments (a)"}%">
 		<img alt="%MAKETEXT{"Attach an image or document to this topic; manage existing attachments (a)"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/attach.png" width="16" height="16" />
 	</a></span>%TMPL:END%
+	
+%TMPL:DEF{"top:toolbarbutton_subscribe"}%<span>
+    %SUBSCRIBE{format="<a href='$url' rel='nofollow' title='%MAKETEXT{"Subscribe to this topic (s)"}%'>
+        <img alt='%MAKETEXT{"Subscribe to this topic (s)"}%' src='%PUBURL%/%SYSTEMWEB%/DocumentGraphics/notify.png' width='16' height='16' />
+    </a>" formatunsubscribe="<a href='$url' rel='nofollow' title='%MAKETEXT{"Unsubscribe from this topic (s)"}%'>
+        <img alt='%MAKETEXT{"Unsubscribe from this topic (s)"}%' src='%PUBURL%/%SYSTEMWEB%/DocumentGraphics/notify.png' width='16' height='16' />
+    </a>"}%</span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_rdiff"}%<span>
 	<a href="%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="%MAKETEXT{"View sequential topic history"}%">
@@ -34,12 +41,12 @@
                 <img alt="%MAKETEXT{"More: delete or rename this topic; set parent topic; view and compare revisions (m)"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/wrench.png" width="16" height="16" />
 	</a></span>%TMPL:END%
 
-%{ TODO: add a conditional SubScribePlugin icon? }%
-
 %TMPL:DEF{"top:toolbarbuttons_inner"}%		%TMPL:P{
 			"top:toolbarbutton_edit"
 		}%%TMPL:P{
 			"top:toolbarbutton_attach"
+		}%%TMPL:P{
+			context="SubscribePluginEnabled" then="top:toolbarbutton_subscribe"
 		}%%TMPL:P{
 			"top:toolbarbutton_rdiff"
 		}%%TMPL:P{

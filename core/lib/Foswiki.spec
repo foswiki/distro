@@ -1535,6 +1535,8 @@ $Foswiki::cfg{Plugins}{RenderListPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{RenderListPlugin}{Module} = 'Foswiki::Plugins::RenderListPlugin';
 $Foswiki::cfg{Plugins}{MailerContribPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Plugins::MailerContribPlugin';
+$Foswiki::cfg{Plugins}{SubscribePlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{SubscribePlugin}{Module} = 'Foswiki::Plugins::SubscribePlugin';
 
 #---++ Plugin settings
 #<p>Expert settings controlling extension operation.</p>
