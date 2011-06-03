@@ -210,7 +210,21 @@
 		type: "POST",
 		data: p.erp_data,
 		success: function(response) {
-		    container.replaceWith($(response));
+		    if (response.indexOf("RESPONSE") != 0) {
+			// We got something other than a REST response -
+			// probably an auth prompt. Need to edit the
+			// login form and clear noredirect so that the
+			// save knows to complete in an unRESTful way.
+			// Note that this should really prompt in a
+			// pop-up dialog.
+			container.replaceWith($(response).find(
+			    "form[name='loginform']"));
+			$("form[name='loginform'] input[name='noredirect']")
+			    .remove();
+		    } else {
+			response = response.replace(/^RESPONSE/, '');
+			container.replaceWith(response);
+		    }
 		},
 		error: function() {
 		    dragee.fadeTo("fast", 1.0);
@@ -377,9 +391,9 @@
 		    // probably an auth prompt. Need to edit the
 		    // login form and clear noredirect so that the
 		    // save knows to complete in an unRESTful way.
-		    // Note that this prompts in the table cell; it
-		    // should really prompt in a pop-up dialog.
-                    $(this).html(value);
+		    // Note that this should really prompt in a pop-up dialog.
+                    $(this).replaceWith($(value).find(
+			"form[name='loginform']"));
 		    $("form[name='loginform'] input[name='noredirect']")
 			.remove();
 		} else {
