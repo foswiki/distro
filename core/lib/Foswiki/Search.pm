@@ -25,7 +25,7 @@ use Foswiki::WebFilter                ();
 use Foswiki::MetaCache                ();
 use Foswiki::Infix::Error             ();
 
-use constant MONITOR => 1;
+use constant MONITOR => 0;
 
 BEGIN {
 
@@ -114,7 +114,7 @@ sub parseSearch {
     my $this         = shift;
     my $searchString = shift;
     my $params       = shift;
-    
+
     my $query;
     my $theParser;
     if ( $params->{type} eq 'query' ) {
@@ -140,8 +140,8 @@ sub parseSearch {
         # Pass the error on to the caller
         throw Error::Simple( shift->stringify() );
     };
-    
-print STDERR "parseSearch($searchString) => ".$query->stringify()."\n" if MONITOR;
+
+#print STDERR "parseSearch($searchString) => ".$query->stringify()."\n" if MONITOR;
 
     return $query;
 }
@@ -329,18 +329,25 @@ sub searchWeb {
     my $string_id = $params{_RAW} || 'we had better not go there';
     my $paging_ID = 'SEARCH' . Digest::MD5::md5_hex($string_id);
     $params{pager_urlparam_id} = $paging_ID;
-    # 1-based system; 0 is not a valid page number
-    $params{showpage} = $session->{request}->param($paging_ID) || $params{showpage};
 
-    if ( defined( $params{pagesize} ) or defined($params{showpage}) or Foswiki::isTrue($params{pager}) ) {
-        if ( !defined($params{pagesize}) ) {
+    # 1-based system; 0 is not a valid page number
+    $params{showpage} = $session->{request}->param($paging_ID)
+      || $params{showpage};
+
+    if (   defined( $params{pagesize} )
+        or defined( $params{showpage} )
+        or Foswiki::isTrue( $params{pager} ) )
+    {
+        if ( !defined( $params{pagesize} ) ) {
             $params{pagesize} = $Foswiki::cfg{Search}{DefaultPageSize} || 25;
         }
-	$params{showpage} = 1 unless (defined($params{showpage}));
+        $params{showpage} = 1 unless ( defined( $params{showpage} ) );
         $params{pager} = 1;
-    } else {
+    }
+    else {
+
         #denote the pager is off.
-	$params{pager} = 0;
+        $params{pager} = 0;
     }
 ################### Perform The Search
     my $query = $this->parseSearch( $searchString, \%params );
@@ -349,33 +356,40 @@ sub searchWeb {
 #the topic="" and excludetopic="" params and web Obj to get a new list of topics.
 #this allows the algo's to customise and optimise the getting of this list themselves.
     my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
-    
+
     #add filtering for ACL test - probably should make it a seperate filter
-    $infoCache = new Foswiki::Iterator::FilterIterator($infoCache, sub {
-                                                                    my $listItem = shift;
-                                                                    my $params = shift;
+    $infoCache = new Foswiki::Iterator::FilterIterator(
+        $infoCache,
+        sub {
+            my $listItem = shift;
+            my $params   = shift;
 
-                                                                    #ACL test
-                                                                    my ( $web, $topic ) =
-                                                                      Foswiki::Func::normalizeWebTopicName( '', $listItem );
+            #ACL test
+            my ( $web, $topic ) =
+              Foswiki::Func::normalizeWebTopicName( '', $listItem );
 
-                                                                    my $topicMeta = $this->metacache->addMeta( $web, $topic );
-                                                                    if (not defined($topicMeta)) {
-                                                        #TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
-                                                        #lets change that
-                                                                        $topicMeta = new Foswiki::Meta($session, $web, $topic);
-                                                                    }
-                                                                    my $info = $this->metacache->get( $web, $topic, $topicMeta );
-                                                                    ASSERT(defined($info->{tom})) if DEBUG;
+            my $topicMeta = $this->metacache->addMeta( $web, $topic );
+            if ( not defined($topicMeta) ) {
 
-                                                        # Check security (don't show topics the current user does not have permission to view)
-                                                                    return 0 unless ($info->{allowView});
-                                                                    return 1;}, 
-                                                            \%params);
-    if ($params{pager}) {
-        $infoCache = new Foswiki::Iterator::PagerIterator($infoCache, $params{pagesize}, $params{showpage});
+#TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
+#lets change that
+                $topicMeta = new Foswiki::Meta( $session, $web, $topic );
+            }
+            my $info = $this->metacache->get( $web, $topic, $topicMeta );
+            ASSERT( defined( $info->{tom} ) ) if DEBUG;
+
+# Check security (don't show topics the current user does not have permission to view)
+            return 0 unless ( $info->{allowView} );
+            return 1;
+        },
+        \%params
+    );
+    if ( $params{pager} ) {
+        $infoCache =
+          new Foswiki::Iterator::PagerIterator( $infoCache, $params{pagesize},
+            $params{showpage} );
     }
-    
+
 ################### Do the Rendering
 
     # If the search did not return anything, return the rendered zeroresults
@@ -389,7 +403,6 @@ sub searchWeb {
             if ( not _isSetTrue( $params{zeroresults}, 1 ) ) {
 
 #foswiki 1.1 Feature Proposal: SEARCH needs an alt parameter in case of zero results
-
 
           #TODO: extract & merge with extraction of footer processing code below
                 my $result = $params{zeroresults};
@@ -407,7 +420,6 @@ sub searchWeb {
 
                 $result = Foswiki::expandStandardEscapes($result);
                 $result =~ s/\n$//os;               # remove trailing new line
-                
 
                 return $result;
             }
@@ -582,8 +594,8 @@ sub formatResults {
 
     my ( $callback, $cbdata ) = setup_callback($params);
 
-    my $baseTopic = $session->{topicName};
-    my $baseWeb   = $session->{webName};
+    my $baseTopic     = $session->{topicName};
+    my $baseWeb       = $session->{webName};
     my $doBookView    = Foswiki::isTrue( $params->{bookview} );
     my $caseSensitive = Foswiki::isTrue( $params->{casesensitive} );
     my $doExpandVars  = Foswiki::isTrue( $params->{expandvariables} );
@@ -614,7 +626,7 @@ sub formatResults {
 
     #pager formatting
     my %pager_formatting;
-    if ( $params->{pager} )  #TODO: if can skip()
+    if ( $params->{pager} )    #TODO: if can skip()
     {
         $limit = $infoCache->pagesize();
 
@@ -734,10 +746,10 @@ sub formatResults {
         my $info;
         my @multipleHitLines = ();
         if (
-            ( $infoCache->isa('Foswiki::Search::ResultSet') ) or    #SEARCH
-            ( $infoCache->isa('Foswiki::Iterator::FilterIterator') ) or    #SEARCH
-            ( $infoCache->isa('Foswiki::Iterator::PagerIterator') ) or    #SEARCH
-            ( $infoCache->isa('Foswiki::Search::InfoCache') )       #FORMAT
+            ( $infoCache->isa('Foswiki::Search::ResultSet') )        or  #SEARCH
+            ( $infoCache->isa('Foswiki::Iterator::FilterIterator') ) or  #SEARCH
+            ( $infoCache->isa('Foswiki::Iterator::PagerIterator') )  or  #SEARCH
+            ( $infoCache->isa('Foswiki::Search::InfoCache') )            #FORMAT
           )
         {
             ( $web, $topic ) =
@@ -749,15 +761,17 @@ sub formatResults {
             }
 
             my $topicMeta = $this->metacache->getMeta( $web, $topic );
-            if (not defined($topicMeta)) {
+            if ( not defined($topicMeta) ) {
+
 #TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
 #lets change that
-                $topicMeta = new Foswiki::Meta($session, $web, $topic);
+                $topicMeta = new Foswiki::Meta( $session, $web, $topic );
             }
             $info = $this->metacache->get( $web, $topic, $topicMeta );
-            ASSERT(defined($info->{tom})) if DEBUG;
+            ASSERT( defined( $info->{tom} ) ) if DEBUG;
 
             $text = '';
+
             # Special handling for format='...'
             if ($formatDefined) {
                 $text = $info->{tom}->text();
@@ -834,9 +848,10 @@ sub formatResults {
                                 \%pager_formatting );
                             $processedfooter =~ s/\$web/$lastWebProcessed/gos
                               ;    # expand name of web
-#                            $processedfooter =~
-#                              s/([^\n])$/$1\n/os;    # add new line at end
-                                                     # output footer of $web
+
+     #                            $processedfooter =~
+     #                              s/([^\n])$/$1\n/os;    # add new line at end
+     # output footer of $web
 
                             $processedfooter =~ s/\$ntopics/$ntopics/gs;
                             $processedfooter =~ s/\$nhits/$nhits/gs;
@@ -848,8 +863,9 @@ sub formatResults {
                             $processedfooter =
                               $this->formatCommon( $processedfooter,
                                 \%pager_formatting );
-#                            $processedfooter =~
-#                              s/\n$//os;    # remove trailing new line
+
+         #                            $processedfooter =~
+         #                              s/\n$//os;    # remove trailing new line
 
                             $justdidHeaderOrFooter = 1;
                             &$callback( $cbdata, $processedfooter );
@@ -885,8 +901,8 @@ sub formatResults {
                 # strings, it needs to be expanded first.
                 $processedheader =
                   $this->formatCommon( $processedheader, \%pager_formatting );
-                $processedheader =~ s/\$web/$web/gos;      # expand name of web
-                
+                $processedheader =~ s/\$web/$web/gos;    # expand name of web
+
                 # add new line after the header unless separator is defined
                 # per Item1773 / SearchSeparatorDefaultHeaderFooter
                 unless ( defined $separator ) {
@@ -965,22 +981,27 @@ sub formatResults {
   #    $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
   #      $infoCache->getRev1Info( $topic, "create$1" )/ges;
                         '\$createlongdate' => sub {
-                            my $info = $this->metacache->get( $_[0]->web, $_[0]->topic, $_[0] );
-                            return $info->{tom}
-                              ->getRev1Info("createlongdate");
+                            my $info =
+                              $this->metacache->get( $_[0]->web, $_[0]->topic,
+                                $_[0] );
+                            return $info->{tom}->getRev1Info("createlongdate");
                         },
                         '\$createusername' => sub {
-                            my $info = $this->metacache->get( $_[0]->web, $_[0]->topic, $_[0] );
-                            return $info->{tom}
-                              ->getRev1Info("createusername");
+                            my $info =
+                              $this->metacache->get( $_[0]->web, $_[0]->topic,
+                                $_[0] );
+                            return $info->{tom}->getRev1Info("createusername");
                         },
                         '\$createwikiname' => sub {
-                            my $info = $this->metacache->get( $_[0]->web, $_[0]->topic, $_[0] );
-                            return $info->{tom}
-                              ->getRev1Info("createwikiname");
+                            my $info =
+                              $this->metacache->get( $_[0]->web, $_[0]->topic,
+                                $_[0] );
+                            return $info->{tom}->getRev1Info("createwikiname");
                         },
                         '\$createwikiusername' => sub {
-                            my $info = $this->metacache->get( $_[0]->web, $_[0]->topic, $_[0] );
+                            my $info =
+                              $this->metacache->get( $_[0]->web, $_[0]->topic,
+                                $_[0] );
                             return $info->{tom}
                               ->getRev1Info("createwikiusername");
                         },
@@ -1005,12 +1026,14 @@ sub formatResults {
         } while (@multipleHitLines);    # multiple=on loop
 
         if (
-            ( $params->{pager}) or
-            (( defined( $params->{groupby} ) )
-                and ($params->{groupby} ne 'web'))
-            ) {
+            ( $params->{pager} )
+            or (    ( defined( $params->{groupby} ) )
+                and ( $params->{groupby} ne 'web' ) )
+          )
+        {
             last if ( $ttopics >= $limit );
-        } else {
+        }
+        else {
             if ( $ntopics >= $limit ) {
                 $infoCache->nextWeb();
             }
@@ -1032,8 +1055,7 @@ sub formatResults {
             $footer .= $params->{footercounter};
         }
 
-        if ( $params->{pager} )
-        {
+        if ( $params->{pager} ) {
             $footer .= '$pager';
         }
     }
@@ -1041,8 +1063,9 @@ sub formatResults {
 
 #because $pager contains more $ntopics like format strings, it needs to be expanded first.
         $footer = $this->formatCommon( $footer, \%pager_formatting );
-        $footer =~ s/\$web/$web/gos;      # expand name of web
-#        $footer =~ s/([^\n])$/$1\n/os;    # add new line at end
+        $footer =~ s/\$web/$web/gos;    # expand name of web
+
+        #        $footer =~ s/([^\n])$/$1\n/os;    # add new line at end
 
         # output footer of $web
         $footer =~ s/\$ntopics/$ntopics/gs;
@@ -1052,7 +1075,7 @@ sub formatResults {
         #legacy SEARCH counter support
         $footer =~ s/%NTOPICS%/$ntopics/go;
 
-#        $footer =~ s/\n$//os;             # remove trailing new line
+        #        $footer =~ s/\n$//os;             # remove trailing new line
 
         &$callback( $cbdata, $footer );
     }
@@ -1129,7 +1152,8 @@ sub formatResult {
         $out =~ s/\$topic\(([^\)]*)\)/Foswiki::Render::breakName( 
                                                 $topic, $1 )/ges;
         $out =~ s/\$topic/$topic/gs;
-        $out =~ s{(\$rev|\$wikiusername|\$wikiname|\$username|\$createlongdate|\$iso|\$longdate|\$date)}
+        $out =~
+s{(\$rev|\$wikiusername|\$wikiname|\$username|\$createlongdate|\$iso|\$longdate|\$date)}
                  {$session->renderer->renderRevisionInfo($topicObject, $revNum, $1 )}ges;
     }
 
@@ -1197,7 +1221,6 @@ sub formatResult {
               s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
         }
         $out =~ s/\r?\n/$newLine/gos if ($newLine);
-
 
         # If separator is not defined we default to \n
         # We also add new line after last search result but before footer
