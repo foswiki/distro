@@ -372,14 +372,26 @@
 	    };
 
 	    p.callback = function(value, settings) {
-		value = value.replace(/^RESPONSE/, '');
-                $(this).html(value);
-		if (p.type == "text" || p.type == "textarea")
-		    // Add changed text (unexpanded) to settings
-		    settings.data = value;
-		this.isSubmitting = false;
-		$(this).parent().find('.erp_clock_button').remove();
-		$(this).next().show();
+		if (value.indexOf("RESPONSE") != 0) {
+		    // We got something other than a REST response -
+		    // probably an auth prompt. Need to edit the
+		    // login form and clear noredirect so that the
+		    // save knows to complete in an unRESTful way.
+		    // Note that this prompts in the table cell; it
+		    // should really prompt in a pop-up dialog.
+                    $(this).html(value);
+		    $("form[name='loginform'] input[name='noredirect']")
+			.remove();
+		} else {
+		    value = value.replace(/^RESPONSE/, '');
+                    $(this).html(value);
+		    if (p.type == "text" || p.type == "textarea")
+			// Add changed text (unexpanded) to settings
+			settings.data = value;
+		    this.isSubmitting = false;
+		    $(this).parent().find('.erp_clock_button').remove();
+		    $(this).next().show();
+		}
 	    };
 
 	    $(this).editable(p.url, p);

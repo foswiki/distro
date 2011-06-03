@@ -54,10 +54,9 @@ sub process {
 	my $urps = {};
         foreach my $p (@ps) {
             my @vals = $query->param($p);
-
             # We interpreted multi-value parameters as comma-separated
             # lists. This is what checkboxes, select+multi etc. use.
-            $urps->{$p} = join( ',', @vals );
+            $urps->{$p} = join( ',', grep { defined $_ } @vals );
         }
 	#die join(' ',map { "'$_'=>'$urps->{$_}'"} keys %$urps);
         require Foswiki::Plugins::EditRowPlugin::TableParser;
@@ -128,25 +127,23 @@ sub process {
                 { minor => $minor } );
         }
 	# $url will be set if there's been an error
-	unless ($ajax) {
-	    # Use a row anchor within range of the row being edited as
-	    # the goto target
-	    my $anchor = 'erp_' . $urps->{erp_active_table};
-	    if ( $urps->{erp_active_row} > 5 ) {
-		my $before = $urps->{erp_active_row} - 1;
-		$anchor .= '_' . $before;
-	    }
-	    else {
-		$anchor .= '_1';
-	    }
-	    my @p = ( '#' => $anchor );
-	    unless ($no_return) {
-		push( @p, erp_active_topic => $urps->{erp_active_topic} );
-		push( @p, erp_active_table => $urps->{erp_active_table} );
-		push( @p, erp_active_row   => $urps->{erp_active_row} );
-	    }
-	    $url = Foswiki::Func::getScriptUrl( $web, $topic, 'view', @p );
+	# Use a row anchor within range of the row being edited as
+	# the goto target
+	my $anchor = 'erp_' . $urps->{erp_active_table};
+	if ( $urps->{erp_active_row} > 5 ) {
+	    my $before = $urps->{erp_active_row} - 1;
+	    $anchor .= '_' . $before;
 	}
+	else {
+	    $anchor .= '_1';
+	}
+	my @p = ( '#' => $anchor );
+	unless ($no_return) {
+	    push( @p, erp_active_topic => $urps->{erp_active_topic} );
+	    push( @p, erp_active_table => $urps->{erp_active_table} );
+	    push( @p, erp_active_row   => $urps->{erp_active_row} );
+	}
+	$url = Foswiki::Func::getScriptUrl( $web, $topic, 'view', @p );
     }
 
     if ( $ajax ) {
@@ -167,7 +164,7 @@ sub process {
 	    $result = $mess || '';
 	}
 	# The leading text RESPONSE is done so that a single 0 value can
-	# be returbned - see Item10794
+	# be returned - see Item10794
 	$response->body("RESPONSE$result");
 
     } else {
