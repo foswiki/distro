@@ -25,6 +25,8 @@ use Foswiki::WebFilter                ();
 use Foswiki::MetaCache                ();
 use Foswiki::Infix::Error             ();
 
+use constant MONITOR => 1;
+
 BEGIN {
 
     # 'Use locale' for internationalisation of Perl sorting and searching -
@@ -112,7 +114,7 @@ sub parseSearch {
     my $this         = shift;
     my $searchString = shift;
     my $params       = shift;
-
+    
     my $query;
     my $theParser;
     if ( $params->{type} eq 'query' ) {
@@ -138,6 +140,9 @@ sub parseSearch {
         # Pass the error on to the caller
         throw Error::Simple( shift->stringify() );
     };
+    
+print STDERR "parseSearch($searchString) => ".$query->stringify()."\n" if MONITOR;
+
     return $query;
 }
 
