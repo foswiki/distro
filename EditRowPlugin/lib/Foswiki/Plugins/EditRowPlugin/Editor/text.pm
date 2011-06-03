@@ -26,9 +26,6 @@ sub jQueryMetadata {
     my ( $cell, $colDef, $text ) = @_;
     my $data = $this->SUPER::jQueryMetadata(@_);
 
-    # Silence the noisy "Click to edit" placeholder
-    $data->{placeholder} = '<div class="erp_empty_cell"></div>';
-    $data->{tooltip} = '';
     $data->{data} = $text;
     $this->_addSaveButton($data);
     return $data;

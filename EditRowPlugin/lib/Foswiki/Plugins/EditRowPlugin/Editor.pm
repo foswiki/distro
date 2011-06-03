@@ -83,6 +83,9 @@ sub jQueryMetadata {
     # By default we respond to an internally-raised edit event, which is raised
     # when the cell edit icon is clicked
     $data->{event} = "erp_edit";
+    # Silence the noisy "Click to edit" placeholder
+    $data->{placeholder} = '<div class="erp_empty_cell"></div>';
+    $data->{tooltip} = '';
     return $data;
 }
 
