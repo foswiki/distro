@@ -4025,7 +4025,7 @@ EXPECT
     $this->assert_str_equals( $expected, $result );
 }
 
-sub test_pager_off_pagerformat_pagerinall {
+sub verify_pager_off_pagerformat_pagerinall {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros(

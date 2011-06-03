@@ -167,11 +167,12 @@ sub skip {
     
     #ask CAN skip() for faster path
     if (
-        ( $this->{partition} eq 'web' )
-        or (
-            (scalar( @{ $this->{Itr_list} } ) == 0) and
-            ($this->{Itr_list}->[0]->can('skip'))
-        ) #no reason to got through the more complex case if there's only one itr
+        (
+            ( $this->{partition} eq 'web' )
+            or 
+            (scalar( @{ $this->{Itr_list} } ) == 0) 
+        ) and #no reason to got through the more complex case if there's only one itr
+            ($this->{Itr_list}->[0]->can('skip'))   #nasty assumption that all the itr's are a similar type (that happens to be true)
        )
      {
         if (not defined($this->{list})) {
@@ -193,7 +194,7 @@ sub skip {
             ($count > 0 )   #must come first - don't want to advance the inner itr if count ==0
                 and $this->hasNext()) {
             $count--;
-            $this->{next} = $this->next();  #drain next, so hasNext goes to next element
+            $this->next();  #drain next, so hasNext goes to next element
         }
     }
 
