@@ -333,21 +333,24 @@ sub searchWeb {
     # 1-based system; 0 is not a valid page number
     $params{showpage} = $session->{request}->param($paging_ID)
       || $params{showpage};
+      
+    #append a pager to the end of the search result.
+    $params{pager} = Foswiki::isTrue( $params{pager} );
 
     if (   defined( $params{pagesize} )
         or defined( $params{showpage} )
-        or Foswiki::isTrue( $params{pager} ) )
+        or $params{pager} )
     {
         if ( !defined( $params{pagesize} ) ) {
             $params{pagesize} = $Foswiki::cfg{Search}{DefaultPageSize} || 25;
         }
         $params{showpage} = 1 unless ( defined( $params{showpage} ) );
-        $params{pager} = 1;
+        $params{paging_on} = 1;
     }
     else {
 
         #denote the pager is off.
-        $params{pager} = 0;
+        $params{paging_on} = 0;
     }
 ################### Perform The Search
     my $query = $this->parseSearch( $searchString, \%params );
@@ -384,7 +387,7 @@ sub searchWeb {
         },
         \%params
     );
-    if ( $params{pager} ) {
+    if ( $params{paging_on} ) {
         $infoCache =
           new Foswiki::Iterator::PagerIterator( $infoCache, $params{pagesize},
             $params{showpage} );
@@ -626,7 +629,7 @@ sub formatResults {
 
     #pager formatting
     my %pager_formatting;
-    if ( $params->{pager} )    #TODO: if can skip()
+    if ( $params->{paging_on} )    #TODO: if can skip()
     {
         $limit = $infoCache->pagesize();
 
@@ -1026,7 +1029,7 @@ sub formatResults {
         } while (@multipleHitLines);    # multiple=on loop
 
         if (
-            ( $params->{pager} )
+            ( $params->{paging_on} )
             or (    ( defined( $params->{groupby} ) )
                 and ( $params->{groupby} ne 'web' ) )
           )
@@ -1056,6 +1059,7 @@ sub formatResults {
         }
 
         if ( $params->{pager} ) {
+            #auto-append the pager
             $footer .= '$pager';
         }
     }
