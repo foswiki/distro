@@ -6,7 +6,7 @@ use strict;
 use warnings;
 use Git::Repository;
 
-my $verbose    = 1;                               # 1 for debug
+my $verbose    = 0;                               # 1 for debug
 my $repository = shift || '/home/svn/nextwiki';
 my $statefile  = '/home/git/last-git-split';
 my $lastrev    = shift;
