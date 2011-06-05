@@ -1,0 +1,42 @@
+%TMPL:INCLUDE{"foswiki"}%%{
+Handy macro for including JS from system paths
+}%%TMPL:DEF{"FWSRC"}%%TMPL:END%%TMPL:DEF{"LIBJS"}%%ADDTOZONE{
+	"script"
+	id="%id%"
+	text="<script type=\"text/javascript\" src=\"%PUBURLPATH%/%SYSTEMWEB%/%id%%TMPL:P{"FWSRC"}%.js\"></script>"
+	requires="%requires%"
+}%%TMPL:END%%{
+---------------------------------------------------
+Requires for each of the foswiki library JS components. These are not used by
+the base templates, but are provided for fancier skins.
+JQUERYPLUGIN is not a hard requirement, but it must sort earlier.
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikilib"}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikilib" requires="JQUERYPLUGIN::FOSWIKI"}%"
+}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiString"}%
+%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiString" requires="JQUERYPLUGIN::FOSWIKI"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiStringUnicodeChars"}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiStringUnicodeChars" requires="JQUERYPLUGIN::FOSWIKI,JavascriptFiles/foswikiString"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiPref"}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiPref" requires="JQUERYPLUGIN::FOSWIKI"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiForm"}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiForm" requires="JQUERYPLUGIN::FOSWIKI,JavascriptFiles/foswikiString,JavascriptFiles/foswikiCSS"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiCSS"}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiCSS" requires="JQUERYPLUGIN::FOSWIKI"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswiki_edit"}%%TMPL:P{"JavascriptFiles/foswikiPref"}%%TMPL:P{"LIBJS" id="JavascriptFiles/foswiki_edit" requires="JQUERYPLUGIN::FOSWIKI,JavascriptFiles/foswikiPref"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikiCSS"}%
+%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiCSS" requires="JQUERYPLUGIN::FOSWIKI"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"JavascriptFiles/foswikilib"}%
+%TMPL:P{"LIBJS" id="JavascriptFiles/foswikilib" requires="JQUERYPLUGIN::FOSWIKI"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:P{"JavascriptFiles/foswikiCSS"}%%TMPL:P{"JavascriptFiles/foswikilib"}%%ADDTOZONE{
+	"head"
+	text="<meta name='TEXT_JUMP' content='%MAKETEXT{"Jump"}%' />
+	<meta name='TEXT_SEARCH' content='%MAKETEXT{"Search"}%' />
+	<meta name='TEXT_NUM_TOPICS' content='%MAKETEXT{"Number of topics:"}%' />
+	<meta name='TEXT_MODIFY_SEARCH' content='%MAKETEXT{"Modify search"}%' />"
+}%
