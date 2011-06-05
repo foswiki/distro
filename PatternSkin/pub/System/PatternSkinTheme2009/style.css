@@ -154,6 +154,9 @@ select {
 	font-family:arial, verdana, sans-serif;
 	font-size:100%;
 }
+label input {
+	vertical-align:text-bottom;
+}
 .foswikiTextarea {
 	padding:1px 4px;
 }

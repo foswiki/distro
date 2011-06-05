@@ -33,6 +33,9 @@ data/System/WebLeftBarWebsList.txt 0644
 data/System/WebTopBarExample.txt 0644
 data/Trash/WebLeftBarExample.txt 0644
 lib/Foswiki/Contrib/PatternSkin.pm 0444
+pub/System/PatternSkin/foswiki_edit_01x01_src.js 0644
+pub/System/PatternSkin/foswiki_edit_01x01.js 0644
+pub/System/PatternSkin/foswiki_edit_01x01.js.gz 0644
 pub/System/PatternSkin/header1.gif 0644
 pub/System/PatternSkin/header2.gif 0644
 pub/System/PatternSkin/header3.gif 0644
@@ -158,6 +161,7 @@ templates/attach.pattern.tmpl 0444
 templates/attachagain.pattern.tmpl 0444
 templates/attachnew.pattern.tmpl 0444
 templates/attachtables.pattern.tmpl 0444
+templates/backlinks.pattern01x00.tmpl 0444
 templates/changeform.pattern.tmpl 0444
 templates/changes.pattern.tmpl 0444
 templates/css.pattern.tmpl 0444
@@ -166,6 +170,7 @@ templates/editform.pattern.tmpl 0444
 templates/form.pattern.tmpl 0444
 templates/formtables.pattern.tmpl 0444
 templates/foswiki.pattern.tmpl 0444
+templates/foswiki.pattern01x00.tmpl 0444
 templates/login.pattern.tmpl 0444
 templates/login.sudo.pattern.tmpl 0444
 templates/moveattachment.pattern.tmpl 0444
@@ -175,6 +180,7 @@ templates/rdiff.pattern.tmpl 0444
 templates/renamebase.pattern.tmpl 0444
 templates/renamewebbase.pattern.tmpl 0444
 templates/search.pattern.tmpl 0444
+templates/search.pattern01x00.tmpl 0444
 templates/searchbase.pattern.tmpl 0444
 templates/searchbookview.pattern.tmpl 0444
 templates/searchformat.pattern.tmpl 0444

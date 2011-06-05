@@ -49,8 +49,13 @@
 
 %TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1' or $NOWYSIWYG='1'" then='%TMPL:P{"textareabuttons"}%'}%%TMPL:P{"sig"}%<div class="foswikiClear"></div></div>%TMPL:END%
 
+%TMPL:DEF{"sig"}%<span class="patternSig"><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="%TMPL:P{"sig_format"}%" /> <label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste"}%&nbsp;&nbsp;</label></span>%TMPL:END%
 
-%TMPL:DEF{"sig"}%<span class="patternSig"><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="%SIGNATUREFORMAT%" /> <label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste"}%&nbsp;&nbsp;</label></span>%TMPL:END%
+%TMPL:DEF{"sig_format"}%%IF{
+	"defined SIGNATUREFORMAT"
+	then="%SIGNATUREFORMAT%"
+	else="-- <nop>%WIKIUSERNAME% - %DATE%"
+}%%TMPL:END%
 
 
 %{ HELP TEXTS }%

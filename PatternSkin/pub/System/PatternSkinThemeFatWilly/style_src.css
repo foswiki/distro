@@ -278,6 +278,10 @@ select {
 	vertical-align:middle;
 }
 
+label input {
+	vertical-align:text-bottom;
+}
+
 th {
 	line-height:1.15em;
 }
