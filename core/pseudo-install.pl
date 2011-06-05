@@ -262,12 +262,16 @@ sub installModuleByName {
 
 sub populateSVNRepoListings {
     my ($svninfo) = @_;
-    if ( !eval { use SVN::Client; 1 } ) {
-        warn "Please install SVN::Client!";
-        exit 1;
-    }
-    my $ctx = SVN::Client->new();
+    my $ctx;
 
+    if ( not eval { require SVN::Client; 1 } ) {
+        warn <<'HERE';
+SVN::Client not installed, unable discover branch listings from SVN
+HERE
+        return;
+    }
+
+    $ctx = SVN::Client->new();
     $svninfo->{extensions} = {};
     while ( my ( $branch, $branchdata ) = each( %{ $svninfo->{branches} } ) ) {
 
@@ -341,7 +345,10 @@ HERE
         $success = 1;
     }
     else {
-        print STDERR "Couldn't find $module at $svninfo->{url} in the branches";
+        print STDERR <<"HERE";
+Couldn't find $module at $svninfo->{url} in any branch paths,
+module is not configured for git-svn
+HERE
     }
 
     return $success;
