@@ -1,4 +1,4 @@
-FOSWIKI_ROOT=~/foswiki/trunk/core
+FOSWIKI_ROOT?=~/foswiki/trunk/core
 TARGET= \
   style.css
 

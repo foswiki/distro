@@ -1,5 +1,5 @@
 # Copyright (C) 2002-2009 Will Norris. All Rights Reserved. (wbniv@saneasylumstudios.com)
-# Copyright (C) 2005-2010 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2005-2011 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,15 +17,14 @@ package Foswiki::Plugins::ImageGalleryPlugin;
 use strict;
 
 # =========================
-use vars qw(
-        $VERSION $RELEASE $isInitialized $igpId
-        $NO_PREFS_IN_TOPIC $SHORTDESCRIPTION 
-    );
-
-$VERSION = '$Rev$';
-$RELEASE = '5.10';
-$NO_PREFS_IN_TOPIC = 1;
-$SHORTDESCRIPTION = 'Displays image gallery with auto-generated thumbnails from attachments';
+our $VERSION = '$Rev$';
+our $RELEASE = '6.00';
+our $NO_PREFS_IN_TOPIC = 1;
+our $SHORTDESCRIPTION = 'Displays image gallery with auto-generated thumbnails from attachments';
+our $isInitialized;
+our $igpId;
+our $TranslationToken = "\2\3\2"; # SMELL arbitrary but may clash with other plugin's transtoks
+our %knownGalleries;
 
 # =========================
 sub initPlugin {
@@ -35,10 +34,11 @@ sub initPlugin {
     &Foswiki::Func::writeWarning("Version mismatch between ImageGalleryPlugin and Plugins.pm");
     return 0;
   }
-  $igpId = 1;
+  $igpId = 0;
   $isInitialized = 0;
+  %knownGalleries = ();
 
-  Foswiki::Func::registerTagHandler('IMAGEGALLERY', \&renderImageGallery);
+  Foswiki::Func::registerTagHandler('IMAGEGALLERY', \&renderImageGalleryPlaceholder);
   Foswiki::Func::registerTagHandler('NRIMAGES', \&renderNrImages);
 
   return 1;
@@ -57,14 +57,36 @@ HERE
 }
 
 # =========================
-sub renderImageGallery {
+sub renderImageGalleryPlaceholder {
   my ($session, $params, $theTopic, $theWeb) = @_;
 
   doInit();
 
-  my $igp = Foswiki::Plugins::ImageGalleryPlugin::Core->new($igpId++, $theTopic, $theWeb);
-  return $igp->render($params);
+  $igpId++;
+  $knownGalleries{$igpId} = {
+    core => Foswiki::Plugins::ImageGalleryPlugin::Core->new($igpId, $theTopic, $theWeb),
+    params => $params
+  };
+  return $TranslationToken.'IMAGEGALLERY{'.$igpId.'}'.$TranslationToken;
 }
+
+# =========================
+sub postRenderingHandler {
+  # my $text = shift;
+
+  $_[0] =~ s/${TranslationToken}IMAGEGALLERY{(.*?)}$TranslationToken/renderImageGallery($1)/ge;
+}
+
+# =========================
+sub renderImageGallery {
+  my $igpId = shift;
+
+  my $igp = $knownGalleries{$igpId};
+  return '' unless $igp;
+
+  return $igp->{core}->render($igp->{params});
+}
+
 
 # =========================
 sub renderNrImages {

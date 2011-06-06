@@ -106,7 +106,10 @@
   background-image:url(cross.png);
 }
 
+.jqMasonry .igpThumbNail,
+.jqPrettyPhoto .igpThumbNail,
 .jqSlimbox .igpThumbNail {
   float:left;
   padding:5px;
+  overflow:hidden;
 }

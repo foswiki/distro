@@ -1,7 +1,7 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2002-2009 Will Norris. All Rights Reserved. (wbniv@saneasylumstudios.com)
-# Copyright (C) 2005-2010 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2005-2011 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -67,9 +67,6 @@ sub new {
     %$defaultThumbSizes,
   };
 
-  # get style url
-  my $hostUrl = $Foswiki::cfg{DefaultUrlHost};
-    
   # get image mimes
   unless (%imageSuffixes) {
     my $mimeTypesFilename = $Foswiki::cfg{MimeTypesFileName};
@@ -278,24 +275,39 @@ sub render {
       $this->{info}{thumbheight}{value} ne $this->{thumbheight} ||
       join(', ', $this->{info}{topics}{value}) ne join(', ', @{$this->{topics}});
 
-  my $result;
+  my $result = '';
 
   # get filename query string
   my $filename = $this->{query}->param("filename");
   my $id = $this->{query}->param("id") || '';
+  my $context = Foswiki::Func::getContext();
+  my $class = 'igp';
+
+  if ($context->{'LazyLoadPluginEnabled'}) {
+    Foswiki::Plugins::JQueryPlugin::createPlugin("lazyload");
+    $result .= "\2<div class='jqLazyLoad'>"; # SMELL
+  }
 
   if ($this->{frontend} eq 'lightbox') {
     require Foswiki::Plugins::JQueryPlugin;
-    Foswiki::Plugins::JQueryPlugin::createPlugin('slimbox');
-    $this->{header} = "<noautolink><div class=\"igp jqSlimbox {itemSelector:'.igpThumbNail', singleMode:true}\" id='igp$this->{id}'>\n<a name='igp$this->{id}'></a>\n";
+
+    if ($context->{'PrettyPhotoEnabled'}) {
+      Foswiki::Plugins::JQueryPlugin::createPlugin('prettyphoto');
+      $class .= ' jqPrettyPhoto';
+    } else {
+      $class .= ' jqSlimbox ';
+      Foswiki::Plugins::JQueryPlugin::createPlugin('slimbox');
+    }
+
+    $this->{header} = "<noautolink><div class=\"$class {itemSelector:'.igpThumbNail', singleMode:true}\" id='igp$this->{id}'>\n";
     $this->{footer} = "<span class='foswikiClear'></span></div></noautolink>";
-    $this->{format} = "<a href='\$imageurl' class='igpThumbNail {origurl:\"\$origurl\"}' title='\$comment'><img src='\$thumburl' alt='\$name' /></a>"
+    $this->{format} = "<a href='\$imageurl' class='igpThumbNail {origUrl:\"\$origurl\"}' style='width:".$this->{thumbwidth}."px; height:".$this->{thumbheight}."px;' title='\$comment'><img src='\$thumburl' alt='\$comment' /></a>"
       unless defined $this->{format};
-    $result = $this->renderFormatted();
+    $result .= $this->renderFormatted();
   } elsif ($this->{format}) {
-    $result = $this->renderFormatted();
+    $result .= $this->renderFormatted();
   } else {
-    $result = "<div class='igp'><a name='igp$this->{id}'></a>";
+    $result .= "<div class='$class'><a name='igp$this->{id}'></a>";
     if ($id eq $this->{id} && $filename) {
       # picture mode
       $result .= $this->renderImage($filename);
@@ -307,6 +319,9 @@ sub render {
     $result = '<noautolink>'.$result.'</noautolink>';
   }
 
+  if ($context->{'LazyLoadPluginEnabled'}) {
+    $result .= "</div>\2"; # SMELL
+  }
 
   $this->writeInfo();
 
@@ -949,6 +964,10 @@ sub normalizeFileName {
 
   #writeDebug("normalizeFileName($fileName)");
 
+  if (defined &Foswiki::Sandbox::_cleanUpFilePath) {
+    return Foswiki::Sandbox::_cleanUpFilePath($fileName);
+  }
+
   if (defined &Foswiki::Sandbox::normalizeFileName) {
     return Foswiki::Sandbox::normalizeFileName($fileName);
   }
@@ -956,7 +975,8 @@ sub normalizeFileName {
   if (defined &Foswiki::normalizeFileName) {
     return Foswiki::normalizeFileName($fileName);
   }
-    
+
+  # outch
   return $fileName;
 }
 
