@@ -16,11 +16,13 @@ use Foswiki::OopsException          ();
 use Foswiki::ValidationException    ();
 
 our @registrableHandlers = (    # Foswiki::Plugins::VERSION:
+    'afterAttachmentSaveHandler',       # 1.022 DEPRECATED
     'afterUploadHandler',               # 2.1
     'afterCommonTagsHandler',           # 1.024
     'afterEditHandler',                 # 1.010
     'afterRenameHandler',               # 1.110
     'afterSaveHandler',                 # 1.020
+    'beforeAttachmentSaveHandler',      # 1.022 DEPRECATED
     'beforeCommonTagsHandler',          # 1.024
     'beforeEditHandler',                # 1.010
     'beforeMergeHandler',               # 1.200
