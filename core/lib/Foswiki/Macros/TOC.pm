@@ -193,6 +193,9 @@ sub TOC {
         # Prevent manual links
         $text =~ s/<[\/]?a\b[^>]*>//gi;
 
+        # Prevent duplicating id attributes 
+        $text =~ s/id=["'][^"']*?["']//gi;
+
         # create linked bullet item, using a relative link to anchor
         my $target =
           $isSameTopic
