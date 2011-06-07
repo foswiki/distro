@@ -1651,8 +1651,9 @@ sub renderRevisionInfo {
                 #cUID's are forced to ascii by escaping other chars..
                 #$cUID =~ s/([^a-zA-Z0-9])/'_'.sprintf('%02x', ord($1))/ge;
 
-                #this breaks badly when combined with BaseMapper_666 unescaped style cuids and utf-8 because the baseMapper uses an unescaped '_'
-                #TODO: imo (Sven) the right fix is to move this into the mapper and allow it to be over-ridden
+                #remove any SomeMapping_ prefix from the cuid - as that initial '_' is not escaped.
+                $user =~ s/^[A-Z][A-Za-z]+Mapping_//;
+                #and then xform any escaped chars.
                 use bytes;
                 $user =~ s/_([0-9a-f][0-9a-f])/chr(hex($1))/ge;
                 no bytes;
