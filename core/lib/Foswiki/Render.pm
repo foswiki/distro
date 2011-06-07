@@ -1623,35 +1623,44 @@ sub renderRevisionInfo {
     my $un  = '';
     if ( $info->{author} ) {
         my $cUID = $users->getCanonicalUserID( $info->{author} );
+        #pre-set cuid if author is the unknown user from the basemapper (ie, default value) to avoid further guesswork
+        $cUID = $info->{author} if ($info->{author} eq $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID);
         if ( !$cUID ) {
             my $ln = $users->getLoginName( $info->{author} );
-            $cUID = $info->{author} if defined $ln && $ln ne 'unknown';
+            $cUID = $info->{author} if (defined($ln) and ($ln ne 'unknown'));
         }
         if ($cUID) {
             $wun = $users->webDotWikiName($cUID);
             $wn  = $users->getWikiName($cUID);
             $un  = $users->getLoginName($cUID);
         }
+        #only do the legwork if we really have to
+        if (
+            not(defined($wun) and defined($wn) and defined($un)) or
+            (($wun eq '') or ($wn eq '') or ($un eq ''))
+            ) {
+            my $user = $info->{author};
 
-        my $user = $info->{author};
+            # If we are still unsure, then use whatever is saved in the meta.
+            # But obscure it if the RenderLoggedInButUnknownUsers is enabled.
+            if ( $Foswiki::cfg{RenderLoggedInButUnknownUsers} ) {
+                $user = $info->{author} = 'unknown';
+            }
+            else {
 
-        # If we are still unsure, then use whatever is saved in the meta.
-        # But obscure it if the RenderLoggedInButUnknownUsers is enabled.
-        if ( $Foswiki::cfg{RenderLoggedInButUnknownUsers} ) {
-            $user = $info->{author} = 'unknown';
+                #cUID's are forced to ascii by escaping other chars..
+                #$cUID =~ s/([^a-zA-Z0-9])/'_'.sprintf('%02x', ord($1))/ge;
+
+                #this breaks badly when combined with BaseMapper_666 unescaped style cuids and utf-8 because the baseMapper uses an unescaped '_'
+                #TODO: imo (Sven) the right fix is to move this into the mapper and allow it to be over-ridden
+                use bytes;
+                $user =~ s/_([0-9a-f][0-9a-f])/chr(hex($1))/ge;
+                no bytes;
+            }
+            $wun ||= $user;
+            $wn  ||= $user;
+            $un  ||= $user;
         }
-        else {
-
-            #cUID's are forced to ascii by escaping other chars..
-            #$cUID =~ s/([^a-zA-Z0-9])/'_'.sprintf('%02x', ord($1))/ge;
-
-            use bytes;
-            $user =~ s/_([0-9a-f][0-9a-f])/chr(hex($1))/ge;
-            no bytes;
-        }
-        $wun ||= $user;
-        $wn  ||= $user;
-        $un  ||= $user;
     }
 
     $value =~ s/\$web/$topicObject->web() || ''/ge;
