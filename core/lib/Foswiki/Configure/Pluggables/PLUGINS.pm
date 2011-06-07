@@ -43,6 +43,7 @@ sub new {
         $modules{$simple} = $module;
     }
     foreach my $module ( sort { lc($a) cmp lc($b) } keys %modules ) {
+        next if ($module eq 'EmptyPlugin'); #don't show EmptyPlugin, and don't add it to the cfg
         $this->addChild(
             new Foswiki::Configure::Value(
                 'BOOLEAN',
