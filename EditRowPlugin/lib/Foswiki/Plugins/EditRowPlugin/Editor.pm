@@ -33,11 +33,11 @@ sub _tickbox {
 	$expandedOption =~ s/(\W)/\\$1/g;
 	$attrs{$option}{label} = $expandedOption;
 	if ( $colDef->{type} eq 'checkbox' ) {
-	    $attrs{$option}{class} = 'foswikiCheckBox editRowPluginInput';
+	    $attrs{$option}{class} = 'foswikiCheckBox erpJS_input';
 	}
 	else {
 	    $attrs{$option}{class} =
-		'foswikiRadioButton editRowPluginInput';
+		'foswikiRadioButton erpJS_input';
 	}
 	
 	if ( $expandedValue =~ /,\s*$expandedOption\s*,/ ) {
@@ -59,7 +59,7 @@ sub htmlEditor {
     my ( $this, $cell, $colDef, $inRow, $unexpandedValue ) = @_;
     return CGI::textfield(
 	{
-	    class => 'editRowPluginInput',
+	    class => 'erpJS_input',
 	    name  => $cell->getCellName(),
 	    size  => $colDef->{size} || 10,
 	    value => $unexpandedValue
@@ -84,7 +84,7 @@ sub jQueryMetadata {
     # when the cell edit icon is clicked
     $data->{event} = "erp_edit";
     # Silence the noisy "Click to edit" placeholder
-    $data->{placeholder} = '<div class="erp_empty_cell"></div>';
+    $data->{placeholder} = '<div class="erp_empty"></div>';
     $data->{tooltip} = '';
     return $data;
 }

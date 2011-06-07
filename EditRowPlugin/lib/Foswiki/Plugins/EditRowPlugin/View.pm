@@ -90,7 +90,7 @@ sub process {
 	      && $urps->{erp_active_table} eq "${macro}_$active_table" ) {
 
 	    my $active_row = $urps->{erp_active_row};
-	    unless ($table->{attrs}->{require_js}) {
+	    unless ($table->{attrs}->{js} eq 'assumed') {
 		my $saveUrl = $_->getSaveURL();
 		$line .= CGI::start_form(
 		    -method => 'POST',
@@ -138,7 +138,7 @@ sub process {
 		    active_row => $active_row,
 		    real_table => $real_table })
 		. "\n";
-	    $line .= CGI::end_form() unless $table->{attrs}->{require_js};
+	    $line .= CGI::end_form() unless $table->{attrs}->{js} eq 'assumed';
 	    $needHead = 1;
 	}
 	else {

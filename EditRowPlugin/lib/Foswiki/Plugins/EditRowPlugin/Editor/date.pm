@@ -22,7 +22,7 @@ sub htmlEditor {
     return Foswiki::Contrib::JSCalendarContrib::renderDateForEdit(
 	$cell->getCellName(), $unexpandedValue,
 	$colDef->{values}->[1],
-	{ class => 'editRowPluginInput' });
+	{ class => 'erpJS_input' });
 }
 
 1;

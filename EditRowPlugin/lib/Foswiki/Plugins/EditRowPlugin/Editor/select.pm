@@ -23,7 +23,7 @@ sub htmlEditor {
     my $text =
 	"<select name='".$cell->getCellName()."' size='"
 	. $colDef->{size}
-    . "' class='editRowPluginInput'>";
+    . "' class='erpJS_input'>";
     foreach my $option ( @{ $colDef->{values} } ) {
 	my $expandedOption = Foswiki::Func::expandCommonVariables($option);
 	$expandedOption =~ s/^\s*(.*?)\s*$/$1/;

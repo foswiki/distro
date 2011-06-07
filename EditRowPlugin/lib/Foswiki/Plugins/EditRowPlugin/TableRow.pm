@@ -124,7 +124,7 @@ sub getSaveURL {
 # for_edit - true if we are editing
 # orient - "horizontal" or "vertical" editor orientation
 # with_controls - if we want row controls
-# require_js - if javascript is required (no non-JS controls)
+# js - assumed, preferred or ignored
 sub render {
     my ( $this, $opts ) = @_;
     my $id        = $this->getID();
@@ -133,7 +133,7 @@ sub render {
     my $empties = '|' x ( scalar( @{ $this->{cols} } ) - 1 );
     my @cols = ();
     my $buttons = '';
-    my $editing = $opts->{for_edit} &&!$opts->{require_js};
+    my $editing = $opts->{for_edit} && $opts->{js} ne 'assumed';
     my $buttons_right = ($this->{table}->{attrs}->{buttons} eq "right");
 
     if ($editing) {
@@ -181,7 +181,7 @@ sub render {
 	# Add the row anchor for editing. It's added to the first non-empty
 	# cell or, failing that, the first cell. This is to minimise the
 	# risk of breaking up implied colspans.
-	if ( $addAnchor && !$opts->{require_js} && $text =~ /\S/ ) {
+	if ( $addAnchor && $opts->{js} ne 'assumed' && $text =~ /\S/ ) {
 		
 	    # If the cell has *'s, it is seen by TablePlugin as a header.
 	    # We have to respect that.
@@ -196,7 +196,7 @@ sub render {
 	push( @cols, $text );
     }
 
-    if ($opts->{with_controls} && !$opts->{require_js}) {
+    if ($opts->{with_controls} && $opts->{js} ne 'assumed') {
 	# Generate the controls column
 	if ($opts->{for_edit}) {
 	    if ($buttons_right) {
@@ -240,12 +240,17 @@ sub render {
 		    '#'              => $this->getRowAnchor()
 		    );
 
-		my $buttons = "<a href='$url' class='editRowPlugin_willDiscard ui-icon ui-icon-pencil'>edit</a>";
+		my $buttons = "<a href='$url' class='"
+		    . ($opts->{js} ne 'ignored' ? 'erpJS_willDiscard' : '')
+		    . " ui-icon ui-icon-pencil'>edit</a>";
 		if ($addAnchor) {
 		    $buttons .= $anchor;
 		    $addAnchor = 0;
 		}
-		$buttons = "<div class='editRowPluginContainer'>$buttons</div>";
+		if ($opts->{js} ne 'ignored') {
+		    # Add container wrapper for JS
+		    $buttons = "<div class='erpJS_container'>$buttons</div>";
+		}
 		if ($buttons_right) {
 		    push( @cols, $buttons );
 		} else {

@@ -29,7 +29,7 @@ sub htmlEditor {
 
     return CGI::textarea(
 	{
-	    class   => 'editRowPluginInput',
+	    class   => 'erpJS_input',
 	    rows    => $rows,
 	    columns => $cols,
 	    name    => $cell->getCellName(),

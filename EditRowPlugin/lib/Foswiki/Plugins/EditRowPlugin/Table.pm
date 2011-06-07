@@ -67,10 +67,14 @@ sub new {
       : Foswiki::Func::getPreferencesValue('QUIETSAVE');
     $attrs->{quietsave} = Foswiki::Func::isTrue($q);
 
-    $attrs->{require_js} = Foswiki::Func::isTrue(
-	$attrs->{require_js} ||
-	Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_REQUIRE_JS'),
-	0);
+    $attrs->{js} ||= Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_JS');
+    if (!defined $attrs->{js}) {
+	$attrs->{require_js} ||= Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_REQUIRE_JS');
+	if (defined $attrs->{require_js}) {
+	    $attrs->{js} = Foswiki::Func::isTrue($attrs->{require_js}) ? 'assumed' : 'preferred';
+	}
+    }
+    $attrs->{js} ||= 'preferred';
 
     $attrs->{buttons} ||= "left";
 
@@ -218,13 +222,13 @@ sub render {
     my $wholeTable  = ( defined $opts->{active_row} && $opts->{active_row} <= 0 );
 
     push(@out, "<a name='erp_$this->{id}'></a>")
-	unless $this->{attrs}->{require_js};
+	unless $this->{attrs}->{js} eq 'assumed';
 
     my $orientation = $this->{attrs}->{orientrowedit} || 'horizontal';
     # Disallow vertical display for whole table edits
     $orientation = 'horizontal' if $wholeTable;
 
-    if ($editing && !$this->{attrs}->{require_js}) {
+    if ($editing && $this->{attrs}->{js} ne 'assumed') {
 	my $format = $attrs->{format} || '';
 	# SMELL: Have to double-encode the format param to defend it
 	# against the rest of Foswiki. We use the escape char '-' as it
@@ -245,7 +249,7 @@ sub render {
     my $r           = 0;                # real row index
     my %row_opts = (
 	col_defs => $this->{colTypes},
-	require_js => $this->{attrs}->{require_js},
+	js => $this->{attrs}->{js},
 	with_controls => $this->can_edit()
 	&& (($editing && !$wholeTable)
 	    || (!$editing &&
@@ -273,13 +277,14 @@ sub render {
 	push( @out, $rowtext );
     }
     if ($editing) {
-	if ($wholeTable && !$this->{attrs}->{require_js}) {
+	if ($wholeTable && $this->{attrs}->{js} ne 'assumed') {
+	    # JS is ignored or preferred, need manual edit controls
 	    push( @out, $this->generateEditButtons( 0, 0, 1 ) );
 	    my $help = $this->generateHelp();
 	    push( @out, $help ) if $help;
 	}
     } elsif ($opts->{with_controls} && $this->can_edit() &&
-	     !$this->{attrs}->{require_js}) {
+	     $this->{attrs}->{js} ne 'assumed') {
 	# Generate the buttons at the bottom of the table
 
 	# A  bit of a hack. If the user isn't logged in, then show the
@@ -635,6 +640,28 @@ sub generateHelp {
     return $help;
 }
 
+sub _makeButton {
+    my ($action, $icon, $title, $attrs) = @_;
+    if ($attrs->{js} eq 'ignored') {
+	return CGI::submit(
+	    {
+		name => 'erp_action',
+		value => $action,
+		title => $title,
+		class=> "erpNoJS_button ui-icon ui-icon-$icon"
+	    });
+    } else {
+	# The action will be written by JS
+	return CGI::a(
+	    {
+		href  => "#$action",
+		title => $title,
+		class => "erpJS_submit ui-icon ui-icon-$icon"
+	    },
+	    $title);
+    }
+}
+
 sub generateEditButtons {
     my ( $this, $id, $multirow, $wholeTable ) = @_;
     my $attrs     = $this->{attrs};
@@ -643,78 +670,39 @@ sub generateEditButtons {
     my $bottomRow = ( $id == $sz - $attrs->{footerrows} );
     $id = "_$id" if $id;
 
-    my $buttons = CGI::hidden(-name => 'erp_action', -value => '');
-    $buttons .= CGI::a(
-        {
-            href  => $wholeTable ? '#saveTable' : '#saveRow',
-            title => NOISY_SAVE,
-	    class => 'erp_submit ui-icon ui-icon-disk'
-        },
-	NOISY_SAVE
-    );
+    # TODO: action when JS ignored
+    my $buttons = '';
+
+    $buttons = CGI::hidden(-name => 'erp_action', -value => '')
+	unless $attrs->{js} eq 'ignored';
+
+    $buttons .= _makeButton($wholeTable ? 'saveTable' : 'saveRow', 'disk', NOISY_SAVE, $attrs);
 
     if ( $attrs->{quietsave} ) {
-	$buttons .= CGI::a(
-	    {
-		href  => $wholeTable ? '#saveTableQuietly' : '#saveRowQuietly',
-		title => QUIET_SAVE,
-		class => 'erp_submit ui-icon erp-icon-quietsave'
-	    },
-	    QUIET_SAVE
-        );
+	$buttons .= _makeButton($wholeTable ? 'saveTableQuietly' : 'saveRowQuietly',
+				'quietsave', QUIET_SAVE, $attrs);
     }
-    $buttons .= CGI::a(
-        {
-            href  => '#erp_cancel',
-            title => CANCEL_ROW,
-	    class => 'erp_submit ui-icon ui-icon-cancel'
-        },
-        CANCEL_ROW
-    );
+
+    $buttons .= _makeButton('cancel', 'cancel', CANCEL_ROW, $attrs);
 
     if ( Foswiki::Func::isTrue($this->{attrs}->{changerows}) ) {
         $buttons .= '<br />' if $multirow;
 	unless ($wholeTable) {
 	    if ($id) {
 		if ( !$topRow ) {
-		    $buttons .= CGI::a(
-			{
-			    href  => '#upRow',
-			    title => UP_ROW,
-			    class => 'erp_submit ui-icon ui-icon-arrow-1-n'
-			},
-			UP_ROW
-			);
+		    $buttons .= _makeButton('upRow', 'arrow-1-n',
+					    UP_ROW, $attrs);
 		}
 		if ( !$bottomRow ) {
-		    $buttons .= CGI::a(
-			{
-			    href  => '#downRow',
-			    title => DOWN_ROW,
-			    class => 'erp_submit ui-icon ui-icon-arrow-1-s'
-			},
-			DOWN_ROW
-			);
+		    $buttons .= _makeButton('downRow', 'arrow-1-s',
+					    DOWN_ROW, $attrs);
 		}
 	    }
 	}
-        $buttons .= CGI::a(
-            {
-                href  => '#addRow',
-                title => ADD_ROW,
-                class => 'editRowPlugin_willDiscard erp_submit ui-icon ui-icon-plusthick'
-            },
-	    ADD_ROW
-        );
+        $buttons .= _makeButton('addRow', 'plusthick', ADD_ROW, $attrs);
+
 	unless ($this->{attrs}->{changerows} eq 'add') {
-	    $buttons .= CGI::a(
-		{
-		    href  => '#deleteRow',
-		    class => 'editRowPlugin_willDiscard erp_submit ui-icon ui-icon-minusthick',
-		    title => DELETE_ROW
-		},
-		DELETE_ROW
-	    );
+	    $buttons .= _makeButton('deleteRow', 'minusthick', DELETE_ROW, $attrs);
 	}
     }
     return $buttons;

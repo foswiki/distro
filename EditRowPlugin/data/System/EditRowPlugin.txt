@@ -36,7 +36,7 @@ Features:
 Works like the !EditTablePlugin (it uses exactly the same =%EDITTABLE= macro)
 and you can use it to edit the entire table, or just one row at a time.
 
-A =%<nop>EDITTABLE{...}%= in the topic will be associated with the next table
+An =%<nop>EDITTABLE{...}%= in the topic will be associated with the next table
 in the topic. If there is no existing table, or another
 =%<nop>EDITTABLE{...}%= is seen before the next table, then a new table will
 be created.
@@ -95,7 +95,7 @@ Parameters:
      editing very wide tables much easier. Has no effect in whole table
      editing mode.
    * ==helptopic== Topic name containing help text shown when editing a table. The [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]] markers can be used in the topic to specify what is shown. Note that newlines are removed from the included text so the that text can be used inside a table.
-   * ==require_js== "on" or "off" depending on whether the plugin should require Javascript in the browser or not. This is a local version of the global EDITROWPLUGIN_REQUIRE_JS switch described below.
+   * ==js== gives local, per-table control over the =EDITROWPLUGIN_JS= preference <a href="#js">described below</a>.
 Table rows are shown with a row edit button %UICON%pencil%NOCIU% in the first column,
 and a table edit button <img src="%ATTACHURLPATH%/edittable.png" /> after the
 table. When the table is
@@ -172,12 +172,13 @@ When a table is editable and Javascript is enabled, then:
    * table rows can be manually sorted using drag-and-drop, by dragging the %UICON%arrowthick-2-n-s%NOCIU% (though beware that a =TABLE= tag with an =initsort= will override this, which can be confusing),
    * table columns can be sorted in the browser, by clicking the heading above the row.
 
+<a name="js"></a>
 ---++ Preferences
 The plugin interprets a couple of [[%SYSTEMWEB%.Macros][preferences]], in common with the !EditTablePlugin.
 | =QUIETSAVE= | Gives a default value for the =quietsave= parameter. Default is =off=. |
 | =CHANGEROWS= | Gives a default value for the =changerows= parameter. Default is =off=. |
-Also, the plugin has a couple of it's own settings:
-| =EDITROWPLUGIN_REQUIRE_JS= | Set to =on= if the plugin can _assume_ that Javascript is available in the browser. When this setting is enabled the plugin will not generate the fallback controls that allow tables to be edited when Javascript is disabled. Enabling this option makes tables easier to use for people who work with Javascript enabled, but the plugin will not work at all for people who do not enable Javascript. This is =off= by default. |
+Also, the plugin has a couple of its own settings:
+| =EDITROWPLUGIN_JS= | Usually the plugin expects to be able to use Javascript to generate controls. However sometimes users disable Javascript in the browser, so the plugin also generates a minimal set of fallback controls to give non-JS access to the main features, even if Javascript is disabled. You can use this preference to control whether Javascript is preferred, ignored, or assumed when generating the controls.<ul><li> =preferred= means "use JS if it's available, but keep the non-JS fallback controls visible", </li><li> =ignored= means "never use JS, only display the non-JS controls", </li><li> =assumed= means "assume that JS will be available in the browser, and don't display the fallback controls". </li></ul> You can control the setting on a per-table basis using the =js= parameter to the =EDITTABLE= macro. |
 | =EDITROWPLUGIN_DISABLE= | Set to =on= to disable the plugin. Default is =off=. |
 These preferences can be defined in %USERSWEB%.SitePreferences, in !WebPreferences for an individual web, or in the topic.
 
@@ -237,6 +238,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2011 Wind<nop>River Inc. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  2.2.2 (7 Jun 2011) | Foswiki:Tasks/Item10853: Remove =REQUIRE_JS and =require_js=, add =js= and =EDITROWPLUGIN_JS= to improve support of non-JS environments |
 |  2.2.1 (3 Jun 2011) | Foswiki:Tasks/Item10821: stop yellow stain from overlaying pop-up calendar. Foswiki:Tasks/Item10822: fix auth of single-cell edit |
 |  2.2.0 (25 May 2011) | Foswiki:Tasks/Item2016: work around core code limitations when cell content is 0; Foswiki:Tasks/Item10591: silence noisy "Click to edit" statements; change to a control for editing cells, due to the "wikiword selection" problem Foswiki:Tasks/Item10592: row move now uses an external handle, to allow for cursor select of table contents. Add feedback for saves. Foswiki:Tasks/Item10768: fix edit/save buttons in IE 7; Foswiki:Tasks/Item10777: make sure full table edit is working, and there is no risk of data loss when adding/removing rows |
 |  2.1.4 (18 May 2011) | Foswiki:Tasks/Item10752: fix HTML comments in cells Foswiki:Tasks/Item10753: correct interpretation of changerows="add" |

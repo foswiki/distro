@@ -40,6 +40,7 @@ sub new {
         $this->{isHeader}  = 1;
     }
     $this->{text} = $text;
+
     return $this;
 }
 
@@ -83,7 +84,7 @@ sub getCellName {
 
 sub render {
     my ( $this, $opts ) = @_;
-    
+
     my $colDef = $opts->{col_defs}->[ $this->{number} - 1 ] || $defCol;
     my $text = $this->{text};
 
@@ -108,7 +109,8 @@ sub render {
 	$editors{$colDef->{type}} = $editor;
     }
 
-    if ($opts->{for_edit} && !$opts->{require_js}) {
+    if ($opts->{for_edit} && $opts->{js} ne 'assumed') {
+	## JS is ignored or preferred, need manual edit controls
 	$text = $editor->htmlEditor($this, $colDef, $opts->{in_row}, defined $text ? $text : '');
 	$text = Foswiki::Plugins::EditRowPlugin::defend($text);
     } else {
@@ -123,22 +125,29 @@ sub render {
 	    }
 	}
 	if ( $this->{isHeader} ) {
-	    $text = CGI::span(
-		{
-		    # head and foot sizes passed in metadata
-		    class   => 'editRowPluginSort {headrows: '.
-			$this->{row}->{table}->getHeaderRows()
-			. ',footrows:'
-			. $this->{row}->{table}->getFooterRows() . '}',
-		},
-		$text);
+	    my $attrs = {};
+	    unless ($opts->{js} eq 'ignored') {
+		# head and foot sizes passed in metadata
+		$attrs->{class} =
+		    'erpJS_sort {headrows: '
+		    . $this->{row}->{table}->getHeaderRows()
+		    . ',footrows:'
+		    . $this->{row}->{table}->getFooterRows() . '}';
+	    }
+	    $text = CGI::span($attrs, $text);
 	} else {
 	    my $sopts = {};
 	    my $trigger = '';
 	    if ($this->can_edit()) {
 		my $data = $editor->jQueryMetadata($this, $colDef, $text);
-		# The "edit this cell" trigger button
-		$trigger = CGI::div({ class => "erp_edit_button", title => "Click to edit" }, '');
+		if ($opts->{js} ne 'ignored') {
+		    # The "edit this cell" trigger button (yellow stain)
+		    $trigger = CGI::div(
+			{
+			    class =>'erpJS_editButton',
+			    title => 'Click to edit'
+			}, '');
+		}
 		my $saveURL = $this->getSaveURL();
 		# Carve off the URL params and push to meta-data; they are wanted
 		# for ajax.
@@ -150,11 +159,15 @@ sub render {
 		    }
 		}
 		$data->{url} = $saveURL;
-		# Note: Any table row that has a cell with editRowPluginCell will be made draggable
-		$sopts->{class} = 'editRowPluginCell '
-		    . Foswiki::Plugins::EditRowPlugin::defend(JSON::to_json($data), 1);
+		# Note: Any table row that has a cell with erpJS_cell will be made draggable
+		if ($opts->{js} ne 'ignored') {
+		    $sopts->{class} = 'erpJS_cell '
+			. Foswiki::Plugins::EditRowPlugin::defend(JSON::to_json($data), 1);
+		}
 	    }
-	    $text = CGI::div({class => 'editRowPluginContainer'}, CGI::span( $sopts, " $text ") . $trigger);
+	    my $a = {};
+	    $a->{class} = 'erpJS_container' unless $opts->{js} eq 'ignored';
+	    $text = CGI::div($a, CGI::span( $sopts, " $text ") . $trigger);
 	}
     }
     return $this->{precruft} . $text . $this->{postcruft};

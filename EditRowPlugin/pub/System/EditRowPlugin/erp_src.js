@@ -234,8 +234,8 @@
 	};
 
 	// Add a "drag handle" element to the first cell
-	var handle = $("<a href='#' class='erp_drag_button ui-icon ui-icon-arrowthick-2-n-s' title='Click and drag to move row'>move</a>");
-	tr.find("td").first().find("div.editRowPluginContainer").append(handle);
+	var handle = $("<a href='#' class='erp_drag_button ui-icon ui-icon-arrow-2-n-s' title='Click and drag to move row'>move</a>");
+	tr.find("td").first().find("div.erpJS_container").append(handle);
 	tr.addClass("ui-draggable");
 	handle.draggable({
 	    // constrain to the container
@@ -271,18 +271,18 @@
 	var erp_rowDirty = false;
 	var erp_dirtyVeto = false;
 
-	$('.editRowPluginInput').livequery("change", function() {
+	$('.erpJS_input').livequery("change", function() {
 	    erp_rowDirty = true;
 	});
 
-	$('.erp_edit_button').livequery("click", function() {
+	$('.erpJS_editButton').livequery("click", function() {
 	    // Send the event to the span
 	    $(this).prev().triggerHandler("erp_edit");
 	});
 
 	// Action on select row and + row. Check if the current row is
 	// dirty, and if it is, prompt for save
-	$('.editRowPlugin_willDiscard').livequery(function() {
+	$('.erpJS_willDiscard').livequery(function() {
 	    $(this).click(function(event) {
 		if (erp_rowDirty) {
 		    if (!confirm("This action will discard your changes.")) {
@@ -294,7 +294,7 @@
 	    });
 	});
 
-	$('.erp_submit').livequery(function() {
+	$('.erpJS_submit').livequery(function() {
 	    if (!$.browser.msie || parseInt($.browser.version) >= 8)
 		// No button support in IE 7 and below
 		$(this).button();
@@ -315,7 +315,7 @@
 	    });
 	});
 
-	$('.editRowPluginSort').livequery("click", function() {
+	$('.erpJS_sort').livequery("click", function() {
 	    var m = /{(.*)}/.exec($(this).attr("class"));
 	    var md = {};
 	    if (m)
@@ -323,7 +323,7 @@
 	    return sortTable(this, false, md.headrows, md.footrows);
 	});
 
-	$(".editRowPluginCell").livequery(function() {
+	$('.erpJS_cell').livequery(function() {
 	    // WARNING: this was a complete PITA to get right! Meddle
 	    // at your own peril!
 
