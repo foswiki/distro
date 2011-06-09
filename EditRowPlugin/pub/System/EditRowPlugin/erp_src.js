@@ -268,11 +268,11 @@
     };
 
     $(document).ready(function() {
-	var erp_rowDirty = false;
+	var erp_dataDirty = false;
 	var erp_dirtyVeto = false;
 
 	$('.erpJS_input').livequery("change", function() {
-	    erp_rowDirty = true;
+	    erp_dataDirty = true;
 	});
 
 	$('.erpJS_editButton').livequery("click", function() {
@@ -280,11 +280,11 @@
 	    $(this).prev().triggerHandler("erp_edit");
 	});
 
-	// Action on select row and + row. Check if the current row is
+	// Action on select row and + row. Check if the data is
 	// dirty, and if it is, prompt for save
 	$('.erpJS_willDiscard').livequery(function() {
 	    $(this).click(function(event) {
-		if (erp_rowDirty) {
+		if (erp_dataDirty) {
 		    if (!confirm("This action will discard your changes.")) {
 			erp_dirtyVeto = true;
 			return false;

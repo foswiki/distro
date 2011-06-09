@@ -324,6 +324,7 @@ sub render {
 	elsif (Foswiki::Func::isTrue($this->{attrs}->{changerows})
 	       && $this->{attrs}->{disable} !~ /row/ )
 	{
+	    # We are going into single row editing mode
 	    my $title  = "Add row to end of table";
 	    my $button = CGI::img(
 		{
@@ -448,10 +449,20 @@ sub saveCell {
     return $urps->{CELLDATA};
 }
 
+# Save row (or table)
+sub saveData {
+    my ($this, $urps ) = @_;
+    if ( $urps->{erp_active_row} < 0 ) {
+	$this->saveTable( $urps );
+    } else {
+	$this->saveRow( $urps );
+    }
+}
+
 # Action on move up; save and shift row
 sub upRow {
     my ( $this, $urps ) = @_;
-    $this->saveRow( $urps );
+    $this->saveData( $urps );
     my $row = $urps->{erp_active_row};
     my $tmp = $this->{rows}->[ $row - 1 ];
     $this->{rows}->[ $row - 1 ] = $this->{rows}->[ $row - 2 ];
@@ -462,7 +473,7 @@ sub upRow {
 # Action on move down; save and shift row
 sub downRow {
     my ( $this, $urps ) = @_;
-    $this->saveRow( $urps );
+    $this->saveData( $urps );
     my $row = $urps->{erp_active_row};
     my $tmp = $this->{rows}->[ $row - 1 ];
     $this->{rows}->[ $row - 1 ] = $this->{rows}->[$row];
@@ -477,7 +488,7 @@ sub addRow {
     my $row = $urps->{erp_active_row};
 
     unless ( $urps->{erp_unchanged} ) {
-        $this->saveRow($urps);    # in case data has changed
+        $this->saveData( $urps );    # in case data has changed
     }
 
     if ( $row < 0 ) {
@@ -515,7 +526,7 @@ sub addRow {
 sub deleteRow {
     my ( $this, $urps ) = @_;
 
-    $this->saveRow($urps);    # in case data hase changed
+    $this->saveData($urps);    # in case data has changed
 
     my $row = $urps->{erp_active_row};
     if ( $row < $this->getFirstLiveRow() ) {
@@ -641,7 +652,7 @@ sub generateHelp {
 }
 
 sub _makeButton {
-    my ($action, $icon, $title, $attrs) = @_;
+    my ($action, $icon, $title, $attrs, $willDiscard) = @_;
     if ($attrs->{js} eq 'ignored') {
 	return CGI::submit(
 	    {
@@ -657,6 +668,7 @@ sub _makeButton {
 		href  => "#$action",
 		title => $title,
 		class => "erpJS_submit ui-icon ui-icon-$icon"
+		    . ($willDiscard ? ' erpJS_willDiscard' : '')
 	    },
 	    $title);
     }
@@ -676,14 +688,14 @@ sub generateEditButtons {
     $buttons = CGI::hidden(-name => 'erp_action', -value => '')
 	unless $attrs->{js} eq 'ignored';
 
-    $buttons .= _makeButton($wholeTable ? 'saveTable' : 'saveRow', 'disk', NOISY_SAVE, $attrs);
+    $buttons .= _makeButton($wholeTable ? 'saveTable' : 'saveRow', 'disk', NOISY_SAVE, $attrs, 0);
 
     if ( $attrs->{quietsave} ) {
 	$buttons .= _makeButton($wholeTable ? 'saveTableQuietly' : 'saveRowQuietly',
-				'quietsave', QUIET_SAVE, $attrs);
+				'quietsave', QUIET_SAVE, $attrs, 0);
     }
 
-    $buttons .= _makeButton('cancel', 'cancel', CANCEL_ROW, $attrs);
+    $buttons .= _makeButton('cancel', 'cancel', CANCEL_ROW, $attrs, 1);
 
     if ( Foswiki::Func::isTrue($this->{attrs}->{changerows}) ) {
         $buttons .= '<br />' if $multirow;
@@ -691,18 +703,18 @@ sub generateEditButtons {
 	    if ($id) {
 		if ( !$topRow ) {
 		    $buttons .= _makeButton('upRow', 'arrow-1-n',
-					    UP_ROW, $attrs);
+					    UP_ROW, $attrs, 0);
 		}
 		if ( !$bottomRow ) {
 		    $buttons .= _makeButton('downRow', 'arrow-1-s',
-					    DOWN_ROW, $attrs);
+					    DOWN_ROW, $attrs, 0);
 		}
 	    }
 	}
-        $buttons .= _makeButton('addRow', 'plusthick', ADD_ROW, $attrs);
+        $buttons .= _makeButton('addRow', 'plusthick', ADD_ROW, $attrs, 0);
 
 	unless ($this->{attrs}->{changerows} eq 'add') {
-	    $buttons .= _makeButton('deleteRow', 'minusthick', DELETE_ROW, $attrs);
+	    $buttons .= _makeButton('deleteRow', 'minusthick', DELETE_ROW, $attrs, 0);
 	}
     }
     return $buttons;
@@ -758,10 +770,6 @@ Generate a TML representation of the table
 
 ---++ render() -> $text
 Render the table for display or edit. Standard TML is used to construct the table.
-
----++ saveRow(\%urps)
-Commit changes from the query into the table.
-   * $urps - url parameters
 
 ---++ addRow(\%urps)
 Add a row after the active row containing the data from the query
