@@ -288,8 +288,9 @@ sub sortTopics {
             $sortfield =~ s/^formfield\((.*)\)$/$1/;    # form field
 
             if ( !defined( $info->{$sortfield} ) ) {
+                #under normal circumstances this code is not called, because the metacach has already filled it.
                 if ( $sortfield eq 'modified' ) {
-                    my $ri = $info->getRevisionInfo();
+                    my $ri = $info->{tom}->getRevisionInfo();
                     $info->{$sortfield} = $ri->{date};
                 }
                 else {
