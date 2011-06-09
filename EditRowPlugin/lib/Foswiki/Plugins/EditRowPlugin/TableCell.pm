@@ -140,29 +140,32 @@ sub render {
 	    my $trigger = '';
 	    if ($this->can_edit()) {
 		my $data = $editor->jQueryMetadata($this, $colDef, $text);
-		if ($opts->{js} ne 'ignored') {
-		    # The "edit this cell" trigger button (yellow stain)
-		    $trigger = CGI::div(
-			{
-			    class =>'erpJS_editButton',
-			    title => 'Click to edit'
-			}, '');
-		}
-		my $saveURL = $this->getSaveURL();
-		# Carve off the URL params and push to meta-data; they are wanted
-		# for ajax.
-		if ($saveURL =~ s/\?(.*)$//) {
-		    $data->{erp_data} = {};
-		    for my $tup (split(/[;&]/, $1)) {
-			$tup =~ /(.*?)=(.*)$/;
-			$data->{erp_data}->{$1} = $2;
+		# Editors can set "uneditable" if the cell is not to have an editor
+		unless ($data->{uneditable}) {
+		    if ($opts->{js} ne 'ignored') {
+			# The "edit this cell" trigger button (yellow stain)
+			$trigger = CGI::div(
+			    {
+				class =>'erpJS_editButton',
+				title => 'Click to edit'
+			    }, '');
 		    }
-		}
-		$data->{url} = $saveURL;
-		# Note: Any table row that has a cell with erpJS_cell will be made draggable
-		if ($opts->{js} ne 'ignored') {
-		    $sopts->{class} = 'erpJS_cell '
-			. Foswiki::Plugins::EditRowPlugin::defend(JSON::to_json($data), 1);
+		    my $saveURL = $this->getSaveURL();
+		    # Carve off the URL params and push to meta-data; they are wanted
+		    # for ajax.
+		    if ($saveURL =~ s/\?(.*)$//) {
+			$data->{erp_data} = {};
+			for my $tup (split(/[;&]/, $1)) {
+			    $tup =~ /(.*?)=(.*)$/;
+			    $data->{erp_data}->{$1} = $2;
+			}
+		    }
+		    $data->{url} = $saveURL;
+		    # Note: Any table row that has a cell with erpJS_cell will be made draggable
+		    if ($opts->{js} ne 'ignored') {
+			$sopts->{class} = 'erpJS_cell '
+			    . Foswiki::Plugins::EditRowPlugin::defend(JSON::to_json($data), 1);
+		    }
 		}
 	    }
 	    my $a = {};

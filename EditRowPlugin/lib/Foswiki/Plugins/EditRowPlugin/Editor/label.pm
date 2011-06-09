@@ -20,7 +20,7 @@ sub htmlEditor {
 }
 
 sub jQueryMetadata {
-    return {};
+    return { uneditable => 1 };
 }
 
 1;
