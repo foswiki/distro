@@ -4,7 +4,7 @@ package Foswiki::Plugins::EditRowPlugin::Editor::row;
 use strict;
 use Assert;
 
-use Foswiki::Plugins::EditRowPlugin::Editor::label;
+use Foswiki::Plugins::EditRowPlugin::Editor::label ();
 
 our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor::label' );
 
@@ -12,6 +12,11 @@ our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor::label' );
 sub htmlEditor {
     my ( $this, $cell, $colDef, $inRow, $unexpandedValue ) = @_;
     return $inRow->{isHeader} ? '<nop>' : $cell->rowIndex($colDef);
+}
+
+sub getInitialValue {
+    my ($this, $colDef, $cell, $row) = @_;
+    return $row + $colDef->{size};
 }
 
 1;

@@ -4,11 +4,11 @@ package Foswiki::Plugins::EditRowPlugin::Editor::date;
 use strict;
 use Assert;
 
-use Foswiki::Plugins::EditRowPlugin::Editor;
+use Foswiki::Plugins::EditRowPlugin::Editor ();
 
 our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor' );
 
-use Foswiki::Contrib::JSCalendarContrib;
+use Foswiki::Contrib::JSCalendarContrib ();
 
 sub new {
     my $class = shift;

@@ -4,13 +4,15 @@ package Foswiki::Plugins::EditRowPlugin::Editor::radio;
 use strict;
 use Assert;
 
-use Foswiki::Plugins::EditRowPlugin::Editor;
+use Foswiki::Plugins::EditRowPlugin::Editor ();
 
 our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor' );
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new('radio');
+    my $this = $class->SUPER::new('radio');
+    $this->{css_class} = 'foswikiRadioButton';
+    return $this;
 }
 
 sub htmlEditor {

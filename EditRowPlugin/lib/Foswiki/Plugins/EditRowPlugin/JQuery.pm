@@ -18,7 +18,7 @@ use strict;
 
 use Assert;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
+use Foswiki::Plugins::JQueryPlugin::Plugin ();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 sub new {

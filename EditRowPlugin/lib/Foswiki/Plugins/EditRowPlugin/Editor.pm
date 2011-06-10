@@ -6,7 +6,7 @@ package Foswiki::Plugins::EditRowPlugin::Editor;
 use strict;
 use Assert;
 
-use Foswiki::Func;
+use Foswiki::Func ();
 
 # Subclasses only
 sub new {
@@ -32,14 +32,7 @@ sub _tickbox {
 	$expandedOption =~ s/^\s*(.*?)\s*$/$1/;
 	$expandedOption =~ s/(\W)/\\$1/g;
 	$attrs{$option}{label} = $expandedOption;
-	if ( $colDef->{type} eq 'checkbox' ) {
-	    $attrs{$option}{class} = 'foswikiCheckBox erpJS_input';
-	}
-	else {
-	    $attrs{$option}{class} =
-		'foswikiRadioButton erpJS_input';
-	}
-	
+	$attrs{$option}{class} = "$this->{css_class} erpJS_input";
 	if ( $expandedValue =~ /,\s*$expandedOption\s*,/ ) {
 	    $attrs{$option}{checked} = 'checked';
 	    push( @defaults, $option );
@@ -103,6 +96,15 @@ sub _addCancelButton {
 	"<button type'submit'><img src='$purl/System/EditRowPlugin/stop.png' /></button>";
 }
 
+=begin TML
+
+---++ ObjectMethod forceValue()
+Called when a value is being loaded into the internal table from url
+params; gives an opportunity for the type to override the value (e.g. for
+a generated value, or for a label)
+
+=cut
+ 
 1;
 __END__
 

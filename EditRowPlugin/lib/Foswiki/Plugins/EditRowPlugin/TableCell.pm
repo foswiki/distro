@@ -4,17 +4,12 @@ package Foswiki::Plugins::EditRowPlugin::TableCell;
 use strict;
 use Assert;
 
-use Foswiki::Func;
-use JSON;
-# Default editor, used if another editor can't be loaded
-use Foswiki::Plugins::EditRowPlugin::Editor;
+use Foswiki::Func ();
+use JSON ();
+use Foswiki::Plugins::EditRowPlugin::Editor ();
 
 # Default format if no other format is defined for a cell
 my $defCol ||= { type => 'text', size => 20, values => [] };
-
-# Map of type name to editor object. This is dynamically populated on demand with
-# editor instances.
-our %editors = ( _default => Foswiki::Plugins::EditRowPlugin::Editor->new() );
 
 sub new {
     my ( $class, $row, $text, $number ) = @_;
@@ -94,33 +89,23 @@ sub render {
 	$colDef = $cd->[0];
     }
     
-    my $editor = $editors{$colDef->{type}};
-    unless ($editor) {
-	my $class = "Foswiki::Plugins::EditRowPlugin::Editor::$colDef->{type}";
-	eval("require $class");
-	ASSERT(!$@, $@) if DEBUG;
-	if ($@) {
-	    Foswiki::Func::writeWarning(
-		"EditRowPlugin could not load cell type $class: $@" );
-	    $editor = $editors{_default};
-	} else {
-	    $editor = $class->new();
-	}
-	$editors{$colDef->{type}} = $editor;
-    }
+    my $editor = Foswiki::Plugins::EditRowPlugin::Table::getEditor($colDef);
 
     if ($opts->{for_edit} && $opts->{js} ne 'assumed') {
-	## JS is ignored or preferred, need manual edit controls
+	# JS is ignored or preferred, need manual edit controls
 	$text = $editor->htmlEditor($this, $colDef, $opts->{in_row}, defined $text ? $text : '');
 	$text = Foswiki::Plugins::EditRowPlugin::defend($text);
     } else {
+	# Not for edit or JS is assumed
 	$text = '-' unless defined($text);
 
 	unless ( $this->{isHeader} || $this->{isFooter} ) {
 	    if ( $colDef->{type} eq 'row' ) {
+		# Special case for our "row" type - text is always the row number
 		$text = $this->rowIndex($colDef);
 	    }
 	    else {
+		# Chop out meta-text
 		$text =~ s/%EDITCELL{(.*?)}%\s*$//;
 	    }
 	}

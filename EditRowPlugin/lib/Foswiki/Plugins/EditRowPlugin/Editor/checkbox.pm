@@ -4,13 +4,15 @@ package Foswiki::Plugins::EditRowPlugin::Editor::checkbox;
 use strict;
 use Assert;
 
-use Foswiki::Plugins::EditRowPlugin::Editor;
+use Foswiki::Plugins::EditRowPlugin::Editor ();
 
 our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor' );
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new('checkbox');
+    my $this = $class->SUPER::new('checkbox');
+    $this->{css_class} = 'foswikiCheckBox';
+    return $this;
 }
 
 sub htmlEditor {

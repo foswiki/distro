@@ -3,10 +3,11 @@ package Foswiki::Plugins::EditRowPlugin::Table;
 
 use strict;
 use Assert;
-use Foswiki::Attrs;
 
-use Foswiki::Func;
-use Foswiki::Plugins::EditRowPlugin::TableRow;
+use Foswiki::Attrs ();
+use Foswiki::Func ();
+use Foswiki::Plugins::EditRowPlugin::TableRow ();
+use Foswiki::Plugins::EditRowPlugin::Editor ();
 
 use constant {
     ADD_ROW    => 'Add new row after this row / at the end',
@@ -18,6 +19,10 @@ use constant {
     UP_ROW     => 'Move this row up',
     DOWN_ROW   => 'Move this row down',
 };
+
+# Map of type name to editor object. This is dynamically populated on demand with
+# editor instances.
+our %editors = ( _default => Foswiki::Plugins::EditRowPlugin::Editor->new() );
 
 sub new {
     my ( $class, $tno, $editable, $spec, $attrs, $web, $topic ) = @_;
@@ -370,6 +375,26 @@ sub getSaveURL {
 	%more);
 }
 
+# Get the "type object" for this column definition (one of the Editor classes)
+sub getEditor {
+    my $colDef = shift;
+    my $editor = $editors{$colDef->{type}};
+    unless ($editor) {
+	my $class = "Foswiki::Plugins::EditRowPlugin::Editor::$colDef->{type}";
+	eval("require $class");
+	ASSERT(!$@, $@) if DEBUG;
+	if ($@) {
+	    Foswiki::Func::writeWarning(
+		"EditRowPlugin could not load cell type $class: $@" );
+	    $editor = $editors{_default};
+	} else {
+	    $editor = $class->new();
+	}
+	$editors{$colDef->{type}} = $editor;
+    }
+    return $editor;
+}
+
 # Get the cols for the given row, padding out with empty cols if
 # the row is shorter than the type def for the table.
 sub _getCols {
@@ -385,29 +410,22 @@ sub _getCols {
         my $cellName =
           'erp_cell_' . $this->{id} . '_' . $row . '_' . ( $i + 1 );
         my $cell = $this->{rows}->[ $row - 1 ]->{cols}->[$i];
+	my $val = $urps->{$cellName};
 
         # Check current value for format-overriding EDITCELL
         if ( $cell->{text} =~ /%EDITCELL{(.*?)}%/ ) {
             my $cd = $this->parseFormat($1);
             $colDef = $cd->[0];
-        }
-        if ( defined $colDef->{type} ) {
-            if ( $colDef->{type} eq 'row' ) {
+	}
 
-                # Force numbering if this is an auto-numbered column
-                $urps->{$cellName} = $row - $headRows + $colDef->{size};
-            }
-            elsif ( $colDef->{type} eq 'label' ) {
-
-                # Label cells are uneditable, so we have to keep any existing
-                # value for them. If there is no value in the cell, restore
-                # the initial value.
-                $urps->{$cellName} =
-                  (defined $cell->{text} ? $cell->{text} : $colDef->{initial_value} );
-            }
+	if ($colDef && defined $colDef->{type}) {
+	    my $editor = getEditor($colDef);
+	    if ($editor && $editor->can('forceValue')) {
+		$val = $editor->forceValue(
+		    $colDef, $cell, $row - $headRows);
+	    }
         }
-        $urps->{$cellName} = '' unless defined $urps->{$cellName};
-        push( @cols, $urps->{$cellName} );
+        push( @cols, defined $val ? $val : '' );
     }
     return \@cols;
 }
@@ -426,10 +444,10 @@ sub saveTable {
 # Action on row saved
 sub saveRow {
     my ( $this, $urps ) = @_;
-
     my $row = $urps->{erp_active_row};
     if ( $row > 0 ) {
-        $this->{rows}->[ $row - 1 ]->setRow( $this->_getCols( $urps, $row ) );
+	my $cols = $this->_getCols( $urps, $row );
+        $this->{rows}->[ $row - 1 ]->setRow( $cols );
     }
 }
 
@@ -615,7 +633,9 @@ sub parseFormat {
         my $initial = '';
         if ( $type =~ /^(text|label)/ ) {
             $initial = join( ',', @values );
-        }
+        } elsif ( $type eq 'date' ) {
+	    $initial = shift @values;
+	}
 
         @values = map { s/^\s*//; s/\s*$//; $_ } @values;
         push(

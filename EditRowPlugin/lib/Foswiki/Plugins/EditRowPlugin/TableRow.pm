@@ -5,8 +5,8 @@ package Foswiki::Plugins::EditRowPlugin::TableRow;
 use strict;
 use Assert;
 
-use Foswiki::Func;
-use Foswiki::Plugins::EditRowPlugin::TableCell;
+use Foswiki::Func ();
+use Foswiki::Plugins::EditRowPlugin::TableCell ();
 
 sub new {
     my ( $class, $table, $number, $precruft, $postcruft, $cols ) = @_;
@@ -76,6 +76,7 @@ sub finish {
 # Set the columns in the row. Adapts to widen or narrow the row as required.
 sub setRow {
     my ( $this, $cols ) = @_;
+
     while ( scalar( @{ $this->{cols} } ) > scalar(@$cols) ) {
         pop( @{ $this->{cols} } )->finish();
     }
@@ -84,7 +85,6 @@ sub setRow {
         if ( $n < scalar( @{ $this->{cols} } ) ) {
 
             # Restore the EDITCELL from the old value, if present
-            my $old = $this->{cols}->[$n]->{text};
             if (   $val !~ /%EDITCELL{.*?}%/
                 && $this->{cols}->[$n]->{text} =~ /(%EDITCELL{.*?}%)/ )
             {

@@ -4,7 +4,7 @@ package Foswiki::Plugins::EditRowPlugin::Editor::editbutton;
 use strict;
 use Assert;
 
-use Foswiki::Plugins::EditRowPlugin::Editor::label;
+use Foswiki::Plugins::EditRowPlugin::Editor::label ();
 
 our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor::label' );
 

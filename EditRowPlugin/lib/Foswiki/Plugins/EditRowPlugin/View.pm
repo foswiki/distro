@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use Assert;
 
-use Foswiki;
+use Foswiki ();
 use Foswiki::Func();
 
 # Process the text of a topic through the plugin. Usually this involves

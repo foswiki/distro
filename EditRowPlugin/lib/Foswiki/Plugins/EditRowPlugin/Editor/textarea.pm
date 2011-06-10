@@ -4,7 +4,7 @@ package Foswiki::Plugins::EditRowPlugin::Editor::textarea;
 use strict;
 use Assert;
 
-use Foswiki::Plugins::EditRowPlugin::Editor;
+use Foswiki::Plugins::EditRowPlugin::Editor ();
 
 our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor::text' );
 

@@ -6,8 +6,8 @@ use warnings;
 use Assert;
 use Error ':try';
 
-use Foswiki;
-use Foswiki::Func();
+use Foswiki ();
+use Foswiki::Func ();
 
 # REST handler for table row edit save with redirect on completion.
 # The noredirect URL parameter can be passed to prevent
@@ -108,7 +108,7 @@ sub process {
 			$result = $table->$action($urps);
 		    };
 		    if ($@) {
-			throw $@ unless $ajax;
+			throw Error::Simple $@ unless $ajax;
 			$mess = $@;
 			$no_save = 1;
 			last LINE;
