@@ -85,15 +85,13 @@ sub _restSave {
 
         my ($meta, $text) = Foswiki::Func::readTopic($web, $topic);
 
-        if ($meta->haveAccess('CHANGE')) {
-            # The save function does access control checking
-            $text = Foswiki::Plugins::CommentPlugin::Comment::save(
-                $text, $web, $topic);
-            
-            Foswiki::Func::saveTopic($web, $topic, $meta, $text);
-#                                     { ignorepermissions => 1 });
-        }
-            
+        # The save function does access control checking
+        $text = Foswiki::Plugins::CommentPlugin::Comment::save(
+            $text, $web, $topic);
+        
+        Foswiki::Func::saveTopic($web, $topic, $meta, $text,
+                                 { ignorepermissions => 1 });
+        
         $response->header(-status => 200);
         $response->body("$web.$topic");
     } catch Foswiki::AccessControlException with {
