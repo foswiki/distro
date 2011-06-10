@@ -296,6 +296,17 @@ See =lib/Foswiki.spec= for many more examples.
 
 =Config.spec= files are also used for other (non-plugin) extensions. in this case they are stored under the =Contrib= directory instead of the =Plugins= directory.
 
+#LinkingToConfigure
+---+++ Linking to =configure=
+
+You can link to your =configure= settings by using the following:
+
+<verbatim class="tml">
+[[%SCRIPTURL{"configure"}%/#BathPlugin$Extensions][configure]]
+</verbatim>
+
+Replace =BathPlugin= with the name of your extension.
+
 #MaintainPlugins
 ---++ Maintaining Plugins
 
