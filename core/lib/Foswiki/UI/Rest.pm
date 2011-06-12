@@ -222,10 +222,10 @@ sub rest {
             )
           )
         {
-            $res->header( -type => 'text/html', -status => '401' );
+            $res->header( -type => 'text/html', -status => '403' );
             $err = "ERROR: (403) Invalid validation code";
             $res->print($err);
-            throw Foswiki::EngineException( 401, $err, $res );
+            throw Foswiki::EngineException( 403, $err, $res );
         }
 
         # SMELL: Note we don't expire the validation code. If we expired it,
