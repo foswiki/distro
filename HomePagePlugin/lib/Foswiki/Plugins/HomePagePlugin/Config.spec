@@ -1,6 +1,6 @@
 # ---+ Extensions
 # ---++ HomePagePlugin
-# **Text**
+# **STRING**
 #the web or topic to when none is specified, or on login/logoff
 $Foswiki::cfg{HomePagePlugin}{SiteDefaultTopic} = '';
 
