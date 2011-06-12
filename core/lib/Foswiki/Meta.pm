@@ -3714,6 +3714,8 @@ sub setEmbeddedStoreForm {
 					if ($2 ne 'TOPICINFO') {
 							#TOPICINFO is only valid on the first line
         		      		$this->_readMETA($1, $2, $3)
+					} else {
+					    $1
 					}/gem
           )
         {
