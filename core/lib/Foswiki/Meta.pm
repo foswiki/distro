@@ -3563,7 +3563,7 @@ sub setEmbeddedStoreForm {
 
     # head meta-data
     $text =~ s/^(%META:(TOPICINFO){(.*)}%\n)/
-      $this->_readMETA($1, $2, $3)/gem;
+      $this->_readMETA($1, $2, $3)/e;		#NO THIS CANNOT BE /g - TOPICINFO is _only_ valid as the first line!
     my $ti = $this->get('TOPICINFO');
     if ($ti) {
         $format = $ti->{format} || 0;
@@ -3577,6 +3577,8 @@ sub setEmbeddedStoreForm {
         $ti->{rev} = $ti->{version};    # not used, maintained for compatibility
         $ti->{reprev} = Foswiki::Store::cleanUpRevID( $ti->{reprev} )
           if defined $ti->{reprev};
+    } else {
+            #defaults..
     }
 
     # Other meta-data
@@ -3595,7 +3597,10 @@ sub setEmbeddedStoreForm {
     else {
         if (
             $text =~ s/^(%META:([^{]+){(.*)}%\n)/
-              $this->_readMETA($1, $2, $3)/gem
+					if ($2 ne 'TOPICINFO') {
+							#TOPICINFO is only valid on the first line
+        		      		$this->_readMETA($1, $2, $3)
+					}/gem
           )
         {
             $endMeta = 1;
