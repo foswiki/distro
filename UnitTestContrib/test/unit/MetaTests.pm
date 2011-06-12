@@ -967,7 +967,7 @@ HERE
     
     $ti = $meta->getRevisionInfo();
     $this->assert_equals('BaseUserMapping_666', $ti->{author});
-    $this->assert_equals(0, $ti->{version});
+    $this->assert_equals(1, $ti->{version});
     $this->assert_equals(0, $ti->{date});
 }
 
