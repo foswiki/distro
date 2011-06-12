@@ -900,6 +900,78 @@ sub test_haveAccess {
     $this->assert(not $rootObject->haveAccess('CHANGE'));
 }
 
+#Item10789 - TOPICINFO should only come from the first line of the topic
+#thankyou TemiVarghese for finding it!
+sub test_setEmbededStoreForm_DOUBLE {
+    my $this = shift;
+
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'TestTopic' );
+    $meta->setEmbeddedStoreForm(<<'HERE');
+%META:TOPICINFO{author="TemiVarghese" comment="reprev" date="1306913758" format="1.1" reprev="10" version="10"}%
+%META:TOPICPARENT{name="PhyloWidgetPlugin"}%
+<!--
+This topic is part of the documentation for PhyloWidgetPlugin and is
+automatically generated from Subversion. You can edit it, but if you do,
+please make sure the maintainer of the extension knows about your changes,
+otherwise your edits might be lost the next time the topic is uploaded.
+
+If you want to report an error in the topic, please raise a report at
+http://foswiki.org/Tasks/PhyloWidgetPlugin
+-->
+%META:TOPICINFO{author="ProjectContributor" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="PhyloWidgetPlugin"}%
+#VarNEXUSTREES
+---+++ NEXUSTREES{"Topic"} -- display phylogeny
+ and more
+HERE
+
+    my $ti = $meta->get('TOPICINFO');
+    $this->assert_equals('TemiVarghese', $ti->{author});
+    $this->assert_equals(10, $ti->{version});
+    $this->assert_equals(1306913758, $ti->{date});
+}
+
+sub test_setEmbededStoreForm_NotFirstLine {
+    my $this = shift;
+
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'TestTopic' );
+    $meta->setEmbeddedStoreForm(<<'HERE');
+SOMETHING ELSE
+%META:TOPICINFO{author="TemiVarghese" comment="reprev" date="1306913758" format="1.1" reprev="10" version="10"}%
+%META:TOPICPARENT{name="PhyloWidgetPlugin"}%
+<!--
+This topic is part of the documentation for PhyloWidgetPlugin and is
+automatically generated from Subversion. You can edit it, but if you do,
+please make sure the maintainer of the extension knows about your changes,
+otherwise your edits might be lost the next time the topic is uploaded.
+
+If you want to report an error in the topic, please raise a report at
+http://foswiki.org/Tasks/PhyloWidgetPlugin
+-->
+%META:TOPICINFO{author="ProjectContributor" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="PhyloWidgetPlugin"}%
+#VarNEXUSTREES
+---+++ NEXUSTREES{"Topic"} -- display phylogeny
+ and more
+HERE
+
+#you're not supposed to access TOPICINFO like this :(
+    my $ti = $meta->get('TOPICINFO');
+    $this->assert_equals(undef, $ti->{author});
+    $this->assert_equals(undef, $ti->{version});
+    $this->assert_equals(undef, $ti->{date});
+    
+    $ti = $meta->getRevisionInfo();
+    $this->assert_equals('BaseUserMapping_666', $ti->{author});
+    $this->assert_equals(0, $ti->{version});
+    $this->assert_equals(0, $ti->{date});
+}
+
+
 # Disabled as XML functionnality has been removed from the core, see Foswikitask:Item1917
 # sub testXML_topic {
 #     my $this = shift;
