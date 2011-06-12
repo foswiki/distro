@@ -28,7 +28,12 @@ sub initPlugin {
     $commentIndex = 0;
 
     Foswiki::Func::registerTagHandler( 'COMMENT', \&_COMMENT );
-    Foswiki::Func::registerRESTHandler( 'comment', \&_restSave );
+    Foswiki::Func::registerRESTHandler(
+        'comment', \&_restSave,
+
+        # validate   => 1, # TODO: needs javascript work
+        http_allow => 'POST'
+    );
 
     if (   (DEBUG)
         && $web   eq $Foswiki::cfg{SystemWebName}
