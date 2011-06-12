@@ -112,7 +112,7 @@ sub test_validate {
         $this->capture( $UI_FN, $this->{session} );
     } catch Foswiki::EngineException with {
         my $e = shift;
-        $this->assert_equals(401, $e->{status}, $e);
+        $this->assert_equals(403, $e->{status}, $e);
         $this->assert_matches(qr/\(403\)/, $e->{reason}, $e);
     } otherwise {
         $this->assert(0);
