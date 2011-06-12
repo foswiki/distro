@@ -27,11 +27,14 @@ sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
     $commentIndex = 0;
 
-    Foswiki::Func::registerTagHandler('COMMENT', \&_COMMENT);
-    Foswiki::Func::registerRESTHandler('comment', \&_restSave);
+    Foswiki::Func::registerTagHandler( 'COMMENT', \&_COMMENT );
+    Foswiki::Func::registerRESTHandler( 'comment', \&_restSave );
 
-    if ((DEBUG) && $web eq $Foswiki::cfg{SystemWebName}
-          && $topic eq 'InstalledPlugins') {
+    if (   (DEBUG)
+        && $web   eq $Foswiki::cfg{SystemWebName}
+        && $topic eq 'InstalledPlugins' )
+    {
+
         # Compilation check
         require Foswiki::Plugins::CommentPlugin::Comment;
     }
@@ -40,29 +43,37 @@ sub initPlugin {
 
 sub _COMMENT {
     my ( $session, $params, $topic, $web ) = @_;
-    
+
     # Indexing each macro instance
     $params->{comment_index} = $commentIndex++;
-    
+
     # Check the context has 'view' script
-    my $context = Foswiki::Func::getContext();
+    my $context  = Foswiki::Func::getContext();
     my $disabled = '';
-    if ($context->{command_line}) {
+    if ( $context->{command_line} ) {
         $disabled = Foswiki::Func::expandCommonVariables(
-            '%MAKETEXT{"Commenting is disabled while running from the command line"}%');
-    } elsif (!$context->{view}) {
-        $disabled =  Foswiki::Func::expandCommonVariables(
+'%MAKETEXT{"Commenting is disabled while running from the command line"}%'
+        );
+    }
+    elsif ( !$context->{view} ) {
+        $disabled = Foswiki::Func::expandCommonVariables(
             '%MAKETEXT{"Commenting is disabled when not in view context"}%');
-    } elsif (!($Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment}
-                 || $context->{authenticated})) {
-        $disabled =  Foswiki::Func::expandCommonVariables(
+    }
+    elsif (
+        !(
+               $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment}
+            || $context->{authenticated}
+        )
+      )
+    {
+        $disabled = Foswiki::Func::expandCommonVariables(
             '%MAKETEXT{"Commenting is disabled while not logged in"}%');
     }
-    
+
     require Foswiki::Plugins::CommentPlugin::Comment;
-    
-    Foswiki::Plugins::CommentPlugin::Comment::prompt(
-        $params, $web, $topic, $disabled );
+
+    Foswiki::Plugins::CommentPlugin::Comment::prompt( $params, $web, $topic,
+        $disabled );
 }
 
 # REST handler for save operator. We use a REST handler because we need
@@ -74,38 +85,42 @@ sub _COMMENT {
 # parameter is not set, we pass the exception on to the UI package.
 
 sub _restSave {
-    my $session = shift;
+    my $session  = shift;
     my $response = $session->{response};
-    my $query = Foswiki::Func::getCgiQuery();
-    my ($web, $topic) = Foswiki::Func::normalizeWebTopicName(
-        undef, $query->param('topic'));
-    
+    my $query    = Foswiki::Func::getCgiQuery();
+    my ( $web, $topic ) =
+      Foswiki::Func::normalizeWebTopicName( undef, $query->param('topic') );
+
     try {
         require Foswiki::Plugins::CommentPlugin::Comment;
 
-        my ($meta, $text) = Foswiki::Func::readTopic($web, $topic);
+        my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
 
         # The save function does access control checking
-        $text = Foswiki::Plugins::CommentPlugin::Comment::save(
-            $text, $web, $topic);
-        
-        Foswiki::Func::saveTopic($web, $topic, $meta, $text,
-                                 { ignorepermissions => 1 });
-        
-        $response->header(-status => 200);
+        $text =
+          Foswiki::Plugins::CommentPlugin::Comment::save( $text, $web, $topic );
+
+        Foswiki::Func::saveTopic( $web, $topic, $meta, $text,
+            { ignorepermissions => 1 } );
+
+        $response->header( -status => 200 );
         $response->body("$web.$topic");
-    } catch Foswiki::AccessControlException with {
-        if ($query->param('comment_ajax')) {
-            $response->header(-status => 404);
+    }
+    catch Foswiki::AccessControlException with {
+        if ( $query->param('comment_ajax') ) {
+            $response->header( -status => 404 );
             $response->body(shift);
-        } else {
+        }
+        else {
             shift->throw;
         }
-    } otherwise {
-        if ($query->param('comment_ajax')) {
-            $response->header(-status => 500);
+    }
+    otherwise {
+        if ( $query->param('comment_ajax') ) {
+            $response->header( -status => 500 );
             $response->body(shift);
-        } else {
+        }
+        else {
             shift->throw;
         }
     };

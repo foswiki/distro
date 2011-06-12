@@ -19,25 +19,26 @@ package Foswiki::Plugins::CommentPlugin::Comment;
 sub prompt {
     my ( $attrs, $web, $topic, $disabled ) = @_;
 
-    my $type = $attrs->{type} || $attrs->{mode}
+    my $type =
+         $attrs->{type}
+      || $attrs->{mode}
       || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_DEFAULT_TYPE')
-        || 'above';
+      || 'above';
 
     my $templatetopic;
-    if ($attrs->{templatetopic}) {
+    if ( $attrs->{templatetopic} ) {
         my ( $templocweb, $temploctopic ) =
-          Foswiki::Func::normalizeWebTopicName(
-              $web, $attrs->{templatetopic} );
+          Foswiki::Func::normalizeWebTopicName( $web, $attrs->{templatetopic} );
         $templatetopic = "$templocweb.$temploctopic";
     }
 
     # Get the templates.
     my $templateFile =
-      $templatetopic
-        || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_TEMPLATES')
-          || 'comments';
-    
-    unless( Foswiki::Func::loadTemplate($templateFile) ) {
+         $templatetopic
+      || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_TEMPLATES')
+      || 'comments';
+
+    unless ( Foswiki::Func::loadTemplate($templateFile) ) {
         Foswiki::Func::writeWarning(
             "Could not read template file '$templateFile'");
         return _alert("Could not read templates from '$templateFile'");
@@ -83,23 +84,23 @@ sub prompt {
     my $url = Foswiki::Func::expandTemplate('save_url');
 
     # Default it to a rest url if not
-    $url ||= Foswiki::Func::getScriptUrl('CommentPlugin', 'comment', 'rest' );
+    $url ||= Foswiki::Func::getScriptUrl( 'CommentPlugin', 'comment', 'rest' );
 
     $url = '' if $disabled;
 
     my $noform = $attrs->{noform} || '';
 
     # Note: Item10050: If CommentPlugin prompt adds newlines then it prevents
-    # COMMENT inside TML tables so avoid cosmetic \n 
+    # COMMENT inside TML tables so avoid cosmetic \n
     if ( $input !~ m/^%RED%/ ) {
         $input =~ s/%DISABLED%/$disabled ? 'disabled' : '' /ge;
         $input =~ s/%MESSAGE%/$message/g;
         my $idx = $attrs->{comment_index};
 
-        unless( $disabled ) {
+        unless ($disabled) {
             my $hiddenFields = "";
             $hiddenFields .=
-              CGI::hidden( -name => 'topic', -value => "$web.$topic");
+              CGI::hidden( -name => 'topic', -value => "$web.$topic" );
 
             $hiddenFields .=
               CGI::hidden( -name => 'comment_action', -value => 'save' );
@@ -110,23 +111,21 @@ sub prompt {
             $hiddenFields .=
               CGI::hidden( -name => 'comment_type', -value => $type );
 
-            if ( defined($attrs->{nonotify}) ) {
+            if ( defined( $attrs->{nonotify} ) ) {
                 $hiddenFields .=
                   CGI::hidden( -name => 'comment_nonotify', value => 1 );
             }
             if ($templatetopic) {
-                $hiddenFields .= 
-                  CGI::hidden(
-                      -name  => 'comment_templatetopic',
-                      -value => $templatetopic
-                     );
+                $hiddenFields .= CGI::hidden(
+                    -name  => 'comment_templatetopic',
+                    -value => $templatetopic
+                );
             }
-            if ($attrs->{location}) {
-                $hiddenFields .=
-                  CGI::hidden(
-                      -name  => 'comment_location',
-                      -value => $attrs->{location}
-                     );
+            if ( $attrs->{location} ) {
+                $hiddenFields .= CGI::hidden(
+                    -name  => 'comment_location',
+                    -value => $attrs->{location}
+                );
             }
             elsif ($anchor) {
                 $hiddenFields .=
@@ -136,12 +135,13 @@ sub prompt {
                 $hiddenFields .=
                   CGI::hidden( -name => 'comment_index', -value => $idx );
             }
-            if ($attrs->{nopost}) {
-                $hiddenFields .=
-                  CGI::hidden( -name => 'comment_nopost',
-                               -value => $attrs->{nopost} );
+            if ( $attrs->{nopost} ) {
+                $hiddenFields .= CGI::hidden(
+                    -name  => 'comment_nopost',
+                    -value => $attrs->{nopost}
+                );
             }
-            if ($attrs->{remove}) {
+            if ( $attrs->{remove} ) {
                 $hiddenFields .=
                   CGI::hidden( -name => 'comment_remove', -value => $idx );
             }
@@ -152,26 +152,28 @@ sub prompt {
         # FORM:head:type and FORM:tail:type. Too late now :-(
         my $form = Foswiki::Func::expandTemplate("FORM:$type");
 
-        if ( $noform || $form) {
+        if ( $noform || $form ) {
             if ($form) {
                 $form =~ s/%COMMENTPROMPT%/$input/;
                 $input = $form;
-            } else {
+            }
+            else {
                 $input = "NOFORM $form $input";
             }
-        } else {
-        	my $startform = CGI::start_form(
+        }
+        else {
+            my $startform = CGI::start_form(
                 -name   => $type . $idx,
                 -id     => $type . $idx,
                 -action => $url,
                 -method => 'post'
-               );
-            
+            );
+
             # Item10050: CGI may add a trailing new line.
-            # This prevents using COMMENT inside TML tables   
+            # This prevents using COMMENT inside TML tables
             $startform =~ s/\n$//;
-            
-            $input = $startform . $input . CGI::end_form(); 
+
+            $input = $startform . $input . CGI::end_form();
         }
     }
     return $input;
@@ -197,18 +199,21 @@ sub save {
     my ( $text, $web, $topic ) = @_;
 
     my $wikiName = Foswiki::Func::getWikiName();
-    my $mode = $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave}
+    my $mode     = $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave}
       || 'change';
-    my $access = Foswiki::Func::checkAccessPermission(
-        $mode, $wikiName, $text, $topic, $web);
+    my $access =
+      Foswiki::Func::checkAccessPermission( $mode, $wikiName, $text, $topic,
+        $web );
     unless ($access) {
+
         # user has no permission to change the topic
         throw Foswiki::AccessControlException(
             $mode,
             $wikiName,
             web   => $web,
             topic => $topic,
-            '' );
+            ''
+        );
     }
 
     my $query = Foswiki::Func::getCgiQuery();
@@ -217,15 +222,15 @@ sub save {
     # The type of the comment dictates where in the target topic it
     # will be saved.
     my $type =
-      $query->param('comment_type')
-        || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_DEFAULT_TYPE')
-          || 'above';
+         $query->param('comment_type')
+      || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_DEFAULT_TYPE')
+      || 'above';
 
-    # Indexing comment instances depends on macro expansion 
+    # Indexing comment instances depends on macro expansion
     # inside-out-left-right order and INCLUDE and SECTION expansion
     # being correctly handled. Only relevant if the comment is being
     # inserted relative to the instance, of course.
-    my $index         = $query->param('comment_index') || 0;
+    my $index = $query->param('comment_index') || 0;
 
     my $anchor        = $query->param('comment_anchor');
     my $location      = $query->param('comment_location');
@@ -235,16 +240,15 @@ sub save {
 
     if ($templatetopic) {
         my ( $templocweb, $temploctopic ) =
-          Foswiki::Func::normalizeWebTopicName(
-              $web, $templatetopic );
+          Foswiki::Func::normalizeWebTopicName( $web, $templatetopic );
         $templatetopic = "$templocweb.$temploctopic";
     }
 
     # Get the templates.
     my $templateFile =
-      $templatetopic
-        || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_TEMPLATES')
-          || 'comments';
+         $templatetopic
+      || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_TEMPLATES')
+      || 'comments';
 
     Foswiki::Func::loadTemplate($templateFile);
 
@@ -267,10 +271,10 @@ sub save {
     # by the Foswiki core, but this time without the support of the
     # methods in the core. Fortunately this will work even if there is
     # no embedded meta-data.
-    my $premeta  = '';
-    my $postmeta = '';
-    my $inpost   = 0;
-    my $innerText     = '';
+    my $premeta   = '';
+    my $postmeta  = '';
+    my $inpost    = 0;
+    my $innerText = '';
     foreach my $line ( split( /\r?\n/, $text ) ) {
         if ( $line =~ /^%META:[A-Z]+{[^}]*}%$/ ) {
             if ($inpost) {
