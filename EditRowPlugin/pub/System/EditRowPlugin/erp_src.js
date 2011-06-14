@@ -199,10 +199,8 @@
 	    p.erp_data.erp_action = 'moveRow';
 	    p.erp_data.old_pos = old_pos;
 	    p.erp_data.new_pos = new_pos;
-	    if (edge == 'top')
-		dragee.insertBefore(target);
-	    else
-		dragee.insertAfter(target);
+	    // Tell the server *not* to return us to edit mode
+	    p.erp_data.erp_stop_edit = 1;
 	    // The request will update the entire container. Make sure
 	    // it has the right id.
 	    $.ajax({
@@ -225,46 +223,55 @@
 			response = response.replace(/^RESPONSE/, '');
 			container.replaceWith(response);
 		    }
+		    if (edge == 'top')
+			dragee.insertBefore(target);
+		    else
+			dragee.insertAfter(target);
 		},
-		error: function() {
+		error: function(jqXHR, textStatus, errorThrown) {
+		    // Cancel the drag
 		    dragee.fadeTo("fast", 1.0);
 		    container.css("cursor", "auto");
+		    alert("Error " + jqXHR.status + " - Failed to move row");
 		}
 	    });
 	};
 
-	// Add a "drag handle" element to the first cell
-	var handle = $("<a href='#' class='erp_drag_button ui-icon ui-icon-arrow-2-n-s' title='Click and drag to move row'>move</a>");
-	tr.find("td").first().find("div.erpJS_container").append(handle);
-	tr.addClass("ui-draggable");
-	handle.draggable({
-	    // constrain to the container
-	    containment: tr.closest("tbody,thead,table"),
-	    axis: 'y',
-	    appendTo: 'body',
-	    helper: function(event) {
-		var tr = $(event.target).closest('tr');
-		var helper = tr.clone();
-		var dv = $('<div><table></table></div>')
-		    .find('table')
-		    .append(helper.addClass("drag-helper"))
-		    .end();
-		dv.css("margin-left", tr.offset().left + "px");
-		return dv;
-	    },
-	    start: function(event, ui) {
-		dragee = tr;
-		dragee.fadeTo("fast", 0.3); // to show it's moving
-		container = dragee.closest("table");
-		rows = container.find(".editRowPluginRow");
-		rows.not(dragee).not('.drag-helper').droppable({
-		    drop: onDrop
+	// Add a "drag handle" element to the first cell of the row
+	tr.find("td,th").first().find("div.erpJS_container").each(
+	    function () {
+		var handle = $("<a href='#' class='erp_drag_button ui-icon ui-icon-arrow-2-n-s' title='Click and drag to move row'>move</a>");
+		$(this).append(handle);
+		tr.addClass("ui-draggable");
+		handle.draggable({
+		    // constrain to the container
+		    containment: tr.closest("tbody,thead,table"),
+		    axis: 'y',
+		    appendTo: 'body',
+		    helper: function(event) {
+			var tr = $(event.target).closest('tr');
+			var helper = tr.clone();
+			var dv = $('<div><table></table></div>')
+			    .find('table')
+			    .append(helper.addClass("drag-helper"))
+			    .end();
+			dv.css("margin-left", tr.offset().left + "px");
+			return dv;
+		    },
+		    start: function(event, ui) {
+			dragee = tr;
+			dragee.fadeTo("fast", 0.3); // to show it's moving
+			container = dragee.closest("table");
+			rows = container.find(".editRowPluginRow");
+			rows.not(dragee).not('.drag-helper').droppable({
+			    drop: onDrop
+			});
+		    },
+		    stop: function() {
+			dragee.fadeTo("fast", 1.0);
+		    }
 		});
-	    },
-	    stop: function() {
-		dragee.fadeTo("fast", 1.0);
-	    }
-	});
+	    });
     };
 
     $(document).ready(function() {

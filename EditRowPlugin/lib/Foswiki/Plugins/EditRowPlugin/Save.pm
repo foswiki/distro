@@ -90,6 +90,8 @@ sub process {
             $no_save   = 1;
             $no_return = 1;
         }
+	# Turn off editing if the erp_stop_edit flag is set in the request
+	$no_return = 1 if $query->param('erp_stop_edit');
 
       LINE:
 	foreach my $line (@$content) {

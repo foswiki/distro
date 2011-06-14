@@ -238,7 +238,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2011 Wind<nop>River Inc. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  2.2.3 (9 Jun 2011) | Foswiki:Tasks/Item10864: protect full-table edits when adding and removing rows. Foswiki:Tasks/Item10865: remove edit stain from label cells. |
+|  2.2.4 (14 Jun 2011) | Foswiki:Tasks/Item10876: return to non-edit mode after row move invokes authentication. Foswiki:Tasks/Item10876: fix textarea. |
+|  2.2.3 (10 Jun 2011) | Foswiki:Tasks/Item10862: pick up initial values for all field types. Foswiki:Tasks/Item10864: protect full-table edits when adding and removing rows. Foswiki:Tasks/Item10865: remove edit stain from label cells. |
 |  2.2.2 (7 Jun 2011) | Foswiki:Tasks/Item10853: Remove =REQUIRE_JS and =require_js=, add =js= and =EDITROWPLUGIN_JS= to improve support of non-JS environments |
 |  2.2.1 (3 Jun 2011) | Foswiki:Tasks/Item10821: stop yellow stain from overlaying pop-up calendar. Foswiki:Tasks/Item10822: fix auth of single-cell edit |
 |  2.2.0 (25 May 2011) | Foswiki:Tasks/Item2016: work around core code limitations when cell content is 0; Foswiki:Tasks/Item10591: silence noisy "Click to edit" statements; change to a control for editing cells, due to the "wikiword selection" problem Foswiki:Tasks/Item10592: row move now uses an external handle, to allow for cursor select of table contents. Add feedback for saves. Foswiki:Tasks/Item10768: fix edit/save buttons in IE 7; Foswiki:Tasks/Item10777: make sure full table edit is working, and there is no risk of data loss when adding/removing rows |
