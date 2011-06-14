@@ -35,6 +35,7 @@ sub generate {
     my $q    = $session->{request};
 
     my $formName = $q->param('formtemplate') || '';
+    my $fqFormName;
     unless ($formName) {
         if ( not defined $topicObject->getLoadedRev() ) {
             $topicObject->load();
@@ -42,40 +43,42 @@ sub generate {
         my $form = $topicObject->get('FORM');
         $formName = $form->{name} if $form;
     }
-    $formName = 'none' if ( !$formName );
+    if ( not $formName ) {
+        $formName   = 'none';
+        $fqFormName = $formName;
+    }
+    else {
+        $fqFormName = _normalizeName( $topicObject, $formName );
+    }
 
-    my @forms = Foswiki::Form::getAvailableForms($topicObject);
-    unshift( @forms, 'none' );
+    my @webforms = Foswiki::Form::getAvailableForms($topicObject);
+    unshift( @webforms, 'none' );
 
     my $formList      = '';
     my $formElemCount = 0;
-    foreach my $form (@forms) {
+    foreach my $webform (@webforms) {
+        my $fqwebform = _normalizeName( $topicObject, $webform );
+
         $formElemCount++;
         $formList .= CGI::br() if ($formList);
-        if ( $form ne 'none' ) {
-            $form = join(
-                '.',
-                Foswiki::Func::normalizeWebTopicName(
-                    $topicObject->web(), $form
-                )
-            );
-        }
         my $formElemId = 'formtemplateelem' . $formElemCount;
         my $props      = {
             type  => 'radio',
             name  => 'formtemplate',
             id    => $formElemId,
-            value => $form
+            value => $webform
         };
-        $props->{checked} = 'checked' if $form eq $formName;
+        $props->{checked} = 'checked' if $fqwebform eq $fqFormName;
         $formList .= CGI::input($props);
-        my ( $formWeb, $formTopic ) =
-          $session->normalizeWebTopicName( $topicObject->web, $form );
         my $formLabelContent = '&nbsp;'
           . (
-            $session->topicExists( $formWeb, $formTopic )
-            ? '[[' . $formWeb . '.' . $formTopic . '][' . $form . ']]'
-            : $form
+            Foswiki::Func::topicExists(
+                Foswiki::Func::normalizeWebTopicName(
+                    $topicObject->web(), $fqwebform
+                )
+              )
+            ? "[[$fqwebform][$webform]]"
+            : $webform
           );
         $formList .= CGI::label( { for => $formElemId }, $formLabelContent );
     }
@@ -100,11 +103,32 @@ sub generate {
 
     return $page;
 }
+
+sub _normalizeName {
+    my ( $topicObject, $name ) = @_;
+
+    if ($name) {
+        if ( $name ne 'none' ) {
+            $name = join(
+                '.',
+                Foswiki::Func::normalizeWebTopicName(
+                    $topicObject->web(), $name
+                )
+            );
+        }
+    }
+    else {
+        $name = 'none';
+    }
+
+    return $name;
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
