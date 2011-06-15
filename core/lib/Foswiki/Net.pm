@@ -256,7 +256,7 @@ sub _GETUsingLWP {
     $request = HTTP::Request->new( GET => $url );
     '$Rev$' =~ /([0-9]+)/;
     my $revstr = $1;
-    $request->header( 'User-Agent' => 'Foswiki::Net/'
+    $request->header( 'User-Agent' => 'Foswiki::Net/' 
           . $revstr
           . " libwww-perl/$LWP::VERSION" );
     require Foswiki::Net::UserCredAgent;
@@ -278,9 +278,12 @@ sub _installMailHandler {
     $this->{MAIL_HOST}  ||= $Foswiki::cfg{SMTP}{MAILHOST};
     $this->{HELLO_HOST} ||= $Foswiki::cfg{SMTP}{SENDERHOST};
 
-    if ( $this->{MAIL_HOST} && $Foswiki::cfg{Email}{MailMethod} && $Foswiki::cfg{Email}{MailMethod} ne 'MailProgram' ) {
+    if (   $this->{MAIL_HOST}
+        && $Foswiki::cfg{Email}{MailMethod}
+        && $Foswiki::cfg{Email}{MailMethod} ne 'MailProgram' )
+    {
 
-        #print STDERR "Testing $this->{MAIL_HOST} with $Foswiki::cfg{Email}{MailMethod} \n";
+#print STDERR "Testing $this->{MAIL_HOST} with $Foswiki::cfg{Email}{MailMethod} \n";
 
         # See Codev.RegisterFailureInsecureDependencyCygwin for why
         # this must be untainted
@@ -291,11 +294,13 @@ sub _installMailHandler {
           Foswiki::Sandbox::untaintUnchecked( $this->{MAIL_HOST} );
         eval {    # May fail if Net::SMTP not installed
             require Net::SMTP::SSL;
+
             #require $Foswiki::cfg{Email}{MailMethod};
         };
         if ($@) {
             print STDERR "FAILED $@ \n";
-            $this->{session}->logger->log( 'warning', "$Foswiki::cfg{Email}{MailMethod} not available: $@" )
+            $this->{session}->logger->log( 'warning',
+                "$Foswiki::cfg{Email}{MailMethod} not available: $@" )
               if ( $this->{session} );
         }
         else {
@@ -358,7 +363,7 @@ sub sendEmail {
 
     # Put in a Date header, mainly for Qmail
     require Foswiki::Time;
-    my $tzone = ( $Foswiki::cfg{Email}{Servertime} ) ?  'servertime' : 'gmtime';
+    my $tzone = ( $Foswiki::cfg{Email}{Servertime} ) ? 'servertime' : 'gmtime';
     my $dateStr = Foswiki::Time::formatTime( time, '$email', $tzone );
     $text = "Date: " . $dateStr . "\n" . $text;
     my $errors   = '';
@@ -370,7 +375,7 @@ sub sendEmail {
         }
         catch Error::Simple with {
             my $e = shift->stringify();
-            (my $to) = $text =~ /^To:\s*(.*?)$/im;
+            ( my $to ) = $text =~ /^To:\s*(.*?)$/im;
             $this->{session}->logger->log( 'warning', "Emailing $to - $e" );
 
             # be nasty to errors that we didn't throw. They may be
@@ -499,20 +504,18 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
 
     my $smtp = 0;
 
-    my ($host, $port) = $this->{MAIL_HOST} =~ m/(.*):([0-9]{2-5})$/;
-    my @options = (
-        Host => $host,
-        );
+    my ( $host, $port ) = $this->{MAIL_HOST} =~ m/(.*):([0-9]{2-5})$/;
+    my @options = ( Host => $host, );
 
-    push @options, Port => $port if ( $port );
+    push @options, Port => $port if ($port);
 
-    push @options, Hello => $this->{HELLO_HOST} if ($this->{HELLO_HOST});
+    push @options, Hello => $this->{HELLO_HOST} if ( $this->{HELLO_HOST} );
 
-    #if ( $Foswiki::cfg{Email}{MailMethod} eq 'Net::SMTP::TLS' && $Foswiki::cfg{SMTP}{Username}) {
-    #    push @options,
-    #      User => $Foswiki::cfg{SMTP}{Username},
-    #      Password => $Foswiki::cfg{SMTP}{Password};
-    #}
+#if ( $Foswiki::cfg{Email}{MailMethod} eq 'Net::SMTP::TLS' && $Foswiki::cfg{SMTP}{Username}) {
+#    push @options,
+#      User => $Foswiki::cfg{SMTP}{Username},
+#      Password => $Foswiki::cfg{SMTP}{Password};
+#}
 
     push @options, Debug => $Foswiki::cfg{SMTP}{Debug} || 0;
 
@@ -524,27 +527,24 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     #    );
     #}
 
-    if ($Foswiki::cfg{Email}{MailMethod} eq 'Net::SMTP::SSL') {
-    $smtp = Net::SMTP::SSL->new(
-            $this->{MAIL_HOST},
-            @options
-        );
+    if ( $Foswiki::cfg{Email}{MailMethod} eq 'Net::SMTP::SSL' ) {
+        $smtp = Net::SMTP::SSL->new( $this->{MAIL_HOST}, @options );
     }
     else {
-    $smtp = Net::SMTP->new(
-            $this->{MAIL_HOST},
-            @options
-        );
+        $smtp = Net::SMTP->new( $this->{MAIL_HOST}, @options );
     }
 
     my $status = '';
-    my $mess   = "ERROR: Can't send mail using $Foswiki::cfg{SMTP}{MailMethod}. ";
+    my $mess =
+      "ERROR: Can't send mail using $Foswiki::cfg{Email}{MailMethod}. ";
     die $mess . "Can't connect to '$this->{MAIL_HOST}'" unless $smtp;
 
-    #print STDERR ">>>>>>>>>>>>> ABOUT TO AUTH with $Foswiki::cfg{SMTP}{Username} \n";
+#print STDERR ">>>>>>>>>>>>> ABOUT TO AUTH with $Foswiki::cfg{SMTP}{Username} \n";
 
-    if ( $Foswiki::cfg{SMTP}{Username} && ! ($Foswiki::cfg{SMTP}{MailMethod} eq 'Net::SMTP::TLS')) {
-        #print STDERR "Performing auth for $Foswiki::cfg{SMTP}{Username}";
+    if ( $Foswiki::cfg{SMTP}{Username}
+        && !( $Foswiki::cfg{Email}{MailMethod} eq 'Net::SMTP::TLS' ) )
+    {
+
         unless (
             $smtp->auth(
                 $Foswiki::cfg{SMTP}{Username},
