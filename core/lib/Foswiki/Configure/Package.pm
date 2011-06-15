@@ -912,11 +912,13 @@ sub loadInstaller {
         if ( defined $this->{_repository} ) {
             $warn .= "fetching installer from $this->{_repository}->{pub} ...";
             ( $err, $file ) = $this->_fetchFile('_installer');
-            $warn .= " succeeded\n";
             if ($err) {
                 $warn .= " Download failed \n - $err \n";
                 $this->{_errors} .= "$err\n";
                 return ( '', $warn );
+            }
+            else {
+                $warn .= " succeeded\n";
             }
         }
         else {
