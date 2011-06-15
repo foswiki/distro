@@ -12,6 +12,8 @@ use vars qw( $foswikiLibPath $CPANBASE );
 #
 # REQUIRED
 # The absolute path to the 'lib' directory in your installation..
+# Windows users:  Use forward slash - C:/absolute/path/to/lib
+#                 backslash like C:\ will NOT work
 
 $foswikiLibPath = "/absolute/path/to/your/lib";
 

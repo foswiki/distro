@@ -544,6 +544,14 @@ sub test_Util_mapTarget {
     $results = Foswiki::Configure::Util::mapTarget( "C:/asdf/", "$file" );
     $this->assert_str_equals( "C:/asdf/cgi-bin/compare.pl", $results );
 
+# Remap bin directory and script suffix -  Include spaces in the path
+
+    $Foswiki::cfg{ScriptSuffix} = '.pl';
+    $Foswiki::cfg{ScriptDir}    = 'C:/Program Files (x86)/Apache Software Foundation/Apache2.2/cgi-bin/wiki/bin';
+    $file                       = 'bin/compare';
+    $results = Foswiki::Configure::Util::mapTarget( 'C:/Program Files (x86)/Apache Software Foundation/Apache2.2/cgi-bin/wiki/', "$file" );
+    $this->assert_str_equals( 'C:/Program Files (x86)/Apache Software Foundation/Apache2.2/cgi-bin/wiki/bin/compare.pl', $results );
+
     # Remap the data/mime.types file location
 
     $Foswiki::cfg{MimeTypesFileName} = "$Foswiki::cfg{DataDir}/mymime.types";
