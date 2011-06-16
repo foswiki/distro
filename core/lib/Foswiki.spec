@@ -1302,12 +1302,10 @@ $Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 $Foswiki::cfg{Email}{SmimeCertificateFile} = '$Foswiki::cfg{DataDir}/cert.pem';
 
 # **PATH**
-# Secure email certificate.  If you want e-mail sent by TWiki to be signed,
+# Secure email certificate.  If you want e-mail sent by Foswiki to be signed,
 # specify the filename of the administrator's X.509 private key here.  It
 # must be in PEM format.  <em>Be sure that this file is only readable by the
-# TWiki software; it must NOT be readable by users!</em>
-# You must also use a mail program (not Net::SMTP)
-# in the following settings.
+# Foswiki software; it must NOT be readable by users!</em>
 $Foswiki::cfg{Email}{SmimeKeyFile} = '$Foswiki::cfg{DataDir}/key.pem';
 
 #---++ Proxy
