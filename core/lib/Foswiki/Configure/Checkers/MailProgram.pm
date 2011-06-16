@@ -9,16 +9,36 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
-    my $n = '';
+    my $n    = '';
 
     return '' if ( !$Foswiki::cfg{EnableEmail} );
 
-    if ( $Foswiki::cfg{Email}{MailMethod} eq 'MailProgram') {
+    if ( $Foswiki::cfg{Email}{MailMethod} eq 'MailProgram' ) {
         my $val = $Foswiki::cfg{MailProgram} || '';
         $val =~ s/\s.*$//g;
         if ( !( -x $val ) ) {
-            $n .= $this->ERROR("<tt>$val</tt> was not found (but is required). Check the path, or configure one of the <code>Net::SMTP</code> methods..");
+            $n .= $this->ERROR(
+"<tt>$val</tt> was not found (but is required). Check the path, or configure one of the <code>Net::SMTP</code> methods.."
+            );
         }
+    }
+    else {
+        $n .= $this->NOTE(
+"MailProgram is not used for the configued Email method: <code>$Foswiki::cfg{Email}{MailMethod}</code>"
+        );
+    }
+
+    if (
+        ( $Foswiki::cfg{Email}{MailMethod} eq 'MailProgram' )
+        && (   $Foswiki::cfg{SMTP}{MAILHOST}
+            || $Foswiki::cfg{SMTP}{SENDERHOST}
+            || $Foswiki::cfg{SMTP}{Username}
+            || $Foswiki::cfg{SMTP}{Password} )
+      )
+    {
+        $n .= $this->NOTE(
+"<b>Note:</b> None of the below parameters are used by the configured Email method $Foswiki::cfg{Email}{MailMethod}"
+        );
     }
     return $n;
 }

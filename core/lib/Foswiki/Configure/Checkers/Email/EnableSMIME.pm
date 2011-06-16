@@ -1,43 +1,43 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::SMTP::MAILHOST;
+
+package Foswiki::Configure::Checkers::Email::EnableSMIME;
 
 use strict;
 use warnings;
 
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
+use Foswiki::Configure::Load;
 
 sub check {
     my $this = shift;
-    my $n    = '';
+    my $e    = '';
 
-    return '' if ( !$Foswiki::cfg{EnableEmail} );
+    my $n =
+      $this->checkPerlModule( 'Crypt::SMIME', 'Required for S/MIME', 0.09 );
 
-    if ( ( $Foswiki::cfg{Email}{MailMethod} eq "MailProgram" )
-        && $Foswiki::cfg{SMTP}{MAILHOST} )
-    {
-        $n = $this->NOTE(
-"MAILHOST is not used for configured MailMethod $Foswiki::cfg{Email}{MailMethod}"
-        );
+    if ( $n =~ m/Not installed/ && $Foswiki::cfg{Email}{EnableSMIME} ) {
+        $e = $this->ERROR($n);
+    }
+    else {
+        $e = $this->NOTE($n);
     }
 
-    return $n unless ( $Foswiki::cfg{Email}{MailMethod} ne "MailProgram" );
+    return $e unless $Foswiki::cfg{Email}{EnableSMIME};
 
-    if (   $Foswiki::cfg{Email}{MailMethod} eq 'Net::SMTP::SSL'
-        && $Foswiki::cfg{SMTP}{MAILHOST} !~ m/:[0-9]{2,5}/ )
-    {
-        $n = $this->WARN(
-"Selected MailMethod $Foswiki::cfg{Email}{MailMethod} might require a custom port number, <code>:465</code>"
+    unless ( $Foswiki::cfg{Email}{MailMethod} eq 'MailProgram' ) {
+        $e .= $this->ERROR(
+"S/MIME signing only supported with {Email}{MailMethod} of <code>MailProgram</code> - MailMethod is currenlty set to <code>$Foswiki::cfg{Email}{MailMethod}</code>"
         );
+        $e .= $this->NOTE("See the Email Server Configuration tab");
     }
 
-    return $n if ( $Foswiki::cfg{SMTP}{MAILHOST} );
+    $e .= $this->ERROR(
+        "Certificate and Key files must be provided for S/MIME email")
+      unless ( $Foswiki::cfg{Email}{SmimeCertificateFile}
+        && $Foswiki::cfg{Email}{SmimeKeyFile} );
 
-    return $n
-      . $this->ERROR(
-"Hostname or address required for chosen MailMethod $Foswiki::cfg{Email}{MailMethod}."
-      );
-
+    return $e;
 }
 
 1;
@@ -66,3 +66,4 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
+
