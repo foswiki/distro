@@ -317,7 +317,7 @@ sub _installMailHandler {
         $handler = \&_sendEmailBySendmail;
 
         #print STDERR
-        "Set EMAIL HANDLER to $this->{MAIL_METHOD} $Foswiki::cfg{MailProgram}";
+        #"Set EMAIL HANDLER to $this->{MAIL_METHOD} $Foswiki::cfg{MailProgram}";
     }
 
     $this->setMailHandler($handler) if $handler;
