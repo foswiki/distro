@@ -55,6 +55,7 @@ All meta-data in a topic is referenced according to a simple plan.
          * =title= - title of the field
          * =value= - what is stored in the field
          * =form= - name of the form the field is in (currently always equal to META:FORM.name)
+         * =attributes= - string stored in the attributes, like =H= for hidden
    * =META:PREFERENCE=
       * _for each preference in the topic_
          * =name=
@@ -219,6 +220,7 @@ will return an array of the values of the Published field in all versions author
    * =History<nop>Form.Age > 2= - shortcut for the previous query
    * =preferences[name='FaveColour' AND value='Tangerine']= - true if the topic has the given [[%SYSTEMWEB%.PreferenceSettings][preference settings]] and value
    * =Person/(<nop>ClothesForm[name='Headgear'].value ~ '*Bowler*' AND attachments[name~'*hat.gif' AND date < d2n('2007-01-01')])= - true if the form attached to the topic has a field called =Person= that has a value that is the name of a topic, and that topic contains the form =<nop>ClothesForm=, with a field called =Headgear=, and the value of that field contains the string ='Bowler'=, and the topic also has at least one attachment that has a name matching =*hat.gif= and a date before 1st Jan 2007. (Phew!)
+   * =length(fields[NOT lc(attributes)=~'h'])= - the number of fields that are not hidden
 
 ---+++ Search examples
 Find all topics that are children of this topic in the current web
