@@ -230,7 +230,7 @@ sub check {
     #use Data::Dumper;
     #print STDERR "query: $s\nresult: " . Data::Dumper::Dumper($query) . "\n";
     my $meta = $this->{meta};
-    
+
     my $val = $query->evaluate( tom => $meta, data => $meta );
     if ( ref( $opts{'eval'} ) ) {
         $this->assert_deep_equals( $opts{'eval'}, $val,
@@ -257,10 +257,14 @@ sub check {
     }
     unless ( $opts{syntaxOnly} ) {
         if ( defined $opts{simpler} ) {
-print STDERR "before simplification: ".$query->stringify()."\n" if MONITOR;
+            print STDERR "before simplification: " . $query->stringify() . "\n"
+              if MONITOR;
             $query->simplify( tom => $meta, data => $meta );
-print STDERR "after simplification: ".$query->stringify()."\n" if MONITOR;
-print STDERR "after simplification: \n".Data::Dumper::Dumper($query)."\n" if MONITOR;
+            print STDERR "after simplification: " . $query->stringify() . "\n"
+              if MONITOR;
+            print STDERR "after simplification: \n"
+              . Data::Dumper::Dumper($query) . "\n"
+              if MONITOR;
             $this->assert_str_equals( $opts{simpler}, $query->stringify(),
                 $query->stringify() . " is not $opts{simpler}" );
         }
@@ -305,58 +309,96 @@ sub verify_atoms {
 
 sub verify_meta_dot {
     my $this = shift;
-    #longhand to a topic that as more than one rev
+
+#longhand to a topic that as more than one rev
 #    my $anotherTopic = Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'AnotherTopic' );
 #    my $anotherTopicInfo = $anotherTopic->getRevisionInfo();
 #    $this->check( "'AnotherTopic'/META:CREATEINFO.date",        eval => $anotherTopicInfo->{date} );
 #return;
 
-
     $this->check( "META:FORM", eval => { name => 'TestForm' } );
-    $this->check( "form", eval => { name => 'TestForm' } );
-    $this->check( "form.name",      eval => 'TestForm' );
+    $this->check( "form",      eval => { name => 'TestForm' } );
+    $this->check( "form.name", eval => 'TestForm' );
     $this->check( "META:FORM.name", eval => 'TestForm' );
 
     my $info = $this->{meta}->getRevisionInfo();
-    $this->check( "info.date",        eval => $info->{date} );
-    $this->check( "info.format",      eval => 1.1 );
-    $this->check( "info.version",     eval => $info->{version} );
-    $this->check( "info.author",      eval => $info->{author} );
-    $this->check( "fields.number",    eval => 99 );
-    $this->check( "fields.string",    eval => 'String' );
-    #$this->check( "notafield.string", eval => undef );  #crap, this fails on mongoDB because it just drops notafield
-    
+    $this->check( "info.date",     eval => $info->{date} );
+    $this->check( "info.format",   eval => 1.1 );
+    $this->check( "info.version",  eval => $info->{version} );
+    $this->check( "info.author",   eval => $info->{author} );
+    $this->check( "fields.number", eval => 99 );
+    $this->check( "fields.string", eval => 'String' );
+
+#$this->check( "notafield.string", eval => undef );  #crap, this fails on mongoDB because it just drops notafield
+
     #longhand
-    $this->check( "META:TOPICINFO.date",        eval => $info->{date} );
-    $this->check( "META:TOPICINFO.format",      eval => 1.1 );
-    $this->check( "META:TOPICINFO.version",     eval => $info->{version} );
-    $this->check( "META:TOPICINFO.author",      eval => $info->{author} );
-    
+    $this->check( "META:TOPICINFO.date",    eval => $info->{date} );
+    $this->check( "META:TOPICINFO.format",  eval => 1.1 );
+    $this->check( "META:TOPICINFO.version", eval => $info->{version} );
+    $this->check( "META:TOPICINFO.author",  eval => $info->{author} );
+
     #longhand to a topic that as more than one rev
-    my $anotherTopic = Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'AnotherTopic' );
+    my $anotherTopic =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'AnotherTopic' );
     my $anotherTopicInfo = $anotherTopic->getRevisionInfo();
-    $this->check( "'AnotherTopic'/META:TOPICINFO.date",        eval => $anotherTopicInfo->{date} );
-    $this->check( "'AnotherTopic'/META:TOPICINFO.format",      eval => 1.1 );
-    $this->check( "'AnotherTopic'/META:TOPICINFO.version",     eval => $anotherTopicInfo->{version} );
-    $this->check( "'AnotherTopic'/META:TOPICINFO.author",      eval => $anotherTopicInfo->{author} );
+    $this->check(
+        "'AnotherTopic'/META:TOPICINFO.date",
+        eval => $anotherTopicInfo->{date}
+    );
+    $this->check( "'AnotherTopic'/META:TOPICINFO.format", eval => 1.1 );
+    $this->check(
+        "'AnotherTopic'/META:TOPICINFO.version",
+        eval => $anotherTopicInfo->{version}
+    );
+    $this->check(
+        "'AnotherTopic'/META:TOPICINFO.author",
+        eval => $anotherTopicInfo->{author}
+    );
 
     $anotherTopic->getRev1Info('createdate');
     my $anotherTopicInfoRev1 = $anotherTopic->{_getRev1Info}->{rev1info};
-    $this->check( "'AnotherTopic'/META:CREATEINFO.date",        eval => $anotherTopicInfoRev1->{date} );
-#interestingly, format is not compulsory
-#    $this->check( "'AnotherTopic'/META:CREATEINFO.format",      eval => 1.1 );
-    $this->check( "'AnotherTopic'/META:CREATEINFO.version",     eval => $anotherTopicInfoRev1->{version} );
-    $this->check( "'AnotherTopic'/META:CREATEINFO.author",      eval => $anotherTopicInfoRev1->{author} );
-    
-    $this->assert($anotherTopicInfoRev1->{version} < $anotherTopicInfo->{version}, $anotherTopicInfoRev1->{version}.' < '.$anotherTopicInfo->{version});
+    $this->check(
+        "'AnotherTopic'/META:CREATEINFO.date",
+        eval => $anotherTopicInfoRev1->{date}
+    );
 
+ #interestingly, format is not compulsory
+ #    $this->check( "'AnotherTopic'/META:CREATEINFO.format",      eval => 1.1 );
+    $this->check(
+        "'AnotherTopic'/META:CREATEINFO.version",
+        eval => $anotherTopicInfoRev1->{version}
+    );
+    $this->check(
+        "'AnotherTopic'/META:CREATEINFO.author",
+        eval => $anotherTopicInfoRev1->{author}
+    );
+
+    $this->assert(
+        $anotherTopicInfoRev1->{version} < $anotherTopicInfo->{version},
+        $anotherTopicInfoRev1->{version} . ' < ' . $anotherTopicInfo->{version}
+    );
 
     #longhand to a topic that doesn't exist
-    $this->check( "'DoesNotExist'/META:TOPICINFO.date",        syntaxOnly=>1, eval => undef );
-    $this->check( "'DoesNotExist'/META:TOPICINFO.format",      syntaxOnly=>1, eval => undef );
-    $this->check( "'DoesNotExist'/META:TOPICINFO.version",     syntaxOnly=>1, eval => undef );
-    $this->check( "'DoesNotExist'/META:TOPICINFO.author",      syntaxOnly=>1, eval => undef );
-
+    $this->check(
+        "'DoesNotExist'/META:TOPICINFO.date",
+        syntaxOnly => 1,
+        eval       => undef
+    );
+    $this->check(
+        "'DoesNotExist'/META:TOPICINFO.format",
+        syntaxOnly => 1,
+        eval       => undef
+    );
+    $this->check(
+        "'DoesNotExist'/META:TOPICINFO.version",
+        syntaxOnly => 1,
+        eval       => undef
+    );
+    $this->check(
+        "'DoesNotExist'/META:TOPICINFO.author",
+        syntaxOnly => 1,
+        eval       => undef
+    );
 
 }
 
@@ -534,6 +576,14 @@ sub verify_numeric_bops {
     $this->check( "2-1",     eval => 1, simpler => 1 );
     $this->check( "2*2",     eval => 4, simpler => 4 );
     $this->check( "4 div 2", eval => 2, simpler => 2 );
+    $this->check( "4 div 0", fail => 1 );
+    $this->check( "4 div notafield",             fail => 1 );
+    $this->check( "notafield div 2",             eval => 0 );
+    $this->check( "notafield div 0",             fail => 1 );
+    $this->check( "notafield div alsonotafield", fail => 1 );
+    $this->check( "'foo' div 2",                 eval => 0, simpler => 0 );
+    $this->check( "2 div 'bar'",                 fail => 1 );
+    $this->check( "'foo' div 'bar'",             fail => 1 );
 }
 
 sub verify_boolean_bops {
@@ -783,16 +833,29 @@ sub test_match_lc_field {
 
     $this->check(
         "'$this->{test_web}.HitTopic'/fields",
-        eval =>  [
-            {value=>99,name=>'number',title=>'Number'},
-            {value=>'String',name=>'string',title=>'String'},
-            {value=>"n\nn t\tt s\\s q'q o#o h#h X~X \\b \\a \\e \\f \\r \\cX",name=>'StringWithChars',title=>'StringWithChars'},
-            {value=>1,name=>'boolean',title=>'Boolean'},
-            {value=>'%RED%',name=>'macro'},
-            {value=>'Some text (really) we have text',name=>'brace',title=>'Brace'},
-            {value=>'Petrol',name=>'SillyFuel',title=>'Silly fuel'}],
-        simpler =>  ',{value=>99,name=>number,title=>Number,,{value=>String,name=>string,title=>String,,{value=>n'."\n".'n t	t s\s q\'q o#o h#h X~X \b \a \e \f \r \cX,name=>StringWithChars,title=>StringWithChars,,{value=>1,name=>boolean,title=>Boolean,,{value=>%RED%,name=>macro,,{value=>Some text (really) we have text,name=>brace,title=>Brace,value=>Petrol,name=>SillyFuel,title=>Silly fuel}}}}}}'
-            );
+        eval => [
+            { value => 99,       name => 'number', title => 'Number' },
+            { value => 'String', name => 'string', title => 'String' },
+            {
+                value =>
+                  "n\nn t\tt s\\s q'q o#o h#h X~X \\b \\a \\e \\f \\r \\cX",
+                name  => 'StringWithChars',
+                title => 'StringWithChars'
+            },
+            { value => 1,       name => 'boolean', title => 'Boolean' },
+            { value => '%RED%', name => 'macro' },
+            {
+                value => 'Some text (really) we have text',
+                name  => 'brace',
+                title => 'Brace'
+            },
+            { value => 'Petrol', name => 'SillyFuel', title => 'Silly fuel' }
+        ],
+        simpler =>
+',{value=>99,name=>number,title=>Number,,{value=>String,name=>string,title=>String,,{value=>n'
+          . "\n"
+          . 'n t	t s\s q\'q o#o h#h X~X \b \a \e \f \r \cX,name=>StringWithChars,title=>StringWithChars,,{value=>1,name=>boolean,title=>Boolean,,{value=>%RED%,name=>macro,,{value=>Some text (really) we have text,name=>brace,title=>Brace,value=>Petrol,name=>SillyFuel,title=>Silly fuel}}}}}}'
+    );
 
     $this->check(
         "'$this->{test_web}.HitTopic'/fields[NOT lc(name)=~'(s)'].name",
