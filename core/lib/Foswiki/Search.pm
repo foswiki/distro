@@ -358,40 +358,10 @@ sub searchWeb {
 #setting the inputTopicSet to be undef allows the search/query algo to use
 #the topic="" and excludetopic="" params and web Obj to get a new list of topics.
 #this allows the algo's to customise and optimise the getting of this list themselves.
+
+#NOTE: as of Jun2011 foswiki 1.2/2.0's query() returns a result set filtered by ACL and paged to $showpage
+#TODO: work out if and how to avoid it 
     my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
-
-    #add filtering for ACL test - probably should make it a seperate filter
-    $infoCache = new Foswiki::Iterator::FilterIterator(
-        $infoCache,
-        sub {
-            my $listItem = shift;
-            my $params   = shift;
-
-            #ACL test
-            my ( $web, $topic ) =
-              Foswiki::Func::normalizeWebTopicName( '', $listItem );
-
-            my $topicMeta = $this->metacache->addMeta( $web, $topic );
-            if ( not defined($topicMeta) ) {
-
-#TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
-#lets change that
-                $topicMeta = new Foswiki::Meta( $session, $web, $topic );
-            }
-            my $info = $this->metacache->get( $web, $topic, $topicMeta );
-            ASSERT( defined( $info->{tom} ) ) if DEBUG;
-
-# Check security (don't show topics the current user does not have permission to view)
-            return 0 unless ( $info->{allowView} );
-            return 1;
-        },
-        \%params
-    );
-    if ( $params{paging_on} ) {
-        $infoCache =
-          new Foswiki::Iterator::PagerIterator( $infoCache, $params{pagesize},
-            $params{showpage} );
-    }
 
 ################### Do the Rendering
 

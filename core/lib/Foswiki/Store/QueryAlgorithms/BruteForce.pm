@@ -87,6 +87,40 @@ sub query {
 
     #TODO: $options should become redundant
     $resultset->sortResults($options);
+    
+    #add filtering for ACL test - probably should make it a seperate filter
+    $resultset = new Foswiki::Iterator::FilterIterator(
+        $resultset,
+        sub {
+            my $listItem = shift;
+            my $params   = shift;
+
+            #ACL test
+            my ( $web, $topic ) =
+              Foswiki::Func::normalizeWebTopicName( '', $listItem );
+
+            my $topicMeta = $Foswiki::Plugins::SESSION->search->metacache->addMeta( $web, $topic );
+            if ( not defined($topicMeta) ) {
+
+#TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
+#lets change that
+                $topicMeta = new Foswiki::Meta( $session, $web, $topic );
+            }
+            my $info = $Foswiki::Plugins::SESSION->search->metacache->get( $web, $topic, $topicMeta );
+            ##ASSERT( defined( $info->{tom} ) ) if DEBUG;
+
+# Check security (don't show topics the current user does not have permission to view)
+            return 0 unless ( $info->{allowView} );
+            return 1;
+        },
+        $options
+    );
+    if ( $options->{paging_on} ) {
+        $resultset =
+          new Foswiki::Iterator::PagerIterator( $resultset, $options->{pagesize},
+            $options->{showpage} );
+    }
+    
     return $resultset;
 }
 
