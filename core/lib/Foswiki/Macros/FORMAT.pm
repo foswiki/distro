@@ -48,7 +48,7 @@ sub FORMAT {
             # from Search::_makeTopicPattern (plus an added . to
             # allow web.topic)
             my @topics = map {
-                s/[^\*\_\-\+\.$Foswiki::regex{mixedAlphaNum}]//go;
+                s/[^\*\_\-\+\.\/$Foswiki::regex{mixedAlphaNum}]//go;
                 s/\*/\.\*/go;
                 $_
             } @list;
@@ -78,7 +78,7 @@ sub FORMAT {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
