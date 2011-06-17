@@ -23,11 +23,13 @@ sub evaluate {
     my $this = shift;
     my $node = shift;
     my $a    = $node->{params}[0]->evaluate(@_);
-    my $b = $node->{params}[1]->evaluate(@_);
-    $b = [ $b ] unless ref($b) eq 'ARRAY';
-    return scalar(grep {
-	Foswiki::Query::ConditionalOP::compare(
-	    $_, $a, sub { $_[0] == 0}) } @$b) > 0 ? 1 : 0;
+    my $b    = $node->{params}[1]->evaluate(@_);
+    $b = [$b] unless ref($b) eq 'ARRAY';
+    return scalar(
+        grep {
+            Foswiki::Query::ConditionalOP::compare( $_, $a, sub { $_[0] == 0 } )
+          } @$b
+    ) > 0 ? 1 : 0;
 }
 
 1;

@@ -30,7 +30,7 @@ sub evaluate {
             my $regex;
             eval { $regex = qr/$_[1]/ };
             if ($@) {
-                throw Foswiki::Infix::Error( "Bad regular expression '$_[1]'" );
+                throw Foswiki::Infix::Error("Bad regular expression '$_[1]'");
             }
             defined( $_[0] )
               && defined( $_[1] )

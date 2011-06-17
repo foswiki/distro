@@ -23,7 +23,7 @@ sub evaluate {
     my $this = shift;
     my $node = shift;
     my $a    = $node->{params}[0]->evaluate(@_);
-    return $this->collect($a, sub { int $_[0] });
+    return $this->collect( $a, sub { int $_[0] } );
 }
 
 sub evaluatesToConstant {

@@ -23,7 +23,7 @@ sub evaluate {
     my $this = shift;
     my $node = shift;
     my $a    = $node->{params}[0]->evaluate(@_);
-    my $b = $node->{params}[1]->evaluate(@_);
+    my $b    = $node->{params}[1]->evaluate(@_);
     return $a / $b;
 }
 

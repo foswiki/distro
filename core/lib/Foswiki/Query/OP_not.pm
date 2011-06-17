@@ -23,8 +23,8 @@ sub evaluate {
     my $this = shift;
     my $node = shift;
     my $a    = $node->{params}[0]->evaluate(@_);
-    if (ref($a) eq 'ARRAY') {
-	return [];
+    if ( ref($a) eq 'ARRAY' ) {
+        return [];
     }
     return $a ? 0 : 1;
 }

@@ -61,7 +61,7 @@ our $indent = 0;
 
 sub _monitor {
     my @p = map { ref($_) ? $_->stringify() : $_ } @_;
-    print STDERR (' ' x $indent) . join(' ', @p) . "\n";
+    print STDERR ( ' ' x $indent ) . join( ' ', @p ) . "\n";
 }
 
 =begin TML
@@ -86,10 +86,10 @@ sub hoist {
     # Gather up all the terms applicable to a particular field
     my @terms = _hoistAND($node);
     foreach my $term (@terms) {
-        push( @{ $collation{ $term->{field} } }, $term->{regex} );
+        push( @{ $collation{ $term->{field} } },             $term->{regex} );
         push( @{ $collation{ $term->{field} . '_source' } }, $term->{source} );
     }
-    
+
     #use Data::Dumper;
     #print STDERR "--- hoisted: ".Dumper(%collation)."\n" if MONITOR_HOIST;
     return \%collation;
@@ -118,27 +118,29 @@ sub _hoistAND {
     }
 
     if ( $node->{op}->{name} eq 'and' ) {
-	# An 'and' conjunction yields a set of individual expressions,
-	# each of which must match the data
-	my @list = @{$node->{params}};
-	$indent++;
-	my @collect = _hoistAND( shift( @list ));
-	while (scalar(@list)) {
-	    my $term = _hoistOR( shift @list );
-	    next unless $term;
-	    push ( @collect, $term );
+
+        # An 'and' conjunction yields a set of individual expressions,
+        # each of which must match the data
+        my @list = @{ $node->{params} };
+        $indent++;
+        my @collect = _hoistAND( shift(@list) );
+        while ( scalar(@list) ) {
+            my $term = _hoistOR( shift @list );
+            next unless $term;
+            push( @collect, $term );
         }
-	$indent--;
-	_monitor( "hoistAND ", $node,
-	    join(', ', map { _monTerm($_) } @collect)) if MONITOR_HOIST;
-	return @collect;
+        $indent--;
+        _monitor( "hoistAND ", $node,
+            join( ', ', map { _monTerm($_) } @collect ) )
+          if MONITOR_HOIST;
+        return @collect;
     }
     else {
         my $or = _hoistOR($node);
         return ($or) if $or;
     }
 
-    _monitor( "hoistAND ", $node," FAILED" ) if MONITOR_HOIST;
+    _monitor( "hoistAND ", $node, " FAILED" ) if MONITOR_HOIST;
     return ();
 }
 
@@ -154,39 +156,43 @@ sub _hoistOR {
     }
 
     if ( $node->{op}->{name} eq 'or' ) {
-	my @list = @{$node->{params}};
-	$indent++;
-	my %collection;
-	while (scalar(@list)) {
-	    my $term = _hoistEQ( shift( @list ));
-	    # If we fail to hoist the subexpression then it can't
-	    # be expressed using simple regexes. In this event we can't
-	    # account for this term in a top-level and, so we have
-	    # to abort the entire hoist.
-	    unless( $term ) {
-		%collection = ();
-		last;
-	    }
-	    my $collect = $collection{$term->{field}};
-	    if ($collect) {
-		# Combine with previous
-		$collect->{regex} .= '|' . $term->{regex};
-		$collect->{source} .= ',' . $term->{source};
-	    } else {
-		$collection{$term->{field}} = $term;
-	    }
-	}
-	$indent--;
+        my @list = @{ $node->{params} };
+        $indent++;
+        my %collection;
+        while ( scalar(@list) ) {
+            my $term = _hoistEQ( shift(@list) );
+
+            # If we fail to hoist the subexpression then it can't
+            # be expressed using simple regexes. In this event we can't
+            # account for this term in a top-level and, so we have
+            # to abort the entire hoist.
+            unless ($term) {
+                %collection = ();
+                last;
+            }
+            my $collect = $collection{ $term->{field} };
+            if ($collect) {
+
+                # Combine with previous
+                $collect->{regex}  .= '|' . $term->{regex};
+                $collect->{source} .= ',' . $term->{source};
+            }
+            else {
+                $collection{ $term->{field} } = $term;
+            }
+        }
+        $indent--;
         _monitor( "hoistOR ", $node,
-	    join(', ', map { _monTerm($_) } values %collection ))
-		  if MONITOR_HOIST;
-	# At this point we have collected terms for all the domains, and
-	# if there is only one we can just return it. However if the
-	# expression involved more than one domain, we have a "mixed or"
-	# and we can't hoist.
-	if (scalar(keys %collection) == 1) {
-	    return (values(%collection))[0];
-	}
+            join( ', ', map { _monTerm($_) } values %collection ) )
+          if MONITOR_HOIST;
+
+        # At this point we have collected terms for all the domains, and
+        # if there is only one we can just return it. However if the
+        # expression involved more than one domain, we have a "mixed or"
+        # and we can't hoist.
+        if ( scalar( keys %collection ) == 1 ) {
+            return ( values(%collection) )[0];
+        }
     }
     else {
         return _hoistEQ($node);
@@ -210,65 +216,68 @@ sub _hoistEQ {
 
     # $PHOLD is a placeholder for the RHS term in the regex
     if ( $node->{op}->{name} eq '=' ) {
-	$indent++;
+        $indent++;
         my $lhs = _hoistDOT( $node->{params}[0] );
         my $rhs = _hoistConstant( $node->{params}[1] );
-	$indent--;
+        $indent--;
         if ( $lhs && defined $rhs ) {
             $rhs = quotemeta($rhs);
             $lhs->{regex} =~ s/$PHOLD/$rhs/g;
             $lhs->{source} = _hoistConstant( $node->{params}[1] );
-	    _monitor( "hoistEQ ", $node, " =>" ) if MONITOR_HOIST;
+            _monitor( "hoistEQ ", $node, " =>" ) if MONITOR_HOIST;
             return $lhs;
         }
 
         # = is symmetric, so try the other order
-	$indent++;
-	$lhs = _hoistDOT( $node->{params}[1] );
+        $indent++;
+        $lhs = _hoistDOT( $node->{params}[1] );
         $rhs = _hoistConstant( $node->{params}[0] );
-	$indent--;
+        $indent--;
         if ( $lhs && defined $rhs ) {
             $rhs = quotemeta($rhs);
             $lhs->{regex} =~ s/$PHOLD/$rhs/g;
             $lhs->{source} = _hoistConstant( $node->{params}[0] );
-	    _monitor( "hoistEQ ", $node, " <=" )
-		if MONITOR_HOIST;
-	    return $lhs;
+            _monitor( "hoistEQ ", $node, " <=" )
+              if MONITOR_HOIST;
+            return $lhs;
         }
     }
     elsif ( $node->{op}->{name} eq '~' ) {
-	$indent++;
+        $indent++;
         my $lhs = _hoistDOT( $node->{params}[0] );
         my $rhs = _hoistConstant( $node->{params}[1] );
-	$indent--;
+        $indent--;
         if ( $lhs && defined $rhs ) {
             $rhs = quotemeta($rhs);
             $rhs          =~ s/\\\?/./g;
             $rhs          =~ s/\\\*/.*/g;
             $lhs->{regex} =~ s/$PHOLD/$rhs/g;
             $lhs->{source} = _hoistConstant( $node->{params}[1] );
-	    _monitor( "hoistEQ ", $node, " ~" )
-	 	if MONITOR_HOIST;
-	    return $lhs;
+            _monitor( "hoistEQ ", $node, " ~" )
+              if MONITOR_HOIST;
+            return $lhs;
         }
     }
     elsif ( $node->{op}->{name} eq '=~' ) {
-	$indent++;
+        $indent++;
         my $lhs = _hoistDOT( $node->{params}[0] );
         my $rhs = _hoistConstant( $node->{params}[1] );
-	$indent--;
+        $indent--;
         if ( $lhs && defined $rhs ) {
+
 #need to detect if its a field, or in a text, and if its a field, remove the ^$ chars...
 #or if there are no ^$, add .*'s if they are not present
-            if ($lhs->{regex} ne $PHOLD) {
-                if ((not ($rhs =~ /^\^/)) and
-                    (not ($rhs =~ /^\.\*/))) {
-		    $rhs = '.*'.$rhs;
+            if ( $lhs->{regex} ne $PHOLD ) {
+                if (    ( not( $rhs =~ /^\^/ ) )
+                    and ( not( $rhs =~ /^\.\*/ ) ) )
+                {
+                    $rhs = '.*' . $rhs;
                 }
-                
-                if ((not ($rhs =~ /\$$/)) and
-                    (not ($rhs =~ /\.\*$/))) {
-		    $rhs = $rhs.'.*';
+
+                if (    ( not( $rhs =~ /\$$/ ) )
+                    and ( not( $rhs =~ /\.\*$/ ) ) )
+                {
+                    $rhs = $rhs . '.*';
                 }
 
                 #if we're embedding the regex into another, then remove the ^'s
@@ -277,13 +286,13 @@ sub _hoistEQ {
             }
             $lhs->{regex} =~ s/$PHOLD/$rhs/g;
             $lhs->{source} = _hoistConstant( $node->{params}[1] );
-	    _monitor( "hoistEQ ", $node, " =~" )
-	 	if MONITOR_HOIST;
-	    return $lhs;
+            _monitor( "hoistEQ ", $node, " =~" )
+              if MONITOR_HOIST;
+            return $lhs;
         }
     }
 
-    _monitor( "hoistEQ ", $node,"  FAILED" ) if MONITOR_HOIST;
+    _monitor( "hoistEQ ", $node, "  FAILED" ) if MONITOR_HOIST;
     return;
 }
 
@@ -303,9 +312,9 @@ sub _hoistDOT {
         my $lhs = $node->{params}[0];
         my $rhs = $node->{params}[1];
         if (   !ref( $lhs->{op} )
-	       && !ref( $rhs->{op} )
-	       && $lhs->{op} eq Foswiki::Infix::Node::NAME
-	       && $rhs->{op} eq Foswiki::Infix::Node::NAME )
+            && !ref( $rhs->{op} )
+            && $lhs->{op} eq Foswiki::Infix::Node::NAME
+            && $rhs->{op} eq Foswiki::Infix::Node::NAME )
         {
             $lhs = $lhs->{params}[0];
             $rhs = $rhs->{params}[0];
@@ -314,76 +323,71 @@ sub _hoistDOT {
             }
             if ( $lhs =~ /^META:/ ) {
 
-		_monitor( "hoist DOT ", $node, " => $rhs" )
-		    if MONITOR_HOIST;
+                _monitor( "hoist DOT ", $node, " => $rhs" )
+                  if MONITOR_HOIST;
 
                 # $PHOLD is a placholder for the RHS term
                 return {
                     field => 'text',
-                    regex => '^%' 
-			. $lhs 
-			. '{.*\\b' 
-			. $rhs
-			. "=\\\"$PHOLD\\\""
+                    regex => '^%' . $lhs . '{.*\\b' . $rhs . "=\\\"$PHOLD\\\""
                 };
             }
 
             # Otherwise assume the term before the dot is the form name
             if ( $rhs eq 'text' ) {
 
-		_monitor( "hoist DOT ", $node, " => formname" )
-		    if MONITOR_HOIST;
+                _monitor( "hoist DOT ", $node, " => formname" )
+                  if MONITOR_HOIST;
 
                 # Special case for the text body
                 return { field => 'text', regex => $PHOLD };
             }
             else {
-		_monitor( "hoist DOT ", $node, " => fieldname" )
-		    if MONITOR_HOIST;
+                _monitor( "hoist DOT ", $node, " => fieldname" )
+                  if MONITOR_HOIST;
                 return {
                     field => 'text',
                     regex =>
-			"^%META:FIELD{name=\\\"$rhs\\\".*\\bvalue=\\\"$PHOLD\\\""
+                      "^%META:FIELD{name=\\\"$rhs\\\".*\\bvalue=\\\"$PHOLD\\\""
                 };
             }
 
         }
     }
-    elsif ( !ref( $node->{op} ) && $node->{op} eq Foswiki::Infix::Node::NAME )
-    {
+    elsif ( !ref( $node->{op} ) && $node->{op} eq Foswiki::Infix::Node::NAME ) {
         if ( $node->{params}[0] eq 'name' ) {
 
             # Special case for the topic name
-	    _monitor( "hoist DOT ", $node, " => topic" )
-	 	if MONITOR_HOIST;
+            _monitor( "hoist DOT ", $node, " => topic" )
+              if MONITOR_HOIST;
             return { field => 'name', regex => $PHOLD };
         }
         elsif ( $node->{params}[0] eq 'web' ) {
 
             # Special case for the web name
-	    _monitor( "hoist DOT ", $node, " => web" )
-	 	if MONITOR_HOIST;
-	    return { field => 'web', regex => $PHOLD };
+            _monitor( "hoist DOT ", $node, " => web" )
+              if MONITOR_HOIST;
+            return { field => 'web', regex => $PHOLD };
         }
         elsif ( $node->{params}[0] eq 'text' ) {
 
             # Special case for the text body
-	    _monitor( "hoist DOT ", $node, " => text" )
-	 	if MONITOR_HOIST;
+            _monitor( "hoist DOT ", $node, " => text" )
+              if MONITOR_HOIST;
             return { field => 'text', regex => $PHOLD };
         }
         else {
- 	    _monitor( "hoist DOT ", $node, " => field" )
-	 	if MONITOR_HOIST;
-	    return {
+            _monitor( "hoist DOT ", $node, " => field" )
+              if MONITOR_HOIST;
+            return {
                 field => 'text',
                 regex =>
-		    "^%META:FIELD{name=\\\"$node->{params}[0]\\\".*\\bvalue=\\\"$PHOLD\\\""
+"^%META:FIELD{name=\\\"$node->{params}[0]\\\".*\\bvalue=\\\"$PHOLD\\\""
             };
         }
     }
 
-    _monitor( "hoistDOT ", $node,"  FAILED" ) if MONITOR_HOIST;
+    _monitor( "hoistDOT ", $node, "  FAILED" ) if MONITOR_HOIST;
     return;
 }
 
@@ -394,11 +398,11 @@ sub _hoistConstant {
     if (
         !ref( $node->{op} )
         && (   $node->{op} eq Foswiki::Infix::Node::STRING
-	       || $node->{op} eq Foswiki::Infix::Node::NUMBER )
-	)
+            || $node->{op} eq Foswiki::Infix::Node::NUMBER )
+      )
     {
-	_monitor( "hoist CONST ", $node, " => $node->{params}[0]" )
-	    if MONITOR_HOIST;
+        _monitor( "hoist CONST ", $node, " => $node->{params}[0]" )
+          if MONITOR_HOIST;
         return $node->{params}[0];
     }
     return;

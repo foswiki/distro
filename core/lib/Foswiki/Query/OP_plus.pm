@@ -23,11 +23,13 @@ sub evaluate {
     my $this = shift;
     my $node = shift;
     my $a    = $node->{params}[0]->evaluate(@_);
-    my $b = $node->{params}[1]->evaluate(@_);
-    if (Foswiki::Query::OP::isNumber($a) && Foswiki::Query::OP::isNumber($b)) {
-	return $a + $b;
-    } else {
-	return $a . $b;
+    my $b    = $node->{params}[1]->evaluate(@_);
+    if ( Foswiki::Query::OP::isNumber($a) && Foswiki::Query::OP::isNumber($b) )
+    {
+        return $a + $b;
+    }
+    else {
+        return $a . $b;
     }
 }
 

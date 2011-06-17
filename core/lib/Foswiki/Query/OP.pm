@@ -62,8 +62,8 @@ parameters and return true if they all return true.
 sub evaluatesToConstant {
     my $this = shift;
     my $node = shift;
-    foreach my $i (@{$node->{params}}) {
-	return 0 unless $i->evaluatesToConstant(@_);
+    foreach my $i ( @{ $node->{params} } ) {
+        return 0 unless $i->evaluatesToConstant(@_);
     }
     return 1;
 }
@@ -91,14 +91,16 @@ Invokes $fn once for each element of $a and return an array built from the resul
 =cut
 
 sub collect {
-    my ($this, $a, $fn) = @_;
-    if (ref($a) eq 'ARRAY') {
-	my @b = map { $this->collect($_, $fn) } @$a;
-	return \@b;
-    } elsif (ref($a) eq 'HASH') {
-	die "Can't collect on a hash";
-    } else {
-	return &$fn($a);
+    my ( $this, $a, $fn ) = @_;
+    if ( ref($a) eq 'ARRAY' ) {
+        my @b = map { $this->collect( $_, $fn ) } @$a;
+        return \@b;
+    }
+    elsif ( ref($a) eq 'HASH' ) {
+        die "Can't collect on a hash";
+    }
+    else {
+        return &$fn($a);
     }
 }
 

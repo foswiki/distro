@@ -17,25 +17,29 @@ our @ISA = ('Foswiki::Query::OP');
 
 sub new {
     my $class = shift;
+
     # Treated as arity 2 for parsing, but folds to n-ary
     return $class->SUPER::new(
-	arity => 2, canfold => 1,
-	name => ',',
-	prec => 400,
-	canfold => 1 );
+        arity   => 2,
+        canfold => 1,
+        name    => ',',
+        prec    => 400,
+        canfold => 1
+    );
 }
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
     my @res;
-    foreach my $p (@{$node->{params}}) {
-	my $a = $p->evaluate(@_);
-	if (ref($a) eq 'ARRAY') {
-	    push(@res, @$a);
-	} else {
-	    push(@res, $a);
-	}
+    foreach my $p ( @{ $node->{params} } ) {
+        my $a = $p->evaluate(@_);
+        if ( ref($a) eq 'ARRAY' ) {
+            push( @res, @$a );
+        }
+        else {
+            push( @res, $a );
+        }
     }
     return \@res;
 }

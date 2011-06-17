@@ -24,8 +24,9 @@ sub evaluate {
     my $node   = shift;
     my %domain = @_;
     my $a      = $node->{params}[0];
+
     # See Foswiki/Query/Node.pm for an explanation of restricted names
-    my $lval   = $a->evaluate(restricted_name => 1, @_);
+    my $lval = $a->evaluate( restricted_name => 1, @_ );
     return unless ( defined $lval );
     my $b = $node->{params}[1];
     my $res = $b->evaluate( data => $lval, tom => $domain{tom} );

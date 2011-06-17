@@ -41,7 +41,6 @@ use Foswiki::Meta ();
 use constant MONITOR_EVAL => 0;
 use constant MONITOR_FOLD => 0;
 
-
 # Cache of the names of $Foswiki::cfg items that are accessible
 our $isAccessibleCfg;
 
@@ -364,20 +363,24 @@ sub _freeze {
 
     if ( ref($c) eq 'ARRAY' ) {
         $this->_makeArray($c);
-    } elsif ( ref($c) eq 'HASH' ) {
+    }
+    elsif ( ref($c) eq 'HASH' ) {
         $this->convertToLeaf( Foswiki::Infix::Node::HASH, $c );
-    } elsif ( ref($c) eq 'Foswiki::Meta' ) {
+    }
+    elsif ( ref($c) eq 'Foswiki::Meta' ) {
         $this->convertToLeaf( Foswiki::Infix::Node::META, $c );
     }
     elsif ( Foswiki::Query::OP::isNumber($c) ) {
         $this->convertToLeaf( Foswiki::Infix::Node::NUMBER, $c );
     }
     else {
-        #Item10703: can't convert a non-scalar to a STRING without further processing.
-        if (ref($c) eq '') {
+
+  #Item10703: can't convert a non-scalar to a STRING without further processing.
+        if ( ref($c) eq '' ) {
             $this->convertToLeaf( Foswiki::Infix::Node::STRING, $c );
-        } else {
-            print STDERR "_freeze".ref($c)."\n" if MONITOR_FOLD;
+        }
+        else {
+            print STDERR "_freeze" . ref($c) . "\n" if MONITOR_FOLD;
         }
     }
 }

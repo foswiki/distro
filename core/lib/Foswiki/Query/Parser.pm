@@ -24,43 +24,43 @@ our @ISA = ('Foswiki::Infix::Parser');
 use Foswiki::Query::Node ();
 
 #             operator name           precedence
-use Foswiki::Query::OP_or ();      #  100
+use Foswiki::Query::OP_or ();    #  100
 
-use Foswiki::Query::OP_and ();     #  200
+use Foswiki::Query::OP_and ();   #  200
 
-use Foswiki::Query::OP_not ();     #  300
+use Foswiki::Query::OP_not ();   #  300
 
-use Foswiki::Query::OP_comma ();   #  400
+use Foswiki::Query::OP_comma (); #  400
 
-use Foswiki::Query::OP_lte ();     #  500
-use Foswiki::Query::OP_gt ();      #  500
-use Foswiki::Query::OP_gte ();     #  500
-use Foswiki::Query::OP_lt ();      #  500
-use Foswiki::Query::OP_match ();   #  500
-use Foswiki::Query::OP_eq ();      #  500
-use Foswiki::Query::OP_like ();    #  500
-use Foswiki::Query::OP_ne ();      #  500
-use Foswiki::Query::OP_in ();      #  500
+use Foswiki::Query::OP_lte   (); #  500
+use Foswiki::Query::OP_gt    (); #  500
+use Foswiki::Query::OP_gte   (); #  500
+use Foswiki::Query::OP_lt    (); #  500
+use Foswiki::Query::OP_match (); #  500
+use Foswiki::Query::OP_eq    (); #  500
+use Foswiki::Query::OP_like  (); #  500
+use Foswiki::Query::OP_ne    (); #  500
+use Foswiki::Query::OP_in    (); #  500
 
-use Foswiki::Query::OP_plus ();    #  600
-use Foswiki::Query::OP_minus ();   #  600
+use Foswiki::Query::OP_plus  (); #  600
+use Foswiki::Query::OP_minus (); #  600
 
-use Foswiki::Query::OP_times ();   #  700
-use Foswiki::Query::OP_div ();     #  700
+use Foswiki::Query::OP_times (); #  700
+use Foswiki::Query::OP_div   (); #  700
 
-use Foswiki::Query::OP_ref ();     #  800
-use Foswiki::Query::OP_dot ();     #  800
+use Foswiki::Query::OP_ref ();   #  800
+use Foswiki::Query::OP_dot ();   #  800
 
-use Foswiki::Query::OP_where ();   #  900
+use Foswiki::Query::OP_where (); #  900
 
-use Foswiki::Query::OP_lc ();      # 1000
-use Foswiki::Query::OP_uc ();      # 1000
-use Foswiki::Query::OP_d2n ();     # 1000
-use Foswiki::Query::OP_length ();  # 1000
-use Foswiki::Query::OP_neg ();     # 1000
-use Foswiki::Query::OP_int ();     # 1000
+use Foswiki::Query::OP_lc     ();    # 1000
+use Foswiki::Query::OP_uc     ();    # 1000
+use Foswiki::Query::OP_d2n    ();    # 1000
+use Foswiki::Query::OP_length ();    # 1000
+use Foswiki::Query::OP_neg    ();    # 1000
+use Foswiki::Query::OP_int    ();    # 1000
 
-use Foswiki::Query::OP_ob ();      # 1100
+use Foswiki::Query::OP_ob ();        # 1100
 
 =begin TML
 Query Language BNF
@@ -91,8 +91,9 @@ See %SYSTEMWEB%.QuerySearch for details of the query language.
 # OP_empty is *not* included here; it is a pseudo-operator and does
 # not participate in parsing.
 use constant OPS => qw (match and eq lc lte not ref d2n gte length lt ob
-                        uc dot gt like ne or where comma plus minus
-                        neg times div in int );
+  uc dot gt like ne or where comma plus minus
+  neg times div in int );
+
 sub new {
     my ( $class, $options ) = @_;
 
@@ -100,7 +101,7 @@ sub new {
     $options->{nodeClass} ||= 'Foswiki::Query::Node';
     my $this = $class->SUPER::new($options);
     foreach my $op ( OPS() ) {
-	my $on = 'Foswiki::Query::OP_'.$op;
+        my $on = 'Foswiki::Query::OP_' . $op;
         $this->addOperator( $on->new() );
     }
     return $this;
@@ -109,10 +110,10 @@ sub new {
 # Ensure there is at least one operand on the opstack when closing
 # a subexpression.
 sub onCloseExpr {
-    my ($this, $opands) = @_;
-    if (!scalar(@$opands)) {
-	require Foswiki::Query::OP_empty;
-	push( @$opands, $this->{node_factory}->emptyExpression() );
+    my ( $this, $opands ) = @_;
+    if ( !scalar(@$opands) ) {
+        require Foswiki::Query::OP_empty;
+        push( @$opands, $this->{node_factory}->emptyExpression() );
     }
 }
 

@@ -18,30 +18,33 @@ our @ISA = ('Foswiki::Query::OP');
 
 sub new {
     my $class = shift;
+
     # Treated as arity 2 for parsing, but folds to n-ary
     return $class->SUPER::new(
-	arity => 2, canfold => 1,
-	name => 'or',
-	prec => 100 );
+        arity   => 2,
+        canfold => 1,
+        name    => 'or',
+        prec    => 100
+    );
 }
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    foreach my $i (@{$node->{params}}) {
-	return 1 if $i->evaluate(@_);
+    foreach my $i ( @{ $node->{params} } ) {
+        return 1 if $i->evaluate(@_);
     }
     return 0;
 }
 
 sub evaluatesToConstant {
-    my $this = shift;
-    my $node = shift;
+    my $this      = shift;
+    my $node      = shift;
     my $all_const = 1;
-    foreach my $i (@{$node->{params}}) {
-	my $ac   = $i->evaluatesToConstant(@_);
-	return 1 if $ac && $i->evaluate(@_);
-	$all_const = 0 unless $ac;
+    foreach my $i ( @{ $node->{params} } ) {
+        my $ac = $i->evaluatesToConstant(@_);
+        return 1 if $ac && $i->evaluate(@_);
+        $all_const = 0 unless $ac;
     }
     return $all_const;
 }

@@ -31,14 +31,16 @@ of applying =\&fn= is returned.
 
 sub compare {
     my ( $a, $b, $sub ) = @_;
-    if (!defined($a)) {
-	return &$sub( 0 ) unless defined($b);
-	return -&$sub( 1 );
-    } elsif (!defined($b)) {
-	return &$sub( 1 );
+    if ( !defined($a) ) {
+        return &$sub(0) unless defined($b);
+        return -&$sub(1);
     }
-    if ( Foswiki::Query::OP::isNumber($a)
-	 && Foswiki::Query::OP::isNumber($b) ) {
+    elsif ( !defined($b) ) {
+        return &$sub(1);
+    }
+    if (   Foswiki::Query::OP::isNumber($a)
+        && Foswiki::Query::OP::isNumber($b) )
+    {
         return &$sub( $a <=> $b );
     }
     else {

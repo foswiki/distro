@@ -16,7 +16,7 @@ sub evalUnary {
     my $node = shift;
     my $sub  = shift;
     my $a    = $node->{params}[0]->evaluate(@_);
-    return $this->collect($a, $sub);
+    return $this->collect( $a, $sub );
 }
 
 1;
