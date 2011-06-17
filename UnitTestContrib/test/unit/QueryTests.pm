@@ -466,11 +466,11 @@ sub verify_string_uops {
     $this->check( "uc string",      eval => 'STRING' );
     $this->check( "uc(string)",     eval => "STRING" );
     $this->check( "lc string",      eval => 'string' );
-    $this->check( "lc(notafield)",  eval => '' );
-    $this->check( "lc notafield",   eval => '' );
+    $this->check( "lc(notafield)",  eval => undef );
+    $this->check( "lc notafield",   eval => undef );
     $this->check( "uc 'string'",    eval => 'STRING', simpler => "'STRING'" );
-    $this->check( "uc (notafield)", eval => '' );
-    $this->check( "uc notafield",   eval => '' );
+    $this->check( "uc (notafield)", eval => undef );
+    $this->check( "uc notafield",   eval => undef );
     $this->check( "lc 'STRING'",    eval => 'string', simpler => "'string'" );
     $this->check( "length attachments",     eval => 2 );
     $this->check( "length META:PREFERENCE", eval => 5 );
@@ -498,7 +498,7 @@ sub verify_numeric_uops {
     $this->check( "int 1.5",  eval => 1,  simpler => 1 );
     $this->check( "int -1.5", eval => -1, simpler => -1 );
     $this->check( "int ()",   eval => [], simpler => "()" );
-    $this->check( "int notafield", eval => 0 );
+    $this->check( "int notafield", eval => undef );
     $this->check( "int 'foo'", eval => 0, simpler => 0 );
 
     $this->check(
@@ -586,7 +586,7 @@ sub verify_numeric_bops {
     $this->check( "2-1",                         eval => 1, simpler => 1 );
     $this->check( "2-notafield",                 eval => 2 );
     $this->check( "2*2",                         eval => 4, simpler => 4 );
-    $this->check( "2*notafield",                 eval => 0 );
+    $this->check( "2*notafield",                 eval => undef );
     $this->check( "4 div 2",                     eval => 2, simpler => 2 );
     $this->check( "4 div 0",                     fail => 1 );
     $this->check( "4 div notafield",             fail => 1 );
