@@ -581,11 +581,14 @@ sub verify_boolean_corner_cases {
 
 sub verify_numeric_bops {
     my $this = shift;
-    $this->check( "1+1",     eval => 2, simpler => 2 );
-    $this->check( "2-1",     eval => 1, simpler => 1 );
-    $this->check( "2*2",     eval => 4, simpler => 4 );
-    $this->check( "4 div 2", eval => 2, simpler => 2 );
-    $this->check( "4 div 0", fail => 1 );
+    $this->check( "1+1", eval => 2, simpler => 2 );
+    $this->check( "1+notafield",                 eval => 1 );
+    $this->check( "2-1",                         eval => 1, simpler => 1 );
+    $this->check( "2-notafield",                 eval => 2 );
+    $this->check( "2*2",                         eval => 4, simpler => 4 );
+    $this->check( "2*notafield",                 eval => 0 );
+    $this->check( "4 div 2",                     eval => 2, simpler => 2 );
+    $this->check( "4 div 0",                     fail => 1 );
     $this->check( "4 div notafield",             fail => 1 );
     $this->check( "notafield div 2",             eval => 0 );
     $this->check( "notafield div 0",             fail => 1 );
