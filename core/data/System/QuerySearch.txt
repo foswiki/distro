@@ -2,7 +2,6 @@
 %META:TOPICPARENT{name="Macros"}%
 %STARTINCLUDE%
 ---+ Query Search
-
 Query searches help you search the contents of forms attached to your topics, as well as the values of other meta-data attached to the topic. Using query searches you can search:
    1 The fields of forms
    1 Parent relationships
@@ -113,6 +112,7 @@ Foswiki is implemented in Perl, and the query language inherits perl semantics f
 
 ---++ Constants
 You use constants for the values that you compare with fields. Constants are either strings, or numbers.
+
 ---++ String Constants
 String constants are always delimited by single-quotes. You can use backslash =\= to include the following special characters:
 | *Code* | *Meaning* |
@@ -123,8 +123,10 @@ String constants are always delimited by single-quotes. You can use backslash =\
 | =\x{1234} | heaxadecimal wide character code |
 | =\\= | a single =\= | 
 All other occurrences of backslashes are carried through into the string, so =\d= means =\d= (unless the string is used as a regular expression, in which case it means any digit).
+
 ---++ Numerical constants
 Numbers can be any signed or unsigned integer or floating point number using standard scientific notation e.g. -1.2e-3 represents -0.0012
+
 ---++ Named constants
 | *Name* | *Meaning* |
 | =UNDEFINED= | The undefined value |
@@ -132,7 +134,6 @@ Numbers can be any signed or unsigned integer or floating point number using sta
 Note that constant names are *not* case sensitive. =NOW= is the same as =now=.
 
 ---++ Operators
-
 Field specifiers and constants are combined using _operators_ to create queries.
 | *Operator* | *Meaning* | *Example* |
 | <code>=</code> | Left-hand side (LHS) exactly matches the value on the Right-hand side (RHS). | <code>field = 'String'</code>, <code>age = 1</code>. Numbers and strings can be compared. |
@@ -167,6 +168,7 @@ Note that operator names are *not* case sensitive. =AND= is the same as =and=.
  
 %I% In the operators (<code>&#61; !&#61; ~ &#61;~ &lt; &gt; &lt&#61; &gt&#61; NOT AND OR</code>) an undefined operand is treated the same as numerical 0. For =lc uc d2n= an undefined operand will give an undefined result. For =length= and undefined operand will give a result of 0.
 </blockquote>
+
 ---++ Text and Meta Text
 There are two fields that contain the topic text, =text= and =metatext=. =text= just contains the raw text of the topic, as you would see if you viewed the topic raw. =metatext= contains the text of the topic with MetaData embedded. This can be useful when you want to generate output based on processing meta-data.
 
@@ -209,9 +211,7 @@ will return an array of the values of the Published field in all versions author
 ---++ Gotchas
    * Remember that in the query language, topic names are _constants_. You cannot write =%USERSWEB%.UserTopic/UserForm.firstName= because =%USERSWEB%.UserTopic= will be interpreted as a form field name. If you want to refer to topics you *must* enclose the topic name in quotes i.e. ='%USERSWEB%.UserTopic'/UserForm.firstName=
 
-
 ---++ Examples
-
 ---+++ Query examples
    * =attachments[name='purdey.gif']= - true if there is an attachment call =purdey.gif= on the topic
    * =(fields[name='Firstname'].value='Emma' OR fields[name='Firstname'].value='John') AND fields[name='Lastname'].value='Peel'= - true for 'Emma Peel' and 'John Peel' but *not* 'Robert Peel' or 'Emma Thompson'
