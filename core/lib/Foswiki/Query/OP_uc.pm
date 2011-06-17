@@ -23,7 +23,16 @@ sub new {
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    return $this->evalUnary( $node, sub { uc(shift) }, @_ );
+
+    return $this->evalUnary(
+        $node,
+        sub {
+            my $arg = shift;
+            if ( not defined $arg ) { $arg = ''; }
+            uc($arg);
+        },
+        @_
+    );
 }
 
 1;
