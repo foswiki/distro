@@ -26,11 +26,16 @@
 %ENDTWISTY%
 
 ---++ %MAKETEXT{"Recently changed topics"}%
-<dl>
-%SEARCH{ ".*" regex="on" nosearch="on" nototal="on" order="modified" reverse="on" limit="7" format="<dt>[[$topic]]</dt><dd>$summary<br /><span class='foswikiGrayText'>$date - $wikiusername</span></dd>"}%
-</dl>
-%MAKETEXT{"A more extensive changes list is available via ~[~[[_1]~]~[Recent changes~]~]." args="WebChanges"}%
+%SEARCH{
+	".*"
+	type="regex"
+	nonoise="on"
+	order="modified"
+	reverse="on"
+	pager="on"
+	pagesize="5"
+}%
 
 <!--
-   * Set ALLOWTOPICCHANGE = Main.AdminGroup
+   * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
 -->
