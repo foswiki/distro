@@ -22,7 +22,9 @@ sub new {
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    my $a    = $node->{params}[0]->evaluate(@_);
+
+    # Item10889: The short-circuit || 0 is probably okay, int is numeric anyway
+    my $a = $node->{params}[0]->evaluate(@_) || 0;
     return $this->collect( $a, sub { int $_[0] } );
 }
 
