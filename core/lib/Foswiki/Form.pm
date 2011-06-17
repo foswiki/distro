@@ -591,11 +591,13 @@ sub renderForDisplay {
     my $text = $templates->expandTemplate('FORM:display:header');
 
     my $rowTemplate = $templates->expandTemplate('FORM:display:row');
+    my $hasAllFieldsHidden = 1;
     foreach my $fieldDef ( @{ $this->{fields} } ) {
         my $fm = $topicObject->get( 'FIELD', $fieldDef->{name} );
         next unless $fm;
         my $fa = $fm->{attributes} || '';
         unless ( $fa =~ /H/ ) {
+            $hasAllFieldsHidden = 0;
             my $row = $rowTemplate;
 
             # Legacy; was %A_TITLE% before it was $title
@@ -604,7 +606,8 @@ sub renderForDisplay {
             $text .= $fieldDef->renderForDisplay( $row, $fm->{value} );
         }
     }
-
+    return '' if $hasAllFieldsHidden;
+    
     $text .= $templates->expandTemplate('FORM:display:footer');
 
     # substitute remaining placeholders in footer and header
