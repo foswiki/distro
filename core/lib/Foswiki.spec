@@ -1297,8 +1297,7 @@ $Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 # **PATH**
 # Secure email certificate.  If you want e-mail sent by Foswiki to be signed,
 # specify the filename of the administrator's X.509 certificate here.  It
-# must be in PEM format.  You must also use a mail program (not Net::SMTP)
-# in the following settings.
+# must be in PEM format.
 $Foswiki::cfg{Email}{SmimeCertificateFile} = '$Foswiki::cfg{DataDir}/cert.pem';
 
 # **PATH**
