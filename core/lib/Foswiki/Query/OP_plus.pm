@@ -24,7 +24,10 @@ sub evaluate {
     my $node = shift;
     my $a    = $node->{params}[0]->evaluate(@_);
     my $b    = $node->{params}[1]->evaluate(@_);
-    if ( Foswiki::Query::OP::isNumber($a) && Foswiki::Query::OP::isNumber($b) )
+    if (    defined $a
+        and Foswiki::Query::OP::isNumber($a)
+        and defined $b
+        and Foswiki::Query::OP::isNumber($b) )
     {
         return $a + $b;
     }
