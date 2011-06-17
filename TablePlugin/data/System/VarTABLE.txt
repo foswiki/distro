@@ -51,8 +51,8 @@
 %TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
      | *Argument*       | *Comment*  | *Default&nbsp;value*  | *Example*  |
      | =headerrules=    | Set to ="none"= (no rules), ="rows"= (rules will appear between rows only), ="cols"= (rules will appear between columns only), ="all"= (rules will appear between all rows and columns). Overrides =tablerules= for header cells. | <span class="foswikiGrayText">unspecified</span>  | =headerrules="none"= |
-     | =headerbg=       | Header cell background colour. | ="#6b7f93"= | =headerbg="#999"= |
-     | =headerbgsorted= | Header cell background colour of a sorted column. | the value of =headerbg= | =headerbgsorted="#32596c"= |
+     | =headerbg=       | Header cell background colour. Specify ="none"= for no colour, that is to use the colour/background of the page the table is on. | ="#6b7f93"= | =headerbg="#999"= |
+     | =headerbgsorted= | Header cell background colour of a sorted column. Specify ="none"= for no colour, that is to use the colour/background of the page the table is on. | the value of =headerbg= | =headerbgsorted="#32596c"= |
      | =headercolor=    | Header cell text colour. | ="#fff"= | =headercolor="#00c"= |
      | =headervalign=   | Vertical alignment of header cells; overrides =valign=. | <span class="foswikiGrayText">unspecified</span>  | =headervalign="top"= |
      | =headeralign=    | Header cell alignment, one value for all columns, or a comma separated list for different alignment of individual columns. Set to ="left"=, ="center"=, ="right"= or ="justify"=. Overrides individual cell settings. | <span class="foswikiGrayText">unspecified</span>  | =headeralign="left,right"= |
