@@ -495,6 +495,8 @@ sub verify_numeric_uops {
     $this->check( "int 1.5",  eval => 1,  simpler => 1 );
     $this->check( "int -1.5", eval => -1, simpler => -1 );
     $this->check( "int ()",   eval => [], simpler => "()" );
+    $this->check( "int notafield", eval => 0 );
+    $this->check( "int 'foo'", eval => 0, simpler => 0 );
 
     $this->check(
         "d2n '" . Foswiki::Time::formatTime( 0, '$iso', 'gmtime' ) . "'",
