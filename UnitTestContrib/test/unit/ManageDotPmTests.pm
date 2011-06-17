@@ -217,7 +217,7 @@ my ( $responseText, $result, $stdout, $stderr );
         print STDERR "--------- otherwise\n" if ($Error::Debug);
         $exception = new Error::Simple();
     };
-print STDERR $responseText;
+    print STDERR $responseText || '';
     return $exception;
 }
 
