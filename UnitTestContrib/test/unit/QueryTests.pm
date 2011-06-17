@@ -467,13 +467,16 @@ sub verify_string_uops {
     $this->check( "uc(string)",     eval => "STRING" );
     $this->check( "lc string",      eval => 'string' );
     $this->check( "lc(notafield)",  eval => '' );
+    $this->check( "lc notafield",  eval => '' );
     $this->check( "uc 'string'",    eval => 'STRING', simpler => "'STRING'" );
     $this->check( "uc (notafield)", eval => '' );
+    $this->check( "uc notafield", eval => '' );
     $this->check( "lc 'STRING'",    eval => 'string', simpler => "'string'" );
     $this->check( "length attachments",     eval => 2 );
     $this->check( "length META:PREFERENCE", eval => 5 );
     $this->check( "length 'five'",          eval => 4, simpler => 4 );
     $this->check( "length info",            eval => 5 );
+    $this->check( "length (info)",            eval => 5 );
     $this->check( "length notafield",       eval => 0 );
     $this->check( "uc ()",                  eval => [], simpler => '()' );
     $this->check( "lc ()",                  eval => [], simpler => '()' );
