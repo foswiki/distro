@@ -9,7 +9,7 @@ Syntax: =%<nop>META{ "item" ...}%=
 
 Parameters:
    * ="form"= - generates the table showing the form fields. See
-     [[CompleteDocumentation#FormDefinition][Form Definition]] |
+     [[CompleteDocumentation#FormDefinition][Form Definition]].
    * ="attachments"= - generate a table of attachments
       * =all="on"= to show hidden attachments.
       * =title="..."= to show a title - only if attachments are displayed.
