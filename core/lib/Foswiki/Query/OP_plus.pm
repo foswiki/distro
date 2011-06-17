@@ -29,6 +29,13 @@ sub evaluate {
         return $a + $b;
     }
     else {
+        if ( not defined $a ) {
+            $a = '';
+        }
+        if ( not defined $b ) {
+            $b = '';
+        }
+
         return $a . $b;
     }
 }
