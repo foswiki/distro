@@ -22,8 +22,11 @@ sub new {
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    my $a    = $node->{params}[0]->evaluate(@_);
-    my $b    = $node->{params}[1]->evaluate(@_);
+
+    # Item10889: The short-circuit || 0 is probably okay, '/' is numeric anyway
+    my $a = $node->{params}[0]->evaluate(@_) || 0;
+    my $b = $node->{params}[1]->evaluate(@_) || 0;
+
     return $a / $b;
 }
 
