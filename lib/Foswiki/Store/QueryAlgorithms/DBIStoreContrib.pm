@@ -69,7 +69,7 @@ BEGIN {
 	}
     } else {
 	# Foswiki > 1.1
-	*getListOfWebs = \&Foswiki::Store::Interfaces::SearchAlgorithm::getListOfWebs;
+	*getListOfWebs = \&Foswiki::Store::Interfaces::QueryAlgorithm::getListOfWebs;
 	*getOptionFilter = \&Foswiki::Search::InfoCache::getOptionFilter;
     }
 }
