@@ -644,4 +644,22 @@ sub test_Item9269 {
     $this->assert_str_equals( 'OkATopic ($ntopics=1),OkBTopic ($ntopics=2),OkTopic ($ntopics=3)', $result );
 }
 
+#Item10888
+sub test_subweb_web_token {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%FORMAT{ 
+  "Mangroves/Bibliography.Lovelock_1993, Mangroves/Bibliography.Duke_2006, Mangroves/Bibliography.Boto_etal_1984" 
+  format="$web.$topic" 
+  separator=", "
+  type="topic" 
+}%');
+
+    $this->assert_str_equals(
+        "Mangroves/Bibliography.Lovelock_1993, Mangroves/Bibliography.Duke_2006, Mangroves/Bibliography.Boto_etal_1984", $result
+    );
+}
+
 1;
