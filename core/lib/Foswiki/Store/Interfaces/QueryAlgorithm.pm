@@ -225,6 +225,199 @@ sub getRev1Info {
     return $meta->{_getRev1Info}->{rev1info};
 }
 
+sub getWebIterator {
+    my $session = shift;
+    my $options = shift;
+    
+    my $webNames = $options->{web}       || '';
+    my $recurse  = $options->{'recurse'} || '';
+    my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
+
+    #get a complete list of webs to search
+    my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
+    my @webs =
+      Foswiki::Store::Interfaces::QueryAlgorithm::getListOfWebs( $webNames,
+        $recurse, $searchAllFlag );
+    my $rawWebIter = new Foswiki::ListIterator(\@webs);
+    my $webItr     = new Foswiki::Iterator::FilterIterator(
+        $rawWebIter,
+        sub {
+            my $web    = shift;
+            my $params = shift;
+
+            # can't process what ain't thar
+            return 0 unless $session->webExists($web);
+
+            my $webObject = Foswiki::Meta->new( $session, $web );
+            my $thisWebNoSearchAll =
+              Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
+
+            # make sure we can report this web on an 'all' search
+            # DON'T filter out unless it's part of an 'all' search.
+            return 0
+              if ( $searchAllFlag
+                && !$isAdmin
+                && ( $thisWebNoSearchAll || $web =~ /^[\.\_]/ )
+                && $web ne $session->{webName} );
+            return 1;
+        },
+        {}
+    );
+}
+
+sub addPager {
+    my $resultset = shift;
+    my $options   = shift;
+
+    if ( $options->{paging_on} ) {
+        $resultset =
+          new Foswiki::Iterator::PagerIterator( $resultset,
+            $options->{pagesize}, $options->{showpage} );
+    }
+
+    return $resultset;
+}
+
+sub addACLFilter {
+    my $resultset = shift;
+    my $options   = shift;
+
+    #add filtering for ACL test - probably should make it a seperate filter
+    $resultset = new Foswiki::Iterator::FilterIterator(
+        $resultset,
+        sub {
+            my $listItem = shift;
+            my $params   = shift;
+
+            #ACL test
+            my ( $web, $topic ) =
+              Foswiki::Func::normalizeWebTopicName( '', $listItem );
+
+            my $topicMeta =
+              $Foswiki::Plugins::SESSION->search->metacache->addMeta( $web,
+                $topic );
+            if ( not defined($topicMeta) ) {
+
+#TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
+#lets change that
+                $topicMeta = new Foswiki::Meta( $Foswiki::Plugins::SESSION, $web, $topic );
+            }
+            my $info =
+              $Foswiki::Plugins::SESSION->search->metacache->get( $web, $topic,
+                $topicMeta );
+            ##ASSERT( defined( $info->{tom} ) ) if DEBUG;
+
+# Check security (don't show topics the current user does not have permission to view)
+            return 0 unless ( $info->{allowView} );
+            return 1;
+        },
+        $options
+    );
+}
+
+
+=begin TML
+
+---+ getListOfWebs($webnames, $recurse, $serachAllFlag) -> @webs
+
+Convert a comma separated list of webs into the list we'll process
+TODO: this is part of the Store now, and so should not need to reference
+Meta - it rather uses the store.
+
+=cut
+
+sub getListOfWebs {
+    my ( $webName, $recurse, $searchAllFlag ) = @_;
+    my $session = $Foswiki::Plugins::SESSION;
+
+    my %excludeWeb;
+    my @tmpWebs;
+
+  #$web = Foswiki::Sandbox::untaint( $web,\&Foswiki::Sandbox::validateWebName );
+
+    if ($webName) {
+        foreach my $web ( split( /[\,\s]+/, $webName ) ) {
+            $web =~ s#\.#/#go;
+
+            # the web processing loop filters for valid web names,
+            # so don't do it here.
+            if ( $web =~ s/^-// ) {
+                $excludeWeb{$web} = 1;
+            }
+            else {
+                if (   $web =~ /^(all|on)$/i
+                    || $Foswiki::cfg{EnableHierarchicalWebs}
+                    && Foswiki::isTrue($recurse) )
+                {
+                    my $webObject;
+                    my $prefix = "$web/";
+                    if ( $web =~ /^(all|on)$/i ) {
+                        $webObject = Foswiki::Meta->new($session);
+                        $prefix    = '';
+                    }
+                    else {
+                        $web = Foswiki::Sandbox::untaint( $web,
+                            \&Foswiki::Sandbox::validateWebName );
+                        ASSERT($web) if DEBUG;
+                        push( @tmpWebs, $web );
+                        $webObject = Foswiki::Meta->new( $session, $web );
+                    }
+                    my $it = $webObject->eachWeb(1);
+                    while ( $it->hasNext() ) {
+                        my $w = $prefix . $it->next();
+                        next
+                          unless $Foswiki::WebFilter::user_allowed->ok(
+                            $session, $w );
+                        $w = Foswiki::Sandbox::untaint( $w,
+                            \&Foswiki::Sandbox::validateWebName );
+                        ASSERT($web) if DEBUG;
+                        push( @tmpWebs, $w );
+                    }
+                }
+                else {
+                    $web = Foswiki::Sandbox::untaint( $web,
+                        \&Foswiki::Sandbox::validateWebName );
+                    push( @tmpWebs, $web );
+                }
+            }
+        }
+
+    }
+    else {
+
+        # default to current web
+        my $web =
+          Foswiki::Sandbox::untaint( $session->{webName},
+            \&Foswiki::Sandbox::validateWebName );
+        push( @tmpWebs, $web );
+        if ( Foswiki::isTrue($recurse) ) {
+            require Foswiki::Meta;
+            my $webObject = Foswiki::Meta->new( $session, $session->{webName} );
+            my $it =
+              $webObject->eachWeb( $Foswiki::cfg{EnableHierarchicalWebs} );
+            while ( $it->hasNext() ) {
+                my $w = $session->{webName} . '/' . $it->next();
+                next
+                  unless $Foswiki::WebFilter::user_allowed->ok( $session, $w );
+                $w = Foswiki::Sandbox::untaint( $w,
+                    \&Foswiki::Sandbox::validateWebName );
+                push( @tmpWebs, $w );
+            }
+        }
+    }
+
+    my @webs;
+    foreach my $web (@tmpWebs) {
+        next unless defined $web;
+        push( @webs, $web ) unless $excludeWeb{$web};
+        $excludeWeb{$web} = 1;    # eliminate duplicates
+    }
+
+    # Default to alphanumeric sort order
+    return sort @webs;
+}
+
+
 1;
 __END__
 

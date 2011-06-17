@@ -14,92 +14,67 @@ use strict;
 use warnings;
 use Assert;
 
+use Foswiki::Store::Interfaces::QueryAlgorithm ();
+our @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
+
 use Foswiki::Search::InfoCache;
 use Foswiki::Search::ResultSet;
 
-use Foswiki::Store::Interfaces::SearchAlgorithm ();
-#@ISA = ( 'Foswiki::Store::Interfaces::SearchAlgorithm' );
+use constant MONITOR => 0;
 
-# Implements Foswiki::Store::Interfaces::SearchAlgorithm
 sub query {
     my ( $query, $inputTopicSet, $session, $options ) = @_;
 
-    if ( $query->isEmpty() ) {
+    if ( $query->isEmpty() )
+    {    #TODO: does this do anything in a type=query context?
         return new Foswiki::Search::InfoCache( $session, '' );
     }
 
-    my $webNames = $options->{web}       || '';
-    my $recurse  = $options->{'recurse'} || '';
-    my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
+    # Fold constants
+    my $context = Foswiki::Meta->new( $session, $session->{webName} );
+    print STDERR "--- before: " . $query->stringify() . "\n" if MONITOR;
+    $query->simplify( tom => $context, data => $context );
+    print STDERR "--- simplified: " . $query->stringify() . "\n" if MONITOR;
 
-    my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
-    my @webs = Foswiki::Store::Interfaces::SearchAlgorithm::getListOfWebs(
-        $webNames, $recurse, $searchAllFlag );
+    my $webItr = Foswiki::Store::Interfaces::QueryAlgorithm::getWebIterator($session, $options);
+    
+    #do the search
+    my $queryItr = new Foswiki::Iterator::ProcessIterator(
+        $webItr,
+        sub {
+            my $web    = shift;
+            my $params = shift;
 
-    my @resultCacheList;
-    foreach my $web (@webs) {
+            my $infoCache =
+              _webQuery( $params->{query}, $web, $params->{inputTopicSet},
+                $params->{session}, $params->{options} );
+            $infoCache->sortResults($options);
+            return $infoCache;
+        },
+        {
+            query    => $query,
+            inputset => $inputTopicSet,
+            session  => $session,
+            options  => $options
+        }
+    );
 
-        # can't process what ain't thar
-        next unless $session->webExists($web);
+    #sadly, the resultSet currently wants a real array, rather than an unevaluated iterator
+    my @resultCacheList = $queryItr->all();
 
-        my $webObject = Foswiki::Meta->new( $session, $web );
-        my $thisWebNoSearchAll =
-          Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
-
-        # make sure we can report this web on an 'all' search
-        # DON'T filter out unless it's part of an 'all' search.
-        next
-          if ( $searchAllFlag
-            && !$isAdmin
-            && ( $thisWebNoSearchAll || $web =~ /^[\.\_]/ )
-            && $web ne $session->{webName} );
-
-        my $infoCache =
-          _webQuery( $query, $web, $inputTopicSet, $session, $options );
-        $infoCache->sortResults($options);
-        push( @resultCacheList, $infoCache );
-    }
+    #and thus if the ResultSet could be created using an unevaluated process itr, which would somehow rely on........ eeeeek
     my $resultset =
       new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
         $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
 
-    #TODO: $options should become redundant
+#consider if this is un-necessary - and that we can steal the web order sort from DBIStore and push up to the webItr
     $resultset->sortResults($options);
     
-    #add filtering for ACL test - probably should make it a seperate filter
-    $resultset = new Foswiki::Iterator::FilterIterator(
-        $resultset,
-        sub {
-            my $listItem = shift;
-            my $params   = shift;
-
-            #ACL test
-            my ( $web, $topic ) =
-              Foswiki::Func::normalizeWebTopicName( '', $listItem );
-
-            my $topicMeta = $Foswiki::Plugins::SESSION->search->metacache->addMeta( $web, $topic );
-            if ( not defined($topicMeta) ) {
-
-#TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
-#lets change that
-                $topicMeta = new Foswiki::Meta( $session, $web, $topic );
-            }
-            my $info = $Foswiki::Plugins::SESSION->search->metacache->get( $web, $topic, $topicMeta );
-            ##ASSERT( defined( $info->{tom} ) ) if DEBUG;
-
-# Check security (don't show topics the current user does not have permission to view)
-            return 0 unless ( $info->{allowView} );
-            return 1;
-        },
-        $options
-    );
-    if ( $options->{paging_on} ) {
-        $resultset =
-          new Foswiki::Iterator::PagerIterator( $resultset, $options->{pagesize},
-            $options->{showpage} );
-    }
+    #add permissions check
+    $resultset = Foswiki::Store::Interfaces::QueryAlgorithm::addACLFilter( $resultset, $options );
     
-    return $resultset;
+    #add paging if applicable.
+    return Foswiki::Store::Interfaces::QueryAlgorithm::addPager( $resultset, $options );
 }
 
 # Search .txt files in $dir for $searchString. This is the 'old' interface

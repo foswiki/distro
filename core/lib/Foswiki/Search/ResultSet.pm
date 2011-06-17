@@ -35,6 +35,7 @@ not damaged in any way.
 
 sub new {
     my ( $class, $list, $partition, $sortby, $revSort ) = @_;
+    
     my $this = bless(
         {
             Itr_list  => $list,

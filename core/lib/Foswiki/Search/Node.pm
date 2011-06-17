@@ -71,6 +71,16 @@ sub stringify {
         join(',', map { "$_=>$this->{options}->{$_}" }
                grep { !/^_/ } keys %{$this->{options}}) . '}';
 } 
+=begin TML
+
+---++ ObjectMethod simplify(%opts)
+
+does nothing yet
+
+=cut
+
+sub simplify {
+}
 
 1;
 __END__

@@ -27,16 +27,20 @@ use strict;
 use warnings;
 
 use Foswiki::Store::Interfaces::QueryAlgorithm ();
-our @ISA = ( 'Foswiki::Store::Interfaces::QueryAlgorithm' );
+our @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
 
 use Foswiki::Store::Interfaces::SearchAlgorithm ();
-use Foswiki::Search::Node      ();
-use Foswiki::Meta              ();
-use Foswiki::Search::InfoCache ();
-use Foswiki::Search::ResultSet ();
-use Foswiki::MetaCache         ();
-use Foswiki::Query::Node       ();
-use Foswiki::Query::HoistREs   ();
+use Foswiki::Search::Node                       ();
+use Foswiki::Meta                               ();
+use Foswiki::Search::InfoCache                  ();
+use Foswiki::Search::ResultSet                  ();
+use Foswiki::MetaCache                          ();
+use Foswiki::Query::Node                        ();
+use Foswiki::Query::HoistREs                    ();
+
+use Foswiki::ListIterator;
+use Foswiki::Iterator::FilterIterator;
+use Foswiki::Iterator::ProcessIterator;
 
 use constant MONITOR => 0;
 
@@ -44,85 +48,58 @@ use constant MONITOR => 0;
 sub query {
     my ( $query, $inputTopicSet, $session, $options ) = @_;
 
+    if ( $query->isEmpty() )
+    {    #TODO: does this do anything in a type=query context?
+        return new Foswiki::Search::InfoCache( $session, '' );
+    }
+
     # Fold constants
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
-    print STDERR "--- before: ".$query->stringify()."\n" if MONITOR;
+    print STDERR "--- before: " . $query->stringify() . "\n" if MONITOR;
     $query->simplify( tom => $context, data => $context );
-    print STDERR "--- simplified: ".$query->stringify()."\n" if MONITOR;
+    print STDERR "--- simplified: " . $query->stringify() . "\n" if MONITOR;
 
-    my $webNames = $options->{web}       || '';
-    my $recurse  = $options->{'recurse'} || '';
-    my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
+    my $webItr = Foswiki::Store::Interfaces::QueryAlgorithm::getWebIterator($session, $options);
+    
+    #do the search
+    my $queryItr = new Foswiki::Iterator::ProcessIterator(
+        $webItr,
+        sub {
+            my $web    = shift;
+            my $params = shift;
 
-    my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
-    my @webs = Foswiki::Store::Interfaces::SearchAlgorithm::getListOfWebs(
-        $webNames, $recurse, $searchAllFlag );
+            my $infoCache =
+              _webQuery( $params->{query}, $web, $params->{inputTopicSet},
+                $params->{session}, $params->{options} );
+            $infoCache->sortResults($options);
+            return $infoCache;
+        },
+        {
+            query    => $query,
+            inputset => $inputTopicSet,
+            session  => $session,
+            options  => $options
+        }
+    );
 
-    my @resultCacheList;
-    foreach my $web (@webs) {
+    #sadly, the resultSet currently wants a real array, rather than an unevaluated iterator
+    my @resultCacheList = $queryItr->all();
 
-        # can't process what ain't thar
-        next unless $session->webExists($web);
-
-        my $webObject = Foswiki::Meta->new( $session, $web );
-        my $thisWebNoSearchAll = Foswiki::isTrue(
-            $webObject->getPreference('NOSEARCHALL') );
-
-        # make sure we can report this web on an 'all' search
-        # DON'T filter out unless it's part of an 'all' search.
-        next
-          if ( $searchAllFlag
-            && !$isAdmin
-            && ( $thisWebNoSearchAll || $web =~ /^[\.\_]/ )
-            && $web ne $session->{webName} );
-
-        #TODO: combine these into one great ResultSet
-        my $infoCache =
-          _webQuery( $query, $web, $inputTopicSet, $session, $options );
-        push( @resultCacheList, $infoCache );
-    }
+    #and thus if the ResultSet could be created using an unevaluated process itr, which would somehow rely on........ eeeeek
     my $resultset =
       new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
         $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
 
-    #TODO: $options should become redundant
+#consider if this is un-necessary - and that we can steal the web order sort from DBIStore and push up to the webItr
     $resultset->sortResults($options);
     
-    #add filtering for ACL test - probably should make it a seperate filter
-    $resultset = new Foswiki::Iterator::FilterIterator(
-        $resultset,
-        sub {
-            my $listItem = shift;
-            my $params   = shift;
-
-            #ACL test
-            my ( $web, $topic ) =
-              Foswiki::Func::normalizeWebTopicName( '', $listItem );
-
-            my $topicMeta = $Foswiki::Plugins::SESSION->search->metacache->addMeta( $web, $topic );
-            if ( not defined($topicMeta) ) {
-
-#TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
-#lets change that
-                $topicMeta = new Foswiki::Meta( $session, $web, $topic );
-            }
-            my $info = $Foswiki::Plugins::SESSION->search->metacache->get( $web, $topic, $topicMeta );
-            ##ASSERT( defined( $info->{tom} ) ) if DEBUG;
-
-# Check security (don't show topics the current user does not have permission to view)
-            return 0 unless ( $info->{allowView} );
-            return 1;
-        },
-        $options
-    );
-    if ( $options->{paging_on} ) {
-        $resultset =
-          new Foswiki::Iterator::PagerIterator( $resultset, $options->{pagesize},
-            $options->{showpage} );
-    }
+    #add permissions check
+    $resultset = Foswiki::Store::Interfaces::QueryAlgorithm::addACLFilter( $resultset, $options );
     
-    return $resultset;
+    #add paging if applicable.
+    return Foswiki::Store::Interfaces::QueryAlgorithm::addPager( $resultset, $options );
 }
+
 
 # Query over a single web
 sub _webQuery {
@@ -141,9 +118,10 @@ sub _webQuery {
 
     if ( $query->evaluatesToConstant() ) {
         print STDERR "-- constant?\n" if MONITOR;
+
         # SMELL: use any old topic
-        my $cache = $Foswiki::Plugins::SESSION->search->metacache->get(
-            $web, 'WebPreferences' );
+        my $cache = $Foswiki::Plugins::SESSION->search->metacache->get( $web,
+            'WebPreferences' );
         my $meta = $cache->{tom};
         $queryIsAConstantFastpath =
           $query->evaluate( tom => $meta, data => $meta );
@@ -169,20 +147,17 @@ sub _webQuery {
     # can use to refine the topic set
 
     my $hoistedREs = Foswiki::Query::HoistREs::hoist($query);
-    print STDERR "-- hoisted ".Data::Dumper->Dump([$hoistedREs])."\n"
-	if MONITOR;
+    print STDERR "-- hoisted " . Data::Dumper->Dump( [$hoistedREs] ) . "\n"
+      if MONITOR;
 
     # Reduce the input topic set by matching simple topic names hoisted
     # from the query.
 
-    if (
-            ( !defined( $options->{topic} ) )
+    if (    ( !defined( $options->{topic} ) )
         and ( $hoistedREs->{name} )
-        and (
-            scalar( @{ $hoistedREs->{name} } ) == 1
-        )
-      )
+        and ( scalar( @{ $hoistedREs->{name} } ) == 1 ) )
     {
+
         # only do this if the 'name' query is simple
         # (ie, has only one element)
         my @filter = @{ $hoistedREs->{name_source} };
@@ -219,14 +194,16 @@ sub _webQuery {
         };
         my @filter = @{ $hoistedREs->{text} };
         my $searchQuery =
-          new Foswiki::Search::Node( $query->toString(),
-            \@filter, $searchOptions );
+          new Foswiki::Search::Node( $query->toString(), \@filter,
+            $searchOptions );
+
         #use Data::Dumper;
         #print STDERR "--- hoisted: ".Dumper($hoistedREs)."\n" if MONITOR;
 
         $topicSet->reset();
-        $topicSet = $session->{store}->query(
-            $searchQuery, $topicSet, $session, $searchOptions );
+        $topicSet =
+          $session->{store}
+          ->query( $searchQuery, $topicSet, $session, $searchOptions );
     }
     else {
 
@@ -234,7 +211,8 @@ sub _webQuery {
         # and if we are able to use the sorting hints (ie DB Store)
         # can propogate all the way to FORMAT
 
-        print STDERR "WARNING: couldn't hoistREs on ".$query->toString() if MONITOR;
+        print STDERR "WARNING: couldn't hoistREs on " . $query->toString()
+          if MONITOR;
     }
 
     local $/;
@@ -264,7 +242,7 @@ sub _webQuery {
               $Foswiki::Plugins::SESSION->search->metacache->addMeta( $Iweb,
                 $topic );
             print STDERR "-- evaluate $Iweb, $topic\n" if MONITOR;
-            next unless (defined($meta));   #not a valid or loadable topic
+            next unless ( defined($meta) );    #not a valid or loadable topic
 
             # this 'lazy load' will become useful when @$topics becomes
             # an infoCache

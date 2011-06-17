@@ -11,9 +11,14 @@ use Foswiki::Sandbox   ();
 use Foswiki::WebFilter ();
 use Foswiki::Meta      ();
 
+use Foswiki::Store::Interfaces::QueryAlgorithm ();
+our @ISA = ( 'Foswiki::Store::Interfaces::QueryAlgorithm' );
+
 =begin TML
 
 ---+ package Foswiki::Store::Interfaces::SearchAlgorithm
+
+DEPRECATED - all SearchAlgorithm and QueryAlgorithm use the same calling convention.
 
 Interface to search algorithms.
 Implementations of this interface are found in Foswiki/Store/SearchAlgorithms.
@@ -32,106 +37,6 @@ Return a Foswiki::Search::ResultSet.
 
 =cut
 
-=begin TML
-
----+ getListOfWebs($webnames, $recurse, $serachAllFlag) -> @webs
-
-Convert a comma separated list of webs into the list we'll process
-TODO: this is part of the Store now, and so should not need to reference
-Meta - it rather uses the store.
-
-=cut
-
-sub getListOfWebs {
-    my ( $webName, $recurse, $searchAllFlag ) = @_;
-    my $session = $Foswiki::Plugins::SESSION;
-
-    my %excludeWeb;
-    my @tmpWebs;
-
-  #$web = Foswiki::Sandbox::untaint( $web,\&Foswiki::Sandbox::validateWebName );
-
-    if ($webName) {
-        foreach my $web ( split( /[\,\s]+/, $webName ) ) {
-            $web =~ s#\.#/#go;
-
-            # the web processing loop filters for valid web names,
-            # so don't do it here.
-            if ( $web =~ s/^-// ) {
-                $excludeWeb{$web} = 1;
-            }
-            else {
-                if (   $web =~ /^(all|on)$/i
-                    || $Foswiki::cfg{EnableHierarchicalWebs}
-                    && Foswiki::isTrue($recurse) )
-                {
-                    my $webObject;
-                    my $prefix = "$web/";
-                    if ( $web =~ /^(all|on)$/i ) {
-                        $webObject = Foswiki::Meta->new($session);
-                        $prefix    = '';
-                    }
-                    else {
-                        $web = Foswiki::Sandbox::untaint( $web,
-                            \&Foswiki::Sandbox::validateWebName );
-                        ASSERT($web) if DEBUG;
-                        push( @tmpWebs, $web );
-                        $webObject = Foswiki::Meta->new( $session, $web );
-                    }
-                    my $it = $webObject->eachWeb(1);
-                    while ( $it->hasNext() ) {
-                        my $w = $prefix . $it->next();
-                        next
-                          unless $Foswiki::WebFilter::user_allowed->ok(
-                            $session, $w );
-                        $w = Foswiki::Sandbox::untaint( $w,
-                            \&Foswiki::Sandbox::validateWebName );
-                        ASSERT($web) if DEBUG;
-                        push( @tmpWebs, $w );
-                    }
-                }
-                else {
-                    $web = Foswiki::Sandbox::untaint( $web,
-                        \&Foswiki::Sandbox::validateWebName );
-                    push( @tmpWebs, $web );
-                }
-            }
-        }
-
-    }
-    else {
-
-        # default to current web
-        my $web =
-          Foswiki::Sandbox::untaint( $session->{webName},
-            \&Foswiki::Sandbox::validateWebName );
-        push( @tmpWebs, $web );
-        if ( Foswiki::isTrue($recurse) ) {
-            require Foswiki::Meta;
-            my $webObject = Foswiki::Meta->new( $session, $session->{webName} );
-            my $it =
-              $webObject->eachWeb( $Foswiki::cfg{EnableHierarchicalWebs} );
-            while ( $it->hasNext() ) {
-                my $w = $session->{webName} . '/' . $it->next();
-                next
-                  unless $Foswiki::WebFilter::user_allowed->ok( $session, $w );
-                $w = Foswiki::Sandbox::untaint( $w,
-                    \&Foswiki::Sandbox::validateWebName );
-                push( @tmpWebs, $w );
-            }
-        }
-    }
-
-    my @webs;
-    foreach my $web (@tmpWebs) {
-        next unless defined $web;
-        push( @webs, $web ) unless $excludeWeb{$web};
-        $excludeWeb{$web} = 1;    # eliminate duplicates
-    }
-
-    # Default to alphanumeric sort order
-    return sort @webs;
-}
 
 1;
 
