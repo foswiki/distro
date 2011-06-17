@@ -526,6 +526,7 @@ sub verify_string_bops {
     $this->check( "string~notafield",               eval => 0 );
     $this->check( "notafield=~'SomeTextToTestFor'", eval => 0 );
     $this->check( "string!=notafield",              eval => 1 );
+    $this->check( "string=notafield",               eval => 0 );
     $this->check( "string+notafield",               eval => 'String' );
     $this->check( "string='Str'",                   eval => 0 );
     $this->check( "string~'?trin?'",                eval => 1 );
