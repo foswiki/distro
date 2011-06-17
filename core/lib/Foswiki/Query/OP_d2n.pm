@@ -26,10 +26,13 @@ sub evaluate {
         $node,
         sub {
             my $date = shift;
-            eval {
-                require Foswiki::Time;
-                $date = Foswiki::Time::parseTime( $date, 1 );
-            };
+
+            if ( defined $date ) {
+                eval {
+                    require Foswiki::Time;
+                    $date = Foswiki::Time::parseTime( $date, 1 );
+                };
+            }
 
             # ignore $@
             return $date;
