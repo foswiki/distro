@@ -1075,18 +1075,22 @@ sub _createCssStyles {
 
     # headerbg
     if ( defined $inAttrs->{headerBg} ) {
-        unless ( $inAttrs->{headerBg} =~ /none/i ) {
-            my $attr = 'background-color:' . $inAttrs->{headerBg};
-            &$setAttribute( $tableSelector, 'th', $attr );
-        }
+        my $color =
+          ( $inAttrs->{headerBg} =~ /none/i )
+          ? 'transparent'
+          : $inAttrs->{headerBg};
+        my $attr = 'background-color:' . $color;
+        &$setAttribute( $tableSelector, 'th', $attr );
     }
 
     # headerbgsorted
     if ( defined $inAttrs->{headerBgSorted} ) {
-        unless ( $inAttrs->{headerBgSorted} =~ /none/i ) {
-            my $attr = 'background-color:' . $inAttrs->{headerBgSorted};
-            &$setAttribute( $tableSelector, 'th.foswikiSortedCol', $attr );
-        }
+        my $color =
+          ( $inAttrs->{headerBgSorted} =~ /none/i )
+          ? 'transparent'
+          : $inAttrs->{headerBgSorted};
+        my $attr = 'background-color:' . $color;
+        &$setAttribute( $tableSelector, 'th.foswikiSortedCol', $attr );
     }
 
     # headercolor
@@ -1106,32 +1110,32 @@ sub _createCssStyles {
 
     # databg (array)
     if ( defined $inAttrs->{dataBgListRef} ) {
-        my @dataBg = @{ $inAttrs->{dataBgListRef} };
-        unless ( $dataBg[0] =~ /none/i ) {
-            my $count = 0;
-            foreach my $color (@dataBg) {
-                next if !$color;
-                my $rowSelector = 'foswikiTableRow' . 'dataBg' . $count;
-                my $attr        = "background-color:$color";
-                &$setAttribute( $tableSelector, "tr.$rowSelector td", $attr );
-                $count++;
-            }
+        my @dataBg    = @{ $inAttrs->{dataBgListRef} };
+        my $noneColor = ( $dataBg[0] =~ /none/i ) ? 'transparent' : '';
+        my $count     = 0;
+        foreach my $color (@dataBg) {
+            $color = $noneColor if $noneColor;
+            next if !$color;
+            my $rowSelector = 'foswikiTableRow' . 'dataBg' . $count;
+            my $attr        = "background-color:$color";
+            &$setAttribute( $tableSelector, "tr.$rowSelector td", $attr );
+            $count++;
         }
     }
 
     # databgsorted (array)
     if ( defined $inAttrs->{dataBgSortedListRef} ) {
         my @dataBgSorted = @{ $inAttrs->{dataBgSortedListRef} };
-        unless ( $dataBgSorted[0] =~ /none/i ) {
-            my $count = 0;
-            foreach my $color (@dataBgSorted) {
-                next if !$color;
-                my $rowSelector = 'foswikiTableRow' . 'dataBg' . $count;
-                my $attr        = "background-color:$color";
-                &$setAttribute( $tableSelector,
-                    "tr.$rowSelector td.foswikiSortedCol", $attr );
-                $count++;
-            }
+        my $noneColor    = ( $dataBgSorted[0] =~ /none/i ) ? 'transparent' : '';
+        my $count        = 0;
+        foreach my $color (@dataBgSorted) {
+            $color = $noneColor if $noneColor;
+            next if !$color;
+            my $rowSelector = 'foswikiTableRow' . 'dataBg' . $count;
+            my $attr        = "background-color:$color";
+            &$setAttribute( $tableSelector,
+                "tr.$rowSelector td.foswikiSortedCol", $attr );
+            $count++;
         }
     }
 
@@ -1509,7 +1513,8 @@ sub emitTable {
                 if ( $combinedTableAttrs->{generateInlineMarkup}
                     && defined $combinedTableAttrs->{headerBg} )
                 {
-                    $attr->{bgcolor} = $combinedTableAttrs->{headerBg};
+                    $attr->{bgcolor} = $combinedTableAttrs->{headerBg}
+                      unless ( $combinedTableAttrs->{headerBg} =~ /none/i );
                 }
 
                 # END html attribute
@@ -1531,8 +1536,9 @@ sub emitTable {
                     if ( $combinedTableAttrs->{generateInlineMarkup}
                         && defined $combinedTableAttrs->{headerBgSorted} )
                     {
-                        $attr->{bgcolor} =
-                          $combinedTableAttrs->{headerBgSorted};
+                        $attr->{bgcolor} = $combinedTableAttrs->{headerBgSorted}
+                          unless (
+                            $combinedTableAttrs->{headerBgSorted} =~ /none/i );
                     }
 
                     # END html attribute
@@ -1601,7 +1607,8 @@ sub emitTable {
                     {
                         my @dataBg =
                           @{ $combinedTableAttrs->{dataBgSortedListRef} };
-                        unless ( $dataBg[0] =~ /none/i ) {
+
+                        unless ( $dataBg[0] =~ /none/ ) {
                             $attr->{bgcolor} =
                               $dataBg[ $dataColorCount % ( $#dataBg + 1 ) ];
                         }

@@ -195,7 +195,8 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  11 Apr 2011 | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
+|  17 Jun 2011 | 1.133: Arthur Clemens: setting =databg= and =headerbg= to ="none"= now makes the cell transparent. |
+|  11 Apr 2011 | 1.132: Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  09 Mar 2011 | 1.131: Arthur Clemens: fix sorting bug that was not properly fixed in 1.128. |
 |  08 Mar 2011 | 1.130: Michael Daum: Foswikitask:Item10456: fixed initialization in persistent perl environments. |
 |  05 Mar 2011 | 1.129: Arthur Clemens: Foswikitask:Item8302: init sorting is broken if no header row. \
