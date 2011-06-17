@@ -32,14 +32,19 @@ sub evaluate {
         return $a + $b;
     }
     else {
-        if ( not defined $a ) {
-            $a = '';
-        }
-        if ( not defined $b ) {
-            $b = '';
+        my $result;
+
+        if ( defined $a ) {
+            if (defined $b) {
+                $result = $a . $b;
+            } else {
+                $result = $a;
+            }
+        } elsif ( defined $b ) {
+            $result = $b;
         }
 
-        return $a . $b;
+        return $result;
     }
 }
 

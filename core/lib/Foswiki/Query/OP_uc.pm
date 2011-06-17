@@ -28,8 +28,7 @@ sub evaluate {
         $node,
         sub {
             my $arg = shift;
-            if ( not defined $arg ) { $arg = ''; }
-            uc($arg);
+            defined $arg ? uc($arg) : undef;
         },
         @_
     );
