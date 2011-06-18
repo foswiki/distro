@@ -290,10 +290,10 @@ sub verify_string_uops {
     $this->check( "uc(string)",     eval => "STRING" );
     $this->check( "lc string",      eval => 'string' );
     $this->check( "lc(notafield)",  eval => undef );
-    $this->check( "lc notafield",   eval => '' );
+    $this->check( "lc notafield",   eval => undef );
     $this->check( "uc 'string'",    eval => 'STRING', simpler => "'STRING'" );
     $this->check( "uc (notafield)", eval => undef );
-    $this->check( "uc notafield",   eval => '' );
+    $this->check( "uc notafield",   eval => undef );
     $this->check( "lc 'STRING'",    eval => 'string', simpler => "'string'" );
     $this->check( "brace",          eval => 'Some text (really) we have text' );
     $this->check( "lc(brace)",      eval => 'some text (really) we have text' );
