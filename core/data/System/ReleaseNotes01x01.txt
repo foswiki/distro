@@ -40,7 +40,35 @@ Foswiki 1.1 is shipped with the following:
    * *Compatibility support* - !TWikiCompatibilityPlugin
 
 #Release01x01Changes
----++ Important Changes since Foswiki 1.1.2
+---++ Important changes since Foswiki 1.1.3
+
+---+++ [[Foswikitask:Item10874][Item10874]]: 1.1.3 may have changed some =form.name= MetaData to contain fully-qualified (with web name prefix) values
+In Foswiki 1.1.4 this problem has been fixed, however, users upgrading from 1.1.3 may wish to review the following information to determine if they need to take action on their existing SEARCHes or !DataForm topics.
+<blockquote class="foswikiHelp">%I% Please note, you may be unaffected by Foswikitask:Item10874 if:
+   * You have never used Foswiki 1.1.3
+   * You are not [[%SYSTEMWEB%.QuerySearch][QuerySearching]] =form.name= MetaData for exact topic-only (without web prefix) values, or
+   * Your users are not adding or changing DataForms on their topics via the edit screen's "add/change form" button, or
+   * Your installation is using Foswiki:Extensions.NatEditPlugin </blockquote>
+
+---++++ Description
+Any topics which have had a [[System.DataForms][DataForm]] added or changed using the "Add/change form" button on the edit screen while running Foswiki 1.1.3 will now have "fully-qualified" Web.Topic names in the =form.name= System.MetaData even if the =WEBFORMS= preference variable omitted web prefixes from [[%SYSTEMWEB%.DataForms][DataForm]] topic names. In other words, if you were using a =WEBFORMS= preference which looked like this:%JQREQUIRE{"chili"}%
+<verbatim class="tml">   * Set WEBFORMS = MyForm</verbatim>
+
+In Foswiki 1.1.3, the "Add/change form" button on the edit screen actually treats it like this:
+<verbatim class="tml">   * Set WEBFORMS = TheWeb/TheSubWeb.MyForm</verbatim>
+
+Having selected "MyForm", the =form.name= value is actually stored as =TheWeb/SomeSubWeb.MyForm=. This prevents System.QuerySearch type [[System.VarSEARCH][SEARCHes]] for an exact match on the topic-only value of =form.name= from working correctly, for example:
+<verbatim class="tml">%SEARCH{"form.name='MyForm'" type="query" ...}%</verbatim>
+
+... will not match these topics. Instead, a search on both possible values can be used:
+<verbatim class="tml">%SEARCH{"form.name='MyForm' OR form.name='TheWeb/SomeSubWeb.MyForm'" type="query" ...}%</verbatim>
+
+Or a regex query:
+<verbatim class="tml">%SEARCH{"form.name=~'\bMyForm$'" type="query" ...}%</verbatim></blockquote>
+
+Alternatively, the erroneous =form.name= values can be repaired by searching for and fixing them using one of the solutions detailed in Foswikitask:Item10874#Solution
+
+---++ Important changes since Foswiki 1.1.2
 
 ---+++ Changes to %<nop>GROUPS% and %<nop>GROUPINFO% Macros
 
@@ -68,7 +96,7 @@ On releases prior to Foswiki 1.1.3, JQueryPlugin shipped with jQuery 1.3.2 enabl
    1 [[UpgradeGuide#ManagingBrowserCache][Clear browser cache]]
    1 test non-default plugins and any custom jQuery javascript code for compatibility with jQuery 1.4.4.
 
----++ Important Changes since Foswiki 1.0.10
+---++ Important changes since Foswiki 1.0.10
 
 Foswiki 1.1 has many improvements that end users as well as administrators will appreciate. In addition Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. Work has been made to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements. Here is a list of the most important enhancements in Foswiki 1.1.0
 
