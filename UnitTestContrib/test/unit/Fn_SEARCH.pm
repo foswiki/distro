@@ -45,27 +45,29 @@ sub run_in_new_process {
 sub set_up {
     my ($this) = shift;
     $this->SUPER::set_up(@_);
-    
+
     my $timestamp = time();
-    
+
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OkTopic',
         "BLEEGLE blah/matchme.blah" );
-    $topicObject->save(forcedate=>$timestamp+120);
+    $topicObject->save( forcedate => $timestamp + 120 );
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OkATopic',
         "BLEEGLE dontmatchme.blah" );
-    $topicObject->save(forcedate=>$timestamp+240);
+    $topicObject->save( forcedate => $timestamp + 240 );
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OkBTopic',
         "BLEEGLE dont.matchmeblah" );
-    $topicObject->save(forcedate=>$timestamp+480);
+    $topicObject->save( forcedate => $timestamp + 480 );
 
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'InvisibleTopic',
-        "BLEEGLE dont.matchmeblah" );
-    $topicObject->putKeyed( 'PREFERENCE', { name => 'ALLOWTOPICVIEW', value =>'OnlySuperman' } );
-    $topicObject->save(forcedate=>$timestamp+480);
+    $topicObject = Foswiki::Meta->new(
+        $this->{session}, $this->{test_web},
+        'InvisibleTopic', "BLEEGLE dont.matchmeblah"
+    );
+    $topicObject->putKeyed( 'PREFERENCE',
+        { name => 'ALLOWTOPICVIEW', value => 'OnlySuperman' } );
+    $topicObject->save( forcedate => $timestamp + 480 );
 
 }
 
@@ -131,7 +133,7 @@ sub loadExtraConfig {
 #This is temoprary until Crawford and I cna find a way to push dependencies into unit tests
     if (   ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/ )
         or ( $Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongoDB/ )
-        or ( $context                             =~ /MongoDB/ ) )
+        or ( $context =~ /MongoDB/ ) )
     {
         $Foswiki::cfg{Plugins}{MongoDBPlugin}{Module} =
           'Foswiki::Plugins::MongoDBPlugin';
@@ -143,7 +145,8 @@ sub loadExtraConfig {
           {'Foswiki::Plugins::MongoDBPlugin::Listener'} = 1;
         require Foswiki::Plugins::MongoDBPlugin;
         Foswiki::Plugins::MongoDBPlugin::getMongoDB()
-          ->remove( $this->{test_web}, 'current', { '_web' => $this->{test_web} } );
+          ->remove( $this->{test_web}, 'current',
+            { '_web' => $this->{test_web} } );
     }
 }
 
@@ -158,7 +161,8 @@ sub tear_down {
     {
         require Foswiki::Plugins::MongoDBPlugin;
         Foswiki::Plugins::MongoDBPlugin::getMongoDB()
-          ->remove( $this->{test_web}, 'current', { '_web' => $this->{test_web} } );
+          ->remove( $this->{test_web}, 'current',
+            { '_web' => $this->{test_web} } );
     }
 }
 
@@ -1799,7 +1803,7 @@ sub _getTopicList {
     ASSERT( UNIVERSAL::isa( $iter, 'Foswiki::Iterator' ) ) if DEBUG;
     my @topicList = ();
     while ( my $t = $iter->next() ) {
-        next if ($t eq 'InvisibleTopic'); #and user != admin or...
+        next if ( $t eq 'InvisibleTopic' );    #and user != admin or...
         push( @topicList, $t );
     }
 
@@ -2129,10 +2133,9 @@ FORM
 FORM
     $topicObject->save();
 
-    my $actual =
-      $topicObject->expandMacros(
+    my $actual = $topicObject->expandMacros(
 '%SEARCH{"TestForm.Ecks~\'Blah*\'" type="query" order="topic" separator="," format="$topic;$formfield(Ecks)" nonoise="on"}%'
-      );
+    );
     my $expected = 'SplodgeOne;Blah';
     $this->assert_str_equals( $expected, $actual );
 
@@ -2157,10 +2160,9 @@ FORM
 FORM
     $topicObject->save();
 
-    my $actual =
-      $topicObject->expandMacros(
+    my $actual = $topicObject->expandMacros(
 '%SEARCH{"TestForm.Ecks~\'Blah*\'" type="query" order="topic" separator="," format="$topic;$formfield(Ecks)" nonoise="on"}%'
-      );
+    );
     my $expected = 'SplodgeOne;Blah';
     $this->assert_str_equals( $expected, $actual );
 
@@ -2964,12 +2966,17 @@ CRUD
 
     # Now we create the WikiGuest user topic, to test both outputs
     my $session = $this->{session};
-    if( !$session->topicExists(  'TemporarySEARCHUsersWeb', 'WikiGuest' ) ) {
-        my $userTopic =
-          Foswiki::Meta->new( $session, 'TemporarySEARCHUsersWeb', 'WikiGuest', 'Just this poor old WikiGuest' );
+    if ( !$session->topicExists( 'TemporarySEARCHUsersWeb', 'WikiGuest' ) ) {
+        my $userTopic = Foswiki::Meta->new(
+            $session,    'TemporarySEARCHUsersWeb',
+            'WikiGuest', 'Just this poor old WikiGuest'
+        );
         $userTopic->save();
     }
-    $this->assert( $session->topicExists(  'TemporarySEARCHUsersWeb', 'WikiGuest' ), 'Failed to create user topic in TemporarySEACHUsersWeb' );
+    $this->assert(
+        $session->topicExists( 'TemporarySEARCHUsersWeb', 'WikiGuest' ),
+        'Failed to create user topic in TemporarySEACHUsersWeb'
+    );
 
     $result =
       $this->{test_topicObject}
@@ -4207,8 +4214,16 @@ HERE
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'QueryTopic',
         $text );
-    $topicObject->save( forcedate => 1178412772, author => 'admin', forcenewrevision=>1 );
-    $topicObject->save( forcedate => 1178612772, author => 'simon', forcenewrevision=>1  );
+    $topicObject->save(
+        forcedate        => 1178412772,
+        author           => 'admin',
+        forcenewrevision => 1
+    );
+    $topicObject->save(
+        forcedate        => 1178612772,
+        author           => 'simon',
+        forcenewrevision => 1
+    );
 
     $text = <<'HERE';
 %META:TOPICINFO{author="BaseUserMapping_666" date="1108412772" format="1.1" version="1.2"}%
@@ -4234,8 +4249,16 @@ HERE
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'QueryTopicTwo',
         $text );
-    $topicObject->save( forcedate => 1108312772, author => 'admin', forcenewrevision=>1   );
-    $topicObject->save( forcedate => 1178612772, author => 'simon', forcenewrevision=>1  );
+    $topicObject->save(
+        forcedate        => 1108312772,
+        author           => 'admin',
+        forcenewrevision => 1
+    );
+    $topicObject->save(
+        forcedate        => 1178612772,
+        author           => 'simon',
+        forcenewrevision => 1
+    );
 
     $text = <<'HERE';
 %META:TOPICINFO{author="TopicUserMapping_Gerald" date="1108412782" format="1.1" version="1.2"}%
@@ -4309,31 +4332,43 @@ sub test_orderTopic {
         $result
     );
 
-#order=created
+    #order=created
     $result =
-      $this->{test_topicObject}->expandMacros(
-        $search . 'order="created" format="$topic"}%' );
+      $this->{test_topicObject}
+      ->expandMacros( $search . 'order="created" format="$topic"}%' );
 
-$this->assert_str_equals( "QueryTopicTwo,QueryTopicThree,QueryTopic,WebPreferences,TestTopicSEARCH,OkTopic,OkATopic,OkBTopic", $result );
+    $this->assert_str_equals(
+"QueryTopicTwo,QueryTopicThree,QueryTopic,WebPreferences,TestTopicSEARCH,OkTopic,OkATopic,OkBTopic",
+        $result
+    );
 
     $result =
       $this->{test_topicObject}
       ->expandMacros( $search . 'order="created" reverse="on"}%' );
 
-$this->assert_str_equals( "OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferences,QueryTopic,QueryTopicThree,QueryTopicTwo", $result );
+    $this->assert_str_equals(
+"OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferences,QueryTopic,QueryTopicThree,QueryTopicTwo",
+        $result
+    );
 
     #order=modified
     $result =
       $this->{test_topicObject}->expandMacros( $search . 'order="modified"}%' );
 
-$this->assert_str_equals( "QueryTopicThree,QueryTopicTwo,QueryTopic,WebPreferences,TestTopicSEARCH,OkTopic,OkATopic,OkBTopic", $result );
+    $this->assert_str_equals(
+"QueryTopicThree,QueryTopicTwo,QueryTopic,WebPreferences,TestTopicSEARCH,OkTopic,OkATopic,OkBTopic",
+        $result
+    );
 
     $result =
-      $this->{test_topicObject}
-      ->expandMacros( $search . 'order="modified" reverse="on" format="$topic"}%' );
+      $this->{test_topicObject}->expandMacros(
+        $search . 'order="modified" reverse="on" format="$topic"}%' );
 
 #be very careful with this test and the one above - the change in order between QueryTopicTwo,QueryTopic is due to them having the same date, so its sorting by topicname
-$this->assert_str_equals( "OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferences,QueryTopicTwo,QueryTopic,QueryTopicThree", $result );
+    $this->assert_str_equals(
+"OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferences,QueryTopicTwo,QueryTopic,QueryTopicThree",
+        $result
+    );
 
     #order=editby
     #TODO: imo this is a bug - alpha sorting should be caseinsensitive
@@ -4346,8 +4381,11 @@ $this->assert_str_equals( "OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferen
 #"QueryTopicThree (Gerald),OkTopic (WikiGuest),OkBTopic (WikiGuest),WebPreferences (WikiGuest),TestTopicSEARCH (WikiGuest),OkATopic (WikiGuest),QueryTopicTwo (admin),QueryTopic (simon)",
 #        $result
 #    );
-    #needed to allow for store based differences in non-specified fields (ie, if sort on editby, then topic order is random - dependent on store impl)
-    $this->assert_matches( qr/^QueryTopicThree \(Gerald\),.*WikiGuest\),QueryTopicTwo \(simon\),QueryTopic \(simon\)$/, $result );
+#needed to allow for store based differences in non-specified fields (ie, if sort on editby, then topic order is random - dependent on store impl)
+    $this->assert_matches(
+qr/^QueryTopicThree \(Gerald\),.*WikiGuest\),QueryTopicTwo \(simon\),QueryTopic \(simon\)$/,
+        $result
+    );
 
     #TODO: why is this different from 1.0.x?
 
@@ -4360,9 +4398,11 @@ $this->assert_str_equals( "OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferen
 #"QueryTopic (simon),QueryTopicTwo (admin),OkTopic (WikiGuest),OkBTopic (WikiGuest),WebPreferences (WikiGuest),TestTopicSEARCH (WikiGuest),OkATopic (WikiGuest),QueryTopicThree (Gerald)",
 #        $result
 #    );
-    #needed to allow for store based differences in non-specified fields (ie, if sort on editby, then topic order is random - dependent on store impl)
-    $this->assert_matches( qr/^QueryTopicTwo \(simon\),QueryTopic \(simon\),.*\(WikiGuest\),QueryTopicThree \(Gerald\)$/, $result );
-
+#needed to allow for store based differences in non-specified fields (ie, if sort on editby, then topic order is random - dependent on store impl)
+    $this->assert_matches(
+qr/^QueryTopicTwo \(simon\),QueryTopic \(simon\),.*\(WikiGuest\),QueryTopicThree \(Gerald\)$/,
+        $result
+    );
 
     #TODO: why is this different from 1.0.x?
 
@@ -4377,7 +4417,10 @@ $this->assert_str_equals( "OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferen
 #"OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic (),QueryTopicThree (2),QueryTopicTwo (7),QueryTopic (1234)",
 #        $result
 #    );
-    $this->assert_matches( qr/\(\),QueryTopicThree \(2\),QueryTopicTwo \(7\),QueryTopic \(1234\)$/, $result );
+    $this->assert_matches(
+        qr/\(\),QueryTopicThree \(2\),QueryTopicTwo \(7\),QueryTopic \(1234\)$/,
+        $result
+    );
 
     $result =
       $this->{test_topicObject}->expandMacros( $search
@@ -4462,8 +4505,7 @@ $this->assert_str_equals( "OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferen
     #order=formfield(Date)
     $result =
       $this->{test_topicObject}->expandMacros( $search
-          . 'order="formfield(Date)" format="$topic ($formfield(Date))"}%'
-      );
+          . 'order="formfield(Date)" format="$topic ($formfield(Date))"}%' );
 
     $this->assert_str_equals(
 "OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic (),QueryTopicThree (30 Jan 2010),QueryTopicTwo (15 Nov 2010),QueryTopic (12 Dec 2010)",
@@ -4491,9 +4533,9 @@ sub verify_bad_order {
       . $this->{test_web}
       . '" format="$topic" separator="," nonoise="on" ';
     my $result =
-      $this->{test_topicObject}->expandMacros(
-	  $search .
-	  'order="formfield()"}%' );
+      $this->{test_topicObject}
+      ->expandMacros( $search . 'order="formfield()"}%' );
+
     # Should get the default search order (or an error message, perhaps?)
     $this->assert_str_equals(
 "OkATopic,OkBTopic,OkTopic,QueryTopic,QueryTopicThree,QueryTopicTwo,TestTopicSEARCH,WebPreferences",
@@ -4617,8 +4659,7 @@ METADATA
         '$createusername'     => 'guest',
         '$createwikiname'     => $testUser,
         '$createwikiusername' => "$Foswiki::cfg{UsersWebName}.$testUser",
-        '$changes' =>
-          qr/^$nop$this->{test_web}\.$testTopic $header/,
+        '$changes'            => qr/^$nop$this->{test_web}\.$testTopic $header/,
         '$changes(1)' => '',            # Only 1 revision
         '$formname'   => 'TestyForm',
         '$formfield(Option)'     => 'Some long test I can truncate later',
@@ -4676,9 +4717,10 @@ sub test_search_scope_topic {
 '%SEARCH{"VarREMOTE" web="%SYSTEMWEB%" scope="topic" format="$topic" separator="," nonoise="on"}%'
       );
 
-    my @topics = split(/,/, $result);
-    $this->assert_num_equals(3, scalar(@topics));
-    $this->assert_equals('VarREMOTEADDR,VarREMOTEPORT,VarREMOTEUSER', $result);
+    my @topics = split( /,/, $result );
+    $this->assert_num_equals( 3, scalar(@topics) );
+    $this->assert_equals( 'VarREMOTEADDR,VarREMOTEPORT,VarREMOTEUSER',
+        $result );
 }
 
 sub test_minus_scope_all {
@@ -4733,7 +4775,7 @@ EXPECT
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"Beer" scope="all" type="word" nonoise="on" format="$topic"}%'
+        '%SEARCH{"Beer" scope="all" type="word" nonoise="on" format="$topic"}%'
       );
 
     $expected = <<EXPECT;
@@ -4759,7 +4801,7 @@ NoLife
 SomeBeer
 EXPECT
     $this->assert_str_equals( $expected, $result . "\n" );
-    
+
     $result =
       $this->{test_topicObject}->expandMacros(
 '%SEARCH{"Beer -Virtual" scope="all" type="word" nonoise="on" format="$topic"}%'
@@ -4772,7 +4814,7 @@ NoLife
 SomeBeer
 EXPECT
     $this->assert_str_equals( $expected, $result . "\n" );
-    
+
 }
 
 #TaxonProfile/Builder.TermForm
@@ -4782,8 +4824,8 @@ sub verify_Item10269 {
     $this->set_up_for_queries();
 
     my $result =
-      $this->{test_topicObject}
-      ->expandMacros( '%SEARCH{"NewField=\'TaxonProfile/Builder.TermForm\'"' . $stdCrap );
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"NewField=\'TaxonProfile/Builder.TermForm\'"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
@@ -4793,15 +4835,17 @@ sub verify_Item10398 {
 
     $this->set_up_for_queries();
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'Trash.MainBobTest',
-        "BLEEGLE blah/matchme.blah" );
+    my $topicObject = Foswiki::Meta->new(
+        $this->{session},    $this->{test_web},
+        'Trash.MainBobTest', "BLEEGLE blah/matchme.blah"
+    );
     $topicObject->save();
-
 
     my $result =
       $this->{test_topicObject}
-      ->expandMacros( '%SEARCH{"name=\'WebPreferences\'" type="query" web="'.$this->{test_web}.'" recurse="on" nonoise="on" format="$topic"}%' );
+      ->expandMacros( '%SEARCH{"name=\'WebPreferences\'" type="query" web="'
+          . $this->{test_web}
+          . '" recurse="on" nonoise="on" format="$topic"}%' );
     $this->assert_str_equals( 'WebPreferences', $result );
 }
 
@@ -4874,11 +4918,13 @@ I'm able to duplicate the issue locally on a 1.1.3 checkout (two webs returned w
 TOPICTEXT
     $topicObject->save();
 
-
     my $result =
       $this->{test_topicObject}
-      ->expandMacros( '%SEARCH{"SomeString" type="word" web="'.$this->{test_web}.'"  scope="all" order="topic"}%' );
-    $this->assert_str_equals( _cut_the_crap(<<RESULT), _cut_the_crap($result."\n") );
+      ->expandMacros( '%SEARCH{"SomeString" type="word" web="'
+          . $this->{test_web}
+          . '"  scope="all" order="topic"}%' );
+    $this->assert_str_equals(
+        _cut_the_crap(<<RESULT), _cut_the_crap( $result . "\n" ) );
 <div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>SomeString</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 <h4 class="foswikiSearchResultsHeader"  style="border-color:\#FF00FF"><b>Results from <nop>TemporarySEARCHTestWebSEARCH web</b> retrieved at 04:34 (GMT)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
@@ -4897,8 +4943,9 @@ sub verify_multiple_order_fields {
     $this->set_up_for_queries();
 
     my $result =
-      $this->{test_topicObject}
-      ->expandMacros( '%SEARCH{"1" order="formfield(Firstname),formfield(Lastname)" ' . $stdCrap );
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"1" order="formfield(Firstname),formfield(Lastname)" '
+          . $stdCrap );
     $this->assert_str_equals( 'QueryTopic,QueryTopicTwo', $result );
 }
 
