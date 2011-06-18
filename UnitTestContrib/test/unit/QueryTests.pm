@@ -368,6 +368,40 @@ sub verify_d2n {
     $this->check( "d2n notatime",     eval => undef );
 }
 
+sub verify_string_bops {
+    my $this = shift;
+    $this->check( "string='String'",                eval => 1 );
+    $this->check( "string='String '",               eval => 0 );
+    $this->check( "string~'String '",               eval => 0 );
+    $this->check( "string~notafield",               eval => 0 );
+    $this->check( "notafield=~'SomeTextToTestFor'", eval => 0 );
+    $this->check( "string!=notafield",              eval => 1 );
+    $this->check( "string=notafield",               eval => 0 );
+    $this->check( "string='Str'",                   eval => 0 );
+    $this->check( "string~'?trin?'",                eval => 1 );
+    $this->check( "string~'*'",                     eval => 1 );
+    $this->check( "string~'*String'",               eval => 1 );
+    $this->check( "string~'*trin*'",                eval => 1 );
+    $this->check( "string~'*in?'",                  eval => 1 );
+    $this->check( "string~'*ri?'",                  eval => 0 );
+    $this->check( "string~'??????'",                eval => 1 );
+    $this->check( "string~'???????'",               eval => 0 );
+    $this->check( "string~'?????'",                 eval => 0 );
+    $this->check( "'SomeTextToTestFor'~'Text'",     eval => 0, simpler => 0 );
+    $this->check( "'SomeTextToTestFor'~'*Text'",    eval => 0, simpler => 0 );
+    $this->check( "'SomeTextToTestFor'~'Text*'",    eval => 0, simpler => 0 );
+    $this->check( "'SomeTextToTestFor'~'*Text*'",   eval => 1, simpler => 1 );
+    $this->check( "string!='Str'",                  eval => 1 );
+    $this->check( "string!='String '",              eval => 1 );
+    $this->check( "string!='String'",               eval => 0 );
+    $this->check( "string!='string'",               eval => 1 );
+    $this->check( "string='string'",                eval => 0 );
+    $this->check( "macro='\%RED\%'", eval => 1, syntaxOnly => 1 );
+    $this->check( "macro~'\%RED?'",  eval => 1, syntaxOnly => 1 );
+    $this->check( "macro~'?RED\%'",  eval => 1, syntaxOnly => 1 );
+    $this->check( "macro~'?RED\%'",  eval => 1, syntaxOnly => 1 );
+}
+
 sub verify_constants {
     my $this = shift;
     $this->check( "undefined",           eval => undef );
