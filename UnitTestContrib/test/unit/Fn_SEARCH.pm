@@ -1374,9 +1374,8 @@ sub verify_lc_field_short {
     $this->set_up_for_queries();
 
     my $result =
-      $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"lc(Firstname) ~ lc(\'Emma\')"'
-          . $stdCrap );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"lc(Firstname) ~ lc(\'Emma\')"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
@@ -1387,8 +1386,7 @@ sub verify_lc_field_qualified {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"lc(TestForm.Firstname) ~ lc(\'Emma\')"'
-          . $stdCrap );
+        '%SEARCH{"lc(TestForm.Firstname) ~ lc(\'Emma\')"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
@@ -2075,10 +2073,9 @@ FORM
 FORM
     $topicObject->save();
 
-    my $actual =
-      $topicObject->expandMacros(
+    my $actual = $topicObject->expandMacros(
 '%SEARCH{"TestForm.Ecks~\'Blah*\'" type="query" order="topic" separator="," format="$topic;$formfield(Ecks)" nonoise="on"}%'
-      );
+    );
     my $expected = 'SplodgeOne;Blah';
     $this->assert_str_equals( $expected, $actual );
 
@@ -2103,10 +2100,9 @@ FORM
 FORM
     $topicObject->save();
 
-    my $actual =
-      $topicObject->expandMacros(
+    my $actual = $topicObject->expandMacros(
 '%SEARCH{"TestForm.Ecks~\'Blah*\'" type="query" order="topic" separator="," format="$topic;$formfield(Ecks)" nonoise="on"}%'
-      );
+    );
     my $expected = 'SplodgeOne;Blah';
     $this->assert_str_equals( $expected, $actual );
 
@@ -2910,12 +2906,17 @@ CRUD
 
     # Now we create the WikiGuest user topic, to test both outputs
     my $session = $this->{session};
-    if( !$session->topicExists(  'TemporarySEARCHUsersWeb', 'WikiGuest' ) ) {
-        my $userTopic =
-          Foswiki::Meta->new( $session, 'TemporarySEARCHUsersWeb', 'WikiGuest', 'Just this poor old WikiGuest' );
+    if ( !$session->topicExists( 'TemporarySEARCHUsersWeb', 'WikiGuest' ) ) {
+        my $userTopic = Foswiki::Meta->new(
+            $session,    'TemporarySEARCHUsersWeb',
+            'WikiGuest', 'Just this poor old WikiGuest'
+        );
         $userTopic->save();
     }
-    $this->assert( $session->topicExists(  'TemporarySEARCHUsersWeb', 'WikiGuest' ), 'Failed to create user topic in TemporarySEACHUsersWeb' );
+    $this->assert(
+        $session->topicExists( 'TemporarySEARCHUsersWeb', 'WikiGuest' ),
+        'Failed to create user topic in TemporarySEACHUsersWeb'
+    );
 
     $result =
       $this->{test_topicObject}
@@ -4396,12 +4397,11 @@ sub verify_orderTopic {
 "QueryTopic (Pedro),QueryTopicTwo (John),QueryTopicThree (Jason),OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic ()",
         $result
     );
-    
+
     #order=formfield(Date)
     $result =
       $this->{test_topicObject}->expandMacros( $search
-          . 'order="formfield(Date)" format="$topic ($formfield(Date))"}%'
-      );
+          . 'order="formfield(Date)" format="$topic ($formfield(Date))"}%' );
 
     $this->assert_str_equals(
 "OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic (),QueryTopicThree (30 Jan 2010),QueryTopicTwo (15 Nov 2010),QueryTopic (12 Dec 2010)",
@@ -4536,8 +4536,7 @@ METADATA
         '$createusername'     => 'guest',
         '$createwikiname'     => $testUser,
         '$createwikiusername' => "$Foswiki::cfg{UsersWebName}.$testUser",
-        '$changes' =>
-          qr/^$nop$this->{test_web}\.$testTopic $header/,
+        '$changes'            => qr/^$nop$this->{test_web}\.$testTopic $header/,
         '$changes(1)' => '',            # Only 1 revision
         '$formname'   => 'TestyForm',
         '$formfield(Option)'     => 'Some long test I can truncate later',
@@ -4594,8 +4593,8 @@ sub verify_Item10269 {
     $this->set_up_for_queries();
 
     my $result =
-      $this->{test_topicObject}
-      ->expandMacros( '%SEARCH{"NewField=\'TaxonProfile/Builder.TermForm\'"' . $stdCrap );
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"NewField=\'TaxonProfile/Builder.TermForm\'"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
@@ -4656,11 +4655,13 @@ I'm able to duplicate the issue locally on a 1.1.3 checkout (two webs returned w
 TOPICTEXT
     $topicObject->save();
 
-
     my $result =
       $this->{test_topicObject}
-      ->expandMacros( '%SEARCH{"SomeString" type="word" web="'.$this->{test_web}.'"  scope="all" order="topic"}%' );
-    $this->assert_str_equals( _cut_the_crap(<<RESULT), _cut_the_crap($result."\n") );
+      ->expandMacros( '%SEARCH{"SomeString" type="word" web="'
+          . $this->{test_web}
+          . '"  scope="all" order="topic"}%' );
+    $this->assert_str_equals(
+        _cut_the_crap(<<RESULT), _cut_the_crap( $result . "\n" ) );
 <div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>SomeString</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 <h4 class="foswikiSearchResultsHeader"  style="border-color:\#FF00FF"><b>Results from <nop>TemporarySEARCHTestWebSEARCH web</b> retrieved at 04:34 (GMT)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
@@ -4679,8 +4680,9 @@ sub verify_multiple_order_fields {
     $this->set_up_for_queries();
 
     my $result =
-      $this->{test_topicObject}
-      ->expandMacros( '%SEARCH{"1" order="formfield(Firstname),formfield(Lastname)" ' . $stdCrap );
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"1" order="formfield(Firstname),formfield(Lastname)" '
+          . $stdCrap );
     $this->assert_str_equals( 'QueryTopic,QueryTopicTwo', $result );
 }
 
