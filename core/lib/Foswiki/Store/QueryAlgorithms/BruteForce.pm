@@ -31,17 +31,17 @@ our @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
 
 use Foswiki::Store::Interfaces::SearchAlgorithm ();
 use Foswiki::Search::Node                       ();
-use Foswiki::Meta                               ();
 use Foswiki::Search::InfoCache                  ();
 use Foswiki::Search::ResultSet                  ();
-use Foswiki::MetaCache                          ();
-use Foswiki::Query::Node                        ();
-use Foswiki::Query::HoistREs                    ();
-
-use Foswiki::ListIterator;
-use Foswiki::Iterator::FilterIterator;
-use Foswiki::Iterator::ProcessIterator;
-use Foswiki::Iterator::ProcessIterator;
+use Foswiki();
+use Foswiki::Func();
+use Foswiki::Meta            ();
+use Foswiki::MetaCache       ();
+use Foswiki::Query::Node     ();
+use Foswiki::Query::HoistREs ();
+use Foswiki::ListIterator();
+use Foswiki::Iterator::FilterIterator();
+use Foswiki::Iterator::ProcessIterator();
 
 use constant MONITOR => 0;
 
@@ -51,7 +51,7 @@ sub query {
 
     if ( $query->isEmpty() )
     {    #TODO: does this do anything in a type=query context?
-        return new Foswiki::Search::InfoCache( $session, '' );
+        return Foswiki::Search::InfoCache->new( $session, '' );
     }
 
     # Fold constants
@@ -60,10 +60,12 @@ sub query {
     $query->simplify( tom => $context, data => $context );
     print STDERR "--- simplified: " . $query->stringify() . "\n" if MONITOR;
 
-    my $webItr = Foswiki::Store::Interfaces::QueryAlgorithm::getWebIterator($session, $options);
-    
+    my $webItr =
+      Foswiki::Store::Interfaces::QueryAlgorithm::getWebIterator( $session,
+        $options );
+
     #do the search
-    my $queryItr = new Foswiki::Iterator::ProcessIterator(
+    my $queryItr = Foswiki::Iterator::ProcessIterator->new(
         $webItr,
         sub {
             my $web    = shift;
@@ -83,31 +85,33 @@ sub query {
         }
     );
 
-    #sadly, the resultSet currently wants a real array, rather than an unevaluated iterator
+#sadly, the resultSet currently wants a real array, rather than an unevaluated iterator
     my @resultCacheList = $queryItr->all();
 
-    #and thus if the ResultSet could be created using an unevaluated process itr, which would somehow rely on........ eeeeek
+#and thus if the ResultSet could be created using an unevaluated process itr, which would somehow rely on........ eeeeek
     my $resultset =
       new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
         $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
 
 #consider if this is un-necessary - and that we can steal the web order sort from DBIStore and push up to the webItr
     $resultset->sortResults($options);
-    
-    #add permissions check
-    $resultset = Foswiki::Store::Interfaces::QueryAlgorithm::addACLFilter( $resultset, $options );
-    
-    #add paging if applicable.
-    return Foswiki::Store::Interfaces::QueryAlgorithm::addPager( $resultset, $options );
-}
 
+    #add permissions check
+    $resultset =
+      Foswiki::Store::Interfaces::QueryAlgorithm::addACLFilter( $resultset,
+        $options );
+
+    #add paging if applicable.
+    return Foswiki::Store::Interfaces::QueryAlgorithm::addPager( $resultset,
+        $options );
+}
 
 # Query over a single web
 sub _webQuery {
     my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
 
     my $resultTopicSet =
-      new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web );
+      Foswiki::Search::InfoCache->new( $Foswiki::Plugins::SESSION, $web );
 
     # see if this query can be fasttracked.
     # TODO: is this simplification call appropriate here, or should it
@@ -195,7 +199,7 @@ sub _webQuery {
         };
         my @filter = @{ $hoistedREs->{text} };
         my $searchQuery =
-          new Foswiki::Search::Node( $query->toString(), \@filter,
+          Foswiki::Search::Node->new( $query->toString(), \@filter,
             $searchOptions );
 
         #use Data::Dumper;

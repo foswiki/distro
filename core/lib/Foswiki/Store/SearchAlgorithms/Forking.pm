@@ -17,9 +17,19 @@ use Assert;
 use Foswiki::Store::Interfaces::QueryAlgorithm ();
 our @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
 
-use Foswiki::Search::InfoCache;
-use Foswiki::Search::ResultSet;
-use Foswiki::Iterator::ProcessIterator;
+use Foswiki::Store::Interfaces::SearchAlgorithm ();
+use Foswiki::Search::Node                       ();
+use Foswiki::Search::InfoCache                  ();
+use Foswiki::Search::ResultSet                  ();
+use Foswiki();
+use Foswiki::Func();
+use Foswiki::Meta            ();
+use Foswiki::MetaCache       ();
+use Foswiki::Query::Node     ();
+use Foswiki::Query::HoistREs ();
+use Foswiki::ListIterator();
+use Foswiki::Iterator::FilterIterator();
+use Foswiki::Iterator::ProcessIterator();
 
 use constant MONITOR => 0;
 
@@ -28,7 +38,7 @@ sub query {
 
     if ( $query->isEmpty() )
     {    #TODO: does this do anything in a type=query context?
-        return new Foswiki::Search::InfoCache( $session, '' );
+        return Foswiki::Search::InfoCache->new( $session, '' );
     }
 
     # Fold constants
@@ -37,10 +47,12 @@ sub query {
     $query->simplify( tom => $context, data => $context );
     print STDERR "--- simplified: " . $query->stringify() . "\n" if MONITOR;
 
-    my $webItr = Foswiki::Store::Interfaces::QueryAlgorithm::getWebIterator($session, $options);
-    
+    my $webItr =
+      Foswiki::Store::Interfaces::QueryAlgorithm::getWebIterator( $session,
+        $options );
+
     #do the search
-    my $queryItr = new Foswiki::Iterator::ProcessIterator(
+    my $queryItr = Foswiki::Iterator::ProcessIterator->new(
         $webItr,
         sub {
             my $web    = shift;
@@ -60,22 +72,25 @@ sub query {
         }
     );
 
-    #sadly, the resultSet currently wants a real array, rather than an unevaluated iterator
+#sadly, the resultSet currently wants a real array, rather than an unevaluated iterator
     my @resultCacheList = $queryItr->all();
 
-    #and thus if the ResultSet could be created using an unevaluated process itr, which would somehow rely on........ eeeeek
+#and thus if the ResultSet could be created using an unevaluated process itr, which would somehow rely on........ eeeeek
     my $resultset =
-      new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
+      Foswiki::Search::ResultSet->new( \@resultCacheList, $options->{groupby},
         $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
 
 #consider if this is un-necessary - and that we can steal the web order sort from DBIStore and push up to the webItr
     $resultset->sortResults($options);
-    
+
     #add permissions check
-    $resultset = Foswiki::Store::Interfaces::QueryAlgorithm::addACLFilter( $resultset, $options );
-    
+    $resultset =
+      Foswiki::Store::Interfaces::QueryAlgorithm::addACLFilter( $resultset,
+        $options );
+
     #add paging if applicable.
-    return Foswiki::Store::Interfaces::QueryAlgorithm::addPager( $resultset, $options );
+    return Foswiki::Store::Interfaces::QueryAlgorithm::addPager( $resultset,
+        $options );
 }
 
 # Search .txt files in $dir for $searchString. This is the 'old' interface
@@ -137,12 +152,12 @@ sub _search {
 
     # process topics in sets, fix for Codev.ArgumentListIsTooLongForSearch
     my $maxTopicsInSet = 512;    # max number of topics for a grep call
-    # SMELL: the number is actually dependant on the length of the path
-    # to each file
-    # SMELL: the following while loop should probably be made by sysCommand,
-    # as this is a leaky abstraction.
-    # heck, on pre WinXP its only 2048, post XP its 8191 -
-    # http://support.microsoft.com/kb/830473
+        # SMELL: the number is actually dependant on the length of the path
+        # to each file
+        # SMELL: the following while loop should probably be made by sysCommand,
+        # as this is a leaky abstraction.
+        # heck, on pre WinXP its only 2048, post XP its 8191 -
+        # http://support.microsoft.com/kb/830473
     if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) {
 
         #tune the number based on the length of "$sDir/WebSearchAdvanced.txt"
@@ -304,7 +319,7 @@ sub _webQuery {
 
         # reduced topic list for next token
         $topicSet =
-          new Foswiki::Search::InfoCache( $Foswiki::Plugins::SESSION, $web,
+          Foswiki::Search::InfoCache->new( $Foswiki::Plugins::SESSION, $web,
             \@scopeTextList );
     }
 
@@ -315,7 +330,7 @@ sub _webQuery {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
