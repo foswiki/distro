@@ -290,44 +290,44 @@ sub verify_string_uops {
     $this->check( "uc(string)",     eval => "STRING" );
     $this->check( "lc string",      eval => 'string' );
     $this->check( "lc(notafield)",  eval => undef );
-    $this->check( "lc notafield",  eval => '' );
+    $this->check( "lc notafield",   eval => '' );
     $this->check( "uc 'string'",    eval => 'STRING', simpler => "'STRING'" );
     $this->check( "uc (notafield)", eval => undef );
-    $this->check( "uc notafield", eval => '' );
+    $this->check( "uc notafield",   eval => '' );
     $this->check( "lc 'STRING'",    eval => 'string', simpler => "'string'" );
-    $this->check( "brace",         eval => 'Some text (really) we have text' );
-    $this->check( "lc(brace)",     eval => 'some text (really) we have text' );
-    $this->check( "uc(brace)",     eval => 'SOME TEXT (REALLY) WE HAVE TEXT' );
+    $this->check( "brace",          eval => 'Some text (really) we have text' );
+    $this->check( "lc(brace)",      eval => 'some text (really) we have text' );
+    $this->check( "uc(brace)",      eval => 'SOME TEXT (REALLY) WE HAVE TEXT' );
 }
 
 sub verify_string_bops {
     my $this = shift;
-    $this->check( "string='String'",              eval => 1 );
-    $this->check( "string='String '",             eval => 0 );
-    $this->check( "string~'String '",             eval => 0 );
+    $this->check( "string='String'",                eval => 1 );
+    $this->check( "string='String '",               eval => 0 );
+    $this->check( "string~'String '",               eval => 0 );
     $this->check( "string~notafield",               eval => 0 );
     $this->check( "notafield=~'SomeTextToTestFor'", eval => 0 );
     $this->check( "string!=notafield",              eval => 1 );
-    $this->check( "string='Str'",                 eval => 0 );
-    $this->check( "string~'?trin?'",              eval => 1 );
-    $this->check( "string~'*'",                   eval => 1 );
-    $this->check( "string~'*String'",             eval => 1 );
-    $this->check( "string~'*trin*'",              eval => 1 );
-    $this->check( "string~'*in?'",                eval => 1 );
-    $this->check( "string~'*ri?'",                eval => 0 );
-    $this->check( "string~'??????'",              eval => 1 );
-    $this->check( "string~'???????'",             eval => 0 );
-    $this->check( "string~'?????'",               eval => 0 );
-    $this->check( "'SomeTextToTestFor'~'Text'",   eval => 0, simpler => 0 );
-    $this->check( "'SomeTextToTestFor'~'*Text'",  eval => 0, simpler => 0 );
-    $this->check( "'SomeTextToTestFor'~'Text*'",  eval => 0, simpler => 0 );
-    $this->check( "'SomeTextToTestFor'~'*Text*'", eval => 1, simpler => 1 );
-    $this->check( "string!='Str'",                eval => 1 );
-    $this->check( "string!='String '",            eval => 1 );
-    $this->check( "string!='String'",             eval => 0 );
-    $this->check( "string!='string'",             eval => 1 );
-    $this->check( "string='string'",              eval => 0 );
-    $this->check( "string~'string'",              eval => 0 );
+    $this->check( "string='Str'",                   eval => 0 );
+    $this->check( "string~'?trin?'",                eval => 1 );
+    $this->check( "string~'*'",                     eval => 1 );
+    $this->check( "string~'*String'",               eval => 1 );
+    $this->check( "string~'*trin*'",                eval => 1 );
+    $this->check( "string~'*in?'",                  eval => 1 );
+    $this->check( "string~'*ri?'",                  eval => 0 );
+    $this->check( "string~'??????'",                eval => 1 );
+    $this->check( "string~'???????'",               eval => 0 );
+    $this->check( "string~'?????'",                 eval => 0 );
+    $this->check( "'SomeTextToTestFor'~'Text'",     eval => 0, simpler => 0 );
+    $this->check( "'SomeTextToTestFor'~'*Text'",    eval => 0, simpler => 0 );
+    $this->check( "'SomeTextToTestFor'~'Text*'",    eval => 0, simpler => 0 );
+    $this->check( "'SomeTextToTestFor'~'*Text*'",   eval => 1, simpler => 1 );
+    $this->check( "string!='Str'",                  eval => 1 );
+    $this->check( "string!='String '",              eval => 1 );
+    $this->check( "string!='String'",               eval => 0 );
+    $this->check( "string!='string'",               eval => 1 );
+    $this->check( "string='string'",                eval => 0 );
+    $this->check( "string~'string'",                eval => 0 );
 }
 
 sub test_string_bops {
@@ -349,11 +349,12 @@ sub verify_length {
 sub verify_d2n {
     my $this = shift;
 
-    my $dst = (localtime(time))[8];
-    my $zeroTime = ( $dst ) ? 3600 : 0;
+    my $dst = ( localtime(time) )[8];
+    my $zeroTime = ($dst) ? 3600 : 0;
 
     $this->check(
-        "d2n '" . Foswiki::Time::formatTime( $zeroTime, '$iso', 'servertime' ) . "'",
+        "d2n '"
+          . Foswiki::Time::formatTime( $zeroTime, '$iso', 'servertime' ) . "'",
         eval    => 0,
         simpler => 0
     );
@@ -397,9 +398,9 @@ sub verify_string_bops {
     $this->check( "string!='string'",               eval => 1 );
     $this->check( "string='string'",                eval => 0 );
     $this->check( "macro='\%RED\%'", eval => 1, syntaxOnly => 1 );
-    $this->check( "macro~'\%RED?'",  eval => 1, syntaxOnly => 1 );
-    $this->check( "macro~'?RED\%'",  eval => 1, syntaxOnly => 1 );
-    $this->check( "macro~'?RED\%'",  eval => 1, syntaxOnly => 1 );
+    $this->check( "macro~'\%RED?'", eval => 1, syntaxOnly => 1 );
+    $this->check( "macro~'?RED\%'", eval => 1, syntaxOnly => 1 );
+    $this->check( "macro~'?RED\%'", eval => 1, syntaxOnly => 1 );
 }
 
 sub verify_constants {
@@ -570,7 +571,7 @@ sub test_match_lc_field {
     my $this = shift;
     $this->check(
         "'$this->{test_web}.HitTopic'/fields[NOT lc(name)=~'(s)'].name",
-        eval => [qw(number boolean macro brace)]);
+        eval => [qw(number boolean macro brace)] );
 }
 
 sub test_constant_strings {
