@@ -5,6 +5,9 @@ use strict;
 use warnings;
 use Assert;
 
+use Foswiki::Iterator::FilterIterator;
+use Foswiki::Iterator::PagerIterator;
+
 use constant MONITOR => 0;
 
 =begin TML
