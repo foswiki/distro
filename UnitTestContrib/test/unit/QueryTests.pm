@@ -100,7 +100,14 @@ sub set_up {
     $meta->putKeyed( 'FIELD',
         { name => "boolean", title => "Boolean", value => "1" } );
     $meta->putKeyed( 'FIELD', { name => "macro", value => "%RED%" } );
-
+    $meta->putKeyed(
+        'FIELD',
+        {
+            name  => "brace",
+            title => "Brace",
+            value => "Some text (really) we have text"
+        }
+    );
     $meta->{_text} = "Green ideas sleep furiously";
     $this->{meta}  = $meta;
     $meta->save();
@@ -283,8 +290,8 @@ sub verify_string_uops {
     $this->check( "uc(string)",     eval => "STRING" );
     $this->check( "lc string",      eval => 'string' );
     $this->check( "lc(notafield)",  eval => undef );
-    $this->check( "uc 'string'",    eval => 'STRING', simpler => "'STRING'" );
     $this->check( "lc notafield",  eval => '' );
+    $this->check( "uc 'string'",    eval => 'STRING', simpler => "'STRING'" );
     $this->check( "uc (notafield)", eval => undef );
     $this->check( "uc notafield", eval => '' );
     $this->check( "lc 'STRING'",    eval => 'string', simpler => "'string'" );
@@ -359,7 +366,26 @@ sub verify_d2n {
     $this->check( "d2n 'not a time'", eval => undef, simpler => 0 );
     $this->check( "d2n 0",            eval => undef, simpler => 0 );
     $this->check( "d2n notatime",     eval => undef );
-    $this->check( "d2n ()",           eval => [],    simpler => '()' );
+}
+
+sub verify_constants {
+    my $this = shift;
+    $this->check( "undefined",           eval => undef );
+    $this->check( "undefined=undefined", eval => 1 )
+      ;    #TODO: should really be able to simplify to '1'
+    $this->check( "brace=undefined",        eval => 0 );
+    $this->check( "NoFieldThere=undefined", eval => 1 );
+    $this->check( "now",                    eval => time );
+    $this->check( "number<now",             eval => 1 );
+    $this->check( "now>number",             eval => 1 );
+    $this->check( "now=now",                eval => 1 );
+}
+
+sub verify_boolean_corner_cases {
+    my $this = shift;
+    $this->check( "not not ''", eval => 0,  simpler => 0 );
+    $this->check( "0",          eval => 0,  simpler => 0 );
+    $this->check( "''",         eval => '', simpler => "''" );
 }
 
 sub verify_num_bops {
@@ -510,7 +536,7 @@ sub test_match_lc_field {
     my $this = shift;
     $this->check(
         "'$this->{test_web}.HitTopic'/fields[NOT lc(name)=~'(s)'].name",
-        eval => [qw(number boolean macro)]);
+        eval => [qw(number boolean macro brace)]);
 }
 
 sub test_constant_strings {
