@@ -19,6 +19,7 @@ our @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
 
 use Foswiki::Search::InfoCache;
 use Foswiki::Search::ResultSet;
+use Foswiki::Iterator::ProcessIterator;
 
 use constant MONITOR => 0;
 
