@@ -32,7 +32,6 @@ use Foswiki::Query::Node ();
 
 use constant MONITOR_HOIST => 0;
 
-
 =begin TML
 
 ---++ ObjectMethod collatedHoist($query) -> $hasRef
@@ -56,11 +55,10 @@ sub collatedHoist {
         push( @{ $collation{ $op->{node} } },             $op->{regex} );
         push( @{ $collation{ $op->{node} . '_source' } }, $op->{source} );
     }
-    
+
     #use Data::Dumper;
     #print STDERR "--- hoisted: ".Dumper(%collation)."\n" if MONITOR_HOIST;
 
-    
     return \%collation;
 }
 
@@ -197,17 +195,20 @@ sub _hoistEQ {
         my $lhs = _hoistDOT( $node->{params}[0] );
         my $rhs = _hoistConstant( $node->{params}[1] );
         if ( $lhs && defined $rhs ) {
+
 #need to detect if its a field, or in a text, and if its a field, remove the ^$ chars...
 #or if there are no ^$, add .*'s if they are not present
-            if ($lhs->{regex} ne "\000RHS\001") {
-                if ((not ($rhs =~ /^\^/)) and
-                    (not ($rhs =~ /^\.\*/))) {
-                        $rhs = '.*'.$rhs;
+            if ( $lhs->{regex} ne "\000RHS\001" ) {
+                if (    ( not( $rhs =~ /^\^/ ) )
+                    and ( not( $rhs =~ /^\.\*/ ) ) )
+                {
+                    $rhs = '.*' . $rhs;
                 }
-                
-                if ((not ($rhs =~ /\$$/)) and
-                    (not ($rhs =~ /\.\*$/))) {
-                        $rhs = $rhs.'.*';
+
+                if (    ( not( $rhs =~ /\$$/ ) )
+                    and ( not( $rhs =~ /\.\*$/ ) ) )
+                {
+                    $rhs = $rhs . '.*';
                 }
 
                 #if we're embedding the regex into another, then remove the ^'s

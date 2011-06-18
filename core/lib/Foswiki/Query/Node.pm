@@ -61,7 +61,7 @@ This hash is maintained by Foswiki::Meta and is *strictly read-only*
 
 # These used to be declared here, but have been refactored back into
 # Foswiki::Meta
-*aliases = \%Foswiki::Meta::aliases;
+*aliases     = \%Foswiki::Meta::aliases;
 *isArrayType = \%Foswiki::Meta::isArrayType;
 
 # <DEBUG SUPPORT>
@@ -74,12 +74,17 @@ sub MONITOR_EVAL { 0 }
 sub newLeaf {
     my ( $class, $val, $type ) = @_;
 
-    if ( $type == $Foswiki::Infix::Node::NAME && $val =~ /^({[A-Z][A-Z0-9_]*})+$/i ) {
+    if (   $type == $Foswiki::Infix::Node::NAME
+        && $val =~ /^({[A-Z][A-Z0-9_]*})+$/i )
+    {
+
         # config var name, make sure it's accessible.
-        unless (defined $isAccessibleCfg) {
-            $isAccessibleCfg = { map { $_ => 1 } @{$Foswiki::cfg{AccessibleCFG}} };
+        unless ( defined $isAccessibleCfg ) {
+            $isAccessibleCfg =
+              { map { $_ => 1 } @{ $Foswiki::cfg{AccessibleCFG} } };
         }
-        $val = ($isAccessibleCfg->{$val}) ? eval( '$Foswiki::cfg'.$val ) : '';
+        $val =
+          ( $isAccessibleCfg->{$val} ) ? eval( '$Foswiki::cfg' . $val ) : '';
         return $class->SUPER::newLeaf( $val, $Foswiki::Infix::Node::STRING );
     }
     else {
@@ -90,12 +95,16 @@ sub newLeaf {
 sub toString {
     my $a = shift;
     return 'undef' unless defined($a);
-    # Suppress the recursion check; the tree can easily be more than 
-    # 100 levels deep. 
-    no warnings 'recursion'; 
+
+    # Suppress the recursion check; the tree can easily be more than
+    # 100 levels deep.
+    no warnings 'recursion';
     if ( UNIVERSAL::isa( $a, 'Foswiki::Query::Node' ) ) {
-        return '{ op => ' . $a->{op} . ', params => ' . toString( $a->{params}
-        ) . ' }';
+        return
+            '{ op => '
+          . $a->{op}
+          . ', params => '
+          . toString( $a->{params} ) . ' }';
     }
     if ( ref($a) eq 'ARRAY' ) {
         return '[' . join( ',', map { toString($_) } @$a ) . ']';
@@ -143,24 +152,28 @@ sub evaluate {
         if ( $this->{op} == $Foswiki::Infix::Node::NAME
             && defined $domain{data} )
         {
-	    print STDERR '.' if MONITOR_EVAL;
-	    if (lc($this->{params}[0]) eq 'now') {
-		$result = time();
-	    } elsif (lc($this->{params}[0]) eq 'undefined') {
-		$result = undef;
-	    } else {
-		# a name; look it up in $domain{data}
-		eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
-		if ($@) {
-            print STDERR ' BOOM ' if MONITOR_EVAL;
-    		die $@ ;
-		}
-		$result = $Foswiki::cfg{Store}{QueryAlgorithm}->getField(
-		    $this, $domain{data}, $this->{params}[0] );
-	    }
+            print STDERR '.' if MONITOR_EVAL;
+            if ( lc( $this->{params}[0] ) eq 'now' ) {
+                $result = time();
+            }
+            elsif ( lc( $this->{params}[0] ) eq 'undefined' ) {
+                $result = undef;
+            }
+            else {
+
+                # a name; look it up in $domain{data}
+                eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
+                if ($@) {
+                    print STDERR ' BOOM ' if MONITOR_EVAL;
+                    die $@;
+                }
+                $result =
+                  $Foswiki::cfg{Store}{QueryAlgorithm}
+                  ->getField( $this, $domain{data}, $this->{params}[0] );
+            }
         }
         else {
-	    print STDERR ',' if MONITOR_EVAL;
+            print STDERR ',' if MONITOR_EVAL;
             $result = $this->{params}[0];
         }
     }
