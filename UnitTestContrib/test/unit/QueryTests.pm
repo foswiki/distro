@@ -288,6 +288,9 @@ sub verify_string_uops {
     $this->check( "uc (notafield)", eval => undef );
     $this->check( "uc notafield", eval => '' );
     $this->check( "lc 'STRING'",    eval => 'string', simpler => "'string'" );
+    $this->check( "brace",         eval => 'Some text (really) we have text' );
+    $this->check( "lc(brace)",     eval => 'some text (really) we have text' );
+    $this->check( "uc(brace)",     eval => 'SOME TEXT (REALLY) WE HAVE TEXT' );
 }
 
 sub verify_string_bops {
@@ -295,6 +298,9 @@ sub verify_string_bops {
     $this->check( "string='String'",              eval => 1 );
     $this->check( "string='String '",             eval => 0 );
     $this->check( "string~'String '",             eval => 0 );
+    $this->check( "string~notafield",               eval => 0 );
+    $this->check( "notafield=~'SomeTextToTestFor'", eval => 0 );
+    $this->check( "string!=notafield",              eval => 1 );
     $this->check( "string='Str'",                 eval => 0 );
     $this->check( "string~'?trin?'",              eval => 1 );
     $this->check( "string~'*'",                   eval => 1 );
