@@ -385,9 +385,10 @@ sub init_edit {
     if ($adminCmd) {
     }
     elsif ($form) {
+        my ($formWeb, $formTopic) = Foswiki::Func::normalizeWebTopicName($topicObject->web(), $form);
         my $formDef;
         try {
-            $formDef = new Foswiki::Form( $session, $templateWeb, $form );
+            $formDef = Foswiki::Form->new( $session, $formWeb, $formTopic);
         }
         catch Foswiki::OopsException with {
 
@@ -398,7 +399,7 @@ sub init_edit {
             # Reverse-engineer a form definition from the topic.
             # Allow OopsException to propagate
             $formDef =
-              new Foswiki::Form( $session, $templateWeb, $form, $topicObject );
+              Foswiki::Form->new( $session, $formWeb, $formTopic, $topicObject );
         }
 
         # Update with field values from the query
