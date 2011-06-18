@@ -284,7 +284,9 @@ sub verify_string_uops {
     $this->check( "lc string",      eval => 'string' );
     $this->check( "lc(notafield)",  eval => undef );
     $this->check( "uc 'string'",    eval => 'STRING', simpler => "'STRING'" );
+    $this->check( "lc notafield",  eval => '' );
     $this->check( "uc (notafield)", eval => undef );
+    $this->check( "uc notafield", eval => '' );
     $this->check( "lc 'STRING'",    eval => 'string', simpler => "'string'" );
 }
 
@@ -351,6 +353,7 @@ sub verify_d2n {
     $this->check( "d2n 'not a time'", eval => undef, simpler => 0 );
     $this->check( "d2n 0",            eval => undef, simpler => 0 );
     $this->check( "d2n notatime",     eval => undef );
+    $this->check( "d2n ()",           eval => [],    simpler => '()' );
 }
 
 sub verify_num_bops {
