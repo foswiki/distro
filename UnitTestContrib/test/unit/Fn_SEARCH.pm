@@ -4890,4 +4890,16 @@ TOPICTEXT
 RESULT
 }
 
+#Item10898
+sub verify_multiple_order_fields {
+    my $this = shift;
+
+    $this->set_up_for_queries();
+
+    my $result =
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"1" order="formfield(Firstname),formfield(Lastname)" ' . $stdCrap );
+    $this->assert_str_equals( 'QueryTopic,QueryTopicTwo', $result );
+}
+
 1;
