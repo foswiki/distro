@@ -35,6 +35,7 @@ package Foswiki::Time;
 use strict;
 use warnings;
 
+use Assert;
 use Foswiki ();
 
 our $VERSION = '$Rev$';    # Subversion rev number
@@ -113,6 +114,7 @@ If the date format was not recognised, will return undef.
 sub parseTime {
     my ( $date, $defaultLocal ) = @_;
 
+    ASSERT( defined $date ) if DEBUG;
     $date =~ s/^\s*//;    #remove leading spaces without de-tainting.
     $date =~ s/\s*$//;
 
