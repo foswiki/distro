@@ -533,4 +533,34 @@ Simple description of problem</textarea>', get_formfield( 2, $text )
         get_formfield( 6, $text ) );
 }
 
+# Item10874, originally Item10446
+# Test that ?formtemplate=MyForm works without web prefix on an unsaved topic
+sub test_unsavedtopic_rendersform {
+    my $this = shift;
+    my $query = Unit::Request->new(
+        {
+            webName   => [$testweb],
+            topicName => ['MissingTopic'],
+            formtemplate => ["$testform"]
+        }
+    );
+    $query->path_info("/$testweb/MissingTopic");
+    $query->method('POST');
+    my $fatwilly = Foswiki->new( $this->{test_user_login}, $query );
+    my ($text) = $this->capture(
+        sub {
+            no strict 'refs';
+            &{$this->getUIFn('edit')}($fatwilly);
+            use strict 'refs';
+            $Foswiki::engine->finalize( $fatwilly->{response},
+                $fatwilly->{request} );
+        }
+    );
+    $this->assert_html_matches(
+'<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />',
+        get_formfield( 6, $text ) );
+
+    return;
+}
+
 1;
