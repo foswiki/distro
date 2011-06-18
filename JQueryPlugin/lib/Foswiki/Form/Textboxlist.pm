@@ -72,8 +72,13 @@ sub getOptions {
     my @values          = ();
     my @valuesFromQuery = $query->param( $this->{name} );
     foreach my $item (@valuesFromQuery) {
-        foreach my $value ( split( /\s*,\s*/, $item ) ) {
-            push @values, $value if $value;
+
+        # Item10889: Coming from an "Warning! Confirmation required", often
+        # there's an undef item (the, last, empty, one, <-- here)
+        if ( defined $item ) {
+            foreach my $value ( split( /\s*,\s*/, $item ) ) {
+                push @values, $value if defined $value;
+            }
         }
     }
 
