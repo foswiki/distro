@@ -8,7 +8,7 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub untaint {
-   $_[0] =~ m/^(.*)$/;
+    $_[0] =~ m/^(.*)$/;
     return $1;
 }
 
@@ -18,21 +18,22 @@ sub check {
     my $mess = $this->guessMajorDir( 'WorkingDir', 'working', 1 );
     $Foswiki::cfg{WorkingDir} =~ s#[/\\]+$##;
 
-    # SMELL:   In a suexec environment, umask is forced to 077, blocking 
+    # SMELL:   In a suexec environment, umask is forced to 077, blocking
     # group and world access.  This is probably not bad for the working
     # directories.  But noting smell if mismatched permissions are questioned.
 
     #my $saveumask = umask();
     #umask ( oct(000));
 
-    if ( $mess ) {
-        $mess .= $this->NOTE('This directory will be created after the guessed settings are saved') unless (-d "$Foswiki::cfg{WorkingDir}" );
-        return $mess;   # guess will return message if a guess is made.
+    if ($mess) {
+        $mess .= $this->NOTE(
+'This directory will be created after the guessed settings are saved'
+        ) unless ( -d "$Foswiki::cfg{WorkingDir}" );
+        return $mess;    # guess will return message if a guess is made.
     }
 
-
     unless ( -d "$Foswiki::cfg{WorkingDir}" ) {
-        mkdir(untaint( "$Foswiki::cfg{WorkingDir}" ), oct(755) )
+        mkdir( untaint("$Foswiki::cfg{WorkingDir}"), oct(755) )
           || return $this->ERROR(
 "$Foswiki::cfg{WorkingDir} does not exist, and I can't create it: $!"
           );
@@ -45,7 +46,8 @@ sub check {
 "$Foswiki::cfg{WorkingDir}/tmp already exists, but is not a directory"
             );
         }
-        elsif ( !mkdir( untaint("$Foswiki::cfg{WorkingDir}/tmp"), oct(1777) ) ) {
+        elsif ( !mkdir( untaint("$Foswiki::cfg{WorkingDir}/tmp"), oct(1777) ) )
+        {
             $mess .=
               $this->ERROR("Could not create $Foswiki::cfg{WorkingDir}/tmp");
         }
@@ -60,7 +62,10 @@ sub check {
 "$Foswiki::cfg{WorkingDir}/work_areas already exists, but is not a directory"
             );
         }
-        elsif ( !mkdir(untaint("$Foswiki::cfg{WorkingDir}/work_areas"), oct(755)) ) {
+        elsif (
+            !mkdir( untaint("$Foswiki::cfg{WorkingDir}/work_areas"), oct(755) )
+          )
+        {
             $mess .= $this->ERROR(
                 "Could not create $Foswiki::cfg{WorkingDir}/work_areas");
         }
@@ -77,7 +82,8 @@ sub check {
 
         # Try and move the contents of the old workarea
         my $e =
-          $this->copytree( untaint($existing), untaint("$Foswiki::cfg{WorkingDir}/work_areas") );
+          $this->copytree( untaint($existing),
+            untaint("$Foswiki::cfg{WorkingDir}/work_areas") );
         if ($e) {
             $mess .= $this->ERROR($e);
         }
@@ -98,7 +104,13 @@ the upgrade." );
 "$Foswiki::cfg{WorkingDir}/registration_approvals already exists, but is not a directory"
             );
         }
-        elsif ( !mkdir(untaint("$Foswiki::cfg{WorkingDir}/registration_approvals"), oct(755)) ) {
+        elsif (
+            !mkdir(
+                untaint("$Foswiki::cfg{WorkingDir}/registration_approvals"),
+                oct(755)
+            )
+          )
+        {
             $mess .= $this->ERROR(
 "Could not create $Foswiki::cfg{WorkingDir}/registration_approvals"
             );
