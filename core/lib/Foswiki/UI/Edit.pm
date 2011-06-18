@@ -53,7 +53,8 @@ sub init_edit {
     my $onlyNewTopic  = Foswiki::isTrue( $query->param('onlynewtopic') );
     my $formTemplate  = $query->param('formtemplate') || '';
     my $templateTopic = $query->param('templatetopic') || '';
-    my $notemplateexpansion = Foswiki::isTrue( $query->param('notemplateexpansion') );
+    my $notemplateexpansion =
+      Foswiki::isTrue( $query->param('notemplateexpansion') );
 
     # apptype is deprecated undocumented legacy
     my $cgiAppType =
@@ -202,6 +203,7 @@ sub init_edit {
             $session->{request}
               ->param( -name => 'forcenewrevision', -value => '1' );
         }
+
         # Load $topicObject with the right revision
         $topicObject->unload();
         $topicObject->finish();
@@ -283,8 +285,8 @@ sub init_edit {
 
         # Copy the text
         $topicObject->text( $ttom->text() );
-        
-        unless ( $notemplateexpansion ) {
+
+        unless ($notemplateexpansion) {
             $topicObject->expandNewTopic();
         }
     }
@@ -370,8 +372,8 @@ sub init_edit {
     # Take a copy of the new topic in case the rendering process
     # reloads it. This can happen if certain macros are present, and
     # will damage the object.
-    my $tmplObject = Foswiki::Meta->new(
-        $session, $topicObject->web, $topicObject->topic);
+    my $tmplObject =
+      Foswiki::Meta->new( $session, $topicObject->web, $topicObject->topic );
     $tmplObject->copyFrom($topicObject);
 
     $tmpl = $tmplObject->expandMacros($tmpl);
@@ -385,10 +387,11 @@ sub init_edit {
     if ($adminCmd) {
     }
     elsif ($form) {
-        my ($formWeb, $formTopic) = Foswiki::Func::normalizeWebTopicName($topicObject->web(), $form);
+        my ( $formWeb, $formTopic ) =
+          Foswiki::Func::normalizeWebTopicName( $topicObject->web(), $form );
         my $formDef;
         try {
-            $formDef = Foswiki::Form->new( $session, $formWeb, $formTopic);
+            $formDef = Foswiki::Form->new( $session, $formWeb, $formTopic );
         }
         catch Foswiki::OopsException with {
 
@@ -398,8 +401,8 @@ sub init_edit {
 
             # Reverse-engineer a form definition from the topic.
             # Allow OopsException to propagate
-            $formDef =
-              Foswiki::Form->new( $session, $formWeb, $formTopic, $topicObject );
+            $formDef = Foswiki::Form->new( $session, $formWeb, $formTopic,
+                $topicObject );
         }
 
         # Update with field values from the query
