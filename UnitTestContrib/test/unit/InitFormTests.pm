@@ -536,11 +536,11 @@ Simple description of problem</textarea>', get_formfield( 2, $text )
 # Item10874, originally Item10446
 # Test that ?formtemplate=MyForm works without web prefix on an unsaved topic
 sub test_unsavedtopic_rendersform {
-    my $this = shift;
+    my $this  = shift;
     my $query = Unit::Request->new(
         {
-            webName   => [$testweb],
-            topicName => ['MissingTopic'],
+            webName      => [$testweb],
+            topicName    => ['MissingTopic'],
             formtemplate => ["$testform"]
         }
     );
@@ -550,7 +550,7 @@ sub test_unsavedtopic_rendersform {
     my ($text) = $this->capture(
         sub {
             no strict 'refs';
-            &{$this->getUIFn('edit')}($fatwilly);
+            &{ $this->getUIFn('edit') }($fatwilly);
             use strict 'refs';
             $Foswiki::engine->finalize( $fatwilly->{response},
                 $fatwilly->{request} );
@@ -558,7 +558,8 @@ sub test_unsavedtopic_rendersform {
     );
     $this->assert_html_matches(
 '<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />',
-        get_formfield( 6, $text ) );
+        get_formfield( 6, $text )
+    );
 
     return;
 }
