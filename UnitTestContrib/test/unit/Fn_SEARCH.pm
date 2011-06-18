@@ -4683,7 +4683,7 @@ sub verify_multiple_order_fields {
       $this->{test_topicObject}->expandMacros(
         '%SEARCH{"1" order="formfield(Firstname),formfield(Lastname)" '
           . $stdCrap );
-    $this->assert_str_equals( 'QueryTopic,QueryTopicTwo', $result );
+    $this->assert_str_equals( 'OkATopic OkBTopic OkTopic QueryTopic QueryTopicTwo TestTopicSEARCH WebPreferences', $result );
 }
 
 1;
