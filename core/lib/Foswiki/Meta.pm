@@ -1794,6 +1794,13 @@ sub MONITOR_ACLS { 0 }
 # place for it?
 sub _getACL {
     my ( $this, $mode ) = @_;
+    
+    if ( defined $this->{_topic} && !defined $this->{_loadedRev} ) {
+
+        # Lazy load the latest version.
+        $this->loadVersion();
+    }
+    
     my $text = $this->getPreference($mode);
     return undef unless defined $text;
 
@@ -1823,11 +1830,7 @@ sub haveAccess {
     my ( $this, $mode, $cUID ) = @_;
     $mode ||= 'VIEW';
     $cUID ||= $this->{_session}->{user};
-    if ( defined $this->{_topic} && !defined $this->{_loadedRev} ) {
 
-        # Lazy load the latest version.
-        $this->loadVersion();
-    }
     my $session = $this->{_session};
     undef $reason;
 
