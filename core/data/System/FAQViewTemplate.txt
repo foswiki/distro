@@ -9,12 +9,8 @@
     same way
 
 }%%TMPL:DEF{"content"}%
----++ FAQ:
-
-%FORMFIELD{"TopicSummary"}%
-
----++ Answer:
-
+---+ Question: %FORMFIELD{"TopicSummary"}%
+---++ Answer
 %TEXT%
 
 *Back to:* [[%SYSTEMWEB%.%FORMFIELD{"TopicClassification"}%][%FORMFIELD{"TopicClassification"}%]]
