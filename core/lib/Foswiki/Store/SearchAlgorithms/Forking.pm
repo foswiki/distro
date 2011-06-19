@@ -59,7 +59,7 @@ sub query {
             my $params = shift;
 
             my $infoCache =
-              _webQuery( $params->{query}, $web, $params->{inputTopicSet},
+              _webQuery( $params->{query}, $web, $params->{inputset},
                 $params->{session}, $params->{options} );
             $infoCache->sortResults($options);
             return $infoCache;
