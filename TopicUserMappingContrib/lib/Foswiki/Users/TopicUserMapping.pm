@@ -760,6 +760,9 @@ sub groupAllowsView {
       $this->{session}
       ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
 
+    # If a Group or User topic normalized somewhere else,  doesn't make sense, so ignore the Webname
+    $groupWeb = $Foswiki::cfg{UsersWebName};
+
     $groupName = undef
       if ( not $this->{session}->topicExists( $groupWeb, $groupName ) );
 
@@ -790,6 +793,9 @@ sub groupAllowsChange {
     my ( $groupWeb, $groupName ) =
       $this->{session}
       ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
+
+    # If a Group or User topic normalized somewhere else,  doesn't make sense, so ignore the Webname
+    $groupWeb = $Foswiki::cfg{UsersWebName};
 
     $groupName = undef
       if ( not $this->{session}->topicExists( $groupWeb, $groupName ) );
