@@ -772,7 +772,7 @@ sub _handleSquareBracketedLink {
         # Explicit external [[http://$link]] or [[http://$link][$text]]
         # or explicit absolute [[/$link]] or [[/$link][$text]]
 
-        if ( !defined($text) && $link =~ /^(\S+)\s+(.*)$/ ) {
+        if ( !defined($text) && $link =~ /^(\S+)\s+(.*)$/ && $link !~ /^mailto:/ ) {
 
             # Legacy case of '[[URL anchor display text]]' link
             # implicit untaint is OK as we are just recycling topic content
