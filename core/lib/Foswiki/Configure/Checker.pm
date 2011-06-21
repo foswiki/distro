@@ -38,7 +38,7 @@ sub check {
     my ( $this, $value ) = @_;
 
     # default behaviour; see no evil, hear no evil, speak no evil
-    return '';
+    return $this->showExpandedValue($value);
 }
 
 =begin TML
@@ -111,6 +111,25 @@ sub guessMajorDir {
     }
     unless ( $silent || -d $Foswiki::cfg{$cfg} ) {
         $msg .= $this->ERROR('Directory does not exist');
+    }
+    return $msg;
+}
+
+=begin TML
+
+---++ PROTECTED ObjectMethod showExpandedValue -> $html
+
+Return the expanded value of a parameter as a note for display.
+
+=cut
+
+sub showExpandedValue {
+    my ($this, $field) = @_;
+    my $msg = '';
+
+    if ( $field =~ m/\$Foswiki::cfg/ ) {
+       Foswiki::Configure::Load::expandValue($field);
+       $msg = $this->NOTE('<b>Note:</b> Expands to: ' . $field );
     }
     return $msg;
 }

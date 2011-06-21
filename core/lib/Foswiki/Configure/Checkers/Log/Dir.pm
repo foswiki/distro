@@ -17,6 +17,8 @@ sub check {
         $Foswiki::cfg{Log}{Dir} = "$Foswiki::cfg{WorkingDir}/logs";
     }
 
+   $mess .= $this->showExpandedValue($Foswiki::cfg{Log}{Dir});
+
     my $ld = $Foswiki::cfg{Log}{Dir};
     $ld =~ s/\$Foswiki::cfg({[^}]+})+/eval("\$Foswiki::cfg$1")/ge;
     # Because of the eval, $ld now has to be untainted.

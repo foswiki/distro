@@ -14,6 +14,8 @@ sub check {
 
     my $certFile = $Foswiki::cfg{Email}{SmimeCertificateFile} || "";
 
+    my $ev = $this->showExpandedValue($certFile);
+
     return unless $certFile;
 
     Foswiki::Configure::Load::expandValue($certFile);
@@ -24,7 +26,7 @@ sub check {
           ? $this->ERROR($e)
           : $this->NOTE("<b>Note:</b> $e");
     }
-    return $e;
+    return $ev . $e;
 }
 
 1;
