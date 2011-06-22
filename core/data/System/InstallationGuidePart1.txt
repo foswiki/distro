@@ -50,7 +50,7 @@ To install Foswiki, complete the following steps:
 
 If you do not have shell access to your web server host, see the section "[[#UploadingFoswikiDistribution][Uploading the Foswiki distribution to your web server host]]".
 
----++++ Set the file and directory permissions for the installation
+---++++ (Not applicable on Windows) Set the file and directory permissions for the installation
 
 *Set up access file and directory rights*, as well as file ownership, as required by your web server configuration so that the web server user (the user used by the web server to run CGI programs) can read and write within the =foswiki= directory tree.
 
@@ -68,20 +68,33 @@ _If you have root user permissions_, then for additional security, you can chang
 
 If Foswiki stops working after you applied a change in access permissions and you wish to restore the original permissions, run the Unix commands located at Foswiki:Support.SettingFileAccessRightsLinuxUnix.
 
----++++ (optional) Configure the locations of the Perl executable and the Foswiki modules
+---++++ (optional - *required on Windows* ) Configure the locations of the Perl executable and the Foswiki modules
 
 If you are running on a Linux system with Perl found in =/usr/bin/perl= then this step is not required.  This step is *required* on Windows installations.
 
-Find the location of your system's Perl interpreter.   Change the path to Perl in the first line of each script (you may have to give yourself write permission first) in the =bin= and =tools= directories. You can use the =tools/rewriteshebang.pl= script to do this; for example:
+The easiest way to fix up the bin scripts is to run the =tools/rewriteshebang.pl= script.  If the Perl interpreter is in the default execution path, follow these steps:
+
 <verbatim class="bash">
-cd /path/to/foswiki/bin
-/path/to/perl ../tools/rewriteshebang.pl
-# At the prompt, enter the full path to the perl executable, including
-# the full filename of the executable. You will be prompted twice for
-# this information in order to confirm it.
 cd /path/to/foswiki/tools
-/path/to/perl rewriteshebang.pl
+perl -I ../lib rewriteshebang.pl
 </verbatim>
+
+or for Windows users:
+
+<verbatim class="bash">
+cd C:\path\to\foswiki\tools
+perl -I ..\lib  rewriteshebang.pl
+</verbatim>
+
+The script will determine the location of the Perl interpreter and will prompt to update both the bin and tools scripts in a single step.   The changed files will be reported, and it is safe to rerun the script.
+
+If the =perl= command does not work from the command line,  then you need to find the location of your system's Perl interpreter.   Insert the path to Perl in the first line of the =rewriteshebang= script. For example:
+
+<verbatim class="bash">
+cd C:\path\to\foswiki\tools
+C:\path\to\perl -I ..\lib  rewriteshebang.pl
+</verbatim>
+
 
 ---++++ (optional) Configuration of a script suffix for the perl scripts
 
