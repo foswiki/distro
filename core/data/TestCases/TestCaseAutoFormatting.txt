@@ -335,17 +335,19 @@ Note: depends on setting of spam padding
 <a href="mailto&#58;&#63;subject&#61;Hi">Subject_only</a>
 <a href="mailto&#58;&#63;subject&#61;Hi">Subject only</a>
 <a href="mailto:?subject=Hi">Subject only</a>
+<a href="mailto:?subject=With spaces&body=Spaces too">Embedded Spaces</a>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
 [[mailto:a@z.com Mail]]
-[[mailto:?subject=Hi Hi]]
+[[mailto:?subject=Hi][Hi]]
 a@b.com
 [[mailto:a@b.com][Mail]]
 [[mailto:a@b.com][Mail link]]
 [[mailto:?subject=Hi][Subject_only]]
 [[mailto:?subject=Hi][Subject only]]
 <a href="mailto:?subject=Hi">Subject only</a>
+[[mailto:?subject=With spaces&body=Spaces too][Embedded Spaces]]
 <!-- /actual -->
 
 ---++ Wiki Word Links

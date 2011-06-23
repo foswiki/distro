@@ -38,18 +38,23 @@ sub set_up {
     $topicObject->save();
     $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
     $Foswiki::cfg{AntiSpam}{EmailPadding}     = 'STUFFED';
+    $Foswiki::cfg{AntiSpam}{EntityEncode}     = 1;
     $Foswiki::cfg{AllowInlineScript}          = 1;
 }
 
 # This formats the text up to immediately before <nop>s are removed, so we
 # can see the nops.
 sub do_test {
-    my ( $this, $expected, $actual ) = @_;
+    my ( $this, $expected, $actual, $noHtml ) = @_;
     my $session = $this->{session};
 
     $this->{test_topicObject}->expandMacros($actual);
     $actual = $this->{test_topicObject}->renderTML($actual);
-    $this->assert_html_equals( $expected, $actual );
+    if ($noHtml) {
+        $this->assert_equals( $expected, $actual );
+    } else {
+        $this->assert_html_equals( $expected, $actual );
+    }
 }
 
 # current topic WikiWord
@@ -227,6 +232,64 @@ EXPECTED
 [[$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName} Alt TextAlt]]
 ACTUAL
     $this->do_test( $expected, $actual );
+}
+
+# [[mailtoUrl Alt TextAlt]]
+sub test_squabbedMailtoUrlAltTextOldUndocumentedUse {
+    my $this     = shift;
+    my $expected = <<EXPECTED;
+<a href="mailto&#58;user&#64;exampleSTUFFED&#46;com">Alt <nop>TextAlt</a>
+EXPECTED
+
+    my $actual = <<ACTUAL;
+[[mailto:user\@example.com Alt TextAlt]]
+ACTUAL
+    chomp $expected;
+    $this->do_test( $expected, $actual, 1);
+}
+
+# [[mailtoUrl?with params]]
+sub test_squabbedMailtoUrlWithSpaces {
+    my $this     = shift;
+    my $expected = <<EXPECTED;
+<a href="mailto&#58;user&#64;exampleSTUFFED&#46;com&#63;subject&#61;asdf&#59;&#32;asdf&amp;body&#61;asdf">mailto&#58;user&#64;exampleSTUFFED&#46;com&#63;subject&#61;asdf&#59;&#32;asdf&amp;body&#61;asdf</a>
+EXPECTED
+
+    my $actual = <<ACTUAL;
+[[mailto:user\@example.com?subject=asdf; asdf&body=asdf]]
+ACTUAL
+    chomp $expected;
+    $this->do_test( $expected, $actual, 1);
+}
+
+# [[mailtoUrl?with params][Link text]]
+sub test_squabbedMailtoUrlWithSpacesLinkText {
+    my $this     = shift;
+    my $expected = <<EXPECTED;
+<a href="mailto&#58;user&#64;exampleSTUFFED&#46;com&#63;subject&#61;asdf&#59;&#32;asdf&#63;&amp;body&#61;asdf">Link text</a>
+EXPECTED
+
+    my $actual = <<ACTUAL;
+[[mailto:user\@example.com?subject=asdf; asdf?&body=asdf][Link text]]
+ACTUAL
+    chomp $expected;
+    $this->do_test( $expected, $actual, 1);
+}
+
+# [[mailtoUrl?with parms]]
+#  - The only entities that should be encoded are & and spaces
+sub test_squabbedMailtoUrlWithSpacesNotEncoded {
+    my $this     = shift;
+    $Foswiki::cfg{AntiSpam}{EntityEncode}     = 0;
+    my $expected = <<EXPECTED;
+<a href="mailto:user\@exampleSTUFFED.com?subject=asdf;%20asdf&amp;body=asdf">mailto:user\@exampleSTUFFED.com?subject=asdf; asdf&amp;body=asdf</a>
+EXPECTED
+
+    my $actual = <<ACTUAL;
+[[mailto:user\@example.com?subject=asdf; asdf&body=asdf]]
+ACTUAL
+    chomp $expected;
+    $this->do_test( $expected, $actual, 1);
 }
 
 # [[Web.WikiWord]]
@@ -865,6 +928,18 @@ EXPECTED
 
     my $actual = <<ACTUAL;
 [[http://foswiki.org/Some File WikiWord And Spaces.txt ][topic]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+sub test_externalLinkWithSpacedQuery {
+    my $this     = shift;
+    my $expected = <<EXPECTED;
+<a href="http://foswiki.org/Some\%20Spaces.txt?query=blah%20blah&another=blah%20blah;andlast" target="_top">topic</a>
+EXPECTED
+
+    my $actual = <<ACTUAL;
+[[http://foswiki.org/Some Spaces.txt?query=blah blah&another=blah blah;andlast][topic]]
 ACTUAL
     $this->do_test( $expected, $actual );
 }

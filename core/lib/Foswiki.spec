@@ -573,7 +573,7 @@ $Foswiki::cfg{SafeEnvPath} = '';
 # and %QUERY{}%. Extensions can push into this array to extend the set. This is done as
 # a filter in because while the bulk of configuration items are quite innocent,
 # it's better to be a bit paranoid.
-$Foswiki::cfg{AccessibleCFG} = [ '{ScriptSuffix}', '{LoginManager}', '{AuthScripts}', '{LoginNameFilterIn}', '{AdminUserLogin}', '{AdminUserWikiName}', '{SuperAdminGroup}', '{UsersTopicName}', '{AuthRealm}', '{MinPasswordLength}', '{Register}{AllowLoginName}', '{Register}{EnableNewUserRegistration}', '{Register}{NeedVerification}', '{Register}{RegistrationAgentWikiName}', '{AllowInlineScript}', '{DenyDotDotInclude}', '{UploadFilter}', '{NameFilter}', '{AccessibleCFG}', '{AntiSpam}{EmailPadding}', '{AntiSpam}{HideUserDetails}', '{AntiSpam}{RobotsAreWelcome}', '{Stats}{TopViews}', '{Stats}{TopContrib}', '{Stats}{TopicName}', '{UserInterfaceInternationalisation}', '{UseLocale}', '{Site}{Locale}', '{Site}{CharSet}', '{DisplayTimeValues}', '{DefaultDateFormat}', '{Site}{LocaleRegexes}', '{UpperNational}', '{LowerNational}', '{PluralToSingular}', '{EnableHierarchicalWebs}', '{WebMasterEmail}', '{WebMasterName}', '{NotifyTopicName}', '{SystemWebName}', '{TrashWebName}', '{SitePrefsTopicName}', '{LocalSitePreferences}', '{HomeTopicName}', '{WebPrefsTopicName}', '{UsersWebName}', '{TemplatePath}', '{LinkProtocolPattern}', '{NumberOfRevisions}', '{MaxRevisionsInADiff}', '{ReplaceIfEditedAgainWithin}', '{LeaseLength}', '{LeaseLengthLessForceful}', '{Plugins}{WebSearchPath}', '{PluginsOrder}', '{Cache}{Enabled}', '{Validation}{Method}', '{Register}{DisablePasswordConfirmation}' ];
+$Foswiki::cfg{AccessibleCFG} = [ '{ScriptSuffix}', '{LoginManager}', '{AuthScripts}', '{LoginNameFilterIn}', '{AdminUserLogin}', '{AdminUserWikiName}', '{SuperAdminGroup}', '{UsersTopicName}', '{AuthRealm}', '{MinPasswordLength}', '{Register}{AllowLoginName}', '{Register}{EnableNewUserRegistration}', '{Register}{NeedVerification}', '{Register}{RegistrationAgentWikiName}', '{AllowInlineScript}', '{DenyDotDotInclude}', '{UploadFilter}', '{NameFilter}', '{AccessibleCFG}', '{AntiSpam}{EmailPadding}', '{AntiSpam}{EntityEncode}','{AntiSpam}{HideUserDetails}', '{AntiSpam}{RobotsAreWelcome}', '{Stats}{TopViews}', '{Stats}{TopContrib}', '{Stats}{TopicName}', '{UserInterfaceInternationalisation}', '{UseLocale}', '{Site}{Locale}', '{Site}{CharSet}', '{DisplayTimeValues}', '{DefaultDateFormat}', '{Site}{LocaleRegexes}', '{UpperNational}', '{LowerNational}', '{PluralToSingular}', '{EnableHierarchicalWebs}', '{WebMasterEmail}', '{WebMasterName}', '{NotifyTopicName}', '{SystemWebName}', '{TrashWebName}', '{SitePrefsTopicName}', '{LocalSitePreferences}', '{HomeTopicName}', '{WebPrefsTopicName}', '{UsersWebName}', '{TemplatePath}', '{LinkProtocolPattern}', '{NumberOfRevisions}', '{MaxRevisionsInADiff}', '{ReplaceIfEditedAgainWithin}', '{LeaseLength}', '{LeaseLengthLessForceful}', '{Plugins}{WebSearchPath}', '{PluginsOrder}', '{Cache}{Enabled}', '{Validation}{Method}', '{Register}{DisablePasswordConfirmation}' ];
 
 # **BOOLEAN**
 # Allow %INCLUDE of URLs. This is disabled by default, because it is possible
@@ -683,15 +683,14 @@ $Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD
 # AntiWikiSpamPlugin</a></p>
 
 # **STRING 50**
-# Text added to email addresses to prevent spambots from grabbing
+# Text added to e-mail addresses to prevent spambots from grabbing
 # addresses e.g. set to 'NOSPAM' to get fred@user.co.ru
-# rendered as fred@user.co.NOSPAM.ru
+# rendered as fred@user.coNOSPAM.ru
 $Foswiki::cfg{AntiSpam}{EmailPadding} = '';
 
 # **BOOLEAN**
 # Normally Foswiki stores the user's sensitive information (such as their e-mail
-# address) in a database out of public view. It also obfuscates e-mail
-# addresses displayed in the browser. This is to help prevent e-mail
+# address) in a database out of public view. This is to help prevent e-mail
 # spam and identity fraud.<br />
 # If that is not a risk for you (e.g. you are behind a firewall) and you
 # are happy for e-mails to be made public to all Foswiki users,
@@ -699,6 +698,14 @@ $Foswiki::cfg{AntiSpam}{EmailPadding} = '';
 # Note that if this option is set, then the <code>user</code> parameter to
 # <code>%USERINFO</code> is ignored.
 $Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
+
+# **BOOLEAN**
+# By default Foswiki will also manipulate e-mail addresses to reduce the harvesting
+# of e-mail addresses. Foswiki will encode all non-alphanumeric characters to their
+# HTML entity equivalent. e.g. @ becomes &<nop>#64;  This is not completely effective,
+# however it can prevent some primitive spambots from seeing the addresses.
+# More advanced bots will still collect addresses.
+$Foswiki::cfg{AntiSpam}{EntityEncode} = $TRUE;
 
 # **BOOLEAN**
 # By default, Foswiki doesn't do anything to stop robots, such as those used
