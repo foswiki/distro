@@ -43,6 +43,9 @@ our $TRMARK = "is\1all\1th";
 # General purpose marker used to mark escapes inthe text; for example, we
 # use it to mark hoisted blocks, such as verbatim blocks.
 our $REMARKER = "\0";
+# Optional End marker for escapes where the default end character ; also
+# must be removed.  Used for email anti-spam encoding.
+our $REEND = "\1";
 
 # Default format for a link to a non-existant topic
 use constant DEFAULT_NEWLINKFORMAT => <<'NLF';
@@ -771,15 +774,21 @@ sub _handleSquareBracketedLink {
 
         # Explicit external [[http://$link]] or [[http://$link][$text]]
         # or explicit absolute [[/$link]] or [[/$link][$text]]
+        if ( !defined($text) && $link =~ /^(\S+)\s+(.*)$/ ) {
 
-        if ( !defined($text) && $link =~ /^(\S+)\s+(.*)$/ && $link !~ /^mailto:/ ) {
+            my $candidateLink = $1;
+            my $candidateText = $2;
+            # If the URL portion contains a ? indicating query parameters then
+            # the spaces are possibly embedded in the query string, so don't
+            # use the legacy format.
+            if ( $candidateLink !~ m/\?/ ) {
 
-            # Legacy case of '[[URL anchor display text]]' link
-            # implicit untaint is OK as we are just recycling topic content
-            $link = $1;
-            $text = _escapeAutoLinks($2);
+                # Legacy case of '[[URL anchor display text]]' link
+                # implicit untaint is OK as we are just recycling topic content
+                $link = $candidateLink;
+                $text = _escapeAutoLinks($candidateText);
+            }
         }
-
         return _externalLink( $this, $link, $text );
     }
 
@@ -862,13 +871,19 @@ sub _externalLink {
                           /$1$Foswiki::cfg{AntiSpam}{EmailPadding}$2/x;
             }
         }
-        if ( $Foswiki::cfg{AntiSpam}{HideUserDetails} ) {
+        if ( $Foswiki::cfg{AntiSpam}{EntityEncode} ) {
 
           # Much harder obfuscation scheme. For link text we only encode '@'
           # See also http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item2928
           # and http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3430
           # before touching this
-            $url =~ s/(\W)/'&#'.ord($1).';'/ge;
+          # Note:  & is already encoded,  so don't encode any entities
+          # See http://foswiki.org/Tasks/Item10905
+            $url =~ s/&(\w+);/$REMARKER$1$REEND/g;              # "&abc;"
+            $url =~ s/&(#x?[0-9a-f]+);/$REMARKER$1$REEND/gi;    # "&#123;"
+            $url =~ s/([^\w$REMARKER$REEND])/'&#'.ord($1).';'/ge;
+            $url =~ s/$REMARKER(#x?[0-9a-f]+)$REEND/&$1;/goi;
+            $url =~ s/$REMARKER(\w+)$REEND/&$1;/go;
             if ($text) {
                 $text =~ s/\@/'&#'.ord('@').';'/ge;
             }
