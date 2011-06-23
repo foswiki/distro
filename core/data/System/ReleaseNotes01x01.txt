@@ -68,6 +68,13 @@ Or a regex query:
 
 Alternatively, the erroneous =form.name= values can be repaired by searching for and fixing them using one of the solutions detailed in Foswikitask:Item10874#Solution
 
+---+++ [[Foswikitask:Item10905][Item10905]]: Unable to include spaces in the query string of mailto links
+An old legacy link format deprecated in 2005 was interfering with the ability to pass complex query params to explicit http: and mailto: links.  This issue is fixed, but there is a loss of some backwards compatbility. Before this fix, this link:  =[<nop>[mailto:user@example.com?subject=some email]]= woud generate a message with the subject = "some" and link text of "email".  After the fix,  the link text will be the entire email address and the subject will be "some email".
+If the original link text is required, it should be entered as =[<nop>[mailto:user@example.com?subject=some][email]]=
+
+Note that this fix also adds a new configuration parameter: =$Foswiki::cfg{AntiSpam}{EntityEncode}=.  Entity encoding of email addresses as an anti-spam technique was previously controlled by the parameter =$Foswiki::cfg{AntiSpam}{HideUserDetails}=.  Both parameters default to enabled.  If you disabled the =$Foswiki::cfg{AntiSpam}{HideUserDetails}= option and desire the same behavior, you should also disable. =$Foswiki::cfg{AntiSpam}{EntityEncode}=.  This fix corrects an issue where mailto links were double-encoded, breaking the ability to include more than one option in the query string.
+
+
 ---++ Important changes since Foswiki 1.1.2
 
 ---+++ Changes to %<nop>GROUPS% and %<nop>GROUPINFO% Macros
