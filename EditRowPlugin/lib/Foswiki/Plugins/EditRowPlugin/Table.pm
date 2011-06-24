@@ -414,7 +414,8 @@ sub _getCols {
 
         # Check current value for format-overriding EDITCELL
         if ( $cell->{text} =~ /%EDITCELL{(.*?)}%/ ) {
-            my $cd = $this->parseFormat($1);
+	    my %p = Foswiki::Func::extractParameters($1);
+            my $cd = $this->parseFormat($p{_DEFAULT});
             $colDef = $cd->[0];
 	}
 
