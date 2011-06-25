@@ -115,8 +115,8 @@ Expand the template specified in the parameter string using =tmplP=.
 
 Examples:
 <verbatim>
-$tmpls->expandTemplate('"blah");
-$tmpls->expandTemplate('context="view" then="sigh" else="humph"');
+$tmpls->expandTemplate("blah");
+$tmpls->expandTemplate(context="view" then="sigh" else="humph");
 </verbatim>
 
 =cut
@@ -142,8 +142,7 @@ Recursively expands any contained TMPL:P tags.
 Note that it would be trivial to add template parameters to this,
 simply by iterating over the other parameters (other than _DEFAULT, context,
 then and else) and doing a s/// in the template for that parameter value. This
-would add considerably to the power of templates. There is already code
-to do this in the MacrosPlugin.
+would add considerably to the power of templates.
 
 =cut
 
