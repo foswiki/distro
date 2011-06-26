@@ -27,5 +27,6 @@
      | =$iso= | Revision date in ISO date format | =2006-09-22T06:24:25Z= |
      | =$min=, =$sec=, etc. | Same date format qualifiers as [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME{"format"}]] | |
    * Example, returns revision info of revision 43: <verbatim class="tml">%REVINFO{"$date - $wikiusername" rev="43"}%</verbatim> 
+   * To get the latest revision, even when looking at an older revision: <verbatim class="tml">%REVINFO{"$rev" rev="-1"}%</verbatim>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME{"format"}]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO][REVINFO]]
 <!--%JQREQUIRE{"chili"}%-->
