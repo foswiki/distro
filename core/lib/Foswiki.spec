@@ -1292,6 +1292,7 @@ $Foswiki::cfg{SMTP}{Username} = '';
 # Password for your {SMTP}{Username}.
 $Foswiki::cfg{SMTP}{Password} = '';
 
+
 #---++ S/MIME
 # <p>Configure signing of outgoing email. (Secure/Multipurpose Internet Mail Extensions)
 # is a standard for public key encryption and signing of MIME encoded email messages.
@@ -1333,6 +1334,13 @@ $Foswiki::cfg{PROXY}{HOST} = '';
 # in SitePreferences. Make sure you delete the setting from there if you
 # are using a SitePreferences topic from a previous release of Foswiki.
 $Foswiki::cfg{PROXY}{PORT} = '';
+
+#---++ Email Test
+# <p> This section provides a test facility to verify your configuration before
+# enabling email or testing user registration.
+
+# *TESTEMAIL* Marker used by bin/configure script - do not remove!
+
 
 #---+ Miscellaneous -- EXPERT
 # <p>Miscellaneous expert options.</p>

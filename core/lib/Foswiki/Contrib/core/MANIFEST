@@ -551,6 +551,7 @@ lib/Foswiki/Configure/Pluggable.pm 0444
 lib/Foswiki/Configure/Pluggables/FINDEXTENSIONS.pm 0444
 lib/Foswiki/Configure/Pluggables/LANGUAGES.pm 0444
 lib/Foswiki/Configure/Pluggables/PLUGINS.pm 0444
+lib/Foswiki/Configure/Pluggables/TESTEMAIL.pm 0444
 lib/Foswiki/Configure/Root.pm 0444
 lib/Foswiki/Configure/Section.pm 0444
 lib/Foswiki/Configure/TemplateParser.pm
@@ -586,6 +587,7 @@ lib/Foswiki/Configure/UIs/MSWin32.pm 0444
 lib/Foswiki/Configure/UIs/PLUGINS.pm 0444
 lib/Foswiki/Configure/UIs/Root.pm 0444
 lib/Foswiki/Configure/UIs/Section.pm 0444
+lib/Foswiki/Configure/UIs/TESTEMAIL.pm 0444
 lib/Foswiki/Configure/UIs/UPDATE.pm 0444
 lib/Foswiki/Configure/UIs/Value.pm 0444
 lib/Foswiki/Configure/UIs/Welcome.pm
@@ -637,6 +639,7 @@ lib/Foswiki/Configure/templates/pagebegin.tmpl 0444
 lib/Foswiki/Configure/templates/pageend.tmpl 0444
 lib/Foswiki/Configure/templates/sanity.tmpl 0444
 lib/Foswiki/Configure/templates/section.tmpl 0444
+lib/Foswiki/Configure/templates/testemailintro.tmpl 0444
 lib/Foswiki/Engine.pm 0444
 lib/Foswiki/Engine/CGI.pm 0444
 lib/Foswiki/Engine/CLI.pm 0444

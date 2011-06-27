@@ -84,6 +84,26 @@
 	</div>
 </#assign>
 
+<#assign testEnterPassword>
+	<div class='foswikiFormSteps'>
+		<div class='foswikiFormStep'>
+			<h2>In order to proceed with the Email test, configure requires that you type your password.</h2>
+		</div>
+		<div class='foswikiFormStep'>
+			<p>Password: <input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' />
+			&nbsp; <input type="submit" class='foswikiSubmit' value='Run Test' /></p>
+		</div>
+		<div class='foswikiFormStep configureFormStepOutside'>
+			${localNotePasswordForgotten}
+		</div>
+        <#if displayStatus == 2>
+            <div class='foswikiFormStep configureFormStepOutside'>
+                <p><input type="submit" class='foswikiButton' name='changePassword' value='Change password...' /></p>
+		    </div>
+        </#if>
+	</div>
+</#assign>
+
 <#assign localNotePasswordForgotten>
     <#if displayStatus == 2>
 	<p>Password forgotten? To reset your password, log in to the server and delete the <code>$Foswiki::cfg{Password} = '...';</code> line from <code>lib/LocalSite.cfg</code>. Then reload this page and create a new password.</p>
@@ -207,6 +227,14 @@ ${extAdd}
 	${extEnterPassword}
 </#assign>
 
+<#assign testEmail>
+<h2>Test Email Configuration</h2>
+
+<form method="post" action="${formAction}" enctype="multipart/form-data" name="foswiki_configure">
+    <#if params??>${params}</#if>
+	${testEnterPassword}
+</#assign>
+
 
 <#if messageType == 4><div class="foswikiNotification"> Password changed </div></#if>
 <#if messageType == 8><div class="foswikiNotification foswikiAlert"> Password not set. Try again below.</div></#if>
@@ -219,4 +247,5 @@ ${extAdd}
 <#if displayStatus == 2>${localUpdate}</#if>
 <#if displayStatus == 4>${localNoUpdate}</#if>
 <#if displayStatus == 8>${extUpdate}</#if>
+<#if displayStatus == 16>${testEmail}</#if>
 
