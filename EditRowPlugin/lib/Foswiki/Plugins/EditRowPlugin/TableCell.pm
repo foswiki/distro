@@ -51,7 +51,8 @@ sub stringify {
     # replace linefeeds with breaks to support multiline textareas
     my $text = $this->{text};
     $text =~ s# *[\r\n]+ *# <br \/> #g;
-
+    # Remove tactical spaces
+    $text =~ s/^\s+(.*)\s*$/$1/s;
     return $this->{precruft} . $text . $this->{postcruft};
 }
 

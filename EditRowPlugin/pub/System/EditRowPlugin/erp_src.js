@@ -387,9 +387,12 @@
 	    };
 
 	    p.onerror = function(settings, self, xhr) {
+		var mess = xhr.responseText;
 		self.isSubmitting = false;
 		$(self).parent().find('.erp_clock_button').remove();
 		$(self).next().show();
+		if (mess.indexOf('RESPONSE') == 0)
+		    alert(mess.replace(/^RESPONSE/, ''));
 	    };
 
 	    p.callback = function(value, settings) {
@@ -405,7 +408,7 @@
 			.remove();
 		} else {
 		    value = value.replace(/^RESPONSE/, '');
-                    $(this).html(value);
+		    $(this).html(value);
 		    if (p.type == "text" || p.type == "textarea")
 			// Add changed text (unexpanded) to settings
 			settings.data = value;

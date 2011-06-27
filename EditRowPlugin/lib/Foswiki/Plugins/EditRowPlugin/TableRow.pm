@@ -106,7 +106,6 @@ sub setRow {
 
 sub stringify {
     my $this = shift;
-
     return '|' . join( '|', map { $_->stringify() } @{ $this->{cols} } ) . '|';
 }
 

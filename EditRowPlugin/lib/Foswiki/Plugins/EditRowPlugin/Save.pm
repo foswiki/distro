@@ -29,16 +29,48 @@ sub process {
     $active_topic =~ /(.*)/;
     my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( undef, $1 );
 
+    my $ri = $query->param('erp_active_version');
+    my ($active_version, $active_date);
+    if ($ri && $ri =~ /(\d+)_(\d+)$/) {
+	($active_version, $active_date) = ($1, $2);
+    }
+    my $active_user = Foswiki::Func::getWikiName();
+
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
     my ( $url, $mess, $result );
-    if (
+
+    my ($curr_date, $curr_user, $curr_rev);
+    if ($active_version) {
+	($curr_date, $curr_user, $curr_rev) =
+	    Foswiki::Func::getRevisionInfo($web, $topic);
+    }
+
+    # Find the action
+    my $action;
+    my $minor        = 0;          # If true, this is a quiet save
+    my $no_return = 0; # if true, we want to finish editing after the action
+    my $no_save      = 0;          # if true, we are cancelling
+    my $clicked = $query->param('erp_action') || '';
+    if ( $clicked =~ /^#?(save(Table|Row|Cell))(Quietly)?$/ ) {
+	$action    = $1;
+	$minor     = ($3 && $3 eq 'Quietly');
+	$no_return = 1;
+    }
+    elsif ( $clicked =~ /^#?((up|down|add|move|delete)Row)$/ ) {
+	$action = $1;
+    }
+    else {
+	$action = 'cancel';
+	$no_save   = 1;
+	$no_return = 1;
+    }
+
+    if ( $action ne 'cancel' &&
         !Foswiki::Func::checkAccessPermission(
-            'CHANGE', Foswiki::Func::getWikiName(),
-            $text, $topic, $web, $meta
+            'CHANGE', $active_user, $text, $topic, $web, $meta
         )
       )
     {
-
         $url = Foswiki::Func::getScriptUrl(
             $web, $topic, 'oops',
             template => 'oopsaccessdenied',
@@ -48,7 +80,19 @@ sub process {
         );
         $result = $mess = "ACCESS DENIED";
     }
-    else {
+    elsif ($action ne 'cancel' &&
+	   (!$active_user || !$curr_user || $active_user ne $curr_user)
+	   && ($active_version && $curr_rev && $curr_rev ne $active_version
+	       || $active_date && $curr_date && $curr_date ne $active_date)) {
+        $mess = "Cannot save because it would overwrite changes made by $curr_user (revision $curr_rev).\nRefresh the view and try again.";
+        $url = Foswiki::Func::getScriptUrl(
+            $web, $topic, 'oops',
+            template => 'oopsaccessdenied',
+            def      => 'topic_access',
+            param1   => 'CHANGE',
+            param2   => $mess
+        );
+     } else {
         $text =~ s/\\\n//gs;
         my @ps   = $query->param();
 	my $urps = {};
@@ -68,28 +112,9 @@ sub process {
         my $nlines       = '';
         my $table        = undef;
         my $active_table = 0;
-        my $action;
-        my $minor        = 0;          # If true, this is a quiet save
-	my $no_return = 0; # if true, we want to finish editing after the action
-        my $no_save      = 0;          # if true, we are cancelling
         my $macro = $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro}
           || 'EDITTABLE';
 
-	# Dispatch whichever button was pressed
-	my $clicked = $query->param('erp_action') || '';
-        if ( $clicked =~ /^#?(save(Table|Row|Cell))(Quietly)?$/ ) {
-            $action    = $1;
-            $minor     = ($3 && $3 eq 'Quietly');
-            $no_return = 1;
-        }
-        elsif ( $clicked =~ /^#?((up|down|add|move|delete)Row)$/ ) {
-            $action = $1;
-        }
-        else {
-	    $action = 'cancel';
-            $no_save   = 1;
-            $no_return = 1;
-        }
 	# Turn off editing if the erp_stop_edit flag is set in the request
 	$no_return = 1 if $query->param('erp_stop_edit');
 

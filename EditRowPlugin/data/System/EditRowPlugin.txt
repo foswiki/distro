@@ -28,8 +28,7 @@ Features:
      makes it easily extensible.
    1 (geeky) Uses a simple REST interface for saving changes, which allows
      Javascript table editors to use the same interface to save.
-   1 (geeky) Tolerant to Javascript being disabled in the browser (with some
-     loss of functionality)
+   1 (geeky) Tolerant to Javascript being disabled in the browser
 
 ---++ Usage
 
@@ -172,6 +171,8 @@ When a table is editable and Javascript is enabled, then:
    * table rows can be manually sorted using drag-and-drop, by dragging the %UICON%arrowthick-2-n-s%NOCIU% (though beware that a =TABLE= tag with an =initsort= will override this, which can be confusing),
    * table columns can be sorted in the browser, by clicking the heading above the row.
 
+%X% The Javascript editor works on the content of the cell _after it has been rendered_. This means that if you use TML inside table cells - for example, highlighting, or topic links - then you will be editing the expanded HTML and *not* the source TML. This is a tradeoff; Javascript gives high performance when editing large tables, at the cost of this feature.
+
 <a name="js"></a>
 ---++ Preferences
 The plugin interprets a couple of [[%SYSTEMWEB%.Macros][preferences]], in common with the !EditTablePlugin.
@@ -238,7 +239,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2011 Wind<nop>River Inc. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  2.2.5 (24 Jun 2011) | Foswiki:Tasks/Item10915: fix EDITCELL handling on save |
+|  2.2.5 (27 Jun 2011) | Foswiki:Tasks/Item10915: fix EDITCELL handling on save. Foswiki:Tasks/Item10922: abort save on clash with a synchronous edit by another user |
 |  2.2.4 (14 Jun 2011) | Foswiki:Tasks/Item10876: return to non-edit mode after row move invokes authentication. Foswiki:Tasks/Item10876: fix textarea. |
 |  2.2.3 (10 Jun 2011) | Foswiki:Tasks/Item10862: pick up initial values for all field types. Foswiki:Tasks/Item10864: protect full-table edits when adding and removing rows. Foswiki:Tasks/Item10865: remove edit stain from label cells. |
 |  2.2.2 (7 Jun 2011) | Foswiki:Tasks/Item10853: Remove =REQUIRE_JS and =require_js=, add =js= and =EDITROWPLUGIN_JS= to improve support of non-JS environments |

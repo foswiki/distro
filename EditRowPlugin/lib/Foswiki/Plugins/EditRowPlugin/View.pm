@@ -54,6 +54,11 @@ sub process {
 
     my $active_table = 0;
     my $active_topic = "$web.$topic";
+    # Get the revision number of the topic; if the saving user is
+    # different from the most recent saver, this will be used to
+    # determine if there has been a save clash.
+    my @ri = Foswiki::Func::getRevisionInfo($web, $topic);
+    my $active_version = "$ri[2]_$ri[0]";
 
     $urps->{erp_active_topic} ||= $active_topic;
     $urps->{erp_active_table} ||= "${macro}_$active_table";
@@ -98,6 +103,7 @@ sub process {
 		    -action => $saveUrl
 		    );
 		$line .= CGI::hidden( 'erp_active_topic', $active_topic );
+		$line .= CGI::hidden( 'erp_active_version', $active_version );
 		$line .=
 		    CGI::hidden( 'erp_active_table', "${macro}_$active_table" );
 		$line .= CGI::hidden( 'erp_active_row', $active_row );

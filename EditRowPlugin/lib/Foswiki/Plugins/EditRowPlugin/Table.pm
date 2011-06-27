@@ -368,9 +368,12 @@ sub can_edit {
 # or derived plugin.
 sub getSaveURL {
     my ($this, %more) = @_;
+    # Get the active (most recent) version number for the topic with this table
+    my @ri = Foswiki::Func::getRevisionInfo($this->{web}, $this->{topic});
     return Foswiki::Func::getScriptUrl(
 	'EditRowPlugin', 'save', 'rest',
 	erp_active_topic => "$this->{web}.$this->{topic}",
+	erp_active_version => "$ri[2]_$ri[0]",
 	erp_active_table => $this->{id},
 	%more);
 }
@@ -464,6 +467,8 @@ sub saveCell {
 	# Restore the %EDITCELL
 	$nt = $1 . $nt;
     }
+    # Remove padding spaces added to allow cells to expand TML
+    $nt =~ s/^ (.*) $/$1/s;
     $this->{rows}->[ $row - 1 ]->{cols}->[ $col - 1 ]->{text} = $nt;
     return $urps->{CELLDATA};
 }
