@@ -462,7 +462,7 @@ sub _dispatchContents {
         die "Undefined action $action" unless defined(&$method);
 
         no strict 'refs';
-        &$method( $sanityStatement );
+        &$method($sanityStatement);
         use strict 'refs';
     }
 }
@@ -486,7 +486,7 @@ sub _actionSavechanges {
 
     my ( $authorised, $messageType ) = Foswiki::Configure::UI::authorised();
     if ( !$authorised ) {
-        _screenAuthorize('UPDATE', $messageType);
+        _screenAuthorize( 'UPDATE', $messageType );
     }
     else {
         _screenFeedback($messageType);
@@ -495,7 +495,7 @@ sub _actionSavechanges {
 
 # Screen that prompts for a password
 sub _screenAuthorize {
-    my ($transact, $messageType) = @_;
+    my ( $transact, $messageType ) = @_;
     my $contents = '';
 
     # create the root of the UI
@@ -505,7 +505,6 @@ sub _screenAuthorize {
     my $params      = '';
     my $hasPassword = ( $Foswiki::cfg{Password} ne '' ) || 0;
 
-
     $ui = _checkLoadUI( 'AUTH', $root );
     return '' unless $ui;
     $params = join( "\n", $ui->params() );
@@ -514,12 +513,12 @@ sub _screenAuthorize {
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('authorize');
     my $changePassword = $Foswiki::query->param('changePassword') || undef;
 
-    # displayStatus  - 1 = No Changes,  2 = Changes,  4 = No Extensions, 8 = Extensions, 16 = Email Test
-    my @dummy    = ();
+# displayStatus  - 1 = No Changes,  2 = Changes,  4 = No Extensions, 8 = Extensions, 16 = Email Test
+    my @dummy = ();
 
     if ( $transact eq 'UPDATE' ) {
-        my $valuer =
-          new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
+        my $valuer = new Foswiki::Configure::Valuer( $Foswiki::defaultCfg,
+            \%Foswiki::cfg );
         my %updated;
         my $modified = $valuer->loadCGIParams( $Foswiki::query, \%updated );
         my $changesList = ();
@@ -528,7 +527,7 @@ sub _screenAuthorize {
             push( @{$changesList}, { key => $key, value => $valueString } );
         }
         @items = sort keys %updated if $modified;
-        my $displayStatus = ( $modified ) ? 2 : 1;
+        my $displayStatus = ($modified) ? 2 : 1;
 
         Foswiki::Configure::UI::getTemplateParser()->parse(
             $contentTemplate,
@@ -559,23 +558,24 @@ sub _screenAuthorize {
         my @add        = ();
 
         foreach my $ext ( $query->param('remove') ) {
-            my ($repo, $extn) = split(/\//, $ext);
-            push (@remove, "<td>$extn</td>");
-            }
+            my ( $repo, $extn ) = split( /\//, $ext );
+            push( @remove, "<td>$extn</td>" );
+        }
 
         foreach my $ext ( $query->param('add') ) {
-            my ($repo, $extn) = split(/\//, $ext);
-            push (@add, "<td>$extn</td><td>from $repo</td>");
-            }
+            my ( $repo, $extn ) = split( /\//, $ext );
+            push( @add, "<td>$extn</td><td>from $repo</td>" );
+        }
 
-        my $action = $processExt eq 'dep'                ? 'run a dependency report'
-                   : $processExt eq 'sim'                ? 'simulate the following actions'
-                   : $processExt eq 'nodep'              ? 'install without dependencies'
-                   : $processExt eq 'all'                ? 'perform the following actions'
-                   :                                        $processExt;
-			
-        my $addCount    = scalar @add;
-        my $removeCount = scalar @remove;
+        my $action =
+            $processExt eq 'dep'   ? 'run a dependency report'
+          : $processExt eq 'sim'   ? 'simulate the following actions'
+          : $processExt eq 'nodep' ? 'install without dependencies'
+          : $processExt eq 'all'   ? 'perform the following actions'
+          :                          $processExt;
+
+        my $addCount      = scalar @add;
+        my $removeCount   = scalar @remove;
         my $displayStatus = ( $addCount || $removeCount ) ? 8 : 4;
 
         Foswiki::Configure::UI::getTemplateParser()->parse(
@@ -633,9 +633,9 @@ sub _screenAuthorize {
     Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
-            'time'       => $time,
-            'formAction' => $scriptName,
-            'extAddCount' => 0,
+            'time'           => $time,
+            'formAction'     => $scriptName,
+            'extAddCount'    => 0,
             'extRemoveCount' => 0,
         }
     );
@@ -701,13 +701,13 @@ sub _screenFeedback {
           Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
 
         $sanityStatement = $sanityUI->check();
-        $badLSC = $sanityUI->lscIsBad();
-        $insane = $sanityUI->insane();
+        $badLSC          = $sanityUI->lscIsBad();
+        $insane          = $sanityUI->insane();
     }
 
     # Pass control to the mainline configure screen, passing along the
     # results of the save
-    _actionConfigure($sanityStatement . $contentTemplate);
+    _actionConfigure( $sanityStatement . $contentTemplate );
 }
 
 # Invoked by "find more extensions" button in the Extensions section
@@ -759,7 +759,6 @@ sub _actionFindMoreExtensions {
 # Invoked when extensions are to be (un)installed
 sub _actionManageExtensions {
 
-
     my $root = new Foswiki::Configure::Root();
     my $ui;
 
@@ -771,27 +770,24 @@ sub _actionManageExtensions {
         _screenAuthorize( 'EXTEND', $messageType );
     }
     else {
-        my $html =
-          Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
-        Foswiki::Configure::UI::getTemplateParser()->parse(
-            $html,
-            {
-            }
-        );
-        Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
+        my $html = Foswiki::Configure::UI::getTemplateParser()
+          ->readTemplate('pagebegin');
+        Foswiki::Configure::UI::getTemplateParser()->parse( $html, {} );
+        Foswiki::Configure::UI::getTemplateParser()
+          ->cleanupTemplateResidues($html);
         print $html;
         $ui = _checkLoadUI( 'EXTEND', $root );
         return 1 unless $ui;
 
         # Warning: the 'install' method uses print for rapid feedback
         print $ui->install();
-        $html =
-          Foswiki::Configure::UI::getTemplateParser()->readTemplate('installed');
+        $html = Foswiki::Configure::UI::getTemplateParser()
+          ->readTemplate('installed');
         $html .=
           Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
         my $frontpageUrl =
 "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
-       Foswiki::Configure::UI::getTemplateParser()->parse(
+        Foswiki::Configure::UI::getTemplateParser()->parse(
             $html,
             {
                 'frontpageUrl' => $frontpageUrl,
@@ -799,16 +795,15 @@ sub _actionManageExtensions {
             }
         );
 
-        Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
+        Foswiki::Configure::UI::getTemplateParser()
+          ->cleanupTemplateResidues($html);
         print $html;
     }
-
 
 }
 
 # Invoked to test email configuration
 sub _actionTestEmail {
-
 
     my $root = new Foswiki::Configure::Root();
     my $ui;
@@ -821,14 +816,11 @@ sub _actionTestEmail {
         _screenAuthorize( 'TEST', $messageType );
     }
     else {
-        my $html =
-          Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
-        Foswiki::Configure::UI::getTemplateParser()->parse(
-            $html,
-            {
-            }
-        );
-        Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
+        my $html = Foswiki::Configure::UI::getTemplateParser()
+          ->readTemplate('pagebegin');
+        Foswiki::Configure::UI::getTemplateParser()->parse( $html, {} );
+        Foswiki::Configure::UI::getTemplateParser()
+          ->cleanupTemplateResidues($html);
         print $html;
 
         ::_loadBasicModule('Foswiki::Net');
@@ -851,15 +843,21 @@ It Works!  Test message from Foswiki.
 
 MAIL
 
-        unless ($Foswiki::cfg{Email}{MailMethod}) {
-            $Foswiki::cfg{Email}{MailMethod} =  ($Foswiki::cfg{SMTP}{MAILHOST}) ? 'Net::SMTP' : 'MailProgram';
-            print "<b>Incomplete config - guessed MailMethod = <tt>$Foswiki::cfg{Email}{MailMethod}</tt> </b><br />";
-            }
+        unless ( $Foswiki::cfg{Email}{MailMethod} ) {
+            $Foswiki::cfg{Email}{MailMethod} =
+              ( $Foswiki::cfg{SMTP}{MAILHOST} ) ? 'Net::SMTP' : 'MailProgram';
+            print
+"<b>Incomplete config - guessed MailMethod = <tt>$Foswiki::cfg{Email}{MailMethod}</tt> </b><br />";
+        }
 
-        my $sendmethod = ($Foswiki::cfg{Email}{MailMethod} eq 'MailProgram') ? $Foswiki::cfg{MailProgram} : $Foswiki::cfg{Email}{MailMethod};
+        my $sendmethod =
+          ( $Foswiki::cfg{Email}{MailMethod} eq 'MailProgram' )
+          ? $Foswiki::cfg{MailProgram}
+          : $Foswiki::cfg{Email}{MailMethod};
 
         # Warning: the 'install' method uses print for rapid feedback
-        print "<b>Sending the following message using <tt>$sendmethod</tt></b>\n";
+        print
+          "<b>Sending the following message using <tt>$sendmethod</tt></b>\n";
         print "<pre>";
         print "$msg\n";
         print "</pre>";
@@ -867,7 +865,7 @@ MAIL
         print "Please wait ... connecting to server ...\n";
 
         $Foswiki::cfg{SMTP}{Debug} = 1;
-        my $net = Foswiki::Net->new();
+        my $net    = Foswiki::Net->new();
         my $stderr = '';
         my $error  = '';
         eval {
@@ -875,23 +873,23 @@ MAIL
             open STDERR, '>', \$stderr;
             $error = $net->sendEmail("$msg");
             close STDERR;
-        }
-        or do {
+          }
+          or do {
             $error .= $@;
-        };
+          };
         print "<br /><b>Results:</b>\n";
         print "<pre>";
-        print "$error\n" if ($error);
+        print "$error\n"  if ($error);
         print "$stderr\n" if ($stderr);
         print "</pre>";
 
-        $html =
-          Foswiki::Configure::UI::getTemplateParser()->readTemplate('installed');
+        $html = Foswiki::Configure::UI::getTemplateParser()
+          ->readTemplate('installed');
         $html .=
           Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
         my $frontpageUrl =
 "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
-       Foswiki::Configure::UI::getTemplateParser()->parse(
+        Foswiki::Configure::UI::getTemplateParser()->parse(
             $html,
             {
                 'frontpageUrl' => $frontpageUrl,
@@ -899,19 +897,22 @@ MAIL
             }
         );
 
-        Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
+        Foswiki::Configure::UI::getTemplateParser()
+          ->cleanupTemplateResidues($html);
         print $html;
     }
 
-
 }
+
 # This is the default screen
 sub _actionConfigure {
 
     my $messages;
+
     # If coming from the save action, or insane, pick up the messages
     if ($insane) {
-       $messages = "<h2 class='foswikiAlert' style='margin-top:0px;'>Internal error - proceed with caution</h2>";
+        $messages =
+"<h2 class='foswikiAlert' style='margin-top:0px;'>Internal error - proceed with caution</h2>";
     }
     $messages .= shift;
 
@@ -971,8 +972,8 @@ sub _actionConfigure {
     my $ui = _checkLoadUI( 'Root', $root );
     return '' unless $ui;
 
-	my $uiMessages = (!$isFirstTime && $messages) ? $messages : undef;
-	
+    my $uiMessages = ( !$isFirstTime && $messages ) ? $messages : undef;
+
     # Visit the model and generate
     $ui->{controls} = new Foswiki::Configure::GlobalControls();
     $contents .= $ui->createUI( $root, $valuer );
@@ -994,8 +995,8 @@ sub _actionConfigure {
         {
             'time' => $time,    # use time to make sure we never allow cacheing
             'formAction' => $scriptName,
-            'messages' => $uiMessages,
-            'style' => ($badLSC || $insane) ? 'Bad' : 'Good',
+            'messages'   => $uiMessages,
+            'style'      => ( $badLSC || $insane ) ? 'Bad' : 'Good',
         }
     );
 
