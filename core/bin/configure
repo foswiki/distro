@@ -827,6 +827,9 @@ sub _actionTestEmail {
 
         my $charset = $Foswiki::cfg{Site}{CharSet} || CGI::charset();
 
+        Foswiki::Configure::Load::expandValue($Foswiki::cfg{Email}{SmimeCertificateFile});
+        Foswiki::Configure::Load::expandValue($Foswiki::cfg{Email}{SmimeKeyFile});
+
         my $msg = <<MAIL;
 From: $Foswiki::cfg{WebMasterEmail}
 To: $Foswiki::cfg{WebMasterEmail}
