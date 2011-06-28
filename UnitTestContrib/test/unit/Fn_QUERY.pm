@@ -199,6 +199,33 @@ THIS
     }
 }
 
+#style defaults to Simplified (ie style=default)
+sub test_InvalidStyle {
+    my $this = shift;
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
+        <<'SMELL');
+%QUERY{ "BleaghForm.Wibble"  style="NoSuchStyle" }%
+%QUERY{ "Wibble"  style="NoSuchStyle" }%
+%QUERY{ "attachments.name"  style="NoSuchStyle" }%
+%META:FORM{name="BleaghForm"}%
+%META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
+%META:FILEATTACHMENT{name="whatsnot.gif" date="1266942905" size="4586" version="1"}%
+%META:FILEATTACHMENT{name="World.gif" date="1266943219" size="2486" version="1"}%
+SMELL
+    $topicObject->save();
+    my $text = <<'PONG';
+%INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
+PONG
+    my $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+Woo
+Woo
+whatsnot.gif,World.gif
+THIS
+}
+
 sub test_ref {
     my $this = shift;
 

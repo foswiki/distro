@@ -5,7 +5,8 @@ use strict;
 use warnings;
 use Foswiki ();
 
-#The JSON serialisation uses JSON::Any to select the 'best' available JSON implementation - JSON::XS being much faster.
+#lets only load the serialiser once per execution
+our %serialisers = ();
 
 #should this really be a register/request?
 
@@ -16,86 +17,8 @@ sub serialise {
     my $result  = shift;
     my $style   = shift;
 
-    #test to make sure we exist, and other things
-
-    no strict 'refs';
-    my $data = &$style( $session, $result );
-    use strict 'refs';
+    my $data = getSerialiser( $session, $style )->write( $session, $result );
     return $data;
-}
-
-sub perl {
-    my ( $session, $result ) = @_;
-    require Data::Dumper;
-    local $Data::Dumper::Indent = 0;
-    local $Data::Dumper::Terse  = 1;
-    return Data::Dumper->Dump( [$result] );
-}
-
-#TODO: should really use encode_json / decode_json as those will use utf8,
-#but er, that'll cause other issues - as QUERY will blast the json into a topic..
-sub json {
-    my ( $session, $result ) = @_;
-    
-    return '' if (not(defined($result)));
-    
-    eval "use JSON::Any";
-    if ($@) {
-        return $session->inlineAlert( 'alerts', 'generic',
-            'Perl JSON::XS or JSON module is not available' );
-    }
-    my $j = JSON::Any->new( allow_nonref => 1 );
-    return $j->to_json( $result, { allow_nonref => 1 } );
-}
-
-# Default serialiser
-sub default {
-    my ( $session, $result ) = @_;
-    if ( ref($result) eq 'ARRAY' ) {
-
-        # If any of the results is non-scalar, have to perl it
-        foreach my $v (@$result) {
-            if ( ref($v) ) {
-                return perl($session, $result);
-            }
-        }
-        return join( ',', @$result );
-    }
-    elsif ( ref($result) ) {
-        return perl($session, $result);
-    }
-    else {
-        return defined $result ? $result : '';
-    }
-}
-
-#filter out parts of a meta object that don't make sense serialise (for example, json doesn't really like being sent a blessed object
-sub convertMeta {
-    my $savedMeta = shift;
-
-    my $meta = {
-    };
-    $meta->{_web} = $savedMeta->web() if (defined($savedMeta->web()));
-    $meta->{_topic} = $savedMeta->topic() if (defined($savedMeta->topic()));
-
-    foreach my $key ( keys(%$savedMeta) ) {
-        use Scalar::Util qw(blessed reftype);
-        if (blessed($savedMeta->{$key})) {
-#print STDERR "WARNING: skipping $key, its a blessed object\n";
-            next;
-        }
-        else {
-#print STDERR "WARNING: using $key - itsa ".(blessed($savedMeta->{$key})||reftype($savedMeta->{$key})||ref($savedMeta->{$key}||'notaref'))."\n";
-        }
-        
-        #TODO: next if ( $key is one of the array types... and has no elements..
-
-        $meta->{$key} = $savedMeta->{$key};
-    }
-    my $raw = $savedMeta->getEmbeddedStoreForm();
-    $meta->{_raw_text} = $raw if (defined($raw) and defined($meta->{_topic}));#TODO: exclude attachment meta too..
-
-    return $meta;
 }
 
 #TODO: ok, ugly, and incomplete
@@ -104,46 +27,73 @@ sub deserialise {
     my $result  = shift;
     my $style   = shift;
 
-    $style = $style . '_un';
-
-    #test to make sure we exist, and other things
-
-    no strict 'refs';
-    my $data = &$style( $session, $result );
-    use strict 'refs';
+    my $data = getSerialiser( $session, $style )->read( $session, $result );
     return $data;
 }
 
-sub perl_un {
-    die 'not implemented';
+#in the event of trouble, return 'Simplified'
+sub getSerialiser {
+    my $session = shift;
+    my $originalstyle = shift || 'Simplified';
+
+    return $serialisers{$originalstyle}
+      if ( defined( $serialisers{$originalstyle} ) );
+
+    my $style = $originalstyle;
+    $style = 'Simplified' if ( $style eq 'default' );
+    $style = ucfirst($style);
+    my $module = "Foswiki::Serialise::$style";
+
+    eval "require $module";
+    my $cereal;
+    $cereal = getSerialiser( $session, 'Simplified' ) if $@;
+
+    $cereal = $module->new() if ( not defined($cereal) );
+    $serialisers{$originalstyle} = $cereal;
+    return $cereal;
 }
 
-#TODO: should really use encode_json / decode_json as those will use utf8,
-#but er, that'll cause other issues - as QUERY will blast the json into a topic..
-sub json_un {
-    my ( $session, $result ) = @_;
-    
-    return if ($result eq '');
-    
-    eval "use JSON::Any";
-    if ($@) {
-        return $session->inlineAlert( 'alerts', 'generic',
-            'Perl JSON module is not available' );
+#filter out parts of a meta object that don't make sense serialise (for example, json doesn't really like being sent a blessed object
+sub convertMeta {
+    my $savedMeta = shift;
+
+    my $meta = {};
+    $meta->{_web}   = $savedMeta->web()   if ( defined( $savedMeta->web() ) );
+    $meta->{_topic} = $savedMeta->topic() if ( defined( $savedMeta->topic() ) );
+
+    foreach my $key ( keys(%$savedMeta) ) {
+        use Scalar::Util qw(blessed reftype);
+        if ( blessed( $savedMeta->{$key} ) ) {
+
+            #print STDERR "WARNING: skipping $key, its a blessed object\n";
+            next;
+        }
+        else {
+
+#print STDERR "WARNING: using $key - itsa ".(blessed($savedMeta->{$key})||reftype($savedMeta->{$key})||ref($savedMeta->{$key}||'notaref'))."\n";
+        }
+
+        #TODO: next if ( $key is one of the array types... and has no elements..
+
+        $meta->{$key} = $savedMeta->{$key};
     }
-    my $j = JSON::Any->new( allow_nonref => 1 );
-    return $j->from_json($result);
-}
+    if ( defined( $meta->{_topic} ) ) {
 
-# Default serialiser
-sub default_un {
-    die 'not implemented';
+        #TODO: exclude attachment meta too..
+        my $raw = $savedMeta->getEmbeddedStoreForm();
+        if ( defined($raw) ) {
+            $meta->{_raw_text} = $raw;
+        }
+    }
+
+    return $meta;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

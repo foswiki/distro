@@ -117,6 +117,7 @@ use warnings;
 use Error qw(:try);
 use Assert;
 use Errno 'EINTR';
+use Foswiki::Serialise ();
 
 #use Foswiki::Iterator::NumberRangeIterator;
 
@@ -3573,88 +3574,8 @@ sub getEmbeddedStoreForm {
 
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
-    $this->{_text} ||= '';
-
-    require Foswiki::Store;    # for encoding
-
-    my $ti = $this->get('TOPICINFO');
-    delete $ti->{rev} if $ti;    # don't want this written
-
-    my $text = $this->_writeTypes( 'TOPICINFO', 'TOPICPARENT' );
-    $text .= $this->{_text};
-    my $end =
-      $this->_writeTypes( 'FORM', 'FIELD', 'FILEATTACHMENT', 'TOPICMOVED' )
-      . $this->_writeTypes(
-        'not',   'TOPICINFO',      'TOPICPARENT', 'FORM',
-        'FIELD', 'FILEATTACHMENT', 'TOPICMOVED'
-      );
-    $text .= "\n" if $end;
-
-    $ti->{rev} = $ti->{version} if $ti;
-
-    return $text . $end;
-}
-
-# PRIVATE STATIC Write a meta-data key=value pair
-# The encoding is reversed in _readKeyValues
-sub _writeKeyValue {
-    my ( $key, $value ) = @_;
-
-    if ( defined($value) ) {
-        $value = dataEncode($value);
-    }
-    else {
-        $value = '';
-    }
-
-    return $key . '="' . $value . '"';
-}
-
-# PRIVATE STATIC: Write all the key=value pairs for the types listed
-sub _writeTypes {
-    my ( $this, @types ) = @_;
-
-    my $text = '';
-
-    if ( $types[0] eq 'not' ) {
-
-        # write all types that are not in the list
-        my %seen;
-        @seen{@types} = ();
-        @types = ();    # empty "not in list"
-        foreach my $key ( keys %$this ) {
-            push( @types, $key )
-              unless ( exists $seen{$key} || $key =~ /^_/ );
-        }
-    }
-
-    foreach my $type (@types) {
-        next if $type eq '_session';
-        my $data = $this->{$type};
-        next if !defined $data;
-        foreach my $item (@$data) {
-            my $sep = '';
-            $text .= '%META:' . $type . '{';
-            my $name = $item->{name};
-            if ($name) {
-
-                # If there's a name field, put first to make regexp
-                # based searching easier
-                $text .= _writeKeyValue( 'name', $item->{name} );
-                $sep = ' ';
-            }
-            foreach my $key ( sort keys %$item ) {
-                if ( $key ne 'name' ) {
-                    $text .= $sep;
-                    $text .= _writeKeyValue( $key, $item->{$key} );
-                    $sep = ' ';
-                }
-            }
-            $text .= '}%' . "\n";
-        }
-    }
-
-    return $text;
+    
+    return Foswiki::Serialise::serialise($this->session(), $this, 'Embedded');
 }
 
 =begin TML
@@ -3863,28 +3784,6 @@ sub _readKeyValues {
     return \%res;
 }
 
-=begin TML
-
----++ StaticMethod dataEncode( $uncoded ) -> $coded
-
-Encode meta-data field values, escaping out selected characters.
-The encoding is chosen to avoid problems with parsing the attribute
-values in embedded meta-data, while minimising the number of
-characters encoded so searches can still work (fairly) sensibly.
-
-The encoding has to be exported because Foswiki (and plugins) use
-encoded field data in other places e.g. RDiff, mainly as a shorthand
-for the properly parsed meta object. Some day we may be able to
-eliminate that....
-
-=cut
-
-sub dataEncode {
-    my $datum = shift;
-
-    $datum =~ s/([%"\r\n{}])/'%'.sprintf('%02x',ord($1))/ge;
-    return $datum;
-}
 
 =begin TML
 
