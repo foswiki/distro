@@ -88,8 +88,8 @@ sub beforeCommonTagsHandler {
 
         # Replace setting values by form fields but not inside comments Item4816
         # and also not inside verbatim blocks Item1117
-        my $outtext       = '';
-        my $insidecomment = 0;
+        my $outtext        = '';
+        my $insidecomment  = 0;
         my $insideverbatim = 0;
         foreach my $token ( split /(<!--|-->|<\/?verbatim\b[^>]*>)/, $_[0] ) {
             if ( !$insideverbatim and $token =~ /<!--/ ) {
@@ -104,7 +104,7 @@ sub beforeCommonTagsHandler {
             elsif ( $token =~ /<\/verbatim/ ) {
                 $insideverbatim-- if ( $insideverbatim > 0 );
             }
-            elsif ( !$insidecomment and !$insideverbatim) {
+            elsif ( !$insidecomment and !$insideverbatim ) {
                 $token =~
 s/^($Foswiki::regex{setRegex})($Foswiki::regex{tagNameRegex})\s*\=(.*$(?:\n[ \t]+[^\s*].*$)*)/
                            $1._generateEditField($web, $topic, $3, $4, $formDef)/gem;
@@ -145,7 +145,7 @@ s/^($Foswiki::regex{setRegex})($Foswiki::regex{tagNameRegex})\s*\=(.*$(?:\n[ \t]
 
             # SMELL: unchecked implicit untaint of value?
             # $text =~ s/($Foswiki::regex{setVarRegex})/
-                $text =~
+            $text =~
 s/^($Foswiki::regex{setRegex})($Foswiki::regex{tagNameRegex})\s*\=(.*$(?:\n[ \t]+[^\s*].*$)*)/
                  $1._saveSet($query, $web, $topic, $3, $4, $formDef)/mgeo;
             Foswiki::Func::saveTopic( $web, $topic, $meta, $text );
@@ -193,26 +193,28 @@ sub _generateEditField {
     if ($formDef) {
         my $fieldDef = $formDef->getField($name);
         if ($fieldDef) {
-            my ($topicObject) =
-              Foswiki::Func::readTopic( $web, $topic );
+            my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
             ( $extras, $html ) =
               $fieldDef->renderForEdit( $topicObject, $value );
         }
     }
     unless ($html) {
 
-        if ($value =~ /\n/) {
+        if ( $value =~ /\n/ ) {
             my $rows = 1;
             $rows++ while $value =~ /\n/g;
+
             # No form definition and there are newlines, default to textarea
             $html = CGI::textarea(
                 -class   => 'foswikiAlert foswikiInputField',
                 -name    => $name,
                 -cols    => 80,
                 -rows    => $rows,
-                -default => $value);
+                -default => $value
+            );
         }
         else {
+
             # No form definition and no newlines, default to text field.
             $html = CGI::textfield(
                 -class => 'foswikiAlert foswikiInputField',
@@ -290,9 +292,9 @@ sub _saveSet {
     my ( $query, $web, $topic, $name, $value, $formDef ) = @_;
 
     my $newValue = $query->param($name);
-    if (not defined $newValue) {
+    if ( not defined $newValue ) {
         $newValue = $value;
-        $newValue =~ s/^\s+//; # strip leading whitespace
+        $newValue =~ s/^\s+//;    # strip leading whitespace
     }
 
     if ($formDef) {
