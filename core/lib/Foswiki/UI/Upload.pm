@@ -123,7 +123,7 @@ sub _upload {
 
     Foswiki::UI::checkWebExists( $session, $web, $topic, 'attach files to' );
     Foswiki::UI::checkTopicExists( $session, $web, $topic, 'attach files to' );
-    my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+    my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
     Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
 
     my $origName = $fileName;
