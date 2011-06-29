@@ -33,7 +33,7 @@ use Foswiki::Plugins ();    # For the API version
 use vars qw( @shelter );
 
 our $VERSION = '$Rev$';
-our $RELEASE = '11 Apr 2011';
+our $RELEASE = '1.1.1';
 our $SHORTDESCRIPTION =
   'Allows editing of preferences using fields predefined in a form';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -193,8 +193,8 @@ sub _generateEditField {
     if ($formDef) {
         my $fieldDef = $formDef->getField($name);
         if ($fieldDef) {
-            my $topicObject =
-              Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+            my ($topicObject) =
+              Foswiki::Func::readTopic( $web, $topic );
             ( $extras, $html ) =
               $fieldDef->renderForEdit( $topicObject, $value );
         }

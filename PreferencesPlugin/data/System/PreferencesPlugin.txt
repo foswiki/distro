@@ -37,6 +37,7 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  29 Jun 2011 (1.1.1) | Switch to x.y.z version numbering. Minor update to play better with custom formfield types ( =Foswiki::Meta->new()= behaviour ) |
 |  11 Apr 2011: | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  20 Sep 2009: | Small documentation update. Code tidied up. No preferences in plugin topic. No other functional changes. |
 |  19 Apr 2009: | Ignore all saving unless it happened by saving a form using POST method. |
