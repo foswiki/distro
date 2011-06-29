@@ -121,7 +121,6 @@ use Foswiki::Serialise ();
 
 #use Foswiki::Iterator::NumberRangeIterator;
 
-
 our $reason;
 our $VERSION = '$Rev$';
 
@@ -161,20 +160,21 @@ our %VALIDATE = (
               rev comment encoding )
         ],
         _default => 1,
-        alias => 'info',
+        alias    => 'info',
     },
     CREATEINFO => {
         allow => [
             qw( author version date format reprev
               rev comment encoding )
         ],
-#        _default => 1,
-#        alias => 'createinfo',
+
+        #        _default => 1,
+        #        alias => 'createinfo',
     },
     TOPICMOVED => {
         require  => [qw( from to by date )],
         _default => 1,
-        alias => 'moved',
+        alias    => 'moved',
     },
 
     # Special case, see Item2554; allow an empty TOPICPARENT, as this was
@@ -182,7 +182,7 @@ our %VALIDATE = (
     TOPICPARENT => {
         allow    => [qw( name )],
         _default => 1,
-        alias => 'parent',
+        alias    => 'parent',
     },
     FILEATTACHMENT => {
         require => [qw( name )],
@@ -197,7 +197,7 @@ our %VALIDATE = (
     FORM => {
         require  => [qw( name )],
         _default => 1,
-        alias => 'form',
+        alias    => 'form',
     },
     FIELD => {
         require  => [qw( name value )],
@@ -214,19 +214,20 @@ our %VALIDATE = (
         many     => 1,
     },
     VERSIONS => {
+
         # In trad text based data store, this does not occur in the
         # topic text, but is pulled on demand during queries
-        alias    => 'versions',
+        alias => 'versions',
     }
 );
 
 our %aliases =
-    map { $VALIDATE{$_}->{alias} => "META:$_" }
-        grep { $VALIDATE{$_}->{alias} } keys %VALIDATE;
+  map { $VALIDATE{$_}->{alias} => "META:$_" }
+  grep { $VALIDATE{$_}->{alias} } keys %VALIDATE;
 
 our %isArrayType =
-    map { $_ => 1 }
-        grep { $VALIDATE{$_}->{many} } keys %VALIDATE;
+  map { $_ => 1 }
+  grep { $VALIDATE{$_}->{many} } keys %VALIDATE;
 
 =begin TML
 
@@ -313,7 +314,7 @@ See QuerySearch for more on aliases.
 sub registerMETA {
     my ( $name, %check ) = @_;
     $VALIDATE{$name} = \%check;
-    $aliases{$check{alias}} = "META:$name" if $check{alias};
+    $aliases{ $check{alias} } = "META:$name" if $check{alias};
     $isArrayType{$name} = $check{many};
 }
 
@@ -442,6 +443,7 @@ sub load {
     my $rev;
 
     if ( ref($proto) ) {
+
         # Existing unloaded object
         ASSERT( !$this->{_loadedRev} ) if DEBUG;
         $this = $proto;
@@ -451,33 +453,42 @@ sub load {
         ( my $session, my $web, my $topic, $rev ) = @_;
         $this = $proto->new( $session, $web, $topic );
     }
-    
+
     my $session = $this->{_session};
-    if (defined($this->topic) and (not defined($rev)) and $this->existsInStore()) {
+    if (    defined( $this->topic )
+        and ( not defined($rev) )
+        and $this->existsInStore() )
+    {
+
 #SVEN: sadly, Item10805 shows that the metacache is not yet multi-user safe, and as the Groups code in TopicUserMapping changes to user=admin, we can't use it here
 #which makes it clear I need to write a full cache validation set of tests for MetaCache
-        #TODO: need to extract the metacache from search, and extract the additional derived info from it too
-        #TODO: this mess is because the Listeners cannot assign a cached meta object to an already existing unloaded meta
-        #       which in Sven's opinion means we need to invert things better. (I get ~10% (.2S on 2S req's) speedup on simpler SEARCH topics doing reuse)
-        #my $m = $session->search->metacache->getMeta( $this->web, $this->topic );
-        #print STDERR "metacache->getMeta ".join(',', ( $this->web, $this->topic, ref($m) ))."\n";
-        #return $m if (defined($m));
+#TODO: need to extract the metacache from search, and extract the additional derived info from it too
+#TODO: this mess is because the Listeners cannot assign a cached meta object to an already existing unloaded meta
+#       which in Sven's opinion means we need to invert things better. (I get ~10% (.2S on 2S req's) speedup on simpler SEARCH topics doing reuse)
+#my $m = $session->search->metacache->getMeta( $this->web, $this->topic );
+#print STDERR "metacache->getMeta ".join(',', ( $this->web, $this->topic, ref($m) ))."\n";
+#return $m if (defined($m));
     }
 
-    ASSERT( not ($this->{_latestIsLoaded}) ) if DEBUG;
+    ASSERT( not( $this->{_latestIsLoaded} ) ) if DEBUG;
 
     my $loadedRev = $this->loadVersion($rev);
-    #insane as this seems, load can fail to load, but will give you some kind of valid seeming Meta obecjt.
-    if (not defined($loadedRev)) {
+
+#insane as this seems, load can fail to load, but will give you some kind of valid seeming Meta obecjt.
+    if ( not defined($loadedRev) ) {
         ASSERT( not defined( $this->{_loadedRev} ) ) if DEBUG;
-        #_latestIsloaded is mostly undef / 0 when the topic is not ondisk, except Fn_SEARCH::verify_refQuery_ForkingSearch and friends
-        ASSERT( not ($this->{_latestIsLoaded}) ) if DEBUG;
-    } else {
-        #while there is docco, intent and code assuming that loadedRev=0 means the topic is not loaded, its not true - topics with no TOPICINFO get a valid rev=0
-        ASSERT( defined( $this->{_loadedRev} ) and ($this->{_loadedRev} >0)) if DEBUG;
-        ASSERT( defined($this->{_latestIsLoaded}) ) if DEBUG;
+
+#_latestIsloaded is mostly undef / 0 when the topic is not ondisk, except Fn_SEARCH::verify_refQuery_ForkingSearch and friends
+        ASSERT( not( $this->{_latestIsLoaded} ) ) if DEBUG;
     }
-    
+    else {
+
+#while there is docco, intent and code assuming that loadedRev=0 means the topic is not loaded, its not true - topics with no TOPICINFO get a valid rev=0
+        ASSERT( defined( $this->{_loadedRev} ) and ( $this->{_loadedRev} > 0 ) )
+          if DEBUG;
+        ASSERT( defined( $this->{_latestIsLoaded} ) ) if DEBUG;
+    }
+
     return $this;
 }
 
@@ -525,14 +536,16 @@ sub finish {
     undef $this->{_topic};
     undef $this->{_session};
     if (DEBUG) {
-        #someone keeps adding random references to Meta so to shake them out..
-        #if its an intentional ref to an object, please add it to the undef's above.
 
-        #SMELL: Sven noticed during development that something is adding a $this->{store} to a meta obj - havn't found it yet
-        #ASSERT(not defined($this->{store})) if DEBUG;
+    #someone keeps adding random references to Meta so to shake them out..
+    #if its an intentional ref to an object, please add it to the undef's above.
+
+#SMELL: Sven noticed during development that something is adding a $this->{store} to a meta obj - havn't found it yet
+#ASSERT(not defined($this->{store})) if DEBUG;
 
         use Scalar::Util qw(blessed);
         foreach my $key (%$this) {
+
             #ASSERT(not defined(blessed($this->{$key})));
         }
     }
@@ -1010,7 +1023,8 @@ sub loadVersion {
     if ( !defined $rev || !$rev ) {
 
         # Trying to load the latest
-        if ($this->{_latestIsLoaded}) {
+        if ( $this->{_latestIsLoaded} ) {
+
             #TODO: these asserts trip up Comment Plugin
             #ASSERT(defined($this->{_loadedRev})) if DEBUG;
             #ASSERT($rev == $this->{_loadedRev}) if DEBUG;
@@ -1028,23 +1042,27 @@ sub loadVersion {
 
     # Is it already loaded?
     ASSERT( !($rev) or $rev =~ /^\s*\d+\s*/ ) if DEBUG;    # looks like a number
-    return $this->{_loadedRev} if ( $rev && $this->{_loadedRev} && $rev == $this->{_loadedRev} );
+    return $this->{_loadedRev}
+      if ( $rev && $this->{_loadedRev} && $rev == $this->{_loadedRev} );
 
-    ASSERT(not ($this->{_loadedRev})) if DEBUG;
-    
+    ASSERT( not( $this->{_loadedRev} ) ) if DEBUG;
+
     ( $this->{_loadedRev}, $this->{_latestIsLoaded} ) =
       $this->{_session}->{store}->readTopic( $this, $rev );
-    if (defined($this->{_loadedRev})) {
+    if ( defined( $this->{_loadedRev} ) ) {
+
         # Make sure text always has a value once loadVersion has been called
         # once.
         $this->{_text} = '' unless defined $this->{_text};
 
         $this->addDependency();
-    } else {
-        #we didn't load, so how could it be latest?
-        ASSERT(not $this->{_latestIsLoaded}) if DEBUG;
     }
-    
+    else {
+
+        #we didn't load, so how could it be latest?
+        ASSERT( not $this->{_latestIsLoaded} ) if DEBUG;
+    }
+
     return $this->{_loadedRev};
 }
 
@@ -1223,9 +1241,10 @@ sub get {
     my $data = $this->{$type};
     if ($data) {
         if ( defined $name ) {
-            #this code presumes the _indices are there (Sven would like it to re-create when needed..)
-            # Paul.H notes that we trip over this one when meta obj is unloaded (I think, see Item10927)
-            ASSERT(defined($this->{_indices})) if DEBUG;
+
+#this code presumes the _indices are there (Sven would like it to re-create when needed..)
+# Paul.H notes that we trip over this one when meta obj is unloaded (I think, see Item10927)
+            ASSERT( defined( $this->{_indices} ) ) if DEBUG;
             my $indices = $this->{_indices}->{$type};
             return undef unless defined $indices;
             return undef unless defined $indices->{$name};
@@ -1352,7 +1371,7 @@ sub copyFrom {
             if ( !$filter
                 || ( $item->{name} && $item->{name} =~ /$filter/ ) )
             {
-                ASSERT (defined($item)) if DEBUG;
+                ASSERT( defined($item) ) if DEBUG;
                 my %datum = %$item;
                 push( @data, \%datum );
             }
@@ -1442,15 +1461,18 @@ sub getRevisionInfo {
       if DEBUG;
 
     my $info;
-    if (not defined($this->{_loadedRev}) and not Foswiki::Func::topicExists($this->{_web}, $this->{_topic})) {
-        #print STDERR "topic does not exist - at least, _loadedRev is not set..(".$this->{_web} .' '. $this->{_topic}.")\n";
-        #this does not exist on disk - no reason to goto the store for the defaults
-        #TODO: Sven is not 100% sure this is the right decision, but it feels better not to do a trip into the deep for an application default
+    if (    not defined( $this->{_loadedRev} )
+        and not Foswiki::Func::topicExists( $this->{_web}, $this->{_topic} ) )
+    {
+
+#print STDERR "topic does not exist - at least, _loadedRev is not set..(".$this->{_web} .' '. $this->{_topic}.")\n";
+#this does not exist on disk - no reason to goto the store for the defaults
+#TODO: Sven is not 100% sure this is the right decision, but it feels better not to do a trip into the deep for an application default
         $info = {
             date    => 0,
             author  => $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,
             version => 0,
-            format => $EMBEDDING_FORMAT_VERSION,
+            format  => $EMBEDDING_FORMAT_VERSION,
         };
         return $info;
     }
@@ -1796,13 +1818,13 @@ sub MONITOR_ACLS { 0 }
 # place for it?
 sub _getACL {
     my ( $this, $mode ) = @_;
-    
+
     if ( defined $this->{_topic} && !defined $this->{_loadedRev} ) {
 
         # Lazy load the latest version.
         $this->loadVersion();
     }
-    
+
     my $text = $this->getPreference($mode);
     return undef unless defined $text;
 
@@ -2273,7 +2295,7 @@ sub move {
             $from->save();    # to save the metadata change
             $from->{_session}->{store}->moveTopic( $from, $to, $cUID );
             $to->loadVersion();
-            ASSERT(defined($to) and defined($to->{_loadedRev}) ) if DEBUG;
+            ASSERT( defined($to) and defined( $to->{_loadedRev} ) ) if DEBUG;
         }
         finally {
             $from->_atomicUnlock($cUID);
@@ -2336,9 +2358,11 @@ sub deleteMostRecentRevision {
     # TODO: delete entry in .changes
 
     # write log entry
-    $this->{_session}->logEvent( 'cmd',
+    $this->{_session}->logEvent(
+        'cmd',
         $this->{_web} . '.' . $this->{_topic},
-        "delRev $rev by " . $this->{_session}->{user} );
+        "delRev $rev by " . $this->{_session}->{user}
+    );
 }
 
 =begin TML
@@ -2423,12 +2447,12 @@ sub getRevisionHistory {
     my ( $this, $attachment ) = @_;
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
-      
+
 #    if ((not defined($attachment)) and ($this->{_latestIsLoaded})) {
 #        #why poke around in revision history (slow) if we 'have the latest'
 #        return new Foswiki::Iterator::NumberRangeIterator( $this->{_loadedRev}, 1 );
 #    }
-      
+
     return $this->{_session}->{store}->getRevisionHistory( $this, $attachment );
 }
 
@@ -2766,8 +2790,8 @@ sub attach {
             name       => $opts{name},
             attachment => $opts{name},
             stream     => $opts{stream},
-            user       => $this->{_session}->{user},    # cUID
-            comment    => defined $opts{comment}?$opts{comment} : '',
+            user       => $this->{_session}->{user},                      # cUID
+            comment    => defined $opts{comment} ? $opts{comment} : '',
         };
 
         if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
@@ -3147,7 +3171,7 @@ sub copyAttachment {
 
         $to->saveAs(
             undef, undef,
-            author => $cUID,
+            author  => $cUID,
             dontlog => 1,                    # no statistics
             comment => 'gained' . $newName
         );
@@ -3469,23 +3493,30 @@ sub summariseChanges {
 
     my $nstring = $this->stringify();
     $nstring =~ s/^%META:TOPICINFO{.*?}%//ms;
+
     #print "SSSSSS nstring\n($nstring)\nSSSSSS\n\n";
 
     $ntext = $renderer->TML2PlainText( $nstring, $this, 'showvar showmeta' );
+
     #print "SSSSSS ntext\n($ntext)\nSSSSSS\n\n";
 
-    my $oldTopicObject = Foswiki::Meta->load( $session, $this->web, $this->topic, $orev );
+    my $oldTopicObject =
+      Foswiki::Meta->load( $session, $this->web, $this->topic, $orev );
     unless ( $oldTopicObject->haveAccess('VIEW') ) {
 
         # No access to old rev, make a blank topic object
-        $oldTopicObject = Foswiki::Meta->new( $session, $this->web, $this->topic, '' );
+        $oldTopicObject =
+          Foswiki::Meta->new( $session, $this->web, $this->topic, '' );
     }
 
     my $ostring = $oldTopicObject->stringify();
     $ostring =~ s/^%META:TOPICINFO{.*?}%$//ms;
+
     #print "SSSSSS ostring\n$ostring\nSSSSSS\n\n";
 
-    my $otext = $renderer->TML2PlainText( $ostring , $oldTopicObject, 'showvar showmeta' );
+    my $otext =
+      $renderer->TML2PlainText( $ostring, $oldTopicObject, 'showvar showmeta' );
+
     #print "SSSSSS otext\n($otext)\nSSSSSS\n\n";
 
     require Foswiki::Merge;
@@ -3543,6 +3574,7 @@ sub summariseChanges {
     unless ($summary) {
         return $this->summariseText( '', $ntext );
     }
+
     #print "SUMMARY\n===================\n($summary)\n============\n\n";
 
     if ( !$tml ) {
@@ -3571,12 +3603,13 @@ TODO: can we move this code into Foswiki::Serialise ?
 
 sub getEmbeddedStoreForm {
     my $this = shift;
+
 #print STDERR "&&&&&&&&&&&&&&&&&&&&&getEmbeddedStoreForm(".$this->web.' . '.$this->topic.")\n";
 
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
-    
-    return Foswiki::Serialise::serialise($this->session(), $this, 'Embedded');
+
+    return Foswiki::Serialise::serialise( $this->session(), $this, 'Embedded' );
 }
 
 =begin TML
@@ -3593,6 +3626,7 @@ Note: line endings must be normalised to \n *before* calling this method.
 
 sub setEmbeddedStoreForm {
     my ( $this, $text ) = @_;
+
 #print STDERR "&&&&&&&&&&&&&&&&&&&&&setEmbeddedStoreForm(".$this->web.' . '.$this->topic.")\n";
 
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
@@ -3602,7 +3636,8 @@ sub setEmbeddedStoreForm {
 
     # head meta-data
     $text =~ s/^(%META:(TOPICINFO){(.*)}%\n)/
-      $this->_readMETA($1, $2, $3)/e;		#NO THIS CANNOT BE /g - TOPICINFO is _only_ valid as the first line!
+      $this->_readMETA($1, $2, $3)/e
+      ;    #NO THIS CANNOT BE /g - TOPICINFO is _only_ valid as the first line!
     my $ti = $this->get('TOPICINFO');
     if ($ti) {
         $format = $ti->{format} || 0;
@@ -3616,8 +3651,10 @@ sub setEmbeddedStoreForm {
         $ti->{rev} = $ti->{version};    # not used, maintained for compatibility
         $ti->{reprev} = Foswiki::Store::cleanUpRevID( $ti->{reprev} )
           if defined $ti->{reprev};
-    } else {
-            #defaults..
+    }
+    else {
+
+        #defaults..
     }
 
     # Other meta-data
@@ -3784,7 +3821,6 @@ sub _readKeyValues {
 
     return \%res;
 }
-
 
 =begin TML
 
