@@ -12,6 +12,9 @@ use Foswiki::UI::Upload;
 use CGI;
 use Error qw( :try );
 my $UI_FN;
+my $FORM = {name => 'BogusForm'};
+my @FIELDS = ({name => 'Message', value => 'Abandon ship!'});
+my %FIELDShash = map { $_->{name} => $_ } @FIELDS;
 
 sub new {
     my $self = shift()->SUPER::new( "UploadScript", @_ );
@@ -26,13 +29,17 @@ sub set_up {
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $this->{test_topic}, "   * Set ATTACHFILESIZELIMIT = 511\n", undef );
-    $topicObject->save();
+    $topicObject->put('FORM', $FORM);
+    $topicObject->putAll('FIELD', @FIELDS);
+    $topicObject->save(forcenewrevision => 1);
+    $this->_assert_meta_stillgood();
 }
 
 sub do_upload {
     my $this   = shift;
     my $fn     = shift;
     my $data   = shift;
+    my $cuid   = shift || $this->{test_user_login};
     my %params = @_;
     my %args   = (
         webName   => [ $this->{test_web} ],
@@ -65,7 +72,7 @@ sub do_upload {
     seek( $stream, 0, 0 );
 
     $this->{session}->finish();
-    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->{session} = new Foswiki( $cuid, $query );
 
     my ($text) = $this->captureWithKey(
         'upload',
@@ -75,6 +82,7 @@ sub do_upload {
             use strict 'refs';
             $Foswiki::engine->finalize( $this->{session}->{response},
                 $this->{session}->{request} );
+	    $this->_assert_meta_stillgood();
         },
         $this->{session}
     );
@@ -87,6 +95,7 @@ sub test_simple_upload {
     my $result = $this->do_upload(
         'Flappadoodle.txt',
         "BLAH",
+	undef,
         hidefile         => 0,
         filecomment      => 'Elucidate the goose',
         createlink       => 0,
@@ -114,6 +123,7 @@ sub test_noredirect_param {
     my $result = $this->do_upload(
         'Flappadoodle.txt',
         "BLAH",
+	undef,
         hidefile         => 0,
         filecomment      => 'Elucidate the goose',
         createlink       => 0,
@@ -130,6 +140,7 @@ sub test_redirectto_param {
     my $result = $this->do_upload(
         'Flappadoodle.txt',
         "BLAH",
+	undef,
         hidefile         => 0,
         filecomment      => 'Elucidate the goose',
         createlink       => 0,
@@ -143,6 +154,7 @@ sub test_redirectto_param {
     $result = $this->do_upload(
         'Flappadoodle.txt',
         "BLAH",
+	undef,
         hidefile         => 0,
         filecomment      => 'Elucidate the goose',
         createlink       => 0,
@@ -173,6 +185,7 @@ sub test_oversized_upload {
         $this->do_upload(
             'Flappadoodle.txt',
             $data,
+	    undef,
             hidefile         => 0,
             filecomment      => 'Elucidate the goose',
             createlink       => 0,
@@ -194,6 +207,7 @@ sub test_zerosized_upload {
         $this->do_upload(
             'Flappadoodle.txt',
             $data,
+	    undef,
             hidefile         => 0,
             filecomment      => 'Elucidate the goose',
             createlink       => 0,
@@ -217,6 +231,7 @@ sub test_illegal_upload {
         $this->do_upload(
             $badfilename,
             $data,
+	    undef,
             hidefile         => 0,
             filecomment      => 'Elucidate the goose',
             createlink       => 0,
@@ -241,6 +256,7 @@ sub test_illegal_propschange {
         $this->do_upload(
             $badfilename,
             $data,
+	    undef,
             hidefile         => 0,
             filecomment      => 'Elucidate the goose',
             createlink       => 0,
@@ -257,6 +273,7 @@ sub test_illegal_propschange {
         $this->do_upload(
             $badfilename,
             $data,
+	    undef,
             hidefile         => 1,
             filecomment      => 'Educate the goose',
             createlink       => 1,
@@ -278,15 +295,24 @@ sub test_propschanges {
     my $result = $this->do_upload(
         'Flappadoodle.txt',
         "BLAH",
+	undef,
         hidefile         => 0,
         filecomment      => 'Grease the stoat',
         createlink       => 0,
         changeproperties => 0,
     );
+    $result = $this->do_upload(
+        'Flappadoodle.txt',
+        "BLAH",
+	'AdminUser',
+        filecomment      => 'Grease the stoat.',
+        changeproperties => 1,
+    );
     $this->assert_matches( qr/^Status: 302/, $result );
     $result = $this->do_upload(
         'Flappadoodle.txt',
         $data,
+	undef,
         hidefile         => 1,
         filecomment      => 'Educate the hedgehog',
         createlink       => 1,
@@ -320,6 +346,7 @@ sub test_imagelink {
     my $result = $this->do_upload(
         $filename,
         $data,
+	undef,
         hidefile         => 0,
         filecomment      => 'Grease the stoat',
         createlink       => 0,
@@ -330,6 +357,7 @@ sub test_imagelink {
     $result   = $this->do_upload(
         $filename,
         $data,
+	undef,
         hidefile         => 1,
         filecomment      => 'Educate the hedgehog',
         createlink       => 1,
@@ -350,6 +378,26 @@ qr/<img src=\"%ATTACHURLPATH%\/bomb.png\" alt=\"bomb.png\" width=\'16\' height=\
     $this->assert($at);
     $this->assert_matches( qr/h/i, $at->{attr} );
     $this->assert_str_equals( 'Educate the hedgehog', $at->{comment} );
+}
+
+# Assert that we've still got good meta
+sub _assert_meta_stillgood {
+    my ($this) = @_;
+    my ($topicObj) = Foswiki::Func::readTopic($this->{test_web}, $this->{test_topic});
+    my $tFORM = $topicObj->get('FORM');
+    my @tFIELDS = $topicObj->find('FIELD');
+    my %tFIELDShash = map { $_->{name} => $_ } @tFIELDS;
+
+    $this->assert($tFORM);
+    $this->assert(exists $tFORM->{name});
+    $this->assert($tFORM->{name} eq $FORM->{name});
+    $this->assert(scalar(@tFIELDS));
+    $this->assert(scalar(@tFIELDS) == scalar(@FIELDS));
+    foreach my $name (keys %FIELDShash) {
+	$this->assert(exists $tFIELDShash{$name}, "$this->{test_web}.$this->{test_topic} did not contain META:FIELD[name='$name']");
+	$this->assert(exists $tFIELDShash{$name}->{value}, "$this->{test_web}.$this->{test_topic} did not contain a value key in META:FIELD[name='$name']");
+	$this->assert($tFIELDShash{$name}->{value} eq $FIELDShash{$name}->{value}, "'$this->{test_web}.$this->{test_topic}'/META:FIELD[name='$name'].value = '$tFIELDShash{$name}->{value}' but expected '$FIELDShash{$name}->{value}'");
+    }
 }
 
 1;
