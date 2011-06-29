@@ -1,23 +1,24 @@
-use strict;
-
 package UploadScriptTests;
+use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
-use Foswiki;
-use Unit::Request;
-use Foswiki::UI::Upload;
-use CGI;
+use Foswiki();
+use Unit::Request();
+use Foswiki::UI::Upload();
+use CGI();
 use Error qw( :try );
+
 my $UI_FN;
 my $FORM = { name => 'BogusForm' };
 my @FIELDS = ( { name => 'Message', value => 'Abandon ship!' } );
 my %FIELDShash = map { $_->{name} => $_ } @FIELDS;
 
 sub new {
-    my $self = shift()->SUPER::new( "UploadScript", @_ );
+    my @args = @_;
+    my $self = shift()->SUPER::new( "UploadScript", @args );
     return $self;
 }
 
@@ -33,27 +34,27 @@ sub set_up {
     $topicObject->putAll( 'FIELD', @FIELDS );
     $topicObject->save( forcenewrevision => 1 );
     $this->_assert_meta_stillgood();
+
+    return;
 }
 
 sub do_upload {
-    my $this   = shift;
-    my $fn     = shift;
-    my $data   = shift;
-    my $cuid   = shift || $this->{test_user_login};
-    my %params = @_;
+    my ( $this, $fn, $data, $cuid, @arga ) = @_;
+    my %params = @arga;
     my %args   = (
         webName   => [ $this->{test_web} ],
         topicName => [ $this->{test_topic} ],
     );
-    while ( scalar(@_) ) {
-        my $k = shift(@_);
-        my $v = shift(@_);
+    $cuid ||= $this->{test_user_login};
+    while ( scalar(@arga) ) {
+        my $k = shift(@arga);
+        my $v = shift(@arga);
         $args{$k} = [$v];
     }
-    my $query = new Unit::Request( \%args );
+    my $query = Unit::Request->new( \%args );
     $query->method('POST');
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
-    my $tmpfile = new CGITempFile(0)
+    my $tmpfile = CGITempFile->new(0)
       ; #<-- returns undef on OSX with 3.15 version of CGI module (works on 3.42)
     my $fh = Fh->new( $fn, $tmpfile->as_string, 0 );
     print $fh $data;
@@ -61,7 +62,7 @@ sub do_upload {
     $query->param( -name => 'filepath', -value => $fn );
     my %uploads = ();
     require Foswiki::Request::Upload;
-    $uploads{$fh} = new Foswiki::Request::Upload(
+    $uploads{$fh} = Foswiki::Request::Upload->new(
         headers => {},
         tmpname => $tmpfile->as_string
     );
@@ -72,13 +73,13 @@ sub do_upload {
     seek( $stream, 0, 0 );
 
     $this->{session}->finish();
-    $this->{session} = new Foswiki( $cuid, $query );
+    $this->{session} = Foswiki->new( $cuid, $query );
 
     my ($text) = $this->captureWithKey(
         'upload',
         sub {
             no strict 'refs';
-            &$UI_FN( $this->{session} );
+            $UI_FN->( $this->{session} );
             use strict 'refs';
             $Foswiki::engine->finalize( $this->{session}->{response},
                 $this->{session}->{request} );
@@ -103,11 +104,14 @@ sub test_simple_upload {
     );
     $this->assert_matches( qr/^Status: 302/, $result );
     $this->assert(
-        open( F,
-"<$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/Flappadoodle.txt"
+        open(
+            my $F,
+            '<',
+"$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/Flappadoodle.txt"
         )
     );
-    $this->assert_str_equals( "BLAH", <F> );
+    $this->assert_str_equals( "BLAH", <$F> );
+    close($F);
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
@@ -115,6 +119,8 @@ sub test_simple_upload {
     my $at = $meta->get( 'FILEATTACHMENT', 'Flappadoodle.txt' );
     $this->assert($at);
     $this->assert_str_equals( 'Elucidate the goose', $at->{comment} );
+
+    return;
 }
 
 sub test_noredirect_param {
@@ -131,6 +137,8 @@ sub test_noredirect_param {
         changeproperties => 0,
     );
     $this->assert_matches( qr/^OK Flappadoodle.txt uploaded/ms, $result );
+
+    return;
 }
 
 sub test_redirectto_param {
@@ -164,6 +172,8 @@ sub test_redirectto_param {
     $this->assert_matches(
         qr#Location: http://(.*?)$this->{test_web}/$this->{test_topic}#ms,
         $result );
+
+    return;
 }
 
 sub test_oversized_upload {
@@ -173,10 +183,10 @@ sub test_oversized_upload {
         webName   => [ $this->{test_web} ],
         topicName => [ $this->{test_topic} ],
     );
-    my $query = new Unit::Request( \%args );
+    my $query = Unit::Request->new( \%args );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->{session}->finish();
-    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->{session} = Foswiki->new( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{session};
     my $data = '00000000000000000000000000000000000000';
     my $sz   = Foswiki::Func::getPreferencesValue('ATTACHFILESIZELIMIT') * 1024;
@@ -197,6 +207,8 @@ sub test_oversized_upload {
         my $e = shift;
         $this->assert_str_equals( "oversized_upload", $e->{def} );
     };
+
+    return;
 }
 
 sub test_zerosized_upload {
@@ -219,6 +231,8 @@ sub test_zerosized_upload {
         my $e = shift;
         $this->assert_str_equals( "zero_size_upload", $e->{def} );
     };
+
+    return;
 }
 
 sub test_illegal_upload {
@@ -244,6 +258,8 @@ sub test_illegal_upload {
         $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
         $this->assert_str_equals( "upload_name_changed", $e->{def} );
     };
+
+    return;
 }
 
 sub test_illegal_propschange {
@@ -286,6 +302,8 @@ sub test_illegal_propschange {
         $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
         $this->assert_str_equals( "upload_name_changed", $e->{def} );
     };
+
+    return;
 }
 
 sub test_propschanges {
@@ -333,14 +351,17 @@ qr/\[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate the hedg
     $this->assert($at);
     $this->assert_matches( qr/h/i, $at->{attr} );
     $this->assert_str_equals( 'Educate the hedgehog', $at->{comment} );
+
+    return;
 }
 
 sub test_imagelink {
     my $this = shift;
     local $/;
     my $imageFile = $Foswiki::cfg{PubDir} . '/System/DocumentGraphics/bomb.png';
-    open FILE, '<', $imageFile;
-    my $data = do { local $/; <FILE> };
+    open my $FILE, '<', $imageFile;
+    my $data = do { local $/; <$FILE> };
+    close($FILE);
     my $filename = 'bomb.png';
     $filename = Assert::TAINT($filename);
     my $result = $this->do_upload(
@@ -378,6 +399,8 @@ qr/<img src=\"%ATTACHURLPATH%\/bomb.png\" alt=\"bomb.png\" width=\'16\' height=\
     $this->assert($at);
     $this->assert_matches( qr/h/i, $at->{attr} );
     $this->assert_str_equals( 'Educate the hedgehog', $at->{comment} );
+
+    return;
 }
 
 # Assert that we've still got good meta
@@ -408,6 +431,8 @@ sub _assert_meta_stillgood {
 "'$this->{test_web}.$this->{test_topic}'/META:FIELD[name='$name'].value = '$tFIELDShash{$name}->{value}' but expected '$FIELDShash{$name}->{value}'"
         );
     }
+
+    return;
 }
 
 1;
