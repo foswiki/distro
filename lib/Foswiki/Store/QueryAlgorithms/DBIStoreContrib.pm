@@ -77,9 +77,23 @@ BEGIN {
 # Debug prints
 use constant MONITOR => 0;
 
+
+=begin TML
+
+---++ ClassMethod new( $class,  ) -> $cereal
+
+=cut
+
+sub new {
+    my $self = shift()->SUPER::new( 'SEARCH', @_ );
+    return $self;
+}
+
+
 # See Foswiki::Query::QueryAlgorithms.pm for details
 sub query {
-    my ( $query, $interestingTopics, $session, $options ) = @_;
+    my ( $this, $query, $interestingTopics, $session, $options ) = @_;
+    ASSERT(defined($this));#Sven changed the API to OO based to allow re-use of boilerplate version of query sub()
 
     print STDERR "Initial query: ".$query->stringify()."\n" if MONITOR;
     # Fold constants
@@ -204,7 +218,12 @@ sub query {
 
     #TODO: $options should become redundant
     $resultset->sortResults($options);
-    return $resultset;
+        
+    #add permissions check
+    $resultset = Foswiki::Store::Interfaces::QueryAlgorithm::addACLFilter( $resultset, $options );
+    
+    #add paging if applicable.
+    return Foswiki::Store::Interfaces::QueryAlgorithm::addPager( $resultset, $options );
 }
 
 # Get a referenced topic

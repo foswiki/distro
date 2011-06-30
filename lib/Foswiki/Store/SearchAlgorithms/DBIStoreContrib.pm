@@ -15,14 +15,28 @@ use Assert;
 use Foswiki::Search::InfoCache ();
 use Foswiki::Query::Parser ();
 use Foswiki::Store::QueryAlgorithms::DBIStoreContrib ();
+use Foswiki::Store::Interfaces::QueryAlgorithm();
 
-#@ISA = ( 'Foswiki::Store::Interfaces::SearchAlgorithm' );
+@ISA = ( 'Foswiki::Store::Interfaces::QueryAlgorithm' );
+
+
+=begin TML
+
+---++ ClassMethod new( $class,  ) -> $cereal
+
+=cut
+
+sub new {
+    my $self = shift()->SUPER::new( 'SEARCH', @_ );
+    return $self;
+}
+
 
 # Analyse the requirements of the search, and redirect to the query
 # algorithm. This is kinda like the reverse of hoisting regexes :-)
 # Implements Foswiki::Store::Interfaces::SearchAlgorithm
 sub query {
-    my ( $query, $inputTopicSet, $session, $options ) = @_;
+    my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
 
     if ( $query->isEmpty() ) {
         return new Foswiki::Search::InfoCache($session, '');
@@ -78,7 +92,8 @@ sub query {
 
     $query = $queryParser->parse($search);
 
-    return Foswiki::Store::QueryAlgorithms::DBIStoreContrib::query(
+    #NEED TO RECODE THIS TO USE THE Algo OBJECT..
+    return Foswiki::Store::QueryAlgorithms::DBIStoreContrib::query(undef, 
         $query, $inputTopicSet, $session, $options);
 }
 
