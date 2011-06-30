@@ -29,7 +29,7 @@
 <input type="hidden" name="tab" value="%URLPARAM{"tab" default="search"}%" />
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
-<input type="text" class="foswikiInputField foswikiFocus" name="search" value="%URLPARAM{ "search" encode="entity" }%" size="40" style="width:99%" />	
+<input type="text" class="foswikiInputField foswikiFocus" name="search" value="%URLPARAM{ "search" encode="entity" }%" size="40" style="width:99%" />    
 </div>
 <div class="foswikiFormStep">
 %TWISTY{
@@ -59,13 +59,13 @@ hideimgleft="%ICONURLPATH{toggleclose}%"
 
 
 %STARTSECTION{"tabs"}%<noautolink><div class="foswikiTabs">
-	<ul>
-		<li%IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamssimple"}%;tab=search">%MAKETEXT{"Search"}%</a></li>
-		<li%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=searchadvanced">%MAKETEXT{"Advanced search"}%</a></li>
-		<li%IF{"$'URLPARAM{tab}'='az'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=az">%MAKETEXT{"A-Z"}%</a></li>
-		<li%IF{"$'URLPARAM{tab}'='help'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=help">%MAKETEXT{"Help"}%</a></li>
-	</ul>
-	<br class="foswikiClear" />
+    <ul>
+        <li%IF{"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamssimple"}%;tab=search">%MAKETEXT{"Search"}%</a></li>
+        <li%IF{"$'URLPARAM{tab}'='searchadvanced' OR $TAB='advanced'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=searchadvanced">%MAKETEXT{"Advanced search"}%</a></li>
+        <li%IF{"$'URLPARAM{tab}'='az'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=az">%MAKETEXT{"A-Z"}%</a></li>
+        <li%IF{"$'URLPARAM{tab}'='help'" then=" class='foswikiActiveTab'"}%><a href="%SCRIPTURL{view}%/%BASEWEB%/%TOPIC%?%INCLUDE{"%TOPIC%" section="searchparamsadvanced"}%;tab=help">%MAKETEXT{"Help"}%</a></li>
+    </ul>
+    <br class="foswikiClear" />
 </div></noautolink>%ENDSECTION{"tabs"}%
 
 
@@ -139,22 +139,22 @@ hideimgleft="%ICONURLPATH{toggleclose}%"
 %STARTSECTION{"searchresults"}%%IF{"$'URLPARAM{search}'!=''" then='<h2>Search results</h2>
 $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$percent'}%
 %SEARCH{
-		"%URLPARAM{"search" encode="quote"}%"
-		type="%URLPARAM{"type" default="word"}%"
-		scope="%URLPARAM{"scope" encode="quote"}%"
-		web="%URLPARAM{"web" encode="quote"}%"
-		recurse="%URLPARAM{"recurse" encode="quote"}%"
-		excludetopic="%URLPARAM{"excludetopic" encode="quote"}%"
-		nosearch="%URLPARAM{"nosearch" encode="quote"}%"
-		casesensitive="%URLPARAM{"casesensitive" encode="quote"}%"
-		nosummary="%URLPARAM{"nosummary" encode="quote"}%"
-		nototal="%URLPARAM{"nototal" encode="quote"}%"
-		order="%URLPARAM{"order" encode="quote"}%"
-		reverse="%URLPARAM{"reverse" encode="quote"}%"
+        "%URLPARAM{"search" encode="quote"}%"
+        type="%URLPARAM{"type" default="word"}%"
+        scope="%URLPARAM{"scope" encode="quote"}%"
+        web="%URLPARAM{"web" encode="quote"}%"
+        recurse="%URLPARAM{"recurse" encode="quote"}%"
+        excludetopic="%URLPARAM{"excludetopic" encode="quote"}%"
+        nosearch="%URLPARAM{"nosearch" encode="quote"}%"
+        casesensitive="%URLPARAM{"casesensitive" encode="quote"}%"
+        nosummary="%URLPARAM{"nosummary" encode="quote"}%"
+        nototal="%URLPARAM{"nototal" encode="quote"}%"
+        order="%URLPARAM{"order" encode="quote"}%"
+        reverse="%URLPARAM{"reverse" encode="quote"}%"
         pager="on"
         limit="%URLPARAM{"limit" encode="quote" default="%DEFAULTPAGESIZE%"}%"
         pagesize="%DEFAULTPAGESIZE%"
-		zeroresults="%IF{ "defined search and $search!=''" then="on" else="off" }%"
+        zeroresults="%IF{ "defined search and $search!=''" then="on" else="off" }%"
 }%%ENDSECTION{"searchresults"}%
 
 
@@ -194,32 +194,32 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
 
 %STARTSECTION{"letterlist"}%<div class="foswikiHorizontalList foswikiUnvisited">
 <ul>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="A"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="B"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="C"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="D"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="E"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="F"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="G"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="H"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="I"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="J"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="K"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="L"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="M"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="N"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="O"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="P"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="Q"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="R"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="S"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="T"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="U"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="V"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="W"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="X"}%</li>
-	<li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="Y"}%</li>
-	<li class="foswikiLast">%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="Z"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="A"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="B"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="C"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="D"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="E"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="F"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="G"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="H"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="I"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="J"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="K"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="L"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="M"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="N"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="O"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="P"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="Q"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="R"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="S"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="T"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="U"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="V"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="W"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="X"}%</li>
+    <li>%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="Y"}%</li>
+    <li class="foswikiLast">%INCLUDE{"%TOPIC%" section="searchbyletterlink" letter="Z"}%</li>
 </ul><br class="foswikiClear" /></div>%ENDSECTION{"letterlist"}%
 
 </verbatim>
