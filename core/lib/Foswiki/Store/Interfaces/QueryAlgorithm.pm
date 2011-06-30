@@ -18,6 +18,7 @@ use Foswiki::Query::HoistREs ();
 use Foswiki::ListIterator();
 use Foswiki::Iterator::FilterIterator();
 use Foswiki::Iterator::ProcessIterator();
+use Foswiki::Iterator::PagerIterator();
 
 use constant MONITOR => 0;
 
