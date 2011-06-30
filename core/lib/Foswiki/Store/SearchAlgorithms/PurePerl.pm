@@ -33,7 +33,6 @@ use Foswiki::Iterator::ProcessIterator();
 
 use constant MONITOR => 0;
 
-
 =begin TML
 
 ---++ ClassMethod new( $class,  ) -> $cereal

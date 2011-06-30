@@ -12,7 +12,7 @@ use Foswiki::WebFilter ();
 use Foswiki::Meta      ();
 
 use Foswiki::Store::Interfaces::QueryAlgorithm ();
-our @ISA = ( 'Foswiki::Store::Interfaces::QueryAlgorithm' );
+our @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
 
 =begin TML
 
@@ -36,7 +36,6 @@ This is the top-level interface to a search algorithm.
 Return a Foswiki::Search::ResultSet.
 
 =cut
-
 
 1;
 

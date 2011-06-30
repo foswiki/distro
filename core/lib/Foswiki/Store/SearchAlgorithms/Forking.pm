@@ -33,7 +33,6 @@ use Foswiki::Iterator::ProcessIterator();
 
 use constant MONITOR => 0;
 
-
 =begin TML
 
 ---++ ClassMethod new( $class,  ) -> $cereal
@@ -44,7 +43,6 @@ sub new {
     my $self = shift()->SUPER::new( 'SEARCH', @_ );
     return $self;
 }
-
 
 # Search .txt files in $dir for $searchString. This is the 'old' interface
 # to search algorithms (prior to Sven's massive search refactoring. It was

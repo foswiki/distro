@@ -37,7 +37,6 @@ need to inherit from this class (as long as all the methods are implemented).
 
 =cut
 
-
 =begin TML
 
 ---++ ClassMethod new( $class,  ) -> $cereal
@@ -317,7 +316,7 @@ Return revision info for the first revision in %info with at least:
 sub getRev1Info {
     my $this = shift;
     my $meta = shift;
-    
+
     my $wikiname = $meta->getRev1Info('createwikiname');
     return $meta->{_getRev1Info}->{rev1info};
 }
@@ -325,7 +324,7 @@ sub getRev1Info {
 sub getWebIterator {
     my $session = shift;
     my $options = shift;
-    
+
     my $webNames = $options->{web}       || '';
     my $recurse  = $options->{'recurse'} || '';
     my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
@@ -335,7 +334,7 @@ sub getWebIterator {
     my @webs =
       Foswiki::Store::Interfaces::QueryAlgorithm::getListOfWebs( $webNames,
         $recurse, $searchAllFlag );
-    my $rawWebIter = new Foswiki::ListIterator(\@webs);
+    my $rawWebIter = new Foswiki::ListIterator( \@webs );
     my $webItr     = new Foswiki::Iterator::FilterIterator(
         $rawWebIter,
         sub {
@@ -397,7 +396,8 @@ sub addACLFilter {
 
 #TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
 #lets change that
-                $topicMeta = new Foswiki::Meta( $Foswiki::Plugins::SESSION, $web, $topic );
+                $topicMeta =
+                  new Foswiki::Meta( $Foswiki::Plugins::SESSION, $web, $topic );
             }
             my $info =
               $Foswiki::Plugins::SESSION->search->metacache->get( $web, $topic,
@@ -411,7 +411,6 @@ sub addACLFilter {
         $options
     );
 }
-
 
 =begin TML
 
@@ -513,7 +512,6 @@ sub getListOfWebs {
     # Default to alphanumeric sort order
     return sort @webs;
 }
-
 
 1;
 __END__

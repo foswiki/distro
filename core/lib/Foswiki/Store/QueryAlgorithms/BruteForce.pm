@@ -45,7 +45,6 @@ use Foswiki::Iterator::ProcessIterator();
 
 use constant MONITOR => 0;
 
-
 =begin TML
 
 ---++ ClassMethod new( $class,  ) -> $cereal
@@ -56,7 +55,6 @@ sub new {
     my $self = shift()->SUPER::new( 'SEARCH', @_ );
     return $self;
 }
-
 
 # Query over a single web
 sub _webQuery {
