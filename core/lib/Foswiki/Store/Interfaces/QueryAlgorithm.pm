@@ -5,8 +5,9 @@ use strict;
 use warnings;
 use Assert;
 
-use Foswiki::Iterator::FilterIterator;
-use Foswiki::Iterator::PagerIterator;
+use Foswiki::Search::ResultSet                  ();
+use Foswiki::Iterator::FilterIterator ();
+use Foswiki::Iterator::PagerIterator();
 
 use constant MONITOR => 0;
 
@@ -41,7 +42,7 @@ sub new {
 
 =begin TML
 
----++ StaticMethod query( $query, $webs, $inputTopicSet, $session, $options ) -> $infoCache
+---++ ObjectMethod query( $query, $webs, $inputTopicSet, $session, $options ) -> $infoCache
    * =$query= - A Foswiki::Query::Node object
    * =$web= - name of the web being searched, or may be an array reference
               to a set of webs to search
@@ -55,6 +56,72 @@ store.
 
 To monitor the hoisting and evaluation processes, use the MONITOR_EVAL
 setting in Foswiki::Query::Node
+
+this is a default implementation of the query() sub that uses the specific algorithms' _webQuery member function.
+
+=cut
+
+sub query {
+    my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
+
+    if ( $query->isEmpty() )
+    {    #TODO: does this do anything in a type=query context?
+        return Foswiki::Search::InfoCache->new( $session, '' );
+    }
+
+    # Fold constants
+    my $context = Foswiki::Meta->new( $session, $session->{webName} );
+    print STDERR "--- before: " . $query->stringify() . "\n" if MONITOR;
+    $query->simplify( tom => $context, data => $context );
+    print STDERR "--- simplified: " . $query->stringify() . "\n" if MONITOR;
+
+    my $webItr =
+      Foswiki::Store::Interfaces::QueryAlgorithm::getWebIterator( $session,
+        $options );
+
+    #do the search
+    my $queryItr = Foswiki::Iterator::ProcessIterator->new(
+        $webItr,
+        sub {
+            my $web    = shift;
+            my $params = shift;
+
+            my $infoCache =
+              $this->_webQuery( $params->{query}, $web, $params->{inputset},
+                $params->{session}, $params->{options} );
+            $infoCache->sortResults($options);
+            return $infoCache;
+        },
+        {
+            query    => $query,
+            inputset => $inputTopicSet,
+            session  => $session,
+            options  => $options
+        }
+    );
+
+#sadly, the resultSet currently wants a real array, rather than an unevaluated iterator
+    my @resultCacheList = $queryItr->all();
+
+#and thus if the ResultSet could be created using an unevaluated process itr, which would somehow rely on........ eeeeek
+    my $resultset =
+      new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
+        $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
+
+#consider if this is un-necessary - and that we can steal the web order sort from DBIStore and push up to the webItr
+    $resultset->sortResults($options);
+
+    #add permissions check
+    $resultset =
+      Foswiki::Store::Interfaces::QueryAlgorithm::addACLFilter( $resultset,
+        $options );
+
+    #add paging if applicable.
+    return Foswiki::Store::Interfaces::QueryAlgorithm::addPager( $resultset,
+        $options );
+}
+
+=begin TML
 
 ---++ StaticMethod getField($class, $node, $data, $field ) -> $result
    * =$class= is this package

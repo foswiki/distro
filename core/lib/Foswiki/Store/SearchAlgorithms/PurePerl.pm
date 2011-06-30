@@ -45,67 +45,6 @@ sub new {
     return $self;
 }
 
-
-sub query {
-    my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
-
-    if ( $query->isEmpty() )
-    {    #TODO: does this do anything in a type=query context?
-        return Foswiki::Search::InfoCache->new( $session, '' );
-    }
-
-    # Fold constants
-    my $context = Foswiki::Meta->new( $session, $session->{webName} );
-    print STDERR "--- before: " . $query->stringify() . "\n" if MONITOR;
-    $query->simplify( tom => $context, data => $context );
-    print STDERR "--- simplified: " . $query->stringify() . "\n" if MONITOR;
-
-    my $webItr =
-      Foswiki::Store::Interfaces::QueryAlgorithm::getWebIterator( $session,
-        $options );
-
-    #do the search
-    my $queryItr = Foswiki::Iterator::ProcessIterator->new(
-        $webItr,
-        sub {
-            my $web    = shift;
-            my $params = shift;
-
-            my $infoCache =
-              _webQuery( $params->{query}, $web, $params->{inputset},
-                $params->{session}, $params->{options} );
-            $infoCache->sortResults($options);
-            return $infoCache;
-        },
-        {
-            query    => $query,
-            inputset => $inputTopicSet,
-            session  => $session,
-            options  => $options
-        }
-    );
-
-#sadly, the resultSet currently wants a real array, rather than an unevaluated iterator
-    my @resultCacheList = $queryItr->all();
-
-#and thus if the ResultSet could be created using an unevaluated process itr, which would somehow rely on........ eeeeek
-    my $resultset =
-      new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
-        $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
-
-#consider if this is un-necessary - and that we can steal the web order sort from DBIStore and push up to the webItr
-    $resultset->sortResults($options);
-
-    #add permissions check
-    $resultset =
-      Foswiki::Store::Interfaces::QueryAlgorithm::addACLFilter( $resultset,
-        $options );
-
-    #add paging if applicable.
-    return Foswiki::Store::Interfaces::QueryAlgorithm::addPager( $resultset,
-        $options );
-}
-
 # This is the 'old' interface, prior to Sven's massive search refactoring.
 sub _search {
     my ( $searchString, $web, $inputTopicSet, $session, $options ) = @_;
@@ -168,7 +107,7 @@ sub _search {
 
 #ok, for initial validation, naively call the code with a web.
 sub _webQuery {
-    my ( $query, $web, $inputTopicSet, $session, $options ) = @_;
+    my ( $this, $query, $web, $inputTopicSet, $session, $options ) = @_;
     ASSERT( !$query->isEmpty() ) if DEBUG;
 
     # default scope is 'text'
