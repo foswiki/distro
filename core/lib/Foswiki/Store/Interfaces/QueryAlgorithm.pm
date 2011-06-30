@@ -85,7 +85,7 @@ sub query {
     print STDERR "--- simplified: " . $query->stringify() . "\n" if MONITOR;
 
     my $webItr =
-      Foswiki::Store::Interfaces::QueryAlgorithm::getWebIterator( $session,
+      $this->getWebIterator( $session,
         $options );
 
     #do the search
@@ -122,14 +122,107 @@ sub query {
 
     #add permissions check
     $resultset =
-      Foswiki::Store::Interfaces::QueryAlgorithm::addACLFilter( $resultset,
+      $this->addACLFilter( $resultset,
         $options );
 
     #add paging if applicable.
-    return Foswiki::Store::Interfaces::QueryAlgorithm::addPager( $resultset,
+    $this->addPager( $resultset,
         $options );
 }
 
+sub addPager {
+    my $this = shift;
+    my $resultset = shift;
+    my $options   = shift;
+
+    if ( $options->{paging_on} ) {
+        $resultset =
+          new Foswiki::Iterator::PagerIterator( $resultset,
+            $options->{pagesize}, $options->{showpage} );
+    }
+
+    return $resultset;
+}
+
+sub addACLFilter {
+    my $this = shift;
+    my $resultset = shift;
+    my $options   = shift;
+
+    #add filtering for ACL test - probably should make it a seperate filter
+    $resultset = new Foswiki::Iterator::FilterIterator(
+        $resultset,
+        sub {
+            my $listItem = shift;
+            my $params   = shift;
+
+            #ACL test
+            my ( $web, $topic ) =
+              Foswiki::Func::normalizeWebTopicName( '', $listItem );
+
+            my $topicMeta =
+              $Foswiki::Plugins::SESSION->search->metacache->addMeta( $web,
+                $topic );
+            if ( not defined($topicMeta) ) {
+
+#TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
+#lets change that
+                $topicMeta =
+                  new Foswiki::Meta( $Foswiki::Plugins::SESSION, $web, $topic );
+            }
+            my $info =
+              $Foswiki::Plugins::SESSION->search->metacache->get( $web, $topic,
+                $topicMeta );
+            ##ASSERT( defined( $info->{tom} ) ) if DEBUG;
+
+# Check security (don't show topics the current user does not have permission to view)
+            return 0 unless ( $info->{allowView} );
+            return 1;
+        },
+        $options
+    );
+}
+
+sub getWebIterator {
+    my $this = shift;
+    my $session = shift;
+    my $options = shift;
+
+    my $webNames = $options->{web}       || '';
+    my $recurse  = $options->{'recurse'} || '';
+    my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
+
+    #get a complete list of webs to search
+    my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
+    my @webs =
+      Foswiki::Store::Interfaces::QueryAlgorithm::getListOfWebs( $webNames,
+        $recurse, $searchAllFlag );
+    my $rawWebIter = new Foswiki::ListIterator( \@webs );
+    my $webItr     = new Foswiki::Iterator::FilterIterator(
+        $rawWebIter,
+        sub {
+            my $web    = shift;
+            my $params = shift;
+
+            # can't process what ain't thar
+            return 0 unless $session->webExists($web);
+
+            my $webObject = Foswiki::Meta->new( $session, $web );
+            my $thisWebNoSearchAll =
+              Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
+
+            # make sure we can report this web on an 'all' search
+            # DON'T filter out unless it's part of an 'all' search.
+            return 0
+              if ( $searchAllFlag
+                && !$isAdmin
+                && ( $thisWebNoSearchAll || $web =~ /^[\.\_]/ )
+                && $web ne $session->{webName} );
+            return 1;
+        },
+        {}
+    );
+}
 =begin TML
 
 ---++ StaticMethod getField($class, $node, $data, $field ) -> $result
@@ -319,97 +412,6 @@ sub getRev1Info {
 
     my $wikiname = $meta->getRev1Info('createwikiname');
     return $meta->{_getRev1Info}->{rev1info};
-}
-
-sub getWebIterator {
-    my $session = shift;
-    my $options = shift;
-
-    my $webNames = $options->{web}       || '';
-    my $recurse  = $options->{'recurse'} || '';
-    my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
-
-    #get a complete list of webs to search
-    my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
-    my @webs =
-      Foswiki::Store::Interfaces::QueryAlgorithm::getListOfWebs( $webNames,
-        $recurse, $searchAllFlag );
-    my $rawWebIter = new Foswiki::ListIterator( \@webs );
-    my $webItr     = new Foswiki::Iterator::FilterIterator(
-        $rawWebIter,
-        sub {
-            my $web    = shift;
-            my $params = shift;
-
-            # can't process what ain't thar
-            return 0 unless $session->webExists($web);
-
-            my $webObject = Foswiki::Meta->new( $session, $web );
-            my $thisWebNoSearchAll =
-              Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
-
-            # make sure we can report this web on an 'all' search
-            # DON'T filter out unless it's part of an 'all' search.
-            return 0
-              if ( $searchAllFlag
-                && !$isAdmin
-                && ( $thisWebNoSearchAll || $web =~ /^[\.\_]/ )
-                && $web ne $session->{webName} );
-            return 1;
-        },
-        {}
-    );
-}
-
-sub addPager {
-    my $resultset = shift;
-    my $options   = shift;
-
-    if ( $options->{paging_on} ) {
-        $resultset =
-          new Foswiki::Iterator::PagerIterator( $resultset,
-            $options->{pagesize}, $options->{showpage} );
-    }
-
-    return $resultset;
-}
-
-sub addACLFilter {
-    my $resultset = shift;
-    my $options   = shift;
-
-    #add filtering for ACL test - probably should make it a seperate filter
-    $resultset = new Foswiki::Iterator::FilterIterator(
-        $resultset,
-        sub {
-            my $listItem = shift;
-            my $params   = shift;
-
-            #ACL test
-            my ( $web, $topic ) =
-              Foswiki::Func::normalizeWebTopicName( '', $listItem );
-
-            my $topicMeta =
-              $Foswiki::Plugins::SESSION->search->metacache->addMeta( $web,
-                $topic );
-            if ( not defined($topicMeta) ) {
-
-#TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
-#lets change that
-                $topicMeta =
-                  new Foswiki::Meta( $Foswiki::Plugins::SESSION, $web, $topic );
-            }
-            my $info =
-              $Foswiki::Plugins::SESSION->search->metacache->get( $web, $topic,
-                $topicMeta );
-            ##ASSERT( defined( $info->{tom} ) ) if DEBUG;
-
-# Check security (don't show topics the current user does not have permission to view)
-            return 0 unless ( $info->{allowView} );
-            return 1;
-        },
-        $options
-    );
 }
 
 =begin TML
