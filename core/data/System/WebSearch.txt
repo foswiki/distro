@@ -172,9 +172,16 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
 %JQREQUIRE{"chili"}%<pre class="tml">
 %<nop>SEARCH{
    "%URLPARAM{"search" encode="quote"}%"
-   type="%URLPARAM{"type" default="%SEARCHDEFAULTTTYPE%"}%"
-%IF{"defined scope" then="   scope=\"%URLPARAM{"scope" encode="quote"}%\"$n"}%%IF{"defined web" then="   web=\"%URLPARAM{"web" encode="quote"}%\"$n"}%%IF{"defined recurse" then="   recurse=\"%URLPARAM{"recurse" encode="quote"}%\"$n"}%%IF{"defined nosearch" then="   nosearch=\"%URLPARAM{"nosearch" encode="quote"}%\"$n"}%%IF{"defined casesensitive" then="   casesensitive=\"%URLPARAM{"casesensitive" encode="quote"}%\"$n"}%%IF{"defined nosummary" then="   nosummary=\"%URLPARAM{"nosummary" encode="quote"}%\"$n"}%%IF{"defined nototal" then="   nototal=\"%URLPARAM{"nototal" encode="quote"}%\"$n"}%%IF{"defined order" then="   order=\"%URLPARAM{"order" encode="quote"}%\"$n"}%%IF{"defined reverse" then="   reverse=\"%URLPARAM{"reverse" encode="quote"}%\"$n"}%%IF{"defined limit" then="   limit=\"%URLPARAM{"limit" encode="quote"}%\"$n"}%   zeroresults="%IF{ "defined search" then="on" else="off" }%"
-}%
+   type="%URLPARAM{"type" default="%SEARCHDEFAULTTTYPE%"}%"%FORMAT{
+      "scope,web,recurse,nosearch,casesensitive,nosummary,nototal,order,reverse,limit,search"
+      type="string"
+      header="$n"
+      format="$percntIF{
+        \"defined $item AND $'$item'\"
+        then=\"   $item=\\"$percntURLPARAM{\"$item\" encode=\"quote\"}$percnt\\"$n\"
+      }$percnt"
+      separator=""
+   }%}%
 </pre>
 </div>%ENDSECTION{"_querysearchexample"}%
 
