@@ -5,9 +5,19 @@ use strict;
 use warnings;
 use Assert;
 
+use Foswiki::Store::Interfaces::SearchAlgorithm ();
+use Foswiki::Search::Node                       ();
+use Foswiki::Search::InfoCache                  ();
 use Foswiki::Search::ResultSet                  ();
-use Foswiki::Iterator::FilterIterator ();
-use Foswiki::Iterator::PagerIterator();
+use Foswiki();
+use Foswiki::Func();
+use Foswiki::Meta            ();
+use Foswiki::MetaCache       ();
+use Foswiki::Query::Node     ();
+use Foswiki::Query::HoistREs ();
+use Foswiki::ListIterator();
+use Foswiki::Iterator::FilterIterator();
+use Foswiki::Iterator::ProcessIterator();
 
 use constant MONITOR => 0;
 
