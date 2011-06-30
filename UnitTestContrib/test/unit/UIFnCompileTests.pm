@@ -65,6 +65,8 @@ sub fixture_groups {
                 context  => $array[2],
             };
         }
+        
+        next unless (ref($dispatcher) eq 'HASH');#bad switchboard entry.
 
         my $package = $dispatcher->{package} || 'Foswiki::UI';
         eval "require $package" or next;

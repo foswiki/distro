@@ -33,8 +33,21 @@ use Foswiki::Iterator::ProcessIterator();
 
 use constant MONITOR => 0;
 
+
+=begin TML
+
+---++ ClassMethod new( $class,  ) -> $cereal
+
+=cut
+
+sub new {
+    my $self = shift()->SUPER::new( 'SEARCH', @_ );
+    return $self;
+}
+
+
 sub query {
-    my ( $query, $inputTopicSet, $session, $options ) = @_;
+    my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
 
     if ( $query->isEmpty() )
     {    #TODO: does this do anything in a type=query context?
@@ -77,7 +90,7 @@ sub query {
 
 #and thus if the ResultSet could be created using an unevaluated process itr, which would somehow rely on........ eeeeek
     my $resultset =
-      Foswiki::Search::ResultSet->new( \@resultCacheList, $options->{groupby},
+      new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
         $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
 
 #consider if this is un-necessary - and that we can steal the web order sort from DBIStore and push up to the webItr

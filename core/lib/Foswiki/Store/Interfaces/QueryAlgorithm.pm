@@ -15,7 +15,7 @@ use constant MONITOR => 0;
 ---+ package Foswiki::Store::Interfaces::QueryAlgorithm
 
 Interface to query algorithms.
-Implementations of this interface are found in Foswiki/Store/QueryAlgorithms.
+Implementations of this interface are found in Foswiki/Store/*Algorithms.
 
 The contract with query algorithms is specified by this interface description,
 plus the 'query' unit tests in Fn_SEARCH.
@@ -23,6 +23,23 @@ The interface provides a default implementation of the 'getField' method,
 but all other methods are pure virtual and must be provided by subclasses.
 Note that if a subclass re-implements getField, then there is no direct
 need to inherit from this class (as long as all the methods are implemented).
+
+=cut
+
+
+=begin TML
+
+---++ ClassMethod new( $class,  ) -> $cereal
+
+=cut
+
+sub new {
+    my $class = shift;
+    my $this = bless( {}, $class );
+    return $this;
+}
+
+=begin TML
 
 ---++ StaticMethod query( $query, $webs, $inputTopicSet, $session, $options ) -> $infoCache
    * =$query= - A Foswiki::Query::Node object

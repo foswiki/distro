@@ -45,9 +45,21 @@ use Foswiki::Iterator::ProcessIterator();
 
 use constant MONITOR => 0;
 
-# Implements Foswiki::Store::Interfaces::QueryAlgorithm
+
+=begin TML
+
+---++ ClassMethod new( $class,  ) -> $cereal
+
+=cut
+
+sub new {
+    my $self = shift()->SUPER::new( 'SEARCH', @_ );
+    return $self;
+}
+
+
 sub query {
-    my ( $query, $inputTopicSet, $session, $options ) = @_;
+    my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
 
     if ( $query->isEmpty() )
     {    #TODO: does this do anything in a type=query context?

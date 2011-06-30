@@ -530,30 +530,31 @@ sub query {
 
     my $engine;
     if ( $query->isa('Foswiki::Query::Node') ) {
-        unless ( $this->{queryFn} ) {
-            eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
+        unless ( $this->{queryObj} ) {
+            my $module = $Foswiki::cfg{Store}{QueryAlgorithm};
+            eval "require $module";
             die
 "Bad {Store}{QueryAlgorithm}; suggest you run configure and select a different algorithm\n$@"
               if $@;
-            $this->{queryFn} = $Foswiki::cfg{Store}{QueryAlgorithm} . '::query';
+            $this->{queryObj} = $module->new();
         }
-        $engine = $this->{queryFn};
+        $engine = $this->{queryObj};
     }
     else {
         ASSERT( $query->isa('Foswiki::Search::Node') ) if DEBUG;
-        unless ( $this->{searchQueryFn} ) {
-            eval "require $Foswiki::cfg{Store}{SearchAlgorithm}";
+        unless ( $this->{searchQueryObj} ) {
+            my $module = $Foswiki::cfg{Store}{SearchAlgorithm};
+            eval "require $module";
             die
 "Bad {Store}{SearchAlgorithm}; suggest you run configure and select a different algorithm\n$@"
               if $@;
-            $this->{searchQueryFn} =
-              $Foswiki::cfg{Store}{SearchAlgorithm} . '::query';
+            $this->{searchQueryObj} = $module->new();
         }
-        $engine = $this->{searchQueryFn};
+        $engine = $this->{searchQueryObj};
     }
 
     no strict 'refs';
-    return &{$engine}( $query, $inputTopicSet, $session, $options );
+    return $engine->query( $query, $inputTopicSet, $session, $options );
     use strict 'refs';
 }
 
