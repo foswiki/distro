@@ -1661,6 +1661,7 @@ sub new {
     $Foswiki::Plugins::SESSION = $this;
 
     # Tell Foswiki::Response which charset we are using if not default
+    $Foswiki::cfg{Site}{CharSet} = CGI::charset() || 'iso-8859-1' unless (defined($Foswiki::cfg{Site}{CharSet}) and $Foswiki::cfg{Site}{CharSet} ne '');
     if ( defined $Foswiki::cfg{Site}{CharSet}
         && $Foswiki::cfg{Site}{CharSet} !~ /^iso-?8859-?1$/io )
     {
