@@ -220,10 +220,10 @@ sub query {
     $resultset->sortResults($options);
         
     #add permissions check
-    $resultset = Foswiki::Store::Interfaces::QueryAlgorithm::addACLFilter( $resultset, $options );
+    $resultset = $this->addACLFilter( $resultset, $options );
     
     #add paging if applicable.
-    return Foswiki::Store::Interfaces::QueryAlgorithm::addPager( $resultset, $options );
+    return $this->addPager( $resultset, $options );
 }
 
 # Get a referenced topic
