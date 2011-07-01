@@ -143,7 +143,10 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
         type="%URLPARAM{"type" default="word"}%"
         scope="%URLPARAM{"scope" encode="quote"}%"
         web="%URLPARAM{"web" encode="quote"}%"
-        recurse="%URLPARAM{"recurse" encode="quote"}%"
+%IF{
+  "{EnableHierarchicalWebs}"
+  then="recurse=\"%URLPARAM{"recurse" encode="quote"}%\""
+}%
         excludetopic="%URLPARAM{"excludetopic" encode="quote"}%"
         nosearch="%URLPARAM{"nosearch" encode="quote"}%"
         casesensitive="%URLPARAM{"casesensitive" encode="quote"}%"
@@ -177,7 +180,7 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
       type="string"
       header="$n"
       format="$percntIF{
-        \"defined $item AND $'$item'\"
+        \"(defined $item AND $'$item') AND ('$item' != 'recurse' OR {EnableHierarchicalWebs})\"
         then=\"   $item=\\"$percntURLPARAM{\"$item\" encode=\"quote\"}$percnt\\"$n\"
       }$percnt"
       separator=""
