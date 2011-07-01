@@ -143,7 +143,10 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
 type="%URLPARAM{"type" default="word"}%"
 scope="%URLPARAM{"scope" encode="quote"}%"
 web="%URLPARAM{"web" encode="quote"}%"
-recurse="%URLPARAM{"recurse" encode="quote"}%"
+%IF{
+  "{EnableHierarchicalWebs}"
+  then="recurse=\"%URLPARAM{"recurse" encode="quote"}%\""
+}%
 excludetopic="%URLPARAM{"excludetopic" encode="quote"}%"
 nosearch="%URLPARAM{"nosearch" encode="quote"}%"
 casesensitive="%URLPARAM{"casesensitive" encode="quote"}%"
@@ -171,7 +174,7 @@ zeroresults="%IF{ "defined search and $search!=''" then="on" else="off" }%"
 %<nop>SEARCH{
    "%URLPARAM{"search" encode="quote"}%"
    type="%URLPARAM{"type" default="%SEARCHDEFAULTTTYPE%"}%"
-%IF{"defined scope AND $'scope'" then="   scope=\"%URLPARAM{"scope" encode="quote"}%\"$n"}%%IF{"defined web AND $'web'" then="   web=\"%URLPARAM{"web" encode="quote"}%\"$n"}%%IF{"defined recurse AND $'recurse'" then="   recurse=\"%URLPARAM{"recurse" encode="quote"}%\"$n"}%%IF{"defined nosearch AND $'nosearch'" then="   nosearch=\"%URLPARAM{"nosearch" encode="quote"}%\"$n"}%%IF{"defined casesensitive AND $'casesensitive'" then="   casesensitive=\"%URLPARAM{"casesensitive" encode="quote"}%\"$n"}%%IF{"defined nosummary AND $'nosummary'" then="   nosummary=\"%URLPARAM{"nosummary" encode="quote"}%\"$n"}%%IF{"defined nototal AND $'nototal'" then="   nototal=\"%URLPARAM{"nototal" encode="quote"}%\"$n"}%%IF{"defined order AND $'order'" then="   order=\"%URLPARAM{"order" encode="quote"}%\"$n"}%%IF{"defined reverse AND $'reverse'" then="   reverse=\"%URLPARAM{"reverse" encode="quote"}%\"$n"}%%IF{"defined limit AND $'limit'" then="   limit=\"%URLPARAM{"limit" encode="quote"}%\"$n"}%   zeroresults="%IF{ "defined search AND $'search'" then="on" else="off" }%"
+%IF{"defined scope AND $'scope'" then="   scope=\"%URLPARAM{"scope" encode="quote"}%\"$n"}%%IF{"defined web AND $'web'" then="   web=\"%URLPARAM{"web" encode="quote"}%\"$n"}%%IF{"{EnableHierarchicalWebs} AND defined recurse AND $'recurse'" then="   recurse=\"%URLPARAM{"recurse" encode="quote"}%\"$n"}%%IF{"defined nosearch AND $'nosearch'" then="   nosearch=\"%URLPARAM{"nosearch" encode="quote"}%\"$n"}%%IF{"defined casesensitive AND $'casesensitive'" then="   casesensitive=\"%URLPARAM{"casesensitive" encode="quote"}%\"$n"}%%IF{"defined nosummary AND $'nosummary'" then="   nosummary=\"%URLPARAM{"nosummary" encode="quote"}%\"$n"}%%IF{"defined nototal AND $'nototal'" then="   nototal=\"%URLPARAM{"nototal" encode="quote"}%\"$n"}%%IF{"defined order AND $'order'" then="   order=\"%URLPARAM{"order" encode="quote"}%\"$n"}%%IF{"defined reverse AND $'reverse'" then="   reverse=\"%URLPARAM{"reverse" encode="quote"}%\"$n"}%%IF{"defined limit AND $'limit'" then="   limit=\"%URLPARAM{"limit" encode="quote"}%\"$n"}%   zeroresults="%IF{ "defined search AND $'search'" then="on" else="off" }%"
 }%
 </pre>
 </div>%ENDSECTION{"_querysearchexample"}%
