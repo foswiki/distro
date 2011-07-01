@@ -3016,7 +3016,8 @@ sub _expandMacroOnTopicRendering {
                 $e,
                 sub {
                     my ( $this, $tag, $args, $topicObject ) = @_;
-                    return expandStandardEscapes($attrs->{$tag});
+                    return defined $attrs->{$tag} ?
+			expandStandardEscapes($attrs->{$tag}) : undef;
                 },
                 $topicObject,
                 1
