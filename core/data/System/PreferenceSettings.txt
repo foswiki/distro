@@ -3,38 +3,35 @@
 
 #SettingPrefs
 #PreferencesMacros
----++!! Help on Preferences
-   * A _preference setting_ lets you define a simple [[%SYSTEMWEB%.Macros][macro]] that can be expanded in your output. Preference settings do not accept any parameters.
-   * A preference setting looks like this: <br /> =3 or 6 spaces * Set NAME = value= <br /> Example:
+---++!! Preference Settings
+A _preference setting_ lets you define a simple [[%SYSTEMWEB%.Macros][macro]] that will be expanded in your output. A preference setting looks like this: <p /> =[multiple of 3 spaces] * [space] Set [space] MACRONAME [space] = [space] value= <p /> Example:
    <verbatim class="tml">   * Set WEBBGCOLOR = #FFFFC0</verbatim>
-   * A preferences setting can be disabled with a # sign. Remove the # sign to enable a local customisation. Example:%BR%
+Macros defined using preference settings are expanded by enclosing their name in percent signs. So when you write =%WEB<nop>BGCOLOR%=, it gets expanded to =%WEBBGCOLOR%=
+
+A preference macro is always taken from the most current topic revision, even when accessing previous revisions of a topic.
+
+Preferences can be defined in a number of places:
+   1 %SYSTEMWEB%.DefaultPreferences (Foswiki upgrades overwrite this topic)
+   1 %USERSWEB%.SitePreferences
+   1 Sub-webs inherit the !WebPreferences of their parent
+   1 !WebPreferences
+   1 In user topics, if the user has one (yours is [[%WIKIUSERNAME%]])
+   1 In (some) plugin documentation topics
+   1 In the topic being accessed
+=Set= statements which occur at higher-numbered locations override macros of the same name defined at lower numbered levels, _unless the macro was listed in a FINALPREFERENCES setting (finalised) at a lower-numbered level._ In this case, the macro is locked to the value at that level; =Set= statements at higher-numbered levels are ignored.</blockquote>
+
+%I% Preference settings can easily be disabled with a # sign. Example:%BR%
    <verbatim class="tml">   * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser</verbatim>
-   * Macros defined using preference settings are expanded by enclosing the name in percent signs. Example:
-      * When you write =%WEB<nop>BGCOLOR%=, it gets expanded to =%WEBBGCOLOR%=
-   * You can introduce your own preference settings and use them in your topics and templates.
-   * A preference settings is always taken from the most current topic revision, even when accessing previous revisions of a topic.
-   * Preferences can be defined in a number of places:
-      1 %SYSTEMWEB%.DefaultPreferences (Foswiki upgrades overwrite this topic)
-      1 %USERSWEB%.SitePreferences
-      1 Sub-webs inherit the !WebPreferences of their parent
-      1 !WebPreferences
-      1 In user topics, if the user has one (yours is [[%WIKIUSERNAME%]])
-      1 In (some) plugin documentation topics
-      1 In the topic being accessed
+%I% You can hide preference settings in the output by enclosing them in HTML comments; for example,<verbatim>
+<!--
+   * Set HIDDEN = This will be invisible in the output
+-->
+</verbatim>
 
-<blockquote class="foswikiHelp">%H% =Set= statements which occur at higher-numbered locations override settings of the same name at lower numbered levels, _unless the macro was listed in a FINALPREFERENCES setting (finalised) at a lower-numbered level._ In this case, the macro is locked to the value at that level; =Set= statements at higher-numbered levels are ignored.</blockquote>
-
-If you are setting a preference and using it in the same topic, note that Foswiki reads all the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] from the saved version of the topic before it displays anything.  This means you can use a macro anywhere in the topic, even if you set it somewhere inconspicuous near the end. *But beware:*  it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.
+If you are setting a preference and using it in the same topic, note that Foswiki reads all the preference settings from the saved version of the topic before it displays anything.  This means you can use a setting anywhere in the topic, even if you set it at the very end. *But beware:*  it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.
 
 Also note that Foswiki always reads the setting from the most current topic revision, so viewing older revisions of a topic can show unexpected results.
 
-The syntax for setting macros is the same anywhere: <br /> =[multiple of 3 spaces] * [space] Set [space] MACRONAME [space] = [space] value=
-
-*Examples:*
-<verbatim class="tml">
-   * Set MACRONAME = value
-      * Set MACRONAME = value
-</verbatim>
 Spaces between the = sign and the value will be ignored. You can split a value over several lines by indenting following lines with spaces - as long as you don't try to use * as the first character on the following line.
 
 *Example:*
@@ -42,17 +39,40 @@ Spaces between the = sign and the value will be ignored. You can split a value o
      and continues here
 </verbatim>
 
-Whatever you include in your Macro will be expanded on display, exactly as if it had been entered directly.
+Whatever you include in your macro will be expanded on display, exactly as if it had been entered directly (though see Parameters, below).
 
 *Example: Create a custom logo macro* <br />
-   * To place a logo anywhere in a web by typing ==%<nop>MYLOGO%==, define the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] on the web's WebPreferences topic, and upload a logo file, ex: =mylogo.gif=. You can upload by [[FileAttachment][attaching the file]] to WebPreferences, or, to avoid clutter, to any other topic in the same web, e.g. =LogoTopic=. Sample preference setting in WebPreferences:
+   * To place a logo anywhere in a web by typing ==%<nop>MYLOGO%==, define the preference settings in the web's !WebPreferences topic, and upload a logo file, ex: =mylogo.gif=. You can upload by [[FileAttachment][attaching the file]] to WebPreferences, or, to avoid clutter, to any other topic in the same web, e.g. =LogoTopic=. Sample preference setting in WebPreferences:
 <verbatim class="tml">   * Set MYLOGO = %PUBURL%/%WEB%/LogoTopic/mylogo.gif</verbatim>
 
-You can also set [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in a topic by clicking the link =Edit topic preference settings= under =More topic actions=. Preferences set in this manner are known as 'meta' preferences and are not visible in the topic text, but take effect nevertheless.
+You can also set preference settings in a topic by clicking the link =Edit topic preference settings= under =More topic actions=. Preferences set in this manner are known as 'meta' preferences and are not visible in the topic text, but take effect nevertheless.
+
+---+++ Parameters
+<!--
+   * Set CONDITIONS = The %WHAT% is %STATE% today.
+   * Set WEATHER = It's %DEFAULT{default="raining"}%.
+-->
+Macros defined using preference settings can take parameters. These are symbols passed in the call to the macro to define local macros that will be expanded in the output. For example,
+<verbatim class="tml">
+   * Set CONDITIONS = The %WHAT% is %STATE% today.
+</verbatim>
+You can call this macro passing in values for =WHAT= and =STATE=. For example,
+=%<nop>CONDITIONS{WHAT="sea" STATE="choppy"}%= expands to =%CONDITIONS{WHAT="sea" STATE="choppy"}%=.
+   * The special parameter name =DEFAULT= gets the value of any unnamed parameter in the macro call.
+   * Parameter macros can accept a =default= parameter so that they expand to something even when a value isn't passed for them in the call.
+Example:
+<verbatim class="tml">
+   * Set WEATHER = It's %DEFAULT{default="raining"}%.
+</verbatim>
+   * =%<nop>WEATHER%= expands to =%WEATHER%=
+   * =%<nop>WEATHER{"sunny"}%= expands to =%WEATHER{"sunny"}%=
+The standard [[FormatTokens][formatting tokens]] can be used in parameters. They will be expanded immediately when the macro is instantiated.
+
+%X% Note that parameters *override* all other macros, including system defined macros, in the expansion of the macro where they are used.
 
 ---+++ Access Control Settings
 
-These are special types of preference settings to control access to content. AccessControl explains these security settings in detail.
+These are special types of preference settings to control access to content. AccessControl explains these security settings in detail. Parameters are *not* available in access control settings.
 
 ---+++ Local values for preferences
 Certain topics (user, plugin, web, site and default preferences topics) have a problem; macros defined in those topics can have two meanings. For example, consider a user topic. A user may want to use a double-height edit box when they are editing their home topic - but *only* when editing their home topic. The rest of the time, they want to have a normal edit box. This separation is achieved using =Local= in place of =Set= in the macro definition. For example, if the user sets the following in their home topic:
