@@ -131,4 +131,44 @@ END
     $this->assert_str_equals( $xpect, $result );
 }
 
+sub test_macroParams {
+    my $this = shift;
+    # Check default on undefined macros
+    # Check default given, given but null, not given
+    # Check quotes and other standard expansions
+    # Check override of standard macros
+    $this->{session}->{prefs}->setSessionPreferences(
+	ARFLE => '%BARFLE{default="gloop"}%',
+	TING => '%DEFAULT% %DEFAULT{default="tong"}%',
+	ALING =>  '\'%DEFAULT%\' \'%DEFAULT{default="tong"}%\'',
+	TOOT => '\'%NOP%\'',
+	WOOF =>  '%MIAOW{default="$quot$percent$quot"}%');
+    my $input = <<'INPUT';
+| gloop | %BARFLE{default="gloop"}% |
+| mong | %ARFLE{BARFLE="mong"}% |
+| %DEFAULT% tong | %TING% |
+| ding ding | %TING{"ding"}% |
+| '' '' | %ALING{""}% |
+| 'sweet' | %TOOT{NOP="sweet"}% |
+| "%" | %WOOF% |
+| p"r"r | %WOOF{MIAOW="p$quot()r$quot()r"}% |
+INPUT
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic}, $input );
+    my $result = $topicObject->expandMacros($input);
+    my $expected = <<'EXPECTED';
+| gloop | gloop |
+| mong | mong |
+| %DEFAULT% tong | %DEFAULT% tong |
+| ding ding | ding ding |
+| '' '' | '' '' |
+| 'sweet' | 'sweet' |
+| "%" | "%" |
+| p"r"r | p"r"r |
+EXPECTED
+    $this->assert_str_equals( $expected, $result );
+
+}
+
 1;

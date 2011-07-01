@@ -3012,30 +3012,45 @@ sub _processMacros {
 # session or constant tags
 sub _expandMacroOnTopicRendering {
     my ( $this, $tag, $args, $topicObject ) = @_;
-
+    
     require Foswiki::Attrs;
+    my $attrs;
+
     my $e = $this->{prefs}->getPreference($tag);
     if ( defined $e ) {
-
-        # Preferences aren't supposed to have parameters - so ignore them
-    }
-    else {
-        if ( exists( $macros{$tag} ) ) {
-            unless ( defined( $macros{$tag} ) ) {
-
-                # Demand-load the macro module
-                die $tag unless $tag =~ /([A-Z_:]+)/i;
-                $tag = $1;
-                eval "require Foswiki::Macros::$tag";
-                die $@ if $@;
-                $macros{$tag} = eval "\\&$tag";
-                die $@ if $@;
-            }
-
-            my $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
-
-            $e = &{ $macros{$tag} }( $this, $attrs, $topicObject );
+        if ( $args && $args =~ /\S/ ) {
+            $attrs = new Foswiki::Attrs( $args, 0 );
+            $attrs->{DEFAULT} = $attrs->{_DEFAULT};
+            $e = $this->_processMacros(
+                $e,
+                sub {
+                    my ( $this, $tag, $args, $topicObject ) = @_;
+                    return expandStandardEscapes($attrs->{$tag});
+                },
+                $topicObject,
+                1
+	    );
         }
+    }
+    elsif ( exists( $macros{$tag} ) ) {
+	unless ( defined( $macros{$tag} ) ) {
+		
+	    # Demand-load the macro module
+	    die $tag unless $tag =~ /([A-Z_:]+)/i;
+	    $tag = $1;
+	    eval "require Foswiki::Macros::$tag";
+	    die $@ if $@;
+	    $macros{$tag} = eval "\\&$tag";
+	    die $@ if $@;
+	}
+	    
+	$attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
+	$e = &{ $macros{$tag} }( $this, $attrs, $topicObject );
+    } elsif ( $args && $args =~ /\S/ ) {
+	$attrs = new Foswiki::Attrs( $args );
+	if (defined $attrs->{default}) {
+	    $e = expandStandardEscapes($attrs->{default});
+	}
     }
     return $e;
 }
