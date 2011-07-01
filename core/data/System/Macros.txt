@@ -27,9 +27,10 @@ To use a macro type its name. For example,
 
 *Note:*
    * To leave a macro unexpanded, precede it with an exclamation point, e.g. type =!%<nop>TOPIC%= to get =%<nop>TOPIC%=
-      * Alternatively, insert a =&lt;nop&gt;= anwhere in the macro, Eg. =%&lt;nop&gt;TOPIC%=
+      * Alternatively, insert a =&lt;nop&gt;= anywhere in the macro, Eg. =%&lt;nop&gt;TOPIC%=
    * Macros are expanded relative to the topic they are _used_ in, not the topic they are _defined_ in
    * Type =%<nop>ALLVARIABLES%= to get a full listing of all macros defined for a particular topic
+   * If a macro is not defined, then it will be left in the text _unless_ it is called with a =default= parameter, in which case the value of the =default= parameter will replace the macro call in the output. For example, =%<nop>UNDEFINED{default="blank"}%= will expand to =blank=.
 
 ---+++ Order of expansion
 The following describes only these types of macros:
