@@ -828,8 +828,10 @@ sub _actionTestEmail {
 
         my $charset = $Foswiki::cfg{Site}{CharSet} || CGI::charset();
 
-        Foswiki::Configure::Load::expandValue($Foswiki::cfg{Email}{SmimeCertificateFile});
-        Foswiki::Configure::Load::expandValue($Foswiki::cfg{Email}{SmimeKeyFile});
+        Foswiki::Configure::Load::expandValue(
+            $Foswiki::cfg{Email}{SmimeCertificateFile} );
+        Foswiki::Configure::Load::expandValue(
+            $Foswiki::cfg{Email}{SmimeKeyFile} );
 
         my $msg = <<MAIL;
 From: $Foswiki::cfg{WebMasterEmail}
@@ -847,45 +849,63 @@ It Works!  Test message from Foswiki.
 
 MAIL
 
-        unless ( $Foswiki::cfg{Email}{MailMethod} ) {
-            $Foswiki::cfg{Email}{MailMethod} =
-              ( $Foswiki::cfg{SMTP}{MAILHOST} ) ? 'Net::SMTP' : 'MailProgram';
+        if ( $Foswiki::cfg{WebMasterEmail} ) {
+
+            unless ( $Foswiki::cfg{EnableEmail} ) {
+                print
+"<div class='configureWarn'>Email is globally disabled - temporarily enabling email for this test</div>";
+                $Foswiki::cfg{EnableEmail} = 1;
+            }
+
+            unless ( $Foswiki::cfg{Email}{MailMethod} ) {
+                $Foswiki::cfg{Email}{MailMethod} =
+                  ( $Foswiki::cfg{SMTP}{MAILHOST} )
+                  ? 'Net::SMTP'
+                  : 'MailProgram';
+                print
+"<div class='configureWarn'>Incomplete config - guessed MailMethod = <tt>$Foswiki::cfg{Email}{MailMethod}</tt></div>";
+            }
+
+            my $sendmethod =
+              ( $Foswiki::cfg{Email}{MailMethod} eq 'MailProgram' )
+              ? $Foswiki::cfg{MailProgram}
+              : $Foswiki::cfg{Email}{MailMethod};
+
+            # Warning: the 'install' method uses print for rapid feedback
             print
-"<b>Incomplete config - guessed MailMethod = <tt>$Foswiki::cfg{Email}{MailMethod}</tt> </b><br />";
+"<h3>Attempting to send the following message using <tt>$sendmethod</tt></h3>\n";
+            print "<pre>$msg</pre>";
+
+            print
+"<div class='configureInfo'>Please wait ... connecting to server ...</div>";
+
+            $Foswiki::cfg{SMTP}{Debug} = 1;
+            my $net    = Foswiki::Net->new();
+            my $stderr = '';
+            my $error  = '';
+            eval {
+                local *STDERR;
+                open STDERR, '>', \$stderr;
+                $error = $net->sendEmail("$msg");
+                close STDERR;
+              }
+              or do {
+                $error .= $@;
+              };
+            print "<br /><h3>Results:</h3>\n";
+            my $emsg =
+              ($error)
+              ? "<div class='configureError'>Net::sendEmail() returned the following error: <pre>$error</pre></div>"
+              : "<div class='configureOK'>No errors returned</div>";
+            print $emsg;
+            print
+"<div class='configureInfo'>Debug log messages: <pre>$stderr</pre></div>"
+              if ($stderr);
         }
-
-        my $sendmethod =
-          ( $Foswiki::cfg{Email}{MailMethod} eq 'MailProgram' )
-          ? $Foswiki::cfg{MailProgram}
-          : $Foswiki::cfg{Email}{MailMethod};
-
-        # Warning: the 'install' method uses print for rapid feedback
-        print
-          "<b>Sending the following message using <tt>$sendmethod</tt></b>\n";
-        print "<pre>";
-        print "$msg\n";
-        print "</pre>";
-
-        print "Please wait ... connecting to server ...\n";
-
-        $Foswiki::cfg{SMTP}{Debug} = 1;
-        my $net    = Foswiki::Net->new();
-        my $stderr = '';
-        my $error  = '';
-        eval {
-            local *STDERR;
-            open STDERR, '>', \$stderr;
-            $error = $net->sendEmail("$msg");
-            close STDERR;
-          }
-          or do {
-            $error .= $@;
-          };
-        print "<br /><b>Results:</b>\n";
-        print "<pre>";
-        print "$error\n"  if ($error);
-        print "$stderr\n" if ($stderr);
-        print "</pre>";
+        else {
+            print
+"<div class='configureError'>Impossible to send message: No WebMasterEmail address is configured.</div>";
+        }
 
         $html = Foswiki::Configure::UI::getTemplateParser()
           ->readTemplate('installed');
