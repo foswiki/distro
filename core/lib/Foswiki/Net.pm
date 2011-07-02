@@ -384,7 +384,7 @@ sub sendEmail {
         catch Error::Simple with {
             my $e = shift->stringify();
             ( my $to ) = $text =~ /^To:\s*(.*?)$/im;
-            $this->{session}->logger->log( 'warning', "Emailing $to - $e" );
+            $this->{session}->logger->log( 'warning', "Emailing $to - $e" ) if ($this->{session});
 
             # be nasty to errors that we didn't throw. They may be
             # caused by SMTP or perl, and give away info about the

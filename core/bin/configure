@@ -515,7 +515,8 @@ sub _screenAuthorize {
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('authorize');
     my $changePassword = $Foswiki::query->param('changePassword') || undef;
 
-    # displayStatus  - 1 = No Changes,  2 = Changes,  4 = No Extensions, 8 = Extensions
+    # displayStatus  - 1 = No Changes,  2 = Changes,  4 = No Extensions, 8 = Extensions, 16 = Email Test
+    my @dummy    = ();
 
     if ( $transact eq 'UPDATE' ) {
         my $valuer =
@@ -528,7 +529,6 @@ sub _screenAuthorize {
             push( @{$changesList}, { key => $key, value => $valueString } );
         }
         @items = sort keys %updated if $modified;
-        my @dummy    = ();
         my $displayStatus = ( $modified ) ? 2 : 1;
 
         Foswiki::Configure::UI::getTemplateParser()->parse(
@@ -577,7 +577,6 @@ sub _screenAuthorize {
 			
         my $addCount    = scalar @add;
         my $removeCount = scalar @remove;
-        my @dummy    = ();
         my $displayStatus = ( $addCount || $removeCount ) ? 8 : 4;
 
         Foswiki::Configure::UI::getTemplateParser()->parse(
@@ -594,6 +593,30 @@ sub _screenAuthorize {
                 'extRemoveCount' => $removeCount,
                 'extAddItems'    => \@add,
                 'extRemoveItems' => \@remove,
+                'params'         => $params,
+                'messageType'    => $messageType,
+                'extAction'      => $action,
+                'configureUrl'   => $url,
+                'changePassword' => $changePassword,
+            }
+        );
+    }
+    elsif ( $transact eq 'TEST' ) {
+
+        Foswiki::Configure::UI::getTemplateParser()->parse(
+            $contentTemplate,
+            {
+                'main'           => $contents,
+                'hasPassword'    => $hasPassword,
+                'formAction'     => $scriptName,
+                'displayStatus'  => 16,
+                'changesList'    => \@dummy,
+                'modifiedCount'  => 0,
+                'items'          => \@dummy,
+                'extAddCount'    => 0,
+                'extRemoveCount' => 0,
+                'extAddItems'    => \@dummy,
+                'extRemoveItems' => \@dummy,
                 'params'         => $params,
                 'messageType'    => $messageType,
                 'extAction'      => $action,
@@ -625,7 +648,7 @@ sub _screenAuthorize {
 # After authentication, the screen that shows the changes.
 sub _screenFeedback {
     my ($messageType) = @_;
-    
+
     my $valuer =
       new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
     my %updated;
@@ -784,6 +807,98 @@ sub _actionManageExtensions {
 
 }
 
+# Invoked to test email configuration
+sub _actionTestEmail {
+
+
+    my $root = new Foswiki::Configure::Root();
+    my $ui;
+
+    my ( $authorised, $messageType ) = Foswiki::Configure::UI::authorised();
+
+    if ( !$authorised ) {
+        $ui = _checkLoadUI( 'AUTH', $root );
+        return 1 unless $ui;
+        _screenAuthorize( 'TEST', $messageType );
+    }
+    else {
+        my $html =
+          Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
+        Foswiki::Configure::UI::getTemplateParser()->parse(
+            $html,
+            {
+            }
+        );
+        Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
+        print $html;
+
+        ::_loadBasicModule('Foswiki::Net');
+
+        my $charset = $Foswiki::cfg{Site}{CharSet} || CGI::charset();
+
+        my $msg = <<MAIL;
+From: $Foswiki::cfg{WebMasterEmail}
+To: $Foswiki::cfg{WebMasterEmail}
+Subject: Test of Foswiki e-mail facility from configure
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="------------2D594AE113AD25493C2C7246"
+
+This is a multi-part message in MIME format.
+--------------2D594AE113AD25493C2C7246
+Content-Type: text/plain; charset=$charset
+Content-Transfer-Encoding: 8bit
+
+It Works!  Test message from Foswiki.
+
+MAIL
+
+        my $sendmethod = ($Foswiki::cfg{Email}{MailMethod} eq 'MailProgram') ? $Foswiki::cfg{MailProgram} : $Foswiki::cfg{Email}{MailMethod};
+
+        # Warning: the 'install' method uses print for rapid feedback
+        print "<b>Sending the following message using <tt>$sendmethod</tt></b>\n";
+        print "<pre>";
+        print "$msg\n";
+        print "</pre>";
+
+        print "Please wait ... connecting to server ...\n";
+
+        $Foswiki::cfg{SMTP}{Debug} = 1;
+        my $net = Foswiki::Net->new();
+        my $stderr = '';
+        my $error  = '';
+        {
+            local *STDERR;
+            open STDERR, '>', \$stderr;
+            my $error = $net->sendEmail("$msg");
+            close STDERR;
+        }
+        print "<br /><b>Results:</b>\n";
+        print "<br />Note: $Foswiki::cfg{MailProgram} does not normally produce any debug output.  Check for incoming mail.\n" if ($Foswiki::cfg{Email}{MailMethod} eq 'MailProgram');
+        print "<pre>";
+        print "$error\n" if ($error);
+        print "$stderr\n" if ($stderr);
+        print "</pre>";
+
+        $html =
+          Foswiki::Configure::UI::getTemplateParser()->readTemplate('installed');
+        $html .=
+          Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
+        my $frontpageUrl =
+"$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
+       Foswiki::Configure::UI::getTemplateParser()->parse(
+            $html,
+            {
+                'frontpageUrl' => $frontpageUrl,
+                'configureUrl' => $url,
+            }
+        );
+
+        Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
+        print $html;
+    }
+
+
+}
 # This is the default screen
 sub _actionConfigure {
 
