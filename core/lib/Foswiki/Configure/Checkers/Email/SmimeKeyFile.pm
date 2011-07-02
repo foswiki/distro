@@ -1,43 +1,30 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::SMTP::MAILHOST;
+
+package Foswiki::Configure::Checkers::Email::SmimeKeyFile;
 
 use strict;
 use warnings;
 
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
+use Foswiki::Configure::Load;
 
 sub check {
     my $this = shift;
-    my $n    = '';
 
-    return '' if ( !$Foswiki::cfg{EnableEmail} );
+    my $keyFile = $Foswiki::cfg{Email}{SmimeKeyFile} || "";
 
-    if ( ( $Foswiki::cfg{Email}{MailMethod} eq "MailProgram" )
-        && $Foswiki::cfg{SMTP}{MAILHOST} )
-    {
-        $n = $this->NOTE(
-"MAILHOST is not used for configured MailMethod $Foswiki::cfg{Email}{MailMethod}"
-        );
+    return unless $keyFile;
+
+    Foswiki::Configure::Load::expandValue($keyFile);
+    my $e = !-r ($keyFile) && "Can\'t read $keyFile";
+    if ($e) {
+        $e =
+          ( $Foswiki::cfg{Email}{EnableSMIME} )
+          ? $this->ERROR($e)
+          : $this->NOTE("<b>Note:</b> $e");
     }
-
-    return $n unless ( $Foswiki::cfg{Email}{MailMethod} ne "MailProgram" );
-
-    if (   $Foswiki::cfg{Email}{MailMethod} eq 'Net::SMTP::SSL'
-        && $Foswiki::cfg{SMTP}{MAILHOST} !~ m/:[0-9]{2,5}/ )
-    {
-        $n = $this->WARN(
-"Selected MailMethod $Foswiki::cfg{Email}{MailMethod} might require a custom port number, <code>:465</code>"
-        );
-    }
-
-    return $n if ( $Foswiki::cfg{SMTP}{MAILHOST} );
-
-    return $n
-      . $this->ERROR(
-"Hostname or address required for chosen MailMethod $Foswiki::cfg{Email}{MailMethod}."
-      );
-
+    return $e;
 }
 
 1;
@@ -66,3 +53,4 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
+
