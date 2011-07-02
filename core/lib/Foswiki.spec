@@ -1183,7 +1183,8 @@ $Foswiki::cfg{Cache}{Servers} = '127.0.0.1:11211';
 # to access external web pages.</p>
 
 #---++ Email General
-# <p>Settings controlling if and how Foswiki sends email</p>
+# <p>Settings controlling if and how Foswiki sends email including the identity of the sender
+# and other expert settings controlling the email process.</p>
 # **BOOLEAN**
 # Enable email globally.  Un-check this option to disable all outgoing
 # email from Foswiki
@@ -1215,9 +1216,9 @@ $Foswiki::cfg{NotifyTopicName}     = 'WebNotify';
 $Foswiki::cfg{Email}{Servertime} = $FALSE;
 
 #---++ Email Server
-# <p>Settings controlling if and how Foswiki sends email</p>
+# <p>Settings to select the destination mail server or local email agent used for forwarding email.</p>
 
-# **SELECT Net::SMTP,Net::SMTP::SSL, MailProgram **
+# **SELECT Net::SMTP,Net::SMTP::SSL,MailProgram **
 # Select the method Foswiki will use for sending email.  On Unix/Linux hosts
 # "MailProgram" is generally acceptable.  Otherwise choose one of the Email
 # methods required by your ISP or Email server.
