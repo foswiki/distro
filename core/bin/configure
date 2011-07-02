@@ -871,14 +871,16 @@ MAIL
         my $net = Foswiki::Net->new();
         my $stderr = '';
         my $error  = '';
-        {
+        eval {
             local *STDERR;
             open STDERR, '>', \$stderr;
-            my $error = $net->sendEmail("$msg");
+            $error = $net->sendEmail("$msg");
             close STDERR;
         }
+        or do {
+            $error .= $@;
+        };
         print "<br /><b>Results:</b>\n";
-        print "<br />Note: $Foswiki::cfg{MailProgram} does not normally produce any debug output.  Check for incoming mail.\n" if ($Foswiki::cfg{Email}{MailMethod} eq 'MailProgram');
         print "<pre>";
         print "$error\n" if ($error);
         print "$stderr\n" if ($stderr);
