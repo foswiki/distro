@@ -1358,8 +1358,8 @@ $Foswiki::cfg{SystemWebName} = 'System';
 $Foswiki::cfg{TrashWebName} = 'Trash';
 
 # **STRING 20 EXPERT**
-# Name of the web used as a trashcan (where deleted topics are moved)
-# If you change this setting, you must make sure the web exists.
+# Name of the web used as a scratchpad or temporary workarea for users to
+# experiment with Foswiki topics.
 $Foswiki::cfg{SandboxWebName} = 'Sandbox';
 
 # **STRING 20 EXPERT**
