@@ -41,6 +41,30 @@ Each web has an automatic email notification service that sends you an email wit
    1 Confirm the Mail and Proxies settings on the =configure= page.
    1 Setup a cron job (or equivalent) to call the =tools/mailnotify= script, as described in the [[%SYSTEMWEB%.MailerContrib]] topic.
 
+#SMIME
+---++++ Enable Signed Email Notification
+
+Foswiki administrative emails are an attractive target for SPAM generators and phishing attacks. One good way to protect against this possibility to enable S/MIME signatures on all administrative e-mails. To do this, you need an an X.509 certificate and private key for the the ={WebMasterEmail}= email account. Obtain these as you would for any other S/MIME e-mail user.
+
+To enable Foswiki to sign administrative e-mails:
+   1 Enable e-mail as described above
+   1 Ensure that the system has the CPAN module =Crypt::SMIME= installed.
+   1 If necessary, convert your certificate and key files to *PEM* format ( _openssl_ has all the necessary utilities)
+   1 Place the certificate anyplace convenient that the webserver can read. It should be protected against write. The conventional place under linux is =/etc/pki/tls/certs=
+   1 Place the key file in a secure location that *only* the webserver (or CGI user) can read. It *must not* be readable by anyone else, and *must not* be served by the webserver.
+   1 Using the =configure= script, change the following settings under *Mail and Proxies*:
+      1 "Email Server" tab. Follow the directions under ={MailMethod}= and ={MailProgram}= to enable an external mail program such as _sendmail_. =Net::SMTP= is not supported.
+         * ={SMTP}{MAILHOST}=, ={SMTP}{SENDERHOST}=, ={SMTP}{Username}= and ={SMTP}{Password}= are not used an may be deleted.
+         * If Foswiki variable =SMTPMAILHOST= is defined in =[[%USERSWEB%.SitePreferences]]= it should be removed.
+      1 "S/MIME" tab:
+         * Enable the S/MIME checkbox
+         * Enter the full path to the certificate file in the ={SmimeCertificateFile}= configuration variable
+         * Enter the full path to the private key file in the ={SmimeKeyFile}= configuration variable
+      1 Save the configuration
+   1 Re-run the =configure= script an resolve any errors that it identifies
+
+All out-going administrative e-mails will now be signed.
+
 ---++++ Automate removal of expired sessions and lease files
 
 By default Foswiki cleans out expired session and lease files each time any topic is viewed, but this has a performance cost. Instead you may wish to schedule a cron job (or equivalent) to run the =tools/tick_foswiki.pl= script, and set a negative value on the =configure= page for ={Sessions}{ExpireAfter}=. For more details, read [[%SYSTEMWEB%.CommandAndCGIScripts#tick_foswiki_pl]].

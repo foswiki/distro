@@ -159,8 +159,13 @@ For more information, refer to Foswiki:Support.ProtectingYourConfiguration.
    * After saving the =General Path Settings=, continue configuring Foswiki. Configuration items which may require further attention will be highlighted.
    * If the Foswiki installation can be accessed by more than one !protocol://domain, ensure the additional alternative URLs are set in ={PermittedRedirectHostUrls}=.
    <blockquote class="foswikiHelp"> %T% *Example:* if ={DefaultUrlHost}= is set to =https://wiki.company.com=, an example ={PermittedRedirectHostUrls}= might contain: <verbatim class="html">https://company.com, http://111.222.123.234</verbatim></blockquote>
-   * Setup the =Mail and Proxies= section. The ={WebMasterEmail}= and ={SMTP}{MAILHOST}= settings must be defined so Foswiki can send registration emails. Many ISPs have introduced authentication when sending emails to fight spam so you may also have to set ={SMTP}{Username}= and ={SMTP}{Password}=. If you do not want to enable sending registration emails or want to enable it later you can uncheck ={EnableEmail}=.
-     If your server is behind a firewall with a proxy, and you wish to install extensions via =configure=, you may have to set ={PROXY}{HOST}= and ={PROXY}{PORT}=.
+   * Setup the =Mail and Proxies= section.  Email must be available so Foswiki can send registration emails.
+      * Under the "Email General" tab, If you do not want to enable sending registration emails or want to enable it later you can uncheck ={EnableEmail}=. Otherwise the ={WebMasterEmail}= parameter must be configured.
+      * Under the "Email Server" tab, you can choose 3 methods of sending email.  This is explained in detail under the help text for this tab.
+         * =MailProgram= is typically suitable on most Linux systems, and no further configuration is required.
+         * If you chose either of the =Net::SMPT= methods, you must also configure ={SMTP}{MAILHOST}=. Many ISPs have introduced authentication when sending emails to fight spam so you may also have to set ={SMTP}{Username}= and ={SMTP}{Password}=.
+         * =Net::SMTP::SSL= will encrypt the connection to the e-mail server and is required for some email services like Google's GMail.
+      * Under the "Proxy" tab, if your server is behind a firewall with a proxy, and you wish to install extensions via =configure=, you may have to set ={PROXY}{HOST}= and ={PROXY}{PORT}=.
      <blockquote class="foswikiHelp">%X% %INCLUDE{"UserAuthentication" section="SMTPNOTE"}%</blockquote>
      <blockquote class="foswikiHelp"}%X% SMTP authentication requires additional perl modules including =Authen::SASL= and =MIMI::Base64=, </blockquote>
 
