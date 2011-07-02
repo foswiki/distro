@@ -852,6 +852,11 @@ It Works!  Test message from Foswiki.
 
 MAIL
 
+        unless ($Foswiki::cfg{Email}{MailMethod}) {
+            $Foswiki::cfg{Email}{MailMethod} =  ($Foswiki::cfg{SMTP}{MAILHOST}) ? 'Net::SMTP' : 'MailProgram';
+            print "<b>Incomplete config - guessed MailMethod = <tt>$Foswiki::cfg{Email}{MailMethod}</tt> </b><br />";
+            }
+
         my $sendmethod = ($Foswiki::cfg{Email}{MailMethod} eq 'MailProgram') ? $Foswiki::cfg{MailProgram} : $Foswiki::cfg{Email}{MailMethod};
 
         # Warning: the 'install' method uses print for rapid feedback
