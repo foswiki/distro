@@ -25,12 +25,12 @@ sub check {
 
     return $e unless $Foswiki::cfg{Email}{EnableSMIME};
 
-    unless ( $Foswiki::cfg{Email}{MailMethod} eq 'MailProgram' ) {
-        $e .= $this->ERROR(
-"S/MIME signing only supported with {Email}{MailMethod} of <code>MailProgram</code> - MailMethod is currenlty set to <code>$Foswiki::cfg{Email}{MailMethod}</code>"
-        );
-        $e .= $this->NOTE("See the Email Server Configuration tab");
-    }
+#    unless ( $Foswiki::cfg{Email}{MailMethod} eq 'MailProgram' ) {
+#        $e .= $this->ERROR(
+#"S/MIME signing only supported with {Email}{MailMethod} of <code>MailProgram</code> - MailMethod is currenlty set to <code>$Foswiki::cfg{Email}{MailMethod}</code>"
+#        );
+#        $e .= $this->NOTE("See the Email Server Configuration tab");
+#    }
 
     $e .= $this->ERROR(
         "Certificate and Key files must be provided for S/MIME email")

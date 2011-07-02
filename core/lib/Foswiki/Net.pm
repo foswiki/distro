@@ -434,6 +434,31 @@ sub _slurpFile( $ ) {
     return $text;
 }
 
+sub _smimeSignMessage {
+    my $this = shift;
+    if (   -r $Foswiki::cfg{Email}{SmimeCertificateFile}
+        && -r $Foswiki::cfg{Email}{SmimeKeyFile} )
+    {
+
+        eval {    # May fail if Net::SMTP not installed
+            require Crypt::SMIME;
+
+            my $smime = Crypt::SMIME->new();
+
+            $smime->setPrivateKey(
+                _slurpFile( $Foswiki::cfg{Email}{SmimeKeyFile} ),
+                _slurpFile( $Foswiki::cfg{Email}{SmimeCertificateFile} )
+            );
+            $_[0] = $smime->sign( $_[0] );
+        };
+        if ($@) {
+            print STDERR "Crypt::SMIME Failed: $@ \n";
+            $this->{session}->logger->log( 'warning', "S/MIME FAILED: $@" )
+              if ( $this->{session} );
+        }
+    }
+}
+
 sub _sendEmailBySendmail {
     my ( $this, $text ) = @_;
 
@@ -443,33 +468,7 @@ sub _sendEmailBySendmail {
 s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
     $text = "$header\n\n$body";    # rebuild message
 
-    if ( $Foswiki::cfg{Email}{EnableSMIME} ) {
-
-        #/
-        #print STDERR "Trying S/MIME";
-        if (   -r $Foswiki::cfg{Email}{SmimeCertificateFile}
-            && -r $Foswiki::cfg{Email}{SmimeKeyFile} )
-        {
-
-            eval {                 # May fail if Net::SMTP not installed
-                require Crypt::SMIME;
-
-                #print STDERR "Calling Crypt::SMIME ";
-                my $smime = Crypt::SMIME->new();
-
-                $smime->setPrivateKey(
-                    _slurpFile( $Foswiki::cfg{Email}{SmimeKeyFile} ),
-                    _slurpFile( $Foswiki::cfg{Email}{SmimeCertificateFile} )
-                );
-                $text = $smime->sign($text);
-            };
-            if ($@) {
-                print STDERR "Crypt::SMIME Failed: $@ \n";
-                $this->{session}->logger->log( 'warning', "S/MIME FAILED: $@" )
-                  if ( $this->{session} );
-            }
-        }
-    }
+    $this->_smimeSignMessage($text) if ( $Foswiki::cfg{Email}{EnableSMIME} );
 
     my $MAIL;
     open( $MAIL, '|-', $Foswiki::cfg{MailProgram} )
@@ -502,6 +501,8 @@ sub _sendEmailByNetSMTP {
     $header =~
 s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/geois;
     $text = "$header\n\n$body";        # rebuild message
+
+    $this->_smimeSignMessage($text) if ( $Foswiki::cfg{Email}{EnableSMIME} );
 
     # extract 'From:'
     my @arr = grep( /^From: /i, @headerlines );
