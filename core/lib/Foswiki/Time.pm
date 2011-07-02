@@ -268,7 +268,7 @@ sub formatTime {
     $formatString   ||= '$longdate';
     $outputTimeZone ||= $Foswiki::cfg{DisplayTimeValues};
 
-    if ( $formatString =~ /http|email/i ) {
+    if ( $formatString =~ /http/i ) {
         $outputTimeZone = 'gmtime';
     }
 
