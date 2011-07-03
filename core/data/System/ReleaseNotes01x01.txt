@@ -77,6 +77,22 @@ If the original link text is required, it should be entered as =[<nop>[mailto:us
 
 Note that this fix also adds a new configuration parameter: =$Foswiki::cfg{AntiSpam}{EntityEncode}=.  Entity encoding of email addresses as an anti-spam technique was previously controlled by the parameter =$Foswiki::cfg{AntiSpam}{HideUserDetails}=.  Both parameters default to enabled.  If you disabled the =$Foswiki::cfg{AntiSpam}{HideUserDetails}= option and desire the same behavior, you should also disable. =$Foswiki::cfg{AntiSpam}{EntityEncode}=.  This fix corrects an issue where mailto links were double-encoded, breaking the ability to include more than one option in the query string.
 
+---+++ Email enhancements
+
+Significant enhancements were made to the Foswiki email implementation.  These changes increase our compatibility with email services like Google's gmail, add enterprise features like S/MIME signed mail, and add a test facility to
+help the administrator better diagnose email problems before testing registration.
+
+   * [[Foswikitask:Item10521][Item10521]]: Implement SSL support, which adds direct support for gmail.
+   * [[Foswikitask:Item10522][Item10522]]: Implement S/MIME support for signed email using either =sendmail= or the =Net::SMTP= methods. 
+   * [[Foswikitask:Item10523][Item10523]]: Add configure parameter to select GMT or Servertime in generated email messages
+   * [[Foswikitask:Item10919][Item10919]]: Implement an Email test function in configure.
+
+These changes are backwards compatible with =LocalSite.cfg= however it is recommended to visit the Email tab in configure, correct any warnings, and save the configuration parameters guessed when the configuration is migrated.
+
+Note that there are some subtle changes to the Email implementation. Prior to these changes, Foswiki guessed the email send method based upon the setting of the mail server name, which can be configured in =LocalSite.cfg=, as well as a
+deprecated preference setting =SMTPMAILHOST=.  Once the configuration is updated for 1.1.4, the Email send method is an explicit setting in =LocalSite.cfg=.  If the email send method is set to one of the =Net::SMTP= choices but the
+MAILHOST parameter is not set, Foswiki will still fall back to the
+=MailProgram= (like =sendmail=).  However if the email method is set to use the =MailProgram= explicitly, it will ignore any hostname set in =MAILHOST= or =SMTPMAILHOST=.
 
 ---++ Important changes since Foswiki 1.1.2
 
