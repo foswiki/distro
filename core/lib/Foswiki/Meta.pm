@@ -1826,7 +1826,9 @@ sub haveAccess {
 
     my $session = $this->{_session};
 
-    return $session->access->haveAccess($mode, $cUID, $this);
+    my $ok = $session->access->haveAccess($mode, $cUID, $this);
+    $reason = $session->access->getReason();
+    return $ok;
 }
 
 =begin TML
