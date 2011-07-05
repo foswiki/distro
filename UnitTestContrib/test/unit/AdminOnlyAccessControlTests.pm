@@ -16,15 +16,14 @@ sub new {
     return $self;
 }
 
-
 sub loadExtraConfig {
     my $this    = shift;    # the Test::Unit::TestCase object
     my $context = shift;
 
     $this->SUPER::loadExtraConfig( $context, @_ );
 
-    #can't change to AdminOnlyAccessControl here, as we need to be able to create topics.
-    #$Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess'
+#can't change to AdminOnlyAccessControl here, as we need to be able to create topics.
+#$Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess'
 }
 
 my $MrWhite;
@@ -412,6 +411,7 @@ THIS
         , undef
     );
     $topicObject->save();
+
     # renew Foswiki, so WebPreferences gets re-read
     $this->{session}->finish();
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
@@ -465,6 +465,7 @@ THIS
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $this->{test_topic}, $text );
     $topicObject->save();
+
     # renew Foswiki, so WebPreferences gets re-read
     $this->{session}->finish();
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
@@ -491,6 +492,7 @@ sub test_setInMETA {
     };
     $topicObject->putKeyed( 'PREFERENCE', $args );
     $topicObject->save();
+
     # renew Foswiki, so WebPreferences gets re-read
     $this->{session}->finish();
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
@@ -521,6 +523,7 @@ THIS
     };
     $topicObject->putKeyed( 'PREFERENCE', $args );
     $topicObject->save();
+
     # renew Foswiki, so WebPreferences gets re-read
     $this->{session}->finish();
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
@@ -565,7 +568,7 @@ THIS
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
     $this->{session} = new Foswiki();
     $this->DENIED( "VIEW", $MrOrange, $subweb );
-    $this->DENIED( "VIEW", $MrGreen, $subweb );
+    $this->DENIED( "VIEW", $MrGreen,  $subweb );
     $this->DENIED( "VIEW", $MrGreen );
     $this->DENIED( "VIEW", $MrOrange );
     $this->PERMITTED( "VIEW", 'BaseUserMapping_333' );
@@ -599,7 +602,7 @@ THIS
     $this->{session}->finish();
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
     $this->{session} = new Foswiki();
-    $this->DENIED( "VIEW", $MrGreen, $subweb );
+    $this->DENIED( "VIEW", $MrGreen,  $subweb );
     $this->DENIED( "VIEW", $MrOrange, $subweb );
     $this->DENIED( "VIEW", $MrGreen );
     $this->DENIED( "VIEW", $MrOrange );
@@ -636,7 +639,7 @@ THIS
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
     $this->{session} = new Foswiki();
     $this->DENIED( "VIEW", $MrOrange, $subweb );
-    $this->DENIED( "VIEW", $MrGreen, $subweb );
+    $this->DENIED( "VIEW", $MrGreen,  $subweb );
     $this->DENIED( "VIEW", $MrGreen );
     $this->DENIED( "VIEW", $MrOrange );
     $this->PERMITTED( "VIEW", 'BaseUserMapping_333' );

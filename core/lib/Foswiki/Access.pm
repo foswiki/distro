@@ -13,7 +13,6 @@ package Foswiki::Access;
 use strict;
 use Assert;
 
-# Enable this for debug. Done as a sub to allow perl to optimise it out.
 use constant MONITOR => 0;
 
 =begin TML
@@ -25,17 +24,17 @@ Constructor.
 =cut
 
 sub new {
-     my ( $class, $session ) = @_;
-     ASSERT($session->isa( 'Foswiki')) if DEBUG;
-    my $imp= $Foswiki::cfg{AccessControl} || 'Foswiki::Access::TopicACLAccess';
-    
+    my ( $class, $session ) = @_;
+    ASSERT( $session->isa('Foswiki') ) if DEBUG;
+    my $imp = $Foswiki::cfg{AccessControl} || 'Foswiki::Access::TopicACLAccess';
+
     print STDERR "using $imp Access Control\n" if MONITOR;
-    
-    eval ("use $imp");
+
+    eval("use $imp");
     my $this = $imp->new($session);
-    
-     return $this;
- }
+
+    return $this;
+}
 
 =begin TML
 
@@ -84,8 +83,8 @@ sub haveAccess {
     die 'base class';
 }
 
-
 1;
+
 # Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors

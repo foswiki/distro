@@ -1,6 +1,5 @@
 # See bottom of file for license and copyright information
 
-
 =pod
 
 ---+ package Foswiki::Access::AdminOnlyAccess
@@ -20,8 +19,8 @@ use Assert;
 
 sub new {
     my ( $class, $session ) = @_;
-    ASSERT($session->isa( 'Foswiki')) if DEBUG;
-    my $this = bless( {session=>$session}, $class );
+    ASSERT( $session->isa('Foswiki') ) if DEBUG;
+    my $this = bless( { session => $session }, $class );
 
     return $this;
 }
@@ -56,7 +55,6 @@ sub haveAccess {
     $this->{failure} = 'Admin Only ACL selected';
     return 0;
 }
-
 
 1;
 __END__

@@ -1,6 +1,5 @@
 # See bottom of file for license and copyright information
 
-
 =pod
 
 ---+ package Foswiki::Access::TopicACLAccess
@@ -14,22 +13,20 @@ package Foswiki::Access::TopicACLAccess;
 use Foswiki::Access;
 @ISA = qw(Foswiki::Access);
 
-# Enable this for debug. Done as a sub to allow perl to optimise it out.
 use constant MONITOR => 0;
-
 
 use strict;
 use Assert;
 
-use Foswiki ();
+use Foswiki          ();
 use Foswiki::Address ();
-use Foswiki::Meta ();
-use Foswiki::Users ();
+use Foswiki::Meta    ();
+use Foswiki::Users   ();
 
 sub new {
     my ( $class, $session ) = @_;
-    ASSERT($session->isa( 'Foswiki')) if DEBUG;
-    my $this = bless( {session=>$session}, $class );
+    ASSERT( $session->isa('Foswiki') ) if DEBUG;
+    my $this = bless( { session => $session }, $class );
 
     return $this;
 }
@@ -54,20 +51,24 @@ sub haveAccess {
 
     my $session = $this->{session};
     undef $this->{failure};
-    
+
     my $meta;
-    
-    if (ref($param1) eq '') {
+
+    if ( ref($param1) eq '' ) {
+
         #scalar - treat as web, topic
-        $meta = Foswiki::Meta->load($session, $param1, $param2);
-    } else {
-        if (ref($param1) eq 'Foswiki::Address') {
-            $meta = Foswiki::Meta->load($session, $param1->web(), $param2->topic());
-        } else {
+        $meta = Foswiki::Meta->load( $session, $param1, $param2 );
+    }
+    else {
+        if ( ref($param1) eq 'Foswiki::Address' ) {
+            $meta =
+              Foswiki::Meta->load( $session, $param1->web(), $param2->topic() );
+        }
+        else {
             $meta = $param1;
         }
     }
-    ASSERT($meta->isa( 'Foswiki::Meta')) if DEBUG;
+    ASSERT( $meta->isa('Foswiki::Meta') ) if DEBUG;
 
     print STDERR "Check $mode access $cUID to " . $meta->getPath() . "\n"
       if MONITOR;
@@ -83,8 +84,8 @@ sub haveAccess {
     my ( $allow, $deny );
     if ( $meta->{_topic} ) {
 
-        my $allow = $this->_getACL($meta, 'ALLOWTOPIC' . $mode );
-        my $deny  = $this->_getACL($meta, 'DENYTOPIC' . $mode );
+        my $allow = $this->_getACL( $meta, 'ALLOWTOPIC' . $mode );
+        my $deny  = $this->_getACL( $meta, 'DENYTOPIC' . $mode );
 
         # Check DENYTOPIC
         if ( defined($deny) ) {
@@ -92,7 +93,7 @@ sub haveAccess {
                 if ( $session->{users}->isInUserList( $cUID, $deny ) ) {
                     $this->{failure} =
                       $session->i18n->maketext('access denied on topic');
-                    print STDERR 'a '.$this->{failure}, "\n" if MONITOR;
+                    print STDERR 'a ' . $this->{failure}, "\n" if MONITOR;
                     return 0;
                 }
             }
@@ -110,8 +111,9 @@ sub haveAccess {
                 print STDERR "in ALLOWTOPIC\n" if MONITOR;
                 return 1;
             }
-            $this->{failure} = $session->i18n->maketext('access not allowed on topic');
-            print STDERR 'b '.$this->{failure}, "\n" if MONITOR;
+            $this->{failure} =
+              $session->i18n->maketext('access not allowed on topic');
+            print STDERR 'b ' . $this->{failure}, "\n" if MONITOR;
             return 0;
         }
         $meta = $meta->getContainer();    # Web
@@ -122,24 +124,26 @@ sub haveAccess {
         # Check DENYWEB, but only if DENYTOPIC is not set (even if it
         # is empty - empty means "don't deny anybody")
         unless ( defined($deny) ) {
-            $deny = $this->_getACL($meta, 'DENYWEB' . $mode );
+            $deny = $this->_getACL( $meta, 'DENYWEB' . $mode );
             if ( defined($deny)
                 && $session->{users}->isInUserList( $cUID, $deny ) )
             {
-                $this->{failure} = $session->i18n->maketext('access denied on web');
-                print STDERR 'c '.$this->{failure}, "\n" if MONITOR;
+                $this->{failure} =
+                  $session->i18n->maketext('access denied on web');
+                print STDERR 'c ' . $this->{failure}, "\n" if MONITOR;
                 return 0;
             }
         }
 
         # Check ALLOWWEB. If this is defined and not overridden by
         # ALLOWTOPIC, the user _must_ be in it.
-        $allow = $this->_getACL($meta, 'ALLOWWEB' . $mode );
+        $allow = $this->_getACL( $meta, 'ALLOWWEB' . $mode );
 
         if ( defined($allow) && scalar(@$allow) != 0 ) {
             unless ( $session->{users}->isInUserList( $cUID, $allow ) ) {
-                $this->{failure} = $session->i18n->maketext('access not allowed on web');
-                print STDERR 'd '.$this->{failure}, "\n" if MONITOR;
+                $this->{failure} =
+                  $session->i18n->maketext('access not allowed on web');
+                print STDERR 'd ' . $this->{failure}, "\n" if MONITOR;
                 return 0;
             }
         }
@@ -148,23 +152,24 @@ sub haveAccess {
     else {
 
         # No web, we are checking at the root. Check DENYROOT and ALLOWROOT.
-        $deny = $this->_getACL($meta, 'DENYROOT' . $mode );
+        $deny = $this->_getACL( $meta, 'DENYROOT' . $mode );
 
         if ( defined($deny)
             && $session->{users}->isInUserList( $cUID, $deny ) )
         {
-            $this->{failure} = $session->i18n->maketext('access denied on root');
-            print STDERR 'e '.$this->{failure}, "\n" if MONITOR;
+            $this->{failure} =
+              $session->i18n->maketext('access denied on root');
+            print STDERR 'e ' . $this->{failure}, "\n" if MONITOR;
             return 0;
         }
 
-        $allow = $this->_getACL($meta, 'ALLOWROOT' . $mode );
+        $allow = $this->_getACL( $meta, 'ALLOWROOT' . $mode );
 
         if ( defined($allow) && scalar(@$allow) != 0 ) {
             unless ( $session->{users}->isInUserList( $cUID, $allow ) ) {
                 $this->{failure} =
                   $session->i18n->maketext('access not allowed on root');
-                print STDERR 'f '.$this->{failure}, "\n" if MONITOR;
+                print STDERR 'f ' . $this->{failure}, "\n" if MONITOR;
                 return 0;
             }
         }
@@ -203,9 +208,9 @@ sub _getACL {
         s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
         $_
     } split( /[,\s]+/, $text );
-    
-#print STDERR "getACL($mode): ".join(', ', @list)."\n";
-    
+
+    #print STDERR "getACL($mode): ".join(', ', @list)."\n";
+
     return \@list;
 }
 
