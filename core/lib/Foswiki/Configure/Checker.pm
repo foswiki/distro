@@ -20,6 +20,7 @@ our @ISA = ('Foswiki::Configure::UI');
 
 use File::Spec ();
 use CGI        ();
+use Foswiki::Configure::Load ();
 
 =begin TML
 
@@ -70,6 +71,23 @@ HERE
 
 =begin TML
 
+---++ ObjectMethod getCfg($name) -> $expanded_val
+Get the value of the named configuration var. The name is in the form 
+getCfg("{Validation}{ExpireKeyOnUse}")
+
+Any embedded references to other Foswiki::cfg vars will be expanded.
+
+=cut
+
+sub getCfg {
+    my ($this, $name) = @_;
+    my $item = '$Foswiki::cfg'.$name;
+    Foswiki::Configure::Load::expandValue($item);
+    return $item;
+}
+
+=begin TML
+
 ---++ PROTECTED ObjectMethod warnAboutWindowsBackSlashes($path) -> $html
 
 Generate a warning if the supplied pathname includes windows-style
@@ -99,7 +117,8 @@ to the absolute pathname of the dir where configure is being run.
 sub guessMajorDir {
     my ( $this, $cfg, $dir, $silent ) = @_;
     my $msg = '';
-    if ( !$Foswiki::cfg{$cfg} || $Foswiki::cfg{$cfg} eq 'NOT SET' ) {
+    my $val = $this->getCfg("{$cfg}");
+    if ( !$val || $val eq 'NOT SET' ) {
         require FindBin;
         $FindBin::Bin =~ /^(.*)$/;
         my $scriptDir = $1;
@@ -109,8 +128,8 @@ sub guessMajorDir {
         $Foswiki::cfg{$cfg} =~ s|\\|/|g;
         $msg = $this->guessed();
     }
-    unless ( $silent || -d $Foswiki::cfg{$cfg} ) {
-        $msg .= $this->ERROR('Directory does not exist');
+    unless ( $silent || -d $val ) {
+        $msg .= $this->ERROR("Directory '$dir' does not exist");
     }
     return $msg;
 }

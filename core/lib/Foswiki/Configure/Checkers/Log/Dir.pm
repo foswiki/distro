@@ -16,14 +16,9 @@ sub check {
     unless ( $Foswiki::cfg{Log}{Dir} ) {
         $Foswiki::cfg{Log}{Dir} = "$Foswiki::cfg{WorkingDir}/logs";
     }
+    $mess .= $this->showExpandedValue($Foswiki::cfg{Log}{Dir});
 
-   $mess .= $this->showExpandedValue($Foswiki::cfg{Log}{Dir});
-
-    my $ld = $Foswiki::cfg{Log}{Dir};
-    $ld =~ s/\$Foswiki::cfg({[^}]+})+/eval("\$Foswiki::cfg$1")/ge;
-    # Because of the eval, $ld now has to be untainted.
-    $ld =~ /^(.*)$/;
-    $ld = $1;
+    my $ld = $this->getCfg("{Log}{Dir}");
 
     my $d;
     if ( opendir( $d, $ld ) ) {

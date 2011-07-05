@@ -25,14 +25,14 @@ sub new {
 
     # Insert a bunch of configuration items based on what's in
     # the locales dir
-    opendir( DIR, $Foswiki::cfg{LocalesDir} )
-      or return $this;
+    my $d = $Foswiki::cfg{LocalesDir};
+    Foswiki::Configure::Load::expandValue($d);
+    opendir( DIR, $d ) or return $this;
 
     foreach my $file ( sort ( readdir DIR ) ) {
         next unless ( $file =~ m/^([\w-]+)\.po$/ );
         my $lang = $1;
         $lang = "'$lang'" if $lang =~ /\W/;
-
         $this->addChild(
             new Foswiki::Configure::Value(
                 'BOOLEAN',

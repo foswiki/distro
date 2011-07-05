@@ -23,7 +23,10 @@ the WorkingDir, which will be created in the guessed location after the settings
 MISSING
 ) if ($e =~ m/Error/);
 
-    $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{PubDir} );
+    $e .= $this->showExpandedValue($Foswiki::cfg{PubDir});
+
+    my $d = $this->getCfg('{PubDir}');
+    $e .= $this->warnAboutWindowsBackSlashes( $d );
 
     # Don't check directories against {RCS} permissions on Windows
     my $dirchk =
@@ -33,7 +36,7 @@ MISSING
 
     # rwd - Readable,  Writable, and directory must match {RCS}{dirPermission}
     my $e2 =
-      $this->checkTreePerms( $Foswiki::cfg{PubDir}, 'rw' . $dirchk, qr/,v$/ );
+      $this->checkTreePerms( $d, 'rw' . $dirchk, qr/,v$/ );
 
     $e .=
       ( $this->{filecount} >= $Foswiki::cfg{PathCheckLimit} )
