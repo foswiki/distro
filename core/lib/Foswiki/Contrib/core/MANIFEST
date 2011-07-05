@@ -448,6 +448,9 @@ lib/CPAN/lib/Sort/Maker.pm 0444
 lib/DEPENDENCIES 0444
 lib/Foswiki.pm 0444
 lib/Foswiki.spec 0444
+lib/Foswiki/Access.pm 0444
+lib/Foswiki/Access/AdminOnlyAccess.pm 0444
+lib/Foswiki/Access/TopicACLAccess.pm 0444
 lib/Foswiki/AccessControlException.pm 0444
 lib/Foswiki/Address.pm 0444
 lib/Foswiki/AggregateIterator.pm 0444

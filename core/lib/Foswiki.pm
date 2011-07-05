@@ -27,7 +27,7 @@ with CGI accelerators such as mod_perl.
                         extracted from the URL path if {GetScriptUrlFromCgi}.
                         Only required to support {GetScriptUrlFromCgi} and
                         not consistently used. Avoid.
-   * =security=         Foswiki::Access singleton
+   * =access=         Foswiki::Access singleton
    * =store=            Foswiki::Store singleton
    * =topicName=        Name of topic found in URL path or =topic= URL
                         parameter
@@ -2031,6 +2031,24 @@ sub net {
     return $this->{net};
 }
 
+
+=begin TML
+
+---++ ObjectMethod access()
+Get a reference to the ACL object. 
+
+=cut
+
+sub access {
+    my ($this) = @_;
+
+    unless ( $this->{access} ) {
+        use Foswiki::Access;
+        $this->{access} = new Foswiki::Access($this);
+    }
+    return $this->{access};
+}
+
 =begin TML
 
 ---++ ObjectMethod DESTROY()
@@ -2066,14 +2084,14 @@ sub finish {
     $_->finish() foreach values %{ $this->{forms} };
     undef $this->{forms};
     foreach my $key qw(plugins users prefs templates renderer net
-      store search attach security i18n cache logger) {
+      store search attach access i18n cache logger) {
         next
           unless ref( $this->{$key} );
         $this->{$key}->finish();
           undef $this->{$key};
       }
 
-      undef $this->{_zones};
+    undef $this->{_zones};
     undef $this->{_renderZonePlaceholder};
 
     undef $this->{request};

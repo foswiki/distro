@@ -392,6 +392,7 @@ $Foswiki::cfg{UsersTopicName} = 'WikiUsers';
 # if you are sharing a password file with another application.
 $Foswiki::cfg{AuthRealm} = 'Enter your WikiName. (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.';
 
+
 # **SELECTCLASS Foswiki::Users::*UserMapping**
 # The user mapping is used to equate login names, used with external
 # authentication systems, with Foswiki user identities. 
@@ -408,6 +409,12 @@ $Foswiki::cfg{AuthRealm} = 'Enter your WikiName. (First name and last name, no s
 #  only works with TemplateLogin.
 # </li></ol>
 $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
+
+
+#---++ Access Control
+# **SELECTCLASS Foswiki::Access::*Access EXPERT**
+# under development - see http://foswiki.org/Development/PluggableAccessControlImplementation
+$Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 
 #---++ Passwords
 # <p>The password manager handles the passwords database, and provides
