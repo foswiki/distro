@@ -13,6 +13,7 @@ package Foswiki::Access::AdminOnlyAccess;
 
 use Foswiki::Access;
 @ISA = qw(Foswiki::Access);
+use constant MONITOR => 0;
 
 use strict;
 use Assert;
@@ -37,14 +38,14 @@ may result in the topic being read.
 =cut
 
 sub haveAccess {
-    my ( $this, $meta, $mode, $cUID ) = @_;
+    my ( $this, $mode, $cUID, $param1, $param2 ) = @_;
     $mode ||= 'VIEW';
     $cUID ||= $this->{session}->{user};
 
     my $session = $this->{session};
     undef $this->{failure};
 
-    print STDERR "Check $mode access $cUID to " . $meta->getPath() . "\n"
+    print STDERR "Check $mode access $cUID \n"
       if MONITOR;
 
     # super admin is always allowed
