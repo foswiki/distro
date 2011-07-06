@@ -13,7 +13,10 @@ sub check {
     my $e = $this->guessMajorDir( 'ScriptDir', 'bin' );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{ScriptDir} );
 
-    my $e2 = _checkBinDir( $this, $Foswiki::cfg{ScriptDir} );
+    $e .= $this->showExpandedValue($Foswiki::cfg{ScriptDir})
+	if $Foswiki::cfg{ScriptDir} =~ /\$Foswiki::cfg/;
+
+    my $e2 = _checkBinDir( $this, $this->getCfg("{ScriptDir}") );
     $e .= $e2 if $e2;
     return $e;
 }

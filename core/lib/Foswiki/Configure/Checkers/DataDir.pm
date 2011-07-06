@@ -24,8 +24,9 @@ sub check {
       : 'd';
 
     # Check r-readable, w-writable  and d-directories match {RCS}{dirPermissions} and p-WebPreferences topic exists.
+    my $d = $this->getCfg('{DataDir}');
     my $e2 =
-      $this->checkTreePerms( $Foswiki::cfg{DataDir}, 'rwp' . $dirchk, qr/,v$/ );
+      $this->checkTreePerms( $d, 'rwp' . $dirchk, qr/,v$/ );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{DataDir} );
     $e .=
       ( $this->{filecount} >= $Foswiki::cfg{PathCheckLimit} )
@@ -35,7 +36,7 @@ sub check {
       : $this->NOTE("File count: $this->{filecount} ");
 
     # Also check that all rcs files are readable
-    $e2 .= $this->checkTreePerms( $Foswiki::cfg{DataDir}, "r", qr/\.txt$/ );
+    $e2 .= $this->checkTreePerms( $d, "r", qr/\.txt$/ );
 
     my $dperm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
     my $fperm = sprintf( '%04o', $Foswiki::cfg{RCS}{filePermission} );

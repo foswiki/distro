@@ -12,8 +12,12 @@ sub check {
 
     my $e = $this->guessMajorDir( 'ToolsDir', 'tools' );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{ToolsDir} );
-    my $e2 = $this->checkTreePerms( $Foswiki::cfg{ToolsDir}, 'r' );
+
+    $e .= $this->showExpandedValue($Foswiki::cfg{ToolsDir});
+
+    my $e2 = $this->checkTreePerms( $this->getCfg("{ToolsDir}"), 'r' );
     $e .= $this->WARN($e2) if $e2;
+
     return $e;
 }
 

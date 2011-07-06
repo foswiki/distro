@@ -11,7 +11,7 @@ sub check {
     my $this = shift;
 
     # Check Script URL Path against REQUEST_URI
-    my $val    = $Foswiki::cfg{ScriptUrlPath};
+    my $val    = $this->getCfg("{ScriptUrlPath}");
     my $report = '';
     my $guess  = $ENV{REQUEST_URI} || $ENV{SCRIPT_NAME} || '';
 
@@ -33,6 +33,7 @@ HERE
 'Don\'t put a / at the end of the path. It\'ll still work, but you will get double // in a few places.'
             );
         }
+	$report .= $this->showExpandedValue($Foswiki::cfg{ScriptUrlPath});
     }
     else {
         if ($guess =~ s'/+configure\b.*$'') {
