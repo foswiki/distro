@@ -798,4 +798,15 @@ sub test_timing_reparse {
     return;
 }
 
+sub test_simple_noparams {
+    my ($this) = @_;
+#yes, this should not cause a late failure - if its not a valid initialiser - shoudln't that return undef?
+    my $addrObj       = Foswiki::Address->new();
+    $this->assert( $addrObj->stringify());
+    my $addrObj       = Foswiki::Address->new(Foswiki::Meta->new($this->{session}, 'Main', 'WebHome'));
+    $this->assert( $addrObj->stringify());
+
+    return;
+}
+
 1;
