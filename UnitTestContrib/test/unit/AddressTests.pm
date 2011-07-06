@@ -638,6 +638,17 @@ sub test_meta4 {
     return;
 }
 
+sub test_chain_new_web {
+    my ($this) = @_;
+    my $addrObj = Foswiki::Address->new( web => 'Main', topic => 'WebHome' );
+    my $web = Foswiki::Address->new( web => 'Main', topic => 'WebHome' )->web();
+
+    ASSERT( $addrObj->web() eq "$test_web/SubWeb" );
+    ASSERT( $web eq "$test_web/SubWeb" );
+
+    return;
+}
+
 sub test_timing_normaliseWebTopicName {
     my ($this) = @_;
     my $web;
