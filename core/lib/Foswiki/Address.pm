@@ -497,8 +497,10 @@ sub parse {
         $opts{webpath} = [ split( /[\/\.]/, $opts{web} ) ];
     }
 
+    ASSERT( not $opts{webpath} or ref( $opts{webpath} ) eq 'ARRAY' ) if DEBUG;
+
     # Because of the way we split, 'Foo/' causes final element to be empty
-    if ( not $opts{webpath}->[-1] ) {
+    if ( $opts{webpath} and not $opts{webpath}->[-1] ) {
         pop( @{ $opts{webpath} } );
     }
 
@@ -536,7 +538,7 @@ sub parse {
         my %typescores;
         my $parsed;
 
-        ASSERT( $opts{existAsList} ) if DEBUG;
+        ASSERT( ref( $opts{existAsList} ) eq 'ARRAY' ) if DEBUG;
 
         if ( scalar(@separators) ) {
 
@@ -688,6 +690,7 @@ sub _atomiseAsWeb {
     print STDERR "_atomiseAsWeb():\n" if TRACE2;
     $that->{web} = $path;
     $that->{webpath} = [ split( /[\.\/]/, $path ) ];
+    ASSERT( $that->{web} and ref( $that->{webpath} ) eq 'ARRAY' ) if DEBUG;
 
     # If we had a path that looks like 'Foo/'
     if ( not $that->{webpath}->[-1] ) {
@@ -942,6 +945,9 @@ sub _existScore {
     my $score;
     my $perfecttype;
 
+    ASSERT( not $atoms->{tompath} or ref( $atoms->{tompath} ) eq 'ARRAY' )
+      if DEBUG;
+    ASSERT( $atoms->{web} or ref( $atoms->{webpath} ) eq 'ARRAY' ) if DEBUG;
     if (
             $atoms->{tompath}
         and scalar( @{ $atoms->{tompath} } ) == 2
@@ -1006,6 +1012,8 @@ The output of =stringify()= is understood by =parse()=, and vice versa.
 
 sub stringify {
     my ( $this, %opts ) = @_;
+
+    ASSERT( $this->{web} or ref( $this->{webpath} ) eq 'ARRAY' ) if DEBUG;
 
     # If there's a valid address; and check that we haven't already computed
     # the stringification before with the same opts
@@ -1116,6 +1124,7 @@ Get/set by web string
 sub web {
     my ( $this, $web ) = @_;
 
+    ASSERT( $this->{web} or ref( $this->{webpath} ) eq 'ARRAY' ) if DEBUG;
     if ( scalar(@_) == 2 ) {
         $this->webpath( [ split( /[\/\.]/, $web ) ] );
     }
