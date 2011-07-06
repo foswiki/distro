@@ -395,7 +395,7 @@ sub gen_testrange_fns {
                 %extraopts
             );
 
-            ASSERT( $parsedaddrObj->equiv( $testitem->{addrObj} ) );
+            $this->assert( $parsedaddrObj->equiv( $testitem->{addrObj} ) );
 
             return;
         };
@@ -423,12 +423,13 @@ sub gen_testspec_fns {
             );
 
             if ( $testitem->{expectfail} ) {
-                ASSERT( not $parsedaddrObj->equiv( $testitem->{addrObj} ) );
-                ASSERT( $parsedaddrObj->type() ne $testitem->{type} );
+                $this->assert(
+                    not $parsedaddrObj->equiv( $testitem->{addrObj} ) );
+                $this->assert( $parsedaddrObj->type() ne $testitem->{type} );
             }
             else {
-                ASSERT( $parsedaddrObj->equiv( $testitem->{addrObj} ) );
-                ASSERT( $parsedaddrObj->type() eq $testitem->{type} );
+                $this->assert( $parsedaddrObj->equiv( $testitem->{addrObj} ) );
+                $this->assert( $parsedaddrObj->type() eq $testitem->{type} );
             }
 
             return;
@@ -557,9 +558,9 @@ sub test_meta1 {
         existAs => [qw(file meta topic)]
     );
 
-    ASSERT( $parsedaddrObj->equiv($addrObj) );
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
     $addrObj = $this->_newAddrTestingWebpathParam(%constructor);
-    ASSERT( $parsedaddrObj->equiv($addrObj) );
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
 
     return;
 }
@@ -578,18 +579,18 @@ sub test_meta2 {
         existAs => [qw(file meta topic)]
     );
 
-    ASSERT( $parsedaddrObj->equiv($addrObj) );
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
     $addrObj = $this->_newAddrTestingWebpathParam(%constructor);
-    ASSERT( $parsedaddrObj->equiv($addrObj) );
-    ASSERT( $parsedaddrObj->type() eq 'metakey' );
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
+    $this->assert( $parsedaddrObj->type() eq 'metakey' );
     $parsedaddrObj->tompath( [ 'META', 'FIELD', 2 ] );
-    ASSERT( $parsedaddrObj->type() eq 'metamember' );
+    $this->assert( $parsedaddrObj->type() eq 'metamember' );
     $parsedaddrObj->tompath( [ 'META', 'FIELD' ] );
-    ASSERT( $parsedaddrObj->type() eq 'metatype' );
+    $this->assert( $parsedaddrObj->type() eq 'metatype' );
     $parsedaddrObj->tompath( ['META'] );
-    ASSERT( $parsedaddrObj->type() eq 'meta' );
+    $this->assert( $parsedaddrObj->type() eq 'meta' );
     $parsedaddrObj->tompath(undef);
-    ASSERT( $parsedaddrObj->type() eq 'topic' );
+    $this->assert( $parsedaddrObj->type() eq 'topic' );
 
     return;
 }
@@ -608,10 +609,10 @@ sub test_meta3 {
         existAs => [qw(file meta topic)]
     );
 
-    ASSERT( $parsedaddrObj->equiv($addrObj) );
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
     $addrObj = $this->_newAddrTestingWebpathParam(%constructor);
-    ASSERT( $parsedaddrObj->equiv($addrObj) );
-    ASSERT( $parsedaddrObj->type() eq 'metakey' );
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
+    $this->assert( $parsedaddrObj->type() eq 'metakey' );
 
     return;
 }
@@ -630,10 +631,10 @@ sub test_meta4 {
         existAs => [qw(file meta topic)]
     );
 
-    ASSERT( $parsedaddrObj->equiv($addrObj) );
-    ASSERT( $parsedaddrObj->type() eq 'metakey' );
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
+    $this->assert( $parsedaddrObj->type() eq 'metakey' );
     $addrObj = $this->_newAddrTestingWebpathParam(%constructor);
-    ASSERT( $parsedaddrObj->equiv($addrObj) );
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
 
     return;
 }
@@ -643,8 +644,8 @@ sub test_chain_new_web {
     my $addrObj = Foswiki::Address->new( web => 'Main', topic => 'WebHome' );
     my $web = Foswiki::Address->new( web => 'Main', topic => 'WebHome' )->web();
 
-    ASSERT( $addrObj->web() eq 'Main', $addrObj->stringify() );
-    ASSERT( $web eq 'Main' );
+    $this->assert( $addrObj->web() eq 'Main', $addrObj->stringify() );
+    $this->assert( $web eq 'Main' );
 
     return;
 }
