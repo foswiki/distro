@@ -534,19 +534,31 @@ sub gen_spec_tests {
     return %tests;
 }
 
+sub _newAddrTestingWebpathParam {
+    my ( $this, %constructor ) = @_;
+
+    delete $constructor{web};
+    $constructor{webpath} = [ split( /[\.\/]/, $test_web ), 'SubWeb' ];
+
+    return Foswiki::Address->new(%constructor);
+}
+
 sub test_meta1 {
     my ($this) = @_;
-    my $addrObj = Foswiki::Address->new(
-        webpath => [ $test_web, 'SubWeb' ],
+    my %constructor = (
+        web     => "$test_web/SubWeb",
         topic   => 'Topic',
         rev     => '2',
         tompath => [ 'META', 'FIELD', { name => 'Colour' }, 'value' ]
     );
+    my $addrObj       = Foswiki::Address->new(%constructor);
     my $parsedaddrObj = Foswiki::Address->new(
         string  => $addrObj->stringify(),
         existAs => [qw(file meta topic)]
     );
 
+    ASSERT( $parsedaddrObj->equiv($addrObj) );
+    $addrObj = $this->_newAddrTestingWebpathParam(%constructor);
     ASSERT( $parsedaddrObj->equiv($addrObj) );
 
     return;
@@ -554,17 +566,20 @@ sub test_meta1 {
 
 sub test_meta2 {
     my ($this) = @_;
-    my $addrObj = Foswiki::Address->new(
-        webpath => [ $test_web, 'SubWeb' ],
+    my %constructor = (
+        web     => "$test_web/SubWeb",
         topic   => 'Topic',
         rev     => '2',
         tompath => [ 'META', 'FIELD', 2, 'value' ]
     );
+    my $addrObj       = Foswiki::Address->new(%constructor);
     my $parsedaddrObj = Foswiki::Address->new(
         string  => $addrObj->stringify(),
         existAs => [qw(file meta topic)]
     );
 
+    ASSERT( $parsedaddrObj->equiv($addrObj) );
+    $addrObj = $this->_newAddrTestingWebpathParam(%constructor);
     ASSERT( $parsedaddrObj->equiv($addrObj) );
     ASSERT( $parsedaddrObj->type() eq 'metakey' );
     $parsedaddrObj->tompath( [ 'META', 'FIELD', 2 ] );
@@ -581,17 +596,20 @@ sub test_meta2 {
 
 sub test_meta3 {
     my ($this) = @_;
-    my $addrObj = Foswiki::Address->new(
-        webpath => [ $test_web, 'SubWeb' ],
+    my %constructor = (
+        web     => "$test_web/SubWeb",
         topic   => 'Topic',
         rev     => '2',
         tompath => [ 'META', 'FIELD', { name => 'Colour' }, 'value' ]
     );
+    my $addrObj       = Foswiki::Address->new(%constructor);
     my $parsedaddrObj = Foswiki::Address->new(
         string  => "'$test_web/SubWeb.Topic\@2'/fields[name='Colour'].value",
         existAs => [qw(file meta topic)]
     );
 
+    ASSERT( $parsedaddrObj->equiv($addrObj) );
+    $addrObj = $this->_newAddrTestingWebpathParam(%constructor);
     ASSERT( $parsedaddrObj->equiv($addrObj) );
     ASSERT( $parsedaddrObj->type() eq 'metakey' );
 
@@ -600,12 +618,13 @@ sub test_meta3 {
 
 sub test_meta4 {
     my ($this) = @_;
-    my $addrObj = Foswiki::Address->new(
-        webpath => [ $test_web, 'SubWeb' ],
+    my %constructor = (
+        web     => "$test_web/SubWeb",
         topic   => 'Topic',
         rev     => '2',
         tompath => [ 'META', 'FIELD', { name => 'Colour' }, 'value' ]
     );
+    my $addrObj       = Foswiki::Address->new(%constructor);
     my $parsedaddrObj = Foswiki::Address->new(
         string  => "'$test_web/SubWeb.Topic\@2'/Colour",
         existAs => [qw(file meta topic)]
@@ -613,6 +632,8 @@ sub test_meta4 {
 
     ASSERT( $parsedaddrObj->equiv($addrObj) );
     ASSERT( $parsedaddrObj->type() eq 'metakey' );
+    $addrObj = $this->_newAddrTestingWebpathParam(%constructor);
+    ASSERT( $parsedaddrObj->equiv($addrObj) );
 
     return;
 }
