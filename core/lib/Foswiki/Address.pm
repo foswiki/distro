@@ -71,123 +71,114 @@ use Foswiki::Meta();
 use constant TRACE  => 0;    # Don't forget to uncomment dumper
 use constant TRACE2 => 0;
 
-my %plausibletable;
-my %sepidentchars;
-my %atomiseAs;
-my %pathtypes;
+my %atomiseAs = (
+    web     => \&_atomiseAsWeb,
+    topic   => \&_atomiseAsTopic,
+    file    => \&_atomiseAsFILE,
+    FILE    => \&_atomiseAsFILE,
+    META    => \&_atomiseAsTOM,
+    meta    => \&_atomiseAsTOM,
+    SECTION => \&_atomiseAsTOM,
+    text    => \&_atomiseAsTOM,
+    '*'     => \&_atomiseAsTOM
+);
 
-BEGIN {
+# The question is: what do we have? The hash is accessed as follows:
+# $pathtypes{ $tompath[0] }->{ scalar(@tompath) }
+my %pathtypes = (
+    FILE => { 1 => 'files', 2 => 'file' },
+    META => { 1 => 'meta', 2 => 'metatype', 3 => 'metamember', 4 => 'metakey' },
+    SECTION => { 1 => 'sections', 2 => 'section' },
+    text    => { 1 => 'text' }
+);
 
-    %atomiseAs = (
-        web     => \&_atomiseAsWeb,
-        topic   => \&_atomiseAsTopic,
-        file    => \&_atomiseAsFILE,
-        FILE    => \&_atomiseAsFILE,
-        META    => \&_atomiseAsTOM,
-        meta    => \&_atomiseAsTOM,
-        SECTION => \&_atomiseAsTOM,
-        text    => \&_atomiseAsTOM,
-        '*'     => \&_atomiseAsTOM
-    );
+# I tried to create a logical parser, but it kept ending up as spaghetti.
+# So we use a lookup table instead... (probably?) easier to follow, faster.
+my %plausibletable = (
 
-    # The question is: what do we have? The hash is accessed as follows:
-    # $pathtypes{ $tompath[0] }->{ scalar(@tompath) }
-    %pathtypes = (
-        FILE => { 1 => 'files', 2 => 'file' },
-        META =>
-          { 1 => 'meta', 2 => 'metatype', 3 => 'metamember', 4 => 'metakey' },
-        SECTION => { 1 => 'sections', 2 => 'section' },
-        text    => { 1 => 'text' }
-    );
+    # root keys represent the path separator signature of the form:
+    # combinations of s, S, d, D - where:
+    #   s = <part>/<part> - sequence of two parts separated by '/'
+    #   d = <part>.<part> - sequence of two parts separated by '.'
+    #   S = <part>/<part>/<part>[/]... - sequence > 2 parts separated by '/'
+    #   D = <part>.<part>.<part>[.]... - sequence > 2 parts separated by '.'
+    #
+    # sub keys are the type considered; values of the sub keys indicate
+    # the plausibility that the given form could be the type indicated:
+    #   0/undef - not plausible
+    #         1 - plausible without using any context
+    #         2 - normal ("unambiguous") form
+    # 'webpath' - plausible if given webpath context
+    #   'topic' - plausible if given webpath & topic context
+    #
+    # Foo
+    '' => { webpath => 1, topic => 'webpath', file => 'topic' },
 
-    # I tried to create a logical parser, but it kept ending up as spaghetti.
-    # So we use a lookup table instead... (probably?) easier to follow, faster.
-    %plausibletable = (
+    # Foo.Bar
+    'd' => { webpath => 1, topic => 2, file => 'topic' },
 
-        # root keys represent the path separator signature of the form:
-        # combinations of s, S, d, D - where:
-        #   s = <part>/<part> - sequence of two parts separated by '/'
-        #   d = <part>.<part> - sequence of two parts separated by '.'
-        #   S = <part>/<part>/<part>[/]... - sequence > 2 parts separated by '/'
-        #   D = <part>.<part>.<part>[.]... - sequence > 2 parts separated by '.'
-        #
-        # sub keys are the type considered; values of the sub keys indicate
-        # the plausibility that the given form could be the type indicated:
-        #   0/undef - not plausible
-        #         1 - plausible without using any context
-        #         2 - normal ("unambiguous") form
-        # 'webpath' - plausible if given webpath context
-        #   'topic' - plausible if given webpath & topic context
-        #
-        # Foo
-        '' => { webpath => 1, topic => 'webpath', file => 'topic' },
+    # Foo/Bar
+    's' => { webpath => 1, topic => 1, file => 'webpath' },
 
-        # Foo.Bar
-        'd' => { webpath => 1, topic => 2, file => 'topic' },
+    # Foo/Bar.Dog
+    'sd' => { webpath => 0, topic => 2, file => 'webpath' },
 
-        # Foo/Bar
-        's' => { webpath => 1, topic => 1, file => 'webpath' },
+    # Foo.Bar/Dog
+    'ds' => { webpath => 0, topic => 1, file => 2 },
 
-        # Foo/Bar.Dog
-        'sd' => { webpath => 0, topic => 2, file => 'webpath' },
+    # Foo/Bar/Dog
+    'S' => { webpath => 1, topic => 1, file => 1 },
 
-        # Foo.Bar/Dog
-        'ds' => { webpath => 0, topic => 1, file => 2 },
+    # Foo.Bar.Dog
+    'D' => { webpath => 1, topic => 1, file => 'topic' },
 
-        # Foo/Bar/Dog
-        'S' => { webpath => 1, topic => 1, file => 1 },
+    # Foo.Bar/Cat/Dog
+    'dS' => { webpath => 0, topic => 1, file => 1 },
 
-        # Foo.Bar.Dog
-        'D' => { webpath => 1, topic => 1, file => 'topic' },
+    # Foo/Bar.Cat.Dog
+    'sD' => { webpath => 0, topic => 0, file => 'webpath' },
 
-        # Foo.Bar/Cat/Dog
-        'dS' => { webpath => 0, topic => 1, file => 1 },
+    # Foo/Bar/Dog.Cat
+    'Sd' => { webpath => 0, topic => 2, file => 1 },
 
-        # Foo/Bar.Cat.Dog
-        'sD' => { webpath => 0, topic => 0, file => 'webpath' },
+    # Foo.Bar.Dog/Cat
+    'Ds' => { webpath => 0, topic => 1, file => 1 },
 
-        # Foo/Bar/Dog.Cat
-        'Sd' => { webpath => 0, topic => 2, file => 1 },
+    # Foo.Bar.Dog/Cat/Bat
+    'DS' => { webpath => 0, topic => 0, file => 1 },
 
-        # Foo.Bar.Dog/Cat
-        'Ds' => { webpath => 0, topic => 1, file => 1 },
+    # Foo/Bar/Dog.Cat.Bat
+    'SD' => { webpath => 0, topic => 0, file => 1 },
 
-        # Foo.Bar.Dog/Cat/Bat
-        'DS' => { webpath => 0, topic => 0, file => 1 },
+    # Foo/Bar.Dog/Cat
+    'sds' => { webpath => 0, topic => 0, file => 2 },
 
-        # Foo/Bar/Dog.Cat.Bat
-        'SD' => { webpath => 0, topic => 0, file => 1 },
+    # Foo/Bar/Dog.Cat/Bat
+    'Sds' => { webpath => 0, topic => 0, file => 2 },
 
-        # Foo/Bar.Dog/Cat
-        'sds' => { webpath => 0, topic => 0, file => 2 },
+    # Foo.Bar/Dog.Cat
+    'dsd' => { webpath => 0, topic => 0, file => 2 },
 
-        # Foo/Bar/Dog.Cat/Bat
-        'Sds' => { webpath => 0, topic => 0, file => 2 },
+    # Foo.Bar.Dog/Cat.Bat
+    'Dsd' => { webpath => 0, topic => 0, file => 1 },
 
-        # Foo.Bar/Dog.Cat
-        'dsd' => { webpath => 0, topic => 0, file => 2 },
+    # Foo.Bar/Dog.Cat.Bat
+    'dsD' => { webpath => 0, topic => 0, file => 2 },
 
-        # Foo.Bar.Dog/Cat.Bat
-        'Dsd' => { webpath => 0, topic => 0, file => 1 },
+    # Foo/Bar.Dog/Cat.Bat
+    'sdsd' => { webpath => 0, topic => 0, file => 2 },
 
-        # Foo.Bar/Dog.Cat.Bat
-        'dsD' => { webpath => 0, topic => 0, file => 2 },
+    # Foo/Bar.Dog/Cat.B.a.t
+    'sdsD' => { webpath => 0, topic => 0, file => 2 },
 
-        # Foo/Bar.Dog/Cat.Bat
-        'sdsd' => { webpath => 0, topic => 0, file => 2 },
+    # Foo/Bar/Dog.Cat/B.at
+    'Sdsd' => { webpath => 0, topic => 0, file => 2 },
 
-        # Foo/Bar.Dog/Cat.B.a.t
-        'sdsD' => { webpath => 0, topic => 0, file => 2 },
-
-        # Foo/Bar/Dog.Cat/B.at
-        'Sdsd' => { webpath => 0, topic => 0, file => 2 },
-
-        # Foo/Bar/Dog.Cat/B.a.t
-        'SdsD' => { webpath => 0, topic => 0, file => 2 }
-    );
-    %sepidentchars =
-      ( 0 => { '.' => 'd', '/' => 's' }, 1 => { '.' => 'D', '/' => 'S' } );
-}
+    # Foo/Bar/Dog.Cat/B.a.t
+    'SdsD' => { webpath => 0, topic => 0, file => 2 }
+);
+my %sepidentchars =
+  ( 0 => { '.' => 'd', '/' => 's' }, 1 => { '.' => 'D', '/' => 'S' } );
 
 =begin TML
 
