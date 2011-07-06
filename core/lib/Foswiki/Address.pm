@@ -27,9 +27,9 @@ the components necessary to address a specific Foswiki resource.
 
 <verbatim>
 my $addr = {
-    webpath  => [qw(Web SubWeb)],
-    topic    => 'Topic',
-    tompath  => ['FILE', 'Attachment.pdf'],
+    web     => 'Web/SubWeb',
+    topic   => 'Topic',
+    tompath => ['FILE', 'Attachment.pdf'],
     rev => 3
 };
 </verbatim>
@@ -192,9 +192,9 @@ The constructor takes two main forms:
 *Example:*
 <verbatim>
 my $addrObj = Foswiki::Address->new(
-    webpath  => [qw(Web SubWeb)],
-    topic    => 'Topic',
-    tompath  => ['FILE', 'Attachment.pdf'],
+    web     => 'Web/SubWeb',
+    topic   => 'Topic',
+    tompath => ['FILE', 'Attachment.pdf'],
     rev => 3
 );</verbatim>
 
@@ -224,7 +224,7 @@ my $addrObj = Foswiki::Address->new(
 *Example:* Point to the value of a formfield =LastName= in =Web/SubWeb.Topic=,
 <verbatim>
 my $addrObj = Foswiki::Address->new(
-  webpath => [qw(Web SubWeb)],
+  web     => 'Web/SubWeb',
   topic   => 'Topic',
   tompath => ['META', 'FIELD', {name => LastName}, 'value']
 );</verbatim>
