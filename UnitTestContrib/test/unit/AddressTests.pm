@@ -643,8 +643,8 @@ sub test_chain_new_web {
     my $addrObj = Foswiki::Address->new( web => 'Main', topic => 'WebHome' );
     my $web = Foswiki::Address->new( web => 'Main', topic => 'WebHome' )->web();
 
-    ASSERT( $addrObj->web() eq "$test_web/SubWeb" );
-    ASSERT( $web eq "$test_web/SubWeb" );
+    ASSERT( $addrObj->web() eq 'Main', $addrObj->stringify() );
+    ASSERT( $web eq 'Main' );
 
     return;
 }
