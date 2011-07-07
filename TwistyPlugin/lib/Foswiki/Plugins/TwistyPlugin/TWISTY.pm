@@ -35,7 +35,7 @@ sub new {
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/TwistyPlugin',
             dependencies => ['livequery', 'JavascriptFiles/foswikiPref'],
             javascript   => ['jquery.twisty.js'],
-            css          => ['jquery.twisty.css']
+            css          => ['twisty.css']
         ),
         $class
     );
