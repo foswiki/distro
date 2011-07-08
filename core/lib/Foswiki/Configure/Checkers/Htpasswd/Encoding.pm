@@ -50,7 +50,7 @@ sub check {
         use Config;
         if ( $Config{myuname} =~ /strawberry/i ) {
             $e = $this->ERROR(
-"ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010)"
+'ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010). See <a href="http://foswiki.org/Support/HtPasswdEncodingSupplement">HtPasswdEncodingSupplement</a> for more information'
             );
         }
     }
@@ -60,12 +60,12 @@ sub check {
 
         if ( -f $f ) {
             $e = $this->NOTE(
-'NOTE: crypt encoding only uses the first 8 characters of the password and silently ignores the rest.  However changing Encoding will invalidate existing passwords.'
+'NOTE: crypt encoding only uses the first 8 characters of the password and silently ignores the rest.  However changing Encoding will invalidate existing passwords. See <a href="http://foswiki.org/Support/HtPasswdEncodingSupplement">HtPasswdEncodingSupplement</a> for more information'
             );
         }
         else {
             $e = $this->WARN(
-'WARNING: crypt encoding only uses the first 8 characters of the password and silently ignores the rest.  No password file exists, so now is a good time choose a different encoding.'
+'WARNING: crypt encoding only uses the first 8 characters of the password and silently ignores the rest.  No password file exists, so now is a good time choose a different encoding. See <a href="http://foswiki.org/Support/HtPasswdEncodingSupplement">HtPasswdEncodingSupplement</a> for more information'
             );
         }
     }
