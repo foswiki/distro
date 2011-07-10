@@ -33,7 +33,7 @@ sub new {
 
 =begin TML
 
----++ ObjectMethod haveAccess($mode, $User, $web, $topic) -> $boolean
+---++ ObjectMethod haveAccess($mode, $User, $web, $topic, $attachment) -> $boolean
 ---++ ObjectMethod haveAccess($mode, $User, $meta) -> $boolean
 ---++ ObjectMethod haveAccess($mode, $User, $address) -> $boolean
 
@@ -45,7 +45,7 @@ may result in the topic being read.
 =cut
 
 sub haveAccess {
-    my ( $this, $mode, $cUID, $param1, $param2 ) = @_;
+    my ( $this, $mode, $cUID, $param1, $param2, $param3 ) = @_;
     $mode ||= 'VIEW';
     $cUID ||= $this->{session}->{user};
 
@@ -58,11 +58,12 @@ sub haveAccess {
 
         #scalar - treat as web, topic
         $meta = Foswiki::Meta->load( $session, $param1, $param2 );
+        ASSERT(not defined($param3)) if DEBUG;  #attachment ACL not currently supported in traditional topic ACL
     }
     else {
         if ( ref($param1) eq 'Foswiki::Address' ) {
             $meta =
-              Foswiki::Meta->load( $session, $param1->web(), $param2->topic() );
+              Foswiki::Meta->load( $session, $param1->web(), $param1->topic() );
         }
         else {
             $meta = $param1;

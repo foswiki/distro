@@ -68,7 +68,7 @@ sub getReason {
 
 =begin TML
 
----++ ObjectMethod haveAccess($mode, $User, $web, $topic) -> $boolean
+---++ ObjectMethod haveAccess($mode, $User, $web, $topic, $attachment) -> $boolean
 ---++ ObjectMethod haveAccess($mode, $User, $meta) -> $boolean
 ---++ ObjectMethod haveAccess($mode, $User, $address) -> $boolean
 

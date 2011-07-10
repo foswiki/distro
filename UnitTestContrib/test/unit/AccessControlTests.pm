@@ -6,7 +6,8 @@ use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
 # For Anchor test
-use Foswiki::UI;
+use Foswiki::UI ();
+use Foswiki::Address ();
 
 sub new {
     my $class = shift;
@@ -61,6 +62,12 @@ sub DENIED {
     my $topicObject = Foswiki::Meta->load( $this->{session}, $web, $topic );
     $this->assert( !$topicObject->haveAccess( $mode, $user ),
         "$user $mode $web.$topic" );
+    $this->assert( !$this->{session}->access->haveAccess( $mode, $user, $topicObject ),
+        "$user $mode $web.$topic" );
+    $this->assert( !$this->{session}->access->haveAccess( $mode, $user, $topicObject->web, $topicObject->topic ),
+        "$user $mode $web.$topic" );
+    $this->assert( !$this->{session}->access->haveAccess( $mode, $user, new Foswiki::Address(web => $topicObject->web, topic => $topicObject->topic) ),
+        "$user $mode $web.$topic" );
 }
 
 sub PERMITTED {
@@ -69,6 +76,12 @@ sub PERMITTED {
     $topic ||= $this->{test_topic};
     my $topicObject = Foswiki::Meta->load( $this->{session}, $web, $topic );
     $this->assert( $topicObject->haveAccess( $mode, $user ),
+        "$user $mode $web.$topic" );
+    $this->assert( $this->{session}->access->haveAccess( $mode, $user, $topicObject ),
+        "$user $mode $web.$topic" );
+    $this->assert( $this->{session}->access->haveAccess( $mode, $user, $topicObject->web, $topicObject->topic ),
+        "$user $mode $web.$topic" );
+    $this->assert( $this->{session}->access->haveAccess( $mode, $user, new Foswiki::Address(web => $topicObject->web, topic => $topicObject->topic) ),
         "$user $mode $web.$topic" );
 }
 
