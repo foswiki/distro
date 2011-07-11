@@ -2637,6 +2637,9 @@ sub attach {
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
 
+    # make sure we don't save a half-loaded topic stub...which indeed - smell - is possible
+    $this->loadVersion() unless $this->latestIsLoaded();
+
     if ( $opts{file} && !$opts{stream} ) {
 
         # no stream given, but a file was given; open it.
