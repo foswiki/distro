@@ -37,8 +37,8 @@ my %jqueryChiliClass = map { $_ => 1 }
   lotusscript php-f php sql tml );
 
 my %tml2htmlClass = map { $_ => 1 }
-    qw( WYSIWYG_PROTECTED WYSIWYG_STICKY TMLverbatim WYSIWYG_LINK
-        TMLhtml );
+  qw( WYSIWYG_PROTECTED WYSIWYG_STICKY TMLverbatim WYSIWYG_LINK
+  TMLhtml );
 
 =pod
 

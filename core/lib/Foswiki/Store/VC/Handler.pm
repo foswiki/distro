@@ -31,7 +31,7 @@ use IO::File   ();
 use File::Copy ();
 use File::Spec ();
 use File::Path ();
-use Fcntl    qw( :DEFAULT :flock SEEK_SET );
+use Fcntl qw( :DEFAULT :flock SEEK_SET );
 
 use Foswiki::Store                         ();
 use Foswiki::Sandbox                       ();
@@ -306,7 +306,7 @@ doesn't get merged into rev 1.
 
 sub getNextRevisionID {
     my $this = shift;
-    return ( $this->numRevisions() || ( ( -e $this->{file} ) ? 1 : 0 ) ) + 1 ;
+    return ( $this->numRevisions() || ( ( -e $this->{file} ) ? 1 : 0 ) ) + 1;
 }
 
 =begin TML
@@ -435,9 +435,9 @@ if the main file revision is required.
 sub getRevision {
     my ($this) = @_;
     if ( -e $this->{file} ) {
-        return (readFile( $this, $this->{file} ), 1 );
+        return ( readFile( $this, $this->{file} ), 1 );
     }
-    return (undef, 1);
+    return ( undef, 1 );
 }
 
 =begin TML
@@ -488,7 +488,7 @@ Restore the plaintext file from the revision at the head.
 sub restoreLatestRevision {
     my ( $this, $cUID ) = @_;
 
-    my $rev  = $this->getLatestRevisionID();
+    my $rev = $this->getLatestRevisionID();
     my ($text) = $this->getRevision($rev);
 
     # If there is no ,v, create it
@@ -641,8 +641,8 @@ sub copyAttachment {
 
     ASSERT( $store->isa('Foswiki::Store') ) if DEBUG;
 
-    my $oldWeb     = $this->{web};
-    my $oldTopic   = $this->{topic};
+    my $oldWeb   = $this->{web};
+    my $oldTopic = $this->{topic};
     $attachment ||= $this->{attachment};
 
     my $new = $store->getHandler( $newWeb, $newTopic, $attachment );

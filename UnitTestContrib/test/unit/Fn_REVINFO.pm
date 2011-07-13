@@ -309,13 +309,16 @@ OFNIVER
     $x = Foswiki::Time::formatTime( $t, $Foswiki::cfg{DefaultDateFormat} );
     $y = $topicObject->expandMacros('%REVINFO{"$date"}%');
 
-    foreach my $f (qw(rcs http email iso longdate sec min hou day wday
-      dow week mo ye epoch tz)) {
+    foreach my $f (
+        qw(rcs http email iso longdate sec min hou day wday
+        dow week mo ye epoch tz)
+      )
+    {
         my $tf = '$' . $f;
-          $x = Foswiki::Time::formatTime( $t, $tf );
-          $y = $topicObject->expandMacros("%REVINFO{\"$tf\"}%");
-          $this->assert_str_equals( $x, $y );
-      };
+        $x = Foswiki::Time::formatTime( $t, $tf );
+        $y = $topicObject->expandMacros("%REVINFO{\"$tf\"}%");
+        $this->assert_str_equals( $x, $y );
+    }
 }
 
 # test for combinations of format strings

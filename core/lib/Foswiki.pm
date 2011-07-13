@@ -2052,13 +2052,17 @@ sub finish {
     #}
     $_->finish() foreach values %{ $this->{forms} };
     undef $this->{forms};
-    foreach my $key (qw(plugins users prefs templates renderer net
-      store search attach access security i18n cache)) {
+    foreach my $key (
+        qw(plugins users prefs templates renderer net
+        store search attach access security i18n cache)
+      )
+    {
         next
           unless ref( $this->{$key} );
         $this->{$key}->finish();
-          undef $this->{$key};
-      }
+        undef $this->{$key};
+    }
+
     #TODO: the logger doesn't seem to have a finish...
     #    $this->{logger}->finish()      if $this->{logger};
     undef $this->{logger};
@@ -2994,7 +2998,7 @@ sub _processMacros {
 # session or constant tags
 sub _expandMacroOnTopicRendering {
     my ( $this, $tag, $args, $topicObject ) = @_;
-    
+
     require Foswiki::Attrs;
     my $attrs;
 
@@ -3007,33 +3011,36 @@ sub _expandMacroOnTopicRendering {
                 $e,
                 sub {
                     my ( $this, $tag, $args, $topicObject ) = @_;
-                    return defined $attrs->{$tag} ?
-			expandStandardEscapes($attrs->{$tag}) : undef;
+                    return
+                      defined $attrs->{$tag}
+                      ? expandStandardEscapes( $attrs->{$tag} )
+                      : undef;
                 },
                 $topicObject,
                 1
-	    );
+            );
         }
     }
     elsif ( exists( $macros{$tag} ) ) {
-	unless ( defined( $macros{$tag} ) ) {
-		
-	    # Demand-load the macro module
-	    die $tag unless $tag =~ /([A-Z_:]+)/i;
-	    $tag = $1;
-	    eval "require Foswiki::Macros::$tag";
-	    die $@ if $@;
-	    $macros{$tag} = eval "\\&$tag";
-	    die $@ if $@;
-	}
-	    
-	$attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
-	$e = &{ $macros{$tag} }( $this, $attrs, $topicObject );
-    } elsif ( $args && $args =~ /\S/ ) {
-	$attrs = new Foswiki::Attrs( $args );
-	if (defined $attrs->{default}) {
-	    $e = expandStandardEscapes($attrs->{default});
-	}
+        unless ( defined( $macros{$tag} ) ) {
+
+            # Demand-load the macro module
+            die $tag unless $tag =~ /([A-Z_:]+)/i;
+            $tag = $1;
+            eval "require Foswiki::Macros::$tag";
+            die $@ if $@;
+            $macros{$tag} = eval "\\&$tag";
+            die $@ if $@;
+        }
+
+        $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
+        $e = &{ $macros{$tag} }( $this, $attrs, $topicObject );
+    }
+    elsif ( $args && $args =~ /\S/ ) {
+        $attrs = new Foswiki::Attrs($args);
+        if ( defined $attrs->{default} ) {
+            $e = expandStandardEscapes( $attrs->{default} );
+        }
     }
     return $e;
 }

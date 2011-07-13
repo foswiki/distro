@@ -130,7 +130,7 @@ HERE
         my $errs = $this->checkCanCreateFile( $this->{LocalSiteDotCfg} );
 
         if ($errs) {
-        $this->{errors}++;
+            $this->{errors}++;
             $result .= <<HERE;
 Configuration file $this->{LocalSiteDotCfg} does not exist, and I cannot
 write a new configuration file due to these errors:
@@ -150,15 +150,18 @@ HERE
     # If we got this far without definitions for key variables, then
     # we need to default them. otherwise we get peppered with
     # 'uninitialised variable' alerts later.
-    foreach my $var (qw( DataDir DefaultUrlHost PubUrlPath
-      PubDir TemplateDir ScriptUrlPath LocalesDir )) {
+    foreach my $var (
+        qw( DataDir DefaultUrlHost PubUrlPath
+        PubDir TemplateDir ScriptUrlPath LocalesDir )
+      )
+    {
 
         # NOT SET tells the checker to try and guess the value later on
         $Foswiki::cfg{$var} = 'NOT SET' unless defined $Foswiki::cfg{$var};
-      }
+    }
 
-      # Make %ENV safer for CGI
-      $Foswiki::cfg{DETECTED}{originalPath} = $ENV{PATH} || '';
+    # Make %ENV safer for CGI
+    $Foswiki::cfg{DETECTED}{originalPath} = $ENV{PATH} || '';
     unless ( $Foswiki::cfg{SafeEnvPath} ) {
 
         # Grab the current path

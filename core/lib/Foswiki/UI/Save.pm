@@ -44,10 +44,10 @@ sub buildNewTopic {
       $session->topicExists( $topicObject->web, $topicObject->topic );
 
     # Prevent creating a topic in a web without change access
-    unless ( $topicExists ) {
+    unless ($topicExists) {
         my $webObject = Foswiki::Meta->new( $session, $topicObject->web );
         Foswiki::UI::checkAccess( $session, 'CHANGE', $webObject );
-        }
+    }
 
     # Prevent saving existing topic?
     my $onlyNewTopic = Foswiki::isTrue( $query->param('onlynewtopic') );
@@ -146,12 +146,15 @@ sub buildNewTopic {
             }
 
             # attachments to be copied later
-            if ( $k eq 'FILEATTACHMENT' ){
-                foreach my $a ( @{$ttom->{$k}} ){
-                    push( @attachments, {
-                        name => $a->{name},
-                        tom  => $ttom,
-                    });
+            if ( $k eq 'FILEATTACHMENT' ) {
+                foreach my $a ( @{ $ttom->{$k} } ) {
+                    push(
+                        @attachments,
+                        {
+                            name => $a->{name},
+                            tom  => $ttom,
+                        }
+                    );
                 }
             }
         }
@@ -181,13 +184,15 @@ sub buildNewTopic {
             $topicObject->remove('TOPICPARENT');
         }
         else {
+
             # Validate the new parent (it must be a legal topic name)
-            my ( $vweb, $vtopic ) = $session->normalizeWebTopicName(
-                $topicObject->web(), $newParent );
-            $vweb = Foswiki::Sandbox::untaint(
-                $vweb, \&Foswiki::Sandbox::validateWebName );
-            $vtopic = Foswiki::Sandbox::untaint(
-                $vtopic, \&Foswiki::Sandbox::validateTopicName );
+            my ( $vweb, $vtopic ) =
+              $session->normalizeWebTopicName( $topicObject->web(),
+                $newParent );
+            $vweb = Foswiki::Sandbox::untaint( $vweb,
+                \&Foswiki::Sandbox::validateWebName );
+            $vtopic = Foswiki::Sandbox::untaint( $vtopic,
+                \&Foswiki::Sandbox::validateTopicName );
             unless ( $vweb && $vtopic ) {
                 throw Foswiki::OopsException(
                     'attention',
@@ -195,14 +200,13 @@ sub buildNewTopic {
                     web    => $session->{webName},
                     topic  => $session->{topicName},
                     params => [ $newParent, 'topicparent' ]
-                   );
+                );
             }
+
             # Re-untaint the raw parameter, so that a parent can be set with
             # no web specification.
-            $topicObject->put(
-                'TOPICPARENT', {
-                    'name' => Foswiki::Sandbox::untaintUnchecked($newParent)
-                   } );
+            $topicObject->put( 'TOPICPARENT',
+                { 'name' => Foswiki::Sandbox::untaintUnchecked($newParent) } );
         }
     }
 
@@ -234,8 +238,8 @@ sub buildNewTopic {
 
         # Remove fields that don't exist on the new form def.
         my $filter = join( '|',
-            map    { $_->{name} }
-              grep { $_->{name} } @{ $formDef->getFields() } );
+            map  { $_->{name} }
+            grep { $_->{name} } @{ $formDef->getFields() } );
         foreach my $f ( $topicObject->find('FIELD') ) {
             if ( $f->{name} !~ /^($filter)$/ ) {
                 $topicObject->remove( 'FIELD', $f->{name} );
@@ -423,18 +427,20 @@ sub save {
     my $query = $session->{request};
 
     my $saveaction = '';
-    foreach my $action (qw( save checkpoint quietsave cancel preview
-      addform replaceform delRev repRev )) {
-        if ( $query->param( 'action_' . $action ) )
-        {
+    foreach my $action (
+        qw( save checkpoint quietsave cancel preview
+        addform replaceform delRev repRev )
+      )
+    {
+        if ( $query->param( 'action_' . $action ) ) {
             $saveaction = $action;
             last;
         }
-      }
+    }
 
-      # the 'action' parameter has been deprecated, though is still available
-      # for compatibility with old templates.
-      if ( !$saveaction && $query->param('action') ) {
+    # the 'action' parameter has been deprecated, though is still available
+    # for compatibility with old templates.
+    if ( !$saveaction && $query->param('action') ) {
         $saveaction = lc( $query->param('action') );
         $session->logger->log( 'warning', <<WARN);
 Use of deprecated "action" parameter to "save". Correct your templates!
@@ -471,10 +477,10 @@ WARN
             $Foswiki::cfg{HomeTopicName} )
         {
             ( $w, $t ) = $session->normalizeWebTopicName( $web, $test );
+
             # Validate topic name
-            $t = Foswiki::Sandbox::untaint(
-                $t, \&Foswiki::Sandbox::validateTopicName
-            );
+            $t = Foswiki::Sandbox::untaint( $t,
+                \&Foswiki::Sandbox::validateTopicName );
             last if ( $session->topicExists( $w, $t ) );
         }
         my $viewURL = $session->getScriptUrl( 1, 'view', $w, $t );
@@ -487,7 +493,7 @@ WARN
     Foswiki::UI::checkValidationKey($session);
 
     my $editaction = lc( $query->param('editaction') || '' );
-    my $edit       = $query->param('edit')             || 'edit';
+    my $edit = $query->param('edit') || 'edit';
 
     ## SMELL: The form affecting actions do not preserve edit and editparams
     # preview+submitChangeForm is deprecated undocumented legacy
@@ -615,7 +621,8 @@ WARN
         return;
     }
 
-    my ( $saveOpts, $merged, $attachments ) = buildNewTopic( $session, $topicObject, 'save' );
+    my ( $saveOpts, $merged, $attachments ) =
+      buildNewTopic( $session, $topicObject, 'save' );
 
     if ( $saveaction =~ /^(save|checkpoint)$/ ) {
         my $text = $topicObject->text();
@@ -639,10 +646,10 @@ WARN
         );
     };
 
-    if( $attachments ){
-        foreach $a ( @{ $attachments } ){
+    if ($attachments) {
+        foreach $a ( @{$attachments} ) {
             try {
-                $a->{tom}->copyAttachment($a->{name}, $topicObject);
+                $a->{tom}->copyAttachment( $a->{name}, $topicObject );
             }
             catch Error::Simple with {
                 throw Foswiki::OopsException(

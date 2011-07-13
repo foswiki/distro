@@ -14,15 +14,17 @@ sub applyPatternToIncludedText {
 
     my $ok = 0;
     eval {
+
         # The eval acts as a try block in case there is anything evil in
         # the pattern.
 
         # The () ensures that $1 is defined if $pattern matches
         # but does not capture anything
-        if ($text =~ m/$pattern()/is) {
+        if ( $text =~ m/$pattern()/is ) {
             $text = $1;
         }
         else {
+
             # The pattern did not match, so return nothing
             $text = '';
         }
@@ -170,12 +172,12 @@ sub INCLUDE {
     ( $includedWeb, $includedTopic ) =
       $this->normalizeWebTopicName( $includingTopicObject->web,
         $includedTopic );
-        
-    if (!Foswiki::isValidTopicName($includedTopic, 1)) {
+
+    if ( !Foswiki::isValidTopicName( $includedTopic, 1 ) ) {
         return $this->_includeWarning( $control{warn}, 'bad_include_path',
             $control{_DEFAULT} );
     }
-        
+
     # See Codev.FailedIncludeWarning for the history.
     unless ( $this->{store}->topicExists( $includedWeb, $includedTopic ) ) {
         return _includeWarning( $this, $control{warn}, 'topic_not_found',

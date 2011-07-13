@@ -36,7 +36,8 @@ sub ok {
     return 0 if !$session->webExists($web);
 
     my $webObject = Foswiki::Meta->new( $session, $web );
-    my $thisWebNoSearchAll = Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
+    my $thisWebNoSearchAll =
+      Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
 
     return 0
       if $this->{public}

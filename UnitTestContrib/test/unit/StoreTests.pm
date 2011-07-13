@@ -150,9 +150,9 @@ sub test_CreateSimpleMetaTopic {
     # Clear out stuff that blocks assert_deep_equals
     $meta->remove('TOPICINFO');
     $readMeta->remove('TOPICINFO');
-    foreach my $m ($meta, $readMeta) {
-        $m->{_preferences} = $m->{_session} =
-          $m->{_latestIsLoaded} = $m->{_loadedRev} = undef;
+    foreach my $m ( $meta, $readMeta ) {
+        $m->{_preferences} = $m->{_session} = $m->{_latestIsLoaded} =
+          $m->{_loadedRev} = undef;
     }
     $this->assert_deep_equals( $meta, $readMeta );
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
@@ -197,7 +197,7 @@ sub test_getRevisionInfoNoRcsFile {
     Foswiki::Func::createWeb( $web, '_default' );
     $this->assert( $this->{session}->webExists($web) );
 
-    my $ttext   = <<DONE;
+    my $ttext = <<DONE;
 %INCLUDE{"%USERSWEB%.AdminUser" section="sudo_login"}%
 
 Edit this topic to add a description to the AdminGroup
@@ -216,11 +216,13 @@ DONE
 
     # A file without history should be rev 0, not rev 1.
     my $meta = Foswiki::Meta->load( $this->{session}, $web, $topic );
+
     #$this->assert_equals( 0, $meta->getLatestRev() );
     $this->assert_str_equals( $ttext, $meta->text() );
 
     $meta->text( $ttext . "\nnewline" );
-    # Save without force revision still should create a new rev due to missing history
+
+# Save without force revision still should create a new rev due to missing history
     $meta->save( forcenewrevision => 0 );
 
     # Save of a file without an existing RCS file should not modify Rev 1,
@@ -230,13 +232,13 @@ DONE
     my $readMeta = Foswiki::Meta->load( $this->{session}, $web, $topic );
     $this->assert_str_equals( $ttext . "\nnewline", $readMeta->text() );
 
-    $this->assert_equals( 2,     $readMeta->getLatestRev() );
+    $this->assert_equals( 2, $readMeta->getLatestRev() );
     my $info = $readMeta->getRevisionInfo();
     $this->assert_str_equals( $this->{session}->{user}, $info->{author} );
     $this->assert_num_equals( 2, $info->{version} );
 
     # Make sure that rev 1 exists and has the original text pr-history.
-    my $oldMeta = Foswiki::Meta->load( $this->{session}, $web, $topic, '1');
+    my $oldMeta = Foswiki::Meta->load( $this->{session}, $web, $topic, '1' );
     $this->assert_str_equals( $ttext, $oldMeta->text() );
 
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
@@ -697,10 +699,11 @@ sub test_eachAttachment {
         comment => "a comment"
     );
     $meta->save();
+
     #load the disk version
     $meta =
       Foswiki::Meta->load( $this->{session}, $this->{test_web},
-        $this->{test_topic});
+        $this->{test_topic} );
 
     my $f =
       "$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/noise.dat";
@@ -712,39 +715,55 @@ sub test_eachAttachment {
     $meta->save();
     $meta =
       Foswiki::Meta->load( $this->{session}, $this->{test_web},
-        $this->{test_topic});
+        $this->{test_topic} );
 
     my $it = $this->{session}->{store}->eachAttachment($meta);
     my $list = join( ' ', sort $it->all() );
     $this->assert_str_equals( "noise.dat testfile.gif", $list );
 
-   $this->assert(Foswiki::Func::attachmentExists($this->{test_web}, $this->{test_topic}, 'testfile.gif'));
-   $this->assert(Foswiki::Func::attachmentExists($this->{test_web}, $this->{test_topic}, 'noise.dat'));
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, $this->{test_topic}, 'testfile.gif'
+        )
+    );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, $this->{test_topic}, 'noise.dat'
+        )
+    );
 
     my $preDeleteMeta =
       Foswiki::Meta->load( $this->{session}, $this->{test_web},
-        $this->{test_topic});
+        $this->{test_topic} );
 
-   sleep(1); #ensure different timestamp on topic text
-   $meta->removeFromStore('testfile.gif');
-   
-   $this->assert(Foswiki::Func::topicExists($this->{test_web}, $this->{test_topic}));
-   $this->assert(not Foswiki::Func::attachmentExists($this->{test_web}, $this->{test_topic}, 'testfile.gif'));
-   $this->assert(Foswiki::Func::attachmentExists($this->{test_web}, $this->{test_topic}, 'noise.dat'));
+    sleep(1);    #ensure different timestamp on topic text
+    $meta->removeFromStore('testfile.gif');
+
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{test_web}, $this->{test_topic} ) );
+    $this->assert(
+        not Foswiki::Func::attachmentExists(
+            $this->{test_web}, $this->{test_topic}, 'testfile.gif'
+        )
+    );
+    $this->assert(
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, $this->{test_topic}, 'noise.dat'
+        )
+    );
 
     my $postDeleteMeta =
       Foswiki::Meta->load( $this->{session}, $this->{test_web},
-        $this->{test_topic});
+        $this->{test_topic} );
 
-    #Item10124: SvenDowideit thinks that the Meta API should retain consistency, so if you 'remove' an attachment, its META entry should also be removed
-    #if we do this, the following line will fail.
-    $this->assert_deep_equals( $preDeleteMeta->{FILEATTACHMENT}, $postDeleteMeta->{FILEATTACHMENT} );
+#Item10124: SvenDowideit thinks that the Meta API should retain consistency, so if you 'remove' an attachment, its META entry should also be removed
+#if we do this, the following line will fail.
+    $this->assert_deep_equals( $preDeleteMeta->{FILEATTACHMENT},
+        $postDeleteMeta->{FILEATTACHMENT} );
 
     $it = $this->{session}->{store}->eachAttachment($postDeleteMeta);
     $list = join( ' ', sort $it->all() );
     $this->assert_str_equals( "noise.dat", $list );
-
-    
 
 }
 
