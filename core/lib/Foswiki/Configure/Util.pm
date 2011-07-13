@@ -69,8 +69,8 @@ sub mapTarget {
     my $sandbox = $Foswiki::cfg{SandboxWebName} || 'Sandbox';
 
     foreach my $t
-      qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
-      ) {
+      (qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
+      )) {
         my ( $val, $def ) = split( ':', $t );
           if ( defined $Foswiki::cfg{$val} ) {
             $file =~
@@ -112,8 +112,8 @@ sub mapTarget {
     }
 
 # Canonical symbol mappings
-#foreach my $w qw( SystemWebName TrashWebName UsersWebName SandboxWebName ) {  #Waiting for Item8744
-    foreach my $w qw( SystemWebName TrashWebName UsersWebName ) {
+#foreach my $w (qw( SystemWebName TrashWebName UsersWebName SandboxWebName )) {  #Waiting for Item8744
+    foreach my $w (qw( SystemWebName TrashWebName UsersWebName )) {
         if ( defined $Foswiki::cfg{$w} ) {
             $file =~ s#^data/$w/#data/$Foswiki::cfg{$w}/#;
             $file =~ s#^pub/$w/#pub/$Foswiki::cfg{$w}/#;
@@ -179,8 +179,8 @@ sub getMappedWebTopic {
     my $sandbox = $Foswiki::cfg{SandboxWebName} || 'Sandbox';
 
     foreach my $t
-      qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
-      ) {
+      (qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
+      )) {
         my ( $val, $def ) = split( ':', $t );
           if ( defined $Foswiki::cfg{$val} ) {
             $file =~
@@ -209,8 +209,8 @@ sub getMappedWebTopic {
     }
 
 # Canonical symbol mappings
-#foreach my $w qw( SystemWebName TrashWebName UsersWebName SandboxWebName ) {  #Waiting for Item8744
-    foreach my $w qw( SystemWebName TrashWebName UsersWebName ) {
+#foreach my $w (qw( SystemWebName TrashWebName UsersWebName SandboxWebName )) {  #Waiting for Item8744
+    foreach my $w (qw( SystemWebName TrashWebName UsersWebName )) {
         if ( defined $Foswiki::cfg{$w} ) {
             $file =~ s#^data/$w/#$Foswiki::cfg{$w}/#;
         }

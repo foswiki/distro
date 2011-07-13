@@ -2083,8 +2083,8 @@ sub finish {
     #}
     $_->finish() foreach values %{ $this->{forms} };
     undef $this->{forms};
-    foreach my $key qw(plugins users prefs templates renderer net
-      store search attach access i18n cache logger) {
+    foreach my $key (qw(plugins users prefs templates renderer net
+      store search attach access i18n cache logger)) {
         next
           unless ref( $this->{$key} );
         $this->{$key}->finish();

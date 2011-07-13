@@ -798,7 +798,7 @@ sub _load_pluggables {
                        id         => "ID",
                        );
     my $dsn = $self->{_DSN};
-    foreach my $plug qw(driver serializer id) {
+    foreach my $plug (qw(driver serializer id)) {
         my $mod_name = $dsn->{ $plug };
         if (not defined $mod_name) {
             $mod_name = $DEFAULT_FOR{ $plug };

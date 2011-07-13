@@ -423,8 +423,8 @@ sub save {
     my $query = $session->{request};
 
     my $saveaction = '';
-    foreach my $action qw( save checkpoint quietsave cancel preview
-      addform replaceform delRev repRev ) {
+    foreach my $action (qw( save checkpoint quietsave cancel preview
+      addform replaceform delRev repRev )) {
         if ( $query->param( 'action_' . $action ) )
         {
             $saveaction = $action;
@@ -516,7 +516,7 @@ WARN
         $p{template} = $edittemplate if $edittemplate;
 
         # Pass through selected parameters
-        foreach my $pthru qw(redirectto skin cover nowysiwyg action) {
+        foreach my $pthru (qw(redirectto skin cover nowysiwyg action)) {
             $p{$pthru} = $query->param($pthru);
         }
 

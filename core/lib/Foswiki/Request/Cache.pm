@@ -79,7 +79,7 @@ sub save {
       . $!;
 
     # Serialize some key info from the request
-    foreach my $field qw(method path_info action) {
+    foreach my $field (qw(method path_info action)) {
         print $F $field, '=', ( $req->$field() || '' ), "\n";
         print STDERR "CACHE $uid> $field(" . ( $req->$field() || '' ) . ")\n"
           if (TRACE_CACHE);

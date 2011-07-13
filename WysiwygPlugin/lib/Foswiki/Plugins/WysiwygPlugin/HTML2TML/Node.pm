@@ -353,7 +353,7 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
     }
 
     # Collapse adjacent tags
-    foreach my $tag qw(noautolink verbatim literal) {
+    foreach my $tag (qw(noautolink verbatim literal)) {
         $text =~ s#</$tag>(\s*)<$tag>#$1#gs;
     }
 
@@ -1284,13 +1284,13 @@ sub cleanNode {
     my $a;
 
     # Always delete these attrs
-    foreach $a qw( lang _moz_dirty ) {
+    foreach $a (qw( lang _moz_dirty )) {
         delete $this->{attrs}->{$a}
           if ( defined( $this->{attrs}->{$a} ) );
     }
 
     # Delete these attrs if their value is empty
-    foreach $a qw( class style ) {
+    foreach $a (qw( class style )) {
         if ( defined( $this->{attrs}->{$a} )
             && $this->{attrs}->{$a} !~ /\S/ )
         {

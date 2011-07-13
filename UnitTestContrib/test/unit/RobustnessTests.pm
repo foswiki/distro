@@ -111,12 +111,12 @@ sub test_sanitizeAttachmentName {
          | py
          | cgi ))$)x;
     $this->assert_str_equals( ".htaccess.txt", _shittify(".htaccess") );
-    for my $i qw(php shtm phtml pl py cgi PHP SHTM PHTML PL PY CGI) {
+    for my $i (qw(php shtm phtml pl py cgi PHP SHTM PHTML PL PY CGI)) {
         my $x = "bog.$i";
         my $y = "$x.txt";
         $this->assert_str_equals( $y, _shittify($x) );
     }
-    for my $i qw(php phtm shtml PHP PHTM SHTML) {
+    for my $i (qw(php phtm shtml PHP PHTM SHTML)) {
         my $x = "bog.$i.s";
         my $y = "$x.txt";
         $this->assert_str_equals( $y, _shittify($x) );

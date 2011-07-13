@@ -73,10 +73,10 @@ sub verify_simpleWriteAndReplay {
     my $time = time;
 
     # Verify the three levels used by Foswiki; debug, info and warning
-    foreach my $level qw(debug info warning) {
+    foreach my $level (qw(debug info warning)) {
         $this->{logger}->log( $level, $level, "Green", "Eggs", "and", "Ham" );
     }
-    foreach my $level qw(debug info warning) {
+    foreach my $level (qw(debug info warning)) {
         my $it = $this->{logger}->eachEventSince( $time, $level );
         $this->assert( $it->hasNext(), $level );
         my $data = $it->next();
@@ -90,7 +90,7 @@ sub verify_simpleWriteAndReplay {
 
 sub verify_eachEventSinceOnEmptyLog {
     my $this = shift;
-    foreach my $level qw(debug info warning) {
+    foreach my $level (qw(debug info warning)) {
         my $it = $this->{logger}->eachEventSince( 0, $level );
         if ($it->hasNext()) {
             use Data::Dumper;

@@ -150,8 +150,8 @@ HERE
     # If we got this far without definitions for key variables, then
     # we need to default them. otherwise we get peppered with
     # 'uninitialised variable' alerts later.
-    foreach my $var qw( DataDir DefaultUrlHost PubUrlPath
-      PubDir TemplateDir ScriptUrlPath LocalesDir ) {
+    foreach my $var (qw( DataDir DefaultUrlHost PubUrlPath
+      PubDir TemplateDir ScriptUrlPath LocalesDir )) {
 
         # NOT SET tells the checker to try and guess the value later on
         $Foswiki::cfg{$var} = 'NOT SET' unless defined $Foswiki::cfg{$var};

@@ -1622,7 +1622,7 @@ sub target_archive {
 
     $this->pushd( $this->{basedir} );
     my @fs;
-    foreach my $f qw(.tgz _installer .zip) {
+    foreach my $f (qw(.tgz _installer .zip)) {
         push( @fs, "$target$f" ) if ( -e "$target$f" );
     }
 
@@ -1666,7 +1666,7 @@ sub target_archive {
     $this->popd();
 
     my $warn = 0;
-    foreach my $f qw(.tgz .zip .txt _installer) {
+    foreach my $f (qw(.tgz .zip .txt _installer)) {
         if ( -e "$this->{basedir}/$target$f" ) {
             print "$f in $this->{basedir}/$target$f\n";
         }
@@ -2115,7 +2115,7 @@ END
     return unless $doUploadArchivesAndInstallers;
 
     # Upload the standard files
-    foreach my $ext qw(.zip .tgz _installer .md5 .sha1) {
+    foreach my $ext (qw(.zip .tgz _installer .md5 .sha1)) {
         my $name = $to . $ext;
         next if $uploaded{$name};
         $this->_uploadAttachment( $userAgent, $user, $pass, $to . $ext,
