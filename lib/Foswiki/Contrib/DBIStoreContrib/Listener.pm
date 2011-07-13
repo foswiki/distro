@@ -61,7 +61,7 @@ sub _connect {
     $this->{schema} = {};
     foreach my $type (@TABLES) {
 	my @keys;
-	foreach my $g qw(require allow other) {
+	foreach my $g (qw(require allow other)) {
 	    if (defined $Foswiki::Meta::VALIDATE{$type}->{$g}) {
 		push(@keys, @{$Foswiki::Meta::VALIDATE{$type}->{$g}});
 	    }
