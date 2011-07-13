@@ -21,8 +21,8 @@ use Assert;
 
 use constant MONITOR => 0;
 
-our $db; # singleton instance of this listener
-our @TABLES = keys(%Foswiki::Meta::VALIDATE); # META: types
+our $db;    # singleton instance of this listener
+our @TABLES = keys(%Foswiki::Meta::VALIDATE);    # META: types
 
 # @ISA not required (base class is empty)
 #our @ISA = ('Foswiki::Store::Listener');
@@ -31,23 +31,24 @@ our @TABLES = keys(%Foswiki::Meta::VALIDATE); # META: types
 sub new {
     my $class = shift;
 
-    $db = bless({}, $class) unless $db;
+    $db = bless( {}, $class ) unless $db;
 
     return $db;
 }
 
 # Connect on demand
 sub _connect {
-    my ($this, $session) = @_;
+    my ( $this, $session ) = @_;
 
     return 1 if $this->{handle};
 
     if ($Foswiki::inUnitTestMode) {
+
         # Change the DSN to a SQLite test db, which is held in the data
         # area; that way it will be ripped down by -clean
         $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN} =
           $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN} =
-            "dbi:SQLite:dbname=$Foswiki::cfg{DataDir}/TemporarySQLiteCache";
+          "dbi:SQLite:dbname=$Foswiki::cfg{DataDir}/TemporarySQLiteCache";
         $Foswiki::cfg{Extensions}{DBIStoreContrib}{Username} = '';
         $Foswiki::cfg{Extensions}{DBIStoreContrib}{Password} = '';
     }
@@ -60,39 +61,39 @@ sub _connect {
     # and sub-keyed on attribute name e.g. 'name'
     $this->{schema} = {};
     foreach my $type (@TABLES) {
-	my @keys;
-	foreach my $g (qw(require allow other)) {
-	    if (defined $Foswiki::Meta::VALIDATE{$type}->{$g}) {
-		push(@keys, @{$Foswiki::Meta::VALIDATE{$type}->{$g}});
-	    }
-	}
-	foreach my $key (@keys) {
-	    $this->{schema}->{$type}->{$key} = 1;
-	}
+        my @keys;
+        foreach my $g (qw(require allow other)) {
+            if ( defined $Foswiki::Meta::VALIDATE{$type}->{$g} ) {
+                push( @keys, @{ $Foswiki::Meta::VALIDATE{$type}->{$g} } );
+            }
+        }
+        foreach my $key (@keys) {
+            $this->{schema}->{$type}->{$key} = 1;
+        }
     }
 
     $this->{handle} = DBI->connect(
         $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN},
         $Foswiki::cfg{Extensions}{DBIStoreContrib}{Username},
         $Foswiki::cfg{Extensions}{DBIStoreContrib}{Password},
-        { RaiseError => 1 });
+        { RaiseError => 1 }
+    );
 
     # Check if the DB is initialised with a quick sniff of the metatypes
-    eval {
-        $this->{handle}->selectrow_array('SELECT * from metatypes');
-    };
-    if( $@ ) {
-	if ($@ =~ /no such table/) {
-	    print STDERR "Loading DB schema\n" if MONITOR;
-	    $this->{handle}->do('BEGIN;');
-	    $this->_createTables();
-	    print STDERR "DB schema loaded; preloading content\n" if MONITOR;
-	    $this->_preload($session);
-	    $this->{handle}->do('COMMIT;');
-	    print STDERR "DB preloaded\n" if MONITOR;
-	} else {
-	    die $@;
-	}
+    eval { $this->{handle}->selectrow_array('SELECT * from metatypes'); };
+    if ($@) {
+        if ( $@ =~ /no such table/ ) {
+            print STDERR "Loading DB schema\n" if MONITOR;
+            $this->{handle}->do('BEGIN;');
+            $this->_createTables();
+            print STDERR "DB schema loaded; preloading content\n" if MONITOR;
+            $this->_preload($session);
+            $this->{handle}->do('COMMIT;');
+            print STDERR "DB preloaded\n" if MONITOR;
+        }
+        else {
+            die $@;
+        }
     }
 
     print STDERR "connected $this->{handle}\n" if MONITOR;
@@ -101,9 +102,9 @@ sub _connect {
 
 # Does the table exist in the DB?
 sub _tableExists {
-    my ($this, $type) = @_;
+    my ( $this, $type ) = @_;
     return 1 if grep { $type } @TABLES;
-    my $check = $this->{handle}->selectcol_arrayref(<<SQL, {}, $type);
+    my $check = $this->{handle}->selectcol_arrayref( <<SQL, {}, $type );
 SELECT name FROM 'metatypes' WHERE name=?
 SQL
     return SCALAR(@$check);
@@ -111,22 +112,24 @@ SQL
 
 # Create the table for the given META:
 sub _createTableForMETA {
-    my ($this, $t) = @_;
-    my $cols = join(
-        ",\n", map { " '$_' TEXT" } keys %{$this->{schema}->{$t}});
+    my ( $this, $t ) = @_;
+    my $cols =
+      join( ",\n", map { " '$_' TEXT" } keys %{ $this->{schema}->{$t} } );
     $this->{handle}->do(<<SQL);
 CREATE TABLE '$t' (
  'tid' TEXT,
 $cols
 );
 SQL
+
     # Add the table to the table of tables
-    $this->{handle}->do(<<SQL, {}, $t);
+    $this->{handle}->do( <<SQL, {}, $t );
 INSERT INTO 'metatypes' (name) VALUES (?);
 SQL
-    # If it's not a default table, add it to the list of tables (unless it's already
-    # there).
-    push(@TABLES, $t) unless grep { $t } @TABLES;
+
+# If it's not a default table, add it to the list of tables (unless it's already
+# there).
+    push( @TABLES, $t ) unless grep { $t } @TABLES;
 }
 
 # Create all the base tables in the DB (including all default META: tables)
@@ -155,61 +158,67 @@ CREATE TABLE 'metatypes' (
 SQL
 
     # Create the tables for each known META: type
-    print STDERR join(', ',@TABLES)."\n";
+    print STDERR join( ', ', @TABLES ) . "\n";
     foreach my $t (@TABLES) {
-	print STDERR "Creating table for $t\n" if MONITOR;
+        print STDERR "Creating table for $t\n" if MONITOR;
         $this->_createTableForMETA($t);
     }
 }
 
 # Load all existing webs and topics into the cache DB (expensive)
 sub _preload {
-    my ($this, $session) = @_;
+    my ( $this, $session ) = @_;
     my $root = Foswiki::Meta->new($session);
-    my $wit = $root->eachWeb();
-    while ($wit->hasNext()) {
-	$this->_preloadWeb($wit->next(), $session);
+    my $wit  = $root->eachWeb();
+    while ( $wit->hasNext() ) {
+        $this->_preloadWeb( $wit->next(), $session );
     }
 }
 
 sub _preloadWeb {
-    my ($this, $w, $session) = @_;
+    my ( $this, $w, $session ) = @_;
     print STDERR "PRELOAD $w\n" if MONITOR;
-    my $web = Foswiki::Meta->new($session , $w );
+    my $web = Foswiki::Meta->new( $session, $w );
     my $tit = $web->eachTopic();
-    while ($tit->hasNext()) {
-	my $t = $tit->next();
-	my $topic = Foswiki::Meta->load( $session, $w, $t );
-	$this->insert($topic);
+    while ( $tit->hasNext() ) {
+        my $t = $tit->next();
+        my $topic = Foswiki::Meta->load( $session, $w, $t );
+        $this->insert($topic);
     }
     my $wit = $web->eachWeb();
-    while ($wit->hasNext()) {
-	$this->_preloadWeb($w . '/' . $wit->next(), $session);
+    while ( $wit->hasNext() ) {
+        $this->_preloadWeb( $w . '/' . $wit->next(), $session );
     }
 }
 
 sub _makeTID {
     my $tob = shift;
-    return $tob->web().'/'.$tob->topic();
+    return $tob->web() . '/' . $tob->topic();
 }
 
 # Implements Foswiki::Store::Interfaces::Listener
 sub insert {
-    my ($this, $mo) = @_;
+    my ( $this, $mo ) = @_;
 
-    if (defined $mo->topic()) {
+    if ( defined $mo->topic() ) {
         my $tid = _makeTID($mo);
+
         #print STDERR "\tInsert $tid\n" if MONITOR;
-        $this->_connect($mo->session());
+        $this->_connect( $mo->session() );
         $this->{handle}->do(
             'INSERT INTO topic (tid,web,name,text,raw) VALUES (?,?,?,?,?);',
-            {}, $tid, $mo->web(), $mo->topic(),
-            $mo->text(), $mo->getEmbeddedStoreForm());
+            {},
+            $tid,
+            $mo->web(),
+            $mo->topic(),
+            $mo->text(),
+            $mo->getEmbeddedStoreForm()
+        );
 
-        foreach my $type (keys %$mo) {
+        foreach my $type ( keys %$mo ) {
 
             # Make sure it's registered.
-            next unless (defined $Foswiki::Meta::VALIDATE{$type});
+            next unless ( defined $Foswiki::Meta::VALIDATE{$type} );
 
             # If it's not default, we may have to create the table
             $this->_createTableForMETA($type)
@@ -218,13 +227,16 @@ sub insert {
             # Insert this row
             my $data = $mo->{$type};
             foreach my $item (@$data) {
+
                 # Filter attrs by those legal in the schema
-                my @kn =  grep { $this->{schema}->{$type}->{$_} } keys(%$item);
-                my @kl = ('tid', @kn);
-                my $sql = "INSERT INTO $type (" . join(',', map { "'$_'" } @kl)
-                  . ") VALUES (".join(',', map { '?' } @kl).");";
-                $this->{handle}->do($sql, {}, $tid,
-                                    map { $item->{$_} } @kn);
+                my @kn = grep { $this->{schema}->{$type}->{$_} } keys(%$item);
+                my @kl = ( 'tid', @kn );
+                my $sql =
+                    "INSERT INTO $type ("
+                  . join( ',', map { "'$_'" } @kl )
+                  . ") VALUES ("
+                  . join( ',', map { '?' } @kl ) . ");";
+                $this->{handle}->do( $sql, {}, $tid, map { $item->{$_} } @kn );
             }
         }
     }
@@ -232,30 +244,33 @@ sub insert {
 
 # Implements Foswiki::Store::Interfaces::Listener
 sub update {
-    my ($this, $old, $new) = @_;
+    my ( $this, $old, $new ) = @_;
+
     # SMELL: there's got to be a better way
     $this->remove($old);
-    $this->insert($new || $old);
+    $this->insert( $new || $old );
 }
 
 # Implements Foswiki::Store::Interfaces::Listener
 sub remove {
-    my ($this, $mo) = @_;
+    my ( $this, $mo ) = @_;
 
     my $tids;
-    $this->_connect($mo->session());
-    if (defined $mo->topic()) {
-        push(@$tids, _makeTID($mo));
-    } else {
-        $tids = $this->{handle}->selectcol_arrayref(<<SQL, {}, $mo->web());
+    $this->_connect( $mo->session() );
+    if ( defined $mo->topic() ) {
+        push( @$tids, _makeTID($mo) );
+    }
+    else {
+        $tids = $this->{handle}->selectcol_arrayref( <<SQL, {}, $mo->web() );
 SELECT tid FROM topic WHERE web=?;
 SQL
     }
-    my $ph = join(',', map { '?' } @$tids);
+    my $ph = join( ',', map { '?' } @$tids );
+
     #print STDERR "\tRemove ".join(',',@$tids)."\n" if MONITOR;
 
-    foreach my $table ('topic', @TABLES) {
-        $this->{handle}->do(<<SQL, {}, @$tids);
+    foreach my $table ( 'topic', @TABLES ) {
+        $this->{handle}->do( <<SQL, {}, @$tids );
 DELETE FROM $table WHERE tid IN ($ph);
 SQL
     }
@@ -264,26 +279,27 @@ SQL
 # STATIC method invoked by Foswiki::Store::QueryAlgorithms::DBIStoreContrib
 # to perform the actual database query.
 sub query {
-    my ($session, $sql) = @_;
+    my ( $session, $sql ) = @_;
 
-    ASSERT($db, "Fatal error: queried before listeners are ready") if DEBUG;
+    ASSERT( $db, "Fatal error: queried before listeners are ready" ) if DEBUG;
 
     $db->_connect($session);
     print STDERR "$sql\n" if MONITOR;
     my $names = $db->{handle}->selectcol_arrayref($sql);
-    print STDERR "HITS: ".scalar(@$names)."\n" if MONITOR;
+    print STDERR "HITS: " . scalar(@$names) . "\n" if MONITOR;
     return $names;
 }
 
 sub loadTopic {
-    my ($meta, $version) = @_;
+    my ( $meta, $version ) = @_;
 
-    return (0, 0) if $version;
+    return ( 0, 0 ) if $version;
 
-    $db->_connect($meta->session);
+    $db->_connect( $meta->session );
+
     # Load from the DB
 
-    return (0, 0);
+    return ( 0, 0 );
 }
 
 1;
