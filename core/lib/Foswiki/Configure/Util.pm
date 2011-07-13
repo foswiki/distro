@@ -5,7 +5,6 @@ package Foswiki::Configure::Util;
 use strict;
 use warnings;
 
-
 sub getScriptName {
     my @script = File::Spec->splitdir( $ENV{SCRIPT_NAME} || 'THISSCRIPT' );
     my $scriptName = pop(@script);
@@ -68,18 +67,20 @@ sub mapTarget {
     # Workaround for Tasks.Item8744 feature proposal
     my $sandbox = $Foswiki::cfg{SandboxWebName} || 'Sandbox';
 
-    foreach my $t
-      (qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
-      )) {
+    foreach my $t (
+        qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
+        )
+      )
+    {
         my ( $val, $def ) = split( ':', $t );
-          if ( defined $Foswiki::cfg{$val} ) {
+        if ( defined $Foswiki::cfg{$val} ) {
             $file =~
               s#^data/(.*)/$def(\.txt(?:,v)?)$#data/$1/$Foswiki::cfg{$val}$2#;
             $file =~ s#^pub/(.*)/$def/([^/]*)$#pub/$1/$Foswiki::cfg{$val}/$2#;
         }
-      }
+    }
 
-      if ( defined $Foswiki::cfg{MimeTypesFileName}
+    if ( defined $Foswiki::cfg{MimeTypesFileName}
         && ( $file eq 'data/mime.types' ) )
     {
         $file =~ s#^data/mime\.types$#$Foswiki::cfg{MimeTypesFileName}#;
@@ -178,17 +179,19 @@ sub getMappedWebTopic {
     # Workaround for Tasks.Item8744 feature proposal
     my $sandbox = $Foswiki::cfg{SandboxWebName} || 'Sandbox';
 
-    foreach my $t
-      (qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
-      )) {
+    foreach my $t (
+        qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
+        )
+      )
+    {
         my ( $val, $def ) = split( ':', $t );
-          if ( defined $Foswiki::cfg{$val} ) {
+        if ( defined $Foswiki::cfg{$val} ) {
             $file =~
               s#^data/(.*)/$def(\.txt(?:,v)?)$#data/$1/$Foswiki::cfg{$val}$2#;
         }
-      }
+    }
 
-      if ( $sandbox ne 'Sandbox' ) {
+    if ( $sandbox ne 'Sandbox' ) {
         $file =~ s#^data/Sandbox/#$sandbox/#;
     }
 
@@ -401,10 +404,9 @@ sub _unzip {
                 die "unzip failed: Could not open zip file $archive\n";
             }
             1;
-          }
-          or do {
+        } or do {
             $error = $@;
-          };
+        };
 
         return $error if ($error);
 
@@ -414,17 +416,17 @@ sub _unzip {
             $file =~ /^(.*)$/;
             $file = $1;    #yes, we must untaint
             my $target = $file;
-            my $dest = Cwd::getcwd();
+            my $dest   = Cwd::getcwd();
             ($dest) = $dest =~ m/^(.*)$/;
 
             #SMELL:  Archive::Zip->extractMember( $file)  would be better to use
             # but it has taint issues on Perl 5.12.
-            my $contents = $zip->contents( $file );
-            if ( $contents) {
-                my ($vol,$dir,$fn) = File::Spec->splitpath( $file );
-                File::Path::mkpath( "$dest/$dir" );
+            my $contents = $zip->contents($file);
+            if ($contents) {
+                my ( $vol, $dir, $fn ) = File::Spec->splitpath($file);
+                File::Path::mkpath("$dest/$dir");
                 open( my $fh, '>', "$dest/$file" )
-                 || die "Unable to open $dest/$file \n $! \n\n ";
+                  || die "Unable to open $dest/$file \n $! \n\n ";
                 binmode $fh;
                 print $fh $contents;
                 close($fh);
@@ -436,10 +438,9 @@ sub _unzip {
             my $out = `unzip -n $archive`;
             die "$? - $!" if ($?);
             1;
-          }
-          or do {
+        } or do {
             $error = "unzip failed $@ \n";
-          };
+        };
     }
 
     return $error;
@@ -466,10 +467,9 @@ sub _untar {
                 die "Could not open tar file $archive\n";
             }
             1;
-          }
-          or do {
+        } or do {
             $error = $@;
-          };
+        };
 
         return $error if ($error);
 
@@ -487,8 +487,7 @@ sub _untar {
             `tar xvf$compressed $archive`;
             die "$? - $!" if ($?);
             1;
-          }
-          or do {
+        } or do {
             $error = "tar failed: $@\n";
           }
     }
@@ -604,7 +603,9 @@ sub rewriteShebang {
       ( substr( $contents, $perlIdx - 1, 1 ) eq ' ' ? '' : ' ' )
       . "$newShebang";
 
-    return "No change required" if ($match eq $newShebang && substr( $contents, $perlIdx - 1, 1 ) eq ' ');
+    return "No change required"
+      if ( $match eq $newShebang
+        && substr( $contents, $perlIdx - 1, 1 ) eq ' ' );
 
     my $mode = ( stat($file) )[2];
     $file =~ /(.*)/;

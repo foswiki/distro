@@ -1171,10 +1171,11 @@ sub _yuiMinify {
     my ( $this, $from, $to, $type, $cmdtype ) = @_;
     my $lcall = $ENV{'LC_ALL'};
     my $cmd;
-    
-    if ($cmdtype == 2) {
+
+    if ( $cmdtype == 2 ) {
         $cmd = "java -jar $basedir/tools/yuicompressor.jar --type $type $from";
-    } else {
+    }
+    else {
         $cmd = "yui-compressor --type $type $from";
     }
     unless ( $this->{-n} ) {
@@ -1196,15 +1197,17 @@ return 2 if we have YUI as a jar file in tools
 =cut
 
 sub _haveYUI {
-    my $info =  `yui-compressor -h 2>&1`;
+    my $info   = `yui-compressor -h 2>&1`;
     my $result = 0;
 
-    if (not $?) {
+    if ( not $? ) {
         $result = 1;
-    } elsif ( -e "$basedir/tools/yuicompressor.jar" ) {
+    }
+    elsif ( -e "$basedir/tools/yuicompressor.jar" ) {
+
         # Do we have java?
         $info = `java -version 2>&1` || '';
-        if (not $?) {
+        if ( not $? ) {
             $result = 2;
         }
     }
@@ -1234,7 +1237,7 @@ sub build_js {
 
         if ($yui) {
             $minifiers{js} = sub {
-                return $this->_yuiMinify(@_, 'js', $yui );
+                return $this->_yuiMinify( @_, 'js', $yui );
             };
         }
     }
@@ -1283,7 +1286,7 @@ sub build_css {
 
         if ($yui) {
             $minifiers{css} = sub {
-                return $this->_yuiMinify(@_, 'css', $yui );
+                return $this->_yuiMinify( @_, 'css', $yui );
             };
         }
     }

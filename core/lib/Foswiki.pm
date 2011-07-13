@@ -1661,7 +1661,9 @@ sub new {
     $Foswiki::Plugins::SESSION = $this;
 
     # Tell Foswiki::Response which charset we are using if not default
-    $Foswiki::cfg{Site}{CharSet} = CGI::charset() || 'iso-8859-1' unless (defined($Foswiki::cfg{Site}{CharSet}) and $Foswiki::cfg{Site}{CharSet} ne '');
+    $Foswiki::cfg{Site}{CharSet} = CGI::charset() || 'iso-8859-1'
+      unless ( defined( $Foswiki::cfg{Site}{CharSet} )
+        and $Foswiki::cfg{Site}{CharSet} ne '' );
     if ( defined $Foswiki::cfg{Site}{CharSet}
         && $Foswiki::cfg{Site}{CharSet} !~ /^iso-?8859-?1$/io )
     {
@@ -2031,7 +2033,6 @@ sub net {
     return $this->{net};
 }
 
-
 =begin TML
 
 ---++ ObjectMethod access()
@@ -2083,13 +2084,16 @@ sub finish {
     #}
     $_->finish() foreach values %{ $this->{forms} };
     undef $this->{forms};
-    foreach my $key (qw(plugins users prefs templates renderer net
-      store search attach access i18n cache logger)) {
+    foreach my $key (
+        qw(plugins users prefs templates renderer net
+        store search attach access i18n cache logger)
+      )
+    {
         next
           unless ref( $this->{$key} );
         $this->{$key}->finish();
-          undef $this->{$key};
-      }
+        undef $this->{$key};
+    }
 
     undef $this->{_zones};
     undef $this->{_renderZonePlaceholder};
@@ -3034,8 +3038,10 @@ sub _expandMacroOnTopicRendering {
                 $e,
                 sub {
                     my ( $this, $tag, $args, $topicObject ) = @_;
-                    return defined $attrs->{$tag} ?
-			expandStandardEscapes($attrs->{$tag}) : undef;
+                    return
+                      defined $attrs->{$tag}
+                      ? expandStandardEscapes( $attrs->{$tag} )
+                      : undef;
                 },
                 $topicObject,
                 1
@@ -3043,24 +3049,25 @@ sub _expandMacroOnTopicRendering {
         }
     }
     elsif ( exists( $macros{$tag} ) ) {
-	unless ( defined( $macros{$tag} ) ) {
+        unless ( defined( $macros{$tag} ) ) {
 
-	    # Demand-load the macro module
-	    die $tag unless $tag =~ /([A-Z_:]+)/i;
-	    $tag = $1;
-	    eval "require Foswiki::Macros::$tag";
-	    die $@ if $@;
-	    $macros{$tag} = eval "\\&$tag";
-	    die $@ if $@;
-	}
+            # Demand-load the macro module
+            die $tag unless $tag =~ /([A-Z_:]+)/i;
+            $tag = $1;
+            eval "require Foswiki::Macros::$tag";
+            die $@ if $@;
+            $macros{$tag} = eval "\\&$tag";
+            die $@ if $@;
+        }
 
-	$attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
-	$e = &{ $macros{$tag} }( $this, $attrs, $topicObject );
-    } elsif ( $args && $args =~ /\S/ ) {
-	$attrs = new Foswiki::Attrs( $args );
-	if (defined $attrs->{default}) {
-	    $e = expandStandardEscapes($attrs->{default});
-	}
+        $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
+        $e = &{ $macros{$tag} }( $this, $attrs, $topicObject );
+    }
+    elsif ( $args && $args =~ /\S/ ) {
+        $attrs = new Foswiki::Attrs($args);
+        if ( defined $attrs->{default} ) {
+            $e = expandStandardEscapes( $attrs->{default} );
+        }
     }
     return $e;
 }

@@ -51,14 +51,14 @@ sub test_validateAttachmentName {
     $this->assert_str_equals( "abc",
         Foswiki::Sandbox::validateAttachmentName("//abc") );
 
-    $this->assert_str_equals(
-        "", Foswiki::Sandbox::validateAttachmentName("c/.."));
+    $this->assert_str_equals( "",
+        Foswiki::Sandbox::validateAttachmentName("c/..") );
 
-    $this->assert_null(Foswiki::Sandbox::validateAttachmentName("../a"));
+    $this->assert_null( Foswiki::Sandbox::validateAttachmentName("../a") );
 
-    $this->assert_null(Foswiki::Sandbox::validateAttachmentName("/a/../.."));
-    $this->assert_str_equals(
-        "a", Foswiki::Sandbox::validateAttachmentName("//a/b/c/../..") );
+    $this->assert_null( Foswiki::Sandbox::validateAttachmentName("/a/../..") );
+    $this->assert_str_equals( "a",
+        Foswiki::Sandbox::validateAttachmentName("//a/b/c/../..") );
     $this->assert_str_equals( "..a",
         Foswiki::Sandbox::validateAttachmentName("..a/") );
     $this->assert_str_equals( "a/..b",
@@ -66,7 +66,7 @@ sub test_validateAttachmentName {
 }
 
 sub _shittify {
-    my ($a, $b) = Foswiki::Sandbox::sanitizeAttachmentName(shift);
+    my ( $a, $b ) = Foswiki::Sandbox::sanitizeAttachmentName(shift);
     return $a;
 }
 
@@ -83,7 +83,7 @@ sub test_sanitizeAttachmentName {
     # Check that "certain characters" are munched
     my $crap = '';
     $Foswiki::cfg{UseLocale} = 0;
-    for (0..255) {
+    for ( 0 .. 255 ) {
         my $c = chr($_);
         $crap .= $c if $c =~ /$Foswiki::regex{filenameInvalidCharRegex}/;
     }
@@ -93,7 +93,7 @@ sub test_sanitizeAttachmentName {
 
     $crap = '';
     $Foswiki::cfg{UseLocale} = 1;
-    for (0..255) {
+    for ( 0 .. 255 ) {
         my $c = chr($_);
         $crap .= $c if $c =~ /$Foswiki::cfg{NameFilter}/;
     }
@@ -102,8 +102,7 @@ sub test_sanitizeAttachmentName {
         _shittify("pick me${crap}pick me") );
 
     # Check that the upload filter is applied.
-    $Foswiki::cfg{UploadFilter} =
-      qr(^(
+    $Foswiki::cfg{UploadFilter} = qr(^(
              \.htaccess
          | .*\.(?i)(?:php[0-9s]?(\..*)?
          | [sp]htm[l]?(\..*)?
@@ -139,7 +138,8 @@ sub test_buildCommandLine {
         ]
     );
     $this->assert_deep_equals(
-        #unfortuanatly, buildCommandLine cleans up paths using File::Spec, which thus uses \\ on some win32's (strawberry for eg)
+
+#unfortuanatly, buildCommandLine cleans up paths using File::Spec, which thus uses \\ on some win32's (strawberry for eg)
         [ 1, "./-..", "a${slash}b" ],
         [
             Foswiki::Sandbox::_buildCommandLine(
@@ -175,7 +175,8 @@ sub test_buildCommandLine {
             )
         ]
     );
-    #unfortuanatly, buildCommandLine cleans up paths using File::Spec, which thus uses \\ on some win32's (strawberry for eg)
+
+#unfortuanatly, buildCommandLine cleans up paths using File::Spec, which thus uses \\ on some win32's (strawberry for eg)
     $this->assert_deep_equals(
         [ "a", "b", "${slash}c" ],
         [
@@ -237,15 +238,14 @@ sub verify {
       Foswiki::Sandbox->sysCommand( 'sh -c %A%', A => 'echo urmf; exit 7' );
     $this->assert( $exit != 0 );
     $this->assert_str_equals( "urmf\n", $out );
-    ( $out, $exit ) =
-      Foswiki::Sandbox->sysCommand( 'echo' );
+    ( $out, $exit ) = Foswiki::Sandbox->sysCommand('echo');
     $this->assert_equals( 0, $exit );
     $this->assert_str_equals( `echo`, $out );
 }
 
 sub test_executeRSP {
     my $this = shift;
-    return if ($^O eq 'MSWin32');
+    return if ( $^O eq 'MSWin32' );
     $Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN     = 1;
     $Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 0;
     $this->verify();
@@ -253,7 +253,7 @@ sub test_executeRSP {
 
 sub test_executeESP {
     my $this = shift;
-    return if ($^O eq 'MSWin32');
+    return if ( $^O eq 'MSWin32' );
     $Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN     = 0;
     $Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 1;
     $this->verify();
@@ -261,7 +261,7 @@ sub test_executeESP {
 
 sub test_executeNSP {
     my $this = shift;
-    return if ($^O eq 'MSWin32');
+    return if ( $^O eq 'MSWin32' );
     $Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN     = 0;
     $Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 0;
     $this->verify();

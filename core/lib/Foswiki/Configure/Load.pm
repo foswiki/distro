@@ -56,7 +56,8 @@ sub readConfig {
     my $noexpand = shift;
 
     return if $Foswiki::cfg{ConfigurationFinished};
-    my $validLSC = 1;   # Assume it's valid - will be set false if errors detected.
+    my $validLSC =
+      1;    # Assume it's valid - will be set false if errors detected.
 
     # Read Foswiki.spec and LocalSite.cfg
     for my $file (qw( Foswiki.spec LocalSite.cfg)) {
@@ -67,7 +68,8 @@ sub readConfig {
                 print STDERR "$errorMessage \n";
             }
             elsif ( not defined $return ) {
-                print STDERR "Could not 'do' $file: $! \n - This might be okay if file LocalSite.cfg does not exist in a new installation.\n";
+                print STDERR
+"Could not 'do' $file: $! \n - This might be okay if file LocalSite.cfg does not exist in a new installation.\n";
                 unless ( $! == 2 && $file eq 'LocalSite.cfg' ) {
 
                     # LocalSite.cfg doesn't exist, which is OK
@@ -75,8 +77,9 @@ sub readConfig {
                 }
                 $validLSC = 0;
             }
-            elsif ( not $return eq '1') {
-                print STDERR "Running file $file returned  unexpected results: $return \n";
+            elsif ( not $return eq '1' ) {
+                print STDERR
+                  "Running file $file returned  unexpected results: $return \n";
                 $errorMessage = "Could not run $file" unless $return;
             }
             if ($errorMessage) {
@@ -95,21 +98,24 @@ GOLLYGOSH
     # we need to default them. otherwise we get peppered with
     # 'uninitialised variable' alerts later.
 
-    foreach my $var (qw( DataDir DefaultUrlHost PubUrlPath WorkingDir
-      PubDir TemplateDir ScriptUrlPath LocalesDir )) {
+    foreach my $var (
+        qw( DataDir DefaultUrlHost PubUrlPath WorkingDir
+        PubDir TemplateDir ScriptUrlPath LocalesDir )
+      )
+    {
 
         # We can't do this, because it prevents Foswiki being run without
         # a LocalSite.cfg, which we don't want
         # die "$var must be defined in LocalSite.cfg"
         #  unless( defined $Foswiki::cfg{$var} );
-        unless (defined $Foswiki::cfg{$var}) {
+        unless ( defined $Foswiki::cfg{$var} ) {
             $Foswiki::cfg{$var} = 'NOT SET';
             $validLSC = 0;
-            }
-      }
+        }
+    }
 
-      # Patch deprecated config settings
-      if ( exists $Foswiki::cfg{StoreImpl} ) {
+    # Patch deprecated config settings
+    if ( exists $Foswiki::cfg{StoreImpl} ) {
         $Foswiki::cfg{Store}{Implementation} =
           'Foswiki::Store::' . $Foswiki::cfg{StoreImpl};
         delete $Foswiki::cfg{StoreImpl};
@@ -167,17 +173,22 @@ hash reference or a scalar value. The replacement is done in-place.
 =cut
 
 sub expandValue {
-    if (ref($_[0]) eq 'HASH') {
-        map { expandValue($_) } values %{$_[0]};
-    } elsif (ref($_[0]) eq 'ARRAY') {
-        map { expandValue($_) } @{$_[0]};
-# Can't do this, because Windows uses an object (Regexp) for regular
-# expressions.
-#    } elsif (ref($_[0])) {
-#        Carp::confess("Can't handle a ".ref($_[0]));
-    } elsif (defined($_[0])) {
-        while ($_[0] =~ s/(\$Foswiki::cfg{[[A-Za-z0-9{}]+})/_handleExpand($1)/ge) {
-	}
+    if ( ref( $_[0] ) eq 'HASH' ) {
+        map { expandValue($_) } values %{ $_[0] };
+    }
+    elsif ( ref( $_[0] ) eq 'ARRAY' ) {
+        map { expandValue($_) } @{ $_[0] };
+
+        # Can't do this, because Windows uses an object (Regexp) for regular
+        # expressions.
+        #    } elsif (ref($_[0])) {
+        #        Carp::confess("Can't handle a ".ref($_[0]));
+    }
+    elsif ( defined( $_[0] ) ) {
+        while (
+            $_[0] =~ s/(\$Foswiki::cfg{[[A-Za-z0-9{}]+})/_handleExpand($1)/ge )
+        {
+        }
     }
 }
 

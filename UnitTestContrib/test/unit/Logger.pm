@@ -15,9 +15,9 @@ our $logDir;
 
 sub set_up {
     my $this = shift;
-    delete $Foswiki::cfg{LogFileName} ;
-    delete $Foswiki::cfg{DebugFileName} ;
-    delete $Foswiki::cfg{WarningFileName} ;
+    delete $Foswiki::cfg{LogFileName};
+    delete $Foswiki::cfg{DebugFileName};
+    delete $Foswiki::cfg{WarningFileName};
     $this->SUPER::set_up();
     $logDir = "logDir$$";
     $Foswiki::cfg{Log}{Dir} = "$logDir";
@@ -27,7 +27,7 @@ sub set_up {
 sub tear_down {
     my $this = shift;
 
-    File::Path::rmtree( $logDir );
+    File::Path::rmtree($logDir);
     $this->SUPER::tear_down();
 }
 
@@ -35,10 +35,10 @@ sub CompatibilityLogger {
     my $this = shift;
     require Foswiki::Logger::Compatibility;
     $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
-    $this->{logger} = new Foswiki::Logger::Compatibility();
-    $Foswiki::cfg{LogFileName} = "$logDir/logfile%DATE%";
-    $Foswiki::cfg{DebugFileName} = "$logDir/debug%DATE%";
-    $Foswiki::cfg{WarningFileName} = "$logDir/warn%DATE%!!";
+    $this->{logger}                    = new Foswiki::Logger::Compatibility();
+    $Foswiki::cfg{LogFileName}         = "$logDir/logfile%DATE%";
+    $Foswiki::cfg{DebugFileName}       = "$logDir/debug%DATE%";
+    $Foswiki::cfg{WarningFileName}     = "$logDir/warn%DATE%!!";
 }
 
 sub PlainFileLogger {
@@ -92,9 +92,9 @@ sub verify_eachEventSinceOnEmptyLog {
     my $this = shift;
     foreach my $level (qw(debug info warning)) {
         my $it = $this->{logger}->eachEventSince( 0, $level );
-        if ($it->hasNext()) {
+        if ( $it->hasNext() ) {
             use Data::Dumper;
-            die Data::Dumper->Dump([$it->next()]);
+            die Data::Dumper->Dump( [ $it->next() ] );
         }
         $this->assert( !$it->hasNext() );
     }
@@ -189,20 +189,21 @@ sub verify_filter {
     $this->assert( !$it->hasNext() );
 }
 
-my $mode;  # access mode
-my $mtime; # modify time
+my $mode;     # access mode
+my $mtime;    # modify time
+
 sub PlainFileTestStat {
-    return (0, 0, $mode, 0, 0, 0, 0, 99, 0, $mtime, 0, 0, 0, 0);
+    return ( 0, 0, $mode, 0, 0, 0, 0, 99, 0, $mtime, 0, 0, 0, 0 );
 }
 
 sub verify_rotate {
     my $this = shift;
 
-    return unless
-      $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile';
+    return
+      unless $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile';
 
-    my $timecache  = \&Foswiki::Logger::PlainFile::_time;
-    my $statcache  = \&Foswiki::Logger::PlainFile::_stat;
+    my $timecache = \&Foswiki::Logger::PlainFile::_time;
+    my $statcache = \&Foswiki::Logger::PlainFile::_stat;
     no warnings 'redefine';
     *Foswiki::Logger::PlainFile::_time = \&PlainFileTestTime;
     *Foswiki::Logger::PlainFile::_stat = \&PlainFileTestStat;
@@ -212,34 +213,35 @@ sub verify_rotate {
     my $then = Foswiki::Time::parseTime("2000-02-01");
 
     $plainFileTestTime = $then;
-    $mode = 0777;
+    $mode              = 0777;
 
     # Don't try to rotate a non-existant log
     my $lfn = "$Foswiki::cfg{Log}{Dir}/events.log";
 
     my $logger = new Foswiki::Logger::PlainFile();
-    $this->assert(! -e $lfn);
+    $this->assert( !-e $lfn );
     $logger->_rotate($plainFileTestTime);
-    $this->assert(! -e $lfn);
+    $this->assert( !-e $lfn );
 
     # Create the log, the entry should be stamped at $then - 1000 (last month)
     $plainFileTestTime = $then - 1000;
-    $logger->log('info', 'Nil carborundum illegitami');
+    $logger->log( 'info', 'Nil carborundum illegitami' );
+
     # fake the modify time
     $mtime = $plainFileTestTime;
 
-    $Foswiki::Logger::PlainFile::dontRotate = 0;
+    $Foswiki::Logger::PlainFile::dontRotate   = 0;
     $Foswiki::Logger::PlainFile::nextCheckDue = $then;
 
     # now advance the clock to this month, and add another log entry. This
     # should rotate the log.
     $plainFileTestTime = $then;
-    $logger->log('info', 'Salve nauta');
+    $logger->log( 'info', 'Salve nauta' );
 
     local $/ = undef;
-    $this->assert(open(F, '<', $lfn));
+    $this->assert( open( F, '<', $lfn ) );
     my $e = <F>;
-    $this->assert_equals("| 2000-02-01T00:00:00Z info | Salve nauta |\n", $e);
+    $this->assert_equals( "| 2000-02-01T00:00:00Z info | Salve nauta |\n", $e );
     close(F);
 
     # We should see the creation of a backup log with
@@ -247,11 +249,12 @@ sub verify_rotate {
     # this month's entry.
     my $backup = $lfn;
     $backup =~ s/log$/200001/;
-    $this->assert(-e $backup);
+    $this->assert( -e $backup );
 
-    $this->assert(open(F, '<', $backup));
+    $this->assert( open( F, '<', $backup ) );
     $e = <F>;
-    $this->assert_equals("| 2000-01-31T23:43:20Z info | Nil carborundum illegitami |\n", $e);
+    $this->assert_equals(
+        "| 2000-01-31T23:43:20Z info | Nil carborundum illegitami |\n", $e );
     close(F);
 
     *Foswiki::Logger::PlainFile::_time = $timecache;

@@ -35,9 +35,10 @@
 use strict;
 
 use Time::Local ();
-use FileHandle ();
+use FileHandle  ();
 
 {
+
     # Cut-down of Foswiki::Store::RcsLite + RcsFile
     package RcsLite;
 
@@ -56,19 +57,21 @@ use FileHandle ();
         oct => 9,
         nov => 10,
         dec => 11
-       );
+    );
 
     sub new {
-        my ($class, $file) = @_;
-        my $this  = bless({
-            rcsFile => $file,
-            head    => 0,
-            access  => '',
-            symbols => '',
-            comment => '# ',
-            desc    => 'none',
-            expand  => 'o',
-        });
+        my ( $class, $file ) = @_;
+        my $this = bless(
+            {
+                rcsFile => $file,
+                head    => 0,
+                access  => '',
+                symbols => '',
+                comment => '# ',
+                desc    => 'none',
+                expand  => 'o',
+            }
+        );
         return $this;
     }
 
@@ -142,10 +145,10 @@ use FileHandle ();
     sub parseTime {
         my ( $date, $defaultLocal ) = @_;
 
-        $date =~ s/^\s*//;  #remove leading spaces without de-tainting.
+        $date =~ s/^\s*//;    #remove leading spaces without de-tainting.
         $date =~ s/\s*$//;
 
-        my $tzadj = 0;    # Zulu
+        my $tzadj = 0;        # Zulu
         if ($defaultLocal) {
 
             $tzadj = -Time::Local::timelocal( 0, 0, 0, 1, 0, 70 );
@@ -154,29 +157,33 @@ use FileHandle ();
         if ( $date =~ /(\d+)\s+([a-z]{3})\s+(\d+)(?:[-\s]+(\d+):(\d+))?/i ) {
             my $year = $3;
             $year -= 1900 if ( $year > 1900 );
-            return Time::Local::timegm( 0, $5 || 0, $4 || 0, $1, $MON2NUM{ lc($2) },
-                                        $year ) - $tzadj;
+            return Time::Local::timegm( 0, $5 || 0, $4 || 0, $1,
+                $MON2NUM{ lc($2) }, $year ) - $tzadj;
         }
 
-        if (($date =~ /T/) && ( $date =~
-                                  /(\d\d\d\d)(?:-(\d\d)(?:-(\d\d))?)?(?:T(\d\d)(?::(\d\d)(?::(\d\d(?:\.\d+)?))?)?)?(Z|[-+]\d\d(?::\d\d)?)?/
-                                 ) )
-          {
-              my ( $Y, $M, $D, $h, $m, $s, $tz ) =
-                ( $1, $2 || 1, $3 || 1, $4 || 0, $5 || 0, $6 || 0, $7 || '' );
-              $M--;
-              $Y -= 1900 if ( $Y > 1900 );
-              if ( $tz eq 'Z' ) {
-                  $tzadj = 0;    # Zulu
-              }
-              elsif ( $tz =~ /([-+])(\d\d)(?::(\d\d))?/ ) {
-                  $tzadj = ( $1 || '' ) . ( ( ( $2 * 60 ) + ( $3 || 0 ) ) * 60 );
-                  $tzadj -= 0;
-              }
-              return Time::Local::timegm( $s, $m, $h, $D, $M, $Y ) - $tzadj;
-          }
+        if (
+            ( $date =~ /T/ )
+            && ( $date =~
+/(\d\d\d\d)(?:-(\d\d)(?:-(\d\d))?)?(?:T(\d\d)(?::(\d\d)(?::(\d\d(?:\.\d+)?))?)?)?(Z|[-+]\d\d(?::\d\d)?)?/
+            )
+          )
+        {
+            my ( $Y, $M, $D, $h, $m, $s, $tz ) =
+              ( $1, $2 || 1, $3 || 1, $4 || 0, $5 || 0, $6 || 0, $7 || '' );
+            $M--;
+            $Y -= 1900 if ( $Y > 1900 );
+            if ( $tz eq 'Z' ) {
+                $tzadj = 0;    # Zulu
+            }
+            elsif ( $tz =~ /([-+])(\d\d)(?::(\d\d))?/ ) {
+                $tzadj = ( $1 || '' ) . ( ( ( $2 * 60 ) + ( $3 || 0 ) ) * 60 );
+                $tzadj -= 0;
+            }
+            return Time::Local::timegm( $s, $m, $h, $D, $M, $Y ) - $tzadj;
+        }
 
-        if ($date =~ m|^
+        if (
+            $date =~ m|^
                        (\d\d+)                                 #year
                        (?:\s*[/\s.-]\s*                        #datesep
                        (\d\d?)                             #month
@@ -193,27 +200,29 @@ use FileHandle ();
                       )?
                       )?
                       )?
-                       $|x) {
-            my ( $year, $M, $D, $h, $m, $s ) =
-              ( $1, $2 , $3, $4, $5, $6 );
-
+                       $|x
+          )
+        {
+            my ( $year, $M, $D, $h, $m, $s ) = ( $1, $2, $3, $4, $5, $6 );
 
             $year -= 1900 if ( $year > 1900 );
 
-            return 0 if (defined($M) && ($M < 1 || $M > 12));
-            my $month = ($M || 1)-1;
-            return 0 if (defined($D) && ($D < 0 || $D > $MONTHLENS[$month]));
-            return 0 if (defined($h) && ($h < 0 || $h > 24));
-            return 0 if (defined($m) && ($m < 0 || $m > 60));
-            return 0 if (defined($s) && ($s < 0 || $s > 60));
-            return 0 if ( defined($year) && $year < 60 ); 
+            return 0 if ( defined($M) && ( $M < 1 || $M > 12 ) );
+            my $month = ( $M || 1 ) - 1;
+            return 0
+              if ( defined($D) && ( $D < 0 || $D > $MONTHLENS[$month] ) );
+            return 0 if ( defined($h) && ( $h < 0 || $h > 24 ) );
+            return 0 if ( defined($m) && ( $m < 0 || $m > 60 ) );
+            return 0 if ( defined($s) && ( $s < 0 || $s > 60 ) );
+            return 0 if ( defined($year) && $year < 60 );
 
-            my $day = $D || 1;
+            my $day  = $D || 1;
             my $hour = $h || 0;
-            my $min = $m || 0;
-            my $sec = $s || 0;
+            my $min  = $m || 0;
+            my $sec  = $s || 0;
 
-            return Time::Local::timegm( $sec, $min, $hour, $day, $month, $year ) - $tzadj;
+            return Time::Local::timegm( $sec, $min, $hour, $day, $month, $year )
+              - $tzadj;
         }
 
         return 0;
@@ -228,7 +237,8 @@ use FileHandle ();
         }
         my $fh = new FileHandle();
         if ( !$fh->open($rcsFile) ) {
-            $this->{session}->logger->log('warning', 'Failed to open ' . $rcsFile );
+            $this->{session}
+              ->logger->log( 'warning', 'Failed to open ' . $rcsFile );
             $this->{state} = 'nocommav';
             return;
         }
@@ -290,24 +300,31 @@ use FileHandle ();
                 }
             }
             elsif ( $state eq 'admin.postStrict'
-                      && /^comment\s.*$/ )
-              {
-                  $state = 'admin.postComment';
-                  $this->{comment} = $string;
-              }
-            elsif (( $state eq 'admin.postStrict'
-                       || $state eq 'admin.postComment' )
-                     && /^expand\s/ ) {
+                && /^comment\s.*$/ )
+            {
+                $state = 'admin.postComment';
+                $this->{comment} = $string;
+            }
+            elsif (
+                (
+                       $state eq 'admin.postStrict'
+                    || $state eq 'admin.postComment'
+                )
+                && /^expand\s/
+              )
+            {
                 $state = 'admin.postExpand';
                 $this->{expand} = $string;
             }
             elsif ($state eq 'admin.postStrict'
-                     || $state eq 'admin.postComment'
-                       || $state eq 'admin.postExpand'
-                         || $state eq 'delta.date' ) {
-                if (/^([0-9]+)\.([0-9]+)\s+date\s+(\d\d(\d\d)?(\.\d\d){5}?);$/o) {
-                    $state = 'delta.author';
-                    $num   = $2;
+                || $state eq 'admin.postComment'
+                || $state eq 'admin.postExpand'
+                || $state eq 'delta.date' )
+            {
+                if (/^([0-9]+)\.([0-9]+)\s+date\s+(\d\d(\d\d)?(\.\d\d){5}?);$/o)
+                {
+                    $state              = 'delta.author';
+                    $num                = $2;
                     $revs[$num]->{date} = parseTime($3);
                 }
             }
@@ -350,8 +367,9 @@ use FileHandle ();
         }
 
         unless ( $state eq 'parsed' ) {
-            my $error = $this->{rcsFile} . ' is corrupt; parsed up to ' . $state;
-            $this->{session}->logger->log('warning', $error);
+            my $error =
+              $this->{rcsFile} . ' is corrupt; parsed up to ' . $state;
+            $this->{session}->logger->log( 'warning', $error );
 
             $headNum = 0;
             $state   = 'nocommav';    # ignore the RCS file; graceful recovery
@@ -392,7 +410,8 @@ access$this->{access};
 symbols$this->{symbols};
 locks; strict;
 HERE
-        print $file 'comment', "\t", _formatString( $this->{comment} ), ';', "\n";
+        print $file 'comment', "\t", _formatString( $this->{comment} ), ';',
+          "\n";
         if ( $this->{expand} ) {
             print $file 'expand', "\t", _formatString( $this->{expand} ),
               ';' . "\n";
@@ -421,8 +440,8 @@ HERE
         for ( my $i = $this->{head} ; $i > 0 ; $i-- ) {
             print $file "\n", '1.', $i, "\n",
               'log', "\n", _formatString( $this->{revs}[$i]->{log} . "\n" ),
-                "\n", 'text', "\n", _formatString( $this->{revs}[$i]->{text} ),
-                  "\n" . ( $i == 1 ? '' : "\n" );
+              "\n", 'text', "\n", _formatString( $this->{revs}[$i]->{text} ),
+              "\n" . ( $i == 1 ? '' : "\n" );
         }
         $this->{state} = 'parsed';    # now known clean
     }
@@ -433,9 +452,8 @@ HERE
         my $out       = new FileHandle();
 
         chmod( 0644, $this->{rcsFile} );
-        if (!$out->open('>' . $this->{rcsFile} )) {
-            die (
-                'Cannot open ' . $this->{rcsFile} . ' for write: ' . $! );
+        if ( !$out->open( '>' . $this->{rcsFile} ) ) {
+            die( 'Cannot open ' . $this->{rcsFile} . ' for write: ' . $! );
         }
         else {
             binmode($out);
@@ -450,25 +468,28 @@ HERE
     # Apply delta (patch) to text.  Note that RCS stores reverse deltas,
     # so the text for revision x is patched to produce text for revision x-1.
     sub _patch {
+
         # Both params are references to arrays
         my ( $text, $delta ) = @_;
-        my $adj = 0;
-        my $pos = 0;
-        my $fixed = 0;
-        my $max = $#$delta;
+        my $adj     = 0;
+        my $pos     = 0;
+        my $fixed   = 0;
+        my $max     = $#$delta;
         my $loffset = 0;
         while ( $pos <= $max ) {
             my $d = $delta->[$pos];
+
             #print "DIFF: $d in $#$text\n";
             if ( $d =~ /^([ad])(\d+)\s(\d+)$/ ) {
                 my $act    = $1;
                 my $offset = $2;
                 my $length = $3;
-                if ($offset < $loffset) {
+                if ( $offset < $loffset ) {
                     $delta->[$pos] = "$act$loffset $length";
+
                     #print "ARSEWISE $delta->[$pos]\n";
                     $offset = $loffset;
-                    $fixed = 1;
+                    $fixed  = 1;
                 }
                 $loffset = $offset;
                 if ( $act eq 'd' ) {
@@ -478,15 +499,18 @@ HERE
                     $pos++;
                 }
                 elsif ( $act eq 'a' ) {
+
                     #print "\tSNIFF: $offset $length at $pos\n";
-                    if ( $pos + $length > $max
-                           || $delta->[$pos + $length] =~ /^[ad](\d+)\s\d+$/) {
+                    if (   $pos + $length > $max
+                        || $delta->[ $pos + $length ] =~ /^[ad](\d+)\s\d+$/ )
+                    {
+
                         #print "\t\tFIX!\n";
-                        splice(@$delta, $pos + $length, 0, "");
+                        splice( @$delta, $pos + $length, 0, "" );
                         $fixed = 1;
                     }
-                    splice( @$text, $offset + $adj, 0,
-                            @$delta[$pos + 1 .. $pos + $length] );
+                    splice( @$text, $offset + $adj,
+                        0, @$delta[ $pos + 1 .. $pos + $length ] );
                     $adj += $length;
                     $pos += $length + 1;
                 }
@@ -503,12 +527,14 @@ HERE
         my ( $this, $text, $version, $target ) = @_;
         my $fixed = 0;
         while ( $version >= $target ) {
+
             #print "Check $version\n";
             my $deltaText = $this->{revs}[ $version-- ]->{text};
             my $delta     = _split($deltaText);
-            if (_patch( $text, $delta )) {
+            if ( _patch( $text, $delta ) ) {
+
                 # Was fixed
-                $this->{revs}[ $version + 1 ]->{text} = join("\n", @$delta);
+                $this->{revs}[ $version + 1 ]->{text} = join( "\n", @$delta );
                 $fixed = 1;
             }
         }
@@ -586,11 +612,11 @@ sub fixDir {
     my ($dir) = @_;
 
     my $w;
-    if (opendir($w, $dir)) {
-        foreach my $f (readdir($w)) {
+    if ( opendir( $w, $dir ) ) {
+        foreach my $f ( readdir($w) ) {
             next if $f =~ /^\./;
             my $file = "$dir/$f";
-            if (-d $file) {
+            if ( -d $file ) {
                 fixDir($file);
                 next;
             }
@@ -598,8 +624,8 @@ sub fixDir {
             next unless -e $file;
             print "Process $file\n";
             my $h = new RcsLite($file);
-            if ($h->repair()) {
-                if (-w $file) {
+            if ( $h->repair() ) {
+                if ( -w $file ) {
                     $h->writeRCS();
                     print "$file: FIXED\n";
                     if ($verify) {
@@ -608,7 +634,8 @@ sub fixDir {
                             print "\tStill knackered: $err";
                         }
                     }
-                } else {
+                }
+                else {
                     print "$file: FUBAR and unfixable\n";
                 }
             }
@@ -645,24 +672,25 @@ The script will not touch files unless it detects an error. The user running
 the script must have write access to all ,v files.
 HELP
 
-if (scalar(@ARGV) && $ARGV[0] eq '-v') {
+if ( scalar(@ARGV) && $ARGV[0] eq '-v' ) {
     $verify = 1;
 }
 
-unless (-d "data" && -d "pub") {
+unless ( -d "data" && -d "pub" ) {
     die "Current dir is not the root of an installation; "
-      ."expected data and pub\n";
+      . "expected data and pub\n";
 }
 
 my $data;
-if (opendir($data, 'data')) {
-    foreach my $w (readdir($data)) {
-        if ($w !~ /^\./ && -d "data/$w") {
+if ( opendir( $data, 'data' ) ) {
+    foreach my $w ( readdir($data) ) {
+        if ( $w !~ /^\./ && -d "data/$w" ) {
             fixDir("data/$w");
             fixDir("pub/$w");
         }
     }
-} else {
+}
+else {
     die "Failed to open data; $!";
 }
 

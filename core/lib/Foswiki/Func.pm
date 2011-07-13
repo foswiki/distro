@@ -678,8 +678,9 @@ Deprecated: please use Foswiki::Meta::registerMETA instead.
 =cut
 
 sub registerMETA {
+
     #my ( $macro, %spec ) = @_;
-    Foswiki::Meta::registerMETA( @_ )
+    Foswiki::Meta::registerMETA(@_);
 }
 
 =begin TML
@@ -1108,7 +1109,7 @@ sub isGroupMember {
     my ( $group, $user, $options ) = @_;
     my $users = $Foswiki::Plugins::SESSION->{users};
 
-    my $expand = Foswiki::Func::isTrue($options->{expand}, 1);
+    my $expand = Foswiki::Func::isTrue( $options->{expand}, 1 );
 
     return () unless $users->isGroup($group);
     if ($user) {
@@ -1236,15 +1237,16 @@ Use it as follows:  Process all users in RadioHeadGroup without expanding nested
 =cut
 
 sub eachGroupMember {
-    my ( $user, $options )   = @_;
+    my ( $user, $options ) = @_;
 
-    my $expand = Foswiki::Func::isTrue($options->{expand}, 1);
+    my $expand = Foswiki::Func::isTrue( $options->{expand}, 1 );
 
     my $session = $Foswiki::Plugins::SESSION;
     return
       unless $Foswiki::Plugins::SESSION->{users}->isGroup($user);
     my $it =
-      $Foswiki::Plugins::SESSION->{users}->eachGroupMember( $user, { expand => $expand } );
+      $Foswiki::Plugins::SESSION->{users}
+      ->eachGroupMember( $user, { expand => $expand } );
     $it->{process} = sub {
         return $Foswiki::Plugins::SESSION->{users}->getWikiName( $_[0] );
     };
@@ -3572,7 +3574,6 @@ sub addToHEAD {
     $Foswiki::Plugins::SESSION->addToZone( 'head', @_ );
 }
 
-
 =begin TML
 
 ---+++ searchInWebContent($searchString, $web, \@topics, \%options ) -> reference to a hash - keys of which are topic names
@@ -3625,12 +3626,13 @@ sub searchInWebContent {
 
     my $itr = Foswiki::Meta::query( $query, $inputTopicSet, $options );
     my %matches;
-    while ($itr->hasNext) {
+    while ( $itr->hasNext ) {
         my $webtopic = $itr->next;
-        my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName('', $webtopic);
+        my ( $web, $searchTopic ) =
+          Foswiki::Func::normalizeWebTopicName( '', $webtopic );
         $matches{$searchTopic} = 1;
     }
-    return \%matches
+    return \%matches;
 }
 
 1;
