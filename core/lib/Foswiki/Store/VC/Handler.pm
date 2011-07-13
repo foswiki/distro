@@ -1122,7 +1122,7 @@ sub synchroniseAttachmentsList {
         if ( $filesListedInMeta{$file} ) {
 
             # Bring forward any missing yet wanted attributes
-            foreach my $field qw(comment attr user version) {
+            foreach my $field (qw(comment attr user version)) {
                 if ( $filesListedInMeta{$file}{$field} ) {
                     $filesListedInPub{$file}{$field} =
                       $filesListedInMeta{$file}{$field};
@@ -1188,7 +1188,7 @@ Generate string representation for debugging
 sub stringify {
     my $this = shift;
     my @reply;
-    foreach my $key qw(web topic attachment file rcsFile) {
+    foreach my $key (qw(web topic attachment file rcsFile)) {
         if ( defined $this->{$key} ) {
             push( @reply, "$key=$this->{$key}" );
         }

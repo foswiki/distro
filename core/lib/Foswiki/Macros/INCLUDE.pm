@@ -121,7 +121,7 @@ sub INCLUDE {
 
     # Remove params, so they don't get expanded in the included page
     my %control;
-    for my $p qw(_DEFAULT pattern rev section raw warn) {
+    for my $p (qw(_DEFAULT pattern rev section raw warn)) {
         $control{$p} = $params->remove($p);
     }
 

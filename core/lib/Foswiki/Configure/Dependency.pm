@@ -157,7 +157,7 @@ sub studyInstallation {
 
     if ( !$this->{module} ) {
         my $lib = ( $this->{name} =~ /Plugin$/ ) ? 'Plugins' : 'Contrib';
-        foreach my $namespace qw(Foswiki TWiki) {
+        foreach my $namespace (qw(Foswiki TWiki)) {
             my $path = $namespace . '::' . $lib . '::' . $this->{name};
             eval "require $path";
             unless ( $@ && $@ =~ m/^Can't locate $path/ ) {

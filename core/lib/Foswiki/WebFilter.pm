@@ -18,7 +18,7 @@ use warnings;
 sub new {
     my ( $class, $filter ) = @_;
     my $this = bless( {}, $class );
-    foreach my $f qw(user template public allowed) {
+    foreach my $f (qw(user template public allowed)) {
         $this->{$f} = ( $filter =~ /\b$f\b/ );
     }
     return $this;

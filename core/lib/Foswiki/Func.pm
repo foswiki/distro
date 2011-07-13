@@ -3263,8 +3263,8 @@ individual pages
 *Deprecated* 28 Nov 2008 - use =getPreferencesValue= instead to determine
 what permissions are set on the web, for example:
 <verbatim>
-foreach my $type qw( ALLOW DENY ) {
-    foreach my $action qw( CHANGE VIEW ) {
+foreach my $type (qw( ALLOW DENY )) {
+    foreach my $action (qw( CHANGE VIEW )) {
         my $pref = $type . 'WEB' . $action;
         my $val = Foswiki::Func::getPreferencesValue( $pref, $web ) || '';
         if( $val =~ /\S/ ) {
@@ -3279,8 +3279,8 @@ foreach my $type qw( ALLOW DENY ) {
 sub permissionsSet {
     my ($web) = @_;
 
-    foreach my $type qw( ALLOW DENY ) {
-        foreach my $action qw( CHANGE VIEW RENAME ) {
+    foreach my $type (qw( ALLOW DENY )) {
+        foreach my $action (qw( CHANGE VIEW RENAME )) {
             my $pref = $type . 'WEB' . $action;
             my $val = getPreferencesValue( $pref, $web ) || '';
             return 1 if ( $val =~ /\S/ );

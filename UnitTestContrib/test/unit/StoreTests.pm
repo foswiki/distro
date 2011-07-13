@@ -401,7 +401,7 @@ sub test_beforeSaveHandlerChangeMeta {
 
     # set expected meta
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
-    foreach my $fld qw(rev version date) {
+    foreach my $fld (qw(rev version date)) {
         delete $meta->get('TOPICINFO')->{$fld};
         delete $readMeta->get('TOPICINFO')->{$fld};
     }
@@ -446,7 +446,7 @@ sub test_beforeSaveHandlerChangeBoth {
     # set expected meta. Changes in the *meta object* take priority
     # over conflicting changes in the *text*.
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
-    foreach my $fld qw(rev version date) {
+    foreach my $fld (qw(rev version date)) {
         delete $meta->get('TOPICINFO')->{$fld};
         delete $readMeta->get('TOPICINFO')->{$fld};
     }

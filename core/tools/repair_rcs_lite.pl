@@ -559,7 +559,7 @@ HERE
         my $this = shift;
 
         my $s = '';
-        foreach my $key qw(web topic attachment file rcsFile) {
+        foreach my $key (qw(web topic attachment file rcsFile)) {
             if ( defined $this->{$key} ) {
                 $s .= " $key=$this->{$key}";
             }
