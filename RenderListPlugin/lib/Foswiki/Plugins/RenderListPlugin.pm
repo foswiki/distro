@@ -292,7 +292,7 @@ sub renderIconList {
                 $text .= "<td valign=\"top\">$iconImg</td>\n";
             }
             $text .=
-"<td valign=\"top\"><nobr>&nbsp; $tree[$i]->{'text'} </nobr></td>\n";
+"<td valign=\"top\" class=\"foswikiNoBreak\" >&nbsp; $tree[$i]->{'text'} </td>\n";
 
         }
         else {
@@ -310,11 +310,11 @@ sub renderIconList {
                 $icon = fixImageTag( $icon, $width, $height );
                 $text .= "<td valign=\"top\">$icon</td>\n";
                 $text .=
-"<td valign=\"top\"><nobr>&nbsp; $tree[$i]->{'text'} </nobr></td>\n";
+"<td valign=\"top\" class=\"foswikiNoBreak\" >&nbsp; $tree[$i]->{'text'} </td>\n";
             }
             else {
                 $text .=
-"<td valign=\"top\"><nobr> $tree[$i]->{'text'} </nobr></td>\n";
+"<td valign=\"top\" class=\"foswikiNoBreak\" > $tree[$i]->{'text'} </td>\n";
             }
         }
         $text .= '</tr></table>' . "\n";
