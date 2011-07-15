@@ -242,7 +242,7 @@ sub enable {
     my $this     = shift;
     my $prefs    = $this->{session}->{prefs};
     my $dissed   = $prefs->getPreference('DISABLEDPLUGINS') || '';
-    my %disabled = map { $_ => 1 } split( /,\s*/, $dissed );
+    my %disabled = map { s/^\s+//; s/\s+$//; $_ => 1 } split( /,/, $dissed );
 
     # Set the session for this call stack
     local $Foswiki::Plugins::SESSION = $this->{session};
