@@ -31,7 +31,7 @@ use vars qw(
 );
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '2.2.3';
+our $RELEASE           = '2.2.4';
 our $pluginName        = 'RenderListPlugin';    # Name of this Plugin
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION = 'Render bullet lists in a variety of formats';
@@ -81,13 +81,13 @@ sub startRenderingHandler {
     # Plugins, TOC and SEARCH can be rendered
     if ( $_[0] =~ /%RENDERLIST/o ) {
         unless ( $_[0] =~
-s/%RENDERLIST{(.*?)}%(([\n\r]+[^ ]{3}[^\n\r]*)*?)(([\n\r]+ {3}[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges
+s/%RENDERLIST{(.*?)}%\s*(([\n\r]+[^ ]{3}[^\n\r]*)*?)(([\n\r]+ {3}[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges
           )
         {
 
             # Cairo compatibility fallback
             $_[0] =~
-s/%RENDERLIST{(.*?)}%(([\n\r]+[^\t]{1}[^\n\r]*)*?)(([\n\r]+\t[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges;
+s/%RENDERLIST{(.*?)}%\s*(([\n\r]+[^\t]{1}[^\n\r]*)*?)(([\n\r]+\t[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges;
         }
     }
 }
