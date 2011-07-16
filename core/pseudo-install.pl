@@ -9,25 +9,76 @@ use File::Copy();
 use File::Spec();
 use FindBin();
 
+my $usagetext = <<"EOM";
+pseudo-install extensions into a SVN (or git) checkout
+
+This is done by a link or copy of the files listed in the MANIFEST for the
+extension. The installer script is *not* called. It should be almost equivalent
+to a tar zx of the packaged extension over the dev tree, except that the use
+of links enable a much more useable development environment.
+
+It picks up extensions to be installed from a search path compiled from (1) the
+environment variable FOSWIKI_EXTENSIONS, then (2) the extensions_path array
+defined under the key 'pseudo-install' in the config file (\$HOME/.buildcontrib
+by default). The default path includes current working directory & its parent.
+
+Usage: pseudo-install.pl -[G|C][feA][l|c|u] [all|default|developer|<module>
+                                            |git://a.git/url, a\@g.it:/url etc.]
+   -C[onfig]   - path to config file (default \$HOME/.buildcontrib, or envar
+                                                   FOSWIKI_PSEUDOINSTALL_CONFIG)
+   -G[enerate] - generate default psuedo-install config in \$HOME/.buildcontrib
+   -f[orce] - force an action to complete even if there are warnings
+   -e[nable] - automatically enable installed plugins in LocalSite.cfg
+               (default)
+   -m[anual] - do not automatically enable installed plugins in LocalSite.cfg
+   -l[ink] - create links %linkByDefault%
+   -c[opy] - copy instead of linking %copyByDefault%
+   -u[ninstall] - self explanatory (doesn't remove dirs)
+   core - install core (create and link derived objects)
+   all - install core + all extensions (big job)
+   default - install core + extensions listed in lib/MANIFEST
+   developer - core + default + key developer environment
+   <module>... one or more extensions to install (by name or git URL)
+   -[A]utoconf - make a simplistic LocalSite.cfg, using just the defaults in lib/Foswiki.spec
+
+Examples:
+   softlink and enable FirstPlugin and SomeContrib
+       perl pseudo-install.pl -force -enable -link FirstPlugin SomeContrib
+   
+   check out a new trunk, create a default LocalSite.cfg, install and enable
+   all the plugins for the default distribution (and then run the unit tests)
+       svn co http://svn.foswiki.org/trunk
+       cd trunk/core
+       ./pseudo-install.pl -A developer
+       cd test/unit
+       ../bin/TestRunner.pl -clean FoswikiSuite.pm
+
+   check out a new trunk using git, then install and enable an extension from
+   an abritrary git repository
+       git clone git://github.com/foswiki/core.git
+       cd core
+       ./pseudo-install.pl -A developer
+       ./pseudo-install.pl -e git\@github.com:/me/MyPlugin.git
+EOM
 my $install;
 my $basedir;
-my @extensions_path;
 my $CAN_LINK;
 my $force;
 my $parentdir;
 my $fetchedExtensionsPath;
 my @error_log;
-my $config_path;
 my %config;
 my $do_genconfig;
+my @extensions_path;
 my $autoenable    = 0;
 my $installing    = 1;
 my $autoconf      = 0;
+my $config_file   = $ENV{FOSWIKI_PSEUDOINSTALL_CONFIG};
 my $internal_gzip = eval { require Compress::Zlib; 1; };
 my %arg_dispatch  = (
-    '-force' => sub { $force   = 1 },
-    '-l'     => sub { $install = \&just_link },
-    '-c'     => sub {
+    '-f' => sub { $force   = 1 },
+    '-l' => sub { $install = \&just_link },
+    '-c' => sub {
         $install  = \&copy_in;
         $CAN_LINK = 0;
     },
@@ -45,7 +96,7 @@ my %arg_dispatch  = (
         $autoconf = 1;
     },
     '-C' => sub {
-        $config_path = shift(@ARGV);
+        $config_file = shift(@ARGV);
     },
     '-G' => sub {
         $do_genconfig = 1;
@@ -81,7 +132,7 @@ HERE
         }
     ],
     extensions_path => [ '$basedir/twikiplugins', '.', '$parentdir' ],
-    clone_dir          => '$parentdir'
+    clone_dir       => '$parentdir'
 );
 
 sub init {
@@ -91,11 +142,6 @@ sub init {
     use re 'taint';
     $parentdir             = "$basedir/..";
     $fetchedExtensionsPath = $parentdir;
-    @extensions_path =
-      grep { -d $_ } (
-        ( $ENV{FOSWIKI_EXTENSIONS} || '' ),
-        "$basedir/twikiplugins", '.', $parentdir
-      );
     my $n = 0;
     $n++ while ( -e "testtgt$n" || -e "testlink$n" );
     open( my $testfile, '>', "testtgt$n" )
@@ -112,48 +158,36 @@ sub init {
     return;
 }
 
-sub init_extensions_path {
-    my %paths;
-
-    if ( $ENV{FOSWIKI_EXTENSIONS} ) {
-        push(
-            @extensions_path,
-            filterpaths(
-                \%paths,
-                split( /$Config::Config{path_sep}/, $ENV{FOSWIKI_EXTENSIONS} )
-            )
-        );
-    }
-    init_config();
-    push( @extensions_path,
-        filterpaths( \%paths, @{ $config{extensions_path} } ) );
-
-    return;
-}
-
 sub init_config {
-    my $conf = $ENV{FOSWIKI_PSEUDOINSTALL_CONFIG};
-
-    if ( not $conf ) {
+    if ( not $config_file ) {
         if ( $ENV{HOME} ) {
-            $conf = File::Spec->catfile( $ENV{HOME}, '.buildcontrib' );
+            $config_file = File::Spec->catfile( $ENV{HOME}, '.buildcontrib' );
         }
     }
-    if ( $conf and -d $conf ) {
-        eval { require $conf; 1; };
+    if ( $config_file and -f $config_file ) {
+        my $buildconfig;
+
+        $config_file = untaint($config_file);
+        $buildconfig = do "$config_file";
+        die "Malformed config: '$config_file'"
+          unless ref($buildconfig) eq 'HASH';
+        if ( exists $buildconfig->{'pseudo-install'} ) {
+            die "Malformed config: '$config_file'"
+              unless ref( $buildconfig->{'pseudo-install'} ) eq 'HASH';
+            %config = %{ $buildconfig->{'pseudo-install'} };
+        }
+    }
+    if ($do_genconfig) {
+        genconfig();
     }
     if ( not scalar( keys %config ) ) {
         %config = %default_config;
     }
     if ( $config{extensions_path} ) {
-        my $npaths = scalar( @{ $config{extensions_path} } );
-        my $i      = 0;
-
-        while ( $i < $npaths ) {
-            $config{extensions_path}->[$i] =
-              expandConfigPathTokens( $config{extensions_path}->[$i] );
-            $i += 1;
-        }
+        die "Malformed config: '$config_file'"
+          unless ref( $config{extensions_path} ) eq 'ARRAY';
+        @{ $config{extensions_path} } =
+          map { expandConfigPathTokens($_) } @{ $config{extensions_path} };
     }
     if ( $config{clone_dir} ) {
         $config{clone_dir} = expandConfigPathTokens( $config{clone_dir} );
@@ -162,6 +196,78 @@ sub init_config {
     return;
 }
 
+sub init_extensions_path {
+    my %paths;
+
+    if ( $ENV{FOSWIKI_EXTENSIONS} ) {
+        my @filtered = filterpaths( \%paths, $ENV{FOSWIKI_EXTENSIONS} );
+
+        # Only put FOSWIKI_EXTENSIONS first in the search path if that dir is
+        # not already in the search path
+        if ( scalar(@filtered) ) {
+            unshift( @extensions_path, @filtered );
+        }
+    }
+    push( @extensions_path,
+        filterpaths( \%paths, @{ $config{extensions_path} } ) );
+
+    return;
+}
+
+sub genconfig {
+    my $buildconfig;
+    my $needforce;
+
+    # Detect if we're about to clobber some stuff in the existsing buildconfig
+    if ( -f $config_file ) {
+        $buildconfig = do "$config_file";
+        if ( exists $buildconfig->{'pseudo-install'} ) {
+            foreach my $key ( keys %default_config ) {
+                if ( exists $buildconfig->{'pseudo-install'}{$key} ) {
+                    $needforce = 1;
+                }
+            }
+        }
+    }
+    if ( $needforce and not $force ) {
+        die <<"HERE";
+Not writing a default pseudo-install config into '$config_file': already
+contains a pseudo-install config, and -f (force) not specified.
+HERE
+    }
+    elsif ( not -f $config_file or -w $config_file ) {
+        foreach my $key ( keys %default_config ) {
+            $buildconfig->{'pseudo-install'}{$key} = $default_config{$key};
+        }
+        $config_file = untaint($config_file);
+        if ( open( my $fh, '>', $config_file ) ) {
+            require Data::Dumper;
+            print $fh Data::Dumper->Dump( [$buildconfig] );
+            if ( close($fh) ) {
+                print <<"HERE";
+Successfully wrote a default 'pseudo-install' config into
+'$config_file'
+HERE
+            }
+        }
+        else {
+            die <<"HERE";
+Failed to write a default pseudo-install config into
+'$config_file': error opening for write
+HERE
+        }
+    }
+    else {
+        die <<"HERE";
+Failed to write a default pseudo-install config into
+'$config_file': not writeable
+HERE
+    }
+
+    return;
+}
+
+# Remove duplicates and missing dirs
 sub filterpaths {
     my ( $map, @paths ) = @_;
     my @result;
@@ -214,58 +320,9 @@ sub usage {
     my $linkByDefault = $CAN_LINK ? $def : "";
     my $copyByDefault = $CAN_LINK ? "" : $def;
 
-    print <<"EOM";
-pseudo-install extensions into a SVN (or git) checkout
-
-This is done by a link or copy of the files listed in the MANIFEST for the
-extension. The installer script is *not* called. It should be almost equivalent
-to a tar zx of the packaged extension over the dev tree, except that the use
-of links enable a much more useable development environment.
-
-It picks up extensions to be installed from a search path compiled from (1) the
-environment variable extensions_path, then (2) the extensions_path array
-defined under the key 'pseudo-install' in \$HOME/.buildcontrib, then (3) the
-parent dir of the pseudo-install.pl script itself, unless (1) or (2) place it
-earlier. Duplicate dirs are removed from the search path as it is built.
-
-Usage: pseudo-install.pl -[G|C][feA][l|c|u] [all|default|developer|<module>
-                                            |git://a.git/url, a\@g.it:/url etc.]
-   -C[onfig]   - path to config file (default \$HOME/.buildcontrib, or
-                                             FOSWIKI_PSEUDOINSTALL_CONFIG envar)
-   -G[enerate] - generate default psuedo-install config in \$HOME/.buildcontrib
-   -f[orce] - force an action to complete even if there are warnings
-   -e[nable] - automatically enable installed plugins in LocalSite.cfg
-               (default)
-   -m[anual] - do not automatically enable installed plugins in LocalSite.cfg
-   -l[ink] - create links $linkByDefault
-   -c[opy] - copy instead of linking $copyByDefault
-   -u[ninstall] - self explanatory (doesn't remove dirs)
-   core - install core (create and link derived objects)
-   all - install core + all extensions (big job)
-   default - install core + extensions listed in lib/MANIFEST
-   developer - core + default + key developer environment
-   <module>... one or more extensions to install (by name or git URL)
-   -[A]utoconf - make a simplistic LocalSite.cfg, using just the defaults in lib/Foswiki.spec
-
-Examples:
-   softlink and enable FirstPlugin and SomeContrib
-       perl pseudo-install.pl -force -enable -link FirstPlugin SomeContrib
-   
-   check out a new trunk, create a default LocalSite.cfg, install and enable
-   all the plugins for the default distribution (and then run the unit tests)
-       svn co http://svn.foswiki.org/trunk
-       cd trunk/core
-       ./pseudo-install.pl -A developer
-       cd test/unit
-       ../bin/TestRunner.pl -clean FoswikiSuite.pm
-
-   check out a new trunk using git, then install and enable an extension from
-   an abritrary git repository
-       git clone git://github.com/foswiki/core.git
-       cd core
-       ./pseudo-install.pl -A developer
-       ./pseudo-install.pl -e git\@github.com:/me/MyPlugin.git
-EOM
+    $usagetext =~ s/%linkByDefault%/$linkByDefault/g;
+    $usagetext =~ s/%copyByDefault%/$copyByDefault/g;
+    print $usagetext;
 
     return;
 }
@@ -482,13 +539,13 @@ sub connectGitRepoToSVN {
     return gitClone2GitSVN( $module, $moduleDir, $svninfo );
 }
 
-sub connectGitRepoToSVNByRepoName {
+sub connectGitRepoToSVNByRepoURL {
     my ( $module, $moduleDir, $svnreponame ) = @_;
     my $lookingupname = 1;
     my $repoIndex     = 0;
 
     while ( $lookingupname and $repoIndex < scalar( @{ $config{repos} } ) ) {
-        if ( $config{repos}->[$repoIndex]->{name} eq $svnreponame ) {
+        if ( $config{repos}->[$repoIndex]->{url} eq $svnreponame ) {
             $lookingupname = 0;
             connectGitRepoToSVN( $module, $moduleDir,
                 $config{repos}->[$repoIndex] );
@@ -518,7 +575,7 @@ sub cloneModuleByName {
             if ( -d $moduleDir ) {
                 $cloned = 1;
                 if ( $config{repos}->[$repoIndex]->{svn} ) {
-                    connectGitRepoToSVNByRepoName( $module, $moduleDir,
+                    connectGitRepoToSVNByRepoURL( $module, $moduleDir,
                         $config{repos}->[$repoIndex]->{svn} );
                 }
                 print "Cloned $module OK\n";
@@ -537,8 +594,8 @@ sub cloneModuleByName {
         print "It seems your 'core' checkout isn't connected to a svn repo... ";
         if ($svnRepo) {
             print "connecting\n";
-            connectGitRepoToSVNByRepoName( 'core', "$config{clone_dir}/core",
-                $svnRepo->{name} );
+            connectGitRepoToSVNByRepoURL( 'core', "$config{clone_dir}/core",
+                $svnRepo->{url} );
         }
         else {
             print "couldn't find any svn repo containing 'core'\n";
@@ -1090,24 +1147,12 @@ sub enablePlugin {
 }
 
 sub run {
-
-    while ( scalar(@ARGV) && $ARGV[0] =~ /^-/ ) {
-        my $arg = shift(@ARGV);
-
-        if ( exists $arg_dispatch{$arg} ) {
-            $arg_dispatch{$arg}->();
-        }
-    }
-
-    init_config();
-    init_extensions_path();
-
     if ($autoconf) {
         Autoconf();
         exit 0 unless ( scalar(@ARGV) );
     }
 
-    unless ( scalar(@ARGV) ) {
+    unless ( $do_genconfig or scalar(@ARGV) ) {
         usage();
         exit 1;
     }
@@ -1176,7 +1221,21 @@ sub run {
     }
 }
 
+sub exec_opts {
+    while ( scalar(@ARGV) && $ARGV[0] =~ /^(-.)/ ) {
+        shift(@ARGV);
+        if ( exists $arg_dispatch{$1} ) {
+            $arg_dispatch{$1}->();
+        }
+    }
+
+    return;
+}
+
 init();
+exec_opts();
+init_config();
+init_extensions_path();
 run();
 
 __END__
