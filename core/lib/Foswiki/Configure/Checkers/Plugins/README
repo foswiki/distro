@@ -1,0 +1,10 @@
+This is the directory where you should find checkers for plugins.
+
+For example, if you wanted a configure checker on
+$Foswiki::cfg{Plugins}{MyPlugin}{Enabled}, you would create MyPlugin/Enabled.pm
+under this directory.
+
+This README file has been added so that this directory is not empty, a cheap
+work-around to a pseudo-install flaw, see http://foswiki.org/Tasks/Item10860
+
+This file doesn't need to be shipped in official Foswiki releases
