@@ -4,30 +4,24 @@ use strict;
 use warnings;
 
 use re 'taint';
-use File::Path;
-use File::Copy;
-use File::Spec;
-use Cwd;
-use Config;
-use FindBin;
+use File::Path();
+use File::Copy();
+use File::Spec();
+use FindBin();
 
-my $internal_gzip = 1;
-eval "require Compress::Zlib";
-$internal_gzip = 0 if $@;
-
-our $install;
-our $basedir;
-our @extensions_path;
-our $CAN_LINK;
-our $force;
-our $parentdir;
-
-my $autoenable = 0;
-my $installing = 1;
-my $autoconf   = 0;
-
-# TODO: Make these repos configurable from LocalSite.cfg
-my @repos = (
+my $install;
+my $basedir;
+my @extensions_path;
+my $CAN_LINK;
+my $force;
+my $parentdir;
+my $fetchedExtensionsPath;
+my @error_log;
+my $autoenable    = 0;
+my $installing    = 1;
+my $autoconf      = 0;
+my $internal_gzip = eval { require Compress::Zlib; 1; };
+my @repos         = (
     {
         name     => 'official',
         type     => 'svn',
@@ -52,9 +46,6 @@ my @repos = (
         bare => 1
     }
 );
-my $fetchedExtensionsPath;
-
-my @error_log;
 
 BEGIN {
     no re 'taint';
@@ -63,15 +54,11 @@ BEGIN {
     use re 'taint';
     $parentdir             = "$basedir/..";
     $fetchedExtensionsPath = $parentdir;
-    my $path = $ENV{FOSWIKI_EXTENSIONS} || '';
-    $path .=
-        $Config::Config{path_sep}
-      . "$basedir/twikiplugins"
-      . $Config::Config{path_sep} . '.'
-      . $Config::Config{path_sep}
-      . $parentdir;
     @extensions_path =
-      grep( -d $_, split( /$Config::Config{path_sep}/, $path ) );
+      grep { -d $_ } (
+        ( $ENV{FOSWIKI_EXTENSIONS} || '' ),
+        "$basedir/twikiplugins", '.', $parentdir
+      );
 
     my $n = 0;
     $n++ while ( -e "testtgt$n" || -e "testlink$n" );
@@ -90,24 +77,32 @@ sub untaint {
     no re 'taint';
     $_[0] =~ /^(.*)$/;
     use re 'taint';
+
     return $1;
 }
 
 sub error {
-    push @error_log, @_;
-    warn "ERROR: ", @_;
+    my @errors = @_;
+
+    push @error_log, @errors;
+    warn 'ERROR: ', @errors;
+
+    return;
 }
 
 sub trace {
 
     #warn "...",@_,"\n";
+
+    return;
 }
 
 sub usage {
     my $def           = '(default behaviour on this platform)';
     my $linkByDefault = $CAN_LINK ? $def : "";
     my $copyByDefault = $CAN_LINK ? "" : $def;
-    print <<EOM;
+
+    print <<"EOM";
  Must be run from the root of a SVN checkout tree
 
  pseudo-install extensions in a SVN checkout tree
@@ -158,11 +153,11 @@ sub usage {
         ./pseudo-install.pl -e git\@github.com:/me/MyPlugin.git
 EOM
 
+    return;
 }
 
 sub findRelativeTo {
     my ( $startdir, $name ) = @_;
-
     my @path = split( /[\\\/]+/, $startdir );
 
     while ( scalar(@path) > 0 ) {
@@ -170,6 +165,7 @@ sub findRelativeTo {
         return $found if -e $found;
         pop(@path);
     }
+
     return;
 }
 
@@ -209,16 +205,18 @@ sub installModule {
 
 sub installModuleByName {
     my $module = shift;
-    $module =~ s#/+$##;    #remove trailing slashes
-    print "Processing $module\n";
     my $subdir = 'Plugins';
-    $subdir = 'Contrib' if $module =~ /(Contrib|Skin|AddOn|^core)$/;
-
+    my $libDir = 'Foswiki';
     my $moduleDir;
+    my $manifest;
 
     # If $ignoreBlock is true, will ignore blocking files (not complain
     # if a file it is trying to copy in / link already exists)
     my $ignoreBlock = 0;
+
+    $module =~ s#/+$##;    #remove trailing slashes
+    print "Processing $module\n";
+    $subdir = 'Contrib' if $module =~ /(Contrib|Skin|AddOn|^core)$/;
 
     if ( $module eq 'core' ) {
 
@@ -239,15 +237,12 @@ sub installModuleByName {
         warn "--> Could not find $module\n";
         return;
     }
-
-    my $manifest =
+    $manifest =
       findRelativeTo( "$moduleDir/lib/Foswiki/$subdir/$module/", 'MANIFEST' );
-    my $libDir = "Foswiki";
-
     if ( !-e $manifest ) {
         $manifest =
           findRelativeTo( "$moduleDir/lib/TWiki/$subdir/$module/", 'MANIFEST' );
-        $libDir = "TWiki";
+        $libDir = 'TWiki';
     }
     if ( -e $manifest ) {
         installFromMANIFEST( $module, $moduleDir, $manifest, $ignoreBlock );
@@ -508,7 +503,7 @@ sub installFromMANIFEST {
         $file = untaint($file);
         my $dir = $file;
         $dir =~ s/\/[^\/]*$//;
-        &$install( $moduleDir, $dir, $file, $ignoreBlock );
+        $install->( $moduleDir, $dir, $file, $ignoreBlock );
 
         if ($installing) {
 
@@ -536,10 +531,12 @@ sub installFromMANIFEST {
 
     if ( -d "$moduleDir/test/unit/$module" ) {
         opendir( $df, "$moduleDir/test/unit/$module" );
-        foreach my $f ( grep( /\.pm$/, readdir($df) ) ) {
+        foreach my $f ( grep { /\.pm$/ } readdir($df) ) {
             $f = untaint($f);
-            &$install( $moduleDir, "test/unit/$module", "test/unit/$module/$f",
-                $ignoreBlock );
+            $install->(
+                $moduleDir, "test/unit/$module", "test/unit/$module/$f",
+                $ignoreBlock
+            );
         }
         closedir $df;
     }
@@ -586,6 +583,8 @@ sub installFromMANIFEST {
         my $spec;
         my $localConfiguration = '';
         while (<$lsc>) {
+
+            # Can't $_ eq '1;' because /^1;$/ is less picky about newlines
             next if /^1;$/;
             $localConfiguration .= $_;
             if (m/^\$Foswiki::cfg{Plugins}{$module}{(\S+)}\s+=\s+(\S+);/) {
@@ -593,10 +592,10 @@ sub installFromMANIFEST {
                     $enabled = $2;
                 }
                 elsif ( $1 eq 'Module' ) {
-                    my $moduleDir = $2;
-                    $moduleDir =~ s#::#/#g;
-                    $moduleDir =~ s#'##g;
-                    $spec = "$basedir/lib/$moduleDir/Config.spec";
+                    my $moduleName = $2;
+                    $moduleName =~ s#::#/#g;
+                    $moduleName =~ s#'##g;
+                    $spec = "$basedir/lib/$moduleName/Config.spec";
                 }
             }
         }
@@ -625,6 +624,7 @@ sub installFromMANIFEST {
         }
     }
 
+    return;
 }
 
 sub satisfyDependency {
@@ -656,10 +656,13 @@ sub satisfyDependency {
     else {
         error "**** $mod is a required dependency, but it is not installed\n";
     }
+
+    return;
 }
 
 sub linkOrCopy {
     my ( $moduleDir, $source, $target, $link ) = @_;
+
     trace '...'
       . ( $link ? 'link' : 'copy' )
       . " $moduleDir/$source to $moduleDir/$target";
@@ -678,6 +681,8 @@ sub linkOrCopy {
         }
         print "Copied $source as $target\n";
     }
+
+    return;
 }
 
 # Tries to find out alternate versions of a file
@@ -687,6 +692,7 @@ sub generateAlternateVersion {
     my $found = 0;
     trace "$moduleDir/$file not found";
     my $compress = 0;
+
     if ( !$found && $file =~ /(.*)\.gz$/ ) {
         $file     = $1;
         $found    = ( -f "$moduleDir/$1" );
@@ -737,6 +743,7 @@ sub generateAlternateVersion {
             trace `$command`;
         }
     }
+
     return $found;
 }
 
@@ -752,6 +759,8 @@ sub copy_in {
           or die "Couldn't install $file: $!";
         print "Copied $file\n";
     }
+
+    return;
 }
 
 sub _cleanPath {
@@ -764,32 +773,35 @@ sub _cleanPath {
     }
     $path = File::Spec->canonpath($path);
     while ( $path =~ s#/[^/]+/\.\.## ) { }
+
     return untaint($path);
 }
 
 # Check that $path$c links to $moduleDir/$path$c
 sub _checkLink {
     my ( $moduleDir, $path, $c ) = @_;
-
+    my $expected;
     my $dest = _cleanPath( readlink( $path . $c ), $path );
+
     $dest =~ m#/([^/]*)$#;    # Remove slashes
     unless ( $1 eq $c ) {
-        warn <<HERE;
+        warn <<"HERE";
 WARNING Confused by
      $path -> '$dest' doesn't point to the expected place
      (should be $moduleDir$path$c)
 HERE
     }
 
-    my $expected = _cleanPath("$moduleDir/$path$c");
+    $expected = _cleanPath("$moduleDir/$path$c");
     if ( $dest ne $expected ) {
-        warn <<HERE;
+        warn <<"HERE";
 WARNING Confused by
      $path$c -> '$dest' doesn't point to the expected place
      (should be $expected)
 HERE
         return 0;
     }
+
     return 1;
 }
 
@@ -797,10 +809,10 @@ HERE
 # Will try to link as high in the dir structure as it can
 sub just_link {
     my ( $moduleDir, $dir, $file, $ignoreBlock ) = @_;
-
     my $base       = "$moduleDir/";
     my @components = split( /\/+/, $file );
     my $path       = '';
+
     foreach my $c (@components) {
         if ( -l $path . $c ) {
             _checkLink( $moduleDir, $path, $c ) unless $ignoreBlock;
@@ -833,6 +845,8 @@ sub just_link {
             last;
         }
     }
+
+    return;
 }
 
 sub uninstall {
@@ -848,6 +862,7 @@ sub uninstall {
     my @components = split( /\/+/, $file );
     my $base       = $moduleDir;
     my $path       = '';
+
     foreach my $c (@components) {
         if ( -l "$path$c" ) {
             return unless _checkLink( $moduleDir, $path, $c ) || $force;
@@ -863,11 +878,14 @@ sub uninstall {
         unlink _cleanPath($file);
         print "Removed $file\n";
     }
+
+    return;
 }
 
 sub Autoconf {
     my $foswikidir   = $basedir;
     my $localSiteCfg = $foswikidir . '/lib/LocalSite.cfg';
+
     if ( $force || ( !-e $localSiteCfg ) ) {
         open( my $f, '<', "$foswikidir/lib/Foswiki.spec" )
           or die "Cannot autoconf: $!";
@@ -907,19 +925,22 @@ s|^(.*)SearchAlgorithms::Forking(.*)$|$1SearchAlgorithms::PurePerl$2|m;
     else {
         error "won't overwrite $localSiteCfg without -force\n\n";
     }
+
+    return;
 }
 
 sub enablePlugin {
-    my ( $module, $installing, $libDir ) = @_;
-    my $cfg = '';
+    my ( $module, $installingModule, $libDir ) = @_;
+    my $cfg     = '';
+    my $changed = 0;
+
     print "Updating LocalSite.cfg\n";
-    if ( open( my $lsc, '<', "lib/LocalSite.cfg" ) ) {
+    if ( open( my $lsc, '<', 'lib/LocalSite.cfg' ) ) {
         local $/;
         $cfg = <$lsc>;
         $cfg =~ s/\r//g;
         close $lsc;
     }
-    my $changed = 0;
     if ( $cfg =~
         s/\$Foswiki::cfg{Plugins}{$module}{Enabled}\s*=\s*(\d+)[\s;]+//sg )
     {
@@ -928,7 +949,7 @@ sub enablePlugin {
         # Removed old setting
         $changed = 1;
     }
-    if ($installing) {
+    if ($installingModule) {
         $cfg =
             "\$Foswiki::cfg{Plugins}{$module}{Enabled} = 1;\n"
           . "\$Foswiki::cfg{Plugins}{$module}{Module} = '${libDir}::Plugins::$module';\n"
@@ -937,11 +958,11 @@ sub enablePlugin {
     }
 
     if ($changed) {
-        if ( open( my $lsc, '>', "lib/LocalSite.cfg" ) ) {
+        if ( open( my $lsc, '>', 'lib/LocalSite.cfg' ) ) {
             print $lsc $cfg;
             close $lsc;
             print(
-                ( $installing ? 'En' : 'Dis' ),
+                ( $installingModule ? 'En' : 'Dis' ),
                 "abled $module in LocalSite.cfg\n"
             );
         }
@@ -949,12 +970,15 @@ sub enablePlugin {
             warn "WARNING: failed to write lib/LocalSite.cfg\n";
         }
     }
+
+    return;
 }
 
 $install = $CAN_LINK ? \&just_link : \&copy_in;
 
 while ( scalar(@ARGV) && $ARGV[0] =~ /^-/ ) {
     my $arg = shift(@ARGV);
+
     if ( $arg eq '-force' ) {
         $force = 1;
     }
@@ -992,7 +1016,7 @@ unless ( scalar(@ARGV) ) {
 
 my @modules;
 for my $arg (@ARGV) {
-    if ( $arg eq "all" ) {
+    if ( $arg eq 'all' ) {
         push( @modules, 'core' );
         foreach my $dir (@extensions_path) {
             opendir my $d, $dir or next;
@@ -1003,7 +1027,7 @@ for my $arg (@ARGV) {
         }
     }
     elsif ( $arg eq 'default' || $arg eq 'developer' ) {
-        open my $f, "<", "lib/MANIFEST" or die "Could not open MANIFEST: $!";
+        open my $f, '<', 'lib/MANIFEST' or die "Could not open MANIFEST: $!";
         local $/ = "\n";
         @modules =
           map { /(\w+)$/; untaint($1) }
@@ -1017,13 +1041,13 @@ for my $arg (@ARGV) {
     }
 
     # *Never* uninstall 'core'
-    @modules = grep { !/^core$/ } @modules unless $installing;
+    @modules = grep { $_ ne 'core' } @modules unless $installing;
 }
 
 print(
     ( $installing ? 'I' : 'Uni' ),
-    "nstalling extensions: ",
-    join( ", ", @modules ), "\n"
+    'nstalling extensions: ',
+    join( ', ', @modules ), "\n"
 );
 
 my @installedModules;
@@ -1040,7 +1064,7 @@ foreach my $module (@modules) {
 print ' '
   . (
     scalar(@installedModules)
-    ? join( ", ", @installedModules )
+    ? join( ', ', @installedModules )
     : 'No modules'
   )
   . ' '
@@ -1048,12 +1072,12 @@ print ' '
   . "nstalled\n";
 
 if ( scalar(@error_log) ) {
-    print "\n----\nError log:\n" . join( "", @error_log );
+    print "\n----\nError log:\n" . join( '', @error_log );
 }
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
