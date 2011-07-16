@@ -17,37 +17,74 @@ my $force;
 my $parentdir;
 my $fetchedExtensionsPath;
 my @error_log;
+my $config_path;
+my %config;
+my $do_genconfig;
 my $autoenable    = 0;
 my $installing    = 1;
 my $autoconf      = 0;
 my $internal_gzip = eval { require Compress::Zlib; 1; };
-my @repos         = (
-    {
-        name     => 'official',
-        type     => 'svn',
-        url      => 'http://svn.foswiki.org',
-        branches => {
-            pharvey =>
-              { WikiDrawPlugin => 'branches/scratch/pharvey/WikiDrawPlugin' },
-            ItaloValcy => {
-                ImageGalleryPlugin =>
-                  'branches/scratch/ItaloValcy/ImageGalleryPlugin_5x10'
-            },
-            'Release01x00' => { path => 'branches/Release01x00' },
-            'Release01x01' => { path => 'branches/Release01x01' },
-            'trunk'        => { path => 'trunk' }
-        }
+my %arg_dispatch  = (
+    '-force' => sub { $force   = 1 },
+    '-l'     => sub { $install = \&just_link },
+    '-c'     => sub {
+        $install  = \&copy_in;
+        $CAN_LINK = 0;
     },
-    {
-        name => 'official-github',
-        type => 'git',
-        url  => 'git://github.com/foswiki',
-        svn  => 'official',
-        bare => 1
+    '-u' => sub {
+        $install    = \&uninstall;
+        $installing = 0;
+    },
+    '-e' => sub {
+        $autoenable = 1;
+    },
+    '-m' => sub {
+        $autoenable = 0;
+    },
+    '-A' => sub {
+        $autoconf = 1;
+    },
+    '-C' => sub {
+        $config_path = shift(@ARGV);
+    },
+    '-G' => sub {
+        $do_genconfig = 1;
     }
 );
+my %default_config = (
+    repos => [
+        {
+            type     => 'svn',
+            url      => 'http://svn.foswiki.org',
+            branches => {
+                pharvey => {
+                    WikiDrawPlugin => 'branches/scratch/pharvey/WikiDrawPlugin'
+                },
+                ItaloValcy => {
+                    ImageGalleryPlugin =>
+                      'branches/scratch/ItaloValcy/ImageGalleryPlugin_5x10'
+                },
+                'Release01x00' => { path => 'branches/Release01x00' },
+                'Release01x01' => { path => 'branches/Release01x01' },
+                'trunk'        => { path => 'trunk' }
+            }
+        },
+        {
+            type => 'git',
+            url  => 'git://github.com/foswiki',
+            svn  => 'http://svn.foswiki.org',
+            bare => 1,
+            note => <<'HERE'
+This will automatically configure any cloned git repo with git-svn to track
+svn.foswiki.org, because the svn value matches the url of the svn repo.
+HERE
+        }
+    ],
+    extensions_path => [ '$basedir/twikiplugins', '.', '$parentdir' ],
+    clone_dir          => '$parentdir'
+);
 
-BEGIN {
+sub init {
     no re 'taint';
     $FindBin::Bin =~ /(.*)/;    # core dir
     $basedir = $1;
@@ -59,7 +96,6 @@ BEGIN {
         ( $ENV{FOSWIKI_EXTENSIONS} || '' ),
         "$basedir/twikiplugins", '.', $parentdir
       );
-
     my $n = 0;
     $n++ while ( -e "testtgt$n" || -e "testlink$n" );
     open( my $testfile, '>', "testtgt$n" )
@@ -71,6 +107,82 @@ BEGIN {
         $CAN_LINK = 1;
     };
     unlink( "testtgt$n", "testlink$n" );
+    $install = $CAN_LINK ? \&just_link : \&copy_in;
+
+    return;
+}
+
+sub init_extensions_path {
+    my %paths;
+
+    if ( $ENV{FOSWIKI_EXTENSIONS} ) {
+        push(
+            @extensions_path,
+            filterpaths(
+                \%paths,
+                split( /$Config::Config{path_sep}/, $ENV{FOSWIKI_EXTENSIONS} )
+            )
+        );
+    }
+    init_config();
+    push( @extensions_path,
+        filterpaths( \%paths, @{ $config{extensions_path} } ) );
+
+    return;
+}
+
+sub init_config {
+    my $conf = $ENV{FOSWIKI_PSEUDOINSTALL_CONFIG};
+
+    if ( not $conf ) {
+        if ( $ENV{HOME} ) {
+            $conf = File::Spec->catfile( $ENV{HOME}, '.buildcontrib' );
+        }
+    }
+    if ( $conf and -d $conf ) {
+        eval { require $conf; 1; };
+    }
+    if ( not scalar( keys %config ) ) {
+        %config = %default_config;
+    }
+    if ( $config{extensions_path} ) {
+        my $npaths = scalar( @{ $config{extensions_path} } );
+        my $i      = 0;
+
+        while ( $i < $npaths ) {
+            $config{extensions_path}->[$i] =
+              expandConfigPathTokens( $config{extensions_path}->[$i] );
+            $i += 1;
+        }
+    }
+    if ( $config{clone_dir} ) {
+        $config{clone_dir} = expandConfigPathTokens( $config{clone_dir} );
+    }
+
+    return;
+}
+
+sub filterpaths {
+    my ( $map, @paths ) = @_;
+    my @result;
+
+    foreach my $p ( grep { -d $_ } @paths ) {
+        if ( not exists $map->{$p} ) {
+            $map->{$p} = 1;
+            push( @result, $p );
+        }
+    }
+
+    return @result;
+}
+
+sub expandConfigPathTokens {
+    my ($path) = @_;
+
+    $path =~ s/\$parentdir/$parentdir/g;
+    $path =~ s/\$basedir/$basedir/g;
+
+    return $path;
 }
 
 sub untaint {
@@ -103,54 +215,56 @@ sub usage {
     my $copyByDefault = $CAN_LINK ? "" : $def;
 
     print <<"EOM";
- Must be run from the root of a SVN checkout tree
+pseudo-install extensions into a SVN (or git) checkout
 
- pseudo-install extensions in a SVN checkout tree
+This is done by a link or copy of the files listed in the MANIFEST for the
+extension. The installer script is *not* called. It should be almost equivalent
+to a tar zx of the packaged extension over the dev tree, except that the use
+of links enable a much more useable development environment.
 
- This is done by a link or copy of the files listed in the MANIFEST
- for the extension. The installer script is *not* called.
- It should be almost equivalent to a tar zx of the packaged extension
- over the dev tree, except that the use of links enable a much
- more useable development environment.
+It picks up extensions to be installed from a search path compiled from (1) the
+environment variable extensions_path, then (2) the extensions_path array
+defined under the key 'pseudo-install' in \$HOME/.buildcontrib, then (3) the
+parent dir of the pseudo-install.pl script itself, unless (1) or (2) place it
+earlier. Duplicate dirs are removed from the search path as it is built.
 
- It picks up the extensions to be installed from a path defined in the
- environment variable FOSWIKI_EXTENSIONS, or if it is not defined,
- from the parent directory of the current checkout.
+Usage: pseudo-install.pl -[G|C][feA][l|c|u] [all|default|developer|<module>
+                                            |git://a.git/url, a\@g.it:/url etc.]
+   -C[onfig]   - path to config file (default \$HOME/.buildcontrib, or
+                                             FOSWIKI_PSEUDOINSTALL_CONFIG envar)
+   -G[enerate] - generate default psuedo-install config in \$HOME/.buildcontrib
+   -f[orce] - force an action to complete even if there are warnings
+   -e[nable] - automatically enable installed plugins in LocalSite.cfg
+               (default)
+   -m[anual] - do not automatically enable installed plugins in LocalSite.cfg
+   -l[ink] - create links $linkByDefault
+   -c[opy] - copy instead of linking $copyByDefault
+   -u[ninstall] - self explanatory (doesn't remove dirs)
+   core - install core (create and link derived objects)
+   all - install core + all extensions (big job)
+   default - install core + extensions listed in lib/MANIFEST
+   developer - core + default + key developer environment
+   <module>... one or more extensions to install (by name or git URL)
+   -[A]utoconf - make a simplistic LocalSite.cfg, using just the defaults in lib/Foswiki.spec
 
- Usage: pseudo-install.pl -[feA][l|c|u] [all|default|developer|<module>...]
-    -f[orce] - force an action to complete even if there are warnings
-    -e[nable] - automatically enable installed plugins in LocalSite.cfg
-                (default)
-    -m[anual] - do not automatically enable installed plugins in LocalSite.cfg
-    -l[ink] - create links $linkByDefault
-    -c[opy] - copy instead of linking $copyByDefault
-    -u[ninstall] - self explanatory (doesn't remove dirs)
-    core - install core (create and link derived objects)
-    all - install core + all extensions (big job)
-    default - install core + extensions listed in lib/MANIFEST
-    developer - core + default + key developer environment
-    <module>... one or more extensions to install (by name or git URL)
-    -[A]utoconf - make a simplistic LocalSite.cfg, using just the defaults in lib/Foswiki.spec
+Examples:
+   softlink and enable FirstPlugin and SomeContrib
+       perl pseudo-install.pl -force -enable -link FirstPlugin SomeContrib
+   
+   check out a new trunk, create a default LocalSite.cfg, install and enable
+   all the plugins for the default distribution (and then run the unit tests)
+       svn co http://svn.foswiki.org/trunk
+       cd trunk/core
+       ./pseudo-install.pl -A developer
+       cd test/unit
+       ../bin/TestRunner.pl -clean FoswikiSuite.pm
 
- Example:
-    softlink and enable FirstPlugin and SomeContrib
-        perl pseudo-install.pl -force -enable -link FirstPlugin SomeContrib
-    
-    
-    check out a new trunk, create a default LocalSite.cfg, install and enable
-    all the plugins for the default distribution (and then run the unit tests)
-        svn co http://svn.foswiki.org/trunk
-        cd trunk/core
-        ./pseudo-install.pl -A developer
-        cd test/unit
-        ../bin/TestRunner.pl -clean FoswikiSuite.pm
-
-    check out a new trunk using git, then install and enable an extension from
-    an abritrary git repository
-        git clone git://github.com/foswiki/core.git
-        cd core
-        ./pseudo-install.pl -A developer
-        ./pseudo-install.pl -e git\@github.com:/me/MyPlugin.git
+   check out a new trunk using git, then install and enable an extension from
+   an abritrary git repository
+       git clone git://github.com/foswiki/core.git
+       cd core
+       ./pseudo-install.pl -A developer
+       ./pseudo-install.pl -e git\@github.com:/me/MyPlugin.git
 EOM
 
     return;
@@ -196,7 +310,7 @@ sub installModule {
 
     # Assume that only URLs will have '.' or '/', never module names
     if ( $module =~ /[\/\.]/ ) {
-        fetchModuleByURL( $fetchedExtensionsPath, $module );
+        cloneModuleByURL( $config{clone_dir}, $module );
         $module = urlToModuleName($module);
     }
 
@@ -230,7 +344,7 @@ sub installModuleByName {
     }
 
     if ( not defined $moduleDir ) {
-        $moduleDir = fetchModuleByName($module);
+        $moduleDir = cloneModuleByName($module);
     }
 
     unless ( defined $moduleDir and -d $moduleDir ) {
@@ -321,7 +435,7 @@ sub gitClone2GitSVN {
 cd $moduleDir
 git update-ref $svnremoteref $gitremoteref
 HERE
-                print "\tfetch from SVN url $svnurl :$svnremoteref\n";
+                print "\tclone from SVN url $svnurl :$svnremoteref\n";
                 do_commands(<<"HERE");
 cd $moduleDir
 git config svn-remote.$branchdata->{branch}.url $svnurl
@@ -373,10 +487,11 @@ sub connectGitRepoToSVNByRepoName {
     my $lookingupname = 1;
     my $repoIndex     = 0;
 
-    while ( $lookingupname and $repoIndex < scalar(@repos) ) {
-        if ( $repos[$repoIndex]->{name} eq $svnreponame ) {
+    while ( $lookingupname and $repoIndex < scalar( @{ $config{repos} } ) ) {
+        if ( $config{repos}->[$repoIndex]->{name} eq $svnreponame ) {
             $lookingupname = 0;
-            connectGitRepoToSVN( $module, $moduleDir, $repos[$repoIndex] );
+            connectGitRepoToSVN( $module, $moduleDir,
+                $config{repos}->[$repoIndex] );
         }
         else {
             $repoIndex = $repoIndex + 1;
@@ -386,25 +501,25 @@ sub connectGitRepoToSVNByRepoName {
     return;
 }
 
-sub fetchModuleByName {
+sub cloneModuleByName {
     my ($module)  = @_;
     my $cloned    = 0;
     my $repoIndex = 0;
-    my $moduleDir = "$fetchedExtensionsPath/$module";
+    my $moduleDir = "$config{clone_dir}/$module";
 
-    while ( not $cloned and ( $repoIndex < scalar(@repos) ) ) {
-        if ( $repos[$repoIndex]->{type} eq 'git' ) {
-            my $url = $repos[$repoIndex]->{url} . "/$module";
+    while ( not $cloned and ( $repoIndex < scalar( @{ $config{repos} } ) ) ) {
+        if ( $config{repos}->[$repoIndex]->{type} eq 'git' ) {
+            my $url = $config{repos}->[$repoIndex]->{url} . "/$module";
 
-            if ( $repos[$repoIndex]->{bare} ) {
+            if ( $config{repos}->[$repoIndex]->{bare} ) {
                 $url .= '.git';
             }
-            fetchModuleByURL( $fetchedExtensionsPath, $url );
+            cloneModuleByURL( $config{clone_dir}, $url );
             if ( -d $moduleDir ) {
                 $cloned = 1;
-                if ( $repos[$repoIndex]->{svn} ) {
+                if ( $config{repos}->[$repoIndex]->{svn} ) {
                     connectGitRepoToSVNByRepoName( $module, $moduleDir,
-                        $repos[$repoIndex]->{svn} );
+                        $config{repos}->[$repoIndex]->{svn} );
                 }
                 print "Cloned $module OK\n";
             }
@@ -422,8 +537,8 @@ sub fetchModuleByName {
         print "It seems your 'core' checkout isn't connected to a svn repo... ";
         if ($svnRepo) {
             print "connecting\n";
-            connectGitRepoToSVNByRepoName( 'core',
-                "$fetchedExtensionsPath/core", $svnRepo->{name} );
+            connectGitRepoToSVNByRepoName( 'core', "$config{clone_dir}/core",
+                $svnRepo->{name} );
         }
         else {
             print "couldn't find any svn repo containing 'core'\n";
@@ -436,11 +551,11 @@ sub fetchModuleByName {
 sub getSVNRepoByModuleBranchName {
     my ( $module, $branch ) = @_;
     my $svnRepo;
-    my $nRepos = scalar(@repos);
+    my $nRepos = scalar( @{ $config{repos} } );
     my $i      = 0;
 
     while ( not $svnRepo and $i < $nRepos ) {
-        my $repo = $repos[$i];
+        my $repo = $config{repos}->[$i];
 
         if ( $repo->{type} eq 'svn' ) {
             if ( $repo->{branches}->{$branch} ) {
@@ -459,12 +574,12 @@ sub checkModuleByNameHasSVNBranch {
     my ( $module, $branch ) = @_;
 
     return do_commands(<<"HERE") ? 1 : 0;
-cd $fetchedExtensionsPath/$module
+cd $config{clone_dir}/$module
 git config --get svn-remote.$branch.url
 HERE
 }
 
-sub fetchModuleByURL {
+sub cloneModuleByURL {
     my ( $target, $source ) = @_;
 
     #TODO: Make this capable of using svn as an alternative
@@ -974,106 +1089,96 @@ sub enablePlugin {
     return;
 }
 
-$install = $CAN_LINK ? \&just_link : \&copy_in;
+sub run {
 
-while ( scalar(@ARGV) && $ARGV[0] =~ /^-/ ) {
-    my $arg = shift(@ARGV);
+    while ( scalar(@ARGV) && $ARGV[0] =~ /^-/ ) {
+        my $arg = shift(@ARGV);
 
-    if ( $arg eq '-force' ) {
-        $force = 1;
-    }
-    elsif ( $arg =~ /^-l/ ) {
-        $install = \&just_link;
-    }
-    elsif ( $arg =~ /^-c/ ) {
-        $install  = \&copy_in;
-        $CAN_LINK = 0;
-    }
-    elsif ( $arg =~ /^-u/ ) {
-        $install    = \&uninstall;
-        $installing = 0;
-    }
-    elsif ( $arg =~ /^-e/ ) {
-        $autoenable = 1;
-    }
-    elsif ( $arg =~ /^-m/ ) {
-        $autoenable = 0;
-    }
-    elsif ( $arg =~ /^-A/ ) {
-        $autoconf = 1;
-    }
-}
-
-if ($autoconf) {
-    Autoconf();
-    exit 0 unless ( scalar(@ARGV) );
-}
-
-unless ( scalar(@ARGV) ) {
-    usage();
-    exit 1;
-}
-
-my @modules;
-for my $arg (@ARGV) {
-    if ( $arg eq 'all' ) {
-        push( @modules, 'core' );
-        foreach my $dir (@extensions_path) {
-            opendir my $d, $dir or next;
-            push @modules, map { untaint($_) }
-              grep { /(?:Tag|Plugin|Contrib|Skin|AddOn)$/ && -d "$dir/$_" }
-              readdir $d;
-            closedir $d;
+        if ( exists $arg_dispatch{$arg} ) {
+            $arg_dispatch{$arg}->();
         }
     }
-    elsif ( $arg eq 'default' || $arg eq 'developer' ) {
-        open my $f, '<', 'lib/MANIFEST' or die "Could not open MANIFEST: $!";
-        local $/ = "\n";
-        @modules =
-          map { /(\w+)$/; untaint($1) }
-          grep { /^!include/ } <$f>;
-        close $f;
-        push @modules, 'BuildContrib', 'TestFixturePlugin', 'UnitTestContrib'
-          if $arg eq 'developer';
-    }
-    else {
-        push @modules, untaint($arg);
+
+    init_config();
+    init_extensions_path();
+
+    if ($autoconf) {
+        Autoconf();
+        exit 0 unless ( scalar(@ARGV) );
     }
 
-    # *Never* uninstall 'core'
-    @modules = grep { $_ ne 'core' } @modules unless $installing;
-}
+    unless ( scalar(@ARGV) ) {
+        usage();
+        exit 1;
+    }
 
-print(
-    ( $installing ? 'I' : 'Uni' ),
-    'nstalling extensions: ',
-    join( ', ', @modules ), "\n"
-);
+    my @modules;
+    for my $arg (@ARGV) {
+        if ( $arg eq 'all' ) {
+            push( @modules, 'core' );
+            foreach my $dir (@extensions_path) {
+                opendir my $d, $dir or next;
+                push @modules, map { untaint($_) }
+                  grep { /(?:Tag|Plugin|Contrib|Skin|AddOn)$/ && -d "$dir/$_" }
+                  readdir $d;
+                closedir $d;
+            }
+        }
+        elsif ( $arg eq 'default' || $arg eq 'developer' ) {
+            open my $f, '<', 'lib/MANIFEST'
+              or die "Could not open MANIFEST: $!";
+            local $/ = "\n";
+            @modules =
+              map { /(\w+)$/; untaint($1) }
+              grep { /^!include/ } <$f>;
+            close $f;
+            push @modules, 'BuildContrib', 'TestFixturePlugin',
+              'UnitTestContrib'
+              if $arg eq 'developer';
+        }
+        else {
+            push @modules, untaint($arg);
+        }
 
-my @installedModules;
-foreach my $module (@modules) {
-    my $libDir = installModule($module);
-    if ($libDir) {
-        push( @installedModules, $module );
-        if ( ( !$installing || $autoenable ) && $module =~ /Plugin$/ ) {
-            enablePlugin( $module, $installing, $libDir );
+        # *Never* uninstall 'core'
+        @modules = grep { $_ ne 'core' } @modules unless $installing;
+    }
+
+    print(
+        ( $installing ? 'I' : 'Uni' ),
+        'nstalling extensions: ',
+        join( ', ', @modules ), "\n"
+    );
+
+    my @installedModules;
+    foreach my $module (@modules) {
+        my $libDir = installModule($module);
+        if ($libDir) {
+            push( @installedModules, $module );
+            if ( ( !$installing || $autoenable ) && $module =~ /Plugin$/ ) {
+                enablePlugin( $module, $installing, $libDir );
+            }
         }
     }
+
+    print ' '
+      . (
+        scalar(@installedModules)
+        ? join( ', ', @installedModules )
+        : 'No modules'
+      )
+      . ' '
+      . ( $installing ? 'i' : 'uni' )
+      . "nstalled\n";
+
+    if ( scalar(@error_log) ) {
+        print "\n----\nError log:\n" . join( '', @error_log );
+    }
 }
 
-print ' '
-  . (
-    scalar(@installedModules)
-    ? join( ', ', @installedModules )
-    : 'No modules'
-  )
-  . ' '
-  . ( $installing ? 'i' : 'uni' )
-  . "nstalled\n";
+init();
+run();
 
-if ( scalar(@error_log) ) {
-    print "\n----\nError log:\n" . join( '', @error_log );
-}
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
