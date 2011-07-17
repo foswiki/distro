@@ -9,7 +9,7 @@ use File::Copy();
 use File::Spec();
 use FindBin();
 
-my $usagetext = <<"EOM";
+my $usagetext = <<'EOM';
 pseudo-install extensions into a SVN (or git) checkout
 
 This is done by a link or copy of the files listed in the MANIFEST for the
@@ -18,28 +18,28 @@ to a tar zx of the packaged extension over the dev tree, except that the use
 of links enable a much more useable development environment.
 
 It picks up extensions to be installed from a search path compiled from (1) the
-environment variable FOSWIKI_EXTENSIONS, then (2) the extensions_path array
-defined under the key 'pseudo-install' in the config file (\$HOME/.buildcontrib
+environment variable $FOSWIKI_EXTENSIONS, then (2) the extensions_path array
+defined under the key 'pseudo-install' in the config file ($HOME/.buildcontrib
 by default). The default path includes current working directory & its parent.
 
 Usage: pseudo-install.pl -[G|C][feA][l|c|u] [all|default|developer|<module>
-                                            |git://a.git/url, a\@g.it:/url etc.]
-   -C[onfig]   - path to config file (default \$HOME/.buildcontrib, or envar
-                                                   FOSWIKI_PSEUDOINSTALL_CONFIG)
-   -G[enerate] - generate default psuedo-install config in \$HOME/.buildcontrib
-   -f[orce] - force an action to complete even if there are warnings
-   -e[nable] - automatically enable installed plugins in LocalSite.cfg
-               (default)
-   -m[anual] - do not automatically enable installed plugins in LocalSite.cfg
-   -l[ink] - create links %linkByDefault%
-   -c[opy] - copy instead of linking %copyByDefault%
+                                            |git://a.git/url, a@g.it:/url etc.]
+   -C[onfig]    - path to config file (default $HOME/.buildcontrib, or envar
+                                               $FOSWIKI_PSEUDOINSTALL_CONFIG)
+   -G[enerate]  - generate default psuedo-install config in $HOME/.buildcontrib
+   -f[orce]     - force an action to complete even if there are warnings
+   -e[nable]    - automatically enable installed plugins in LocalSite.cfg
+                  (default)
+   -m[anual]    - do not automatically enable installed plugins in LocalSite.cfg
+   -l[ink]      - create links %linkByDefault%
+   -c[opy]      - copy instead of linking %copyByDefault%
    -u[ninstall] - self explanatory (doesn't remove dirs)
-   core - install core (create and link derived objects)
-   all - install core + all extensions (big job)
-   default - install core + extensions listed in lib/MANIFEST
-   developer - core + default + key developer environment
-   <module>... one or more extensions to install (by name or git URL)
-   -[A]utoconf - make a simplistic LocalSite.cfg, using just the defaults in lib/Foswiki.spec
+   core         - install core (create and link derived objects)
+   all          - install core + all extensions (big job)
+   default      - install core + extensions listed in lib/MANIFEST
+   developer    - core + default + key developer environment
+   <module>...  - one or more extensions to install (by name or git URL)
+   -[A]utoconf  - make a simplistic LocalSite.cfg, using just the defaults in lib/Foswiki.spec
 
 Examples:
    softlink and enable FirstPlugin and SomeContrib
@@ -58,7 +58,7 @@ Examples:
        git clone git://github.com/foswiki/core.git
        cd core
        ./pseudo-install.pl -A developer
-       ./pseudo-install.pl -e git\@github.com:/me/MyPlugin.git
+       ./pseudo-install.pl -e git@github.com:/me/MyPlugin.git
 EOM
 my $install;
 my $basedir;
