@@ -55,8 +55,8 @@ sub getOptions {
         $this->{_options} = ();
         my $str;
         foreach my $val (@$vals) {
-            if ( $val =~ /^(.*?[^\\])=(.*)$/ ) {
-                $str = TAINT($1);
+            if ( $val =~ /^(.*[^\\])*=(.*)$/ ) {
+                $str = TAINT($1) || '';
                 $val = $2;
                 $str =~ s/\\=/=/g;
             }

@@ -275,7 +275,7 @@ sub test_Item972_selectPlusValues {
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
         <<FORM);
 | *Name* | *Type*   | *Size* | *Value* | *Tooltip* | *Attributes* |
-| Select | select+values | 5 | One, Two=2, Three=III, Four | Various values |
+| Select | select+values | 5 | , =0, One, Two=2, Three=III, Four | Various values |
 FORM
     $topicObject->save();
     my $def =
@@ -283,8 +283,8 @@ FORM
 
     my $f = $def->getField('Select');
     $this->assert_str_equals( 'select+values', $f->{type} );
-    $this->assert_equals( 4, scalar( @{ $f->getOptions() } ) );
-    $this->assert_str_equals( 'One,2,III,Four',
+    $this->assert_equals( 6, scalar( @{ $f->getOptions() } ) );
+    $this->assert_str_equals( ',0,One,2,III,Four',
         join( ',', @{ $f->getOptions() } ) );
     $this->assert_str_equals( 'Various values', $f->{tooltip} );
 }
