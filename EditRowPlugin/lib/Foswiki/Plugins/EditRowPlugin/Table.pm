@@ -642,6 +642,7 @@ sub parseFormat {
         } elsif ( $type eq 'date' ) {
 	    $initial = shift @values;
 	}
+	$initial = '' unless defined $initial;
 
         @values = map { s/^\s*//; s/\s*$//; $_ } @values;
         push(

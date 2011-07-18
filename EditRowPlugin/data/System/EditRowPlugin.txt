@@ -239,6 +239,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2011 Wind<nop>River Inc. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  2.2.6 (18 Jul 2011) | Foswiki:Tasks/Item10982: fix crash when adding rows with date fields that have no default value |
 |  2.2.5 (27 Jun 2011) | Foswiki:Tasks/Item10915: fix EDITCELL handling on save. Foswiki:Tasks/Item10922: abort save on clash with a synchronous edit by another user |
 |  2.2.4 (14 Jun 2011) | Foswiki:Tasks/Item10876: return to non-edit mode after row move invokes authentication. Foswiki:Tasks/Item10876: fix textarea. |
 |  2.2.3 (10 Jun 2011) | Foswiki:Tasks/Item10862: pick up initial values for all field types. Foswiki:Tasks/Item10864: protect full-table edits when adding and removing rows. Foswiki:Tasks/Item10865: remove edit stain from label cells. |
