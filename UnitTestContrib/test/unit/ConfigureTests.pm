@@ -1019,7 +1019,7 @@ sub test_Package_makeBackup {
     $this->assert_matches( qr/Backup saved into/, $msg );
     $result = $pkg->uninstall();
 
-    my $expected = "Removed files:<br /><pre>.*/configure/pkgdata/MyPlugin_installer
+    $this->assert_matches( qr#Removed files:<br /><pre>.*?
 .*/Testsandboxweb1234/Subweb/TestTopic43.txt
 .*/Testsandboxweb1234/TestTopic1.txt
 .*/Testsandboxweb1234/TestTopic43.txt
@@ -1030,9 +1030,13 @@ sub test_Package_makeBackup {
 .*/Testsandboxweb1234/TestTopic43/file2.att
 $this->{scriptdir}/shbtest1
 $this->{toolsdir}/shbtest2
-.*";
+.*?</pre>#ms,
+      $result);
 
-   $this->assert_matches( $expected, $result );
+    $this->assert_matches( qr#
+.*/configure/pkgdata/MyPlugin_installer
+#ms,
+      $result);
 
     $pkg->finish();
 
@@ -1378,7 +1382,7 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl m
     #
     my $results = $pkg2->uninstall();
 
-    $this->assert_matches( qr#Removed files:<br /><pre>.*/configure/pkgdata/MyPlugin_installer
+    $this->assert_matches( qr#Removed files:<br /><pre>.*?
 .*/Testsandboxweb1234/Subweb/TestTopic43.txt
 .*/Testsandboxweb1234/Subweb/TestTopic43.txt,v
 .*/Testsandboxweb1234/TestTopic1.txt
@@ -1394,8 +1398,13 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl m
 .*/Testsandboxweb1234/TestTopic43/file2.att,v
 $this->{scriptdir}/shbtest1
 $this->{toolsdir}/shbtest2
-</pre>#,
-$results);
+.*?</pre>#ms,
+      $results);
+
+    $this->assert_matches( qr#
+.*/configure/pkgdata/MyPlugin_installer
+#ms,
+      $results);
 
     $pkg2->finish();
     undef $pkg2;
