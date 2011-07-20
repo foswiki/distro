@@ -200,7 +200,7 @@ sub _install {
 
     $pkg->repository($repository);
 
-    my ( $rslt, $plugins, $depCPAN ) = $pkg->fullInstall();
+    my ( $rslt, $plugins, $depCPAN ) = $pkg->install();
 
     $err = $pkg->errors();
 
@@ -261,16 +261,6 @@ HERE
         $feedback .= "</pre>";
     }
 
-    if ( keys(%$plugins) && !$simulate ) {
-        $feedback .= $this->NOTE(<<HERE);
-<span class='foswikiAlert'>Note: Before you can use newly installed plugins, you must enable them in the Enabled Plugins section in the main page.</span>
-HERE
-        $feedback .= "<pre>";
-        foreach my $plu ( sort { lc($a) cmp lc($b) } keys %$plugins ) {
-            $feedback .= "$plu \n";
-        }
-        $feedback .= "</pre>";
-    }
     _printFeedback($feedback);
 }
 
@@ -284,7 +274,6 @@ sub _uninstall {
     my ( $this, $repositoryPath, $extension, $processExt ) = @_;
 
     my $feedback = '';
-    $feedback .= "<h3 style='margin-top:0'>Uninstalling $extension</h3>";
 
     my @removed;
     my $rslt;
@@ -302,7 +291,9 @@ sub _uninstall {
 
     my $pkg =
       new Foswiki::Configure::Package( $installRoot, $extension, $session,
-        { SIMULATE => $simulate, } );
+        { SIMULATE => $simulate,
+          USELOCAL => 1,
+        } );
 
     # For uninstall, set repository in case local installer is not found
     # it can be downloaded to recover the manifest
@@ -317,34 +308,7 @@ sub _uninstall {
         $pkg->repository($repository);
     }
 
-    # And allow the package to use / prefer the local _installer file if found
-    ( $rslt, $err ) = $pkg->loadInstaller( { USELOCAL => 1 } );
-
-    if ($rslt) {
-        $feedback .= "Loading installer for manifest <br />\n";
-        $feedback .= "<pre>$rslt </pre>";
-    }
-
-    unless ($err) {
-        my $rslt = $pkg->createBackup();
-        $feedback .= "$sim Creating Backup: <br />\n<pre>$rslt</pre>" if $rslt;
-
-        $pkg->loadExits();
-
-        if ( defined $pkg->preuninstall && !$simulate ) {
-            $feedback .= "Running Pre-uninstall...<br />\n";
-            $rslt = $pkg->preuninstall() || '';
-            $feedback .= '<pre>' . $rslt . '</pre>';
-        }
-
-        @removed = $pkg->uninstall();
-
-        if ( defined $pkg->postuninstall && !$simulate ) {
-            $feedback .= "Running Post-uninstall...<br />\n";
-            $rslt = $pkg->postuninstall() || '';
-            $feedback .= '<pre>' . $rslt . '</pre>';
-        }
-    }
+    $feedback .= $pkg->uninstall();
 
     $pkg->finish();
     undef $pkg;
@@ -359,33 +323,7 @@ sub _uninstall {
         return;
     }
 
-    unless ( scalar @removed ) {
-        $feedback .= $this->WARN(" Nothing removed for $extension");
-        _printFeedback($feedback);
-        return;
-    }
 
-    my @plugins;
-    my $unpackedFeedback = '';
-    foreach my $file (@removed) {
-        $unpackedFeedback .= "$file\n";
-        my ($plugName) = $file =~ m/.*\/Plugins\/([^\/]+Plugin)\.pm$/;
-        push( @plugins, $plugName ) if $plugName;
-    }
-    $feedback .= "Removed files:<br />\n<pre>$unpackedFeedback</pre>"
-      if $unpackedFeedback;
-
-    if ( scalar @plugins && !$simulate ) {
-        $feedback .= $this->WARN(<<HERE);
-Note: Don't forget to disable uninstalled plugins in the
-"Plugins" section in the main page, listed below:
-HERE
-        $feedback .= "<pre>";
-        foreach my $plugName (@plugins) {
-            $feedback .= "$plugName \n" if $plugName;
-        }
-        $feedback .= "</pre>";
-    }
     _printFeedback($feedback);
 }
 

@@ -144,7 +144,13 @@ Foswiki:Extensions is an extensive library of [[plugins]] for Foswiki that enhan
    * [[Contribs]] and [[ContributedAddOns][AddOns]] are any other Extension that provides added functionality beyond Plugins and Skins
 
 ---++++ Installing extensions
-Visit [[%SCRIPTURL{configure}%#Extensions][configure:Extensions]]. Use the _Find More Extensions_ button to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
+Extensions can be installed using any of several different methods:
+   * the [[%SCRIPTURL{configure}%#Extensions][configure]] web interface
+   * the generic shell installer =tools/extension_installer=
+   * by manually downloading the extension zip or tar file
+%X%Caution: Users of the debian =.deb= packages should only use the debian tools when installing extensions.
+
+The simplest way is to visit [[%SCRIPTURL{configure}%#Extensions][configure:Extensions]]. Use the _Find More Extensions_ button to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
 
 When installing an extension from the =configure= interface:
    * Even if available, local Extension installers and archives are not used
@@ -158,7 +164,6 @@ When installing an extension from the =configure= interface:
       * If previous topics or attachments are found, then the topic will be _checked in_ under the Administrators user id.
       * If the topics or attachments are flagged as =!noci=, disabling checkin, they will still be checked in if existing revision control files are found, suggesting that local modifications have occurred.
    * CPAN dependencies and other external packages are *not* resolved and should be resolved manually
-   * After installation, the Extension =_installer= module is saved in =working/configure/pkgdata=
 
 When installing extensions from the command line:
    * The =_installer= package must be run from the root directory of the Foswiki installation. 
@@ -168,7 +173,11 @@ When installing extensions from the command line:
       * You will be given the option to resolve CPAN dependencies after the Extensions and dependencies are installed.
       * Any other dependencies still need to be manually resolved.
 
-Plugins are activated in the _Plugins_ section of the =configure= page. In addition, some plugins are also configured in this section.
+When using either the web or shell instalation tools:
+   * After installation, the Extension =_installer= module is saved in =working/configure/pkgdata=
+   * A complete log of the actions taken by the installer is saved in =working/logs/configure/[NameOfExtension]-yyyymmdd-hhmmss-[Action].log=
+
+__Plugins must be manually enabled in the _Plugins_ section of the =configure= page.__ In addition, some extensions also require configuration in this section.
 
 The instructions for using the extensions installer from the shell are
 retrieved by using the "usage" command:  =tools/extension_installer usage= or
@@ -230,13 +239,15 @@ output.
    * Dependencies are not removed
    * Other Extensions dependent on the removed extension may become non-operational.
 </blockquote>
-The web and command line interfaces can also be used to uninstall extensions.  When an extension is remove, the following occurs:
+The web and command line interfaces can be used to uninstall extensions.  When an extension is remove, the following occurs:
    * The =_installer= package is used to recover the manifest.  If it cannot be found locally, it will be downloaded from the configured extension repository
    * A backup of the previously installed files per the manifest will be taken to the =configure/working/backup= directory
       * Note: If download of the =_uninstaller= was required, the backup will be made per the _current_ installer's manifest.  It is preferable to always save the =_installer= modules.
    * The Extension files along with any =,v= revision control files will be removed, including the =_installer=. 
       * Any additional files saved locally are not removed.
-   * Plugin modules __are not disabled in the configuration__ - they must be disabled manually.
+   * A complete log of the steps taken is saved in =working/logs/configure/[NameOfExtension]-yyyymmdd-hhmmss-[Action].log=
+
+   * Plugin modules __are not automatically disabled in the configuration__ - they must be disabled manually.
 
 Run the uninstall from the "root" of the Foswiki installation:
 =working/configure/pkgdata/SomeExtension_installer uninstall=

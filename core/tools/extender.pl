@@ -283,46 +283,16 @@ sub _loadInstaller {
 
 sub _uninstall {
     my $file;
-    my @dead;
     my $rslt = '';
     my $err  = '';
     my $sim  = '';
     $sim = 'Simulated - ' if ($simulate);
 
-    $rslt = $thispkg->createBackup();
-
-    _inform "$rslt";
-
-    @dead = $thispkg->uninstall('1') unless ($err);
-
-    unless ( $#dead > 1 ) {
-        _warn "No part of $MODULE is installed";
-        return 0;
-    }
-    _warn "$sim To uninstall $MODULE, the following files will be deleted:";
-    _inform "\t" . join( "\n\t$sim", @dead );
-
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
     if ($reply) {
 
-        $thispkg->loadExits();
-
-        unless ($simulate) {
-            $rslt = "Running Pre-uninstall exit for $thispkg->{_pkgname} ...\n";
-            $rslt .= $thispkg->preuninstall() || '';
-            _inform "$rslt";
-        }
-
-        @dead = $thispkg->uninstall();
-        my $removed = scalar @dead;
-        _inform "$sim removed $removed files";
-
-        unless ($simulate) {
-            $rslt =
-              "Running Post-uninstall exit for $thispkg->{_pkgname} ...\n";
-            $rslt .= $thispkg->postuninstall() || '';
-            _inform "$rslt";
-        }
+        $rslt = $thispkg->uninstall();
+        _inform "$rslt";
 
         $thispkg->finish();
         undef $thispkg;
@@ -446,7 +416,7 @@ sub _install {
     return 0
       unless ask("$instmsg");
 
-    my ( $rslt, $plugins, $depCPAN ) = $thispkg->fullInstall();
+    my ( $rslt, $plugins, $depCPAN ) = $thispkg->install();
     _inform $rslt;
     $rslt = '';
 
@@ -456,18 +426,6 @@ sub _install {
             $unsatisfied++;
         }
     }
-
-    if ( keys %$plugins ) {
-        $rslt = <<HERE;
-Note: Don't forget to enable installed plugins in the
-"Plugins" section of bin/configure, listed below:
-
-HERE
-        foreach my $plugName ( sort { lc($a) cmp lc($b) } keys %$plugins ) {
-            $rslt .= "  $plugName \n" if $plugName;
-        }
-    }
-    _inform($rslt);
 
     my $err = $thispkg->errors();
     if ($err) {
