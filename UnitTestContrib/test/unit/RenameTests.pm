@@ -2098,4 +2098,43 @@ sub do_not_test_rename_attachment_not_on_disc {
     );
 }
 
+# Move a root web to something with same spelling bug different case (seemed to cause a MonogDB issue)
+sub test_renameWeb_10990 {
+    my $this = shift;
+    my $m = Foswiki::Meta->new( $this->{session}, "Renamed$this->{test_web}" );
+    $m->populateNewWeb();
+
+    # need rename access on the root for this one, which is a bit of a
+    # faff to set up, so we'll cheat a bit and add the user to the admin
+    # group. Fortunately we have a private users web.
+    my $grope =
+      Foswiki::Meta->new( $this->{session}, $this->{users_web},
+        $Foswiki::cfg{SuperAdminGroup}, <<EOF);
+   * Set GROUP = $this->{test_user_wikiname}
+EOF
+    $grope->save();
+
+    my $query = new Unit::Request(
+        {
+            action           => 'renameweb',
+            newsubweb        => "RENAMED$this->{test_web}",
+            referring_topics => [ $m->getPath() ],
+        }
+    );
+    $query->path_info("/Renamed$this->{test_web}/WebHome");
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    $this->assert(
+        Foswiki::Func::webExists("RENAMED$this->{test_web}")
+    );
+    $this->assert( !Foswiki::Func::webExists("Renamed$this->{test_web}") );
+    
+    #now remove it!
+    $this->removeWebFixture( $this->{session}, "RENAMED$this->{test_web}" )
+
+}
+
 1;
