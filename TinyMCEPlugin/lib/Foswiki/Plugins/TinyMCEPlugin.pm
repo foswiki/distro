@@ -155,6 +155,7 @@ sub beforeEditHandler {
         if ( defined &Foswiki::Func::setPreferencesValue ) {
             Foswiki::Func::setPreferencesValue( 'EDITOR_MESSAGE',
                 'WYSIWYG could not be started: ' . $mess );
+            Foswiki::Func::setPreferencesValue( 'EDITOR_HELP', undef );
         }
         return;
     }
