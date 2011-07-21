@@ -35,9 +35,10 @@ sub tear_down {
 my $users1 = {
     alligator => { pass => 'hissss',            emails => 'ally@masai.mara' },
     bat       => { pass => 'ultrasonic squeal', emails => 'bat@belfry' },
-    budgie => { pass => 'tweet', emails => 'budgie@flock;budge@oz' },
-    lion   => { pass => 'roar',  emails => 'lion@pride' },
-    mole   => { pass => '',      emails => 'mole@hill' }
+    budgie => { pass => 'tweet',    emails => 'budgie@flock;budge@oz' },
+    lion   => { pass => 'roar',     emails => 'lion@pride' },
+    dodo   => { pass => '3zmVlgI9', emails => 'dodo@extinct' },
+    mole   => { pass => '',         emails => 'mole@hill' }
 };
 
 my $users2 = {
@@ -45,6 +46,7 @@ my $users2 = {
     bat       => { pass => 'moth',   emails => $users1->{bat}->{emails} },
     budgie    => { pass => 'millet', emails => $users1->{budgie}->{emails} },
     lion => { pass => 'antelope',  emails => $users1->{lion}->{emails} },
+    dodo => { pass => 'b2rd',      emails => $users1->{dodo}->{emails} },
     mole => { pass => 'earthworm', emails => $users1->{mole}->{emails} },
 };
 
@@ -63,8 +65,11 @@ sub doTests {
         $encrapted{$user} = $impl->fetchPass($user);
         $this->assert_null( $impl->error() );
         $this->assert( $encrapted{$user} );
-        $this->assert_str_equals( $encrapted{$user},
-            $impl->encrypt( $user, $users1->{$user}->{pass} ) );
+        $this->assert_str_equals(
+            $encrapted{$user},
+            $impl->encrypt( $user, $users1->{$user}->{pass} ),
+            "fails for $user"
+        );
         $this->assert_str_equals( $users1->{$user}->{emails},
             join( ";", $impl->getEmails($user) ) );
     }
@@ -168,6 +173,192 @@ sub TODO_test_htpasswd_plain {
     $this->doTests($impl);
 }
 
+sub test_htpasswd_auto {
+    my $this = shift;
+
+    foreach my $m (qw( Digest::SHA Crypt::PasswdMD5 )) {
+        eval "use $m";
+        if ($@) {
+            my $mess = $@;
+            $mess =~ s/\(\@INC contains:.*$//s;
+            $this->expect_failure();
+            $this->annotate("AUTO TESTS WILL FAIL: missing $m");
+        }
+    }
+
+    $Foswiki::cfg{AuthRealm} = 'MyNewRealmm';
+    $Foswiki::cfg{Htpasswd}{AutoDetect} = 1;
+
+    my %encrapted;
+    my %encoded;
+    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+
+# The following lines were generated with the apache htdigest and htpasswd command
+# Used to verify the encode autodetect feature.
+
+    open( my $fh, '>', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
+      || die "Unable to open \n $! \n\n ";
+    print $fh <<'DONE';
+alligator:njQ4t57Dts41s
+bat:$apr1$9/PfK37z$HrNORnyJefA2ex4nWLOoR1
+budgie:{SHA}1pqeQCvCHCfCrnFA8mTGYna/DV0=
+dodo:$1$pUXqkX97$zqxdNSnpusVmoB.B.aUhB/:dodo@extinct
+lion:MyNewRealmm:3e60f5f16dc3b8658879d316882a3f00
+mole::mole@hill
+DONE
+
+    #mole:$1$GfAYYH9N$mEiibRtbtp1177trZgAV00:mole@hill
+    close($fh);
+
+    # First try - no emails in file
+    # check it
+    foreach my $user ( sort keys %$users1 ) {
+        $this->assert( $impl->checkPassword( $user, $users1->{$user}->{pass} ),
+            "Failure for $user" );
+        ( $encrapted{$user}, $encoded{$user} ) = $impl->fetchPass($user);
+        if ( $encrapted{$user} ) {
+            $this->assert_str_equals(
+                $encrapted{$user},
+                $impl->encrypt(
+                    $user, $users1->{$user}->{pass},
+                    0, $encoded{$user}
+                ),
+                "Failure for $user"
+            );
+        }
+    }
+
+    return;
+    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+
+    # Test again with email addresses present
+    open( $fh, '>', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
+      || die "Unable to open \n $! \n\n ";
+    print $fh <<'DONE';
+alligator:njQ4t57Dts41s:ally@masai.mara
+bat:$apr1$9/PfK37z$HrNORnyJefA2ex4nWLOoR1:bat@belfry
+budgie:{SHA}1pqeQCvCHCfCrnFA8mTGYna/DV0=:budgie@flock;budge@oz
+dodo:$1$pUXqkX97$zqxdNSnpusVmoB.B.aUhB/:dodo@extinct
+lion:MyNewRealmm:3e60f5f16dc3b8658879d316882a3f00:lion@pride
+mole::mole@hill
+DONE
+
+    #mole:$1$GfAYYH9N$mEiibRtbtp1177trZgAV00:mole@hill
+    close($fh);
+
+    # check it
+    foreach my $user ( sort keys %$users1 ) {
+        $this->assert( $impl->checkPassword( $user, $users1->{$user}->{pass} ),
+            "Failure for $user" );
+        ( $encrapted{$user}, $encoded{$user} ) = $impl->fetchPass($user);
+        if ( $encrapted{$user} ) {
+            $this->assert_str_equals(
+                $encrapted{$user},
+                $impl->encrypt(
+                    $user, $users1->{$user}->{pass},
+                    0, $encoded{$user}
+                ),
+                "Failure for $user"
+            );
+        }
+    }
+
+    #dumpFile();
+
+    # force-change them to users2 password,  Verify emails have survived.
+    foreach my $user ( sort keys %$users1 ) {
+        my $added = $impl->setPassword(
+            $user,
+            $users2->{$user}->{pass},
+            $users1->{$user}->{pass}
+        );
+        $this->assert_null( $impl->error() );
+        $this->assert_str_not_equals( $encrapted{$user},
+            $impl->fetchPass($user) );
+        $this->assert_null( $impl->error() );
+        $this->assert_str_equals( $users1->{$user}->{emails},
+            join( ";", $impl->getEmails($user) ) );
+    }
+
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
+    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+
+    # force-change them to users2 password again,  Verify emails have survived.
+    foreach my $user ( sort keys %$users1 ) {
+        my $added = $impl->setPassword(
+            $user,
+            $users2->{$user}->{pass},
+            $users2->{$user}->{pass}
+        );
+        $this->assert_null( $impl->error() );
+        $this->assert_str_not_equals( $encrapted{$user},
+            $impl->fetchPass($user) );
+        $this->assert_null( $impl->error() );
+        $this->assert_str_equals( $users1->{$user}->{emails},
+            join( ";", $impl->getEmails($user) ) );
+        ( $encrapted{$user}, $encoded{$user} ) = $impl->fetchPass($user);
+        $this->assert_str_equals( 'md5', $encoded{$user}->{enc} );
+    }
+
+    #dumpFile();
+
+    # Check and change passwords again, with a modified realm
+    # And use new value for Encoding
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'htdigest-md5';
+    $Foswiki::cfg{AuthRealm} = 'Another New Realm';
+    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+
+    foreach my $user ( sort keys %$users1 ) {
+        my $added = $impl->setPassword(
+            $user,
+            $users2->{$user}->{pass},
+            $users2->{$user}->{pass}
+        );
+        $this->assert_null( $impl->error() );
+        $this->assert( $impl->checkPassword( $user, $users2->{$user}->{pass} ),
+            "For $user checkPassword" );
+
+        #$this->assert_null( $impl->error() );
+        $this->assert_str_not_equals( $encrapted{$user},
+            $impl->fetchPass($user) );
+        $this->assert_null( $impl->error() );
+        ( $encrapted{$user}, $encoded{$user} ) = $impl->fetchPass($user);
+    }
+
+    #dumpFile();
+
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'apache-md5';
+    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+
+    # force-change them to users2 password again, migrating to apache_md5.
+    foreach my $user ( sort keys %$users1 ) {
+        my $added = $impl->setPassword(
+            $user,
+            $users2->{$user}->{pass},
+            $users2->{$user}->{pass}
+        );
+        $this->assert_null( $impl->error() );
+        $this->assert_str_not_equals( $encrapted{$user},
+            $impl->fetchPass($user) );
+        $this->assert_null( $impl->error() );
+        $this->assert_str_equals( $users1->{$user}->{emails},
+            join( ";", $impl->getEmails($user) ) );
+        ( $encrapted{$user}, $encoded{$user} ) = $impl->fetchPass($user);
+        $this->assert_str_equals( 'apache-md5', $encoded{$user}->{enc} );
+    }
+
+    #dumpFile();
+}
+
+sub dumpFile {
+    my $IN_FILE;
+    open( $IN_FILE, '<', "$Foswiki::cfg{TempfileDir}/junkpasswd" );
+    my $line;
+    while ( defined( $line = <$IN_FILE> ) ) {
+        print $line . "\n";
+    }
+}
+
 sub test_htpasswd_crypt_md5 {
     my $this = shift;
 
@@ -196,21 +387,12 @@ sub test_htpasswd_crypt_crypt {
 sub test_htpasswd_sha1 {
     my $this = shift;
 
-    eval 'use MIME::Base64';
-    if ($@) {
-        my $mess = $@;
-        $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN SHA1 TESTS: $mess");
-        return;
-    }
     eval 'use Digest::SHA';
     if ($@) {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
         $this->expect_failure();
         $this->annotate("CANNOT RUN SHA1 TESTS: $mess");
-        return;
     }
 
     $Foswiki::cfg{Htpasswd}{Encoding} = 'sha1';
@@ -221,22 +403,41 @@ sub test_htpasswd_sha1 {
 
 sub test_htpasswd_md5 {
     my $this = shift;
-    eval 'use Digest::MD5';
-    if ($@) {
-        my $mess = $@;
-        $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN MD5 TESTS: $mess");
-        return;
-    }
 
     $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
     $this->doTests( $impl, 0 );
+
 }
 
-sub test_htpasswd_apache {
+sub test_htpasswd_htdigest_md5 {
+    my $this = shift;
+
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'htdigest-md5';
+    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $this->assert($impl);
+    $this->doTests( $impl, 0 );
+
+}
+
+sub test_htpasswd_apache_md5 {
+    my $this = shift;
+    eval 'use Crypt::PasswdMD5';
+    if ($@) {
+        my $mess = $@;
+        $mess =~ s/\(\@INC contains:.*$//s;
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN APACHE MD5 TESTS: $mess");
+    }
+
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'apache-md5';
+    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $this->assert($impl);
+    $this->doTests( $impl, 0 );
+}
+
+sub test_ApacheHtpasswdUser {
     my $this = shift;
 
     eval "use Foswiki::Users::ApacheHtpasswdUser";
