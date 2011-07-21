@@ -927,10 +927,13 @@ sub renderFORMFIELD {
 
     my $formField = $params->{_DEFAULT};
     return '' unless defined $formField;
-    my $altText = $params->{alttext} || '';
-    my $default = $params->{default} || '';
-    my $rev     = $params->{rev}     || '';
+    my $altText = $params->{alttext};
+    my $default = $params->{default};
+    my $rev     = $params->{rev} || '';
     my $format  = $params->{format};
+
+    $altText = '' unless defined $altText;
+    $default = '' unless defined $default;
 
     unless ( defined $format ) {
         $format = '$value';
