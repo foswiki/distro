@@ -1019,24 +1019,25 @@ sub test_Package_makeBackup {
     $this->assert_matches( qr/Backup saved into/, $msg );
     $result = $pkg->uninstall();
 
-    $this->assert_matches( qr#Removed files:<br /><pre>.*?
-.*/Testsandboxweb1234/Subweb/TestTopic43.txt
-.*/Testsandboxweb1234/TestTopic1.txt
-.*/Testsandboxweb1234/TestTopic43.txt
-.*/Testsandboxweb1234/Subweb/TestTopic43/file3.att
-.*/Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att
-.*/Testsandboxweb1234/TestTopic1/file.att
-.*/Testsandboxweb1234/TestTopic43/file.att
-.*/Testsandboxweb1234/TestTopic43/file2.att
-$this->{scriptdir}/shbtest1
-$this->{toolsdir}/shbtest2
-.*?</pre>#ms,
-      $result);
+    my @expFiles = qw(
+Testsandboxweb1234/Subweb/TestTopic43.txt
+Testsandboxweb1234/TestTopic1.txt
+Testsandboxweb1234/TestTopic43.txt
+Testsandboxweb1234/Subweb/TestTopic43/file3.att
+Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att
+Testsandboxweb1234/TestTopic1/file.att
+Testsandboxweb1234/TestTopic43/file.att
+Testsandboxweb1234/TestTopic43/file2.att
+configure/pkgdata/MyPlugin_installer
+);
 
-    $this->assert_matches( qr#
-.*/configure/pkgdata/MyPlugin_installer
-#ms,
-      $result);
+    push @expFiles, "$this->{scriptdir}/shbtest1";
+    push @expFiles, "$this->{toolsdir}/shbtest2";
+
+    foreach my $expFile ( @expFiles ) {
+        #print STDERR "Checkkng $expFile\n";
+        $this->assert_matches( qr/$expFile/, $result, "Missing file $expFile" );
+        }
 
     $pkg->finish();
 
@@ -1382,29 +1383,30 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl m
     #
     my $results = $pkg2->uninstall();
 
-    $this->assert_matches( qr#Removed files:<br /><pre>.*?
-.*/Testsandboxweb1234/Subweb/TestTopic43.txt
-.*/Testsandboxweb1234/Subweb/TestTopic43.txt,v
-.*/Testsandboxweb1234/TestTopic1.txt
-.*/Testsandboxweb1234/TestTopic43.txt
-.*/Testsandboxweb1234/TestTopic43.txt,v
-.*/Testsandboxweb1234/Subweb/TestTopic43/file3.att
-.*/Testsandboxweb1234/Subweb/TestTopic43/file3.att,v
-.*/Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att
-.*/Testsandboxweb1234/TestTopic1/file.att
-.*/Testsandboxweb1234/TestTopic43/file.att
-.*/Testsandboxweb1234/TestTopic43/file.att,v
-.*/Testsandboxweb1234/TestTopic43/file2.att
-.*/Testsandboxweb1234/TestTopic43/file2.att,v
-$this->{scriptdir}/shbtest1
-$this->{toolsdir}/shbtest2
-.*?</pre>#ms,
-      $results);
+    my @expFiles = qw(
+Testsandboxweb1234/Subweb/TestTopic43.txt
+Testsandboxweb1234/Subweb/TestTopic43.txt,v
+Testsandboxweb1234/TestTopic1.txt
+Testsandboxweb1234/TestTopic43.txt
+Testsandboxweb1234/TestTopic43.txt,v
+Testsandboxweb1234/Subweb/TestTopic43/file3.att
+Testsandboxweb1234/Subweb/TestTopic43/file3.att,v
+Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att
+Testsandboxweb1234/TestTopic1/file.att
+Testsandboxweb1234/TestTopic43/file.att
+Testsandboxweb1234/TestTopic43/file.att,v
+Testsandboxweb1234/TestTopic43/file2.att
+Testsandboxweb1234/TestTopic43/file2.att,v
+configure/pkgdata/MyPlugin_installer
+);
 
-    $this->assert_matches( qr#
-.*/configure/pkgdata/MyPlugin_installer
-#ms,
-      $results);
+    push @expFiles, "$this->{scriptdir}/shbtest1";
+    push @expFiles, "$this->{toolsdir}/shbtest2";
+
+    foreach my $expFile ( @expFiles ) {
+        #print STDERR "Checkkng $expFile\n";
+        $this->assert_matches( qr/$expFile/, $results, "Missing file $expFile" );
+        }
 
     $pkg2->finish();
     undef $pkg2;
