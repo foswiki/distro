@@ -111,18 +111,20 @@ A standard Foswiki install has the directories =bin/= and =lib/= located under t
 
 ---++++ Configure the web server
 
-First choose the best configuration method for your web server. With Apache, there are two ways to configure it: a config file included from httpd.conf or .htaccess files. 
-   * *Apache config file:* The recommended method is using a config file. With a config file you can put the entire Foswiki configuration in ONE file (typically named =foswiki.conf=). Performance is much better with a config file, and one file gives the best overview and ensures that you get a safe installation . However to use a config file you need root or sudo access to stop and start Apache. The Foswiki apache config file is included from the main Apache config file http.conf. Most distributions have a directory from which any file that ends with =.conf= gets included when you restart Apache (Example !RedHat/Fedora/Centos: =/etc/httpd/conf.d= ). If you use a virtual host setup in Apache you should include the =foswiki.conf= file from inside the desired virtual host config in your Apache configuration.
+First choose the best configuration method for your web server. With Apache, there are two ways to configure it: a config file included from httpd.conf or .htaccess files.
+   * *Apache config file:* The recommended method is using a config file. With a config file you can put the entire Foswiki configuration in ONE file (typically named =foswiki.conf=). Performance is much better with a config file, and one file gives the best overview and ensures that you get a safe installation . However to use a config file you need root or sudo access to stop and start Apache. The Foswiki apache config file is included from the main Apache config file. (Typically =httpd.conf= or =apache.conf= depending on your distribution). Most distributions have a directory from which any file that ends with =.conf= gets included when you restart Apache (Example !RedHat/Fedora/Centos: =/etc/httpd/conf.d= ). If you use a virtual host setup in Apache you should include the =foswiki.conf= file from inside the desired virtual host config in your Apache configuration.
    * *.htaccess files:* This method should only be used when you cannot use a config file. Performance is slower as Apache must search through _all_ applicable directories for any =.htaccess= files on each page access. Normally this is the only way to control Apache in a shared host environment where you have no root or sudo privileges.
 
-*If you are using a config file*: 
+*If you are using a config file*:
    * The easiest and best way is to use the Foswiki:Support.ApacheConfigGenerator tool to generate a safe, working config file for your Foswiki installation, based on the options you choose in the tool.
    * If you can't use the online configuration generator, a sample config file called =foswiki_httpd_conf.txt= can be found in the root of the foswiki installation.
-   * Ensure that web access is denied to all Foswiki subdirectories other than =bin= and =pub=. The Foswiki:Support.ApacheConfigGenerator tool will generate the appropriate settings; the =foswiki_httpd_conf.txt= file also has examples of configuring Apache appropriately.
+   * Ensure that web access is denied to all Foswiki subdirectories other than =bin= and =pub=.
+      * The Foswiki:Support.ApacheConfigGenerator tool will generate the appropriate settings;
+      * the =foswiki_httpd_conf.txt= file also has examples of configuring Apache appropriately.
    * Ensure there is either a =<noautolink>ScriptAlias<noautolink>= directive for the =bin= subdirectory, or an =Alias= directive with =SetHandler cgi-script= and =Options Exec<nop>CGI= directives for the =bin= subdirectory, so that the =bin= scripts will be executed by Apache.
    * *Note:* you must restart Apache after making changes to your config files for the changes to take effect.
 
-*If you are using a .htaccess file:* 
+*If you are using a .htaccess file:*
    * In the root of the foswiki installation, there are sample =.htaccess= files for various subdirectories in your installation. Each file has help text explaining how to modify it for your configuration. For more information, see Foswiki:Support.SupplementalDocuments.<sticky>
    | *location and name of sample .htaccess file* | *copy sample file to the following location* |
    | =foswiki/root-htaccess.txt= | =foswiki/.htaccess= |
@@ -138,13 +140,29 @@ First choose the best configuration method for your web server. With Apache, the
 Different script execution mechanisms are disabled in different ways; see your web server configuration and documentation for more details.
 
 #ProtectConfigure
-*Protect the configure script:* You should never leave the =configure= script open to the public. Limit access to the =bin/configure= script to either localhost, an IP address or a specific user using basic Apache authentication. The Foswiki:Support.ApacheConfigGenerator lets you setup who has access to the =configure= script. Also see the =foswiki-httpd-conf.txt= or =bin/.htaccess.txt= file for an example of the setting required to protect the =configure= script.
+---+++++ Protect the configure script!
+*You should never leave the =configure= script open to the public.* Limit access to the =bin/configure= script to either localhost, an IP address or a specific user using basic Apache authentication. The Foswiki:Support.ApacheConfigGenerator lets you setup who has access to the =configure= script. Also see the =foswiki-httpd-conf.txt= or =bin/.htaccess.txt= file for an example of the setting required to protect the =configure= script.
 
 To limit access to a particular user, set up a =.htpasswd= file that contains the user name and password that Apache will use to authenticate the user:
+   * *Caution! Do not follow these steps on an existing Foswiki =.htpasswd= file.*  It will destroy the email addresses stored in that file!  If the file already exists, you can choose an existing user for access to configure.
    * Change to the =foswiki/data= directory.
    * Issue the command =htpasswd -c .htpasswd &lt;username&gt;=, where &lt;username&gt; is the name of the user you will use to access the =configure= script. _Choose the username with care:_ the username cannot be an existing login name for your Foswiki installation, nor can it be used later on to register in Foswiki. Enter a password when prompted.
 
-The Foswiki:Support.ApacheConfigGenerator tool and the sample config files and .htaccess files show how to configure Apache so that the =configure= web page will be protected using the user and password held in the =data/.htpasswd= file. The Apache config file or .htaccess file will have a =Require user &lt;username&gt;= directive to restrict access to the =configure= script. Ensure the user specified in the directive matches the &lt;username&gt; you used when creating the .htpasswd file.
+All of the above methods - Sample configuration files, Foswiki:Support.ApacheConfigGenerator and sample =.htaccess= files, all include example settings to protect the configure script with a password.  The critical section looks something like:
+<verbatim>
+<FilesMatch "configure.*">
+    SetHandler cgi-script
+    Order Deny,Allow
+    Deny from all
+    # List of IP addresses allowed to access configure
+    Allow from 127.0.0.1 192.168.1.10
+    # specify username used on the "htpasswd" command above
+    Require user someuserid
+    # Set to "Any" to allow IP -or- userid,  set to "All" to require both match
+    Satisfy Any
+    ErrorDocument 401 default
+</FilesMatch>
+</verbatim>
 
 *Note:* In addition to any web server security protection that you have set up, when saving any configuration settings for the first time on the =configure= web page, you will be prompted to set a configuration password. This password must be entered on all subsequent configuration changes, and is also used to log in via the internal admin link (see the section "[[#DefineAdminUser][Define the administrator user(s)]]"). Even after a =configure= password has been set, access to the =configure= page should still be restricted by the web server, in order to avoid revealing internal information to potential attackers.
 
@@ -180,7 +198,7 @@ The most common authentication methods used for public Foswiki installations are
    * Template Login can be set up without any web server configuration, and users can log off without restarting the browser. As the login page is just a Wiki page, you can customize it to suit your needs.
    * Apache Login allows you to use any Apache-module based authentication scheme, such as =mod_auth_ldap= or =mod_auth_mysql=. However, as your browser is caching your login, you must restart the browser to log out.
 
-Note that the password databases for both of these authentication mechanisms are compatible, so you can switch between them at a later date. 
+Note that the password databases for both of these authentication mechanisms are compatible, so you can switch between them at a later date.
 
 To make it easier to follow the instructions in this section, you can view this installation guide using your Foswiki site by entering =%SYSTEMWEB%.InstallationGuide= into the "Jump" text box. By doing this instead of using the =INSTALL.html= file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
 
