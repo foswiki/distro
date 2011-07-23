@@ -99,8 +99,8 @@ GOLLYGOSH
     # 'uninitialised variable' alerts later.
 
     foreach my $var (
-        qw( DataDir DefaultUrlHost PubUrlPath WorkingDir
-        PubDir TemplateDir ScriptUrlPath LocalesDir )
+        qw( DataDir DefaultUrlHost PubUrlPath ToolsDir WorkingDir
+        PubDir TemplateDir ScriptDir ScriptUrlPath LocalesDir )
       )
     {
 

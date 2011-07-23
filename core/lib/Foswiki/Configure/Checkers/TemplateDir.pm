@@ -9,8 +9,8 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
-    my $d = $this->getCfg("{TemplateDir}");
     my $e = $this->guessMajorDir( 'TemplateDir', 'templates' );
+    my $d = $this->getCfg("{TemplateDir}");
     $e .= $this->warnAboutWindowsBackSlashes( $d );
 
     $e .= $this->showExpandedValue($Foswiki::cfg{TemplateDir});
