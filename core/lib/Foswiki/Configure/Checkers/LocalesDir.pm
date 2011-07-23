@@ -10,8 +10,8 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    my $d = $this->getCfg("{LocalesDir}");
     my $e = $this->guessMajorDir( 'LocalesDir', 'locale' );
+    my $d = $this->getCfg("{LocalesDir}");
     my $e2 = $this->checkTreePerms( $d, "r" );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{LocalesDir} );
     $e .= $this->showExpandedValue($Foswiki::cfg{LocalesDir});

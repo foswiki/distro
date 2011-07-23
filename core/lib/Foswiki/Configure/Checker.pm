@@ -118,7 +118,7 @@ sub guessMajorDir {
     my ( $this, $cfg, $dir, $silent ) = @_;
     my $msg = '';
     my $val = $this->getCfg("{$cfg}");
-    if ( !$val || $val eq 'NOT SET' ) {
+    if ( !$val || $val eq 'NOT SET' || $val eq 'undef' ) {
         require FindBin;
         $FindBin::Bin =~ /^(.*)$/;
         my $scriptDir = $1;
@@ -128,8 +128,8 @@ sub guessMajorDir {
         $Foswiki::cfg{$cfg} =~ s|\\|/|g;
         $msg = $this->guessed();
     }
-    unless ( $silent || -d $val ) {
-        $msg .= $this->ERROR("Directory '$dir' does not exist");
+    unless ( $silent || -d $Foswiki::cfg{$cfg} ) {
+        $msg .= $this->ERROR("Directory '$Foswiki::cfg{$cfg}'  does not exist");
     }
     return $msg;
 }
