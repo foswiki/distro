@@ -18,8 +18,8 @@ use warnings;
 use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');
 
-use File::Spec ();
-use CGI        ();
+use File::Spec               ();
+use CGI                      ();
 use Foswiki::Configure::Load ();
 
 =begin TML
@@ -80,8 +80,8 @@ Any embedded references to other Foswiki::cfg vars will be expanded.
 =cut
 
 sub getCfg {
-    my ($this, $name) = @_;
-    my $item = '$Foswiki::cfg'.$name;
+    my ( $this, $name ) = @_;
+    my $item = '$Foswiki::cfg' . $name;
     Foswiki::Configure::Load::expandValue($item);
     return $item;
 }
@@ -122,9 +122,12 @@ sub guessMajorDir {
         require FindBin;
         $FindBin::Bin =~ /^(.*)$/;
         my $scriptDir = $1;
-        my @root = File::Spec->splitdir($scriptDir);
+        my @root      = File::Spec->splitdir($scriptDir);
         pop(@root);
-        $Foswiki::cfg{$cfg} = ( $cfg eq 'ScriptDir') ? $scriptDir : File::Spec->catfile( @root, $dir );
+        $Foswiki::cfg{$cfg} =
+          ( $cfg eq 'ScriptDir' )
+          ? $scriptDir
+          : File::Spec->catfile( @root, $dir );
         $Foswiki::cfg{$cfg} =~ s|\\|/|g;
         $msg = $this->guessed();
     }
@@ -143,12 +146,12 @@ Return the expanded value of a parameter as a note for display.
 =cut
 
 sub showExpandedValue {
-    my ($this, $field) = @_;
+    my ( $this, $field ) = @_;
     my $msg = '';
 
     if ( $field =~ m/\$Foswiki::cfg/ ) {
-       Foswiki::Configure::Load::expandValue($field);
-       $msg = $this->NOTE('<b>Note:</b> Expands to: ' . $field );
+        Foswiki::Configure::Load::expandValue($field);
+        $msg = $this->NOTE( '<b>Note:</b> Expands to: ' . $field );
     }
     return $msg;
 }
@@ -203,7 +206,7 @@ sub checkTreePerms {
     return '' if ( defined($filter) && $path =~ $filter && !-d $path );
 
     $this->{fileErrors}  = 0 unless ( defined $this->{fileErrors} );
-    $this->{missingFile}  = 0 unless ( defined $this->{missingFile} );
+    $this->{missingFile} = 0 unless ( defined $this->{missingFile} );
     $this->{excessPerms} = 0 unless ( defined $this->{excessPerms} );
 
     #let's ignore Subversion directories
@@ -263,10 +266,14 @@ sub checkTreePerms {
         }
     }
 
-    if ( $perms =~ /p/ && $path =~ /\Q$Foswiki::cfg{DataDir}\E\/(.+)$/ && -d $path ) {
-        unless ( -e "$path/$Foswiki::cfg{WebPrefsTopicName}.txt") {
-        $permErrs .= " $path missing $Foswiki::cfg{WebPrefsTopicName} Topic" . CGI::br();
-        $this->{missingFile}++;
+    if (   $perms =~ /p/
+        && $path =~ /\Q$Foswiki::cfg{DataDir}\E\/(.+)$/
+        && -d $path )
+    {
+        unless ( -e "$path/$Foswiki::cfg{WebPrefsTopicName}.txt" ) {
+            $permErrs .= " $path missing $Foswiki::cfg{WebPrefsTopicName} Topic"
+              . CGI::br();
+            $this->{missingFile}++;
         }
     }
 
