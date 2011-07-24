@@ -27,10 +27,41 @@ provided mainly as an example of how to write a new password manager.
 
 sub new {
     my ( $class, $session ) = @_;
+    my $UseMD5;
+    my $UsePlain;
+
+    if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt' ) {
+        if ( $^O =~ /^MSWin/i ) {
+            print STDERR "ERROR: {Htpasswd}{Encoding} setting : "
+              . $Foswiki::cfg{Htpasswd}{Encoding}
+              . " Not supported on Windows.  Recommend using HtPasswdUser if crypt is required.\n";
+            throw Error::Simple( "ERROR: {Htpasswd}{Encoding} setting : "
+              . $Foswiki::cfg{Htpasswd}{Encoding}
+              . " Not supported on Windows.  Recommend using HtPasswdUser if crypt is required.\n");
+          }
+    }
+    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'apache-md5' ) {
+        require Crypt::PasswdMD5;
+        $UseMD5 = 1;
+    }
+    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'plain' ) {
+        $UsePlain = 1;
+    }
+    else {
+        print STDERR "ERROR: {Htpasswd}{Encoding} setting : "
+          . $Foswiki::cfg{Htpasswd}{Encoding}
+          . " unsupported by ApacheHdpasswduser.  Recommend using HtPasswdUser.\n";
+        throw Error::Simple( "ERROR: {Htpasswd}{Encoding} setting : "
+          . $Foswiki::cfg{Htpasswd}{Encoding}
+          . " unsupported by ApacheHdpasswduser.  Recommend using HtPasswdUser.\n");
+    }
 
     my $this = $class->SUPER::new($session);
     $this->{apache} = new Apache::Htpasswd(
-        { passwdFile => $Foswiki::cfg{Htpasswd}{FileName} } );
+        { passwdFile => $Foswiki::cfg{Htpasswd}{FileName},
+          UseMD5     => $UseMD5,
+          UsePlain   => $UsePlain,
+        } );
     unless ( -e $Foswiki::cfg{Htpasswd}{FileName} ) {
         # apache doesn't create the file, so need to init it
         my $F;
