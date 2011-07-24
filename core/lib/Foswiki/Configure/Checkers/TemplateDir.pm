@@ -9,11 +9,11 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
-    my $e = $this->guessMajorDir( 'TemplateDir', 'templates' );
-    my $d = $this->getCfg("{TemplateDir}");
-    $e .= $this->warnAboutWindowsBackSlashes( $d );
+    my $e    = $this->guessMajorDir( 'TemplateDir', 'templates' );
+    my $d    = $this->getCfg("{TemplateDir}");
+    $e .= $this->warnAboutWindowsBackSlashes($d);
 
-    $e .= $this->showExpandedValue($Foswiki::cfg{TemplateDir});
+    $e .= $this->showExpandedValue( $Foswiki::cfg{TemplateDir} );
 
     my $e2 = $this->checkTreePerms( $d, 'r' );
     $e .= $this->ERROR($e2) if $e2;
