@@ -36,9 +36,10 @@ sub new {
               . $Foswiki::cfg{Htpasswd}{Encoding}
               . " Not supported on Windows.  Recommend using HtPasswdUser if crypt is required.\n";
             throw Error::Simple( "ERROR: {Htpasswd}{Encoding} setting : "
-              . $Foswiki::cfg{Htpasswd}{Encoding}
-              . " Not supported on Windows.  Recommend using HtPasswdUser if crypt is required.\n");
-          }
+                  . $Foswiki::cfg{Htpasswd}{Encoding}
+                  . " Not supported on Windows.  Recommend using HtPasswdUser if crypt is required.\n"
+            );
+        }
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'apache-md5' ) {
         require Crypt::PasswdMD5;
@@ -52,17 +53,21 @@ sub new {
           . $Foswiki::cfg{Htpasswd}{Encoding}
           . " unsupported by ApacheHdpasswduser.  Recommend using HtPasswdUser.\n";
         throw Error::Simple( "ERROR: {Htpasswd}{Encoding} setting : "
-          . $Foswiki::cfg{Htpasswd}{Encoding}
-          . " unsupported by ApacheHdpasswduser.  Recommend using HtPasswdUser.\n");
+              . $Foswiki::cfg{Htpasswd}{Encoding}
+              . " unsupported by ApacheHdpasswduser.  Recommend using HtPasswdUser.\n"
+        );
     }
 
     my $this = $class->SUPER::new($session);
     $this->{apache} = new Apache::Htpasswd(
-        { passwdFile => $Foswiki::cfg{Htpasswd}{FileName},
-          UseMD5     => $UseMD5,
-          UsePlain   => $UsePlain,
-        } );
+        {
+            passwdFile => $Foswiki::cfg{Htpasswd}{FileName},
+            UseMD5     => $UseMD5,
+            UsePlain   => $UsePlain,
+        }
+    );
     unless ( -e $Foswiki::cfg{Htpasswd}{FileName} ) {
+
         # apache doesn't create the file, so need to init it
         my $F;
         open( $F, '>', $Foswiki::cfg{Htpasswd}{FileName} ) || die $!;
@@ -164,7 +169,7 @@ sub setPassword {
     my ( $this, $login, $newPassU, $oldPassU ) = @_;
     ASSERT($login) if DEBUG;
 
-    if ( defined($oldPassU) && $oldPassU ne '1') {
+    if ( defined($oldPassU) && $oldPassU ne '1' ) {
         my $ok = 0;
         try {
             $ok = $this->{apache}->htCheckPassword( $login, $oldPassU );
@@ -178,9 +183,12 @@ sub setPassword {
 
     my $added = 0;
     try {
-        if ( defined($oldPassU) && $oldPassU eq '1') {
-            $added = $this->{apache}->htpasswd( $login, $newPassU, { 'overwrite' => 1} );
-        } else {
+        if ( defined($oldPassU) && $oldPassU eq '1' ) {
+            $added =
+              $this->{apache}
+              ->htpasswd( $login, $newPassU, { 'overwrite' => 1 } );
+        }
+        else {
             $added = $this->{apache}->htpasswd( $login, $newPassU, $oldPassU );
         }
         $this->{error} = undef;
@@ -201,9 +209,10 @@ sub encrypt {
     my $salt = '';
     unless ($fresh) {
         my $epass = $this->fetchPass($login);
-        # Salt is 14 because on Windows, CryptPasswd will use the Apache MD5 algorithm
-        # $apr1$ssssssss$, but uses Crypt on Linux with 2 character salt.  need to pass
-        # longest possible salt.
+
+ # Salt is 14 because on Windows, CryptPasswd will use the Apache MD5 algorithm
+ # $apr1$ssssssss$, but uses Crypt on Linux with 2 character salt.  need to pass
+ # longest possible salt.
         $salt = substr( $epass, 0, 14 ) if ($epass);
     }
     my $r = $this->{apache}->CryptPasswd( $passwordU, $salt );

@@ -94,8 +94,11 @@ sub check {
         }
         use Config;
         if ( $Config{myuname} =~ /strawberry/i ) {
-            my $n = $this->checkPerlModule( 'Crypt::PasswdMD5',
-                "Required for crypt-md5 encoding on Windows with Strawberry perl", 0 );
+            my $n = $this->checkPerlModule(
+                'Crypt::PasswdMD5',
+"Required for crypt-md5 encoding on Windows with Strawberry perl",
+                0
+            );
 
             if ( $n =~ m/Not installed/ ) {
                 $e .= $this->ERROR($n);

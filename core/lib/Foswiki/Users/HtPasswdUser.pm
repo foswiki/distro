@@ -222,8 +222,7 @@ sub _readPasswd {
             {
                 $data->{$hID}->{enc} = 'crypt';
             }
-            elsif ( !$fields[0] || $fields[0] =~ m/@/  )
-            {
+            elsif ( !$fields[0] || $fields[0] =~ m/@/ ) {
                 $data->{$hID}->{enc} = 'plain';
             }
 
@@ -246,7 +245,7 @@ sub _readPasswd {
             $data->{$hID}->{realm} = shift @fields
               if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5'
                 || $Foswiki::cfg{Htpasswd}{Encoding} eq 'htdigest-md5' );
-            $data->{$hID}->{pass}   = shift @fields;
+            $data->{$hID}->{pass} = shift @fields;
             $data->{$hID}->{emails} = shift @fields || '';
         }
     }

@@ -390,7 +390,7 @@ sub test_htpasswd_sha1 {
     $Foswiki::cfg{Htpasswd}{Encoding} = 'sha1';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
-    $this->doTests( $impl );
+    $this->doTests($impl);
 }
 
 sub test_htpasswd_plain {
@@ -399,7 +399,7 @@ sub test_htpasswd_plain {
     $Foswiki::cfg{Htpasswd}{Encoding} = 'plain';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
-    $this->doTests( $impl );
+    $this->doTests($impl);
 
 }
 
@@ -409,7 +409,7 @@ sub test_htpasswd_md5 {
     $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
-    $this->doTests( $impl );
+    $this->doTests($impl);
 
 }
 
@@ -419,7 +419,7 @@ sub test_htpasswd_htdigest_md5 {
     $Foswiki::cfg{Htpasswd}{Encoding} = 'htdigest-md5';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
-    $this->doTests( $impl );
+    $this->doTests($impl);
 
     # Verify the passwords using deprecated md5, should be identical
     $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
@@ -494,7 +494,7 @@ sub test_ApacheHtpasswdUser_crypt {
 
     my $impl = Foswiki::Users::ApacheHtpasswdUser->new( $this->{session} );
 
-    $this->doTests( $impl );
+    $this->doTests($impl);
 
     # Verify the passwords using HdPaswdUser for compatibility
     $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
@@ -505,6 +505,7 @@ sub test_ApacheHtpasswdUser_crypt {
         }
     }
 }
+
 sub test_ApacheHtpasswdUser_plain {
     my $this = shift;
 
@@ -519,7 +520,7 @@ sub test_ApacheHtpasswdUser_plain {
 
     my $impl = Foswiki::Users::ApacheHtpasswdUser->new( $this->{session} );
 
-    $this->doTests( $impl );
+    $this->doTests($impl);
 
     # Verify the passwords using HdPaswdUser for compatibility
     $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
