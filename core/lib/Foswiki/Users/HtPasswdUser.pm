@@ -55,9 +55,9 @@ sub new {
         require Digest::MD5;
         if ( $Foswiki::cfg{AuthRealm} =~ /\:/ ) {
             print STDERR
-"ERROR: the AuthRealm cannot contain a ':' (colon) as it corrumpts the password file\n";
+"ERROR: the AuthRealm cannot contain a ':' (colon) as it corrupts the password file\n";
             throw Error::Simple(
-"ERROR: the AuthRealm cannot contain a ':' (colon) as it corrumpts the password file"
+"ERROR: the AuthRealm cannot contain a ':' (colon) as it corrupts the password file"
             );
         }
     }
@@ -74,18 +74,13 @@ sub new {
         $this->{APR} = 1;
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) {
+        eval 'use Crypt::PasswdMD5';
+        $this->{APR} = 1 unless ($@);
+
         if ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) {
             print STDERR "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)\n";
             throw Error::Simple(
                 "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
-        }
-        use Config;
-        if ( $Config{myuname} =~ /strawberry/i ) {
-            print STDERR
-"ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010)\n";
-            throw Error::Simple(
-"ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010)"
-            );
         }
     }
     else {
@@ -226,6 +221,10 @@ sub _readPasswd {
                 && ( !$fields[0] || $fields[0] =~ m/@/ ) )
             {
                 $data->{$hID}->{enc} = 'crypt';
+            }
+            elsif ( !$fields[0] || $fields[0] =~ m/@/  )
+            {
+                $data->{$hID}->{enc} = 'plain';
             }
 
             if ( $data->{$hID}->{enc} ) {
@@ -412,9 +411,15 @@ sub encrypt {
                 ];
             }
         }
-        my $ret = crypt( $passwd, substr( $salt, 0, 11 ) );
 
-        return $ret;
+        # crypt is not cross-plaform, so use Crypt::PasswdMD5 if it's available
+        if ( $this->{APR} ) {
+            return Crypt::PasswdMD5::unix_md5_crypt( $passwd,
+                substr( $salt, 0, 11 ) );
+        }
+        else {
+            return crypt( $passwd, substr( $salt, 0, 11 ) );
+        }
 
     }
     elsif ( $enc eq 'plain' ) {

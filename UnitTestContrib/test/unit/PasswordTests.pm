@@ -204,10 +204,8 @@ bat:$apr1$9/PfK37z$HrNORnyJefA2ex4nWLOoR1
 budgie:{SHA}1pqeQCvCHCfCrnFA8mTGYna/DV0=
 dodo:$1$pUXqkX97$zqxdNSnpusVmoB.B.aUhB/:dodo@extinct
 lion:MyNewRealmm:3e60f5f16dc3b8658879d316882a3f00
-mole::mole@hill
+mole::
 DONE
-
-    #mole:$1$GfAYYH9N$mEiibRtbtp1177trZgAV00:mole@hill
     close($fh);
 
     # First try - no emails in file
@@ -228,7 +226,6 @@ DONE
         }
     }
 
-    return;
     $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
 
     # Test again with email addresses present
@@ -240,11 +237,14 @@ bat:$apr1$9/PfK37z$HrNORnyJefA2ex4nWLOoR1:bat@belfry
 budgie:{SHA}1pqeQCvCHCfCrnFA8mTGYna/DV0=:budgie@flock;budge@oz
 dodo:$1$pUXqkX97$zqxdNSnpusVmoB.B.aUhB/:dodo@extinct
 lion:MyNewRealmm:3e60f5f16dc3b8658879d316882a3f00:lion@pride
-mole::mole@hill
+mole:plainpasswordx:mole@hill
 DONE
-
-    #mole:$1$GfAYYH9N$mEiibRtbtp1177trZgAV00:mole@hill
     close($fh);
+
+    # Limited support to autodetect a plain text password.
+    # It fails if the password is 13 characters long, since it could
+    # also be a crypt password which is more likely.
+    $users1->{mole}->{pass} = 'plainpasswordx';
 
     # check it
     foreach my $user ( sort keys %$users1 ) {
@@ -355,7 +355,7 @@ sub dumpFile {
     open( $IN_FILE, '<', "$Foswiki::cfg{TempfileDir}/junkpasswd" );
     my $line;
     while ( defined( $line = <$IN_FILE> ) ) {
-        print $line . "\n";
+        print STDERR $line . "\n";
     }
 }
 
@@ -366,10 +366,7 @@ sub test_htpasswd_crypt_md5 {
         $this->expect_failure();
         $this->annotate("CANNOT RUN crypt-md5 TESTS on OSX");
     }
-    if ( $Config{myuname} =~ /strawberry/i ) {
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN crypt-md5 TESTS on strawberry perl");
-    }
+
     $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt-md5';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
