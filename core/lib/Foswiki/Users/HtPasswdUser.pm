@@ -67,9 +67,11 @@ sub new {
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
         require Digest::SHA;
+        $this->{SHA} = 1;
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'apache-md5' ) {
         require Crypt::PasswdMD5;
+        $this->{APR} = 1;
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) {
         if ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) {
@@ -196,7 +198,6 @@ sub _readPasswd {
     my $line = '';
     my $tID;
     while ( defined( $line = <$IN_FILE> ) ) {
-
         chomp $line;
         my @fields = split( /:/, $line, 5 );
 
@@ -246,7 +247,7 @@ sub _readPasswd {
             $data->{$hID}->{realm} = shift @fields
               if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5'
                 || $Foswiki::cfg{Htpasswd}{Encoding} eq 'htdigest-md5' );
-            $data->{$hID}->{pass}   = shift @fields || '';
+            $data->{$hID}->{pass}   = shift @fields;
             $data->{$hID}->{emails} = shift @fields || '';
         }
     }
