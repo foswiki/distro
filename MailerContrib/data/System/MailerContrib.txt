@@ -253,6 +253,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  2.5.1 (25 Jul 2011) | Foswiki:Tasks/Item10980: fix case where interaction with SubscribePlugin could potentially break cached CGI (fcgid/mod_perl) |
 |  2.5.0 (5 Apr 2011) | Foswiki:Tasks/Item9459: add DIFF template for improved change presentation |
 |  2.4.4 (5 Apr 2011) | Foswiki:Tasks/Item10545: Fix overriding rules |
 |  2.4.3 (30 Sep 2010) | Foswikitask:Item6011: document =-user= parameter and update examples in order to make fully functional on versions of Foswiki through 1.0.10; other documentation cleanup  -- Foswiki:Main.WillNorris |
@@ -266,39 +267,6 @@ Many thanks to the following sponsors for supporting this work:
 |  2.0.2 (20 Sep 2009) | Small documentation update for Foswiki 1.0.7 release (RELEASE and adding parent) |
 |  2.0.1 (23 Apr 2009) | Foswikitask:Item1501: Minor bug in logfile output fixed |
 |  2.0.0 (03 Dec 2008) | Re-released for the Foswiki project |
-|  15 Oct 2008 | TWikibug:Item: generalised code to enable Foswiki:Extensions.SubscribePlugin to delegate parsing to %TOPIC% - Foswiki:Main.SvenDowideit |
-|  14 Oct 2008 | TWikibug:Item6066: fixed issue for user mappings where cuid != login  - Foswiki:Main.SvenDowideit |
-|  27 Aug 2008 | TWikibug:Item5949: fixed problem with unsubscribe that should result in an empty subscription |
-|  03 Aug 2008 | TWiki 4.2.1 release version |
-|  27 Jul 2008 | TWikibug:Item5776: Foswiki:Main.KennethLavrsen added note to warn against running multiple instances of mailnotify at the same time. |
-|  15 May 2008 | TWikibug:Item5232: Foswiki:Main.CrawfordCurrie added support for non-ascii alphanumerics in topic names to WebNotify. TWikibug:Item5630: Foswiki:Main.SvenDowideit fixed some spelling errors |
-|  25 Jan 2008 | TWikibug:Item4812: added TWiki:Main.BobGoldstein's noexpand patch for groups |
-|  2 Nov 2007 | TWikibug:Item4818: added quotes to support non-alphabetic and other wierd group names TWikibug:Item4887: corrected minor rendering error TWikibug:Item4917: removed dependence on symbolic web names |
-|  9 Sep 2007 | TWikibug:Item4326 workaround for possible error in !WebNotify API in old releases, Should not affect most users. |
-|  6 Sep 2007 | TWikibug:Item4488 doc tweaks |
-|  14550 | TWikibug:Item4461 - 'Changed' link now points to most recent changes, not the entire history |
-|  22 Jun 2007 | TWikibug:Item4284 - added access control checks and email filter |
-|  21 May 2007 | TWikibug:Item3969 - 8bit email fix (Foswiki:Main.WillNorris) |
-|  13623 | TWikibug:Item4014 no changes was resetting the notify time to 0. Thanks to TWiki:Main.JeffCrawford for nailing this down. |
-|  12496 | TWikibug:Item3415 mailnotify did not send notifications to intranet users because of wrong call to findUser. |
-|  11672 | Added newsletter support, after much harassment from Foswiki:Main.LynnwoodBrown |
-|  11534 | TWikibug:Item2153 Clarified docs.  TWikibug:Item2698 Improved error reporting. |
-|  8808 | TWikibug:Item1654  mailnotify must enter the command_line context |
-|  8625 | TWikibug:Item1508  Making the dashes in the separatator clearer |
-|  8606 | TWikibug:Item1508  MailerContrib: Brushing up HTML mailnotify template |
-|  8602 | TWikibug:Item1508  MailerContrib: Cleaning up plaintext email template, removing TEXTAREA |
-|  8522 | TWikibug:Item1511  arguments to getScriptUrl in wrong order :-( |
-|  8434 | TWikibug:Item1465  Fix 'TWiki.' to '%TWIKIEB%.' |
-|  8398 | TWikibug:Item1460  polished up the comment a bit |
-|  8308 | TWikibug:Item1362  moving mailnotify cron script |
-|  7848 | TWikibug:Item1167  forced all mail operations to generate absolute URLs |
-|  7568 | TWikibug:tem910  use SCRIPTURL{view} instead of complex url expr |
-|  6864 | TWikibug:tem624  mailer templates moved the the right places |
-|  6861 | TWikibug:tem624  Added proper templates support for plain text mails |
-|  6809 | TWikibug:tem623  don't print anything if verbosity is switched off. |
-|  6659 | TWikibug:tem528  Updated MailerContrib. it's working and the sendmail parameter is used. |
-|  6474 | TWikibug:tem420  removed spurious remove_obsolete_locks from MailerContrib |
-|  5924 | TWikibug:tem153  fix mail URL-fixing scheme |
 |  5269 | Minor doc fixes |
 |  5266 | Doc tidy-ups, added filtering of _ webs, added obsolete lock script |
 |  5264 | Changed default to add web name to user name (I hope) |
