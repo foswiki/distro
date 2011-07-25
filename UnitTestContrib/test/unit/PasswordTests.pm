@@ -9,6 +9,8 @@ use Foswiki;
 use Foswiki::Users;
 use Foswiki::Users::HtPasswdUser;
 
+my $SALTED = 1;
+
 use Config;
 
 sub new {
@@ -163,14 +165,6 @@ sub doTests {
                 !$impl->checkPassword( $user, $users2->{$user}->{pass} ) );
         }
     }
-}
-
-sub TODO_test_htpasswd_plain {
-    my $this = shift;
-    $Foswiki::cfg{Htpasswd}{Encoding} = 'plain';
-    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
-    $this->assert($impl);
-    $this->doTests($impl);
 }
 
 sub test_htpasswd_auto {
@@ -370,7 +364,8 @@ sub test_htpasswd_crypt_md5 {
     $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt-md5';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
-    $this->doTests( $impl, 1 );
+    $this->doTests( $impl, $SALTED );
+
 }
 
 sub test_htpasswd_crypt_crypt {
@@ -378,7 +373,7 @@ sub test_htpasswd_crypt_crypt {
     $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
-    $this->doTests( $impl, 1 );
+    $this->doTests( $impl, $SALTED );
 }
 
 sub test_htpasswd_sha1 {
@@ -395,7 +390,17 @@ sub test_htpasswd_sha1 {
     $Foswiki::cfg{Htpasswd}{Encoding} = 'sha1';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
-    $this->doTests( $impl, 0 );
+    $this->doTests( $impl );
+}
+
+sub test_htpasswd_plain {
+    my $this = shift;
+
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'plain';
+    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $this->assert($impl);
+    $this->doTests( $impl );
+
 }
 
 sub test_htpasswd_md5 {
@@ -404,7 +409,7 @@ sub test_htpasswd_md5 {
     $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
-    $this->doTests( $impl, 0 );
+    $this->doTests( $impl );
 
 }
 
@@ -414,8 +419,17 @@ sub test_htpasswd_htdigest_md5 {
     $Foswiki::cfg{Htpasswd}{Encoding} = 'htdigest-md5';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
-    $this->doTests( $impl, 0 );
+    $this->doTests( $impl );
 
+    # Verify the passwords using deprecated md5, should be identical
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
+    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    foreach my $user ( sort keys %$users1 ) {
+        if ( $user !~ /(alligator|mole|budgie)/ ) {
+            $this->assert(
+                $impl->checkPassword( $user, $users2->{$user}->{pass} ) );
+        }
+    }
 }
 
 sub test_htpasswd_apache_md5 {
@@ -434,9 +448,10 @@ sub test_htpasswd_apache_md5 {
     $this->doTests( $impl, 0 );
 }
 
-sub test_ApacheHtpasswdUser {
+sub test_ApacheHtpasswdUser_md5 {
     my $this = shift;
 
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'apache-md5';
     eval "use Foswiki::Users::ApacheHtpasswdUser";
     if ($@) {
         my $mess = $@;
@@ -448,7 +463,71 @@ sub test_ApacheHtpasswdUser {
     my $impl = Foswiki::Users::ApacheHtpasswdUser->new( $this->{session} );
 
     # it should work the same as htpasswd (without salt)
-    $this->doTests( $impl, 0 );
+    $this->doTests( $impl, $SALTED );
+
+    # Verify the passwords using HdPaswdUser for compatibility
+    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    foreach my $user ( sort keys %$users1 ) {
+        if ( $user !~ /(alligator|mole|budgie)/ ) {
+            $this->assert(
+                $impl->checkPassword( $user, $users2->{$user}->{pass} ) );
+        }
+    }
 }
 
+sub test_ApacheHtpasswdUser_crypt {
+    my $this = shift;
+
+    if ( $^O =~ /^MSWin/i ) {
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN ApacheHtpasswdUser_crypt TESTS on Windows");
+    }
+
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt';
+    eval "use Foswiki::Users::ApacheHtpasswdUser";
+    if ($@) {
+        my $mess = $@;
+        $mess =~ s/\(\@INC contains:.*$//s;
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN APACHE HTPASSWD TESTS: $mess");
+    }
+
+    my $impl = Foswiki::Users::ApacheHtpasswdUser->new( $this->{session} );
+
+    $this->doTests( $impl );
+
+    # Verify the passwords using HdPaswdUser for compatibility
+    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    foreach my $user ( sort keys %$users1 ) {
+        if ( $user !~ /(alligator|mole|budgie)/ ) {
+            $this->assert(
+                $impl->checkPassword( $user, $users2->{$user}->{pass} ) );
+        }
+    }
+}
+sub test_ApacheHtpasswdUser_plain {
+    my $this = shift;
+
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'plain';
+    eval "use Foswiki::Users::ApacheHtpasswdUser";
+    if ($@) {
+        my $mess = $@;
+        $mess =~ s/\(\@INC contains:.*$//s;
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN APACHE HTPASSWD TESTS: $mess");
+    }
+
+    my $impl = Foswiki::Users::ApacheHtpasswdUser->new( $this->{session} );
+
+    $this->doTests( $impl );
+
+    # Verify the passwords using HdPaswdUser for compatibility
+    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    foreach my $user ( sort keys %$users1 ) {
+        if ( $user !~ /(alligator|mole|budgie)/ ) {
+            $this->assert(
+                $impl->checkPassword( $user, $users2->{$user}->{pass} ) );
+        }
+    }
+}
 1;
