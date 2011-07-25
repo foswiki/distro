@@ -48,11 +48,14 @@ sub set_up {
       Foswiki::Meta->new( $this->{session}, $this->{sandbox_subweb} );
     $webObject->populateNewWeb();
     $this->{tempdir} = $Foswiki::cfg{TempfileDir} . '/test_ConfigureTests';
+    rmtree( $this->{tempdir} ) if (-e $this->{tempdir});    # Cleanup any old tests
     mkpath( $this->{tempdir} );
-    $this->{scriptdir}       = $Foswiki::cfg{TempfileDir} . '/bin';
+    $this->{scriptdir}       = $this->{tempdir} . '/bin';
     $Foswiki::cfg{ScriptDir} = $this->{scriptdir};
-    $this->{toolsdir}        = $Foswiki::cfg{TempfileDir} . '/tools';
+    $this->{toolsdir}        = $this->{tempdir} . '/tools';
     $Foswiki::cfg{ToolsDir}  = $this->{toolsdir};
+    $this->{logdir}        = $this->{tempdir} . '/logs';
+    $Foswiki::cfg{Log}{Dir}  = $this->{logdir};
 
     $Foswiki::cfg{TrashWebName}   = $this->{trash_web};
     $Foswiki::cfg{SandboxWebName} = $this->{sandbox_web};
@@ -1006,18 +1009,31 @@ sub test_Package_makeBackup {
 
     ( $result, $err ) =
       $pkg->loadInstaller( { DIR => $tempdir, USELOCAL => 1 } );
-    $this->assert_str_equals( '', $err );
+    $this->assert( !$err );
 
-    ( $result, $err ) = $pkg->install( { DIR => $tempdir, EXPANDED => 1 } );
+    ( $result, $err ) = $pkg->_install( { DIR => $tempdir, EXPANDED => 1 } );
+
+    $this->assert( !$err );
 
     my $msg = $pkg->createBackup();
     $this->assert_matches( qr/Backup saved into/, $msg );
-    my @ufiles = $pkg->uninstall();
-    $this->assert_num_equals(
-        11,
-        scalar @ufiles,
-        'Unexpected number of files uninstalled: ' . @ufiles
-    );    # 6 files + the installer file are removed
+    $result = $pkg->uninstall();
+
+    my $expected = "Removed files:<br /><pre>.*/configure/pkgdata/MyPlugin_installer
+.*/Testsandboxweb1234/Subweb/TestTopic43.txt
+.*/Testsandboxweb1234/TestTopic1.txt
+.*/Testsandboxweb1234/TestTopic43.txt
+.*/Testsandboxweb1234/Subweb/TestTopic43/file3.att
+.*/Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att
+.*/Testsandboxweb1234/TestTopic1/file.att
+.*/Testsandboxweb1234/TestTopic43/file.att
+.*/Testsandboxweb1234/TestTopic43/file2.att
+$this->{scriptdir}/shbtest1
+$this->{toolsdir}/shbtest2
+.*";
+
+   $this->assert_matches( $expected, $result );
+
     $pkg->finish();
 
 }
@@ -1152,7 +1168,7 @@ Test file data
 DONE
 }
 
-sub test_Package_install {
+sub test_Package_sub_install {
     my $this = shift;
     my $root = $this->{rootdir};
     use Foswiki::Configure::Package;
@@ -1181,6 +1197,7 @@ DONE
   #
     my $pkg =
       new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session} );
+
     ( $result, $err ) =
       $pkg->loadInstaller( { DIR => $tempdir, USELOCAL => 1 } );
     $pkg->uninstall();
@@ -1196,7 +1213,7 @@ DONE
       new Foswiki::Configure::Package( $root, 'MyPlugin', $this->{session} );
     ( $result, $err ) =
       $pkg->loadInstaller( { DIR => $tempdir, USELOCAL => 1 } );
-    ( $result, $err ) = $pkg->install( { DIR => $tempdir, EXPANDED => 1 } );
+    ( $result, $err ) = $pkg->_install( { DIR => $tempdir, EXPANDED => 1 } );
     $this->assert_str_equals( '', $err );
 
     my $expresult = "Installed:  bin/shbtest1 as $Foswiki::cfg{ScriptDir}/shbtest1
@@ -1260,7 +1277,7 @@ Installed:  MyPlugin_installer to $Foswiki::cfg{WorkingDir}/configure/pkgdata
     print "ERRORS: $err\n" if ($err);
 
     $result = '';
-    ( $result, $err ) = $pkg2->install( { DIR => $tempdir, EXPANDED => 1 } );
+    ( $result, $err ) = $pkg2->_install( { DIR => $tempdir, EXPANDED => 1 } );
 
     $expresult = "Installed:  bin/shbtest1 as $Foswiki::cfg{ScriptDir}/shbtest1
 Checked in: data/Sandbox/Subweb/TestTopic43.txt  as $this->{sandbox_subweb}.TestTopic43
@@ -1359,17 +1376,26 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl m
     #
     #  Now uninistall the package
     #
-    my @ufiles = $pkg2->uninstall();
+    my $results = $pkg2->uninstall();
 
-    $this->assert_num_equals(
-        16,
-        scalar @ufiles,
-        'Unexpected number of files uninstalled: ' . @ufiles
-    );    # 6 files + 2 .txt,v + the installer file are removed
-
-    foreach my $f (@ufiles) {
-        $this->assert( ( !-e $f ), "File $f not deleted" );
-    }
+    $this->assert_matches( qr#Removed files:<br /><pre>.*/configure/pkgdata/MyPlugin_installer
+.*/Testsandboxweb1234/Subweb/TestTopic43.txt
+.*/Testsandboxweb1234/Subweb/TestTopic43.txt,v
+.*/Testsandboxweb1234/TestTopic1.txt
+.*/Testsandboxweb1234/TestTopic43.txt
+.*/Testsandboxweb1234/TestTopic43.txt,v
+.*/Testsandboxweb1234/Subweb/TestTopic43/file3.att
+.*/Testsandboxweb1234/Subweb/TestTopic43/file3.att,v
+.*/Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att
+.*/Testsandboxweb1234/TestTopic1/file.att
+.*/Testsandboxweb1234/TestTopic43/file.att
+.*/Testsandboxweb1234/TestTopic43/file.att,v
+.*/Testsandboxweb1234/TestTopic43/file2.att
+.*/Testsandboxweb1234/TestTopic43/file2.att,v
+$this->{scriptdir}/shbtest1
+$this->{toolsdir}/shbtest2
+</pre>#,
+$results);
 
     $pkg2->finish();
     undef $pkg2;
@@ -1378,7 +1404,7 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl m
 
 }
 
-sub test_Package_fullInstall {
+sub test_Package_install {
     my $this = shift;
     my $root = $this->{rootdir};
     use Foswiki::Configure::Package;
@@ -1428,7 +1454,9 @@ DONE
             NODEPS   => 1            # No dependencies
         }
     );
-    ( $result, $plugins, $cpan ) = $pkg->fullInstall();
+    ( $result, $plugins, $cpan ) = $pkg->install();
+
+    $this->assert_matches( qr/.*MyPlugin-[0-9]{8,8}-[0-9]{6,6}-Install\.log/, $pkg->logfile() );
 
     foreach my $pn ( keys %$plugins ) {
         print "PLUGIN $pn \n";
@@ -1448,8 +1476,12 @@ DONE
 
     my $expresult = <<HERE;
 Creating Backup of MyPlugin ...
-Nothing to backup 
-Installing MyPlugin... 
+
+Nothing to backup
+
+
+Installing MyPlugin...
+
 Simulated - Installed:  bin/shbtest1 as $Foswiki::cfg{ScriptDir}/shbtest1
 Simulated - Installed:  data/Sandbox/Subweb/TestTopic43.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/Subweb/TestTopic43.txt
 Simulated - Installed:  data/Sandbox/TestTopic1.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/TestTopic1.txt
@@ -1463,9 +1495,8 @@ Simulated - Installed:  tools/shbtest2 as $Foswiki::cfg{ToolsDir}/shbtest2
 Simulated - Installed:  MyPlugin_installer to $Foswiki::cfg{WorkingDir}/configure/pkgdata
 HERE
 
-
     $this->assert_matches( qr#(.*)$expresult(.*)#, $result,
-        "Unexpected Installed files from Simulated fullInstall" );
+        "Unexpected Installed files from Simulated Install" );
 
     $expresult = <<'HERE';
 ====== MISSING ========
@@ -1501,7 +1532,7 @@ Please check it manually and install if necessary.
 HERE
 
     $this->assert_matches( qr#(.*)$expresult(.*)#, $result,
-"Unexpected dependency results from Simulated fullInstall - Returned\n$result\n\nExpected \n$expresult\n\n"
+"Unexpected dependency results from Simulated Install - Returned\n$result\n\nExpected \n$expresult\n\n"
     );
 
     $pkg->finish();
@@ -1831,7 +1862,7 @@ HERE
     _makefile( $tempdir, "MyPlugin.tgz", <<'DONE');
 Test file data
 DONE
-    $pkg->install();
+    $pkg->_install();
 
     $this->assert_matches( qr/Failed to unpack archive(.*)MyPlugin.tgz/,
         $pkg->errors(), 'Unexpected results from failed tgz test' );
@@ -1850,7 +1881,7 @@ DONE
     _makefile( $tempdir, "MyPlugin.zip", <<'DONE');
 Test file data
 DONE
-    $pkg->install();
+    $pkg->_install();
     $this->assert_matches( qr/(format error|unzip failed)/,
         $pkg->errors(), 'Unexpected results from failed zip test' );
     unlink $tempdir . "/MyPlugin.tgz";
