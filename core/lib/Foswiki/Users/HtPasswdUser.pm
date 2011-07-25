@@ -76,12 +76,6 @@ sub new {
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) {
         eval 'use Crypt::PasswdMD5';
         $this->{APR} = 1 unless ($@);
-
-        if ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) {
-            print STDERR "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)\n";
-            throw Error::Simple(
-                "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
-        }
     }
     else {
         print STDERR "ERROR: unknown {Htpasswd}{Encoding} setting : "
@@ -377,7 +371,6 @@ sub encrypt {
 
                 # generate a salt not only from rand() but also mixing
                 # in the users login name: unecessary
-                # SMELL - see PasswordTests.pm for failure on OSX
                 $salt .= $saltchars[
                   (
                       int( rand( $#saltchars + 1 ) ) +
@@ -400,7 +393,6 @@ sub encrypt {
 
                 # generate a salt not only from rand() but also mixing
                 # in the users login name: unecessary
-                # SMELL - see PasswordTests.pm for failure on OSX
                 $salt .= $saltchars[
                   (
                       int( rand( $#saltchars + 1 ) ) +

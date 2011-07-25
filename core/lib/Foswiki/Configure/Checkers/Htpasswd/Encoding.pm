@@ -88,10 +88,6 @@ sub check {
     }
 
     if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'crypt-md5' ) {
-        if ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) {
-            $e .=
-              $this->ERROR("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
-        }
         use Config;
         if ( $Config{myuname} =~ /strawberry/i ) {
             my $n = $this->checkPerlModule(
@@ -109,12 +105,12 @@ sub check {
         }
     }
 
-    if (   $enc ne 'crypt'
+    if (   $enc ne 'crypt' && $enc ne 'apache-md5'
         && $Foswiki::cfg{PasswordManager} eq
         'Foswiki::Users::ApacheHtpasswdUser' )
     {
         $e .= $this->ERROR(
-"PasswordManager ApacheHtpasswdUser only supports crypt encryption.  Use HtPasswdUser for other Encoding types."
+"PasswordManager ApacheHtpasswdUser only supports crypt and apache-md5 encryption.  Use HtPasswdUser for other Encoding types."
         );
     }
 

@@ -28,7 +28,7 @@ provided mainly as an example of how to write a new password manager.
 sub new {
     my ( $class, $session ) = @_;
     my $UseMD5;
-    my $UsePlain;
+    #my $UsePlain;
 
     if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt' ) {
         if ( $^O =~ /^MSWin/i ) {
@@ -45,9 +45,11 @@ sub new {
         require Crypt::PasswdMD5;
         $UseMD5 = 1;
     }
-    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'plain' ) {
-        $UsePlain = 1;
-    }
+    # SMELL: Apache::Htpasswd doesn't really write out plain passwords
+    # so no sense enabling support for this.
+    #elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'plain' ) {
+    #    $UsePlain = 1;
+    #}
     else {
         print STDERR "ERROR: {Htpasswd}{Encoding} setting : "
           . $Foswiki::cfg{Htpasswd}{Encoding}
@@ -63,7 +65,7 @@ sub new {
         {
             passwdFile => $Foswiki::cfg{Htpasswd}{FileName},
             UseMD5     => $UseMD5,
-            UsePlain   => $UsePlain,
+            #UsePlain   => $UsePlain,
         }
     );
     unless ( -e $Foswiki::cfg{Htpasswd}{FileName} ) {
