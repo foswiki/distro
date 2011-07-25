@@ -350,7 +350,7 @@ sub _load {
                     ($Foswiki::regex{wikiWordRegex})
                     \s+\-\s+
                     ($Foswiki::cfg{MailerContrib}{EmailFilterIn}+)
-                    \s*$}xo
+                    \s*$}x
             && $1 ne $Foswiki::cfg{DefaultUserWikiName}
           )
         {
@@ -369,7 +369,7 @@ sub _load {
                            | $Foswiki::cfg{MailerContrib}{EmailFilterIn}
                        )
                        \s*(:.*)?$
-                  }xo
+                  }x
             && $1 ne $Foswiki::cfg{DefaultUserWikiName}
           )
         {

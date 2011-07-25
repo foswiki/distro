@@ -229,7 +229,6 @@ sub set_up {
             $web,  $Foswiki::cfg{NotifyTopicName},
             $meta, "Before\n${s}After"
         );
-
         for my $testTopic ( keys %expectedRevs ) {
             my $parent = 'WebHome';
             if ( $testTopic =~ /^TestTopic(\d+)\d$/ ) {
