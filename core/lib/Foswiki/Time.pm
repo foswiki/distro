@@ -264,6 +264,7 @@ sub formatTime {
     my ( $epochSeconds, $formatString, $outputTimeZone ) = @_;
     my $value = $epochSeconds;
 
+    ASSERT(defined $epochSeconds) if DEBUG;
     # use default Foswiki format "31 Dec 1999 - 23:59" unless specified
     $formatString   ||= '$longdate';
     $outputTimeZone ||= $Foswiki::cfg{DisplayTimeValues};
@@ -461,7 +462,8 @@ Format a time in seconds as a string. For example,
 sub formatDelta {
     my $secs     = shift;
     my $language = shift;
-
+    
+    ASSERT(defined $secs) if DEBUG;
     my $rem = $secs % ( 60 * 60 * 24 );
     my $days = ( $secs - $rem ) / ( 60 * 60 * 24 );
     $secs = $rem;
@@ -562,6 +564,7 @@ sub parseInterval {
     my $today = sprintf( '%04d-%02d-%02d', $lt[5] + 1900, $lt[4] + 1, $lt[3] );
     my $now = $today . sprintf( 'T%02d:%02d:%02d', $lt[2], $lt[1], $lt[0] );
 
+    ASSERT(defined $interval) if DEBUG;
     # replace $now and $today shortcuts
     $interval =~ s/\$today/$today/g;
     $interval =~ s/\$now/$now/g;
