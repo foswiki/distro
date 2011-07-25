@@ -1553,11 +1553,14 @@ sub getRev1Info {
             or $attr eq 'created' )
         {
             $info->{created} = $ri->{date};
-            require Foswiki::Time;
-            $info->{createdate} = Foswiki::Time::formatTime( $ri->{date} );
+            # Don't pass Foswiki::Time an undef value
+            if (defined $ri->{date}) {
+                require Foswiki::Time;
+                $info->{createdate} = Foswiki::Time::formatTime( $ri->{date} );
 
-            #TODO: wow thats disgusting.
-            $info->{created} = $info->{createlongdate} = $info->{createdate};
+                #TODO: wow thats disgusting.
+                $info->{created} = $info->{createlongdate} = $info->{createdate};
+            }
         }
     }
     return $info->{$attr};
