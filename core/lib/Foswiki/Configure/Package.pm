@@ -212,6 +212,8 @@ sub logfile {
     my $timestamp = Foswiki::Time::formatTime( time() , '$year$mo$day-$hours$minutes$seconds' );
 
     $this->{_logfile} = $path . '/' . $this->pkgname() . '-' . $timestamp .'-' . $action . '.log';
+    Foswiki::Configure::Load::expandValue($this->{_logfile});
+
     return $this->{_logfile};
 }
 
