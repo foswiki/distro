@@ -37,7 +37,21 @@ sub new {
     my ( $class, $session ) = @_;
     my $this = bless( $class->SUPER::new($session), $class );
     $this->{error} = undef;
-    if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
+
+    if ( $Foswiki::cfg{Htpasswd}{AutoDetect} ) {
+
+      # For autodetect, soft errors are allowed.  If the .htpasswd file contains
+      # a password for an unsupported encoding, it will not match.
+        eval 'use Digest::SHA';
+        $this->{SHA} = 1 unless ($@);
+        eval 'use Crypt::PasswdMD5';
+        $this->{APR} = 1 unless ($@);
+
+    }
+
+    if (   $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5'
+        || $Foswiki::cfg{Htpasswd}{Encoding} eq 'htdigest-md5' )
+    {
         require Digest::MD5;
         if ( $Foswiki::cfg{AuthRealm} =~ /\:/ ) {
             print STDERR
@@ -53,6 +67,9 @@ sub new {
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
         require Digest::SHA;
+    }
+    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'apache-md5' ) {
+        require Crypt::PasswdMD5;
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) {
         if ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) {
@@ -172,34 +189,65 @@ sub _readPasswd {
     $lockShared |= 0;
     my $lockHandle = _lockPasswdFile(LOCK_SH) if $lockShared;
     my $IN_FILE;
+
     open( $IN_FILE, '<', "$Foswiki::cfg{Htpasswd}{FileName}" )
       || throw Error::Simple(
         $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
     my $line = '';
+    my $tID;
     while ( defined( $line = <$IN_FILE> ) ) {
-        if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {    # htdigest format
 
-            # implicit untaint OK; data from htpasswd
-            my ( $hID, $hRealm, $hPasswd, $hEmail ) =
-              $line =~ /^(.*?):(.*?):(.*?)(?::(.*))?$/;
+        chomp $line;
+        my @fields = split( /:/, $line, 5 );
 
-            if ( !$hEmail && $hPasswd =~ m/@/ )
-            {    # Missing email and Password might contain an email address
-                $data->{$hID}->{pass} = $hRealm;
-                $data->{$hID}->{emails} = $hPasswd || '';
+        #foreach my $f (@fields) { print "split: $f\n"; }
+
+        my $hID = shift @fields;
+
+        if ( $Foswiki::cfg{Htpasswd}{AutoDetect} ) {
+            my $tPass = shift @fields;
+
+            if ( length($tPass) eq 0 ) {
+
+                # no password, so default to configured encoding
+                $data->{$hID}->{enc} = $Foswiki::cfg{Htpasswd}{Encoding};
             }
-            else {
-                $data->{$hID}->{pass} = $hPasswd;
-                $data->{$hID}->{emails} = $hEmail || '';
+            elsif ( length($tPass) eq 33 && $tPass =~ m/^\{SHA\}/ ) {
+                $data->{$hID}->{enc} = 'sha1';
             }
+            elsif ( length($tPass) eq 34 && $tPass =~ m/^\$1\$/ ) {
+                $data->{$hID}->{enc} = 'crypt-md5';
+            }
+            elsif ( length($tPass) eq 37 && $tPass =~ m/^\$apr1\$/ ) {
+                $data->{$hID}->{enc} = 'apache-md5';
+            }
+            elsif ( length($tPass) eq 13
+                && ( !$fields[0] || $fields[0] =~ m/@/ ) )
+            {
+                $data->{$hID}->{enc} = 'crypt';
+            }
+
+            if ( $data->{$hID}->{enc} ) {
+                $data->{$hID}->{pass} = $tPass;
+                $data->{$hID}->{emails} = shift @fields || '';
+                next;
+            }
+
+            # Fell through - only thing left is digest encoding
+            $data->{$hID}->{enc}    = 'htdigest-md5';
+            $data->{$hID}->{realm}  = $tPass;
+            $data->{$hID}->{pass}   = shift @fields;
+            $data->{$hID}->{emails} = shift @fields || '';
         }
-        else {    # htpasswd format
-            if ( $line =~ /^(.*?):(.*?)(?::(.*))?$/ ) {
 
-                # implicit untaint OK; data from htpasswd
-                $data->{$1}->{pass} = $2;
-                $data->{$1}->{emails} = $3 || '';
-            }
+        # Static configuration
+        else {
+            $data->{$hID}->{enc}   = $Foswiki::cfg{Htpasswd}{Encoding};
+            $data->{$hID}->{realm} = shift @fields
+              if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5'
+                || $Foswiki::cfg{Htpasswd}{Encoding} eq 'htdigest-md5' );
+            $data->{$hID}->{pass}   = shift @fields || '';
+            $data->{$hID}->{emails} = shift @fields || '';
         }
     }
     close($IN_FILE);
@@ -214,12 +262,20 @@ sub _dumpPasswd {
     my $db = shift;
     my @entries;
     foreach my $login ( sort( keys(%$db) ) ) {
+
         my $entry = "$login:";
-        if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
+        if (
+            $db->{$login}->{enc}
+            && (   $db->{$login}->{enc} eq 'md5'
+                || $db->{$login}->{enc} eq 'htdigest-md5' )
+          )
+        {
 
             # htdigest format
             $entry .= "$Foswiki::cfg{AuthRealm}:";
         }
+        $db->{$login}->{pass}   ||= '';
+        $db->{$login}->{emails} ||= '';
         $entry .= $db->{$login}->{pass} . ':' . $db->{$login}->{emails};
         push( @entries, $entry );
     }
@@ -261,11 +317,20 @@ EoT
 }
 
 sub encrypt {
-    my ( $this, $login, $passwd, $fresh ) = @_;
+    my ( $this, $login, $passwd, $fresh, $entry ) = @_;
 
     $passwd ||= '';
 
-    if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
+    my $enc = $entry->{enc};
+    $enc ||= $Foswiki::cfg{Htpasswd}{Encoding};
+
+    if ( $enc eq 'sha1' ) {
+
+        unless ( $this->{SHA} ) {
+            $this->{error} = "Unsupported Encoding";
+            return 0;
+        }
+
         my $encodedPassword = '{SHA}' . Digest::SHA::sha1_base64($passwd) . '=';
 
         # don't use chomp, it relies on $/
@@ -273,7 +338,7 @@ sub encrypt {
         return $encodedPassword;
 
     }
-    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt' ) {
+    elsif ( $enc eq 'crypt' ) {
 
         # by David Levy, Internet Channel, 1997
         # found at http://world.inch.com/Scripts/htpasswd.pl.html
@@ -289,14 +354,44 @@ sub encrypt {
         return crypt( $passwd, substr( $salt, 0, 2 ) );
 
     }
-    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
+    elsif ( $enc eq 'md5' || $enc eq 'htdigest-md5' ) {
 
         # SMELL: what does this do if we are using a htpasswd file?
-        my $toEncode = "$login:$Foswiki::cfg{AuthRealm}:$passwd";
+        my $realm = $entry->{realm} || $Foswiki::cfg{AuthRealm};
+        my $toEncode = "$login:$realm:$passwd";
         return Digest::MD5::md5_hex($toEncode);
 
     }
-    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) {
+    elsif ( $enc eq 'apache-md5' ) {
+
+        unless ( $this->{APR} ) {
+            $this->{error} = "Unsupported Encoding";
+            return 0;
+        }
+
+        my $salt;
+        $salt = $this->fetchPass($login) unless $fresh;
+        if ( $fresh || !$salt ) {
+            $salt = '$apr1$';
+            my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
+            foreach my $i ( 0 .. 7 ) {
+
+                # generate a salt not only from rand() but also mixing
+                # in the users login name: unecessary
+                # SMELL - see PasswordTests.pm for failure on OSX
+                $salt .= $saltchars[
+                  (
+                      int( rand( $#saltchars + 1 ) ) +
+                        $i +
+                        ord( substr( $login, $i % length($login), 1 ) ) )
+                  % ( $#saltchars + 1 )
+                ];
+            }
+        }
+        return Crypt::PasswdMD5::apache_md5_crypt( $passwd,
+            substr( $salt, 0, 14 ) );
+    }
+    elsif ( $enc eq 'crypt-md5' ) {
         my $salt;
         $salt = $this->fetchPass($login) unless $fresh;
         if ( $fresh || !$salt ) {
@@ -321,27 +416,30 @@ sub encrypt {
         return $ret;
 
     }
-    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'plain' ) {
+    elsif ( $enc eq 'plain' ) {
         return $passwd;
 
     }
-    die 'Unsupported password encoding ' . $Foswiki::cfg{Htpasswd}{Encoding};
+    die 'Unsupported password encoding ' . $enc;
 }
 
 sub fetchPass {
     my ( $this, $login ) = @_;
     my $ret = 0;
+    my $enc = '';
+    my $db;
 
     if ($login) {
         try {
 
             # Read passwords with shared lock
-            my $db = $this->_readPasswd(1);
+            $db = $this->_readPasswd(1);
             if ( exists $db->{$login} ) {
                 $ret = $db->{$login}->{pass};
+                $enc = $db->{$login}->{enc};
             }
             else {
-                $this->{error} = 'Login invalid';
+                $this->{error} = "Login $login invalid";
                 $ret = undef;
             }
         }
@@ -352,12 +450,13 @@ sub fetchPass {
     else {
         $this->{error} = 'No user';
     }
-    return $ret;
+    return (wantarray) ? ( $ret, $db->{$login} ) : $ret;
 }
 
 sub setPassword {
     my ( $this, $login, $newUserPassword, $oldUserPassword ) = @_;
     ASSERT($login) if DEBUG;
+
     if ( defined($oldUserPassword) ) {
         unless ( $oldUserPassword eq '1' ) {
             return 0 unless $this->checkPassword( $login, $oldUserPassword );
@@ -374,7 +473,14 @@ sub setPassword {
 
         # Read password without shared lock as we have already exclusive lock
         my $db = $this->_readPasswd(0);
+
         $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
+        $db->{$login}->{enc} = $Foswiki::cfg{Htpasswd}{Encoding};
+        $db->{$login}->{realm} =
+          (      $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5'
+              || $Foswiki::cfg{Htpasswd}{Encoding} eq 'htdigest-md5' )
+          ? $Foswiki::cfg{AuthRealm}
+          : '';
         $db->{$login}->{emails} ||= '';
         _savePasswd($db);
     }
@@ -426,14 +532,15 @@ sub removeUser {
 
 sub checkPassword {
     my ( $this, $login, $password ) = @_;
-    my $encryptedPassword = $this->encrypt( $login, $password );
-
-    $this->{error} = undef;
-
-    my $pw = $this->fetchPass($login);
-    return 0 unless defined $pw;
+    my ( $pw, $entry ) = $this->fetchPass($login);
 
     # $pw will be 0 if there is no pw
+    return 0 unless defined $pw;
+
+    my $encryptedPassword = $this->encrypt( $login, $password, 0, $entry );
+    return 0 unless ($encryptedPassword);
+
+    $this->{error} = undef;
 
     return 1 if ( $pw && ( $encryptedPassword eq $pw ) );
 

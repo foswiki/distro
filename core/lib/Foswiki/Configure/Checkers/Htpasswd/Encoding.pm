@@ -11,67 +11,102 @@ use Foswiki::Configure::Dependency;
 
 sub check {
     my $this = shift;
+    my $e    = '';
 
+    if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
+        $Foswiki::cfg{Htpasswd}{Encoding} = 'htdigest-md5';
+        $e .=
+          $this->guessed()
+          . $this->WARN(
+'Encoding has been changed from the deprecated <tt>md5</tt> setting to <tt>htdigest-md5</tt>.  Please save your configuration. Note that this does not change how your passwords are stored.'
+          );
+    }
     my $enc = $Foswiki::cfg{Htpasswd}{Encoding};
-    my $e   = '';
 
-    if ( $enc eq 'md5' ) {
-        my $dep = new Foswiki::Configure::Dependency(
-            type    => "cpan",
-            module  => "Digest::MD5",
-            version => ">0"
-        );
-        my ( $ok, $message ) = $dep->check();
-        if ($ok) {
-            $e = $this->NOTE($message);
-        }
-        else {
-            $e = $this->ERROR($message);
-        }
-    }
-    elsif ( $enc eq 'sha1' ) {
-        my $dep = new Foswiki::Configure::Dependency(
-            type    => "cpan",
-            module  => "Digest::SHA",
-            version => ">0"
-        );
-        my ( $ok, $message ) = $dep->check();
-        if ($ok) {
-            $e = $this->NOTE($message);
-        }
-        else {
-            $e = $this->ERROR($message);
+    my $auto =
+      ( $Foswiki::cfg{Htpasswd}{AutoDetect} ) ? 'to autodetect' : 'for';
+
+    if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'crypt' ) {
+        my $f = $Foswiki::cfg{Htpasswd}{FileName};
+        Foswiki::Configure::Load::expandValue($f);
+
+        if ( $enc eq 'crypt' ) {
+            if ( $Foswiki::cfg{Htpasswd}{AutoDetect} && -f $f ) {
+                $e .= $this->WARN(
+'<b>Not recommended</b> crypt encoding only uses the first 8 characters of the password and silently ignores the rest.  <tt>{AutoDetect}</tt> is enabled.  Consider changing this to stronger encoding. Passwords will migrate to the new encoding as users change their passwords.'
+                );
+            }
+            elsif ( -f $f ) {
+                $e .= $this->NOTE(
+'<b>Not Recommended:</b> crypt encoding only uses the first 8 characters of the password and silently ignores the rest.  However changing Encoding will invalidate existing passwords unless <tt>AutoDetect</tt> is enabled. See <a href="http://foswiki.org/Support/HtPasswdEncodingSupplement">HtPasswdEncodingSupplement</a> for more information'
+                );
+            }
+            else {
+                $e .= $this->WARN(
+'crypt encoding only uses the first 8 characters of the password and silently ignores the rest.  No password file exists, so now is a good time choose a different encoding. See <a href="http://foswiki.org/Support/HtPasswdEncodingSupplement">HtPasswdEncodingSupplement</a> for more information'
+                );
+            }
         }
     }
-    elsif ( $enc eq 'crypt-md5' ) {
+
+    if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'htdigest-md5' ) {
+        my $n =
+          $this->checkPerlModule( 'Digest::MD5', "Required $auto md5 encoding",
+            0 );
+
+        if ( $n =~ m/Not installed/ ) {
+            $e .= $this->ERROR($n);
+        }
+        else {
+            $e .= $this->NOTE($n);
+        }
+    }
+
+    if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'sha1' ) {
+        my $n =
+          $this->checkPerlModule( 'Digest::SHA', "Required $auto sha1 encoding",
+            0 );
+
+        if ( $n =~ m/Not installed/ ) {
+            $e .= $this->ERROR($n);
+        }
+        else {
+            $e .= $this->NOTE($n);
+        }
+    }
+
+    if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'apache-md5' ) {
+        my $n = $this->checkPerlModule( 'Crypt::PasswdMD5',
+            "Required $auto apache-md5 encoding", 0 );
+
+        if ( $n =~ m/Not installed/ ) {
+            $e .= $this->ERROR($n);
+        }
+        else {
+            $e .= $this->NOTE($n);
+        }
+    }
+
+    if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'crypt-md5' ) {
         if ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) {
-            $e = $this->ERROR("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
+            $e .=
+              $this->ERROR("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
         }
         use Config;
         if ( $Config{myuname} =~ /strawberry/i ) {
-            $e = $this->ERROR(
+            $e .= $this->ERROR(
 'ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010). See <a href="http://foswiki.org/Support/HtPasswdEncodingSupplement">HtPasswdEncodingSupplement</a> for more information'
             );
         }
     }
-    elsif ( $enc eq 'crypt' ) {
-        my $f = $Foswiki::cfg{Htpasswd}{FileName};
-        Foswiki::Configure::Load::expandValue($f);
 
-        if ( -f $f ) {
-            $e = $this->NOTE(
-'NOTE: crypt encoding only uses the first 8 characters of the password and silently ignores the rest.  However changing Encoding will invalidate existing passwords. See <a href="http://foswiki.org/Support/HtPasswdEncodingSupplement">HtPasswdEncodingSupplement</a> for more information'
-            );
-        }
-        else {
-            $e = $this->WARN(
-'WARNING: crypt encoding only uses the first 8 characters of the password and silently ignores the rest.  No password file exists, so now is a good time choose a different encoding. See <a href="http://foswiki.org/Support/HtPasswdEncodingSupplement">HtPasswdEncodingSupplement</a> for more information'
-            );
-        }
-    }
-
-    if ( $enc ne 'crypt' && $Foswiki::cfg{PasswordManager} eq 'Foswiki::Users::ApacheHtpasswdUser' ) {
-        $e .= $this->ERROR("PasswordManager ApacheHtpasswdUser only supports crypt encryption.  Use HtPasswdUser for other Encoding types.");
+    if (   $enc ne 'crypt'
+        && $Foswiki::cfg{PasswordManager} eq
+        'Foswiki::Users::ApacheHtpasswdUser' )
+    {
+        $e .= $this->ERROR(
+"PasswordManager ApacheHtpasswdUser only supports crypt encryption.  Use HtPasswdUser for other Encoding types."
+        );
     }
 
     return $e;
