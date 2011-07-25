@@ -447,7 +447,15 @@ sub test_ApacheHtpasswdUser_md5 {
     my $this = shift;
 
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding} = 'apache-md5';
+    $Foswiki::cfg{Htpasswd}{Encoding}   = 'apache-md5';
+    eval "use Apache::Htpasswd";
+    if ($@) {
+        my $mess = $@;
+        $mess =~ s/\(\@INC contains:.*$//s;
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN APACHE HTPASSWD TESTS: $mess");
+    }
+
     eval "use Foswiki::Users::ApacheHtpasswdUser";
     if ($@) {
         my $mess = $@;
@@ -480,7 +488,15 @@ sub test_ApacheHtpasswdUser_crypt {
     }
 
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt';
+    $Foswiki::cfg{Htpasswd}{Encoding}   = 'crypt';
+    eval "use Apache::Htpasswd";
+    if ($@) {
+        my $mess = $@;
+        $mess =~ s/\(\@INC contains:.*$//s;
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN APACHE HTPASSWD TESTS: $mess");
+    }
+
     eval "use Foswiki::Users::ApacheHtpasswdUser";
     if ($@) {
         my $mess = $@;
@@ -510,7 +526,15 @@ sub DISABLE_test_ApacheHtpasswdUser_plain {
     my $this = shift;
 
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding} = 'plain';
+    $Foswiki::cfg{Htpasswd}{Encoding}   = 'plain';
+    eval "use Apache::Htpasswd";
+    if ($@) {
+        my $mess = $@;
+        $mess =~ s/\(\@INC contains:.*$//s;
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN APACHE HTPASSWD TESTS: $mess");
+    }
+
     eval "use Foswiki::Users::ApacheHtpasswdUser";
     if ($@) {
         my $mess = $@;
