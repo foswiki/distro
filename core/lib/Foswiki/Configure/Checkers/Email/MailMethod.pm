@@ -13,17 +13,29 @@ sub check {
 
     return '' if ( !$Foswiki::cfg{EnableEmail} );
 
+    # Not set - need to guess it.
     if ( !$Foswiki::cfg{Email}{MailMethod} ) {
+        my $val = $Foswiki::cfg{MailProgram} || '';
+        $val =~ s/\s.*$//g;
         if ( $Foswiki::cfg{SMTP}{MAILHOST} ) {
             $n .= $this->NOTE(
-"MailMethod was not configured - I guessed <code>Net::SMTP</code>"
+"MailMethod was not configured - MAILHOST is provided - I guessed <code>Net::SMTP</code>"
             );
             $Foswiki::cfg{Email}{MailMethod} = 'Net::SMTP';
             $n .= $this->guessed(0);
         }
+        elsif ( !( -x $val ) ) {
+
+            # MailProgram is not executable,  need Net::SMTP
+            $Foswiki::cfg{Email}{MailMethod} = 'Net::SMTP';
+            $n .= $this->NOTE(
+"MailMethod was not configured. No MAILHOST configured but MailProgram is not executable - I guessed <code>Net::SMTP</code> anyway, please configure MAILHOST."
+            );
+            $n .= $this->guessed(0);
+        }
         else {
             $n .= $this->NOTE(
-"MailMethod was not configured - I guessed <code>MailProgram</code>"
+"MailMethod was not configured. No MAILHOST and MailProgram is available. - I guessed <code>MailProgram</code>"
             );
             $Foswiki::cfg{Email}{MailMethod} = 'MailProgram';
             $n .= $this->guessed(0);
@@ -41,6 +53,30 @@ MailProgram.  Once you save this configuration,
 </ul>
 It is recommended to delete the SMTPMAILHOST setting if you are using a SitePreferences topic from a previous release of Foswiki.
 HERE
+    }
+
+    my $e =
+      $this->checkPerlModule( 'Net::SMTP', 'Required for SMTP Support', 2.00 );
+
+    if (   $e =~ m/Not installed/
+        && $Foswiki::cfg{Email}{MailMethod} ne 'MailProgram' )
+    {
+        $n .= $this->ERROR($e);
+    }
+    else {
+        $n .= $this->NOTE($e);
+    }
+
+    $e = $this->checkPerlModule( 'Net::SMTP::SSL', 'Required for SMTP over SSL',
+        1.00 );
+
+    if (   $e =~ m/Not installed/
+        && $Foswiki::cfg{Email}{MailMethod} eq 'Net::SMTP::SSL' )
+    {
+        $n .= $this->ERROR($e);
+    }
+    else {
+        $n .= $this->NOTE($e);
     }
 
     return $n;
