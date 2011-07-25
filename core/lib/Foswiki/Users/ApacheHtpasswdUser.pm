@@ -6,7 +6,6 @@ use warnings;
 use Foswiki::Users::Password ();
 our @ISA = ('Foswiki::Users::Password');
 
-use Apache::Htpasswd ();
 use Assert;
 use Error qw( :try );
 
@@ -28,8 +27,19 @@ provided mainly as an example of how to write a new password manager.
 sub new {
     my ( $class, $session ) = @_;
     my $UseMD5;
+
     #my $UsePlain;
 
+    eval 'use Apache::Htpasswd';
+    if ($@) {
+        my $mess = $@;
+        $mess =~ s/\(\@INC contains:.*$//s;
+        print STDERR
+"ERROR:  Missing CPAN Module Apache::Htpasswd -  $mess - Consider using Foswiki::Users::HtpasswdUser for password manager\n";
+        throw Error::Simple(
+"ERROR:  Missing CPAN Module Apache::Htpasswd - $mess - Consider using Foswiki::Users::HtpasswdUser for password manager"
+        );
+    }
     if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt' ) {
         if ( $^O =~ /^MSWin/i ) {
             print STDERR "ERROR: {Htpasswd}{Encoding} setting : "
@@ -45,6 +55,7 @@ sub new {
         require Crypt::PasswdMD5;
         $UseMD5 = 1;
     }
+
     # SMELL: Apache::Htpasswd doesn't really write out plain passwords
     # so no sense enabling support for this.
     #elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'plain' ) {
@@ -65,6 +76,7 @@ sub new {
         {
             passwdFile => $Foswiki::cfg{Htpasswd}{FileName},
             UseMD5     => $UseMD5,
+
             #UsePlain   => $UsePlain,
         }
     );
