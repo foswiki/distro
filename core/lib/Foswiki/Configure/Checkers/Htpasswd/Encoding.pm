@@ -94,9 +94,15 @@ sub check {
         }
         use Config;
         if ( $Config{myuname} =~ /strawberry/i ) {
-            $e .= $this->ERROR(
-'ERROR: crypt-md5 FAILS on Windows with Strawberry perl (no fix in 2010). See <a href="http://foswiki.org/Support/HtPasswdEncodingSupplement">HtPasswdEncodingSupplement</a> for more information'
-            );
+            my $n = $this->checkPerlModule( 'Crypt::PasswdMD5',
+                "Required for crypt-md5 encoding on Windows with Strawberry perl", 0 );
+
+            if ( $n =~ m/Not installed/ ) {
+                $e .= $this->ERROR($n);
+            }
+            else {
+                $e .= $this->NOTE($n);
+            }
         }
     }
 
