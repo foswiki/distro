@@ -356,6 +356,7 @@ sub dumpFile {
 sub test_htpasswd_crypt_md5 {
     my $this = shift;
 
+    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt-md5';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
@@ -365,6 +366,7 @@ sub test_htpasswd_crypt_md5 {
 
 sub test_htpasswd_crypt_crypt {
     my $this = shift;
+    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
@@ -382,6 +384,7 @@ sub test_htpasswd_sha1 {
         $this->annotate("CANNOT RUN SHA1 TESTS: $mess");
     }
 
+    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding} = 'sha1';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
@@ -391,6 +394,7 @@ sub test_htpasswd_sha1 {
 sub test_htpasswd_plain {
     my $this = shift;
 
+    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding} = 'plain';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
@@ -401,6 +405,7 @@ sub test_htpasswd_plain {
 sub test_htpasswd_md5 {
     my $this = shift;
 
+    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
@@ -411,6 +416,7 @@ sub test_htpasswd_md5 {
 sub test_htpasswd_htdigest_md5 {
     my $this = shift;
 
+    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding} = 'htdigest-md5';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
@@ -437,6 +443,7 @@ sub test_htpasswd_apache_md5 {
         $this->annotate("CANNOT RUN APACHE MD5 TESTS: $mess");
     }
 
+    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding} = 'apache-md5';
     my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
     $this->assert($impl);
