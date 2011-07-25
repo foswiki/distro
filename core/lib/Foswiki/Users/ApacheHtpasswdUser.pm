@@ -170,7 +170,10 @@ sub encrypt {
     my $salt = '';
     unless ($fresh) {
         my $epass = $this->fetchPass($login);
-        $salt = substr( $epass, 0, 2 ) if ($epass);
+        # Salt is 14 because on Windows, CryptPasswd will use the Apache MD5 algorithm
+        # $apr1$ssssssss$, but uses Crypt on Linux with 2 character salt.  need to pass
+        # longest possible salt.
+        $salt = substr( $epass, 0, 14 ) if ($epass);
     }
     my $r = $this->{apache}->CryptPasswd( $passwordU, $salt );
     $this->{error} = $this->{apache}->error();
