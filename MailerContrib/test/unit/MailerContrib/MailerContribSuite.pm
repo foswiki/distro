@@ -229,7 +229,6 @@ sub set_up {
             $web,  $Foswiki::cfg{NotifyTopicName},
             $meta, "Before\n${s}After"
         );
-
         for my $testTopic ( keys %expectedRevs ) {
             my $parent = 'WebHome';
             if ( $testTopic =~ /^TestTopic(\d+)\d$/ ) {
@@ -407,55 +406,121 @@ sub testCovers {
     my $s1 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0, 0 );
     $this->assert( $s1->covers($s1) );
 
-    my $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
-        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
+    my $s2 = new Foswiki::Contrib::MailerContrib::Subscription(	'A', 0,
+	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( !$s1->covers($s2) );
 
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
-        $Foswiki::Contrib::MailerContrib::Constants::ALWAYS |
-          $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
+        Foswiki::Contrib::MailerContrib::Subscription::ALWAYS |
+          Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( $s1->covers($s2) );
     $this->assert( !$s2->covers($s1) );
 
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( 'A*', 0,
-        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( $s1->covers($s2) );
     $this->assert( !$s2->covers($s1) );
 
     $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 1,
-        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( !$s1->covers($s2) );
     $this->assert( !$s2->covers($s1) );
 
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( 'A*', 1,
-        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( $s1->covers($s2) );
     $this->assert( !$s2->covers($s1) );
 
     $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A*B', 1,
-        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( $s1->covers($s2) );
     $this->assert( !$s2->covers($s1) );
 
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( 'AxB', 0,
-        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( !$s1->covers($s2) );
     $this->assert( $s2->covers($s1) );
 
     # * covers everything.
     my $AStar = new Foswiki::Contrib::MailerContrib::Subscription( 'A*', 1,
-        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     my $Star = new Foswiki::Contrib::MailerContrib::Subscription( '*', 1,
-        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( $Star->covers($AStar) );
     $this->assert( !$AStar->covers($Star) );
 
  #as parent-child relationshipd are broken across webs, * should cover topic (2)
     my $ChildrenOfWebHome =
       new Foswiki::Contrib::MailerContrib::Subscription( 'WebHome', 2,
-        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC );
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( $Star->covers($ChildrenOfWebHome) );
     $this->assert( !$ChildrenOfWebHome->covers($Star) );
+
+    # Special cases involving '*' and modes
+    $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
+	0);
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        0 );
+    $this->assert( $s1->covers($s2) );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+    $this->assert( $s1->covers($s2) );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        Foswiki::Contrib::MailerContrib::Subscription::ALWAYS );
+    $this->assert( $s1->covers($s2) );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        Foswiki::Contrib::MailerContrib::Subscription::ALWAYS |
+	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+    $this->assert( $s1->covers($s2) );
+
+    $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
+	Foswiki::Contrib::MailerContrib::Subscription::ALWAYS);
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        0 );
+    $this->assert( !$s1->covers($s2) );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+    $this->assert( !$s1->covers($s2) );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        Foswiki::Contrib::MailerContrib::Subscription::ALWAYS );
+    $this->assert( $s1->covers($s2) );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        Foswiki::Contrib::MailerContrib::Subscription::ALWAYS |
+	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+    $this->assert( $s1->covers($s2) );
+
+    $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
+	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC);
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        0 );
+    $this->assert( !$s1->covers($s2) );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+    $this->assert( $s1->covers($s2) );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        Foswiki::Contrib::MailerContrib::Subscription::ALWAYS );
+    $this->assert( !$s1->covers($s2) );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        Foswiki::Contrib::MailerContrib::Subscription::ALWAYS |
+	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+    $this->assert( $s1->covers($s2) );
+
+    $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
+	Foswiki::Contrib::MailerContrib::Subscription::ALWAYS |
+	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC);
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        0 );
+    $this->assert( !$s1->covers($s2) );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+    $this->assert( !$s1->covers($s2) );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        Foswiki::Contrib::MailerContrib::Subscription::ALWAYS );
+    $this->assert( !$s1->covers($s2) );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
+        Foswiki::Contrib::MailerContrib::Subscription::ALWAYS |
+	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+    $this->assert( $s1->covers($s2) );
 }
 
 # Check filter-in on email addresses

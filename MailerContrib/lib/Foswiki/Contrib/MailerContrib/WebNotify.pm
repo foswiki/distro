@@ -28,9 +28,10 @@ use Foswiki::Contrib::MailerContrib::Subscription ();
 ---++ new($web, $topic)
    * =$web= - web name
    * =$topic= - topic name
-   * =$noexpandgroups= - True will prevent expansion of  group subscriptions
-          (False is best for checking subscriptions, but True is best for
-	  writing results back to $topic)
+   * =$noexpandgroups= - True will prevent expansion of group subscriptions
+     (False is best for checking subscriptions, but True is best for
+     writing results back to $topic)
+     
 Create a new object by parsing the content of the given topic in the
 given web. This is the normal way to load a %NOTIFYTOPIC% topic. If the
 topic does not exist, it will create an empty object.
@@ -187,9 +188,9 @@ sub unsubscribe {
 ---++ stringify() -> string
 Return a string representation of this object, in %NOTIFYTOPIC% format.
 
-Optional $subscribersOnly parameter to only print the parsed subscription list.
+Optional =$subscribersOnly= parameter to only print the parsed subscription list.
 Used when running a mailnotify, where printing out the entire WebNotify topic is confusing,
-as its different from the actual topic contents, but doesn't inform the user why.
+as it's different from the actual topic contents, but doesn't inform the user why.
 
 =cut
 
@@ -253,13 +254,13 @@ sub processChange {
                       if (
                         !(
                             $subs->{options} &
-                            $Foswiki::Contrib::MailerContrib::Constants::ALWAYS
+                            Foswiki::Contrib::MailerContrib::Subscription::ALWAYS
                         )
                         && $authors{$email}
                       );
 
                     if ( $subs->{options} &
-                        $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC
+                        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC
                       )
                     {
                         push( @{ $allSet->{$topic} }, $email );
@@ -301,7 +302,7 @@ sub processCompulsory {
         next unless $subs;
         next
           unless ( $subs->{options} &
-            $Foswiki::Contrib::MailerContrib::Constants::ALWAYS );
+            Foswiki::Contrib::MailerContrib::Subscription::ALWAYS );
         unless ( $subscriber->isUnsubscribedFrom( $topic, $db ) ) {
             my $emails = $subscriber->getEmailAddresses();
             if ($emails) {
@@ -338,7 +339,7 @@ sub _load {
 
     # join \ terminated lines
     $text =~ s/\\\r?\n//gs;
-    my $webRE = qr/(?:$Foswiki::cfg{UsersWebName}\.)?/o;
+    my $webRE = qr/(?:$Foswiki::cfg{UsersWebName}\.)?/;
     foreach my $baseline ( split( /\r?\n/, $text ) ) {
         my $line =
           Foswiki::Func::expandCommonVariables( $baseline, $this->{topic},
@@ -349,7 +350,7 @@ sub _load {
                     ($Foswiki::regex{wikiWordRegex})
                     \s+\-\s+
                     ($Foswiki::cfg{MailerContrib}{EmailFilterIn}+)
-                    \s*$}xo
+                    \s*$}x
             && $1 ne $Foswiki::cfg{DefaultUserWikiName}
           )
         {
@@ -368,7 +369,7 @@ sub _load {
                            | $Foswiki::cfg{MailerContrib}{EmailFilterIn}
                        )
                        \s*(:.*)?$
-                  }xo
+                  }x
             && $1 ne $Foswiki::cfg{DefaultUserWikiName}
           )
         {
@@ -432,9 +433,9 @@ sub _subscribeTopic {
     #print STDERR "_subscribeTopic($topic)\n";
     my $opts = 0;
     if ($options) {
-        $opts |= $Foswiki::Contrib::MailerContrib::Constants::FULL_TOPIC;
+        $opts |= Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC;
         if ( $options =~ /!/ ) {
-            $opts |= $Foswiki::Contrib::MailerContrib::Constants::ALWAYS;
+            $opts |= Foswiki::Contrib::MailerContrib::Subscription::ALWAYS;
         }
     }
     my $kids = $childDepth or 0;
