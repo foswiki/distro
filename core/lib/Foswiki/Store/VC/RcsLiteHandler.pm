@@ -225,8 +225,7 @@ sub _process {
     }
     my $fh;
     unless ( open( $fh, '<', $this->{rcsFile} ) ) {
-        $this->{session}
-          ->logger->log( 'warning', 'Failed to open ' . $this->{rcsFile} );
+        warn( 'Failed to open ' . $this->{rcsFile} );
         $this->{state} = 'nocommav';
         return;
     }
@@ -348,8 +347,7 @@ sub _process {
     }
 
     unless ( $state eq 'parsed' ) {
-        my $error = $this->{rcsFile} . ' is corrupt; parsed up to ' . $state;
-        $this->{session}->logger->log( 'warning', $error );
+        warn( $this->{rcsFile} . ' is corrupt; parsed up to ' . $state );
 
         #ASSERT(0) if DEBUG;
         $headNum = 0;
