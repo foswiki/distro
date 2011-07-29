@@ -226,7 +226,7 @@ sub getInfo {
         close($f);
         if ( defined $ti && $ti =~ /^%META:TOPICINFO{(.*)}%/ ) {
             require Foswiki::Attrs;
-            my $a = new Foswiki::Attrs($1);
+            my $a = Foswiki::Attrs->new($1);
 
             # Default bad revs to 1, not 0, because this is coming from
             # a topic on disk, so we know it's a "real" rev.
@@ -264,17 +264,18 @@ sub getRevisionHistory {
     my $this = shift;
     ASSERT( $this->{file} ) if DEBUG;
     unless ( -e $this->{rcsFile} ) {
+        require Foswiki::ListIterator;
         if ( -e $this->{file} ) {
-            return new Foswiki::ListIterator( [0] );
+            return Foswiki::ListIterator->new( [0] );
         }
         else {
-            return new Foswiki::ListIterator( [] );
+            return Foswiki::ListIterator->new( [] );
         }
     }
 
     # SMELL: what happens with the working file?
     my $maxRev = $this->getLatestRevisionID();
-    return new Foswiki::Iterator::NumberRangeIterator( $maxRev, 1 );
+    return Foswiki::Iterator::NumberRangeIterator->new( $maxRev, 1 );
 }
 
 =begin TML
@@ -1289,11 +1290,11 @@ sub eachChange {
           }
           reverse split( /[\r\n]+/, readFile( $this, $file ) );
 
-        return new Foswiki::ListIterator( \@changes );
+        return Foswiki::ListIterator->new( \@changes );
     }
     else {
         my $changes = [];
-        return new Foswiki::ListIterator($changes);
+        return Foswiki::ListIterator->new($changes);
     }
 }
 
@@ -1438,7 +1439,7 @@ given epoch-secs time, or undef it none could be found.
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
