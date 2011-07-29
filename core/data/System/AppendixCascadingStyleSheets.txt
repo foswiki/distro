@@ -67,6 +67,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiMakeVisibleBlock=  | DEPRECATED as of Foswiki 1.1.0: use =div.foswikiMakeVisible=. For =div= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
 |=.foswikiMakeHidden=        | For elements that should be hidden with !JavaScript on: no default style, is made hidden by !JavaScript |
 |=.foswikiImage=             | Holder form images; for instance to create a border around an =&lt;img&gt;= element |
+|=.foswikiUserName=          | Container around user name links (not used much yet) |
 
 ---+++ Links
 |=.foswikiCurrentWebHomeLink=       | Used by Render.pm if a link points to the web's home topic |

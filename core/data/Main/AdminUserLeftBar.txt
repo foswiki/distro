@@ -1,8 +1,16 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="AdminUser"}%
-%TABLE{headerbg="red" tablebordercolor="black" headercolor="white" sort="off"}%
-| *ADMIN USER* |
-
+%ADDTOZONE{
+	"head"
+	text="<literal><style type=\"text/css\" media=\"screen\">
+		#patternSideBarContents .foswikiUserName a:link,
+		#patternSideBarContents .foswikiUserName a:visited {
+			background:red;
+			color:white;
+			padding:0 1px;
+		}
+		</style></literal>"
+}%
 <!--
 Customise this topic; samples and ideas available at
 %SYSTEMWEB%.WebLeftBarCookbook.
