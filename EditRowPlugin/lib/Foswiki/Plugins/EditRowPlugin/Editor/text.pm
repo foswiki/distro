@@ -27,6 +27,8 @@ sub jQueryMetadata {
     my $data = $this->SUPER::jQueryMetadata(@_);
 
     $data->{data} = $text;
+    # JEditable "text" type requires "width" not "size"
+    $data->{width} = $data->{size} . "em";
     $this->_addSaveButton($data);
     return $data;
 }
