@@ -11,7 +11,9 @@ pub/System/JSCalendarContrib/calendar-blue2.css 0644
 pub/System/JSCalendarContrib/calendar-blue.css 0644
 pub/System/JSCalendarContrib/calendar-brown.css 0644
 pub/System/JSCalendarContrib/calendar-green.css 0644
+pub/System/JSCalendarContrib/calendar_src.js 0644
 pub/System/JSCalendarContrib/calendar.js 0644
+pub/System/JSCalendarContrib/calendar.js.gz 0644
 pub/System/JSCalendarContrib/calendar.php 0644
 pub/System/JSCalendarContrib/calendar-setup.js 0644
 pub/System/JSCalendarContrib/calendar-setup_stripped.js 0644
@@ -96,4 +98,3 @@ pub/System/JSCalendarContrib/simple-3.html 0644
 pub/System/JSCalendarContrib/screenshot.gif 0644
 pub/System/JSCalendarContrib/test.php 0644
 pub/System/JSCalendarContrib/test-position.html 0644
-

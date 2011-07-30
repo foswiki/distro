@@ -611,7 +611,7 @@ Calendar.cellClick = function(el, ev) {
 		}
 		date = new Date(cal.date);
 		if (el.navtype == 0)
-			date.setDateOnly(new Date()); // TODAY
+			date.setDateAndTime(new Date()); // TODAY
 		// unless "today" was clicked, we assume no date was clicked so
 		// the selected handler will know not to close the calenar when
 		// in single-click mode.
@@ -1595,14 +1595,15 @@ Date.parseDate = function(str, fmt) {
 	var i = 0, j = 0;
 	var hr = 0;
 	var min = 0;
+	var sec = 0;
 	var epoch = 0;
 	for (i = 0; i < a.length; ++i) {
 		if (!a[i])
 			continue;
 		switch (b[i]) {
-                    case "%s":
-                        epoch = parseInt(a[i], 10);
-                        break;
+            case "%s":
+            epoch = parseInt(a[i], 10);
+            break;
 
 		    case "%d":
 		    case "%e":
@@ -1644,6 +1645,10 @@ Date.parseDate = function(str, fmt) {
 		    case "%M":
 			min = parseInt(a[i], 10);
 			break;
+			
+			case "%S":
+			sec = parseInt(a[i], 10);
+			break;
 		}
 	}
 	if (isNaN(y)) y = today.getFullYear();
@@ -1651,11 +1656,12 @@ Date.parseDate = function(str, fmt) {
 	if (isNaN(d)) d = today.getDate();
 	if (isNaN(hr)) hr = today.getHours();
 	if (isNaN(min)) min = today.getMinutes();
-        if (isNaN(epoch)) epoch = 0;
-        if (epoch)
+	if (isNaN(sec)) sec = today.getSeconds();
+    if (isNaN(epoch)) epoch = 0;
+    if (epoch)
 		return new Date(epoch * 1000);
 	if (y != 0 && m != -1 && d != 0)
-		return new Date(y, m, d, hr, min, 0);
+		return new Date(y, m, d, hr, min, sec);
 	y = 0; m = -1; d = 0;
 	for (i = 0; i < a.length; ++i) {
 		if (a[i].search(/[a-zA-Z]+/) != -1) {
@@ -1681,7 +1687,7 @@ Date.parseDate = function(str, fmt) {
 	if (y == 0)
 		y = today.getFullYear();
 	if (m != -1 && d != 0)
-		return new Date(y, m, d, hr, min, 0);
+		return new Date(y, m, d, hr, min, sec);
 	return today;
 };
 
@@ -1723,7 +1729,8 @@ Date.prototype.equalsTo = function(date) {
 		(this.getMonth() == date.getMonth()) &&
 		(this.getDate() == date.getDate()) &&
 		(this.getHours() == date.getHours()) &&
-		(this.getMinutes() == date.getMinutes()));
+		(this.getMinutes() == date.getMinutes()) &&
+		(this.getSeconds() == date.getSeconds()));
 };
 
 /** Set only the year, month, date parts (keep existing time) */
@@ -1733,6 +1740,21 @@ Date.prototype.setDateOnly = function(date) {
 	this.setFullYear(tmp.getFullYear());
 	this.setMonth(tmp.getMonth());
 	this.setDate(tmp.getDate());
+	// keep existing time
+	this.setHours(date.getHours());
+	this.setMinutes(date.getMinutes());
+	this.setSeconds(date.getSeconds());
+};
+
+Date.prototype.setDateAndTime = function(date) {
+	var tmp = new Date(date);
+	this.setDate(1);
+	this.setFullYear(tmp.getFullYear());
+	this.setMonth(tmp.getMonth());
+	this.setDate(tmp.getDate());
+	this.setHours(tmp.getHours());
+	this.setMinutes(tmp.getMinutes());
+	this.setSeconds(tmp.getSeconds());	
 };
 
 /** Prints the date in a string according to the given format. */
