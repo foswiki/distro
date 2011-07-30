@@ -29,13 +29,13 @@ having to write any code. Just add this inline in the topic text:
 </verbatim>
 Then, to display a calendar icon next to a text input field:
 <verbatim class="tml">
-<input type="text" id="cal_val_here" />
+<input type="text" class="foswikiInputField" id="cal_val_here" />
 <input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
        onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
 </verbatim>
 If the contrib is installed, you will see such a field here:
 %INCLUDE{"%SYSTEMWEB%/JSCalendarContribInline"}%
-<input type="text" id="cal_val_here" />
+<input type="text" class="foswikiInputField" id="cal_val_here" />
 <input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
        onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
 
@@ -67,7 +67,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 | Change History: | |
-|  30 Jul 2011 | Arthur Clemens: Improve support of using seconds. |
+|  30 Jul 2011 | Arthur Clemens: Several bug fixes related to using seconds. |
 |  11 Apr 2011 | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  31 Jul 2010 | Foswikitask:Item9415 - Documentation updates |
 |  03 Apr 2010 | Added possibility of local configuration of the calendar (Foswiki:Main.AntonioTerceiro).|
