@@ -21,7 +21,7 @@ sub htmlEditor {
     # NOTE: old versions of JSCalendarContrib won't fire onchange
     return Foswiki::Contrib::JSCalendarContrib::renderDateForEdit(
 	$cell->getCellName(), $unexpandedValue,
-	$colDef->{values}->[1],
+	$colDef->{values}->[0],
 	{ class => 'erpJS_input' });
 }
 
