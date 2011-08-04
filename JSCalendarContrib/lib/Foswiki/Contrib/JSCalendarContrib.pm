@@ -19,39 +19,39 @@ use warnings;
 use Foswiki::Func ();    # The plugins API
 
 our $VERSION = '$Rev$';
-our $RELEASE = '30 Jul 2011';
+our $RELEASE = '04 Aug 2011';
 our $SHORTDESCRIPTION =
 "[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]], packaged for use by plugins, skins and add-ons";
 
 # Max width of different mishoo format components
 my %w = (
-    a => 3,              # abbreviated weekday name
-    A => 9,              # full weekday name
-    b => 3,              # abbreviated month name
-    B => 9,              # full month name
-    C => 2,              # century number
-    d => 2,              # the day of the month ( 00 .. 31 )
-    e => 2,              # the day of the month ( 0 .. 31 )
-    H => 2,              # hour ( 00 .. 23 )
-    I => 2,              # hour ( 01 .. 12 )
-    j => 3,              # day of the year ( 000 .. 366 )
-    k => 2,              # hour ( 0 .. 23 )
-    l => 2,              # hour ( 1 .. 12 )
-    m => 2,              # month ( 01 .. 12 )
-    M => 2,              # minute ( 00 .. 59 )
-    n => 1,              # a newline character
-    p => 2,              # 'PM' or 'AM'
-    P => 2,              # 'pm' or 'am'
-    S => 2,              # second ( 00 .. 59 )
-    s => 12,             # number of seconds since Epoch
-    t => 1,              # a tab character
-    U => 2,              # the week number
-    u => 1,              # the day of the week ( 1 .. 7, 1 = MON )
-    W => 2,              # the week number
-    w => 1,              # the day of the week ( 0 .. 6, 0 = SUN )
-    V => 2,              # the week number
-    y => 2,              # year without the century ( 00 .. 99 )
-    Y => 4,              # year including the century ( ex. 1979 )
+    'a' => 3,              # abbreviated weekday name
+    'A' => 9,              # full weekday name
+    'b' => 3,              # abbreviated month name
+    'B' => 9,              # full month name
+    'C' => 2,              # century number
+    'd' => 2,              # the day of the month ( 00 .. 31 )
+    'e' => 2,              # the day of the month ( 0 .. 31 )
+    'H' => 2,              # hour ( 00 .. 23 )
+    'I' => 2,              # hour ( 01 .. 12 )
+    'j' => 3,              # day of the year ( 000 .. 366 )
+    'k' => 2,              # hour ( 0 .. 23 )
+    'l' => 2,              # hour ( 1 .. 12 )
+    'm' => 2,              # month ( 01 .. 12 )
+    'M' => 2,              # minute ( 00 .. 59 )
+    'n' => 1,              # a newline character
+    'p' => 2,              # 'PM' or 'AM'
+    'P' => 2,              # 'pm' or 'am'
+    'S' => 2,              # second ( 00 .. 59 )
+    's' => 12,             # number of seconds since Epoch
+    't' => 1,              # a tab character
+    'U' => 2,              # the week number
+    'u' => 1,              # the day of the week ( 1 .. 7, 1 = MON )
+    'W' => 2,              # the week number
+    'w' => 1,              # the day of the week ( 0 .. 6, 0 = SUN )
+    'V' => 2,              # the week number
+    'y' => 2,              # year without the century ( 00 .. 99 )
+    'Y' => 4,              # year including the century ( ex. 1979 )
 );
 
 =begin TML
@@ -89,6 +89,8 @@ sub renderDateForEdit {
 
     addHEAD('foswiki');
 
+    $value = formatDate( $value, $format );
+    
     # Work out how wide it has to be from the format
     # SMELL: add a space because pattern skin default fonts on FF make the
     # box half a character too narrow if the exact size is used
@@ -230,11 +232,203 @@ HERE
        );
 }
 
+my $SPECIFIER_TABLE = {
+    '%a' => '$wday',
+    '%A' => 'fmt_longweekday($wday)',
+    '%b' => '$month',
+    '%B' => 'fmt_longmonth($month)',
+    '%C' => 'fmt_century($year)',
+    '%d' => '$day',
+    '%e' => 'fmt_int($day)',
+    '%H' => 'fmt_pad($hours)',
+    '%I' => 'fmt_ampmhours($hours,1)',
+    '%j' => 'fmt_dayofyear($day, $mo, $year)',
+    '%k' => 'fmt_int($hours)',
+    '%l' => 'fmt_ampmhours($hours)',
+    '%m' => '$mo',
+    '%M' => '$minute',
+    '%n' => '$n()',
+    '%p' => 'fmt_ampmstr($hours,1)',
+    '%P' => 'fmt_ampmstr($hours,0)',
+    '%S' => '$seconds',
+    '%s' => '$epoch',
+    '%t' => "\t",
+    '%U' => '$week',
+    '%V' => '$week',
+    '%W' => '$week',
+    '%u' => 'fmt_add($dow)',
+    '%w' => 'fmt_add($dow,1)',
+    '%y' => 'fmt_shortyear($year)',
+    '%Y' => '$year',
+    '%%' => '%'
+};
+
+=pod
+---++ StaticMethod formatDate( $foswikiDateStr, $jsCalendarFormat  ) -> $formattedDate
+
+Converts the Foswiki date string (for example '%e %b %Y' or '$day $month $year') to the format set in JSCALENDARCONTRIB_FORMAT.
+
+=cut
+
+sub formatDate {
+    my ( $foswikiDateStr, $jsCalendarFormat ) = @_;
+
+    my $epoch = Foswiki::Time::parseTime($foswikiDateStr);
+    $epoch ||= 0;    # otherwise we have to work with an empty string
+    my $foswikiDateFormat = _calendarFormatToFoswikiFormat($jsCalendarFormat);
+
+    my $formattedDate = Foswiki::Time::formatTime( $epoch, $foswikiDateFormat );
+    _formatFunctions($formattedDate);
+
+    $formattedDate = Foswiki::expandStandardEscapes($formattedDate);
+
+    return $formattedDate;
+}
+
+sub fmt_pad {
+    my ( $num, $len ) = @_;
+
+    $len ||= 2;
+    $num = "$num";
+
+    return '0' x ( $len - length $num ) . $num;
+}
+
+sub fmt_int {
+    my ($num) = @_;
+    return int($num);
+}
+
+sub fmt_longmonth {
+    my ($shortMonth) = @_;
+
+    my $MONTH_TABLE = {
+        'Jan' => 'January',
+        'Feb' => 'February',
+        'Mar' => 'March',
+        'Apr' => 'April',
+        'May' => 'May',
+        'Jun' => 'June',
+        'Jul' => 'July',
+        'Aug' => 'August',
+        'Sep' => 'September',
+        'Oct' => 'October',
+        'Nov' => 'November',
+        'Dec' => 'December'
+    };
+    return $MONTH_TABLE->{$shortMonth};
+}
+
+sub fmt_longweekday {
+    my ($shortWeek) = @_;
+
+    my $WEEK_TABLE = {
+        'Sun' => 'Sunday',
+        'Mon' => 'Monday',
+        'Tue' => 'Tuesday',
+        'Wed' => 'Wednesday',
+        'Thu' => 'Thursday',
+        'Fri' => 'Friday',
+        'Sat' => 'Saturday',
+    };
+    return $WEEK_TABLE->{$shortWeek};
+}
+
+sub fmt_century {
+    my ($fullYear) = @_;
+
+    return 1 + int( $fullYear / 100 );
+}
+
+sub fmt_ampmhours {
+    my ( $hours, $pad ) = @_;
+
+    $hours = int($hours);
+    $hours -= 12 if $hours >= 12;
+    $hours += 12 if $hours == 0;
+
+    $hours = fmt_pad($hours) if $pad;
+
+    return $hours;
+}
+
+sub fmt_ampmstr {
+    my ( $hours, $uppercase ) = @_;
+
+    $hours = int($hours);
+
+    my $ampmstr = ( $hours >= 12 ) ? 'pm' : 'am';
+    $ampmstr = uc($ampmstr) if $uppercase;
+    return $ampmstr;
+}
+
+sub fmt_add {
+    my ( $number, $amount ) = @_;
+
+    $amount ||= 0;
+    return int($number) + int($amount);
+}
+
+sub fmt_dayofyear {
+    my ( $day1, $month, $year ) = @_;
+
+    my @cumul_d_in_m =
+      ( 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 );
+    my $doy = $cumul_d_in_m[ --$month ] + $day1;
+    return $doy if $month < 2;
+    return $doy   unless $year % 4 == 0;
+    return ++$doy unless $year % 100 == 0;
+    return $doy   unless $year % 400 == 0;
+    return ++$doy;
+}
+
+sub fmt_shortyear {
+    my ($year) = @_;
+
+    $year .= '';
+    my $short = substr( $year, 2, 2 );
+    return $short;
+}
+
+=pod
+---++ StaticMethod _calendarFormatToFoswikiFormat( $jsCalendarFormat  ) -> $foswikiDateFormat
+
+Converts JSCALENDARCONTRIB_FORMAT string to a string that Foswiki::Time can use to replace tokens.
+
+=cut
+
+sub _calendarFormatToFoswikiFormat {
+    my ($jsCalendarFormat) = @_;
+
+    my $foswikiDateFormat = $jsCalendarFormat;
+    $foswikiDateFormat =~ s/(\%[a-zA-Z%])/$SPECIFIER_TABLE->{$1}/g;
+
+    return $foswikiDateFormat;
+}
+
+=pod
+---++ StaticMethod _formatFunctions( $functionStr  )
+
+Reads the input string and calls 'fmt_' functions if these are found.
+
+=cut
+
+sub _formatFunctions {
+
+    #	my ($functionStr) = @_;
+
+    while ( $_[0] =~
+s/(fmt.*?)\((.*?)\)/my $subref = \&$1; my @args = split(\/\s*,\s*\/,$2); &$subref(@args)/ge
+      )
+    {
+    }
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
