@@ -1874,7 +1874,7 @@ sub save {
 
         my $pretext = $text;               # text before the handler modifies it
         my $premeta = $this->stringify();  # just the meta, no text
-
+print STDERR "call beforeSaveHandler\n";
         $plugins->dispatch( 'beforeSaveHandler', $text, $this->{_topic},
             $this->{_web}, $this );
 
@@ -2164,7 +2164,11 @@ sub move {
                     by   => $cUID,
                 }
             );
-            $from->save();    # to save the metadata change
+            # save the metadata change without logging
+            $this->saveAs(
+                $this->{_web}, $this->{_topic},
+                dontlog => 1, # no statistics
+            );
             $from->{_session}->{store}->moveTopic( $from, $to, $cUID );
             $to->loadVersion();
         }
