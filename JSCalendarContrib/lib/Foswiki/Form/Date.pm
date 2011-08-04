@@ -32,7 +32,15 @@ sub renderForEdit {
         ( $this, $web, $topic, $value ) = @_;
         undef $topicObject;
     }
-    $value = CGI::textfield(
+
+    my $format =
+         Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_FORMAT')
+      || $Foswiki::cfg{JSCalendarContrib}{format}
+      || '%e %b %Y';
+
+    $value = Foswiki::Contrib::JSCalendarContrib::formatDate( $value, $format );
+
+    my $field = CGI::textfield(
         {
             name  => $this->{name},
             id    => 'id' . $this->{name},
@@ -44,71 +52,51 @@ sub renderForEdit {
             : 'foswikiInputField foswikiEditFormDateField'
         }
     );
-    my $ifFormat =
-         Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_FORMAT')
-      || $Foswiki::cfg{JSCalendarContrib}{format}
-      || '%e %b %Y';
     Foswiki::Contrib::JSCalendarContrib::addHEAD('foswiki');
     my $button .= CGI::image_button(
-        -name    => 'calendar',
-        -onclick => "return showCalendar('id$this->{name}','$ifFormat')",
-        -src     => $Foswiki::cfg{PubUrlPath} . '/'
+        -name => 'calendar',
+        -onclick =>
+          "return showCalendar('id$this->{name}','$format')",
+        -src => $Foswiki::cfg{PubUrlPath} . '/'
           . $Foswiki::cfg{SystemWebName}
           . '/JSCalendarContrib/img.gif',
         -alt   => 'Calendar',
         -class => 'foswikiButton foswikiEditFormCalendarButton'
     );
-    $value .=
+    $field .=
       CGI::span( { -class => 'foswikiMakeVisible' }, '&nbsp;' . $button );
+
     if ($topicObject) {
-        $value = $topicObject->renderTML( $topicObject->expandMacros($value) );
+        $field = $topicObject->renderTML( $topicObject->expandMacros($field) );
     }
     else {
 
         # Pre 1.1
         my $session = $this->{session};
-        $value =
+        $field =
           $session->renderer->getRenderedVersion(
-            $session->handleCommonTags( $value, $web, $topic ) );
+            $session->handleCommonTags( $field, $web, $topic ) );
     }
-    return ( '', $value );
+    return ( '', $field );
 }
 
 1;
-__DATA__
-
-Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
-
-# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
-# Foswiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
-#
-# Additional copyrights apply to some or all of the code in this
-# file as follows:
-#
-# Copyright (C) 2001-2007 TWiki Contributors. All Rights Reserved.
-# TWiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
-#
-# Copyright (C) 2008 Foswiki Contributors
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version. For
-more details read LICENSE in the root of this distribution.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-As per the GPL, removal of this notice is prohibited.
-
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org
+and TWiki Contributors. All Rights Reserved. TWiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+Based on parts of Ward Cunninghams original Wiki and JosWiki.
+Copyright (C) 1998 Markus Peter - SPiN GmbH (warpi@spin.de)
+Some changes by Dave Harris (drh@bhresearch.co.uk) incorporated
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
