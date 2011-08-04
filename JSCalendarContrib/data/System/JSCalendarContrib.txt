@@ -37,8 +37,9 @@ To set the initial date format for a field that already contains a value, add th
 	id="cal_val_here"
 	format="%Y-%m-%d %H:%M:%S"
 }%
-If no format is passed, the value from =JSCALENDARCONTRIB_FORMAT= will be used instead.
 </verbatim>
+If no format is passed, the value from =JSCALENDARCONTRIB_FORMAT= will be used instead.
+
 Then, to display a calendar icon next to a text input field:
 <verbatim class="tml">
 <input type="text" class="foswikiInputField" id="cal_val_here" />
