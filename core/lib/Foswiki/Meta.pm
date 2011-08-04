@@ -2159,7 +2159,11 @@ sub move {
                     by   => $cUID,
                 }
             );
-            $from->save();    # to save the metadata change
+            # save the metadata change without logging
+            $this->saveAs(
+                $this->{_web}, $this->{_topic},
+                dontlog => 1, # no statistics
+            );
             $from->{_session}->{store}->moveTopic( $from, $to, $cUID );
             $to->loadVersion();
             ASSERT( defined($to) and defined( $to->{_loadedRev} ) ) if DEBUG;
