@@ -1874,7 +1874,7 @@ sub save {
 
         my $pretext = $text;               # text before the handler modifies it
         my $premeta = $this->stringify();  # just the meta, no text
-print STDERR "call beforeSaveHandler\n";
+
         $plugins->dispatch( 'beforeSaveHandler', $text, $this->{_topic},
             $this->{_web}, $this );
 
