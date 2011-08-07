@@ -55,53 +55,53 @@ overlayCss and/or containerCss options.
 
 <div class="foswikiHidden">
 %STARTSECTION{"helpText"}%<form>
-<div id="helpText" class="foswikiFormSteps">
-<h2 class="foswikiDialogTitle">Contact</h2>
-<div style="width:600px; height:400px; overflow:auto">
-<div class="foswikiFormStep">
-  <h3>First Name:</h3>
-  <input type="text" size="30" class="foswikiInputField" />
-</div>
-<div class="foswikiFormStep">
-  <h3>Last Name:</h3>
-  <input type="text" size="30" class="foswikiInputField" />
-</div>
-<div class="foswikiFormStep">
- Aenean neque lectus, gravida nec, egestas at, scelerisque quis, lectus.
- Suspendisse potenti. Morbi id urna at magna tristique mollis. Praesent
- fermentum sollicitudin turpis. Sed tincidunt gravida est. Morbi non nibh
- ullamcorper lorem consequat tristique. Ut rutrum, diam dignissim congue
- tristique, mauris velit tristique velit, sed laoreet dui mi at ante. In dictum
- massa et quam. Aenean imperdiet elit ut sem. Quisque tincidunt tortor at
- augue. Praesent eu nunc non dolor sagittis euismod. In semper porttitor
- tellus. 
-
- Sed fermentum justo nec lorem. Morbi augue. Sed tristique semper velit. Nulla
- facilisi. Maecenas fermentum. In massa magna, egestas non, lobortis dictum,
- feugiat vel, eros. Vivamus cursus accumsan enim. Duis vestibulum ipsum. Proin
- at ligula et est vehicula fringilla. Integer tortor risus, porttitor quis,
- posuere sed, sagittis non, sapien.  Donec ornare imperdiet eros. Sed id neque
- et tellus porta commodo. Integer non neque. Morbi porttitor nisi ultricies
- lectus. Suspendisse potenti. Vestibulum ornare tellus vulputate ligula. Nam
- faucibus volutpat nisi. Morbi rhoncus enim ut dolor. Donec congue posuere dui.
- Aliquam mi nunc, lobortis eu, pulvinar et, aliquet vitae, diam. Aliquam in
- tortor. Nam egestas imperdiet lectus. Morbi vitae neque. Praesent pellentesque
- dignissim lacus. Proin neque. Phasellus fermentum sagittis dolor. Nulla enim. 
-
- In hac habitasse platea dictumst. Etiam sit amet tortor in mi laoreet
- tincidunt. Aliquam cursus pharetra neque. Vivamus pellentesque lacus ac risus.
- Nam aliquet molestie enim. Maecenas blandit, tortor nec tincidunt lacinia,
- tortor velit venenatis velit, et commodo leo tortor nec est. Proin at mi. Ut
- magna est, venenatis et, eleifend sit amet, vulputate eu, mi. Suspendisse sed
- arcu at orci scelerisque lobortis. Sed venenatis pede quis nibh. Vivamus at
- nulla. Etiam congue. Ut eu eros. Nullam tempor rutrum massa.
-</div>
-</div>
----
-<div class="foswikiFormStep">
-%BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" class="jqSimpleModalOK"}%
-%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross" class="jqSimpleModalCancel foswikiRight"}%
-%CLEAR%
-</div>
+	<div id="helpText" class="foswikiFormSteps">
+		<h2 class="foswikiDialogTitle">Contact</h2>
+		<div style="width:600px; height:400px; overflow:auto">
+			<div class="foswikiFormStep">
+			  <h3>First Name:</h3>
+			  <input type="text" size="30" class="foswikiInputField" />
+			</div>
+			<div class="foswikiFormStep">
+			  <h3>Last Name:</h3>
+			  <input type="text" size="30" class="foswikiInputField" />
+			</div>
+			<div class="foswikiFormStep">
+				 Aenean neque lectus, gravida nec, egestas at, scelerisque quis, lectus.
+				 Suspendisse potenti. Morbi id urna at magna tristique mollis. Praesent
+				 fermentum sollicitudin turpis. Sed tincidunt gravida est. Morbi non nibh
+				 ullamcorper lorem consequat tristique. Ut rutrum, diam dignissim congue
+				 tristique, mauris velit tristique velit, sed laoreet dui mi at ante. In dictum
+				 massa et quam. Aenean imperdiet elit ut sem. Quisque tincidunt tortor at
+				 augue. Praesent eu nunc non dolor sagittis euismod. In semper porttitor
+				 tellus. 
+				
+				 Sed fermentum justo nec lorem. Morbi augue. Sed tristique semper velit. Nulla
+				 facilisi. Maecenas fermentum. In massa magna, egestas non, lobortis dictum,
+				 feugiat vel, eros. Vivamus cursus accumsan enim. Duis vestibulum ipsum. Proin
+				 at ligula et est vehicula fringilla. Integer tortor risus, porttitor quis,
+				 posuere sed, sagittis non, sapien.  Donec ornare imperdiet eros. Sed id neque
+				 et tellus porta commodo. Integer non neque. Morbi porttitor nisi ultricies
+				 lectus. Suspendisse potenti. Vestibulum ornare tellus vulputate ligula. Nam
+				 faucibus volutpat nisi. Morbi rhoncus enim ut dolor. Donec congue posuere dui.
+				 Aliquam mi nunc, lobortis eu, pulvinar et, aliquet vitae, diam. Aliquam in
+				 tortor. Nam egestas imperdiet lectus. Morbi vitae neque. Praesent pellentesque
+				 dignissim lacus. Proin neque. Phasellus fermentum sagittis dolor. Nulla enim. 
+				
+				 In hac habitasse platea dictumst. Etiam sit amet tortor in mi laoreet
+				 tincidunt. Aliquam cursus pharetra neque. Vivamus pellentesque lacus ac risus.
+				 Nam aliquet molestie enim. Maecenas blandit, tortor nec tincidunt lacinia,
+				 tortor velit venenatis velit, et commodo leo tortor nec est. Proin at mi. Ut
+				 magna est, venenatis et, eleifend sit amet, vulputate eu, mi. Suspendisse sed
+				 arcu at orci scelerisque lobortis. Sed venenatis pede quis nibh. Vivamus at
+				 nulla. Etiam congue. Ut eu eros. Nullam tempor rutrum massa.
+			</div>
+		</div>
+		<div class="foswikiFormStep">
+			%BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" class="jqSimpleModalOK"}%
+			%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross" class="jqSimpleModalCancel foswikiRight"}%
+			<div class="foswikiClear"></div>
+		</div>
+	</div>
 </form>%ENDSECTION{"helpText"}%
 </div>
