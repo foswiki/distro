@@ -12,7 +12,19 @@ use Foswiki::Contrib::JSCalendarContrib ();
 
 sub new {
     my $class = shift;
+    Foswiki::Contrib::JSCalendarContrib::addHEAD();
     return $class->SUPER::new('datepicker');
+}
+
+sub jQueryMetadata {
+    my ( $this, $cell, $colDef, $text ) = @_;
+    my $data = $this->SUPER::jQueryMetadata( $cell, $colDef, $text );
+    my $format = $colDef->{values}->[0]
+	|| Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_FORMAT')
+	|| $Foswiki::cfg{JSCalendarContrib}{format}
+        || '%e %b %Y';
+    $data->{format} = $format;
+    return $data;
 }
 
 sub htmlEditor {

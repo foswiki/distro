@@ -36,20 +36,28 @@
 	    /* Workaround for missing parentNode in IE */
 	    var form = this;
 	    settings.onblur = 'ignore';
-	    $(this).find('input').datepicker({
-		firstDay: 1,
-		dateFormat: $.datepicker.W3C,
-		defaultDate: original.revert.replace(/^\s+/, ''),
-		closeText: 'X',
-		onSelect: function(dateText) {
-		    $(this).hide();
+	    var inp = $(this).find('input');
+	    var cal = new Calendar(
+		1, null,
+		function (cal, date) { // onSelected
+		    cal.hide();
+		    inp.val(date);
 		    $(form).trigger("submit");
 		},
-		onClose: function(dateText) {
+		function (cal) { // onClose
+		    cal.hide();
 		    original.reset.apply(original, [ form ]);
 		    $(original).addClass(settings.cssdecoration);
-		}
-	    });
+		});
+	    cal.showsOtherMonths = true;
+	    cal.setRange(1900, 2070);
+	    cal.create();
+	    if (settings.format) {
+		cal.showsTime = (settings.format.search(/%H|%I|%k|%l|%M|%p|%P/) != -1);
+		cal.setDateFormat(settings.format);
+	    }
+	    cal.parseDate(original.revert.replace(/^\s+/, ''));
+	    cal.showAtElement(inp[0], "Br");
 	}});
 
     // Radio button editable
