@@ -273,8 +273,9 @@ Converts the Foswiki date string (for example '%e %b %Y' or '$day $month $year')
 sub formatDate {
     my ( $foswikiDateStr, $jsCalendarFormat ) = @_;
 
-    my $epoch = Foswiki::Time::parseTime($foswikiDateStr);
+    my $epoch = ($foswikiDateStr =~ /^\d+$/)?$foswikiDateStr:Foswiki::Time::parseTime($foswikiDateStr);
     $epoch ||= 0;    # otherwise we have to work with an empty string
+
     my $foswikiDateFormat = _calendarFormatToFoswikiFormat($jsCalendarFormat);
 
     my $formattedDate = Foswiki::Time::formatTime( $epoch, $foswikiDateFormat );

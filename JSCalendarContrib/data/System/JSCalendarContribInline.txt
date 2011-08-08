@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="micha" comment="" date="1312819193" format="1.1" version="2"}%
 %META:TOPICPARENT{name="JSCalendarContrib"}%
 Inline include of [[JSCalendarContrib]] HTML for use in forms.
 
@@ -11,7 +12,8 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
 }%%TMPL:P{
 	"LIBJS"
 	id="JSCalendarContrib/calendar"
-	requires=""}%%TMPL:P{
+	requires=""
+}%%TMPL:P{
 	"LIBJS"
 	id="JSCalendarContrib/lang/calendar-en"
 	requires="JSCalendarContrib/calendar"
