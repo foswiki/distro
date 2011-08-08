@@ -30,24 +30,41 @@ function initCalendar(format) {
 // Reuses the same "calendar" object for all date-type fields on the page
 function showCalendar(id, format) {
 	"use strict";
+	if (format === undefined) {
+		format = $('#' + id).attr('data-jscalendar-format');
+	}
+	if (format === undefined) {
+		alert("no format passed to calendar with id:" + id);
+		return;
+	}
 	initCalendar(format);
-	var el = document.getElementById(id);
-	_dynarch_popupCalendar.parseDate(el.value);
-	_dynarch_popupCalendar.sel = el;
 	if (format) {
 		_dynarch_popupCalendar.setDateFormat(format);
 	}
+	var el = document.getElementById(id);
+	_dynarch_popupCalendar.parseDate(el.value);
+	_dynarch_popupCalendar.sel = el;
 	_dynarch_popupCalendar.showAtElement(el, "Br");
 	return false;
 }
 
 function formatValue(id, format) {
 	"use strict";
+	if (format === undefined || format === '') {
+		alert("JSCalendarContrib error: No format passed to calendar with id:" + id);
+		return;
+	}
 	initCalendar(format);
-	var el = document.getElementById(id);
-	_dynarch_popupCalendar.sel = el;
 	if (format) {
 		_dynarch_popupCalendar.setDateFormat(format);
 	}
+	var el = document.getElementById(id);
+	_dynarch_popupCalendar.sel = el;
 	_dynarch_popupCalendar.callHandler();
+	
+	// store format in attribute so it can be used
+	// when the calendar is invoked with showCalendar()
+	$(function() {
+		$('#' + id).attr('data-jscalendar-format', format);
+	});
 }

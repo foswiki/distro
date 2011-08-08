@@ -23,12 +23,17 @@ The calendar is able to display a time-picker, in addition to the default date-p
 
 ---+++ Using the Calendar in user forms
 You can also use the calendar directly in your own hand-built forms, without
-having to write any code. Just add this inline in the topic text:
+having to write any code.
+
+---++++ Preparation
+Just add this inline in the topic text:
 <verbatim class="tml">
 %INCLUDE{
 	"%SYSTEMWEB%/JSCalendarContribInline"
 }%
 </verbatim>
+
+---++++ Setting the date format (optional)
 To set the initial date format for a field that already contains a value, add this to the topic text:
 <verbatim class="tml">
 %INCLUDE{
@@ -40,12 +45,22 @@ To set the initial date format for a field that already contains a value, add th
 </verbatim>
 If no format is passed, the value from =JSCALENDARCONTRIB_FORMAT= will be used instead.
 
-Then, to display a calendar icon next to a text input field:
+---++++ Displaying the calendar
+To display a calendar icon next to a text input field:
 <verbatim class="tml">
 <input type="text" class="foswikiInputField" id="cal_val_here" />
 <input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
        onclick="javascript: return showCalendar('cal_val_here','%Y-%m-%d %H:%M:%S')" />
 </verbatim>
+
+If you have set the initial date format (see above), you can omit the format in the javascript call:
+<verbatim class="tml">
+<input type="text" class="foswikiInputField" id="cal_val_here" />
+<input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
+       onclick="javascript: return showCalendar('cal_val_here')" />
+</verbatim>
+
+---++++ Test installation
 If the contrib is installed, you will see such a field here:
 %INCLUDE{
 	"%SYSTEMWEB%/JSCalendarContribInline"
@@ -58,7 +73,7 @@ If the contrib is installed, you will see such a field here:
 }%
 <input type="text" class="foswikiInputField" id="cal_val_here" value="%DATE%" />
 <input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
-       onclick="javascript: return showCalendar('cal_val_here','%Y-%m-%d %H:%M:%S')" />
+       onclick="javascript: return showCalendar('cal_val_here')" />
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -88,6 +103,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 | Change History: | |
+|  08 Aug 2011 | Arthur Clemens: Fix an issue where the calendar jumps to different dates if clicked subsequently. |
 |  04 Aug 2011 | Arthur Clemens: Format values in date fields according to =JSCALENDARCONTRIB_FORMAT= settings. |
 |  30 Jul 2011 | Arthur Clemens: Several bug fixes related to using seconds. |
 |  11 Apr 2011 | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
