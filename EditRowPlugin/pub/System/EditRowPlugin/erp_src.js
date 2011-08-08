@@ -39,6 +39,7 @@
 	    $(this).find('input').datepicker({
 		firstDay: 1,
 		dateFormat: $.datepicker.W3C,
+		defaultDate: original.revert.replace(/^\s+/, ''),
 		closeText: 'X',
 		onSelect: function(dateText) {
 		    $(this).hide();
