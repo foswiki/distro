@@ -11,7 +11,8 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
 }%%TMPL:P{
 	"LIBJS"
 	id="JSCalendarContrib/calendar"
-	requires=""}%%TMPL:P{
+	requires=""
+}%%TMPL:P{
 	"LIBJS"
 	id="JSCalendarContrib/lang/calendar-en"
 	requires="JSCalendarContrib/calendar"
