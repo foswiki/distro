@@ -31,7 +31,7 @@ function initCalendar(format) {
 function showCalendar(id, format) {
 	"use strict";
 	if (format === undefined) {
-		format = $('#' + id).attr('data-jscalendar-format');
+		format = jQuery('#' + id).data('jscalendar-format');
 	}
 	if (format === undefined) {
 		alert("no format passed to calendar with id:" + id);
@@ -59,12 +59,13 @@ function formatValue(id, format) {
 		_dynarch_popupCalendar.setDateFormat(format);
 	}
 	var el = document.getElementById(id);
+	_dynarch_popupCalendar.parseDate(el.value);
 	_dynarch_popupCalendar.sel = el;
 	_dynarch_popupCalendar.callHandler();
 	
 	// store format in attribute so it can be used
 	// when the calendar is invoked with showCalendar()
-	$(function() {
-		$('#' + id).attr('data-jscalendar-format', format);
+	jQuery(function() {
+		jQuery('#' + id).data('jscalendar-format', format);
 	});
 }
