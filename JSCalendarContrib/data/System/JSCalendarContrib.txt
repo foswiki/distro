@@ -40,7 +40,7 @@ You may pass language and style options:
 	style="blue2"
 }%
 </verbatim>
-The default =lang= is =en=, the default =style= is =blue=.
+The default =lang= is =en=, the default =style= is =large=.
 
 ---++++ Setting the date format (optional)
 To set the initial date format for a field that already contains a value, add this to the topic text:
@@ -110,7 +110,7 @@ If the contrib is installed, you will see such a field here:
    * Users can customize the appearance of the calendar, overriding the administrator's choices, either system-wide (at %LOCALSITEPREFS%), by web (at the !WebPreferences topic), and even or per-topic basis. To do that they need to define the following settings: 
       | *Setting* | *Default value* |
       | JSCALENDARCONTRIB_FORMAT | %e %b %Y |
-      | JSCALENDARCONTRIB_STYLE | blue |
+      | JSCALENDARCONTRIB_STYLE | large |
       | JSCALENDARCONTRIB_LANG | en |
 
 ---+++ Contrib Info
@@ -125,6 +125,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 | Change History: | |
+|  09 Aug 2011 | Arthur Clemens: Allow calendars with different date formats on one page. Show AM/PM interface if the date format contains AM/PM tokens. Add new calendar style =large= and make it the default. |
 |  09 Aug 2011 | Arthur Clemens, Michael Daum: Fix an issue where the calendar jumps to different dates if clicked subsequently. |
 |  04 Aug 2011 | Arthur Clemens: Format values in date fields according to =JSCALENDARCONTRIB_FORMAT= settings. |
 |  30 Jul 2011 | Arthur Clemens: Several bug fixes related to using seconds. |
