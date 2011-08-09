@@ -200,7 +200,7 @@ sub addHEAD {
     my $style =
          Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_STYLE')
       || $Foswiki::cfg{JSCalendarContrib}{style}
-      || 'blue';
+      || 'large';
     my $lang =
          Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_LANG')
       || $Foswiki::cfg{JSCalendarContrib}{lang}

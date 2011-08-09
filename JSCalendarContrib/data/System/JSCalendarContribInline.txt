@@ -13,13 +13,13 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
   id="JSCalendarContrib/calendar-%IF{
     "defined style and $style!=''"
     then="%style%"
-    else="blue"
+    else="large"
   }%"
   text="<style type='text/css' media='all'>
     @import url('%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib/calendar-%IF{
       "defined style and $style!=''"
       then="%style%"
-      else="blue"
+      else="large"
     }%.css');
     .calendar {z-index:2000;}
 </style>"
