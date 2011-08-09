@@ -5,7 +5,7 @@ function initCalendar(format) {
 	} else {
 		var cal = new Calendar(1, null, function (cal, date) {
 				cal.sel.value = date;
-				if (cal.sel.onchange !== null) {
+				if (typeof(cal.sel.onchange) === 'function') {
 					cal.sel.onchange();
 				}
 				if (cal.dateClicked) {
