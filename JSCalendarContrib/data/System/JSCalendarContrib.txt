@@ -32,6 +32,15 @@ Just add this inline in the topic text:
 	"%SYSTEMWEB%/JSCalendarContribInline"
 }%
 </verbatim>
+You may pass language and style options:
+<verbatim class="tml">
+%INCLUDE{
+	"%SYSTEMWEB%/JSCalendarContribInline"
+	lang="nl"
+	style="blue2"
+}%
+</verbatim>
+The default =lang= is =en=, the default =style= is =blue=.
 
 ---++++ Setting the date format (optional)
 To set the initial date format for a field that already contains a value, add this to the topic text:
@@ -50,15 +59,28 @@ To display a calendar icon next to a text input field:
 <verbatim class="tml">
 <input type="text" class="foswikiInputField" id="cal_val_here" />
 <input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
-       onclick="javascript: return showCalendar('cal_val_here','%Y-%m-%d %H:%M:%S')" />
+       onclick="return showCalendar('cal_val_here','%Y-%m-%d %H:%M:%S')" />
 </verbatim>
 
 If you have set the initial date format (see above), you can omit the format in the javascript call:
 <verbatim class="tml">
 <input type="text" class="foswikiInputField" id="cal_val_here" />
 <input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
-       onclick="javascript: return showCalendar('cal_val_here')" />
+       onclick="return showCalendar('cal_val_here')" />
 </verbatim>
+
+<div class="foswikiHelp">
+Google Chrome's security settings disable the calendar =showCalendar= call when the topic is just saved (it works on second view). To make the calendar work in all situations, add a unique time token:
+<verbatim class="tml">
+<input type="text" class="foswikiInputField" id="cal_val_here" />
+<input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
+       onclick="return showCalendar('cal_val_here','%Y-%m-%d %H:%M:%S','%GMTIME{"$epoch"}%')" />
+</verbatim>
+or without the format:
+<verbatim>
+       onclick="return showCalendar('cal_val_here','','%GMTIME{"$epoch"}%')" />
+</verbatim>
+</div>
 
 ---++++ Test installation
 If the contrib is installed, you will see such a field here:
@@ -73,7 +95,7 @@ If the contrib is installed, you will see such a field here:
 }%
 <input type="text" class="foswikiInputField" id="cal_val_here" value="%DATE%" />
 <input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
-       onclick="javascript: return showCalendar('cal_val_here')" />
+       onclick="return showCalendar('cal_val_here')" />
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -103,7 +125,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 | Change History: | |
-|  08 Aug 2011 | Arthur Clemens: Fix an issue where the calendar jumps to different dates if clicked subsequently. |
+|  09 Aug 2011 | Arthur Clemens, Michael Daum: Fix an issue where the calendar jumps to different dates if clicked subsequently. |
 |  04 Aug 2011 | Arthur Clemens: Format values in date fields according to =JSCALENDARCONTRIB_FORMAT= settings. |
 |  30 Jul 2011 | Arthur Clemens: Several bug fixes related to using seconds. |
 |  11 Apr 2011 | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |

@@ -10,10 +10,18 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
 <verbatim class="tml">
 %STARTINCLUDE%%ADDTOZONE{
   "head"
-  id="JSCalendarContrib/calendar-blue"
+  id="JSCalendarContrib/calendar-%IF{
+    "defined style and $style!=''"
+    then="%style%"
+    else="blue"
+  }%"
   text="<style type='text/css' media='all'>
-    @import url('%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib/calendar-blue.css');
-     .calendar {z-index:2000;}
+    @import url('%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib/calendar-%IF{
+      "defined style and $style!=''"
+      then="%style%"
+      else="blue"
+    }%.css');
+    .calendar {z-index:2000;}
 </style>"
 }%%TMPL:P{
   "LIBJS"
@@ -21,12 +29,20 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
   requires=""
 }%%TMPL:P{
   "LIBJS"
-  id="JSCalendarContrib/lang/calendar-en"
+  id="JSCalendarContrib/lang/calendar-%IF{
+    "defined lang and $lang!=''"
+    then="%lang%"
+    else="en"
+  }%"
   requires="JSCalendarContrib/calendar"
 }%%TMPL:P{
   "LIBJS"
   id="JSCalendarContrib/calendar-setup"
-  requires="JSCalendarContrib/lang/calendar-en"
+  requires="JSCalendarContrib/lang/calendar-%IF{
+    "defined lang and $lang!=''"
+    then="%lang%"
+    else="en"
+  }%"
 }%%TMPL:P{
   "LIBJS"
   id="JSCalendarContrib/foswiki"
@@ -45,7 +61,8 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
   requires="JSCalendarContrib/calendar"
   text="<literal><script type='text/javascript'>
 jQuery(function($) {
-  formatValue('%id%', '%IF{"defined format AND $format!=''"
+  formatValue('%id%', '%IF{
+    "defined format AND $format!=''"
     then="%format%"
     else="%IF{"defined JSCALENDARCONTRIB_FORMAT"
             then="%JSCALENDARCONTRIB_FORMAT%"
