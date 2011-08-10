@@ -19,7 +19,7 @@ use warnings;
 use Foswiki::Func ();    # The plugins API
 
 our $VERSION = '$Rev$';
-our $RELEASE = '09 Aug 2011';
+our $RELEASE = '10 Aug 2011';
 our $SHORTDESCRIPTION =
 "[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]] date and time picker, packaged for use by plugins, skins and add-ons";
 
@@ -213,22 +213,38 @@ sub addHEAD {
  .calendar {z-index:2000;}
 </style>
 HERE
-    Foswiki::Func::addToZone( 'head', 'JSCalendarContrib/css', $css );
+    Foswiki::Func::addToZone(
+    	'head',
+    	'JSCalendarContrib/css',
+    	$css
+    );
 
     Foswiki::Func::addToZone(
-        'script', 'JSCalendarContrib/calendar',
-        "<script type='text/javascript' src='$base/calendar.js'></script>");
+        'script',
+        'JSCalendarContrib/calendar',
+        "<script type='text/javascript' src='$base/calendar.js'></script>"
+    );
 
     Foswiki::Func::addToZone(
-        'script', 'JSCalendarContrib/calendar-lang',
+        'script',
+        'JSCalendarContrib/calendar-lang',
         "<script type='text/javascript' src='$base/lang/calendar-$lang.js'></script>",
-        'JSCalendarContrib/calendar');
+        'JSCalendarContrib/calendar'
+    );
+        
+    Foswiki::Func::addToZone(
+        'script',
+        'JSCalendarContrib/date',
+        "<script type='text/javascript' src='$base/date.js'></script>",
+    );
 
     # Add the setup separately; there might be different setups required
     # in a single HTML page.
     Foswiki::Func::addToZone(
-        'script', "JSCalendarContrib/$setup",
-        "<script type='text/javascript' src='$base/$setup.js'></script>"
+        'script',
+        "JSCalendarContrib/$setup",
+        "<script type='text/javascript' src='$base/$setup.js'></script>",
+        'JSCalendarContrib/date'
        );
 }
 

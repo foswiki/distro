@@ -46,7 +46,12 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
 }%%TMPL:P{
   "LIBJS"
   id="JSCalendarContrib/foswiki"
-  requires="JSCalendarContrib/calendar-setup"
+  requires="JSCalendarContrib/calendar-setup,JSCalendarContrib/date"
+}%%TMPL:P{
+  "LIBJS"
+  id="JSCalendarContrib/date"
+  requires=""
+  comment="date.js from http://code.google.com/p/datejs/"
 }%%STOPINCLUDE%
 </verbatim>
 
@@ -66,6 +71,7 @@ jQuery(function($) {
     then="%format%"
     else="%IF{"defined JSCALENDARCONTRIB_FORMAT"
             then="%JSCALENDARCONTRIB_FORMAT%"
+            else="%e %b %Y"
     }%"
   }%');
 });
