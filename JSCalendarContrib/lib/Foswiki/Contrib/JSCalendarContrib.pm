@@ -19,7 +19,7 @@ use warnings;
 use Foswiki::Func ();    # The plugins API
 
 our $VERSION = '$Rev$';
-our $RELEASE = '10 Aug 2011';
+our $RELEASE = '1.4.0';
 our $SHORTDESCRIPTION =
 "[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]] date and time picker, packaged for use by plugins, skins and add-ons";
 
@@ -289,6 +289,10 @@ Converts the Foswiki date string (for example '%e %b %Y' or '$day $month $year')
 sub formatDate {
     my ( $foswikiDateStr, $jsCalendarFormat ) = @_;
 
+    # do not format if the field value is empty
+    # so we won't prefill the field with a 1970 date
+    return '' if !$foswikiDateStr;
+    
     my $epoch = ($foswikiDateStr =~ /^\d+$/)?$foswikiDateStr:Foswiki::Time::parseTime($foswikiDateStr);
     $epoch ||= 0;    # otherwise we have to work with an empty string
 
