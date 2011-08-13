@@ -20,7 +20,7 @@ div.calendar {
 }
 .calendar th,
 .calendar td {
-	padding: 4px 6px;
+	padding: 4px 5px;
 }
 
 /* Header part -- contains navigation buttons and day names. */
@@ -41,6 +41,9 @@ div.calendar {
 .calendar thead .headrow { /* Row <TR> containing navigation buttons */
 	background: #5c5e6a;
 	color: #fff;
+}
+.calendar thead .headrow td {
+	font-size: 85%;
 }
 
 .calendar thead tr.daynames { /* Row <TR> containing the day names */
@@ -64,16 +67,16 @@ div.calendar {
 
 /* last cell of week number col needs to have a bottom border */
 .calendar tbody tr + tr + tr + tr + tr + tr .wn.day {
-	border-style: none solid solid none;
-	border-color: #fff #f0f0f0 #f0f0f0 #fff;
+	border-style: none solid none none;
+	border-color: #f0f0f0;
 }
 
 .calendar thead .name,
 .calendar thead .wn,
 .calendar tbody .wn.day {
-	color:#bbb;
+	color:#acc4ec;
 	background: #fff;
-	font-size: 80%;
+	font-size: 85%;
 }
 
 .calendar thead .weekend { /* How a weekend day name shows in header */
@@ -102,7 +105,9 @@ div.calendar {
 	width: 2em;
 	color: #333;
 	text-align: right;
-	border: 1px solid #f0f0f0;
+	border-style: solid none none solid;
+	border-color: #f0f0f0;
+	border-width: 1px;
 }
 .calendar tbody .day.othermonth {
 	color: #ddd;
@@ -193,13 +198,14 @@ div.calendar {
 
 .calendar tfoot .ttip,
 .calendar td.time {
-	font-size: 80%;
+	font-size: 85%;
 }
 	
 .calendar tfoot .ttip { /* Tooltip (status bar) cell <TD> */
 	color: #aaa;
 	padding-top: 4px;
 	padding-bottom: 5px;
+	border-top: 1px solid #eaeaea;
 }
 
 .calendar tfoot .hilite { /* Hover style for buttons in footer */
@@ -217,7 +223,7 @@ div.calendar {
 
 
 .calendar td.time {
-	border-bottom: 1px solid #eaeaea;
+	border-top: 1px solid #eaeaea;
 	padding: 5px 0;
 	text-align: center;
 	color:#aaa;
@@ -248,7 +254,7 @@ div.calendar {
 .calendar td.time span.active {
 	background: #6e99e3; /* blue */
 	color: #fff;
-	border: 1px solid #abc1fd; /* light blue */
+	border: 1px solid #6e99e3; /* blue */
 }
 
 .calendar td.time span.active {
