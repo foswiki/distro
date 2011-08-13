@@ -2,12 +2,13 @@
 # Tests for form def parser
 package FormDefTests;
 
+use strict;
+use warnings;
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
 use Foswiki::Form;
-use strict;
 use Assert;
 use Error qw( :try );
 
@@ -16,13 +17,13 @@ sub test_minimalForm {
 
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<FORM);
+        <<'FORM');
 | *Name* | *Type* | *Size* |
 | Date | date | 30 |
 FORM
     $topicObject->save();
     my $def =
-      new Foswiki::Form( $this->{session}, $this->{test_web}, 'TestForm' );
+      Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
     $this->assert($def);
     $this->assert_equals( 1, scalar @{ $def->getFields() } );
     my $f = $def->getField('Date');
@@ -34,6 +35,8 @@ FORM
     $this->assert_str_equals( '',     $f->{tooltip} );
     $this->assert_str_equals( '',     $f->{attributes} );
     $this->assert_str_equals( '',     $f->{definingTopic} );
+
+    return;
 }
 
 sub test_allCols {
@@ -41,7 +44,7 @@ sub test_allCols {
 
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<FORM);
+        <<'FORM');
 | *Name*     | *Type*   | *Size* | *Value* | *Tooltip* | *Attributes* |
 | Select     | select   | 2..4   | a,b,c   | Tippity   | M            |
 | Checky Egg | checkbox | 1      | 1,2,3,4   | Blip      |              |
@@ -53,7 +56,7 @@ sub test_allCols {
 FORM
     $topicObject->save();
     my $def =
-      new Foswiki::Form( $this->{session}, $this->{test_web}, 'TestForm' );
+      Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
 
     $this->assert_equals( 7, scalar @{ $def->getFields() } );
     my $f = $def->getField('Select');
@@ -112,6 +115,8 @@ FORM
     $this->assert_str_equals( 'DoLink', $f->{name} );
     $this->assert_str_equals( 'DoLink', $f->{title} );
     $this->assert_str_equals( '', $f->{definingTopic} );
+
+    return;
 }
 
 sub test_valsFromOtherTopic {
@@ -119,14 +124,14 @@ sub test_valsFromOtherTopic {
 
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<FORM);
+        <<'FORM');
 | *Name*         | *Type* | *Size* | *Value*   |
 | Vals Elsewhere | select |        |           |
 FORM
     $topicObject->save();
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'ValsElsewhere',
-        <<FORM);
+        <<'FORM');
 | *Name* |
 | ValOne |
 | RowName |
@@ -135,7 +140,7 @@ FORM
     $topicObject->save();
 
     my $def =
-      new Foswiki::Form( $this->{session}, $this->{test_web}, 'TestForm' );
+      Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
 
     $this->assert_equals( 1, scalar @{ $def->getFields() } );
     my $f = $def->getField('ValsElsewhere');
@@ -148,6 +153,8 @@ FORM
     $this->assert_str_equals( 'ValOne,RowName,Age',
         join( ',', @{ $f->getOptions() } ) );
     $this->assert_str_equals( '', $f->{definingTopic} );
+
+    return;
 }
 
 sub test_squabValRef {
@@ -155,14 +162,14 @@ sub test_squabValRef {
 
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<FORM);
+        <<'FORM');
 | *Name*         | *Type* | *Size* | *Value*   |
 | [[$this->{test_web}.Splodge][Vals Elsewhere]] | select |        |           |
 FORM
     $topicObject->save();
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'Splodge',
-        <<FORM);
+        <<'FORM');
 | *Name* |
 | ValOne |
 | RowName |
@@ -170,7 +177,7 @@ FORM
 FORM
     $topicObject->save();
     my $def =
-      new Foswiki::Form( $this->{session}, $this->{test_web}, 'TestForm' );
+      Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
 
     $this->assert_equals( 1, scalar @{ $def->getFields() } );
     my $f = $def->getField('ValsElsewhere');
@@ -181,6 +188,8 @@ FORM
         join( ',', @{ $f->getOptions() } ) );
     $this->assert_str_equals( $this->{test_web} . '.Splodge',
         $f->{definingTopic} );
+
+    return;
 }
 
 sub test_searchForOptions {
@@ -195,23 +204,25 @@ FORM
     $topicObject->save();
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SplodgeOne',
-        <<FORM);
+        <<'FORM');
 | Age |
 FORM
     $topicObject->save();
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SplodgeTwo',
-        <<FORM);
+        <<'FORM');
 | Beauty |
 FORM
     $topicObject->save();
     my $def =
-      new Foswiki::Form( $this->{session}, $this->{test_web}, 'TestForm' );
+      Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
 
     $this->assert_equals( 1, scalar @{ $def->getFields() } );
     my $f = $def->getField('Ecks');
     $this->assert_str_equals( 'SplodgeOne,SplodgeTwo',
         join( ',', sort @{ $f->getOptions() } ) );
+
+    return;
 }
 
 sub test_Item6082 {
@@ -229,14 +240,14 @@ FORM
     $topicObject->save();
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SplodgeOne',
-        <<FORM);
+        <<'FORM');
 %META:FORM{name="TestForm"}%
 %META:FIELD{name="Ecks" attributes="" title="X" value="Blah"}%
 FORM
     $topicObject->save();
 
     my $def =
-      new Foswiki::Form( $this->{session}, $this->{test_web}, 'TestForm' );
+      Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
 
     my $f = $def->getField('Ecks');
     $this->assert_str_equals( 'SplodgeOne;Blah',
@@ -245,13 +256,15 @@ FORM
     my $meta =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'TestForm' );
     $meta->renderFormForDisplay();
+
+    return;
 }
 
 sub test_makeFromMeta {
     my $this = shift;
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SplodgeOne',
-        <<FORM);
+        <<'FORM');
 %META:FORM{name="NonExistantForm"}%
 %META:FIELD{name="Ecks" attributes="" title="X" value="Blah"}%
 FORM
@@ -259,13 +272,15 @@ FORM
     my $meta =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'SplodgeOne' );
     my $form =
-      new Foswiki::Form( $this->{session}, $this->{test_web}, 'NonExistantForm',
+      Foswiki::Form->new( $this->{session}, $this->{test_web}, 'NonExistantForm',
         $meta );
     my $f = $form->getField('Ecks');
     $this->assert_str_equals( '',     $f->getDefaultValue() );
     $this->assert_str_equals( 'Ecks', $f->{name} );
     $this->assert_str_equals( 'X',    $f->{title} );
     $this->assert_str_equals( '',     $f->{size} );
+
+    return;
 }
 
 sub test_Item972_selectPlusValues {
@@ -273,13 +288,13 @@ sub test_Item972_selectPlusValues {
 
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<FORM);
+        <<'FORM');
 | *Name* | *Type*   | *Size* | *Value* | *Tooltip* | *Attributes* |
 | Select | select+values | 5 | , =0, One, Two=2, Three=III, Four | Various values |
 FORM
     $topicObject->save();
     my $def =
-      new Foswiki::Form( $this->{session}, $this->{test_web}, 'TestForm' );
+      Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
 
     my $f = $def->getField('Select');
     $this->assert_str_equals( 'select+values', $f->{type} );
@@ -287,6 +302,8 @@ FORM
     $this->assert_str_equals( ',0,One,2,III,Four',
         join( ',', @{ $f->getOptions() } ) );
     $this->assert_str_equals( 'Various values', $f->{tooltip} );
+
+    return;
 }
 
 1;
