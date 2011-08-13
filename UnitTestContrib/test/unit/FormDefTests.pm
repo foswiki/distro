@@ -162,7 +162,7 @@ sub test_squabValRef {
 
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<'FORM');
+        <<"FORM");
 | *Name*         | *Type* | *Size* | *Value*   |
 | [[$this->{test_web}.Splodge][Vals Elsewhere]] | select |        |           |
 FORM
