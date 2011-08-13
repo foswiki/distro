@@ -82,39 +82,39 @@ FORM
 
     $f = $def->getField('Thetitle');
     $this->ASSERT($f);
-    $this->assert_str_equals( 'textarea', $f->{type} );
-    $this->assert_str_equals( 'Thetitle', $f->{name} );
+    $this->assert_str_equals( 'textarea',  $f->{type} );
+    $this->assert_str_equals( 'Thetitle',  $f->{name} );
     $this->assert_str_equals( 'The title', $f->{title} );
-    $this->assert_str_equals( 'FormTest', $f->{definingTopic} );
+    $this->assert_str_equals( 'FormTest',  $f->{definingTopic} );
 
-#SMELL: not what I expected to see!
+    #SMELL: not what I expected to see!
     $f = $def->getField('NOPTMLDoNotLink');
     $this->ASSERT($f);
-    $this->assert_str_equals( 'textarea', $f->{type} );
-    $this->assert_str_equals( 'NOPTMLDoNotLink', $f->{name} );
+    $this->assert_str_equals( 'textarea',          $f->{type} );
+    $this->assert_str_equals( 'NOPTMLDoNotLink',   $f->{name} );
     $this->assert_str_equals( '%NOP%TMLDoNotLink', $f->{title} );
-    $this->assert_str_equals( '', $f->{definingTopic} );
+    $this->assert_str_equals( '',                  $f->{definingTopic} );
 
     $f = $def->getField('HTMLDoNotLink');
     $this->ASSERT($f);
-    $this->assert_str_equals( 'textarea', $f->{type} );
-    $this->assert_str_equals( 'HTMLDoNotLink', $f->{name} );
+    $this->assert_str_equals( 'textarea',           $f->{type} );
+    $this->assert_str_equals( 'HTMLDoNotLink',      $f->{name} );
     $this->assert_str_equals( '<nop>HTMLDoNotLink', $f->{title} );
-    $this->assert_str_equals( '', $f->{definingTopic} );
+    $this->assert_str_equals( '',                   $f->{definingTopic} );
 
     $f = $def->getField('BangDoNotLink');
     $this->ASSERT($f);
-    $this->assert_str_equals( 'textarea', $f->{type} );
-    $this->assert_str_equals( 'BangDoNotLink', $f->{name} );
+    $this->assert_str_equals( 'textarea',       $f->{type} );
+    $this->assert_str_equals( 'BangDoNotLink',  $f->{name} );
     $this->assert_str_equals( '!BangDoNotLink', $f->{title} );
-    $this->assert_str_equals( '', $f->{definingTopic} );
-    
+    $this->assert_str_equals( '',               $f->{definingTopic} );
+
     $f = $def->getField('DoLink');
     $this->ASSERT($f);
     $this->assert_str_equals( 'textarea', $f->{type} );
-    $this->assert_str_equals( 'DoLink', $f->{name} );
-    $this->assert_str_equals( 'DoLink', $f->{title} );
-    $this->assert_str_equals( '', $f->{definingTopic} );
+    $this->assert_str_equals( 'DoLink',   $f->{name} );
+    $this->assert_str_equals( 'DoLink',   $f->{title} );
+    $this->assert_str_equals( '',         $f->{definingTopic} );
 
     return;
 }
@@ -272,8 +272,8 @@ FORM
     my $meta =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'SplodgeOne' );
     my $form =
-      Foswiki::Form->new( $this->{session}, $this->{test_web}, 'NonExistantForm',
-        $meta );
+      Foswiki::Form->new( $this->{session}, $this->{test_web},
+        'NonExistantForm', $meta );
     my $f = $form->getField('Ecks');
     $this->assert_str_equals( '',     $f->getDefaultValue() );
     $this->assert_str_equals( 'Ecks', $f->{name} );
