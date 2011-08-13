@@ -87,6 +87,8 @@ sub finish {
     undef $this->{minSize};
     undef $this->{maxSize};
     undef $this->{valueMap};
+
+    return;
 }
 
 sub isMultiValued { return shift->{type} =~ /\+multi/; }
