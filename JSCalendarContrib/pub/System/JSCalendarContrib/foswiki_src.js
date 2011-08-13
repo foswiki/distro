@@ -81,13 +81,7 @@ function convertExistingDateValue(value) {
 		2001-12-31T23:59Z
 		*/
 		
-		var formattedDate = Date.parse(value);
-		if (formattedDate !== null) {
-			// use universally formatted date string
-			var formattedDateStr = formattedDate.toString('yyyy-MM-dd HH:mm:ss');
-			// let calendar Date code interpret the string to a Date object
-			return Date.parseDate(formattedDateStr, '%Y-%m-%d %H:%M:%S');
-		}
+		return Date.parse(value);
 	}
 }
 
@@ -97,7 +91,11 @@ function initCalendar(format) {
 		_dynarch_popupCalendar.hide();
 	} 
 	var cal = new Calendar(1, null, function (cal, date) {
-		cal.sel.value = date;
+		if (jQuery !== undefined) {
+			$(cal.sel).val(date).change();
+		} else {
+			cal.sel.value = date;
+		}
 		if (typeof (cal.sel.onchange) === 'function') {
 			cal.sel.onchange();
 		}
