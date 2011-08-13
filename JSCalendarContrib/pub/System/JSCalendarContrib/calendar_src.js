@@ -1235,6 +1235,9 @@ Calendar.prototype.setDateToolTipHandler = function (unaryFunction) {
  *  date is different than the currently selected one).
  */
 Calendar.prototype.setDate = function (date) {
+	if (date === undefined || date === null || !(new Date(date))) {
+		return;
+	}
 	if (!date.equalsTo(this.date)) {
 		this._init(this.firstDayOfWeek, date);
 	}
@@ -1740,10 +1743,6 @@ Date.prototype.setDateOnly = function(date) {
 	this.setFullYear(tmp.getFullYear());
 	this.setMonth(tmp.getMonth());
 	this.setDate(tmp.getDate());
-	// keep existing time
-	this.setHours(date.getHours());
-	this.setMinutes(date.getMinutes());
-	this.setSeconds(date.getSeconds());
 };
 
 Date.prototype.setDateAndTime = function(date) {
