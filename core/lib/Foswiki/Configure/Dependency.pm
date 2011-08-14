@@ -84,7 +84,7 @@ sub new {
     # Other defaults
     $this->{trigger}     ||= 1;
     $this->{type}        ||= 'external';             # assume external module
-    $this->{description} ||= 'Nondescript module';
+    $this->{description} ||= 'This module has no description.';
     $this->{notes} = '';
 
     return $this;
