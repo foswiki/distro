@@ -225,6 +225,37 @@ FORM
     return;
 }
 
+sub test_searchForOptionsQuery {
+    my $this = shift;
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
+        <<'FORM');
+| *Name*         | *Type* | *Size* | *Value*   |
+| Ecks | select | 1 | %SEARCH{"text=~'^\\| (Age\|Beauty)'" type="query" nonoise="on" separator="," format="$topic"}% |
+FORM
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SplodgeOne',
+        <<FORM);
+| Age |
+FORM
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SplodgeTwo',
+        <<FORM);
+| Beauty |
+FORM
+    $topicObject->save();
+    my $def =
+      new Foswiki::Form( $this->{session}, $this->{test_web}, 'TestForm' );
+
+    $this->assert_equals( 1, scalar @{ $def->getFields() } );
+    my $f = $def->getField('Ecks');
+    $this->assert_str_equals( 'SplodgeOne,SplodgeTwo',
+        join( ',', sort @{ $f->getOptions() } ) );
+}
+
 sub test_Item6082 {
     my $this = shift;
 
