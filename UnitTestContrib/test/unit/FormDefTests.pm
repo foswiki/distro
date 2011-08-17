@@ -337,4 +337,19 @@ FORM
     return;
 }
 
+sub test_Item10987_formObjClass {
+    my ($this) = @_;
+
+    my $adminsession = Foswiki->new( $Foswiki::cfg{AdminUserWikiName} );
+    my $formObj =
+      Foswiki::Form->new( $adminsession, $Foswiki::cfg{SystemWebName},
+        'UserForm' );
+    $this->assert( $formObj->isa('Foswiki::Form') );
+    my @fields = $formObj->getFields();
+
+    $this->assert( scalar(@fields) );
+
+    return;
+}
+
 1;
