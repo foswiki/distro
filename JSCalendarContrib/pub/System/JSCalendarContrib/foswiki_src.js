@@ -22,65 +22,9 @@ function convertExistingDateValue(value) {
 	}
 
 	// try to parse existing value to something that the calendar code understands
-	// date.js will perform the calculation
-	// this simple file will not interpret other languages than English
-	// future enhancement: include language files as well, see http://code.google.com/p/datejs/ 
-	
-	if (Date.Grammar !== undefined) {
-	
-		// date.js is loaded
-
-		// convert Foswiki date string dd MMM yyyy to something that date.js underdstands
-		var re, m;
-		
-		// 31 Dec 2001 and 31-Dec-2001
-		re = /^\s*(\d+)[\s\-]+([\w]+)[\s\-]+(\d+)(\.*?)$/;
-		m = re.exec(value);
-		if (m !== null) {
-			value = m[1] + '-' + m[2] + '-' + m[3] + ' ' + m[4];
-		}
-		
-		// 2001.12.31.23.59.59
-		re = /^\s*(\d{4})\.(\d{2})\.(\d{2})\.*(\d{2})*\.*(\d{2})*\.*(\d{2})*\s*$/;
-		m = re.exec(value);
-		if (m !== null) {
-			value = m[1] + '-' + m[2] + '-' + m[3];
-			if (m[4] !== undefined) {
-				value += ' ' + m[4];
-			}
-			if (m[5] !== undefined) {
-				value += ':' + m[5];
-			}
-			if (m[6] !== undefined) {
-				value += ':' + m[6];
-			}
-		}
-
-		// 2001-12-31 - 23:59
-		re = /^\s*(\d{4})\-(\d{2})\-(\d{2})*\s*\-*\s*(\d{2})*\:*(\d{2})*\s*$/;
-		m = re.exec(value);
-		if (m !== null) {
-			value = m[1] + '-' + m[2] + '-' + m[3];
-			if (m[4] !== undefined) {
-				value += ' ' + m[4];
-			}
-			if (m[5] !== undefined) {
-				value += ':' + m[5];
-			}
-			if (m[6] !== undefined) {
-				value += ':' + m[6];
-			}
-		}
-		
-		/*
-		not supported yet:
-		2009-1-12
-		2009-1
-		2009
-		2001-12-31T23:59:59+01:00
-		2001-12-31T23:59Z
-		*/
-		
+	if (foswiki && foswiki.Date) { 
+		return new Date(foswiki.Date.parseDate(value));
+	} else {
 		return Date.parse(value);
 	}
 }
