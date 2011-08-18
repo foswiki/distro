@@ -20,7 +20,7 @@ div.calendar {
 }
 .calendar th,
 .calendar td {
-	padding: 4px 5px;
+	padding: 4px 6px;
 }
 
 /* Header part -- contains navigation buttons and day names. */
@@ -71,12 +71,14 @@ div.calendar {
 	border-color: #f0f0f0;
 }
 
-.calendar thead .name,
+.calendar thead .name {
+	color: #63b3c0;
+	background: #fff;
+}
 .calendar thead .wn,
 .calendar tbody .wn.day {
-	color:#acc4ec;
+	color: #b1d9df;
 	background: #fff;
-	font-size: 85%;
 }
 
 .calendar thead .weekend { /* How a weekend day name shows in header */
@@ -140,6 +142,8 @@ div.calendar {
 
 .calendar tbody td.today { /* Cell showing today date */
 	background: #ecf0fc;
+	color: #333;
+	font-weight: normal;
 }
 
 .calendar tbody .disabled { color: #aaa; }
