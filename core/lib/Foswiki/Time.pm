@@ -196,7 +196,7 @@ sub parseTime {
         #no defaulting yet so we can detect the 2009--12 error
         my ( $year, $M, $D, $h, $m, $s ) = ( $1, $2, $3, $4, $5, $6 );
 
-#without range checking on the 12 Jan 2009 case above, there is abmiguity - what is 14 Jan 12 ?
+#without range checking on the 12 Jan 2009 case above, there is ambiguity - what is 14 Jan 12 ?
 #similarly, how would you decide what Jan 02 and 02 Jan are?
 #$month_p = $MON2NUM{ lc($month_p) } if (defined($MON2NUM{ lc($month_p) }));
 
