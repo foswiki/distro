@@ -1,8 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 1340 $"}%
-
 ---+!! Unit tests for !JavascriptFiles
-
-These tests require Foswiki:Extensions.JSUnitContrib to run.
+Description: Test cases for Foswiki-distributed !JavaScript files. These tests require Foswiki:Extensions.JSUnitContrib to run.
 
 <a class="foswikiSubmit" href="%PUBURL%/%SYSTEMWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%BASEWEB%/%TOPIC%">Run tests</a>
 

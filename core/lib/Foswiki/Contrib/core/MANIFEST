@@ -894,6 +894,9 @@ pub/System/JavascriptFiles/foswikiArray_src.js 0644
 pub/System/JavascriptFiles/foswikiCSS.js 0644
 pub/System/JavascriptFiles/foswikiCSS.js.gz 0644
 pub/System/JavascriptFiles/foswikiCSS_src.js 0644
+pub/System/JavascriptFiles/foswikiDate.js 0644
+pub/System/JavascriptFiles/foswikiDate.js.gz 0644
+pub/System/JavascriptFiles/foswikiDate_src.js 0644
 pub/System/JavascriptFiles/foswikiEvent.js 0644
 pub/System/JavascriptFiles/foswikiEvent.js.gz 0644
 pub/System/JavascriptFiles/foswikiEvent_src.js 0644
