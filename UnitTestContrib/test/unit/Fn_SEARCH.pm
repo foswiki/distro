@@ -3225,7 +3225,7 @@ sub test_no_format_no_shit {
     my $this = shift;
 
     my $result = $this->{test_topicObject}->expandMacros('%SEARCH{"BLEEGLE"}%');
-    $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
+    $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>Results from <nop>$this->{test_web} web retrieved at TIME
 
 <a href="">OkATopic</a>
@@ -3264,7 +3264,7 @@ CRUD
     $result =
       $this->{test_topicObject}
       ->expandMacros('%SEARCH{"BLEEGLE" nosummary="on"}%');
-    $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
+    $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>Results from <nop>$this->{test_web} web retrieved at TIME
 
 <a href="">OkATopic</a>
@@ -3284,7 +3284,7 @@ CRUD
     $result =
       $this->{test_topicObject}
       ->expandMacros('%SEARCH{"BLEEGLE" nosearch="on"}%');
-    $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
+    $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
 Results from <nop>$this->{test_web} web retrieved at TIME
 
 <a href="">OkATopic</a>
@@ -3309,7 +3309,7 @@ CRUD
     $result =
       $this->{test_topicObject}
       ->expandMacros('%SEARCH{"BLEEGLE" nototal="on"}%');
-    $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
+    $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>
 Results from <nop>$this->{test_web} web retrieved at TIME
 
@@ -3335,7 +3335,7 @@ CRUD
     $result =
       $this->{test_topicObject}
       ->expandMacros('%SEARCH{"BLEEGLE" noheader="on"}%');
-    $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
+    $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>
 <a href="">OkATopic</a>
 <nop>BLEEGLE dontmatchme.blah
@@ -3358,7 +3358,7 @@ CRUD
     $result =
       $this->{test_topicObject}
       ->expandMacros('%SEARCH{"BLEEGLE" noempty="on"}%');
-    $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
+    $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>
 Results from <nop>$this->{test_web} web retrieved at TIME
 
@@ -3386,7 +3386,7 @@ CRUD
     $result =
       $this->{test_topicObject}
       ->expandMacros('%SEARCH{"BLEEGLE" zeroresults="on"}%');
-    $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
+    $this->assert_html_equals( <<"CRUD", _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>
 Results from <nop>$this->{test_web} web retrieved at TIME
 
@@ -4886,7 +4886,7 @@ sub test_Item9269 {
 }%'
     );
 
-    $this->assert_str_equals( '$web=$this->{test_web}', $result );
+    $this->assert_str_equals( "\$web=$this->{test_web}", $result );
 
     $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{".*" 
@@ -4900,9 +4900,9 @@ sub test_Item9269 {
     );
 
     $this->assert_str_equals(
-        'header: $web=$this->{test_web}<br />
-format: $web=$this->{test_web}<br />
-footer: $web=$this->{test_web}', $result
+        "header: \$web=$this->{test_web}<br />
+format: \$web=$this->{test_web}<br />
+footer: \$web=$this->{test_web}", $result
     );
 
     $result = $this->{test_topicObject}->expandMacros(
@@ -4917,12 +4917,12 @@ footer: $web=$this->{test_web}', $result
     );
 
     $this->assert_str_equals(
-        '   1 OkATopic
+        "   1 OkATopic
    1 OkBTopic
    1 OkTopic
    1 TestTopicSEARCH
    1 WebPreferences
-pagerformat: $web=$this->{test_web}', $result
+pagerformat: \$web=$this->{test_web}", $result
     );
 
     return;
@@ -5271,7 +5271,7 @@ TOPICTEXT
           . $this->{test_web}
           . '"  scope="all" order="topic"}%' );
     $this->assert_str_equals(
-        _cut_the_crap(<<'RESULT'), _cut_the_crap( $result . "\n" ) );
+        _cut_the_crap(<<"RESULT"), _cut_the_crap( $result . "\n" ) );
 <div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>SomeString</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 <h4 class="foswikiSearchResultsHeader"  style="border-color:#FF00FF"><b>Results from <nop>$this->{test_web} web</b> retrieved at 04:34 (GMT)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
