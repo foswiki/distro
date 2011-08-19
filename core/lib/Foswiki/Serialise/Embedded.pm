@@ -6,6 +6,8 @@
 
 This is __the__ on disk format serialiser and deserialise for TWiki and Foswiki topics legacy .txt format.
 
+__WARNING__ this is only for Foswiki::Meta objects.
+
 =cut
 
 package Foswiki::Serialise::Embedded;

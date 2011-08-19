@@ -4,7 +4,9 @@
 
 ---+ package Foswiki::Serialise::Perl
 
-This is __the__ on disk format serialiser and deserialise for TWiki and Foswiki topics legacy .txt format.
+This is a Data::Dumper style
+
+#TODO: rename?
 
 =cut
 

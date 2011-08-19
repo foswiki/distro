@@ -5,30 +5,62 @@ use strict;
 use warnings;
 use Foswiki ();
 
+=begin TML
+
+---+ package Foswiki::Serialise
+
+API to allow structures to be serialised and de-serialized. This API will only return
+basic types like hashes and arrarys
+
+=cut
+
 #lets only load the serialiser once per execution
 our %serialisers = ();
 
 #should this really be a register/request?
 
+
+=begin TML
+
+---++ StaticMethod serialise( $session, $value, $style ) -> $cereal
+   * =$session= Foswiki Session object
+   * =$value= the perl object we're serializing (typically a ref/obj)
+   * =$style= serialization format
+
 #TODO: do we need to use Foswiki, or can we throw a Simple exception instead?
 #I think to be reusable we catually have to throw..
+
+=cut
+
 sub serialise {
     my $session = shift;
-    my $result  = shift;
+    my $value  = shift;
     my $style   = shift;
 
-    my $data = getSerialiser( $session, $style )->write( $session, $result );
-    return $data;
+    return getSerialiser( $session, $style )->write( $session, $value );
 }
 
-#TODO: ok, ugly, and incomplete
+
+=begin TML
+
+---++ StaticMethod deserialise( $session, $cereal, $style ) -> $data
+   * =$session= Foswiki Session object
+   * =$cereal= the perl object we're serializing (typically a ref/obj)
+   * =$style= serialization format
+
+#TODO: do we need to use Foswiki, or can we throw a Simple exception instead?
+#I think to be reusable we actually have to throw..
+
+#TODO: please work out how to add _some_ autodetection of format
+
+=cut
+
 sub deserialise {
     my $session = shift;
-    my $result  = shift;
+    my $cereal  = shift;
     my $style   = shift;
 
-    my $data = getSerialiser( $session, $style )->read( $session, $result );
-    return $data;
+    return getSerialiser( $session, $style )->read( $session, $cereal );
 }
 
 #in the event of trouble, return 'Simplified'

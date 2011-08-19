@@ -4,7 +4,7 @@
 
 ---+ package Foswiki::Serialise::Json
 
-
+serialise from and to JSON
 
 =cut
 

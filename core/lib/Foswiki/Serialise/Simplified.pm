@@ -4,7 +4,7 @@
 
 ---+ package Foswiki::Serialise::Simplified
 
-This is __the__ on disk format serialiser and deserialise for TWiki and Foswiki topics legacy .txt format.
+This is the style=perl serialiseation used by System.VarQUERY
 
 =cut
 
