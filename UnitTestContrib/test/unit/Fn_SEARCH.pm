@@ -1427,7 +1427,7 @@ third line
 %META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peel"}%
 %META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
 %META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
-%META:FIELD{name="NewField" attributes="" title="Item10269" value="TaxonProfile/Builder.TermForm"}%
+%META:FIELD{name="NewField" attributes="" title="Item10269" value="Profile/Builder.TermForm"}%
 %META:FILEATTACHMENT{name="porn.gif" comment="Cor" date="15062" size="15504"}%
 %META:FILEATTACHMENT{name="flib.xml" comment="Cor" date="1157965062" size="1"}%
 HERE
@@ -3226,7 +3226,7 @@ sub test_no_format_no_shit {
 
     my $result = $this->{test_topicObject}->expandMacros('%SEARCH{"BLEEGLE"}%');
     $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
-Searched: <noautolink>BLEEGLE</noautolink>Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME
+Searched: <noautolink>BLEEGLE</noautolink>Results from <nop>$this->{test_web} web retrieved at TIME
 
 <a href="">OkATopic</a>
 <nop>BLEEGLE dontmatchme.blah
@@ -3265,7 +3265,7 @@ CRUD
       $this->{test_topicObject}
       ->expandMacros('%SEARCH{"BLEEGLE" nosummary="on"}%');
     $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
-Searched: <noautolink>BLEEGLE</noautolink>Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME
+Searched: <noautolink>BLEEGLE</noautolink>Results from <nop>$this->{test_web} web retrieved at TIME
 
 <a href="">OkATopic</a>
 NEW - <a href="">DATE - TIME</a> by [[TemporarySEARCHUsersWeb.WikiGuest][WikiGuest]]
@@ -3285,7 +3285,7 @@ CRUD
       $this->{test_topicObject}
       ->expandMacros('%SEARCH{"BLEEGLE" nosearch="on"}%');
     $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
-Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME
+Results from <nop>$this->{test_web} web retrieved at TIME
 
 <a href="">OkATopic</a>
 <nop>BLEEGLE dontmatchme.blah
@@ -3311,7 +3311,7 @@ CRUD
       ->expandMacros('%SEARCH{"BLEEGLE" nototal="on"}%');
     $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>
-Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME
+Results from <nop>$this->{test_web} web retrieved at TIME
 
 <a href="">OkATopic</a>
 <nop>BLEEGLE dontmatchme.blah
@@ -3360,7 +3360,7 @@ CRUD
       ->expandMacros('%SEARCH{"BLEEGLE" noempty="on"}%');
     $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>
-Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME
+Results from <nop>$this->{test_web} web retrieved at TIME
 
 
 
@@ -3388,7 +3388,7 @@ CRUD
       ->expandMacros('%SEARCH{"BLEEGLE" zeroresults="on"}%');
     $this->assert_html_equals( <<'CRUD', _cut_the_crap($result) );
 Searched: <noautolink>BLEEGLE</noautolink>
-Results from <nop>TemporarySEARCHTestWebSEARCH web retrieved at TIME
+Results from <nop>$this->{test_web} web retrieved at TIME
 
 
 
@@ -4886,7 +4886,7 @@ sub test_Item9269 {
 }%'
     );
 
-    $this->assert_str_equals( '$web=TemporarySEARCHTestWebSEARCH', $result );
+    $this->assert_str_equals( '$web=$this->{test_web}', $result );
 
     $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{".*" 
@@ -4900,9 +4900,9 @@ sub test_Item9269 {
     );
 
     $this->assert_str_equals(
-        'header: $web=TemporarySEARCHTestWebSEARCH<br />
-format: $web=TemporarySEARCHTestWebSEARCH<br />
-footer: $web=TemporarySEARCHTestWebSEARCH', $result
+        'header: $web=$this->{test_web}<br />
+format: $web=$this->{test_web}<br />
+footer: $web=$this->{test_web}', $result
     );
 
     $result = $this->{test_topicObject}->expandMacros(
@@ -4922,7 +4922,7 @@ footer: $web=TemporarySEARCHTestWebSEARCH', $result
    1 OkTopic
    1 TestTopicSEARCH
    1 WebPreferences
-pagerformat: $web=TemporarySEARCHTestWebSEARCH', $result
+pagerformat: $web=$this->{test_web}', $result
     );
 
     return;
@@ -5158,7 +5158,7 @@ EXPECT
     return;
 }
 
-#TaxonProfile/Builder.TermForm
+#Profile/Builder.TermForm
 sub verify_Item10269 {
     my $this = shift;
 
@@ -5166,13 +5166,13 @@ sub verify_Item10269 {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"NewField=\'TaxonProfile/Builder.TermForm\'"' . $stdCrap );
+        '%SEARCH{"NewField=\'Profile/Builder.TermForm\'"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 
     return;
 }
 
-#TaxonProfile/Builder.TermForm
+#Profile/Builder.TermForm
 sub verify_Item10398 {
     my $this = shift;
 
@@ -5273,11 +5273,11 @@ TOPICTEXT
     $this->assert_str_equals(
         _cut_the_crap(<<'RESULT'), _cut_the_crap( $result . "\n" ) );
 <div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>SomeString</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
-<h4 class="foswikiSearchResultsHeader"  style="border-color:#FF00FF"><b>Results from <nop>TemporarySEARCHTestWebSEARCH web</b> retrieved at 04:34 (GMT)</h4>
+<h4 class="foswikiSearchResultsHeader"  style="border-color:#FF00FF"><b>Results from <nop>$this->{test_web} web</b> retrieved at 04:34 (GMT)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="/~sven/core/bin/view/TemporarySEARCHTestWebSEARCH/Item10491"><b>Item10491</b></a>
+<a href="/~sven/core/bin/view/$this->{test_web}/Item10491"><b>Item10491</b></a>
 <div class="foswikiSummary"><b>&hellip;</b> it can be created From <nop>IRC<nop>: <em><nop>SomeString</em>.txt So hopefully this topic  <b>&hellip;</b>  hits don't get corrupted. <em><nop>SomeString</em>? " txt<nop>: <nop>SomeString? And  <b>&hellip;</b> ?tab=searchadvanced search=<em><nop>SomeString</em> scope=all order=topic type= <b>&hellip;</b> </div></div>
-<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/~sven/core/bin/rdiff/TemporarySEARCHTestWebSEARCH/Item10491" rel='nofollow'>16 Mar 2011 - 04:34</a></span> <span class="foswikiSRAuthor">by WikiGuest </span></div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/~sven/core/bin/rdiff/$this->{test_web}/Item10491" rel='nofollow'>16 Mar 2011 - 04:34</a></span> <span class="foswikiSRAuthor">by WikiGuest </span></div>
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>1</span></div>
 RESULT
@@ -5301,6 +5301,192 @@ sub verify_multiple_order_fields {
     );
 
     return;
+}
+
+sub verify_crossweb_op_ref {
+    my $this   = shift;
+    my %topics = (
+        "$this->{test_web}/LLB/Analyses/Sequences.00001" => <<"HERE",
+%META:TOPICINFO{author="BaseUserMapping_333" date="1313039642" format="1.1" version="1"}%
+%META:TOPICPARENT{name="All"}%
+
+%META:FORM{name="Profile/Definitions.Acacia_Sequence_Form"}%
+%META:FIELD{name="Acacia_TraceSet" title="TraceSet" type="llb+input" value="$this->{test_web}/LLB/Results/TraceSets.00001"}%
+%META:FIELD{name="Acacia_WorkState" title="Editing" type="list+one" value="done"}%
+%META:FIELD{name="Acacia_Complete" title="Complete" type="boolean" value="1"}%
+%META:FIELD{name="Acacia_DateCompleted" title="Date completed" type="date" value=""}%
+%META:FIELD{name="Acacia_GenbankNumber" title="Genbank number" type="text" value="AF523110"}%
+%META:FIELD{name="Acacia_GenbankLink" title="Genbank Link" type="text" value="http://www.ncbi.nlm.nih.gov/entrez/viewer.fcgi?db=nucleotide&val=22725481"}%
+%META:FIELD{name="Acacia_SequenceNotes" title="Notes" type="richtext" value=""}%
+%META:FIELD{name="Acacia_Sequence" title="Sequence" type="llb+sequence" value="TCGGCTTTTAAGTGCGACTCAAAATTTTACACATTTCTATGAAGCAATGGATTCATCCATACCATCGGTAGAGTTTGTAAGACCACGACTGATCCAGAAAGGAATGAATGGAAAAAGCAGCATGTCGTATCAATGGAGAATTCTAAGACTATCTCATTTTTATTGGATCGGGCCCAAATCCATGTTTGTATTCTTGGCTCGCAACAAAAGCAAAAGAAATTCACAGTTGGGTTGAATTAATAAATGGATAGAGTTTGGTGACTCCAATTATAGGGAAACAAAAAGGAACGAGCTTTTGTTTTGAATTTGAATGATTCCCCCATCTAATTATACGTTAAAAATATAAAATATTAGTACTTGATGGGGGAAAAGCTTTTCCCATGAATGGATTATTGATTTTTGTTATGAATCCTAACTATTAGCTATTCTCCATTATAATTAGATTATGGGGTGGCGATAAATGTGTAGAAGAAAGAGTATATTGATAAAGATCTTTTTTTTTTTTCCAAAATCAAAAGAGCGATTGGGTTGAGAAAATAAAGGATTTCTAACTATCTTGTTATCCTAGAACGAACATAAAACAATTAGATGGAAAAAGCGAGTAGAGAGAGTCCGTTGATGAGTCTTACTTGTTTTCTAGGTATCTTTTTTTAGAATAGAATACCCTGTTTTGACTGTATCGCACTATGTATTATTTGATAACCCAATAAATCTTCGATCCTCGGCCCAAATCAAATTTCAAAAAATGGAGGAATTTCAAGTATATTTAGAACTAGATAGATCTCGTCAACATGACTTCCTATACCCACTTATTTTTCGGGAGTATATTTTTGCACTTGCTTACGATCATGGTTTAAATAGTTCCATTTTGGTGCAAGATCTAGGTTATGACAATAAATCTAGTTTACTAATTGTAAAACGTTTAATTACTCGAATGTATCACCAGAATCATTTGATTATTTCTGCTAATAATTCTAACAAAAATCCATTTTGGGGGTACAACAAGAATTTGTATTCTCAAATAATATCAGAGGGGCTTGCCGTCAGTGTGGAAATTCCATTTTCCCTACAACTAATCTCTTCCTTAGAGAAGGCAGAAATTATAAAATCCTATAATTTACGATCAATTCATTCAATATTTCCTTTTTTTGAGGAAAAATTTCCATATTTAAATTATGTGTCAGATGTACAAATACCCTACCCTATACATCTGGAAATCTTGATTCAAACCCTTCGATACTGGGTGAAAGATGCCTCCTCCTTTCATTTATTAAGGCTCTTTCTTTATGAGTATTGTAATTGGAATAGTCTTATTACTCCAAAAAAAAGGATTTCTACTTTTTCAAAAAGTAATCCAAGATTTTTCCTGTTCCTATATAATTTTTATGTAGGTGAATACGAATCCATCTTTCTTTTTCTCCGTAACAAATCTTCTTATTTACGATTAACATCTTCTGGAGTCTTTTTTGAACGAATCTATTTCTATGCAAAAATAAAACATTTTGTAGAAGTCTTTGATAAGGATTTTCCGTCCACCCTATGGTTCTTCAAGGACCCTTTCATTCATTATGTTAGATATCAAGGAAAATCCATTCTAGCTTCAAAGAATACGCCCTTTTTGATGAAAAAATGGAAATACTATCTTATCCATTTATGGCAATGTCATTTTTTTGTTTGGTCTCAACCAGGAAAGATCCATATAAACCAATTATCCGAGCATTCATTTTCCTTTTTGGGTTATTTTTCAAATGTGCGGCTAAATCCTTCAGTGGTACGGAGTCAAATGTTGGAAAAGTCATTTATAATGGAAAATCTTATGAAAAAGCTTGATACAATAATTCCAATTATTCCTCTAATTAGATCATTGGCTAAAGCAAATTTTTGTAATGTATTAGGACATCCCATTAGTAAGCCGGTCTGGGCCGATTCATCCGATTTTGATATTATTGAGCGATTTTTGCAGATATGCAGAGATCTCTCTCATTATTACAACGGATCCTCAAAAAAAAAGAGTTTGTATCGAATCAAAAAAAACTTCGGGCTTNNTGGATNAAAACTTTGGNGGGTAACNCCAAAAGTCCNNNCGGGTTTTTTAAAAAANTAGGTTTTNAANTANTGGAANAATTNTTTCANAGGAAAAAAANATTTTTTTTTTNATTTTTTCNANAGNTTTTTTTNCTTTGCNNAAGNTANAAAAAGGCGGNTTTGGGANTTTGAAANTTTTGANTTTCNNCNANGATNTGGGCCATCATGAAAAACNGGNTATCNNACNTTGANAANGGGAACNANCCNTNAATNNGGGAAAGATNAAAAAAAAAAGAATTCATTCGTTTCTATTATGAAATTTCTATTATGAAATATGAAATGGATTATGAAATGCTCATGTAGTAAGAGTAGGAATTGATAAACTAAGNACTTAACTTTTTTAGAGTCCNGTTCTAGGGAAGGAACTGAGGTTTAGATGTATACATAGGGAAAGCCGTGTGCAATGAAAAATGCAAGTACGGCCTGGGGAGGNNTTTTTTT"}%
+HERE
+        "$this->{test_web}/LLB/Analyses/Sequences.00002" => <<"HERE",
+%META:TOPICINFO{author="BaseUserMapping_333" date="1313039642" format="1.1" version="1"}%
+%META:TOPICPARENT{name="All"}%
+
+%META:FORM{name="Profile/Definitions.Acacia_Sequence_Form"}%
+%META:FIELD{name="Acacia_TraceSet" title="TraceSet" type="llb+input" value="$this->{test_web}/LLB/Results/TraceSets.00002"}%
+%META:FIELD{name="Acacia_WorkState" title="Editing" type="list+one" value="done"}%
+%META:FIELD{name="Acacia_Complete" title="Complete" type="boolean" value="1"}%
+%META:FIELD{name="Acacia_DateCompleted" title="Date completed" type="date" value=""}%
+%META:FIELD{name="Acacia_GenbankNumber" title="Genbank number" type="text" value="AF195707"}%
+%META:FIELD{name="Acacia_GenbankLink" title="Genbank Link" type="text" value="http://www.ncbi.nlm.nih.gov/entrez/viewer.fcgi?db=nucleotide&val=10880548"}%
+%META:FIELD{name="Acacia_SequenceNotes" title="Notes" type="richtext" value=""}%
+%META:FIELD{name="Acacia_Sequence" title="Sequence" type="llb+sequence" value="AAAATCTTGGTCTTAATGTATACGAGTTTTTGAACGTAAAGGAGCAATAATTAATTTATTGTTCTATCAAGAGGGTTAATATTGCTCCTTTACTTTTTAGTAGTTTCATACATCAATTTTGTATTTACTTCAACATTCTTTACCGTTGTTTTAAGATAAGAAAAAAATATTGGAGTTTCATACTTTTTGTTTCTTTTTTACTAATTTATTTTATACGTTTTTTTCAGCAATCTTTCTTTATCTTTTGAAATGAAAAAAAAAAACAAAAGAAAGAATACAAATATCTCTGTAATTTTTAGATGGTTTTTAGATGGTATAGG"}%
+HERE
+        "$this->{test_web}/LLB/Results/TraceSets.00001" => <<"HERE",
+%META:TOPICINFO{author="BaseUserMapping_333" date="1313040485" format="1.1" version="1"}%
+%META:TOPICPARENT{name="All"}%
+
+%META:FORM{name="Profile/Definitions.Acacia_TraceSet_Form"}%
+%META:FIELD{name="Acacia_PCRProduct" title="PCR Product" type="llb+input" value="$this->{test_web}/LLB/Samples/PCRs.00001"}%
+HERE
+        "$this->{test_web}/LLB/Results/TraceSets.00002" => <<"HERE",
+%META:TOPICINFO{author="BaseUserMapping_333" date="1313040748" format="1.1" version="1"}%
+%META:TOPICPARENT{name="All"}%
+
+%META:FORM{name="Profile/Definitions.Acacia_TraceSet_Form"}%
+%META:FIELD{name="Acacia_PCRProduct" title="PCR Product" type="llb+input" value="$this->{test_web}/LLB/Samples/PCRs.00002"}%
+HERE
+        "$this->{test_web}/LLB/Samples/PCRs.00001" => <<"HERE",
+%META:TOPICINFO{author="BaseUserMapping_333" date="1313038798" format="1.1" version="1"}%
+%META:TOPICPARENT{name="All"}%
+
+%META:FORM{name="Profile/Definitions.Acacia_SamplePCR_Form"}%
+%META:FIELD{name="Acacia_Extract" title="Extract" type="llb+input" value="$this->{test_web}/LLB/Samples/Extracts.0000"}%
+%META:FIELD{name="Acacia_Gene" title="Gene" type="fwaddress" value="$this->{test_web}/LLB/Genes.MatK"}%
+%META:FIELD{name="Acacia_WorkState" title="PCR Done" type="list+one" value="working"}%
+%META:FIELD{name="Acacia_Cleaned" title="PCR Cleaned" type="boolean" value="1"}%
+%META:FIELD{name="Acacia_FreezerLocation" title="Freezer Location" type="text" value=""}%
+HERE
+        "$this->{test_web}/LLB/Samples/PCRs.00002" => <<"HERE",
+%META:TOPICINFO{author="BaseUserMapping_333" date="1313038798" format="1.1" version="1"}%
+%META:TOPICPARENT{name="All"}%
+
+%META:FORM{name="Profile/Definitions.Acacia_SamplePCR_Form"}%
+%META:FIELD{name="Acacia_Extract" title="Extract" type="llb+input" value="$this->{test_web}/LLB/Samples/Extracts.0000"}%
+%META:FIELD{name="Acacia_Gene" title="Gene" type="fwaddress" value="$this->{test_web}/LLB/Genes.PsbA"}%
+%META:FIELD{name="Acacia_WorkState" title="PCR Done" type="list+one" value="done"}%
+%META:FIELD{name="Acacia_Cleaned" title="PCR Cleaned" type="boolean" value="0"}%
+%META:FIELD{name="Acacia_FreezerLocation" title="Freezer Location" type="text" value=""}%
+HERE
+        "$this->{test_web}/LLB/Samples/Extracts.0000" => <<"HERE",
+%META:TOPICINFO{author="BaseUserMapping_333" date="1313038766" format="1.1" version="1"}%
+%META:TOPICPARENT{name="All"}%
+
+%META:FORM{name="Profile/Definitions.Acacia_Extract_Form"}%
+%META:FIELD{name="Acacia_Specimen" title="Specimen" type="llb+input" value="$this->{test_web}/LLB/Materials/Specimens.0120"}%
+%META:FIELD{name="Acacia_ExtractMethod" title="Extraction method" type="text" value="$this->{test_web}/LLB/Methods.10"}%
+%META:FIELD{name="Acacia_TissueType" title="Tissue type" type="list+one" value=""}%
+%META:FIELD{name="Acacia_DNAQuality" title="DNA quality" type="list+one" value="Wig L Bug"}%
+%META:FIELD{name="Acacia_DNAQuality" title="Picture" type="label" value=""}%
+%META:FIELD{name="Acacia_LaneNumber" title="Lane number" type="label" value="7"}%
+%META:FIELD{name="Acacia_PictureInfoFile" title="Picture info file" type="label" value=""}%
+%META:FIELD{name="Acacia_Concentration" title="Concentration (ng/<B5>L)" type="text" value=""}%
+%META:FIELD{name="Acacia_DNANotes" title="DNA Notes" type="text" value=""}%
+%META:FIELD{name="Acacia_FreezerLocation" title="Freezer Location" type="text" value=""}%
+HERE
+        "$this->{test_web}/LLB/Samples/Extracts.0001" => <<"HERE"
+%META:TOPICINFO{author="BaseUserMapping_333" date="1313038766" format="1.1" version="1"}%
+%META:TOPICPARENT{name="All"}%
+
+%META:FORM{name="Profile/Definitions.Acacia_Extract_Form"}%
+%META:FIELD{name="Acacia_Specimen" title="Specimen" type="llb+input" value="$this->{test_web}/LLB/Materials/Specimens.1220"}%
+%META:FIELD{name="Acacia_ExtractMethod" title="Extraction method" type="text" value="$this->{test_web}/LLB/Methods.03"}%
+%META:FIELD{name="Acacia_TissueType" title="Tissue type" type="list+one" value=""}%
+%META:FIELD{name="Acacia_DNAQuality" title="DNA quality" type="list+one" value=""}%
+%META:FIELD{name="Acacia_DNAQuality" title="Picture" type="label" value=""}%
+%META:FIELD{name="Acacia_LaneNumber" title="Lane number" type="label" value="3"}%
+%META:FIELD{name="Acacia_PictureInfoFile" title="Picture info file" type="label" value=""}%
+%META:FIELD{name="Acacia_Concentration" title="Concentration (ng/<B5>L)" type="text" value=""}%
+%META:FIELD{name="Acacia_DNANotes" title="DNA Notes" type="text" value=""}%
+%META:FIELD{name="Acacia_FreezerLocation" title="Freezer Location" type="text" value=""}%
+HERE
+    );
+    my %tests = (
+        "Acacia_Specimen='$this->{test_web}/LLB/Materials/Specimens.1220'" =>
+          "$this->{test_web}/LLB/Samples/Extracts.0001",
+        "Acacia_Extract/Acacia_ExtractMethod='$this->{test_web}/LLB/Methods.10'"
+          => "$this->{test_web}/LLB/Samples/PCRs.00001, $this->{test_web}/LLB/Samples/PCRs.00002",
+        "Acacia_ExtractMethod='$this->{test_web}/LLB/Methods.03'" =>
+          "$this->{test_web}/LLB/Samples/Extracts.0001",
+        "Acacia_Extract/Acacia_ExtractMethod='$this->{test_web}/LLB/Methods.03'"
+          => '',
+        "Acacia_PCRProduct='$this->{test_web}/LLB/Samples/PCRs.00002'" =>
+          "$this->{test_web}/LLB/Results/TraceSets.00002",
+"Acacia_PCRProduct/Acacia_Extract/Acacia_ExtractMethod='$this->{test_web}/LLB/Methods.10'"
+          => "$this->{test_web}/LLB/Results/TraceSets.00001, $this->{test_web}/LLB/Results/TraceSets.00002",
+"Acacia_TraceSet/Acacia_PCRProduct/Acacia_Extract/Acacia_ExtractMethod='$this->{test_web}/LLB/Methods.10'"
+          => "$this->{test_web}/LLB/Analyses/Sequences.00001, $this->{test_web}/LLB/Analyses/Sequences.00002",
+        "Acacia_TraceSet/Acacia_PCRProduct/Acacia_WorkState='done'" =>
+          "$this->{test_web}/LLB/Analyses/Sequences.00002",
+        "Acacia_TraceSet/Acacia_PCRProduct/Acacia_Cleaned" =>
+          "$this->{test_web}/LLB/Analyses/Sequences.00001",
+"form.name='Profile/Definitions.Acacia_Sequence_Form' AND Acacia_TraceSet/Acacia_PCRProduct/Acacia_Extract/Acacia_LaneNumber > 5"
+          => "$this->{test_web}/LLB/Analyses/Sequences.00001, $this->{test_web}/LLB/Analyses/Sequences.00002",
+"form.name='Profile/Definitions.Acacia_Sequence_Form' AND Acacia_TraceSet/Acacia_PCRProduct/Acacia_Extract/Acacia_LaneNumber < 5"
+          => ''
+    );
+    my $query = Unit::Request->new('');
+
+    $this->{session}->finish();
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+
+    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin}, $query );
+    $this->assert_str_equals( $this->{test_web}, $this->{session}->{webName} );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->{test_topicObject} =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
+    require Foswiki::Address;
+    while ( my ( $fwaddress, $metatext ) = each %topics ) {
+        my $addrObj = Foswiki::Address->new( string => $fwaddress );
+        my $topicObj;
+
+        if ( not Foswiki::Func::webExists( $addrObj->web() ) ) {
+            my @webs;
+
+            foreach my $part ( @{ $addrObj->webpath() } ) {
+                my $web;
+
+                push( @webs, $part );
+                $web = join( '/', @webs );
+                if ( not Foswiki::Func::webExists($web) ) {
+                    Foswiki::Func::createWeb( $web, '_default' );
+                }
+            }
+        }
+        ($topicObj) =
+          Foswiki::Func::readTopic( $addrObj->web(), $addrObj->topic() );
+        $topicObj->text($metatext);
+        $topicObj->save();
+    }
+    while ( my ( $query, $expected ) = each %tests ) {
+        my $result = $this->_test_query( $query, "$this->{test_web}/LLB" );
+        $this->assert_str_equals( $expected, $result,
+            "Testing: '$query'\nExpected:'$expected'\nBut got: '$result'" );
+
+    }
+
+    return;
+}
+
+sub _test_query {
+    my ( $this, $query, $web ) = @_;
+    my $result = $this->{test_topicObject}->expandMacros(<<"HERE");
+%SEARCH{
+    "$query"
+    type="query"
+    web="$web"
+    recurse="on"
+    nonoise="on"
+    separator=", "
+    format="\$web.\$topic"
+}%
+HERE
+    chomp($result);
+
+    return $result;
 }
 
 1;
