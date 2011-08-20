@@ -90,7 +90,7 @@
         _fixAutoSave: function (ed) {
             var orig_id = ed.id;
 
-            ed.id = FoswikiTiny.foswikiVars.WEB + '.' + FoswikiTiny.foswikiVars.TOPIC;
+            ed.id = FoswikiTiny.getFoswikiVar('WEB') + '.' + FoswikiTiny.getFoswikiVar('TOPIC');
             ed.plugins.autosave.setupStorage(ed);
             ed.id = orig_id;
 
