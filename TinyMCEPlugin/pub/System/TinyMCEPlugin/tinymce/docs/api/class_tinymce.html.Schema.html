@@ -95,20 +95,44 @@
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.html.Schema.html#getElementRule">getElementRule</a>(name:String):Object</div>
-<div class="summary">Returns true/false if the specified element is valid or not according to the schema.</div>
+<a class="memberName" href="class_tinymce.html.Schema.html#getCustomElements">getCustomElements</a>():Object</div>
+<div class="summary">Returns an map object of all custom elements.</div>
 </td>
 <td class="last">Schema</td>
 </tr>
 <tr class="even">
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.html.Schema.html#getEmptyElements">getEmptyElements</a>():Object</div>
-<div class="summary">Returns a map with empty elements.</div>
+<a class="memberName" href="class_tinymce.html.Schema.html#getElementRule">getElementRule</a>(name:String):Object</div>
+<div class="summary">Returns true/false if the specified element is valid or not according to the schema.</div>
 </td>
 <td class="last">Schema</td>
 </tr>
 <tr>
+<td class="first">
+<div>
+<a class="memberName" href="class_tinymce.html.Schema.html#getNonEmptyElements">getNonEmptyElements</a>():Object</div>
+<div class="summary">Returns a map with elements that should be treated as contents regardless if it has text content in them or not such as ...</div>
+</td>
+<td class="last">Schema</td>
+</tr>
+<tr class="even">
+<td class="first">
+<div>
+<a class="memberName" href="class_tinymce.html.Schema.html#getSelfClosingElements">getSelfClosingElements</a>():Object</div>
+<div class="summary">Returns a map with self closing tags such as .</div>
+</td>
+<td class="last">Schema</td>
+</tr>
+<tr>
+<td class="first">
+<div>
+<a class="memberName" href="class_tinymce.html.Schema.html#getShortEndedElements">getShortEndedElements</a>():Object</div>
+<div class="summary">Returns a map with short ended elements such as BR or IMG.</div>
+</td>
+<td class="last">Schema</td>
+</tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html.Schema.html#getWhiteSpaceElements">getWhiteSpaceElements</a>():Object</div>
@@ -116,7 +140,7 @@
 </td>
 <td class="last">Schema</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html.Schema.html#isValidChild">isValidChild</a>(name:String, child:String):Boolean</div>
@@ -124,7 +148,7 @@
 </td>
 <td class="last">Schema</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html.Schema.html#setValidElements">setValidElements</a>(valid_elements:String):void</div>
@@ -219,6 +243,16 @@ Existing rules will be replaced with the ones specified, so this extends the sch
 <h4>Returns</h4>
 <div class="returns">Object - Name/value lookup map for block elements.</div>
 </div>
+<div class="memberDetails" id="getCustomElements">
+<h3>getCustomElements<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function getCustomElements():Object</code>
+<div class="memberDescription">Returns an map object of all custom elements.
+</div>
+<h4>Returns</h4>
+<div class="returns">Object - Name/value map object of all custom elements.</div>
+</div>
 <div class="memberDetails" id="getElementRule">
 <h3>getElementRule<span class="memberType">method</span>
 </h3>
@@ -237,15 +271,36 @@ according to the schema.
 <h4>Returns</h4>
 <div class="returns">Object - Element object or undefined if the element isn't valid.</div>
 </div>
-<div class="memberDetails" id="getEmptyElements">
-<h3>getEmptyElements<span class="memberType">method</span>
+<div class="memberDetails" id="getNonEmptyElements">
+<h3>getNonEmptyElements<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function getEmptyElements():Object</code>
-<div class="memberDescription">Returns a map with empty elements.
+						function getNonEmptyElements():Object</code>
+<div class="memberDescription">Returns a map with elements that should be treated as contents regardless if it has text
+content in them or not such as TD, VIDEO or IMG.
 </div>
 <h4>Returns</h4>
-<div class="returns">Object - Name/value lookup map for empty elements.</div>
+<div class="returns">Object - Name/value lookup map for non empty elements.</div>
+</div>
+<div class="memberDetails" id="getSelfClosingElements">
+<h3>getSelfClosingElements<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function getSelfClosingElements():Object</code>
+<div class="memberDescription">Returns a map with self closing tags such as <li>.
+</div>
+<h4>Returns</h4>
+<div class="returns">Object - Name/value lookup map for self closing tags elements.</div>
+</div>
+<div class="memberDetails" id="getShortEndedElements">
+<h3>getShortEndedElements<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function getShortEndedElements():Object</code>
+<div class="memberDescription">Returns a map with short ended elements such as BR or IMG.
+</div>
+<h4>Returns</h4>
+<div class="returns">Object - Name/value lookup map for short ended elements.</div>
 </div>
 <div class="memberDetails" id="getWhiteSpaceElements">
 <h3>getWhiteSpaceElements<span class="memberType">method</span>

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="TinyMCE" default="build" basedir=".">
 	<!-- Path properties -->
-	<property description="Classes directory" name="classes_dir" value="jscripts/tiny_mce/classes" />
-	<property description="Build directory" name="build_dir" value="jscripts/tiny_mce" />
-	<property description="Temp directory" name="temp_dir" value="tmp" />
+	<property description="Classes directory" name="classes_dir" location="jscripts/tiny_mce/classes" />
+	<property description="Build directory" name="build_dir" location="jscripts/tiny_mce" />
+	<property description="Temp directory" name="temp_dir" location="tmp" />
+	<property environment="env" />
+
 
 	<!-- Allow any user specific values to override the defaults -->
 	<property file="${user.home}/tinymce_build.properties" />
@@ -17,6 +19,17 @@
 		</fileset>
 	</path>
 
+	<!-- use a build number from the environment, defaulting it if not set. -->
+	<target name="default-build-number" unless="env.BUILD_NUMBER">
+		<tstamp />
+		<property description="Build number" name="build-number" value="${DSTAMP}${TSTAMP}" />
+		<echo message="${build-number}" />
+	</target>
+	<target name="env-build-number" if="env.BUILD_NUMBER">
+		<property description="Build number" name="build-number" value="${env.BUILD_NUMBER}" />
+	</target>
+	<target name="init-build-number" depends="env-build-number,default-build-number"/>
+	
 	<!-- Register new js-build-tools ant tasks -->
 	<taskdef name="preprocess" classname="com.moxiecode.ant.tasks.PreProcessTask" classpathref="tasks.classpath" loaderref="tasks.classpath.loader" />
 	<taskdef name="yuicompress" classname="com.moxiecode.ant.tasks.YuiCompressTask" classpathref="tasks.classpath" loaderref="tasks.classpath.loader" />
@@ -30,16 +43,16 @@
 			<fileset dir="docs/api" includes="**/*"/>
 		</delete>
 
-		<moxiedoc outdir="docs/api" templatedir="tools/templates" msintellisense="docs/api/tinymce.vsdoc.js" eventclass="tinymce.util.Dispatcher" title="TinyMCE API">
-			<fileset dir="jscripts/tiny_mce/classes">
+		<moxiedoc outdir="${basedir}/docs/api" templatedir="${basedir}/tools/templates" msintellisense="${basedir}/docs/api/tinymce.vsdoc.js" eventclass="tinymce.util.Dispatcher" title="TinyMCE API">
+			<fileset dir="${basedir}/jscripts/tiny_mce/classes">
 				<include name="**/*.js" /> 
 			</fileset>
 
-			<fileset dir="jscripts/tiny_mce/themes">
+			<fileset dir="${basedir}/jscripts/tiny_mce/themes">
 				<include name="**/editor_template_src.js" /> 
 			</fileset>
 
-			<fileset dir="jscripts/tiny_mce/plugins">
+			<fileset dir="${basedir}/jscripts/tiny_mce/plugins">
 				<include name="**/editor_plugin_src.js" /> 
 			</fileset>
 		</moxiedoc>
@@ -54,15 +67,32 @@
 	<target name="build" depends="" description="Builds the project">
 		<!-- Combine all class files into one single script file -->
 		<concat destfile="${build_dir}/tiny_mce_tmp.js" fixlastline="yes">
+			<!-- tinymce base -->
 			<fileset dir="${classes_dir}" includes="tinymce.js" />
 			<fileset dir="${classes_dir}" includes="adapter/jquery/adapter.js" />
 			<fileset dir="${classes_dir}" includes="adapter/prototype/adapter.js" />
+
+			<!-- tinymce.util.* -->
 			<fileset dir="${classes_dir}" includes="util/Dispatcher.js" />
 			<fileset dir="${classes_dir}" includes="util/URI.js" />
 			<fileset dir="${classes_dir}" includes="util/Cookie.js" />
 			<fileset dir="${classes_dir}" includes="util/JSON.js" />
 			<fileset dir="${classes_dir}" includes="util/XHR.js" />
 			<fileset dir="${classes_dir}" includes="util/JSONRequest.js" />
+			<fileset dir="${classes_dir}" includes="util/VK.js" />
+			<fileset dir="${classes_dir}" includes="util/Quirks.js" />
+
+			<!-- tinymce.html.* -->
+			<fileset dir="${classes_dir}" includes="html/Entities.js" />
+			<fileset dir="${classes_dir}" includes="html/Styles.js" />
+			<fileset dir="${classes_dir}" includes="html/Schema.js" />
+			<fileset dir="${classes_dir}" includes="html/SaxParser.js" />
+			<fileset dir="${classes_dir}" includes="html/Node.js" />
+			<fileset dir="${classes_dir}" includes="html/DomParser.js" />
+			<fileset dir="${classes_dir}" includes="html/Writer.js" />
+			<fileset dir="${classes_dir}" includes="html/Serializer.js" />
+
+			<!-- tinymce.dom.* -->
 			<fileset dir="${classes_dir}" includes="dom/DOMUtils.js" />
 			<fileset dir="${classes_dir}" includes="dom/Range.js" />
 			<fileset dir="${classes_dir}" includes="dom/TridentSelection.js" />
@@ -70,13 +100,13 @@
 			<fileset dir="${classes_dir}" includes="dom/EventUtils.js" />
 			<fileset dir="${classes_dir}" includes="dom/Element.js" />
 			<fileset dir="${classes_dir}" includes="dom/Selection.js" />
-			<fileset dir="${classes_dir}" includes="dom/XMLWriter.js" />
-			<fileset dir="${classes_dir}" includes="dom/StringWriter.js" />
 			<fileset dir="${classes_dir}" includes="dom/Serializer.js" />
 			<fileset dir="${classes_dir}" includes="dom/ScriptLoader.js" />
 			<fileset dir="${classes_dir}" includes="dom/TreeWalker.js" />
-			<fileset dir="${classes_dir}" includes="dom/Schema.js" />
 			<fileset dir="${classes_dir}" includes="dom/RangeUtils.js" />
+
+			<!-- tinymce.ui.* -->
+			<fileset dir="${classes_dir}" includes="ui/KeyboardNavigation.js" />
 			<fileset dir="${classes_dir}" includes="ui/Control.js" />
 			<fileset dir="${classes_dir}" includes="ui/Container.js" />
 			<fileset dir="${classes_dir}" includes="ui/Separator.js" />
@@ -89,7 +119,10 @@
 			<fileset dir="${classes_dir}" includes="ui/MenuButton.js" />
 			<fileset dir="${classes_dir}" includes="ui/SplitButton.js" />
 			<fileset dir="${classes_dir}" includes="ui/ColorSplitButton.js" />
+			<fileset dir="${classes_dir}" includes="ui/ToolbarGroup.js" />
 			<fileset dir="${classes_dir}" includes="ui/Toolbar.js" />
+
+			<!-- tinymce.* -->
 			<fileset dir="${classes_dir}" includes="AddOnManager.js" />
 			<fileset dir="${classes_dir}" includes="EditorManager.js" />
 			<fileset dir="${classes_dir}" includes="Editor.js" />
@@ -98,7 +131,6 @@
 			<fileset dir="${classes_dir}" includes="ForceBlocks.js" />
 			<fileset dir="${classes_dir}" includes="ControlManager.js" />
 			<fileset dir="${classes_dir}" includes="WindowManager.js" />
-			<fileset dir="${classes_dir}" includes="CommandManager.js" />
 			<fileset dir="${classes_dir}" includes="Formatter.js" />
 			<fileset dir="${classes_dir}" includes="LegacyInput.js" />
 		</concat>
@@ -155,62 +187,38 @@
 		<concat destfile="${build_dir}/tiny_mce_full.js">
 			<fileset dir="${build_dir}" includes="tiny_mce.js" />
 			<fileset dir="${build_dir}" includes="langs/en.js" />
-			<fileset dir="${build_dir}" includes="plugins/advhr/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/advimage/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/advlink/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/advlist/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/emotions/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/iespell/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/insertdatetime/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/preview/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/print/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/save/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/searchreplace/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/table/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/contextmenu/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/paste/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/fullscreen/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/directionality/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/inlinepopups/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/autosave/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/noneditable/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/fullpage/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/layer/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/style/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/media/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/visualchars/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/nonbreaking/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/xhtmlxtras/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/template/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/bbcode/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/pagebreak/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/spellchecker/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/tabfocus/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/autoresize/editor_plugin.js" />
-			<fileset dir="${build_dir}" includes="plugins/wordcount/editor_plugin.js" />
 			<fileset dir="${build_dir}" includes="themes/advanced/langs/en.js" />
 			<fileset dir="${build_dir}" includes="themes/advanced/editor_template.js" />
+			<fileset dir="${build_dir}" includes="**/editor_plugin.js">
+				<exclude name="**/legacyoutput/*" />
+				<exclude name="**/example/*" />
+				<exclude name="**/fullpage/*" />
+			</fileset>
 		</concat>
 	</target>
 
-	<target name="release" depends="build" description="Builds release packages">
-		<!-- Copy the current repos and start processing it -->
+	<target name="prepare-release-files" depends="build,moxiedoc">
 		<delete dir="${temp_dir}" quiet="true" />
+		<!-- Copy the current repos and start processing it -->
 		<copy todir="${temp_dir}/tinymce">
 			<fileset dir=".">
 				<include name="**"/>
 				<exclude name="**/.*/**"/>
 				<exclude name="**/.*"/>
+				<exclude name="build-utils/**" />
 			</fileset>
 		</copy>
+	</target>
 
+	<target name="prepare-versions" depends="init-build-number,prepare-release-files" description="Builds release packages">
 		<!-- Parse minor version, major version and release date from changelog -->
 		<loadfile property="changelog" srcFile="${temp_dir}/tinymce/changelog.txt" />
 		<propertyregex property="version" input="${changelog}" regexp="^Version ([0-9xabrc.]+)" select="\1" />
 		<propertyregex property="release_date" input="${changelog}" regexp="^Version [^\(]+\(([^\)]+)\)" select="\1" />
 		<propertyregex property="version.major" input="${version}" regexp="^([0-9]+)\." select="\1" />
-		<propertyregex property="version.minor" input="${version}" regexp="^[^\.]+.([0-9xabrc.]+)" select="\1" />
-		<propertyregex property="file_version" input="${version}" regexp="\." replace="_" />
+		<propertyregex property="version.minor.upstream" input="${version}" regexp="^[^\.]+.([0-9xabrc.]+)" select="\1" />
+		<property name="version.minor" value="${version.minor.upstream}" />
+		<property name="file_version" value="${version}-${build-number}" />
 
 		<!-- Replace major version -->
 		<replaceregexp byline="true">
@@ -256,14 +264,18 @@
 				<include name="jscripts/tiny_mce/tiny_mce_prototype_src.js" />
 			</fileset>
 		</replaceregexp>
+	</target>
 
+	<target name="prepare-examples" depends="prepare-release-files">
 		<!-- Replaces the tiny_mce_dev.js with tiny_mce.js in examples -->
 		<replaceregexp match="tiny_mce_(dev|jquery)\.js" replace="tiny_mce.js" flags="g" byline="true">
 			<fileset dir="${temp_dir}/tinymce/examples">
 				<include name="**/*.htm*" />
 			</fileset>
 		</replaceregexp>
+	</target>
 
+	<target name="prepare-version-queries" depends="prepare-release-files, prepare-versions">
 		<!-- Add or remove version queries -->
 		<if>
 			<equals arg1="${version_queries}" arg2="true" />
@@ -286,13 +298,19 @@
 				</replaceregexp>
 			</else>
 		</if>
+	</target>
 
+	<target name="prepare-release" depends="prepare-release-files, prepare-versions, prepare-examples, prepare-version-queries" />
+	<!--TODO consider if the community release name is the right one for this. -->
+	<target name="community-release" depends="prepare-release" description="Builds release packages">
 		<!-- Compress development package -->
 		<delete file="${temp_dir}/tinymce_${file_version}_dev.zip" quiet="true" />
 		<zip destfile="${temp_dir}/tinymce_${file_version}_dev.zip">
 			<zipfileset dir="${temp_dir}/tinymce" prefix="tinymce" />
 		</zip>
+	</target>
 
+	<target name="production-release" depends="prepare-release">
 		<!-- Compress production package -->
 		<delete file="${temp_dir}/tinymce_${file_version}.zip" quiet="true" />
 		<zip destfile="${temp_dir}/tinymce_${file_version}.zip" excludes="**/classes">
@@ -300,6 +318,7 @@
 				<include name="tinymce/jscripts/**" />
 				<include name="tinymce/examples/**" />
 				<include name="tinymce/changelog.txt" />
+				<!-- TODO consider if the license needs to be changed?-->
 				<exclude name="tinymce/examples/full_jquery.html" />
 				<exclude name="tinymce/jscripts/tiny_mce/classes/**" />
 				<exclude name="tinymce/jscripts/tiny_mce/jquery.tinymce.js" />
@@ -310,13 +329,14 @@
 				<exclude name="tinymce/jscripts/tiny_mce/tiny_mce_prototype_src.js" />
 			</fileset>
 		</zip>
+	</target>
 
+	<target name="jquery-release" depends="prepare-release">
 		<!-- Compress production package for jquery -->
 		<delete file="${temp_dir}/tinymce_${file_version}_jquery.zip" quiet="true" />
 		<zip destfile="${temp_dir}/tinymce_${file_version}_jquery.zip" excludes="**/classes">
 			<fileset dir="${temp_dir}">
 				<include name="tinymce/jscripts/**" />
-				<include name="tinymce/examples/**" />
 				<include name="tinymce/changelog.txt" />
 				<exclude name="tinymce/examples/**" />
 				<exclude name="tinymce/jscripts/tiny_mce/classes/**" />
@@ -329,12 +349,17 @@
 				<exclude name="tinymce/jscripts/tiny_mce/tiny_mce_prototype_src.js" />
 			</fileset>
 
+			<zipfileset dir="${temp_dir}" includes="tinymce/examples/css/content.css" fullpath="tinymce/examples/css/content.css"/>
 			<zipfileset dir="${temp_dir}" includes="tinymce/examples/full_jquery.html" fullpath="tinymce/examples/index.html"/>
 			<zipfileset dir="${temp_dir}" includes="tinymce/jscripts/tiny_mce/tiny_mce_jquery.js" fullpath="tinymce/jscripts/tiny_mce/tiny_mce.js"/>
 			<zipfileset dir="${temp_dir}" includes="tinymce/jscripts/tiny_mce/tiny_mce_jquery_src.js" fullpath="tinymce/jscripts/tiny_mce/tiny_mce_src.js"/>
 		</zip>
+	</target>
 
-		<!-- Remove copyright headers for commerical version -->
+	<!-- TODO does this belong here? how does this fit in with Ephox? -->
+	<target name="commercial-release" depends="prepare-release">
+
+		<!-- Remove copyright headers for commercial version -->
 		<replaceregexp match="^/\*(.*?)\*\/\s*" replace="" flags="gs" byline="false">
 			<fileset dir="${temp_dir}/tinymce">
 				<include name="**/*.js" />
@@ -361,6 +386,8 @@ If you have any questions regarding your license, contact Moxiecode Systems AB (
 			</fileset>
 		</zip>
 	</target>
+
+	<target name="release" depends="community-release, production-release, jquery-release, commercial-release" />
 
 	<target name="addsuffixes" description="Adds version suffixes to all requests">
 		<property name="version_queries" value="true" />

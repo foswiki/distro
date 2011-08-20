@@ -118,7 +118,7 @@
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html.Node.html#isEmpty">isEmpty</a>(elements:Object):Boolean</div>
-<div class="summary">Returns true/false if the node is to be considered empty or not</div>
+<div class="summary">Returns true/false if the node is to be considered empty or not.</div>
 </td>
 <td class="last">Node</td>
 </tr>
@@ -149,6 +149,15 @@
 <td class="last">Node</td>
 </tr>
 <tr>
+<td class="first">
+<div>
+<a class="memberName" href="class_tinymce.html.Node.html#walk">walk</a>(prev:Boolean):<a href="class_tinymce.html.Node.html">Node</a>
+</div>
+<div class="summary">Walks to the next or previous node and returns that node or null if it wasn't found.</div>
+</td>
+<td class="last">Node</td>
+</tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html.Node.html#wrap">wrap</a>():void</div>
@@ -326,7 +335,7 @@ there should only be one id per document.
 </h3>
 <code class="syntax">public 
 						function isEmpty(elements:Object):Boolean</code>
-<div class="memberDescription">Returns true/false if the node is to be considered empty or not
+<div class="memberDescription">Returns true/false if the node is to be considered empty or not.
 </div>
 <h4>Parameters</h4>
 <table class="params">
@@ -385,6 +394,25 @@ there should only be one id per document.
 </div>
 <h4>Example</h4>
 <pre class="brush: js;"/>
+</div>
+<div class="memberDetails" id="walk">
+<h3>walk<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function walk(prev:Boolean):<a href="class_tinymce.html.Node.html">Node</a>
+</code>
+<div class="memberDescription">Walks to the next or previous node and returns that node or null if it wasn't found.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">prev:Boolean</td>
+<td class="last">Optional previous node state defaults to false.</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">
+<a href="class_tinymce.html.Node.html">Node</a> - Node that is next to or previous of the current node.</div>
 </div>
 <div class="memberDetails last" id="wrap">
 <h3>wrap<span class="memberType">method</span>

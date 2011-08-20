@@ -28,7 +28,10 @@
 <td class="last">DOMUtils</td>
 </tr>
 </table>
-<div class="classDescription">Utility class for various DOM manipulation and retrival functions.</div>
+<div class="classDescription">Utility class for various DOM manipulation and retrival functions.
+</div>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 <div class="summaryLists">
 <h2>Public Methods</h2>
 <table class="Methods summary">
@@ -162,12 +165,20 @@
 <tr class="even">
 <td class="first">
 <div>
+<a class="memberName" href="class_tinymce.dom.DOMUtils.html#getNext">getNext</a>(node:Node, selector:String/function):Node</div>
+<div class="summary">Returns the next node that matches selector or function</div>
+</td>
+<td class="last">DOMUtils</td>
+</tr>
+<tr>
+<td class="first">
+<div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#getOuterHTML">getOuterHTML</a>(elm:String/Element):String</div>
 <div class="summary">Returns the outer HTML of an element.</div>
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#getParent">getParent</a>(n:Node/String, f:function, r:Node):Node</div>
@@ -175,7 +186,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#getParents">getParents</a>(n:Node/String, f:function, r:Node):Array</div>
@@ -183,11 +194,19 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#getPos">getPos</a>(n:Element/String, ro:Element):object</div>
 <div class="summary">Returns the absolute x, y position of a node.</div>
+</td>
+<td class="last">DOMUtils</td>
+</tr>
+<tr>
+<td class="first">
+<div>
+<a class="memberName" href="class_tinymce.dom.DOMUtils.html#getPrev">getPrev</a>(node:Node, selector:String/function):Node</div>
+<div class="summary">Returns the previous node that matches selector or function</div>
 </td>
 <td class="last">DOMUtils</td>
 </tr>
@@ -274,12 +293,20 @@
 <tr class="even">
 <td class="first">
 <div>
+<a class="memberName" href="class_tinymce.dom.DOMUtils.html#isEmpty">isEmpty</a>(elements:Object):Boolean</div>
+<div class="summary">Returns true/false if the specified node is to be considered empty or not.</div>
+</td>
+<td class="last">DOMUtils</td>
+</tr>
+<tr>
+<td class="first">
+<div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#isHidden">isHidden</a>(e:String/Element):Boolean</div>
 <div class="summary">Returns true/false if the element is hidden or not by checking the "display" style.</div>
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#loadCSS">loadCSS</a>(u:String):void</div>
@@ -287,7 +314,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#parseStyle">parseStyle</a>(st:String):Object</div>
@@ -295,7 +322,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#remove">remove</a>(node:String/Element/Array, keep_children:Boolean):Element/Array</div>
@@ -303,7 +330,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#removeClass">removeClass</a>(Element:String/Element/Array, c:String):String/Array</div>
@@ -311,7 +338,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#rename">rename</a>(elm:Element, name:String):Object</div>
@@ -319,7 +346,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#replace">replace</a>(n:Element, o:Element/String/Array, k:Boolean):void</div>
@@ -327,7 +354,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#run">run</a>(Element:String/Element/Array, f:function, s:Object):Object/Array</div>
@@ -335,7 +362,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#select">select</a>(p:String, s:Object):Array</div>
@@ -343,7 +370,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#serializeStyle">serializeStyle</a>(o:Object, name:String):String</div>
@@ -351,7 +378,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#setAttrib">setAttrib</a>(e:Element/String/Array, n:String, v:String):void</div>
@@ -359,7 +386,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#setAttribs">setAttribs</a>(e:Element/String/Array, o:Object):void</div>
@@ -367,7 +394,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#setHTML">setHTML</a>(e:Element/String/Array, h:String):void</div>
@@ -375,7 +402,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#setOuterHTML">setOuterHTML</a>(e:Element/String/Array, h:Object, d:Document):void</div>
@@ -383,7 +410,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#setStyle">setStyle</a>(n:String/Element/Array, na:String, v:String):void</div>
@@ -391,7 +418,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#setStyles">setStyles</a>(e:Element/String/Array, o:Object):void</div>
@@ -399,7 +426,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#show">show</a>(e:String/Element/Array):void</div>
@@ -407,7 +434,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#split">split</a>(pe:Element, e:Element, re:Element):Element</div>
@@ -415,7 +442,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#toHex">toHex</a>(s:String):String</div>
@@ -423,7 +450,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#unbind">unbind</a>(o:String/Element/Array, n:String, f:function):bool/Array</div>
@@ -431,7 +458,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#uniqueId">uniqueId</a>(p:String):String</div>
@@ -496,6 +523,8 @@
 </table>
 <h4>Returns</h4>
 <div class="returns">Element/Array - Element that got created or array with elements if multiple elements where passed.</div>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="addClass">
 <h3>addClass<span class="memberType">method</span>
@@ -517,6 +546,8 @@
 </table>
 <h4>Returns</h4>
 <div class="returns">String/Array - String with new class value or array with new class values for all elements.</div>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="bind">
 <h3>bind<span class="memberType">method</span>
@@ -571,13 +602,15 @@
 </table>
 <h4>Returns</h4>
 <div class="returns">Element - HTML DOM node element that got created.</div>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="createHTML">
 <h3>createHTML<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
 						function createHTML(n:String, a:Object, h:String):String</code>
-<div class="memberDescription">Create HTML string for element. The elemtn will be closed unless an empty inner HTML string is passed.
+<div class="memberDescription">Create HTML string for element. The element will be closed unless an empty inner HTML string is passed.
 </div>
 <h4>Parameters</h4>
 <table class="params">
@@ -596,6 +629,8 @@
 </table>
 <h4>Returns</h4>
 <div class="returns">String - String with new HTML element like for example: &lt;a href="#"&gt;test&lt;/a&gt;.</div>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="createRng">
 <h3>createRng<span class="memberType">method</span>
@@ -607,6 +642,8 @@ available if it's not it will fallback to the custom TinyMCE implementation.
 </div>
 <h4>Returns</h4>
 <div class="returns">DOMRange - DOM Range object.</div>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="decode">
 <h3>decode<span class="memberType">method</span>
@@ -741,6 +778,27 @@ rule like ".class" complex ones like "div td.class" will not be added to output.
 <h4>Returns</h4>
 <div class="returns">Array - Array with class objects each object has a class field might be other fields in the future.</div>
 </div>
+<div class="memberDetails" id="getNext">
+<h3>getNext<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function getNext(node:Node, selector:String/function):Node</code>
+<div class="memberDescription">Returns the next node that matches selector or function
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">node:Node</td>
+<td class="last">Node to find siblings from.</td>
+</tr>
+<tr>
+<td class="first">selector:String/function</td>
+<td class="last">Selector CSS expression or function.</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">Node - Next node item matching the selector or null if it wasn't found.</div>
+</div>
 <div class="memberDetails" id="getOuterHTML">
 <h3>getOuterHTML<span class="memberType">method</span>
 </h3>
@@ -757,6 +815,8 @@ rule like ".class" complex ones like "div td.class" will not be added to output.
 </table>
 <h4>Returns</h4>
 <div class="returns">String - Outer HTML string.</div>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="getParent">
 <h3>getParent<span class="memberType">method</span>
@@ -832,6 +892,27 @@ If the function then returns true indicating that it has found what it was looki
 </table>
 <h4>Returns</h4>
 <div class="returns">object - Absolute position of the specified element object with x, y fields.</div>
+</div>
+<div class="memberDetails" id="getPrev">
+<h3>getPrev<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function getPrev(node:Node, selector:String/function):Node</code>
+<div class="memberDescription">Returns the previous node that matches selector or function
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">node:Node</td>
+<td class="last">Node to find siblings from.</td>
+</tr>
+<tr>
+<td class="first">selector:String/function</td>
+<td class="last">Selector CSS expression or function.</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">Node - Previous node item matching the selector or null if it wasn't found.</div>
 </div>
 <div class="memberDetails" id="getRect">
 <h3>getRect<span class="memberType">method</span>
@@ -955,6 +1036,8 @@ go above the point of this root node.
 <td class="last">ID of DOM element or DOM element or array with elements or IDs to hide.</td>
 </tr>
 </table>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="insertAfter">
 <h3>insertAfter<span class="memberType">method</span>
@@ -1013,6 +1096,25 @@ go above the point of this root node.
 <h4>Returns</h4>
 <div class="returns">Boolean - True/False state if the node is a block element or not.</div>
 </div>
+<div class="memberDetails" id="isEmpty">
+<h3>isEmpty<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function isEmpty(elements:Object):Boolean</code>
+<div class="memberDescription">Returns true/false if the specified node is to be considered empty or not.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">elements:Object</td>
+<td class="last">Optional name/value object with elements that are automatically treated as non empty elements.</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">Boolean - true/false if the node is empty or not.</div>
+<h4>Example</h4>
+<pre class="brush: js;"/>
+</div>
 <div class="memberDetails" id="isHidden">
 <h3>isHidden<span class="memberType">method</span>
 </h3>
@@ -1044,6 +1146,8 @@ go above the point of this root node.
 <td class="last">URL to CSS file to load.</td>
 </tr>
 </table>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="parseStyle">
 <h3>parseStyle<span class="memberType">method</span>
@@ -1084,6 +1188,8 @@ colors to hex values. Urls inside the styles will also be converted to absolute/
 </table>
 <h4>Returns</h4>
 <div class="returns">Element/Array - HTML DOM element that got removed or array of elements depending on input.</div>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="removeClass">
 <h3>removeClass<span class="memberType">method</span>
@@ -1105,6 +1211,8 @@ colors to hex values. Urls inside the styles will also be converted to absolute/
 </table>
 <h4>Returns</h4>
 <div class="returns">String/Array - String with new class value or array with new class values for all elements.</div>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="rename">
 <h3>rename<span class="memberType">method</span>
@@ -1198,6 +1306,8 @@ on more complex patterns.
 </table>
 <h4>Returns</h4>
 <div class="returns">Array - Array with all matched elements.</div>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="serializeStyle">
 <h3>serializeStyle<span class="memberType">method</span>
@@ -1242,6 +1352,8 @@ on more complex patterns.
 <td class="last">Value to set on the attribute of this value is falsy like null 0 or '' it will remove the attribute instead.</td>
 </tr>
 </table>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="setAttribs">
 <h3>setAttribs<span class="memberType">method</span>
@@ -1261,6 +1373,8 @@ on more complex patterns.
 <td class="last">Name/Value collection of attribute items to add to the element(s).</td>
 </tr>
 </table>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="setHTML">
 <h3>setHTML<span class="memberType">method</span>
@@ -1281,6 +1395,8 @@ URLs will get converted, hex color values fixed etc. Check processHTML for detai
 <td class="last">HTML content to set as inner HTML of the element.</td>
 </tr>
 </table>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="setOuterHTML">
 <h3>setOuterHTML<span class="memberType">method</span>
@@ -1304,6 +1420,8 @@ URLs will get converted, hex color values fixed etc. Check processHTML for detai
 <td class="last">Optional document scope to use in this process defaults to the document of the DOM class.</td>
 </tr>
 </table>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="setStyle">
 <h3>setStyle<span class="memberType">method</span>
@@ -1328,6 +1446,8 @@ or the CSS style name like background-color.
 <td class="last">Value to set on the style.</td>
 </tr>
 </table>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="setStyles">
 <h3>setStyles<span class="memberType">method</span>
@@ -1347,6 +1467,8 @@ or the CSS style name like background-color.
 <td class="last">Name/Value collection of style items to add to the element(s).</td>
 </tr>
 </table>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="show">
 <h3>show<span class="memberType">method</span>
