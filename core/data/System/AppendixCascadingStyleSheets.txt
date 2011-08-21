@@ -57,6 +57,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiToc=               | Table of Contents block |
 |=.foswikiTocTitle=          | Title text of Table of Contents  |
 |=.foswikiHidden=            | Hidden elements |
+|=.foswikiActual=            | Font size of body text (if that font size is set in pixels) |
 |=.foswikiSmall=             | Small text |
 |=.foswikiSmallish=          | Somewhat less smaller text; inbetween normal and small |
 |=.foswikiLarge=             | Large text, for instance for introduction paragraphs |
@@ -124,7 +125,9 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 
 ---+++ Search
 |=.foswikiSearchResults=            | List of search results |
-|=.foswikiSearchResult=             | Search result with title, summary, author and date |
+|=.foswikiSearchResult=             | Container around image and contents |
+|=.foswikiSearchResultContents=     | Search result content, such as title, summary, author |
+|=.foswikiSearchResultMeta=         | Search result meta data such as author name, date |
 |=.foswikiSearchResultsHeader=      | Search results header with search string, number of hits |
 |=.foswikiSearchResultsPager=       | Search results pagination |
 |=.foswikiSummary=                  | Summary of search results  |
