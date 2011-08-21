@@ -8,6 +8,7 @@ use File::Path();
 use File::Copy();
 use File::Spec();
 use FindBin();
+use English qw( -no_match_vars );
 
 my $usagetext = <<'EOM';
 pseudo-install extensions into a SVN (or git) checkout
@@ -148,12 +149,17 @@ sub init {
       or die "$basedir is not writable: $!";
     print $testfile "";
     close $testfile;
-    eval {
+    $CAN_LINK = eval {
         symlink( "testtgt$n", "testlink$n" );
-        $CAN_LINK = 1;
+        1;
     };
+    if ( $CAN_LINK and not $EVAL_ERROR ) {
+        $install = \&just_link;
+    }
+    else {
+        $install = \&copy_in;
+    }
     unlink( "testtgt$n", "testlink$n" );
-    $install = $CAN_LINK ? \&just_link : \&copy_in;
 
     return;
 }
@@ -430,7 +436,7 @@ sub populateSVNRepoListings {
     my ($svninfo) = @_;
     my $ctx;
 
-    if ( not eval { require SVN::Client; 1 } ) {
+    if ( not eval { require SVN::Client; 1 } or $EVAL_ERROR ) {
         warn <<'HERE';
 SVN::Client not installed, unable discover branch listings from SVN
 HERE
@@ -799,34 +805,47 @@ sub installFromMANIFEST {
     return;
 }
 
+sub package_exists {
+    my ($mod) = @_;
+    local @INC = @INC;
+    my @curdir = File::Spec->splitdir( File::Spec->curdir() );
+
+    # Add ./lib to front of INC path
+    unshift( @INC, File::Spec->catdir( @curdir, 'lib' ) );
+
+    # Add ./lib/CPAN/lib to end of INC path
+    push( @INC, File::Spec->catdir( @curdir, qw(lib CPAN lib) ) );
+    no re 'taint';
+    $mod =~ /^([\w:]+)$/;
+    $mod = $1;
+    use re 'taint';
+
+    return eval "require $mod; 1;" and not $EVAL_ERROR;
+}
+
 sub satisfyDependency {
     my ( $mod, $cond, $type, $mess ) = @_;
 
     # First see if we can find it in the install or @INC path
-    my $f = $mod;
-    $f =~ s#::#/#g;
-    foreach my $dir ( './lib', @INC, './lib/CPAN/lib' ) {
-        if ( -e "$dir/$f.pm" ) {
-
-            # Found it
-            # TODO: check the version
-            trace "$mod is already installed";
-            return;
-        }
-    }
-    trace "$mod is not installed";
-
-    # Not found, is it required?
-    if ( $mess !~ /^required/i ) {
-        warn "$mod is an optional dependency, but is not installed\n";
-        return;
-    }
-    if ( $type eq 'perl' && $mod =~ /^Foswiki/ ) {
-        error
-"**** $mod is a required Foswiki dependency, but it is not installed\n";
+    if ( package_exists($mod) and not $EVAL_ERROR ) {
+        trace "$mod is already installed";
     }
     else {
-        error "**** $mod is a required dependency, but it is not installed\n";
+        trace "$mod is not installed";
+
+        # Not found, is it required?
+        if ( $mess !~ /^required/i ) {
+            warn "$mod is an optional dependency, but is not installed\n";
+            return;
+        }
+        if ( $type eq 'perl' && $mod =~ /^Foswiki/ ) {
+            error
+"**** $mod is a required Foswiki dependency, but it is not installed\n";
+        }
+        else {
+            error
+              "**** $mod is a required dependency, but it is not installed\n";
+        }
     }
 
     return;
