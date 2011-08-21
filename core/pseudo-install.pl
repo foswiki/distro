@@ -827,7 +827,7 @@ sub satisfyDependency {
     my ( $mod, $cond, $type, $mess ) = @_;
 
     # First see if we can find it in the install or @INC path
-    if ( package_exists($mod) and not $EVAL_ERROR ) {
+    if ( package_exists($mod) ) {
         trace "$mod is already installed";
     }
     else {
