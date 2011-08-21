@@ -167,8 +167,6 @@ sub tmplP {
 
     $this->{expansionRecursions}->{$template} += 1;
 
-    #print STDERR "template=$template; recursion = " . $this->{expansionRecursions}->{$template} . "\n";
-    
     if ( $this->{expansionRecursions}->{$template} > $MAX_EXPANSION_RECURSIONS )
     {
         throw Foswiki::OopsException(
@@ -347,8 +345,6 @@ sub _readTemplateFile {
     my ( $this, $name, $skins, $web ) = @_;
     my $session = $this->{session};
 
-    #print STDERR "SKIN path is $skins\n";
-
     # SMELL: not i18n-friendly (can't have accented characters in template name)
     # zap anything suspicious
     $name =~ s/[^A-Za-z0-9_,.\/]//go;
@@ -419,19 +415,29 @@ sub _readTemplateFile {
     }
 
     # Search the $Foswiki::cfg{TemplatePath} for the skinned versions
-    my @candidates;
+    my @candidates = ();
 
     $nrskins = 0 if $nrskins < 0;
-    foreach my $template (@templatePath) {
+
+    my $nrtemplates = $#templatePath;
+
+    for ( my $templateixd = 0 ; $templateixd <= $nrtemplates ; $templateixd++ )
+    {
         for ( my $idx = 0 ; $idx <= $nrskins ; $idx++ ) {
-            my $file    = $template;
+            my $file    = $templatePath[$templateixd];
             my $userdir = 0;
 
             # also need to do %PUBURL% etc.?
             # push the first time even if not modified
-            my $skin     = $skinList[$idx] || '';
-            my $webName  = $web            || '';
-            my $tmplName = $name           || '';
+            my $skin = $skinList[$idx] || '';
+
+            # consider skin templates first
+            # this is done by giving the template path with 'skin' in it
+            # a higher sort priority (so a lower number: 0)
+            my $isSkinned = ( $file =~ m/\$skin/ ? 0 : 1 );
+
+            my $webName  = $web  || '';
+            my $tmplName = $name || '';
             unless ( $file =~ m/.tmpl$/ ) {
 
                 # Could also use $Skin, $Web, $Name to indicate uppercase
@@ -442,52 +448,81 @@ sub _readTemplateFile {
                 $webName = $userdirweb;
                 $tmplName = $userdirname;
             }
-            $file =~ s/\$skin/$skin/geo;
-            $file =~ s/\$web/$webName/geo;
-            $file =~ s/\$name/$tmplName/geo;
+            $file =~ s/\$skin/$skin/go;
+            $file =~ s/\$web/$webName/go;
+            $file =~ s/\$name/$tmplName/go;
 
-            my ( $candidatename, $candidatevalidate, $candidateretrieve );
+# sort priority is:
+# primary: if template path has 'skin' in it; so that skin templates are considered first
+# secondary: the skin order number
+# tertiary: the template path order number
 
-            if ($userdir) {
-
-                # candidate in user directory
-                my ( $web1, $name1 ) =
-                  $session->normalizeWebTopicName( $web, $file );
-
-                if ( $session->topicExists( $web1, $name1 ) ) {
-
-                    # recursion prevention.
-                    next
-                      if (
-                        defined(
-                            $this->{files}
-                              ->{ 'topic' . $session->{user}, $name1, $web1 }
-                        )
-                      );
-                    $this->{files}
-                      ->{ 'topic' . $session->{user}, $name1, $web1 } = 1;
-
-                    # access control
-                    my $meta = Foswiki::Meta->load( $session, $web1, $name1 );
-                    next unless $meta->haveAccess( 'VIEW', $session->{user} );
-
-                    my $text = $meta->text();
-                    $text = '' unless defined $text;
-
-                    $text = "<!--$web1.$name1-->$text<!--/$web1.$name1-->"
-                      if (TRACE);
-
-                    return _decomment($text);
+            push(
+                @candidates,
+                {
+                    primary   => $isSkinned,
+                    secondary => $idx,
+                    tertiary  => $templateixd,
+                    file      => $file,
+                    userdir   => $userdir,
+                    skin      => $skin
                 }
-            }
-            elsif ( -e $file ) {
-                next if ( defined( $this->{files}->{$file} ) );
+            );
+        }
+    }
+
+    use Sort::Maker;
+    my $sorter = make_sorter(
+        qw( ST ),
+        number => '$_->{primary}',
+        number => '$_->{secondary}',
+        number => '$_->{tertiary}'
+    );
+
+    # sort
+    @candidates = $sorter->(@candidates);
+
+    foreach my $candidate (@candidates) {
+        my $file = $candidate->{file};
+
+        if ( $candidate->{userdir} ) {
+
+            my ( $web1, $name1 ) =
+              $session->normalizeWebTopicName( $web, $file );
+
+            if ( $session->topicExists( $web1, $name1 ) ) {
 
                 # recursion prevention.
-                $this->{files}->{$file} = 1;
+                next
+                  if (
+                    defined(
+                        $this->{files}
+                          ->{ 'topic' . $session->{user}, $name1, $web1 }
+                    )
+                  );
+                $this->{files}->{ 'topic' . $session->{user}, $name1, $web1 } =
+                  1;
 
-                return _decomment( _readFile( $session, $file ) );
+                # access control
+                my $meta = Foswiki::Meta->load( $session, $web1, $name1 );
+                next unless $meta->haveAccess( 'VIEW', $session->{user} );
+
+                my $text = $meta->text();
+                $text = '' unless defined $text;
+
+                $text = "<!--$web1.$name1-->$text<!--/$web1.$name1-->"
+                  if (TRACE);
+
+                return _decomment($text);
             }
+        }
+        elsif ( -e $file ) {
+            next if ( defined( $this->{files}->{$file} ) );
+
+            # recursion prevention.
+            $this->{files}->{$file} = 1;
+
+            return _decomment( _readFile( $session, $file ) );
         }
     }
 
@@ -529,7 +564,7 @@ sub _decomment {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
