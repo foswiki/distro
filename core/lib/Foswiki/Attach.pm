@@ -194,7 +194,7 @@ sub _expandAttrs {
             $comment =~ s/\|/&#124;/g;
         }
         else {
-            $comment = "&nbsp;";
+            $comment = '';
         }
         return $comment;
     }
