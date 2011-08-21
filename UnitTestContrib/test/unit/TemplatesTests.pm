@@ -267,14 +267,14 @@ sub test_directLookupInUsertopic {
     $data = $tmpls->readTemplate( 'web.test', skins => 'skin' );
     $this->assert_str_equals( 'the Web.TestTemplate template', $data );
 
+    write_template( 'web.test', 'the web.test.tmpl template' );
+    $data = $tmpls->readTemplate( 'web.test', skins => 'skin' );
+    $this->assert_str_equals( 'the web.test.tmpl template', $data );
+
     write_topic( 'Web', 'SkinSkinTestTemplate',
         'the Web.SkinSkinTestTemplate template' );
     $data = $tmpls->readTemplate( 'web.test', skins => 'skin' );
     $this->assert_str_equals( 'the Web.SkinSkinTestTemplate template', $data );
-
-    write_template( 'web.test', 'the web.test.tmpl template' );
-    $data = $tmpls->readTemplate( 'web.test', skins => 'skin' );
-    $this->assert_str_equals( 'the web.test.tmpl template', $data );
 
     write_template( 'web.test.skin', 'the web.test.skin.tmpl template' );
     $data = $tmpls->readTemplate( 'web.test', skins => 'skin' );
