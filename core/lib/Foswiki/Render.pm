@@ -47,26 +47,6 @@ our $REMARKER = "\0";
 # must be removed.  Used for email anti-spam encoding.
 our $REEND = "\1";
 
-# Characters that need to be %XX escaped in URIs.
-our %ESCAPED = (' '  => '%20',
-                '<'  => '%3C',
-                '>'  => '%3E',
-                '#'  => '%23',
-                '"'  => '%22',
-                '%'  => '%25',
-                "'"  => '%27',
-                '{'  => '%7B',
-                '}'  => '%7D',
-                '|'  => '%7C',
-                '\\'   => '%5C',
-                '^'  => '%5E',
-                '~'  => '%7E',
-                '`'  => '%60',
-                '?'  => '%3F',
-                '&'  => '%26',
-                '='  => '%3D',
-                );
-
 # Default format for a link to a non-existant topic
 use constant DEFAULT_NEWLINKFORMAT => <<'NLF';
 <span class="foswikiNewLink">$text<a href="%SCRIPTURLPATH{"edit"}%/$web/$topic?topicparent=%WEB%.%TOPIC%" rel="nofollow" title="%MAKETEXT{"Create this topic"}%">?</a></span>
@@ -930,21 +910,8 @@ sub _mailLink {
     my ( $this, $text ) = @_;
 
     my $url = $text;
-    return $text if $url =~ /^(?:!|\<nop\>)/;
-
-    # Any special characters in the user portion must be %hex escaped.
-    $url =~ s/^((?:mailto\:)?)?(.*?)(@.*?)$/'mailto:'._escape( $2 ).$3/iex;
     $url = 'mailto:' . $url unless $url =~ /^mailto:/i;
     return _externalLink( $this, $url, $text );
-}
-
-sub _escape {
-    my $txt = shift;
-
-    my $chars = join('', keys( %ESCAPED ) );
-    #print STDERR "Characters $chars \n";
-    $txt =~ s/([$chars])/$ESCAPED{$1}/g;
-    return $txt;
 }
 
 =begin TML
@@ -1233,7 +1200,7 @@ sub getRenderedVersion {
         # Lists and paragraphs
         if ( $line =~ m/^\s*$/ ) {
             unless ( $tableRow || $isFirst ) {
-                $line = '<p></p>';
+                $line = '<p></p>';  
             }
             $isList = 0;
         }
