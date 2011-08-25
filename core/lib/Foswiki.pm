@@ -480,10 +480,36 @@ BEGIN {
     $regex{topicNameRegex} =
       qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/o;
 
-    # Simplistic email regex, e.g. for WebNotify processing - no i18n
-    # characters allowed
-    $regex{emailAddrRegex} =
-      qr/([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)/i;
+    # Email regex, e.g. for WebNotify processing and email matching
+    # during rendering.
+    my $validChars = qr([\p{Alnum}\Q_:-!\$+="/<>#%{}|\^~`\E])i
+      ;    # Valid characters in email per RFC 3696
+    my $validTLD = qr(aero|asia|coop|info|jobs|mobi|museum|name)i;
+
+    $regex{emailAddrRegex} = qr(
+       (?:                            # LEFT Side of Email address
+         (?:$validChars+                  # Valid characters left side of email address
+           (?:\.$validChars+)*            # And 0 or more groupings of valid characters following a dot.
+         )
+       |
+         (?:"[^"]+?")                     # or a quoted string
+       )
+       @
+       (?:                          # RIGHT side of Email address
+         (?:                           # FQDN
+           [a-z0-9-]+                     # hostname part
+           (?:\.[a-z0-9-]+)*              # 0 or more alphanumeric domains following a dot.
+           \.(?:                          # TLD
+              (?:[a-z]{2,3})                 # 2-3 digit TLD
+              |
+              $validTLD                      # well known longer TLD's
+           )
+         )
+         |
+           (?:[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})      # dotted triplets IP Address
+         )
+         \b                               # Boundary
+       )oxi;
 
     # Filename regex to used to match invalid characters in attachments
     # - allow alphanumeric characters, spaces, underscores, etc.
@@ -1661,7 +1687,8 @@ sub new {
     $Foswiki::Plugins::SESSION = $this;
 
     # Tell Foswiki::Response which charset we are using if not default
-    $Foswiki::cfg{Site}{CharSet} = CGI::charset() || 'iso-8859-1'
+    $Foswiki::cfg{Site}{CharSet} = CGI::charset()
+      || 'iso-8859-1'
       unless ( defined( $Foswiki::cfg{Site}{CharSet} )
         and $Foswiki::cfg{Site}{CharSet} ne '' );
     if ( defined $Foswiki::cfg{Site}{CharSet}
