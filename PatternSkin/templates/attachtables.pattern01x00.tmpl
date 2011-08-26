@@ -1,0 +1,24 @@
+%TMPL:INCLUDE{"attachtables"}%
+%{ These templates define the tables used to display attachments. }%
+
+%TMPL:DEF{"commonattachtableattributes"}%valign="middle" dataalign="left,left,left,right,left,left,left,left" datavalign="top" headeralign="left" headercolor="#0066cc" databg="#ffffff" headerbg="#ffffff" headerbgsorted="#eeeeee" databgsorted="#f5f5f5" %TMPL:END%
+
+%TMPL:DEF{"topicattachmentwisty"}%%TWISTY{id="topicattachmentslist" mode="div" remember="on" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" link="%MAKETEXT{"Attachments"}%" linkclass="patternTwistyButton"}%%TMPL:END%
+
+%{ Header definition for topic attachments and top table in attach screen }%
+%TMPL:DEF{ATTACH:files:header(basic)}%<div class="foswikiAttachments">
+%TMPL:P{context="TablePluginEnabled" then="ATTACH:files:tableformat"}%
+%TMPL:P{ATTACH:files:header(toprow)}%%TMPL:END%
+
+%{ Format definition for topic attachment table }%
+%TMPL:DEF{ATTACH:files:tableformat}%%TABLE{%TMPL:P{"commonattachtableattributes"}%summary="%MAKETEXT{"Topic attachments"}%" caption="%MAKETEXT{"Topic attachments"}%"}%%TMPL:END%
+
+%{ Header for topic attachment table }%
+%TMPL:DEF{ATTACH:files:header}%<div class="foswikiAttachments foswikiFormStep">
+%TMPL:P{context="TablePluginEnabled" then="ATTACH:files:tableformat"}%
+%TMPL:P{"topicattachmentwisty"}%
+%TMPL:P{ATTACH:files:header(toprow)}%
+%TMPL:END%
+
+%{ Footer for topic attachment table }%
+%TMPL:DEF{ATTACH:files:footer}%%ENDTWISTY%</div>%TMPL:P{ATTACH:files:footer:script}%%TMPL:END%

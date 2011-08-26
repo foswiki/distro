@@ -161,6 +161,7 @@ templates/attach.pattern.tmpl 0444
 templates/attachagain.pattern.tmpl 0444
 templates/attachnew.pattern.tmpl 0444
 templates/attachtables.pattern.tmpl 0444
+templates/attachtables.pattern01x00.tmpl 0444
 templates/backlinks.pattern01x00.tmpl 0444
 templates/changeform.pattern.tmpl 0444
 templates/changes.pattern.tmpl 0444
@@ -175,6 +176,7 @@ templates/login.pattern.tmpl 0444
 templates/login.sudo.pattern.tmpl 0444
 templates/moveattachment.pattern.tmpl 0444
 templates/oops.pattern.tmpl 0444
+templates/oops.pattern01x00.tmpl 0444
 templates/preview.pattern.tmpl 0444
 templates/rdiff.pattern.tmpl 0444
 templates/renamebase.pattern.tmpl 0444
