@@ -195,6 +195,7 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  27 Aug 2011 | 1.134: Arthur Clemens: Foswikitask:Item11083: table should sort if sort is off but initsort has a column number. |
 |  17 Jun 2011 | 1.133: Arthur Clemens: setting =databg= and =headerbg= to ="none"= now makes the cell transparent. |
 |  11 Apr 2011 | 1.132: Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  09 Mar 2011 | 1.131: Arthur Clemens: fix sorting bug that was not properly fixed in 1.128. |

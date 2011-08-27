@@ -249,9 +249,13 @@ sub _parseAttributes {
         _storeAttribute( 'sort',          $sort, $inCollection );
         _storeAttribute( 'sortAllTables', $sort, $inCollection );
     }
-    _storeAttribute( 'initSort', $inParams->{initsort}, $inCollection )
-      if defined( $inParams->{initsort} )
-          and $inParams->{initsort} =~ /\s*[0-9]+\s*/;
+    if ( defined( $inParams->{initsort} )
+          and int($inParams->{initsort}) > 0) {
+        _storeAttribute( 'initSort', $inParams->{initsort}, $inCollection );
+        # override sort attribute: we are sorting after all
+        _storeAttribute( 'sort',          1, $inCollection );
+    }
+      
     if ( $inParams->{initdirection} ) {
         _storeAttribute( 'initDirection', $SORT_DIRECTION->{'ASCENDING'},
             $inCollection )
@@ -1850,7 +1854,6 @@ s/$PATTERN_TABLE/_parseTableSpecificTableAttributes(Foswiki::Func::extractParame
             $_           = emitTable() . $_;
             $insideTABLE = 0;
 
-            #            delete $combinedTableAttrs->{initSort};
             $combinedTableAttrs->{sortAllTables} = $defaultSort;
             $acceptable = $defaultSort;
         }

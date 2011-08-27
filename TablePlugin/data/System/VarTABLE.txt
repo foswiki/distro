@@ -23,8 +23,8 @@
 ---++++ Attributes for table sorting
 %TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
      | *Argument*       | *Comment*  | *Default&nbsp;value*  | *Example*  |
-     | =sort=           | Set table sorting by clicking headers ="on"= or ="off"=. | <span class="foswikiGrayText">unspecified</span> | =sort="on"= |
-     | =initsort=       | Column to sort initially (="1"= to number of columns). | <span class="foswikiGrayText">unspecified</span> | =initsort="2"= |
+     | =sort=           | Set the table sorting user interface (clickable column headers) ="on"= or ="off"=. | <span class="foswikiGrayText">unspecified</span> | =sort="on"= |
+     | =initsort=       | Column to sort initially (use ="1"= for the first column). If specified, sorting is enabled; by setting =sort="off"= the sorting interface can be hidden. | <span class="foswikiGrayText">unspecified</span> | =initsort="2"= |
      | =initdirection=  | Initial sorting direction for =initsort=, set to  ="up"= (descending, or decreasing in value) or ="down"= (ascending, or increasing in value). | =down= | =initdirection="up"= |
      | =disableallsort= | Disable all sorting, both initsort and header sort. This is mainly used by plugins such as the EditTablePlugin to disable sorting in a table while editing the table. | <span class="foswikiGrayText">unspecified</span> | =disableallsort="on"= |
 
