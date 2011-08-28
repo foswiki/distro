@@ -5,7 +5,9 @@
 %TMPL:DEF{"pagetitle"}%%TMPL:END%
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"([_1] validation)" args="<nop>%WIKITOOLNAME%"}%%TMPL:END%
 
-%TMPL:DEF{"titlestep"}%<div class="foswikiFormStep s1js_available" style="display:none">
+%{ Strikeone has JS code that removes display:none from .s1js_available on document.ready().
+   If strikeone is selected and JS isn't available, then a neutral "I can do no more" message is displayed. }%
+%TMPL:DEF{"titlestep"}%<div class="foswikiFormStep s1js_available" %IF{"{Validation}{Method}='strikeone'" then="style=$quotdisplay:none$quot"}%>
 %TMPL:P{"title"}%
 </div>%TMPL:END%
 
@@ -13,7 +15,7 @@
 %TMPL:P{"note"}%
 </div>%TMPL:END%
 
-%TMPL:DEF{"actionstep"}%<div class="foswikiFormStep foswikiLast s1js_available" style="display:none">
+%TMPL:DEF{"actionstep"}%<div class="foswikiFormStep foswikiLast s1js_available" %IF{"{Validation}{Method}='strikeone'" then="style=$quotdisplay:none$quot"}%>
 %TMPL:P{"action"}%
 </div>%TMPL:END%
 
@@ -22,24 +24,27 @@
 ---++ %MAKETEXT{"Change cannot be completed"}%
 </noscript>%TMPL:END%
 
+%TMPL:DEF{"noscript"}%<noscript>
+%RED% %MAKETEXT{"You cannot manually confirm this change because either Cookies or Javascript are disabled in your browser."}% %ENDCOLOR%
+<p />
+%MAKETEXT{"Go back to the previous page, and enable Cookies and Javascript before trying again"}%
+</noscript>%TMPL:END%
+
 %TMPL:DEF{"note"}%<p>
 %MAKETEXT{"[_1] has received a suspicious change request from your browser." args="<nop>%WIKITOOLNAME%"}%
 </p>
 <p>
 %MAKETEXT{"There is a risk that someone may be trying to use your identity to change content on [_1] without your knowledge." args="<nop>%WIKITOOLNAME%"}%
 </p>
-<noscript>
-%RED% %MAKETEXT{"You cannot manually confirm this change because either Cookies or Javascript are disabled in your browser."}% %ENDCOLOR%
-<p />
-%MAKETEXT{"Go back to the previous page, and enable Cookies and Javascript before trying again"}%
-</noscript>
-<div class="s1js_available" style="display:none">
+%IF{"{Validation}{Method}='strikeone'" then="$percentTMPL:P{noscript}$percent"}%
+<div class="s1js_available" %IF{"{Validation}{Method}='strikeone'" then="style=$quotdisplay:none$quot"}%>
    * %MAKETEXT{"Press OK to confirm that this change was intentional."}%
    * %MAKETEXT{"Press Cancel otherwise."}%
-</div>
 <p>
 %MAKETEXT{"If you are unsure what this means, read: [_1]" args="%POPUPWINDOW{url="%SCRIPTURLPATH{"view"}%/System/FAQWhyYouAreAskedToConfirm?template=viewplain" label="%MAKETEXT{"why you are being asked to confirm"}%" width="1000" height="550" center="1"}%."}%%JQREQUIRE{"popupwindow"}%
-</p>%TMPL:END%
+</p>
+</div>
+%TMPL:END%
 
 %TMPL:DEF{"formstart"}%<form action='%SCRIPTURLPATH{"login"}%/%WEB%/%TOPIC%' name='loginform' method='post'>%TMPL:END%
 
