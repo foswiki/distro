@@ -77,6 +77,10 @@ unless ( my $return = do $script ) {
     my $message = <<MESSAGE;
 ************************************************************
 Could not load $script
+
+Change to the root directory of your Foswiki installation
+before running this installer.
+
 MESSAGE
     if ($@) {
         $message .= "There was a compile error: $@\n";
