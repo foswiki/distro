@@ -10,7 +10,7 @@ use vars qw(
 );
 
 our $VERSION = '$Rev$';
-our $RELEASE = '3.0';
+our $RELEASE = '3.0.0';
 our $SHORTDESCRIPTION =
   'Create web based presentations based on topics with headings';
 our $NO_PREFS_IN_TOPIC = 1;
