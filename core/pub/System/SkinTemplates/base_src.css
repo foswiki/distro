@@ -9,15 +9,35 @@
 .foswikiNoJs .foswikiMakeVisibleBlock {
 	display:none;
 }
-
+/* for all inline elements - block level elements are handled below */
 .foswikiMakeVisible {
-	display:;
-}
-div.foswikiMakeVisible {
-	display:block;
-}
-span.foswikiMakeVisible {
 	display:inline;
+}
+p.foswikiMakeVisible,
+h1.foswikiMakeVisible,
+h2.foswikiMakeVisible,
+h3.foswikiMakeVisible,
+h4.foswikiMakeVisible,
+h5.foswikiMakeVisible,
+h6.foswikiMakeVisible,
+dl.foswikiMakeVisible,
+dt.foswikiMakeVisible,
+dd.foswikiMakeVisible,
+ol.foswikiMakeVisible,
+ul.foswikiMakeVisible,
+li.foswikiMakeVisible,
+address.foswikiMakeVisible,
+blockquote.foswikiMakeVisible,
+center.foswikiMakeVisible,
+del.foswikiMakeVisible,
+div.foswikiMakeVisible,
+form.foswikiMakeVisible,
+hr.foswikiMakeVisible,
+ins.foswikiMakeVisible,
+noscript.foswikiMakeVisible,
+pre.foswikiMakeVisible,
+table.foswikiMakeVisible {
+	display:block;
 }
 .foswikiMakeVisibleInline {
 	/* deprecated */

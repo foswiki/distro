@@ -63,7 +63,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiLarge=             | Large text, for instance for introduction paragraphs |
 |=.foswikiNoBreak=           | Causes whitespace not to create a linebreak; for instance with the dates in the attachment table |
 |=.foswikiJs=                | Added to the =html= tag if the browser has javascript enabled. |
-|=.foswikiMakeVisible=       | For elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript; defaults to inline |
+|=.foswikiNoJs .foswikiMakeVisible=       | For elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
 |=.foswikiMakeVisibleInline= | DEPRECATED as of Foswiki 1.1.0: use =span.foswikiMakeVisible=. For =span= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
 |=.foswikiMakeVisibleBlock=  | DEPRECATED as of Foswiki 1.1.0: use =div.foswikiMakeVisible=. For =div= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
 |=.foswikiMakeHidden=        | For elements that should be hidden with !JavaScript on: no default style, is made hidden by !JavaScript |
@@ -126,7 +126,8 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 ---+++ Search
 |=.foswikiSearchResults=            | List of search results |
 |=.foswikiSearchResult=             | Container around image and contents |
-|=.foswikiSearchResultContents=     | Search result content, such as title, summary, author |
+|=.foswikiSearchResultTitle=        | Search result title |
+|=.foswikiSearchResultContents=     | Search result content, such as summary, author |
 |=.foswikiSearchResultMeta=         | Search result meta data such as author name, date |
 |=.foswikiSearchResultsHeader=      | Search results header with search string, number of hits |
 |=.foswikiSearchResultsPager=       | Search results pagination |
