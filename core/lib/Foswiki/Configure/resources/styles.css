@@ -1,16 +1,22 @@
 /* STYLES.CSS */
 
+html {
+	margin:0;
+	padding:0;
+}
+body {
+	margin:0 40px 3.5em 40px;
+	padding:0;
+}
+
 /* --- SECTIONS --- */
 
-.configureMain {
-	border:1px solid #6aadd0;
-}
 .configureMainContents {
 	background:#fff;
-	padding:1em;
+	padding:1em 0;
 }
 .configureRootSection {
-	padding:0 .5em 1em 1em;
+	padding:0 0 1em 1em;
 	background-color:#fff;
 }
 .configureSubSection {
@@ -32,15 +38,25 @@ body.configureShowOneSection .configureNotShowSection {
 	display:block;	
 }
 
-.configureTools,
 .configureActions {
-	padding:.7em 1.5em .7em 1em;
-	background-color:#edf5fc;
-	border-width:1px;
-	border-color:#d2e6f1;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+.configureActionsContents {
+	border-top:1px solid #d2e6f1;
+	text-align:right;
+	margin: 0 40px;
+	padding:.7em 1em 1em 1em;
+	background-color:#fff;
+	background-color:rgba(255,255,255,0.85);
 }
 .configureTools {
-	border-style:none none solid none;
+	background-color:#edf5fc;
+	padding:.7em 1em;
+	border-style:none;
 	text-align:left;
 }
 .configureTools span {
@@ -58,10 +74,7 @@ body.configureShowOneSection .configureNotShowSection {
 .configureStatusErrors {
 	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_error_white.gif);
 }
-.configureActions {
-	text-align:right;
-	border-style:solid none none none;
-}
+
 
 /* --- MENUS --- */
 
@@ -81,16 +94,17 @@ ul.configureRootTab li a:link,
 ul.configureRootTab li a:visited {
 	display:block;
 	width:100%; /* needs to have a width or IE won't rollover over the background */
-	padding:.3em 1em;
+	padding:.5em 1em;
 	margin:-1px 0 0 0;
 	text-decoration:none;
 	background-color:#edf5fc;
 	border:1px solid #d2e6f1;
+	color: #444;
 }
 ul.configureRootTab li a:hover {
 	background-color:#d2e6f1;
 	border-color:#d2e6f1;
-	color:#004cb2;
+	color: #222;
 }
 
 /* SECONDARY NAVIGATION */
@@ -589,10 +603,6 @@ div.configureMessageBox {
 	color:#ccc;
 }
 
-.configureSectionValues .foswikiValueChanged { 
-
-}
-
 /* Extension popup images */
 .extensionImage {
   padding: 7px;
@@ -620,4 +630,14 @@ div.configureMessageBox {
 }
 .foswikiNotification .configureChangeList {
 	margin:1em 0;
+}
+
+@media only screen and (min-width: 100px) and (max-width: 1024px) {
+	
+	body,
+	.configureActionsContents {
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+
 }
