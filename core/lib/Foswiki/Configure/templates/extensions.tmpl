@@ -1,7 +1,7 @@
 <#-- EXTENSIONS UPDATE SCREEN TEMPLATE -->
 <h2>Install and Update Extensions</h2>
 
-<div class="foswikiHelp" style="width:60%;";>
+<div class="foswikiHelp">
 	<p><strong>Note:</strong> To install extensions, the webserver user has to be able to write files everywhere in your Foswiki installation. Otherwise you may see 'No permission to write' errors.</p>
     <p>All of the files packaged with an extension that you uninstall, upgrade or re-install will backed up at the start of the requested process..
 Backups are stored in your <code>working/configure/backups/</code> directory.   Currently Foswiki does not have an automated method of restoring the backup.</p>
@@ -26,6 +26,7 @@ Backups are stored in your <code>working/configure/backups/</code> directory.   
 	<table class='configureExtensionsTable' border='0' cellspacing='0'>
 		${table}
 	</table>
-    <div class="configureActions"><div class='foswikiLeft'>Currently installed: ${installedCount} out of ${allCount}</div> <input type="submit" name="submit" class="foswikiSubmit" value="Install / uninstall selected extensions" /></div>
-
+    <div class="configureActions">
+		<div class='foswikiLeft'>Currently installed: ${installedCount} out of ${allCount}</div> <input type="submit" name="submit" class="foswikiSubmit" value="Install / uninstall selected extensions" />
+    </div>
 </#if>

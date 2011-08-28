@@ -301,8 +301,9 @@ div.configureInfo {
 
 /* --- EXTENSIONS --- */
 table.configureExtensionsTable {
-	margin:2em 0 0 0;
-	border:none;
+	margin: 2em 0 0 0;
+	border: none;
+	width: 100%;
 }
 table.configureExtensionsTable th {
 	padding:.6em 1em;
@@ -328,7 +329,15 @@ table.configureExtensionsTable td.configureExtensionData {
 	padding-bottom:.7em;
 }
 table.configureExtensionsTable td.configureExtensionDataFirst {
-	padding-left:4em;
+	padding-left:3em;
+}
+td.configureExtensionDataFirst .foswikiImage {
+	width:60px;
+	height:60px;
+}
+td.configureExtensionDataFirst .foswikiImage img {
+	width:50px;
+	height:50px;
 }
 table.configureExtensionsTable tr.configureInstall,
 table.configureExtensionsTable tr.configureInstall td {
@@ -344,7 +353,7 @@ table.configureExtensionsTable tr.configureUpgrade td {
 }
 table.configureExtensionsTable tr.configurePseudoInstalled,
 table.configureExtensionsTable tr.configurePseudoInstalled td {
-	background:#f2f2f2;
+	background:#f6f6f6;
 }
 table.configureExtensionsTable tr.configureAlienExtension {}
 
