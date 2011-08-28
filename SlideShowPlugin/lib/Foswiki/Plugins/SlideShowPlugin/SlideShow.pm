@@ -44,9 +44,9 @@ sub handler {
     foreach my $name ( $query->param ) {
         next
           if ( $name =~ /(text|keywords|web|topic|slideshow|skin|cover|\#)/ );
-        $queryParams .= ';' . $name . '=' . urlEncode( $query->param($name) );
+        $queryParams .= ';' . urlEncode($name) . '=' . urlEncode( $query->param($name) );
     }
-
+    
     if ( $query && $query->param('slideshow') ) {
 
         # in presentation mode
