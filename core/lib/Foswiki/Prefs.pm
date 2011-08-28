@@ -133,12 +133,10 @@ sub finish {
 }
 
 # Get a backend object corresponding to the given $web,$topic
-# or Foswiki::Meta object
 sub _getBackend {
     my $this       = shift;
-    my $metaObject = shift;
-    $metaObject = Foswiki::Meta->new( $this->{session}, $metaObject, @_ )
-      unless ref($metaObject) && UNIVERSAL::isa( $metaObject, 'Foswiki::Meta' );
+
+    my $metaObject = Foswiki::Meta->new( $this->{session}, @_ );
     my $path = $metaObject->getPath();
     unless ( exists $this->{paths}{$path} ) {
         $this->{paths}{$path} =
