@@ -815,12 +815,13 @@ $Foswiki::cfg{UserInterfaceInternationalisation} = $FALSE;
 
 # **BOOLEAN EXPERT**
 # <p>Enable compilation of .po string files into compressed .mo files.
-# This results in a significant performance improvement for I18N, but if the
-# string files are being edited, it requires that configure be rerun to recompile
+# This can result in a significant performance improvement for I18N, but has also been
+# reported to cause issues on some systems.  So for now this is considered experimental.
+# Note that if string files are being edited, it requires that configure be rerun to recompile
 # modified files.  Disable this option to prevent compling of string files.  If disabled,
 # stale <code>&lt;language&gt;.mo</code> files should be removed from the
 # Foswiki locale directory so that the modified .po file will be used.
-$Foswiki::cfg{LanguageFileCompression} = $TRUE;
+$Foswiki::cfg{LanguageFileCompression} = $FALSE;
 
 # *LANGUAGES* Marker used by bin/configure script - do not remove!
 # <p>These settings control the languages that are available for the
