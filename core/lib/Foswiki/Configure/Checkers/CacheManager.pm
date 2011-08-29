@@ -12,8 +12,8 @@ sub check {
 
     return '' unless $Foswiki::cfg{Cache}{Enabled};
     if ( $Foswiki::cfg{CacheManager} eq 'Foswiki::Cache::BDB' ) {
-        return $this->checkPerlModule( 'BerkleyDB',
-            'Use the Berkely database engine' );
+        return $this->checkPerlModule( 'BerkeleyDB',
+            'Use the Berkeley database engine' );
     }
     elsif ( $Foswiki::cfg{CacheManager} eq 'Foswiki::Cache::DB_File' ) {
         return $this->checkPerlModule( 'DB_File',
