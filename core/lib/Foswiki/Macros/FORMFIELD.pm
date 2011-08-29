@@ -7,8 +7,10 @@ use warnings;
 sub FORMFIELD {
     my ( $this, $args, $topicObject ) = @_;
     if ( $args->{topic} ) {
-        my ( $web, $topic ) =
-          $this->normalizeWebTopicName( $topicObject->web, $args->{topic} );
+        my $web = $args->{web} || $topicObject->web;
+        my $topic = $args->{topic};
+        ( $web, $topic ) =
+          $this->normalizeWebTopicName( $web, $topic );
         $topicObject = new Foswiki::Meta( $this, $web, $topic );
     }
     else {
