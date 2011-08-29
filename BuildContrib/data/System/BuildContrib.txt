@@ -46,7 +46,7 @@ then modify the extension files as required (including MANIFEST). Then when you 
 The build module assumes:
    1 two kinds of extension modules; 'Plugins', and 'Contribs' (everything else e.g Skins, !WikiApplications etc),
    1 you have some passing familiarity with build tools such as =make=,
-   1 you are *not* developing your extension in a 'production' 
+   1 you are *not* developing your extension in a 'production'
      installation (something that is usually a really bad idea), but are
      instead doing the sensible thing and developing in a separate directory
      tree
@@ -230,9 +230,9 @@ sources and documentation.
 ---+++ The =upload= target
 This target builds a release, and then tries to upload it to a target repository. The target uploads all the files in the release, and also tries to upload any attachments to the extension topic (as found by scanning the topic for META:FILEATTACHMENT).
 
-You can control what server the upload is done to. This lets you - for example - set up your own corporate extensions server.   Note that the =upload= operation will first attempt to download the topic to recover the !PackageForm so that it can be added to the newly uploaded topic.  
+You can control what server the upload is done to. This lets you - for example - set up your own corporate extensions server.   Note that the =upload= operation will first attempt to download the topic to recover the !PackageForm so that it can be added to the newly uploaded topic.
 The =upload= also gives you a chance to specify an alternate download location
-to be used for !PackageForm recovery.  
+to be used for !PackageForm recovery.
 
 ---+++ The =manifest= and =dependencies= targets
 These are used when you are unsure of the correct contents of MANIFEST and DEPENDENCIES. They make a best-guess at the required contents for these files.
@@ -385,9 +385,9 @@ where
       * If version is written as =r1234=  (r followed by 1-6 digit number), the SVN release of the module will be compared, instead of the version.
       * _Legacy dependencies - if written as a simple 4-digit number, will be assumed to be a SVN release number._
    * type is its type (cpan, perl, or eternal)
-      * =cpan= modules should be found in the CPAN repositories. 
-      * =perl= modules include =Foswiki::= and =TWiki::= modules. 
-      * =external= or any other value is reported but ignored. 
+      * =cpan= modules should be found in the CPAN repositories.
+      * =perl= modules include =Foswiki::= and =TWiki::= modules.
+      * =external= or any other value is reported but ignored.
    * description is a short description of the module and where to get it. If it begins with the word =Optional= then the dependency will not be automatically resolved.
 
 <blockquote class="foswikiHelp">%X% Dependencies of type =cpan= or =perl= will be executed in an =eval= statement to compare the VERSION and RELEASE strings.  </blockquote>
@@ -477,9 +477,9 @@ correct file location for the current install.  See
 Also, as the file to be removed is most likely not listed in the manifest,
 it will not be backed up during the install.  So use caution removing files
 that would be required if fallback to the prior version of the plugin is
-necessary.  
+necessary.
 
-For example, the POSTINSTALL script might look for an obsolete file from 
+For example, the POSTINSTALL script might look for an obsolete file from
 a previous install, map it to the correct location for this installation, and
 delete it if it exists.
 
@@ -489,7 +489,7 @@ delete it if it exists.
         # Map the standard location to the absolute location on this
         # installation of Foswiki.   mapTarget is only available in Foswiki >= 1.1
         my $mapped = Foswiki::Configure::Util::mapTarget( $this->{_rootdir}, 'tools/obsolete.pl');
-        my $count = unlink $mapped if ( -e $mapped ); # If it exists, delete it. 
+        my $count = unlink $mapped if ( -e $mapped ); # If it exists, delete it.
         return "Removed $mapped \n " if ($count);
         }
 </verbatim>
@@ -508,7 +508,7 @@ Tests are run using
    * =perl build.pl test=
 
 ---++ Building a release
-When you are almost ready to release, you should 
+When you are almost ready to release, you should
    1 Build a release package and installer
       * =cd BathPlugin/lib/Foswiki/Plugins/BathPlugin=
       * =perl build.pl release=
@@ -582,9 +582,16 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
+| 18 Aug 2011: | Foswikitask:Item11014: Improve error message if installer not run from Foswiki root. |
+| 13 Jul 2011: | Foswikitask:Item10963: Perl cleanup of qw() quoting |
+| 10 May 2011: | Foswikitask:item9599: Don't die if =LocalSite.cfg= doesn't exist when building an extension |
+| 27 Mar 2011: | Foswikitask:Item10549: create_new_extension script will create a new extension using an existing one as a template |
+|  8 Mar 2011: | Foswikitask:Item10450: BuildContrib leaves $Rev$ tags in topics |
 | 19 Jan 2011: | Foswikitask:Item10272: Detect operating-system yui-compressor command before leaning on the jar file in tools/ |
+| 26 Dec 2010: | Foswikitask:Item10188: Fix MANIFEST skipping data/System/FooPlugin.txt, skip .git |
+| 18 Dec 2010: | Foswikitask:Item10173: Add create_new_extension support for JQueryPlugin |
 | 27 Nov 2010: | Foswikitask:Item10088: Fix assumption for =%<nop>$FOSWIKIAUTHORS%= that BuildContrib is called from a standard build checkout |
-|  3 Oct 2010: | Foswikitask:Item9785: Add BuildContrib.pm dummy module and document requirement. | 
+|  3 Oct 2010: | Foswikitask:Item9785: Add BuildContrib.pm dummy module and document requirement. |
 |  8 Sep 2010: | Foswikitask:Item9566: Foswikitask:Item9640: minor maintenance fixes |
 |  28 Aug 2010: | Foswikitask:Item721: get proxy settings from environment variables |
 |  06 Aug 2010: | Foswikitask:Item9439: fix the initial uplaod problem - we were reading the topic file before it had been built |
