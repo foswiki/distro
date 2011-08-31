@@ -267,7 +267,7 @@ sub std_tests {
    SUMMARY="%MAKETEXT{"Attachments"}%"
 }%<div class="foswikiAttachments">
 | *I* | *%MAKETEXT{"Attachment"}%* | *%MAKETEXT{"Action"}%* | *%MAKETEXT{"Size"}%* | *%MAKETEXT{"Date"}%* | *%MAKETEXT{"Who"}%* | *%MAKETEXT{"Comment"}%* |
-| %ICON{"home.org.au.png" default="else"}%<span class="foswikiHidden">png</span> | <a href="%ATTACHURLPATH%/%ENCODE{home.org.au.png}%"><noautolink>home.org.au.png</noautolink></a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"home.org.au.png"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  4.1K|<span class="foswikiNoBreak">31 May 2007 - 21:58</span> |TemporaryTopicUserMappingContribTestsUsersWeb.JoeDoe  |  |
+| %ICON{"home.org.au.png" default="else"}%<span class="foswikiHidden">png</span> | <a href="%ATTACHURLPATH%/%ENCODE{home.org.au.png}%"><noautolink>home.org.au.png</noautolink></a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"home.org.au.png"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  4 K|<span class="foswikiNoBreak">31 May 2007 - 21:58</span> |TemporaryTopicUserMappingContribTestsUsersWeb.JoeDoe  |  |
 </div>
 THIS
     $output =~ s/UUUUUUUUUU/$displayedName/e;
