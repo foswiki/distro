@@ -59,6 +59,7 @@ Renders these tokens for each attachment:
    * %<nop>A_ATTRS% - attributes
    * %<nop>A_COMMENT% - comment
    * %<nop>A_DATE% - upload date in user friendly format
+   * %<nop>A_EPOCH% - upload date in epoch seconds
    * %<nop>A_EFILE% - encoded file name
    * %<nop>A_EXT% - file extension
    * %<nop>A_FILE% - file name
@@ -232,6 +233,9 @@ sub _expandAttrs {
     }
     elsif ( $attr eq 'DATE' ) {
         return Foswiki::Time::formatTime( $info->{date} || 0 );
+    }
+    elsif ( $attr eq 'EPOCH' ) {
+        return $info->{date} || 0;
     }
     elsif ( $attr eq 'USER' ) {
 
