@@ -259,7 +259,7 @@ sub _formatFileSize {
     my $fs  = $_[0];         # First variable is the size in bytes
     my $dp  = $_[1];         # Number of decimal places required
     my $sep = $_[2] || '';
-    my @units = ( 'bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' );
+    my @units = ( 'bytes', 'K', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' );
     my $u     = 0;
     $dp = ( $dp > 0 ) ? 10**$dp : 1;
     while ( $fs >= 1024 ) {
