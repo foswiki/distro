@@ -54,6 +54,19 @@ Generate a table of attachments suitable for the bottom of a topic
 view, using templates for the header, footer and each row.
    * =$topicObject= the topic
    * =$args= hash of attachment arguments
+   
+Renders these tokens for each attachment:
+   * %<nop>A_ATTRS% - attributes
+   * %<nop>A_COMMENT% - comment
+   * %<nop>A_DATE% - upload date in user friendly format
+   * %<nop>A_EFILE% - encoded file name
+   * %<nop>A_EXT% - file extension
+   * %<nop>A_FILE% - file name
+   * %<nop>A_ICON% - =%<nop>ICON{}%= macro around file extension
+   * %<nop>A_REV% - revision
+   * %<nop>A_SIZE% - filesize in user friendly notation
+   * %<nop>A_URL% - attachment file url 
+   * %<nop>A_USER% - user who has uploaded the last version
 
 =cut
 
@@ -184,9 +197,11 @@ sub _expandAttrs {
         );
     }
     elsif ( $attr eq 'SIZE' ) {
+
+        # size in user friendly notation
         my $attrSize = $info->{size};
-        $attrSize = 100 if ( !$attrSize || $attrSize < 100 );
-        return sprintf( "%1.1fK", $attrSize / 1024 );
+        $attrSize = 1 if ( !$attrSize || $attrSize < 1 );
+        return _formatFileSize( $attrSize, 0, ' ' );
     }
     elsif ( $attr eq 'COMMENT' ) {
         my $comment = $info->{comment};
@@ -235,6 +250,33 @@ sub _expandAttrs {
     }
     else {
         return $MARKER . 'A_' . $attr . $MARKER;
+    }
+}
+
+# prints the filesize in user friendly format
+sub _formatFileSize {
+
+    my $fs  = $_[0];         # First variable is the size in bytes
+    my $dp  = $_[1];         # Number of decimal places required
+    my $sep = $_[2] || '';
+    my @units = ( 'bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' );
+    my $u     = 0;
+    $dp = ( $dp > 0 ) ? 10**$dp : 1;
+    while ( $fs >= 1024 ) {
+        $fs /= 1024;
+        $u++;
+    }
+    if ( $units[$u] ) {
+        my $size = int( $fs * $dp ) / $dp;
+        my $unit = $units[$u];
+        if ( $u == 0 && $size == 1 ) {
+            # single byte
+            $unit = 'byte';
+        }
+        return "$size$sep$unit";
+    }
+    else {
+        return int($fs);
     }
 }
 
@@ -351,7 +393,7 @@ sub _imgsize {
             elsif ($a == 0xFF
                 && $b == 0xD8
                 && $c == 0xFF
-                && ($d == 0xE0 || $d == 0xE1) )
+                && ( $d == 0xE0 || $d == 0xE1 ) )
             {
 
                 #  JPG ff d8 ff e0/e1
@@ -570,7 +612,7 @@ sub _pngsize {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
