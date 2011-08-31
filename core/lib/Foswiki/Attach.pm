@@ -62,6 +62,7 @@ Renders these tokens for each attachment:
    * %<nop>A_EFILE% - encoded file name
    * %<nop>A_EXT% - file extension
    * %<nop>A_FILE% - file name
+   * %<nop>A_FILESIZE% - filesize in bytes to be used in sorting
    * %<nop>A_ICON% - =%<nop>ICON{}%= macro around file extension
    * %<nop>A_REV% - revision
    * %<nop>A_SIZE% - filesize in user friendly notation
@@ -195,6 +196,9 @@ sub _expandAttrs {
             rev => $info->{version} || undef,
             filename => $file
         );
+    }
+    elsif ( $attr eq 'FILESIZE' ) {
+        return $info->{size};
     }
     elsif ( $attr eq 'SIZE' ) {
 
