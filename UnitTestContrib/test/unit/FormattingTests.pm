@@ -815,57 +815,78 @@ sub test_mailWithoutMailto {
     $Foswiki::cfg{AntiSpam}{EntityEncode} = 0;
     my %urls = (
 # All of these should result in links generated
-      'mailto:pitiful@example.com' =>
-        '<a href="mailto:pitiful@exampleSTUFFED.com">mailto:pitiful@exampleSTUFFED.com</a>',
-      'At endSentence@some.museum.' =>
-        'At <a href="mailto:endSentence@someSTUFFED.museum">endSentence@someSTUFFED.museum</a>.',
-      'byIP@192.168.1.10' =>
-        '<a href="mailto:byIP@192STUFFED.168.1.10">byIP@192STUFFED.168.1.10</a>',
-      '"Some Name"@blah.com' =>
-        '<a href="mailto:%22Some%20Name%22@blahSTUFFED.com">"Some Name"@blahSTUFFED.com</a>',
-      'colon:name@blah.com' =>
-        '<a href="mailto:colon:name@blahSTUFFED.com">colon:name@blahSTUFFED.com</a>',
-      '_somename@example.com' =>
-        '<a href="mailto:_somename@exampleSTUFFED.com">_somename@exampleSTUFFED.com</a>',
-      'mailto:_somename@example.com _italics_' =>
-        '<a href="mailto:_somename@exampleSTUFFED.com">mailto:_somename@exampleSTUFFED.com</a> <em>italics</em>',
-      '$A12345@example.com' =>
-        '<a href="mailto:$A12345@exampleSTUFFED.com">$A12345@exampleSTUFFED.com</a>',
-      'def!xyz%abc@example.com' =>
-        '<a href="mailto:def!xyz%25abc@exampleSTUFFED.com">def!xyz%abc@exampleSTUFFED.com</a>',
-      'customer/department=shipping@example.com' =>
-        '<a href="mailto:customer/department%3Dshipping@exampleSTUFFED.com">customer/department=shipping@exampleSTUFFED.com</a>',
-      'user+mailbox@example.com' =>
-        '<a href="mailto:user+mailbox@exampleSTUFFED.com">user+mailbox@exampleSTUFFED.com</a>',
-      'René.Descartes@example.com' =>
-        '<a href="mailto:René.Descartes@exampleSTUFFED.com">René.Descartes@exampleSTUFFED.com</a>',
-      'Ali"TheBrain"Baba@example.com' =>
-        '<a href="mailto:Ali%22TheBrain%22Baba@exampleSTUFFED.com">Ali"TheBrain"Baba@exampleSTUFFED.com</a>',
+      '1 mailto:pitiful@example.com' =>
+        '1 <a href="mailto:pitiful@exampleSTUFFED.com">mailto:pitiful@exampleSTUFFED.com</a>',
+      '2 At endSentence@some.museum.' =>
+        '2 At <a href="mailto:endSentence@someSTUFFED.museum">endSentence@someSTUFFED.museum</a>.',
+      '3 byIP@[192.168.1.10]' =>
+        '3 <a href="mailto:byIP@[192.168.1.10]">byIP@[192.168.1.10]</a>',
+      '4 "Some Name"@blah.com' =>
+        '4 <a href="mailto:%22Some%20Name%22@blahSTUFFED.com">"Some Name"@blahSTUFFED.com</a>',
+      '5 _somename@example.com' =>
+        '5 <a href="mailto:_somename@exampleSTUFFED.com">_somename@exampleSTUFFED.com</a>',
+      '6 mailto:_somename@example.com _italics_' =>
+        '6 <a href="mailto:_somename@exampleSTUFFED.com">mailto:_somename@exampleSTUFFED.com</a> <em>italics</em>',
+      '7 $A12345@example.com' =>
+        '7 <a href="mailto:$A12345@exampleSTUFFED.com">$A12345@exampleSTUFFED.com</a>',
+      '8 def!xyz%abc@example.com' =>
+        '8 <a href="mailto:def!xyz%25abc@exampleSTUFFED.com">def!xyz%abc@exampleSTUFFED.com</a>',
+      '9 customer/department=shipping@example.com' =>
+        '9 <a href="mailto:customer/department%3Dshipping@exampleSTUFFED.com">customer/department=shipping@exampleSTUFFED.com</a>',
+      '10 user+mailbox@example.com' =>
+        '10 <a href="mailto:user+mailbox@exampleSTUFFED.com">user+mailbox@exampleSTUFFED.com</a>',
+      '11 "colon:name"@blah.com' =>
+        '11 <a href="mailto:%22colon:name%22@blahSTUFFED.com">"colon:name"@blahSTUFFED.com</a>',
+      '12 "Folding White
+Space"@blah.com' =>
+        '12 <a href="mailto:%22Folding%20White%20Space%22@blahSTUFFED.com">"Folding White
+Space"@blahSTUFFED.com</a>',
+# Total exactly 254
+        '1111111.2222222.3333333.4444444.5555555.6666666.7777777.8888888@1111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.88.com' =>
+          '<a href="mailto:1111111.2222222.3333333.4444444.5555555.6666666.7777777.8888888@1111111STUFFED.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.88.com">1111111.2222222.3333333.4444444.5555555.6666666.7777777.8888888@1111111STUFFED.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.88.com</a>',
 # None of these should create links!
-      'badIP@192.1.1' =>
-        'badIP@192.1.1',
-      'badIP2@1923.1.1.1' =>
-        'badIP2@1923.1.1.1',
-      'double..dot@@example.com' =>
-        'double..dot@@example.com',
-      'double.dot@@example..com' =>
-        'double.dot@@example..com',
-      'doubleAT@@example.com' =>
-        'doubleAT@@example.com',
-      'badname.@192.168.1.10' =>
-        'badname.@192.168.1.10',
-      '.badname@192.168.1.10' =>
-        '.badname@192.168.1.10',
-      'badTLD@example.porn' =>
-        'badTLD@example.porn',
-      'noTLD@home' =>
-        'noTLD@home',
-      'blah@.nospam.asdf.com' =>
-        'blah@.nospam.asdf.com',
-      '!user@example.com' =>
-        '<nop>user@example.com',
-      '<nop>user@example.com' =>
-        '<nop>user@example.com',
+      '14 badIP@[192.1.1]' =>
+        '14 badIP@[192.1.1]',
+      '15 badIP2@[1923.1.1.1]' =>
+        '15 badIP2@[1923.1.1.1]',
+      '16 double..dot@@example.com' =>
+        '16 double..dot@@example.com',
+      '17 double.dot@@example..com' =>
+        '17 double.dot@@example..com',
+      '18 doubleAT@@example.com' =>
+        '18 doubleAT@@example.com',
+      '19 badname.@[192.168.1.10]' =>
+        '19 badname.@[192.168.1.10]',
+      '20 .badname@[192.168.1.10]' =>
+        '20 .badname@[192.168.1.10]',
+      '21 badTLD@example.porn' =>
+        '21 badTLD@example.porn',
+      '22 noTLD@home' =>
+        '22 noTLD@home',
+      '23 blah@.nospam.asdf.com' =>
+        '23 blah@.nospam.asdf.com',
+      '24 !user@example.com' =>
+        '24 <nop>user@example.com',
+      '25 <nop>user@example.com' =>
+        '25 <nop>user@example.com',
+# Total exceeds 254
+        '26 1111111.2222222.3333333.4444444.5555555.6666666.7777777.8888888@1111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888.com' =>
+          '26 1111111.2222222.3333333.4444444.5555555.6666666.7777777.8888888@1111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888.com',
+# Left side exceeds 64
+       '27 1111111.2222222.3333333.4444444.5555555.6666666.7777777.88888888X@blah.com' =>
+         '27 1111111.2222222.3333333.4444444.5555555.6666666.7777777.88888888X@blah.com',
+# non-ASCII characters not supported per RFC.
+      '28 René.Descartes@example.com' =>
+        '28 René.Descartes@example.com',
+# : is a special character
+      '29 colon:name@blah.com' =>
+        '29 colon:name@blah.com',
+# technically valid - but Foswiki doesn't support individually quoted characters
+      '30 Ali\"TheBrain\"Baba@example.com' =>
+        '30 Ali\"TheBrain\"Baba@example.com',
+# technically valid - but Foswiki doesn't support nested quoted strings
+      '31 "Ali"TheBrain"Baba"@example.com' =>
+        '31 "Ali"TheBrain"Baba"@example.com',
     );
 
     foreach my $url ( keys %urls ) {

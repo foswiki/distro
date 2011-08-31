@@ -18,6 +18,7 @@ use Foswiki::Time            ();
 use Foswiki::Sandbox         ();
 use Foswiki::Render::Anchors ();
 
+
 # Counter used to generate unique placeholders for when we lift blocks
 # (such as <verbatim> out of the text during rendering.
 our $placeholderMarker = 0;
@@ -47,9 +48,8 @@ our $REMARKER = "\0";
 # must be removed.  Used for email anti-spam encoding.
 our $REEND = "\1";
 
-# Characters that need to be %XX escaped in URIs.
-our %ESCAPED = (' '  => '%20',
-                '<'  => '%3C',
+# Characters that need to be %XX escaped in mailto URIs.
+our %ESCAPED = ('<'  => '%3C',
                 '>'  => '%3E',
                 '#'  => '%23',
                 '"'  => '%22',
@@ -932,8 +932,20 @@ sub _mailLink {
     my $url = $text;
     return $text if $url =~ /^(?:!|\<nop\>)/;
 
+    #use Email::Valid             ();
+    #my $tmpEmail = $url;
+    #$tmpEmail =~ s/^mailto://;
+    #my $errtxt = '';
+    #$errtxt =  "<b>INVALID</b> $tmpEmail " unless (Email::Valid->address($tmpEmail));
+
     # Any special characters in the user portion must be %hex escaped.
-    $url =~ s/^((?:mailto\:)?)?(.*?)(@.*?)$/'mailto:'._escape( $2 ).$3/iex;
+    $url =~ s/^((?:mailto\:)?)?(.*?)(@.*?)$/'mailto:'._escape( $2 ).$3/msiex;
+    my $lenLeft = length($2);
+    my $lenRight = length($3);
+
+    # Per RFC 3696 Errata,  length restricted to 254 overall per RFC 2821 RCPT limits
+    return $text if ($lenLeft > 64 || $lenRight > 254 || $lenLeft+$lenRight > 254);
+
     $url = 'mailto:' . $url unless $url =~ /^mailto:/i;
     return _externalLink( $this, $url, $text );
 }
@@ -942,8 +954,8 @@ sub _escape {
     my $txt = shift;
 
     my $chars = join('', keys( %ESCAPED ) );
-    #print STDERR "Characters $chars \n";
     $txt =~ s/([$chars])/$ESCAPED{$1}/g;
+    $txt =~ s/[\s]/%20/g;   # Any folding white space
     return $txt;
 }
 
