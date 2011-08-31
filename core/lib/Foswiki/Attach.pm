@@ -186,7 +186,7 @@ sub _expandAttrs {
     elsif ( $attr eq 'SIZE' ) {
         my $attrSize = $info->{size};
         $attrSize = 100 if ( !$attrSize || $attrSize < 100 );
-        return sprintf( "%1.1f&nbsp;K", $attrSize / 1024 );
+        return sprintf( "%1.1fK", $attrSize / 1024 );
     }
     elsif ( $attr eq 'COMMENT' ) {
         my $comment = $info->{comment};
