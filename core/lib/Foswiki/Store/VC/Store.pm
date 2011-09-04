@@ -256,11 +256,11 @@ sub getVersionInfo {
 }
 
 sub saveAttachment {
-    my ( $this, $topicObject, $name, $stream, $cUID ) = @_;
+    my ( $this, $topicObject, $name, $stream, $cUID, $comment ) = @_;
     my $handler    = $this->getHandler( $topicObject, $name );
     my $currentRev = $handler->getLatestRevisionID();
     my $nextRev    = $currentRev + 1;
-    $handler->addRevisionFromStream( $stream, 'save attachment', $cUID );
+    $handler->addRevisionFromStream( $stream, $comment, $cUID );
     $handler->recordChange( $cUID, $nextRev );
     return $nextRev;
 }
