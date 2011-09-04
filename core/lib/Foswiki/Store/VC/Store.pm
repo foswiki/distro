@@ -308,12 +308,12 @@ sub getVersionInfo {
 }
 
 sub saveAttachment {
-    my ( $this, $topicObject, $name, $stream, $cUID ) = @_;
+    my ( $this, $topicObject, $name, $stream, $cUID, $comment ) = @_;
     my $handler    = $this->getHandler( $topicObject, $name );
     my $currentRev = $handler->getLatestRevisionID();
     my $nextRev    = $currentRev + 1;
     my $verb = ( $topicObject->hasAttachment($name) ) ? 'update' : 'insert';
-    $handler->addRevisionFromStream( $stream, 'save attachment', $cUID );
+    $handler->addRevisionFromStream( $stream, $comment, $cUID );
     $this->tellListeners(
         verb          => $verb,
         newmeta       => $topicObject,
