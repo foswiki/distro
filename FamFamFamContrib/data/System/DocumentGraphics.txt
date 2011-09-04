@@ -124,6 +124,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | attachfile | %ICON{attachfile}% | Attach file |  =%<nop>ICON{attachfile}%= |
 | download | %ICON{download}% | Download |  =%<nop>ICON{download}%= |
 | trash | %ICON{trash}% | Trash |  =%<nop>ICON{trash}%= |
+| trash-small | %ICON{trash-small}% | Trash small, 11x11 |  =%<nop>ICON{trash-small}%= |
 | searchtopic | %ICON{searchtopic}% | Search topic |  =%<nop>ICON{searchtopic}%= |
 | search-small | %ICON{search-small}% | Small search button, 13x13 |  =%<nop>ICON{search-small}%= |
 | topicbacklinks | %ICON{topicbacklinks}% | Topic back-links |  =%<nop>ICON{topicbacklinks}%= |
@@ -1209,6 +1210,8 @@ The social media icons are from [[http://icondock.com/free/vector-social-media-i
 %META:FILEATTACHMENT{name="traffic-light.png" attr="h" comment="" date="1289269533" path="traffic-light.png" size="604" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="trash.gif" attr="h" comment="" date="1289269533" path="trash.gif" size="1045" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="trash.png" attr="h" comment="" date="1289269533" path="trash.png" size="740" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="trash-small.gif" attr="h" comment="" date="1289269533" path="trash.gif" size="1045" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="trash-small.png" attr="h" comment="" date="1289269533" path="trash.png" size="740" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="ttf.gif" attr="h" comment="" date="1289269533" path="ttf.gif" size="518" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="ttf.png" attr="h" comment="" date="1289269533" path="ttf.png" size="567" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="tumblr.gif" attr="h" comment="" date="1289269533" path="tumblr.gif" size="619" user="ProjectContributor" version=""}%
