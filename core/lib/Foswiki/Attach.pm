@@ -68,7 +68,8 @@ Renders these tokens for each attachment:
    * %<nop>A_REV% - revision
    * %<nop>A_SIZE% - filesize in user friendly notation
    * %<nop>A_URL% - attachment file url 
-   * %<nop>A_USER% - user who has uploaded the last version
+   * %<nop>A_USER% - user who has uploaded the last version in 'web.usertopic' notation
+   * %<nop>A_USERNAME% - user who has uploaded the last version in 'usertopic' notation
 
 =cut
 
@@ -238,27 +239,32 @@ sub _expandAttrs {
         return $info->{date} || 0;
     }
     elsif ( $attr eq 'USER' ) {
-
-        # Must be able to expand either user or author, depending on whether
-        # info came from attachment meta-data (user), or
-        # revision info (author)
-        my $user = $info->{author} || $info->{user} || 'UnknownUser';
-        my $cUID;
-        if ($user) {
-            $cUID = $users->getCanonicalUserID($user);
-            if ( !$cUID ) {
-
-                # Not a login name or a wiki name. Is it a valid cUID?
-                my $ln = $users->getLoginName($user);
-                $cUID = $user if defined $ln && $ln ne 'unknown';
-            }
-        }
-
-        return $users->webDotWikiName($cUID);
+        return $users->webDotWikiName( $this->_cUID($info) );
+    }
+    elsif ( $attr eq 'USERNAME' ) {
+        return $users->getWikiName( $this->_cUID($info) );
     }
     else {
         return $MARKER . 'A_' . $attr . $MARKER;
     }
+}
+
+sub _cUID {
+    my ( $this, $info ) = @_;
+    
+    my $users = $this->{session}->{users};
+    my $user = $info->{author} || $info->{user} || 'UnknownUser';
+	my $cUID;
+	if ($user) {
+		$cUID = $users->getCanonicalUserID($user);
+		if ( !$cUID ) {
+
+			# Not a login name or a wiki name. Is it a valid cUID?
+			my $ln = $users->getLoginName($user);
+			$cUID = $user if defined $ln && $ln ne 'unknown';
+		}
+	}
+	return $cUID;
 }
 
 # prints the filesize in user friendly format
