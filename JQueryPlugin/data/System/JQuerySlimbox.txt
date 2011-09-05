@@ -10,12 +10,12 @@
 }%
 
 %STARTSECTION{"summary"}%
-Slimbox 2 is a 4 KB visual clone of the popular Lightbox 2 script by Lokesh Dhakar, written using the jQuery javascript library. It was designed to be very small, efficient, standards-friendly, fully customizable, more convenient and 100% compatible with the original Lightbox 2.
+Show images in a lightbox. Slimbox 2 is a 4 KB visual clone of the popular Lightbox 2 script by Lokesh Dhakar, written using the jQuery javascript library. It was designed to be very small, efficient, standards-friendly, fully customizable, more convenient and 100% compatible with the original Lightbox 2.
 %ENDSECTION{"summary"}%
 
 ---++ Usage
 
-Surround a set if image links with a container that has got the class name ==jqSlimbox=. Additional parameters can be specified using JQueryMetadata.
+Surround a set of image links with a container that has got the class name ==jqSlimbox=. Additional parameters can be specified using JQueryMetadata.
 
 ---++ Examples
 %JQREQUIRE{"slimbox"}%
