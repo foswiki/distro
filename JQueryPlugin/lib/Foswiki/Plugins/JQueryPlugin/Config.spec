@@ -64,6 +64,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Debug}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Easing}{Enabled} = 1;
 
 # **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Facebox}{Enabled} = 1;
+
+# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Farbtastic}{Enabled} = 1;
 
 # **BOOLEAN**

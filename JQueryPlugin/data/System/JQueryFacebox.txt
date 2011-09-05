@@ -1,0 +1,38 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1303808491" format="1.1" reprev="1" version="1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ <nop>%TOPIC%
+%JQPLUGINS{"facebox"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+A Facebook-style lightbox which can display images, divs, or entire remote pages.
+%ENDSECTION{"summary"}%
+
+---++ Usage
+
+Any anchor links with =rel="facebox"= with now automatically use facebox.
+
+You type:
+
+<verbatim class="tml">
+%JQREQUIRE{"facebox"}%
+<a href='%PUBURLPATH%/%SYSTEMWEB%/WabiSabi/wabisabi.gif' rel='facebox'>Show in facebox</a>
+</verbatim>
+
+You get:
+
+%JQREQUIRE{"facebox"}%
+<a href='%PUBURLPATH%/%SYSTEMWEB%/WabiSabi/wabisabi.gif' rel='facebox'>Show in facebox</a>
+
+Pass a url to load the contents with AJAX:
+<verbatim class="tml">
+%JQREQUIRE{"facebox"}%
+<a href='%SCRIPTURLPATH{view}%/%SYSTEMWEB%/WabiSabi?template=viewplain' rel='facebox'>Show topic contents using AJAX</a>
+</verbatim>
+
+<a href='%SCRIPTURLPATH{view}%/%SYSTEMWEB%/WabiSabi?template=viewplain' rel='facebox'>Show topic contents using AJAX</a>

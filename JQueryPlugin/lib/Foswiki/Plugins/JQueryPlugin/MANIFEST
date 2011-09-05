@@ -12,6 +12,7 @@ data/System/JQueryCycle.txt 0644
 data/System/JQueryDebug.txt 0644
 data/System/JQueryEasing.txt 0644
 data/System/JQueryEmpty.txt 0644
+data/System/JQueryFacebox.txt 0644
 data/System/JQueryFarbtastic.txt 0644
 data/System/JQueryFluidFont.txt 0644
 data/System/JQueryFocus.txt 0644
@@ -77,6 +78,7 @@ lib/Foswiki/Plugins/JQueryPlugin/CYCLE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/DEBUG.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/EASING.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/EMPTY.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/FACEBOX.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/FARBTASTIC.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/FLUIDFONT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/FOCUS.pm 0644
@@ -354,6 +356,18 @@ pub/System/JQueryPlugin/plugins/empty/jquery.empty.js.gz 0644
 pub/System/JQueryPlugin/plugins/empty/jquery.empty.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/empty/jquery.empty.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/empty/Makefile 0644
+pub/System/JQueryPlugin/plugins/facebox/jquery.facebox.css 0644
+pub/System/JQueryPlugin/plugins/facebox/jquery.facebox.css.gz 0644
+pub/System/JQueryPlugin/plugins/facebox/jquery.facebox.uncompressed.css 0644
+pub/System/JQueryPlugin/plugins/facebox/jquery.facebox.init.js 0644
+pub/System/JQueryPlugin/plugins/facebox/jquery.facebox.init.js.gz 0644
+pub/System/JQueryPlugin/plugins/facebox/jquery.facebox.init.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/facebox/jquery.facebox.js 0644
+pub/System/JQueryPlugin/plugins/facebox/jquery.facebox.js.gz 0644
+pub/System/JQueryPlugin/plugins/facebox/jquery.facebox.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/facebox/Makefile 0644
+pub/System/JQueryPlugin/plugins/facebox/closelabel.png 0644
+pub/System/JQueryPlugin/plugins/facebox/loading.gif 0644
 pub/System/JQueryPlugin/plugins/farbtastic/jquery.farbtastic.css 0644
 pub/System/JQueryPlugin/plugins/farbtastic/jquery.farbtastic.css.gz 0644
 pub/System/JQueryPlugin/plugins/farbtastic/jquery.farbtastic.init.js 0644
