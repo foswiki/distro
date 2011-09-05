@@ -535,16 +535,6 @@ sub afterRenameHandler {
 HERE
 }
 
-sub test_afterSaveHandler {
-    my $this = shift;
-    $this->makePlugin( 'afterSaveHandler', <<'HERE');
-sub afterSaveHandler {
-    my ($theText, $theTopic, $theWeb, $error, $meta) = @_;
-    $called->{afterSaveHandler}++;
-}
-HERE
-}
-
 sub test_beforeAttachmentSaveHandler {
     my $this = shift;
     $this->makePlugin( 'beforeAttachmentSaveHandler', <<'HERE');
@@ -572,16 +562,6 @@ sub test_beforeEditHandler {
 sub beforeEditHandler {
     my( $text, $topic, $web, $meta ) = @_;
     $called->{beforeEditHandler}++;
-}
-HERE
-}
-
-sub test_beforeSaveHandler {
-    my $this = shift;
-    $this->makePlugin( 'beforeSaveHandler', <<'HERE');
-sub beforeSaveHandler {
-    my ( $theText, $theTopic, $theWeb, $meta ) = @_;
-    $called->{beforeSaveHandler}++;
 }
 HERE
 }
