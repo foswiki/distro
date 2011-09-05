@@ -132,6 +132,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  05 Sep 2011: | (4.12) Added JQueryFacebox. |
 |               | (4.11) Fix "Use of uninitialized" in textboxlist |
 |  25 May 2011: | (4.10) Added JQueryPlaceholder; \
                   Updated jquery.autocomplete to work around Firefox 4 problem breaking up/down arrow keys in edit fields; \
