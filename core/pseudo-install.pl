@@ -1325,7 +1325,6 @@ sub merge_gitignore {
         if ( $old_rule and not $old_rule =~ /^#/ ) {
             $old_rule =~ s/^\s*//;
             $old_rule =~ s/\s*$//;
-            print "Old rule is '$old_rule'\n";
             if ( $old_rule =~ /[\/\\]$/ ) {
                 $old_rule .= '*';
             }
