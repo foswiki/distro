@@ -1024,8 +1024,9 @@ HERE
 # Will try to link as high in the dir structure as it can
 sub just_link {
     my ( $moduleDir, $dir, $file, $ignoreBlock ) = @_;
+    my ( undef, $dirpart, $filepart ) = File::Spec->splitpath($file);
+    my @components = ( File::Spec->splitdir($dirpart), $filepart );
     my $base       = "$moduleDir/";
-    my @components = split( /\/+/, $file );
     my $path       = '';
 
     foreach my $c (@components) {
@@ -1074,8 +1075,8 @@ sub uninstall {
         unlink _cleanPath( File::Spec->catfile( $moduleDir, $file ) );
         print 'Unlinked ' . File::Spec->catfile( $moduleDir, $file ) . "\n";
     }
-    my ( $volume, $dirpath, $filepart ) = File::Spec->splitpath($file);
-    my @components = ( File::Spec->splitdir($dirpath), $filepart );
+    my ( undef, $dirpart, $filepart ) = File::Spec->splitpath($file);
+    my @components = ( File::Spec->splitdir($dirpart), $filepart );
     my $base       = $moduleDir;
     my $path       = '';
 
