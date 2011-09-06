@@ -1321,32 +1321,30 @@ sub merge_gitignore {
     die unless ( ref($input_files) eq 'HASH' );
     die unless ( ref($old_rules)   eq 'ARRAY' );
 
-    # Extract a list of wildcard expressions into @match_rules
-    foreach my $old_rule ( @{$old_rules} ) {
-        if ( $old_rule and not $old_rule =~ /^#/ ) {
-            $old_rule =~ s/^\s*//;
-            $old_rule =~ s/\s*$//;
-            if ( $old_rule =~ /[\/\\]$/ ) {
-                $old_rule .= '*';
-            }
-            if ( $old_rule =~ /\*/ ) {
-                $old_rule =~ s/^\!\s*(.*?)$/$1/;
-                push( @match_rules, $old_rule );
-            }
-        }
-    }
-
     # @merged_rules is a version of @{$old_rules}, with any new files not
     # matching existing wildcards, added to it
     foreach my $old_rule ( @{$old_rules} ) {
+        chomp($old_rule);
 
-        # If the line contains a rule
-        if ( $old_rule and not $old_rule =~ /^#/ and $old_rule =~ /[^\s]/ ) {
+        # If the line is empty or a comment
+        if ( not $old_rule or $old_rule =~ /^\s*$/ or $old_rule =~ /^#/ ) {
+            push( @merged_rules, $old_rule );
+        }
 
-            if ( $old_rule =~ /\*/ ) {
-                my $match_rule = $old_rule;
+        # The line is a rule
+        else {
+            my $match_rule = $old_rule;
+
+            if ( $match_rule =~ /[\/\\]$/ ) {
+                $match_rule .= '*';
+            }
+
+            # If the line is a wildcard rule
+            if ( $match_rule =~ /\*/ ) {
 
                 # Normalise the rule
+                $old_rule   =~ s/^\s*//;
+                $old_rule   =~ s/\s*$//;
                 $match_rule =~ s/^\s*\!\s*(.*?)\s*$/$1/;
 
                 # It's a wildcard
@@ -1354,7 +1352,7 @@ sub merge_gitignore {
                 push( @merged_rules, $old_rule );
             }
 
-            # It's a file
+            # The line is a path/filename
             else {
 
                 # we're installing, so keep all the old rules, or
@@ -1369,23 +1367,24 @@ sub merge_gitignore {
         }
     }
 
-    # input_files should only contain new files which don't match an existing
-    # wildcard
-    foreach my $file ( keys %{$input_files} ) {
-        if ( not $dropped_rules{$file} ) {
-            my $nmatch_rules = scalar(@match_rules);
-            my $matched;
-            my $i = 0;
+    # Append new files not matching an existing wildcard
+    if ($installing) {
+        foreach my $file ( keys %{$input_files} ) {
+            if ( $file and $file =~ /[^\s]/ and not $dropped_rules{$file} ) {
+                my $nmatch_rules = scalar(@match_rules);
+                my $matched;
+                my $i = 0;
 
-            while ( not $matched and $i < $nmatch_rules ) {
-                my @parts = split( /\*/, $match_rules[$i] );
-                my $regex = qr/^\Q/ . join( qr/\E.*\Q/, @parts ) . qr/\E$/;
+                while ( not $matched and $i < $nmatch_rules ) {
+                    my @parts = split( /\*/, $match_rules[$i] );
+                    my $regex = qr/^\Q/ . join( qr/\E.*\Q/, @parts ) . qr/\E$/;
 
-                $i += 1;
-                $matched = ( $file =~ $regex );
-            }
-            if ( not $matched ) {
-                push( @merged_rules, $file );
+                    $i += 1;
+                    $matched = ( $file =~ $regex );
+                }
+                if ( not $matched ) {
+                    push( @merged_rules, $file );
+                }
             }
         }
     }
@@ -1407,9 +1406,7 @@ sub update_gitignore_file {
         my @lines;
 
         if ( open( my $fh, '<', $ignorefile ) ) {
-            while ( my $line = <$fh> ) {
-                push( @lines, $line );
-            }
+            @lines = <$fh>;
             close($fh);
         }
         else {
