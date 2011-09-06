@@ -879,9 +879,12 @@ sub linkOrCopy {
 
     trace '...' . ( $link ? 'link' : 'copy' ) . " $srcfile to $dstfile";
     if ($link) {
-        symlink( _cleanPath($srcfile), _cleanPath($dstfile) )
+        $srcfile = _cleanPath($srcfile);
+        $dstfile = _cleanPath($dstfile);
+        symlink( $srcfile, $dstfile )
           or die "Failed to link $srcfile as $dstfile: $!";
         print "Linked $source as $target\n";
+        $generated_files{$basedir}{$target} = 1;
     }
     else {
         if ( -e $srcfile ) {
@@ -969,10 +972,12 @@ sub copy_in {
     # For core manifest, ignore copy if target exists.
     return if -e $file and $ignoreBlock;
     File::Path::mkpath( _cleanPath($dir) );
+    $generated_files{$moduleDir}{$dir} = 1;
     if ( -e File::Spec->catfile( $moduleDir, $file ) ) {
         File::Copy::copy( File::Spec->catfile( $moduleDir, $file ), $file )
           or die "Couldn't install $file: $!";
         print "Copied $file\n";
+        $generated_files{$moduleDir}{$file} = 1;
     }
 
     return;
@@ -1024,8 +1029,7 @@ HERE
 # Will try to link as high in the dir structure as it can
 sub just_link {
     my ( $moduleDir, $dir, $file, $ignoreBlock ) = @_;
-    my ( undef, $dirpart, $filepart ) = File::Spec->splitpath($file);
-    my @components = ( File::Spec->splitdir($dirpart), $filepart );
+    my @components = _components($file);
     my $base       = "$moduleDir/";
     my $path       = '';
 
@@ -1044,19 +1048,27 @@ sub just_link {
         elsif (( $c eq 'TWiki' )
             or ( $c eq 'Plugins' && $path =~ m#/(Fosw|TW)iki/$# ) )
         {    # Special case
+            my $relpath = $path . $c;
+
             $path .= "$c/";
-            warn "mkdir $path\n";
-            if ( !mkdir( _cleanPath($path) ) ) {
+            $path = _cleanPath($path);
+            print "mkdir $path\n";
+            if ( !mkdir($path) ) {
                 warn "Could not mkdir $path: $!\n";
                 last;
             }
+            $generated_files{$basedir}{$relpath} = 1;
         }
         else {
             my $tgt = _cleanPath("$base$path$c");
             if ( -e $tgt ) {
-                die "Failed to link $path$c to $tgt: $!"
-                  unless symlink( $tgt, _cleanPath( $path . $c ) );
-                print "Linked $path$c\n";
+                my $relpath  = $path . $c;
+                my $linkpath = _cleanPath( $path . $c );
+
+                die "Failed to link $linkpath to $tgt: $!"
+                  unless symlink( $tgt, $linkpath );
+                print "Linked $relpath\n";
+                $generated_files{$basedir}{$relpath} = 1;
             }
             last;
         }
@@ -1065,8 +1077,19 @@ sub just_link {
     return;
 }
 
+sub _components {
+    my ($file) = @_;
+    my ( undef, $dirpart, $filepart ) = File::Spec->splitpath($file);
+
+    $dirpart =~ s/[\/\\]$//g;
+    return ( File::Spec->splitdir($dirpart), $filepart );
+}
+
 sub uninstall {
     my ( $moduleDir, $dir, $file ) = @_;
+    my @components = _components($file);
+    my $base       = $moduleDir;
+    my $path       = '';
 
     # link handling that detects valid linking path components higher in the
     # tree so it unlinks the directories, and not the leaf files.
@@ -1074,17 +1097,15 @@ sub uninstall {
     if ( -l File::Spec->catfile( $moduleDir, $file ) ) {
         unlink _cleanPath( File::Spec->catfile( $moduleDir, $file ) );
         print 'Unlinked ' . File::Spec->catfile( $moduleDir, $file ) . "\n";
+        $generated_files{$moduleDir}{$file} = 0;
     }
-    my ( undef, $dirpart, $filepart ) = File::Spec->splitpath($file);
-    my @components = ( File::Spec->splitdir($dirpart), $filepart );
-    my $base       = $moduleDir;
-    my $path       = '';
 
     foreach my $c (@components) {
         if ( -l "$path$c" ) {
             return unless _checkLink( $moduleDir, $path, $c ) || $force;
             unlink _cleanPath("$path$c");
             print "Unlinked $path$c\n";
+            $generated_files{$moduleDir}{$file} = 0;
             return;
         }
         else {
@@ -1094,6 +1115,7 @@ sub uninstall {
     if ( -e $file ) {
         unlink _cleanPath($file);
         print "Removed $file\n";
+        $generated_files{$moduleDir}{$file} = 0;
     }
 
     return;
@@ -1303,6 +1325,7 @@ sub merge_gitignore {
         if ( $old_rule and not $old_rule =~ /^#/ ) {
             $old_rule =~ s/^\s*//;
             $old_rule =~ s/\s*$//;
+            print "Old rule is '$old_rule'\n";
             if ( $old_rule =~ /[\/\\]$/ ) {
                 $old_rule .= '*';
             }
@@ -1316,22 +1339,25 @@ sub merge_gitignore {
     # @merged_rules is a version of @{$old_rules}, with any new files not
     # matching existing wildcards, added to it
     foreach my $old_rule ( @{$old_rules} ) {
-        push( @merged_rules, $old_rule );
 
         # If the line contains a rule
-        if ( $old_rule and not $old_rule =~ /^#/ and $old_rule =~ /\w/ ) {
+        if ( $old_rule and not $old_rule =~ /^#/ and $old_rule =~ /[^\s]/ ) {
 
             # Normalise the rule
             $old_rule =~ s/^\s*\!\s*(.*?)\s*$/$1/;
             if ( $old_rule =~ /\*/ ) {
 
                 # It's a wildcard
-                push( @match_rules, $old_rule );
+                push( @match_rules,  $old_rule );
+                push( @merged_rules, $old_rule );
             }
             else {
 
                 # It's a file; remove from input list
                 if ( exists $input_files->{$old_rule} ) {
+                    if ( $input_files->{$old_rule} ) {
+                        push( @merged_rules, $old_rule );
+                    }
                     delete $input_files->{$old_rule};
                 }
             }
@@ -1346,12 +1372,11 @@ sub merge_gitignore {
         my $i = 0;
 
         while ( not $matched and $i < $nmatch_rules ) {
-            my $regex = $match_rules[$i];
+            my @parts = split( /\*/, $match_rules[$i] );
+            my $regex = qr/^\Q/ . join( qr/\E.*\Q/, @parts ) . qr/\E$/;
 
             $i += 1;
-            $regex =~ s/\./\\\./g;
-            $regex =~ s/\*/\.\*/g;
-            $matched = ( $new_file =~ /^$regex$/ );
+            $matched = ( $new_file =~ $regex );
         }
         if ( not $matched ) {
             push( @merged_rules, $new_file );
@@ -1405,6 +1430,7 @@ exec_opts();
 init_config();
 init_extensions_path();
 run();
+update_gitignore_file($basedir);
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
