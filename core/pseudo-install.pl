@@ -893,6 +893,7 @@ sub linkOrCopy {
         }
         print "Copied $source as $target\n";
     }
+    $generated_files{$moduleDir}{$target} = 1;
 
     return;
 }
@@ -915,7 +916,6 @@ sub generateAlternateVersion {
         and -f File::Spec->catfile( $moduleDir, $1 . $3 ) )
     {
         linkOrCopy $moduleDir, $file, $1 . $3, $link;
-        $generated_files{$moduleDir}{$file} = 1;
         $found++;
     }
     elsif ( not $found and $file =~ /^(.+)(\.[^\.]+)$/ ) {
@@ -925,7 +925,6 @@ sub generateAlternateVersion {
 
             if ( -f File::Spec->catfile( $moduleDir, $srcfile ) ) {
                 linkOrCopy $moduleDir, $srcfile, $file, $link;
-                $generated_files{$moduleDir}{$file} = 1;
                 $found++;
                 last;
             }
@@ -1096,8 +1095,9 @@ sub uninstall {
     # Special case when install created symlink to (un)?compressed version
     if ( -l File::Spec->catfile( $moduleDir, $file ) ) {
         unlink _cleanPath( File::Spec->catfile( $moduleDir, $file ) );
-        print 'Unlinked ' . File::Spec->catfile( $moduleDir, $file ) . "\n";
-        $generated_files{$moduleDir}{$file} = 0;
+        print 'Unlinked symlink '
+          . File::Spec->catfile( $moduleDir, $file ) . "\n";
+        $generated_files{$basedir}{$file} = 0;
     }
 
     foreach my $c (@components) {
@@ -1105,7 +1105,7 @@ sub uninstall {
             return unless _checkLink( $moduleDir, $path, $c ) || $force;
             unlink _cleanPath("$path$c");
             print "Unlinked $path$c\n";
-            $generated_files{$moduleDir}{$file} = 0;
+            $generated_files{$basedir}{ $path . $c } = 0;
             return;
         }
         else {
@@ -1115,7 +1115,7 @@ sub uninstall {
     if ( -e $file ) {
         unlink _cleanPath($file);
         print "Removed $file\n";
-        $generated_files{$moduleDir}{$file} = 0;
+        $generated_files{$basedir}{$file} = 0;
     }
 
     return;
@@ -1316,6 +1316,7 @@ sub merge_gitignore {
     my ( $input_files, $old_rules ) = @_;
     my @merged_rules;
     my @match_rules;
+    my %dropped_rules;
 
     die unless ( ref($input_files) eq 'HASH' );
     die unless ( ref($old_rules)   eq 'ARRAY' );
@@ -1342,22 +1343,27 @@ sub merge_gitignore {
         # If the line contains a rule
         if ( $old_rule and not $old_rule =~ /^#/ and $old_rule =~ /[^\s]/ ) {
 
-            # Normalise the rule
-            $old_rule =~ s/^\s*\!\s*(.*?)\s*$/$1/;
             if ( $old_rule =~ /\*/ ) {
+                my $match_rule = $old_rule;
+
+                # Normalise the rule
+                $match_rule =~ s/^\s*\!\s*(.*?)\s*$/$1/;
 
                 # It's a wildcard
-                push( @match_rules,  $old_rule );
+                push( @match_rules,  $match_rule );
                 push( @merged_rules, $old_rule );
             }
+
+            # It's a file
             else {
 
-                # It's a file; remove from input list
-                if ( exists $input_files->{$old_rule} ) {
-                    if ( $input_files->{$old_rule} ) {
-                        push( @merged_rules, $old_rule );
-                    }
-                    delete $input_files->{$old_rule};
+                # we're installing, so keep all the old rules, or
+                # we're uninstalling, so keep files not being uninstalled
+                if ( $installing or ( not exists $input_files->{$old_rule} ) ) {
+                    push( @merged_rules, $old_rule );
+                }
+                else {
+                    $dropped_rules{$old_rule} = 1;
                 }
             }
         }
@@ -1365,20 +1371,22 @@ sub merge_gitignore {
 
     # input_files should only contain new files which don't match an existing
     # wildcard
-    foreach my $new_file ( keys %{$input_files} ) {
-        my $nmatch_rules = scalar(@match_rules);
-        my $matched;
-        my $i = 0;
+    foreach my $file ( keys %{$input_files} ) {
+        if ( not $dropped_rules{$file} ) {
+            my $nmatch_rules = scalar(@match_rules);
+            my $matched;
+            my $i = 0;
 
-        while ( not $matched and $i < $nmatch_rules ) {
-            my @parts = split( /\*/, $match_rules[$i] );
-            my $regex = qr/^\Q/ . join( qr/\E.*\Q/, @parts ) . qr/\E$/;
+            while ( not $matched and $i < $nmatch_rules ) {
+                my @parts = split( /\*/, $match_rules[$i] );
+                my $regex = qr/^\Q/ . join( qr/\E.*\Q/, @parts ) . qr/\E$/;
 
-            $i += 1;
-            $matched = ( $new_file =~ $regex );
-        }
-        if ( not $matched ) {
-            push( @merged_rules, $new_file );
+                $i += 1;
+                $matched = ( $file =~ $regex );
+            }
+            if ( not $matched ) {
+                push( @merged_rules, $file );
+            }
         }
     }
 
