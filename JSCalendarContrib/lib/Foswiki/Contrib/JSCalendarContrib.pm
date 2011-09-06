@@ -19,7 +19,7 @@ use warnings;
 use Foswiki::Func ();    # The plugins API
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.4.0';
+our $RELEASE = '1.4.1';
 our $SHORTDESCRIPTION =
 "[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]] date and time picker, packaged for use by plugins, skins and add-ons";
 
@@ -232,19 +232,13 @@ HERE
         'JSCalendarContrib/calendar'
     );
         
-    Foswiki::Func::addToZone(
-        'script',
-        'JSCalendarContrib/date',
-        "<script type='text/javascript' src='$base/date.js'></script>",
-    );
-
     # Add the setup separately; there might be different setups required
     # in a single HTML page.
     Foswiki::Func::addToZone(
         'script',
         "JSCalendarContrib/$setup",
         "<script type='text/javascript' src='$base/$setup.js'></script>",
-        'JSCalendarContrib/date'
+        'JSCalendarContrib/calendar'
        );
 }
 
