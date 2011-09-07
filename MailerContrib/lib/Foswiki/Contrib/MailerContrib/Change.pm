@@ -258,7 +258,7 @@ sub expandDiff {
 }
 
 1;
-__DATA__
+__END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.

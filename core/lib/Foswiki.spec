@@ -10,7 +10,7 @@
 
 # If for some reason you still want to copy this file to LocalSite.cfg,  you
 # must un-comment and complete the 10 PATH and URLPATH settings that are flagged
-# as Mandatory ( M** ) and remove the __DATA__ line toward the end of the file.
+# as Mandatory ( M** ) and remove the __END__ line toward the end of the file.
 
 # Manually building LocalSite.cfg is STRONGLY DISCOURAGED.
 

@@ -39,7 +39,7 @@ from a VC store.
 =cut
 
 1;
-__DATA__
+__END__
 
 Author: Crawford Currie http://c-dot.co.uk
 
