@@ -8,7 +8,6 @@ use File::Path();
 use File::Copy();
 use File::Spec();
 use FindBin();
-use English qw( -no_match_vars );
 use Cwd();
 
 my $usagetext = <<'EOM';
@@ -161,7 +160,7 @@ sub init {
         symlink( "testtgt$n", "testlink$n" );
         1;
     };
-    if ( $CAN_LINK and not $EVAL_ERROR ) {
+    if ($CAN_LINK) {
         $install = \&just_link;
     }
     else {
@@ -451,7 +450,7 @@ sub populateSVNRepoListings {
     my ($svninfo) = @_;
     my $ctx;
 
-    if ( not eval { require SVN::Client; 1 } or $EVAL_ERROR ) {
+    if ( not eval { require SVN::Client; 1 } ) {
         warn <<'HERE';
 SVN::Client not installed, unable discover branch listings from SVN
 HERE
@@ -689,7 +688,8 @@ sub installFromMANIFEST {
 
     trace "Using manifest from $manifest";
 
-    open( my $df, '<', $manifest ) or die $!;
+    open( my $df, '<', $manifest )
+      or die "Cannot open manifest $manifest for reading: $!";
     foreach my $file (<$df>) {
         chomp($file);
         next unless $file =~ /^\w+/;
@@ -841,7 +841,10 @@ sub package_exists {
     $mod = $1;
     use re 'taint';
 
-    return eval "require $mod; 1;" and not $EVAL_ERROR;
+    {
+        local $SIG{__WARN__};
+        return eval "require $mod; 1"
+    }
 }
 
 sub satisfyDependency {
@@ -1318,8 +1321,10 @@ sub merge_gitignore {
     my @match_rules;
     my %dropped_rules;
 
-    die unless ( ref($input_files) eq 'HASH' );
-    die unless ( ref($old_rules)   eq 'ARRAY' );
+    die "Bad parameter type (should be HASH): " . ref($input_files)
+      unless ( ref($input_files) eq 'HASH' );
+    die "Bad parameter type (should be ARRAY): " . ref($old_rules)
+      unless ( ref($old_rules) eq 'ARRAY' );
 
     # @merged_rules is a version of @{$old_rules}, with any new files not
     # matching existing wildcards, added to it
@@ -1422,7 +1427,7 @@ sub update_gitignore_file {
             close($fh) or error("Couldn't close $ignorefile");
         }
         else {
-            error("Couldn't open $ignorefile for writing, $OS_ERROR");
+            error("Couldn't open $ignorefile for writing, $!");
         }
     }
 
