@@ -149,7 +149,7 @@ ERROR
 
 1;
 __END__
-# Comment out the above two lines (1; __DATA__) during development of a
+# Comment out the above two lines (1; __END__) during development of a
 # new store backend.
 # The rest of the methods in this file are abstract, so we stop compilation
 # here.
