@@ -1051,12 +1051,13 @@ sub just_link {
             or ( $c eq 'Plugins' && $path =~ m#/(Fosw|TW)iki/$# ) )
         {    # Special case
             my $relpath = $path . $c;
+            my $abspath;
 
             $path .= "$c/";
-            $path = _cleanPath($path);
-            print "mkdir $path\n";
-            if ( !mkdir($path) ) {
-                warn "Could not mkdir $path: $!\n";
+            $abspath = _cleanPath($path);
+            print "mkdir $abspath\n";
+            if ( !mkdir($abspath) ) {
+                warn "Could not mkdir $abspath: $!\n";
                 last;
             }
             $generated_files{$basedir}{$relpath} = 1;
