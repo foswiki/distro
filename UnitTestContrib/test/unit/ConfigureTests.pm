@@ -1383,21 +1383,21 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl m
     #
     my $results = $pkg2->uninstall();
 
-    my @expFiles = qw(
-Testsandboxweb1234/Subweb/TestTopic43.txt
-Testsandboxweb1234/Subweb/TestTopic43.txt,v
-Testsandboxweb1234/TestTopic1.txt
-Testsandboxweb1234/TestTopic43.txt
-Testsandboxweb1234/TestTopic43.txt,v
-Testsandboxweb1234/Subweb/TestTopic43/file3.att
-Testsandboxweb1234/Subweb/TestTopic43/file3.att,v
-Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att
-Testsandboxweb1234/TestTopic1/file.att
-Testsandboxweb1234/TestTopic43/file.att
-Testsandboxweb1234/TestTopic43/file.att,v
-Testsandboxweb1234/TestTopic43/file2.att
-Testsandboxweb1234/TestTopic43/file2.att,v
-configure/pkgdata/MyPlugin_installer
+    my @expFiles = (
+'Testsandboxweb1234/Subweb/TestTopic43.txt',
+'Testsandboxweb1234/Subweb/TestTopic43.txt,v',
+'Testsandboxweb1234/TestTopic1.txt',
+'Testsandboxweb1234/TestTopic43.txt',
+'Testsandboxweb1234/TestTopic43.txt,v',
+'Testsandboxweb1234/Subweb/TestTopic43/file3.att',
+'Testsandboxweb1234/Subweb/TestTopic43/file3.att,v',
+'Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att',
+'Testsandboxweb1234/TestTopic1/file.att',
+'Testsandboxweb1234/TestTopic43/file.att',
+'Testsandboxweb1234/TestTopic43/file.att,v',
+'Testsandboxweb1234/TestTopic43/file2.att',
+'Testsandboxweb1234/TestTopic43/file2.att,v',
+'configure/pkgdata/MyPlugin_installer'
 );
 
     push @expFiles, "$this->{scriptdir}/shbtest1";
