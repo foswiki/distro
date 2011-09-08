@@ -3,7 +3,8 @@ SUBDIRS=\
   smoothness \
   lightness \
   redmond \
-  flickr
+  flickr \
+  foswiki
 
 all: $(SUBDIRS)
 

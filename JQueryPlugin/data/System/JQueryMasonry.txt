@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1260561635" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1306423047" format="1.1" reprev="3" version="3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"masonry"
@@ -21,10 +21,8 @@ mason fitting stones in a wall.
 
 <img src="%ATTACHURL%/jQuery-Masonry.jpg" alt="jQuery-Masonry.jpg" width="547" height="351" />
 
-
 See the [[http://emberapp.com/desandro/collections/jquery-masonry][jQuery Masonry Collection on Ember]] for more screenshots
 of jQuery masonry in the wild.
-
 
 ---++ Usage
 
@@ -53,41 +51,88 @@ using JQueryMetadata.
 
 ---++ Options
 
-   * singleMode: false %BR%
-     Disables measuring the width of each floated element.
-     Set to true if floated elements have the same width.
-     default: false
-
+   * animationOptions: {} %BR%
+     A map of options for animation. See the [[http://api.jquery.com/animate/#animate-properties-options][jQuery API for animate options for details]].
    * columnWidth: 240 %BR%
      Width in pixels of 1 column of your grid.
      default: outer width of the first floated element.
-
+   * gutterWidth: 0 %BR%
+     Adds additional spacing between columns.
+   * isAnimated: false %BR%
+     Enables jQuery animation on layout changes.
+   * isFitWidth : false %BR%
+     If enabled, Masonry will size the width of the container to the nearest column. 
+     When enabled, Masonry will measure the width of the container&#8217;s parent element, 
+     not the width of the container. This option is ideal for centering Masonry layouts.
+   * isResizeable: true %BR%
+     Triggers layout logic when browser window is resized.
+   * isRTL: false %BR%
+     Enables right-to-left layout for languages like Hebrew and Arabic.
    * itemSelector: '.box:visible' %BR%
      Additional selector to specify which elements inside
      the wrapping element will be rearranged.
 
-   * resizeable: true %BR%
-     Binds a Masonry call to window resizes.
-     default: true
+---++ Methods
 
-   * animate: true %BR%
-    Animates layout rearrangements.
-    default: false
+Masonry offers several methods to extend functionality. Masonry&#8217;s methods follow the jQuery UI pattern.
 
-   * animationOptions: {} %BR%
-     A map of options for animation.
+<verbatim class="js">$('#container').masonry( 'methodName', [optionalParameters] )</verbatim>
 
-   * appendedContent: $('.new_content') %BR%
-     Additional container element for appended content.
-     Useful for Infinite Scroll integration.
+---+++ appended 
 
-   * saveOptions: true %BR%
-     Masonry will use the options from previous Masonry
-     calls by default, so you only have to enter in options once
-     default: true
+<verbatim class="js">.masonry( 'appended', $content, isAnimatedFromBottom )</verbatim>
+
+Triggers layout on item elements that have been appended to the container.
+
+---+++ destroy
+
+<verbatim class="js">.masonry( 'destroy' )</verbatim>
+
+Removes Masonry functionality completely. Returns element back to pre-initialized state.
+
+---+++ layout
+
+<verbatim class="js">.masonry( 'layout', $items, callback )</verbatim>
+
+Positions specified item elements in layout.
+
+=layout= will only position specified elements, and those elements will be positioned at the end of layout. Whereas =.masonry()= will position all items in the Masonry instance.
+
+---+++ option
+
+<verbatim class="js">.masonry( 'option', options )</verbatim>
+
+Sets options for plugin instance. Unlike passing options through .masonry(), using the option method will not trigger layout.
+
+<verbatim class="js">
+// set multiple options
+.masonry( 'option', { columnWidth: 120, isAnimated: false } )
+</verbatim>
+
+---+++ reloadItems
+
+<verbatim class="js">.masonry( 'reloadItems' )</verbatim>
+
+Re-collects all item elements in their current order in the DOM.
+
+
+---+++ reload
+
+<verbatim class="js">.masonry( 'reload' )</verbatim>
+
+Convenience method for triggering reloadItems then .masonry(). Useful for prepending or inserting items.
+
+---+++ remove
+
+<verbatim class="js">.masonry( 'remove', $items )</verbatim>
+
+Removes specified item elements from Masonry instance and the DOM.
+
 
 ---++ Examples
 %JQREQUIRE{"Masonry"}%
+
+See more demos at http://masonry.desandro.com/
 
 <div class="wrap jqMasonry {columnWidth:100, itemSelector:'.box'}">
   <div class="box">
@@ -100,7 +145,7 @@ using JQueryMetadata.
      Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris
      sit amet orci.
   </div>
-     
+
   <div class="box">
     Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper
     vehicula
@@ -109,7 +154,7 @@ using JQueryMetadata.
   <div class="box">
     Sit amet mi ullamcorper vehicula
   </div>
-  
+
   <div class="box">
     adipiscing in, lacinia vel, tellus. Suspendisse ac urna. Etiam pellentesque
     mauris ut lectus.
@@ -118,7 +163,7 @@ using JQueryMetadata.
   <div class="box">
     Sit amet mi ullamcorper vehicula
   </div>
- 
+
   <div class="box">
     Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.
   </div>
@@ -133,7 +178,7 @@ using JQueryMetadata.
      Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris
      sit amet orci.
   </div>
-     
+
   <div class="box">
     Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper
     vehicula
@@ -142,7 +187,7 @@ using JQueryMetadata.
   <div class="box">
     Sit amet mi ullamcorper vehicula
   </div>
-  
+
   <div class="box">
     adipiscing in, lacinia vel, tellus. Suspendisse ac urna. Etiam pellentesque
     mauris ut lectus.
@@ -151,7 +196,7 @@ using JQueryMetadata.
   <div class="box">
     Sit amet mi ullamcorper vehicula
   </div>
- 
+
   <div class="box">
     Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.
   </div>

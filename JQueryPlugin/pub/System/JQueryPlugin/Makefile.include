@@ -3,7 +3,7 @@ FOSWIKI_LIB=$(FOSWIKI_ROOT)/lib
 JQUERYPLUGIN_LIB=$(FOSWIKI_LIB)/Foswiki/Plugins/JQueryPlugin
 MINIFYJS=$(YUI_MINIFYJS)
 MINIFYCSS=$(YUI_MINIFYCSS)
-JSLINT=$(JAVA) -jar $(FOSWIKI_ROOT)/tools/jslint4java.jar --undef --onevar --predef=jQuery,window,console,document,foswiki,escape,unescape,alert
+JSLINT=$(JAVA) -jar $(FOSWIKI_ROOT)/tools/jslint4java.jar --undef --onevar --predef=jQuery,window,console,document,foswiki,escape,unescape,alert,confirm,Image
 YUI_MINIFYJS=$(JAVA) -jar $(FOSWIKI_ROOT)/tools/yuicompressor.jar --charset utf-8 --type js 
 YUI_MINIFYCSS=$(JAVA) -jar $(FOSWIKI_ROOT)/tools/yuicompressor.jar --charset utf-8 --type css 
 PERL_MINIFYJS=FOSWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifyjs

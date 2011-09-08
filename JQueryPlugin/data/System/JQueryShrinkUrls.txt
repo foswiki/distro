@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1265665271" format="1.1" version="1.4"}%
+%META:TOPICINFO{author="ProjectContributor" date="1311234108" format="1.1" version="5"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"shrinkurls"
@@ -39,11 +39,10 @@ Add the class name ==jqShrinkUrls== to a container to process all anchors inside
 
 <verbatim class="tml">
 %JQREQUIRE{"shrinkurls"}%
-<div class="jqShrink {size:25, whitespace:true}">
+<div class="jqShrinkUrls {size:25, whitespace:true}">
    <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vehicula est et felis imperdi</a>
 </div>
 </verbatim>
-
 
 ---++ Examples
 

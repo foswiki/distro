@@ -16,7 +16,7 @@ This is the perl stub for the jquery.corner plugin.
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -24,13 +24,11 @@ Constructor
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            $session,
             name         => 'Corner',
-            version      => '2.02',
+            version      => '2.12',
             author       => 'Dave Methvin, Mike Alsup',
             homepage     => 'http://jquery.malsup.com/corner',
             javascript   => [ 'jquery.corner.js', 'jquery.corner.init.js' ],

@@ -16,7 +16,7 @@ This is the perl stub for the jquery UI themeswitcher.
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -24,11 +24,9 @@ Constructor
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            $session,
             name       => 'Themeswitcher',
             version    => '20101001',
             author     => 'unknown',

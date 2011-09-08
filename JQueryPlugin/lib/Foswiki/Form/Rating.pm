@@ -141,11 +141,14 @@ sub renderForDisplay {
     my $result = "<div class='jqRating {$this->{attributes}}'>\n";
     my $found  = 0;
 
+    # add a random suffix in case we have multiple formfields of the same type
+    # on the same page
+    my $name = $this->{name} . int(rand(10000));
     foreach my $item ( @{ $this->getOptions() } ) {
 
         $result .=
             '<input type="radio" autocomplete="off" name="'
-          . $this->{name} . '" '
+          . $name . '" '
           . ' value="'
           . $item . '" ';
 

@@ -16,7 +16,7 @@ This is the perl stub for the slimbox2 plugin.
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -24,11 +24,9 @@ Constructor
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            $session,
             name         => 'Slimbox',
             version      => '2.04',
             author       => 'Christophe Beyls',
@@ -57,7 +55,8 @@ sub init {
     return unless $this->SUPER::init();
 
     # add translations to head
-    my $counterText = $this->{session}->i18n->maketext("Image [_1] of [_2]", "{x}", "{y}");
+    my $session = $Foswiki::Plugins::SESSION;
+    my $counterText = $session->i18n->maketext("Image [_1] of [_2]", "{x}", "{y}");
     Foswiki::Func::addToZone("head", "JQUERYPLUGIN::SLIMBOX::COUNTERTEXT", '<meta name="foswiki.ImagePlugin.counterText" content="'.$counterText.'" />');
 }
 

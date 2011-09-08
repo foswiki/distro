@@ -16,7 +16,7 @@ This is the perl stub for the jquery.gradient plugin.
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -24,13 +24,11 @@ Constructor
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            $session,
             name       => 'Gradient',
-            version    => '1.0.1-pre',
+            version    => '1.0',
             author     => 'Brandon Aaron Last',
             homepage   => 'http://brandonaaron.net',
             javascript => [ 'jquery.gradient.js', 'jquery.gradient.init.js' ],

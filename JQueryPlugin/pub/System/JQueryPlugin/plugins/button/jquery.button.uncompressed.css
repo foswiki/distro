@@ -6,8 +6,12 @@
   font-size: 13px;
   height:23px;
   padding:0px;
-  color:#000;
   white-space:nowrap;
+}
+a.jqButton:visited,
+a.jqButton:link,
+.jqButton {
+  color:#000;
 }
 .jqButton:hover,
 .jqButton {
@@ -84,6 +88,17 @@
 .jqButtonRight,
 .jqButtonRight:hover {
   float:right;
+}
+
+.jqButtonCenter,
+.jqButtonCenter:hover,
+.jqButtonCenter span {
+  float:none;
+  display:block;
+  text-align:center;
+}
+a.jqButtonCenter {
+  margin-right:0px;
 }
 
 /* rounded cornders */

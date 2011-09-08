@@ -16,7 +16,7 @@ This is the perl stub for the jquery.serialScroll plugin.
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -24,11 +24,9 @@ Constructor
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            $session,
             name         => 'SerialScroll',
             version      => '1.2.2',
             author       => 'Ariel Flesler',

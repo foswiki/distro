@@ -16,7 +16,7 @@ This is the perl stub for the jquery.masonry plugin.
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -24,13 +24,11 @@ Constructor
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            $session,
             name         => 'Masonry',
-            version      => '1.2.0',
+            version      => '2.0.110524',
             author       => 'David <nop>DeSandro',
             homepage     => 'http://desandro.com/resources/jquery-masonry',
             css          => ['jquery.masonry.css'],

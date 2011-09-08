@@ -170,5 +170,5 @@ ul.jqTabGroup a {
   border-top-color:#ccc;
 }
 .jqTabPanePlain .jqTabContents {
-  padding:0px;
+  padding:1em 0em 0em 0em;
 }

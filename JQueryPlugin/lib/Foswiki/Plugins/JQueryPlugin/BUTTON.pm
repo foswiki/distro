@@ -15,7 +15,7 @@ This is the perl stub for the jquery.button plugin.
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -23,11 +23,9 @@ Constructor
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            $session,
             name         => 'Button',
             version      => '1.3',
             author       => 'Michael Daum',
@@ -73,7 +71,7 @@ sub handleButton {
     my $theType        = $params->{type} || 'button';
 
     $theId = "id='$theId'" if $theId;
-    $theClass =~ s/\b(simple|cyan|red|green|right)\b/'jqButton'.ucfirst($1)/ge;
+    $theClass =~ s/\b(simple|cyan|red|green|right|center)\b/'jqButton'.ucfirst($1)/ge;
 
     my $theIcon;
     $theIcon =

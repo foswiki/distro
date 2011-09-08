@@ -1,7 +1,7 @@
 /*!
- * jQuery UI 1.8.5
+ * jQuery UI 1.8.16
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -18,7 +18,7 @@ if ( $.ui.version ) {
 }
 
 $.extend( $.ui, {
-	version: "1.8.5",
+	version: "1.8.16",
 
 	keyCode: {
 		ALT: 18,
@@ -58,6 +58,8 @@ $.extend( $.ui, {
 
 // plugins
 $.fn.extend({
+	propAttr: $.fn.prop || $.fn.attr,
+
 	_focus: $.fn.focus,
 	focus: function( delay, fn ) {
 		return typeof delay === "number" ?
@@ -105,8 +107,8 @@ $.fn.extend({
 					// other browsers return a string
 					// we ignore the case of nested elements with an explicit value of 0
 					// <div style="z-index: -10;"><div style="z-index: 0;"></div></div>
-					value = parseInt( elem.css( "zIndex" ) );
-					if ( !isNaN( value ) && value != 0 ) {
+					value = parseInt( elem.css( "zIndex" ), 10 );
+					if ( !isNaN( value ) && value !== 0 ) {
 						return value;
 					}
 				}
@@ -116,11 +118,10 @@ $.fn.extend({
 
 		return 0;
 	},
-	
+
 	disableSelection: function() {
-		return this.bind(
-			"mousedown.ui-disableSelection selectstart.ui-disableSelection",
-			function( event ) {
+		return this.bind( ( $.support.selectstart ? "selectstart" : "mousedown" ) +
+			".ui-disableSelection", function( event ) {
 				event.preventDefault();
 			});
 	},
@@ -159,7 +160,7 @@ $.each( [ "Width", "Height" ], function( i, name ) {
 		}
 
 		return this.each(function() {
-			$.style( this, type, reduce( this, size ) + "px" );
+			$( this ).css( type, reduce( this, size ) + "px" );
 		});
 	};
 
@@ -169,12 +170,33 @@ $.each( [ "Width", "Height" ], function( i, name ) {
 		}
 
 		return this.each(function() {
-			$.style( this, type, reduce( this, size, true, margin ) + "px" );
+			$( this).css( type, reduce( this, size, true, margin ) + "px" );
 		});
 	};
 });
 
 // selectors
+function focusable( element, isTabIndexNotNaN ) {
+	var nodeName = element.nodeName.toLowerCase();
+	if ( "area" === nodeName ) {
+		var map = element.parentNode,
+			mapName = map.name,
+			img;
+		if ( !element.href || !mapName || map.nodeName.toLowerCase() !== "map" ) {
+			return false;
+		}
+		img = $( "img[usemap=#" + mapName + "]" )[0];
+		return !!img && visible( img );
+	}
+	return ( /input|select|textarea|button|object/.test( nodeName )
+		? !element.disabled
+		: "a" == nodeName
+			? element.href || isTabIndexNotNaN
+			: isTabIndexNotNaN)
+		// the element and all of its ancestors must be visible
+		&& visible( element );
+}
+
 function visible( element ) {
 	return !$( element ).parents().andSelf().filter(function() {
 		return $.curCSS( this, "visibility" ) === "hidden" ||
@@ -188,37 +210,20 @@ $.extend( $.expr[ ":" ], {
 	},
 
 	focusable: function( element ) {
-		var nodeName = element.nodeName.toLowerCase(),
-			tabIndex = $.attr( element, "tabindex" );
-		if ( "area" === nodeName ) {
-			var map = element.parentNode,
-				mapName = map.name,
-				img;
-			if ( !element.href || !mapName || map.nodeName.toLowerCase() !== "map" ) {
-				return false;
-			}
-			img = $( "img[usemap=#" + mapName + "]" )[0];
-			return !!img && visible( img );
-		}
-		return ( /input|select|textarea|button|object/.test( nodeName )
-			? !element.disabled
-			: "a" == nodeName
-				? element.href || !isNaN( tabIndex )
-				: !isNaN( tabIndex ))
-			// the element and all of its ancestors must be visible
-			&& visible( element );
+		return focusable( element, !isNaN( $.attr( element, "tabindex" ) ) );
 	},
 
 	tabbable: function( element ) {
-		var tabIndex = $.attr( element, "tabindex" );
-		return ( isNaN( tabIndex ) || tabIndex >= 0 ) && $( element ).is( ":focusable" );
+		var tabIndex = $.attr( element, "tabindex" ),
+			isTabIndexNaN = isNaN( tabIndex );
+		return ( isTabIndexNaN || tabIndex >= 0 ) && focusable( element, !isTabIndexNaN );
 	}
 });
 
 // support
 $(function() {
-	var div = document.createElement( "div" ),
-		body = document.body;
+	var body = document.body,
+		div = body.appendChild( div = document.createElement( "div" ) );
 
 	$.extend( div.style, {
 		minHeight: "100px",
@@ -227,7 +232,9 @@ $(function() {
 		borderWidth: 0
 	});
 
-	$.support.minHeight = body.appendChild( div ).offsetHeight === 100;
+	$.support.minHeight = div.offsetHeight === 100;
+	$.support.selectstart = "onselectstart" in div;
+
 	// set display to none to avoid a layout bug in IE
 	// http://dev.jquery.com/ticket/4014
 	body.removeChild( div ).style.display = "none";

@@ -16,7 +16,7 @@ This is the perl stub for the jquery.maskedinput plugin.
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -24,13 +24,11 @@ Constructor
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            $session,
             name     => 'MaskedInput',
-            version  => '1.2.2',
+            version  => '1.3',
             author   => 'Josh Bush',
             homepage => 'http://digitalbush.com/projects/masked-input-plugin',
             javascript =>

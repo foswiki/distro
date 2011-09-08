@@ -1,10 +1,10 @@
 /*!
  * jQuery blockUI plugin
- * Version 2.35 (23-SEP-2010)
+ * Version 2.39 (23-MAY-2011)
  * @requires jQuery v1.2.3 or later
  *
  * Examples at: http://malsup.com/jquery/block/
- * Copyright (c) 2007-2008 M. Alsup
+ * Copyright (c) 2007-2010 M. Alsup
  * Dual licensed under the MIT and GPL licenses:
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
@@ -35,12 +35,11 @@ $.unblockUI = function(opts) { remove(window, opts); };
 
 // convenience method for quick growl-like notifications  (http://www.google.com/search?q=growl)
 $.growlUI = function(title, message, timeout, onClose) {
-	var $m = $('<div></div>');
+	var $m = $('<div class="growlUI"></div>');
 	if (title) $m.append('<h1>'+title+'</h1>');
 	if (message) $m.append('<h2>'+message+'</h2>');
 	if (timeout == undefined) timeout = 3000;
 	$.blockUI({
-                blockMsgClass: 'growlUI',
 		message: $m, fadeIn: 700, fadeOut: 1000, centerY: false,
 		timeout: timeout, showOverlay: false,
 		onUnblock: onClose, 
@@ -66,7 +65,7 @@ $.fn.unblock = function(opts) {
 	});
 };
 
-$.blockUI.version = 2.35; // 2nd generation blocking at no extra cost!
+$.blockUI.version = 2.39; // 2nd generation blocking at no extra cost!
 
 // override these in your code to change the default behavior and style
 $.blockUI.defaults = {
@@ -218,6 +217,7 @@ function install(el, opts) {
 			data.parent.removeChild(node);
 	}
 
+	$(el).data('blockUI.onUnblock', opts.onUnblock);
 	var z = opts.baseZ;
 
 	// blockUI uses 3 layers for blocking, for simplicity they are all used on every platform;
@@ -228,26 +228,29 @@ function install(el, opts) {
 	var lyr1 = ($.browser.msie || opts.forceIframe) 
 		? $('<iframe class="blockUI" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;position:absolute;width:100%;height:100%;top:0;left:0" src="'+opts.iframeSrc+'"></iframe>')
 		: $('<div class="blockUI" style="display:none"></div>');
-	var lyr2 = $('<div class="blockUI blockOverlay" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;width:100%;height:100%;top:0;left:0"></div>');
 	
+	var lyr2 = opts.theme 
+	 	? $('<div class="blockUI blockOverlay ui-widget-overlay" style="z-index:'+ (z++) +';display:none"></div>')
+	 	: $('<div class="blockUI blockOverlay" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;width:100%;height:100%;top:0;left:0"></div>');
+
 	var lyr3, s;
 	if (opts.theme && full) {
-		s = '<div class="blockUI ' + opts.blockMsgClass + ' blockPage ui-dialog ui-widget ui-corner-all" style="z-index:'+z+';display:none;position:fixed">' +
-				'<div class="ui-widget-header ui-dialog-titlebar blockTitle">'+(opts.title || '&nbsp;')+'</div>' +
+		s = '<div class="blockUI ' + opts.blockMsgClass + ' blockPage ui-dialog ui-widget ui-corner-all" style="z-index:'+(z+10)+';display:none;position:fixed">' +
+				'<div class="ui-widget-header ui-dialog-titlebar ui-corner-all blockTitle">'+(opts.title || '&nbsp;')+'</div>' +
 				'<div class="ui-widget-content ui-dialog-content"></div>' +
 			'</div>';
 	}
 	else if (opts.theme) {
-		s = '<div class="blockUI ' + opts.blockMsgClass + ' blockElement ui-dialog ui-widget ui-corner-all" style="z-index:'+z+';display:none;position:absolute">' +
-				'<div class="ui-widget-header ui-dialog-titlebar blockTitle">'+(opts.title || '&nbsp;')+'</div>' +
+		s = '<div class="blockUI ' + opts.blockMsgClass + ' blockElement ui-dialog ui-widget ui-corner-all" style="z-index:'+(z+10)+';display:none;position:absolute">' +
+				'<div class="ui-widget-header ui-dialog-titlebar ui-corner-all blockTitle">'+(opts.title || '&nbsp;')+'</div>' +
 				'<div class="ui-widget-content ui-dialog-content"></div>' +
 			'</div>';
 	}
 	else if (full) {
-		s = '<div class="blockUI ' + opts.blockMsgClass + ' blockPage" style="z-index:'+z+';display:none;position:fixed"></div>';
-	}			
+		s = '<div class="blockUI ' + opts.blockMsgClass + ' blockPage" style="z-index:'+(z+10)+';display:none;position:fixed"></div>';
+	}			 
 	else {
-		s = '<div class="blockUI ' + opts.blockMsgClass + ' blockElement" style="z-index:'+z+';display:none;position:absolute"></div>';
+		s = '<div class="blockUI ' + opts.blockMsgClass + ' blockElement" style="z-index:'+(z+10)+';display:none;position:absolute"></div>';
 	}
 	lyr3 = $(s);
 
@@ -262,7 +265,7 @@ function install(el, opts) {
 	}
 
 	// style the overlay
-	if (!opts.applyPlatformOpacityRules || !($.browser.mozilla && /Linux/.test(navigator.platform)))
+	if (!opts.theme && (!opts.applyPlatformOpacityRules || !($.browser.mozilla && /Linux/.test(navigator.platform))))
 		lyr2.css(opts.overlayCSS);
 	lyr2.css('position', full ? 'fixed' : 'absolute');
 
@@ -384,7 +387,12 @@ function remove(el, opts) {
 	}
 	opts = $.extend({}, $.blockUI.defaults, opts || {});
 	bind(0, el, opts); // unbind events
-	
+
+	if (opts.onUnblock === null) {
+		opts.onUnblock = $el.data('blockUI.onUnblock');
+		$el.removeData('blockUI.onUnblock');
+	}
+
 	var els;
 	if (full) // crazy selector to handle odd field errors in ie6/7
 		els = $('body').children().filter('.blockUI').add('body > .blockUI');
@@ -451,8 +459,8 @@ function handler(e) {
 	if (e.keyCode && e.keyCode == 9) {
 		if (pageBlock && e.data.constrainTabKey) {
 			var els = pageBlockEls;
-			var fwd = !e.shiftKey && e.target == els[els.length-1];
-			var back = e.shiftKey && e.target == els[0];
+			var fwd = !e.shiftKey && e.target === els[els.length-1];
+			var back = e.shiftKey && e.target === els[0];
 			if (fwd || back) {
 				setTimeout(function(){focus(back)},10);
 				return false;

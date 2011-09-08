@@ -16,7 +16,7 @@ This is the perl stub for the jquery.cycle plugin.
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -24,13 +24,11 @@ Constructor
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            $session,
             name         => 'Cycle',
-            version      => '2.65',
+            version      => '2.9995',
             author       => 'M. Alsup',
             homepage     => 'http://www.malsup.com/jquery/cycle',
             javascript   => [ 'jquery.cycle.js', 'jquery.cycle.init.js' ],

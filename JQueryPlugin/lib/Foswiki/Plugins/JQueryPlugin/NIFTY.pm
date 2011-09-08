@@ -17,7 +17,7 @@ This is the perl stub for the jquery.nifty plugin.
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -25,11 +25,9 @@ Constructor
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            $session,
             name       => 'Nifty',
             version    => '2.0',
             author     => 'Paul Bakaus, Alessandro Fulciniti',

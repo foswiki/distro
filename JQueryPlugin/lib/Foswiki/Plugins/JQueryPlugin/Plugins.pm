@@ -1,15 +1,15 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::Plugins;
+
 use strict;
 use warnings;
+use Foswiki::Func;
 
 our @iconSearchPath;
 our %iconCache;
-our %plugins;    # all singletons
+our %plugins;
+our %themes;
 our $debug;
-our $currentTheme;
-
-use Foswiki::Func;
 
 =begin TML
 
@@ -27,16 +27,23 @@ initialize plugin container
 
 =cut
 
-sub init () {
+sub init {
 
     $debug = $Foswiki::cfg{JQueryPlugin}{Debug} || 0;
-    $currentTheme = undef;
 
+    # get all plugins
     foreach
       my $pluginName ( sort keys %{ $Foswiki::cfg{JQueryPlugin}{Plugins} } )
     {
         registerPlugin($pluginName)
           if $Foswiki::cfg{JQueryPlugin}{Plugins}{$pluginName}{Enabled};
+    }
+
+    # get all themes
+    foreach my $themeName ( sort keys %{ $Foswiki::cfg{JQueryPlugin}{Themes} } )
+    {
+        registerTheme($themeName)
+          if $Foswiki::cfg{JQueryPlugin}{Themes}{$themeName}{Enabled};
     }
 
     # load jquery
@@ -80,28 +87,37 @@ sub createPlugin {
 
 =begin TML
 
----++ ObjectMethd createTheme ($themeName)
+---++ ObjectMethd createTheme ($themeName, $url) -> $boolean
 
-Helper method to switch on the given theme (default =base=).
+Helper method to switch on a theme. Returns true
+if =$themeName= has been loaded successfully. Note that a previously
+loaded theme will be replaced with the new one as there can only
+be one theme per html page. The $url parameter optionally specifies
+from where to load the theme. It defaults to the url registered 
+in =configure= for the named theme.
 
 =cut
 
 sub createTheme {
-    my $themeName = shift;
+    my ($themeName, $url) = @_;
 
-    return $currentTheme if defined $currentTheme;
+    $themeName ||= $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
+    return 0 unless $themeName;
 
-    $themeName ||= 'base';
-    $currentTheme = $themeName;
+    my $normalizedName = lc($themeName);
 
-    if ( $themeName ne 'base' ) {
-        Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::THEME",
-            <<HERE, "JQUERYPLUGIN::FOSWIKI, JQUERYPLUGIN::UI" );
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/$themeName/jquery-ui.css" type="text/css" media="all" />
-HERE
+    unless ($url) {
+      my $themeDesc = $themes{$normalizedName};
+      return 0 unless defined $themeDesc;
+      $url = $themeDesc->{url};
     }
 
-    return $themeName;
+    Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::THEME",
+        <<HERE, "JQUERYPLUGIN::FOSWIKI, JQUERYPLUGIN::UI" );
+<link rel="stylesheet" href="$url" type="text/css" media="all" />
+HERE
+
+    return 1;
 }
 
 =begin TML
@@ -130,26 +146,39 @@ sub registerPlugin {
 
 =begin TML
 
+---++ ObjectMethod registerTheme( $themeName, $url ) -> $descriptor
+
+Helper method to register a theme.
+
+=cut
+
+sub registerTheme {
+    my ( $themeName, $url ) = @_;
+
+    my $normalizedName = lc($themeName);
+
+    $url ||= $Foswiki::cfg{JQueryPlugin}{Themes}{$themeName}{Url}
+      || '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/' . $normalizedName . '/jquery-ui.css';
+
+    return $themes{ $normalizedName } = {
+        'url'  => $url,
+        'name' => $themeName,
+    };
+}
+
+
+=begin TML
+
 finalizer
 
 =cut
 
 sub finish {
 
-    my $query = Foswiki::Func::getCgiQuery();
-    my $refresh = $query->param('refresh') || '';
-
-    if ( $Foswiki::cfg{JQueryPlugin}{MemoryCache} && $refresh ne 'on' ) {
-        foreach my $key ( keys %plugins ) {
-            my $pluginDesc = $plugins{$key};
-            $pluginDesc->{instance}->{isInit} = 0 if $pluginDesc->{instance};
-        }
-    }
-    else {
-        undef %plugins;
-        undef @iconSearchPath;
-        undef %iconCache;
-    }
+    undef %plugins;
+    undef %themes;
+    undef @iconSearchPath;
+    undef %iconCache;
 }
 
 =begin TML

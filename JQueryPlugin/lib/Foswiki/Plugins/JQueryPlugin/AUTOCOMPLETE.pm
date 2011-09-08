@@ -16,7 +16,7 @@ Autocomplete - jQuery plugin 1.2.1
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -24,13 +24,11 @@ Constructor
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            $session,
             name    => 'Autocomplete',
-            version => '1.2.1',
+            version => '1.2.2',
             author => 'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Joern Zaefferer',
             homepage => 'https://github.com/agarzola/jQueryAutocompletePlugin',
             css => ['jquery.autocomplete.css'],

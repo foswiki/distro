@@ -1,5 +1,5 @@
 /*
- * jQuery Autocomplete plugin 1.2.1
+ * jQuery Autocomplete plugin 1.2.2
  *
  * Copyright (c) 2009 Joern Zaefferer
  *
@@ -72,7 +72,7 @@ $.Autocompleter = function(input, options) {
 	}
 
 	// Create $ object for input element
-        var $input = $(input).attr("autocomplete", "off").addClass(options.inputClass);
+	var $input = $(input).attr("autocomplete", "off").addClass(options.inputClass);
 
 	var timeout;
 	var previousValue = "";
@@ -85,7 +85,7 @@ $.Autocompleter = function(input, options) {
 	var select = $.Autocompleter.Select(options, input, selectCurrent, config);
 	
 	var blockSubmit;
-
+	
         // add spinner
         $input.wrap("<div style='position:relative; display:inline; white-space:nowrap'></div>");
         var $spinner = $("<span class='ac_spinner' />").insertAfter($input);
@@ -457,8 +457,6 @@ $.Autocompleter.defaults = {
 	width: 0,
 	multiple: false,
 	multipleSeparator: " ",
-	inputFocus: true,
-	clickFire: false,
 	inputFocus: true,
 	clickFire: false,
 	highlight: function(value, term) {

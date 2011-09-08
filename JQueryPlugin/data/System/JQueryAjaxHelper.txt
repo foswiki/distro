@@ -1,14 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1283353795" format="1.1" reprev="9" version="9"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1308932234" format="1.1" reprev="10" version="10"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 <!--
 Hidden form definition
 |*Name*  |*Type*  |*Size*  |*Values*  |*Tooltip message*  |*Attributes*  |
 | Example | text | 40 | | | |
 -->
-<literal>
-%JQREQUIRE{"chili"}%
-%JQREQUIRE{"autocomplete"}%
-</literal>
+%JQREQUIRE{"chili, ui"}%
 ---+!! %TOPIC%
 
 This page contains is a set of example JQueryPlugin helpers that can be used in
@@ -67,11 +64,13 @@ loads the =topic= section of this topic, which expands to the topic list.
    * =exclude=: exclude expression to filter out unwanted topics
 <verbatim class="tml">
 %STARTSECTION{"topic"}%%SEARCH{
-  "^%URLPARAM{"q" default="does not exist"}%.*"
+  "^%URLPARAM{"term" default="does not exist"}%.*"
   type="regex"
   scope="topic"
-  format="<nop>%URLPARAM{"format" default="$topic"}%"
-  separator="$n"
+  header="["
+  format="<nop>%URLPARAM{"format" default="\\"$topic\\""}%"
+  separator=","
+  footer="]"
   limit="%URLPARAM{"limit" default="10"}%"
   nonoise="on"
   excludetopic="%URLPARAM{"exclude"}%"
@@ -112,12 +111,15 @@ Foswiki:Extensions.FlexWebListPlugin.
    * =limit=: number of search results to return, defaults to 10
 <verbatim class="tml">
 %STARTSECTION{"web"}%%FLEXWEBLIST{
-  include="^%URLPARAM{"q" default="does not exist"}%.*"
+  include="^%URLPARAM{"term" default="does not exist"}%.*"
   ignorecase="on"
   limit="%URLPARAM{"limit" default="10"}%"
-  format="<nop>$web"
-  separator="$n"
-  subheader="$n"
+  header="["
+  format="\"<nop>$web\""
+  footer="]"
+  separator=", "
+  subheader=", "
+  subfooter=""
 }%%ENDSECTION{"web"}%
 </verbatim>
 
@@ -160,12 +162,13 @@ jQuery(function($){
   $(".jqJumpBox").each(function() {
     var $this = $(this);
     var opts = $.extend({}, $this.metadata());
-    $this.autocomplete(
-      "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text"+
-      ";baseweb="+opts.baseweb+
-      ";format="+opts.format
-    ).result(function(event, item) {
-      window.location.href="%SCRIPTURLPATH{"view"}%/"+(opts.global?'':opts.baseweb+'/')+item;
+    $this.autocomplete({
+      source: "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text"+
+              ";baseweb="+opts.baseweb+
+              ";format="+opts.format,
+      change: function(event, item) {
+        window.location.href="%SCRIPTURLPATH{"view"}%/"+(opts.global?'':opts.baseweb+'/')+item;
+      }
     });
   });
 });
@@ -240,7 +243,7 @@ jQuery(function($){
    * =limit=: number of search results to return, defaults to 10
 <verbatim class="tml">
 %STARTSECTION{"user"}%%SEARCH{
-   "^%URLPARAM{"q" default="does not exist"}%.*"
+   "^%URLPARAM{"term" default="does not exist"}%.*"
    type="regex"
    scope="topic"
    format="$percntUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$percntFORMFIELD{\"Photo\" topic=\"$web.$topic\" default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\"}$percnt$n\"}$percnt"
@@ -359,7 +362,7 @@ installation of optional extensions.
 Foswiki:Extensions.DBCachePlugin implementation of the [[#User_selector][user selector]] server section.
 <verbatim class="tml">
 %STARTSECTION{"user_fast"}%%DBQUERY{
-   "uc(topic) =~ uc('^%URLPARAM{"q" default="does not exist"}%')"
+   "uc(topic) =~ uc('^%URLPARAM{"term" default="does not exist"}%')"
    format="$percntUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$expand(Photo or '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif')$n\"}$percnt"
    separator=""
    limit="%URLPARAM{"limit" default="10"}%"
