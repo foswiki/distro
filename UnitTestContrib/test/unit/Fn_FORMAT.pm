@@ -571,15 +571,15 @@ $ntopics, $nhits, $pager" separator=";"}%'
     $this->assert_str_equals(
         '1:(A) - $web, $topic, $parent, $text, $locked,
 $longdate, $iso, $rev, $username, $wikiname, $wikiusername,
-01 Jan 1970 - 00:00, guest, WikiGuest, TemporarySEARCHUsersWeb.WikiGuest,
+$createlongdate, $createusername, $createwikiname, $createwikiusername,
 $summary, $changes, $formname, $formfield, $pattern, $count,
 1, 1, $pager;2:(B) - $web, $topic, $parent, $text, $locked,
 $longdate, $iso, $rev, $username, $wikiname, $wikiusername,
-01 Jan 1970 - 00:00, guest, WikiGuest, TemporarySEARCHUsersWeb.WikiGuest,
+$createlongdate, $createusername, $createwikiname, $createwikiusername,
 $summary, $changes, $formname, $formfield, $pattern, $count,
 2, 2, $pager;3:(C) - $web, $topic, $parent, $text, $locked,
 $longdate, $iso, $rev, $username, $wikiname, $wikiusername,
-01 Jan 1970 - 00:00, guest, WikiGuest, TemporarySEARCHUsersWeb.WikiGuest,
+$createlongdate, $createusername, $createwikiname, $createwikiusername,
 $summary, $changes, $formname, $formfield, $pattern, $count,
 3, 3, $pager', $result );
 }
