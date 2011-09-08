@@ -564,7 +564,6 @@ sub formatResults {
     my ( $this, $query, $infoCache, $params ) = @_;
     my $session = $this->{session};
     my $users   = $session->{users};
-
     my ( $callback, $cbdata ) = setup_callback($params);
 
     my $baseTopic     = $session->{topicName};
@@ -905,6 +904,18 @@ sub formatResults {
 
             ###################Render the result
             my $out;
+	    my $handleRev1Info = sub {
+		# Handle e.g. createdate, createwikiuser etc
+		my $info = $this->metacache->get(
+		    $_[1]->web, $_[1]->topic, $_[1] );
+		my $r = $info->{tom}->getRev1Info($_[0]);
+		return $r;
+	    };
+	    my $handleRevInfo = sub {
+		return $session->renderer->renderRevisionInfo(
+		    $_[1], $info->{revNum} || 0, '$'.$_[0] );
+	    };
+
             if ( $formatDefined and ( $format ne '' ) ) {
 
                 # SMELL: hack to convert a bad SEARCH format to the one
@@ -941,54 +952,51 @@ sub formatResults {
                     $text,
                     $searchOptions,
                     {
-                        '\$ntopics' => sub { return $ntopics },
-                        '\$nhits'   => sub { return $nhits },
-                        '\$index'   => sub { return $thits },
-                        '\$item'    => sub { return $listItem },
+                        'ntopics' => sub { return $ntopics },
+                        'nhits'   => sub { return $nhits },
+                        'index'   => sub { return $thits },
+                        'item'    => sub { return $listItem },
 
                         %pager_formatting,
 
-  #rev1 info
-  #TODO: move the $create* formats into Render::renderRevisionInfo..
-  #which implies moving the infocache's pre-extracted data into the tom obj too.
-  #    $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
-  #      $infoCache->getRev1Info( $topic, "create$1" )/ges;
-                        '\$createlongdate' => sub {
-                            my $info =
-                              $this->metacache->get( $_[0]->web, $_[0]->topic,
-                                $_[0] );
-                            return $info->{tom}->getRev1Info("createlongdate");
-                        },
-                        '\$createusername' => sub {
-                            my $info =
-                              $this->metacache->get( $_[0]->web, $_[0]->topic,
-                                $_[0] );
-                            return $info->{tom}->getRev1Info("createusername");
-                        },
-                        '\$createwikiname' => sub {
-                            my $info =
-                              $this->metacache->get( $_[0]->web, $_[0]->topic,
-                                $_[0] );
-                            return $info->{tom}->getRev1Info("createwikiname");
-                        },
-                        '\$createwikiusername' => sub {
-                            my $info =
-                              $this->metacache->get( $_[0]->web, $_[0]->topic,
-                                $_[0] );
-                            return $info->{tom}
-                              ->getRev1Info("createwikiusername");
-                        },
-
-                   #TODO: hacky bits that need to be moved out of formatResult()
-                        '$revNum' => sub { return ( $info->{revNum} || 0 ); },
-                        '$doBookView' => sub { return $doBookView; },
-                        '$baseWeb'    => sub { return $baseWeb; },
-                        '$baseTopic'  => sub { return $baseTopic; },
-                        '$newLine'    => sub { return $newLine; },
-                        '$separator'  => sub { return $separator; },
-                        '$noTotal'    => sub { return $noTotal; },
-                        '$paramsHash' => sub { return $params; },
-                    }
+                        'revNum' => sub { return ( $info->{revNum} || 0 ); },
+                        'doBookView' => sub { return $doBookView; },
+                        'baseWeb'    => sub { return $baseWeb; },
+                        'baseTopic'  => sub { return $baseTopic; },
+                        'newLine'    => sub { return $newLine; },
+                        'separator'  => sub { return $separator; },
+                        'noTotal'    => sub { return $noTotal; },
+                        'paramsHash' => sub { return $params; },
+		    },
+		    {
+			#rev1 info
+			# TODO: move the $create* formats into Render::renderRevisionInfo..
+			# which implies moving the infocache's pre-extracted data into the tom obj too.
+			#    $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
+			#      $infoCache->getRev1Info( $topic, "create$1" )/ges;
+                        'createlongdate' => $handleRev1Info,
+                        'createusername' => $handleRev1Info,
+                        'createwikiname' => $handleRev1Info,
+                        'createwikiusername' => $handleRev1Info,
+                        'createusername' => $handleRev1Info,
+			# rev info
+			'web'        => sub { return $_[1]->web },
+			'topic'      => sub {
+			    if (defined $_[2]) {
+				return Foswiki::Render::breakName( 
+				    $_[1]->topic, $_[2] );
+			    } else {
+				return $_[1]->topic;
+			    }
+			},
+			'rev' => $handleRevInfo,
+			'wikiusername' => $handleRevInfo,
+			'wikiname' => $handleRevInfo,
+			'username' => $handleRevInfo,
+			'iso' => $handleRevInfo,
+			'longdate' => $handleRevInfo,
+			'date' => $handleRevInfo,
+		    }
                 );
             }
             else {
@@ -1076,8 +1084,9 @@ sub formatCommon {
 ---++ ObjectMethod formatResult
    * $text can be undefined.
    * $searchOptions is an options hash to pass on to the summary parser
-   * customKeys is a hash of {'$key' => sub {my $item = shift; return value;} }
-     where $item is a tom object (initially a Foswiki::Meta, but I'd like to be more generic)
+   * $nonTomKeys is a hash of key -> sub($key,$item) where $item is *not* assumed to be a topic object.
+   * tomKeys is a hash of {'$key' => sub($key,$item,$params) }
+     where $item is a tom object (initially a Foswiki::Meta, but I'd like to be more generic) and $params is whatever is in trailing ()
      
 TODO: i don't really know what we'll need to do about order of processing.
 TODO: at minimum, the keys need to be sorted by length so that $datatime is processed before $date
@@ -1086,64 +1095,55 @@ TODO: need to cater for $summary(params) style too
 =cut
 
 sub formatResult {
-    my ( $this, $out, $topicObject, $text, $searchOptions, $customKeys ) = @_;
+    my ( $this, $out, $item, $text, $searchOptions,
+	 $nonTomKeys, $tomKeys ) = @_;
 
     my $session = $this->{session};
 
-    my $web   = $topicObject->web();
-    my $topic = $topicObject->topic();
-
     #TODO: these need to go away.
-    my $revNum     = &{ $customKeys->{'$revNum'} }();
-    my $doBookView = &{ $customKeys->{'$doBookView'} }();
-    my $baseWeb    = &{ $customKeys->{'$baseWeb'} }();
-    my $baseTopic  = &{ $customKeys->{'$baseTopic'} }();
-    my $newLine    = &{ $customKeys->{'$newLine'} }();
-    my $separator  = &{ $customKeys->{'$separator'} }();
-    my $noTotal    = &{ $customKeys->{'$noTotal'} }();
-    my $params     = &{ $customKeys->{'$paramsHash'} }();
+    my $revNum     = &{ $nonTomKeys->{'revNum'} }();
+    my $doBookView = &{ $nonTomKeys->{'doBookView'} }();
+    my $baseWeb    = &{ $nonTomKeys->{'baseWeb'} }();
+    my $baseTopic  = &{ $nonTomKeys->{'baseTopic'} }();
+    my $newLine    = &{ $nonTomKeys->{'newLine'} }();
+    my $separator  = &{ $nonTomKeys->{'separator'} }();
+    my $noTotal    = &{ $nonTomKeys->{'noTotal'} }();
+    my $params     = &{ $nonTomKeys->{'paramsHash'} }();
     foreach my $key (
-        '$revNum',  '$doBookView', '$baseWeb', '$baseTopic',
-        '$newLine', '$separator',  '$noTotal', '$paramsHash'
+        'revNum',  'doBookView', 'baseWeb', 'baseTopic',
+        'newLine', 'separator',  'noTotal', 'paramsHash'
       )
     {
-        delete $customKeys->{$key};
+        delete $tomKeys->{$key};
+        delete $nonTomKeys->{$key};
     }
 
-    foreach my $key ( keys(%$customKeys) ) {
-        $out =~ s/$key/&{$customKeys->{$key}}($topicObject)/ges;
+    foreach my $key ( keys(%$nonTomKeys) ) {
+        $out =~ s/\$$key/&{$nonTomKeys->{$key}}($key, $item)/ges;
     }
+    if ($item->topic) {
+	# Only process tomKeys if the item is a valid topicObject
+	foreach my $key ( keys(%$tomKeys) ) {
+	    $out =~ s[\$$key(?:\(([^\)]*)\))?]
+		[&{$tomKeys->{$key}}($key, $item, $1)]ges;
+	}
+	# Note that we cannot send a formatted search through renderRevisionInfo
+	# without expanding tokens we should not because the function also sends
+	# the input through formatTime and probably other nasty filters
+	# So we send each token through one by one.
+	if ( $out =~ m/\$text/ ) {
+	    $text = $item->text() unless defined $text;
+	    $text = '' unless defined $text;
+	    
+	    if ( $item->topic eq $session->{topicName} ) {
 
-    #SMELL: hack to stop non-topic based FORMAT's from doing topic code
-    #TODO: this should be extracted into the customKeys above
-    # Note that we cannot send a formatted search through renderRevisionInfo
-    # without expanding tokens we should not because the function also sends
-    # the input through formatTime and probably other nasty filters
-    # So we send each token through one by one.
-    if ( defined $topic ) {
-
-        $out =~ s/\$web/$web/gs;
-        $out =~ s/\$topic\(([^\)]*)\)/Foswiki::Render::breakName( 
-                                                $topic, $1 )/ges;
-        $out =~ s/\$topic/$topic/gs;
-        $out =~
-s{(\$rev|\$wikiusername|\$wikiname|\$username|\$createlongdate|\$iso|\$longdate|\$date)}
-                 {$session->renderer->renderRevisionInfo($topicObject, $revNum, $1 )}ges;
-    }
-
-    if ( $out =~ m/\$text/ and defined($topic) )
-    {    #TODO: don't muck with text if we're not even a topic
-        $text = $topicObject->text() unless defined $text;
-        $text = '' unless defined $text;
-
-        if ( $topic eq $session->{topicName} ) {
-
-#TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
-
-            # defuse SEARCH in current topic to prevent loop
-            $text =~ s/%SEARCH{.*?}%/SEARCH{...}/go;
-        }
-        $out =~ s/\$text/$text/gos;
+		#TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
+		
+		# defuse SEARCH in current topic to prevent loop
+		$text =~ s/%SEARCH{.*?}%/SEARCH{...}/go;
+	    }
+	    $out =~ s/\$text/$text/gos;
+	}
     }
 
     #TODO: extract the rev
@@ -1157,16 +1157,16 @@ s{(\$rev|\$wikiusername|\$wikiname|\$username|\$createlongdate|\$iso|\$longdate|
     if ($doBookView) {
 
         # BookView
-        $text = $topicObject->text() unless defined $text;
+        $text = $item->text() unless defined $text;
         $text = '' unless defined $text;
 
-        if ( $web eq $baseWeb && $topic eq $baseTopic ) {
+        if ( $item->web eq $baseWeb && $item->topic eq $baseTopic ) {
 
             # primitive way to prevent recursion
             $text =~ s/%SEARCH/%<nop>SEARCH/g;
         }
-        $text = $topicObject->expandMacros($text);
-        $text = $topicObject->renderTML($text);
+        $text = $item->expandMacros($text);
+        $text = $item->renderTML($text);
 
         $out =~ s/%TEXTHEAD%/$text/go;
 
@@ -1174,18 +1174,18 @@ s{(\$rev|\$wikiusername|\$wikiname|\$username|\$createlongdate|\$iso|\$longdate|
     else {
 
         #TODO: more topic specific bits
-        if ( defined($topic) ) {
+        if ( defined($item->topic) ) {
             $out =~ s/\$summary(?:\(([^\)]*)\))?/
-              $topicObject->summariseText( $1, $text, $searchOptions )/ges;
+              $item->summariseText( $1, $text, $searchOptions )/ges;
             $out =~ s/\$changes(?:\(([^\)]*)\))?/
-              $topicObject->summariseChanges(Foswiki::Store::cleanUpRevID($1), $revNum)/ges;
+              $item->summariseChanges(Foswiki::Store::cleanUpRevID($1), $revNum)/ges;
             $out =~ s/\$formfield\(\s*([^\)]*)\s*\)/
-              displayFormField( $topicObject, $1 )/ges;
+              displayFormField( $item, $1 )/ges;
             $out =~ s/\$parent\(([^\)]*)\)/
               Foswiki::Render::breakName(
-                  $topicObject->getParent(), $1 )/ges;
-            $out =~ s/\$parent/$topicObject->getParent()/ges;
-            $out =~ s/\$formname/$topicObject->getFormName()/ges;
+                  $item->getParent(), $1 )/ges;
+            $out =~ s/\$parent/$item->getParent()/ges;
+            $out =~ s/\$formname/$item->getFormName()/ges;
             $out =~ s/\$count\((.*?\s*\.\*)\)/_countPattern( $text, $1 )/ges;
 
    # FIXME: Allow all regex characters but escape them
