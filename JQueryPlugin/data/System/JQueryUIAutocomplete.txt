@@ -1,0 +1,255 @@
+%META:TOPICINFO{author="micha" comment="reprev" date="1315486090" format="1.1" reprev="1" version="1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+!! %TOPIC%
+%JQPLUGINS{"ui::autocomplete"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+%STARTSECTION{"summary"}%
+Autocomplete, when added to an input field, enables users to quickly find and
+select from a pre-populated list of values as they type, leveraging searching
+and filtering.
+
+By giving an Autocomplete field focus or entering something into it, the plugin
+starts searching for entries that match and displays a list of values to choose
+from. By entering more characters, the user can filter down the list to better
+matches.
+%ENDSECTION{"summary"}%
+
+You can pull data in from a local and/or a remote source: Local is good for
+small data sets (like an address book with 50 entries), remote is necessary for
+big data sets, like a database with hundreds or millions of entries to select
+from.
+
+Autocomplete can be customized to work with various data sources, by just
+specifying the source option. A data source can be:
+
+   * an Array with local data
+   * a String, specifying a URL
+   * a Callback
+
+The local data can be a simple Array of Strings, or it contains Objects for
+each item in the array, with either a label or value property or both. The
+label property is displayed in the suggestion menu. The value will be inserted
+into the input element after the user selected something from the menu. If just
+one property is specified, it will be used for both, eg. if you provide only
+value-properties, the value will also be used as the label.
+
+When a String is used, the Autocomplete plugin expects that string to point to
+a URL resource that will return JSON data. It can be on the same host or on a
+different one (must provide JSONP). The request parameter "term" gets added to
+that URL. The data itself can be in the same format as the local data described
+above.
+
+The third variation, the callback, provides the most flexibility, and can be
+used to connect any data source to Autocomplete. The callback gets two
+arguments:
+
+   * A request object, with a single property called "term", which refers to the
+     value currently in the text input. For example, when the user entered "new yo"
+     in a city field, the Autocomplete term will equal "new yo".
+   * A response callback, which expects a single argument to contain the data
+     to suggest to the user. This data should be filtered based on the provided
+     term, and can be in any of the formats described above for simple local
+     data (String-Array or Object-Array with label/value/both properties). It's
+     important when providing a custom source callback to handle errors during
+     the request. You must always call the response callback even if you
+     encounter an error. This ensures that the widget always has the correct
+     state.
+
+---++ Usage
+
+Use =ui::autocomplete= to make use of the library on a wiki page. 
+Add the =.jqUIAutocomplete= css class to enable autocompletion.
+Specify the url to fetch terms in the =autocomplete= html attribute.
+Add %SYSTEMWEB%.JQueryMetadata to specify further parameters.
+When specifying a local data source for autocompletion terms use the =source=
+option within a metadata json object as specified in the examples below.
+
+When specifying a remote source in the =autocomplete= html attribute, the
+additional css class =.jqUIAutocomplete= isn't required.
+
+See http://docs.jquery.com/UI/Autocomplete#options for further useful options
+that can be specified as metadata.
+
+<verbatim class="tml">
+%JQREQUIRE{"ui::autocomplete"}%
+
+<input type='text' class='jqUIAutocomplete {source:["term1", "term2", "..."], delay:500, minLength:3}' />
+
+<input type='text' autocomplete='http://...url to term backend...' />
+</verbatim>
+
+---++ Writing autocomplete backends
+
+When fetching autocompletion terms from a remote backend the endpoint has to return a json object
+of a specific format interpreted by the library. This can either be a plain array of strings or
+an array of json objects with a =label= and an =id= property.
+
+Array of strings:
+<verbatim class="js">
+[ "term1", "term2", "..." ]
+</verbatim>
+
+Array of json objects:
+<verbatim class="js">
+[
+  {
+    label: "display this",
+    id: "value is this",
+  },
+  {
+    label: "display this",
+    id: "value is this"
+  },
+  ...
+]
+</verbatim>
+
+Custom properties may be specified as part of each json object in the array. Note however to make
+use of these you will have to initialize autocompletion using javascript and by
+specifying a renderer for items in the autocompltion dropbox yourself like
+this:
+
+<verbatim class="html">
+<input type="text" id="project" />
+<input type="hidden" id="project-id"/>
+
+<img id="project-icon" src="..." />
+<div id="project-description"></div>
+
+<literal>
+<script type="text/javascript">
+var projects = [
+  {
+      value: "jquery",
+      label: "jQuery",
+      desc: "the write less, do more, JavaScript library",
+      icon: "jquery_32x32.png"
+  },
+  {
+      value: "jquery-ui",
+      label: "jQuery UI",
+      desc: "the official user interface library for jQuery",
+      icon: "jqueryui_32x32.png"
+  },
+  {
+      value: "sizzlejs",
+      label: "Sizzle JS",
+      desc: "a pure-JavaScript CSS selector engine",
+      icon: "sizzlejs_32x32.png"
+  }
+];
+
+jQuery(function($) {
+
+  $("#project").autocomplete({
+    source: projects,
+    select: function( event, ui ) {
+      $("#project").val(ui.item.label);
+      $("#project-id").val(ui.item.value);
+      $("#project-description").html(ui.item.desc);
+      $("#project-icon").attr("src", "images/" + ui.item.icon );
+      return false;
+    }
+  }).data("autocomplete")._renderItem = function(ul, item) {
+      return $("<li></li>")
+        .data("item.autocomplete", item)
+        .append("<a>" + item.label + "<br>" + item.desc + "</a>")
+        .appendTo( ul );
+  };
+});
+</script>
+</literal>
+</verbatim>
+
+---++ Example
+
+%JQREQUIRE{"ui::autocomplete"}%
+
+---+++ Using local data
+
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+  *Country:* <input class="foswikiInputField jqUIAutocomplete {source:countryList}" size="60" />
+  </div>
+</div>
+
+<literal>
+<script>
+var countryList = [
+  "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antarctica",
+  "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
+  "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus",
+  "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegovina", 
+  "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso",
+  "Burma", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Central African Republic", 
+  "Chad", "Chile", "China", "Colombia", "Comoros", "Congo, Democratic Republic", 
+  "Congo, Republic of the", "Costa Rica", "Cote d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark",
+  "Djibouti", "Dominica", "Dominican Republic", "East Timor", "Ecuador",
+  "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia",
+  "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia",
+  "Germany", "Ghana", "Greece", "Greenland", "Grenada", "Guatemala", "Guinea",
+  "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary",
+  "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel",
+  "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati",
+  "Korea, North", "Korea, South", "Kuwait", "Kyrgyzstan", "Laos", "Latvia",
+  "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania",
+  "Luxembourg", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives",
+  "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico",
+  "Micronesia", "Moldova", "Mongolia", "Morocco", "Monaco", "Mozambique",
+  "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua",
+  "Niger", "Nigeria", "Norway", "Oman", "Pakistan", "Panama", "Papua New Guinea", 
+  "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar",
+  "Romania", "Russia", "Rwanda", "Samoa", "San Marino", " Sao Tome", "Saudi Arabia", 
+  "Senegal", "Serbia and Montenegro", "Seychelles", "Sierra Leone",
+  "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", 
+  "Spain", "Sri Lanka", "Sudan", "Suriname", "Swaziland", "Sweden",
+  "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand",
+  "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan",
+  "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", 
+  "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+];
+</script>
+</literal>
+
+---+++ Using remote data
+
+<div class="foswikiFormSteps">
+  <div class="foswikiFormStep">
+    <table class='foswikiLayoutTable'>
+      <tr>
+        <th>Topic:</th>
+        <td><input class="foswikiInputField" size="60" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;baseweb=%USERSWEB%" /></td>
+      </tr>
+      <tr>
+        <th>Country:</th>
+        <td><input class="foswikiInputField" size="60" autocomplete="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?section=data;skin=text" /></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+This implementation extracts the list of countries from %SYSTEMWEB%.CountryList:
+
+<verbatim class="tml">
+%STARTSECTION{"data"}%%SEARCH{
+ "^\| .*%URLPARAM{"term"}%.* \| *$"
+ web="%SYSTEMWEB%"
+ topic="CountryList"
+ type="regex"
+ multiple="on"
+ nonoise="on"
+ casesensitive="off"
+ header="["
+ format="\"$pattern(.*?\| ([^\|]*).*)\""
+ separator=", "
+ footer="]"
+}%
+%ENDSECTION{"data"}%
+</verbatim>
+
+See http://jqueryui.com/demos/autocomplete/ for more demos.

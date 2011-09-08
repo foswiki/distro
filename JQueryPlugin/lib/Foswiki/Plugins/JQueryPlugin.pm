@@ -415,6 +415,7 @@ sub handleJQueryPlugins {
         counter => $counter, );
     $theSeparator =
       Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables($theSeparator);
+
     return $theHeader . join( $theSeparator, @result ) . $theFooter;
 }
 

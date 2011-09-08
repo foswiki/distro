@@ -532,7 +532,9 @@ a.ui-state-active:hover,
   color:#222;
 }
 .ui-autocomplete-loading {
-  background:transparent url(../../images/spinner.gif) right center no-repeat;
+  background-image:url(../../images/spinner.gif);
+  background-position:right center !important;
+  background-repeat:no-repeat !important;
 }
 
 /* workarounds */

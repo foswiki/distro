@@ -66,6 +66,9 @@ sub new {
       $Foswiki::cfg{SystemWebName} . '.JQuery' . ucfirst( $this->{name} )
       unless defined $this->{documentation};
 
+    # make sure this is a valid web.topic name ... bit sloppy but hey
+    $this->{documentation} =~ s/[^$Foswiki::regex{mixedAlpha}\.]//g;
+
     unless ( $this->{puburl} ) {
         $this->{puburl} = '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/'
           . lc( $this->{name} );

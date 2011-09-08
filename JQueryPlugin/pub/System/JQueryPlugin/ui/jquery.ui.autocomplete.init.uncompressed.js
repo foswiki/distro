@@ -6,11 +6,11 @@ jQuery(function($) {
     cache: true // SMELL: note, if you disable caching, extraParams won't be processed either
   };
 
-  $(".jqUIAutocomplete").livequery(function() {
+  $("input[autocomplete]:not([autocomplete=off]):not(.jqInitedAutocomplete), .jqUIAutocomplete").livequery(function() {
     var $this = $(this), 
         cache = {}, lastXhr,
-        url = $this.attr('autocomplete'),
-        opts = $.extend({ source: url }, defaults, $this.metadata());
+        src = $this.attr('autocomplete'),
+        opts = $.extend({ source: src }, defaults, $this.metadata());
 
     if (opts.cache && typeof(opts.source) === 'string') {
       // wrap source url into a cache 
