@@ -311,6 +311,7 @@ Dynamic servers are more useful when Foswiki access load on the server is low an
 | Release: | %$RELEASE% |
 | Version: | %$VERSION% |
 | Change History: | |
+|  08 Sep 2011 | (0.9.5) Foswikitask:Item9957 - remove uninitialised value log message |
 |  26 Oct 2010 | (0.9.4) Foswikitask:Item9902 - Adding more resources about how to get and install CPAN lib and mod_fcgid or mod_fastcgi. Also includes temporary fix from Foswikitask:Item1515: added maxRequests to ease memory leaks and fix for Foswikitask:Item9456: Taint error with foswiki.fcgi  |
 |  17 Sep 2010 | (0.9.3) Foswikitask:Item9701 - Documentation update, suggest =mod_fcgid= preferred over =mod_fastcgi= |
 |  03 Sep 2010 | Foswikitask:Item9456 - Taint error, Foswikitask:Item9390 - !LocalSite.cfg error handling, Foswikitask:Item8765 - Perl coding issue,  Foswikitask:Item1315 - Support information |
