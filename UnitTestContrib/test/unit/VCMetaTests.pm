@@ -1,8 +1,12 @@
-# Smoke tests for Foswiki::Store
-package StoreSmokeTests;
+# These tests cycle through the available store implementations
+# and check that calls to the methods of Foswiki::Meta respond
+# approrpiately. The tests are cursory, and only intended as a
+# "sanity check" of store functionality. More complete tests of
+# VC functionality can be found in VCStoreTests and VCHandlerTests.
+package VCMetaTests;
 
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use FoswikiStoreTestCase;
+our @ISA = qw( FoswikiStoreTestCase );
 
 use strict;
 use Foswiki;
@@ -15,43 +19,6 @@ my $testUser1;
 my $testUser2;
 my $UI_FN;
 
-sub fixture_groups {
-    my @groups;
-    foreach my $dir (@INC) {
-        if ( opendir( D, "$dir/Foswiki/Store" ) ) {
-            foreach my $alg ( readdir D ) {
-                next unless $alg =~ s/^(.*)\.pm$/$1/;
-                next if defined &$alg;
-                $ENV{PATH} =~ /^(.*)$/ms;
-                $ENV{PATH} = $1;
-                if ($alg =~ /RcsWrap/) {
-                    eval {
-                        `co -V`;    # Check to see if we have co
-                    };
-                    if ( $@ || $? ) {
-                        print STDERR "*** CANNOT RUN RcsWrap TESTS - NO COMPATIBLE co: $@\n";
-                        next;
-                    }
-                }
-                ($alg) = $alg =~ /^(.*)$/ms;
-                eval "require Foswiki::Store::$alg";
-                die $@ if $@;
-                no strict 'refs';
-                *$alg = sub {
-                    my $this = shift;
-                    $Foswiki::cfg{Store}{Implementation} =
-                      'Foswiki::Store::'.$alg;
-                    $this->set_up_for_verify();
-                };
-                use strict 'refs';
-                push(@groups, $alg);
-            }
-            closedir(D);
-        }
-    }
-    return \@groups;
-}
-
 # Set up the test fixture
 sub set_up_for_verify {
     my $this = shift;
@@ -61,6 +28,7 @@ sub set_up_for_verify {
     $Foswiki::cfg{WarningFileName} = "$Foswiki::cfg{TempfileDir}/junk";
     $Foswiki::cfg{LogFileName}     = "$Foswiki::cfg{TempfileDir}/junk";
 
+    $this->{session}->finish();
     $this->{session} = new Foswiki();
 
     $testUser1 = "DummyUserOne";
