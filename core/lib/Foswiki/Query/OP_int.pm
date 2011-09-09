@@ -24,7 +24,10 @@ sub evaluate {
     my $node = shift;
 
     my $a = $node->{params}[0]->evaluate(@_);
-    return $this->collect( $a, sub { defined $_[0] ? int $_[0] : undef } );
+    return $this->collect( $a, sub {
+	defined $_[0] ?
+	    Foswiki::Query::OP::isNumber($_[0]) ? int( $_[0] ) : 0
+	    : undef } );
 }
 
 sub evaluatesToConstant {
