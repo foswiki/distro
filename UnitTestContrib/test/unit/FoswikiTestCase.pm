@@ -32,10 +32,10 @@ use Error qw( :try );
 
 BEGIN {
 
-    # SMELL: These were tainting @INC,   TestRunner.pl already adds these to the path
-    #        Tests still seem to run without them being added here.
-    #push( @INC, "$ENV{FOSWIKI_HOME}/lib" ) if defined( $ENV{FOSWIKI_HOME} );
-    #unshift @INC, '../../bin';    # SMELL: dodgy
+# SMELL: These were tainting @INC,   TestRunner.pl already adds these to the path
+#        Tests still seem to run without them being added here.
+#push( @INC, "$ENV{FOSWIKI_HOME}/lib" ) if defined( $ENV{FOSWIKI_HOME} );
+#unshift @INC, '../../bin';    # SMELL: dodgy
     require 'setlib.cfg';
     $SIG{__DIE__} = sub { Carp::confess $_[0] };
 }
@@ -102,7 +102,7 @@ sub _onceOnlyChecks {
 
 # Override in subclasses to change the config on a per-testcase basis
 sub loadExtraConfig {
-    my $this = shift;
+    my $this    = shift;
     my $context = shift;
 }
 
@@ -116,7 +116,7 @@ sub set_up {
     $this->SUPER::set_up(@_);
 
     $this->{__EnvSafe} = {};
-    foreach my $sym (keys %ENV) {
+    foreach my $sym ( keys %ENV ) {
         next unless defined($sym);
         $this->{__EnvSafe}->{$sym} = $ENV{$sym};
     }
@@ -149,13 +149,14 @@ sub set_up {
     local $/ = "\n";
     while (<F>) {
         if (/^!include .*?([^\/]+Plugin)$/) {
+
             # Don't enable EmptyPlugin - Disabled by default
             next if $1 eq 'EmptyPlugin';
-            unless( exists $Foswiki::cfg{Plugins}{$1}{Module} ) {
+            unless ( exists $Foswiki::cfg{Plugins}{$1}{Module} ) {
                 $Foswiki::cfg{Plugins}{$1}{Module} = 'Foswiki::Plugins::' . $1;
                 print STDERR "WARNING: $1 has no module defined, "
-                    ."it might not load!\n"
-                    ."\tGuessed it to $Foswiki::cfg{Plugins}{$1}{Module}\n";
+                  . "it might not load!\n"
+                  . "\tGuessed it to $Foswiki::cfg{Plugins}{$1}{Module}\n";
             }
             $Foswiki::cfg{Plugins}{$1}{Enabled} = 1;
         }
@@ -168,15 +169,14 @@ sub set_up {
     my $tmp = new Foswiki( undef, $query );
     $tmp->finish();
 
-    my %tempDirOptions = (
-        CLEANUP => 1
-    );
-    if ($^O eq 'MSWin32') {
+    my %tempDirOptions = ( CLEANUP => 1 );
+    if ( $^O eq 'MSWin32' ) {
+
         #on windows, don't make a big old mess of c:\
         $ENV{TEMP} =~ /(.*)/;
         $tempDirOptions{DIR} = $1;
     }
-    $Foswiki::cfg{WorkingDir} = File::Temp::tempdir( %tempDirOptions );
+    $Foswiki::cfg{WorkingDir} = File::Temp::tempdir(%tempDirOptions);
     mkdir("$Foswiki::cfg{WorkingDir}/tmp");
     mkdir("$Foswiki::cfg{WorkingDir}/registration_approvals");
     mkdir("$Foswiki::cfg{WorkingDir}/work_areas");
@@ -214,8 +214,9 @@ sub tear_down {
             $ENV{$sym} = $this->{__EnvSafe}->{$sym};
         }
     }
+
     # Clear down non-default META types.
-    foreach my $thing (keys %$Foswiki::Meta::VALIDATE) {
+    foreach my $thing ( keys %$Foswiki::Meta::VALIDATE ) {
         delete $Foswiki::Meta::VALIDATE{$thing}
           unless $Foswiki::Meta::VALIDATE{$thing}->{_default};
     }
@@ -293,20 +294,23 @@ $result is the result of the function.
 sub capture {
     my $this = shift;
 
-    my ($stdout, $stderr, $result) = $this->captureSTD(@_);
+    my ( $stdout, $stderr, $result ) = $this->captureSTD(@_);
     my $fn = shift;
 
-    my $response  =
+    my $response =
       UNIVERSAL::isa( $_[0], 'Foswiki' )
       ? $_[0]->{response}
       : $Foswiki::Plugins::SESSION->{response};
 
     my $responseText = '';
-    if ($response->outputHasStarted()) {
+    if ( $response->outputHasStarted() ) {
+
         #we're streaming the output as we generate it
         #in 2010 (foswiki 1.1) this is used in the statistics script
         $responseText = $stdout;
-    } else {
+    }
+    else {
+
         # Capture headers
         require Foswiki::Engine;
         Foswiki::Engine->finalizeCookies($response);
@@ -319,9 +323,8 @@ sub capture {
         # Capture body
         $responseText .= $response->body() if $response->body();
     }
-    
 
-    return ($responseText, $result, $stdout, $stderr);
+    return ( $responseText, $result, $stdout, $stderr );
 }
 
 =begin TML
@@ -403,11 +406,13 @@ sub getUIFn {
     my $script = shift;
     require Foswiki::UI;
     $this->assert( $Foswiki::cfg{SwitchBoard}{$script}, $script );
-    $this->assert($Foswiki::cfg{SwitchBoard}{$script}->{package}, "$script package not set");
+    $this->assert( $Foswiki::cfg{SwitchBoard}{$script}->{package},
+        "$script package not set" );
     my $fn = $Foswiki::cfg{SwitchBoard}{$script}->{package};
     eval "require $fn";
-    die "DIED during (require $fn)\n".$@ if $@;
-    $this->assert($Foswiki::cfg{SwitchBoard}{$script}->{function}, "$script function not set");
+    die "DIED during (require $fn)\n" . $@ if $@;
+    $this->assert( $Foswiki::cfg{SwitchBoard}{$script}->{function},
+        "$script function not set" );
     $fn .= '::' . $Foswiki::cfg{SwitchBoard}{$script}->{function};
     return \&$fn;
 }
