@@ -646,30 +646,30 @@ sub formatResults {
               $session->templates->expandTemplate('SEARCH:pager_next');
         }
         %pager_formatting = (
-            '\$previouspage'  => sub { return $previousidx },
-            '\$currentpage'   => sub { return $showpage },
-            '\$nextpage'      => sub { return $showpage + 1 },
-            '\$numberofpages' => sub { return $numberofpages },
-            '\$pagesize'      => sub { return $infoCache->pagesize() },
-            '\$previousurl'   => sub { return $previouspageurl },
-            '\$nexturl'       => sub { return $nextpageurl },
-            '\$sep'           => sub { return $sep; }
+            'previouspage'  => sub { return $previousidx },
+            'currentpage'   => sub { return $showpage },
+            'nextpage'      => sub { return $showpage + 1 },
+            'numberofpages' => sub { return $numberofpages },
+            'pagesize'      => sub { return $infoCache->pagesize() },
+            'previousurl'   => sub { return $previouspageurl },
+            'nexturl'       => sub { return $nextpageurl },
+            'sep'           => sub { return $sep; }
         );
 
         $previouspagebutton =
           $this->formatCommon( $previouspagebutton, \%pager_formatting );
-        $pager_formatting{'\$previousbutton'} =
+        $pager_formatting{'previousbutton'} =
           sub { return $previouspagebutton };
 
         $nextpagebutton =
           $this->formatCommon( $nextpagebutton, \%pager_formatting );
-        $pager_formatting{'\$nextbutton'} = sub { return $nextpagebutton };
+        $pager_formatting{'nextbutton'} = sub { return $nextpagebutton };
 
         my $pager_control = $params->{pagerformat}
           || $session->templates->expandTemplate('SEARCH:pager');
         $pager_control =
           $this->formatCommon( $pager_control, \%pager_formatting );
-        $pager_formatting{'\$pager'} = sub { return $pager_control; };
+        $pager_formatting{'pager'} = sub { return $pager_control; };
     }
 
     #TODO: multiple is an attribute of the ResultSet
@@ -1074,8 +1074,9 @@ sub formatCommon {
     my $session = $this->{session};
 
     foreach my $key ( keys(%$customKeys) ) {
-        $out =~ s/$key/&{$customKeys->{$key}}()/ges;
+	$out =~ s/\$$key/&{$customKeys->{$key}}()/ges;
     }
+
     return $out;
 }
 
@@ -1120,6 +1121,7 @@ sub formatResult {
 
     foreach my $key ( keys(%$nonTomKeys) ) {
         $out =~ s/\$$key/&{$nonTomKeys->{$key}}($key, $item)/ges;
+	#print STDERR "1: $key $out\n";
     }
     if ($item->topic) {
 	# Only process tomKeys if the item is a valid topicObject
@@ -1144,6 +1146,10 @@ sub formatResult {
 	    }
 	    $out =~ s/\$text/$text/gos;
 	}
+    }
+    foreach my $key ( keys(%$nonTomKeys) ) {
+        $out =~ s/\$$key/&{$nonTomKeys->{$key}}($key, $item)/ges;
+	#print STDERR "2: $key $out\n";
     }
 
     #TODO: extract the rev
