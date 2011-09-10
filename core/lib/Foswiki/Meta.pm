@@ -1030,14 +1030,15 @@ sub loadVersion {
             #ASSERT($rev == $this->{_loadedRev}) if DEBUG;
             return;
         }
-        ASSERT( not( $this->{_loadedRev} ) ) if DEBUG;
+	ASSERT( not( $this->{_loadedRev} ) ) if DEBUG;
     }
     elsif ( defined( $this->{_loadedRev} ) ) {
 
         # Cannot load a different rev into an already-loaded
         # Foswiki::Meta object
         $rev = -1 unless defined $rev;
-        ASSERT( 0, "Attempt to reload $rev over version $this->{_loadedRev}" );
+        ASSERT( 0, "Attempt to reload $rev over version $this->{_loadedRev}" )
+	    if DEBUG;
     }
 
     # Is it already loaded?
@@ -1956,6 +1957,7 @@ sub saveAs {
     my $this = shift;
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
+
     my $newWeb   = shift;
     my $newTopic = shift;
     ASSERT( scalar(@_) % 2 == 0 ) if DEBUG;
@@ -1991,7 +1993,7 @@ sub saveAs {
               ->getApproxRevTime( $this->{_web}, $this->{_topic} );
             my $mtime2 = time();
             my $dt     = abs( $mtime2 - $mtime1 );
-            if ( $dt < $Foswiki::cfg{ReplaceIfEditedAgainWithin} ) {
+            if ( $dt <= $Foswiki::cfg{ReplaceIfEditedAgainWithin} ) {
                 my $info = $this->{_session}->{store}->getVersionInfo($this);
 
                 # same user?
@@ -2020,6 +2022,7 @@ sub saveAs {
           $this->{_session}->{store}->saveTopic( $this, $cUID, \%opts );
         ASSERT( $checkSave == $nextRev, "$checkSave != $nextRev" ) if DEBUG;
         $this->{_loadedRev} = $nextRev;
+	$this->{_latestIsLoaded} = 1;
     }
     finally {
         $this->_atomicUnlock($cUID);
@@ -2308,9 +2311,12 @@ sub replaceMostRecentRevision {
 Get an iterator over the range of version identifiers (just the identifiers,
 not the content).
 
+The iterator will be empty ($iterator->hasNext() will be false) if the object
+does not exist.
+
 $attachment is optional.
 
-Not valid on webs. Returns a null iterator if no revisions exist.
+Not valid on webs.
 
 =cut
 
@@ -2336,6 +2342,10 @@ Get the revision ID of the latest revision.
 $attachment is optional.
 
 Not valid on webs.
+
+Returns an integer revision number > 0 if the object exists.
+
+Returns 0 if the object does not exist.
 
 =cut
 
@@ -3478,8 +3488,6 @@ TODO: can we move this code into Foswiki::Serialise ?
 sub getEmbeddedStoreForm {
     my $this = shift;
 
-#print STDERR "&&&&&&&&&&&&&&&&&&&&&getEmbeddedStoreForm(".$this->web.' . '.$this->topic.")\n";
-
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
 
@@ -3500,8 +3508,6 @@ Note: line endings must be normalised to \n *before* calling this method.
 
 sub setEmbeddedStoreForm {
     my ( $this, $text ) = @_;
-
-#print STDERR "&&&&&&&&&&&&&&&&&&&&&setEmbeddedStoreForm(".$this->web.' . '.$this->topic.")\n";
 
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
