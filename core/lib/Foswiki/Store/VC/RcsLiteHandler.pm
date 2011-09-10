@@ -432,7 +432,7 @@ sub initText {
 }
 
 # implements VC::Handler
-sub numRevisions {
+sub _numRevisions {
     my ($this) = @_;
     _ensureProcessed($this);
 
@@ -444,32 +444,10 @@ sub numRevisions {
     return $this->{head};
 }
 
-# implements VC::Handler
-sub addRevisionFromText {
-    _addRevision( shift, 0, @_ );
-}
-
-# implements VC::Handler
-sub addRevisionFromStream {
-    _addRevision( shift, 1, @_ );
-}
-
-sub _addRevision {
+sub ci {
     my ( $this, $isStream, $data, $log, $author, $date ) = @_;
 
     _ensureProcessed($this);
-    if ( $this->{state} eq 'nocommav' && -e $this->{file} ) {
-
-        # Must do this *before* saving the attachment, so we
-        # save the file on disc
-        $this->{head} = 1;
-        $this->{revs}[1]->{text} =
-          Foswiki::Store::VC::Handler::readFile( $this, $this->{file} );
-        $this->{revs}[1]->{log}    = $log;
-        $this->{revs}[1]->{author} = $author;
-        $this->{revs}[1]->{date}   = ( defined $date ? $date : time() );
-        _writeMe($this);
-    }
 
     if ($isStream) {
         $this->saveStream($data);
@@ -480,8 +458,7 @@ sub _addRevision {
     else {
         $this->saveFile( $this->{file}, $data );
     }
-
-    my $head = $this->{head};
+    my $head = $this->{head} || 0;
     if ($head) {
         my $lNew  = _split($data);
         my $lOld  = _split( $this->{revs}[$head]->{text} );
@@ -516,11 +493,11 @@ sub _writeMe {
 }
 
 # implements VC::Handler
-sub replaceRevision {
+sub repRev {
     my ( $this, $text, $comment, $user, $date ) = @_;
     _ensureProcessed($this);
     _delLastRevision($this);
-    return _addRevision( $this, 0, $text, $comment, $user, $date );
+    return $this->ci( 0, $text, $comment, $user, $date );
 }
 
 # implements VC::Handler
@@ -572,9 +549,8 @@ sub getInfo {
     my ( $this, $version ) = @_;
 
     _ensureProcessed($this);
-
     my $info;
-    if ( $this->{state} ne 'nocommav' ) {
+    if ( $this->{state} ne 'nocommav') {
         if ( !$version || $version > $this->{head} ) {
             $version = $this->{head} || 1;
         }
@@ -584,6 +560,14 @@ sub getInfo {
             author  => $this->{revs}[$version]->{author},
             comment => $this->{revs}[$version]->{log}
         };
+	# We have to check that there is not a pending version in the .txt
+	unless ($this->noCheckinPending()) {
+	    # There's a pending version in the .txt
+	    $info->{version}++;
+	    $info->{author} = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
+	    $info->{comment} = "pending";
+	    $info->{date} = time();
+	}
     }
     else {
         $info = $this->SUPER::getInfo($version);
@@ -772,15 +756,21 @@ sub _addChunk {
 sub getRevisionAtTime {
     my ( $this, $date ) = @_;
 
-    my $version = 1;
-
     _ensureProcessed($this);
-    $version = $this->{head};
+    if ($this->{state} eq 'nocommav') {
+ 	return ($date >= (stat($this->{file}))[9]) ? 1 : undef;
+   }
+
+    my $version = $this->{head};
     while ( $this->{revs}[$version]->{date} > $date ) {
         $version--;
-        return 0 if $version == 0;
+        return undef if $version == 0;
     }
 
+    if ($version == $this->{head} && !$this->noCheckinPending()) {
+	# Check the file date
+	$version++ if ($date >= (stat($this->{file}))[9]);
+    }
     return $version;
 }
 
