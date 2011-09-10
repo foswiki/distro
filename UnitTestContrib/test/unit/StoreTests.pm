@@ -1,10 +1,16 @@
-# Copyright (C) 2005 Sven Dowideit & Crawford Currie
+# Copyright (C) 2005-2011 Sven Dowideit & Crawford Currie
+#
+# Tests for the Foswiki::Store API used by the Foswiki::Meta class to
+# interact with the store.
+#
+# These tests must be independent of the actual store implementation.
+
 require 5.006;
 
 package StoreTests;
 
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use FoswikiStoreTestCase;
+our @ISA = qw( FoswikiStoreTestCase );
 
 use Foswiki;
 use strict;
@@ -12,8 +18,6 @@ use Assert;
 use Error qw( :try );
 use Foswiki::AccessControlException;
 use File::Temp;
-
-#Test the upper level Store API
 
 #TODO
 # attachments
@@ -24,6 +28,7 @@ use File::Temp;
 # streams
 # web creation with options for WebPreferences
 # search
+# getRevisionAtTime
 
 sub new {
     my $self = shift()->SUPER::new(@_);
@@ -49,7 +54,6 @@ sub set_up {
     open( FILE, ">$Foswiki::cfg{TempfileDir}/testfile.gif" );
     print FILE "one two three";
     close(FILE);
-
 }
 
 sub tear_down {
@@ -59,13 +63,17 @@ sub tear_down {
       if ( Foswiki::Func::webExists($web) );
     unlink("$Foswiki::cfg{TempfileDir}/testfile.gif");
 
-    #$this->{session}->finish();
     $this->SUPER::tear_down();
 }
 
+sub set_up_for_verify {
+    # Required to satisfy superclass
+}
+
 #============================================================================
-# tests
-sub test_CreateEmptyWeb {
+# Create an empty web. There is no template web, so it should be populated with
+# a dummy WebPreferences and nothing else.
+sub verify_CreateEmptyWeb {
     my $this = shift;
 
     #create an empty web
@@ -73,16 +81,17 @@ sub test_CreateEmptyWeb {
     $webObject->populateNewWeb();
     $this->assert( $this->{session}->webExists($web) );
     my @topics = $webObject->eachTopic()->all();
-    $this->assert_equals( 1, scalar(@topics), join( " ", @topics ) )
-      ;    #we expect there to be only the home topic
+    my $tops = join( " ", @topics );
+    $this->assert_equals( 1, scalar(@topics), $tops )
+      ;    #we expect there to be only the preferences topic
+    $this->assert_equals($Foswiki::cfg{WebPrefsTopicName}, $tops);
     $webObject->removeFromStore();
 }
 
-sub test_CreateWeb {
+# Create a web using _default template
+sub verify_CreateWeb {
     my $this = shift;
 
-#create a web using _default
-#TODO how should this fail if we are testing a store impl that does not have a _deault web ?
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
     $webObject->populateNewWeb( '_default',
         { WEBBGCOLOR => '#123432', SITEMAPLIST => 'on' } );
@@ -99,11 +108,11 @@ sub test_CreateWeb {
         join( ",", @topics ) . " != " . join( ',', @defaultTopics ) );
 }
 
-sub test_CreateWebWithNonExistantBaseWeb {
+# Create a web using non-existent Web - it should not create the web
+sub verify_CreateWebWithNonExistantBaseWeb {
     my $this = shift;
     my $web  = 'FailToCreate';
 
-    #create a web using non-existent Web
     my $ok = 0;
     try {
         Foswiki::Func::createWeb( $web, 'DoesNotExists' );
@@ -115,79 +124,8 @@ sub test_CreateWebWithNonExistantBaseWeb {
     $this->assert( !$this->{session}->webExists($web) );
 }
 
-sub test_noForceRev {
-    my $this = shift;
-
-    Foswiki::Func::createWeb( $web, '_default' );
-    $this->assert( $this->{session}->webExists($web) );
-    $this->assert( !$this->{session}->topicExists( $web, $topic ) );
-
-    my ( $date, $user, $rev, $comment );
-    ( $date, $user, $rev, $comment ) =
-      Foswiki::Func::getRevisionInfo( $web, $topic );
-    $this->assert( $rev == 0 );
-
-    my $text = "This is some test text\n   * some list\n   * content\n :) :)";
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, $text );
-    $meta->save();
-    $this->assert( $this->{session}->topicExists( $web, $topic ) );
-    ( $date, $user, $rev, $comment ) =
-      Foswiki::Func::getRevisionInfo( $web, $topic );
-    $this->assert( $rev == 1 );
-
-    my $readMeta = Foswiki::Meta->load( $this->{session}, $web, $topic );
-    $this->assert_str_equals( $text, $readMeta->text );
-
-    $text = "new text";
-    $meta->text($text);
-    $meta->save();
-    $this->assert( $this->{session}->topicExists( $web, $topic ) );
-    ( $date, $user, $rev, $comment ) =
-      Foswiki::Func::getRevisionInfo( $web, $topic );
-    $this->assert( $rev == 1 );
-
-    #cleanup
-    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
-    $webObject->removeFromStore();
-}
-
-sub test_ForceRev {
-    my $this = shift;
-
-    Foswiki::Func::createWeb( $web, '_default' );
-    $this->assert( $this->{session}->webExists($web) );
-    $this->assert( !$this->{session}->topicExists( $web, $topic ) );
-
-    my ( $date, $user, $rev, $comment );
-    ( $date, $user, $rev, $comment ) =
-      Foswiki::Func::getRevisionInfo( $web, $topic );
-    $this->assert( $rev == 0 );
-
-    my $text = "This is some test text\n   * some list\n   * content\n :) :)";
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, $text );
-    $meta->save( forcenewrevision => 1 );
-    $this->assert( $this->{session}->topicExists( $web, $topic ) );
-    ( $date, $user, $rev, $comment ) =
-      Foswiki::Func::getRevisionInfo( $web, $topic );
-    $this->assert( $rev == 1 );
-
-    my $readMeta = Foswiki::Meta->load( $this->{session}, $web, $topic );
-    $this->assert_str_equals( $text, $readMeta->text );
-
-    $text = "new text";
-    $meta->text($text);
-    $meta->save( forcenewrevision => 1 );
-    $this->assert( $this->{session}->topicExists( $web, $topic ) );
-    ( $date, $user, $rev, $comment ) =
-      Foswiki::Func::getRevisionInfo( $web, $topic );
-    $this->assert( $rev == 2 );
-
-    #cleanup
-    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
-    $webObject->removeFromStore();
-}
-
-sub test_CreateSimpleTextTopic {
+# Create a simple topic containing only text
+sub verify_CreateSimpleTextTopic {
     my $this = shift;
 
     Foswiki::Func::createWeb( $web, '_default' );
@@ -204,7 +142,8 @@ sub test_CreateSimpleTextTopic {
     $webObject->removeFromStore();
 }
 
-sub test_CreateSimpleMetaTopic {
+# Create a simple topic containing meta-data
+sub verify_CreateSimpleMetaTopic {
     my $this = shift;
 
     Foswiki::Func::createWeb( $web, '_default' );
@@ -231,7 +170,85 @@ sub test_CreateSimpleMetaTopic {
     $webObject->removeFromStore();
 }
 
-sub test_getRevisionInfo {
+# Save a second version of a topic, without forcing a new revision. Should
+# re-use the existing rev number. Stores don't actually need to support this,
+# but we currently have no way of interrogating a store for it's capabilities.
+sub verify_noForceRev_RepRev {
+    my $this = shift;
+
+    Foswiki::Func::createWeb( $web, '_default' );
+    $this->assert( $this->{session}->webExists($web) );
+    $this->assert( !$this->{session}->topicExists( $web, $topic ) );
+
+    my ( $date, $user, $rev, $comment );
+
+    ( $date, $user, $rev, $comment ) =
+      Foswiki::Func::getRevisionInfo( $web, $topic );
+    $this->assert_num_equals( 0, $rev ); # topic does not exist
+
+    my $text = "This is some test text\n   * some list\n   * content\n :) :)";
+    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, $text );
+    $meta->save();
+    $this->assert( $this->{session}->topicExists( $web, $topic ) );
+    ( $date, $user, $rev, $comment ) =
+      Foswiki::Func::getRevisionInfo( $web, $topic );
+    $this->assert_num_equals( 1, $rev );
+
+    my $readMeta = Foswiki::Meta->load( $this->{session}, $web, $topic );
+    $this->assert_str_equals( $text, $readMeta->text );
+
+    $text = "new text";
+    $meta->text($text);
+    $meta->save();
+    $this->assert( $this->{session}->topicExists( $web, $topic ) );
+    ( $date, $user, $rev, $comment ) =
+      Foswiki::Func::getRevisionInfo( $web, $topic );
+    $this->assert_num_equals( 1, $rev );
+
+    #cleanup
+    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
+    $webObject->removeFromStore();
+}
+
+# Save a topic, forcing a new revision. Should increment the rev number.
+sub verify_ForceRev {
+    my $this = shift;
+
+    Foswiki::Func::createWeb( $web, '_default' );
+    $this->assert( $this->{session}->webExists($web) );
+    $this->assert( !$this->{session}->topicExists( $web, $topic ) );
+
+    my ( $date, $user, $rev, $comment );
+    ( $date, $user, $rev, $comment ) =
+      Foswiki::Func::getRevisionInfo( $web, $topic );
+    $this->assert_num_equals( 0, $rev ); # doesn't exist yet
+
+    my $text = "This is some test text\n   * some list\n   * content\n :) :)";
+    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, $text );
+    $meta->save( forcenewrevision => 1 );
+    $this->assert( $this->{session}->topicExists( $web, $topic ) );
+    ( $date, $user, $rev, $comment ) =
+      Foswiki::Func::getRevisionInfo( $web, $topic );
+    $this->assert_num_equals( 1, $rev );
+
+    my $readMeta = Foswiki::Meta->load( $this->{session}, $web, $topic );
+    $this->assert_str_equals( $text, $readMeta->text );
+
+    $text = "new text";
+    $meta->text($text);
+    $meta->save( forcenewrevision => 1 );
+    $this->assert( $this->{session}->topicExists( $web, $topic ) );
+    ( $date, $user, $rev, $comment ) =
+      Foswiki::Func::getRevisionInfo( $web, $topic );
+    $this->assert_num_equals( 2, $rev );
+
+    #cleanup
+    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
+    $webObject->removeFromStore();
+}
+
+# Get the revision info of the latest rev of the topic.
+sub verify_getRevisionInfo {
     my $this = shift;
 
     Foswiki::Func::createWeb( $web, '_default' );
@@ -249,7 +266,7 @@ sub test_getRevisionInfo {
     my $readMeta = Foswiki::Meta->load( $this->{session}, $web, $topic );
     my $readText = $readMeta->text;
 
-    # ignore whitspace at end of data
+    # ignore whitespace at end of data
     $readText =~ s/\s*$//s;
     $this->assert_equals( $text, $readText );
     $this->assert_equals( 2,     $readMeta->getLatestRev() );
@@ -263,61 +280,8 @@ sub test_getRevisionInfo {
     $webObject->removeFromStore();
 }
 
-sub test_getRevisionInfoNoRcsFile {
-    my $this = shift;
-
-    Foswiki::Func::createWeb( $web, '_default' );
-    $this->assert( $this->{session}->webExists($web) );
-
-    my $ttext = <<DONE;
-%INCLUDE{"%USERSWEB%.AdminUser" section="sudo_login"}%
-
-Edit this topic to add a description to the AdminGroup
-DONE
-
-    my $rawtext = <<DONE;
-%META:TOPICINFO{author="BaseUserMapping_333" comment="save topic" date="1282246509" format="1.1" reprev="1" version="1"}%
-%META:TOPICPARENT{name="WikiGroups"}%
-$ttext
-DONE
-
-    open( my $fh, '>', "$Foswiki::cfg{DataDir}/$web/$topic.txt" )
-      || die "Unable to open \n $! \n\n ";
-    print $fh $rawtext;
-    close $fh;
-
-    # A file without history should be rev 0, not rev 1.
-    my $meta = Foswiki::Meta->load( $this->{session}, $web, $topic );
-
-    #$this->assert_equals( 0, $meta->getLatestRev() );
-    $this->assert_str_equals( $ttext, $meta->text() );
-
-    $meta->text( $ttext . "\nnewline" );
-
-# Save without force revision still should create a new rev due to missing history
-    $meta->save( forcenewrevision => 0 );
-
-    # Save of a file without an existing RCS file should not modify Rev 1,
-    # but should instead create the next revision, so rev 1 represents
-    # the original file before history started.
-
-    my $readMeta = Foswiki::Meta->load( $this->{session}, $web, $topic );
-    $this->assert_str_equals( $ttext . "\nnewline", $readMeta->text() );
-
-    $this->assert_equals( 2, $readMeta->getLatestRev() );
-    my $info = $readMeta->getRevisionInfo();
-    $this->assert_str_equals( $this->{session}->{user}, $info->{author} );
-    $this->assert_num_equals( 2, $info->{version} );
-
-    # Make sure that rev 1 exists and has the original text pr-history.
-    my $oldMeta = Foswiki::Meta->load( $this->{session}, $web, $topic, '1' );
-    $this->assert_str_equals( $ttext, $oldMeta->text() );
-
-    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
-    $webObject->removeFromStore();
-}
-
-sub test_moveTopic {
+# Move a topic to another name in the same web
+sub verify_moveTopic {
     my $this = shift;
 
     Foswiki::Func::createWeb( $web, '_default' );
@@ -355,7 +319,8 @@ sub test_moveTopic {
 
 }
 
-sub test_leases {
+# Check that leases are taken, and timed correctly
+sub verify_leases {
     my $this = shift;
 
     Foswiki::Func::createWeb( $web, '_default' );
@@ -397,7 +362,8 @@ sub beforeSaveHandler {
 
 use Foswiki::Plugin;
 
-sub test_beforeSaveHandlerChangeText {
+# Ensure the beforeSaveHandler is called when saving text changes
+sub verify_beforeSaveHandlerChangeText {
     my $this = shift;
     my $args = {
         name  => "fieldname",
@@ -441,7 +407,8 @@ sub test_beforeSaveHandlerChangeText {
     $webObject->removeFromStore();
 }
 
-sub test_beforeSaveHandlerChangeMeta {
+# Ensure the beforeSaveHandler is called when saving meta changes
+sub verify_beforeSaveHandlerChangeMeta {
     my $this = shift;
     my $args = {
         name  => "fieldname",
@@ -484,7 +451,8 @@ sub test_beforeSaveHandlerChangeMeta {
     $webObject->removeFromStore();
 }
 
-sub test_beforeSaveHandlerChangeBoth {
+# Ensure the beforeSaveHandler is called when saving text and meta changes
+sub verify_beforeSaveHandlerChangeBoth {
     my $this = shift;
     my $args = {
         name  => "fieldname",
@@ -551,6 +519,7 @@ sub beforeUploadHandler {
     $attrHash->{stream} = $fh;
 }
 
+# Handler used in next test
 sub beforeAttachmentSaveHandler {
     my ( $attrHash, $topic, $web ) = @_;
     die "attachment $attrHash->{attachment}"
@@ -580,6 +549,7 @@ sub afterAttachmentSaveHandler {
       unless $attrHash->{comment} eq "a comment";
 }
 
+# Handler used in next test
 sub afterUploadHandler {
     my ( $attrHash, $meta ) = @_;
     die "attachment $attrHash->{attachment}"
@@ -622,7 +592,7 @@ sub registerAttachmentHandlers {
     );
 }
 
-sub test_attachmentSaveHandlers_file {
+sub verify_attachmentSaveHandlers_file {
     my $this = shift;
 
     open( FILE, ">$Foswiki::cfg{TempfileDir}/testfile.gif" );
@@ -650,7 +620,7 @@ sub test_attachmentSaveHandlers_file {
         "beforeAttachmentSaveHandler beforeUploadHandler call", $text );
 }
 
-sub test_attachmentSaveHandlers_stream {
+sub verify_attachmentSaveHandlers_stream {
     my $this = shift;
 
     open( FILE, ">$Foswiki::cfg{TempfileDir}/testfile.gif" );
@@ -679,7 +649,7 @@ sub test_attachmentSaveHandlers_stream {
         "beforeAttachmentSaveHandler beforeUploadHandler call", $text );
 }
 
-sub test_attachmentSaveHandlers_file_and_stream {
+sub verify_attachmentSaveHandlers_file_and_stream {
     my $this = shift;
 
     open( FILE, ">$Foswiki::cfg{TempfileDir}/testfile.gif" );
@@ -709,7 +679,7 @@ sub test_attachmentSaveHandlers_file_and_stream {
         "beforeAttachmentSaveHandler beforeUploadHandler call", $text );
 }
 
-sub test_eachChange {
+sub verify_eachChange {
     my $this = shift;
     Foswiki::Func::createWeb($web);
     $Foswiki::cfg{Store}{RememberChangesFor} = 5;    # very bad memory
@@ -759,7 +729,7 @@ sub test_eachChange {
     $this->assert( !$it->hasNext() );
 }
 
-sub test_eachAttachment {
+sub verify_eachAttachment {
     my $this = shift;
 
     my $meta =
@@ -836,7 +806,6 @@ sub test_eachAttachment {
     $it = $this->{session}->{store}->eachAttachment($postDeleteMeta);
     $list = join( ' ', sort $it->all() );
     $this->assert_str_equals( "noise.dat", $list );
-
 }
 
 1;
