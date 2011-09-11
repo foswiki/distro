@@ -1,4 +1,5 @@
-%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%%TMPL:INCLUDE{"messages"}%
+
 
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"(edit)"}% %TMPL:END%
 
@@ -13,7 +14,7 @@
 
 
 %{ if an editor plugin sets EDITOR_MESSAGE, then use it }%
-%TMPL:DEF{"textarea"}%%IF{"defined 'EDITOR_MESSAGE'" then="<div class='foswikiAlert'>%EDITOR_MESSAGE%</div>"}%<div class="foswikiEditTextarea"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%'>%TEXT%</textarea></div>%TMPL:END%
+%TMPL:DEF{"textarea"}%%IF{"{Validation}{Method}='strikeone'" then="<noscript>$percentTMPL:P{enable_js}$percent</noscript>"}%%IF{"defined 'EDITOR_MESSAGE'" then="<div class='foswikiAlert'>%EDITOR_MESSAGE%</div>"}%<div class="foswikiEditTextarea"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%'>%TEXT%</textarea></div>%TMPL:END%
 
 
 %TMPL:DEF{"form"}%%FORMFIELDS%%TMPL:END%

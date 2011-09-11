@@ -44,7 +44,7 @@
 %TMPL:DEF{"topicinfo"}%%TMPL:P{"revCommentPluginOptions"}%%TMPL:P{"saveoptions"}%<div class="patternTopicActions foswikiFormStep"><div class="patternActionButtons">%TMPL:P{"action_buttons"}%<div class="foswikiClear"></div></div></div>%TMPL:END%
 
 
-%TMPL:DEF{"textarea"}%<div class="patternEditTopic"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%'>%TEXT%</textarea>%TMPL:P{"sig_textareabuttons"}%</div>%TMPL:END%
+%TMPL:DEF{"textarea"}%%IF{"{Validation}{Method}='strikeone'" then="<noscript>$percentTMPL:P{enable_js}$percent</noscript>"}%<div class="patternEditTopic"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%'>%TEXT%</textarea>%TMPL:P{"sig_textareabuttons"}%</div>%TMPL:END%
 
 
 %TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1' or $NOWYSIWYG='1'" then='%TMPL:P{"textareabuttons"}%'}%%TMPL:P{"sig"}%<div class="foswikiClear"></div></div>%TMPL:END%

@@ -1,4 +1,4 @@
-%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%%TMPL:INCLUDE{"messages"}%
 
 %TMPL:DEF{"webaction"}%%MAKETEXT{"Request Validation"}%%TMPL:END%
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"Request Validation"}% %TMPL:END%
@@ -25,9 +25,7 @@
 </noscript>%TMPL:END%
 
 %TMPL:DEF{"noscript"}%<noscript>
-%RED% %MAKETEXT{"You cannot manually confirm this change because either Cookies or Javascript are disabled in your browser."}% %ENDCOLOR%
-<p />
-%MAKETEXT{"Go back to the previous page, and enable Cookies and Javascript before trying again"}%
+%TMPL:P{"enable_js"}%
 </noscript>%TMPL:END%
 
 %TMPL:DEF{"note"}%<p>
