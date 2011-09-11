@@ -2845,6 +2845,15 @@ GNURF
     );
 
     #order by modified, limit=2, with groupby=none
+    my @tops = ();
+    foreach my $web ($this->{test_web}, "Main", "System", "Sandbox") {
+        if (Foswiki::Func::topicExists($web, "WebHome")) {
+            my @i = Foswiki::Func::getRevisionInfo($web, "WebHome");
+            push(@tops, [$web, $i[0]]);
+        }
+    }
+    @tops = map { $_->[0] } sort { $a->[1] <=> $b->[1] } @tops;
+
     $result = $this->{test_topicObject}->expandMacros( <<GNURF );
 %SEARCH{"1"
  type="query"
@@ -2861,7 +2870,7 @@ GNURF
  limit="2"
 }%
 GNURF
-    $this->assert_equals( "HEADERMain WebHome, Sandbox WebHomeFOOTER\n",
+    $this->assert_equals( "HEADER$tops[0] WebHome, $tops[1] WebHomeFOOTER\n",
         $result );
 }
 

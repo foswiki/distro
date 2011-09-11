@@ -943,6 +943,7 @@ sub renderFORMFIELD {
     # this may have been a one-off optimisation.
     my $formTopicObject = $this->{ffCache}{ $topicObject->getPath() . $rev };
     unless ($formTopicObject) {
+	undef $rev unless $rev;
         $formTopicObject =
           Foswiki::Meta->load( $this->{session}, $topicObject->web,
             $topicObject->topic, $rev );
@@ -954,7 +955,7 @@ sub renderFORMFIELD {
               Foswiki::Meta->new( $this->{session}, $topicObject->web,
                 $topicObject->topic, '' );
         }
-        $this->{ffCache}{ $formTopicObject->getPath() . $rev } =
+        $this->{ffCache}{ $formTopicObject->getPath() . ($rev||0) } =
           $formTopicObject;
     }
 

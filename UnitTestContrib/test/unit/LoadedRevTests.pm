@@ -124,7 +124,7 @@ WHEE
     my $topicObject =
       Foswiki::Meta->load(
           $this->{session}, $this->{test_web}, "NoCommaV");
-    $this->assert_equals(3, $topicObject->getLoadedRev());
+    $this->assert_equals(1, $topicObject->getLoadedRev());
 
     $topicObject =
       Foswiki::Meta->new(
@@ -145,7 +145,7 @@ WHEE
     $topicObject = Foswiki::Meta->new(
         $this->{session}, $this->{test_web}, "NoCommaV");
     $topicObject->load();
-    $this->assert_equals(3, $topicObject->getLoadedRev());
+    $this->assert_equals(1, $topicObject->getLoadedRev());
 
     # Reload 0
     $topicObject = Foswiki::Meta->new(

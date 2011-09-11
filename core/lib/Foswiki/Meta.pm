@@ -1355,6 +1355,21 @@ sub getRevisionInfo {
       if DEBUG;
 
     my $info;
+    if (    not defined( $this->{_loadedRev} )
+        and not Foswiki::Func::topicExists( $this->{_web}, $this->{_topic} ) )
+    {
+
+#print STDERR "topic does not exist - at least, _loadedRev is not set..(".$this->{_web} .' '. $this->{_topic}.")\n";
+#this does not exist on disk - no reason to goto the store for the defaults
+#TODO: Sven is not 100% sure this is the right decision, but it feels better not to do a trip into the deep for an application default
+        $info = {
+            date    => 0,
+            author  => $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,
+            version => 0,
+            format  => $EMBEDDING_FORMAT_VERSION,
+        };
+        return $info;
+    }
 
     # This used to try and get revision info from the meta
     # information and only kick down to the Store module for the

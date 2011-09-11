@@ -82,9 +82,11 @@ Forma...
 ---+ Formatted singled level search with $rev, $parent and $formname
 
 ---++ Expected
+_Note that the .txt says it is rev 4, but because there is no ,v to back this up
+it is treated as rev 1_
 
 <!-- expected with $parent -->
-Revision 4 has parent <nop>TestCaseAutoFormattedSearch and it contains the form <nop>FormattedSearchForm
+Revision 1 has parent <nop>TestCaseAutoFormattedSearch and it contains the form <nop>FormattedSearchForm
 <!-- /expected -->
 
 ---++ Actual

@@ -2035,8 +2035,7 @@ sub test_getRevisionAtTime {
             forcedate        => $t2
         }
     );
-    $this->assert_equals(
-        0,
+    $this->assert_null(
         Foswiki::Func::getRevisionAtTime(
             $this->{test_web}, "ShutThatDoor", $t1 - 60
         )

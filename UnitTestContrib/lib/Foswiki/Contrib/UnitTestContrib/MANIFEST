@@ -69,7 +69,7 @@ test/unit/PluginHandlerTests.pm 0644
 test/unit/PrefsTests.pm 0644
 test/unit/QueryTests.pm 0644
 test/unit/RESTTests.pm 0644
-test/unit/RcsTests.pm 0644
+test/unit/RCSHandlerTests.pm 0644
 test/unit/RegisterTests.pm 0644
 test/unit/RenameTests.pm 0755
 test/unit/RenderFormTests.pm 0644
@@ -80,10 +80,12 @@ test/unit/RobustnessTests.pm 0644
 test/unit/SaveScriptTests.pm 0644
 test/unit/SeleniumConfigTests.pm 0644
 test/unit/SemiAutomaticTestCaseTests.pm 0644
-test/unit/StoreSmokeTests.pm 0644
+test/unit/VCStoreTests.pm 0644
+test/unit/VCMetaTests.pm 0644
 test/unit/StoreTests.pm 0644
 test/unit/TOCTests.pm 0644
 test/unit/FoswikiFnTestCase.pm 0644
+test/unit/FoswikiStoreTestCase.pm 0644
 test/unit/FoswikiSeleniumTestCase.pm 0644
 test/unit/FoswikiSuite.pm 0644
 test/unit/FoswikiTestCase.pm 0644

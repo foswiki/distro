@@ -1,32 +1,18 @@
-require 5.006;
+# Tests for low-level RCS handler code. Store::VC::Store creates a
+# transitory handler object for each store item. The handler
+# behaviour is only exposed to Store::VC::Store, which is in turn tested
+# in VCStoreTests.
 
-package RcsTests;
+package RCSHandlerTests;
+
+use strict;
 
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );
-use strict;
 
 sub new {
     my $self = shift()->SUPER::new(@_);
     return $self;
-}
-
-#TODO: extract this so as can re-use it in other places where Store choices might be made
-my $rcs_installed;
-sub rcs_is_installed {
-    if (!defined($rcs_installed)) {
-    #TODO: erm, who said it needed to be on the PATH?
-        eval {
-            `co -V`;    # Check to see if we have co
-        };
-        if ( $@ || $? ) {
-            $rcs_installed = 0;
-            print STDERR "*** CANNOT RUN RcsWrap TESTS - NO COMPATIBLE co: $@\n";
-        } else {
-            $rcs_installed = 1;
-        }
-    }
-    return $rcs_installed;
 }
 
 use Foswiki;
@@ -34,6 +20,7 @@ use Foswiki::Store;
 use Foswiki::Store::VC::RcsLiteHandler;
 use Foswiki::Store::VC::RcsWrapHandler;
 use File::Path;
+use FoswikiStoreTestCase ();
 
 my $testWeb = "TestRcsWebTests";
 my $user    = "TestUser1";
@@ -43,6 +30,7 @@ my $class;
 
 my $time           = time();
 my @historyItem945 = (
+    # rcsType, text,                       comment,   user,     date
     [ "Wrap", "old\nwrap\n",                 "one", "iron",     $time ],
     [ "Wrap", "old\nwrap\nnew\n",            "two", "tin",      $time + 1 ],
     [ "Lite", "new\nwrap\nnew\n\nlite\n",    "tre", "zinc",     $time + 2 ],
@@ -64,9 +52,10 @@ sub RcsWrap {
 }
 
 sub fixture_groups {
+    my $this = shift;
     my $groups = ['RcsLite'];
 
-    push( @$groups, 'RcsWrap' ) if (rcs_is_installed());
+    push( @$groups, 'RcsWrap' ) if (FoswikiStoreTestCase::rcs_is_installed());
     
     return ($groups);
 }
@@ -135,22 +124,22 @@ sub verify_RepRev {
         "in once", "JohnTalintyre" );
     my ($text) = $rcs->getRevision(1);
     $this->assert_equals( "there was a man\n\n", $text );
-    $this->assert_equals( 1,                     $rcs->numRevisions() );
+    $this->assert_equals( 1,                     $rcs->_numRevisions() );
 
     $rcs->replaceRevision( "there was a cat\n",
         "1st replace", "NotJohnTalintyre", time() );
-    $this->assert_equals( 1,                   $rcs->numRevisions() );
+    $this->assert_equals( 1,                   $rcs->_numRevisions() );
     ($text) = $rcs->getRevision(1);
     $this->assert_equals( "there was a cat\n", $text );
     $rcs->addRevisionFromText( "and now this\n\n\n", "2nd entry", "J1" );
-    $this->assert_equals( 2,                    $rcs->numRevisions() );
+    $this->assert_equals( 2,                    $rcs->_numRevisions() );
     ($text) = $rcs->getRevision(1);
     $this->assert_equals( "there was a cat\n",  $text );
     ($text) = $rcs->getRevision(2);
     $this->assert_equals( "and now this\n\n\n", $text );
 
     $rcs->replaceRevision( "then this", "2nd replace", "J2", time() );
-    $this->assert_equals( 2,                   $rcs->numRevisions );
+    $this->assert_equals( 2,                   $rcs->_numRevisions );
     ($text) = $rcs->getRevision(1);
     $this->assert_equals( "there was a cat\n", $text );
     ($text) = $rcs->getRevision(2);
@@ -165,22 +154,22 @@ sub verify_RepRev2839 {
     $rcs->addRevisionFromText( "there was a man", "in once", "JohnTalintyre" );
     my ($text) = $rcs->getRevision(1);
     $this->assert_equals( "there was a man", $text );
-    $this->assert_equals( 1,                 $rcs->numRevisions() );
+    $this->assert_equals( 1,                 $rcs->_numRevisions() );
 
     $rcs->replaceRevision( "there was a cat",
         "1st replace", "NotJohnTalintyre", time() );
-    $this->assert_equals( 1,                 $rcs->numRevisions() );
+    $this->assert_equals( 1,                 $rcs->_numRevisions() );
     ($text) = $rcs->getRevision(1);
     $this->assert_equals( "there was a cat", $text );
     $rcs->addRevisionFromText( "and now this", "2nd entry", "J1" );
-    $this->assert_equals( 2,                 $rcs->numRevisions() );
+    $this->assert_equals( 2,                 $rcs->_numRevisions() );
     ($text) = $rcs->getRevision(1);
     $this->assert_equals( "there was a cat", $text );
     ($text) = $rcs->getRevision(2);
     $this->assert_equals( "and now this",    $text );
 
     $rcs->replaceRevision( "then this", "2nd replace", "J2", time() );
-    $this->assert_equals( 2,                 $rcs->numRevisions );
+    $this->assert_equals( 2,                 $rcs->_numRevisions );
     ($text) = $rcs->getRevision(1);
     $this->assert_equals( "there was a cat", $text );
     ($text) = $rcs->getRevision(2);
@@ -393,7 +382,7 @@ sub checkGetRevision {
 
     $rcs = $class->new( new StoreStub, $testWeb, $topic );
 
-    $this->assert_equals( scalar(@$revs), $rcs->numRevisions() );
+    $this->assert_equals( scalar(@$revs), $rcs->_numRevisions() );
     for ( my $i = 1 ; $i <= scalar(@$revs) ; $i++ ) {
         my ($text) = $rcs->getRevision($i);
         $this->assert_str_equals( $revs->[ $i - 1 ],
@@ -519,6 +508,7 @@ sub verify_RevInfo {
     my ($this) = @_;
 
     my $rcs = $class->new( new StoreStub, $testWeb, 'RevInfo', "" );
+
     $rcs->addRevisionFromText( "Rev1\n", 'FirstComment',  "FirstUser",  0 );
     $rcs->addRevisionFromText( "Rev2\n", 'SecondComment', "SecondUser", 1000 );
     $rcs->addRevisionFromText( "Rev3\n", 'ThirdComment',  "ThirdUser",  2000 );
@@ -562,10 +552,10 @@ sub verify_RevInfo {
     $this->assert_equals( 1, $info->{version} );
 
     $this->assert_str_equals(
-        $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,
+        $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID,
         $info->{author}
     );
-    $this->assert_str_equals( '', $info->{comment} );
+    $this->assert_str_equals( 'pending', $info->{comment} );
 }
 
 # If a .txt file exists with no ,v and we perform an op on that
@@ -582,7 +572,7 @@ sub verify_MissingVrestoreRev {
     my $rcs = $class->new( new StoreStub, $testWeb, 'MissingV', "" );
     my $info = $rcs->getInfo(3);
     $this->assert_equals( 1, $info->{version} );
-    $this->assert_equals( 1, $rcs->numRevisions() );
+    $this->assert_equals( 1, $rcs->_numRevisions() );
 
     my ($text) = $rcs->getRevision(0);
     $this->assert_matches( qr/^Rev 1/, $text );
@@ -615,7 +605,7 @@ sub verify_MissingVrepRev {
     my $rcs = $class->new( new StoreStub, $testWeb, 'MissingV', "" );
     my $info = $rcs->getInfo(3);
     $this->assert_equals( 1, $info->{version} );
-    $this->assert_equals( 1, $rcs->numRevisions() );
+    $this->assert_equals( 1, $rcs->_numRevisions() );
 
     my ($text) = $rcs->getRevision(0);
     $this->assert_matches( qr/^Rev 1/, $text );
@@ -646,7 +636,7 @@ sub verify_MissingVdelRev {
     my $rcs = $class->new( new StoreStub, $testWeb, 'MissingV', "" );
     my $info = $rcs->getInfo(3);
     $this->assert_equals( 1, $info->{version} );
-    $this->assert_equals( 1, $rcs->numRevisions() );
+    $this->assert_equals( 1, $rcs->_numRevisions() );
 
     my ($text) = $rcs->getRevision(0);
     $this->assert_matches( qr/^Rev 1/, $text );
@@ -756,7 +746,7 @@ sub verify_Item3122 {
 sub test_Item945 {
     my ($this) = @_;
     
-    if (!rcs_is_installed()) {
+    if (!FoswikiStoreTestCase::rcs_is_installed()) {
         $this->expect_failure();
         $this->annotate("rcs not installed");
     }
@@ -785,7 +775,7 @@ sub item945_checkHistory {
 
 sub item945_checkHistoryRcs {
     my ( $this, $rcs, $depth ) = @_;
-    $this->assert_equals( $depth, $rcs->numRevisions() );
+    $this->assert_equals( $depth, $rcs->_numRevisions() );
     for my $digger ( 1 .. $depth ) {
         my $info  = $historyItem945[ $digger - 1 ];
         my $rinfo = $rcs->getInfo($digger);
@@ -816,7 +806,7 @@ sub item945_fillTopic {
 sub test_Item945_diff {
     my ($this) = @_;
 
-    if (!rcs_is_installed()) {
+    if (!FoswikiStoreTestCase::rcs_is_installed()) {
         $this->expect_failure();
         $this->annotate("rcs not installed");
     }
