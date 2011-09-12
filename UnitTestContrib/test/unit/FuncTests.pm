@@ -584,6 +584,65 @@ sub test_attachments {
 
 }
 
+sub test_attachment_comment {
+    my $this = shift;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
+    my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
+    my $data2 = "\0h\1a\2l\3b\4h\5a\6l\7b";
+    my $attnm = 'blahblahblah.gif';
+
+    my $topic = "BlahBlahBlah";
+    my $name1 = 'blahblahblah.gif';
+
+    my $stream =
+      $this->write_file( $this->{tmpdatafile}, $data,
+        { binmode => 1, read => 1 } );
+    $this->write_file( $this->{tmpdatafile2}, $data2, { binmode => 1 } );
+
+    Foswiki::Func::saveTopicText( $this->{test_web}, $topic, '' );
+
+    my $attachComment = 'Feasgar Blha';
+
+    my $e = Foswiki::Func::saveAttachment(
+        $this->{test_web},
+        $topic, $name1,
+        {
+            dontlog  => 1,
+            comment  => $attachComment,
+            stream   => $stream,
+            filepath => '/local/file',
+            filesize => 999,
+            filedate => 0,
+        }
+    );
+    $this->assert( !$e, $e );
+
+    my ( $date, $user, $rev, $actualComment ) =
+      Foswiki::Func::getRevisionInfo( $this->{test_web}, $topic, undef, $name1 );
+
+    $this->assert_str_equals( $attachComment, $actualComment );
+
+    $actualComment .= ' changed';
+
+    $e = Foswiki::Func::saveAttachment(
+        $this->{test_web},
+        $topic, $name1,
+        {
+            dontlog  => 1,
+            comment  => $attachComment,
+        }
+    );
+    $this->assert( !$e, $e );
+
+    ( $date, $user, $rev, $actualComment ) =
+      Foswiki::Func::getRevisionInfo( $this->{test_web}, $topic, undef, $name1 );
+
+    $this->assert_str_equals( $attachComment, $actualComment );
+
+}
+
+
 sub test_noauth_saveAttachment {
     my $this = shift;
     use Foswiki::AccessControlException;
