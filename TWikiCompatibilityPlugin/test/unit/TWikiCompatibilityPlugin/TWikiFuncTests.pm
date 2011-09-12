@@ -55,13 +55,13 @@ sub test_TWiki_web {
     $this->{session}->finish();
     $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
 
-    $this->assert( Foswiki::Func::webExists( 'TWiki' ) );
-    $this->assert( TWiki::Func::webExists( 'TWiki' ) );
+    $this->assert( Foswiki::Func::webExists('TWiki') );
+    $this->assert( TWiki::Func::webExists('TWiki') );
 
     $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 0;
 
-    $this->assert( ! Foswiki::Func::webExists( 'TWiki'  ) );
-    $this->assert( ! TWiki::Func::webExists( 'TWiki'  ) );
+    $this->assert( !Foswiki::Func::webExists('TWiki') );
+    $this->assert( !TWiki::Func::webExists('TWiki') );
 
     $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 1;
 }
@@ -73,10 +73,12 @@ sub test_getViewUrl {
 
     # relative to specified web
     my $result = TWiki::Func::getViewUrl( $this->{users_web}, "WebHome" );
+
     # Item11121: ShortURLs wil break this test
-    if (     exists $Foswiki::cfg{ScriptUrlPaths}{view}
-                and $Foswiki::cfg{ScriptUrlPaths}{view}
-            and not $Foswiki::cfg{ScriptUrlPaths}{view} =~ /$ss$/ ) {
+    if (    exists $Foswiki::cfg{ScriptUrlPaths}{view}
+        and $Foswiki::cfg{ScriptUrlPaths}{view}
+        and not $Foswiki::cfg{ScriptUrlPaths}{view} =~ /$ss$/ )
+    {
         $this->expect_failure();
     }
     $this->assert_matches( qr!/$ss/$this->{users_web}/WebHome!, $result );
