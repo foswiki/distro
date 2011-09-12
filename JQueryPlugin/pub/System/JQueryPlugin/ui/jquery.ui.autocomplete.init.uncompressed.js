@@ -37,16 +37,25 @@ jQuery(function($) {
 
         // get result from backend
         $.log("AUTOCOMPLETE: requesting '"+term+"' from "+opts._source);
-        lastXhr = $.getJSON(opts._source, request, function(data, status, xhr) {
-          cache[cacheKey] = data;
-          $.log("AUTOCOMPLETE: caching "+term);
+        lastXhr = $.ajax({
+          url: opts._source, 
+          dataType: 'json',
+          data: request, 
+          success: function(data, status, xhr) {
+            cache[cacheKey] = data;
+            $.log("AUTOCOMPLETE: caching "+term);
 
-          // throw away response if there already was a newer one
-          if (xhr === lastXhr) {
-            $.log("AUTOCOMPLETE: got data for '"+term+"' from backend");
-            response(data);
-          } else {
-            $.log("AUTOCOMPLETE: throwing away results for '"+term+"'");
+            // throw away response if there already was a newer one
+            if (xhr === lastXhr) {
+              $.log("AUTOCOMPLETE: got data for '"+term+"' from backend");
+              response(data);
+            } else {
+              $.log("AUTOCOMPLETE: throwing away results for '"+term+"'");
+            }
+          },
+          error: function(xhr, status, error) {
+            alert("Error: "+status);
+            response();
           }
         });
       };

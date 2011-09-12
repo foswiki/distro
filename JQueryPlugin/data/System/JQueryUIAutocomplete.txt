@@ -236,8 +236,9 @@ var countryList = [
 This implementation extracts the list of countries from %SYSTEMWEB%.CountryList:
 
 <verbatim class="tml">
-%STARTSECTION{"data"}%%SEARCH{
- "^\| .*%URLPARAM{"term"}%.* \| *$"
+%STARTSECTION{"data"}%<noautolink>
+%SEARCH{
+ "^\| [^\*].*%URLPARAM{"term"}%.* \| *$"
  web="%SYSTEMWEB%"
  topic="CountryList"
  type="regex"
@@ -245,11 +246,11 @@ This implementation extracts the list of countries from %SYSTEMWEB%.CountryList:
  nonoise="on"
  casesensitive="off"
  header="["
- format="\"$pattern(.*?\| ([^\|]*).*)\""
+ format="\"$pattern(.*?\| ([^\|]*) \|.*)\""
  separator=", "
  footer="]"
 }%
-%ENDSECTION{"data"}%
+</noautolink>%ENDSECTION{"data"}%
 </verbatim>
 
 See http://jqueryui.com/demos/autocomplete/ for more demos.
