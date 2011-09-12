@@ -4,17 +4,20 @@
 #
 
 package TWikiFuncTests;
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
-
 use strict;
 use warnings;
-use TWiki;
-use TWiki::Func;
-use Foswiki::Func;
+
+use FoswikiFnTestCase();
+our @ISA = qw( FoswikiFnTestCase );
+
+use TWiki();
+use TWiki::Func();
+use Foswiki::Func();
 
 sub new {
-    my $self = shift()->SUPER::new( "Func", @_ );
+    my ( $class, @args ) = @_;
+
+    my $self = $class->SUPER::new( "Func", @args );
     return $self;
 }
 
@@ -25,6 +28,8 @@ sub set_up {
     $this->{test_web2}   = $this->{test_web} . 'Extra';
     my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web2} );
     $webObject->populateNewWeb();
+
+    return;
 }
 
 sub tear_down {
@@ -32,13 +37,15 @@ sub tear_down {
     unlink $this->{tmpdatafile};
     $this->removeWebFixture( $this->{session}, $this->{test_web2} );
     $this->SUPER::tear_down();
+
+    return;
 }
 
 sub test_web {
     my $this = shift;
 
     $this->{session}->finish();
-    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
+    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin} );
 
     TWiki::Func::createWeb( $this->{test_web} . "/Blah" );
     $this->assert( TWiki::Func::webExists( $this->{test_web} . "/Blah" ) );
@@ -47,13 +54,15 @@ sub test_web {
         $this->{test_web} . "/Blah2" );
     $this->assert( !TWiki::Func::webExists( $this->{test_web} . "/Blah" ) );
     $this->assert( TWiki::Func::webExists( $this->{test_web} . "/Blah2" ) );
+
+    return;
 }
 
 sub test_TWiki_web {
     my $this = shift;
 
     $this->{session}->finish();
-    $this->{session} = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
+    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin} );
 
     $this->assert( Foswiki::Func::webExists('TWiki') );
     $this->assert( TWiki::Func::webExists('TWiki') );
@@ -64,6 +73,8 @@ sub test_TWiki_web {
     $this->assert( !TWiki::Func::webExists('TWiki') );
 
     $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 1;
+
+    return;
 }
 
 sub test_getViewUrl {
@@ -88,7 +99,8 @@ sub test_getViewUrl {
     $this->assert_matches( qr!/$ss/$this->{test_web}/WebHome!, $result );
 
     $TWiki::Plugins::SESSION =
-      new TWiki( undef, new Unit::Request( { topic => "Sausages.AndMash" } ) );
+      TWiki->new( undef,
+        Unit::Request->new( { topic => "Sausages.AndMash" } ) );
 
     $result = TWiki::Func::getViewUrl( "Sausages", "AndMash" );
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
@@ -96,6 +108,8 @@ sub test_getViewUrl {
     $result = TWiki::Func::getViewUrl( "", "AndMash" );
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
     $TWiki::Plugins::SESSION->finish();
+
+    return;
 }
 
 sub test_getScriptUrl {
@@ -109,9 +123,9 @@ sub test_getScriptUrl {
     $result = TWiki::Func::getScriptUrl( "", "WebHome", 'wibble' );
     $this->assert_matches( qr!/$ss/$this->{users_web}/WebHome!, $result );
 
-    my $q = new Unit::Request( {} );
+    my $q = Unit::Request->new( {} );
     $q->path_info('/Sausages/AndMash');
-    $TWiki::Plugins::SESSION = new TWiki( undef, $q );
+    $TWiki::Plugins::SESSION = TWiki->new( undef, $q );
 
     $result = TWiki::Func::getScriptUrl( "Sausages", "AndMash", 'wibble' );
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
@@ -119,6 +133,8 @@ sub test_getScriptUrl {
     $result = TWiki::Func::getScriptUrl( "", "AndMash", 'wibble' );
     $this->assert_matches( qr!/$ss/$this->{users_web}/AndMash!, $result );
     $TWiki::Plugins::SESSION->finish();
+
+    return;
 }
 
 sub test_getOopsUrl {
@@ -140,6 +156,8 @@ sub test_getOopsUrl {
           . "?template=oopspider;param1=Hurble;param2=Burble;param3=Wurble;param4=Murble",
         $url
     );
+
+    return;
 }
 
 # Check lease handling
@@ -178,6 +196,8 @@ sub test_leases {
     $this->assert( !$oops, $oops );
     $this->assert( !$login );
     $this->assert_equals( 0, $time );
+
+    return;
 }
 
 sub test_attachments {
@@ -193,7 +213,7 @@ sub test_attachments {
     $this->assert( open( $stream, '>', $this->{tmpdatafile} ) );
     binmode($stream);
     print $stream $data;
-    close($stream);
+    $this->assert( close($stream) );
 
     $this->assert( open( $stream, '<', $this->{tmpdatafile} ) );
     binmode($stream);
@@ -212,6 +232,7 @@ sub test_attachments {
             filedate => 0,
         }
     );
+    $this->assert( close($stream) );
     $this->assert( !$e, $e );
 
     my ( $meta, $text ) = TWiki::Func::readTopic( $this->{test_web}, $topic );
@@ -241,6 +262,8 @@ sub test_attachments {
     $this->assert_str_equals( $data, $x );
     $x = TWiki::Func::readAttachment( $this->{test_web}, $topic, $name2 );
     $this->assert_str_equals( $data, $x );
+
+    return;
 }
 
 sub test_getrevinfo {
@@ -256,6 +279,8 @@ sub test_getrevinfo {
     $this->assert_equals( 1, $rev );
     $this->assert_str_equals( $wikiname, $user )
       ;    # the Func::getRevisionInfo quite clearly says wikiname
+
+    return;
 }
 
 sub test_moveTopic {
@@ -305,6 +330,8 @@ sub test_moveTopic {
         !TWiki::Func::topicExists( $this->{test_web}, "SourceTopic" ) );
     $this->assert(
         TWiki::Func::topicExists( $this->{test_web2}, "TargetTopic" ) );
+
+    return;
 }
 
 sub test_moveAttachment {
@@ -316,7 +343,7 @@ sub test_moveAttachment {
     $this->assert( open( $stream, '>', $this->{tmpdatafile} ) );
     binmode($stream);
     print $stream $data;
-    close($stream);
+    $this->assert( close($stream) );
     TWiki::Func::saveAttachment(
         $this->{test_web},
         "SourceTopic",
@@ -377,6 +404,8 @@ sub test_moveAttachment {
             $this->{test_web2}, "TargetTopic", "Name1"
         )
     );
+
+    return;
 }
 
 sub test_workarea {
@@ -388,6 +417,8 @@ sub test_workarea {
     # SMELL: check the permissions
 
     unlink $dir;
+
+    return;
 }
 
 sub test_extractParameters {
@@ -400,6 +431,8 @@ sub test_extractParameters {
         $this->assert_str_equals( $expect{$a}, $attrs{$a}, $a );
         delete $expect{$a};
     }
+
+    return;
 }
 
 sub test_w2em {
@@ -409,6 +442,8 @@ sub test_w2em {
         $this->{session}->{users}->getEmails( $this->{session}->{user} ) );
     my $user = TWiki::Func::getWikiName();
     $this->assert_str_equals( $ems, TWiki::Func::wikiToEmail($user) );
+
+    return;
 }
 
 sub test_normalizeWebTopicName {
@@ -497,6 +532,8 @@ sub test_normalizeWebTopicName {
         'Wibble.Web2.Topic' );
     $this->assert_str_equals( 'Wibble/Web2', $w );
     $this->assert_str_equals( 'Topic',       $t );
+
+    return;
 }
 
 sub test_checkAccessPermission {
@@ -504,12 +541,12 @@ sub test_checkAccessPermission {
     my $topic = "NoWayJose";
 
     TWiki::Func::saveTopicText(
-        $this->{test_web}, $topic, <<END,
+        $this->{test_web}, $topic, <<"END",
 \t* Set DENYTOPICVIEW = $TWiki::cfg{DefaultUserWikiName}
 END
     );
     eval { $this->{session}->finish() };
-    $this->{session} = new TWiki();
+    $this->{session} = TWiki->new();
     $TWiki::Plugins::SESSION = $this->{session};
     my $access =
       TWiki::Func::checkAccessPermission( 'VIEW',
@@ -572,6 +609,8 @@ END
         $topic, $this->{test_web}, $meta
     );
     $this->assert( !$access );
+
+    return;
 }
 
 # Since 4.2.1, checkAccessPermission accepts a login name
@@ -580,12 +619,12 @@ sub test_checkAccessPermission_421 {
     my $topic = "NoWayJose";
 
     TWiki::Func::saveTopicText(
-        $this->{test_web}, $topic, <<END,
+        $this->{test_web}, $topic, <<"END",
 \t* Set DENYTOPICVIEW = $TWiki::cfg{DefaultUserWikiName}
 END
     );
     eval { $this->{session}->finish() };
-    $this->{session} = new TWiki();
+    $this->{session} = TWiki->new();
     $TWiki::Plugins::SESSION = $this->{session};
     my $access =
       TWiki::Func::checkAccessPermission( 'VIEW', $TWiki::cfg{DefaultUserLogin},
@@ -645,6 +684,8 @@ END
         $topic, $this->{test_web}, $meta
     );
     $this->assert( !$access );
+
+    return;
 }
 
 sub test_getExternalResource {
@@ -677,6 +718,8 @@ sub test_getExternalResource {
         $response->content() );
     $this->assert( !$response->is_error() );
     $this->assert( !$response->is_redirect() );
+
+    return;
 }
 
 sub test_isTrue {
@@ -732,6 +775,7 @@ sub test_isTrue {
 
     $this->assert_equals( 0, TWiki::Func::isTrue(0) );
 
+    return;
 }
 
 sub test_decodeFormatTokens {
@@ -755,6 +799,8 @@ $ embed$embed$embed
 TEST
     my $output = TWiki::Func::decodeFormatTokens($input);
     $this->assert_str_equals( $expected, $output );
+
+    return;
 }
 
 sub test_eachChangeSince {
@@ -811,6 +857,8 @@ sub test_eachChangeSince {
     $this->assert_equals( 'WikiGuest', $change->{user} );
 
     $this->assert( !$it->hasNext() );
+
+    return;
 }
 
 # Check consistency between getListofWebs and webExists
@@ -832,14 +880,18 @@ sub test_4308 {
     foreach my $web (@list) {
         $this->assert( TWiki::Func::webExists($web), $web );
     }
+
+    return;
 }
 
 sub test_4411 {
     my $this = shift;
     $this->assert( TWiki::Func::isGuest(), $this->{session}->{user} );
     $this->{session}->finish();
-    $this->{session} = new TWiki( $TWiki::cfg{AdminUserLogin} );
+    $this->{session} = TWiki->new( $TWiki::cfg{AdminUserLogin} );
     $this->assert( !TWiki::Func::isGuest(), $this->{session}->{user} );
+
+    return;
 }
 
 sub test_setPreferences {
@@ -852,12 +904,12 @@ sub test_setPreferences {
 
     ####
     TWiki::Func::saveTopicText( $this->{test_web},
-        $TWiki::cfg{WebPrefsTopicName}, <<HERE);
+        $TWiki::cfg{WebPrefsTopicName}, <<"HERE");
    * Set PSIBG = naff
    * Set FINALPREFERENCES = PSIBG
 HERE
     $this->{session}->finish();
-    $this->{session} = new TWiki( $TWiki::cfg{GuestUserLogin}, $q );
+    $this->{session} = TWiki->new( $TWiki::cfg{GuestUserLogin}, $q );
     $this->assert_str_equals( "naff",
         TWiki::Func::getPreferencesValue("PSIBG") );
     TWiki::Func::setPreferencesValue( "PSIBG", "KJHD" );
@@ -865,17 +917,18 @@ HERE
         TWiki::Func::getPreferencesValue("PSIBG") );
     ###
     TWiki::Func::saveTopicText( $this->{test_web},
-        $TWiki::cfg{WebPrefsTopicName}, <<HERE);
+        $TWiki::cfg{WebPrefsTopicName}, <<"HERE");
    * Set PSIBG = naff
 HERE
     $this->{session}->finish();
-    $this->{session} = new TWiki( $TWiki::cfg{GuestUserLogin}, $q );
+    $this->{session} = TWiki->new( $TWiki::cfg{GuestUserLogin}, $q );
     $this->assert_str_equals( "naff",
         TWiki::Func::getPreferencesValue("PSIBG") );
     $this->assert( TWiki::Func::setPreferencesValue( "PSIBG", "KJHD" ) );
     $this->assert_str_equals( "KJHD",
         TWiki::Func::getPreferencesValue("PSIBG") );
 
+    return;
 }
 
 sub test_getPluginPreferences {
@@ -892,6 +945,8 @@ sub test_getPluginPreferences {
     $this->assert_str_equals( "off",
         TWiki::Func::getPluginPreferencesValue($pvar) );
     $this->assert( !TWiki::Func::getPluginPreferencesFlag($pvar) );
+
+    return;
 }
 
 1;
@@ -899,7 +954,7 @@ sub test_getPluginPreferences {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
