@@ -111,7 +111,7 @@ sub test_simple_upload {
         )
     );
     $this->assert_str_equals( "BLAH", <$F> );
-    close($F);
+    $this->assert( close($F) );
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
@@ -359,9 +359,9 @@ sub test_imagelink {
     my $this = shift;
     local $/;
     my $imageFile = $Foswiki::cfg{PubDir} . '/System/DocumentGraphics/bomb.png';
-    open my $FILE, '<', $imageFile;
+    $this->assert( open( my $FILE, '<', $imageFile ) );
     my $data = do { local $/; <$FILE> };
-    close($FILE);
+    $this->assert( close($FILE) );
     my $filename = 'bomb.png';
     $filename = Assert::TAINT($filename);
     my $result = $this->do_upload(
