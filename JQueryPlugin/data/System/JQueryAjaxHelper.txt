@@ -8,9 +8,9 @@ Hidden form definition
 %JQREQUIRE{"chili, ui"}%
 ---+!! %TOPIC%
 
-This page contains is a set of example JQueryPlugin helpers that can be used in
+This page contains a set of example JQueryPlugin helpers that can be used in
 wiki applications. The examples demonstrate how you can
-dynamically populate =jquery.autocomplete= enabled input boxes.
+dynamically populate autocomplete enabled input boxes using JQueryUIAutocomplete.
 
 Examples are in two parts; a *Client* section and a *Server* section.
 The *Client* section is designed to be included into your topics using
@@ -40,7 +40,7 @@ these sections when building up your own library of input types. Some
 examples of the use of these plugins are given at the end of this topic.
 
 ---++ Topic selector
-Select a topic in the current web. =jquery.autocomplete= is given a url that
+Select a topic in the current web. JQueryUIAutocomplete is given a url that
 loads the =topic= section of this topic, which expands to the topic list.
 
 ---+++ Client section
@@ -68,7 +68,7 @@ loads the =topic= section of this topic, which expands to the topic list.
   type="regex"
   scope="topic"
   header="["
-  format="<nop>%URLPARAM{"format" default="\\"$topic\\""}%"
+  format="\"<nop>%URLPARAM{"format" default="\\"$topic\\""}%\""
   separator=","
   footer="]"
   limit="%URLPARAM{"limit" default="10"}%"
@@ -89,7 +89,7 @@ loads the =topic= section of this topic, which expands to the topic list.
 </form>
 
 ---++ Web selector
-Select from a list of webs, using =jquery.autocomplete=.
+Select from a list of webs, using autocomplete
 
 __Note:__ there is currently no way to filter a list of webs in the
 default Foswiki core. To use this example you will have to install
@@ -101,7 +101,7 @@ Foswiki:Extensions.FlexWebListPlugin.
    * =INPUT_VALUE=: preselected value
 <verbatim class="tml">
 %STARTSECTION{"webselector"}%<!-- webselector  -->
-<input type="text" class="foswikiInputField {matchCase:true}" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=web;skin=text;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=web;skin=text;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
 <!-- //webselector -->%ENDSECTION{"webselector"}%
 </verbatim>
 
@@ -138,7 +138,6 @@ Jump to specific topics.
 
 ---+++ Client section
 *INCLUDE Parameters*
-   * =INPUT_NAME=: name of text input field, defaults to jumpbox
    * =GLOBAL=: toggle search for topics in all webs on/off, defaults to off
 <verbatim class="tml">
 %STARTSECTION{"jumpbox"}%<!-- jumpbox -->
@@ -146,7 +145,7 @@ Jump to specific topics.
   "$GLOBAL = 'on'"
   then="global: true, baseweb:'all', format:'$web.$topic'"
   else="global: false, baseweb:'%BASEWEB%', format:'$topic'"
-}%}" name="%IF{"defined INPUT_NAME" then="%INPUT_NAME%" else="jumpbox"}%" autocomplete="off" size="60" />
+}%}" name="topic" autocomplete="off" size="60" />
 %ADDTOZONE{"script"
   tag="jumpbox::js"
   section="jumpbox::js"
@@ -160,15 +159,12 @@ The following section is used by the section above; it adds a special Javascript
 <script type="text/javascript">
 jQuery(function($){
   $(".jqJumpBox").each(function() {
-    var $this = $(this);
-    var opts = $.extend({}, $this.metadata());
+    var $this = $(this), 
+        opts = $.extend({}, $this.metadata());
     $this.autocomplete({
       source: "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text"+
               ";baseweb="+opts.baseweb+
-              ";format="+opts.format,
-      change: function(event, item) {
-        window.location.href="%SCRIPTURLPATH{"view"}%/"+(opts.global?'':opts.baseweb+'/')+item;
-      }
+              ";format="+opts.format
     });
   });
 });
@@ -193,7 +189,7 @@ Uses the =[[#Topic_selector][topic]]= server section, defined above.
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <h3 >Global Jump:</h3>
-%INCLUDE{"%TOPIC%" section="jumpbox" GLOBAL="on" INPUT_NAME="globaljumpbox"}%
+%INCLUDE{"%TOPIC%" section="jumpbox" GLOBAL="on"}%
 </div>
 </div>
 </form>
@@ -205,11 +201,11 @@ Uses the =[[#Topic_selector][topic]]= server section, defined above.
    * =INPUT_VALUE=: preselected user
 <verbatim class="tml">
 %STARTSECTION{"userselector"}%<!-- userselector -->
-<input type="text" class="foswikiInputField jqUserSelector" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="off" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+<input type="text" class="foswikiInputField jqUserSelector" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
 %ADDTOZONE{"script"
   tag="userselector::js"
   section="userselector::js"
-  requires="JQUERYPLUGIN::AUTOCOMPLETE"
+  requires="JQUERYPLUGIN::UI::AUTOCOMPLETE"
 }%
 <!-- //userselector -->%ENDSECTION{"userselector"}%
 </verbatim>
@@ -218,21 +214,14 @@ The following section is used by the section above; it adds a special Javascript
 %STARTSECTION{"userselector::js"}%<literal>
 <script type="text/javascript">
 jQuery(function($){
-  $(".jqUserSelector").each(function() {
-    var $this = $(this);
-    var opts = $.extend({
-      autoFill:false,
-      selectFirst:false,
-      scrollHeight:250,
-      formatItem: function(row, index, max, search) {
-        return "<table width='100%'><tr><td width='60px'><img width='50' src='"+row[2]+"' /></td><td>"+row[0]+"<br />"+row[1]+"</td></tr></table>";
-      }
-    }, $this.metadata());
-    $this.autocomplete(
-      "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text", 
-      opts
-    );
-  });
+  $(".jqUserSelector").data("autocomplete")._renderItem = function(ul, item) {
+    if (typeof(item.label) !== 'undefined') {
+      return $("<li></li>")
+        .data("item.autocomplete", item)
+        .append("<a><table width='100%'><tr><td width='60px'><img width='50' src='"+item.img+"' /></td><td>"+item.label+"<br />"+item.email+"</td></tr></table></a>")
+        .appendTo(ul);
+    }
+  };
 });
 </script>
 </literal>%ENDSECTION{"userselector::js"}%
@@ -242,16 +231,27 @@ jQuery(function($){
    * =q=: search term substring typed so far
    * =limit=: number of search results to return, defaults to 10
 <verbatim class="tml">
-%STARTSECTION{"user"}%%SEARCH{
-   "^%URLPARAM{"term" default="does not exist"}%.*"
-   type="regex"
-   scope="topic"
-   format="$percntUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$percntFORMFIELD{\"Photo\" topic=\"$web.$topic\" default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\"}$percnt$n\"}$percnt"
-   separator=""
-   limit="%URLPARAM{"limit" default="10"}%"
-   nonoise="on"
-   web="%USERSWEB%"
-}%%ENDSECTION{"user"}%
+%STARTSECTION{"user"}%<literal>%FORMAT{
+  "%SEARCH{
+     "^%URLPARAM{"term" default="does not exist"}%.*"
+     type="regex"
+     scope="topic"
+     format="$percntUSERINFO{\"$topic\" format=\"$dollarwikiusername, \"}$percnt"
+     separator=""
+     limit="%URLPARAM{"limit" default="10"}%"
+     nonoise="on"
+     web="%USERSWEB%"
+  }%"
+  type="string"
+  header="["
+  format="$percntUSERINFO{
+    \"$item\" 
+    format=\"{\\"label\\":\\"<nop>$dollarwikiname\\", \\"email\\":\\"$dollaremails\\", \\"img\\":\\"$percntFORMFIELD{\"Photo\" topic=\"$item\" default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" }$percnt\\"}\"
+  }$percnt"
+  separator=",$n"
+  footer="]"
+}%
+</literal>%ENDSECTION{"user"}%
 </verbatim>
 
 ---+++ Example
@@ -274,11 +274,10 @@ or later).
    * =SOURCE=: topic to get the field from
    * =QUERY=: query to perform
 <verbatim class="tml">
-%STARTSECTION{"queryfetcher"}%<literal>
-%ADDTOZONE{"script"
+%STARTSECTION{"queryfetcher"}%%ADDTOZONE{"script"
   tag="query::js"
   requires="JQUERYPLUGIN"
-  text ="
+  text ="<literal>
 <script type=\"text/javascript\">
 jQuery(function($){
   $(\"#%ID%\").click(function() {
@@ -286,13 +285,12 @@ jQuery(function($){
          function(data) {
              // This is the function that will be executed when the
              // data is fetched
-             alert(\"Value is '\" + eval(data) + \"'\");
+             alert(\"Value is '\" + data + \"'\");
          });
   });
 });
-</script>
-"}%
-</literal>%ENDSECTION{"queryfetcher"}%
+</script></literal>
+"}%%ENDSECTION{"queryfetcher"}%
 </verbatim>
 
 ---+++ Server section
@@ -300,16 +298,16 @@ jQuery(function($){
    * =source=: source topic 
    * =query=: query to perform
 <verbatim class="tml">
-%STARTSECTION{"query"}%%QUERY{
+%STARTSECTION{"query"}%<noautolink>%QUERY{
   "%URLPARAM{"query" default="query missing"}%"
   topic="%URLPARAM{"source" default="source missing"
   style="json"}%"
-}%%ENDSECTION{"query"}%
+}%</noautolink>%ENDSECTION{"query"}%
 </verbatim>
 
 ---+++ Example
 %INCLUDE{"%TOPIC%" section="queryfetcher" ID="jqQueryExample" SOURCE="%TOPIC%" QUERY="parent.name"}%
-<input type="button" id="jqQueryExample" value="Click here" /> to get the parent of this topic asynchronously (should be '%QUERY{"parent.name"}%')
+<input type="button" class="foswikiButton id="jqQueryExample" value="Click here" /> to get the parent of this topic asynchronously (should be '%QUERY{"parent.name"}%')
 
 ---++ Other selectors
 Server sections for some other selectors that are common in wiki applications.
@@ -361,13 +359,24 @@ installation of optional extensions.
 ---+++ =user_fast=
 Foswiki:Extensions.DBCachePlugin implementation of the [[#User_selector][user selector]] server section.
 <verbatim class="tml">
-%STARTSECTION{"user_fast"}%%DBQUERY{
-   "uc(topic) =~ uc('^%URLPARAM{"term" default="does not exist"}%')"
-   format="$percntUSERINFO{\"$topic\" format=\"<nop>$dollarwikiname|$dollaremails|$expand(Photo or '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif')$n\"}$percnt"
-   separator=""
-   limit="%URLPARAM{"limit" default="10"}%"
-   web="%USERSWEB%"
-}%%ENDSECTION{"user_fast"}%
+%STARTSECTION{"user_fast"}%<literal>%FORMAT{
+  "%DBQUERY{
+     "uc(topic) =~ uc('^%URLPARAM{"term" default="does not exist"}%')"
+     format="$percntUSERINFO{\"$topic\" format=\"$dollarwikiusername, \"}$percnt"
+     separator=""
+     limit="%URLPARAM{"limit" default="10"}%"
+     nonoise="on"
+     web="%USERSWEB%"
+  }%"
+  type="string"
+  header="["
+  format="$percntUSERINFO{
+    \"$item\" 
+    format=\"{\\"label\\":\\"<nop>$dollarwikiname\\", \\"email\\":\\"$dollaremails\\", \\"img\\":\\"$percntFORMFIELD{\"Photo\" topic=\"$item\" default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" }$percnt\\"}\"
+  }$percnt"
+  separator=",$n"
+  footer="]"
+}%</literal>%ENDSECTION{"user_fast"}%
 </verbatim>
 
 %META:FORM{name="JQueryAjaxHelper"}%
