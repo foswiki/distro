@@ -138,7 +138,7 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{PopUpWindow}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{QueryObject}{Enabled} = 1;
 
 # **BOOLEAN**
-# This plugin is deprecated. Use Corner instead
+# Warning: This plugin is deprecated. Use Corner instead
 # $Foswiki::cfg{JQueryPlugin}{Plugins}{Nifty}{Enabled} = 1;
 
 # **BOOLEAN**
@@ -151,7 +151,8 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{ScrollTo}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{SerialScroll}{Enabled} = 1;
 
 # **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Shake}{Enabled} = 1;
+# Warning: This plugin is deprecated. The shake effect is now part of the latest jQuery-ui package.
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Shake}{Enabled} = 0;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{ShrinkUrls}{Enabled} = 1;
