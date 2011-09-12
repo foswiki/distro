@@ -170,7 +170,7 @@ sub test_redirectto_param {
         changeproperties => 0,
     );
     $this->assert_matches(
-        qr#Location: http://(.*?)$this->{test_web}/$this->{test_topic}#ms,
+        qr#Location: https?://(.*?)$this->{test_web}/$this->{test_topic}#ms,
         $result );
 
     return;
