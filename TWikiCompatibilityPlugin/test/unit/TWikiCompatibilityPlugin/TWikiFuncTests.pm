@@ -73,6 +73,12 @@ sub test_getViewUrl {
 
     # relative to specified web
     my $result = TWiki::Func::getViewUrl( $this->{users_web}, "WebHome" );
+    # Item11121: ShortURLs wil break this test
+    if (     exists $Foswiki::cfg{ScriptUrlPaths}{view}
+                and $Foswiki::cfg{ScriptUrlPaths}{view}
+            and not $Foswiki::cfg{ScriptUrlPaths}{view} =~ /$ss$/ ) {
+        $this->expect_failure();
+    }
     $this->assert_matches( qr!/$ss/$this->{users_web}/WebHome!, $result );
 
     # relative to web in path_info
