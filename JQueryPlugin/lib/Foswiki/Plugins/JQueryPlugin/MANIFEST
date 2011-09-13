@@ -287,6 +287,9 @@ pub/System/JQueryPlugin/jquery-1.6.2.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.6.3.js 0644
 pub/System/JQueryPlugin/jquery-1.6.3.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.6.3.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-1.6.4.js 0644
+pub/System/JQueryPlugin/jquery-1.6.4.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.6.4.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
 pub/System/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.css 0644

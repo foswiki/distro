@@ -26,8 +26,8 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 # **STRING**
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
-# **SELECT jquery-1.4.3, jquery-1.4.4, jquery-1.5, jquery-1.5.1, jquery-1.5.2, jquery-1.6.1, jquery-1.6.2, jquery-1.6.3**
-$Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.6.3';
+# **SELECT jquery-1.4.3, jquery-1.4.4, jquery-1.5, jquery-1.5.1, jquery-1.5.2, jquery-1.6.1, jquery-1.6.2, jquery-1.6.3, jquery-1.6.4**
+$Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.6.4';
 
 # **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness**
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'foswiki';

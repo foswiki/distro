@@ -8,6 +8,7 @@ TARGET=\
   jquery-1.5.2.js \
   jquery-1.6.1.js \
   jquery-1.6.2.js \
-  jquery-1.6.3.js
+  jquery-1.6.3.js \
+  jquery-1.6.4.js
 
 -include Makefile.include
