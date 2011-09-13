@@ -461,8 +461,9 @@ sensitivity of filenames on Win32.
 =cut
 
 sub expect_failure {
-    my ($this) = @_;
-    $this->{expect_failure} = 1;
+    my ($this) = shift;
+    my $tf = (defined $_[0]) ? $_[0] : 1;
+    $this->{expect_failure} = $tf;
 }
 
 =begin TML
