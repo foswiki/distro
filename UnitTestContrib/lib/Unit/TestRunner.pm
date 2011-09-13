@@ -67,6 +67,7 @@ sub start {
         eval "use $suite";
         if ($@) {
             my $useError = $@;
+            my $bad;
 
             # Try to be clever, look for it
             if ( $useError =~ /Can't locate \Q$suite\E\.pm in \@INC/ ) {
@@ -82,12 +83,21 @@ sub start {
                               && ( print("\tFound $1\n") )
                               && push( @found, $1 . $testToFind );
                         },
-                        follow          => 1,
-                        untaint         => 1,
+                        follow            => 1,
+                        untaint           => 1,
+                        dangling_symlinks => sub {
+                            if ( $_[0] =~ m/^$suite/ ) {
+                                print
+"ERROR: $_[0] has dangling symlink, bypassing ...\n";
+                                $bad = 1;
+                            }
+                        },
                         untaint_pattern => qr|^([-+@\w./:]+)$|,
                     },
                     '.'
                 );
+
+                next if ($bad);
 
                 # Try to be even smarter: favor test suites
                 # unless a specific test was requested
@@ -223,7 +233,8 @@ sub runOneInNewProcess {
         my $error = $!;
         unlink $tempfilename;
         print "*** Could not spawn new process for $suite: $error\n";
-        return 'push( @{ $this->{failures} }, "' 
+        return
+            'push( @{ $this->{failures} }, "'
           . $suite . '\n'
           . quotemeta($error) . '" );';
     }
@@ -232,7 +243,8 @@ sub runOneInNewProcess {
         if ($returnCode) {
             print "*** Error trying to run $suite\n";
             unlink $tempfilename;
-            return 'push( @{ $this->{failures} }, "Process for ' 
+            return
+                'push( @{ $this->{failures} }, "Process for '
               . $suite
               . ' returned '
               . $returnCode . '" );';
