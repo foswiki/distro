@@ -1416,8 +1416,7 @@ sub update_gitignore_file {
             close($fh);
         }
         else {
-            @lines =
-              ( '.*', '*.gz', '*.lease', '.changes', '*.bak', '*.swp', '*~' );
+            @lines = ('*.gz');
         }
         @lines = merge_gitignore( $generated_files{$moduleDir}, \@lines );
         $ignorefile = untaint($ignorefile);
