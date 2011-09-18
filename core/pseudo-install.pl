@@ -125,8 +125,8 @@ my %default_config = (
                 },
                 'Release01x00' => { path => 'branches/Release01x00' },
                 'Release01x01' => { path => 'branches/Release01x01' },
-                'trunk'        => { path => 'trunk' } 'scratch' =>
-                  { path => 'branches/scratch' }
+                'trunk'        => { path => 'trunk' },
+                'scratch'      => { path => 'branches/scratch' }
             }
         },
         {
