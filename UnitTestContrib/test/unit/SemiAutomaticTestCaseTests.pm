@@ -29,6 +29,14 @@ sub set_up {
             'WikiGuest', 'This user is used in some testcases');
         $to->save();
     }
+    if (!$this->{session}->topicExists(
+            $Foswiki::cfg{UsersWebName},
+            'UnknownUser')){
+        my $to = Foswiki::Meta->new(
+            $this->{session}, $Foswiki::cfg{UsersWebName},
+            'UnknownUser', 'This user is used in some testcases');
+        $to->save();
+    }
 }
 
 sub list_tests {

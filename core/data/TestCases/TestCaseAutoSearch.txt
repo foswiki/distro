@@ -9,6 +9,9 @@ Results dependent on templates used to render search results. Tests only make se
 Designed by: Crawford Currie
 
 ---+ Search _default
+<verbatim>
+%SEARCH{ "hit me with your rhythm stick" }%
+</verbatim>
 ---++ Expected
 <!-- expected expand rex DEFAULT -->
 <div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>hit me with your rhythm stick</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div><h4 class="foswikiSearchResultsHeader" style="border-color:@REX([a-z]+|\#[0-9a-fA-F]{6})"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local))</h4> 
@@ -36,6 +39,9 @@ Designed by: Crawford Currie
 
 
 ---+ Search with search parameter
+<verbatim>
+%SEARCH{ "hit me with your rhythm stick" search="sausages and mash" }%
+</verbatim>
 ---++ Expected (again)
 <!-- expected again expand rex SEARCHPARAMETER -->
 Same as last test
@@ -58,6 +64,20 @@ Same as last test
 
 
 ---+ Topic search with two webs specified, all summary fields disabled (expand rex TWOWEBS)
+%SYSTEMWEB%
+<verbatim>
+%SEARCH{
+    "WebPreferences$"
+    type="regex"
+    scope="topic"
+    web="TestCases, %SYSTEMWEB%"
+    nosummary="on"
+    nosearch="on"
+    noheader="on"
+    nototal="on"
+    order="topic"
+}%
+</verbatim>
 ---++ Expected
 <!-- expected expand rex TWOWEBS -->
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 
@@ -92,6 +112,9 @@ Same as last test
 
 
 ---+ Topic search with all webs specified
+<verbatim>
+%SEARCH{ "WhatIsWikiWiki" scope="topic" web="all" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
+</verbatim>
 ---++ Expected
 <!-- expected expand rex ALLWEBS -->
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 
@@ -116,6 +139,15 @@ Same as last test
 
 
 ---+ Text search with topic parameter
+<verbatim>
+%SEARCH{ "hit me with"
+	 topic="TestCaseAuto*"
+	 web="TestCases"
+	 nosummary="on"
+	 nosearch="on"
+	 noheader="on"
+	 nototal="on" }%
+</verbatim>
 ---++ Expected
 <!-- expected expand rex TOPICPARAMETER -->
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 
@@ -133,6 +165,15 @@ Same as last test
 
 
 ---+ Text search with excludetopic parameter set to a topic
+<verbatim>
+%SEARCH{ "your rhythm"
+	 excludetopic="TestCaseAutoSearch"
+	 web="TestCases"
+	 nosummary="on"
+	 nosearch="on"
+	 noheader="on"
+	 nototal="on" }%
+</verbatim>
 ---++ Expected
 <!-- expected rex expand EXCLUDETOPICTOPIC -->
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 
@@ -152,6 +193,15 @@ Same as last test
 
 
 ---+ Text search with excludetopic parameter set to a wildcard
+<verbatim>
+%SEARCH{ "your rhythm"
+	 excludetopic="TestCaseAuto*"
+	 web="TestCases"
+	 nosummary="on"
+	 nosearch="on"
+	 noheader="on"
+	 nototal="on" }%
+</verbatim>
 ---++ Expected (again)
 <!-- expected again rex expand EXCLUDETOPICWILDCARD -->
 <!-- /expected -->
@@ -184,6 +234,17 @@ Same as last test
 
 
 ---+ Text search with multiple set
+<verbatim>
+%SEARCH{ "hit me"
+	 web="TestCases"
+	 multiple="on"
+	 reverse="on"
+	 limit="1"
+	 nosummary="on"
+	 nosearch="on"#
+	 noheader="on"
+	 nototal="on" }%
+</verbatim>
 ---++ Expected
 <!-- expected expand rex MULTIPLE -->
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 

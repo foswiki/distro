@@ -8,7 +8,7 @@ The major risk is the default formatting where web's are separated - for paging 
 [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?test=compare&debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
 
 
----++ default search formatting
+---++ default search formatting - 1 expand rex old Tmwiki default multi-weboutput 4 webs
 ---+++ Expected
 <!-- expected 1 expand rex old Tmwiki default multi-weboutput 4 webs -->
 <div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
