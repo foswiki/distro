@@ -2845,20 +2845,22 @@ GNURF
     );
 
     #order by modified, limit=2, with groupby=none
-    my @tops = ();
-    foreach my $web ($this->{test_web}, "Main", "System", "Sandbox") {
-        if (Foswiki::Func::topicExists($web, "WebHome")) {
-            my @i = Foswiki::Func::getRevisionInfo($web, "WebHome");
-            push(@tops, [$web, $i[0]]);
-        }
+    # As order is last modification time, we need to ensure they're different
+    # and that the order is fixed. So creating a buch of test topics
+    my %testWebs = ( Main => 0, System => 10, Sandbox => 100 );
+    while ( my ( $web, $delay ) = each %testWebs ) {
+        my $topicObject =
+          Foswiki::Meta->new( $this->{session}, "$web", 'TheTopic', <<'CRUD');
+Just some dummy search topic.
+CRUD
+        $topicObject->save( forcedate => $delay );
     }
-    @tops = map { $_->[0] } sort { $a->[1] <=> $b->[1] } @tops;
 
     $result = $this->{test_topicObject}->expandMacros( <<GNURF );
 %SEARCH{"1"
  type="query"
- web="$this->{test_web},Main,System,Sandbox,"
- topic="WebHome"
+ web="$this->{test_web}/A,Main,System,Sandbox,"
+ topic="TheTopic"
  recurse="on"
  nonoise="on"
  order="modified"
@@ -2870,7 +2872,7 @@ GNURF
  limit="2"
 }%
 GNURF
-    $this->assert_equals( "HEADER$tops[0] WebHome, $tops[1] WebHomeFOOTER\n",
+    $this->assert_equals( "HEADERSystem TheTopic, Sandbox TheTopicFOOTER\n",
         $result );
 }
 
