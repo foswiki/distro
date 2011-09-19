@@ -52,8 +52,8 @@ $Foswiki::cfg{JQueryPlugin}{Themes}{Smoothness}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Themes}{Foswiki}{Enabled} = 1;
 
 # ---+++ Default plugins
-# Warning: this plugin is deprecated. Please use the autocomplete plugin part of the jQuery-ui package.
 # **BOOLEAN**
+# Warning: this plugin is deprecated. Please use the autocomplete plugin part of the jQuery-ui package.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Autocomplete}{Enabled} = 0;
 
 # **BOOLEAN**
@@ -139,7 +139,7 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{QueryObject}{Enabled} = 1;
 
 # **BOOLEAN**
 # Warning: This plugin is deprecated. Use Corner instead
-# $Foswiki::cfg{JQueryPlugin}{Plugins}{Nifty}{Enabled} = 1;
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Nifty}{Enabled} = 0;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Rating}{Enabled} = 1;
