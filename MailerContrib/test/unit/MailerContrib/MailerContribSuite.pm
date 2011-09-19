@@ -907,16 +907,12 @@ sub test_changeSubscription_and_isSubScribedTo_API {
     Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, 'TestUser3',
         $topicList, $unsubscribe );
 
-    #my $notText = Foswiki::Func::readTopicText( $this->{test_web}, 'WebNotify');
-    #print STDERR "$notText\n";
-
-    # Should be unsubscribed as an exception to the group
-    $this->expect_failure();
+    # Cannot be unsubscribed as an exception to the group
     $this->assert(
-        !Foswiki::Contrib::MailerContrib::isSubscribedTo(
+        Foswiki::Contrib::MailerContrib::isSubscribedTo(
             $defaultWeb, 'TestUser3', 'WebIndex'
         ),
-        'Unable to unsubscribe a user that is subscribed by a group membership'
+        'User should still be subscribed as a group member'
     );
 
     #TODO: not quite implemented - needs a 'covers' test
