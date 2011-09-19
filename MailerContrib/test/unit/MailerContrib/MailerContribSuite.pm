@@ -189,6 +189,13 @@ sub set_up {
 	    topicsout => ""
 	},
 
+	# Item11138: no trailing space after : incorrectly results in subscribe to all
+	{
+	    email => "email10\@example.com",
+	    entry => "email10\@example.com :",
+	    topicsout => ""
+	},
+
 	{
 	    email => "jeltz\@vogsphere.com",
 	    entry => "ProstectnicVogonJeltz - jeltz\@vogsphere.com",
