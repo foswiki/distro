@@ -4,12 +4,20 @@
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
-%SHORTDESCRIPTION%
+%SHORTDESCRIPTION%  
 
-Example (only works if plugin is installed, and you are logged in (not %MAINWEB%.WikiGuest)): %SUBSCRIBE%
+Example (only works if plugin is installed, and you are logged in - you are: %WIKIUSERNAME% (not %MAINWEB%.WikiGuest)): %SUBSCRIBE%
 
 ---++ Usage
 %INCLUDE{"VarSUBSCRIBE" section="subscribe_attributes"}%
+
+%X%Note: This subscribe macro is for adding and removing individual subscriptions.  It is not aware of subscriptions due to membership in a subscribed group.  If a user is subscribed to a topic due to group membership,  the subscribe link will show the user as subscribed,
+but clicking it will *not* unsubscribe the individual user.  If a user wishes to unsubscribe as an exception, manually add a "negative subscription" to the WebNotify topic.  Ex:  If !JoeUser is a member of !SomeGroup,
+then the user can unsubscribe manually:
+<noautolink>
+   * Main.SomeGroup : *
+   * Main.JoeUser : - UndesiredTopic
+</noautolink>
 
 ---++ Access Controls
 The guest user is not allowed to subscribe for notification.
