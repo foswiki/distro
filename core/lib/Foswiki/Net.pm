@@ -384,7 +384,8 @@ sub sendEmail {
         catch Error::Simple with {
             my $e = shift->stringify();
             ( my $to ) = $text =~ /^To:\s*(.*?)$/im;
-            $this->{session}->logger->log( 'warning', "Emailing $to - $e" ) if ($this->{session});
+            $this->{session}->logger->log( 'warning', "Emailing $to - $e" )
+              if ( $this->{session} );
 
             # be nasty to errors that we didn't throw. They may be
             # caused by SMTP or perl, and give away info about the
@@ -466,9 +467,13 @@ sub _sendEmailBySendmail {
     my ( $header, $body ) = split( "\n\n", $text, 2 );
     $header =~
 s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
+
     $text = "$header\n\n$body";    # rebuild message
 
     $this->_smimeSignMessage($text) if ( $Foswiki::cfg{Email}{EnableSMIME} );
+    print STDERR
+"====== Sending to $Foswiki::cfg{MailProgram} ======\n$text\n======EOM======\n"
+      if ( $Foswiki::cfg{SMTP}{Debug} );
 
     my $MAIL;
     open( $MAIL, '|-', $Foswiki::cfg{MailProgram} )

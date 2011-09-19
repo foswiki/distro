@@ -837,15 +837,10 @@ From: $Foswiki::cfg{WebMasterEmail}
 To: $Foswiki::cfg{WebMasterEmail}
 Subject: Test of Foswiki e-mail facility from configure
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="------------2D594AE113AD25493C2C7246"
-
-This is a multi-part message in MIME format.
---------------2D594AE113AD25493C2C7246
 Content-Type: text/plain; charset=$charset
 Content-Transfer-Encoding: 8bit
 
 It Works!  Test message from Foswiki.
-
 MAIL
 
         if ( $Foswiki::cfg{WebMasterEmail} ) {
