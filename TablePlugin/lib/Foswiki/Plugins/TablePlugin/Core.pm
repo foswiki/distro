@@ -250,12 +250,14 @@ sub _parseAttributes {
         _storeAttribute( 'sortAllTables', $sort, $inCollection );
     }
     if ( defined( $inParams->{initsort} )
-          and int($inParams->{initsort}) > 0) {
+        and int( $inParams->{initsort} ) > 0 )
+    {
         _storeAttribute( 'initSort', $inParams->{initsort}, $inCollection );
+
         # override sort attribute: we are sorting after all
-        _storeAttribute( 'sort',          1, $inCollection );
+        _storeAttribute( 'sort', 1, $inCollection );
     }
-      
+
     if ( $inParams->{initdirection} ) {
         _storeAttribute( 'initDirection', $SORT_DIRECTION->{'ASCENDING'},
             $inCollection )
@@ -540,6 +542,7 @@ sub _processTableRow {
             && defined $sortColFromUrl )
         {
             $sortCol = $sortColFromUrl;
+            $sortCol = 0 unless ( $sortCol =~ m/^[0-9]+$/ );
             $sortCol = $MAX_SORT_COLS if ( $sortCol > $MAX_SORT_COLS );
             $currentSortDirection = _getCurrentSortDirection($up);
         }
@@ -908,6 +911,8 @@ sub _getDefaultSortDirection {
 # Gets the current sort direction.
 sub _getCurrentSortDirection {
     my ($currentDirection) = @_;
+    $currentDirection = $SORT_DIRECTION->{'ASCENDING'}
+      unless defined $currentDirection && $currentDirection =~ m/[0-2]+/;
     $currentDirection ||= _getDefaultSortDirection();
     return $currentDirection;
 }
@@ -923,12 +928,16 @@ sub _getNewSortDirection {
     if ( $currentDirection == $SORT_DIRECTION->{'ASCENDING'} ) {
         $newDirection = $SORT_DIRECTION->{'DESCENDING'};
     }
-    if ( $currentDirection == $SORT_DIRECTION->{'DESCENDING'} ) {
+    elsif ( $currentDirection == $SORT_DIRECTION->{'DESCENDING'} ) {
         $newDirection = $SORT_DIRECTION->{'NONE'};
     }
-    if ( $currentDirection == $SORT_DIRECTION->{'NONE'} ) {
+    elsif ( $currentDirection == $SORT_DIRECTION->{'NONE'} ) {
         $newDirection = $SORT_DIRECTION->{'ASCENDING'};
     }
+    else {
+        $newDirection = _getDefaultSortDirection();
+    }
+
     return $newDirection;
 }
 
@@ -1321,7 +1330,8 @@ sub emitTable {
     }
 
     my $sortThisTable =
-      $combinedTableAttrs->{sortAllTables} == 0
+      ( !defined $combinedTableAttrs->{sortAllTables}
+          || $combinedTableAttrs->{sortAllTables} == 0 )
       ? 0
       : $combinedTableAttrs->{sort};
 
@@ -1415,6 +1425,10 @@ sub emitTable {
                 }
             }
         }
+
+       # url requested sort on column beyond end of table.  Force to last column
+        $sortCol = 0 unless ( $sortCol =~ m/^[0-9]+$/ );
+        $sortCol = $maxCols - 1 if ( $sortCol >= $maxCols );
 
         # only get the column type if within bounds
         if ( $sortCol < $maxCols ) {
@@ -1815,8 +1829,15 @@ sub handler {
 
         $sortColFromUrl =
           $cgi->param('sortcol');              # zero based: 0 is first column
+        if ( defined $sortColFromUrl && $sortColFromUrl !~ m/^[0-9]+$/ ) {
+            $sortColFromUrl = 0;
+        }
+
         $requestedTable = $cgi->param('table');
-        $up             = $cgi->param('up');
+        $requestedTable = 0
+          unless ( defined $requestedTable && $requestedTable =~ m/^[0-9]+$/ );
+
+        $up = $cgi->param('up');
 
         $sortTablesInText = 0;
         $sortAttachments  = 0;
