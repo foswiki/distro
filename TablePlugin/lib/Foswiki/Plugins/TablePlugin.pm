@@ -43,6 +43,7 @@ sub initPlugin {
 
     $initialised   = 0;
     $writtenToHead = 0;
+    %pluginAttributes = ();
 
     debug( 'TablePlugin', "inited" );
 
