@@ -9,7 +9,7 @@ use strict;
 use warnings;
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.136';
+our $RELEASE = '1.135';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -42,7 +42,6 @@ sub initPlugin {
     return 0 unless $cgi;
 
     $initialised   = 0;
-    %pluginAttributes = ();
     $writtenToHead = 0;
     %pluginAttributes = ();
 
