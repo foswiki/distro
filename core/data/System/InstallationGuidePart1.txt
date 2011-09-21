@@ -289,7 +289,7 @@ Most of the <a href="http://cpan.perl.org/" rel="nofollow" target="_top">CPAN</a
 
 A more complete module status is listed in Foswiki [[%SCRIPTURLPATH{"configure"}%][configure]] (Foswiki 1.0.x: _CGI Setup_, 1.1.x: _Web Server Environment > Perl modules_). It should be easier to deal with CPAN modules from this perspective.
 
-The following CPAN modules are shipped with Foswiki, require a comment or may optionally be needed. In case the standard Foswiki will be enhanced with Foswiki:Extensions, please look at the related extension page for dependencies which may require additional modules.
+The following CPAN modules are shipped with Foswiki, require a comment or may optionally be needed. In case the standard Foswiki will be enhanced with Foswiki:Extensions, please look at the related extension page for dependencies which may require additional modules. Try the script =dependencies_installer.pl= located in the =tools= directory, which makes perl module installation easier. Run it with option =-h= to understand basics. This script requires confirmation before it actually does something.
 
 %TABLE{ initsort="3" initdirection="up" }%
 | *Module* | *Preferred version* | *Required/Optional* | *Description* |
