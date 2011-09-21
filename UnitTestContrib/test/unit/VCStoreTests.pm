@@ -47,7 +47,7 @@ my $TEXT1 = <<'DONE';
 He had bought a large map representing the sea,
 Without the least vestige of land:
 And the crew were much pleased when they found it to be
-A map they could all understand. 
+A map they could all understand.
 DONE
 
 my $TEXT2 = <<DONE;
@@ -68,19 +68,22 @@ sub set_up_for_verify {
     my $this = shift;
     $this->{session}->finish();
     $this->{session} = new Foswiki();
+    unlink "$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}.txt";
+    unlink "$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}.txt,v";
 }
 
 # private; create a topic with no ,v
 sub _createNoHistoryTopic {
-    my ($this, $noTOPICINFO) = @_;
+    my ($this) = @_;
 
-    $this->{test_topic} .= "NoHistory";
+    $this->{test_topic} .= "NoHistory" unless $this->{test_topic} =~ /NoHistory/;
 
     open( my $fh, '>', "$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}.txt" )
       || die "Unable to open \n $! \n\n ";
     print $fh <<CRUD;
 %META:TOPICINFO{author="LewisCarroll" date="9876543210" format="1.1" version="99"}%
 $TEXT1
+%META:FIELD{name="SnarkBait" title="SnarkBait" value="Bellman"}%
 CRUD
     close $fh;
 
@@ -89,9 +92,9 @@ CRUD
 
 # private; create a topic with .txt,v (rev 1, or 99), and a mauled .txt
 sub _createInconsistentTopic {
-    my ($this, $noTOPICINFO) = @_;
+    my ($this, $withForm) = @_;
 
-    $this->{test_topic} .= "Inconsistent";
+    $this->{test_topic} .= "Inconsistent" unless $this->{test_topic} =~ /Inconsistent/;;
 
     my $meta = Foswiki::Meta->load( $this->{session}, $this->{test_web}, $this->{test_topic} );
     $meta->text($TEXT1);
@@ -109,6 +112,7 @@ sub _createInconsistentTopic {
     print $fh <<CRUD;
 %META:TOPICINFO{author="SpongeBobSquarePants" date="1234567890" format="1.1" version="77"}%
 $TEXT2
+%META:FIELD{name="SnarkBait" title="SnarkBait" value="Beaver"}%
 CRUD
     close $fh;
 
@@ -282,9 +286,10 @@ sub verify_NoHistory_getRevisionAtTime {
 
     my $then = time;
     $this->_createNoHistoryTopic();
+    my $now = time;
 
     my $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $this->{test_topic} );
-    $this->assert_num_equals(1, $this->{session}->{store}->getRevisionAtTime($meta, time));
+    $this->assert_num_equals(1, $this->{session}->{store}->getRevisionAtTime($meta, $now));
     $this->assert_null($this->{session}->{store}->getRevisionAtTime($meta, $then-1));
 }
 
@@ -357,6 +362,17 @@ sub verify_Inconsistent_saveAttachment {
     my $info = $meta->getRevisionInfo();
     $this->assert_str_equals( $this->{session}->{user}, $info->{author} );
     $this->assert_num_equals( 3, $info->{version} );
+}
+
+# verify that the value of a FORMFIELD is taken from the text and not the head
+sub verify_Inconsistent_Item10993 {
+    my $this = shift;
+    $this->_createInconsistentTopic();
+
+    $this->assert_str_equals("Beaver=Beaver",
+			     Foswiki::Func::expandCommonVariables(
+				 '%FORMFIELD{"SnarkBait"}%=%QUERY{"SnarkBait"}%',
+				 $this->{test_topic}, $this->{test_web}));
 }
 
 1;

@@ -90,10 +90,13 @@ sub readTopic {
     $isLatest = 0;
 
     # check that the requested revision actually exists
-    if ( defined $version ) {
-        if ( !$version || !$handler->revisionExists($version) ) {
+    if ( defined $version && $version =~ /^\d+$/) {
+        if ( $version == 0 || !$handler->revisionExists($version) ) {
             $version = $handler->getLatestRevisionID();
         }
+    } else {
+	undef $version; # if it's a non-numeric string, we need to return undef
+	# "...$version is defined but refers to a version that does not exist, then $rev is undef"
     }
 
     ( my $text, $isLatest ) = $handler->getRevision($version);

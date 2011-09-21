@@ -285,7 +285,7 @@ Reads the given version of a topic, and populates the $topicObject.
 If the =$version= is undef, then reads the most recent version. 
 
 Returns the version identifier of the topic that was actually read. If
-the topic does not exist in the store, or $version refers to a version
+the topic does not exist in the store, or $version is defined but refers to a version
 that does not exist, then $rev is undef. $isLatest should be set to
 perl true if the version loaded (or not loaded) is the latest available
 version.
