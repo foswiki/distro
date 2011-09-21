@@ -507,7 +507,7 @@ This script searches for missing Perl modules that should be available according
 For more details, execute it using option -h (help) or -m (manual):
 <verbatim>
 ./dependencies_installer.pl -h
-Usage:                                                                                                                                                                                               
+Usage:
     dependencies_installer.pl [-h|?|--help] [-m|--man] [-p|--print]
     [-q|--questions] [-v|--verbose]
 
