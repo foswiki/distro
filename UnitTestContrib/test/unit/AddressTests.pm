@@ -25,16 +25,22 @@ my %testrange = (
         [ $test_web,             'MissingSubWeb', 'MissingSubSubWeb' ],
         [ 'Missing' . $test_web, 'MissingSubWeb', 'MissingSubSubWeb' ]
     ],
-    topics   => [ undef, 'Topic', 'MissingTopic' ],
+    topics      => [ undef, 'Topic', 'MissingTopic' ],
+    attachments => [
+        undef,               'Attachment',
+        'Attach.ent',        'Atta.h.ent',
+        'MissingAttachment', 'MissingAttach.ent',
+        'MissingAtta.h.ent'
+    ],
     tompaths => [
         undef,
-        ['FILE'],
-        [ 'FILE', 'Attachment' ],
-        [ 'FILE', 'Attach.ent' ],
-        [ 'FILE', 'Atta.h.ent' ],
-        [ 'FILE', 'MissingAttachment' ],
-        [ 'FILE', 'MissingAttach.ent' ],
-        [ 'FILE', 'MissingAtta.h.ent' ],
+        ['attachment'],
+        [ 'attachment', 'Attachment' ],
+        [ 'attachment', 'Attach.ent' ],
+        [ 'attachment', 'Atta.h.ent' ],
+        [ 'attachment', 'MissingAttachment' ],
+        [ 'attachment', 'MissingAttach.ent' ],
+        [ 'attachment', 'MissingAtta.h.ent' ],
         ['SECTION'],
         [ 'SECTION', { name => 'something' } ],
         ['META'],
@@ -340,7 +346,7 @@ HERE
                     foreach my $tompath ( @{ $range->{tompaths} } ) {
                         if (    $tompath
                             and $tompath->[0]
-                            and $tompath->[0] eq 'FILE' )
+                            and $tompath->[0] eq 'attachment' )
                         {
                             my $attachment = $tompath->[1];
                             if ( defined $attachment
@@ -477,8 +483,8 @@ sub gen_range_tests {
                             foreach my $rev ( @{ $range->{revs} } ) {
                                 if (
                                     $webpath
-                                    and
-                                    ( $tompath->[0] and $tompath->[0] ne 'FILE'
+                                    and (   $tompath->[0]
+                                        and $tompath->[0] ne 'attachment'
                                         or ( defined $topic ) )
                                   )
                                 {
@@ -733,10 +739,10 @@ sub test_timing_creation {
         100000,
         sub {
             $addr = Foswiki::Address->new(
-                webpath => [qw(Web SubWeb)],
-                topic   => 'Topic',
-                tompath => [ 'FILE', 'Attachment.pdf' ],
-                rev     => 3
+                webpath    => [qw(Web SubWeb)],
+                topic      => 'Topic',
+                attachment => 'Attachment.pdf',
+                rev        => 3
             );
         }
     );
@@ -753,10 +759,10 @@ sub test_timing_hashref_creation {
         200000,
         sub {
             $addr = {
-                webpath => [qw(Web SubWeb)],
-                topic   => 'Topic',
-                tompath => [ 'FILE', 'Attachment.pdf' ],
-                rev     => 3
+                webpath    => [qw(Web SubWeb)],
+                topic      => 'Topic',
+                attachment => 'Attachment.pdf',
+                rev        => 3
             };
         }
     );
@@ -803,15 +809,85 @@ sub test_timing_reparse {
     return;
 }
 
-sub test_simple_noparams {
-    my ($this) = @_;
+#sub test_simple_noparams {
+#    my ($this) = @_;
 #yes, this should not cause a late failure - if its not a valid initialiser - shoudln't that return undef?
-    my $addrObj       = Foswiki::Address->new();
+#    my $addrObj       = Foswiki::Address->new();
 
-    $this->expect_failure();
-    $this->assert( $addrObj->stringify());
-    $addrObj       = Foswiki::Address->new(Foswiki::Meta->new($this->{session}, 'Main', 'WebHome'));
-    $this->assert( $addrObj->stringify());
+#    $this->expect_failure();
+#    $this->assert( $addrObj->stringify());
+#    $addrObj       = Foswiki::Address->new(Foswiki::Meta->new($this->{session}, 'Main', 'WebHome'));
+#    $this->assert( $addrObj->stringify());
+
+#    return;
+#}
+
+sub test_attachment_constructor_tompath {
+    my ($this) = @_;
+    my %constructor = (
+        web     => "$test_web/SubWeb",
+        topic   => 'Topic',
+        rev     => '2',
+        tompath => [ 'attachment', 'Attachment.pdf' ]
+    );
+    my $addrObj = Foswiki::Address->new(%constructor);
+    my $parsedaddrObj =
+      Foswiki::Address->new(
+        string => "$test_web/SubWeb.Topic/Attachment.pdf\@2", );
+
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
+    $this->assert( $parsedaddrObj->type() eq 'attachment' );
+    $addrObj = $this->_newAddrTestingWebpathParam(%constructor);
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
+
+    return;
+}
+
+sub test_attachment_constructor {
+    my ($this) = @_;
+    my %constructor = (
+        web        => "$test_web/SubWeb",
+        topic      => 'Topic',
+        rev        => '2',
+        attachment => 'Attachment.pdf'
+    );
+    my $addrObj = Foswiki::Address->new(%constructor);
+    my $parsedaddrObj =
+      Foswiki::Address->new(
+        string => "$test_web/SubWeb.Topic/Attachment.pdf\@2", );
+
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
+    $this->assert( $parsedaddrObj->type() eq 'attachment' );
+    $addrObj = $this->_newAddrTestingWebpathParam(%constructor);
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
+
+    return;
+}
+
+sub test_attachment_getsetters {
+    my ($this) = @_;
+    my %constructor = (
+        web   => "$test_web/SubWeb",
+        topic => 'Topic',
+        rev   => '2'
+    );
+    my $addrObj = Foswiki::Address->new(%constructor);
+    my $parsedaddrObj =
+      Foswiki::Address->new( string => "$test_web/SubWeb.Topic\@2", );
+
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
+    $this->assert( $parsedaddrObj->type() eq 'topic' );
+    $addrObj->attachment('Attachment.pdf');
+    $this->assert( $addrObj->type() eq 'attachment' );
+    $this->assert( $addrObj->isA('attachment') );
+    $this->assert( $addrObj->attachment() eq 'Attachment.pdf',
+        $addrObj->stringify() );
+    $this->assert(
+        $addrObj->stringify() eq "$test_web/SubWeb.Topic/Attachment.pdf\@2" );
+    $parsedaddrObj =
+      Foswiki::Address->new(
+        string => "$test_web/SubWeb.Topic/Attachment.pdf\@2", );
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
 
     return;
 }

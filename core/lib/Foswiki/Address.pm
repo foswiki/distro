@@ -29,7 +29,7 @@ the components necessary to address a specific Foswiki resource.
 my $addr = {
     web     => 'Web/SubWeb',
     topic   => 'Topic',
-    tompath => ['FILE', 'Attachment.pdf'],
+    tompath => ['attachment', 'Attachment.pdf'],
     rev => 3
 };
 </verbatim>
@@ -68,25 +68,25 @@ use Foswiki::Func();
 use Foswiki::Meta();
 
 #use Data::Dumper;
-use constant TRACE  => 0;    # Don't forget to uncomment dumper
-use constant TRACE2 => 0;
+use constant TRACE       => 0;    # Don't forget to uncomment dumper
+use constant TRACE2      => 0;
+use constant TRACEATTACH => 0;
 
 my %atomiseAs = (
-    web     => \&_atomiseAsWeb,
-    topic   => \&_atomiseAsTopic,
-    file    => \&_atomiseAsFILE,
-    FILE    => \&_atomiseAsFILE,
-    META    => \&_atomiseAsTOM,
-    meta    => \&_atomiseAsTOM,
-    SECTION => \&_atomiseAsTOM,
-    text    => \&_atomiseAsTOM,
-    '*'     => \&_atomiseAsTOM
+    web        => \&_atomiseAsWeb,
+    topic      => \&_atomiseAsTopic,
+    attachment => \&_atomiseAsAttachment,
+    META       => \&_atomiseAsTOM,
+    meta       => \&_atomiseAsTOM,
+    SECTION    => \&_atomiseAsTOM,
+    text       => \&_atomiseAsTOM,
+    '*'        => \&_atomiseAsTOM
 );
 
 # The question is: what do we have? The hash is accessed as follows:
 # $pathtypes{ $tompath[0] }->{ scalar(@tompath) }
 my %pathtypes = (
-    FILE => { 1 => 'files', 2 => 'file' },
+    attachment => { 1 => 'attachments', 2 => 'attachment' },
     META => { 1 => 'meta', 2 => 'metatype', 3 => 'metamember', 4 => 'metakey' },
     SECTION => { 1 => 'sections', 2 => 'section' },
     text    => { 1 => 'text' }
@@ -112,70 +112,70 @@ my %plausibletable = (
     #   'topic' - plausible if given webpath & topic context
     #
     # Foo
-    '' => { webpath => 1, topic => 'webpath', file => 'topic' },
+    '' => { webpath => 1, topic => 'webpath', attachment => 'topic' },
 
     # Foo.Bar
-    'd' => { webpath => 1, topic => 2, file => 'topic' },
+    'd' => { webpath => 1, topic => 2, attachment => 'topic' },
 
     # Foo/Bar
-    's' => { webpath => 1, topic => 1, file => 'webpath' },
+    's' => { webpath => 1, topic => 1, attachment => 'webpath' },
 
     # Foo/Bar.Dog
-    'sd' => { webpath => 0, topic => 2, file => 'webpath' },
+    'sd' => { webpath => 0, topic => 2, attachment => 'webpath' },
 
     # Foo.Bar/Dog
-    'ds' => { webpath => 0, topic => 1, file => 2 },
+    'ds' => { webpath => 0, topic => 1, attachment => 2 },
 
     # Foo/Bar/Dog
-    'S' => { webpath => 1, topic => 1, file => 1 },
+    'S' => { webpath => 1, topic => 1, attachment => 1 },
 
     # Foo.Bar.Dog
-    'D' => { webpath => 1, topic => 1, file => 'topic' },
+    'D' => { webpath => 1, topic => 1, attachment => 'topic' },
 
     # Foo.Bar/Cat/Dog
-    'dS' => { webpath => 0, topic => 1, file => 1 },
+    'dS' => { webpath => 0, topic => 1, attachment => 1 },
 
     # Foo/Bar.Cat.Dog
-    'sD' => { webpath => 0, topic => 0, file => 'webpath' },
+    'sD' => { webpath => 0, topic => 0, attachment => 'webpath' },
 
     # Foo/Bar/Dog.Cat
-    'Sd' => { webpath => 0, topic => 2, file => 1 },
+    'Sd' => { webpath => 0, topic => 2, attachment => 1 },
 
     # Foo.Bar.Dog/Cat
-    'Ds' => { webpath => 0, topic => 1, file => 1 },
+    'Ds' => { webpath => 0, topic => 1, attachment => 1 },
 
     # Foo.Bar.Dog/Cat/Bat
-    'DS' => { webpath => 0, topic => 0, file => 1 },
+    'DS' => { webpath => 0, topic => 0, attachment => 1 },
 
     # Foo/Bar/Dog.Cat.Bat
-    'SD' => { webpath => 0, topic => 0, file => 1 },
+    'SD' => { webpath => 0, topic => 0, attachment => 1 },
 
     # Foo/Bar.Dog/Cat
-    'sds' => { webpath => 0, topic => 0, file => 2 },
+    'sds' => { webpath => 0, topic => 0, attachment => 2 },
 
     # Foo/Bar/Dog.Cat/Bat
-    'Sds' => { webpath => 0, topic => 0, file => 2 },
+    'Sds' => { webpath => 0, topic => 0, attachment => 2 },
 
     # Foo.Bar/Dog.Cat
-    'dsd' => { webpath => 0, topic => 0, file => 2 },
+    'dsd' => { webpath => 0, topic => 0, attachment => 2 },
 
     # Foo.Bar.Dog/Cat.Bat
-    'Dsd' => { webpath => 0, topic => 0, file => 1 },
+    'Dsd' => { webpath => 0, topic => 0, attachment => 1 },
 
     # Foo.Bar/Dog.Cat.Bat
-    'dsD' => { webpath => 0, topic => 0, file => 2 },
+    'dsD' => { webpath => 0, topic => 0, attachment => 2 },
 
     # Foo/Bar.Dog/Cat.Bat
-    'sdsd' => { webpath => 0, topic => 0, file => 2 },
+    'sdsd' => { webpath => 0, topic => 0, attachment => 2 },
 
     # Foo/Bar.Dog/Cat.B.a.t
-    'sdsD' => { webpath => 0, topic => 0, file => 2 },
+    'sdsD' => { webpath => 0, topic => 0, attachment => 2 },
 
     # Foo/Bar/Dog.Cat/B.at
-    'Sdsd' => { webpath => 0, topic => 0, file => 2 },
+    'Sdsd' => { webpath => 0, topic => 0, attachment => 2 },
 
     # Foo/Bar/Dog.Cat/B.a.t
-    'SdsD' => { webpath => 0, topic => 0, file => 2 }
+    'SdsD' => { webpath => 0, topic => 0, attachment => 2 }
 );
 my %sepidentchars =
   ( 0 => { '.' => 'd', '/' => 's' }, 1 => { '.' => 'D', '/' => 'S' } );
@@ -194,7 +194,7 @@ The constructor takes two main forms:
 my $addrObj = Foswiki::Address->new(
     web     => 'Web/SubWeb',
     topic   => 'Topic',
-    tompath => ['FILE', 'Attachment.pdf'],
+    tompath => ['attachment', 'Attachment.pdf'],
     rev => 3
 );</verbatim>
 
@@ -203,14 +203,14 @@ my $addrObj = Foswiki::Address->new(
 | =web=     | =$string= of web path, %BR% used if =webpath= is empty/null | |
 | =webpath= | =\@arrayref= of web path, root web first | |
 | =topic=   | =$string= topic name | |
-| =rev=     | =$integer= revision number. | If the tompath is to a =FILE= datastream, rev applies to that file; topic rev otherwise |
-| =tompath= | =\@arrayref= of a "TOM" path, one of:%BR% =META=, =text=, =SECTION=, =FILE=.  | See table below |
+| =rev=     | =$integer= revision number. | If the tompath is to a =attachment= datastream, rev applies to that file; topic rev otherwise |
+| =tompath= | =\@arrayref= of a "TOM" path, one of:%BR% =META=, =text=, =SECTION=, =attachment=.  | See table below |
 | =string=  | string representation of an object | eg. 'Web/SubWeb.Topic/Attachment.pdf@3' |
 
 *path forms:*
 | *tompath*                                           | *Description* |
-| =['FILE']=                                          | All datastreams attached to a topic |
-| =['FILE', 'Attachment.pdf']=                        | Datastream of the file attachment named 'Attachment.pdf' |
+| =['attachment']=                                          | All datastreams attached to a topic |
+| =['attachment', 'Attachment.pdf']=                        | Datastream of the file attachment named 'Attachment.pdf' |
 | =['META']=                                          | All =META= on a topic |
 | =['META', 'FIELD']=                                 | All =META:FIELD= members on a topic |
 | =['META', 'FIELD', { name => 'Colour' }]=           | The =META:FIELD= member whose =name='Colour'= |
@@ -283,8 +283,8 @@ sub new {
                   { map { $_ => 1 } @{ $opts{existAs} } };
             }
             else {
-                $this->{parseopts}->{existAsList} = [qw(file topic)];
-                $this->{parseopts}->{existAs} = { file => 1, topic => 1 };
+                $this->{parseopts}->{existAsList} = [qw(attachment topic)];
+                $this->{parseopts}->{existAs} = { attachment => 1, topic => 1 };
             }
         }
         $this = bless( $this, $class );
@@ -304,6 +304,32 @@ sub new {
         #            tompath => $opts{tompath},
         #            rev     => $opts{rev},
         #        };
+        print STDERR "\$this: " . Dumper( \%opts ) if TRACEATTACH;
+        if ( $opts{attachment} and not $opts{tompath} ) {
+            print STDERR "Assigning {tompath} from {attachment}\n"
+              if TRACEATTACH;
+            $opts{tompath} = [ 'attachment', $opts{attachment} ];
+        }
+        elsif ( not $opts{attachment}
+            and $opts{tompath}
+            and ref( $opts{tompath} ) eq 'ARRAY'
+            and $opts{tompath}->[0]   eq 'attachment'
+            and $opts{tompath}->[1] )
+        {
+            print STDERR "Assigning {attachment} from {tompath}\n"
+              if TRACEATTACH;
+            $opts{attachment} = $opts{tompath}->[1];
+        }
+        if ( DEBUG and $opts{attachment} and $opts{tompath} ) {
+            ASSERT(
+                ref( $opts{tompath} ) eq 'ARRAY'
+                  and $opts{tompath}->[0] ne 'attachment'
+                  or (  $opts{tompath}->[1]
+                    and $opts{tompath}->[1] eq $opts{attachment} )
+            ) if DEBUG;
+        }
+
+        #$this->parse( $_[0]->{string} );
         $this = bless( \%opts, $class );
     }
 
@@ -326,6 +352,7 @@ sub finish {
     $this->{topic}               = undef;
     $this->{rev}                 = undef;
     $this->{tompath}             = undef;
+    $this->{attachment}          = undef;
     $this->{isA}                 = undef;
     $this->{type}                = undef;
     $this->{parseopts}           = undef;
@@ -376,16 +403,16 @@ hinting algorithm, the parameters and hints supplied to it, and the existence
  if =string= is ambiguous (and possibly not fully qualified, Eg. topic-only or\
  attachment-only), the hinting algorithm tests =string= against them |
 | =isA=     | resource type specification | =$type= - 'web', 'topic',\
- 'file' | parse =string= to resolve to the specified type; exist hinting\
+ 'attachment' | parse =string= to resolve to the specified type; exist hinting\
  is skipped |
-| =catchAs= | default resource type | =$type= - 'web', 'topic', 'file', 'none' |\
+| =catchAs= | default resource type | =$type= - 'web', 'topic', 'attachment', 'none' |\
  if =string= is ambiguous AND (exist hinting fails OR is disabled), THEN\
  assume =string= to be (web, topic, file attachment or unparseable) |
 | =existAs= | resource types to test | =\@typelist= containing one\
- or more of 'web', 'topic', 'file' | if =string= is ambiguous, test (in\
- order) as each of the specified types. Default: =[qw(file topic)]= |
+ or more of 'web', 'topic', 'attachment' | if =string= is ambiguous, test (in\
+ order) as each of the specified types. Default: =[qw(attachment topic)]= |
 | =existHints= | exist hinting enable/disable | =$boolean= |\
- enable/disable hinting through web/topic/file existence checks.\
+ enable/disable hinting through web/topic/attachment existence checks.\
  =string= *is assumed to be using the 'unambiguous' conventions below*; if it\
  isn't, =catchAs= is used |
    
@@ -423,7 +450,7 @@ If =string= is ambiguous, the hinting algorithm works roughly as follows:
       * and =catchAs= is specified (parse as the =catchAs= type), otherwise
       * the string cannot be parsed
    * if exist hinting is enabled, the string is checked for existence as each of
-   the =existAs= types (default is 'file', 'topic')
+   the =existAs= types (default is 'attachment', 'topic')
       * if there is an exact match against one of the =existAs= types (finish), otherwise
       * if there were partial matches (select the combination which scores
       highest), otherwise
@@ -435,33 +462,33 @@ and resolved.
 | =Foo/=             |              |             |          |         | web              |
 | =Foo=              |              | %X%         |          |         | web %BR% needs =isA => 'web'= or =catchAs => 'web'=,%BR% error otherwise |
 | =Foo=              |              |             | set      |         | topic |
-| =Foo=              |              | 1           | set      | set     | topic, file |
+| =Foo=              |              | 1           | set      | set     | topic, attachment |
 | =Foo/Bar/=         |              |             |          |         | web              |
 | =Foo/Bar=          |              |             |          |         | topic            |
-| =Foo/Bar=          |              | 1           | set      |         | topic, file |
+| =Foo/Bar=          |              | 1           | set      |         | topic, attachment |
 | =Foo.Bar=          |              |             |          |         | topic            |
-| =Foo.Bar=          |              | 1           | set      | set     | topic, file |
+| =Foo.Bar=          |              | 1           | set      | set     | topic, attachment |
 | =Foo/Bar/Dog/=     |              |             |          |         | web              |
-| =Foo/Bar/Dog=      |              | 1           |          |         | topic, file |
-| =Foo.Bar/Dog=      | 0            |             |          |         | file |
-| =Foo.Bar/Dog=      |              | 1           |          |         | topic, file |
-| =Foo.Bar/D.g=      |              |             |          |         | file |
+| =Foo/Bar/Dog=      |              | 1           |          |         | topic, attachment |
+| =Foo.Bar/Dog=      | 0            |             |          |         | attachment |
+| =Foo.Bar/Dog=      |              | 1           |          |         | topic, attachment |
+| =Foo.Bar/D.g=      |              |             |          |         | attachment |
 | =Foo/Bar.Dog=      |              |             |          |         | topic |
-| =Foo/Bar.Dog=      |              | 1           | set      |         | topic, file |
+| =Foo/Bar.Dog=      |              | 1           | set      |         | topic, attachment |
 | =Foo.Bar.Dog=      |              |             |          |         | topic |
-| =Foo.Bar.Dog=      |              | 1           | set      | set     | topic, file |
+| =Foo.Bar.Dog=      |              | 1           | set      | set     | topic, attachment |
 | =Foo/Bar/Dog/Cat/= |              |             |          |         | web |
 | =Foo/Bar.Dog.Cat=  |              |             |          |         | topic |
-| =Foo/Bar.Dog.Cat=  |              | 1           | set      |         | topic, file |
-| =Foo/Bar.Dog/Cat=  |              |             |          |         | file |
-| =Foo/Bar.Dog/C.t=  |              |             |          |         | file |
+| =Foo/Bar.Dog.Cat=  |              | 1           | set      |         | topic, attachment |
+| =Foo/Bar.Dog/Cat=  |              |             |          |         | attachment |
+| =Foo/Bar.Dog/C.t=  |              |             |          |         | attachment |
 | =Foo/Bar/Dog.Cat=  | 0            |             |          |         | topic |
-| =Foo/Bar/Dog.Cat=  |              | 1           |          |         | topic, file |
-| =Foo/Bar/Dog/Cat=  |              | 1           |          |         | topic, file |
-| =Foo/Bar/Dog/C.t=  |              | 1           |          |         | topic, file |
-| =Foo.Bar.Dog/Cat=  | 0            |             |          |         | file |
-| =Foo.Bar.Dog/Cat=  |              | 1           |          |         | topic, file |
-| =Foo.Bar.Dog/C.t=  |              |             |          |         | file |
+| =Foo/Bar/Dog.Cat=  |              | 1           |          |         | topic, attachment |
+| =Foo/Bar/Dog/Cat=  |              | 1           |          |         | topic, attachment |
+| =Foo/Bar/Dog/C.t=  |              | 1           |          |         | topic, attachment |
+| =Foo.Bar.Dog/Cat=  | 0            |             |          |         | attachment |
+| =Foo.Bar.Dog/Cat=  |              | 1           |          |         | topic, attachment |
+| =Foo.Bar.Dog/C.t=  |              |             |          |         | attachment |
 
 =cut
 
@@ -475,8 +502,8 @@ sub parse {
             webpath     => $opts{webpath},
             topic       => $opts{topic},
             rev         => $opts{rev},
-            existAsList => [qw(file topic)],
-            existAs     => { file => 1, topic => 1 }
+            existAsList => [qw(attachment topic)],
+            existAs     => { attachment => 1, topic => 1 }
         };
     }
     %opts = ( %{ $this->{parseopts} }, %opts );
@@ -593,7 +620,7 @@ sub parse {
             }
 
             # Exist hinting. The first complete hit, or the hit which matches
-            # the most (out of the existAsList, Eg.: file, topic, web)
+            # the most (out of the existAsList, Eg.: attachment, topic, web)
             # wins. The former should naturally fall out of the latter, unless
             # the existAs list is not ordered smallestthing-first
             if ( $opts{existHints} ) {
@@ -643,11 +670,12 @@ sub parse {
 
                 # Copy the atoms from the best hit into our instance.
                 if ($besttype) {
-                    $this->{web}     = $typeatoms{$besttype}->{web};
-                    $this->{webpath} = $typeatoms{$besttype}->{webpath};
-                    $this->{topic}   = $typeatoms{$besttype}->{topic};
-                    $this->{tompath} = $typeatoms{$besttype}->{tompath};
-                    $parsed          = 1;
+                    $this->{web}        = $typeatoms{$besttype}->{web};
+                    $this->{webpath}    = $typeatoms{$besttype}->{webpath};
+                    $this->{topic}      = $typeatoms{$besttype}->{topic};
+                    $this->{tompath}    = $typeatoms{$besttype}->{tompath};
+                    $this->{attachment} = $typeatoms{$besttype}->{attachment};
+                    $parsed             = 1;
                 }
             }
         }
@@ -720,7 +748,8 @@ sub _atomiseAsTopic {
         # $that->{web} = join( '/', @{ $that->{webpath} } );
         $that->{topic} = $parts[-1];
     }
-    $that->{tompath} = undef;
+    $that->{tompath}    = undef;
+    $that->{attachment} = undef;
     ASSERT( $that->{webpath} or not $that->{topic} ) if DEBUG;
 
     # ASSERT( $that->{web} ) if DEBUG;
@@ -728,21 +757,23 @@ sub _atomiseAsTopic {
     return $that;
 }
 
-sub _atomiseAsFILE {
+sub _atomiseAsAttachment {
     my ( $this, $that, $path, $opts ) = @_;
 
-    print STDERR "_atomiseAsFILE():\n" if TRACE2;
+    print STDERR "_atomiseAsAttachment():\n" if TRACE2;
     ASSERT($path) if DEBUG;
     if ( my ( $lhs, $file ) = ( $path =~ /^(.*?)\/([^\/]+)$/ ) ) {
         $that = $this->_atomiseAsTopic( $that, $lhs, $opts );
-        $that->{tompath} = [ 'FILE', $file ];
+        $that->{tompath} = [ 'attachment', $file ];
+        $that->{attachment} = $file;
     }
     else {
         if ( $opts->{webpath} and $opts->{topic} ) {
-            $that->{webpath} = $opts->{webpath};
-            $that->{web}     = $opts->{web};
-            $that->{topic}   = $opts->{topic};
-            $that->{tompath} = [ 'FILE', $path ];
+            $that->{webpath}    = $opts->{webpath};
+            $that->{web}        = $opts->{web};
+            $that->{topic}      = $opts->{topic};
+            $that->{tompath}    = [ 'attachment', $path ];
+            $that->{attachment} = $path;
         }
     }
 
@@ -835,7 +866,7 @@ sub _atomiseAsTOM {
                 $doneaccessor = 1;
             }
         }
-        elsif ( $pathtypes{$4} ) {     # META, FILE, SECTION, text
+        elsif ( $pathtypes{$4} ) {     # META, attachment, SECTION, text
             @tompath = ($4);
         }
         elsif ( $Foswiki::Meta::aliases{$4} ) {    # fields, attachments, info
@@ -943,12 +974,15 @@ sub _existScore {
     if (
             $atoms->{tompath}
         and scalar( @{ $atoms->{tompath} } ) == 2
-        and $atoms->{tompath}->[0] eq 'FILE'
+        and ( $atoms->{tompath}->[0] eq 'attachment' )
         and Foswiki::Func::attachmentExists(
             $atoms->{web}, $atoms->{topic}, $atoms->{tompath}->[1]
         )
       )
     {
+        ASSERT(   $atoms->{attachment}
+              and $atoms->{attachment} eq $atoms->{tompath}->[1] )
+          if DEBUG;
         $perfecttype = $type;
         $score       = 2 + scalar( @{ $atoms->{webpath} } );
     }
@@ -1033,7 +1067,17 @@ sub stringify {
                 ASSERT( ref( $this->{tompath} ) eq 'ARRAY'
                       and scalar( @{ $this->{tompath} } ) )
                   if DEBUG;
-                if ( $this->{tompath}->[0] eq 'FILE'
+                print STDERR 'tompath:    ' . Dumper( $this->{tompath} )
+                  if TRACEATTACH;
+                print STDERR 'attachment: ' . Dumper( $this->{attachment} )
+                  if TRACEATTACH;
+                ASSERT(
+                         $this->{tompath}->[0] ne 'attachment'
+                      or not $this->{tompath}->[1]
+                      or (  $this->{attachment}
+                        and $this->{attachment} eq $this->{tompath}->[1] )
+                ) if DEBUG;
+                if ( $this->{tompath}->[0] eq 'attachment'
                     and scalar( @{ $this->{tompath} } ) == 2 )
                 {
                     $this->{stringified} .= '/' . $this->{tompath}->[1];
@@ -1116,13 +1160,18 @@ Get/set by web string
 sub web {
     my ( $this, $web ) = @_;
 
-    ASSERT( $this->{web} or ref( $this->{webpath} ) eq 'ARRAY' ) if DEBUG;
+    ASSERT(
+        scalar(@_) == 2
+          or
+          ( defined( $this->{webpath} ) and ref( $this->{webpath} ) eq 'ARRAY' )
+    ) if DEBUG;
     if ( scalar(@_) == 2 ) {
         $this->webpath( [ split( /[\/\.]/, $web ) ] );
     }
-    if ( not $this->{web} ) {
+    if ( not $this->{web} and defined( $this->{webpath} ) ) {
         $this->{web} = join( '/', @{ $this->{webpath} } );
     }
+    print STDERR "web(): no web part!\n" if TRACE and not $this->{web};
 
     return $this->{web};
 }
@@ -1175,6 +1224,32 @@ sub topic {
 
 =begin TML
 
+---++ ClassMethod attachment( [$file] ) => $file
+
+   * =$file= - optional, set a new file attachment name
+
+Get/set the file attachment name
+
+=cut
+
+sub attachment {
+    my ( $this, $attachment ) = @_;
+
+    if ( scalar(@_) == 2 ) {
+        $this->{attachment} = $attachment;
+        $this->{tompath} = [ 'attachment', $attachment ];
+        $this->_invalidate();
+        ASSERT( $this->isValid() ) if DEBUG;
+    }
+    else {
+        $this->isValid();
+    }
+
+    return $this->{attachment};
+}
+
+=begin TML
+
 ---++ ClassMethod rev( [$rev] ) => $rev
 
    * =$rev= - optional, set rev number
@@ -1204,7 +1279,7 @@ sub rev {
 
    * =\@tompath= - optional, =tompath= specification into the containing topic.
    The first =$tompath->[0]= element in the array should be one of the following
-      * ='FILE'=: =$tompath->[1]= should be a string, Eg. ='Attachment.pdf'=.
+      * ='attachment'=: =$tompath->[1]= should be a string, Eg. ='Attachment.pdf'=.
       * ='META'=: =$tompath->[1..3]= identify which =META:&lt;type&gt;= or member
       or member key is being addressed:
          * =$tompath->[1]= contains the =META:&lt;type&gt;=, Eg. ='FIELD'=
@@ -1284,8 +1359,8 @@ Returns true if the instance addresses a resource which is one of the following
 types:
    * webpath, Eg. =Web/SubWeb/=
    * topic, Eg. =Web/SubWeb.Topic=
-   * file, Eg. =Web/SubWeb.Topic/Attachment.pdf=
-   * files, Eg. ='Web/SubWeb.Topic/FILE'=
+   * attachment, Eg. =Web/SubWeb.Topic/Attachment.pdf=
+   * attachments , Eg. ='Web/SubWeb.Topic/attachment'=
    * meta, Eg. ='Web/SubWeb.Topic'/META=
    * metatype, Eg. ='Web/SubWeb.Topic'/META:FIELD=
    * metamember, Eg. ='Web/SubWeb.Topic'/META:FIELD[name='Colour']= or ='Web/SubWeb.Topic'/META:FIELD[0]=
@@ -1302,16 +1377,24 @@ sub isValid {
     if ( not defined $this->{isA} ) {
         if ( $this->{topic} ) {
             if ( $this->{webpath} ) {
-                if ( $this->{tompath} ) {
+                if ( $this->{attachment} ) {
+                    $this->{type} = 'attachment';
+                }
+                elsif ( $this->{tompath} ) {
                     ASSERT( ref( $this->{tompath} ) eq 'ARRAY'
                           and scalar( @{ $this->{tompath} } ) )
                       if DEBUG;
+                    ASSERT(
+                        not(    $this->{topmath}->[0]
+                            and $this->{topmath}->[0] eq 'attachment' )
+                    ) if DEBUG;
                     ASSERT( $pathtypes{ $this->{tompath}->[0] } ) if DEBUG;
                     $this->{type} =
                       $pathtypes{ $this->{tompath}->[0] }
                       ->{ scalar( @{ $this->{tompath} } ) };
                 }
-                elsif ( not defined $this->{tompath} ) {
+                else {
+                    ASSERT( not defined $this->{tompath} ) if DEBUG;
                     $this->{type} = 'topic';
                 }
             }
