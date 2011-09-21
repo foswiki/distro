@@ -205,6 +205,7 @@ my $addrObj = Foswiki::Address->new(
 | =topic=   | =$string= topic name | |
 | =rev=     | =$integer= revision number. | If the tompath is to a =FILE= datastream, rev applies to that file; topic rev otherwise |
 | =tompath= | =\@arrayref= of a "TOM" path, one of:%BR% =META=, =text=, =SECTION=, =FILE=.  | See table below |
+| =string=  | string representation of an object | eg. 'Web/SubWeb.Topic/Attachment.pdf@3' |
 
 *path forms:*
 | *tompath*                                           | *Description* |
