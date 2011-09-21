@@ -73,6 +73,7 @@ use constant TRACE2      => 0;
 use constant TRACEATTACH => 0;
 
 my %atomiseAs = (
+    root       => \&_atomiseAsRoot,
     web        => \&_atomiseAsWeb,
     topic      => \&_atomiseAsTopic,
     attachment => \&_atomiseAsAttachment,
@@ -347,6 +348,7 @@ Clean up the object, releasing any memory stored in it.
 sub finish {
     my ($this) = @_;
 
+    $this->{root}                = undef;
     $this->{web}                 = undef;
     $this->{webpath}             = undef;
     $this->{topic}               = undef;
@@ -531,7 +533,14 @@ sub parse {
     # Is the path explicit?
     if ( not $opts{isA} ) {
         if ( substr( $path, -1, 1 ) eq '/' ) {
-            $opts{isA} = 'web';
+            if ( length($path) > 1 ) {
+                $opts{isA} = 'web';
+            }
+            else {
+
+                # $path eq '/' - the mythical "root" path
+                $opts{isA} = 'root';
+            }
         }
         elsif ( substr( $path, 0, 1 ) eq '\'' or $path =~ /\[/ ) {
             $opts{isA} = '*';
@@ -704,6 +713,21 @@ sub parse {
 #    return $that;
 #}
 
+sub _atomiseAsRoot {
+    my ( $this, $that, $path, $opts ) = @_;
+
+    print STDERR "_atomiseAsRoot():\n" if TRACE2;
+    ASSERT( $path eq '/' ) if DEBUG;
+    $that->{root}       = 1;
+    $that->{web}        = undef;
+    $that->{webpath}    = undef;
+    $that->{topic}      = undef;
+    $that->{tompath}    = undef;
+    $that->{attachment} = undef;
+
+    return $that;
+}
+
 sub _atomiseAsWeb {
     my ( $this, $that, $path, $opts ) = @_;
 
@@ -717,9 +741,9 @@ sub _atomiseAsWeb {
         pop( @{ $that->{webpath} } );
         chop( $that->{web} );
     }
-    $that->{topic}   = undef;
-    $that->{part}    = undef;
-    $that->{subpart} = undef;
+    $that->{topic}      = undef;
+    $that->{tompath}    = undef;
+    $that->{attachment} = undef;
 
     return $that;
 }
@@ -1149,6 +1173,36 @@ sub stringify {
 
 =begin TML
 
+---++ EXPERIMENTAL ClassMethod root( [$boolean] ) => $boolean
+
+   * =$boolean= - optional, set the hypothetical Foswiki 'root'. Since all
+   Foswiki resources must exist under the root, a false value here basically
+   means the address object is an undefined/invalid state.
+
+Get/set root
+
+<blockquote class="tml">%X% This method (and the =root= attribute generally)
+may be removed before we release Foswiki 1.2/2.0. We would rather use web => '/'
+</blockquote>
+
+=cut
+
+sub root {
+    my ( $this, $root ) = @_;
+
+    if ( scalar(@_) == 2 ) {
+        $this->{root} = $root;
+        $this->_invalidate();
+    }
+    else {
+        $this->isValid();
+    }
+
+    return $this->{root};
+}
+
+=begin TML
+
 ---++ ClassMethod web( [$name] ) => $name
 
    * =$name= - optional, set a new web name
@@ -1404,11 +1458,15 @@ sub isValid {
         {
             $this->{type} = 'webpath';
         }
+        elsif ( $this->{root} ) {
+            $this->{type} = 'root';
+        }
         else {
             $this->{type} = undef;
         }
         if ( $this->{type} ) {
             $this->{isA} = { $this->{type} => 1 };
+            $this->{root} = 1;
         }
         else {
             $this->{isA} = {};
@@ -1482,6 +1540,14 @@ sub equiv {
             }
             elsif (TRACE) {
                 print STDERR "equiv(): webpath wasn't equal\n";
+            }
+        }
+        elsif ( $this->{root} ) {
+            if ( $other->{root} ) {
+                $equal = 1;
+            }
+            elsif (TRACE) {
+                print STDERR "equiv(): roots weren't equal\n";
             }
         }
     }
