@@ -12,6 +12,7 @@ You can try out the [[Skins]] currently installed on this system:
     web="%SYSTEMWEB%,TWiki"
     type="query"
     nosearch="on"
+    casesensitive="on"
     nototal="on"
     expandvariables="on"
     format="| $pattern(.*\| *Screenshot\:[^\|]*\|([^\|]*).*) | *[[$web.$topic][$topic]]*: $pattern(.*\| *Description\:[^\|]*\|([^\|]*).*)<br /><br />[[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?skin=$pattern(.*\| *Base Name\:[^\|]*\| *(\S*).*)][preview with this topic]] |"
