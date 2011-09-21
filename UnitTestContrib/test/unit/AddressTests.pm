@@ -239,6 +239,11 @@ my %testspec = (
             tompath => [ 'META', 'FIELD', { name => 'Colour' }, 'value' ]
         },
         type => 'metakey'
+    },
+    rootspec => {
+        string => "/",
+        atoms  => { root => 1, },
+        type   => 'root'
     }
 );
 my %rangetestitems;
@@ -463,7 +468,8 @@ sub list_tests {
         push( @testnames, __PACKAGE__ . '::test_' . $testname );
     }
 
-    return @testnames, $this->SUPER::list_tests($suite);
+    #return @testnames, $this->SUPER::list_tests($suite);
+    return $this->SUPER::list_tests($suite);
 }
 
 sub gen_range_tests {
@@ -888,6 +894,26 @@ sub test_attachment_getsetters {
       Foswiki::Address->new(
         string => "$test_web/SubWeb.Topic/Attachment.pdf\@2", );
     $this->assert( $parsedaddrObj->equiv($addrObj) );
+
+    return;
+}
+
+sub test_root {
+    my ($this) = @_;
+    my %constructor   = ( root => 1 );
+    my $addrObj       = Foswiki::Address->new(%constructor);
+    my $parsedaddrObj = Foswiki::Address->new( string => "/" );
+
+    $this->assert( $parsedaddrObj->equiv($addrObj) );
+    $this->assert( $parsedaddrObj->type() eq 'root' );
+    $this->assert( $parsedaddrObj->isA('root') );
+    $this->assert( $addrObj->isA('root') );
+    $this->assert( $addrObj->type() eq 'root' );
+    $addrObj->root(0);
+    $this->assert(
+        ( not defined $addrObj->type() ),
+        "Type was: " . ( $addrObj->type() || '' )
+    );
 
     return;
 }
