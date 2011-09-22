@@ -887,6 +887,10 @@ Space"@blahSTUFFED.com</a>',
 # technically valid - but Foswiki doesn't support nested quoted strings
       '31 "Ali"TheBrain"Baba"@example.com' =>
         '31 "Ali"TheBrain"Baba"@example.com',
+      '32 Numeric1Wikiword@example.com' =>
+        '32 <a href="mailto:Numeric1Wikiword@exampleSTUFFED.com">Numeric1Wikiword@exampleSTUFFED.com</a>',
+      '33 [[mailto:test@example.tom][Text with test@example.com shouldnt link]]' =>
+        '33 <a href="mailto:test@exampleSTUFFED.tom">Text with <nop>test@exampleSTUFFED.com shouldnt link</a>',
     );
 
     foreach my $url ( keys %urls ) {

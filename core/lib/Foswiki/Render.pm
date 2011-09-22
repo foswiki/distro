@@ -1336,14 +1336,6 @@ sub getRenderedVersion {
     $text =~ s/${STARTWW}\_(\S+?|\S[^\n]*?\S)\_$ENDWW/<em>$1<\/em>/gm;
     $text =~ s/${STARTWW}\=(\S+?|\S[^\n]*?\S)\=$ENDWW/_fixedFontText($1,0)/gem;
 
-    # Mailto
-    # Email addresses must always be 7-bit, even within I18N sites
-
-    # Normal mailto:foo@example.com ('mailto:' part optional)
-    $text =~ s/$STARTWW((mailto\:)?
-                   $Foswiki::regex{emailAddrRegex})$ENDWW/
-                     _mailLink( $this, $1 )/gemx;
-
     # Handle [[][] and [[]] links
     # Change ' ![[...' to ' [<nop>[...' to protect from further rendering
     $text =~ s/(^|\s)\!\[\[/$1\[<nop>\[/gm;
@@ -1359,6 +1351,11 @@ sub getRenderedVersion {
                ($Foswiki::regex{linkProtocolPattern}:
                    ([^\s<>"]+[^\s*.,!?;:)<|]))/
                      $1._externalLink( $this,$2)/geox;
+
+    # Normal mailto:foo@example.com ('mailto:' part optional)
+    $text =~ s/$STARTWW((mailto\:)?
+                   $Foswiki::regex{emailAddrRegex})$ENDWW/
+                     _mailLink( $this, $1 )/gemx;
 
     unless ( Foswiki::isTrue( $prefs->getPreference('NOAUTOLINK') ) ) {
 
