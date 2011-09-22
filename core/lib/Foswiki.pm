@@ -475,10 +475,38 @@ BEGIN {
     $regex{topicNameRegex} =
       qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/o;
 
-    # Simplistic email regex, e.g. for WebNotify processing - no i18n
-    # characters allowed
-    $regex{emailAddrRegex} =
-      qr/([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)/i;
+    # Email regex, e.g. for WebNotify processing and email matching
+    # during rendering.
+
+    my $emailAtom = qr([A-Z0-9\Q!#\$%&'*+-/=?^_`{|}~\E])i;     # Per RFC 5322
+
+    # Valid TLD's at http://data.iana.org/TLD/tlds-alpha-by-domain.txt
+    # Version 2011083000, Last Updated Tue Aug 30 14:07:02 2011 UTC
+    my $validTLD = qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
+
+    $regex{emailAddrRegex} = qr(
+       (?:                            # LEFT Side of Email address
+         (?:$emailAtom+                  # Valid characters left side of email address
+           (?:\.$emailAtom+)*            # And 0 or more dotted atoms
+         )
+       |
+         (?:"[\x21\x23-\x5B\x5D-\x7E\s]+?")   # or a quoted string per RFC 5322
+       )
+       @
+       (?:                          # RIGHT side of Email address
+         (?:                           # FQDN
+           [a-z0-9-]+                     # hostname part
+           (?:\.[a-z0-9-]+)*              # 0 or more alphanumeric domains following a dot.
+           \.(?:                          # TLD
+              (?:[a-z]{2,2})                 # 2 character TLD
+              |
+              $validTLD                      # TLD's longer than 2 characters
+           )
+         )
+         |
+           (?:\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])      # dotted triplets IP Address
+         )
+       )oxi;
 
     # Filename regex to used to match invalid characters in attachments
     # - allow alphanumeric characters, spaces, underscores, etc.
@@ -3140,8 +3168,8 @@ STATIC Add a tag handler to the function tag handlers.
    * =$tag= name of the tag e.g. MYTAG
    * =$fnref= Function to execute. Will be passed ($session, \%params, $web, $topic )
    * =$syntax= somewhat legacy - 'classic' or 'context-free' (context-free may be removed in future)
-   
-   
+
+
 $syntax parameter:
 Way back in prehistory, back when the dinosaur still roamed the earth, 
 Crawford tried to extend the tag syntax of macros such that they could be processed 

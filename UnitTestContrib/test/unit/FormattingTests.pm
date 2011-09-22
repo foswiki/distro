@@ -812,14 +812,95 @@ ACTUAL
 sub test_mailWithoutMailto {
     my $this = shift;
     $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
-    my $expected = <<EXPECTED;
-<a href="mailto:pitiful\@exampleSTUFFED.com">mailto:pitiful\@exampleSTUFFED.com</a>
-EXPECTED
+    $Foswiki::cfg{AntiSpam}{EntityEncode} = 0;
+    my %urls = (
+# All of these should result in links generated
+      '1 mailto:pitiful@example.com' =>
+        '1 <a href="mailto:pitiful@exampleSTUFFED.com">mailto:pitiful@exampleSTUFFED.com</a>',
+      '2 At endSentence@some.museum.' =>
+        '2 At <a href="mailto:endSentence@someSTUFFED.museum">endSentence@someSTUFFED.museum</a>.',
+      '3 byIP@[192.168.1.10]' =>
+        '3 <a href="mailto:byIP@[192.168.1.10]">byIP@[192.168.1.10]</a>',
+      '4 "Some Name"@blah.com' =>
+        '4 <a href="mailto:%22Some%20Name%22@blahSTUFFED.com">"Some Name"@blahSTUFFED.com</a>',
+      '5 _somename@example.com' =>
+        '5 <a href="mailto:_somename@exampleSTUFFED.com">_somename@exampleSTUFFED.com</a>',
+      '6 mailto:_somename@example.com _italics_' =>
+        '6 <a href="mailto:_somename@exampleSTUFFED.com">mailto:_somename@exampleSTUFFED.com</a> <em>italics</em>',
+      '7 $A12345@example.com' =>
+        '7 <a href="mailto:$A12345@exampleSTUFFED.com">$A12345@exampleSTUFFED.com</a>',
+      '8 def!xyz%abc@example.com' =>
+        '8 <a href="mailto:def!xyz%25abc@exampleSTUFFED.com">def!xyz%abc@exampleSTUFFED.com</a>',
+      '9 customer/department=shipping@example.com' =>
+        '9 <a href="mailto:customer/department%3Dshipping@exampleSTUFFED.com">customer/department=shipping@exampleSTUFFED.com</a>',
+      '10 user+mailbox@example.com' =>
+        '10 <a href="mailto:user+mailbox@exampleSTUFFED.com">user+mailbox@exampleSTUFFED.com</a>',
+      '11 "colon:name"@blah.com' =>
+        '11 <a href="mailto:%22colon:name%22@blahSTUFFED.com">"colon:name"@blahSTUFFED.com</a>',
+      '12 "Folding White
+Space"@blah.com' =>
+        '12 <a href="mailto:%22Folding%20White%20Space%22@blahSTUFFED.com">"Folding White
+Space"@blahSTUFFED.com</a>',
+# Total exactly 254
+        '1111111.2222222.3333333.4444444.5555555.6666666.7777777.8888888@1111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.88.com' =>
+          '<a href="mailto:1111111.2222222.3333333.4444444.5555555.6666666.7777777.8888888@1111111STUFFED.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.88.com">1111111.2222222.3333333.4444444.5555555.6666666.7777777.8888888@1111111STUFFED.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.88.com</a>',
+# None of these should create links!
+      '14 badIP@[192.1.1]' =>
+        '14 badIP@[192.1.1]',
+      '15 badIP2@[1923.1.1.1]' =>
+        '15 badIP2@[1923.1.1.1]',
+      '16 double..dot@@example.com' =>
+        '16 double..dot@@example.com',
+      '17 double.dot@@example..com' =>
+        '17 double.dot@@example..com',
+      '18 doubleAT@@example.com' =>
+        '18 doubleAT@@example.com',
+      '19 badname.@[192.168.1.10]' =>
+        '19 badname.@[192.168.1.10]',
+      '20 .badname@[192.168.1.10]' =>
+        '20 .badname@[192.168.1.10]',
+      '21 badTLD@example.porn' =>
+        '21 badTLD@example.porn',
+      '22 noTLD@home' =>
+        '22 noTLD@home',
+      '23 blah@.nospam.asdf.com' =>
+        '23 blah@.nospam.asdf.com',
+      '24 !user@example.com' =>
+        '24 <nop>user@example.com',
+      '25 <nop>user@example.com' =>
+        '25 <nop>user@example.com',
+# Total exceeds 254
+        '26 1111111.2222222.3333333.4444444.5555555.6666666.7777777.8888888@1111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888.com' =>
+          '26 1111111.2222222.3333333.4444444.5555555.6666666.7777777.8888888@1111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888888881111111.2222222.3333333.4444444.5555555.6666666.7777777.888.com',
+# Left side exceeds 64
+       '27 1111111.2222222.3333333.4444444.5555555.6666666.7777777.88888888X@blah.com' =>
+         '27 1111111.2222222.3333333.4444444.5555555.6666666.7777777.88888888X@blah.com',
+# non-ASCII characters not supported per RFC.
+      '28 René.Descartes@example.com' =>
+        '28 René.Descartes@example.com',
+# : is a special character
+      '29 colon:name@blah.com' =>
+        '29 colon:name@blah.com',
+# technically valid - but Foswiki doesn't support individually quoted characters
+      '30 Ali\"TheBrain\"Baba@example.com' =>
+        '30 Ali\"TheBrain\"Baba@example.com',
+# technically valid - but Foswiki doesn't support nested quoted strings
+      '31 "Ali"TheBrain"Baba"@example.com' =>
+        '31 "Ali"TheBrain"Baba"@example.com',
+    );
 
-    my $actual = <<ACTUAL;
-mailto:pitiful\@example.com
+    foreach my $url ( keys %urls ) {
+        my $expected = $urls{$url};
+
+        # URL in text
+        my $actual = <<ACTUAL;
+$url
 ACTUAL
-    $this->do_test( $expected, $actual );
+
+        #print STDERR "EXPECTED $expected from $actual\n";
+        $this->do_test( $expected, $actual );
+    }
+
 }
 
 sub test_protocols {
@@ -907,9 +988,9 @@ sub test_4067_entities {
 
 sub test_internalLinkSpacedText_Item8713 {
     my $this     = shift;
-    
+
     my $editURI = $this->{session}->getScriptUrl( 0, 'edit' );
-    
+
     my $expected = <<EXPECTED;
 <span class="foswikiNewLink">discuss 'wiki': philosophy vs. technology<a href="$editURI/DiscussWiki:PhilosophyVs/Technology?topicparent=TemporaryFormattingTestWebFormatting.TestTopicFormatting" rel="nofollow" title="Create this topic">?</a></span>
 EXPECTED
@@ -958,7 +1039,7 @@ ACTUAL
 
 sub test_render_PlainText {
     my $this = shift;
-    
+
 #TODO: these test should move to a proper testing of Render.pm - will happen during
 #extractFormat feature
     $this->assert_str_equals(
@@ -1000,7 +1081,7 @@ sub test_render_PlainText {
         $this->{session}->{renderer}->TML2PlainText(
             'Apache 2=3 is the [[ApacheServer][well known web server]].')
     );
-    
+
     $this->assert_str_equals(
         'Apache 1_1 is the well known web server.',
         $this->{session}->{renderer}->TML2PlainText(
@@ -1017,7 +1098,7 @@ sub test_render_PlainText {
         $this->{session}->{renderer}->TML2PlainText(
             'Apache *2.3* is the [[ApacheServer][well known web server]].')
     );
-    
+
     $this->assert_str_equals(
         'Apache 1.1 is the well known web server.',
         $this->{session}->{renderer}->TML2PlainText(
