@@ -68,8 +68,10 @@ sub set_up_for_verify {
     my $this = shift;
     $this->{session}->finish();
     $this->{session} = new Foswiki();
+    # Clean up here in case test was aborted
     unlink "$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}.txt";
     unlink "$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}.txt,v";
+    unlink "$Foswiki::cfg{TempfileDir}/testfile.txt";
 }
 
 # private; create a topic with no ,v
@@ -348,6 +350,9 @@ sub verify_Inconsistent_saveAttachment {
     print FILE "one two three";
     close( FILE );
 
+    # Note: we use Meta->new rather than Meta->load to simulate the scenario described in
+    # Item10961, where attachment would blow away content if the meta object was not loaded with
+    # the latest content.
     my $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $this->{test_topic} );
     $meta->attach(name => "testfile.txt",
 		  file => "$Foswiki::cfg{TempfileDir}/testfile.txt",
@@ -365,7 +370,7 @@ sub verify_Inconsistent_saveAttachment {
 }
 
 # verify that the value of a FORMFIELD is taken from the text and not the head
-sub verify_Inconsistent_Item10993 {
+sub verify_Inconsistent_Item10993_FORMFIELD_from_text {
     my $this = shift;
     $this->_createInconsistentTopic();
 
