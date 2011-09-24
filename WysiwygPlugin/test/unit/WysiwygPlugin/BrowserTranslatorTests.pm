@@ -86,29 +86,33 @@ HERE
 THERE
     },
     {
-        name => 'numericEntityWithoutName',
-        exec => $TranslatorBase::ROUNDTRIP,
-        tml  => '&#9792;',
-        finaltml  =>  _siteCharsetIsUTF8() ? chr(9792) : '&#x2640;',
+        name     => 'numericEntityWithoutName',
+        exec     => $TranslatorBase::ROUNDTRIP,
+        tml      => '&#9792;',
+        finaltml => _siteCharsetIsUTF8() ? chr(9792) : '&#x2640;',
     },
     {
-        name => 'numericEntityWithName',
-        exec => $TranslatorBase::ROUNDTRIP,
-        tml  => '&#945;',
-        finaltml  => '&alpha;',
+        name     => 'numericEntityWithName',
+        exec     => $TranslatorBase::ROUNDTRIP,
+        tml      => '&#945;',
+        finaltml => '&alpha;',
     },
 
     # This test's finaltml is correct for ISO-8859-1 and ISO-8859-15,
     # but not necessarily any other charsets
-    ( ( not $Foswiki::cfg{Site}{CharSet} or
-        $Foswiki::cfg{Site}{CharSet} =~ /^iso-8859-15?$/i)
-    ? {
-        name => 'safeNamedEntity',
-        exec => $TranslatorBase::ROUNDTRIP,
-        tml  => '&Aring;',
-        finaltml  => chr(0xC5), 
-      }
-    : () ),
+    (
+        (
+            not $Foswiki::cfg{Site}{CharSet}
+              or $Foswiki::cfg{Site}{CharSet} =~ /^iso-8859-15?$/i
+        )
+        ? {
+            name     => 'safeNamedEntity',
+            exec     => $TranslatorBase::ROUNDTRIP,
+            tml      => '&Aring;',
+            finaltml => chr(0xC5),
+          }
+        : ()
+    ),
 
     {
         name => 'namedEntity',
@@ -145,8 +149,9 @@ HERE
     },
     {
         name => 'literalNbsp',
-        exec => $TranslatorBase::ROUNDTRIP, # SMELL: fails $TranslatorBase::TML2HTML
-        tml  => <<HERE,
+        exec =>
+          $TranslatorBase::ROUNDTRIP,   # SMELL: fails $TranslatorBase::TML2HTML
+        tml => <<HERE,
 <literal>&nbsp;</literal>
 HERE
         html => <<THERE,
@@ -181,8 +186,9 @@ test
 test
 </pre>
 HERE
+
         #SMELL: TMCE removes the newline after the <pre>
-        finaltml  => <<'HERE',
+        finaltml => <<'HERE',
 <pre>test
 test
 test
@@ -202,8 +208,9 @@ HERE
     },
     {
         name => "brTagInMacroFormat",
-        exec => $TranslatorBase::TML2HTML | $TranslatorBase::HTML2TML | $TranslatorBase::ROUNDTRIP,
-        tml  => <<'HERE',
+        exec => $TranslatorBase::TML2HTML | $TranslatorBase::HTML2TML |
+          $TranslatorBase::ROUNDTRIP,
+        tml => <<'HERE',
 %JQPLUGINS{"scrollto"
   format="
     Homepage: $homepage <br />
@@ -218,7 +225,7 @@ HERE
     },
 
     {    # Copied on 29 April 2010 from
-         # http://merlin.lavrsen.dk/foswiki10/bin/view/Myweb/NewLineEatingTest
+           # http://merlin.lavrsen.dk/foswiki10/bin/view/Myweb/NewLineEatingTest
          # and then split into multiple tests to make analysing the result managable
         name => 'KennethsNewLineEatingTest1',
         exec => $TranslatorBase::ROUNDTRIP,
@@ -246,10 +253,10 @@ HERE
 HERE
     },
     {
-        name => 'KennethsNewLineEatingTest2',
-        exec => $TranslatorBase::ROUNDTRIP,
+        name           => 'KennethsNewLineEatingTest2',
+        exec           => $TranslatorBase::ROUNDTRIP,
         expect_failure => 1,
-        tml  => <<HERE,
+        tml            => <<HERE,
 ---+++ Some test headline.
 
 Below is what could be an example of C code
@@ -274,10 +281,10 @@ if (imgs->labelsize_max) {
 HERE
     },
     {
-        name => 'KennethsNewLineEatingTest3',
-        exec => $TranslatorBase::ROUNDTRIP,
+        name           => 'KennethsNewLineEatingTest3',
+        exec           => $TranslatorBase::ROUNDTRIP,
         expect_failure => 1,
-        tml  => <<HERE,
+        tml            => <<HERE,
 These two options are defined like this
 
 | *Option* | *Function* |
@@ -308,10 +315,10 @@ and in the config code you find this
 HERE
     },
     {
-        name => 'KennethsNewLineEatingTest4',
-        exec => $TranslatorBase::ROUNDTRIP,
+        name           => 'KennethsNewLineEatingTest4',
+        exec           => $TranslatorBase::ROUNDTRIP,
         expect_failure => 1,
-        tml  => <<HERE,
+        tml            => <<HERE,
 ---+++ More code right after headline
 
 <verbatim>
@@ -331,10 +338,10 @@ char *mystrcpy(char *to, const char *from)
 HERE
     },
     {
-        name => 'KennethsNewLineEatingTest5',
-        exec => $TranslatorBase::ROUNDTRIP,
+        name           => 'KennethsNewLineEatingTest5',
+        exec           => $TranslatorBase::ROUNDTRIP,
         expect_failure => 1,
-        tml  => <<HERE,
+        tml            => <<HERE,
 ---+++ Some stuff protected by literal
 
 | This is a two row table |
@@ -362,10 +369,10 @@ The text below is yellow <literal>
 HERE
     },
     {
-        name => 'KennethsNewLineEatingTest6',
-        exec => $TranslatorBase::ROUNDTRIP,
+        name           => 'KennethsNewLineEatingTest6',
+        exec           => $TranslatorBase::ROUNDTRIP,
         expect_failure => 1,
-        tml  => <<HERE,
+        tml            => <<HERE,
 
 ---+++ Plain text
 
@@ -404,10 +411,10 @@ Trala
 HERE
     },
     {
-        name => 'KennethsNewLineEatingTest7',
-        exec => $TranslatorBase::ROUNDTRIP,
+        name           => 'KennethsNewLineEatingTest7',
+        exec           => $TranslatorBase::ROUNDTRIP,
         expect_failure => 1,
-        tml  => <<HERE,
+        tml            => <<HERE,
 
 ---+++ Literal after header
 
@@ -457,7 +464,7 @@ sub _init {
     my $this = shift;
     my %args = @_;
 
-    if ($args{expect_failure}) {
+    if ( $args{expect_failure} ) {
         $this->expect_failure();
     }
     $this->{editor}->init();
@@ -479,7 +486,7 @@ sub DESTROY {
 # Item9170
 sub verify_editSaveTopicWithUnnamedUnicodeEntity {
     my $this = shift;
-    
+
     $this->{editor}->init();
 
     # Close the editor because this test uses a different topic
@@ -487,44 +494,40 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
         $this->{editor}->cancelEdit();
     }
 
-    # \x{eb} is representable in 8-bit charsets. 
+    # \x{eb} is representable in 8-bit charsets.
     # In iso-8859-1 it is e-with-umluat, or &euml;
     # &#x2640 is a valid unicode character without a
     # common entity name
-    my $testText = "A \x{eb} B &#x2640; C";
+    my $testText     = "A \x{eb} B &#x2640; C";
     my $expectedText = $testText;
     if ( _siteCharsetIsUTF8() ) {
         $expectedText =~ s/\&\#x(\w+);/chr(hex($1))/ge;
-        $testText = Encode::encode_utf8($testText);
+        $testText     = Encode::encode_utf8($testText);
         $expectedText = Encode::encode_utf8($expectedText);
     }
 
     # Create the test topic
-    my $topicName = $this->{test_topic}."For9170";
-    my $topicObject = Foswiki::Meta->new(
-        $this->{session},
-        $this->{test_web},
-        $topicName,
-        "Before${testText}After\n");
+    my $topicName = $this->{test_topic} . "For9170";
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topicName,
+        "Before${testText}After\n" );
     $topicObject->save();
     $topicObject->finish();
 
     # Reload the topic and note the topic date
-    $topicObject = Foswiki::Meta->new(
-        $this->{session},
-        $this->{test_web},
-        $topicName);
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topicName );
     $topicObject->load();
-    my $topicinfo = $topicObject->get( 'TOPICINFO' );
+    my $topicinfo                = $topicObject->get('TOPICINFO');
     my $dateBeforeSaveFromEditor = $topicinfo->{date};
-    $this->assert($dateBeforeSaveFromEditor, "Date from topic info before saving from editor");
+    $this->assert( $dateBeforeSaveFromEditor,
+        "Date from topic info before saving from editor" );
     $topicObject->finish();
 
     # Open the test topic in the wysiwyg editor
-    $this->{editor}
-      ->openWysiwygEditor( $this->{test_web}, $topicName );
+    $this->{editor}->openWysiwygEditor( $this->{test_web}, $topicName );
 
-    # Make sure the topic timestamp is different, 
+    # Make sure the topic timestamp is different,
     # so that we can confirm that the save did write to the file
     sleep(1);
 
@@ -532,36 +535,35 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
     $this->{editor}->save();
 
     # Reload the topic and check that the content is as expected
-    $topicObject = Foswiki::Meta->new(
-        $this->{session},
-        $this->{test_web},
-        $topicName);
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topicName );
     $topicObject->load();
 
     # Make sure the topic really was saved
-    $topicinfo = $topicObject->get( 'TOPICINFO' );
+    $topicinfo = $topicObject->get('TOPICINFO');
     my $dateAfterSaveFromEditor = $topicinfo->{date};
-    $this->assert($dateAfterSaveFromEditor, "Date from topic info after saving from editor");
-    $this->assert_num_not_equals($dateBeforeSaveFromEditor, $dateAfterSaveFromEditor);
+    $this->assert( $dateAfterSaveFromEditor,
+        "Date from topic info after saving from editor" );
+    $this->assert_num_not_equals( $dateBeforeSaveFromEditor,
+        $dateAfterSaveFromEditor );
 
     my $text = $topicObject->text();
 
     # Isolate the portion of interest
-    $text =~ s/.*Before//ms or $this->assert(0, $text);
-    $text =~ s/After.*//ms or $this->assert(0, $text);
+    $text =~ s/.*Before//ms or $this->assert( 0, $text );
+    $text =~ s/After.*//ms  or $this->assert( 0, $text );
 
     # Showtime:
-    for ($expectedText, $text) {
+    for ( $expectedText, $text ) {
         s/([^\x20-\x7e])/sprintf "\\x{%X}", ord($1)/ge;
     }
-    $this->assert_str_equals($expectedText, $text);
+    $this->assert_str_equals( $expectedText, $text );
 }
-
 
 sub compareTML_HTML {
     my ( $this, $args ) = @_;
 
-    $this->_init(expect_failure => $args->{expect_failure});
+    $this->_init( expect_failure => $args->{expect_failure} );
 
     $this->{editor}->selectWikitextMode();
     $this->{editor}->setWikitextEditorContent( $args->{tml} );
@@ -591,7 +593,7 @@ sub compareRoundTrip {
     my $this = shift;
     my $args = shift;
 
-    $this->_init(expect_failure => $args->{expect_failure});
+    $this->_init( expect_failure => $args->{expect_failure} );
 
     $this->{editor}->selectWikitextMode();
     $this->{editor}->setWikitextEditorContent( $args->{tml} );
@@ -609,7 +611,7 @@ sub compareRoundTrip {
 sub compareHTML_TML {
     my ( $this, $args ) = @_;
 
-    $this->_init(expect_failure => $args->{expect_failure});
+    $this->_init( expect_failure => $args->{expect_failure} );
 
     $this->{editor}->selectWysiwygMode();
     $this->{editor}->setWysiwygEditorContent( $args->{html} );
