@@ -268,9 +268,6 @@ If a customised =TINYMCEPLUGIN_INIT= string is in use, it should be re-built bas
    * Foswikitask:Item8712 - Outdenting list items in Firefox soemtimes does not work correctly
       * Description: The list symbol (number, bullet, etc) sometimes disappears from the item after being outdented. When this happens, it is also not possible to outdent the item another level.
       * Work-around: Position the cursor to the beginning of the line (where the symbol should appear) and press the enter key. The symbol should be restored and another outdent will be possible.
-   * Foswikitask:Item8981 - Copy & paste of list items into a list breaks up the list
-      * Description: Consult the task linked above. After the operation described, the list is broken into three.
-      * Work-around: Users may elect to persist with this behaviour, or alternatively, override =TINYMCEPLUGIN_MCEPLUGINS= to omit the =paste= plugin: however, this solution may introduce its own problems.
    * Foswikitask:Item9198 - After inserting new table at top of document: unable to position cursor above
       * Work-around: Use 'Save and continue' or switch to WikiText and back to WYSIWYG again to allow WysiwygPlugin to add an empty =&lt;p/&gt;= above the table
    * Foswikitask:Item8085 - International characters (example, &Scaron;) are converted to HTML entities (IE. =&amp;Scaron;= or =&amp;#352;=)
@@ -289,12 +286,13 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
 |  Copyright: | &copy; 2007-2010 Crawford Currie http://c-dot.co.uk |
+|  Copyright: | &copy; 2010-2011 [[System.ProjectContributor][Foswiki Contributors]] |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|             | This package also includes the complete sources for version 3.3.8 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
+|             | This package also includes the complete sources for version 3.4.5 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  24 Sep 2011 (1.2.1) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.5 |
+|  24 Sep 2011 (1.2.1) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.5. Fixes Foswikitask:Item8981 (copy and paste list items) |
 |  20 Aug 2011 (1.2.0) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.4 |
 |  11 Apr 2011 (1.1.8) | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  19 Jan 2011 (1.1.7) | Foswikitask:Item10271: Update to !TinyMCE 3.3.9.3 and switch to using =x.y.z= version numbering %BR%\
