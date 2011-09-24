@@ -1190,14 +1190,6 @@
 
 			t.iframeHTML += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
 
-			// Firefox 2 doesn't load stylesheets correctly this way
-			if (!isGecko || !/Firefox\/2/.test(navigator.userAgent)) {
-				for (i = 0; i < t.contentCSS.length; i++)
-					t.iframeHTML += '<link type="text/css" rel="stylesheet" href="' + t.contentCSS[i] + '" />';
-
-				t.contentCSS = [];
-			}
-
 			bi = s.body_id || 'tinymce';
 			if (bi.indexOf('=') != -1) {
 				bi = t.getParam('body_id', '', 'hash');
@@ -1210,7 +1202,7 @@
 				bc = bc[t.id] || '';
 			}
 
-			t.iframeHTML += '</head><body id="' + bi + '" class="mceContentBody ' + bc + '"></body></html>';
+			t.iframeHTML += '</head><body id="' + bi + '" class="mceContentBody ' + bc + '"><br></body></html>';
 
 			// Domain relaxing enabled, then set document domain
 			if (tinymce.relaxedDomain && (isIE || (tinymce.isOpera && parseFloat(opera.version()) < 11))) {
@@ -1228,7 +1220,8 @@
 				title : s.aria_label,
 				style : {
 					width : '100%',
-					height : h
+					height : h,
+					display : 'block' // Important for Gecko to render the iframe correctly
 				}
 			});
 
@@ -1250,50 +1243,27 @@
 		 *
 		 * @method setupIframe
 		 */
-		setupIframe : function(filled) {
+		setupIframe : function() {
 			var t = this, s = t.settings, e = DOM.get(t.id), d = t.getDoc(), h, b;
 
 			// Setup iframe body
-			if ((!isIE || !tinymce.relaxedDomain) && !filled) {
-				// We need to wait for the load event on Gecko
-				if (isGecko && !s.readonly) {
-					t.getWin().addEventListener("DOMContentLoaded", function() {
-						window.setTimeout(function() {
-							var b = t.getBody(), undef;
+			if (!isIE || !tinymce.relaxedDomain) {
+				// Fix for a focus bug in FF 3.x where the body element
+				// wouldn't get proper focus if the user clicked on the HTML element
+				if (isGecko && !Range.prototype.getClientRects) { // Detect getClientRects got introduced in FF 4
+					t.onMouseDown.add(function(ed, e) {
+						if (e.target.nodeName === "HTML") {
+							var body = t.getBody();
 
-							// Editable element needs to have some contents or backspace/delete won't work properly for some odd reason on FF 3.6 or older
-							b.innerHTML = '<br>';
+							// Blur the body it's focused but not correctly focused
+							body.blur();
 
-							// Check if Gecko supports contentEditable mode FF2 doesn't
-							if (b.contentEditable !== undef) {
-								// Setting the contentEditable off/on seems to force caret mode in the editor and enabled auto focus
-								b.contentEditable = false;
-								b.contentEditable = true;
-
-								// Caret doesn't get rendered when you mousedown on the HTML element on FF 3.x
-								t.onMouseDown.add(function(ed, e) {
-									if (e.target.nodeName === "HTML") {
-										// Setting the contentEditable off/on seems to force caret mode in the editor and enabled auto focus
-										b.contentEditable = false;
-										b.contentEditable = true;
-
-										d.designMode = 'on'; // Render the caret
-
-										// Remove design mode again after a while so it has some time to execute
-										window.setTimeout(function() {
-											d.designMode = 'off';
-											t.getBody().focus();
-										}, 1);
-									}
-								});
-							} else
-								d.designMode = 'on';
-
-							// Call setup frame once the contentEditable/designMode has been initialized
-							// since the caret won't be rendered some times otherwise.
-							t.setupIframe(true);
-						}, 1);
-					}, false);
+							// Refocus the body after a little while
+							setTimeout(function() {
+								body.focus();
+							}, 0);
+						}
+					});
 				}
 
 				d.open();
@@ -1302,17 +1272,13 @@
 
 				if (tinymce.relaxedDomain)
 					d.domain = tinymce.relaxedDomain;
-
-				// Wait for iframe onload event on Gecko
-				if (isGecko && !s.readonly)
-					return;
 			}
 
 			// It will not steal focus while setting contentEditable
 			b = t.getBody();
 			b.disabled = true;
 
-			if (!isGecko && !s.readonly)
+			if (!s.readonly)
 				b.contentEditable = true;
 
 			b.disabled = false;
@@ -1512,6 +1478,18 @@
 				blockquote : {block : 'blockquote', wrapper : 1, remove : 'all'},
 				subscript : {inline : 'sub'},
 				superscript : {inline : 'sup'},
+
+				link : {inline : 'a', selector : 'a', remove : 'all', split : true, deep : true,
+					onmatch : function(node) {
+						return true;
+					},
+
+					onformat : function(elm, fmt, vars) {
+						each(vars, function(value, key) {
+							t.dom.setAttrib(elm, key, value);
+						});
+					}
+				},
 
 				removeformat : [
 					{selector : 'b,strong,em,i,font,u,strike', remove : 'all', split : true, expand : false, block_expand : true, deep : true},
@@ -1880,6 +1858,7 @@
 					controlElm = ieRng.item(0);
 				}
 
+				t._refreshContentEditable();
 				selection.normalize();
 
 				// Is not content editable
@@ -2981,16 +2960,7 @@
 					var t = this, d = t.getDoc(), s = t.settings;
 
 					if (isGecko && !s.readonly) {
-						if (t._isHidden()) {
-							try {
-								if (!s.content_editable) {
-									d.body.contentEditable = false;
-									d.body.contentEditable = true;
-								}
-							} catch (ex) {
-								// Fails if it's hidden
-							}
-						}
+						t._refreshContentEditable();
 
 						try {
 							// Try new Gecko method
@@ -3266,7 +3236,7 @@
 			if (tinymce.isWebKit) {
 				dom.bind(t.getDoc(), 'selectionchange', function() {
 					if (t.selectionTimer) {
-						window.clearTimeout(t.selectionTimer);
+						clearTimeout(t.selectionTimer);
 						t.selectionTimer = 0;
 					}
 
@@ -3325,6 +3295,21 @@
 						}, 0);
 					}
 				});
+			}
+		},
+
+		_refreshContentEditable : function() {
+			var self = this, body, parent;
+
+			// Check if the editor was hidden and the re-initalize contentEditable mode by removing and adding the body again
+			if (self._isHidden()) {
+				body = self.getBody();
+				parent = body.parentNode;
+
+				parent.removeChild(body);
+				parent.appendChild(body);
+
+				body.focus();
 			}
 		},
 

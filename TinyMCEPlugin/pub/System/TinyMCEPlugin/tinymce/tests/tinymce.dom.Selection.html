@@ -3,14 +3,16 @@
 <head>
 <title>Unit tests for tinymce.dom.Selection</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
-<script type="text/javascript" src="qunit/qunit.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-git.css" type="text/css" />
+<script src="http://code.jquery.com/qunit/qunit-git.js"></script>
+<script src="qunit/connector.js"></script>
 <script type="text/javascript" src="qunit/runner.js"></script>
 <script type="text/javascript" src="js/utils.js"></script>
 <script type="text/javascript" src="js/tiny_mce_loader.js"></script>
 <script>
 var editor;
 
+QUnit.config.reorder = false;
 QUnit.config.autostart = false;
 module("Selection", {
 	autostart: false
@@ -611,6 +613,43 @@ test('normalize to br from body', function() {
 	equals(rng.endOffset, 0, 'endOffset offset');
 });
 
+test('normalize ignore img', function() {
+	var rng;
+
+	if (tinymce.isIE) {
+		ok(true, "Skipped on IE since IE will steal focus.");
+		return;
+	}
+
+	editor.getBody().innerHTML = '<img src="about:blank " />';
+	rng = editor.dom.createRng();
+	rng.setStart(editor.getBody(), 0);
+	rng.setEnd(editor.getBody(), 1);
+	editor.selection.setRng(rng);
+	editor.selection.normalize();
+
+	rng = editor.selection.getRng(true);
+	equals(rng.startContainer.nodeName, 'BODY', 'startContainer node name');
+	equals(rng.startContainer.nodeType, 1, 'startContainer node type');
+	equals(rng.startOffset, 0, 'startContainer offset');
+	equals(rng.endContainer.nodeName, 'BODY', 'endContainer node name');
+	equals(rng.endContainer.nodeType, 1, 'endContainer node type');
+	equals(rng.endOffset, 1, 'endOffset offset');
+});
+
+test('custom elements', function() {
+	var rng;
+
+	editor.setContent('<custom1>test</custom1><custom2>test</custom2>');
+
+	rng = editor.dom.createRng();
+	rng.setStart(editor.getBody(), 0);
+	rng.setEnd(editor.getBody(), 2);
+	editor.selection.setRng(rng);
+
+	equals(editor.selection.getContent(), '<custom1>test</custom1><custom2>test</custom2>');
+});
+
 tinyMCE.init({
 	mode : "exact",
 	elements : "elm1",
@@ -623,6 +662,8 @@ tinyMCE.init({
 	valid_styles : {
 		'*' : 'color,font-size,font-family,background-color,font-weight,font-style,text-decoration,float,margin,margin-top,margin-right,margin-bottom,margin-left,display'
 	},
+	custom_elements : 'custom1,~custom2',
+	extended_valid_elements : 'custom1,custom2',
 	init_instance_callback : function(ed) {
 		editor = ed;
 

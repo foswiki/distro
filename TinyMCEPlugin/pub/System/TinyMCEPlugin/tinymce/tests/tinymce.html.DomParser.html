@@ -3,8 +3,9 @@
 <head>
 <title>tinymce.html.DomParser tests</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
-<script type="text/javascript" src="qunit/qunit.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-git.css" type="text/css" />
+<script src="http://code.jquery.com/qunit/qunit-git.js"></script>
+<script src="qunit/connector.js"></script>
 <script type="text/javascript" src="qunit/runner.js"></script>
 <script type="text/javascript" src="js/utils.js"></script>
 <script type="text/javascript" src="js/tiny_mce_loader.js"></script>
@@ -321,6 +322,16 @@ test('Remove redundant br elements', function() {
 		'<p>a<span data-mce-type="bookmark"></span><br></p>'
 	);
 	equals(serializer.serialize(root), '<p>a</p><p>a<br />b</p><p>a<br /><br /></p><p>a<br /><br /></p><p>a</p>', 'Remove traling br elements.');
+});
+
+test('Remove br in invalid parent bug', function() {
+	var parser, root, schema = new tinymce.html.Schema({valid_elements: 'br'});
+
+	expect(1);
+
+	parser = new tinymce.html.DomParser({remove_trailing_brs : true}, schema);
+	root = parser.parse('<br>');
+	equals(serializer.serialize(root), '', 'Remove traling br elements.');
 });
 
 test('Forced root blocks', function() {

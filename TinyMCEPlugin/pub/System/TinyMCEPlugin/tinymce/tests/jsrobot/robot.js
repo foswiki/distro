@@ -39,7 +39,7 @@
 					jarUrl = regex.exec(src)[1] + "JSRobot.jar";
 				}
 			}
-			var appletTag = '<applet archive="' + jarUrl + '" code="com.ephox.jsrobot.JSRobot" id="robotApplet" width="10" height="10" mayscript="true"><param name="mayscript" value="true" /></applet>';
+			var appletTag = '<applet archive="' + jarUrl + '" code="com.ephox.jsrobot.JSRobot" id="robotApplet" width="10" height="10" mayscript="true" initial_focus="false"><param name="initial_focus" value="false" /><param name="mayscript" value="true" /></applet>';
 			if (useDocumentWrite) {
 				document.write(appletTag);
 			} else {
@@ -53,10 +53,10 @@
 		callback: function() {
 			if (window.robotUsesSymbols){
 				this.initSymbols();
-			}
-			if (this.userCallback) {
+			} else if (this.userCallback) {
 				setTimeout(this.userCallback, 100);
 			}
+
 			return "Callback received.";
 		},
 
@@ -69,6 +69,10 @@
 				t.symbols = input.value;
 				t.ready = true;
 				document.body.removeChild(input);
+
+				if (t.userCallback) {
+					setTimeout(t.userCallback, 100);
+				}
 			}
 
 		  	this.appletAction(input, loadSymbolsFromInput, function() {

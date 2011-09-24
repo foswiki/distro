@@ -3,8 +3,9 @@
 <head>
 <title>Unit tests for DOM Range IE implementation</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
-<script type="text/javascript" src="qunit/qunit.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-git.css" type="text/css" />
+<script src="http://code.jquery.com/qunit/qunit-git.js"></script>
+<script src="qunit/connector.js"></script>
 <script type="text/javascript" src="qunit/runner.js"></script>
 <script type="text/javascript" src="js/tiny_mce_loader.js"></script>
 </head>
@@ -14,6 +15,7 @@ if (/Firefox\/2/.test(navigator.userAgent)) {
 	// Early versions of Firefox have various bugs that cause tests to fail if we use the native Range. So we skip the tests on this old legacy browser
 	test("Skipped for FF 2 since the native range object isn't working correctly and it's a legacy browser.", function() {});
 } else {
+	QUnit.config.reorder = false;
 	QUnit.config.autostart = false;
 	module("Range", {
 		autostart: false

@@ -637,9 +637,11 @@ pub/System/TinyMCEPlugin/tinymce/readme.md 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/autolink.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/basic.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/crossdomain.html 0644
+#pub/System/TinyMCEPlugin/tinymce/tests/css/gecko_caret.css 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/css/unit.css 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/format.robot.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/fullpage.html 0644
+#pub/System/TinyMCEPlugin/tinymce/tests/gecko_caret.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/index.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/jquery_plugin.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/js/api.js 0644
@@ -670,6 +672,7 @@ pub/System/TinyMCEPlugin/tinymce/readme.md 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/plugin_dependency_simple.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/plugin_dependency_specific_location.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/qunit/QUnit.LICENSE 0644
+#pub/System/TinyMCEPlugin/tinymce/tests/qunit/connector.js 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/qunit/qunit.css 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/qunit/qunit.js 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/qunit/runner.js 0644
@@ -677,6 +680,7 @@ pub/System/TinyMCEPlugin/tinymce/readme.md 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/removeformat.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/table.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/test.xml 0644
+#pub/System/TinyMCEPlugin/tinymce/tests/tests.js 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/tinymce.EditorCommands.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/tinymce.Formatter_apply.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/tinymce.Formatter_check.html 0644

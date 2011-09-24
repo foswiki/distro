@@ -2,8 +2,10 @@
 <html>
 <head>
 <title>Applying and Unapplying List Tests</title>
-<link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
-<script type="text/javascript" src="qunit/qunit.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-git.css" type="text/css" />
+<script src="http://code.jquery.com/qunit/qunit-git.js"></script>
+<script src="qunit/connector.js"></script>
 <script type="text/javascript" src="qunit/runner.js"></script>
 <script type="text/javascript" src="js/utils.js"></script>
 <script type="text/javascript" src="js/tiny_mce_loader.js"></script>
@@ -17,6 +19,7 @@ var EmptyULConvertedToP = '<ul>\n<li>Before</li>\n</ul>\n<p>&nbsp;</p>\n<ul>\n<l
 var NonEmptyOLConvertedToP = '<ol>\n<li>Before</li>\n</ol>\n<p>Test</p>\n<ol>\n<li>After</li>\n</ol>';
 var NonEmptyULConvertedToP = '<ul>\n<li>Before</li>\n</ul>\n<p>Test</p>\n<ul>\n<li>After</li>\n</ul>';
 
+QUnit.config.reorder = false;
 QUnit.config.autostart = false;
 
 module('Lists - Applying', {
