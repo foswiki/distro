@@ -32,7 +32,11 @@
     tinymce.create('tinymce.plugins.Foswiki', {
 
         init: function (ed, url) {
-            ed.plugins.foswiki._disableAutoSaveOnBadIEs(ed);
+            /* In TinyMCE 3.3.x we used this hack to better support IEs with no
+               native localStorage support. In TinyMCE 3.4.x this seems fixed,
+               and our hack now causes a really obscure error in an apparently
+               difficult-to-relate part of TinyMCE. We can delete this code. */
+            // ed.plugins.foswiki._disableAutoSaveOnBadIEs(ed);
             ed.onInit.add(function (ed) {
                 ed.plugins.foswiki._fixAdvancedTheme(ed);
                 if (ed.plugins.autosave &&
@@ -100,8 +104,8 @@
         getInfo: function () {
             return {
                 longname: 'Foswiki plugin',
-                author: 'Paul.W.Harvey@csiro.au',
-                authorurl: 'http://trin.org.au',
+                author: 'Foswiki Contributor',
+                authorurl: 'http://foswiki.org/System/ProjectContributor',
                 infourl: 'http://foswiki.org/Extensions/TinyMCEPlugin',
                 version: '1.0'
             };
