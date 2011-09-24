@@ -285,14 +285,15 @@ Check regularly at Foswiki:Extensions.TinyMCEPlugin for updates.
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright: | &copy; 2007-2010 Crawford Currie http://c-dot.co.uk |
-|  Copyright: | &copy; 2010-2011 [[System.ProjectContributor][Foswiki Contributors]] |
+|  Copyright: | &copy; 2007-2010 Crawford Currie http://c-dot.co.uk %BR%\
+                &copy; 2010-2011 [[System.ProjectContributor][Foswiki Contributors]] |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |             | This package also includes the complete sources for version 3.4.5 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  24 Sep 2011 (1.2.1) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.5. Fixes Foswikitask:Item8981 (copy and paste list items) |
+|  24 Sep 2011 (1.2.1) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.5. %BR%\
+                         Foswikitask:Item8981: Fixed in !TinyMCE 3.4 (copy and paste list items) |
 |  20 Aug 2011 (1.2.0) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.4 |
 |  11 Apr 2011 (1.1.8) | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  19 Jan 2011 (1.1.7) | Foswikitask:Item10271: Update to !TinyMCE 3.3.9.3 and switch to using =x.y.z= version numbering %BR%\
