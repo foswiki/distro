@@ -46,6 +46,7 @@ sub _getValue {
     my $var  = '$this->{' . $set . '}->' . $keys;
     my $val;
     eval '$val = ' . $var . ' if exists(' . $var . ')';
+    die "Unable to obtain value from $var.  eval failed with $@\n" if ( $@ );
     if ( defined $val ) {
 
         # SMELL: Really shouldn't do this unless we are sure it's an RE,
