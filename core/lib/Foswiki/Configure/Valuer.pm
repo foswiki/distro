@@ -103,7 +103,7 @@ sub loadCGIParams {
 
         # the - (and therefore the ' and ") is required for languages
         # e.g. {Languages}{'zh-cn'}.
-        next unless $param =~ /^TYPEOF:((?:{[-\w'"]+})*)/;
+        next unless $param =~ /^TYPEOF:((?:{[-:\w'"]+})*)/;
         my $keys = $1;
 
         # The value of TYPEOF: is the type name
