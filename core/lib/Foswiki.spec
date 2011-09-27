@@ -756,21 +756,33 @@ $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 # cycled once a month.
 $Foswiki::cfg{Log}{Dir} = '$Foswiki::cfg{WorkingDir}/logs';
 
-# **SELECTCLASS none,Foswiki::Logger::* **
+# **SELECTCLASS none,Foswiki::Logger::*,Foswiki::Logger::PlainFile::* **
 # Foswiki supports different implementations of log files. It can be
 # useful to be able to plug in a database implementation, for example,
 # for a large site, or even provide your own custom logger. Select the
 # implementation to be used here. Most sites should be OK with the
 # PlainFile logger, which automatically rotates the logs every month.<p />
+# The <tt>PlainFile::Obfuscating</tt> logger is identical to the <tt>PlainFile</tt>
+# logger except that IP addresses are either obfuscated by replacing the IP Address
+# with a MD5 Hash, or by completely masking it to x.x.x.x.  If your regulatory domain
+# prohibits tracking of IP Addresses, use the Obfuscating logger. Note that
+# Authentication Errors are never obfuscated.<p />
 # Note: the Foswiki 1.0 implementation of logfiles is still supported,
 # through use of the <tt>Foswiki::Logger::Compatibility</tt> logger.
 # Foswiki will automatically select the Compatibility logger if it detects
 # a setting for <tt>{WarningFileName}</tt> in your LocalSite.cfg.
-# You are recommended to change to the PlainFile logger at your earliest 
-# convenience by removing <tt>{WarningFileName}</tt>, 
+# You are recommended to change to the PlainFile logger at your earliest
+# convenience by removing <tt>{WarningFileName}</tt>,
 # <tt>{LogFileName}</tt> and <tt>{DebugFileName}</tt>
 # from LocalSite.cfg and re-running configure.
 $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
+
+# **BOOLEAN EXPERT**
+# The Obfuscating logger can either replace IP addresses with a hashed address
+# that cannot be easily reversed to the original IP,  or the IP address can
+# be completely masked as <tt>x.x.x.x</tt>.  Enable this parameter to replace
+# The IP address with the literal string <tt>x.x.x.x</tt>.
+$Foswiki::cfg{Log}{Obfuscating}{MaskIP} = $FALSE;
 
 # **PERL EXPERT**
 # Whether or not to log different actions in the events log.
