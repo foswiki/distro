@@ -37,7 +37,7 @@ function initCalendar(format) {
 	} 
 	var cal = new Calendar(1, null, function (cal, date) {
 		if (jQuery !== undefined) {
-			$(cal.sel).val(date).change();
+			jQuery(cal.sel).val(date).change();
 		} else {
 			cal.sel.value = date;
 		}
