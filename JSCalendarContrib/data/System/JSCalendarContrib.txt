@@ -125,6 +125,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 | Change History: | |
+|  27 Sep 2011 | 1.4.1: Michael Daum: fixed date widget in jQuery no-conflict mode |
 |  19 Aug 2011 | 1.4.0: Arthur Clemens: Prevent that an empty data form field gets prefilled with a 1970 date. Prevent javascript error if input field value is not a date. Send a =change= event when setting the date value. |
 |  10 Aug 2011 | Arthur Clemens: Convert existing date field values to the used date format. Update the calendar when the date field value is changed by typing. |
 |  09 Aug 2011 | Arthur Clemens: Allow calendars with different date formats on one page. Show AM/PM interface if the date format contains AM/PM tokens. Add new calendar style =large= and make it the default. |
