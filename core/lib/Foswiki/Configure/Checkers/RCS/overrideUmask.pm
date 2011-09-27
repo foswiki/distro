@@ -17,10 +17,15 @@ sub check {
 # to be numeric.   Without the additition, certain values of the permissions cause
 # runtime errors about illegal characters in subtraction.
 # Added here for consistency, although this code didn't fail.
+# Also "and" the permissions with 777 to prevent sticky bits from breaking the umask calculation
     my $reqUmask = (
         oct(777) - (
-            $Foswiki::cfg{RCS}{dirPermission}+0 |
-              $Foswiki::cfg{RCS}{filePermission}+0
+            (
+                (
+                    $Foswiki::cfg{RCS}{dirPermission} + 0 |
+                      $Foswiki::cfg{RCS}{filePermission} + 0
+                ) & oct(777)
+            )
         )
     );
     my $oReqUmask = sprintf( '%03o', $reqUmask );
