@@ -1,4 +1,6 @@
 (function($) {
+  var xhr, requestIndex = 0;
+
   /***************************************************************************
    * initializes the insert link dialog
    */
@@ -13,17 +15,34 @@
       }
     });
 
-    $("#natEditInsertLinkWeb").autocomplete(
-      foswiki.getPreference("SCRIPTURLPATH")+"/view/"+foswiki.getPreference("SYSTEMWEB")+"/JQueryAjaxHelper?section=web&skin=text"
-    );
+    $("#natEditInsertLinkWeb").autocomplete({
+      source: foswiki.getPreference("SCRIPTURLPATH")+"/view/"+foswiki.getPreference("SYSTEMWEB")+"/JQueryAjaxHelper?section=web&skin=text"
+    });
 
-    $("#natEditInsertLinkTopic").autocomplete(
-      foswiki.getPreference("SCRIPTURLPATH")+"/view/"+foswiki.getPreference("SYSTEMWEB")+"/JQueryAjaxHelper?section=topic&skin=text", {
-        extraParams: {
-          baseweb: function() { 
-            return $('#natEditInsertLinkWeb').val();
-          }
+    $("#natEditInsertLinkTopic").autocomplete({
+      source: function( request, response ) {
+        if (xhr) {
+          xhr.abort();
         }
+        xhr = $.ajax({
+          url: foswiki.getPreference("SCRIPTURLPATH")+"/view/"+foswiki.getPreference("SYSTEMWEB")+"/JQueryAjaxHelper?section=topic&skin=text",
+          data: $.extend(request, {
+            baseweb: $('#natEditInsertLinkWeb').val()
+          }),
+          dataType: "json",
+          autocompleteRequest: ++requestIndex,
+          success: function(data, status) {
+            if (this.autocompleteRequest === requestIndex) {
+              response(data);
+            }
+          },
+          error: function(xhr, status) {
+            if (this.autocompleteRequest === requestIndex) {
+              response([]);
+            }
+          }
+        });
+      }
     });
 
   };

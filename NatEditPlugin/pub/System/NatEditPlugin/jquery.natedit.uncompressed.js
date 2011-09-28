@@ -80,7 +80,7 @@ $.NatEditor.prototype.initGui = function() {
   var self = this, $txtarea, $headlineTools, $textTools, $paragraphTools,
     $listTools, $objectTools, $toolbar, toolbarState, toggleToolbarState,
     tmp;
-  //$.log("called initGui this="+self);
+  //$.log("called initGui this=",self);
 
   $txtarea = $(self.txtarea);
   self.container = $txtarea.wrap('<div class="natEdit"></div>').parent();
@@ -577,28 +577,36 @@ $.NatEditor.prototype._openDialog = function(opts) {
       $(window).trigger("resize.simplemodal");
       dialog.data.find("input:visible:first").focus();
       dialog.data.find("input.selection").val(selection);
+
+      if (!opts._doneInit) {
+        dialog.container.find(".foswikiButtonSubmit").click(function() {
+          $.modal.close();
+          if ($.browser.msie) { // restore lost position
+            self.setSelectionRange(opts._startPos, opts._endPos);
+          }
+          if (typeof(opts.onSubmit) != 'undefined') {
+            opts.onSubmit.call(this, self);
+          }
+          return false;
+        });
+        dialog.container.find(".foswikiButtonCancel").click(function() {
+          $.modal.close();
+          return false;
+        });
+        opts._doneInit = true;
+      
+      }
+ 
+      // make it draggable if there's a handler
+      if (dialog.container.find(".jqSimpleModalDraggable").length) {
+        dialog.container.draggable({handle: '.jqSimpleModalDraggable'});
+      }
+
       if (opts.onShow) {
         opts.onShow.call(this, self);
       }
     }
   });
-  if (!opts._doneInit) {
-    $dialog.find(".foswikiButtonSubmit").click(function() {
-      $.modal.close();
-      if ($.browser.msie) { // restore lost position
-        self.setSelectionRange(opts._startPos, opts._endPos);
-      }
-      if (typeof(opts.onSubmit) != 'undefined') {
-        opts.onSubmit.call(this, self);
-      }
-      return false;
-    });
-    $dialog.find(".foswikiButtonCancel").click(function() {
-      $.modal.close();
-      return false;
-    });
-    opts._doneInit = true;
-  }
 };
 
 /*************************************************************************
@@ -642,7 +650,7 @@ $.NatEditor.prototype.fixHeight = function() {
   if (!windowWidth) {
     windowWidth = window.innerWidth;
   }
-  newHeight = windowHeight-offset.top-bottomHeight*2;
+  newHeight = windowHeight-offset.top-bottomHeight*2-1;
   if ($debug) {
     newHeight -= $debug.height();
   }
@@ -901,8 +909,9 @@ $(function() {
     }
   };
 
-  $(".natedit").each(function() {
-    $(this).natedit({
+  // listen for natedit
+  $(".natedit:not(.natedit_inited)").each(function() {
+    $(this).addClass("natedit_inited").natedit({
       autoMaxExpand:false,
       signatureMarkup: ['-- ', foswiki.getPreference("WIKIUSERNAME"), ' - '+foswiki.getPreference("SERVERTIME")]
     });

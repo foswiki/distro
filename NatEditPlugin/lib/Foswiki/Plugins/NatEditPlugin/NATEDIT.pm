@@ -29,7 +29,7 @@ This is the perl stub for the jquery.natedit plugin.
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -37,19 +37,17 @@ Constructor
 
 sub new {
   my $class = shift;
-  my $session = shift || $Foswiki::Plugins::SESSION;
 
   my $this = bless($class->SUPER::new( 
-    $session,
     name => 'NatEdit',
-    version => '1.0',
+    version => '1.1',
     author => 'Michael Daum',
     homepage => 'http://foswiki.org/Extensions/NatEditPlugin',
     puburl => '%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin',
     css => ['styles.css'],
     documentation => "$Foswiki::cfg{SystemWebName}.NatEditPlugin",
     javascript => ['edit.js', 'jquery.natedit.js'],
-    dependencies => ['simplemodal', 'textboxlist', 'form'],
+    dependencies => ['simplemodal', 'textboxlist', 'form', 'validate', 'ui'],
   ), $class);
 
   return $this;

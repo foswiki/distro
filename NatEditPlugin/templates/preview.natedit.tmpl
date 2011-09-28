@@ -1,24 +1,13 @@
-<div class="foswikiFormSteps foswikiDialog">
-  <h2 class="foswikiDialogTitle">%MAKETEXT{"Preview"}%</h2>
+<div class="foswikiDialog foswikiPreviewDialog">
+  <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Preview"}%</h2>
   <div class="foswikiPreviewArea" style="height:25em; overflow-x:auto;margin-bottom:2.6em;">
-    <div class="foswikiFormStep" style="height:25em; overflow-x:auto;margin-bottom:2.6em;">%TEXT%</div>
-      %RENDERFORDISPLAY{
-        topic="%BASEWEB%.%BASETOPIC%"
-        header="<div class='foswikiFormStep foswikiMetaData'> 
-         <h2 > $title </h2><table class='foswikiLayoutTable'>"
-        format="<tr>
-          <th class='foswikiTableFirstCol'><nop>$title: </th>
-          <td class='foswikiFormValue'> $value </td>
-          </tr>"
-        footer="</table></div>"
-      }%<!-- -->
+    %TEXT%
+    %META{"form"}%
   </div>
   <hr />
-  <div class="foswikiFormStep foswikiFormLast foswikiFormButtons" DISstyle="position:absolute;bottom:1.3076em">
-    %BUTTON{"%MAKETEXT{"Close"}%" 
-      class="jqSimpleModalCancel" 
-      icon="cross" 
-    }%
-    %CLEAR%
-  </div>
+  %BUTTON{"%MAKETEXT{"Close"}%" 
+    class="jqSimpleModalCancel" 
+    icon="cross" 
+  }%
+  %CLEAR%
 </div>

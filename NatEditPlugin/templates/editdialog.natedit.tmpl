@@ -6,7 +6,7 @@
   requires="JQUERYPLUGIN::NATEDIT"
 }%<!-- inserttable -->
   <div class="foswikiFormStep">
-    <h2 class="foswikiDialogTitle">%MAKETEXT{"Create a new table:"}%</h2>
+    <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Create a new table:"}%</h2>
     <table class="foswikiLayoutTable" width="100%">
       <tr>
         <th>%MAKETEXT{"Headings:"}%</th>
@@ -38,7 +38,7 @@
 }%<!-- insertlink -->
   <input type="hidden" name="insertlinkflag" id="natEditInsertLinkFlag" value="topic" />
   <div class="foswikiFormStep">
-    <h2 class="foswikiDialogTitle">%MAKETEXT{"Insert link:"}%</h2>
+    <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Insert link:"}%</h2>
     %TABPANE%
     %TAB{"Topic" after="jQuery('#natEditInsertLinkFlag').val('topic');" }%
       <table class="foswikiLayoutTable" width="100%">
@@ -107,7 +107,7 @@ Only included if UploadPlugin is enabled
   requires="JQUERYPLUGIN::NATEDIT"
 }%<!-- insertattachment -->
   <div class="foswikiFormStep">
-    <h2 class="foswikiDialogTitle">%MAKETEXT{"Attachment:"}%</h2>
+    <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Attachment:"}%</h2>
     %TABPANE%
     %TAB{"Insert" after="jQuery('#ok_button').show();jQuery('#upload_button').hide()"}%
       <div class="foswikiFormStep">
