@@ -25,7 +25,7 @@ your web pages."
 
 Besides jQuery itself, !JQueryPlugin comes with a selection of third party plugins that are thought to be essential for modern web applications.
 These are integrated into Foswiki either by means of a special [[#Macros][macro]], by means of "minimal markup", or initialized using
-a custom javascript initializer. That way the set of Foswiki macros that comes with !JQueryPlugin is kept rather low compared to the features available
+a custom javascript initializer. This way the set of Foswiki macros that comes with !JQueryPlugin is kept rather low compared to the features available
 in third party plugins. "Minimal markup" is a way to avoid the need to write javascript code to initialize the interface. Instead, a special
 css class is added to an html element that triggers its initialization. See JQueryMetadata for an example.
 
@@ -42,7 +42,12 @@ The JQuery ecosystem has a huge number of plugins - more than can be included by
 by this plugin. If you want to add new plugins, then you will find instructions for adding
 them at Foswiki:Development.UsingJQueryWithFoswiki#adding_plugins.
 
----++ References and tutorials
+---++ Writing your own Javascript
+
+Whether writing your own plugins or writing Javascript code in topics, you should observe the
+Foswiki JQueryCodingStandards.
+
+---++ jQuery References and tutorials
    * [[http://docs.jquery.com/How_jQuery_Works][Getting the feet wet]]
    * [[http://docs.jquery.com/Tutorials][Tutorials]]
    * [[http://docs.jquery.com/Main_Page][Reference API]]

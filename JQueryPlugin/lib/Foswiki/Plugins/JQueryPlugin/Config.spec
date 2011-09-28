@@ -19,7 +19,7 @@ $Foswiki::cfg{JQueryPlugin}{IconSearchPath} = 'FamFamFamSilkIcons, FamFamFamSilk
 # **BOOLEAN**
 # Enable this switch to prevent name conflicts with other javascript frameworks that
 # use <code>$</code>. If enabled <code>$</code> will be renamed to <code>$j</code>.
-# To jQuery plugin authors: in any case try to wrap your plugins into a
+# To jQuery plugin authors: you should always wrap your plugins in a
 # <pre>(function($) { ... })(jQuery);</pre> construct to make use of <code>$</code> locally.
 $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 
