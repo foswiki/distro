@@ -53,18 +53,20 @@ sub log {
     #    print STDERR "field $field \n";
     #    }
 
-    unless ( $_[4] =~ /^AUTHENTICATION FAILURE/ ) {
+    if ( @_ > 4 ) {
+        unless ( $_[4] =~ /^AUTHENTICATION FAILURE/ ) {
 
-        if ( $Foswiki::cfg{Log}{Obfuscating}{MaskIP} ) {
-            $_[5] = 'x.x.x.x';
-        }
-        else {
-            my $md5hex = md5_hex( $_[5] );
-            $_[5] =
-                hex( substr( $md5hex, 0, 2 ) ) . '.'
-              . hex( substr( $md5hex, 2, 2 ) ) . '.'
-              . hex( substr( $md5hex, 4, 2 ) ) . '.'
-              . hex( substr( $md5hex, 6, 2 ) );
+            if ( $Foswiki::cfg{Log}{Obfuscating}{MaskIP} ) {
+                $_[5] = 'x.x.x.x';
+            }
+            else {
+                my $md5hex = md5_hex( $_[5] );
+                $_[5] =
+                    hex( substr( $md5hex, 0, 2 ) ) . '.'
+                  . hex( substr( $md5hex, 2, 2 ) ) . '.'
+                  . hex( substr( $md5hex, 4, 2 ) ) . '.'
+                  . hex( substr( $md5hex, 6, 2 ) );
+            }
         }
     }
 
