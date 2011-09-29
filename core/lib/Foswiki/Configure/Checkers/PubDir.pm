@@ -69,7 +69,7 @@ excessive permissions in this release).
 PERMS
     }
 
-    $e .= $this->NOTE('<b>First 10 detected errors of insufficient, or excessive permissions</b> <br/> ' . $e2 ) if $e2;
+    $e .= $this->NOTE('<b>First 10 detected errors of inconsistent permissions</b> <br/> ' . $e2 ) if $e2;
 
     $this->{filecount}  = 0;
     $this->{fileErrors} = 0;

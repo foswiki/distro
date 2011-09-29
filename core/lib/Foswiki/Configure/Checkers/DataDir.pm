@@ -23,7 +23,7 @@ sub check {
       ? ''
       : 'd';
 
-    # Check r-readable, w-writable  and d-directories match {RCS}{dirPermissions} and p-WebPreferences topic exists.
+    # Check r-readable, w-writable and d-directories match {RCS}{dirPermissions} and p-WebPreferences topic exists.
     my $d = $this->getCfg('{DataDir}');
     my $e2 =
       $this->checkTreePerms( $d, 'rwp' . $dirchk, qr/,v$/ );
@@ -71,7 +71,7 @@ for excessive permissions in this release).
 PERMS
     }
 
-    $e .= $this->NOTE('<b>First 10 detected errors of insufficient, or excessive permissions, and all instances of missing files.</b> <br/> ' . $e2 ) if $e2;
+    $e .= $this->NOTE('<b>First 10 detected errors of inconsistent permissions, and all instances of missing files.</b> <br/> ' . $e2 ) if $e2;
 
     $this->{filecount}  = 0;
     $this->{fileErrors} = 0;
