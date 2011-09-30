@@ -241,38 +241,30 @@ function fixHeightOfPane () { }
   // patch in tinymce
   $(window).load(function() {
     if ((typeof(tinyMCE) === 'object') && typeof(tinyMCE.activeEditor === 'object')) {
+
       $(".natEditToolBar").hide(); /* switch off natedit toolbar */
       $("#topic_fullscreen").parent().remove(); /* remove full-screen feature ... til fixed */
+
       /* Thanks to window.load event, TinyMCEPlugin has already done 
       ** switchToWYSIWYG(); our new switchToWYSIWYG() routine below wasn't 
       ** called. So force a TMCE resize. */
       $(window).trigger('resize.natedit');
 
-      var oldSwitchToWYSIWYG = FoswikiTiny.switchToWYSIWYG;
+      var oldSwitchToWYSIWYG = FoswikiTiny.switchToWYSIWYG,
+          oldSwitchToRaw = FoswikiTiny.switchToRaw;
+
       FoswikiTiny.switchToWYSIWYG = function(inst) {
         $(".natEditToolBar").hide();
-        $("#wysiwyg").hide();
         oldSwitchToWYSIWYG(inst);
-        $(window).trigger('resize.natedit');
+        $(window).trigger('resize');
       };
 
-      var oldSwitchToRaw = FoswikiTiny.switchToRaw;
-      var doneInit = false;
+
       FoswikiTiny.switchToRaw = function(inst) {
         oldSwitchToRaw(inst);
-        $(window).trigger("resize"); /* to let natedit fix the textarea height */
-        var oldWysiwygButton = $("#topic_2WYSIWYG");
-        var newWysiwygButton = $("#wysiwyg");
         $(".natEditToolBar").show();
-        if (!doneInit) {
-          doneInit = true;
-          var onClickHandler = oldWysiwygButton.attr('onclick');
-          oldWysiwygButton.replaceWith(newWysiwygButton);
-          newWysiwygButton.click(onClickHandler).show();
-        } else {
-          oldWysiwygButton.hide();
-          newWysiwygButton.show();
-        }
+        $(window).trigger("resize"); 
+
       };
     }
   });

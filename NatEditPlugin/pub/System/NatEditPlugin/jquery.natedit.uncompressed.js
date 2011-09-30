@@ -25,6 +25,11 @@ $.NatEditor = function(txtarea, opts) {
   self.opts = $.extend({}, opts, $txtarea.metadata());
   self.txtarea = txtarea;
 
+  if (typeof(FoswikiTiny) !== 'undefined') {
+    self.opts.showWysiwyg = true;
+  }
+    
+
   // dont do both: disable autoMaxExpand if we autoExpand
   if (self.opts.autoExpand) {
     self.opts.autoMaxExpand = false;
@@ -78,7 +83,7 @@ $.NatEditor = function(txtarea, opts) {
  */
 $.NatEditor.prototype.initGui = function() {
   var self = this, $txtarea, $headlineTools, $textTools, $paragraphTools,
-    $listTools, $objectTools, $toolbar, toolbarState, toggleToolbarState,
+    $listTools, $objectTools, $toggleTools, $toolbar, toolbarState, toggleToolbarState,
     tmp;
   //$.log("called initGui this=",self);
 
@@ -224,7 +229,18 @@ $.NatEditor.prototype.initGui = function() {
         self.insertTag(self.opts.signatureMarkup);
         return false;
       }));
-    
+
+  $toggleTools = $('<ul class="natEditButtonBox natEditButtonBoxToggles"></ul>');
+  if (self.opts.showWysiwyg) {
+    $toggleTools.append(
+      $(self.opts.wysiwygButton).click(function() {
+        var editor = tinyMCE.getInstanceById("topic");
+        tinyMCE.execCommand("mceToggleEditor", null, "topic");
+        FoswikiTiny.switchToWYSIWYG(editor);
+        return false;
+      }));
+  }
+
   $toolbar = $('<div class="natEditToolBar"></div>');
   if (self.opts.showHeadlineTools) {
     $toolbar.append($headlineTools);
@@ -240,6 +256,9 @@ $.NatEditor.prototype.initGui = function() {
   }
   if (self.opts.showObjectTools) {
     $toolbar.append($objectTools);
+  }
+  if (self.opts.showToggleTools) {
+    $toolbar.append($toggleTools);
   }
   $toolbar.append('<span class="foswikiClear"></span>');
 
@@ -629,28 +648,16 @@ $.NatEditor.prototype.autoMaxExpand = function() {
 $.NatEditor.prototype.fixHeight = function() {
   var self = this,
     $txtarea = $(self.txtarea),
-    windowHeight = $(window).height(),
-    windowWidth = $(window).width(),
+    windowHeight = $(window).height() || window.innerHeight,
     bottomHeight = $('.natEditBottomBar').outerHeight(true),
     offset = $txtarea.offset(),
     tmceEdContainer, tmceIframe,
-    minWidth, minHeight, newWidth, newHeight, newHeightExtra = 0, natEditTopicInfoHeight,
+    minHeight, 
+    newHeight = windowHeight-offset.top-bottomHeight*2-1,
+    newHeightExtra = 0, 
+    natEditTopicInfoHeight,
     $debug = $("#DEBUG");
-		
-  if ($txtarea.is(":not(:visible)")) {
-    //$.log("natedit textarea not visible ... skipping fixHeight");
-    return;
-  }
-  //$.log("called natedit::fixHeight("+self.txtarea+")");
 
-  // get new window height (and width)
-  if (!windowHeight) {
-    windowHeight = window.innerHeight;
-  }
-  if (!windowWidth) {
-    windowWidth = window.innerWidth;
-  }
-  newHeight = windowHeight-offset.top-bottomHeight*2-1;
   if ($debug) {
     newHeight -= $debug.height();
   }
@@ -665,55 +672,46 @@ $.NatEditor.prototype.fixHeight = function() {
   if (newHeight < 0) {
     return;
   }
+		
+  if ($txtarea.is(":visible")) {
+    $txtarea.height(newHeight);
+  }
 
-  $txtarea.height(newHeight);
 	
-  /* Resize tinyMCE. Both the iframe and containing table need to be adjusted. 
-   * SMELL: Hard-coded magic numbers : 12px */
+  /* Resize tinyMCE. Both the iframe and containing table need to be adjusted. */
   if (typeof(tinyMCE) === 'object' && tinyMCE.activeEditor !== null &&
     !tinyMCE.activeEditor.getParam('fullscreen_is_enabled')) {
-
+    
     /* TMCE container = <td>, in a <tr>, <tbody>, <table>, <span> next to original 
      * <textarea display: none> in a <div .natEdit> in a <div .jqTabContents> :-) 
      * SMELL: No "proper" way to get correct instance until Item2297 finished 
      */
 
     tmceEdContainer = tinyMCE.activeEditor.contentAreaContainer;
-    tmceIframe = $(tmceEdContainer).children('iframe')[0];
-    tmceTable = tmceEdContainer.parentNode.parentNode.parentNode;
+    if ($(tmceEdContainer).is(":visible")) {
 
-    /* The NatEdit Title: text sits in the jqTab above TMCE */
-    natEditTopicInfoHeight = $($(tmceTable.parentNode.parentNode).siblings(
-      '.natEditTopicInfo')[0]).outerHeight(true); // SMELL: this looks strange
-    offset = $(tmceTable).offset().top;
+      tmceIframe = $(tmceEdContainer).children('iframe')[0];
+      tmceTable = tmceEdContainer.parentNode.parentNode.parentNode;
 
-    $(tmceEdContainer.parentNode).siblings().each(	/* Iterate over TMCE layout */
-      function (i, tr) {
-        newHeightExtra = newHeightExtra + $(tr).outerHeight(true);
+      /* The NatEdit Title: text sits in the jqTab above TMCE */
+      natEditTopicInfoHeight = $(tmceTable.parentNode.parentNode).siblings(
+        '.natEditTopicInfo:first').outerHeight(true); // SMELL: this looks strange
+      offset = $(tmceTable).offset().top;
+
+      $(tmceEdContainer.parentNode).siblings().each(	/* Iterate over TMCE layout */
+        function (i, tr) {
+          newHeightExtra = newHeightExtra + $(tr).outerHeight(true);
+        }
+      );
+
+      /* SMELL: minHeight isn't working on IE7 but does on IE6 + IE8 */
+      newHeight = windowHeight - offset - bottomHeight*2;
+      if (self.opts.minHeight && newHeight - newHeightExtra + 
+        natEditTopicInfoHeight < self.opts.minHeight) {
+        newHeight = self.opts.minHeight + natEditTopicInfoHeight;
       }
-    );
-
-    /* SMELL: minHeight isn't working on IE7 (but does on IE6 + IE8 */
-    newHeight = windowHeight - offset - bottomHeight*2;
-    if (self.opts.minHeight && newHeight - newHeightExtra + 
-      natEditTopicInfoHeight < self.opts.minHeight) {
-      newHeight = self.opts.minHeight + natEditTopicInfoHeight;
-    }
-    $(tmceTable).height(newHeight);
-    $(tmceIframe).height(newHeight - newHeightExtra);
-
-    /* SMELL: We set a width first, then check to see if it's too small
-     * by checking if document is able to accomodate a larger size..
-     * ... and this doesn't work in IE6 or IE8, so minWidth not enforced there. 
-     */
-    offset = ($(tmceTable).offset().left * 2) + 4;	/* Assume centred layout */
-    newWidth = windowWidth - offset;
-    $(tmceTable).width(newWidth);
-    $(tmceIframe).width(newWidth);
-    minWidth = $(document).width() - offset;
-    if (newWidth < minWidth) {
-      $(tmceTable).width(minWidth);
-      $(tmceIframe).width(minWidth);
+      $(tmceTable).height(newHeight);
+      $(tmceIframe).height(newHeight - newHeightExtra);
     }
   }
 };
@@ -724,7 +722,7 @@ $.NatEditor.prototype.fixHeight = function() {
 $.NatEditor.prototype.autoExpand = function() {
   var self = this, 
       $txtarea = $(self.txtarea),
-      now, width, text, height;
+      now, text, height;
 
   //$.log("called autoExpand()");
   now = new Date();
@@ -737,23 +735,20 @@ $.NatEditor.prototype.autoExpand = function() {
   self._time = now;
 
   window.setTimeout(function() {
-    width = $txtarea.width();
     text = self.txtarea.value+'x';
-    if (text == self._lastText || width === 0) {
+    if (text == self._lastText) {
       $.log("suppressing events");
       return;
     }
     self._lastText = text;
     text = $.natedit.htmlEntities(text);
-    self.helper.width(width);
-    $.log("width="+width);
 
     //$.log("helper text="+text);
     self.helper.html(text);
     height = self.helper.height() + 12;
     height = Math.max($txtarea.height(), height);
     //$.log("helper height="+height);
-    $txtarea.height(height).width(width);
+    $txtarea.height(height);
   },100);
 };
 
@@ -836,6 +831,7 @@ $.natedit = {
     attachmentButton: '<li class="natEditAttachmentButton"><a href="#" title="Insert attachment" accesskey="a"><span>Attachment</span></a></li>',
     verbatimButton: '<li class="natEditVerbatimButton"><a href="#" title="Ignore wiki formatting" accesskey="v"><span>Verbatim</span></a></li>',
     signatureButton: '<li class="natEditSignatureButton"><a href="#" title="Your signature with timestamp" accesskey="z"><span>Sign</span></a></li>',
+    wysiwygButton: '<li class="natEditWysiwygButton"><a href="#" id="topic_2WYSIWYG" title="Switch to WYSIWYG" accesskey="w"><span>Wysiwyg</span></a></li>',
 
     h1Markup: ['---+!! ','%TOPIC%',''],
     h2Markup: ['---++ ','Headline text',''],
@@ -870,7 +866,9 @@ $.natedit = {
     showTextTools: true,
     showListTools: true,
     showParagraphTools: true,
-    showObjectTools: true
+    showObjectTools: true,
+    showToggleTools: true,
+    showWysiwyg: false
   }
 };
 

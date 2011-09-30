@@ -42,8 +42,12 @@ ul.natEditHelpTools {
   list-style:none;
   background:inherit;
 }
-.natEditBottomBar #wysiwyg {
+#topic_2WYSIWYG,
+#wysiwyg {
   display:none;
+}
+#topic_tbl, #topic_ifr {
+  width:100% !important; 
 }
 .natEditToolBar ul li a span {
   display:none;

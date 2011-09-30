@@ -89,6 +89,10 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  30 Sep 2011 | fixed autoresize of wysiwyg editor; \
+                 improved toggle button switching between raw and wysiwyg editor; \
+                 improved integration of validation code; \
+                 using ui::autocomplete instead of deprecated jquery.autocomplete plugin now |
 |  04 Apr 2011 | using a modal dialog for preview; save+continue is done in the background async'ly now |
 |  24 Mar 2011 | added specific css classes for each button box |
 |  17 Feb 2011 | fixed insert table in IE7+8 |
