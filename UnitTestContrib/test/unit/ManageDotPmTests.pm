@@ -123,22 +123,35 @@ sub set_up_for_verify {
     @FoswikiFntestCase::mails = ();
 }
 
+# Register a user using Fwk prefix in the forms
+sub registerUserExceptionFwk {
+    my $this = shift;
+    $this->_registerUserException( 'Fwk', @_ );
+}
+
+# Register a user using Twk prefix in the forms
+sub registerUserExceptionTwk {
+    my $this = shift;
+    $this->_registerUserException( 'Twk', @_ );
+}
+
+
 #to simplify registration
 #SMELL: why are we not re-using code like this
 #SMELL: or the verify code... this would benefit from reusing the mixing of mappers and other settings.
-sub registerUserException {
-    my ( $this, $loginname, $forename, $surname, $email ) = @_;
+sub _registerUserException {
+    my ( $this, $pfx, $loginname, $forename, $surname, $email ) = @_;
 
     my $query = new Unit::Request(
         {
             'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => [$email],
-            'Twk1WikiName'  => ["$forename$surname"],
-            'Twk1Name'      => ["$forename $surname"],
-            'Twk0Comment'   => [''],
-            'Twk1LoginName' => [$loginname],
-            'Twk1FirstName' => [$forename],
-            'Twk1LastName'  => [$surname],
+            "${pfx}1Email"     => [$email],
+            "${pfx}1WikiName"  => ["$forename$surname"],
+            "${pfx}1Name"      => ["$forename $surname"],
+            "${pfx}0Comment"   => [''],
+            "${pfx}1LoginName" => [$loginname],
+            "${pfx}1FirstName" => [$forename],
+            "${pfx}1LastName"  => [$surname],
             'action'        => ['register']
         }
     );
@@ -180,6 +193,7 @@ sub registerUserException {
 
     return $exception;
 }
+
 
 sub addUserToGroup {
     my $this = shift;
@@ -281,7 +295,7 @@ sub test_SingleAddToNewGroupCreate {
     my $this = shift;
     my $ret;
 
-    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu',
+    $ret = $this->registerUserExceptionTwk( 'asdf', 'Asdf', 'Poiu',
         'asdf@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
 
@@ -317,13 +331,13 @@ sub test_DoubleAddToNewGroupCreate {
     my $this = shift;
     my $ret;
 
-    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu',
+    $ret = $this->registerUserExceptionTwk( 'asdf', 'Asdf', 'Poiu',
         'asdf@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
-    $ret = $this->registerUserException( 'qwer', 'Qwer', 'Poiu',
+    $ret = $this->registerUserExceptionFwk( 'qwer', 'Qwer', 'Poiu',
         'qwer@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
-    $ret = $this->registerUserException( 'zxcv', 'Zxcv', 'Poiu',
+    $ret = $this->registerUserExceptionTwk( 'zxcv', 'Zxcv', 'Poiu',
         'zxcv@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
 
@@ -363,22 +377,22 @@ sub test_TwiceAddToNewGroupCreate {
     my $this = shift;
     my $ret;
 
-    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu',
+    $ret = $this->registerUserExceptionTwk( 'asdf', 'Asdf', 'Poiu',
         'asdf@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
-    $ret = $this->registerUserException( 'qwer', 'Qwer', 'Poiu',
+    $ret = $this->registerUserExceptionFwk( 'qwer', 'Qwer', 'Poiu',
         'qwer@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
-    $ret = $this->registerUserException( 'zxcv', 'Zxcv', 'Poiu',
+    $ret = $this->registerUserExceptionTwk( 'zxcv', 'Zxcv', 'Poiu',
         'zxcv@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
-    $ret = $this->registerUserException( 'zxcv2', 'Zxcv', 'Poiu2',
+    $ret = $this->registerUserExceptionFwk( 'zxcv2', 'Zxcv', 'Poiu2',
         'zxcv@2example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
-    $ret = $this->registerUserException( 'zxcv3', 'Zxcv', 'Poiu3',
+    $ret = $this->registerUserExceptionTwk( 'zxcv3', 'Zxcv', 'Poiu3',
         'zxcv3@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
-    $ret = $this->registerUserException( 'zxcv4', 'Zxcv', 'Poiu4',
+    $ret = $this->registerUserExceptionFwk( 'zxcv4', 'Zxcv', 'Poiu4',
         'zxcv4@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
 
@@ -525,7 +539,7 @@ sub test_SingleAddToNewGroupNoCreate {
     my $this = shift;
     my $ret;
 
-    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu',
+    $ret = $this->registerUserExceptionTwk( 'asdf', 'Asdf', 'Poiu',
         'asdf@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
 
@@ -559,13 +573,13 @@ sub test_NoUserAddToNewGroupCreate {
     my $this = shift;
     my $ret;
 
-    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu',
+    $ret = $this->registerUserExceptionFwk( 'asdf', 'Asdf', 'Poiu',
         'asdf@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
-    $ret = $this->registerUserException( 'qwer', 'Qwer', 'Poiu',
+    $ret = $this->registerUserExceptionTwk( 'qwer', 'Qwer', 'Poiu',
         'qwer@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
-    $ret = $this->registerUserException( 'zxcv', 'Zxcv', 'Poiu',
+    $ret = $this->registerUserExceptionFwk( 'zxcv', 'Zxcv', 'Poiu',
         'zxcv@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
 
@@ -604,7 +618,7 @@ sub test_RemoveFromNonExistantGroup {
     my $this = shift;
     my $ret;
 
-    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu',
+    $ret = $this->registerUserExceptionTwk( 'asdf', 'Asdf', 'Poiu',
         'asdf@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
 
@@ -638,7 +652,7 @@ sub test_RemoveNoUserFromExistantGroup {
     my $this = shift;
     my $ret;
 
-    $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu',
+    $ret = $this->registerUserExceptionFwk( 'asdf', 'Asdf', 'Poiu',
         'asdf@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
 
@@ -674,7 +688,7 @@ sub verify_resetEmailOkay {
     ## Need to create an account (else oopsnotwikiuser)
     ### with a known email address (else oopsregemail)
     ### need to know the password too
-    my $ret = $this->registerUserException( 'brian', 'Brian', 'Griffin',
+    my $ret = $this->registerUserExceptionTwk( 'brian', 'Brian', 'Griffin',
         'brian@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
 
@@ -867,7 +881,7 @@ EOM
 
 sub verify_deleteUser {
     my $this = shift;
-    my $ret  = $this->registerUserException( 'eric', 'Eric', 'Cartman',
+    my $ret  = $this->registerUserExceptionTwk( 'eric', 'Eric', 'Cartman',
         'eric@example.com' );
     $this->assert_null( $ret, "Respect mah authoritah" );
 
