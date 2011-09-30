@@ -361,7 +361,7 @@
 			//required: false,         // disables the 'cancel' button so user can only select one of the specified values
 			//readOnly: false,         // disable rating plugin interaction/ values cannot be changed
 			//focus:    function(){},  // executed when stars are focused
-			//blur:     function(){},  // executed when stars are focused
+			//blur:     function(){},  // executed when stars are blured
 			//callback: function(){},  // executed when a star is clicked
  }; //} });
 	
@@ -371,10 +371,10 @@
 		### Default implementation ###
 		The plugin will attach itself to file inputs
 		with the class 'multi' when the page loads
-	*/
 	$(function(){
 	 $('input[type=radio].star').rating();
 	});
+	*/
 	
 	
 	

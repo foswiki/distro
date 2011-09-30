@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265665776" format="1.1" reprev="1.3" version="1.3"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1315837703" format="1.1" reprev="3" version="6"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"validate"
@@ -16,31 +16,16 @@ Very powerful client-side form validation framework
 
 ---++ Examples
 
-%JQREQUIRE{"validate"}%
-%JQREQUIRE{"maskedinput"}%
-%ADDTOZONE{"script" topic="%TOPIC%" section="init" requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::MASKEDINPUT"}%
+%JQREQUIRE{"validate, maskedinput"}%
 
-<verbatim class="tml">
-%STARTSECTION{"init"}%
-<script type="text/javascript">
-(function($) {
-  $(function() {
-    $("#validateForm").validate();
-  });
-})(jQuery);
-</script>
-%ENDSECTION{"init"}%
-</verbatim>
-
-
-<form id="validateForm">
+<form id="validateForm" class="jqValidate">
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep">
     <h3>First name:</h3>
-    <input type="text" size="30" class="required foswikiInputField" name="firstname" value="%URLPARAM{"firstname"}%" />
+    <input type="text" size="30" class="foswikiInputField {required:true}" name="firstname" value="%URLPARAM{"firstname"}%" />
 
     <h3>Last name:</h3>
-    <input type="text" size="30" class="required foswikiInputField" name="lastname"  value="%URLPARAM{"lastname"}%" />
+    <input type="text" size="30" class="foswikiInputField {required:true}" name="lastname"  value="%URLPARAM{"lastname"}%" />
 
     <h3>Date of birth:</h3>
     <input type="text" size="10" class="required date foswikiInputField" mask="99/99/9999" name="dateofbirth" value="%URLPARAM{"dateofbirth"}%" />
@@ -51,4 +36,5 @@ Very powerful client-side form validation framework
   </div>
 </div>
 </form>
+
 %IF{"'%URLPARAM{"dateofbirth"}%'!=''" then="<div class='foswikiSuccessMessage'>Thanks.</div>"}%

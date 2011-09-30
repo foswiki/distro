@@ -37,7 +37,8 @@
 
     // build element specific options. 
     // note you may want to install the Metadata plugin
-    self.opts = $.extend({}, self.input.metadata(), opts);
+    self.opts = $.extend({
+    }, self.input.metadata(), opts);
 
     if(!self.opts.inputName) {
       self.opts.inputName = self.input.attr('name');
@@ -67,17 +68,20 @@
    
     // autocompletion
     if (self.opts.autocomplete) {
-      self.input
-        .attr('autocomplete', 'off')
-        .autocomplete(self.opts.autocomplete, self.opts)
-        .result(function(event, data, value) {
-          self.select(data[0]);
-        });
+      $.extend(self.opts, {
+        source: self.opts.autocomplete,
+        select: function(event, ui) {
+          $.log("TEXTBOXLIST: selected value="+ui.item.value+" label="+ui.item.label);
+          self.select(ui.item.value);
+          return false;
+        }
+      });
+      self.input.attr('autocomplete', 'off').autocomplete(self.opts);
     } else {
       $.log("TEXTBOXLIST: no autocomplete");
     }
 
-    // autocomplete does not fire the result event on typed items
+    // keypress event
     self.input.bind(($.browser.opera ? "keypress" : "keydown") + ".textboxlist", function(event) {
       // track last key pressed
       if(event.keyCode == 13) {
@@ -98,7 +102,7 @@
       }
     });
 
-    // add event
+    // delete event
     self.input.bind("DeleteValue", function(e, val) {
       if (val) {
         self.deselect([val]);

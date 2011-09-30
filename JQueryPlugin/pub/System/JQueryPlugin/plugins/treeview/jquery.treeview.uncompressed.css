@@ -90,25 +90,25 @@
 .jqTreeview {
   display:none; /* activated using js */
 }
-.jqTreeview.red  li { background-image: url(images/treeview-red-line.gif); }
+.jqTreeview.red li { background-image: url(images/treeview-red-line.gif) !important; }
 .jqTreeview.red .hitarea, 
 .jqTreeview.red li.lastCollapsable, 
-.jqTreeview.red li.lastExpandable { background-image: url(images/treeview-red.gif); } 
+.jqTreeview.red li.lastExpandable { background-image: url(images/treeview-red.gif) !important; } 
 
-.jqTreeview.black li { background-image: url(images/treeview-black-line.gif); }
+.jqTreeview.black li { background-image: url(images/treeview-black-line.gif) !important; }
 .jqTreeview.black .hitarea, 
 .jqTreeview.black li.lastCollapsable, 
-.jqTreeview.black li.lastExpandable { background-image: url(images/treeview-black.gif); }  
+.jqTreeview.black li.lastExpandable { background-image: url(images/treeview-black.gif) !important; }  
 
-.jqTreeview.gray li { background-image: url(images/treeview-gray-line.gif); }
+.jqTreeview.gray li { background-image: url(images/treeview-gray-line.gif) !important; }
 .jqTreeview.gray .hitarea, 
 .jqTreeview.gray li.lastCollapsable, 
-.jqTreeview.gray li.lastExpandable { background-image: url(images/treeview-gray.gif); } 
+.jqTreeview.gray li.lastExpandable { background-image: url(images/treeview-gray.gif) !important; } 
 
-.jqTreeview.famfamfam li { background-image: url(images/treeview-famfamfam-line.gif); }
+.jqTreeview.famfamfam li { background-image: url(images/treeview-famfamfam-line.gif) !important; }
 .jqTreeview.famfamfam .hitarea, 
 .jqTreeview.famfamfam li.lastCollapsable, 
-.jqTreeview.famfamfam li.lastExpandable { background-image: url(images/treeview-famfamfam.gif); } 
+.jqTreeview.famfamfam li.lastExpandable { background-image: url(images/treeview-famfamfam.gif) !important; } 
 
 .jqTreeview.orangearrows li { background-image: url(images/treeview-famfamfam-line.gif) !important; }
 .jqTreeview.orangearrows .hitarea, 

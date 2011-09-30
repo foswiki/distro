@@ -369,7 +369,7 @@
 		},
 		setPosition: function () {
 			var top, left,
-				hCenter = (w[0] * 0.45) - ((this.dialog.container.height() || this.dialog.data.height())/2),
+				hCenter = (w[0] * 0.5) - ((this.dialog.container.height() || this.dialog.data.height())/2),
 				vCenter = (w[1] * 0.5) - ((this.dialog.container.width() || this.dialog.data.width())/2);
 
 			if (this.opts.position && this.opts.position.constructor == Array) {

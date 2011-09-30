@@ -23,7 +23,6 @@
 
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; 
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80); 
-  opacity:.80;
 }
 
 .blockUI {
@@ -56,7 +55,8 @@
 }
 
 .blockUI h1,
-.blockUI h2 {
+.blockUI h2,
+.blockUI h3 {
   border:0px;
   color:#fff;
 }

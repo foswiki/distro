@@ -17,6 +17,6 @@ div.star-rating{background:transparent!important;overflow:hidden!important}
 .jqInitedRating {
   display:block;
 }
-.jqRatingTip {
-  margin-left:1em;
+.jqRatingValue {
+  margin-left:0.5em;
 }

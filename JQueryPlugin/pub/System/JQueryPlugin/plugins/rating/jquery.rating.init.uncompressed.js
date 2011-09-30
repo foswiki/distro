@@ -1,26 +1,48 @@
 jQuery(function($) {
+
   $(".jqRating:not(.jqInitedRating)").livequery(function() {
-    var $this = $(this);
-    var $tip = $("<span class='jqRatingTip'>&nbsp;</span>").appendTo($this);
-    function getVal () {
-      var current = $this.find(":checked");
-      return (current.length)?current.attr('title')||current.val():"&nbsp;";
-    }
-    $tip.html(getVal());
-    var opts = $.extend({
-      focus: function(val, elem) {
-        $tip.html(elem.title || elem.value);
-      },
-      blur: function(val, elem) {
-        $tip.html(getVal());
-      },
-      callback: function (val) {
-        if (typeof(val) === 'undefined' || val == '') {
-          val = "&nbsp;"
-        } 
-        $tip.html(val);
-      }
-    }, $this.metadata());
+    var $this = $(this),
+        opts = $.extend(
+        // defaults 
+        {
+          focus: function(value, link) {
+            var $link = $(link), 
+                title = $link.attr("title") || $link.attr("value");
+            $this.find(".jqRatingValue").text(title);
+          }, 
+          blur: function(value, link) {
+            var $link = $this.find(":checked"),
+                title = $link.attr("title") || $link.attr("value") || '';
+            $this.find(".jqRatingValue").text(title);
+          }, 
+          callback: function(value, link) {
+            var $link = $(link), 
+                title = $link.attr("title") || $link.attr("value");
+            $this.find(".jqRatingValue").text(title);
+          } 
+        }, $this.metadata()),
+        $link = $this.find(":checked"),
+        val = $link.attr("title") || $link.attr("value") || '';
+
+    // display value
+    $("<span>"+val+"</span>").addClass('jqRatingValue').appendTo($this);
+
+    // init
     $this.addClass("jqInitedRating").find("input:[type=radio]").rating(opts);
+    
+    // add hover to cancel button 
+    $this.find(".rating-cancel").hover(
+      function() {
+        if (typeof(opts.focus) == 'function') {
+          opts.focus(0, this);
+        }
+      },
+      function() {
+        if (typeof(opts.blur) == 'function') {
+          opts.blur(0, this);
+        }
+      }
+    );
   });
+
 });

@@ -1,5 +1,6 @@
 TARGET=\
   jquery.ui.datepicker-af.js\
+  jquery.ui.datepicker-ar-DZ.js\
   jquery.ui.datepicker-ar.js\
   jquery.ui.datepicker-az.js\
   jquery.ui.datepicker-bg.js\
@@ -9,7 +10,9 @@ TARGET=\
   jquery.ui.datepicker-da.js\
   jquery.ui.datepicker-de.js\
   jquery.ui.datepicker-el.js\
+  jquery.ui.datepicker-en-AU.js\
   jquery.ui.datepicker-en-GB.js\
+  jquery.ui.datepicker-en-NZ.js\
   jquery.ui.datepicker-eo.js\
   jquery.ui.datepicker-es.js\
   jquery.ui.datepicker-et.js\
@@ -19,6 +22,7 @@ TARGET=\
   jquery.ui.datepicker-fo.js\
   jquery.ui.datepicker-fr-CH.js\
   jquery.ui.datepicker-fr.js\
+  jquery.ui.datepicker-gl.js\
   jquery.ui.datepicker-he.js\
   jquery.ui.datepicker-hr.js\
   jquery.ui.datepicker-hu.js\
@@ -31,11 +35,14 @@ TARGET=\
   jquery.ui.datepicker-kz.js\
   jquery.ui.datepicker-lt.js\
   jquery.ui.datepicker-lv.js\
+  jquery.ui.datepicker-ml.js\
   jquery.ui.datepicker-ms.js\
   jquery.ui.datepicker-nl.js\
   jquery.ui.datepicker-no.js\
   jquery.ui.datepicker-pl.js\
   jquery.ui.datepicker-pt-BR.js\
+  jquery.ui.datepicker-pt.js\
+  jquery.ui.datepicker-rm.js\
   jquery.ui.datepicker-ro.js\
   jquery.ui.datepicker-ru.js\
   jquery.ui.datepicker-sk.js\
@@ -46,6 +53,7 @@ TARGET=\
   jquery.ui.datepicker-sv.js\
   jquery.ui.datepicker-ta.js\
   jquery.ui.datepicker-th.js\
+  jquery.ui.datepicker-tj.js\
   jquery.ui.datepicker-tr.js\
   jquery.ui.datepicker-uk.js\
   jquery.ui.datepicker-vi.js\

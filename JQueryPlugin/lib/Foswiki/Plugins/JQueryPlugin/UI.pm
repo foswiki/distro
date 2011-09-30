@@ -2,10 +2,9 @@
 package Foswiki::Plugins::JQueryPlugin::UI;
 use strict;
 use warnings;
-use Foswiki::Plugins                        ();
-use Foswiki::Plugins::JQueryPlugin::Plugins ();
-
-use Foswiki::Plugins::JQueryPlugin::Plugin;
+use Foswiki::Plugins                       ();
+use Foswiki::Plugins::JQueryPlugin         ();
+use Foswiki::Plugins::JQueryPlugin::Plugin ();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
@@ -18,7 +17,7 @@ This is the perl stub for the jquery.ui
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -26,17 +25,15 @@ Constructor
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            $session,
             name        => 'UI',
-            version     => '1.8.5',
+            version     => '1.8.16',
             puburl      => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
             author      => 'see http://jqueryui.com/about',
             homepage    => 'http://docs.jquery.com/UI',
-            javascript  => ['jquery-ui.js'],
+            javascript  => ['jquery-ui.js', ],
             dependencies => [ 'metadata', 'livequery' ],
         ),
         $class
@@ -58,17 +55,12 @@ sub init {
 
     return unless $this->SUPER::init();
 
-    # add the base theme
-    Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::UI",
-        <<HERE, "JQUERYPLUGIN::FOSWIKI" );
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/base/jquery-ui.css" type="text/css" media="all" />
-HERE
-
-    # load the custom theme
-    Foswiki::Plugins::JQueryPlugin::Plugins::createTheme($Foswiki::cfg{JQueryPlugin}{JQueryTheme});
+    # load default theme
+    Foswiki::Plugins::JQueryPlugin::createTheme();
 
     # open matching localization file if it exists
-    my $langTag = $this->{session}->i18n->language();
+    my $session = $Foswiki::Plugins::SESSION;
+    my $langTag = $session->i18n->language();
     my $messagePath =
         $Foswiki::cfg{SystemWebName}
       . '/JQueryPlugin/i18n/ui.datepicker-'
@@ -79,7 +71,7 @@ HERE
         Foswiki::Func::addToZone(
             'script', "JQUERYPLUGIN::UI::LANG",
             <<"HERE", 'JQUERYPLUGIN::UI' );
-<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>";
+<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>
 HERE
     }
 }
@@ -95,7 +87,7 @@ NOTE: Please extend that file, not this notice.
 Additional copyrights apply to some or all of the code in this
 file as follows:
 
-Copyright (C) 2006-2010 Michael Daum http://michaeldaumconsulting.com
+Copyright (C) 2006-2011 Michael Daum http://michaeldaumconsulting.com
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

@@ -1,8 +1,21 @@
 jQuery(function($) {
+  var defaults = {
+    waitForImages: false
+  };
+
   $(".jqMasonry:not(.jqInitedMasonry)").livequery(function() {
-    var $this = $(this);
+    var $this = $(this),
+        opts = $.extend({}, defaults, $this.metadata());
+
     $this.addClass("jqInitedMasonry");
-    var opts = $.extend({}, $this.metadata());
-    $this.masonry(opts);
+
+    if (opts.waitForImages) {
+      $this.imagesLoaded(function() {
+        $this.masonry(opts);
+      });
+    } else {
+      $this.masonry(opts);
+    }
+
   });
 });

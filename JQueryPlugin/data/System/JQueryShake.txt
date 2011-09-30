@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1265665229" format="1.1" version="1.3"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1315832061" format="1.1" reprev="5" version="5"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"shake"
@@ -10,6 +10,15 @@
 }%
 
 %STARTSECTION{"summary"}%
+<div class="foswikiWarningMessage">
+Warning: This plugin is deprecated. The shake effect is now part of the latest JQueryUI. So use 
+
+<verbatim class="js">
+jQuery("#id").effect("shake", {times: 3}, 100);
+</verbatim>
+
+instead.
+</div>
 jQuery plugin to emulate &#8220;shake&#8221; on login failure in OSX login box.
 %ENDSECTION{"summary"}%
 
@@ -25,7 +34,7 @@ Options:
 
 ---++ Examples
 %JQREQUIRE{"shake"}%
-%BUTTON{"Shake it, baby" icon="bomb" onclick="$('#lorem').shake(3, 10, 180)"}%
+%BUTTON{"Shake it, baby" icon="bomb" onclick="jQuery('#lorem').shake(3, 10, 180)"}%
 %CLEAR%
 
 <div id="lorem" style="width:300px;">

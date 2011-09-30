@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1258385639" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1306419241" format="1.1" reprev="3" version="3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"blockui"
@@ -17,3 +17,56 @@ adds elements to the DOM to give it both the appearance and behavior of
 blocking user interaction.
 %ENDSECTION{"summary"}%
 
+---++ Demo
+%JQREQUIRE{"blockui"}%
+
+<a href="#" id="demo1">Click here</a>
+%CLEAR%
+
+<div id="loginForm" style="display:none; text-align:left;">
+<h2 >Hey there ... </h2>
+<input type="text" name="username" class="foswikiInputField" size="20" placeholder="username" />
+<input type="password" name="password" class="foswikiInputField" size="20" placeholder="password" />
+
+%BUTTON{"Sign in" icon="tick" id="signin" class="center"}%
+%CLEAR%
+</div> 
+
+<literal>
+<script>
+jQuery(function($) {
+  $('#demo1').click(function() { 
+
+    $.blockUI({ 
+      message: $('#loginForm'),
+      css: { width:'auto' },
+      //timeout: 20000, 
+      focusInput: false,
+      onBlock: function() { 
+         //alert('Page is now blocked.'); 
+      }
+    });
+
+    $('.blockOverlay').click(function() {
+      $.unblockUI({ 
+        onUnblock: function(){ alert('Aborted.'); } 
+      }); 
+      return false;
+    });
+
+    return false;
+  }); 
+
+  $("#signin").click(function() {
+    $.unblockUI({
+      onUnblock: function() { alert('Welcome to Foswiki.'); }
+    });
+  });
+});
+</script>
+
+<style>
+.blockUI { background:#fff; font-size:110%; }
+.blockUI h2 { color:#9C3063; margin-top:0; }
+</style>
+</literal>

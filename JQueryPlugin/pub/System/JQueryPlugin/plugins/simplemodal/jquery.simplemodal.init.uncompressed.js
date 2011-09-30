@@ -23,6 +23,20 @@
   } 
 
   /**************************************************************************/
+  function loadDialog(url, opts) {
+    $.log("SM: loading "+url);
+    $.ajax({
+      url: url,
+      dataType: 'html',
+      async: false,
+      success: function(data) {
+        $("body").append(data);
+        foswiki.openDialog(data, opts);
+      }
+    });
+  }
+
+  /**************************************************************************/
   function init(dialog, opts) {
     $.log("SM: called init");
 
@@ -60,6 +74,29 @@
         return false; 
       }); 
     }); 
+
+    // add onCancel to simplemoda-close elements
+    if (typeof(opts.onCancel) == 'function') {
+      dialog.container.find(".simplemodal-close").click(function() {
+        opts.onCancel(dialog);
+      });
+    }
+
+    // make it draggable if there's a handler
+    dialog.container.find(".jqSimpleModalDraggable").each(function() {
+      var opts = $.extend({
+        handle: '.jqSimpleModalDraggable'
+      }, $(this).metadata());
+      dialog.container.draggable(opts);
+    });
+
+    // make it draggable if there's a handler
+    dialog.container.find(".jqSimpleModalResizable:first").each(function() {
+      var opts = $.extend({
+        handles: 'se'
+      }, $(this).metadata());
+      dialog.container.resizable(opts);
+    });
   }
 
   /**************************************************************************/
@@ -76,17 +113,17 @@
       var $this = $(this);
       $this.addClass("jqInitedSimpleModal").click(function(e) {
         var opts = $.extend({}, defaults, $this.metadata());
-        var id = $this.attr('simple-modal-data') || opts.data;
-        if (opts.url && !id) { 
+        if (opts.url) { 
           // async
           $.get(opts.url, function(content) { 
-            var $content = $(content);
-            id = $content.attr('id');
+            var $content = $(content),
+                id = $content.attr('id');
             if (!id) {
               id = foswiki.getUniqueID();
-              $content.attr('id', id).hide();
-              $("body").append($content);
             }
+            $content.attr('id', id).hide();
+            $("body").append($content);
+            $.log("SM: id="+id);
             $this.attr('simple-modal-data', '#'+id);
             foswiki.openDialog("#"+id, opts); 
           }); 

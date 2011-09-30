@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1279640925" format="1.1" reprev="9" version="10"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1306504110" format="1.1" reprev="9" version="12"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -25,7 +25,7 @@ your web pages."
 
 Besides jQuery itself, !JQueryPlugin comes with a selection of third party plugins that are thought to be essential for modern web applications.
 These are integrated into Foswiki either by means of a special [[#Macros][macro]], by means of "minimal markup", or initialized using
-a custom javascript initializer. That way the set of Foswiki macros that comes with !JQueryPlugin is kept rather low compared to the features available
+a custom javascript initializer. This way the set of Foswiki macros that comes with !JQueryPlugin is kept rather low compared to the features available
 in third party plugins. "Minimal markup" is a way to avoid the need to write javascript code to initialize the interface. Instead, a special
 css class is added to an html element that triggers its initialization. See JQueryMetadata for an example.
 
@@ -42,7 +42,12 @@ The JQuery ecosystem has a huge number of plugins - more than can be included by
 by this plugin. If you want to add new plugins, then you will find instructions for adding
 them at Foswiki:Development.UsingJQueryWithFoswiki#adding_plugins.
 
----++ References and tutorials
+---++ Writing your own Javascript
+
+Whether writing your own plugins or writing Javascript code in topics, you should observe the
+Foswiki JQueryCodingStandards.
+
+---++ jQuery References and tutorials
    * [[http://docs.jquery.com/How_jQuery_Works][Getting the feet wet]]
    * [[http://docs.jquery.com/Tutorials][Tutorials]]
    * [[http://docs.jquery.com/Main_Page][Reference API]]
@@ -72,21 +77,21 @@ them at Foswiki:Development.UsingJQueryWithFoswiki#adding_plugins.
 
 ---++ Available jQuery plugins
 %JQPLUGINS{
-  format="<h3> $index. $percntIF{\"istopic '$documentation'\" 
+  format="---+++ $index. $percntIF{\"istopic '$documentation'\" 
                   then=\"[[$documentation][$name]]\" 
                   else=\"<nop>$name\"
                }$percnt $active
-          </h3>
           $summary
   "
 }%
 
 ---++ Using compressed javascript and css files
 All jQuery plugins are shipped with uncompressed js and css files, as well as minified and gzip compressed.
-For instance the jquery.autocomplete plugin comes with the following set:
-   1 %PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.uncompressed.js
-   1 %PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.js
-   1 %PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.js.gz
+For instance the jquery.form plugin comes with the following set:
+
+   1 %PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/form/jquery.form.uncompressed.js
+   1 %PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/form/jquery.form.js
+   1 %PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/form/jquery.form.js.gz
 
 There is a Makefile in the =%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin= root directory that ensures all these
 files are up to date. By default all files in the !JQueryPlugin package are up to date, so you only have to
@@ -132,7 +137,20 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|               | (4.11) Fix "Use of uninitialized" in textboxlist |
+|  08 Sep 2011: | (4.20) added perl api to make ui themes pluggable; \
+                  upgrade to jquery-ui 1.8.16, masked-input 1.3, masonry 2.0, textboxlist 1.0, validate 1.8.1, cycle 2.9995, bgiframe 2.1.2, blockUI 2.39, corner 2.12, gradient 1.0, \
+                  autocomplete 1.2.2, form 2.80; \
+                  upgraded all jquery-ui themes to match the latest version; \
+                  deprecated abandoned jquery.autocomplete in favor of jquery-ui's autocomplete; \
+                  added modules ui::accordion, ui::autocomplete, ui::button, ui::datepicker, ui::dialog, ui::draggable, ui::progressbar, ui::resizable, ui::slider, ui::tabs; \
+                  improved rating formfield to display the actual value as well, not only the stars; \
+                  added initializer for jquery.validate; \
+                  improved initializer for simplemodals to make them draggable and resizable; \
+                  fixed css of treeview, autocomplete, tabpane, button; \
+                  new foswiki jquery-ui theme; \
+                  added jquery-1.6.2 and jquery-1.6.3; \
+                  improved docu of jquery.cycle, jquery.masonry, jquery.validate |
+|  20 Jun 2011: | (4.11) Fix "Use of uninitialized" in textboxlist |
 |  25 May 2011: | (4.10) Added JQueryPlaceholder; \
                   Updated jquery.autocomplete to work around Firefox 4 problem breaking up/down arrow keys in edit fields; \
                   Added jquery.tmpl; \

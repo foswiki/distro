@@ -1,14 +1,19 @@
 %META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1265972954" format="1.1" reprev="1.2" version="1.2"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
-Follow [[http://drupal.org/node/172169][Drupal&#8217;s JavaScript coding standards]]
 
 %TOC%
+
 %JQREQUIRE{"chili"}%
+%STARTINCLUDE%
+Follow [[http://drupal.org/node/172169][Drupal&#8217;s JavaScript coding standards]]
+
+See also Foswiki:Development/UsingJQueryWithFoswiki for more information, tips and tricks.
 
 ---++ Wrap =$=
 
-If you want to use jQuery&#8217;s =$= variable, you have to wrap your code like this:
+When writing a jQuery plugin, if you want to use the jQuery =$= variable, you have to wrap
+your code like this:
 
 <verbatim class="js">
 (function($) {
@@ -18,10 +23,19 @@ If you want to use jQuery&#8217;s =$= variable, you have to wrap your code like 
 })(jQuery);
 </verbatim>
 
-The =$= global variable is not used by !JQueryPlugin, to avoid conflicts
-with other javascript libraries that may be loaded. jQuery examples that
-you find on the web will work as written, just as long as you wrap
-them as described here. 
+If you fail to wrap your code, you will end up with =$= being reported as an undefined
+variable, or even some other more obscure and hard to debug error if other libraries
+are also loaded.
+
+!JQueryPlugin itself does not use the =$= variable, so will not conflict
+with other javascript libraries that may be loaded.
+
+Scripts that use =$= that are pasted by users into topics (inside =&lt;script&gt;= tags)
+will work as written, so long as the plugin configuration setting ={JQueryPlugin}{NoConflict}=
+is set to 0 (the default). If it is set to 1, scripts using =$= that are pasted into topics will
+have to be wrapped as described here.
+
+We recommend that scripts using =$= are _always_ wrapped.
 
 ---++ Shorthands
 Use the jQuery shorthand =$= where possible:
@@ -81,11 +95,13 @@ Use JQueryMetadata to integrate jQuery plugins into Foswiki.
 
 ---++ <nop>LiveQuery
 
-Use JQueryLiveQuery to initialize your plugin for all html elements of a page. Otherwise content
-that is loaded asynchronously using ajax won't be initialized. !LiveQuery will take care of that
-automatically.
+Normally when using jQuery you initialise plugins on HTML elements in a =$(document).ready()= call,
+using the jQuery =each= method to iterate over elements matching a selector. This works fine so long
+as all HTML elements are loaded when the page is loaded. Any elements that are loaded later - for
+example, as the result of an AJAX call, won't be initialised. In this case, you should use
+JQueryLiveQuery, which will take care of initialising dynamically loaded elements automatically.
 
-Instead of
+Instead of:
 
 <verbatim class="js">
 $(".jqPluginName").each(function() {
@@ -101,8 +117,9 @@ $(".jqPluginName").livequery(function() {
 });
 </verbatim>
 
+Bear in mind that a page containing your script might end up being loaded _by another page_ using a dynamic AJAX request. So ideally, you would use =livequery= on *all* elements all of the time. However be warned that =livequery= can be very slow on very large pages, especially on internet explorer.
+
 See JQueryMetadata for a more thorough example of using metadata and livequery
-
-
+%STOPINCLUDE%
 
 %META:PREFERENCE{name="TOPICTITLE" title="TOPICTITLE" type="Local" value="JQuery Coding Standards"}%

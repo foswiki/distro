@@ -16,7 +16,7 @@ This is the perl stub for the jquery.textboxlist plugin.
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -24,19 +24,17 @@ Constructor
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
     my $this = bless(
         $class->SUPER::new(
-            $session,
             name     => 'TextboxList',
-            version  => '0.2',
+            version  => '1.0',
             author   => 'Michael Daum',
             homepage => 'http://foswiki.org/Extensions/JQueryPlugin',
             css      => ['jquery.textboxlist.css'],
             javascript =>
               [ 'jquery.textboxlist.js', 'jquery.textboxlist.init.js' ],
-            dependencies => [ 'autocomplete', 'metadata', 'livequery' ],
+            dependencies => [ 'ui', 'metadata', 'livequery' ],
         ),
         $class
     );

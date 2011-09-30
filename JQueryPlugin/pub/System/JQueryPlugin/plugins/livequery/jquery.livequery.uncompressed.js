@@ -218,7 +218,7 @@ $.extend($.livequery, {
 });
 
 // Register core DOM manipulation methods
-$.livequery.registerPlugin('append', 'prepend', 'after', 'before', 'wrap', 'attr', 'removeAttr', 'addClass', 'removeClass', 'toggleClass', 'empty', 'remove', 'html');
+$.livequery.registerPlugin('append', 'prepend', 'after', 'before', 'wrap', 'attr', 'removeAttr', 'addClass', 'removeClass', 'toggleClass', 'empty', 'remove', 'html', 'prop', 'removeProp');
 
 // Run Live Queries when the Document is ready
 $(function() { $.livequery.play(); });

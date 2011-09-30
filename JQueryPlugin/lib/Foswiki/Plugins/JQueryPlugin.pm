@@ -20,7 +20,7 @@ use vars qw(
 );
 
 $VERSION           = '$Rev$';
-$RELEASE           = '4.11';
+$RELEASE           = '4.20';
 $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
@@ -96,6 +96,19 @@ sub createPlugin {
 
 =begin TML
 
+---++ createTheme($themeName) -> $boolean
+
+API to load a jQuery UI theme. Returns true if the theme has
+been loaded successfully.
+
+=cut
+
+sub createTheme {
+    return Foswiki::Plugins::JQueryPlugin::Plugins::createTheme(@_);
+}
+
+=begin TML
+
 ---++ registerPlugin($pluginName, $class) -> $plugin
 
 API to register a jQuery plugin. this is of use for other Foswiki plugins
@@ -110,6 +123,22 @@ The FOOBAR.pm stub must be derived from Foswiki::Plugins::JQueryPlugin::PLUGIN c
 
 sub registerPlugin {
     return Foswiki::Plugins::JQueryPlugin::Plugins::registerPlugin(@_);
+}
+
+=begin TML
+
+---++ registerTheme($themeName, $url)
+
+API to register a jQuery theme. this is of use for other Foswiki plugins
+to register their theme. Registering a theme 'foobar'
+will make it available via =%<nop>JQTHEME{"foobar"}%=.
+
+The =$url= parameter will default to '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui/$themeName/jquery-ui.css'.
+
+=cut
+
+sub registerTheme {
+    return Foswiki::Plugins::JQueryPlugin::Plugins::registerTheme(@_);
 }
 
 =begin TML
@@ -254,9 +283,12 @@ sub handleJQueryTheme {
 
     my $themeName =
          $params->{_DEFAULT}
-      || $Foswiki::cfg{JQueryPlugin}{JQueryTheme}
-      || 'base';
-    Foswiki::Plugins::JQueryPlugin::Plugins::createTheme($themeName);
+      || $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
+
+    my $warn = $params->{warn} || '';
+
+    return "<div class='foswikiAlert'>Error: no such theme $themeName</div>"
+      if !createTheme($themeName) && $warn ne 'off';
 
     return '';
 }
@@ -383,6 +415,7 @@ sub handleJQueryPlugins {
         counter => $counter, );
     $theSeparator =
       Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables($theSeparator);
+
     return $theHeader . join( $theSeparator, @result ) . $theFooter;
 }
 

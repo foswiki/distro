@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1305310213" format="1.1" reprev="1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1315817208" format="1.1" reprev="3" version="3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -102,7 +102,7 @@ function getMovies(genre, skip, top) {
       "$format": "json",
       "$skip": skip,
       "$top": top,
-      "$orderby": "Name"
+      "$orderby": "ReleaseYear desc"
     },
     jsonp: "$callback",
     error: function(xhr, msg) {
@@ -186,6 +186,7 @@ $(function() {
 }
 #moviePrev, #movieNext {
   display:none;
+  text-decoration:none;
 }
 </style>
 </literal>
@@ -193,16 +194,18 @@ $(function() {
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
   <h3>Genre:</h3>
-  %BUTTON{"%MAKETEXT{"Next"}%" id="movieNext" icon="arrow_right" class="foswikiRight"}%
-  %BUTTON{"%MAKETEXT{"Previous"}%" id="moviePrev" icon="arrow_left" class="foswikiRight"}%
   <select id="genreSelect" class="foswikiSelect">
     <option value="">loading ...</option>
   </select>
-  %CLEAR%
 </div>
 </div>
 
 <div id="movieList2"></div>
+<div id="pager">
+  <a href="#" id="movieNext" class="foswikiRight">%MAKETEXT{"Next"}% %JQICON{"arrow_right"}%</a>
+  <a href="#" id="moviePrev" class="foswikiLeft">%JQICON{"arrow_left"}% %MAKETEXT{"Previous"}%</a>
+  %CLEAR%
+</div>
 <div id="movieMessage"></div>
 
 <literal>

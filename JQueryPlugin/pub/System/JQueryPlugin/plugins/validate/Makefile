@@ -1,6 +1,7 @@
 TARGET=\
   jquery.validate.js \
   jquery.validate.methods.js \
+  jquery.validate.init.js \
   $(JQUERYPLUGIN_LIB)/VALIDATE.pm
 
 -include ../../Makefile.include

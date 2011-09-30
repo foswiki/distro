@@ -2,9 +2,11 @@
 package Foswiki::Plugins::JQueryPlugin::Plugin;
 
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
+use Foswiki::Func ();
 
 use strict;
 use warnings;
+use constant DEBUG => 0;
 
 =begin TML
 
@@ -16,10 +18,9 @@ abstract class for a jQuery plugin
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
    * =$class=: Plugin class
-   * =$session= : Foswiki object, defaults to =$Foswiki::Plugins::SESSION=
    * =...=: additional properties to be added to the object. i.e. 
       * =name => 'pluginName'= (default unknown)
       * =author => 'pluginAuthor'= (default unknown)
@@ -33,13 +34,19 @@ abstract class for a jQuery plugin
 
 sub new {
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
+
+    # backwards compatibility: the session param is deprecated now
+    if ( ref( $_[0] ) =~ /^Foswiki/ ) {
+        my ( $package, $file, $line ) = caller;
+        # emit a deprecation warning
+        print STDERR "$package constructor called with deprecated session object in $file:$line\n" if DEBUG;
+        shift;    # ... it off the args
+    }
 
     my $this = bless(
         {
-            session       => $session,
-            debug         => $Foswiki::cfg{JQueryPlugin}{Debug} || 0,
-            name          => $class,
+            debug => $Foswiki::cfg{JQueryPlugin}{Debug} || 0,
+            name => $class,
             author        => 'unknown',
             version       => 'unknown',
             summary       => undef,
@@ -59,6 +66,8 @@ sub new {
       $Foswiki::cfg{SystemWebName} . '.JQuery' . ucfirst( $this->{name} )
       unless defined $this->{documentation};
 
+    $this->{documentation} =~ s/:://g;
+
     unless ( $this->{puburl} ) {
         $this->{puburl} = '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/'
           . lc( $this->{name} );
@@ -69,10 +78,10 @@ sub new {
 
 =begin TML
 
----++ ClassMethod init()
+---++ ClassMethod init( )
 
 add jQuery plugin to web and make sure all its dependencies 
-are fulfilled
+are fulfilled. 
 
 =cut
 
