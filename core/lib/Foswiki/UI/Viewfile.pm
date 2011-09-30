@@ -44,7 +44,7 @@ sub viewfile {
     my $fileName;
     my $pathInfo;
 
-    if ( defined( $ENV{REDIRECT_STATUS} ) && defined( $ENV{REQUEST_URI} ) ) {
+    if ( defined( $ENV{REDIRECT_STATUS} ) && $ENV{REDIRECT_STATUS} != 200 && defined( $ENV{REQUEST_URI} ) ) {
 
         # this is a redirect - can be used to make 404,401 etc URL's
         # more foswiki tailored and is also used in TWikiCompatibility
