@@ -104,7 +104,7 @@ You can customize the default [[%SYSTEMWEB%.UserRegistration]] topic by first co
 
 A couple of common fields are hidden from normal view to make the registration page as lean as possible. You can unhide those fields on the page by removing =EXCLUDED_= from the =INCLUDE= tags) or add new ones.
 
-New fields may also be added. The =name=""= parameter of the =&lt;input&gt;= tags must start with: ="Twk0..."= (if this is an optional entry), or ="Twk1..."= (if this is a required entry). This ensures that the fields are carried over into the user home page correctly.
+New fields may also be added. The =name=""= parameter of the =&lt;input&gt;= tags must start with: ="Fwk0..."= (if this is an optional entry), or ="Fwk1..."= (if this is a required entry). This ensures that the fields are carried over into the user home page correctly.
 %ENDSECTION{"TemplateLogin"}%
 
 #ApacheLogin
