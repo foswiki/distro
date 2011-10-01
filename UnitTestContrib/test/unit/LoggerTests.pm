@@ -1,6 +1,6 @@
 # tests for Foswiki::Logger
 
-package Logger;
+package LoggerTests;
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );
 
@@ -48,10 +48,26 @@ sub PlainFileLogger {
     $this->{logger} = new Foswiki::Logger::PlainFile();
 }
 
+sub ObfuscatingLogger {
+    my $this = shift;
+    require Foswiki::Logger::PlainFile::Obfuscating;
+    $Foswiki::cfg{Log}{Implementation} =
+      'Foswiki::Logger::PlainFile::Obfuscating';
+    $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 1;
+    $this->{logger} = new Foswiki::Logger::PlainFile::Obfuscating();
+}
+
 sub fixture_groups {
     my %algs;
     foreach my $dir (@INC) {
         if ( opendir( D, "$dir/Foswiki/Logger" ) ) {
+            foreach my $alg ( readdir D ) {
+                next unless $alg =~ /^(\w+)\.pm$/;
+                $algs{$1} = 1;
+            }
+            closedir(D);
+        }
+        if ( opendir( D, "$dir/Foswiki/Logger/PlainFile" ) ) {
             foreach my $alg ( readdir D ) {
                 next unless $alg =~ /^(\w+)\.pm$/;
                 $algs{$1} = 1;
@@ -69,23 +85,44 @@ sub fixture_groups {
 }
 
 sub verify_simpleWriteAndReplay {
-    my $this = shift;
-    my $time = time;
+    my $this   = shift;
+    my $time   = time;
+    my $ipaddr = '1.2.3.4';
+    my $tmpIP  = $ipaddr;
 
     # Verify the three levels used by Foswiki; debug, info and warning
     foreach my $level (qw(debug info warning)) {
-        $this->{logger}->log( $level, $level, "Green", "Eggs", "and", "Ham" );
+
+      #  For the obfuscating logger,  have the warning record hash the IP addrss
+        if ( $Foswiki::cfg{Log}{Implementation} eq
+            'Foswiki::Logger::PlainFile::Obfuscating'
+            && $level eq 'warning' )
+        {
+            $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
+        }
+
+        $this->{logger}->log( $level, $level, "Green", "Eggs", "and", $tmpIP );
     }
+
+    $ipaddr = 'x.x.x.x'
+      if ( $Foswiki::cfg{Log}{Implementation} eq
+        'Foswiki::Logger::PlainFile::Obfuscating' );
+
     foreach my $level (qw(debug info warning)) {
         my $it = $this->{logger}->eachEventSince( $time, $level );
         $this->assert( $it->hasNext(), $level );
         my $data = $it->next();
         my $t    = shift(@$data);
         $this->assert( $t >= $time, "$t $time" );
-        $this->assert_str_equals( "$level.Green.Eggs.and.Ham",
+        $ipaddr = '109.104.118.183'
+          if ( $Foswiki::cfg{Log}{Implementation} eq
+            'Foswiki::Logger::PlainFile::Obfuscating'
+            && $level eq 'warning' );
+        $this->assert_str_equals( "$level.Green.Eggs.and.$ipaddr",
             join( '.', @$data ) );
         $this->assert( !$it->hasNext() );
     }
+
 }
 
 sub verify_eachEventSinceOnEmptyLog {
@@ -210,7 +247,7 @@ sub verify_rotate {
 
     $Foswiki::Logger::PlainFile::dontRotate = 1;
 
-    my $then = Foswiki::Time::parseTime("2000-02-01");
+    my $then = Foswiki::Time::parseTime("2000-02-01T00:00Z");
 
     $plainFileTestTime = $then;
     $mode              = 0777;
@@ -224,7 +261,7 @@ sub verify_rotate {
     $this->assert( !-e $lfn );
 
     # Create the log, the entry should be stamped at $then - 1000 (last month)
-    $plainFileTestTime = $then - 1000;
+    $plainFileTestTime = Foswiki::Time::parseTime("2000-01-31T23:59Z");
     $logger->log( 'info', 'Nil carborundum illegitami' );
 
     # fake the modify time
@@ -254,7 +291,7 @@ sub verify_rotate {
     $this->assert( open( F, '<', $backup ) );
     $e = <F>;
     $this->assert_equals(
-        "| 2000-01-31T23:43:20Z info | Nil carborundum illegitami |\n", $e );
+        "| 2000-01-31T23:59:00Z info | Nil carborundum illegitami |\n", $e );
     close(F);
 
     *Foswiki::Logger::PlainFile::_time = $timecache;

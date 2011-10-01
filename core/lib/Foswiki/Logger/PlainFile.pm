@@ -239,7 +239,7 @@ sub _getLogForLevel {
 
 sub _time2month {
     my $time = shift;
-    my @t    = localtime($time);
+    my @t    = gmtime($time);
     $t[5] += 1900;
     return sprintf( '%0.4d%0.2d', $t[5], $t[4] + 1 );
 }
