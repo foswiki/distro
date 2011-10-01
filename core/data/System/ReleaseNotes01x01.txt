@@ -106,6 +106,19 @@ The <nop>PasswordManager <code>Foswiki::Users::HtpasswdUser</code> has been enha
 
 <blockquote class="foswikiHelp">%X% Note:  It is *strongly* recommended that sites using the old default "crypt" encoding migrate to a stronger method.  The crypt method truncates passwords at 8 characters and silently discards the rest. For the highest security, choose htdigest-md5 encoding with Apache htdigest authentication.  If using Template authentication, if possible use a SSL client connection - HTTPS.</blockquote>
 
+---+++ Changes to User Registration topics [[Foswikitask:Item1539][Item1539]]
+
+The URL parameters passed in from User Registration were previously still prefixed with =Twk=.  This has been changed to =Fwk= to be consistent with Foswiki naming conventions.  Note however that backwards compatbility has been
+maintained and either prefix can still be used, so it is not required to update customized User Registration topics.
+
+---+++ Changes to Foswiki Logging - [[Foswikitask:Item10637][Item10637]], [[Foswikitask:Item11157][Item11157]]
+
+A new Logging method has been added: =Foswiki::Logger::PlainFile::Obfuscating=.  If this module is chosen as the Logger, IP addresses by default will be replace with a pseudo-address derived
+from a MD5 hash of the original address.  This is provided for use in regulatory domains where systems are not permitted to track IP addresses of
+users.  
+   * An Expert parameter is provided to use a mask (=x.x.x.x=) instead of the hashed IP address where absolute anonymity is required.
+   * Note that AUTHENTICATION FAILURE messages are never obfuscated.  This permits tools like =fail2ban= to be used to block penetration attempts.
+
 ---++ Important changes since Foswiki 1.1.2
 
 ---+++ SEARCHDEFAULTTTYPE restored
