@@ -112,7 +112,7 @@ A standard Foswiki install has the directories =bin/= and =lib/= located under t
 ---++++ Configure the web server
 
 First choose the best configuration method for your web server. With Apache, there are two ways to configure it: a config file included from httpd.conf or .htaccess files.
-   * *Apache config file:* The recommended method is using a config file. With a config file you can put the entire Foswiki configuration in ONE file (typically named =foswiki.conf=). Performance is much better with a config file, and one file gives the best overview and ensures that you get a safe installation . However to use a config file you need root or sudo access to stop and start Apache. The Foswiki apache config file is included from the main Apache config file. (Typically =httpd.conf= or =apache.conf= depending on your distribution). Most distributions have a directory from which any file that ends with =.conf= gets included when you restart Apache (Example !RedHat/Fedora/Centos: =/etc/httpd/conf.d= ). If you use a virtual host setup in Apache you should include the =foswiki.conf= file from inside the desired virtual host config in your Apache configuration.
+   * *Apache config file:* The recommended method is using a config file. With a config file you can put the entire Foswiki configuration in ONE file (typically named =foswiki.conf=). Performance is much better with a config file, and one file gives the best overview and ensures that you get a safe installation . However to use a config file you need root or sudo access to stop and start Apache. The Foswiki apache config file can be included from the main Apache config file. (Typically =httpd.conf= or =apache.conf= depending on your distribution). However most distributions have a directory from which any file that ends with =.conf= gets included when you restart Apache (Example !RedHat/Fedora/Centos: =/etc/httpd/conf.d=, Gentoo: =/etc/apache2/vhost.d= ). If you use a virtual host setup in Apache you should include the =foswiki.conf= file from inside the desired virtual host config in your Apache configuration.
    * *.htaccess files:* This method should only be used when you cannot use a config file. Performance is slower as Apache must search through _all_ applicable directories for any =.htaccess= files on each page access. Normally this is the only way to control Apache in a shared host environment where you have no root or sudo privileges.
 
 *If you are using a config file*:
@@ -166,6 +166,23 @@ All of the above methods - Sample configuration files, Foswiki:Support.ApacheCon
 
 *Note:* In addition to any web server security protection that you have set up, when saving any configuration settings for the first time on the =configure= web page, you will be prompted to set a configuration password. This password must be entered on all subsequent configuration changes, and is also used to log in via the internal admin link (see the section "[[#DefineAdminUser][Define the administrator user(s)]]"). Even after a =configure= password has been set, access to the =configure= page should still be restricted by the web server, in order to avoid revealing internal information to potential attackers.
 
+
+<blockquote>
+<b>Tip:</b> You do not have to use the same password file for both Configure and for Foswiki user registration.  If you use a separate file, you can create it using the =htpasswd= commmand and complete segregate configure access from Foswiki access.  This is probably safer, but does not allow users to change their configure password using Foswiki services.  The password file has to be manually maintained..
+   1 Generate an alternate password file to protect configure. =htpasswd -c -s /path/to/data/.htpasswd-admin configuserid=
+   1 Add / modify and delete this alternate file using the =htpasswd= command.  __Don't mix them up and use =htpasswd= on the Foswiki .htpasswd file!__
+   1 Edit the foswiki apache configuration and modify the block (shown above) that protects the configuration command. *Add* or modify the following statements in the block. _Don't remove the other statements!_
+<verbatim>
+<FilesMatch "configure.*">
+        AuthType Basic
+        AuthName "admins only"
+        AuthUserFile /path/to/data/.htpasswd-admin
+        # Changing the Require user to Require valid-user allows any ID in the
+        # file access to configure!
+        Require valid-user
+</FilesMatch>
+</verbatim>
+</blockquote>
 For more information, refer to Foswiki:Support.ProtectingYourConfiguration.
 
 #ConfigureFoswiki
