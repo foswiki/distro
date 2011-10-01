@@ -178,6 +178,9 @@ sub TOC {
         $text =~ s/(^|[\s\(])=+([^\s]+?|[^\s].*?[^\s])=+
                    ($|[\s\,\.\;\:\!\?\)])/$1$2$3/gx;
 
+        # Prevent manual links
+        $text =~ s/<[\/]?a\b[^>]*>//gi;
+
         # Prevent WikiLinks
         $text =~ s/\[\[.*?\]\[(.*?)\]\]/$1/g;    # '[[...][...]]'
         $text =~ s/\[\[(.*?)\]\]/$1/ge;          # '[[...]]'
@@ -189,9 +192,6 @@ sub TOC {
         # Special case: 'Site:page' Interwiki link
         $text =~ s/(^|[\s\-\*\(])
                    ([$Foswiki::regex{mixedAlphaNum}]+\:)/$1<nop>$2/gox;
-
-        # Prevent manual links
-        $text =~ s/<[\/]?a\b[^>]*>//gi;
 
         # Prevent duplicating id attributes 
         $text =~ s/id=["'][^"']*?["']//gi;
