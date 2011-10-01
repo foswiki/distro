@@ -501,19 +501,20 @@ BODY
 
 #Register a user, and then verify it
 #Assumes the verification code is $this->{session}->{DebugVerificationCode}
+#Uses mixed Fwk and Twk prefixes
 sub registerVerifyOk {
     my $this = shift;
     $Foswiki::cfg{Register}{NeedVerification} = 1;
     my $query = new Unit::Request(
         {
             'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => [ $this->{new_user_email} ],
+            'Fwk1Email'     => [ $this->{new_user_email} ],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
-            'Twk1Name'      => [ $this->{new_user_fullname} ],
+            'Fwk1Name'      => [ $this->{new_user_fullname} ],
             'Twk0Comment'   => [''],
-            'Twk1LoginName' => [ $this->{new_user_login} ],
+            'Fwk1LoginName' => [ $this->{new_user_login} ],
             'Twk1FirstName' => [ $this->{new_user_fname} ],
-            'Twk1LastName'  => [ $this->{new_user_sname} ],
+            'Fwk1LastName'  => [ $this->{new_user_sname} ],
             'action'        => ['register']
         }
     );
@@ -594,20 +595,33 @@ sub registerVerifyOk {
     @FoswikiFnTestCase::mails = ();
 }
 
-#Register a user, then give a bad verification code. It should barf.
-sub verify_registerBadVerify {
+#Register a user using Fwk prefix, then give a bad verification code. It should barf.
+sub verify_registerBadVerify_Fwk {
     my $this = shift;
+    $this->_registerBadVerify('Fwk', @_);
+}
+
+#Register a user using Twk prefix, then give a bad verification code. It should barf.
+sub verify_registerBadVerify_Twk {
+    my $this = shift;
+    $this->_registerBadVerify('Twk', @_);
+}
+
+#Register a user, then give a bad verification code. It should barf.
+sub _registerBadVerify {
+    my $this = shift;
+    my $pfx = shift;
     $Foswiki::cfg{Register}{NeedVerification} = 1;
     my $query = new Unit::Request(
         {
             'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => [ $this->{new_user_email} ],
-            'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
-            'Twk1Name'      => [ $this->{new_user_fullname} ],
-            'Twk0Comment'   => [''],
-            'Twk1LoginName' => [ $this->{new_user_login} ],
-            'Twk1FirstName' => [ $this->{new_user_fname} ],
-            'Twk1LastName'  => [ $this->{new_user_sname} ],
+            "${pfx}1Email"     => [ $this->{new_user_email} ],
+            "${pfx}1WikiName"  => [ $this->{new_user_wikiname} ],
+            "${pfx}1Name"      => [ $this->{new_user_fullname} ],
+            "${pfx}0Comment"   => [''],
+            "${pfx}1LoginName" => [ $this->{new_user_login} ],
+            "${pfx}1FirstName" => [ $this->{new_user_fname} ],
+            "${pfx}1LastName"  => [ $this->{new_user_sname} ],
             'action'        => ['register']
         }
     );
@@ -690,19 +704,34 @@ sub verify_registerBadVerify {
 
 # Register a user with verification explicitly switched off
 # (SUPER's tear_down will take care for re-installing %Foswiki::cfg)
-sub verify_registerNoVerifyOk {
+sub verify_registerNoVerifyOk_Twk {
     my $this = shift;
+    $this->_registerNoVerifyOk( 'Twk', @_ );
+}
+
+# Register a user with verification explicitly switched off
+# (SUPER's tear_down will take care for re-installing %Foswiki::cfg)
+sub verify_registerNoVerifyOk_Fwk {
+    my $this = shift;
+    $this->_registerNoVerifyOk( 'Fwk', @_ );
+}
+
+# Register a user with verification explicitly switched off
+# (SUPER's tear_down will take care for re-installing %Foswiki::cfg)
+sub _registerNoVerifyOk {
+    my $this = shift;
+    my $pfx  = shift;
     $Foswiki::cfg{Register}{NeedVerification} = 0;
     my $query = new Unit::Request(
         {
             'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => [ $this->{new_user_email} ],
-            'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
-            'Twk1Name'      => [ $this->{new_user_fullname} ],
-            'Twk0Comment'   => [''],
-            'Twk1LoginName' => [ $this->{new_user_login} ],
-            'Twk1FirstName' => [ $this->{new_user_fname} ],
-            'Twk1LastName'  => [ $this->{new_user_sname} ],
+            "${pfx}1Email"     => [ $this->{new_user_email} ],
+            "${pfx}1WikiName"  => [ $this->{new_user_wikiname} ],
+            "${pfx}1Name"      => [ $this->{new_user_fullname} ],
+            "${pfx}0Comment"   => [''],
+            "${pfx}1LoginName" => [ $this->{new_user_login} ],
+            "${pfx}1FirstName" => [ $this->{new_user_fname} ],
+            "${pfx}1LastName"  => [ $this->{new_user_sname} ],
             'action'        => ['register']
         }
     );

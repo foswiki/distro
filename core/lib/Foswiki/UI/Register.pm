@@ -1530,7 +1530,7 @@ sub _getDataFromQuery {
     # get all parameters from the form
     my $data = {};
     foreach my $key ( $query->param() ) {
-        if ( $key =~ /^(Twk([0-9])(.*))/
+        if ( $key =~ /^((?:Twk|Fwk)([0-9])(.*))/
             and ( defined( $query->param($key) ) ) )
         {
             my @values   = $query->param($key);
