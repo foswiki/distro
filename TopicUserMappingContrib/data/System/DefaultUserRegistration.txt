@@ -277,7 +277,7 @@ jQuery(function($) {
 					wikiword: true,
 					remote: {
 						url: '%SCRIPTURL{view}%/%WEB%/%TOPIC%',
-						type: 'post',
+						type: 'get',
 						data: {
 							section: 'checkWikiName',
 							skin: 'text',
@@ -291,7 +291,7 @@ jQuery(function($) {
 					required: true,
 					remote: {
 						url: '%SCRIPTURL{view}%/%WEB%/%TOPIC%',
-						type: 'post',
+						type: 'get',
 						data: {
 							section: 'checkLoginName',
 							skin: 'text',
