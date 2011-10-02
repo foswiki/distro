@@ -6,7 +6,7 @@ use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
 # For Anchor test
-use Foswiki::UI ();
+use Foswiki::UI      ();
 use Foswiki::Address ();
 
 sub new {
@@ -62,12 +62,25 @@ sub DENIED {
     my $topicObject = Foswiki::Meta->load( $this->{session}, $web, $topic );
     $this->assert( !$topicObject->haveAccess( $mode, $user ),
         "$user $mode $web.$topic" );
-    $this->assert( !$this->{session}->access->haveAccess( $mode, $user, $topicObject ),
+    $this->assert(
+        !$this->{session}->access->haveAccess( $mode, $user, $topicObject ),
         "$user $mode $web.$topic" );
-    $this->assert( !$this->{session}->access->haveAccess( $mode, $user, $topicObject->web, $topicObject->topic ),
-        "$user $mode $web.$topic" );
-    $this->assert( !$this->{session}->access->haveAccess( $mode, $user, new Foswiki::Address(web => $topicObject->web, topic => $topicObject->topic) ),
-        "$user $mode $web.$topic" );
+    $this->assert(
+        !$this->{session}->access->haveAccess(
+            $mode, $user, $topicObject->web, $topicObject->topic
+        ),
+        "$user $mode $web.$topic"
+    );
+    $this->assert(
+        !$this->{session}->access->haveAccess(
+            $mode, $user,
+            new Foswiki::Address(
+                web   => $topicObject->web,
+                topic => $topicObject->topic
+            )
+        ),
+        "$user $mode $web.$topic"
+    );
 }
 
 sub PERMITTED {
@@ -77,12 +90,25 @@ sub PERMITTED {
     my $topicObject = Foswiki::Meta->load( $this->{session}, $web, $topic );
     $this->assert( $topicObject->haveAccess( $mode, $user ),
         "$user $mode $web.$topic" );
-    $this->assert( $this->{session}->access->haveAccess( $mode, $user, $topicObject ),
+    $this->assert(
+        $this->{session}->access->haveAccess( $mode, $user, $topicObject ),
         "$user $mode $web.$topic" );
-    $this->assert( $this->{session}->access->haveAccess( $mode, $user, $topicObject->web, $topicObject->topic ),
-        "$user $mode $web.$topic" );
-    $this->assert( $this->{session}->access->haveAccess( $mode, $user, new Foswiki::Address(web => $topicObject->web, topic => $topicObject->topic) ),
-        "$user $mode $web.$topic" );
+    $this->assert(
+        $this->{session}->access->haveAccess(
+            $mode, $user, $topicObject->web, $topicObject->topic
+        ),
+        "$user $mode $web.$topic"
+    );
+    $this->assert(
+        $this->{session}->access->haveAccess(
+            $mode, $user,
+            new Foswiki::Address(
+                web   => $topicObject->web,
+                topic => $topicObject->topic
+            )
+        ),
+        "$user $mode $web.$topic"
+    );
 }
 
 # Note: As we do not initialize with a query, the topic that topic prefs
@@ -642,9 +668,10 @@ THIS
     # ShortURLs may involve a {ScriptUrlPaths}{view} of '' or something
     # like '/foswiki' (where {ScriptUrlPath} looks like '/foswiki/bin').
     # In any case, the test is hard-wired to ignore {ScriptSuffix}
-    if (      exists $Foswiki::cfg{ScriptUrlPaths}{view}
-         and defined $Foswiki::cfg{ScriptUrlPaths}{view}
-         and not     $Foswiki::cfg{ScriptUrlPaths}{view} =~ /view$/ ) {
+    if (    exists $Foswiki::cfg{ScriptUrlPaths}{view}
+        and defined $Foswiki::cfg{ScriptUrlPaths}{view}
+        and not $Foswiki::cfg{ScriptUrlPaths}{view} =~ /view$/ )
+    {
         $this->expect_failure();
     }
 
