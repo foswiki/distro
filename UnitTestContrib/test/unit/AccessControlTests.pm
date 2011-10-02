@@ -625,6 +625,16 @@ THIS
       $this->{session}
       ->getScriptUrl( '0', 'login', $this->{test_web}, $test_topic );
 
+    # Item11121: the test doesn't tolerate ShortURLs, for example.
+    # ShortURLs may involve a {ScriptUrlPaths}{view} of '' or something
+    # like '/foswiki' (where {ScriptUrlPath} looks like '/foswiki/bin').
+    # In any case, the test is hard-wired to ignore {ScriptSuffix}
+    if (      exists $Foswiki::cfg{ScriptUrlPaths}{view}
+         and defined $Foswiki::cfg{ScriptUrlPaths}{view}
+         and not     $Foswiki::cfg{ScriptUrlPaths}{view} =~ /view$/ ) {
+        $this->expect_failure();
+    }
+
     # Extract what we've been redirected to
     my ($redirect_to) = $text =~ /^Location: (.*?)\r?$/m;
     $this->assert_not_null( $redirect_to,
