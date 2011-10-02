@@ -6,7 +6,8 @@ use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
 # For Anchor test
-use Foswiki::UI;
+use Foswiki::UI      ();
+use Foswiki::Address ();
 
 sub new {
     my $class = shift;
@@ -629,9 +630,10 @@ THIS
     # ShortURLs may involve a {ScriptUrlPaths}{view} of '' or something
     # like '/foswiki' (where {ScriptUrlPath} looks like '/foswiki/bin').
     # In any case, the test is hard-wired to ignore {ScriptSuffix}
-    if (      exists $Foswiki::cfg{ScriptUrlPaths}{view}
-         and defined $Foswiki::cfg{ScriptUrlPaths}{view}
-         and not     $Foswiki::cfg{ScriptUrlPaths}{view} =~ /view$/ ) {
+    if (    exists $Foswiki::cfg{ScriptUrlPaths}{view}
+        and defined $Foswiki::cfg{ScriptUrlPaths}{view}
+        and not $Foswiki::cfg{ScriptUrlPaths}{view} =~ /view$/ )
+    {
         $this->expect_failure();
     }
 
