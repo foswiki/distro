@@ -119,6 +119,12 @@ users.
    * An Expert parameter is provided to use a mask (=x.x.x.x=) instead of the hashed IP address where absolute anonymity is required.
    * Note that AUTHENTICATION FAILURE messages are never obfuscated.  This permits tools like =fail2ban= to be used to block penetration attempts.
 
+
+---+++ New version of JQuery - 1.6.4
+
+Foswiki has been updated to include JQuery 1.6.4, and this is now the default version of JQuery.  After installing Foswiki 1.1.4, be sure to visit =bin/configure= and verify that the JQuery Plugin is configured to use this
+version.
+
 ---++ Important changes since Foswiki 1.1.2
 
 ---+++ SEARCHDEFAULTTTYPE restored
@@ -1050,6 +1056,138 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10416][Item10416]] | Add github to icons |
 | [[%BUGS%/Item10443][Item10443]] | Add option to not show the current revision in the list |
 | [[%BUGS%/Item10537][Item10537]] | Divide InstallationGuide into two parts |
+</noautolink>
+
+#Rel01x01x04Details
+---++ Foswiki Patch Release 1.1.4 Details
+
+---+++ Fixes
+<noautolink>
+| [[%BUGS%/Item1200][Item1200]] | Unexpected result when link text contains email address  |
+| [[%BUGS%/Item1539][Item1539]] | Fields in System.UserRegistration still prefixed Twk## instead Fwk## |
+| [[%BUGS%/Item9164][Item9164]] | The crypt-md5 encoding in HtPasswd.pm is not cross-platform compatible |
+| [[%BUGS%/Item9496][Item9496]] | Implement re-usable way to set default text of input fields |
+| [[%BUGS%/Item10070][Item10070]] | move/rename does not find backlinks followed by underscore |
+| [[%BUGS%/Item10136][Item10136]] | Add module path to the plugin diagnostics - displays only for admin users. |
+| [[%BUGS%/Item10265][Item10265]] | Username field in Login is left-aligned in Internet Explorer |
+| [[%BUGS%/Item10302][Item10302]] | Update to JQuery 1.6.4 and make it the default version |
+| [[%BUGS%/Item10438][Item10438]] | lighttpd incompatibility - found in viewfile, but could be there for other things too |
+| [[%BUGS%/Item10449][Item10449]] | Form with all hidden fields should be hidden in view |
+| [[%BUGS%/Item10468][Item10468]] | Up and Down Arrow-Keys not working with Firefox 4 |
+| [[%BUGS%/Item10479][Item10479]] | Complex searches can fail with deep recursion |
+| [[%BUGS%/Item10559][Item10559]] | Use of uninitialized value in numeric comparison (...) at ... Core.pm line 1421 |
+| [[%BUGS%/Item10566][Item10566]] | !ApacheLogin throws 403 instead of 401 to unauthenticated users with rest, viewfile, rdiff and compare scripts |
+| [[%BUGS%/Item10623][Item10623]] | bin/.htaccess.txt is inconsistent with other htaccess files.  Move to bin-htaccess.txt |
+| [[%BUGS%/Item10644][Item10644]] | bin/changes output is corrupted |
+| [[%BUGS%/Item10658][Item10658]] | SEARCHDEFAULTTTYPE no longer referenced |
+| [[%BUGS%/Item10660][Item10660]] | Some email address autolinking doesn't work  |
+| [[%BUGS%/Item10661][Item10661]] | Typo in System.ManagingUsers breaks site if following example |
+| [[%BUGS%/Item10665][Item10665]] | can't copy attachments under a different user |
+| [[%BUGS%/Item10666][Item10666]] | can't save attachments with a "0" comment |
+| [[%BUGS%/Item10671][Item10671]] | rename not handling anchored links |
+| [[%BUGS%/Item10677][Item10677]] | CompareRevisionsAddonPlugin doesn't set $NO_PREFS_IN_TOPIC |
+| [[%BUGS%/Item10681][Item10681]] | More issues with changes script |
+| [[%BUGS%/Item10690][Item10690]] | TOPICLIST bug handling web= parameter |
+| [[%BUGS%/Item10692][Item10692]] | Offer no-column stylesheet for fatwilly theme |
+| [[%BUGS%/Item10699][Item10699]] | DocumentGraphics Metadata and Attachments inconsistent |
+| [[%BUGS%/Item10714][Item10714]] | Form fields of type date cannot be edited with pop-up calendar |
+| [[%BUGS%/Item10729][Item10729]] | Document all core tools scripts in System/CommandAndCGIScripts |
+| [[%BUGS%/Item10758][Item10758]] | SiteMap SEARCH is needlessly inefficient (slow) |
+| [[%BUGS%/Item10779][Item10779]] | Core should not call =srand()= to seed =rand()= |
+| [[%BUGS%/Item10784][Item10784]] | Configuration checker for DataDir is confused by some installation locations. |
+| [[%BUGS%/Item10794][Item10794]] | Foswiki::Func::renderText cannot return a result which is a "0" zero |
+| [[%BUGS%/Item10801][Item10801]] | Search is broken with PatternSkin on 1.0.9 |
+| [[%BUGS%/Item10803][Item10803]] | CompareRevisionsAddOn causes illegal ={SwitchBoard}= value in Foswiki configuration (affects ApacheLogin users) |
+| [[%BUGS%/Item10804][Item10804]] | Some radio buttons on WebSearch behave erratically when clicked on the label |
+| [[%BUGS%/Item10807][Item10807]] | Prevent recursion in template expansion |
+| [[%BUGS%/Item10827][Item10827]] | TWISTY sets empty cookie value for remember="off" instead of clearing it, causes excessive overhead |
+| [[%BUGS%/Item10834][Item10834]] | Typo in conditional templates for BatchUploadPlugin |
+| [[%BUGS%/Item10836][Item10836]] | PatternSkin broken on 1.0.x |
+| [[%BUGS%/Item10837][Item10837]] | Deprecated (before/after)AttachmentSaveHanders were actually deleted. |
+| [[%BUGS%/Item10846][Item10846]] | don't duplicate id attributes in TOC |
+| [[%BUGS%/Item10848][Item10848]] | Compatibility issues if PatternSkin installed on Foswiki 1.0.9 |
+| [[%BUGS%/Item10858][Item10858]] | can't extract metadata stored in html5 data- attributes |
+| [[%BUGS%/Item10869][Item10869]] | REST validation error code doesn't agree with response body |
+| [[%BUGS%/Item10874][Item10874]] | Using "Add/change form" button saves fully-qualified Web.Topic name even if WEBFORMS = Topic |
+| [[%BUGS%/Item10881][Item10881]] | Package installer reports succeeded even when it fails. |
+| [[%BUGS%/Item10883][Item10883]] | Windows-safe paths |
+| [[%BUGS%/Item10888][Item10888]] | FORMAT macro's =$web= token strips '/' char from web names |
+| [[%BUGS%/Item10889][Item10889]] | "Use of uninitialized" warnings in Foswiki::Query, Foswiki::Time |
+| [[%BUGS%/Item10891][Item10891]] | Use regular search output on Sandbox home |
+| [[%BUGS%/Item10893][Item10893]] | Setting none as databg or headerbg takes the preference color setting instead of no color |
+| [[%BUGS%/Item10895][Item10895]] | With query search I want to list fields that don't have the attribute hidden set |
+| [[%BUGS%/Item10896][Item10896]] | Insecure dependency in configure creating working directory under some environments |
+| [[%BUGS%/Item10898][Item10898]] | SEARCH{... order="formfield(a),formfield(b)" ASSERT error (when ASSERTs are enabled) |
+| [[%BUGS%/Item10905][Item10905]] | Wiki [[ syntax does not fully support mailto |
+| [[%BUGS%/Item10906][Item10906]] | Adding incorrect user to a group kills WikiGroups |
+| [[%BUGS%/Item10927][Item10927]] | Loss of metadata when an admin user updates an attachment's properties |
+| [[%BUGS%/Item10940][Item10940]] | LocalSite.cfg supports specifications relative to other definitions, but configure breaks them. |
+| [[%BUGS%/Item10946][Item10946]] | TwistyPlugin tries fetch defunct/missing jquery.twisty.css |
+| [[%BUGS%/Item10951][Item10951]] | Edit help is incorrect when WYSIWYG excluded due to topic content. |
+| [[%BUGS%/Item10952][Item10952]] | configure ={Htpasswd}{Encoding}= defaults to =crypt= which throws a warning, without any guidance for what alternative to choose or why |
+| [[%BUGS%/Item10961][Item10961]] | calling Foswiki::Func::saveAttachment() can destroy the topic content |
+| [[%BUGS%/Item10963][Item10963]] | perl 5.14 qw deprecation breaks configure |
+| [[%BUGS%/Item10969][Item10969]] | RenderListPlugin examples fail |
+| [[%BUGS%/Item10970][Item10970]] | list parser for DISABLEDPLUGINS does not strip whitespaces from list items |
+| [[%BUGS%/Item10971][Item10971]] | can't change TABLEATTRIBUTES when used in persistent perl installations |
+| [[%BUGS%/Item10978][Item10978]] | Select element created with select+values does not handle empty select string |
+| [[%BUGS%/Item10980][Item10980]] | MailerContrib unit tests broken if run with HTMLValidationTests - exposed issue that might hit persistent perl environments. |
+| [[%BUGS%/Item10988][Item10988]] | missing undocumented web parameter in FORMFIELD  |
+| [[%BUGS%/Item10989][Item10989]] | Cannot confirm validation request of CSRF protection if validation method is 'embedded' - no buttons displayed |
+| [[%BUGS%/Item10992][Item10992]] | FORMFIELD can't default to zero |
+| [[%BUGS%/Item10993][Item10993]] | FORMFIELD does not read values from txt file |
+| [[%BUGS%/Item10996][Item10996]] | Various typoes/fixes for online docs and web pages |
+| [[%BUGS%/Item10999][Item10999]] | !ApacheHtpasswdUser unit tests failing on Windows |
+| [[%BUGS%/Item11000][Item11000]] | Foswiki::Time shouldn't be trying to convert undefined =$epochSeconds= |
+| [[%BUGS%/Item11001][Item11001]] | Error in ,v causes crash in RcsLite when it calls the logger |
+| [[%BUGS%/Item11005][Item11005]] | Surplus "; in JQueryPlugin/UI.pm |
+| [[%BUGS%/Item11008][Item11008]] | Foswiki::ListIterator is not always loaded |
+| [[%BUGS%/Item11011][Item11011]] | Make "logged in as admin" alert less ugly |
+| [[%BUGS%/Item11012][Item11012]] | Flaky support for seconds |
+| [[%BUGS%/Item11016][Item11016]] | FamFamFam buttons do not pick up rev and queryparams for the print action. |
+| [[%BUGS%/Item11017][Item11017]] | Redundant afterSaveHandler called before renaming |
+| [[%BUGS%/Item11020][Item11020]] | Date field is not formatted according to JSCALENDARCONTRIB_FORMAT setting |
+| [[%BUGS%/Item11041][Item11041]] | Typo of Berkeley in MetaCacheManager.pm and CacheManager.pm |
+| [[%BUGS%/Item11045][Item11045]] | TOC doesn't remove manual links properly |
+| [[%BUGS%/Item11059][Item11059]] | Email address followed by a dot generates email link with dot included |
+| [[%BUGS%/Item11083][Item11083]] | Table should sort if sort is off but initsort has a column number |
+| [[%BUGS%/Item11084][Item11084]] | CSS class foswikiMakeVisible for elements other than span and div does not work |
+| [[%BUGS%/Item11087][Item11087]] | SlideShowPlugin must urlencode both the name and value of query parameters |
+| [[%BUGS%/Item11091][Item11091]] | RCS VC needs to handle mauled .txt better |
+| [[%BUGS%/Item11105][Item11105]] | Saving an attachment stores "save attachment" string in version history, instead of the attachment comment |
+| [[%BUGS%/Item11114][Item11114]] | =__DATA__= sections keep file handler open |
+| [[%BUGS%/Item11136][Item11136]] | Spurrious config item changes reported if key contains a colon |
+| [[%BUGS%/Item11138][Item11138]] | WebNotify gives different results if trailing spaces present on line |
+| [[%BUGS%/Item11145][Item11145]] | Search for Template topics extremely slow - kills WebCreateNewTopicTemplate usage |
+| [[%BUGS%/Item11149][Item11149]] | jscalendar broken when using jquery in noconflict mode |
+| [[%BUGS%/Item11157][Item11157]] | PlainFile logger rotates logs on localtime, not gmtime. |
+</noautolink>
+
+---+++ Enhancements
+<noautolink>
+| [[%BUGS%/Item9335][Item9335]] | extensions list in configure jumps around |
+| [[%BUGS%/Item9845][Item9845]] | Performance of language translations can be improved by using compressed .mo files instead of .po files |
+| [[%BUGS%/Item10217][Item10217]] | Add SMELL report to PerlDoc report |
+| [[%BUGS%/Item10521][Item10521]] | Implement Support for SMTP over SSL |
+| [[%BUGS%/Item10522][Item10522]] | Implement SMIME support  |
+| [[%BUGS%/Item10523][Item10523]] | Add setting for servertime in email headers |
+| [[%BUGS%/Item10616][Item10616]] | When installing an extension, the logs should be saved |
+| [[%BUGS%/Item10637][Item10637]] | Allow IP addresses to be supressed from logs |
+| [[%BUGS%/Item10791][Item10791]] | Add jquery.tmpl to JQueryPlugin |
+| [[%BUGS%/Item10792][Item10792]] | Add history support to jquery.tabpane |
+| [[%BUGS%/Item10793][Item10793]] | Update jquery.validate |
+| [[%BUGS%/Item10795][Item10795]] | updating jquery.metadata to support html5 attributes |
+| [[%BUGS%/Item10796][Item10796]] | update jquery.media and add a better default skin for the flv player |
+| [[%BUGS%/Item10850][Item10850]] | Don't show the EmptyPlugin in configure's list of plugins to enable |
+| [[%BUGS%/Item10880][Item10880]] | move to jquery.ui.autocomplete |
+| [[%BUGS%/Item10886][Item10886]] | make theming of jquery-ui pluggable |
+| [[%BUGS%/Item10919][Item10919]] | Configure needs a function to test the email configuration |
+| [[%BUGS%/Item10934][Item10934]] | Add option to search subwebs via the WebSearch UI |
+| [[%BUGS%/Item10962][Item10962]] | Rework HtPasswdUser.pm to be more flexible with supported encoding  |
+| [[%BUGS%/Item11086][Item11086]] | Improve position of action button on configure screens |
+| [[%BUGS%/Item11104][Item11104]] | Add small trash icon |
+| [[%BUGS%/Item11119][Item11119]] | create a new foswiki jquery-ui theme |
+| [[%BUGS%/Item11126][Item11126]] | deprecate JQuery shake module - It is included in the jquery-ui effect stack. |
 </noautolink>
 
 ---
