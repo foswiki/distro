@@ -865,7 +865,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9981][Item9981]] | Fix missing and redundant files |
 </noautolink>
 
----++ Enhancements
+---+++ Enhancements
 
 <noautolink>
 </noautolink>
