@@ -1018,18 +1018,17 @@ sub test_Package_makeBackup {
     my $msg = $pkg->createBackup();
     $this->assert_matches( qr/Backup saved into/, $msg );
     $result = $pkg->uninstall();
-
-    my @expFiles = qw(
-Testsandboxweb1234/Subweb/TestTopic43.txt
-Testsandboxweb1234/TestTopic1.txt
-Testsandboxweb1234/TestTopic43.txt
-Testsandboxweb1234/Subweb/TestTopic43/file3.att
-Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att
-Testsandboxweb1234/TestTopic1/file.att
-Testsandboxweb1234/TestTopic43/file.att
-Testsandboxweb1234/TestTopic43/file2.att
-configure/pkgdata/MyPlugin_installer
-);
+    my @expFiles = (
+'Testsandboxweb1234/Subweb/TestTopic43.txt',
+'Testsandboxweb1234/TestTopic1.txt',
+'Testsandboxweb1234/TestTopic43.txt',
+'Testsandboxweb1234/Subweb/TestTopic43/file3.att',
+'Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att',
+'Testsandboxweb1234/TestTopic1/file.att',
+'Testsandboxweb1234/TestTopic43/file.att',
+'Testsandboxweb1234/TestTopic43/file2.att',
+'configure/pkgdata/MyPlugin_installer'
+ );
 
     push @expFiles, "$this->{scriptdir}/shbtest1";
     push @expFiles, "$this->{toolsdir}/shbtest2";
