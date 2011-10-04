@@ -46,6 +46,18 @@ sub new {
     return $self;
 }
 
+sub loadExtraConfig {
+    my ( $this, $context, @args ) = @_;
+
+    # $this - the Test::Unit::TestCase object
+    $Foswiki::cfg{JQueryPlugin}{Plugins}{PopUpWindow}{Enabled} = 1;
+
+    $this->SUPER::loadExtraConfig( $context, @args );
+
+
+    return;
+}
+
 # Set up the test fixture
 sub set_up {
     my $this = shift;
