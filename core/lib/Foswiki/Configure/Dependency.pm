@@ -596,6 +596,10 @@ sub _decodeReleaseString {
         @tuple = (0);
         $form  = 'tuple';
     }
+    elsif ( $rel =~ /^Foswiki-(\d+)/ ) {
+        @tuple = ($1);
+        $form = 'tuple';
+    }
     else {
 
         # Some other format
