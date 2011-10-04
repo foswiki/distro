@@ -42,6 +42,17 @@ sub test_check_dep_not_module {
 
 }
 
+sub test_check_foswiki_rev {
+    my ($this) = @_;
+
+    my $dep = new Foswiki::Configure::Dependency(
+        type => 'perl', module => 'Foswiki', version => '1.1.3' );
+    my ( $ok, $message ) = $dep->check();
+    $this->assert_equals( 1, $ok );
+    $this->assert_matches( qr/^Foswiki version Foswiki-(.*) loaded$/, $message );
+
+}
+
 sub test_check_dep_carp {
     my ($this) = @_;
 
