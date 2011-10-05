@@ -184,7 +184,6 @@ sub verify_noForceRev_RepRev {
 
     ( $date, $user, $rev, $comment ) =
       Foswiki::Func::getRevisionInfo( $web, $topic );
-
     $this->assert_num_equals( 0, $rev ); # topic does not exist
 
     my $text = "This is some test text\n   * some list\n   * content\n :) :)";

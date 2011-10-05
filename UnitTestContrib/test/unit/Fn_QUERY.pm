@@ -8,11 +8,21 @@ use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
+use Foswiki::Configure::Dependency ();
 use Error qw( :try );
 use Assert;
 
+my $post11;
+
 sub new {
     my $self = shift()->SUPER::new( 'QUERY', @_ );
+    my $dep = new Foswiki::Configure::Dependency(
+            type    => "perl",
+            module  => "Foswiki",
+            version => ">=1.2"
+           );
+    ( $post11, my $depmsg ) = $dep->check();
+
     return $self;
 }
 
@@ -96,22 +106,31 @@ sub test_badQUERY {
         { test => "'A'=?",   expect => "Syntax error in ''A'=?' at '?'" },
         { test => "'A'==",   expect => "Excess operators (= =) in ''A'=='" },
         { test => "'A' 'B'", expect => "Missing operator in ''A' 'B''" },
-        { test => ' ',       expect => "Empty expression" },
     );
+
+    push @tests,
+        ( { test => ' ',       expect => "Empty expression" }, )
+        unless ( $post11 );
 
     foreach my $test (@tests) {
         my $text   = '%QUERY{"' . $test->{test} . '"}%';
         my $result = $this->{test_topicObject}->expandMacros($text);
         $result =~ s/^.*foswikiAlert'>\s*//s;
         $result =~ s/\s*<\/span>\s*//s;
-        $this->assert( $result =~ s/^.*}:\s*//s );
+        $this->assert( $result =~ s/^.*}:\s*//s, $text );
         $this->assert_str_equals( $test->{expect}, $result );
     }
     my $result = $this->{test_topicObject}->expandMacros('%QUERY%');
-    $result =~ s/^.*foswikiAlert'>\s*//s;
-    $result =~ s/\s*<\/span>\s*//s;
-    $this->assert( $result =~ s/^.*}:\s*//s );
-    $this->assert_str_equals( 'Empty expression', $result );
+
+    if ($post11) {
+        $this->assert_str_equals( '', $result );
+    }
+    else {
+        $result =~ s/^.*foswikiAlert'>\s*//s;
+        $result =~ s/\s*<\/span>\s*//s;
+        $this->assert( $result =~ s/^.*}:\s*//s );
+        $this->assert_str_equals( 'Empty expression', $result );
+    }
 }
 
 sub test_CAS {
@@ -190,7 +209,7 @@ PONG
     eval "require JSON";
     if( $@ ) {
         # Bad JSON
-        $this->assert_matches(qr/Perl JSON module is not available/, $result );
+        $this->assert_matches(qr/Perl (JSON::XS or )?JSON module is not available/, $result );
     } else {
         # Good JSON
         $this->assert_json_equals( <<THIS, $result );
@@ -201,6 +220,38 @@ PONG
 ]
 THIS
     }
+}
+
+#style defaults to Simplified (ie style=default)
+sub test_InvalidStyle {
+    my $this = shift;
+
+    unless ($post11 ) {
+        print "InvalidStyle test not supported prior to Release 1.2\n";
+        return;
+    }
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
+        <<'SMELL');
+%QUERY{ "BleaghForm.Wibble"  style="NoSuchStyle" }%
+%QUERY{ "Wibble"  style="NoSuchStyle" }%
+%QUERY{ "attachments.name"  style="NoSuchStyle" }%
+%META:FORM{name="BleaghForm"}%
+%META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
+%META:FILEATTACHMENT{name="whatsnot.gif" date="1266942905" size="4586" version="1"}%
+%META:FILEATTACHMENT{name="World.gif" date="1266943219" size="2486" version="1"}%
+SMELL
+    $topicObject->save();
+    my $text = <<'PONG';
+%INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
+PONG
+    my $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+Woo
+Woo
+whatsnot.gif,World.gif
+THIS
 }
 
 sub test_ref {

@@ -8,13 +8,24 @@ our @ISA = qw( FoswikiFnTestCase );
 use Foswiki          ();
 use Foswiki::Meta    ();
 use Foswiki::Plugins ();
+use Foswiki::Configure::Dependency ();
 
 # For Anchor test
 use Foswiki::UI ();
 
+my $post11 = 0;
+
 sub new {
     my ( $class, @args ) = @_;
     my $self = $class->SUPER::new( 'AccessControl', @args );
+
+    my $dep = new Foswiki::Configure::Dependency(
+            type    => "perl",
+            module  => "Foswiki",
+            version => ">=1.2"
+           );
+    my ( $ok, $message ) = $dep->check();
+    $post11 = $ok;
 
     return $self;
 }
@@ -71,6 +82,30 @@ sub DENIED {
     $this->assert( !$topicObject->haveAccess( $mode, $user ),
         "$user $mode $web.$topic" );
 
+    if ($post11) {
+        require Foswiki::Address;
+        $this->assert(
+            !$this->{session}->access->haveAccess( $mode, $user, $topicObject ),
+            "$user $mode $web.$topic" );
+        $this->assert(
+            !$this->{session}->access->haveAccess(
+                $mode, $user, $topicObject->web, $topicObject->topic
+            ),
+            "$user $mode $web.$topic"
+        );
+        $this->assert(
+            !$this->{session}->access->haveAccess(
+                $mode, $user,
+                Foswiki::Address->new(
+                    web   => $topicObject->web,
+                    topic => $topicObject->topic
+                )
+            ),
+            "$user $mode $web.$topic"
+        );
+    }
+
+
     return;
 }
 
@@ -81,6 +116,29 @@ sub PERMITTED {
     my $topicObject = Foswiki::Meta->load( $this->{session}, $web, $topic );
     $this->assert( $topicObject->haveAccess( $mode, $user ),
         "$user $mode $web.$topic" );
+
+    if ($post11) {
+        require Foswiki::Address;
+        $this->assert(
+            $this->{session}->access->haveAccess( $mode, $user, $topicObject ),
+            "$user $mode $web.$topic" );
+        $this->assert(
+            $this->{session}->access->haveAccess(
+                $mode, $user, $topicObject->web, $topicObject->topic
+            ),
+            "$user $mode $web.$topic"
+        );
+        $this->assert(
+            $this->{session}->access->haveAccess(
+                $mode, $user,
+                Foswiki::Address->new(
+                    web   => $topicObject->web,
+                    topic => $topicObject->topic
+                )
+            ),
+            "$user $mode $web.$topic"
+        );
+    }
 
     return;
 }

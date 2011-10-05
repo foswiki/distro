@@ -80,13 +80,11 @@ test/unit/RobustnessTests.pm 0644
 test/unit/SaveScriptTests.pm 0644
 test/unit/SeleniumConfigTests.pm 0644
 test/unit/SemiAutomaticTestCaseTests.pm 0644
-test/unit/VCStoreTests.pm 0644
-test/unit/VCMetaTests.pm 0644
 test/unit/StoreTests.pm 0644
 test/unit/TOCTests.pm 0644
 test/unit/FoswikiFnTestCase.pm 0644
-test/unit/FoswikiStoreTestCase.pm 0644
 test/unit/FoswikiSeleniumTestCase.pm 0644
+test/unit/FoswikiStoreTestCase.pm 0644
 test/unit/FoswikiSuite.pm 0644
 test/unit/FoswikiTestCase.pm 0644
 test/unit/TemplatesTests.pm 0644
@@ -95,6 +93,8 @@ test/unit/UIFnCompileTests.pm 0644
 test/unit/UploadScriptTests.pm 0644
 test/unit/UTF8Tests.pm 0644
 test/unit/VariableTests.pm 0644
+test/unit/VCStoreTests.pm 0644
+test/unit/VCMetaTests.pm 0644
 test/unit/ViewParamSectionTests.pm 0755
 test/unit/ViewScriptTests.pm 0644
 test/unit/ViewFileScriptTests.pm 0644

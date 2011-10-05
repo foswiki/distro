@@ -11,9 +11,18 @@ use Foswiki;
 use Error qw( :try );
 use Assert;
 use Foswiki::Query::Node ();
+use Foswiki::Configure::Dependency ();
+
+my $post11;
 
 sub new {
     my $self = shift()->SUPER::new( 'IF', @_ );
+    my $dep = new Foswiki::Configure::Dependency(
+            type    => "perl",
+            module  => "Foswiki",
+            version => ">=1.2"
+           );
+    ( $post11, my $message ) = $dep->check();
     return $self;
 }
 
@@ -80,6 +89,7 @@ sub test_8a {
 sub test_9 {
     my $this = shift;
     $this->simpleTest( test => 'defined EDITBOXHEIGHT', then => 1, else => 0 );
+    # See test_96* for other 'defined' tests
 }
 
 sub test_9a {
@@ -981,6 +991,7 @@ sub test_95 {
 sub test_96 {
     my $this = shift;
     $this->simpleTest( test => 'defined SYSTEMWEB', then => 1, else => 0 );
+    # see also test_9 and test_96*
 }
 
 sub test_96a {
@@ -1098,8 +1109,9 @@ sub test_badIF {
         { test => "'A'=?",   expect => "Syntax error in ''A'=?' at '?'" },
         { test => "'A'==",   expect => "Excess operators (= =) in ''A'=='" },
         { test => "'A' 'B'", expect => "Missing operator in ''A' 'B''" },
-        { test => ' ',       expect => "Empty expression" },
     );
+
+    push @tests, ({ test => ' ',       expect => "Empty expression" },) unless ( $post11 );
 
     foreach my $test (@tests) {
         my $text   = '%IF{"' . $test->{test} . '" then="1" else="0"}%';

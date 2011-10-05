@@ -3,6 +3,8 @@
 use strict;
 use warnings;
 
+use File::Spec;
+
 BEGIN {
     if ( defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL} ) {
         $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
@@ -14,9 +16,12 @@ BEGIN {
         require Carp;
         $SIG{__DIE__} = \&Carp::confess;
     }
-    $ENV{FOSWIKI_ACTION} = 'test';
-    @INC = ('.', grep { $_ ne '.' } @INC);
-    require 'setlib.cfg';
+    my ( $volume, $binDir, $action ) = File::Spec->splitpath(__FILE__);
+    my $setlib = File::Spec->catpath( $volume, $binDir, 'setlib.cfg' );
+    @INC = ( '.', grep { $_ ne '.' } @INC ) unless $binDir;
+    require $setlib;
+    $action =~ s/\..*$//;    # Remove eventual file extension
+    $ENV{FOSWIKI_ACTION} = $action;
 }
 
 use Foswiki     ();

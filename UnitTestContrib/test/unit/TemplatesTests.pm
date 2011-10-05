@@ -9,9 +9,11 @@ package TemplatesTests;
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );
 
+use File::Path;
+
 use Foswiki;
 use Foswiki::Templates;
-use File::Path;
+use Foswiki::Configure::Dependency;
 
 sub new {
     my $self = shift()->SUPER::new(@_);
@@ -258,6 +260,13 @@ sub test_directLookupInUsertopic {
     my $this = shift;
     my $data;
 
+    my $dep = new Foswiki::Configure::Dependency(
+            type    => "perl",
+            module  => "Foswiki",
+            version => ">=1.2"
+           );
+    my ( $post11, $depmsg ) = $dep->check();
+
     # To verify a use case raised by Michael Daum: $web.$script looks up
     # template topic $script in $web, no further searching is done
     # Note the order in which templates are found. It sure is
@@ -266,14 +275,24 @@ sub test_directLookupInUsertopic {
     $data = $tmpls->readTemplate( 'web.test', skins => 'skin' );
     $this->assert_str_equals( 'the Web.TestTemplate template', $data );
 
+    # Item10890 changes ordering of template processing on trunk
+    if ( $post11 ) {
+        write_template( 'web.test', 'the web.test.tmpl template' );
+        $data = $tmpls->readTemplate( 'web.test', skins => 'skin' );
+        $this->assert_str_equals( 'the web.test.tmpl template', $data );
+    }
+
     write_topic( 'Web', 'SkinSkinTestTemplate',
         'the Web.SkinSkinTestTemplate template' );
     $data = $tmpls->readTemplate( 'web.test', skins => 'skin' );
     $this->assert_str_equals( 'the Web.SkinSkinTestTemplate template', $data );
 
-    write_template( 'web.test', 'the web.test.tmpl template' );
-    $data = $tmpls->readTemplate( 'web.test', skins => 'skin' );
-    $this->assert_str_equals( 'the web.test.tmpl template', $data );
+    # Item10890 changes ordering of template processing on trunk
+    unless ( $post11 ) {
+        write_template( 'web.test', 'the web.test.tmpl template' );
+        $data = $tmpls->readTemplate( 'web.test', skins => 'skin' );
+        $this->assert_str_equals( 'the web.test.tmpl template', $data );
+    }
 
     write_template( 'web.test.skin', 'the web.test.skin.tmpl template' );
     $data = $tmpls->readTemplate( 'web.test', skins => 'skin' );

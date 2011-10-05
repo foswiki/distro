@@ -390,7 +390,7 @@ sub runOne {
         Devel::Leak::Object::checkpoint() if CHECKLEAK;
         print "\t$test\n";
         $action .= "\n# $test\n    ";
-        $tester->set_up();
+        $tester->set_up($test);
         try {
             $tester->$test();
             $action .= '$passes++;';
@@ -412,7 +412,7 @@ sub runOne {
             $action .=
               quotemeta($test) . '\\n' . quotemeta( $e->stringify() ) . '" );';
         };
-        $tester->tear_down();
+        $tester->tear_down($test);
     }
     return $action;
 }

@@ -11,9 +11,20 @@ use Foswiki;
 use Error qw( :try );
 use Assert;
 use Foswiki::Search;
+use Foswiki::Configure::Dependency ();
+
+my $post11;
 
 sub new {
     my $self = shift()->SUPER::new( 'SEARCH', @_ );
+
+    my $dep = new Foswiki::Configure::Dependency(
+            type    => "perl",
+            module  => "Foswiki",
+            version => ">=1.2"
+           );
+    ( $post11, my $message ) = $dep->check();
+
     return $self;
 }
 
@@ -159,9 +170,10 @@ HERE
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
 
     $result = $this->{test_topicObject}->expandMacros( <<'HERE');
-%FORMAT{"OkTopic" format="$createwikiname $createwikiusername" nonoise="on" }%
+%FORMAT{"OkTopic" format="$createdate $createusername $createwikiname $createwikiusername" nonoise="on" }%
 HERE
-    $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
+    $this->assert_str_equals( "01 Jan 1970 - 00:00 guest $wn $this->{users_web}.$wn\n", $result );
+
 }
 
 
@@ -568,7 +580,24 @@ $summary, $changes, $formname, $formfield, $pattern, $count,
 $ntopics, $nhits, $pager" separator=";"}%'
       );
 
-    $this->assert_str_equals(
+    if ( $post11 ) {
+        $this->assert_str_equals(
+        '1:(A) - $web, $topic, $parent, $text, $locked,
+$longdate, $iso, $rev, $username, $wikiname, $wikiusername,
+$createlongdate, $createusername, $createwikiname, $createwikiusername,
+$summary, $changes, $formname, $formfield, $pattern, $count,
+1, 1, $pager;2:(B) - $web, $topic, $parent, $text, $locked,
+$longdate, $iso, $rev, $username, $wikiname, $wikiusername,
+$createlongdate, $createusername, $createwikiname, $createwikiusername,
+$summary, $changes, $formname, $formfield, $pattern, $count,
+2, 2, $pager;3:(C) - $web, $topic, $parent, $text, $locked,
+$longdate, $iso, $rev, $username, $wikiname, $wikiusername,
+$createlongdate, $createusername, $createwikiname, $createwikiusername,
+$summary, $changes, $formname, $formfield, $pattern, $count,
+3, 3, $pager', $result );
+    }
+    else {
+        $this->assert_str_equals(
         '1:(A) - $web, $topic, $parent, $text, $locked,
 $longdate, $iso, $rev, $username, $wikiname, $wikiusername,
 01 Jan 1970 - 00:00, guest, WikiGuest, TemporarySEARCHUsersWeb.WikiGuest,
@@ -582,6 +611,7 @@ $longdate, $iso, $rev, $username, $wikiname, $wikiusername,
 01 Jan 1970 - 00:00, guest, WikiGuest, TemporarySEARCHUsersWeb.WikiGuest,
 $summary, $changes, $formname, $formfield, $pattern, $count,
 3, 3, $pager', $result );
+    }
 }
 
 #%STARTINCLUDE%| =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= |

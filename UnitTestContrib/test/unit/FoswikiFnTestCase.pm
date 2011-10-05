@@ -61,6 +61,8 @@ to add extra stuff to Foswiki::cfg.
 
 sub loadExtraConfig {
     my $this = shift;
+    $this->SUPER::loadExtraConfig(@_);
+
     $Foswiki::cfg{Store}{Implementation}    = "Foswiki::Store::RcsLite";
     $Foswiki::cfg{RCS}{AutoAttachPubFiles}  = 0;
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
@@ -78,7 +80,7 @@ sub loadExtraConfig {
 
 sub set_up {
     my $this = shift;
-    $this->SUPER::set_up();
+    $this->SUPER::set_up(@_);
 
     my $query = new Unit::Request("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
@@ -110,7 +112,7 @@ sub set_up {
         $this->{session},    $this->{test_web},
         $this->{test_topic}, "BLEEGLE\n"
     );
-    $this->{test_topicObject}->save();
+    $this->{test_topicObject}->save(forcedate=>(time()+60));
 }
 
 sub tear_down {

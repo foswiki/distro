@@ -1,6 +1,6 @@
 use strict;
 
-# tests for the correct expansion of programmed variables (*not* FoswikiFns, which
+# tests for the correct expansion of preferences (*not* FoswikiFns, which
 # should have their own individual testcase)
 
 package VariableTests;

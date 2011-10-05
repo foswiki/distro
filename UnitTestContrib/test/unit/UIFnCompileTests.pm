@@ -66,6 +66,8 @@ sub fixture_groups {
             };
         }
 
+        next unless (ref($dispatcher) eq 'HASH');#bad switchboard entry.
+
         my $package = $dispatcher->{package} || 'Foswiki::UI';
         eval "require $package" or next;
         my $function = $dispatcher->{function};
