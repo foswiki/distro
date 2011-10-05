@@ -15,14 +15,23 @@ use Foswiki::Func;
 use Foswiki::UI::Register;
 use Error qw( :try );
 use Data::Dumper;
+use Foswiki::Configure::Dependency ();
 
 my %loginname;
+my $post11;
 
 sub new {
     my $self = shift()->SUPER::new( 'FuncUsers', @_ );
+
+    my $dep = new Foswiki::Configure::Dependency(
+            type    => "perl",
+            module  => "Foswiki",
+            version => ">=1.2"
+           );
+    ( $post11, my $message ) = $dep->check();
+
     return $self;
 }
-
 
 sub loadExtraConfig {
     my $this    = shift;    # the Test::Unit::TestCase object
@@ -30,23 +39,25 @@ sub loadExtraConfig {
 
     $this->SUPER::loadExtraConfig( $context, @_ );
 
-#turn on the MongoDBPlugin so that the saved data goes into mongoDB
-#This is temoprary until Crawford and I cna find a way to push dependencies into unit tests
-    if (   ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/ )
-        or ( $Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongoDB/ )
-        or ( $context                             =~ /MongoDB/ ) )
-    {
-        $Foswiki::cfg{Plugins}{MongoDBPlugin}{Module} =
-          'Foswiki::Plugins::MongoDBPlugin';
-        $Foswiki::cfg{Plugins}{MongoDBPlugin}{Enabled}             = 1;
-        $Foswiki::cfg{Plugins}{MongoDBPlugin}{EnableOnSaveUpdates} = 1;
+    if ($post11) {
+    #turn on the MongoDBPlugin so that the saved data goes into mongoDB
+    #This is temoprary until Crawford and I cna find a way to push dependencies into unit tests
+        if (   ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/ )
+            or ( $Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongoDB/ )
+            or ( $context                             =~ /MongoDB/ ) )
+        {
+            $Foswiki::cfg{Plugins}{MongoDBPlugin}{Module} =
+              'Foswiki::Plugins::MongoDBPlugin';
+            $Foswiki::cfg{Plugins}{MongoDBPlugin}{Enabled}             = 1;
+            $Foswiki::cfg{Plugins}{MongoDBPlugin}{EnableOnSaveUpdates} = 1;
 
-#push(@{$Foswiki::cfg{Store}{Listeners}}, 'Foswiki::Plugins::MongoDBPlugin::Listener');
-        $Foswiki::cfg{Store}{Listeners}
-          {'Foswiki::Plugins::MongoDBPlugin::Listener'} = 1;
-        require Foswiki::Plugins::MongoDBPlugin;
-        Foswiki::Plugins::MongoDBPlugin::getMongoDB()
-          ->remove( $this->{test_web}, 'current', { '_web' => $this->{test_web} } );
+    #push(@{$Foswiki::cfg{Store}{Listeners}}, 'Foswiki::Plugins::MongoDBPlugin::Listener');
+            $Foswiki::cfg{Store}{Listeners}
+              {'Foswiki::Plugins::MongoDBPlugin::Listener'} = 1;
+            require Foswiki::Plugins::MongoDBPlugin;
+            Foswiki::Plugins::MongoDBPlugin::getMongoDB()
+              ->remove( $this->{test_web}, 'current', { '_web' => $this->{test_web} } );
+        }
     }
 }
 
@@ -1447,9 +1458,10 @@ sub verify_topic_meta_usermapping {
 
     #Task:Item6000
     $metainfo =~ s/^.*?(\|.*\|).*?$/$1/s;
+    my $size = ( $post11 ) ? '1 byte' : '0.1&nbsp;K';
     $this->assert_html_equals( <<HERE, $metainfo );
 | *I* | *Attachment* | *Action* | *Size* | *Date* | *Who* | *Comment* |
-| <span class=foswikiIcon><img width="16" alt="testfile.gif" src="$Foswiki::cfg{PubUrlPath}/System/DocumentGraphics/gif.png" height="16" /></span><span class="foswikiHidden">gif</span> | <a href="$Foswiki::cfg{PubUrlPath}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic/testfile.gif"><noautolink>testfile.gif</noautolink></a> | <a href="$Foswiki::cfg{ScriptUrlPath}/attach$Foswiki::cfg{ScriptSuffix}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic?filename=testfile.gif;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> |  1 byte|<span class="foswikiNoBreak">01 Jan 2010 - 12:00</span> |TemporaryFuncUsersUsersWeb.Asdf3Poiu  |a comment  |
+| <span class=foswikiIcon><img width="16" alt="testfile.gif" src="$Foswiki::cfg{PubUrlPath}/System/DocumentGraphics/gif.png" height="16" /></span><span class="foswikiHidden">gif</span> | <a href="$Foswiki::cfg{PubUrlPath}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic/testfile.gif"><noautolink>testfile.gif</noautolink></a> | <a href="$Foswiki::cfg{ScriptUrlPath}/attach$Foswiki::cfg{ScriptSuffix}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic?filename=testfile.gif;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> |  $size|<span class="foswikiNoBreak">01 Jan 2010 - 12:00</span> |TemporaryFuncUsersUsersWeb.Asdf3Poiu  |a comment  |
 HERE
 }
 
@@ -1621,6 +1633,7 @@ sub verify_removeFromGroup {
             'ZeeGroup', 1
         )
     );
+
     $this->assert( Foswiki::Func::topicExists( undef, 'ZeeGroup' ) );
     my ( $date, $user, $rev, $comment );
     ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo(undef, 'ZeeGroup');
@@ -1631,16 +1644,17 @@ sub verify_removeFromGroup {
     ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo(undef, 'ZeeGroup');
     $this->assert( $rev == 1 );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
-    
+
     $this->assert( Foswiki::Func::addUserToGroup( 'UserA', 'ZeeGroup', 1 ) );
     ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo(undef, 'ZeeGroup');
     $this->assert( $rev == 1 );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
-    
+
     $this->assert( Foswiki::Func::addUserToGroup( 'WiseGuyDoesntExist', 'ZeeGroup', 1 ) );
     ( $date, $user, $rev, $comment ) = Foswiki::Func::getRevisionInfo(undef, 'ZeeGroup');
     $this->assert( $rev == 1 );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'WiseGuyDoesntExist' ) );
+
 
     # Force a re-read
     $this->{session}->finish();

@@ -1,4 +1,5 @@
 # tests for the correct expansion of IF
+
 package Fn_IF;
 
 use strict;
@@ -10,9 +11,18 @@ use Foswiki;
 use Error qw( :try );
 use Assert;
 use Foswiki::Query::Node ();
+use Foswiki::Configure::Dependency ();
+
+my $post11;
 
 sub new {
     my $self = shift()->SUPER::new( 'IF', @_ );
+    my $dep = new Foswiki::Configure::Dependency(
+            type    => "perl",
+            module  => "Foswiki",
+            version => ">=1.2"
+           );
+    ( $post11, my $message ) = $dep->check();
     return $self;
 }
 
@@ -81,6 +91,56 @@ sub test_9 {
     $this->simpleTest( test => 'defined EDITBOXHEIGHT', then => 1, else => 0 );
     # See test_96* for other 'defined' tests
 }
+
+sub test_9a {
+    my $this = shift;
+    $this->simpleTest(
+        test => 'defined \'EDITBOXHEIGHT\'',
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => 'defined(\'EDITBOXHEIGHT\')',
+        then => 1,
+        else => 0
+    );
+
+    #Item10625: one has to wonder why the groups IF appeared to work for 1.1.0, but now does not
+    # especially in light of the fact the OP_if::evaluate code can't handle braces, or any nested ops at all
+    $this->simpleTest(
+        test => 'defined preferences[name=\'EDITBOXHEIGHT\']',
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => 'defined(preferences[name=\'EDITBOXHEIGHT\'])',
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => 'defined \'%WEB%.%TOPIC%\'/preferences[name=\'EDITBOXHEIGHT\']',
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => 'defined(\'%WEB%.%TOPIC%\'/preferences[name=\'EDITBOXHEIGHT\'])',
+        then => 0,
+        else => 1
+    );
+
+
+    $this->simpleTest(
+        test => 'defined \'RANDOM\'',
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => 'defined(\'RANDOM\')',
+        then => 0,
+        else => 1
+    );
+}
+
 
 sub test_10 {
     my $this = shift;
@@ -1050,6 +1110,8 @@ sub test_badIF {
         { test => "'A'==",   expect => "Excess operators (= =) in ''A'=='" },
         { test => "'A' 'B'", expect => "Missing operator in ''A' 'B''" },
     );
+
+    push @tests, ({ test => ' ',       expect => "Empty expression" },) unless ( $post11 );
 
     foreach my $test (@tests) {
         my $text   = '%IF{"' . $test->{test} . '" then="1" else="0"}%';

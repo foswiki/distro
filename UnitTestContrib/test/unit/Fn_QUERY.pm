@@ -8,11 +8,21 @@ use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
+use Foswiki::Configure::Dependency ();
 use Error qw( :try );
 use Assert;
 
+my $post11;
+
 sub new {
     my $self = shift()->SUPER::new( 'QUERY', @_ );
+    my $dep = new Foswiki::Configure::Dependency(
+            type    => "perl",
+            module  => "Foswiki",
+            version => ">=1.2"
+           );
+    ( $post11, my $depmsg ) = $dep->check();
+
     return $self;
 }
 
@@ -98,6 +108,10 @@ sub test_badQUERY {
         { test => "'A' 'B'", expect => "Missing operator in ''A' 'B''" },
     );
 
+    push @tests,
+        ( { test => ' ',       expect => "Empty expression" }, )
+        unless ( $post11 );
+
     foreach my $test (@tests) {
         my $text   = '%QUERY{"' . $test->{test} . '"}%';
         my $result = $this->{test_topicObject}->expandMacros($text);
@@ -107,7 +121,16 @@ sub test_badQUERY {
         $this->assert_str_equals( $test->{expect}, $result );
     }
     my $result = $this->{test_topicObject}->expandMacros('%QUERY%');
-    $this->assert_str_equals( '', $result );
+
+    if ($post11) {
+        $this->assert_str_equals( '', $result );
+    }
+    else {
+        $result =~ s/^.*foswikiAlert'>\s*//s;
+        $result =~ s/\s*<\/span>\s*//s;
+        $this->assert( $result =~ s/^.*}:\s*//s );
+        $this->assert_str_equals( 'Empty expression', $result );
+    }
 }
 
 sub test_CAS {
@@ -186,7 +209,7 @@ PONG
     eval "require JSON";
     if( $@ ) {
         # Bad JSON
-        $this->assert_matches(qr/Perl JSON::XS or JSON module is not available/, $result );
+        $this->assert_matches(qr/Perl (JSON::XS or )?JSON module is not available/, $result );
     } else {
         # Good JSON
         $this->assert_json_equals( <<THIS, $result );
@@ -202,6 +225,11 @@ THIS
 #style defaults to Simplified (ie style=default)
 sub test_InvalidStyle {
     my $this = shift;
+
+    unless ($post11 ) {
+        print "InvalidStyle test not supported prior to Release 1.2\n";
+        return;
+    }
 
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
