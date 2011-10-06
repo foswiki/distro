@@ -549,7 +549,6 @@ lib/Foswiki/Configure/Checkers/UseLocale.pm 0444
 lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
 lib/Foswiki/Configure/Checkers/Validation/Method.pm 0444
 lib/Foswiki/Configure/Checkers/WebMasterEmail.pm 0444
-lib/Foswiki/Configure/Checkers/Welcome.pm
 lib/Foswiki/Configure/Checkers/Welcome.pm 0444
 lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
 lib/Foswiki/Configure/Checkers/cygwin.pm 0444
@@ -566,9 +565,7 @@ lib/Foswiki/Configure/Pluggables/PLUGINS.pm 0444
 lib/Foswiki/Configure/Pluggables/TESTEMAIL.pm 0444
 lib/Foswiki/Configure/Root.pm 0444
 lib/Foswiki/Configure/Section.pm 0444
-lib/Foswiki/Configure/TemplateParser.pm
 lib/Foswiki/Configure/TemplateParser.pm 0444
-lib/Foswiki/Configure/TemplateParser/SimpleFreeMarker.pm
 lib/Foswiki/Configure/TemplateParser/SimpleFreeMarker.pm 0444
 lib/Foswiki/Configure/Type.pm 0444
 lib/Foswiki/Configure/Types/BOOLEAN.pm 0444
@@ -602,7 +599,6 @@ lib/Foswiki/Configure/UIs/Section.pm 0444
 lib/Foswiki/Configure/UIs/TESTEMAIL.pm 0444
 lib/Foswiki/Configure/UIs/UPDATE.pm 0444
 lib/Foswiki/Configure/UIs/Value.pm 0444
-lib/Foswiki/Configure/UIs/Welcome.pm
 lib/Foswiki/Configure/UIs/Welcome.pm 0444
 lib/Foswiki/Configure/Util.pm 0444
 lib/Foswiki/Configure/Value.pm 0444
