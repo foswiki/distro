@@ -1,0 +1,184 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Skins"}%
+%STARTINCLUDE%
+---+ Skin Template Tokens
+
+_Placeholders expanded by Foswiki scripts when generating output_
+
+%TOC%
+
+%STARTSECTION{"PowerUserGuide"}%
+---++ Overview
+
+_Template Tokens_ are written exactly like Foswiki [[Macros][macros]], but
+they are local to the script / template expansion process and can __not__ be
+used elswhere in Foswiki topics.  Each Foswiki script might have it's own
+unique set of tokens. A token that is expanded by the =view= script would
+most likely not be expanded by the =attach= script.
+
+Unlike Foswiki Macros, tokens do not support {...} parameters.  They are
+merely a placeholder that is replaced by the script.
+
+%T% *Note:* The SEARCH macro also uses tokens in the =search= templates,
+%however they are in the format of ==$token==.
+
+---++ Foswiki scripts
+
+---+++ =attach= script
+
+| %<nop>ATTACHTABLE% | |
+| %<nop>FILEUSER% | |
+| %<nop>FILENAME% | |
+| %<nop>HIDEFILE% | |
+| %<nop>FILEPATH% | |
+| %<nop>FILECOMMENT% | |
+
+---+++ =change= script
+
+| %<nop>REPEAT% | |
+| %<nop>TEXT% | |
+| %<nop>TOPICNAME% | |
+| %<nop>AUTHOR% | The web qualified WikiName of the change |
+| %<nop>TIME% | |
+| %<nop>REVISION% | |
+| %<nop>TEXTHEAD% | |
+| $wikiname | The &lt;nop> escaped WikiName of the change |
+
+---+++ =edit= script
+
+| %<nop>FORCENEWREVISIONCHECKBOX% | |
+| %<nop>NEWTOPIC% | |
+| %<nop>TEMPLATETOPIC% | |
+| %<nop>REDIRECTTO% | |
+| %<nop>ORIGINALREV% | |
+| %<nop>TOPICPARENT% | |
+| %<nop>FORMTEMPLATE% | |
+| %<nop>CMD% | |
+| %<nop>FORMFIELDS% | |
+| %<nop>UNENCODED_TEXT% | |
+| %<nop>TEXT% | |
+
+---+++ =manage= script
+
+| %<nop>TEXT% | |
+| %<nop>ORIGINALREV% | |
+
+---+++ =oops= script
+
+| %<nop>PARAMn% | |
+| %<nop>INSTANTIATE% | |
+
+---+++ =preview= script
+
+| %<nop>DONTNOTIFYCHECKBOX% | |
+| %<nop>FORCENEWREVISIONCHECKBOX% | |
+| %<nop>CMD% | |
+| %<nop>REDIRECTTO% | |
+| %<nop>FORMTEMPLATE% | |
+| %<nop>FORMFIELDS% | |
+| %<nop>TOPICPARENT% | |
+| %<nop>HIDDENTEXT% | |
+| %<nop>CMD% | |
+| %<nop>ORIGINALREV% | |
+| %<nop>TEXT% | |
+
+---+++ =rdiff= script
+
+| %<nop>REVTITLE1% | |
+| %<nop>REVTITLE2% | |
+| %<nop>REVINFO1% | |
+| %<nop>REVINFO2% | |
+| %<nop>REPEAT% | |
+| %<nop>TEXT% | |
+| %<nop>TAIL% | |
+| %<nop>CURRREV% | |
+| %<nop>MAXREV% | |
+
+---+++ =register= script
+
+   $ =registerconfirm.tmpl=: Sent to new user to validate the email address.
+   $ =registerfailednotremoved.tmpl=: Email to the %WIKIWEBMASTERNAME% that the =registernotify= email failed, suggesting fradulent registration.  User account not removed.
+   $ =registerfailedremoved.tmpl=: Email to the %WIKIWEBMASTERNAME% that the =registernotify= email failed, and the registration was remived
+   $ =registernotifyadmin.tmpl=: Email to %WIKIWEBMASTERNAME% that registration completed successfully
+   $ =registernotify.tmpl=: Email to new user that registration completed successfully
+
+| %<nop>SPLIT% | Used to divide the System.NewUserTemplate topic into 3 sections: header, repeating keys, and footer.  Not referenced in skin templates |
+| %<nop>FIRSTLASTNAME% | First and last name of the user registering. |
+| %<nop>WIKINAME% | Wikiname of the new user |
+| %<nop>EMAILADDRESS% | Email address of the new user |
+| %<nop>FORMDATA%  | Registration form data, *not* expanded in =registerconfirm.tmpl= |
+| %<nop>LOGINNAME% | Login name used with external authentication |
+| %<nop>INTRODUCTION% | Unused.  If passed in as a URL parm =Introduction= on the register request, will be passed on to the email message.|
+| %<nop>VERIFICATIONCODE% | The verification password send in the =registerconfirm.tmpl= use to confirm the email address is valid |
+| %<nop>PASSWORD% | User password - not used in current templates.  Password is expanded in the %FORMDATA% depending upon the setting of ={Register}{HidePasswd}= in =LocalSite.cfg= |
+
+---+++ =rename= script
+
+   $ =moveattachment.tmpl=: Prompts for renaming or moving an attachment
+   $ =rename.tmpl=: Prompts for newattachment, newtopic, newweb, and the submit button
+   $ =renameconfirm.tmpl=: Prompts rename/move or cancel
+   $ =renamedelete.tmpl=: Promps for renamed topic name and delete or cancel
+   $ =renameweb.tmpl=: Prompts for new webname and Rename/Move or cancel
+   $ =renamewebconfirm.tmpl=: x
+   $ =renamewebdelete.tmpl=: x
+   $ param{'template'): Accepts template name from query?
+
+| %<nop>FILENAME% | |
+| %<nop>NEW_FILENAME% | |
+| %<nop>NEW_WEB% | |
+| %<nop>NEW_TOPIC% | |
+| %<nop>NONWIKIWORDFLAG% | |
+| %<nop>GLOBAL_SEARCH% | |
+| %<nop>LOCAL_SEARCH% | |
+| %<nop>SEARCH_COUNT% | |
+| %<nop>NEW_PARENTWEB% | |
+| %<nop>NEW_SUBWEB% | |
+| %<nop>TOPIC% | |
+| %<nop>MOVE_LOCKED% | |
+| %<nop>REF_DENIED% | |
+| %<nop>REF_LOCKED% | |
+| %<nop>RENAMEWEB_SUBMIT% | |
+
+
+---+++ =rest= script
+
+%X% rest does not use any templates
+
+---+++ =save= script
+
+%X% save does not use any templates
+
+---+++ =search= script
+
+%X% search is deprecated, and redirects to the view script
+
+---+++ =statistics= script
+
+%X% statistics does not use any templates
+
+---+++ =upload= script
+
+%X% upload does not use any templates
+
+---+++ =viewfile= script
+
+%X% viewfile does not use any templates
+
+---+++ =view= script
+
+| %<nop>REVTITLE% | |
+| %<nop>REVARG% | |
+| %<nop>REVISIONS% | |
+| %<nop>QUERYPARAMSTRING% | |
+| %<nop>TEXT% | |
+| %<nop>STARTTEXT% | |
+| %<nop>ENDTEXT% | |
+
+
+%ENDSECTION{"PowerUserGuide"}%
+
+---
+*Related Topics:* [[Skins]] [[Macros]] [[JavascriptFiles]]
+<!-- %JQREQUIRE{"chili"}% -->
+
+%STOPINCLUDE%

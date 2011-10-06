@@ -1175,6 +1175,7 @@ to your =bin/LocalLib.cfg=.
 <noautolink>
 | [[%BUGS%/Item9335][Item9335]] | extensions list in configure jumps around |
 | [[%BUGS%/Item9459][Item9459]] | Improved difference presentation in change notification emails (partial fix) |
+| [[%BUGS%/Item9702][Item9702]] | Add documentation for template tokens |
 | [[%BUGS%/Item9845][Item9845]] | Performance of language translations can be improved by using compressed .mo files instead of .po files |
 | [[%BUGS%/Item10217][Item10217]] | Add SMELL report to PerlDoc report |
 | [[%BUGS%/Item10521][Item10521]] | Implement Support for SMTP over SSL |
