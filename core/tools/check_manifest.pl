@@ -140,5 +140,5 @@ if (@found) {
     print join( "\n", @found, '' );
 }
 else {
-    print "All files in $cvs are in MANIFEST.\n";
+    print "All files in MANIFEST are in $cvs.\n";
 }
