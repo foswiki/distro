@@ -14,6 +14,7 @@ my $cvs         = 'subversion';
 my $skipPattern = join( '|', @skip );
 my @lost;    # Files on disk not in MANIFEST
 my %man;     # Hash of MANIFEST content: file => perm
+my %alt;     # Hash of alternate version of _src file
 
 # Search the current working directory and its parents
 # for a directory called like the first parameter
@@ -30,31 +31,43 @@ sub findPathToDir {
 
 # Checks if a file is in the MANIFEST, and removes it
 # otherwise, adds it to @lost
-sub checkFileInManifest {
+sub isFileInManifest {
     my ( $root, $file ) = @_;
 
     my $diskfile = "$root/$file";
     return if -d $diskfile;    # For Subversion
     if ( my $mode = delete $man{$file} ) {
         my $cmode = ( stat($diskfile) )[2] & 07777;
-        print "Permissions for $file differ"
-          . " in MANIFEST ($mode) and on disk ($cmode)\n"
-          if $cmode != $mode;
+        printf "Permissions for $file differ"
+          . " in MANIFEST ($mode) and on disk (%lo)\n", $cmode
+          if oct( 0 + $mode ) != $cmode;
     }
     else {
         return if $file =~ m#^(?:$skipPattern)/#o;    # For git
         return if $file =~ m#/TestCases/#;
         push @lost, $file;
     }
+
+    # Try to save file alternate versions, just in case
+    $alt{"$file.gz"}++;
+    if ( $file =~ /^(.*)_src(\..*)$/ ) {
+        $alt{"$1$2"}++;
+        $alt{"$1$2.gz"}++;
+    }
 }
 
 # Prints some "helpful" messages
 sub help {
     print <<"END";
-Run this script from a directory with a MANIFEST file.
+Run this script from a directory with a MANIFEST file, or from a top level of
+an extension, or from within an extension, passing the path of the MANIFEST as
+first parameter.
 
-The script will find and scan MANIFEST and compare the contents with
-what is checked in under $cvs. Any differences are reported.
+The script will find and scan MANIFEST and compare the contents with what is
+checked in under $cvs. Any differences are reported.
+
+It will also compare permissions given in the MANIFEST with permissions which
+are on disk.
 
 END
     print "The " . join( ', ', @skip ) . " directories are *not* scanned.\n";
@@ -83,9 +96,10 @@ close $man;
 if ( my $gitdir = findPathToDir('.git') ) {
     $cvs = 'git';
     help($cvs);
-    for my $file ( split /\n/, qx{git ls-files $root} ) {
-        $file =~ s#^$root/##;    # Should never happen, but safer
-        checkFileInManifest( $root => $file );
+    for my $file ( split /\n/, qx{cd $root && git ls-files} ) {
+        $file =~ s#^$root/##;        # Should never happen, but safer
+        $file =~ s#^(?:\.\./)*##;    # If checking not from top level
+        isFileInManifest( $root => $file );
     }
 }
 else {
@@ -102,23 +116,29 @@ else {
             split( /\n/, `svn ls -R $root/$dir` )
           )
         {
-            checkFileInManifest( $root => $file );
+            isFileInManifest( $root => $file );
         }
     }
 }
+
 if (@lost) {
-    print "The following "
-      . ( scalar @lost )
+    my $lost = scalar @lost;
+    print "The following $lost file"
+      . ( $lost > 1 ? 's' : '' )
       . " files were found in $cvs, but are not in MANIFEST:\n";
     print join( "\n", @lost, '' );
 }
 else {
     print "All files in MANIFEST are checked in.\n";
 }
-my @found = sort keys %man;
+my @found = sort grep { !delete $alt{$_} } keys %man;
 if (@found) {
-    print "The following "
-      . ( scalar @found )
-      . " files were found in MANIFEST, but not in $cvs:\n";
+    my $found = scalar @found;
+    print "The following $found file"
+      . ( $found > 1 ? 's' : '' )
+      . " were found in MANIFEST, but not in $cvs:\n";
     print join( "\n", @found, '' );
+}
+else {
+    print "All files in $cvs are in MANIFEST.\n";
 }
