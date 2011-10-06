@@ -14,6 +14,8 @@ sub check {
 
     my $keyFile = $Foswiki::cfg{Email}{SmimeKeyFile} || "";
 
+    my $ev = $this->showExpandedValue($keyFile);
+
     return unless $keyFile;
 
     Foswiki::Configure::Load::expandValue($keyFile);
@@ -24,7 +26,7 @@ sub check {
           ? $this->ERROR($e)
           : $this->NOTE("<b>Note:</b> $e");
     }
-    return $e;
+    return $ev . $e;
 }
 
 1;

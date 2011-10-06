@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::TemplatePath;
+package Foswiki::Configure::Checkers::ScriptUrlPaths::view;
 
 use strict;
 use warnings;
@@ -10,44 +10,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    my $e = '';
-
-    my @path = split( ',', $Foswiki::cfg{TemplatePath} );
-
-    foreach my $orig (@path) {
-        my $path = $orig;
-        Foswiki::Configure::Load::expandValue($path);
-
-        if ( $path =~ m/\$(?!name|web|skin)/ ) {
-            $e .= $this->ERROR(
-"Unknown token - not \$name, \$web, \$skin or \$Foswiki::cfg{...}, found in $orig"
-            );
-        }
-
-        my ($cfgparm) = $orig =~ m/.*(\$Foswiki::cfg\{.*\})/;
-        if ($cfgparm) {
-            Foswiki::Configure::Load::expandValue($cfgparm);
-            $e .=
-              $this->ERROR("Unknown Foswiki::cfg variable referenced in $orig")
-              if ( $cfgparm eq 'undef' );
-        }
-
-        #}
-
-        my ( $dir, $file ) = $path =~ m#^\s*([^\$]+)(.*)$#;
-
-        if ( $dir
-            && ( substr( $dir, 0, 1 ) eq '/' || substr( $dir, 1, 1 ) eq ':' ) )
-        {
-            $e .= $this->ERROR("Path $dir not found, at $orig")
-              unless ( -e $dir && -d $dir );
-        }
-
-    }
-
-    $e .= $this->showExpandedValue($Foswiki::cfg{TemplatePath});
-
-    return $e;
+    return $this->showExpandedValue($Foswiki::cfg{ScriptUrlPaths}{view});
 }
 
 1;

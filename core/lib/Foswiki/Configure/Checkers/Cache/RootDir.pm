@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::TemplatePath;
+package Foswiki::Configure::Checkers::Cache::RootDir;
 
 use strict;
 use warnings;
@@ -10,44 +10,19 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    my $e = '';
+    if ( $Foswiki::cfg{Cache}{RootDir} ) {
 
-    my @path = split( ',', $Foswiki::cfg{TemplatePath} );
+        my $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{Cache}{RootDir} );
 
-    foreach my $orig (@path) {
-        my $path = $orig;
-        Foswiki::Configure::Load::expandValue($path);
+        $e .= $this->showExpandedValue($Foswiki::cfg{Cache}{RootDir});
 
-        if ( $path =~ m/\$(?!name|web|skin)/ ) {
-            $e .= $this->ERROR(
-"Unknown token - not \$name, \$web, \$skin or \$Foswiki::cfg{...}, found in $orig"
-            );
-        }
+        # SMELL: Not sure what permissions, etc. the Cache needs
+        #my $e2 = $this->checkTreePerms( $this->getCfg("{Cache}{RootDir}"), 'r' );
+        #$e .= $this->WARN($e2) if $e2;
 
-        my ($cfgparm) = $orig =~ m/.*(\$Foswiki::cfg\{.*\})/;
-        if ($cfgparm) {
-            Foswiki::Configure::Load::expandValue($cfgparm);
-            $e .=
-              $this->ERROR("Unknown Foswiki::cfg variable referenced in $orig")
-              if ( $cfgparm eq 'undef' );
-        }
-
-        #}
-
-        my ( $dir, $file ) = $path =~ m#^\s*([^\$]+)(.*)$#;
-
-        if ( $dir
-            && ( substr( $dir, 0, 1 ) eq '/' || substr( $dir, 1, 1 ) eq ':' ) )
-        {
-            $e .= $this->ERROR("Path $dir not found, at $orig")
-              unless ( -e $dir && -d $dir );
-        }
-
+        return $e;
     }
-
-    $e .= $this->showExpandedValue($Foswiki::cfg{TemplatePath});
-
-    return $e;
+    return;
 }
 
 1;
