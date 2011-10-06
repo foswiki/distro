@@ -473,6 +473,9 @@ lib/Foswiki/Configure/Checkers/BasicSanity.pm 0444
 lib/Foswiki/Configure/Checkers/CGISetup.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/Debug.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/DependencyFilter.pm 0444
+lib/Foswiki/Configure/Checkers/Cache/RootDir.pm 0444
+lib/Foswiki/Configure/Checkers/Cache/DBFile.pm 0444
+lib/Foswiki/Configure/Checkers/Cache/NameSpace.pm 0444
 lib/Foswiki/Configure/Checkers/CacheManager.pm 0444
 lib/Foswiki/Configure/Checkers/DataDir.pm 0444
 lib/Foswiki/Configure/Checkers/DefaultUrlHost.pm 0444
@@ -528,6 +531,7 @@ lib/Foswiki/Configure/Checkers/SafeEnvPath.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptDir.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptSuffix.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptUrlPath.pm 0444
+lib/Foswiki/Configure/Checkers/ScriptUrlPaths/view.pm 0444
 lib/Foswiki/Configure/Checkers/Sessions/ExpireAfter.pm 0444
 lib/Foswiki/Configure/Checkers/Site/CharSet.pm 0444
 lib/Foswiki/Configure/Checkers/Site/Locale.pm 0444
