@@ -243,7 +243,12 @@
                 // Cancel the drag
                 dragee.fadeTo("fast", 1.0);
                 container.css("cursor", "auto");
-                alert("Error " + jqXHR.status + " - Failed to move row");
+		var mess = jqXHR.responseText;
+		if (mess && mess.indexOf('RESPONSE') == 0)
+                    mess = mess.replace(/^RESPONSE/, ': ');
+		else
+		    mess = '';
+                alert("Error " + jqXHR.status + " - Failed to move row" + mess);
             }
         });
     };
@@ -259,12 +264,12 @@
     };
 
     var makeRowDraggable = function(tr) {
-        var container = tr.closest("thead,tbody,table");
-
         // Add a "drag handle" element to the first cell of the row
-        tr.find("div.erpJS_container").first().each(
+        tr.find("div.erpJS_container").first().find("a.erp_drag_button").each(
             function () {
-                var handle = $(this).find("a.erp_drag_button");
+                var container = tr.closest("thead,tbody,table");
+                var handle = $(this);
+                handle.addClass('ui-icon');
                 handle.draggable({
                     // constrain to the containing table
                     containment: container,
@@ -287,6 +292,15 @@
                     }
                 });
             });
+    };
+
+    var makeRowsDraggable = function(n, rows) {
+	var to = n + Math.min(200, rows.length - n);
+	while (n < to) {
+	    makeRowDraggable($(rows[n++]));
+	}
+	if (n < rows.length)
+	    window.setTimeout(makeRowsDraggable, 100, n, rows);
     };
 
     var editControls = {
@@ -377,72 +391,63 @@
     // decorate the table with handlers for cell edit, row edit, and row move
     instrument = function(context) {
 
-        context.find('.erpJS_input').each(function(index, value) {
-            $(this).change(function() {
-                erp_dataDirty = true;
-            });
+        context.find('.erpJS_input').change(function() {
+            erp_dataDirty = true;
         });
 
-	// Action on edit row
-        context.find('.erpJS_editButton').each(function(index, value) {
-            $(this).click(function() {
-                // Send the event to the span
-                $(this).prev().triggerHandler("erp_edit");
-            });
+        // Action on edit row
+        context.find('div.erpJS_editButton').click(function() {
+            // Send the event to the span
+            $(this).prev().triggerHandler('erp_edit');
         });
 
         // Action on select row and + row. Check if the data is
         // dirty, and if it is, prompt for save
-        context.find('.erpJS_willDiscard').each(function(index, value) {
-            $(this).click(function(event) {
-                if (erp_dataDirty) {
-                    if (!confirm("This action will discard your changes.")) {
-                        erp_dirtyVeto = true;
-                        return false;
-                    }
+        context.find('a.erpJS_willDiscard').click(function(event) {
+            if (erp_dataDirty) {
+                if (!confirm("This action will discard your changes.")) {
+                    erp_dirtyVeto = true;
+                    return false;
                 }
-                return true;
-            });
+            }
+            return true;
         });
 
-        context.find('.erpJS_submit').each(function(index, value) {
-            if (!$.browser.msie || parseInt($.browser.version) >= 8)
-                // No button support in IE 7 and below
-                $(this).button();
-            $(this).click(function() {
-                var cont = true;
-                if (erp_dirtyVeto) {
-                    erp_dirtyVeto = false;
+        if (!$.browser.msie || parseInt($.browser.version) >= 8)
+            // No button support in IE 7 and below
+            context.find('a.erpJS_submit').button();
+
+        context.find('a.erpJS_submit').click(function() {
+            var cont = true;
+            if (erp_dirtyVeto) {
+                erp_dirtyVeto = false;
+                cont = false;
+            } else {
+                var form = $(this).closest("form");
+                if (form && form.length > 0) {
+                    form[0].erp_action.value = $(this).attr('href');
+                    form.submit();
                     cont = false;
-                } else {
-                    var form = $(this).closest("form");
-                    if (form && form.length > 0) {
-                        form[0].erp_action.value = $(this).attr('href');
-                        form.submit();
-                        cont = false;
-                    }
                 }
-                return cont;
-            });
+            }
+            return cont;
         });
 
-	context.find('.erpJS_sort').each(function(index, value) {
-            $(this).click(function() {
-                var m = /{(.*)}/.exec($(this).attr("class"));
-                var md = {};
-                if (m)
-                    md = eval('({' + m[1] + '})');
-                return sortTable(this, false, md.headrows, md.footrows);
-            });
+        context.find('span.erpJS_sort').click(function() {
+            var m = /{(.*)}/.exec($(this).attr("class"));
+            var md = {};
+            if (m)
+                md = eval('({' + m[1] + '})');
+            return sortTable(this, false, md.headrows, md.footrows);
         });
 
-        context.find('.erpJS_cell').each(function(index, value) {
+        context.find('span.erpJS_cell').each(function(index, value) {
 
             // Make the containing row draggable
             var tr = $(this).closest("tr");
             tr.addClass('ui-draggable');
 
-	    // Move meta-data stored in the class attribute into $.data
+            // Move meta-data stored in the class attribute into $.data
             var p, m, c = $(this).attr("class");
             if (m = /({.*})/.exec(c)) {
                 p = eval('(' + m[1] + ')');
@@ -474,9 +479,7 @@
             $(this).editable(p.url, p);
         });
 
-	context.find('tr.ui-draggable').each(function(index, value) {
-            makeRowDraggable($(value));
-        });
+	makeRowsDraggable(0, context.find('tr.ui-draggable'));
     };
 
     $(document).ready(function() {

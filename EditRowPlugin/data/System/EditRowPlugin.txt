@@ -15,8 +15,7 @@ One line description, required for extensions repository catalog.
 
 Features:
    1 You can edit one row, or even one cell at a time, instead of having to edit the entire
-     table. This solves the problem with the long page rendering times
-     required to show all the HTML for a full table edit on big tables.
+     table.
    1 Supports footer rows.
    1 Supports sorting columns in tables using Javascript, avoiding the
      round-trip to the server required by !TablePlugin.
@@ -29,6 +28,11 @@ Features:
    1 (geeky) Uses a simple REST interface for saving changes, which allows
      Javascript table editors to use the same interface to save.
    1 (geeky) Tolerant to Javascript being disabled in the browser
+
+Note that this plugin is designed for use with tables of up to ~1000 cells. Tables
+larger than this will work, but they put huge stress on the browser and the server.
+For manipulating larger tables, you are recommended to investigate
+Foswiki:Extensions.JQGridPlugin.
 
 ---++ Usage
 
