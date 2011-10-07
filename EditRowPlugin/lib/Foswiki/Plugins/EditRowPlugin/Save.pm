@@ -186,6 +186,8 @@ sub process {
 		# renderText("0") clears the output, so don't do it.
 		$result = Foswiki::Func::expandCommonVariables($result, $topic, $web);
 		$result = Foswiki::Func::renderText($result, $web, $topic);
+		$result =~ s/<nop>//gs;
+		$result =~ s/\s+/ /gs;
 	    }
 	} else {
 	    $result = $mess || '';

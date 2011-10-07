@@ -289,7 +289,8 @@ sub render {
 	    push( @out, $help ) if $help;
 	}
     } elsif ($opts->{with_controls} && $this->can_edit() &&
-	     $this->{attrs}->{js} ne 'assumed') {
+	     $this->{attrs}->{js} ne 'assumed'&&
+	     $this->{attrs}->{js} ne 'rowmoved') {
 	# Generate the buttons at the bottom of the table
 
 	# A  bit of a hack. If the user isn't logged in, then show the
@@ -589,7 +590,8 @@ sub moveRow {
     for (my $i = 0; $i < scalar( @{ $this->{rows} } ); $i++) {
 	$this->{rows}->[$i]->{number} = $i + 1;
     }
-    return $this->render({});
+    $this->{attrs}->{js} = 'rowmoved';
+    return $this->render({with_controls => 1});
 }
 
 # Action on edit cancelled

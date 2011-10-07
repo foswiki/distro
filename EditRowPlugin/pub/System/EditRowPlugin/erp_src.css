@@ -46,6 +46,7 @@
 
 .erp_drag_button {
     position: absolute;
+    display: none;
     left: -1.7em;
     top: 0;
 }
