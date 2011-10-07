@@ -1607,7 +1607,9 @@ sub target_archive {
           . $target
           . '.zip");' );
 
-    $this->sys_action( 'tar', 'czpf', $project . '.tgz', '*' );
+    # SMELL: sys_action will auto quote any parameter containing a space.  So the parameter
+    # and argument for group and user must be passed in as separate parameters.
+    $this->sys_action( 'tar', '--owner', '0', '--group', '0', '-czhpf', $project . '.tgz', '*' );
     $this->perl_action( 'File::Copy::move("' 
           . $project
           . '.tgz", "'
