@@ -1005,7 +1005,7 @@ sub target_tidy {
 }
 
 sub _isPerl {
-    if ( $File::Find::name =~ /(CVS|\.svn|~)$/ ) {
+    if ( $File::Find::name =~ /(CVS|\.svn|\.git|~)$/ ) {
         $File::Find::prune = 1;
     }
     elsif ( !-d $File::Find::name ) {
@@ -1607,9 +1607,10 @@ sub target_archive {
           . $target
           . '.zip");' );
 
-    # SMELL: sys_action will auto quote any parameter containing a space.  So the parameter
-    # and argument for group and user must be passed in as separate parameters.
-    $this->sys_action( 'tar', '--owner', '0', '--group', '0', '-czhpf', $project . '.tgz', '*' );
+# SMELL: sys_action will auto quote any parameter containing a space.  So the parameter
+# and argument for group and user must be passed in as separate parameters.
+    $this->sys_action( 'tar', '--owner', '0', '--group', '0', '-czhpf',
+        $project . '.tgz', '*' );
     $this->perl_action( 'File::Copy::move("' 
           . $project
           . '.tgz", "'
@@ -2534,7 +2535,7 @@ sub target_manifest {
 }
 
 sub _manicollect {
-    if (/^(CVS|\.svn)$/) {
+    if (/^(CVS|\.svn|\.git)$/) {
         $File::Find::prune = 1;
     }
     elsif (!-d 
