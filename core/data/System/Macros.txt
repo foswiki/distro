@@ -292,7 +292,10 @@ See also: [[FormattedSearch#NestedSearchExample][FormattedSearch]]
 Macro names must start with a letter. The following characters can be letters, numbers and the underscore '_'. Letters may be upper or lower-case, E.g. =%<nop>MYVAR%=, =%<nop>MyVar%=, =%<nop>My2ndVar%=, and =%<nop>My_Var%= are all separate, valid macro names (macros are case sensitive  - =%<nop>MyVAR%= and =%<nop>MYVAR%= are not the same).
 
 By convention all settings, predefined macros and macros registered by plugins are always UPPER-CASE.
-
+<!--
+   * Set CONDITIONS = According to [[%BASETOPIC%]], The %WHAT% is %STATE% today. (Set in [[Macros]]).
+   * Set WEATHER = It's %DEFAULT{default="raining"}%.
+-->
 %INCLUDE{"PreferenceSettings"}%
 
 #PreDef
