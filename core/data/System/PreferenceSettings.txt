@@ -32,6 +32,8 @@ If you are setting a preference and using it in the same topic, note that Foswik
 
 Also note that Foswiki always reads the setting from the most current topic revision, so viewing older revisions of a topic can show unexpected results.
 
+And especially important, *preference settings are never overridden or set in "%<nonp>INCLUDE{" topics.* %IF{"%BASETOPIC%=Macros" then="in the below example about weather conditions, note the difference in the CONDITIONS expansion" }%
+
 Spaces between the = sign and the value will be ignored. You can split a value over several lines by indenting following lines with spaces - as long as you don't try to use * as the first character on the following line.
 
 *Example:*
@@ -47,17 +49,23 @@ Whatever you include in your macro will be expanded on display, exactly as if it
 
 You can also set preference settings in a topic by clicking the link =Edit topic preference settings= under =More topic actions=. Preferences set in this manner are known as 'meta' preferences and are not visible in the topic text, but take effect nevertheless.
 
+#MacroParam
 ---+++ Parameters
 <!--
-   * Set CONDITIONS = The %WHAT% is %STATE% today.
+   * Set CONDITIONS = According to [[%BASETOPIC%]], the %WHAT% is %STATE% today (Set in PreferenceSettings).
    * Set WEATHER = It's %DEFAULT{default="raining"}%.
 -->
+Note that !%CONDITIONS% expands differently when this example is viewed in %IF{"'%BASETOPIC%'='Macros'" then="[[PreferenceSettings#MacroParam][PreferenceSettings]]" else="[[Macros#MacroParam][Macros]]"}%.  This is because Set statement are not active in included topics.  The including topic's set statements are used.
+
 Macros defined using preference settings can take parameters. These are symbols passed in the call to the macro to define local macros that will be expanded in the output. For example,
 <verbatim class="tml">
-   * Set CONDITIONS = The %WHAT% is %STATE% today.
+   * Set CONDITIONS = According to [[%BASETOPIC%]] the %WHAT% is %STATE% today (Set in ...).
 </verbatim>
-You can call this macro passing in values for =WHAT= and =STATE=. For example,
-=%<nop>CONDITIONS{WHAT="sea" STATE="choppy"}%= expands to =%CONDITIONS{WHAT="sea" STATE="choppy"}%=.
+You can call this macro passing in values for =WHAT= and =STATE=. For example:
+   * =%<nop>CONDITIONS{WHAT="sea" STATE="choppy"}%=
+      * expands to =%CONDITIONS{WHAT="sea" STATE="choppy"}%=.
+
+---++++ Parameter defaults
    * The special parameter name =DEFAULT= gets the value of any unnamed parameter in the macro call.
    * Parameter macros can accept a =default= parameter so that they expand to something even when a value isn't passed for them in the call.
 Example:
