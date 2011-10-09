@@ -130,9 +130,14 @@ This method can be overridden to give an alternative list of tests.
 
 =cut
 
+our %tests_in;
+
 sub list_tests {
     my ( $this, $suite ) = @_;
     die "No suite" unless $suite;
+    # We cache the test list because the test class is modified when we _gen_verification_functions
+    # and we don't want to list the lambda functions created therein
+    return @{$tests_in{$suite}} if (defined $tests_in{$suite});
     my @tests;
     my @verifies;
     my $clz = new Devel::Symdump($suite);
@@ -152,6 +157,7 @@ sub list_tests {
         @tests,
         _gen_verification_functions( \@setups, $suite, \@verifies, @fgs )
     );
+    $tests_in{$suite} = \@tests;
     return @tests;
 }
 
