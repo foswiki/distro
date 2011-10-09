@@ -1,22 +1,22 @@
 # See bottom of file for license and copyright information
 
-# SMELL: Item10426  Can't use strict when monkey patching references
-#use strict;
-use warnings;
-
 =begin TML
 
 ---+ package Foswiki::IncludeHandlers::https
 
 This package is designed to be lazy-loaded when Foswiki sees
-an INCLUDE macro with the https: protocol. It implements a single
-method INCLUDE.
+an INCLUDE macro with the https: protocol. It relies on
+Foswiki::IncludeHandlers::http for implementation.
 
 =cut
 
-use Foswiki::IncludeHandlers::http ();
+package Foswiki::IncludeHandlers::https;
 
-*{'Foswiki::IncludeHandlers::https::'} = \*{'Foswiki::IncludeHandlers::http::'};
+use strict;
+use warnings;
+
+use Foswiki::IncludeHandlers::http ();
+our @ISA = qw( Foswiki::IncludeHandlers::http );
 
 1;
 
