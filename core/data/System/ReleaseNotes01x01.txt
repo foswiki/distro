@@ -1169,7 +1169,8 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11145][Item11145]] | Search for Template topics extremely slow - kills WebCreateNewTopicTemplate usage |
 | [[%BUGS%/Item11149][Item11149]] | jscalendar broken when using jquery in noconflict mode |
 | [[%BUGS%/Item11157][Item11157]] | PlainFile logger rotates logs on localtime, not gmtime. |
-| [[%BUGS%/Item11177][Item11174]] | PreferenceSettings examples don't work when included in Macros topic. |
+| [[%BUGS%/Item11174][Item11174]] | PreferenceSettings examples don't work when included in Macros topic. |
+| [[%BUGS%/Item11176][Item11176]] | https include used monkey patching instead of object inheritance. |
 </noautolink>
 
 ---+++ Enhancements
