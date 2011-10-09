@@ -221,29 +221,18 @@ sub getInfo {
     # Note that we only peek at the first line of the file,
     # which is where a "proper" save will have left the tag.
     my $info = {};
-    my $f;
     if ( $this->noCheckinPending() ) {
 	# TOPICINFO may be OK
-	if ( open( $f, '<', $this->{file} ) ) {
-	    local $/ = "\n";
-	    my $ti = <$f>;
-	    close($f);
-	    if ( defined $ti && $ti =~ /^%META:TOPICINFO{(.*)}%/ ) {
-		require Foswiki::Attrs;
-		my $a = Foswiki::Attrs->new($1);
-		
-		# Default bad revs to 1, not 0, because this is coming from
-		# a topic on disk, so we know it's a "real" rev.
-		$info->{version} = Foswiki::Store::cleanUpRevID( $a->{version} )
-		    || 1;
-		$info->{date}    = $a->{date};
-		$info->{author}  = $a->{author};
-		$info->{comment} = $a->{comment};
-	    }
-	}
+	$this->_getTOPICINFO($info);
+    } elsif (-e $this->{rcsFile}) {
+	# There is a checkin pending, and there is an rcs file.
+	# Ignore TOPICINFO
+	$info->{version} = $this->_numRevisions() + 1;
+	$info->{comment} = "pending";
     } else {
-	# There is a checkin pending. We need the latest rev in the history + 1
-	$info->{version} = -e $this->{rcsFile} ? $this->_numRevisions() + 1 : 1;
+	# There is a checkin pending, but no RCS file. Make the best we can of TOPICINFO.
+	$this->_getTOPICINFO($info);
+	$info->{version} = 1;
 	$info->{comment} = "pending";
     }
     $info->{date} = $this->getTimestamp() unless defined $info->{date};
@@ -251,6 +240,30 @@ sub getInfo {
     $info->{comment} = '' unless defined $info->{comment};
     $info->{author} ||= $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
     return $info;
+}
+
+# Try and read TOPICINFO
+sub _getTOPICINFO {
+    my ($this, $info) = @_;
+    my $f;
+
+    if ( open( $f, '<', $this->{file} ) ) {
+	local $/ = "\n";
+	my $ti = <$f>;
+	close($f);
+	if ( defined $ti && $ti =~ /^%META:TOPICINFO{(.*)}%/ ) {
+	    require Foswiki::Attrs;
+	    my $a = Foswiki::Attrs->new($1);
+	    
+	    # Default bad revs to 1, not 0, because this is coming from
+	    # a topic on disk, so we know it's a "real" rev.
+	    $info->{version} = Foswiki::Store::cleanUpRevID( $a->{version} )
+		|| 1;
+	    $info->{date}    = $a->{date};
+	    $info->{author}  = $a->{author};
+	    $info->{comment} = $a->{comment};
+	}
+    }
 }
 
 # Check to see if there is a newer non-,v file waiting to be checked in. If there is, then

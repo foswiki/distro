@@ -33,6 +33,9 @@
 #  saveAttachment inconsistent 	
 #  getRevisionDiff no history
 #  getRevisionDiff inconsistent
+#
+# Note that the NoHistory behaviour has a special case where the topic is sourced
+# from the System web. in this case the TOPICINFO is used.
 
 package VCStoreTests;
 
@@ -76,14 +79,18 @@ sub set_up_for_verify {
 
 # private; create a topic with no ,v
 sub _createNoHistoryTopic {
-    my ($this) = @_;
+    my ($this, $withTOPICINFO) = @_;
 
     $this->{test_topic} .= "NoHistory" unless $this->{test_topic} =~ /NoHistory/;
 
     open( my $fh, '>', "$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}.txt" )
       || die "Unable to open \n $! \n\n ";
-    print $fh <<CRUD;
+    if ($withTOPICINFO) {
+	print $fh <<JUNK
 %META:TOPICINFO{author="LewisCarroll" date="9876543210" format="1.1" version="99"}%
+JUNK
+    }
+    print $fh <<CRUD;
 $TEXT1
 %META:FIELD{name="SnarkBait" title="SnarkBait" value="Bellman"}%
 CRUD
@@ -124,10 +131,11 @@ CRUD
 }
 
 # Get revision info where there is no history (,v file)
-sub verify_NoHistory_getRevisionInfo {
+sub verify_NoHistory_NoTOPICINFO_getRevisionInfo {
     my $this = shift;
 
-    $this->_createNoHistoryTopic();
+    # Create nohistory topic with no META:TOPICINFO
+    $this->_createNoHistoryTopic(0);
 
     # A topic without history should be rev 1
     my $meta = Foswiki::Meta->load( $this->{session}, $this->{test_web}, $this->{test_topic} );
@@ -137,9 +145,14 @@ sub verify_NoHistory_getRevisionInfo {
     $this->assert_num_equals( 1, $it->next() );
     # 1
     $this->assert_matches( qr/^\s*\Q$TEXT1\E\s*$/s, $meta->text() );
-#    my $ti = $meta->get('TOPICINFO');
-#    $this->assert_num_equals(1, $ti->{version});
-#    $this->assert_str_equals($Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID, $ti->{author});
+    # The TOPICINFO should be re-populated approrpiately - if it exists (it may
+    # only be created when the topic is saved)
+    my $ti = $meta->get('TOPICINFO');
+    if ($ti) {
+	$this->assert_num_equals(1, $ti->{version});
+	$this->assert_str_equals('LewisCarroll', $ti->{author});
+	$this->assert_num_equals(9876543210, $ti->{date});
+    }
 
     # 5
     $this->assert_num_equals(2, $this->{session}->{store}->getNextRevision($meta));
@@ -150,6 +163,41 @@ sub verify_NoHistory_getRevisionInfo {
     $this->assert_num_equals(1, $info->{version});
     # the author will be reverted to the unknown user
     $this->assert_str_equals($Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID, $info->{author});
+}
+
+# Get revision info where there is no history (,v file)
+sub verify_NoHistory_TOPICINFO_getRevisionInfo {
+    my $this = shift;
+
+    # Create nohistory topic with META:TOPICINFO
+    $this->_createNoHistoryTopic(1);
+
+    # A topic without history should be rev 1
+    my $meta = Foswiki::Meta->load( $this->{session}, $this->{test_web}, $this->{test_topic} );
+    # 3
+    my $it = $this->{session}->{store}->getRevisionHistory($meta);
+    $this->assert($it->hasNext());
+    $this->assert_num_equals( 1, $it->next() );
+    # 1
+    $this->assert_matches( qr/^\s*\Q$TEXT1\E\s*$/s, $meta->text() );
+    # The TOPICINFO should be re-populated approrpiately
+    my $ti = $meta->get('TOPICINFO');
+    if ($ti) {
+	$this->assert_num_equals(1, $ti->{version});
+	$this->assert_str_equals('LewisCarroll', $ti->{author});
+	$this->assert_num_equals(9876543210, $ti->{date});
+    }
+
+    # 5
+    $this->assert_num_equals(2, $this->{session}->{store}->getNextRevision($meta));
+    # 17
+    my $info = $this->{session}->{store}->getVersionInfo($meta);
+    # the TOPICINFO{version} should be ignored if the ,v does not exist, and the rev
+    # number reverted to 1
+    $this->assert_num_equals(1, $info->{version});
+    $this->assert_num_equals(9876543210, $info->{date});
+    # the author will be reverted to the unknown user
+    $this->assert_str_equals("LewisCarroll", $info->{author});
 }
 
 sub verify_InconsistentTopic_getRevisionInfo {
