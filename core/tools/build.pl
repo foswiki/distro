@@ -34,17 +34,38 @@ package FoswikiBuild;
 
 @FoswikiBuild::ISA = ("Foswiki::Contrib::Build");
 
+my $cvs;
+my $gitdir;
+
 sub new {
     my $class = shift;
     my $autoBuild;    #set if this is an automatic build
     my $name;
+
+    if ( my $gitdir = findPathToDir('.git') ) {
+        $cvs = 'git';
+        print
+"detected git installation at $gitdir\n*Note: svn will still be used to query the Repository for the list of release tags.\n";
+
+        # Verify that all files are committed and all commits are dcommmited to svn 
+        my $gitstatus = `git status -uno`;
+        die "***\nuncommitted changes in tree - build aborted\n***\n$gitstatus\n"
+          if ( $gitstatus =~ m/(modified:)|(new file:)|(deleted:)/ );
+        my $gitlog = `git log -1`;
+        die "***\n*** changes not yet dcommited - build aborted\n***\n$gitlog\n"
+          if ( $gitlog !~ m/git-svn-id:/ );
+    }
+    else {
+        print "detected svn installation\n\n";
+        $cvs = 'svn';
+    }
 
     if ( scalar(@ARGV) > 1 ) {
         $name = pop(@ARGV);
         if ( $name eq '-auto' ) {
 
             #build a name from major.minor.patch.-auto.svnrev
-            my $rev = `svn info ..`;
+            my $rev = ( $cvs eq 'svn' ) ? `svn info ..` : `git svn info`;
             $rev =~ /Revision: (\d*)/m;
             $name      = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $1;
             $autoBuild = 1;
@@ -111,16 +132,24 @@ END
             # Note; the commit is unconditional, because we *must* update
             # Foswiki.pm before building.
             my $tim = 'BUILD ' . $name . ' at ' . gmtime() . ' GMT';
-            my $cmd = "svn propset LASTBUILD '$tim' ../lib/Foswiki.pm";
-            print `$cmd`;
+            if ( $cvs eq 'svn' ) {
+                my $cmd = "svn propset LASTBUILD '$tim' ../lib/Foswiki.pm";
+                print `$cmd`;
 
-            #print "$cmd\n";
-            die $@ if $@;
-            $cmd = "svn commit -m 'Item000: $tim' ../lib/Foswiki.pm";
-            print `$cmd`;
+                #print "$cmd\n";
+                die $@ if $@;
+                $cmd = "svn commit -m 'Item000: $tim' ../lib/Foswiki.pm";
+                print `$cmd`;
 
-            #print "$cmd\n";
-            die $@ if $@;
+                #print "$cmd\n";
+                die $@ if $@;
+            }
+            else {
+                my $cmd = "git commit -m 'Item000: $tim' ../lib/Foswiki.pm";
+                print `$cmd`;
+                die $@ if $@;
+            }
+
         }
         else {
             $name = 'Foswiki';
@@ -129,6 +158,19 @@ END
 
     my $this = $class->SUPER::new( $name, "Foswiki" );
     return $this;
+}
+
+# Search the current working directory and its parents
+# # for a directory called like the first parameter
+sub findPathToDir {
+    my $lookForDir = shift;
+
+    my @dirlist = File::Spec->splitdir( Cwd::getcwd() );
+    do {
+        my $dir = File::Spec->catdir( @dirlist, $lookForDir );
+        return File::Spec->catdir(@dirlist) if -d $dir;
+    } while ( pop @dirlist );
+    return;
 }
 
 # Override installer target; don't want an installer.
@@ -148,9 +190,9 @@ sub target_stage {
     $this->SUPER::target_stage();
 
     $this->stage_gendocs();
-    
+
     # Reactivate this line if we want to build with ,v files
-    # $this->stage_rcsfiles();   
+    # $this->stage_rcsfiles();
 }
 
 sub target_archive {
