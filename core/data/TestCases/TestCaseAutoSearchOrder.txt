@@ -5,6 +5,9 @@ Description: Tests for the "order" parameter in SEARCH.
 
 Designed by: Lynnwood Brown
 
+<!--
+   * Set FAILMSG = <b>Verify the file system dates of the <code>.txt,v</code> files for each of the 3 SearchTestTopicX topics.   If the <code>.txt</code> file is newer in the file system than the corresponding <code>.txt,v</code> file, the test will fail.   <code>touch</code> each <code>.txt,v</code> file to resolve the failure.</b>
+-->
 Topics created for test (Text Item; Number Item; Created; Modified):
    * SearchTestTopic1 (Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56)
    * SearchTestTopic2 (Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23)
