@@ -234,7 +234,8 @@ sub postRenderingHandler {
             $topic, $web
         );
         if ($res) {
-            $res = "<font color=\"red\">TESTS FAILED</font><p />$res";
+            my $failmsg = Foswiki::Func::expandCommonVariables( '%FAILMSG{default=""}%');
+            $res = "<font color=\"red\">TESTS FAILED</font><p />$failmsg<p />$res";
         }
         else {
             $res = "<font color=\"green\">ALL TESTS PASSED</font>";

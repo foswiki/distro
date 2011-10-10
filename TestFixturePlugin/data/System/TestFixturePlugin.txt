@@ -41,6 +41,8 @@ You specify your actual test markup in the same way:
 <!-- /actual -->
 </verbatim>
 
+If there are some hints to resolve common failures, you can include them into the failure results by setting the FAILMSG variable to describe possible failures.  Note that this message is expanded after rendering, so it should be defined as plain HTML.  See the example in TestCases.TestCaseAutoSearchOrder (Hidden in HTML comments).
+
 Some notes about the comparison process:
 	1 The comparison is performed by Algorithm::Diff, which compares the HTML structures found in the text. See the documentation on Algorithm::Diff for help.
 	* whitespace is effectively ignored.
