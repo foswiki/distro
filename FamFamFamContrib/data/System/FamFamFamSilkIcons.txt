@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1223909088" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1232515575" format="1.1" version="1"}%
 ---+ %TOPIC%
 
 Silk is a smooth, free icon set, containing over 700  16-by-16 pixel icons in strokably-soft PNG format. 

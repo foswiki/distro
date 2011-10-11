@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231367690" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarVAR
 ---+++ VAR{"NAME" web="Web"} -- get a preference value from another web 

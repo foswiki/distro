@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1258385698" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1258386347" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"bgiframe"

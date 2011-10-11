@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1223909088" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1229388769" format="1.1" version="1"}%
 ---+ %TOPIC%
 
 'Flags' are 247 icons - in GIF and PNG formats - representing most countries in the world as small pixel icons. 

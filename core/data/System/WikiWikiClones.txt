@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252721466" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252891274" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 Foswiki is a Wiki Wiki clone and has its root in JOS Wiki via TWiki<sup>&reg;</sup>.
 

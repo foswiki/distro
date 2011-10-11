@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1282135389" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 The same topic revision will be used when you save a topic again within a certain time frame (one hour by default, configurable with configure item ={ReplaceIfEditedAgainWithin}=). This is to prevent unnecessary topic revisions when you do several edit cycles in a row. Note that a new revision *is* created if another person edits the same topic, regardless of the time.
 

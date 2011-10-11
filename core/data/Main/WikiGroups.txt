@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1"  version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1300401073" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Wiki Groups
 This is a list of all known groups that can be used to define [[%SYSTEMWEB%.AccessControl][AccessControl]] in <nop>%WIKITOOLNAME%.

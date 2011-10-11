@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252718357" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1274836012" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 
 This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1277985740" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1283708710" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarTAB
 ---+++ TAB{"text" ...} -- tab inside a tabpane widget 

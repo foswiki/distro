@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1282135389" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 That is often an indication that <nop>%WIKITOOLNAME% can't find the =egrep= and =fgrep= commands on your system. Check the ={RCS}{EgrepCmd}= and ={RCS}{FgrepCmd}= settings in [[%SCRIPTURLPATH{"configure"}%][configure]].
 

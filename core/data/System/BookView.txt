@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252720797" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252891274" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FormattedSearch"}%
 *BookView* is an option available for the SEARCH macro. It allows you to display the result in "book view", that is, the whole content of topics is shown instead of a topic summary. This allows you to easily see a whole set of pages, which is useful for printing.
 

@@ -1,2 +1,2 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252721098" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1283449772" format="1.1" version="1"}%
 This topic has been deprecated - please see [[WikiSyntax]] instead.

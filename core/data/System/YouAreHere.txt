@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252718431" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252891274" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
    * <span style='background : %VAR{"WEBBGCOLOR" web="%BASEWEB%"}%'>You are currently in the <nop>%BASEWEB% web. The color code for this web is this background, so you know where you are.</span>

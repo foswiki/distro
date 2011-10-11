@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev: 16686 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1279945212" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WikiUsers"}%
 ---+ The <nop>RegistrationAgent User
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107573206" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1282144126" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ !SlideShowPlugin for presentations
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1277985793" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1278071257" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarENDTAB
 ---+++ ENDTAB -- ending marker for a tab of a tabpane
