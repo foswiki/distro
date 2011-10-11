@@ -17,8 +17,8 @@ package Foswiki::Plugins::TestFixturePlugin;
 
 use strict;
 
-use Foswiki::Func ();    # The plugins API
-use Foswiki::Attrs ();
+use Foswiki::Func                                   ();    # The plugins API
+use Foswiki::Attrs                                  ();
 use Foswiki::Plugins::TestFixturePlugin::HTMLDiffer ();
 
 # This is a test plugin designed to interact with Foswiki testcases.
@@ -146,7 +146,8 @@ sub _compareExpectedWithActual {
 
             $errors .= CGI::table(
                 { border => 1 },
-                CGI::Tr( {},
+                CGI::Tr(
+                    {},
                     CGI::th( {}, 'Expected ' . $e->{options} )
                       . $control->{result}
                 )
@@ -167,9 +168,9 @@ sub _processDiff {
     }
     else {
         $opts->{result} .= CGI::Tr( { valign => 'top' },
-            CGI::td( { bgcolor => '#99ffcc' }, CGI::pre({}, $a) ) );
+            CGI::td( { bgcolor => '#99ffcc' }, CGI::pre( {}, $a ) ) );
         $opts->{result} .= CGI::Tr( { valign => 'top' },
-            CGI::td( { bgcolor => '#ffccff' }, CGI::pre({}, $b) ) );
+            CGI::td( { bgcolor => '#ffccff' }, CGI::pre( {}, $b ) ) );
     }
 }
 
@@ -234,8 +235,10 @@ sub postRenderingHandler {
             $topic, $web
         );
         if ($res) {
-            my $failmsg = Foswiki::Func::expandCommonVariables( '%FAILMSG{default=""}%');
-            $res = "<font color=\"red\">TESTS FAILED</font><p />$failmsg<p />$res";
+            my $failmsg =
+              Foswiki::Func::expandCommonVariables('%FAILMSG{default=""}%');
+            $res =
+              "<font color=\"red\">TESTS FAILED</font><p />$failmsg<p />$res";
         }
         else {
             $res = "<font color=\"green\">ALL TESTS PASSED</font>";
