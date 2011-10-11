@@ -147,6 +147,7 @@ sub _compareExpectedWithActual {
             $errors .= CGI::table(
                 { border => 1 },
                 CGI::Tr(
+                    {},
                     CGI::th( {}, 'Expected ' . $e->{options} )
                       . $control->{result}
                 )
@@ -167,9 +168,9 @@ sub _processDiff {
     }
     else {
         $opts->{result} .= CGI::Tr( { valign => 'top' },
-            CGI::td( { bgcolor => '#99ffcc' }, CGI::pre($a) ) );
+            CGI::td( { bgcolor => '#99ffcc' }, CGI::pre( {}, $a ) ) );
         $opts->{result} .= CGI::Tr( { valign => 'top' },
-            CGI::td( { bgcolor => '#ffccff' }, CGI::pre($b) ) );
+            CGI::td( { bgcolor => '#ffccff' }, CGI::pre( {}, $b ) ) );
     }
 }
 
