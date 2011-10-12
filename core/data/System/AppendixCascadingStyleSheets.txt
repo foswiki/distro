@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252718557" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1314532193" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Appendix C: CSS

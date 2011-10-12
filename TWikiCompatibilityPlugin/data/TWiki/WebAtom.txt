@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1138082878" format="1.0" version="$Rev: 8264 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252458401" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 <title>%WIKITOOLNAME%'s <nop>%WEB% web</title>
 <subtitle>%MAKETEXT{"The [_1] web of Foswiki, the Free and Open Source Wiki." args="<nop>%WEB%"}%</subtitle>

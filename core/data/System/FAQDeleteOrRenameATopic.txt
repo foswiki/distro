@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1282135389" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 These two questions are answered together because often when you think you want to delete a page, more often it makes sense to rename the page to contain more context, e.g. rename it to include the date.
 

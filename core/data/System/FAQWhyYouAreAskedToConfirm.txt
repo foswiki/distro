@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1258534857" format="1.1" version="1.10"}%
+%META:TOPICINFO{author="ProjectContributor" date="1284923821" format="1.1" version="1"}%
 ---+ %MAKETEXT{"Why am I being asked to confirm?"}%
 %MAKETEXT{"This page explains one of the security measures that Foswiki, the software that runs this site, performs to secure this site from attackers."}%
 <sticky><div class="why">

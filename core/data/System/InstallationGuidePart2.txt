@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252718352" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1311170712" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ Installation Guide Part 2
 __Return to [[%SPACEOUT{"InstallationGuidePart1}%]] or see the [[InstallationGuide][Complete Installation Guide]] on one page__

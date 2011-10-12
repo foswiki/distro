@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252720972" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1280853777" format="1.1" version="1"}%
 <!--
       * Set REGISTRATION_DISABLED = %IF{"context registration_supported" then="%IF{"context registration_enabled" then="" else="DISABLED"}%" else="DISABLED"}%
 -->

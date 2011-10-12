@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1180825069" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1284876702" format="1.1" version="1"}%
 %META:TOPICPARENT{name="SpreadSheetPlugin"}%
 #VarCALC
 ---+++ CALC{"formula"} -- add spreadsheet calculations to tables and outside tables

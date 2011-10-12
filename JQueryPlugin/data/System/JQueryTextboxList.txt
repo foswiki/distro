@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1292246103" format="1.1" reprev="4" version="4"}%
+%META:TOPICINFO{author="ProjectContributor" date="1306337444" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"textboxlist"

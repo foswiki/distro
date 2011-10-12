@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1299437156" format="1.1" version="1"}%
 | *Name:*| *Type:* | *Size:* | *Values:* | *Tooltip message:* | *Attributes* |
 | <nop>TopicTitle  | text | 80 | | | H |
 | TopicClassification | select | 1 | | Classify a topic | |

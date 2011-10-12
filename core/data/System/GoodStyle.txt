@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1283449772" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+ Collaboration Tips
 _Following you will find a short list of hints and recommendations that are considered basic knowledge when starting to edit existing topics._

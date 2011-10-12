@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252721129" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252891274" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 Use the "Minor changes, don't notify" checkbox in preview in case you only make a minor change to a topic and you do not want to inform everybody who is on the WebNotify list of the current web of this change.
 

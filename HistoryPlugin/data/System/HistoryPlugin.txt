@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1299981906" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1302473742" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ History Plugin
 

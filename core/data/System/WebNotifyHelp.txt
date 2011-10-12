@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252721307" format="1.1" version="$Rev: 7989 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1282954512" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %TWISTY{showlink="&#9658; %MAKETEXT{"Notification help"}%" hidelink="&#9660; %MAKETEXT{"Notification help"}%" linkclass="foswikiButton" remember="on"}%
 <div class="foswikiHelp">

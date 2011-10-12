@@ -1,3 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252720268" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252891274" format="1.1" version="1"}%
 %META:TOPICPARENT{name="SiteMap"}%
 %INCLUDE{"%SYSTEMWEB%.SiteMap"}% <font size="-2">(included from %SYSTEMWEB%.SiteMap; change %BASEWEB%.%BASETOPIC% to include from <nop>SiteMap instead of <nop>WebsTable)</font>

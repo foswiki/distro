@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1182547552" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1284873420" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 #VarCOMMENT
 ---+++ COMMENT{ _attributes_ } -- insert an edit box into the topic to easily add comments.

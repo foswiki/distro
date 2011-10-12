@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1297235055" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1297286796" format="1.1" version="1"}%
 %META:TOPICPARENT{name="EmptyPlugin"}%
 #VarEXAMPLETAG
 ---+++ EXAMPLETAG -- example variable

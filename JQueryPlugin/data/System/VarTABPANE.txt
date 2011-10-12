@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1277985495" format="1.1" reprev="1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1284905045" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarTABPANE
 ---+++ TABPANE{...} -- tabpane widget

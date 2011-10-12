@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252721267" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1280632191" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
    * <a href="%SCRIPTURLPATH{"rename"}%/%BASEWEB%/%BASETOPIC%?action=renameweb" rel='nofollow'>
    %MAKETEXT{"Rename, move or delete this web"}%</a>

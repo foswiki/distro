@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1131431859" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1288962587" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 %TMPL:INCLUDE{"WebCreateNewTopic"}%
 

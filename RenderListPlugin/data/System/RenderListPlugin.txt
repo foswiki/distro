@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1191140874" format="1.1" version="$Rev: 14713 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1310719849" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Render List Plugin
 

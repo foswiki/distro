@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1217665619" format="1.1" version="$Rev: 15746 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1314565208" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Slide Show Plugin
 

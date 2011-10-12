@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252718594" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1252891274" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 <img src="%ATTACHURLPATH%/wabisabi.gif" width="251" height="79" alt="Wabi Sabi" align="right">
 Since wabi-sabi represents a comprehensive Japanese world view or aesthetic system, it is difficult to explain precisely in western terms. According to Leonard Koren, wabi-sabi is the most conspicuous and characteristic feature of what we think of as traditional Japanese beauty and it "occupies roughly the same position in the Japanese pantheon of aesthetic values as do the Greek ideals of beauty and perfection in the West."

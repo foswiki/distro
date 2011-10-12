@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1141771402" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1282866473" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Center the page with a border
 

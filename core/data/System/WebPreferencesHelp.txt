@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252718115" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1278748072" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebPreferences"}%
 ---++!! Tools
 %INCLUDE{"%SYSTEMWEB%.RenameWeb"}%

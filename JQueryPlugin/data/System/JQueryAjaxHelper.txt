@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1308932234" format="1.1" reprev="10" version="10"}%
+%META:TOPICINFO{author="ProjectContributor" date="1315844220" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 <!--
 Hidden form definition

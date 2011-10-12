@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1311234108" format="1.1" version="5"}%
+%META:TOPICINFO{author="ProjectContributor" date="1315479654" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"shrinkurls"

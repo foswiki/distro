@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1315837703" format="1.1" reprev="3" version="6"}%
+%META:TOPICINFO{author="ProjectContributor" date="1315838249" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"validate"

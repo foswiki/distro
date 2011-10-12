@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1269854980" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1274023252" format="1.1" version="1"}%
 ---+!! Country list
 
 List of countries used in the [[UserForm]]. To use this list in Foswiki applications, see the country SEARCH example in [[SearchPatternCookbook]].

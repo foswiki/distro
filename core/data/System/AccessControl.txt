@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252721401" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1301065246" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control

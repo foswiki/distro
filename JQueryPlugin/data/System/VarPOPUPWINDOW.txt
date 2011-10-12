@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1277985796" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1284905045" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarPOPUPWINDOW
 ---+++ POPUPWINDOW{"topic" ...} -- opens a topic or url in a new window

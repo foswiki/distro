@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1282135389" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 You can move and delete attachments directly from your browser. Moving lets you transfer an attachment from one topic to another. The soft delete moves an attachment to the special ==TrashAttachment== topic in the ==Trash== web, where it's hidden but can be "undeleted" with system administrator access. Please note that you cannot rename an attachment in the current Foswiki release.
 

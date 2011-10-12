@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1286168694" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 Foswiki is distributed under the [[http://www.gnu.org/licenses/gpl-2.0.html][Gnu General Public License]]. You can get the sources in several ways:
    * Official releases may be downloaded from http://foswiki.org/Download

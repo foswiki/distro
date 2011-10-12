@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252718469" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1284329555" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.0.10 - 08 Sep 2010
 

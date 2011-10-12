@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1232834051" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1304697250" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 <div class="foswikiBroadcastMessage"> <strong>NOTE:</strong> Edit and Attach will be disabled today between 05:00 PM and 06:00 PM PDT (00:00 to 01:00 GMT) for a scheduled Foswiki maintenance.</div>
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1289516450" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %MAKETEXT{"This is a subscription service to be automatically notified by e-mail when topics change in this [_1] web. This is a convenient service, so you do not have to come back and check all the time if something has changed. To subscribe, please add a bullet with your [_2] in alphabetical order to this list:" args="*<nop>%WEB%*,[[%SYSTEMWEB%.WikiName][WikiName]]"}%
 

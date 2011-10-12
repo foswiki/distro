@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1268211735" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1292364716" format="1.1" version="1"}%
 ---+!! Welcome to the %WEB% Web
 This is where Foswiki keeps system documentation, including
 documentation that is included with optional extensions.

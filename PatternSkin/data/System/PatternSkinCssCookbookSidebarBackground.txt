@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282772512" format="1.1" version="2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1282866473" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinCssCookbook"}%
 ---+!! PatternSkinCssCookbook Recipe: Sidebar background color
 To see if the background color really extends beyond the body, we make the body contents longer than the sidebar.

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1282135389" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 Foswiki allows multiple simultaneous edits of the same topic, and then merges the different changes automatically. You probably won't even notice this happening unless there is a conflict that cannot be merged automatically. In this case, you may see Foswiki inserting "change marks" into the text to highlight conflicts between your edits and another person's. These change marks are only used if you edit the same part of a topic as someone else, and they indicate what the text used to look like, what the other person's edits were, and what your edits were.
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1194448001" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1298533812" format="1.1" version="1"}%
 ---+ This is the title
 
 Here is a changed paragraph. Lorem Ipsum dolor sit amet, conecteur adipiscing felix elit.

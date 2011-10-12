@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1223909088" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1232515575" format="1.1" version="1"}%
 ---+ %TOPIC%
 
 Mark James created a great set of 1,022 silky-smooth 16x16 true-colour 

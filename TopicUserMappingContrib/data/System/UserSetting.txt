@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1187649998" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1284862626" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DefaultPreferences"}%
 ---+++ User Settings -- preference settings customizable by users
 Some of the preference settings are explicitly intended to be customized by users, though a default is provided in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] and site wide customisation can take place in [[%LOCALSITEPREFS%]].

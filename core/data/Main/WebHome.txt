@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1269266213" format="1.1" version="1"}%
 ---+!! Welcome to the <nop>%USERSWEB% web 
 Congratulations, you have finished installing Foswiki.
 

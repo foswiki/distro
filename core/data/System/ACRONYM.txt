@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252720918" format="1.1" version="$Rev: 4884 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1284387405" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! What is an !ACRONYM?
 An acronym is an abbreviation that is typically made up of the first letter or letters of a phrase.  A very familiar example would be WWW standing for World

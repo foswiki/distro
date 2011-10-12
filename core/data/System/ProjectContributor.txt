@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252820008" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1287834903" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 <!--
 Try and make sure robots don't spam contributor names

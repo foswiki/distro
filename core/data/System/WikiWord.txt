@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252720918" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1284905045" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! What is a !WikiWord?
 A !WikiWord consists of two or more words with initial capitals, run together. *WikiWords are topic names.* A Foswiki topic name always has a fixed format: two or more words with initial capitals, run together. Like the name of the current topic: *WikiWord*. When you type the name of a topic, you create a link to that topic. You type =%HOMETOPIC%= and on saving the page this becomes %HOMETOPIC%. It's as easy as that.

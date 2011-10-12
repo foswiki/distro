@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1194966209" format="1.1" reprev="1.2" version="$Rev:1610 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1302471867" format="1.1" version="1"}%
 ---+ <nop>AutoViewTemplatePlugin
 %SHORTDESCRIPTION%
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252721194" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1270901849" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Force new revision option
 Normally, if you make subsequent edits within a one hour period (configuration item [[%SCRIPTURL{configure}%?expert=1#Miscellaneous][ReplaceIfEditedAgainWithin]]), <nop>%WIKITOOLNAME% will fold together your changes.  This is often the "right thing to do", as it can reduce the visual clutter of diffs.

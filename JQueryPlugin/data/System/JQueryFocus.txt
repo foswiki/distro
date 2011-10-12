@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1265649228" format="1.1" version="1.3"}%
+%META:TOPICINFO{author="ProjectContributor" date="1296417911" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"focus"

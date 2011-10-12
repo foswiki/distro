@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="0" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1311983319" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebLeftBarExample"}%
 %STARTINCLUDE%<div class="patternLeftBarPersonal">
 %IF{"context authenticated" then='%MAKETEXT{"Hello [_1]" args="<span class=\"foswikiUserName\">[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]</span>"}%'}%%IF{"$ LOGOUT != ''" then='%BR%<ul><li class="patternLogOut">%LOGOUT%</li></ul>'}%%IF{"$ LOGIN != '' and not context authenticated" then='<ul><li class="patternLogIn">%LOGIN% %IF{"context registration_supported AND context registration_enabled" then="%MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]"}%</li></ul>'}%

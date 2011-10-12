@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1270244482" format="1.1" version="$Rev: 4806 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1288962587" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin theme: 2009
 

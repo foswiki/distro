@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1269069131" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarICONURLPATH
 ---+++ ICONURLPATH{"name" default="name"} -- URL path of small documentation graphic or icon

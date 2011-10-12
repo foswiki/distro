@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1280633305" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1282135389" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 Foswiki is distributed under the GNU General Public License, see FAQDownloadSources. GPL is one of the free software licenses that protects the copyright holder, and at the same time allows users to redistribute the software under the terms of the license. Extract:
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252721069" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1284817814" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 #TemplateTopics
 ---+ Template topics

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1277983415" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1283708710" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 #VarJQREQUIRE
 ---+++ JQREQUIRE{"plugin, plugin, ... "} -- enable a plugin on the current page

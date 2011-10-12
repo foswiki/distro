@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252721330" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1305681626" format="1.1" version="1"}%
 %META:TOPICPARENT{name="SiteTools"}%
 ---+ <nop>%WIKITOOLNAME% Sitemap
 This table is updated automatically based on <nop>WebPreferences settings of the individual webs.

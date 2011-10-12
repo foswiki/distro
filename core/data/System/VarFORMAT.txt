@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1297526436" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarFORMAT
 ---+++ FORMAT{"list" format="" header="" footer="" separator=""} -- format a list of objects

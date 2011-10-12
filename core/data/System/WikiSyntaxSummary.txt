@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1284321594" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 This page provides online help for new users of Foswiki when editing a page.  If there's some formatting that your contributors use often, you can customize this for your site's particular needs.
 

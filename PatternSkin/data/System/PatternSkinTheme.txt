@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="BaseUserMapping_333" date="1283644735" format="1.1" version="8"}%
+%META:TOPICINFO{author="ProjectContributor" date="1288962587" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin theme
 Default pattern skin theme.

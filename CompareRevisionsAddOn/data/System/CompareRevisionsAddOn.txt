@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1144955876" format="1.1" version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1306587339" format="1.1" version="1"}%
 ---+ Compare Revisions Add-On
 <!--
 One line description, required for extensions repository catalog.
