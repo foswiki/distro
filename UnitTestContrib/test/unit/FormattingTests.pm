@@ -42,6 +42,13 @@ sub set_up {
     $Foswiki::cfg{AllowInlineScript}          = 1;
 }
 
+sub loadExtraConfig {
+    my $this = shift;
+    $this->SUPER::loadExtraConfig();
+
+    $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 0;
+
+}
 # This formats the text up to immediately before <nop>s are removed, so we
 # can see the nops.
 sub do_test {
@@ -1113,6 +1120,69 @@ sub test_render_PlainText {
 #        $this->{session}->{renderer}->TML2PlainText(
 #            'Apache 1_1 is the %INCLUDE{"one" section="two"}% [[ApacheServer][well known web server]].')
 #    );
+}
+
+sub test_simpleTable {
+    my $this = shift;
+
+    my $expected = <<EXPECTED;
+<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody><tr ><td>  a  </td>
+<td>  b  </td>
+</tr><tr ><td>  2  </td>
+<td>  3  </td>
+</tr><tr ><td>  ok  </td>
+<td>  bad  </td>
+</tr></tbody></table>
+EXPECTED
+    my $actual = <<ACTUAL;
+| a | b |
+| 2 | 3 |
+| ok | bad |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+sub test_tableHeadRow {
+    my $this = shift;
+
+# SMELL: <th><strong> is redundant -  <th> implies centered and bold.
+    my $expected = <<EXPECTED;
+<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><thead><tr ><th><strong> a </strong></th>
+<th><strong> b </strong></th>
+</tr></thead><tbody><tr ><td>  2  </td>
+<td>  3  </td>
+</tr><tr ><td>  ok  </td>
+<td>  bad  </td>
+</tr></tbody></table>
+EXPECTED
+    my $actual = <<ACTUAL;
+| *a* | *b* |
+| 2 | 3 |
+| ok | bad |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+sub test_tableFootRow {
+    my $this = shift;
+
+# SMELL: Expect failure - Core render does not appear to suport tfoot.
+    $this->expect_failure();
+    my $expected = <<EXPECTED;
+<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody><tr ><td> a </td>
+<td> b </td>
+</tr><tr ><td>  2  </td>
+<td>  3  </td>
+</tr></tbody><tfoot><tr ><th><strong>  ok  </strong></th>
+<th><strong>  bad  </strong></th>
+</tr></tfoot></table>
+EXPECTED
+    my $actual = <<ACTUAL;
+| a | b |
+| 2 | 3 |
+| *ok* | *bad* |
+ACTUAL
+    $this->do_test( $expected, $actual );
 }
 
 1;
