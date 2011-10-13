@@ -1,3 +1,18 @@
+Version 3.4.6 (2011-09-29)
+	Added support in Media plugin for audio media using the embed tag
+	Fixed accessibility bugs in WebKit and IE8 where toolbar items were not being read.
+	Added new use_accessible_selects option to ensure accessible list boxes are used in all browsers (custom widget in firefox native on other browsers)
+	Fixed bug where classid attribute was not being checked from embed objects.
+	Fixed bug in jsrobot tests with intermittently failing.
+	Fixed bug where anchors wasn't updated properly if you edited them using IE 8.
+	Fixed bug where input method on WebKit on Mac OS X would fail to initialize when sometimes focusing the editor.
+	Fixed bug where it wasn't possible to select HR elements on WebKit by simply clicking on them.
+	Fixed bug where the media plugin wouldn't work on IE9 when not using the inlinepopups plugin.
+	Fixed bug where hspace,vspace,align and bgcolor would be removed from object elements in the media plugin.
+	Fixed bug where the new youtube format wouldn't be properly parsed by the media plugin.
+	Fixed bug where the style attribute of layers wasn't properly updated on IE and Gecko.
+	Fixed bug where editing contents in a layer would fail on Gecko since contentEditable doesn't inherit properly.
+	Fixed bug where IE 6/7 would produce JS errors when serializing contents containing layers.
 Version 3.4.5 (2011-09-06)
 	Fixed accessibility bug in WebKit where the right and left arrow keys would update native list boxes.
 	Added new whitespace_elements option to enable users to specify specific elements where the whitespace is preserved.
