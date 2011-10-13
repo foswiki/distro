@@ -167,6 +167,45 @@ ACTUAL
 
 =cut
 
+sub test_Item8647_head_foot {
+    my $this = shift;
+
+    my $cgi = $this->{request};
+    my $url = $cgi->url( -absolute => 1 );
+
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<table class="foswikiTable" rules="none" border="1">
+        <thead>
+                <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+                        <th class="foswikiTableCol0 foswikiFirstCol foswikiLastCol">  <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">Head </th>
+                </tr>
+        </thead>
+        <tbody>
+                <tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+                        <td class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> Body </td>
+                </tr>
+        </tbody></table>
+        <tfoot>
+                <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+                        <th class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast">  <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">Toe </th>
+                </tr>
+        </tfoot></table>
+EXPECTED
+    my $actual = <<ACTUAL;
+| *Head* |
+| Body |
+| *Toe* |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
 sub test_doubleTheadTableUsingTablePlugin {
     my $this = shift;
 
