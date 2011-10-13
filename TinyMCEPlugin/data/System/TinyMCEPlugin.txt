@@ -159,6 +159,8 @@ Below is the default configuration. If it is to be modified, it should be copied
 "theme_advanced_resizing" : true,
 "theme_advanced_path" : false,
 "theme_advanced_statusbar_location" : "bottom",
+"skin" : "o2k7",
+"skin_variant" : "silver",
 "keep_styles" : false,
 "content_css" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{
     "$TINYMCEPLUGIN_DEBUG"
