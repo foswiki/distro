@@ -314,6 +314,7 @@ sub _addTHEADandTFOOT {
     my $inFoot    = 1;
     my $footLines = 0;
     my $headLines = 0;
+
     while ( $i >= 0 && $lines->[$i] ne $TABLEMARKER ) {
         if ( $lines->[$i] =~ /^\s*$/ ) {
 
@@ -344,18 +345,16 @@ sub _addTHEADandTFOOT {
             cellpadding => 0
         }
     );
-    if ( $footLines && !$headLines ) {
-        $headLines = $footLines;
-        $footLines = 0;
-    }
+
     if ($footLines) {
         push( @$lines, '</tfoot>' );
-        my $firstFoot = scalar(@$lines) - $footLines;
+        my $firstFoot = scalar(@$lines) - $footLines - 1;
         splice( @$lines, $firstFoot, 0, '</tbody><tfoot>' );
     }
     else {
         push( @$lines, '</tbody>' );
     }
+
     if ($headLines) {
         splice( @$lines, $i + 1 + $headLines, 0, '</thead><tbody>' );
         splice( @$lines, $i + 1, 0, '<thead>' );
@@ -1228,8 +1227,14 @@ sub getRenderedVersion {
         # Table: | cell | cell |
         # allow trailing white space after the last |
         if ( $line =~ m/^(\s*)\|.*\|\s*$/ ) {
-            unless ($tableRow) {
 
+            if ( $isList ) {
+                # Table start should terminate previous list
+                _addListItem( $this, \@result, '', '', '' );
+                $isList = 0;
+             }
+
+            unless ($tableRow) {
                 # mark the head of the table
                 push( @result, $TABLEMARKER );
             }

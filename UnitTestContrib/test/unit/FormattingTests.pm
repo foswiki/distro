@@ -1122,6 +1122,30 @@ sub test_render_PlainText {
 #    );
 }
 
+sub test_tableTerminatesList {
+    my $this = shift;
+
+    my $expected = <<EXPECTED;
+ <ul>
+<li> List item
+</li></ul>
+<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody><tr ><td>  a  </td>
+<td>  b  </td>
+</tr><tr ><td>  2  </td>
+<td>  3  </td>
+</tr><tr ><td>  ok  </td>
+<td>  bad  </td>
+</tr></tbody></table>
+EXPECTED
+    my $actual = <<ACTUAL;
+   * List item
+| a | b |
+| 2 | 3 |
+| ok | bad |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
 sub test_simpleTable {
     my $this = shift;
 
@@ -1213,7 +1237,6 @@ sub test_tableFootRow {
     my $this = shift;
 
 # SMELL: Expect failure - Core render does not appear to suport tfoot.
-    $this->expect_failure();
     my $expected = <<EXPECTED;
 <table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody><tr ><td> a </td>
 <td> b </td>
