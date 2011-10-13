@@ -1163,6 +1163,52 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
+sub test_tableEmbeddedHead {
+    my $this = shift;
+
+# SMELL: <th><strong> is redundant -  <th> implies centered and bold.
+# Also should a row using *bold* markup that is neither a header or footer row 
+# be emitted with <th> markup rather than <td>?
+    my $expected = <<EXPECTED;
+<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody><tr ><td>  a  </td>
+<td>  b  </td>
+</tr><tr ><th><strong>  2  </strong></th>
+<th><strong>  3  </strong></th>
+</tr><tr ><td>  ok  </td>
+<td>  bad  </td>
+</tr></tbody></table>
+EXPECTED
+    my $actual = <<ACTUAL;
+| a | b |
+| *2* | *3* |
+| ok | bad |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+sub test_tableSingleBoldCell {
+    my $this = shift;
+
+# SMELL: <th><strong> is redundant -  <th> implies centered and bold.
+# Also should a cell using *bold* markup that is neither a header or footer row 
+# be emitted with <th> markup rather than <td>?
+    my $expected = <<EXPECTED;
+<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody><tr ><td>  a  </td>
+<td>  b  </td>
+</tr><tr ><th><strong>  2  </strong></th>
+<td>  3  </td>
+</tr><tr ><td>  ok  </td>
+<td>  bad  </td>
+</tr></tbody></table>
+EXPECTED
+    my $actual = <<ACTUAL;
+| a | b |
+| *2* | 3 |
+| ok | bad |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
 sub test_tableFootRow {
     my $this = shift;
 
