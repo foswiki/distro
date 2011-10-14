@@ -18,7 +18,6 @@ use Foswiki::Time            ();
 use Foswiki::Sandbox         ();
 use Foswiki::Render::Anchors ();
 
-
 # Counter used to generate unique placeholders for when we lift blocks
 # (such as <verbatim> out of the text during rendering.
 our $placeholderMarker = 0;
@@ -44,28 +43,30 @@ our $TRMARK = "is\1all\1th";
 # General purpose marker used to mark escapes inthe text; for example, we
 # use it to mark hoisted blocks, such as verbatim blocks.
 our $REMARKER = "\0";
+
 # Optional End marker for escapes where the default end character ; also
 # must be removed.  Used for email anti-spam encoding.
 our $REEND = "\1";
 
 # Characters that need to be %XX escaped in mailto URIs.
-our %ESCAPED = ('<'  => '%3C',
-                '>'  => '%3E',
-                '#'  => '%23',
-                '"'  => '%22',
-                '%'  => '%25',
-                "'"  => '%27',
-                '{'  => '%7B',
-                '}'  => '%7D',
-                '|'  => '%7C',
-                '\\'   => '%5C',
-                '^'  => '%5E',
-                '~'  => '%7E',
-                '`'  => '%60',
-                '?'  => '%3F',
-                '&'  => '%26',
-                '='  => '%3D',
-                );
+our %ESCAPED = (
+    '<'  => '%3C',
+    '>'  => '%3E',
+    '#'  => '%23',
+    '"'  => '%22',
+    '%'  => '%25',
+    "'"  => '%27',
+    '{'  => '%7B',
+    '}'  => '%7D',
+    '|'  => '%7C',
+    '\\' => '%5C',
+    '^'  => '%5E',
+    '~'  => '%7E',
+    '`'  => '%60',
+    '?'  => '%3F',
+    '&'  => '%26',
+    '='  => '%3D',
+);
 
 # Default format for a link to a non-existant topic
 use constant DEFAULT_NEWLINKFORMAT => <<'NLF';
@@ -314,6 +315,7 @@ sub _addTHEADandTFOOT {
     my $inFoot    = 1;
     my $footLines = 0;
     my $headLines = 0;
+
     while ( $i >= 0 && $lines->[$i] ne $TABLEMARKER ) {
         if ( $lines->[$i] =~ /^\s*$/ ) {
 
@@ -344,18 +346,16 @@ sub _addTHEADandTFOOT {
             cellpadding => 0
         }
     );
-    if ( $footLines && !$headLines ) {
-        $headLines = $footLines;
-        $footLines = 0;
-    }
+
     if ($footLines) {
         push( @$lines, '</tfoot>' );
-        my $firstFoot = scalar(@$lines) - $footLines;
+        my $firstFoot = scalar(@$lines) - $footLines - 1;
         splice( @$lines, $firstFoot, 0, '</tbody><tfoot>' );
     }
     else {
         push( @$lines, '</tbody>' );
     }
+
     if ($headLines) {
         splice( @$lines, $i + 1 + $headLines, 0, '</thead><tbody>' );
         splice( @$lines, $i + 1, 0, '<thead>' );
@@ -798,6 +798,7 @@ sub _handleSquareBracketedLink {
 
             my $candidateLink = $1;
             my $candidateText = $2;
+
             # If the URL portion contains a ? indicating query parameters then
             # the spaces are possibly embedded in the query string, so don't
             # use the legacy format.
@@ -899,8 +900,8 @@ sub _externalLink {
           # before touching this
           # Note:  & is already encoded,  so don't encode any entities
           # See http://foswiki.org/Tasks/Item10905
-            $url =~ s/&(\w+);/$REMARKER$1$REEND/g;              # "&abc;"
-            $url =~ s/&(#x?[0-9a-f]+);/$REMARKER$1$REEND/gi;    # "&#123;"
+            $url =~ s/&(\w+);/$REMARKER$1$REEND/g;                  # "&abc;"
+            $url =~ s/&(#x?[0-9a-f]+);/$REMARKER$1$REEND/gi;        # "&#123;"
             $url =~ s/([^\w$REMARKER$REEND])/'&#'.ord($1).';'/ge;
             $url =~ s/$REMARKER(#x?[0-9a-f]+)$REEND/&$1;/goi;
             $url =~ s/$REMARKER(\w+)$REEND/&$1;/go;
@@ -932,19 +933,20 @@ sub _mailLink {
     my $url = $text;
     return $text if $url =~ /^(?:!|\<nop\>)/;
 
-    #use Email::Valid             ();
-    #my $tmpEmail = $url;
-    #$tmpEmail =~ s/^mailto://;
-    #my $errtxt = '';
-    #$errtxt =  "<b>INVALID</b> $tmpEmail " unless (Email::Valid->address($tmpEmail));
+#use Email::Valid             ();
+#my $tmpEmail = $url;
+#$tmpEmail =~ s/^mailto://;
+#my $errtxt = '';
+#$errtxt =  "<b>INVALID</b> $tmpEmail " unless (Email::Valid->address($tmpEmail));
 
     # Any special characters in the user portion must be %hex escaped.
     $url =~ s/^((?:mailto\:)?)?(.*?)(@.*?)$/'mailto:'._escape( $2 ).$3/msiex;
-    my $lenLeft = length($2);
+    my $lenLeft  = length($2);
     my $lenRight = length($3);
 
-    # Per RFC 3696 Errata,  length restricted to 254 overall per RFC 2821 RCPT limits
-    return $text if ($lenLeft > 64 || $lenRight > 254 || $lenLeft+$lenRight > 254);
+# Per RFC 3696 Errata,  length restricted to 254 overall per RFC 2821 RCPT limits
+    return $text
+      if ( $lenLeft > 64 || $lenRight > 254 || $lenLeft + $lenRight > 254 );
 
     $url = 'mailto:' . $url unless $url =~ /^mailto:/i;
     return _externalLink( $this, $url, $text );
@@ -953,9 +955,9 @@ sub _mailLink {
 sub _escape {
     my $txt = shift;
 
-    my $chars = join('', keys( %ESCAPED ) );
+    my $chars = join( '', keys(%ESCAPED) );
     $txt =~ s/([$chars])/$ESCAPED{$1}/g;
-    $txt =~ s/[\s]/%20/g;   # Any folding white space
+    $txt =~ s/[\s]/%20/g;                  # Any folding white space
     return $txt;
 }
 
@@ -1229,6 +1231,14 @@ sub getRenderedVersion {
         # Table: | cell | cell |
         # allow trailing white space after the last |
         if ( $line =~ m/^(\s*)\|.*\|\s*$/ ) {
+
+            if ($isList) {
+
+                # Table start should terminate previous list
+                _addListItem( $this, \@result, '', '', '' );
+                $isList = 0;
+            }
+
             unless ($tableRow) {
 
                 # mark the head of the table
@@ -1537,9 +1547,8 @@ sub TML2PlainText {
                    ($Foswiki::regex{wikiWordRegex}
                    | $Foswiki::regex{abbrevRegex}))}
               {$2.<nop>$3}gx;
-    $text =~ s/\<nop\>//g;                # remove any remaining nops
-    $text =~ s/[\<\>]/ /g;                # remove any remaining formatting
-
+    $text =~ s/\<nop\>//g;      # remove any remaining nops
+    $text =~ s/[\<\>]/ /g;      # remove any remaining formatting
 
     return $text;
 }
@@ -1684,22 +1693,26 @@ sub renderRevisionInfo {
     my $un  = '';
     if ( $info->{author} ) {
         my $cUID = $users->getCanonicalUserID( $info->{author} );
-        #pre-set cuid if author is the unknown user from the basemapper (ie, default value) to avoid further guesswork
-        $cUID = $info->{author} if ($info->{author} eq $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID);
+
+#pre-set cuid if author is the unknown user from the basemapper (ie, default value) to avoid further guesswork
+        $cUID = $info->{author}
+          if ( $info->{author} eq
+            $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID );
         if ( !$cUID ) {
             my $ln = $users->getLoginName( $info->{author} );
-            $cUID = $info->{author} if (defined($ln) and ($ln ne 'unknown'));
+            $cUID = $info->{author}
+              if ( defined($ln) and ( $ln ne 'unknown' ) );
         }
         if ($cUID) {
             $wun = $users->webDotWikiName($cUID);
             $wn  = $users->getWikiName($cUID);
             $un  = $users->getLoginName($cUID);
         }
+
         #only do the legwork if we really have to
-        if (
-            not(defined($wun) and defined($wn) and defined($un)) or
-            (($wun eq '') or ($wn eq '') or ($un eq ''))
-            ) {
+        if ( not( defined($wun) and defined($wn) and defined($un) )
+            or ( ( $wun eq '' ) or ( $wn eq '' ) or ( $un eq '' ) ) )
+        {
             my $user = $info->{author};
 
             # If we are still unsure, then use whatever is saved in the meta.
@@ -1712,8 +1725,9 @@ sub renderRevisionInfo {
                 #cUID's are forced to ascii by escaping other chars..
                 #$cUID =~ s/([^a-zA-Z0-9])/'_'.sprintf('%02x', ord($1))/ge;
 
-                #remove any SomeMapping_ prefix from the cuid - as that initial '_' is not escaped.
+#remove any SomeMapping_ prefix from the cuid - as that initial '_' is not escaped.
                 $user =~ s/^[A-Z][A-Za-z]+Mapping_//;
+
                 #and then xform any escaped chars.
                 use bytes;
                 $user =~ s/_([0-9a-f][0-9a-f])/chr(hex($1))/ge;
