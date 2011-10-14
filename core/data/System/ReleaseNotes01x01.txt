@@ -1171,6 +1171,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11157][Item11157]] | PlainFile logger rotates logs on localtime, not gmtime. |
 | [[%BUGS%/Item11174][Item11174]] | PreferenceSettings examples don't work when included in Macros topic. |
 | [[%BUGS%/Item11176][Item11176]] | https include used monkey patching instead of object inheritance. |
+| [[%BUGS%/Item11181][Item11181]] | Core table rendering issues found with tfoot, and table fails to end previous list. (Not seen if TablePlugin is enabled.) |
 </noautolink>
 
 ---+++ Enhancements
