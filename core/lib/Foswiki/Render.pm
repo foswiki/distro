@@ -324,21 +324,26 @@ sub _addTHEADandTFOOT {
         }
         elsif ( $lines->[$i] =~ s/$TRMARK=(["'])(.*?)\1//i ) {
             if ($2) {
+		# In head or foot
                 if ($inFoot) {
+		    #print STDERR "FOOT: $lines->[$i]\n";
                     $footLines++;
                 }
                 else {
+		    #print STDERR "HEAD: $lines->[$i]\n";
                     $headLines++;
                 }
             }
             else {
+		# In body
+		#print STDERR "BODY: $lines->[$i]\n";
                 $inFoot    = 0;
                 $headLines = 0;
             }
         }
         $i--;
     }
-    $lines->[$i] = CGI::start_table(
+    $lines->[$i++] = CGI::start_table(
         {
             class       => 'foswikiTable',
             border      => 1,
@@ -347,22 +352,24 @@ sub _addTHEADandTFOOT {
         }
     );
 
-    if ($footLines) {
-        push( @$lines, '</tfoot>' );
-        my $firstFoot = scalar(@$lines) - $footLines - 1;
-        splice( @$lines, $firstFoot, 0, '</tbody><tfoot>' );
-    }
-    else {
-        push( @$lines, '</tbody>' );
+    if ($headLines) {
+        splice( @$lines, $i++, 0, '<thead>' );
+        splice( @$lines, $i + $headLines, 0, '</thead>' );
+	$i += $headLines + 1;
     }
 
-    if ($headLines) {
-        splice( @$lines, $i + 1 + $headLines, 0, '</thead><tbody>' );
-        splice( @$lines, $i + 1, 0, '<thead>' );
+    if ($footLines) {
+	# Extract the foot and stick it in the table after the head (if any)
+	# WRC says browsers prefer this
+        my $firstFoot = scalar(@$lines) - $footLines;
+        my @foot = splice( @$lines, $firstFoot, $footLines );
+	unshift(@foot, '<tfoot>');
+	push( @foot, '</tfoot>' );
+	splice( @$lines, $i, 0, @foot );
+	$i += scalar(@foot);
     }
-    else {
-        splice( @$lines, $i + 1, 0, '<tbody>' );
-    }
+    splice( @$lines, $i, 0, '<tbody>' );
+    push( @$lines, '</tbody>' );
 }
 
 sub _emitTR {
