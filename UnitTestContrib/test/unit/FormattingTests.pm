@@ -47,7 +47,6 @@ sub loadExtraConfig {
     $this->SUPER::loadExtraConfig();
 
     $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 0;
-
 }
 
 # This formats the text up to immediately before <nop>s are removed, so we
@@ -1236,18 +1235,42 @@ sub test_tableFootRow {
     my $this = shift;
 
     my $expected = <<EXPECTED;
-<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><tbody><tr ><td> a </td>
+<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1">
+<tfoot><tr ><th><strong>  ok  </strong></th>
+<th><strong>  bad  </strong></th>
+</tr></tfoot><tbody><tr ><td> a </td>
 <td> b </td>
 </tr><tr ><td>  2  </td>
 <td>  3  </td>
-</tr></tbody><tfoot><tr ><th><strong>  ok  </strong></th>
-<th><strong>  bad  </strong></th>
-</tr></tfoot></table>
+</tr></tbody></table>
 EXPECTED
     my $actual = <<ACTUAL;
 | a | b |
 | 2 | 3 |
 | *ok* | *bad* |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+sub test_tableHeadFoot {
+    my $this = shift;
+
+    my $expected = <<EXPECTED;
+<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1"><thead><tr ><th><strong> a </strong></th>
+</tr><tr ><th><strong> b </strong></th>
+</tr></thead><tfoot><tr ><th><strong> ok </strong></th>
+</tr><tr ><th><strong> bad </strong></th>
+</tr></tfoot><tbody><tr ><td>  2  </td>
+</tr><tr ><td>  3  </td>
+</tr></tbody></table>
+EXPECTED
+    my $actual = <<ACTUAL;
+| *a* |
+| *b* |
+| 2 |
+| 3 |
+| *ok* |
+| *bad* |
 ACTUAL
     $this->do_test( $expected, $actual );
 }
