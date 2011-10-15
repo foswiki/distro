@@ -1576,10 +1576,14 @@ sub emitTable {
                     # END html attribute
                 }
 
-                if (   defined $sortCol
+                if (
+                       defined $sortCol
                     && $colCount == $sortCol
                     && defined $requestedTable
-                    && $requestedTable == $tableCount )
+                    && $requestedTable == $tableCount
+                    && (   $combinedTableAttrs->{headerrows}
+                        || $combinedTableAttrs->{footerrows} )
+                  )
                 {
 
                     $tableAnchor =
@@ -1600,8 +1604,13 @@ sub emitTable {
 
                 if (
                     $sortThisTable
-                    && (  !$combinedTableAttrs->{headerrows}
-                        || $rowCount == $combinedTableAttrs->{headerrows} - 1 )
+                    && (
+                        ( $rowCount == $combinedTableAttrs->{headerrows} - 1 )
+                        || (  !$combinedTableAttrs->{headerrows}
+                            && $rowCount >= $numberOfRows -
+                            $combinedTableAttrs->{footerrows} -
+                            1 )
+                    )
                     && ( $writingSortLinks || !$sortLinksWritten )
                   )
                 {
