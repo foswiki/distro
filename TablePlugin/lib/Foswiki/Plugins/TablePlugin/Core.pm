@@ -742,8 +742,9 @@ sub _headerRowCount {
         my $isHeader = 1;
         foreach my $cell (@$row) {
             if ( $cell->{type} ne 'th' ) {
-                $isHeader  = 0;
-                $endheader = 1;
+                $isHeader    = 0;
+                $endheader   = 1;
+                $footerCount = 0 if $footerCount;
             }
         }
         unless ($endheader) {
@@ -753,6 +754,9 @@ sub _headerRowCount {
             $footerCount++ if $isHeader;
         }
     }
+
+    # Some cells came after the footer - so there isn't one.
+    $footerCount = 0 if ( $endheader > 1 );
 
     return ( $headerCount, $footerCount );
 }
