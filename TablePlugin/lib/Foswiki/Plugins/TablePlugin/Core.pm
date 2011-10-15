@@ -733,18 +733,28 @@ sub _processTableRow {
 sub _headerRowCount {
     my ($table) = @_;
 
-    my $count = 0;
+    my $headerCount = 0;
+    my $footerCount = 0;
+    my $endheader   = 0;
 
     # All cells in header are headings?
     foreach my $row (@$table) {
         my $isHeader = 1;
         foreach my $cell (@$row) {
-            $isHeader = 0 if ( $cell->{type} ne 'th' );
+            if ( $cell->{type} ne 'th' ) {
+                $isHeader  = 0;
+                $endheader = 1;
+            }
         }
-        $count++ if $isHeader;
+        unless ($endheader) {
+            $headerCount++ if $isHeader;
+        }
+        else {
+            $footerCount++ if $isHeader;
+        }
     }
 
-    return $count;
+    return ( $headerCount, $footerCount );
 }
 
 =pod
@@ -1336,11 +1346,11 @@ sub emitTable {
       : $combinedTableAttrs->{sort};
 
     if ( $combinedTableAttrs->{headerrows} == 0 ) {
-        my $headerRowCount = _headerRowCount( \@curTable );
-        $headerRowCount -= $combinedTableAttrs->{footerrows};
+        my ( $headerRowCount, $footerRowCount ) = _headerRowCount( \@curTable );
 
         # override default setting with calculated header count
         $combinedTableAttrs->{headerrows} = $headerRowCount;
+        $combinedTableAttrs->{footerrows} = $footerRowCount;
     }
 
     my $tableTagAttributes = {};
