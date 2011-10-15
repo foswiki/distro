@@ -1607,9 +1607,8 @@ sub emitTable {
                     && (
                         ( $rowCount == $combinedTableAttrs->{headerrows} - 1 )
                         || (  !$combinedTableAttrs->{headerrows}
-                            && $rowCount >= $numberOfRows -
-                            $combinedTableAttrs->{footerrows} -
-                            1 )
+                            && $rowCount ==
+                            $numberOfRows - $combinedTableAttrs->{footerrows} )
                     )
                     && ( $writingSortLinks || !$sortLinksWritten )
                   )
