@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1315838249" format="1.1" version="1"}%
+%META:TOPICINFO{author="micha" comment="save topic" date="1316526158" format="1.1" reprev="3" version="3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"ui::autocomplete"
@@ -62,7 +62,7 @@ arguments:
 
 ---++ Usage
 
-Use =ui::autocomplete= to make use of the library on a wiki page. 
+Use =%<nop>JQREQUIRE{"ui::autocomplete"}%= to make use of the library on a wiki page. 
 Add the =.jqUIAutocomplete= css class to enable autocompletion.
 Specify the url to fetch terms in the =autocomplete= html attribute.
 Add %SYSTEMWEB%.JQueryMetadata to specify further parameters.
@@ -166,7 +166,7 @@ jQuery(function($) {
 </literal>
 </verbatim>
 
----++ Example
+---++ Examples
 
 %JQREQUIRE{"ui::autocomplete"}%
 

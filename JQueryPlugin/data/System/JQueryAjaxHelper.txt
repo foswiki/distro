@@ -57,7 +57,7 @@ loads the =topic= section of this topic, which expands to the topic list.
 
 ---+++ Server section
 *URL parameters*
-   * =q=: search term substring typed so far
+   * =term=: search term substring typed so far
    * =limit=: number of search results to return, defaults to 10
    * =baseweb=: the web where to search for topics
    * =format=: format of returned values, defaults to =$topic=
@@ -68,7 +68,7 @@ loads the =topic= section of this topic, which expands to the topic list.
   type="regex"
   scope="topic"
   header="["
-  format="\"<nop>%URLPARAM{"format" default="\\"$topic\\""}%\""
+  format="<nop>%URLPARAM{"format" default="\\"$topic\\""}%"
   separator=","
   footer="]"
   limit="%URLPARAM{"limit" default="10"}%"
@@ -107,7 +107,7 @@ Foswiki:Extensions.FlexWebListPlugin.
 
 ---+++ Server section
 *URL parameters*
-   * =q=: search term substring typed so far
+   * =term=: search term substring typed so far
    * =limit=: number of search results to return, defaults to 10
 <verbatim class="tml">
 %STARTSECTION{"web"}%%FLEXWEBLIST{
@@ -228,7 +228,7 @@ jQuery(function($){
 </verbatim>
 ---+++ Server section
 *URL parameters*
-   * =q=: search term substring typed so far
+   * =term=: search term substring typed so far
    * =limit=: number of search results to return, defaults to 10
 <verbatim class="tml">
 %STARTSECTION{"user"}%<literal>%FORMAT{

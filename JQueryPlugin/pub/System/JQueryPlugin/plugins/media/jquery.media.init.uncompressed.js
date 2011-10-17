@@ -19,7 +19,7 @@ jQuery(function($) {
     }
   }
 
-  var selector = "a[href*=."+types.join("], a[href*=.")+"]";
+  var selector = 'a[href*=".'+types.join('"], a[href*=".')+'"]';
   $(".jqMedia:not(.jqInitedMedia)").livequery(function() {
     var $this = $(this),
         options = $.extend({

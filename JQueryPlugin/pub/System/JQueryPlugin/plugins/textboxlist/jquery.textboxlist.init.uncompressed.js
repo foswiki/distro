@@ -1,8 +1,10 @@
 jQuery(function($) {
   $("input.jqTextboxList:not(.jqInitedTextboxList)").livequery(function() {
-    var $this = $(this);
-    $this.addClass("jqInitedTextboxList");
-    var opts = $.extend({}, $this.metadata());
-    $this.textboxlist(opts);
+    var $this = $(this),
+        opts = $.extend({
+          autocomplete:$this.attr("autocomplete")
+        }, $this.metadata());
+
+    $this.addClass("jqInitedTextboxList").textboxlist(opts);
   });
 });
