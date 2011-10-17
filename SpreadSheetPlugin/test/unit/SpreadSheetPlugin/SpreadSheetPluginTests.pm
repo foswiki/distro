@@ -350,7 +350,21 @@ sub test_LENGTH {
 }
 
 sub test_LIST {
-    warn '$LIST not implemented';
+    my ($this) = @_;
+
+    my $inTable = <<'TABLE';
+| apple | orange | kiwi | %CALC{$LIST($LEFT())}% |
+| apple | orange | baseball | %CALC{$LIST($LEFT())}% |
+| john | fred | %CALC{$LIST($ABOVE())}% | bananna |
+TABLE
+    my $actual = Foswiki::Func::expandCommonVariables( $inTable );
+    my $expected = <<'EXPECT';
+| apple | orange | kiwi | apple, orange, kiwi |
+| apple | orange | baseball | apple, orange, baseball |
+| john | fred | kiwi, baseball | bananna |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_LISTIF {
@@ -692,6 +706,7 @@ sub test_SPLIT {
     $this->assert_equals( $this->CALC('$SPLIT(-, Apple-Orange-Kiwi)'),  'Apple, Orange, Kiwi');
     $this->assert_equals( $this->CALC('$SPLIT([-:]$sp*, Apple-Orange: Kiwi)'),  'Apple, Orange, Kiwi');
     $this->assert_equals( $this->CALC('$SPLIT($empty, Apple)'),  'A, p, p, l, e');
+    $this->assert_equals( $this->CALC('$SPLIT($nop, Apple)'),  'A, p, p, l, e');
 }
 
 sub test_SQRT {
