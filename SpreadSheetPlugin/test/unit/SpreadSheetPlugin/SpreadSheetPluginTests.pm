@@ -129,15 +129,65 @@ sub test_CODE {
 }
 
 sub test_COLUMN {
-    warn '$COLUMN not implemented';
+    my ($this) = @_;
+
+    my $inTable = <<'TABLE';
+| 1 | 2 | %CALC{$COLUMN()}% | 3 | 4 |
+| 5 | %CALC{$COLUMN()}% | 6 | 7 | 8 |
+TABLE
+    my $actual = Foswiki::Func::expandCommonVariables( $inTable );
+    my $expected = <<'EXPECT';
+| 1 | 2 | 3 | 3 | 4 |
+| 5 | 2 | 6 | 7 | 8 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_COUNTITEMS {
-    warn '$COUNTITEMS not implemented';
+    my ($this) = @_;
+
+    my $inTable = <<'TABLE';
+| 1 | open |
+| 5 | open |
+| 7 | |
+| 3 | Closed |
+| tot | %CALC{"$COUNTITEMS($ABOVE())"}% |
+TABLE
+    my $actual = Foswiki::Func::expandCommonVariables( $inTable );
+    my $expected = <<'EXPECT';
+| 1 | open |
+| 5 | open |
+| 7 | |
+| 3 | Closed |
+| tot | Closed: 1<br /> open: 2 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_COUNTSTR {
-    warn '$COUNTSTR not implemented';
+    my ($this) = @_;
+
+    my $inTable = <<'TABLE';
+| 1 | open |
+| 5 | open |
+| 7 | |
+| 3 | Closed |
+| tot | %CALC{"$COUNTSTR($ABOVE())"}% |
+| tot | %CALC{"$COUNTSTR($ABOVE(), Closed)"}% |
+TABLE
+    my $actual = Foswiki::Func::expandCommonVariables( $inTable );
+    my $expected = <<'EXPECT';
+| 1 | open |
+| 5 | open |
+| 7 | |
+| 3 | Closed |
+| tot | 3 |
+| tot | 1 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_DEF {
@@ -155,6 +205,8 @@ sub test_EVAL {
     my ($this) = @_;
     $this->assert( $this->CALC('$EVAL(1+1)') == 2 );
     $this->assert( $this->CALC('$EVAL( (5 * 3) / 2 + 1.1 )') == 8.6 );
+    $this->assert( $this->CALC('$EVAL(2+08)') == 10 );
+    $this->assert( $this->CALC('$EVAL(8.0068/2)') == 4.0034 );
 }
 
 sub test_EVEN {
@@ -266,7 +318,19 @@ sub test_INT {
 }
 
 sub test_LEFT {
-    warn '$LEFT not implemented';
+    my ($this) = @_;
+# Test for TWiki Item6667
+    my $inTable = <<'TABLE';
+| 1 | 2 | <= %CALC{$SUM($LEFT())}% | 3 | 4 |
+| 5 | 6 | <= %CALC{$SUM($LEFT())}% | 7 | 8 |
+TABLE
+    my $actual = Foswiki::Func::expandCommonVariables( $inTable );
+    my $expected = <<'EXPECT';
+| 1 | 2 | <= 3 | 3 | 4 |
+| 5 | 6 | <= 11 | 7 | 8 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_LEFTSTRING {
@@ -317,6 +381,7 @@ sub test_LISTJOIN {
     $this->assert( $this->CALC('$LISTJOIN(::,1,2,3)')     eq "1::2::3" );
     $this->assert( $this->CALC('$LISTJOIN(0,1,2,3)')      eq "10203" );
     $this->assert( $this->CALC('$LISTJOIN($nop,1,2,3)')   eq '123' );
+    $this->assert( $this->CALC('$LISTJOIN($empty,1,2,3)')   eq '123' );
 }
 
 sub test_LISTMAP {
@@ -343,6 +408,20 @@ sub test_LISTSHUFFLE {
 sub test_LISTSIZE {
     my ($this) = @_;
     $this->assert( $this->CALC('$LISTSIZE(Apple, Orange, Apple, Kiwi)') == 4 );
+
+# Test for TWiki Item6668
+    my $inTable = <<'TABLE';
+| a | b | c | d | e |  %CALC{$LISTSIZE($LIST($LEFT()))}%  |
+| a | b | c | d, e, f | g |  %CALC{$LISTSIZE($LIST($LEFT()))}%  |
+TABLE
+    my $actual = Foswiki::Func::expandCommonVariables( $inTable );
+    my $expected = <<'EXPECT';
+| a | b | c | d | e |  5  |
+| a | b | c | d, e, f | g |  7  |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
 }
 
 sub test_LISTSORT {
@@ -465,6 +544,31 @@ sub test_PRODUCT {
     $this->assert( $this->CALC('$PRODUCT(1,2,3)') == 6 );
     $this->assert( $this->CALC('$PRODUCT(6,4,-1)') == -24 );
     $this->assert( $this->CALC('$PRODUCT(84,-0.5)') == -42 );
+    $this->assert( $this->CALC('$PRODUCT(0,4)') == 0 );
+
+    my $inTable = <<'TABLE';
+| 1 | 2 | <= %CALC{$PRODUCT($LEFT())}% | 3 | 4 |
+| 5 | 6 | <= %CALC{$PRODUCT($LEFT())}% | 7 | 8 |
+TABLE
+    my $actual = Foswiki::Func::expandCommonVariables( $inTable );
+    my $expected = <<'EXPECT';
+| 1 | 2 | <= 2 | 3 | 4 |
+| 5 | 6 | <= 30 | 7 | 8 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
+    $inTable = <<'TABLE';
+| 1 | 2 | %CALC{$PRODUCT($RIGHT())}% => | 3 | 4 |
+| 5 | 6 | %CALC{$PRODUCT($RIGHT())}% => | 7 | 8 |
+TABLE
+    $actual = Foswiki::Func::expandCommonVariables( $inTable );
+    $expected = <<'EXPECT';
+| 1 | 2 | 12 => | 3 | 4 |
+| 5 | 6 | 56 => | 7 | 8 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_PROPER {
@@ -502,7 +606,19 @@ sub test_REPLACE {
 }
 
 sub test_RIGHT {
-    warn '$RIGHT not implemented';
+    my ($this) = @_;
+# Test for TWiki Item6667
+    my $inTable = <<'TABLE';
+| 1 | 2 |  %CALC{$SUM($RIGHT())}% => | 3 | 4 |
+| 5 | 6 |  %CALC{$SUM($RIGHT())}% => | 7 | 8 |
+TABLE
+    my $actual = Foswiki::Func::expandCommonVariables( $inTable );
+    my $expected = <<'EXPECT';
+| 1 | 2 |  7 => | 3 | 4 |
+| 5 | 6 |  15 => | 7 | 8 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_RIGHTSTRING {
@@ -525,7 +641,22 @@ sub test_ROUND {
 }
 
 sub test_ROW {
-    warn '$ROW not implemented';
+    my ($this) = @_;
+
+    my $inTable = <<'TABLE';
+| 1 | 2 | %CALC{"$ROW()"}% | 3 | 4 |
+| 5 | 6 | %CALC{"$ROW()"}% | 7 | 8 |
+| %CALC{"$ROW(-2)"}% | %CALC{"$ROW(2)"}% |
+TABLE
+    my $actual = Foswiki::Func::expandCommonVariables( $inTable );
+    my $expected = <<'EXPECT';
+| 1 | 2 | 1 | 3 | 4 |
+| 5 | 6 | 2 | 7 | 8 |
+| 1 | 5 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
 }
 
 sub test_SEARCH {
@@ -553,6 +684,14 @@ sub test_SIGN {
     $this->assert( $this->CALC('$SIGN(12.5)') == 1 );
     $this->assert( $this->CALC('$SIGN(0)') == 0 );
     $this->assert( $this->CALC('$SIGN(-0)') == 0 );
+}
+
+sub test_SPLIT {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$SPLIT(, Apple Orange Kiwi)'),  'Apple, Orange, Kiwi');
+    $this->assert_equals( $this->CALC('$SPLIT(-, Apple-Orange-Kiwi)'),  'Apple, Orange, Kiwi');
+    $this->assert_equals( $this->CALC('$SPLIT([-:]$sp*, Apple-Orange: Kiwi)'),  'Apple, Orange, Kiwi');
+    $this->assert_equals( $this->CALC('$SPLIT($empty, Apple)'),  'A, p, p, l, e');
 }
 
 sub test_SQRT {

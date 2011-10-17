@@ -986,7 +986,14 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         $name =~ s/[^a-zA-Z0-9\_]//go;
         $result = $varStore{$name} if ($name);
         $result = "" unless ( defined($result) );
-
+    }
+    elsif( $theFunc eq "SPLIT" ) {
+        my( $sep, $str ) = _properSplit( $theAttr, 2 );
+        $sep = "  *" if( !defined $sep || $sep eq '' );
+        $sep =~ s/\$comma/,/go;
+        $sep =~ s/\$sp/ /go;
+        $sep =~ s/\$(nop|empty)//go;
+        $result = _listToDelimitedString( split( $sep, $str ) );
     }
     elsif ( $theFunc eq "LIST" ) {
         my @arr = getList($theAttr);
@@ -1016,7 +1023,7 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         if ( length $sep ) {
             $sep =~ s/\$comma/,/go;
             $sep =~ s/\$sp/ /go;
-            $sep =~ s/\$nop//go
+            $sep =~ s/\$(nop|empty)//go
               ; # make sure $nop appears before $n otherwise you end up with "\nop"
             $sep    =~ s/\$n/\n/go;
             $result =~ s/, /$sep/go;
@@ -1060,12 +1067,9 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     elsif ( $theFunc eq "LISTRAND" ) {
         my @arr  = getList($theAttr);
         my $size = scalar @arr;
-        if ( $size > 1 ) {
-            $i      = int( rand( $size - 1 ) + 0.5 );
+        if ( $size > 0 ) {
+            $i      = int( rand( $size ) );
             $result = $arr[$i];
-        }
-        elsif ( $size == 1 ) {
-            $result = $arr[0];
         }
 
     }
@@ -1239,6 +1243,7 @@ sub safeEvalPerl {
       s/\%\s*[^\-\+\*\/0-9\.\(\)]+//go;    # defuse %hash but keep modulus
      # keep only numbers and operators (shh... don't tell anyone, we support comparison operators)
     $theText =~ s/[^\!\<\=\>\-\+\*\/\%0-9e\.\(\)]*//go;
+    $theText =~ s/(^|[^\.])\b0+(?=[0-9])/$1/go;  # remove leading 0s to defuse interpretation of numbers as octals
     $theText =~
       s/(^|[^0-9])e/$1/go;  # remove "e"-s unless in expression such as "123e-4"
     $theText =~ /(.*)/;
@@ -1622,7 +1627,8 @@ NOTE: Please extend that file, not this notice.
 Additional copyrights apply to some or all of the code in this
 file as follows:
 
-Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org
+Copyright (C) 2001-2011 Peter Thoeny, peter@thoeny.org and
+TWiki Contributors.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
