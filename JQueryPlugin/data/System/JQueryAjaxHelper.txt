@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1317382850" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1315844220" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 <!--
 Hidden form definition
@@ -57,7 +57,7 @@ loads the =topic= section of this topic, which expands to the topic list.
 
 ---+++ Server section
 *URL parameters*
-   * =q=: search term substring typed so far
+   * =term=: search term substring typed so far
    * =limit=: number of search results to return, defaults to 10
    * =baseweb=: the web where to search for topics
    * =format=: format of returned values, defaults to =$topic=
@@ -107,7 +107,7 @@ Foswiki:Extensions.FlexWebListPlugin.
 
 ---+++ Server section
 *URL parameters*
-   * =q=: search term substring typed so far
+   * =term=: search term substring typed so far
    * =limit=: number of search results to return, defaults to 10
 <verbatim class="tml">
 %STARTSECTION{"web"}%%FLEXWEBLIST{
@@ -228,7 +228,7 @@ jQuery(function($){
 </verbatim>
 ---+++ Server section
 *URL parameters*
-   * =q=: search term substring typed so far
+   * =term=: search term substring typed so far
    * =limit=: number of search results to return, defaults to 10
 <verbatim class="tml">
 %STARTSECTION{"user"}%<literal>%FORMAT{
