@@ -115,6 +115,40 @@ sub test_AVERAGE {
     $this->assert( $this->CALC('$AVERAGE(-1,-1,-1,-1)') == -1 );
 }
 
+sub test_BITXOR {
+    my ($this) = @_;
+
+    # TWiki compatibility - performs bitwise not of string for single argument
+    $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(Aa))'), 'BE9E' );
+    $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(1))'), 'CE' );
+    $this->assert_equals( $this->CALC('$BITXOR($BITXOR(Aa))'), 'Aa' );
+
+    # Bitwise xor of integers.  12= b1100  7=b0111 = b1011 = 11
+    $this->assert_equals( $this->CALC('$BITXOR(12, 7)'), '11' );
+
+    # Bitwise xor of integers.  12= b1100  7=b0111  3 = b0011  = b1000 = 8
+    $this->assert_equals( $this->CALC('$BITXOR(12, 7, 3)'), '8' );
+
+    my $inTable = <<'TABLE';
+| 7 |
+| 12 |
+| fred |
+| 3 |
+| %CALC{"$BITXOR($ABOVE())"}% |
+TABLE
+    my $actual = Foswiki::Func::expandCommonVariables( $inTable );
+    my $expected = <<'EXPECT';
+| 7 |
+| 12 |
+| fred |
+| 3 |
+| 8 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+}
+
+
 sub test_CHAR {
     my ($this) = @_;
     $this->assert( $this->CALC('$CHAR(65)') eq 'A' );
@@ -292,6 +326,14 @@ sub test_FORMATTIMEDIFF {
 
 sub test_GET {
     warn '$GET not implemented';
+}
+
+sub test_HEXDECODE_HEXENCODE {
+    my ($this) = @_;
+
+    $this->assert_equals( $this->CALC('$HEXENCODE(123)'), '313233' );
+    $this->assert_equals( $this->CALC('$HEXDECODE($HEXENCODE(123))'), '123' );
+    $this->assert_equals( $this->CALC('$HEXENCODE($HEXDECODE(ABCDEF0123456789))'), 'ABCDEF0123456789' );
 }
 
 sub test_IF {
@@ -817,6 +859,18 @@ sub test_WORKINGDAYS {
     $this->assert(
         $this->CALC('$WORKINGDAYS($TIME(2004/07/15), $TIME(2004/08/03))') ==
           13 );
+}
+sub test_XOR {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$XOR(0, 0)') == 0 );
+    $this->assert( $this->CALC('$XOR(0, 3)') == 1 );
+    $this->assert( $this->CALC('$XOR(-1, 0)') == 1 );
+    $this->assert( $this->CALC('$XOR(4, 0)') == 1 );
+    $this->assert( $this->CALC('$XOR(1, 0, 1)') == 0 );
+    $this->assert( $this->CALC('$XOR(1, 0, 0)') == 1 );
+    $this->assert( $this->CALC('$XOR(1, 1, 1)') == 1 );
+    $this->assert( $this->CALC('$XOR(1, joe, 1)') == 0 );
+    $this->assert( $this->CALC('$XOR(10, 1)') == 0 );
 }
 
 # undocumented - same as $SUMDAYS

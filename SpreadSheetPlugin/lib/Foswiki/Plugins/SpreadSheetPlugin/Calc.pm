@@ -369,7 +369,43 @@ sub doFunc {
                 last;
             }
         }
+    }
+    elsif( $theFunc eq "XOR" ) {
+        my @arr = getListAsInteger( $theAttr );
+        $result = shift( @arr );
+        if( scalar( @arr ) > 0 ) {
+            foreach $i ( @arr ) {
+                next unless defined $i;
+                $result = ( $result xor $i );
+            }
+        } else {
+            $result = 0;
+        }
+        $result = $result ? 1 : 0;
 
+    }
+    elsif( $theFunc eq "BITXOR" ) {
+        my @arr = getList($theAttr);
+        # SMELL: This usage is bogus.   It takes the ones-complement of the string, and does NOT do a bit-wise XOR
+        # which would require two operators.   An XOR with itself would clear the field not flip all the bits.  
+        # This should probably be called a BITNOT.
+        if ( scalar @arr  == 1 ) {
+            my $ff = chr(255) x length( $theAttr );
+            $result = $theAttr ^ $ff;
+        }
+        # This is a standard bit-wise xor of a list of integers.
+        else {
+            @arr = getListAsInteger( $theAttr );
+            $result = int (shift( @arr ));
+            if( scalar( @arr ) > 0 ) {
+                foreach $i ( @arr ) {
+                    next unless defined $i;
+                    $result = ( $result ^ int( $i ) );
+                }
+            } else {
+                $result = 0;
+            }
+        }
     }
     elsif ( $theFunc eq "NOT" ) {
         $result = 1;
@@ -1178,7 +1214,21 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     elsif ( $theFunc eq "EXISTS" ) {
         $result = Foswiki::Func::topicExists( $web, $theAttr );
         $result = 0 unless ($result);
+
     }
+    elsif ( $theFunc eq "HEXENCODE" ) {
+        $result = uc( unpack( "H*", $theAttr ) );
+
+    }
+    elsif ( $theFunc eq "HEXDECODE" ) {
+        $theAttr =~ s/[^0-9A-Fa-f]//g; # only hex numbers
+        $theAttr =~ s/.$// if( length( $theAttr ) % 2 ); # must be set of two
+        $result = pack( "H*", $theAttr );
+
+    }
+
+
+
 
     Foswiki::Func::writeDebug(
 "- SpreadSheetPlugin::Calc::doFunc: $theFunc( $theAttr ) returns: $result"

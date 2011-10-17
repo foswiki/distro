@@ -80,6 +80,19 @@ Conventions for Syntax:
    * Example: ==%<nop>CALC{"$AVERAGE(R2:C5..R$ROW(-1):C5)"}%== returns the average of column 5, excluding the title row
    * Related: =[[#FuncLIST][$LIST()]]=, =[[#FuncMAX][$MAX()]]=, =[[#FuncMEDIAN][$MEDIAN()]]=, =[[#FuncMIN][$MIN()]]=
 
+#FuncBITXOR
+---+++ BITXOR( text ) or  BITXOR( integer, list ) -- bit-wise XOR
+This function has two modes of operation.
+   * If passed a list,  performs a bit-wise XOR of the integers in the list.
+      * Syntax: ==$BITXOR( integer, list )==
+      * Example: ==%<nop>CALC{"$BITXOR(7, 12)")% returns ==3== ( b0111 xor b1100 = b0011 )
+   * If passed a character string, operates in TWiki compatbility, performing a bitwise NOT operation on the string
+      * Each bit of each character of =text= is flipped, useful to obfuscate text. Bit-XORing text twice will restore the original text.
+      * Syntax: ==$BITXOR( text )==
+      * Example: ==%<nop>CALC{"$BITXOR(A123)"}%== returns ==&Yuml;&Icirc;&Iacute;&Igrave;==
+      * Example: ==%<nop>CALC{"$BITXOR($BITXOR(anything))"}%== returns ==anything==
+   * Related: =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncLEFTTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSUBSTITUTE][$SUBSTUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=, =[[#FuncXOR][$XOR()]]=
+
 #FuncCHAR
 ---+++ CHAR( number ) -- ASCII character represented by number
    * Syntax: ==$CHAR( number )==
@@ -241,6 +254,20 @@ Conventions for Syntax:
    * Example: ==%<nop>CALC{"$GET(my_total)"}%== returns the value of the =my_total= variable
    * Related: =[[#FuncEXEC][$EXEC()]]=, =[[#FuncNOEXEC][$NOEXEC()]]=, =[[#FuncSET][$SET()]]=, =[[#FuncSETIFEMPTY][$SETIFEMPTY()]]=, =[[#FuncSETM][$SETM()]]=
 
+#FuncHEXDECODE
+---+++ HEXDECODE( hexcode ) -- convert hexadecimal code to string
+   * Decode a hexadecimal string, typically encoded with $HEXENCODE().
+   * Syntax: ==$HEXDECODE( hexcode )==
+   * Example: ==%<nop>CALC{"$HEXDECODE(687474703A2F2F7477696B692E6F72672F)"}%== returns ==http://twiki.org/==
+   * Related: =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
+
+#FuncHEXENCODE
+---+++ HEXENCODE( text ) -- encode text into hexadecimal code
+   * Each character of =text= is encoded into two hexadecimal numbers.
+   * Syntax: ==$HEXENCODE( text )==
+   * Example: ==%<nop>CALC{"$HEXENCODE(<nop>http://twiki.org/)"}%== returns ==687474703A2F2F7477696B692E6F72672F==
+   * Related: =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
+
 #FuncIF
 ---+++ IF( condition, value if true, value if 0 ) -- return a value based on a condition
    * The condition can be a number (where ==0== means condition not met), or two numbers with a comparison operator ==&lt;== (less than), ==&lt;=<nop>== (less than or equal), ==<nop>==<nop>== (equal), ==<nop>!=<nop>== (not equal), ==&gt;=<nop>== (greater than or equal), ==&gt;== (greater than).
@@ -297,7 +324,7 @@ Conventions for Syntax:
    * Convert the content of a range of cells into a flat list, delimited by comma. Cells containing commas are merged into the list
    * Syntax: ==$LIST( range )==
    * Example: ==%<nop>CALC{"$LIST($LEFT())"}%== returns ==Apples, Lemons, Oranges, Kiwis== assuming the cells to the left contain ==| Apples | Lemons, Oranges | Kiwis |==
-   * Related: =[[#FuncAVERAGE][$AVERAGE()]]=, =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncDEF][$DEF()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTTRUNCATE][$LISTTRUNCATE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncMAX][$MAX()]]=, =[[#FuncMEDIAN][$MEDIAN()]]=, =[[#FuncMIN][$MIN()]]=, =[[#FuncPRODUCT][$PRODUCT()]]=, =[[#FuncSUM][$SUM()]]=, =[[#FuncSUMDAYS][$SUMDAYS()]]=, =[[#FuncSUMPRODUCT][$SUMPRODUCT()]]=
+   * Related: =[[#FuncAVERAGE][$AVERAGE()]]=, =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncDEF][$DEF()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTTRUNCATE][$LISTTRUNCATE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncMAX][$MAX()]]=, =[[#FuncMEDIAN][$MEDIAN()]]=, =[[#FuncMIN][$MIN()]]=, =[[#FuncPRODUCT][$PRODUCT()]]=, =[[#FuncSPLIT][$SPLIT()]]=, =[[#FuncSUM][$SUM()]]=, =[[#FuncSUMDAYS][$SUMDAYS()]]=, =[[#FuncSUMPRODUCT][$SUMPRODUCT()]]=
 
 #FuncLISTIF
 ---+++ LISTIF( condition, list ) -- remove elements from a list that do not meet a condition
@@ -321,7 +348,7 @@ Conventions for Syntax:
    * By default, list items are separated by a comma and a space. Use this function to indicate a specific =separator= string, which may include =$comma= for comma, =$n= for newline, =$sp= for space, and =$nop= for no separator between list items.
    * Syntax: ==$LISTJOIN( separator, list )==
    * Example: ==%<nop>CALC{"$LISTJOIN($n, Apple, Orange, Apple, Kiwi)"}%== returns the four items separated by new lines
-   * Related: =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=
+   * Related: =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncSPLIT][$SPLIT()]]=
 
 #FuncLISTMAP
 ---+++ LISTMAP( formula, list ) -- evaluate and update each element of a list
@@ -346,7 +373,7 @@ Conventions for Syntax:
 ---+++ LISTSIZE( list ) -- number of elements in a list
    * Syntax: ==$LISTSIZE( list )==
    * Example: ==%<nop>CALC{"$LISTSIZE(Apple, Orange, Apple, Kiwi)"}%== returns ==4==
-   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTTRUNCATE][$LISTTRUNCATE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
+   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTTRUNCATE][$LISTTRUNCATE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSPLIT][$SPLIT()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLISTSHUFFLE
 ---+++ LISTSHUFFLE( list ) -- shuffle element of a list in random order
@@ -574,6 +601,16 @@ Conventions for Syntax:
    * Example: ==%<nop>CALC{"$SIGN(-12.5)"}%== returns ==-1==
    * Related: =[[#FuncABS][$ABS()]]=, =[[#FuncEVAL][$EVAL()]]=, =[[#FuncEVEN][$EVEN()]]=, =[[#FuncINT][$INT()]]=, =[[#FuncNOT][$NOT()]]=, =[[#FuncODD][$ODD()]]=
 
+#FuncSPLIT
+---+++ SPLIT( separator, text ) -- split a string into a list
+   * Split =text= into a list using =separator= as a delimiter. The =separator= may be a regular expression and may include =$comma= for comma, =$sp= for space and =$empty= to split at each character. Default separator is one or more spaces (=$sp$sp*=).
+   * Syntax: ==$SPLIT( separator, text )==
+   * Example: ==%<nop>CALC{"$SPLIT(, Apple Orange Kiwi)"}%== returns ==Apple, Orange, Kiwi==
+   * Example: ==%<nop>CALC{"$SPLIT(-, Apple-Orange-Kiwi)"}%== returns ==Apple, Orange, Kiwi==
+   * Example: ==%<nop>CALC{"$SPLIT([-:]$sp*, Apple-Orange: Kiwi)"}%== returns ==Apple, Orange, Kiwi== (the separator means: Dash or colon, followed by optional spaces
+   * Example: ==%<nop>CALC{"$SPLIT($empty, Apple)"}%== returns ==A, p, p, l, e==
+   * Related: =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=
+
 #FuncSQRT
 ---+++ SQRT( num ) -- square root of a number
    * Syntax: ==$SQRT( num )==
@@ -687,6 +724,17 @@ Conventions for Syntax:
    * Syntax: ==$WORKINGDAYS( serial_1, serial_2 )==
    * Example: ==%<nop>CALC{"$WORKINGDAYS($TIME(2004/07/15), $TIME(2004/08/03))"}%== returns ==13==
    * Related: =[[#FuncSUMDAYS][$SUMDAYS()]]=, =[[#FuncTIME][$TIME()]]=, =[[#FuncTIMEDIFF][$TIMEDIFF()]]=
+
+#FuncXOR
+---+++ XOR( list ) -- logical XOR of integers in a list
+Each integer is treated as true/false and then logically xor'd together.  The acutal value of the integer other than 0 or non-zero doesn't matter.  Non-integer items in the list are ignored.
+   * Syntax: ==$XOR( list )==
+   * Example: ==%<nop>CALC{"$XOR(0, 0)"}%== returns ==0==
+   * Example: ==%<nop>CALC{"$XOR(0, 1)"}%== returns ==1==
+   * Example: ==%<nop>CALC{"$XOR(1, 0)"}%== returns ==1==
+   * Example: ==%<nop>CALC{"$XOR(1, 1)"}%== returns ==0==
+   * Example: ==%<nop>CALC{"$XOR(1, 0, 1)"}%== returns ==0==
+   * Related: =[[#FuncAND][$AND()]]=, =[[#FuncIF][$IF()]]=, =[[#FuncNOT][$NOT()]]=, =[[#FuncOR][$OR()]]=
 
 ---++ FAQ
 
