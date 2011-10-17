@@ -4,12 +4,17 @@
 ---+!! %NOP%%TOPIC%
 %TEXT%
 ---++ %MAKETEXT{"Members"}%
-%INCLUDE{"%USERSWEB%.GroupViewTemplate"
-         section="rendergroup"
-         groupname="%TOPIC%"
-         twisty="on"
-         twistyalign="left"
-       }%
+%INCLUDE{
+   "%USERSWEB%.GroupViewTemplate"
+   section="rendergroup"
+   groupname="%TOPIC%"
+   twisty="on"
+}%%INCLUDE{
+   "%USERSWEB%.GroupViewTemplate"
+   section="groupactions"
+   groupname="%TOPIC%"
+   twisty="on"
+}%
 
 *%MAKETEXT{"Related topics:"}%* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%USERSWEB%.WikiGroups][WikiGroups]]
 
@@ -24,40 +29,115 @@
 <!--
   parameters: groupname, twisty
 -->
-%STARTSECTION{"rendergroup"}%<!-- rendergroup -->
-%GROUPINFO{"%groupname%" expand="0"
-  format="$percntIF{\"not istopic '%USERSWEB%.$wikiname'\" then=\"<nop>\"}$percnt$wikiname" 
+%STARTSECTION{"rendergroup"}%<!-- -->
+%GROUPINFO{"%groupname%"
+  expand="0"
+  format="$percntIF{\"istopic '%USERSWEB%.$wikiname'\" then=\"%USERSWEB%.$wikiname\" else=\"<nop>$wikiname\"}$percnt" 
   separator=", "
-  zeroresults="%MAKETEXT{"no members"}%"
-}%<!-- list of members// -->
-%INCLUDE{"%WEB%.%TOPIC%"
-  section="%IF{
-    "istopic '%USERSWEB%.%groupname%' AND 
-     '%groupname%' != 'NobodyGroup' AND
-     '%maint%' != 'off' AND
-     '%USERSWEB%.%groupname%' allows 'change'
-    " 
-    then="changegroup%IF{"'%twisty%' = 'off'" then="notwisty"}%" 
-    else="nochange"
-  }%"
-  groupname="%groupname%"
-}% 
-<p class='foswikiClear' />
-<!-- //rendergroup -->%ENDSECTION{"rendergroup"}%
+  zeroresults="%IF{"'%groupname%' != 'NobodyGroup'" then="%MAKETEXT{"No  members"}%$n()"}%"
+}%<!-- -->
+<!-- -->%ENDSECTION{"rendergroup"}%
 </verbatim>
+
+
+<verbatim>
+<!--
+  parameters: groupname, twisty
+-->
+%STARTSECTION{"groupactions"}%%ADDTOZONE{
+"head"
+text="<style type='text/css' media='all'>
+.wikiGroupsTable {
+	width:100%;
+}
+.wikiGroupsTable td,
+.wikiGroupsTable th {
+	vertical-align:top;
+}
+.wikiGroupsTable td.wikiGroupsActions {
+	width:300px;
+}
+.wikiGroupsTable .foswikiFormSteps {
+	margin:5px 0 10px 0;
+}
+.wikiGroupsAction {
+	margin:1em 0;
+}
+.wikiGroupsNoAction {
+	color:#888;
+}
+</style>"
+}%<!-- --><div class='wikiGroupsAction'>
+%GROUPINFO{"%groupname%"
+  expand="0"
+  format="" 
+  separator=""
+  zeroresults="$percntINCLUDE{
+    \"%WEB%.%TOPIC%\"
+    section=\"%IF{
+      "istopic '%USERSWEB%.%groupname%' AND
+       $WIKINAME != 'WikiGuest' AND
+       '%groupname%' != 'NobodyGroup' AND
+       '%maint%' != 'off' AND
+       '%USERSWEB%.%groupname%' allows 'change'
+      " 
+      then="changegroup%IF{"'%twisty%' = 'off'" then="notwisty"}%" 
+      else="nochange"
+    }%\"
+    groupname=\"%groupname%\"
+    allowremove=\"0\"
+    zeromembers=\"1\"
+  }$percnt"
+  footer="$percntINCLUDE{
+    \"%WEB%.%TOPIC%\"
+    section=\"%IF{
+      "istopic '%USERSWEB%.%groupname%' AND 
+       $WIKINAME != 'WikiGuest' AND
+       '$wikiusername' != 'AdminUser' AND
+       '%groupname%' != 'NobodyGroup' AND
+       '%maint%' != 'off' AND
+       '%USERSWEB%.%groupname%' allows 'change'
+      " 
+      then="changegroup%IF{"'%twisty%' = 'off'" then="notwisty"}%" 
+      else="nochange"
+    }%\"
+    groupname=\"%groupname%\"
+    allowremove=\"1\"
+  }$percnt"
+}%<!-- -->
+</div>
+<!-- -->%ENDSECTION{"groupactions"}%
+</verbatim>
+
 
 <verbatim>
 <!--
   parameters: username, groupname
 -->
-%STARTSECTION{"nochange"}%<!-- nochange // -->%ENDSECTION{"nochange"}%
+%STARTSECTION{"nochange"}%<!-- -->%IF{
+   "'%groupname%' = 'NobodyGroup'"
+   then="<span class='wikiGroupsNoAction'>%MAKETEXT{"This group should not have members."}%$n()</span>"
+   else="%IF{
+      "'%groupname%' = 'BaseGroup'"
+      then="<span class='wikiGroupsNoAction'>%MAKETEXT{"System user list."}%$n()</span>"
+      else="%IF{
+         "$WIKINAME = 'WikiGuest'"
+         then="%MAKETEXT{"Log in to continue."}%$n()"
+         else="%IF{
+            "'%USERSWEB%.%groupname%' allows 'change'"
+            else="<span class='wikiGroupsNoAction'>%MAKETEXT{"Only members or admins may update group."}%$n()</span>"
+         }%"
+      }%"
+   }%"
+}%%ENDSECTION{"nochange"}%
 </verbatim>
+
 
 <verbatim>
 <!--
   parameters: groupname
 -->
-%STARTSECTION{"changegroupnotwisty"}%<!-- changegroupnotwisty -->
+%STARTSECTION{"changegroupnotwisty"}%<!-- -->
 %IF{"'%BASEWEB%.%BASETOPIC%'='%USERSWEB%.%groupname%'"
 then='
 ---++ %MAKETEXT{"Administration"}%
@@ -70,7 +150,7 @@ then='
   section="group_remove"
   groupname="%groupname%"
 }%
-<!-- //changegroupnotwisty -->%ENDSECTION{"changegroupnotwisty"}%
+<!-- -->%ENDSECTION{"changegroupnotwisty"}%
 </verbatim>
 
 
@@ -78,22 +158,25 @@ then='
 <!--
   parameters: groupname
 -->
-%STARTSECTION{"changegroup"}%<!-- changegroup -->
-<div class="%IF{"'%twistyalign%' != 'left'" then="foswikiRight"}%">
+%STARTSECTION{"changegroup"}%<!-- -->
 %IF{"'%BASEWEB%.%BASETOPIC%'='%USERSWEB%.%groupname%'"
 then='
 ---++ %MAKETEXT{"Administration"}%
 '}%<!-- -->
 %TWISTYBUTTON{
   id="%groupname%_add"
-  link="<img src='%ICONURLPATH{"useradd"}%' alt='%MAKETEXT{"Add member..."}%' title='%MAKETEXT{"Add member..."}%' /> %MAKETEXT{"Add member..."}%"
-}% %TWISTYBUTTON{
-  id="%groupname%_remove"
-  link="<img src='%ICONURLPATH{"userdelete"}%' alt='%MAKETEXT{"Remove member..."}%' title='%MAKETEXT{"Remove member..."}%' /> %MAKETEXT{"Remove member..."}%"
-}%
-</div>
-<p class="foswikiClear" />
+  link="<img src='%ICONURLPATH{"useradd"}%' alt='%MAKETEXT{"Add members..."}%' title='%MAKETEXT{"Add members..."}%' /> %MAKETEXT{"Add members..."}%"
+}%%TWISTYTOGGLE{id="%groupname%_add" mode="div"}%
 %INCLUDE{"%WEB%.%TOPIC%"
+  section="group_add"
+  groupname="%groupname%"
+}%%ENDTWISTYTOGGLE%
+%IF{
+	"$allowremove"
+	then=' %TWISTYBUTTON{
+  id="%groupname%_remove"
+  link="<img src=\"%ICONURLPATH{"userdelete"}%\" alt=\"%MAKETEXT{"Remove members..."}%\" title=\"%MAKETEXT{"Remove members..."}%\" /> %MAKETEXT{"Remove members..."}%"
+}%'}%%INCLUDE{"%WEB%.%TOPIC%"
   section="%IF{"
     istopic '%USERSWEB%.%groupname%' AND 
     not ( '%USERSWEB%.%groupname%'/preferences[name='VIEW_TEMPLATE'].value = 'GroupView' )
@@ -102,82 +185,91 @@ then='
   else="nochange" 
 }%"
   groupname="%groupname%"
-}%
-%TWISTYTOGGLE{id="%groupname%_add" mode="div"}%
-%INCLUDE{"%WEB%.%TOPIC%"
-  section="group_add"
-  groupname="%groupname%"
-}%
-%ENDTWISTYTOGGLE%
-%TWISTYTOGGLE{id="%groupname%_remove" mode="div"}%
-%INCLUDE{"%WEB%.%TOPIC%"
-  section="group_remove"
-  groupname="%groupname%"
-  mode="div"
-}%
-%ENDTWISTYTOGGLE%
-<!-- //changegroup -->%ENDSECTION{"changegroup"}%
+}%%IF{
+	"$allowremove"
+	then='%TWISTYTOGGLE{id="%groupname%_remove" mode="div"}%
+	$percntINCLUDE{\"%WEB%.%TOPIC%\"
+	  section=\"group_remove\"
+	  groupname=\"%groupname%\"
+	  mode=\"div\"
+	}$percnt
+	%ENDTWISTYTOGGLE%'
+}%<!-- -->%ENDSECTION{"changegroup"}%
 </verbatim>
 
 <verbatim>
 <!--
   parameters: groupname
 -->
-%STARTSECTION{"group_upgrade"}%<!-- group_upgrade -->
-<sticky>
+%STARTSECTION{"group_upgrade"}%<!-- -->
+%TWISTY{
+link="<img src='%ICONURLPATH{"wrench"}%' alt='%MAKETEXT{"Upgrade group topic..."}%' title='%MAKETEXT{"Upgrade group topic..."}%' /> %MAKETEXT{"Upgrade group topic..."}%"
+}%
 <form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
-  <input type="hidden" name="groupname" value="%groupname%"/>
-  <input type="hidden" name="action" value="addUserToGroup"/>
-  <input type="hidden" name="create" value="1"/>
-  <input class="foswikiButton" type="submit" value="%MAKETEXT{"Upgrade group topic"}%" />
+<input type="hidden" name="groupname" value="%groupname%"/>
+<input type="hidden" name="action" value="addUserToGroup"/>
+<input type="hidden" name="create" value="1"/>
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+<h3>%MAKETEXT{"Upgrade group topic"}%</h3>
+<p>%MAKETEXT{"Add user management options to this topic."}%</p>
+</div>
+<div class="foswikiFormStep foswikiLast">
+<input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Upgrade"}%" />
+</div>
+</div>
 </form>
-
-<div class="foswikiGrayText">
-%ICON{"info"}% %MAKETEXT{"Upgrade will adjust the format of this group topic to the new format with user management options"}%
-</div></sticky>
-<!-- //group_upgrade -->%ENDSECTION{"group_upgrade"}%
+%ENDTWISTY%<!-- -->%ENDSECTION{"group_upgrade"}%
 </verbatim><verbatim>
 <!--
   parameters: groupname
 -->
-%STARTSECTION{"group_add"}%<!-- group_add --><sticky>
-<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST"> 
-<input type="hidden" name="groupname" value="%groupname%"/> 
-<input type="hidden" name="action" value="addUserToGroup"/>
+%STARTSECTION{"group_add"}%<!-- --><sticky>
+<form action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='post'> 
+<input type='hidden' name='groupname' value='%groupname%'/> 
+<input type='hidden' name='action' value='addUserToGroup'/>
 <div class='foswikiFormSteps'>
+  <div class='foswikiFormStep'>
+     <h3>%MAKETEXT{"Add users or groups to this group"}%</h3>%JQREQUIRE{"textboxlist"}%
+     <input type='text' name='username' value='' size='30' class='foswikiInputField foswikiDefaultText jqTextboxList' autocomplete='%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%' />
+  </div>
   <div class='foswikiFormStep foswikiLast'>
-     <h3>%MAKETEXT{"Add a user or group to this group"}%</h3>
-%JQREQUIRE{"autocomplete"}%
-     <input type="text" name="username" value="" size="40" class="foswikiInputField foswikiDefaultText" title="%MAKETEXT{Name of user}%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%"/> <input class="foswikiSubmit" type="submit" value="%MAKETEXT{"Add member"}%" />
+     %BUTTON{"%MAKETEXT{"Add members"}%" icon="add" type="submit"}%
+     %CLEAR%
   </div>
 </div>
-</form></sticky>
-<!-- //group_add -->%ENDSECTION{"group_add"}%
+</form>
+</sticky>
+%ENDSECTION{"group_add"}%
 </verbatim>
 
 <verbatim>
 <!--
   parameters: groupname
 -->
-%STARTSECTION{"group_remove"}%<!-- group_remove -->
+%STARTSECTION{"group_remove"}%<!-- -->
 %GROUPINFO{
-   "%groupname%" expand="0"
-   header="<form action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='POST' >
-     <input type='hidden' name='groupname' value='%groupname%' />
-     <input type='hidden' name='action' value='removeUserFromGroup' />
-     <div class='foswikiFormSteps'>
-     <div class='foswikiFormStep foswikiLast'>
-     <h3>%MAKETEXT{"Remove members from this group"}%</h3>$n"
-   format="<label style='display:block'>
-      <input type='checkbox' name='username' value='$wikiname' /> <nop>$wikiname
+   "%groupname%"
+   expand="0"
+   header="<form action=\"%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%\" method=\"post\" >
+     <input type=\"hidden\" name=\"groupname\" value=\"%groupname%\" />
+     <input type=\"hidden\" name=\"action\" value=\"removeUserFromGroup\" />
+     <div class=\"foswikiFormSteps\">
+     <div class=\"foswikiFormStep\">
+     <h3>%MAKETEXT{"Remove members from this group"}%:</h3>"
+   format="<label style=\"display:block\">
+      <input type=\"checkbox\" name=\"username\" value=\"$wikiname\" /> <nop>$wikiname
       </label>"
-   footer="<input type='submit' class='foswikiSubmit' value='%MAKETEXT{"Remove selected members"}%' />
+   footer="</div>
+      <div class=\"foswikiFormStep foswikiLast\">
+        $percntBUTTON{\"%MAKETEXT{"Remove selected members"}%\" icon=\"delete\" type=\"submit\"}$percnt
+        $percntCLEAR$percnt
       </div>
-      </form>
-      </div>"
+      </div>
+      </form>"
    separator="$n"
 }%
-<!-- //group_remove -->%ENDSECTION{"group_remove"}%
+<!-- -->%ENDSECTION{"group_remove"}%
 </verbatim>
 
 %TMPL:END%
