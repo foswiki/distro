@@ -398,12 +398,14 @@ sub test_LIST {
 | apple | orange | kiwi | %CALC{$LIST($LEFT())}% |
 | apple | orange | baseball | %CALC{$LIST($LEFT())}% |
 | john | fred | %CALC{$LIST($ABOVE())}% | bananna |
+| apple | orange, pink | , baseball | %CALC{$LIST($LEFT())}% |
 TABLE
     my $actual = Foswiki::Func::expandCommonVariables( $inTable );
     my $expected = <<'EXPECT';
 | apple | orange | kiwi | apple, orange, kiwi |
 | apple | orange | baseball | apple, orange, baseball |
 | john | fred | kiwi, baseball | bananna |
+| apple | orange, pink | , baseball | apple, orange, pink, , baseball |
 EXPECT
     chomp $expected;
     $this->assert_equals( $expected, $actual );
@@ -440,6 +442,29 @@ sub test_LISTJOIN {
     $this->assert( $this->CALC('$LISTJOIN($empty,1,2,3)')   eq '123' );
 }
 
+sub test_LISTNONEMPTY {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$LISTNONEMPTY(,1,2,3)'), '1, 2, 3' );
+    $this->assert_equals( $this->CALC('$LISTNONEMPTY(,1, ,,2,,3,)'), '1, 2, 3' );
+
+    my $inTable = <<'TABLE';
+| a |  | c |  | e | %CALC{$LIST($LEFT())}% |
+| a |  | c |  | e | %CALC{$LISTNONEMPTY($LEFT())}% |
+| a |  | c | , e, | g | %CALC{$LIST($LEFT())}% |
+| a |  | c | , e, | g | %CALC{$LISTNONEMPTY($LEFT())}% |
+TABLE
+    my $actual = Foswiki::Func::expandCommonVariables( $inTable );
+    my $expected = <<'EXPECT';
+| a |  | c |  | e | a, , c, , e |
+| a |  | c |  | e | a, c, e |
+| a |  | c | , e, | g | a, , c, , e, g |
+| a |  | c | , e, | g | a, c, e, g |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
+}
+
 sub test_LISTMAP {
     my ($this) = @_;
     $this->assert(
@@ -464,16 +489,21 @@ sub test_LISTSHUFFLE {
 sub test_LISTSIZE {
     my ($this) = @_;
     $this->assert( $this->CALC('$LISTSIZE(Apple, Orange, Apple, Kiwi)') == 4 );
+    $this->assert( $this->CALC('$LISTSIZE(Apple, , Apple, Kiwi)') == 4 );
 
 # Test for TWiki Item6668
     my $inTable = <<'TABLE';
 | a | b | c | d | e |  %CALC{$LISTSIZE($LIST($LEFT()))}%  |
 | a | b | c | d, e, f | g |  %CALC{$LISTSIZE($LIST($LEFT()))}%  |
+| a |   | c | d, , f | g |  %CALC{$LISTSIZE($LIST($LEFT()))}%  |
+| a |   | c | d, , f | g |  %CALC{$LISTSIZE($LISTNONEMPTY($LEFT()))}%  |
 TABLE
     my $actual = Foswiki::Func::expandCommonVariables( $inTable );
     my $expected = <<'EXPECT';
 | a | b | c | d | e |  5  |
 | a | b | c | d, e, f | g |  7  |
+| a |   | c | d, , f | g |  7  |
+| a |   | c | d, , f | g |  5  |
 EXPECT
     chomp $expected;
     $this->assert_equals( $expected, $actual );

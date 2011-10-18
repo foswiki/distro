@@ -390,8 +390,10 @@ sub doFunc {
         # which would require two operators.   An XOR with itself would clear the field not flip all the bits.  
         # This should probably be called a BITNOT.
         if ( scalar @arr  == 1 ) {
-            my $ff = chr(255) x length( $theAttr );
+            use bytes;
+            my $ff = chr(255) x length ( $theAttr );
             $result = $theAttr ^ $ff;
+            no bytes;
         }
         # This is a standard bit-wise xor of a list of integers.
         else {
@@ -1203,6 +1205,18 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         $result = _listToDelimitedString(@arr);
 
     }
+    elsif( $theFunc eq "LISTNONEMPTY" ) {
+        #my @arr = grep { /./ } getList( $theAttr );
+
+        my @arr;
+        foreach my $item ( getList( $theAttr ) ) {
+            # SMELL: When called using a cell range, empty cells return a space
+            # instead of a empty string,  so need to check for not blank.
+            push( @arr, $item ) if ( length($item) > 0 && $item !~ /^\s*$/ );
+            }
+        $result = _listToDelimitedString( @arr );
+
+    }
     elsif ( $theFunc eq "NOP" ) {
 
         # pass everything through, this will allow plugins to defy plugin order
@@ -1402,12 +1416,15 @@ sub getList {
         if (m/\s*R([0-9]+)\:C([0-9]+)\s*\.\.+\s*R([0-9]+)\:C([0-9]+)/) {
 
             # table range
-            push( @list, getTableRange($_) );
+            foreach ( getTableRange($_)) {
+                # Cell in range might contain a nested list
+                push( @list, split(/\s*,\s*/, $_ ));
+            }
         }
         else {
 
             # list item
-            push( @list, split(/\s*,\s*/, $_ ));
+            push( @list, $_ );
         }
     }
     return @list;

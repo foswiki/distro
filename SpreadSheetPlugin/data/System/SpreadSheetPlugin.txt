@@ -357,6 +357,13 @@ This function has two modes of operation.
    * Example: ==%<nop>CALC{"$LISTMAP($index: $EVAL(2 * $item), 3, 5, 7, 11)"}%== returns ==1: 6, 2: 10, 3: 14, 4: 22==
    * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
 
+#FuncLISTNONEMPTY
+---+++ LISTNONEMPTY( list ) -- remove all empty elements from a list
+   * Syntax: ==$LISTNONEMPTY( list )==
+   * Example: ==%<nop>CALC{"$LISTNONEMPTY(, Apple, Orange, , Kiwi)"}%== returns ==Apple, Orange, Kiwi==
+   * Related: =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=
+
+
 #FuncLISTRAND
 ---+++ LISTRAND( list ) -- get one random element of a list
    * Syntax: ==$LISTRAND( list )==
