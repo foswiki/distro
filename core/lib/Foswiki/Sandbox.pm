@@ -309,7 +309,7 @@ sub sanitizeAttachmentName {
     # Change spaces to underscore
     $fileName =~ s/ /_/go;
 
-    if ( $Foswiki::cfg{UseLocale} ) {
+    if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/i ) {
 
         # Filter out only if using locales.
         $fileName =~ s/$Foswiki::cfg{NameFilter}//go;
