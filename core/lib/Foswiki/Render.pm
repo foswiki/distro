@@ -1586,7 +1586,6 @@ sub protectPlainText {
     # encoding (&#nnn;) is identical for first 256 characters.
     # I18N TODO: Convert to Unicode from any site character set.
     if (   $this->{session}->inContext('rss')
-        && defined( $Foswiki::cfg{Site}{CharSet} )
         && $Foswiki::cfg{Site}{CharSet} =~ /^iso-?8859-?1$/i )
     {
         $text =~ s/([\x7f-\xff])/"\&\#" . unpack( 'C', $1 ) .';'/ge;

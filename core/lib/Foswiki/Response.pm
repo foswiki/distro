@@ -39,7 +39,7 @@ sub new {
         status           => undef,
         headers          => {},
         body             => undef,
-        charset          => 'ISO-8859-1',
+        charset          => $Foswiki::cfg{Site}{CharSet},
         cookies          => [],
         outputHasStarted => 0,
     };
