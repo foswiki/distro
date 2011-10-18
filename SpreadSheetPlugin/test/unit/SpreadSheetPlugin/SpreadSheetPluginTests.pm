@@ -526,6 +526,12 @@ sub test_LISTUNIQUE {
     my ($this) = @_;
     $this->assert( $this->CALC('$LISTUNIQUE(Apple, Orange, Apple, Kiwi)') eq
           'Apple, Orange, Kiwi' );
+
+    # Tests for Item11079
+    $this->assert_equals( 'Apple, Orange, Kiwi, Mango, Banana', $this->CALC('$LISTUNIQUE( Apple, Orange, Kiwi, Mango, Apple, Banana )'));
+    $this->assert_equals( 'Orange, Apple, Kiwi, Mango, Banana', $this->CALC('$LISTUNIQUE( Orange, Apple, Kiwi, Mango, Banana, Apple )'));
+    $this->assert_equals( 'Orange, Apple, Kiwi, Mango, Banana', $this->CALC('$LISTUNIQUE( Orange, Apple, Kiwi, Mango, Apple, Banana )'));
+    $this->assert_equals( 'Apple, Orange, Kiwi, Mango, Banana', $this->CALC('$LISTUNIQUE( Apple, Orange, Kiwi, Mango, Banana, Apple )') );
 }
 
 sub test_LN {

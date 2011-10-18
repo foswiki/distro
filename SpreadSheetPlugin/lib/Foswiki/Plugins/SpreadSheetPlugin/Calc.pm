@@ -1412,13 +1412,14 @@ sub getList {
     my ($theAttr) = @_;
 
     my @list = ();
-    foreach ( split( /,\s*/, $theAttr ) ) {
+    $theAttr =~ s/^\s*//;
+    $theAttr =~ s/\s*$//;
+    foreach ( split( /\s*,\s*/, $theAttr ) ) {
         if (m/\s*R([0-9]+)\:C([0-9]+)\s*\.\.+\s*R([0-9]+)\:C([0-9]+)/) {
 
-            # table range
-            foreach ( getTableRange($_)) {
-                # Cell in range might contain a nested list
-                push( @list, split(/\s*,\s*/, $_ ));
+            foreach ( getTableRange($_) ) {
+                # table range
+                push (@list, split( /\s*,\s*/, $_));
             }
         }
         else {
