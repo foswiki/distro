@@ -2295,7 +2295,7 @@ sub test_unicode_attachment {
         'Our attachment name string doesn\'t have utf8 flag set');
 
     # http://translate.google.com/#auto|hi|standard
-    my $unicomment = 'मानक',;
+    my $unicomment = 'मानक';
     my $query;
     my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $stream;
