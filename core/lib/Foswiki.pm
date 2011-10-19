@@ -414,10 +414,7 @@ BEGIN {
     # Build up character class components for use in regexes.
     # Depends on locale mode and Perl version, and finally on
     # whether locale-based regexes are turned off.
-    if (   not $Foswiki::cfg{UseLocale}
-        or $] < 5.006
-        or not $Foswiki::cfg{Site}{LocaleRegexes} )
-    {
+    if ( $] < 5.006 or not $Foswiki::cfg{Site}{LocaleRegexes} ) {
 
         # No locales needed/working, or Perl 5.005, so just use
         # any additional national characters defined in LocalSite.cfg
@@ -642,10 +639,6 @@ sub UTF82SiteCharSet {
                   . ' - use Perl 5.8 or higher..' );
         }
 
-        # We still don't have Codev.UnicodeSupport
-        $this->logger->log( 'warning',
-                'UTF-8 not yet supported as site charset -'
-              . 'Foswiki is likely to have problems' );
         return $text;
     }
 
