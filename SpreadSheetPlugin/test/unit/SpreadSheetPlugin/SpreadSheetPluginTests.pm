@@ -544,6 +544,17 @@ sub test_LISTUNIQUE {
     $this->assert_equals( 'Apple, Orange, Kiwi, Mango, Banana',
         $this->CALC('$LISTUNIQUE( Apple, Orange, Kiwi, Mango, Banana, Apple )')
     );
+
+    my $inTable = <<'TABLE';
+| a | b | g |  a, , g | g | %CALC{$LISTUNIQUE($LEFT())}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| a | b | g |  a, , g | g | a, b, g,  |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
 }
 
 sub test_LN {

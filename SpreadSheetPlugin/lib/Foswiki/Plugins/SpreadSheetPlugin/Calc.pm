@@ -1211,15 +1211,7 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     }
     elsif ( $theFunc eq "LISTNONEMPTY" ) {
 
-        #my @arr = grep { /./ } getList( $theAttr );
-
-        my @arr;
-        foreach my $item ( getList($theAttr) ) {
-
-            # SMELL: When called using a cell range, empty cells return a space
-            # instead of a empty string,  so need to check for not blank.
-            push( @arr, $item ) if ( length($item) > 0 && $item !~ /^\s*$/ );
-        }
+        my @arr = grep { /./ } getList($theAttr);
         $result = _listToDelimitedString(@arr);
 
     }
@@ -1416,15 +1408,19 @@ sub getList {
     my ($theAttr) = @_;
 
     my @list = ();
-    $theAttr =~ s/^\s*//;
+    $theAttr =~ s/^\s*//;    # Drop leading / trailing spaces
     $theAttr =~ s/\s*$//;
     foreach ( split( /\s*,\s*/, $theAttr ) ) {
         if (m/\s*R([0-9]+)\:C([0-9]+)\s*\.\.+\s*R([0-9]+)\:C([0-9]+)/) {
-
             foreach ( getTableRange($_) ) {
 
-                # table range
-                push( @list, split( /\s*,\s*/, $_ ) );
+                # table range - appears to contain a list
+                if ( $_ =~ m/,/ ) {
+                    push( @list, ( split( /\s*,\s*/, $_ ) ) );
+                }
+                else {
+                    push( @list, $_ );
+                }
             }
         }
         else {
@@ -1473,7 +1469,12 @@ sub getTableRange {
         $pRow = $tableMatrix[$r];
         for $c ( $c1 .. $c2 ) {
             if ( $c < @$pRow ) {
-                push( @arr, $$pRow[$c] );
+
+                # Strip trailing spaces from each cell.
+                # The are for left/right justification and should
+                # not be considered part of the table data.
+                my ($rd) = $$pRow[$c] =~ m/^\s*(.*?)\s*$/;
+                push( @arr, $rd );
             }
         }
     }
