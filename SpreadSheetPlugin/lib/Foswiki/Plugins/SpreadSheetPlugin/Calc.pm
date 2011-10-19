@@ -95,7 +95,7 @@ sub CALC {
                 $line =~ s/^(\s*\|)(.*)\|\s*$/$2/o;
                 $before = $1;
                 @row = split( /\|/o, $line, -1 );
-                $row[0] = '' unless @row; # See Item5163
+                $row[0] = '' unless @row;    # See Item5163
                 push( @tableMatrix, [@row] );
                 $rPos++;
                 $line = "$before";
@@ -370,41 +370,45 @@ sub doFunc {
             }
         }
     }
-    elsif( $theFunc eq "XOR" ) {
-        my @arr = getListAsInteger( $theAttr );
-        $result = shift( @arr );
-        if( scalar( @arr ) > 0 ) {
-            foreach $i ( @arr ) {
+    elsif ( $theFunc eq "XOR" ) {
+        my @arr = getListAsInteger($theAttr);
+        $result = shift(@arr);
+        if ( scalar(@arr) > 0 ) {
+            foreach $i (@arr) {
                 next unless defined $i;
                 $result = ( $result xor $i );
             }
-        } else {
+        }
+        else {
             $result = 0;
         }
         $result = $result ? 1 : 0;
 
     }
-    elsif( $theFunc eq "BITXOR" ) {
+    elsif ( $theFunc eq "BITXOR" ) {
         my @arr = getList($theAttr);
-        # SMELL: This usage is bogus.   It takes the ones-complement of the string, and does NOT do a bit-wise XOR
-        # which would require two operators.   An XOR with itself would clear the field not flip all the bits.  
-        # This should probably be called a BITNOT.
-        if ( scalar @arr  == 1 ) {
+
+# SMELL: This usage is bogus.   It takes the ones-complement of the string, and does NOT do a bit-wise XOR
+# which would require two operators.   An XOR with itself would clear the field not flip all the bits.
+# This should probably be called a BITNOT.
+        if ( scalar @arr == 1 ) {
             use bytes;
-            my $ff = chr(255) x length ( $theAttr );
+            my $ff = chr(255) x length($theAttr);
             $result = $theAttr ^ $ff;
             no bytes;
         }
+
         # This is a standard bit-wise xor of a list of integers.
         else {
-            @arr = getListAsInteger( $theAttr );
-            $result = int (shift( @arr ));
-            if( scalar( @arr ) > 0 ) {
-                foreach $i ( @arr ) {
+            @arr    = getListAsInteger($theAttr);
+            $result = int( shift(@arr) );
+            if ( scalar(@arr) > 0 ) {
+                foreach $i (@arr) {
                     next unless defined $i;
-                    $result = ( $result ^ int( $i ) );
+                    $result = ( $result ^ int($i) );
                 }
-            } else {
+            }
+            else {
                 $result = 0;
             }
         }
@@ -544,8 +548,8 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
 
     }
     elsif ( $theFunc eq "RIGHT" ) {
-        $i      = $rPos + 1;
-        my $c   = $cPos + 2;
+        $i = $rPos + 1;
+        my $c = $cPos + 2;
         $result = "R$i:C$c..R$i:C32000";
 
     }
@@ -1025,9 +1029,9 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         $result = $varStore{$name} if ($name);
         $result = "" unless ( defined($result) );
     }
-    elsif( $theFunc eq "SPLIT" ) {
-        my( $sep, $str ) = _properSplit( $theAttr, 2 );
-        $sep = "  *" if( !defined $sep || $sep eq '' );
+    elsif ( $theFunc eq "SPLIT" ) {
+        my ( $sep, $str ) = _properSplit( $theAttr, 2 );
+        $sep = "  *" if ( !defined $sep || $sep eq '' );
         $sep =~ s/\$comma/,/go;
         $sep =~ s/\$sp/ /go;
         $sep =~ s/\$(nop|empty)//go;
@@ -1106,7 +1110,7 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         my @arr  = getList($theAttr);
         my $size = scalar @arr;
         if ( $size > 0 ) {
-            $i      = int( rand( $size ) );
+            $i      = int( rand($size) );
             $result = $arr[$i];
         }
 
@@ -1205,16 +1209,18 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         $result = _listToDelimitedString(@arr);
 
     }
-    elsif( $theFunc eq "LISTNONEMPTY" ) {
+    elsif ( $theFunc eq "LISTNONEMPTY" ) {
+
         #my @arr = grep { /./ } getList( $theAttr );
 
         my @arr;
-        foreach my $item ( getList( $theAttr ) ) {
+        foreach my $item ( getList($theAttr) ) {
+
             # SMELL: When called using a cell range, empty cells return a space
             # instead of a empty string,  so need to check for not blank.
             push( @arr, $item ) if ( length($item) > 0 && $item !~ /^\s*$/ );
-            }
-        $result = _listToDelimitedString( @arr );
+        }
+        $result = _listToDelimitedString(@arr);
 
     }
     elsif ( $theFunc eq "NOP" ) {
@@ -1235,14 +1241,11 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
 
     }
     elsif ( $theFunc eq "HEXDECODE" ) {
-        $theAttr =~ s/[^0-9A-Fa-f]//g; # only hex numbers
-        $theAttr =~ s/.$// if( length( $theAttr ) % 2 ); # must be set of two
+        $theAttr =~ s/[^0-9A-Fa-f]//g;                     # only hex numbers
+        $theAttr =~ s/.$// if ( length($theAttr) % 2 );    # must be set of two
         $result = pack( "H*", $theAttr );
 
     }
-
-
-
 
     Foswiki::Func::writeDebug(
 "- SpreadSheetPlugin::Calc::doFunc: $theFunc( $theAttr ) returns: $result"
@@ -1307,7 +1310,8 @@ sub safeEvalPerl {
       s/\%\s*[^\-\+\*\/0-9\.\(\)]+//go;    # defuse %hash but keep modulus
      # keep only numbers and operators (shh... don't tell anyone, we support comparison operators)
     $theText =~ s/[^\!\<\=\>\-\+\*\/\%0-9e\.\(\)]*//go;
-    $theText =~ s/(^|[^\.])\b0+(?=[0-9])/$1/go;  # remove leading 0s to defuse interpretation of numbers as octals
+    $theText =~ s/(^|[^\.])\b0+(?=[0-9])/$1/go
+      ;    # remove leading 0s to defuse interpretation of numbers as octals
     $theText =~
       s/(^|[^0-9])e/$1/go;  # remove "e"-s unless in expression such as "123e-4"
     $theText =~ /(.*)/;
@@ -1418,8 +1422,9 @@ sub getList {
         if (m/\s*R([0-9]+)\:C([0-9]+)\s*\.\.+\s*R([0-9]+)\:C([0-9]+)/) {
 
             foreach ( getTableRange($_) ) {
+
                 # table range
-                push (@list, split( /\s*,\s*/, $_));
+                push( @list, split( /\s*,\s*/, $_ ) );
             }
         }
         else {
