@@ -20,6 +20,8 @@ sub set_up {
     $Foswiki::cfg{AllowRedirectUrl}          = 0;
     $Foswiki::cfg{DefaultUrlHost}            = 'http://wiki.server';
     $Foswiki::cfg{PermittedRedirectHostUrls} = 'http://other.wiki';
+
+    return;
 }
 
 sub tear_down {
@@ -31,6 +33,8 @@ sub tear_down {
       $this->{_saved}->{PermittedRedirectHostUrls};
 
     $this->SUPER::tear_down();
+
+    return;
 }
 
 sub test_empty_new {
@@ -50,7 +54,7 @@ sub test_empty_new {
         '$res->headers did not return HASHREF' );
     $this->assert_num_equals(
         0,
-        ( scalar keys %$ref ),
+        ( scalar keys %{$ref} ),
         'Non-empty initial headers'
     );
 
