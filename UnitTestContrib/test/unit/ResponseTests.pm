@@ -37,8 +37,8 @@ sub test_empty_new {
 
     $this->assert_null( $res->status, 'Non-empty initial status' ) if not DEBUG;
     $this->assert_null( $res->body,   'Non-empty initial body' );
-    $this->assert_matches( 'ISO-8859-1', $res->charset,
-        'Bad default initial charset' );
+    $this->assert_matches( 'iso-8859-1', $res->charset,
+        'Bad default initial charset: ' . ($res->charset || 'undef') );
 
     my @cookies = $res->cookies();
     $this->assert_str_equals( 0, scalar @cookies, '$res->cookies not empty' );
