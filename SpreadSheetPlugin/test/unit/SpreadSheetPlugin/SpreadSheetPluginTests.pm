@@ -34,7 +34,7 @@ sub set_up {
 | South |  240 |
 | Europe |  610 |
 | Asia |  220 |
-| Total: |  %CALC{"$SUM( $ABOVE() )"}% |
+| Total: |  %CALC{"$SET(inc, $SUM( $ABOVE() ))$GET(inc)"}% |
 HERE
 
     $this->writeTopic( $this->{target_web}, $this->{target_topic}, $table );
@@ -76,7 +76,24 @@ sub CALC {
 #sub test_NOEXEC {}
 
 sub test_ABOVE {
-    warn '$ABOVE not implemented';
+    my ($this) = @_;
+
+    # Test for TWiki Item6667
+    my $inTable = <<'TABLE';
+| 1 | 2 | 3 | 4 |
+| 5 | 6 | 7 | 8 |
+| %CALC{$SUM($ABOVE())}% | %CALC{$SUM($ABOVE())}% |
+| %CALC{$ABOVE()}% | %CALC{$ABOVE()}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| 1 | 2 | 3 | 4 |
+| 5 | 6 | 7 | 8 |
+| 6 | 8 |
+| R0:C1..R3:C1 | R0:C2..R3:C2 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_ABS {
@@ -225,7 +242,25 @@ EXPECT
 }
 
 sub test_DEF {
-    warn '$DEF not implemented';
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$DEF(,1,2,3)'),     '1' );
+    $this->assert_equals( $this->CALC('$DEF(,, ,,2,,3,)'), '2' );
+
+    my $inTable = <<'TABLE';
+|  |  |  | c | %CALC{$DEF($LEFT())}% |
+|  | a |  | c | %CALC{$DEF($LEFT())}% |
+|  |  |  |  | %CALC{$DEF($LEFT())}% |
+|  | %CALC{$DEF($ABOVE())}%  |  |  | %CALC{$DEF($LEFT())}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+|  |  |  | c | c |
+|  | a |  | c | a |
+|  |  |  |  |  |
+|  | a  |  |  | a |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_EMPTY {
@@ -324,8 +359,35 @@ sub test_FORMATTIMEDIFF {
           '1 day, 3 hours and 20 minutes' );
 }
 
-sub test_GET {
-    warn '$GET not implemented';
+sub test_GET_SET {
+    my ($this) = @_;
+
+    my $topicText = <<"HERE";
+%INCLUDE{$this->{target_web}.$this->{target_topic}}%
+
+   * inc = %CALC{\$GET(inc)}%
+%CALC{\$SET(inc, asdf)}%
+   * now inc = %CALC{\$GET(inc)}%
+
+HERE
+
+    my $actual = Foswiki::Func::expandCommonVariables($topicText);
+
+    my $expected = <<'HERE';
+| *Region:* | *Sales:* |
+| Northeast |  320 |
+| Northwest |  580 |
+| South |  240 |
+| Europe |  610 |
+| Asia |  220 |
+| Total: |  1970 |
+
+   * inc = 1970
+
+   * now inc = asdf
+HERE
+    chomp $expected;
+    $this->assert_equals( $actual, $expected );
 }
 
 sub test_HEXDECODE_HEXENCODE {
@@ -782,16 +844,38 @@ sub test_SEARCH {
     $this->assert( $this->CALC('$SEARCH([abc], fluffy,)') == 0 );
 }
 
-sub test_SET {
-    warn '$SET not implemented';
-}
-
 sub test_SETIFEMPTY {
     warn '$SETIFEMPTY not implemented';
 }
 
 sub test_SETM {
-    warn '$SETM not implemented';
+    my ($this) = @_;
+
+    my $topicText = <<"HERE";
+%INCLUDE{$this->{target_web}.$this->{target_topic}}%
+%CALC{\$SETM(inc, + 100)}%
+   * inc = %CALC{\$GET(inc)}%
+%CALC{\$SETM(inc, / 2)}%
+   * inc = %CALC{\$GET(inc)}%
+HERE
+
+    my $actual = Foswiki::Func::expandCommonVariables($topicText);
+
+    my $expected = <<'HERE';
+| *Region:* | *Sales:* |
+| Northeast |  320 |
+| Northwest |  580 |
+| South |  240 |
+| Europe |  610 |
+| Asia |  220 |
+| Total: |  1970 |
+
+   * inc = 2070
+
+   * inc = 1035
+HERE
+    chomp $expected;
+    $this->assert_equals( $actual, $expected );
 }
 
 sub test_SIGN {
