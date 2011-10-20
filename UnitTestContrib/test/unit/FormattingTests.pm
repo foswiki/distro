@@ -1284,7 +1284,7 @@ sub test_externalLinkWithImageUrl {
 EXPECTED
 
     my $actual = <<ACTUAL;
-[[$this->{test_topic}][http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif]]
+[[$this->{test_topic}][ http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif ]]
 ACTUAL
     $this->do_test( $expected, $actual );
 }
