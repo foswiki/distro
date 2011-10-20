@@ -4966,7 +4966,7 @@ sub test_format_tokens {
       ->expandMacros('%USERINFO{"ScumBag" format="$emails"}%');
     $this->assert_matches( qr/^[a-z]+\@[a-z.]+$/, $emailAddress );
     my $testTopic = 'TestFormatTokens';
-    my $header    = "Search with USerinfo";
+    my $header    = "Search with Userinfo";
     my $body      = '   * Set POTLEADER = ScumBag';
     my $meta      = <<'METADATA';
 %META:FORM{name="TestyForm"}%
@@ -5055,6 +5055,44 @@ METADATA
               . "Expected:'$expected'\n But got:'$result'\n" );
     }
 
+    return;
+}
+
+# Item11190
+sub test_format_percent_tokens {
+    my $this      = shift;
+    my $testTopic = 'TestFormatIncludedTokens';
+    my $body      = '%PUBURL%/%WEB%/%TOPIC%/Something.jpg';
+    my $testWeb   = $this->{test_web} . '/TestSearchFormatWeb';
+    my $search = "%SEARCH{\"Something\" web=\"$testWeb\" topic=\"$testTopic\" "
+      . 'expandvariables="on" nonoise="on" format="$pattern(.*?begin (.*?) end.*)"}%';
+
+    Foswiki::Func::createWeb($testWeb);
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $testWeb, $testTopic,
+        "begin $body end\n" );
+    $topicObject->save();
+    my $expected     = $topicObject->expandMacros($body);
+    my $expectedFail = $expected;
+    for ($expectedFail) {
+        s/$testWeb/$this->{test_web}/g;
+        s/$testTopic/$this->{test_topic}/g;
+    }
+
+    my $result = $topicObject->expandMacros($search);
+    $this->assert_equals( $expected, $result,
+            "Expansion of SEARCH failed locally!\n"
+          . "Expected:'$expected'\n But got:'$result'\n" );
+    $result = $this->{test_topicObject}->expandMacros($search);
+    $this->assert_equals( $expected, $result,
+            "Expansion of SEARCH failed remotely!\n"
+          . "Expected:'$expected'\n But got:'$result'\n" );
+
+    $search =~ s/(expandvariables)="on"/$1="off"/;
+    $result = $this->{test_topicObject}->expandMacros($search);
+    $this->assert_equals( $expectedFail, $result,
+            "Expansion of SEARCH failed remotely (expandvariables=\"off\")!\n"
+          . "Expected:'$expectedFail'\n But got:'$result'\n" );
     return;
 }
 
