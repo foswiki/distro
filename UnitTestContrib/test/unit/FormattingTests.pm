@@ -1275,4 +1275,18 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
+sub test_externalLinkWithImageUrl {
+    my $this     = shift;
+    my $expected = <<EXPECTED;
+<a href="$this->{sup}/$this->{test_web}/$this->{test_topic}" class="foswikiCurrentTopicLink" >
+<img alt="foswiki-logo.gif" src="http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif" />
+</a>
+EXPECTED
+
+    my $actual = <<ACTUAL;
+[[$this->{test_topic}][http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
 1;
