@@ -799,10 +799,8 @@ sub _handleSquareBracketedLink {
 
         # [[$link][$text]]
         $hasExplicitLinkLabel = 1;
-        if ( $text =~ /^[^?]*\.(gif|jpg|jpeg|png)$/i ) {
-            my $filename = $text;
-            $filename =~ s@.*/@@;
-            $text = CGI::img( { src => $text, alt => $filename } );
+        if ( my $img = $this->_isImageLink($text) ) {
+            $text = $img;
         }
         else {
             $text = _escapeAutoLinks($text);
@@ -829,7 +827,7 @@ sub _handleSquareBracketedLink {
                 $text = _escapeAutoLinks($candidateText);
             }
         }
-        return _externalLink( $this, $link, $text );
+        return $this->_externalLink( $link, $text );
     }
 
     # Extract '?params'
@@ -890,16 +888,26 @@ sub _handleSquareBracketedLink {
         $hasExplicitLinkLabel, $params );
 }
 
+# Check if text is an image # (as indicated by the file type)
+# return an img tag, otherwise nothing
+sub _isImageLink {
+    my ( $this, $url ) = @_;
+
+    if ( $url =~ /^[^?]*\.(?:gif|jpg|jpeg|png)$/i ) {
+        my $filename = $url;
+        $filename =~ s@.*/@@;
+        return CGI::img( { src => $url, alt => $filename } );
+    }
+    return;
+}
+
 # Handle an external link typed directly into text. If it's an image
-# (as indicated by the file type), and no text is specified, then use
-# an img tag, otherwise generate a link.
+# and no text is specified, then use an img tag, otherwise generate a link.
 sub _externalLink {
     my ( $this, $url, $text ) = @_;
 
-    if ( $url =~ /^[^?]*\.(gif|jpg|jpeg|png)$/i && !$text ) {
-        my $filename = $url;
-        $filename =~ s@.*/([^/]*)@$1@go;
-        return CGI::img( { src => $url, alt => $filename } );
+    if ( !$text && ( my $img = $this->_isImageLink($url) ) ) {
+        return $img;
     }
     my $opt = '';
     if ( $url =~ /^mailto:/i ) {
