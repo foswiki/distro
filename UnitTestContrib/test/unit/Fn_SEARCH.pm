@@ -4595,6 +4595,157 @@ METADATA
                 "Expansion of SEARCH token $token failed!\n"
               . "Expected:'$expected'\n But got:'$result'\n" );
     }
+
+    return;
+}
+
+# Item11190
+sub test_format_percent_tokens {
+    my $this      = shift;
+    my $testTopic = 'TestFormatIncludedTokens';
+    my $body      = '%PUBURL%/%WEB%/%TOPIC%/Something.jpg';
+    my $testWeb   = $this->{test_web} . '/TestSearchFormatWeb';
+    my $search = "%SEARCH{\"Something\" web=\"$testWeb\" topic=\"$testTopic\" "
+      . 'expandvariables="on" nonoise="on" format="$pattern(.*?begin (.*?) end.*)"}%';
+
+    Foswiki::Func::createWeb($testWeb);
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $testWeb, $testTopic,
+        "begin $body end\n" );
+    $topicObject->save();
+    my $expected     = $topicObject->expandMacros($body);
+    my $expectedFail = $expected;
+    for ($expectedFail) {
+        s/$testWeb/$this->{test_web}/g;
+        s/$testTopic/$this->{test_topic}/g;
+    }
+
+    my $result = $topicObject->expandMacros($search);
+    $this->assert_equals( $expected, $result,
+            "Expansion of SEARCH failed locally!\n"
+          . "Expected:'$expected'\n But got:'$result'\n" );
+    $result = $this->{test_topicObject}->expandMacros($search);
+    $this->assert_equals( $expected, $result,
+            "Expansion of SEARCH failed remotely!\n"
+          . "Expected:'$expected'\n But got:'$result'\n" );
+
+    $search =~ s/(expandvariables)="on"/$1="off"/;
+    $result = $this->{test_topicObject}->expandMacros($search);
+    $this->assert_equals( $expectedFail, $result,
+            "Expansion of SEARCH failed remotely (expandvariables=\"off\")!\n"
+          . "Expected:'$expectedFail'\n But got:'$result'\n" );
+    return;
+}
+
+sub test_search_scope_topic {
+    my $this = shift;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"VarREMOTE" web="%SYSTEMWEB%" scope="topic" format="$topic" separator="," nonoise="on"}%'
+      );
+
+    my @topics = split( /,/, $result );
+    $this->assert_num_equals( 3, scalar(@topics) );
+    $this->assert_equals( 'VarREMOTEADDR,VarREMOTEPORT,VarREMOTEUSER',
+        $result );
+
+    return;
+}
+
+sub test_minus_scope_all {
+    my $this = shift;
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'VirtualBeer',
+        "There are alot of Virtual Beers to go around" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RealBeer',
+        "There are alot of Virtual Beer to go around" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'FamouslyBeered',
+        "Virtually speaking there could be alot of famous Beers" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'VirtualLife',
+        "In a all life, I would expect to find fine Beer" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'NoLife',
+        "In a all life, I would expect to find fine Beer" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'NoBeer',
+        "In a all life, I would expect to find fine Beer" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SomeBeer',
+        "In a all life, I would expect to find fine Wine" );
+    $topicObject->save();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"-Virtual" scope="all" type="word" nonoise="on" format="$topic"}%'
+      );
+
+    my $expected = <<'EXPECT';
+FamouslyBeered
+NoBeer
+NoLife
+OkATopic
+OkBTopic
+OkTopic
+SomeBeer
+TestTopicSEARCH
+WebPreferences
+EXPECT
+    $this->assert_str_equals( $expected, $result . "\n" );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"Beer" scope="all" type="word" nonoise="on" format="$topic"}%'
+      );
+
+    $expected = <<'EXPECT';
+FamouslyBeered
+NoBeer
+NoLife
+RealBeer
+SomeBeer
+VirtualBeer
+VirtualLife
+EXPECT
+    $this->assert_str_equals( $expected, $result . "\n" );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"-Virtual Beer" scope="all" type="word" nonoise="on" format="$topic"}%'
+      );
+
+    $expected = <<'EXPECT';
+FamouslyBeered
+NoBeer
+NoLife
+SomeBeer
+EXPECT
+    $this->assert_str_equals( $expected, $result . "\n" );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Beer -Virtual" scope="all" type="word" nonoise="on" format="$topic"}%'
+      );
+
+    $expected = <<'EXPECT';
+FamouslyBeered
+NoBeer
+NoLife
+SomeBeer
+EXPECT
+    $this->assert_str_equals( $expected, $result . "\n" );
+
+    return;
 }
 
 #TaxonProfile/Builder.TermForm
