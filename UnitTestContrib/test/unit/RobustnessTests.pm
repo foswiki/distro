@@ -1,3 +1,4 @@
+use utf8; # For test_sanitizeAttachmentNama_unicode
 # Copyright (C) 2004 Florian Weimer
 package RobustnessTests;
 
@@ -11,6 +12,16 @@ use Foswiki::Time;
 use Error qw( :try );
 
 my $slash;
+
+sub new {
+    my ($class, @args) = @_;
+    my $this  = $class->SUPER::new(@args);
+
+    $this->{test_web}   = 'Temporary' . $class . 'TestWeb';
+    $this->{test_topic} = 'TestTopic' . $class;
+
+    return $this;
+}
 
 sub set_up {
     my $this = shift;
@@ -120,6 +131,46 @@ sub test_sanitizeAttachmentName {
         my $y = "$x.txt";
         $this->assert_str_equals( $y, _shittify($x) );
     }
+}
+
+# Item11185 - see also: FuncTests::test_unicode_attachment
+sub test_sanitizeAttachmentNama_unicode {
+    my ($this) = shift;
+    # The second word in the string below consists only of two _graphemes_
+    # (logical characters as humans know them) both built from single _base
+    # characters_ but then decorated w/additional _modifier_ characters to add
+    # vowel marks and other signs.
+    #
+    # vim, scite, and probably other monospace/grid-based editors have problems
+    # with this and may show all five unicode characters separately.
+    # It's the word "hindi" in devanagari script. http://translate.google.com/#auto|hi|hindi
+    #
+    # - "use utf8;" needs to be at the top of this .pm.
+    # - Your editor/terminal needs to be editing in utf8.
+    # - You might also want ttf-devanagari-fonts or ttf-indic-fonts-core
+    # - First word german 'übermaß' to make the failure mode more easy to follow
+    my $uniname = 'übermaß_हिंदी'; 
+    # http://translate.google.com/#auto|hi|standard
+    my $unicomment = 'मानक';
+    $this->assert(utf8::is_utf8($uniname),
+        'Our attachment name string doesn\'t have utf8 flag set');
+    my $query;
+
+    $Foswiki::cfg{Site}{CharSet} = 'utf-8';
+    require Unit::Request;
+    $query = Unit::Request->new("");
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $this->{session}  = Foswiki->new( undef, $query );
+    $this->{request}  = $query;
+    $this->{response} = Unit::Response->new();
+    ($this->{test_topicObject}) = Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic});
+    $this->{test_topicObject}->text("BLEEGLE\n");
+    my ($sanitized) = Foswiki::Func::sanitizeAttachmentName($uniname);
+
+    # Fails without Foswikirev:12780
+    $this->assert_str_equals($uniname, $sanitized);
+
+    return;
 }
 
 sub test_buildCommandLine {
