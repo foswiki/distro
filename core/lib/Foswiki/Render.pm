@@ -893,6 +893,8 @@ sub _handleSquareBracketedLink {
 sub _isImageLink {
     my ( $this, $url ) = @_;
 
+    $url =~ s/^\s+//;
+    $url =~ s/\s+$//;
     if ( $url =~ /^[^?]*\.(?:gif|jpg|jpeg|png)$/i ) {
         my $filename = $url;
         $filename =~ s@.*/@@;
