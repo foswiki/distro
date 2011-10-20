@@ -2,6 +2,7 @@
 # Unit tests for Foswiki::Func
 #
 
+use utf8; # For test_unicode_attachment
 package FuncTests;
 
 use FoswikiFnTestCase;
@@ -2271,4 +2272,76 @@ sub test_readTemplate {
     $this->assert( $print ne $view );
     $this->assert_str_equals( '', Foswiki::Func::readTemplate('crud') );
 }
+
+# Test that we can attach a file named with unicode chars.
+sub test_unicode_attachment {
+    my $this = shift;
+
+    # The string below consists only of two _graphemes_ (logical characters as
+    # humans know them) both built from single _base characters_ but then
+    # decorated w/additional _modifier_ characters to add vowel marks and other
+    # signs.
+    #
+    # vim, scite, and probably other monospace/grid-based editors have problems
+    # with this and may show all five unicode characters separately.
+    # It's the word "hindi" in devanagari script. http://translate.google.com/#auto|hi|hindi
+    #
+    # - "use utf8;" needs to be at the top of this .pm.
+    # - Your editor/terminal needs to be editing in utf8.
+    # - You might also want ttf-devanagari-fonts or ttf-indic-fonts-core
+    my $uniname = 'हिंदी'; 
+    $this->assert(utf8::is_utf8($uniname),
+        'Our attachment name string doesn\'t have utf8 flag set');
+
+    # http://translate.google.com/#auto|hi|standard
+    my $unicomment = 'मानक';
+    my $query;
+    my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
+    my $stream;
+
+    $Foswiki::cfg{Site}{CharSet} = 'utf-8';
+    require Unit::Request;
+    $query = Unit::Request->new("");
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $this->{session}  = Foswiki->new( undef, $query );
+    $this->{request}  = $query;
+    $this->{response} = Unit::Response->new();
+    ($this->{test_topicObject}) = Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic});
+    $this->{test_topicObject}->text("BLEEGLE\n");
+    $this->{test_topicObject}->save();
+
+    $stream =
+      $this->write_file( $this->{tmpdatafile}, $data,
+        { binmode => 1, read => 1 } );
+
+    my $e = Foswiki::Func::saveAttachment(
+        $this->{test_web},
+        $this->{test_topic}, $uniname,
+        {
+            comment  => $unicomment,
+            stream   => $stream,
+            filepath => '/local/file',
+            filesize => 999,
+            filedate => 0,
+        }
+    );
+    $this->assert( !$e, $e );
+
+    my ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    my @attachments = $meta->find('FILEATTACHMENT');
+
+    # Item11185: Foswiki::Meta/store aren't returning strings with utf8 flag set, so a simple eq can't work yet
+    #$this->assert( $uniname eq $attachments[0]->{name}, "Got $attachments[0]->{name}  but expected $uniname " );
+    #$this->assert_str_equals( $unicomment, $attachments[0]->{comment} );
+
+    my $x = Foswiki::Func::readAttachment( $this->{test_web}, $this->{test_topic}, $uniname);
+    $this->assert_str_equals( $data, $x );
+
+    # This should succeed - attachment exists
+    $this->assert(
+        Foswiki::Func::attachmentExists( $this->{test_web}, $this->{test_topic}, $uniname) );
+
+    return;
+}
+
 1;
