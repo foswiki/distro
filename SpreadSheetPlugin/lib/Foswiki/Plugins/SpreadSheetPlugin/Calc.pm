@@ -11,6 +11,7 @@ package Foswiki::Plugins::SpreadSheetPlugin::Calc;
 use strict;
 use warnings;
 use Time::Local;
+use Time::Local qw( timegm_nocheck timelocal_nocheck );    # Necessary for DOY
 
 # =========================
 my $web;
@@ -30,7 +31,6 @@ my @wdayArr = (
     "Sunday",   "Monday", "Tuesday", "Wednesday",
     "Thursday", "Friday", "Saturday"
 );
-
 my %mon2num;
 {
     my $count = 0;
@@ -104,7 +104,7 @@ sub CALC {
 
                 for ( $cPos = 0 ; $cPos < @row ; $cPos++ ) {
                     $cell = $row[$cPos];
-                    $cell =~ s/%CALC\{(.*?)\}%/&doCalc($1)/geo;
+                    $cell =~ s/%CALC\{(.*?)\}%/_doCalc($1)/geo;
                     $line .= "$cell|";
                 }
                 s/.*/$line/o;
@@ -116,7 +116,7 @@ sub CALC {
                 if ($insideTABLE) {
                     $insideTABLE = 0;
                 }
-                s/%CALC\{(.*?)\}%/&doCalc($1)/geo;
+                s/%CALC\{(.*?)\}%/_doCalc($1)/geo;
             }
         }
         push( @result, $_ );
@@ -126,7 +126,7 @@ sub CALC {
 }
 
 # =========================
-sub doCalc {
+sub _doCalc {
     my ($theAttributes) = @_;
     my $text = &Foswiki::Func::extractNameValuePair($theAttributes);
 
@@ -182,9 +182,7 @@ sub _doFunc {
         "- SpreadSheetPlugin::Calc::_doFunc: $theFunc( $theAttr ) start")
       if $debug;
 
-    unless ( $theFunc =~ /^(IF|LISTIF|LISTMAP|NOEXEC)$/ ) {
-
-        # Handle functions recursively
+    unless ( $theFunc =~ /^(IF|LISTIF|LISTMAP|NOEXEC|WHILE)$/ ) {
         _recurseFunc($theAttr);
     }
 
@@ -204,6 +202,7 @@ sub _doFunc {
         $result = $theAttr;
         $result =~ s/([\(\)])/_addNestingLevel($1, \$level)/geo;
 
+# execute functions in attribute recursively and clean up unbalanced parenthesis
         _recurseFunc($result);
 
     }
@@ -378,6 +377,7 @@ sub _doFunc {
                 last;
             }
         }
+
     }
     elsif ( $theFunc eq "XOR" ) {
         my @arr = _getListAsInteger($theAttr);
@@ -467,9 +467,8 @@ sub _doFunc {
         # IF(condition, value if true, value if false)
         my ( $condition, $str1, $str2 ) = _properSplit( $theAttr, 3 );
 
-# with delay, handle functions in condition recursively and clean up unbalanced parenthesisi
+# with delay, handle functions in condition recursively and clean up unbalanced parenthesis
         _recurseFunc($condition);
-
         $condition =~ s/^\s*(.*?)\s*$/$1/o;
         $result = _safeEvalPerl($condition);
         unless ( $result =~ /^ERROR/ ) {
@@ -481,10 +480,42 @@ sub _doFunc {
             }
             $result = "" unless ( defined($result) );
 
-# with delay, handle functions in condition recursively and clean up unbalanced parenthesisi
+# with delay, handle functions in result recursively and clean up unbalanced parenthesis
             _recurseFunc($result);
 
         }    # else return error message
+
+    }
+    elsif ( $theFunc eq "WHILE" ) {
+
+        # WHILE(condition, do something)
+        my ( $condition, $str ) = _properSplit( $theAttr, 2 );
+        my $i = 0;
+        while (1) {
+            if ( $i++ >= 32767 ) {
+                $result .= 'ERROR: Infinite loop (32767 cycles)';
+                last;    # prevent infinite loop
+            }
+
+# with delay, handle functions in condition recursively and clean up unbalanced parenthesis
+            my $cond = $condition;
+            $cond =~ s/\$counter/$i/go;
+            _recurseFunc($cond);
+            $cond =~ s/^\s*(.*?)\s*$/$1/o;
+            my $res = _safeEvalPerl($cond);
+            if ( $res =~ /^ERROR/ ) {
+                $result .= $res;
+                last;    # exit loop and return error
+            }
+            last unless ($res);    # proper loop exit
+            $res = $str;
+            $res = "" unless ( defined($res) );
+
+# with delay, handle functions in result recursively and clean up unbalanced parenthesis
+            $res =~ s/\$counter/$i/go;
+            _recurseFunc($res);
+            $result .= $res;
+        }
 
     }
     elsif ( $theFunc eq "UPPER" ) {
@@ -1154,7 +1185,7 @@ sub _doFunc {
         $action = "" unless ( defined($action) );
         $str    = "" unless ( defined($str) );
 
-# with delay, handle functions in condition recursively and clean up unbalanced parenthesisi
+# with delay, handle functions in $str recursively and clean up unbalanced parenthesis
         _recurseFunc($str);
 
         my $item = qw{};
@@ -1179,7 +1210,7 @@ sub _doFunc {
         $cmd =~ s/^\s*(.*?)\s*$/$1/o;
         $str = "" unless ( defined($str) );
 
-# with delay, handle functions in condition recursively and clean up unbalanced parenthesisi
+# with delay, handle functions in result $str and clean up unbalanced parenthesis
         _recurseFunc($str);
 
         my $item = qw{};
@@ -1193,8 +1224,6 @@ sub _doFunc {
             $i++;
             s/\$index/$i/go;
             s/\$item/$item/go;
-
-# with delay, handle functions in condition recursively and clean up unbalanced parenthesisi
             _recurseFunc($_);
             $eval = _safeEvalPerl($_);
             if ( $eval =~ /^ERROR/ ) {
@@ -1221,6 +1250,8 @@ sub _doFunc {
         # pass everything through, this will allow plugins to defy plugin order
         # for example the %SEARCH{}% variable
         $theAttr =~ s/\$per/%/g;
+        $theAttr =~ s/\$per(cnt)?/%/g;
+        $theAttr =~ s/\$quot/"/g;
         $result = $theAttr;
 
     }
@@ -1496,7 +1527,59 @@ sub _date2serial {
     my $mon  = 0;
     my $year = 0;
 
+    # Handle DOY (Day of Year)
     if ( $theText =~
+m|([Dd][Oo][Yy])\s*([0-9]{4})[\.]([0-9]{1,3})[\.]([0-9]{1,2})[\.]([0-9]{1,2})[\.]([0-9]{1,2})|
+      )
+    {
+
+        # "DOY2003.122.23.15.59", "DOY2003.2.9.3.5.9" i.e. year.ddd.hh.mm.ss
+        $year = $2 - 1900;
+        $day  = $3;
+        $hour = $4;
+        $min  = $5;
+        $sec  = $6;          # Note: $day is in fact doy
+    }
+    elsif ( $theText =~
+m|([Dd][Oo][Yy])\s*([0-9]{4})[\.]([0-9]{1,3})[\.]([0-9]{1,2})[\.]([0-9]{1,2})|
+      )
+    {
+
+        # "DOY2003.122.23.15", "DOY2003.2.9.3" i.e. year.ddd.hh.mm
+        $year = $2 - 1900;
+        $day  = $3;
+        $hour = $4;
+        $min  = $5;
+    }
+    elsif ( $theText =~
+        m|([Dd][Oo][Yy])\s*([0-9]{4})[\.]([0-9]{1,3})[\.]([0-9]{1,2})| )
+    {
+
+        # "DOY2003.122.23", "DOY2003.2.9" i.e. year.ddd.hh
+        $year = $2 - 1900;
+        $day  = $3;
+        $hour = $4;
+    }
+    elsif ( $theText =~ m|([Dd][Oo][Yy])\s*([0-9]{4})[\.]([0-9]{1,3})| ) {
+
+        # "DOY2003.122", "DOY2003.2" i.e. year.ddd
+        $year = $2 - 1900;
+        $day  = $3;
+    }
+    elsif ( $theText =~
+m|([0-9]{1,2})[-\s/]+([A-Z][a-z][a-z])[-\s/]+([0-9]{4})[-\s/]+([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})|
+      )
+    {
+
+# "31 Dec 2003 - 23:59:59", "31-Dec-2003 - 23:59:59", "31 Dec 2003 - 23:59:59 - any suffix"
+        $day  = $1;
+        $mon  = $mon2num{$2} || 0;
+        $year = $3 - 1900;
+        $hour = $4;
+        $min  = $5;
+        $sec  = $6;
+    }
+    elsif ( $theText =~
 m|([0-9]{1,2})[-\s/]+([A-Z][a-z][a-z])[-\s/]+([0-9]{4})[-\s/]+([0-9]{1,2}):([0-9]{1,2})|
       )
     {
@@ -1570,7 +1653,7 @@ m|([0-9]{4})[-/\.]([0-9]{1,2})[-/\.]([0-9]{1,2})[-/\.\,\s]+([0-9]{1,2})[-\:/\.](
         || ( $min > 59 )
         || ( $hour > 23 )
         || ( $day < 1 )
-        || ( $day > 31 )
+        || ( $day > 365 )
         || ( $mon > 11 ) )
     {
 
@@ -1584,21 +1667,32 @@ m|([0-9]{4})[-/\.]([0-9]{1,2})[-/\.]([0-9]{1,2})[-/\.\,\s]+([0-9]{1,2})[-\:/\.](
     # converted to the day before and this is usually not what the user
     # intended. Especially the function WORKINGDAYS suffer from this.
     # and it also causes surprises with respect to daylight saving time
+
     my $timeislocal =
       Foswiki::Func::getPreferencesFlag("SPREADSHEETPLUGIN_TIMEISLOCAL") || 0;
     $timeislocal = Foswiki::Func::isTrue($timeislocal);
 
-    if ( $theText =~ /local/i ) {
-        return timelocal( $sec, $min, $hour, $day, $mon, $year );
-    }
-    elsif ( $theText =~ /gmt/i ) {
-        return timegm( $sec, $min, $hour, $day, $mon, $year );
-    }
-    elsif ($timeislocal) {
-        return timelocal( $sec, $min, $hour, $day, $mon, $year );
+    $timeislocal = 0 if ( $theText =~ /GMT/i );  #If explicitly GMT, ignore
+
+# To handle DOY, use timegm_nocheck or timelocal_nocheck that won't check input data range.
+# This is necessary because with DOY, $day must be able to be greater than 31 and timegm
+# and timelocal won't allow it. Keep using timegm or timelocal for non-DOY stuff.
+
+    if ( ( $theText =~ /local/i ) || ($timeislocal) ) {
+        if ( $theText =~ /DOY/i ) {
+            return timelocal_nocheck( $sec, $min, $hour, $day, $mon, $year );
+        }
+        else {
+            return timelocal( $sec, $min, $hour, $day, $mon, $year );
+        }
     }
     else {
-        return timegm( $sec, $min, $hour, $day, $mon, $year );
+        if ( $theText =~ /DOY/i ) {
+            return timegm_nocheck( $sec, $min, $hour, $day, $mon, $year );
+        }
+        else {
+            return timegm( $sec, $min, $hour, $day, $mon, $year );
+        }
     }
 }
 
@@ -1607,10 +1701,12 @@ sub _serial2date {
     my ( $theTime, $theStr, $isGmt ) = @_;
 
     my ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday ) =
-      localtime($theTime);
-    ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday ) = gmtime($theTime)
-      if ($isGmt);
+      ( $isGmt ? gmtime($theTime) : localtime($theTime) );
 
+    $theStr =~
+s/\$isoweek\(([^\)]*)\)/_isoWeek( $1, $day, $mon, $year, $wday, $theTime )/geoi;
+    $theStr =~
+      s/\$isoweek/_isoWeek( '$week', $day, $mon, $year, $wday, $theTime )/geoi;
     $theStr =~ s/\$sec[o]?[n]?[d]?[s]?/sprintf("%.2u",$sec)/geoi;
     $theStr =~ s/\$min[u]?[t]?[e]?[s]?/sprintf("%.2u",$min)/geoi;
     $theStr =~ s/\$hou[r]?[s]?/sprintf("%.2u",$hour)/geoi;
@@ -1625,6 +1721,67 @@ sub _serial2date {
     $theStr =~ s/\$weekday/$wdayArr[$wday]/goi;
 
     return $theStr;
+}
+
+# =========================
+sub _isoWeek {
+    my ( $format, $day, $mon, $year, $wday, $serial ) = @_;
+
+    # Contributed by PeterPayne - 22 Oct 2007
+    # Enhanced by PeterThoeny 2010-08-27
+    # Calculate the ISO8601 week number from the serial.
+
+    my $isoyear = $year + 1900;
+    my $yearserial = _year2isoweek1serial( $year + 1900, 1 );
+    if ( $mon >= 11 ) {    # check if date is in next year's first week
+        my $yearnextserial = _year2isoweek1serial( $year + 1900 + 1, 1 );
+        if ( $serial >= $yearnextserial ) {
+            $yearserial = $yearnextserial;
+            $isoyear += 1;
+        }
+    }
+    elsif ( $serial < $yearserial ) {
+        $yearserial = _year2isoweek1serial( $year + 1900 - 1, 1 );
+        $isoyear -= 1;
+    }
+
+    # calculate GMT of just past midnight today
+    my $today_gmt = timegm( 0, 0, 0, $day, $mon, $year );
+    my $isoweek = int( ( $today_gmt - $yearserial ) / ( 7 * 24 * 3600 ) ) + 1;
+    my $isowk = sprintf( "%.2u", $isoweek );
+    my $isoday = $wday;
+    $isoday = 7 unless ($isoday);
+
+    $format =~ s/\$iso/$isoyear-W$isoweek/go;
+    $format =~ s/\$year/$isoyear/go;
+    $format =~ s/\$week/$isoweek/go;
+    $format =~ s/\$wk/$isowk/go;
+    $format =~ s/\$day/$isoday/go;
+
+    return $format;
+}
+
+# =========================
+sub _year2isoweek1serial {
+    my ( $year, $isGmt ) = @_;
+
+    # Contributed by PeterPayne - 22 Oct 2007
+    # Calculate the serial of the beginning of week 1 for specified year.
+    # Year is 4 digit year (e.g. "2000")
+
+    $year -= 1900;
+
+    # get Jan 4
+    my @param = ( 0, 0, 0, 4, 0, $year );
+    my $jan4epoch = ( $isGmt ? timegm(@param) : timelocal(@param) );
+
+    # what day does Jan 4 fall on?
+    my $jan4day =
+      ( $isGmt ? ( gmtime($jan4epoch) )[6] : ( localtime($jan4epoch) )[6] );
+
+    $jan4day += 7 if ( $jan4day < 1 );
+
+    return ( $jan4epoch - ( 24 * 3600 * ( $jan4day - 1 ) ) );
 }
 
 # =========================
@@ -1667,27 +1824,29 @@ sub _spaceWikiWord {
 sub _workingDays {
     my ( $start, $end ) = @_;
 
-    # Calculate working days between two times.
-    # Times are standard system times (secs since 1970).
-    # Working days are Monday through Friday (sorry, Israel!)
-    # A day has 60 * 60 * 24 = 86400 sec
-
-    # We allow the two dates to be swapped around
-    ( $start, $end ) = ( $end, $start ) if ( $start > $end );
-    use integer;
-    my $elapsed_days = int( ( $end - $start ) / 86400 );
-    my $whole_weeks  = int( $elapsed_days / 7 );
-    my $extra_days   = $elapsed_days - ( $whole_weeks * 7 );
-    my $work_days    = $elapsed_days - ( $whole_weeks * 2 );
-
-    for ( my $i = 0 ; $i < $extra_days ; $i++ ) {
-        my $tempwday = ( gmtime( $end - $i * 86400 ) )[6];
-        if ( $tempwday == 6 || $tempwday == 0 ) {
-            $work_days--;
+# Rewritten by PeterThoeny - 2009-05-03 (previous implementation was buggy)
+# Calculate working days between two times. Times are standard system times (secs since 1970).
+# Working days are Monday through Friday (sorry, Israel!)
+# A day has 60 * 60 * 24 sec
+# Adding 3601 sec to account for daylight saving change in March in Northern Hemisphere
+    my $days                = int( ( abs( $end - $start ) + 3601 ) / 86400 );
+    my $weeks               = int( $days / 7 );
+    my $fullWeekWorkingDays = 5 * $weeks;
+    my $extra               = $days % 7;
+    if ( $extra > 0 ) {
+        $start = $end if ( $start > $end );
+        my @tm   = gmtime($start);
+        my $wday = $tm[6];           # 0 is Sun, 6 is Sat
+        if ( $wday == 0 ) {
+            $extra--;
+        }
+        else {
+            my $sum = $wday + $extra;
+            $extra-- if ( $sum > 6 );
+            $extra-- if ( $sum > 7 );
         }
     }
-
-    return $work_days;
+    return $fullWeekWorkingDays + $extra;
 }
 
 1;

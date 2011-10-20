@@ -229,9 +229,31 @@ This function has two modes of operation.
 
 #FuncFORMATTIME
 ---+++ FORMATTIME( serial, text ) -- convert a serialized date into a date string
-   * The following formatting tokens in =text= are expanded: =$second= (seconds, 00..59); =$minute= (minutes, 00..59); =$hour= (hours, 00..23); =$day= (day of month, 01..31); =$month= (month, 01..12); =$mon= (month in text format, Jan..Dec); =$year= (4 digit year, 1999); =$ye= (2 digit year, 99), =$wd= (day number of the week, 1 for Sunday, 2 for Monday, etc), =$wday= (day of the week, Sun..Sat), =$weekday= (day of the week, Sunday..Saturday), =$yearday= (day of the year, 1..365, or 1..366 in leap years). Date is assumed to be server time; add =GMT= to indicate Greenwich time zone.
+   * The following formatting tokens in =text= are expanded: Date is assumed to be server time; add =GMT= to indicate Greenwich time zone.
+      * =$second= - seconds, 00..59
+      * =$minute= - minutes, 00..59
+      * =$hour= - hours, 00..23
+      * =$day= - day of month, 01..31
+      * =$month= - month, 01..12
+      * =$mon= - month in text format, Jan..Dec
+      * =$year= - 4 digit year, 1999
+      * =$ye= - 2 digit year, 99
+      * =$wd= - day number of the week, 1 for Sunday, 2 for Monday, etc
+      * =$wday= - day of the week, Sun..Sat
+      * =$weekday= - day of the week, Sunday..Saturday
+      * =$yearday= - day of the year, 1..365, or 1..366 in leap years
+      * =$isoweek= - ISO 8601 week number, one or two digits, 1..53 - *Caution:* for correct ISO date calculations, specify GMT in the format string or use =%<nop>FORMATGMTIME%=! 
+      * =$isoweek(format)= - formatted [[http://en.wikipedia.org/wiki/ISO_8601#Week_dates][ISO 8601 week number]]. These variables are expanded in =format=:
+         * =$isoweek($year)= - year of ISO 8601 week number, such as =2009= for 2010-01-03
+         * =$isoweek($wk)= - 2 digit ISO 8601 week number, such as =53= for 2010-01-03
+         * =$isoweek($day)= - day of ISO 8601 week number, starting with 1 for Monday, such as =7= for 2010-01-03
+         * =$isoweek($iso)= - full year-week ISO week number, such as =2009-W53= for 2010-01-03
+         * =$isoweek($yearW$wk$day)= - full year-week-day ISO week number, such as =2009W537= for 2010-01-03
+         * =$isoweek($year-W$wk-$day)= - full year-week-day ISO week number, such as =2009-W53-7= for 2010-01-03
+         * =$isoweek($year-W$wk)= - year-week ISO 8601 week number, such as =2009-W53= for 2010-01-03
    * Syntax: ==$FORMATTIME( serial, text )==
    * Example: ==%<nop>CALC{"$FORMATTIME(0, $year/$month/$day GMT)"}%== returns ==1970/01/01 GMT==
+   * Example: ==%<nop>CALC{$FORMATTIME($TIME(2005-01-01 GMT), $isoweek($year-W$wk-$day) GMT)}%== returns ==2004-W53-6 GMT==
    * Related: =[[#FuncFORMATGMTIME][$FORMATGMTIME()]]=, =[[#FuncTIME][$TIME()]]=, =[[#FuncFORMATTIMEDIFF][$FORMATTIMEDIFF()]]=, =[[#FuncTIMEADD][$TIMEADD()]]=, =[[#FuncTIMEDIFF][$TIMEDIFF()]]=, =[[#FuncTODAY][$TODAY()]]=
 
 #FuncFORMATTIMEDIFF
@@ -303,7 +325,7 @@ This function has two modes of operation.
 
 #FuncLEFTSTRING
 ---+++ LEFTSTRING( text, num ) -- extract characters at the beginning of a text string
-   * Retrieve the =num= of characters from the left end of =text=. The leftmost character is returned if =num= is missing. If =num= is greater than the length of =text= the entire text string is returned with no additional spaces added. If =num= is negative =num= characters are removed from the end of the string. If =num= is zero or =num= is a negative value with the number greater than the length of =text= an empty string is returned. 
+   * Retrieve the =num= of characters from the left end of =text=. The leftmost character is returned if =num= is missing. If =num= is greater than the length of =text= the entire text string is returned with no additional spaces added. If =num= is negative =num= characters are removed from the end of the string. If =num= is zero or =num= is a negative value with the number greater than the length of =text= an empty string is returned.
    * Syntax: ==$LEFTSTRING( text, _num_ )==
    * Example: ==%<nop>CALC{"$LEFTSTRING(abcdefg)"}%== returns ==a==
    * Example: ==%<nop>CALC{"$LEFTSTRING(abcdefg, 0)"}%== returns an empty string.
@@ -677,7 +699,8 @@ This function has two modes of operation.
 
 #FuncTIME
 ---+++ TIME( text ) -- convert a date string into a serialized date number
-   * Serialized date is seconds since the Epoch, e.g. midnight, 01 Jan 1970. Current time is taken if the date string is empty. Supported date formats: =31 Dec 2009=; =31 Dec 2009 GMT=; =31 Dec 2009 LOCAL=; =31 Dec 09=; =31-Dec-2009=; =31/Dec/2009=; =2009/12/31=; =2009-12-31=; =2009/12/31=; =2009/12/31 23:59=; =2009/12/31 - 23:59=; =2009-12-31-23-59=; =2009/12/31 - 23:59:59=; =2009.12.31.23.59.59=. Date is assumed to be GMT unless SPREADSHEETPLUGIN_TIMEISLOCAL is set (default 0). Add =GMT= to force Greenwich time zone. Add =LOCAL= to force the timezone of the server. Note that if you use LOCAL or SPREADSHEETPLUGIN_TIMEISLOCAL is set to 1, dates entered by users on servers placed to the east of Greenwich will be converted to the day before which will often be undesired. It is recommended to keep SPREADSHEETPLUGIN_TIMEISLOCAL = 0 which is the default. |
+   * Serialized date is seconds since the Epoch, e.g. midnight, 01 Jan 1970. Current time is taken if the date string is empty. Supported date formats: =31 Dec 2009=; =31 Dec 2009 GMT=; =31 Dec 2009 LOCAL=; =31 Dec 09=; =31-Dec-2009=; =31/Dec/2009=; =2009/12/31=; =2009-12-31=; =2009/12/31=; =2009/12/31 23:59=; =2009/12/31 - 23:59=; =2009-12-31-23-59=; =2009/12/31 - 23:59:59=; =2009.12.31.23.59.59=. DOY (Day of Year) formats: =DOY2003.365=, =DOY2003.365.23.59=, =DOY2003.365.23.59.59=. 
+   * Note: Date is assumed to be GMT unless SPREADSHEETPLUGIN_TIMEISLOCAL is set (default 0). Add =GMT= to force Greenwich time zone. Add =LOCAL= to force the timezone of the server. Note that if you use LOCAL or SPREADSHEETPLUGIN_TIMEISLOCAL is set to 1, dates entered by users on servers placed to the east of Greenwich will be converted to the day before which will often be undesired. It is recommended to keep SPREADSHEETPLUGIN_TIMEISLOCAL = 0 which is the default.
    * Syntax: ==$TIME( _text_ )==
    * Example: ==%<nop>CALC{"$TIME(2003/10/14 GMT)"}%== returns ==1066089600==
    * Related: =[[#FuncFORMATGMTIME][$FORMATGMTIME()]]=, =[[#FuncFORMATTIME][$FORMATTIME()]]=, =[[#FuncFORMATTIMEDIFF][$FORMATTIMEDIFF()]]=, =[[#FuncTIMEADD][$TIMEADD()]]=, =[[#FuncTIMEDIFF][$TIMEDIFF()]]=, =[[#FuncTODAY][$TODAY()]]=, =[[#FuncWORKINGDAYS][$WORKINGDAYS()]]=
@@ -724,6 +747,15 @@ This function has two modes of operation.
    * Example: ==%<nop>CALC{"$VALUE(<nop>PrjNotebook1234)"}%== returns ==1234==
    * Example: ==%<nop>CALC{"$VALUE(Total: -12.5)"}%== returns ==-12.5==
    * Related: =[[#FuncEVAL][$EVAL()]]=, =[[#FuncINT][$INT()]]=
+
+#FuncWHILE
+---+++ WHILE( condition, do ) -- do something while a condition is true
+   * The =condition= can be a number (where ==0== means condition not met), or two numbers with a comparison operator ==&lt;== (less than), ==&lt;=<nop>== (less than or equal), ==<nop>==<nop>== (equal), ==<nop>!=<nop>== (not equal), ==&gt;=<nop>== (greater than or equal), ==&gt;== (greater than).
+   * The =condition= and =do= are evaluated in each cycle; a =$counter= starting at 1 can be used in =condition= and =do=.
+   * Syntax: ==$WHILE( condition, do something )==
+   * Example: ==|%<nop>CALC{"$WHILE($counter<=10, $counter )"}%|== returns ==|%CALC{"$WHILE($counter<=10, $counter )"}%|== (note trailing space after 10)
+   * Example: ==|%<nop>CALC{"$SET(i,0) $WHILE($GET(i) < 10, $SETM(i,+1)$EVAL($GET(i)*$GET(i)), )"}%|== returns <b><tt>|%CALC{"$SET(i,0) $WHILE($GET(i) < 10, $SETM(i,+1)$EVAL($GET(i)*$GET(i)), )"}%|</tt></b> (note trailing space)
+   * Related: =[[#FuncAND][$AND()]]=, =[[#FuncEMPTY][$EMPTY()]]=, =[[#FuncEXACT][$EXACT()]]=, =[[#FuncGET][$GET()]]=, =[[#FuncIF][$IF()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncNOT][$NOT()]]=, =[[#FuncOR][$OR()]]=, =[[#FuncSET][$SET()]]=, =[[#FuncSETM][$SETM()]]=, =[[#FuncREPEAT][$REPEAT()]]=
 
 #FuncWORKINGDAYS
 ---+++ WORKINGDAYS( serial_1, serial_2 ) -- working days between two serialized dates
@@ -822,11 +854,12 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 
 ---++ Info
 
-|  Copyright: | Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2010 Foswiki Contributors  |
+|  Copyright: | Copyright (C) 2001-2011 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2011 Foswiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  19 Oct 2011: | Foswikitask:Item11079: leading/trailing spaces break $LISTUNIQUE(). <br />Foswikitask:Item11183: Sync up with TWiki version. Add $HEXENCODE(), $HEXDECODE(), $BITXOR(), $XOR(). $LISTNONEMPTY(), $SPLIT(), and $WHILE.  Added Day of Year (DOY) support to $TIME() and $isoweek formats to $FORMATTIME() and $FORMATGMTIME(). |
 |  10 Apr 2011: | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  06 Nov 2010: | Foswikitask:Item9963: Revert usage of =$<nop>percent= back to =$<nop>percnt= |
 |  09 Aug 2010: | Foswikitask:Item1998: fix for $RIGHT |
