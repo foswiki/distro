@@ -324,26 +324,30 @@ sub _addTHEADandTFOOT {
         }
         elsif ( $lines->[$i] =~ s/$TRMARK=(["'])(.*?)\1//i ) {
             if ($2) {
-		# In head or foot
+
+                # In head or foot
                 if ($inFoot) {
-		    #print STDERR "FOOT: $lines->[$i]\n";
+
+                    #print STDERR "FOOT: $lines->[$i]\n";
                     $footLines++;
                 }
                 else {
-		    #print STDERR "HEAD: $lines->[$i]\n";
+
+                    #print STDERR "HEAD: $lines->[$i]\n";
                     $headLines++;
                 }
             }
             else {
-		# In body
-		#print STDERR "BODY: $lines->[$i]\n";
+
+                # In body
+                #print STDERR "BODY: $lines->[$i]\n";
                 $inFoot    = 0;
                 $headLines = 0;
             }
         }
         $i--;
     }
-    $lines->[$i++] = CGI::start_table(
+    $lines->[ $i++ ] = CGI::start_table(
         {
             class       => 'foswikiTable',
             border      => 1,
@@ -353,20 +357,21 @@ sub _addTHEADandTFOOT {
     );
 
     if ($headLines) {
-        splice( @$lines, $i++, 0, '<thead>' );
+        splice( @$lines, $i++,            0, '<thead>' );
         splice( @$lines, $i + $headLines, 0, '</thead>' );
-	$i += $headLines + 1;
+        $i += $headLines + 1;
     }
 
     if ($footLines) {
-	# Extract the foot and stick it in the table after the head (if any)
-	# WRC says browsers prefer this
+
+        # Extract the foot and stick it in the table after the head (if any)
+        # WRC says browsers prefer this
         my $firstFoot = scalar(@$lines) - $footLines;
         my @foot = splice( @$lines, $firstFoot, $footLines );
-	unshift(@foot, '<tfoot>');
-	push( @foot, '</tfoot>' );
-	splice( @$lines, $i, 0, @foot );
-	$i += scalar(@foot);
+        unshift( @foot, '<tfoot>' );
+        push( @foot, '</tfoot>' );
+        splice( @$lines, $i, 0, @foot );
+        $i += scalar(@foot);
     }
     splice( @$lines, $i, 0, '<tbody>' );
     push( @$lines, '</tbody>' );
@@ -798,7 +803,7 @@ sub _handleSquareBracketedLink {
             $text = $img;
         }
         else {
-            $text                 = _escapeAutoLinks($text);
+            $text = _escapeAutoLinks($text);
         }
     }
 
@@ -1014,7 +1019,7 @@ sub renderFORMFIELD {
     # this may have been a one-off optimisation.
     my $formTopicObject = $this->{ffCache}{ $topicObject->getPath() . $rev };
     unless ($formTopicObject) {
-	undef $rev unless $rev;
+        undef $rev unless $rev;
         $formTopicObject =
           Foswiki::Meta->load( $this->{session}, $topicObject->web,
             $topicObject->topic, $rev );
@@ -1026,7 +1031,7 @@ sub renderFORMFIELD {
               Foswiki::Meta->new( $this->{session}, $topicObject->web,
                 $topicObject->topic, '' );
         }
-        $this->{ffCache}{ $formTopicObject->getPath() . ($rev||0) } =
+        $this->{ffCache}{ $formTopicObject->getPath() . ( $rev || 0 ) } =
           $formTopicObject;
     }
 
