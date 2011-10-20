@@ -2,7 +2,8 @@
 # Unit tests for Foswiki::Func
 #
 
-use utf8; # For test_unicode_attachment
+use utf8;    # For test_unicode_attachment
+
 package FuncTests;
 
 use FoswikiFnTestCase;
@@ -293,15 +294,23 @@ sub test_getScriptUrl {
     $result = Foswiki::Func::getScriptUrl( "", "AndMash", 'wibble' );
     $this->assert_matches( qr!/$ss/$this->{users_web}/AndMash!, $result );
 
-    $result = Foswiki::Func::getScriptUrl( $this->{users_web}, "WebHome", 'wibble',
-					   '#' => 'wazzock', wobble => 'wimple');
-    $this->assert_matches( qr!/$ss/$this->{users_web}/WebHome\?wobble=wimple#wazzock$!, $result );
+    $result = Foswiki::Func::getScriptUrl(
+        $this->{users_web}, "WebHome", 'wibble',
+        '#'    => 'wazzock',
+        wobble => 'wimple'
+    );
+    $this->assert_matches(
+        qr!/$ss/$this->{users_web}/WebHome\?wobble=wimple#wazzock$!, $result );
 
-    $result = Foswiki::Func::getScriptUrl( $this->{users_web}, "WebHome", 'wibble',
-					   wobble => 1, wimple => 2);
+    $result = Foswiki::Func::getScriptUrl(
+        $this->{users_web}, "WebHome", 'wibble',
+        wobble => 1,
+        wimple => 2
+    );
     $this->assert_matches( qr!wobble=1!, $result );
     $this->assert_matches( qr!wimple=2!, $result );
-    $this->assert_matches( qr!/$ss/$this->{users_web}/WebHome\?w\w+=\d[;&]w\w+=\d$!, $result );
+    $this->assert_matches(
+        qr!/$ss/$this->{users_web}/WebHome\?w\w+=\d[;&]w\w+=\d$!, $result );
 
     $Foswiki::Plugins::SESSION->finish();
 }
@@ -396,8 +405,8 @@ NONNY
 # Verify that a round trip doesn't remove or add any newlines between the topic and
 # the metadata in the raw text.
 sub test_saveTopicRoundTrip {
-    my $this  = shift;
-    my $topic = 'SaveTopicText2';
+    my $this     = shift;
+    my $topic    = 'SaveTopicText2';
     my $origtext = <<NONNY;
 'Tis some text
 and a trailing newline
@@ -411,10 +420,13 @@ NONNY
 
     my ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     Foswiki::Func::saveTopic( $this->{test_web}, $topic, $meta, $text,
-      { comment => 'atp save' } );
+        { comment => 'atp save' } );
     my $text2 = Foswiki::Func::readTopicText( $this->{test_web}, $topic );
 
-    my $matchText = '%META:TOPICINFO{author="BaseUserMapping_666" comment="save topic" date=".*?" format="1.1" reprev="1" version="1"}%' . "\n" . $origtext;
+    my $matchText =
+'%META:TOPICINFO{author="BaseUserMapping_666" comment="save topic" date=".*?" format="1.1" reprev="1" version="1"}%'
+      . "\n"
+      . $origtext;
     $this->assert_matches( qr/$matchText/, $text2 );
 
 }
@@ -620,7 +632,8 @@ sub test_attachment_comment {
     $this->assert( !$e, $e );
 
     my ( $date, $user, $rev, $actualComment ) =
-      Foswiki::Func::getRevisionInfo( $this->{test_web}, $topic, undef, $name1 );
+      Foswiki::Func::getRevisionInfo( $this->{test_web}, $topic, undef,
+        $name1 );
 
     $this->assert_str_equals( $attachComment, $actualComment );
 
@@ -630,19 +643,19 @@ sub test_attachment_comment {
         $this->{test_web},
         $topic, $name1,
         {
-            dontlog  => 1,
-            comment  => $attachComment,
+            dontlog => 1,
+            comment => $attachComment,
         }
     );
     $this->assert( !$e, $e );
 
     ( $date, $user, $rev, $actualComment ) =
-      Foswiki::Func::getRevisionInfo( $this->{test_web}, $topic, undef, $name1 );
+      Foswiki::Func::getRevisionInfo( $this->{test_web}, $topic, undef,
+        $name1 );
 
     $this->assert_str_equals( $attachComment, $actualComment );
 
 }
-
 
 sub test_noauth_saveAttachment {
     my $this = shift;
@@ -901,7 +914,7 @@ sub test_getrevinfo {
       Foswiki::Meta->new( $this->{session}, $this->{test_web} . "/Blah" );
     $webObject->populateNewWeb();
 
-    Foswiki::Func::saveTopicText( $this->{test_web}, $topic, 'blah' );
+    Foswiki::Func::saveTopicText( $this->{test_web},        $topic, 'blah' );
     Foswiki::Func::saveTopicText( "$this->{test_web}/Blah", $topic, 'blah' );
 
     my ( $date, $user, $rev, $comment ) =
@@ -1363,10 +1376,10 @@ sub test_normalizeWebTopicName {
     $this->assert_str_equals( 'Topic', $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', 'Topic' );
     $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'Topic', $t );
+    $this->assert_str_equals( 'Topic',                     $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', '' );
     $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'WebHome', $t );
+    $this->assert_str_equals( 'WebHome',                   $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', 'Web/Topic' );
     $this->assert_str_equals( 'Web',   $w );
     $this->assert_str_equals( 'Topic', $t );
@@ -1378,29 +1391,29 @@ sub test_normalizeWebTopicName {
     $this->assert_str_equals( 'Topic', $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '%USERSWEB%', 'Topic' );
     $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'Topic', $t );
+    $this->assert_str_equals( 'Topic',                     $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '%USERSWEB%', 'Topic' );
     $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'Topic', $t );
+    $this->assert_str_equals( 'Topic',                     $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( 'Web', '' );
-    $this->assert_str_equals( 'Web', $w );
+    $this->assert_str_equals( 'Web',                        $w );
     $this->assert_str_equals( $Foswiki::cfg{HomeTopicName}, $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '%SYSTEMWEB%', 'Topic' );
     $this->assert_str_equals( $Foswiki::cfg{SystemWebName}, $w );
-    $this->assert_str_equals( 'Topic', $t );
+    $this->assert_str_equals( 'Topic',                      $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '%SYSTEMWEB%', 'Topic' );
     $this->assert_str_equals( $Foswiki::cfg{SystemWebName}, $w );
-    $this->assert_str_equals( 'Topic', $t );
+    $this->assert_str_equals( 'Topic',                      $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '%DOCWEB%', 'Topic' );
     $this->assert_str_equals( $Foswiki::cfg{SystemWebName}, $w );
-    $this->assert_str_equals( 'Topic', $t );
+    $this->assert_str_equals( 'Topic',                      $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', '%USERSWEB%.Topic' );
     $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'Topic', $t );
+    $this->assert_str_equals( 'Topic',                     $t );
     ( $w, $t ) =
       Foswiki::Func::normalizeWebTopicName( '', '%SYSTEMWEB%.Topic' );
     $this->assert_str_equals( $Foswiki::cfg{SystemWebName}, $w );
-    $this->assert_str_equals( 'Topic', $t );
+    $this->assert_str_equals( 'Topic',                      $t );
     ( $w, $t ) =
       Foswiki::Func::normalizeWebTopicName( '%USERSWEB%', 'Web2.Topic' );
     $this->assert_str_equals( 'Web2',  $w );
@@ -1428,11 +1441,11 @@ sub test_normalizeWebTopicName {
     ( $w, $t ) =
       Foswiki::Func::normalizeWebTopicName( '%USERSWEB%.Wibble', 'Topic' );
     $this->assert_str_equals( $Foswiki::cfg{UsersWebName} . '/Wibble', $w );
-    $this->assert_str_equals( 'Topic', $t );
+    $this->assert_str_equals( 'Topic',                                 $t );
     ( $w, $t ) =
       Foswiki::Func::normalizeWebTopicName( '%SYSTEMWEB%.Wibble', 'Topic' );
     $this->assert_str_equals( $Foswiki::cfg{SystemWebName} . '/Wibble', $w );
-    $this->assert_str_equals( 'Topic', $t );
+    $this->assert_str_equals( 'Topic',                                  $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '%USERSWEB%.Wibble',
         'Wibble.Web2.Topic' );
     $this->assert_str_equals( 'Wibble/Web2', $w );
@@ -1830,15 +1843,13 @@ sub test_isTrue {
     $this->assert_equals( 1,
         Foswiki::Func::isTrue( { a => 'me', b => 'ed' } ) );
 
-
 #examples of perl insanity (inspired by Item10324, Sven thought he'd add a few tests to show what Foswiki::isTrue actually does')
-    $this->assert_equals( 1, Foswiki::Func::isTrue( 'onon' ) );
-    $this->assert_equals( 1, Foswiki::Func::isTrue( 'truetrue' ) );
-    $this->assert_equals( 1, Foswiki::Func::isTrue( '11' ) );
-    $this->assert_equals( 0, Foswiki::Func::isTrue( 'offoff' ) );
-    $this->assert_equals( 0, Foswiki::Func::isTrue( 'falsefalse' ) );
-    $this->assert_equals( 1, Foswiki::Func::isTrue( '00' ) );
-
+    $this->assert_equals( 1, Foswiki::Func::isTrue('onon') );
+    $this->assert_equals( 1, Foswiki::Func::isTrue('truetrue') );
+    $this->assert_equals( 1, Foswiki::Func::isTrue('11') );
+    $this->assert_equals( 0, Foswiki::Func::isTrue('offoff') );
+    $this->assert_equals( 0, Foswiki::Func::isTrue('falsefalse') );
+    $this->assert_equals( 1, Foswiki::Func::isTrue('00') );
 
     #FALSE
     $this->assert_equals( 0, Foswiki::Func::isTrue( 'off',   'bad' ) );
@@ -1856,7 +1867,6 @@ sub test_isTrue {
     $this->assert_equals( 0, Foswiki::Func::isTrue(0) );
     $this->assert_equals( 0, Foswiki::Func::isTrue('0') );
     $this->assert_equals( 0, Foswiki::Func::isTrue(' 0') );
-
 
     #SPACES
     $this->assert_equals( 0, Foswiki::Func::isTrue( '  off',     'bad' ) );
@@ -1992,17 +2002,20 @@ sub test_4308 {
     my $this = shift;
     my @list = Foswiki::Func::getListOfWebs('user');
     foreach my $web (@list) {
-        $this->assert_does_not_match( qr#^_|\/_#, $web, "template web returned as user web from Func\n");
+        $this->assert_does_not_match( qr#^_|\/_#, $web,
+            "template web returned as user web from Func\n" );
         $this->assert( Foswiki::Func::webExists($web), $web );
     }
     @list = Foswiki::Func::getListOfWebs('user public');
     foreach my $web (@list) {
-        $this->assert_does_not_match( qr#^_|\/_#, $web, "template web returned as user web from Func\n");
+        $this->assert_does_not_match( qr#^_|\/_#, $web,
+            "template web returned as user web from Func\n" );
         $this->assert( Foswiki::Func::webExists($web), $web );
     }
     @list = Foswiki::Func::getListOfWebs('template');
     foreach my $web (@list) {
-        $this->assert_matches( qr#^_|\/_#, $web, "non-template web returned as template from Func\n");
+        $this->assert_matches( qr#^_|\/_#, $web,
+            "non-template web returned as template from Func\n" );
         $this->assert( Foswiki::Func::webExists($web), $web );
     }
     @list = Foswiki::Func::getListOfWebs('public template');
@@ -2145,28 +2158,33 @@ sub test_getAttachmentList {
 
 sub test_searchInWebContent {
     my $this = shift;
-    
-    my $matches = Foswiki::Func::searchInWebContent( "broken", 'System', undef,
-            { casesensitive => 0, files_without_match => 0 } );
-    my @topics =  keys(%$matches);
-    $this->assert($#topics > 1); #gosh i hope we alway have a document with the word broken in it..
-    my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName('', $topics[0]);
-    
+
+    my $matches =
+      Foswiki::Func::searchInWebContent( "broken", 'System', undef,
+        { casesensitive => 0, files_without_match => 0 } );
+    my @topics = keys(%$matches);
+    $this->assert( $#topics > 1 )
+      ;    #gosh i hope we alway have a document with the word broken in it..
+    my ( $web, $searchTopic ) =
+      Foswiki::Func::normalizeWebTopicName( '', $topics[0] );
+
     #its supposed to return a list of topics, not web.topics.
     $this->assert_str_equals( $searchTopic, $topics[0] );
 }
 
-
 sub test_query {
     my $this = shift;
-    
-    my $matches = Foswiki::Func::query( "text ~ '*broken*'", undef,
-            { web=>'System', casesensitive => 0, files_without_match => 0 } );
-    
-    $this->assert($matches->hasNext); #gosh i hope we alway have a document with the word broken in it..
+
+    my $matches = Foswiki::Func::query( "text ~ '*broken*'",
+        undef,
+        { web => 'System', casesensitive => 0, files_without_match => 0 } );
+
+    $this->assert( $matches->hasNext )
+      ;    #gosh i hope we alway have a document with the word broken in it..
     my $webtopic = $matches->next;
-    my ($web, $searchTopic) = Foswiki::Func::normalizeWebTopicName('', $webtopic);
-    
+    my ( $web, $searchTopic ) =
+      Foswiki::Func::normalizeWebTopicName( '', $webtopic );
+
     #its supposed to return web.topics.
     $this->assert_str_equals( "$web.$searchTopic", $webtopic );
 }
@@ -2190,7 +2208,7 @@ SETS
 SETS
 
     $this->assert_equals( $this->{test_web}, $this->{session}->{webName} );
-    $this->assert_equals( $topic1, $this->{session}->{topicName} );
+    $this->assert_equals( $topic1,           $this->{session}->{topicName} );
     $this->assert_equals( $this->{test_web},
         Foswiki::Func::getPreferencesValue('BASEWEB') );
     $this->assert_equals( $topic1,
@@ -2204,7 +2222,7 @@ SETS
     Foswiki::Func::pushTopicContext( $this->{test_web}, $topic2 );
 
     $this->assert_equals( $this->{test_web}, $this->{session}->{webName} );
-    $this->assert_equals( $topic2, $this->{session}->{topicName} );
+    $this->assert_equals( $topic2,           $this->{session}->{topicName} );
     $this->assert_equals( $this->{test_web},
         Foswiki::Func::getPreferencesValue('BASEWEB') );
     $this->assert_equals( $topic2,
@@ -2219,7 +2237,7 @@ SETS
     Foswiki::Func::popTopicContext();
 
     $this->assert_equals( $this->{test_web}, $this->{session}->{webName} );
-    $this->assert_equals( $topic1, $this->{session}->{topicName} );
+    $this->assert_equals( $topic1,           $this->{session}->{topicName} );
     $this->assert_equals( $this->{test_web},
         Foswiki::Func::getPreferencesValue('BASEWEB') );
     $this->assert_equals( $topic1,
@@ -2277,26 +2295,27 @@ sub test_readTemplate {
 sub test_unicode_attachment {
     my $this = shift;
 
-    # The second word in the string below consists only of two _graphemes_
-    # (logical characters as humans know them) both built from single _base
-    # characters_ but then decorated w/additional _modifier_ characters to add
-    # vowel marks and other signs.
-    #
-    # vim, scite, and probably other monospace/grid-based editors have problems
-    # with this and may show all five unicode characters separately.
-    # It's the word "hindi" in devanagari script. http://translate.google.com/#auto|hi|hindi
-    #
-    # - "use utf8;" needs to be at the top of this .pm.
-    # - Your editor/terminal needs to be editing in utf8.
-    # - You might also want ttf-devanagari-fonts or ttf-indic-fonts-core
-    # - First word german 'übermaß' to make the failure mode more easy to follow
-    my $uniname = 'übermaß_हिंदी'; 
+# The second word in the string below consists only of two _graphemes_
+# (logical characters as humans know them) both built from single _base
+# characters_ but then decorated w/additional _modifier_ characters to add
+# vowel marks and other signs.
+#
+# vim, scite, and probably other monospace/grid-based editors have problems
+# with this and may show all five unicode characters separately.
+# It's the word "hindi" in devanagari script. http://translate.google.com/#auto|hi|hindi
+#
+# - "use utf8;" needs to be at the top of this .pm.
+# - Your editor/terminal needs to be editing in utf8.
+# - You might also want ttf-devanagari-fonts or ttf-indic-fonts-core
+# - First word german 'übermaß' to make the failure mode more easy to follow
+    my $uniname = 'übermaß_हिंदी';
+
     # http://translate.google.com/#auto|hi|standard
     my $unicomment = 'मानक';
-    $this->assert(utf8::is_utf8($uniname),
-        'Our attachment name string doesn\'t have utf8 flag set');
+    $this->assert( utf8::is_utf8($uniname),
+        'Our attachment name string doesn\'t have utf8 flag set' );
     my $query;
-    my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
+    my $data = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $stream;
 
     $Foswiki::cfg{Site}{CharSet} = 'utf-8';
@@ -2306,7 +2325,8 @@ sub test_unicode_attachment {
     $this->{session}  = Foswiki->new( undef, $query );
     $this->{request}  = $query;
     $this->{response} = Unit::Response->new();
-    ($this->{test_topicObject}) = Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic});
+    ( $this->{test_topicObject} ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     $this->{test_topicObject}->text("BLEEGLE\n");
     $this->{test_topicObject}->save();
 
@@ -2316,7 +2336,8 @@ sub test_unicode_attachment {
 
     my $e = Foswiki::Func::saveAttachment(
         $this->{test_web},
-        $this->{test_topic}, $uniname,
+        $this->{test_topic},
+        $uniname,
         {
             comment  => $unicomment,
             stream   => $stream,
@@ -2329,29 +2350,41 @@ sub test_unicode_attachment {
 
     # See also: RobustnessTests::test_sanitizeAttachmentNama_unicode
     my ($sanitized) = Foswiki::Sandbox::sanitizeAttachmentName($uniname);
-    $this->assert_str_equals($uniname, $sanitized);
+    $this->assert_str_equals( $uniname, $sanitized );
 
     require File::Spec;
-    $this->assert(-f File::Spec->catfile(File::Spec->splitdir($Foswiki::cfg{PubDir}), $this->{test_web}, $this->{test_topic}, $uniname));
+    $this->assert(
+        -f File::Spec->catfile(
+            File::Spec->splitdir( $Foswiki::cfg{PubDir} ),
+            $this->{test_web}, $this->{test_topic}, $uniname
+        )
+    );
     my $itr = $this->{test_topicObject}->eachAttachment();
-    $this->assert($itr->hasNext());
+    $this->assert( $itr->hasNext() );
 
-    # Item11185: Foswiki::Meta/store aren't returning strings with utf8 flag set, so our test fails from here on down
+# Item11185: Foswiki::Meta/store aren't returning strings with utf8 flag set, so our test fails from here on down
     $this->expect_failure();
-    $this->assert_str_equals($uniname, $itr->next());
+    $this->assert_str_equals( $uniname, $itr->next() );
 
-    my ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     my @attachments = $meta->find('FILEATTACHMENT');
 
-    $this->assert( $uniname eq $attachments[0]->{name}, "Got $attachments[0]->{name}  but expected $uniname " );
+    $this->assert( $uniname eq $attachments[0]->{name},
+        "Got $attachments[0]->{name}  but expected $uniname " );
     $this->assert_str_equals( $unicomment, $attachments[0]->{comment} );
 
-    my $x = Foswiki::Func::readAttachment( $this->{test_web}, $this->{test_topic}, $uniname);
+    my $x =
+      Foswiki::Func::readAttachment( $this->{test_web}, $this->{test_topic},
+        $uniname );
     $this->assert_str_equals( $data, $x );
 
     # This should succeed - attachment exists
     $this->assert(
-        Foswiki::Func::attachmentExists( $this->{test_web}, $this->{test_topic}, $uniname) );
+        Foswiki::Func::attachmentExists(
+            $this->{test_web}, $this->{test_topic}, $uniname
+        )
+    );
 
     return;
 }
