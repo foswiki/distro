@@ -2277,10 +2277,10 @@ sub test_readTemplate {
 sub test_unicode_attachment {
     my $this = shift;
 
-    # The string below consists only of two _graphemes_ (logical characters as
-    # humans know them) both built from single _base characters_ but then
-    # decorated w/additional _modifier_ characters to add vowel marks and other
-    # signs.
+    # The second word in the string below consists only of two _graphemes_
+    # (logical characters as humans know them) both built from single _base
+    # characters_ but then decorated w/additional _modifier_ characters to add
+    # vowel marks and other signs.
     #
     # vim, scite, and probably other monospace/grid-based editors have problems
     # with this and may show all five unicode characters separately.
@@ -2289,12 +2289,12 @@ sub test_unicode_attachment {
     # - "use utf8;" needs to be at the top of this .pm.
     # - Your editor/terminal needs to be editing in utf8.
     # - You might also want ttf-devanagari-fonts or ttf-indic-fonts-core
-    my $uniname = 'हिंदी'; 
-    $this->assert(utf8::is_utf8($uniname),
-        'Our attachment name string doesn\'t have utf8 flag set');
-
+    # - First word german 'übermaß' to make the failure mode more easy to follow
+    my $uniname = 'übermaß_हिंदी'; 
     # http://translate.google.com/#auto|hi|standard
     my $unicomment = 'मानक';
+    $this->assert(utf8::is_utf8($uniname),
+        'Our attachment name string doesn\'t have utf8 flag set');
     my $query;
     my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $stream;
@@ -2327,12 +2327,24 @@ sub test_unicode_attachment {
     );
     $this->assert( !$e, $e );
 
+    # See also: RobustnessTests::test_sanitizeAttachmentNama_unicode
+    my ($sanitized) = Foswiki::Sandbox::sanitizeAttachmentName($uniname);
+    $this->assert_str_equals($uniname, $sanitized);
+
+    require File::Spec;
+    $this->assert(-f File::Spec->catfile(File::Spec->splitdir($Foswiki::cfg{PubDir}), $this->{test_web}, $this->{test_topic}, $uniname));
+    my $itr = $this->{test_topicObject}->eachAttachment();
+    $this->assert($itr->hasNext());
+
+    # Item11185: Foswiki::Meta/store aren't returning strings with utf8 flag set, so our test fails from here on down
+    $this->expect_failure();
+    $this->assert_str_equals($uniname, $itr->next());
+
     my ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     my @attachments = $meta->find('FILEATTACHMENT');
 
-    # Item11185: Foswiki::Meta/store aren't returning strings with utf8 flag set, so a simple eq can't work yet
-    #$this->assert( $uniname eq $attachments[0]->{name}, "Got $attachments[0]->{name}  but expected $uniname " );
-    #$this->assert_str_equals( $unicomment, $attachments[0]->{comment} );
+    $this->assert( $uniname eq $attachments[0]->{name}, "Got $attachments[0]->{name}  but expected $uniname " );
+    $this->assert_str_equals( $unicomment, $attachments[0]->{comment} );
 
     my $x = Foswiki::Func::readAttachment( $this->{test_web}, $this->{test_topic}, $uniname);
     $this->assert_str_equals( $data, $x );
