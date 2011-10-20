@@ -1067,11 +1067,23 @@ sub _doFunc {
     }
     elsif ( $theFunc eq "SPLIT" ) {
         my ( $sep, $str ) = _properSplit( $theAttr, 2 );
-        $sep = "  *" if ( !defined $sep || $sep eq '' );
+
+        # Not documented - if called without 2 parameters,  assume space delimiter
+        if ( !defined $str || $str eq '' ) {
+            $str = $theAttr;
+            $sep = '$sp$sp*';
+        }
+
+        $str =~ s/^\s+//o;
+        $str =~ s/\s+$//o;
+
+        $sep = '$sp$sp*' if ( $sep eq '' );
+        $sep =~ s/\$sp/\\s/go;
+        #SMELL:  Optimizing this next regex breaks reuse for some reason, perl 5.12.3
+        $sep =~ s/\$(nop|empty)//g;
         $sep =~ s/\$comma/,/go;
-        $sep =~ s/\$sp/ /go;
-        $sep =~ s/\$(nop|empty)//go;
-        $result = _listToDelimitedString( split( $sep, $str ) );
+
+        $result = _listToDelimitedString( split( /$sep/, $str ) );
     }
     elsif ( $theFunc eq "LIST" ) {
         my @arr = _getList($theAttr);

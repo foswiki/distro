@@ -242,7 +242,7 @@ This function has two modes of operation.
       * =$wday= - day of the week, Sun..Sat
       * =$weekday= - day of the week, Sunday..Saturday
       * =$yearday= - day of the year, 1..365, or 1..366 in leap years
-      * =$isoweek= - ISO 8601 week number, one or two digits, 1..53 - *Caution:* for correct ISO date calculations, specify GMT in the format string or use =%<nop>FORMATGMTIME%=! 
+      * =$isoweek= - ISO 8601 week number, one or two digits, 1..53 - *Caution:* for correct ISO date calculations, specify GMT in the format string or use =%<nop>FORMATGMTIME%=!
       * =$isoweek(format)= - formatted [[http://en.wikipedia.org/wiki/ISO_8601#Week_dates][ISO 8601 week number]]. These variables are expanded in =format=:
          * =$isoweek($year)= - year of ISO 8601 week number, such as =2009= for 2010-01-03
          * =$isoweek($wk)= - 2 digit ISO 8601 week number, such as =53= for 2010-01-03
@@ -565,14 +565,14 @@ This function has two modes of operation.
 
 #FuncRIGHTSTRING
 ---+++ RIGHTSTRING( text, num ) -- extract characters at the end of a text string. =num= must be a positive number. Negative values of =num= are interpreted as zero. If =num= is larger than the length of the text the entire text is returned with no additional spaces.
-   * Retrieve the =num= of characters from the right end of =text=. The rightmost character is returned if =num= is missing. 
+   * Retrieve the =num= of characters from the right end of =text=. The rightmost character is returned if =num= is missing.
    * Syntax: ==$RIGHTSTRING( text, _num_ )==
 
    * Example: ==%<nop>CALC{"$RIGHTSTRING(abcdefg)"}%== returns ==g==
    * Example: ==%<nop>CALC{"$RIGHTSTRING(abcdefg, 0)"}%== returns an empty string
    * Example: ==%<nop>CALC{"$RIGHTSTRING(abcdefg, 5)"}%== returns ==cdefg==
    * Example: ==%<nop>CALC{"$RIGHTSTRING(abcdefg, 10)"}%== returns ==abcdefg==
-   * Example: ==%<nop>CALC{"$RIGHTSTRING(abcdefg, -2)"}%== returns an empty string   
+   * Example: ==%<nop>CALC{"$RIGHTSTRING(abcdefg, -2)"}%== returns an empty string
 
    * Related: =[[#FuncFIND][$FIND()]]=, =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncLEFTSTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncSEARCH][$SEARCH()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
 
@@ -632,9 +632,10 @@ This function has two modes of operation.
 
 #FuncSPLIT
 ---+++ SPLIT( separator, text ) -- split a string into a list
-   * Split =text= into a list using =separator= as a delimiter. The =separator= may be a regular expression and may include =$comma= for comma, =$sp= for space and =$empty= to split at each character. Default separator is one or more spaces (=$sp$sp*=).
+   * Split =text= into a list using =separator= as a delimiter. The =separator= may be a regular expression and may include =$comma= for comma, =$sp= for space and =$empty= to split at each character. Default separator is one or more spaces (=$sp$sp*=). Leading and trailing spaces are removed from the string before splitting.
    * Syntax: ==$SPLIT( separator, text )==
-   * Example: ==%<nop>CALC{"$SPLIT(, Apple Orange Kiwi)"}%== returns ==Apple, Orange, Kiwi==
+   * Example: ==%<nop>CALC{"$SPLIT(, Apple Orange   Kiwi)"}%== returns ==Apple, Orange, Kiwi==
+   * Example: ==%<nop>CALC{"$SPLIT($comma, Apple Orange Kiwi)"}%== returns ==Apple, Orange, Kiwi==
    * Example: ==%<nop>CALC{"$SPLIT(-, Apple-Orange-Kiwi)"}%== returns ==Apple, Orange, Kiwi==
    * Example: ==%<nop>CALC{"$SPLIT([-:]$sp*, Apple-Orange: Kiwi)"}%== returns ==Apple, Orange, Kiwi== (the separator means: Dash or colon, followed by optional spaces
    * Example: ==%<nop>CALC{"$SPLIT($empty, Apple)"}%== returns ==A, p, p, l, e==
@@ -699,7 +700,7 @@ This function has two modes of operation.
 
 #FuncTIME
 ---+++ TIME( text ) -- convert a date string into a serialized date number
-   * Serialized date is seconds since the Epoch, e.g. midnight, 01 Jan 1970. Current time is taken if the date string is empty. Supported date formats: =31 Dec 2009=; =31 Dec 2009 GMT=; =31 Dec 2009 LOCAL=; =31 Dec 09=; =31-Dec-2009=; =31/Dec/2009=; =2009/12/31=; =2009-12-31=; =2009/12/31=; =2009/12/31 23:59=; =2009/12/31 - 23:59=; =2009-12-31-23-59=; =2009/12/31 - 23:59:59=; =2009.12.31.23.59.59=. DOY (Day of Year) formats: =DOY2003.365=, =DOY2003.365.23.59=, =DOY2003.365.23.59.59=. 
+   * Serialized date is seconds since the Epoch, e.g. midnight, 01 Jan 1970. Current time is taken if the date string is empty. Supported date formats: =31 Dec 2009=; =31 Dec 2009 GMT=; =31 Dec 2009 LOCAL=; =31 Dec 09=; =31-Dec-2009=; =31/Dec/2009=; =2009/12/31=; =2009-12-31=; =2009/12/31=; =2009/12/31 23:59=; =2009/12/31 - 23:59=; =2009-12-31-23-59=; =2009/12/31 - 23:59:59=; =2009.12.31.23.59.59=. DOY (Day of Year) formats: =DOY2003.365=, =DOY2003.365.23.59=, =DOY2003.365.23.59.59=.
    * Note: Date is assumed to be GMT unless SPREADSHEETPLUGIN_TIMEISLOCAL is set (default 0). Add =GMT= to force Greenwich time zone. Add =LOCAL= to force the timezone of the server. Note that if you use LOCAL or SPREADSHEETPLUGIN_TIMEISLOCAL is set to 1, dates entered by users on servers placed to the east of Greenwich will be converted to the day before which will often be undesired. It is recommended to keep SPREADSHEETPLUGIN_TIMEISLOCAL = 0 which is the default.
    * Syntax: ==$TIME( _text_ )==
    * Example: ==%<nop>CALC{"$TIME(2003/10/14 GMT)"}%== returns ==1066089600==
@@ -862,7 +863,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  19 Oct 2011: | Foswikitask:Item11079: leading/trailing spaces break $LISTUNIQUE(). <br />Foswikitask:Item11183: Sync up with TWiki version. Add $HEXENCODE(), $HEXDECODE(), $BITXOR(), $XOR(). $LISTNONEMPTY(), $SPLIT(), and $WHILE.  Added Day of Year (DOY) support to $TIME() and $isoweek formats to $FORMATTIME() and $FORMATGMTIME(). |
 |  10 Apr 2011: | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  06 Nov 2010: | Foswikitask:Item9963: Revert usage of =$<nop>percent= back to =$<nop>percnt= |
-|  09 Aug 2010: | Foswikitask:Item1998: fix for $RIGHT |
+|  09 Aug 2010: | Foswikitask:Item1998: fix for $RIGHT() inclusion of cells to left as well as right |
 |  04 Aug 2010: | Foswikitask:Item9415: Minor documentation updates |
 |  21 Jul 2010: | Foswikitask:Item5163: prevent misrendering of empty rows, Foswikitask:Item9400: correct $LIST for cells containing commas, as per doc |
 |  29 Dec 2009: | Foswikitask:Item2301: added =$nop= to $LISTJOIN() for better empty parameter |

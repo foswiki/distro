@@ -894,15 +894,24 @@ sub test_SIGN {
 
 sub test_SPLIT {
     my ($this) = @_;
-    $this->assert_equals( $this->CALC('$SPLIT(, Apple Orange Kiwi)'),
-        'Apple, Orange, Kiwi' );
-    $this->assert_equals( $this->CALC('$SPLIT(-, Apple-Orange-Kiwi)'),
-        'Apple, Orange, Kiwi' );
-    $this->assert_equals( $this->CALC('$SPLIT([-:]$sp*, Apple-Orange: Kiwi)'),
-        'Apple, Orange, Kiwi' );
-    $this->assert_equals( $this->CALC('$SPLIT($empty, Apple)'),
-        'A, p, p, l, e' );
-    $this->assert_equals( $this->CALC('$SPLIT($nop, Apple)'), 'A, p, p, l, e' );
+    $this->assert_equals( 'Apple, Orange, Kiwi', $this->CALC('$SPLIT(, Apple  Orange Kiwi)'),
+        'Split on default space delimiter' );
+    $this->assert_equals( 'Apple Orange, Kiwi', $this->CALC('$SPLIT($comma, Apple Orange, Kiwi)'),
+        'Split on comma delimiter');
+    $this->assert_equals( 'Apple, Orange, Kiwi', $this->CALC('$SPLIT(, Apple  Orange Kiwi)'),
+        'Split on default space delimiter - missing' );
+    $this->assert_equals('Apple, Orange Kiwi', $this->CALC('$SPLIT(-, Apple-Orange Kiwi)'),
+        'Split on hyphen delimiter');
+    $this->assert_equals('Apple, Orange, Kiwi', $this->CALC('$SPLIT([-:]$sp*, Apple-Orange: Kiwi)'),
+        'Split on hyphen or colon followed  by 0 or more spaces');
+    $this->assert_equals('A, p, p, l, e', $this->CALC('$SPLIT($empty, Apple)'),
+        'Split on empty string' );
+    $this->assert_equals('A, p, p, l, e', $this->CALC('$SPLIT($nop, Apple)'),
+        'Split on nop' );
+
+    # Not documented - missing separator.
+    $this->assert_equals( 'Apple, Orange, Kiwi', $this->CALC('$SPLIT( Apple  Orange Kiwi)'),
+        'Split on default space delimiter - missing' );
 }
 
 sub test_SQRT {
