@@ -794,7 +794,14 @@ sub _handleSquareBracketedLink {
 
         # [[$link][$text]]
         $hasExplicitLinkLabel = 1;
-        $text                 = _escapeAutoLinks($text);
+        if ( $text =~ /^[^?]*\.(gif|jpg|jpeg|png)$/i ) {
+            my $filename = $text;
+            $filename =~ s@.*/@@;
+            $text = CGI::img( { src => $text, alt => $filename } );
+        }
+        else {
+            $text                 = _escapeAutoLinks($text);
+        }
     }
 
     if ( $link =~ m#^($Foswiki::regex{linkProtocolPattern}:|/)# ) {
