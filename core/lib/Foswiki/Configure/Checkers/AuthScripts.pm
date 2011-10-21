@@ -9,7 +9,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
-    my $msg = '';
+    my $msg  = '';
 
     if ( $Foswiki::cfg{AuthScripts} ) {
         if ( $Foswiki::cfg{LoginManager} eq 'none' ) {
@@ -22,7 +22,9 @@ EOF
             );
         }
 
-        if ( $Foswiki::cfg{LoginManager} ne 'Foswiki::LoginManager::TemplateLogin' ) {
+        if ( $Foswiki::cfg{LoginManager} ne
+            'Foswiki::LoginManager::TemplateLogin' )
+        {
             $msg .= $this->WARN(
                 <<"EOF"
 You've specified an alternative login manager.  It is critical that this list
