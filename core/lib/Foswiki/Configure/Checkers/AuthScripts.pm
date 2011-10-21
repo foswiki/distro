@@ -20,6 +20,17 @@ other than 'none'.
 EOF
             );
         }
+
+        unless ( $Foswiki::cfg{AuthScripts} =~ m/statistics/ ) {
+            return $this->WARN(
+                <<'EOF'
+The statistics script is not protected as a script requiring authorization.
+This is not a security issue, but this script can create a significant workload
+on the server. It is recommended that this script require authentication.
+EOF
+            );
+        }
+
     }
     return '';
 }
