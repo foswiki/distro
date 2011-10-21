@@ -11,25 +11,27 @@ package Foswiki::Plugins::SpreadSheetPlugin::Calc;
 use strict;
 use warnings;
 use Time::Local;
+use Time::Local qw( timegm_nocheck timelocal_nocheck );    # Necessary for DOY
 
 # =========================
-use vars qw(
-  $web $topic $debug $dontSpaceRE
-  $renderingWeb @tableMatrix $cPos $rPos $escToken
-  %varStore @monArr @wdayArr %mon2num
-);
-
-$escToken    = "\0";
-%varStore    = ();
-$dontSpaceRE = "";
-@monArr      = (
+my $web;
+my $topic;
+my $debug;
+my @tableMatrix;
+my $cPos;
+my $rPos;
+my $escToken    = "\0";
+my %varStore    = ();
+my $dontSpaceRE = "";
+my @monArr      = (
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 );
-@wdayArr = (
+my @wdayArr = (
     "Sunday",   "Monday", "Tuesday", "Wednesday",
     "Thursday", "Friday", "Saturday"
 );
+my %mon2num;
 {
     my $count = 0;
     %mon2num = map { $_ => $count++ } @monArr;
@@ -70,8 +72,8 @@ sub CALC {
     my $cell        = "";
     my @row         = ();
 
-    $_[0] =~ s/\r//go;
-    $_[0] =~ s/\\\n//go;    # Join lines ending in "\"
+    $_[0] =~ s/\r//g;
+    $_[0] =~ s/\\\n//g;    # Join lines ending in "\"
     foreach ( split( /\n/, $_[0] ) ) {
 
         # change state:
@@ -92,20 +94,20 @@ sub CALC {
                     $rPos        = -1;
                 }
                 $line = $_;
-                $line =~ s/^(\s*\|)(.*)\|\s*$/$2/o;
+                $line =~ s/^(\s*\|)(.*)\|\s*$/$2/;
                 $before = $1;
-                @row = split( /\|/o, $line, -1 );
-                $row[0] = '' unless @row; # See Item5163
+                @row = split( /\|/, $line, -1 );
+                $row[0] = '' unless @row;    # See Item5163
                 push( @tableMatrix, [@row] );
                 $rPos++;
                 $line = "$before";
 
                 for ( $cPos = 0 ; $cPos < @row ; $cPos++ ) {
                     $cell = $row[$cPos];
-                    $cell =~ s/%CALC\{(.*?)\}%/&doCalc($1)/geo;
+                    $cell =~ s/%CALC\{(.*?)\}%/_doCalc($1)/ge;
                     $line .= "$cell|";
                 }
-                s/.*/$line/o;
+                s/.*/$line/;
 
             }
             else {
@@ -114,24 +116,25 @@ sub CALC {
                 if ($insideTABLE) {
                     $insideTABLE = 0;
                 }
-                s/%CALC\{(.*?)\}%/&doCalc($1)/geo;
+                s/%CALC\{(.*?)\}%/_doCalc($1)/ge;
             }
         }
         push( @result, $_ );
     }
     $_[0] = join( "\n", @result );
+    return $_[0];
 }
 
 # =========================
-sub doCalc {
+sub _doCalc {
     my ($theAttributes) = @_;
     my $text = &Foswiki::Func::extractNameValuePair($theAttributes);
 
     # Add nesting level to parenthesis,
     # e.g. "A(B())" gets "A-esc-1(B-esc-2(-esc-2)-esc-1)"
     my $level = 0;
-    $text =~ s/([\(\)])/addNestingLevel($1, \$level)/geo;
-    $text = doFunc( "MAIN", $text );
+    $text =~ s/([\(\)])/_addNestingLevel($1, \$level)/ge;
+    $text = _doFunc( "MAIN", $text );
 
     if ( ( $rPos >= 0 ) && ( $cPos >= 0 ) ) {
 
@@ -143,7 +146,7 @@ sub doCalc {
 }
 
 # =========================
-sub addNestingLevel {
+sub _addNestingLevel {
     my ( $theParen, $theLevelRef ) = @_;
 
     my $result = "";
@@ -159,22 +162,28 @@ sub addNestingLevel {
 }
 
 # =========================
-sub doFunc {
+sub _recurseFunc {
+
+    # Handle functions recursively
+    $_[0] =~
+      s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/_doFunc($1,$3)/geo;
+
+    # Clean up unbalanced mess
+    $_[0] =~ s/$escToken\-*[0-9]+([\(\)])/$1/go;
+    return $_[0];
+}
+
+# =========================
+sub _doFunc {
     my ( $theFunc, $theAttr ) = @_;
 
     $theAttr = "" unless ( defined $theAttr );
     Foswiki::Func::writeDebug(
-        "- SpreadSheetPlugin::Calc::doFunc: $theFunc( $theAttr ) start")
+        "- SpreadSheetPlugin::Calc::_doFunc: $theFunc( $theAttr ) start")
       if $debug;
 
-    unless ( $theFunc =~ /^(IF|LISTIF|LISTMAP|NOEXEC)$/ ) {
-
-        # Handle functions recursively
-        $theAttr =~
-          s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
-
-        # Clean up unbalanced mess
-        $theAttr =~ s/$escToken\-*[0-9]+([\(\)])/$1/go;
+    unless ( $theFunc =~ /^(IF|LISTIF|LISTMAP|NOEXEC|WHILE)$/ ) {
+        _recurseFunc($theAttr);
     }
 
     # else: delay the function handler to after parsing the parameters,
@@ -191,12 +200,10 @@ sub doFunc {
         # add nesting level escapes
         my $level = 0;
         $result = $theAttr;
-        $result =~ s/([\(\)])/addNestingLevel($1, \$level)/geo;
+        $result =~ s/([\(\)])/_addNestingLevel($1, \$level)/ge;
 
 # execute functions in attribute recursively and clean up unbalanced parenthesis
-        $result =~
-          s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
-        $result =~ s/$escToken\-*[0-9]+([\(\)])/$1/go;
+        _recurseFunc($result);
 
     }
     elsif ( $theFunc eq "NOEXEC" ) {
@@ -205,7 +212,7 @@ sub doFunc {
     }
     elsif ( $theFunc eq "T" ) {
         $result = "";
-        my @arr = getTableRange("$theAttr..$theAttr");
+        my @arr = _getTableRange("$theAttr..$theAttr");
         if (@arr) {
             $result = $arr[0];
         }
@@ -213,9 +220,9 @@ sub doFunc {
     }
     elsif ( $theFunc eq "TRIM" ) {
         $result = $theAttr || "";
-        $result =~ s/^\s*//o;
-        $result =~ s/\s*$//o;
-        $result =~ s/\s+/ /go;
+        $result =~ s/^\s*//;
+        $result =~ s/\s*$//;
+        $result =~ s/\s+/ /g;
 
     }
     elsif ( $theFunc eq "FORMAT" ) {
@@ -228,8 +235,9 @@ sub doFunc {
         $res    =~ m/^(.*)$/;              # SMELL why do we need to untaint
         $res = $1;
         if ( $format eq "DOLLAR" ) {
-            my $neg = 1 if $value < 0;
-            $value = abs($value);
+            my $neg = 0;
+            $neg    = 1 if $value < 0;
+            $value  = abs($value);
             $result = sprintf( "%0.${res}f", $value );
             my $temp = reverse $result;
             $temp =~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g;
@@ -284,8 +292,8 @@ sub doFunc {
         my ( $str1, $str2 ) = split( /,\s*/, $theAttr, 2 );
         $str1 = "" unless ($str1);
         $str2 = "" unless ($str2);
-        $str1 =~ s/^\s*(.*?)\s*$/$1/o;    # cut leading and trailing spaces
-        $str2 =~ s/^\s*(.*?)\s*$/$1/o;
+        $str1 =~ s/^\s*(.*?)\s*$/$1/;    # cut leading and trailing spaces
+        $str2 =~ s/^\s*(.*?)\s*$/$1/;
         $result = 1 if ( $str1 eq $str2 );
 
     }
@@ -300,7 +308,7 @@ sub doFunc {
 
     }
     elsif ( $theFunc =~ /^(EVAL|INT)$/ ) {
-        $result = safeEvalPerl($theAttr);
+        $result = _safeEvalPerl($theAttr);
         unless ( $result =~ /^ERROR/ ) {
             $result = int( _getNumber($result) ) if ( $theFunc eq "INT" );
         }
@@ -310,11 +318,11 @@ sub doFunc {
 
         # ROUND(num, digits)
         my ( $num, $digits ) = split( /,\s*/, $theAttr, 2 );
-        $result = safeEvalPerl($num);
+        $result = _safeEvalPerl($num);
         unless ( $result =~ /^ERROR/ ) {
             $result = _getNumber($result);
             if (   ($digits)
-                && ( $digits =~ s/^.*?(\-?[0-9]+).*$/$1/o )
+                && ( $digits =~ s/^.*?(\-?[0-9]+).*$/$1/ )
                 && ($digits) )
             {
                 my $factor = 10**$digits;
@@ -350,8 +358,8 @@ sub doFunc {
     }
     elsif ( $theFunc eq "AND" ) {
         $result = 0;
-        my @arr = getListAsInteger($theAttr);
-        foreach $i (@arr) {
+        my @arr = _getListAsInteger($theAttr);
+        foreach my $i (@arr) {
             unless ($i) {
                 $result = 0;
                 last;
@@ -362,14 +370,57 @@ sub doFunc {
     }
     elsif ( $theFunc eq "OR" ) {
         $result = 0;
-        my @arr = getListAsInteger($theAttr);
-        foreach $i (@arr) {
+        my @arr = _getListAsInteger($theAttr);
+        foreach my $i (@arr) {
             if ($i) {
                 $result = 1;
                 last;
             }
         }
 
+    }
+    elsif ( $theFunc eq "XOR" ) {
+        my @arr = _getListAsInteger($theAttr);
+        $result = shift(@arr);
+        if ( scalar(@arr) > 0 ) {
+            foreach my $i (@arr) {
+                next unless defined $i;
+                $result = ( $result xor $i );
+            }
+        }
+        else {
+            $result = 0;
+        }
+        $result = $result ? 1 : 0;
+
+    }
+    elsif ( $theFunc eq "BITXOR" ) {
+        my @arr = _getList($theAttr);
+
+# SMELL: This usage is bogus.   It takes the ones-complement of the string, and does NOT do a bit-wise XOR
+# which would require two operators.   An XOR with itself would clear the field not flip all the bits.
+# This should probably be called a BITNOT.
+        if ( scalar @arr == 1 ) {
+            use bytes;
+            my $ff = chr(255) x length($theAttr);
+            $result = $theAttr ^ $ff;
+            no bytes;
+        }
+
+        # This is a standard bit-wise xor of a list of integers.
+        else {
+            @arr    = _getListAsInteger($theAttr);
+            $result = int( shift(@arr) );
+            if ( scalar(@arr) > 0 ) {
+                foreach my $i (@arr) {
+                    next unless defined $i;
+                    $result = ( $result ^ int($i) );
+                }
+            }
+            else {
+                $result = 0;
+            }
+        }
     }
     elsif ( $theFunc eq "NOT" ) {
         $result = 1;
@@ -417,11 +468,9 @@ sub doFunc {
         my ( $condition, $str1, $str2 ) = _properSplit( $theAttr, 3 );
 
 # with delay, handle functions in condition recursively and clean up unbalanced parenthesis
-        $condition =~
-          s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
-        $condition =~ s/$escToken\-*[0-9]+([\(\)])/$1/go;
-        $condition =~ s/^\s*(.*?)\s*$/$1/o;
-        $result = safeEvalPerl($condition);
+        _recurseFunc($condition);
+        $condition =~ s/^\s*(.*?)\s*$/$1/;
+        $result = _safeEvalPerl($condition);
         unless ( $result =~ /^ERROR/ ) {
             if ($result) {
                 $result = $str1;
@@ -432,11 +481,41 @@ sub doFunc {
             $result = "" unless ( defined($result) );
 
 # with delay, handle functions in result recursively and clean up unbalanced parenthesis
-            $result =~
-s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
-            $result =~ s/$escToken\-*[0-9]+([\(\)])/$1/go;
+            _recurseFunc($result);
 
         }    # else return error message
+
+    }
+    elsif ( $theFunc eq "WHILE" ) {
+
+        # WHILE(condition, do something)
+        my ( $condition, $str ) = _properSplit( $theAttr, 2 );
+        my $i = 0;
+        while (1) {
+            if ( $i++ >= 32767 ) {
+                $result .= 'ERROR: Infinite loop (32767 cycles)';
+                last;    # prevent infinite loop
+            }
+
+# with delay, handle functions in condition recursively and clean up unbalanced parenthesis
+            my $cond = $condition;
+            $cond =~ s/\$counter/$i/g;
+            _recurseFunc($cond);
+            $cond =~ s/^\s*(.*?)\s*$/$1/;
+            my $res = _safeEvalPerl($cond);
+            if ( $res =~ /^ERROR/ ) {
+                $result .= $res;
+                last;    # exit loop and return error
+            }
+            last unless ($res);    # proper loop exit
+            $res = $str;
+            $res = "" unless ( defined($res) );
+
+# with delay, handle functions in result recursively and clean up unbalanced parenthesis
+            $res =~ s/\$counter/$i/g;
+            _recurseFunc($res);
+            $result .= $res;
+        }
 
     }
     elsif ( $theFunc eq "UPPER" ) {
@@ -451,7 +530,7 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
 
         # FIXME: I18N
         $result = lc($theAttr);
-        $result =~ s/(^|[^a-z])([a-z])/$1 . uc($2)/geo;
+        $result =~ s/(^|[^a-z])([a-z])/$1 . uc($2)/ge;
 
     }
     elsif ( $theFunc eq "PROPERSPACE" ) {
@@ -506,8 +585,8 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
 
     }
     elsif ( $theFunc eq "RIGHT" ) {
-        $i      = $rPos + 1;
-        my $c   = $cPos + 2;
+        $i = $rPos + 1;
+        my $c = $cPos + 2;
         $result = "R$i:C$c..R$i:C32000";
 
     }
@@ -515,10 +594,10 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
 
         # Format DEF(list) returns first defined cell
         # Added by MF 26/3/2002, fixed by PeterThoeny
-        my @arr = getList($theAttr);
+        my @arr = _getList($theAttr);
         foreach my $cell (@arr) {
             if ($cell) {
-                $cell =~ s/^\s*(.*?)\s*$/$1/o;
+                $cell =~ s/^\s*(.*?)\s*$/$1/;
                 if ($cell) {
                     $result = $cell;
                     last;
@@ -530,21 +609,21 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     elsif ( $theFunc eq "MAX" ) {
         my @arr = sort { $a <=> $b }
           grep { /./ }
-          grep { defined $_ } getListAsFloat($theAttr);
-        $result = $arr[$#arr];
+          grep { defined $_ } _getListAsFloat($theAttr);
+        $result = $arr[-1];
 
     }
     elsif ( $theFunc eq "MIN" ) {
         my @arr = sort { $a <=> $b }
           grep { /./ }
-          grep { defined $_ } getListAsFloat($theAttr);
+          grep { defined $_ } _getListAsFloat($theAttr);
         $result = $arr[0];
 
     }
     elsif ( $theFunc eq "SUM" ) {
         $result = 0;
-        my @arr = getListAsFloat($theAttr);
-        foreach $i (@arr) {
+        my @arr = _getListAsFloat($theAttr);
+        foreach my $i (@arr) {
             $result += $i if defined $i;
         }
 
@@ -554,19 +633,19 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         my @arr;
         my @lol = split( /,\s*/, $theAttr );
         my $size = 32000;
-        for $i ( 0 .. $#lol ) {
-            @arr     = getListAsFloat( $lol[$i] );
-            $lol[$i] = [@arr];                       # store reference to array
-            $size    = @arr if ( @arr < $size );     # remember smallest array
+        for my $i ( 0 .. $#lol ) {
+            @arr     = _getListAsFloat( $lol[$i] );
+            $lol[$i] = [@arr];                        # store reference to array
+            $size    = @arr if ( @arr < $size );      # remember smallest array
         }
         if ( ( $size > 0 ) && ( $size < 32000 ) ) {
             my $y;
             my $prod;
             my $val;
             $size--;
-            for $y ( 0 .. $size ) {
+            for my $y ( 0 .. $size ) {
                 $prod = 1;
-                for $i ( 0 .. $#lol ) {
+                for my $i ( 0 .. $#lol ) {
                     $val = $lol[$i][$y];
                     if ( defined $val ) {
                         $prod *= $val;
@@ -585,8 +664,8 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         # DURATION is undocumented, is for SvenDowideit
         # contributed by SvenDowideit - 07 Mar 2003; modified by PTh
         $result = 0;
-        my @arr = getListAsDays($theAttr);
-        foreach $i (@arr) {
+        my @arr = _getListAsDays($theAttr);
+        foreach my $i (@arr) {
             $result += $i if defined $i;
         }
 
@@ -599,9 +678,9 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     elsif ( $theFunc =~ /^(MULT|PRODUCT)$/ )
     {    # MULT is deprecated, no not remove
         $result = 0;
-        my @arr = getListAsFloat($theAttr);
+        my @arr = _getListAsFloat($theAttr);
         $result = 1;
-        foreach $i (@arr) {
+        foreach my $i (@arr) {
             $result *= $i if defined $i;
         }
 
@@ -609,8 +688,8 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     elsif ( $theFunc =~ /^(AVERAGE|MEAN)$/ ) {
         $result = 0;
         my $items = 0;
-        my @arr   = getListAsFloat($theAttr);
-        foreach $i (@arr) {
+        my @arr   = _getListAsFloat($theAttr);
+        foreach my $i (@arr) {
             if ( defined $i ) {
                 $result += $i;
                 $items++;
@@ -623,7 +702,7 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     }
     elsif ( $theFunc eq "MEDIAN" ) {
         my @arr =
-          sort { $a <=> $b } grep { defined $_ } getListAsFloat($theAttr);
+          sort { $a <=> $b } grep { defined $_ } _getListAsFloat($theAttr);
         $i = @arr;
         if ( ( $i % 2 ) > 0 ) {
             $result = $arr[ $i / 2 ];
@@ -636,7 +715,7 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     }
     elsif ( $theFunc eq "PERCENTILE" ) {
         my ( $percentile, $set ) = split( /,\s*/, $theAttr, 2 );
-        my @arr = sort { $a <=> $b } grep { defined $_ } getListAsFloat($set);
+        my @arr = sort { $a <=> $b } grep { defined $_ } _getListAsFloat($set);
         $result = 0;
 
         my $size = scalar(@arr);
@@ -673,11 +752,11 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
             $list = $1;
             $str  = $2;
         }
-        $str =~ s/\s*$//o;
-        my @arr = getList($list);
+        $str =~ s/\s*$//;
+        my @arr = _getList($list);
         foreach my $cell (@arr) {
             if ( defined $cell ) {
-                $cell =~ s/^\s*(.*?)\s*$/$1/o;
+                $cell =~ s/^\s*(.*?)\s*$/$1/;
                 $result++ if ($cell);
                 $i++ if ( $cell eq $str );
             }
@@ -687,11 +766,10 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     }
     elsif ( $theFunc eq "COUNTITEMS" ) {
         $result = "";
-        my @arr   = getList($theAttr);
+        my @arr   = _getList($theAttr);
         my %items = ();
-        my $key   = "";
-        foreach $key (@arr) {
-            $key =~ s/^\s*(.*?)\s*$/$1/o if ($key);
+        foreach my $key (@arr) {
+            $key =~ s/^\s*(.*?)\s*$/$1/ if ($key);
             if ($key) {
                 if ( exists( $items{$key} ) ) {
                     $items{$key}++;
@@ -701,10 +779,10 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
                 }
             }
         }
-        foreach $key ( sort keys %items ) {
+        foreach my $key ( sort keys %items ) {
             $result .= "$key: $items{ $key }<br /> ";
         }
-        $result =~ s|<br /> $||o;
+        $result =~ s|<br /> $||;
 
     }
     elsif ( $theFunc =~ /^(FIND|SEARCH)$/ ) {
@@ -828,8 +906,8 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     }
     elsif ( $theFunc eq "TIME" ) {
         $result = $theAttr;
-        $result =~ s/^\s+//o;
-        $result =~ s/\s+$//o;
+        $result =~ s/^\s+//;
+        $result =~ s/\s+$//;
         if ($result) {
             $result = _date2serial($result);
         }
@@ -922,8 +1000,8 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         $time  = 0  unless ($time);
         $value = 0  unless ($value);
         $scale = "" unless ($scale);
-        $time  =~ s/.*?([0-9]+).*/$1/o      || 0;
-        $value =~ s/.*?(\-?[0-9\.]+).*/$1/o || 0;
+        $time  =~ s/.*?([0-9]+).*/$1/      || 0;
+        $value =~ s/.*?(\-?[0-9\.]+).*/$1/ || 0;
         $value *= 60            if ( $scale =~ /^min/i );
         $value *= 3600          if ( $scale =~ /^hou/i );
         $value *= 3600 * 24     if ( $scale =~ /^day/i );
@@ -939,8 +1017,8 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         $scale ||= '';
         $time1 = 0 unless ($time1);
         $time2 = 0 unless ($time2);
-        $time1 =~ s/.*?([0-9]+).*/$1/o || 0;
-        $time2 =~ s/.*?([0-9]+).*/$1/o || 0;
+        $time1 =~ s/.*?([0-9]+).*/$1/ || 0;
+        $time2 =~ s/.*?([0-9]+).*/$1/ || 0;
         $result = $time2 - $time1;
         $result /= 60            if ( $scale =~ /^min/i );
         $result /= 3600          if ( $scale =~ /^hou/i );
@@ -954,42 +1032,62 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     }
     elsif ( $theFunc eq "SET" ) {
         my ( $name, $value ) = split( /,\s*/, $theAttr, 2 );
-        $name =~ s/[^a-zA-Z0-9\_]//go;
+        $name =~ s/[^a-zA-Z0-9\_]//g;
         if ( $name && defined($value) ) {
-            $value =~ s/\s*$//o;
+            $value =~ s/\s*$//;
             $varStore{$name} = $value;
         }
 
     }
     elsif ( $theFunc eq "SETIFEMPTY" ) {
         my ( $name, $value ) = split( /,\s*/, $theAttr, 2 );
-        $name =~ s/[^a-zA-Z0-9\_]//go;
+        $name =~ s/[^a-zA-Z0-9\_]//g;
         if ( $name && defined($value) && !$varStore{$name} ) {
-            $value =~ s/\s*$//o;
+            $value =~ s/\s*$//;
             $varStore{$name} = $value;
         }
 
     }
     elsif ( $theFunc eq "SETM" ) {
         my ( $name, $value ) = split( /,\s*/, $theAttr, 2 );
-        $name =~ s/[^a-zA-Z0-9\_]//go;
+        $name =~ s/[^a-zA-Z0-9\_]//g;
         if ($name) {
             my $old = $varStore{$name};
             $old             = "" unless ( defined($old) );
-            $value           = safeEvalPerl("$old $value");
+            $value           = _safeEvalPerl("$old $value");
             $varStore{$name} = $value;
         }
 
     }
     elsif ( $theFunc eq "GET" ) {
         my $name = $theAttr;
-        $name =~ s/[^a-zA-Z0-9\_]//go;
+        $name =~ s/[^a-zA-Z0-9\_]//g;
         $result = $varStore{$name} if ($name);
         $result = "" unless ( defined($result) );
+    }
+    elsif ( $theFunc eq "SPLIT" ) {
+        my ( $sep, $str ) = _properSplit( $theAttr, 2 );
 
+      # Not documented - if called without 2 parameters,  assume space delimiter
+        if ( !defined $str || $str eq '' ) {
+            $str = $theAttr;
+            $sep = '$sp$sp*';
+        }
+
+        $str =~ s/^\s+//;
+        $str =~ s/\s+$//;
+
+        $sep = '$sp$sp*' if ( $sep eq '' );
+        $sep =~ s/\$sp/\\s/g;
+
+   #SMELL:  Optimizing this next regex breaks reuse for some reason, perl 5.12.3
+        $sep =~ s/\$(nop|empty)//g;
+        $sep =~ s/\$comma/,/g;
+
+        $result = _listToDelimitedString( split( /$sep/, $str ) );
     }
     elsif ( $theFunc eq "LIST" ) {
-        my @arr = getList($theAttr);
+        my @arr = _getList($theAttr);
         $result = _listToDelimitedString(@arr);
 
     }
@@ -997,7 +1095,7 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         my ( $index, $str ) = _properSplit( $theAttr, 2 );
         $index = _getNumber($index);
         $str = "" unless ( defined($str) );
-        my @arr  = getList($str);
+        my @arr  = _getList($str);
         my $size = scalar @arr;
         if ( $index && $size ) {
             $index-- if ( $index > 0 );    # documented index starts at 1
@@ -1012,29 +1110,27 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         $str = "" unless ( defined($str) );
 
 # SMELL: repairing standard delimiter ", " in the constructed string to our custom separator
-        $result = _listToDelimitedString( getList($str) );
+        $result = _listToDelimitedString( _getList($str) );
         if ( length $sep ) {
-            $sep =~ s/\$comma/,/go;
-            $sep =~ s/\$sp/ /go;
-            $sep =~ s/\$nop//go
+            $sep =~ s/\$comma/,/g;
+            $sep =~ s/\$sp/ /g;
+            $sep =~ s/\$(nop|empty)//g
               ; # make sure $nop appears before $n otherwise you end up with "\nop"
-            $sep    =~ s/\$n/\n/go;
-            $result =~ s/, /$sep/go;
+            $sep    =~ s/\$n/\n/g;
+            $result =~ s/, /$sep/g;
         }
     }
     elsif ( $theFunc eq "LISTSIZE" ) {
-        my @arr = getList($theAttr);
+        my @arr = _getList($theAttr);
         $result = scalar @arr;
 
     }
     elsif ( $theFunc eq "LISTSORT" ) {
         my $isNumeric = 1;
         my @arr       = map {
-            s/^\s*//o;
-            s/\s*$//o;
             $isNumeric = 0 unless ( $_ =~ /^[\+\-]?[0-9\.]+$/ );
             $_
-        } getList($theAttr);
+        } _getList($theAttr);
         if ($isNumeric) {
             @arr = sort { $a <=> $b } @arr;
         }
@@ -1045,7 +1141,7 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
 
     }
     elsif ( $theFunc eq "LISTSHUFFLE" ) {
-        my @arr  = getList($theAttr);
+        my @arr  = _getList($theAttr);
         my $size = scalar @arr;
         if ( $size > 1 ) {
             for ( $i = $size ; $i-- ; ) {
@@ -1058,19 +1154,16 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
 
     }
     elsif ( $theFunc eq "LISTRAND" ) {
-        my @arr  = getList($theAttr);
+        my @arr  = _getList($theAttr);
         my $size = scalar @arr;
-        if ( $size > 1 ) {
-            $i      = int( rand( $size - 1 ) + 0.5 );
+        if ( $size > 0 ) {
+            $i      = int( rand($size) );
             $result = $arr[$i];
-        }
-        elsif ( $size == 1 ) {
-            $result = $arr[0];
         }
 
     }
     elsif ( $theFunc eq "LISTREVERSE" ) {
-        my @arr = reverse getList($theAttr);
+        my @arr = reverse _getList($theAttr);
         $result = _listToDelimitedString(@arr);
 
     }
@@ -1078,7 +1171,7 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         my ( $index, $str ) = _properSplit( $theAttr, 2 );
         $index = int( _getNumber($index) );
         $str = "" unless ( defined($str) );
-        my @arr  = getList($str);
+        my @arr  = _getList($str);
         my $size = scalar @arr;
         if ( $index > 0 ) {
             $index  = $size if ( $index > $size );
@@ -1094,7 +1187,7 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
     }
     elsif ( $theFunc eq "LISTUNIQUE" ) {
         my %seen = ();
-        my @arr = grep { !$seen{$_}++ } getList($theAttr);
+        my @arr = grep { !$seen{$_}++ } _getList($theAttr);
         $result = _listToDelimitedString(@arr);
 
     }
@@ -1105,22 +1198,20 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         $action = "" unless ( defined($action) );
         $str    = "" unless ( defined($str) );
 
-# with delay, handle functions in result recursively and clean up unbalanced parenthesis
-        $str =~
-          s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
-        $str =~ s/$escToken\-*[0-9]+([\(\)])/$1/go;
-        my $item = "";
+# with delay, handle functions in $str recursively and clean up unbalanced parenthesis
+        _recurseFunc($str);
+
+        my $item = qw{};
         $i = 0;
         my @arr = map {
             $item = $_;
             $_    = $action;
             $i++;
-            s/\$index/$i/go;
-            $_ .= $item unless (s/\$item/$item/go);
-s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
-            s/$escToken\-*[0-9]+([\(\)])/$1/go;
+            s/\$index/$i/g;
+            $_ .= $item unless (s/\$item/$item/g);
+            _recurseFunc($_);
             $_
-        } getList($str);
+        } _getList($str);
         $result = _listToDelimitedString(@arr);
 
     }
@@ -1129,15 +1220,14 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         # LISTIF(cmd, item 1, item 2, ...)
         my ( $cmd, $str ) = _properSplit( $theAttr, 2 );
         $cmd = "" unless ( defined($cmd) );
-        $cmd =~ s/^\s*(.*?)\s*$/$1/o;
+        $cmd =~ s/^\s*(.*?)\s*$/$1/;
         $str = "" unless ( defined($str) );
 
-# with delay, handle functions in result recursively and clean up unbalanced parenthesis
-        $str =~
-          s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
-        $str =~ s/$escToken\-*[0-9]+([\(\)])/$1/go;
-        my $item = "";
-        my $eval = "";
+# with delay, handle functions in result $str and clean up unbalanced parenthesis
+        _recurseFunc($str);
+
+        my $item = qw{};
+        my $eval = qw{};
         $i = 0;
         my @arr =
           grep { !/^FOSWIKI_GREP_REMOVE$/ }
@@ -1145,11 +1235,10 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
             $item = $_;
             $_    = $cmd;
             $i++;
-            s/\$index/$i/go;
-            s/\$item/$item/go;
-s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
-            s/$escToken\-*[0-9]+([\(\)])/$1/go;
-            $eval = safeEvalPerl($_);
+            s/\$index/$i/g;
+            s/\$item/$item/g;
+            _recurseFunc($_);
+            $eval = _safeEvalPerl($_);
             if ( $eval =~ /^ERROR/ ) {
                 $_ = $eval;
             }
@@ -1159,7 +1248,13 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
             else {
                 $_ = "FOSWIKI_GREP_REMOVE";
             }
-          } getList($str);
+          } _getList($str);
+        $result = _listToDelimitedString(@arr);
+
+    }
+    elsif ( $theFunc eq "LISTNONEMPTY" ) {
+
+        my @arr = grep { /./ } _getList($theAttr);
         $result = _listToDelimitedString(@arr);
 
     }
@@ -1168,23 +1263,36 @@ s/\$([A-Z]+)$escToken([0-9]+)\((.*?)$escToken\2\)/&doFunc($1,$3)/geo;
         # pass everything through, this will allow plugins to defy plugin order
         # for example the %SEARCH{}% variable
         $theAttr =~ s/\$per/%/g;
+        $theAttr =~ s/\$per(cnt)?/%/g;
+        $theAttr =~ s/\$quot/"/g;
         $result = $theAttr;
 
     }
     elsif ( $theFunc eq "EXISTS" ) {
         $result = Foswiki::Func::topicExists( $web, $theAttr );
         $result = 0 unless ($result);
+
+    }
+    elsif ( $theFunc eq "HEXENCODE" ) {
+        $result = uc( unpack( "H*", $theAttr ) );
+
+    }
+    elsif ( $theFunc eq "HEXDECODE" ) {
+        $theAttr =~ s/[^0-9A-Fa-f]//g;                     # only hex numbers
+        $theAttr =~ s/.$// if ( length($theAttr) % 2 );    # must be set of two
+        $result = pack( "H*", $theAttr );
+
     }
 
     Foswiki::Func::writeDebug(
-"- SpreadSheetPlugin::Calc::doFunc: $theFunc( $theAttr ) returns: $result"
+"- SpreadSheetPlugin::Calc::_doFunc: $theFunc( $theAttr ) returns: $result"
     ) if $debug;
     return $result;
 }
 
 # =========================
 sub _listToDelimitedString {
-    my @arr = map { s/^\s*//o; s/\s*$//o; $_ } @_;
+    my @arr = map { s/^\s*//; s/\s*$//; $_ } @_;
     my $text = join( ", ", @arr );
     return $text;
 }
@@ -1206,7 +1314,7 @@ sub _properSplit {
 # =========================
 sub _escapeCommas {
     my ($theText) = @_;
-    $theText =~ s/\,/<$escToken>/go;
+    $theText =~ s/\,/<$escToken>/g;
     return $theText;
 }
 
@@ -1214,33 +1322,34 @@ sub _escapeCommas {
 sub _getNumber {
     my ($theText) = @_;
     return 0 unless ($theText);
-    $theText =~ s/([0-9])\,(?=[0-9]{3})/$1/go;    # "1,234,567" ==> "1234567"
-    if ( $theText =~ /[0-9]e/i ) {                # "1.5e-3"    ==> "0.0015"
+    $theText =~ s/([0-9])\,(?=[0-9]{3})/$1/g;    # "1,234,567" ==> "1234567"
+    if ( $theText =~ /[0-9]e/i ) {               # "1.5e-3"    ==> "0.0015"
         $theText = sprintf "%.20f", $theText;
         $theText =~ s/0+$//;
     }
-    unless ( $theText =~ s/^.*?(\-?[0-9\.]+).*$/$1/o )
-    {                                             # "xy-1.23zz" ==> "-1.23"
+    unless ( $theText =~ s/^.*?(\-?[0-9\.]+).*$/$1/ )
+    {                                            # "xy-1.23zz" ==> "-1.23"
         $theText = 0;
     }
-    $theText =~ s/^(\-?)0+([0-9])/$1$2/o;         # "-0009.12"  ==> "-9.12"
-    $theText =~ s/^(\-?)\./${1}0\./o;             # "-.25"      ==> "-0.25"
-    $theText =~ s/^\-0$/0/o;                      # "-0"        ==> "0"
-    $theText =~ s/\.$//o;                         # "123."      ==> "123"
+    $theText =~ s/^(\-?)0+([0-9])/$1$2/;         # "-0009.12"  ==> "-9.12"
+    $theText =~ s/^(\-?)\./${1}0\./;             # "-.25"      ==> "-0.25"
+    $theText =~ s/^\-0$/0/;                      # "-0"        ==> "0"
+    $theText =~ s/\.$//;                         # "123."      ==> "123"
     return $theText;
 }
 
 # =========================
-sub safeEvalPerl {
+sub _safeEvalPerl {
     my ($theText) = @_;
 
     # Allow only simple math with operators - + * / % ( )
+    $theText =~ s/\%\s*[^\-\+\*\/0-9\.\(\)]+//g; # defuse %hash but keep modulus
+      # keep only numbers and operators (shh... don't tell anyone, we support comparison operators)
+    $theText =~ s/[^\!\<\=\>\-\+\*\/\%0-9e\.\(\)]*//g;
+    $theText =~ s/(^|[^\.])\b0+(?=[0-9])/$1/g
+      ;    # remove leading 0s to defuse interpretation of numbers as octals
     $theText =~
-      s/\%\s*[^\-\+\*\/0-9\.\(\)]+//go;    # defuse %hash but keep modulus
-     # keep only numbers and operators (shh... don't tell anyone, we support comparison operators)
-    $theText =~ s/[^\!\<\=\>\-\+\*\/\%0-9e\.\(\)]*//go;
-    $theText =~
-      s/(^|[^0-9])e/$1/go;  # remove "e"-s unless in expression such as "123e-4"
+      s/(^|[^0-9])e/$1/g;   # remove "e"-s unless in expression such as "123e-4"
     $theText =~ /(.*)/;
     $theText = $1;          # untainted variable
     return "" unless ($theText);
@@ -1250,10 +1359,10 @@ sub safeEvalPerl {
 
     if ($@) {
         $result = $@;
-        $result =~ s/[\n\r]//go;
+        $result =~ s/[\n\r]//g;
         $result =~
-          s/\[[^\]]+.*view.*?\:\s?//o; # Cut "[Mon Mar 15 23:31:39 2004] view: "
-        $result =~ s/\s?at \(eval.*?\)\sline\s?[0-9]*\.?\s?//go
+          s/\[[^\]]+.*view.*?\:\s?//;  # Cut "[Mon Mar 15 23:31:39 2004] view: "
+        $result =~ s/\s?at \(eval.*?\)\sline\s?[0-9]*\.?\s?//g
           ;                            # Cut "at (eval 51) line 2."
         $result = "ERROR: $result";
 
@@ -1265,17 +1374,17 @@ sub safeEvalPerl {
 }
 
 # =========================
-sub getListAsInteger {
+sub _getListAsInteger {
     my ($theAttr) = @_;
 
     my $val  = 0;
-    my @list = getList($theAttr);
+    my @list = _getList($theAttr);
     ( my $baz = "foo" ) =~ s/foo//;      # reset search vars. defensive coding
     for my $i ( 0 .. $#list ) {
         $val = $list[$i];
 
         # search first integer pattern, skip over HTML tags
-        if ( $val =~ /^\s*(?:<[^>]*>)*([\-\+]*[0-9]+).*/o ) {
+        if ( $val =~ /^\s*(?:<[^>]*>)*([\-\+]*[0-9]+).*/ ) {
             $list[$i] = $1;              # untainted variable, possibly undef
         }
         else {
@@ -1286,18 +1395,18 @@ sub getListAsInteger {
 }
 
 # =========================
-sub getListAsFloat {
+sub _getListAsFloat {
     my ($theAttr) = @_;
 
     my $val  = 0;
-    my @list = getList($theAttr);
+    my @list = _getList($theAttr);
     ( my $baz = "foo" ) =~ s/foo//;    # reset search vars. defensive coding
     for my $i ( 0 .. $#list ) {
         $val = $list[$i];
         $val = "" unless defined $val;
 
         # search first float pattern, skip over HTML tags
-        if ( $val =~ /^\s*(?:<[^>]*>)*\$?([\-\+]*[0-9\.]+).*/o ) {
+        if ( $val =~ /^\s*(?:<[^>]*>)*\$?([\-\+]*[0-9\.]+).*/ ) {
             $list[$i] = $1;            # untainted variable, possibly undef
         }
         else {
@@ -1308,27 +1417,27 @@ sub getListAsFloat {
 }
 
 # =========================
-sub getListAsDays {
+sub _getListAsDays {
     my ($theAttr) = @_;
 
     # contributed by by SvenDowideit - 07 Mar 2003; modified by PTh
     my $val = 0;
-    my @arr = getList($theAttr);
+    my @arr = _getList($theAttr);
     ( my $baz = "foo" ) =~ s/foo//;    # reset search vars. defensive coding
     for my $i ( 0 .. $#arr ) {
         $val = $arr[$i] || "";
 
         # search first float pattern
-        if ( $val =~ /^\s*([\-\+]*[0-9\.]+)\s*d/oi ) {
+        if ( $val =~ /^\s*([\-\+]*[0-9\.]+)\s*d/i ) {
             $arr[$i] = $1;             # untainted variable, possibly undef
         }
-        elsif ( $val =~ /^\s*([\-\+]*[0-9\.]+)\s*w/oi ) {
+        elsif ( $val =~ /^\s*([\-\+]*[0-9\.]+)\s*w/i ) {
             $arr[$i] = 5 * $1;         # untainted variable, possibly undef
         }
-        elsif ( $val =~ /^\s*([\-\+]*[0-9\.]+)\s*h/oi ) {
+        elsif ( $val =~ /^\s*([\-\+]*[0-9\.]+)\s*h/i ) {
             $arr[$i] = $1 / 8;         # untainted variable, possibly undef
         }
-        elsif ( $val =~ /^\s*([\-\+]*[0-9\.]+)/o ) {
+        elsif ( $val =~ /^\s*([\-\+]*[0-9\.]+)/ ) {
             $arr[$i] = $1;             # untainted variable, possibly undef
         }
         else {
@@ -1339,27 +1448,36 @@ sub getListAsDays {
 }
 
 # =========================
-sub getList {
+sub _getList {
     my ($theAttr) = @_;
 
     my @list = ();
-    foreach ( split( /,\s*/, $theAttr ) ) {
+    $theAttr =~ s/^\s*//;    # Drop leading / trailing spaces
+    $theAttr =~ s/\s*$//;
+    foreach ( split( /\s*,\s*/, $theAttr ) ) {
         if (m/\s*R([0-9]+)\:C([0-9]+)\s*\.\.+\s*R([0-9]+)\:C([0-9]+)/) {
+            foreach ( _getTableRange($_) ) {
 
-            # table range
-            push( @list, getTableRange($_) );
+                # table range - appears to contain a list
+                if ( $_ =~ m/,/ ) {
+                    push( @list, ( split( /\s*,\s*/, $_ ) ) );
+                }
+                else {
+                    push( @list, $_ );
+                }
+            }
         }
         else {
 
             # list item
-            push( @list, split(/\s*,\s*/, $_ ));
+            push( @list, $_ );
         }
     }
     return @list;
 }
 
 # =========================
-sub getTableRange {
+sub _getTableRange {
     my ($theAttr) = @_;
 
     my @arr = ();
@@ -1368,7 +1486,7 @@ sub getTableRange {
     }
 
     Foswiki::Func::writeDebug(
-        "- SpreadSheetPlugin::Calc::getTableRange( $theAttr )")
+        "- SpreadSheetPlugin::Calc::_getTableRange( $theAttr )")
       if $debug;
     unless (
         $theAttr =~ /\s*R([0-9]+)\:C([0-9]+)\s*\.\.+\s*R([0-9]+)\:C([0-9]+)/ )
@@ -1391,16 +1509,21 @@ sub getTableRange {
     if ( $r2 < $r1 ) { $r = $r1; $r1 = $r2; $r2 = $r; }
 
     my $pRow = ();
-    for $r ( $r1 .. $r2 ) {
+    for my $r ( $r1 .. $r2 ) {
         $pRow = $tableMatrix[$r];
-        for $c ( $c1 .. $c2 ) {
+        for my $c ( $c1 .. $c2 ) {
             if ( $c < @$pRow ) {
-                push( @arr, $$pRow[$c] );
+
+                # Strip trailing spaces from each cell.
+                # The are for left/right justification and should
+                # not be considered part of the table data.
+                my ($rd) = $$pRow[$c] =~ m/^\s*(.*?)\s*$/;
+                push( @arr, $rd );
             }
         }
     }
     Foswiki::Func::writeDebug(
-        "- SpreadSheetPlugin::Calc::getTableRange() returns @arr")
+        "- SpreadSheetPlugin::Calc::_getTableRange() returns @arr")
       if $debug;
     return @arr;
 }
@@ -1416,7 +1539,59 @@ sub _date2serial {
     my $mon  = 0;
     my $year = 0;
 
+    # Handle DOY (Day of Year)
     if ( $theText =~
+m|([Dd][Oo][Yy])\s*([0-9]{4})[\.]([0-9]{1,3})[\.]([0-9]{1,2})[\.]([0-9]{1,2})[\.]([0-9]{1,2})|
+      )
+    {
+
+        # "DOY2003.122.23.15.59", "DOY2003.2.9.3.5.9" i.e. year.ddd.hh.mm.ss
+        $year = $2 - 1900;
+        $day  = $3;
+        $hour = $4;
+        $min  = $5;
+        $sec  = $6;          # Note: $day is in fact doy
+    }
+    elsif ( $theText =~
+m|([Dd][Oo][Yy])\s*([0-9]{4})[\.]([0-9]{1,3})[\.]([0-9]{1,2})[\.]([0-9]{1,2})|
+      )
+    {
+
+        # "DOY2003.122.23.15", "DOY2003.2.9.3" i.e. year.ddd.hh.mm
+        $year = $2 - 1900;
+        $day  = $3;
+        $hour = $4;
+        $min  = $5;
+    }
+    elsif ( $theText =~
+        m|([Dd][Oo][Yy])\s*([0-9]{4})[\.]([0-9]{1,3})[\.]([0-9]{1,2})| )
+    {
+
+        # "DOY2003.122.23", "DOY2003.2.9" i.e. year.ddd.hh
+        $year = $2 - 1900;
+        $day  = $3;
+        $hour = $4;
+    }
+    elsif ( $theText =~ m|([Dd][Oo][Yy])\s*([0-9]{4})[\.]([0-9]{1,3})| ) {
+
+        # "DOY2003.122", "DOY2003.2" i.e. year.ddd
+        $year = $2 - 1900;
+        $day  = $3;
+    }
+    elsif ( $theText =~
+m|([0-9]{1,2})[-\s/]+([A-Z][a-z][a-z])[-\s/]+([0-9]{4})[-\s/]+([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})|
+      )
+    {
+
+# "31 Dec 2003 - 23:59:59", "31-Dec-2003 - 23:59:59", "31 Dec 2003 - 23:59:59 - any suffix"
+        $day  = $1;
+        $mon  = $mon2num{$2} || 0;
+        $year = $3 - 1900;
+        $hour = $4;
+        $min  = $5;
+        $sec  = $6;
+    }
+    elsif ( $theText =~
 m|([0-9]{1,2})[-\s/]+([A-Z][a-z][a-z])[-\s/]+([0-9]{4})[-\s/]+([0-9]{1,2}):([0-9]{1,2})|
       )
     {
@@ -1490,7 +1665,7 @@ m|([0-9]{4})[-/\.]([0-9]{1,2})[-/\.]([0-9]{1,2})[-/\.\,\s]+([0-9]{1,2})[-\:/\.](
         || ( $min > 59 )
         || ( $hour > 23 )
         || ( $day < 1 )
-        || ( $day > 31 )
+        || ( $day > 365 )
         || ( $mon > 11 ) )
     {
 
@@ -1504,21 +1679,32 @@ m|([0-9]{4})[-/\.]([0-9]{1,2})[-/\.]([0-9]{1,2})[-/\.\,\s]+([0-9]{1,2})[-\:/\.](
     # converted to the day before and this is usually not what the user
     # intended. Especially the function WORKINGDAYS suffer from this.
     # and it also causes surprises with respect to daylight saving time
+
     my $timeislocal =
       Foswiki::Func::getPreferencesFlag("SPREADSHEETPLUGIN_TIMEISLOCAL") || 0;
     $timeislocal = Foswiki::Func::isTrue($timeislocal);
 
-    if ( $theText =~ /local/i ) {
-        return timelocal( $sec, $min, $hour, $day, $mon, $year );
-    }
-    elsif ( $theText =~ /gmt/i ) {
-        return timegm( $sec, $min, $hour, $day, $mon, $year );
-    }
-    elsif ($timeislocal) {
-        return timelocal( $sec, $min, $hour, $day, $mon, $year );
+    $timeislocal = 0 if ( $theText =~ /GMT/i );    #If explicitly GMT, ignore
+
+# To handle DOY, use timegm_nocheck or timelocal_nocheck that won't check input data range.
+# This is necessary because with DOY, $day must be able to be greater than 31 and timegm
+# and timelocal won't allow it. Keep using timegm or timelocal for non-DOY stuff.
+
+    if ( ( $theText =~ /local/i ) || ($timeislocal) ) {
+        if ( $theText =~ /DOY/i ) {
+            return timelocal_nocheck( $sec, $min, $hour, $day, $mon, $year );
+        }
+        else {
+            return timelocal( $sec, $min, $hour, $day, $mon, $year );
+        }
     }
     else {
-        return timegm( $sec, $min, $hour, $day, $mon, $year );
+        if ( $theText =~ /DOY/i ) {
+            return timegm_nocheck( $sec, $min, $hour, $day, $mon, $year );
+        }
+        else {
+            return timegm( $sec, $min, $hour, $day, $mon, $year );
+        }
     }
 }
 
@@ -1527,24 +1713,87 @@ sub _serial2date {
     my ( $theTime, $theStr, $isGmt ) = @_;
 
     my ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday ) =
-      localtime($theTime);
-    ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday ) = gmtime($theTime)
-      if ($isGmt);
+      ( $isGmt ? gmtime($theTime) : localtime($theTime) );
 
-    $theStr =~ s/\$sec[o]?[n]?[d]?[s]?/sprintf("%.2u",$sec)/geoi;
-    $theStr =~ s/\$min[u]?[t]?[e]?[s]?/sprintf("%.2u",$min)/geoi;
-    $theStr =~ s/\$hou[r]?[s]?/sprintf("%.2u",$hour)/geoi;
-    $theStr =~ s/\$day/sprintf("%.2u",$day)/geoi;
-    $theStr =~ s/\$mon(?!t)/$monArr[$mon]/goi;
-    $theStr =~ s/\$mo[n]?[t]?[h]?/sprintf("%.2u",$mon+1)/geoi;
-    $theStr =~ s/\$yearday/$yday+1/geoi;
-    $theStr =~ s/\$yea[r]?/sprintf("%.4u",$year+1900)/geoi;
-    $theStr =~ s/\$ye/sprintf("%.2u",$year%100)/geoi;
-    $theStr =~ s/\$wday/substr($wdayArr[$wday],0,3)/geoi;
-    $theStr =~ s/\$wd/$wday+1/geoi;
-    $theStr =~ s/\$weekday/$wdayArr[$wday]/goi;
+    $theStr =~
+s/\$isoweek\(([^\)]*)\)/_isoWeek( $1, $day, $mon, $year, $wday, $theTime )/gei;
+    $theStr =~
+      s/\$isoweek/_isoWeek( '$week', $day, $mon, $year, $wday, $theTime )/gei;
+    $theStr =~ s/\$sec[o]?[n]?[d]?[s]?/sprintf("%.2u",$sec)/gei;
+    $theStr =~ s/\$min[u]?[t]?[e]?[s]?/sprintf("%.2u",$min)/gei;
+    $theStr =~ s/\$hou[r]?[s]?/sprintf("%.2u",$hour)/gei;
+    $theStr =~ s/\$day/sprintf("%.2u",$day)/gei;
+    $theStr =~ s/\$mon(?!t)/$monArr[$mon]/gi;
+    $theStr =~ s/\$mo[n]?[t]?[h]?/sprintf("%.2u",$mon+1)/gei;
+    $theStr =~ s/\$yearday/$yday+1/gei;
+    $theStr =~ s/\$yea[r]?/sprintf("%.4u",$year+1900)/gei;
+    $theStr =~ s/\$ye/sprintf("%.2u",$year%100)/gei;
+    $theStr =~ s/\$wday/substr($wdayArr[$wday],0,3)/gei;
+    $theStr =~ s/\$wd/$wday+1/gei;
+    $theStr =~ s/\$weekday/$wdayArr[$wday]/gi;
 
     return $theStr;
+}
+
+# =========================
+sub _isoWeek {
+    my ( $format, $day, $mon, $year, $wday, $serial ) = @_;
+
+    # Contributed by PeterPayne - 22 Oct 2007
+    # Enhanced by PeterThoeny 2010-08-27
+    # Calculate the ISO8601 week number from the serial.
+
+    my $isoyear = $year + 1900;
+    my $yearserial = _year2isoweek1serial( $year + 1900, 1 );
+    if ( $mon >= 11 ) {    # check if date is in next year's first week
+        my $yearnextserial = _year2isoweek1serial( $year + 1900 + 1, 1 );
+        if ( $serial >= $yearnextserial ) {
+            $yearserial = $yearnextserial;
+            $isoyear += 1;
+        }
+    }
+    elsif ( $serial < $yearserial ) {
+        $yearserial = _year2isoweek1serial( $year + 1900 - 1, 1 );
+        $isoyear -= 1;
+    }
+
+    # calculate GMT of just past midnight today
+    my $today_gmt = timegm( 0, 0, 0, $day, $mon, $year );
+    my $isoweek = int( ( $today_gmt - $yearserial ) / ( 7 * 24 * 3600 ) ) + 1;
+    my $isowk = sprintf( "%.2u", $isoweek );
+    my $isoday = $wday;
+    $isoday = 7 unless ($isoday);
+
+    $format =~ s/\$iso/$isoyear-W$isoweek/g;
+    $format =~ s/\$year/$isoyear/g;
+    $format =~ s/\$week/$isoweek/g;
+    $format =~ s/\$wk/$isowk/g;
+    $format =~ s/\$day/$isoday/g;
+
+    return $format;
+}
+
+# =========================
+sub _year2isoweek1serial {
+    my ( $year, $isGmt ) = @_;
+
+    # Contributed by PeterPayne - 22 Oct 2007
+    # Calculate the serial of the beginning of week 1 for specified year.
+    # Year is 4 digit year (e.g. "2000")
+
+    $year -= 1900;
+
+    # get Jan 4
+    my @param = ( 0, 0, 0, 4, 0, $year );
+    my $jan4epoch = ( $isGmt ? timegm(@param) : timelocal(@param) );
+
+    # what day does Jan 4 fall on?
+    my $jan4day =
+      ( $isGmt ? ( gmtime($jan4epoch) )[6] : ( localtime($jan4epoch) )[6] );
+
+    $jan4day += 7 if ( $jan4day < 1 );
+
+    return ( $jan4epoch - ( 24 * 3600 * ( $jan4day - 1 ) ) );
 }
 
 # =========================
@@ -1558,7 +1807,7 @@ sub _properSpace {
              &Foswiki::Func::getPreferencesValue("DONTSPACE")
           || &Foswiki::Func::getPreferencesValue("SPREADSHEETPLUGIN_DONTSPACE")
           || "CodeWarrior, MacDonald, McIntosh, RedHat, SuSE";
-        $dontSpaceRE =~ s/[^a-zA-Z0-9\,\s]//go;
+        $dontSpaceRE =~ s/[^a-zA-Z0-9\,\s]//g;
         $dontSpaceRE =
           "(" . join( "|", split( /[\,\s]+/, $dontSpaceRE ) ) . ")";
 
@@ -1567,8 +1816,8 @@ sub _properSpace {
     $theStr =~ s/$dontSpaceRE/_spaceWikiWord( $1, "<DONT_SPACE>" )/geo
       ;    # e.g. "Mc<DONT_SPACE>Intosh"
     $theStr =~
-      s/(^|[\s\(]|\]\[)([a-zA-Z0-9]+)/$1 . _spaceWikiWord( $2, " " )/geo;
-    $theStr =~ s/<DONT_SPACE>//go;    # remove "<DONT_SPACE>" marker
+      s/(^|[\s\(]|\]\[)([a-zA-Z0-9]+)/$1 . _spaceWikiWord( $2, " " )/ge;
+    $theStr =~ s/<DONT_SPACE>//g;    # remove "<DONT_SPACE>" marker
 
     return $theStr;
 }
@@ -1577,8 +1826,8 @@ sub _properSpace {
 sub _spaceWikiWord {
     my ( $theStr, $theSpacer ) = @_;
 
-    $theStr =~ s/([a-z])([A-Z0-9])/$1$theSpacer$2/go;
-    $theStr =~ s/([0-9])([a-zA-Z])/$1$theSpacer$2/go;
+    $theStr =~ s/([a-z])([A-Z0-9])/$1$theSpacer$2/g;
+    $theStr =~ s/([0-9])([a-zA-Z])/$1$theSpacer$2/g;
 
     return $theStr;
 }
@@ -1587,27 +1836,29 @@ sub _spaceWikiWord {
 sub _workingDays {
     my ( $start, $end ) = @_;
 
-    # Calculate working days between two times.
-    # Times are standard system times (secs since 1970).
-    # Working days are Monday through Friday (sorry, Israel!)
-    # A day has 60 * 60 * 24 = 86400 sec
-
-    # We allow the two dates to be swapped around
-    ( $start, $end ) = ( $end, $start ) if ( $start > $end );
-    use integer;
-    my $elapsed_days = int( ( $end - $start ) / 86400 );
-    my $whole_weeks  = int( $elapsed_days / 7 );
-    my $extra_days   = $elapsed_days - ( $whole_weeks * 7 );
-    my $work_days    = $elapsed_days - ( $whole_weeks * 2 );
-
-    for ( my $i = 0 ; $i < $extra_days ; $i++ ) {
-        my $tempwday = ( gmtime( $end - $i * 86400 ) )[6];
-        if ( $tempwday == 6 || $tempwday == 0 ) {
-            $work_days--;
+# Rewritten by PeterThoeny - 2009-05-03 (previous implementation was buggy)
+# Calculate working days between two times. Times are standard system times (secs since 1970).
+# Working days are Monday through Friday (sorry, Israel!)
+# A day has 60 * 60 * 24 sec
+# Adding 3601 sec to account for daylight saving change in March in Northern Hemisphere
+    my $days                = int( ( abs( $end - $start ) + 3601 ) / 86400 );
+    my $weeks               = int( $days / 7 );
+    my $fullWeekWorkingDays = 5 * $weeks;
+    my $extra               = $days % 7;
+    if ( $extra > 0 ) {
+        $start = $end if ( $start > $end );
+        my @tm   = gmtime($start);
+        my $wday = $tm[6];           # 0 is Sun, 6 is Sat
+        if ( $wday == 0 ) {
+            $extra--;
+        }
+        else {
+            my $sum = $wday + $extra;
+            $extra-- if ( $sum > 6 );
+            $extra-- if ( $sum > 7 );
         }
     }
-
-    return $work_days;
+    return $fullWeekWorkingDays + $extra;
 }
 
 1;
@@ -1622,7 +1873,8 @@ NOTE: Please extend that file, not this notice.
 Additional copyrights apply to some or all of the code in this
 file as follows:
 
-Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org
+Copyright (C) 2001-2011 Peter Thoeny, peter@thoeny.org and
+TWiki Contributors.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

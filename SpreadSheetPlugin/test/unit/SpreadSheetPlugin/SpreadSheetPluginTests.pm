@@ -17,7 +17,8 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    $this->{target_web} = 'TemporaryTestSpreadSheet' || "$this->{test_web}Target";
+    $this->{target_web} = 'TemporaryTestSpreadSheet'
+      || "$this->{test_web}Target";
     $this->{target_topic} = 'SpreadSheetTestTopic'
       || "$this->{test_topic}Target";
 
@@ -33,7 +34,7 @@ sub set_up {
 | South |  240 |
 | Europe |  610 |
 | Asia |  220 |
-| Total: |  %CALC{"$SUM( $ABOVE() )"}% |
+| Total: |  %CALC{"$SET(inc, $SUM( $ABOVE() ))$GET(inc)"}% |
 HERE
 
     $this->writeTopic( $this->{target_web}, $this->{target_topic}, $table );
@@ -75,7 +76,24 @@ sub CALC {
 #sub test_NOEXEC {}
 
 sub test_ABOVE {
-    warn '$ABOVE not implemented';
+    my ($this) = @_;
+
+    # Test for TWiki Item6667
+    my $inTable = <<'TABLE';
+| 1 | 2 | 3 | 4 |
+| 5 | 6 | 7 | 8 |
+| %CALC{$SUM($ABOVE())}% | %CALC{$SUM($ABOVE())}% |
+| %CALC{$ABOVE()}% | %CALC{$ABOVE()}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| 1 | 2 | 3 | 4 |
+| 5 | 6 | 7 | 8 |
+| 6 | 8 |
+| R0:C1..R3:C1 | R0:C2..R3:C2 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_ABS {
@@ -115,6 +133,39 @@ sub test_AVERAGE {
     $this->assert( $this->CALC('$AVERAGE(-1,-1,-1,-1)') == -1 );
 }
 
+sub test_BITXOR {
+    my ($this) = @_;
+
+    # TWiki compatibility - performs bitwise not of string for single argument
+    $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(Aa))'), 'BE9E' );
+    $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(1))'),  'CE' );
+    $this->assert_equals( $this->CALC('$BITXOR($BITXOR(Aa))'),    'Aa' );
+
+    # Bitwise xor of integers.  12= b1100  7=b0111 = b1011 = 11
+    $this->assert_equals( $this->CALC('$BITXOR(12, 7)'), '11' );
+
+    # Bitwise xor of integers.  12= b1100  7=b0111  3 = b0011  = b1000 = 8
+    $this->assert_equals( $this->CALC('$BITXOR(12, 7, 3)'), '8' );
+
+    my $inTable = <<'TABLE';
+| 7 |
+| 12 |
+| fred |
+| 3 |
+| %CALC{"$BITXOR($ABOVE())"}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| 7 |
+| 12 |
+| fred |
+| 3 |
+| 8 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+}
+
 sub test_CHAR {
     my ($this) = @_;
     $this->assert( $this->CALC('$CHAR(65)') eq 'A' );
@@ -129,19 +180,87 @@ sub test_CODE {
 }
 
 sub test_COLUMN {
-    warn '$COLUMN not implemented';
+    my ($this) = @_;
+
+    my $inTable = <<'TABLE';
+| 1 | 2 | %CALC{$COLUMN()}% | 3 | 4 |
+| 5 | %CALC{$COLUMN()}% | 6 | 7 | 8 |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| 1 | 2 | 3 | 3 | 4 |
+| 5 | 2 | 6 | 7 | 8 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_COUNTITEMS {
-    warn '$COUNTITEMS not implemented';
+    my ($this) = @_;
+
+    my $inTable = <<'TABLE';
+| 1 | open |
+| 5 | open |
+| 7 | |
+| 3 | Closed |
+| tot | %CALC{"$COUNTITEMS($ABOVE())"}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| 1 | open |
+| 5 | open |
+| 7 | |
+| 3 | Closed |
+| tot | Closed: 1<br /> open: 2 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_COUNTSTR {
-    warn '$COUNTSTR not implemented';
+    my ($this) = @_;
+
+    my $inTable = <<'TABLE';
+| 1 | open |
+| 5 | open |
+| 7 | |
+| 3 | Closed |
+| tot | %CALC{"$COUNTSTR($ABOVE())"}% |
+| tot | %CALC{"$COUNTSTR($ABOVE(), Closed)"}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| 1 | open |
+| 5 | open |
+| 7 | |
+| 3 | Closed |
+| tot | 3 |
+| tot | 1 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_DEF {
-    warn '$DEF not implemented';
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$DEF(,1,2,3)'),     '1' );
+    $this->assert_equals( $this->CALC('$DEF(,, ,,2,,3,)'), '2' );
+
+    my $inTable = <<'TABLE';
+|  |  |  | c | %CALC{$DEF($LEFT())}% |
+|  | a |  | c | %CALC{$DEF($LEFT())}% |
+|  |  |  |  | %CALC{$DEF($LEFT())}% |
+|  | %CALC{$DEF($ABOVE())}%  |  |  | %CALC{$DEF($LEFT())}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+|  |  |  | c | c |
+|  | a |  | c | a |
+|  |  |  |  |  |
+|  | a  |  |  | a |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_EMPTY {
@@ -155,6 +274,8 @@ sub test_EVAL {
     my ($this) = @_;
     $this->assert( $this->CALC('$EVAL(1+1)') == 2 );
     $this->assert( $this->CALC('$EVAL( (5 * 3) / 2 + 1.1 )') == 8.6 );
+    $this->assert( $this->CALC('$EVAL(2+08)') == 10 );
+    $this->assert( $this->CALC('$EVAL(8.0068/2)') == 4.0034 );
 }
 
 sub test_EVEN {
@@ -218,12 +339,34 @@ sub test_FORMATGMTIME {
     my ($this) = @_;
     $this->assert( $this->CALC('$FORMATGMTIME(1041379200, $day $mon $year)') eq
           '01 Jan 2003' );
+
+    $this->assert_equals(
+        '2004-W53-6',
+        $this->CALC(
+            '$FORMATGMTIME($TIME(2005-01-01), $isoweek($year-W$wk-$day))')
+    );
+    $this->assert_equals(
+        '2009-W01-1',
+        $this->CALC(
+            '$FORMATGMTIME($TIME(2008-12-29), $isoweek($year-W$wk-$day))')
+    );
 }
 
 sub test_FORMATTIME {
     my ($this) = @_;
     $this->assert( $this->CALC('$FORMATTIME(0, $year/$month/$day GMT)') eq
           '1970/01/01 GMT' );
+    $this->assert_equals(
+        '2004-W53-6 GMT',
+        $this->CALC(
+            '$FORMATTIME($TIME(2005-01-01 gmt), $isoweek($year-W$wk-$day) GMT)')
+    );
+    $this->assert_equals(
+        '2009-W01-1 GMT',
+        $this->CALC(
+            '$FORMATTIME($TIME(2008-12-29 gmt), $isoweek($year-W$wk-$day) GMT)')
+    );
+
 }
 
 sub test_FORMATTIMEDIFF {
@@ -238,8 +381,45 @@ sub test_FORMATTIMEDIFF {
           '1 day, 3 hours and 20 minutes' );
 }
 
-sub test_GET {
-    warn '$GET not implemented';
+sub test_GET_SET {
+    my ($this) = @_;
+
+    my $topicText = <<"HERE";
+%INCLUDE{$this->{target_web}.$this->{target_topic}}%
+
+   * inc = %CALC{\$GET(inc)}%
+%CALC{\$SET(inc, asdf)}%
+   * now inc = %CALC{\$GET(inc)}%
+
+HERE
+
+    my $actual = Foswiki::Func::expandCommonVariables($topicText);
+
+    my $expected = <<'HERE';
+| *Region:* | *Sales:* |
+| Northeast |  320 |
+| Northwest |  580 |
+| South |  240 |
+| Europe |  610 |
+| Asia |  220 |
+| Total: |  1970 |
+
+   * inc = 1970
+
+   * now inc = asdf
+HERE
+    chomp $expected;
+    $this->assert_equals( $actual, $expected );
+}
+
+sub test_HEXDECODE_HEXENCODE {
+    my ($this) = @_;
+
+    $this->assert_equals( $this->CALC('$HEXENCODE(123)'), '313233' );
+    $this->assert_equals( $this->CALC('$HEXDECODE($HEXENCODE(123))'), '123' );
+    $this->assert_equals(
+        $this->CALC('$HEXENCODE($HEXDECODE(ABCDEF0123456789))'),
+        'ABCDEF0123456789' );
 }
 
 sub test_IF {
@@ -266,7 +446,20 @@ sub test_INT {
 }
 
 sub test_LEFT {
-    warn '$LEFT not implemented';
+    my ($this) = @_;
+
+    # Test for TWiki Item6667
+    my $inTable = <<'TABLE';
+| 1 | 2 | <= %CALC{$SUM($LEFT())}% | 3 | 4 |
+| 5 | 6 | <= %CALC{$SUM($LEFT())}% | 7 | 8 |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| 1 | 2 | <= 3 | 3 | 4 |
+| 5 | 6 | <= 11 | 7 | 8 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_LEFTSTRING {
@@ -286,7 +479,23 @@ sub test_LENGTH {
 }
 
 sub test_LIST {
-    warn '$LIST not implemented';
+    my ($this) = @_;
+
+    my $inTable = <<'TABLE';
+| apple | orange | kiwi | %CALC{$LIST($LEFT())}% |
+| apple | orange | baseball | %CALC{$LIST($LEFT())}% |
+| john | fred | %CALC{$LIST($ABOVE())}% | bananna |
+| apple | orange, pink | , baseball | %CALC{$LIST($LEFT())}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| apple | orange | kiwi | apple, orange, kiwi |
+| apple | orange | baseball | apple, orange, baseball |
+| john | fred | kiwi, baseball | bananna |
+| apple | orange, pink | , baseball | apple, orange, pink, , baseball |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_LISTIF {
@@ -317,6 +526,31 @@ sub test_LISTJOIN {
     $this->assert( $this->CALC('$LISTJOIN(::,1,2,3)')     eq "1::2::3" );
     $this->assert( $this->CALC('$LISTJOIN(0,1,2,3)')      eq "10203" );
     $this->assert( $this->CALC('$LISTJOIN($nop,1,2,3)')   eq '123' );
+    $this->assert( $this->CALC('$LISTJOIN($empty,1,2,3)') eq '123' );
+}
+
+sub test_LISTNONEMPTY {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$LISTNONEMPTY(,1,2,3)'), '1, 2, 3' );
+    $this->assert_equals( $this->CALC('$LISTNONEMPTY(,1, ,,2,,3,)'),
+        '1, 2, 3' );
+
+    my $inTable = <<'TABLE';
+| a |  | c |  | e | %CALC{$LIST($LEFT())}% |
+| a |  | c |  | e | %CALC{$LISTNONEMPTY($LEFT())}% |
+| a |  | c | , e, | g | %CALC{$LIST($LEFT())}% |
+| a |  | c | , e, | g | %CALC{$LISTNONEMPTY($LEFT())}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| a |  | c |  | e | a, , c, , e |
+| a |  | c |  | e | a, c, e |
+| a |  | c | , e, | g | a, , c, , e, g |
+| a |  | c | , e, | g | a, c, e, g |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
 }
 
 sub test_LISTMAP {
@@ -343,6 +577,25 @@ sub test_LISTSHUFFLE {
 sub test_LISTSIZE {
     my ($this) = @_;
     $this->assert( $this->CALC('$LISTSIZE(Apple, Orange, Apple, Kiwi)') == 4 );
+    $this->assert( $this->CALC('$LISTSIZE(Apple, , Apple, Kiwi)') == 4 );
+
+    # Test for TWiki Item6668
+    my $inTable = <<'TABLE';
+| a | b | c | d | e |  %CALC{$LISTSIZE($LIST($LEFT()))}%  |
+| a | b | c | d, e, f | g |  %CALC{$LISTSIZE($LIST($LEFT()))}%  |
+| a |   | c | d, , f | g |  %CALC{$LISTSIZE($LIST($LEFT()))}%  |
+| a |   | c | d, , f | g |  %CALC{$LISTSIZE($LISTNONEMPTY($LEFT()))}%  |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| a | b | c | d | e |  5  |
+| a | b | c | d, e, f | g |  7  |
+| a |   | c | d, , f | g |  7  |
+| a |   | c | d, , f | g |  5  |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
 }
 
 sub test_LISTSORT {
@@ -361,6 +614,31 @@ sub test_LISTUNIQUE {
     my ($this) = @_;
     $this->assert( $this->CALC('$LISTUNIQUE(Apple, Orange, Apple, Kiwi)') eq
           'Apple, Orange, Kiwi' );
+
+    # Tests for Item11079
+    $this->assert_equals( 'Apple, Orange, Kiwi, Mango, Banana',
+        $this->CALC('$LISTUNIQUE( Apple, Orange, Kiwi, Mango, Apple, Banana )')
+    );
+    $this->assert_equals( 'Orange, Apple, Kiwi, Mango, Banana',
+        $this->CALC('$LISTUNIQUE( Orange, Apple, Kiwi, Mango, Banana, Apple )')
+    );
+    $this->assert_equals( 'Orange, Apple, Kiwi, Mango, Banana',
+        $this->CALC('$LISTUNIQUE( Orange, Apple, Kiwi, Mango, Apple, Banana )')
+    );
+    $this->assert_equals( 'Apple, Orange, Kiwi, Mango, Banana',
+        $this->CALC('$LISTUNIQUE( Apple, Orange, Kiwi, Mango, Banana, Apple )')
+    );
+
+    my $inTable = <<'TABLE';
+| a | b | g |  a, , g | g | %CALC{$LISTUNIQUE($LEFT())}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| a | b | g |  a, , g | g | a, b, g,  |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
 }
 
 sub test_LN {
@@ -465,6 +743,31 @@ sub test_PRODUCT {
     $this->assert( $this->CALC('$PRODUCT(1,2,3)') == 6 );
     $this->assert( $this->CALC('$PRODUCT(6,4,-1)') == -24 );
     $this->assert( $this->CALC('$PRODUCT(84,-0.5)') == -42 );
+    $this->assert( $this->CALC('$PRODUCT(0,4)') == 0 );
+
+    my $inTable = <<'TABLE';
+| 1 | 2 | <= %CALC{$PRODUCT($LEFT())}% | 3 | 4 |
+| 5 | 6 | <= %CALC{$PRODUCT($LEFT())}% | 7 | 8 |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| 1 | 2 | <= 2 | 3 | 4 |
+| 5 | 6 | <= 30 | 7 | 8 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
+    $inTable = <<'TABLE';
+| 1 | 2 | %CALC{$PRODUCT($RIGHT())}% => | 3 | 4 |
+| 5 | 6 | %CALC{$PRODUCT($RIGHT())}% => | 7 | 8 |
+TABLE
+    $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    $expected = <<'EXPECT';
+| 1 | 2 | 12 => | 3 | 4 |
+| 5 | 6 | 56 => | 7 | 8 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_PROPER {
@@ -502,7 +805,20 @@ sub test_REPLACE {
 }
 
 sub test_RIGHT {
-    warn '$RIGHT not implemented';
+    my ($this) = @_;
+
+    # Test for TWiki Item6667
+    my $inTable = <<'TABLE';
+| 1 | 2 |  %CALC{$SUM($RIGHT())}% => | 3 | 4 |
+| 5 | 6 |  %CALC{$SUM($RIGHT())}% => | 7 | 8 |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| 1 | 2 |  7 => | 3 | 4 |
+| 5 | 6 |  15 => | 7 | 8 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_RIGHTSTRING {
@@ -525,7 +841,22 @@ sub test_ROUND {
 }
 
 sub test_ROW {
-    warn '$ROW not implemented';
+    my ($this) = @_;
+
+    my $inTable = <<'TABLE';
+| 1 | 2 | %CALC{"$ROW()"}% | 3 | 4 |
+| 5 | 6 | %CALC{"$ROW()"}% | 7 | 8 |
+| %CALC{"$ROW(-2)"}% | %CALC{"$ROW(2)"}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| 1 | 2 | 1 | 3 | 4 |
+| 5 | 6 | 2 | 7 | 8 |
+| 1 | 5 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
 }
 
 sub test_SEARCH {
@@ -535,16 +866,38 @@ sub test_SEARCH {
     $this->assert( $this->CALC('$SEARCH([abc], fluffy,)') == 0 );
 }
 
-sub test_SET {
-    warn '$SET not implemented';
-}
-
 sub test_SETIFEMPTY {
     warn '$SETIFEMPTY not implemented';
 }
 
 sub test_SETM {
-    warn '$SETM not implemented';
+    my ($this) = @_;
+
+    my $topicText = <<"HERE";
+%INCLUDE{$this->{target_web}.$this->{target_topic}}%
+%CALC{\$SETM(inc, + 100)}%
+   * inc = %CALC{\$GET(inc)}%
+%CALC{\$SETM(inc, / 2)}%
+   * inc = %CALC{\$GET(inc)}%
+HERE
+
+    my $actual = Foswiki::Func::expandCommonVariables($topicText);
+
+    my $expected = <<'HERE';
+| *Region:* | *Sales:* |
+| Northeast |  320 |
+| Northwest |  580 |
+| South |  240 |
+| Europe |  610 |
+| Asia |  220 |
+| Total: |  1970 |
+
+   * inc = 2070
+
+   * inc = 1035
+HERE
+    chomp $expected;
+    $this->assert_equals( $actual, $expected );
 }
 
 sub test_SIGN {
@@ -553,6 +906,52 @@ sub test_SIGN {
     $this->assert( $this->CALC('$SIGN(12.5)') == 1 );
     $this->assert( $this->CALC('$SIGN(0)') == 0 );
     $this->assert( $this->CALC('$SIGN(-0)') == 0 );
+}
+
+sub test_SPLIT {
+    my ($this) = @_;
+    $this->assert_equals(
+        'Apple, Orange, Kiwi',
+        $this->CALC('$SPLIT(, Apple  Orange Kiwi)'),
+        'Split on default space delimiter'
+    );
+    $this->assert_equals(
+        'Apple Orange, Kiwi',
+        $this->CALC('$SPLIT($comma, Apple Orange, Kiwi)'),
+        'Split on comma delimiter'
+    );
+    $this->assert_equals(
+        'Apple, Orange, Kiwi',
+        $this->CALC('$SPLIT(, Apple  Orange Kiwi)'),
+        'Split on default space delimiter - missing'
+    );
+    $this->assert_equals(
+        'Apple, Orange Kiwi',
+        $this->CALC('$SPLIT(-, Apple-Orange Kiwi)'),
+        'Split on hyphen delimiter'
+    );
+    $this->assert_equals(
+        'Apple, Orange, Kiwi',
+        $this->CALC('$SPLIT([-:]$sp*, Apple-Orange: Kiwi)'),
+        'Split on hyphen or colon followed  by 0 or more spaces'
+    );
+    $this->assert_equals(
+        'A, p, p, l, e',
+        $this->CALC('$SPLIT($empty, Apple)'),
+        'Split on empty string'
+    );
+    $this->assert_equals(
+        'A, p, p, l, e',
+        $this->CALC('$SPLIT($nop, Apple)'),
+        'Split on nop'
+    );
+
+    # Not documented - missing separator.
+    $this->assert_equals(
+        'Apple, Orange, Kiwi',
+        $this->CALC('$SPLIT( Apple  Orange Kiwi)'),
+        'Split on default space delimiter - missing'
+    );
 }
 
 sub test_SQRT {
@@ -606,17 +1005,33 @@ sub test_T {
 
 sub test_TIME {
     my ($this) = @_;
-    $this->assert( $this->CALC('$TIME(2003/10/14 GMT)') eq '1066089600' );
+    $this->assert_equals( '1066089600', $this->CALC('$TIME(2003/10/14 GMT)') );
+    $this->assert_equals( '1066089600', $this->CALC('$TIME(DOY2003.287)') );
+    $this->assert_equals(
+        $this->CALC('$TIME(2003/12/31 - 23:59:59)'),
+        $this->CALC('$TIME(DOY2003.365.23.59.59)')
+    );
 }
 
 sub test_TIMEADD {
     my ($this) = @_;
+
     $this->assert(
-        $this->CALC('$TIMEADD($TIME(2009/04/29), 90, minute)') == 1240968600 );
+        $this->CALC('$TIMEADD($TIME(2009/04/29 ), 90, minute)') == 1240968600 );
     $this->assert(
-        $this->CALC('$TIMEADD($TIME(2009/04/29), 1, month)') == 1243591488 );
+        $this->CALC('$TIMEADD($TIME(2009/04/29 ), 1, month)') == 1243591488 );
     $this->assert(
-        $this->CALC('$TIMEADD($TIME(2009/04/29), 1, year)') == 1272499200 );
+        $this->CALC('$TIMEADD($TIME(2009/04/29 ), 1, year)') == 1272499200 );
+
+    Foswiki::Func::setPreferencesValue( "SPREADSHEETPLUGIN_TIMEISLOCAL", 1 );
+
+    $this->assert( $this->CALC('$TIMEADD($TIME(2009/04/29 GMT), 90, minute)') ==
+          1240968600 );
+    $this->assert( $this->CALC('$TIMEADD($TIME(2009/04/29 GMT), 1, month)') ==
+          1243591488 );
+    $this->assert(
+        $this->CALC('$TIMEADD($TIME(2009/04/29 GMT), 1, year)') == 1272499200 );
+
 }
 
 sub test_TIMEDIFF {
@@ -658,11 +1073,50 @@ sub test_VALUE {
     $this->assert( $this->CALC('$VALUE(Total: -12.5)') == -12.5 );
 }
 
+sub test_WHILE {
+    my ($this) = @_;
+    $this->assert_equals( '1 2 3 4 5 6 7 8 9 10 ',
+        $this->CALC('$WHILE($counter<=10, $counter )') );
+    $this->assert_equals(
+        ' 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, ',
+        $this->CALC(
+'$SET(i,0) $WHILE($GET(i) < 10, $SETM(i,+1)$EVAL($GET(i)*$GET(i)), )'
+        )
+    );
+    $this->assert_equals( 'ERROR: Infinite loop (32767 cycles)',
+        $this->CALC('$WHILE(1, )') );
+}
+
 sub test_WORKINGDAYS {
     my ($this) = @_;
     $this->assert(
         $this->CALC('$WORKINGDAYS($TIME(2004/07/15), $TIME(2004/08/03))') ==
           13 );
+
+    $this->assert(
+        $this->CALC('$WORKINGDAYS($TIME(2011/10/19), $TIME(2011/10/22))') ==
+          3 );
+
+    $this->assert(
+        $this->CALC('$WORKINGDAYS($TIME(2011/10/22), $TIME(2011/10/23))') ==
+          0 );
+
+    $this->assert(
+        $this->CALC('$WORKINGDAYS($TIME(2011/10/22), $TIME(2011/10/19))') ==
+          3 );
+}
+
+sub test_XOR {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$XOR(0, 0)') == 0 );
+    $this->assert( $this->CALC('$XOR(0, 3)') == 1 );
+    $this->assert( $this->CALC('$XOR(-1, 0)') == 1 );
+    $this->assert( $this->CALC('$XOR(4, 0)') == 1 );
+    $this->assert( $this->CALC('$XOR(1, 0, 1)') == 0 );
+    $this->assert( $this->CALC('$XOR(1, 0, 0)') == 1 );
+    $this->assert( $this->CALC('$XOR(1, 1, 1)') == 1 );
+    $this->assert( $this->CALC('$XOR(1, joe, 1)') == 0 );
+    $this->assert( $this->CALC('$XOR(10, 1)') == 0 );
 }
 
 # undocumented - same as $SUMDAYS

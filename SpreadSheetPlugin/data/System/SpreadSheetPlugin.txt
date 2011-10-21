@@ -80,6 +80,19 @@ Conventions for Syntax:
    * Example: ==%<nop>CALC{"$AVERAGE(R2:C5..R$ROW(-1):C5)"}%== returns the average of column 5, excluding the title row
    * Related: =[[#FuncLIST][$LIST()]]=, =[[#FuncMAX][$MAX()]]=, =[[#FuncMEDIAN][$MEDIAN()]]=, =[[#FuncMIN][$MIN()]]=
 
+#FuncBITXOR
+---+++ BITXOR( text ) or  BITXOR( integer, list ) -- bit-wise XOR
+This function has two modes of operation.
+   * If passed a list,  performs a bit-wise XOR of the integers in the list.
+      * Syntax: ==$BITXOR( integer, list )==
+      * Example: ==%<nop>CALC{"$BITXOR(7, 12)")% returns ==3== ( b0111 xor b1100 = b0011 )
+   * If passed a character string, operates in TWiki compatbility, performing a bitwise NOT operation on the string
+      * Each bit of each character of =text= is flipped, useful to obfuscate text. Bit-XORing text twice will restore the original text.
+      * Syntax: ==$BITXOR( text )==
+      * Example: ==%<nop>CALC{"$BITXOR(A123)"}%== returns ==&Yuml;&Icirc;&Iacute;&Igrave;==
+      * Example: ==%<nop>CALC{"$BITXOR($BITXOR(anything))"}%== returns ==anything==
+   * Related: =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncLEFTTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSUBSTITUTE][$SUBSTUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=, =[[#FuncXOR][$XOR()]]=
+
 #FuncCHAR
 ---+++ CHAR( number ) -- ASCII character represented by number
    * Syntax: ==$CHAR( number )==
@@ -216,9 +229,31 @@ Conventions for Syntax:
 
 #FuncFORMATTIME
 ---+++ FORMATTIME( serial, text ) -- convert a serialized date into a date string
-   * The following formatting tokens in =text= are expanded: =$second= (seconds, 00..59); =$minute= (minutes, 00..59); =$hour= (hours, 00..23); =$day= (day of month, 01..31); =$month= (month, 01..12); =$mon= (month in text format, Jan..Dec); =$year= (4 digit year, 1999); =$ye= (2 digit year, 99), =$wd= (day number of the week, 1 for Sunday, 2 for Monday, etc), =$wday= (day of the week, Sun..Sat), =$weekday= (day of the week, Sunday..Saturday), =$yearday= (day of the year, 1..365, or 1..366 in leap years). Date is assumed to be server time; add =GMT= to indicate Greenwich time zone.
+   * The following formatting tokens in =text= are expanded: Date is assumed to be server time; add =GMT= to indicate Greenwich time zone.
+      * =$second= - seconds, 00..59
+      * =$minute= - minutes, 00..59
+      * =$hour= - hours, 00..23
+      * =$day= - day of month, 01..31
+      * =$month= - month, 01..12
+      * =$mon= - month in text format, Jan..Dec
+      * =$year= - 4 digit year, 1999
+      * =$ye= - 2 digit year, 99
+      * =$wd= - day number of the week, 1 for Sunday, 2 for Monday, etc
+      * =$wday= - day of the week, Sun..Sat
+      * =$weekday= - day of the week, Sunday..Saturday
+      * =$yearday= - day of the year, 1..365, or 1..366 in leap years
+      * =$isoweek= - ISO 8601 week number, one or two digits, 1..53 - *Caution:* for correct ISO date calculations, specify GMT in the format string or use =%<nop>FORMATGMTIME%=!
+      * =$isoweek(format)= - formatted [[http://en.wikipedia.org/wiki/ISO_8601#Week_dates][ISO 8601 week number]]. These variables are expanded in =format=:
+         * =$isoweek($year)= - year of ISO 8601 week number, such as =2009= for 2010-01-03
+         * =$isoweek($wk)= - 2 digit ISO 8601 week number, such as =53= for 2010-01-03
+         * =$isoweek($day)= - day of ISO 8601 week number, starting with 1 for Monday, such as =7= for 2010-01-03
+         * =$isoweek($iso)= - full year-week ISO week number, such as =2009-W53= for 2010-01-03
+         * =$isoweek($yearW$wk$day)= - full year-week-day ISO week number, such as =2009W537= for 2010-01-03
+         * =$isoweek($year-W$wk-$day)= - full year-week-day ISO week number, such as =2009-W53-7= for 2010-01-03
+         * =$isoweek($year-W$wk)= - year-week ISO 8601 week number, such as =2009-W53= for 2010-01-03
    * Syntax: ==$FORMATTIME( serial, text )==
    * Example: ==%<nop>CALC{"$FORMATTIME(0, $year/$month/$day GMT)"}%== returns ==1970/01/01 GMT==
+   * Example: ==%<nop>CALC{$FORMATTIME($TIME(2005-01-01 GMT), $isoweek($year-W$wk-$day) GMT)}%== returns ==2004-W53-6 GMT==
    * Related: =[[#FuncFORMATGMTIME][$FORMATGMTIME()]]=, =[[#FuncTIME][$TIME()]]=, =[[#FuncFORMATTIMEDIFF][$FORMATTIMEDIFF()]]=, =[[#FuncTIMEADD][$TIMEADD()]]=, =[[#FuncTIMEDIFF][$TIMEDIFF()]]=, =[[#FuncTODAY][$TODAY()]]=
 
 #FuncFORMATTIMEDIFF
@@ -240,6 +275,20 @@ Conventions for Syntax:
    * Syntax: ==$GET( name )==
    * Example: ==%<nop>CALC{"$GET(my_total)"}%== returns the value of the =my_total= variable
    * Related: =[[#FuncEXEC][$EXEC()]]=, =[[#FuncNOEXEC][$NOEXEC()]]=, =[[#FuncSET][$SET()]]=, =[[#FuncSETIFEMPTY][$SETIFEMPTY()]]=, =[[#FuncSETM][$SETM()]]=
+
+#FuncHEXDECODE
+---+++ HEXDECODE( hexcode ) -- convert hexadecimal code to string
+   * Decode a hexadecimal string, typically encoded with $HEXENCODE().
+   * Syntax: ==$HEXDECODE( hexcode )==
+   * Example: ==%<nop>CALC{"$HEXDECODE(687474703A2F2F7477696B692E6F72672F)"}%== returns ==http://twiki.org/==
+   * Related: =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
+
+#FuncHEXENCODE
+---+++ HEXENCODE( text ) -- encode text into hexadecimal code
+   * Each character of =text= is encoded into two hexadecimal numbers.
+   * Syntax: ==$HEXENCODE( text )==
+   * Example: ==%<nop>CALC{"$HEXENCODE(<nop>http://twiki.org/)"}%== returns ==687474703A2F2F7477696B692E6F72672F==
+   * Related: =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
 
 #FuncIF
 ---+++ IF( condition, value if true, value if 0 ) -- return a value based on a condition
@@ -276,7 +325,7 @@ Conventions for Syntax:
 
 #FuncLEFTSTRING
 ---+++ LEFTSTRING( text, num ) -- extract characters at the beginning of a text string
-   * Retrieve the =num= of characters from the left end of =text=. The leftmost character is returned if =num= is missing. If =num= is greater than the length of =text= the entire text string is returned with no additional spaces added. If =num= is negative =num= characters are removed from the end of the string. If =num= is zero or =num= is a negative value with the number greater than the length of =text= an empty string is returned. 
+   * Retrieve the =num= of characters from the left end of =text=. The leftmost character is returned if =num= is missing. If =num= is greater than the length of =text= the entire text string is returned with no additional spaces added. If =num= is negative =num= characters are removed from the end of the string. If =num= is zero or =num= is a negative value with the number greater than the length of =text= an empty string is returned.
    * Syntax: ==$LEFTSTRING( text, _num_ )==
    * Example: ==%<nop>CALC{"$LEFTSTRING(abcdefg)"}%== returns ==a==
    * Example: ==%<nop>CALC{"$LEFTSTRING(abcdefg, 0)"}%== returns an empty string.
@@ -297,7 +346,7 @@ Conventions for Syntax:
    * Convert the content of a range of cells into a flat list, delimited by comma. Cells containing commas are merged into the list
    * Syntax: ==$LIST( range )==
    * Example: ==%<nop>CALC{"$LIST($LEFT())"}%== returns ==Apples, Lemons, Oranges, Kiwis== assuming the cells to the left contain ==| Apples | Lemons, Oranges | Kiwis |==
-   * Related: =[[#FuncAVERAGE][$AVERAGE()]]=, =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncDEF][$DEF()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTTRUNCATE][$LISTTRUNCATE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncMAX][$MAX()]]=, =[[#FuncMEDIAN][$MEDIAN()]]=, =[[#FuncMIN][$MIN()]]=, =[[#FuncPRODUCT][$PRODUCT()]]=, =[[#FuncSUM][$SUM()]]=, =[[#FuncSUMDAYS][$SUMDAYS()]]=, =[[#FuncSUMPRODUCT][$SUMPRODUCT()]]=
+   * Related: =[[#FuncAVERAGE][$AVERAGE()]]=, =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncDEF][$DEF()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTTRUNCATE][$LISTTRUNCATE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncMAX][$MAX()]]=, =[[#FuncMEDIAN][$MEDIAN()]]=, =[[#FuncMIN][$MIN()]]=, =[[#FuncPRODUCT][$PRODUCT()]]=, =[[#FuncSPLIT][$SPLIT()]]=, =[[#FuncSUM][$SUM()]]=, =[[#FuncSUMDAYS][$SUMDAYS()]]=, =[[#FuncSUMPRODUCT][$SUMPRODUCT()]]=
 
 #FuncLISTIF
 ---+++ LISTIF( condition, list ) -- remove elements from a list that do not meet a condition
@@ -321,7 +370,7 @@ Conventions for Syntax:
    * By default, list items are separated by a comma and a space. Use this function to indicate a specific =separator= string, which may include =$comma= for comma, =$n= for newline, =$sp= for space, and =$nop= for no separator between list items.
    * Syntax: ==$LISTJOIN( separator, list )==
    * Example: ==%<nop>CALC{"$LISTJOIN($n, Apple, Orange, Apple, Kiwi)"}%== returns the four items separated by new lines
-   * Related: =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=
+   * Related: =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncSPLIT][$SPLIT()]]=
 
 #FuncLISTMAP
 ---+++ LISTMAP( formula, list ) -- evaluate and update each element of a list
@@ -329,6 +378,13 @@ Conventions for Syntax:
    * Syntax: ==$LISTMAP( formula, list )==
    * Example: ==%<nop>CALC{"$LISTMAP($index: $EVAL(2 * $item), 3, 5, 7, 11)"}%== returns ==1: 6, 2: 10, 3: 14, 4: 22==
    * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
+
+#FuncLISTNONEMPTY
+---+++ LISTNONEMPTY( list ) -- remove all empty elements from a list
+   * Syntax: ==$LISTNONEMPTY( list )==
+   * Example: ==%<nop>CALC{"$LISTNONEMPTY(, Apple, Orange, , Kiwi)"}%== returns ==Apple, Orange, Kiwi==
+   * Related: =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=
+
 
 #FuncLISTRAND
 ---+++ LISTRAND( list ) -- get one random element of a list
@@ -346,7 +402,7 @@ Conventions for Syntax:
 ---+++ LISTSIZE( list ) -- number of elements in a list
    * Syntax: ==$LISTSIZE( list )==
    * Example: ==%<nop>CALC{"$LISTSIZE(Apple, Orange, Apple, Kiwi)"}%== returns ==4==
-   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTTRUNCATE][$LISTTRUNCATE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
+   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTTRUNCATE][$LISTTRUNCATE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSPLIT][$SPLIT()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLISTSHUFFLE
 ---+++ LISTSHUFFLE( list ) -- shuffle element of a list in random order
@@ -509,14 +565,14 @@ Conventions for Syntax:
 
 #FuncRIGHTSTRING
 ---+++ RIGHTSTRING( text, num ) -- extract characters at the end of a text string. =num= must be a positive number. Negative values of =num= are interpreted as zero. If =num= is larger than the length of the text the entire text is returned with no additional spaces.
-   * Retrieve the =num= of characters from the right end of =text=. The rightmost character is returned if =num= is missing. 
+   * Retrieve the =num= of characters from the right end of =text=. The rightmost character is returned if =num= is missing.
    * Syntax: ==$RIGHTSTRING( text, _num_ )==
 
    * Example: ==%<nop>CALC{"$RIGHTSTRING(abcdefg)"}%== returns ==g==
    * Example: ==%<nop>CALC{"$RIGHTSTRING(abcdefg, 0)"}%== returns an empty string
    * Example: ==%<nop>CALC{"$RIGHTSTRING(abcdefg, 5)"}%== returns ==cdefg==
    * Example: ==%<nop>CALC{"$RIGHTSTRING(abcdefg, 10)"}%== returns ==abcdefg==
-   * Example: ==%<nop>CALC{"$RIGHTSTRING(abcdefg, -2)"}%== returns an empty string   
+   * Example: ==%<nop>CALC{"$RIGHTSTRING(abcdefg, -2)"}%== returns an empty string
 
    * Related: =[[#FuncFIND][$FIND()]]=, =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncLEFTSTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncSEARCH][$SEARCH()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
 
@@ -573,6 +629,17 @@ Conventions for Syntax:
    * Syntax: ==$SIGN( num )==
    * Example: ==%<nop>CALC{"$SIGN(-12.5)"}%== returns ==-1==
    * Related: =[[#FuncABS][$ABS()]]=, =[[#FuncEVAL][$EVAL()]]=, =[[#FuncEVEN][$EVEN()]]=, =[[#FuncINT][$INT()]]=, =[[#FuncNOT][$NOT()]]=, =[[#FuncODD][$ODD()]]=
+
+#FuncSPLIT
+---+++ SPLIT( separator, text ) -- split a string into a list
+   * Split =text= into a list using =separator= as a delimiter. The =separator= may be a regular expression and may include =$comma= for comma, =$sp= for space and =$empty= to split at each character. Default separator is one or more spaces (=$sp$sp*=). Leading and trailing spaces are removed from the string before splitting.
+   * Syntax: ==$SPLIT( separator, text )==
+   * Example: ==%<nop>CALC{"$SPLIT(, Apple Orange   Kiwi)"}%== returns ==Apple, Orange, Kiwi==
+   * Example: ==%<nop>CALC{"$SPLIT($comma, Apple Orange Kiwi)"}%== returns ==Apple, Orange, Kiwi==
+   * Example: ==%<nop>CALC{"$SPLIT(-, Apple-Orange-Kiwi)"}%== returns ==Apple, Orange, Kiwi==
+   * Example: ==%<nop>CALC{"$SPLIT([-:]$sp*, Apple-Orange: Kiwi)"}%== returns ==Apple, Orange, Kiwi== (the separator means: Dash or colon, followed by optional spaces
+   * Example: ==%<nop>CALC{"$SPLIT($empty, Apple)"}%== returns ==A, p, p, l, e==
+   * Related: =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=
 
 #FuncSQRT
 ---+++ SQRT( num ) -- square root of a number
@@ -633,7 +700,8 @@ Conventions for Syntax:
 
 #FuncTIME
 ---+++ TIME( text ) -- convert a date string into a serialized date number
-   * Serialized date is seconds since the Epoch, e.g. midnight, 01 Jan 1970. Current time is taken if the date string is empty. Supported date formats: =31 Dec 2009=; =31 Dec 2009 GMT=; =31 Dec 2009 LOCAL=; =31 Dec 09=; =31-Dec-2009=; =31/Dec/2009=; =2009/12/31=; =2009-12-31=; =2009/12/31=; =2009/12/31 23:59=; =2009/12/31 - 23:59=; =2009-12-31-23-59=; =2009/12/31 - 23:59:59=; =2009.12.31.23.59.59=. Date is assumed to be GMT unless SPREADSHEETPLUGIN_TIMEISLOCAL is set (default 0). Add =GMT= to force Greenwich time zone. Add =LOCAL= to force the timezone of the server. Note that if you use LOCAL or SPREADSHEETPLUGIN_TIMEISLOCAL is set to 1, dates entered by users on servers placed to the east of Greenwich will be converted to the day before which will often be undesired. It is recommended to keep SPREADSHEETPLUGIN_TIMEISLOCAL = 0 which is the default. |
+   * Serialized date is seconds since the Epoch, e.g. midnight, 01 Jan 1970. Current time is taken if the date string is empty. Supported date formats: =31 Dec 2009=; =31 Dec 2009 GMT=; =31 Dec 2009 LOCAL=; =31 Dec 09=; =31-Dec-2009=; =31/Dec/2009=; =2009/12/31=; =2009-12-31=; =2009/12/31=; =2009/12/31 23:59=; =2009/12/31 - 23:59=; =2009-12-31-23-59=; =2009/12/31 - 23:59:59=; =2009.12.31.23.59.59=. DOY (Day of Year) formats: =DOY2003.365=, =DOY2003.365.23.59=, =DOY2003.365.23.59.59=.
+   * Note: Date is assumed to be GMT unless SPREADSHEETPLUGIN_TIMEISLOCAL is set (default 0). Add =GMT= to force Greenwich time zone. Add =LOCAL= to force the timezone of the server. Note that if you use LOCAL or SPREADSHEETPLUGIN_TIMEISLOCAL is set to 1, dates entered by users on servers placed to the east of Greenwich will be converted to the day before which will often be undesired. It is recommended to keep SPREADSHEETPLUGIN_TIMEISLOCAL = 0 which is the default.
    * Syntax: ==$TIME( _text_ )==
    * Example: ==%<nop>CALC{"$TIME(2003/10/14 GMT)"}%== returns ==1066089600==
    * Related: =[[#FuncFORMATGMTIME][$FORMATGMTIME()]]=, =[[#FuncFORMATTIME][$FORMATTIME()]]=, =[[#FuncFORMATTIMEDIFF][$FORMATTIMEDIFF()]]=, =[[#FuncTIMEADD][$TIMEADD()]]=, =[[#FuncTIMEDIFF][$TIMEDIFF()]]=, =[[#FuncTODAY][$TODAY()]]=, =[[#FuncWORKINGDAYS][$WORKINGDAYS()]]=
@@ -681,12 +749,32 @@ Conventions for Syntax:
    * Example: ==%<nop>CALC{"$VALUE(Total: -12.5)"}%== returns ==-12.5==
    * Related: =[[#FuncEVAL][$EVAL()]]=, =[[#FuncINT][$INT()]]=
 
+#FuncWHILE
+---+++ WHILE( condition, do ) -- do something while a condition is true
+   * The =condition= can be a number (where ==0== means condition not met), or two numbers with a comparison operator ==&lt;== (less than), ==&lt;=<nop>== (less than or equal), ==<nop>==<nop>== (equal), ==<nop>!=<nop>== (not equal), ==&gt;=<nop>== (greater than or equal), ==&gt;== (greater than).
+   * The =condition= and =do= are evaluated in each cycle; a =$counter= starting at 1 can be used in =condition= and =do=.
+   * Syntax: ==$WHILE( condition, do something )==
+   * Example: ==|%<nop>CALC{"$WHILE($counter<=10, $counter )"}%|== returns ==|%CALC{"$WHILE($counter<=10, $counter )"}%|== (note trailing space after 10)
+   * Example: ==|%<nop>CALC{"$SET(i,0) $WHILE($GET(i) < 10, $SETM(i,+1)$EVAL($GET(i)*$GET(i)), )"}%|== returns <b><tt>|%CALC{"$SET(i,0) $WHILE($GET(i) < 10, $SETM(i,+1)$EVAL($GET(i)*$GET(i)), )"}%|</tt></b> (note trailing space)
+   * Related: =[[#FuncAND][$AND()]]=, =[[#FuncEMPTY][$EMPTY()]]=, =[[#FuncEXACT][$EXACT()]]=, =[[#FuncGET][$GET()]]=, =[[#FuncIF][$IF()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncNOT][$NOT()]]=, =[[#FuncOR][$OR()]]=, =[[#FuncSET][$SET()]]=, =[[#FuncSETM][$SETM()]]=, =[[#FuncREPEAT][$REPEAT()]]=
+
 #FuncWORKINGDAYS
 ---+++ WORKINGDAYS( serial_1, serial_2 ) -- working days between two serialized dates
    * Working days are Monday through Friday (sorry, Israel!). The start date is not included in the count. The end date is concluded. If you need both included simply subtract one day from the start date.
    * Syntax: ==$WORKINGDAYS( serial_1, serial_2 )==
    * Example: ==%<nop>CALC{"$WORKINGDAYS($TIME(2004/07/15), $TIME(2004/08/03))"}%== returns ==13==
    * Related: =[[#FuncSUMDAYS][$SUMDAYS()]]=, =[[#FuncTIME][$TIME()]]=, =[[#FuncTIMEDIFF][$TIMEDIFF()]]=
+
+#FuncXOR
+---+++ XOR( list ) -- logical XOR of integers in a list
+Each integer is treated as true/false and then logically xor'd together.  The acutal value of the integer other than 0 or non-zero doesn't matter.  Non-integer items in the list are ignored.
+   * Syntax: ==$XOR( list )==
+   * Example: ==%<nop>CALC{"$XOR(0, 0)"}%== returns ==0==
+   * Example: ==%<nop>CALC{"$XOR(0, 1)"}%== returns ==1==
+   * Example: ==%<nop>CALC{"$XOR(1, 0)"}%== returns ==1==
+   * Example: ==%<nop>CALC{"$XOR(1, 1)"}%== returns ==0==
+   * Example: ==%<nop>CALC{"$XOR(1, 0, 1)"}%== returns ==0==
+   * Related: =[[#FuncAND][$AND()]]=, =[[#FuncIF][$IF()]]=, =[[#FuncNOT][$NOT()]]=, =[[#FuncOR][$OR()]]=
 
 ---++ FAQ
 
@@ -767,14 +855,15 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 
 ---++ Info
 
-|  Copyright: | Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2010 Foswiki Contributors  |
+|  Copyright: | Copyright (C) 2001-2011 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2011 Foswiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  19 Oct 2011: | Foswikitask:Item11079: leading/trailing spaces break $LISTUNIQUE(). <br />Foswikitask:Item11183: Sync up with TWiki version. Add $HEXENCODE(), $HEXDECODE(), $BITXOR(), $XOR(). $LISTNONEMPTY(), $SPLIT(), and $WHILE.  Added Day of Year (DOY) support to $TIME() and $isoweek formats to $FORMATTIME() and $FORMATGMTIME(). |
 |  10 Apr 2011: | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  06 Nov 2010: | Foswikitask:Item9963: Revert usage of =$<nop>percent= back to =$<nop>percnt= |
-|  09 Aug 2010: | Foswikitask:Item1998: fix for $RIGHT |
+|  09 Aug 2010: | Foswikitask:Item1998: fix for $RIGHT() inclusion of cells to left as well as right |
 |  04 Aug 2010: | Foswikitask:Item9415: Minor documentation updates |
 |  21 Jul 2010: | Foswikitask:Item5163: prevent misrendering of empty rows, Foswikitask:Item9400: correct $LIST for cells containing commas, as per doc |
 |  29 Dec 2009: | Foswikitask:Item2301: added =$nop= to $LISTJOIN() for better empty parameter |
