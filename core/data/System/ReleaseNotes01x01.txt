@@ -1176,6 +1176,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11183][Item11183]] | Sync SpreadSheetPlugin with TWiki version - add SPLIT, HEXENCODE, HEXDECODE, BITXOR, XOR, LISTNONEMPTY, WHILE, isodate formats and DOY - Day of Year dates |
 | [[%BUGS%/Item11185][Item11185]] | can't attach filenames with unicode chars in it |
 | [[%BUGS%/Item11189][Item11189]] | Images referenced in square bracket link text are not rendered |
+| [[%BUGS%/Item11193][Item11193]] | typo in lib/Foswiki/PageCache.pm causing all (cached) pages to be delivered with a Last-Modified: header set to 01 Jan 1970 |
 </noautolink>
 
 ---+++ Enhancements
