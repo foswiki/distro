@@ -205,7 +205,7 @@ sub cachePage {
             $text = Compress::Zlib::memGzip($text);
         }
         $etag = $time;
-        $lastModified = Foswiki::Time::formatTime( $time, 'http', 'gmtime' );
+        $lastModified = Foswiki::Time::formatTime( $time, '$http', 'gmtime' );
     }
 
     my $headers   = $session->{response}->headers();
