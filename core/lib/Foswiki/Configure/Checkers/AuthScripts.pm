@@ -9,20 +9,32 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
+    my $msg = '';
 
     if ( $Foswiki::cfg{AuthScripts} ) {
         if ( $Foswiki::cfg{LoginManager} eq 'none' ) {
-            return $this->WARN(
+            return $this->ERROR(
                 <<'EOF'
 You've asked that some scripts require authentication, but haven't
 specified a way for users to log in. Please pick a LoginManager
-other than 'none'.
+other than 'none' or clear this setting.
+EOF
+            );
+        }
+
+        if ( $Foswiki::cfg{LoginManager} ne 'Foswiki::LoginManager::TemplateLogin' ) {
+            $msg .= $this->WARN(
+                <<"EOF"
+You've specified an alternative login manager.  It is critical that this list
+of scripts be consistent with the scripts protected by the Web Server.  Verify that this setting
+is consistent with the Apache <code>FilesMatch</code> or <code>LocationMatch</code> or other
+configuration used by $Foswiki::cfg{LoginManager}.
 EOF
             );
         }
 
         unless ( $Foswiki::cfg{AuthScripts} =~ m/statistics/ ) {
-            return $this->WARN(
+            $msg .= $this->WARN(
                 <<'EOF'
 The statistics script is not protected as a script requiring authorization.
 This is not a security issue, but this script can create a significant workload
@@ -30,9 +42,8 @@ on the server. It is recommended that this script require authentication.
 EOF
             );
         }
-
     }
-    return '';
+    return $msg;
 }
 
 1;
