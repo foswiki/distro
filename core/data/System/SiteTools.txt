@@ -55,20 +55,20 @@ WebIndex lists all web topics in alphabetical order, with the first couple of li
 </verbatim>
 
 #WebStatistics
----++ <nop>WebStatistics - site statistics
+---++ <nop>%STATISTICSTOPIC% - site statistics
 
-You can generate a listing manually, or on an automated schedule, of visits to individual pages, on a per web basis. Compiled as a running total on a monthly basis. Includes totals for Topic Views, Topic Saves, Attachment Uploads, Most Popular Topics with number of views, and Top Contributors showing total of saves and attachment uploads. Previous months are saved.
+Statistics of visits to pages in a web can be generated manually or automatically, on a per-web basis. Statistics are compiled as a running total for each month.  They include totals for Topic Views, Topic Saves, Attachment Uploads, Most Popular Topics with number of views, and Top Contributors showing total of saves and attachment uploads. Statistics from previous months are saved, and a new row is written to the table at the beginning of each month.
 
-   * You can create a WebStatistics link using ==%<nop>STATISTICSTOPIC%==
+   * You can create a %STATISTICSTOPIC% link using ==%<nop>STATISTICSTOPIC%==
 
 ---+++ Configuring for automatic operation
 
    * You can automatically generate usage statistics for all webs. To enable this:
-      * The WebStatistics topic must be present in all webs where you want to have statistics. You can use the topic in the Main web as a template.
-      * Call the =bin/statistics= script from a cron job, once a day is recommended. This will update the WebStatistics topics in all webs.
+      * The %STATISTICSTOPIC% topic must be present in all webs where you want to have statistics. You can use the topic in the Main web as a template.
+      * Call the =bin/statistics= script from a cron job, once a day is recommended. This will update the %STATISTICSTOPIC% topics in all webs.
       * *Attention:* The script must run as the same user as the CGI scripts are running, which is user =nobody= on many systems. Example crontab entry: %BR% =0 0 * * * (cd /path/to/bin; ./statistics &gt;/dev/null 2&gt;&amp;1)=
       * There is a workaround in case you can't run the script as user =nobody= : Run the utility =tools/geturl.pl= in your cron job and specify the URL of the =bin/statistics= script as a parameter. Example: %BR% =0 0 * * * (cd /path/to/tools; ./geturl.pl mydomain.com /urlpath/to/bin/statistics &gt;/dev/null 2&gt;&amp;1)= 
-      * *NOTE:* =geturl.pl= will do a CGI request as the <nop>WikiGuest user, so if you use this workaround, the !WebStatistics topics you are updating will have to be writable by <nop>WikiGuest.
+      * *NOTE:* =geturl.pl= will do a CGI request as the <nop>WikiGuest user, so if you use this workaround, the %STATISTICSTOPIC% topics you are updating will have to be writable by <nop>WikiGuest.
 
 When running from the command line or a cron job, you can pass parameters to the script like this:
 <verbatim class="bash">
@@ -80,16 +80,42 @@ When running from the command line or a cron job, you can pass parameters to the
    * The =bin/statistics= script can also be executed as a CGI script, just enter the URL in your browser. Examples:
       * Update current month for all webs you have access to: %BR% =%SCRIPTURLPATH{statistics}%=
       * Update current month for %USERSWEB% web only: %BR% =%SCRIPTURLPATH{statistics}%/%USERSWEB%=
+      * Update current month for a !SubWeb: %BR% =%SCRIPTURLPATH{statistics}%/Parentweb/Subweb/= %BR% *Note:* Trailing slash is required for Subweb to be recognized!  Otherwise the script will assume =Subweb= is a topic and update the =Parentweb= web
       * Update %SERVERTIME{$month $year}% for %USERSWEB% web: %BR% =%SCRIPTURLPATH{statistics}%/%USERSWEB%?logdate=%SERVERTIME{$year$mo}%=
       * Update %SERVERTIME{$month $year}% for the !ProjectX, !ProjectY and !ProjectZ webs: %BR% =%SCRIPTURLPATH{statistics}%?logdate=%SERVERTIME{$year$mo}%;webs=Project<nop>X,Project<nop>Y,Project<nop>Z=
+
+---+++ Tailoring the %STATISTICSTOPIC% layout
+
+The Statistics topics =%<nop>INCLUDE%= a header topic [[%SYSTEMWEB%.Default%STATISTICSTOPIC%]].  To tailor the help text or column heading, copy [[%SYSTEMWEB%.Default%STATISTICSTOPIC%]] to [[%USERSWEB%.Default%STATISTICSTOPIC%]] and tailor as desired.  This prevents your changes from being lost when Foswiki is updated.
+
+If a %STATISTICSTOPIC% topic does not exist, it will _not_ be created automatically.  Removal of the topic from a web will prevent statistics from being generated.
+
+Statistics are written into the %STATISTICSTOPIC% in the following order.
+   * If a ==marker line== is found in the topic, statistics are inserted into the topic _after_ the =marker line=.
+   * If no =marker line= is present, but the topic contains existing statistics,  the current month is update, or a new month is written _after_ the previous month.
+   * If no =marker line= is present and no previous statistics exist, a new line is added to the end of the topic.
+
+Removal of the marker line causes statistics to be gathered in chronological order (oldest first).  By default, statistics are reported in reverse chronological order.
+
+The =marker line= defines the order of the columns collected by the =statistics= script. The order of the columns should correspond to the table heading in the Default%STATISTICSTOPIC%.  Default marker line is:`;
+<verbatim>
+| <!--statDate--> | <!--statViews--> | <!--statSaves--> | <!--statUploads--> | <!--statTopViews--> | <!--statTopContributors--> |
+</verbatim>
+
+---+++ Managing the %STATISTICSTOPIC%
+
+%STATISTICSTOPIC% will continue to grow.  In addition every run of the statistics script will create a new entry in the !%STATISTICSTOPIC% topic revision history. These can become extremely large over time and Foswiki does not provide any mechanism for automatically archiving statistics topics.  For good ongoing performance, it is recommended to archive statistics annually:
+   * Rename the %STATISTICSTOPIC% to =%STATISTICSTOPIC%YYYY=
+   * Restore the default topic with a copy of the =data/_default/%STATISTICSTOPIC%=
+Following these steps will start a fresh statistics topic with a clean revision history.
 
 #LogFiles
 ---++ Log Files
 
 Foswiki generates an event log which is used by the statistics script
    * The directory for the log file is defined by the =={Log}{Dir}== setting in [[%SCRIPTURLPATH{"configure"}%][configure]]
-   * The file name is =events&lt;year&gt;&lt;month&gt;.log=
-   * Example path name: =events%SERVERTIME{$year$mo}%.log=
+   * The file name is =events.log=  Old events are archived as =events.&lt;year&gt;&lt;month&gt;=
+   * Example path name: =working/logs/events.log=
    * Each access gets logged as: %BR%
      =| &lt;time&gt; | &lt;wikiusername&gt; | &lt;action&gt; | &lt;web&gt;.&lt;topic&gt; | &lt;extra info&gt; | &lt;IP address&gt; |=
    * Example log entry: %BR%
@@ -99,18 +125,20 @@ Foswiki generates an event log which is used by the statistics script
      | attach | =attach= | when viewing attach screen of previous uploaded attachment: =filename= |
      | changes | =changes= |  |
      | edit | =edit= | when editing non-existing topic: =(not exist)= |
+     | login | =login= | Authentication failure or success |
+     | manage | =rename= | when moving topic: =moved to !Newweb.NewTopic= |
+     | manage | =move= | when moving attachment: =Attachment filename moved to !Newweb.NewTopic= |
+     | manage | =renameweb= | when renaming a web: =oldweb moved to newweb= |
      | rdiff | =rdiff= | higher and lower revision numbers: =4 3= |
      | register | =regstart= | !WikiUserName, e-Mail address, LoginName: =user attempts to register= |
      | register | =register= | E-mail address: =user successfully registers= |
      | register | =bulkregister= | !WikiUserName of new, e-mail address, admin ID |
-     | manage | =rename= | when moving topic: =moved to !Newweb.NewTopic= |
-     | manage | =move= | when moving attachment: =Attachment filename moved to !Newweb.NewTopic= |
-     | manage | =renameweb= | when renaming a web: =oldweb moved to newweb= |
      | save | =save= | when replacing existing revision: =repRev 3= %BR% when user checks the minor changes box: =dontNotify= %BR% when user changes attributes to an exising attachment: =filename.ext= |
      | save | =cmd= | special admin parameter used when saving |
      | search | =search= | search string |
      | upload | =upload= | filename |
      | view | =view= | when viewing non-existing topic: =(not exist)= %BR% when viewing previous topic revision: =r3= |
+     | n/a | =logout= | When authentication information is cleared |
    * You can disable the logging (and therefore the reporting) of individual actions using the =={Log}{Action}== %RED%EXPERT%ENDCOLOR% setting in =configure=.
 
 #ConfigureEmail

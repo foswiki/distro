@@ -1,11 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1279596624" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1318690602" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
----++ Statistics for <nop>%WEB% Web
-
-| *Month:* | *Topic <br /> views:* | *Topic <br /> saves:* | *File <br /> uploads:* | *Most popular <br /> topic views:* | *Top contributors for <br /> topic save and uploads:* |
+%IF{
+"istopic '%USERSWEB%.Default%TOPIC%'"
+then="$percentINCLUDE{$quot%USERSWEB%.Default%TOPIC%$quot}$percent"
+else="$percentINCLUDE{$quot%SYSTEMWEB%.Default%TOPIC%$quot}$percent"
+}%
 | <!--statDate--> | <!--statViews--> | <!--statSaves--> | <!--statUploads--> | <!--statTopViews--> | <!--statTopContributors--> |
-
-*Notes:*
-   * Do not edit this topic, it is updated automatically. (You can also [[%SCRIPTURL{"statistics"}%/%WEB%][force]] an update)
-   * [[%SYSTEMWEB%.SiteTools#WebStatistics_site_statistics][Site tools]] tells you how to enable the automatic updates of the statistics.
-   * Suggestion: You could archive this topic once a year and delete the previous year's statistics from the table.

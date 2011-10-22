@@ -84,6 +84,7 @@ data/System/ContributedAddOns.txt 0644
 data/System/CountryList.txt 0644
 data/System/DataForms.txt 0644
 data/System/DefaultPreferences.txt 0644
+data/System/DefaultWebStatistics.txt 0644
 data/System/DeveloperDocumentationCategory.txt 0644
 data/System/DevelopingPlugins.txt 0644
 data/System/DontNotify.txt 0644

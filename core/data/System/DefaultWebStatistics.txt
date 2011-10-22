@@ -1,0 +1,13 @@
+%META:TOPICINFO{author="ProjectContributor" date="1239551007" format="1.1" version="1"}%
+%META:TOPICPARENT{name="WebHome"}%
+%STARTINCLUDE%
+---++ Statistics for <nop>%BASEWEB% Web
+%TWISTYBUTTON{id="infoOnStatistics" mode="span" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" showlink="More info about Statistics ..." hidelink="Close info" remember="on" firststart="hide"}%
+%TWISTYTOGGLE{id="infoOnStatistics"}%<div class="foswikiHelp">
+<h4>About Web Statistics</h4>
+*Notes:*
+   * Do not edit this topic, it is updated automatically. (You can also [[%SCRIPTURL{"statistics"}%/%BASEWEB%/][force]] an update)
+   * [[%SYSTEMWEB%.SiteTools#WebStatistics][Site tools]] provides further documentation on this topic and tells you how to enable the automatic updates of the statistics.
+</div>%ENDTWISTYTOGGLE%
+
+| *Month:* | *Topic <br /> views:* | *Topic <br /> saves:* | *File <br /> uploads:* | *Most popular <br /> topic views:* | *Top contributors for <br /> topic save and uploads:* | %STOPINCLUDE%
