@@ -813,7 +813,9 @@ $Foswiki::cfg{Stats}{TopViews} = 10;
 $Foswiki::cfg{Stats}{TopContrib} = 10;
 
 # **STRING 20 EXPERT**
-# Name of statistics topic
+# Name of statistics topic.  Note:  If you change the name of the statistics topic
+# you must also rename the WebStatistics topic in each web, and the DefaultWebStatistics topic
+# in the System web (and possibly in the Main web).
 $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 
 #---+ Internationalisation -- TABS
