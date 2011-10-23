@@ -1173,10 +1173,12 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11174][Item11174]] | PreferenceSettings examples don't work when included in Macros topic. |
 | [[%BUGS%/Item11176][Item11176]] | https include used monkey patching instead of object inheritance. |
 | [[%BUGS%/Item11181][Item11181]] | Core table rendering issues found with tfoot, and table fails to end previous list. (Not seen if TablePlugin is enabled.) |
+| [[%BUGS%/Item11182][Item11182]] | Restructure statistics documentation, resolve an issue were statistics not generated for subwebs. |
 | [[%BUGS%/Item11183][Item11183]] | Sync SpreadSheetPlugin with TWiki version - add SPLIT, HEXENCODE, HEXDECODE, BITXOR, XOR, LISTNONEMPTY, WHILE, isodate formats and DOY - Day of Year dates |
 | [[%BUGS%/Item11185][Item11185]] | can't attach filenames with unicode chars in it |
 | [[%BUGS%/Item11189][Item11189]] | Images referenced in square bracket link text are not rendered |
 | [[%BUGS%/Item11193][Item11193]] | typo in lib/Foswiki/PageCache.pm causing all (cached) pages to be delivered with a Last-Modified: header set to 01 Jan 1970 |
+| [[%BUGS%/Item11194][Item11194]] | Add to warnings reported by {AuthScripts} checker.  Warn if statistics unprotected.  Warn to confirm apache config if not using TemplateLogin |
 </noautolink>
 
 ---+++ Enhancements
