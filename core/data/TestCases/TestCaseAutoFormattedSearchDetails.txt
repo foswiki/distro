@@ -11,7 +11,7 @@ The major risk is the default formatting where web's are separated - for paging 
 ---++ default search formatting
 ---+++ Expected
 <!-- expected 1 expand rex old Tmwiki default multi-weboutput 4 webs -->
-<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div><h4 class="foswikiSearchResultsHeader" style="border-color:yellow"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|^WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div><h4 class="foswikiSearchResultsHeader" style="border-color:yellow"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">TestCases Web If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so: 1 You must manually ensure that ...</div></div>
@@ -50,7 +50,7 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for System Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads: ...</div></div>
+<div class="foswikiSummary">%IF{ "istopic '.DefaultWebStatistics'" then="$percentINCLUDE{$quot.DefaultWebStatistics$quot}$percent" else="$percentINCLUDE{$quot.DefaultWebStatistics$quot}$percent ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
@@ -72,7 +72,7 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Main/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for Main Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads: ...</div></div>
+<div class="foswikiSummary">%IF{ "istopic '.DefaultWebStatistics'" then="$percentINCLUDE{$quot.DefaultWebStatistics$quot}$percent" else="$percentINCLUDE{$quot.DefaultWebStatistics$quot}$percent ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
@@ -94,7 +94,7 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for Sandbox Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads: ...</div></div>
+<div class="foswikiSummary">%IF{ "istopic '.DefaultWebStatistics'" then="$percentINCLUDE{$quot.DefaultWebStatistics$quot}$percent" else="$percentINCLUDE{$quot.DefaultWebStatistics$quot}$percent ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
@@ -104,7 +104,7 @@ The major risk is the default formatting where web's are separated - for paging 
 ---++ Actual
 <!-- actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|^WebStatistics|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -116,7 +116,7 @@ The major risk is the default formatting where web's are separated - for paging 
 (shows separator is ignored if format isn't set)
 ---+++ Expected
 <!-- DISABLE expected expand rex old Tmwiki format, and sep multi-weboutput 4 webs -->
-<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div><h4 class="foswikiSearchResultsHeader" style="border-color:yellow"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|^WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div><h4 class="foswikiSearchResultsHeader" style="border-color:yellow"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/WebHome"><b>WebHome</b></a>
 <div class="foswikiSummary">TestCases Web If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so: 1 You must manually ensure that ...</div></div>
@@ -197,7 +197,7 @@ The major risk is the default formatting where web's are separated - for paging 
 ---++ Actual
 <!-- DISABLE actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|^WebStatistics|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -238,7 +238,7 @@ The major risk is the default formatting where web's are separated - for paging 
 ---++ Actual
 <!-- actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|^WebStatistics|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -266,7 +266,7 @@ The major risk is the default formatting where web's are separated - for paging 
 ---++ Actual
 <!-- actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|^WebStatistics|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -299,7 +299,7 @@ Note that the =nototal= is on which adds a new line correctly after the line lis
 ---++ Actual
 <!-- actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|^WebStatistics|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -331,7 +331,7 @@ Note that there is no separator after last item and the only newline is the one 
 ---++ Actual
 <!-- actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|^WebStatistics|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -375,7 +375,7 @@ Note that there is no separator after last item and the only newline is the one 
 ---++ Actual
 <!-- actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|^WebStatistics|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
