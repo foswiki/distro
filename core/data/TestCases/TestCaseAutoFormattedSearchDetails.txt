@@ -11,7 +11,7 @@ The major risk is the default formatting where web's are separated - for paging 
 ---++ default search formatting - 1 expand rex old Tmwiki default multi-weboutput 4 webs
 ---+++ Expected
 <!-- expected 1 expand rex old Tmwiki default multi-weboutput 4 webs -->
-<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|WebTopicList|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 
 
 <h4 class="foswikiSearchResultsHeader" style="border-color:#FFEFA6"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
@@ -30,10 +30,10 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/Main/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for Main Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads: ...</div></div>
+<a href="%SCRIPTURLPATH{"view"}%/Main/WebTopicList"><b>WebTopicList</b></a>
+<div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
@@ -54,10 +54,10 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for Sandbox Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads: ...</div></div>
+<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebTopicList"><b>WebTopicList</b></a>
+<div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
@@ -78,10 +78,10 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for System Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads: ...</div></div>
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebTopicList"><b>WebTopicList</b></a>
+<div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
@@ -102,10 +102,10 @@ The major risk is the default formatting where web's are separated - for paging 
 </div>
 </div>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for TestCases Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and uploads ...</div></div>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebTopicList"><b>WebTopicList</b></a>
+<div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
@@ -114,7 +114,7 @@ The major risk is the default formatting where web's are separated - for paging 
 ---++ Actual
 <!-- actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|WebTopicList|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -126,7 +126,7 @@ The major risk is the default formatting where web's are separated - for paging 
 (shows separator is ignored if format isn't set)
 ---+++ Expected
 <!-- DISABLE expected expand rex old Tmwiki format, and sep multi-weboutput 4 webs -->
-<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|WebStatistics|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|WebTopicList|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 
 <h4 class="foswikiSearchResultsHeader" style="border-color:yellow"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
@@ -142,10 +142,10 @@ The major risk is the default formatting where web's are separated - for paging 
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for nop TestCases Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebTopicList"><b>WebTopicList</b></a>
+<div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
@@ -163,10 +163,10 @@ The major risk is the default formatting where web's are separated - for paging 
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for nop System Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div>
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebTopicList"><b>WebTopicList</b></a>
+<div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
@@ -184,10 +184,10 @@ The major risk is the default formatting where web's are separated - for paging 
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/Main/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for nop Main Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save and ...</div></div>
+<a href="%SCRIPTURLPATH{"view"}%/Main/WebTopicList"><b>WebTopicList</b></a>
+<div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Main/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
@@ -205,17 +205,17 @@ The major risk is the default formatting where web's are separated - for paging 
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebPreferences" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebStatistics"><b>WebStatistics</b></a>
-<div class="foswikiSummary">Statistics for nop Sandbox Web Month: Topic views: Topic saves: File uploads: Most popular topic views: Top contributors for topic save ...</div></div>
+<a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebTopicList"><b>WebTopicList</b></a>
+<div class="foswikiSummary"></div></div>
 <div class="foswikiBottomRow">
-<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebStatistics" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
+<span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebTopicList" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>
 </div>-<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 <!-- /DISABLE expected -->
 ---++ Actual
 <!-- DISABLE actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|WebTopicList|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -231,35 +231,35 @@ The major risk is the default formatting where web's are separated - for paging 
 <ul>
 <li> <nop>Main.WebHome
 </li> <li> <nop>Main.WebPreferences
-</li> <li> <nop>Main.WebStatistics
+</li> <li> <nop>Main.WebTopicList
 </li></ul>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
 <ul>
 <li> <nop>Sandbox.WebHome
 </li> <li> <nop>Sandbox.WebPreferences
-</li> <li> <nop>Sandbox.WebStatistics
+</li> <li> <nop>Sandbox.WebTopicList
 </li></ul>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
 <ul>
 <li> <nop>System.WebHome
 </li> <li> <nop>System.WebPreferences
-</li> <li> <nop>System.WebStatistics
+</li> <li> <nop>System.WebTopicList
 </li></ul>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 
 <ul>
 <li> <nop>TestCases.WebHome
 </li> <li> <nop>TestCases.WebPreferences
-</li> <li> <nop>TestCases.WebStatistics
+</li> <li> <nop>TestCases.WebTopicList
 </li></ul>
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 <!-- /expected -->
 ---++ Actual
 <!-- actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|WebTopicList|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -277,16 +277,16 @@ The major risk is the default formatting where web's are separated - for paging 
 ---+++ Expected
 <!-- expected  3 format="   * !$web.!$topic" separator="-" -->
 <ul>
-<li> <nop>Main.WebHome-   * <nop>Main.WebPreferences-   * <nop>Main.WebStatistics<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li> <nop>Main.WebHome-   * <nop>Main.WebPreferences-   * <nop>Main.WebTopicList<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li>
 
-<li> <nop>Sandbox.WebHome-   * <nop>Sandbox.WebPreferences-   * <nop>Sandbox.WebStatistics<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li> <nop>Sandbox.WebHome-   * <nop>Sandbox.WebPreferences-   * <nop>Sandbox.WebTopicList<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li>
 
-<li> <nop>System.WebHome-   * <nop>System.WebPreferences-   * <nop>System.WebStatistics<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li> <nop>System.WebHome-   * <nop>System.WebPreferences-   * <nop>System.WebTopicList<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li>
 
-<li> <nop>TestCases.WebHome-   * <nop>TestCases.WebPreferences-   * <nop>TestCases.WebStatistics<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li> <nop>TestCases.WebHome-   * <nop>TestCases.WebPreferences-   * <nop>TestCases.WebTopicList<div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li>
 
 </ul>
@@ -295,7 +295,7 @@ The major risk is the default formatting where web's are separated - for paging 
 ---++ Actual
 <!-- actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|WebTopicList|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -316,16 +316,16 @@ Note that the =nototal= is on which adds a new line correctly after the line lis
 <!-- expected  4 format="<nop>$web.<nop>$topic" separator=" - " header="   * *header <nop>$web* " footer=" *footer <nop>$web* " -->
 <ul>
 
-<li><strong>header Main</strong> <nop>Main.<nop>WebHome - <nop>Main.<nop>WebPreferences - <nop>Main.<nop>WebStatistics <strong>footer <nop>Main</strong><div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li><strong>header Main</strong> <nop>Main.<nop>WebHome - <nop>Main.<nop>WebPreferences - <nop>Main.<nop>WebTopicList <strong>footer <nop>Main</strong><div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li>
 
-<li><strong>header Sandbox</strong> <nop>Sandbox.<nop>WebHome - <nop>Sandbox.<nop>WebPreferences - <nop>Sandbox.<nop>WebStatistics <strong>footer <nop>Sandbox</strong><div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li><strong>header Sandbox</strong> <nop>Sandbox.<nop>WebHome - <nop>Sandbox.<nop>WebPreferences - <nop>Sandbox.<nop>WebTopicList <strong>footer <nop>Sandbox</strong><div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li>
 
-<li><strong>header System</strong> <nop>System.<nop>WebHome - <nop>System.<nop>WebPreferences - <nop>System.<nop>WebStatistics <strong>footer <nop>System</strong><div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li><strong>header System</strong> <nop>System.<nop>WebHome - <nop>System.<nop>WebPreferences - <nop>System.<nop>WebTopicList <strong>footer <nop>System</strong><div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li>
 
-<li><strong>header <nop>TestCases</strong> <nop>TestCases.<nop>WebHome - <nop>TestCases.<nop>WebPreferences - <nop>TestCases.<nop>WebStatistics <strong>footer <nop>TestCases</strong><div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
+<li><strong>header <nop>TestCases</strong> <nop>TestCases.<nop>WebHome - <nop>TestCases.<nop>WebPreferences - <nop>TestCases.<nop>WebTopicList <strong>footer <nop>TestCases</strong><div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 </li>
 
 </ul>
@@ -334,7 +334,7 @@ Note that the =nototal= is on which adds a new line correctly after the line lis
 ---++ Actual
 <!-- actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|WebTopicList|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -354,10 +354,10 @@ Note that there is no separator after last item and the only newline is the one 
 
 <table border=1 cellpadding=0 cellspacing=0 class=foswikiTable>
 <tbody>
-<tr><td> <nop>Main </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebStatistics </td></tr>
-<tr><td> <nop>Sandbox </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebStatistics </td></tr>
-<tr><td> <nop>System </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebStatistics </td></tr>
-<tr><td> <nop>TestCases </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebStatistics </td></tr>
+<tr><td> <nop>Main </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebTopicList </td></tr>
+<tr><td> <nop>Sandbox </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebTopicList </td></tr>
+<tr><td> <nop>System </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebTopicList </td></tr>
+<tr><td> <nop>TestCases </td><td> <nop>WebHome, <nop>WebPreferences, <nop>WebTopicList </td></tr>
 </tbody>
 </table>
 <p />
@@ -366,7 +366,7 @@ Note that there is no separator after last item and the only newline is the one 
 ---++ Actual
 <!-- actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|WebTopicList|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -388,25 +388,25 @@ Note that there is no separator after last item and the only newline is the one 
 <tr><td><strong>Web</strong></td><td><strong>Topics</strong></td></tr>
 <tr><td> Main </td><td> WebHome </td></tr>
 <tr><td> Main </td><td> WebPreferences </td></tr>
-<tr><td> Main </td><td> WebStatistics </td></tr>
+<tr><td> Main </td><td> WebTopicList </td></tr>
 <tr><td> 3 </td><td> 3 </td></tr>
 
 <tr><td><strong>Web</strong></td><td><strong>Topics</strong></td></tr>
 <tr><td> Sandbox </td><td> WebHome </td></tr>
 <tr><td> Sandbox </td><td> WebPreferences </td></tr>
-<tr><td> Sandbox </td><td> WebStatistics </td></tr>
+<tr><td> Sandbox </td><td> WebTopicList </td></tr>
 <tr><td> 3 </td><td> 3 </td></tr>
 
 <tr><td><strong>Web</strong></td><td><strong>Topics</strong></td></tr>
 <tr><td> System </td><td> WebHome </td></tr>
 <tr><td> System </td><td> WebPreferences </td></tr>
-<tr><td> System </td><td> WebStatistics </td></tr>
+<tr><td> System </td><td> WebTopicList </td></tr>
 <tr><td> 3 </td><td> 3 </td></tr>
 
 <tr><td><strong>Web</strong></td><td><strong>Topics</strong></td></tr>
 <tr><td> TestCases </td><td> WebHome </td></tr>
 <tr><td> TestCases </td><td> WebPreferences </td></tr>
-<tr><td> TestCases </td><td> WebStatistics </td></tr>
+<tr><td> TestCases </td><td> WebTopicList </td></tr>
 <tr><td> 3 </td><td> 3 </td></tr>
 
 </tbody></table>
@@ -414,7 +414,7 @@ Note that there is no separator after last item and the only newline is the one 
 ---++ Actual
 <!-- actual -->
 %SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|WebTopicList|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"

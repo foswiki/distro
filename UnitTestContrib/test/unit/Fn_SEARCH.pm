@@ -4405,7 +4405,7 @@ sub test_simple_format {
 
     my $actual = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|^WebStatistics|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -4443,7 +4443,7 @@ sub test_formatdotBang {
 
     my $actual = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
-    "(WebPreferences|WebStatistics|WebHome)$"
+    "(WebPreferences|^WebStatistics|WebHome)$"
     type="regex"
     scope="topic"
     web="%SYSTEMWEB%"
