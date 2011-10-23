@@ -63,7 +63,7 @@ Macros are fully expanded _before_ any of the text formatting rules are applied.
 
 ---++ Plugin Formatting Extensions
 
-Plugins can extend the functionality of Foswiki into many other areas. There are a huge number of plugins available from the [[Foswiki::Extensions.WebHome][foswiki site]].
+Plugins can extend the functionality of Foswiki into many other areas. There are a huge number of plugins available from the [[Foswiki:Extensions.WebHome][foswiki site]].
 
 Currently enabled plugins on this installation, as listed by =%<nop>PLUGINDESCRIPTIONS%=:
 %PLUGINDESCRIPTIONS%
