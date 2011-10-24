@@ -88,6 +88,7 @@ sub finish {
 "MetaCache: new: $this->{new_count} get: $this->{get_count} undef: $this->{undef_count} \n";
     }
 
+    return;
 }
 
 =begin TML
@@ -123,6 +124,8 @@ sub removeMeta {
         }
         delete $this->{cache}->{$user}{$web};
     }
+
+    return;
 }
 
 #returns undef if the meta is not the latestRev, or if it failed to load
@@ -143,7 +146,7 @@ sub addMeta {
           if DEBUG;
     }
     else {
-        return undef;
+        return;
     }
 
     my $user = $this->current_user();
@@ -165,8 +168,8 @@ sub getMeta {
     my ( $this, $web, $topic, $meta ) = @_;
     my $user = $this->current_user();
 
-    return undef unless ( defined( $this->{cache}->{$user}{$web} ) );
-    return undef unless ( defined( $this->{cache}->{$user}{$web}{$topic} ) );
+    return unless ( defined( $this->{cache}->{$user}{$web} ) );
+    return unless ( defined( $this->{cache}->{$user}{$web}{$topic} ) );
     return $this->{cache}->{$user}{$web}{$topic}->{tom};
 }
 
@@ -246,29 +249,32 @@ sub get {
 $Foswiki::cfg{Store}{Listeners}{'Foswiki::MetaCache'} = 1;
 
 sub insert {
-    my $self = shift;
-    my %args = @_;
+    my ( $self, %args ) = @_;
 
     $self->removeMeta( $args{newmeta}->web, $args{newmeta}->topic );
+
+    return;
 }
 
 sub update {
-    my $self = shift;
-    my %args = @_;
+    my ( $self, %args ) = @_;
 
     $self->removeMeta( $args{oldmeta}->web, $args{oldmeta}->topic )
       if ( defined( $args{oldmeta} ) );
     $self->removeMeta( $args{newmeta}->web, $args{newmeta}->topic );
+
+    return;
 }
 
 sub remove {
-    my $self = shift;
-    my %args = @_;
+    my ( $self, %args ) = @_;
 
     ASSERT( $args{oldmeta} ) if DEBUG;
 
     $self->removeMeta( $args{oldmeta}->web, $args{oldmeta}->topic )
       if ( defined( $args{oldmeta} ) );
+
+    return;
 }
 
 sub current_user {
