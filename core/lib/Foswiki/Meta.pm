@@ -465,9 +465,11 @@ sub load {
 #TODO: need to extract the metacache from search, and extract the additional derived info from it too
 #TODO: this mess is because the Listeners cannot assign a cached meta object to an already existing unloaded meta
 #       which in Sven's opinion means we need to invert things better. (I get ~10% (.2S on 2S req's) speedup on simpler SEARCH topics doing reuse)
-my $m = $session->search->metacache->getMeta( $this->web, $this->topic );
+        my $m =
+          $session->search->metacache->getMeta( $this->web, $this->topic );
+
 #print STDERR "metacache->getMeta ".join(',', ( $this->web, $this->topic, ref($m) ))."\n";
-return $m if (defined($m));
+        return $m if ( defined($m) );
     }
 
     ASSERT( not( $this->{_latestIsLoaded} ) ) if DEBUG;
@@ -1028,7 +1030,7 @@ sub loadVersion {
             #ASSERT($rev == $this->{_loadedRev}) if DEBUG;
             return;
         }
-	ASSERT( not( $this->{_loadedRev} ) ) if DEBUG;
+        ASSERT( not( $this->{_loadedRev} ) ) if DEBUG;
     }
     elsif ( defined( $this->{_loadedRev} ) ) {
 
@@ -1036,7 +1038,7 @@ sub loadVersion {
         # Foswiki::Meta object
         $rev = -1 unless defined $rev;
         ASSERT( 0, "Attempt to reload $rev over version $this->{_loadedRev}" )
-	    if DEBUG;
+          if DEBUG;
     }
 
     # Is it already loaded?
@@ -1552,13 +1554,15 @@ sub getRev1Info {
             or $attr eq 'created' )
         {
             $info->{created} = $ri->{date};
+
             # Don't pass Foswiki::Time an undef value
-            if (defined $ri->{date}) {
+            if ( defined $ri->{date} ) {
                 require Foswiki::Time;
                 $info->{createdate} = Foswiki::Time::formatTime( $ri->{date} );
 
                 #TODO: wow thats disgusting.
-                $info->{created} = $info->{createlongdate} = $info->{createdate};
+                $info->{created} = $info->{createlongdate} =
+                  $info->{createdate};
             }
         }
     }
@@ -1828,7 +1832,7 @@ sub haveAccess {
 
     my $session = $this->{_session};
 
-    my $ok = $session->access->haveAccess($mode, $cUID, $this);
+    my $ok = $session->access->haveAccess( $mode, $cUID, $this );
     $reason = $session->access->getReason();
     return $ok;
 }
@@ -2019,8 +2023,8 @@ sub saveAs {
         my $checkSave =
           $this->{_session}->{store}->saveTopic( $this, $cUID, \%opts );
         ASSERT( $checkSave == $nextRev, "$checkSave != $nextRev" ) if DEBUG;
-        $this->{_loadedRev} = $nextRev;
-	$this->{_latestIsLoaded} = 1;
+        $this->{_loadedRev}      = $nextRev;
+        $this->{_latestIsLoaded} = 1;
     }
     finally {
         $this->_atomicUnlock($cUID);
@@ -2160,10 +2164,11 @@ sub move {
                     by   => $cUID,
                 }
             );
+
             # save the metadata change without logging
             $this->saveAs(
                 $this->{_web}, $this->{_topic},
-                dontlog => 1, # no statistics
+                dontlog => 1,    # no statistics
             );
             $from->{_session}->{store}->moveTopic( $from, $to, $cUID );
             $to->loadVersion();
@@ -2652,7 +2657,7 @@ sub attach {
     ASSERT( $this->{_web} && $this->{_topic}, 'this is not a topic object' )
       if DEBUG;
 
-    # make sure we don't save a half-loaded topic stub...which indeed - smell - is possible
+# make sure we don't save a half-loaded topic stub...which indeed - smell - is possible
     $this->loadVersion() unless $this->latestIsLoaded();
 
     if ( $opts{file} && !$opts{stream} ) {
@@ -2755,13 +2760,14 @@ sub attach {
         # Force reload of the latest version
         $this = $this->load() unless $this->latestIsLoaded();
 
-	# Note that latestIsLoaded may still be false if the topic doesn't exist yet
+    # Note that latestIsLoaded may still be false if the topic doesn't exist yet
 
         my $error;
         try {
             $this->{_session}->{store}
               ->saveAttachment( $this, $opts{name}, $opts{stream},
-                $opts{author} || $this->{_session}->{user}, $opts{comment} );
+                $opts{author} || $this->{_session}->{user},
+                $opts{comment} );
         }
         finally {
             $this->fireDependency();

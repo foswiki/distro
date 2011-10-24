@@ -18,8 +18,8 @@ about the same topic more than once.
 =cut
 
 use Assert;
-use Foswiki::Func ();
-use Foswiki::Meta ();
+use Foswiki::Func                   ();
+use Foswiki::Meta                   ();
 use Foswiki::Users::BaseUserMapping ();
 
 #use Monitor ();
@@ -39,11 +39,11 @@ sub new {
     #my $this = $class->SUPER::new([]);
     my $this = bless(
         {
-            session     => $session,
-            cache       => {},
-            new_count   => 0,
-            get_count   => 0,
-            undef_count => 0,
+            session                 => $session,
+            cache                   => {},
+            new_count               => 0,
+            get_count               => 0,
+            undef_count             => 0,
             meta_cache_session_user => $session->{user},
         },
         $class
@@ -72,7 +72,7 @@ sub finish {
 
     #must clear cache every request until the cache is hooked up to Store's save
     foreach my $cuid ( keys( %{ $this->{cache} } ) ) {
-        foreach my $web ( keys ( %{ $this->{cache}->{$cuid} } ) ) {
+        foreach my $web ( keys( %{ $this->{cache}->{$cuid} } ) ) {
             foreach my $topic ( keys( %{ $this->{cache}->{$cuid}->{$web} } ) ) {
                 undef $this->{cache}->{$cuid}{$web}{$topic};
                 $this->{undef_count}++;
@@ -101,21 +101,25 @@ returns true if the topic is already int he cache.
 sub hasCached {
     my ( $this, $web, $topic ) = @_;
     ASSERT( defined($topic) ) if DEBUG;
-    return unless (defined($topic));
+    return unless ( defined($topic) );
 
-    return ($this->{session}->{user} and defined( $this->{cache}->{$this->current_user()}{$web}{$topic} ) );
+    return ( $this->{session}->{user}
+          and defined( $this->{cache}->{ $this->current_user() }{$web}{$topic} )
+    );
 }
 
 sub removeMeta {
-    my ( $this, $web, $topic) = @_;
+    my ( $this, $web, $topic ) = @_;
     my $user = $this->current_user();
 
-    if (defined($topic) and defined($this->{cache}->{$user}{$web}{$topic})) {
+    if ( defined($topic) and defined( $this->{cache}->{$user}{$web}{$topic} ) )
+    {
         $this->{cache}->{$user}{$web}{$topic}->finish();
         delete $this->{cache}->{$user}{$web}{$topic};
-    } else {
-        foreach my $topic (keys(%{$this->{cache}->{$user}{$web}})) {
-            $this->removeMeta($web, $topic);
+    }
+    else {
+        foreach my $topic ( keys( %{ $this->{cache}->{$user}{$web} } ) ) {
+            $this->removeMeta( $web, $topic );
         }
         delete $this->{cache}->{$user}{$web};
     }
@@ -127,20 +131,21 @@ sub addMeta {
     my ( $this, $web, $topic, $meta ) = @_;
 
     if ( not defined($meta) ) {
-        $meta =
-          Foswiki::Meta->load( $this->{session}, $web, $topic );
+        $meta = Foswiki::Meta->load( $this->{session}, $web, $topic );
     }
-    if (
-        (defined($meta) and $meta ne '') and
-         defined($meta->{_latestIsLoaded}) and 
-         defined( $meta->{_loadedRev} ) and 
-         ($meta->{_loadedRev} > 0 ) ) {
+    if (    ( defined($meta) and $meta ne '' )
+        and defined( $meta->{_latestIsLoaded} )
+        and defined( $meta->{_loadedRev} )
+        and ( $meta->{_loadedRev} > 0 ) )
+    {
         ASSERT( $meta->{_latestIsLoaded} ) if DEBUG;
-        ASSERT( defined( $meta->{_loadedRev} ) and ($meta->{_loadedRev} > 0 ) ) if DEBUG;
-    } else {
+        ASSERT( defined( $meta->{_loadedRev} ) and ( $meta->{_loadedRev} > 0 ) )
+          if DEBUG;
+    }
+    else {
         return undef;
     }
-    
+
     my $user = $this->current_user();
 
     unless ( $this->{cache}->{$user}{$web} ) {
@@ -149,18 +154,19 @@ sub addMeta {
     unless ( $this->{cache}->{$user}{$web}{$topic} ) {
         $this->{cache}->{$user}{$web}{$topic} = {};
     }
-    unless ( defined($this->{cache}->{$user}{$web}{$topic}->{tom})) {
-            $this->{cache}->{$user}{$web}{$topic}->{tom} = $meta;
-            $this->{new_count}++;
+    unless ( defined( $this->{cache}->{$user}{$web}{$topic}->{tom} ) ) {
+        $this->{cache}->{$user}{$web}{$topic}->{tom} = $meta;
+        $this->{new_count}++;
     }
     return $meta;
 }
+
 sub getMeta {
     my ( $this, $web, $topic, $meta ) = @_;
     my $user = $this->current_user();
 
-    return undef unless (defined($this->{cache}->{$user}{$web}));
-    return undef unless (defined($this->{cache}->{$user}{$web}{$topic}));
+    return undef unless ( defined( $this->{cache}->{$user}{$web} ) );
+    return undef unless ( defined( $this->{cache}->{$user}{$web}{$topic} ) );
     return $this->{cache}->{$user}{$web}{$topic}->{tom};
 }
 
@@ -181,8 +187,9 @@ and then, the MetaCache can only return Meta objects that actually exist
 sub get {
     my ( $this, $web, $topic, $meta ) = @_;
     ASSERT( $meta->isa('Foswiki::Meta') ) if ( defined($meta) and DEBUG );
-    #sadly, Search.pm actually beleives that it can send out for info on Meta objects that do not exist
-    #ASSERT( defined($meta->{_loadedRev}) ) if ( defined($meta) and DEBUG );
+
+#sadly, Search.pm actually beleives that it can send out for info on Meta objects that do not exist
+#ASSERT( defined($meta->{_loadedRev}) ) if ( defined($meta) and DEBUG );
 
     if ( !defined($topic) ) {
 
@@ -190,18 +197,20 @@ sub get {
         ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( '', $web );
     }
 
-    my $m = $this->addMeta($web, $topic, $meta);
-    $meta = $m if (defined($m));
-    ASSERT(defined($meta)) if DEBUG;
+    my $m = $this->addMeta( $web, $topic, $meta );
+    $meta = $m if ( defined($m) );
+    ASSERT( defined($meta) ) if DEBUG;
 
     $this->{get_count}++;
 
-    my $info = {tom => $meta};
+    my $info = { tom => $meta };
     my $user = $this->current_user();
 
-    ASSERT ( defined $user ) if DEBUG;
-    $info = $this->{cache}->{$user}{$web}{$topic} if defined($this->{cache}->{$user}{$web}{$topic});
-    if  (not defined($info->{editby})) {
+    ASSERT( defined $user ) if DEBUG;
+    $info = $this->{cache}->{$user}{$web}{$topic}
+      if defined( $this->{cache}->{$user}{$web}{$topic} );
+    if ( not defined( $info->{editby} ) ) {
+
         #TODO: extract this to the Meta Class, or remove entirely
         # Extract sort fields
         my $ri = $info->{tom}->getRevisionInfo();
@@ -213,19 +222,20 @@ sub get {
 
 #TODO: this is _not_ actually sufficient.. as there are other things that appear to be evaluated in turn
 #Ideally, the Store2::Meta object will _not_ contain any session info, and anything that is session / user oriented gets stored in another object that links to the 'database' object.
-#it'll probably be better to make the MetaCache know what 
-        #Item10097: make the cache multi-user safe by storing the haveAccess on a per user basis
-        if (not defined($info->{$this->{session}->{user}})) {
-            $info->{$this->{session}->{user}} = ();
+#it'll probably be better to make the MetaCache know what
+#Item10097: make the cache multi-user safe by storing the haveAccess on a per user basis
+        if ( not defined( $info->{ $this->{session}->{user} } ) ) {
+            $info->{ $this->{session}->{user} } = ();
         }
-        if (not defined($info->{$this->{session}->{user}}{allowView})) {
-            $info->{$this->{session}->{user}}{allowView} = 
-                $info->{tom}->haveAccess('VIEW');
+        if ( not defined( $info->{ $this->{session}->{user} }{allowView} ) ) {
+            $info->{ $this->{session}->{user} }{allowView} =
+              $info->{tom}->haveAccess('VIEW');
         }
+
         #use the cached permission
-        $info->{allowView} = $info->{$this->{session}->{user}}{allowView};
+        $info->{allowView} = $info->{ $this->{session}->{user} }{allowView};
     }
-      
+
     return $info;
 }
 
@@ -233,7 +243,8 @@ sub get {
 # use the Listener API to detect when to flush the cache
 #magically enable it.
 
-$Foswiki::cfg{Store}{Listeners}{'Foswiki::MetaCache'} = 1; 
+$Foswiki::cfg{Store}{Listeners}{'Foswiki::MetaCache'} = 1;
+
 sub insert {
     my $self = shift;
     my %args = @_;
@@ -241,12 +252,12 @@ sub insert {
     $self->removeMeta( $args{newmeta}->web, $args{newmeta}->topic );
 }
 
-
 sub update {
     my $self = shift;
     my %args = @_;
 
-    $self->removeMeta( $args{oldmeta}->web, $args{oldmeta}->topic ) if ( defined( $args{oldmeta} ) );
+    $self->removeMeta( $args{oldmeta}->web, $args{oldmeta}->topic )
+      if ( defined( $args{oldmeta} ) );
     $self->removeMeta( $args{newmeta}->web, $args{newmeta}->topic );
 }
 
@@ -256,15 +267,16 @@ sub remove {
 
     ASSERT( $args{oldmeta} ) if DEBUG;
 
-    $self->removeMeta( $args{oldmeta}->web, $args{oldmeta}->topic ) if ( defined( $args{oldmeta} ) );
+    $self->removeMeta( $args{oldmeta}->web, $args{oldmeta}->topic )
+      if ( defined( $args{oldmeta} ) );
 }
 
 sub current_user {
     my $self = shift;
 
-    ASSERT(defined $self->{session}) if DEBUG;
+    ASSERT( defined $self->{session} ) if DEBUG;
     my $user = $self->{session}->{user};
-    if (not defined $user) {
+    if ( not defined $user ) {
         $user = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
     }
 
