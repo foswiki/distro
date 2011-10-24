@@ -733,18 +733,32 @@ sub _processTableRow {
 sub _headerRowCount {
     my ($table) = @_;
 
-    my $count = 0;
+    my $headerCount = 0;
+    my $footerCount = 0;
+    my $endheader   = 0;
 
     # All cells in header are headings?
     foreach my $row (@$table) {
         my $isHeader = 1;
         foreach my $cell (@$row) {
-            $isHeader = 0 if ( $cell->{type} ne 'th' );
+            if ( $cell->{type} ne 'th' ) {
+                $isHeader    = 0;
+                $endheader   = 1;
+                $footerCount = 0 if $footerCount;
+            }
         }
-        $count++ if $isHeader;
+        unless ($endheader) {
+            $headerCount++ if $isHeader;
+        }
+        else {
+            $footerCount++ if $isHeader;
+        }
     }
 
-    return $count;
+    # Some cells came after the footer - so there isn't one.
+    $footerCount = 0 if ( $endheader > 1 );
+
+    return ( $headerCount, $footerCount );
 }
 
 =pod
@@ -1336,11 +1350,11 @@ sub emitTable {
       : $combinedTableAttrs->{sort};
 
     if ( $combinedTableAttrs->{headerrows} == 0 ) {
-        my $headerRowCount = _headerRowCount( \@curTable );
-        $headerRowCount -= $combinedTableAttrs->{footerrows};
+        my ( $headerRowCount, $footerRowCount ) = _headerRowCount( \@curTable );
 
         # override default setting with calculated header count
         $combinedTableAttrs->{headerrows} = $headerRowCount;
+        $combinedTableAttrs->{footerrows} = $footerRowCount;
     }
 
     my $tableTagAttributes = {};
@@ -1562,10 +1576,14 @@ sub emitTable {
                     # END html attribute
                 }
 
-                if (   defined $sortCol
+                if (
+                       defined $sortCol
                     && $colCount == $sortCol
                     && defined $requestedTable
-                    && $requestedTable == $tableCount )
+                    && $requestedTable == $tableCount
+                    && (   $combinedTableAttrs->{headerrows}
+                        || $combinedTableAttrs->{footerrows} )
+                  )
                 {
 
                     $tableAnchor =
@@ -1586,8 +1604,12 @@ sub emitTable {
 
                 if (
                     $sortThisTable
-                    && (  !$combinedTableAttrs->{headerrows}
-                        || $rowCount == $combinedTableAttrs->{headerrows} - 1 )
+                    && (
+                        ( $rowCount == $combinedTableAttrs->{headerrows} - 1 )
+                        || (  !$combinedTableAttrs->{headerrows}
+                            && $rowCount ==
+                            $numberOfRows - $combinedTableAttrs->{footerrows} )
+                    )
                     && ( $writingSortLinks || !$sortLinksWritten )
                   )
                 {

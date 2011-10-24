@@ -167,6 +167,144 @@ ACTUAL
 
 =cut
 
+sub test_Item8647_head_foot {
+    my $this = shift;
+
+    my $cgi = $this->{request};
+    my $url = $cgi->url( -absolute => 1 );
+
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<table class="foswikiTable" rules="none" border="1">
+        <thead>
+                <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+                        <th class="foswikiTableCol0 foswikiFirstCol foswikiLastCol">  <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">Head</a> </th>
+
+                </tr>
+        </thead>
+        <tfoot>
+                <tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+                        <th class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> Toe </th>
+                </tr>
+        </tfoot>
+        <tbody>
+                <tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+                        <td class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> Body </td>
+                </tr>
+        </tbody></table>
+EXPECTED
+    my $actual = <<ACTUAL;
+| *Head* |
+| Body |
+| *Toe* |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+# Make sure that a bold cell in the middle of the table doesn't become sortable
+# When no headers or footers are present
+sub test_Item8647_no_head_foot {
+    my $this = shift;
+
+    my $cgi = $this->{request};
+    my $url = $cgi->url( -absolute => 1 );
+
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<table class="foswikiTable" rules="none" border="1">
+        <tbody>
+                <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+                        <td class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> Head </td>
+                </tr>
+                <tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+                        <td class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> Body1 </td>
+                </tr>
+                <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+                        <th class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> Bold </th>
+                </tr>
+                <tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+                        <td class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> Body3 </td>
+                </tr>
+                <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+                        <td class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> Toe </td>
+                </tr>
+        </tbody></table>
+
+EXPECTED
+    my $actual = <<ACTUAL;
+| Head |
+| Body1 |
+| *Bold* |
+| Body3 |
+| Toe |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
+# Make sure that a bold cell in the middle of the table doesn't become sortable
+# and that the footer is still sortable.
+sub test_Item8647_bold_with_foot {
+    my $this = shift;
+
+    my $cgi = $this->{request};
+    my $url = $cgi->url( -absolute => 1 );
+
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<table class="foswikiTable" rules="none" border="1">
+        <tfoot>
+                <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+                        <th class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> <a rel="nofollow" href="/foswiki/bin//TemporaryTableFormattingTestWebTableFormatting/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">Toe</a> </th>
+                </tr>
+        </tfoot>
+        <tbody>
+                <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+                        <td class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> Head </td>
+                </tr>
+                <tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+                        <td class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> Body1 </td>
+                </tr>
+                <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+                        <th class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> Bold </th>
+                </tr>
+                <tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+                        <td class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> Body3 </td>
+                </tr>
+        </tbody></table>
+
+EXPECTED
+    my $actual = <<ACTUAL;
+| Head |
+| Body1 |
+| *Bold* |
+| Body3 |
+| *Toe* |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+=pod
+
+=cut
+
 sub test_doubleTheadTableUsingTablePlugin {
     my $this = shift;
 
@@ -1046,7 +1184,6 @@ EXPECTED
 
     $this->do_test( $expected, $actual );
 }
-
 
 =pod
 
