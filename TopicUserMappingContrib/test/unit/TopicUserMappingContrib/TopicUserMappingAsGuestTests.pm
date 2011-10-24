@@ -222,7 +222,7 @@ HERE
    * Set ALLOWTOPICVIEW = $Foswiki::cfg{SuperAdminGroup}
 HERE
     );
-    
+
     ###########################
     Foswiki::Func::saveTopic(
         $testUsersWeb, 'TopGroup', undef, <<"HERE"
@@ -251,15 +251,16 @@ sub verify_getListOfGroups {
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
     my $k = join( ',', sort @l );
 
-    # SMELL: Tasks/Item10176 - Questions about should Func API expose hidden groups.  Concensus was yes.
-    #$this->expect_failure();
-    #$this->annotate("Internal API expected to reveal hidden groups  See Tasks/Item10176 ");
-    #  - Topic list that should be returned if hidden groups remain hidden to Func.
-    #"AdminGroup,AmishGroup,BaptistGroup,BaseGroup,BottomGroup,MultiLineGroup,TopGroup"
+# SMELL: Tasks/Item10176 - Questions about should Func API expose hidden groups.  Concensus was yes.
+#$this->expect_failure();
+#$this->annotate("Internal API expected to reveal hidden groups  See Tasks/Item10176 ");
+#  - Topic list that should be returned if hidden groups remain hidden to Func.
+#"AdminGroup,AmishGroup,BaptistGroup,BaseGroup,BottomGroup,MultiLineGroup,TopGroup"
 
     $this->assert_str_equals(
 "AaanotherSecretGroup,AanotherSecretGroup,AdminGroup,AmishGroup,BaptistGroup,BaseGroup,BottomGroup,MultiLineGroup,NextHiddenGroup,SecretGroup,TopGroup",
-    $k );
+        $k
+    );
 }
 
 #this is the test for Item9808
@@ -271,14 +272,20 @@ sub verify_eachGroupMember {
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
     my $k = join( ',', sort @l );
     $this->assert_str_equals(
-        $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID.'auser,'.
-        $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID.'guser,'.
-        $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID.'zuser', $k );
+        $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID 
+          . 'auser,'
+          . $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID
+          . 'guser,'
+          . $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID
+          . 'zuser',
+        $k
+    );
 }
 
 sub verify_secretGroupIsHidden {
-    my $this     = shift;
-    my $expected = 'AdminGroup,AmishGroup,BaptistGroup,BottomGroup,MultiLineGroup,TopGroup';
+    my $this = shift;
+    my $expected =
+      'AdminGroup,AmishGroup,BaptistGroup,BottomGroup,MultiLineGroup,TopGroup';
     my $result;
     my $oldSession = $this->{session};
 
@@ -306,8 +313,9 @@ HERE
 }
 
 sub verify_secretGroupIsHiddenFromGROUPINFO {
-    my $this     = shift;
-    my $expected = 'AdminGroup, BaseGroup, AmishGroup, BaptistGroup, BottomGroup, MultiLineGroup, TopGroup';
+    my $this = shift;
+    my $expected =
+'AdminGroup, BaseGroup, AmishGroup, BaptistGroup, BottomGroup, MultiLineGroup, TopGroup';
     my $result;
     my $oldSession = $this->{session};
 
@@ -332,6 +340,7 @@ HERE
 sub verify_eachGroupMemberGROUPINFO {
     my $this = shift;
     $this->groupFix();
+
     #my $i = $fatwilly->{users}->eachGroupMember('TopGroup');
     my $i = $fatwilly->{users}->eachGroup();    #prime the cache
 
@@ -340,8 +349,9 @@ sub verify_eachGroupMemberGROUPINFO {
 HERE
     chomp($result);
     $this->assert_str_equals(
-    'TemporaryTopicUserMappingAsGuestTestsUsersWeb.AaronUser, TemporaryTopicUserMappingAsGuestTestsUsersWeb.GeorgeUser, TemporaryTopicUserMappingAsGuestTestsUsersWeb.ZebediahUser',
-         $result );
+'TemporaryTopicUserMappingAsGuestTestsUsersWeb.AaronUser, TemporaryTopicUserMappingAsGuestTestsUsersWeb.GeorgeUser, TemporaryTopicUserMappingAsGuestTestsUsersWeb.ZebediahUser',
+        $result
+    );
 }
 
 #TODO: consider what happens if the user topic is hidden..
