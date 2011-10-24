@@ -310,8 +310,15 @@ sub getAttachmentVersionInfo {
 
 sub getVersionInfo {
     my ( $this, $topicObject ) = @_;
-    my $handler = $this->getHandler($topicObject);
-    return $handler->getInfo( $topicObject->getLoadedRev() );
+    my $info = $this->askListenersVersionInfo($topicObject);
+
+    if (not defined $info) {
+        my $handler = $this->getHandler($topicObject);
+
+        $info = $handler->getInfo( $topicObject->getLoadedRev() );
+    }
+
+    return $info;
 }
 
 sub saveAttachment {

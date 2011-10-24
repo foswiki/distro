@@ -211,6 +211,23 @@ sub askListenersRevisionHistory {
 
 #    my $itr = $this->askListenersRevisionHistory($topicObject, $attachment);
 
+=begin TML
+
+---++ ObjectMethod askListenersVersionInfo( $topicObject, $version )
+Ask listeners if they would like to answer Foswiki::Store->getVersionInfo()
+- a hashref containing date, user, version, comment keys
+
+=cut
+
+sub askListenersVersionInfo {
+    my ( $this, $meta, $version, $attachment ) = @_;
+
+    foreach my $el ( @{ $this->{event_listeners} } ) {
+        next unless $el->can('getVersionInfo');
+        return $el->getVersionInfo($meta, $version, $attachment);
+    }
+    return undef;
+}
 
 =begin TML
 
