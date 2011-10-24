@@ -875,6 +875,7 @@ sub _complete {
             $session->{user} =
               $session->{users}->getCanonicalUserID(
                 $Foswiki::cfg{Register}{RegistrationAgentWikiName} );
+            $regoAgent = $session->{user};
 
             # SECURITY ISSUE:
             # When upgrading an existing Wiki, the RegistrationUser is
