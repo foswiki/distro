@@ -43,7 +43,7 @@ sub new {
             new_count   => 0,
             get_count   => 0,
             undef_count => 0,
-            meta_cache_session_user =>$session->{user},
+            meta_cache_session_user => $session->{user},
         },
         $class
     );
@@ -70,13 +70,15 @@ sub finish {
     undef $this->{session};
 
     #must clear cache every request until the cache is hooked up to Store's save
-
-    foreach my $web ( keys( %{ $this->{cache} } ) ) {
-        foreach my $topic ( keys( %{ $this->{cache}->{$web} } ) ) {
-            undef $this->{cache}->{$web}{$topic};
-            $this->{undef_count}++;
+    foreach my $cuid ( keys( %{ $this->{cache} } ) ) {
+        foreach my $web ( keys ( %{ $this->{cache}->{$cuid} } ) ) {
+            foreach my $topic ( keys( %{ $this->{cache}->{$cuid}->{$web} } ) ) {
+                undef $this->{cache}->{$cuid}{$web}{$topic};
+                $this->{undef_count}++;
+            }
+            undef $this->{cache}->{$cuid}{$web};
         }
-        undef $this->{cache}->{$web};
+        undef $this->{cache}->{$cuid};
     }
     undef $this->{cache};
 
@@ -100,20 +102,21 @@ sub hasCached {
     ASSERT( defined($topic) ) if DEBUG;
     return unless (defined($topic));
 
-    return ( defined( $this->{cache}->{$web}{$topic} ) );
+    return ($this->{session}->{user} and defined( $this->{cache}->{$this->current_user()}{$web}{$topic} ) );
 }
 
 sub removeMeta {
     my ( $this, $web, $topic) = @_;
+    my $user = $this->current_user();
 
-    if (defined($topic) and defined($this->{cache}->{$web}{$topic})) {
-        $this->{cache}->{$web}{$topic}->finish();
-        delete $this->{cache}->{$web}{$topic};
+    if (defined($topic) and defined($this->{cache}->{$user}{$web}{$topic})) {
+        $this->{cache}->{$user}{$web}{$topic}->finish();
+        delete $this->{cache}->{$user}{$web}{$topic};
     } else {
-        foreach my $topic (keys(%{$this->{cache}->{$web}})) {
+        foreach my $topic (keys(%{$this->{cache}->{$user}{$web}})) {
             $this->removeMeta($web, $topic);
         }
-        delete $this->{cache}->{$web};
+        delete $this->{cache}->{$user}{$web};
     }
 }
 
@@ -137,23 +140,27 @@ sub addMeta {
         return undef;
     }
     
-    unless ( $this->{cache}->{$web} ) {
-        $this->{cache}->{$web} = {};
+    my $user = $this->current_user();
+
+    unless ( $this->{cache}->{$user}{$web} ) {
+        $this->{cache}->{$user}{$web} = {};
     }
-    unless ( $this->{cache}->{$web}{$topic} ) {
-        $this->{cache}->{$web}{$topic} = {};
+    unless ( $this->{cache}->{$user}{$web}{$topic} ) {
+        $this->{cache}->{$user}{$web}{$topic} = {};
     }
-    unless ( defined($this->{cache}->{$web}{$topic}->{tom})) {
-            $this->{cache}->{$web}{$topic}->{tom} = $meta;
+    unless ( defined($this->{cache}->{$user}{$web}{$topic}->{tom})) {
+            $this->{cache}->{$user}{$web}{$topic}->{tom} = $meta;
             $this->{new_count}++;
     }
     return $meta;
 }
 sub getMeta {
     my ( $this, $web, $topic, $meta ) = @_;
-    return undef unless (defined($this->{cache}->{$web}));
-    return undef unless (defined($this->{cache}->{$web}{$topic}));
-    return $this->{cache}->{$web}{$topic}->{tom};
+    my $user = $this->current_user();
+
+    return undef unless (defined($this->{cache}->{$user}{$web}));
+    return undef unless (defined($this->{cache}->{$user}{$web}{$topic}));
+    return $this->{cache}->{$user}{$web}{$topic}->{tom};
 }
 
 =begin TML
@@ -189,7 +196,10 @@ sub get {
     $this->{get_count}++;
 
     my $info = {tom => $meta};
-    $info = $this->{cache}->{$web}{$topic} if defined($this->{cache}->{$web}{$topic});
+    my $user = $this->current_user();
+
+    ASSERT ( defined $user ) if DEBUG;
+    $info = $this->{cache}->{$user}{$web}{$topic} if defined($this->{cache}->{$user}{$web}{$topic});
     if  (not defined($info->{editby})) {
         #TODO: extract this to the Meta Class, or remove entirely
         # Extract sort fields
@@ -248,7 +258,17 @@ sub remove {
     $self->removeMeta( $args{oldmeta}->web, $args{oldmeta}->topic ) if ( defined( $args{oldmeta} ) );
 }
 
+sub current_user {
+    my $self = shift;
 
+    ASSERT(defined $self->{session}) if DEBUG;
+    my $user = $self->{session}->{user};
+    if (not defined $user) {
+        $user = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
+    }
+
+    return $user;
+}
 
 1;
 __END__

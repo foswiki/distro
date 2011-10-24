@@ -465,9 +465,9 @@ sub load {
 #TODO: need to extract the metacache from search, and extract the additional derived info from it too
 #TODO: this mess is because the Listeners cannot assign a cached meta object to an already existing unloaded meta
 #       which in Sven's opinion means we need to invert things better. (I get ~10% (.2S on 2S req's) speedup on simpler SEARCH topics doing reuse)
-#my $m = $session->search->metacache->getMeta( $this->web, $this->topic );
+my $m = $session->search->metacache->getMeta( $this->web, $this->topic );
 #print STDERR "metacache->getMeta ".join(',', ( $this->web, $this->topic, ref($m) ))."\n";
-#return $m if (defined($m));
+return $m if (defined($m));
     }
 
     ASSERT( not( $this->{_latestIsLoaded} ) ) if DEBUG;
