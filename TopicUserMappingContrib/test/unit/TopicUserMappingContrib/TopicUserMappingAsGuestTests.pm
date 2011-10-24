@@ -1,8 +1,8 @@
 # See bottom of file for license and copyright information
+package TopicUserMappingAsGuestTests;
+
 use strict;
 use warnings;
-
-package TopicUserMappingAsGuestTests;
 
 # Some basic tests for Foswiki::Users::TopicUserMapping
 #
@@ -18,8 +18,6 @@ use Foswiki::Users::TopicUserMapping;
 use Error qw( :try );
 
 my $fatwilly;
-my $saveTopic;
-my $ttpath;
 
 my $testSysWeb    = 'TemporaryTopicUserMappingAsGuestTestsSystemWeb';
 my $testNormalWeb = "TemporaryTopicUserMappingAsGuestTestsNormalWeb";
@@ -35,6 +33,8 @@ sub NormalTopicUserMapping {
     my $this = shift;
     $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID = '';
     $this->set_up_for_verify();
+
+    return;
 }
 
 sub NamedTopicUserMapping {
@@ -43,23 +43,31 @@ sub NamedTopicUserMapping {
     # Set a mapping ID for purposes of testing named mappings
     $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID = 'TestMapping_';
     $this->set_up_for_verify();
+
+    return;
 }
 
 sub useHtpasswdMgr {
     my $this = shift;
 
     $Foswiki::cfg{PasswordManager} = "Foswiki::Users::HtPasswdUser";
+
+    return;
 }
 
 sub noPasswdMgr {
     my $this = shift;
 
     $Foswiki::cfg{PasswordManager} = "none";
+
+    return;
 }
 
 # Override default set_up in base class; will call it after the mapping
 #  id has been set
 sub set_up {
+
+    return;
 }
 
 # Delay the calling of set_up till after the cfg's are set by above closure
@@ -79,7 +87,7 @@ sub set_up_for_verify {
     $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
 
     try {
-        $fatwilly = new Foswiki( $Foswiki::cfg{DefaultUserWikiName} );
+        $fatwilly = Foswiki->new( $Foswiki::cfg{DefaultUserWikiName} );
         Foswiki::Func::createWeb($testUsersWeb);
 
         # the group is recursive to force a recursion block
@@ -108,6 +116,8 @@ sub set_up_for_verify {
     catch Error::Simple with {
         $this->assert( 0, shift->stringify() || '' );
     };
+
+    return;
 }
 
 sub tear_down {
@@ -119,6 +129,8 @@ sub tear_down {
     unlink $Foswiki::cfg{Htpasswd}{FileName};
     $fatwilly->finish();
     $this->SUPER::tear_down();
+
+    return;
 }
 
 sub new {
@@ -162,7 +174,7 @@ my $initial = <<'THIS';
 THIS
 
 sub createFakeUser {
-    my ( $this, $fatwilly, $text, $name ) = @_;
+    my ( $this, $session, $text, $name ) = @_;
     $this->assert( Foswiki::Func::webExists( $Foswiki::cfg{UsersWebName} ) );
     $name ||= '';
     my $base = "TemporaryTestUser" . $name;
@@ -174,7 +186,7 @@ sub createFakeUser {
     }
     $text ||= '';
     my $meta =
-      Foswiki::Meta->new( $fatwilly, $Foswiki::cfg{UsersWebName}, $base . $i );
+      Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName}, $base . $i );
     $meta->put(
         "TOPICPARENT",
         {
@@ -241,6 +253,8 @@ HERE
    * Set GROUP = ZebediahUser
 HERE
     );
+
+    return;
 }
 
 sub verify_getListOfGroups {
@@ -261,6 +275,8 @@ sub verify_getListOfGroups {
 "AaanotherSecretGroup,AanotherSecretGroup,AdminGroup,AmishGroup,BaptistGroup,BaseGroup,BottomGroup,MultiLineGroup,NextHiddenGroup,SecretGroup,TopGroup",
         $k
     );
+
+    return;
 }
 
 #this is the test for Item9808
@@ -280,6 +296,8 @@ sub verify_eachGroupMember {
           . 'zuser',
         $k
     );
+
+    return;
 }
 
 sub verify_secretGroupIsHidden {
@@ -289,7 +307,7 @@ sub verify_secretGroupIsHidden {
     my $result;
     my $oldSession = $this->{session};
 
-    $this->{session} = new Foswiki( $Foswiki::cfg{DefaultUserLogin} );
+    $this->{session} = Foswiki->new( $Foswiki::cfg{DefaultUserLogin} );
     $this->groupFix();
     my $i = $this->{session}->{users}->eachGroup();
 
@@ -319,7 +337,7 @@ sub verify_secretGroupIsHiddenFromGROUPINFO {
     my $result;
     my $oldSession = $this->{session};
 
-    $this->{session} = new Foswiki( $Foswiki::cfg{DefaultUserLogin} );
+    $this->{session} = Foswiki->new( $Foswiki::cfg{DefaultUserLogin} );
     $this->groupFix();
     my $i = $this->{session}->{users}->eachGroup();
 
@@ -352,6 +370,8 @@ HERE
 'TemporaryTopicUserMappingAsGuestTestsUsersWeb.AaronUser, TemporaryTopicUserMappingAsGuestTestsUsersWeb.GeorgeUser, TemporaryTopicUserMappingAsGuestTestsUsersWeb.ZebediahUser',
         $result
     );
+
+    return;
 }
 
 #TODO: consider what happens if the user topic is hidden..
