@@ -105,6 +105,26 @@ You can customize the default [[%SYSTEMWEB%.UserRegistration]] topic by first co
 A couple of common fields are hidden from normal view to make the registration page as lean as possible. You can unhide those fields on the page by removing =EXCLUDED_= from the =INCLUDE= tags) or add new ones.
 
 New fields may also be added. The =name=""= parameter of the =&lt;input&gt;= tags must start with: ="Fwk0..."= (if this is an optional entry), or ="Fwk1..."= (if this is a required entry). This ensures that the fields are carried over into the user home page correctly.
+
+---++++ Automatic Group Membership
+You can also enroll users into groups during registration. Options include:
+   * Automatically enrolling users in one or more groups during registration
+   * Allow the user to select multiple groups from a list of eligible groups
+   * Allow the user to choose only _one_ group from a list of eligible groups
+   * Don't do any group enrollment during registration.
+
+The list of eligible groups can be generated in one of two ways:
+   * Manually by configuration.  This fixed list of groups will always be listed.
+   * Automatically based upon CHANGE permission on the group topics.
+
+There are two registration scenarios that apply:
+
+   $ Self-registration by Guest users:  The actual registration will be processed by the special internal user %USERSWEB%.RegistrationAgent.  Group topics must include an ALLOWTOPICCHANGE = %USERSWEB%.RegistrationAgent to be eligible for enrollment.
+   $ Registration by logged-in users:  The registration form is filled out by some other logged-in user.  In this case, the %USERSWEB%.RegistrationAgent is *not* used for Group updates.  The current user must have ALLOWTOPICCHANGE permission for groups for them to be eligible for enrollment.
+
+Note: During registration, if it turns out that the current user or %USERSWEB%.RegistrationAgent doesn't have permission to update the group topic, the group update will be silently skipped.  The user will still be albe to register.
+
+See DefaultPreferences#RegistrationOptions for further details.  Copy the settings into %USERSWEB%.SitePreferences to make them active.
 %ENDSECTION{"TemplateLogin"}%
 
 #ApacheLogin

@@ -44,6 +44,7 @@ In standard Foswiki a user can create an account in UserRegistration. The follow
    * A confirmation e-mail is sent to the user.
    * A user home page with the WikiName of the user is created in the %USERSWEB% web.
    * The user is added to the %USERSWEB%.%WIKIUSERSTOPIC% topic.
+   * Optionally the user is added to one or more groups.
 
 The default visitor name is %USERSWEB%.WikiGuest. This is the non-authenticated user.  By default the non-authenticated user is not permitted to edit topics.  If you require anonymous editing, see [[UserAuthentication#IndividualScripts]].
 
@@ -62,6 +63,7 @@ By default any member of a group has access rights to both adding and removing u
 
 The =ALLOWTOPICCHANGE= setting defines who is allowed to change the group topic; it is a comma delimited list of users and groups. You typically want to restrict that to the members of the group itself, so it should contain the name of the topic. This prevents users not in the group from editing the topic to give themselves or others access. For example, for the <nop>KasabianGroup topic write:
    * ==Set <nop>ALLOWTOPICCHANGE = %USERSWEB%.<nop>KasabianGroup==
+      * *Caution* This is set in the "Topic Settings" and not inline in the topic text!
 
 <blockquote class="foswikiHelp">
 %X% Foswiki has strict formatting rules. Make sure you have three spaces, an asterisk, and an extra space in front of any access control rule. See below for more information about ALLOWTOPICCHANGE.
