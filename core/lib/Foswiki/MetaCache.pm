@@ -20,6 +20,7 @@ about the same topic more than once.
 use Assert;
 use Foswiki::Func ();
 use Foswiki::Meta ();
+use Foswiki::Users::BaseUserMapping ();
 
 #use Monitor ();
 #Monitor::MonitorMethod('Foswiki::MetaCache', 'getTopicListIterator');
