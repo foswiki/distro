@@ -1433,7 +1433,7 @@ sub setRevisionInfo {
     # compatibility; older versions of the code use
     # RCS rev numbers. Save with them so old code can
     # read these topics
-    ASSERT(defined $ti->{version}) if DEBUG;
+    ASSERT( defined $ti->{version} ) if DEBUG;
     $ti->{version} = 1 if $ti->{version} < 1;
     $ti->{version} = $ti->{version};
     $ti->{format}  = $EMBEDDING_FORMAT_VERSION;

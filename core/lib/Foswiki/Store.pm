@@ -180,7 +180,7 @@ sub askListeners {
 
     foreach my $el ( @{ $this->{event_listeners} } ) {
         next unless $el->can('loadTopic');
-        ( $gotRev, $isLatest ) = $el->loadTopic($meta, $version);
+        ( $gotRev, $isLatest ) = $el->loadTopic( $meta, $version );
         return ( $gotRev, $isLatest ) if $gotRev;
     }
     return ( undef, undef );
@@ -200,11 +200,11 @@ will not be asked.
 
 sub askListenersRevisionHistory {
     my ( $this, $meta, $attachment ) = @_;
-    my ( $itr );
+    my ($itr);
 
     foreach my $el ( @{ $this->{event_listeners} } ) {
         next unless $el->can('getRevisionHistory');
-        return $itr = $el->getRevisionHistory($meta, $attachment);
+        return $itr = $el->getRevisionHistory( $meta, $attachment );
     }
     return undef;
 }
@@ -224,7 +224,7 @@ sub askListenersVersionInfo {
 
     foreach my $el ( @{ $this->{event_listeners} } ) {
         next unless $el->can('getVersionInfo');
-        return $el->getVersionInfo($meta, $version, $attachment);
+        return $el->getVersionInfo( $meta, $version, $attachment );
     }
     return undef;
 }

@@ -79,9 +79,9 @@ sub getHandler {
 sub readTopic {
     my ( $this, $topicObject, $version ) = @_;
 
-    my ( $gotRev, $isLatest ) = $this->askListeners($topicObject, $version);
+    my ( $gotRev, $isLatest ) = $this->askListeners( $topicObject, $version );
 
-    if ( defined($gotRev) and ( $gotRev > 0 or ($isLatest)) ) {
+    if ( defined($gotRev) and ( $gotRev > 0 or ($isLatest) ) ) {
         return ( $gotRev, $isLatest );
     }
     ASSERT( not $isLatest ) if DEBUG;
@@ -90,13 +90,14 @@ sub readTopic {
     $isLatest = 0;
 
     # check that the requested revision actually exists
-    if ( defined $version && $version =~ /^\d+$/) {
+    if ( defined $version && $version =~ /^\d+$/ ) {
         if ( $version == 0 || !$handler->revisionExists($version) ) {
             $version = $handler->getLatestRevisionID();
         }
-    } else {
-	undef $version; # if it's a non-numeric string, we need to return undef
-	# "...$version is defined but refers to a version that does not exist, then $rev is undef"
+    }
+    else {
+        undef $version;  # if it's a non-numeric string, we need to return undef
+         # "...$version is defined but refers to a version that does not exist, then $rev is undef"
     }
 
     ( my $text, $isLatest ) = $handler->getRevision($version);
@@ -108,13 +109,14 @@ sub readTopic {
     $text =~ s/\r//g;    # Remove carriage returns
     $topicObject->setEmbeddedStoreForm($text);
 
-    unless ($handler->noCheckinPending()) {
-	# If a checkin is pending, fix the TOPICINFO
-        my $ri = $topicObject->get('TOPICINFO');
-	my $truth = $handler->getInfo($version);
-	for my $i qw(author version date) {
-	    $ri->{$i} = $truth->{$i};
-	}
+    unless ( $handler->noCheckinPending() ) {
+
+        # If a checkin is pending, fix the TOPICINFO
+        my $ri    = $topicObject->get('TOPICINFO');
+        my $truth = $handler->getInfo($version);
+        for my $i qw(author version date) {
+            $ri->{$i} = $truth->{$i};
+        }
     }
 
     $gotRev = $version;
@@ -122,7 +124,7 @@ sub readTopic {
 
         # First try the just-loaded for the revision.
         my $ri = $topicObject->get('TOPICINFO');
-	$gotRev = $ri->{version} if defined $ri;
+        $gotRev = $ri->{version} if defined $ri;
     }
     if ( !defined $gotRev ) {
 
@@ -277,7 +279,7 @@ sub openAttachment {
 sub getRevisionHistory {
     my ( $this, $topicObject, $attachment ) = @_;
 
-    my $itr = $this->askListenersRevisionHistory($topicObject, $attachment);
+    my $itr = $this->askListenersRevisionHistory( $topicObject, $attachment );
 
     if ( defined($itr) ) {
         return $itr;
@@ -312,7 +314,7 @@ sub getVersionInfo {
     my ( $this, $topicObject ) = @_;
     my $info = $this->askListenersVersionInfo($topicObject);
 
-    if (not defined $info) {
+    if ( not defined $info ) {
         my $handler = $this->getHandler($topicObject);
 
         $info = $handler->getInfo( $topicObject->getLoadedRev() );
@@ -348,9 +350,9 @@ sub saveTopic {
 
     # just in case they are not sequential
     my $nextRev = $handler->getNextRevisionID();
-    my $ti = $topicObject->get('TOPICINFO');
+    my $ti      = $topicObject->get('TOPICINFO');
     $ti->{version} = $nextRev;
-    $ti->{author} = $cUID;
+    $ti->{author}  = $cUID;
 
     $handler->addRevisionFromText( $topicObject->getEmbeddedStoreForm(),
         'save topic', $cUID, $options->{forcedate} );
