@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.4 beta dd mmm 2011
+---+!! Foswiki Release 1.1.4 beta1 24 Oct 2011
 
 %TOC%
 
@@ -31,7 +31,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
-   * Foswiki 1.1.4 was built xx xxx 2011. It is a release that fixes some very important including some security related issues. It contains 98 fixes and 24 enhancements. jQuery has been updated to 1.6.4.
+   * Foswiki 1.1.4 was built 24 Oct 2011. It is a release that fixes some very important including some security related issues. It contains 109 fixes and 25 enhancements. jQuery has been updated to 1.6.4.
 
 ---++ Pre-installed Extensions
 
@@ -1073,6 +1073,7 @@ to your =bin/LocalLib.cfg=.
 <noautolink>
 | [[%BUGS%/Item1200][Item1200]] | Unexpected result when link text contains email address  |
 | [[%BUGS%/Item1539][Item1539]] | Fields in System.UserRegistration still prefixed Twk## instead Fwk## |
+| [[%BUGS%/Item8647][Item8647]] | TablePlugin generates empty tfoot, even when there are footer rows |
 | [[%BUGS%/Item9164][Item9164]] | The crypt-md5 encoding in HtPasswd.pm is not cross-platform compatible |
 | [[%BUGS%/Item9496][Item9496]] | Implement re-usable way to set default text of input fields |
 | [[%BUGS%/Item10070][Item10070]] | move/rename does not find backlinks followed by underscore |
