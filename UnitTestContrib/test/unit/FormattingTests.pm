@@ -1277,14 +1277,64 @@ ACTUAL
 
 sub test_externalLinkWithImageUrl {
     my $this     = shift;
-    my $expected = <<EXPECTED;
+    my $expected = <<"EXPECTED";
 <a href="$this->{sup}/$this->{test_web}/$this->{test_topic}" class="foswikiCurrentTopicLink" >
 <img alt="foswiki-logo.gif" src="http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif" />
 </a>
 EXPECTED
 
-    my $actual = <<ACTUAL;
+    my $actual = <<"ACTUAL";
 [[$this->{test_topic}][ http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif ]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+sub test_externalLinkWithEscapedImageUrl {
+    my $this     = shift;
+    my $expected = <<"EXPECTED";
+<a href="$this->{sup}/$this->{test_web}/$this->{test_topic}" class="foswikiCurrentTopicLink" >
+http<nop>://<nop>foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif
+</a>
+EXPECTED
+
+    my $actual = <<"ACTUAL";
+[[$this->{test_topic}][ http://<nop>foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif ]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+
+    # <nop> at the beginning
+    $expected = <<"EXPECTED";
+<a href="$this->{sup}/$this->{test_web}/$this->{test_topic}" class="foswikiCurrentTopicLink" >
+<nop>http<nop>://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif
+</a>
+EXPECTED
+
+    $actual = <<"ACTUAL";
+[[$this->{test_topic}][<nop>http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+
+    # ! at the beginning
+    $expected = <<"EXPECTED";
+<a href="$this->{sup}/$this->{test_web}/$this->{test_topic}" class="foswikiCurrentTopicLink" >
+!http<nop>://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif
+</a>
+EXPECTED
+
+    $actual = <<"ACTUAL";
+[[$this->{test_topic}][!http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif]]
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+sub test_externalLinkWithImageNotUrl {
+    my $this     = shift;
+    my $expected = <<'EXPECTED';
+<a href="http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif" target="_top">foswiki-logo.gif</a>
+EXPECTED
+
+    my $actual = <<'ACTUAL';
+[[ http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif ][foswiki-logo.gif]]
 ACTUAL
     $this->do_test( $expected, $actual );
 }
