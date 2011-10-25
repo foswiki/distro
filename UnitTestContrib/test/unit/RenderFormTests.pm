@@ -19,7 +19,6 @@ BEGIN {
     $codedir = File::Temp::tempdir( CLEANUP => 1 );
     mkdir("$codedir/Foswiki")      || die $!;
     mkdir("$codedir/Foswiki/Form") || die $!;
-    open( my $F, '>', "$codedir/Foswiki/Form/Nuffin.pm" ) || die $!;
 
     my $code = <<'CODE';
 package Foswiki::Form::Nuffin;
@@ -36,6 +35,8 @@ sub renderForDisplay {
 
 1;
 CODE
+
+    open( my $F, '>', "$codedir/Foswiki/Form/Nuffin.pm" ) || die $!;
     print $F $code;
     close($F) || die $!;
     push( @INC, $codedir );
@@ -428,7 +429,7 @@ sub test_nondefined_form {
     my $web   = $this->{test_web};
     my $topic = 'FormDoesntExist';
 
-    my $rawtext = <<TOPIC;
+    my $rawtext = <<'TOPIC';
 %META:FORM{name="NonExistantPluginTestForm"}%
 %META:FIELD{name="ExtensionName" attributes="" title="ExtensionName" value="Example"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="SkinPackage"}%
@@ -501,45 +502,51 @@ HERE
 # Item11088 - the aim of this test is to measure the performance of the
 # select+multi+values formfield type when its default values are a static list
 sub test_timing_static_multivalues {
-    my ($this)      = @_;
-    my @topics = Foswiki::Func::getTopicList($Foswiki::cfg{SystemWebName});
+    my ($this) = @_;
+    my @topics = Foswiki::Func::getTopicList( $Foswiki::cfg{SystemWebName} );
     my @list;
-    
-    foreach my $topic ( @topics ) {
-        push(@list, Foswiki::Func::spaceOutWikiWord($topic) . '=' . $topic);
+
+    foreach my $topic (@topics) {
+        push( @list, Foswiki::Func::spaceOutWikiWord($topic) . '=' . $topic );
     }
-    $this->timing_multivalues(20, join(', ', @list));
+    $this->timing_multivalues( 20, join( ', ', @list ) );
 
     return;
 }
 
 sub test_timing_dynamic_multivalues {
-    my ($this)      = @_;
-    
-    $this->timing_multivalues(20, '%SEARCH{ "1" type="query" web="%SYSTEMWEB%" nonoise="on" nofinalnewline="on" format="$percntSPACEOUT{$topic}$percnt=$topic" separator=", " }%');
+    my ($this) = @_;
+
+    $this->timing_multivalues( 20,
+'%SEARCH{ "1" type="query" web="%SYSTEMWEB%" nonoise="on" nofinalnewline="on" format="$percntSPACEOUT{$topic}$percnt=$topic" separator=", " }%'
+    );
 
     return;
 }
 
 sub timing_multivalues {
-    my ($this, $numcycles, $values) = @_;
-    my ($formTopicObject) = Foswiki::Func::readTopic($this->{test_web}, "$this->{test_topic}Form");
+    my ( $this, $numcycles, $values ) = @_;
+    my ($formTopicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, "$this->{test_topic}Form" );
     $formTopicObject->text(<<"HERE");
 | *Name* | *Type*              | *Size* | *Values* | *Tooltip* | *Attributes* |
 | Topics | select+multi+values | 10     | $values  | Topic     |              |
 HERE
     $formTopicObject->save();
-    my ($topicObject) = Foswiki::Func::readTopic($this->{test_web}, $this->{test_topic});
-    $topicObject->put('FORM', {name => $this->{test_web} . '.' . $this->{test_topic} . 'Form'});
-    $topicObject->put('FIELD', {name => 'Topics', value => $Foswiki::cfg{HomeTopicName}});
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->put( 'FORM',
+        { name => $this->{test_web} . '.' . $this->{test_topic} . 'Form' } );
+    $topicObject->put( 'FIELD',
+        { name => 'Topics', value => $Foswiki::cfg{HomeTopicName} } );
     $topicObject->save();
-    my $benchmark   = timeit(
+    my $benchmark = timeit(
         $numcycles,
         sub {
-                $topicObject->expandMacros(<<"HERE");
+            $topicObject->expandMacros(<<"HERE");
 %META{"form"}%
 HERE
-            }
+        }
     );
     my $timestr = timestr($benchmark);
 
