@@ -1084,7 +1084,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10449][Item10449]] | Form with all hidden fields should be hidden in view |
 | [[%BUGS%/Item10468][Item10468]] | Up and Down Arrow-Keys not working with Firefox 4 |
 | [[%BUGS%/Item10479][Item10479]] | Complex searches can fail with deep recursion |
-| [[%BUGS%/Item10559][Item10559]] | Use of uninitialized value in numeric comparison (...) at ... Core.pm line 1421 |
+| [[%BUGS%/Item10559][Item10559]] | TablePlugin Use of uninitialized value in numeric comparison (...) at ... Core.pm line 1421 |
 | [[%BUGS%/Item10566][Item10566]] | !ApacheLogin throws 403 instead of 401 to unauthenticated users with rest, viewfile, rdiff and compare scripts |
 | [[%BUGS%/Item10623][Item10623]] | bin/.htaccess.txt is inconsistent with other htaccess files.  Move to bin-htaccess.txt |
 | [[%BUGS%/Item10644][Item10644]] | bin/changes output is corrupted |
@@ -1106,6 +1106,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10784][Item10784]] | Configuration checker for DataDir is confused by some installation locations. |
 | [[%BUGS%/Item10794][Item10794]] | Foswiki::Func::renderText cannot return a result which is a "0" zero |
 | [[%BUGS%/Item10801][Item10801]] | Search is broken with PatternSkin on 1.0.9 |
+| [[%BUGS%/Item10802][Item10802]] | Use of uninitialized value multiple locations in Foswiki::Search::InfoCache |
 | [[%BUGS%/Item10803][Item10803]] | CompareRevisionsAddOn causes illegal ={SwitchBoard}= value in Foswiki configuration (affects ApacheLogin users) |
 | [[%BUGS%/Item10804][Item10804]] | Some radio buttons on WebSearch behave erratically when clicked on the label |
 | [[%BUGS%/Item10807][Item10807]] | Prevent recursion in template expansion |
@@ -1181,6 +1182,9 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11189][Item11189]] | Images referenced in square bracket link text are not rendered |
 | [[%BUGS%/Item11193][Item11193]] | typo in lib/Foswiki/PageCache.pm causing all (cached) pages to be delivered with a Last-Modified: header set to 01 Jan 1970 |
 | [[%BUGS%/Item11194][Item11194]] | Add to warnings reported by {AuthScripts} checker.  Warn if statistics unprotected.  Warn to confirm apache config if not using TemplateLogin |
+| [[%BUGS%/Item11200][Item11200]] | Some crafted URLs result in a Undefined warning in Foswiki::Store::VC::Handler |
+| [[%BUGS%/Item11204][Item11204]] | Various improvements to jquery.media, jquery.tooltip, jquery.superfish, jquery.ui.resizable, jquery.button, jquery.ui.dialog and jquery.textboxlist |
+| [[%BUGS%/Item11205][Item11205]] | Dependency.pm is not reporting out-of-date extension when migrating from date to dotted versions.|
 </noautolink>
 
 ---+++ Enhancements
