@@ -71,23 +71,23 @@ jQuery(document).ready(
 		/*
 		Set up cycle plugin.
 		*/
-		$('.slideshow').cycle({
-			height:'100%',
-			width:'100%',
-			containerResize:0,
-			fx:'fade',
-			startingSlide:startingSlide,
-			timeout:0,
-			speed:300,
-			before:function(curr,next,opts) {
-				endSlide = opts.slideCount - 1;
-				updateJumpInputField(opts.nextSlide);
-			},
-			after:function(curr,next,opts) {
-				window.location.hash = opts.currSlide + 1;
-				updateJumpInputField(opts.currSlide);
-			}
-		}).show();
+                $('.slideshow').show().cycle({
+                        height:'100%',
+                        width:'100%',
+                        containerResize:0,
+                        fx:'fade',
+                        startingSlide:startingSlide,
+                        timeout:0,
+                        speed:300,
+                        before:function(curr,next,opts) {
+                                endSlide = opts.slideCount - 1;
+                                updateJumpInputField(opts.nextSlide);
+                        },
+                        after:function(curr,next,opts) {
+                                window.location.hash = opts.currSlide + 1;
+                                updateJumpInputField(opts.currSlide);
+                        }
+                });
 		
 		/*
 		Behaviour for links in the slide TOC. The links should contain a hash with slide number.

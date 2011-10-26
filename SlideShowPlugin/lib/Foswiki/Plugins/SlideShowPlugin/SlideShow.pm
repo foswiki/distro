@@ -26,6 +26,8 @@ sub init {
       Foswiki::Func::isTrue(
         Foswiki::Func::getPreferencesValue('SLIDESHOWPLUGIN_HIDECOMMENTS')
           || '' );
+
+    $addedHead = 0;
 }
 
 =pod
