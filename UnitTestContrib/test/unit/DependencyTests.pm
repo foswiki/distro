@@ -505,9 +505,17 @@ sub test_compare_extension_versions {
         [0, undef, undef, undef, 0],
         [0, undef, undef, undef, undef],
 
-        # dd Mmm yyyy dates compared to Triplet
-        [0, '1 Jan 2009', undef,  '<', '1.2.3'],
+        # dd Mmm yyyy dates compared to Triplet requested
+        # Always true - assume migration from date to triplet
+        [1, '1 Jan 2009', undef,  '<', '1.2.3'],
         [1, '1 Jan 2009', undef,  '>', '1.2.3'],
+
+        # Triplet installed, compared to date requested
+        # Always false - assume migration from date to triplet
+        [0, '1.2.3', undef,  '>', '1 Jan 2009'],
+        [0, '1.2.3', undef,  '<', '1 Jan 2009'],
+
+        # Mmmmmm yyyy - not supported, always false
         [0, 'November 2007', undef,  '<', '1.2.3'],
         [0, 'November 2007', undef,  '>', '1.2.3'],
     );
