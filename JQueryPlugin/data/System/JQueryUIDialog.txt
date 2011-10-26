@@ -1,0 +1,113 @@
+%META:TOPICINFO{author="micha" comment="save topic" date="1319037739" format="1.1" reprev="6" version="6"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+!! %TOPIC%
+
+%TOC%
+
+---++ Summary
+%JQPLUGINS{"ui::dialog"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+A dialog is a floating window that contains a title bar and a content area. The dialog window can be moved, resized and closed with the 'x' icon by default.
+
+If the content length exceeds the maximum height, a scrollbar will automatically appear.
+
+A bottom button bar and semi-transparent modal overlay layer are common options that can be added.
+
+A call to =$(foo).dialog()= will initialize a dialog instance and will auto-open the dialog by default. If you want to reuse a dialog, the easiest way is to disable the "auto-open" option with: 
+=$(foo).dialog({ autoOpen: false })= and open it with =$(foo).dialog('open')=. To close it, use =$(foo).dialog('close')=. 
+%ENDSECTION{"summary"}%
+
+---++ Usage
+
+To load the library into the current wiki page, add this somewhere on the page:
+
+<verbatim class="tml">
+%JQREQUIRE{"ui::dialog"}%
+</verbatim>
+
+This will initialized the following css classes to build the dialog widgets:
+
+   * =jqUIDialog=: dialog definition  
+   * =jqUIDialogLink=: anchor pointing to a dialog 
+   * =jqUIDialogButton=:  buttons to be added to the dialog 
+
+Dialogs can be created inline or loaded on demand. The basic skeleton of a dialog definition looks like
+
+<verbatim class="tml">
+<div class="jqUIDialog" id="mydialog" title="Here's the title of the dialog" >
+
+  Here goes the content.
+
+  ...
+
+  <a class="jqUIDialogButton {icon:'ui-icon-circle-check', click: function() { $(this).dialog('close'); }}">%MAKETEXT{"Ok"}%</a>
+  <a class="jqUIDialogButton {icon:'ui-icon-cancel', click: function() { $(this).dialog('close'); }}">%MAKETEXT{"Cancel"}%</a>
+</div>
+</verbatim>
+
+... which is activated by something like this:
+
+<verbatim class="tml">
+<a href="#mydialog" class="jqDialogLink">Open Dialog</a>
+</verbatim>
+
+A dialog can also be opened using <nop>JavaScript:
+
+<verbatim class="js">
+jQuery("#mydialog").dialog("open");
+</verbatim>
+
+To load a dialog asynchronously use a fully quallified hyperref as in
+
+<verbatim class="tml">
+<a href="http://...." class="jqDialogLink">Open Dialog</a>
+</verbatim>
+
+This will fetch the content of the dialog from the given url and add it to the page before opening it.
+Once the dialog has been loaded it will be cached as part of the current page unless the =cache= option
+to the =jqDialogLink= has been disabled:
+
+<verbatim class="tml">
+<a href="http://...." class="jqDialogLink {cache:false}">Open Dialog</a>
+</verbatim>
+
+In this case the dialog will alwas be fetched again from the backend using the given url.
+
+---++ Examples
+%JQREQUIRE{"ui::dialog, ui::button"}%
+
+---+++ Dialog defined inline
+<a href="#dialog" class="jqUIDialogLink">Open Dialog</a>
+
+<div id="dialog" title="Inline Dialog" class="jqUIDialog {draggable:true}">
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+  et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+  ex ea commodo consequat.
+  <a class="jqUIDialogButton {icon:'ui-icon-circle-check', click: function() { $(this).dialog('close'); }}">%MAKETEXT{"Ok"}%</a>
+  <a class="jqUIDialogButton {icon:'ui-icon-cancel', click: function() { $(this).dialog('close'); }}">%MAKETEXT{"Cancel"}%</a>
+</div>
+
+---+++ Dialog fetched asynchronously
+
+<a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=text&section=dialog" class="jqUIDialogLink">Open Dialog</a>
+
+<verbatim class="foswikiHidden">
+%STARTSECTION{"dialog"}%
+<div title="From Ajax call" class="jqUIDialog { modal:true, resizable:true, draggable:true, height:300, width:600}">
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+  et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+  ex ea commodo consequat.
+  <a class="jqUIDialogButton {icon:'ui-icon-circle-check', click: function() { $(this).dialog('close'); }}">%MAKETEXT{"Ok"}%</a>
+  <a class="jqUIDialogButton {icon:'ui-icon-cancel', click: function() { $(this).dialog('close'); }}">%MAKETEXT{"Cancel"}%</a>
+</div>
+%ENDSECTION{"dialog"}%
+</verbatim>
+
+See http://jqueryui.com/demos/dialog/ for more demos.

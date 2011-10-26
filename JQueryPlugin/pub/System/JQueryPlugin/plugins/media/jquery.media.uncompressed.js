@@ -325,7 +325,7 @@ $.fn.media.swf = function(el, opts) {
 		if (!el.id) el.id = 'movie_player_' + counter++;
 
 		// replace el with swfobject content
-		window.swfobject.embedSWF(opts.src, el.id, opts.width, opts.height, opts.flashVersion,
+		swfobject.embedSWF(opts.src, el.id, opts.width, opts.height, opts.flashVersion,
 			opts.expressInstaller, opts.flashvars, opts.params, opts.attrs);
 	}
 	// swfobject < v2

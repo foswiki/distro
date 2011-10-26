@@ -68,9 +68,9 @@ Use the ==jqInnerfade== to mark those elements you want to generate an inner-fad
 <div class="jqInnerfade {timeout:5000, type:'random', containerheight:'220px'}">
 <img src="%ATTACHURLPATH%/ggbg.gif" alt="Good Guy bad Guy" />
 <img src="%ATTACHURLPATH%/whizzkids.gif" alt="Whizzkids" />
-<img src="%ATTACHURLPATH%/km.jpg" alt="Königin Mutter" />
+<img src="%ATTACHURLPATH%/km.jpg" alt="KÃ¶nigin Mutter" />
 <img src="%ATTACHURLPATH%/rt_arch.jpg" alt="RT Hybride Archivierung" />
-<img src="%ATTACHURLPATH%/tuev.jpg" alt="TÜV SÜD Gruppe" />
+<img src="%ATTACHURLPATH%/tuev.jpg" alt="TÃœV SÃœD Gruppe" />
 </div>
 
 %META:FILEATTACHMENT{name="km.jpg" attachment="km.jpg" attr="" comment="" date="1258380549" size="13645" user="ProjectContributor" version="1"}%

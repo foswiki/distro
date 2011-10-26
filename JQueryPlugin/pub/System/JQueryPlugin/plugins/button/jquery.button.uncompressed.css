@@ -11,7 +11,10 @@
 a.jqButton:visited,
 a.jqButton:link,
 .jqButton {
-  color:#000;
+  color:#111;
+}
+a.jqButton:hover {
+  color:#C60206;
 }
 .jqButton:hover,
 .jqButton {
@@ -34,11 +37,11 @@ a.jqButton:link,
 
 .jqButtonSimple:hover,
 .jqButton:hover {
-  color:red;
+  color:#C60206;
 }
 .jqButton:hover,
 .jqButton:active { /* pattern skin */
-  color:red;
+  color:#C60206;
 }
 
 .jqButton span {
@@ -54,6 +57,15 @@ a.jqButton:link,
   /* ie 6 */
   _margin:0px 1px 0px 0px;
 }
+
+.jqButton:active {
+  background-position:bottom right;
+}
+
+.jqButton:active span {
+  background-position:bottom left;
+}
+
 .jqButtonSimple {
   color:inherit;
   text-shadow:none;
@@ -65,6 +77,7 @@ a.jqButton:link,
 .jqButtonSimple span span {
   padding:0px 0px 0px 23px;
 }
+.jqButton:active .jqButtonIcon,
 .jqButton .jqButtonIcon {
   background-position:0px 4px;
   background-repeat:no-repeat;

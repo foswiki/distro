@@ -4,6 +4,9 @@ jQuery(function($) {
   var dialogDefaults = {
     width: 300,
     autoOpen:false,
+    draggable:false,
+    resizable:false,
+    closeOnEscape:false,
     show:'fade',
     open:function() {
       var $container = $(this).parent();
@@ -21,6 +24,10 @@ jQuery(function($) {
         .prepend('<span class="ui-button-icon-primary ui-icon '+icon+'"></span>');
       });
     }
+  }, 
+
+  dialogLinkDefaults = {
+    cache: true
   };
 
   // dialog
@@ -43,14 +50,23 @@ jQuery(function($) {
       opts.buttons = buttons;
     }
 
+    if(opts.autoCenter) {
+      $(window).bind("resize", function() {
+        $this.dialog("option", "position", "center");
+      });
+      opts.draggable = false;
+    }
+
     $this.removeClass("jqUIDialog").dialog(opts);
+
   });
 
   // dialog link
   $(".jqUIDialogLink").livequery(function() {
     $(this).removeClass("jqUIDialogLink").click(function() {
       var $this = $(this), 
-          href = $this.attr("href");
+          href = $this.attr("href"),
+          opts = $.extend({}, dialogLinkDefaults, $this.metadata());
 
       if (href.match(/^https?:/)) {
         // this is a link to remote data
@@ -61,7 +77,9 @@ jQuery(function($) {
             id = 'dialog-'+foswiki.getUniqueID();
             $content.attr('id', id);
           }
-          $this.attr("href", "#"+id);
+          if (opts.cache) {
+            $this.attr("href", "#"+id);
+          } 
           $content.hide();
           $("body").append($content);
           $content.data("autoOpen", true);
