@@ -577,7 +577,7 @@ if the main file revision is required.
 
 sub getRevision {
     my ($this) = @_;
-    if ( -e $this->{file} ) {
+    if (defined $this->{file} && -e $this->{file} ) {
         return ( readFile( $this, $this->{file} ), 1 );
     }
     return ( undef, 1 );
