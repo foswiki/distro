@@ -481,12 +481,10 @@ sub _compare_extension_versions {
       # a migration to a version tuple, so return true to trigger an update
         return 1
           if ( $reqType eq 'tuple'
-            && $baseType  eq 'date'
-            && $string_op eq 'gt' );
+            && $baseType  eq 'date');
 
         if ( $reqType ne $baseType ) {
 
-       #print STDERR "Mismatch types - cannot compare $baseType to $reqType \n";
             return 0;
         }
 
