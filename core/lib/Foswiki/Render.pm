@@ -893,9 +893,10 @@ sub _handleSquareBracketedLink {
 sub _isImageLink {
     my ( $this, $url ) = @_;
 
+    return if $url =~ /<nop>/;
     $url =~ s/^\s+//;
     $url =~ s/\s+$//;
-    if ( $url =~ /^[^?]*\.(?:gif|jpg|jpeg|png)$/i ) {
+    if ( $url =~ m#^https?://[^?]*\.(?:gif|jpg|jpeg|png)$#i ) {
         my $filename = $url;
         $filename =~ s@.*/@@;
         return CGI::img( { src => $url, alt => $filename } );
