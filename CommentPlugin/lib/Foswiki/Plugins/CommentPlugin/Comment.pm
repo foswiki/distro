@@ -158,7 +158,7 @@ sub prompt {
                 $input = $form;
             }
             else {
-                $input = "NOFORM $form $input";
+                $input = "$form $input";
             }
         }
         else {
