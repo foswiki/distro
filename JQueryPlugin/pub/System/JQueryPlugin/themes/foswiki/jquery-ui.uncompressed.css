@@ -35,15 +35,15 @@
 /* Component containers
 ----------------------------------*/
 .ui-widget { 
-  color: #444;
+  color: #111;
 }
 .ui-widget-content { 
   border: 1px solid #bcbcbc;
   background: #ffffff;
-  color: #444; 
+  color: #111; 
 }
 .ui-widget-header { 
-  color: #444;
+  color: #111;
   text-shadow: 0px 1px #fff;
   border-bottom: 1px solid #ddd;
   background: #f0f0f0; 
@@ -55,7 +55,7 @@
   background: linear-gradient(top, #ffffff 0%,#f0f0f0 100%); /* W3C */
 }
 .ui-widget-header a { 
-  color: #444; 
+  color: #111; 
 }
 
 /* Interaction states and cues
@@ -65,7 +65,7 @@
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default { 
-  color:#444;
+  color:#111;
   text-shadow: 0px 1px #fff;
   border: 1px solid #bcbcbc;
   background: #dfdfdf; 
@@ -82,7 +82,7 @@ a.ui-state-default,
 .ui-state-default a:link,
 .ui-state-default a:visited,
 .ui-state-default a {
-  color:#444;
+  color:#111;
   text-decoration: none;
 }
 
@@ -121,6 +121,7 @@ a.ui-state-default:hover,
 a.ui-state-active:hover,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active { 
+  color:#C60206;
   background: #ededed;
   background: -moz-linear-gradient(top, #ededed 0%, #ffffff 50%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(50%,#ffffff));
@@ -463,8 +464,8 @@ a.ui-state-active:hover,
 /* Overlays */
 .ui-widget-overlay { 
   background: #fff; 
-  opacity: .40;
-  filter:Alpha(Opacity=40); 
+  opacity: 0.5;
+  filter:Alpha(Opacity=50); 
 }
 
 .ui-widget-shadow { 
@@ -529,7 +530,7 @@ a.ui-state-active:hover,
   overflow-x:hidden;
 }	
 .ui-autocomplete .ui-menu-item a {
-  color:#222;
+  color:#111;
 }
 .ui-autocomplete-loading {
   background-image:url(../../images/spinner.gif) !important;
@@ -598,7 +599,7 @@ a.ui-state-active:hover,
 a:visited.ui-button,
 a:link.ui-button,
 a.ui-button {
-  color:#444;
+  color:#111;
 }
 
 /* no icon support for input elements, provide padding by default */
@@ -725,6 +726,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
   -webkit-box-shadow: 0px 3px 10px #bcbcbc;
   box-shadow: 0px 3px 10px #bcbcbc;
   display:none;
+  margin-bottom:18px; /* to hold the resizer */
 }
 
 .ui-dialog .ui-dialog-titlebar,
@@ -736,6 +738,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 .ui-dialog .ui-dialog-titlebar {
   /*color:#599E00;*/
+  color:#C60206;
 }
 
 .ui-dialog .ui-dialog-buttonpane { 
@@ -1021,7 +1024,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 .ui-tabs .ui-tabs-nav li.ui-state-processing a { 
   cursor: text;
   background:transparent;
-  color:#444;
+  color:#111;
   outline:none;
   text-shadow:none;
 }
@@ -1276,6 +1279,28 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 .ui-jqgrid tr.ui-state-highlight td.ui-jqgrid-sortcol {
   background-color:#E6F5D0;
   color:#599E00;
+}
+
+.ui-jqgrid .ui-state-active {
+  border:1px solid #4F8C00;
+  color:#599E00;
+  background: #efffd8;
+
+  /* http://colorzilla.com/gradient-editor/#ffffff+0,efffd8+100;Custom */
+  background: -moz-linear-gradient(top, #efffd8 0%, #ffffff 11%, #efffd8 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#efffd8), color-stop(11%,#ffffff), color-stop(100%,#efffd8));
+  background: -webkit-linear-gradient(top, #efffd8 0%,#ffffff 11%,#efffd8 100%);
+  background: -o-linear-gradient(top, #efffd8 0%,#ffffff 11%,#efffd8 100%);
+  background: -ms-linear-gradient(top, #efffd8 0%,#ffffff 11%,#efffd8 100%);
+  background: linear-gradient(top, #efffd8 0%,#ffffff 11%,#efffd8 100%);
+
+}
+
+.ui-jqgrid .loading.ui-state-active {
+  border-width:1px !important;
+          border-radius: 3px; 
+     -moz-border-radius: 3px; 
+  -webkit-border-radius: 3px; 
 }
 
 .ui-jqgrid tr.jqgrow .jqgrid-rownum {

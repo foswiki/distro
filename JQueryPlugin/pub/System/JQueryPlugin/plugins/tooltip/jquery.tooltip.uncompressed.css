@@ -6,10 +6,10 @@
   margin:15px 0px 0px 15px;
   font-family:Arial,sans-serif;
 }
-#tooltip.foswiki.viewport-right {
+#tooltip.viewport-right {
   margin:15px 15px 0px 0px;
 }
-#tooltip.foswiki.viewport-bottom {
+#tooltip.viewport-bottom {
   margin:0px 0px 15px 15px;
 }
 #tooltip h3, 

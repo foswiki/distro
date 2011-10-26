@@ -75,7 +75,7 @@ ul.jqTabGroup a {
   background-image: url('tab_left.png');
   background-repeat: no-repeat;
   background-position: left top;
-  color:black;
+  color:#111;
   margin:0px 0px 0px 0px;
   padding:4px 8px 0px 18px;
   height:25px;
@@ -97,12 +97,12 @@ ul.jqTabGroup a {
 }
 .jqTabPaneDefault > .jqTabGroup a:hover,
 .jqTabPaneDefault > .jqTabGroup a:focus {
-  color:red;
+  color:#C60206;
 }
 
 /* error */
 .jqTabPane > .jqTabGroup a.error {
-  color:red;
+  color:#C60206;
 }
 
 /* limitted support for printouts */
@@ -135,11 +135,11 @@ ul.jqTabGroup a {
   background:#eee;
   border: 1px solid #ccc;
   color:inherit;
-  *color:#000; /* IE7 */
+  *color:#111; /* IE7 */
   padding:5px 10px;
 }
 .jqTabPaneSimple > .jqTabGroup a:hover {
-  color:red;
+  color:#C60206;
 }
 
 /* plain theme */
@@ -157,11 +157,11 @@ ul.jqTabGroup a {
   background:#eee;
   border: 1px solid #ccc;
   color:inherit;
-  *color:#000; /* IE7 */
+  *color:#111; /* IE7 */
   padding:5px 10px;
 }
 .jqTabPanePlain > .jqTabGroup a:hover {
-  color:red;
+  color:#C60206;
 }
 .jqTabPanePlain .jqTab {
   border-left:0px;

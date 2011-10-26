@@ -137,6 +137,12 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  26 Oct 2011: | fixing compatibility of jquery.media with newer jqueries; \
+                  fixed placement of jquery.tooltips when viewport at right bottom;\
+                  fixed jquery.superfish's index related to jquery.ui.dialog's; \
+                  improved jquery.button click usability; \
+                  improved and documented integration of jquery.ui.dialog; \
+                  fixed jquery.ui.resizable to init array objects correctly |
 |  08 Sep 2011: | (4.20) added perl api to make ui themes pluggable; \
                   upgrade to jquery-ui 1.8.16, masked-input 1.3, masonry 2.0, textboxlist 1.0, validate 1.8.1, cycle 2.9995, bgiframe 2.1.2, blockUI 2.39, corner 2.12, gradient 1.0, \
                   autocomplete 1.2.2, form 2.80; \

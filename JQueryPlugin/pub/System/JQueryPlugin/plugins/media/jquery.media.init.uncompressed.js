@@ -8,18 +8,6 @@ jQuery(function($) {
     allowfullscreen: true
   }
 
-  var types = new Array();
-  for (var group in $.fn.media.defaults.players) {
-    var val = $.fn.media.defaults.players[group].types;
-    if (val) {
-      val = val.split(/\s*,\s*/);
-      for (var i = 0; i < val.length; i++) {
-        types.push(val[i]);
-      }
-    }
-  }
-
-  var selector = 'a[href*=".'+types.join('"], a[href*=".')+'"]';
   $(".jqMedia:not(.jqInitedMedia)").livequery(function() {
     var $this = $(this),
         options = $.extend({
@@ -37,7 +25,7 @@ jQuery(function($) {
     }
 
     $this.addClass("jqInitedMedia");
-    $this.find(selector).each(function() {
+    $this.find("a[href]").each(function() {
       $(this).media(options);
     });
   });

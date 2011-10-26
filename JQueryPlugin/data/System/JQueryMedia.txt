@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1265987465" format="1.1" version="1"}%
+%META:TOPICINFO{author="micha" date="1319452868" format="1.1" version="5"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"media"
@@ -33,10 +33,20 @@ To enable the media plugin surround (a set of) links to the media with a ==jqMed
 links inside will be processed and an according player will be embeded.
 
 ---++ Examples
-<verbatim>
+
+<verbatim class="tml">
 %JQREQUIRE{"media"}%
 
 <div class="jqMedia">
 http://....flv
 </div>
 </verbatim>
+
+*Embeding a youtube video*:
+
+<verbatim class="tml">
+<div class="jqMedia {type:'swf'}">
+http://youtube.com/v/TyvN59L4hJU
+</div>
+</verbatim>
+
