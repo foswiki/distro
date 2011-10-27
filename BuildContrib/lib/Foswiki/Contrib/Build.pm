@@ -898,6 +898,18 @@ sub prot {
 }
 
 =begin TML
+---++++ _test_tar()
+Determine if the tar command has --owner and --group options
+
+=cut
+
+sub _tarSupportsOwner {
+
+    return ( `tar --owner 2>&1` =~ m/unrecognized/ );
+
+}
+
+=begin TML
 
 ---++++ sys_action(@params)
 Perform a "system" command.
@@ -1607,10 +1619,20 @@ sub target_archive {
           . $target
           . '.zip");' );
 
+    # BSD and MacOS don't support owner/group options.
+    if ( `tar --owner 2>&1` =~ m/unrecognized/ ) {
+
 # SMELL: sys_action will auto quote any parameter containing a space.  So the parameter
 # and argument for group and user must be passed in as separate parameters.
-    $this->sys_action( 'tar', '--owner', '0', '--group', '0', '-czhpf',
-        $project . '.tgz', '*' );
+        print STDERR
+          "tar --owner / --group  not supported.  Recommend building as root\n";
+        $this->sys_action( 'tar', '-czhpf', $project . '.tgz', '*' );
+    }
+    else {
+        $this->sys_action( 'tar', '--owner', '0', '--group', '0', '-czhpf',
+            $project . '.tgz', '*' );
+    }
+
     $this->perl_action( 'File::Copy::move("' 
           . $project
           . '.tgz", "'
