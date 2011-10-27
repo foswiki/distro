@@ -30,6 +30,7 @@ my $class;
 
 my $time           = time();
 my @historyItem945 = (
+
     # rcsType, text,                       comment,   user,     date
     [ "Wrap", "old\nwrap\n",                 "one", "iron",     $time ],
     [ "Wrap", "old\nwrap\nnew\n",            "two", "tin",      $time + 1 ],
@@ -52,19 +53,21 @@ sub RcsWrap {
 }
 
 sub fixture_groups {
-    my $this = shift;
+    my $this   = shift;
     my $groups = ['RcsLite'];
 
-    push( @$groups, 'RcsWrap' ) if (FoswikiStoreTestCase::rcs_is_installed());
-    
+    push( @$groups, 'RcsWrap' ) if ( FoswikiStoreTestCase::rcs_is_installed() );
+
     return ($groups);
 }
 
 {
+
     package StoreStub;
     our @ISA = qw(Foswiki::Store);
+
     sub new {
-        return bless({}, $_[0]);
+        return bless( {}, $_[0] );
     }
 }
 
@@ -90,11 +93,12 @@ sub set_up {
     $this->assert( open( F, ">$Foswiki::cfg{TempfileDir}/itme3122" ), $! );
     print F "old";
     $this->assert( close(F), $! );
-    require Foswiki::Users::BaseUserMapping;#
+    require Foswiki::Users::BaseUserMapping;    #
 }
 
 sub tear_down {
     my $this = shift;
+
     # Restore the PIPE settings in Sandbox
     $Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN     = 1;
     $Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 1;
@@ -128,22 +132,22 @@ sub verify_RepRev {
 
     $rcs->replaceRevision( "there was a cat\n",
         "1st replace", "NotJohnTalintyre", time() );
-    $this->assert_equals( 1,                   $rcs->_numRevisions() );
+    $this->assert_equals( 1, $rcs->_numRevisions() );
     ($text) = $rcs->getRevision(1);
     $this->assert_equals( "there was a cat\n", $text );
     $rcs->addRevisionFromText( "and now this\n\n\n", "2nd entry", "J1" );
-    $this->assert_equals( 2,                    $rcs->_numRevisions() );
+    $this->assert_equals( 2, $rcs->_numRevisions() );
     ($text) = $rcs->getRevision(1);
-    $this->assert_equals( "there was a cat\n",  $text );
+    $this->assert_equals( "there was a cat\n", $text );
     ($text) = $rcs->getRevision(2);
     $this->assert_equals( "and now this\n\n\n", $text );
 
     $rcs->replaceRevision( "then this", "2nd replace", "J2", time() );
-    $this->assert_equals( 2,                   $rcs->_numRevisions );
+    $this->assert_equals( 2, $rcs->_numRevisions );
     ($text) = $rcs->getRevision(1);
     $this->assert_equals( "there was a cat\n", $text );
     ($text) = $rcs->getRevision(2);
-    $this->assert_equals( "then this",         $text );
+    $this->assert_equals( "then this", $text );
 }
 
 sub verify_RepRev2839 {
@@ -158,22 +162,22 @@ sub verify_RepRev2839 {
 
     $rcs->replaceRevision( "there was a cat",
         "1st replace", "NotJohnTalintyre", time() );
-    $this->assert_equals( 1,                 $rcs->_numRevisions() );
+    $this->assert_equals( 1, $rcs->_numRevisions() );
     ($text) = $rcs->getRevision(1);
     $this->assert_equals( "there was a cat", $text );
     $rcs->addRevisionFromText( "and now this", "2nd entry", "J1" );
-    $this->assert_equals( 2,                 $rcs->_numRevisions() );
+    $this->assert_equals( 2, $rcs->_numRevisions() );
     ($text) = $rcs->getRevision(1);
     $this->assert_equals( "there was a cat", $text );
     ($text) = $rcs->getRevision(2);
-    $this->assert_equals( "and now this",    $text );
+    $this->assert_equals( "and now this", $text );
 
     $rcs->replaceRevision( "then this", "2nd replace", "J2", time() );
-    $this->assert_equals( 2,                 $rcs->_numRevisions );
+    $this->assert_equals( 2, $rcs->_numRevisions );
     ($text) = $rcs->getRevision(1);
     $this->assert_equals( "there was a cat", $text );
     ($text) = $rcs->getRevision(2);
-    $this->assert_equals( "then this",       $text );
+    $this->assert_equals( "then this", $text );
 }
 
 # Tests locking - Wrap only
@@ -185,8 +189,8 @@ sub verify_RcsWrapOnly_ciLocked {
     my $topic = "CiTestLockedTempDeleteMeItsOk";
 
     # create the fixture
-    my $rcs =
-      Foswiki::Store::VC::RcsWrapHandler->new( new StoreStub, $testWeb, $topic, "" );
+    my $rcs = Foswiki::Store::VC::RcsWrapHandler->new( new StoreStub,
+        $testWeb, $topic, "" );
     $rcs->addRevisionFromText( "Shooby Dooby", "original", "BungditDin" );
 
     # hack the lock
@@ -397,16 +401,16 @@ sub verify_GetBinaryRevision {
     my $atttext1   = "\000123\003\n";
     my $atttext2   = "\003test test test\000\n";
     my $attachment = "file.binary";
-    my $rcs        = $class->new( new StoreStub, $testWeb, $topic, $attachment );
-    my $fn = "$Foswiki::cfg{WorkingDir}/tmp/tmp.tmp";
+    my $rcs = $class->new( new StoreStub, $testWeb, $topic, $attachment );
+    my $fn  = "$Foswiki::cfg{WorkingDir}/tmp/tmp.tmp";
     $rcs->saveFile( $fn, $atttext1 ) && die;
     my $fh;
-    $this->assert(open($fh, "<", $fn), $!);
+    $this->assert( open( $fh, "<", $fn ), $! );
     $rcs->addRevisionFromStream( $fh, "comment attachment", "UserForRev" );
     close($fh);
     unlink($fn);
     $rcs->saveFile( $fn, $atttext2 ) && die;
-    $this->assert(open($fh, "<", $fn), $!);
+    $this->assert( open( $fh, "<", $fn ), $! );
     $rcs->addRevisionFromStream( $fh, "comment attachment", "UserForRev" );
     close($fh);
     unlink($fn);
@@ -553,8 +557,7 @@ sub verify_RevInfo {
 
     $this->assert_str_equals(
         $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID,
-        $info->{author}
-    );
+        $info->{author} );
     $this->assert_str_equals( 'pending', $info->{comment} );
 }
 
@@ -599,7 +602,6 @@ sub verify_OutOfDate_RevInfo {
     $this->assert_str_equals( 'ThirdUser',    $info->{author} );
     $this->assert_str_equals( 'ThirdComment', $info->{comment} );
 
-
     sleep 5;
     open( FH, '>>', "$rcs->{file}" );
     print FH "Modified";
@@ -632,16 +634,16 @@ sub verify_OutOfDate_RevInfo {
     $this->assert_str_equals( 'ThirdComment', $info->{comment} );
 
     $info = $rcs->getInfo(0);
-    $this->assert_equals( 4,    $info->{version} );
-    $this->assert( (2000 < $info->{date}) );
-    $this->assert_str_equals( 'BaseUserMapping_999',    $info->{author} );
-    $this->assert_str_equals( 'pending', $info->{comment} );
+    $this->assert_equals( 4, $info->{version} );
+    $this->assert( ( 2000 < $info->{date} ) );
+    $this->assert_str_equals( 'BaseUserMapping_999', $info->{author} );
+    $this->assert_str_equals( 'pending',             $info->{comment} );
 
     $info = $rcs->getInfo(4);
-    $this->assert_equals( 4,    $info->{version} );
-    $this->assert( (2000 < $info->{date}) );
-    $this->assert_str_equals( 'BaseUserMapping_999',    $info->{author} );
-    $this->assert_str_equals( 'pending', $info->{comment} );
+    $this->assert_equals( 4, $info->{version} );
+    $this->assert( ( 2000 < $info->{date} ) );
+    $this->assert_str_equals( 'BaseUserMapping_999', $info->{author} );
+    $this->assert_str_equals( 'pending',             $info->{comment} );
 
 }
 
@@ -832,12 +834,12 @@ sub verify_Item3122 {
 # Verify data compatibility between RcsLite and RcsWrap
 sub test_Item945 {
     my ($this) = @_;
-    
-    if (!FoswikiStoreTestCase::rcs_is_installed()) {
+
+    if ( !FoswikiStoreTestCase::rcs_is_installed() ) {
         $this->expect_failure();
         $this->annotate("rcs not installed");
     }
-    
+
     my $testTopic = "TestItem945";
     for my $depth ( 0 .. $#historyItem945 ) {
         my ( $rcsType, @params ) = @{ $historyItem945[$depth] };
@@ -845,16 +847,16 @@ sub test_Item945 {
         my $rcs = $class->new( new StoreStub, $testWeb, $testTopic );
         $rcs->addRevisionFromText(@params);
         $rcs->finish();
-        $this->item945_checkHistory( $depth + 1, $testWeb,
-            $testTopic );
+        $this->item945_checkHistory( $depth + 1, $testWeb, $testTopic );
     }
 }
 
 sub item945_checkHistory {
     my ( $this, $depth, $testWeb, $testTopic ) = @_;
     for my $rcsType (@rcsTypes) {
-        my $rcs = "Foswiki::Store::VC::Rcs${rcsType}Handler"
-          ->new( new StoreStub, $testWeb, $testTopic );
+        my $rcs =
+          "Foswiki::Store::VC::Rcs${rcsType}Handler"->new( new StoreStub,
+            $testWeb, $testTopic );
         $this->item945_checkHistoryRcs( $rcs, $depth );
         $rcs->finish();
     }
@@ -881,19 +883,18 @@ sub item945_checkHistoryRcs {
 
 sub item945_fillTopic {
     my ( $this, $rcs, $time, $testWeb, $testTopic ) = @_;
-    
+
     for my $depth ( 0 .. $#historyItem945 ) {
         my ( undef, @params ) = @{ $historyItem945[$depth] };
         $rcs->addRevisionFromText(@params);
-        $this->item945_checkHistory( $depth + 1, $testWeb,
-            $testTopic );
+        $this->item945_checkHistory( $depth + 1, $testWeb, $testTopic );
     }
 }
 
 sub test_Item945_diff {
     my ($this) = @_;
 
-    if (!FoswikiStoreTestCase::rcs_is_installed()) {
+    if ( !FoswikiStoreTestCase::rcs_is_installed() ) {
         $this->expect_failure();
         $this->annotate("rcs not installed");
     }
@@ -901,8 +902,9 @@ sub test_Item945_diff {
     my %content;
     my $testTopic = "TestItem945";
     for my $rcsType (@rcsTypes) {
-        my $rcs = "Foswiki::Store::VC::Rcs${rcsType}Handler"
-          ->new( new StoreStub, $testWeb, $testTopic . "Rcs$rcsType" );
+        my $rcs =
+          "Foswiki::Store::VC::Rcs${rcsType}Handler"->new( new StoreStub,
+            $testWeb, $testTopic . "Rcs$rcsType" );
         $this->item945_fillTopic( $rcs, $time, $testWeb,
             $testTopic . "Rcs$rcsType" );
         $rcs->finish();

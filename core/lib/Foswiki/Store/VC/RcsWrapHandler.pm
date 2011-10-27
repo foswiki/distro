@@ -104,17 +104,19 @@ sub initText {
 
 # Designed for calling *only* from the Handler superclass and this class
 sub ci {
-    my ($this, $isStream, $data, $comment, $user, $date) = @_;
-#    unless ( -e $this->{rcsFile} ) {    #
-#                                        # SMELL: what is this for?
-#        _lock($this);
-#        _ci( $this, $comment, $user, $date );
-#    }
+    my ( $this, $isStream, $data, $comment, $user, $date ) = @_;
+
+    #    unless ( -e $this->{rcsFile} ) {    #
+    #                                        # SMELL: what is this for?
+    #        _lock($this);
+    #        _ci( $this, $comment, $user, $date );
+    #    }
     _lock($this);
     if ($isStream) {
-	$this->saveStream( $data );
-    } else {
-	$this->saveFile( $this->{file}, $data );
+        $this->saveStream($data);
+    }
+    else {
+        $this->saveFile( $this->{file}, $data );
     }
     _ci( $this, $comment, $user, $date );
 }
@@ -211,7 +213,7 @@ sub getRevision {
     unless ( $version && -e $this->{rcsFile} ) {
 
         # Get the latest rev from the cache
-        return ($this->SUPER::getRevision($version));
+        return ( $this->SUPER::getRevision($version) );
     }
 
     # We've been asked for an explicit rev. The rev might be outside the
@@ -253,10 +255,12 @@ sub getRevision {
 
     # The loaded version is reported on STDERR
     my $isLatest = 0;
-    if (defined $stderr
-          && $stderr =~ /revision 1\.(\d+)/s) {
-        $isLatest = ($version >= $1);
+    if ( defined $stderr
+        && $stderr =~ /revision 1\.(\d+)/s )
+    {
+        $isLatest = ( $version >= $1 );
     }
+
     # otherwise we will have to resort to numRevisions to tell if
     # this is the latest rev, which is expensive. By returning false
     # for isLatest we will force a reload upstairs if the latest rev
@@ -268,41 +272,44 @@ sub getRevision {
         unlink Foswiki::Sandbox->untaintUnchecked($tmpRevFile);
     }
 
-    return ($text, $isLatest);
+    return ( $text, $isLatest );
 }
 
 # implements VC::Handler
 sub getInfo {
     my ( $this, $version ) = @_;
 
-        if ( ($this->noCheckinPending()) && ( !$version || $version > $this->_numRevisions() ) ) {
-            $version = $this->_numRevisions();
-        }
-        else {
-            $version = $this->_numRevisions() + 1 unless ( $version && $version <= $this->_numRevisions()) ;
-        }
-        my ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
-            $Foswiki::cfg{RCS}{infoCmd},
-            REVISION => '1.' . $version,
-            FILENAME => $this->{rcsFile}
-        );
-        if ( !$exit ) {
-            if ( $rcsOut =~
-                /^.*?date: ([^;]+);  author: ([^;]*);[^\n]*\n([^\n]*)\n/s )
-            {
-                require Foswiki::Time;
-                my $info = {
-                    version => $version,
-                    date    => Foswiki::Time::parseTime($1),
-                    author  => $2,
-                    comment => $3,
-                };
-                if ( $rcsOut =~ /revision 1.([0-9]*)/ ) {
-                    $info->{version} = $1;
-                }
-                return $info;
+    if (   ( $this->noCheckinPending() )
+        && ( !$version || $version > $this->_numRevisions() ) )
+    {
+        $version = $this->_numRevisions();
+    }
+    else {
+        $version = $this->_numRevisions() + 1
+          unless ( $version && $version <= $this->_numRevisions() );
+    }
+    my ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
+        $Foswiki::cfg{RCS}{infoCmd},
+        REVISION => '1.' . $version,
+        FILENAME => $this->{rcsFile}
+    );
+    if ( !$exit ) {
+        if ( $rcsOut =~
+            /^.*?date: ([^;]+);  author: ([^;]*);[^\n]*\n([^\n]*)\n/s )
+        {
+            require Foswiki::Time;
+            my $info = {
+                version => $version,
+                date    => Foswiki::Time::parseTime($1),
+                author  => $2,
+                comment => $3,
+            };
+            if ( $rcsOut =~ /revision 1.([0-9]*)/ ) {
+                $info->{version} = $1;
             }
+            return $info;
         }
+    }
 
     return $this->SUPER::getInfo($version);
 }
@@ -519,8 +526,8 @@ sub _lock {
 sub getRevisionAtTime {
     my ( $this, $date ) = @_;
 
-    unless( -e $this->{rcsFile} ) {
-	return ($date >= (stat($this->{file}))[9]) ? 1 : undef;
+    unless ( -e $this->{rcsFile} ) {
+        return ( $date >= ( stat( $this->{file} ) )[9] ) ? 1 : undef;
     }
 
     require Foswiki::Time;
@@ -536,9 +543,10 @@ sub getRevisionAtTime {
         $version = $1;
     }
 
-    if ($version && !$this->noCheckinPending()) {
-	# Check the file date
-	$version++ if ($date >= (stat($this->{file}))[9]);
+    if ( $version && !$this->noCheckinPending() ) {
+
+        # Check the file date
+        $version++ if ( $date >= ( stat( $this->{file} ) )[9] );
     }
     return $version;
 }
