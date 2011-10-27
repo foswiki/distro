@@ -558,6 +558,93 @@ sub verify_RevInfo {
     $this->assert_str_equals( 'pending', $info->{comment} );
 }
 
+sub verify_OutOfDate_RevInfo {
+    my ($this) = @_;
+
+    my $rcs = $class->new( new StoreStub, $testWeb, 'RevInfo', "" );
+
+    $rcs->addRevisionFromText( "Rev1\n", 'FirstComment',  "FirstUser",  0 );
+    $rcs->addRevisionFromText( "Rev2\n", 'SecondComment', "SecondUser", 1000 );
+    $rcs->addRevisionFromText( "Rev3\n", 'ThirdComment',  "ThirdUser",  2000 );
+
+    $rcs = $class->new( new StoreStub, $testWeb, 'RevInfo', "" );
+
+    my $info = $rcs->getInfo(1);
+    $this->assert_equals( 1, $info->{version} );
+    $this->assert_equals( 0, $info->{date} );
+    $this->assert_str_equals( 'FirstUser',    $info->{author} );
+    $this->assert_str_equals( 'FirstComment', $info->{comment} );
+
+    $info = $rcs->getInfo(2);
+    $this->assert_equals( 2,    $info->{version} );
+    $this->assert_equals( 1000, $info->{date} );
+    $this->assert_str_equals( 'SecondUser',    $info->{author} );
+    $this->assert_str_equals( 'SecondComment', $info->{comment} );
+
+    $info = $rcs->getInfo(3);
+    $this->assert_equals( 3,    $info->{version} );
+    $this->assert_equals( 2000, $info->{date} );
+    $this->assert_str_equals( 'ThirdUser',    $info->{author} );
+    $this->assert_str_equals( 'ThirdComment', $info->{comment} );
+
+    $info = $rcs->getInfo(0);
+    $this->assert_equals( 3,    $info->{version} );
+    $this->assert_equals( 2000, $info->{date} );
+    $this->assert_str_equals( 'ThirdUser',    $info->{author} );
+    $this->assert_str_equals( 'ThirdComment', $info->{comment} );
+
+    $info = $rcs->getInfo(4);
+    $this->assert_equals( 3,    $info->{version} );
+    $this->assert_equals( 2000, $info->{date} );
+    $this->assert_str_equals( 'ThirdUser',    $info->{author} );
+    $this->assert_str_equals( 'ThirdComment', $info->{comment} );
+
+
+    sleep 5;
+    open( FH, '>>', "$rcs->{file}" );
+    print FH "Modified";
+    close FH;
+
+    $info = $rcs->getInfo(0);
+    my $time1 = "$info->{date}\n";
+    sleep 5;
+    $info = $rcs->getInfo(0);
+    my $time2 = "$info->{date}\n";
+
+    $this->assert_equals( $time1, $time2 );
+
+    $info = $rcs->getInfo(1);
+    $this->assert_equals( 1, $info->{version} );
+    $this->assert_equals( 0, $info->{date} );
+    $this->assert_str_equals( 'FirstUser',    $info->{author} );
+    $this->assert_str_equals( 'FirstComment', $info->{comment} );
+
+    $info = $rcs->getInfo(2);
+    $this->assert_equals( 2,    $info->{version} );
+    $this->assert_equals( 1000, $info->{date} );
+    $this->assert_str_equals( 'SecondUser',    $info->{author} );
+    $this->assert_str_equals( 'SecondComment', $info->{comment} );
+
+    $info = $rcs->getInfo(3);
+    $this->assert_equals( 3,    $info->{version} );
+    $this->assert_equals( 2000, $info->{date} );
+    $this->assert_str_equals( 'ThirdUser',    $info->{author} );
+    $this->assert_str_equals( 'ThirdComment', $info->{comment} );
+
+    $info = $rcs->getInfo(0);
+    $this->assert_equals( 3,    $info->{version} );
+    $this->assert_equals( 2000, $info->{date} );
+    $this->assert_str_equals( 'ThirdUser',    $info->{author} );
+    $this->assert_str_equals( 'ThirdComment', $info->{comment} );
+
+    $info = $rcs->getInfo(4);
+    $this->assert_equals( 3,    $info->{version} );
+    $this->assert_equals( 2000, $info->{date} );
+    $this->assert_str_equals( 'ThirdUser',    $info->{author} );
+    $this->assert_str_equals( 'ThirdComment', $info->{comment} );
+
+}
+
 # If a .txt file exists with no ,v and we perform an op on that
 # file, a ,v must be created for rev 1 before the op is completed.
 sub verify_MissingVrestoreRev {
