@@ -549,30 +549,30 @@ sub getInfo {
     my ( $this, $version ) = @_;
 
     _ensureProcessed($this);
-    my $info;
-    if ( $this->{state} ne 'nocommav') {
-        if ( !$version || $version > $this->{head} ) {
-            $version = $this->{head} || 1;
-        }
-        $info = {
-            version => $version,
-            date    => $this->{revs}[$version]->{date},
-            author  => $this->{revs}[$version]->{author},
-            comment => $this->{revs}[$version]->{log}
-        };
-	# We have to check that there is not a pending version in the .txt
-	unless ($this->noCheckinPending()) {
-	    # There's a pending version in the .txt
-	    $info->{version}++;
-	    $info->{author} = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
-	    $info->{comment} = "pending";
-	    $info->{date} = time();
-	}
+
+    if ( ($this->noCheckinPending()) && ( !$version || $version > $this->_numRevisions() ) ) {
+        $version = $this->_numRevisions();
     }
     else {
-        $info = $this->SUPER::getInfo($version);
+        $version = $this->_numRevisions() + 1 unless ( $version && $version <= $this->_numRevisions());
     }
-    return $info;
+
+    my $info;
+    if ( $version <= $this->{head} ) {
+        if ( $this->{state} ne 'nocommav') {
+            if ( !$version || $version > $this->{head} ) {
+                $version = $this->{head} || 1;
+            }
+            $info = {
+                version => $version,
+                date    => $this->{revs}[$version]->{date},
+                author  => $this->{revs}[$version]->{author},
+                comment => $this->{revs}[$version]->{log}
+            };
+            return $info;
+        }
+    }
+    return $this->SUPER::getInfo($version);
 }
 
 # Apply delta (patch) to text.  Note that RCS stores reverse deltas,
