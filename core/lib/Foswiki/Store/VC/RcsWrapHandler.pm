@@ -275,9 +275,11 @@ sub getRevision {
 sub getInfo {
     my ( $this, $version ) = @_;
 
-    if ( $this->noCheckinPending() ) {
-        if ( !$version || $version > $this->_numRevisions() ) {
+        if ( ($this->noCheckinPending()) && ( !$version || $version > $this->_numRevisions() ) ) {
             $version = $this->_numRevisions();
+        }
+        else {
+            $version = $this->_numRevisions() + 1 unless ( $version && $version <= $this->_numRevisions()) ;
         }
         my ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
             $Foswiki::cfg{RCS}{infoCmd},
@@ -301,7 +303,7 @@ sub getInfo {
                 return $info;
             }
         }
-    }
+
     return $this->SUPER::getInfo($version);
 }
 

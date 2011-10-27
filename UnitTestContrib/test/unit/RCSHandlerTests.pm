@@ -632,16 +632,16 @@ sub verify_OutOfDate_RevInfo {
     $this->assert_str_equals( 'ThirdComment', $info->{comment} );
 
     $info = $rcs->getInfo(0);
-    $this->assert_equals( 3,    $info->{version} );
-    $this->assert_equals( 2000, $info->{date} );
-    $this->assert_str_equals( 'ThirdUser',    $info->{author} );
-    $this->assert_str_equals( 'ThirdComment', $info->{comment} );
+    $this->assert_equals( 4,    $info->{version} );
+    $this->assert( (2000 < $info->{date}) );
+    $this->assert_str_equals( 'BaseUserMapping_999',    $info->{author} );
+    $this->assert_str_equals( 'pending', $info->{comment} );
 
     $info = $rcs->getInfo(4);
-    $this->assert_equals( 3,    $info->{version} );
-    $this->assert_equals( 2000, $info->{date} );
-    $this->assert_str_equals( 'ThirdUser',    $info->{author} );
-    $this->assert_str_equals( 'ThirdComment', $info->{comment} );
+    $this->assert_equals( 4,    $info->{version} );
+    $this->assert( (2000 < $info->{date}) );
+    $this->assert_str_equals( 'BaseUserMapping_999',    $info->{author} );
+    $this->assert_str_equals( 'pending', $info->{comment} );
 
 }
 
