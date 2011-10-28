@@ -179,7 +179,10 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Set REGISTRATIONGROUPTYPE = none
 
    * If REGISTRATIONGROUPS is set to a comma separated list of groups, only those listed groups will be shown in the UserRegistration form.
-   If it is unset, then group change permissions will be used to create the list of groups eligible for selection during registration. (When using "self-registration" by guest users, the !RegistrationAgent's permissions are used. If the registration is entered by another logged in user, that user's permissions are used).
+      * If it is unset, then group change permissions will be used to create the list of groups eligible for selection during registration.
+         * When using "self-registration" by guest users, the !RegistrationAgent's permissions are used.
+         * If the registration is entered by another logged in user, that user's permissions are used.
+         * *Caution* If REGISTRATIONGROUPTYPE is =automatic=, then registering a user while logged in with Administrator rights will add the new user to *All Groups*!
       * #Set REGISTRATIONGROUPS =
 
    * Implementation Notes:
@@ -268,7 +271,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 ---+++ TwistyPlugin
    * Show/hide animation speed: 'fast', 'slow', or integer milliseconds | =0= (no animation)
       * Set TWISTYPLUGIN_TWISTYANIMATIONSPEED = fast
-   
+
 ---+++ Legacy support
    * Support for legacy "EDITTOPIC", used to be hard-coded, now replaced by TMPL:P conditional instantiation
       * Set EDITURL = %SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%
@@ -294,7 +297,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
    * Line break: Note that the setting has an intentional trailing space
       * Set BR = <br />
-   
+
    * Clear floats:
       * Set CLEAR = <span class='foswikiClear'></span>
 
