@@ -133,6 +133,23 @@ users.
 Foswiki has been updated to include JQuery 1.6.4, and this is now the default version of JQuery.  After installing Foswiki 1.1.4, be sure to visit =bin/configure= and verify that the JQuery Plugin is configured to use this
 version.
 
+---+++ Changes to Store
+
+Foswiki has improved handling of files that are modified outside of Foswiki's control. Topic changes made by external programs may cause unexpected results.  The following behaviour is expected:
+   * If a topic is modified (file revision date of file is newer than the date of the =.txt,v= file):
+      * The TOPICINFO metadata stored with the topic textfile is ignored.
+      * Modified by is reported as =UnknownUser=
+      * Modified timestamp is the file timestamp
+      * Revision number is 1 greater than the last revision known to RCS.
+      * Topic comment is =pending=, indicating there are changes not yet checked into RCS.
+      * The *next change* to the topic under Foswiki control will record the external changes into RCS, and create a new revision for the changes saved in this iteration.
+   * If a topic rcs =.txt,v= file is newer than the topic file
+      * The TOPICINFO is trusted
+      * This avoids unnecessary overhead by the RCS system.
+   * If a topic is modified externally and checked into RCS outside of Foswiki control, it is very important to generate a valid TOPICINFO line or the data reported by Foswiki will be incorrect.
+
+Note that Foswiki also now requires that the %META:TOPICINFO be the first line of the file. 
+
 ---++ Important changes since Foswiki 1.1.2
 
 ---+++ SEARCHDEFAULTTTYPE restored
@@ -1172,6 +1189,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11145][Item11145]] | Search for Template topics extremely slow - kills WebCreateNewTopicTemplate usage |
 | [[%BUGS%/Item11149][Item11149]] | jscalendar broken when using jquery in noconflict mode |
 | [[%BUGS%/Item11157][Item11157]] | PlainFile logger rotates logs on localtime, not gmtime. |
+| [[%BUGS%/Item11163][Item11163]] | Topics show as Version r0 if .txt,v file exists in store, and .txt file is newer. |
 | [[%BUGS%/Item11174][Item11174]] | PreferenceSettings examples don't work when included in Macros topic. |
 | [[%BUGS%/Item11176][Item11176]] | https include used monkey patching instead of object inheritance. |
 | [[%BUGS%/Item11180][Item11180]] | REGISTRATIONGROUPS does not work. Users are not added to the groups, and the documentation is confusing. |
