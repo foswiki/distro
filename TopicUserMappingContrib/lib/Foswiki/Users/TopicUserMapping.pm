@@ -380,7 +380,8 @@ sub addUser {
                 # Filter-in date format matching {DefaultDateFormat}
                 # The admin may have changed the format at some point of time
                 # so we test with a generic format that matches all 4 formats.
-                $odate = '' unless $odate =~ /^\d+[- .\/]+[A-Za-z0-9]+[- .\/]+\d+$/;
+                $odate = ''
+                  unless $odate =~ /^\d+[- .\/]+[A-Za-z0-9]+[- .\/]+\d+$/;
                 $insidelist = 1;
             }
             elsif ( $line =~ /^\s+\*\s([A-Z]) - / ) {
@@ -664,7 +665,7 @@ sub eachGroupMember {
             $members =
               _expandUserList( $this,
                 $groupTopicObject->getPreference('GROUP') );
-            $this->{eachGroupMember}->{$group} = $members; 
+            $this->{eachGroupMember}->{$group} = $members;
         }
 
         delete $expanding{$group};
@@ -760,7 +761,7 @@ sub groupAllowsView {
       $this->{session}
       ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
 
-    # If a Group or User topic normalized somewhere else,  doesn't make sense, so ignore the Webname
+# If a Group or User topic normalized somewhere else,  doesn't make sense, so ignore the Webname
     $groupWeb = $Foswiki::cfg{UsersWebName};
 
     $groupName = undef
@@ -794,7 +795,7 @@ sub groupAllowsChange {
       $this->{session}
       ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
 
-    # If a Group or User topic normalized somewhere else,  doesn't make sense, so ignore the Webname
+# If a Group or User topic normalized somewhere else,  doesn't make sense, so ignore the Webname
     $groupWeb = $Foswiki::cfg{UsersWebName};
 
     $groupName = undef
@@ -822,13 +823,11 @@ sub addUserToGroup {
       $this->{session}
       ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
 
-    throw Error::Simple(
-        "Users cannot be added to $Group")
-      if ($Group eq 'NobodyGroup' || $Group eq 'BaseGroup');
+    throw Error::Simple("Users cannot be added to $Group")
+      if ( $Group eq 'NobodyGroup' || $Group eq 'BaseGroup' );
 
-    throw Error::Simple(
-        'Group names must end in Group')
-      unless ($Group =~ m/Group$/);
+    throw Error::Simple('Group names must end in Group')
+      unless ( $Group =~ m/Group$/ );
 
     # the registration code will call this function using the rego agent
     my $user = $this->{session}->{user};
@@ -853,19 +852,20 @@ sub addUserToGroup {
 
         if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
             return 0;
+
             #throw Error::Simple(
             #    "CHANGE not permitted by $user");
         }
 
         $membersString = $groupTopicObject->getPreference('GROUP') || '';
-        
+
         my @l;
         foreach my $ident ( split( /[\,\s]+/, $membersString ) ) {
             $ident =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
             push( @l, $ident ) if $ident;
         }
         $membersString = join( ', ', @l );
-      
+
         if ( $create and !defined($cuid) ) {
 
             #upgrade group topic.
@@ -879,8 +879,8 @@ sub addUserToGroup {
     }
     else {
 
-    # see if we have permission to add a topic, or to edit the existing topic, etc..
- 
+# see if we have permission to add a topic, or to edit the existing topic, etc..
+
         #throw Error::Simple(
         #    'Group does not exist and create not permitted')
         return 0
@@ -1019,13 +1019,12 @@ sub removeUserFromGroup {
       $this->{session}
       ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $groupName );
 
-    throw Error::Simple(
-        "Users cannot be removed from $groupName")
-      if ($groupName eq 'BaseGroup');
+    throw Error::Simple("Users cannot be removed from $groupName")
+      if ( $groupName eq 'BaseGroup' );
 
-    throw Error::Simple(
-        "AdminUser cannot be removed from $groupName")
-      if ($groupName eq "$Foswiki::cfg{SuperAdminGroup}" && $cuid eq 'BaseUserMapping_333');
+    throw Error::Simple("AdminUser cannot be removed from $groupName")
+      if ( $groupName eq "$Foswiki::cfg{SuperAdminGroup}"
+        && $cuid eq 'BaseUserMapping_333' );
 
     my $user     = $this->{session}->{user};
     my $usersObj = $this->{session}->{users};
@@ -1039,6 +1038,7 @@ sub removeUserFromGroup {
         if (   !$usersObj->isInGroup( $cuid, $groupName, { expand => 0 } )
             && !$usersObj->isGroup($cuid) )
         {
+
             #throw Error::Simple(
             #    "User $cuid not in group, cannot be removed")
             return 0;
@@ -1047,6 +1047,7 @@ sub removeUserFromGroup {
           Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
             $groupName );
         if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
+
             #throw Error::Simple(
             #    "CHANGE by $user not permitted.")
             return 0;
@@ -1419,7 +1420,7 @@ Returns 1 on success, undef on failure.
 sub checkPassword {
     my ( $this, $login, $pw ) = @_;
 
-    # If we don't have a PasswordManager and use TemplateLogin,  always allow login
+ # If we don't have a PasswordManager and use TemplateLogin,  always allow login
     return 1
       if ( $Foswiki::cfg{PasswordManager} eq 'none'
         && $Foswiki::cfg{LoginManager} eq
@@ -1519,6 +1520,7 @@ sub _getListOfGroups {
 
         #create a MetaCache _before_ we do silly things with the session's users
         $this->{session}->search->metacache();
+
         # Temporarily set the user to admin, otherwise it cannot see groups
         # where %USERSWEB% is protected from view
         local $this->{session}->{user} = $Foswiki::cfg{SuperAdminGroup};
@@ -1622,23 +1624,27 @@ sub _expandUserList {
                 push( @l, $ident );
             }
             else {
-                my $it = $this->eachGroupMember( $ident, { expand => $expand } );
+                my $it =
+                  $this->eachGroupMember( $ident, { expand => $expand } );
                 while ( $it->hasNext() ) {
                     push( @l, $it->next() );
                 }
             }
         }
         else {
+
             # Might be a wiki name (wiki names may map to several cUIDs)
             my %namelist =
               map { $_ => 1 }
               @{ $this->{session}->{users}->findUserByWikiName($ident) };
+
             # If we were not successful in finding by WikiName we assumed it
             # may be a login name (login names map to a single cUID).
             # If user is unknown we return whatever was listed so we can
             # remove deleted or misspelled users
-            unless ( %namelist ) {
-                my $cUID = $this->{session}->{users}->getCanonicalUserID($ident) || $ident;
+            unless (%namelist) {
+                my $cUID = $this->{session}->{users}->getCanonicalUserID($ident)
+                  || $ident;
                 $namelist{$cUID} = 1 if $cUID;
             }
             push( @l, keys %namelist );

@@ -917,7 +917,7 @@ sub _complete {
             }
         }
 
-        $data->{AddToGroups} = join(',', @addedTo);
+        $data->{AddToGroups} = join( ',', @addedTo );
     }
     catch Error::Simple with {
         my $e = shift;
