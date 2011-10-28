@@ -902,6 +902,11 @@ sub _complete {
                 try {
                     $users->addUserToGroup( $cUID, $groupName );
                 }
+                catch Error::Simple with {
+                    my $e = shift;
+                    $session->logger->log( 'warning',
+                        "Registration: Failure adding $cUID to $groupName" );
+                }
                 finally {
                     $session->{user} = $safe;
                 };

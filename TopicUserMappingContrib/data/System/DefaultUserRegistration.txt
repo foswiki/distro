@@ -411,11 +411,8 @@ jQuery(function($) {
 -->
 %STARTSECTION{"extraField_groups"}%%INCLUDE{"%TOPIC%" section="groups"}%%ENDSECTION{"extraField_groups"}%
 
-%IF{'$REGISTRATIONGROUPTYPE = "one" OR
-$REGISTRATIONGROUPTYPE = "multiple" OR
-$REGISTRATIONGROUPTYPE = "automatic"'
-
-%STARTSECTION{"groups"}%%FORMAT{
+%STARTSECTION{"groups"}%%IF{"$USERNAME ingroup 'AdminGroup' and '%REGISTRATIONGROUPTYPE%' = 'automatic' and not defined 'REGISTRATIONGROUPS'" then="<blockquote><span class=\"foswikiAlert\"> *Caution!* Registering a user while logged in as an Administrator will add them to ALL GROUPS in the system.</span> REGISTRATIONGROUPTYPE is set to =automatic=, and no groups are set in REGISTRATIONGROUPS. </blockquote>"}%
+%FORMAT{
 	"%IF{"defined 'REGISTRATIONGROUPS'" then="%REGISTRATIONGROUPS%" else="%GROUPINFO{
 			show="allowchange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%"
 			format="$name"
