@@ -282,9 +282,9 @@ To hide access control settings from normal browser viewing, you can put them in
 Alternatively, place them in HTML comment markers, but this exposes the access setting during ordinary editing.
 
 <pre class="tml">
-==&lt;!--== <br />
-==&nbsp;  * Set <nop>DENYTOPICCHANGE = %USERSWEB%.<nop>SomeGroup== <br />
-==--&gt;==
+&lt;!-- <br />
+&nbsp;  * Set <nop>DENYTOPICCHANGE = %USERSWEB%.<nop>SomeGroup <br />
+--&gt;
 </pre>
 
 %STOPINCLUDE%
