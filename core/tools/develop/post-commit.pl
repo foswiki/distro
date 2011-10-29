@@ -13,7 +13,7 @@ my $REPOS   = $ARGV[0];
 my $BUGS    = '/home/foswiki.org/public_html/data/Tasks';
 my $SUPPORT = '/home/svn';
 
-my $verbose = 1;    # 1 to debug
+my $verbose = 0;    # 1 to debug
 
 my $first = 1;
 if ( open( F, '<', "$SUPPORT/lastupdate" ) ) {
@@ -68,11 +68,7 @@ $/ = undef;
 for my $rev ( $first .. $last ) {
 
     # Update the list of checkins for referenced bugs
-    my $logmsg    = `/usr/local/bin/svnlook log -r $rev $REPOS`;
-    my $committer = `/usr/local/bin/svnlook author -r $rev $REPOS`;
-
-    #SMELL: Can't use chomp - $/ is undef
-    $committer =~ s/\n$//;
+    my $logmsg = `/usr/local/bin/svnlook log -r $rev $REPOS`;
 
     my @list;
     while ( $logmsg =~ s/\b(Item\d+)\s*:// ) {
@@ -83,25 +79,9 @@ for my $rev ( $first .. $last ) {
         my $fi      = "$BUGS/$item.txt";
         my $changed = 0;
 
-        # Extract the last revision of the item
-        my $lastrev = 1;
-        if ( -e "$BUGS/$item.txt,v" ) {
-            my $rlog = `rlog -h $BUGS/$item.txt`;
-            ($lastrev) = $rlog =~ m/^head: 1\.(\d+).*?$/ms;
-            print "LAST REVISION $lastrev of Item$item \n" if $verbose;
-        }
-        $lastrev++;
-
         open( F, '<', $fi ) || next;
         my $text = <F>;
         close(F);
-
-        # Update the TOPICINFO
-        $text =~ s/^(%META:TOPICINFO{.*?author=")(?:[^"]*)(".*?}%)$/$1$committer$2/m;
-        $text =~ s/^(%META:TOPICINFO{.*?version=")(?:[^"]*)(".*?}%)$/$1$lastrev$2/m;
-        $text =~ s/^(%META:TOPICINFO{.*?comment=")(?:[^"]*)(".*?}%)$/$1svn commit$2/m;
-        my $timestamp = time();
-        $text =~ s/^(%META:TOPICINFO{.*?date=")(?:[^"]*)(".*?}%)$/$1$timestamp$2/m;
 
         unless ( $text =~
 s/^(%META:FIELD.*name="Checkins".*value=")(.*?)(".*%)$/$1._add($2, $rev, \$changed).$3/gem
