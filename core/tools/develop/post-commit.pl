@@ -15,6 +15,9 @@ my $SUPPORT = '/home/svn';
 
 my $verbose = 1;    # 1 to debug
 
+# Don't know where STDERR goes, so send it somewhere we can read it
+open( STDERR, '>>', "$SUPPORT/logs/post-commit.log" ) || die $!;
+
 my $first = 1;
 if ( open( F, '<', "$SUPPORT/lastupdate" ) ) {
     local $/ = "\n";
@@ -33,7 +36,7 @@ die unless $last;
 
 $first ||= ( $last - 1 );
 
-print "F:$first L:$last\n" if $verbose;
+print STDERR "F:$first L:$last\n" if $verbose;
 my @changes;
 for ( my $i = $first + 1 ; $i <= $last ; $i++ ) {
     push(
@@ -45,7 +48,7 @@ for ( my $i = $first + 1 ; $i <= $last ; $i++ ) {
         split( /\n/, `/usr/local/bin/svnlook changed -r $i $REPOS` )
     );
 }
-print scalar(@changes), " changes\n" if $verbose;
+print STDERR  scalar(@changes) . " changes\n" if $verbose;
 exit 0 unless scalar(@changes);
 
 sub _add {
@@ -60,8 +63,6 @@ sub _add {
     return $new;
 }
 
-# Don't know where STDERR goes, so send it somewhere we can read it
-open( STDERR, '>>', "$SUPPORT/logs/post-commit.log" ) || die $!;
 print STDERR "Post-Commit $first..$last in $REPOS\n";
 $/ = undef;
 
@@ -88,7 +89,7 @@ for my $rev ( $first .. $last ) {
         if ( -e "$BUGS/$item.txt,v" ) {
             my $rlog = `rlog -h $BUGS/$item.txt`;
             ($lastrev) = $rlog =~ m/^head: 1\.(\d+).*?$/ms;
-            print "LAST REVISION $lastrev of Item$item \n" if $verbose;
+            print STDERR "LAST REVISION $lastrev of Item$item \n" if $verbose;
         }
         $lastrev++;
 
@@ -102,6 +103,7 @@ for my $rev ( $first .. $last ) {
         $text =~ s/^(%META:TOPICINFO{.*?comment=")(?:[^"]*)(".*?}%)$/$1svn commit$2/m;
         my $timestamp = time();
         $text =~ s/^(%META:TOPICINFO{.*?date=")(?:[^"]*)(".*?}%)$/$1$timestamp$2/m;
+        print STDERR "Updated TOPICINFO with author $committer rev $lastrev timestamp $timestamp\n" if $verbose;
 
         unless ( $text =~
 s/^(%META:FIELD.*name="Checkins".*value=")(.*?)(".*%)$/$1._add($2, $rev, \$changed).$3/gem
