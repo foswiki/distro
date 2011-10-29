@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1300401073" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1300572565" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
----+ Wiki Groups
-This is a list of all known groups that can be used to define [[%SYSTEMWEB%.AccessControl][AccessControl]] in <nop>%WIKITOOLNAME%.
+---+ Wiki groups dashboard
+Showing all known groups that can be used to define [[%SYSTEMWEB%.AccessControl][access controls]] in <nop>%WIKITOOLNAME%.
 
 <!--
 If a large number of groups are configured, the rendering performance of this
@@ -10,7 +10,7 @@ page can be significantly improved by enabling the following Set statement.
 
    * #Set maint=off
 
-With this enabled, adding and removing members and also topic upgrades for each group are omitted from this page.  Maintenance can be done from the individual group topics.
+With this enabled, adding and removing members and also topic upgrades for each group are omitted from this page. Maintenance can be done from the individual group topics.
 -->
 
 %TWISTY{
@@ -20,7 +20,7 @@ With this enabled, adding and removing members and also topic upgrades for each 
 }%
 
 <sticky>
-<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST">
+<form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
 <input type="hidden" name="action" value="addUserToGroup"/>
 <input type="hidden" name="create" value="1"/>
 <div class="foswikiFormSteps">
@@ -50,26 +50,34 @@ With this enabled, adding and removing members and also topic upgrades for each 
 
 *Related topics:* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%WEBPREFSTOPIC%]], [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]
 
-<blockquote class="foswikiHelp">%X% If a large number of groups are configured, the rendering performance of this page can be significantly improved by disabling group maintenance from this page.  Edit this topic for more information.</blockquote>
+<div class="foswikiHelp">%X% If a large number of groups are configured, the rendering performance of this page can be significantly improved by disabling group maintenance from this page.  Edit this topic for more information.</div>
     </div>
   </div>
 </div>
 </form></sticky> %ENDTWISTY%
 
 %GROUPINFO{
-   header="<table class='foswikiTable' style='width:99%'>
+   header="<table class='foswikiTable wikiGroupsTable'>
              <tr>
                <th>%MAKETEXT{"Group"}%</th>
                <th>%MAKETEXT{"Members"}%</th>
+               <th>%MAKETEXT{"Actions"}%</th>
              </tr>$n" 
    format="<tr>
-     <td valign='top'> $percntIF{\"not istopic '%USERSWEB%.$name'\" then=\"<nop>\" else=\"%USERSWEB%.\"}$percnt$name</td>
-     <td valign='top'> 
+     <td> $percntIF{\"not istopic '%USERSWEB%.$name'\" then=\"<nop>\" else=\"%USERSWEB%.\"}$percnt$name</td>
+     <td> 
        $percntINCLUDE{\"%USERSWEB%.GroupViewTemplate\"
          section=\"rendergroup\"
          groupname=\"$name\"
          allowschange=\"$allowschange\"
        }$percnt 
+     </td>
+     <td class=\"wikiGroupsActions\">
+        $percntINCLUDE{\"%USERSWEB%.GroupViewTemplate\"
+         section=\"groupactions\"
+         groupname=\"$name\"
+         allowschange=\"$allowschange\"
+       }$percnt
      </td>
    </tr>"
    footer="</table>"
