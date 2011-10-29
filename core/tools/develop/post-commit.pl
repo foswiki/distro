@@ -33,7 +33,7 @@ die unless $last;
 
 $first ||= ( $last - 1 );
 
-print "F:$first L:$last\n" if $verbose;
+#print "F:$first L:$last\n" if $verbose;
 my @changes;
 for ( my $i = $first + 1 ; $i <= $last ; $i++ ) {
     push(
@@ -45,7 +45,7 @@ for ( my $i = $first + 1 ; $i <= $last ; $i++ ) {
         split( /\n/, `/usr/local/bin/svnlook changed -r $i $REPOS` )
     );
 }
-print scalar(@changes), " changes\n" if $verbose;
+#print scalar(@changes), " changes\n" if $verbose;
 exit 0 unless scalar(@changes);
 
 sub _add {
