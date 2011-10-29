@@ -79,11 +79,14 @@ sub query {
         return Foswiki::Search::InfoCache->new( $session, '' );
     }
 
+    my $date = $options->{'date'} || '';
+    
     # Fold constants
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
     print STDERR "--- before: " . $query->stringify() . "\n" if MONITOR;
     $query->simplify( tom => $context, data => $context );
     print STDERR "--- simplified: " . $query->stringify() . "\n" if MONITOR;
+
 
     my $webItr =
       $this->getWebIterator( $session,
@@ -99,7 +102,12 @@ sub query {
             my $infoCache =
               $this->_webQuery( $params->{query}, $web, $params->{inputset},
                 $params->{session}, $params->{options} );
+            
+            if ($date) {
+                $infoCache->filterByDate( $date );
+            }
             $infoCache->sortResults($options);
+            
             return $infoCache;
         },
         {
@@ -119,6 +127,9 @@ sub query {
         $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
 
 #consider if this is un-necessary - and that we can steal the web order sort from DBIStore and push up to the webItr
+    if ($date) {
+        $resultset->filterByDate( $date );
+    }
     $resultset->sortResults($options);
 
     #add permissions check

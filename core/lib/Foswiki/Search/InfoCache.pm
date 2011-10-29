@@ -106,6 +106,7 @@ sub numberOfTopics {
 
     #can't use this, as it lies once its gone through the 'sortResults' hack
     #return scalar(@{ $this->{list} });
+    # when fixed, the count update in filterByDate should be removed
 
     return $this->{count};
 }
@@ -134,7 +135,6 @@ sub sortResults {
 
     my $sortOrder = $params->{order} || '';
     my $revSort   = Foswiki::isTrue( $params->{reverse} );
-    my $date      = $params->{date} || '';
     my $limit     = $params->{limit} || '';
 
     #SMELL: duplicated code - removeme
@@ -211,26 +211,41 @@ sub sortResults {
         $sortOrder = 'topic';
     }
     sortTopics( $this->{list}, $sortOrder, !$revSort );
+}
 
-    # SMELL: this is not a sort at all - its a filter
-    # TODO: can't just make a FilterIterator, as the silent
-    # removal breaks the numberofpages..
-    if ($date) {
-        require Foswiki::Time;
-        my @ends       = Foswiki::Time::parseInterval($date);
-        my @resultList = ();
-        foreach my $webtopic ( @{ $this->{list} } ) {
+=begin TML
 
-            # if date falls out of interval: exclude topic from result
-            my ( $web, $topic ) =
-              Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb},
-                $webtopic );
-            my $topicdate = $session->getApproxRevTime( $web, $topic );
-            push( @resultList, $webtopic )
-              unless ( $topicdate < $ends[0] || $topicdate > $ends[1] );
-        }
-        @{ $this->{list} } = @resultList;
-    }
+---++ filterByDate( $date )
+
+Filter the list by date interval; see System.TimeSpecifications.
+
+<verbatim>
+$infoCache->filterByDate( $date );
+</verbatim>
+
+=cut
+sub filterByDate {
+    my ( $this, $date ) = @_;
+    
+    my $session   = $Foswiki::Plugins::SESSION;
+    
+	require Foswiki::Time;
+	my @ends       = Foswiki::Time::parseInterval($date);
+	my @resultList = ();
+	foreach my $webtopic ( @{ $this->{list} } ) {
+
+		# if date falls out of interval: exclude topic from result
+		my ( $web, $topic ) =
+		  Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb},
+			$webtopic );
+		my $topicdate = $session->getApproxRevTime( $web, $topic );
+		push( @resultList, $webtopic )
+		  unless ( $topicdate < $ends[0] || $topicdate > $ends[1] );
+	}
+	$this->{list} = \@resultList;
+	
+	# use this hack until numberOfTopics reads the length of list
+	$this->{count} = length @{$this->{list}};
 }
 
 ######OLD methods

@@ -18,7 +18,7 @@ speed and memory size. It also depends on the complexity of the query.
 
 =cut
 
-# TODO: There is an additional opprotunity for optimisation; if we assume
+# TODO: There is an additional opportunity for optimisation; if we assume
 # the grep is solid, we can cut those parts of the query out for the full
 # evaluation path. Not done yet, because CDot strongly suspects it won't make
 # much difference.

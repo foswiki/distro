@@ -259,6 +259,14 @@ sub sortResults {
     }
 }
 
+sub filterByDate {
+    my ( $this, $date ) = @_;
+ 
+    foreach my $infocache ( @{ $this->{Itr_list} } ) {
+        $infocache->filterByDate($date);
+    }
+}
+
 1;
 __END__
 Author: Sven Dowideit - http://fosiki.com
