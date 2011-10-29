@@ -13,10 +13,7 @@ my $REPOS   = $ARGV[0];
 my $BUGS    = '/home/foswiki.org/public_html/data/Tasks';
 my $SUPPORT = '/home/svn';
 
-my $verbose = 1;    # 1 to debug
-
-# Don't know where STDERR goes, so send it somewhere we can read it
-open( STDERR, '>>', "$SUPPORT/logs/post-commit.log" ) || die $!;
+my $verbose = 0;    # 1 to debug
 
 my $first = 1;
 if ( open( F, '<', "$SUPPORT/lastupdate" ) ) {
@@ -36,7 +33,7 @@ die unless $last;
 
 $first ||= ( $last - 1 );
 
-print STDERR "F:$first L:$last\n" if $verbose;
+print "F:$first L:$last\n" if $verbose;
 my @changes;
 for ( my $i = $first + 1 ; $i <= $last ; $i++ ) {
     push(
@@ -48,7 +45,7 @@ for ( my $i = $first + 1 ; $i <= $last ; $i++ ) {
         split( /\n/, `/usr/local/bin/svnlook changed -r $i $REPOS` )
     );
 }
-print STDERR  scalar(@changes) . " changes\n" if $verbose;
+print scalar(@changes), " changes\n" if $verbose;
 exit 0 unless scalar(@changes);
 
 sub _add {
@@ -63,6 +60,8 @@ sub _add {
     return $new;
 }
 
+# Don't know where STDERR goes, so send it somewhere we can read it
+open( STDERR, '>>', "$SUPPORT/logs/post-commit.log" ) || die $!;
 print STDERR "Post-Commit $first..$last in $REPOS\n";
 $/ = undef;
 
