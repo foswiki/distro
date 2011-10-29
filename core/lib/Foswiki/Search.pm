@@ -347,7 +347,7 @@ sub searchWeb {
 #the topic="" and excludetopic="" params and web Obj to get a new list of topics.
 #this allows the algo's to customise and optimise the getting of this list themselves.
     my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
-
+    
 ################### Do the Rendering
 
     # If the search did not return anything, return the rendered zeroresults
@@ -606,8 +606,8 @@ sub formatResults {
           || $params->{showpage}
           || 1;
 
-        #TODO: need to ask the result set
-        my $numberofpages = $infoCache->numberOfTopics / $params->{pagesize};
+        #TODO: need to ask the ResultSet
+        my $numberofpages = $infoCache->numberOfTopics / $params->{pagesize};        
         $numberofpages = int($numberofpages) + 1;
 
         #TODO: excuse me?
@@ -762,7 +762,7 @@ sub formatResults {
 
             if ( $doMultiple && $query->{tokens} ) {
 
-                #TODO: i wonder if this shoudl be a HoistRE..
+                #TODO: Sven wonders if this should be a HoistRE..
                 #TODO: well, um, and how does this work for query search?
                 my @tokens = @{ $query->{tokens} };
                 my $pattern = $tokens[$#tokens];   # last token in an AND search

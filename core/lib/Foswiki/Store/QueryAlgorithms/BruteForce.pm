@@ -83,6 +83,12 @@ print STDERR "--- simplified: ".$query->toString()."\n" if MONITOR;
       new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
         $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
 
+    # first filter, then sort the remaining
+    my $date = $options->{'date'} || '';
+    if ($date) {
+        $resultset->filterByDate( $date );
+    }
+    
     #TODO: $options should become redundant
     $resultset->sortResults($options);
     return $resultset;
