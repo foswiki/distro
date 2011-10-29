@@ -78,6 +78,7 @@ text="<style type='text/css' media='all'>
       "istopic '%USERSWEB%.%groupname%' AND
        $WIKINAME != 'WikiGuest' AND
        '%groupname%' != 'NobodyGroup' AND
+       '%groupname%' != 'BaseGroup' AND
        '%maint%' != 'off' AND
        '%USERSWEB%.%groupname%' allows 'change'
       " 
@@ -95,6 +96,7 @@ text="<style type='text/css' media='all'>
        $WIKINAME != 'WikiGuest' AND
        '$wikiusername' != 'AdminUser' AND
        '%groupname%' != 'NobodyGroup' AND
+       '%groupname%' != 'BaseGroup' AND
        '%maint%' != 'off' AND
        '%USERSWEB%.%groupname%' allows 'change'
       " 
