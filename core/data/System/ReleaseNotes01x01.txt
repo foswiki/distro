@@ -1127,6 +1127,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10803][Item10803]] | CompareRevisionsAddOn causes illegal ={SwitchBoard}= value in Foswiki configuration (affects ApacheLogin users) |
 | [[%BUGS%/Item10804][Item10804]] | Some radio buttons on WebSearch behave erratically when clicked on the label |
 | [[%BUGS%/Item10807][Item10807]] | Prevent recursion in template expansion |
+| [[%BUGS%/Item10815][Item10815]] | Registration type automatic will add new user to every group when used by Admin. |
 | [[%BUGS%/Item10827][Item10827]] | TWISTY sets empty cookie value for remember="off" instead of clearing it, causes excessive overhead |
 | [[%BUGS%/Item10834][Item10834]] | Typo in conditional templates for BatchUploadPlugin |
 | [[%BUGS%/Item10836][Item10836]] | PatternSkin broken on 1.0.x |
@@ -1203,6 +1204,8 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11200][Item11200]] | Some crafted URLs result in a Undefined warning in Foswiki::Store::VC::Handler |
 | [[%BUGS%/Item11204][Item11204]] | Various improvements to jquery.media, jquery.tooltip, jquery.superfish, jquery.ui.resizable, jquery.button, jquery.ui.dialog and jquery.textboxlist |
 | [[%BUGS%/Item11205][Item11205]] | Dependency.pm is not reporting out-of-date extension when migrating from date to dotted versions.|
+| [[%BUGS%/Item11208][Item11208]] | Group UI allows you to create an illegal group name not ending in Group. | 
+| [[%BUGS%/Item11212][Item11212]] | Group UI should not allow users to be added to NobodyGroup, or added to/removed from BaseGroup. |
 </noautolink>
 
 ---+++ Enhancements
