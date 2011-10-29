@@ -607,7 +607,8 @@ sub formatResults {
           || 1;
 
         #TODO: need to ask the ResultSet
-        my $numberofpages = $infoCache->numberOfTopics / $params->{pagesize};        
+        my $numberofpages = 0;
+        $numberofpages = ($infoCache->numberOfTopics / $params->{pagesize}) if $params->{pagesize};        
         $numberofpages = int($numberofpages) + 1;
 
         #TODO: excuse me?
