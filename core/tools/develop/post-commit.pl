@@ -13,7 +13,7 @@ my $REPOS   = $ARGV[0];
 my $BUGS    = '/home/foswiki.org/public_html/data/Tasks';
 my $SUPPORT = '/home/svn';
 
-my $verbose = 0;    # 1 to debug
+my $verbose = 1;    # 1 to debug
 
 my $first = 1;
 if ( open( F, '<', "$SUPPORT/lastupdate" ) ) {
@@ -57,6 +57,7 @@ sub _add {
     my @list = sort { $a <=> $b } keys %curr;    # numeric sort
     my $new = join( " ", map { "Foswikirev:$_" } @list );
     $$changed = 1 if $cur ne $new;
+    print STDERR "cur $cur,  new $new\n" if $verbose;
     return $new;
 }
 
