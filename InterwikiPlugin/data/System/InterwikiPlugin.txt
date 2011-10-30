@@ -32,7 +32,7 @@ Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
 You can override the default settings using [[%SYSTEMWEB%.PreferenceSettings][preferences]]. These preferences can be set in your %USERSWEB%.SitePreferences, or in !WebPreferences, or in individual topics.
 
 | *Preference* | *Use to* | *Default* |
-| =INTERWIKIPLUGIN_RULESTOPIC= | The topic(s) containing the inter-wiki rules. Can be a comma separated list. See %SYSTEMWEB%.InterWikis#Adding_your_own_inter_45wiki_39s for more details | %SYSTEMWEB%.InterWikis |
+| =INTERWIKIPLUGIN_RULESTOPIC= | The topic(s) containing the inter-wiki rules. Can be a comma separated list. See %SYSTEMWEB%.InterWikis#AddingYourOwn for more details | %SYSTEMWEB%.InterWikis |
 | =INTERWIKIPLUGIN_INTERLINKFORMAT= | Set the interlink format | =&lt;a class="interwikiLink" href="$url" title="$tooltip" class="interwikiLink"&gt;&lt;noautolink&gt;$label&lt;/noautolink&gt;&lt;/a&gt;= |
 The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
      | *Token* | *Meaning* |
