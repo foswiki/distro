@@ -3330,10 +3330,10 @@ msgstr "Toto je důvod vypnuté konverze:"
 
 #: core/templates/login.tmpl:27
 msgid ""
-"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
+"This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Toto je vaše jméno zapsané jako !WikiWord, např. !JohnSmith. %BR% [[%1]"
+"Toto je vaše jméno zapsané jako !WikiWord, např. !JohnSmith. [[%1]"
 "[Register]] pokud ještě nemáte svůj účet."
 
 #: core/templates/renamedelete.tmpl:28

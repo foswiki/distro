@@ -3442,10 +3442,10 @@ msgstr "Voilà pourquoi la conversion est désactivée :"
 
 #: core/templates/login.tmpl:27
 msgid ""
-"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
+"This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Ceci est votre nom écrit comme un !MotWiki, par exemple: !JeanDurand. %BR% "
+"Ceci est votre nom écrit comme un !MotWiki, par exemple: !JeanDurand. "
 "[[%1][Enregistrez-vous]] si vous n'avez pas encore de compte."
 
 #: core/templates/renamedelete.tmpl:28

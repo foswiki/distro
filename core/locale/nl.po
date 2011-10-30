@@ -3390,11 +3390,11 @@ msgstr "Waarom de omzetting is uitgeschakeld:"
 
 #: core/templates/login.tmpl:27
 msgid ""
-"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
+"This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Dit is je naam geschreven als wiki woord, bijvoorbeeld: !PeterVanVelsen. %BR"
-"% [[%1][Meld je aan]] als je nog geen account hebt."
+"Dit is je naam geschreven als wiki woord, bijvoorbeeld: !PeterVanVelsen. "
+"[[%1][Meld je aan]] als je nog geen account hebt."
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""

@@ -3402,10 +3402,10 @@ msgstr "Grund für die Deaktivierung der Umwandlung:"
 
 #: core/templates/login.tmpl:27
 msgid ""
-"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
+"This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Dies ist Ihr Name geschrieben als !WikiWord, z.B. !ThomasSchmitt. %BR% [[%1]"
+"Dies ist Ihr Name geschrieben als !WikiWord, z.B. !ThomasSchmitt. [[%1]"
 "[Registrieren Sie sich]], falls Sie noch kein Benutzerkonto haben."
 
 #: core/templates/renamedelete.tmpl:28

@@ -3343,10 +3343,10 @@ msgstr "Konversationen är inaktiverad av denna anledning:"
 
 #: core/templates/login.tmpl:27
 msgid ""
-"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
+"This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Detta är ditt namn skrivet som !WikiOrd, till exempel !JohnSmith. %BR% [[%1]"
+"Detta är ditt namn skrivet som !WikiOrd, till exempel !JohnSmith. [[%1]"
 "[Registrera dig]] om du inte har ett konto ännu."
 
 #: core/templates/renamedelete.tmpl:28

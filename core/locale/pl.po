@@ -3349,10 +3349,10 @@ msgstr "Konwersja jest wyłączona ponieważ:"
 
 #: core/templates/login.tmpl:27
 msgid ""
-"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
+"This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"To twoje nazwisko zapisane jako !WikiWord, na przykład: !JanKowalski. %BR% "
+"To twoje nazwisko zapisane jako !WikiWord, na przykład: !JanKowalski. "
 "[[%1][Zarejestruj się]] jeśli jeszcze nie posiadasz konta."
 
 #: core/templates/renamedelete.tmpl:28

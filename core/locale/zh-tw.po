@@ -3207,10 +3207,10 @@ msgstr "這是本對話被禁止的原因："
 
 #: core/templates/login.tmpl:27
 msgid ""
-"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
+"This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"這是您名字的 !WikiWord ，例如: !JohnSmith 。 %BR% 若無帳戶請 [[%1] [註冊]] 。"
+"這是您名字的 !WikiWord ，例如: !JohnSmith 。 若無帳戶請 [[%1] [註冊]] 。"
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""

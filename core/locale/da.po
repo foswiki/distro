@@ -3374,10 +3374,10 @@ msgstr "Dette er årsagen til at konverteringen er deaktiveret:"
 
 #: core/templates/login.tmpl:27
 msgid ""
-"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
+"This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Dette er dit navn skrevet som !WikiWord, for eksempel !JohnSmith. %BR% [[%1]"
+"Dette er dit navn skrevet som !WikiWord, for eksempel !JohnSmith. [[%1]"
 "[Registrér]] hvis du ikke har en bruger konto endnu."
 
 #: core/templates/renamedelete.tmpl:28
