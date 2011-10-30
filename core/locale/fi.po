@@ -19,22 +19,22 @@ msgstr ""
 "X-Poedit-Language: Finnish\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:481
+#: core/lib/Foswiki/Time.pm:485
 msgid "%*(%1,day) "
 msgstr "%*(%1,päivä) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:484
+#: core/lib/Foswiki/Time.pm:488
 msgid "%*(%1,hour) "
 msgstr "%*(%1,tunti) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:487
+#: core/lib/Foswiki/Time.pm:491
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minuutti) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:490
+#: core/lib/Foswiki/Time.pm:494
 msgid "%*(%1,second) "
 msgstr "%*(%1,sekunti) "
 
@@ -43,6 +43,11 @@ msgstr "%*(%1,sekunti) "
 #: core/templates/oopsgeneric.tmpl:7
 msgid "%1"
 msgstr "%1"
+
+#: core/data/System/SiteChanges.txt:64
+#, fuzzy
+msgid "%1 (default)"
+msgstr "(poista)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -90,7 +95,7 @@ msgstr ""
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 on rekisteröitynyt sähköpostiosoitteella %2"
 
-#: core/templates/validate.tmpl:26
+#: core/templates/validate.tmpl:34
 msgid "%1 has received a suspicious change request from your browser."
 msgstr "%1 on vastaanottanut epäilyttävän muutospyynnön selaimeltasi."
 
@@ -167,7 +172,7 @@ msgid "%1 tried to register with e-mail %2"
 msgstr "%1 yritti rekisteröityä sähköpostiosoitteella %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:229
+#: core/lib/Foswiki/Render.pm:253
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%4 on siirtänyt %1 sijainnista %2, sijaintiin %3"
 
@@ -204,7 +209,7 @@ msgstr "(%1 kirjaudu sisään)"
 msgid "(%1 validation)"
 msgstr "(%1 validointi)"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:3 core/templates/rdiff.tmpl:4
+#: PatternSkin/templates/rdiff.pattern.tmpl:5 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
 msgstr "(%1 vs. %2)"
 
@@ -212,7 +217,7 @@ msgstr "(%1 vs. %2)"
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*Ehdotus:* Mitä jos lataisit kuvasi aiheeseesi?)"
 
-#: core/data/System/WebSearch.txt:129
+#: core/data/System/WebSearch.txt:133
 msgid "(=all= to show all topics)"
 msgstr "(=kaikki= näyttääksesi kaikki aiheet)"
 
@@ -301,13 +306,18 @@ msgstr "(ei isäartikkelia, orpoartikkeli)"
 msgid "(none)"
 msgstr "(tyhjä)"
 
-#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
+#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:96
 msgid "(otherwise search %1 Web only)"
 msgstr "(muutoin etsi vain verkosta %1)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42
 msgid "(raw view)"
 msgstr "(näytä raaka)"
+
+#: core/templates/oopsredirectdenied.tmpl:4
+#, fuzzy
+msgid "(redirect denied)"
+msgstr "(pääsy kielletty)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -359,7 +369,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Apua muotoiluun:*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:281
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -443,6 +453,38 @@ msgstr "*sivustolinkit* käytä aiheen nimeä: =%1= or =[<nop>[%1][Kotisivumme]]
 msgid "..."
 msgstr "..."
 
+#: core/data/System/SiteChanges.txt:15
+msgid "1 hour ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:20
+msgid "1 week ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:17
+msgid "12 hours ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:21
+msgid "2 weeks ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:18
+msgid "24 hours ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:19
+msgid "3 days ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:22
+msgid "4 weeks ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:16
+msgid "6 hours ago"
+msgstr ""
+
 #: core/data/System/WebChanges.txt:9
 msgid ""
 "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
@@ -494,7 +536,7 @@ msgstr ""
 "numeroa, esimerkiksi =#FFFF00="
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:952
+#: core/lib/Foswiki/UI/Register.pm:964
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Varmistussähköposti lähetetty osoitteeseen %1"
 
@@ -507,11 +549,6 @@ msgstr ""
 "Linkitys aiheeseen, joka sijaitsee toisessa verkossa, kirjoitetaan esim. "
 "näin %1. Huolehdi, ettei verkon nimi ole kirjoitettu väärin edellisellä "
 "sivulla; korjaa linkki tarvittaessa."
-
-#: core/data/Sandbox/WebHome.txt:32
-#, fuzzy
-msgid "A more extensive changes list is available via [[%1][Recent changes]]."
-msgstr "Kattavampi muutoslista on saatavilla [[%1][Viimmeisistä muutoksista]]."
 
 #: core/templates/messages.tmpl:566
 #, fuzzy
@@ -546,7 +583,7 @@ msgstr "Pääsy estetty"
 msgid "Access check on %1 failed"
 msgstr "Pääsytarkistus %1 epäonnistui"
 
-#: PatternSkin/templates/edit.pattern.tmpl:67
+#: PatternSkin/templates/edit.pattern.tmpl:72
 msgid "Access keys"
 msgstr "Pääsyavaimet"
 
@@ -564,34 +601,44 @@ msgstr "Toiminto"
 msgid "Action %1: %2."
 msgstr "Toiminto %1: %2."
 
+#: core/data/Main/WikiGroups.txt:64
+#, fuzzy
+msgid "Actions"
+msgstr "Toiminto"
+
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #, fuzzy
 msgid "Add"
 msgstr "Lisää rivi"
 
-#: core/data/Main/GroupViewTemplate.txt:152
-#, fuzzy
-msgid "Add a user or group to this group"
-msgstr "Lisää käyttäjä tähän ryhmään"
-
 #: core/templates/addform.tmpl:1
 msgid "Add form"
 msgstr "Lisää lomake"
 
-#: core/data/Main/GroupViewTemplate.txt:154
+#: core/data/Main/GroupViewTemplate.txt:239
 #, fuzzy
-msgid "Add member"
+msgid "Add members"
 msgstr "Lisää rivi"
 
-#: core/data/Main/GroupViewTemplate.txt:89
+#: core/data/Main/GroupViewTemplate.txt:170
 #, fuzzy
-msgid "Add member..."
+msgid "Add members..."
 msgstr "Lisää käyttäjä..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
 msgid "Add row"
 msgstr "Lisää rivi"
+
+#: core/data/Main/GroupViewTemplate.txt:217
+#, fuzzy
+msgid "Add user management options to this topic."
+msgstr "Muokkaa tämän aiheen asetuksia..."
+
+#: core/data/Main/GroupViewTemplate.txt:235
+#, fuzzy
+msgid "Add users or groups to this group"
+msgstr "Lisää käyttäjä tähän ryhmään"
 
 #: core/templates/messages.tmpl:373
 #, fuzzy
@@ -606,8 +653,8 @@ msgstr "Foswikin ylläpitäjän käyttäjätodennus"
 msgid "Admin Maintenance"
 msgstr "Ylläpitäjän huolto"
 
-#: core/data/Main/GroupViewTemplate.txt:63
-#: core/data/Main/GroupViewTemplate.txt:85
+#: core/data/Main/GroupViewTemplate.txt:145
+#: core/data/Main/GroupViewTemplate.txt:166
 #, fuzzy
 msgid "Administration"
 msgstr "Rekisteröinti"
@@ -641,7 +688,7 @@ msgstr ""
 msgid "Ah, no!"
 msgstr "Oi voi!"
 
-#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
+#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:96
 msgid "All public webs"
 msgstr "Kaikki julkiset verkot"
 
@@ -757,6 +804,7 @@ msgid "Attachment name:"
 msgstr "Liite"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
+#: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
 msgstr "Liitteet"
@@ -775,7 +823,8 @@ msgstr "Liitteitä ei näytetä aiheiden sivulla."
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
 #: core/templates/oopslanguagechanged.tmpl:13
-#: core/templates/oopsleaseconflict.tmpl:4 core/templates/oopssaveerr.tmpl:9
+#: core/templates/oopsleaseconflict.tmpl:4
+#: core/templates/oopsredirectdenied.tmpl:5 core/templates/oopssaveerr.tmpl:9
 msgid "Attention"
 msgstr "Huomio"
 
@@ -783,7 +832,7 @@ msgstr "Huomio"
 msgid "Attribute"
 msgstr "Attribuutti"
 
-#: MailerContrib/templates/mailnotify.tmpl:62
+#: MailerContrib/templates/mailnotify.tmpl:71
 msgid "Automated notification of topic changes"
 msgstr "Automaattinen ilmoitus aiheen muutoksista"
 
@@ -824,7 +873,7 @@ msgstr "Huono salasana"
 msgid "Base web %1 is missing or does not exist"
 msgstr "Perusverkko %1 puuttuu tai ei ole olemassa"
 
-#: core/data/System/WebSearch.txt:78 core/data/System/WebSearch.txt:92
+#: core/data/System/WebSearch.txt:78 core/data/System/WebSearch.txt:94
 msgid "Both body and title"
 msgstr "Molemmat otsikko ja runko"
 
@@ -858,11 +907,14 @@ msgstr ""
 #: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:109
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:102
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:108
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:51
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:94
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:49
+#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:54
 msgid "Cancel"
 msgstr "Peru"
 
@@ -883,7 +935,7 @@ msgid "Cannot rename %1 to %2 because it already exists."
 msgstr ""
 "%1: nimeäminen uudelleen nimelle %2 ei onnistu, koska kohde on jo olemassa."
 
-#: core/data/System/WebSearch.txt:111
+#: core/data/System/WebSearch.txt:115
 msgid "Case sensitive"
 msgstr "Merkkikokoriippuvainen"
 
@@ -899,7 +951,7 @@ msgstr "Muuta Sähköpostiosoite"
 msgid "Change Password"
 msgstr "Muuta salasana"
 
-#: core/templates/validate.tmpl:22
+#: core/templates/validate.tmpl:24
 msgid "Change cannot be completed"
 msgstr "Muutosta ei voida suorittaa"
 
@@ -999,7 +1051,7 @@ msgstr "Valitse uusi malli %1"
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
 
-#: core/lib/Foswiki/Render.pm:214
+#: core/lib/Foswiki/Render.pm:238
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1116,7 +1168,7 @@ msgstr "Ei voitu suorittaa hakua. Virhe oli: %1"
 msgid "Could not save %1."
 msgstr "Ei voitu tallentaa %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:259
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:262
 msgid "Country"
 msgstr "Maa"
 
@@ -1162,11 +1214,11 @@ msgstr "Luo henkilökohtainen sivupaneeli"
 msgid "Create the topic"
 msgstr "Luo aihe"
 
-#: core/data/System/DefaultPreferences.txt:378
-#: core/data/System/DefaultPreferences.txt:380
+#: core/data/System/DefaultPreferences.txt:386
+#: core/data/System/DefaultPreferences.txt:388
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicTemplate.txt:64
-#: core/lib/Foswiki/Render.pm:49
+#: core/lib/Foswiki/Render.pm:73
 msgid "Create this topic"
 msgstr "Luo tämä aihe"
 
@@ -1263,7 +1315,7 @@ msgid "Difference Topic"
 msgstr "Eroavaisuudet:"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
-#: PatternSkin/templates/rdiff.pattern.tmpl:9
+#: PatternSkin/templates/rdiff.pattern.tmpl:11
 msgid "Difference:"
 msgstr "Eroavaisuudet:"
 
@@ -1279,7 +1331,7 @@ msgstr "Älä unohda tallentaa muutoksia"
 msgid "Do not show attachment in table"
 msgstr "Älä näytä liitettä taulukossa"
 
-#: core/data/System/WebSearch.txt:121
+#: core/data/System/WebSearch.txt:125
 msgid "Don't show:"
 msgstr "Älä näytä:"
 
@@ -1583,7 +1635,7 @@ msgstr "sisältää tarkempaa tietoa liitetyistä tiedostoista"
 msgid "Get help on setting topic preferences"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:157
+#: core/data/System/WebSearch.txt:165
 msgid "Get notified on changes on this search"
 msgstr "Vastaanota huomautuksia muutoksista tässä etsinnässä"
 
@@ -1608,7 +1660,7 @@ msgstr "Palaa selaimeesi ja täytä kaikkiin pakollisiin kenttiin. "
 msgid "Go back in your browser and save your changes locally."
 msgstr "Palaa selaimeesi ja tallenna muutoksesi paikallisesti."
 
-#: core/templates/validate.tmpl:34
+#: core/templates/validate.tmpl:30
 msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
@@ -1641,7 +1693,7 @@ msgstr "Hei %1"
 msgid "Hello %1!"
 msgstr "Hei %1!"
 
-#: core/data/System/WebSearch.txt:109 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:113 core/data/System/WebSearch.txt:66
 #: core/templates/login.tmpl:45
 msgid "Help"
 msgstr "Ohje"
@@ -1698,7 +1750,7 @@ msgid ""
 "it."
 msgstr "Kuitenkin, tiedoston nimi %1 on muutettu %2.  "
 
-#: core/templates/login.tmpl:62
+#: core/templates/login.tmpl:61
 msgid "I forgot my password"
 msgstr "Unohdin salasanani"
 
@@ -1746,7 +1798,7 @@ msgid ""
 msgstr ""
 "Jos olet kehittämässä Foswikiä, katso %1 korrektien parametrien kuvaukset."
 
-#: core/templates/validate.tmpl:41
+#: core/templates/validate.tmpl:44
 #, fuzzy
 msgid "If you are unsure what this means, read: %1"
 msgstr "Jos olet epävarma, mitä tämä tarkoittaa, lue:"
@@ -1783,7 +1835,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/templates/login.tmpl:73
+#: core/templates/login.tmpl:72
 msgid "If you have any questions, please contact %1"
 msgstr "Kysymyksiisi vastaa %1"
 
@@ -1835,7 +1887,7 @@ msgstr ""
 "voidaan kaapata."
 
 #. ("{x}", "{y}")
-#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:59
 #, fuzzy
 msgid "Image %1 of %2"
 msgstr "Verkkoa %1 ei ole olemassa"
@@ -1855,7 +1907,7 @@ msgstr ""
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:104
+#: core/data/System/WebSearch.txt:108
 msgid "In reversed order"
 msgstr "Päinvastaisessa järjestyksessä"
 
@@ -1949,6 +2001,7 @@ msgstr ""
 
 #: PatternSkin/data/System/WebLeftBarSearch.txt:3
 #: PatternSkin/data/System/WebTopBarExample.txt:7
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:38
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:19
 msgid "Jump"
 msgstr "Hyppää"
@@ -1962,7 +2015,7 @@ msgstr "(versio %1)"
 msgid "Jump to latest revision (%1)"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:114
+#: core/data/System/WebSearch.txt:118
 #, fuzzy
 msgid "Keyword search"
 msgstr "Muuta hakua"
@@ -1973,11 +2026,16 @@ msgstr "Muuta hakua"
 msgid "Last edited by"
 msgstr "Viimeisin muokkaaja"
 
-#: core/data/System/WebSearch.txt:102
+#: core/data/System/SiteChanges.txt:45 core/data/System/WebSearch.txt:106
 msgid "Last editor"
 msgstr "Viimeisin muokkaaja"
 
-#: core/data/System/WebSearch.txt:101
+#: core/data/System/SiteChanges.txt:45
+#, fuzzy
+msgid "Last modified"
+msgstr "Muokattu viimeksi"
+
+#: core/data/System/WebSearch.txt:105
 msgid "Last modified time"
 msgstr "Muokattu viimeksi"
 
@@ -1995,7 +2053,7 @@ msgstr "(versio %1)"
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:128
+#: core/data/System/WebSearch.txt:132
 msgid "Limit results to:"
 msgstr "Rajoita tulokset:"
 
@@ -2014,11 +2072,11 @@ msgstr "Rivi: %1 - %2"
 msgid "Link"
 msgstr "Linkki"
 
-#: core/data/System/WebSearch.txt:183
+#: core/data/System/WebSearch.txt:191
 msgid "List topics that start with the letter:"
 msgstr "Luettele aiheet jotka alkavat kirjaimella:"
 
-#: core/data/System/WebSearch.txt:115
+#: core/data/System/WebSearch.txt:119
 msgid "Literal search"
 msgstr "Tarkka sanahaku"
 
@@ -2029,6 +2087,10 @@ msgstr "Kirjaudu sisään"
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
 msgid "Log Out"
 msgstr "Kirjaudu ulos"
+
+#: core/data/Main/GroupViewTemplate.txt:127
+msgid "Log in to continue."
+msgstr ""
 
 #: core/templates/login.tmpl:12
 #, fuzzy
@@ -2045,7 +2107,7 @@ msgid "Login name %1"
 msgstr "Käyttäjätunnus %1"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:231
-#: core/templates/login.tmpl:68
+#: core/templates/login.tmpl:67
 msgid "Logon"
 msgstr "Kirjaudu sisään"
 
@@ -2053,9 +2115,13 @@ msgstr "Kirjaudu sisään"
 msgid "Mail to"
 msgstr "Sähköpostita"
 
-#: core/data/System/WebSearch.txt:108
+#: core/data/System/WebSearch.txt:112
 msgid "Make search:"
 msgstr "Tee haku:"
+
+#: core/data/System/SiteChanges.txt:54
+msgid "Maximum %1 items per web"
+msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
@@ -2071,6 +2137,7 @@ msgid "Missing action command"
 msgstr "Puuttuva komento"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:48
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
 msgstr "Muuta hakua"
 
@@ -2092,7 +2159,7 @@ msgstr "Siirrä tai poista liite"
 msgid "More topic actions"
 msgstr "Lisää aihetoimintoja..."
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:22
+#: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
 msgstr "Lisää aihetoimintoja..."
@@ -2142,7 +2209,7 @@ msgstr "Siirrä aihe verkkoon:"
 msgid "Move/Rename"
 msgstr "Siirrä/nimeä uudelleen"
 
-#: core/lib/Foswiki/Search.pm:1132
+#: core/lib/Foswiki/Search.pm:1133
 msgid "NEW"
 msgstr "UUSI"
 
@@ -2171,7 +2238,7 @@ msgstr "Uuden käyttäjän rekisteröinti ei tuettu"
 msgid "New e-mails (space-separated list)"
 msgstr "Uudet sähköpostiosoitteet (välilyönneillä eroteltu lista)"
 
-#: MailerContrib/templates/mailnotify.tmpl:73
+#: MailerContrib/templates/mailnotify.tmpl:82
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Uudet tai muokatut aiheet %1, sitten %2:"
@@ -2195,6 +2262,20 @@ msgstr "Uusi verkon nimi:"
 #: core/templates/more.tmpl:158
 msgid "Newer revision:"
 msgstr "Uudempi versio:"
+
+#: JQueryPlugin/data/System/JQueryTmpl.txt:205
+msgid "Next"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:37
+#, fuzzy
+msgid "No  members"
+msgstr "Lisää rivi"
+
+#: core/data/System/SiteChanges.txt:50
+#, fuzzy
+msgid "No changes"
+msgstr "(muutokset)"
 
 #: core/templates/more.tmpl:208
 msgid "No child topics"
@@ -2271,7 +2352,14 @@ msgstr "Huomautus apua."
 msgid "Notifications"
 msgstr "Huomautukset"
 
+#: core/data/System/SiteChanges.txt:62
+msgid "Number of changes for each Web"
+msgstr ""
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:47
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
+#: PatternSkin/templates/search.pattern.tmpl:23
+#: PatternSkin/templates/search.pattern01x00.tmpl:12
 msgid "Number of topics:"
 msgstr "Aiheiden lukumäärä:"
 
@@ -2284,14 +2372,21 @@ msgstr "Aiheiden lukumäärä:"
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
 #: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:185
 #: core/templates/messages.tmpl:195 core/templates/messages.tmpl:202
-#: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
-#: core/templates/validate.tmpl:49
+#: core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
+#: core/templates/validate.tmpl:54
 msgid "OK"
 msgstr "OK"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:27
 msgid "OK, this is still me!"
 msgstr "OK, minä olen vielä täällä!"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:107
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:50
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:93
+msgid "Ok"
+msgstr ""
 
 #: core/templates/more.tmpl:158
 msgid "Older revision:"
@@ -2300,6 +2395,10 @@ msgstr "Vanhempi versio:"
 #: core/templates/messages.tmpl:585
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Ainoastaan %1 käyttäjät voivat suorittaa tämän toiminnon."
+
+#: core/data/Main/GroupViewTemplate.txt:130
+msgid "Only members or admins may update group."
+msgstr ""
 
 #: core/templates/more.tmpl:56 core/templates/more.tmpl:73
 #, fuzzy
@@ -2336,12 +2435,12 @@ msgstr "Vaihtoehtoisesti syötä erilainen aiheen nimi:"
 msgid "Options"
 msgstr "Toiminto"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:245
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:248
 #, fuzzy
 msgid "Organisation name"
 msgstr "Organisaation nimi:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:252
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:255
 #, fuzzy
 msgid "Organisation website"
 msgstr "Organisaation nimi:"
@@ -2441,6 +2540,11 @@ msgstr ""
 "Varmista %1 oikeinkirjoitus ja yritä uudelleen. Jos jäät jumiin, ota "
 "yhteyttä %2."
 
+#: core/templates/messages.tmpl:652
+#, fuzzy
+msgid "Please notify your %1 administrator."
+msgstr "Sähköpostia ei voitu lähettää. Ilmoita asiasta %1 ylläpitäjällesi, %2"
+
 #: core/templates/mailresetpassword.tmpl:15
 msgid ""
 "Please visit %1 to change your password to something more memorable for you."
@@ -2448,7 +2552,7 @@ msgstr ""
 "Ole hyvä ja siirry %1 muuttaaksesi salasanasi joksikin helpommin "
 "muistettavaksi."
 
-#: core/lib/Foswiki/Plugins.pm:397
+#: core/lib/Foswiki/Plugins.pm:407
 msgid "Plugin handlers"
 msgstr ""
 
@@ -2465,13 +2569,17 @@ msgstr "Asetukset"
 msgid "Preferences for"
 msgstr "Asetukset"
 
-#: core/templates/validate.tmpl:38
+#: core/templates/validate.tmpl:42
 msgid "Press Cancel otherwise."
 msgstr "Paina Peruuta muussa tapauksessa."
 
-#: core/templates/validate.tmpl:37
+#: core/templates/validate.tmpl:41
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Paina OK vahvistaaksesi tämän muutoksen tarkoituksellisuus."
+
+#: JQueryPlugin/data/System/JQueryTmpl.txt:206
+msgid "Previous"
+msgstr ""
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:28
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:29
@@ -2483,12 +2591,12 @@ msgstr "title='Tulostettava versio aiheesta' accesskey='p'>Tulostettava versio"
 msgid "Properties"
 msgstr "Ominaisuudet"
 
-#: core/lib/Foswiki/Render.pm:222
+#: core/lib/Foswiki/Render.pm:246
 #, fuzzy
 msgid "Put it back..."
 msgstr "laita takaisin"
 
-#: core/data/System/WebSearch.txt:117
+#: core/data/System/WebSearch.txt:121
 msgid "Query Search"
 msgstr "Verkkohaku"
 
@@ -2526,6 +2634,20 @@ msgstr "Lue"
 msgid "Recently changed topics"
 msgstr "Vastikään muuttuneet aiheet"
 
+#: core/data/System/SiteChanges.txt:5
+#, fuzzy
+msgid "Recently changed topics in %1 Web"
+msgstr "Vastikään muuttuneet aiheet"
+
+#: core/data/System/SiteChanges.txt:6
+#, fuzzy
+msgid "Recently changed topics in all Webs"
+msgstr "Vastikään muuttuneet aiheet"
+
+#: core/templates/oopsredirectdenied.tmpl:6
+msgid "Redirect Denied"
+msgstr ""
+
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
@@ -2534,7 +2656,7 @@ msgstr "Päivitä"
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
 #: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Rekisteröidy"
@@ -2558,22 +2680,22 @@ msgid ""
 "Check the configuration for errors."
 msgstr ""
 
-#: core/data/System/WebSearch.txt:116
+#: core/data/System/WebSearch.txt:120
 msgid "Regular expression search"
 msgstr "Säännöllinen lauseke etsintä"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:930
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:943
-#: core/data/Main/GroupViewTemplate.txt:14
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:963
+#: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:579 core/templates/messages.tmpl:590
 msgid "Related topics:"
 msgstr "Liittyvät aiheet:"
 
-#: core/templates/login.tmpl:64
+#: core/templates/login.tmpl:63
 msgid "Remember me on this computer"
 msgstr "Muista minut tällä tietokoneella"
 
@@ -2589,17 +2711,17 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "Muistatko salasanasi?"
 
-#: core/data/Main/GroupViewTemplate.txt:92
-#, fuzzy
-msgid "Remove member..."
-msgstr "Poista käyttäjä..."
-
-#: core/data/Main/GroupViewTemplate.txt:173
+#: core/data/Main/GroupViewTemplate.txt:261
 #, fuzzy
 msgid "Remove members from this group"
 msgstr "Poista käyttäjä ryhmistä/ryhmästä %1 ensiksi."
 
-#: core/data/Main/GroupViewTemplate.txt:177
+#: core/data/Main/GroupViewTemplate.txt:180
+#, fuzzy
+msgid "Remove members..."
+msgstr "Poista käyttäjä..."
+
+#: core/data/Main/GroupViewTemplate.txt:267
 msgid "Remove selected members"
 msgstr ""
 
@@ -2671,7 +2793,7 @@ msgstr "Resetoi salasana"
 msgid "Reset password"
 msgstr "Resetoi salasana"
 
-#: core/data/System/DefaultPreferences.txt:187
+#: core/data/System/DefaultPreferences.txt:195
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
@@ -2704,6 +2826,8 @@ msgstr ""
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
+#: PatternSkin/templates/search.pattern.tmpl:27
+#: PatternSkin/templates/search.pattern01x00.tmpl:16
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
 msgstr "Tulokset %1 verkosta"
@@ -2726,13 +2850,13 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "Rev %1 tallennettu käyttäjän %2 toimesta muokkauksesi aikana."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:76
+#: MailerContrib/templates/mailnotify.tmpl:85
 msgid "Review recent changes in:"
 msgstr "Esikatsele viimeisimpiä muutoksia:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
 #: HistoryPlugin/templates/oopshistory.tmpl:42
-#: PatternSkin/templates/rdiff.pattern.tmpl:14
+#: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Versio"
 
@@ -2749,7 +2873,7 @@ msgstr "Versiot"
 msgid "S = Save, C = Cancel"
 msgstr "S = Tallenna, C = Peruuta"
 
-#: PatternSkin/templates/edit.pattern.tmpl:67
+#: PatternSkin/templates/edit.pattern.tmpl:72
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr ""
@@ -2779,6 +2903,7 @@ msgstr "Tallennettu:"
 #: PatternSkin/data/System/WebTopBarExample.txt:9
 #: PatternSkin/data/Trash/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:7
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
 #: core/data/System/WebSearch.txt:47 core/data/System/WebSearch.txt:63
 msgid "Search"
@@ -2819,7 +2944,7 @@ msgstr "Muut hakuoptiot"
 msgid "Search result"
 msgstr "Haun tulos"
 
-#: core/data/System/WebSearch.txt:122
+#: core/data/System/WebSearch.txt:126
 msgid "Search string"
 msgstr "Etsi merkkijonoa"
 
@@ -2827,10 +2952,12 @@ msgstr "Etsi merkkijonoa"
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Etsi verkosta %1 aiheita, jotka linkittävät tänne"
 
-#: core/data/System/WebSearch.txt:74 core/data/System/WebSearch.txt:88
+#: core/data/System/WebSearch.txt:74 core/data/System/WebSearch.txt:90
 msgid "Search where:"
 msgstr "Etsi mistä:"
 
+#: PatternSkin/templates/search.pattern.tmpl:21
+#: PatternSkin/templates/search.pattern01x00.tmpl:10
 #: core/templates/searchformat.tmpl:8
 msgid "Searched:"
 msgstr "Etsitty:"
@@ -2871,11 +2998,16 @@ msgstr "Katso myös:"
 msgid "See below for help in editing this page."
 msgstr "Katso ohjeet alempaa sivun muokkaamiseksi."
 
+#: core/data/System/SiteChanges.txt:13
+#, fuzzy
+msgid "See changes since:"
+msgstr "Esikatsele viimeisimpiä muutoksia:"
+
 #: core/templates/changeform.tmpl:12
 msgid "Select"
 msgstr "Valitse"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:227
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:230
 msgid "Select Group %1 to join"
 msgstr ""
 
@@ -2896,11 +3028,11 @@ msgstr ""
 msgid "Select topic parent"
 msgstr "Valitse yläartikkeli:"
 
-#: PatternSkin/templates/edit.pattern.tmpl:53 core/templates/edit.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:52 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "Valitse, kopioi ja liitä allekirjoitustekstisi artikkelin alaosaan"
 
-#: core/data/System/WebSearch.txt:109
+#: core/data/System/WebSearch.txt:113
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
@@ -2989,13 +3121,17 @@ msgstr ""
 "Pahoittelen, järjestelmä on tällähetkellä vain-luku tilassa. Ota yhteyttä "
 "osoitteeseen %1"
 
-#: core/data/System/WebSearch.txt:98
+#: core/data/System/WebSearch.txt:102
 msgid "Sort results by:"
 msgstr "Lajittele tulokset:"
 
 #: core/templates/messages.tmpl:384
 msgid "Spaces are replaced by underscores"
 msgstr "Välilyönnit korvataan alaviivoilla"
+
+#: core/data/System/SiteChanges.txt:73
+msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
+msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
@@ -3005,12 +3141,9 @@ msgstr "Välilyönnit korvataan alaviivoilla"
 msgid "Statistics"
 msgstr "Tilastot"
 
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:108
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:113
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:196
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:278
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:101
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:31
-#: JQueryPlugin/data/System/JQueryValidate.txt:49
+#: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:79
@@ -3029,10 +3162,14 @@ msgid "Submitted content:"
 msgstr "Syötetyt tiedot:"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:79
+#: MailerContrib/templates/mailnotify.tmpl:88
 #: MailerContrib/templates/newsletter.tmpl:20
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Merkitse / Peruuta:"
+
+#: core/data/System/WebSearch.txt:82 core/data/System/WebSearch.txt:98
+msgid "Subwebs"
+msgstr ""
 
 #: core/templates/messages.tmpl:485
 msgid "Success adding users to group"
@@ -3042,13 +3179,17 @@ msgstr ""
 msgid "Success removing users from group"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:123
+#: core/data/System/WebSearch.txt:127
 msgid "Summaries"
 msgstr "Yhteenvedot"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Switch to monotype or propotional font"
 msgstr "Vaihda monotyyppiseen tai suhteelliseen fonttiin"
+
+#: core/data/Main/GroupViewTemplate.txt:124
+msgid "System user list."
+msgstr ""
 
 #: core/data/System/SearchHelp.txt:15
 msgid ""
@@ -3062,7 +3203,7 @@ msgstr ""
 msgid "Template %1 does not exist"
 msgstr "Mallinnetta %1 ei ole olemassa"
 
-#: core/data/System/WebSearch.txt:76 core/data/System/WebSearch.txt:90
+#: core/data/System/WebSearch.txt:76 core/data/System/WebSearch.txt:92
 msgid "Text body"
 msgstr "Leipäteksti"
 
@@ -3295,7 +3436,7 @@ msgstr "Ongelmia verkon uudelleen nimeämisessä:"
 msgid "There has been a problem adding your user id to the Password system."
 msgstr "Ongelma havaittu syötettäessä käyttäjä-id salasanajärjestelmään."
 
-#: core/templates/validate.tmpl:29
+#: core/templates/validate.tmpl:37
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
@@ -3337,6 +3478,10 @@ msgstr ""
 "tämän lomakkeen kautta, pidetään salassa, eikä niitä julkaista missään tällä "
 "sivulla. "
 
+#: core/data/Main/GroupViewTemplate.txt:121
+msgid "This group should not have members."
+msgstr ""
+
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
 #: core/data/System/WebNotify.txt:4 core/data/Trash/WebNotify.txt:2
@@ -3357,7 +3502,7 @@ msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:71
+#: MailerContrib/templates/mailnotify.tmpl:80
 msgid "This is an automated e-mail from %1."
 msgstr "Tämä on automaattinen sähköposti lähettäjältä %1"
 
@@ -3440,7 +3585,7 @@ msgstr "Aiheen otsikko"
 msgid "To attachment:"
 msgstr "Aiheen liitteet"
 
-#: core/data/System/WebSearch.txt:164
+#: core/data/System/WebSearch.txt:172
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3474,6 +3619,10 @@ msgstr "Verkkoon:"
 msgid "To web:"
 msgstr "Verkkoon:"
 
+#: core/templates/messages.tmpl:651
+msgid "Too many recursions parsing template %1"
+msgstr ""
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:5
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
 #: PatternSkin/data/System/WebLeftBarExample.txt:5
@@ -3482,6 +3631,11 @@ msgstr "Verkkoon:"
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:4
 msgid "Toolbox"
 msgstr "Työkalut"
+
+#: core/data/System/SiteChanges.txt:45
+#, fuzzy
+msgid "Topic"
+msgstr "Aiheeseen:"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:6
 msgid "Topic %1 does not exist"
@@ -3492,6 +3646,7 @@ msgid "Topic Save Error"
 msgstr "Aiheen tallennusvirhe"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:14
+#: PatternSkin/templates/attachtables.pattern01x00.tmpl:14
 msgid "Topic attachments"
 msgstr "Aiheen liitteet"
 
@@ -3511,7 +3666,7 @@ msgstr "Aiheen nimi"
 msgid "Topic history"
 msgstr "Aiheen otsikko"
 
-#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:100
+#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:104
 msgid "Topic name"
 msgstr "Aiheen nimi"
 
@@ -3525,7 +3680,7 @@ msgstr "Aiheen nimi:"
 msgid "Topic parent:"
 msgstr "Isäartikkeli"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:14
+#: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
 #: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:16
 msgid "Topic revision:"
@@ -3539,7 +3694,7 @@ msgstr "Aiheen tallennusvirhe"
 msgid "Topic templates in %1 Web"
 msgstr "Aihesivupohjat %1 verkossa"
 
-#: core/data/System/WebSearch.txt:77 core/data/System/WebSearch.txt:91
+#: core/data/System/WebSearch.txt:77 core/data/System/WebSearch.txt:93
 msgid "Topic title"
 msgstr "Aiheen otsikko"
 
@@ -3551,7 +3706,7 @@ msgstr "Aihe yhdistetty"
 msgid "Topics in %1 web:"
 msgstr "Aiheita verkossa %1:"
 
-#: core/data/System/WebSearch.txt:129
+#: core/data/System/WebSearch.txt:133
 msgid "Topics per web"
 msgstr "Aiheet per verkko"
 
@@ -3575,7 +3730,7 @@ msgstr ""
 "Aiheet, jotka viittaavat tähän verkkoon, joihin sinulla ei ole oikeuksia "
 "muokata:"
 
-#: core/data/System/WebSearch.txt:124
+#: core/data/System/WebSearch.txt:128
 msgid "Total matches"
 msgstr "Osumia kaikkiaan"
 
@@ -3595,6 +3750,11 @@ msgstr "Tuntematon käyttäjä ja/tai salasana"
 msgid "Unrecognized action command %1"
 msgstr "Ei-tunnettu toimintokomento %1"
 
+#: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
+#, fuzzy
+msgid "Update"
+msgstr "Päivitä linkit"
+
 #: PatternSkin/templates/attachagain.pattern.tmpl:3
 msgid "Update attachment %1 on %2"
 msgstr "Päivitä liitetiedosto %1 %2"
@@ -3603,15 +3763,19 @@ msgstr "Päivitä liitetiedosto %1 %2"
 msgid "Update links"
 msgstr "Päivitä linkit"
 
-#: core/data/Main/GroupViewTemplate.txt:135
+#: core/data/Main/GroupViewTemplate.txt:220
+#, fuzzy
+msgid "Upgrade"
+msgstr "Luo uusi aihe"
+
+#: core/data/Main/GroupViewTemplate.txt:216
 msgid "Upgrade group topic"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:139
-msgid ""
-"Upgrade will adjust the format of this group topic to the new format with "
-"user management options"
-msgstr ""
+#: core/data/Main/GroupViewTemplate.txt:208
+#, fuzzy
+msgid "Upgrade group topic..."
+msgstr "Luo uusi aihe"
 
 #: core/templates/messages.tmpl:492
 #, fuzzy
@@ -3694,6 +3858,10 @@ msgstr "Versiohistoria"
 msgid "Version history of %1"
 msgstr "%1:n versiohistoria"
 
+#: core/data/System/SiteChanges.txt:45
+msgid "View"
+msgstr "Näytä"
+
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
 msgstr "Näytä eroavaisuudet"
@@ -3740,7 +3908,7 @@ msgstr "Näytä aiheen täysi historia"
 msgid "View templates"
 msgstr "Näytä sivupohjat"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:22
+#: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
 msgstr "Näytä aihe"
@@ -3756,7 +3924,7 @@ msgstr "Näytä aiheen täysi historia"
 msgid "View without formatting (v)"
 msgstr "Näytä raaka teksti ilman muotoiluja"
 
-#: core/templates/validate.tmpl:20
+#: core/templates/validate.tmpl:22
 msgid "Warning! Confirmation required"
 msgstr "Varoitus! Vahvistus vaadittu"
 
@@ -3783,11 +3951,11 @@ msgstr "Varoitus: Nimettyä osaa %3 ei löydy aiheesta %1.%2"
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Varoitus: Aihetta %1.%2 ei löydy"
 
-#: core/lib/Foswiki/UI/Register.pm:945
+#: core/lib/Foswiki/UI/Register.pm:957
 msgid "Warning: Could not send confirmation email"
 msgstr "Varoitus: Vahvistus-sähköpostia ei voitu lähettää"
 
-#: core/lib/Foswiki/UI/Register.pm:957
+#: core/lib/Foswiki/UI/Register.pm:969
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Varoitus: Vahvistus-sähköpostia ei voitu lähettää, sähköposti on poistettu"
@@ -3800,11 +3968,17 @@ msgstr "Varoitus: Tämä sivusto ei salli URLien %<nop>INCLUDE%"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Varoitus: Aihetta ei ole olemassa"
 
+#: core/data/System/SiteChanges.txt:45
+#, fuzzy
+msgid "Web"
+msgstr "Verkot"
+
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
 msgstr ""
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:3
+#: core/data/System/SiteChanges.txt:71
 msgid "Webs"
 msgstr "Verkot"
 
@@ -3850,7 +4024,7 @@ msgstr ""
 msgid "Wiki name"
 msgstr "Aiheen nimi"
 
-#: core/data/System/WebSearch.txt:113
+#: core/data/System/WebSearch.txt:117
 #, fuzzy
 msgid "Word search"
 msgstr "Muuta hakua"
@@ -3966,7 +4140,7 @@ msgstr "Voit vaihtaa salasanaasi myös sivun %1 kautta"
 msgid "You can give this web a different name."
 msgstr "Voit antaa tälle verkolle toisen nimen."
 
-#: core/templates/validate.tmpl:32
+#: core/templates/validate.tmpl:28
 msgid ""
 "You cannot manually confirm this change because either Cookies or Javascript "
 "are disabled in your browser."
@@ -4142,7 +4316,7 @@ msgstr ""
 "Rekisteröitymisen tarkistussähköposti on joko jäänyt saapumatta perille tai "
 "se on edelleen jonossa postijärjestelmässä."
 
-#: PatternSkin/templates/edit.pattern.tmpl:53
+#: PatternSkin/templates/edit.pattern.tmpl:52
 msgid "Your signature to copy/paste"
 msgstr "Allekirjoituksesi kopioitavaksi"
 
@@ -4181,27 +4355,27 @@ msgstr "[3 väliä] * [väli] Set [väli] MUUTTUJANNIMI [väli] = [arvo]"
 msgid "_language_name"
 msgstr "Suomi"
 
-#: core/lib/Foswiki/Meta.pm:1817
+#: core/lib/Foswiki/Meta.pm:1836
 msgid "access denied on root"
 msgstr "Pääsy kielletty roottiin"
 
-#: core/lib/Foswiki/Meta.pm:1755
+#: core/lib/Foswiki/Meta.pm:1774
 msgid "access denied on topic"
 msgstr "pääsy kielletty aiheeseen"
 
-#: core/lib/Foswiki/Meta.pm:1790
+#: core/lib/Foswiki/Meta.pm:1809
 msgid "access denied on web"
 msgstr "pääsy kielletty webiin"
 
-#: core/lib/Foswiki/Meta.pm:1827
+#: core/lib/Foswiki/Meta.pm:1846
 msgid "access not allowed on root"
 msgstr "Pääsy roottiin kielletty"
 
-#: core/lib/Foswiki/Meta.pm:1774
+#: core/lib/Foswiki/Meta.pm:1793
 msgid "access not allowed on topic"
 msgstr "pääsy aiheeseen estetty"
 
-#: core/lib/Foswiki/Meta.pm:1802
+#: core/lib/Foswiki/Meta.pm:1821
 msgid "access not allowed on web"
 msgstr "pääsy web:iin estetty"
 
@@ -4217,6 +4391,10 @@ msgstr "ja"
 msgid "by %1 "
 msgstr ""
 
+#: core/data/System/SiteChanges.txt:56
+msgid "change display options"
+msgstr ""
+
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "muokkaa, päivitä, aikaisemmat versiot, siirrä, poista..."
@@ -4224,6 +4402,15 @@ msgstr "muokkaa, päivitä, aikaisemmat versiot, siirrä, poista..."
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 msgid "checkboxes of referenced topics"
 msgstr "valintaruudut viitettyihin aiheisiin"
+
+#: core/data/System/SiteChanges.txt:57
+#, fuzzy
+msgid "close display options"
+msgstr "Lisää aihetoimintoja..."
+
+#: core/data/System/SiteChanges.txt:44
+msgid "diff"
+msgstr ""
 
 #: core/templates/messages.tmpl:439
 msgid "don't forget to check your Topic Settings"
@@ -4255,6 +4442,11 @@ msgstr "raa'assa tekstimuodossa"
 msgid "indicates mandatory fields"
 msgstr "merkitsee vaadittua kenttää"
 
+#: core/data/System/SiteChanges.txt:44
+#, fuzzy
+msgid "last change"
+msgstr "(muutokset)"
+
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
 msgstr "hallitse"
@@ -4262,10 +4454,6 @@ msgstr "hallitse"
 #: core/data/Trash/WebHome.txt:11
 msgid "more..."
 msgstr "lisää..."
-
-#: core/data/Main/GroupViewTemplate.txt:31
-msgid "no members"
-msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
@@ -4287,9 +4475,15 @@ msgstr "tai"
 msgid "preview"
 msgstr "esikatselu"
 
+#: PatternSkin/templates/search.pattern.tmpl:27
+#: PatternSkin/templates/search.pattern01x00.tmpl:16
 #: core/data/System/WebChanges.txt:3 core/templates/searchformat.tmpl:15
 msgid "retrieved at %1"
 msgstr "noudettu %1"
+
+#: core/data/System/SiteChanges.txt:23
+msgid "the beginning"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -4399,9 +4593,15 @@ msgstr "value='Tallenna' accesskey='s'"
 msgid "view"
 msgstr "näytä"
 
-#: core/templates/validate.tmpl:41
+#: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr "Miksi sinulta kysytään vahvistusta"
+
+#, fuzzy
+#~ msgid ""
+#~ "A more extensive changes list is available via [[%1][Recent changes]]."
+#~ msgstr ""
+#~ "Kattavampi muutoslista on saatavilla [[%1][Viimmeisistä muutoksista]]."
 
 #~ msgid "Bathing problem"
 #~ msgstr "Puhdistus ongelma"
@@ -4411,10 +4611,6 @@ msgstr "Miksi sinulta kysytään vahvistusta"
 
 #~ msgid "Warning"
 #~ msgstr "Varoitus"
-
-#, fuzzy
-#~ msgid "More view options:"
-#~ msgstr "Lisää aihetoimintoja..."
 
 #, fuzzy
 #~ msgid "Show"
@@ -4677,9 +4873,6 @@ msgstr "Miksi sinulta kysytään vahvistusta"
 #~ msgstr ""
 #~ "Poista kommentit preferenssin asetuksista aktivoidaksesi ne (poista #-"
 #~ "merkki). Yksityiskohdat ja infoa preferenssin asetuksista löytyy %1."
-
-#~ msgid "View"
-#~ msgstr "Näytä"
 
 #~ msgid "Web Search"
 #~ msgstr "Verkkohaku"

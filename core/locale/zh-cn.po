@@ -20,22 +20,22 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:481
+#: core/lib/Foswiki/Time.pm:485
 msgid "%*(%1,day) "
 msgstr "%*(%1,天) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:484
+#: core/lib/Foswiki/Time.pm:488
 msgid "%*(%1,hour) "
 msgstr "%*(%1,小时) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:487
+#: core/lib/Foswiki/Time.pm:491
 msgid "%*(%1,minute) "
 msgstr "%*(%1,分钟) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:490
+#: core/lib/Foswiki/Time.pm:494
 msgid "%*(%1,second) "
 msgstr "%*(%1,秒)"
 
@@ -44,6 +44,11 @@ msgstr "%*(%1,秒)"
 #: core/templates/oopsgeneric.tmpl:7
 msgid "%1"
 msgstr "%1"
+
+#: core/data/System/SiteChanges.txt:64
+#, fuzzy
+msgid "%1 (default)"
+msgstr "(删除)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -89,7 +94,7 @@ msgstr "%1 正被 %2 编辑中，限制将在 %3 后释放。"
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 已使用电子邮件地址 %2 注册"
 
-#: core/templates/validate.tmpl:26
+#: core/templates/validate.tmpl:34
 msgid "%1 has received a suspicious change request from your browser."
 msgstr "％1 已收到来自您浏览器发出的可疑修改要求。"
 
@@ -171,7 +176,7 @@ msgstr "%1 试着以电子邮件 %2 注册"
 # $date,
 # $by)
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:229
+#: core/lib/Foswiki/Render.pm:253
 #, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 由 %4 从 %2 移到 %3"
@@ -210,7 +215,7 @@ msgstr "(%1 登录)"
 msgid "(%1 validation)"
 msgstr "(%1 验证)"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:3 core/templates/rdiff.tmpl:4
+#: PatternSkin/templates/rdiff.pattern.tmpl:5 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
 msgstr "(%1 比上 %2)"
 
@@ -218,7 +223,7 @@ msgstr "(%1 比上 %2)"
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*建议：*上传您的图片?)"
 
-#: core/data/System/WebSearch.txt:129
+#: core/data/System/WebSearch.txt:133
 msgid "(=all= to show all topics)"
 msgstr "(=所有= 显示所有主题)"
 
@@ -308,13 +313,18 @@ msgstr "(无父主题，孤立主题)"
 msgid "(none)"
 msgstr "(无)"
 
-#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
+#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:96
 msgid "(otherwise search %1 Web only)"
 msgstr "(否则只搜寻 %1子网)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42
 msgid "(raw view)"
 msgstr "(检示源码)"
+
+#: core/templates/oopsredirectdenied.tmpl:4
+#, fuzzy
+msgid "(redirect denied)"
+msgstr "(禁止访问)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -365,7 +375,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*格式说明:*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:281
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -438,6 +448,38 @@ msgstr "*网站连结* 使用主题名称: =%1= 或 =[<nop>[%1][首页]]="
 msgid "..."
 msgstr "..."
 
+#: core/data/System/SiteChanges.txt:15
+msgid "1 hour ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:20
+msgid "1 week ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:17
+msgid "12 hours ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:21
+msgid "2 weeks ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:18
+msgid "24 hours ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:19
+msgid "3 days ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:22
+msgid "4 weeks ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:16
+msgid "6 hours ago"
+msgstr ""
+
 #: core/data/System/WebChanges.txt:9
 msgid ""
 "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
@@ -483,7 +525,7 @@ msgid ""
 msgstr "颜色记号始于 # 标记，后面由 6 个位元的 16 进位数组成，如 =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:952
+#: core/lib/Foswiki/UI/Register.pm:964
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "确认的电子邮件已寄往 %1 "
 
@@ -494,11 +536,6 @@ msgid ""
 "if necessary."
 msgstr ""
 "与 %1 相似的主题在另一个子网内。请确认子网名没有拼错；必要时请修正连结。"
-
-#: core/data/Sandbox/WebHome.txt:32
-#, fuzzy
-msgid "A more extensive changes list is available via [[%1][Recent changes]]."
-msgstr "[[%1][最近更新]]内有更完整的变更清单。 "
 
 #: core/templates/messages.tmpl:566
 #, fuzzy
@@ -530,7 +567,7 @@ msgstr "禁止访问"
 msgid "Access check on %1 failed"
 msgstr "访问检查%1失败"
 
-#: PatternSkin/templates/edit.pattern.tmpl:67
+#: PatternSkin/templates/edit.pattern.tmpl:72
 msgid "Access keys"
 msgstr "快捷键"
 
@@ -548,33 +585,44 @@ msgstr "功能"
 msgid "Action %1: %2."
 msgstr "功能 %1: %2."
 
+#: core/data/Main/WikiGroups.txt:64
+#, fuzzy
+msgid "Actions"
+msgstr "功能"
+
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #, fuzzy
 msgid "Add"
 msgstr "加一列"
 
-#: core/data/Main/GroupViewTemplate.txt:152
-#, fuzzy
-msgid "Add a user or group to this group"
-msgstr "请先将用户从 %1 群组删除。"
-
 #: core/templates/addform.tmpl:1
 msgid "Add form"
 msgstr "增加表单"
 
-#: core/data/Main/GroupViewTemplate.txt:154
+#: core/data/Main/GroupViewTemplate.txt:239
 #, fuzzy
-msgid "Add member"
+msgid "Add members"
 msgstr "加一列"
 
-#: core/data/Main/GroupViewTemplate.txt:89
-msgid "Add member..."
-msgstr ""
+#: core/data/Main/GroupViewTemplate.txt:170
+#, fuzzy
+msgid "Add members..."
+msgstr "加一列"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
 msgid "Add row"
 msgstr "加一列"
+
+#: core/data/Main/GroupViewTemplate.txt:217
+#, fuzzy
+msgid "Add user management options to this topic."
+msgstr "编辑本主题的设定"
+
+#: core/data/Main/GroupViewTemplate.txt:235
+#, fuzzy
+msgid "Add users or groups to this group"
+msgstr "请先将用户从 %1 群组删除。"
 
 #: core/templates/messages.tmpl:373
 #, fuzzy
@@ -589,8 +637,8 @@ msgstr "Foswiki 管理员认证"
 msgid "Admin Maintenance"
 msgstr "管理员维护"
 
-#: core/data/Main/GroupViewTemplate.txt:63
-#: core/data/Main/GroupViewTemplate.txt:85
+#: core/data/Main/GroupViewTemplate.txt:145
+#: core/data/Main/GroupViewTemplate.txt:166
 #, fuzzy
 msgid "Administration"
 msgstr "注册"
@@ -622,7 +670,7 @@ msgstr ""
 msgid "Ah, no!"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
+#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:96
 msgid "All public webs"
 msgstr "所有公开的子网"
 
@@ -731,6 +779,7 @@ msgid "Attachment name:"
 msgstr "附件"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
+#: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
 msgstr "附件 "
@@ -749,7 +798,8 @@ msgstr "主题浏览时将不显示附件。"
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
 #: core/templates/oopslanguagechanged.tmpl:13
-#: core/templates/oopsleaseconflict.tmpl:4 core/templates/oopssaveerr.tmpl:9
+#: core/templates/oopsleaseconflict.tmpl:4
+#: core/templates/oopsredirectdenied.tmpl:5 core/templates/oopssaveerr.tmpl:9
 msgid "Attention"
 msgstr "注意"
 
@@ -757,7 +807,7 @@ msgstr "注意"
 msgid "Attribute"
 msgstr "属性"
 
-#: MailerContrib/templates/mailnotify.tmpl:62
+#: MailerContrib/templates/mailnotify.tmpl:71
 msgid "Automated notification of topic changes"
 msgstr "主题更新的自动通知"
 
@@ -798,7 +848,7 @@ msgstr "密码错误"
 msgid "Base web %1 is missing or does not exist"
 msgstr "基本子网 %1 遗失或不存在"
 
-#: core/data/System/WebSearch.txt:78 core/data/System/WebSearch.txt:92
+#: core/data/System/WebSearch.txt:78 core/data/System/WebSearch.txt:94
 msgid "Both body and title"
 msgstr "内容和标题"
 
@@ -828,11 +878,14 @@ msgstr "无法找到 %1 的电子邮件位址（用于密码重置时） "
 #: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:109
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:102
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:108
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:51
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:94
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:49
+#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:54
 msgid "Cancel"
 msgstr "取消"
 
@@ -852,7 +905,7 @@ msgstr "%1 子网已存在，无法建立"
 msgid "Cannot rename %1 to %2 because it already exists."
 msgstr "无法将 %1 改名为 %2，因 %2 已经存在。"
 
-#: core/data/System/WebSearch.txt:111
+#: core/data/System/WebSearch.txt:115
 msgid "Case sensitive"
 msgstr "区分字母大小写"
 
@@ -869,7 +922,7 @@ msgstr "电子邮件位址:"
 msgid "Change Password"
 msgstr "修改密码"
 
-#: core/templates/validate.tmpl:22
+#: core/templates/validate.tmpl:24
 msgid "Change cannot be completed"
 msgstr ""
 
@@ -969,7 +1022,7 @@ msgstr "为 %1 选个新表单"
 msgid "Clear all"
 msgstr "全部清除"
 
-#: core/lib/Foswiki/Render.pm:214
+#: core/lib/Foswiki/Render.pm:238
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1080,7 +1133,7 @@ msgstr "无法搜寻，错误: %1"
 msgid "Could not save %1."
 msgstr "%1 无法保存。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:259
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:262
 #, fuzzy
 msgid "Country"
 msgstr "国家:"
@@ -1131,11 +1184,11 @@ msgstr "编辑个人资料"
 msgid "Create the topic"
 msgstr "建立主题"
 
-#: core/data/System/DefaultPreferences.txt:378
-#: core/data/System/DefaultPreferences.txt:380
+#: core/data/System/DefaultPreferences.txt:386
+#: core/data/System/DefaultPreferences.txt:388
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicTemplate.txt:64
-#: core/lib/Foswiki/Render.pm:49
+#: core/lib/Foswiki/Render.pm:73
 msgid "Create this topic"
 msgstr "建立这个主题"
 
@@ -1229,7 +1282,7 @@ msgid "Difference Topic"
 msgstr "差异:"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
-#: PatternSkin/templates/rdiff.pattern.tmpl:9
+#: PatternSkin/templates/rdiff.pattern.tmpl:11
 msgid "Difference:"
 msgstr "差异:"
 
@@ -1245,7 +1298,7 @@ msgstr "别忘记储存变更"
 msgid "Do not show attachment in table"
 msgstr "表格内不显示附件"
 
-#: core/data/System/WebSearch.txt:121
+#: core/data/System/WebSearch.txt:125
 msgid "Don't show:"
 msgstr "不显示:"
 
@@ -1536,7 +1589,7 @@ msgstr "有附件的更多资讯。"
 msgid "Get help on setting topic preferences"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:157
+#: core/data/System/WebSearch.txt:165
 msgid "Get notified on changes on this search"
 msgstr "得到此搜寻的修改通知"
 
@@ -1561,7 +1614,7 @@ msgstr "回到浏览器上一页并输入所有必填的栏位。"
 msgid "Go back in your browser and save your changes locally."
 msgstr "回浏览器上一页并储存本地所有变更。"
 
-#: core/templates/validate.tmpl:34
+#: core/templates/validate.tmpl:30
 msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
@@ -1594,7 +1647,7 @@ msgstr "您好 %1"
 msgid "Hello %1!"
 msgstr "您好 %1！"
 
-#: core/data/System/WebSearch.txt:109 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:113 core/data/System/WebSearch.txt:66
 #: core/templates/login.tmpl:45
 msgid "Help"
 msgstr "说明"
@@ -1648,7 +1701,7 @@ msgid ""
 "it."
 msgstr "档案已从 %1 改名为 %2。请加上备注。"
 
-#: core/templates/login.tmpl:62
+#: core/templates/login.tmpl:61
 msgid "I forgot my password"
 msgstr "我忘记密码"
 
@@ -1692,7 +1745,7 @@ msgid ""
 "correct parameters."
 msgstr "若您将开发 Foswiki 应用程式，请参考 %1 内正确的参数说明。"
 
-#: core/templates/validate.tmpl:41
+#: core/templates/validate.tmpl:44
 #, fuzzy
 msgid "If you are unsure what this means, read: %1"
 msgstr "若您不清楚这是什么意思，请读："
@@ -1726,7 +1779,7 @@ msgstr "有任何关于注册的问题，请寄电子邮件给 %1。"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/templates/login.tmpl:73
+#: core/templates/login.tmpl:72
 msgid "If you have any questions, please contact %1"
 msgstr "任何问题，请联系 %1。"
 
@@ -1775,7 +1828,7 @@ msgstr ""
 "可能被他人盗用。"
 
 #. ("{x}", "{y}")
-#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:59
 #, fuzzy
 msgid "Image %1 of %2"
 msgstr "子网 %1 不存在"
@@ -1795,7 +1848,7 @@ msgstr ""
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:104
+#: core/data/System/WebSearch.txt:108
 msgid "In reversed order"
 msgstr "反向排序"
 
@@ -1882,6 +1935,7 @@ msgstr ""
 
 #: PatternSkin/data/System/WebLeftBarSearch.txt:3
 #: PatternSkin/data/System/WebTopBarExample.txt:7
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:38
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:19
 msgid "Jump"
 msgstr "到"
@@ -1895,7 +1949,7 @@ msgstr "(修订版 %1)"
 msgid "Jump to latest revision (%1)"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:114
+#: core/data/System/WebSearch.txt:118
 #, fuzzy
 msgid "Keyword search"
 msgstr "修改搜寻:"
@@ -1906,11 +1960,16 @@ msgstr "修改搜寻:"
 msgid "Last edited by"
 msgstr "最后编辑者"
 
-#: core/data/System/WebSearch.txt:102
+#: core/data/System/SiteChanges.txt:45 core/data/System/WebSearch.txt:106
 msgid "Last editor"
 msgstr "最后编辑者"
 
-#: core/data/System/WebSearch.txt:101
+#: core/data/System/SiteChanges.txt:45
+#, fuzzy
+msgid "Last modified"
+msgstr "最后修改时间"
+
+#: core/data/System/WebSearch.txt:105
 msgid "Last modified time"
 msgstr "最后修改时间"
 
@@ -1928,7 +1987,7 @@ msgstr "(修订版 %1)"
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:128
+#: core/data/System/WebSearch.txt:132
 msgid "Limit results to:"
 msgstr "限制结果于:"
 
@@ -1947,11 +2006,11 @@ msgstr "行: %1 到 %2"
 msgid "Link"
 msgstr "连结 "
 
-#: core/data/System/WebSearch.txt:183
+#: core/data/System/WebSearch.txt:191
 msgid "List topics that start with the letter:"
 msgstr "列出所有以某字母开头的主题:"
 
-#: core/data/System/WebSearch.txt:115
+#: core/data/System/WebSearch.txt:119
 msgid "Literal search"
 msgstr "简单搜寻"
 
@@ -1962,6 +2021,10 @@ msgstr "登录"
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
 msgid "Log Out"
 msgstr "登出"
+
+#: core/data/Main/GroupViewTemplate.txt:127
+msgid "Log in to continue."
+msgstr ""
 
 #: core/templates/login.tmpl:12
 #, fuzzy
@@ -1978,7 +2041,7 @@ msgid "Login name %1"
 msgstr "登录名 %1"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:231
-#: core/templates/login.tmpl:68
+#: core/templates/login.tmpl:67
 msgid "Logon"
 msgstr "登录"
 
@@ -1986,9 +2049,13 @@ msgstr "登录"
 msgid "Mail to"
 msgstr "邮寄给"
 
-#: core/data/System/WebSearch.txt:108
+#: core/data/System/WebSearch.txt:112
 msgid "Make search:"
 msgstr "搜寻:"
+
+#: core/data/System/SiteChanges.txt:54
+msgid "Maximum %1 items per web"
+msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
@@ -2004,6 +2071,7 @@ msgid "Missing action command"
 msgstr "缺少功能命令"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:48
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
 msgstr "修改搜寻:"
 
@@ -2025,7 +2093,7 @@ msgstr "移动或删除附件"
 msgid "More topic actions"
 msgstr "更多主题功能..."
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:22
+#: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
 msgstr "更多主题功能..."
@@ -2075,7 +2143,7 @@ msgstr "移动主题到子网:"
 msgid "Move/Rename"
 msgstr "移动/更名"
 
-#: core/lib/Foswiki/Search.pm:1132
+#: core/lib/Foswiki/Search.pm:1133
 msgid "NEW"
 msgstr "新"
 
@@ -2104,7 +2172,7 @@ msgstr "不支援新用户注册"
 msgid "New e-mails (space-separated list)"
 msgstr "新邮件地址 (用空白区隔的清单)"
 
-#: MailerContrib/templates/mailnotify.tmpl:73
+#: MailerContrib/templates/mailnotify.tmpl:82
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "自 %2 起，%1 中新的或变更过的主题"
@@ -2128,6 +2196,20 @@ msgstr "新子网名称:"
 #: core/templates/more.tmpl:158
 msgid "Newer revision:"
 msgstr "新版本:"
+
+#: JQueryPlugin/data/System/JQueryTmpl.txt:205
+msgid "Next"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:37
+#, fuzzy
+msgid "No  members"
+msgstr "加一列"
+
+#: core/data/System/SiteChanges.txt:50
+#, fuzzy
+msgid "No changes"
+msgstr "(变更)"
 
 #: core/templates/more.tmpl:208
 msgid "No child topics"
@@ -2202,7 +2284,14 @@ msgstr "说明通知"
 msgid "Notifications"
 msgstr "通知"
 
+#: core/data/System/SiteChanges.txt:62
+msgid "Number of changes for each Web"
+msgstr ""
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:47
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
+#: PatternSkin/templates/search.pattern.tmpl:23
+#: PatternSkin/templates/search.pattern01x00.tmpl:12
 msgid "Number of topics:"
 msgstr "主题数量:"
 
@@ -2215,13 +2304,20 @@ msgstr "主题数量:"
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
 #: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:185
 #: core/templates/messages.tmpl:195 core/templates/messages.tmpl:202
-#: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
-#: core/templates/validate.tmpl:49
+#: core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
+#: core/templates/validate.tmpl:54
 msgid "OK"
 msgstr "OK"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:27
 msgid "OK, this is still me!"
+msgstr ""
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:107
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:50
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:93
+msgid "Ok"
 msgstr ""
 
 #: core/templates/more.tmpl:158
@@ -2231,6 +2327,10 @@ msgstr "旧版本:"
 #: core/templates/messages.tmpl:585
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "只有 %1 的成员允许使用这些功能。"
+
+#: core/data/Main/GroupViewTemplate.txt:130
+msgid "Only members or admins may update group."
+msgstr ""
 
 #: core/templates/more.tmpl:56 core/templates/more.tmpl:73
 #, fuzzy
@@ -2265,12 +2365,12 @@ msgstr "输入不同的主题名称（非必要）:"
 msgid "Options"
 msgstr "功能"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:245
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:248
 #, fuzzy
 msgid "Organisation name"
 msgstr "组织名称:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:252
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:255
 #, fuzzy
 msgid "Organisation website"
 msgstr "组织名称:"
@@ -2368,12 +2468,17 @@ msgid ""
 "stuck, please mail %2."
 msgstr "请确认 %1 的拼写正确并重试。若仍不成功，请发邮件给 %2。"
 
+#: core/templates/messages.tmpl:652
+#, fuzzy
+msgid "Please notify your %1 administrator."
+msgstr "电子邮件寄送失败，请通知您的 %1 管理员 %2"
+
 #: core/templates/mailresetpassword.tmpl:15
 msgid ""
 "Please visit %1 to change your password to something more memorable for you."
 msgstr "请至 %1 将您的密码设成自己较容易记的."
 
-#: core/lib/Foswiki/Plugins.pm:397
+#: core/lib/Foswiki/Plugins.pm:407
 msgid "Plugin handlers"
 msgstr ""
 
@@ -2390,13 +2495,17 @@ msgstr "设定"
 msgid "Preferences for"
 msgstr "设定"
 
-#: core/templates/validate.tmpl:38
+#: core/templates/validate.tmpl:42
 msgid "Press Cancel otherwise."
 msgstr "其他，按「取消」。"
 
-#: core/templates/validate.tmpl:37
+#: core/templates/validate.tmpl:41
 msgid "Press OK to confirm that this change was intentional."
 msgstr "按「OK」确认此修改是故意的。"
+
+#: JQueryPlugin/data/System/JQueryTmpl.txt:206
+msgid "Previous"
+msgstr ""
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:28
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:29
@@ -2408,12 +2517,12 @@ msgstr "title='列印本主题' accesskey='p' >列印(&P)"
 msgid "Properties"
 msgstr "属性"
 
-#: core/lib/Foswiki/Render.pm:222
+#: core/lib/Foswiki/Render.pm:246
 #, fuzzy
 msgid "Put it back..."
 msgstr "放回"
 
-#: core/data/System/WebSearch.txt:117
+#: core/data/System/WebSearch.txt:121
 msgid "Query Search"
 msgstr "查询式检索"
 
@@ -2451,6 +2560,20 @@ msgstr "阅读"
 msgid "Recently changed topics"
 msgstr "最近更新的主题"
 
+#: core/data/System/SiteChanges.txt:5
+#, fuzzy
+msgid "Recently changed topics in %1 Web"
+msgstr "最近更新的主题"
+
+#: core/data/System/SiteChanges.txt:6
+#, fuzzy
+msgid "Recently changed topics in all Webs"
+msgstr "最近更新的主题"
+
+#: core/templates/oopsredirectdenied.tmpl:6
+msgid "Redirect Denied"
+msgstr ""
+
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
@@ -2459,7 +2582,7 @@ msgstr "更新"
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
 #: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "注册"
@@ -2483,22 +2606,22 @@ msgid ""
 "Check the configuration for errors."
 msgstr ""
 
-#: core/data/System/WebSearch.txt:116
+#: core/data/System/WebSearch.txt:120
 msgid "Regular expression search"
 msgstr "正则运算式搜寻"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:930
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:943
-#: core/data/Main/GroupViewTemplate.txt:14
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:963
+#: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:579 core/templates/messages.tmpl:590
 msgid "Related topics:"
 msgstr "相关主题:"
 
-#: core/templates/login.tmpl:64
+#: core/templates/login.tmpl:63
 msgid "Remember me on this computer"
 msgstr "在此电脑上记住我"
 
@@ -2512,16 +2635,16 @@ msgstr "请记得更新您用户主题中的邮件位址，以反应实情。"
 msgid "Remember your password?"
 msgstr "记住密码?"
 
-#: core/data/Main/GroupViewTemplate.txt:92
-msgid "Remove member..."
-msgstr ""
-
-#: core/data/Main/GroupViewTemplate.txt:173
+#: core/data/Main/GroupViewTemplate.txt:261
 #, fuzzy
 msgid "Remove members from this group"
 msgstr "请先将用户从 %1 群组删除。"
 
-#: core/data/Main/GroupViewTemplate.txt:177
+#: core/data/Main/GroupViewTemplate.txt:180
+msgid "Remove members..."
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:267
 msgid "Remove selected members"
 msgstr ""
 
@@ -2593,7 +2716,7 @@ msgstr "重设密码"
 msgid "Reset password"
 msgstr "重设密码"
 
-#: core/data/System/DefaultPreferences.txt:187
+#: core/data/System/DefaultPreferences.txt:195
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
@@ -2626,6 +2749,8 @@ msgstr ""
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
+#: PatternSkin/templates/search.pattern.tmpl:27
+#: PatternSkin/templates/search.pattern01x00.tmpl:16
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
 msgstr "%1 子网中的结果"
@@ -2648,13 +2773,13 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "在您编辑期间，用户 %2 以版本 %1 保存。"
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:76
+#: MailerContrib/templates/mailnotify.tmpl:85
 msgid "Review recent changes in:"
 msgstr "检查最近的更新:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
 #: HistoryPlugin/templates/oopshistory.tmpl:42
-#: PatternSkin/templates/rdiff.pattern.tmpl:14
+#: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "修订版"
 
@@ -2671,7 +2796,7 @@ msgstr "修订版"
 msgid "S = Save, C = Cancel"
 msgstr "S = 保存，C = 取消"
 
-#: PatternSkin/templates/edit.pattern.tmpl:67
+#: PatternSkin/templates/edit.pattern.tmpl:72
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr "S = 保存，Q = 快速保存，K = 保存并继续编辑，P = 预览，C = 取消"
@@ -2699,6 +2824,7 @@ msgstr "存到:"
 #: PatternSkin/data/System/WebTopBarExample.txt:9
 #: PatternSkin/data/Trash/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:7
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
 #: core/data/System/WebSearch.txt:47 core/data/System/WebSearch.txt:63
 msgid "Search"
@@ -2740,7 +2866,7 @@ msgstr "其他搜寻选项:"
 msgid "Search result"
 msgstr "(搜寻结果)"
 
-#: core/data/System/WebSearch.txt:122
+#: core/data/System/WebSearch.txt:126
 msgid "Search string"
 msgstr "搜寻字串"
 
@@ -2748,10 +2874,12 @@ msgstr "搜寻字串"
 msgid "Search the %1 Web for topics that link to here"
 msgstr "在 %1 子网中搜寻连结至此的主题"
 
-#: core/data/System/WebSearch.txt:74 core/data/System/WebSearch.txt:88
+#: core/data/System/WebSearch.txt:74 core/data/System/WebSearch.txt:90
 msgid "Search where:"
 msgstr "搜寻哪里:"
 
+#: PatternSkin/templates/search.pattern.tmpl:21
+#: PatternSkin/templates/search.pattern01x00.tmpl:10
 #: core/templates/searchformat.tmpl:8
 msgid "Searched:"
 msgstr "搜寻:"
@@ -2791,11 +2919,16 @@ msgstr "也可查看:"
 msgid "See below for help in editing this page."
 msgstr "编辑此页请参考以下说明."
 
+#: core/data/System/SiteChanges.txt:13
+#, fuzzy
+msgid "See changes since:"
+msgstr "检查最近的更新:"
+
 #: core/templates/changeform.tmpl:12
 msgid "Select"
 msgstr "选择"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:227
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:230
 msgid "Select Group %1 to join"
 msgstr ""
 
@@ -2816,11 +2949,11 @@ msgstr ""
 msgid "Select topic parent"
 msgstr "选择父主题:"
 
-#: PatternSkin/templates/edit.pattern.tmpl:53 core/templates/edit.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:52 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "在您输入的段落底部选择/复制/贴上您的签名文字"
 
-#: core/data/System/WebSearch.txt:109
+#: core/data/System/WebSearch.txt:113
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
@@ -2906,13 +3039,17 @@ msgstr "抱歉，暂时禁用注册。"
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr "抱歉，目前密码系统是唯读，请联系 %1"
 
-#: core/data/System/WebSearch.txt:98
+#: core/data/System/WebSearch.txt:102
 msgid "Sort results by:"
 msgstr "对结果排序:"
 
 #: core/templates/messages.tmpl:384
 msgid "Spaces are replaced by underscores"
 msgstr "空格已以下划线替代"
+
+#: core/data/System/SiteChanges.txt:73
+msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
+msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
@@ -2922,12 +3059,9 @@ msgstr "空格已以下划线替代"
 msgid "Statistics"
 msgstr "统计"
 
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:108
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:113
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:196
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:278
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:101
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:31
-#: JQueryPlugin/data/System/JQueryValidate.txt:49
+#: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:79
@@ -2946,10 +3080,14 @@ msgid "Submitted content:"
 msgstr "提交内容:"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:79
+#: MailerContrib/templates/mailnotify.tmpl:88
 #: MailerContrib/templates/newsletter.tmpl:20
 msgid "Subscribe / Unsubscribe in:"
 msgstr "订阅/退订:"
+
+#: core/data/System/WebSearch.txt:82 core/data/System/WebSearch.txt:98
+msgid "Subwebs"
+msgstr ""
 
 #: core/templates/messages.tmpl:485
 msgid "Success adding users to group"
@@ -2959,13 +3097,17 @@ msgstr ""
 msgid "Success removing users from group"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:123
+#: core/data/System/WebSearch.txt:127
 msgid "Summaries"
 msgstr "摘要"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Switch to monotype or propotional font"
 msgstr "切换到等宽或等比的字体"
+
+#: core/data/Main/GroupViewTemplate.txt:124
+msgid "System user list."
+msgstr ""
 
 #: core/data/System/SearchHelp.txt:15
 msgid ""
@@ -2979,7 +3121,7 @@ msgstr ""
 msgid "Template %1 does not exist"
 msgstr "范本 %1 不存在"
 
-#: core/data/System/WebSearch.txt:76 core/data/System/WebSearch.txt:90
+#: core/data/System/WebSearch.txt:76 core/data/System/WebSearch.txt:92
 msgid "Text body"
 msgstr "内容"
 
@@ -3195,7 +3337,7 @@ msgstr "此子网改名时出现错误:"
 msgid "There has been a problem adding your user id to the Password system."
 msgstr "新增您的用户资料到密码系统时出现错误。"
 
-#: core/templates/validate.tmpl:29
+#: core/templates/validate.tmpl:37
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
@@ -3233,6 +3375,10 @@ msgstr ""
 "用本表单修改注册邮件地址。系统会发送邮件至您的注册邮箱，包括：密码变更通知。"
 "表中的注册邮件地址将会隐藏保密，并*不会*显示于网站的其他网页内。"
 
+#: core/data/Main/GroupViewTemplate.txt:121
+msgid "This group should not have members."
+msgstr ""
+
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
 #: core/data/System/WebNotify.txt:4 core/data/Trash/WebNotify.txt:2
@@ -3253,7 +3399,7 @@ msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:71
+#: MailerContrib/templates/mailnotify.tmpl:80
 msgid "This is an automated e-mail from %1."
 msgstr "这是一封由 %1 自动发的送电子邮件。"
 
@@ -3329,7 +3475,7 @@ msgstr "主题标题"
 msgid "To attachment:"
 msgstr "主题附件"
 
-#: core/data/System/WebSearch.txt:164
+#: core/data/System/WebSearch.txt:172
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3361,6 +3507,10 @@ msgstr "到子网:"
 msgid "To web:"
 msgstr "到子网:"
 
+#: core/templates/messages.tmpl:651
+msgid "Too many recursions parsing template %1"
+msgstr ""
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:5
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
 #: PatternSkin/data/System/WebLeftBarExample.txt:5
@@ -3369,6 +3519,11 @@ msgstr "到子网:"
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:4
 msgid "Toolbox"
 msgstr "工具箱"
+
+#: core/data/System/SiteChanges.txt:45
+#, fuzzy
+msgid "Topic"
+msgstr "到主题:"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:6
 msgid "Topic %1 does not exist"
@@ -3379,6 +3534,7 @@ msgid "Topic Save Error"
 msgstr "主题保存错误"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:14
+#: PatternSkin/templates/attachtables.pattern01x00.tmpl:14
 msgid "Topic attachments"
 msgstr "主题附件"
 
@@ -3398,7 +3554,7 @@ msgstr "主题名称"
 msgid "Topic history"
 msgstr "主题标题"
 
-#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:100
+#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:104
 msgid "Topic name"
 msgstr "主题名称"
 
@@ -3412,7 +3568,7 @@ msgstr "主题名称:"
 msgid "Topic parent:"
 msgstr "父主题:"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:14
+#: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
 #: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:16
 msgid "Topic revision:"
@@ -3426,7 +3582,7 @@ msgstr "主题保存错误"
 msgid "Topic templates in %1 Web"
 msgstr "在 %1 子网中的主题范本"
 
-#: core/data/System/WebSearch.txt:77 core/data/System/WebSearch.txt:91
+#: core/data/System/WebSearch.txt:77 core/data/System/WebSearch.txt:93
 msgid "Topic title"
 msgstr "主题标题"
 
@@ -3438,7 +3594,7 @@ msgstr "合并主题"
 msgid "Topics in %1 web:"
 msgstr "子网 %1 内的主题:"
 
-#: core/data/System/WebSearch.txt:129
+#: core/data/System/WebSearch.txt:133
 msgid "Topics per web"
 msgstr "每个子网的主题"
 
@@ -3457,7 +3613,7 @@ msgid ""
 "Topics which refer to this web that you do not have permission to change:"
 msgstr "您无权变更被引用子网的主题:"
 
-#: core/data/System/WebSearch.txt:124
+#: core/data/System/WebSearch.txt:128
 msgid "Total matches"
 msgstr "完全符合"
 
@@ -3477,6 +3633,11 @@ msgstr "无法识别用户和/或密码"
 msgid "Unrecognized action command %1"
 msgstr "无法识别的功能 %1"
 
+#: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
+#, fuzzy
+msgid "Update"
+msgstr "更新连结"
+
 #: PatternSkin/templates/attachagain.pattern.tmpl:3
 msgid "Update attachment %1 on %2"
 msgstr "在 %2 更新附件 %1"
@@ -3485,15 +3646,19 @@ msgstr "在 %2 更新附件 %1"
 msgid "Update links"
 msgstr "更新连结"
 
-#: core/data/Main/GroupViewTemplate.txt:135
+#: core/data/Main/GroupViewTemplate.txt:220
+#, fuzzy
+msgid "Upgrade"
+msgstr "建立新主题"
+
+#: core/data/Main/GroupViewTemplate.txt:216
 msgid "Upgrade group topic"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:139
-msgid ""
-"Upgrade will adjust the format of this group topic to the new format with "
-"user management options"
-msgstr ""
+#: core/data/Main/GroupViewTemplate.txt:208
+#, fuzzy
+msgid "Upgrade group topic..."
+msgstr "建立新主题"
 
 #: core/templates/messages.tmpl:492
 #, fuzzy
@@ -3574,6 +3739,10 @@ msgstr "版本历史"
 msgid "Version history of %1"
 msgstr "%1 的版本历史"
 
+#: core/data/System/SiteChanges.txt:45
+msgid "View"
+msgstr "浏览"
+
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
 msgstr "检视差异"
@@ -3620,7 +3789,7 @@ msgstr "检视主题完整修订史"
 msgid "View templates"
 msgstr "检视范本"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:22
+#: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
 msgstr "检视主题"
@@ -3636,7 +3805,7 @@ msgstr "检视主题完整修订史"
 msgid "View without formatting (v)"
 msgstr "检视源码"
 
-#: core/templates/validate.tmpl:20
+#: core/templates/validate.tmpl:22
 msgid "Warning! Confirmation required"
 msgstr "要求确认"
 
@@ -3661,11 +3830,11 @@ msgstr "警告: 主题 %1. %2 内找不到命名的段落 %3"
 msgid "Warning: Can't find topic %1.%2"
 msgstr "警告: 找不到主题%1. %2"
 
-#: core/lib/Foswiki/UI/Register.pm:945
+#: core/lib/Foswiki/UI/Register.pm:957
 msgid "Warning: Could not send confirmation email"
 msgstr "警告: 无法寄送确认邮件"
 
-#: core/lib/Foswiki/UI/Register.pm:957
+#: core/lib/Foswiki/UI/Register.pm:969
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "警告: 无法寄送确认邮件，邮件已禁用。"
 
@@ -3677,11 +3846,17 @@ msgstr "警告: 本网站不允许 %<nop>INCLUDE% 连结"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "警告: \\'include\\' 的主题不存在！"
 
+#: core/data/System/SiteChanges.txt:45
+#, fuzzy
+msgid "Web"
+msgstr "子网"
+
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
 msgstr ""
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:3
+#: core/data/System/SiteChanges.txt:71
 msgid "Webs"
 msgstr "子网"
 
@@ -3727,7 +3902,7 @@ msgstr ""
 msgid "Wiki name"
 msgstr "主题名称"
 
-#: core/data/System/WebSearch.txt:113
+#: core/data/System/WebSearch.txt:117
 #, fuzzy
 msgid "Word search"
 msgstr "修改搜寻:"
@@ -3832,7 +4007,7 @@ msgstr "您可利用 %1 修改密码"
 msgid "You can give this web a different name."
 msgstr "您能为本子网改名。"
 
-#: core/templates/validate.tmpl:32
+#: core/templates/validate.tmpl:28
 msgid ""
 "You cannot manually confirm this change because either Cookies or Javascript "
 "are disabled in your browser."
@@ -3992,7 +4167,7 @@ msgid ""
 "mail system."
 msgstr "您的注册确认电子邮件寄送失败，或在邮件系统中等待寄出。"
 
-#: PatternSkin/templates/edit.pattern.tmpl:53
+#: PatternSkin/templates/edit.pattern.tmpl:52
 msgid "Your signature to copy/paste"
 msgstr "复制/贴上您的签名"
 
@@ -4028,27 +4203,27 @@ msgstr "[3 个空格] * [空格] Set [空格] VARIABLENAME [空格] = [值]"
 msgid "_language_name"
 msgstr "简体中文"
 
-#: core/lib/Foswiki/Meta.pm:1817
+#: core/lib/Foswiki/Meta.pm:1836
 msgid "access denied on root"
 msgstr "禁止浏览根目录"
 
-#: core/lib/Foswiki/Meta.pm:1755
+#: core/lib/Foswiki/Meta.pm:1774
 msgid "access denied on topic"
 msgstr "禁止浏览主题"
 
-#: core/lib/Foswiki/Meta.pm:1790
+#: core/lib/Foswiki/Meta.pm:1809
 msgid "access denied on web"
 msgstr "禁止浏览子网"
 
-#: core/lib/Foswiki/Meta.pm:1827
+#: core/lib/Foswiki/Meta.pm:1846
 msgid "access not allowed on root"
 msgstr "不允许浏览根目录"
 
-#: core/lib/Foswiki/Meta.pm:1774
+#: core/lib/Foswiki/Meta.pm:1793
 msgid "access not allowed on topic"
 msgstr "不允许浏览主题"
 
-#: core/lib/Foswiki/Meta.pm:1802
+#: core/lib/Foswiki/Meta.pm:1821
 msgid "access not allowed on web"
 msgstr "不允许浏览子网"
 
@@ -4064,6 +4239,10 @@ msgstr "和"
 msgid "by %1 "
 msgstr ""
 
+#: core/data/System/SiteChanges.txt:56
+msgid "change display options"
+msgstr ""
+
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "变更，更新，前一个版本，移动，删除..."
@@ -4071,6 +4250,15 @@ msgstr "变更，更新，前一个版本，移动，删除..."
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 msgid "checkboxes of referenced topics"
 msgstr "勾选参考主题"
+
+#: core/data/System/SiteChanges.txt:57
+#, fuzzy
+msgid "close display options"
+msgstr "更多主题功能..."
+
+#: core/data/System/SiteChanges.txt:44
+msgid "diff"
+msgstr ""
 
 #: core/templates/messages.tmpl:439
 msgid "don't forget to check your Topic Settings"
@@ -4102,6 +4290,11 @@ msgstr "源码模式"
 msgid "indicates mandatory fields"
 msgstr "指出必填栏位"
 
+#: core/data/System/SiteChanges.txt:44
+#, fuzzy
+msgid "last change"
+msgstr "最近更新的主题"
+
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
 msgstr "管理"
@@ -4109,10 +4302,6 @@ msgstr "管理"
 #: core/data/Trash/WebHome.txt:11
 msgid "more..."
 msgstr "更多..."
-
-#: core/data/Main/GroupViewTemplate.txt:31
-msgid "no members"
-msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
@@ -4134,9 +4323,15 @@ msgstr "或"
 msgid "preview"
 msgstr "预览"
 
+#: PatternSkin/templates/search.pattern.tmpl:27
+#: PatternSkin/templates/search.pattern01x00.tmpl:16
 #: core/data/System/WebChanges.txt:3 core/templates/searchformat.tmpl:15
 msgid "retrieved at %1"
 msgstr "自 %1 找出"
+
+#: core/data/System/SiteChanges.txt:23
+msgid "the beginning"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -4240,9 +4435,14 @@ msgstr "value='保存' accesskey='s'"
 msgid "view"
 msgstr "浏览"
 
-#: core/templates/validate.tmpl:41
+#: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr "为何您被要求确认"
+
+#, fuzzy
+#~ msgid ""
+#~ "A more extensive changes list is available via [[%1][Recent changes]]."
+#~ msgstr "[[%1][最近更新]]内有更完整的变更清单。 "
 
 #~ msgid "Bathing problem"
 #~ msgstr "洗澡套件有问题"
@@ -4252,10 +4452,6 @@ msgstr "为何您被要求确认"
 
 #~ msgid "Warning"
 #~ msgstr "警告"
-
-#, fuzzy
-#~ msgid "More view options:"
-#~ msgstr "更多主题功能..."
 
 #, fuzzy
 #~ msgid "Show"
@@ -4302,10 +4498,6 @@ msgstr "为何您被要求确认"
 
 #~ msgid "Read new revision help text in new window"
 #~ msgstr "在新视窗浏览新修订版说明"
-
-#, fuzzy
-#~ msgid "Recent changes"
-#~ msgstr "最近更新的主题"
 
 #~ msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
 #~ msgstr "S = 保存，Q = 快速保存，K = 保存并继续编辑，D = 放弃"
@@ -4500,9 +4692,6 @@ msgstr "为何您被要求确认"
 #~ "Uncomment preference settings to activate them (remove the #-sign). Help "
 #~ "and details on preference settings are available in %1."
 #~ msgstr "请将评论符号 # 删除以启用相关的参数设定，更多参数说明请参考 %1"
-
-#~ msgid "View"
-#~ msgstr "浏览"
 
 #~ msgid "Web Search"
 #~ msgstr "子网搜寻"

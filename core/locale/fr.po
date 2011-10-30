@@ -10,30 +10,30 @@ msgstr ""
 "PO-Revision-Date: 2011-03-31 01:40+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:481
+#: core/lib/Foswiki/Time.pm:485
 msgid "%*(%1,day) "
 msgstr "%*(%1,jour) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:484
+#: core/lib/Foswiki/Time.pm:488
 msgid "%*(%1,hour) "
 msgstr "%*(%1,heure) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:487
+#: core/lib/Foswiki/Time.pm:491
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minute) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:490
+#: core/lib/Foswiki/Time.pm:494
 msgid "%*(%1,second) "
 msgstr "%*(%1,seconde) "
 
@@ -42,6 +42,11 @@ msgstr "%*(%1,seconde) "
 #: core/templates/oopsgeneric.tmpl:7
 msgid "%1"
 msgstr "%1"
+
+#: core/data/System/SiteChanges.txt:64
+#, fuzzy
+msgid "%1 (default)"
+msgstr "(supprimer)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -86,7 +91,7 @@ msgstr "%1 modifie la page depuis %2, et son verrou est encore valide pour %3."
 msgid "%1 has been registered with e-mail %2"
 msgstr "%1 s'est inscrit·e avec l'adresse e-mail %2"
 
-#: core/templates/validate.tmpl:26
+#: core/templates/validate.tmpl:34
 msgid "%1 has received a suspicious change request from your browser."
 msgstr ""
 "%1 a reçu une demande de changement suspecte provenant de votre navigateur."
@@ -161,7 +166,7 @@ msgid "%1 tried to register with e-mail %2"
 msgstr "%1 a tenté de s'inscrire avec l'adresse e-mail %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:229
+#: core/lib/Foswiki/Render.pm:253
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 a été renommé ou déplacé depuis %2 vers %3 par %4"
 
@@ -197,7 +202,7 @@ msgstr "(connexion sur %1)"
 msgid "(%1 validation)"
 msgstr "(%1 validation)"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:3 core/templates/rdiff.tmpl:4
+#: PatternSkin/templates/rdiff.pattern.tmpl:5 core/templates/rdiff.tmpl:4
 msgid "(%1 vs. %2)"
 msgstr "(%1 vs. %2)"
 
@@ -205,7 +210,7 @@ msgstr "(%1 vs. %2)"
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*Suggestion:* Il est possible d'attacher votre photo à votre page.)"
 
-#: core/data/System/WebSearch.txt:129
+#: core/data/System/WebSearch.txt:133
 msgid "(=all= to show all topics)"
 msgstr "(=all= pour afficher toutes les pages)"
 
@@ -294,13 +299,18 @@ msgstr "(pas de parent, page orpheline)"
 msgid "(none)"
 msgstr "(aucun)"
 
-#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
+#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:96
 msgid "(otherwise search %1 Web only)"
 msgstr "(sinon, chercher seulement sur le Web %1)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42
 msgid "(raw view)"
 msgstr "(code source)"
+
+#: core/templates/oopsredirectdenied.tmpl:4
+#, fuzzy
+msgid "(redirect denied)"
+msgstr "(accès refusé)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -356,7 +366,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Aide au formatage :*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:281
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -446,6 +456,38 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
+#: core/data/System/SiteChanges.txt:15
+msgid "1 hour ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:20
+msgid "1 week ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:17
+msgid "12 hours ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:21
+msgid "2 weeks ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:18
+msgid "24 hours ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:19
+msgid "3 days ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:22
+msgid "4 weeks ago"
+msgstr ""
+
+#: core/data/System/SiteChanges.txt:16
+msgid "6 hours ago"
+msgstr ""
+
 #: core/data/System/WebChanges.txt:9
 msgid ""
 "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
@@ -496,7 +538,7 @@ msgstr ""
 "hexadécimaux ; exemple : =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:952
+#: core/lib/Foswiki/UI/Register.pm:964
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Un e-mail de confirmation a été envoyé à %1"
 
@@ -509,12 +551,6 @@ msgstr ""
 "Un lien vers une page d'un autre web s'écrit comme %1. Vérifiez qu'il n'y a "
 "pas d'erreur, sur la page précédente, dans le nom du web, et corrigez le "
 "lien si nécessaire."
-
-#: core/data/Sandbox/WebHome.txt:32
-msgid "A more extensive changes list is available via [[%1][Recent changes]]."
-msgstr ""
-"Une liste plus complète des modifications est disponible via le lien [[%1]"
-"[Modifications récentes]]."
 
 #: core/templates/messages.tmpl:566
 msgid ""
@@ -548,7 +584,7 @@ msgstr "Accès refusé"
 msgid "Access check on %1 failed"
 msgstr "L'accès à %1 a été refusé"
 
-#: PatternSkin/templates/edit.pattern.tmpl:67
+#: PatternSkin/templates/edit.pattern.tmpl:72
 msgid "Access keys"
 msgstr "Raccourcis clavier"
 
@@ -565,30 +601,43 @@ msgstr "Action"
 msgid "Action %1: %2."
 msgstr "Action %1 : %2."
 
+#: core/data/Main/WikiGroups.txt:64
+#, fuzzy
+msgid "Actions"
+msgstr "Action"
+
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 msgid "Add"
 msgstr "Ajouter"
-
-#: core/data/Main/GroupViewTemplate.txt:152
-msgid "Add a user or group to this group"
-msgstr "Ajouter un utilisateur ou un groupe à ce groupe"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
 msgstr "Ajouter formulaire"
 
-#: core/data/Main/GroupViewTemplate.txt:154
-msgid "Add member"
+#: core/data/Main/GroupViewTemplate.txt:239
+#, fuzzy
+msgid "Add members"
 msgstr "Ajouter membre"
 
-#: core/data/Main/GroupViewTemplate.txt:89
-msgid "Add member..."
+#: core/data/Main/GroupViewTemplate.txt:170
+#, fuzzy
+msgid "Add members..."
 msgstr "Ajouter membre..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
 msgid "Add row"
 msgstr "Ajouter une ligne"
+
+#: core/data/Main/GroupViewTemplate.txt:217
+#, fuzzy
+msgid "Add user management options to this topic."
+msgstr "Modifier les paramètres de cette page..."
+
+#: core/data/Main/GroupViewTemplate.txt:235
+#, fuzzy
+msgid "Add users or groups to this group"
+msgstr "Ajouter un utilisateur ou un groupe à ce groupe"
 
 #: core/templates/messages.tmpl:373
 msgid "Adding a %1 preference in WebPreferences"
@@ -602,8 +651,8 @@ msgstr "Authentification administrateur de Foswiki"
 msgid "Admin Maintenance"
 msgstr "Maintenance"
 
-#: core/data/Main/GroupViewTemplate.txt:63
-#: core/data/Main/GroupViewTemplate.txt:85
+#: core/data/Main/GroupViewTemplate.txt:145
+#: core/data/Main/GroupViewTemplate.txt:166
 msgid "Administration"
 msgstr "Administration"
 
@@ -636,7 +685,7 @@ msgstr ""
 msgid "Ah, no!"
 msgstr "Ah, non !"
 
-#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:94
+#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:96
 msgid "All public webs"
 msgstr "Tous les webs publics"
 
@@ -751,6 +800,7 @@ msgid "Attachment name:"
 msgstr "Nom du fichier attaché:"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
+#: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
 msgstr "Fichiers attachés"
@@ -769,7 +819,8 @@ msgstr "Les fichiers attachés ne seront pas affichés sur la page."
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
 #: core/templates/oopslanguagechanged.tmpl:13
-#: core/templates/oopsleaseconflict.tmpl:4 core/templates/oopssaveerr.tmpl:9
+#: core/templates/oopsleaseconflict.tmpl:4
+#: core/templates/oopsredirectdenied.tmpl:5 core/templates/oopssaveerr.tmpl:9
 msgid "Attention"
 msgstr "Attention"
 
@@ -777,7 +828,7 @@ msgstr "Attention"
 msgid "Attribute"
 msgstr "Attribut"
 
-#: MailerContrib/templates/mailnotify.tmpl:62
+#: MailerContrib/templates/mailnotify.tmpl:71
 msgid "Automated notification of topic changes"
 msgstr "Notifications automatiques de modifications"
 
@@ -818,7 +869,7 @@ msgstr "Mot de passe erroné"
 msgid "Base web %1 is missing or does not exist"
 msgstr "Le web de base %1 n'existe pas"
 
-#: core/data/System/WebSearch.txt:78 core/data/System/WebSearch.txt:92
+#: core/data/System/WebSearch.txt:78 core/data/System/WebSearch.txt:94
 msgid "Both body and title"
 msgstr "Dans le titre et dans le texte"
 
@@ -853,11 +904,14 @@ msgstr ""
 #: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:109
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:102
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:108
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:51
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:94
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:49
+#: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:54
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -877,7 +931,7 @@ msgstr "Impossible de créer le web %1, qui existe déjà"
 msgid "Cannot rename %1 to %2 because it already exists."
 msgstr "Impossible de renommer %1 en %2, qui existe déjà."
 
-#: core/data/System/WebSearch.txt:111
+#: core/data/System/WebSearch.txt:115
 msgid "Case sensitive"
 msgstr "Sensible à la casse"
 
@@ -893,7 +947,7 @@ msgstr "Changer l'adresse e-mail"
 msgid "Change Password"
 msgstr "Changer de mot de passe"
 
-#: core/templates/validate.tmpl:22
+#: core/templates/validate.tmpl:24
 msgid "Change cannot be completed"
 msgstr "Le changement ne peut être effectué"
 
@@ -997,7 +1051,7 @@ msgstr "Choisissez un nouveau formulaire pour %1"
 msgid "Clear all"
 msgstr "Désélectionner toutes"
 
-#: core/lib/Foswiki/Render.pm:214
+#: core/lib/Foswiki/Render.pm:238
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1116,7 +1170,7 @@ msgstr "Impossible d'effectuer la recherche. L'erreur est :%1."
 msgid "Could not save %1."
 msgstr "Impossible d'enregistrer %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:259
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:262
 msgid "Country"
 msgstr "Pays"
 
@@ -1162,11 +1216,11 @@ msgstr "Créer menu personnel"
 msgid "Create the topic"
 msgstr "Créer la page"
 
-#: core/data/System/DefaultPreferences.txt:378
-#: core/data/System/DefaultPreferences.txt:380
+#: core/data/System/DefaultPreferences.txt:386
+#: core/data/System/DefaultPreferences.txt:388
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicTemplate.txt:64
-#: core/lib/Foswiki/Render.pm:49
+#: core/lib/Foswiki/Render.pm:73
 msgid "Create this topic"
 msgstr "Créer cette page"
 
@@ -1261,7 +1315,7 @@ msgid "Difference Topic"
 msgstr "Page de comparaison"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
-#: PatternSkin/templates/rdiff.pattern.tmpl:9
+#: PatternSkin/templates/rdiff.pattern.tmpl:11
 msgid "Difference:"
 msgstr "Page de comparaison :"
 
@@ -1278,7 +1332,7 @@ msgstr "N'oubliez pas d'enregistrer vos modifications"
 msgid "Do not show attachment in table"
 msgstr "Ne pas afficher dans la liste des fichiers attachés"
 
-#: core/data/System/WebSearch.txt:121
+#: core/data/System/WebSearch.txt:125
 msgid "Don't show:"
 msgstr "Ne pas afficher :"
 
@@ -1583,7 +1637,7 @@ msgstr "Obtenir de l'aide à propos des fichiers attachés"
 msgid "Get help on setting topic preferences"
 msgstr "Aide sur le paramétrage des options de page"
 
-#: core/data/System/WebSearch.txt:157
+#: core/data/System/WebSearch.txt:165
 msgid "Get notified on changes on this search"
 msgstr "Etre informé lorsque le résultat de cette recherche change"
 
@@ -1610,7 +1664,7 @@ msgstr ""
 "Retournez à la page précédente et enregistrez vos modifications localement "
 "(c'est-à-dire, dans l'ordinateur que vous utilisez présentement)."
 
-#: core/templates/validate.tmpl:34
+#: core/templates/validate.tmpl:30
 msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
@@ -1643,7 +1697,7 @@ msgstr "Bonjour, %1"
 msgid "Hello %1!"
 msgstr "Bonjour, %1 !"
 
-#: core/data/System/WebSearch.txt:109 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:113 core/data/System/WebSearch.txt:66
 #: core/templates/login.tmpl:45
 msgid "Help"
 msgstr "Aide"
@@ -1702,7 +1756,7 @@ msgid ""
 "it."
 msgstr "Néanmoins, veuillez noter que le nom %1 du fichier a été changé en %2."
 
-#: core/templates/login.tmpl:62
+#: core/templates/login.tmpl:61
 msgid "I forgot my password"
 msgstr "J'ai oublié mon mot de passe"
 
@@ -1758,7 +1812,7 @@ msgstr ""
 "Si vous programmez une application Foswiki, voyez %1 pour une description "
 "des paramètres corrects."
 
-#: core/templates/validate.tmpl:41
+#: core/templates/validate.tmpl:44
 msgid "If you are unsure what this means, read: %1"
 msgstr "Si vous n'êtes pas certain de ce que cela signifie, lisez : %1"
 
@@ -1795,7 +1849,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/templates/login.tmpl:73
+#: core/templates/login.tmpl:72
 msgid "If you have any questions, please contact %1"
 msgstr "Si vous avez des questions, vous pouvez contacter %1"
 
@@ -1850,7 +1904,7 @@ msgstr ""
 "utilisateur."
 
 #. ("{x}", "{y}")
-#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:59
 msgid "Image %1 of %2"
 msgstr "Image %1 sur %2"
 
@@ -1875,7 +1929,7 @@ msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
 "Dans le cas d'un fichier zip, attacher tous les fichiers inclus à cette page"
 
-#: core/data/System/WebSearch.txt:104
+#: core/data/System/WebSearch.txt:108
 msgid "In reversed order"
 msgstr "En ordre inverse"
 
@@ -1972,6 +2026,7 @@ msgstr ""
 
 #: PatternSkin/data/System/WebLeftBarSearch.txt:3
 #: PatternSkin/data/System/WebTopBarExample.txt:7
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:38
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:19
 msgid "Jump"
 msgstr "Aller à"
@@ -1984,7 +2039,7 @@ msgstr "Aller à la première révision"
 msgid "Jump to latest revision (%1)"
 msgstr "Aller à la dernière révision (%1)"
 
-#: core/data/System/WebSearch.txt:114
+#: core/data/System/WebSearch.txt:118
 msgid "Keyword search"
 msgstr "Recherche de mots clés par radical (keyword search)"
 
@@ -1993,11 +2048,16 @@ msgstr "Recherche de mots clés par radical (keyword search)"
 msgid "Last edited by"
 msgstr "Dernière modification par"
 
-#: core/data/System/WebSearch.txt:102
+#: core/data/System/SiteChanges.txt:45 core/data/System/WebSearch.txt:106
 msgid "Last editor"
 msgstr "Dernier auteur"
 
-#: core/data/System/WebSearch.txt:101
+#: core/data/System/SiteChanges.txt:45
+#, fuzzy
+msgid "Last modified"
+msgstr "Dernière modification"
+
+#: core/data/System/WebSearch.txt:105
 msgid "Last modified time"
 msgstr "Dernière modification"
 
@@ -2013,7 +2073,7 @@ msgstr "Dernière révision : %1"
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr "Laisser décoché si vous souhaitez attacher le fichier zip lui même"
 
-#: core/data/System/WebSearch.txt:128
+#: core/data/System/WebSearch.txt:132
 msgid "Limit results to:"
 msgstr "Restreindre les résultats à :"
 
@@ -2032,11 +2092,11 @@ msgstr "Ligne : %1 à %2"
 msgid "Link"
 msgstr "Lien"
 
-#: core/data/System/WebSearch.txt:183
+#: core/data/System/WebSearch.txt:191
 msgid "List topics that start with the letter:"
 msgstr "Afficher la liste des pages dont le nom commence par la lettre :"
 
-#: core/data/System/WebSearch.txt:115
+#: core/data/System/WebSearch.txt:119
 msgid "Literal search"
 msgstr "Recherche littérale"
 
@@ -2047,6 +2107,10 @@ msgstr "Connexion"
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
 msgid "Log Out"
 msgstr "Déconnexion"
+
+#: core/data/Main/GroupViewTemplate.txt:127
+msgid "Log in to continue."
+msgstr ""
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
@@ -2061,7 +2125,7 @@ msgid "Login name %1"
 msgstr "Nom de connexion %1"
 
 #: PatternSkin/data/System/PatternSkinElements.txt:231
-#: core/templates/login.tmpl:68
+#: core/templates/login.tmpl:67
 msgid "Logon"
 msgstr "Connexion"
 
@@ -2069,9 +2133,13 @@ msgstr "Connexion"
 msgid "Mail to"
 msgstr "Écrivez à "
 
-#: core/data/System/WebSearch.txt:108
+#: core/data/System/WebSearch.txt:112
 msgid "Make search:"
 msgstr "Chercher :"
+
+#: core/data/System/SiteChanges.txt:54
+msgid "Maximum %1 items per web"
+msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
@@ -2087,6 +2155,7 @@ msgid "Missing action command"
 msgstr "Commande manquante"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:48
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
 msgstr "Modifier la recherche"
 
@@ -2106,7 +2175,7 @@ msgstr "Plus d'informations sur comment cacher les fichiers attachés"
 msgid "More topic actions"
 msgstr "Autres actions sur la page"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:22
+#: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "More topic actions..."
 msgstr "Autres actions sur la page..."
@@ -2155,7 +2224,7 @@ msgstr "Déplacer la page vers le web :"
 msgid "Move/Rename"
 msgstr "Déplacer/Renommer"
 
-#: core/lib/Foswiki/Search.pm:1132
+#: core/lib/Foswiki/Search.pm:1133
 msgid "NEW"
 msgstr "NOUVEAU"
 
@@ -2183,7 +2252,7 @@ msgstr "L'inscription de nouveaux utilisateurs n'est pas supportée"
 msgid "New e-mails (space-separated list)"
 msgstr "Nouvelles adresses e-mail (séparées par des espaces)"
 
-#: MailerContrib/templates/mailnotify.tmpl:73
+#: MailerContrib/templates/mailnotify.tmpl:82
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Pages modifiées ou nouvellement créées dans %1, depuis %2 :"
@@ -2207,6 +2276,20 @@ msgstr "Nouveau nom du web :"
 #: core/templates/more.tmpl:158
 msgid "Newer revision:"
 msgstr "Nouvelle version :"
+
+#: JQueryPlugin/data/System/JQueryTmpl.txt:205
+msgid "Next"
+msgstr ""
+
+#: core/data/Main/GroupViewTemplate.txt:37
+#, fuzzy
+msgid "No  members"
+msgstr "aucun membre"
+
+#: core/data/System/SiteChanges.txt:50
+#, fuzzy
+msgid "No changes"
+msgstr "(modifications)"
 
 #: core/templates/more.tmpl:208
 msgid "No child topics"
@@ -2286,7 +2369,14 @@ msgstr "Aide notification"
 msgid "Notifications"
 msgstr "Notifications"
 
+#: core/data/System/SiteChanges.txt:62
+msgid "Number of changes for each Web"
+msgstr ""
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:47
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
+#: PatternSkin/templates/search.pattern.tmpl:23
+#: PatternSkin/templates/search.pattern01x00.tmpl:12
 msgid "Number of topics:"
 msgstr "Nombre de pages :"
 
@@ -2298,14 +2388,21 @@ msgstr "Nombre de pages : %1"
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
 #: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:185
 #: core/templates/messages.tmpl:195 core/templates/messages.tmpl:202
-#: core/templates/oopsaccessdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
-#: core/templates/validate.tmpl:49
+#: core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
+#: core/templates/validate.tmpl:54
 msgid "OK"
 msgstr "OK"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:27
 msgid "OK, this is still me!"
 msgstr "OK, c'est toujours moi !"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:107
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:50
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:93
+msgid "Ok"
+msgstr ""
 
 #: core/templates/more.tmpl:158
 msgid "Older revision:"
@@ -2314,6 +2411,10 @@ msgstr "Ancienne version :"
 #: core/templates/messages.tmpl:585
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Seuls les membres du %1 sont autorisés à faire ça."
+
+#: core/data/Main/GroupViewTemplate.txt:130
+msgid "Only members or admins may update group."
+msgstr ""
 
 #: core/templates/more.tmpl:56 core/templates/more.tmpl:73
 msgid "Only update linked topics in %1 web"
@@ -2346,11 +2447,11 @@ msgstr "Éventuellement, entrez un autre nom de page :"
 msgid "Options"
 msgstr "Options"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:245
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:248
 msgid "Organisation name"
 msgstr "Nom de l'organisation"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:252
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:255
 msgid "Organisation website"
 msgstr "Site web de l'organisation"
 
@@ -2449,6 +2550,13 @@ msgstr ""
 "Veuillez vérifier que vous avez écrit le %1 correctement, et réessayez. Si "
 "ça ne fonctionne toujours pas, veuillez en informer %2."
 
+#: core/templates/messages.tmpl:652
+#, fuzzy
+msgid "Please notify your %1 administrator."
+msgstr ""
+"Un e-mail n'a pas pu être envoyé. Merci d'en informer votre administrateur "
+"de %1 : %2"
+
 #: core/templates/mailresetpassword.tmpl:15
 msgid ""
 "Please visit %1 to change your password to something more memorable for you."
@@ -2457,7 +2565,7 @@ msgstr ""
 "vous rappellerez plus facilement."
 
 # Le terme plugin (qui est parfaitement compris en français) est utilisé partout, plutôt que greffon. Si nous changeons plugin en greffon, il faut le changer partout.
-#: core/lib/Foswiki/Plugins.pm:397
+#: core/lib/Foswiki/Plugins.pm:407
 msgid "Plugin handlers"
 msgstr "Connecteurs de plugin"
 
@@ -2474,13 +2582,17 @@ msgstr "Options"
 msgid "Preferences for"
 msgstr "Options pour"
 
-#: core/templates/validate.tmpl:38
+#: core/templates/validate.tmpl:42
 msgid "Press Cancel otherwise."
 msgstr "Autrement, pressez Annuler."
 
-#: core/templates/validate.tmpl:37
+#: core/templates/validate.tmpl:41
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Pressez OK pour confirmer que ce changement était intentionnel."
+
+#: JQueryPlugin/data/System/JQueryTmpl.txt:206
+msgid "Previous"
+msgstr ""
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:28
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:29
@@ -2491,11 +2603,11 @@ msgstr "Version imprimable de cette page  (p)"
 msgid "Properties"
 msgstr "Propriétés"
 
-#: core/lib/Foswiki/Render.pm:222
+#: core/lib/Foswiki/Render.pm:246
 msgid "Put it back..."
 msgstr "Remettre la page..."
 
-#: core/data/System/WebSearch.txt:117
+#: core/data/System/WebSearch.txt:121
 msgid "Query Search"
 msgstr "Recherche par requête"
 
@@ -2533,6 +2645,20 @@ msgstr "Continuer à lire"
 msgid "Recently changed topics"
 msgstr "Pages modifiées récemment"
 
+#: core/data/System/SiteChanges.txt:5
+#, fuzzy
+msgid "Recently changed topics in %1 Web"
+msgstr "Pages modifiées récemment"
+
+#: core/data/System/SiteChanges.txt:6
+#, fuzzy
+msgid "Recently changed topics in all Webs"
+msgstr "Pages modifiées récemment"
+
+#: core/templates/oopsredirectdenied.tmpl:6
+msgid "Redirect Denied"
+msgstr ""
+
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
@@ -2541,7 +2667,7 @@ msgstr "Rafraîchir"
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
 #: PatternSkin/data/System/WebLeftBarLogin.txt:4
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
 #: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Inscription"
@@ -2568,22 +2694,22 @@ msgstr ""
 "{EnableNewUserRegistration}, soit en raison d'erreurs affectant le système "
 "de mot de passe.  Vérifiez la présence d'erreurs dans la configuration."
 
-#: core/data/System/WebSearch.txt:116
+#: core/data/System/WebSearch.txt:120
 msgid "Regular expression search"
 msgstr "Recherche par expression rationnelle"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:930
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:943
-#: core/data/Main/GroupViewTemplate.txt:14
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:963
+#: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:579 core/templates/messages.tmpl:590
 msgid "Related topics:"
 msgstr "Pages liées :"
 
-#: core/templates/login.tmpl:64
+#: core/templates/login.tmpl:63
 msgid "Remember me on this computer"
 msgstr "Se souvenir de moi sur cet ordinateur"
 
@@ -2599,15 +2725,16 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "Vous souvenez-vous de votre mot de passe ?"
 
-#: core/data/Main/GroupViewTemplate.txt:92
-msgid "Remove member..."
-msgstr "Supprimer membre..."
-
-#: core/data/Main/GroupViewTemplate.txt:173
+#: core/data/Main/GroupViewTemplate.txt:261
 msgid "Remove members from this group"
 msgstr "Retirer les membres du groupe"
 
-#: core/data/Main/GroupViewTemplate.txt:177
+#: core/data/Main/GroupViewTemplate.txt:180
+#, fuzzy
+msgid "Remove members..."
+msgstr "Supprimer membre..."
+
+#: core/data/Main/GroupViewTemplate.txt:267
 msgid "Remove selected members"
 msgstr "Supprimer les membres sélectionnés"
 
@@ -2681,7 +2808,7 @@ msgstr "Réinitialisation de votre mot de passe"
 msgid "Reset password"
 msgstr "Réinitialisation de votre mot de passe"
 
-#: core/data/System/DefaultPreferences.txt:187
+#: core/data/System/DefaultPreferences.txt:195
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 "La réinitialisation et la définition des mots de passe ne sont pas gérées "
@@ -2719,6 +2846,8 @@ msgstr ""
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr "La restauration est désactivée car cette page est en version 1."
 
+#: PatternSkin/templates/search.pattern.tmpl:27
+#: PatternSkin/templates/search.pattern01x00.tmpl:16
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
 msgstr "Résultats dans le web %1"
@@ -2742,13 +2871,13 @@ msgstr ""
 "modifier la page."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:76
+#: MailerContrib/templates/mailnotify.tmpl:85
 msgid "Review recent changes in:"
 msgstr "Pages modifiées récemment dans :"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
 #: HistoryPlugin/templates/oopshistory.tmpl:42
-#: PatternSkin/templates/rdiff.pattern.tmpl:14
+#: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Version"
 
@@ -2764,7 +2893,7 @@ msgstr "Versions"
 msgid "S = Save, C = Cancel"
 msgstr "S = Enregistrer, C = Annuler"
 
-#: PatternSkin/templates/edit.pattern.tmpl:67
+#: PatternSkin/templates/edit.pattern.tmpl:72
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr ""
@@ -2795,6 +2924,7 @@ msgstr "Enregistré sous :"
 #: PatternSkin/data/System/WebTopBarExample.txt:9
 #: PatternSkin/data/Trash/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:7
+#: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
 #: core/data/System/WebSearch.txt:47 core/data/System/WebSearch.txt:63
 msgid "Search"
@@ -2834,7 +2964,7 @@ msgstr "Options de recherche"
 msgid "Search result"
 msgstr "Résultat de la recherche"
 
-#: core/data/System/WebSearch.txt:122
+#: core/data/System/WebSearch.txt:126
 msgid "Search string"
 msgstr "Texte recherché"
 
@@ -2842,10 +2972,12 @@ msgstr "Texte recherché"
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Chercher, dans le Web %1, les liens pointant ici"
 
-#: core/data/System/WebSearch.txt:74 core/data/System/WebSearch.txt:88
+#: core/data/System/WebSearch.txt:74 core/data/System/WebSearch.txt:90
 msgid "Search where:"
 msgstr "Chercher dans :"
 
+#: PatternSkin/templates/search.pattern.tmpl:21
+#: PatternSkin/templates/search.pattern01x00.tmpl:10
 #: core/templates/searchformat.tmpl:8
 msgid "Searched:"
 msgstr "Recherché :"
@@ -2890,11 +3022,16 @@ msgid "See below for help in editing this page."
 msgstr ""
 "Pour obtenir de l'aide quant à l'édition de cette page, voir ci-dessous."
 
+#: core/data/System/SiteChanges.txt:13
+#, fuzzy
+msgid "See changes since:"
+msgstr "Pages modifiées récemment dans :"
+
 #: core/templates/changeform.tmpl:12
 msgid "Select"
 msgstr "Sélectionner"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:227
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:230
 msgid "Select Group %1 to join"
 msgstr "Sélectionner le Groupe %1 à rejoindre"
 
@@ -2918,13 +3055,13 @@ msgstr ""
 msgid "Select topic parent"
 msgstr "Choisissez la page mère"
 
-#: PatternSkin/templates/edit.pattern.tmpl:53 core/templates/edit.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:52 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr ""
 "Sélectionnez, copiez et collez votre signature à la suite de vos "
 "modifications"
 
-#: core/data/System/WebSearch.txt:109
+#: core/data/System/WebSearch.txt:113
 msgid "Selections apply to search in \"text body\""
 msgstr "Les sélections s'appliquent aux recherches dans le \"corps du texte\""
 
@@ -3014,13 +3151,17 @@ msgstr ""
 "Désolé, le système de mots de passe est actuellement en lecture-seule, merci "
 "de contacter %1"
 
-#: core/data/System/WebSearch.txt:98
+#: core/data/System/WebSearch.txt:102
 msgid "Sort results by:"
 msgstr "Trier les résultats par :"
 
 #: core/templates/messages.tmpl:384
 msgid "Spaces are replaced by underscores"
 msgstr "Les espaces sont remplacés par des tirets-bas (=_=)"
+
+#: core/data/System/SiteChanges.txt:73
+msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
+msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
@@ -3030,12 +3171,9 @@ msgstr "Les espaces sont remplacés par des tirets-bas (=_=)"
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:108
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:113
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:196
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:278
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:101
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:31
-#: JQueryPlugin/data/System/JQueryValidate.txt:49
+#: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:79
@@ -3054,10 +3192,14 @@ msgid "Submitted content:"
 msgstr "Informations envoyées :"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:79
+#: MailerContrib/templates/mailnotify.tmpl:88
 #: MailerContrib/templates/newsletter.tmpl:20
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Abonnement / Désabonnement de :"
+
+#: core/data/System/WebSearch.txt:82 core/data/System/WebSearch.txt:98
+msgid "Subwebs"
+msgstr ""
 
 #: core/templates/messages.tmpl:485
 msgid "Success adding users to group"
@@ -3067,13 +3209,17 @@ msgstr "Utilisateurs ajoutés au groupe avec succès"
 msgid "Success removing users from group"
 msgstr "Utilisateurs supprimés du groupe avec succès"
 
-#: core/data/System/WebSearch.txt:123
+#: core/data/System/WebSearch.txt:127
 msgid "Summaries"
 msgstr "Les résumés"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Switch to monotype or propotional font"
 msgstr "Passer en police à espacement fixe ou proportionnel"
+
+#: core/data/Main/GroupViewTemplate.txt:124
+msgid "System user list."
+msgstr ""
 
 #: core/data/System/SearchHelp.txt:15
 msgid ""
@@ -3087,7 +3233,7 @@ msgstr ""
 msgid "Template %1 does not exist"
 msgstr "Le template %1 n'existe pas"
 
-#: core/data/System/WebSearch.txt:76 core/data/System/WebSearch.txt:90
+#: core/data/System/WebSearch.txt:76 core/data/System/WebSearch.txt:92
 msgid "Text body"
 msgstr "Corps du texte"
 
@@ -3349,7 +3495,7 @@ msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 "L'enregistrement de votre compte dans le système de mots de passe a échoué."
 
-#: core/templates/validate.tmpl:29
+#: core/templates/validate.tmpl:37
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
@@ -3391,6 +3537,10 @@ msgstr ""
 "adresses que vous entrez dans ce formulaire sont gardées secrètes et ne "
 "seront *pas* publiées sur ce site."
 
+#: core/data/Main/GroupViewTemplate.txt:121
+msgid "This group should not have members."
+msgstr ""
+
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
 #: core/data/System/WebNotify.txt:4 core/data/Trash/WebNotify.txt:2
@@ -3415,7 +3565,7 @@ msgstr ""
 "Forgery (CSRF), en français, falsification de requête inter-domaine. "
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:71
+#: MailerContrib/templates/mailnotify.tmpl:80
 msgid "This is an automated e-mail from %1."
 msgstr "Ceci un est un message automatique de %1."
 
@@ -3445,8 +3595,8 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Ceci est votre nom écrit comme un !MotWiki, par exemple: !JeanDurand. "
-"[[%1][Enregistrez-vous]] si vous n'avez pas encore de compte."
+"Ceci est votre nom écrit comme un !MotWiki, par exemple: !JeanDurand. [[%1]"
+"[Enregistrez-vous]] si vous n'avez pas encore de compte."
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
@@ -3502,7 +3652,7 @@ msgstr "Titre"
 msgid "To attachment:"
 msgstr "Vers le fichier attaché :"
 
-#: core/data/System/WebSearch.txt:164
+#: core/data/System/WebSearch.txt:172
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3535,6 +3685,10 @@ msgstr "Vers le web"
 msgid "To web:"
 msgstr "Vers le web :"
 
+#: core/templates/messages.tmpl:651
+msgid "Too many recursions parsing template %1"
+msgstr ""
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:5
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
 #: PatternSkin/data/System/WebLeftBarExample.txt:5
@@ -3543,6 +3697,12 @@ msgstr "Vers le web :"
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:4
 msgid "Toolbox"
 msgstr "Boite à outils"
+
+# OlivierRaginel proposait la traduction "Cette page", toutefois nous n'avons pas pu vérifier le contexte exact d'affichage de cette chaîne. En l'absence de cette référence, nous avons décidé de garder une traduction littérale.
+#: core/data/System/SiteChanges.txt:45
+#, fuzzy
+msgid "Topic"
+msgstr "Vers la page"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:6
 msgid "Topic %1 does not exist"
@@ -3553,6 +3713,7 @@ msgid "Topic Save Error"
 msgstr "Erreur lors de l'enregistrement de la page"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:14
+#: PatternSkin/templates/attachtables.pattern01x00.tmpl:14
 msgid "Topic attachments"
 msgstr "Fichiers attachés"
 
@@ -3570,7 +3731,7 @@ msgstr "Données de la page"
 msgid "Topic history"
 msgstr "Historique de la page"
 
-#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:100
+#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:104
 msgid "Topic name"
 msgstr "Nom de page"
 
@@ -3584,7 +3745,7 @@ msgstr "Nom de page :"
 msgid "Topic parent:"
 msgstr "Page mère :"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:14
+#: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
 #: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:16
 msgid "Topic revision:"
@@ -3598,7 +3759,7 @@ msgstr "Erreur lors de l'enregistrement de la page"
 msgid "Topic templates in %1 Web"
 msgstr "Modèles (templates) de pages dans le web %1"
 
-#: core/data/System/WebSearch.txt:77 core/data/System/WebSearch.txt:91
+#: core/data/System/WebSearch.txt:77 core/data/System/WebSearch.txt:93
 msgid "Topic title"
 msgstr "Titre de la page"
 
@@ -3610,7 +3771,7 @@ msgstr "La page a été fusionnée"
 msgid "Topics in %1 web:"
 msgstr "Pages dans le web %1 :"
 
-#: core/data/System/WebSearch.txt:129
+#: core/data/System/WebSearch.txt:133
 msgid "Topics per web"
 msgstr "Pages par web"
 
@@ -3633,7 +3794,7 @@ msgstr ""
 "Pages qui contiennent un lien pointant vers ce web, et que vous n'avez pas "
 "le droit de modifier :"
 
-#: core/data/System/WebSearch.txt:124
+#: core/data/System/WebSearch.txt:128
 msgid "Total matches"
 msgstr "Le nombre de résultats"
 
@@ -3653,6 +3814,11 @@ msgstr "Nom de connexion inconnu et/ou mot de passe erroné"
 msgid "Unrecognized action command %1"
 msgstr "Commande %1 inconnue"
 
+#: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
+#, fuzzy
+msgid "Update"
+msgstr "Mettre à jour les liens"
+
 #: PatternSkin/templates/attachagain.pattern.tmpl:3
 msgid "Update attachment %1 on %2"
 msgstr "Mettre à jour le fichier %1 attaché à la page %2"
@@ -3661,17 +3827,19 @@ msgstr "Mettre à jour le fichier %1 attaché à la page %2"
 msgid "Update links"
 msgstr "Mettre à jour les liens"
 
-#: core/data/Main/GroupViewTemplate.txt:135
+#: core/data/Main/GroupViewTemplate.txt:220
+#, fuzzy
+msgid "Upgrade"
+msgstr "Groupe mis à jour"
+
+#: core/data/Main/GroupViewTemplate.txt:216
 msgid "Upgrade group topic"
 msgstr "Mettre à jour page de groupe"
 
-#: core/data/Main/GroupViewTemplate.txt:139
-msgid ""
-"Upgrade will adjust the format of this group topic to the new format with "
-"user management options"
-msgstr ""
-"La mise à jour ajustera le format de cette page de groupe au nouveau format "
-"comprenant les options d'administration d'utilisateurs."
+#: core/data/Main/GroupViewTemplate.txt:208
+#, fuzzy
+msgid "Upgrade group topic..."
+msgstr "Mettre à jour page de groupe"
 
 #: core/templates/messages.tmpl:492
 msgid "Upgraded group"
@@ -3753,6 +3921,10 @@ msgstr "Historique des versions"
 msgid "Version history of %1"
 msgstr "Historique des versions de %1"
 
+#: core/data/System/SiteChanges.txt:45
+msgid "View"
+msgstr "Visualiser"
+
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
 msgstr "Afficher les différences"
@@ -3794,7 +3966,7 @@ msgstr "Afficher l'intégralité de l'historique"
 msgid "View templates"
 msgstr "Voir les modèles de formulaires disponibles"
 
-#: PatternSkin/templates/rdiff.pattern.tmpl:22
+#: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
 msgstr "Afficher la page"
@@ -3809,7 +3981,7 @@ msgstr "Afficher l'intégralité de l'historique"
 msgid "View without formatting (v)"
 msgstr "Afficher le code source, sans formatage (v)"
 
-#: core/templates/validate.tmpl:20
+#: core/templates/validate.tmpl:22
 msgid "Warning! Confirmation required"
 msgstr "Confirmation nécessaire"
 
@@ -3839,11 +4011,11 @@ msgstr ""
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Attention : la page %1.%2 est introuvable"
 
-#: core/lib/Foswiki/UI/Register.pm:945
+#: core/lib/Foswiki/UI/Register.pm:957
 msgid "Warning: Could not send confirmation email"
 msgstr "Attention : l'e-mail de confirmation n'a pas pu être envoyé"
 
-#: core/lib/Foswiki/UI/Register.pm:957
+#: core/lib/Foswiki/UI/Register.pm:969
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Attention : l'e-mail de confirmation n'a pas pu être envoyé, la "
@@ -3858,11 +4030,17 @@ msgstr ""
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Attention : cette \\'include\\'-page Wiki n\\'existe pas"
 
+#: core/data/System/SiteChanges.txt:45
+#, fuzzy
+msgid "Web"
+msgstr "Webs"
+
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
 msgstr "Service de notification de changements d'un web"
 
 #: PatternSkin/data/System/WebLeftBarWebsList.txt:3
+#: core/data/System/SiteChanges.txt:71
 msgid "Webs"
 msgstr "Webs"
 
@@ -3910,7 +4088,7 @@ msgstr ""
 msgid "Wiki name"
 msgstr "Nom Wiki"
 
-#: core/data/System/WebSearch.txt:113
+#: core/data/System/WebSearch.txt:117
 msgid "Word search"
 msgstr "Recherche de mots identiques (word search)"
 
@@ -4027,7 +4205,7 @@ msgstr "Vous pouvez changer de mot de passe via %1"
 msgid "You can give this web a different name."
 msgstr "Vous pouvez renommer ce web."
 
-#: core/templates/validate.tmpl:32
+#: core/templates/validate.tmpl:28
 msgid ""
 "You cannot manually confirm this change because either Cookies or Javascript "
 "are disabled in your browser."
@@ -4219,7 +4397,7 @@ msgstr ""
 "La vérification a votre inscription par e-mail a échoué, ou elle est en "
 "cours d'acheminement par le système de messagerie."
 
-#: PatternSkin/templates/edit.pattern.tmpl:53
+#: PatternSkin/templates/edit.pattern.tmpl:52
 msgid "Your signature to copy/paste"
 msgstr "Votre signature, à copier/coller"
 
@@ -4260,27 +4438,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "Français"
 
-#: core/lib/Foswiki/Meta.pm:1817
+#: core/lib/Foswiki/Meta.pm:1836
 msgid "access denied on root"
 msgstr "l'accès à la racine est interdit"
 
-#: core/lib/Foswiki/Meta.pm:1755
+#: core/lib/Foswiki/Meta.pm:1774
 msgid "access denied on topic"
 msgstr "l'accès à la page est interdit"
 
-#: core/lib/Foswiki/Meta.pm:1790
+#: core/lib/Foswiki/Meta.pm:1809
 msgid "access denied on web"
 msgstr "l'accès à ce web est interdit"
 
-#: core/lib/Foswiki/Meta.pm:1827
+#: core/lib/Foswiki/Meta.pm:1846
 msgid "access not allowed on root"
 msgstr "l'accès à la racine est interdit"
 
-#: core/lib/Foswiki/Meta.pm:1774
+#: core/lib/Foswiki/Meta.pm:1793
 msgid "access not allowed on topic"
 msgstr "l'accès à la page est interdit"
 
-#: core/lib/Foswiki/Meta.pm:1802
+#: core/lib/Foswiki/Meta.pm:1821
 msgid "access not allowed on web"
 msgstr "l'accès à ce web est interdit"
 
@@ -4296,6 +4474,10 @@ msgstr "et"
 msgid "by %1 "
 msgstr "par %1 "
 
+#: core/data/System/SiteChanges.txt:56
+msgid "change display options"
+msgstr ""
+
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "changer, mettre à jour, versions précédentes, déplacer, effacer..."
@@ -4303,6 +4485,15 @@ msgstr "changer, mettre à jour, versions précédentes, déplacer, effacer..."
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 msgid "checkboxes of referenced topics"
 msgstr "les pages référencées"
+
+#: core/data/System/SiteChanges.txt:57
+#, fuzzy
+msgid "close display options"
+msgstr "Autres options d'affichage :"
+
+#: core/data/System/SiteChanges.txt:44
+msgid "diff"
+msgstr ""
 
 #: core/templates/messages.tmpl:439
 msgid "don't forget to check your Topic Settings"
@@ -4334,6 +4525,11 @@ msgstr "afficher le code source"
 msgid "indicates mandatory fields"
 msgstr "indique les champs nécessaires"
 
+#: core/data/System/SiteChanges.txt:44
+#, fuzzy
+msgid "last change"
+msgstr "Pages modifiées récemment"
+
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
 msgstr "gérer"
@@ -4341,10 +4537,6 @@ msgstr "gérer"
 #: core/data/Trash/WebHome.txt:11
 msgid "more..."
 msgstr "suite..."
-
-#: core/data/Main/GroupViewTemplate.txt:31
-msgid "no members"
-msgstr "aucun membre"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
@@ -4366,9 +4558,15 @@ msgstr "ou"
 msgid "preview"
 msgstr "prévisualiser"
 
+#: PatternSkin/templates/search.pattern.tmpl:27
+#: PatternSkin/templates/search.pattern01x00.tmpl:16
 #: core/data/System/WebChanges.txt:3 core/templates/searchformat.tmpl:15
 msgid "retrieved at %1"
 msgstr "trouvées à %1"
+
+#: core/data/System/SiteChanges.txt:23
+msgid "the beginning"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -4480,9 +4678,22 @@ msgstr "value='Enregistrer' accesskey='s'"
 msgid "view"
 msgstr "visualiser"
 
-#: core/templates/validate.tmpl:41
+#: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr "pourquoi il vous est demandé de confirmer"
+
+#~ msgid ""
+#~ "A more extensive changes list is available via [[%1][Recent changes]]."
+#~ msgstr ""
+#~ "Une liste plus complète des modifications est disponible via le lien [[%1]"
+#~ "[Modifications récentes]]."
+
+#~ msgid ""
+#~ "Upgrade will adjust the format of this group topic to the new format with "
+#~ "user management options"
+#~ msgstr ""
+#~ "La mise à jour ajustera le format de cette page de groupe au nouveau "
+#~ "format comprenant les options d'administration d'utilisateurs."
 
 #~ msgid "Bathing problem"
 #~ msgstr "Problème de bain"
@@ -4498,9 +4709,6 @@ msgstr "pourquoi il vous est demandé de confirmer"
 
 #~ msgid "Interweave"
 #~ msgstr "Entrelacé"
-
-#~ msgid "More view options:"
-#~ msgstr "Autres options d'affichage :"
 
 #~ msgid "Show"
 #~ msgstr "Afficher"
@@ -4558,10 +4766,6 @@ msgstr "pourquoi il vous est demandé de confirmer"
 
 #~ msgid "Read new revision help text in new window"
 #~ msgstr "Aide sur les nouvelles version (dans une nouvelle fenêtre)"
-
-#, fuzzy
-#~ msgid "Recent changes"
-#~ msgstr "Pages modifiées récemment"
 
 #~ msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
 #~ msgstr ""
@@ -4794,9 +4998,6 @@ msgstr "pourquoi il vous est demandé de confirmer"
 #~ msgstr ""
 #~ "Pour activer une option, décommentez, en ôtant le dièse (#), à la ligne "
 #~ "correspondante. L'aide détaillée sur ces options est consultable sur %1."
-
-#~ msgid "View"
-#~ msgstr "Visualiser"
 
 #~ msgid "Web Search"
 #~ msgstr "Recherche"
