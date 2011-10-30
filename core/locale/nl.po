@@ -3295,7 +3295,7 @@ msgstr ""
 
 #: core/templates/login.tmpl:28
 msgid ""
-"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
+"This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
 

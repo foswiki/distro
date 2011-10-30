@@ -3221,10 +3221,10 @@ msgstr "Esto es por qué la conversación fue deshabilitada:"
 
 #: core/templates/login.tmpl:28
 msgid ""
-"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
+"This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Esto es su nombre escrito como !WikiWord, por ejemplo: !JohnSmith. %BR% [[%1]"
+"Esto es su nombre escrito como !WikiWord, por ejemplo: !JohnSmith. [[%1]"
 "[Registrar]] si no tiene ninguna cuenta todavía."
 
 #: core/templates/renamedelete.tmpl:28

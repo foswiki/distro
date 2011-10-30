@@ -3232,7 +3232,7 @@ msgstr ""
 
 #: core/templates/login.tmpl:28
 msgid ""
-"This is your name written as !WikiWord, for example: !JohnSmith. %BR% [[%1]"
+"This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
 
@@ -5647,8 +5647,8 @@ msgstr ""
 #~ msgid "Request password reset"
 #~ msgstr "パスワードのリセットを要求します"
 
-#~ msgid "Company URL: %BR% (or department URL)"
-#~ msgstr "会社 URL: %BR%  (又は部署 URL)"
+#~ msgid "Company URL: (or department URL)"
+#~ msgstr "会社 URL: (又は部署 URL)"
 
 #~ msgid "Company name:"
 #~ msgstr "会社名:"
