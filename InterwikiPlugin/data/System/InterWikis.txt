@@ -16,6 +16,7 @@ Whenever you write ==ExternalSite:Page== it will be linked automatically to the 
    * The URL and Tooltip Text may contain optional ==$page== formatting tokens; the token gets expanded to the page name.
    * *Note:* The Tooltip Text must not contain any HTML tags (including ==&lt;nop&gt;== escape code), no internal %SYSTEMWEB%.WikiWord links, and no external links. Hint: Escape =='WikiWords'== and =='$page'==.
 
+#AddingYourOwn
 ---+++ Adding your own Inter-Wiki Links
 
 Rather than adding your own inter-wiki links to this topic, the recommended approach is to create a topic in your %USERSWEB% Web, for example [[%USERSWEB%.InterWikis]]. You can then set the =INTERWIKIPLUGIN_RULESTOPIC= preference setting in [[%LOCALSITEPREFS%]] as follows:
