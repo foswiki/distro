@@ -12,6 +12,7 @@ The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on ali
 ---++ Syntax Rules
 
    * Enter ==ExternalSite:Page== to create a link that points to the ==Page== on the ==ExternalSite== server.
+      * If ==Page== contains spaces, it can be enclosed in single or double quotes. Example: ==MySite:'My Photo.jpg'==.  Special characters contained within the quotes are URL encoded.
    * Enter ==[<nop>[ExternalSite:Page][any label]]== to specify a custom label.
    * All ==ExternalSite== aliases are defined in the %SYSTEMWEB%.InterWikis topic.
    * Add and edit aliases in %SYSTEMWEB%.InterWikis.
@@ -23,7 +24,7 @@ The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on ali
 Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
 </blockquote>
 
-<blockquote class="foswikiHelp">%H% For links with paranthesis you will need to write as ==[<nop>[Wikipedia:Fork_(software_development)]]==, as we assume that the closing paranthesis is not part of the link. For example, (Foswiki:Extensions/InterwikiPlugin).
+<blockquote class="foswikiHelp">%H% For links with paranthesis you will need to write as ==[<nop>[Wikipedia:Fork_(software_development)]]==, or quoted, as ==<nop>Wikipedia:'Fork_(software_development)'== as we assume that the closing paranthesis is not part of the link. For example, Wikipedia:'Fork_(software_development)' .
 </blockquote>
 
 ---++ <nop>%TOPIC% Settings
@@ -56,6 +57,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  30 Oct 2011: | Foswiki:Main.GeorgeClark - Add support for quoted page references from TimotheLitt (Foswikitask:Item10872) |
 |  10 Apr 2011: | Foswiki:Main.AndrewJones - Links can now be formatted (Foswikitask:Item10619) |
 |  13 Dec 2010: | Foswiki:Main.AndrewJones - Fix inter-wiki's with parentheses (Foswikitask:Item10151). Note, you will need to write as ==[<nop>[Wikipedia:Fork_(software_development)]]==, as we assume the closing parenthesis is not part of the link. |
 |  10 Dec 2010: | Foswiki:Main.AndrewJones - Allow the =INTERWIKIPLUGIN_RULESTOPIC= to be a comma separated list. Implements Foswiki:Development/InheritWikiLinksTopics |

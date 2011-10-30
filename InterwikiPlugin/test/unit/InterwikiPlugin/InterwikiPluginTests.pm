@@ -131,20 +131,19 @@ HERE
 
 # test setting of INTERWIKIPLUGIN_INTERLINKFORMAT preference
 sub test_link_format {
-    my $this            = shift;
+    my $this = shift;
 
     Foswiki::Func::setPreferencesValue( "INTERWIKIPLUGIN_INTERLINKFORMAT",
-       '$label' );
+        '$label' );
     Foswiki::Plugins::InterwikiPlugin::initPlugin(
         $this->{test_web},  $this->{test_topic},
         $this->{test_user}, $Foswiki::cfg{SystemWebName}
     );
 
-    $this->assert_html_equals(
-      'Foswiki:Tasks/WebHome',
-      Foswiki::Func::renderText( "Foswiki:Tasks/WebHome", $this->{test_web})
+    $this->assert_html_equals( 'Foswiki:Tasks/WebHome',
+        Foswiki::Func::renderText( "Foswiki:Tasks/WebHome", $this->{test_web} )
     );
-    
+
 }
 
 sub test_link_with_url {
@@ -200,139 +199,230 @@ HERE
 # http://foswiki.org/Tasks/Item10151
 sub test_link_with_parentheses {
     my $this = shift;
-    
-    # ref in text
-    # NOTE: Unfortunately, this does not work, because we assume
-    # that the bracket at the end of the link is not part of
-    # of the link, which is most often the case.
-    # If you want to link to a topic with parenthesis, you
-    # will need to writ it as [[Wikipedia:Fork_(software_development)]]
-    #$this->assert_html_equals(
+
+# ref in text
+# NOTE: Unfortunately, this does not work, because we assume
+# that the bracket at the end of the link is not part of
+# of the link, which is most often the case.
+# If you want to link to a topic with parenthesis, you
+# will need to writ it as [[Wikipedia:Fork_(software_development)]]
+#$this->assert_html_equals(
 #'<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Fork_(software_development)" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>Wikipedia:Fork_(software_development)</noautolink></a>',
-        #Foswiki::Func::renderText( "Wikipedia:Fork_(software_development)", $this->{test_web} )
-    #);
-    
+#Foswiki::Func::renderText( "Wikipedia:Fork_(software_development)", $this->{test_web} )
+#);
+
     # ref in [[ref]]
     $this->assert_html_equals(
 '<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Fork_(software_development)" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>Wikipedia:Fork_(software_development)</noautolink></a>',
-        Foswiki::Func::renderText( "[[Wikipedia:Fork_(software_development)]]", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "[[Wikipedia:Fork_(software_development)]]",
+            $this->{test_web}
+        )
     );
-    
+
     # ref in [[ref][foo]]
     $this->assert_html_equals(
 '<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Fork_(software_development)" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>foo</noautolink></a>',
-        Foswiki::Func::renderText( "[[Wikipedia:Fork_(software_development)][foo]]", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "[[Wikipedia:Fork_(software_development)][foo]]",
+            $this->{test_web}
+        )
     );
 }
 
 sub test_bold_link {
     my $this = shift;
-    
+
     # ref in text
     $this->assert_html_equals(
 '<strong><a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>Foswikitask:Item1234</noautolink></a></strong>',
-        Foswiki::Func::renderText( "*Foswikitask:Item1234*", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "*Foswikitask:Item1234*", $this->{test_web}
+        )
     );
-    
+
     # ref in [[ref]]
     $this->assert_html_equals(
 '<strong><a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>Foswikitask:Item1234</noautolink></a></strong>',
-        Foswiki::Func::renderText( "*[[Foswikitask:Item1234]]*", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "*[[Foswikitask:Item1234]]*", $this->{test_web}
+        )
     );
-    
+
     # ref in [[ref][foo]]
     $this->assert_html_equals(
 '<strong><a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>foo</noautolink></a></strong>',
-        Foswiki::Func::renderText( "*[[Foswikitask:Item1234][foo]]*", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "*[[Foswikitask:Item1234][foo]]*",
+            $this->{test_web}
+        )
     );
 }
 
 sub test_italic_link {
     my $this = shift;
-    
+
     # ref in text
     $this->assert_html_equals(
 '<em><a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>Foswikitask:Item1234</noautolink></a></em>',
-        Foswiki::Func::renderText( "_Foswikitask:Item1234_", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "_Foswikitask:Item1234_", $this->{test_web}
+        )
     );
-    
+
     # ref in [[ref]]
     $this->assert_html_equals(
 '<em><a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>Foswikitask:Item1234</noautolink></a></em>',
-        Foswiki::Func::renderText( "_[[Foswikitask:Item1234]]_", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "_[[Foswikitask:Item1234]]_", $this->{test_web}
+        )
     );
-    
+
     # ref in [[ref][foo]]
     $this->assert_html_equals(
 '<em><a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>foo</noautolink></a></em>',
-        Foswiki::Func::renderText( "_[[Foswikitask:Item1234][foo]]_", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "_[[Foswikitask:Item1234][foo]]_",
+            $this->{test_web}
+        )
     );
 }
 
 sub test_code_link {
     my $this = shift;
-    
+
     # ref in text
     $this->assert_html_equals(
 '<code><a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>Foswikitask:Item1234</noautolink></a></code>',
-        Foswiki::Func::renderText( "=Foswikitask:Item1234=", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "=Foswikitask:Item1234=", $this->{test_web}
+        )
     );
-    
+
     # ref in [[ref]]
     $this->assert_html_equals(
 '<code><a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>Foswikitask:Item1234</noautolink></a></code>',
-        Foswiki::Func::renderText( "=[[Foswikitask:Item1234]]=", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "=[[Foswikitask:Item1234]]=", $this->{test_web}
+        )
     );
-    
+
     # ref in [[ref][foo]]
     $this->assert_html_equals(
 '<code><a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>foo</noautolink></a></code>',
-        Foswiki::Func::renderText( "=[[Foswikitask:Item1234][foo]]=", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "=[[Foswikitask:Item1234][foo]]=",
+            $this->{test_web}
+        )
+    );
+}
+
+# Item10782:  Allow spaces in quoted references
+sub test_link_with_quoted_string {
+    my $this            = shift;
+    my $localRulesTopic = "LocalInterWikis";
+
+    Foswiki::Func::saveTopic( $this->{test_web}, $localRulesTopic, undef,
+        <<'HERE');
+---+++ Local rules
+<noautolink>
+| *Alias:* | *URL:* | *Tooltip Text:* |
+| Photo | http://www.example.com/photos/gallery.cgi?mode=view&photo= | Local rule |
+</nautolink>
+HERE
+
+    Foswiki::Func::setPreferencesValue( "INTERWIKIPLUGIN_RULESTOPIC",
+        "$this->{test_web}.$localRulesTopic, $Foswiki::cfg{SystemWebName}.InterWikis " );
+    Foswiki::Plugins::InterwikiPlugin::initPlugin(
+        $this->{test_web},  $this->{test_topic},
+        $this->{test_user}, $Foswiki::cfg{SystemWebName}
+    );
+
+    # Single Quotes
+    $this->assert_html_equals(
+'<a class="interwikiLink" href="http://www.example.com/photos/gallery.cgi?mode=view&photo=/Family/Dog%20Jumping/100_1027.jpg" title="Local rule"><noautolink>Photo:/Family/Dog Jumping/100_1027.jpg</noautolink></a>',
+        Foswiki::Func::renderText(
+            "Photo:'/Family/Dog Jumping/100_1027.jpg'",
+            $this->{test_web}
+        )
+    );
+
+    # Double Quotes
+    $this->assert_html_equals(
+'<a class="interwikiLink" href="http://www.example.com/photos/gallery.cgi?mode=view&photo=/Family/Dog%20Jumping/100_1027.jpg" title="Local rule"><noautolink>Photo:/Family/Dog Jumping/100_1027.jpg</noautolink></a>',
+        Foswiki::Func::renderText(
+            'Photo:"/Family/Dog Jumping/100_1027.jpg"',
+            $this->{test_web}
+        )
+    );
+
+    # Quoted with special characters
+    $this->assert_html_equals(
+'<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Fork_%28software_development%29" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>Wikipedia:Fork_(software_development)</noautolink></a>',
+        Foswiki::Func::renderText(
+          "Wikipedia:'Fork_(software_development)'",
+            $this->{test_web}
+        )
     );
 }
 
 sub test_strong_code_link {
     my $this = shift;
-    
+
     # ref in text
     $this->assert_html_equals(
 '<code><b><a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>Foswikitask:Item1234</noautolink></a></b></code>',
-        Foswiki::Func::renderText( "==Foswikitask:Item1234==", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "==Foswikitask:Item1234==", $this->{test_web}
+        )
     );
-    
+
     # ref in [[ref]]
     $this->assert_html_equals(
 '<code><b><a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>Foswikitask:Item1234</noautolink></a></b></code>',
-        Foswiki::Func::renderText( "==[[Foswikitask:Item1234]]==", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "==[[Foswikitask:Item1234]]==",
+            $this->{test_web}
+        )
     );
-    
+
     # ref in [[ref][foo]]
     $this->assert_html_equals(
 '<code><b><a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>foo</noautolink></a></b></code>',
-        Foswiki::Func::renderText( "==[[Foswikitask:Item1234][foo]]==", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "==[[Foswikitask:Item1234][foo]]==",
+            $this->{test_web}
+        )
     );
 }
 
 # http://foswiki.org/Tasks/Item10617
 sub test_link_in_parentheses {
     my $this = shift;
-    
+
     # ref in text
     $this->assert_html_equals(
 '(<a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>Foswikitask:Item1234</noautolink></a>)',
-        Foswiki::Func::renderText( "(Foswikitask:Item1234)", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "(Foswikitask:Item1234)", $this->{test_web}
+        )
     );
-    
+
     # ref in [[ref]]
     $this->assert_html_equals(
 '(<a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>Foswikitask:Item1234</noautolink></a>)',
-        Foswiki::Func::renderText( "([[Foswikitask:Item1234]])", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "([[Foswikitask:Item1234]])", $this->{test_web}
+        )
     );
-    
+
     # ref in [[ref][foo]]
     $this->assert_html_equals(
 '(<a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>foo</noautolink></a>)',
-        Foswiki::Func::renderText( "([[Foswikitask:Item1234][foo]])", $this->{test_web} )
+        Foswiki::Func::renderText(
+            "([[Foswikitask:Item1234][foo]])",
+            $this->{test_web}
+        )
     );
 }
 
