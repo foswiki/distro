@@ -412,6 +412,7 @@ jQuery(function($) {
 %STARTSECTION{"extraField_groups"}%%INCLUDE{"%TOPIC%" section="groups"}%%ENDSECTION{"extraField_groups"}%
 
 %STARTSECTION{"groups"}%%IF{"$USERNAME ingroup 'AdminGroup' and '%REGISTRATIONGROUPTYPE%' = 'automatic' and not defined 'REGISTRATIONGROUPS'" then="<blockquote><span class=\"foswikiAlert\"> *Caution!* Registering a user while logged in as an Administrator will add them to ALL GROUPS in the system.</span> REGISTRATIONGROUPTYPE is set to =automatic=, and no groups are set in REGISTRATIONGROUPS. </blockquote>"}%
+%IF{"($WIKINAME!='WikiGuest') and  (not ($USERNAME ingroup 'AdminGroup')) and ('%REGISTRATIONGROUPTYPE%' = 'automatic') and (not defined 'REGISTRATIONGROUPS')" then="<blockquote><span class=\"foswikiAlert\"> *Caution!* Registering a user while logged in will add the new user to all groups you have permission to change.</span> REGISTRATIONGROUPTYPE is set to =automatic=, and no groups are set in REGISTRATIONGROUPS. </blockquote>"}%
 %FORMAT{
 	"%IF{"defined 'REGISTRATIONGROUPS'" then="%REGISTRATIONGROUPS%" else="%GROUPINFO{
 			show="allowchange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%"
@@ -419,7 +420,7 @@ jQuery(function($) {
 			separator=","
 		}%"}%"
 	header="$percentINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quot%IF{
-						"'%REGISTRATIONGROUPTYPE%' = 'automatic'" 
+						"'%REGISTRATIONGROUPTYPE%' = 'automatic' and $ WIKINAME='WikiGuest'"
 						then="hidden"
 					}%rendergroupheader$quot multiple=$quot%IF{
 						"'%REGISTRATIONGROUPTYPE%' = 'multiple'" 
@@ -431,7 +432,8 @@ jQuery(function($) {
 	format="$percentINCLUDE{$quot%WEB%.%TOPIC%$quot
 		section=$quotrendergroup$quot
 		groupname=$quot$topic$quot
-		inputtype=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="hidden"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'one'" then="radio"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="checkbox"}%$quot
+        inputtype=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic' and $ WIKINAME!='WikiGuest'" then="checkbox"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic' and $ WIKINAME='WikiGuest'" then="hidden"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'one'" then="radio"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="checkbox"}%$quot
+        inputother=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="checked readonly"}%$quot
        }$percent"
       separator=" "
 }%%ENDSECTION{"groups"}%
@@ -446,7 +448,7 @@ Section nochange
 Section rendergroup
   parameters: groupname, inputtype
 -->
-%STARTSECTION{"rendergroup"}%<input type="%inputtype%" name="Fwk0AddToGroups" id="cb_%groupname%" value="%groupname%" />
+%STARTSECTION{"rendergroup"}%<input type="%inputtype%" %inputother% name="Fwk0AddToGroups" id="cb_%groupname%" value="%groupname%" />
 	<label class="desc" for="cb_%groupname%">%IF{"istopic '%USERSWEB%.%groupname%'" then=" [[%USERSWEB%.%groupname%][%groupname%]] " else="%groupname%" }%</label>%ENDSECTION{"rendergroup"}%
 
 <!--
