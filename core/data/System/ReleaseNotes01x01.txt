@@ -1118,6 +1118,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10699][Item10699]] | DocumentGraphics Metadata and Attachments inconsistent |
 | [[%BUGS%/Item10714][Item10714]] | Form fields of type date cannot be edited with pop-up calendar |
 | [[%BUGS%/Item10729][Item10729]] | Document all core tools scripts in System/CommandAndCGIScripts |
+| [[%BUGS%/Item10755][Item10755]] | Template login page heading and help text are not translated. |
 | [[%BUGS%/Item10758][Item10758]] | SiteMap SEARCH is needlessly inefficient (slow) |
 | [[%BUGS%/Item10779][Item10779]] | Core should not call =srand()= to seed =rand()= |
 | [[%BUGS%/Item10784][Item10784]] | Configuration checker for DataDir is confused by some installation locations. |
@@ -1127,7 +1128,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10803][Item10803]] | CompareRevisionsAddOn causes illegal ={SwitchBoard}= value in Foswiki configuration (affects ApacheLogin users) |
 | [[%BUGS%/Item10804][Item10804]] | Some radio buttons on WebSearch behave erratically when clicked on the label |
 | [[%BUGS%/Item10807][Item10807]] | Prevent recursion in template expansion |
-| [[%BUGS%/Item10815][Item10815]] | Registration type automatic will add new user to every group when used by Admin. |
+| [[%BUGS%/Item10815][Item10815]] | Registration type automatic will add new user to every group when used by Admin. Show the groups that will be updated. |
 | [[%BUGS%/Item10827][Item10827]] | TWISTY sets empty cookie value for remember="off" instead of clearing it, causes excessive overhead |
 | [[%BUGS%/Item10834][Item10834]] | Typo in conditional templates for BatchUploadPlugin |
 | [[%BUGS%/Item10836][Item10836]] | PatternSkin broken on 1.0.x |
@@ -1206,6 +1207,8 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11205][Item11205]] | Dependency.pm is not reporting out-of-date extension when migrating from date to dotted versions.|
 | [[%BUGS%/Item11208][Item11208]] | Group UI allows you to create an illegal group name not ending in Group. | 
 | [[%BUGS%/Item11212][Item11212]] | Group UI should not allow users to be added to NobodyGroup, or added to/removed from BaseGroup. |
+| [[%BUGS%/Item11213][Item11213]] | SiteChanges topic has some issues. |
+| [[%BUGS%/Item11215][Item11215]] | Search pager broken when filtering on date. |
 </noautolink>
 
 ---+++ Enhancements
@@ -1225,6 +1228,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10793][Item10793]] | Update jquery.validate |
 | [[%BUGS%/Item10795][Item10795]] | updating jquery.metadata to support html5 attributes |
 | [[%BUGS%/Item10796][Item10796]] | update jquery.media and add a better default skin for the flv player |
+| [[%BUGS%/Item10782][Item10782]] | Support page references with spaces and special characters by quoting <code>Wikisite:'link (text)'</code> |
 | [[%BUGS%/Item10850][Item10850]] | Don't show the EmptyPlugin in configure's list of plugins to enable |
 | [[%BUGS%/Item10880][Item10880]] | move to jquery.ui.autocomplete |
 | [[%BUGS%/Item10886][Item10886]] | make theming of jquery-ui pluggable |
