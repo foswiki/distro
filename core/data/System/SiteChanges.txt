@@ -1,34 +1,35 @@
 %META:TOPICINFO{author="ProjectContributor" date="1274253154" format="1.1" version="1"}%
 %META:TOPICPARENT{name="SiteTools"}%
----+ Recently Changed Topics in %URLPARAM{"web" default="all"}% Webs
-<style type="text/css" media="all">
-#changesForm .foswikiFormStep {padding:.5em 0; border-width:0;}
-#changesForm .foswikiFormSteps {background-color:#fff; border-width:0;}
-</style>
+---+ %IF{
+	"defined web AND $web!='all'"
+	then="%MAKETEXT{"Recently changed topics in [_1] Web" args="$percntURLPARAM{$quotweb$quot default=$quotall$quot}$percnt"}%"
+	else="%MAKETEXT{"Recently changed topics in all Webs"}%"
+}%
 <!-- START DATE SELECTION -->
-<form name="seeChangesSince" id="changesForm" method="get" action="%TOPIC%" onSubmit="processFormValue(since.value);"/>
+<form name="seeChangesSince" id="siteChangesForm" method="get" action="%TOPIC%" />
 <noautolink>
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
-See changes since: <select class="foswikiSelect" name="since" onChange="storeSelectedOption(this[selectedIndex].id, this[selectedIndex].value, document.forms.seeChangesSince.sinceReadable)">
-<!-- unfortuanatly, last time checked won't work like this in combination with paging - when you click on page 2, this code would then show you nothing -->
-<option id="beginning" value="">beginning</option>
-<option id="1_hour_ago" value="P1h/$now" %IF{"$since = 'P1h/$now'" then="selected='selected'"}%>1 hour ago</option>
-<option id="6_hours_ago" value="P6h/$now" %IF{"$since = 'P6h/$now'" then="selected='selected'"}%>6 hours ago</option>
-<option id="12_hours_ago" value="P12h/$now" %IF{"$since = 'P12h/$now'" then="selected='selected'"}%>12 hours ago</option>
-<option id="24_hours_ago" value="P1d/$now" %IF{"$since = 'P1d/$now'" then="selected='selected'"}%>24 hours ago</option>
-<option id="3_days_ago" value="P3d/$now"}%" %IF{"$since = 'P3d/$now'" then="selected='selected'"}%>3 days ago</option>
-<option id="1_week_ago" value="P7w/$now"}%" %IF{"$since = 'P12/$now'" then="selected='selected'"}%>1 week ago</option>
-<option id="2_weeks_ago" value="P2w/$now" %IF{"$since = 'P2w/$now'" then="selected='selected'"}%>2 weeks ago</option>
-<option id="4_weeks_ago" value="P4w/$now"}%" %IF{"$since = 'P4w/$now'" then="selected='selected'"}%>4 weeks ago</option>
+%MAKETEXT{"See changes since:"}% <select class="foswikiSelect" id="siteChangesSelect" name="since">
+<option id="last_time_checked" value=""></option>
+<option id="1_hour_ago" value="P1h/$now" %IF{"$since = 'P1h/$now'" then="selected='selected'"}%>%MAKETEXT{"1 hour ago"}%</option>
+<option id="6_hours_ago" value="P6h/$now" %IF{"$since = 'P6h/$now'" then="selected='selected'"}%>%MAKETEXT{"6 hours ago"}%</option>
+<option id="12_hours_ago" value="P12h/$now" %IF{"$since = 'P12h/$now'" then="selected='selected'"}%>%MAKETEXT{"12 hours ago"}%</option>
+<option id="24_hours_ago" value="P1d/$now" %IF{"$since = 'P1d/$now'" then="selected='selected'"}%>%MAKETEXT{"24 hours ago"}%</option>
+<option id="3_days_ago" value="P3d/$now"}%" %IF{"$since = 'P3d/$now'" then="selected='selected'"}%>%MAKETEXT{"3 days ago"}%</option>
+<option id="1_week_ago" value="P1w/$now"}%" %IF{"$since = 'P12/$now'" then="selected='selected'"}%>%MAKETEXT{"1 week ago"}%</option>
+<option id="2_weeks_ago" value="P2w/$now" %IF{"$since = 'P2w/$now'" then="selected='selected'"}%>%MAKETEXT{"2 weeks ago"}%</option>
+<option id="4_weeks_ago" value="P4w/$now"}%" %IF{"$since = 'P4w/$now'" then="selected='selected'"}%>%MAKETEXT{"4 weeks ago"}%</option>
+<option id="beginning" value=""}%" %IF{"$since = 'beginning'" then="selected='selected'"}%>%MAKETEXT{"the beginning"}%</option>
 </select>
 <input type="hidden" name="sinceReadable" value="%URLPARAM{"sinceReadable"}%" />
-<input type="hidden" name="debugJs" value="%URLPARAM{"debugJs" default="0"}%" /> 
-<input type="submit" class="foswikiButton" name="search" value="Update" />
+<input type="hidden" name="debugJs" value="%URLPARAM{"debugJs" default="0"}%" />
+<noscript>
+<input type="submit" class="foswikiButton" name="findChanges" value="%MAKETEXT{"Update"}%" />
+</noscript>
 </div>
-<div class="foswikiFormStep">
+</div>
 %TABLE{sort="on" initsort="1" initdirection="up" headerrows="1" tablewidth="100%"}%
-| *Last Modified* | *Web* | *Topic* | *Last Editor* | *Action* |
 %SEARCH{
     "info.author!='WikiGnome'"
     type="query"
@@ -40,87 +41,141 @@ See changes since: <select class="foswikiSelect" name="since" onChange="storeSel
     excludetopic="WebStatistics"
     reverse="on"
     order="modified"
-    format="| $date | <nop>$web | [[%SCRIPTURLPATH{"view"}%/$web/$topic#foo_$rev][$percentFORMFIELD{$quotSummary$quot topic=$quot$web.$topic$quot format=$quot$topic: $value$quot default=$quot$topic$quot alttext=$quot$topic$quot}$percent]] | [[$wikiusername][$wikiname]] | [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic#_foo=$rev][diff]], %BR% [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic?type=last&render=sequential&context=9000&_foo=$rev#diff001][last&nbsp;change]] | "
+    format="| $date | <nop>$web | [[%SCRIPTURLPATH{"view"}%/$web/$topic#foo_$rev][$percentFORMFIELD{$quotSummary$quot topic=$quot$web.$topic$quot format=$quot$topic: $value$quot default=$quot$topic$quot alttext=$quot$topic$quot}$percent]] | [[$wikiusername][$wikiname]] | [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic#_foo=$rev][%MAKETEXT{"diff"}%]], [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic?type=last&render=sequential&context=9000&_foo=$rev#diff001][%MAKETEXT{"last change"}%]] | "
+    header="| *%MAKETEXT{"Last modified"}%* | *%MAKETEXT{"Web"}%* | *%MAKETEXT{"Topic"}%* | *%MAKETEXT{"Last editor"}%* | *%MAKETEXT{"View"}%* |"
     nofooter="$n---$n $pager $n----$n"
     pager="on"
     groupby="none"
-    date="%URLPARAM{"since" default=""}%"
+    date="%URLPARAM{"since" default="P1d/$now"}%"
+    zeroresults="<p>%MAKETEXT{"No changes"}%</p>"
 }%
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+%MAKETEXT{"Maximum [_1] items per web" args="%URLPARAM{"limit" default="25"}%"}% %TWISTY{
+	remember="on"
+	showlink="%MAKETEXT{"change display options"}%"
+	hidelink="%MAKETEXT{"close display options"}%"
+	mode="span"
+}%
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+<h4>%MAKETEXT{"Number of changes for each Web"}%</h4>
+<p><input type="radio" name="limit" value="10" id="limit10" %IF{"$limit='10'" then="checked=\"1\""}% /><label for="limit10">10</label>
+<input type="radio" name="limit" value="25" id="limit0" %IF{"$limit='25' OR NOT defined limit OR $limit=''" then="checked=\"1\""}%/><label for="limit0">%MAKETEXT{"[_1] (default)" args="25"}%</label>
+<input type="radio" name="limit" value="50" id="limit50" %IF{"$limit='50'" then="checked=\"1\""}%/><label for="limit50">50</label>
+<input type="radio" name="limit" value="100" id="limit100" %IF{"$limit='100'" then="checked=\"1\""}%/><label for="limit100">100</label>
+<input type="radio" name="limit" value="200" id="limit200" %IF{"$limit='200'" then="checked=\"1\""}%/><label for="limit200">200</label>
+<input type="radio" name="limit" value="400" id="limit400" %IF{"$limit='400'" then="checked=\"1\""}%/><label for="limit400">400</label></p>
 </div>
 <div class="foswikiFormStep">
-Maximum %URLPARAM{"limit" default="25"}% items per web (%URLPARAM{"web" default="all"}%)  %TWISTY{remember="on" showlink="change..." hidelink="close options"}%
-<div class="foswikiFormSteps" style="margin:.5em 0; background-color:#fff;">
-<div class="foswikiFormStep">
-<h4>Number of changes for each web</h4>
-<input type="radio" name="limit" value="20" id="limit20" %IF{" '%URLPARAM{"limit"}%'='20'" then="checked=\"1\""}% /><label for="limit20">20</label>
-<input type="radio" name="limit" value="50" id="limit50" %IF{" '%URLPARAM{"limit"}%'='50'" then="checked=\"1\""}%/><label for="limit50">50</label>
-<input type="radio" name="limit" value="100" id="limit100" %IF{" '%URLPARAM{"limit"}%'='100'" then="checked=\"1\""}%/><label for="limit100">100</label>
-<input type="radio" name="limit" value="200" id="limit200" %IF{" '%URLPARAM{"limit"}%'='200'" then="checked=\"1\""}%/><label for="limit200">200</label>
-<input type="radio" name="limit" value="400" id="limit400" %IF{" '%URLPARAM{"limit"}%'='400'" then="checked=\"1\""}%/><label for="limit400">400</label>
-<input type="radio" name="limit" value="" id="limit0" %IF{" '%URLPARAM{"limit"}%'='25'" then="checked=\"1\""}%/><label for="limit0">default (25)</label>
+<h4>%MAKETEXT{"Webs"}%</h4>
+<p><input type="text" class="foswikiInputField" name="web" value="%URLPARAM{"web" default="all"}%" size="80" /></p>
+<p>%MAKETEXT{"Specify =all= for all webs, or a comma separated list of webs from: [_1]" args="<code>%WEBLIST{"$name" separator="&#44; "}%</code>"}%</p>
 </div>
 <div class="foswikiFormStep">
-<h4>Webs</h4>
-<input type="text" class="foswikiInputField" name="web" value="%URLPARAM{"web" default="all"}%" size="80" /><br />Specify =all= for all webs, or a comma separated list of webs from: <br />
-=%WEBLIST{"$name" separator=","}%=
-</div>
-<div class="foswikiFormStep">
-<input type="submit" class="foswikiButton" name="search" value="Update" />
+<input type="submit" class="foswikiButton" name="listChanges" value="%MAKETEXT{"Update"}%" />
 </div>
 </div>
 %ENDTWISTY%
 </div>
 </div>
 </noautolink>
-</form>
+</form>%ADDTOZONE{
+	"head"
+	id="sitechanges"
+	text="<literal><style type='text/css' media='all'>
+#siteChangesForm .foswikiTable {
+	margin-top: 20px;
+}
+</style></literal>"
+}%%ADDTOZONE{
+	"script"
+	id="sitechanges"
+	text="<literal><script type='text/javascript'>
+(function($) {
+	
+	// debug the javascript by passing urlparam debugJs=1
+	var DEBUG = %URLPARAM{"debugJs" default="0"}%;
 
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js"></script>
-<script type="text/javascript">
-// <![CDATA[
-// debug the javascript by passing urlparam debugJs=1
-var DEBUG = %URLPARAM{"debugJs" default="0"}%;
-//
-var DEFAULT_OPTION_ID = '24_hours_ago';
-//
-var dateLastCheck = foswiki.Pref.getPref("WebChangesForAllWebs_dateLastCheck");
-if (dateLastCheck) {
-  var selectedOption = '%URLPARAM{"sinceReadable"}%';
-  if (DEBUG) alert("sinceReadable selectedOption:" + selectedOption);
-  if (selectedOption) {
-    setOptionSelected(selectedOption);
-  } else {
-    setOptionSelected(DEFAULT_OPTION_ID);
-  }
-}
-var now = '%CALC{"$FORMATTIME($EVAL($TIME()), $year-$month-$day $hour:$minute:$second)"}%';
-if (DEBUG) alert("now:" + now);
-if (now) {
-  foswiki.Pref.setPref("WebChangesForAllWebs_dateLastCheck", now);
-  updateLastTimeCheckedOption(now);
-}
-function updateLastTimeCheckedOption (inDate) {
-    var el = document.getElementById('last_time_checked');
-    if (el) {
-        el.value=inDate;
-        el.text = "last time I checked";
-    }
-}
-function setOptionSelected (inId) {
-  if (DEBUG) alert("setOptionSelected:inId=" + inId);
-  document.getElementById(inId).selected = "selected";
-}
-function processFormValue (inValue) {
-  if (DEBUG) alert("submitted:" + inValue);
-
-  return true;
-}
-// stores the name
-function storeSelectedOption (inName, inValue, inStorageField) {
-  if (DEBUG) alert("storeSelectedOption:inName=" + inName + ";inValue=" + inValue + ";inStorageField=" + inStorageField);
-  // store readable value so we can use it when reloading the page
-  inStorageField.value=inName;
-  return true;
-}
-// ]]>
-</script>
-<!-- END DATE SELECTION -->
+	function updateLastTimeCheckedOption (inDate) {
+		var el = document.getElementById('last_time_checked');
+		if (el) {
+			el.value = inDate;
+			el.text = 'last time I checked';
+		}
+	}
+	
+	function setOptionSelected (inId) {
+		if (DEBUG && console) {
+			console.log('setOptionSelected:inId=' + inId);
+		}
+		var el = document.getElementById(inId);
+		if (el) {
+			el.selected = 'selected';
+		}
+	}
+	
+	function processFormValue (inValue) {
+		if (DEBUG && console) {
+			console.log('submitted:' + inValue);
+		}
+		return true;
+	}
+	
+	// stores the name
+	function storeSelectedOption (inName, inValue, inStorageField) {
+		if (DEBUG && console) {
+			console.log('storeSelectedOption:inName=' + inName + ';inValue=' + inValue + ';inStorageField=' + inStorageField);
+		}
+		// store readable value so we can use it when reloading the page
+		inStorageField.value=inName;
+		return true;
+	}
+	
+	function init() {
+	
+		var DEFAULT_OPTION_ID = '24_hours_ago';
+	
+		var dateLastCheck = foswiki.Pref.getPref('WebChangesForAllWebs_dateLastCheck');
+		if (dateLastCheck) {
+			var selectedOption = '%URLPARAM{"sinceReadable"}%';
+			if (DEBUG && console) {
+				console.log('sinceReadable selectedOption:' + selectedOption);
+			}
+			if (selectedOption) {
+				setOptionSelected(selectedOption);
+			} else {
+				setOptionSelected(DEFAULT_OPTION_ID);
+			}
+		}
+		var now = '%CALC{"$FORMATTIME($EVAL($TIME()), $year-$month-$day $hour:$minute:$second)"}%';
+		if (DEBUG && console) {
+			console.log('now:' + now);
+		}
+		if (now) {
+			foswiki.Pref.setPref('%WEB%_%TOPIC%_dateLastCheck', now);
+			updateLastTimeCheckedOption(now);
+		}
+	}
+	
+	function submitForm() {
+		document.forms.seeChangesSince.web.value = document.forms.seeChangesSince.web.value.replace(/\s*,\s*/, ', ');
+		processFormValue(document.forms.seeChangesSince.since.value);
+		document.forms.seeChangesSince.submit();
+	}
+	
+	$(function() {
+		$('#siteChangesSelect').change(function() {
+			var $selected = $('option:selected', this);
+			storeSelectedOption($selected.attr('id'), $selected.attr('value'), document.forms.seeChangesSince.sinceReadable);
+			submitForm();
+		});
+		$(document.forms.seeChangesSince).submit(function() {
+			submitForm();
+		});
+		init();
+	});
+}(jQuery));
+</script></literal>"
+	requires="JavascriptFiles/foswikiPrefs"
+}%<!-- END DATE SELECTION -->
