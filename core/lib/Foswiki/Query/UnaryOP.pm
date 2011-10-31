@@ -30,7 +30,9 @@ sub evalUnary {
 sub evaluatesToConstant {
     my $this = shift;
     my $node = shift;
+    no warnings 'recursion';
     return $node->{params}[0]->evaluatesToConstant(@_);
+    use warnings 'recursion';
 }
 
 1;

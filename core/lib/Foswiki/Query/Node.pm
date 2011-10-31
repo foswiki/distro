@@ -212,7 +212,9 @@ sub evaluatesToConstant {
         return 1;
     }
     elsif ( ref( $this->{op} ) ) {
+        no warnings 'recursion';
         return $this->{op}->evaluatesToConstant( $this, @_ );
+        use warnings 'recursion';
     }
     return 0;
 }
@@ -232,6 +234,7 @@ simply pass an arbitrary Foswiki::Meta.
 sub simplify {
     my $this = shift;
 
+    no warnings 'recursion';
     if ( $this->evaluatesToConstant(@_) ) {
         my $c = $this->evaluate(@_);
         $c = 0 unless defined $c;
@@ -250,6 +253,7 @@ sub simplify {
             }
         }
     }
+    use warnings 'recursion';
 }
 
 1;

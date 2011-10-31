@@ -70,7 +70,9 @@ sub evaluate {
 sub evaluatesToConstant {
     my $this = shift;
     my $node = shift;
+    no warnings 'recursion';
     return 1 if $node->{params}[0]->evaluatesToConstant(@_);
+    use warnings 'recursion';
 
     # param[1] may contain non-constant terms, but that's OK because
     # they are evaluated relative to the (constant) param[0]

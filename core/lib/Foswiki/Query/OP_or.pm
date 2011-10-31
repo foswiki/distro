@@ -23,16 +23,20 @@ sub evaluate {
     my $this = shift;
     my $node = shift;
     my $a    = $node->{params}[0];
+    no warnings 'recursion';
     return 1 if $a->evaluate(@_);
     my $b = $node->{params}[1];
     return $b->evaluate(@_) ? 1 : 0;
+    use warnings 'recursion';
 }
 
 sub evaluatesToConstant {
     my $this = shift;
     my $node = shift;
+    no warnings 'recursion';
     my $ac   = $node->{params}[0]->evaluatesToConstant(@_);
     my $bc   = $node->{params}[1]->evaluatesToConstant(@_);
+    use warnings 'recursion';
     return 1 if ( $ac && $bc );
     return 1 if $ac && $node->{params}[0]->evaluate(@_);
     return 1 if $bc && $node->{params}[1]->evaluate(@_);

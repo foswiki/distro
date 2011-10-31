@@ -63,8 +63,10 @@ sub evalTest {
 sub evaluatesToConstant {
     my $this = shift;
     my $node = shift;
+    no warnings 'recursion';
     return 0 unless $node->{params}[0]->evaluatesToConstant(@_);
     return $node->{params}[1]->evaluatesToConstant(@_);
+    use warnings 'recursion';
 }
 
 1;
