@@ -351,7 +351,7 @@ To link to a topic in a subweb write =Otherweb.Subweb.TopicName=.%BR%
 
 It's generally a good idea to use the [[%SYSTEMWEB%.Macros][macros]] %<nop>SYSTEMWEB%, %<nop>SANDBOXWEB% and %<nop>USERSWEB% instead of %SYSTEMWEB%, %SANDBOXWEB% and %USERSWEB%.
 </td><td>
-<verbatim class="tml">
+<pre class="tml">
 WebStatistics
 
 %SANDBOXWEB%.WebNotify
@@ -359,7 +359,7 @@ WebStatistics
 %SANDBOXWEB%.WebHome
 
 %SANDBOXWEB%.Subweb.TopicName
-</verbatim>
+</pre>
 </td><td>
 
 WebStatistics
@@ -420,14 +420,14 @@ Text within the brackets may contain optional spaces; the topic name is formed b
 %BR%
 %T% To "escape" double square brackets that would otherwise make a link, prefix the leading left square bracket with an exclamation point.
 </td><td>
-<verbatim class="tml">
+<pre class="tml">
 [[wiki syntax]]
 
 [[%SANDBOXWEB%.My unspaced topic]]
 
 escaped:
 ![[wiki syntax]]
-</verbatim>
+</pre>
 </td><td>
 
 [[wiki syntax]]
