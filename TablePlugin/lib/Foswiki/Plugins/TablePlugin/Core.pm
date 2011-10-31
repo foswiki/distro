@@ -808,6 +808,7 @@ sub _setSortTypeForCells {
 sub _stripHtml {
     my ($text) = @_;
 
+    return undef if !defined $text;
     $text =~
       s/\[\[[^\]]+\]\[([^\]]+)\]\]/$1/go; # extract label from [[...][...]] link
 
