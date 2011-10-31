@@ -149,12 +149,12 @@ sub test_check_dep_version_with_rev {
     # 1, Foswiki::Contrib::JSCalendarContrib v1234 loaded
     my $dep = new Foswiki::Configure::Dependency(
             type    => "perl",
-            module  => "Foswiki::Plugins::SpreadSheetPlugin",
-            version => ">=06 Nov 2010"
+            module  => "Foswiki::Plugins::SmiliesPlugin",
+            version => ">=20 Sep 2009"
            );
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok, $message );
-    $this->assert_matches( qr/Foswiki::Plugins::SpreadSheetPlugin version .* loaded/,
+    $this->assert_matches( qr/Foswiki::Plugins::SmiliesPlugin version .* loaded/,
         $message );
     $this->assert($message =~ /version (\d+) /, $message);
     my $revision = $1;
