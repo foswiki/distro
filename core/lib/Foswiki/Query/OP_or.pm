@@ -36,10 +36,10 @@ sub evaluatesToConstant {
     no warnings 'recursion';
     my $ac   = $node->{params}[0]->evaluatesToConstant(@_);
     my $bc   = $node->{params}[1]->evaluatesToConstant(@_);
-    use warnings 'recursion';
     return 1 if ( $ac && $bc );
     return 1 if $ac && $node->{params}[0]->evaluate(@_);
     return 1 if $bc && $node->{params}[1]->evaluate(@_);
+    use warnings 'recursion';
     return 0;
 }
 
