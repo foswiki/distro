@@ -1068,7 +1068,7 @@ sub _doFunc {
     elsif ( $theFunc eq "SPLIT" ) {
         my ( $sep, $str ) = _properSplit( $theAttr, 2 );
 
-        # Not documented - if called without 2 parameters,  assume space delimiter
+      # Not documented - if called without 2 parameters,  assume space delimiter
         if ( !defined $str || $str eq '' ) {
             $str = $theAttr;
             $sep = '$sp$sp*';
@@ -1079,7 +1079,8 @@ sub _doFunc {
 
         $sep = '$sp$sp*' if ( $sep eq '' );
         $sep =~ s/\$sp/\\s/g;
-        #SMELL:  Optimizing this next regex breaks reuse for some reason, perl 5.12.3
+
+   #SMELL:  Optimizing this next regex breaks reuse for some reason, perl 5.12.3
         $sep =~ s/\$(nop|empty)//g;
         $sep =~ s/\$comma/,/g;
 
@@ -1322,12 +1323,12 @@ sub _getNumber {
     my ($theText) = @_;
     return 0 unless ($theText);
     $theText =~ s/([0-9])\,(?=[0-9]{3})/$1/g;    # "1,234,567" ==> "1234567"
-    if ( $theText =~ /[0-9]e/i ) {                # "1.5e-3"    ==> "0.0015"
+    if ( $theText =~ /[0-9]e/i ) {               # "1.5e-3"    ==> "0.0015"
         $theText = sprintf "%.20f", $theText;
         $theText =~ s/0+$//;
     }
     unless ( $theText =~ s/^.*?(\-?[0-9\.]+).*$/$1/ )
-    {                                             # "xy-1.23zz" ==> "-1.23"
+    {                                            # "xy-1.23zz" ==> "-1.23"
         $theText = 0;
     }
     $theText =~ s/^(\-?)0+([0-9])/$1$2/;         # "-0009.12"  ==> "-9.12"
@@ -1342,14 +1343,13 @@ sub _safeEvalPerl {
     my ($theText) = @_;
 
     # Allow only simple math with operators - + * / % ( )
-    $theText =~
-      s/\%\s*[^\-\+\*\/0-9\.\(\)]+//g;    # defuse %hash but keep modulus
-     # keep only numbers and operators (shh... don't tell anyone, we support comparison operators)
+    $theText =~ s/\%\s*[^\-\+\*\/0-9\.\(\)]+//g; # defuse %hash but keep modulus
+      # keep only numbers and operators (shh... don't tell anyone, we support comparison operators)
     $theText =~ s/[^\!\<\=\>\-\+\*\/\%0-9e\.\(\)]*//g;
     $theText =~ s/(^|[^\.])\b0+(?=[0-9])/$1/g
       ;    # remove leading 0s to defuse interpretation of numbers as octals
     $theText =~
-      s/(^|[^0-9])e/$1/g;  # remove "e"-s unless in expression such as "123e-4"
+      s/(^|[^0-9])e/$1/g;   # remove "e"-s unless in expression such as "123e-4"
     $theText =~ /(.*)/;
     $theText = $1;          # untainted variable
     return "" unless ($theText);
@@ -1361,7 +1361,7 @@ sub _safeEvalPerl {
         $result = $@;
         $result =~ s/[\n\r]//g;
         $result =~
-          s/\[[^\]]+.*view.*?\:\s?//; # Cut "[Mon Mar 15 23:31:39 2004] view: "
+          s/\[[^\]]+.*view.*?\:\s?//;  # Cut "[Mon Mar 15 23:31:39 2004] view: "
         $result =~ s/\s?at \(eval.*?\)\sline\s?[0-9]*\.?\s?//g
           ;                            # Cut "at (eval 51) line 2."
         $result = "ERROR: $result";
@@ -1684,7 +1684,7 @@ m|([0-9]{4})[-/\.]([0-9]{1,2})[-/\.]([0-9]{1,2})[-/\.\,\s]+([0-9]{1,2})[-\:/\.](
       Foswiki::Func::getPreferencesFlag("SPREADSHEETPLUGIN_TIMEISLOCAL") || 0;
     $timeislocal = Foswiki::Func::isTrue($timeislocal);
 
-    $timeislocal = 0 if ( $theText =~ /GMT/i );  #If explicitly GMT, ignore
+    $timeislocal = 0 if ( $theText =~ /GMT/i );    #If explicitly GMT, ignore
 
 # To handle DOY, use timegm_nocheck or timelocal_nocheck that won't check input data range.
 # This is necessary because with DOY, $day must be able to be greater than 31 and timegm
