@@ -1205,10 +1205,13 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11200][Item11200]] | Some crafted URLs result in a Undefined warning in Foswiki::Store::VC::Handler |
 | [[%BUGS%/Item11204][Item11204]] | Various improvements to jquery.media, jquery.tooltip, jquery.superfish, jquery.ui.resizable, jquery.button, jquery.ui.dialog and jquery.textboxlist |
 | [[%BUGS%/Item11205][Item11205]] | Dependency.pm is not reporting out-of-date extension when migrating from date to dotted versions.|
-| [[%BUGS%/Item11208][Item11208]] | Group UI allows you to create an illegal group name not ending in Group. | 
+| [[%BUGS%/Item11208][Item11208]] | Group UI allows you to create an illegal group name not ending in Group. |
 | [[%BUGS%/Item11212][Item11212]] | Group UI should not allow users to be added to NobodyGroup, or added to/removed from BaseGroup. |
 | [[%BUGS%/Item11213][Item11213]] | SiteChanges topic has some issues. |
 | [[%BUGS%/Item11215][Item11215]] | Search pager broken when filtering on date. |
+| [[%BUGS%/Item11224][Item11224]] | Use of uninitialized variable in =TablePlugin/Core.pm= |
+| [[%BUGS%/Item11226][Item11226]] | Configure load CGI pefore setting libpath, so system CGI cannot be overridden for configure |
+| [[%BUGS%/Item11227][Item11227]] | TablePlugin is causing undefined variable errors in Time::Local |
 </noautolink>
 
 ---+++ Enhancements
