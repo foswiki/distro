@@ -275,6 +275,7 @@ sub test_parseErrors {
 
     $this->assert_equals( undef, Foswiki::Time::parseTime('2008-13-23') );
     $this->assert_equals( undef, Foswiki::Time::parseTime('2008-10-32') );
+    $this->assert_equals( undef, Foswiki::Time::parseTime('Foswiki v.1.0.5 and 185 Extensions.WebHome with dependencies - for instructions follow the link.%BR%_Works for Debian and Ubuntu._') );
 }
 
 sub test_week {

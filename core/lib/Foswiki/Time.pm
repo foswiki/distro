@@ -141,9 +141,12 @@ sub parseTime {
         my $year = $3;
         $year -= 1900 if ( $year > 1900 );
 
+        my $mon = $MON2NUM{ lc($2) };
+        return undef unless defined $mon;
+
         #TODO: %MON2NUM needs to be updated to use i8n
         #TODO: and should really work for long form of the month name too.
-        return Time::Local::timegm( 0, $5 || 0, $4 || 0, $1, $MON2NUM{ lc($2) },
+        return Time::Local::timegm( 0, $5 || 0, $4 || 0, $1, $mon,
             $year ) - $tzadj;
     }
 
