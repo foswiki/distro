@@ -226,7 +226,7 @@ HERE
     }
 }
 
-foreach my $module ( 'FindBin', 'File::Spec', 'Config', 'CGI qw(:any)', ) {
+foreach my $module ( 'FindBin', 'File::Spec', 'Config', ) {
     ::_loadBasicModule($module);
 }
 
@@ -259,6 +259,8 @@ if ($@) {
     # the setlib error later.
     unshift( @INC, File::Spec->catfile( @root, 'lib' ) );
 }
+
+::_loadBasicModule('CGI qw(:any)');
 
 $| = 1;    # no buffering on STDOUT
 
