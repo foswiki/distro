@@ -180,7 +180,9 @@ sub evaluate {
     else {
         print STDERR " {\n" if MONITOR_EVAL;
         $ind++ if MONITOR_EVAL;
+        no warnings 'recursion';
         $result = $this->{op}->evaluate( $this, @_ );
+        use warnings 'recursion';
         $ind-- if MONITOR_EVAL;
         print STDERR ( '-' x $ind ) . '}' . $this->{op}->{name} if MONITOR_EVAL;
     }
