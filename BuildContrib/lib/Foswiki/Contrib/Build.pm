@@ -1620,7 +1620,7 @@ sub target_archive {
           . '.zip");' );
 
     # BSD and MacOS don't support owner/group options.
-    if ( `tar --owner 2>&1` =~ m/unrecognized/ ) {
+    if ( `tar --owner 2>&1` =~ m/(?:unrecognized|not supported)/ ) {
 
 # SMELL: sys_action will auto quote any parameter containing a space.  So the parameter
 # and argument for group and user must be passed in as separate parameters.
@@ -2561,7 +2561,8 @@ sub _manicollect {
     if (/^(CVS|\.svn|\.git)$/) {
         $File::Find::prune = 1;
     }
-    elsif (!-d 
+    elsif (
+           !-d 
         && /^\w.*\w$/
         && !/^(DEPENDENCIES|MANIFEST|(PRE|POST)INSTALL|build\.pl)$/
         && !/\.bak$/
