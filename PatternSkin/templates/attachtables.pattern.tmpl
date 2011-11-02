@@ -3,7 +3,7 @@
 
 %TMPL:DEF{"commonattachtableattributes"}%valign="middle" dataalign="left,left,left,right,left,left,left,left" datavalign="top" headeralign="left" headercolor="#0066cc" databg="#ffffff" headerbg="#ffffff" headerbgsorted="#eeeeee" databgsorted="#f5f5f5" %TMPL:END%
 
-%TMPL:DEF{"topicattachmentwisty"}%%TWISTY{id="topicattachmentslist" mode="div" remember="on" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" link="%MAKETEXT{"Attachments ([_1])" args="%QUERY{"length(attachments[NOT lc(attr)=~'h'])"}%"}%" linkclass="patternTwistyButton"}%%TMPL:END%
+%TMPL:DEF{"topicattachmentwisty"}%%TWISTY{id="topicattachmentslist" mode="div" remember="on" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" link="%MAKETEXT{"Attachments [_1]" args="<span class='foswikiSmall foswikiGrayText'>%QUERY{"length(attachments[NOT lc(attr)=~'h'])"}%</span>"}%" linkclass="patternTwistyButton"}%%TMPL:END%
 
 %{ Header definition for topic attachments and top table in attach screen }%
 %TMPL:DEF{ATTACH:files:header(basic)}%<div class="foswikiAttachments">
