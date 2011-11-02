@@ -3,6 +3,25 @@ jQuery(document).ready(
     function ($) {
         var searchResultsCount = 0;
 
+		// Create an attachment counter in the attachment table twisty.
+        $('.foswikiAttachments').livequery(function() {
+				var table = $(this).find('table.foswikiTable');
+				if (!table) {
+					return;
+				}
+				var rows = table.attr('rows');
+				if (!rows) {
+					return;
+				}
+				var count = rows.length - 1;
+				var countStr = " <span class='foswikiSmall'>"
+					+ count + "<\/span>";
+				$(this).find('.patternAttachmentHeader').livequery(function() {
+					$(this).append(countStr);
+				});
+			}
+		);
+
         // Search page handling
         $('.foswikiSearchResultCount span').livequery(function() {
                 searchResultsCount += parseInt($(this).html());
