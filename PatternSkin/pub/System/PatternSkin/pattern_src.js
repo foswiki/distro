@@ -1,21 +1,26 @@
 
 jQuery(document).ready(
     function ($) {
-        // Create an attachment counter in the attachment table twisty.
-        $('div.foswikiAttachments')
-            .each(
-                function(index, el) {
-	                var count = $(el).find('table.foswikiTable').attr('rows').length - 1;
-                    var countStr = " <span class='foswikiSmall'>"
-                        + count + "<\/span>";
-                    $(el).find('.patternAttachmentHeader').each(
-                        function(index, el) {
-                            $(el).append(countStr);
-                        });
-                }
-            );
-
         var searchResultsCount = 0;
+
+		// Create an attachment counter in the attachment table twisty.
+        $('.foswikiAttachments').livequery(function() {
+				var table = $(this).find('table.foswikiTable');
+				if (!table) {
+					return;
+				}
+				var rows = table.attr('rows');
+				if (!rows) {
+					return;
+				}
+				var count = rows.length - 1;
+				var countStr = " <span class='foswikiSmall'>"
+					+ count + "<\/span>";
+				$(this).find('.patternAttachmentHeader').livequery(function() {
+					$(this).append(countStr);
+				});
+			}
+		);
 
         // Search page handling
         $('.foswikiSearchResultCount span').livequery(function() {
