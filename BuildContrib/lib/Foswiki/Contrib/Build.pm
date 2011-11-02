@@ -2244,7 +2244,7 @@ sub _uploadTopic {
 
     $form->{validation_key} = $this->_strikeone( $userAgent, $response );
 
-    $form->{text} =~ s/^%META:TOPICINFO{.*?\n//;  # Delete any old topicinfo
+    $form->{text} =~ s/^%META:TOPICINFO{.*?\n//;    # Delete any old topicinfo
     my $url =
 "$this->{UPLOADTARGETSCRIPT}/save$this->{UPLOADTARGETSUFFIX}/$this->{UPLOADTARGETWEB}/$topic";
     $form->{text} = <<EXTRA. $form->{text};
@@ -2567,9 +2567,12 @@ sub _manicollect {
         && !/^(DEPENDENCIES|MANIFEST|(PRE|POST)INSTALL|build\.pl)$/
         && !/\.bak$/
         && !/^$collector->{project}_installer(\.pl)?$/
+
         # Item10188: Ignore build output, but still want data/System/Project.txt
         # $basedir in \Q...\E makes it a literal string (ignore regex chars)
-        && not $File::Find::name =~ /\Q$basedir\E\W$collector->{project}\.(md5|zip|tgz|txt|sha1)$/ )
+        && not $File::Find::name =~
+        /\Q$basedir\E\W$collector->{project}\.(md5|zip|tgz|txt|sha1)$/
+      )
     {
         my $n     = $File::Find::name;
         my @a     = stat($n);
