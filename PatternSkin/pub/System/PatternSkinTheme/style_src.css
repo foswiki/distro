@@ -149,6 +149,9 @@ select {
 	font-family:arial, verdana, sans-serif;
 	font-size:100%;
 }
+label input {
+	vertical-align:text-bottom;
+}
 .foswikiTextarea {
 	padding:1px 4px;
 }
@@ -263,6 +266,7 @@ a.foswikiSubmit:visited:active {
 .foswikiTable th {
 	border-width:1px;
 	border-style:solid;
+	vertical-align:top;
 }
 .foswikiTable {
 	margin:2px 0;

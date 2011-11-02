@@ -154,6 +154,9 @@ select {
 	font-family:arial, verdana, sans-serif;
 	font-size:100%;
 }
+label input {
+	vertical-align:text-bottom;
+}
 .foswikiTextarea {
 	padding:1px 4px;
 }
@@ -412,10 +415,6 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 .patternTwistyButton h3 {
 	/* always add class foswikiButton as well */
 	padding:.1em .2em;
-}
-.patternAttachmentHeader {
-        font-size: 1.1em;
-	/* behaviour class */
 }
 .foswikiForm h3 a:link,
 .foswikiForm h3 a:visited {

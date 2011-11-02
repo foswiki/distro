@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1303098807" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1303098887" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! %SYSTEMWEB%.PatternSkin CSS Cookbook
 

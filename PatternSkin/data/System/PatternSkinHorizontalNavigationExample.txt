@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1300477020" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1300477710" format="1.1" version="1"}%
 ---+!! <nop>PatternSkin horizontal navigation example
 
 Include main navigation with:
@@ -35,9 +35,9 @@ Include meta navigation with:
     "%TOPIC%"
     section="topbarbutton"
     ID=""
-    DESTWEB="Sandbox"
+    DESTWEB="%SANDBOXWEB%"
     DESTTOPIC="WebHome"
-    LABEL="Sandbox"
+    LABEL="%SANDBOXWEB%"
 }%
 </ul><br class="foswikiClear" /></div>%ENDSECTION{"main"}%
 

@@ -23,7 +23,7 @@
 ---------------------------------------------------
 }%%TMPL:DEF{"top"}%<div class="patternTop"><span class="patternHomePath foswikiLeft">%TMPL:P{"breadcrumb"}%</span><span class="patternToolBar foswikiRight">%TMPL:P{"top:toolbarbuttons"}%</span><div class="foswikiClear"></div></div>%TMPL:END%
 
-%TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"activatable_edit_or_create"}%%TMPL:P{"activatable_attach"}%%TMPL:END%%{
+%TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"activatable_edit_or_create"}%%TMPL:P{"activatable_attach"}%%TMPL:P{context="SubscribePluginEnabled" then="activatable_subscribe"}%%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"breadcrumb:separator"}%<span class='foswikiSeparator'>&gt;</span>%TMPL:END%
 
