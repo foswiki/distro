@@ -79,14 +79,3 @@
 %TMPL:DEF{"bodyend"}%</body></html>%TMPL:END%
 
 %TMPL:DEF{"textareabuttons"}%<span class="foswikiRight foswikiMakeVisible" style="text-align:left; margin:0 0 0 1em;"><span class="foswikiLeft patternTextareaButton patternButtonFontSelector" title="%MAKETEXT{"Switch to monotype or propotional font"}%">&nbsp;</span><span class="foswikiLeft patternTextareaButton patternButtonEnlarge" title="%MAKETEXT{"Enlarge edit box"}%">&nbsp;</span><span class="foswikiLeft patternTextareaButton patternButtonShrink" title="%MAKETEXT{"Shrink edit box"}%">&nbsp;</span></span>%TMPL:END%
-
-%{
-Added for compatibility with Foswiki 1.0.x
-In Foswiki 1.1.x this macro is defined in foswiki.tpml.
-
-Handy macro for including JS from system paths
-}%%TMPL:DEF{"FWSRC"}%%TMPL:END%%TMPL:DEF{"LIBJS"}%%ADDTOZONE{
- "script"
- id="%id%"
- text="<script type=\"text/javascript\" src=\"%PUBURLPATH%/%SYSTEMWEB%/%id%%TMPL:P{"FWSRC"}%.js\"></script>"
- requires="%requires%"}%%TMPL:END%
