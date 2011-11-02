@@ -71,11 +71,11 @@
 %TMPL:DEF{"activatable_attach"}%%TMPL:P{context="inactive" then="inactive_attach" else="active_attach"}%%TMPL:END%
 
 
-%TMPL:DEF{"active_subscribe"}%%TMPL:P{"subscribe_link"}%%TMPL:P{"sep"}%%TMPL:END%
+%TMPL:DEF{"active_subscribe"}%%TMPL:P{"subscribe_link"}%%TMPL:END%
 
-%TMPL:DEF{"inactive_subscribe"}%<span><strike>%MAKETEXT{"Subscribe"}%%TMPL:P{"sep"}%</strike></span>%TMPL:END%
+%TMPL:DEF{"inactive_subscribe"}%<span><strike>%MAKETEXT{"Subscribe"}%</strike></span>%TMPL:END%
 
-%TMPL:DEF{"enabled_active_subscribe"}%%TMPL:P{context="authenticated" then="activatable_subscribe"}%%TMPL:END%
+%TMPL:DEF{"enabled_active_subscribe"}%%TMPL:P{context="authenticated" then="activatable_subscribe"}%%TMPL:P{context="authenticated" then="sep"}%%TMPL:END%
 
 %TMPL:DEF{"action_activatable_subscribe"}%%TMPL:P{context="SubscribePluginEnabled" then="enabled_active_subscribe"}%%TMPL:END%
 
