@@ -1212,6 +1212,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11224][Item11224]] | Use of uninitialized variable in =TablePlugin/Core.pm= |
 | [[%BUGS%/Item11226][Item11226]] | Configure load CGI pefore setting libpath, so system CGI cannot be overridden for configure |
 | [[%BUGS%/Item11227][Item11227]] | TablePlugin is causing undefined variable errors in Time::Local |
+| [[%BUGS%/Item11231][Item11231]] | Escaped !ABBREV in heading generate an incorrect Anchor link |
 </noautolink>
 
 ---+++ Enhancements
