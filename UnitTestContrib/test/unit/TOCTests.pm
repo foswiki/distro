@@ -286,6 +286,8 @@ sub test_TOC_makeAnchorName {
         ['Test_60_40_41_123_125_91_93_45_43_33_62_126_36', 'Test <(){}[]_-+!>~$', 'Complex 2'],
         ['Linkword', '[[Linkword]]', 'Squarebracket'],
         ['WikiWord_is_first', 'WikiWord is first', 'WikiWord is first'],
+        ['WikiWord_escaped', '!WikiWord escaped', 'WikiWord is escaped'],
+        ['ABBREV_escaped', '!ABBREV escaped', 'ABBREV is escaped'],
         ['System.WikiWord_is_first', 'System.WikiWord is first', 'WikiWord is first'],
     );
     foreach my $set (@comparisons) {
