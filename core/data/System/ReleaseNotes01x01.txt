@@ -1101,6 +1101,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10449][Item10449]] | Form with all hidden fields should be hidden in view |
 | [[%BUGS%/Item10468][Item10468]] | Up and Down Arrow-Keys not working with Firefox 4 |
 | [[%BUGS%/Item10479][Item10479]] | Complex searches can fail with deep recursion |
+| [[%BUGS%/Item10505][Item10505]] | Formfields are double-encoded when redirected from a login request. |
 | [[%BUGS%/Item10559][Item10559]] | TablePlugin Use of uninitialized value in numeric comparison (...) at ... Core.pm line 1421 |
 | [[%BUGS%/Item10566][Item10566]] | !ApacheLogin throws 403 instead of 401 to unauthenticated users with rest, viewfile, rdiff and compare scripts |
 | [[%BUGS%/Item10623][Item10623]] | bin/.htaccess.txt is inconsistent with other htaccess files.  Move to bin-htaccess.txt |
