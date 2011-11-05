@@ -454,6 +454,16 @@ sub test_LEFTSTRING {
     $this->assert( $this->CALC('$LEFTSTRING(abcdefg, 12)')  eq 'abcdefg' );
     $this->assert( $this->CALC('$LEFTSTRING(abcdefg, -3)')  eq 'abcd' );
     $this->assert( $this->CALC('$LEFTSTRING(abcdefg, -12)') eq '' );
+
+    my $inTable = <<'TABLE';
+| 1 | 2 | 3 | 4 | 5 A | %CALC{"$LEFTSTRING($T(R$ROW():C5),1)"}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| 1 | 2 | 3 | 4 | 5 A | 5 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_LENGTH {
