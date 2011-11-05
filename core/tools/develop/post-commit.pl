@@ -18,7 +18,7 @@ our $verbose = 0;    # 1 to debug
 
 my $last = $ARGV[1] || `/usr/local/bin/svnlook youngest $REPOS`;
 chomp($last);
-print STDERR "LAST $last from $ARGV[1]\n";
+print STDERR "LAST $last from $ARGV[1]\n" if $verbose;
 
 #my $BRANCH = $ARGV[2]; # Not used
 
