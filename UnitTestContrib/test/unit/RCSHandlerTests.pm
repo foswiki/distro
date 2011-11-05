@@ -199,10 +199,8 @@ sub verify_RcsWrapOnly_ciLocked {
     unlink("$topic.txt");
 
     # file is now locked by blocker_socker, save some new text
-    $rcs->saveFile( $rcs->{file}, "Shimmy Dimmy" );
+    $rcs->ci(0, "Shimmy Dimmy", 'Gotcha', 'SheikAlot', time() );
 
-    # check it in
-    $rcs->_ci( "Gotcha", "SheikAlot" );
     my $txt = $rcs->readFile($vfile);
     $this->assert_matches( qr/Gotcha/s,      $txt );
     $this->assert_matches( qr/BungditDin/s,  $txt );
