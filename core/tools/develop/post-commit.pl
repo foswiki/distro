@@ -131,7 +131,7 @@ sub _readBr {
 unless ($test) {
     open( STDERR, '>>', "$SUPPORT/logs/post-commit.log" ) || die $!;
 }
-print STDERR "Post-Commit $first..$last in $REPOS\n";
+print STDERR "Post-Commit $first..$last in $REPOS\n" if $verbose;
 $/ = undef;
 
 for my $rev ( ( $first + 1 ) .. $last ) {
