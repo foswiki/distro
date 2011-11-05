@@ -16,23 +16,24 @@ my $SUPPORT = '/home/svn';
 
 our $verbose = 0;    # 1 to debug
 
-my $first = 1;
-if ( open( F, '<', "$SUPPORT/lastupdate" ) ) {
-    local $/ = "\n";
-    $first = <F>;
-    chomp($first);
-    close(F);
-}
 my $last = $ARGV[1] || `/usr/local/bin/svnlook youngest $REPOS`;
 chomp($last);
+print STDERR "LAST $last from $ARGV[1]\n";
 
 #my $BRANCH = $ARGV[2]; # Not used
 
 my $test = $ARGV[2] || 0;
 if ($test) {
     $verbose = 1;
-    $first--;
     print "Running as TEST - No updates\n";
+}
+
+my $first = 0;
+if ( open( F, '<', "$SUPPORT/lastupdate" ) ) {
+    local $/ = "\n";
+    $first = <F>;
+    chomp($first);
+    close(F);
 }
 
 #die "NOT A TEST" unless $test;
@@ -41,7 +42,9 @@ die unless $last;
 
 #die unless $BRANCH; ] Not used
 
-$first ||= ( $last - 1 );
+if ( $first >= $last ) {
+    $first = $last - 1;
+}
 
 print "F:$first L:$last\n" if $verbose;
 my @changes;
@@ -60,6 +63,7 @@ exit 0 unless scalar(@changes);
 
 sub _add {
     my ( $cur, $rev, $changed, $commits ) = @_;
+    print STDERR "_add called with cur $cur rev $rev\n" if $verbose;
     my %curr = map { $_ => 1 } grep { /^\d+$/ }
       map { s/^(TWikirev|Nextwikirev|Foswikirev|Rev)://i; $_ }
       split( /\s+/, $cur );
@@ -74,6 +78,7 @@ sub _add {
 # _addBr - add a branch for the current checkin into the list of branches with checkins
 sub _addBr {
     my ( $cur, $br, $changed, $brCkRef ) = @_;
+    print STDERR "_addBr called with cur $cur,  Br $br\n" if $verbose;
 
     # Split the current branches with checkins into a hash
     my %curr = map { $_ => 1 }
@@ -129,7 +134,7 @@ unless ($test) {
 print STDERR "Post-Commit $first..$last in $REPOS\n";
 $/ = undef;
 
-for my $rev ( $first .. $last ) {
+for my $rev ( ( $first + 1 ) .. $last ) {
 
     # Update the list of checkins for referenced bugs
     my $logmsg    = `/usr/local/bin/svnlook log -r $rev $REPOS`;
@@ -155,7 +160,7 @@ for my $rev ( $first .. $last ) {
         if ( -e "$BUGS/$item.txt,v" ) {
             my $rlog = `rlog -h $BUGS/$item.txt`;
             ($lastrev) = $rlog =~ m/^head: 1\.(\d+).*?$/ms;
-            print STDERR "LAST REVISION $lastrev of Item$item \n" if $verbose;
+            print STDERR "LAST REVISION $lastrev of $item \n" if $verbose;
         }
         $lastrev++;
 
@@ -163,27 +168,8 @@ for my $rev ( $first .. $last ) {
         my $text = <F>;
         close(F);
 
-#        $text .= <<HERE;
-#%META:FIELD{name="CheckinsOnBranches" attributes="" title="CheckinsOnBranches" value="trunk"}%
-#%META:FIELD{name="Release01x01Checkins" attributes="" title="Release01x01 Checkins" value="Foswikirev:12900 Foswikirev:12904 Foswikirev:12905 Foswikirev:12915"}%
-#%META:FIELD{name="trunkCheckins" attributes="" title="trunk Checkins" value="Foswikirev:12901 Foswikirev:12902 Foswikirev:12906 Foswikirev:12997"}%
-#HERE
-
-        # Update the TOPICINFO
-        $text =~
-          s/^(%META:TOPICINFO{.*?author=")(?:[^"]*)(".*?}%)$/$1$committer$2/m;
-        $text =~
-          s/^(%META:TOPICINFO{.*?version=")(?:[^"]*)(".*?}%)$/$1$lastrev$2/m;
-        $text =~
-          s/^(%META:TOPICINFO{.*?comment=")(?:[^"]*)(".*?}%)$/$1svn commit$2/m;
-        my $timestamp = time();
-        $text =~
-          s/^(%META:TOPICINFO{.*?date=")(?:[^"]*)(".*?}%)$/$1$timestamp$2/m;
-        print STDERR
-"Updated TOPICINFO with author $committer rev $lastrev timestamp $timestamp\n"
-          if $verbose;
-
         my @commits = ();
+        print STDERR "Updating Checkins for $rev\n" if $verbose;
         unless ( $text =~
 s/^(%META:FIELD.*name="Checkins".*value=")(.*?)(".*%)$/$1._add($2, $rev, \$changed, \@commits).$3/gem
           )
@@ -195,6 +181,7 @@ s/^(%META:FIELD.*name="Checkins".*value=")(.*?)(".*%)$/$1._add($2, $rev, \$chang
         }
 
         my %brCommits;
+        print STDERR "Updating CheckinsOnBranches for $branch\n" if $verbose;
         unless ( $text =~
 s/^(%META:FIELD.*name="CheckinsOnBranches".*value=")(.*?)(".*%)$/$1._addBr($2, $branch, \$changed, \%brCommits ).$3/gem
           )
@@ -205,6 +192,8 @@ s/^(%META:FIELD.*name="CheckinsOnBranches".*value=")(.*?)(".*%)$/$1._addBr($2, $
 # For the branch.  it will be used to populate the <branch>Checkins metadata.
 
             $text .= "\n" unless $text =~ /\n$/s;
+            print STDERR "Writing new CheckinsOnBranches for $branch\n"
+              if $verbose;
             $text .=
 "%META:FIELD{name=\"CheckinsOnBranches\" attributes=\"\" title=\"CheckinsOnBranches\" value=\""
               . _getBr( \@commits, \%brCommits )
@@ -217,28 +206,52 @@ s/^(%META:FIELD.*name="CheckinsOnBranches".*value=")(.*?)(".*%)$/$1._addBr($2, $
                   join( " ", map { "Foswikirev:$_" } @{ $brCommits{$key} } );
 
                 $text .= "\n" unless $text =~ /\n$/s;
-                $text .=
-"%META:FIELD{name=\"${key}Checkins\" attributes=\"\" title=\"${key} Checkins\" value=\""
-                  . $new
-                  . "\"}%\n";
-                $changed = 1;
+                print STDERR "Writing new ${key} Checkins for $new\n"
+                  if $verbose;
+                unless ( $text =~
+s/^(%META:FIELD.*?name="${key}Checkins".*value=")(.*?)(".*%)$/$1.$new.$3/gem
+                  )
+                {
+                    $text .=
+"%META:FIELD{name=\"${key}Checkins\" attributes=\"\" title=\"${key}Checkins\" value=\""
+                      . $new
+                      . "\"}%\n";
+                }
             }
         }
         else {
 
 # The CheckinsOnBranches exists,  so only have to add the current commit and branch to the metadata
+            print STDERR "Updating (${branch})Checkins for $rev\n" if $verbose;
             unless ( $text =~
-s/^(%META:FIELD.*name="${branch}Checkins".*value=")(.*?)(".*%)$/$1._add($2, $rev, \$changed, \@commits ).$3/gem
+s/^(%META:FIELD.*?name="${branch}Checkins".*value=")(.*?)(".*}%)$/$1._add($2, $rev, \$changed, \@commits ).$3/gem
               )
             {
 
                 # First commit to a new branch
+                print STDERR "Writing new  ${branch}Checkins for $rev\n"
+                  if $verbose;
                 $text .=
-"%META:FIELD{name=\"${branch}Checkins\" attributes=\"\" title=\"Checkins\" value=\"Foswikirev:$rev\"}%\n";
+"%META:FIELD{name=\"${branch}Checkins\" attributes=\"\" title=\"${branch}Checkins\" value=\"Foswikirev:$rev\"}%\n";
+                $changed = 1;
             }
         }
 
         next unless $changed;
+
+        # Update the TOPICINFO
+        $text =~
+          s/^(%META:TOPICINFO{.*?author=")(?:[^"]*)(".*?}%)$/$1$committer$2/m;
+        $text =~
+          s/^(%META:TOPICINFO{.*?version=")(?:[^"]*)(".*?}%)$/$1$lastrev$2/m;
+        $text =~
+          s/^(%META:TOPICINFO{.*?comment=")(?:[^"]*)(".*?}%)$/$1svn commit$2/m;
+        my $timestamp = time();
+        $text =~
+          s/^(%META:TOPICINFO{.*?date=")(?:[^"]*)(".*?}%)$/$1$timestamp$2/m;
+        print STDERR
+"CHANGED: Updated TOPICINFO with author $committer rev $lastrev timestamp $timestamp\n"
+          if $verbose;
 
         unless ($test) {
             print STDERR `co -l -f $fi`;
