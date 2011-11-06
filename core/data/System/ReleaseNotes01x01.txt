@@ -31,7 +31,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
-   * Foswiki 1.1.4 beta2 was built 31 Oct 2011. It is a release that fixes some very important including some security related issues. It contains 109 fixes and 25 enhancements. jQuery has been updated to 1.6.4.
+   * Foswiki 1.1.4 beta3 was built 6 Nov 2011. It is a release that fixes some very important including some security related issues. It contains 126 fixes and 27 enhancements. jQuery has been updated to 1.6.4.
 
 ---++ Pre-installed Extensions
 
@@ -148,7 +148,25 @@ Foswiki has improved handling of files that are modified outside of Foswiki's co
       * This avoids unnecessary overhead by the RCS system.
    * If a topic is modified externally and checked into RCS outside of Foswiki control, it is very important to generate a valid TOPICINFO line or the data reported by Foswiki will be incorrect.
 
-Note that Foswiki also now requires that the %META:TOPICINFO be the first line of the file. 
+Note that Foswiki also now requires that the %META:TOPICINFO be the first line of the file.
+
+---+++ Changes to SpreadSheetPlugin
+
+Several SpreadSheetPlugin functions were found to provide inconsistent results when cells contained leading spaces.  Leading/trailing spaces are part of cell formatting and should be uniformly stripped when extracting data from cells.
+   * LEFTSTRING position of first character would vary.
+   * LISTUNIQUE would fail to eliminate duplicate entries due to leading or trailing spaces.
+Changes were made in the code that extracts cell data to uniformly remove leading and trailng spaces.  This change may require changes to spreadsheet formula if they had been adjusted to accommodate these spaces.  Unit tests have also been added to better detect inconsistencies and improve the quality of this plugin.
+
+Also the SpreadSheetPlugin was synchronized with features added to the TWiki version of the plugin.  This added the following functions:
+   * =SPLIT( separator, text )= -- split a string into a list.
+   * =HEXENCODE= and =HEXDECODE= -- Encode and decode a string to/from printable hex.
+   * =XOR( list )= Logical XOR of integers in a list.
+   * =BITXOR( list )= -- Bitwise XOR of integers in a list.
+   * =BITXOR( string )= -- Bitwise NOT operation on the string.
+   * =LISTNONEMPTY( list )= -- Remove all empty elements from a list
+   * =WHILE( condition, do )= -- Repeat the "do" function while the "condition" remains true.
+   * isodate formats -- ISO 8601 week support.
+   * DOY -- Day of Year dates: DOYyyyy.ddd  for example to specify the ddd day of yyyy
 
 ---++ Important changes since Foswiki 1.1.2
 
@@ -1214,6 +1232,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11226][Item11226]] | Configure load CGI pefore setting libpath, so system CGI cannot be overridden for configure |
 | [[%BUGS%/Item11227][Item11227]] | TablePlugin is causing undefined variable errors in Time::Local |
 | [[%BUGS%/Item11231][Item11231]] | Escaped !ABBREV in heading generate an incorrect Anchor link |
+| [[%BUGS%/Item11239][Item11239]] | SpreadSheetPlugin LEFTSTRING and has inconsistent results when cell has leading spaces |
 </noautolink>
 
 ---+++ Enhancements
