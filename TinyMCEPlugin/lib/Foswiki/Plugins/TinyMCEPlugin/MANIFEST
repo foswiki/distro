@@ -1,9 +1,9 @@
 data/System/TinyMCEFrequentlyAskedQuestions.txt 0644
 data/System/TinyMCEPlugin.txt 0644
 data/System/TinyMCEQuickHelp.txt 0644
-!noci
 lib/Foswiki/Configure/Checkers/Plugins/TinyMCEPlugin/Enabled.pm 0644
 lib/Foswiki/Plugins/TinyMCEPlugin.pm 0644
+!noci
 pub/System/TinyMCEPlugin/foswiki_src.js 0644
 pub/System/TinyMCEPlugin/foswiki.js 0644
 pub/System/TinyMCEPlugin/foswiki.js.gz 0644
@@ -671,6 +671,9 @@ pub/System/TinyMCEPlugin/tinymce/readme.md 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/plugin_dependency_init_call_order.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/plugin_dependency_simple.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/plugin_dependency_specific_location.html 0644
+#pub/System/TinyMCEPlugin/tinymce/tests/quirk_firefox.html 0644
+#pub/System/TinyMCEPlugin/tinymce/tests/quirk_ie8.html 0644
+#pub/System/TinyMCEPlugin/tinymce/tests/quirk_webkit.html 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/qunit/QUnit.LICENSE 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/qunit/connector.js 0644
 #pub/System/TinyMCEPlugin/tinymce/tests/qunit/qunit.css 0644

@@ -519,7 +519,7 @@ tinymce.Formatter.prototype.remove = function(name, vars, node) {
 	/// <summary>Removes the specified format from the current selection or specified node.</summary>
 	/// <param name="name" type="String">Name of format to remove.</param>
 	/// <param name="vars" type="Object">Optional list of variables to replace within format before removing it.</param>
-	/// <param name="node" type="Node">Optional node to remove the format from defaults to current selection.</param>
+	/// <param name="node" type="">Optional node or DOM range to remove the format from defaults to current selection.</param>
 }
 
 tinymce.Formatter.prototype.toggle = function(name, vars, node) {

@@ -802,6 +802,7 @@
 				visual_table_class : 'mceItemTable',
 				visual : 1,
 				font_size_style_values : 'xx-small,x-small,small,medium,large,x-large,xx-large',
+				font_size_legacy_values : 'xx-small,small,medium,large,x-large,xx-large,300%', // See: http://www.w3.org/TR/CSS2/fonts.html#propdef-font-size
 				apply_source_formatting : 1,
 				directionality : 'ltr',
 				forced_root_block : 'p',
@@ -1349,10 +1350,12 @@
 
 			// Keep scripts from executing
 			t.parser.addNodeFilter('script', function(nodes, name) {
-				var i = nodes.length;
+				var i = nodes.length, node;
 
-				while (i--)
-					nodes[i].attr('type', 'mce-text/javascript');
+				while (i--) {
+					node = nodes[i];
+					node.attr('type', 'mce-' + (node.attr('type') || 'text/javascript'));
+				}
 			});
 
 			t.parser.addNodeFilter('#cdata', function(nodes, name) {
@@ -3203,21 +3206,6 @@
 				});
 			}
 
-			// Fire a nodeChanged when the selection is changed on WebKit this fixes selection issues on iOS5
-			// It only fires the nodeChange event every 50ms since it would other wise update the UI when you type and it hogs the CPU
-			if (tinymce.isWebKit) {
-				dom.bind(t.getDoc(), 'selectionchange', function() {
-					if (t.selectionTimer) {
-						clearTimeout(t.selectionTimer);
-						t.selectionTimer = 0;
-					}
-
-					t.selectionTimer = window.setTimeout(function() {
-						t.nodeChanged();
-					}, 50);
-				});
-			}
-
 			// Bug fix for FireFox keeping styles from end of selection instead of start.
 			if (tinymce.isGecko) {
 				function getAttributeApplyFunction() {
@@ -3227,7 +3215,7 @@
 						var target = t.selection.getStart();
 
 						if (target !== t.getBody()) {
-							t.dom.removeAllAttribs(target);
+							t.dom.setAttrib(target, "style", null);
 
 							each(template, function(attr) {
 								target.setAttributeNode(attr.cloneNode(true));

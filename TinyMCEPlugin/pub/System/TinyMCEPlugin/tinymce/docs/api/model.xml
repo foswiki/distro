@@ -1857,8 +1857,10 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 <param name="vars" type="Object">
 <description>Optional list of variables to replace within format before removing it.</description>
 </param>
-<param name="node" type="Node">
-<description>Optional node to remove the format from defaults to current selection.</description>
+<param name="node">
+<type fullname="Node"/>
+<type fullname="Range"/>
+<description>Optional node or DOM range to remove the format from defaults to current selection.</description>
 </param>
 </method>
 <method name="toggle" summary="Toggles the specified format on/off.">
@@ -4591,6 +4593,49 @@ events tied to it will also be removed.
 <description>This class is used to create drop menus, a drop menu can be a
 context menu, or a menu for a list box or a menu bar.
 </description>
+<example>// Adds a menu to the currently active editor instance
+var dm = tinyMCE.activeEditor.controlManager.createDropMenu('somemenu');
+
+// Add some menu items
+dm.add({title : 'Menu 1', onclick : function() {
+    alert('Item 1 was clicked.');
+}});
+
+dm.add({title : 'Menu 2', onclick : function() {
+    alert('Item 2 was clicked.');
+}});
+
+// Adds a submenu
+var sub1 = dm.addMenu({title : 'Menu 3'});
+sub1.add({title : 'Menu 1.1', onclick : function() {
+    alert('Item 1.1 was clicked.');
+}});
+
+// Adds a horizontal separator
+sub1.addSeparator();
+
+sub1.add({title : 'Menu 1.2', onclick : function() {
+    alert('Item 1.2 was clicked.');
+}});
+
+// Adds a submenu to the submenu
+var sub2 = sub1.addMenu({title : 'Menu 1.3'});
+
+// Adds items to the sub sub menu
+sub2.add({title : 'Menu 1.3.1', onclick : function() {
+    alert('Item 1.3.1 was clicked.');
+}});
+
+sub2.add({title : 'Menu 1.3.2', onclick : function() {
+    alert('Item 1.3.2 was clicked.');
+}});
+
+dm.add({title : 'Menu 4', onclick : function() {
+    alert('Item 3 was clicked.');
+}});
+
+// Display the menu at position 100, 100
+dm.showMenu(100, 100);</example>
 <members>
 <method constructor="true" name="DropMenu" summary="Constructs a new drop menu control instance.">
 <description>Constructs a new drop menu control instance.

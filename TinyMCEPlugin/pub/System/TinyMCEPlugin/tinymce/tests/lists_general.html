@@ -15,6 +15,9 @@ QUnit.config.autostart = false;
 
 var ENTER = 0xA;
 var TAB = 0x9;
+var BACKSPACE = 0x8;
+var ZERO_SIZED_NBSP = "\uFEFF";
+var LEFT = 0x26;
 
 module('Lists - General', {
 	autostart: false,
@@ -34,7 +37,7 @@ asyncTest('Escape unordered list by pressing enter on last empty li', function()
 				var list = editor.dom.getParent(node, 'ol,ul');
 				equals(editor.dom.select('li').length, 1);
 				ok(list === null, "selection must be outside of list");
-				queue.done();
+				start();
 			}, editor.selection.getNode());
 		}, editor.selection.getNode());
 	}, editor.selection.getNode());
@@ -50,19 +53,31 @@ asyncTest('Escape ordered list by pressing enter on last empty li', function() {
 				var list = editor.dom.getParent(node, 'ol,ul');
 				equals(editor.dom.select('li').length, 1);
 				ok(list === null, "selection must be outside of list");
-				queue.done();
+				start();
 			}, editor.selection.getNode());
 		}, editor.selection.getNode());
 	}, editor.selection.getNode());
 });
 
+asyncTest('Escaping list and applying style only applies styles to new text', function() {
+	editor.setContent("<ul><li>abc</li><li>def</li><li></li></ul>");
+	setSelection("ul li:nth-child(3)", 0);
+	robot.type(ENTER, false, function() {
+		robot.type('a', false, function() {
+			editor.execCommand('FormatBlock', false, 'h1');
+			equals(editor.getContent(), "<ul><li>abc</li><li>def</li></ul><h1>a</h1>");
+			start();
+		}, editor.selection.getNode());
+	}, editor.selection.getNode());
+});
+
 asyncTest('Caret positioned correctly after outdenting on non-last empty li', function() {
-	editor.setContent("<ul><li>a</li><li id='a'></li><li>b</li></ul>");
+	editor.setContent("<ul><li>a</li><li id='a'></li><li id>b</li></ul>");
 	setSelection("#a", 0);
 	robot.type(TAB, true, function() {
 		var tagName = editor.selection.getNode().tagName;
 		equals('P', tagName);
-		queue.done();
+		start();
 	}, editor.selection.getNode());
 });
 
@@ -73,9 +88,26 @@ asyncTest('Caret position correctly after pressing enter on li with text', funct
 		var node = editor.selection.getNode();
 		equals(editor.getContent(), "<ol><li>a<ol><li>b</li></ol></li></ol>");
 		equals(node.parentNode.lastChild, node);
-		queue.done();
+		start();
 	}, editor.selection.getNode());
 });
+
+asyncTest('Caret positioned correctly after pressing enter multiple times to exit list', function() {
+	editor.setContent("<ul><li>a</li><li>b</li></ul><p id='last'>some text</p>");
+	setSelection('ul li:nth-child(2)', 1);
+	robot.type(ENTER, false, function(){
+		robot.type(ENTER, false, function(){
+			robot.type(ENTER, false, function(){
+				var node = editor.selection.getNode();
+				equals(node.tagName, 'P');
+				equals(node.nextSibling.tagName, 'P');
+				equals(node.nextSibling.id, 'last');
+				start();
+			}, editor.selection.getNode());
+		}, editor.selection.getNode());
+	}, editor.selection.getNode());
+});
+
 
 asyncTest('Outdent on enter when setting is set', function() {
 	editor.settings.list_outdent_on_enter = true;
@@ -83,8 +115,48 @@ asyncTest('Outdent on enter when setting is set', function() {
 	setSelection('li ol li:nth-child(2)', 0);
 	robot.type(ENTER, false, function(){
 		equals(editor.getContent(), "<ol><li>a<ol><li>b</li></ol></li><li></li></ol>");
-		queue.done();
+		start();
 	}, editor.selection.getNode());
+});
+
+asyncTest('Outdent in nested list on enter when setting is set', function() {
+	editor.settings.list_outdent_on_enter = true;
+	editor.setContent("<ol><li>a<ol><li>b</li><li></li></ol></li></ol>");
+	setSelection('li ol li:nth-child(2)', 0);
+	robot.type(ENTER, false, function() {
+		robot.type(ENTER, false, function() {
+			robot.type('a', false, function(){
+				equals(editor.getContent(), "<ol><li>a<ol><li>b</li></ol></li></ol><p>a</p>");
+				start();
+			}, editor.selection.getNode());
+		}, editor.selection.getNode());
+	}, editor.selection.getNode());
+});
+
+function testNestedListHasZeroSizedNbsp() {
+	robot.type(ENTER, false, function() {
+		var ul = editor.dom.select('#u')[0];
+		var text = ul.parentNode.childNodes[0].nodeValue;
+		equals(text, ZERO_SIZED_NBSP);
+		start();
+	}, editor.selection.getNode());
+}
+
+asyncTest('Nested list has zero-sized nbsp in Gecko & IE8', function() {
+	if (!(tinymce.isGecko || tinymce.isIE8)) {
+		start();
+	} else {
+		editor.settings.list_outdent_on_enter = true;
+		editor.setContent("<ul><li>a<ul id='u'><li>b</li></ul></li></ul>");
+		setSelection('li', 1);
+
+		if (tinymce.isIE8) {
+			// IE8 places the caret on the nested list item so we press left to get to end of first list item
+			robot.type(LEFT, false, testNestedListHasZeroSizedNbsp, editor.selection.getNode());
+		} else {
+			testNestedListHasZeroSizedNbsp();
+		}
+	}
 });
 
 asyncTest('Outdent from sublist using shift-tab keys', function() {
@@ -92,7 +164,7 @@ asyncTest('Outdent from sublist using shift-tab keys', function() {
 	setSelection('li ul li', 0);
 	robot.type(TAB, true, function(){
 		equals(editor.getContent(), "<ul><li>a</li><li>b</li></ul>");
-		queue.done();
+		start();
 	}, editor.selection.getNode());
 });
 
@@ -101,24 +173,34 @@ asyncTest('Caret positioned correctly after escaping list and applying formattin
 	// When we have outdented from a sub list item to the outmost level no marker is shown and we can't exit the list by
 	// pressing enter. Pressing enter correctly exists the list.
 	if (tinymce.isGecko) {
-		queue.done();
-	}
-
-	editor.settings.list_outdent_on_enter = true;
-	editor.setContent("<ul><li>a<ul><li>b</li></ul></li></ul>");
-	setSelection('li ul li', 1);
-	robot.type(ENTER, false, function() {
+		start();
+	} else {
+		editor.settings.list_outdent_on_enter = true;
+		editor.setContent("<ul><li>a<ul><li>b</li></ul></li></ul>");
+		setSelection('li ul li', 1);
 		robot.type(ENTER, false, function() {
 			robot.type(ENTER, false, function() {
-				editor.execCommand('FormatBlock', false, 'h1');
-				var node = editor.selection.getNode();
-				var list = editor.dom.getParent(node, 'ol,ul');
-				ok(list === null, "selection must be outside of list");
-				queue.done();
+				robot.type(ENTER, false, function() {
+					editor.execCommand('FormatBlock', false, 'h1');
+					var node = editor.selection.getNode();
+					var list = editor.dom.getParent(node, 'ol,ul');
+					ok(list === null, "selection must be outside of list");
+					start();
+				}, editor.selection.getNode());
 			}, editor.selection.getNode());
 		}, editor.selection.getNode());
+	}
+});
+
+asyncTest('Deleting bullet from start of list outdents inner lists items', function() {
+	editor.setContent("<p>a</p><ul><li>b<ul><li>c</li><li>d</li></ul></li></ul>");
+	setSelection('li', 0);
+	robot.type(BACKSPACE, false, function() {
+		equals(editor.getContent(), "<p>a</p><p>b</p><ul><li>c</li><li>d</li></ul>");
+		start();
 	}, editor.selection.getNode());
 });
+
 var initTinyFunction = function(){
 	tinyMCE.init({
 		mode : "exact",
