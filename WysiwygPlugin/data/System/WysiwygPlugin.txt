@@ -188,6 +188,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  08 Nov 2011 (1.1.3) | Foswikitask:Item2174: Fix WysiwygPlugin eating newlines inside =%MACRO{...}= expressions (Michael Tempest) |
 |  11 Apr 2011 (1.1.2) | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  19 Jan 2011 (1.1.1) | Foswikitask:Item10271: Switch to x.y.z release numbering %BR% \
                          Foswikitask:Item10048: Try to use Macros in the src URLs of images with titles %BR% \
