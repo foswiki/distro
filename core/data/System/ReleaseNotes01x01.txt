@@ -128,10 +128,12 @@ users.
    * Note that AUTHENTICATION FAILURE messages are never obfuscated.  This permits tools like =fail2ban= to be used to block penetration attempts.
 
 
----+++ New version of JQuery - 1.6.4
+---+++ Major JQuery changes
 
-Foswiki has been updated to include JQuery 1.6.4, and this is now the default version of JQuery.  After installing Foswiki 1.1.4, be sure to visit =bin/configure= and verify that the JQuery Plugin is configured to use this
-version.
+   * Foswiki has been updated to include JQuery 1.6.4, and this is now the default version of JQuery.  After installing Foswiki 1.1.4, be sure to visit =bin/configure= and verify that the JQuery Plugin is configured to use this version.
+   * The JQuery Autocomplete plugin has been replaced by the *incompatible* JQueryUI Autocomplete widget.  If your site has implemented forms using the old version of Autocomplete, they will not work until converted to the new API.  See http://foswiki.org/Support/JQueryMigrationGuide
+   * The JQuery Textboxtlist plugin has been updated with an incompatible version.  See the above referenced !JQueryMigrationGuide for details.
+   * The JQuery Chili syntax highlighting plugin is incompatible with Firefox 7 and Safari Rev. 6-17-2011.
 
 ---+++ Changes to Store
 
