@@ -52,11 +52,24 @@ sub RcsWrap {
     $class = 'Foswiki::Store::VC::RcsWrapHandler';
 }
 
+sub RcsWrap_coMustCopy {
+    my $this = shift;
+    $this->RcsWrap();
+    $Foswiki::cfg{RCS}{coMustCopy} = 1;
+}
+
 sub fixture_groups {
     my $this   = shift;
-    my $groups = ['RcsLite'];
+    my $groups = [];
 
-    push( @$groups, 'RcsWrap' ) if ( FoswikiStoreTestCase::rcs_is_installed() );
+    push ( @$groups, 'RcsLite' );
+
+    if ( FoswikiStoreTestCase::rcs_is_installed() ) {
+	push( @$groups, 'RcsWrap' );
+	unless ($Foswiki::cfg{RCS}{coMustCopy}) {
+	    push( @$groups, 'RcsWrap_coMustCopy' );
+	}
+    }
 
     return ($groups);
 }
@@ -600,14 +613,14 @@ sub verify_OutOfDate_RevInfo {
     $this->assert_str_equals( 'ThirdUser',    $info->{author} );
     $this->assert_str_equals( 'ThirdComment', $info->{comment} );
 
-    sleep 5;
+    sleep 1;
     open( FH, '>>', "$rcs->{file}" );
     print FH "Modified";
     close FH;
 
     $info = $rcs->getInfo(0);
     my $time1 = "$info->{date}\n";
-    sleep 5;
+    sleep 1;
     $info = $rcs->getInfo(0);
     my $time2 = "$info->{date}\n";
 

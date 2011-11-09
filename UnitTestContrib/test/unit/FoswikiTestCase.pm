@@ -37,7 +37,7 @@ BEGIN {
 #push( @INC, "$ENV{FOSWIKI_HOME}/lib" ) if defined( $ENV{FOSWIKI_HOME} );
 #unshift @INC, '../../bin';    # SMELL: dodgy
     require 'setlib.cfg';
-    $SIG{__DIE__} = sub { Carp::confess $_[0] };
+    $SIG{__DIE__} = sub { my $m = shift; utf8::downgrade( $m ); Carp::confess $m };
 }
 
 our $didOnlyOnceChecks = 0;

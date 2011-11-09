@@ -7,6 +7,12 @@ use warnings;
 
 use Foswiki::Request;
 use Foswiki::Request::Upload;
+use utf8;
+
+our $uniname = 'übermaß_हिंदी';
+
+# http://translate.google.com/#auto|hi|standard
+our $unicomment = 'मानक';
 
 sub set_up {
     my $this = shift;
@@ -52,22 +58,35 @@ sub test_new_from_hash {
     my $this = shift;
     my %init = (
         simple      => 's1',
+        simple_8    => $uniname,
         simple2     => ['s2'],
-        multi       => [qw(m1 m2)],
+        simple2_8   => [$unicomment],
+        multi       => [qw(m1 m2, $uniname)],
         'undef'     => undef,
         multi_undef => [],
     );
     my $req = new Foswiki::Request( \%init );
     $this->assert_str_equals(
-        5,
+        7,
         scalar $req->param(),
         'Wrong number of parameteres'
     );
-    $this->assert_str_equals( 's1', $req->param('simple'),
+    $this->assert_str_equals(
+	's1',
+	$req->param('simple'),
+        'Wrong parameter value' );
+    $this->assert_str_equals(
+	$uniname,
+	$req->param('simple_8'),
         'Wrong parameter value' );
     $this->assert_str_equals(
         's2',
         $req->param('simple2'),
+        'Wrong parameter value'
+    );
+    $this->assert_str_equals(
+        $unicomment,
+        $req->param('simple2_8'),
         'Wrong parameter value'
     );
     $this->assert_str_equals(
@@ -77,8 +96,9 @@ sub test_new_from_hash {
     );
     my @values = $req->param('multi');
     $this->assert_str_equals( 2,    scalar @values, 'Wrong number of values' );
-    $this->assert_str_equals( 'm1', $values[0],     'Wrong parameter value' );
-    $this->assert_str_equals( 'm2', $values[1],     'Wrong parameter value' );
+    $this->assert_str_equals( 'm1', $values[0],     'Wrong parameter 0 value' );
+    $this->assert_str_equals( 'm2', $values[1],     'Wrong parameter 1 value' );
+    $this->assert_str_equals( $uniname, $values[2],     'Wrong parameter 2 value' );
     $this->assert_null( $req->param('undef'), 'Wrong parameter value' );
     @values = $req->param('multi_undef');
     $this->assert_str_equals( 0, scalar @values, 'Wrong parameter value' );
@@ -148,7 +168,7 @@ sub test_method {
 sub test_pathInfo {
     my $this = shift;
     my $req  = new Foswiki::Request("");
-    foreach ( qw(/ /abc /abc/ /abc/def /abc/def/), '' ) {
+    foreach ( '/', '/abc', '/abc/', '/abc/def', '/abc/def/', "/$uniname", '' ) {
         $this->assert_str_not_equals( $_, $req->pathInfo,
             'Wrong initial "pathInfo" value' );
         $req->pathInfo($_);

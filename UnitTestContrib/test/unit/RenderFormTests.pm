@@ -366,9 +366,6 @@ HERE
 sub test_render_for_edit {
     my $this = shift;
 
-    # Force a site charset that will generate _ in the header
-    $Foswiki::cfg{Site}{CharSet} = 'iso-8859-1';
-
     # Switch off compatible anchors
     $Foswiki::cfg{RequireCompatibleAnchors} = 0;
 
