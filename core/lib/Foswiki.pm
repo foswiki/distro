@@ -508,11 +508,16 @@ BEGIN {
          )
        )oxi;
 
-    # Filename regex to used to match invalid characters in attachments
-    # - allow alphanumeric characters, spaces, underscores, etc.
-    # TODO: Get this to work with I18N chars - currently used only
-    # with UseLocale off
-    $regex{filenameInvalidCharRegex} = qr/[^$regex{mixedAlphaNum}\. _-]/o;
+    # Item11185: This is how things were before we began Operation Unicode:
+    #
+    # $regex{filenameInvalidCharRegex} = qr/[^$regex{mixedAlphaNum}\. _-]/o;
+    #
+    # It was only used in Foswiki::Sandbox::sanitizeAttachmentName(), which now
+    # uses $Foswiki::cfg{NameFilter} instead.
+    # See RobustnessTests::test_sanitizeAttachmentName
+    # 
+    # Actually, this is used in GenPDFPrincePlugin; let's copy NameFilter
+    $regex{filenameInvalidCharRegex} = $Foswiki::cfg{NameFilter};
 
     # Multi-character alpha-based regexes
     $regex{mixedAlphaNumRegex} = qr/[$regex{mixedAlphaNum}]*/o;

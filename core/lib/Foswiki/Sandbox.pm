@@ -301,6 +301,7 @@ sub sanitizeAttachmentName {
     # which sends the full original client path when you upload files. See
     # Item2859 and Item2225 before trying again to use File::Spec functions and
     # remember to test with IE.
+    # This should take care of any silly ../ shenanigans
     $fileName =~ s{[\\/]+$}{};  # Get rid of trailing slash/backslash (unlikely)
     $fileName =~ s!^.*[\\/]!!;  # Get rid of leading directory components
 
@@ -309,16 +310,9 @@ sub sanitizeAttachmentName {
     # Change spaces to underscore
     $fileName =~ s/ /_/go;
 
-    if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/i ) {
-
-        # Filter out only if using locales.
-        $fileName =~ s/$Foswiki::cfg{NameFilter}//go;
-    }
-    else {
-
-        # No I18N, filter out invalid chars
-        $fileName =~ s/$Foswiki::regex{filenameInvalidCharRegex}//go;
-    }
+    # See Foswiki.pm filenameInvalidCharRegex definition and/or Item11185
+    #$fileName =~ s/$Foswiki::regex{filenameInvalidCharRegex}//go;
+    $fileName =~ s/$Foswiki::cfg{NameFilter}//go;
 
     # Append .txt to some files
     $fileName =~ s/$Foswiki::cfg{UploadFilter}/$1\.txt/goi;
