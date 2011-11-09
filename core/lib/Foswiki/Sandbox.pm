@@ -499,15 +499,16 @@ sub sysCommand {
     my $path  = $1;
     my $pTmpl = $2;
     my $cmd;
+
     # Writing to a cache file is the only way I can find of redirecting
     # STDERR.
 
     # Note:  Use of the file handle $fh returned here would be safer than
     # using the file name. But it is less portable, so filename wil have to do.
-    my ( $fh, $stderrCache  ) = tempfile(
-     "STDERR.$$.XXXXXXXXXX",
-     DIR    => "$Foswiki::cfg{WorkingDir}/tmp",
-     UNLINK => 0
+    my ( $fh, $stderrCache ) = tempfile(
+        "STDERR.$$.XXXXXXXXXX",
+        DIR    => "$Foswiki::cfg{WorkingDir}/tmp",
+        UNLINK => 0
     );
     close $fh;
 
@@ -648,11 +649,12 @@ sub sysCommand {
         if (   ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' )
             && ( length($cmd) > 8191 ) )
         {
-            #heck, on pre WinXP its only 2048 - http://support.microsoft.com/kb/830473
+
+      #heck, on pre WinXP its only 2048 - http://support.microsoft.com/kb/830473
             print STDERR
               "WARNING: Sandbox::sysCommand commandline probably too long ("
               . length($cmd) . ")\n";
-            ASSERT(length($cmd) < 8191) if DEBUG;
+            ASSERT( length($cmd) < 8191 ) if DEBUG;
         }
 
         open( my $oldStderr, '>&STDERR' ) || die "Can't steal STDERR: $!";
@@ -684,10 +686,10 @@ sub sysCommand {
     }
 
     my $stderr;
-    if ( open( $handle, '<', $stderrCache )) {
+    if ( open( $handle, '<', $stderrCache ) ) {
         local $/;
         $stderr = <$handle>;
-        close( $handle );
+        close($handle);
     }
     unlink($stderrCache);
 

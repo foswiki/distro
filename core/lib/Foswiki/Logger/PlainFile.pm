@@ -87,7 +87,8 @@ sub log {
     # way for any encoding, not just utf8. Babar says: check what Catalyst does.
     if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/ ) {
         $mode .= ":encoding($Foswiki::cfg{Site}{CharSet})";
-    } elsif ( utf8::is_utf8($message) ) {
+    }
+    elsif ( utf8::is_utf8($message) ) {
         require Encode;
         $message = Encode::encode( $Foswiki::cfg{Site}{CharSet}, $message, 0 );
     }

@@ -480,11 +480,12 @@ BEGIN {
     # Email regex, e.g. for WebNotify processing and email matching
     # during rendering.
 
-    my $emailAtom = qr([A-Z0-9\Q!#\$%&'*+-/=?^_`{|}~\E])i;     # Per RFC 5322
+    my $emailAtom = qr([A-Z0-9\Q!#\$%&'*+-/=?^_`{|}~\E])i;    # Per RFC 5322
 
     # Valid TLD's at http://data.iana.org/TLD/tlds-alpha-by-domain.txt
     # Version 2011083000, Last Updated Tue Aug 30 14:07:02 2011 UTC
-    my $validTLD = qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
+    my $validTLD =
+qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
 
     $regex{emailAddrRegex} = qr(
        (?:                            # LEFT Side of Email address
@@ -517,7 +518,7 @@ BEGIN {
     # It was only used in Foswiki::Sandbox::sanitizeAttachmentName(), which now
     # uses $Foswiki::cfg{NameFilter} instead.
     # See RobustnessTests::test_sanitizeAttachmentName
-    # 
+    #
     # Actually, this is used in GenPDFPrincePlugin; let's copy NameFilter
     $regex{filenameInvalidCharRegex} = $Foswiki::cfg{NameFilter};
 
@@ -2175,7 +2176,10 @@ sub logEvent {
         my $agent = $cgiQuery->user_agent();
         if ($agent) {
             $extra .= ' ' if $extra;
-            if ( $agent =~ /(MSIE 6|MSIE 7|MSIE 8|MSI 9|Firefox|Opera|Konqueror|Chrome|Safari)/ ) {
+            if ( $agent =~
+/(MSIE 6|MSIE 7|MSIE 8|MSI 9|Firefox|Opera|Konqueror|Chrome|Safari)/
+              )
+            {
                 $extra .= $1;
             }
             else {
