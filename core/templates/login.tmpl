@@ -67,7 +67,7 @@
 %TMPL:DEF{"submit"}%<input tabindex='4' type='submit' class='foswikiSubmit' value='%MAKETEXT{"Logon"}%' />%TMPL:END%
 
 %{ please keep the spaces between the div and the TMPL seealsonote, it allows Foswiki to process the emailaddress }%
-%TMPL:DEF{"seealsostep"}%<div class="foswikiFormStep"><p class="foswikiGrayText">%TMPL:P{"seealsonote"}%</p></div>%TMPL:END%
+%TMPL:DEF{"seealsostep"}%<div class="foswikiFormStep"><p class="foswikiGrayText">%TMPL:P{"seealsonote"}% </p></div>%TMPL:END%
 
 %TMPL:DEF{"seealsonote"}%%MAKETEXT{"If you have any questions, please contact [_1]" args="%IF{"defined WIKIWEBMASTER AND $WIKIWEBMASTER != ''" then="%WIKIWEBMASTER%" else="your Wiki administrator"}%"}%%TMPL:END%
 
