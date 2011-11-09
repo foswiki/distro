@@ -645,8 +645,8 @@ $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 $Foswiki::cfg{UploadFilter} = qr/^(\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]htm[l]?(\..*)?|pl|py|cgi))$/;
 
 # **REGEX EXPERT**
-# Filter-out regex for webnames, topic names, usernames, include paths
-# and skin names. This is a filter <b>out</b>, so if any of the
+# Filter-out regex for webnames, topic names, file attachment names, usernames,
+# include paths and skin names. This is a filter <b>out</b>, so if any of the
 # characters matched by this expression are seen in names, they will be
 # removed.
 $Foswiki::cfg{NameFilter} = qr/[\s\*?~^\$@%`"'&;|<>\[\]#\x00-\x1f]/;
