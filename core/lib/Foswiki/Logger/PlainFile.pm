@@ -85,7 +85,9 @@ sub log {
 
     # Item10764, SMELL UNICODE: actually, perhaps we should open the stream this
     # way for any encoding, not just utf8. Babar says: check what Catalyst does.
-    if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/ ) {
+    if (   $Foswiki::cfg{Site}{CharSet}
+        && $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/ )
+    {
         $mode .= ":encoding($Foswiki::cfg{Site}{CharSet})";
     }
     elsif ( utf8::is_utf8($message) ) {
