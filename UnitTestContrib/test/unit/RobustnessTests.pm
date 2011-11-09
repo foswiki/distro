@@ -133,6 +133,40 @@ sub test_sanitizeAttachmentName {
     $this->assert_str_equals( "abc", _shittify("//abc") );
     $this->assert_str_equals( "abc", _shittify("\\\\abc") );
 
+    # Check that "certain characters" are munched
+    my $crap = '';
+    for ( 0 .. 255 ) {
+        my $c = chr($_);
+        $crap .= $c if $c =~ /$Foswiki::cfg{NameFilter}/;
+    }
+
+    #$this->assert_num_equals(80, length($crap));
+    $this->assert_num_equals( 51, length($crap) );
+    my $x = $crap =~ / / ? '_' : '';
+    $this->assert_str_equals( "pick_me${x}pick_me",
+        _shittify("pick me${crap}pick me") );
+    my %junkset = (
+        '<script>'       => 'script',
+        '%3cscript%3e'   => '3cscript3e',
+        '&lt;script&gt;' => 'ltscriptgt',
+        '"foo"'          => 'foo',
+        "'foo'"          => 'foo',
+        "foo\x00foo"     => 'foofoo',          # C0 Control
+        "foo\x10foo"     => 'foofoo',          # C0 Control
+        "foo\x1ffoo"     => 'foofoo',          # C0 Control
+        "\xe2cret\xe9"   => "\xe2cret\xe9",    # cf. acrete - 'âcreté'
+        '片仮名'      => '片仮名',
+        'var a = { b : !(1 - 2 + 3) };' => 'var_a_=_{_b_:_!(1_-_2_+_3)_}',
+
+        #'var a = { b : !(1 - 2 + 3) };' => 'var_a___b_:_1__2__3_',
+        #"foo\x7ffoo" => 'foofoo', # C1 Control
+        #"foo\x8ffoo" => 'foofoo', # C1 Control
+        #"foo\x9ffoo" => 'foofoo', # C1 Control
+    );
+    while ( my ( $junk, $filtered ) = each %junkset ) {
+        $this->assert_str_equals( $filtered, _shittify($junk) );
+    }
+
     # Check that the upload filter is applied.
     $Foswiki::cfg{UploadFilter} = qr(^(
              \.htaccess
@@ -181,6 +215,7 @@ sub test_sanitizeAttachmentNama_unicode {
         'Our attachment name string doesn\'t have utf8 flag set' );
     my $query;
 
+    $Foswiki::cfg{Site}{CharSet} = 'utf-8';
     require Unit::Request;
     $query = Unit::Request->new("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");

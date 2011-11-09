@@ -2406,11 +2406,11 @@ sub test_unicode_attachment {
     my $unicomment = 'मानक';
     $this->assert( utf8::is_utf8($uniname),
         'Our attachment name string doesn\'t have utf8 flag set' );
-
     my $query;
     my $data = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $stream;
 
+    $Foswiki::cfg{Site}{CharSet} = 'utf-8';
     require Unit::Request;
     $query = Unit::Request->new("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
