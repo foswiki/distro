@@ -75,12 +75,13 @@ sub log {
 
     my $file;
     my $mode = '>>';
-    
+
     # Item10764, SMELL UNICODE: actually, perhaps we should open the stream this
     # way for any encoding, not just utf8. Babar says: check what Catalyst does.
     if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/ ) {
         $mode .= ":encoding($Foswiki::cfg{Site}{CharSet})";
-    } elsif ( utf8::is_utf8($message) ) {
+    }
+    elsif ( utf8::is_utf8($message) ) {
         require Encode;
         $message = Encode::encode( $Foswiki::cfg{Site}{CharSet}, $message, 0 );
     }
@@ -224,15 +225,17 @@ sub _getLogForLevel {
     my $defaultLogDir = '';
     $defaultLogDir = "$Foswiki::cfg{DataDir}/" if $Foswiki::cfg{DataDir};
     if ( $level eq 'debug' ) {
-        $log = $Foswiki::cfg{DebugFileName} || $defaultLogDir.'debug%DATE%.txt';
+        $log = $Foswiki::cfg{DebugFileName}
+          || $defaultLogDir . 'debug%DATE%.txt';
     }
     elsif ( $level eq 'info' ) {
-        $log = $Foswiki::cfg{LogFileName} || $defaultLogDir.'log%DATE%.txt';
+        $log = $Foswiki::cfg{LogFileName} || $defaultLogDir . 'log%DATE%.txt';
     }
     else {
         ASSERT( $level =~ /^(warning|error|critical|alert|emergency)$/ )
           if DEBUG;
-        $log = $Foswiki::cfg{WarningFileName} || $defaultLogDir.'warn%DATE%.txt';
+        $log = $Foswiki::cfg{WarningFileName}
+          || $defaultLogDir . 'warn%DATE%.txt';
     }
 
     # SMELL: Expand should not be needed, except if bin/configure tries
