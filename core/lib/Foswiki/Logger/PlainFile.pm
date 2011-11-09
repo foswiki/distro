@@ -3,6 +3,7 @@ package Foswiki::Logger::PlainFile;
 
 use strict;
 use warnings;
+use utf8;
 use Assert;
 
 use Foswiki::Logger ();
@@ -80,7 +81,17 @@ sub log {
       '| ' . join( ' | ', map { s/\|/&vbar;/g; $_ } @fields ) . ' |';
 
     my $file;
-    if ( open( $file, '>>', $log ) ) {
+    my $mode = '>>';
+
+    # Item10764, SMELL UNICODE: actually, perhaps we should open the stream this
+    # way for any encoding, not just utf8. Babar says: check what Catalyst does.
+    if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/ ) {
+        $mode .= ":encoding($Foswiki::cfg{Site}{CharSet})";
+    } elsif ( utf8::is_utf8($message) ) {
+        require Encode;
+        $message = Encode::encode( $Foswiki::cfg{Site}{CharSet}, $message, 0 );
+    }
+    if ( open( $file, $mode, $log ) ) {
         print $file "$message\n";
         close($file);
     }
