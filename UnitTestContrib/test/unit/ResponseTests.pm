@@ -43,7 +43,8 @@ sub test_empty_new {
 
     $this->assert_null( $res->status, 'Non-empty initial status' ) if not DEBUG;
     $this->assert_null( $res->body, 'Non-empty initial body' );
-    $this->assert_matches( 'iso-8859-1', $res->charset,
+    $this->assert_matches( $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1',
+        $res->charset,
         'Bad default initial charset: ' . ( $res->charset || 'undef' ) );
 
     my @cookies = $res->cookies();

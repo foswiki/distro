@@ -92,6 +92,37 @@ sub _shittify {
     return $a;
 }
 
+=begin TML
+ Item11185: This is how things were before we began Operation Unicode:
+
+$regex{filenameInvalidCharRegex} = qr/[^$regex{mixedAlphaNum}\. _-]/o;
+
+ Then devised, using the notes above (and subsequently abandoned for NameFilter):
+
+$regex{filenameInvalidCharRegex} = qr/[-%'";!\+=<>&{\(\)}\x00-\x1f\x7f-\x9f]/o;
+
+ UNICODE: "What's a character?" ... strip control characters. Probably
+          don't need to strip layout chars. No attempt w/confusing chars.
+          Let's all pretend to be experts:
+    * http://www.unicode.org/faq/security.html
+    * http://unicode.org/uni2book/ch13.pdf - C0 & C1 control codes
+    * http://unicode.org/reports/tr36/ - Unicode Security Considerations
+    * http://unicode.org/reports/tr39/ - Unicode Security Mechanismsa
+       http://www.unicode.org/reports/tr39/#idmod is an impressive black &
+       white-list of character ranges recommended to be restricted from use
+       in "identifiers" (in a w3c sense?)
+    * http://tools.ietf.org/html/draft-ietf-syslog-protocol-23#section-8.1
+
+ XSS: Filter characters that might be useful for XSS.
+    * http://ha.ckers.org/xss.html
+    * http://support.microsoft.com/kb/252985
+    * http://tldp.org/HOWTO/Secure-Programs-HOWTO/cross-site-malicious-content.html
+
+ SMELL: Commented out parts of tests that assume we're filtering C1 control
+ codes 0x7f-0x9f. I'm not sure if this range is used for legit printable chars
+ in some weird charset out there
+=cut
+
 sub test_sanitizeAttachmentName {
     my $this = shift;
 
@@ -104,24 +135,37 @@ sub test_sanitizeAttachmentName {
 
     # Check that "certain characters" are munched
     my $crap = '';
-    $Foswiki::cfg{UseLocale} = 0;
-    for ( 0 .. 255 ) {
-        my $c = chr($_);
-        $crap .= $c if $c =~ /$Foswiki::regex{filenameInvalidCharRegex}/;
-    }
-    my $x = $crap =~ / / ? '_' : '';
-    $this->assert_str_equals( "pick_me${x}pick_me",
-        _shittify("pick me${crap}pick me") );
-
-    $crap = '';
-    $Foswiki::cfg{UseLocale} = 1;
     for ( 0 .. 255 ) {
         my $c = chr($_);
         $crap .= $c if $c =~ /$Foswiki::cfg{NameFilter}/;
     }
-    $x = $crap =~ / / ? '_' : '';
+
+    #$this->assert_num_equals(80, length($crap));
+    $this->assert_num_equals( 51, length($crap) );
+    my $x = $crap =~ / / ? '_' : '';
     $this->assert_str_equals( "pick_me${x}pick_me",
         _shittify("pick me${crap}pick me") );
+    my %junkset = (
+        '<script>'       => 'script',
+        '%3cscript%3e'   => '3cscript3e',
+        '&lt;script&gt;' => 'ltscriptgt',
+        '"foo"'          => 'foo',
+        "'foo'"          => 'foo',
+        "foo\x00foo"     => 'foofoo',          # C0 Control
+        "foo\x10foo"     => 'foofoo',          # C0 Control
+        "foo\x1ffoo"     => 'foofoo',          # C0 Control
+        "\xe2cret\xe9"   => "\xe2cret\xe9",    # cf. acrete - 'âcreté'
+        '片仮名'      => '片仮名',
+        'var a = { b : !(1 - 2 + 3) };' => 'var_a_=_{_b_:_!(1_-_2_+_3)_}',
+
+        #'var a = { b : !(1 - 2 + 3) };' => 'var_a___b_:_1__2__3_',
+        #"foo\x7ffoo" => 'foofoo', # C1 Control
+        #"foo\x8ffoo" => 'foofoo', # C1 Control
+        #"foo\x9ffoo" => 'foofoo', # C1 Control
+    );
+    while ( my ( $junk, $filtered ) = each %junkset ) {
+        $this->assert_str_equals( $filtered, _shittify($junk) );
+    }
 
     # Check that the upload filter is applied.
     $Foswiki::cfg{UploadFilter} = qr(^(
