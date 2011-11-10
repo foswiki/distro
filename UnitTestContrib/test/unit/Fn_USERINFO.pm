@@ -4,10 +4,11 @@ use strict;
 
 package Fn_USERINFO;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use Foswiki;
+use Foswiki();
+use Foswiki::Func();
 use Error qw( :try );
 
 sub new {
@@ -19,10 +20,21 @@ sub new {
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up(@_);
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{users_web}, "GropeGroup",
-        "   * Set GROUP = ScumBag,WikiGuest\n" );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, "GropeGroup");
+    $topicObject->text("   * Set GROUP = ScumBag,WikiGuest\n" );
     $topicObject->save();
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, "FriendsOfGropeGroup");
+    $topicObject->text("   * Set GROUP = AdminUser, GropeGroup\n" );
+    $topicObject->save();
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, "FriendsOfFriendsOfGropeGroup");
+    $topicObject->text("   * Set GROUP = AdminUser, FriendsOfGropeGroup\n" );
+    $topicObject->save();
+    $topicObject->finish();
 }
 
 sub test_basic {
@@ -60,28 +72,64 @@ sub test_withLogin {
 
 sub test_formatted {
     my $this = shift;
-    my $testformat = 'W$wikiusernameU$wikinameN$usernameE$emailsG$groupsE';
+    my $testformat =
+'W$wikiusernameU$wikinameN$usernameE$emailsG$groupsA$adminIA$isadminIG$isgroupE$bogustoken nop$nopnop $percent $quot $comma$n$n()ewline $lt $gt $amp $dollar';
 
     $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
-    my $ui =
-      $this->{test_topicObject}->expandMacros(<<"HERE");
+    my $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
 %USERINFO{"ScumBag" format="$testformat"}%
 HERE
-    chomp($ui);
-    $this->assert_str_equals(
-"W$Foswiki::cfg{UsersWebName}.ScumBagUScumBagNscumEscumbag\@example.comGGropeGroupE",
-        $ui
-    );
+    $this->assert_str_equals( <<"HERE", $ui );
+W$Foswiki::cfg{UsersWebName}.ScumBagUScumBagNscumEscumbag\@example.comGFriendsOfFriendsOfGropeGroup, FriendsOfGropeGroup, GropeGroupAfalseIAfalseIGfalseE\$bogustoken nopnop % " ,
 
-    my $guest_ui =
-      $this->{test_topicObject}->expandMacros(<<"HERE");
+ewline < > & \$
+HERE
+
+    my $guest_ui = $this->{test_topicObject}->expandMacros(<<"HERE");
 %USERINFO{"WikiGuest" format="$testformat"}%
 HERE
-    chomp($guest_ui);
-    $this->assert_str_equals(
-"WTemporaryUSERINFOUsersWeb.WikiGuestUWikiGuestNguestEGBaseGroup, GropeGroupE",
-        $guest_ui
-    );
+    $this->assert_str_equals( <<"HERE", $guest_ui );
+W$Foswiki::cfg{UsersWebName}.WikiGuestUWikiGuestNguestEGBaseGroup, FriendsOfFriendsOfGropeGroup, FriendsOfGropeGroup, GropeGroupAfalseIAfalseIGfalseE\$bogustoken nopnop % " ,
+
+ewline < > & \$
+HERE
+
+    return;
+}
+
+sub test_isgroup {
+    my $this = shift;
+    my $testformat =
+'W$wikiusernameU$wikinameN$usernameE$emailsG$groupsA$adminIA$isadminIG$isgroupE';
+
+    $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
+    my $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+%USERINFO{"FriendsOfFriendsOfGropeGroup" format="$testformat"}%
+HERE
+    $this->assert_str_equals( <<"HERE", $ui );
+W$Foswiki::cfg{UsersWebName}.FriendsOfFriendsOfGropeGroupUFriendsOfFriendsOfGropeGroupNunknownEscumbag\@example.comGAfalseIAfalseIGtrueE
+HERE
+
+    return;
+}
+
+sub test_isadmin {
+    my $this = shift;
+    my $testformat =
+'W$wikiusernameU$wikinameN$usernameE$emailsG$groupsA$adminIA$isadminIG$isgroupE';
+
+    $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
+    my $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+%USERINFO{"$Foswiki::cfg{AdminUserWikiName}" format="$testformat"}%
+HERE
+    my $adminEmail = $Foswiki::cfg{WebMasterEmail} || '';
+    my $adminusername =
+      Foswiki::Func::wikiToUserName( $Foswiki::cfg{AdminUserWikiName} );
+    $this->assert_str_equals( <<"HERE", $ui );
+W$Foswiki::cfg{UsersWebName}.$Foswiki::cfg{AdminUserWikiName}U$Foswiki::cfg{AdminUserWikiName}N${adminusername}E${adminEmail}GAdminGroup, BaseGroup, FriendsOfFriendsOfGropeGroup, FriendsOfGropeGroupAtrueIAtrueIGfalseE
+HERE
+
+    return;
 }
 
 1;
