@@ -18,15 +18,8 @@ my %USERINFO_tokens = (
     # Item2466: There is some usage of this undocumented token in VariableTests
     cUID => sub {
         my ($this, $user) = @_;
-        my $cuid;
 
-        if ($this->{users}->isGroup($user)) {
-            $cuid = '';
-        } else {
-            $cuid = $user;
-        }
-
-        return $cuid;
+        return $user;
     },
     wikiname => sub {
         my ( $this, $user ) = @_;
