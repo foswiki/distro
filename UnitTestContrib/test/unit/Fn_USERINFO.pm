@@ -60,23 +60,26 @@ sub test_withLogin {
 
 sub test_formatted {
     my $this = shift;
+    my $testformat = 'W$wikiusernameU$wikinameN$usernameE$emailsG$groupsE';
 
     $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
     my $ui =
-      $this->{test_topicObject}->expandMacros(
-'%USERINFO{"ScumBag" format="W$wikiusernameU$wikinameE$emailsG$groupsE"}%'
-      );
+      $this->{test_topicObject}->expandMacros(<<"HERE");
+%USERINFO{"ScumBag" format="$testformat"}%
+HERE
+    chomp($ui);
     $this->assert_str_equals(
-"W$Foswiki::cfg{UsersWebName}.ScumBagUScumBagEscumbag\@example.comGGropeGroupE",
+"W$Foswiki::cfg{UsersWebName}.ScumBagUScumBagNscumEscumbag\@example.comGGropeGroupE",
         $ui
     );
 
     my $guest_ui =
-      $this->{test_topicObject}->expandMacros(
-'%USERINFO{"WikiGuest" format="W$wikiusernameU$wikinameE$emailsG$groupsE"}%'
-      );
+      $this->{test_topicObject}->expandMacros(<<"HERE");
+%USERINFO{"WikiGuest" format="$testformat"}%
+HERE
+    chomp($guest_ui);
     $this->assert_str_equals(
-"WTemporaryUSERINFOUsersWeb.WikiGuestUWikiGuestEGBaseGroup, GropeGroupE",
+"WTemporaryUSERINFOUsersWeb.WikiGuestUWikiGuestNguestEGBaseGroup, GropeGroupE",
         $guest_ui
     );
 }
