@@ -3,19 +3,95 @@ package Foswiki;
 
 use strict;
 use warnings;
+use Assert;
+
+my %USERINFO_tokens = (
+    username => sub {
+        my ( $this, $user ) = @_;
+        my $username = $this->{users}->getLoginName($user);
+
+        $username = 'unknown' unless defined $username;
+
+        return $username;
+    },
+    wikiname => sub {
+        my ( $this, $user ) = @_;
+        my $wikiname = $this->{users}->getWikiName($user);
+
+        $wikiname = 'UnknownUser' unless defined $wikiname;
+
+        return $wikiname;
+    },
+    wikiusername => sub {
+        my ( $this, $user ) = @_;
+        my $wikiusername = $this->{users}->webDotWikiName($user);
+
+        $wikiusername = "$Foswiki::cfg{UsersWebName}.UnknownUser"
+          unless defined $wikiusername;
+
+        return $wikiusername;
+    },
+    emails => sub {
+        my ( $this, $user ) = @_;
+
+        return join( ', ', $this->{users}->getEmails($user) );
+    },
+    groups => sub {
+        my ( $this, $user ) = @_;
+        my @groupNames;
+        my $it = $this->{users}->eachMembership($user);
+
+        while ( $it->hasNext() ) {
+            my $group = $it->next();
+            push( @groupNames, $group );
+        }
+
+        return join( ', ', @groupNames );
+    },
+
+   # Item2466: $admin was re-documented as $isadmin November 2011, do not remove
+    admin => sub {
+        my ( $this, $user ) = @_;
+
+        return $this->{users}->isAdmin($user) ? 'true' : 'false';
+    },
+
+    # Item2466: $isadmin & $isgroup added November 2011
+    isadmin => sub {
+        my ( $this, $user ) = @_;
+
+        return $this->{users}->isAdmin($user) ? 'true' : 'false';
+    },
+    isgroup => sub {
+        my ( $this, $user ) = @_;
+
+        return $this->{users}->isGroup($user) ? 'true' : 'false';
+    }
+);
+my $USERINFO_tokenregex = join( '|', keys %USERINFO_tokens );
 
 sub USERINFO {
     my ( $this, $params ) = @_;
     my $format = $params->{format} || '$username, $wikiusername, $emails';
-
-    my $user = $this->{user};
+    my $user   = $this->{user};
+    my $info   = $format;
 
     if ( $params->{_DEFAULT} ) {
         $user = $params->{_DEFAULT};
         return '' if !$user;
 
         # map wikiname to a login name
-        $user = $this->{users}->getCanonicalUserID($user);
+        my $cuid = $this->{users}->getCanonicalUserID($user);
+        if ( !$cuid ) {
+
+            # Failed to get a cUID: if it's a group, leave $user alone
+            if ( !$this->{users}->isGroup($user) ) {
+                return '';
+            }
+        }
+        else {
+            $user = $cuid;
+        }
         return '' unless $user;
         return ''
           if ( $Foswiki::cfg{AntiSpam}{HideUserDetails}
@@ -25,55 +101,28 @@ sub USERINFO {
 
     return '' unless $user;
 
-    my $info = $format;
-
-    if ( $info =~ /\$username/ ) {
-        my $username = $this->{users}->getLoginName($user);
-        $username = 'unknown' unless defined $username;
-        $info =~ s/\$username/$username/g;
-    }
-    if ( $info =~ /\$wikiname/ ) {
-        my $wikiname = $this->{users}->getWikiName($user);
-        $wikiname = 'UnknownUser' unless defined $wikiname;
-        $info =~ s/\$wikiname/$wikiname/g;
-    }
-    if ( $info =~ /\$wikiusername/ ) {
-        my $wikiusername = $this->{users}->webDotWikiName($user);
-        $wikiusername = "$Foswiki::cfg{UsersWebName}.UnknownUser"
-          unless defined $wikiusername;
-        $info =~ s/\$wikiusername/$wikiusername/g;
-    }
-    if ( $info =~ /\$emails/ ) {
-        my $emails = join( ', ', $this->{users}->getEmails($user) );
-        $info =~ s/\$emails/$emails/g;
-    }
-    if ( $info =~ /\$groups/ ) {
-        my @groupNames;
-        my $it = $this->{users}->eachMembership($user);
-        while ( $it->hasNext() ) {
-            my $group = $it->next();
-            push( @groupNames, $group );
-        }
-        my $groups = join( ', ', @groupNames );
-        $info =~ s/\$groups/$groups/g;
-    }
-    if ( $info =~ /\$cUID/ ) {
-        my $cUID = $user;
-        $info =~ s/\$cUID/$cUID/g;
-    }
-    if ( $info =~ /\$admin/ ) {
-        my $admin = $this->{users}->isAdmin($user) ? 'true' : 'false';
-        $info =~ s/\$admin/$admin/g;
-    }
+    $info =~ s/\$($USERINFO_tokenregex)/$this->_USERINFO_token($1, $user)/ge;
+    $info = Foswiki::expandStandardEscapes($info);
 
     return $info;
+}
+
+sub _USERINFO_token {
+    my ( $this, $token, $user ) = @_;
+
+    ASSERT($token) if DEBUG;
+    ASSERT( ref( $USERINFO_tokens{$token} ) eq 'CODE',
+        "No code for token '$token'" )
+      if DEBUG;
+
+    return $USERINFO_tokens{$token}->( $this, $user );
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

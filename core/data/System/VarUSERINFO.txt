@@ -1,18 +1,31 @@
 %META:TOPICINFO{author="ProjectContributor" date="1284905045" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarUSERINFO
----+++ USERINFO{"name"} -- retrieve details about a user
+---+++ USERINFO{"name" format=""} -- retrieve details about a user
    * Syntax: =%<nop>USERINFO%=
-   * Expands to: <code>%USERINFO%</code> (comma-separated list of the username, wikiusername, and emails)
-   * With formatted output, using tokens =$emails=, =$username=, =$wikiname=, =$wikiusername=, =$groups= and =$admin= ($admin returns 'true' or 'false'):
-      * Example: <verbatim class="tml">%USERINFO{ format="$username is really $wikiname" }%</verbatim>
-      * Expands to: =%USERINFO{ format="$username is really !$wikiname" }%=
-   * Retrieve information about another user:
-      * Example: <verbatim class="tml">%USERINFO{ "WikiGuest" format="$username is really $wikiname" }%</verbatim>
-      * Expands to: <code>%USERINFO{ "WikiGuest" format="$username is really !$wikiname" }%</code>
-      %IF{
-        "{AntiSpam}{HideUserDetails} AND NOT '%WIKIUSER%' ingroup 'AdminGroup'"
-        then="<blockquote class='foswikiHelp'>$percentT$percent You need to be a member of %USERSWEB%.AdminGroup for the =USERINFO= macro to provide details about other users</blockquote>"
-      }%<blockquote class="foswikiHelp">%H% The parameter should be the wikiname of a user. You can also pass a login name. You can only get information about another user if the ={AntiSpam}{HideUserDetails}= configuration option is not enabled, or if you are an admin. %IF{"{AntiSpam}{HideUserDetails}" then=" _(User details are hidden in this site)_ "}%</blockquote>
+   * Expands to: <code><literal>%USERINFO%</literal></code> (lists =$username, $wikiusername, $emails=)
+   * Supported parameters:
+      * ="name"= - Wikiname or login name. May be a group. Defaults to the current user
+      * =format="..."= - Format string; see below for supported formatting tokens. Defaults to =$username, $wikiusername, $emails=
+         * =$emails= - Comma separated list of email addresses known to the user mapper (this would normally be TopicUserMappingContrib). If expanding for a group, then this will be the email addresses of all members.
+         * =$username= - Login name. If expanding for a group, this should expand as =unknown=.
+         * =$wikiname=, =$wikiusername= - Wikiname and =%USERSWEB%.Wikiname=, respectively.
+         * =$groups= - Comma separated list of group membership. Currently only expands for users.
+         * =$isadmin= - Has admin privileges (expands to =true= or =false=).
+         * =$isgroup= - Is a group (expands to =true= or =false=).
+         * The [[FormatTokens][standard format tokens]] are also supported.
+   * Examples
+      * With formatted output, using tokens:
+         <verbatim class="tml">%USERINFO{ format="$username is really $wikiname" }%</verbatim>
+         Expands to: =%USERINFO{ format="$username is really !$wikiname" }%=
+      * Retrieve information about another user:
+         <verbatim class="tml">%USERINFO{ "WikiGuest" format="$username is really $wikiname" }%</verbatim>
+         Expands to: <code>%USERINFO{ "WikiGuest" format="$username is really !$wikiname" }%</code>
+         %IF{
+           "{AntiSpam}{HideUserDetails} AND NOT '%WIKIUSER%' ingroup 'AdminGroup'"
+           then="<blockquote class='foswikiHelp'>$percentT$percent You need to be a member of %USERSWEB%.AdminGroup for the =USERINFO= macro to display details about other users</blockquote>"
+         }%
+   * Notes
+   <blockquote class="foswikiHelp">%H% Use wikinames when specifying a =name=. You can also pass a login name. You can only see information about another user if you are an admin, or the ={AntiSpam}{HideUserDetails}= configuration option is not enabled. %IF{"{AntiSpam}{HideUserDetails}" then=" _(User details are hidden on this site)_ "}%</blockquote>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERNAME][USERNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKINAME][WIKINAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIUSERNAME][WIKIUSERNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGROUPINFO][GROUPINFO]], UserAuthentication, ChangeEmailAddress
 <!--%JQREQUIRE{"chili"}%-->
