@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-03-30 23:40+0200\n"
+"PO-Revision-Date: 2011-11-09 15:40+0200\n"
 "Last-Translator: Raul F Rodriguez <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -44,9 +44,8 @@ msgid "%1"
 msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "%1 (default)"
-msgstr "(supprimer)"
+msgstr "%1 (défaut)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -308,9 +307,8 @@ msgid "(raw view)"
 msgstr "(code source)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
-#, fuzzy
 msgid "(redirect denied)"
-msgstr "(accès refusé)"
+msgstr "(redirection refusée)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -458,35 +456,35 @@ msgstr "..."
 
 #: core/data/System/SiteChanges.txt:15
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 heure"
 
 #: core/data/System/SiteChanges.txt:20
 msgid "1 week ago"
-msgstr ""
+msgstr "1 semaine"
 
 #: core/data/System/SiteChanges.txt:17
 msgid "12 hours ago"
-msgstr ""
+msgstr "12 heures"
 
 #: core/data/System/SiteChanges.txt:21
 msgid "2 weeks ago"
-msgstr ""
+msgstr "2 semaines"
 
 #: core/data/System/SiteChanges.txt:18
 msgid "24 hours ago"
-msgstr ""
+msgstr "24 heures"
 
 #: core/data/System/SiteChanges.txt:19
 msgid "3 days ago"
-msgstr ""
+msgstr "3 jours"
 
 #: core/data/System/SiteChanges.txt:22
 msgid "4 weeks ago"
-msgstr ""
+msgstr "4 semaines"
 
 #: core/data/System/SiteChanges.txt:16
 msgid "6 hours ago"
-msgstr ""
+msgstr "6 heures"
 
 #: core/data/System/WebChanges.txt:9
 msgid ""
@@ -602,9 +600,8 @@ msgid "Action %1: %2."
 msgstr "Action %1 : %2."
 
 #: core/data/Main/WikiGroups.txt:64
-#, fuzzy
 msgid "Actions"
-msgstr "Action"
+msgstr "Actions"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 msgid "Add"
@@ -615,14 +612,12 @@ msgid "Add form"
 msgstr "Ajouter formulaire"
 
 #: core/data/Main/GroupViewTemplate.txt:239
-#, fuzzy
 msgid "Add members"
-msgstr "Ajouter membre"
+msgstr "Ajouter membres"
 
 #: core/data/Main/GroupViewTemplate.txt:170
-#, fuzzy
 msgid "Add members..."
-msgstr "Ajouter membre..."
+msgstr "Ajouter membres..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
@@ -630,14 +625,12 @@ msgid "Add row"
 msgstr "Ajouter une ligne"
 
 #: core/data/Main/GroupViewTemplate.txt:217
-#, fuzzy
 msgid "Add user management options to this topic."
-msgstr "Modifier les paramètres de cette page..."
+msgstr "Ajouter des paramètres de gestion utilisateur à cette page."
 
 #: core/data/Main/GroupViewTemplate.txt:235
-#, fuzzy
 msgid "Add users or groups to this group"
-msgstr "Ajouter un utilisateur ou un groupe à ce groupe"
+msgstr "Ajouter des utilisateurs ou groupes à ce groupe"
 
 #: core/templates/messages.tmpl:373
 msgid "Adding a %1 preference in WebPreferences"
@@ -2053,7 +2046,6 @@ msgid "Last editor"
 msgstr "Dernier auteur"
 
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Last modified"
 msgstr "Dernière modification"
 
@@ -2110,7 +2102,7 @@ msgstr "Déconnexion"
 
 #: core/data/Main/GroupViewTemplate.txt:127
 msgid "Log in to continue."
-msgstr ""
+msgstr "Connectez-vous pour continuer."
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
@@ -2139,7 +2131,7 @@ msgstr "Chercher :"
 
 #: core/data/System/SiteChanges.txt:54
 msgid "Maximum %1 items per web"
-msgstr ""
+msgstr "%1 résultats maximum par web"
 
 #: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
@@ -2279,17 +2271,15 @@ msgstr "Nouvelle version :"
 
 #: JQueryPlugin/data/System/JQueryTmpl.txt:205
 msgid "Next"
-msgstr ""
+msgstr "Suivant"
 
 #: core/data/Main/GroupViewTemplate.txt:37
-#, fuzzy
 msgid "No  members"
-msgstr "aucun membre"
+msgstr "Aucun membre"
 
 #: core/data/System/SiteChanges.txt:50
-#, fuzzy
 msgid "No changes"
-msgstr "(modifications)"
+msgstr "Aucun changement"
 
 #: core/templates/more.tmpl:208
 msgid "No child topics"
@@ -2371,7 +2361,7 @@ msgstr "Notifications"
 
 #: core/data/System/SiteChanges.txt:62
 msgid "Number of changes for each Web"
-msgstr ""
+msgstr "Nombre de changements pour chaque Web"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:47
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
@@ -2402,7 +2392,7 @@ msgstr "OK, c'est toujours moi !"
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:93
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: core/templates/more.tmpl:158
 msgid "Older revision:"
@@ -2414,7 +2404,7 @@ msgstr "Seuls les membres du %1 sont autorisés à faire ça."
 
 #: core/data/Main/GroupViewTemplate.txt:130
 msgid "Only members or admins may update group."
-msgstr ""
+msgstr "Seuls les membres ou les administrateurs peuvent modifier le groupe."
 
 #: core/templates/more.tmpl:56 core/templates/more.tmpl:73
 msgid "Only update linked topics in %1 web"
@@ -2551,11 +2541,8 @@ msgstr ""
 "ça ne fonctionne toujours pas, veuillez en informer %2."
 
 #: core/templates/messages.tmpl:652
-#, fuzzy
 msgid "Please notify your %1 administrator."
-msgstr ""
-"Un e-mail n'a pas pu être envoyé. Merci d'en informer votre administrateur "
-"de %1 : %2"
+msgstr "Merci d'informer l'administrateur de %1."
 
 #: core/templates/mailresetpassword.tmpl:15
 msgid ""
@@ -2592,7 +2579,7 @@ msgstr "Pressez OK pour confirmer que ce changement était intentionnel."
 
 #: JQueryPlugin/data/System/JQueryTmpl.txt:206
 msgid "Previous"
-msgstr ""
+msgstr "Précédent"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:28
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:29
@@ -2646,18 +2633,16 @@ msgid "Recently changed topics"
 msgstr "Pages modifiées récemment"
 
 #: core/data/System/SiteChanges.txt:5
-#, fuzzy
 msgid "Recently changed topics in %1 Web"
-msgstr "Pages modifiées récemment"
+msgstr "Pages modifiées récemment dans le Web %1"
 
 #: core/data/System/SiteChanges.txt:6
-#, fuzzy
 msgid "Recently changed topics in all Webs"
-msgstr "Pages modifiées récemment"
+msgstr "Pages modifiées récemment dans tous les Webs"
 
 #: core/templates/oopsredirectdenied.tmpl:6
 msgid "Redirect Denied"
-msgstr ""
+msgstr "Redirection interdite"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: core/lib/Foswiki/UI/Rename.pm:1244
@@ -2730,9 +2715,8 @@ msgid "Remove members from this group"
 msgstr "Retirer les membres du groupe"
 
 #: core/data/Main/GroupViewTemplate.txt:180
-#, fuzzy
 msgid "Remove members..."
-msgstr "Supprimer membre..."
+msgstr "Supprimer membres..."
 
 #: core/data/Main/GroupViewTemplate.txt:267
 msgid "Remove selected members"
@@ -3023,9 +3007,8 @@ msgstr ""
 "Pour obtenir de l'aide quant à l'édition de cette page, voir ci-dessous."
 
 #: core/data/System/SiteChanges.txt:13
-#, fuzzy
 msgid "See changes since:"
-msgstr "Pages modifiées récemment dans :"
+msgstr "Voir les changements dans les :"
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3162,6 +3145,8 @@ msgstr "Les espaces sont remplacés par des tirets-bas (=_=)"
 #: core/data/System/SiteChanges.txt:73
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
+"Indiquez =all= pour tous les webs, ou une liste de de webs séparés par des "
+"virgules parmi : %1"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
@@ -3199,7 +3184,7 @@ msgstr "Abonnement / Désabonnement de :"
 
 #: core/data/System/WebSearch.txt:82 core/data/System/WebSearch.txt:98
 msgid "Subwebs"
-msgstr ""
+msgstr "Sous-webs"
 
 #: core/templates/messages.tmpl:485
 msgid "Success adding users to group"
@@ -3219,7 +3204,7 @@ msgstr "Passer en police à espacement fixe ou proportionnel"
 
 #: core/data/Main/GroupViewTemplate.txt:124
 msgid "System user list."
-msgstr ""
+msgstr "Liste utilisateurs système."
 
 #: core/data/System/SearchHelp.txt:15
 msgid ""
@@ -3539,7 +3524,7 @@ msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:121
 msgid "This group should not have members."
-msgstr ""
+msgstr "Ce groupe ne devrait avoir aucun membre."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
@@ -3687,7 +3672,7 @@ msgstr "Vers le web :"
 
 #: core/templates/messages.tmpl:651
 msgid "Too many recursions parsing template %1"
-msgstr ""
+msgstr "Trop de récursions lors du traitement du gabarit %1"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:5
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
@@ -3700,9 +3685,8 @@ msgstr "Boite à outils"
 
 # OlivierRaginel proposait la traduction "Cette page", toutefois nous n'avons pas pu vérifier le contexte exact d'affichage de cette chaîne. En l'absence de cette référence, nous avons décidé de garder une traduction littérale.
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Topic"
-msgstr "Vers la page"
+msgstr "Page"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:6
 msgid "Topic %1 does not exist"
@@ -3815,9 +3799,8 @@ msgid "Unrecognized action command %1"
 msgstr "Commande %1 inconnue"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
-#, fuzzy
 msgid "Update"
-msgstr "Mettre à jour les liens"
+msgstr "Mettre à jour"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:3
 msgid "Update attachment %1 on %2"
@@ -3828,18 +3811,16 @@ msgid "Update links"
 msgstr "Mettre à jour les liens"
 
 #: core/data/Main/GroupViewTemplate.txt:220
-#, fuzzy
 msgid "Upgrade"
-msgstr "Groupe mis à jour"
+msgstr "Migrer"
 
 #: core/data/Main/GroupViewTemplate.txt:216
 msgid "Upgrade group topic"
 msgstr "Mettre à jour page de groupe"
 
 #: core/data/Main/GroupViewTemplate.txt:208
-#, fuzzy
 msgid "Upgrade group topic..."
-msgstr "Mettre à jour page de groupe"
+msgstr "Migrer la page de groupe..."
 
 #: core/templates/messages.tmpl:492
 msgid "Upgraded group"
@@ -4031,9 +4012,8 @@ msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Attention : cette \\'include\\'-page Wiki n\\'existe pas"
 
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Web"
-msgstr "Webs"
+msgstr "Web"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
@@ -4476,7 +4456,7 @@ msgstr "par %1 "
 
 #: core/data/System/SiteChanges.txt:56
 msgid "change display options"
-msgstr ""
+msgstr "modifier options d'affichage"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -4487,13 +4467,12 @@ msgid "checkboxes of referenced topics"
 msgstr "les pages référencées"
 
 #: core/data/System/SiteChanges.txt:57
-#, fuzzy
 msgid "close display options"
-msgstr "Autres options d'affichage :"
+msgstr "fermer options d'affichage"
 
 #: core/data/System/SiteChanges.txt:44
 msgid "diff"
-msgstr ""
+msgstr "diff"
 
 #: core/templates/messages.tmpl:439
 msgid "don't forget to check your Topic Settings"
@@ -4526,9 +4505,8 @@ msgid "indicates mandatory fields"
 msgstr "indique les champs nécessaires"
 
 #: core/data/System/SiteChanges.txt:44
-#, fuzzy
 msgid "last change"
-msgstr "Pages modifiées récemment"
+msgstr "dernière modification"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -4566,7 +4544,7 @@ msgstr "trouvées à %1"
 
 #: core/data/System/SiteChanges.txt:23
 msgid "the beginning"
-msgstr ""
+msgstr "le début"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"

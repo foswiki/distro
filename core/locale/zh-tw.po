@@ -7,22 +7,21 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-10-01 18:22+0200\n"
+"PO-Revision-Date: 2011-11-10 17:39+0200\n"
 "Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.0.5\n"
-"X-Poedit-Country: Taiwan\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:485
 msgid "%*(%1,day) "
-msgstr "%*(%1,天) "
+msgstr "%*(%1,天)"
 
 #. ($hours)
 #: core/lib/Foswiki/Time.pm:488
@@ -46,9 +45,8 @@ msgid "%1"
 msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "%1 (default)"
-msgstr "(刪除)"
+msgstr "%1 (預設值)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -79,9 +77,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "%1 列出其他用戶"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 已使用電子郵件地址 %2 註冊"
+msgstr "%1 已使用電子郵件地址 %2 註冊且已確認"
 
 #: core/templates/messages.tmpl:535
 msgid ""
@@ -178,9 +175,8 @@ msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%4 將 %3 的 %2 更名或移到 %1"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
-#, fuzzy
 msgid "%1.LoginName"
-msgstr "您的 %1.LoginName"
+msgstr "%1.LoginName"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -316,9 +312,8 @@ msgid "(raw view)"
 msgstr "(檢示源碼)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
-#, fuzzy
 msgid "(redirect denied)"
-msgstr "(禁止訪問)"
+msgstr "(禁止轉址)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
