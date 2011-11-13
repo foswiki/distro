@@ -1,4 +1,4 @@
-VERSION = Foswiki-1.1.2
+VERSION = Foswiki-1.1.3
 RELEASE = -1
 TARFILE = $(VERSION).tgz
 DESTDIR = /Library/WebServer/Documents
@@ -19,8 +19,8 @@ tar:
 	cp $(TARFILE) $(DESTDIR); cd $(DESTDIR); tar xzf $(TARFILE)
 	chown -R www:www $(DESTDIR)/$(VERSION)
 	cd $(DESTDIR); ln -s $(VERSION) foswiki
-	# this version needs 'logs' to be created by hand if configure hasn't been run
-	mkdir $(DESTDIR)/foswiki/working/logs
+	#older version needed 'logs' to be created by hand if configure hasn't been run yet
+	#mkdir $(DESTDIR)/foswiki/working/logs
 	chown www:www $(DESTDIR)/foswiki/working/logs
 
 locallibcfg: tar
