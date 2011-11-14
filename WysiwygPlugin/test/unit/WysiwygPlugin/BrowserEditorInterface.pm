@@ -58,8 +58,8 @@ sub init {
             $this->{_test}->{test_web},
             $Foswiki::cfg{WebPrefsTopicName},
             <<"HERE"
-   * Set SKIN=pattern
-   * Set ALLOWTOPICCHANGE=$this->{_test}->{test_user_wikiname}
+   * Set SKIN = pattern
+   * Set ALLOWTOPICCHANGE = $this->{_test}->{test_user_wikiname}
 HERE
         );
         $topicObject->save();
