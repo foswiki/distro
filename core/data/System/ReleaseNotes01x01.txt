@@ -1199,6 +1199,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11020][Item11020]] | Date field is not formatted according to JSCALENDARCONTRIB_FORMAT setting |
 | [[%BUGS%/Item11041][Item11041]] | Typo of Berkeley in MetaCacheManager.pm and CacheManager.pm |
 | [[%BUGS%/Item11045][Item11045]] | TOC doesn't remove manual links properly |
+| [[%BUGS%/Item11051][Item11051]] | Chili highlighter corrupts output on Firefox 7 and Safari Rev. 6-17-2011. Changed default to disabled, and added a checker to warn if enabled. Also added warnings for other deprecated JQuery plugins. |
 | [[%BUGS%/Item11059][Item11059]] | Email address followed by a dot generates email link with dot included |
 | [[%BUGS%/Item11079][Item11079]] | Trailing spaces breaks LISTUNIQUE in SpreadSheetPlugin |
 | [[%BUGS%/Item11083][Item11083]] | Table should sort if sort is off but initsort has a column number |
