@@ -18,12 +18,14 @@ sub new {
 sub set_up {
     my $this = shift;
 
+    $this->{DisplayTimeValues} = $Foswiki::cfg{DisplayTimeValues};
     $this->SUPER::set_up();
 }
 
 sub tear_down {
     my $this = shift;
 
+    $Foswiki::cfg{DisplayTimeValues}=delete $this->{DisplayTimeValues};
     # Always do this, and always do it last
     $this->SUPER::tear_down();
 }
