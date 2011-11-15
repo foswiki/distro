@@ -63,6 +63,10 @@ data/System/VarPOPUPWINDOW.txt 0644
 data/System/VarTAB.txt 0644
 data/System/VarTABPANE.txt 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/JQueryVersion.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Autocomplete/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Chili/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Shake/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Nifty/Enabled.pm 0644
 lib/Foswiki/Form/Color.pm 0644
 lib/Foswiki/Form/Rating.pm 0644
 lib/Foswiki/Form/Textboxlist.pm 0644

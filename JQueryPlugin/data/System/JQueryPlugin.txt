@@ -137,6 +137,8 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  TBD          | (4.21) Added config warnings for the deprecated JQuery plugins; \
+                  and a warining for Chili highlighter corruption; |
 |  26 Oct 2011: | fixing compatibility of jquery.media with newer jqueries; \
                   fixed placement of jquery.tooltips when viewport at right bottom;\
                   fixed jquery.superfish's index related to jquery.ui.dialog's; \
