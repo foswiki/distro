@@ -6,6 +6,7 @@ use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
 use Error qw( :try );
+use POSIX qw( strftime );
 
 use Foswiki::Contrib::JSCalendarContrib ();
 
@@ -170,8 +171,12 @@ sub test_formatDate_S {
 sub test_formatDate_s {
     my ($this) = @_;
 
+    my $testEpoch = 1325375940; # 2011/12/31 23:59:00 GMT
+    my $timezoneDiff = strftime("%s", gmtime($testEpoch)) - strftime("%s",
+    localtime($testEpoch));
     $this->_formatDateTest( '1970/00/00',          '%s', "0" );
-    $this->_formatDateTest( '2011/12/31 23:59:00', '%s', "1325375940" );
+    $this->_formatDateTest( '2011/12/31 23:59:00', '%s', $testEpoch, $testEpoch +
+    $timezoneDiff );
 }
 
 # %t - a tab character
@@ -232,10 +237,18 @@ sub test_formatDate_percent {
 }
 
 sub _formatDateTest {
-    my ( $this, $date, $format, $expected ) = @_;
+    my ( $this, $date, $format, $expectedGMT, $expectedServer ) = @_;
 
-    my $actual = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
-    $this->assert_str_equals( $expected, $actual );
+    $expectedServer = $expectedGMT unless defined $expectedServer;
+
+    $Foswiki::cfg{DisplayTimeValues} = 'gmtime';
+    my $actualGMT = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
+    $this->assert_str_equals( $expectedGMT, $actualGMT, "With DisplayTimeValues = 'gmtime':\nExpected: '$expectedGMT'\n But got: '$actualGMT'\n"
+    );
+    $Foswiki::cfg{DisplayTimeValues} = 'servertime';
+    my $actualServer = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
+    $this->assert_str_equals( $expectedServer, $actualServer, "With DisplayTimeValues = 'servertime':\nExpected: '$expectedServer'\n But got: '$actualServer'\n"
+    );
 }
 
 sub test_combined_formatDate {
