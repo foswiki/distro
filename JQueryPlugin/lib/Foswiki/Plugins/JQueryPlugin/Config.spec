@@ -66,7 +66,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Button}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{BlockUI}{Enabled} = 1;
 
 # **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Chili}{Enabled} = 1;
+# Warning: this plugin is corrupts the displayed text on Firefox 7 and Safari Rev. 6-17-2011 due to errors in the underlying regular expression  code.
+# The issue is fixed in Firefox 8.
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Chili}{Enabled} = 0;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Corner}{Enabled} = 1;
