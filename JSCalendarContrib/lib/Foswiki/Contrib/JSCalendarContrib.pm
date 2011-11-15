@@ -90,7 +90,7 @@ sub renderDateForEdit {
     addHEAD('foswiki');
 
     $value = formatDate( $value, $format );
-    
+
     # Work out how wide it has to be from the format
     # SMELL: add a space because pattern skin default fonts on FF make the
     # box half a character too narrow if the exact size is used
@@ -286,8 +286,10 @@ sub formatDate {
     # do not format if the field value is empty
     # so we won't prefill the field with a 1970 date
     return '' if !$foswikiDateStr;
-    
-    my $epoch = ($foswikiDateStr =~ /^\d+$/)?$foswikiDateStr:Foswiki::Time::parseTime($foswikiDateStr);
+
+# Item11195 - Dates decrement when running on servertime and timezone is negative offset from GMT
+    my $defaultLocal = ($Foswiki::cfg{DisplayTimeValues} eq 'servertime') ? 1 : 0;
+    my $epoch = ($foswikiDateStr =~ /^\d+$/)?$foswikiDateStr:Foswiki::Time::parseTime($foswikiDateStr, $defaultLocal);
     $epoch ||= 0;    # otherwise we have to work with an empty string
 
     my $foswikiDateFormat = _calendarFormatToFoswikiFormat($jsCalendarFormat);
