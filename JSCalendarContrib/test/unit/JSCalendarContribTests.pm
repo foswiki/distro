@@ -171,12 +171,13 @@ sub test_formatDate_S {
 sub test_formatDate_s {
     my ($this) = @_;
 
-    my $testEpoch = 1325375940; # 2011/12/31 23:59:00 GMT
-    my $timezoneDiff = strftime("%s", gmtime($testEpoch)) - strftime("%s",
-    localtime($testEpoch));
-    $this->_formatDateTest( '1970/00/00',          '%s', "0" );
-    $this->_formatDateTest( '2011/12/31 23:59:00', '%s', $testEpoch, $testEpoch +
-    $timezoneDiff );
+    my $testEpoch = 1325375940;    # 2011/12/31 23:59:00 GMT
+    my $timezoneDiff =
+      strftime( "%s", gmtime($testEpoch) ) -
+      strftime( "%s", localtime($testEpoch) );
+    $this->_formatDateTest( '1970/00/00', '%s', "0" );
+    $this->_formatDateTest( '2011/12/31 23:59:00',
+        '%s', $testEpoch, $testEpoch + $timezoneDiff );
 }
 
 # %t - a tab character
@@ -242,12 +243,16 @@ sub _formatDateTest {
     $expectedServer = $expectedGMT unless defined $expectedServer;
 
     $Foswiki::cfg{DisplayTimeValues} = 'gmtime';
-    my $actualGMT = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
-    $this->assert_str_equals( $expectedGMT, $actualGMT, "With DisplayTimeValues = 'gmtime':\nExpected: '$expectedGMT'\n But got: '$actualGMT'\n"
+    my $actualGMT =
+      Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
+    $this->assert_str_equals( $expectedGMT, $actualGMT,
+"With DisplayTimeValues = 'gmtime':\nExpected: '$expectedGMT'\n But got: '$actualGMT'\n"
     );
     $Foswiki::cfg{DisplayTimeValues} = 'servertime';
-    my $actualServer = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
-    $this->assert_str_equals( $expectedServer, $actualServer, "With DisplayTimeValues = 'servertime':\nExpected: '$expectedServer'\n But got: '$actualServer'\n"
+    my $actualServer =
+      Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
+    $this->assert_str_equals( $expectedServer, $actualServer,
+"With DisplayTimeValues = 'servertime':\nExpected: '$expectedServer'\n But got: '$actualServer'\n"
     );
 }
 
@@ -259,58 +264,64 @@ sub test_combined_formatDate {
     $date     = '1 Dec 2011 - 23:59';
     $format   = '$day $month $year';
     $expected = '01 Dec 2011';
-    $actual   = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
+    $actual = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
     $this->assert_html_equals( $expected, $actual );
 
     $date     = '1 Dec 2011';
     $format   = '%Y %b %e';
     $expected = '2011 Dec 1';
-    $actual   = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
+    $actual = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
     $this->assert_html_equals( $expected, $actual );
 
     $date     = '1 Dec 2011';
     $format   = '%Y-%m-%e %H:%M:%S';
     $expected = '2011-12-1 00:00:00';
-    $actual   = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
+    $actual = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
     $this->assert_html_equals( $expected, $actual );
 
     $date     = '1 Dec 2011';
     $format   = '%d %B %y';
     $expected = '01 December 11';
-    $actual   = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
+    $actual = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
     $this->assert_html_equals( $expected, $actual );
 
     $date     = '1 Dec 2011 - 23:59';
     $format   = '%H:%M:%S';
     $expected = '23:59:00';
-    $actual   = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
+    $actual = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
     $this->assert_html_equals( $expected, $actual );
-    
+
     $date     = '2011/12/31 23:59:59';
     $format   = '%H:%M:%S';
     $expected = '23:59:59';
-    $actual   = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
+    $actual = Foswiki::Contrib::JSCalendarContrib::formatDate( $date, $format );
     $this->assert_html_equals( $expected, $actual );
 }
 
 sub test_renderDateForEdit {
     my ($this) = @_;
-    
+
     my ( $date, $format, $expected, $actual );
-    my $pubUrlPathSystemWeb = Foswiki::Func::getPubUrlPath() . '/'
-      . $Foswiki::cfg{SystemWebName};
-    
-    $date     = '2011/12/31 23:59:59';
-    $format   = '%Y-%m-%e %H:%M:%S';
-    $expected = "<input type=\"text\" name=\"test\" value=\"2011-12-31 23:59:59\" size=\"20\" id=\"id_test\" /><input type=\"image\" name=\"img_test\" src=\"$pubUrlPathSystemWeb/JSCalendarContrib/img.gif\" align=\"middle\" alt=\"Calendar\" onclick=\"javascript: return showCalendar('id_test','$format')\" />";
-    $actual   = Foswiki::Contrib::JSCalendarContrib::renderDateForEdit( 'test', $date, $format );
-    $this->assert_html_equals( $expected, $actual ); 
-    
-    $date     = '31 Dec 2011';
-    $format   = '%Y %b %e';
-    $expected = "<input type=\"text\" name=\"test\" value=\"2011 Dec 31\" size=\"12\" id=\"id_test\" /><input type=\"image\" name=\"img_test\" src=\"$pubUrlPathSystemWeb/JSCalendarContrib/img.gif\" align=\"middle\" alt=\"Calendar\" onclick=\"javascript: return showCalendar('id_test','$format')\" />";
-    $actual   = Foswiki::Contrib::JSCalendarContrib::renderDateForEdit( 'test', $date, $format );
-    $this->assert_html_equals( $expected, $actual ); 
+    my $pubUrlPathSystemWeb =
+      Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
+
+    $date   = '2011/12/31 23:59:59';
+    $format = '%Y-%m-%e %H:%M:%S';
+    $expected =
+"<input type=\"text\" name=\"test\" value=\"2011-12-31 23:59:59\" size=\"20\" id=\"id_test\" /><input type=\"image\" name=\"img_test\" src=\"$pubUrlPathSystemWeb/JSCalendarContrib/img.gif\" align=\"middle\" alt=\"Calendar\" onclick=\"javascript: return showCalendar('id_test','$format')\" />";
+    $actual =
+      Foswiki::Contrib::JSCalendarContrib::renderDateForEdit( 'test', $date,
+        $format );
+    $this->assert_html_equals( $expected, $actual );
+
+    $date   = '31 Dec 2011';
+    $format = '%Y %b %e';
+    $expected =
+"<input type=\"text\" name=\"test\" value=\"2011 Dec 31\" size=\"12\" id=\"id_test\" /><input type=\"image\" name=\"img_test\" src=\"$pubUrlPathSystemWeb/JSCalendarContrib/img.gif\" align=\"middle\" alt=\"Calendar\" onclick=\"javascript: return showCalendar('id_test','$format')\" />";
+    $actual =
+      Foswiki::Contrib::JSCalendarContrib::renderDateForEdit( 'test', $date,
+        $format );
+    $this->assert_html_equals( $expected, $actual );
 }
 
 1;
