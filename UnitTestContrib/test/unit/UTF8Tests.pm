@@ -11,12 +11,16 @@
 # to have to work out how to re-initialise Foswiki for each test)
 #
 package UTF8Tests;
-use FoswikiFnTestCase;
+use strict;
+use warnings;
+use utf8;
+
+use Unicode::UCD();
+use Benchmark qw( :hireswallclock);
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
-
-use Foswiki;
+use Foswiki();
 
 sub DISABLEtest_urlEncodeDecode {
     my $this = shift;
@@ -323,6 +327,52 @@ sub segfaulting_urlDecode {
     $text = $t if ($t);
 
     return $text;
+}
+
+sub test_timing_numbers_UCD {
+    my ($this) = @_;
+    my $numcycles = 1000;
+    my $data = "Revision 23";
+    my $rev = 0;
+    my $benchmark;
+   
+    if (defined &Unicode::UCD::num) {
+        $benchmark = timeit (
+            $numcycles,
+            sub {
+                $data =~ /^Revision (\d+)$/;
+                $rev += Unicode::UCD::num($1);
+            }
+        );
+        print "Timing for $numcycles cycles of =~ /(\\d+)/ through Unicode::UCD::num " . timestr($benchmark) . "\n";
+    } else {
+        print STDERR "SKIPPED test_timing_numbers_UCD, you need a newer Unicode::UCD (or perl >= 5.14)\n";
+    }
+
+    return;
+}
+
+sub test_timing_numbers {
+    my ($this) = @_;
+    my $numcycles = 1000000;
+    my $data = "Revision 23";
+    my $rev = 0;
+    my $benchmark;
+
+    if (defined &Unicode::UCD::num) {
+        $benchmark = timeit (
+            $numcycles,
+            sub {
+                $data =~ /^Revision (\d+)$/;
+                $rev += $1;
+            }
+        );
+        print "Timing for $numcycles cycles of =~ /(\\d+)/ " . timestr($benchmark) . "\n";
+    } else {
+        print STDERR "SKIPPED test_timing_numbers, you need a newer Unicode::UCD (or perl >= 5.14)\n";
+    }
+
+    return;
 }
 
 1;
