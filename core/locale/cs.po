@@ -6,15 +6,15 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2010-10-01 18:35+0200\n"
-"Last-Translator: Milan Mašek <milan.m.masek@gmail.com>\n"
+"PO-Revision-Date: 2011-11-15 23:40+0200\n"
+"Last-Translator: Milan <milan.m.masek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.0.5\n"
+"X-Generator: Pootle 2.1.6\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:485
@@ -43,9 +43,8 @@ msgid "%1"
 msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "%1 (default)"
-msgstr "(smazat)"
+msgstr "%1 (výchozí stav)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -76,9 +75,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "%1 obsahuje seznam ostatních uživatelů Foswiki"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 byl zaregistrován s e-mailem %2"
+msgstr "%1 byl povolen a zaregistrován s e-mailem %2"
 
 #: core/templates/messages.tmpl:535
 msgid ""
@@ -169,9 +167,8 @@ msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 byl přejmenován nebo přesunut z %2 do %3. Kým/čím - %4."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
-#, fuzzy
 msgid "%1.LoginName"
-msgstr "Vaše %1.PřihlašovacíJméno"
+msgstr "%1.Přihlašovací jméno"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -307,9 +304,8 @@ msgid "(raw view)"
 msgstr "(surový náhled)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
-#, fuzzy
 msgid "(redirect denied)"
-msgstr "(přístup odepřen)"
+msgstr "(přesměrování odepřeno)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -346,6 +342,8 @@ msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
 msgstr ""
+"*Administrátoři:* Můžete změnit email uživatele pomocí tohoto formuláře. "
+"Zadejte loginy uživatelů nebo jejich Wiki jména a novou emailovou adresu."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -446,35 +444,35 @@ msgstr "..."
 
 #: core/data/System/SiteChanges.txt:15
 msgid "1 hour ago"
-msgstr ""
+msgstr "Před hodinou."
 
 #: core/data/System/SiteChanges.txt:20
 msgid "1 week ago"
-msgstr ""
+msgstr "Před týdnem"
 
 #: core/data/System/SiteChanges.txt:17
 msgid "12 hours ago"
-msgstr ""
+msgstr "Před 12ti hodinami."
 
 #: core/data/System/SiteChanges.txt:21
 msgid "2 weeks ago"
-msgstr ""
+msgstr "Před 2 týdny."
 
 #: core/data/System/SiteChanges.txt:18
 msgid "24 hours ago"
-msgstr ""
+msgstr "Před 24 hodinami"
 
 #: core/data/System/SiteChanges.txt:19
 msgid "3 days ago"
-msgstr ""
+msgstr "Před 3 dny"
 
 #: core/data/System/SiteChanges.txt:22
 msgid "4 weeks ago"
-msgstr ""
+msgstr "Před 4 týdny"
 
 #: core/data/System/SiteChanges.txt:16
 msgid "6 hours ago"
-msgstr ""
+msgstr "Před 6 hodinami"
 
 #: core/data/System/WebChanges.txt:9
 msgid ""
@@ -490,21 +488,21 @@ msgstr ""
 
 #: core/templates/more.tmpl:90
 msgid "<em>in %1 web</em> only"
-msgstr "pouze <em>v %1 webu</em>"
+msgstr "pouze <em>na %1 webu</em>"
 
 #: core/templates/more.tmpl:88
 msgid "<em>in all public webs</em>"
-msgstr "<em>ve všech veřejných webech</em>"
+msgstr "<em>na všech veřejných webech</em>"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
 msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
-msgstr "Vyžadováno potvrzení! Pro potvrzení stiskni OK, jinak Cancel."
+msgstr "Vyžadováno potvrzení! Pro potvrzení zvol OK, jinak Cancel."
 
 #: core/templates/messages.tmpl:385
 msgid "A =.txt= extension is appended to some filenames for security reasons"
-msgstr "Přiloha =.txt= je připojena k některým souborům, kvůli bezpečnosti"
+msgstr "Extenze =.txt= se přidává k některým souborům z důvodu bezpečnosti."
 
 #: core/templates/messages.tmpl:594
 msgid ""
@@ -587,7 +585,6 @@ msgid "Action %1: %2."
 msgstr "Akce %1: %2."
 
 #: core/data/Main/WikiGroups.txt:64
-#, fuzzy
 msgid "Actions"
 msgstr "Akce"
 
@@ -600,12 +597,10 @@ msgid "Add form"
 msgstr "Přidej formulář"
 
 #: core/data/Main/GroupViewTemplate.txt:239
-#, fuzzy
 msgid "Add members"
-msgstr "žádní členové"
+msgstr "Přidej členy"
 
 #: core/data/Main/GroupViewTemplate.txt:170
-#, fuzzy
 msgid "Add members..."
 msgstr "Přidej uživatele ..."
 
@@ -615,14 +610,12 @@ msgid "Add row"
 msgstr "Přidej řádek"
 
 #: core/data/Main/GroupViewTemplate.txt:217
-#, fuzzy
 msgid "Add user management options to this topic."
-msgstr "Změnit nastavení pro tento článek..."
+msgstr "Přidat k tomuto článku možnosti pro nastavení uživatele."
 
 #: core/data/Main/GroupViewTemplate.txt:235
-#, fuzzy
 msgid "Add users or groups to this group"
-msgstr "Přidej uživatele do této skupiny"
+msgstr "Přidej uživatele (nebo skupiny) do této skupiny"
 
 #: core/templates/messages.tmpl:373
 msgid "Adding a %1 preference in WebPreferences"
@@ -638,9 +631,8 @@ msgstr "Administrátorská údržba"
 
 #: core/data/Main/GroupViewTemplate.txt:145
 #: core/data/Main/GroupViewTemplate.txt:166
-#, fuzzy
 msgid "Administration"
-msgstr "Registrace"
+msgstr "Správa"
 
 #: core/data/System/WebSearch.txt:64
 msgid "Advanced search"
@@ -732,12 +724,10 @@ msgstr "Připoj nový soubor"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
-#, fuzzy
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
-"title='Připoj obrázek nebo soubor k tomuto ćlánku' accesskey='a'>&Vlož "
-"přílohu"
+"Připoj obrázek nebo soubor k tomuto ćlánku; kontroluj existující přílohy (a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -979,9 +969,8 @@ msgstr "Změněno uživatelem"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
-#, fuzzy
 msgid "Changed on"
-msgstr "Změněno"
+msgstr "Změněno na"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
@@ -1081,9 +1070,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "Kontaktujte %1 pokud máte nějaké otázky."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
-#, fuzzy
 msgid "Context"
-msgstr "Kontext:"
+msgstr "Kontext"
 
 #: core/templates/messages.tmpl:425
 msgid "Continue and try to rename web?"
@@ -1178,9 +1166,8 @@ msgstr "Vytvoř nový článek FAQ (často kladené dotazy)"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:23
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:24
-#, fuzzy
 msgid "Create new topic"
-msgstr "Vytvoř nový článek FAQ (často kladené dotazy)"
+msgstr "Vytvoř nový článek"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
 msgid "Create personal sidebar"
@@ -1403,9 +1390,8 @@ msgstr "Editovat tabulku"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
-#, fuzzy
 msgid "Edit this topic text (e)"
-msgstr "Změňte text tohoto článku"
+msgstr "Změňte text tohoto článku (e)"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
@@ -1739,6 +1725,8 @@ msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
 msgstr ""
+"Jestliže registraci není možné provést z důvodu chyb, administrátoři přesto "
+"mohou zaregistrovat uživatele pomocí %1."
 
 #: core/templates/messages.tmpl:435
 msgid ""
@@ -1867,7 +1855,7 @@ msgstr ""
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "In case of a zip file, attach all included files to this topic"
-msgstr ""
+msgstr "Pokud se jedná o soubory typu ZIP archiv, připojte je k tomuto článku"
 
 #: core/data/System/WebSearch.txt:108
 msgid "In reversed order"
@@ -1968,13 +1956,12 @@ msgid "Jump"
 msgstr "Přejdi na"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "Jump to first revision"
-msgstr "(revize %1)"
+msgstr "Přejděte na první revizi"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
-msgstr ""
+msgstr "Přejděte na poslední revizi (%1)"
 
 #: core/data/System/WebSearch.txt:118
 msgid "Keyword search"
@@ -1982,7 +1969,6 @@ msgstr "Hledání dle klíčového slova"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 #: HistoryPlugin/templates/oopshistory.tmpl:44
-#, fuzzy
 msgid "Last edited by"
 msgstr "Poslední editor"
 
@@ -1991,7 +1977,6 @@ msgid "Last editor"
 msgstr "Poslední editor"
 
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Last modified"
 msgstr "Naposledy změněno"
 
@@ -2004,13 +1989,12 @@ msgid "Last name"
 msgstr "Příjmení"
 
 #: core/templates/more.tmpl:182
-#, fuzzy
 msgid "Latest revision: %1"
-msgstr "(revize %1)"
+msgstr "Poslední revize: %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "Leave unchecked if you wish to attach the zip file itself"
-msgstr ""
+msgstr "Ponechte neoznačeno, pokud si přejete připojit ZIP soubor."
 
 #: core/data/System/WebSearch.txt:132
 msgid "Limit results to:"
@@ -2049,7 +2033,7 @@ msgstr "Odhlásit"
 
 #: core/data/Main/GroupViewTemplate.txt:127
 msgid "Log in to continue."
-msgstr ""
+msgstr "Pro pokračování se přihlašte."
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
@@ -2078,7 +2062,7 @@ msgstr "Hledání:"
 
 #: core/data/System/SiteChanges.txt:54
 msgid "Maximum %1 items per web"
-msgstr ""
+msgstr "Maximálně %1 položek na jeden web."
 
 #: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
@@ -2126,13 +2110,12 @@ msgstr "Více..."
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:33
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:34
-#, fuzzy
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
 msgstr ""
-"title='Smazat nebo přejmenovat tento článek; nastavit nadřízený článek; ukaž "
-"a porovnej revize' accesskey='m'>&Další akce"
+"Více: smaž nebo přejmenuj tento článek; nastav nadřízený článek; ukaž a "
+"porovnej revize (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -2219,17 +2202,15 @@ msgstr "Novější revize:"
 
 #: JQueryPlugin/data/System/JQueryTmpl.txt:205
 msgid "Next"
-msgstr ""
+msgstr "Následující"
 
 #: core/data/Main/GroupViewTemplate.txt:37
-#, fuzzy
 msgid "No  members"
-msgstr "žádní členové"
+msgstr "Žádní členové"
 
 #: core/data/System/SiteChanges.txt:50
-#, fuzzy
 msgid "No changes"
-msgstr "(změny)"
+msgstr "Beze změn"
 
 #: core/templates/more.tmpl:208
 msgid "No child topics"
@@ -2310,7 +2291,7 @@ msgstr "Upozornění:"
 
 #: core/data/System/SiteChanges.txt:62
 msgid "Number of changes for each Web"
-msgstr ""
+msgstr "Počet změn pro každý Web"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:47
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
@@ -2341,7 +2322,7 @@ msgstr "OK, toto jsem stále já!"
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:93
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: core/templates/more.tmpl:158
 msgid "Older revision:"
@@ -2353,7 +2334,7 @@ msgstr "Pouze členové %1 jsou oprávnění provést tuto akci."
 
 #: core/data/Main/GroupViewTemplate.txt:130
 msgid "Only members or admins may update group."
-msgstr ""
+msgstr "Pouze členové nebo administrátoři mohou aktualizovat skupinu."
 
 #: core/templates/more.tmpl:56 core/templates/more.tmpl:73
 msgid "Only update linked topics in %1 web"
@@ -2489,9 +2470,8 @@ msgstr ""
 "opravdu zasekl, prosím zašlete mail %2."
 
 #: core/templates/messages.tmpl:652
-#, fuzzy
 msgid "Please notify your %1 administrator."
-msgstr "Email nemohl být doručen. Uvědomte prosím Vašeho administrátora %1, %2"
+msgstr "Uvědomte prosím Vašeho administrátora %1,"
 
 #: core/templates/mailresetpassword.tmpl:15
 msgid ""
@@ -2526,13 +2506,12 @@ msgstr "Stiskněte OK jako potvrzení že tato změna byla mezinárodní."
 
 #: JQueryPlugin/data/System/JQueryTmpl.txt:206
 msgid "Previous"
-msgstr ""
+msgstr "Předchozí"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:28
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:29
-#, fuzzy
 msgid "Printable version of this topic (p)"
-msgstr "title='Verze pro tisk' accesskey='p'>&Print version"
+msgstr "Verze pro tisk (p)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:63
 msgid "Properties"
@@ -2581,18 +2560,16 @@ msgid "Recently changed topics"
 msgstr "Naposledy změněné články"
 
 #: core/data/System/SiteChanges.txt:5
-#, fuzzy
 msgid "Recently changed topics in %1 Web"
-msgstr "Naposledy změněné články"
+msgstr "Naposledy změněné články na webu %1"
 
 #: core/data/System/SiteChanges.txt:6
-#, fuzzy
 msgid "Recently changed topics in all Webs"
-msgstr "Naposledy změněné články"
+msgstr "Naposledy změněné články na všech webech"
 
 #: core/templates/oopsredirectdenied.tmpl:6
 msgid "Redirect Denied"
-msgstr ""
+msgstr "Přesměrování zamítnuto"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: core/lib/Foswiki/UI/Rename.pm:1244
@@ -2625,6 +2602,8 @@ msgid ""
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
 "Check the configuration for errors."
 msgstr ""
+"Registrace není povolena buď z důvodu nastavení {EnableNewUserRegistration}, "
+"nebo kůli chybě autentifikačního systému. Zkontrolujte konfiguraci."
 
 #: core/data/System/WebSearch.txt:120
 msgid "Regular expression search"
@@ -2658,19 +2637,16 @@ msgid "Remember your password?"
 msgstr "Pamatujete si Vaše heslo?"
 
 #: core/data/Main/GroupViewTemplate.txt:261
-#, fuzzy
 msgid "Remove members from this group"
 msgstr "Odstraň uživatele z této skupiny"
 
 #: core/data/Main/GroupViewTemplate.txt:180
-#, fuzzy
 msgid "Remove members..."
-msgstr "Odstraň uživatelský účet..."
+msgstr "Odstraň uživatelské účty..."
 
 #: core/data/Main/GroupViewTemplate.txt:267
-#, fuzzy
 msgid "Remove selected members"
-msgstr "Odstraň vybrané uživatele"
+msgstr "Odstraň vybrané členy"
 
 #: core/templates/messages.tmpl:51
 msgid "Remove the user from the group(s) %1 first."
@@ -2685,6 +2661,9 @@ msgid ""
 "Rename completed, but unsafe redirect to %1 is denied.: The requested host "
 "does not match %2, and is not in {PermittedRedirectHostUrls}."
 msgstr ""
+"Přejmenování dokončeno, avšak přesměrování na %1 není bezpečné a bylo "
+"zamítnuto.: Požadovaná adresa nesouhlasí s %2 a není v "
+"{PermittedRedirectHostUrls}."
 
 #: core/templates/messages.tmpl:74 core/templates/messages.tmpl:80
 msgid "Rename failed"
@@ -2712,9 +2691,8 @@ msgid "Rename/Move"
 msgstr "Přejmenovat/Přesunout"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:96
-#, fuzzy
 msgid "Render style"
-msgstr "Styl zobrazení:"
+msgstr "Styl zobrazení"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -2729,6 +2707,8 @@ msgid ""
 "Requested revision (%1) is illegal or invalid. It does not exist in history, "
 "or is the same or later than the current revision (%2)"
 msgstr ""
+"Požadovaná revize (%1) není platná. Neexistuje v historii nebo je to ta samá "
+"jako aktuální revize (%2)"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2743,9 +2723,8 @@ msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "Resetování a nastavování hesla není zajištěno prostředky Foswiki"
 
 #: core/templates/more.tmpl:189
-#, fuzzy
 msgid "Restore"
-msgstr "Obnov..."
+msgstr "Obnov"
 
 #: core/templates/more.tmpl:170
 msgid "Restore topic"
@@ -2766,12 +2745,13 @@ msgid ""
 "can always revisit the revision you are replacing. Note that attachments "
 "will be left unchanged."
 msgstr ""
+"Funkce Obnov uloží přesnou kopii vybrané revize jako novou revizi. Protože "
+"každá revize bude zaznamenána v historii článku, můžete vždy znovu zobrazit "
+"verzi kterou nahrazujete. Uvědomte si, že přílohy zůstanou beze změn."
 
 #: core/templates/more.tmpl:180
-#, fuzzy
 msgid "Restoring is disabled because this topic is at revision 1."
-msgstr ""
-"Převod do HTML pro editaci pomocí WYSIWYG je vypnut z důvodu obsahu článku."
+msgstr "Obnova není možná, protože tento článek je ve své první revizi."
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
@@ -2943,9 +2923,8 @@ msgid "See below for help in editing this page."
 msgstr "Viz nápověda níže pro editaci této stránky."
 
 #: core/data/System/SiteChanges.txt:13
-#, fuzzy
 msgid "See changes since:"
-msgstr "Zkontrolujte poslední změny v:"
+msgstr "Zkontrolujte změny od:"
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -2996,9 +2975,8 @@ msgid "Set new topic parent"
 msgstr "Nastavit nový nadřízený článek"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
-#, fuzzy
 msgid "Show %1 revisions up to revision %2"
-msgstr "Prohlédni předchozí revize článku"
+msgstr "Zobraz %1 revizí až do revize %2"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5
@@ -3006,9 +2984,8 @@ msgid "Show help"
 msgstr "Ukaž nápovědu"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:119
-#, fuzzy
 msgid "Showing revisions %1 - %2 (out of %3)"
-msgstr "Verze %1 - %2 (mimo %3)"
+msgstr "Zobrazuji revize %1 - %2 (mimo %3)"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Shrink edit box"
@@ -3075,7 +3052,7 @@ msgstr "Mezery jsou nahrazeny podtržítky"
 
 #: core/data/System/SiteChanges.txt:73
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
-msgstr ""
+msgstr "Uveďte =all= pro všechny weby, nebo čárkou oddělený seznam webů  od: %1"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
@@ -3113,7 +3090,7 @@ msgstr "Příhlásit/ Odhlásit z:"
 
 #: core/data/System/WebSearch.txt:82 core/data/System/WebSearch.txt:98
 msgid "Subwebs"
-msgstr ""
+msgstr "Podweby"
 
 #: core/templates/messages.tmpl:485
 msgid "Success adding users to group"
@@ -3133,7 +3110,7 @@ msgstr "Použijte monotype nebo proporcionální font."
 
 #: core/data/Main/GroupViewTemplate.txt:124
 msgid "System user list."
-msgstr ""
+msgstr "List uživatelů"
 
 #: core/data/System/SearchHelp.txt:15
 msgid ""
@@ -3430,7 +3407,7 @@ msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:121
 msgid "This group should not have members."
-msgstr ""
+msgstr "Tato skupina by neměla mít žádné členy."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
@@ -3567,7 +3544,7 @@ msgstr "K webu:"
 
 #: core/templates/messages.tmpl:651
 msgid "Too many recursions parsing template %1"
-msgstr ""
+msgstr "Příliš mnoho rekurzí při procházení šablony %1"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:5
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
@@ -3579,9 +3556,8 @@ msgid "Toolbox"
 msgstr "Nástroje"
 
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Topic"
-msgstr "K článku:"
+msgstr "Článek"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:6
 msgid "Topic %1 does not exist"
@@ -3681,7 +3657,6 @@ msgid "Try Again"
 msgstr "Zkuste znova"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:101
-#, fuzzy
 msgid "Unchanged sections before and after each change"
 msgstr "Části beze změn před a po každé změně"
 
@@ -3694,9 +3669,8 @@ msgid "Unrecognized action command %1"
 msgstr "Nerozeznaný příkaz akce: %1"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
-#, fuzzy
 msgid "Update"
-msgstr "Aktualizuj odkazy"
+msgstr "Aktualizuj"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:3
 msgid "Update attachment %1 on %2"
@@ -3707,18 +3681,16 @@ msgid "Update links"
 msgstr "Aktualizuj odkazy"
 
 #: core/data/Main/GroupViewTemplate.txt:220
-#, fuzzy
 msgid "Upgrade"
-msgstr "Upgradovaná skupina"
+msgstr "Proveď upgrade"
 
 #: core/data/Main/GroupViewTemplate.txt:216
 msgid "Upgrade group topic"
 msgstr "Upgrade názvu skupiny"
 
 #: core/data/Main/GroupViewTemplate.txt:208
-#, fuzzy
 msgid "Upgrade group topic..."
-msgstr "Upgrade názvu skupiny"
+msgstr "Upgrade téma skupiny..."
 
 #: core/templates/messages.tmpl:492
 msgid "Upgraded group"
@@ -3731,9 +3703,8 @@ msgid "Upload file"
 msgstr "Nahraj přílohu"
 
 #: PatternSkin/templates/attach.pattern.tmpl:50
-#, fuzzy
 msgid "Upload multiple attachments in one zip file"
-msgstr "Změna přílohy %1 v %2"
+msgstr "Nahraj více příloh v rámci jednoho ZIP souboru"
 
 #: PatternSkin/templates/attach.pattern.tmpl:42
 msgid "Upload up to %1 KB."
@@ -3812,14 +3783,12 @@ msgid "View differences"
 msgstr "Zobraz rozdíly"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View earlier"
-msgstr "dříve"
+msgstr "Zobraz dřívější"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "View later"
-msgstr "Zobraz šablony"
+msgstr "Zobraz pozdější"
 
 #: core/templates/more.tmpl:139
 msgid "View previous topic revision"
@@ -3839,9 +3808,8 @@ msgstr "Zobraz revize:"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
-#, fuzzy
 msgid "View sequential topic history"
-msgstr "Ukaž celou historii článku"
+msgstr "Zobraz celou historii článku tak jak šla za sebou"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
 msgid "View templates"
@@ -3859,9 +3827,8 @@ msgstr "Ukaž celou historii článku"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:18
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:19
-#, fuzzy
 msgid "View without formatting (v)"
-msgstr "Prohlédni nepracovaný text (bez formátování)"
+msgstr "Zobraz neformátovaný text (v)"
 
 #: core/templates/validate.tmpl:22
 msgid "Warning! Confirmation required"
@@ -3907,9 +3874,8 @@ msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Varování: \\'include\\' článek ještě neexistuje!"
 
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Web"
-msgstr "Weby"
+msgstr "Web"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
@@ -3973,7 +3939,6 @@ msgid "You"
 msgstr "Ty"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
@@ -4169,9 +4134,8 @@ msgstr ""
 "toto mohl udělat."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
-#, fuzzy
 msgid "Your"
-msgstr "Ty"
+msgstr "Váš"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
@@ -4329,7 +4293,7 @@ msgstr "za pomoci %1"
 
 #: core/data/System/SiteChanges.txt:56
 msgid "change display options"
-msgstr ""
+msgstr "změň nastavení pro zobrazení"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -4340,13 +4304,12 @@ msgid "checkboxes of referenced topics"
 msgstr "zatržení u odkazovaných článků"
 
 #: core/data/System/SiteChanges.txt:57
-#, fuzzy
 msgid "close display options"
-msgstr "Více možností pro prohlížení:"
+msgstr "Více možností pro zobrazení:"
 
 #: core/data/System/SiteChanges.txt:44
 msgid "diff"
-msgstr ""
+msgstr "rozdíl"
 
 #: core/templates/messages.tmpl:439
 msgid "don't forget to check your Topic Settings"
@@ -4379,9 +4342,8 @@ msgid "indicates mandatory fields"
 msgstr "označuje povinné pole"
 
 #: core/data/System/SiteChanges.txt:44
-#, fuzzy
 msgid "last change"
-msgstr "Naposledy změněné články"
+msgstr "poslední změna"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -4419,7 +4381,7 @@ msgstr "nalezeno v %1"
 
 #: core/data/System/SiteChanges.txt:23
 msgid "the beginning"
-msgstr ""
+msgstr "počátek"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"

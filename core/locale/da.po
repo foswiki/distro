@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-04-09 09:18+0200\n"
+"PO-Revision-Date: 2011-11-13 01:04+0200\n"
 "Last-Translator: Kenneth Lavrsen <kenneth@lavrsen.dk>\n"
 "Language-Team: Danish <N/A>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.5\n"
+"X-Generator: Pootle 2.1.6\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:485
@@ -44,9 +44,8 @@ msgid "%1"
 msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "%1 (default)"
-msgstr "(slet)"
+msgstr "%1 (standard)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -312,9 +311,8 @@ msgid "(raw view)"
 msgstr "(rå visning)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
-#, fuzzy
 msgid "(redirect denied)"
-msgstr "(adgang nægtet)"
+msgstr "(redirigering nægtet)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -458,35 +456,35 @@ msgstr "..."
 
 #: core/data/System/SiteChanges.txt:15
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 time"
 
 #: core/data/System/SiteChanges.txt:20
 msgid "1 week ago"
-msgstr ""
+msgstr "1 uge"
 
 #: core/data/System/SiteChanges.txt:17
 msgid "12 hours ago"
-msgstr ""
+msgstr "12 timer"
 
 #: core/data/System/SiteChanges.txt:21
 msgid "2 weeks ago"
-msgstr ""
+msgstr "2 uger"
 
 #: core/data/System/SiteChanges.txt:18
 msgid "24 hours ago"
-msgstr ""
+msgstr "24 timer"
 
 #: core/data/System/SiteChanges.txt:19
 msgid "3 days ago"
-msgstr ""
+msgstr "3 dage"
 
 #: core/data/System/SiteChanges.txt:22
 msgid "4 weeks ago"
-msgstr ""
+msgstr "4 uger"
 
 #: core/data/System/SiteChanges.txt:16
 msgid "6 hours ago"
-msgstr ""
+msgstr "6 timer"
 
 #: core/data/System/WebChanges.txt:9
 msgid ""
@@ -602,9 +600,8 @@ msgid "Action %1: %2."
 msgstr "Handling %1: %2."
 
 #: core/data/Main/WikiGroups.txt:64
-#, fuzzy
 msgid "Actions"
-msgstr "Handling"
+msgstr "Handlinger"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 msgid "Add"
@@ -615,14 +612,12 @@ msgid "Add form"
 msgstr "Tilføj formular"
 
 #: core/data/Main/GroupViewTemplate.txt:239
-#, fuzzy
 msgid "Add members"
-msgstr "Tilføj medlem"
+msgstr "Tilføj medlemmer"
 
 #: core/data/Main/GroupViewTemplate.txt:170
-#, fuzzy
 msgid "Add members..."
-msgstr "Tilføj medlem..."
+msgstr "Tilføj medlemmer..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
@@ -630,14 +625,12 @@ msgid "Add row"
 msgstr "Tilføj række"
 
 #: core/data/Main/GroupViewTemplate.txt:217
-#, fuzzy
 msgid "Add user management options to this topic."
-msgstr "Opdatér side-indstillinger for denne side..."
+msgstr "Tilføj brugerhåndtering til denne side."
 
 #: core/data/Main/GroupViewTemplate.txt:235
-#, fuzzy
 msgid "Add users or groups to this group"
-msgstr "Tilføj en bruger eller gruppe til denne gruppe"
+msgstr "Tilføj brugere eller grupper til denne gruppe"
 
 #: core/templates/messages.tmpl:373
 msgid "Adding a %1 preference in WebPreferences"
@@ -2021,7 +2014,6 @@ msgid "Last editor"
 msgstr "Sidst opdateret af"
 
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Last modified"
 msgstr "Sidst ændret"
 
@@ -2078,7 +2070,7 @@ msgstr "Log ud"
 
 #: core/data/Main/GroupViewTemplate.txt:127
 msgid "Log in to continue."
-msgstr ""
+msgstr "Log in for at fortsætte."
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
@@ -2107,7 +2099,7 @@ msgstr "Tilpas søgning:"
 
 #: core/data/System/SiteChanges.txt:54
 msgid "Maximum %1 items per web"
-msgstr ""
+msgstr "Højst %1 resultater per web"
 
 #: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
@@ -2247,17 +2239,15 @@ msgstr "Nyere version:"
 
 #: JQueryPlugin/data/System/JQueryTmpl.txt:205
 msgid "Next"
-msgstr ""
+msgstr "Næste"
 
 #: core/data/Main/GroupViewTemplate.txt:37
-#, fuzzy
 msgid "No  members"
-msgstr "ingen medlemmer"
+msgstr "Ingen medlemmer"
 
 #: core/data/System/SiteChanges.txt:50
-#, fuzzy
 msgid "No changes"
-msgstr "(ændringer)"
+msgstr "Ingen ændringer"
 
 #: core/templates/more.tmpl:208
 msgid "No child topics"
@@ -2339,7 +2329,7 @@ msgstr "Notificering"
 
 #: core/data/System/SiteChanges.txt:62
 msgid "Number of changes for each Web"
-msgstr ""
+msgstr "Antal ændringer for hver web"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:47
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
@@ -2370,7 +2360,7 @@ msgstr "OK, dette er stadig mig!"
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:93
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 #: core/templates/more.tmpl:158
 msgid "Older revision:"
@@ -2382,7 +2372,7 @@ msgstr "Kun medlemmer af %1 må udføre denne handling."
 
 #: core/data/Main/GroupViewTemplate.txt:130
 msgid "Only members or admins may update group."
-msgstr ""
+msgstr "Kun medlemmer eller administratorer kan opdatere gruppe."
 
 #: core/templates/more.tmpl:56 core/templates/more.tmpl:73
 msgid "Only update linked topics in %1 web"
@@ -2519,10 +2509,8 @@ msgstr ""
 "opgive, send venligst en mail til %2."
 
 #: core/templates/messages.tmpl:652
-#, fuzzy
 msgid "Please notify your %1 administrator."
-msgstr ""
-"E-mailen kunne ikke afsendes. Informér venligst din %1-administrator, %2"
+msgstr "Advisér venligst din %1-administrator."
 
 #: core/templates/mailresetpassword.tmpl:15
 msgid ""
@@ -2558,7 +2546,7 @@ msgstr "Vælg OK for at bekræfte at denne ændring var tilsigtet."
 
 #: JQueryPlugin/data/System/JQueryTmpl.txt:206
 msgid "Previous"
-msgstr ""
+msgstr "Forrige"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:28
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:29
@@ -2612,18 +2600,16 @@ msgid "Recently changed topics"
 msgstr "Senest ændrede sider"
 
 #: core/data/System/SiteChanges.txt:5
-#, fuzzy
 msgid "Recently changed topics in %1 Web"
-msgstr "Senest ændrede sider"
+msgstr "Seneste ændrede sider i webben %1"
 
 #: core/data/System/SiteChanges.txt:6
-#, fuzzy
 msgid "Recently changed topics in all Webs"
-msgstr "Senest ændrede sider"
+msgstr "Senest ændrede sider i alle webs"
 
 #: core/templates/oopsredirectdenied.tmpl:6
 msgid "Redirect Denied"
-msgstr ""
+msgstr "Redirigering nægtet"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: core/lib/Foswiki/UI/Rename.pm:1244
@@ -2696,9 +2682,8 @@ msgid "Remove members from this group"
 msgstr "Fjern medlemmer fra denne gruppe"
 
 #: core/data/Main/GroupViewTemplate.txt:180
-#, fuzzy
 msgid "Remove members..."
-msgstr "Fjern medlem..."
+msgstr "Fjern medlemmer..."
 
 #: core/data/Main/GroupViewTemplate.txt:267
 msgid "Remove selected members"
@@ -2978,9 +2963,8 @@ msgid "See below for help in editing this page."
 msgstr "See nedenfor for hjælp til at editere denne side"
 
 #: core/data/System/SiteChanges.txt:13
-#, fuzzy
 msgid "See changes since:"
-msgstr "Senest ændrede sider i:"
+msgstr "Ændrede sider de seneste:"
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3110,6 +3094,7 @@ msgstr "Et mellemrum bliver erstattet af et understregningstegn ( _ )"
 #: core/data/System/SiteChanges.txt:73
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
+"Angiv =all= for alle webs, eller en kommasepareret liste af webs fra: %1"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
@@ -3147,7 +3132,7 @@ msgstr "Abonnér / afmeld i:"
 
 #: core/data/System/WebSearch.txt:82 core/data/System/WebSearch.txt:98
 msgid "Subwebs"
-msgstr ""
+msgstr "Underwebs"
 
 #: core/templates/messages.tmpl:485
 msgid "Success adding users to group"
@@ -3167,7 +3152,7 @@ msgstr "Skift til monospace eller proportional skrift"
 
 #: core/data/Main/GroupViewTemplate.txt:124
 msgid "System user list."
-msgstr ""
+msgstr "Liste over systembrugere."
 
 #: core/data/System/SearchHelp.txt:15
 msgid ""
@@ -3473,7 +3458,7 @@ msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:121
 msgid "This group should not have members."
-msgstr ""
+msgstr "Denne gruppe bør ikke have nogen medlemmer."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
@@ -3615,7 +3600,7 @@ msgstr "Til web:"
 
 #: core/templates/messages.tmpl:651
 msgid "Too many recursions parsing template %1"
-msgstr ""
+msgstr "For mange rekursioner under gemmengang af skabelon %1"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:5
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
@@ -3627,9 +3612,8 @@ msgid "Toolbox"
 msgstr "Værktøjer"
 
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Topic"
-msgstr "Til side"
+msgstr "Side"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:6
 msgid "Topic %1 does not exist"
@@ -3741,9 +3725,8 @@ msgid "Unrecognized action command %1"
 msgstr "Ukendt action command %1"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
-#, fuzzy
 msgid "Update"
-msgstr "Opdatér links"
+msgstr "Opdatér"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:3
 msgid "Update attachment %1 on %2"
@@ -3754,18 +3737,16 @@ msgid "Update links"
 msgstr "Opdatér links"
 
 #: core/data/Main/GroupViewTemplate.txt:220
-#, fuzzy
 msgid "Upgrade"
-msgstr "Opgraderet gruppe"
+msgstr "Opgradér"
 
 #: core/data/Main/GroupViewTemplate.txt:216
 msgid "Upgrade group topic"
 msgstr "Opgradér gruppeside"
 
 #: core/data/Main/GroupViewTemplate.txt:208
-#, fuzzy
 msgid "Upgrade group topic..."
-msgstr "Opgradér gruppeside"
+msgstr "Opgradér gruppeside..."
 
 #: core/templates/messages.tmpl:492
 msgid "Upgraded group"
@@ -3953,9 +3934,8 @@ msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "BEMÆRK: \\'incluce\\'-siden er ikke oprettet endnu"
 
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Web"
-msgstr "Webs"
+msgstr "Web"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
@@ -4387,7 +4367,7 @@ msgstr "af %1"
 
 #: core/data/System/SiteChanges.txt:56
 msgid "change display options"
-msgstr ""
+msgstr "ændre visningsindstillinger"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -4398,13 +4378,12 @@ msgid "checkboxes of referenced topics"
 msgstr "flueben for sider med referencer"
 
 #: core/data/System/SiteChanges.txt:57
-#, fuzzy
 msgid "close display options"
-msgstr "Flere muligheder med denne side:"
+msgstr "luk visningsindstillinget"
 
 #: core/data/System/SiteChanges.txt:44
 msgid "diff"
-msgstr ""
+msgstr "forskelle"
 
 #: core/templates/messages.tmpl:439
 msgid "don't forget to check your Topic Settings"
@@ -4437,9 +4416,8 @@ msgid "indicates mandatory fields"
 msgstr "angiver obligatoriske felter"
 
 #: core/data/System/SiteChanges.txt:44
-#, fuzzy
 msgid "last change"
-msgstr "Senest ændrede sider"
+msgstr "seneste ændring"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -4477,7 +4455,7 @@ msgstr "fremsøgt %1"
 
 #: core/data/System/SiteChanges.txt:23
 msgid "the beginning"
-msgstr ""
+msgstr "begyndelsen"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
