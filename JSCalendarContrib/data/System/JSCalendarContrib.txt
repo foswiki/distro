@@ -125,7 +125,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 | Change History: | |
-|  ?? ??? 20?? | 1.4.3: Foswikitask:Item11256 - fixed typo preventing JSCalendarContribInline from loading =foswikiDate.js=. Thanks to Foswiki:Main.FlorianSchlichting |
+|  17 Nov 2011 | 1.4.3: Foswikitask:Item11256 - fixed typo preventing JSCalendarContribInline from loading =foswikiDate.js=. Thanks to Foswiki:Main.FlorianSchlichting |
 |  15 Nov 2011 | 1.4.2: Foswikitask:Item11195 - fixed decrementing dates when using servertime in timezones west of GMT. | 
 |  27 Sep 2011 | 1.4.1: Michael Daum: fixed date widget in jQuery no-conflict mode |
 |  19 Aug 2011 | 1.4.0: Arthur Clemens: Prevent that an empty data form field gets prefilled with a 1970 date. Prevent javascript error if input field value is not a date. Send a =change= event when setting the date value. |
