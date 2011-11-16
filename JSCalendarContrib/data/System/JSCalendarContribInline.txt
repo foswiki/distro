@@ -49,7 +49,7 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
   requires="JSCalendarContrib/calendar-setup,JSCalendarContrib/date"
 }%%TMPL:P{
   "LIBJS"
-  id="JavaScriptFiles/foswikiDate"
+  id="JavascriptFiles/foswikiDate"
   requires=""
 }%%STOPINCLUDE%
 </verbatim>
