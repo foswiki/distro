@@ -47,10 +47,12 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
   "LIBJS"
   id="JSCalendarContrib/foswiki"
   requires="JSCalendarContrib/calendar-setup,JSCalendarContrib/date"
-}%%TMPL:P{
-  "LIBJS"
-  id="JavascriptFiles/foswikiDate"
-  requires=""
+}%%IF{
+  "'%PLUGINVERSION%'>'2.1'"
+  then="$percntTMPL:P{
+  $quotLIBJS$quot
+  id=$quotJavascriptFiles/foswikiDate$quot
+}$percnt"
 }%%STOPINCLUDE%
 </verbatim>
 
