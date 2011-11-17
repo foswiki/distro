@@ -64,7 +64,7 @@ With this enabled, adding and removing members and also topic upgrades for each 
                <th>%MAKETEXT{"Actions"}%</th>
              </tr>$n" 
    format="<tr>
-     <td> $percntIF{\"not istopic '%USERSWEB%.$name'\" then=\"<nop>\$name\" else=\"[[%USERSWEB%.$name]]\"}$percnt</td>
+     <td> $percntIF{\"not istopic '%USERSWEB%.$name'\" then=\"<nop>$name\" else=\"[[%USERSWEB%.$name]]\"}$percnt</td>
      <td> 
        $percntINCLUDE{\"%USERSWEB%.GroupViewTemplate\"
          section=\"rendergroup\"
