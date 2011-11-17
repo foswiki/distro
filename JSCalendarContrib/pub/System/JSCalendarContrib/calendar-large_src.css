@@ -8,11 +8,11 @@ div.calendar {
 .calendar table {
 	color: #000;
 	cursor: default;
-	background: #f3f3f3;
+	background: #dee4ea;
 	font-family: arial,tahoma,verdana,sans-serif;
 }
 .calendar {
-	border: 1px solid #5c5e6a;
+	border: 1px solid #a5b2bd;
 }
 .calendar table {
 	border: none;
@@ -20,17 +20,18 @@ div.calendar {
 }
 .calendar th,
 .calendar td {
-	padding: 4px 6px;
+	padding: 5px 6px;
 }
 
 /* Header part -- contains navigation buttons and day names. */
 
+/* Navigation buttons */
 .calendar .button { /* "<<", "<", ">", ">>" buttons have this class */
-	text-align: center;    /* They are the navigation buttons */
+	text-align: center;    
 }
 
 .calendar .nav {
-	background: #5c5e6a url(menuarrow3.gif) no-repeat 100% 100%;
+	background: #566882 url(menuarrow3.gif) no-repeat 100% 100%;
 }
 
 .calendar thead .title { /* This holds the current "month, year" */
@@ -39,14 +40,17 @@ div.calendar {
 }
 
 .calendar thead .headrow { /* Row <TR> containing navigation buttons */
-	background: #5c5e6a;
+	background: #566882;
 	color: #fff;
 }
 .calendar thead .headrow td {
 	font-size: 85%;
 }
 
-.calendar thead tr.daynames { /* Row <TR> containing the day names */
+.calendar tr.daynames td { /* Row <TR> containing the day names */
+	border-style: none none solid none;
+	border-color: #cdd5dc;
+	border-width: 1px;
 }
 
 .calendar thead .name, /* Cells <TD> containing the day names */
@@ -58,7 +62,7 @@ div.calendar {
 .calendar tbody .wn.day {
 	text-align: right;
 	border-style: none solid solid none;
-	border-color: #fff #f0f0f0 #fff #fff;
+	border-color: #fff;
 	border-width: 1px;
 }
 .calendar thead .name.hilite {
@@ -68,17 +72,16 @@ div.calendar {
 /* last cell of week number col needs to have a bottom border */
 .calendar tbody tr + tr + tr + tr + tr + tr .wn.day {
 	border-style: none solid none none;
-	border-color: #f0f0f0;
+	border-color: #fff;
 }
 
 .calendar thead .name {
-	color: #63b3c0;
+	color: #1565bc;
 	background: #fff;
 }
 .calendar thead .wn,
 .calendar tbody .wn.day {
-	color: #b1d9df;
-	background: #fff;
+	color: #c1e0f0;
 }
 
 .calendar thead .weekend { /* How a weekend day name shows in header */
@@ -108,11 +111,12 @@ div.calendar {
 	color: #333;
 	text-align: right;
 	border-style: solid none none solid;
-	border-color: #f0f0f0;
+	border-color: #fff;
 	border-width: 1px;
 }
 .calendar tbody .day.othermonth {
 	color: #ddd;
+	background: #f5f5f5;
 }
 
 .calendar tbody .rowhilite td {
@@ -141,7 +145,7 @@ div.calendar {
 
 
 .calendar tbody td.today { /* Cell showing today date */
-	background: #ecf0fc;
+	background: #dee4eb;
 	color: #333;
 	font-weight: normal;
 }
@@ -165,7 +169,7 @@ div.calendar {
 	left: 0;
 	width: 4em;
 	cursor: default;
-	border: 1px solid #5c5e6a;
+	border: 1px solid #566882;
 	padding:1px;
 	background: #ecf1fc; /* light blue */
 	color: #000;
@@ -194,10 +198,15 @@ div.calendar {
 
 /* The footer part -- status bar and "Close" button */
 
+.calendar td.time,
+.calendar tfoot .footrow {
+	background: #dee4ea;
+	color: #fff;
+	border-top: 1px solid #cdd5dc;
+}
+
 .calendar tfoot .footrow { /* The <TR> in footer (only one right now) */
 	text-align: center;
-	background: #f3f3f3;
-	color: #fff;
 }
 
 .calendar tfoot .ttip,
@@ -209,7 +218,6 @@ div.calendar {
 	color: #aaa;
 	padding-top: 4px;
 	padding-bottom: 5px;
-	border-top: 1px solid #eaeaea;
 }
 
 .calendar tfoot .hilite { /* Hover style for buttons in footer */
@@ -227,18 +235,16 @@ div.calendar {
 
 
 .calendar td.time {
-	border-top: 1px solid #eaeaea;
 	padding: 5px 0;
 	text-align: center;
 	color:#aaa;
-	background: #f3f3f3;
 }
 
 .calendar td.time .hour,
 .calendar td.time .minute,
 .calendar td.time .ampm {
 	padding: 2px 4px;
-	border: 1px solid #eee;
+	border: none;
 	background-color: #fff;
 	color: #000;
 	text-align: center;
@@ -258,7 +264,6 @@ div.calendar {
 .calendar td.time span.active {
 	background: #6e99e3; /* blue */
 	color: #fff;
-	border: 1px solid #6e99e3; /* blue */
 }
 
 .calendar td.time span.active {
