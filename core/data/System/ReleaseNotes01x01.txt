@@ -1237,6 +1237,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11227][Item11227]] | TablePlugin is causing undefined variable errors in Time::Local |
 | [[%BUGS%/Item11231][Item11231]] | Escaped !ABBREV in heading generate an incorrect Anchor link |
 | [[%BUGS%/Item11239][Item11239]] | SpreadSheetPlugin LEFTSTRING and has inconsistent results when cell has leading spaces |
+| [[%BUGS%/Item11258][Item11258]] | WikiGroups doesn't link to group names that are not wikiwords. |
 </noautolink>
 
 ---+++ Enhancements
