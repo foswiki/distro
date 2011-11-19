@@ -121,8 +121,10 @@ sub parseTime {
     require Time::Local;
 
     # NOTE: This routine *will break* if input is not one of below formats!
-    my $timelocal = $defaultLocal ? \&Time::Local::timelocal :
-        \&Time::Local::timegm;
+    my $timelocal =
+      $defaultLocal
+      ? \&Time::Local::timelocal
+      : \&Time::Local::timegm;
 
     # try "31 Dec 2001 - 23:59"  (Foswiki date)
     # or "31 Dec 2001"
@@ -152,7 +154,7 @@ sub parseTime {
           ( $1, $2 || 1, $3 || 1, $4 || 0, $5 || 0, $6 || 0, $7 || '' );
         $M--;
         $Y -= 1900 if ( $Y > 1900 );
-        if( $tz ) {
+        if ($tz) {
             my $tzadj = 0;
             if ( $tz eq 'Z' ) {
                 $tzadj = 0;    # Zulu
@@ -192,10 +194,10 @@ sub parseTime {
         #no defaulting yet so we can detect the 2009--12 error
         my ( $year, $M, $D, $h, $m, $s ) = ( $1, $2, $3, $4, $5, $6 );
 
-        # without range checking on the 12 Jan 2009 case above,
-        # there is ambiguity - what is 14 Jan 12 ?
-        # similarly, how would you decide what Jan 02 and 02 Jan are?
-        #$month_p = $MON2NUM{ lc($month_p) } if (defined($MON2NUM{ lc($month_p) }));
+    # without range checking on the 12 Jan 2009 case above,
+    # there is ambiguity - what is 14 Jan 12 ?
+    # similarly, how would you decide what Jan 02 and 02 Jan are?
+    #$month_p = $MON2NUM{ lc($month_p) } if (defined($MON2NUM{ lc($month_p) }));
 
         #TODO: unhappily, this means 09 == 1909 not 2009
         $year -= 1900 if ( $year > 1900 );
@@ -260,7 +262,8 @@ sub formatTime {
     my ( $epochSeconds, $formatString, $outputTimeZone ) = @_;
     my $value = $epochSeconds;
 
-    ASSERT(defined $epochSeconds) if DEBUG;
+    ASSERT( defined $epochSeconds ) if DEBUG;
+
     # use default Foswiki format "31 Dec 1999 - 23:59" unless specified
     $formatString   ||= '$longdate';
     $outputTimeZone ||= $Foswiki::cfg{DisplayTimeValues};
@@ -458,8 +461,8 @@ Format a time in seconds as a string. For example,
 sub formatDelta {
     my $secs     = shift;
     my $language = shift;
-    
-    ASSERT(defined $secs) if DEBUG;
+
+    ASSERT( defined $secs ) if DEBUG;
     my $rem = $secs % ( 60 * 60 * 24 );
     my $days = ( $secs - $rem ) / ( 60 * 60 * 24 );
     $secs = $rem;
@@ -560,7 +563,8 @@ sub parseInterval {
     my $today = sprintf( '%04d-%02d-%02d', $lt[5] + 1900, $lt[4] + 1, $lt[3] );
     my $now = $today . sprintf( 'T%02d:%02d:%02d', $lt[2], $lt[1], $lt[0] );
 
-    ASSERT(defined $interval) if DEBUG;
+    ASSERT( defined $interval ) if DEBUG;
+
     # replace $now and $today shortcuts
     $interval =~ s/\$today/$today/g;
     $interval =~ s/\$now/$now/g;
