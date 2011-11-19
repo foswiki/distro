@@ -1,0 +1,40 @@
+%TMPL:DEF{"installedplugins"}%%SEARCH{"1"
+ nosearch="on" 
+ nototal="on" 
+ web="System"
+ topic="*Plugin,*Contrib"
+ header="{"
+ footer="}"
+ format="\"$topic\":\"$pattern(.*?\n\|[\s\w-]*\s[Vv]ersion:\s*\|([^|]*)\|.*)\""
+ separator=","
+}%%TMPL:END%
+
+%TMPL:DEF{"messagetmpl"}%<script id="updatesPluginMessage" type="text/x-jquery-tmpl"> 
+<div class="foswikiUpdatesMessage">
+  %X% %MAKETEXT{"Info: [_1] extension(s) on your Foswiki can be updated. Click <a href='[_2]'>here</a> to perform the update." args="${nrPlugins}, ${configureUrl}"}%
+</div>
+</script>%TMPL:END%
+
+%TMPL:DEF{"css"}%<literal>
+<style>
+.foswikiUpdatesMessage {
+  display:none;
+  position:absolute;
+  top:0;
+  width:100%;
+  background:yellow;
+  color:black;
+  border-bottom:2px solid orange;
+  padding:0.5em 1em;
+  font-family:Arial,'Liberation Sans',FreeSans,sans-serif;
+  z-index:10000;
+}
+.foswikiBroadcastMessage a {
+  color:red;
+}
+.foswikiBroadcastMessage a:hover {
+  color:black;
+  background:orange;
+}
+</style>
+</literal>%TMPL:END%

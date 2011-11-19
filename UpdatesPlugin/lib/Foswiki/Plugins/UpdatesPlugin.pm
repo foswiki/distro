@@ -20,14 +20,15 @@ use warnings;
 
 use Foswiki::Func ();
 
-our $VERSION = '$Rev$';
-our $RELEASE = '0.01';
-our $SHORTDESCRIPTION = 'Checks Foswiki.org for updates';
+our $VERSION           = '$Rev$';
+our $RELEASE           = '0.01';
+our $SHORTDESCRIPTION  = 'Checks Foswiki.org for updates';
 our $NO_PREFS_IN_TOPIC = 1;
 our $baseWeb;
 our $baseTopic;
 our $core;
 
+use constant DEBUG => 0; #tooggle me
 =begin TML
 
 ---++ initPlugin($topic, $web, $user) -> $boolean
@@ -35,29 +36,51 @@ our $core;
 =cut
 
 sub initPlugin {
-  ($baseTopic, $baseWeb) = @_;
+    ( $baseTopic, $baseWeb ) = @_;
 
-  Foswiki::Func::registerTagHandler('MACRO', sub {
-    return getCore->MACRO(@_);
-  });
+    if ( Foswiki::Func::isAnAdmin() ) {
+        check();
+    }
 
-  if (Foswiki::Func::isAnAdmin()) {
-    Foswiki::Func::addToZone("script", "UPDATES::JS", <<JS, "JQUERYPLUGIN");
-<script src="%PUBURLPATH%/%SYSTEMWEB%/UpdatesPlugin/jquery.updates.js"></script>
-JS
-  };
-
-  return 1;
+    return 1;
 }
 
-sub getCore {
+sub check {
+    my $request = Foswiki::Func::getRequestObject();
+    my $cookie  = $request->cookie("FOSWIKI_UPDATESPLUGIN");
 
-  unless (defined $core) {
-    require Foswiki::Plugins::UpdatesPlugin::Core;
-    $core = new Foswiki::Plugins::UpdatesPlugin::Core();
-  }
+    return if defined($cookie) && Foswiki::Func::isTrue($cookie) && !DEBUG;
 
-  return $core;
+    Foswiki::Func::readTemplate("updatesplugin");
+    my $installedPlugins = Foswiki::Func::expandTemplate("installedplugins");
+    my $css = Foswiki::Func::expandTemplate("css");
+    my $messageTmpl = Foswiki::Func::expandTemplate("messagetmpl");
+
+    require Foswiki::Plugins::JQueryPlugin;
+    Foswiki::Plugins::JQueryPlugin::createPlugin("cookie");
+    Foswiki::Plugins::JQueryPlugin::createPlugin("tmpl");
+
+    # SMELL read Foswiki::cfg{ExtensionsRepositories} and generate the report url on its base
+    my $reportUrl = $Foswiki::cfg{UpdatesPlugin}{ReportUrl} 
+      || "http://foswiki.org/Extensions/UpdatesPluginReport";
+
+    my $configureUrl = $Foswiki::cfg{UpdatesPlugin}{ConfigureUrl} 
+      || Foswiki::Func::getScriptUrl(undef, undef, "configure");
+
+    Foswiki::Func::addToZone("head", "UPDATESPLUGIN::META", <<META);
+<meta name="foswiki.UPDATESPLUGIN::REPORTURL" content="$reportUrl" />
+<meta name="foswiki.UPDATESPLUGIN::CONFIGUREURL" content="$configureUrl" />
+$css
+$messageTmpl
+META
+
+    Foswiki::Func::addToZone( "script", "UPDATESPLUGIN::JS", <<JS, "JQUERYPLUGIN::FOSWIKI, JQUERYPLUGIN::COOKIE, JQUERYPLUGIN::TMPL" );
+<script>
+var InstalledPlugins = $installedPlugins;
+</script>
+<script src="%PUBURLPATH%/%SYSTEMWEB%/UpdatesPlugin/jquery.updates.js"></script>
+JS
+
 }
 
 1;

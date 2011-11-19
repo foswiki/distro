@@ -5,7 +5,20 @@
 
 ---++ Usage
 
----++ Examples
+Click <a href="#" id="forceCheck">here</a> to force checking foswiki.org for new.
+
+<literal>
+<script>
+jQuery(function($) {
+  $("#forceCheck").click(function() {
+    $.cookie("FOSWIKI_UPDATESPLUGIN", null);
+    window.location.href = '%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%';
+    return false;
+  });
+});
+</script>
+</literal>
+%JQREQUIRE{"cookie"}%
 
 ---++ Installation Instructions
 
