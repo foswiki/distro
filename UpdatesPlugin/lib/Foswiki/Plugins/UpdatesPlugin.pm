@@ -41,6 +41,12 @@ sub initPlugin {
     return getCore->MACRO(@_);
   });
 
+  if (Foswiki::Func::isAnAdmin()) {
+    Foswiki::Func::addToZone("script", "UPDATES::JS", <<JS, "JQUERYPLUGIN");
+<script src="%PUBURLPATH%/%SYSTEMWEB%/UpdatesPlugin/jquery.updates.js"></script>
+JS
+  };
+
   return 1;
 }
 
