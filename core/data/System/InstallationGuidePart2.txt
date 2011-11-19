@@ -1,14 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" date="1311170712" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
----+ Installation Guide Part 2
-__Return to [[%SPACEOUT{"InstallationGuidePart1}%]] or see the [[InstallationGuide][Complete Installation Guide]] on one page__
+---+!! Installation Guide Part 2
+
+%TOC%
 
 %STARTINCLUDE%
 ---++ Beyond the basic installation
 
 Once you have Foswiki installed and running, you can perform one or more of the following steps to tailor your installation to your needs. Many of the references in this section refer to topics within your Foswiki installation. For example, =[[%SYSTEMWEB%.Skins]]= refers to the =Skins= topic in your %SYSTEMWEB% web. To go directly to a topic, enter the full topic name, such as =%SYSTEMWEB%.Skins=, into the "Jump" text box at the top right of any Foswiki page.
-
-To make it easier to follow the instructions in this section, you can view this installation guide using your Foswiki site by entering =%SYSTEMWEB%.InstallationGuide= into the "Jump" text box. By doing this instead of using the =INSTALL.html= file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
 
 All of the Foswiki documentation can also be found online in the [[System.WebHome][Foswiki documentation section]] (the "System" web) of the Foswiki web site.
 
@@ -76,6 +75,34 @@ You can manually or automatically generate a listing of the most popular pages f
 ---++++ Enable Localisation
 
 Foswiki supports displaying national (non-ASCII) characters, and using different languages for its basic interface elements. To configure localisation, modify the =Localisation= section of the =configure= page. For more information, see Foswiki:Support.InternationalizationSupplement.
+
+#ConfiguringFoswikiManually
+---++++ Configuring Foswiki manually (without using the =configure= page)
+
+It is highly recommended that you configure Foswiki by using your browser to access the =configure= page. However, if you are unable to get the =configure= page to display (for example, if a dependency is missing), or for some reason you do not wish to use the =configure= page, then you can configure Foswiki manually
+
+Perform the following steps to manually configure Foswiki:
+   * Copy the file =lib/Foswiki.spec= to =lib/LocalSite.cfg=
+   * Remove the # in front of the following settings, and ensure that they are set to the correct values: Note: The settings must not reference other $Foswiki::cfg variables.<sticky><verbatim class="perl">
+   $Foswiki::cfg{DefaultUrlHost}
+   $Foswiki::cfg{ScriptUrlPath}
+   $Foswiki::cfg{ScriptDir}
+   $Foswiki::cfg{PubUrlPath}
+   $Foswiki::cfg{PubDir}
+   $Foswiki::cfg{DataDir}
+   $Foswiki::cfg{ToolsDir}
+   $Foswiki::cfg{TemplateDir}
+   $Foswiki::cfg{LocalesDir}
+   $Foswiki::cfg{WorkingDir}
+   $Foswiki::cfg{OS}</verbatim></sticky>
+
+   * Make sure the following settings are defined:<sticky><verbatim class="perl">
+   $Foswiki::cfg{LoginManager}
+   $Foswiki::cfg{WebMasterEmail}
+   $Foswiki::cfg{SMTP}{MAILHOST}
+   $Foswiki::cfg{SMTP}{SENDERHOST}</verbatim></sticky>
+
+   * Remove the line containing ==__END__== and everything following it.
 
 ---+++ Customizing your site
 
@@ -260,15 +287,6 @@ tar -zxvf * working/configure/backup/[Extension}-backup-[yyyymmdd]-[hhmmss].tgz
 # or
 unzip working/configure/backup/[Extension}-backup-[yyyymmdd]-[hhmmss].zip
 </verbatim>
----+++ TWiki Compatibility
-
-Foswiki is 100% backwards compatible with TWiki<sup>&reg;</sup> markup up to and including TWiki 4.2.4. Existing TWiki webs, topics and attachments can be used with Foswiki without requiring any changes.
-
-To support a seamless upgrade from TWiki, Foswiki ships with a plugin called =TWikiCompatibilityPlugin=. This plugin enables most TWiki extensions to work with Foswiki, without modifications. It also maps requests for legacy TWiki web topics to their Foswiki equivalents, as defined in Foswiki:Development.TopicNameMappingTable. The =TWIKIWEB= and =MAINWEB= TWiki variables are also mapped to the new Foswiki macros =SYSTEMWEB= and =USERSWEB=.
-
-If you are not upgrading an existing TWiki installation and do not plan to install plugins from the TWiki web site, it is recommended that you disable the !TWikiCompatibilityPlugin in the _Plugins_ Section on the =configure= page.
-
-If a plugin exists both in a TWiki version and a Foswiki version, it is strongly recommended that you use the Foswiki version, as this is coded to work optimally with Foswiki. As part of the Foswiki project, the Foswiki community is evaluating all of the extensions that are available for TWiki, and porting them over to the Foswiki name space. Many of them are being enhanced through the removal of bugs and security vulnerabilities, resulting in better, more functional extensions for Foswiki.
 
 ---+++ Web Acceleration (mod_perl, FastCGI, ...)
 
