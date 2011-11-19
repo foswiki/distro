@@ -25,7 +25,8 @@ sub set_up {
 sub tear_down {
     my $this = shift;
 
-    $Foswiki::cfg{DisplayTimeValues}=delete $this->{DisplayTimeValues};
+    $Foswiki::cfg{DisplayTimeValues} = delete $this->{DisplayTimeValues};
+
     # Always do this, and always do it last
     $this->SUPER::tear_down();
 }
