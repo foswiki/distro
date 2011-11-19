@@ -122,7 +122,7 @@ sub test_isadmin {
     my $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
 %USERINFO{"$Foswiki::cfg{AdminUserWikiName}" format="$testformat"}%
 HERE
-    my $adminEmail = $Foswiki::cfg{WebMasterEmail} || '';
+    my $adminEmail = $Foswiki::cfg{WebMasterEmail} || 'email not set';
     my $adminusername =
       Foswiki::Func::wikiToUserName( $Foswiki::cfg{AdminUserWikiName} );
     $this->assert_str_equals( <<"HERE", $ui );
