@@ -121,18 +121,8 @@ sub parseTime {
     require Time::Local;
 
     # NOTE: This routine *will break* if input is not one of below formats!
-    my $tzadj = 0;        # Zulu
-    if ($defaultLocal) {
-
-        # Local time at midnight on the epoch gives us minus the
-        # local difference. e.g. CST is GMT + 1, so midnight Jan 1 1970 CST
-        # is -01:00Z. But we don't want to give you that! Because it's
-        # wrong on Winblows, where localtime() of a negative number gives
-        # undef, resulting in a mad $tzadj. So we simply offset the
-        # base by 24 hours (86400 seconds). The params are simply the
-        # result of gmtime(86400);
-        $tzadj = 86400 - Time::Local::timelocal( 0, 0, 0, 2, 0, 70, 5, 1, 0 );
-    }
+    my $timelocal = $defaultLocal ? \&Time::Local::timelocal :
+        \&Time::Local::timegm;
 
     # try "31 Dec 2001 - 23:59"  (Foswiki date)
     # or "31 Dec 2001"
@@ -146,8 +136,7 @@ sub parseTime {
 
         #TODO: %MON2NUM needs to be updated to use i8n
         #TODO: and should really work for long form of the month name too.
-        return Time::Local::timegm( 0, $5 || 0, $4 || 0, $1, $mon,
-            $year ) - $tzadj;
+        return &$timelocal( 0, $5 || 0, $4 || 0, $1, $mon, $year );
     }
 
     # ISO date 2001-12-31T23:59:59+01:00
@@ -163,6 +152,7 @@ sub parseTime {
           ( $1, $2 || 1, $3 || 1, $4 || 0, $5 || 0, $6 || 0, $7 || '' );
         $M--;
         $Y -= 1900 if ( $Y > 1900 );
+        my $tzadj = 0;
         if ( $tz eq 'Z' ) {
             $tzadj = 0;    # Zulu
         }
@@ -170,7 +160,7 @@ sub parseTime {
             $tzadj = ( $1 || '' ) . ( ( ( $2 * 60 ) + ( $3 || 0 ) ) * 60 );
             $tzadj -= 0;
         }
-        return Time::Local::timegm( $s, $m, $h, $D, $M, $Y ) - $tzadj;
+        return &$timelocal( $s, $m, $h, $D, $M, $Y );
     }
 
     #any date that leads with a year (2 digit years too)
@@ -199,9 +189,10 @@ sub parseTime {
         #no defaulting yet so we can detect the 2009--12 error
         my ( $year, $M, $D, $h, $m, $s ) = ( $1, $2, $3, $4, $5, $6 );
 
-#without range checking on the 12 Jan 2009 case above, there is ambiguity - what is 14 Jan 12 ?
-#similarly, how would you decide what Jan 02 and 02 Jan are?
-#$month_p = $MON2NUM{ lc($month_p) } if (defined($MON2NUM{ lc($month_p) }));
+        # without range checking on the 12 Jan 2009 case above,
+        # there is ambiguity - what is 14 Jan 12 ?
+        # similarly, how would you decide what Jan 02 and 02 Jan are?
+        #$month_p = $MON2NUM{ lc($month_p) } if (defined($MON2NUM{ lc($month_p) }));
 
         #TODO: unhappily, this means 09 == 1909 not 2009
         $year -= 1900 if ( $year > 1900 );
@@ -224,8 +215,7 @@ sub parseTime {
         my $min  = $m || 0;
         my $sec  = $s || 0;
 
-        return Time::Local::timegm( $sec, $min, $hour, $day, $month, $year ) -
-          $tzadj;
+        return &$timelocal( $sec, $min, $hour, $day, $month, $year );
     }
 
     # give up, return undef
