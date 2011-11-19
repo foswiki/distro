@@ -152,13 +152,16 @@ sub parseTime {
           ( $1, $2 || 1, $3 || 1, $4 || 0, $5 || 0, $6 || 0, $7 || '' );
         $M--;
         $Y -= 1900 if ( $Y > 1900 );
-        my $tzadj = 0;
-        if ( $tz eq 'Z' ) {
-            $tzadj = 0;    # Zulu
-        }
-        elsif ( $tz =~ /([-+])(\d\d)(?::(\d\d))?/ ) {
-            $tzadj = ( $1 || '' ) . ( ( ( $2 * 60 ) + ( $3 || 0 ) ) * 60 );
-            $tzadj -= 0;
+        if( $tz ) {
+            my $tzadj = 0;
+            if ( $tz eq 'Z' ) {
+                $tzadj = 0;    # Zulu
+            }
+            elsif ( $tz =~ /([-+])(\d\d)(?::(\d\d))?/ ) {
+                $tzadj = ( $1 || '' ) . ( ( ( $2 * 60 ) + ( $3 || 0 ) ) * 60 );
+                $tzadj -= 0;
+            }
+            return Time::Local::timegm( $s, $m, $h, $D, $M, $Y ) - $tzadj;
         }
         return &$timelocal( $s, $m, $h, $D, $M, $Y );
     }

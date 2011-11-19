@@ -27,10 +27,12 @@ sub set_up {
     $ENV{TZ} = 'GMT';
     POSIX::tzset();
     undef $Foswiki::Time::TZSTRING;
+    $this->{DisplayTimeValues} = $Foswiki::cfg{DisplayTimeValues};
 }
 
 sub tear_down {
     my $this = shift;
+    $Foswiki::cfg{DisplayTimeValues} = delete $this->{DisplayTimeValues};
     $this->SUPER::tear_down();    # should restore $ENV{TZ}
         # Warning! segfault on Windows if $ENV{TZ} is undef
     POSIX::tzset() if defined $ENV{TZ};
@@ -71,11 +73,25 @@ sub checkTime {
     my ( $this, $s, $m, $h, $D, $M, $Y, $str, $dl ) = @_;
     $Y -= 1900;
     $M--;
+
+    $Foswiki::cfg{DisplayTimeValues} = 'gmtime';
     my $gmt = timegm( $s, $m, $h, $D, $M, $Y );
     my $tt = Foswiki::Time::parseTime( $str, $dl );
     my $a  = showTime($tt);
     my $b  = showTime($gmt);
-    $this->assert_equals( $gmt, $tt, "$a != $b" . join( ' ', caller ) );
+    $this->assert_equals( $gmt, $tt,
+        "$a != $b (gmtime $str) " . join( ' ', caller ) );
+
+    $Foswiki::cfg{DisplayTimeValues} = 'servertime';
+    $gmt =
+      $str =~ /(?:Z|[-+]\d\d(?::\d\d)?)/
+      ? timegm( $s, $m, $h, $D, $M, $Y )
+      : timelocal( $s, $m, $h, $D, $M, $Y );
+    $tt = Foswiki::Time::parseTime( $str, $dl );
+    $a  = showTime($tt);
+    $b  = showTime($gmt);
+    $this->assert_equals( $gmt, $tt,
+        "$a != $b (servertime $str) " . join( ' ', caller ) );
 }
 
 sub test_parseTimeFoswiki {
@@ -124,7 +140,8 @@ sub test_parseTimeISO8601 {
     POSIX::tzset();
 
     # Generate server time string
-    $this->checkTime( 7, 59, 5, 2, 4, 1995, "1995-04-02T06:59:07",  1 );
+    $this->checkTime( 7, 59, 6, 2, 4, 1995, "1995-04-02T06:59:07" );
+    $this->checkTime( 7, 59, 4, 2, 4, 1995, "1995-04-02T06:59:07",  1 );
     $this->checkTime( 7, 59, 6, 2, 4, 1995, "1995-04-02T06:59:07Z", 1 );
 
 }
@@ -275,7 +292,12 @@ sub test_parseErrors {
 
     $this->assert_equals( undef, Foswiki::Time::parseTime('2008-13-23') );
     $this->assert_equals( undef, Foswiki::Time::parseTime('2008-10-32') );
-    $this->assert_equals( undef, Foswiki::Time::parseTime('Foswiki v.1.0.5 and 185 Extensions.WebHome with dependencies - for instructions follow the link.%BR%_Works for Debian and Ubuntu._') );
+    $this->assert_equals(
+        undef,
+        Foswiki::Time::parseTime(
+'Foswiki v.1.0.5 and 185 Extensions.WebHome with dependencies - for instructions follow the link.%BR%_Works for Debian and Ubuntu._'
+        )
+    );
 }
 
 sub test_week {
