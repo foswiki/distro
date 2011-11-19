@@ -141,7 +141,7 @@ sub test_parseTimeISO8601 {
 
     # Generate server time string
     $this->checkTime( 7, 59, 6, 2, 4, 1995, "1995-04-02T06:59:07" );
-    $this->checkTime( 7, 59, 4, 2, 4, 1995, "1995-04-02T06:59:07",  1 );
+    $this->checkTime( 7, 59, 4, 2, 4, 1995, "1995-04-02T06:59:07", 1 );
     $this->checkTime( 7, 59, 6, 2, 4, 1995, "1995-04-02T06:59:07Z", 1 );
 
 }
