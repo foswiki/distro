@@ -1,36 +1,32 @@
 %META:TOPICINFO{author="ProjectContributor" date="1291655311" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
----+ System Requirements
+---+!! Foswiki System Requirements
 
-_Server and client requirements_
+Low client and server base requirements are core features that keep Foswiki widely deployable, particularly across a range of browser platforms and versions. Many extensions exist which enhance and expand Foswiki's capabilities; they may have additional requirements.
 
-Low client and server base requirements are core features that keep Foswiki widely deployable, particularly across a range of browser platforms and versions.  Many extensions exist which enhance and expand Foswiki's capabilities; they may have additional requirements.
-
-%TOC%
+%TOC{title="Contents"}%
 
 ---++ Server Requirements
 
-The code is written in Perl 5, and uses a number of shell commands from perl.
-The default package requires [[http://www.gnu.org/software/rcs/rcs.html][RCS (Revision Control System)]], a GNU Free Software package. Foswiki is developed in a basic Linux/Apache environment. It also works with Microsoft Windows, and should have no problem on any other platform that meets the requirements.
+Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as Unix and Unix-like systems (including Linux and OSX), on which it uses a number of shell commands and <a href="http://www.gnu.org/software/rcs/rcs.html" rel="nofollow" target="_top">RCS (Revision Control System)</a>, a GNU Free Software package. It should be able to run on any server platform that meets the following requirements.
 
-| *Resource* | *Required Server Environment *<nop>* |
+| *Resource* | *Required Server Environment* |
 | Perl | 5.8.8 or higher |
-| RCS | 5.7 or higher (including GNU =diff=) %BR% Optional, Foswiki includes a pure perl implementation of RCS that can be used instead (although it's slower) |
-| GNU =diff= | GNU =diff= 2.7 or higher is required when not using the all-Perl <nop>RcsLite.  %BR% Install on PATH if not included with RCS (check version with =diff -v=)  %BR% Must be the version used by RCS, to avoid problems with binary attachments - RCS may have hard-coded path to =diff= |
-| GNU =patch= | For upgrades only: GNU =patch= is required when patching the code using patches in diff format submitted by the community. |
-| GNU =fgrep=, =egrep= | Modify command line parameters in configure if you use non-GNU grep programs |
-| Cron/scheduler | %BULLET% Unix: =cron= %BB% Windows: =cron= equivalents <!-- SMELL: Macintosh version? --> |
-| Web server | Apache is well supported; see Foswiki:Support.InstallingOnSpecificPlatforms for alternative options. |
+| RCS | 5.7 or higher (including GNU =diff=) <br /> Optional. Foswiki includes a pure Perl implementation of RCS (RcsLite) that can be used instead, at the cost of performance |
+| GNU diff | GNU diff 2.7 or higher is required when not using the all-Perl RcsLite. <br /> Install within the PATH if not included with RCS (check version with =diff -v=) <br /> Must be the version used by RCS, to avoid problems with binary attachments - RCS may have hard-coded path to =diff= |
+| Other external programs | =fgrep, egrep= |
+| Cron/scheduler | &bull; Unix: =cron= <br />&bull; Windows: =cron= equivalents <!-- SMELL: Macintosh version? --> |
+| Web server | Apache is well supported; for information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |
 
----+++ Perl Modules
+---++ Perl Modules
+
 A complete list of the required and optional Perl modules can be found in =lib/DEPENDENCIES=.
 
 Most of them will probably already be available in your installation. You can check version numbers with the =configure= script, or if you're still trying to get to that point, check from the command line like this:
-<!--%JQREQUIRE{"chili"}%--><verbatim class="bash">
+<verbatim class="bash">
 perl -e 'use FileHandle; print $FileHandle::VERSION."\n"'
 </verbatim>
-
 
 #ClientRequirements
 ---++ Client Requirements
@@ -41,13 +37,11 @@ The [[InstallationGuide][standard installation]] has relatively low browser requ
    * Cookies, if persistent sessions are required
    * Javascript, for edit/save/upload functionality <blockquote class="foswikiHelp">%T% Change ={ValidationMethod}{Method}= from =strikeone= to =embedded= in [[%SCRIPTURLPATH{"configure"}%][configure]] to allow non-javascript browsers to edit/save/upload</blockquote>
 
-CSS and Javascript are used in most skins. Some skins will require more recent releases of browsers. The default skin is tested on IE 6, 7, Safari 3.0, and recent Mozilla based browsers (such as Firefox).
+CSS and Javascript are used in most skins. Some skins will require more recent releases of browsers. The default skin is tested on IE 6+, Safari, Chrome and Firefox.
 
 You can easily select a balance of browser capability versus look and feel. Try the installed skins at %SYSTEMWEB%.SkinBrowser and more at Foswiki:Extensions.SkinPackage.
 
----++ Important note about Plugins
-
-   * Plugins can require just about anything -  browser-specific functions, stylesheets (CSS), Java applets, cookies, specific Perl modules,... - check the individual Plugin specs.
-
 ---
 *Related Topics:* AdminDocumentationCategory
+
+<!--%JQREQUIRE{"chili"}%-->
