@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="micha" comment="reprev" date="1321804319" format="1.1" reprev="2" version="2"}%
 ---+!! %TOPIC%
 %SHORTDESCRIPTION%
 
@@ -11,8 +12,8 @@ Click <a href="#" id="forceCheck">here</a> to force checking foswiki.org for new
 <script>
 jQuery(function($) {
   $("#forceCheck").click(function() {
-    $.cookie("FOSWIKI_UPDATESPLUGIN", null);
-    window.location.href = '%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%';
+    $.cookie("FOSWIKI_UPDATESPLUGIN", null, {expire: -1, path: "/"});
+    window.location.href = '%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%#pageTop';
     return false;
   });
 });

@@ -21,42 +21,35 @@ use warnings;
 use Foswiki::Func ();
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '0.01';
+our $RELEASE           = '0.10';
 our $SHORTDESCRIPTION  = 'Checks Foswiki.org for updates';
 our $NO_PREFS_IN_TOPIC = 1;
-our $baseWeb;
-our $baseTopic;
-our $core;
-
-use constant DEBUG => 0; #tooggle me
-=begin TML
-
----++ initPlugin($topic, $web, $user) -> $boolean
-
-=cut
 
 sub initPlugin {
-    ( $baseTopic, $baseWeb ) = @_;
 
-    if ( Foswiki::Func::isAnAdmin() ) {
-        check();
-    }
+    # bail out if not an admin and not in view mode
+    return 1 unless Foswiki::Func::isAnAdmin() && Foswiki::Func::getContext()->{view};
 
-    return 1;
-}
-
-sub check {
     my $request = Foswiki::Func::getRequestObject();
     my $cookie  = $request->cookie("FOSWIKI_UPDATESPLUGIN");
 
-    return if defined($cookie) && Foswiki::Func::isTrue($cookie) && !DEBUG;
+    return 1 if defined($cookie) && $cookie == 0; # 0: DoNothing
 
     Foswiki::Func::readTemplate("updatesplugin");
-    my $installedPlugins = Foswiki::Func::expandTemplate("installedplugins");
+
+    my $installedPlugins = '';
+    
+    # we already know that the admin has to do something. so don't search again.
+    # this happens when the admin continues to click around but did not action
+    # on the info banner.
+    $installedPlugins = Foswiki::Func::expandTemplate("installedplugins")
+      unless defined($cookie);
+
     my $css = Foswiki::Func::expandTemplate("css");
     my $messageTmpl = Foswiki::Func::expandTemplate("messagetmpl");
 
     require Foswiki::Plugins::JQueryPlugin;
+
     Foswiki::Plugins::JQueryPlugin::createPlugin("cookie");
     Foswiki::Plugins::JQueryPlugin::createPlugin("tmpl");
 
@@ -75,12 +68,11 @@ $messageTmpl
 META
 
     Foswiki::Func::addToZone( "script", "UPDATESPLUGIN::JS", <<JS, "JQUERYPLUGIN::FOSWIKI, JQUERYPLUGIN::COOKIE, JQUERYPLUGIN::TMPL" );
-<script>
-var InstalledPlugins = $installedPlugins;
-</script>
+$installedPlugins
 <script src="%PUBURLPATH%/%SYSTEMWEB%/UpdatesPlugin/jquery.updates.js"></script>
 JS
 
+  return 1;
 }
 
 1;
