@@ -83,7 +83,7 @@ Does exactly what it says on the tin. Forget about authentication to make your s
 %STARTSECTION{"TESTING"}%   1 Verify that registration works by registering yourself with the [[%SYSTEMWEB%.UserRegistration]] topic. If there are problems, try these troubleshooting tips: %IF{
       "'%INSTALLGUIDE%'='1'"
       then="$n      1 If you are reading this from the INSTALL.html file, you can enter [[%SYSTEMWEB%.UserRegistration]] into the 'Jump' box in the top right of any Foswiki page."}%
-      1 %STARTSECTION{"SMTPNOTE"}%*Note:* A standard Foswiki installation will not allow any new registrations unless there is a working SMTP configuration%ENDSECTION{"SMTPNOTE"}%
+      1 %STARTSECTION{"SMTPNOTE"}%*Note:* A standard Foswiki installation will not allow any new registrations unless there is a working SMTP configuration. In order to avoid issues, return to the =Mail and Proxies=, =Email Test= tab in =configure= and verify that Foswiki can successfully send email.  This is probably the most frequently reported issue in the support forums.%ENDSECTION{"SMTPNOTE"}%
       1 If your !PasswordManager is =HtPasswdUser= (the default), check the =.htpasswd= file is being updated correctly with a new entry. If not, check ={Htpasswd}{FileName}= is correct (under =Security and Authentication= on the =Password= tab in =configure=), and that the webserver user has write permission.
    1 Create a new topic (in [[%SANDBOXWEB%.WebHome][%SANDBOXWEB%]] web for example) to confirm that authentication works.
    1 *Add users to the %USERSWEB%.AdminGroup*. Edit the %USERSWEB%.AdminGroup topic in the %USERSWEB% web to include users that should have administrator status. Read [[InstallationGuide#DefineAdminUser][defining adminstrator user(s)]] for more information.

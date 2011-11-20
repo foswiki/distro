@@ -24,7 +24,7 @@ Please see the [[Foswiki:System.SystemRequirements][Foswiki system requirements]
 Here's the quick version of the instructions, for those that are already comfortable with performing such installations. More detailed instructions follow.
 
    1. [[Foswiki:Download/][Download]] and unpack the latest version of Foswiki.
-   1.  Configure Apache using the Foswiki:Support.ApacheConfigGenerator tool to generate a safe, working config file for your Foswiki installation.
+   1. Configure Apache using the Foswiki:Support.ApacheConfigGenerator tool to generate a safe, working config file for your Foswiki installation.
    1. Complete the install by browsing to =/bin/configure= in your web browser and follow the instructions.
 
 That's it! You Foswiki should now be installed. Browse to =/bin/view= and start editing!
@@ -43,6 +43,9 @@ If you do not have shell access to your web server host, see the section "[[#Upl
 ---+++ Step 2: Set the file and directory permissions for the installation
 
 _NOTE: You can skip this step if you are on Windows._
+<div class="foswikiHelp"> Shouldn't this also talk about changing file
+ownership.  =chown -R . www:www=  or =apache:apache= or =wwwdata:wwwdata=
+depending upon your distribution?  </div>
 
 The default file and directory access permissions as set by the distribution define a reasonable security level that will work for many types of installations, including shared hosting. Nonetheless, you should verify that the web server user has read access to all files and directories beneath the =foswiki= directory, and execute access for all directories. Also verify that the =data= and =pub= directories and all the subdirectories and files beneath them allow write access for the web server user.
 
@@ -53,20 +56,23 @@ For more information on the appropriate permissions to ensure security for your 
 If you are running on a Linux system with Perl found in =/usr/bin/perl= then this step is not required. This step is *required* on Windows installations.
 
 The easiest way to fix up the bin scripts is to run the =tools/rewriteshebang.pl= script.  If the Perl interpreter is in the default execution path, follow these steps:
+<div class="foswikiHelp"> I think you can drop the path to the interpreter if perl is on the default path. </div>
 
 <verbatim class="bash">
 cd /path/to/foswiki/tools
-/path/to/perl -I ../lib rewriteshebang.pl
+perl -I ../lib rewriteshebang.pl
 </verbatim>
 
 or for Windows users:
 
 <verbatim class="bash">
 cd C:\path\to\foswiki\tools
-C:\path\to\perl -I ..\lib  rewriteshebang.pl
+perl -I ..\lib  rewriteshebang.pl
 </verbatim>
 
 The script will determine the location of the Perl interpreter and will prompt to update both the bin and tools scripts in a single step.   The changed files will be reported, and it is safe to rerun the script.
+
+If you get an error about perl command not found,  the you need to find where your perl command is installed.  For example: =C:\path\to\perl -I ..\lib rewriteshebang.pl=
 
 ---+++ Step 4: Configure the web server
 
@@ -80,16 +86,17 @@ First choose the best configuration method for your web server. With Apache, the
    * Ensure that web access is denied to all Foswiki subdirectories other than =bin= and =pub=.
       * The Foswiki:Support.ApacheConfigGenerator tool will generate the appropriate settings;
       * the =foswiki_httpd_conf.txt= file also has examples of configuring Apache appropriately.
+<div class="foswikiHelp">Do we really need this next bullet?  All of the samples already have this set.</div>
    * Ensure there is either a =<noautolink>ScriptAlias<noautolink>= directive for the =bin= subdirectory, or an =Alias= directive with =SetHandler cgi-script= and =Options Exec<nop>CGI= directives for the =bin= subdirectory, so that the =bin= scripts will be executed by Apache.
    * *Note:* you must restart Apache after making changes to your config files for the changes to take effect.
 
 *If you are using a .htaccess file:*
-   * In the root of the foswiki installation, there are sample =.htaccess= files for various subdirectories in your installation. Each file has help text explaining how to modify it for your configuration. For more information, see Foswiki:Support.SupplementalDocuments.<sticky>
-   | *location and name of sample .htaccess file* | *copy sample file to the following location* |
-   | =foswiki/root-htaccess.txt= | =foswiki/.htaccess= |
-   | =foswiki/bin-htaccess.txt= | =foswiki/bin/.htaccess= |
-   | =foswiki/pub-htaccess.txt= | =foswiki/pub/.htaccess= |
-   | =foswiki/subdir-htaccess.txt= | =foswiki/&lt;subdir&gt;/.htaccess= <br />Copy to all other subdirectories below =foswiki=, including =data=, =lib=, =locale=, =templates=, =tools=, =working=.  Copy to any other directories except for =bin= and  =pub= addressed above. |</sticky>
+   * In the root of the foswiki installation, there are sample =.htaccess= files for various subdirectories in your installation. Each file has help text explaining how to modify it for your configuration. For more information, see Foswiki:Support.SupplementalDocuments.<sticky>%TABLE{sort="off"}%
+   | *location and name of sample .htaccess file* | *copy sample file to the following location* | *tailoring required (Detailed instuctions in each file)* |
+   | =foswiki/root-htaccess.txt= | =foswiki/.htaccess= | No |
+   | =foswiki/bin-htaccess.txt= | =foswiki/bin/.htaccess= | Yes - Must find/replace all instances of ={DataDir}=, ={DefaultUrlHost}=, ={ScriptUrlPath}= and ={Administrators}= with valid information. |
+   | =foswiki/pub-htaccess.txt= | =foswiki/pub/.htaccess= | Yes - Must set correct url path on =ErrorDocument= |
+   | =foswiki/subdir-htaccess.txt= | =foswiki/&lt;subdir&gt;/.htaccess= <br />Copy to all other subdirectories below =foswiki=, including =data=, =lib=, =locale=, =templates=, =tools=, =working=.  Copy to any other directories except for =bin= and  =pub= addressed above. | No |</sticky>
    * Ensure that web access is denied to all Foswiki subdirectories other than =bin= and =pub=. The sample =.htaccess= files show how to configure Apache appropriately.  It is important to verify that none of these directories can be directly accessed.
    * Ensure that the =foswiki/bin/.htaccess= files contains the line =SetHandler cgi-script= so that all scripts in the =bin= directory will be executed by Apache.
    * *Note:* On Linux systems, files named with the leading "." like =.htaccess= are hidden files and will not be listed unless using the -a option, ex. =ls -la=
@@ -101,7 +108,7 @@ Different script execution mechanisms are disabled in different ways; see your w
 #ProtectConfigure
 ---+++  Step 5: Protect the configure script
 
-*You should never leave the =configure= script open to the public.* Limit access to the =bin/configure= script to either localhost, an IP address or a specific user using basic Apache authentication. The Foswiki:Support.ApacheConfigGenerator lets you setup who has access to the =configure= script. Also see the =foswiki-httpd-conf.txt= or =bin/.htaccess.txt= file for an example of the setting required to protect the =configure= script.
+*You should never leave the =configure= script open to the public.* Limit access to the =bin/configure= script to either localhost, an IP address or a specific user using basic Apache authentication. The Foswiki:Support.ApacheConfigGenerator lets you setup who has access to the =configure= script. Also see the =foswiki-httpd-conf.txt= or =bin-htaccess.txt= file for an example of the setting required to protect the =configure= script.
 
 For more information, refer to Foswiki:Support.ProtectingYourConfiguration.
 
@@ -121,8 +128,8 @@ For more information, refer to Foswiki:Support.ProtectingYourConfiguration.
          * If you chose either of the =Net::SMPT= methods, you must also configure ={SMTP}{MAILHOST}=. Many ISPs have introduced authentication when sending emails to fight spam so you may also have to set ={SMTP}{Username}= and ={SMTP}{Password}=.
          * =Net::SMTP::SSL= will encrypt the connection to the e-mail server and is required for some email services like Google's GMail.
       * Under the "Proxy" tab, if your server is behind a firewall with a proxy, and you wish to install extensions via =configure=, you may have to set ={PROXY}{HOST}= and ={PROXY}{PORT}=.
-     <blockquote class="foswikiHelp">%X% %INCLUDE{"UserAuthentication" section="SMTPNOTE"}%</blockquote>
-     <blockquote class="foswikiHelp"}%X% SMTP authentication requires additional perl modules including =Authen::SASL= and =MIMI::Base64=, </blockquote>
+     <blockquote class="foswikiHelp">%X% %INCLUDE{"UserAuthentication" section="SMTPNOTE"}%</blockquote> <div class="foswikiHelp">I think we can drop this next note - configure will warn if modules are missing</div>
+     <blockquote class="foswikiHelp">%X% SMTP authentication requires additional perl modules including =Authen::SASL= and =MIMI::Base64=, </blockquote>
 
 If there is a problem with your setup that prevents you from accessing the =configure= page, you can [[#ConfiguringFoswikiManually][configure Foswiki manually]].
 
@@ -152,7 +159,7 @@ On the =Store= pane in =configure= you will find the setting ={RCS}{SearchAlgori
 
 By default it is set to =Foswiki::Store::SearchAlgorithms::Forking= which is what you should keep if you install Foswiki in Linux or any other Unix type operating system.
 
-If you install Foswiki on a Windows server, using an external grep program can create problems because of limitations in the length of command lines. You may be able to run with Forking in Windows if your directory path to Foswiki is kept short (short directory names and few levels), however the recommended (safe) setting for Windows is =Foswiki::Store::SearchAlgorithms::PurePerl=. 
+If you install Foswiki on a Windows server, using an external grep program can create problems because of limitations in the length of command lines. You may be able to run with Forking in Windows if your directory path to Foswiki is kept short (short directory names and few levels), however the recommended (safe) setting for Windows is =Foswiki::Store::SearchAlgorithms::PurePerl=.
 
 #DefineAdminUser
 ---+++ Step 9: Define the administrator user(s)
@@ -208,7 +215,7 @@ If you are having problems with your installation, try the following:
 #UploadingFoswikiDistribution
 ---++ Uploading the Foswiki distribution to your web server host
 
-If you cannot unpack the Foswiki distribution directly in your installation directory, you can unpack the distribution on your local computer, manually create the directory structure on your host server and upload the files as follows: 
+If you cannot unpack the Foswiki distribution directly in your installation directory, you can unpack the distribution on your local computer, manually create the directory structure on your host server and upload the files as follows:
    * Using the table below, create a directory structure on your host server
    * Upload the Foswiki files by FTP (transfer as text except for the image files in =pub= directory.)
    * *Note:* Don't worry if you are not able to put the =lib= directory at the same level as the =bin= directory. You can create this directory elsewhere and configure the =bin/setlib.cfg= file.<sticky>
