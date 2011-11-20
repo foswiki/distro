@@ -22,6 +22,9 @@
 				var win, de = DOM.doc.documentElement;
 
 				if (ed.getParam('fullscreen_is_enabled')) {
+					document.getElementById('save').setAttribute('accesskey', 's');
+					document.getElementById('quietsave').setAttribute('accesskey', 'q');
+					document.getElementById('checkpoint').setAttribute('accesskey', 'k');
 					if (ed.getParam('fullscreen_new_window'))
 						closeFullscreen(); // Call to close in new window
 					else {
@@ -39,6 +42,9 @@
 
 					return;
 				}
+				document.getElementById('save').removeAttribute('accesskey');
+				document.getElementById('quietsave').removeAttribute('accesskey');
+				document.getElementById('checkpoint').removeAttribute('accesskey');
 
 				if (ed.getParam('fullscreen_new_window')) {
 					win = DOM.win.open(url + "/fullscreen.htm", "mceFullScreenPopup", "fullscreen=yes,menubar=no,toolbar=no,scrollbars=no,resizable=yes,left=0,top=0,width=" + screen.availWidth + ",height=" + screen.availHeight);

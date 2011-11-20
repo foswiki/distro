@@ -1116,6 +1116,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10070][Item10070]] | move/rename does not find backlinks followed by underscore |
 | [[%BUGS%/Item10136][Item10136]] | Add module path to the plugin diagnostics - displays only for admin users. |
 | [[%BUGS%/Item10265][Item10265]] | Username field in Login is left-aligned in Internet Explorer |
+| [[%BUGS%/Item10288][Item10288]] | Use of alt-shift-s =save= accesskey while in WYSIWYG fullscreen looses changes |
 | [[%BUGS%/Item10302][Item10302]] | Update to JQuery 1.6.4 and make it the default version |
 | [[%BUGS%/Item10438][Item10438]] | lighttpd incompatibility - found in viewfile, but could be there for other things too |
 | [[%BUGS%/Item10449][Item10449]] | Form with all hidden fields should be hidden in view |
