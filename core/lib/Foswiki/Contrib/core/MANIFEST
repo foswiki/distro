@@ -984,6 +984,7 @@ templates/edittext.tmpl 0444
 templates/form.tmpl 0444
 templates/formtables.tmpl 0444
 templates/foswiki.tmpl 0444
+templates/itemview.tmpl 0444
 templates/login.sudo.tmpl 0444
 templates/login.tmpl 0444
 templates/mailresetpassword.tmpl 0444
