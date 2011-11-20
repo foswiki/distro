@@ -578,7 +578,8 @@ sub formatResults {
     my $header        = $params->{header} || '';
     my $footer        = $params->{footer} || '';
     my $limit         = $params->{limit} || '';
-
+    my $itemView      = $params->{itemview};
+    
     # Limit search results. Cannot be deprecated
     # Limit will still be needed for the application types of SEARCHES
     # even if pagesize is added as feature. Example for searching and listing
@@ -967,6 +968,7 @@ sub formatResults {
                         'separator'  => sub { return $separator; },
                         'noTotal'    => sub { return $noTotal; },
                         'paramsHash' => sub { return $params; },
+                        'itemView'   => sub { return $itemView; }
 		    },
 		    {
 			#rev1 info
@@ -1102,23 +1104,46 @@ sub formatResult {
     my $session = $this->{session};
 
     #TODO: these need to go away.
-    my $revNum     = &{ $nonTomKeys->{'revNum'} }();
-    my $doBookView = &{ $nonTomKeys->{'doBookView'} }();
-    my $baseWeb    = &{ $nonTomKeys->{'baseWeb'} }();
-    my $baseTopic  = &{ $nonTomKeys->{'baseTopic'} }();
-    my $newLine    = &{ $nonTomKeys->{'newLine'} }();
-    my $separator  = &{ $nonTomKeys->{'separator'} }();
-    my $noTotal    = &{ $nonTomKeys->{'noTotal'} }();
-    my $params     = &{ $nonTomKeys->{'paramsHash'} }();
+    my $revNum       = &{ $nonTomKeys->{'revNum'} }();
+    my $doBookView   = &{ $nonTomKeys->{'doBookView'} }();
+    my $baseWeb      = &{ $nonTomKeys->{'baseWeb'} }();
+    my $baseTopic    = &{ $nonTomKeys->{'baseTopic'} }();
+    my $newLine      = &{ $nonTomKeys->{'newLine'} }();
+    my $separator    = &{ $nonTomKeys->{'separator'} }();
+    my $noTotal      = &{ $nonTomKeys->{'noTotal'} }();
+    my $params       = &{ $nonTomKeys->{'paramsHash'} }();
+    my $itemView     = &{ $nonTomKeys->{'itemView'} }();
     foreach my $key (
         'revNum',  'doBookView', 'baseWeb', 'baseTopic',
-        'newLine', 'separator',  'noTotal', 'paramsHash'
+        'newLine', 'separator',  'noTotal', 'paramsHash',
+        'itemView'
       )
     {
         delete $tomKeys->{$key};
         delete $nonTomKeys->{$key};
     }
 
+    # render each item differently, based on SEARCH param 'itemview'
+    if ( $item->topic && defined $itemView
+            && $itemView =~ /([$Foswiki::regex{mixedAlphaNum}.\s\(\)\$]+)/o ) {
+		# brackets added to regex to allow $formfield(name)
+		
+		# add to skinpath - only to pass as param to readTemplate
+		$itemView = $1;
+
+		# parse formatted search tokens
+		$itemView =~ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1 )/ges;
+		foreach my $key ( keys(%$tomKeys) ) {
+			$itemView =~ s[\$$key(?:\(([^\)]*)\))?]
+			[&{$tomKeys->{$key}}($key, $item, $1)]ges;
+		}
+
+        # load the appropriate template for this item
+		my $tmpl = $session->templates->readTemplate( ucfirst $itemView . 'ItemView');
+		my $text = $session->templates->expandTemplate('LISTITEM');
+		$out = $text if $text;
+    }
+    
     foreach my $key ( keys(%$nonTomKeys) ) {
         $out =~ s/\$$key/&{$nonTomKeys->{$key}}($key, $item)/ges;
 	#print STDERR "1: $key $out\n";

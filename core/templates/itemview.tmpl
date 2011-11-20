@@ -1,0 +1,23 @@
+%TMPL:DEF{"LISTITEM"}%<div class="foswikiSearchResult">
+	<ul>
+		%TMPL:P{"LISTITEM:image"}%<li class='foswikiSearchResultContents'>
+%TMPL:P{"LISTITEM:title"}%%TMPL:P{"LISTITEM:summary"}%%TMPL:P{"LISTITEM:metainfo"}%
+		</li>
+	</ul>
+	<div class='foswikiClear'></div>
+</div>%TMPL:END%
+
+%TMPL:DEF{"LISTITEM:image"}%$percntIF{
+	$quot'$formfield(Picture)'!=''$quot
+	then=$quot<li class='foswikiSearchResultImage'>[[$web.$topic][<img src='%PUBURLPATH%/$web/$topic/$formfield(Picture)' alt=''/>]]</li>$quot
+}$percnt%TMPL:END%
+
+%TMPL:DEF{"LISTITEM:title"}%<div class='foswikiSearchResultTitle'>[[$web.$topic][$percntFORMFIELD{
+  $quotTopicTitle$quot
+  topic=$quot$web.$topic$quot
+  alttext=$quot$topic$quot
+}$percnt]]</div>%TMPL:END%
+
+%TMPL:DEF{"LISTITEM:metainfo"}%<div class='foswikiSearchResultMeta'>$date</div>%TMPL:END%
+
+%TMPL:DEF{"LISTITEM:summary"}%<div class="foswikiSummary">$summary</div>%TMPL:END%
