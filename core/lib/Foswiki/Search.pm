@@ -333,7 +333,7 @@ sub searchWeb {
     # 1-based system; 0 is not a valid page number
     $params{showpage} = $session->{request}->param($paging_ID)
       || $params{showpage};
-      
+
     #append a pager to the end of the search result.
     $params{pager} = Foswiki::isTrue( $params{pager} );
 
@@ -360,7 +360,7 @@ sub searchWeb {
 #this allows the algo's to customise and optimise the getting of this list themselves.
 
 #NOTE: as of Jun2011 foswiki 1.2/2.0's query() returns a result set filtered by ACL and paged to $showpage
-#TODO: work out if and how to avoid it 
+#TODO: work out if and how to avoid it
     my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
 
 ################### Do the Rendering
@@ -579,7 +579,7 @@ sub formatResults {
     my $footer        = $params->{footer} || '';
     my $limit         = $params->{limit} || '';
     my $itemView      = $params->{itemview};
-    
+
     # Limit search results. Cannot be deprecated
     # Limit will still be needed for the application types of SEARCHES
     # even if pagesize is added as feature. Example for searching and listing
@@ -905,17 +905,21 @@ sub formatResults {
 
             ###################Render the result
             my $out;
-	    my $handleRev1Info = sub {
-		# Handle e.g. createdate, createwikiuser etc
-		my $info = $this->metacache->get(
-		    $_[1]->web, $_[1]->topic, $_[1] );
-		my $r = $info->{tom}->getRev1Info($_[0]);
-		return $r;
-	    };
-	    my $handleRevInfo = sub {
-		return $session->renderer->renderRevisionInfo(
-		    $_[1], $info->{revNum} || 0, '$'.$_[0] );
-	    };
+            my $handleRev1Info = sub {
+
+                # Handle e.g. createdate, createwikiuser etc
+                my $info =
+                  $this->metacache->get( $_[1]->web, $_[1]->topic, $_[1] );
+                my $r = $info->{tom}->getRev1Info( $_[0] );
+                return $r;
+            };
+            my $handleRevInfo = sub {
+                return $session->renderer->renderRevisionInfo(
+                    $_[1],
+                    $info->{revNum} || 0,
+                    '$' . $_[0]
+                );
+            };
 
             if ( $formatDefined and ( $format ne '' ) ) {
 
@@ -969,36 +973,39 @@ sub formatResults {
                         'noTotal'    => sub { return $noTotal; },
                         'paramsHash' => sub { return $params; },
                         'itemView'   => sub { return $itemView; }
-		    },
-		    {
-			#rev1 info
-			# TODO: move the $create* formats into Render::renderRevisionInfo..
-			# which implies moving the infocache's pre-extracted data into the tom obj too.
-			#    $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
-			#      $infoCache->getRev1Info( $topic, "create$1" )/ges;
-                        'createlongdate' => $handleRev1Info,
-                        'createusername' => $handleRev1Info,
-                        'createwikiname' => $handleRev1Info,
+                    },
+                    {
+
+ #rev1 info
+ # TODO: move the $create* formats into Render::renderRevisionInfo..
+ # which implies moving the infocache's pre-extracted data into the tom obj too.
+ #    $out =~ s/\$create(longdate|username|wikiname|wikiusername)/
+ #      $infoCache->getRev1Info( $topic, "create$1" )/ges;
+                        'createlongdate'     => $handleRev1Info,
+                        'createusername'     => $handleRev1Info,
+                        'createwikiname'     => $handleRev1Info,
                         'createwikiusername' => $handleRev1Info,
-                        'createusername' => $handleRev1Info,
-			# rev info
-			'web'        => sub { return $_[1]->web },
-			'topic'      => sub {
-			    if (defined $_[2]) {
-				return Foswiki::Render::breakName( 
-				    $_[1]->topic, $_[2] );
-			    } else {
-				return $_[1]->topic;
-			    }
-			},
-			'rev' => $handleRevInfo,
-			'wikiusername' => $handleRevInfo,
-			'wikiname' => $handleRevInfo,
-			'username' => $handleRevInfo,
-			'iso' => $handleRevInfo,
-			'longdate' => $handleRevInfo,
-			'date' => $handleRevInfo,
-		    }
+                        'createusername'     => $handleRev1Info,
+
+                        # rev info
+                        'web'   => sub { return $_[1]->web },
+                        'topic' => sub {
+                            if ( defined $_[2] ) {
+                                return Foswiki::Render::breakName( $_[1]->topic,
+                                    $_[2] );
+                            }
+                            else {
+                                return $_[1]->topic;
+                            }
+                        },
+                        'rev'          => $handleRevInfo,
+                        'wikiusername' => $handleRevInfo,
+                        'wikiname'     => $handleRevInfo,
+                        'username'     => $handleRevInfo,
+                        'iso'          => $handleRevInfo,
+                        'longdate'     => $handleRevInfo,
+                        'date'         => $handleRevInfo,
+                    }
                 );
             }
             else {
@@ -1039,6 +1046,7 @@ sub formatResults {
         }
 
         if ( $params->{pager} ) {
+
             #auto-append the pager
             $footer .= '$pager';
         }
@@ -1076,7 +1084,7 @@ sub formatCommon {
     my $session = $this->{session};
 
     foreach my $key ( keys(%$customKeys) ) {
-	$out =~ s/\$$key/&{$customKeys->{$key}}()/ges;
+        $out =~ s/\$$key/&{$customKeys->{$key}}()/ges;
     }
 
     return $out;
@@ -1098,21 +1106,21 @@ TODO: need to cater for $summary(params) style too
 =cut
 
 sub formatResult {
-    my ( $this, $out, $item, $text, $searchOptions,
-	 $nonTomKeys, $tomKeys ) = @_;
+    my ( $this, $out, $item, $text, $searchOptions, $nonTomKeys, $tomKeys ) =
+      @_;
 
     my $session = $this->{session};
 
     #TODO: these need to go away.
-    my $revNum       = &{ $nonTomKeys->{'revNum'} }();
-    my $doBookView   = &{ $nonTomKeys->{'doBookView'} }();
-    my $baseWeb      = &{ $nonTomKeys->{'baseWeb'} }();
-    my $baseTopic    = &{ $nonTomKeys->{'baseTopic'} }();
-    my $newLine      = &{ $nonTomKeys->{'newLine'} }();
-    my $separator    = &{ $nonTomKeys->{'separator'} }();
-    my $noTotal      = &{ $nonTomKeys->{'noTotal'} }();
-    my $params       = &{ $nonTomKeys->{'paramsHash'} }();
-    my $itemView     = &{ $nonTomKeys->{'itemView'} }();
+    my $revNum     = &{ $nonTomKeys->{'revNum'} }();
+    my $doBookView = &{ $nonTomKeys->{'doBookView'} }();
+    my $baseWeb    = &{ $nonTomKeys->{'baseWeb'} }();
+    my $baseTopic  = &{ $nonTomKeys->{'baseTopic'} }();
+    my $newLine    = &{ $nonTomKeys->{'newLine'} }();
+    my $separator  = &{ $nonTomKeys->{'separator'} }();
+    my $noTotal    = &{ $nonTomKeys->{'noTotal'} }();
+    my $params     = &{ $nonTomKeys->{'paramsHash'} }();
+    my $itemView   = &{ $nonTomKeys->{'itemView'} }();
     foreach my $key (
         'revNum',  'doBookView', 'baseWeb', 'baseTopic',
         'newLine', 'separator',  'noTotal', 'paramsHash',
@@ -1124,57 +1132,66 @@ sub formatResult {
     }
 
     # render each item differently, based on SEARCH param 'itemview'
-    if ( $item->topic && defined $itemView
-            && $itemView =~ /([$Foswiki::regex{mixedAlphaNum}.\s\(\)\$]+)/o ) {
-		# brackets added to regex to allow $formfield(name)
-		
-		# add to skinpath - only to pass as param to readTemplate
-		$itemView = $1;
+    if (   $item->topic
+        && defined $itemView
+        && $itemView =~ /([$Foswiki::regex{mixedAlphaNum}.\s\(\)\$]+)/o )
+    {
 
-		# parse formatted search tokens
-		$itemView =~ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1 )/ges;
-		foreach my $key ( keys(%$tomKeys) ) {
-			$itemView =~ s[\$$key(?:\(([^\)]*)\))?]
+        # brackets added to regex to allow $formfield(name)
+
+        # add to skinpath - only to pass as param to readTemplate
+        $itemView = $1;
+
+        # parse formatted search tokens
+        $itemView =~
+          s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1 )/ges;
+        foreach my $key ( keys(%$tomKeys) ) {
+            $itemView =~ s[\$$key(?:\(([^\)]*)\))?]
 			[&{$tomKeys->{$key}}($key, $item, $1)]ges;
-		}
+        }
 
         # load the appropriate template for this item
-		my $tmpl = $session->templates->readTemplate( ucfirst $itemView . 'ItemView');
-		my $text = $session->templates->expandTemplate('LISTITEM');
-		$out = $text if $text;
+        my $tmpl =
+          $session->templates->readTemplate( ucfirst $itemView . 'ItemView' );
+        my $text = $session->templates->expandTemplate('LISTITEM');
+        $out = $text if $text;
     }
-    
-    foreach my $key ( keys(%$nonTomKeys) ) {
-        $out =~ s/\$$key/&{$nonTomKeys->{$key}}($key, $item)/ges;
-	#print STDERR "1: $key $out\n";
-    }
-    if ($item->topic) {
-	# Only process tomKeys if the item is a valid topicObject
-	foreach my $key ( keys(%$tomKeys) ) {
-	    $out =~ s[\$$key(?:\(([^\)]*)\))?]
-		[&{$tomKeys->{$key}}($key, $item, $1)]ges;
-	}
-	# Note that we cannot send a formatted search through renderRevisionInfo
-	# without expanding tokens we should not because the function also sends
-	# the input through formatTime and probably other nasty filters
-	# So we send each token through one by one.
-	if ( $out =~ m/\$text/ ) {
-	    $text = $item->text() unless defined $text;
-	    $text = '' unless defined $text;
-	    
-	    if ( $item->topic eq $session->{topicName} ) {
 
-		#TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
-		
-		# defuse SEARCH in current topic to prevent loop
-		$text =~ s/%SEARCH{.*?}%/SEARCH{...}/go;
-	    }
-	    $out =~ s/\$text/$text/gos;
-	}
+    foreach my $key ( keys(%$nonTomKeys) ) {
+        $out =~ s/\$$key/&{$nonTomKeys->{$key}}($key, $item)/ges;
+
+        #print STDERR "1: $key $out\n";
+    }
+    if ( $item->topic ) {
+
+        # Only process tomKeys if the item is a valid topicObject
+        foreach my $key ( keys(%$tomKeys) ) {
+            $out =~ s[\$$key(?:\(([^\)]*)\))?]
+		[&{$tomKeys->{$key}}($key, $item, $1)]ges;
+        }
+
+        # Note that we cannot send a formatted search through renderRevisionInfo
+        # without expanding tokens we should not because the function also sends
+        # the input through formatTime and probably other nasty filters
+        # So we send each token through one by one.
+        if ( $out =~ m/\$text/ ) {
+            $text = $item->text() unless defined $text;
+            $text = ''            unless defined $text;
+
+            if ( $item->topic eq $session->{topicName} ) {
+
+#TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
+
+                # defuse SEARCH in current topic to prevent loop
+                $text =~ s/%SEARCH{.*?}%/SEARCH{...}/go;
+            }
+            $out =~ s/\$text/$text/gos;
+        }
     }
     foreach my $key ( keys(%$nonTomKeys) ) {
         $out =~ s/\$$key/&{$nonTomKeys->{$key}}($key, $item)/ges;
-	#print STDERR "2: $key $out\n";
+
+        #print STDERR "2: $key $out\n";
     }
 
     #TODO: extract the rev
@@ -1189,7 +1206,7 @@ sub formatResult {
 
         # BookView
         $text = $item->text() unless defined $text;
-        $text = '' unless defined $text;
+        $text = ''            unless defined $text;
 
         if ( $item->web eq $baseWeb && $item->topic eq $baseTopic ) {
 
@@ -1205,7 +1222,7 @@ sub formatResult {
     else {
 
         #TODO: more topic specific bits
-        if ( defined($item->topic) ) {
+        if ( defined( $item->topic ) ) {
             $out =~ s/\$summary(?:\(([^\)]*)\))?/
               $item->summariseText( $1, $text, $searchOptions )/ges;
             $out =~ s/\$changes(?:\(([^\)]*)\))?/
@@ -1327,7 +1344,7 @@ sub _collate_to_list {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
