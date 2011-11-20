@@ -23,4 +23,5 @@
 !include ../TinyMCEPlugin/lib/Foswiki/Plugins/TinyMCEPlugin
 !include ../TopicUserMappingContrib/lib/Foswiki/Contrib/TopicUserMappingContrib
 !include ../TWikiCompatibilityPlugin/lib/Foswiki/Plugins/TWikiCompatibilityPlugin
+!include ../UpdatesPlugin/lib/Foswiki/Plugins/UpdatesPlugin
 !include ../core/lib/Foswiki/Contrib/core
