@@ -1,0 +1,208 @@
+#!/usr/bin/perl -w
+
+use strict;
+use warnings;
+
+sub fail {
+    my $message = shift;
+    print STDERR <<"EOF";
+--------------------------------------------------------------
+Illegal checkin to $REPOS:
+$logmsg
+$message
+Log message must start with one or more names of Item
+topics in the Tasks web
+eg. Item12345: Item12346: example commit log
+The topics *must* exist.
+--------------------------------------------------------------
+EOF
+    exit 1;
+}
+
+# There should be exactly one line given to this script by git.
+while ( my $line = <> ) {
+
+    # <old-value> SP <new-value> SP <ref-name> LF
+    my ( $old_sha, $new_sha, $refspec ) = $line =~ /^(\S+)\s(\S+)\s(.+)$/;
+
+    my @revlists = split /\n/, `git rev-list $old_sha..$newsha`;
+    for my $sha1 (@revlists) {
+        my $logmsg = `git cat-file commit $sha1`;
+        $logmsg =~ s/^.*\n\n//s;
+
+        my @items = $logmsg =~ /\b(Item\d+)\s*:/g;
+        fail("No Bug item in log message")
+          unless @items;
+
+        foreach my $item (@items) {
+            local $/;
+            fail "Bug item $item does not exist"
+              unless ( -f "$dataDir/Tasks/$item.txt" );
+            open( my $file, '<', "$dataDir/Tasks/$item.txt" )
+              || die "Cannot open $item";
+            my $text  = <$file>;
+            my $state = "Closed";
+            if ( $text =~ /^%META:FIELD{name="CurrentState".*value="(.*?)"/m ) {
+                $state = $1;
+            }
+            close($file);
+            if ( $state =~ /^(Waiting for Release|Closed|No Action Required)$/ )
+            {
+                fail("$item is in $state state; cannot check in");
+            }
+        }
+    }
+}
+
+__END__
+# Separate the old miz files -- the ones that already exist in the
+# backend repo -- from the new miz files -- the genuinely new
+# contributions.  To determine whether something is old/already
+# exists, we'll use the old SHA1 that was given to this script as
+# input.  It should point to a commit object (and hence, indirectly,
+# to a tree object) that already exists on in the frontend repo.
+
+my @new_lib_files = ();
+my @updated_lib_files = ();
+
+pr_print ("Here is the list of all received files: @lib_files");
+
+foreach my $received_lib_file (@lib_files) {
+  chomp $received_lib_file; # looks like "mml/<something>"
+  `git cat-file -e $old_commit_tree:$received_lib_file 2> /dev/null`;
+  my $git_cat_file_exit_code = ($? >> 8);
+  if ($git_cat_file_exit_code == 0) {
+    push @updated_lib_files, $received_lib_file;
+  } else {
+    push @new_lib_files, $received_lib_file;
+  }
+}
+
+pr_print ("brand new files: ");
+if (scalar @new_lib_files == 0) {
+  pr_print ("(none)");
+} else {
+  pr_print ("@new_lib_files");
+}
+pr_print ("files to be updated: ");
+if (scalar @updated_lib_files == 0) {
+  pr_print ("(none)");
+} else {
+  pr_print ("@updated_lib_files");
+}
+
+# NOTE: this should be killed completely after testing the git reset HEAD and git checkout -- technique
+
+# Copy the files that already exist in the backend repo to a temporary
+# location.  If things work, these will simply be deleted.  Otherwise,
+# they will be resurrected and put back into the backend repo.
+# my $purgatory = tempdir ();
+# my $purgatory_mml = $purgatory . "/" . "mml";
+# mkdir $purgatory_mml;
+
+# Move the already existing mizar files to the backend repo
+# foreach my $updated_lib_file (@updated_lib_files) {
+#   chomp $updated_lib_file;
+#   my $article_filename = strip_initial_mml ($updated_lib_file);
+#   my $purgatory_path = $purgatory_mml . "/" . $article_filename;
+#   `git show $old_commit_tree:$updated_lib_file > $purgatory_path`;
+# }
+
+
+lockwiki();
+
+# Now that we've moved the files that are updated in this
+# proposed commit to a safe purgatory, copy the contents of the new
+# new files to the backend repo.
+foreach my $received_file (@lib_files) {
+  chomp $received_file;
+  ($received_file =~ /^(mml|dict)\/[a-z0-9_]+[.]($article_ext|$special_ext)$/) or
+    pr_die("Wrong file name: $received_file");
+  my $possibly_new_dir_path = $1;
+  `mkdir -p $backend_repo_path/$possibly_new_dir_path`;
+  my $received_path = $backend_repo_path . "/" . $received_file;
+  `git cat-file blob $new_commit_tree:$received_file > $received_path`;
+  unless (-e $received_path) {
+    croak ("We didn't output anything to $received_path");
+  }
+}
+
+sub ensure_directory {
+  my $maybe_dir = shift;
+  if (-d $maybe_dir) {
+    return $maybe_dir;
+  } else {
+    croak ("The given directory, $maybe_dir, is not actually a directory");
+  }
+}
+
+sub move_all_files_from_to {
+  my $source_dir = ensure_directory (shift);
+  my $target_dir = ensure_directory (shift);
+  `find $source_dir -type f -depth 0 -exec mv {} $target_dir ";"`;
+  my $find_exit_status = ($? >> 8);
+  if ($find_exit_status == 0) {
+    return;
+  } else {
+    croak ("Error copying the files from $source_dir to $target_dir!");
+  }
+}
+
+## TODO: The current way of doing this is bad when the commit/add fails:
+##    When we modify a file, and call git add, its current content is staged.
+##    When the commit fails, and we copy over it the old version, the
+##    modified version is still staged - this is bad. We need to undo
+##    the staging too. Perhaps there is a pre-staging hook? Or it is
+##    easy to undo the last staging?
+##
+##    Here is the answer: http://learn.github.com/p/undoing.html
+##    we can use:
+##    git reset HEAD
+##    and
+##    git checkout --
+##    to unstage and unmodify
+##
+## NOTE: if we do things this way, we should not need the copying of
+## the old files to tempdir.
+##
+## NOTE: we should also think of this in pre-commit
+
+
+# All newly received mizar files are now in sitting in the backend
+# repo.  Now we add them.
+local $ENV{GIT_DIR} 
+  = $backend_repo_path . "/" . ".git"; # GIT_DIR is set to "." by git
+
+chdir $backend_repo_path;              # before executing this hook!
+system ("git add @lib_files 2>&1");
+my $git_add_exit_code = ($? >> 8);
+unless ($git_add_exit_code == 0) {
+  pr_print ("Error adding the new files to the backend repository:");
+  pr_print ("The exit code was $git_add_exit_code");
+
+  system ("git reset --hard 2>&1");
+#  move_all_files_from_to ($purgatory_mml, $backend_repo_mml);
+
+  exit 1;
+}
+
+# We've successful added new files to the repo -- let's commit!
+my $git_commit_output 
+  = system ("git commit -m 'Anonymous push' 2>&1");
+my $git_commit_exit_code = ($? >> 8);
+unless ($git_commit_exit_code == 0) {
+  pr_print ("Error commiting to the backend repository:");
+  pr_print ("The exit code was $git_commit_exit_code");
+
+  system ("git reset --hard 2>&1");
+
+  # The commit failed, so we need to resurrect the files in purgatory
+#  move_all_files_from_to ($purgatory_mml, $backend_repo_mml);
+
+  exit 1;
+}
+
+unlockwiki();
+
+# If we made it this far, then we deserve a break.
+exit 0;
