@@ -39,7 +39,7 @@ use Foswiki::Attrs ();
 # Enable TRACE to get HTML comments in the output showing where templates
 # (both DEFs and files) open and close. Will probably bork the output, so
 # normally you should use it with a bin/view command-line.
-use constant TRACE => 1;
+use constant TRACE => 0;
 
 my $MAX_EXPANSION_RECURSIONS = 999;
 
