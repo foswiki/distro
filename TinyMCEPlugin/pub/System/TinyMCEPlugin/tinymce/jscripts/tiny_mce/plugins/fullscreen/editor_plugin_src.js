@@ -22,9 +22,9 @@
 				var win, de = DOM.doc.documentElement;
 
 				if (ed.getParam('fullscreen_is_enabled')) {
-					document.getElementById('save').setAttribute('accesskey', 's');
-					document.getElementById('quietsave').setAttribute('accesskey', 'q');
-					document.getElementById('checkpoint').setAttribute('accesskey', 'k');
+					document.getElementById('save').setAttribute('accesskey', document.getElementById('save').getAttribute('title'));
+					document.getElementById('quietsave').setAttribute('accesskey', document.getElementById('quietsave').getAttribute('title'));
+					document.getElementById('checkpoint').setAttribute('accesskey', document.getElementById('checkpoint').getAttribute('title'));
 					if (ed.getParam('fullscreen_new_window'))
 						closeFullscreen(); // Call to close in new window
 					else {
@@ -42,6 +42,10 @@
 
 					return;
 				}
+				document.getElementById('save').setAttribute('title',  document.getElementById('save').getAttribute('accesskey'));
+				document.getElementById('quietsave').setAttribute('title',  document.getElementById('quietsave').getAttribute('accesskey'));
+				document.getElementById('checkpoint').setAttribute('title',  document.getElementById('checkpoint').getAttribute('accesskey'));
+
 				document.getElementById('save').removeAttribute('accesskey');
 				document.getElementById('quietsave').removeAttribute('accesskey');
 				document.getElementById('checkpoint').removeAttribute('accesskey');
