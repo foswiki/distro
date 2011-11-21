@@ -236,7 +236,12 @@ This setup can be useful to hide a new web until content its ready for deploymen
 
 ---+++ Restrict Access to a whole Foswiki site
 
-For a firewalled Foswiki, e.g. an intranet wiki or extranet wiki, you want to allow only invited people to access your Foswiki. In this case, enable [[UserAuthentication#ApacheLogin][user authentication with ApacheLogin]] and lock down access to the whole =bin= and =pub= directories to all but valid users. In the Apache =.htaccess= file or the appropriate =.conf= file, replace the =&lt;FilesMatch "(attach|edit|...= section with this:
+For a firewalled Foswiki, e.g. an intranet wiki or extranet wiki, you want to allow only invited people to access your Foswiki. 
+<blockquote class="foswikiHelp">%H% With this configuration, someone with access to the site needs to register new users.  ResetPassword will also have to be done by administrators.</blockquote>
+
+---++++ When using Apache Login
+[[UserAuthentication#ApacheLogin][User authentication with ApacheLogin]] is enabled on your site.  To reqire login for *all* scripts:
+   * lock down access to the whole =bin= and =pub= directories to all but valid users. In the Apache =.htaccess= file or the appropriate =.conf= file, replace the =&lt;FilesMatch "(attach|edit|...= section with this:
 
 <verbatim>
 <FilesMatch ".*">
@@ -246,7 +251,20 @@ For a firewalled Foswiki, e.g. an intranet wiki or extranet wiki, you want to al
 
 If needed, you can further restrict access to selected webs with ALLOWWEBVIEW and other access control settings.
 
-<blockquote class="foswikiHelp">%H% With this configuration, someone with access to the site needs to register new users.</blockquote>
+---++++ When using Template Login
+[[UserAuthentication#TemplateLogin][User authentication with TemplateLogin]] is enabled on your site.   To require login for *all* scripts:
+   * Add all scripts in the =foswiki/bin= directory (except for =login=, =logon= and =configure=) to the list of ={AuthScripts}= in [[%SCRIPTURL{"configure"}%#Login$SecurityAndAuthentication][configure]].  For a default Foswiki installation:
+
+   * Default (open) site:
+<verbatim>
+{AuthScripts} = 'attach,compareauth,edit,manage,previewauth,rdiffauth,rename,rest,restauth,save,statistics,upload,viewauth,viewfileauth';
+</verbatim>
+   * Restricted (closed) site:
+<verbatim>
+{AuthScripts} = 'attach,changes,compare,compareauth,edit,manage,oops,preview,previewauth,rdiff,rdiffauth,register,rename,resetpasswd,rest,restauth,save,search,statistics,upload,view,viewauth,viewfile,viewfileauth
+</verbatim>
+
+<blockquote class="foswikiHelp">%X% If you install extensions that add scripts, you must also remember to add the new scripts to this list or the new scripts will not be protected.</blockquote>
 
 ---+++ Authenticate all webs and restrict selected webs
 
