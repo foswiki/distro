@@ -58,7 +58,7 @@ if you are in doubt.</blockquote>
 The following describes the standard Foswiki support for groups. Your local Foswiki may have an alternate group mapping manager installed. Check with your Wiki administrator if you are in doubt.
 
 Groups are defined by group topics located in the ==%USERSWEB%== web. To create a new group, visit  %USERSWEB%.WikiGroups. You will find a "Create a new group" link at the top which reveals a form to create a new group. Enter the name of the new group ending in ==Group== into the "Group Name" form field and the initial members in the "Members" field. This creates a new group topic.
-  
+
 By default any member of a group has access rights to both adding and removing users from the group through the nice user interface. If you need to limit this access further, change the ALLOWTOPICCHANGE setting through "More Topic Action" -> "Edit topic preference settings".
 
 The =ALLOWTOPICCHANGE= setting defines who is allowed to change the group topic; it is a comma delimited list of users and groups. You typically want to restrict that to the members of the group itself, so it should contain the name of the topic. This prevents users not in the group from editing the topic to give themselves or others access. For example, for the <nop>KasabianGroup topic write:
@@ -221,14 +221,18 @@ Examples: Topic A includes topic B
 
 ---+++ Obfuscating webs
 
-Another way of hiding webs is to keep them hidden by not publishing the URL and by preventing the ==all webs== search option from accessing obfuscated webs. Do so by setting the ==NOSEARCHALL== setting in %WEBPREFSTOPIC%:
-   * ==Set <nop>NOSEARCHALL = on== 
+Another way of hiding webs is by setting the ==NOSEARCHALL== setting in %WEBPREFSTOPIC%.  It does the following:
+   * Prevents the ==all webs== search option from accessing the web
+   * Hides the web from the %<nop>WEBLIST% macro.
+<verbatim>
+   * Set NOSEARCHALL = on
+</verbatim>
 
-<blockquote class="foswikiHelp">%T%  Setting <nop>NOSEARCHALL to __any__ value other than the empty string will hide a web.  Setting ==<nop>NOSEARCHALL = off== will have the same effect as setting it to ==on== </blockquote>
+This setup can be useful to hide a new web until content its ready for deployment, or reduce clutter in the !WebLeftBar and default search results when restricted access is not desired.
 
-This setup can be useful to hide a new web until content its ready for deployment, or to hide view access restricted webs.
+<blockquote class="foswikiHelp">%T%  Setting ==NOSEARCHALL== to __any__ value other than the empty string will hide a web.  Setting ==NOSEARCHALL = off== will have the same effect as setting it to ==on== </blockquote>
 
-<blockquote class="foswikiHelp">%X% Obfuscating a web without view access control is *very* insecure, as anyone who knows the URL can access the web.</blockquote>
+<blockquote class="foswikiHelp">%X% Obfuscating a web without setting view access control is *very* insecure, as anyone who knows the URL can access the web, and explicit searches naming that web will also work.  For security purposes it is better to use the ALLOW or DENY  VIEW settings in the WebPreferences topic. =%<nop>SEARCH%= and =%<nop>WEBLIST%= will not show any results for webs that the current user does not have permission to view.</blockquote>
 
 ---+++ Restrict Access to a whole Foswiki site
 
