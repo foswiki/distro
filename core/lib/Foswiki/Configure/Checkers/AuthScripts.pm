@@ -45,9 +45,38 @@ EOF
             );
         }
     }
+    my $e2 = _listOpenScripts( $this, $this->getCfg("{ScriptDir}") );
+    $msg .= $this->NOTE(
+'<b>Note:</b>The Following scripts are open to unauthenticated users:<br /> <code>'
+          . $e2
+          . '</code>' )
+      if $e2;
     return $msg;
 }
 
+sub _listOpenScripts {
+    my ( $this, $dir ) = @_;
+    my $unauth = '';
+    unless ( opendir( D, $dir ) ) {
+        return $this->ERROR(<<HERE);
+Cannot open '$dir' for read ($!) - check it exists, and that permissions are correct.
+HERE
+    }
+    foreach
+      my $script ( sort grep { -f "$dir/$_" && /^\w+(\.\w+)?$/ } readdir D )
+    {
+
+        #  Verify that scripts are executable
+        if (   $script !~ /\.cfg$/
+            && $script !~ /^configure/
+            && $Foswiki::cfg{AuthScripts} !~ m/\b$script\b/ )
+        {
+            $unauth .= $script . ' ';
+        }
+    }
+    closedir(D);
+    return $unauth;
+}
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
