@@ -9,6 +9,8 @@ var foswikiUpdates;
     reportUrl: foswiki.getPreference("UPDATESPLUGIN::REPORTURL"),
     configureUrl: foswiki.getPreference("UPDATESPLUGIN::CONFIGUREURL"),
     debug: false,
+    delay: 1000, // number of seconds to delay contacting f.o.
+    timeout: 5000, // number of seconds a jsonp call is considered failure
     cookieName: "FOSWIKI_UPDATESPLUGIN", // name of the cookie
     cookieExpires: 7 // number of days the cookie takes to expire
   };
@@ -76,12 +78,7 @@ var foswikiUpdates;
       InstalledPlugins = [];
     }
 
-    if (typeof(self.numberOutdatedPlugins) !== 'undefined' && 
-        self.numberOutdatedPlugins > 0) {
-      // we already know. so only trigger the display again
-      $(document).trigger("display.foswikiUpdates");
-
-    } else {
+    if (typeof(self.numberOutdatedPlugins) === 'undefined') {
       // collect local info
       for (key in InstalledPlugins) {
         version = InstalledPlugins[key];
@@ -92,13 +89,36 @@ var foswikiUpdates;
 
       // collect remote info
       //console.log("reportUrl=",self.options.reportUrl);
-      $.getJSON(self.options.reportUrl+"?callback=?", {
-          skin: 'text',
-          contenttype: 'text/javascript',
-          list: self.installedPlugins.join(",")
-      });
+      window.setTimeout(function() {
+        //console.log("...loading");
+        $.ajax({
+          type:"get",
+          url: self.options.reportUrl,//+"?callback=?", 
+          dataType: "jsonp",
+          data: {
+            skin: 'text',
+            contenttype: 'text/javascript',
+            list: self.installedPlugins.join(",")
+          },
+          
+          // SMELL: browsers fail earlier when they can't load a resource
+          // due to no-network
+          timeout: self.options.timeout,
+          error: function(xhr, msg, status) {
+            //console.log("got an error: status=",status,"msg=",msg)
+            // remember the error state
+            $.cookie(self.options.cookieName, -1, {
+              expires: self.options.cookieExpires, 
+              path: "/"
+            });
+          }
+        });
+      }, self.options.delay);
 
       // continues at handleResponse when getJSON has finised
+    } else if (self.numberOutdatedPlugins > 0) {
+      // we already know. so only trigger the display again
+      $(document).trigger("display.foswikiUpdates");
     } 
   };
 

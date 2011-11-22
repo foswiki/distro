@@ -1,8 +1,13 @@
 %META:TOPICINFO{author="micha" comment="reprev" date="1321804319" format="1.1" reprev="2" version="2"}%
 ---+!! %TOPIC%
-%SHORTDESCRIPTION%
 
 %TOC%
+
+This plugin informs [[%USERSWEB%.AdminGroup][administrators]] about updates of installed plugins
+available on foswiki.org, and will pop up a message at the top of the page automatically.
+You will then be able to either perform the upgrade immediately using the =configure= tool or decide to
+delay the upgrade for now. This decision will be stored in a cookie so that the plugin
+will only check for updates again when this cookie expires (defaults to 7 days).
 
 ---++ Usage
 

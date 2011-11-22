@@ -33,7 +33,7 @@ sub initPlugin {
     my $request = Foswiki::Func::getRequestObject();
     my $cookie  = $request->cookie("FOSWIKI_UPDATESPLUGIN");
 
-    return 1 if defined($cookie) && $cookie == 0; # 0: DoNothing
+    return 1 if defined($cookie) && $cookie <= 0; # 0: DoNothing
 
     Foswiki::Func::readTemplate("updatesplugin");
 
