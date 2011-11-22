@@ -6,10 +6,17 @@ jQuery(function($) {
     placeholder: "<img src='"+foswiki.getPreference("PUBURLPATH")+"/System/JQueryPlugin/images/spinner.gif' width='16' height='16' />",
     url: undefined,
     section: undefined,
-    effect: 'fade', // fade, slide, blind, clip, drop, explode, fold, puff, pulsate, highlight
+    effect: 'fade', // show, fade, slide, blind, clip, drop, explode, fold, puff, pulsate, highlight
     effectspeed: 500,
     effectopts: {},
-    delay: 0
+    delay: 0,
+    onload: function() {},
+    finished: function() {},
+    beforeload: function() {
+      if (typeof(this.container) !== 'undefined') {
+        this.container.remove();
+      }
+    }
   };
 
   // constructor
@@ -52,31 +59,54 @@ jQuery(function($) {
 
     // add refresh listener
     $elem.bind("refresh.jqloader", function() {
+      self.prepareContainer();
       self.load();
     });
 
     // add onload listener 
     if (typeof(self.options.onload) === 'function') {
       $elem.bind("onload.jqloader", function() {
-        self.options.onload.call(this);
+        self.options.onload.call(self);
+      });
+    }
+    
+    // add beforeload listener 
+    if (typeof(self.options.beforeload) === 'function') {
+      $elem.bind("beforeload.jqloader", function() {
+        self.options.beforeload.call(self);
+      });
+    }
+    
+    // add finished listener 
+    if (typeof(self.options.finished) === 'function') {
+      $elem.bind("finished.jqloader", function() {
+        self.options.finished.call(self);
       });
     }
 
-    // add placeholder
+    self.prepareContainer();
+  };
+
+  // prepares the container
+  JQLoader.prototype.prepareContainer = function() {
+    var self = this,
+        $elem = $(self.element),
+        $placeholder;
+
+
     if (typeof(self.options.placeholder) !== 'undefined') {
-      self.placeholder = $(self.options.placeholder);
-      self.placeholder.insertBefore($elem);
+      $placeholder = $(self.options.placeholder);
+      $placeholder.insertBefore($elem);
 
       // listen to onload event to remove the placeholder
       $elem.bind("onload.jqloader", function() {
-        self.placeholder.remove();
-        self.placeholder = undefined;
+        $placeholder.remove();
       });
 
       // add clickhandler to placeholder when not in auto mode
       if (self.options.mode !== 'auto') {
-        self.placeholder.click(function() {
-          $elem.trigger("refresh.jqloader");
+        $placeholder.click(function() {
+          $elem.trigger("refresh.jqloader", self);
         });
       }
     }
@@ -89,32 +119,34 @@ jQuery(function($) {
         $elem = $(self.element);
 
     // trigger beforeload
-    $elem.trigger("beforeload.jqloader");
+    $elem.trigger("beforeload.jqloader", self);
 
     if (self.options.url) {
+
       $.get(self.options.url, function(data) {
+    
 
         self.container = $(data).insertAfter($elem);
 
-        $elem.trigger("onload.jqloader");
+        $elem.trigger("onload.jqloader", self);
 
         // effect
-        if (typeof(self.options.effect) !== 'undefined') {
+        if (typeof(self.options.effect) !== 'undefined' && self.options.effect !== 'show') {
           self.container.hide();
           if (self.options.effect === 'fade') {
             self.container.fadeIn(self.options.effectspeed, function() {
               // trigger finished
-              $elem.trigger("finished.jqloader");
+              $elem.trigger("finished.jqloader", self);
             });
           } else {
             self.container.show(self.options.effect, self.options.effectopts, self.options.effectspeed, function() {
               // trigger finished
-              $elem.trigger("finished.jqloader");
+              $elem.trigger("finished.jqloader", self);
             });
           }
         } else {
           // trigger finished
-          $elem.trigger("finished.jqloader");
+          $elem.trigger("finished.jqloader", self);
         }
 
       }, 'html');
