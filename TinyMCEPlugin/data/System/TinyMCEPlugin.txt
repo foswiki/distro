@@ -306,6 +306,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  22 Nov 2011 (1.2.3) | Foswikitask:Item11272: Remove bogus dependency on !BehaviourContrib |
 |  08 Nov 2011 (1.2.2) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.7. |
 |  24 Sep 2011 (1.2.1) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.6. %BR%\
                          Foswikitask:Item8981: Fixed in !TinyMCE 3.4 (copy and paste list items) |
