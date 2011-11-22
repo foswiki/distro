@@ -2,8 +2,11 @@
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Appendix C: CSS
-
 Listing of CSS class names emitted from Foswiki core code and standard extensions.
+
+<div class='foswikiNotification'>
+With Foswiki 1.2 a number of classes have been deprecated. These are marked DEPRECATED below.
+</div>
 
 %TOC%
 
@@ -19,16 +22,12 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 ---++ CSS class names
 
 ---+++ Structural elements
+%TABLE{databg="#fff"}%
 |=.foswikiPage=                  | The container for the complete page contents, just below the body tag (only used by default templates)  |
 |=.foswikiMain=                  | The container for the main contents, usually including the header (only used by default templates)  |
 |=.foswikiTopic=                 | The container for the topic contents |
-|=.foswikiTable=                 | Tables, for instance used by TablePlugin  |
-|=.foswikiForm=                  | Container for data form in topic, including header; see also [[%TOPIC%#DataForms][Data Forms]] below |
 |=.foswikiAttachments=           | Container for attachments table, including header |
 |=table#foswikiAttachmentsTable= | Identifier for the attachment table  |
-|=.foswikiFormSteps=             | Container around a form that contains a number of separate 'steps'; each 'step' in a separate row  |
-|=.foswikiFormStep=              | Form step row |
-|=.foswikiLast=                  | Last step (always in combination with =foswikiFormStep=); sometimes used as last table row  |
 |=.foswikiHorizontalList=        | Container around horizontal bullet list (=.foswikiHorizontalList ul=) |
 |=li.foswikiLast=                | Last element of a horizontal list  |
 |=.foswikiBroadcastMessage=      | Site-wide message block; contents set in %SYSTEMWEB%.DefaultPreferences; custom set in %USERSWEB%.SitePreferences  |
@@ -38,7 +37,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiContentFooter=         | Optional container around text placed below topic text  |
 |=.foswikiFooterNote=            | Text below topic text; for instance with parent or "topic moved" message |
 |=#foswikiLogin=                 | Login box |
-|=#foswikiLogo=                  | Logo |
+|=.foswikiLogo=                  | Logo |
 |=.foswikiPreviewArea=           | Container around topic preview |
 |=.foswikiTopicActions=          | Topic Actions list |
 |=.foswikiTopicInfo=             | Topic Info section containing REVINFO |
@@ -46,8 +45,10 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiTabs=                  | Container for tabs (styled bullet list, =.foswikiTabs ul=) |
 |=li.foswikiActiveTab=           | Active tab |
 |=.foswikiTabContent=            | Container for content below tabs |
+|=#foswikiLogo=                  | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: Use =.foswikiLogo= |
 
 ---+++ General appearance
+%TABLE{databg="#fff"}%
 |=.foswikiLeft=              | Left float |
 |=.foswikiRight=             | Right float |
 |=.foswikiClear=             | Clear float; usually written as =&lt;div class="foswikiClear"&gt;&lt;/div&gt;= |
@@ -59,18 +60,14 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiHidden=            | Hidden elements |
 |=.foswikiActual=            | Font size of body text (if that font size is set in pixels) |
 |=.foswikiSmall=             | Small text |
-|=.foswikiSmallish=          | Somewhat less smaller text; inbetween normal and small |
+|=.foswikiSmallish=          | Somewhat less smaller text; in-between normal and small |
 |=.foswikiLarge=             | Large text, for instance for introduction paragraphs |
 |=.foswikiNoBreak=           | Causes whitespace not to create a linebreak; for instance with the dates in the attachment table |
-|=.foswikiJs=                | Added to the =html= tag if the browser has javascript enabled. |
-|=.foswikiNoJs .foswikiMakeVisible=       | For elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
-|=.foswikiMakeVisibleInline= | DEPRECATED as of Foswiki 1.1.0: use =span.foswikiMakeVisible=. For =span= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
-|=.foswikiMakeVisibleBlock=  | DEPRECATED as of Foswiki 1.1.0: use =div.foswikiMakeVisible=. For =div= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
-|=.foswikiMakeHidden=        | For elements that should be hidden with !JavaScript on: no default style, is made hidden by !JavaScript |
-|=.foswikiImage=             | Holder form images; for instance to create a border around an =&lt;img&gt;= element |
+|=.foswikiImage=             | Optional container around images; for instance to create a border around an =&lt;img&gt;= element |
 |=.foswikiUserName=          | Container around user name links (not used much yet) |
 
 ---+++ Links
+%TABLE{databg="#fff"}%
 |=.foswikiCurrentWebHomeLink=       | Used by Render.pm if a link points to the web's home topic |
 |=.foswikiCurrentTopicLink=         | Used by Render.pm if a link points to the current topic |
 |=.foswikiEmulatedLink=             | Used in the preview screen to make fake links appear as links |
@@ -79,6 +76,8 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiRequiresChangePermission= | To mark links to actions that the user does not have permissions for (for instance to hide action links) |
 
 ---+++ Tables
+%TABLE{databg="#fff"}%
+|=.foswikiTable=                        | Tables, for instance used by TablePlugin  |
 |=.foswikiFirstCol=                     | Leftmost column  |
 |=.foswikiLastCol=                      | Rightmost column  |
 |=.foswikiSortedCol=                    | Sorted column  |
@@ -92,8 +91,9 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.tableSortIcon=                       | Holder (=span=) for the table column sort icon  |
 
 #DataForms
----+++ Data Forms
-|=.foswikiForm=                   | Container for data form in topic, including header |
+---+++ Data form elements
+See also: [[#HtmlFormElements][HTML form elements]]
+%TABLE{databg="#fff"}%
 |=.foswikiFormHolder=             | Outer container for the data form in edit; contains the textarea width |
 |=.foswikiFormTable=              | Table container for (editable) form elements  |
 |=.foswikiFormTableHRow=          | Table container for (editable) form elements  |
@@ -103,7 +103,13 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiMandatory=              | Indication of mandatory field |
 |=.foswikiAddFormButton=          | "Add form" button on edit screen |
 
----+++ HTML Forms
+#HtmlFormElements
+---+++ HTML form elements
+%TABLE{databg="#fff"}%
+|=.foswikiForm=                   | Container for data form in topic, including header |
+|=.foswikiFormSteps=             | Container around a form that contains a number of separate 'steps'; each 'step' in a separate row  |
+|=.foswikiFormStep=              | Form step row |
+|=.foswikiLast=                  | Last step (always in combination with =foswikiFormStep=); sometimes used as last table row  |
 |=.foswikiPageForm=              | Container for the form on the page |
 |=.foswikiButton=                | Normal button |
 |=.foswikiButtonDisabled=        | Disabled normal button |
@@ -123,15 +129,17 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiTextarea=              | Textarea |
 |=.foswikiTextareaRawView=       | Raw topic view textarea |
 
----+++ Search
+---+++ Search and lists
+%TABLE{databg="#fff"}%
 |=.foswikiSearchResults=            | List of search results |
-|=.foswikiSearchResult=             | Container around image and contents |
-|=.foswikiSearchResultTitle=        | Search result title |
-|=.foswikiSearchResultContents=     | Search result content, such as summary, author |
-|=.foswikiSearchResultMeta=         | Search result meta data such as author name, date |
+|=.foswikiListItem=                 | Container around list item |
+|=.foswikiListItemImage=            | Container around image (=img= tag) in list item |
+|=.foswikiListItemTitle=            | List item title |
+|=.foswikiListItemContents=         | List item content, such as summary and =foswikiListItemMeta= |
+|=.foswikiListItemMeta=             | List item meta data such as author name, date |
 |=.foswikiSearchResultsHeader=      | Search results header with search string, number of hits |
 |=.foswikiSearchResultsPager=       | Search results pagination |
-|=.foswikiSummary=                  | Summary of search results  |
+|=.foswikiSummary=                  | Topic or list item summary  |
 |=.foswikiSummary em=               | Highlighted search term in summary  |
 |=.foswikiNew=                      | Identifier of new topics: topics without a revision history   |
 |=.foswikiTopRow=                   | First row in search results; also used for styling first table rows (=td.foswikiTopRow=)  |
@@ -141,8 +149,29 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiSearchResultCount=        | Search results count |
 |=#foswikiNumberOfResultsContainer= | See [[%TOPIC%#BehaviourClasses][Behaviour classes]] below |
 |=.foswikiWebSearchForm=            | Container around the search form |
+|=.foswikiSearchResult=             | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: use =foswikiListItem= |
+|=.foswikiSearchResultImage=        | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: use =foswikiListItemImage= |
+|=.foswikiSearchResultTitle=        | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: use =foswikiListItemTitle= |
+|=.foswikiSearchResultContents=     | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: use =foswikiListItemContents= |
+|=.foswikiSearchResultMeta=         | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: use =foswikiListItemMeta= |
+
+---+++ Other elements
+%TABLE{databg="#fff"}%
+|=.foswikiButtonGroup=              | Group of buttons. Introduced with Foswiki 1.2. |
+|=.foswikiToolbar=                  | Container for controls. Introduced with Foswiki 1.2. |
+|=.foswikiToolbarHeader=            | Header in =foswikiToolbar=. Introduced with Foswiki 1.2. |
+|=.foswikiWebIndent=                | Used by =%<nop>WEBLIST%= to indent sub-web names |
+|=.foswikiAccessKey=                | Access key demarkation |
+|=.foswikiSeparator=                | Separator element between sequential elements; usually a pipe character |
+|=.foswikiEditboxStyleMono=         | Gives the edit textarea monospaced font (not used with WYSWIWYG) |
+|=.foswikiEditboxStyleProportional= | Gives the edit textarea proportional font (not used with WYSWIWYG) |
+|=p.foswikiAllowNonWikiWord=        | Message "Allow non <nop>WikiWord for the new topic name" |
+|=.foswikiIcon=                     | Icon image; span around image or the image itself |
+|=.foswikiActionFormStepSign=       | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: Indicator for each form step (see =foswikiFormStep=)  |
+
 
 ---+++ History
+%TABLE{databg="#fff"}%
 |=.foswikiDiffTable=                 | Revision table  |
 |=.foswikiMarker=                    | Demarkation of part |
 |=.foswikiDiffDeletedMarker=         | Demarkation of part that has been deleted |
@@ -162,16 +191,22 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 
 #BehaviourClasses
 ---+++ Behaviour classes
+%TABLE{databg="#fff"}%
 Markers to invoke behaviour with unobtrusive !JavaScript.
 |=.foswikiFocus=                         | Behaviour marker so a field can be given input focus. As of Foswiki 1.2 this also requires to add =%<nop>JQREQUIRE{"focus"}%= to the page. |
 |=.foswikiChangeFormButton=              | "Replace form" button; clicking calls !JavaScript function =suppressSaveValidation=  |
 |=#foswikiNumberOfResultsContainer=      | Container identifier to write the number of search results into |
 |=input[type="text"].foswikiDefaultText= | Behaviour marker so the field will contain default text that disappears when clicked into. The visual style is set with =foswikiInputFieldBeforeFocus= and =foswikiInputFieldFocus=. The default text is provided by the =title= attribute of the form field. |
-|=.foswikiPopUp=                         | Behaviour marker so a popup-window can be invoked. DEPRECATED as of Foswiki 1.1: use %<nop>POPUPWINDOW{"topic"}% instead. |
+|=.foswikiJs=                | Added to the =html= tag if the browser has javascript enabled. |
+|=.foswikiNoJs .foswikiMakeVisible=       | For elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
+|=.foswikiMakeHidden=        | For elements that should be hidden with !JavaScript on: no default style, is made hidden by !JavaScript |
+|=.foswikiSort=        | Sort control |
+|=.foswikiMakeVisibleBlock=  | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.1.0</span>: use =div.foswikiMakeVisible=. For =div= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
+|=.foswikiMakeVisibleInline= | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.1.0</span>: use =span.foswikiMakeVisible=. For =span= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
+|=.foswikiPopUp=                         | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.1</span>: use =%<nop>POPUPWINDOW{"topic"}%= instead. Behaviour marker so a popup-window can be invoked. |
 
----++++ Troubleshooting behaviour classes
 #TestFoswikiFocus
----+++++ =.foswikiFocus=
+---++++ Troubleshooting foswikiFocus
    * Test for loading error of focus plugin (no message means ok): %JQREQUIRE{"focus"}%
    * [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?testfocus=1#TestFoswikiFocus][Test foswikiFocus]]
 
@@ -179,18 +214,6 @@ Markers to invoke behaviour with unobtrusive !JavaScript.
 $percntJQREQUIRE{$quotfocus$quot}$percnt
 <input type=$quottext$quot class=$quotfoswikiInputField foswikiFocus$quot size=$quot40$quot />
 "}%
-
----+++ Various classes
-|=.foswikiWebIndent=                | Used by =%<nop>WEBLIST%= to indent sub-web names |
-|=.foswikiAccessKey=                | Access key demarkation |
-|=.foswikiSeparator=                | Separator element between sequential elements; usually a pipe character |
-|=.foswikiActionFormStepSign=       | Indicator for each form step (see =foswikiFormStep=)  |
-|=.foswikiEditboxStyleMono=         | Gives the edit textarea monospaced font (not used with WYSWIWYG) |
-|=.foswikiEditboxStyleProportional= | Gives the edit textarea proportional font (not used with WYSWIWYG) |
-|=p.foswikiAllowNonWikiWord=        | Message "Allow non <nop>WikiWord for the new topic name" |
-|=.foswikiIcon=                     | Span around icon image |
-
-
 
 ---++ Tips
 !PatternSkin makes extensive use of CSS in its templates. Read the PatternSkin topic and PatternSkinCss to learn more about creating your own CSS-based skin.
