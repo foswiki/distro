@@ -42,8 +42,30 @@ jQuery(function($) {
 
     $this.find(".jqUIDialogButton").each(function() {
       var $button = $(this), 
-          button = $.extend({ text: $button.text() }, $button.metadata());
-      buttons.push(button);
+          button = {},
+          href = $button.attr("href");
+
+      button.text = $button.text();
+
+      if (typeof(href) !== 'undefined') {
+        button.click = function() {
+          window.location.href = href;
+        };
+      }
+
+      if ($button.is(".jqUIDialogClose")) {
+        button.click = function() {
+          $(this).dialog("close");
+        };
+      }
+
+      if ($button.is(".jqUIDialogSubmit")) {
+        button.click = function() {
+          $(this).find("form:first").submit();
+        };
+      }
+          
+      buttons.push($.extend(button, $button.metadata()));
     }).remove();
 
     if (buttons.length) {
@@ -62,35 +84,33 @@ jQuery(function($) {
   });
 
   // dialog link
-  $(".jqUIDialogLink").livequery(function() {
-    $(this).removeClass("jqUIDialogLink").click(function() {
-      var $this = $(this), 
-          href = $this.attr("href"),
-          opts = $.extend({}, dialogLinkDefaults, $this.metadata());
+  $(".jqUIDialogLink").live("click", function() {
+    var $this = $(this), 
+        href = $this.attr("href"),
+        opts = $.extend({}, dialogLinkDefaults, $this.metadata());
 
-      if (href.match(/^https?:/)) {
-        // this is a link to remote data
-        $.get(href, function(content) { 
-          var $content = $(content),
-              id = $content.attr('id');
-          if (!id) {
-            id = 'dialog-'+foswiki.getUniqueID();
-            $content.attr('id', id);
-          }
-          if (opts.cache) {
-            $this.attr("href", "#"+id);
-          } 
-          $content.hide();
-          $("body").append($content);
-          $content.data("autoOpen", true);
-        }); 
-      } else {
-        // this is a selector
-        $(href).dialog("open");
-      }
+    if (href.match(/^https?:/)) {
+      // this is a link to remote data
+      $.get(href, function(content) { 
+        var $content = $(content),
+            id = $content.attr('id');
+        if (!id) {
+          id = 'dialog-'+foswiki.getUniqueID();
+          $content.attr('id', id);
+        }
+        if (opts.cache) {
+          $this.attr("href", "#"+id);
+        } 
+        $content.hide();
+        $("body").append($content);
+        $content.data("autoOpen", true);
+      }); 
+    } else {
+      // this is a selector
+      $(href).dialog("open");
+    }
 
-      return false;
-    });
+    return false;
   });
 
 });

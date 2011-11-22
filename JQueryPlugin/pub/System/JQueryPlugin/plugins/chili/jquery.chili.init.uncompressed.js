@@ -4,12 +4,9 @@ jQuery(function($) {
   ChiliBook.codeLanguage = function( el ) {
     var $el = jQuery(el),
         recipeName = $el.attr("class") || '', 
-        re;
+        re = /^.*\b(bash|cplusplus|csharp|css|delphi|html|java|js|lotusscript|php-f|php|recipes|sql|tml)\b.*$/;
 
-    recipeName = recipeName.replace(/\s*{.*}\s*/, "");
-    re = /^(bash|cplusplus|csharp|css|delphi|html|java|js|lotusscript|php-f|php|recipes|sql|tml)$/;
-
-    return (recipeName && re.test(recipeName))?recipeName : '';
+    return (recipeName && re.test(recipeName))?recipeName.replace(re, "$1"): '';
   }
 
   ChiliBook.recipeFolder = foswiki.getPreference("PUBURLPATH")+'/'+foswiki.getPreference("SYSTEMWEB")+'/JQueryPlugin/plugins/chili/recipes/';
