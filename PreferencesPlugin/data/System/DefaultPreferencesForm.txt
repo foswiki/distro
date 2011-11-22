@@ -4,7 +4,7 @@
 | FAVICON | text | 30 | %PUBURL%/%WEB%/WebPreferences/favicon.ico | URL of an icon image | S |
 | WEBCOPYRIGHT | textarea | | Copyright &copy; 1999-%GMTIME{"$year"}% by the contributing authors. \nAll material on this collaboration platform is the property of the contributing authors. <br /> \nIdeas, requests, problems regarding <nop>%WIKITOOLNAME%? <a href="mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%&#32;Feedback&#32;on&#32;%WEB%.%TOPIC%">Send feedback</a> | Long form copyright | S |
 | WEBRSSCOPYRIGHT | text | 30 | Copyright %GMTIME{"$year"}% by contributing authors | Short form copyright | S |
-| NOSEARCHALL | select | 1 | off,on | Exclude web from a =web="all"= search| S |
+| NOSEARCHALL | select | 1 | off,on | Exclude web from =%<nop>WEBLIST%= and a =web="all"= search| S |
 | NOAUTOLINK | select | 1 | off,on | Boolean | S |
 | INCLUDEWARNING | text | 30 | on, off | Boolean | S |
 | LINKTOOLTIPINFO | text | 30 | | Format of tooltip info | S |
