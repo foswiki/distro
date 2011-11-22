@@ -36,6 +36,13 @@ use Fcntl qw( :DEFAULT :flock SEEK_SET );
 use Foswiki::Store                         ();
 use Foswiki::Sandbox                       ();
 use Foswiki::Iterator::NumberRangeIterator ();
+# use the locale if required to ensure sort order is correct
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
 
 =begin TML
 
@@ -484,11 +491,11 @@ sub getTopicNames {
     # the name filter is used to ensure we don't return filenames
     # that contain illegal characters as topic names.
     my @topicList =
-      sort
-      map { /^(.*)\.txt$/; $1; }
-      grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } readdir($dh);
+	map { /^(.*)\.txt$/; $1; }
+        sort
+	grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } readdir($dh);
     closedir($dh);
-    return @topicList;
+    return  @topicList
 }
 
 =begin TML
