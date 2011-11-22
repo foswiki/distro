@@ -20,7 +20,7 @@ use vars qw(
 );
 
 $VERSION           = '$Rev$';
-$RELEASE           = '4.21';
+$RELEASE           = '4.30';
 $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
@@ -258,13 +258,13 @@ sub handleJQueryRequire {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
     my $plugins = $params->{_DEFAULT} || '';
-    my $warn    = $params->{warn}     || '';
+    my $warn    = Foswiki::Func::isTrue($params->{warn}, 1);
     my $errorMsg = '';
     foreach my $pluginName ( split( /\s*,\s*/, $plugins ) ) {
         my $plugin = createPlugin( $pluginName, $session );
         $errorMsg .=
           "<div class='foswikiAlert'>Error: no such plugin $pluginName</div>"
-          if !$plugin && $warn ne 'off';
+          if !$plugin && $warn;
     }
 
     return $errorMsg;

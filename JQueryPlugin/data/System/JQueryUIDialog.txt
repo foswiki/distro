@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" comment="save topic" date="1319037739" format="1.1" reprev="6" version="6"}%
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1320084362" format="1.1" reprev="6" version="8"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -47,8 +47,8 @@ Dialogs can be created inline or loaded on demand. The basic skeleton of a dialo
 
   ...
 
-  <a class="jqUIDialogButton {icon:'ui-icon-circle-check', click: function() { $(this).dialog('close'); }}">%MAKETEXT{"Ok"}%</a>
-  <a class="jqUIDialogButton {icon:'ui-icon-cancel', click: function() { $(this).dialog('close'); }}">%MAKETEXT{"Cancel"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-circle-check'}">%MAKETEXT{"Ok"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a>
 </div>
 </verbatim>
 
@@ -90,8 +90,8 @@ In this case the dialog will alwas be fetched again from the backend using the g
   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
   et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
   ex ea commodo consequat.
-  <a class="jqUIDialogButton {icon:'ui-icon-circle-check', click: function() { $(this).dialog('close'); }}">%MAKETEXT{"Ok"}%</a>
-  <a class="jqUIDialogButton {icon:'ui-icon-cancel', click: function() { $(this).dialog('close'); }}">%MAKETEXT{"Cancel"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-circle-check'}">%MAKETEXT{"Ok"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a>
 </div>
 
 ---+++ Dialog fetched asynchronously
@@ -104,8 +104,8 @@ In this case the dialog will alwas be fetched again from the backend using the g
   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
   et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
   ex ea commodo consequat.
-  <a class="jqUIDialogButton {icon:'ui-icon-circle-check', click: function() { $(this).dialog('close'); }}">%MAKETEXT{"Ok"}%</a>
-  <a class="jqUIDialogButton {icon:'ui-icon-cancel', click: function() { $(this).dialog('close'); }}">%MAKETEXT{"Cancel"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-circle-check'}">%MAKETEXT{"Ok"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a>
 </div>
 %ENDSECTION{"dialog"}%
 </verbatim>

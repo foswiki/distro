@@ -124,9 +124,9 @@ jQuery.cookie = function(name, value, options) {
           for (var n in name) { jQuery.cookie(n, name[n], value||options); }
         }
     } else { // get cookie (or all cookies if name is not provided)
-        var returnValue = {};
         if (document.cookie) {
-            var cookies = document.cookie.split(';');
+            var returnValue,
+                cookies = document.cookie.split(';');
             for (var i = 0; i < cookies.length; i++) {
                 var cookie = jQuery.trim(cookies[i]);
                 // Does this cookie string begin with the name we want?
@@ -138,8 +138,8 @@ jQuery.cookie = function(name, value, options) {
                     break;
                 }
             }
+            return returnValue;
         }
-        return returnValue;
     }
 };
 

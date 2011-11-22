@@ -92,6 +92,7 @@ lib/Foswiki/Plugins/JQueryPlugin/GRADIENT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/HOVERINTENT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/INNERFADE.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/LIVEQUERY.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/LOADER.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/LOCALSCROLL.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/MASKEDINPUT.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/MASONRY.pm 0644
@@ -143,6 +144,8 @@ pub/System/JQueryInnerFade/whizzkids.gif 0644
 pub/System/JQueryMasonry/jQuery-Masonry.jpg 0644
 pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-af.js 0644
 pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-af.js.gz 0644
+pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-ar-DZ.js 0644
+pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-ar-DZ.js.gz 0644
 pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-ar.js 0644
 pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-ar.js.gz 0644
 pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-az.js 0644
@@ -295,6 +298,12 @@ pub/System/JQueryPlugin/jquery-1.6.3.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.6.4.js 0644
 pub/System/JQueryPlugin/jquery-1.6.4.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.6.4.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-1.7.js 0644
+pub/System/JQueryPlugin/jquery-1.7.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.7.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-1.7.1.js 0644
+pub/System/JQueryPlugin/jquery-1.7.1.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.7.1.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
 pub/System/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.css 0644
@@ -447,6 +456,10 @@ pub/System/JQueryPlugin/plugins/livequery/jquery.livequery.js 0644
 pub/System/JQueryPlugin/plugins/livequery/jquery.livequery.js.gz 0644
 pub/System/JQueryPlugin/plugins/livequery/jquery.livequery.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/livequery/Makefile 0644
+pub/System/JQueryPlugin/plugins/loader/jquery.loader.js 0644
+pub/System/JQueryPlugin/plugins/loader/jquery.loader.js.gz 0644
+pub/System/JQueryPlugin/plugins/loader/jquery.loader.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/loader/Makefile 0644
 pub/System/JQueryPlugin/plugins/localscroll/jquery.localscroll.js 0644
 pub/System/JQueryPlugin/plugins/localscroll/jquery.localscroll.js.gz 0644
 pub/System/JQueryPlugin/plugins/localscroll/jquery.localscroll.uncompressed.js 0644

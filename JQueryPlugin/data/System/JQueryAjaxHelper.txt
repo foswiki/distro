@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1315844220" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1320871779" format="1.1" reprev="12" version="12"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 <!--
 Hidden form definition
@@ -236,20 +236,23 @@ jQuery(function($){
      "^%URLPARAM{"term" default="does not exist"}%.*"
      type="regex"
      scope="topic"
-     format="$percntUSERINFO{\"$topic\" format=\"$dollarwikiusername, \"}$percnt"
+     format="$percntIF{\"'$percntGROUPINFO{\"$topic\" format=\"$dollarname, \" limit=\"1\"}$percnt'=''\"
+          then=\"$percntUSERINFO{\"$topic\" format=\"$dollarwikiname, \"}$percnt\"
+          else=\"$percntGROUPINFO{\"$topic\" format=\"$dollarname, \" limit=\"1\"}$percnt\"
+        }$percnt"
      separator=""
      limit="%URLPARAM{"limit" default="10"}%"
      nonoise="on"
      web="%USERSWEB%"
   }%"
   type="string"
-  header="["
-  format="$percntUSERINFO{
-    \"$item\" 
-    format=\"{\\"label\\":\\"<nop>$dollarwikiname\\", \\"email\\":\\"$dollaremails\\", \\"img\\":\\"$percntFORMFIELD{\"Photo\" topic=\"$item\" default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" }$percnt\\"}\"
-  }$percnt"
+  header="[$n"
+  format="  {\"label\":\"<nop>$item\", 
+    \"email\":\"$percntUSERINFO{\"$item\" format=\"$emails\"}$percnt\", 
+    \"img\":\"$percntFORMFIELD{\"Photo\" topic=\"%USERSWEB%.$item\" default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" }$percnt\"
+  }"
   separator=",$n"
-  footer="]"
+  footer="$n]"
 }%
 </literal>%ENDSECTION{"user"}%
 </verbatim>
@@ -350,33 +353,6 @@ expand a TML expression in the given scope
 
 <verbatim class="tml">
 %STARTSECTION{"expand"}%%EXPAND{"$percnt%URLPARAM{"expression"}%$percnt" scope="%URLPARAM{"scope" default="%BASEWEB%.%BASETOPIC%"}%"}%%ENDSECTION{"expand"}%
-</verbatim>
-
----++ Example extension based implementations
-The following implementations of some of the server sections depend on the
-installation of optional extensions.
-
----+++ =user_fast=
-Foswiki:Extensions.DBCachePlugin implementation of the [[#User_selector][user selector]] server section.
-<verbatim class="tml">
-%STARTSECTION{"user_fast"}%<literal>%FORMAT{
-  "%DBQUERY{
-     "uc(topic) =~ uc('^%URLPARAM{"term" default="does not exist"}%')"
-     format="$percntUSERINFO{\"$topic\" format=\"$dollarwikiusername, \"}$percnt"
-     separator=""
-     limit="%URLPARAM{"limit" default="10"}%"
-     nonoise="on"
-     web="%USERSWEB%"
-  }%"
-  type="string"
-  header="["
-  format="$percntUSERINFO{
-    \"$item\" 
-    format=\"{\\"label\\":\\"<nop>$dollarwikiname\\", \\"email\\":\\"$dollaremails\\", \\"img\\":\\"$percntFORMFIELD{\"Photo\" topic=\"$item\" default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" }$percnt\\"}\"
-  }$percnt"
-  separator=",$n"
-  footer="]"
-}%</literal>%ENDSECTION{"user_fast"}%
 </verbatim>
 
 %META:FORM{name="JQueryAjaxHelper"}%
