@@ -294,6 +294,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  22 Nov 2011 (1.1.11) | Foswikitask:Item11272: Remove bogus dependency on !BehaviourContrib |
 |  10 May 2011 (1.1.10) | Foswikitask:Item10724: Revert back to !TinyMCE 3.3.9.3; 3.3.9.4 caused JS errors in IE8 |
 |  09 May 2011 (1.1.9) | Foswikitask:Item10724: Update to !TinyMCE 3.3.9.4 |
 |  11 Apr 2011 (1.1.8) | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
