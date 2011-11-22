@@ -15,7 +15,7 @@
 
 
 %TMPL:DEF{"formstart"}%<div class="foswikiFormHolder" id="formHolder">
-<form name="main" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post">%TMPL:END%
+<form name="main" id="main" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post">%TMPL:END%
 
 
 %TMPL:DEF{"revCommentPluginOptions"}%%IF{ "context RevCommentPluginEnabled" then="<div class='revComment'><label for='comment'>Summary of changes</label> <input class='foswikiInputField' type='text' style='width:50%' name='comment' id='comment' /> %POPUPWINDOW{"%SYSTEMWEB%.RevComment" label="%MAKETEXT{"help"}%"}%</div>" else=""}%%TMPL:END%
