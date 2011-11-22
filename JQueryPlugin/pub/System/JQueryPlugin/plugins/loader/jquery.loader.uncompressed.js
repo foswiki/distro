@@ -14,7 +14,7 @@ jQuery(function($) {
     finished: function() {},
     beforeload: function() {
       if (typeof(this.container) !== 'undefined') {
-        this.container.remove();
+        this.container.css({opacity:0.5});
       }
     }
   };
@@ -58,8 +58,8 @@ jQuery(function($) {
     }
 
     // add refresh listener
-    $elem.bind("refresh.jqloader", function() {
-      self.prepareContainer();
+    $elem.bind("refresh.jqloader", function(e, opts) {
+      $.extend(self.options, opts);
       self.load();
     });
 
@@ -124,10 +124,11 @@ jQuery(function($) {
     if (self.options.url) {
 
       $.get(self.options.url, function(data) {
+        if (typeof(self.container) !== 'undefined') {
+          self.container.remove();
+        }
+        self.container = $("<div />").append(data).insertAfter($elem);
     
-
-        self.container = $(data).insertAfter($elem);
-
         $elem.trigger("onload.jqloader", self);
 
         // effect
