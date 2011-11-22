@@ -262,7 +262,7 @@ $Foswiki::cfg{BathPlugin}{MyBath} = "$Foswiki::cfg{PubDir}/enamel.gif"; # BAD
 # will be evaluated at configuration time, which will make reconfiguration
 # difficult.
 
-$Foswiki::cfg{BathPlugin}{MyBath} = '$Foswiki::cfg{PubDir}/enamel.gif; # GOOD
+$Foswiki::cfg{BathPlugin}{MyBath} = '$Foswiki::cfg{PubDir}/enamel.gif'; # GOOD
 # The single quotes make sure $Foswiki::cfg{PubDir} will only be evaluated
 # at run-time.
 </verbatim>
