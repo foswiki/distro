@@ -134,7 +134,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 						<div class="foswikiClear"></div>
 					</div><!--//foswikiFormStep-->
 					<div class="foswikiFormStep">
-						<h3>Include in global search</h3>
+						<h3>Include in global search and =%<nop>WEBLIST%= </h3>
 						<div class="col1">
 							<p class="formOptions">
 								<label><input type="radio" name="NOSEARCHALL" value="" checked="checked" />include</label> <label><input type="radio" name="NOSEARCHALL" value="on" />exclude</label> 
@@ -142,7 +142,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 						</div><!--//col1-->
 						<div class="col2">
 							<p>
-								Specify if you want to exclude the web from a global search.
+								Specify if you want to exclude the web from global search, and from the =%<nop>WEBLIST%= macro used in the WebLeftBarWebsList.
 							</p>
 						</div><!--//col2-->
 						<div class="foswikiClear"></div>
