@@ -2,8 +2,7 @@
 %META:TOPICPARENT{name="UsersGuide"}%
 %STARTINCLUDE%
 ---+ File Attachments
-
-Each topic can have one or more files of any type attached to it by using the Attach screen to upload (or download) files from your local PC. Attachments are stored under revision control: uploads are automatically backed up; all previous versions of a modified file can be retrieved.
+%STARTSECTION{"attach:info"}%Each topic can have one or more files of any type attached to it by using the Attach screen to upload (or download) files from your local PC. Attachments are stored under revision control: uploads are automatically backed up; all previous versions of a modified file can be retrieved.
 
 %TOC%
 
@@ -134,7 +133,7 @@ In most installations, attachments are not secured. Anyone can read them if they
 
 To secure attachments, you have to control access to the attachments through
 the =viewfile= script, which requires a change in your web server configuration. To see how to configure Apache to do this, see http://foswiki.org/Support/ApacheConfigGenerator#Attachments
-
+%ENDSECTION{"attach:info"}%
 ---++ Examples
 Following you will find some examples of screens and tables related to this topic and referenced throughout the previous text. The appearance of these tables might vary, depending on what [[Skins][skin]] is used on your Foswiki installation.
 
