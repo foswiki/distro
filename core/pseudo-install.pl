@@ -390,6 +390,12 @@ sub installModule {
     return installModuleByName($module);
 }
 
+sub isContrib {
+    my ($module) = @_;
+
+    return $module =~ /(Contrib|Skin|AddOn|^core)$/ ? 1 : 0;
+}
+
 sub installModuleByName {
     my $module = shift;
     my $subdir = 'Plugins';
@@ -403,7 +409,7 @@ sub installModuleByName {
 
     $module =~ s#/+$##;    #remove trailing slashes
     print "Processing $module\n";
-    $subdir = 'Contrib' if $module =~ /(Contrib|Skin|AddOn|^core)$/;
+    $subdir = 'Contrib' if isContrib($module);
 
     if ( $module eq 'core' ) {
 
@@ -792,15 +798,20 @@ sub installFromMANIFEST {
                 }
                 elsif ( $1 eq 'Module' ) {
                     my $moduleName = $2;
-                    $moduleName =~ s#::#/#g;
                     $moduleName =~ s#'##g;
-                    $spec = File::Spec->catfile( $basedir, 'lib', $moduleName,
+                    $spec =
+                      File::Spec->catfile( $basedir, 'lib',
+                        split( '::', $moduleName ),
                         'Config.spec' );
                 }
             }
         }
         close $lsc;
-        if ( $enabled && $spec && -f $spec ) {
+        if ( not $spec and isContrib($module) ) {
+            $spec = File::Spec->catfile( $basedir, 'lib', 'Foswiki', 'Contrib',
+                $module, 'Config.spec' );
+        }
+        if ( ( $enabled || isContrib($module) ) && $spec && -f $spec ) {
             if ( open( my $pluginSpec, '<', $spec ) ) {
                 $localConfiguration .= "# $module specific configuration\n";
                 while (<$pluginSpec>) {
