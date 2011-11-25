@@ -173,12 +173,12 @@ sub init {
 }
 
 sub init_config {
-    if ( not $config_file ) {
+    if ( !$config_file ) {
         if ( $ENV{HOME} ) {
             $config_file = File::Spec->catfile( $ENV{HOME}, '.buildcontrib' );
         }
     }
-    if ( $config_file and -f $config_file ) {
+    if ( $config_file && -f $config_file ) {
         my $buildconfig;
 
         $config_file = untaint($config_file);
@@ -194,7 +194,7 @@ sub init_config {
     if ($do_genconfig) {
         genconfig();
     }
-    if ( not scalar( keys %config ) ) {
+    if ( !scalar( keys %config ) ) {
         %config = %default_config;
     }
     if ( $config{extensions_path} ) {
@@ -243,13 +243,13 @@ sub genconfig {
             }
         }
     }
-    if ( $needforce and not $force ) {
+    if ( $needforce && !$force ) {
         die <<"HERE";
 Not writing a default pseudo-install config into '$config_file': already
 contains a pseudo-install config, and -f (force) not specified.
 HERE
     }
-    elsif ( not -f $config_file or -w $config_file ) {
+    elsif ( !-f $config_file || -w $config_file ) {
         foreach my $key ( keys %default_config ) {
             $buildconfig->{'pseudo-install'}{$key} = $default_config{$key};
         }
@@ -287,7 +287,7 @@ sub filterpaths {
     my @result;
 
     foreach my $p ( grep { -d $_ } @paths ) {
-        if ( not exists $map->{$p} ) {
+        if ( !exists $map->{$p} ) {
             $map->{$p} = 1;
             push( @result, $p );
         }
@@ -382,7 +382,7 @@ sub installModule {
     my ($module) = @_;
 
     # Assume that only URLs will have '.' or '/', never module names
-    if ( $installing and $module =~ /[\/\.]/ ) {
+    if ( $installing && $module =~ /[\/\.]/ ) {
         cloneModuleByURL( $config{clone_dir}, $module );
         $module = urlToModuleName($module);
     }
@@ -393,7 +393,7 @@ sub installModule {
 sub isContrib {
     my ($module) = @_;
 
-    return $module =~ /(Contrib|Skin|AddOn|^core)$/ ? 1 : 0;
+    return $module =~ /(Contrib|Skin|AddOn|^core)$/;
 }
 
 sub installModuleByName {
@@ -422,11 +422,11 @@ sub installModuleByName {
         $moduleDir = findModuleDir($module);
     }
 
-    if ( $installing and not defined $moduleDir ) {
+    if ( $installing && !defined $moduleDir ) {
         $moduleDir = cloneModuleByName($module);
     }
 
-    unless ( defined $moduleDir and -d $moduleDir ) {
+    unless ( defined $moduleDir && -d $moduleDir ) {
         warn "--> Could not find $module\n";
         return;
     }
@@ -434,7 +434,7 @@ sub installModuleByName {
     $manifest  = findRelativeTo(
         File::Spec->catdir( $moduleDir, 'lib', 'Foswiki', $subdir, $module ),
         'MANIFEST' );
-    if ( not -e $manifest ) {
+    if ( !-e $manifest ) {
         $manifest = findRelativeTo(
             File::Spec->catdir( $moduleDir, 'lib', 'TWiki', $subdir, $module ),
             'MANIFEST'
@@ -457,7 +457,7 @@ sub populateSVNRepoListings {
     my ($svninfo) = @_;
     my $ctx;
 
-    if ( not eval { require SVN::Client; 1 } ) {
+    if ( !eval { require SVN::Client; 1 } ) {
         warn <<'HERE';
 SVN::Client not installed, unable discover branch listings from SVN
 HERE
@@ -559,7 +559,7 @@ sub do_commands {
 sub connectGitRepoToSVN {
     my ( $module, $moduleDir, $svninfo ) = @_;
 
-    if ( not $svninfo->{extensions}->{$module} ) {
+    if ( !$svninfo->{extensions}->{$module} ) {
         populateSVNRepoListings($svninfo);
     }
 
@@ -571,7 +571,7 @@ sub connectGitRepoToSVNByRepoURL {
     my $lookingupname = 1;
     my $repoIndex     = 0;
 
-    while ( $lookingupname and $repoIndex < scalar( @{ $config{repos} } ) ) {
+    while ( $lookingupname && $repoIndex < scalar( @{ $config{repos} } ) ) {
         if ( $config{repos}->[$repoIndex]->{url} eq $svnreponame ) {
             $lookingupname = 0;
             connectGitRepoToSVN( $module, $moduleDir,
@@ -591,7 +591,7 @@ sub cloneModuleByName {
     my $repoIndex = 0;
     my $moduleDir = File::Spec->catdir( $config{clone_dir}, $module );
 
-    while ( not $cloned and ( $repoIndex < scalar( @{ $config{repos} } ) ) ) {
+    while ( !$cloned && ( $repoIndex < scalar( @{ $config{repos} } ) ) ) {
         if ( $config{repos}->[$repoIndex]->{type} eq 'git' ) {
             my $url = $config{repos}->[$repoIndex]->{url} . "/$module";
 
@@ -615,7 +615,7 @@ sub cloneModuleByName {
             $repoIndex = $repoIndex + 1;
         }
     }
-    if ( not checkModuleByNameHasSVNBranch( 'core', 'Release01x01' ) ) {
+    if ( !checkModuleByNameHasSVNBranch( 'core', 'Release01x01' ) ) {
         my $svnRepo = getSVNRepoByModuleBranchName( 'core', 'Release01x01' );
 
         print "It seems your 'core' checkout isn't connected to a svn repo... ";
@@ -639,7 +639,7 @@ sub getSVNRepoByModuleBranchName {
     my $nRepos = scalar( @{ $config{repos} } );
     my $i      = 0;
 
-    while ( not $svnRepo and $i < $nRepos ) {
+    while ( !$svnRepo && $i < $nRepos ) {
         my $repo = $config{repos}->[$i];
 
         if ( $repo->{type} eq 'svn' ) {
@@ -678,7 +678,7 @@ sub gitCloneFromURL {
     my $command = "cd $target && git clone $source";
     my $moduleDir = File::Spec->catdir( $target, urlToModuleName($source) );
 
-    if ( not -d $moduleDir ) {
+    if ( !-d $moduleDir ) {
         print "Trying clone from $source...\n";
         local $ENV{PATH} = untaint( $ENV{PATH} );
         trace `$command`;
@@ -777,7 +777,7 @@ sub installFromMANIFEST {
             error "*** Could not open $deps\n";
         }
     }
-    if ( $installing and $autoconf ) {
+    if ( $installing && $autoconf ) {
 
         # Read current LocalSite.cfg to see if the current module is enabled
         my $localSiteCfg =
@@ -807,7 +807,7 @@ sub installFromMANIFEST {
             }
         }
         close $lsc;
-        if ( not $spec and isContrib($module) ) {
+        if ( !$spec && isContrib($module) ) {
             $spec = File::Spec->catfile( $basedir, 'lib', 'Foswiki', 'Contrib',
                 $module, 'Config.spec' );
         }
@@ -921,19 +921,19 @@ sub generateAlternateVersion {
     my $compress = 0;
     trace( File::Spec->catfile( $moduleDir, $file ) . ' not found' );
 
-    if ( not $found and $file =~ /(.*)\.gz$/ ) {
+    if ( !$found && $file =~ /(.*)\.gz$/ ) {
         $file     = $1;
         $found    = ( -f File::Spec->catfile( $moduleDir, $1 ) );
         $compress = 1;
     }
-    if (    not $found
-        and $file =~ /^(.+)(\.(?:un)?compressed|_src)(\..+)$/
-        and -f File::Spec->catfile( $moduleDir, $1 . $3 ) )
+    if (  !$found
+        && $file =~ /^(.+)(\.(?:un)?compressed|_src)(\..+)$/
+        && -f File::Spec->catfile( $moduleDir, $1 . $3 ) )
     {
         linkOrCopy $moduleDir, $file, $1 . $3, $link;
         $found++;
     }
-    elsif ( not $found and $file =~ /^(.+)(\.[^\.]+)$/ ) {
+    elsif ( !$found && $file =~ /^(.+)(\.[^\.]+)$/ ) {
         my ( $src, $ext ) = ( $1, $2 );
         for my $kind (qw( .uncompressed .compressed _src )) {
             my $srcfile = $src . $kind . $ext;
@@ -945,7 +945,7 @@ sub generateAlternateVersion {
             }
         }
     }
-    if ( $found and $compress ) {
+    if ( $found && $compress ) {
         trace "...compressing $file to create $file.gz";
         if ($internal_gzip) {
             open( my $if, '<', _cleanPath($file) )
@@ -984,7 +984,7 @@ sub copy_in {
     my ( $moduleDir, $dir, $file, $ignoreBlock ) = @_;
 
     # For core manifest, ignore copy if target exists.
-    return if -e $file and $ignoreBlock;
+    return if -e $file && $ignoreBlock;
     File::Path::mkpath( _cleanPath($dir) );
     $generated_files{$moduleDir}{$dir} = 1;
     if ( -e File::Spec->catfile( $moduleDir, $file ) ) {
@@ -1060,7 +1060,7 @@ sub just_link {
             last;
         }
         elsif (( $c eq 'TWiki' )
-            or ( $c eq 'Plugins' && $path =~ m#/(Fosw|TW)iki/$# ) )
+            || ( $c eq 'Plugins' && $path =~ m#/(Fosw|TW)iki/$# ) )
         {    # Special case
             my $relpath = $path . $c;
             my $abspath;
@@ -1241,7 +1241,7 @@ sub run {
         exit 0 unless ( scalar(@ARGV) );
     }
 
-    unless ( $do_genconfig or scalar(@ARGV) ) {
+    unless ( $do_genconfig || scalar(@ARGV) ) {
         usage();
         exit 1;
     }
@@ -1345,7 +1345,7 @@ sub merge_gitignore {
         chomp($old_rule);
 
         # If the line is empty or a comment
-        if ( not $old_rule or $old_rule =~ /^\s*$/ or $old_rule =~ /^#/ ) {
+        if ( !$old_rule || $old_rule =~ /^\s*$/ || $old_rule =~ /^#/ ) {
             push( @merged_rules, $old_rule );
         }
 
@@ -1375,7 +1375,7 @@ sub merge_gitignore {
 
                 # we're installing, so keep all the old rules, or
                 # we're uninstalling, so keep files not being uninstalled
-                if ( $installing or ( not exists $input_files->{$old_rule} ) ) {
+                if ( $installing || ( !exists $input_files->{$old_rule} ) ) {
                     push( @merged_rules, $old_rule );
                 }
                 else {
@@ -1388,19 +1388,19 @@ sub merge_gitignore {
     # Append new files not matching an existing wildcard
     if ($installing) {
         foreach my $file ( keys %{$input_files} ) {
-            if ( $file and $file =~ /[^\s]/ and not $dropped_rules{$file} ) {
+            if ( $file && $file =~ /[^\s]/ && !$dropped_rules{$file} ) {
                 my $nmatch_rules = scalar(@match_rules);
                 my $matched;
                 my $i = 0;
 
-                while ( not $matched and $i < $nmatch_rules ) {
+                while ( !$matched && $i < $nmatch_rules ) {
                     my @parts = split( /\*/, $match_rules[$i] );
                     my $regex = qr/^\Q/ . join( qr/\E.*\Q/, @parts ) . qr/\E$/;
 
                     $i += 1;
                     $matched = ( $file =~ $regex );
                 }
-                if ( not $matched ) {
+                if ( !$matched ) {
                     push( @merged_rules, $file );
                 }
             }
@@ -1416,8 +1416,8 @@ sub update_gitignore_file {
     # Only create a .gitignore if we're really in a git repo.
     if (
         exists $generated_files{$moduleDir}
-        and (  -d File::Spec->catdir( $moduleDir, '.git' )
-            or -d File::Spec->catdir( $moduleDir, '..', '.git' ) )
+        && (   -d File::Spec->catdir( $moduleDir, '.git' )
+            || -d File::Spec->catdir( $moduleDir, '..', '.git' ) )
       )
     {
         my $ignorefile = File::Spec->catfile( $moduleDir, '.gitignore' );
