@@ -4982,6 +4982,14 @@ METADATA
     my $nop             = qr/(?:<nop>)+/o;
     my $topicWithDashes = $testTopic;
     $topicWithDashes =~ s/\G(.....)/$1-/g;
+    my $isodate_pattern;
+    if ( $Foswiki::cfg{DisplayTimeValues} eq 'gmtime' ) {
+        $isodate_pattern = qr/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/;
+    }
+    else {
+        $isodate_pattern =
+          qr/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d[\+\-]\d\d(:?\d\d)?$/;
+    }
     my %testFormatTokens = (
         '$web'           => $this->{test_web},
         '$topic'         => $testTopic,
@@ -4994,14 +5002,14 @@ METADATA
         '$locked'        => '$locked',                          # Does not work?
         '$date'          => qr/^\d\d \w{3} \d{4} - \d\d:\d\d$/,
         '$createdate'    => qr/^\d\d \w{3} \d{4} - \d\d:\d\d$/,
-        '$isodate'            => qr/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/,
-        '$index'              => 1,
-        '$nhits'              => 1,
-        '$ntopics'            => 1,
-        '$item'               => "$this->{test_web}.$testTopic",
-        '$rev'                => 1,
-        '$username'           => 'guest',
-        '$wikiname'           => $testUser,
+        '$isodate'       => $isodate_pattern,
+        '$index'         => 1,
+        '$nhits'         => 1,
+        '$ntopics'       => 1,
+        '$item'          => "$this->{test_web}.$testTopic",
+        '$rev'           => 1,
+        '$username'      => 'guest',
+        '$wikiname'      => $testUser,
         '$wikiusername'       => "$Foswiki::cfg{UsersWebName}.$testUser",
         '$createusername'     => 'guest',
         '$createwikiname'     => $testUser,
