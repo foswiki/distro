@@ -382,7 +382,7 @@ sub installModule {
     my ($module) = @_;
 
     # Assume that only URLs will have '.' or '/', never module names
-    if ( $module =~ /[\/\.]/ ) {
+    if ( $installing and $module =~ /[\/\.]/ ) {
         cloneModuleByURL( $config{clone_dir}, $module );
         $module = urlToModuleName($module);
     }
@@ -416,7 +416,7 @@ sub installModuleByName {
         $moduleDir = findModuleDir($module);
     }
 
-    if ( not defined $moduleDir ) {
+    if ( $installing and not defined $moduleDir ) {
         $moduleDir = cloneModuleByName($module);
     }
 
