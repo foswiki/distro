@@ -22,6 +22,9 @@ use Assert;
 use Error qw( :try );
 use Fcntl qw( :DEFAULT :flock );
 
+# Set TRACE to 1 to enable detailed trace of password activity
+use constant TRACE => 0;
+
 # 'Use locale' for internationalisation of Perl sorting in getTopicNames
 # and other routines - main locale settings are done in Foswiki::setupLocale
 BEGIN {
@@ -190,19 +193,34 @@ sub _readPasswd {
         chomp $line;
         my @fields = split( /:/, $line, 5 );
 
-        #foreach my $f (@fields) { print "split: $f\n"; }
+        if (TRACE) {
+            print "\nSplit LINE $line\n";
+            foreach my $f (@fields) { print "split: $f\n"; }
+        }
 
         my $hID = shift @fields;
 
         if ( $Foswiki::cfg{Htpasswd}{AutoDetect} ) {
             my $tPass = shift @fields;
 
-            if ( length($tPass) eq 0 ) {
-
-                # no password, so default to configured encoding
-                $data->{$hID}->{enc} = $Foswiki::cfg{Htpasswd}{Encoding};
+            # tPass is either a password or a realm
+            if (
+                $tPass eq $Foswiki::cfg{AuthRealm}
+                || (   defined $fields[0]
+                    && length( $fields[0] ) eq 32
+                    && defined $fields[1]
+                    && $fields[1] =~ m/@/ )
+              )
+            {
+                $data->{$hID}->{enc}    = 'htdigest-md5';
+                $data->{$hID}->{realm}  = $tPass;
+                $data->{$hID}->{pass}   = shift @fields;
+                $data->{$hID}->{emails} = shift @fields || '';
+                print STDERR "Auto ENCODING-1 $data->{$hID}->{enc} \n" if (TRACE);
+                next;
             }
-            elsif ( length($tPass) eq 33 && $tPass =~ m/^\{SHA\}/ ) {
+
+            if ( length($tPass) eq 33 && $tPass =~ m/^\{SHA\}/ ) {
                 $data->{$hID}->{enc} = 'sha1';
             }
             elsif ( length($tPass) eq 34 && $tPass =~ m/^\$1\$/ ) {
@@ -216,21 +234,35 @@ sub _readPasswd {
             {
                 $data->{$hID}->{enc} = 'crypt';
             }
-            elsif ( !$fields[0] || $fields[0] =~ m/@/ ) {
+            elsif ( length($tPass) gt 0 && !$fields[0]
+                || $fields[0] =~ m/@/ )
+            {
                 $data->{$hID}->{enc} = 'plain';
+            }
+            elsif ( length($tPass) eq 0 && !$fields[0]
+                || $fields[0] =~ m/@/ )
+            {
+                $data->{$hID}->{enc} = 'sha';
             }
 
             if ( $data->{$hID}->{enc} ) {
                 $data->{$hID}->{pass} = $tPass;
                 $data->{$hID}->{emails} = shift @fields || '';
+                print STDERR "Auto ENCODING-2 $data->{$hID}->{enc} \n" if (TRACE);
                 next;
             }
+
+            print STDERR "Fell through - must be htdigest-md5   "
+              . length($tPass)
+              . "--$tPass \n"
+              if (TRACE);
 
             # Fell through - only thing left is digest encoding
             $data->{$hID}->{enc}    = 'htdigest-md5';
             $data->{$hID}->{realm}  = $tPass;
             $data->{$hID}->{pass}   = shift @fields;
             $data->{$hID}->{emails} = shift @fields || '';
+            print STDERR "Auto ENCODING-3 $data->{$hID}->{enc} \n" if (TRACE);
         }
 
         # Static configuration
@@ -241,6 +273,9 @@ sub _readPasswd {
                 || $Foswiki::cfg{Htpasswd}{Encoding} eq 'htdigest-md5' );
             $data->{$hID}->{pass} = shift @fields;
             $data->{$hID}->{emails} = shift @fields || '';
+            print STDERR
+"Static Encoding - $hID:  $data->{$hID}->{enc} pass $data->{$hID}->{pass} emails $data->{$hID}->{emails} \n"
+              if (TRACE);
         }
     }
     close($IN_FILE);
@@ -258,11 +293,15 @@ sub _dumpPasswd {
 
         my $entry = "$login:";
         if (
-            $db->{$login}->{enc}
+               $db->{$login}->{pass}
+            && $db->{$login}->{enc}
             && (   $db->{$login}->{enc} eq 'md5'
                 || $db->{$login}->{enc} eq 'htdigest-md5' )
           )
         {
+            print STDERR
+"Writing realm - $db->{$login}->{enc} for $login pass ($db->{$login}->{pass})\n"
+              if (TRACE);
 
             # htdigest format
             $entry .= "$Foswiki::cfg{AuthRealm}:";
@@ -296,6 +335,7 @@ EoT
     }
 
     my $content = _dumpPasswd($db);
+    print STDERR "CONTENT $content\n" if (TRACE);
 
     my $oldMask = umask(077);    # Access only by owner
     my $fh;
@@ -479,6 +519,9 @@ sub setPassword {
           ? $Foswiki::cfg{AuthRealm}
           : '';
         $db->{$login}->{emails} ||= '';
+        print STDERR
+"setPassword login $login pass $db->{$login}->{pass} enc $db->{$login}->{enc} realm $db->{$login}->{realm} emails $db->{$login}->{emails}\n"
+          if (TRACE);
         _savePasswd($db);
     }
     catch Error::Simple with {
@@ -539,6 +582,14 @@ sub checkPassword {
 
     $this->{error} = undef;
 
+    #print STDERR "Checking $pw against $encryptedPassword\n" if (TRACE);
+
+    if ( length($pw) != length($encryptedPassword) ) {
+
+    #print STDERR "Fail on length mismatch ($pw) vs enc ($encryptedPassword)\n";
+        $this->{error} = 'Invalid user/password';
+        return 0;
+    }
     return 1 if ( $pw && ( $encryptedPassword eq $pw ) );
 
     # pw may validly be '', and must match an unencrypted ''. This is
