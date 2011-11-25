@@ -1644,6 +1644,8 @@ $Foswiki::cfg{Plugins}{MailerContribPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Plugins::MailerContribPlugin';
 $Foswiki::cfg{Plugins}{SubscribePlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{SubscribePlugin}{Module} = 'Foswiki::Plugins::SubscribePlugin';
+$Foswiki::cfg{Plugins}{UpdatesPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{UpdatesPlugin}{Module} = 'Foswiki::Plugins::UpdatesPlugin';
 
 #---++ Plugin settings
 #<p>Expert settings controlling extension operation.</p>
