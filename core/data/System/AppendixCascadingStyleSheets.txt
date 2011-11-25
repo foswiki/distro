@@ -23,8 +23,8 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 
 ---+++ Structural elements
 %TABLE{databg="#fff"}%
+|=.foswikiContainer=             | Container around all level one page elements to maintain consistent width and margins |
 |=.foswikiPage=                  | The container for the complete page contents, just below the body tag (only used by default templates)  |
-|=.foswikiMain=                  | The container for the main contents, usually including the header (only used by default templates)  |
 |=.foswikiTopic=                 | The container for the topic contents |
 |=.foswikiAttachments=           | Container for attachments table, including header |
 |=table#foswikiAttachmentsTable= | Identifier for the attachment table  |
@@ -45,7 +45,11 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiTabs=                  | Container for tabs (styled bullet list, =.foswikiTabs ul=) |
 |=li.foswikiActiveTab=           | Active tab |
 |=.foswikiTabContent=            | Container for content below tabs |
-|=#foswikiLogo=                  | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: Use =.foswikiLogo= |
+|=#foswikiLogo=                  | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiMain"}% |
+|=.foswikiMain=                  | The container for the main contents, usually including the header (only used by default templates)  |
+
+
+
 
 ---+++ General appearance
 %TABLE{databg="#fff"}%
@@ -149,11 +153,11 @@ See also: [[#HtmlFormElements][HTML form elements]]
 |=.foswikiSearchResultCount=        | Search results count |
 |=#foswikiNumberOfResultsContainer= | See [[%TOPIC%#BehaviourClasses][Behaviour classes]] below |
 |=.foswikiWebSearchForm=            | Container around the search form |
-|=.foswikiSearchResult=             | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: use =foswikiListItem= |
-|=.foswikiSearchResultImage=        | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: use =foswikiListItemImage= |
-|=.foswikiSearchResultTitle=        | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: use =foswikiListItemTitle= |
-|=.foswikiSearchResultContents=     | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: use =foswikiListItemContents= |
-|=.foswikiSearchResultMeta=         | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: use =foswikiListItemMeta= |
+|=.foswikiSearchResult=             | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItem"}% |
+|=.foswikiSearchResultImage=        | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItemImage"}% |
+|=.foswikiSearchResultTitle=        | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItemTitle"}% |
+|=.foswikiSearchResultContents=     | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItemContents"}% |
+|=.foswikiSearchResultMeta=         | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2" alternative=".foswikiListItemMeta"}% |
 
 ---+++ Other elements
 %TABLE{databg="#fff"}%
@@ -167,7 +171,7 @@ See also: [[#HtmlFormElements][HTML form elements]]
 |=.foswikiEditboxStyleProportional= | Gives the edit textarea proportional font (not used with WYSWIWYG) |
 |=p.foswikiAllowNonWikiWord=        | Message "Allow non <nop>WikiWord for the new topic name" |
 |=.foswikiIcon=                     | Icon image; span around image or the image itself |
-|=.foswikiActionFormStepSign=       | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.2</span>: Indicator for each form step (see =foswikiFormStep=)  |
+|=.foswikiActionFormStepSign=       | %INCLUDE{"%TOPIC%" section="deprecated" version="1.2"}% - indicator for each form step (see =.foswikiFormStep=)  |
 
 
 ---+++ History
@@ -198,12 +202,12 @@ Markers to invoke behaviour with unobtrusive !JavaScript.
 |=#foswikiNumberOfResultsContainer=      | Container identifier to write the number of search results into |
 |=input[type="text"].foswikiDefaultText= | Behaviour marker so the field will contain default text that disappears when clicked into. The visual style is set with =foswikiInputFieldBeforeFocus= and =foswikiInputFieldFocus=. The default text is provided by the =title= attribute of the form field. |
 |=.foswikiJs=                | Added to the =html= tag if the browser has javascript enabled. |
-|=.foswikiNoJs .foswikiMakeVisible=       | For elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
+|=.foswikiMakeVisible=       | For elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript. This is how it works: by default the body tag should include the class =foswikiNoJs=. An =onload= script replaces that class with =foswikiJs=. Elements that should be hidden have the class style =.foswikiNoJs .foswikiMakeVisible=.  |
 |=.foswikiMakeHidden=        | For elements that should be hidden with !JavaScript on: no default style, is made hidden by !JavaScript |
 |=.foswikiSort=        | Sort control |
-|=.foswikiMakeVisibleBlock=  | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.1.0</span>: use =div.foswikiMakeVisible=. For =div= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
-|=.foswikiMakeVisibleInline= | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.1.0</span>: use =span.foswikiMakeVisible=. For =span= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
-|=.foswikiPopUp=                         | <span class='foswikiAlert'>DEPRECATED as of Foswiki 1.1</span>: use =%<nop>POPUPWINDOW{"topic"}%= instead. Behaviour marker so a popup-window can be invoked. |
+|=.foswikiMakeVisibleBlock=  | %INCLUDE{"%TOPIC%" section="deprecated" version="1.1.0" alternative=".foswikiMakeVisible"}% - for =div= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
+|=.foswikiMakeVisibleInline= | %INCLUDE{"%TOPIC%" section="deprecated" version="1.1.0" alternative="span.foswikiMakeVisible"}% - for =span= elements that should only be visible with !JavaScript on: default set to hidden, is made visible by !JavaScript |
+|=.foswikiPopUp=                         | %INCLUDE{"%TOPIC%" section="deprecated" version="1.1.0" alternative="$percnt<nop>POPUPWINDOW{$quottopic$quot}$percnt"}% |
 
 #TestFoswikiFocus
 ---++++ Troubleshooting foswikiFocus
@@ -223,5 +227,8 @@ Practical introduction to CSS: http://www.w3.org/Style/LieBos2e/enter/
 ---
 *Related Topics:* [[Skins]], PatternSkin, DeveloperDocumentationCategory, AdminDocumentationCategory
 
+<!--
+%STARTSECTION{"deprecated" version="%version%" alternative=""}%<span class='foswikiAlert'>DEPRECATED as of Foswiki %version%</span>%IF{"defined alternative and $alternative!=''" then=" Use =%alternative%="}%%ENDSECTION{"deprecated"}%
+-->
 %STOPINCLUDE%
 %META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="CascadingStyleSheets" to="AppendixCascadingStyleSheets"}%
