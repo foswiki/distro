@@ -48,13 +48,14 @@ sub set_up {
       Foswiki::Meta->new( $this->{session}, $this->{sandbox_subweb} );
     $webObject->populateNewWeb();
     $this->{tempdir} = $Foswiki::cfg{TempfileDir} . '/test_ConfigureTests';
-    rmtree( $this->{tempdir} ) if (-e $this->{tempdir});    # Cleanup any old tests
+    rmtree( $this->{tempdir} )
+      if ( -e $this->{tempdir} );    # Cleanup any old tests
     mkpath( $this->{tempdir} );
     $this->{scriptdir}       = $this->{tempdir} . '/bin';
     $Foswiki::cfg{ScriptDir} = $this->{scriptdir};
     $this->{toolsdir}        = $this->{tempdir} . '/tools';
     $Foswiki::cfg{ToolsDir}  = $this->{toolsdir};
-    $this->{logdir}        = $this->{tempdir} . '/logs';
+    $this->{logdir}          = $this->{tempdir} . '/logs';
     $Foswiki::cfg{Log}{Dir}  = $this->{logdir};
 
     $Foswiki::cfg{TrashWebName}   = $this->{trash_web};
@@ -136,15 +137,15 @@ EXAMPLE
     $cfg{Types}{Chosen}    = 'Foswiki::Configure::Types::STRING';
     $cfg{OptionalRegex}    = qr/^X*$/;
     my $expected_regex;
-    if ($^V lt v5.14.0) {
+    if ( $^V lt v5.14.0 ) {
         $expected_regex = '\'^X*$\'';
     }
     else {
         $expected_regex = "qr/$cfg{OptionalRegex}/";
     }
-    $cfg{DontIgnore}       = 'now is';
-    $saver->{content}      = '';
-    $out                   = $saver->_save();
+    $cfg{DontIgnore}  = 'now is';
+    $saver->{content} = '';
+    $out              = $saver->_save();
     my $expectacle = <<"EXAMPLE";
 \$Foswiki::cfg{MandatoryBoolean} = 0;
 \$Foswiki::cfg{MandatoryPath} = 'fixed';
@@ -554,13 +555,20 @@ sub test_Util_mapTarget {
     $results = Foswiki::Configure::Util::mapTarget( "C:/asdf/", "$file" );
     $this->assert_str_equals( "C:/asdf/cgi-bin/compare.pl", $results );
 
-# Remap bin directory and script suffix -  Include spaces in the path
+    # Remap bin directory and script suffix -  Include spaces in the path
 
     $Foswiki::cfg{ScriptSuffix} = '.pl';
-    $Foswiki::cfg{ScriptDir}    = 'C:/Program Files (x86)/Apache Software Foundation/Apache2.2/cgi-bin/wiki/bin';
-    $file                       = 'bin/compare';
-    $results = Foswiki::Configure::Util::mapTarget( 'C:/Program Files (x86)/Apache Software Foundation/Apache2.2/cgi-bin/wiki/', "$file" );
-    $this->assert_str_equals( 'C:/Program Files (x86)/Apache Software Foundation/Apache2.2/cgi-bin/wiki/bin/compare.pl', $results );
+    $Foswiki::cfg{ScriptDir} =
+'C:/Program Files (x86)/Apache Software Foundation/Apache2.2/cgi-bin/wiki/bin';
+    $file    = 'bin/compare';
+    $results = Foswiki::Configure::Util::mapTarget(
+'C:/Program Files (x86)/Apache Software Foundation/Apache2.2/cgi-bin/wiki/',
+        "$file"
+    );
+    $this->assert_str_equals(
+'C:/Program Files (x86)/Apache Software Foundation/Apache2.2/cgi-bin/wiki/bin/compare.pl',
+        $results
+    );
 
     # Remap the data/mime.types file location
 
@@ -869,12 +877,20 @@ sub test_Util_rewriteShebang {
         'C:\asdf\perl.exe', '#! C:\asdf\perl.exe -wT' );
     _doRewriteTest( $this, $tempdir, '#!/usr/bin/perl -wT',
         '/usr/bin/perl', '#! /usr/bin/perl -wT' );
-    _doRewriteTest( $this, $tempdir, '#! /usr/bin/perl -wT',
-        '/usr/bin/perl', '#! /usr/bin/perl -wT', 'No change required' );
+    _doRewriteTest(
+        $this, $tempdir, '#! /usr/bin/perl -wT',
+        '/usr/bin/perl',
+        '#! /usr/bin/perl -wT',
+        'No change required'
+    );
     _doRewriteTest( $this, $tempdir, '#!/usr/bin/perl -wT',
         '/usr/bin/perl', '#! /usr/bin/perl -wT' );
-    _doRewriteTest( $this, $tempdir, '#! /usr/bin/perl ',
-        '/usr/bin/perl', '#! /usr/bin/perl ', 'No change required' );
+    _doRewriteTest(
+        $this, $tempdir, '#! /usr/bin/perl ',
+        '/usr/bin/perl',
+        '#! /usr/bin/perl ',
+        'No change required'
+    );
     _doRewriteTest( $this, $tempdir, '#! /usr/bin/perl -wT ',
         '/my/bin/perl', '#! /my/bin/perl -wT ' );
     _doRewriteTest(
@@ -1026,24 +1042,25 @@ sub test_Package_makeBackup {
     $this->assert_matches( qr/Backup saved into/, $msg );
     $result = $pkg->uninstall();
     my @expFiles = (
-'Testsandboxweb1234/Subweb/TestTopic43.txt',
-'Testsandboxweb1234/TestTopic1.txt',
-'Testsandboxweb1234/TestTopic43.txt',
-'Testsandboxweb1234/Subweb/TestTopic43/file3.att',
-'Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att',
-'Testsandboxweb1234/TestTopic1/file.att',
-'Testsandboxweb1234/TestTopic43/file.att',
-'Testsandboxweb1234/TestTopic43/file2.att',
-'configure/pkgdata/MyPlugin_installer'
- );
+        'Testsandboxweb1234/Subweb/TestTopic43.txt',
+        'Testsandboxweb1234/TestTopic1.txt',
+        'Testsandboxweb1234/TestTopic43.txt',
+        'Testsandboxweb1234/Subweb/TestTopic43/file3.att',
+        'Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att',
+        'Testsandboxweb1234/TestTopic1/file.att',
+        'Testsandboxweb1234/TestTopic43/file.att',
+        'Testsandboxweb1234/TestTopic43/file2.att',
+        'configure/pkgdata/MyPlugin_installer'
+    );
 
     push @expFiles, "$this->{scriptdir}/shbtest1";
     push @expFiles, "$this->{toolsdir}/shbtest2";
 
-    foreach my $expFile ( @expFiles ) {
+    foreach my $expFile (@expFiles) {
+
         #print STDERR "Checkkng $expFile\n";
         $this->assert_matches( qr/$expFile/, $result, "Missing file $expFile" );
-        }
+    }
 
     $pkg->finish();
 
@@ -1227,7 +1244,8 @@ DONE
     ( $result, $err ) = $pkg->_install( { DIR => $tempdir, EXPANDED => 1 } );
     $this->assert_str_equals( '', $err );
 
-    my $expresult = "Installed:  bin/shbtest1 as $Foswiki::cfg{ScriptDir}/shbtest1
+    my $expresult =
+      "Installed:  bin/shbtest1 as $Foswiki::cfg{ScriptDir}/shbtest1
 Installed:  data/Sandbox/Subweb/TestTopic43.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/Subweb/TestTopic43.txt
 Installed:  data/Sandbox/TestTopic1.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/TestTopic1.txt
 Installed:  data/Sandbox/TestTopic43.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/TestTopic43.txt
@@ -1390,29 +1408,31 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl m
     my $results = $pkg2->uninstall();
 
     my @expFiles = (
-'Testsandboxweb1234/Subweb/TestTopic43.txt',
-'Testsandboxweb1234/Subweb/TestTopic43.txt,v',
-'Testsandboxweb1234/TestTopic1.txt',
-'Testsandboxweb1234/TestTopic43.txt',
-'Testsandboxweb1234/TestTopic43.txt,v',
-'Testsandboxweb1234/Subweb/TestTopic43/file3.att',
-'Testsandboxweb1234/Subweb/TestTopic43/file3.att,v',
-'Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att',
-'Testsandboxweb1234/TestTopic1/file.att',
-'Testsandboxweb1234/TestTopic43/file.att',
-'Testsandboxweb1234/TestTopic43/file.att,v',
-'Testsandboxweb1234/TestTopic43/file2.att',
-'Testsandboxweb1234/TestTopic43/file2.att,v',
-'configure/pkgdata/MyPlugin_installer'
-);
+        'Testsandboxweb1234/Subweb/TestTopic43.txt',
+        'Testsandboxweb1234/Subweb/TestTopic43.txt,v',
+        'Testsandboxweb1234/TestTopic1.txt',
+        'Testsandboxweb1234/TestTopic43.txt',
+        'Testsandboxweb1234/TestTopic43.txt,v',
+        'Testsandboxweb1234/Subweb/TestTopic43/file3.att',
+        'Testsandboxweb1234/Subweb/TestTopic43/file3.att,v',
+        'Testsandboxweb1234/Subweb/TestTopic43/subdir-1.2.3/file4.att',
+        'Testsandboxweb1234/TestTopic1/file.att',
+        'Testsandboxweb1234/TestTopic43/file.att',
+        'Testsandboxweb1234/TestTopic43/file.att,v',
+        'Testsandboxweb1234/TestTopic43/file2.att',
+        'Testsandboxweb1234/TestTopic43/file2.att,v',
+        'configure/pkgdata/MyPlugin_installer'
+    );
 
     push @expFiles, "$this->{scriptdir}/shbtest1";
     push @expFiles, "$this->{toolsdir}/shbtest2";
 
-    foreach my $expFile ( @expFiles ) {
+    foreach my $expFile (@expFiles) {
+
         #print STDERR "Checkkng $expFile\n";
-        $this->assert_matches( qr/$expFile/, $results, "Missing file $expFile" );
-        }
+        $this->assert_matches( qr/$expFile/, $results,
+            "Missing file $expFile" );
+    }
 
     $pkg2->finish();
     undef $pkg2;
@@ -1473,7 +1493,8 @@ DONE
     );
     ( $result, $plugins, $cpan ) = $pkg->install();
 
-    $this->assert_matches( qr/.*MyPlugin-[0-9]{8,8}-[0-9]{6,6}-Install\.log/, $pkg->logfile() );
+    $this->assert_matches( qr/.*MyPlugin-[0-9]{8,8}-[0-9]{6,6}-Install\.log/,
+        $pkg->logfile() );
 
     foreach my $pn ( keys %$plugins ) {
         print "PLUGIN $pn \n";
@@ -1582,13 +1603,12 @@ sub test_Util_createArchive_shellZip {
         #print "zip returns $? ($blah) \n";
         die $! unless ( $? == 0 );
         1;
-      }
-      or do {
+    } or do {
         my $mess = $@;
         $this->expect_failure();
         $this->annotate("CANNOT RUN shell test for zip archive:  $mess");
         $this->assert(0);
-      };
+    };
 
     ( $file, $rslt ) =
       Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0',
@@ -1633,13 +1653,12 @@ sub test_Util_createArchive_shellTar {
         #print "tar returns $? ($blah) \n";
         die $! unless ( $? == 0 );
         1;
-      }
-      or do {
+    } or do {
         my $mess = $@;
         $this->expect_failure();
         $this->annotate("CANNOT RUN shell test for tar archive:  $mess");
         $this->assert(0);
-      };
+    };
 
     ( $file, $rslt ) =
       Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0',
