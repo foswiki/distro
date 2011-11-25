@@ -135,15 +135,22 @@ EXAMPLE
     $cfg{MandatoryBoolean} = 0;
     $cfg{Types}{Chosen}    = 'Foswiki::Configure::Types::STRING';
     $cfg{OptionalRegex}    = qr/^X*$/;
+    my $expected_regex;
+    if ($^V lt v5.14.0) {
+        $expected_regex = '\'^X*$\'';
+    }
+    else {
+        $expected_regex = "qr/$cfg{OptionalRegex}/";
+    }
     $cfg{DontIgnore}       = 'now is';
     $saver->{content}      = '';
     $out                   = $saver->_save();
-    my $expectacle = <<'EXAMPLE';
-$Foswiki::cfg{MandatoryBoolean} = 0;
-$Foswiki::cfg{MandatoryPath} = 'fixed';
-$Foswiki::cfg{OptionalRegex} = '^X*$';
-$Foswiki::cfg{DontIgnore} = 'now is';
-$Foswiki::cfg{Types}{Chosen} = 'Foswiki::Configure::Types::STRING';
+    my $expectacle = <<"EXAMPLE";
+\$Foswiki::cfg{MandatoryBoolean} = 0;
+\$Foswiki::cfg{MandatoryPath} = 'fixed';
+\$Foswiki::cfg{OptionalRegex} = $expected_regex;
+\$Foswiki::cfg{DontIgnore} = 'now is';
+\$Foswiki::cfg{Types}{Chosen} = 'Foswiki::Configure::Types::STRING';
 1;
 EXAMPLE
     my @a = split( "\n", $expectacle );
