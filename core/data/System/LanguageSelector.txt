@@ -21,7 +21,7 @@ Result:
 <!-- %JQREQUIRE{"chili"}% <verbatim class="tml">
 %STARTSECTION{"selector"}%<form name="changeLanguage"\
     action="%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%" method="get">
-    <input type="hidden" name="redirectto" value="%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?%QUERYPARAMS{encoding="safe" separator=";"}%" />
+    <input type="hidden" name="redirectto" value="%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?%QUERYPARAMS{encoding="url" separator=";"}%" />
     <select name="language" class="foswikiSelect"\
         onchange="document.changeLanguage.submit()">
     %LANGUAGES{
