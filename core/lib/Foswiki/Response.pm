@@ -102,6 +102,8 @@ sub header {
 
     # Ugly hack to avoid html escape in CGI::Util::rearrange
     local $CGI::Q = { escape => 0 };
+
+    # SMELL: CGI::Util is documented as not having any public subroutines
     my ( $type, $status, $cookie, $charset, $expires, @other ) =
       CGI::Util::rearrange(
         [
@@ -364,9 +366,12 @@ sub body {
         # into the "Foswiki canonical" representation of a string of bytes.
         # The output may be crap, but at least it won't trigger a
         # "Wide character in print" error.
-        if ( utf8::is_utf8($body) and ($Foswiki::cfg{Site}{CharSet} ne 'utf-8') ) {
+        if ( utf8::is_utf8($body)
+            and ( $Foswiki::cfg{Site}{CharSet} ne 'utf-8' ) )
+        {
             require Encode;
-            #used to encode to 'iso-8859-1', but that seems wrong in light of the cfg settings
+
+#used to encode to 'iso-8859-1', but that seems wrong in light of the cfg settings
             $body = Encode::encode( $Foswiki::cfg{Site}{CharSet}, $body, 0 );
         }
         $this->{headers}->{'Content-Length'} = length($body);
