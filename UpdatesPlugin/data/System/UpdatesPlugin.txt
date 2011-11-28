@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="micha" comment="reprev" date="1321804319" format="1.1" reprev="2" version="2"}%
 ---+!! %TOPIC%
-
+<div style="float:right"><img src="%ATTACHURL%/logo.png"></div>
 %$SHORTDESCRIPTION%
 
 %TOC%
@@ -26,17 +26,20 @@ jQuery(function($) {
 </literal>
 %JQREQUIRE{"cookie"}%
 
-The upgrade decision is stored locally, so that the plugin will only check for updates again when this cookie expires (defaults to 7 days).
+The upgrade decision is stored locally, so that the plugin will only check for updates again when this cookie expires (in 7 days).
 
 Note that the plugin requires Javascript and Cookies to be enabled in the browser.
-
-Foswiki developers only, take note: if you have =pseudo-installed= your wiki, you will
-not receive update notifications from this plugin. In this case you should update using
-version control.
 
 ---++ Installation Instructions
 
 %$INSTALL_INSTRUCTIONS%
+
+---++ Notes
+The plugin sends update status requests to the repository server to retrieve the current release information for extensions. If these update status requests are proxied via the local server (the default) then the current status of extensions retrieved from the repository is cached in the working/work_areas/UpdatesPlugin directory for 24 hours (default) before being retrieved again. You can safely clear the cache at any time by deleting all files in this directory.
+
+The plugin defines a REST handler for handling proxy requests. The 'rest' script must be removed from the ={AuthScripts}= configuration for this to work.
+
+The plugin defines a macro, =EXTENSIONVERSIONJSON=, which gets a JSON structure describing all the currently installed extensions. This is for purely internal use and will be removed in a future release.
 
 ---++ Info
 <!--
@@ -44,7 +47,7 @@ version control.
 -->
 This plugin was initially developed during a collaborative design and coding session at the 2011 Foswiki Camp.
 
-|  Author(s): | Foswiki:Main.MichaelDaum |
+|  Author(s): | Foswiki:Main.MichaelDaum, Foswiki:Main.CrawfordCurrie |
 |  Copyright: | &copy; Foswiki Contributors 2011  |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Release: | %$RELEASE% |
@@ -53,3 +56,5 @@ This plugin was initially developed during a collaborative design and coding ses
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home page: | Foswiki:Extensions/%TOPIC% |
 |  Support: | Foswiki:Support/%TOPIC% |
+
+%META:FILEATTACHMENT{name="logo.png" attr="h"}%

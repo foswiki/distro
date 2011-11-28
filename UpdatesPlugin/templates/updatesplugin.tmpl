@@ -1,12 +1,5 @@
 %TMPL:DEF{"installedplugins"}%<script>
-var InstalledPlugins = {%SEARCH{"1"
- nosearch="on" 
- nototal="on" 
- web="System"
- topic="*Plugin,*Contrib"
- format="\"$topic\":\"$pattern(.*?\n\|[\s\w-]*\s[Vv]ersion:\s*\|([^|]*)\|.*)\""
- separator=","
-}%};
+var InstalledPlugins = %EXTENSIONVERSIONJSON%;
 </script>%TMPL:END%
 
 %TMPL:DEF{"messagetmpl"}%<script id="foswikiUpdatesTmpl" type="text/x-jquery-tmpl"> 
