@@ -135,7 +135,6 @@ sub _REST_report {
     my @exts = split( /,/, $list );
     my $works = Foswiki::Func::getWorkArea( 'UpdatesPlugin' );
     my $fh;
-    print STDERR "Handling report\n";
     my @reply; # array of JSON-encoded structures
 
     my @unfound;
@@ -155,7 +154,6 @@ sub _REST_report {
 	# Not found in cache, or cache out of date. Update cache.
 	push( @unfound, $ext );
     }
-    print STDERR "notfound ".join(',', @unfound)."\n";
     if (scalar(@unfound)) {
 	# One or more things in the cache need an update from f.o
 
