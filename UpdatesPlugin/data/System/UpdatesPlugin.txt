@@ -1,17 +1,17 @@
 %META:TOPICINFO{author="micha" comment="reprev" date="1321804319" format="1.1" reprev="2" version="2"}%
 ---+!! %TOPIC%
 
+%$SHORTDESCRIPTION%
+
 %TOC%
 
-This plugin informs [[%USERSWEB%.AdminGroup][administrators]] about updates of installed plugins
-available on foswiki.org, and will pop up a message at the top of the page automatically.
-You will then be able to either perform the upgrade immediately using the =configure= tool or decide to
-delay the upgrade for now. This decision will be stored in a cookie so that the plugin
-will only check for updates again when this cookie expires (defaults to 7 days).
+This plugin is used to keep [[%USERSWEB%.AdminGroup][administrators]] informed of updates to their installed extensions via a pop-up message at the top of the page.
+
+Users can choose to either perform the update immediately using the =configure= tool, or delay it until later.
 
 ---++ Usage
 
-Click <a href="#" id="forceCheck">here</a> to force checking foswiki.org for new.
+Click <a href="#" id="forceCheck">here</a> to force checking foswiki.org for extension updates. If your wiki requires updating, a message will be displayed at the top of the page.
 
 <literal>
 <script>
@@ -26,6 +26,14 @@ jQuery(function($) {
 </literal>
 %JQREQUIRE{"cookie"}%
 
+The upgrade decision is stored locally, so that the plugin will only check for updates again when this cookie expires (defaults to 7 days).
+
+Note that the plugin requires Javascript and Cookies to be enabled in the browser.
+
+Foswiki developers only, take note: if you have =pseudo-installed= your wiki, you will
+not receive update notifications from this plugin. In this case you should update using
+version control.
+
 ---++ Installation Instructions
 
 %$INSTALL_INSTRUCTIONS%
@@ -34,9 +42,10 @@ jQuery(function($) {
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
+This plugin was initially developed during a collaborative design and coding session at the 2011 Foswiki Camp.
 
-|  Author(s): | |
-|  Copyright: | &copy; 2011  |
+|  Author(s): | Foswiki:Main.MichaelDaum |
+|  Copyright: | &copy; Foswiki Contributors 2011  |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
