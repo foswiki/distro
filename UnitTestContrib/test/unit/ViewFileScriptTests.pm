@@ -92,6 +92,14 @@ sub set_up {
     $topicObject->save();
     $this->sneakAttachmentsToTopic( $this->{test_web}, $topic,
         ( 'binaryfile.bin' ) );
+
+    $topic = 'CasePreservingTopic';
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic,
+        'CasePreserving Text', undef );
+    $topicObject->save();
+    $this->sneakAttachmentsToTopic( $this->{test_web}, $topic,
+        ( 'CasePreserved.bin' ) );
 }
 
 sub touchFile {
@@ -99,7 +107,7 @@ sub touchFile {
     my $filename = "$dir/$file";
     if ( open( my $FILE, '>', $filename ) ) {
 	    binmode $FILE;
-        if ($file eq 'binaryfile.bin') {
+        if ($file eq 'binaryfile.bin' || $file eq 'CasePreserved.bin') {
             print $FILE "Test\nAttach\rment\r\nEmbed\cZEOF\r\n$file\n";
             }
         else {
@@ -134,7 +142,7 @@ sub sneakAttachmentsToTopic {
 }
 
 sub viewfile {
-    my ( $this, $url ) = @_;
+    my ( $this, $url, $wantHdrs ) = @_;
     my $query = new Unit::Request( {} );
     $query->setUrl($url);
     $query->method('GET');
@@ -158,8 +166,9 @@ sub viewfile {
     );
 
     $fatwilly->finish();
-    $text =~ s/^.*?\x0d\x0a\x0d\x0a//s;
-    return $text;
+    (my $headers, $text) = $text =~ m/^(.*?)\x0d\x0a\x0d\x0a(.*)/s;
+
+    return ($wantHdrs) ? ( $headers, $text) : $text;
 }
 
 sub test_simpleUrl {
@@ -169,6 +178,7 @@ sub test_simpleUrl {
 # then we can re-activate these tests marked with Note1. See Foswikitask:Item598
 
     #simple topic, direct path
+    #
     $this->assert_str_equals( "Test attachment one.txt\n",
         $this->viewfile("/$this->{test_web}/TestTopic1/one.txt") );
     $this->assert_equals( "Test attachment two.txt\n",
@@ -429,5 +439,36 @@ sub test_binary_contents {
 
     $this->assert_equals( "Test\nAttach\rment\r\nEmbed\cZEOF\r\nbinaryfile.bin\n",
         $this->viewfile("/$this->{test_web}/BinaryTopic?filename=/binaryfile.bin") );
+}
+
+sub test_simple_textfile {
+    my $this = shift;
+
+    # Call viewfile with flag to also return headers
+
+    my ($headers, $text) = $this->viewfile("/$this->{test_web}/TestTopic1/one.txt", 1 );
+
+    $this->assert_equals( "Test attachment one.txt\n",
+        $text );
+    $this->assert_matches( 'Content-Type: text/plain; charset=ISO-8859-1',
+        $headers );
+    $this->assert_matches( 'Content-Disposition: inline; filename=one.txt',
+        $headers );
+
+}
+sub test_case_sensitivity {
+    my $this = shift;
+
+    # Call viewfile with flag to also return headers
+
+    my ($headers, $text) = $this->viewfile("/$this->{test_web}/CasePreservingTopic?filename=/CasePreserved.bin", 1 );
+
+    $this->assert_equals( "Test\nAttach\rment\r\nEmbed\cZEOF\r\nCasePreserved.bin\n",
+        $text );
+    $this->assert_matches( "Content-Type: application/octet-stream",
+        $headers );
+    $this->assert_matches( "Content-Disposition: inline; filename=CasePreserved.bin",
+        $headers );
+
 }
 1;

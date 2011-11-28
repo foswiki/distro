@@ -173,12 +173,15 @@ sub viewfile {
     my $fh = $topicObject->openAttachment( $fileName, '<', version => $rev );
 
     my $type  = _suffixToMimeType($fileName);
-    my $dispo = 'inline;filename=' . $fileName;
 
     #re-set to 200, in case this was a 404 or other redirect
     $session->{response}->status(200);
+
+    # Write a custom Content_Disposition header.  The -attachment option does not
+    # write the file as "inline", so graphics would get a File Save dialog instead of displayed.
     $session->{response}
-      ->header( -type => $type, qq(Content-Disposition="$dispo") );
+      ->header( -type => $type, -content_disposition  => "inline; filename=$fileName" );
+
     local $/;
 
     # SMELL: Maybe could be less memory hungry if we could
