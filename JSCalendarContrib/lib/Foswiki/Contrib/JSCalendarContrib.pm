@@ -19,7 +19,7 @@ use warnings;
 use Foswiki::Func ();    # The plugins API
 
 our $VERSION = '$Rev$';
-our $RELEASE = '30 Jul 2011';
+our $RELEASE = '1.5.0';
 our $SHORTDESCRIPTION =
 "[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]], packaged for use by plugins, skins and add-ons";
 
