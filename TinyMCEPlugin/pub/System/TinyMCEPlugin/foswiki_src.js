@@ -19,12 +19,15 @@
 FoswikiTiny.install();
 
 // Item10288:  Prevent save while in Full Screen
-jQuery(function($) {
+jQuery(document).ready(function($) {
     $("#save").closest('form').bind('submit', function(event) {
         if (( $('#cancel:focus') ).length) {
             return true;
         }
-        if (tinyMCE.activeEditor.getParam('fullscreen_is_enabled')) {
+        if ( (typeof(tinyMCE) === 'object')
+          && (typeof(tinyMCE.activeEditor) === 'object')
+          && (tinyMCE.activeEditor !== null)
+          &&  tinyMCE.activeEditor.getParam('fullscreen_is_enabled') ) {
             alert('Please toggle out of full screen mode before attempting to save');
             return false;
         }
