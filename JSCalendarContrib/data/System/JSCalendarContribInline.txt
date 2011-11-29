@@ -8,7 +8,7 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
 (called only once)
 
 <verbatim class="tml">
-%STARTINCLUDE%%ADDTOZONE{
+%STARTINCLUDE%%STARTSECTION{"loadCalendar"}%%ADDTOZONE{
   "head"
   id="JSCalendarContrib/calendar-%IF{
     "defined style and $style!=''"
@@ -26,7 +26,7 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
 }%%TMPL:P{
   "LIBJS"
   id="JSCalendarContrib/calendar"
-  requires=""
+  requires="JQUERYPLUGIN::FOSWIKI"
 }%%TMPL:P{
   "LIBJS"
   id="JSCalendarContrib/lang/calendar-%IF{
@@ -53,7 +53,7 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
   $quotLIBJS$quot
   id=$quotJavascriptFiles/foswikiDate$quot
 }$percnt"
-}%%STOPINCLUDE%
+}%%ENDSECTION{"loadCalendar"}%%STOPINCLUDE%
 </verbatim>
 
 ---++ Initializes a date input field
@@ -61,10 +61,10 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
 (called once per date input field)
 
 <verbatim class="tml">
-%STARTSECTION{"initCalendar"}%%ADDTOZONE{
+%STARTSECTION{"initCalendar"}%%INCLUDE{"%TOPIC%" section="loadCalendar"}%%ADDTOZONE{
   "script"
   id="JSCalendarContrib/calendar_%id%"
-  requires="JSCalendarContrib/calendar"
+  requires="JSCalendarContrib/calendar,JQUERYPLUGIN::FOSWIKI"
   text="<literal><script type='text/javascript'>
 jQuery(function($) {
   formatValue('%id%', '%IF{
