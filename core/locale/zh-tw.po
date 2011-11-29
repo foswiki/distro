@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-11-10 17:39+0200\n"
-"Last-Translator: Chung-Han Yang <dr3939@gmail.com>\n"
+"PO-Revision-Date: 2011-11-29 08:46+0200\n"
+"Last-Translator: Chung-Han <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -349,7 +349,7 @@ msgstr "(忽略)"
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
-msgstr ""
+msgstr "*管理者：* 你能使用此表更改使用者的電郵。輸入使用者登錄名或 WikiName 與新的電郵。"
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -437,35 +437,35 @@ msgstr "..."
 
 #: core/data/System/SiteChanges.txt:15
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 小時前"
 
 #: core/data/System/SiteChanges.txt:20
 msgid "1 week ago"
-msgstr ""
+msgstr "1 週前"
 
 #: core/data/System/SiteChanges.txt:17
 msgid "12 hours ago"
-msgstr ""
+msgstr "12 小時前"
 
 #: core/data/System/SiteChanges.txt:21
 msgid "2 weeks ago"
-msgstr ""
+msgstr "2 週前"
 
 #: core/data/System/SiteChanges.txt:18
 msgid "24 hours ago"
-msgstr ""
+msgstr "24小時前"
 
 #: core/data/System/SiteChanges.txt:19
 msgid "3 days ago"
-msgstr ""
+msgstr "3天前"
 
 #: core/data/System/SiteChanges.txt:22
 msgid "4 weeks ago"
-msgstr ""
+msgstr "4週前"
 
 #: core/data/System/SiteChanges.txt:16
 msgid "6 hours ago"
-msgstr ""
+msgstr "6小時前"
 
 #: core/data/System/WebChanges.txt:9
 msgid ""
@@ -571,7 +571,6 @@ msgid "Action %1: %2."
 msgstr "功能 %1: %2."
 
 #: core/data/Main/WikiGroups.txt:64
-#, fuzzy
 msgid "Actions"
 msgstr "功能"
 
@@ -584,14 +583,12 @@ msgid "Add form"
 msgstr "增加表單"
 
 #: core/data/Main/GroupViewTemplate.txt:239
-#, fuzzy
 msgid "Add members"
-msgstr "沒有成員"
+msgstr "增加成員"
 
 #: core/data/Main/GroupViewTemplate.txt:170
-#, fuzzy
 msgid "Add members..."
-msgstr "增加使用者…"
+msgstr "增加成員…"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
@@ -599,14 +596,12 @@ msgid "Add row"
 msgstr "加一列"
 
 #: core/data/Main/GroupViewTemplate.txt:217
-#, fuzzy
 msgid "Add user management options to this topic."
-msgstr "編輯本主題的設定…"
+msgstr "為這個主題增加使用者管理選項。"
 
 #: core/data/Main/GroupViewTemplate.txt:235
-#, fuzzy
 msgid "Add users or groups to this group"
-msgstr "增加一個使用者到此群組"
+msgstr "增加使用者或群組到此群組中"
 
 #: core/templates/messages.tmpl:373
 msgid "Adding a %1 preference in WebPreferences"
@@ -622,9 +617,8 @@ msgstr "管理員維護"
 
 #: core/data/Main/GroupViewTemplate.txt:145
 #: core/data/Main/GroupViewTemplate.txt:166
-#, fuzzy
 msgid "Administration"
-msgstr "註冊"
+msgstr "管理"
 
 #: core/data/System/WebSearch.txt:64
 msgid "Advanced search"
@@ -706,10 +700,9 @@ msgstr "附加新檔"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
-#, fuzzy
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
-msgstr "title='為這個主題增加圖片或檔案' accesskey='a'>增加附件(&A)"
+msgstr "為主題增加圖片或文件附件；管理附件檔案 (a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -947,9 +940,8 @@ msgstr "變更者:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
-#, fuzzy
 msgid "Changed on"
-msgstr "已變更"
+msgstr "改變"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
@@ -1046,9 +1038,8 @@ msgid "Contact %1 if you have any questions."
 msgstr "如有問題，請聯繫 %1"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
-#, fuzzy
 msgid "Context"
-msgstr "模式："
+msgstr "內文"
 
 #: core/templates/messages.tmpl:425
 msgid "Continue and try to rename web?"
@@ -1138,9 +1129,8 @@ msgstr "建立新的熱門問答主題"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:23
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:24
-#, fuzzy
 msgid "Create new topic"
-msgstr "建立新的熱門問答主題"
+msgstr "建立新主題"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
 msgid "Create personal sidebar"
@@ -1353,9 +1343,8 @@ msgstr "編輯這個表格"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
-#, fuzzy
 msgid "Edit this topic text (e)"
-msgstr "編輯這個主題"
+msgstr "編輯主題內容 (e)"
 
 #: core/templates/more.tmpl:13
 msgid "Edit topic preference settings"
