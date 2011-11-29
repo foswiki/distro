@@ -1239,6 +1239,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11231][Item11231]] | Escaped !ABBREV in heading generate an incorrect Anchor link |
 | [[%BUGS%/Item11239][Item11239]] | SpreadSheetPlugin LEFTSTRING and has inconsistent results when cell has leading spaces |
 | [[%BUGS%/Item11258][Item11258]] | WikiGroups doesn't link to group names that are not wikiwords. |
+| [[%BUGS%/Item11309][Item11309]] | viewfile script returns filenames in lower case. Generate a correct Content-Disposition header preserving the filename case. |
 </noautolink>
 
 ---+++ Enhancements
