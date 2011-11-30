@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-11-29 08:46+0200\n"
+"PO-Revision-Date: 2011-11-30 04:05+0200\n"
 "Last-Translator: Chung-Han <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "Language: zh_TW\n"
@@ -1661,7 +1661,7 @@ msgstr "若 Foswiki 發現一個來自某網頁的可疑的請求，將會要求
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
-msgstr ""
+msgstr "若未因錯誤而終止註冊，管理者仍能使用 %1 來註冊使用者。"
 
 #: core/templates/messages.tmpl:435
 msgid ""
