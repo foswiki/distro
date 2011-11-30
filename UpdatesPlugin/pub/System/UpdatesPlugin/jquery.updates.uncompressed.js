@@ -1,26 +1,24 @@
-// singleton object
-var foswikiUpdates;
-
 (function($) {
 
-
   // global defaults
-  var  defaults = {
-    reportUrl: foswiki.getPreference("UPDATESPLUGIN::REPORTURL"),
-    configureUrl: foswiki.getPreference("UPDATESPLUGIN::CONFIGUREURL"),
+  var defaults = {
+    configureUrl: undefined, 
+    endpointUrl: undefined,
     debug: false,
     delay: 1000, // number of seconds to delay contacting f.o.
     timeout: 5000, // number of seconds a jsonp call is considered failure
     cookieName: "FOSWIKI_UPDATESPLUGIN", // name of the cookie
     cookieExpires: 7 // number of days the cookie takes to expire
-  };
+  }, foswikiUpdates; // singleton
 
   // class constructor
   function FoswikiUpdates(options) {
     var self = this;
     self.options = $.extend({}, defaults, options);
 
-    //console.log("called new");
+    if (self.options.debug) {
+      console.log("called new FoswikiUpdates");
+    }
 
     self.init();
 
@@ -30,6 +28,14 @@ var foswikiUpdates;
   // init method
   FoswikiUpdates.prototype.init = function() {
     var self = this;
+
+    if (typeof(self.options.configureUrl) === 'undefined') {
+      self.options.configureUrl = foswiki.getPreference("UPDATESPLUGIN::CONFIGUREURL");
+    }
+
+    if (typeof(self.options.endpointUrl) === 'undefined') {
+      self.options.endpointUrl = foswiki.getPreference("SCRIPTURL") + "/rest" + foswiki.getPreference("SCRIPTSUFFIX") + "/UpdatesPlugin/check";
+    }
 
     // events
     $(document).bind("refresh.foswikiUpdates", function() {
@@ -68,42 +74,30 @@ var foswikiUpdates;
     var self = this, key, version;
 
     //console.log("called loadPluginInfo");
-
-    self.installedPlugins = [];
-    self.outdatedPlugins = [];
     self.numberOutdatedPlugins = $.cookie(self.options.cookieName);
 
-    // just to make sure we don't run into trouble
-    if (typeof(InstalledPlugins) === 'undefined') {
-      InstalledPlugins = [];
-    }
-
     if (typeof(self.numberOutdatedPlugins) === 'undefined') {
-      // collect local info
-      for (key in InstalledPlugins) {
-        version = InstalledPlugins[key];
-        if (!version.match(/%\$VERSION%/)) {
-          self.installedPlugins.push(key);
-        }
-      }
 
       // collect remote info
-      //console.log("reportUrl=",self.options.reportUrl);
       window.setTimeout(function() {
         //console.log("...loading");
         $.ajax({
           type:"get",
-          url: self.options.reportUrl,//+"?callback=?", 
-          dataType: "jsonp",
-          data: {
-            skin: 'text',
-            contenttype: 'text/javascript',
-            list: self.installedPlugins.join(",")
-          },
-          
-          // SMELL: browsers fail earlier when they can't load a resource
-          // due to no-network
+          url: self.options.endpointUrl,
+          dataType: "json",
           timeout: self.options.timeout,
+          success: function(data, status, xhr) {
+            //console.log("success: data=",data);
+            self.numberOutdatedPlugins = data.length;
+            // remember findings: sets cookie to the number of outdated plugins. setting it to
+            // zero explicitly can either mean: everything up-to-date or ignore pending updates
+            $.cookie(self.options.cookieName, self.numberOutdatedPlugins, {
+              expires: self.options.cookieExpires, 
+              path: "/"
+            });
+
+            $(document).trigger("display.foswikiUpdates");
+          },
           error: function(xhr, msg, status) {
             //console.log("got an error: status=",status,"msg=",msg)
             // remember the error state
@@ -114,52 +108,10 @@ var foswikiUpdates;
           }
         });
       }, self.options.delay);
-
-      // continues at handleResponse when getJSON has finised
     } else if (self.numberOutdatedPlugins > 0) {
       // we already know. so only trigger the display again
       $(document).trigger("display.foswikiUpdates");
     } 
-  };
-
-  // handles the json response
-  FoswikiUpdates.prototype.handleResponse = function(data) {
-    var self = this;
-
-    $.each(data, function(index, elem) {
-      var available = elem.version.replace(/^\s*(.*?)?\s*$/, "$1"),
-          pluginName = elem.topic,
-          installed = InstalledPlugins[pluginName].replace(/^\s*(.*?)?\s*$/, "$1");
-
-      if (available && installed) {
-        if (available == installed) {
-          //console.log("extension "+pluginName+" '"+installed+"' is up-to-date");
-        } else {
-          //console.log("extension "+pluginName+" '"+installed+"' can be updated to '"+available+"'");
-          self.outdatedPlugins.push(pluginName);
-        }
-      }
-    });
-  
-    // testing by adding some random plugin to be considered outdated
-    if (self.options.debug) {
-      //console.log("adding FooBarPlugin to outdatedPlugins");
-      self.outdatedPlugins.push("FooBarPlugin");
-    }
-
-    self.numberOutdatedPlugins = self.outdatedPlugins.length;
-
-    // remember findings: sets cookie to the number of outdated plugins. setting it to
-    // zero explicitly can either mean: everything up-to-date or ignore pending updates
-    $.cookie(self.options.cookieName, self.numberOutdatedPlugins, {
-      expires: self.options.cookieExpires, 
-      path: "/"
-    });
-
-    // show the info banner
-    if (self.outdatedPlugins.length > 0) {
-      $(document).trigger("display.foswikiUpdates");
-    }
   };
 
   // displays internal state using a nice info box at the top of the page
@@ -184,4 +136,3 @@ var foswikiUpdates;
   });
 
 })(jQuery);
-

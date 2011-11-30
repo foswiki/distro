@@ -1,17 +1,22 @@
 %META:TOPICINFO{author="micha" comment="reprev" date="1321804319" format="1.1" reprev="2" version="2"}%
 ---+!! %TOPIC%
-<div style="float:right"><img src="%ATTACHURL%/logo.png"></div>
+<img class="foswikiRight" src="%ATTACHURL%/logo.png">
 %$SHORTDESCRIPTION%
 
 %TOC%
 
-This plugin is used to keep [[%USERSWEB%.AdminGroup][administrators]] informed of updates to their installed extensions via a pop-up message at the top of the page.
+This plugin is used to keep [[%USERSWEB%.AdminGroup][administrators]] informed
+of updates to their installed extensions via a pop-up message at the top of the
+page.
 
-Users can choose to either perform the update immediately using the =configure= tool, or delay it until later.
+Users can choose to either perform the update immediately using the =configure=
+tool, or delay it until later.
 
 ---++ Usage
 
-Click <a href="#" id="forceCheck">here</a> to force checking foswiki.org for extension updates. If your wiki requires updating, a message will be displayed at the top of the page.
+Click <a href="#" id="forceCheck">here</a> to force checking foswiki.org for
+extension updates. If your wiki requires updating, a message will be displayed
+at the top of the page.
 
 <literal>
 <script>
@@ -26,20 +31,31 @@ jQuery(function($) {
 </literal>
 %JQREQUIRE{"cookie"}%
 
-The upgrade decision is stored locally, so that the plugin will only check for updates again when this cookie expires (in 7 days).
+The upgrade decision is stored locally, so that the plugin will only check for
+updates again when this cookie expires (in 7 days).
 
-Note that the plugin requires Javascript and Cookies to be enabled in the browser.
+Note that the plugin requires Javascript and Cookies to be enabled in the
+browser.
 
 ---++ Installation Instructions
 
 %$INSTALL_INSTRUCTIONS%
 
 ---++ Notes
-The plugin sends update status requests to the repository server to retrieve the current release information for extensions. If these update status requests are proxied via the local server (the default) then the current status of extensions retrieved from the repository is cached in the working/work_areas/UpdatesPlugin directory for 24 hours (default) before being retrieved again. You can safely clear the cache at any time by deleting all files in this directory.
+The plugin sends update status requests to the repository server to retrieve
+the current release information for extensions. If these update status requests
+are proxied via the local server (the default) then the current status of
+extensions retrieved from the repository is cached in the
+working/work_areas/UpdatesPlugin directory for 24 hours (default) before being
+retrieved again. You can safely clear the cache at any time by deleting all
+files in this directory.
 
-The plugin defines a REST handler for handling proxy requests. The 'rest' script must be removed from the ={AuthScripts}= configuration for this to work.
+The plugin defines a REST handler for handling proxy requests. The 'rest'
+script must be removed from the ={AuthScripts}= configuration for this to work.
 
-The plugin defines a macro, =EXTENSIONVERSIONJSON=, which gets a JSON structure describing all the currently installed extensions. This is for purely internal use and will be removed in a future release.
+%T% If you are using private extensions on your wiki server that are not available
+as Open Source on foswiki.org then use the ={ExcludeExtensions}= parameter in =configure=
+to prevent disclosing them to the outside world.
 
 ---++ Info
 <!--

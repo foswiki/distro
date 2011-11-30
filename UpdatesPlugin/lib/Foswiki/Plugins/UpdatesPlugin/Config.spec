@@ -8,17 +8,14 @@
 # http://foswiki.org/Extensions/UpdatesPluginReport
 $Foswiki::cfg{Plugins}{UpdatesPlugin}{ReportUrl} = "http://foswiki.org/Extensions/UpdatesPluginReport";
 
-# **URL**
-# A proxy URL that is normally used to obtain the update report. This is normally the URL of a REST
-# handler on the local site. Note: don't forget to remove 'rest' from the {AuthScripts} setting,
-# or this won't work. You can set this URL to the empty path, which will force the plugin to refer
-# back to Foswiki.org for every update check. Otherwise the response from Foswiki.org is cached
-# on this server.
-$Foswiki::cfg{Plugins}{UpdatesPlugin}{ProxyUrl} = '$Foswiki::cfg{ScriptUrlPath}/rest$Foswiki::cfg{ScriptSuffix}/UpdatesPlugin/report';
-
 # **NUMBER**
 # Number of seconds to cache the update report for extensions. Default is 24 hours.
-$Foswiki::cfg{Plugins}{UpdatesPlugin}{ProxyCacheTimeout} = 86400;
+$Foswiki::cfg{Plugins}{UpdatesPlugin}{CacheTimeout} = 86400;
+
+# **STRING**
+# A list of extensions that shall not be checked for updates on foswiki.org. This setting can be used
+# to prevent plugins not hosted on foswiki.org from being reported to the outside world.
+$Foswiki::cfg{Plugins}{UpdatesPlugin}{ExcludeExtensions} = '';
 
 # **URL**
 # The URL of the 'configure' program used to install extensions on your Foswiki.
