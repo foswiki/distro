@@ -7,6 +7,10 @@ use warnings;
 use Foswiki::Configure::Types::STRING ();
 our @ISA = ('Foswiki::Configure::Types::STRING');
 
+# SMELL:  Regex cleanup is also done in Foswiki/Configure/Valuer.pm sub _getValue
+# If regex is growing due to perl stringification changes, this needs to be
+# updated as well as here in string2value and equals.
+
 sub prompt {
     my ( $this, $id, $opts, $value, $class ) = @_;
 
@@ -15,6 +19,7 @@ sub prompt {
 
 # disabling these lines because the value appears changed on the authorise screen
 # while ( $value =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
+# while ( $value =~ s/^\(\?\^:(.*)\)/$1/ ) { }
 # $value =~ s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge;
 
     my $size = $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
@@ -33,6 +38,7 @@ sub prompt {
 sub string2value {
     my ( $this, $value ) = @_;
     while ( $value =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
+    while ( $value =~ s/^\(\?\^:(.*)\)/$1/ )     { }
     return qr/$value/;
 }
 
@@ -45,10 +51,14 @@ sub equals {
     elsif ( !defined $def ) {
         return 0;
     }
-    while ( $val =~ s/^\(\?-xism:(.*)\)$/$1/ ) {
-    }
-    while ( $def =~ s/^\(\?-xism:(.*)\)$/$1/ ) {
-    }
+
+
+    while ( $val =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
+    while ( $def =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
+
+    while ( $val =~ s/^\(\?\^:(.*)\)/$1/ ) { }
+    while ( $def =~ s/^\(\?\^:(.*)\)/$1/ ) { }
+
     return $val eq $def;
 }
 
