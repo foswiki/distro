@@ -46,13 +46,14 @@ sub _getValue {
     my $var  = '$this->{' . $set . '}->' . $keys;
     my $val;
     eval '$val = ' . $var . ' if exists(' . $var . ')';
-    die "Unable to obtain value from $var.  eval failed with $@\n" if ( $@ );
+    die "Unable to obtain value from $var.  eval failed with $@\n" if ($@);
     if ( defined $val ) {
 
         # SMELL: Really shouldn't do this unless we are sure it's an RE,
         # but the probability of this string occurring elsewhere than an
         # RE is so low that we can afford to take the risk.
         while ( $val =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
+        while ( $val =~ s/^\(\?\^:(.*)\)$/$1/ )    { }    # 5.14 RE wrapper
     }
     return $val;
 }
@@ -111,12 +112,13 @@ sub loadCGIParams {
         my $typename = $query->param($param);
         Carp::confess "Bad typename '$typename'" unless $typename =~ /(\w+)/;
         $typename = $1;    # check and untaint
-        my $type   = Foswiki::Configure::Type::load($typename, $keys);
+        my $type   = Foswiki::Configure::Type::load( $typename, $keys );
         my $newval = $type->string2value( $query->param($keys) );
         my $xpr    = '$this->{values}->' . $keys;
         my $curval = eval $xpr;
         if ( !$type->equals( $newval, $curval ) ) {
-            #Foswiki::log("loadCGIParams ($typename: $keys)($param)\n'$newval' != \n'".($curval||'undef')."'");
+
+#Foswiki::log("loadCGIParams ($typename: $keys)($param)\n'$newval' != \n'".($curval||'undef')."'");
             eval $xpr . ' = $newval';
             $changed++;
             $updated->{$keys} = 1;
