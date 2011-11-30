@@ -10,6 +10,8 @@ our @ISA = ('Foswiki::Configure::Types::STRING');
 # SMELL:  Regex cleanup is also done in Foswiki/Configure/Valuer.pm sub _getValue
 # If regex is growing due to perl stringification changes, this needs to be
 # updated as well as here in string2value and equals.
+# Note:  Perl 5.10 has use re qw(regexp_pattern); to decompile a pattern
+#        my $pattern = regexp_pattern($val);
 
 sub prompt {
     my ( $this, $id, $opts, $value, $class ) = @_;

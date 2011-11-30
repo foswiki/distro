@@ -52,6 +52,8 @@ sub _getValue {
         # SMELL: Really shouldn't do this unless we are sure it's an RE,
         # but the probability of this string occurring elsewhere than an
         # RE is so low that we can afford to take the risk.
+        # Note:  Perl 5.10 has use re qw(regexp_pattern); to decompile a pattern
+        #        my $pattern = regexp_pattern($val);
         while ( $val =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
         while ( $val =~ s/^\(\?\^:(.*)\)$/$1/ )    { }    # 5.14 RE wrapper
     }
