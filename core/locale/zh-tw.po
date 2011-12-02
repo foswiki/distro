@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-11-30 04:05+0200\n"
+"PO-Revision-Date: 2011-12-02 11:26+0200\n"
 "Last-Translator: Chung-Han <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "Language: zh_TW\n"
@@ -1783,7 +1783,7 @@ msgstr ""
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "In case of a zip file, attach all included files to this topic"
-msgstr ""
+msgstr "將 zip 檔內所含的檔案附在這個主題內。"
 
 #: core/data/System/WebSearch.txt:108
 msgid "In reversed order"
@@ -1876,9 +1876,8 @@ msgid "Jump"
 msgstr "到"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
-#, fuzzy
 msgid "Jump to first revision"
-msgstr "(修訂版 %1)"
+msgstr "跳到第一個修訂版"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "Jump to latest revision (%1)"
