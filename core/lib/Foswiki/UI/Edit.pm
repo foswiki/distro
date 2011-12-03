@@ -344,6 +344,26 @@ sub init_edit {
 
     if ($adminCmd) {
 
+        unless ($users->isAdmin($user)) {
+            throw Foswiki::OopsException(
+                'accessdenied',
+                def    => 'topic_access',
+                web    => $web,
+                topic  => $topic,
+                params => [ "'cmd=$adminCmd'", 'Administrators only' ]
+            );
+        }
+
+        unless ($adminCmd =~ m/^(rep|del)Rev$/ ) {
+            throw Foswiki::OopsException(
+                'attention',
+                def   => 'unrecognized_action',
+                web   => $web,
+                topic => $topic,
+                params => [ "'cmd=$adminCmd'" ]
+            );
+           }
+
         # An admin cmd is a command such as 'repRev' or 'delRev'.
         # These commands can used by admins to silently remove
         # revisions from topics histories from some stores. repRev
