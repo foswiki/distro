@@ -373,7 +373,9 @@ sub init_edit {
         my $basemeta = Foswiki::Meta->load( $session, $web, $topic );
 
         # No need to check permissions; we are admin if we got here.
-        $topicObject->text( $basemeta->getEmbeddedStoreForm() );
+        my $rawText = $basemeta->getEmbeddedStoreForm();
+        $rawText =~ s/^%META:TOPICINFO{.*?}%$//m;
+        $topicObject->text( $rawText );
         $tmpl =~ s/\(edit\)/\(edit cmd=$adminCmd\)/go if $adminCmd;
     }
     else {
