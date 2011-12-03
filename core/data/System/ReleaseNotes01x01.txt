@@ -1231,6 +1231,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11189][Item11189]] | Images referenced in square bracket link text are not rendered |
 | [[%BUGS%/Item11193][Item11193]] | typo in lib/Foswiki/PageCache.pm causing all (cached) pages to be delivered with a Last-Modified: header set to 01 Jan 1970 |
 | [[%BUGS%/Item11194][Item11194]] | Add to warnings reported by {AuthScripts} checker.  Warn if statistics unprotected.  Warn to confirm apache config if not using TemplateLogin |
+| [[%BUGS%/Item11195][Item11195]] | Updated Foswiki Time code to better handle timezones and Daylight Savings time. |
 | [[%BUGS%/Item11200][Item11200]] | Some crafted URLs result in a Undefined warning in Foswiki::Store::VC::Handler |
 | [[%BUGS%/Item11204][Item11204]] | Various improvements to jquery.media, jquery.tooltip, jquery.superfish, jquery.ui.resizable, jquery.button, jquery.ui.dialog and jquery.textboxlist |
 | [[%BUGS%/Item11205][Item11205]] | Dependency.pm is not reporting out-of-date extension when migrating from date to dotted versions.|
