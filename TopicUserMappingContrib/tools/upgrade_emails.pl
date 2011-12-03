@@ -14,10 +14,10 @@ use strict;
 
 BEGIN {
     require 'setlib.cfg';
-};
+}
 
 use Foswiki;
-use Foswiki::Users::TopicUserMapping; # required to get email addresses
+use Foswiki::Users::TopicUserMapping;    # required to get email addresses
 
 my $foswiki = new Foswiki();
 
@@ -34,49 +34,58 @@ while (1) {
     print "Admin e-mail address ['$admin_email']: ";
     my $n = <>;
     chomp $n;
-    last if( !$n );
+    last if ( !$n );
     $admin_email = $n;
-};
+}
 
-my ($meta, $text) =
-  Foswiki::Func::readTopic(
-      $Foswiki::cfg{UsersWebName}, $Foswiki::cfg{UsersTopicName} );
+my ( $meta, $text ) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+    $Foswiki::cfg{UsersTopicName} );
 
 my $users = $foswiki->{users};
 
-foreach my $line ( split( /\r?\n/, $text )) {
+foreach my $line ( split( /\r?\n/, $text ) ) {
 
-    if( $line =~ /^\s*\* ($Foswiki::regex{webNameRegex}\.)?(\w+)\s*(?:-\s*(\S+)\s*)?-\s*\d+ \w+ \d+\s*$/o ) {
+    if ( $line =~
+/^\s*\* ($Foswiki::regex{webNameRegex}\.)?(\w+)\s*(?:-\s*(\S+)\s*)?-\s*\d+ \w+ \d+\s*$/o
+      )
+    {
         print STDERR "Processing $line\n";
         my $web = $1 || $Foswiki::cfg{UsersWebName};
-        my $wn = $2 || '';	# WikiName
-        my $un = $3 || $wn;	# userid
-        my $id = ($un eq $wn) ? $wn : "$un:$wn";
+        my $wn  = $2 || '';                            # WikiName
+        my $un  = $3 || $wn;                           # userid
+        my $id = ( $un eq $wn ) ? $wn : "$un:$wn";
 
         my $cUID = $users->getCanonicalUserID($un);
         if ($cUID) {
+
             # Use an eval in case there is a problem setting the email
             eval {
+
                 # Get emails *from the password manager*
                 my @em = $users->getEmails($cUID);
-                if (scalar(@em)) {
+                if ( scalar(@em) ) {
                     print "Already have an address for $id\n";
-                } else {
+                }
+                else {
+
                     # Get emails *from the Foswiki user mapping manager*
                     @em = Foswiki::Users::TopicUserMapping::mapper_getEmails(
-                        $foswiki, $cUID);
-                    if( scalar( @em )) {
-                        print "Secreting $id: ",join(';',@em),"\n";
+                        $foswiki, $cUID );
+                    if ( scalar(@em) ) {
+                        print "Secreting $id: ", join( ';', @em ), "\n";
                         $users->setEmails( $cUID, @em );
-                    } else {
-                        print "No email address found for $id, using $admin_email\n";
+                    }
+                    else {
+                        print
+"No email address found for $id, using $admin_email\n";
                         $users->setEmails( $cUID, $admin_email );
                     }
                 }
             };
             print "Warning: $@" if $@;
-        } else {
-            print "User $id not found in users database\n"
+        }
+        else {
+            print "User $id not found in users database\n";
         }
     }
 }

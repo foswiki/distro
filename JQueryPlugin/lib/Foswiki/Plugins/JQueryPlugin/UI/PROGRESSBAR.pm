@@ -27,12 +27,12 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'UI::Progressbar',
-            version    => '1.8.16',
-            puburl      => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
-            author      => 'see http://jqueryui.com/about',
-            homepage    => 'http://docs.jquery.com/UI',
-            javascript => ['jquery.ui.progressbar.init.js'],
+            name         => 'UI::Progressbar',
+            version      => '1.8.16',
+            puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
+            author       => 'see http://jqueryui.com/about',
+            homepage     => 'http://docs.jquery.com/UI',
+            javascript   => ['jquery.ui.progressbar.init.js'],
             dependencies => [ 'ui', ],
         ),
         $class

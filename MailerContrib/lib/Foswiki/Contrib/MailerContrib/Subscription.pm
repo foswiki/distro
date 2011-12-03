@@ -18,8 +18,10 @@ use Assert;
 
 # Always mail out this subscription, even if there have been no changes
 use constant ALWAYS => 1;
+
 # Always mail out the full topic, not just the changes
 use constant FULL_TOPIC => 2;
+
 # ? = FULL_TOPIC
 # ! = FULL_TOPIC | ALWAYS
 
@@ -127,7 +129,8 @@ sub covers {
     # Does the mode cover the other subscription?
     # ALWAYS covers (ALWAYS and not ALWAYS).
     # FULL_TOPIC covers (FULL_TOPIC and not FULL_TOPIC)
-    return 0 unless ( $this->{options} & $tother->{options} ) == $tother->{options};
+    return 0
+      unless ( $this->{options} & $tother->{options} ) == $tother->{options};
 
     # A * always covers if the options match
     return 1 if ( $this->{topics} eq '*' );
@@ -159,8 +162,7 @@ specified in WebNotify.
 sub getMode {
     my $this = shift;
 
-    if ( $this->{options} & FULL_TOPIC )
-    {
+    if ( $this->{options} & FULL_TOPIC ) {
         return '!'
           if ( $this->{options} & ALWAYS );
         return '?';

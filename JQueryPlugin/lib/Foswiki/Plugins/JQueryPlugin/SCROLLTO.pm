@@ -27,11 +27,11 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'ScrollTo',
-            version    => '1.4.2',
-            author     => 'Ariel Flesler',
-            homepage   => 'http://plugins.jquery.com/project/ScrollTo',
-            javascript => ['jquery.scrollTo.js'],
+            name         => 'ScrollTo',
+            version      => '1.4.2',
+            author       => 'Ariel Flesler',
+            homepage     => 'http://plugins.jquery.com/project/ScrollTo',
+            javascript   => ['jquery.scrollTo.js'],
             dependencies => ['easing'],
         ),
         $class

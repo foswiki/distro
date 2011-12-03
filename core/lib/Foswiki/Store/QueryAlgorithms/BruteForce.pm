@@ -44,9 +44,9 @@ sub query {
 
     # Fold constants
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
-print STDERR "--- before: ".$query->toString()."\n" if MONITOR;
+    print STDERR "--- before: " . $query->toString() . "\n" if MONITOR;
     $query->simplify( tom => $context, data => $context );
-print STDERR "--- simplified: ".$query->toString()."\n" if MONITOR;
+    print STDERR "--- simplified: " . $query->toString() . "\n" if MONITOR;
 
     my $webNames = $options->{web}       || '';
     my $recurse  = $options->{'recurse'} || '';
@@ -63,8 +63,8 @@ print STDERR "--- simplified: ".$query->toString()."\n" if MONITOR;
         next unless $session->webExists($web);
 
         my $webObject = Foswiki::Meta->new( $session, $web );
-        my $thisWebNoSearchAll = Foswiki::isTrue(
-            $webObject->getPreference('NOSEARCHALL') );
+        my $thisWebNoSearchAll =
+          Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
 
         # make sure we can report this web on an 'all' search
         # DON'T filter out unless it's part of an 'all' search.
@@ -86,9 +86,9 @@ print STDERR "--- simplified: ".$query->toString()."\n" if MONITOR;
     # first filter, then sort the remaining
     my $date = $options->{'date'} || '';
     if ($date) {
-        $resultset->filterByDate( $date );
+        $resultset->filterByDate($date);
     }
-    
+
     #TODO: $options should become redundant
     $resultset->sortResults($options);
     return $resultset;
@@ -109,9 +109,10 @@ sub _webQuery {
     $query->simplify();
     if ( $query->evaluatesToConstant() ) {
         print STDERR "-- constant?\n" if MONITOR;
+
         # SMELL: use any old topic
-        my $cache = $Foswiki::Plugins::SESSION->search->metacache->get(
-            $web, 'WebPreferences' );
+        my $cache = $Foswiki::Plugins::SESSION->search->metacache->get( $web,
+            'WebPreferences' );
         my $meta = $cache->{tom};
         $queryIsAConstantFastpath =
           $query->evaluate( tom => $meta, data => $meta );
@@ -141,14 +142,11 @@ sub _webQuery {
     # Reduce the input topic set by matching simple topic names hoisted
     # from the query.
 
-    if (
-            ( !defined( $options->{topic} ) )
+    if (    ( !defined( $options->{topic} ) )
         and ( $hoistedREs->{name} )
-        and (
-            scalar( @{ $hoistedREs->{name} } ) == 1
-        )
-      )
+        and ( scalar( @{ $hoistedREs->{name} } ) == 1 ) )
     {
+
         # only do this if the 'name' query is simple
         # (ie, has only one element)
         my @filter = @{ $hoistedREs->{name_source} };
@@ -186,6 +184,7 @@ sub _webQuery {
         my $searchQuery =
           new Foswiki::Search::Node( $query->toString(), \@filter,
             $searchOptions );
+
         #use Data::Dumper;
         #print STDERR "--- hoisted: ".Dumper($hoistedREs)."\n" if MONITOR;
 
@@ -201,7 +200,8 @@ sub _webQuery {
         # and if we are able to use the sorting hints (ie DB Store)
         # can propogate all the way to FORMAT
 
-        print STDERR "WARNING: couldn't hoistREs on ".$query->toString() if MONITOR;
+        print STDERR "WARNING: couldn't hoistREs on " . $query->toString()
+          if MONITOR;
     }
 
     local $/;
@@ -232,7 +232,7 @@ sub _webQuery {
                 $topic );
 
             my $meta = $cache->{tom};
-            next unless (defined($meta));   #not a valid or loadable topic
+            next unless ( defined($meta) );    #not a valid or loadable topic
 
             # this 'lazy load' will become useful when @$topics becomes
             # an infoCache
@@ -299,7 +299,7 @@ sub getField {
             # name anywhere in the saved fields of meta
             return $data->web();
         }
-        elsif ($data->topic()) {
+        elsif ( $data->topic() ) {
 
             # The field name isn't an alias, check to see if it's
             # the form name

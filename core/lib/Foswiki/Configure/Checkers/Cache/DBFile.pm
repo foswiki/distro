@@ -12,9 +12,10 @@ sub check {
 
     if ( $Foswiki::cfg{Cache}{DBFile} ) {
 
-        my $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{Cache}{DBFile} );
+        my $e .=
+          $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{Cache}{DBFile} );
 
-        $e .= $this->showExpandedValue($Foswiki::cfg{Cache}{DBFile});
+        $e .= $this->showExpandedValue( $Foswiki::cfg{Cache}{DBFile} );
 
         #SMELL: Any permission checks or file exists warnings needed?
 

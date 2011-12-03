@@ -21,7 +21,7 @@ use Foswiki ();
 sub INCLUDE {
     my ( $ignore, $session, $control, $params ) = @_;
     my $class = $control->{_DEFAULT};
-    Foswiki::Func::setPreferencesValue('SMELLS', '');
+    Foswiki::Func::setPreferencesValue( 'SMELLS', '' );
     $class =~ s/[a-z]+://;    # remove protocol
     return '' unless $class && $class =~ /^Foswiki/;
     $class =~ s/[^\w:]//g;
@@ -38,8 +38,8 @@ sub INCLUDE {
 
     my $PMFILE;
     open( $PMFILE, '<', $pmfile ) || return '';
-    my $inPod = 0;
-    my $pod   = '';
+    my $inPod      = 0;
+    my $pod        = '';
     my $howSmelly  = 0;
     my $showSmells = !Foswiki::Func::isGuest();
     local $/ = "\n";
@@ -68,7 +68,7 @@ sub INCLUDE {
           . " *SMELL / FIX / TODO count: $howSmelly*\n"
           . '</blockquote>';
         $pod .= $podSmell;
-        Foswiki::Func::setPreferencesValue('SMELLS', $podSmell);
+        Foswiki::Func::setPreferencesValue( 'SMELLS', $podSmell );
     }
 
     $pod = Foswiki::applyPatternToIncludedText( $pod, $control->{pattern} )

@@ -20,7 +20,6 @@
 use strict;
 use Devel::Monitor qw(:all);
 
-
 BEGIN {
     if ( defined $ENV{GATEWAY_INTERFACE} ) {
         $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
@@ -33,7 +32,7 @@ BEGIN {
         $SIG{__DIE__} = \&Carp::confess;
     }
     $ENV{FOSWIKI_ACTION} = 'view';
-    @INC = ('../bin', grep { $_ ne '.' } @INC);
+    @INC = ( '../bin', grep { $_ ne '.' } @INC );
     require 'setlib.cfg';
 }
 
@@ -43,17 +42,17 @@ use Foswiki::UI::View;
 {
     my $session = new Foswiki();
 
-    #NOTE that Foswiki::finish() is hiding many circular references by foricbly clearing
-    #them with the %$this = (); its worth uncommenting this line once in a while to 
-    #see if its gettign worse (56 are found as of Jun2006)
-    #*Foswiki::finish = sub {};
+#NOTE that Foswiki::finish() is hiding many circular references by foricbly clearing
+#them with the %$this = (); its worth uncommenting this line once in a while to
+#see if its gettign worse (56 are found as of Jun2006)
+#*Foswiki::finish = sub {};
 
     $Foswiki::Plugins::SESSION = $session;
-    monitor('Foswiki' => \$Foswiki::Plugins::SESSION );
+    monitor( 'Foswiki' => \$Foswiki::Plugins::SESSION );
 
     Foswiki::UI::run( \&Foswiki::UI::View::view );
-    
-    print_circular_ref(\$Foswiki::Plugins::SESSION );
+
+    print_circular_ref( \$Foswiki::Plugins::SESSION );
 }
 
 1;

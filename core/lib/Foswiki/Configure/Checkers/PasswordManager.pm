@@ -14,7 +14,9 @@ sub check {
     my $msg = '';
 
     if ( $val eq 'Foswiki::Users::ApacheHtpasswdUser' ) {
-        $msg = $this->WARN("ApacheHtpasswdUser is demonstration code and has limitations.  HtPasswdUser is recommended");
+        $msg = $this->WARN(
+"ApacheHtpasswdUser is demonstration code and has limitations.  HtPasswdUser is recommended"
+        );
         my @perlModules = (
             {
                 name  => 'Apache::Htpasswd',

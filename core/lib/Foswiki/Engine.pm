@@ -87,7 +87,7 @@ sub prepare {
             $html .= CGI::end_html();
             $res->print($html);
         }
-        $this->finalizeError($res, $req);
+        $this->finalizeError( $res, $req );
         return $e->{status};
     }
     otherwise {
@@ -114,7 +114,7 @@ sub prepare {
             $text .= $mess;
             $res->print($text);
         }
-        $this->finalizeError($res, $req);
+        $this->finalizeError( $res, $req );
         return 500;    # Internal server error
     };
     return $req;
@@ -267,9 +267,10 @@ take any appropriate finalize actions, such as delete temporary files.
 
 sub finalize {
     my ( $this, $res, $req ) = @_;
-    if ($res->outputHasStarted()) {
-        $this->flush($res, $req);
-    } else {
+    if ( $res->outputHasStarted() ) {
+        $this->flush( $res, $req );
+    }
+    else {
         $this->finalizeUploads( $res, $req );
         $this->finalizeHeaders( $res, $req );
         $this->finalizeBody($res);
@@ -303,8 +304,8 @@ Called if some engine especific error happens.
 
 sub finalizeError {
     my ( $this, $res, $req ) = @_;
-    $this->finalizeHeaders($res, $req);
-    $this->finalizeBody($res, $req);
+    $this->finalizeHeaders( $res, $req );
+    $this->finalizeBody( $res, $req );
 }
 
 =begin TML
@@ -404,9 +405,9 @@ the header.
 =cut
 
 sub flush {
-    my ($this, $res, $req) = @_;
+    my ( $this, $res, $req ) = @_;
 
-    unless ($res->outputHasStarted()) {
+    unless ( $res->outputHasStarted() ) {
         $res->deleteHeader('Content-Length');
         $this->finalizeUploads( $res, $req );
         $this->finalizeHeaders( $res, $req );
@@ -416,7 +417,7 @@ sub flush {
 
     my $body = $res->body();
 
-    if ( Scalar::Util::blessed($body) || ref( $body ) eq 'GLOB' ) {
+    if ( Scalar::Util::blessed($body) || ref($body) eq 'GLOB' ) {
         throw Foswiki::EngineException('Cannot flush non-text response body');
     }
 

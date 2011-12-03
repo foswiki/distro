@@ -14,10 +14,11 @@ sub new {
     return bless( {}, $class );
 }
 
-sub untaintUnchecked       { Foswiki::Sandbox::untaintUnchecked(@_) }
-sub normalizeFileName      {
-    Foswiki::Sandbox::untaint(
-        shift, \&Foswiki::Sandbox::validateAttachmentName);
+sub untaintUnchecked { Foswiki::Sandbox::untaintUnchecked(@_) }
+
+sub normalizeFileName {
+    Foswiki::Sandbox::untaint( shift,
+        \&Foswiki::Sandbox::validateAttachmentName );
 }
 sub sanitizeAttachmentName { Foswiki::Sandbox::sanitizeAttachmentName(@_) }
 sub sysCommand             { return Foswiki::Sandbox::sysCommand(@_) }

@@ -35,8 +35,8 @@ sub _restNotify {
         my @exwebs    = split( ',', $query->param('excludewebs') || '' );
         my @webs      = split( ',', $query->param('webs') || '' );
         require Foswiki::Contrib::MailerContrib;
-        Foswiki::Contrib::MailerContrib::mailNotify(
-            \@webs, 1, \@exwebs, $nonews, $nochanges );
+        Foswiki::Contrib::MailerContrib::mailNotify( \@webs, 1, \@exwebs,
+            $nonews, $nochanges );
     }
     return undef;
 }

@@ -34,8 +34,8 @@ sub evaluatesToConstant {
     my $this = shift;
     my $node = shift;
     no warnings 'recursion';
-    my $ac   = $node->{params}[0]->evaluatesToConstant(@_);
-    my $bc   = $node->{params}[1]->evaluatesToConstant(@_);
+    my $ac = $node->{params}[0]->evaluatesToConstant(@_);
+    my $bc = $node->{params}[1]->evaluatesToConstant(@_);
     return 1 if ( $ac && $bc );
     return 1 if $ac && !$node->{params}[0]->evaluate(@_);
     return 1 if $bc && !$node->{params}[1]->evaluate(@_);

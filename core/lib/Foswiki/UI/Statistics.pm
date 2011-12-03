@@ -156,7 +156,7 @@ sub statistics {
                     },
                     "$web.$tmp"
                   )
-                 . CGI::br()
+                  . CGI::br()
             );
         }
     }

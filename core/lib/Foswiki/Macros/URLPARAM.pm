@@ -53,7 +53,7 @@ sub URLPARAM {
 }
 
 sub _handleURLPARAMValue {
-    my ($value, $newLine, $encode, $default) = @_;
+    my ( $value, $newLine, $encode, $default ) = @_;
 
     if ( defined $value ) {
         $value =~ s/\r?\n/$newLine/g if ( defined $newLine );
@@ -69,12 +69,13 @@ sub _handleURLPARAMValue {
             # no encoding
         }
         elsif ( $encode =~ /^url$/i ) {
+
             # Legacy, see ENCODE
-            #$value =~ s/\r*\n\r*/<br \/>/; 
+            #$value =~ s/\r*\n\r*/<br \/>/;
             $value = urlEncode($value);
         }
-        else {                                # safe or default
-                                              # entity encode ' " < > and %
+        else {                # safe or default
+                              # entity encode ' " < > and %
             $value =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
         }
     }

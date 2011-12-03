@@ -36,9 +36,9 @@ sub check {
                   );
             }
             else {
-        $mess .= $this->WARN(
+                $mess .= $this->WARN(
 "Found a setting for $legacyLoggerFilenames[0] in LocalSite.cfg, so I have automatically selected the Compatibility logger. "
-        );
+                );
             }
         }
     }

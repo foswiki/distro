@@ -77,7 +77,7 @@ sub resetPassword {
     }
 
     # Parameters have been checked, check the validation key
-    Foswiki::UI::checkValidationKey( $session );
+    Foswiki::UI::checkValidationKey($session);
 
     # Collect all messages into one string
     my $message = '';
@@ -304,34 +304,36 @@ sub changePasswordAndOrEmail {
             topic  => $topic,
             def    => 'not_a_user',
             params => [$login]
-           );
+        );
     }
 
     # check valid email addresses - space between each
     if ( defined $email
-           && $email !~ /($Foswiki::regex{emailAddrRegex}\s*)+/ ) {
+        && $email !~ /($Foswiki::regex{emailAddrRegex}\s*)+/ )
+    {
         throw Foswiki::OopsException(
             'attention',
             web    => $webName,
             topic  => $topic,
             def    => 'bad_email',
             params => [$email]
-           );
+        );
     }
 
     if ( $changePass
-           && length($passwordA) < $Foswiki::cfg{MinPasswordLength} ) {
+        && length($passwordA) < $Foswiki::cfg{MinPasswordLength} )
+    {
         throw Foswiki::OopsException(
             'attention',
             web    => $webName,
             topic  => $topic,
             def    => 'bad_password',
             params => [ $Foswiki::cfg{MinPasswordLength} ]
-           );
+        );
     }
 
     # Parameters have been checked, check the validation key
-    Foswiki::UI::checkValidationKey( $session );
+    Foswiki::UI::checkValidationKey($session);
 
     if ( defined $email ) {
 

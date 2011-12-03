@@ -2,7 +2,7 @@
 package Foswiki::Plugins::JQueryPlugin::Plugin;
 
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
-use Foswiki::Func ();
+use Foswiki::Func                           ();
 
 use strict;
 use warnings;
@@ -38,8 +38,11 @@ sub new {
     # backwards compatibility: the session param is deprecated now
     if ( ref( $_[0] ) =~ /^Foswiki/ ) {
         my ( $package, $file, $line ) = caller;
+
         # emit a deprecation warning
-        print STDERR "$package constructor called with deprecated session object in $file:$line\n" if DEBUG;
+        print STDERR
+"$package constructor called with deprecated session object in $file:$line\n"
+          if DEBUG;
         shift;    # ... it off the args
     }
 
@@ -105,9 +108,11 @@ sub init {
     }
 
     # gather dependencies
-    my @dependencies = ('JQUERYPLUGIN::FOSWIKI');    # jquery.foswiki is in there by default
+    my @dependencies =
+      ('JQUERYPLUGIN::FOSWIKI');    # jquery.foswiki is in there by default
     foreach my $dep ( @{ $this->{dependencies} } ) {
-        if ( $dep =~ /^(JQUERYPLUGIN|JavascriptFiles)/ ) { # SMELL: there are some jquery modules that depend on non-jquery code
+        if ( $dep =~ /^(JQUERYPLUGIN|JavascriptFiles)/ )
+        {  # SMELL: there are some jquery modules that depend on non-jquery code
             push @dependencies, $dep;
         }
         else {

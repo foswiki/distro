@@ -100,7 +100,7 @@ editable, 0 otherwise.
 sub notWysiwygEditable {
 
     #my ($text, $exclusions) = @_;
-    my $disabled = wysiwygEditingDisabledForThisContent($_[0], $_[1]);
+    my $disabled = wysiwygEditingDisabledForThisContent( $_[0], $_[1] );
     return $disabled if $disabled;
 
     # Check that the topic text can be converted to HTML. This is an
@@ -113,6 +113,7 @@ sub notWysiwygEditable {
 }
 
 sub wysiwygEditingDisabledForThisContent {
+
     #my ($text, $exclusions) = @_;
 
     my $exclusions = $_[1];
@@ -168,7 +169,7 @@ sub wysiwygEditingDisabledForThisContent {
 
     # Look for combinations of sticky and other markup that cause
     # problems together
-    for my $tag ( 'literal' ) {
+    for my $tag ('literal') {
         while ( $text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
             my $inner = $1;
             if ( $inner =~ /<sticky\b[^>]*>/i ) {
@@ -189,7 +190,7 @@ sub wysiwygEditingDisabledForThisContent {
 
     # Look for combinations of verbatim and other markup that cause
     # problems together
-    for my $tag ( 'literal') {
+    for my $tag ('literal') {
         while ( $text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
             my $inner = $1;
             if ( $inner =~ /$wasAVerbatimTag/i ) {

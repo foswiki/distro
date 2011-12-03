@@ -18,14 +18,16 @@ sub QUERY {
     # Either the home-made cache there should go into Meta so that both
     # FORMFIELD and QUERY benefit, or the store should be made a lot smarter.
 
-    if (defined $rev) {
+    if ( defined $rev ) {
         my $crev = $topicObject->getLoadedRev();
-        if (defined $crev && $crev != $rev) {
-            $topicObject = Foswiki::Meta->load(
-                $topicObject->session,
-                $topicObject->web, $topicObject->topic, $rev);
+        if ( defined $crev && $crev != $rev ) {
+            $topicObject =
+              Foswiki::Meta->load( $topicObject->session, $topicObject->web,
+                $topicObject->topic, $rev );
         }
-    } elsif (!$topicObject->latestIsLoaded()) {
+    }
+    elsif ( !$topicObject->latestIsLoaded() ) {
+
         # load latest rev
         $topicObject = $topicObject->load();
     }

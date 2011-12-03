@@ -8,7 +8,8 @@ use Unit::TestSuite;
 our @ISA = 'Unit::TestSuite';
 
 sub include_tests {
-    return qw(TopicUserMappingContribTests TopicUserMappingTests TopicUserMappingAsGuestTests);
+    return
+      qw(TopicUserMappingContribTests TopicUserMappingTests TopicUserMappingAsGuestTests);
 }
 
 1;

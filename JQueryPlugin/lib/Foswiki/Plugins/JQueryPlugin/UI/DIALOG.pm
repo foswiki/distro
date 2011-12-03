@@ -27,12 +27,12 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'UI::Dialog',
-            version    => '1.8.16',
-            puburl      => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
-            author      => 'see http://jqueryui.com/about',
-            homepage    => 'http://docs.jquery.com/UI/Dialog',
-            javascript => ['jquery.ui.dialog.init.js'],
+            name         => 'UI::Dialog',
+            version      => '1.8.16',
+            puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
+            author       => 'see http://jqueryui.com/about',
+            homepage     => 'http://docs.jquery.com/UI/Dialog',
+            javascript   => ['jquery.ui.dialog.init.js'],
             dependencies => [ 'ui', ],
         ),
         $class

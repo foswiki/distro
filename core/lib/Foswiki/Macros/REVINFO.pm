@@ -19,9 +19,13 @@ sub REVINFO {
 
     ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
     my $loadedRev = $topicObject->getLoadedRev();
-    if ( $web ne $topicObject->web || $topic ne $topicObject->topic
-           || !defined($loadedRev) || $loadedRev ne $rev) {
+    if (   $web ne $topicObject->web
+        || $topic ne $topicObject->topic
+        || !defined($loadedRev)
+        || $loadedRev ne $rev )
+    {
         $topicObject = Foswiki::Meta->new( $this, $web, $topic );
+
         # haveAccess will try to load the object on the fly, so make sure
         # it is loaded if rev is defined
         $topicObject->load($rev) if ($rev);

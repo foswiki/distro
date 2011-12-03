@@ -590,7 +590,7 @@ sub renderForDisplay {
 
     my $text = $templates->expandTemplate('FORM:display:header');
 
-    my $rowTemplate = $templates->expandTemplate('FORM:display:row');
+    my $rowTemplate        = $templates->expandTemplate('FORM:display:row');
     my $hasAllFieldsHidden = 1;
     foreach my $fieldDef ( @{ $this->{fields} } ) {
         my $fm = $topicObject->get( 'FIELD', $fieldDef->{name} );
@@ -607,7 +607,7 @@ sub renderForDisplay {
         }
     }
     return '' if $hasAllFieldsHidden;
-    
+
     $text .= $templates->expandTemplate('FORM:display:footer');
 
     # substitute remaining placeholders in footer and header

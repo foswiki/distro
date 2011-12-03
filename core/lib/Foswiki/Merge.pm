@@ -235,18 +235,21 @@ sub simpleMerge {
 
 sub _sAcceptA {
     my ( $a, $b, $out, $ai, $bi ) = @_;
+
     #print "DIFF AcceptA ($ai->[$a]) ($bi->[$b]) \n";
     push( @$out, ' ' . $ai->[$a] );
 }
 
 sub _sDiscardA {
     my ( $a, $b, $out, $ai, $bi ) = @_;
+
     #print "DIFF DiscardA ($ai->[$a]) ($bi->[$b]) \n";
     push( @$out, '-' . $ai->[$a] );
 }
 
 sub _sDiscardB {
     my ( $a, $b, $out, $ai, $bi ) = @_;
+
     #print "DIFF DiscardB ($ai->[$a]) ($bi->[$b]) \n";
     push( @$out, '+' . $bi->[$b] ) unless $bi->[$b] eq "\n";
 }
@@ -254,6 +257,7 @@ sub _sDiscardB {
 sub _sChange {
     my ( $a, $b, $out, $ai, $bi ) = @_;
     my $simpleInsert = 0;
+
     #print "DIFF Change ($ai->[$a]) ($bi->[$b]) \n";
     if ( $ai->[$a] =~ /\S/ ) {
 

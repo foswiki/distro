@@ -169,10 +169,10 @@ switch tot he next Web (only works on partition==web, and if we've already start
 
 sub nextWeb {
     my $this = shift;
-    
-    ASSERT($this->{partition} eq 'web') if DEBUG;
-    ASSERT($this->{list}) if DEBUG;
-    
+
+    ASSERT( $this->{partition} eq 'web' ) if DEBUG;
+    ASSERT( $this->{list} ) if DEBUG;
+
     $this->{list} = undef;
     $this->hasNext();
 }
@@ -197,7 +197,7 @@ sub sortResults {
 
 sub filterByDate {
     my ( $this, $date ) = @_;
- 
+
     foreach my $infocache ( @{ $this->{Itr_list} } ) {
         $infocache->filterByDate($date);
     }

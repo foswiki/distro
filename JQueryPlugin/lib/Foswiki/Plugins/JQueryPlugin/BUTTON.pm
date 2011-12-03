@@ -71,7 +71,8 @@ sub handleButton {
     my $theType        = $params->{type} || 'button';
 
     $theId = "id='$theId'" if $theId;
-    $theClass =~ s/\b(simple|cyan|red|green|right|center)\b/'jqButton'.ucfirst($1)/ge;
+    $theClass =~
+      s/\b(simple|cyan|red|green|right|center)\b/'jqButton'.ucfirst($1)/ge;
 
     my $theIcon;
     $theIcon =
@@ -153,11 +154,11 @@ sub handleButton {
 
 # local version
 sub _encode {
-  my $text = shift;
+    my $text = shift;
 
-  $text =~ s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_])/'&#'.ord($1).';'/ge;
+    $text =~ s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_])/'&#'.ord($1).';'/ge;
 
-  return $text;
+    return $text;
 }
 
 1;

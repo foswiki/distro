@@ -351,7 +351,7 @@ sub _imgsize {
             elsif ($a == 0xFF
                 && $b == 0xD8
                 && $c == 0xFF
-                && ($d == 0xE0 || $d == 0xE1) )
+                && ( $d == 0xE0 || $d == 0xE1 ) )
             {
 
                 #  JPG ff d8 ff e0/e1

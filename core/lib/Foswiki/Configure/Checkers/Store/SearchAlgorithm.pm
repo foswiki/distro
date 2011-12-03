@@ -19,9 +19,10 @@ error was: $@
 EOF
         }
     }
-    if ( ($^O eq 'MSWin32') and 
-        ($Foswiki::cfg{Store}{SearchAlgorithm} =~ /Forking/ )) {
-            $mess .= $this->ERROR(<<EOF);
+    if (    ( $^O eq 'MSWin32' )
+        and ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /Forking/ ) )
+    {
+        $mess .= $this->ERROR(<<EOF);
 Forking (grep based Search) does not work well on Windows, please use PurePerl.
 EOF
     }

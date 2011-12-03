@@ -33,7 +33,7 @@ sub new {
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             javascript   => ['jquery.foswiki.js'],
-            dependencies => ['JQUERYPLUGIN', 'livequery'],
+            dependencies => [ 'JQUERYPLUGIN', 'livequery' ],
             tags         => 'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
         ),
         $class
@@ -58,26 +58,36 @@ sub init {
     # get exported prefs
     my $prefs = Foswiki::Func::getPreferencesValue('EXPORTEDPREFERENCES') || '';
 
-    # try a little harder for foswiki engines < 1.1 
-    if ($Foswiki::Plugins::VERSION < 2.1) {
+    # try a little harder for foswiki engines < 1.1
+    if ( $Foswiki::Plugins::VERSION < 2.1 ) {
 
-      # defaults since foswiki >= 1.1.0
-      $prefs = 'PUBURL, PUBURLPATH, SCRIPTSUFFIX, SCRIPTURL, SCRIPTURLPATH, SERVERTIME, SKIN, SYSTEMWEB, TOPIC, USERNAME, USERSWEB, WEB, WIKINAME, WIKIUSERNAME, NAMEFILTER';
-      $prefs .= ', TWISTYANIMATIONSPEED' if $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled}; # can't use context during init
+        # defaults since foswiki >= 1.1.0
+        $prefs =
+'PUBURL, PUBURLPATH, SCRIPTSUFFIX, SCRIPTURL, SCRIPTURLPATH, SERVERTIME, SKIN, SYSTEMWEB, TOPIC, USERNAME, USERSWEB, WEB, WIKINAME, WIKIUSERNAME, NAMEFILTER';
+        $prefs .= ', TWISTYANIMATIONSPEED'
+          if $Foswiki::cfg{Plugins}{TwistyPlugin}
+              {Enabled};    # can't use context during init
     }
 
     # init NAMEFILTER
-    unless(Foswiki::Func::getPreferencesValue('NAMEFILTER')) {
-      Foswiki::Func::setPreferencesValue('NAMEFILTER', $Foswiki::cfg{NameFilter});
+    unless ( Foswiki::Func::getPreferencesValue('NAMEFILTER') ) {
+        Foswiki::Func::setPreferencesValue( 'NAMEFILTER',
+            $Foswiki::cfg{NameFilter} );
     }
 
     # add exported preferences to head
     my $text = '';
-    foreach my $pref (split(/\s*,\s*/, $prefs)) {
-      $text .= '<meta name="foswiki.'.$pref.'" content="%ENCODE{"%'.$pref.'%"}%" />'." <!-- $pref -->\n";
+    foreach my $pref ( split( /\s*,\s*/, $prefs ) ) {
+        $text .=
+            '<meta name="foswiki.' 
+          . $pref
+          . '" content="%ENCODE{"%'
+          . $pref
+          . '%"}%" />'
+          . " <!-- $pref -->\n";
     }
 
-    Foswiki::Func::addToZone("head", "JQUERYPLUGIN::FOSWIKI::META", $text);
+    Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::FOSWIKI::META", $text );
 }
 
 1;

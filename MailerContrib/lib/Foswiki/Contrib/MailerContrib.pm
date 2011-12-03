@@ -355,8 +355,8 @@ sub _sendChangesMails {
 
     my $mailtmpl = Foswiki::Func::expandTemplate('MailNotifyBody');
     $mailtmpl =
-      Foswiki::Func::expandCommonVariables(
-          $mailtmpl, $Foswiki::cfg{HomeTopicName}, $web );
+      Foswiki::Func::expandCommonVariables( $mailtmpl,
+        $Foswiki::cfg{HomeTopicName}, $web );
     if ( $Foswiki::cfg{RemoveImgInMailnotify} ) {
 
         # change images to [alt] text if there, else remove image
@@ -399,45 +399,50 @@ sub _sendChangesMails {
 }
 
 sub _generateChangeDetail {
-    my ($email, $changeset, $style, $web) = @_;
+    my ( $email, $changeset, $style, $web ) = @_;
 
     my @wns = Foswiki::Func::emailToWikiNames($email);
-    my @ep = ($Foswiki::cfg{HomeTopicName}, $web);
+    my @ep = ( $Foswiki::cfg{HomeTopicName}, $web );
 
     # If there is only one user with this email, we can load preferences
     # for them by expanding preferences in the context of their home
     # topic.
-    if ( scalar(@wns) == 1 && Foswiki::Func::topicExists(
-        $Foswiki::cfg{UsersWebName}, $wns[0])
-           && defined &Foswiki::Meta::load ) {
-        my ($ww, $wt) = Foswiki::Func::normalizeWebTopicName(undef, $wns[0]);
-        my $userTopic = Foswiki::Meta->load(
-            $Foswiki::Plugins::SESSION, $ww, $wt);
+    if (   scalar(@wns) == 1
+        && Foswiki::Func::topicExists( $Foswiki::cfg{UsersWebName}, $wns[0] )
+        && defined &Foswiki::Meta::load )
+    {
+        my ( $ww, $wt ) =
+          Foswiki::Func::normalizeWebTopicName( undef, $wns[0] );
+        my $userTopic =
+          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $ww, $wt );
         my $uStyle = $userTopic->getPreference('PREFERRED_MAIL_CHANGE_FORMAT');
         $style = $uStyle if $uStyle && $uStyle =~ /^(HTML|PLAIN|DIFF)$/;
     }
 
-    my $template = Foswiki::Func::expandTemplate($style.':middle');
-    my $text = '';
+    my $template = Foswiki::Func::expandTemplate( $style . ':middle' );
+    my $text     = '';
     foreach my $change ( sort { $a->{TIME} cmp $b->{TIME} }
-                           @{ $changeset->{$email} } ) {
-        if ($style eq 'HTML') {
+        @{ $changeset->{$email} } )
+    {
+        if ( $style eq 'HTML' ) {
             $text .= Foswiki::Func::expandCommonVariables(
-                $change->expandHTML($template), @ep);
-        } elsif ($style eq 'PLAIN') {
+                $change->expandHTML($template), @ep );
+        }
+        elsif ( $style eq 'PLAIN' ) {
             $text .= Foswiki::Func::expandCommonVariables(
-                $change->expandPlain($template), @ep);
-        } elsif ($style eq 'DIFF') {
+                $change->expandPlain($template), @ep );
+        }
+        elsif ( $style eq 'DIFF' ) {
+
             # Note: no macro expansion; this is a verbatim format
-            $text  .= $change->expandDiff($template);
+            $text .= $change->expandDiff($template);
         }
     }
-    return
-      Foswiki::Func::expandCommonVariables(
-          Foswiki::Func::expandTemplate($style.':before'), @ep)
-          . $text
-            . Foswiki::Func::expandCommonVariables(
-                Foswiki::Func::expandTemplate($style.':after'), @ep);
+    return Foswiki::Func::expandCommonVariables(
+        Foswiki::Func::expandTemplate( $style . ':before' ), @ep )
+      . $text
+      . Foswiki::Func::expandCommonVariables(
+        Foswiki::Func::expandTemplate( $style . ':after' ), @ep );
 }
 
 sub relativeURL {

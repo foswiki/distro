@@ -13,8 +13,8 @@ sub check {
     my $e = $this->guessMajorDir( 'ScriptDir', 'bin' );
     $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{ScriptDir} );
 
-    $e .= $this->showExpandedValue($Foswiki::cfg{ScriptDir})
-	if $Foswiki::cfg{ScriptDir} =~ /\$Foswiki::cfg/;
+    $e .= $this->showExpandedValue( $Foswiki::cfg{ScriptDir} )
+      if $Foswiki::cfg{ScriptDir} =~ /\$Foswiki::cfg/;
 
     my $e2 = _checkBinDir( $this, $this->getCfg("{ScriptDir}") );
     $e .= $e2 if $e2;
@@ -50,6 +50,7 @@ HERE
 $script appears to have a suffix ($1), no script suffix is configured - please check it.
 HERE
         }
+
         #  Verify that scripts are executable
         if (   $^O ne 'MSWin32'
             && $script !~ /\.cfg$/

@@ -8,9 +8,11 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
-    my ($this, $value) = @_;
+    my ( $this, $value ) = @_;
 
-    return $this->NOTE("This plugin is part of the MailerContrib, and must be enabled for mail notification from the browser to work");
+    return $this->NOTE(
+"This plugin is part of the MailerContrib, and must be enabled for mail notification from the browser to work"
+    );
 }
 
 1;

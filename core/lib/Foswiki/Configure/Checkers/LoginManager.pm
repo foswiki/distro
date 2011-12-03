@@ -37,7 +37,7 @@ this, you are recommended to turn {UseClientSessions} on.
 HERE
     }
     if ( $Foswiki::cfg{LoginManager} =~ /ApacheLogin$/
-        && ($Foswiki::cfg{Htpasswd}{Encoding} eq 'md5') )
+        && ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) )
     {
         $e .= $this->WARN(<<'HERE');
 Combining ApacheLogin and md5 password encoding requires the foswiki 

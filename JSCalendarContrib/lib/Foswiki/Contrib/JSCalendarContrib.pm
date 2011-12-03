@@ -213,21 +213,20 @@ sub addHEAD {
 HERE
     Foswiki::Func::addToZone( 'head', 'JSCalendarContrib/css', $css );
 
-    Foswiki::Func::addToZone(
-        'script', 'JSCalendarContrib/calendar',
-        "<script type='text/javascript' src='$base/calendar.js'></script>");
+    Foswiki::Func::addToZone( 'script', 'JSCalendarContrib/calendar',
+        "<script type='text/javascript' src='$base/calendar.js'></script>" );
 
     Foswiki::Func::addToZone(
-        'script', 'JSCalendarContrib/calendar-lang',
-        "<script type='text/javascript' src='$base/lang/calendar-$lang.js'></script>",
-        'JSCalendarContrib/calendar');
+        'script',
+        'JSCalendarContrib/calendar-lang',
+"<script type='text/javascript' src='$base/lang/calendar-$lang.js'></script>",
+        'JSCalendarContrib/calendar'
+    );
 
     # Add the setup separately; there might be different setups required
     # in a single HTML page.
-    Foswiki::Func::addToZone(
-        'script', "JSCalendarContrib/$setup",
-        "<script type='text/javascript' src='$base/$setup.js'></script>"
-       );
+    Foswiki::Func::addToZone( 'script', "JSCalendarContrib/$setup",
+        "<script type='text/javascript' src='$base/$setup.js'></script>" );
 }
 
 1;

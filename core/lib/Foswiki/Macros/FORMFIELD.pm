@@ -9,8 +9,7 @@ sub FORMFIELD {
     if ( $args->{topic} ) {
         my $web = $args->{web} || $topicObject->web;
         my $topic = $args->{topic};
-        ( $web, $topic ) =
-          $this->normalizeWebTopicName( $web, $topic );
+        ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
         $topicObject = new Foswiki::Meta( $this, $web, $topic );
     }
     else {

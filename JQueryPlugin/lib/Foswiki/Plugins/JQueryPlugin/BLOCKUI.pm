@@ -31,8 +31,8 @@ sub new {
             version    => '2.39',
             author     => 'M. Alsup',
             homepage   => 'http://malsup.com/jquery/block/',
-            css => ['jquery.blockUI.css'],
-            javascript => ['jquery.blockUI.js', 'jquery.blockUI.init.js'],
+            css        => ['jquery.blockUI.css'],
+            javascript => [ 'jquery.blockUI.js', 'jquery.blockUI.init.js' ],
         ),
         $class
     );

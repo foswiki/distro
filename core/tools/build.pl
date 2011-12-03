@@ -47,9 +47,10 @@ sub new {
         print
 "detected git installation at $gitdir\n*Note: svn will still be used to query the Repository for the list of release tags.\n";
 
-        # Verify that all files are committed and all commits are dcommmited to svn 
+     # Verify that all files are committed and all commits are dcommmited to svn
         my $gitstatus = `git status -uno`;
-        die "***\nuncommitted changes in tree - build aborted\n***\n$gitstatus\n"
+        die
+          "***\nuncommitted changes in tree - build aborted\n***\n$gitstatus\n"
           if ( $gitstatus =~ m/(modified:)|(new file:)|(deleted:)/ );
         my $gitlog = `git log -1`;
         die "***\n*** changes not yet dcommited - build aborted\n***\n$gitlog\n"

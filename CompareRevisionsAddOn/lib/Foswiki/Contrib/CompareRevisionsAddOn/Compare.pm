@@ -293,15 +293,14 @@ sub compare {
 
     $output .= $tmpl_after;
 
-# Break circular references to avoid memory leaks. (Tasks:9127)
+    # Break circular references to avoid memory leaks. (Tasks:9127)
     $tree1 = $tree1->parent() while defined $tree1->parent();
     $tree1->delete();
     $tree2 = $tree2->parent() while defined $tree2->parent();
     $tree2->delete();
-    
+
     $session->writeCompletePage( $output, 'view' );
-    $session->logEvent( 'compare', $webName . '.' . $topic,
-            "$rev1 $rev2" );
+    $session->logEvent( 'compare', $webName . '.' . $topic, "$rev1 $rev2" );
 
 }
 
@@ -319,7 +318,8 @@ sub _getTree {
     $text .= "\n" . '%META{"attachments"}%';
 
     $session->enterContext( 'can_render_meta', $meta );
-    $text = Foswiki::Func::expandCommonVariables( $text, $topicName, $webName, $meta );
+    $text = Foswiki::Func::expandCommonVariables( $text, $topicName, $webName,
+        $meta );
     $text = Foswiki::Func::renderText( $text, $webName );
 
     $text =~ s/^\s*//;

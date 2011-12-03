@@ -17,7 +17,7 @@ BEGIN {
     eval {
         require Foswiki::Configure::Util;
         1;
-      }
+    }
       or die
 "Please run this script as follows:\n\n perl -I /path/to/foswiki/lib rewriteshebang.pl\n  e.g. perl -I ../lib rewriteshebang.pl\n\n $@\n";
 }

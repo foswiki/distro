@@ -9,13 +9,14 @@ use Cwd;
 my $PORT = 8080;
 
 # calculate paths
-my $foswiki_core = Cwd::abs_path( File::Spec->catdir( dirname(__FILE__), '..' ) );
+my $foswiki_core =
+  Cwd::abs_path( File::Spec->catdir( dirname(__FILE__), '..' ) );
 chomp $foswiki_core;
 my $conffile = $foswiki_core . '/working/tmp/lighttpd.conf';
 
-my $mime_mapping=q(include_shell "/usr/share/lighttpd/create-mime.assign.pl");
-if( ! -e  "/usr/share/lighttpd/create-mime.assign.pl" ) {
-$mime_mapping = q(mimetype.assign             = \(
+my $mime_mapping = q(include_shell "/usr/share/lighttpd/create-mime.assign.pl");
+if ( !-e "/usr/share/lighttpd/create-mime.assign.pl" ) {
+    $mime_mapping = q(mimetype.assign             = \(
   ".rpm"          =>      "application/x-rpm",
   ".pdf"          =>      "application/pdf",
   ".sig"          =>      "application/pgp-signature",
@@ -71,13 +72,15 @@ $mime_mapping = q(mimetype.assign             = \(
   ".tar.bz2"      =>      "application/x-bzip-compressed-tar",
   # default mime type
   ""              =>      "application/octet-stream",
- \)) ;
+ \));
 }
 
 # write configuration file
-open(CONF, '>', $conffile) or die("!! Cannot write configuration. Check write permissions to $conffile!");
+open( CONF, '>', $conffile )
+  or
+  die("!! Cannot write configuration. Check write permissions to $conffile!");
 print CONF "server.document-root = \"$foswiki_core\"\n";
-print CONF  <<EOC
+print CONF <<EOC
 server.modules = (
    "mod_rewrite",
    "mod_cgi"
@@ -92,7 +95,7 @@ $mime_mapping
 url.rewrite-repeat = ( "^/?(index.*)?\$" => "/bin/view/Main" )
 \$HTTP["url"] =~ "^/bin" { cgi.assign = ( "" => "" ) }
 EOC
-;;
+  ;
 close(CONF);
 
 # print banner
@@ -101,11 +104,12 @@ print "Foswiki Development Server\n";
 system('lighttpd -v 2>/dev/null');
 print "Server root: $foswiki_core\n";
 print "************************************************************\n";
-print "Browse to http://localhost:$PORT/bin/configure to configure your Foswiki\n";
-print "Browse to http://localhost:$PORT/bin/view to start testing your Foswiki checkout\n";
+print
+  "Browse to http://localhost:$PORT/bin/configure to configure your Foswiki\n";
+print
+"Browse to http://localhost:$PORT/bin/view to start testing your Foswiki checkout\n";
 print "Hit Control-C at any time to stop\n";
 print "************************************************************\n";
-
 
 # execute lighttpd
 system("lighttpd -f $conffile -D");

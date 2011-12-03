@@ -99,7 +99,7 @@ in =configure= for the named theme.
 =cut
 
 sub createTheme {
-    my ($themeName, $url) = @_;
+    my ( $themeName, $url ) = @_;
 
     $themeName ||= $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
     return 0 unless $themeName;
@@ -107,9 +107,9 @@ sub createTheme {
     my $normalizedName = lc($themeName);
 
     unless ($url) {
-      my $themeDesc = $themes{$normalizedName};
-      return 0 unless defined $themeDesc;
-      $url = $themeDesc->{url};
+        my $themeDesc = $themes{$normalizedName};
+        return 0 unless defined $themeDesc;
+        $url = $themeDesc->{url};
     }
 
     Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::THEME",
@@ -131,11 +131,10 @@ Helper method to register a plugin.
 sub registerPlugin {
     my ( $pluginName, $class ) = @_;
 
-    $class ||= 
-	$Foswiki::cfg{JQueryPlugin}{Plugins}{$pluginName}{Module} ||
-	'Foswiki::Plugins::JQueryPlugin::' . uc($pluginName);
+    $class ||= $Foswiki::cfg{JQueryPlugin}{Plugins}{$pluginName}{Module}
+      || 'Foswiki::Plugins::JQueryPlugin::' . uc($pluginName);
 
-    Foswiki::Func::getContext()->{$pluginName.'Enabled'} = 1;
+    Foswiki::Func::getContext()->{ $pluginName . 'Enabled' } = 1;
 
     return $plugins{ lc($pluginName) } = {
         'class'    => $class,
@@ -158,14 +157,15 @@ sub registerTheme {
     my $normalizedName = lc($themeName);
 
     $url ||= $Foswiki::cfg{JQueryPlugin}{Themes}{$themeName}{Url}
-      || '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/' . $normalizedName . '/jquery-ui.css';
+      || '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/'
+      . $normalizedName
+      . '/jquery-ui.css';
 
-    return $themes{ $normalizedName } = {
+    return $themes{$normalizedName} = {
         'url'  => $url,
         'name' => $themeName,
     };
 }
-
 
 =begin TML
 

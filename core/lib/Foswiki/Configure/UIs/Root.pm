@@ -22,18 +22,18 @@ use warnings;
 use Foswiki::Configure::UI ();
 
 use Foswiki::Configure::UIs::Section ();
-use Foswiki::Configure::Visitor (); # pure virtual base class
+use Foswiki::Configure::Visitor ();    # pure virtual base class
 
-our @ISA = ('Foswiki::Configure::UIs::Section',
-            'Foswiki::Configure::Visitor');
+our @ISA =
+  ( 'Foswiki::Configure::UIs::Section', 'Foswiki::Configure::Visitor' );
 
 sub new {
     my $class = shift;
 
     my $this = $class->SUPER::new(@_);
-    $this->{tabs} = [];
-    $this->{message} = 
-     '';    # Set to contain the results of the prior save, or other messages to display on next iteration
+    $this->{tabs}    = [];
+    $this->{message} = ''
+      ; # Set to contain the results of the prior save, or other messages to display on next iteration
 
     return $this;
 }
@@ -50,9 +50,9 @@ If called with a message, sets and returns the message, otherwise just returns t
 
 sub messages {
     my ( $this, $message ) = @_;
-    if (defined $message && $message ) {
-       $this->{message} = $message;
-       }
+    if ( defined $message && $message ) {
+        $this->{message} = $message;
+    }
     return $this->{message};
 }
 

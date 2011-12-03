@@ -111,7 +111,7 @@ sub _getSession {
     # So configure can still work if LDAP or other extensions are not functional
     $Foswiki::cfg{PasswordManager}    = 'none';
     $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
-    $Foswiki::cfg{Cache}{Enabled} = 0;
+    $Foswiki::cfg{Cache}{Enabled}     = 0;
 
     my $session = new Foswiki($user);
 
@@ -284,11 +284,15 @@ sub _uninstall {
 
     my $session = $this->_getSession();
 
-    my $pkg =
-      new Foswiki::Configure::Package( $installRoot, $extension, $session,
-        { SIMULATE => $simulate,
-          USELOCAL => 1,
-        } );
+    my $pkg = new Foswiki::Configure::Package(
+        $installRoot,
+        $extension,
+        $session,
+        {
+            SIMULATE => $simulate,
+            USELOCAL => 1,
+        }
+    );
 
     # For uninstall, set repository in case local installer is not found
     # it can be downloaded to recover the manifest
@@ -317,7 +321,6 @@ sub _uninstall {
         _printFeedback($feedback);
         return;
     }
-
 
     _printFeedback($feedback);
 }

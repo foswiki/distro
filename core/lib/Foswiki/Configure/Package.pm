@@ -44,7 +44,6 @@ use Foswiki::Configure::Dependency;
 use Foswiki::Configure::Util;
 use File::stat;
 
-
 our $VERSION = '$Rev: 6590 $';
 
 my $depwarn = '';    # Pass back warnings from untaint validation routine
@@ -96,10 +95,11 @@ sub new {
             _dependency => \@deps,
             _routines   => undef,
             _repository => undef,
-            _loaded     => undef,    # Flag set if loadInstaller is complete
-            _errors     => undef,    # Collected errors
-            _logfile    => undef,    # Log filename for results of requested action
-            _messages   => undef,    # Messages returned to caller from requested action
+            _loaded     => undef, # Flag set if loadInstaller is complete
+            _errors     => undef, # Collected errors
+            _logfile    => undef, # Log filename for results of requested action
+            _messages =>
+              undef,    # Messages returned to caller from requested action
         },
         $class
     );
@@ -198,7 +198,7 @@ Default name:  NameOfPackage-[action]-yyyymmdd-hhmmss.log
 sub logfile {
     my ( $this, $options ) = @_;
 
-    if (defined $this->{_logfile}) {
+    if ( defined $this->{_logfile} ) {
         return $this->{_logfile} unless defined $options;
     }
 
@@ -208,11 +208,20 @@ sub logfile {
     }
 
     my $action = ( defined $options->{action} ) ? $options->{action} : 'run';
-    my $path = ( defined $options->{path} ) ? $options->{path} : "$Foswiki::cfg{Log}{Dir}/configure";
-    my $timestamp = Foswiki::Time::formatTime( time() , '$year$mo$day-$hours$minutes$seconds' );
+    my $path =
+      ( defined $options->{path} )
+      ? $options->{path}
+      : "$Foswiki::cfg{Log}{Dir}/configure";
+    my $timestamp =
+      Foswiki::Time::formatTime( time(),
+        '$year$mo$day-$hours$minutes$seconds' );
 
-    $this->{_logfile} = $path . '/' . $this->pkgname() . '-' . $timestamp .'-' . $action . '.log';
-    Foswiki::Configure::Load::expandValue($this->{_logfile});
+    $this->{_logfile} =
+        $path . '/'
+      . $this->pkgname() . '-'
+      . $timestamp . '-'
+      . $action . '.log';
+    Foswiki::Configure::Load::expandValue( $this->{_logfile} );
 
     return $this->{_logfile};
 }
@@ -232,10 +241,10 @@ sub log {
         if ( $markup eq 'h' ) {
             $this->{_messages} .= "\n===== $message ====\n";
         }
-        elsif ($markup eq 'pre' ){
-            $this->{_messages} .= "\n$message\n"
+        elsif ( $markup eq 'pre' ) {
+            $this->{_messages} .= "\n$message\n";
         }
-        elsif ($markup eq 'warn') {
+        elsif ( $markup eq 'warn' ) {
             $this->{_messages} .= "\n*WARNING* $message \n";
         }
         else {
@@ -246,24 +255,28 @@ sub log {
         if ( $markup eq 'h' ) {
             $this->{_messages} .= "<h3 style='margin-top:0'>$message</h3>";
         }
-        elsif ($markup eq 'pre' ){
-            $this->{_messages} .= "<pre>$message</pre>"
+        elsif ( $markup eq 'pre' ) {
+            $this->{_messages} .= "<pre>$message</pre>";
         }
-        elsif ($markup eq 'warn' ) {
-            $this->{_messages} .= CGI::div( { class => 'foswikiAlert configureWarn' },
-                    CGI::span( {}, CGI::strong( {}, 'Warning: ' ) . join( "\n", $message ) ) );
+        elsif ( $markup eq 'warn' ) {
+            $this->{_messages} .= CGI::div(
+                { class => 'foswikiAlert configureWarn' },
+                CGI::span(
+                    {}, CGI::strong( {}, 'Warning: ' ) . join( "\n", $message )
+                )
+            );
         }
         else {
-            $this->{_messages} .= "$message<br />"
+            $this->{_messages} .= "$message<br />";
         }
     }
 
     # Don't actually write any logs if simulating the install
-    return if ($this->{_options}->{SIMULATE} );
+    return if ( $this->{_options}->{SIMULATE} );
 
-
-    unless (-e $this->logfile()) {
-        my @path = split( /[\/\\]+/, $this->logfile(), -1 );    # -1 allows directories
+    unless ( -e $this->logfile() ) {
+        my @path =
+          split( /[\/\\]+/, $this->logfile(), -1 );    # -1 allows directories
         pop(@path);
         if ( scalar(@path) ) {
             umask( oct(777) - $Foswiki::cfg{RCS}{dirPermission} );
@@ -278,12 +291,16 @@ sub log {
     }
     else {
         if ( !-w $this->logfile() ) {
-            die
-"ERROR: Could not open logfile " .  $this->logfile() . " for write. Your admin should 'configure' now and fix the errors!\n";
+            die "ERROR: Could not open logfile "
+              . $this->logfile()
+              . " for write. Your admin should 'configure' now and fix the errors!\n";
         }
 
         # die to force the admin to get permissions correct
-        die 'ERROR: Could not write ' . $message . ' to ' . $this->logfile() . ": $!\n";
+        die 'ERROR: Could not write ' 
+          . $message . ' to '
+          . $this->logfile()
+          . ": $!\n";
     }
 
 }
@@ -330,13 +347,13 @@ sub install {
 
     $this->logfile( { action => 'Install' } );
 
-    $this->log("Installing $this->{_pkgname}", 'h');
+    $this->log( "Installing $this->{_pkgname}", 'h' );
 
     unless ( $this->{_loaded} ) {
         ( $rslt, $err ) = $this->loadInstaller()
           ;    # Recover the manifest from the _installer file
         if ($rslt) {
-            $this->log( "Loading package installer" );
+            $this->log("Loading package installer");
             $this->log( $rslt, 'pre' );
             $rslt = '';
         }
@@ -357,8 +374,8 @@ sub install {
     $rslt .= "====== MISSING ========\n$missing\n"   if ($missing);
 
     if ($rslt) {
-        $this->log( "Dependency Report for $this->{_pkgname} ...");
-        $this->log( $rslt, 'pre');
+        $this->log("Dependency Report for $this->{_pkgname} ...");
+        $this->log( $rslt, 'pre' );
         $rslt = '';
     }
 
@@ -366,18 +383,19 @@ sub install {
     my $depCPAN;       # hashref to hash of cpan dependency names
     unless ( $this->{_options}->{NODEPS} ) {
         ( $rslt, $depPlugins, $depCPAN ) = $this->installDependencies();
+
         # Don't log these results - each package uses it's own logfile
         $this->{_messages} .= $rslt;
     }
 
-    $this->log( "Creating Backup of $this->{_pkgname} ...");
+    $this->log("Creating Backup of $this->{_pkgname} ...");
     ( $rslt, $err ) =
       $this->createBackup();    # Create a backup of the previous install if any
     if ($err) {
         $this->{_errors} .= $err;
-        $this->log( $err, 'pre');
+        $this->log( $err, 'pre' );
     }
-    $this->log( $rslt, 'pre');
+    $this->log( $rslt, 'pre' );
     $rslt = '';
 
     my %plugins;
@@ -388,9 +406,9 @@ sub install {
         $this->loadExits();
 
         unless ( $this->{_options}->{SIMULATE} ) {
-            $this->log( "Running Pre-install exit for $this->{_pkgname} ...");
+            $this->log("Running Pre-install exit for $this->{_pkgname} ...");
             $rslt = $this->preinstall() || '';
-            $this->log( $rslt, 'pre');
+            $this->log( $rslt, 'pre' );
             $rslt = '';
         }
 
@@ -398,14 +416,14 @@ sub install {
         ( $rslt, $err ) = $this->_install();    # and do the installation
         $this->{_errors} .= $err if ($err);
 
-        $this->log( "Installing $this->{_pkgname}...");
-        $this->log( $rslt, 'pre');
+        $this->log("Installing $this->{_pkgname}...");
+        $this->log( $rslt, 'pre' );
         $rslt = '';
 
         unless ( $this->{_options}->{SIMULATE} || $err ) {
-            $this->log( "Running Post-install exit for $this->{_pkgname}...");
+            $this->log("Running Post-install exit for $this->{_pkgname}...");
             $rslt = $this->postinstall() || '';
-            $this->log( $rslt,'pre');
+            $this->log( $rslt, 'pre' );
             $rslt = '';
         }
     }
@@ -422,7 +440,8 @@ sub install {
     if ( keys %plugins && !$this->{_options}->{SIMULATE} ) {
         $this->log(
 "Before you can use newly installed plugins, you must enable them in the Enabled Plugins section in configure.",
-        'warn');
+            'warn'
+        );
         foreach my $plu ( sort { lc($a) cmp lc($b) } keys %plugins ) {
             $rslt .= "$plu \n";
         }
@@ -478,7 +497,8 @@ sub _install {
         {                   # no extension found - need to download the package
             ( $err, $tmpfilename ) = $this->_fetchFile('.tgz');
             if ($err) {
-                $feedback .= "Download failure fetching .tgz file - $err\n Trying .zip file\n";
+                $feedback .=
+"Download failure fetching .tgz file - $err\n Trying .zip file\n";
             }
 
             unless ( $tmpfilename && !$err )
@@ -604,7 +624,8 @@ sub _install {
         "$pkgstore/$this->{_pkgname}_installer"
     );
     $errors .= $err if ($err);
-    $feedback .= "${simulated}Installed:  $this->{_pkgname}_installer to $pkgstore\n";
+    $feedback .=
+      "${simulated}Installed:  $this->{_pkgname}_installer to $pkgstore\n";
 
     return ( $feedback, $errors );
 
@@ -766,11 +787,12 @@ sub createBackup {
                 File::Path::mkpath( join( '/', @path ) )
                   unless ( $this->{_options}->{SIMULATE} );
                 my $mode = $fstat->mode;
-                  #( stat($file) )[2];    # File::Copy doesn't copy permissions
+
+                #( stat($file) )[2];    # File::Copy doesn't copy permissions
                 File::Copy::copy( "$file", "$pkgstore/$tofile" )
                   unless ( $this->{_options}->{SIMULATE} );
                 $mode =~ /(.*)/;
-                $mode = $1;              #yes, we must untaint
+                $mode = $1;    #yes, we must untaint
                 chmod( $mode, "$pkgstore/$tofile" )
                   unless ( $this->{_options}->{SIMULATE} );
             }
@@ -899,13 +921,13 @@ sub uninstall {
 
     $this->logfile( { action => 'Uninstall' } );
 
-    $this->log("uninstalling $this->{_pkgname}", 'h');
+    $this->log( "uninstalling $this->{_pkgname}", 'h' );
 
     unless ( $this->{_loaded} ) {
         ( $rslt, $err ) = $this->loadInstaller()
           ;    # Recover the manifest from the _installer file
         if ($rslt) {
-            $this->log( "Loading package installer" );
+            $this->log("Loading package installer");
             $this->log( $rslt, 'pre' );
             $rslt = '';
         }
@@ -917,22 +939,22 @@ sub uninstall {
           ;    # Don't try to continue if installer could not be loaded.
     }
 
-    $this->log( "Creating Backup of $this->{_pkgname} ...");
+    $this->log("Creating Backup of $this->{_pkgname} ...");
     ( $rslt, $err ) =
       $this->createBackup();    # Create a backup of the previous install if any
     if ($err) {
         $this->{_errors} .= $err;
-        $this->log( $err, 'pre');
+        $this->log( $err, 'pre' );
     }
-    $this->log( $rslt, 'pre');
+    $this->log( $rslt, 'pre' );
     $rslt = '';
 
     $this->loadExits();
 
     unless ( $this->{_options}->{SIMULATE} ) {
-        $this->log( "Running Pre-uninstall exit for $this->{_pkgname} ...");
+        $this->log("Running Pre-uninstall exit for $this->{_pkgname} ...");
         $rslt = $this->preuninstall() || '';
-        $this->log( $rslt, 'pre');
+        $this->log( $rslt, 'pre' );
         $rslt = '';
     }
 
@@ -979,34 +1001,35 @@ sub uninstall {
     my @plugins;
     my $unpackedFeedback = '';
 
-    foreach my $file ( sort @removed) {
+    foreach my $file ( sort @removed ) {
         $unpackedFeedback .= "$file\n";
         my ($plugName) = $file =~ m/.*\/Plugins\/([^\/]+Plugin)\.pm$/;
         push( @plugins, $plugName ) if $plugName;
     }
-    $this->log( "Removed files:" );
-    $this->log( $unpackedFeedback, 'pre');
+    $this->log("Removed files:");
+    $this->log( $unpackedFeedback, 'pre' );
 
     unless ( $this->{_options}->{SIMULATE} ) {
-        $this->log( "Running Post-uninstall exit for $this->{_pkgname} ...");
+        $this->log("Running Post-uninstall exit for $this->{_pkgname} ...");
         $rslt = $this->postuninstall() || '';
-        $this->log( $rslt, 'pre');
+        $this->log( $rslt, 'pre' );
         $rslt = '';
     }
 
     if ( scalar @plugins && !$simulate ) {
-        $this->log( "Don't forget to disable uninstalled plugins in the
+        $this->log(
+            "Don't forget to disable uninstalled plugins in the
 \"Plugins\" section in the main page, listed below:
 ",
-'warn' );
+            'warn'
+        );
 
-        foreach my $plugName (sort @plugins) {
+        foreach my $plugName ( sort @plugins ) {
             $rslt .= "$plugName \n" if $plugName;
         }
         $this->log( $rslt, 'pre' );
         $rslt = '';
     }
-
 
     return $this->{_messages};
 }
@@ -1055,13 +1078,14 @@ sub loadInstaller {
     my $file;
     my $err;
 
-    my $downloadstore  = "$Foswiki::cfg{WorkingDir}/configure/download";
-    my $pkgstore  = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
-    my $extension = $this->{_pkgname};
-    my $warn      = '';
+    my $downloadstore = "$Foswiki::cfg{WorkingDir}/configure/download";
+    my $pkgstore      = "$Foswiki::cfg{WorkingDir}/configure/pkgdata";
+    my $extension     = $this->{_pkgname};
+    my $warn          = '';
     local $/ = "\n";
 
     if ($uselocal) {
+
         #  The root for manually downloaded extensions
         if ( -e "$temproot/${extension}_installer" ) {
             $file = "$temproot/${extension}_installer";
@@ -1069,22 +1093,25 @@ sub loadInstaller {
         elsif ( -e "$temproot/${extension}_installer.pl" ) {
             $file = "$temproot/${extension}_installer.pl";
         }
+
         #  The download directory for previously downloaded extensions
         elsif ( -e "$downloadstore/${extension}_installer" ) {
             $file = "$downloadstore/${extension}_installer";
         }
+
         #  The pkgdata directory for previously installed extensions
         elsif ( -e "$pkgstore/${extension}_installer" ) {
             $file = "$pkgstore/${extension}_installer";
         }
         else {
-        $warn .= "Unable to find $extension locally in $temproot ...";
+            $warn .= "Unable to find $extension locally in $temproot ...";
         }
     }
 
     if ($file) {
         my $sb = stat("$file");
-        $warn .= "Using local $file, Size: "
+        $warn .=
+            "Using local $file, Size: "
           . $sb->size
           . " Modified: "
           . scalar localtime( $sb->mtime )
@@ -1279,19 +1306,22 @@ sub _parseManifest {
 
     if ( $file =~ m/^data\/.*/ ) {
         ( $tweb, $ttopic ) = $file =~ /^data\/(.*)\/(.*?).txt$/;
-        unless (length ($tweb) > 0 && length($ttopic) > 0) {
+        unless ( length($tweb) > 0 && length($ttopic) > 0 ) {
             my $err = "$file is not a topic - file will be bypassed\n";
             return $err;
         }
     }
     if ( $file =~ m/^pub\/.*/ ) {
         ( $tweb, $ttopic, $tattach ) = $file =~ /^pub\/(.*)\/(.*?)\/([^\/]+)$/;
-        unless (length ($tweb) > 0 && length($ttopic) > 0 && length($tattach) > 0) {
-            my $err = "Unable to identify attachment $file name or location - file will be bypassed\n";
+        unless ( length($tweb) > 0
+            && length($ttopic) > 0
+            && length($tattach) > 0 )
+        {
+            my $err =
+"Unable to identify attachment $file name or location - file will be bypassed\n";
             return $err;
         }
     }
-
 
     $this->{_manifest}->{$file}->{ci}    = ( $desc =~ /\(noci\)/ ? 0 : 1 );
     $this->{_manifest}->{$file}->{perms} = $perms;
@@ -1367,7 +1397,7 @@ sub _parseDependency {
         }
         else {
             $warn .=
-                'This '
+                'This ' 
               . $trigger
               . ' condition does not look safe and is being disabled.' . "\n";
             $warn .=
@@ -1495,7 +1525,6 @@ sub installDependencies {
     }
     return ( $rslt, \%pluglist, \%cpanlist );
 }
-
 
 =begin TML
 ---++ ObjectMethod _fetchFile  ( $this, $ext )

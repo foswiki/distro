@@ -120,7 +120,8 @@ sub load {
         _parse( $file, $root, $haveLSC );
     }
     if ($haveLSC) {
-	# Blot out specs from the template EmptyPlugin
+
+        # Blot out specs from the template EmptyPlugin
         my %read = ( EmptyPlugin => 1 );
         foreach my $dir (@INC) {
             _loadSpecsFrom( "$dir/Foswiki/Plugins", $root, \%read );
@@ -236,7 +237,7 @@ sub _parse {
 
     open( F, '<', $file ) || return '';
     local $/ = "\n";
-    my $open = undef; # current setting or section
+    my $open = undef;    # current setting or section
     my @settings;
     my $sectionNum = 0;
 
@@ -259,16 +260,18 @@ sub _parse {
                 _pusht( \@settings, $open );
                 $open = undef;
             }
+
             # If there is already a UI object for
             # these keys, we don't need to add another. But if there
             # isn't, we do.
             if ( !$open ) {
                 next if $root->getValueObject($keys);
-		# A pluggable may have already added an entry for these keys
+
+                # A pluggable may have already added an entry for these keys
                 next if ( _getValueObject( $keys, \@settings ) );
 
-		# This is an untyped value.
-		$open = new Foswiki::Configure::Value('UNKNOWN');
+                # This is an untyped value.
+                $open = new Foswiki::Configure::Value('UNKNOWN');
             }
             $open->set( keys => $keys );
             _pusht( \@settings, $open );
@@ -277,7 +280,7 @@ sub _parse {
 
         elsif ( $l =~ /^#\s*\*([A-Z]+)\*/ ) {
 
-	    # *FINDEXTENSIONS*
+            # *FINDEXTENSIONS*
             my $pluggable = $1;
             my $p         = Foswiki::Configure::Pluggable::load($pluggable);
             if ($p) {
@@ -285,7 +288,8 @@ sub _parse {
                 $open = $p;
             }
             elsif ($open) {
-		# Not recognised
+
+                # Not recognised
                 $l =~ s/^#\s?//;
                 $open->addToDesc($l);
             }
@@ -302,7 +306,8 @@ sub _parse {
         }
 
         elsif ( $l =~ /^#\s?(.*)$/ ) {
-	    # Bog standard comment
+
+            # Bog standard comment
             $open->addToDesc($1) if $open;
         }
     }

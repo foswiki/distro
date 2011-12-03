@@ -66,6 +66,7 @@ sub view {
             $session->{response}->redirect( $cachedPage->{location} );
         }
         else {
+
             # See Item9941 to understand why do not set status when 200
             $session->{response}->status($status) unless $status eq 200;
         }
@@ -114,7 +115,8 @@ sub view {
         $topicObject = Foswiki::Meta->load( $session, $web, $topic );
         Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
 
-        $revIt  = $topicObject->getRevisionHistory();
+        $revIt = $topicObject->getRevisionHistory();
+
         # The topic exists; it must have at least one rev
         ASSERT( $revIt->hasNext() ) if DEBUG;
         $maxRev = $revIt->next();
@@ -372,7 +374,7 @@ sub view {
                     -class    => 'foswikiTextarea foswikiTextareaRawView',
                     -id       => 'topic',
                     -default  => $text
-                   );
+                );
             }
         }
         else {

@@ -220,7 +220,7 @@ BLAH
 BLAH
     },
     {
-        exec => $TML2HTML | $ROUNDTRIP,
+        exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'VerbatimInsideDot',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -239,16 +239,16 @@ digraph G {
 </dot>
 DOT
         html => '<p>'
-            . $protecton
-            . '&lt;dot&gt;<br />'
-            . 'digraph&nbsp;G&nbsp{<br />'
-            . '&nbsp;&nbsp;&nbsp;&nbsp;open&nbsp;[label="&lt;verbatim&gt;"];<br />'
-            . '&nbsp;&nbsp;&nbsp;&nbsp;content&nbsp;[label="Put&nbsp;arbitrary&nbsp;content&nbsp;here"];<br />'
-            . '&nbsp;&nbsp;&nbsp;&nbsp;close&nbsp;[label="&lt;/verbatim&gt;"];<br />'
-            . '&nbsp;&nbsp;&nbsp;&nbsp;open&nbsp;-&gt;&nbsp;content&nbsp-&gt;&nbsp;close;<br />'
-            . '}<br />'
-            . '&lt;/dot&gt;'
-            . $protectoff . '</p>',
+          . $protecton
+          . '&lt;dot&gt;<br />'
+          . 'digraph&nbsp;G&nbsp{<br />'
+          . '&nbsp;&nbsp;&nbsp;&nbsp;open&nbsp;[label="&lt;verbatim&gt;"];<br />'
+          . '&nbsp;&nbsp;&nbsp;&nbsp;content&nbsp;[label="Put&nbsp;arbitrary&nbsp;content&nbsp;here"];<br />'
+          . '&nbsp;&nbsp;&nbsp;&nbsp;close&nbsp;[label="&lt;/verbatim&gt;"];<br />'
+          . '&nbsp;&nbsp;&nbsp;&nbsp;open&nbsp;-&gt;&nbsp;content&nbsp-&gt;&nbsp;close;<br />'
+          . '}<br />'
+          . '&lt;/dot&gt;'
+          . $protectoff . '</p>',
     },
     {
         exec  => $TML2HTML | $ROUNDTRIP,
@@ -269,7 +269,7 @@ DOT
           . '</div>' . '</p>'
     },
     {
-        exec  =>  $TML2HTML | $ROUNDTRIP,
+        exec  => $TML2HTML | $ROUNDTRIP,
         name  => 'StickyInsideCustomtag',
         setup => sub {
             $extraTML2HTMLOptions{xmltag} =
@@ -389,8 +389,7 @@ HERE
           . '&lt;mytag&nbsp;attr="value"&gt;my&nbsp;content&lt;/mytag&gt;<br />'
           . '&lt;img&nbsp;src=&quot;http://mysite.org/logo.png&quot;&nbsp;alt=&quot;Alternate&nbsp;text&quot;&nbsp;/&gt;<br />'
           . '&lt;/customtag&gt;'
-          . $protectoff
-          . '</p>'
+          . $protectoff . '</p>'
     },
     {
         exec  => $TML2HTML | $ROUNDTRIP,
@@ -775,11 +774,13 @@ HERE
 HERE
     },
     {
-        name => 'preserveNoExistingTags',
-        setup =>
-          sub { Foswiki::Func::setPreferencesValue( 'WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS', ',' ); },
+        name  => 'preserveNoExistingTags',
+        setup => sub {
+            Foswiki::Func::setPreferencesValue(
+                'WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS', ',' );
+        },
         exec => $ROUNDTRIP,
-        tml => <<'HERE',
+        tml  => <<'HERE',
 <div class="bumblebee">
 
 | <span class="foo">apple *pie* slice</span> shelf |
@@ -790,11 +791,13 @@ HERE
 CLEANED
     },
     {
-        name => 'preserveDefaultExistingTags',
-        setup =>
-          sub { Foswiki::Func::setPreferencesValue( 'WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS', '' ); },
+        name  => 'preserveDefaultExistingTags',
+        setup => sub {
+            Foswiki::Func::setPreferencesValue(
+                'WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS', '' );
+        },
         exec => $ROUNDTRIP,
-        tml => <<'HERE',
+        tml  => <<'HERE',
 <div class="bumblebee">
 
 | <span class="foo">apple *pie* slice</span> shelf |

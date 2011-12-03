@@ -94,17 +94,20 @@ sub handleTab {
     if ($beforeHandler) {
 
         #    $beforeHandler =~ s/'/\\'/go;
-        push @metaData, "beforeHandler: function(oldTabId, newTabId) {$beforeHandler}";
+        push @metaData,
+          "beforeHandler: function(oldTabId, newTabId) {$beforeHandler}";
     }
     if ($afterHandler) {
 
         #    $afterHandler =~ s/'/\\'/go;
-        push @metaData, "afterHandler: function(oldTabId, newTabId) {$afterHandler}";
+        push @metaData,
+          "afterHandler: function(oldTabId, newTabId) {$afterHandler}";
     }
     if ($afterLoadHandler) {
 
         #    $afterLoadHandler =~ s/'/\\'/go;
-        push @metaData, "afterLoadHandler: function(oldTabId, newTabId) {$afterLoadHandler}";
+        push @metaData,
+          "afterLoadHandler: function(oldTabId, newTabId) {$afterLoadHandler}";
     }
     if ($container) {
         push @metaData, "container: '$container'";

@@ -34,24 +34,21 @@ sub check {
         return $mess;    # guess will return message if a guess is made.
     }
 
-    $mess .= $this->showExpandedValue($Foswiki::cfg{WorkingDir});
+    $mess .= $this->showExpandedValue( $Foswiki::cfg{WorkingDir} );
 
     unless ( -d $d ) {
         mkdir( untaint($d), oct(755) )
-          || return $mess . $this->ERROR(
-"$d does not exist, and I can't create it: $!"
-          );
+          || return $mess
+          . $this->ERROR( "$d does not exist, and I can't create it: $!" );
         $mess .= $this->NOTE("Created $d");
     }
 
     unless ( -d "$d/tmp" ) {
         if ( -e "$d/tmp" ) {
-            $mess .= $this->ERROR(
-"$d/tmp already exists, but is not a directory"
-            );
+            $mess .=
+              $this->ERROR( "$d/tmp already exists, but is not a directory" );
         }
-        elsif ( !mkdir( untaint("$d/tmp"), oct(1777) ) )
-        {
+        elsif ( !mkdir( untaint("$d/tmp"), oct(1777) ) ) {
             $mess .= $this->ERROR("Could not create $d/tmp");
         }
         else {
@@ -62,19 +59,13 @@ sub check {
     unless ( -d "$d/work_areas" ) {
         if ( -e "$d/work_areas" ) {
             $mess .= $this->ERROR(
-"$d/work_areas already exists, but is not a directory"
-            );
+                "$d/work_areas already exists, but is not a directory" );
         }
-        elsif (
-            !mkdir( untaint("$d/work_areas"), oct(755) )
-          )
-        {
-            $mess .= $this->ERROR(
-                "Could not create $d/work_areas");
+        elsif ( !mkdir( untaint("$d/work_areas"), oct(755) ) ) {
+            $mess .= $this->ERROR("Could not create $d/work_areas");
         }
         else {
-            $mess .=
-              $this->NOTE("Created $d/work_areas");
+            $mess .= $this->NOTE("Created $d/work_areas");
         }
     }
 
@@ -84,9 +75,7 @@ sub check {
     if ( $existing && -d $existing ) {
 
         # Try and move the contents of the old workarea
-        my $e =
-          $this->copytree( untaint($existing),
-            untaint("$d/work_areas") );
+        my $e = $this->copytree( untaint($existing), untaint("$d/work_areas") );
         if ($e) {
             $mess .= $this->ERROR($e);
         }
@@ -107,22 +96,14 @@ the upgrade." );
 "$d/registration_approvals already exists, but is not a directory"
             );
         }
-        elsif (
-            !mkdir(
-                untaint("$d/registration_approvals"),
-                oct(755)
-            )
-          )
-        {
-            $mess .= $this->ERROR(
-"Could not create $d/registration_approvals"
-            );
+        elsif ( !mkdir( untaint("$d/registration_approvals"), oct(755) ) ) {
+            $mess .=
+              $this->ERROR( "Could not create $d/registration_approvals" );
         }
     }
 
     #umask($saveumask);
-    my $e = $this->checkTreePerms( $d,
-        'rw', qr/configure\/backup\/|README/ );
+    my $e = $this->checkTreePerms( $d, 'rw', qr/configure\/backup\/|README/ );
     $mess .= $this->ERROR($e) if $e;
 
     return $mess;

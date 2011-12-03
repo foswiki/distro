@@ -30,9 +30,10 @@ sub ADDTOZONE {
     }
 
     foreach my $zone ( split( /\s*,\s*/, $zones ) ) {
-        if ($zone eq 'body') {
-          #print STDERR "WARNING: ADDTOZONE was called for zone 'body' ... rerouting it to zone 'script' ... please fix your templates\n";
-          $zone = 'script';
+        if ( $zone eq 'body' ) {
+
+#print STDERR "WARNING: ADDTOZONE was called for zone 'body' ... rerouting it to zone 'script' ... please fix your templates\n";
+            $zone = 'script';
         }
         $this->addToZone( $zone, $id, $text, $requires );
     }

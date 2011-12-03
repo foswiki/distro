@@ -22,11 +22,7 @@ use Foswiki::If::Node ();
 sub new {
     my ($class) = @_;
 
-    my $this = $class->SUPER::new(
-        {
-            nodeClass => 'Foswiki::If::Node',
-        }
-    );
+    my $this = $class->SUPER::new( { nodeClass => 'Foswiki::If::Node', } );
     die "{Operators}{If} is undefined; re-run configure"
       unless defined( $Foswiki::cfg{Operators}{If} );
     foreach my $op ( @{ $Foswiki::cfg{Operators}{If} } ) {

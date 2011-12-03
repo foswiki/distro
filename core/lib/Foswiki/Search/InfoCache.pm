@@ -67,7 +67,7 @@ sub isImmutable {
 
 sub addTopics {
     my ( $this, $defaultWeb, @list ) = @_;
-    
+
     ASSERT( !$this->isImmutable() )
       if DEBUG;    #cannot modify list once its being used as an iterator.
     ASSERT( defined($defaultWeb) ) if DEBUG;
@@ -85,7 +85,7 @@ sub addTopics {
 #TODO: or an infoCache obj..
 sub addTopic {
     my ( $this, $meta ) = @_;
-    
+
     ASSERT( !$this->isImmutable() )
       if DEBUG;    #cannot modify list once its being used as an iterator.
 
@@ -210,7 +210,7 @@ sub sortResults {
         #default to topic sorting
         $sortOrder = 'topic';
     }
-    sortTopics( $this->{list}, $sortOrder, !$revSort );    
+    sortTopics( $this->{list}, $sortOrder, !$revSort );
 }
 
 =begin TML
@@ -224,28 +224,29 @@ $infoCache->filterByDate( $date );
 </verbatim>
 
 =cut
+
 sub filterByDate {
     my ( $this, $date ) = @_;
-    
-    my $session   = $Foswiki::Plugins::SESSION;
-    
-	require Foswiki::Time;
-	my @ends       = Foswiki::Time::parseInterval($date);
-	my @resultList = ();
-	foreach my $webtopic ( @{ $this->{list} } ) {
 
-		# if date falls out of interval: exclude topic from result
-		my ( $web, $topic ) =
-		  Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb},
-			$webtopic );
-		my $topicdate = $session->getApproxRevTime( $web, $topic );
-		push( @resultList, $webtopic )
-		  unless ( $topicdate < $ends[0] || $topicdate > $ends[1] );
-	}
-	$this->{list} = \@resultList;
-	
-	# use this hack until numberOfTopics reads the length of list
-	$this->{count} = length @{$this->{list}};
+    my $session = $Foswiki::Plugins::SESSION;
+
+    require Foswiki::Time;
+    my @ends       = Foswiki::Time::parseInterval($date);
+    my @resultList = ();
+    foreach my $webtopic ( @{ $this->{list} } ) {
+
+        # if date falls out of interval: exclude topic from result
+        my ( $web, $topic ) =
+          Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb},
+            $webtopic );
+        my $topicdate = $session->getApproxRevTime( $web, $topic );
+        push( @resultList, $webtopic )
+          unless ( $topicdate < $ends[0] || $topicdate > $ends[1] );
+    }
+    $this->{list} = \@resultList;
+
+    # use this hack until numberOfTopics reads the length of list
+    $this->{count} = length @{ $this->{list} };
 }
 
 ######OLD methods

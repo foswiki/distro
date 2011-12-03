@@ -23,8 +23,9 @@ sub check {
         $report = $this->NOTE($n);
     }
 
-    $report .= $this->WARN("Userid and Password might be sent in clear text with chosen mail method $Foswiki::cfg{Email}{MailMethod}")
-      if ($Foswiki::cfg{Email}{MailMethod} eq 'Net::SMTP');
+    $report .= $this->WARN(
+"Userid and Password might be sent in clear text with chosen mail method $Foswiki::cfg{Email}{MailMethod}"
+    ) if ( $Foswiki::cfg{Email}{MailMethod} eq 'Net::SMTP' );
 
     return $report;
 }

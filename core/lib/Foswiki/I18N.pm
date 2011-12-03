@@ -48,7 +48,7 @@ sub available_languages {
 # also renove any character there is not a letter [a-z] or a hyphen.
 sub _normalize_language_tag {
     my $tag = shift;
-    $tag = lc($tag || '');
+    $tag = lc( $tag || '' );
     $tag =~ s/\_/-/g;
     $tag =~ s/[^a-z-]//g;
     return $tag;
@@ -102,8 +102,9 @@ BEGIN {
         my $langFile = "$Foswiki::cfg{LocalesDir}/$lang.po";
 
         # Use the compressed version if it exists
-        if( $langFile =~ m/^(.*)\.po$/
-            && -f "$1.mo" ) {
+        if ( $langFile =~ m/^(.*)\.po$/
+            && -f "$1.mo" )
+        {
             $langFile = "$1.mo";
         }
         if ( -f $langFile ) {
@@ -309,14 +310,17 @@ sub _discover_languages {
     if ( open LANGUAGE, '<', "$Foswiki::cfg{WorkingDir}/languages.cache" ) {
         foreach my $line (<LANGUAGE>) {
             my ( $key, $name ) = split( '=', $line );
+
             # Filter on enabled languages
-            next unless ($Foswiki::cfg{Languages}{$key} &&
-                           $Foswiki::cfg{Languages}{$key}{Enabled});
+            next
+              unless ( $Foswiki::cfg{Languages}{$key}
+                && $Foswiki::cfg{Languages}{$key}{Enabled} );
             chop($name);
             _add_language( $this, $key, $name );
         }
     }
     else {
+
         # Rebuild the cache, filtering on enabled languages.
         open LANGUAGE, '>', "$Foswiki::cfg{WorkingDir}/languages.cache";
         foreach my $tag ( available_languages() ) {
@@ -324,9 +328,11 @@ sub _discover_languages {
             my $name = eval { $h->maketext("_language_name") } or next;
             $name = $this->toSiteCharSet($name);
             print LANGUAGE "$tag=$name\n";
+
             # Filter on enabled languages
-            next unless ($Foswiki::cfg{Languages}{$tag} &&
-                           $Foswiki::cfg{Languages}{$tag}{Enabled});
+            next
+              unless ( $Foswiki::cfg{Languages}{$tag}
+                && $Foswiki::cfg{Languages}{$tag}{Enabled} );
             _add_language( $this, $tag, $name );
         }
     }

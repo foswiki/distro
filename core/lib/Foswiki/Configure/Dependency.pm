@@ -481,7 +481,7 @@ sub _compare_extension_versions {
       # a migration to a version tuple, so return true to trigger an update
         return 1
           if ( $reqType eq 'tuple'
-            && $baseType  eq 'date');
+            && $baseType eq 'date' );
 
         if ( $reqType ne $baseType ) {
 

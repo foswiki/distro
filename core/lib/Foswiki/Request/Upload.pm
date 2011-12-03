@@ -54,8 +54,8 @@ sub finish {
     $this->tmpFileName =~ m{^([a-zA-Z0-9_\+ \'\":/.\$\\~-]+)$};
     my $file = $1;
     if ( scalar( unlink($file) ) != 1 ) {
-        ASSERT(0, "unable to unlink $file : $!") if DEBUG;
-        throw Error::Simple( "unable to unlink $file : $!" );
+        ASSERT( 0, "unable to unlink $file : $!" ) if DEBUG;
+        throw Error::Simple("unable to unlink $file : $!");
     }
     undef $this->{tmpname};
 }

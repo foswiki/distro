@@ -111,10 +111,10 @@ unless ( &$check_perl_module('Foswiki::Merge') ) {
 
 # Use the CLI engine, and change to minimal mapper and password manager
 # so that configure can run if the authentication contribs have problems
-$Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
-$Foswiki::cfg{PasswordManager} = 'none';
+$Foswiki::cfg{Engine}             = 'Foswiki::Engine::CLI';
+$Foswiki::cfg{PasswordManager}    = 'none';
 $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
-$Foswiki::cfg{Cache}{Enabled} = 0;
+$Foswiki::cfg{Cache}{Enabled}     = 0;
 
 unless ( eval { require Foswiki } ) {
     _stop("Can't load Foswiki: $@");
@@ -258,16 +258,23 @@ sub _loadInstaller {
         pub  => "$PACKAGES_URL/"
     };
 
-    my $fromDir = dirname(abs_path($0));
+    my $fromDir = dirname( abs_path($0) );
 
     _inform "Package repository set to $PACKAGES_URL \n";
     _inform
 " ... locally found installer scripts and archives will be used if available"
       if ($reuseOK);
 
-    $thispkg =
-      new Foswiki::Configure::Package( "$installationRoot/", $MODULE, $session,
-        { SHELL => 1, USELOCAL => $reuseOK, SIMULATE => $simulate, DIR => $fromDir } );
+    $thispkg = new Foswiki::Configure::Package(
+        "$installationRoot/",
+        $MODULE, $session,
+        {
+            SHELL    => 1,
+            USELOCAL => $reuseOK,
+            SIMULATE => $simulate,
+            DIR      => $fromDir
+        }
+    );
     $thispkg->repository($repository);
 
     my ( $rslt, $err ) = $thispkg->loadInstaller()
@@ -369,10 +376,10 @@ sub _install {
         $path = $source . '::' . $type . '::' . $rootModule;
     }
 
-    my $selfDep =  new Foswiki::Configure::Dependency(
-           module      => $path,
-           type        => 'perl',
-       );
+    my $selfDep = new Foswiki::Configure::Dependency(
+        module => $path,
+        type   => 'perl',
+    );
 
     if ( $selfDep->studyInstallation() ) {
 
@@ -390,8 +397,10 @@ sub _install {
 
         if ($moduleVersion) {
             return 0
-              unless ask( "$MODULE version $moduleVersion is already installed."
-                  . " Are you sure you want to re-install this module?" );
+              unless ask(
+                          "$MODULE version $moduleVersion is already installed."
+                        . " Are you sure you want to re-install this module?"
+              );
         }
     }
 
@@ -514,7 +523,6 @@ sub install {
         usage();
         exit 0;
     }
-
 
     $reuseOK = ask(
 "Do you want to use locally found installer scripts and archives to install $MODULE and any dependencies.\nIf you reply n, then fresh copies will be downloaded from this repository."

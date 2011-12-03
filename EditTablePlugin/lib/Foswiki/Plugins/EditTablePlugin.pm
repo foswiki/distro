@@ -176,8 +176,8 @@ sub addViewModeHeadersToHead {
 @import url("%PUBURL%/%SYSTEMWEB%/EditTablePlugin/edittable.css");
 </style>
 EOF
-    Foswiki::Func::addToZone(
-        'head', 'EditTablePlugin/edittable.css', $header );
+    Foswiki::Func::addToZone( 'head', 'EditTablePlugin/edittable.css',
+        $header );
 }
 
 =begin TML
@@ -202,8 +202,7 @@ sub addEditModeHeadersToHead {
       . '<meta name="EDITTABLEPLUGIN_EditTableUrl" content="'
       . $ASSET_URL . '" />';
 
-    Foswiki::Func::addToZone(
-        'head', 'EditTablePlugin/Meta', $header );
+    Foswiki::Func::addToZone( 'head', 'EditTablePlugin/Meta', $header );
     addViewModeHeadersToHead();
     Foswiki::Func::addToZone( 'script', 'EditTablePlugin/edittable.js', <<JS);
 <script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/EditTablePlugin/edittable.js"></script>

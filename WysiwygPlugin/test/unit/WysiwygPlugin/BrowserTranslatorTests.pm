@@ -85,29 +85,33 @@ HERE
 THERE
     },
     {
-        name => 'numericEntityWithoutName',
-        exec => $TranslatorBase::ROUNDTRIP,
-        tml  => '&#9792;',
-        finaltml  =>  _siteCharsetIsUTF8() ? chr(9792) : '&#x2640;',
+        name     => 'numericEntityWithoutName',
+        exec     => $TranslatorBase::ROUNDTRIP,
+        tml      => '&#9792;',
+        finaltml => _siteCharsetIsUTF8() ? chr(9792) : '&#x2640;',
     },
     {
-        name => 'numericEntityWithName',
-        exec => $TranslatorBase::ROUNDTRIP,
-        tml  => '&#945;',
-        finaltml  => '&alpha;',
+        name     => 'numericEntityWithName',
+        exec     => $TranslatorBase::ROUNDTRIP,
+        tml      => '&#945;',
+        finaltml => '&alpha;',
     },
 
     # This test's finaltml is correct for ISO-8859-1 and ISO-8859-15,
     # but not necessarily any other charsets
-    ( ( not $Foswiki::cfg{Site}{CharSet} or
-        $Foswiki::cfg{Site}{CharSet} =~ /^iso-8859-15?$/i)
-    ? {
-        name => 'safeNamedEntity',
-        exec => $TranslatorBase::ROUNDTRIP,
-        tml  => '&Aring;',
-        finaltml  => chr(0xC5), 
-      }
-    : () ),
+    (
+        (
+            not $Foswiki::cfg{Site}{CharSet}
+              or $Foswiki::cfg{Site}{CharSet} =~ /^iso-8859-15?$/i
+        )
+        ? {
+            name     => 'safeNamedEntity',
+            exec     => $TranslatorBase::ROUNDTRIP,
+            tml      => '&Aring;',
+            finaltml => chr(0xC5),
+          }
+        : ()
+    ),
 
     {
         name => 'namedEntity',
@@ -149,8 +153,9 @@ HERE
     },
     {
         name => 'literalNbsp',
-        exec => $TranslatorBase::ROUNDTRIP, # SMELL: fails $TranslatorBase::TML2HTML
-        tml  => <<HERE,
+        exec =>
+          $TranslatorBase::ROUNDTRIP,   # SMELL: fails $TranslatorBase::TML2HTML
+        tml => <<HERE,
 <literal>&nbsp;</literal>
 HERE
         html => <<THERE,
@@ -185,8 +190,9 @@ test
 test
 </pre>
 HERE
+
         #SMELL: TMCE removes the newline after the <pre>
-        finaltml  => <<'HERE',
+        finaltml => <<'HERE',
 <pre>test
 test
 test
@@ -206,8 +212,9 @@ HERE
     },
     {
         name => "brTagInMacroFormat",
-        exec => $TranslatorBase::TML2HTML | $TranslatorBase::HTML2TML | $TranslatorBase::ROUNDTRIP,
-        tml  => <<'HERE',
+        exec => $TranslatorBase::TML2HTML | $TranslatorBase::HTML2TML |
+          $TranslatorBase::ROUNDTRIP,
+        tml => <<'HERE',
 %JQPLUGINS{"scrollto"
   format="
     Homepage: $homepage <br />
@@ -222,7 +229,7 @@ HERE
     },
 
     {    # Copied on 29 April 2010 from
-         # http://merlin.lavrsen.dk/foswiki10/bin/view/Myweb/NewLineEatingTest
+           # http://merlin.lavrsen.dk/foswiki10/bin/view/Myweb/NewLineEatingTest
          # and then split into multiple tests to make analysing the result managable
         name => 'KennethsNewLineEatingTest1',
         exec => $TranslatorBase::ROUNDTRIP,
@@ -473,7 +480,7 @@ sub DESTROY {
 # Item9170
 sub verify_editSaveTopicWithUnnamedUnicodeEntity {
     my $this = shift;
-    
+
     $this->{editor}->init();
 
     # Close the editor because this tests uses a different topic
@@ -481,30 +488,27 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
         $this->{editor}->cancelEdit();
     }
 
-    # \x{eb} is representable in 8-bit charsets. 
+    # \x{eb} is representable in 8-bit charsets.
     # In iso-8859-1 it is e-with-umluat, or &euml;
     # &#x2640 is a valid unicode character without a
     # common entity name
-    my $testText = "A \x{eb} B &#x2640; C";
+    my $testText     = "A \x{eb} B &#x2640; C";
     my $expectedText = $testText;
     if ( _siteCharsetIsUTF8() ) {
         $expectedText =~ s/\&\#x(\w+);/chr(hex($1))/ge;
-        $testText = Encode::encode_utf8($testText);
+        $testText     = Encode::encode_utf8($testText);
         $expectedText = Encode::encode_utf8($expectedText);
     }
 
     # Create the test topic
-    my $topicName = $this->{test_topic}."For9170";
-    my $topicObject = Foswiki::Meta->new(
-        $this->{session},
-        $this->{test_web},
-        $topicName,
-        "Before${testText}After\n");
+    my $topicName = $this->{test_topic} . "For9170";
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topicName,
+        "Before${testText}After\n" );
     $topicObject->save();
 
     # Open the test topic in the wysiwyg editor
-    $this->{editor}
-      ->openWysiwygEditor( $this->{test_web}, $topicName );
+    $this->{editor}->openWysiwygEditor( $this->{test_web}, $topicName );
 
     # Write rubbish over the topic, which will be overwritten on save
     $topicObject->text("Rubbish");
@@ -515,24 +519,21 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
     $this->{editor}->save();
 
     # Reload the topic and check that the content is as expected
-    $topicObject = Foswiki::Meta->new(
-        $this->{session},
-        $this->{test_web},
-        $topicName);
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topicName );
 
     my $text = $topicObject->text();
 
     # Isolate the portion of interest
-    $text =~ s/.*Before//ms or $this->assert(0, $text);
-    $text =~ s/After.*//ms or $this->assert(0, $text);
+    $text =~ s/.*Before//ms or $this->assert( 0, $text );
+    $text =~ s/After.*//ms  or $this->assert( 0, $text );
 
     # Showtime:
-    for ($expectedText, $text) {
+    for ( $expectedText, $text ) {
         s/([^\x20-\x7e])/sprintf "\\x{%X}", ord($1)/ge;
     }
-    $this->assert_str_equals($expectedText, $text);
+    $this->assert_str_equals( $expectedText, $text );
 }
-
 
 sub compareTML_HTML {
     my ( $this, $args ) = @_;

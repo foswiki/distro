@@ -143,11 +143,11 @@ sub renderForDisplay {
 
     # add a random suffix in case we have multiple formfields of the same type
     # on the same page
-    my $name = $this->{name} . int(rand(10000));
+    my $name = $this->{name} . int( rand(10000) );
     foreach my $item ( @{ $this->getOptions() } ) {
 
         $result .=
-            '<input type="radio" autocomplete="off" name="'
+            '<input type="radio" autocomplete="off" name="' 
           . $name . '" '
           . ' value="'
           . $item . '" ';

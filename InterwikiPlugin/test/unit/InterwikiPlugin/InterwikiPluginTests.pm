@@ -332,7 +332,8 @@ sub test_link_with_quoted_string {
 HERE
 
     Foswiki::Func::setPreferencesValue( "INTERWIKIPLUGIN_RULESTOPIC",
-        "$this->{test_web}.$localRulesTopic, $Foswiki::cfg{SystemWebName}.InterWikis " );
+"$this->{test_web}.$localRulesTopic, $Foswiki::cfg{SystemWebName}.InterWikis "
+    );
     Foswiki::Plugins::InterwikiPlugin::initPlugin(
         $this->{test_web},  $this->{test_topic},
         $this->{test_user}, $Foswiki::cfg{SystemWebName}
@@ -360,7 +361,7 @@ HERE
     $this->assert_html_equals(
 '<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Fork_%28software_development%29" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>Wikipedia:Fork_(software_development)</noautolink></a>',
         Foswiki::Func::renderText(
-          "Wikipedia:'Fork_(software_development)'",
+            "Wikipedia:'Fork_(software_development)'",
             $this->{test_web}
         )
     );

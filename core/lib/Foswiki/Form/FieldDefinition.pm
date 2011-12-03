@@ -268,7 +268,7 @@ sub populateMetaFromQueryData {
 
             # Default the value to the empty string (undef would result
             # in the old value being restored)
-            # Note: we test for 'defined' because value can also be 0 (zero) 
+            # Note: we test for 'defined' because value can also be 0 (zero)
             $value = $query->param( $this->{name} );
             $value = '' unless defined $value;
             if ( $this->{session}->inContext('edit') ) {

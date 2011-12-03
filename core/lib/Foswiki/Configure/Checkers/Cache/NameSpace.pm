@@ -12,7 +12,7 @@ sub check {
 
     if ( $Foswiki::cfg{Cache}{NameSpace} ) {
 
-        my $e .= $this->showExpandedValue($Foswiki::cfg{Cache}{NameSpace});
+        my $e .= $this->showExpandedValue( $Foswiki::cfg{Cache}{NameSpace} );
 
         return $e;
     }

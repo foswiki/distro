@@ -65,7 +65,7 @@ sub search {
 
 #TODO: need to BM if this is faster than doing it via an object in the MetaCache.
         my $file;
-        if (open( $file, '<', "$sDir/$topic.txt" )) {
+        if ( open( $file, '<', "$sDir/$topic.txt" ) ) {
             while ( my $line = <$file> ) {
                 if ( &$doMatch($line) ) {
                     chomp($line);
@@ -110,7 +110,8 @@ sub query {
         next unless $session->webExists($web);
 
         my $webObject = Foswiki::Meta->new( $session, $web );
-        my $thisWebNoSearchAll = Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
+        my $thisWebNoSearchAll =
+          Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
 
         # make sure we can report this web on an 'all' search
         # DON'T filter out unless it's part of an 'all' search.
@@ -132,9 +133,9 @@ sub query {
     # first filter, then sort the remaining
     my $date = $options->{'date'} || '';
     if ($date) {
-        $resultset->filterByDate( $date );
+        $resultset->filterByDate($date);
     }
-    
+
     #TODO: $options should become redundant
     $resultset->sortResults($options);
     return $resultset;

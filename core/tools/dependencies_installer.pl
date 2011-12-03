@@ -1038,34 +1038,34 @@ Please install programs manually or use another install method.
     }
 
     # Real installation
-        print "\nInstalling \"deb\" packages using command:\n";
-        if (`which aptitude`) {
-            print "aptitude install [packages]\n\n";
-            unless ( $> == 0 || $< == 0 ) {
-                my @args = ( "sudo", "aptitude", "install", @deb_inst_dir_fin );
-                system(@args);
-                &remove_sudo;
-            }
-            else {
-                my @args = ( "aptitude", "install", @deb_inst_dir_fin );
-                system(@args);
-            }
-        }
-        elsif (`which apt-get`) {
-            print "apt-get install [packages]\n\n";
-            unless ( $> == 0 || $< == 0 ) {
-                my @args = ( "sudo", "apt-get", "install", @deb_inst_dir_fin );
-                system(@args);
-                &remove_sudo;
-            }
-            else {
-                my @args = ( "apt-get", "install", @deb_inst_dir_fin );
-                system(@args);
-            }
+    print "\nInstalling \"deb\" packages using command:\n";
+    if (`which aptitude`) {
+        print "aptitude install [packages]\n\n";
+        unless ( $> == 0 || $< == 0 ) {
+            my @args = ( "sudo", "aptitude", "install", @deb_inst_dir_fin );
+            system(@args);
+            &remove_sudo;
         }
         else {
-            print "\nERROR: aptitude nor apt-get were found.\n";
+            my @args = ( "aptitude", "install", @deb_inst_dir_fin );
+            system(@args);
         }
+    }
+    elsif (`which apt-get`) {
+        print "apt-get install [packages]\n\n";
+        unless ( $> == 0 || $< == 0 ) {
+            my @args = ( "sudo", "apt-get", "install", @deb_inst_dir_fin );
+            system(@args);
+            &remove_sudo;
+        }
+        else {
+            my @args = ( "apt-get", "install", @deb_inst_dir_fin );
+            system(@args);
+        }
+    }
+    else {
+        print "\nERROR: aptitude nor apt-get were found.\n";
+    }
     &ask_cpan_install;
 }
 

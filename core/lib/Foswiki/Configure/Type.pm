@@ -41,7 +41,7 @@ Load the named type object
 =cut
 
 sub load {
-    my ($id, $keys)    = @_;
+    my ( $id, $keys ) = @_;
     my $typer = $knownTypes{$id};
     unless ($typer) {
         my $failinfo;
@@ -50,14 +50,15 @@ sub load {
         if ($@) {
             $failinfo = "**$id** could not be 'use'd";
             print STDERR "$failinfo: $@";
-        	$typeClass = 'Foswiki::Configure::Types::UNKNOWN';
-        	eval "use $typeClass";
+            $typeClass = 'Foswiki::Configure::Types::UNKNOWN';
+            eval "use $typeClass";
         }
         $typer = $typeClass->new($id);
         unless ($typer) {
+
             # unknown type - give it UNKNOWN behaviours
             $failinfo = "**$id** loaded, but the 'new' method returned undef";
-            $typer = new Foswiki::Configure::Types::UNKNOWN($id);
+            $typer    = new Foswiki::Configure::Types::UNKNOWN($id);
         }
         $typer->{failinfo} = $failinfo if defined $failinfo;
         $knownTypes{$id} = $typer;

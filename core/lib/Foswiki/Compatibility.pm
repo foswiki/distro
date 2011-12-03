@@ -119,8 +119,8 @@ May throw Foswiki::OopsException
 sub upgradeCategoryTable {
     my ( $session, $web, $topic, $meta, $text ) = @_;
 
-    my $icat = $session->templates->readTemplate( 'twikicatitems',
-                                                  no_oops => 1 );
+    my $icat =
+      $session->templates->readTemplate( 'twikicatitems', no_oops => 1 );
 
     if ($icat) {
         my @items = ();
