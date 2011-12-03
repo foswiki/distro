@@ -185,11 +185,13 @@
                 ? 'top' :'bottom';
         }
         // dragee and target are both TRs
-        var target_data = target.data('row_data');
-        var dragee_data = dragee.data('row_data');
+        var target_data = target.data('erp_data');
+        var dragee_data = dragee.data('erp_data');
         var old_pos = dragee_data.erp_active_row;
         var new_pos = target_data.erp_active_row;
-        var move_data = $.extend({}, target_data);
+	var table = container.closest('table');
+        var move_data = $.extend({ noredirect: 1 }, target_data,
+				 table.data('erp_data'));
         if (edge == 'bottom')
             new_pos++;
         
@@ -208,7 +210,7 @@
 
         // The request will update the entire container.
         $.ajax({
-            url: move_data.url,
+            url: foswiki.getPreference('SCRIPTURLPATH') + '/rest/EditRowPlugin/save',
             type: "POST",
             data: move_data,
             success: function(response) {
@@ -265,11 +267,15 @@
 
     var makeRowDraggable = function(tr) {
         // Add a "drag handle" element to the first cell of the row
-        tr.find("div.erpJS_container").first().find("a.erp_drag_button").each(
+        var container = tr.closest("thead,tbody,table");
+        tr.find("td").first().each(
             function () {
-                var container = tr.closest("thead,tbody,table");
-                var handle = $(this);
-                handle.addClass('ui-icon');
+		var handle = $("<a href='#' class='ui-icon-arrow-2-n-s erp_drag_button ui-icon' title='Click and drag to move row'>move</a>");
+		// Note we need the extra <div class="erpJS_container" for positioning.
+		// It is *not* sufficient to set the class on the td
+		var div = $("<div class='erpJS_container'></div>");
+		div.append(handle);
+		$(this).append(div);
                 handle.draggable({
                     // constrain to the containing table
                     containment: container,
@@ -294,27 +300,20 @@
             });
     };
 
-    var makeRowsDraggable = function(n, rows) {
-	var to = n + Math.min(200, rows.length - n);
-	while (n < to) {
-	    makeRowDraggable($(rows[n++]));
-	}
-	if (n < rows.length)
-	    window.setTimeout(makeRowsDraggable, 100, n, rows);
-    };
-
     var editControls = {
         onedit: function(settings, self) {
             // Hide the edit button
              $(self).next().hide();
         },
 
-        // use a function to get the submit data from the class
-        // attribute, because
-        // the row index may change if rows are moved/added/deleted
+        // use a function to get the submit data from the store
+        // because the row index may change if rows are moved/added/deleted
         submitdata: function(value, settings) {
-            var sd = $(this).data('cell_data').erp_data;
-            sd.erp_action = 'saveCell';
+            var sd = $.extend(
+		{ erp_action: "saveCell"},
+		$(this).data('erp_data'),
+		$(this).closest('tr').data('erp_data'),
+		$(this).closest('table').data('erp_data'));
             return sd;
         },
 
@@ -346,42 +345,76 @@
         onblur: 'cancel',
     };
 
-    var editCallback = function(value, settings, val2data) {
+    var editCallback = function(el, value, settings, val2data) {
         if (value.indexOf("RESPONSE") != 0) {
             // We got something other than a REST response -
             // probably an auth prompt. Need to edit the
             // login form and clear noredirect so that the
             // save knows to complete in an unRESTful way.
             // Note that this should really prompt in a pop-up dialog.
-            $(this).replaceWith($(value).find(
+            $(el).replaceWith($(value).find(
                 "form[name='loginform']"));
             $("form[name='loginform'] input[name='noredirect']")
                 .remove();
         } else {
             value = value.replace(/^RESPONSE/, '');
-            $(this).html(value);
+            $(el).html(value);
             if (val2data) {
                 // Add changed text (unexpanded) to settings
                 settings.data = value;
             }
-            this.isSubmitting = false;
-            $(this).parent().find('.erp_clock_button').remove();
-            $(this).next().show();
+            el.isSubmitting = false;
+            $(el).parent().find('.erp_clock_button').remove();
+            $(el).next().show();
         }
     };
 
     // callback for text edit controls
-    var textCallback = {
-        callback: function(value, settings) {
-            editCallback(value, settings, true);
-        }
+    var textCallback = function(value, settings) {
+        editCallback(this, value, settings, true);
     };
 
     // callback for all other types of control
-    var otherCallback = {
-        callback: function(value, settings) {
-            editCallback(value, settings, false);
-        }
+    var otherCallback = function(value, settings) {
+        editCallback(this, value, settings, false);
+    };
+
+    var attachEditControls = function(el) {
+	var p = el.data('erp_data');
+
+        if (!p || !p.type || p.type == 'label')
+	    return;
+
+	// Add edit trigger button (yellow stain)
+	// Note we need the extra <div class="erpJS_container" for positioning. It
+	// is *not* sufficient to set the class on the td
+	var div = $("<div class='erpJS_container'></div>");
+	var button = $('<div class="erpJS_editButton" title="Click to edit"></div>');
+	div.append(button);
+	el.closest("td").prepend(div);
+
+        // Action on edit cell
+        button.click(function() {
+            // Send the event to the span
+            el.triggerHandler('erp_edit');
+        });
+
+        // Attach the edit control functions. Delay this until we are hovered
+	// over.
+	var cb = (p.type == "text" || p.type == "textarea") ?
+	    textCallback : otherCallback;
+	p = $.extend(
+	    {
+		event: "erp_edit",
+		placeholder: '<div class="erp_empty"></div>',
+		callback: cb,
+		tooltip: ''
+	    },
+	    p,
+	    editControls
+	);
+	var url = foswiki.getPreference('SCRIPTURLPATH') + '/rest/EditRowPlugin/save';
+        el.editable(url, p);
     };
 
     var erp_dataDirty = false;
@@ -391,14 +424,62 @@
     // decorate the table with handlers for cell edit, row edit, and row move
     instrument = function(context) {
 
+	// Move metadata into $.data. We have to do this completely because
+	// table data is attached to only one cell, and that cell may not
+	// be the first in the table (for example, if it has been sorted
+	// away by the TablePlugin)
+        context.find('span.erpJS_cell').each(function(index, value) {
+
+            // Extract meta-data from the class attribute
+            var p, m, c = $(this).attr("class");
+            if (m = /({.*})/.exec(c)) {
+                p = eval('(' + m[1] + ')');
+                $(this).attr("class", c.replace(/\s*{.*}/, ''));
+            } else {
+                //alert("This should not fail");
+            }
+
+	    if (!p)
+		return;
+
+	    if (p.tabledata) {
+		// Data to be moved up to the table
+		var table = $(this).closest("table");
+                table.data('erp_data', p.tabledata);
+		table.addClass('erp_editable');
+		delete p.tabledata;
+	    }
+
+	    if (p.trdata) {
+		// Data to be moved up to the row
+		var tr = $(this).closest("tr");
+                tr.data('erp_data', p.trdata);
+		tr.addClass("editRowPluginRow");
+		tr.addClass('ui-draggable');
+		delete p.trdata;
+	    }
+
+	    // Rewrite submitimg and cancelimg to HTML buttons for
+	    // passing to $.editable
+	    if (p.submitimg) {
+		p.submit = "<button type='submit'><img src='" +
+		    foswiki.getPreference('PUBURLPATH') +
+		    '/System/EditRowPlugin/' + p.submitimg + "' /></button>";
+		delete p.submitimg;
+	    }
+	    if (p.cancelimg) {
+		p.cancel = "<button type='submit'><img src='" +
+		    foswiki.getPreference('PUBURLPATH') +
+		    '/System/EditRowPlugin/' + p.cancelimg + "' /></button>";
+		delete p.cancelimg;
+	    }
+
+	    // Data for the cell
+            $(this).data('erp_data', p);
+	});
+
         context.find('.erpJS_input').change(function() {
             erp_dataDirty = true;
-        });
-
-        // Action on edit row
-        context.find('div.erpJS_editButton').click(function() {
-            // Send the event to the span
-            $(this).prev().triggerHandler('erp_edit');
         });
 
         // Action on select row and + row. Check if the data is
@@ -441,45 +522,31 @@
             return sortTable(this, false, md.headrows, md.footrows);
         });
 
-        context.find('span.erpJS_cell').each(function(index, value) {
+	var current_row = null;
+	$('tr.ui-draggable').mouseover(
+	    function(e) {
+		var tr = $(this);
 
-            // Make the containing row draggable
-            var tr = $(this).closest("tr");
-            tr.addClass('ui-draggable');
+		if (!tr.is(".erp_instrumented")) {
+		    tr.addClass("erp_instrumented");
 
-            // Move meta-data stored in the class attribute into $.data
-            var p, m, c = $(this).attr("class");
-            if (m = /({.*})/.exec(c)) {
-                p = eval('(' + m[1] + ')');
-                $(this).data('cell_data', p);
-                $(this).attr("class", c.replace(/\s*{.*?}/, ''));
-            } else {
-                //alert("This should not fail");
-            }
+		    // Add drag control if the table has >1 rows
+		    if (tr.closest("tbody,table").children().length > 1)
+			makeRowDraggable(tr);
 
-            if (!p || !p.type || p.type == 'label')
-                return;
-
-            // Import the edit control functions
-            $.extend(p,
-                     editControls,
-                     (p.type == "text" || p.type == "textarea") ?
-                     textCallback : otherCallback);
-
-            // We can't add row meta-data when generating the table because
-            // it's done by the FW core table rendering. So we have to get
-            // the row-meta from the first cell-meta when we have it.
-            if (p.erp_data && p.erp_data.erp_active_row
-                && !tr.hasClass('editRowPluginRow')) {
-                tr.addClass("editRowPluginRow");
-                p.erp_data.url = p.url;
-                tr.data('row_data', p.erp_data);
-            }
-
-            $(this).editable(p.url, p);
-        });
-
-	makeRowsDraggable(0, context.find('tr.ui-draggable'));
+		    // Attach an editor to each editable cell
+		    tr.find('span.erpJS_cell').each(function(index, value) {
+			attachEditControls($(this));
+		    });
+		}
+		if (!current_row || tr[0] != current_row[0]) {
+		    if (current_row) {
+			current_row.find('.erpJS_container').fadeOut();
+		    }
+		    tr.find('.erp_drag_button,.erpJS_container').fadeIn();
+		    current_row = tr;
+		}
+	    });
     };
 
     $(document).ready(function() {

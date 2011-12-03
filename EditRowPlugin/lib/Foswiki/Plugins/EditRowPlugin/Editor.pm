@@ -77,27 +77,21 @@ sub jQueryMetadata {
     } else {
 	$data->{size} = 10; # chars, must convert to px
     }
-    # By default we respond to an internally-raised edit event, which is raised
-    # when the cell edit icon is clicked
-    $data->{event} = "erp_edit";
-    # Silence the noisy "Click to edit" placeholder
-    $data->{placeholder} = '<div class="erp_empty"></div>';
-    $data->{tooltip} = '';
     return $data;
 }
 
 sub _addSaveButton {
     my ($this, $data) = @_;
     my $purl = Foswiki::Func::getPubUrlPath();
-    $data->{submit} =
-	"<button type'submit'><img src='$purl/System/EditRowPlugin/save.png' /></button>";
+    # JS will rewrite this URL to some HTML
+    $data->{submitimg} = "save.png";
 }
 
 sub _addCancelButton {
     my ($this, $data) = @_;
     my $purl = Foswiki::Func::getPubUrlPath();
-    $data->{cancel} =
-	"<button type'submit'><img src='$purl/System/EditRowPlugin/stop.png' /></button>";
+    # JS will rewrite this URL to some HTML
+    $data->{cancelimg} = "stop.png";
 }
 
 =begin TML

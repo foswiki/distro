@@ -83,7 +83,6 @@ sub render {
 
     my $colDef = $opts->{col_defs}->[ $this->{number} - 1 ] || $defCol;
     my $text = $this->{text};
-
     if ( $text =~ s/%EDITCELL{(.*?)}%// ) {
 	my %p = Foswiki::Func::extractParameters($1);
 	my $cd = $this->{row}->{table}->parseFormat($p{_DEFAULT});
@@ -128,35 +127,34 @@ sub render {
 		my $data = $editor->jQueryMetadata($this, $colDef, $text);
 		# Editors can set "uneditable" if the cell is not to have an editor
 		unless ($data->{uneditable}) {
-		    if ($opts->{js} ne 'ignored') {
-			# The "edit this cell" trigger button (yellow stain)
-			$trigger = CGI::div(
-			    {
-				class =>'erpJS_editButton',
-				title => 'Click to edit'
-			    }, '');
-		    }
-		    my $saveURL = $this->getSaveURL();
-		    # Carve off the URL params and push to meta-data; they are wanted
-		    # for ajax.
-		    if ($saveURL =~ s/\?(.*)$//) {
-			$data->{erp_data} = {};
-			for my $tup (split(/[;&]/, $1)) {
-			    $tup =~ /(.*?)=(.*)$/;
-			    $data->{erp_data}->{$1} = $2;
+		    #if ($opts->{js} ne 'ignored') {
+		    # add any edit-specific HTML here
+		    #}
+		    my @css_classes = ('erpJS_cell');
+		    # Because we generate a TML table, we have no way to attach table meta-data
+		    # and row meta-data. So we attach it to the first cell in the table/row, and
+		    # move it to the right place when JS loads.
+		    if ($opts->{first_col}) {
+			$data->{trdata} = $this->{row}->getURLParams();
+			push( @css_classes, 'erpJS_trdata' );
+			if ($opts->{first_row}) {
+			    my $tabledata = $this->{row}->{table}->getURLParams();
+			    $data->{tabledata} = $tabledata;
+			    push( @css_classes, 'erpJS_tabledata' );
 			}
 		    }
-		    $data->{url} = $saveURL;
+		    # Add the cell data
+		    $data = $this->getURLParams(%$data);
 		    # Note: Any table row that has a cell with erpJS_cell will be made draggable
 		    if ($opts->{js} ne 'ignored') {
-			$sopts->{class} = 'erpJS_cell '
-			    . Foswiki::Plugins::EditRowPlugin::defend(JSON::to_json($data), 1);
+			$sopts->{class} = join(' ', @css_classes) . ' ' . JSON::to_json($data);
 		    }
 		}
 	    }
-	    my $a = {};
-	    $a->{class} = 'erpJS_container' unless $opts->{js} eq 'ignored';
-	    $text = CGI::div($a, CGI::span( $sopts, " $text ") . $trigger);
+	    #my $a = {};
+	    #$a->{class} = 'erpJS_container' unless $opts->{js} eq 'ignored';
+	    #$text = CGI::div($a, CGI::span( $sopts, " $text "));
+	    $text = CGI::span( $sopts, " $text ");
 	}
     }
     return $this->{precruft} . $text . $this->{postcruft};
@@ -167,11 +165,12 @@ sub can_edit {
     return $this->{row}->can_edit();
 }
 
-sub getSaveURL {
+sub getURLParams {
     my ($this, %more) = @_;
-    return $this->{row}->getSaveURL(
+    return {
+	%more,
 	noredirect => 1,
-	erp_active_col => $this->{number}, %more);
+	erp_active_col => $this->{number} };
 }
 
 1;

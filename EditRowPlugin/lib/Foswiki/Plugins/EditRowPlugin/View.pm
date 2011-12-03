@@ -96,7 +96,8 @@ sub process {
 
 	    my $active_row = $urps->{erp_active_row};
 	    unless ($table->{attrs}->{js} eq 'assumed') {
-		my $saveUrl = $_->getSaveURL();
+		my $saveUrl = Foswiki::Func::getScriptUrl(
+		    'EditRowPlugin', 'save', 'rest', %{$_->getURLParams()});
 		$line .= CGI::start_form(
 		    -method => 'POST',
 		    -name   => "erp_form_${macro}_$active_table",

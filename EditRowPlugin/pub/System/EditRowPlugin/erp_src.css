@@ -17,7 +17,7 @@
 }
 
 .erpJS_container {
-    position: relative; /* so it can be a container for erpJS_editButton */
+    position: relative;
     margin: 0;
     padding: 0;
 }
@@ -48,7 +48,12 @@
     position: absolute;
     display: none;
     left: -1.7em;
-    top: 0;
+    top: -1.25em;
+}
+
+a.erp_drag_button:hover {
+    background-image: url("ui-icons-famfamfam.png");
+    background-color: #FEE;
 }
 
 .erpNoJS_button {

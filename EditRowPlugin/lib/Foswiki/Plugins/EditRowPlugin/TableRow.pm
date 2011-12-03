@@ -114,9 +114,9 @@ sub can_edit {
     return $this->{table}->can_edit();
 }
 
-sub getSaveURL {
+sub getURLParams {
     my ($this, %more) = @_;
-    return $this->{table}->getSaveURL(erp_active_row => $this->{number}, %more);
+    return { erp_active_row => $this->{number}, %more };
 }
 
 # col_defs - column definitions (required)
@@ -148,6 +148,7 @@ sub render {
         my $hdrs = $this->{table}->getLabelRow();
         my $col  = 0;
 	my @rows;
+	my $first_col = 1;
         foreach my $cell ( @{ $this->{cols} } ) {
 
             # get the column label
@@ -156,11 +157,14 @@ sub render {
             my $text = $cell->render({
 		col_defs => $opts->{col_defs},
 		in_row => $this,
-		for_edit => 1} );
+		for_edit => 1,
+		first_row => $opts->{first_row},
+		first_col => $first_col} );
 
             push( @rows, "| $hdr|$text$anchor|$empties" );
             $anchor = '';
             $col++;
+	    $first_col  = 0;
         }
         if ($opts->{with_controls}) {
             push( @rows, "| $buttons ||$empties" );
@@ -173,9 +177,11 @@ sub render {
     my $text;
 
     $opts->{in_row} = $this;
+    $opts->{first_col} = 1;
     foreach my $cell ( @{ $this->{cols} } ) {
 
 	$text = $cell->render($opts);
+	$opts->{first_col} = 0;
 
 	# Add the row anchor for editing. It's added to the first non-empty
 	# cell or, failing that, the first cell. This is to minimise the
@@ -246,13 +252,9 @@ sub render {
 		    $buttons .= $anchor;
 		    $addAnchor = 0;
 		}
-		if ($opts->{js} ne 'ignored') {
-		    # Add container wrapper for JS.
-		    # We forcibly add the row-drag link here because adding it in JS is so
-		    # slow.
-		    # The JS must add ui-icon, though.
-		    $buttons = "<div class='erpJS_container'><a href='#' class='ui-icon-arrow-2-n-s erp_drag_button' title='Click and drag to move row'>move</a>$buttons</div>";
-		}
+		#if ($opts->{js} ne 'ignored') {
+		# add any other HTML for handling rows here
+		#}
 		if ($buttons_right) {
 		    push( @cols, $buttons );
 		} else {

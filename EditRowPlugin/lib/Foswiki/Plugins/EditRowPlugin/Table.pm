@@ -260,6 +260,7 @@ sub render {
 	    || (!$editing &&
 		$opts->{with_controls} && $this->{attrs}->{disable} !~ /row/ ) ) );
 
+    $row_opts{first_row} = 1;
     foreach my $row ( @{ $this->{rows} } ) {
 	my $isLard = ( $row->{isHeader} || $row->{isFooter} );
 	$n++ unless $isLard;
@@ -270,16 +271,17 @@ sub render {
 	    # Get the row from the real_table, read raw from the topic
 	    my $real_row = $opts->{real_table} ?
 		$opts->{real_table}->{rows}->[ $r - 1 ] : $row;
-	    next unless $real_row;
-	    $rowtext = 
-		$real_row->render({ %row_opts,
-				    for_edit => 1,
-				    orient => $orientation });
+	    if ( $real_row ) {
+		push( @out,
+		      $real_row->render({ %row_opts,
+					  for_edit => 1,
+					  orient => $orientation}));
+	    }
 	}
 	else {
-	    $rowtext = $row->render(\%row_opts);
+	    push( @out, $row->render(\%row_opts));
 	}
-	push( @out, $rowtext );
+	$row_opts{first_row} = 0 unless $isLard;
     }
     if ($editing) {
 	if ($wholeTable && $this->{attrs}->{js} ne 'assumed') {
@@ -346,12 +348,13 @@ sub render {
 	    # erp_unchanged=1 prevents addRow from trying to
 	    # save changes in the table. erp_active_row is set to -2
 	    # so that addRow enters single row editing mode (see sub addRow)
-	    $url = $this->getSaveURL(
-		erp_active_row => -2,
-		erp_unchanged  => 1,
-		erp_action     => 'addRow',
-		'#'            => 'erp_' . $this->{id}
-		);
+	    $url = Foswiki::Func::getScriptUrl(
+		'EditRowPlugin', 'save', 'rest',
+		%{$this->getURLParams(
+		      erp_active_row => -2,
+		      erp_unchanged  => 1,
+		      erp_action     => 'addRow',
+		      '#'            => 'erp_' . $this->{id})});
 
 	    # Full table disabled, but not row
 	    push( @out, "<a href='$url' title='$title'>$button</a><br />" );
@@ -365,18 +368,15 @@ sub can_edit {
     return $this->{editable};
 }
 
-# Override this if you want to use a different rest handler in a subclass
-# or derived plugin.
-sub getSaveURL {
+sub getURLParams {
     my ($this, %more) = @_;
     # Get the active (most recent) version number for the topic with this table
     my @ri = Foswiki::Func::getRevisionInfo($this->{web}, $this->{topic});
-    return Foswiki::Func::getScriptUrl(
-	'EditRowPlugin', 'save', 'rest',
+    return {
 	erp_active_topic => "$this->{web}.$this->{topic}",
 	erp_active_version => "$ri[2]_$ri[0]",
 	erp_active_table => $this->{id},
-	%more);
+	%more };
 }
 
 # Get the "type object" for this column definition (one of the Editor classes)

@@ -4,7 +4,7 @@ package Foswiki::Plugins::EditRowPlugin;
 use strict;
 
 our $VERSION          = '$Rev$';
-our $RELEASE          = '2.2.9';
+our $RELEASE          = '3.0.0';
 our $SHORTDESCRIPTION = 'Inline edit for tables';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -51,10 +51,11 @@ sub save {
 # Replace content with a marker to prevent it being munged by Foswiki
 our @refs;
 
+# $dequote is true if the result is to be embedded in double-quotes
 sub defend {
     my ($text, $dequote) = @_;
     my $n = scalar(@refs);
-    $text =~ s/"/&quot;/g if $dequote;
+    $text =~ s/"/&#34;/g if $dequote;
     push( @refs, $text );
     return "#\07$n\07#";
 }
