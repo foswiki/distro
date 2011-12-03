@@ -19,17 +19,31 @@ my $MANIFEST   = '/home/trunk.foswiki.org/core/lib/MANIFEST';
 my $svn        = '/usr/local/bin/svn';
 my $svnlook    = '/usr/local/bin/svnlook';
 my %monthnames = (
-    jan => 0, feb => 1, mar => 2, apr => 3, may => 4, jun => 5,
-    jul => 6, aug => 7, sep => 8, oct => 9, nov => 10, dec => 11 );
+    jan => 0,
+    feb => 1,
+    mar => 2,
+    apr => 3,
+    may => 4,
+    jun => 5,
+    jul => 6,
+    aug => 7,
+    sep => 8,
+    oct => 9,
+    nov => 10,
+    dec => 11
+);
 
 # First determine what releases we know about, and the checkin number
 # and date for that release
 my %revs;
 my %dates;
-foreach my $release (
-    split( "\n", `$svn ls --verbose http://svn.foswiki.org/tags` ) ) {
+foreach
+  my $release ( split( "\n", `$svn ls --verbose http://svn.foswiki.org/tags` ) )
+{
 
-    if ( $release =~ /^\s*(\d+)\s*\w+\s*(.*?)\s*FoswikiRelease(\d+)x(\d+)x(\d+)\/$/ ) {
+    if ( $release =~
+        /^\s*(\d+)\s*\w+\s*(.*?)\s*FoswikiRelease(\d+)x(\d+)x(\d+)\/$/ )
+    {
         my $rev   = $1;
         my $date  = $2;
         my $major = 0 + $3;
@@ -38,11 +52,13 @@ foreach my $release (
         $revs{"$major.$minor.$patch"} = $rev;
         $date =~ s/\d\d:\d\d//;
         my @d = gmtime(time);
-        my $y = $d[5]; # current year
+        my $y = $d[5];          # current year
 
-        if ($date =~ /(\S+)\s+(\d+)(?:\s+(\d+))?/) {
-            $date = Time::Local::timegm(0,0,0,$2,$monthnames{lc($1)},$3||$y);
-        } else {
+        if ( $date =~ /(\S+)\s+(\d+)(?:\s+(\d+))?/ ) {
+            $date = Time::Local::timegm( 0, 0, 0, $2, $monthnames{ lc($1) },
+                $3 || $y );
+        }
+        else {
             $date = 0;
         }
         $dates{"$major.$minor.$patch"} = $date;
@@ -56,14 +72,16 @@ $revs{"1.0.0"} = 1878;
 my @a = sort { $dates{$a} <=> $dates{$b} } keys(%revs);
 
 # Most recent releases at different levels
-my ($major, $minor, $patch) = ( '1.0.0', '1.0.0', '1.0.0' );
+my ( $major, $minor, $patch ) = ( '1.0.0', '1.0.0', '1.0.0' );
 
 foreach my $release (@a) {
-    if ($release =~ /\.0\.0$/) {
+    if ( $release =~ /\.0\.0$/ ) {
         $major = $release;
-    } elsif ($release =~ /\.0$/) {
+    }
+    elsif ( $release =~ /\.0$/ ) {
         $minor = $release;
-    } else {
+    }
+    else {
         $patch = $release;
     }
 }
@@ -71,8 +89,8 @@ foreach my $release (@a) {
 my $repositoryRevision = `$svnlook youngest $REPOS`;
 
 my $coreExt = join( '|',
-                    map { $_ =~ s/^.*\///; $_ }
-                      split( "\n", `grep '!include ' $MANIFEST` ) );
+    map { $_ =~ s/^.*\///; $_ }
+      split( "\n", `grep '!include ' $MANIFEST` ) );
 
 # First load and update WhoDunnit.sid2cin, the list of checkers-in for each rev
 my $maxSid = 0;
@@ -93,7 +111,7 @@ if ( $maxSid < $repositoryRevision ) {
     print "Refreshing $maxSid..$repositoryRevision\n" if DEBUG;
     open( $fh, '>>', 'WhoDunnit.sid2cin' ) || die $!;
     for ( $maxSid .. $repositoryRevision ) {
-        my $who = `$svnlook author -r $_ $REPOS`;
+        my $who  = `$svnlook author -r $_ $REPOS`;
         my $what = `$svnlook dirs-changed -r $_ $REPOS`;
         chomp($who);
         $sid2who{$_} = $who;
@@ -113,8 +131,9 @@ my %priority;
 opendir( D, $BUGS ) || die "$!";
 foreach my $item (
     sort { $a <=> $b }
-      grep { s/^Item(\d+)\.txt$/$1/ } readdir(D)
-     ) {
+    grep { s/^Item(\d+)\.txt$/$1/ } readdir(D)
+  )
+{
     print "Item$item      \r" if DEBUG;
     my $bh;
     open( $bh, '<', "$BUGS/Item$item.txt" ) || next;
@@ -127,11 +146,12 @@ foreach my $item (
     }
     if (
         (
-            $field{AppliesTo} eq "Engine"
-              || $field{Extension} =~ /\b($coreExt)\b/
-             )
-          && $field{CurrentState} =~ /(Closed|Waiting for Release)/i
-         ) {
+               $field{AppliesTo} eq "Engine"
+            || $field{Extension} =~ /\b($coreExt)\b/
+        )
+        && $field{CurrentState} =~ /(Closed|Waiting for Release)/i
+      )
+    {
         foreach my $cin ( split( /\s+/, $field{Checkins} ) ) {
             $cin =~ s/^\w+://;    # remove interwiki thingy
             my $who = $sid2who{$cin};
@@ -143,7 +163,7 @@ foreach my $item (
         }
         $priority{$item} = $field{Priority};
         $field{ReportedBy} =~ s/((TWiki|Foswiki):)?Main\.//g;
-        $reportedBy{$field{ReportedBy}}++;
+        $reportedBy{ $field{ReportedBy} }++;
 
         # Not used yet; may be used to build a table of who
         # contributed to which releases
@@ -170,20 +190,20 @@ my $row1 = "_Who_ | _Tasks_ |";
 my $doPatch = 0;
 my $doMinor = 0;
 
-if ($minor ne $major) {
-    $row0 = "*Minor release ($minor)* || $row0";
-    $row1 = "_Who_ | _Tasks_ | $row1";
+if ( $minor ne $major ) {
+    $row0    = "*Minor release ($minor)* || $row0";
+    $row1    = "_Who_ | _Tasks_ | $row1";
     $doMinor = 1;
 }
 
-if ($patch ne $major && $patch ne $minor) {
-    $row0 = "*Patch release ($patch)* || $row0";
-    $row1 = "_Who_ | _Tasks_ | $row1";
+if ( $patch ne $major && $patch ne $minor ) {
+    $row0    = "*Patch release ($patch)* || $row0";
+    $row1    = "_Who_ | _Tasks_ | $row1";
     $doPatch = 1;
 }
 
 my $ofh;
-open( $ofh, '>', $HALLOFFAME) || die $!;
+open( $ofh, '>', $HALLOFFAME ) || die $!;
 print $ofh <<HEADING;
 ---+ Foswiki Subversion Activity
 
@@ -250,11 +270,11 @@ for my $n ( 0 .. $TOP_N - 1 ) {
     }
 
 }
-print $ofh
-  ($doPatch ? '| total | ' . List::Util::sum( values(%patchc).' ' ):'')
-  . ($doMinor ? '| total | ' . List::Util::sum( values(%minorc).' ' ):'')
-  .             '| total | ' . List::Util::sum( values(%majorc) )
-  . " |\n";
+print $ofh (
+    $doPatch ? '| total | ' . List::Util::sum( values(%patchc) . ' ' ) : '' )
+  . ( $doMinor ? '| total | ' . List::Util::sum( values(%minorc) . ' ' ) : '' )
+  . '| total | '
+  . List::Util::sum( values(%majorc) ) . " |\n";
 
 print $ofh <<STUFF;
 %STOPINCLUDE%
@@ -319,11 +339,11 @@ for my $n ( 0 .. $TOP_N - 1 ) {
     }
 
 }
-print $ofh
-  ($doPatch ? '| total | ' . List::Util::sum( values(%patchc).' ' ):'')
-  . ($doMinor ? '| total | ' . List::Util::sum( values(%minorc).' ' ):'')
-  .             '| total | ' . List::Util::sum( values(%majorc) )
-  . " |\n";
+print $ofh (
+    $doPatch ? '| total | ' . List::Util::sum( values(%patchc) . ' ' ) : '' )
+  . ( $doMinor ? '| total | ' . List::Util::sum( values(%minorc) . ' ' ) : '' )
+  . '| total | '
+  . List::Util::sum( values(%majorc) ) . " |\n";
 print $ofh "%STOPINCLUDE%\n";
 
 print $ofh <<STUFF;
@@ -334,7 +354,8 @@ of this database in October 2008.
 STUFF
 foreach my $zapper ( sort { $counts{$b} <=> $counts{$a} } keys %counts ) {
     next unless $zapper;
-    print $ofh "| [[Main.$zapper][$zapper]] | $reportedBy{$zapper} | $counts{$zapper} |\n";
+    print $ofh
+"| [[Main.$zapper][$zapper]] | $reportedBy{$zapper} | $counts{$zapper} |\n";
 }
 
 print $ofh <<STUFF;
@@ -346,8 +367,7 @@ contributed a checkin. This covers core and *all* plugins.
 STUFF
 my %dumps;
 foreach my $contributor ( keys %contributedBy ) {
-    $dumps{$contributor} = scalar( keys %{ $contributedBy{$contributor} 
-} ),
+    $dumps{$contributor} = scalar( keys %{ $contributedBy{$contributor} } ),
       "\n";
 }
 foreach my $zapper ( sort { $dumps{$b} <=> $dumps{$a} } keys %dumps ) {

@@ -14,7 +14,7 @@ sub check {
     Foswiki::Configure::Load::expandValue($f);
     my $e = $this->checkTreePerms( $f, 'r' );
     $e = $this->ERROR($e) if $e;
-    $e .= $this->showExpandedValue($Foswiki::cfg{MimeTypesFileName});
+    $e .= $this->showExpandedValue( $Foswiki::cfg{MimeTypesFileName} );
     return $e;
 }
 

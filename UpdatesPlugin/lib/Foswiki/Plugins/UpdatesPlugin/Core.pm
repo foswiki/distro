@@ -21,7 +21,7 @@ use warnings;
 use JSON ();
 use Error qw(:try);
 use Foswiki::Plugins::JQueryPlugin ();
-use Foswiki::Configure::Dependency (); # for _compare_extension_versions()
+use Foswiki::Configure::Dependency ();    # for _compare_extension_versions()
 
 sub new {
     my $class   = shift;
@@ -34,23 +34,25 @@ sub new {
             reportUrl => $Foswiki::cfg{Plugins}{UpdatesPlugin}{ReportUrl}
               || "http://foswiki.org/Extensions/UpdatesPluginReport",
             timeout => $Foswiki::cfg{Plugins}{UpdatesPlugin}{CacheTimeout},
-            exclude => $Foswiki::cfg{Plugins}{UpdatesPlugin}{ExcludeExtensions} || '',
+            exclude => $Foswiki::cfg{Plugins}{UpdatesPlugin}{ExcludeExtensions}
+              || '',
 
-              @_
+            @_
         },
         $class
     );
 
     # fix params
     $this->{timeout} = 86400 unless defined $this->{timeout};
-    if ($this->{exclude}) {
-      $this->{excludePattern} = '^(' . join('|', split(/\s*,\s*/, $this->{exclude})) .')$';
-      #print STDERR "exclude pattern = ".$this->{excludePattern}."\n" if $this->{debug};
+    if ( $this->{exclude} ) {
+        $this->{excludePattern} =
+          '^(' . join( '|', split( /\s*,\s*/, $this->{exclude} ) ) . ')$';
+
+#print STDERR "exclude pattern = ".$this->{excludePattern}."\n" if $this->{debug};
     }
 
     return $this;
 }
-
 
 # the plugin can be configured to proxy the request for data. In this case the local server
 # publishes a REST method that responds with the data from f.o - either cached locally or
@@ -62,44 +64,49 @@ sub handleRESTCheck {
 
     my $availablePlugins;
     my $error;
-    
+
     try {
-      $availablePlugins = $this->getAvailable();
-    } catch Error::Simple with {
-       $error = shift;
+        $availablePlugins = $this->getAvailable();
+    }
+    catch Error::Simple with {
+        $error = shift;
     };
 
-    if (defined $error) {
+    if ( defined $error ) {
         printRESTResponse( $response, 500, $error );
         return;
     }
 
-    #print STDERR "available=".JSON::to_json($availablePlugins, {pretty=>1})."\n" if $this->{debug};
-    #print STDERR "installed=".JSON::to_json($this->{_installed}, {pretty=>1})."\n" if $this->{debug};
- 
+#print STDERR "available=".JSON::to_json($availablePlugins, {pretty=>1})."\n" if $this->{debug};
+#print STDERR "installed=".JSON::to_json($this->{_installed}, {pretty=>1})."\n" if $this->{debug};
+
     my @outdatedPlugins = ();
 
-    foreach my $ext (@{$this->{_available}}) {
-      my $extName = $ext->{topic};
-      my $installed = $this->{_installed}{$extName};
+    foreach my $ext ( @{ $this->{_available} } ) {
+        my $extName   = $ext->{topic};
+        my $installed = $this->{_installed}{$extName};
 
-      my $release = $ext->{release};
-      my $version = $ext->{version} || '';
+        my $release = $ext->{release};
+        my $version = $ext->{version} || '';
 
-      my $fakeObj = {
-        installedRelease => $release,
-        installedVersion => $version
-      };
-      
-      # SMELL: breaks encapsulation of F::Configure::Dependency
-      my $result = Foswiki::Configure::Dependency::_compare_extension_versions($fakeObj, ">", $installed);
-      if ($result) {
-        push @outdatedPlugins, $extName;
-        print STDERR "ext=$extName, installed=$installed, available=$release/$version result=$result\n" if $this->{debug};
-      }
+        my $fakeObj = {
+            installedRelease => $release,
+            installedVersion => $version
+        };
+
+        # SMELL: breaks encapsulation of F::Configure::Dependency
+        my $result =
+          Foswiki::Configure::Dependency::_compare_extension_versions( $fakeObj,
+            ">", $installed );
+        if ($result) {
+            push @outdatedPlugins, $extName;
+            print STDERR
+"ext=$extName, installed=$installed, available=$release/$version result=$result\n"
+              if $this->{debug};
+        }
     }
- 
-    printRESTResponse($response, 200, JSON::to_json(\@outdatedPlugins));
+
+    printRESTResponse( $response, 200, JSON::to_json( \@outdatedPlugins ) );
 
     return;
 }
@@ -116,7 +123,7 @@ sub getAvailable {
         my @result = ();
 
         my @unfound;
-        foreach my $ext (keys %$installedPlugins) {
+        foreach my $ext ( keys %$installedPlugins ) {
 
             # if the cache is fresh, use it
             if ( -e "$works/$ext"
@@ -150,13 +157,14 @@ sub getAvailable {
 
             if ( !$resource->is_error() && $resource->isa('HTTP::Response') ) {
                 my $content = $resource->decoded_content();
+
                 #print STDERR "content=$content\n" if $this->{debug};
 
                 # "Verify" the format of the resource and reduce to a perl array
                 if ( $content =~
                     /^foswikiUpdates.handleResponse\((\[.*\])\);$/s )
                 {
-                    my $data = JSON::from_json($1);
+                    my $data  = JSON::from_json($1);
                     my %found = ();
 
                     # Refresh the cache
@@ -175,7 +183,7 @@ sub getAvailable {
                         push( @result, $ext );
                     }
 
-                    # remember null-result for unfound extensions not in the rest result provided by f.o
+# remember null-result for unfound extensions not in the rest result provided by f.o
                     foreach my $ext (@unfound) {
                         next if $found{$ext};
                         print STDERR "no info about $ext in report\n"
@@ -212,59 +220,66 @@ sub getAvailable {
 sub getInstalled {
     my $this = shift;
 
-    unless(defined $this->{_installed}) {
+    unless ( defined $this->{_installed} ) {
 
-      # First get contribs and skins by poking into the System web. The versions returned
-      # may include %$RELEASE% if this is a pseudo-install
-      print STDERR "performing local SEARCH in $Foswiki::cfg{SystemWebName}\n" if $this->{debug};
+# First get contribs and skins by poking into the System web. The versions returned
+# may include %$RELEASE% if this is a pseudo-install
+        print STDERR "performing local SEARCH in $Foswiki::cfg{SystemWebName}\n"
+          if $this->{debug};
 
-      my $list = Foswiki::Func::expandCommonVariables( '{%SEARCH{"1" nosearch="on" nototal="on" web="'.$Foswiki::cfg{SystemWebName}.'" topic="*Skin,*Contrib" format="$topic" separator=","}%};' );
+        my $list = Foswiki::Func::expandCommonVariables(
+                '{%SEARCH{"1" nosearch="on" nototal="on" web="'
+              . $Foswiki::cfg{SystemWebName}
+              . '" topic="*Skin,*Contrib" format="$topic" separator=","}%};' );
 
-      my $data = {};
+        my $data = {};
 
-      foreach my $thing (split(/\s*,\s*/, $list)) {
-          next unless $thing =~ /^([a-zA-Z0-9_]+)$/;
-          next if $thing =~ /$this->{excludePattern}/;
+        foreach my $thing ( split( /\s*,\s*/, $list ) ) {
+            next unless $thing =~ /^([a-zA-Z0-9_]+)$/;
+            next if $thing =~ /$this->{excludePattern}/;
 
-          my $mn = $1;
-          my $mod = "Foswiki::Contrib::$mn";
+            my $mn  = $1;
+            my $mod = "Foswiki::Contrib::$mn";
 
-          # SMELL: unconditional loading of contribs (is that so bad?)
-          eval "require $mod";
-          unless ($@) {
+            # SMELL: unconditional loading of contribs (is that so bad?)
+            eval "require $mod";
+            unless ($@) {
 
-              my $release = eval "\$Foswiki::Contrib::${mn}::RELEASE" || '%$RELEASE';
-              #print STDERR "found extension $mn, release = $release\n" if $this->{debug};
+                my $release = eval "\$Foswiki::Contrib::${mn}::RELEASE"
+                  || '%$RELEASE';
 
-              $data->{$mn} = $release; 
-          }
-      }
+    #print STDERR "found extension $mn, release = $release\n" if $this->{debug};
 
-      # Get plugins; this should obtain "true" release numbers
-      # SMELL: hack assumes structure of plugins controller object
-      my $controller = $this->{session}{plugins};
-      foreach my $plugin ( @{ $controller->{plugins} } ) {
-          next if $plugin->{name} =~ /$this->{excludePattern}/;
+                $data->{$mn} = $release;
+            }
+        }
 
-          my $release = eval "\$$plugin->{module}::RELEASE" || '%$RELEASE';
-          #print STDERR "found plugin $plugin->{name}, release = $release\n" if $this->{debug};
+        # Get plugins; this should obtain "true" release numbers
+        # SMELL: hack assumes structure of plugins controller object
+        my $controller = $this->{session}{plugins};
+        foreach my $plugin ( @{ $controller->{plugins} } ) {
+            next if $plugin->{name} =~ /$this->{excludePattern}/;
 
-          $data->{$plugin->{name}} = $release; 
-      }
+            my $release = eval "\$$plugin->{module}::RELEASE" || '%$RELEASE';
 
-      $this->{_installed} = $data;
+#print STDERR "found plugin $plugin->{name}, release = $release\n" if $this->{debug};
+
+            $data->{ $plugin->{name} } = $release;
+        }
+
+        $this->{_installed} = $data;
     }
 
     return $this->{_installed};
 }
 
 sub printRESTResponse {
-    my ($response, $status, $content) = @_;
+    my ( $response, $status, $content ) = @_;
     $response->header(
-	-status  => 200,
-	-type    => 'text/plain',
-	-charset => $Foswiki::cfg{Site}{CharSet}
-        );
+        -status  => 200,
+        -type    => 'text/plain',
+        -charset => $Foswiki::cfg{Site}{CharSet}
+    );
     $response->print($content);
 }
 

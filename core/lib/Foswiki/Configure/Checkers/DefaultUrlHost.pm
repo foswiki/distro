@@ -9,13 +9,14 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my ( $this, $keys ) = @_;
-    my $d = $this->getCfg('{DefaultUrlHost}');
-    my $mess = $this->showExpandedValue($Foswiki::cfg{DefaultUrlHost});
+    my $d    = $this->getCfg('{DefaultUrlHost}');
+    my $mess = $this->showExpandedValue( $Foswiki::cfg{DefaultUrlHost} );
 
     if ( $d && $d ne 'NOT SET' ) {
         my $host = $ENV{HTTP_HOST};
         if ( $host && $Foswiki::cfg{DefaultUrlHost} !~ /$host/i ) {
-            return $mess.$this->WARN( 'Current setting does not match HTTP_HOST ',
+            return $mess
+              . $this->WARN( 'Current setting does not match HTTP_HOST ',
                 $ENV{HTTP_HOST} );
         }
     }
@@ -23,7 +24,7 @@ sub check {
         my $protocol = $Foswiki::query->url() || 'http://' . $ENV{HTTP_HOST};
         $protocol =~ s(^(.*?://.*?)/.*$)($1);
         $Foswiki::cfg{DefaultUrlHost} = $protocol;
-        return $mess.$this->guessed(0);
+        return $mess . $this->guessed(0);
     }
     return $mess;
 }

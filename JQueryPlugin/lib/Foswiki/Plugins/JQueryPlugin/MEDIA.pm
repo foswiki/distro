@@ -28,11 +28,14 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name         => 'Media',
-            version      => '0.96',
-            author       => 'M. Alsup',
-            homepage     => 'http://malsup.com/jquery/media',
-            javascript   => [ 'jquery.media.js', 'jquery.media.init.js', 'mediaplayer/swfobject.js' ],
+            name       => 'Media',
+            version    => '0.96',
+            author     => 'M. Alsup',
+            homepage   => 'http://malsup.com/jquery/media',
+            javascript => [
+                'jquery.media.js', 'jquery.media.init.js',
+                'mediaplayer/swfobject.js'
+            ],
             dependencies => [ 'metadata', 'livequery' ],
         ),
         $class

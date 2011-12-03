@@ -34,7 +34,7 @@ sub initPlugin {
     my ( $topic, $web, $user ) = @_;
 
     # check for prerequisites
-    unless (defined(&Foswiki::Func::addToZone)) {
+    unless ( defined(&Foswiki::Func::addToZone) ) {
         Foswiki::Func::writeWarning(
             "ZonePlugin not installed/enabled...disabling JQueryPlugin");
         return 0;
@@ -54,7 +54,7 @@ sub initPlugin {
 
     # jquery.button
     Foswiki::Func::registerTagHandler( 'BUTTON', \&handleButton );
-    
+
     # jquery.popupwindow
     Foswiki::Func::registerTagHandler( 'POPUPWINDOW', \&handlePopUpWindow );
 
@@ -62,8 +62,9 @@ sub initPlugin {
     Foswiki::Plugins::JQueryPlugin::Plugins::init();
 
     # backwards compatibility
-    if ($Foswiki::Plugins::VERSION < 2.1) {
-      Foswiki::Func::setPreferencesValue("CLEAR", "<span class='foswikiClear'></span>");
+    if ( $Foswiki::Plugins::VERSION < 2.1 ) {
+        Foswiki::Func::setPreferencesValue( "CLEAR",
+            "<span class='foswikiClear'></span>" );
     }
 
     return 1;
@@ -258,7 +259,7 @@ sub handleJQueryRequire {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
     my $plugins = $params->{_DEFAULT} || '';
-    my $warn    = Foswiki::Func::isTrue($params->{warn}, 1);
+    my $warn = Foswiki::Func::isTrue( $params->{warn}, 1 );
     my $errorMsg = '';
     foreach my $pluginName ( split( /\s*,\s*/, $plugins ) ) {
         my $plugin = createPlugin( $pluginName, $session );
@@ -281,8 +282,7 @@ Handles the =%<nop>JQTHEME% tag.
 sub handleJQueryTheme {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
-    my $themeName =
-         $params->{_DEFAULT}
+    my $themeName = $params->{_DEFAULT}
       || $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
 
     my $warn = $params->{warn} || '';

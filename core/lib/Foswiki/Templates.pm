@@ -337,7 +337,8 @@ sub readTemplate {
     # SMELL: legacy - leading spaces to tabs, should not be required
     $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|geom;
 
-    $this->saveTemplateToCache('_complete', $name, $skins, $web, $result) if (TRACE);
+    $this->saveTemplateToCache( '_complete', $name, $skins, $web, $result )
+      if (TRACE);
     return $result;
 }
 
@@ -353,9 +354,11 @@ sub _readTemplateFile {
     # if the name ends in .tmpl, then this is an explicit include from
     # the templates directory. No further searching required.
     if ( $name =~ /\.tmpl$/ ) {
-        my$text =  _decomment(
+        my $text =
+          _decomment(
             _readFile( $session, "$Foswiki::cfg{TemplateDir}/$name" ) );
-        $this->saveTemplateToCache('_cache', $name, $skins, $web, $text) if (TRACE);
+        $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
+          if (TRACE);
         return $text;
     }
 
@@ -386,9 +389,10 @@ sub _readTemplateFile {
               . $text
               . "<!--/$userdirweb/$userdirname-->\n"
               if (TRACE);
-              
-            $text =  _decomment($text);
-            $this->saveTemplateToCache('_cache', $name, $skins, $web, $text) if (TRACE);
+
+            $text = _decomment($text);
+            $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
+              if (TRACE);
             return $text;
         }
     }
@@ -518,9 +522,11 @@ sub _readTemplateFile {
                 $text = "<!--$web1.$name1-->\n$text<!--/$web1.$name1-->\n"
                   if (TRACE);
 
-              $text =  _decomment($text);
-              $this->saveTemplateToCache('_cache', $name, $skins, $web, $text) if (TRACE);
-              return $text;
+                $text = _decomment($text);
+                $this->saveTemplateToCache( '_cache', $name, $skins, $web,
+                    $text )
+                  if (TRACE);
+                return $text;
             }
         }
         elsif ( -e $file ) {
@@ -530,7 +536,8 @@ sub _readTemplateFile {
             $this->{files}->{$file} = 1;
 
             my $text = _decomment( _readFile( $session, $file ) );
-            $this->saveTemplateToCache('_cache', $name, $skins, $web, $text) if (TRACE);
+            $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
+              if (TRACE);
             return $text;
         }
     }
@@ -572,43 +579,44 @@ sub _decomment {
 #See http://wikiring.com/Blog/BlogEntry8?cat=WikiRing
 #used for debugging templates, and later maybe for speed.
 sub saveTemplateToCache {
-    my( $this, $cacheName, $name, $skins, $web, $tmplText ) = @_;
-    $skins = '' unless (defined($skins));
-    $web = '' unless (defined($web));
-    
-    my $tmpl_cachedir = $Foswiki::cfg{TemplateDir}.$cacheName;
-    mkdir($tmpl_cachedir) unless (-e $tmpl_cachedir);
-    my $filename =  Foswiki::Sandbox::untaintUnchecked($tmpl_cachedir.'/'.$name.'__'.$skins.'__'.$web.'.tmpl');
-    
-    unless ( open( FILE, ">$filename" ) )  {
-       die "Can't create file $filename - $!\n" if DEBUG;
+    my ( $this, $cacheName, $name, $skins, $web, $tmplText ) = @_;
+    $skins = '' unless ( defined($skins) );
+    $web   = '' unless ( defined($web) );
+
+    my $tmpl_cachedir = $Foswiki::cfg{TemplateDir} . $cacheName;
+    mkdir($tmpl_cachedir) unless ( -e $tmpl_cachedir );
+    my $filename = Foswiki::Sandbox::untaintUnchecked(
+        $tmpl_cachedir . '/' . $name . '__' . $skins . '__' . $web . '.tmpl' );
+
+    unless ( open( FILE, ">$filename" ) ) {
+        die "Can't create file $filename - $!\n" if DEBUG;
         print STDERR "Can't create file $filename - $!\n";
-        
+
         return;
     }
     print FILE $tmplText;
-    close( FILE);
+    close(FILE);
 }
+
 #unused, but can be used for a speedup by caching the expanded Template
 sub getTemplateFromCache {
-    my( $this, $name, $skins, $web ) = @_;
-    $skins = '' unless (defined($skins));
-    $web = '' unless (defined($web));
+    my ( $this, $name, $skins, $web ) = @_;
+    $skins = '' unless ( defined($skins) );
+    $web   = '' unless ( defined($web) );
 
-    my $tmpl_cachedir = $Foswiki::cfg{TemplateDir}.'_cache';
-    mkdir($tmpl_cachedir) unless (-e $tmpl_cachedir);
-    my $filename =  Foswiki::Sandbox::untaintUnchecked($tmpl_cachedir.'/'.$name.'__'.$skins.'__'.$web.'.tmpl');
-    
-    if (-e $filename) {
+    my $tmpl_cachedir = $Foswiki::cfg{TemplateDir} . '_cache';
+    mkdir($tmpl_cachedir) unless ( -e $tmpl_cachedir );
+    my $filename = Foswiki::Sandbox::untaintUnchecked(
+        $tmpl_cachedir . '/' . $name . '__' . $skins . '__' . $web . '.tmpl' );
+
+    if ( -e $filename ) {
         open( IN_FILE, "<$filename" ) || return;
-        local $/ = undef; # set to read to EOF
+        local $/ = undef;    # set to read to EOF
         my $data = <IN_FILE>;
-        close( IN_FILE );
+        close(IN_FILE);
         return $data;
     }
 }
-
-
 
 1;
 __END__

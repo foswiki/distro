@@ -102,8 +102,9 @@ sub startMonitoring {
 
         use warnings;
         use strict;
+
         #reset the loged time
-        @times = ();
+        @times       = ();
         @methodStats = ();
     }
     MARK('START');
@@ -122,10 +123,9 @@ BEGIN {
 
 #a bit of a hack to allow us to display the time it took to render
 sub getRunTimeSoFar {
-        my $ibm = timestr( timediff( $times[$#times]->[1], $times[0]->[1] ) );
-        return $ibm;
+    my $ibm = timestr( timediff( $times[$#times]->[1], $times[0]->[1] ) );
+    return $ibm;
 }
-
 
 sub END {
     return unless ( $ENV{FOSWIKI_MONITOR} );

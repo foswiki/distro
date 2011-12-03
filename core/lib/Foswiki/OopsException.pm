@@ -159,7 +159,7 @@ sub stringify {
 
         # load the defs
         $session->templates->readTemplate( 'oops' . $this->{template},
-                                          no_oops => 1 );
+            no_oops => 1 );
         my $message = $session->templates->expandTemplate( $this->{def} )
           || "Failed to find '$this->{def}' in 'oops$this->{template}'";
         my $topicObject =
@@ -182,7 +182,7 @@ sub stringify {
         if ( defined $this->{params} ) {
             $s .= ' params=>[' . join( ',', @{ $this->{params} } ) . ']';
         }
-        return $s . ')'.((DEBUG)?$this->stacktrace:'');
+        return $s . ')' . ( (DEBUG) ? $this->stacktrace : '' );
     }
 }
 

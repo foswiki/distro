@@ -32,8 +32,8 @@ use strict;
 use CGI qw( -any );
 
 # Other constants
-my $red      = "#FF9999";
-my $green    = "#99FF66";
+my $red   = "#FF9999";
+my $green = "#99FF66";
 my %handlers;
 
 # Options
@@ -52,9 +52,9 @@ my %data;
 
 sub analyseConformance {
     my @modules = @_;
-    unless( scalar(@_) ) {
-        opendir(DIR,"twikiplugins") ||
-          die "no twikiplugins subdir under ",`pwd`;;
+    unless ( scalar(@_) ) {
+        opendir( DIR, "twikiplugins" )
+          || die "no twikiplugins subdir under ", `pwd`;
         @modules = grep { -d "twikiplugins/$_" && !/^\./ } readdir DIR;
         closedir(DIR);
     }
@@ -67,12 +67,12 @@ sub analyseConformance {
         }
     }
 
-    unshift(@INC, "lib");
+    unshift( @INC, "lib" );
     eval "use Foswiki::Plugin";
-    unless ($@ ) {
+    unless ($@) {
         map { $handlers{$_} = $Foswiki::Plugin::deprecated{$_} ? 1 : 0 }
           @Foswiki::Plugin::registrableHandlers;
-    };
+    }
 
     my $module;
     foreach $module ( sort @modules ) {
@@ -90,14 +90,17 @@ sub generateReport {
     # print results
     print "---+ Report on the current status of packages in the Plugins web\n";
     print RED( "This report was script-generated on " . `date` . "<p>" );
-    print "The goal of the analysis is to determine conformance to standards.\n";
+    print
+      "The goal of the analysis is to determine conformance to standards.\n";
 
     my $funcUsageReport = "";
-    foreach my $key ( sort { $data{funcsyms}{$a} <=> $data{funcsyms}{$b} }
-                      keys %{ $data{funcsyms} } )
-      {
-          $funcUsageReport .= TR( TD($key), TD( $data{funcsyms}{$key} - 1 ) );
-      }
+    foreach my $key (
+        sort { $data{funcsyms}{$a} <=> $data{funcsyms}{$b} }
+        keys %{ $data{funcsyms} }
+      )
+    {
+        $funcUsageReport .= TR( TD($key), TD( $data{funcsyms}{$key} - 1 ) );
+    }
 
     if ( $funcUsageReport ne "" ) {
         print "---++ Usage of functions in Func\n";
@@ -105,12 +108,11 @@ sub generateReport {
     }
 
     my $handlerReport = "";
-    foreach my $h (sort keys %handlers) {
+    foreach my $h ( sort keys %handlers ) {
         if ( $data{handlers}{$h} ) {
             my $hn = $handlers{$h} ? RED($h) : $h;
             $handlerReport .=
-              TR( TD($hn).
-                    TD( join( ", ", @{ $data{handlers}{$h} } ) ) );
+              TR( TD($hn) . TD( join( ", ", @{ $data{handlers}{$h} } ) ) );
         }
     }
 
@@ -126,14 +128,15 @@ sub generateReport {
     foreach my $token (@badtoks) {
         my @badmods = sort keys %{ $data{illtok}{$token} };
         $illegalCallsReport .= TR(
-                                  TD("<nop>$token"),
-                                  TD( $data{howbad}{$token} ),
-                                  TD( join( " ", @badmods ) )
-                                 );
+            TD("<nop>$token"),
+            TD( $data{howbad}{$token} ),
+            TD( join( " ", @badmods ) )
+        );
     }
 
     if ( $illegalCallsReport ne "" ) {
-        print "\n---++ Calls to TWiki symbols not published through Foswiki::Func\n";
+        print
+"\n---++ Calls to TWiki symbols not published through Foswiki::Func\n";
         print TABLE( THR( "Symbol", "Calls", "Callers" ), $illegalCallsReport );
     }
 
@@ -148,16 +151,21 @@ sub generateReport {
             my @files = sort keys %{ $data{illmod}{$module}{$token} };
             my $desc  = "";
             foreach my $file (@files) {
-                $desc .= "<nop>$file (" . $data{illmod}{$module}{$token}{$file} . ")<br />";
+                $desc .=
+                    "<nop>$file ("
+                  . $data{illmod}{$module}{$token}{$file}
+                  . ")<br />";
             }
-            $badModsReport .= TR( TDS( $tokc, $module ), TD("<nop>$token"), TD($desc) );
+            $badModsReport .=
+              TR( TDS( $tokc, $module ), TD("<nop>$token"), TD($desc) );
             $tokc = 0;
         }
     }
 
     if ( $badModsReport ne "" ) {
         print "\n---++ Analysis of possibly illegal references\n";
-        print TABLE( THR( "Module", "Symbol", "File (calls)" ), $badModsReport );
+        print TABLE( THR( "Module", "Symbol", "File (calls)" ),
+            $badModsReport );
     }
 
     # Table of each module and each file with questionable code
@@ -166,11 +174,15 @@ sub generateReport {
         my $filc = scalar( keys %{ $data{suspect}{$module} } );
         foreach my $file ( keys %{ $data{suspect}{$module} } ) {
             if ( defined( $data{suspect}{$module}{$file} ) ) {
-                $questionableCodeReport .=
-                  TR( TDS( $filc, $module ),
-                      TD("$file"),
-                      TD( "\n<pre>\n" .
-                            $data{suspect}{$module}{$file} . "</pre>\n" ) );
+                $questionableCodeReport .= TR(
+                    TDS( $filc, $module ),
+                    TD("$file"),
+                    TD(
+                            "\n<pre>\n"
+                          . $data{suspect}{$module}{$file}
+                          . "</pre>\n"
+                    )
+                );
                 $filc = 0;
             }
         }
@@ -181,7 +193,7 @@ sub generateReport {
         print "\nQuestionable code is code that may read or write topics ";
         print "or webs directly, or may pose a security threat.\n\n";
         print TABLE( THR( "Module", "File", "Code Fragment" ),
-                     $questionableCodeReport );
+            $questionableCodeReport );
     }
 
     my $conformanceReport = "";
@@ -197,14 +209,15 @@ sub generateReport {
         print "\n---++ Estimated module conformance\n";
         print "Conformance is degree to which module conforms with published ";
         print "interfaces. Low number *good*, high number *bad*\n";
-        print TABLE( THR( "Module", "Conformance rating" ), $conformanceReport );
+        print TABLE( THR( "Module", "Conformance rating" ),
+            $conformanceReport );
     }
 
     my $directivesReport = "";
     foreach my $find ( sort keys( %{ $data{directives} } ) ) {
         $directivesReport .=
           TR( TD($find),
-              TD( join( ", ", sort( keys %{ $data{directives}{$find} } ) ) ) );
+            TD( join( ", ", sort( keys %{ $data{directives}{$find} } ) ) ) );
     }
 
     if ( $directivesReport ne "" ) {
@@ -239,9 +252,12 @@ sub analyseCode {
                 next if $find =~ /^package TWiki/;
                 while ( $find =~ s/\b(TWiki(::(\w+))+)[^\w:]//o ) {
                     my $token = $1;
-                    if ($token !~ /Foswiki::Func/o
-                          && $token !~ /Foswiki::(Plugins|Contrib|Attrs|Time|Sandbox|Meta|Net)/
-                            && $token !~ /Foswiki::(regex|cfg)/ ) {
+                    if (   $token !~ /Foswiki::Func/o
+                        && $token !~
+                        /Foswiki::(Plugins|Contrib|Attrs|Time|Sandbox|Meta|Net)/
+                        && $token !~ /Foswiki::(regex|cfg)/ )
+                    {
+
                         # Index twice, by module and by token
                         $data->{illmod}{$module}{$token}{$file}++;
                         $data->{illtok}{$token}{$module}++;
@@ -254,7 +270,8 @@ sub analyseCode {
                             $data->{howbad}{$module}++;
                             $data->{howbad}{$token}++;
                         }
-                    } elsif ( $token =~ /Foswiki::Func::(\w+)\b/o ) {
+                    }
+                    elsif ( $token =~ /Foswiki::Func::(\w+)\b/o ) {
                         $token = $1;
                         if ( defined( $data->{funcsyms}{$token} ) ) {
                             $data->{funcsyms}{$token}++;
@@ -264,7 +281,7 @@ sub analyseCode {
             }
 
             # search for handler definitions
-            foreach my $h (keys %handlers) {
+            foreach my $h ( keys %handlers ) {
                 `egrep -s -e "sub[ \t]*$h" $r`;
                 if ( !$? ) {
                     push( @{ $data->{handlers}{$h} }, $module );
@@ -295,13 +312,15 @@ sub analyseCode {
             $grr =~ s/>/&gt;/o;
             $grr =~ s/^\s*//go;
             $grr =~ s/\n\n/\n/gos;
+
             if ( $grr !~ /^\s*$/os ) {
                 $data->{suspect}{$module}{$file} = $grr;
                 my @badlines = split( /\n/, $grr );
-                $data->{howbad}{$module} += scalar( @badlines ) * 3;
+                $data->{howbad}{$module} += scalar(@badlines) * 3;
             }
         }
-    } else {
+    }
+    else {
         warn "Failed to find twikiplugins/$module\n";
         undef $data->{howbad}{$module};
     }
@@ -310,25 +329,25 @@ sub analyseCode {
 # Generate HTML for red text
 sub RED {
     my $s = join( " ", @_ );
-    return CGI::font({color=>"#DD0000"},$s);
+    return CGI::font( { color => "#DD0000" }, $s );
 }
 
 # Generate HTML for green text
 sub GREEN {
     my $s = join( " ", @_ );
-    return CGI::font({color=>"#00DD00"},$s);
+    return CGI::font( { color => "#00DD00" }, $s );
 }
 
 # Generate a table data
 sub TD {
-    return CGI::td({},join( "", @_ ));
+    return CGI::td( {}, join( "", @_ ) );
 }
 
 # Generate a table data with background
 sub TD_SHADE {
     my $c = shift;
     my $s = join( "", @_ );
-    return CGI::td({bgcolor=>$c}, $s);
+    return CGI::td( { bgcolor => $c }, $s );
 }
 
 # Generate a row-spanning table data. The TD is generated
@@ -337,22 +356,22 @@ sub TDS {
     my $c = shift;
     my $s = join( "", @_ );
     return "" unless ($c);
-    return CGI::td({rowspan=>$c}, $s);
+    return CGI::td( { rowspan => $c }, $s );
 }
 
 # Generate a table header cell
 sub TH {
-    return CGI::th({},join( "", @_ ));
+    return CGI::th( {}, join( "", @_ ) );
 }
 
 # Generate a table row
 sub TR {
     my $s = join( "", @_ );
-    return CGI::Tr({valign=>"top"},$s);
+    return CGI::Tr( { valign => "top" }, $s );
 }
 
 sub THR {
-    return CGI::Tr({}, join("", map{ CGI::th( $_ ) } @_));
+    return CGI::Tr( {}, join( "", map { CGI::th($_) } @_ ) );
 }
 
 # Generate a coloured table cell.
@@ -362,13 +381,13 @@ sub TR_SHADE {
     my $s   = join( "", @_ );
     my $q   = 255 * ( $n - $i ) / $n;
     my $col = uc( sprintf( "%02x", $q ) );
-    return CGI::Tr({valign=>"top", bgcolor=>"#FF${col}FF"},$s);
+    return CGI::Tr( { valign => "top", bgcolor => "#FF${col}FF" }, $s );
 }
 
 # Generate a table
 sub TABLE {
     my $s = join( "", @_ );
-    return CGI::table({width=>"100%", border=>1}, $s);
+    return CGI::table( { width => "100%", border => 1 }, $s );
 }
 
 # Analyse options
@@ -376,7 +395,8 @@ my @mods;
 foreach my $parm (@ARGV) {
     if ( $parm =~ /^-d/o ) {
         $debug = 1;
-    } else {
+    }
+    else {
         push( @mods, $parm );
     }
 }

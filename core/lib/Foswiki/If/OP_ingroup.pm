@@ -18,7 +18,7 @@ our @ISA = ('Foswiki::Query::OP');
 sub new {
     my $class = shift;
     return $class->SUPER::new(
-	arity       => 2,
+        arity       => 2,
         name        => 'ingroup',
         prec        => 600,
         casematters => 1

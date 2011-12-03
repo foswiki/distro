@@ -21,8 +21,8 @@ use Foswiki ();
 sub INCLUDE {
     my ( $ignore, $session, $control, $params ) = @_;
     my %removedblocks = ();
-    my $class = $control->{_DEFAULT};
-    Foswiki::Func::setPreferencesValue('SMELLS', '');
+    my $class         = $control->{_DEFAULT};
+    Foswiki::Func::setPreferencesValue( 'SMELLS', '' );
     $class =~ s/[a-z]+://;    # remove protocol
     return '' unless $class && $class =~ /^Foswiki/;
     $class =~ s/[^\w:]//g;
@@ -39,19 +39,21 @@ sub INCLUDE {
 
     my $PMFILE;
     open( $PMFILE, '<', $pmfile ) || return '';
-    my $inPod = 0;
-    my $pod   = '';
+    my $inPod      = 0;
+    my $pod        = '';
     my $howSmelly  = 0;
     my $showSmells = !Foswiki::Func::isGuest();
     local $/ = undef;
     my $perl = <$PMFILE>;
     my $isa;
-    if ($perl =~ /our\s+\@ISA\s*=\s*\(\s*['"](.*?)['"]\s*\)/) {
-	$isa = " ==is a== $1";
-	$isa =~ s#\s(Foswiki(?:::[A-Z]\w+)+)# [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=$1][$1]]#g;
+
+    if ( $perl =~ /our\s+\@ISA\s*=\s*\(\s*['"](.*?)['"]\s*\)/ ) {
+        $isa = " ==is a== $1";
+        $isa =~
+s#\s(Foswiki(?:::[A-Z]\w+)+)# [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=$1][$1]]#g;
     }
-    $perl = Foswiki::takeOutBlocks($perl, 'verbatim', \%removedblocks);
-    foreach my $line (split ( /\r?\n/, $perl) ) {
+    $perl = Foswiki::takeOutBlocks( $perl, 'verbatim', \%removedblocks );
+    foreach my $line ( split( /\r?\n/, $perl ) ) {
         if ( $line =~ /^=(begin (twiki|TML|html)|pod)/ ) {
             $inPod = 1;
         }
@@ -59,18 +61,20 @@ sub INCLUDE {
             $inPod = 0;
         }
         elsif ($inPod) {
-	    if ($line =~ /^---\+(!!)?\s+package\s+\S+\s*$/) {
-		if ($isa) {
-		    $line .= $isa;
-		    $isa = undef;
-		}
-		$line =~ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =package= $1/;
-	    } else {
-		$line =~ s#\b(Foswiki(?:::[A-Z]\w+)+)#[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=$1][$1]]#g;
-	    }
-	    if ($line =~ s/^(---\++\s+)(\w+Method)\s+/$1=$2= /) {
-		$line =~ s/\s+[-=]>\s+/ &rarr; /;
-	    }
+            if ( $line =~ /^---\+(!!)?\s+package\s+\S+\s*$/ ) {
+                if ($isa) {
+                    $line .= $isa;
+                    $isa = undef;
+                }
+                $line =~ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =package= $1/;
+            }
+            else {
+                $line =~
+s#\b(Foswiki(?:::[A-Z]\w+)+)#[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=$1][$1]]#g;
+            }
+            if ( $line =~ s/^(---\++\s+)(\w+Method)\s+/$1=$2= / ) {
+                $line =~ s/\s+[-=]>\s+/ &rarr; /;
+            }
             $pod .= "$line\n";
         }
         if ( $line =~ /(SMELL|FIXME|TODO)/ && $showSmells ) {
@@ -79,7 +83,7 @@ sub INCLUDE {
         }
     }
     close($PMFILE);
-    Foswiki::putBackBlocks(\$pod, \%removedblocks, 'verbatim', 'verbatim');
+    Foswiki::putBackBlocks( \$pod, \%removedblocks, 'verbatim', 'verbatim' );
 
     $pod =~ s/.*?%STARTINCLUDE%//s;
     $pod =~ s/%STOPINCLUDE%.*//s;
@@ -89,7 +93,7 @@ sub INCLUDE {
           . " *SMELL / FIX / TODO count: $howSmelly*\n"
           . '</blockquote>';
         $pod .= $podSmell;
-        Foswiki::Func::setPreferencesValue('SMELLS', $podSmell);
+        Foswiki::Func::setPreferencesValue( 'SMELLS', $podSmell );
     }
 
     $pod = Foswiki::applyPatternToIncludedText( $pod, $control->{pattern} )

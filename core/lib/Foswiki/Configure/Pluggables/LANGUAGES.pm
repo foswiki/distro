@@ -36,8 +36,8 @@ sub new {
         $this->addChild(
             new Foswiki::Configure::Value(
                 'BOOLEAN',
-                parent   => $this,
-                keys     => '{Languages}{' . $lang . '}{Enabled}',
+                parent => $this,
+                keys   => '{Languages}{' . $lang . '}{Enabled}',
             )
         );
     }

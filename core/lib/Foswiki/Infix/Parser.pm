@@ -154,11 +154,12 @@ sub _initialise {
             push( @bracketOpsRE, $op->{InfixParser_RE} );
         }
         else {
-	    if ($op->{arity} == 1) {
-		$this->{unary_ops}->{ lc( $op->{name} ) } = $op;
-	    } else {
-		$this->{standard_ops}->{ lc( $op->{name} ) } = $op;
-	    }
+            if ( $op->{arity} == 1 ) {
+                $this->{unary_ops}->{ lc( $op->{name} ) } = $op;
+            }
+            else {
+                $this->{standard_ops}->{ lc( $op->{name} ) } = $op;
+            }
             push( @stdOpsRE, $op->{InfixParser_RE} );
         }
     }
@@ -209,31 +210,36 @@ sub _parse {
         while ( $$input =~ /\S/ ) {
             if ( $$input =~ s/^\s*($this->{standard_op_REs})// ) {
                 my $opname = $1;
-                my $op = $this->{unary_ops}->{ lc($opname) } ||
-		    $this->{standard_ops}->{ lc($opname) };
-		if ($lastTokWasOper && $opname =~ $this->{words}
-		    && $op->{arity} > 1) {
-		    # op is a word name, and is in an operand position,
-		    # and is not unary. Treat it as an operand.
-		    push( @opands,
-			  $this->{node_factory}
-			  ->newLeaf( $opname, Foswiki::Infix::Node::NAME ) );
-		    print STDERR "Operand: name '$opname'\n" if MONITOR_PARSER;
-		    $lastTokWasOper = 0;
-		    next;
-		}
-		if ($lastTokWasOper && $this->{unary_ops}->{ lc($opname) }) {
-		    # Op immediately follows another op, and allows unary.
-		    $op = $this->{unary_ops}->{ lc($opname) };
-		} else {
-		    $op = $this->{standard_ops}->{ lc($opname) } ||
-			$this->{unary_ops}->{ lc($opname) };
-		}
+                my $op     = $this->{unary_ops}->{ lc($opname) }
+                  || $this->{standard_ops}->{ lc($opname) };
+                if (   $lastTokWasOper
+                    && $opname =~ $this->{words}
+                    && $op->{arity} > 1 )
+                {
+
+                    # op is a word name, and is in an operand position,
+                    # and is not unary. Treat it as an operand.
+                    push( @opands,
+                        $this->{node_factory}
+                          ->newLeaf( $opname, Foswiki::Infix::Node::NAME ) );
+                    print STDERR "Operand: name '$opname'\n" if MONITOR_PARSER;
+                    $lastTokWasOper = 0;
+                    next;
+                }
+                if ( $lastTokWasOper && $this->{unary_ops}->{ lc($opname) } ) {
+
+                    # Op immediately follows another op, and allows unary.
+                    $op = $this->{unary_ops}->{ lc($opname) };
+                }
+                else {
+                    $op = $this->{standard_ops}->{ lc($opname) }
+                      || $this->{unary_ops}->{ lc($opname) };
+                }
                 print STDERR "Operator: $op\n" if MONITOR_PARSER;
                 ASSERT( $op, $opname ) if DEBUG;
                 _apply( $this, $op->{prec}, \@opers, \@opands );
                 push( @opers, $op );
-		$lastTokWasOper = 1;
+                $lastTokWasOper = 1;
             }
             elsif ( $$input =~ s/^\s*(['"])(|.*?[^\\])\1// ) {
                 my $q   = $1;
@@ -247,7 +253,7 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x{[a-fA-F0-9]+}|n|t|\\|$q)/eval('"\\'.$1.'
                 push( @opands,
                     $this->{node_factory}
                       ->newLeaf( $val, Foswiki::Infix::Node::STRING ) );
-		$lastTokWasOper = 0;
+                $lastTokWasOper = 0;
             }
             elsif ( $$input =~ s/^\s*($this->{numbers})// ) {
                 my $val = 0 + $1;
@@ -255,7 +261,7 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x{[a-fA-F0-9]+}|n|t|\\|$q)/eval('"\\'.$1.'
                 push( @opands,
                     $this->{node_factory}
                       ->newLeaf( $val, Foswiki::Infix::Node::NUMBER ) );
-		$lastTokWasOper = 0;
+                $lastTokWasOper = 0;
             }
             elsif ( $$input =~ s/^\s*($this->{words})// ) {
                 print STDERR "Operand: word '$1'\n" if MONITOR_PARSER;
@@ -263,7 +269,7 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x{[a-fA-F0-9]+}|n|t|\\|$q)/eval('"\\'.$1.'
                 push( @opands,
                     $this->{node_factory}
                       ->newLeaf( $val, Foswiki::Infix::Node::NAME ) );
-		$lastTokWasOper = 0;
+                $lastTokWasOper = 0;
             }
             elsif ( $$input =~ s/^\s*($this->{bracket_op_REs})// ) {
                 my $opname = $1;
@@ -275,13 +281,14 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x{[a-fA-F0-9]+}|n|t|\\|$q)/eval('"\\'.$1.'
                 push( @opands,
                     $this->_parse( $expr, $input, $op->{InfixParser_closeRE} )
                 );
-		$lastTokWasOper = 0;
+                $lastTokWasOper = 0;
             }
             elsif ( defined($term) && $$input =~ s/^\s*$term// ) {
                 print STDERR "Tok: close bracket $term\n" if MONITOR_PARSER;
-		# if the operand stack is empty, push an empty array
-		# nonary operator
-		$this->onCloseExpr(\@opands);
+
+                # if the operand stack is empty, push an empty array
+                # nonary operator
+                $this->onCloseExpr( \@opands );
                 last;
             }
             else {
@@ -331,13 +338,17 @@ sub _apply {
             print STDERR "Apply $op->{name}("
               . join( ', ', map { $_->stringify() } @prams ) . ")\n";
         }
-	my $folded;
-	if ( ref($prams[0]->{op}) && $op == $prams[0]->{op} && $op->{canfold}) {
-	    push( @{$prams[0]->{params}}, $prams[1] );
-	    push( @$opands, $prams[0] );
-	} else {
-	    push( @$opands, $this->{node_factory}->newNode( $op, @prams ) );
-	}
+        my $folded;
+        if (   ref( $prams[0]->{op} )
+            && $op == $prams[0]->{op}
+            && $op->{canfold} )
+        {
+            push( @{ $prams[0]->{params} }, $prams[1] );
+            push( @$opands,                 $prams[0] );
+        }
+        else {
+            push( @$opands, $this->{node_factory}->newNode( $op, @prams ) );
+        }
     }
 }
 
@@ -351,7 +362,7 @@ when the root expression is closed. The default is a no-op.
 =cut
 
 sub onCloseExpr {
-    my ($this, $opands) = @_;
+    my ( $this, $opands ) = @_;
 }
 
 1;

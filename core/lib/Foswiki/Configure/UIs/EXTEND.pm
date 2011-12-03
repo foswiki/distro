@@ -112,10 +112,10 @@ sub _getSession {
     $Foswiki::cfg{PasswordManager}    = 'none';
     $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
 
-    # SMELL: The Cache uses $Foswiki::cfg variables that are not expanded when running
-    # in a configure setting.   Disable the cache because the init routine fails.
-    # This might leave stale cache entries for topics updated by the installer.
-    # See Item9944 for more background.
+# SMELL: The Cache uses $Foswiki::cfg variables that are not expanded when running
+# in a configure setting.   Disable the cache because the init routine fails.
+# This might leave stale cache entries for topics updated by the installer.
+# See Item9944 for more background.
     $Foswiki::cfg{Cache}{Enabled} = 0;
 
     my $session = new Foswiki($user);
@@ -289,11 +289,15 @@ sub _uninstall {
 
     my $session = $this->_getSession();
 
-    my $pkg =
-      new Foswiki::Configure::Package( $installRoot, $extension, $session,
-        { SIMULATE => $simulate,
-          USELOCAL => 1,
-        } );
+    my $pkg = new Foswiki::Configure::Package(
+        $installRoot,
+        $extension,
+        $session,
+        {
+            SIMULATE => $simulate,
+            USELOCAL => 1,
+        }
+    );
 
     # For uninstall, set repository in case local installer is not found
     # it can be downloaded to recover the manifest
@@ -322,7 +326,6 @@ sub _uninstall {
         _printFeedback($feedback);
         return;
     }
-
 
     _printFeedback($feedback);
 }

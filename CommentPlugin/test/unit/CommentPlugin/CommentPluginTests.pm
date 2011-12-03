@@ -74,8 +74,9 @@ sub inputTest {
     $web   ||= $this->{test_web};
     $topic ||= $this->{test_topic};
 
-    if ( $web ne $this->{test_web} || $topic ne $this->{test_topic}
-           || $anchor )
+    if (   $web ne $this->{test_web}
+        || $topic ne $this->{test_topic}
+        || $anchor )
     {
 
         $sattrs = 'target="';
@@ -99,8 +100,8 @@ sub inputTest {
     $type = "bottom" unless ($type);
     $sattrs .= 'type="' . $type . '" ';
 
-    my $commentref = '%COMMENT{' . $sattrs .
-      ' refmark="here" default="The Message"}%';
+    my $commentref =
+      '%COMMENT{' . $sattrs . ' refmark="here" default="The Message"}%';
 
     # Build the target topic
     my $sample = <<"HERE";
@@ -343,8 +344,9 @@ sub test_reverseCompat {
 # button: This lets you change the text of the submit button (default is "Add Comment")
 # id: This gives a unique name for a COMMENT, in case you have more than one COMMENT tag in a topic (mandatory with > 1 COMMENT)
 
-    my $comment = '%COMMENT{type="after" rows="99" cols="104" mode="after" button="HoHo" id="sausage"}%';
-    my $html = Foswiki::Func::expandCommonVariables( $comment );
+    my $comment =
+'%COMMENT{type="after" rows="99" cols="104" mode="after" button="HoHo" id="sausage"}%';
+    my $html = Foswiki::Func::expandCommonVariables($comment);
     $html = removeEscapes($html);
     $this->assert_matches( qr/form [^>]*name=\"after0\"/,        $html );
     $this->assert_matches( qr/rows=\"99\"/,                      $html );
@@ -356,7 +358,9 @@ sub test_reverseCompat {
 
 sub test_locationOverridesAnchor {
     my $this = shift;
-    my $html = Foswiki::Func::expandCommonVariables("%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" location=\"AnRE\"}%");
+    my $html = Foswiki::Func::expandCommonVariables(
+"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" location=\"AnRE\"}%"
+    );
 
     $this->assert_matches( qr/<input ([^>]*name="comment_location".*?)\s*\/>/,
         $html );
@@ -372,10 +376,9 @@ before
 %COMMENT{nopost="on"}%
 after
 HERE
-    Foswiki::Func::saveTopic(
-        $this->{test_web}, $this->{test_topic}, undef, $sample );
-    my $html =
-      Foswiki::Func::expandCommonVariables( '%COMMENT{nopost="on"}%');
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $sample );
+    my $html = Foswiki::Func::expandCommonVariables('%COMMENT{nopost="on"}%');
 
     $this->assert_matches(
         qr/<input type="hidden" name="comment_nopost" value="on"/, $html );
@@ -417,10 +420,9 @@ before
 %COMMENT{remove="on"}%
 after
 HERE
-    Foswiki::Func::saveTopic(
-        $this->{test_web}, $this->{test_topic}, undef, $sample );
-    my $html =
-      Foswiki::Func::expandCommonVariables( '%COMMENT{remove="on"}%');
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $sample );
+    my $html = Foswiki::Func::expandCommonVariables('%COMMENT{remove="on"}%');
 
     $this->assert_matches(
         qr/<input type="hidden" name="comment_remove" value="0"/, $html );
@@ -469,9 +471,10 @@ before
 %COMMENT{remove="on"}%
 after
 HERE
-    Foswiki::Func::saveTopic(
-        $this->{test_web}, $this->{test_topic}, undef, $sample );
-    my $html = Foswiki::Func::expandCommonVariables('%COMMENT{default="wibble"}%');
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $sample );
+    my $html =
+      Foswiki::Func::expandCommonVariables('%COMMENT{default="wibble"}%');
 
     $this->assert_matches( qr#>wibble</textarea>#, $html );
 
@@ -486,10 +489,9 @@ before
 %COMMENT{type="above" cols="100" target="%INCLUDINGTOPIC%#LatestComment"}%
 after
 HERE
-    Foswiki::Func::saveTopic(
-        $this->{test_web}, $this->{test_topic}, undef, $sample );
-    my $html =
-      Foswiki::Func::expandCommonVariables( '%COMMENT{remove="on"}%');
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $sample );
+    my $html = Foswiki::Func::expandCommonVariables('%COMMENT{remove="on"}%');
 
     $this->assert_matches(
         qr/<input type="hidden" name="comment_remove" value="0"/, $html );
@@ -542,10 +544,9 @@ before
 %COMMENT{type="below" target="%INCLUDINGTOPIC%#LatestComment"}%
 after
 HERE
-    Foswiki::Func::saveTopic(
-        $this->{test_web}, $this->{test_topic}, undef, $sample );
-    my $html =
-      Foswiki::Func::expandCommonVariables( '%COMMENT{remove="on"}%');
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $sample );
+    my $html = Foswiki::Func::expandCommonVariables('%COMMENT{remove="on"}%');
 
     $html = removeEscapes($html);
     $this->assert_matches(
@@ -599,8 +600,8 @@ sub test_acl_COMMENT {
    * Set ALLOWTOPICCOMMENT = $Foswiki::cfg{DefaultUserWikiName}
 %COMMENT%
 HERE
-    Foswiki::Func::saveTopic(
-        $this->{test_web}, $this->{test_topic}, undef, $sample );
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $sample );
 
     # Compose the query
     my $comm  = "This is the comment";
@@ -609,25 +610,26 @@ HERE
             'comment_action' => 'save',
             'comment_type'   => 'above',
             'comment'        => $comm,
-            topic => "$this->{test_web}.$this->{test_topic}",
+            topic            => "$this->{test_web}.$this->{test_topic}",
         }
     );
     $query->path_info("/CommentPlugin/comment");
 
     $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
 
-    my ($responseText, $result, $stdout, $stderr, $session);
+    my ( $responseText, $result, $stdout, $stderr, $session );
+
     # First make sure we can't *change* it
     $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
 
     # invoke the save handler
     eval {
-        ($responseText, $result, $stdout, $stderr) =
+        ( $responseText, $result, $stdout, $stderr ) =
           $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
     };
 
     $this->assert($@);
-    $this->assert_matches(qr"AccessControlException", $@);
+    $this->assert_matches( qr"AccessControlException", $@ );
 
     # Now make sure we *can* change it, given COMMENT access
     $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'COMMENT';
@@ -636,16 +638,16 @@ HERE
 
     # invoke the save handler
     eval {
-        ($responseText, $result, $stdout, $stderr) =
+        ( $responseText, $result, $stdout, $stderr ) =
           $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
     };
-    $this->assert(!$@);
-    $this->assert_matches(qr/Status: 200/, $responseText);
+    $this->assert( !$@ );
+    $this->assert_matches( qr/Status: 200/, $responseText );
 
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     $text =~ s/- \d\d [A-Z][a-z]{2} \d{4}/- DATE/;
-    $this->assert_str_equals(<<HERE, $text);
+    $this->assert_str_equals( <<HERE, $text );
    * Set DENYTOPICCHANGE = WikiGuest
    * Set DENYTOPICVIEW = $Foswiki::cfg{DefaultUserWikiName}
    * Set ALLOWTOPICCOMMENT = WikiGuest
@@ -659,13 +661,13 @@ HERE
 }
 
 sub test_rest_control_modes {
-    my $this = shift;
+    my $this   = shift;
     my $sample = <<HERE;
    * Set DENYTOPICCHANGE = $Foswiki::cfg{DefaultUserWikiName}
 %COMMENT%
 HERE
-    Foswiki::Func::saveTopic(
-        $this->{test_web}, $this->{test_topic}, undef, $sample );
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $sample );
 
     # other tests have already covered the non-ajax, no endpoint mode
     my $query = Unit::Request->new(
@@ -674,17 +676,17 @@ HERE
             'comment_type'   => 'above',
             'comment'        => "Arfle barfle gloop",
             'comment_ajax'   => 1,
-            topic => "$this->{test_web}.$this->{test_topic}",
+            topic            => "$this->{test_web}.$this->{test_topic}",
         }
     );
     $query->path_info("/CommentPlugin/comment");
-    my ($responseText, $result, $stdout, $stderr);
-    my $session = new Foswiki(undef, $query);
+    my ( $responseText, $result, $stdout, $stderr );
+    my $session = new Foswiki( undef, $query );
     eval {
-        ($responseText, $result, $stdout, $stderr) =
+        ( $responseText, $result, $stdout, $stderr ) =
           $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
     };
-    $this->assert_matches(qr/Status: 404/, $responseText);
+    $this->assert_matches( qr/Status: 404/, $responseText );
 
 }
 

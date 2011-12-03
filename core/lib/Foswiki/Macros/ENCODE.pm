@@ -71,6 +71,7 @@ sub ENCODE {
         return $text;
     }
     elsif ( $type =~ /^url$/i ) {
+
         # This is legacy, stretching back to 2001. Checkin comment was:
         # "Fixed URL encoding". At that time it related to the encoding of
         # parameters to the "oops" script exclusively. I'm taking it out
@@ -84,8 +85,8 @@ sub ENCODE {
         # no encoding
         return $text;
     }
-    else {                               # safe
-                                         # entity encode ' " < > and %
+    else {    # safe
+              # entity encode ' " < > and %
         $text =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
         return $text;
     }

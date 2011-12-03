@@ -29,7 +29,7 @@ use Foswiki::Contrib::Build;
 my $build = new Foswiki::Contrib::Build('EmptyPlugin');
 
 # Build the target on the command line, or the default target
-$build->build($build->{target});
+$build->build( $build->{target} );
 
 =begin TML
 

@@ -19,30 +19,26 @@ our @ISA = ('Foswiki::Query::Parser');
 use Assert;
 use Foswiki::If::Node ();
 
-use Foswiki::If::OP_allows ();
+use Foswiki::If::OP_allows  ();
 use Foswiki::If::OP_context ();
 use Foswiki::If::OP_defined ();
-use Foswiki::If::OP_dollar ();
+use Foswiki::If::OP_dollar  ();
 use Foswiki::If::OP_ingroup ();
 use Foswiki::If::OP_isempty ();
 use Foswiki::If::OP_istopic ();
-use Foswiki::If::OP_isweb ();
+use Foswiki::If::OP_isweb   ();
 
 # Additional operators specific to IF statements (not available in other
 # query types)
 use constant OPS => qw(allows context defined dollar ingroup isempty
-                       istopic isweb );
+  istopic isweb );
 
 sub new {
     my ($class) = @_;
 
-    my $this = $class->SUPER::new(
-        {
-            nodeClass => 'Foswiki::If::Node',
-        }
-    );
+    my $this = $class->SUPER::new( { nodeClass => 'Foswiki::If::Node', } );
     foreach my $op ( OPS() ) {
-	my $on = 'Foswiki::If::OP_'.$op;
+        my $on = 'Foswiki::If::OP_' . $op;
         $this->addOperator( $on->new() );
     }
 

@@ -10,7 +10,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    return $this->showExpandedValue($Foswiki::cfg{ScriptUrlPaths}{view});
+    return $this->showExpandedValue( $Foswiki::cfg{ScriptUrlPaths}{view} );
 }
 
 1;

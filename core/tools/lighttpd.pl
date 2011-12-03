@@ -9,24 +9,25 @@ use Pod::Usage;
 
 # defaults
 my $__fastcgi = undef;
-my $__help = undef;
-my $__port = 8080;
+my $__help    = undef;
+my $__port    = 8080;
 
 GetOptions(
-  'fastcgi|f'   => \$__fastcgi,
-  'help|h'      => \$__help,
-  'port|p=i'    => \$__port,
+    'fastcgi|f' => \$__fastcgi,
+    'help|h'    => \$__help,
+    'port|p=i'  => \$__port,
 );
 pod2usage(1) if $__help;
 
 # calculate paths
-my $foswiki_core = Cwd::abs_path( File::Spec->catdir( dirname(__FILE__), '..' ) );
+my $foswiki_core =
+  Cwd::abs_path( File::Spec->catdir( dirname(__FILE__), '..' ) );
 chomp $foswiki_core;
 my $conffile = $foswiki_core . '/working/tmp/lighttpd.conf';
 
-my $mime_mapping=q(include_shell "/usr/share/lighttpd/create-mime.assign.pl");
-if( ! -e  "/usr/share/lighttpd/create-mime.assign.pl" ) {
-$mime_mapping = q(mimetype.assign             = \(
+my $mime_mapping = q(include_shell "/usr/share/lighttpd/create-mime.assign.pl");
+if ( !-e "/usr/share/lighttpd/create-mime.assign.pl" ) {
+    $mime_mapping = q(mimetype.assign             = \(
   ".rpm"          =>      "application/x-rpm",
   ".pdf"          =>      "application/pdf",
   ".sig"          =>      "application/pgp-signature",
@@ -82,13 +83,15 @@ $mime_mapping = q(mimetype.assign             = \(
   ".tar.bz2"      =>      "application/x-bzip-compressed-tar",
   # default mime type
   ""              =>      "application/octet-stream",
-  \)) ;
+  \));
 }
 
 # write configuration file
-open(CONF, '>', $conffile) or die("!! Cannot write configuration. Check write permissions to $conffile!");
+open( CONF, '>', $conffile )
+  or
+  die("!! Cannot write configuration. Check write permissions to $conffile!");
 print CONF "server.document-root = \"$foswiki_core\"\n";
-print CONF  <<EOC
+print CONF <<EOC
 server.modules = (
    "mod_rewrite",
    "mod_alias",
@@ -107,10 +110,10 @@ $mime_mapping
 
 url.rewrite-repeat = ( "^/?(index.*)?\$" => "/bin/view/Main" )
 EOC
-;
+  ;
 
 if ($__fastcgi) {
-  print CONF "
+    print CONF "
 \$HTTP[\"url\"] =~ \"^/bin/\" {
     alias.url += ( \"/bin\" => \"$foswiki_core/bin/foswiki.fcgi\" )
     fastcgi.server = ( \".fcgi\" => (
@@ -123,15 +126,17 @@ if ($__fastcgi) {
     )
 }
   ";
-  # the configure script must always be run as CGI
-  print CONF "
+
+    # the configure script must always be run as CGI
+    print CONF "
 \$HTTP[\"url\"] =~ \"^/bin/configure\" {
     alias.url += ( \"/bin/configure\" => \"$foswiki_core/bin/configure\" )
     cgi.assign = ( \"\" => \"\" )
 }
   ";
-} else {
-  print CONF '$HTTP["url"] =~ "^/bin" { cgi.assign = ( "" => "" ) }', "\n";
+}
+else {
+    print CONF '$HTTP["url"] =~ "^/bin" { cgi.assign = ( "" => "" ) }', "\n";
 }
 
 close(CONF);
@@ -142,8 +147,10 @@ print "Foswiki Development Server\n";
 system('lighttpd -v 2>/dev/null');
 print "Server root: $foswiki_core\n";
 print "************************************************************\n";
-print "Browse to http://localhost:$__port/bin/configure to configure your Foswiki\n";
-print "Browse to http://localhost:$__port/bin/view to start testing your Foswiki checkout\n";
+print
+"Browse to http://localhost:$__port/bin/configure to configure your Foswiki\n";
+print
+"Browse to http://localhost:$__port/bin/view to start testing your Foswiki checkout\n";
 print "Hit Control-C at any time to stop\n";
 print "************************************************************\n";
 

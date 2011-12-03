@@ -21,21 +21,24 @@ my $num = qr/(?:-?\d+\.\d+|-)/;
 my @profiles;
 my $lastWasDesc = 0;
 
-foreach my $line ( split ( /\n/, `cd $bin && dprofpp -O 1000 -U -q 2>&1` )) {
+foreach my $line ( split( /\n/, `cd $bin && dprofpp -O 1000 -U -q 2>&1` ) ) {
     if ( $line =~ /^\s+$num\s+$num\s+$num\s+(\d+)\s*$num\s+$num\s+(\S+)$/o ) {
-        push( @profiles, { calls=>$1, name=>$2 } );
+        push( @profiles, { calls => $1, name => $2 } );
         $lastWasDesc = 1;
-    } elsif ( $lastWasDesc && $line =~ /^\s+(0.0000\s+)?(\S+)$/ ) {
+    }
+    elsif ( $lastWasDesc && $line =~ /^\s+(0.0000\s+)?(\S+)$/ ) {
         $profiles[$#profiles]{name} .= $2;
-    } else {
+    }
+    else {
         $lastWasDesc = 0;
     }
 }
 
-@profiles = reverse sort { $a->{calls} <=> $b->{calls} } grep {
-    $_->{name} =~ /^Foswiki::/ && $_->{name} !~ /BEGIN$/ } @profiles;
+@profiles =
+  reverse sort { $a->{calls} <=> $b->{calls} }
+  grep { $_->{name} =~ /^Foswiki::/ && $_->{name} !~ /BEGIN$/ } @profiles;
 
-foreach my $prof ( @profiles ) {
-    print $prof->{name}," ", $prof->{calls},"\n";
+foreach my $prof (@profiles) {
+    print $prof->{name}, " ", $prof->{calls}, "\n";
 }
 

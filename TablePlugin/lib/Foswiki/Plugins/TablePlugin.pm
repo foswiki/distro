@@ -41,8 +41,8 @@ sub initPlugin {
     my $cgi = Foswiki::Func::getCgiQuery();
     return 0 unless $cgi;
 
-    $initialised   = 0;
-    $writtenToHead = 0;
+    $initialised      = 0;
+    $writtenToHead    = 0;
     %pluginAttributes = ();
 
     debug( 'TablePlugin', "inited" );

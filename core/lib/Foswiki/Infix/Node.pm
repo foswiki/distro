@@ -23,8 +23,8 @@ use constant {
     NAME   => 1,
     NUMBER => 2,
     STRING => 3,
-    HASH => 4,
-    META => 5,
+    HASH   => 4,
+    META   => 5,
 };
 
 =begin TML
@@ -104,18 +104,19 @@ sub stringify {
 
     unless ( ref( $this->{op} ) ) {
         if ( $this->{op} == STRING ) {
-            ASSERT(ref($this->{params}[0]) eq '') if DEBUG;
+            ASSERT( ref( $this->{params}[0] ) eq '' ) if DEBUG;
             return "'$this->{params}[0]'";
         }
         else {
-            if (ref($this->{params}[0]) eq 'HASH') {
-                return join(',', map{
-                                    $_.'=>'.$this->{params}[0]->{$_}
-                                    } keys(%{$this->{params}[0]}));
-            } 
-            if (ref($this->{params}[0]) eq 'Foswiki::Meta') {
-                return $this->{params}[0]->web.'.'.$this->{params}[0]->topic;
-            } 
+            if ( ref( $this->{params}[0] ) eq 'HASH' ) {
+                return join( ',',
+                    map { $_ . '=>' . $this->{params}[0]->{$_} }
+                      keys( %{ $this->{params}[0] } ) );
+            }
+            if ( ref( $this->{params}[0] ) eq 'Foswiki::Meta' ) {
+                return $this->{params}[0]->web . '.'
+                  . $this->{params}[0]->topic;
+            }
             return $this->{params}[0];
         }
     }
@@ -123,9 +124,7 @@ sub stringify {
         use Foswiki::Query::Node;
         return
           $this->{op}->{name} . '{'
-          . join( ',', map { 
-								stringify($_) 
-							} @{ $this->{params} } ) . '}';
+          . join( ',', map { stringify($_) } @{ $this->{params} } ) . '}';
     }
     else {
         $this->{op}->{name};

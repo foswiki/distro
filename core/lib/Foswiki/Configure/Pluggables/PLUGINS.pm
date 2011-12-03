@@ -16,8 +16,8 @@ use warnings;
 use Foswiki::Configure::Pluggable ();
 our @ISA = ('Foswiki::Configure::Pluggable');
 
-use Foswiki::Configure::Type      ();
-use Foswiki::Configure::Value     ();
+use Foswiki::Configure::Type  ();
+use Foswiki::Configure::Value ();
 
 my $scanner = Foswiki::Configure::Type::load('SELECTCLASS');
 
@@ -43,12 +43,14 @@ sub new {
         $modules{$simple} = $module;
     }
     foreach my $module ( sort { lc($a) cmp lc($b) } keys %modules ) {
-        next if ($module eq 'EmptyPlugin'); #don't show EmptyPlugin, and don't add it to the cfg
+        next
+          if ( $module eq 'EmptyPlugin' )
+          ;    #don't show EmptyPlugin, and don't add it to the cfg
         $this->addChild(
             new Foswiki::Configure::Value(
                 'BOOLEAN',
-                parent   => $this,
-                keys     => '{Plugins}{' . $module . '}{Enabled}',
+                parent => $this,
+                keys   => '{Plugins}{' . $module . '}{Enabled}',
             )
         );
         $this->addChild(
@@ -66,13 +68,13 @@ sub new {
         next unless ( $plug =~ m/Plugin$/ );
         my $simple = $plug;
         $simple =~ s/^.*::([^:]*)/$1/;
-        unless ($modules{$simple}) {
+        unless ( $modules{$simple} ) {
             $modules{$simple} = $plug;
             $this->addChild(
                 new Foswiki::Configure::Value(
                     'BOOLEAN',
-                    parent   => $this,
-                    keys     => '{Plugins}{' . $plug . '}{Enabled}',
+                    parent      => $this,
+                    keys        => '{Plugins}{' . $plug . '}{Enabled}',
                     expertsOnly => !$Foswiki::cfg{Plugins}{$plug}{Enabled}
                 )
             );

@@ -27,8 +27,9 @@ sub evaluate {
     my $a = $node->{params}[0]->evaluate(@_) || 0;
     my $b = $node->{params}[1]->evaluate(@_) || 0;
 
-    return 0 unless (Foswiki::Query::OP::isNumber($a) &&
-		     Foswiki::Query::OP::isNumber($b));
+    return 0
+      unless ( Foswiki::Query::OP::isNumber($a)
+        && Foswiki::Query::OP::isNumber($b) );
     return $a / $b;
 }
 

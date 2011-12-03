@@ -9,17 +9,24 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
-    
+
     if ( !$Foswiki::cfg{AuthRealm} ) {
         return $this->ERROR(
 'Please make sure you enter an Authentication Realm. This is required for registration to work.'
         );
     }
 
-    if (( $Foswiki::cfg{AuthRealm} =~ /\:/ ) and 
-#        ($Foswiki::cfg{AuthRealm} eq 'Foswiki::LoginManager::ApacheLogin') and
-        ($Foswiki::cfg{Htpasswd}{Encoding} eq 'md5')) {
-            return $this->ERROR("Digest auth (md5) password files store the AuthRealm in the password file, which uses ':' (colons) as the data separator. Please remove the colon from the Setting.");
+    if (
+        ( $Foswiki::cfg{AuthRealm} =~ /\:/ )
+        and
+
+ #        ($Foswiki::cfg{AuthRealm} eq 'Foswiki::LoginManager::ApacheLogin') and
+        ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' )
+      )
+    {
+        return $this->ERROR(
+"Digest auth (md5) password files store the AuthRealm in the password file, which uses ':' (colons) as the data separator. Please remove the colon from the Setting."
+        );
     }
     return '';
 }

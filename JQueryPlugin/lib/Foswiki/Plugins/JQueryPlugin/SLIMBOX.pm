@@ -56,8 +56,12 @@ sub init {
 
     # add translations to head
     my $session = $Foswiki::Plugins::SESSION;
-    my $counterText = $session->i18n->maketext("Image [_1] of [_2]", "{x}", "{y}");
-    Foswiki::Func::addToZone("head", "JQUERYPLUGIN::SLIMBOX::COUNTERTEXT", '<meta name="foswiki.ImagePlugin.counterText" content="'.$counterText.'" />');
+    my $counterText =
+      $session->i18n->maketext( "Image [_1] of [_2]", "{x}", "{y}" );
+    Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::SLIMBOX::COUNTERTEXT",
+            '<meta name="foswiki.ImagePlugin.counterText" content="'
+          . $counterText
+          . '" />' );
 }
 
 1;

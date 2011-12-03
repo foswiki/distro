@@ -207,7 +207,6 @@ sub cachePage {
         $lastModified = Foswiki::Time::formatTime( $time, '$http', 'gmtime' );
     }
 
-
     my $headers   = $session->{response}->headers();
     my $status    = $headers->{Status} || 200;
     my $variation = {
@@ -280,8 +279,8 @@ sub getPage {
     my $variation =
       $this->{handler}->get( PAGECACHE_PAGE_KEY . $webTopic . $variationKey );
 
-    # check expiry date of this entry; return undef if it did expire, not deleted
-    # from cache as it will be recomputed during a normal view cycle
+   # check expiry date of this entry; return undef if it did expire, not deleted
+   # from cache as it will be recomputed during a normal view cycle
     return undef
       if defined($variation)
           && defined( $variation->{expire} )
@@ -334,7 +333,6 @@ sub addDependency {
     # exclude invalid topic names
     return unless $depTopic =~ /^[$Foswiki::regex{upperAlpha}]/o;
 
-
     # omit dependencies triggered from inside a dirtyarea
     return if $this->{session}->inContext('dirtyarea');
 
@@ -342,14 +340,16 @@ sub addDependency {
     my $depWebTopic = $depWeb . '.' . $depTopic;
 
     # exclude unwanted dependencies
-    if ($depWebTopic =~ /^($Foswiki::cfg{Cache}{DependencyFilter})$/o) {
-      writeDebug("dependency on $depWebTopic ignored by filter $Foswiki::cfg{Cache}{DependencyFilter}")
-        if (TRACE);
-      return;
-    } else {
-      writeDebug("addDependency($depWeb.$depTopic)") if (TRACE);
+    if ( $depWebTopic =~ /^($Foswiki::cfg{Cache}{DependencyFilter})$/o ) {
+        writeDebug(
+"dependency on $depWebTopic ignored by filter $Foswiki::cfg{Cache}{DependencyFilter}"
+        ) if (TRACE);
+        return;
     }
-  
+    else {
+        writeDebug("addDependency($depWeb.$depTopic)") if (TRACE);
+    }
+
     # collect them; defer writing them to the database til we cache this page
     $this->{deps}{$depWebTopic} = 1;
 }

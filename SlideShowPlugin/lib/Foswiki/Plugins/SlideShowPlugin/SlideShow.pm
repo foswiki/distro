@@ -66,7 +66,8 @@ sub handler {
         next
           if ( $name =~
             /(text|keywords|web|topic|slideshow|skin|cover|template|\#)/ );
-        $queryParams .= ';' . urlEncode($name) . '=' . urlEncode( $query->param($name) );
+        $queryParams .=
+          ';' . urlEncode($name) . '=' . urlEncode( $query->param($name) );
     }
 
     if ( $query && $query->param('slideshow') ) {
@@ -126,9 +127,7 @@ s/%TOC(?:\{.*?\})*%/renderSlideToc( $theWeb, $theTopic, $queryParams, @titles )/
         }
 
         $textPre =
-            '%JQREQUIRE{"CYCLE,EASING"}%' 
-          . $toolbar
-          . '<div class="slideshow">';
+          '%JQREQUIRE{"CYCLE,EASING"}%' . $toolbar . '<div class="slideshow">';
         $textPost = '</div>';
 
         $text = "$textPre\n$text\n";

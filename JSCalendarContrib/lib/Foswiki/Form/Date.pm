@@ -54,10 +54,9 @@ sub renderForEdit {
     );
     Foswiki::Contrib::JSCalendarContrib::addHEAD('foswiki');
     my $button .= CGI::image_button(
-        -name => 'calendar',
-        -onclick =>
-          "return showCalendar('id$this->{name}','$format')",
-        -src => $Foswiki::cfg{PubUrlPath} . '/'
+        -name    => 'calendar',
+        -onclick => "return showCalendar('id$this->{name}','$format')",
+        -src     => $Foswiki::cfg{PubUrlPath} . '/'
           . $Foswiki::cfg{SystemWebName}
           . '/JSCalendarContrib/img.gif',
         -alt   => 'Calendar',

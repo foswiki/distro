@@ -471,14 +471,14 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doE
     if ($doSave) {
         my $url = Foswiki::Func::getViewUrl( $web, $topic );
         try {
-            Foswiki::Func::saveTopic(
-                $web, $topic, $meta, $topicText,
+            Foswiki::Func::saveTopic( $web, $topic, $meta, $topicText,
                 { dontlog => ( $mode & $MODE->{SAVEQUIET} ) } );
-        } catch Error::Simple with {
+        }
+        catch Error::Simple with {
             my $e = shift;
             $url =
               Foswiki::Func::getOopsUrl( $web, $topic, 'oopssaveerr',
-                                        "Save failed: ".$e->{-text});
+                "Save failed: " . $e->{-text} );
         };
         Foswiki::Func::setTopicEditLock( $web, $topic, 0 );    # unlock Topic
         $url .= "#edittable$inSaveTableNr";
@@ -1593,16 +1593,17 @@ sub inputElement {
 
     }
     elsif ( $type eq 'date' ) {
-    
+
         # calendar format
         my $ifFormat = '';
         $ifFormat = $bits[3] if ( @bits > 3 );
         $ifFormat ||= $Foswiki::cfg{JSCalendarContrib}{format} || '%e %B %Y';
+
         # protect format from parsing
         Foswiki::Plugins::EditTablePlugin::encodeValue($ifFormat);
-        
+
         $size = 10 if ( !$size || $size < 1 );
-        
+
         Foswiki::Plugins::EditTablePlugin::encodeValue($inValue)
           unless ( $inValue eq '' );
         $text .= CGI::textfield(

@@ -134,7 +134,7 @@ sub finish {
 
 # Get a backend object corresponding to the given $web,$topic
 sub _getBackend {
-    my $this       = shift;
+    my $this = shift;
 
     my $metaObject = Foswiki::Meta->new( $this->{session}, @_ );
     my $path = $metaObject->getPath();

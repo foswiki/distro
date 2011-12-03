@@ -33,8 +33,8 @@ sub TOC {
     my ( $session, $text, $topicObject, $args ) = @_;
 
     require Foswiki::Attrs;
-    my $params    = new Foswiki::Attrs($args);
-    my $isSameTopic = 1;                          # is the toc for this topic?
+    my $params      = new Foswiki::Attrs($args);
+    my $isSameTopic = 1;                           # is the toc for this topic?
 
     my $tocTopic = $params->{_DEFAULT};
     my $tocWeb   = $params->{web};
@@ -55,10 +55,10 @@ sub TOC {
             $params->{differentTopic} = 1;
             $topicObject = Foswiki::Meta->load( $session, $tocWeb, $tocTopic );
             if ( !$topicObject->haveAccess('VIEW') ) {
-                return $session->inlineAlert(
-                    'alerts', 'access_denied', $tocWeb, $tocTopic );
+                return $session->inlineAlert( 'alerts', 'access_denied',
+                    $tocWeb, $tocTopic );
             }
-            $text      = $topicObject->text;
+            $text        = $topicObject->text;
             $isSameTopic = 0;
         }
     }
@@ -151,7 +151,7 @@ sub TOC {
                 # $i == 1 is $Foswiki::regex{headerPatternDa}
                 $level = length($level) if ( $i == 1 );
                 if ( ( $level >= $minDepth ) && ( $level <= $maxDepth ) ) {
-                    my $anchor = $anchors->addUnique( $atext );
+                    my $anchor = $anchors->addUnique($atext);
                     my $target = {
                         anchor => $anchor,
                         text   => $text,
@@ -182,8 +182,8 @@ sub TOC {
         $text =~ s/<[\/]?a\b[^>]*>//gi;
 
         # Prevent WikiLinks
-        $text =~ s/\[\[.*?\]\[(.*?)\]\]/$1/g;    # '[[...][...]]'
-        $text =~ s/\[\[(.*?)\]\]/$1/ge;          # '[[...]]'
+        $text =~ s/\[\[.*?\]\[(.*?)\]\]/$1/g;                   # '[[...][...]]'
+        $text =~ s/\[\[(.*?)\]\]/$1/ge;                         # '[[...]]'
         $text =~ s/(^|[\s\(])($Foswiki::regex{webNameRegex})\.
                    ($Foswiki::regex{wikiWordRegex})/$1<nop>$3/gox;
         $text =~ s/(^|[\s\(])($Foswiki::regex{wikiWordRegex})/$1<nop>$2/gox;
@@ -193,13 +193,14 @@ sub TOC {
         $text =~ s/(^|[\s\-\*\(])
                    ([$Foswiki::regex{mixedAlphaNum}]+\:)/$1<nop>$2/gox;
 
-        # Prevent duplicating id attributes 
+        # Prevent duplicating id attributes
         $text =~ s/id=["'][^"']*?["']//gi;
 
         # create linked bullet item, using a relative link to anchor
         my $target =
           $isSameTopic
-          ? Foswiki::make_params( @qparams ).'#' .$a->{anchor}
+          ? Foswiki::make_params(@qparams) . '#'
+          . $a->{anchor}
           : $session->getScriptUrl(
             0, 'view', $topicObject->web, $topicObject->topic,
             '#' => $a->{anchor},

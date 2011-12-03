@@ -8,5 +8,5 @@ use Foswiki::Contrib::Build;
 $build = new Foswiki::Contrib::Build('JQueryPlugin');
 
 # Build the target on the command line, or the default target
-$build->build($build->{target});
+$build->build( $build->{target} );
 

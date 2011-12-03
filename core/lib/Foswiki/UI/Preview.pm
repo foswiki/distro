@@ -155,9 +155,9 @@ sub preview {
 }
 
 sub _disableLink {
-    my ($one, $two, $three) = @_;
-    if ($one =~ /\bhref=/i) {
-        $one = "<span class=\"foswikiEmulatedLink\">";
+    my ( $one, $two, $three ) = @_;
+    if ( $one =~ /\bhref=/i ) {
+        $one   = "<span class=\"foswikiEmulatedLink\">";
         $three = "</span>";
     }
     return "$one$two$three";

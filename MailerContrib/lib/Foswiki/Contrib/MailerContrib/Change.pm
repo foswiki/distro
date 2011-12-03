@@ -40,7 +40,7 @@ sub new {
     $this->{AUTHOR} = Foswiki::Func::getWikiName($author);
 
     $this->{TIME} = $time;
-    ASSERT(defined $rev) if DEBUG;
+    ASSERT( defined $rev ) if DEBUG;
 
     # rev at this change
     $this->{CURR_REV} = $rev;
@@ -206,29 +206,29 @@ Generate a unified diff version of this change.
 =cut
 
 sub expandDiff {
-    my ($this, $template) = @_;
+    my ( $this, $template ) = @_;
 
-    unless ($this->{TEXT_DIFF}) {
-        my $b = Foswiki::Meta->load(
-            $Foswiki::Plugins::SESSION,
-            $this->{WEB}, $this->{TOPIC}, $this->{CURR_REV});
+    unless ( $this->{TEXT_DIFF} ) {
+        my $b =
+          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $this->{WEB},
+            $this->{TOPIC}, $this->{CURR_REV} );
         return '' unless ( $b->haveAccess('VIEW') );
         my $btext = $b->getEmbeddedStoreForm();
         $btext =~ s/^%META:TOPICINFO{.*}%$//;
 
-        return $btext if ($this->{BASE_REV} < 1);
+        return $btext if ( $this->{BASE_REV} < 1 );
 
-        my $a = Foswiki::Meta->load(
-            $Foswiki::Plugins::SESSION,
-            $this->{WEB}, $this->{TOPIC}, $this->{BASE_REV});
+        my $a =
+          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $this->{WEB},
+            $this->{TOPIC}, $this->{BASE_REV} );
         return '' unless ( $a->haveAccess('VIEW') );
         my $atext = $a->getEmbeddedStoreForm();
         $atext =~ s/^%META:TOPICINFO{.*}%$//;
 
         require Foswiki::Merge;
-        my $blocks = Foswiki::Merge::simpleMerge(
-            $atext, $btext, qr/[\r\n]+/ );
-        $this->{TEXT_DIFF} = '<verbatim>'.join("\n", @$blocks).'</verbatim>';
+        my $blocks = Foswiki::Merge::simpleMerge( $atext, $btext, qr/[\r\n]+/ );
+        $this->{TEXT_DIFF} =
+          '<verbatim>' . join( "\n", @$blocks ) . '</verbatim>';
     }
 
     my $tim = Foswiki::Time::formatTime( $this->{TIME} );

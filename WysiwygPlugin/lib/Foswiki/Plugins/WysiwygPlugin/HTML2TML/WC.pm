@@ -128,7 +128,7 @@ sub debugEncode {
 # Maps of tag types
 our ( %SELFCLOSING, %EMPHTAG );
 
-%SELFCLOSING = ( img => 1, br => 1);
+%SELFCLOSING = ( img => 1, br => 1 );
 
 # Map that specifies tags to be renamed to a canonical name
 %EMPHTAG = (

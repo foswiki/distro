@@ -11,6 +11,7 @@ our $VERSION = '$Rev$ (2011-04-30)';
 # of the version number in PLUGINDESCRIPTIONS.
 our $RELEASE = '1.1.6';
 
-our $SHORTDESCRIPTION = 'Compares two revisions of a document. In contrast to normal _rdiff_, the comparison is done with the rendered HTML output.';
+our $SHORTDESCRIPTION =
+'Compares two revisions of a document. In contrast to normal _rdiff_, the comparison is done with the rendered HTML output.';
 
 1;

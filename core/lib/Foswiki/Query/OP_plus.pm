@@ -35,12 +35,14 @@ sub evaluate {
         my $result;
 
         if ( defined $a ) {
-            if (defined $b) {
+            if ( defined $b ) {
                 $result = $a . $b;
-            } else {
+            }
+            else {
                 $result = $a;
             }
-        } elsif ( defined $b ) {
+        }
+        elsif ( defined $b ) {
             $result = $b;
         }
 

@@ -29,10 +29,12 @@ sub new {
         $class->SUPER::new(
             name    => 'Autocomplete',
             version => '1.2.2',
-            author => 'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Joern Zaefferer',
+            author =>
+              'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Joern Zaefferer',
             homepage => 'https://github.com/agarzola/jQueryAutocompletePlugin',
-            css => ['jquery.autocomplete.css'],
-            javascript => [ 'jquery.autocomplete.js', 'jquery.autocomplete.init.js' ],
+            css      => ['jquery.autocomplete.css'],
+            javascript =>
+              [ 'jquery.autocomplete.js', 'jquery.autocomplete.init.js' ],
             dependencies => [ 'metadata', 'livequery', 'JQUERYPLUGIN::UI' ],
         ),
         $class

@@ -564,7 +564,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
 
             # Blank line
             my $class = '';
-            if (not $inParagraph) {
+            if ( not $inParagraph ) {
                 $class = 'WYSIWYG_NBNL';
             }
             $class = " class='$class'" if $class;
@@ -575,7 +575,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $line = '<p' . $class . '>';
 
             $this->_addListItem( \@result, '', '', '' ) if $inList;
-            $inList      = 0;
+            $inList = 0;
 
             $inParagraph = 1;
 
@@ -669,20 +669,26 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             # Other line
             $this->_addListItem( \@result, '', '', '' ) if $inList;
             $inList = 0;
-            if ( $inParagraph and @result and $result[-1] !~ /<p(?: class='[^']+')?>$/ ) {
+            if (    $inParagraph
+                and @result
+                and $result[-1] !~ /<p(?: class='[^']+')?>$/ )
+            {
 
                 # This is the second (or later) line of a paragraph
 
                 my $whitespace = "\n";
-                if ($line =~  m/^$TT1(\d+)$TT2/
-                        and $this->{refs}->[$1]->{text} =~ /^\n?%/ ) {
+                if (    $line =~ m/^$TT1(\d+)$TT2/
+                    and $this->{refs}->[$1]->{text} =~ /^\n?%/ )
+                {
+
                     # The newline is already protected
                     $whitespace = "";
                 }
                 if ( $line =~ s/^(\s+)// ) {
                     $whitespace .= $1;
                 }
-                $line = $this->_hideWhitespace($whitespace) . $line if length($whitespace);
+                $line = $this->_hideWhitespace($whitespace) . $line
+                  if length($whitespace);
             }
             unless ( $inParagraph or $inDiv ) {
                 push( @result, '<p>' );

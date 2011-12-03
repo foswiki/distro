@@ -19,7 +19,7 @@ our @ISA = ('Foswiki::Configure::UI');
 
 use Foswiki::Configure::FoswikiCfg ();
 
-my $insane;   # Set if existing config is not usable.
+my $insane;    # Set if existing config is not usable.
 
 =begin TML
 
@@ -30,8 +30,8 @@ Set status to insane if existing configuration is not usable
 =cut
 
 sub setInsane {
-   $insane = 1;
-   }
+    $insane = 1;
+}
 
 =begin TML
 

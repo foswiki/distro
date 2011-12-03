@@ -27,11 +27,10 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name    => 'Placeholder',
-            version => 'r1',
-            author  => 'Sam Grossberg',
-            homepage =>
-              'https://github.com/samgro',
+            name       => 'Placeholder',
+            version    => 'r1',
+            author     => 'Sam Grossberg',
+            homepage   => 'https://github.com/samgro',
             javascript => ['jquery.placeholder.js'],
         ),
         $class

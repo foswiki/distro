@@ -16,7 +16,7 @@ sub check {
     unless ( $Foswiki::cfg{Log}{Dir} ) {
         $Foswiki::cfg{Log}{Dir} = "$Foswiki::cfg{WorkingDir}/logs";
     }
-    $mess .= $this->showExpandedValue($Foswiki::cfg{Log}{Dir});
+    $mess .= $this->showExpandedValue( $Foswiki::cfg{Log}{Dir} );
 
     my $ld = $this->getCfg("{Log}{Dir}");
 

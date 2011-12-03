@@ -16,7 +16,7 @@ package Foswiki::Render::Anchors;
 use strict;
 use warnings;
 use Assert;
-    
+
 =begin TML
 
 ---++ ClassMethod new()
@@ -26,7 +26,7 @@ Construct a new anchors set.
 =cut
 
 sub new {
-    return bless({ names => {}}, shift);
+    return bless( { names => {} }, shift );
 }
 
 =begin TML
@@ -53,7 +53,7 @@ the one name is added.
 =cut
 
 sub add {
-    my ($this, $text) = @_;
+    my ( $this, $text ) = @_;
     my $anchorName = make($text);
     $this->{names}->{$anchorName} = 1;
     return $anchorName;
@@ -74,23 +74,24 @@ Return the name that was added.
 sub addUnique {
     my ( $this, $text, $alreadyMade ) = @_;
     my $anchorName;
-    if ( $alreadyMade ) {
+    if ($alreadyMade) {
         $anchorName = $text;
-    } else {
+    }
+    else {
         $anchorName = make($text);
     }
-    my $cnt     = 1;
-    my $suffix  = '';
+    my $cnt    = 1;
+    my $suffix = '';
 
     while ( exists $this->{names}->{ $anchorName . $suffix } ) {
-        
+
         # $anchorName.$suffix must _always_ be 'compatible', or things
         # would get complicated (whatever that means)
         $suffix = '_AN' . $cnt++;
-        
+
         # limit resulting name to 32 chars
         $anchorName = substr( $anchorName, 0, 32 - length($suffix) );
-        
+
         # this is only needed because '__' would not be 'compatible'
         $anchorName =~ s/_+$//g;
     }
@@ -117,7 +118,7 @@ can legally be used for an HTML anchor.
 =cut
 
 sub make {
-    my ( $text ) = @_;
+    my ($text) = @_;
 
     $text =~ s/^\s*(.*?)\s*$/$1/;
     $text =~ s/$Foswiki::regex{headerPatternNoTOC}//go;
@@ -144,7 +145,7 @@ sub make {
     $text =~ s/&amp;/&/g;
 
     # strip out potential links so they don't get rendered.
-    # remove double bracket link   
+    # remove double bracket link
     $text =~ s/\[(?:\[.*?\])?\[(.*?)\]\s*\]/$1/g;
 
     # remove HTML tags and entities
@@ -152,7 +153,8 @@ sub make {
     $text =~ s/&#?[a-zA-Z0-9]+;//g;
 
     # remove escape from escaped wikiWords
-    $text =~ s/!($Foswiki::regex{wikiWordRegex}|$Foswiki::regex{abbrevRegex})/$1/go;
+    $text =~
+      s/!($Foswiki::regex{wikiWordRegex}|$Foswiki::regex{abbrevRegex})/$1/go;
 
     # remove spaces
     $text =~ s/\s+/_/g;
@@ -183,10 +185,7 @@ sub makeHTMLTarget {
     my ( $this, $text ) = @_;
 
     my $goodAnchor = make($text);
-    my $html       = CGI::a(
-        { name => $this->addUnique( $goodAnchor, 1 ) },
-        ''
-    );
+    my $html = CGI::a( { name => $this->addUnique( $goodAnchor, 1 ) }, '' );
 
     if ( $Foswiki::cfg{RequireCompatibleAnchors} ) {
 
@@ -195,12 +194,7 @@ sub makeHTMLTarget {
         my @extras = Foswiki::Compatibility::makeCompatibleAnchors($text);
         foreach my $extra (@extras) {
             next if ( $extra eq $goodAnchor );
-            $html .= CGI::a(
-                {
-                    name => $this->addUnique( $extra, 1 ),
-                },
-                ''
-            );
+            $html .= CGI::a( { name => $this->addUnique( $extra, 1 ), }, '' );
         }
     }
     return $html;

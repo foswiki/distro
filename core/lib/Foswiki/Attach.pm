@@ -251,20 +251,20 @@ sub _expandAttrs {
 
 sub _cUID {
     my ( $this, $info ) = @_;
-    
+
     my $users = $this->{session}->{users};
     my $user = $info->{author} || $info->{user} || 'UnknownUser';
-	my $cUID;
-	if ($user) {
-		$cUID = $users->getCanonicalUserID($user);
-		if ( !$cUID ) {
+    my $cUID;
+    if ($user) {
+        $cUID = $users->getCanonicalUserID($user);
+        if ( !$cUID ) {
 
-			# Not a login name or a wiki name. Is it a valid cUID?
-			my $ln = $users->getLoginName($user);
-			$cUID = $user if defined $ln && $ln ne 'unknown';
-		}
-	}
-	return $cUID;
+            # Not a login name or a wiki name. Is it a valid cUID?
+            my $ln = $users->getLoginName($user);
+            $cUID = $user if defined $ln && $ln ne 'unknown';
+        }
+    }
+    return $cUID;
 }
 
 # prints the filesize in user friendly format
@@ -284,6 +284,7 @@ sub _formatFileSize {
         my $size = int( $fs * $dp ) / $dp;
         my $unit = $units[$u];
         if ( $u == 0 && $size == 1 ) {
+
             # single byte
             $unit = 'byte';
         }

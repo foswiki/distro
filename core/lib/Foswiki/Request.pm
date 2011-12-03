@@ -252,11 +252,13 @@ sub url {
 
     ## See Foswiki.spec for the difference between ScriptUrlPath and ScriptUrlPaths
     if ( defined $Foswiki::cfg{ScriptUrlPaths}{ $this->{action} } ) {
-        # When this is set, it is the complete script path including prefix/suffix.
-        $name = $Foswiki::cfg{ScriptUrlPaths}{ $this->{action} }
+
+     # When this is set, it is the complete script path including prefix/suffix.
+        $name = $Foswiki::cfg{ScriptUrlPaths}{ $this->{action} };
     }
     else {
         $name = $Foswiki::cfg{ScriptUrlPath} . '/' . $this->{action};
+
         # Don't add suffix if no script is used.
         $name .= $Foswiki::cfg{ScriptSuffix} if $name;
     }

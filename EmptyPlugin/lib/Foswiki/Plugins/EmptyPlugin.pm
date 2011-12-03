@@ -170,7 +170,7 @@ sub initPlugin {
 #    my($session, $params, $topic, $web, $topicObject) = @_;
 #    # $session  - a reference to the Foswiki session object
 #    #             (you probably won't need it, but documented in Foswiki.pm)
-#    # $params=  - a reference to a Foswiki::Attrs object containing 
+#    # $params=  - a reference to a Foswiki::Attrs object containing
 #    #             parameters.
 #    #             This can be used as a simple hash that maps parameter names
 #    #             to values, with _DEFAULT being the name for the default

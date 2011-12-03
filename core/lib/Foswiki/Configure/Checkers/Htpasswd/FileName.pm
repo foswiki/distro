@@ -9,27 +9,29 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
-    my $e = '';
+    my $e    = '';
 
-    $e .= $this->showExpandedValue($Foswiki::cfg{Htpasswd}{FileName});
+    $e .= $this->showExpandedValue( $Foswiki::cfg{Htpasswd}{FileName} );
 
     #NOTE:  If there are any other PasswordManagers that require .htpasswd,
     #       they should be added to this list.
-    return $e if (
-        $Foswiki::cfg{PasswordManager} ne 'Foswiki::Users::HtPasswdUser' &&
-        $Foswiki::cfg{PasswordManager} ne 'Foswiki::Users::ApacheHtpasswdUser'
-    );
+    return $e
+      if ( $Foswiki::cfg{PasswordManager} ne 'Foswiki::Users::HtPasswdUser'
+        && $Foswiki::cfg{PasswordManager} ne
+        'Foswiki::Users::ApacheHtpasswdUser' );
 
     my $f = $Foswiki::cfg{Htpasswd}{FileName};
     Foswiki::Configure::Load::expandValue($f);
 
-    return $e . $this->WARN(
+    return $e
+      . $this->WARN(
 "file $f is not found.  This may be normal for a new installation.  it will be created when the first user registers to the site"
-    ) unless ( -f $f );
+      ) unless ( -f $f );
 
-    return $e . $this->ERROR(
+    return $e
+      . $this->ERROR(
 "$f is not writable.  User registration will be disabled until this is corrected."
-    ) unless ( -w $f );
+      ) unless ( -w $f );
 
     return $e;
 }

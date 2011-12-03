@@ -78,10 +78,10 @@ sub hasNext {
         }
     } while ( $this->{filter} && !&{ $this->{filter} }($n) );
     $this->{next} = $n;
-print STDERR "ListIterator::hasNext -> $this->{index} == $this->{next}\n"  if Foswiki::Iterator::MONITOR;
+    print STDERR "ListIterator::hasNext -> $this->{index} == $this->{next}\n"
+      if Foswiki::Iterator::MONITOR;
     return 1;
 }
-
 
 =begin TML
 
@@ -93,27 +93,34 @@ skip must set up next as though hasNext was called.
 =cut
 
 sub skip {
-    my $this = shift;
+    my $this  = shift;
     my $count = shift;
-    
-    if (defined($this->{next})) {
-        $count--;
-     }
-    
-    return 0 if ($count <= 0);
-print STDERR "--------------------------------------------ListIterator::skip($count)  $this->{index}, ".scalar( @{ $this->{list} } )."\n"   if Foswiki::Iterator::MONITOR  ;
 
-    if (($this->{index} + $count) >= scalar( @{ $this->{list} } )) {
+    if ( defined( $this->{next} ) ) {
+        $count--;
+    }
+
+    return 0 if ( $count <= 0 );
+    print STDERR
+"--------------------------------------------ListIterator::skip($count)  $this->{index}, "
+      . scalar( @{ $this->{list} } ) . "\n"
+      if Foswiki::Iterator::MONITOR;
+
+    if ( ( $this->{index} + $count ) >= scalar( @{ $this->{list} } ) ) {
+
         #list too small
-        $count = ($this->{index} + $count) - scalar( @{ $this->{list} } );
-        $this->{index} = 1+scalar( @{ $this->{list} } );
-    } else {
+        $count = ( $this->{index} + $count ) - scalar( @{ $this->{list} } );
+        $this->{index} = 1 + scalar( @{ $this->{list} } );
+    }
+    else {
         $this->{index} += $count;
         $count = 0;
     }
     $this->{next} = undef;
     my $hasnext = $this->hasNext();
-print STDERR "--------------------------------------------ListIterator::skip() => $this->{index} $count, $hasnext\n"  if Foswiki::Iterator::MONITOR   ;
+    print STDERR
+"--------------------------------------------ListIterator::skip() => $this->{index} $count, $hasnext\n"
+      if Foswiki::Iterator::MONITOR;
 
     return $count;
 }

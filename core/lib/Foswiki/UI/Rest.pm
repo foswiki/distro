@@ -167,15 +167,21 @@ sub rest {
     unless ( $pathInfo =~ m#/(.*?)[./]([^/]*)# ) {
 
         $res->header( -type => 'text/html', -status => '400' );
-        $err = "ERROR: (400) Invalid REST invocation - $pathInfo is malformed\n";
+        $err =
+          "ERROR: (400) Invalid REST invocation - $pathInfo is malformed\n";
         $res->print($err);
-        
-        $res->print("\nuseage: ./rest /PluginName/restHandler param=value\n\n".join("\n", 
-                        map {
-                                $_.' : '.join(' , ', keys(%{$restDispatch{$_}}))
-                            } keys(%restDispatch)
-                        )."\n\n") if $session->inContext('command_line');
-        
+
+        $res->print(
+            "\nuseage: ./rest /PluginName/restHandler param=value\n\n" . join(
+                "\n",
+                map {
+                    $_ . ' : '
+                      . join( ' , ', keys( %{ $restDispatch{$_} } ) )
+                  } keys(%restDispatch)
+              )
+              . "\n\n"
+        ) if $session->inContext('command_line');
+
         throw Foswiki::EngineException( 400, $err, $res );
     }
 

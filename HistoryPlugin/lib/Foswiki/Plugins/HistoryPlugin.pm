@@ -94,22 +94,23 @@ sub _handleHistory {
         }
     }
     else {
+
         # deprecated syntax
-        
+
         $rev1 = $params->{rev1};
-		$rev1 =~ s/1\.// if $rev1;
-		$rev2 = $params->{rev2};
-		$rev2 =~ s/1\.// if $rev2;
-		$nrev = $params->{nrev} || 10;
-	
-		$rev2 ||= $rev1 ? $rev1 + $nrev - 1 : $maxrev;
-		$rev1 ||= $rev2 - $nrev + 1;
-	
-		( $rev1, $rev2 ) = ( $rev2, $rev1 ) if $rev1 > $rev2;
-		$rev1 = $maxrev if $rev1 > $maxrev;
-		$rev1 = 1       if $rev1 < 1;
-		$rev2 = $maxrev if $rev2 > $maxrev;
-		$rev2 = 1       if $rev2 < 1;
+        $rev1 =~ s/1\.// if $rev1;
+        $rev2 = $params->{rev2};
+        $rev2 =~ s/1\.// if $rev2;
+        $nrev = $params->{nrev} || 10;
+
+        $rev2 ||= $rev1 ? $rev1 + $nrev - 1 : $maxrev;
+        $rev1 ||= $rev2 - $nrev + 1;
+
+        ( $rev1, $rev2 ) = ( $rev2, $rev1 ) if $rev1 > $rev2;
+        $rev1 = $maxrev if $rev1 > $maxrev;
+        $rev1 = 1       if $rev1 < 1;
+        $rev2 = $maxrev if $rev2 > $maxrev;
+        $rev2 = 1       if $rev2 < 1;
     }
 
     my $format =

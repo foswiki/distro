@@ -51,11 +51,11 @@ parameters:
 sub rename {
     my $session = shift;
 
-    my $oldWeb             = $session->{webName};
-    my $oldTopic           = $session->{topicName};
-    my $query              = $session->{request};
-    my $action             = $session->{cgiQuery}->param('action') || '';
-    my $redirectto_param   = $session->{cgiQuery}->param('redirectto') || '';
+    my $oldWeb           = $session->{webName};
+    my $oldTopic         = $session->{topicName};
+    my $query            = $session->{request};
+    my $action           = $session->{cgiQuery}->param('action') || '';
+    my $redirectto_param = $session->{cgiQuery}->param('redirectto') || '';
 
     Foswiki::UI::checkWebExists( $session, $oldWeb, 'rename' );
 
@@ -313,7 +313,7 @@ sub _renameTopicOrAttachment {
 
         # redirect to new topic
         $new_url = $session->getScriptUrl( 0, 'view', $newWeb, $newTopic );
-        $session->{webName} = $newWeb;
+        $session->{webName}   = $newWeb;
         $session->{topicName} = $newTopic;
     }
 
@@ -677,7 +677,7 @@ sub _renameWeb {
         $new_url =
           $session->getScriptUrl( 0, 'view', $newWeb,
             $Foswiki::cfg{HomeTopicName} );
-        $session->{webName} = $newWeb;
+        $session->{webName}   = $newWeb;
         $session->{topicName} = $Foswiki::cfg{HomeTopicName};
     }
 

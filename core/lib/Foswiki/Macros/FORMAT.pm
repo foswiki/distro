@@ -21,7 +21,7 @@ sub FORMAT {
     $params->{separator} =
       Foswiki::expandStandardEscapes( $params->{separator} );
 
-    my $type   = $params->{type} || 'topic';
+    my $type = $params->{type} || 'topic';
     $type = 'topic'
       unless ( $type eq 'string' );    #only support special type 'string'
 
@@ -33,8 +33,9 @@ sub FORMAT {
       if defined $params->{_DEFAULT};
     $params->{type} = $this->{prefs}->getPreference('SEARCHVARDEFAULTTYPE')
       unless ( $params->{type} );
-      
-    undef $params->{limit};     #do not polute FORMAT with the per web legacy mess (the code would be horrid.)
+
+    undef $params
+      ->{limit}; #do not polute FORMAT with the per web legacy mess (the code would be horrid.)
 
     try {
         my $listIterator;
@@ -60,7 +61,7 @@ sub FORMAT {
         }
         my ( $ttopics, $searchResult, $tmplTail ) =
           $this->search->formatResults( undef, $listIterator, $params );
-        $s  = Foswiki::expandStandardEscapes($searchResult);
+        $s = Foswiki::expandStandardEscapes($searchResult);
     }
     catch Error::Simple with {
         my $message = (DEBUG) ? shift->stringify() : shift->{-text};

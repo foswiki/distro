@@ -126,11 +126,11 @@ sub _writeTypes {
     }
 
     foreach my $type (@types) {
-        next if ($type =~ /^_/ );
+        next if ( $type =~ /^_/ );
         my $data = $this->{$type};
         next if !defined $data;
         foreach my $item (@$data) {
-            next if ($item =~ /^_/ );
+            next if ( $item =~ /^_/ );
             my $sep = '';
             $text .= '%META:' . $type . '{';
             my $name = $item->{name};
@@ -142,6 +142,7 @@ sub _writeTypes {
                 $sep = ' ';
             }
             foreach my $key ( sort keys %$item ) {
+
                 #next if ($key =~ /^_/ );
                 if ( $key ne 'name' ) {
                     $text .= $sep;

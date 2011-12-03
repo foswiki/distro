@@ -199,7 +199,8 @@ HERE
                     $input, $this->{test_topic}, $this->{test_web}, undef
                 )
             );
-            $Foswiki::engine->finalize( $session->{response}, $session->{request} );
+            $Foswiki::engine->finalize( $session->{response},
+                $session->{request} );
         }
     );
     $this->assert( $result =~ /Status: 302/ );

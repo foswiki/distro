@@ -384,21 +384,21 @@ HERE
 
     # most recent rev first
     for ( my $i = $this->{head} ; $i > 0 ; $i-- ) {
-	my $d       = $this->{revs}[$i]->{date};
-	if (defined $d) {
-	    if ($i < $this->{head}) {
-		print $file 'next', "\t";
-		print $file '1.', $i;
-		print $file ";\n";
-	    }
-	    my $rcsDate = Foswiki::Store::VC::Handler::_epochToRcsDateTime($d);
-	    print $file <<HERE;
+        my $d = $this->{revs}[$i]->{date};
+        if ( defined $d ) {
+            if ( $i < $this->{head} ) {
+                print $file 'next', "\t";
+                print $file '1.',   $i;
+                print $file ";\n";
+            }
+            my $rcsDate = Foswiki::Store::VC::Handler::_epochToRcsDateTime($d);
+            print $file <<HERE;
 
 1.$i
 date	$rcsDate;	author $this->{revs}[$i]->{author};	state Exp;
 branches;
 HERE
-	}
+        }
     }
     print $file 'next', "\t";
     print $file ";\n";

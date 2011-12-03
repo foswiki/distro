@@ -20,11 +20,12 @@ use strict;
 use warnings;
 
 BEGIN {
-    if (-e './setlib.cfg') {
+    if ( -e './setlib.cfg' ) {
         unshift @INC, '.';
-    } elsif (-e '../bin/setlib.cfg') {
+    }
+    elsif ( -e '../bin/setlib.cfg' ) {
         unshift @INC, '../bin';
-    } # otherwise rely on the user-set path
+    }    # otherwise rely on the user-set path
     require 'setlib.cfg';
 }
 
@@ -48,8 +49,8 @@ Foswiki::Request::Cache::cleanup();
 # left behind when a user edits a topic and then navigates away without
 # cancelling the edit.
 use Foswiki::Meta ();
-my $root = new Foswiki::Meta(new Foswiki());
-$root->onTick(time());
+my $root = new Foswiki::Meta( new Foswiki() );
+$root->onTick( time() );
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

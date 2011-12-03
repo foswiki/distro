@@ -54,7 +54,6 @@ sub equals {
         return 0;
     }
 
-
     while ( $val =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
     while ( $def =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
 

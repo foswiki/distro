@@ -51,13 +51,13 @@ be a number (for a string length), a comma separated list of values
 =cut
 
 sub new {
-    my $class = shift;
+    my $class    = shift;
     my $typename = shift;
 
     my $this =
       bless( $class->SUPER::new('Foswiki::Configure::UIs::Value'), $class );
 
-    $this->{typename}    = ($typename || 'UNKNOWN');
+    $this->{typename}    = ( $typename || 'UNKNOWN' );
     $this->{keys}        = '';
     $this->{opts}        = '';
     $this->{expertsOnly} = 0;
@@ -107,7 +107,7 @@ sub getType {
 
 # A value is a leaf, so this is a NOP.
 sub getSectionObject {
-   return;
+    return;
 }
 
 =begin TML

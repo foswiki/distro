@@ -59,11 +59,12 @@ sub reset {
 
     return;
 }
+
 sub all {
     my $this = shift;
     my @results;
-    while ($this->hasNext()) {
-        push(@results, $this->next());
+    while ( $this->hasNext() ) {
+        push( @results, $this->next() );
     }
     return @results;
 }

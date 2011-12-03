@@ -182,25 +182,25 @@ sub set_up {
             topicsout => "",
         },
 
-	# Item9898: trailing space
-	{
-	    email => "email9\@example.com",
-	    entry => "FruitBat:  ",
-	    topicsout => ""
-	},
+        # Item9898: trailing space
+        {
+            email     => "email9\@example.com",
+            entry     => "FruitBat:  ",
+            topicsout => ""
+        },
 
-	# Item11138: no trailing space after : incorrectly results in subscribe to all
-	{
-	    email => "email10\@example.com",
-	    entry => "email10\@example.com :",
-	    topicsout => ""
-	},
+  # Item11138: no trailing space after : incorrectly results in subscribe to all
+        {
+            email     => "email10\@example.com",
+            entry     => "email10\@example.com :",
+            topicsout => ""
+        },
 
-	{
-	    email => "jeltz\@vogsphere.com",
-	    entry => "ProstectnicVogonJeltz - jeltz\@vogsphere.com",
-	    topicsout => "*"
-	}
+        {
+            email     => "jeltz\@vogsphere.com",
+            entry     => "ProstectnicVogonJeltz - jeltz\@vogsphere.com",
+            topicsout => "*"
+        }
     );
 
     if (  !$Foswiki::cfg{Site}{CharSet}
@@ -413,8 +413,8 @@ sub testCovers {
     my $s1 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0, 0 );
     $this->assert( $s1->covers($s1) );
 
-    my $s2 = new Foswiki::Contrib::MailerContrib::Subscription(	'A', 0,
-	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+    my $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( !$s1->covers($s2) );
 
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
@@ -464,10 +464,8 @@ sub testCovers {
     $this->assert( !$ChildrenOfWebHome->covers($Star) );
 
     # Special cases involving '*' and modes
-    $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
-	0);
-    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
-        0 );
+    $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0, 0 );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0, 0 );
     $this->assert( $s1->covers($s2) );
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
         Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
@@ -477,13 +475,12 @@ sub testCovers {
     $this->assert( $s1->covers($s2) );
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
         Foswiki::Contrib::MailerContrib::Subscription::ALWAYS |
-	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+          Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( $s1->covers($s2) );
 
     $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
-	Foswiki::Contrib::MailerContrib::Subscription::ALWAYS);
-    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
-        0 );
+        Foswiki::Contrib::MailerContrib::Subscription::ALWAYS );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0, 0 );
     $this->assert( !$s1->covers($s2) );
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
         Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
@@ -493,13 +490,12 @@ sub testCovers {
     $this->assert( $s1->covers($s2) );
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
         Foswiki::Contrib::MailerContrib::Subscription::ALWAYS |
-	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+          Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( $s1->covers($s2) );
 
     $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
-	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC);
-    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
-        0 );
+        Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0, 0 );
     $this->assert( !$s1->covers($s2) );
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
         Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
@@ -509,14 +505,13 @@ sub testCovers {
     $this->assert( !$s1->covers($s2) );
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
         Foswiki::Contrib::MailerContrib::Subscription::ALWAYS |
-	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+          Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( $s1->covers($s2) );
 
     $s2 = new Foswiki::Contrib::MailerContrib::Subscription( 'A', 0,
-	Foswiki::Contrib::MailerContrib::Subscription::ALWAYS |
-	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC);
-    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
-        0 );
+        Foswiki::Contrib::MailerContrib::Subscription::ALWAYS |
+          Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+    $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0, 0 );
     $this->assert( !$s1->covers($s2) );
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
         Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
@@ -526,7 +521,7 @@ sub testCovers {
     $this->assert( !$s1->covers($s2) );
     $s1 = new Foswiki::Contrib::MailerContrib::Subscription( '*', 0,
         Foswiki::Contrib::MailerContrib::Subscription::ALWAYS |
-	Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
+          Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC );
     $this->assert( $s1->covers($s2) );
 }
 
@@ -892,10 +887,10 @@ sub test_changeSubscription_and_isSubScribedTo_API {
         )
     );
 
-    # Tests for Item11131: unsubscribe a member of a group by adding a negative subscription
+# Tests for Item11131: unsubscribe a member of a group by adding a negative subscription
 
-    Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, 'TestGroup',
-        $topicList, $unsubscribe );
+    Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb,
+        'TestGroup', $topicList, $unsubscribe );
 
     # Should be subscribed due to the group
     $this->assert(
@@ -904,8 +899,8 @@ sub test_changeSubscription_and_isSubScribedTo_API {
         )
     );
     $unsubscribe = '-';
-    Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, 'TestUser3',
-        $topicList, $unsubscribe );
+    Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb,
+        'TestUser3', $topicList, $unsubscribe );
 
     # Cannot be unsubscribed as an exception to the group
     $this->assert(
@@ -925,15 +920,18 @@ sub test_changeSubscription_and_isSubScribedTo_API {
 # There have been several reports of legacy formats not working, so here's a test
 sub test_parseRealTopic {
     my $this = shift;
-    Foswiki::Func::saveTopic( $this->{test_web}, "TestWebNotify", undef, <<'SEE');
+    Foswiki::Func::saveTopic( $this->{test_web}, "TestWebNotify", undef,
+        <<'SEE');
    * FruitBat: 
    * ProstectnicVogonJeltz - jeltz@vogsphere.com
 SEE
     my $expect = <<'EXPECT';
    * jeltz@vogsphere.com: *
 EXPECT
-    my $wn = new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},'TestWebNotify',1);
-    $this->assert_equals($expect,  $wn->stringify());
+    my $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
+        'TestWebNotify', 1 );
+    $this->assert_equals( $expect, $wn->stringify() );
 }
 
 1;

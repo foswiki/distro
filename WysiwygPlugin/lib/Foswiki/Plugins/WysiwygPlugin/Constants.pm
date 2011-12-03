@@ -222,22 +222,28 @@ my $siteCharsetRepresentable;
 # the site charset to entities. Prefer named entities to numeric entities.
 sub convertNotRepresentabletoEntity {
     if ( encoding() =~ /^utf-?8/ ) {
+
         # UTF-8 can represent all characters, so no entities needed
     }
     else {
         unless ($siteCharsetRepresentable) {
+
             # Produce a string of unicode characters that contains all of the
             # characters representable in the site charset
             $siteCharsetRepresentable = '';
-            for my $code (0 .. 255) {
-                my $unicodeChar = Encode::decode(encoding(), chr($code), Encode::FB_PERLQQ);
-                if ($unicodeChar =~ /^\\x/) {
+            for my $code ( 0 .. 255 ) {
+                my $unicodeChar =
+                  Encode::decode( encoding(), chr($code), Encode::FB_PERLQQ );
+                if ( $unicodeChar =~ /^\\x/ ) {
+
                     # code is not valid, so skip it
                 }
                 else {
+
                     # Escape codes in the standard ASCII range, as necessary,
                     # to avoid special interpretation by perl
-                    $unicodeChar = quotemeta($unicodeChar) if ord($unicodeChar) <= 127;
+                    $unicodeChar = quotemeta($unicodeChar)
+                      if ord($unicodeChar) <= 127;
 
                     $siteCharsetRepresentable .= $unicodeChar;
                 }
@@ -245,10 +251,13 @@ sub convertNotRepresentabletoEntity {
         }
 
         require HTML::Entities;
-        $_[0] = HTML::Entities::encode_entities($_[0], "^$siteCharsetRepresentable");
-        # All characters that cannot be represented in the site charset are now encoded as entities
-        # Named entities are used if available, otherwise numeric entities,
-        # because named entities produce more readable TML
+        $_[0] =
+          HTML::Entities::encode_entities( $_[0],
+            "^$siteCharsetRepresentable" );
+
+# All characters that cannot be represented in the site charset are now encoded as entities
+# Named entities are used if available, otherwise numeric entities,
+# because named entities produce more readable TML
     }
 }
 
@@ -302,7 +311,7 @@ sub chCodes {
     return $s;
 }
 
-# Allow the unit tests to force re-initialisation of 
+# Allow the unit tests to force re-initialisation of
 # %Foswiki::cfg-dependent cached data
 sub reinitialiseForTesting {
     undef $encoding;

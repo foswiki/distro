@@ -27,19 +27,18 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'Themeswitcher',
-            version    => '20101001',
-            author     => 'unknown',
-            homepage   => 'http://jqueryui.com/themeroller',
-            javascript => ['themeswitcher.js', 'themeswitcher.init.js'],
-            dependencies => ['cookie', 'ui'],
+            name         => 'Themeswitcher',
+            version      => '20101001',
+            author       => 'unknown',
+            homepage     => 'http://jqueryui.com/themeroller',
+            javascript   => [ 'themeswitcher.js', 'themeswitcher.init.js' ],
+            dependencies => [ 'cookie', 'ui' ],
         ),
         $class
     );
 
     return $this;
 }
-
 
 1;
 

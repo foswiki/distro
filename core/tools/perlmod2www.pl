@@ -2,12 +2,12 @@
 
 # -----------------------------------------------------------------------
 # perlmod2www.pl - convert Perl mdoules tree to equivalent www tree with HTML format documentation.
-# 
+#
 # Use -h for help.
-# 
+#
 # Copyright 2000,2001,2002 Raphael Leplae raphael@ucmb.ul.ac.be
 # All rights reserved.
-# This program is free software; you can redistribute it and/or modify it 
+# This program is free software; you can redistribute it and/or modify it
 # under the same terms as Perl itself.
 # -----------------------------------------------------------------------
 # Add the path where the Pdoc directory is located here if needed
@@ -19,8 +19,10 @@ use Carp qw(cluck confess);
 
 # Need a Perl module parser
 use Pdoc::Parsers::Files::PerlModule;
+
 # A Tree
 use Pdoc::Tree;
+
 # Some renderers
 use Pdoc::Html::Renderers::TreeFilesIndexer;
 use Pdoc::Html::Renderers::TreeNodesIndexer;
@@ -40,14 +42,14 @@ use Pdoc::Html::Tools::UrlMgr;
 use Pdoc::Html::Tools::PerlHighlight;
 
 # Define default global variables & values
-use vars qw( $VERSION $RELEASE $_pdocUrl $psep $_scptConf $config 
-    	     $_authorName $_authorEmail );
+use vars qw( $VERSION $RELEASE $_pdocUrl $psep $_scptConf $config
+  $_authorName $_authorEmail );
 
 # Init globals
-$VERSION = do { my @r = (q$Revision: 1.8 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
-$RELEASE = '1.0';
-$_pdocUrl = 'http://sourceforge.net/projects/pdoc';
-$_authorName = 'Raphael Leplae';
+$VERSION = do { my @r = ( q$Revision: 1.8 $ =~ /\d+/g ); sprintf "%d." . "%02d" x $#r, @r };
+$RELEASE      = '1.0';
+$_pdocUrl     = 'http://sourceforge.net/projects/pdoc';
+$_authorName  = 'Raphael Leplae';
 $_authorEmail = 'lp1@sanger.ac.uk';
 
 # Do not buffer
@@ -56,30 +58,43 @@ $| = 1;
 # Global variables
 # Get -wroot value
 my $wroot;
+
 # Source path, default to pwd
 my $source = $ENV{'PWD'};
+
 # Target path (in httpd area)
 my $target;
+
 # Default header to add to html pages
 my $doc_head;
+
 # Default footer to add to html pages
 my $doc_foot;
+
 # Cross links (-xl or -xltable)
 my @xl = ();
+
 # Cross linked tree objects
 my $xtrees;
+
 # Get value from -webcvs
 my $webCvs;
+
 # Flag to add Document parser or not
 my $parseDoc = 0;
+
 # Flag, if 1 do not sort methods in perl module doc page
 my $noSort = 0;
+
 # Define default dir(s) to skip
 my $to_skip = 'CVS';
+
 # Flag to check ISA modules
 my $isaCheck = 0;
+
 # Flag to add file raw content
 my $useRaw = 0;
+
 # Hold config file
 my $confFile;
 
@@ -87,7 +102,7 @@ my $confFile;
 $_scptConf->{'tocLevel'} = '#ee8700';
 
 # Parse passed args
-Get_args ();
+Get_args();
 
 # Now create documentation for each module:
 # Need the Perl module parser
@@ -101,63 +116,69 @@ my $mod_converter = $mod_renderer->getConverter();
 
 # If config file, load it now:
 if ($confFile) {
+
     # Need config object
     $config = Pdoc::Config->new();
-    
+
     # Try to load config file
-    if (! $config->load($confFile)) {
-    	cluck("Failed to load config file $confFile\n");
-    } else {
-    	# Assign config to various modules
-	Pdoc::Html::Tools::PerlHighlight::config($config);
-	
-	$mod_renderer->config($config);
-	
-	# Also get config for this script:
-	my $val = $config->getVal('HTML', 'PerlToc', 'level');
-	$_scptConf->{'tocLevel'} = $val if (defined $val);
+    if ( !$config->load($confFile) ) {
+        cluck("Failed to load config file $confFile\n");
+    }
+    else {
+
+        # Assign config to various modules
+        Pdoc::Html::Tools::PerlHighlight::config($config);
+
+        $mod_renderer->config($config);
+
+        # Also get config for this script:
+        my $val = $config->getVal( 'HTML', 'PerlToc', 'level' );
+        $_scptConf->{'tocLevel'} = $val if ( defined $val );
     }
 }
 
 # Check target path now
-if (! -d $target) {
+if ( !-d $target ) {
     print "Target dir $target is not a directory.\n";
     exit;
 }
 
 # Get doc head and foot
-exit if (! Get_head_foot());
+exit if ( !Get_head_foot() );
 
 # Clean root url
-if ($wroot && $wroot =~ /.+\/$/) {
-    chop $wroot; }
+if ( $wroot && $wroot =~ /.+\/$/ ) {
+    chop $wroot;
+}
 
 # Get the tree
 print "Getting tree from $source...\n";
-my $tree = extractTree($source,$wroot);
+my $tree = extractTree( $source, $wroot );
 my $targetTree;
+
 # If relative urls, use separate tree with target as path for proper linking
 unless ($wroot) {
     $targetTree = Pdoc::Tree->new();
     $targetTree->name('Perl modules documentation.');
     $targetTree->path($target);
-    $targetTree->root($tree->root());
-    
-    push (@{$xtrees}, $targetTree);
-} else {
-    push (@{$xtrees}, $tree);
+    $targetTree->root( $tree->root() );
+
+    push( @{$xtrees}, $targetTree );
+}
+else {
+    push( @{$xtrees}, $tree );
 }
 
 # Extract cross ref trees
 if (@xl) {
     print "Getting trees for cross-linking:\n";
     foreach my $parts (@xl) {
-    	print "Extra tree from ", $parts->[0], "\n";
-	my $extra = extractTree($parts->[0],$parts->[1]);
-	
-	# If relative paths, redef path with path to Doc tree
-	$extra->path($parts->[1]) unless ($wroot);
-	push (@{$xtrees}, $extra);
+        print "Extra tree from ", $parts->[0], "\n";
+        my $extra = extractTree( $parts->[0], $parts->[1] );
+
+        # If relative paths, redef path with path to Doc tree
+        $extra->path( $parts->[1] ) unless ($wroot);
+        push( @{$xtrees}, $extra );
     }
 }
 
@@ -173,7 +194,7 @@ my $tocRenderer = Pdoc::Html::Renderers::PerlToc->new();
 $tocRenderer->config($config) if defined $config;
 
 # Generate all index files
-if (! Generate_indexes($tree)) {
+if ( !Generate_indexes($tree) ) {
     print "Failed generating indexes.\n";
     exit;
 }
@@ -183,7 +204,8 @@ $mod_renderer->trees($xtrees);
 
 # If no sorting of method names
 if ($noSort) {
-    $mod_renderer->sortMethods(0); }
+    $mod_renderer->sortMethods(0);
+}
 
 # Converter configuration:
 
@@ -200,36 +222,38 @@ if ($useRaw) {
 
 # Create a document parser if needed
 my $doc_parser;
-if ($parseDoc == 1) {
+if ( $parseDoc == 1 ) {
     $doc_parser = Pdoc::Parsers::Documents::Parser->new();
 
     # and add document parser + corresponding converter
-    if (defined $webCvs) {
-	print "Including WebCvs crosslink to $webCvs.\n";
+    if ( defined $webCvs ) {
+        print "Including WebCvs crosslink to $webCvs.\n";
 
-	my $wcvs_pars = Pdoc::Parsers::Documents::Modules::WebCvs->new();
-	# Set doc entry to match
-	$wcvs_pars->matchType('PerlPackage');
-	$doc_parser->add($wcvs_pars);
+        my $wcvs_pars = Pdoc::Parsers::Documents::Modules::WebCvs->new();
 
-	my $wcvs_conv = Pdoc::Html::Converters::Modules::WebCvs->new();
-	# Assign url and config
-	$wcvs_conv->set('webcvs', $webCvs);
-	
-	$wcvs_conv->config($config) if defined $config;
-	$mod_converter->add($wcvs_conv);
+        # Set doc entry to match
+        $wcvs_pars->matchType('PerlPackage');
+        $doc_parser->add($wcvs_pars);
+
+        my $wcvs_conv = Pdoc::Html::Converters::Modules::WebCvs->new();
+
+        # Assign url and config
+        $wcvs_conv->set( 'webcvs', $webCvs );
+
+        $wcvs_conv->config($config) if defined $config;
+        $mod_converter->add($wcvs_conv);
     }
 }
 
 # Start file for TOC with all levels
-my $fname = $target . $tree->path_separator() . 'tocAll.html';
+my $fname     = $target . $tree->path_separator() . 'tocAll.html';
 my $tocAllFpt = FileHandle->new(">$fname");
-confess("Can't create $fname!") if (! $tocAllFpt);
+confess("Can't create $fname!") if ( !$tocAllFpt );
 
 initTocAll();
 
 # Start the convertion!
-Generate_doc($tree->root());
+Generate_doc( $tree->root() );
 
 # Done with TOC all
 print $tocAllFpt <<XXX;
@@ -250,21 +274,21 @@ exit;
 
 sub Check_dir {
     my $path = shift;
-    
-    my $sep = quotemeta $tree->path_separator();
-    my @dirs = split (/$sep/, $path);
+
+    my $sep    = quotemeta $tree->path_separator();
+    my @dirs   = split( /$sep/, $path );
     my $pcheck = "";
-    $pcheck = $tree->path_separator() if( $path =~ /^$sep/ );
-        
+    $pcheck = $tree->path_separator() if ( $path =~ /^$sep/ );
+
     foreach my $dir (@dirs) {
-	next if (! defined $dir || $dir eq "" || $dir eq '.');
-    	$pcheck .= $dir . $tree->path_separator();
-	if (! -d $pcheck) {
-	    unless (mkdir ($pcheck, 0755)) {
-	    	print "Error: failed to create directory $pcheck\n";
-		exit;
-	    }
-	}
+        next if ( !defined $dir || $dir eq "" || $dir eq '.' );
+        $pcheck .= $dir . $tree->path_separator();
+        if ( !-d $pcheck ) {
+            unless ( mkdir( $pcheck, 0755 ) ) {
+                print "Error: failed to create directory $pcheck\n";
+                exit;
+            }
+        }
     }
 }
 
@@ -272,39 +296,40 @@ sub Check_dir {
 
 sub Generate_indexes {
     my $tree = shift;
-    
+
     print "Generating indexes...\n";
 
     # 1st, index for Perl levels
-    return 0 if (! Generate_levels($tree));
-    
-     # 2nd, index for Perl modules in each level
-     return Generate_all_modules_index($tree);
+    return 0 if ( !Generate_levels($tree) );
+
+    # 2nd, index for Perl modules in each level
+    return Generate_all_modules_index($tree);
 }
 
 # Generate_levels: create index file with all "Perl levels" (directories in the tree).
 
 sub Generate_levels {
     my $tree = shift;
-        
+
     # Need the renderer
     my $indexer = Pdoc::Html::Renderers::TreeNodesIndexer->new();
+
     # Set some params
     $indexer->target('modules');
     $indexer->index('modules.html');
-    $indexer->url($tree->url);
-    $indexer->name_transform(\&PathToLevel);
+    $indexer->url( $tree->url );
+    $indexer->name_transform( \&PathToLevel );
     $indexer->config($config) if defined $config;
-    
+
     # Create index file now
     my $html_file = $target . $tree->path_separator() . 'all_packages.html';
-    
+
     print "Creating levels index file $html_file\n";
-    
+
     my $fpt = FileHandle->new(">$html_file");
-    if (! defined $fpt) {
-	print "Unable to create $html_file!\n";
-	return 0;
+    if ( !defined $fpt ) {
+        print "Unable to create $html_file!\n";
+        return 0;
     }
 
     # Store index now
@@ -317,18 +342,19 @@ Perl levels
 </HEAD>
 <BODY BGCOLOR="WHITE">
 XXX
-    
+
     my $url = 'all_modules.html';
-    print $fpt '<A HREF="', $url, '" TARGET="modules"><B>All Modules</B></A>', "\n";
+    print $fpt '<A HREF="', $url, '" TARGET="modules"><B>All Modules</B></A>',
+      "\n";
     $url = 'tocAll.html';
     print $fpt '<A HREF="', $url, '" TARGET="main"><B>TOC All</B></A>', "\n";
-    
+
     # Is there a better name than "Perl levels"?
     print $fpt "<BR><B>Perl levels</B><BR>\n";
-    
+
     # Render index now
-    $indexer->render($fpt, $tree);
-    
+    $indexer->render( $fpt, $tree );
+
     print $fpt <<XXX;
 </BODY>
 </HTML>
@@ -343,29 +369,30 @@ XXX
 
 sub Generate_all_modules_index {
     my $tree = shift;
-    
+
     # Create renderer
     my $renderer = Pdoc::Html::Renderers::TreeFilesIndexer->new();
+
     # Set some params
     # Set the url
-    $renderer->url($tree->url());
+    $renderer->url( $tree->url() );
     $renderer->target('main');
-    $renderer->name_transform(\&RmExt);
-    $renderer->file_transform(\&RmExt);
+    $renderer->name_transform( \&RmExt );
+    $renderer->file_transform( \&RmExt );
     $renderer->usePath(1);
     $renderer->config($config) if defined $config;
 
     # Full indexing => need recursive flag on
-    $renderer->set('recursive', 1);
-    
+    $renderer->set( 'recursive', 1 );
+
     # Create index file now
     my $html_file = $target . $tree->path_separator() . 'all_modules.html';
     print "Creating global Perl modules index file $html_file\n";
-    
+
     my $fpt = FileHandle->new(">$html_file");
-    if (! defined $fpt) {
-	print "Unable to create $html_file!\n";
-	return 0;
+    if ( !defined $fpt ) {
+        print "Unable to create $html_file!\n";
+        return 0;
     }
 
     # Store main index now
@@ -380,8 +407,9 @@ All Perl Modules
 XXX
 
     print $fpt "<B>All Perl modules</B><BR>\n";
+
     # Generate full index
-    $renderer->render($fpt, $tree->root());
+    $renderer->render( $fpt, $tree->root() );
 
     print $fpt <<XXX;
 </BODY>
@@ -391,39 +419,41 @@ XXX
 
     # Now generate index for individual directory
     # => recursive flag off
-    $renderer->set('recursive', 0);
+    $renderer->set( 'recursive', 0 );
+
     # Do not use paths in url now
     $renderer->usePath(0);
 
-    if (! Generate_modules_index($tree->root(), $renderer)) {
-	return 0; }
-	
+    if ( !Generate_modules_index( $tree->root(), $renderer ) ) {
+        return 0;
+    }
+
     return 1;
 }
 
 # Generate_modules_index: generate Perl modules index in a specific directory
 
 sub Generate_modules_index {
-    my $node = shift;
+    my $node     = shift;
     my $renderer = shift;
 
     # Define local url for the renderer
-    $renderer->url($tree->url());
+    $renderer->url( $tree->url() );
 
     # Define www dir path
     my $path = $target . $tree->path_separator();
-    $path .= $node->path() if ($node->path());
+    $path .= $node->path() if ( $node->path() );
 
     Check_dir($path);
 
     # Create index file now
     my $html_file = $path . $tree->path_separator() . 'modules.html';
     print "Creating Perl modules index file $html_file\n";
-    
+
     my $fpt = FileHandle->new(">$html_file");
-    if (! defined $fpt) {
-	print "Unable to create $html_file!\n";
-	return 0;
+    if ( !defined $fpt ) {
+        print "Unable to create $html_file!\n";
+        return 0;
     }
 
     # Store main index now
@@ -438,38 +468,41 @@ Perl Modules
 XXX
 
     my $level = PathToLevel($node);
-        
-    print $fpt '<A HREF="toc.html" TARGET="main"><B>',$level,'</B></A><P>', "\n";
-    if (! $renderer->render($fpt, $node)) {
-	print $fpt "<B>No modules in this level.</B>\n"; }
-    
+
+    print $fpt '<A HREF="toc.html" TARGET="main"><B>', $level, '</B></A><P>',
+      "\n";
+    if ( !$renderer->render( $fpt, $node ) ) {
+        print $fpt "<B>No modules in this level.</B>\n";
+    }
+
     print $fpt <<XXX;
 </BODY>
 </HTML>
 XXX
     $fpt->close();
-    
+
     # Process sub directories
     my $iter = $node->nodeIterator();
     my $sub_node;
-    while ($sub_node = $iter->()) {
-    	last if (! Generate_modules_index($sub_node,$renderer)); }
-	
+    while ( $sub_node = $iter->() ) {
+        last if ( !Generate_modules_index( $sub_node, $renderer ) );
+    }
+
     return 1;
 }
 
 sub Generate_main_frame {
     my $tree = shift;
-    
+
     print "Creating main frame.\n";
-    
+
     # Define file name
     my $html_file = $target . $tree->path_separator() . 'main_index.html';
-    
+
     my $fpt = FileHandle->new(">$html_file");
-    if (! defined $fpt) {
-	print "Unable to create $html_file!\n";
-	return 0;
+    if ( !defined $fpt ) {
+        print "Unable to create $html_file!\n";
+        return 0;
     }
 
     # Store main index now
@@ -483,9 +516,10 @@ Perl Modules
 </HEAD>
 <BODY BGCOLOR="WHITE">
 XXX
-    
-    print $fpt "<H1>Perl modules documentation for ", $tree->root_name(), "</H1>\n";
-    
+
+    print $fpt "<H1>Perl modules documentation for ", $tree->root_name(),
+      "</H1>\n";
+
     print $fpt <<XXX;
 <table><tr><td>
 These pages have been automatically generated by perlmod2www.pl release $RELEASE. For any problem or suggestion, please contact $_authorName <A HREF="mailto:$_authorEmail">lp1\@sanger.ac.uk</A>. <br>
@@ -506,22 +540,22 @@ The <b>TOC All</b> link displays the table of contents for the whole library in 
 </html>
 XXX
 
-$fpt->close();
+    $fpt->close();
 
-return 1;
+    return 1;
 }
 
 # Generate_frames: creates the initial page with the frames definition
 sub Generate_frames {
     print "Creating main page.\n";
-    
+
     # Define file name
     my $html_file = $target . $tree->path_separator() . 'index.html';
-    
+
     my $fpt = FileHandle->new(">$html_file");
-    if (! defined $fpt) {
-	print "Unable to create $html_file!\n";
-	return 0;
+    if ( !defined $fpt ) {
+        print "Unable to create $html_file!\n";
+        return 0;
     }
 
     # Store main index now
@@ -533,7 +567,7 @@ sub Generate_frames {
 XXX
 
     print $fpt "Perl modules documentation for ", $tree->root_name(), "\n";
-    
+
     print $fpt <<XXX;
 </TITLE>
 </HEAD>
@@ -548,32 +582,32 @@ XXX
 </HTML>
 XXX
 
-$fpt->close;
+    $fpt->close;
 
-return 1;
+    return 1;
 }
 
 # Generate_doc: generate Perl module documentation
 
 sub Generate_doc {
     my $node = shift;
-    
+
     my $fullPath = $tree->path() . $tree->path_separator();
-    $fullPath .= $node->path() . $tree->path_separator() if ($node->path());
-    
+    $fullPath .= $node->path() . $tree->path_separator() if ( $node->path() );
+
     print "Generating documentation from ", $fullPath, "\n";
-    
+
     # Document for TOC
     my $nodeToc = Pdoc::Document->new();
     $nodeToc->name('TOC');
     $nodeToc->node($node);
 
     my $fname = $target . $tree->path_separator();
-    $fname .= $node->path() . $tree->path_separator() if ($node->path());
+    $fname .= $node->path() . $tree->path_separator() if ( $node->path() );
     $fname .= 'toc.html';
 
     my $tocFpt = FileHandle->new(">$fname");
-    confess("Can't create $fname!") if (! $tocFpt);
+    confess("Can't create $fname!") if ( !$tocFpt );
 
     # Init toc
     my $title = PathToLevel($node);
@@ -593,70 +627,74 @@ XXX
 
     my $fpt;
     my $file;
-    # Iterate on files in the tree node
-    my $iter = $node->fileIterator();    
-    while ($file = $iter->()) {
-    	my $fname = $tree->path() . $tree->path_separator();
-	$fname .= $node->path() . $tree->path_separator() if (defined $node->path());
-	$fname .= $file->name();
-    	
-	print "# File $fname\n";
-    	$fpt = FileHandle->new($fname);
-	if (! defined $fpt) {
-	    print "Failed opening $fname, skipped.\n";
-	    next;
-	}
-    	
-	# Let the file parser do the job
-	my $parsed;
-	my $count = 0;
-	
-	# Parse file
-	$mod_parser->stream($fpt);
-	while ($parsed = $mod_parser->nextDocument($node)) {
-	    # Set some values to the document
-    	    $parsed->file($file->name());
-	    
-	    # Go through the document parser for eventual
-	    # extra work if needed
-	    $doc_parser->parse($parsed) if ($parseDoc);
-	    
-	    # Build Toc
-	    my $podName = $parsed->fetch('PodHead','NAME');
-	    if ($podName) {
-		my $tocEntry = Pdoc::DocEntry->new();
-		$tocEntry->type('toc');
-		$tocEntry->name($parsed->name());
-		$tocEntry->content($podName->content());
 
-		addTocEntry($tocEntry,$nodeToc);
-	    }
-	    
-    	    # Render document to an HTML page
-	    Render_doc($node, $file, $parsed);
-	    
-	    $count++;
-	}
-	
-	$fpt->close();
-	
-	# Warning if something wrong
-	if (! $count) {
-	    print "Warning: failed to parse and/or convert file $fname!\n";
-	    print "Check if package name definition is correct ('package' line)\n";
-	    print "File skipped.\n";
-	    next;
-	}
+    # Iterate on files in the tree node
+    my $iter = $node->fileIterator();
+    while ( $file = $iter->() ) {
+        my $fname = $tree->path() . $tree->path_separator();
+        $fname .= $node->path() . $tree->path_separator()
+          if ( defined $node->path() );
+        $fname .= $file->name();
+
+        print "# File $fname\n";
+        $fpt = FileHandle->new($fname);
+        if ( !defined $fpt ) {
+            print "Failed opening $fname, skipped.\n";
+            next;
+        }
+
+        # Let the file parser do the job
+        my $parsed;
+        my $count = 0;
+
+        # Parse file
+        $mod_parser->stream($fpt);
+        while ( $parsed = $mod_parser->nextDocument($node) ) {
+
+            # Set some values to the document
+            $parsed->file( $file->name() );
+
+            # Go through the document parser for eventual
+            # extra work if needed
+            $doc_parser->parse($parsed) if ($parseDoc);
+
+            # Build Toc
+            my $podName = $parsed->fetch( 'PodHead', 'NAME' );
+            if ($podName) {
+                my $tocEntry = Pdoc::DocEntry->new();
+                $tocEntry->type('toc');
+                $tocEntry->name( $parsed->name() );
+                $tocEntry->content( $podName->content() );
+
+                addTocEntry( $tocEntry, $nodeToc );
+            }
+
+            # Render document to an HTML page
+            Render_doc( $node, $file, $parsed );
+
+            $count++;
+        }
+
+        $fpt->close();
+
+        # Warning if something wrong
+        if ( !$count ) {
+            print "Warning: failed to parse and/or convert file $fname!\n";
+            print
+              "Check if package name definition is correct ('package' line)\n";
+            print "File skipped.\n";
+            next;
+        }
     }
-    
+
     # Store TOC for this node
-    $tocRenderer->render($tocFpt,$nodeToc);
+    $tocRenderer->render( $tocFpt, $nodeToc );
     print $tocFpt <<XXX;
 </BODY>
 </HTML>
 XXX
     $tocFpt->close();
-    
+
     # Add this part in TOC all
     print $tocAllFpt <<XXX;
 <BR>
@@ -665,19 +703,22 @@ XXX
 <TR BGCOLOR="$_scptConf->{'tocLevel'}"><TD><B>$title</B></TD><TD ALIGN="right"><A HREF="#top">Top</A></TD></TR>
 </TABLE>
 XXX
+
     # Update urls
     $iter = $nodeToc->iterator();
     my $entry;
-    while ($entry = $iter->()) {
-	$entry->set('url', $node->path() . '/' . $entry->name() . '.html');     }
+    while ( $entry = $iter->() ) {
+        $entry->set( 'url', $node->path() . '/' . $entry->name() . '.html' );
+    }
 
-    $tocRenderer->render($tocAllFpt,$nodeToc);
-    
+    $tocRenderer->render( $tocAllFpt, $nodeToc );
+
     # Descend tree
     $iter = $node->nodeIterator();
     my $sub_node;
-    while ($sub_node = $iter->()) {
-	Generate_doc($sub_node); }
+    while ( $sub_node = $iter->() ) {
+        Generate_doc($sub_node);
+    }
 
     return 1;
 }
@@ -685,62 +726,64 @@ XXX
 # Render_doc: transform a parsed Perl module to a web page
 
 sub Render_doc {
-    my $node = shift;
+    my $node     = shift;
     my $file_obj = shift;
     my $document = shift;
-    
+
     # Fname for raw data
     my $rawFile;
-    
+
     # Get document name
     my $name = $document->name();
-    
-    if (! defined $name) {
-    	print "No document name, not converted!\n";
-	return 0;
+
+    if ( !defined $name ) {
+        print "No document name, not converted!\n";
+        return 0;
     }
 
     # Get Perl level and module name
-#    my $level = $tree->root_name;
+    #    my $level = $tree->root_name;
     my $level;
-    if ($name =~ /::/) {
-	$name =~ /^(.*)::(.+)$/;
-	$level = $1 if ($1 ne "");
-	$name = $2;
+    if ( $name =~ /::/ ) {
+        $name =~ /^(.*)::(.+)$/;
+        $level = $1 if ( $1 ne "" );
+        $name = $2;
     }
-    
-    $level = $tree->root_name() if ($level eq "");
-    
+
+    $level = $tree->root_name() if ( $level eq "" );
+
     # Define HTML file name
-    my $file = RmExt($file_obj);
+    my $file  = RmExt($file_obj);
     my $fname = $target . $tree->path_separator();
-    $fname .= $node->path() . $tree->path_separator() if (defined $node->path());
-    
+    $fname .= $node->path() . $tree->path_separator()
+      if ( defined $node->path() );
+
     # Handle raw format
     if ($useRaw) {
-    	$rawFile = $fname . $file . '_raw.html'; }
-    
+        $rawFile = $fname . $file . '_raw.html';
+    }
+
     $fname .= $file . '.html';
-    
+
     print "-> Rendering ", $document->name(), " in\n   $fname\n";
-    
+
     # Dissociate convertion and rendition
-    unless ($mod_converter->convert($document)) {
-    	print "Error: failed to convert the document!\n";
-    	return 0;
+    unless ( $mod_converter->convert($document) ) {
+        print "Error: failed to convert the document!\n";
+        return 0;
     }
-    
+
     if ($useRaw) {
-    	return 0 unless addRawContent($rawFile, $document);	
+        return 0 unless addRawContent( $rawFile, $document );
     }
-    
+
     # Write HTML file now
     my $fpt = FileHandle->new(">$fname");
-    if (! defined $fpt) {
-    	print "Unable to create $fname!\n";
-	return 0;
+    if ( !defined $fpt ) {
+        print "Unable to create $fname!\n";
+        return 0;
     }
-    
+
     print $fpt <<XXX;
 <head>
 <!-- Generated by perlmod2www.pl -->
@@ -750,48 +793,46 @@ $name documentation.
 </head>
 <body bgcolor="white">
 XXX
-    print $fpt $doc_head if (defined $doc_head);
-    
+    print $fpt $doc_head if ( defined $doc_head );
+
     # Write page title
     print $fpt "<HR><H4>$level</H4>\n";
     print $fpt "<H3>$name</H3>\n";
-    
+
     # Just delegate the job to the renderer
-    $mod_renderer->render($fpt, $document);
-    
-    print $fpt $doc_foot if (defined $doc_foot);
-    
+    $mod_renderer->render( $fpt, $document );
+
+    print $fpt $doc_foot if ( defined $doc_foot );
+
     print $fpt <<XXX;
 </body>
 </html>
 XXX
     $fpt->close();
-    
+
     return 1;
 }
 
-
-
 sub addRawContent {
-    my $rawFile = shift;
+    my $rawFile  = shift;
     my $document = shift;
-        
+
     # Check if raw content available
     my $rawEntry = $document->fetch('RawContent');
-        
+
     # Stop here if nothing
     return 1 unless $rawEntry;
-    
+
     print "Adding raw content in $rawFile\n";
-    
+
     my $fpt = FileHandle->new(">$rawFile");
-    if (! defined $fpt) {
-    	print "Unable to create $rawFile!\n";
-	return 0;
+    if ( !defined $fpt ) {
+        print "Unable to create $rawFile!\n";
+        return 0;
     }
-    
+
     my $title = 'Raw content of ' . $document->name();
-    
+
     print $fpt <<XXX;
 <head>
 <!-- Generated by perlmod2www.pl -->
@@ -802,7 +843,7 @@ $title.
 <body bgcolor="white">
 <b>$title</b>
 XXX
-    
+
     # Add content (of 1st and unique element of returned list)
     print $fpt $rawEntry->[0]->converted();
 
@@ -810,14 +851,14 @@ XXX
 </body>
 </html>
 XXX
-    
+
     $fpt->close();
-    
+
     # Change entry converted content with proper url
     my $sep = $tree->path_separator();
     $rawFile =~ /([^$sep]+)$/;
-    $rawEntry->[0]->converted('<a href="' . $1 . '">Raw content</a>');
-    
+    $rawEntry->[0]->converted( '<a href="' . $1 . '">Raw content</a>' );
+
     return 1;
 }
 
@@ -825,25 +866,25 @@ XXX
 
 sub PathToLevel {
     my $obj = shift;
-    
+
     # First get root name of the tree
     my $ret = $tree->root_name();
-    
+
     # Get path of the passed obj file
     my $name = $obj->path();
-        
+
     # Return root name if no path in file object
-    return $ret if (! defined $name || $name eq "");
-    
+    return $ret if ( !defined $name || $name eq "" );
+
     # Use path separator defined from tree
     my $sep = quotemeta $tree->path_separator();
-        
+
     # Replace separator with Perl style
     $name =~ s/^$sep//;
     $name =~ s/$sep/::/g;
-    
+
     $ret .= '::' . $name;
-    
+
     return $ret;
 }
 
@@ -861,96 +902,101 @@ sub RmExt {
 sub Get_head_foot {
     local (*FPT);
     my $line;
-    if (defined $doc_head) {
-    	if (! open (FPT, '<', $doc_head)) {
-	    print "Failed opening documentation header file $doc_head.\n";
-	    return 0;
-	    }
-	$doc_head = "";
-	while ($line = <FPT>){
-	    $doc_head .= $line; }
-	close FPT;
+    if ( defined $doc_head ) {
+        if ( !open( FPT, '<', $doc_head ) ) {
+            print "Failed opening documentation header file $doc_head.\n";
+            return 0;
+        }
+        $doc_head = "";
+        while ( $line = <FPT> ) {
+            $doc_head .= $line;
+        }
+        close FPT;
     }
-    
-    if (defined $doc_foot) {
-    	if (! open (FPT, '<', $doc_foot)) {
-	    print "Failed opening documentation footer file $doc_foot.\n";
-	    return 0;
-	}
-	
-	$doc_foot = "";
-	while ($line = <FPT>) {
-	    $doc_foot .= $line; }
-	close FPT;
+
+    if ( defined $doc_foot ) {
+        if ( !open( FPT, '<', $doc_foot ) ) {
+            print "Failed opening documentation footer file $doc_foot.\n";
+            return 0;
+        }
+
+        $doc_foot = "";
+        while ( $line = <FPT> ) {
+            $doc_foot .= $line;
+        }
+        close FPT;
     }
-    
+
     return 1;
 }
 
 sub loadXl {
     my $file = shift;
-    
-    if (! -e $file) {
-    	print "Cross link table file $file doesn't exists!\n";
-	exit;
+
+    if ( !-e $file ) {
+        print "Cross link table file $file doesn't exists!\n";
+        exit;
     }
-    
+
     # Open file and start to extract lines
     my $fpt = FileHandle->new($file);
     my $line;
-    while ($line = <$fpt>) {
-    	chomp($line);
-	next if ($line eq "");
-	
-	# Extract XL definition
-	my @parts = split(/\s+/,$line);
-	if (scalar(@parts) != 2) {
-	    print "Invalid cross link reference for $line in file $file!\n";
-	    $fpt->close();
-	    Help();
-	    exit;
-	}
-	
-	print "Cross-link source: $parts[0] - $parts[1]\n";
-	# Keep cross link
-	push(@xl,\@parts);
+    while ( $line = <$fpt> ) {
+        chomp($line);
+        next if ( $line eq "" );
+
+        # Extract XL definition
+        my @parts = split( /\s+/, $line );
+        if ( scalar(@parts) != 2 ) {
+            print "Invalid cross link reference for $line in file $file!\n";
+            $fpt->close();
+            Help();
+            exit;
+        }
+
+        print "Cross-link source: $parts[0] - $parts[1]\n";
+
+        # Keep cross link
+        push( @xl, \@parts );
     }
-    
+
     $fpt->close();
 }
 
 sub extractTree {
     my $path = shift;
-    my $url = shift;
-    
+    my $url  = shift;
+
     my $ntree = Pdoc::Tree->new();
     $ntree->name('Perl modules documentation.');
     $ntree->path($path);
-    
+
     # Define directories to exclude
-    my @skip = split(',',$to_skip);
+    my @skip = split( ',', $to_skip );
     foreach my $dir (@skip) {
-	$ntree->exclude($dir); }
+        $ntree->exclude($dir);
+    }
 
     # Get only .pm files
     $ntree->add_filter('.pm$');
 
     # Get tree and check if successful
-    if (! defined $ntree->root()) {
-	print "Failed parsing tree.\n";
-	exit;
+    if ( !defined $ntree->root() ) {
+        print "Failed parsing tree.\n";
+        exit;
     }
-    
+
     # Define url or redefined path - as necessary
-    if ($url =~ /^http:\/\//) {
-	$ntree->url($url); }
+    if ( $url =~ /^http:\/\// ) {
+        $ntree->url($url);
+    }
     return $ntree;
 }
 
 sub addTocEntry {
     my $entry = shift;
-    my $doc = shift;
-    
+    my $doc   = shift;
+
     # Clean stuff
     my $name = $entry->name();
     $name =~ /([^\:]+)$/;
@@ -959,11 +1005,12 @@ sub addTocEntry {
     my $content = $entry->content();
     $content =~ s/\s*[^ ]+\s+-?\s*(.*)/$1/;
     $entry->content($content);
-    $entry->set('url', $name . '.html');    
+    $entry->set( 'url', $name . '.html' );
     $doc->add($entry);
 }
 
 sub initTocAll {
+
     # Init toc
     my $tocTitle = "TOC for all levels";
     print $tocAllFpt <<XXX;
@@ -981,12 +1028,13 @@ $tocTitle
 </TABLE>
 <TABLE BORDER="1" WIDTH="100%">
 XXX
+
     # Build index
     my $node = $tree->root();
     my $name = PathToLevel($node);
-    print $tocAllFpt '<TR><TD BGCOLOR="', $_scptConf->{'tocLevel'}, 
-    	    	     '"><A HREF="#',
-		     $name, '"><B>', $name, '</B></A></TD></TR>', "\n";
+    print $tocAllFpt '<TR><TD BGCOLOR="', $_scptConf->{'tocLevel'},
+      '"><A HREF="#',
+      $name, '"><B>', $name, '</B></A></TD></TR>', "\n";
 
     nodeToc($node);
 
@@ -1001,66 +1049,79 @@ sub nodeToc {
 
     my $niter = $node->nodeIterator();
     my $nentry;
-    while ($nentry = $niter->()) {
-	my $name = PathToLevel($nentry);
-	print $tocAllFpt '<TR><TD BGCOLOR="', $_scptConf->{'tocLevel'}, 
-	    	    	 '"><A HREF="#', $name, '"><B>', $name, 
-			 '</B></A></TD></TR>', "\n";
+    while ( $nentry = $niter->() ) {
+        my $name = PathToLevel($nentry);
+        print $tocAllFpt '<TR><TD BGCOLOR="', $_scptConf->{'tocLevel'},
+          '"><A HREF="#', $name, '"><B>', $name,
+          '</B></A></TD></TR>', "\n";
     }
 
     $niter = $node->nodeIterator();
-    while ($nentry = $niter->()) {
-	nodeToc($nentry); }
+    while ( $nentry = $niter->() ) {
+        nodeToc($nentry);
+    }
 }
 
 # Get_args: process the arguments passed to the script.
 
 sub Get_args {
     my $arg;
-    
-    while ($arg = shift (@ARGV)) {
-	if ($arg eq "-h" || $arg eq "-help") {
-	    Help ();
-	    exit;
-	}
-	
-	if ($arg eq '-source') {
-	    $source = shift (@ARGV); }
-	elsif ($arg eq '-target') {
-	    $target = shift (@ARGV); }
-	elsif ($arg eq '-wroot') {
-	    $wroot = shift (@ARGV); }
-	elsif ($arg eq '-skip') {
-	    $to_skip .= ',' . shift (@ARGV); }
-	elsif ($arg eq '-doc_header') {
-	    $doc_head = shift (@ARGV); }
-	elsif ($arg eq '-doc_footer') {
-	    $doc_foot = shift (@ARGV); }
-	elsif ($arg eq '-nosort') {
-	    $noSort = 1; }
-	elsif ($arg eq '-conf') {
-	    $confFile = shift (@ARGV); }
-	elsif ($arg eq '-isa') {
-	    $isaCheck = 1; }
-	elsif ($arg eq '-webcvs') {
-	    $webCvs = shift (@ARGV);
-	    $parseDoc = 1;
-	} elsif ($arg eq '-raw') {
-	    $useRaw = 1;
-	} elsif ($arg eq '-xl') {
-	    my $tmp = shift (@ARGV);
-	    my @parts = split(',',$tmp);
-	    if (scalar(@parts) != 2) {
-	    	print "Invalid cross link reference for $tmp!\n";
-		Help();
-		exit;
-	    }
-	    
-	    push(@xl,\@parts);
-	} elsif ($arg eq '-xltable') {
-	    my $file = shift(@ARGV);
-	    loadXl($file);
-	}
+
+    while ( $arg = shift(@ARGV) ) {
+        if ( $arg eq "-h" || $arg eq "-help" ) {
+            Help();
+            exit;
+        }
+
+        if ( $arg eq '-source' ) {
+            $source = shift(@ARGV);
+        }
+        elsif ( $arg eq '-target' ) {
+            $target = shift(@ARGV);
+        }
+        elsif ( $arg eq '-wroot' ) {
+            $wroot = shift(@ARGV);
+        }
+        elsif ( $arg eq '-skip' ) {
+            $to_skip .= ',' . shift(@ARGV);
+        }
+        elsif ( $arg eq '-doc_header' ) {
+            $doc_head = shift(@ARGV);
+        }
+        elsif ( $arg eq '-doc_footer' ) {
+            $doc_foot = shift(@ARGV);
+        }
+        elsif ( $arg eq '-nosort' ) {
+            $noSort = 1;
+        }
+        elsif ( $arg eq '-conf' ) {
+            $confFile = shift(@ARGV);
+        }
+        elsif ( $arg eq '-isa' ) {
+            $isaCheck = 1;
+        }
+        elsif ( $arg eq '-webcvs' ) {
+            $webCvs   = shift(@ARGV);
+            $parseDoc = 1;
+        }
+        elsif ( $arg eq '-raw' ) {
+            $useRaw = 1;
+        }
+        elsif ( $arg eq '-xl' ) {
+            my $tmp = shift(@ARGV);
+            my @parts = split( ',', $tmp );
+            if ( scalar(@parts) != 2 ) {
+                print "Invalid cross link reference for $tmp!\n";
+                Help();
+                exit;
+            }
+
+            push( @xl, \@parts );
+        }
+        elsif ( $arg eq '-xltable' ) {
+            my $file = shift(@ARGV);
+            loadXl($file);
+        }
     }
 }
 

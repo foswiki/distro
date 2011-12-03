@@ -30,8 +30,12 @@ sub new {
             name    => 'Validate',
             version => '1.8.1',
             author  => 'Joern Zaefferer',
-            homepage => 'http://bassistance.de/jquery-plugins/jquery-plugin-validation',
-            javascript => [ 'jquery.validate.js', 'jquery.validate.methods.js', 'jquery.validate.init.js' ],
+            homepage =>
+              'http://bassistance.de/jquery-plugins/jquery-plugin-validation',
+            javascript => [
+                'jquery.validate.js', 'jquery.validate.methods.js',
+                'jquery.validate.init.js'
+            ],
             dependencies => ['form'],
         ),
         $class
@@ -66,7 +70,7 @@ sub init {
 "<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>\n";
         Foswiki::Func::addToZone(
             'script', "JQUERYPLUGIN::VALIDATE::LANG",
-            $text,  'JQUERYPLUGIN::VALIDATE'
+            $text,    'JQUERYPLUGIN::VALIDATE'
         );
     }
 

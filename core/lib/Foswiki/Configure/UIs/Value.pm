@@ -96,6 +96,7 @@ sub renderHtml {
         {
             $defaultDisplayValue ||= '0';
         }
+
         #$valueString =~ s/\'/\\'/go;
         #$valueString =~ s/\n/\\n/go;
         $valueString = $this->urlEncode($valueString);

@@ -33,7 +33,7 @@ sub new {
             author       => 'Rafael Alvarez, Michael Daum, Arthur Clemens',
             homepage     => 'http://foswiki.org/Extensions/TwistyPlugin',
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/TwistyPlugin',
-            dependencies => ['livequery', 'JavascriptFiles/foswikiPref'],
+            dependencies => [ 'livequery', 'JavascriptFiles/foswikiPref' ],
             javascript   => ['jquery.twisty.js'],
             css          => ['twisty.css']
         ),

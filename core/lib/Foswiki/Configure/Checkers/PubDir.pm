@@ -10,23 +10,24 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    $this->{filecount}  = 0;
-    $this->{fileErrors} = 0;
+    $this->{filecount}   = 0;
+    $this->{fileErrors}  = 0;
     $this->{excessPerms} = 0;
     my $e = $this->guessMajorDir( 'PubDir', 'pub' );
 
-    $e .= $this->NOTE(<<MISSING
+    $e .= $this->NOTE(
+        <<MISSING
 If PubDir is missing, your ScriptDir is probably not located in the Foswiki
 installation directory.  All directory locations are guessed relative to the
 ScriptDir location. (<code>$Foswiki::cfg{ScriptDir}</code>)  Carefully review all of the Directory settings, especially
 the WorkingDir, which will be created in the guessed location after the settings are saved.
 MISSING
-) if ($e =~ m/Error/);
+    ) if ( $e =~ m/Error/ );
 
-    $e .= $this->showExpandedValue($Foswiki::cfg{PubDir});
+    $e .= $this->showExpandedValue( $Foswiki::cfg{PubDir} );
 
     my $d = $this->getCfg('{PubDir}');
-    $e .= $this->warnAboutWindowsBackSlashes( $d );
+    $e .= $this->warnAboutWindowsBackSlashes($d);
 
     # Don't check directories against {RCS} permissions on Windows
     my $dirchk =
@@ -35,8 +36,7 @@ MISSING
       : 'd';
 
     # rwd - Readable,  Writable, and directory must match {RCS}{dirPermission}
-    my $e2 =
-      $this->checkTreePerms( $d, 'rw' . $dirchk, qr/,v$/ );
+    my $e2 = $this->checkTreePerms( $d, 'rw' . $dirchk, qr/,v$/ );
 
     $e .=
       ( $this->{filecount} >= $Foswiki::cfg{PathCheckLimit} )
@@ -48,8 +48,11 @@ MISSING
     my $dperm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
     my $fperm = sprintf( '%04o', $Foswiki::cfg{RCS}{filePermission} );
 
-    my $singularOrPlural = $this->{fileErrors} == 1 ? "$this->{fileErrors} directory or file has insufficient permissions." : "$this->{fileErrors} directories or files have insufficient permissions.";
-    
+    my $singularOrPlural =
+      $this->{fileErrors} == 1
+      ? "$this->{fileErrors} directory or file has insufficient permissions."
+      : "$this->{fileErrors} directories or files have insufficient permissions.";
+
     if ( $this->{fileErrors} ) {
         $e .= $this->ERROR(<<ERRMSG)
 $singularOrPlural Insufficient permissions
@@ -59,7 +62,7 @@ are set correctly for your environment and correct the file permissions listed b
 ERRMSG
     }
 
-    if ( $this->{excessPerms}) {
+    if ( $this->{excessPerms} ) {
         $e .= $this->WARN(<<PERMS);
 $this->{excessPerms} or more directories appear to have more access permission than requested in the Store configuration.
 Excess permissions might allow other users on the web server to have undesired access to the files.
@@ -69,7 +72,10 @@ excessive permissions in this release).
 PERMS
     }
 
-    $e .= $this->NOTE('<b>First 10 detected errors of inconsistent permissions</b> <br/> ' . $e2 ) if $e2;
+    $e .= $this->NOTE(
+        '<b>First 10 detected errors of inconsistent permissions</b> <br/> '
+          . $e2 )
+      if $e2;
 
     $this->{filecount}  = 0;
     $this->{fileErrors} = 0;

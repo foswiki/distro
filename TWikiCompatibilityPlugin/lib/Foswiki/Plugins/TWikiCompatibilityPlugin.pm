@@ -73,7 +73,7 @@ sub earlyInitPlugin {
 
 sub _patchWebTopic {
 
-    my ($web, $topic) = @_;
+    my ( $web, $topic ) = @_;
 
     return unless Foswiki::Func::isValidWebName($web);
     $web = Foswiki::Sandbox::untaintUnchecked($web);
@@ -88,8 +88,8 @@ sub _patchWebTopic {
           $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
           {TWikiWebTopicNameConversion};
         $_[0] = $Foswiki::cfg{SystemWebName};
-        if ( defined( $TWikiWebTopicNameConversion->{ $topic } ) ) {
-            $_[1] = $TWikiWebTopicNameConversion->{ $topic };
+        if ( defined( $TWikiWebTopicNameConversion->{$topic} ) ) {
+            $_[1] = $TWikiWebTopicNameConversion->{$topic};
 
             #print STDERR "converted to $topic";
         }
@@ -98,9 +98,9 @@ sub _patchWebTopic {
       $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
       {MainWebTopicNameConversion};
     if (   ( $web eq 'Main' )
-        && ( defined( $MainWebTopicNameConversion->{ $topic } ) ) )
+        && ( defined( $MainWebTopicNameConversion->{$topic} ) ) )
     {
-        $_[1] = $MainWebTopicNameConversion->{ $topic };
+        $_[1] = $MainWebTopicNameConversion->{$topic};
 
         #print STDERR "converted to $topic";
     }

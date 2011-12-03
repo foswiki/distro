@@ -26,7 +26,7 @@ our $SHORTDESCRIPTION  = 'Checks Foswiki.org for updates';
 our $NO_PREFS_IN_TOPIC = 1;
 our $core;
 
-use constant DEBUG => 0; # Set to 1 to enable debug mode
+use constant DEBUG => 0;    # Set to 1 to enable debug mode
 
 sub initPlugin {
 
@@ -80,13 +80,12 @@ JS
 }
 
 sub getCore {
-  unless ($core) {
-    require Foswiki::Plugins::UpdatesPlugin::Core;
-    $core = new Foswiki::Plugins::UpdatesPlugin::Core(@_);
-  }
+    unless ($core) {
+        require Foswiki::Plugins::UpdatesPlugin::Core;
+        $core = new Foswiki::Plugins::UpdatesPlugin::Core(@_);
+    }
 
-  return $core;
+    return $core;
 }
-
 
 1;

@@ -19,7 +19,6 @@ our %serialisers = ();
 
 #should this really be a register/request?
 
-
 =begin TML
 
 ---++ StaticMethod serialise( $session, $value, $style ) -> $cereal
@@ -34,12 +33,11 @@ our %serialisers = ();
 
 sub serialise {
     my $session = shift;
-    my $value  = shift;
+    my $value   = shift;
     my $style   = shift;
 
     return getSerialiser( $session, $style )->write( $session, $value );
 }
-
 
 =begin TML
 

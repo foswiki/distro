@@ -16,8 +16,12 @@ our @ISA = ('Foswiki::Query::OP');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( arity => 2, name => '[', close => ']',
-        prec => 900 );
+    return $class->SUPER::new(
+        arity => 2,
+        name  => '[',
+        close => ']',
+        prec  => 900
+    );
 }
 
 sub evaluate {

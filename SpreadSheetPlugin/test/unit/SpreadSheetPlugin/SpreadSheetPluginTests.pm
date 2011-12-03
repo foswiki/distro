@@ -340,16 +340,32 @@ sub test_FORMATGMTIME {
     $this->assert( $this->CALC('$FORMATGMTIME(1041379200, $day $mon $year)') eq
           '01 Jan 2003' );
 
-    $this->assert_equals( '2004-W53-6', $this->CALC('$FORMATGMTIME($TIME(2005-01-01), $isoweek($year-W$wk-$day))')); 
-    $this->assert_equals( '2009-W01-1', $this->CALC('$FORMATGMTIME($TIME(2008-12-29), $isoweek($year-W$wk-$day))')); 
+    $this->assert_equals(
+        '2004-W53-6',
+        $this->CALC(
+            '$FORMATGMTIME($TIME(2005-01-01), $isoweek($year-W$wk-$day))')
+    );
+    $this->assert_equals(
+        '2009-W01-1',
+        $this->CALC(
+            '$FORMATGMTIME($TIME(2008-12-29), $isoweek($year-W$wk-$day))')
+    );
 }
 
 sub test_FORMATTIME {
     my ($this) = @_;
     $this->assert( $this->CALC('$FORMATTIME(0, $year/$month/$day GMT)') eq
           '1970/01/01 GMT' );
-    $this->assert_equals( '2004-W53-6 GMT', $this->CALC('$FORMATTIME($TIME(2005-01-01 gmt), $isoweek($year-W$wk-$day) GMT)')); 
-    $this->assert_equals( '2009-W01-1 GMT', $this->CALC('$FORMATTIME($TIME(2008-12-29 gmt), $isoweek($year-W$wk-$day) GMT)')); 
+    $this->assert_equals(
+        '2004-W53-6 GMT',
+        $this->CALC(
+            '$FORMATTIME($TIME(2005-01-01 gmt), $isoweek($year-W$wk-$day) GMT)')
+    );
+    $this->assert_equals(
+        '2009-W01-1 GMT',
+        $this->CALC(
+            '$FORMATTIME($TIME(2008-12-29 gmt), $isoweek($year-W$wk-$day) GMT)')
+    );
 
 }
 
@@ -904,24 +920,48 @@ sub test_SIGN {
 
 sub test_SPLIT {
     my ($this) = @_;
-    $this->assert_equals( 'Apple, Orange, Kiwi', $this->CALC('$SPLIT(, Apple  Orange Kiwi)'),
-        'Split on default space delimiter' );
-    $this->assert_equals( 'Apple Orange, Kiwi', $this->CALC('$SPLIT($comma, Apple Orange, Kiwi)'),
-        'Split on comma delimiter');
-    $this->assert_equals( 'Apple, Orange, Kiwi', $this->CALC('$SPLIT(, Apple  Orange Kiwi)'),
-        'Split on default space delimiter - missing' );
-    $this->assert_equals('Apple, Orange Kiwi', $this->CALC('$SPLIT(-, Apple-Orange Kiwi)'),
-        'Split on hyphen delimiter');
-    $this->assert_equals('Apple, Orange, Kiwi', $this->CALC('$SPLIT([-:]$sp*, Apple-Orange: Kiwi)'),
-        'Split on hyphen or colon followed  by 0 or more spaces');
-    $this->assert_equals('A, p, p, l, e', $this->CALC('$SPLIT($empty, Apple)'),
-        'Split on empty string' );
-    $this->assert_equals('A, p, p, l, e', $this->CALC('$SPLIT($nop, Apple)'),
-        'Split on nop' );
+    $this->assert_equals(
+        'Apple, Orange, Kiwi',
+        $this->CALC('$SPLIT(, Apple  Orange Kiwi)'),
+        'Split on default space delimiter'
+    );
+    $this->assert_equals(
+        'Apple Orange, Kiwi',
+        $this->CALC('$SPLIT($comma, Apple Orange, Kiwi)'),
+        'Split on comma delimiter'
+    );
+    $this->assert_equals(
+        'Apple, Orange, Kiwi',
+        $this->CALC('$SPLIT(, Apple  Orange Kiwi)'),
+        'Split on default space delimiter - missing'
+    );
+    $this->assert_equals(
+        'Apple, Orange Kiwi',
+        $this->CALC('$SPLIT(-, Apple-Orange Kiwi)'),
+        'Split on hyphen delimiter'
+    );
+    $this->assert_equals(
+        'Apple, Orange, Kiwi',
+        $this->CALC('$SPLIT([-:]$sp*, Apple-Orange: Kiwi)'),
+        'Split on hyphen or colon followed  by 0 or more spaces'
+    );
+    $this->assert_equals(
+        'A, p, p, l, e',
+        $this->CALC('$SPLIT($empty, Apple)'),
+        'Split on empty string'
+    );
+    $this->assert_equals(
+        'A, p, p, l, e',
+        $this->CALC('$SPLIT($nop, Apple)'),
+        'Split on nop'
+    );
 
     # Not documented - missing separator.
-    $this->assert_equals( 'Apple, Orange, Kiwi', $this->CALC('$SPLIT( Apple  Orange Kiwi)'),
-        'Split on default space delimiter - missing' );
+    $this->assert_equals(
+        'Apple, Orange, Kiwi',
+        $this->CALC('$SPLIT( Apple  Orange Kiwi)'),
+        'Split on default space delimiter - missing'
+    );
 }
 
 sub test_SQRT {
@@ -976,8 +1016,11 @@ sub test_T {
 sub test_TIME {
     my ($this) = @_;
     $this->assert_equals( '1066089600', $this->CALC('$TIME(2003/10/14 GMT)') );
-    $this->assert_equals( '1066089600', $this->CALC('$TIME(DOY2003.287)' ));
-    $this->assert_equals( $this->CALC('$TIME(2003/12/31 - 23:59:59)'), $this->CALC('$TIME(DOY2003.365.23.59.59)'));
+    $this->assert_equals( '1066089600', $this->CALC('$TIME(DOY2003.287)') );
+    $this->assert_equals(
+        $this->CALC('$TIME(2003/12/31 - 23:59:59)'),
+        $this->CALC('$TIME(DOY2003.365.23.59.59)')
+    );
 }
 
 sub test_TIMEADD {
@@ -990,12 +1033,12 @@ sub test_TIMEADD {
     $this->assert(
         $this->CALC('$TIMEADD($TIME(2009/04/29 ), 1, year)') == 1272499200 );
 
-    Foswiki::Func::setPreferencesValue("SPREADSHEETPLUGIN_TIMEISLOCAL", 1);
+    Foswiki::Func::setPreferencesValue( "SPREADSHEETPLUGIN_TIMEISLOCAL", 1 );
 
-    $this->assert(
-        $this->CALC('$TIMEADD($TIME(2009/04/29 GMT), 90, minute)') == 1240968600 );
-    $this->assert(
-        $this->CALC('$TIMEADD($TIME(2009/04/29 GMT), 1, month)') == 1243591488 );
+    $this->assert( $this->CALC('$TIMEADD($TIME(2009/04/29 GMT), 90, minute)') ==
+          1240968600 );
+    $this->assert( $this->CALC('$TIMEADD($TIME(2009/04/29 GMT), 1, month)') ==
+          1243591488 );
     $this->assert(
         $this->CALC('$TIMEADD($TIME(2009/04/29 GMT), 1, year)') == 1272499200 );
 
@@ -1042,9 +1085,16 @@ sub test_VALUE {
 
 sub test_WHILE {
     my ($this) = @_;
-    $this->assert_equals( '1 2 3 4 5 6 7 8 9 10 ', $this->CALC('$WHILE($counter<=10, $counter )') );
-    $this->assert_equals( ' 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, ', $this->CALC('$SET(i,0) $WHILE($GET(i) < 10, $SETM(i,+1)$EVAL($GET(i)*$GET(i)), )') );
-    $this->assert_equals( 'ERROR: Infinite loop (32767 cycles)', $this->CALC('$WHILE(1, )'));
+    $this->assert_equals( '1 2 3 4 5 6 7 8 9 10 ',
+        $this->CALC('$WHILE($counter<=10, $counter )') );
+    $this->assert_equals(
+        ' 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, ',
+        $this->CALC(
+'$SET(i,0) $WHILE($GET(i) < 10, $SETM(i,+1)$EVAL($GET(i)*$GET(i)), )'
+        )
+    );
+    $this->assert_equals( 'ERROR: Infinite loop (32767 cycles)',
+        $this->CALC('$WHILE(1, )') );
 }
 
 sub test_WORKINGDAYS {

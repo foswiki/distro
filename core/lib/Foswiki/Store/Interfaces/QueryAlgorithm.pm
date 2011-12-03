@@ -80,17 +80,14 @@ sub query {
     }
 
     my $date = $options->{'date'} || '';
-    
+
     # Fold constants
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
     print STDERR "--- before: " . $query->stringify() . "\n" if MONITOR;
     $query->simplify( tom => $context, data => $context );
     print STDERR "--- simplified: " . $query->stringify() . "\n" if MONITOR;
 
-
-    my $webItr =
-      $this->getWebIterator( $session,
-        $options );
+    my $webItr = $this->getWebIterator( $session, $options );
 
     #do the search
     my $queryItr = Foswiki::Iterator::ProcessIterator->new(
@@ -102,12 +99,12 @@ sub query {
             my $infoCache =
               $this->_webQuery( $params->{query}, $web, $params->{inputset},
                 $params->{session}, $params->{options} );
-            
+
             if ($date) {
-                $infoCache->filterByDate( $date );
+                $infoCache->filterByDate($date);
             }
             $infoCache->sortResults($options);
-            
+
             return $infoCache;
         },
         {
@@ -128,22 +125,19 @@ sub query {
 
 #consider if this is un-necessary - and that we can steal the web order sort from DBIStore and push up to the webItr
     if ($date) {
-        $resultset->filterByDate( $date );
+        $resultset->filterByDate($date);
     }
     $resultset->sortResults($options);
 
     #add permissions check
-    $resultset =
-      $this->addACLFilter( $resultset,
-        $options );
+    $resultset = $this->addACLFilter( $resultset, $options );
 
     #add paging if applicable.
-    $this->addPager( $resultset,
-        $options );
+    $this->addPager( $resultset, $options );
 }
 
 sub addPager {
-    my $this = shift;
+    my $this      = shift;
     my $resultset = shift;
     my $options   = shift;
 
@@ -157,7 +151,7 @@ sub addPager {
 }
 
 sub addACLFilter {
-    my $this = shift;
+    my $this      = shift;
     my $resultset = shift;
     my $options   = shift;
 
@@ -196,7 +190,7 @@ sub addACLFilter {
 }
 
 sub getWebIterator {
-    my $this = shift;
+    my $this    = shift;
     my $session = shift;
     my $options = shift;
 
@@ -235,6 +229,7 @@ sub getWebIterator {
         {}
     );
 }
+
 =begin TML
 
 ---++ StaticMethod getField($class, $node, $data, $field ) -> $result

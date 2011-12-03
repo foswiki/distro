@@ -36,6 +36,7 @@ use Fcntl qw( :DEFAULT :flock SEEK_SET );
 use Foswiki::Store                         ();
 use Foswiki::Sandbox                       ();
 use Foswiki::Iterator::NumberRangeIterator ();
+
 # use the locale if required to ensure sort order is correct
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -216,60 +217,66 @@ if simple file-based rev info is required.
 =cut
 
 sub getInfo {
-    my $this = shift; # $version is not useful here, as we have no way to record history
+    my $this =
+      shift;  # $version is not useful here, as we have no way to record history
 
     # SMELL: this is only required for the constant
     require Foswiki::Users::BaseUserMapping;
 
-    # We only arrive here if the implementation getInfo can't serve the info; this
-    # will usually be because the ,v is missing or the topic cache is newer.
+  # We only arrive here if the implementation getInfo can't serve the info; this
+  # will usually be because the ,v is missing or the topic cache is newer.
 
     # If there is a .txt file, grab the TOPICINFO from it.
     # Note that we only peek at the first line of the file,
     # which is where a "proper" save will have left the tag.
     my $info = {};
     if ( $this->noCheckinPending() ) {
-	# TOPICINFO may be OK
-	$this->_getTOPICINFO($info);
-    } elsif (-e $this->{rcsFile}) {
-	# There is a checkin pending, and there is an rcs file.
-	# Ignore TOPICINFO
-	$info->{version} = $this->_numRevisions() + 1;
-	$info->{comment} = "pending";
-    } else {
-	# There is a checkin pending, but no RCS file. Make the best we can of TOPICINFO.
-	$this->_getTOPICINFO($info);
-	$info->{version} = 1;
-	$info->{comment} = "pending";
+
+        # TOPICINFO may be OK
+        $this->_getTOPICINFO($info);
     }
-    $info->{date} = $this->getTimestamp() unless defined $info->{date};
-    $info->{version} = 1 unless defined $info->{version};
-    $info->{comment} = '' unless defined $info->{comment};
+    elsif ( -e $this->{rcsFile} ) {
+
+        # There is a checkin pending, and there is an rcs file.
+        # Ignore TOPICINFO
+        $info->{version} = $this->_numRevisions() + 1;
+        $info->{comment} = "pending";
+    }
+    else {
+
+# There is a checkin pending, but no RCS file. Make the best we can of TOPICINFO.
+        $this->_getTOPICINFO($info);
+        $info->{version} = 1;
+        $info->{comment} = "pending";
+    }
+    $info->{date}    = $this->getTimestamp() unless defined $info->{date};
+    $info->{version} = 1                     unless defined $info->{version};
+    $info->{comment} = ''                    unless defined $info->{comment};
     $info->{author} ||= $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
     return $info;
 }
 
 # Try and read TOPICINFO
 sub _getTOPICINFO {
-    my ($this, $info) = @_;
+    my ( $this, $info ) = @_;
     my $f;
 
     if ( open( $f, '<', $this->{file} ) ) {
-	local $/ = "\n";
-	my $ti = <$f>;
-	close($f);
-	if ( defined $ti && $ti =~ /^%META:TOPICINFO{(.*)}%/ ) {
-	    require Foswiki::Attrs;
-	    my $a = Foswiki::Attrs->new($1);
-	    
-	    # Default bad revs to 1, not 0, because this is coming from
-	    # a topic on disk, so we know it's a "real" rev.
-	    $info->{version} = Foswiki::Store::cleanUpRevID( $a->{version} )
-		|| 1;
-	    $info->{date}    = $a->{date};
-	    $info->{author}  = $a->{author};
-	    $info->{comment} = $a->{comment};
-	}
+        local $/ = "\n";
+        my $ti = <$f>;
+        close($f);
+        if ( defined $ti && $ti =~ /^%META:TOPICINFO{(.*)}%/ ) {
+            require Foswiki::Attrs;
+            my $a = Foswiki::Attrs->new($1);
+
+            # Default bad revs to 1, not 0, because this is coming from
+            # a topic on disk, so we know it's a "real" rev.
+            $info->{version} = Foswiki::Store::cleanUpRevID( $a->{version} )
+              || 1;
+            $info->{date}    = $a->{date};
+            $info->{author}  = $a->{author};
+            $info->{comment} = $a->{comment};
+        }
     }
 }
 
@@ -278,21 +285,24 @@ sub _getTOPICINFO {
 # checked in (usually as the result of a save). This is also used to test the validity of
 # TOPICINFO, as a pending checkin does not contain valid TOPICINFO.
 sub noCheckinPending {
-    my $this = shift;
+    my $this    = shift;
     my $isValid = 0;
 
-    if (! -e $this->{file}) {
-	$isValid = 1; # Hmmmm......
-    } else {
-	if (-e $this->{rcsFile}) {
-	    # Check the time on the rcs file; is the .txt newer?
-	    # Danger, Will Robinson! stat isn't reliable on all file systems, though [9] is claimed to be OK
-	    # See perldoc perlport for more on this.
-	    local ${^WIN32_SLOPPY_STAT} = 1; # don't need to open the file on Win32
-	    my $rcsTime = (stat($this->{rcsFile}))[9];
-	    my $fileTime = (stat($this->{file}))[9];
-	    $isValid = ($rcsTime < $fileTime) ? 0 : 1;
-	}
+    if ( !-e $this->{file} ) {
+        $isValid = 1;    # Hmmmm......
+    }
+    else {
+        if ( -e $this->{rcsFile} ) {
+
+# Check the time on the rcs file; is the .txt newer?
+# Danger, Will Robinson! stat isn't reliable on all file systems, though [9] is claimed to be OK
+# See perldoc perlport for more on this.
+            local ${^WIN32_SLOPPY_STAT} =
+              1;         # don't need to open the file on Win32
+            my $rcsTime  = ( stat( $this->{rcsFile} ) )[9];
+            my $fileTime = ( stat( $this->{file} ) )[9];
+            $isValid = ( $rcsTime < $fileTime ) ? 0 : 1;
+        }
     }
     return $isValid;
 }
@@ -310,20 +320,22 @@ sub _saveDamage {
 
     # the version in the TOPICINFO may not be correct. We need
     # to check the change in and update the TOPICINFO accordingly
-    my $t = $this->readFile($this->{file});
+    my $t = $this->readFile( $this->{file} );
 
     # If this is a topic, adjust the TOPICINFO
-    if (defined $this->{topic} && !defined $this->{attachment}) {
-	my $rev = -e $this->{rcsFile} ? $this->getLatestRevisionID() : 1;
-	$t =~ s/^%META:TOPICINFO{(.*)}%$//m;
-	$t = '%META:TOPICINFO{author="'
-	    . $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID.
-	    '" comment="autosave" date="' .time().'" format="1.1" version="'
-	    .$rev.'"}%'."\n$t";
+    if ( defined $this->{topic} && !defined $this->{attachment} ) {
+        my $rev = -e $this->{rcsFile} ? $this->getLatestRevisionID() : 1;
+        $t =~ s/^%META:TOPICINFO{(.*)}%$//m;
+        $t =
+            '%META:TOPICINFO{author="'
+          . $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
+          . '" comment="autosave" date="'
+          . time()
+          . '" format="1.1" version="'
+          . $rev . '"}%' . "\n$t";
     }
-    $this->ci( 0,
-	$t, 'autosave',
-	$Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID, time());
+    $this->ci( 0, $t, 'autosave',
+        $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID, time() );
 }
 
 =begin TML
@@ -341,6 +353,7 @@ Add new revision. Replace file with text.
 sub addRevisionFromText {
     my ( $this, $text, $comment, $user, $date ) = @_;
     $this->init();
+
     # Commit any out-of-band damage to .txt
     $this->_saveDamage();
     $this->ci( 0, $text, $comment, $user, $date );
@@ -434,6 +447,7 @@ sub getLatestRevisionID {
     my $this = shift;
     return 0 unless -e $this->{file};
     my $rev = $this->_numRevisions() || 1;
+
     # If there is a pending pseudo-revision, need n+1, but only if there is
     # an existing history
     $rev++ unless $this->noCheckinPending() || !-e $this->{rcsFile};
@@ -491,11 +505,11 @@ sub getTopicNames {
     # the name filter is used to ensure we don't return filenames
     # that contain illegal characters as topic names.
     my @topicList =
-	map { /^(.*)\.txt$/; $1; }
-        sort
-	grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } readdir($dh);
+      map { /^(.*)\.txt$/; $1; }
+      sort
+      grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } readdir($dh);
     closedir($dh);
-    return  @topicList
+    return @topicList;
 }
 
 =begin TML
@@ -584,7 +598,7 @@ if the main file revision is required.
 
 sub getRevision {
     my ($this) = @_;
-    if (defined $this->{file} && -e $this->{file} ) {
+    if ( defined $this->{file} && -e $this->{file} ) {
         return ( readFile( $this, $this->{file} ), 1 );
     }
     return ( undef, 0 );

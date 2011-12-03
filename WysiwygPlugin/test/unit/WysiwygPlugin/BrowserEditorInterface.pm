@@ -8,15 +8,15 @@ package BrowserEditorInterface;
 
 use Scalar::Util;
 
-sub _DEBUG {0};
+sub _DEBUG { 0 }
 
-my $editFrameLocator                = "css=iframe#topic_ifr";
-my $wikitextLocator                 = "css=a#topic_hide";
-my $wysiwygLocator                  = "css=input#topic_2WYSIWYG";
-my $editTextareaLocator             = "css=textarea#topic";
-my $editCancelButtonLocator         = "css=input#cancel";
-my $editSaveButtonLocator           = "css=input#save";
-my $editSaveContinueButtonLocator   = "css=input#checkpoint";
+my $editFrameLocator              = "css=iframe#topic_ifr";
+my $wikitextLocator               = "css=a#topic_hide";
+my $wysiwygLocator                = "css=input#topic_2WYSIWYG";
+my $editTextareaLocator           = "css=textarea#topic";
+my $editCancelButtonLocator       = "css=input#cancel";
+my $editSaveButtonLocator         = "css=input#save";
+my $editSaveContinueButtonLocator = "css=input#checkpoint";
 
 # This must match the text in foswiki_tiny.js
 my $waitForServerMessage = "Please wait... retrieving page from server.";
@@ -123,7 +123,7 @@ sub openWysiwygEditor {
     my $web   = shift;
     my $topic = shift;
     print STDERR "BrowserEditorInterface::openWysiwygEditor()\n" if _DEBUG;
-    $this->{_web} = $web;
+    $this->{_web}   = $web;
     $this->{_topic} = $topic;
 
     $this->cancelEdit()
@@ -156,7 +156,7 @@ sub cancelEdit {
     $this->selectTopFrame();
     $this->{_test}->selenium->click($editCancelButtonLocator);
 
-    $this->{_web} = undef;
+    $this->{_web}   = undef;
     $this->{_topic} = undef;
     delete $this->{_editorModeForBrowser}->{ $this->{_test}->browserName() };
 }
@@ -165,19 +165,21 @@ sub save {
     my $this = shift;
     print STDERR "BrowserEditorInterface::save()\n" if _DEBUG;
 
-    $this->{_test}->assert(0, "editor not open")
+    $this->{_test}->assert( 0, "editor not open" )
       unless exists $this->{_editorModeForBrowser}
           ->{ $this->{_test}->browserName() };
 
     $this->selectTopFrame();
     $this->{_test}->selenium->click_ok($editSaveButtonLocator);
-    $this->{_test}->{selenium}->wait_for_page_to_load( $this->{_test}->{selenium_timeout} );
+    $this->{_test}->{selenium}
+      ->wait_for_page_to_load( $this->{_test}->{selenium_timeout} );
 
     my $postSaveLocation = $this->{_test}->{selenium}->get_location();
-    my $viewUrl = Foswiki::Func::getScriptUrl( $this->{_web}, $this->{_topic}, 'view');
-    $this->{_test}->assert_matches(qr/\Q$viewUrl\E$/, $postSaveLocation);
+    my $viewUrl =
+      Foswiki::Func::getScriptUrl( $this->{_web}, $this->{_topic}, 'view' );
+    $this->{_test}->assert_matches( qr/\Q$viewUrl\E$/, $postSaveLocation );
 
-    $this->{_web} = undef;
+    $this->{_web}   = undef;
     $this->{_topic} = undef;
     delete $this->{_editorModeForBrowser}->{ $this->{_test}->browserName() };
 }
@@ -186,7 +188,7 @@ sub saveAndContinue {
     my $this = shift;
     print STDERR "BrowserEditorInterface::saveAndContinue()\n" if _DEBUG;
 
-    $this->{_test}->assert(0, "editor not open")
+    $this->{_test}->assert( 0, "editor not open" )
       unless exists $this->{_editorModeForBrowser}
           ->{ $this->{_test}->browserName() };
 
@@ -203,7 +205,8 @@ sub saveAndContinue {
 
 sub selectWysiwygEditorFrame {
     my $this = shift;
-    print STDERR "BrowserEditorInterface::selectWysiwygEditorFrame()\n" if _DEBUG;
+    print STDERR "BrowserEditorInterface::selectWysiwygEditorFrame()\n"
+      if _DEBUG;
     $this->{_test}->selenium->select_frame_ok($editFrameLocator);
 }
 
@@ -216,7 +219,8 @@ sub selectTopFrame {
 sub setWikitextEditorContent {
     my $this = shift;
     my $text = shift;
-    print STDERR "BrowserEditorInterface::setWikitextEditorContent()\n" if _DEBUG;
+    print STDERR "BrowserEditorInterface::setWikitextEditorContent()\n"
+      if _DEBUG;
     $this->{_test}->type( $editTextareaLocator, $text );
 
     $this->{_interactions}++;
@@ -224,14 +228,16 @@ sub setWikitextEditorContent {
 
 sub getWikitextEditorContent {
     my $this = shift;
-    print STDERR "BrowserEditorInterface::getWikitextEditorContent()\n" if _DEBUG;
+    print STDERR "BrowserEditorInterface::getWikitextEditorContent()\n"
+      if _DEBUG;
     return $this->{_test}->selenium->get_value($editTextareaLocator);
 }
 
 sub setWysiwygEditorContent {
     my $this = shift;
     my $text = shift;
-    print STDERR "BrowserEditorInterface::setWysiwygEditorContent()\n" if _DEBUG;
+    print STDERR "BrowserEditorInterface::setWysiwygEditorContent()\n"
+      if _DEBUG;
 
     $this->selectWysiwygEditorFrame();
 
@@ -262,7 +268,8 @@ sub setWysiwygEditorContent {
 
 sub getWysiwygEditorContent {
     my $this = shift;
-    print STDERR "BrowserEditorInterface::getWysiwygEditorContent()\n" if _DEBUG;
+    print STDERR "BrowserEditorInterface::getWysiwygEditorContent()\n"
+      if _DEBUG;
 
     $this->selectWysiwygEditorFrame();
     my $javascript = qq/selenium.browserbot.findElement("css=body").innerHTML;/;

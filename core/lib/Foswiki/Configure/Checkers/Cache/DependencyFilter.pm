@@ -10,7 +10,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    my $e = $this->showExpandedValue($Foswiki::cfg{Cache}{DependencyFilter});
+    my $e = $this->showExpandedValue( $Foswiki::cfg{Cache}{DependencyFilter} );
 
     return $e unless $Foswiki::cfg{Cache}{Enabled};
     return $e . $this->checkRE( $Foswiki::cfg{Cache}{DependencyFilter} );

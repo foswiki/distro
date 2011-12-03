@@ -82,8 +82,8 @@ sub new {
     $this->{version} ||= '>=0';
 
     # Other defaults
-    $this->{trigger}     ||= 1;
-    $this->{type}        ||= 'external';             # assume external module
+    $this->{trigger} ||= 1;
+    $this->{type} ||= 'external';    # assume external module
     $this->{description} ||= 'This module has no description.';
     $this->{notes} = '';
 
@@ -481,7 +481,7 @@ sub _compare_extension_versions {
       # a migration to a version tuple, so return true to trigger an update
         return 1
           if ( $reqType eq 'tuple'
-            && $baseType  eq 'date');
+            && $baseType eq 'date' );
 
         if ( $reqType ne $baseType ) {
 

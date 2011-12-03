@@ -46,14 +46,17 @@ sub numberOfTopics {
     my $this = shift;
     return $this->{iterator}->numberOfTopics();
 }
+
 sub nextWeb {
     my $this = shift;
     $this->{iterator}->nextWeb();
 }
+
 sub sortResults {
     my $this = shift;
     $this->{iterator}->sortResults(@_);
 }
+
 # See Foswiki::Iterator for a description of the general iterator contract
 sub hasNext {
     my $this = shift;
@@ -70,30 +73,41 @@ sub hasNext {
 
 #WARNING: foswiki has always skipped results before evaluating the filter - this is for speed, but a terrible thing to do
 sub skip {
-    my $this = shift;
+    my $this  = shift;
     my $count = shift;
 
     #ask CAN skip() for faster path
-    if ($this->{iterator}->can('skip')) {
+    if ( $this->{iterator}->can('skip') ) {
         $count = $this->{iterator}->skip($count);
-        #SMELL, TODO, AAAARGH - don't want to drain the itr, but this is assuming too much.
+
+#SMELL, TODO, AAAARGH - don't want to drain the itr, but this is assuming too much.
         $this->{next} = $this->{iterator}->{next};
-    } else {
+    }
+    else {
+
         #brute force
         while (
-            ($count > 0 )   #must come first - don't want to advance the inner itr if count ==0
-                and $this->{iterator}->hasNext()) {
+            ( $count > 0
+            ) #must come first - don't want to advance the inner itr if count ==0
+            and $this->{iterator}->hasNext()
+          )
+        {
             $count--;
-            $this->{next} = $this->{iterator}->next();  #drain next, so hasNext goes to next element
+            $this->{next} =
+              $this->{iterator}->next()
+              ;    #drain next, so hasNext goes to next element
         }
     }
 
-    if ($count >= 0) {
-                    #finished.
-                    $this->{next} = undef;
-                    $this->{pending} = 0;
+    if ( $count >= 0 ) {
+
+        #finished.
+        $this->{next}    = undef;
+        $this->{pending} = 0;
     }
-    print STDERR "--------------------------------------------FilterIterator::skip() => $count\n" if Foswiki::Iterator::MONITOR;
+    print STDERR
+"--------------------------------------------FilterIterator::skip() => $count\n"
+      if Foswiki::Iterator::MONITOR;
 
     return $count;
 }

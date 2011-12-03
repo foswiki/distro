@@ -190,8 +190,9 @@ sub _renderValues {
 # - language should cater for 1 option or multiple
 #		$expertTitle = "<span class='configureTableExpertTitle'>$expertCount expert options</span>" if $expertCount > 0;
 
-        $out .= _getOutsideRowHtml(
-            'configureTableOutside', $expertTitle, join( ' ', @placeholders ) );
+        $out .=
+          _getOutsideRowHtml( 'configureTableOutside', $expertTitle,
+            join( ' ', @placeholders ) );
     }
 
     return $out;

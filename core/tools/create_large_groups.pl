@@ -7,11 +7,10 @@
 #warning: uses out dated email storage method     *FIXED*
 #warning: presumes that AllowLoginName is off
 
-
 use strict;
 
 undef $/;
-open( PWD, '>>', 'data/BIGGROUPS_htpasswd' ) || die $!;
+open( PWD,    '>>', 'data/BIGGROUPS_htpasswd' ) || die $!;
 open( TWUSER, '>>', 'data/Main/WikiUsers.txt' ) || die $!;
 for my $user ( 1 .. 10000 ) {
     my $username = "TestUser$user";
@@ -21,7 +20,7 @@ for my $user ( 1 .. 10000 ) {
     print PWD "$username:4s4huzxiijWfg:$username\@example.com\n";
     print TWUSER "   * $username - $username - 01 Jan 2001\n";
     for my $group ( 1, 2, 4, 8, 16, 3, 7, 11, 13, 17 ) {
-        if ( ( $user % $group ) eq 0) {
+        if ( ( $user % $group ) eq 0 ) {
             my $groupname = "Test${group}Group";
             my @cur;
             my @members;

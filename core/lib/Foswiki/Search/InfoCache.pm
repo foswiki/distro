@@ -157,8 +157,7 @@ sub sortResults {
     if ( defined( $params->{showpage} )
         and $params->{showpage} > 1 )
     {
-        $limit =
-          (2+$params->{showpage}) * $params->{pagesize};
+        $limit = ( 2 + $params->{showpage} ) * $params->{pagesize};
     }
 
     # sort the topic list by date, author or topic name, and cache the
@@ -224,32 +223,32 @@ $infoCache->filterByDate( $date );
 </verbatim>
 
 =cut
+
 sub filterByDate {
     my ( $this, $date ) = @_;
-    
-    my $session   = $Foswiki::Plugins::SESSION;
-    
-	require Foswiki::Time;
-	my @ends       = Foswiki::Time::parseInterval($date);
-	my @resultList = ();
-	foreach my $webtopic ( @{ $this->{list} } ) {
 
-		# if date falls out of interval: exclude topic from result
-		my ( $web, $topic ) =
-		  Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb},
-			$webtopic );
-		my $topicdate = $session->getApproxRevTime( $web, $topic );
-		push( @resultList, $webtopic )
-		  unless ( $topicdate < $ends[0] || $topicdate > $ends[1] );
-	}
-	$this->{list} = \@resultList;
-	
-	# use this hack until numberOfTopics reads the length of list
-	$this->{count} = length @{$this->{list}};
+    my $session = $Foswiki::Plugins::SESSION;
+
+    require Foswiki::Time;
+    my @ends       = Foswiki::Time::parseInterval($date);
+    my @resultList = ();
+    foreach my $webtopic ( @{ $this->{list} } ) {
+
+        # if date falls out of interval: exclude topic from result
+        my ( $web, $topic ) =
+          Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb},
+            $webtopic );
+        my $topicdate = $session->getApproxRevTime( $web, $topic );
+        push( @resultList, $webtopic )
+          unless ( $topicdate < $ends[0] || $topicdate > $ends[1] );
+    }
+    $this->{list} = \@resultList;
+
+    # use this hack until numberOfTopics reads the length of list
+    $this->{count} = length @{ $this->{list} };
 }
 
 ######OLD methods
-
 
 # Sort a topic list using cached info
 sub sortTopics {
@@ -303,7 +302,8 @@ sub sortTopics {
             $sortfield =~ s/^formfield\((.*)\)$/$1/;    # form field
 
             if ( !defined( $info->{$sortfield} ) ) {
-                #under normal circumstances this code is not called, because the metacach has already filled it.
+
+#under normal circumstances this code is not called, because the metacach has already filled it.
                 if ( $sortfield eq 'modified' ) {
                     my $ri = $info->{tom}->getRevisionInfo();
                     $info->{$sortfield} = $ri->{date};
@@ -339,30 +339,33 @@ our $NUMBER = qr/^[-+]?[0-9]+(\.[0-9]*)?([Ee][-+]?[0-9]+)?$/s;
 sub _compare {
     my $x = shift;
     my $y = shift;
- 
+
     ASSERT( defined($x) ) if DEBUG;
     ASSERT( defined($y) ) if DEBUG;
- 
+
     if ( $x =~ /$NUMBER/o && $y =~ /$NUMBER/o ) {
- 
+
         # when sorting numbers do it largest first; this is just because
         # this is what date comparisons need.
         return $y <=> $x;
     }
- 
+
     my $datex = undef;
     my $datey = undef;
-    
+
     # parseTime can error if you give it a date out of range so we skip
     # testing if pure number
     # We skip testing for dates the first character is not a digit
-    # as all formats we recognise as dates are  
-    if ( $x =~ /^\d/ && $x !~ /$NUMBER/o &&
-         $y =~ /^\d/ && $y !~ /$NUMBER/o ) {
+    # as all formats we recognise as dates are
+    if (   $x =~ /^\d/
+        && $x !~ /$NUMBER/o
+        && $y =~ /^\d/
+        && $y !~ /$NUMBER/o )
+    {
         $datex = Foswiki::Time::parseTime($x);
         $datey = Foswiki::Time::parseTime($y) if $datex;
     }
-    
+
     if ( $datex && $datey ) {
         return $datey <=> $datex;
     }
@@ -393,16 +396,16 @@ sub getOptionFilter {
     my $includeTopics;
     my $topicFilter;
     my $excludeTopics;
-    $excludeTopics =
-      convertTopicPatternToRegex( $options->{excludeTopics} )
+    $excludeTopics = convertTopicPatternToRegex( $options->{excludeTopics} )
       if ( $options->{excludeTopics} );
 
     if ( $options->{includeTopics} ) {
+
         # E.g. "Bug*, *Patch" ==> "^(Bug.*|.*Patch)$"
         $includeTopics =
           convertTopicPatternToRegex( $options->{includeTopics} );
 
-        if ( $casesensitive ) {
+        if ($casesensitive) {
             $topicFilter = qr/$includeTopics/;
         }
         else {
@@ -418,7 +421,7 @@ sub getOptionFilter {
             return 0 if !$casesensitive && $item =~ /$excludeTopics/i;
         }
         return 1;
-    }
+      }
 }
 
 #########################################
@@ -436,25 +439,25 @@ sub getTopicListIterator {
 
     # See if there's a list of topics to avoid having to do a web list
     my $it;
-    if ( $casesensitive && $options->{includeTopics}
-           && $options->{includeTopics} =~
-             /^([$Foswiki::regex{mixedAlphaNum}]+(,\s*|\|))+$/ ) {
+    if (   $casesensitive
+        && $options->{includeTopics}
+        && $options->{includeTopics} =~
+        /^([$Foswiki::regex{mixedAlphaNum}]+(,\s*|\|))+$/ )
+    {
 
         # topic list without wildcards
         # convert pattern into a topic list
-        my @list =
-          grep { 
-              $Foswiki::Plugins::SESSION->topicExists(
-                  $webObject->web,
-                  $_ )
-          } split( /,\s*|\|/, $options->{includeTopics} );
+        my @list = grep {
+            $Foswiki::Plugins::SESSION->topicExists( $webObject->web, $_ )
+        } split( /,\s*|\|/, $options->{includeTopics} );
         $it = new Foswiki::ListIterator( \@list );
-    } else {
+    }
+    else {
         $it = $webObject->eachTopic();
     }
 
-    return Foswiki::Iterator::FilterIterator->new(
-        $it, getOptionFilter($options));
+    return Foswiki::Iterator::FilterIterator->new( $it,
+        getOptionFilter($options) );
 }
 
 sub convertTopicPatternToRegex {

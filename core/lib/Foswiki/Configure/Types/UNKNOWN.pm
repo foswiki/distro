@@ -19,10 +19,11 @@ sub new {
 
 sub prompt {
     my $this = shift;
-    return $this->SUPER::prompt(@_)
+    return
+        $this->SUPER::prompt(@_)
       . '<br /><span class="foswikiAlert"> .spec ERROR! TYPE '
-        . ($this->{failinfo} || 'UNKNOWN')
-          .'</span>';
+      . ( $this->{failinfo} || 'UNKNOWN' )
+      . '</span>';
 }
 
 1;

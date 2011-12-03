@@ -388,7 +388,7 @@ sub _load {
             # validated, and should be untainted, by the conditional regex.
             $subscriber = Foswiki::Sandbox::untaintUnchecked($subscriber);
 
-            if (defined $topics) {
+            if ( defined $topics ) {
                 $this->parsePageSubscriptions( $subscriber, $topics );
             }
             else {

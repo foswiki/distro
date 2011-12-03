@@ -38,16 +38,16 @@ sub initPlugin {
     # CALC but in a tag handler instead of in commonTagsHandler. That means
     # you can't use table references, but you can rely on the execution order
     # relative to other macros.
-#    Foswiki::Func::registerTagHandler(
-#        "SSP",
-#        sub {
-#            my ( $session, $attributes, $topic, $web ) = @_;
-#            require Foswiki::Plugins::SpreadSheetPlugin::Calc;
-#            $Foswiki::Plugins::SpreadSheetPlugin::Calc::rPos = 0;
-#            $Foswiki::Plugins::SpreadSheetPlugin::Calc::cPos = 0;
-#            return Foswiki::Plugins::SpreadSheetPlugin::Calc::doCalc(
-#                $attributes->{_DEFAULT});
-#        });
+    #    Foswiki::Func::registerTagHandler(
+    #        "SSP",
+    #        sub {
+    #            my ( $session, $attributes, $topic, $web ) = @_;
+    #            require Foswiki::Plugins::SpreadSheetPlugin::Calc;
+    #            $Foswiki::Plugins::SpreadSheetPlugin::Calc::rPos = 0;
+    #            $Foswiki::Plugins::SpreadSheetPlugin::Calc::cPos = 0;
+    #            return Foswiki::Plugins::SpreadSheetPlugin::Calc::doCalc(
+    #                $attributes->{_DEFAULT});
+    #        });
 
     # Flag to skip calc if in include
     $skipInclude =

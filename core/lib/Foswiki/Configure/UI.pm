@@ -338,12 +338,15 @@ sub authorised {
     # Password defined, but no password supplied - reprompt
     if ( $Foswiki::cfg{Password} && !$pass ) {
         return ( 0, $MESSAGE_TYPE->{NONE} );
-        }
+    }
 
     # If a password has been defined, check that it is valid
-    if ( $Foswiki::cfg{Password} && 
-            ($pass && crypt( $pass, $Foswiki::cfg{Password} ) ne
-            $Foswiki::cfg{Password}) )
+    if (
+        $Foswiki::cfg{Password}
+        && ( $pass
+            && crypt( $pass, $Foswiki::cfg{Password} ) ne
+            $Foswiki::cfg{Password} )
+      )
     {
         logPasswordFailure();
         return ( 0, $MESSAGE_TYPE->{PASSWORD_INCORRECT} );

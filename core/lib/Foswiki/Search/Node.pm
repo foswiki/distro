@@ -29,11 +29,14 @@ Construct a search token container.
 
 sub new {
     my ( $class, $search, $tokens, $options ) = @_;
-    my $this = bless( {
-        tokens => $tokens,
-        search => $search,
-        options => $options,
-    }, $class );
+    my $this = bless(
+        {
+            tokens  => $tokens,
+            search  => $search,
+            options => $options,
+        },
+        $class
+    );
     return $this;
 }
 
@@ -61,16 +64,19 @@ Return true if this search is empty (has no tokens)
 
 sub isEmpty {
     my $this = shift;
-    return !($this->{tokens} && scalar(@{$this->{tokens}}) > 0);
+    return !( $this->{tokens} && scalar( @{ $this->{tokens} } ) > 0 );
 }
 
 sub stringify {
     my $this = shift;
-    return join(' ', @{$this->{tokens}})
-      .' {' .
-        join(',', map { "$_=>$this->{options}->{$_}" }
-               grep { !/^_/ } keys %{$this->{options}}) . '}';
-} 
+    return
+      join( ' ', @{ $this->{tokens} } ) . ' {'
+      . join( ',',
+        map  { "$_=>$this->{options}->{$_}" }
+        grep { !/^_/ } keys %{ $this->{options} } )
+      . '}';
+}
+
 =begin TML
 
 ---++ ObjectMethod simplify(%opts)

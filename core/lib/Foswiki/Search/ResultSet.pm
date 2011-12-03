@@ -23,7 +23,6 @@ our @ISA = ('Foswiki::Iterator');
 use Foswiki::Search::InfoCache;
 use Assert;
 
-
 =begin TML
 
 ---++ new(\@list)
@@ -35,7 +34,7 @@ not damaged in any way.
 
 sub new {
     my ( $class, $list, $partition, $sortby, $revSort ) = @_;
-    
+
     my $this = bless(
         {
             Itr_list  => $list,
@@ -55,7 +54,7 @@ sub new {
 sub numberOfTopics {
     my $this = shift;
 
-    return $this->{count} if (defined($this->{count}));
+    return $this->{count} if ( defined( $this->{count} ) );
 
     my $count = 0;
     foreach my $infocache ( @{ $this->{Itr_list} } ) {
@@ -149,7 +148,6 @@ sub hasNext {
     return 1;
 }
 
-
 =begin TML
 
 ---++ skip(count) -> $countremaining
@@ -160,50 +158,60 @@ skip must set up next as though hasNext was called.
 =cut
 
 sub skip {
-    my $this = shift;
+    my $this  = shift;
     my $count = shift;
-    
-    return 0 if ($count <= 0);
-    print STDERR "--------------------------------------------ResultSet::skip($count)\n"  if Foswiki::Iterator::MONITOR   ;
-    
+
+    return 0 if ( $count <= 0 );
+    print STDERR
+      "--------------------------------------------ResultSet::skip($count)\n"
+      if Foswiki::Iterator::MONITOR;
+
     #ask CAN skip() for faster path
     if (
         (
-            ( $this->{partition} eq 'web' )
-            or 
-            (scalar( @{ $this->{Itr_list} } ) == 0) 
-        ) and #no reason to got through the more complex case if there's only one itr
-            ($this->{Itr_list}->[0]->can('skip'))   #nasty assumption that all the itr's are a similar type (that happens to be true)
-       )
-     {
-        if (not defined($this->{list})) {
+               ( $this->{partition} eq 'web' )
+            or ( scalar( @{ $this->{Itr_list} } ) == 0 )
+        )
+        and #no reason to got through the more complex case if there's only one itr
+        ( $this->{Itr_list}->[0]->can('skip')
+        ) #nasty assumption that all the itr's are a similar type (that happens to be true)
+      )
+    {
+        if ( not defined( $this->{list} ) ) {
             $this->{list} = $this->{Itr_list}->[ $this->{Itr_index}++ ];
         }
-        while ($count > 0) {
-            return $count if (not defined($this->{list}));
+        while ( $count > 0 ) {
+            return $count if ( not defined( $this->{list} ) );
             $count = $this->{list}->skip($count);
             $this->{next} = $this->{list}->{next};
-            if ($count > 0) {
+            if ( $count > 0 ) {
                 $this->{list} = $this->{Itr_list}->[ $this->{Itr_index}++ ];
                 $this->{next} = undef;
             }
         }
-    } else {
-        
-        #brute force - 
+    }
+    else {
+
+        #brute force -
         while (
-            ($count > 0 )   #must come first - don't want to advance the inner itr if count ==0
-                and $this->hasNext()) {
+            ( $count > 0
+            ) #must come first - don't want to advance the inner itr if count ==0
+            and $this->hasNext()
+          )
+        {
             $count--;
-            $this->next();  #drain next, so hasNext goes to next element
+            $this->next();    #drain next, so hasNext goes to next element
         }
     }
 
-    if ($count >= 0) {
-                    #finished.
-                    $this->{next} = undef;
+    if ( $count >= 0 ) {
+
+        #finished.
+        $this->{next} = undef;
     }
-    print STDERR "--------------------------------------------ResultSet::skip() => $count\n"  if Foswiki::Iterator::MONITOR   ;
+    print STDERR
+"--------------------------------------------ResultSet::skip() => $count\n"
+      if Foswiki::Iterator::MONITOR;
     return $count;
 }
 
@@ -233,10 +241,10 @@ switch tot he next Web (only works on partition==web, and if we've already start
 
 sub nextWeb {
     my $this = shift;
-    
-    ASSERT($this->{partition} eq 'web') if DEBUG;
-    ASSERT($this->{list}) if DEBUG;
-    
+
+    ASSERT( $this->{partition} eq 'web' ) if DEBUG;
+    ASSERT( $this->{list} ) if DEBUG;
+
     $this->{list} = undef;
     $this->hasNext();
 }
@@ -261,7 +269,7 @@ sub sortResults {
 
 sub filterByDate {
     my ( $this, $date ) = @_;
- 
+
     foreach my $infocache ( @{ $this->{Itr_list} } ) {
         $infocache->filterByDate($date);
     }

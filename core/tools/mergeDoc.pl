@@ -56,32 +56,33 @@ my $path = '';
 my @synchedFiles;
 my $quiet = 1;
 
-unless (scalar(@ARGV)) {
+unless ( scalar(@ARGV) ) {
     usage();
 }
 
 my $mode = 't2s';
-if ($ARGV[0] eq '-svn2wiki') {
+if ( $ARGV[0] eq '-svn2wiki' ) {
     $mode = 's2t';
     shift @ARGV;
 }
 
-my $svnpath = '..';
+my $svnpath  = '..';
 my $wikipath = shift @ARGV;
 
-unless ($svnpath && -d $svnpath) {
+unless ( $svnpath && -d $svnpath ) {
     print STDERR "Bad svn path $svnpath";
     usage();
 }
 
 # Iterate over selected webs
 foreach my $web (@ARGV) {
-    unless (opendir(D, "$svnpath/data/$web")) {
+    unless ( opendir( D, "$svnpath/data/$web" ) ) {
         print STDERR "Failed to open $web: $!";
         next;
     }
+
     # iterate over topics
-    foreach my $topic (sort readdir(D)) {
+    foreach my $topic ( sort readdir(D) ) {
         local $/;
         next unless $topic =~ /^\w+\.txt$/;
 
@@ -91,11 +92,11 @@ foreach my $web (@ARGV) {
         # load subversion version
         my $svnfile = "$svnpath/data/$path.txt";
 
-        if (-l $svnfile) {
-            next; # a link; ignore it
+        if ( -l $svnfile ) {
+            next;    # a link; ignore it
         }
 
-        unless (open(SF, '<', $svnfile)) {
+        unless ( open( SF, '<', $svnfile ) ) {
             print STDERR "Failed to open $svnfile: $!\n";
             next;
         }
@@ -103,94 +104,105 @@ foreach my $web (@ARGV) {
 
         # Hack off META; save it
         $svnVersion =~ s/\r//;
-        my @svnLines = split(/\n/, $svnVersion);
+        my @svnLines = split( /\n/, $svnVersion );
         my @svntop;
-        while (scalar(@svnLines) && $svnLines[0] =~ /^%META:\w+{.*?}%$/) {
-            push(@svntop, shift(@svnLines));
+        while ( scalar(@svnLines) && $svnLines[0] =~ /^%META:\w+{.*?}%$/ ) {
+            push( @svntop, shift(@svnLines) );
         }
         my @svnbottom;
-        while (scalar(@svnLines) && $svnLines[-1] =~ /^(%META:\w+{.*?}%|\s*)$/) {
-            unshift(@svnbottom, pop(@svnLines));
+        while ( scalar(@svnLines)
+            && $svnLines[-1] =~ /^(%META:\w+{.*?}%|\s*)$/ )
+        {
+            unshift( @svnbottom, pop(@svnLines) );
         }
 
         # Load tagged version
         my $twikifile = "$wikipath/data/$path.txt";
-        unless (open(TF, '<', $twikifile)) {
+        unless ( open( TF, '<', $twikifile ) ) {
             print STDERR "Failed to open $twikifile: $!\n";
             next;
         }
         my $twikiVersion = <TF>;
         $twikiVersion =~ s/\r//;
-        if ($twikiVersion !~ /.*%STARTSECTION{"distributiondoc"}%/) {
+        if ( $twikiVersion !~ /.*%STARTSECTION{"distributiondoc"}%/ ) {
             print STDERR "$twikifile has no 'distributiondoc' section\n";
             next;
         }
+
         # Hack off stuff outside the distribution section and save it
         $twikiVersion =~ s/(.*%STARTSECTION{"distributiondoc"}%\s*)//s;
-        my @twikitop = split(/\n/, $1);
-        unless ($twikiVersion =~ s/(\s*%ENDSECTION{"distributiondoc"}%.*)//s) {
+        my @twikitop = split( /\n/, $1 );
+        unless ( $twikiVersion =~ s/(\s*%ENDSECTION{"distributiondoc"}%.*)//s )
+        {
             print STDERR "$twikifile has missing %ENDSECTION\n";
             next;
         }
-        my @twikibottom = split(/\n/, $1);
-        my @twikiLines = split(/\n/, $twikiVersion);
+        my @twikibottom = split( /\n/, $1 );
+        my @twikiLines  = split( /\n/, $twikiVersion );
 
         #### now have two versions, $svnVersion and $twikiVersion
 
         # Compare. To do a two way merge would require a 3-way diff,
         # but that's too complicated.
         my $diff;
-        if ($mode eq 't2s') {
-            $diff = Algorithm::Diff->new(\@svnLines, \@twikiLines);
-        } else {
-            $diff = Algorithm::Diff->new(\@twikiLines, \@svnLines);
+        if ( $mode eq 't2s' ) {
+            $diff = Algorithm::Diff->new( \@svnLines, \@twikiLines );
+        }
+        else {
+            $diff = Algorithm::Diff->new( \@twikiLines, \@svnLines );
         }
         my $changed = 0;
         my @new;
-        while ($diff->Next()) {
-            if ($diff->Same()) {
-                push(@new, $diff->Same(1));
+        while ( $diff->Next() ) {
+            if ( $diff->Same() ) {
+                push( @new, $diff->Same(1) );
                 next;
             }
-            if ($diff->Items(1)) {
+            if ( $diff->Items(1) ) {
+
                 # Deleted
                 #$changes .= "< ".join("\n< ", $diff->Items(1))."\n";
                 $changed++;
             }
-            if ($diff->Items(2)) {
+            if ( $diff->Items(2) ) {
+
                 # Inserted
                 #$changes .= "> ".join("\n", $diff->Items(2))."\n";
-                push(@new, $diff->Items(2));
+                push( @new, $diff->Items(2) );
                 $changed++;
             }
         }
         next unless ($changed);
         print STDERR "---+ $path: $changed change(s)\n";
-        my ($top, $bottom, $outfile);
-        if ($mode eq 't2s') {
+        my ( $top, $bottom, $outfile );
+        if ( $mode eq 't2s' ) {
+
             # update subversion from twiki
-            $top = \@svntop;
-            $bottom = \@svnbottom;
+            $top     = \@svntop;
+            $bottom  = \@svnbottom;
             $outfile = $svnfile;
-        } else {
+        }
+        else {
+
             # update twiki from subversion
-            $top = \@twikitop;
-            $bottom = \@twikibottom;
+            $top     = \@twikitop;
+            $bottom  = \@twikibottom;
             $outfile = $twikifile;
         }
-        my $content = join("\n", @$top, @new, @$bottom);
-        if (open(F, '>', $outfile)) {
-            print F $content,"\n";
+        my $content = join( "\n", @$top, @new, @$bottom );
+        if ( open( F, '>', $outfile ) ) {
+            print F $content, "\n";
             print STDERR "\t$outfile has been updated\n";
             close(F);
-            push(@synchedFiles, $path);
-        } else {
+            push( @synchedFiles, $path );
+        }
+        else {
             print STDERR "Failed to open $outfile for write: $!\n";
         }
     }
     closedir(D);
 }
 
-if (scalar(@synchedFiles)) {
-    print join(" ", @synchedFiles)."\n";
+if ( scalar(@synchedFiles) ) {
+    print join( " ", @synchedFiles ) . "\n";
 }

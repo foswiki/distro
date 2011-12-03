@@ -16,7 +16,7 @@ our @ISA = ('Foswiki::Configure::UIs::Section');
 
 # See Foswiki::Configure::UIs::Section
 sub renderHtml {
-    my ($this, $section, $root) = @_;
+    my ( $this, $section, $root ) = @_;
 
     # ActivePerl-only function: returns number if
     # successful, otherwise treated as a literal (bareword).

@@ -25,9 +25,9 @@ sub _evaluate {
         return $this->{params}[0];
     }
     else {
-	if ($this->{op}->{name} eq '(') {
-	    return $this->{params}[0]->_evaluate(@_);
-	}
+        if ( $this->{op}->{name} eq '(' ) {
+            return $this->{params}[0]->_evaluate(@_);
+        }
         return $this->evaluate(@_);
     }
 }

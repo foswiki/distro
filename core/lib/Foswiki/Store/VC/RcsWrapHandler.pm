@@ -203,9 +203,9 @@ sub _deleteRevision {
     my ( $rcsOut, $exit ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{unlockCmd},
         FILENAME => $this->{file} );
-    if ( $exit ) {
-	throw Error::Simple( $Foswiki::cfg{RCS}{unlockCmd} . ' failed: '
-			     . $rcsOut );
+    if ($exit) {
+        throw Error::Simple(
+            $Foswiki::cfg{RCS}{unlockCmd} . ' failed: ' . $rcsOut );
     }
 
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
@@ -278,10 +278,10 @@ sub getRevision {
         my ( $rcsOutput, $status ) =
           Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{tmpBinaryCmd},
             FILENAME => $tmpRevFile );
-	if ($status) {
-	    throw Error::Simple( $Foswiki::cfg{RCS}{tmpBinaryCmd} . ' failed: '
-              . $rcsOutput );
-	}
+        if ($status) {
+            throw Error::Simple(
+                $Foswiki::cfg{RCS}{tmpBinaryCmd} . ' failed: ' . $rcsOutput );
+        }
         $file = $tmpfile;
         $coCmd =~ s/-p%REVISION/-r%REVISION/;
     }

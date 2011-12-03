@@ -228,14 +228,19 @@ sub checkTreePerms {
         if ( $mode != $Foswiki::cfg{RCS}{dirPermission} ) {
             my $omode = sprintf( '%04o', $mode );
             my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
-            if ( ( ( $mode | $Foswiki::cfg{RCS}{dirPermission} ) ^ $Foswiki::cfg{RCS}{dirPermission} ) )
+            if (
+                (
+                    ( $mode | $Foswiki::cfg{RCS}{dirPermission} )
+                    ^ $Foswiki::cfg{RCS}{dirPermission}
+                )
+              )
             {
                 $permErrs .= $this->getEmptyStringUnlessUnderLimit(
                     'excessPerms',
 "$path - directory permission $omode differs from requested $operm - check directory for possible excess permissions"
                 );
             }
-            if ( ( $mode & $Foswiki::cfg{RCS}{dirPermission}  ) !=
+            if ( ( $mode & $Foswiki::cfg{RCS}{dirPermission} ) !=
                 $Foswiki::cfg{RCS}{dirPermission} )
             {
                 $permErrs .= $this->getEmptyStringUnlessUnderLimit(
@@ -251,14 +256,19 @@ sub checkTreePerms {
         if ( $mode != $Foswiki::cfg{RCS}{filePermission} ) {
             my $omode = sprintf( '%04o', $mode );
             my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{filePermission} );
-            if ( ( ( $mode | $Foswiki::cfg{RCS}{filePermission} ) ^ $Foswiki::cfg{RCS}{filePermission} ) )
+            if (
+                (
+                    ( $mode | $Foswiki::cfg{RCS}{filePermission} )
+                    ^ $Foswiki::cfg{RCS}{filePermission}
+                )
+              )
             {
                 $permErrs .= $this->getEmptyStringUnlessUnderLimit(
                     'excessPerms',
 "$path - file permission $omode differs from requested $operm - check file for possible excess permissions"
                 );
             }
-            if ( ( $mode & $Foswiki::cfg{RCS}{filePermission}  ) !=
+            if ( ( $mode & $Foswiki::cfg{RCS}{filePermission} ) !=
                 $Foswiki::cfg{RCS}{filePermission} )
             {
                 $permErrs .= $this->getEmptyStringUnlessUnderLimit(

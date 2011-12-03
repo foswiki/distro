@@ -27,12 +27,12 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'UI::Tabs',
-            version    => '1.8.16',
-            puburl      => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
-            author      => 'see http://jqueryui.com/about',
-            homepage    => 'http://docs.jquery.com/UI',
-            javascript => ['jquery.ui.tabs.init.js'],
+            name         => 'UI::Tabs',
+            version      => '1.8.16',
+            puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
+            author       => 'see http://jqueryui.com/about',
+            homepage     => 'http://docs.jquery.com/UI',
+            javascript   => ['jquery.ui.tabs.init.js'],
             dependencies => [ 'ui', ],
         ),
         $class

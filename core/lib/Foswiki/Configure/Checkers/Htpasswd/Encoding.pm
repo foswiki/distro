@@ -105,7 +105,8 @@ sub check {
         }
     }
 
-    if (   $enc ne 'crypt' && $enc ne 'apache-md5'
+    if (   $enc ne 'crypt'
+        && $enc ne 'apache-md5'
         && $Foswiki::cfg{PasswordManager} eq
         'Foswiki::Users::ApacheHtpasswdUser' )
     {

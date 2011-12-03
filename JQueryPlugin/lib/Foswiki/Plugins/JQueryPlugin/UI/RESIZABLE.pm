@@ -27,12 +27,12 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'UI::Resizable',
-            version    => '1.8.16',
-            puburl      => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
-            author      => 'see http://jqueryui.com/about',
-            homepage    => 'http://docs.jquery.com/UI',
-            javascript => ['jquery.ui.resizable.init.js'],
+            name         => 'UI::Resizable',
+            version      => '1.8.16',
+            puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
+            author       => 'see http://jqueryui.com/about',
+            homepage     => 'http://docs.jquery.com/UI',
+            javascript   => ['jquery.ui.resizable.init.js'],
             dependencies => [ 'ui', ],
         ),
         $class

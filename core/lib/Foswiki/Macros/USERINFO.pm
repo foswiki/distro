@@ -17,7 +17,7 @@ my %USERINFO_tokens = (
 
     # Item2466: There is some usage of this undocumented token in VariableTests
     cUID => sub {
-        my ($this, $user) = @_;
+        my ( $this, $user ) = @_;
 
         return $user;
     },

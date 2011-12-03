@@ -214,8 +214,8 @@ sub addHEAD {
 </style>
 HERE
     Foswiki::Func::addToZone( 'head', 'JSCalendarContrib/css', $css );
-    Foswiki::Func::expandCommonVariables('%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiDate"}%');
-
+    Foswiki::Func::expandCommonVariables(
+        '%TMPL:P{"LIBJS" id="JavascriptFiles/foswikiDate"}%');
 
     Foswiki::Func::addToZone( 'script', 'JSCalendarContrib/calendar',
         "<script type='text/javascript' src='$base/calendar.js'></script>" );

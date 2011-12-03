@@ -123,7 +123,7 @@ sub assert_tml_equals {
     $actual   =~ s/\n$//s;
     $expected =~ s/\n$//s;
     if ( $expected eq $actual ) {
-        $this->assert( 1 );
+        $this->assert(1);
     }
     else {
         my $expl =
@@ -162,7 +162,7 @@ sub assert_tml_not_equals {
         $this->assert( 0, $expl . "\n" );
     }
     else {
-        $this->assert( 1 );
+        $this->assert(1);
     }
 }
 

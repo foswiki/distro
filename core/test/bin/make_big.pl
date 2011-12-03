@@ -42,7 +42,7 @@ USAGE
     exit 1;
 }
 
-unless (-w "data" && -w "pub") {
+unless ( -w "data" && -w "pub" ) {
     usage();
 }
 
@@ -55,33 +55,34 @@ sub getWords {
     local $/ = "\n";
     my $words = '';
     my $word;
-    if (!$dict_fh) {
-        open($dict_fh, '<', $dict) || die $!;
+    if ( !$dict_fh ) {
+        open( $dict_fh, '<', $dict ) || die $!;
     }
     while ($n) {
-        while ($n && ($word = <$dict_fh>)) {
+        while ( $n && ( $word = <$dict_fh> ) ) {
             $words .= $word;
             $n--;
         }
         last unless $n;
         close($dict_fh);
-        open($dict_fh, '<', $dict);
+        open( $dict_fh, '<', $dict );
     }
 
     return $words;
 }
 
 my %opts = (
-    webs => 1,
+    webs   => 1,
     topics => 0,
-    size => 501,
-    base => 'IncredibleHulk',
+    size   => 501,
+    base   => 'IncredibleHulk',
 );
 
-while (my $arg = shift @ARGV) {
-    if ($arg =~ /^-(\w+)$/) {
+while ( my $arg = shift @ARGV ) {
+    if ( $arg =~ /^-(\w+)$/ ) {
         $opts{$1} = shift @ARGV;
-    } else {
+    }
+    else {
         print STDERR "Unrecognised option $arg";
         usage();
     }
@@ -89,27 +90,28 @@ while (my $arg = shift @ARGV) {
 
 my $newWebs = 0;
 my $nextWeb = 0;
-while ($newWebs < $opts{webs}) {
-    while (-e "data/$opts{base}$nextWeb") {
+while ( $newWebs < $opts{webs} ) {
+    while ( -e "data/$opts{base}$nextWeb" ) {
         $nextWeb++;
     }
     my $web = "$opts{base}$nextWeb";
+
     # Create the web
     mkdir("data/$web");
     `cp data/_default/*.txt data/$web`;
     my $newTopics = 0;
     my $nextTopic = 0;
-    while ($newTopics < $opts{topics}) {
-        while (-e "data/$web/$opts{base}$nextTopic.txt") {
+    while ( $newTopics < $opts{topics} ) {
+        while ( -e "data/$web/$opts{base}$nextTopic.txt" ) {
             $nextTopic++;
         }
         my $topic = "$opts{base}$nextTopic";
-        open(TOPIC, '>', "data/$web/$topic.txt") || die $!;
+        open( TOPIC, '>', "data/$web/$topic.txt" ) || die $!;
         my $t = time();
         print TOPIC <<FLUFF;
 %META:TOPICINFO{author="ProjectContributor" date="$t" format="1.1" version="1"}%
 FLUFF
-        print TOPIC getWords($opts{size});
+        print TOPIC getWords( $opts{size} );
         close(TOPIC);
         $newTopics++;
         print "Generated topic $topic                             \r";

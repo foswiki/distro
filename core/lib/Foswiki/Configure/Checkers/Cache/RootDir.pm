@@ -12,13 +12,14 @@ sub check {
 
     if ( $Foswiki::cfg{Cache}{RootDir} ) {
 
-        my $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{Cache}{RootDir} );
+        my $e .=
+          $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{Cache}{RootDir} );
 
-        $e .= $this->showExpandedValue($Foswiki::cfg{Cache}{RootDir});
+        $e .= $this->showExpandedValue( $Foswiki::cfg{Cache}{RootDir} );
 
-        # SMELL: Not sure what permissions, etc. the Cache needs
-        #my $e2 = $this->checkTreePerms( $this->getCfg("{Cache}{RootDir}"), 'r' );
-        #$e .= $this->WARN($e2) if $e2;
+      # SMELL: Not sure what permissions, etc. the Cache needs
+      #my $e2 = $this->checkTreePerms( $this->getCfg("{Cache}{RootDir}"), 'r' );
+      #$e .= $this->WARN($e2) if $e2;
 
         return $e;
     }

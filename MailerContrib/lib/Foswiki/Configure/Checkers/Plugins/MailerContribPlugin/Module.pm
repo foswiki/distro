@@ -8,13 +8,16 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
-    my ($this, $value) = @_;
+    my ( $this, $value ) = @_;
 
-    if ($Foswiki::cfg{Plugins}{MailerContribPlugin}{Module}
-          ne 'Foswiki::Plugins::MailerContribPlugin') {
+    if ( $Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} ne
+        'Foswiki::Plugins::MailerContribPlugin' )
+    {
         $Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} =
           'Foswiki::Plugins::MailerContribPlugin';
-        return $this->WARN("{Plugins}{MailerContribPlugin}{Module} automatically upgraded to '$Foswiki::cfg{Plugins}{MailerContribPlugin}{Module}'");
+        return $this->WARN(
+"{Plugins}{MailerContribPlugin}{Module} automatically upgraded to '$Foswiki::cfg{Plugins}{MailerContribPlugin}{Module}'"
+        );
     }
     return '';
 }

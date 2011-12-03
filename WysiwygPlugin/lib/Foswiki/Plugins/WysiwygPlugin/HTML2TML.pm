@@ -52,7 +52,7 @@ of how to call it.
 sub new {
     my ($class) = @_;
 
-#use handler method names to allow of subclassing of HTML2TML
+    #use handler method names to allow of subclassing of HTML2TML
     my $this = new HTML::Parser(
         start_h          => [ '_openTag',  'self,tagname,attr' ],
         end_h            => [ '_closeTag', 'self,tagname' ],

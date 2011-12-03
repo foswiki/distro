@@ -13,7 +13,7 @@
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details, published at 
+# GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 
 use strict;
@@ -26,23 +26,31 @@ $/ = "\n";
 foreach $sub (@subs) {
     print STDERR "Processing $sub...";
     $space = "[\n[:space:]]";
-    if (/^=cut[^\n]*[\n]                # =cut (end of POD)
+    if (
+        /^=cut[^\n]*[\n]                # =cut (end of POD)
 	(?: $space* \# [^\n]* [\n] )*   # comments
 	$space*                         # spacing
-	[\n]sub \s* $sub\s*{?\s*$/mx) { # subroutine declaration
-	print STDERR "already has doc header.\n";
-	next;
-    } else {
-	print STDERR "adding doc header.\n";
+	[\n]sub \s* $sub\s*{?\s*$/mx
+      )
+    {    # subroutine declaration
+        print STDERR "already has doc header.\n";
+        next;
     }
-    if (/^sub \s* $sub $space*           # sub blah
+    else {
+        print STDERR "adding doc header.\n";
+    }
+    if (
+        /^sub \s* $sub $space*           # sub blah
           { $space*                      # {
 	     (?: $space* \# [^\n]* \n )* # comments
 	     $space*                     # spacing
-	     my \s* \( (.*) \)/mx) {     # parameters
+	     my \s* \( (.*) \)/mx
+      )
+    {    # parameters
         $params = "( $1 )";
-    } else {
-	$params = "()";
+    }
+    else {
+        $params = "()";
     }
     $pod = <<ENDPOD;
 =pod
