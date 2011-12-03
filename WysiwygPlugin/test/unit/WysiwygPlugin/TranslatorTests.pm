@@ -616,6 +616,49 @@ HERE
     },
     {
         exec => $ROUNDTRIP,
+        name => 'indentColon',
+        html => <<'HERE',
+<p>Grim
+<div class='foswikiIndent'>
+ Snowy
+ <div class='foswikiIndent'>
+  Slushy
+  <div class='foswikiIndent'>
+   Rainy
+  </div>
+ </div>
+ <div class='foswikiIndent'>
+  Dry
+ </div>
+</div>
+<div class='foswikiIndent'>
+ Sunny
+</div>
+<span class=WYSIWYG_HIDDENWHITESPACE style={encoded:'n'}>
+</span>Pleasant
+</p>
+HERE
+        tml => <<'HERE',
+Grim
+   : Snowy
+      : Slushy
+         : Rainy
+      : Dry
+   : Sunny
+Pleasant
+HERE
+        finaltml => <<'HERE',
+Grim
+   : Snowy
+      : Slushy
+         : Rainy
+      : Dry
+   : Sunny
+Pleasant
+HERE
+    },
+    {
+        exec => $ROUNDTRIP,
         name => 'simpleTable',
         html => <<'HERE',
 Before

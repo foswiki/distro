@@ -1120,6 +1120,84 @@ sub test_render_PlainText {
 #    );
 }
 
+# Test mixes of :, * and 1 lists
+# SMELL: extend to dl's, and make it more thorough!
+sub test_lists {
+    my $this = shift;
+    my $expected = <<EXPECTED;
+<div class='foswikiIndent'> Para
+</div> <div class='foswikiIndent'> Para
+</div> <div class='foswikiIndent'> Para
+</div>
+<p></p><div class='foswikiIndent'> Para
+</div> <ul>
+<li> Bullet
+
+</li>  </ul><div class='foswikiIndent'> Para
+</div>
+<p></p><div class='foswikiIndent'> Para
+</div> <ol>
+<li> Number
+</li>  </ol><div class='foswikiIndent'> Para
+</div>
+<p></p><div class='foswikiIndent'> Para<div class='foswikiIndent'> Para
+
+</div>
+</div> <div class='foswikiIndent'> Para
+</div>
+<p></p><div class='foswikiIndent'> Para<div class='foswikiIndent'> Para<div class='foswikiIndent'> Para
+</div>
+</div>
+</div>
+<p></p>
+None<div class='foswikiIndent'> Para <ul>
+
+<li> Bullet
+</li>  </ul><div class='foswikiIndent'> Slushy<div class='foswikiIndent'> Rainy
+</div>
+</div> <div class='foswikiIndent'> Dry
+</div> <ul>
+<li> Warm
+</li></ul> 
+</div> <div class='foswikiIndent'> Sunny
+
+</div>
+Pleasant
+EXPECTED
+    my $actual = <<ACTUAL;
+   : Para
+   : Para
+   : Para
+
+   : Para
+   * Bullet
+   : Para
+
+   : Para
+   1 Number
+   : Para
+
+   : Para
+      : Para
+   : Para
+
+   : Para
+      : Para
+         : Para
+
+None
+   : Para
+      * Bullet
+      : Slushy
+         : Rainy
+      : Dry
+      * Warm
+   : Sunny
+Pleasant
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
 sub test_tableTerminatesList {
     my $this = shift;
 

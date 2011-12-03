@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-# The generator works by expanding and HTML parse tree to "decorated"
+# The generator works by expanding an HTML parse tree to "decorated"
 # text, where the decorators are non-printable characters. These characters
 # act to express format requirements - for example, the need to have a
 # newline before some text, or the need for a space. Whitespace is then
@@ -680,6 +680,21 @@ sub _isProtectedByAttrs {
     return 0;
 }
 
+sub _convertIndent {
+    my ( $this, $options ) = @_;
+    my $text = $WC::TAB;
+
+    # Zoom up through the tree and see how many layers of indent we have
+    my $p = $this;
+    while ($p = $p->{parent}) {
+	$text .= $WC::TAB if $p->{tag} eq 'div' && $p->hasClass('foswikiIndent');
+    }
+    my ($f, $t) = $this->_handleP($options);
+    $t =~ s/^$WC::WS*//s;
+    $t =~ s/$WC::WS*$//s;
+    return "$WC::CHECKn$text: " . $t;
+}
+
 # perform conversion on a list type
 sub _convertList {
     my ( $this, $indent ) = @_;
@@ -703,12 +718,12 @@ sub _convertList {
     while ($kid) {
 
         # be tolerant of dl, ol and ul with no li
-        if ( $kid->{tag} =~ m/^[dou]l$/i ) {
+        if ( $kid->{tag} =~ m/^[dou]l$/ ) {
             $text .= $kid->_convertList( $indent . $WC::TAB );
             $kid = $kid->{next};
             next;
         }
-        unless ( $kid->{tag} =~ m/^(dt|dd|li)$/i ) {
+        unless ( $kid->{tag} =~ m/^(dt|dd|li)$/ ) {
             $kid = $kid->{next};
             next;
         }
@@ -737,14 +752,14 @@ sub _convertList {
             # IE generates spurious empty divs inside LIs. Detect and skip
             # them.
             if (   $grandkid->{tag}
-                && $grandkid->{tag} =~ /^div$/i
+                && $grandkid->{tag} =~ /^div$/
                 && $grandkid == $kid->{tail}
                 && scalar( keys %{ $this->{attrs} } ) == 0 )
             {
                 $grandkid = $grandkid->{head};
             }
             while ($grandkid) {
-                if ( $grandkid->{tag} && $grandkid->{tag} =~ /^[dou]l$/i ) {
+                if ( $grandkid->{tag} && $grandkid->{tag} =~ /^[dou]l$/ ) {
 
                     #$spawn = _trim( $spawn );
                     $t = $grandkid->_convertList( $indent . $WC::TAB );
@@ -782,6 +797,14 @@ sub _convertList {
     return $text;
 }
 
+sub _isConvertableIndent {
+    my ( $this, $options ) = @_;
+
+    return 0 if ( $this->_isProtectedByAttrs() );
+
+    return $this->{tag} eq 'div' && $this->hasClass('foswikiIndent');
+}
+
 # probe down into a list type to determine if it
 # can be converted to TML.
 sub _isConvertableList {
@@ -795,10 +818,10 @@ sub _isConvertableList {
         # check for malformed list. We can still handle it,
         # by simply ignoring illegal text.
         # be tolerant of dl, ol and ul with no li
-        if ( $kid->{tag} =~ m/^[dou]l$/i ) {
+        if ( $kid->{tag} =~ m/^[dou]l$/ ) {
             return 0 unless $kid->_isConvertableList($options);
         }
-        elsif ( $kid->{tag} =~ m/^(dt|dd|li)$/i ) {
+        elsif ( $kid->{tag} =~ m/^(dt|dd|li)$/ ) {
             unless ( $kid->_isConvertableListItem( $options, $this ) ) {
                 return 0;
             }
@@ -817,7 +840,7 @@ sub _isConvertableListItem {
     return 0 if ( $this->_isProtectedByAttrs() );
 
     if ( $parent->{tag} eq 'dl' ) {
-        return 0 unless ( $this->{tag} =~ /^d[td]$/i );
+        return 0 unless ( $this->{tag} =~ /^d[td]$/ );
     }
     else {
         return 0 unless ( $this->{tag} eq 'li' );
@@ -825,7 +848,7 @@ sub _isConvertableListItem {
 
     my $kid = $this->{head};
     while ($kid) {
-        if ( $kid->{tag} =~ /^[oud]l$/i ) {
+        if ( $kid->{tag} =~ /^[oud]l$/ ) {
             unless ( $kid->_isConvertableList($options) ) {
                 return 0;
             }
@@ -846,9 +869,7 @@ sub _isConvertableListItem {
 sub _isConvertableTable {
     my ( $this, $options, $table ) = @_;
 
-    if ( $this->_isProtectedByAttrs() ) {
-        return 0;
-    }
+    return 0 if ( $this->_isProtectedByAttrs() );
 
     my $rowspan = undef;
     $rowspan = [] if Foswiki::Func::getContext()->{'TablePluginEnabled'};
@@ -1161,7 +1182,7 @@ sub isBlockNode {
     my $node = shift;
     return ( $node->{tag}
           && $node->{tag} =~
-/^(ADDRESS|BLOCKQUOTE|CENTER|DIR|DIV|DL|FIELDSET|FORM|H\d|HR|ISINDEX|MENU|NOFRAMES|NOSCRIPT|OL|P|PRE|TABLE|UL)$/i
+/^(address|blockquote|center|dir|div|dl|fieldset|form|h\d|hr|isindex|menu|noframes|noscript|ol|p|pre|table|ul)$/
     );
 }
 
@@ -1448,7 +1469,16 @@ sub _handleDFN      { return _flatten(@_); }
 
 # DIR
 
-sub _handleDIV { return _handleP(@_); }
+sub _handleDIV {
+    my ( $this, $options ) = @_;
+
+    if ( ( $options & $WC::NO_BLOCK_TML )
+        || !$this->_isConvertableIndent( $options | $WC::NO_BLOCK_TML ) )
+    {
+        return $this->_handleP(@_);
+    }
+    return ( $WC::BLOCK_TML, $this->_convertIndent($options) );
+}
 
 sub _handleDL { return _LIST(@_); }
 sub _handleDT { return _flatten(@_); }
@@ -1601,7 +1631,6 @@ sub _handleP {
     if ( $this->hasClass('WYSIWYG_STICKY') ) {
         return $this->_verbatim( 'sticky', $options );
     }
-
     my ( $f, $kids ) = $this->_flatten($options);
     return ( $f, '<p>' . $kids . '</p>' ) if ( $options & $WC::NO_BLOCK_TML );
     my $prevNode = $this->{prev};

@@ -525,7 +525,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         if ( $line =~ m/^(\s*\|.*\|\s*)$/ ) {
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $this->_addListItem( \@result, '', '', '' ) if $inList;
+            $this->_addListItem( \@result, '', '', '', '' ) if $inList;
             $inList = 0;
             push( @result, _processTableRow( $1, $inTable, \%table ) );
             $inTable = 1;
@@ -541,7 +541,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         if ( $line =~ /$Foswiki::regex{headerPatternDa}/o ) {
 
             # Running head
-            $this->_addListItem( \@result, '', '', '' ) if $inList;
+            $this->_addListItem( \@result, '', '', '', '' ) if $inList;
             $inList = 0;
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
@@ -574,7 +574,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
 
             $line = '<p' . $class . '>';
 
-            $this->_addListItem( \@result, '', '', '' ) if $inList;
+            $this->_addListItem( \@result, '', '', '', '' ) if $inList;
             $inList = 0;
 
             $inParagraph = 1;
@@ -587,7 +587,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             # Definition list
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $this->_addListItem( \@result, 'dl', 'dd', $1, '' );
+            $this->_addListItem( \@result, 'dl', 'dd', '', $1 );
             $inList = 1;
 
         }
@@ -596,7 +596,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             # Definition list
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $this->_addListItem( \@result, 'dl', 'dd', $1, '' );
+            $this->_addListItem( \@result, 'dl', 'dd', '', $1 );
             $inList = 1;
 
         }
@@ -605,7 +605,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             # Unnumbered list
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $this->_addListItem( \@result, 'ul', 'li', $1, '' );
+            $this->_addListItem( \@result, 'ul', 'li', '', $1 );
             $inList = 1;
 
             # TinyMCE won't let the cursor go into an empty element
@@ -613,6 +613,12 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $line =~ s/^(<li>)\s*$/$1&nbsp;/;
 
         }
+	elsif ( $line =~ s/^((\t|   )+): /<div class='foswikiIndent'> /o ) {
+
+	    # Indent pseudo-list
+	    $this->_addListItem( \@result, '', 'div', 'class="foswikiIndent"', $1 );
+	    $inList = 1;
+	}
         elsif ( $line =~ m/^((\t|   )+)([1AaIi]\.|\d+\.?) ?/ ) {
 
             # Numbered list
@@ -627,7 +633,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
                 $ot = '';
             }
             $line =~ s/^((\t|   )+)([1AaIi]\.|\d+\.?) ?/<li$ot> /;
-            $this->_addListItem( \@result, 'ol', 'li', $1, $ot );
+            $this->_addListItem( \@result, 'ol', 'li', '', $1 );
             $inList = 1;
 
             # TinyMCE won't let the cursor go into an empty element
@@ -803,7 +809,7 @@ sub _appendClassToTag {
 
 sub _processTableRow {
 
-    my ( $theRow, $inTable, $state ) = @_;
+    my ( $row, $inTable, $state ) = @_;
     my @result;
     my $firstRow = 0;
     if ( !$inTable ) {
@@ -812,22 +818,22 @@ sub _processTableRow {
         $firstRow = 1;
     }
 
-    $theRow =~ s/\t/   /go;     # change tabs to space
-    $theRow =~ s/\s*$//o;       # remove trailing spaces
-    $theRow =~ s/^(\s*)\|//;    # Remove leading junk
+    $row =~ s/\t/   /go;     # change tabs to space
+    $row =~ s/\s*$//o;       # remove trailing spaces
+    $row =~ s/^(\s*)\|//;    # Remove leading junk
     my $pre = $1;
 
-    $theRow =~
+    $row =~
       s/(\|\|+)/'colspan'.$Foswiki::TranslationToken.length($1)."\|"/geo
       ;                         # calc COLSPAN
     my $colCount = 0;
-    my @row      = ();
+    my @cols     = ();
     my $span     = 0;
     my $value    = '';
 
     my $rowspanEnabled = Foswiki::Func::getContext()->{'TablePluginEnabled'};
 
-    foreach ( split( /\|/, $theRow ) ) {
+    foreach ( split( /\|/, $row ) ) {
         my $attr = {};
         $span = 1;
         if (s/colspan$Foswiki::TranslationToken([0-9]+)//) {
@@ -863,7 +869,7 @@ sub _processTableRow {
             and /^(\s|<[^>]*>)*\^(\s|<[^>]*>)*$/ )
         {    # row span above
             $state->{rowspan}->[$colCount]++;
-            push @row, { text => $value, type => 'Y' };
+            push( @cols, { text => $value, type => 'Y' } );
         }
         else {
             for ( my $col = $colCount ; $col < ( $colCount + $span ) ; $col++ )
@@ -897,17 +903,17 @@ sub _processTableRow {
             $value = ' ' . $value if $value =~ /^(?:\*|==?|__?)[^\s]/;
             $value = $value . ' ' if $value =~ /[^\s](?:\*|==?|__?)$/;
 
-            push @row, { text => $value, attrs => $attr, type => $type };
+            push( @cols, { text => $value, attrs => $attr, type => $type } );
         }
 
         while ( $span > 1 ) {
-            push @row, { text => $value, type => 'X' };
+            push( @cols, { text => $value, type => 'X' } );
             $colCount++;
             $span--;
         }
         $colCount++;
     }
-    push @{ $state->{curTable} }, \@row;
+    push @{ $state->{curTable} }, \@cols;
     push @{ $state->{pre} },      $pre;
     return;
 }
@@ -1219,23 +1225,21 @@ sub _parseParams {
     return $params;
 }
 
-# Lifted straight out of DevelopBranch Render.pm
+# Lifted straight out of Render.pm
 sub _addListItem {
-    my ( $this, $result, $theType, $theElement, $theIndent, $theOlType ) = @_;
-
-    $theIndent =~ s/   /\t/g;
-    my $depth = length($theIndent);
+    my ( $this, $result, $type, $element, $opts, $indent ) = @_;
+    $indent ||= '';
+    $indent =~ s/   /\t/g;
+    my $depth = length($indent);
 
     my $size = scalar( @{ $this->{LIST} } );
     if ( $size < $depth ) {
         my $firstTime = 1;
         while ( $size < $depth ) {
-            push(
-                @{ $this->{LIST} },
-                { type => $theType, element => $theElement }
-            );
-            push( @$result, "<$theElement>" ) unless ($firstTime);
-            push( @$result, "<$theType>" );
+            push( @{ $this->{LIST} }, { type => $type, element => $element } );
+            push( @$result, "<$element" . ($opts ? " $opts" : "") .">" )
+		unless ($firstTime);
+            push( @$result, "<$type>" ) if $type;
             $firstTime = 0;
             $size++;
         }
@@ -1244,7 +1248,7 @@ sub _addListItem {
         while ( $size > $depth ) {
             my $tags = pop( @{ $this->{LIST} } );
             push( @$result, "</$tags->{element}>" );
-            push( @$result, "</$tags->{type}>" );
+            push( @$result, "</$tags->{type}>" ) if $tags->{type};
             $size--;
         }
         if ($size) {
@@ -1254,13 +1258,14 @@ sub _addListItem {
 
     if ($size) {
         my $oldt = $this->{LIST}->[ $size - 1 ];
-        if ( $oldt->{type} ne $theType ) {
-            push( @$result, "</$oldt->{type}>\n<$theType>" );
+        if ( $oldt->{type} ne $type ) {
+	    my $r = '';
+ 	    $r .= "</$oldt->{type}>" if $oldt->{type};
+	    $r .= "<$type>" if $type;
+            push( @$result, $r );
             pop( @{ $this->{LIST} } );
-            push(
-                @{ $this->{LIST} },
-                { type => $theType, element => $theElement }
-            );
+            push( @{ $this->{LIST} }, {
+                type => $type, element => $element } );
         }
     }
 }

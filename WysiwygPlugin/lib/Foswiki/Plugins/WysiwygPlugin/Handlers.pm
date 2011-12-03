@@ -426,7 +426,7 @@ sub _dropBack {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod addXMLTag($tag, \&fn)
 

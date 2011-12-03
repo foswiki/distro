@@ -259,7 +259,7 @@ sub renderMoved {
 # Add a list item, of the given type and indent depth. The list item may
 # cause the opening or closing of lists currently being handled.
 sub _addListItem {
-    my ( $this, $result, $type, $element, $indent ) = @_;
+    my ( $this, $result, $type, $element, $css, $indent ) = @_;
 
     $indent =~ s/   /\t/g;
     my $depth = length($indent);
@@ -272,8 +272,9 @@ sub _addListItem {
         my $firstTime = 1;
         while ( $size < $depth ) {
             push( @{ $this->{LIST} }, { type => $type, element => $element } );
-            push @$result, ' <' . $element . ">\n" unless ($firstTime);
-            push @$result, ' <' . $type . ">\n";
+            push( @$result, " <$element" . ($css ? " class='$css'" : "") .">\n" )
+		unless ($firstTime);
+            push( @$result, ' <' . $type . ">\n" ) if $type;
             $firstTime = 0;
             $size++;
         }
@@ -281,25 +282,30 @@ sub _addListItem {
     else {
         while ( $size > $depth ) {
             my $tags = pop( @{ $this->{LIST} } );
-            push @$result,
-              "\n</" . $tags->{element} . '></' . $tags->{type} . '> ';
+	    my $r = "\n</" . $tags->{element} . '>';
+	    $r .= '</' . $tags->{type} . '> ' if $tags->{type};
+            push( @$result, $r );
             $size--;
         }
         if ($size) {
-            push @$result,
-              "\n</" . $this->{LIST}->[ $size - 1 ]->{element} . '> ';
+            push( @$result,
+              "\n</" . $this->{LIST}->[ $size - 1 ]->{element} . '> ' );
         }
         else {
-            push @$result, "\n";
+            push( @$result, "\n" );
         }
     }
 
     if ($size) {
         my $oldt = $this->{LIST}->[ $size - 1 ];
         if ( $oldt->{type} ne $type ) {
-            push @$result, ' </' . $oldt->{type} . '><' . $type . ">\n";
+	    my $r = '';
+	    $r .= ' </' . $oldt->{type} . '>' if $oldt->{type};
+	    $r .= '<' . $type . ">\n" if $type;
+            push( @$result, $r ) if $r;
             pop( @{ $this->{LIST} } );
-            push( @{ $this->{LIST} }, { type => $type, element => $element } );
+            push( @{ $this->{LIST} }, {
+		type => $type, element => $element } );
         }
     }
 }
@@ -1264,7 +1270,7 @@ sub getRenderedVersion {
             if ($isList) {
 
                 # Table start should terminate previous list
-                _addListItem( $this, \@result, '', '', '' );
+                _addListItem( $this, \@result, '', '', '', '' );
                 $isList = 0;
             }
 
@@ -1298,19 +1304,25 @@ sub getRenderedVersion {
             {
 
                 # Definition list
-                _addListItem( $this, \@result, 'dl', 'dd', $1 );
+                _addListItem( $this, \@result, 'dl', 'dd', '', $1 );
                 $isList = 1;
             }
             elsif ( $line =~ s/^((\t|   )+)(\S+?):\s/<dt> $3<\/dt><dd> /o ) {
 
                 # Definition list
-                _addListItem( $this, \@result, 'dl', 'dd', $1 );
+                _addListItem( $this, \@result, 'dl', 'dd', '', $1 );
                 $isList = 1;
             }
             elsif ( $line =~ s/^((\t|   )+)\* /<li> /o ) {
 
                 # Unnumbered list
-                _addListItem( $this, \@result, 'ul', 'li', $1 );
+                _addListItem( $this, \@result, 'ul', 'li', '', $1 );
+                $isList = 1;
+            }
+            elsif ( $line =~ s/^((\t|   )+): /<div class='foswikiIndent'> /o ) {
+
+                # Indent pseudo-list
+                _addListItem( $this, \@result, '', 'div', 'foswikiIndent', $1 );
                 $isList = 1;
             }
             elsif ( $line =~ m/^((\t|   )+)([1AaIi]\.|\d+\.?) ?/ ) {
@@ -1325,7 +1337,7 @@ sub getRenderedVersion {
                     $ot = '';
                 }
                 $line =~ s/^((\t|   )+)([1AaIi]\.|\d+\.?) ?/<li$ot> /;
-                _addListItem( $this, \@result, 'ol', 'li', $1 );
+                _addListItem( $this, \@result, 'ol', 'li', '', $1 );
                 $isList = 1;
             }
             elsif ( $isList && $line =~ /^(\t|   )+\s*\S/ ) {
@@ -1349,7 +1361,7 @@ sub getRenderedVersion {
 
         # Finish the list
         unless ( $isList || $isFirst ) {
-            _addListItem( $this, \@result, '', '', '' );
+            _addListItem( $this, \@result, '', '', '', '' );
         }
 
         push( @result, $line );
@@ -1360,7 +1372,7 @@ sub getRenderedVersion {
         _addTHEADandTFOOT( \@result );
         push( @result, '</table>' );
     }
-    _addListItem( $this, \@result, '', '', '' );
+    _addListItem( $this, \@result, '', '', '', '' );
 
     $text = join( '', @result );
 

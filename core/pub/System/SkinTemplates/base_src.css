@@ -205,3 +205,6 @@ img {
 .foswikiHorizontalList ul li.foswikiLast {
 	border:none;
 }
+.foswikiIndent {
+	padding-left: 3em;
+}
