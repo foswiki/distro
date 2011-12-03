@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.4
+---+!! Foswiki Release 1.1.4RC
 
 %TOC%
 
@@ -31,7 +31,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
-   * Foswiki 1.1.4 beta3 was built 6 Nov 2011. It is a release that fixes some very important including some security related issues. It contains 126 fixes and 27 enhancements. jQuery has been updated to 1.6.4.
+   * Foswiki 1.1.4 RC was built 2 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 137 fixes and 27 enhancements. jQuery has been updated to 1.6.4.
 
 ---++ Pre-installed Extensions
 
@@ -169,6 +169,11 @@ Also the SpreadSheetPlugin was synchronized with features added to the TWiki ver
    * =WHILE( condition, do )= -- Repeat the "do" function while the "condition" remains true.
    * isodate formats -- ISO 8601 week support.
    * DOY -- Day of Year dates: DOYyyyy.ddd  for example to specify the ddd day of yyyy
+
+---+++ Changes to JSCalendarContrib.
+
+The changes to JSCalendarContrib made post 1.1.3, and released in JSCalendarContrib version 1.4.x have been reverted. The changes attempted to make dates stored in the formfields format per the requested JSCalendarContrib format. However it was incompatible with alternative date formats that were not understood by the core Foswiki time code.
+JSCalendarContrib saves dates in whatever format is set in the configuration ={JSCalendarContrib}{format}=.  If the format is changed, Foswiki makes no attempt to change the displayed format of existing dates.  The format can be updated by re-selecting the date using the calendar display.
 
 ---++ Important changes since Foswiki 1.1.2
 
@@ -1151,6 +1156,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10804][Item10804]] | Some radio buttons on WebSearch behave erratically when clicked on the label |
 | [[%BUGS%/Item10807][Item10807]] | Prevent recursion in template expansion |
 | [[%BUGS%/Item10815][Item10815]] | Registration type automatic will add new user to every group when used by Admin. Show the groups that will be updated. |
+| [[%BUGS%/Item10818][Item10818]] | New Groups UI doesn't autocomplete a group name when adding a group to a group. |
 | [[%BUGS%/Item10827][Item10827]] | TWISTY sets empty cookie value for remember="off" instead of clearing it, causes excessive overhead |
 | [[%BUGS%/Item10834][Item10834]] | Typo in conditional templates for BatchUploadPlugin |
 | [[%BUGS%/Item10836][Item10836]] | PatternSkin broken on 1.0.x |
@@ -1194,10 +1200,10 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11005][Item11005]] | Surplus "; in JQueryPlugin/UI.pm |
 | [[%BUGS%/Item11008][Item11008]] | Foswiki::ListIterator is not always loaded |
 | [[%BUGS%/Item11011][Item11011]] | Make "logged in as admin" alert less ugly |
-| [[%BUGS%/Item11012][Item11012]] | Flaky support for seconds |
+| [[%BUGS%/Item11012][Item11012]] | Several issues with support for seconds in JSCalendarContrib. |
 | [[%BUGS%/Item11016][Item11016]] | FamFamFam buttons do not pick up rev and queryparams for the print action. |
 | [[%BUGS%/Item11017][Item11017]] | Redundant afterSaveHandler called before renaming |
-| [[%BUGS%/Item11020][Item11020]] | Date field is not formatted according to JSCALENDARCONTRIB_FORMAT setting |
+| [[%BUGS%/Item11020][Item11020]] | Reverted changes to JSCalendarContrib made after 1.1.3 - compatibility with alternate date formats had been broken. |
 | [[%BUGS%/Item11041][Item11041]] | Typo of Berkeley in MetaCacheManager.pm and CacheManager.pm |
 | [[%BUGS%/Item11045][Item11045]] | TOC doesn't remove manual links properly |
 | [[%BUGS%/Item11051][Item11051]] | Chili highlighter corrupts output on Firefox 7 and Safari Rev. 6-17-2011. Changed default to disabled, and added a checker to warn if enabled. Also added warnings for other deprecated JQuery plugins. |
@@ -1238,7 +1244,11 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11227][Item11227]] | TablePlugin is causing undefined variable errors in Time::Local |
 | [[%BUGS%/Item11231][Item11231]] | Escaped !ABBREV in heading generate an incorrect Anchor link |
 | [[%BUGS%/Item11239][Item11239]] | SpreadSheetPlugin LEFTSTRING and has inconsistent results when cell has leading spaces |
+| [[%BUGS%/Item11260][Item11260]] | Improve documentation of the NOSEARCHALL parameter. |
 | [[%BUGS%/Item11258][Item11258]] | WikiGroups doesn't link to group names that are not wikiwords. |
+| [[%BUGS%/Item11275][Item11275]] | jquery.cookie should return undefined rather than empty to avoid setting unnecessary cookies. |
+| [[%BUGS%/Item11279][Item11279]] | Topic sort order does not take into account the configured locale. |
+| [[%BUGS%/Item11287][Item11287]] | Resolve compatibility issues with Perl 5.14. |
 | [[%BUGS%/Item11309][Item11309]] | viewfile script returns filenames in lower case. Generate a correct Content-Disposition header preserving the filename case. |
 </noautolink>
 
