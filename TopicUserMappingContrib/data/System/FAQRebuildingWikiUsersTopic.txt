@@ -41,7 +41,11 @@ Assuming your wiki is configured to use %SYSTEMWEB%.TopicUserMappingContrib, the
 <form action="%SCRIPTURLPATH{"save"}%/%USERSWEB%/WikiUsers" method="post">
 <textarea name="text" rows="20" cols="80">
 %INCLUDE{"UsersTemplate" section="header"}%
-%INCLUDE{"%TOPIC%" section="WIKIUSERS"}%
+%IF{ "$USERNAME ingroup 'AdminGroup'" then="$percntINCLUDE{\"%TOPIC%\" section=\"WIKIUSERS\"}$percnt"
+         else="
+VIEW THIS TOPIC AS AN ADMIN TO CREATE THE USER LIST
+
+" }%
 %INCLUDE{"UsersTemplate" section="footer"}%
 </textarea>
 
