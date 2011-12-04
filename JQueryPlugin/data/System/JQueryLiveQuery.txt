@@ -173,6 +173,9 @@ Click on the button to see if it is properly initialized.
   <strong>If this is coloured, then livequery worked out fine.</strong>
 </body>
 </verbatim>
+%IF{"context ChiliEnabled" else='
+_Note: This example requires that the JQuery "chili" plugin be enabled. It is disabled by default due to some recent browser compatbility issues. Administrators: See the [[%SCRIPTURL{"configure"}%#JQueryPlugin$Extensions][configure JQuery tab]]_
+'}%
 %ENDSECTION{"third"}%
 </verbatim>
 %ENDTAB%

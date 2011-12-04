@@ -9,7 +9,7 @@ Sometimes, the %USERSWEB%.WikiUsers topic maintained by %SYSTEMWEB%.TopicUserMap
 Assuming your wiki is configured to use %SYSTEMWEB%.TopicUserMappingContrib, the script below should refresh your %USERSWEB%.WikiUsers topic with an accurate list of users. It uses the [[%SYSTEMWEB%.VarUSERINFO][USERINFO]] macro, which protects user information from ordinary users - so this topic needs to be viewed with [[%SYSTEMWEB%.AccessControl#The_Super_Admin_Group][admin privileges]] in order for it to be useful.
 
 %TWISTY{showlink="Show code..."}%
-%JQREQUIRE{"chili"}%
+<!--%JQREQUIRE{"chili"}%-->
 <verbatim class="tml">
 %STARTSECTION{"WIKIUSERS"}%
 %FORMAT{"A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z" 
