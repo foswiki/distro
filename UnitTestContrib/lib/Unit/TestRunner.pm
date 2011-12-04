@@ -34,6 +34,8 @@ sub new {
             expected_failures => [],
             failures          => [],
             number_of_asserts => 0,
+            unexpected_result => {},
+            tests_per_module  => {}
         },
         $class
     );
@@ -180,9 +182,29 @@ sub start {
         print "\n$failed failure" . ( $failed > 1 ? 's' : '' ) . ":\n";
         print join( "\n---------------------------\n", @{ $this->{failures} } ),
           "\n";
+
         $total += $failed;
+
+        if ( $total > 11 ) {
+            print
+              "\n---------------------------\n---++ Module Failure summary\n";
+            foreach my $module (
+                sort {
+                    $this->{unexpected_result}
+                      ->{$a} <=> $this->{unexpected_result}->{$b}
+                } keys( %{ $this->{unexpected_result} } )
+              )
+            {
+                print "   * $module has "
+                  . $this->{unexpected_result}{$module}
+                  . " unexpected results (of "
+                  . $this->{tests_per_module}{$module} . ")\n";
+            }
+        }
+
         print "$passes of $total test cases passed\n";
         ::PRINT_TAP_TOTAL();
+
         return $failed;
     }
     print "All tests passed ($passes"
@@ -234,7 +256,7 @@ sub runOneInNewProcess {
         unlink $tempfilename;
         print "*** Could not spawn new process for $suite: $error\n";
         return
-            'push( @{ $this->{failures} }, "'
+            'push( @{ $this->{failures} }, "' 
           . $suite . '\n'
           . quotemeta($error) . '" );';
     }
@@ -244,7 +266,7 @@ sub runOneInNewProcess {
             print "*** Error trying to run $suite\n";
             unlink $tempfilename;
             return
-                'push( @{ $this->{failures} }, "Process for '
+                'push( @{ $this->{failures} }, "Process for ' 
               . $suite
               . ' returned '
               . $returnCode . '" );';
@@ -392,10 +414,13 @@ sub runOne {
         $action .= "\n# $test\n    ";
         $tester->set_up($test);
         try {
+            $action .= '$this->{tests_per_module}->{\'' . $suite . '\'}++;';
             $tester->$test();
             $action .= '$passes++;';
             if ( $tester->{expect_failure} ) {
                 print "*** Unexpected pass\n";
+                $action .=
+                  '$this->{unexpected_result}->{\'' . $suite . '\'}++;';
                 $action .= 'push( @{ $this->{unexpected_passes} }, "'
                   . quotemeta($test) . '");';
             }
@@ -407,6 +432,8 @@ sub runOne {
                 $action .= 'push( @{ $this->{expected_failures} }, "';
             }
             else {
+                $action .=
+                  '$this->{unexpected_result}->{\'' . $suite . '\'}++;';
                 $action .= 'push( @{ $this->{failures} }, "';
             }
             $action .=
@@ -437,4 +464,3 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
-
