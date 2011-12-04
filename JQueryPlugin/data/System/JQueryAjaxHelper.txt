@@ -4,8 +4,9 @@
 Hidden form definition
 |*Name*  |*Type*  |*Size*  |*Values*  |*Tooltip message*  |*Attributes*  |
 | Example | text | 40 | | | |
--->
+
 %JQREQUIRE{"chili, ui"}%
+-->
 ---+!! %TOPIC%
 
 This page contains a set of example JQueryPlugin helpers that can be used in
@@ -149,7 +150,7 @@ Jump to specific topics.
 %ADDTOZONE{"script"
   tag="jumpbox::js"
   section="jumpbox::js"
-  requires="JQUERYPLUGIN::AUTOCOMPLETE"
+  requires="JQUERYPLUGIN::UI::AUTOCOMPLETE"
 }%
 <!-- //jumpbox -->%ENDSECTION{"jumpbox"}%
 </verbatim>

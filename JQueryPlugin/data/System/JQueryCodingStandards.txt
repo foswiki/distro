@@ -4,7 +4,7 @@
 
 %TOC%
 
-%JQREQUIRE{"chili"}%
+<!--%JQREQUIRE{"chili"}%-->
 %STARTINCLUDE%
 Follow [[http://drupal.org/node/172169][Drupal&#8217;s JavaScript coding standards]]
 

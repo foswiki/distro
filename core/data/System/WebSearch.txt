@@ -172,7 +172,7 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
 
 %STARTSECTION{"_querysearchexample"}%<p /><div class="foswikiHelp">
 %MAKETEXT{"To display the above search results in a topic, copy-paste the following markup:"}%
-%JQREQUIRE{"chili"}%<pre class="tml">
+<!--%JQREQUIRE{"chili"}%--><pre class="tml">
 %<nop>SEARCH{
    "%URLPARAM{"search" encode="quote"}%"
    type="%URLPARAM{"type" default="%SEARCHDEFAULTTTYPE%"}%"%FORMAT{
