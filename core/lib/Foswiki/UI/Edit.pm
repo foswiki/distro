@@ -344,7 +344,7 @@ sub init_edit {
 
     if ($adminCmd) {
 
-        unless ($users->isAdmin($user)) {
+        unless ( $users->isAdmin($user) ) {
             throw Foswiki::OopsException(
                 'accessdenied',
                 def    => 'topic_access',
@@ -354,15 +354,15 @@ sub init_edit {
             );
         }
 
-        unless ($adminCmd =~ m/^(rep|del)Rev$/ ) {
+        unless ( $adminCmd =~ m/^(rep|del)Rev$/ ) {
             throw Foswiki::OopsException(
                 'attention',
-                def   => 'unrecognized_action',
-                web   => $web,
-                topic => $topic,
-                params => [ "'cmd=$adminCmd'" ]
+                def    => 'unrecognized_action',
+                web    => $web,
+                topic  => $topic,
+                params => ["'cmd=$adminCmd'"]
             );
-           }
+        }
 
         # An admin cmd is a command such as 'repRev' or 'delRev'.
         # These commands can used by admins to silently remove
@@ -375,8 +375,9 @@ sub init_edit {
         # No need to check permissions; we are admin if we got here.
         my $rawText = $basemeta->getEmbeddedStoreForm();
         $rawText =~ s/^%META:TOPICINFO{.*?}%$//m;
-        $topicObject->text( $rawText );
-        $tmpl =~ s/\(edit\)/\(edit cmd=$adminCmd\)/go if $adminCmd;
+        $topicObject->text($rawText);
+        $tmpl =~ s/\(edit\)/\(edit cmd=$adminCmd\)/go;
+        $extraLog = "(Admin cmd=$adminCmd)";
     }
     else {
         my $text = $topicObject->text();
@@ -386,8 +387,6 @@ sub init_edit {
     }
 
     $session->logEvent( 'edit', $web . '.' . $topic, $extraLog );
-
-    $tmpl =~ s/\(edit\)/\(edit cmd=$adminCmd\)/go if $adminCmd;
 
     $tmpl =~ s/%CMD%/$adminCmd/go;
 
