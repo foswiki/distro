@@ -43,6 +43,7 @@ sub initPlugin {
     return 0 unless $cgi;
 
     $initialised      = 0;
+    $readyForHandler  = 0;
     $writtenToHead    = 0;
     %pluginAttributes = ();
 
