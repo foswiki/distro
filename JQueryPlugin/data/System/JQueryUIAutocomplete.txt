@@ -87,7 +87,7 @@ that can be specified as metadata.
 
 When fetching autocompletion terms from a remote backend the endpoint has to return a json object
 of a specific format interpreted by the library. This can either be a plain array of strings or
-an array of json objects with a =label= and an =id= property.
+an array of json objects with a =label= and an =value= property.
 
 Array of strings:
 <verbatim class="js">
@@ -99,11 +99,11 @@ Array of json objects:
 [
   {
     label: "display this",
-    id: "value is this",
+    value: "value is this",
   },
   {
     label: "display this",
-    id: "value is this"
+    value: "value is this"
   },
   ...
 ]
