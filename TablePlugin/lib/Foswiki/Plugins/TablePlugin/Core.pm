@@ -118,7 +118,7 @@ $TABLE_FRAME->{vsides} = 'border-style:none solid none solid';
 $TABLE_FRAME->{box}    = 'border-style:solid';
 $TABLE_FRAME->{border} = 'border-style:solid';
 
-BEGIN {
+sub _init {
     $translationToken = "\0";
 
     # the maximum number of columns we will handle

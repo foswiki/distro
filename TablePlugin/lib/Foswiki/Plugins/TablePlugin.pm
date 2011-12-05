@@ -9,7 +9,7 @@ use strict;
 use warnings;
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.136';
+our $RELEASE = '1.137';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -62,8 +62,8 @@ sub preRenderingHandler {
     _readPluginSettings() if !%pluginAttributes;
 
     # on-demand inclusion
-    eval "use Foswiki::Plugins::TablePlugin::Core ()";
-    die $@ if $@;
+    require Foswiki::Plugins::TablePlugin::Core;
+    Foswiki::Plugins::TablePlugin::Core::_init();
     Foswiki::Plugins::TablePlugin::Core::handler(@_);
 }
 
