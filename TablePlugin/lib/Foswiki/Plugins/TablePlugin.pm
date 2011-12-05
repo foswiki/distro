@@ -24,6 +24,7 @@ our $initialised;
 my $DEFAULT_TABLE_SETTINGS =
 'tableborder="1" valign="top" headercolor="#000000" headerbg="#d6d3cf" headerbgsorted="#c4c1ba" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
 my $styles = {};    # hash to keep track of web->topic
+my $readyForHandler;
 our $writtenToHead = 0;
 
 sub initPlugin {
@@ -63,7 +64,10 @@ sub preRenderingHandler {
 
     # on-demand inclusion
     require Foswiki::Plugins::TablePlugin::Core;
-    Foswiki::Plugins::TablePlugin::Core::_init();
+    if ( !$readyForHandler ) {
+        Foswiki::Plugins::TablePlugin::Core::_init();
+        $readyForHandler = 1;
+    }
     Foswiki::Plugins::TablePlugin::Core::handler(@_);
 }
 
