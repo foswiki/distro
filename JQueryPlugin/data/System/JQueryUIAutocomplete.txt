@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1317382850" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1316526158" format="1.1" reprev="3" version="3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"ui::autocomplete"
@@ -87,7 +87,7 @@ that can be specified as metadata.
 
 When fetching autocompletion terms from a remote backend the endpoint has to return a json object
 of a specific format interpreted by the library. This can either be a plain array of strings or
-an array of json objects with a =label= and an =id= property.
+an array of json objects with a =label= and an =value= property.
 
 Array of strings:
 <verbatim class="js">
@@ -99,11 +99,11 @@ Array of json objects:
 [
   {
     label: "display this",
-    id: "value is this",
+    value: "value is this",
   },
   {
     label: "display this",
-    id: "value is this"
+    value: "value is this"
   },
   ...
 ]
