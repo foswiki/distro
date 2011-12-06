@@ -860,9 +860,10 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  05 Dec 2011: (1.1.4) | Foswiki release 1.1.4 - Foswikitask:Item11079: leading/trailing spaces break $LISTUNIQUE(). <br />/
-                  Foswikitask:Item11183: Sync up with TWiki version. Add $HEXENCODE(), $HEXDECODE(), $BITXOR(), $XOR(). $LISTNONEMPTY(), $SPLIT(), and $WHILE.  <br />/
-                  Added Day of Year (DOY) support to $TIME() and $isoweek formats to $FORMATTIME() and $FORMATGMTIME(). |
+|  05 Dec 2011: (1.1.4) | Foswiki release 1.1.4 - Foswikitask:Item11079: leading/trailing spaces break $LISTUNIQUE(). <br />\
+                  Foswikitask:Item11183: Sync up with TWiki version. <br />\
+                  Add $HEXENCODE(), $HEXDECODE(), $BITXOR(), $XOR(). $LISTNONEMPTY(), $SPLIT(), and $WHILE.  <br />\
+                  Add Day of Year (DOY) support to $TIME() and $isoweek formats to $FORMATTIME() and $FORMATGMTIME(). |
 |  10 Apr 2011: | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  06 Nov 2010: | Foswikitask:Item9963: Revert usage of =$<nop>percent= back to =$<nop>percnt= |
 |  09 Aug 2010: | Foswikitask:Item1998: fix for $RIGHT() inclusion of cells to left as well as right |

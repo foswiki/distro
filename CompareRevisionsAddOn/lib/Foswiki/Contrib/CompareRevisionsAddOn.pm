@@ -1,7 +1,7 @@
 package Foswiki::Contrib::CompareRevisionsAddOn;
 use strict;
 
-# This should always be $Rev: 4995 $ so that Foswiki can determine the
+# This should always be $Rev$ so that Foswiki can determine the
 # checked-in status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
 our $VERSION = '$Rev$ (2011-04-30)';
