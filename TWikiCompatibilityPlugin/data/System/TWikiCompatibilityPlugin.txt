@@ -41,6 +41,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.1.2 | Released with Foswiki 1.1.4 - minor cleanup of topics and code. |
 |  1.1.1 | Foswikitask:Item9415 - Documentation updates |
 |  1.1 | Foswikitask:Item8669 - MAINWEB mapping removed. It has instead been added to !DefaultPreferences in Foswiki 1.1 and forward so that upgraders do not have to enable this plugin just to map MAINWEB to USERSWEB. Many upgraders will not need any other function and would rather not have the code overhead of this plugin |
 |  1.0 | Version shipped with Foswiki 1.0.X |

@@ -67,6 +67,10 @@ It's a part of the default distribution of the Foswiki Core.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.3.3 (05 Dec 2011) | Foswikitask:Item10815: Warn if registering user as admin when auto group membership is enabled.<br /> \
+                         Foswikitask:Item11208: Throw error if group name not *Group <br /> \
+                         Foswikitask:Item10906: Force user names to the %<nop>USERSWEB% - avoid linking errors if username might be interpreted as a Web.Topic name <br /> \
+                         Other minor code cleanup and documentation updates |
 |  4.3.2 (11 Apr 2011) | Foswikitask:Item10304 - !AdminGroup moved from this extension to Foswiki core to avoid it gets overwritten when upgrading the contrib from configure <br />\
                          Foswikitask:Item10590 - !ChangeEmailAddress has query error <br />\
                          Foswikitask:Item10536 - !UserRegistration !WikiName JS support for all skins <br />\

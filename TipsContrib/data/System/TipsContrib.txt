@@ -42,6 +42,7 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  05 Dec 2011: | Version released with Foswiki 1.1.4. Minor code cleanup and documentation updates. |
 |  11 Apr 2011: | Version released with Foswiki 1.1.3. Only a minor change related to how the contrib is being upgraded |
 |  06 Nov 2010: | Foswikitask:Item9963 - Revert usage of =$<nop>percent= back to =$<nop>percnt= |
 |  31 Jul 2010: | Foswikitask:Item9415 - Documentation updates |

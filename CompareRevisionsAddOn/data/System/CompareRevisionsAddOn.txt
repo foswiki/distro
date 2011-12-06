@@ -138,6 +138,7 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  05 Dec 2011 (1.1.7) | Release with Foswiki 1.1.4 - minor code and documentation cleanup. |
 |  28 May 2011 (1.1.6) | Foswikitask:Item10803 - Fix invalid Foswiki configuration affecting !ApacheLogin users introduced in =1.1.4= |
 |  17 May 2011 (1.1.5) | Foswikitask:Item10677 - Speed optimization by avoiding doing pointless lookup for settings in plugin topic |
 |  30 Apr 2011 (1.1.4) | Foswikitask:Item10566 - Add =compareauth= script for !ApacheLogin users %BR%\

@@ -61,6 +61,7 @@ You can override the default settings for the plugin by defining the following [
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  05 Dec 2011: | Version released with Foswiki 1.1.4. Minor code cleanup. |
 |  11 Apr 2011: | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  04 Aug 2010: | Foswikitask:Item9415 - Minor documentation updates |
 |  20 Sep 2009: | Small documentation update. Included with Foswiki 1.0.7 |

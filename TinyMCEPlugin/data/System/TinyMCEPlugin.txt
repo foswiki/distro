@@ -311,6 +311,10 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  24 Sep 2011 (1.2.1) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.6. %BR%\
                          Foswikitask:Item8981: Fixed in !TinyMCE 3.4 (copy and paste list items) |
 |  20 Aug 2011 (1.2.0) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.4 |
+|  05 Dec 2011 (1.1.12) | Foswikitask:Item10288: Prevent save if in fullscreen mode. Other minor code cleanup. |
+|  22 Nov 2011 (1.1.11) | Foswikitask:Item11272: Remove bogus dependency on !BehaviourContrib |
+|  10 May 2011 (1.1.10) | Foswikitask:Item10724: Revert back to !TinyMCE 3.3.9.3; 3.3.9.4 caused JS errors in IE8 |
+|  09 May 2011 (1.1.9) | Foswikitask:Item10724: Update to !TinyMCE 3.3.9.4 |
 |  11 Apr 2011 (1.1.8) | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  19 Jan 2011 (1.1.7) | Foswikitask:Item10271: Update to !TinyMCE 3.3.9.3 and switch to using =x.y.z= version numbering %BR%\
                  Foswikitask:Item9973: Fix problem where topic names with international characters prevented attach dialogue working correctly%BR% \

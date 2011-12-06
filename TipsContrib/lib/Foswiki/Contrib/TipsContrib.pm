@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 our $VERSION          = '$Rev$';
-our $RELEASE          = '11 Apr 2011';
+our $RELEASE          = '05 Dec 2011';
 our $SHORTDESCRIPTION = 'Displays rotating list of "Tip-of-the-day"';
 
 1;

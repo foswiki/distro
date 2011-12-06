@@ -139,6 +139,7 @@ reduce bandwidth and speed up interactive performance.
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  22 Nov 2011: | (4.30) added jquery-1.7 and jquery-1.7.1; \
                   added jquery.loader to ease loading sections asynchronously |
+|   3 Dec 2011: | (4.22) Incremented version for Foswiki 1.1.4 release. Minor code and documentaiton cleanup. |
 |  22 Nov 2011: | (4.21) added config warnings for the deprecated JQuery plugins; \
                   and a warining for Chili highlighter corruption; \
                   fixed jquery.chili to allow other non-recipe css classes in verbatim sections; \

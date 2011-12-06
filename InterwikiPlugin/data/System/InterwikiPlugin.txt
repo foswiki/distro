@@ -57,6 +57,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  05 Dec 2011: (1.1.2) | Release with Foswiki 1.1.4 - Minor code and documentation cleanup |
 |  30 Oct 2011: | Foswiki:Main.GeorgeClark - Add support for quoted page references from TimotheLitt (Foswikitask:Item10872) |
 |  10 Apr 2011: | Foswiki:Main.AndrewJones - Links can now be formatted (Foswikitask:Item10619) |
 |  13 Dec 2010: | Foswiki:Main.AndrewJones - Fix inter-wiki's with parentheses (Foswikitask:Item10151). Note, you will need to write as ==[<nop>[Wikipedia:Fork_(software_development)]]==, as we assume the closing parenthesis is not part of the link. |
