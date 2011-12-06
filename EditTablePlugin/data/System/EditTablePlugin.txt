@@ -200,6 +200,7 @@ Test if the Plugin is correctly installed:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  05 Dec 2011: | 4.41: Version released with Foswiki 1.1.4. Minor code and documentation cleanup. |
 |  11 Apr 2011: | 4.40: Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  20 Jan 2011: | 4.39: Arthur Clemens: Foswikitask:Item10274 - Collision between Date formatting and Wiki variables |
 |  06 Dec 2010: | 4.38: Andrew Jones: Foswikitask:Item10126 - Intermittent rendering issues under !FastCGI |

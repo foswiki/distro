@@ -488,6 +488,7 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  05 Dec 2011 | 1.6.15 Released with Foswiki 1.1.4 - minor changes |
 |  07 Jul 2011 | 1.6.14 Foswikitask:Item10946: fixed requesting of defunct/missing jquery.twisty.css |
 |  02 Jun 2011 | 1.6.13 Foswikitask:Item10827: clear pref completely when using =remember="off"=. Effective from Foswiki 1.1.4 and higher. |
 |  10 Apr 2011 | 1.6.12 Foswikitask:Item10618: parenthesis (or other Regex characters) in topic name crashes Foswiki <br /> Foswikitask:Item10264: Change template-js-css logic from foswikiJs to foswikiNoJs <br /> Foswikitask:Item10506: Add !noci to avoid checkin of files during installation. |

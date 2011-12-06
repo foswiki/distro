@@ -294,6 +294,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  05 Dec 2011 (1.1.12) | Foswikitask:Item10288: Prevent save if in fullscreen mode. Other minor code cleanup. |
 |  22 Nov 2011 (1.1.11) | Foswikitask:Item11272: Remove bogus dependency on !BehaviourContrib |
 |  10 May 2011 (1.1.10) | Foswikitask:Item10724: Revert back to !TinyMCE 3.3.9.3; 3.3.9.4 caused JS errors in IE8 |
 |  09 May 2011 (1.1.9) | Foswikitask:Item10724: Update to !TinyMCE 3.3.9.4 |

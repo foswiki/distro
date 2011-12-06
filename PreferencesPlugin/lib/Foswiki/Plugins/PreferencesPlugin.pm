@@ -33,7 +33,7 @@ use Foswiki::Plugins ();    # For the API version
 use vars qw( @shelter );
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.1.1';
+our $RELEASE = '1.1.2';
 our $SHORTDESCRIPTION =
   'Allows editing of preferences using fields predefined in a form';
 our $NO_PREFS_IN_TOPIC = 1;

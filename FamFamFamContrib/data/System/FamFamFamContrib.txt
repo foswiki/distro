@@ -70,7 +70,7 @@ eg
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  04 Sep 2011 (1.4.2) | Added =trash-small= icon to !DocumentGraphics. |
+|  05 Dec 2011 (1.4.3) | Released with Foswiki 1.1.4. Foswikitask:Item11104 - Added =trash-small= icon to !DocumentGraphics.  Foswikitask:Item11016 - Print should pass through URL parameters. |
 |  03 May 2011 (1.4.1) | Foswikitask:Item10699 - Update METADATA for attachments |
 |  11 Apr 2011 (1.4): | New homepage for "Universal Wiki Edit Button". <br />\
                         Remove !FamFamFam login/logout links and add foswikiAuthenticated class to allow conditional disabling of some buttons in some skins <br />\

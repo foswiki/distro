@@ -25,7 +25,7 @@ our $VERSION = '$Rev$ (2011-04-30)';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-our $RELEASE = '1.1.5';
+our $RELEASE = '1.1.7';
 
 # Name of this Plugin, only used in this module
 our $pluginName = 'CompareRevisionsAddonPlugin';

@@ -254,6 +254,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Release: | %$RELEASE% |
 |  Change History: | |
 |  | Foswiki:Tasks/Item11138: Empty subscription without trailing space after colon is treated as wildcard for all topics |
+|  2.5.2 (2 Dec 2011) | Foswiki 1.1.4 Release:  Foswiki:Tasks/Item11138: Foswiki:Tasks/Item11131: Document behavior with group subscriptions, Resolve issue with trailing spaces impacting subscriptions |
 |  2.5.1 (25 Jul 2011) | Foswiki:Tasks/Item10980: fix case where interaction with SubscribePlugin could potentially break cached CGI (fcgid/mod_perl) |
 |  2.5.0 (5 Apr 2011) | Foswiki:Tasks/Item9459: add DIFF template for improved change presentation |
 |  2.4.4 (5 Apr 2011) | Foswiki:Tasks/Item10545: Fix overriding rules |
