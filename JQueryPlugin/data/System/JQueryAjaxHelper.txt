@@ -197,6 +197,7 @@ Uses the =[[#Topic_selector][topic]]= server section, defined above.
 </form>
 
 ---++ User selector 
+<div class="foswikiHelp">%X% *Note:* This example obtains user information with the %<nop>USERINFO% macro.   If the wiki is configured to hide user details (=$Foswiki::cfg{AntiSpam}{HideUserDetails}=), then this tool will only list the user's !WikiName unless you are an administrator.</div>
 ---+++ Client section
 *INCLUDE Parameters*
    * =INPUT_NAME=: name of text input field
@@ -239,7 +240,7 @@ jQuery(function($){
      type="regex"
      scope="topic"
      format="$percntIF{\"'$percntGROUPINFO{\"$topic\" format=\"$dollarname, \" limit=\"1\"}$percnt'=''\"
-          then=\"$percntUSERINFO{\"$topic\" format=\"$dollarwikiname, \"}$percnt\"
+          then=\"$topic, \"
           else=\"$percntGROUPINFO{\"$topic\" format=\"$dollarname, \" limit=\"1\"}$percnt\"
         }$percnt"
      separator=""
