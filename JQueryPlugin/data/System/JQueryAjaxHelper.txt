@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1320871779" format="1.1" reprev="12" version="12"}%
+%META:TOPICINFO{author="ProjectContributor" date="1320871779" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 <!--
@@ -8,6 +8,18 @@ Hidden form definition
 
 %JQREQUIRE{"chili, ui, ui::autocomplete"}%
 -->
+
+%ADDTOZONE{"head"
+   id="Autocomplete loader"
+   text="
+<style type='text/css' media='all'>
+  .ui-autocomplete-loading {
+    background-image: url('%PUBURL%/%SYSTEMWEB%/JQueryPlugin/images/spinner.gif') <nop>!important;
+    background-position: right center <nop>!important;
+    background-repeat: no-repeat <nop>!important;
+  }
+</style>"
+}%
 
 This page contains a set of example JQueryPlugin helpers that can be used in
 wiki applications. The examples demonstrate how you can
@@ -67,7 +79,7 @@ loads the =topic= section of this topic, which expands to the topic list.
   "^%URLPARAM{"term" default="does not exist"}%.*"
   type="regex"
   scope="topic"
-  format="{\"label\":\"$web.$topic\", \"webtopic\":\"$web.$topic\"}"
+  format="<nop>%URLPARAM{"format" encode="quote" default="{\\"label\\":\\"$topic\\", \\"webtopic\\":\\"$web.$topic\\"}"}%"
   separator=","
   limit="%URLPARAM{"limit" default="10"}%"
   nonoise="on"
@@ -141,8 +153,8 @@ Jump to specific topics.
 %STARTSECTION{"jumpbox"}%<!-- jumpbox -->
 <input type="text" class="foswikiInputField jqJumpBox {%IF{
   "$GLOBAL = 'on'"
-  then="global: true, baseweb:'all, -%TRASHWEB%', format:'$web.$topic'"
-  else="global: false, baseweb:'%BASEWEB%', format:'$topic'"
+  then="global: true, baseweb:'all, -%TRASHWEB%', format:'&quot;$web.$topic&quot;'"
+  else="global: false, baseweb:'%BASEWEB%', format:'&quot;$topic&quot;'"
 }%}" name="topic" autocomplete="off" size="60" />
 %ADDTOZONE{"script"
   tag="jumpbox::js"
@@ -160,12 +172,9 @@ jQuery(function($){
     var $this = $(this), 
         opts = $.extend({}, $this.metadata());
     $this.autocomplete({
-      source: "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;baseweb="+opts.baseweb,
+      source: "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;baseweb="+opts.baseweb+";format="+opts.format,
       select: function(event, ui) {
-        if (opts.global) {
-          $this.val(ui.item.webtopic);
-          return false;
-        }
+        window.location.href="%SCRIPTURLPATH{"view"}%/"+(opts.global?'':opts.baseweb+'/')+ui.item.value;
       }
     });
   });
