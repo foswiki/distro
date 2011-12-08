@@ -297,7 +297,7 @@ sub set_up {
     #SMELL: Item10943 - the expect failure flag doesn't get reset because
     #       the test fixture is preserved between tests.  Clear the flag
     #       as a workaround to the problem
-    $this->expect_failure(0);
+    #$this->expect_failure(0);
 
     return;
 }
