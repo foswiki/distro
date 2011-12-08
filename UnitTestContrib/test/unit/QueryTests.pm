@@ -184,10 +184,7 @@ sub loadExtraConfig {
 
 #turn on the MongoDBPlugin so that the saved data goes into mongoDB
 #This is temoprary until Crawford and I cna find a way to push dependencies into unit tests
-    if (   ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/ )
-        or ( $Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongoDB/ )
-        or ( $context =~ /MongoDB/ ) )
-    {
+    if ( $this->check_using('MongoDBPlugin') ) {
         $Foswiki::cfg{Plugins}{MongoDBPlugin}{Module} =
           'Foswiki::Plugins::MongoDBPlugin';
         $Foswiki::cfg{Plugins}{MongoDBPlugin}{Enabled}             = 1;
@@ -780,7 +777,8 @@ sub verify_versions_on_other_topic_fail {
     my $this = shift;
 
     # These aren't working :( - PH
-    $this->expect_failure();
+    $this->expect_failure(
+        'Item10121: OP_ref does\'nt play nice with versions queries' );
     $this->check( "'AnotherTopic'/versions.META:FIELD[name='SillyFuel'].value",
         eval => [qw(Diesel Petroleum Petrol)] );
     $this->check( "'AnotherTopic'/versions[META:FIELD.name='SillyFuel'].value",
@@ -832,6 +830,9 @@ sub test_match_fields_longhand {
 
 sub test_nomatch_fields_longhand {
     my $this = shift;
+
+    $this->expect_failure(
+        "in Javascript/MongoDB, undef != ''", using => 'MongoDBPlugin' );
     $this->check( "fields[name='string' AND value=~'^qSt.(i|n).*'].name!=''",
         eval => 0 );
 }

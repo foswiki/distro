@@ -1655,8 +1655,7 @@ sub test_Util_createArchive_shellZip {
         1;
     } or do {
         my $mess = $@;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN shell test for zip archive:  $mess");
+        $this->expect_failure("CANNOT RUN shell test for zip archive:  $mess");
         $this->assert(0);
     };
 
@@ -1707,8 +1706,7 @@ sub test_Util_createArchive_shellTar {
         1;
     } or do {
         my $mess = $@;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN shell test for tar archive:  $mess");
+        $this->expect_failure("CANNOT RUN shell test for tar archive:  $mess");
         $this->assert(0);
     };
 
@@ -1751,8 +1749,7 @@ sub test_Util_createArchive_perlTar {
     eval { require Archive::Tar; 1; } or do {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN test for tar archive:  $mess");
+        $this->expect_failure("CANNOT RUN test for tar archive:  $mess");
         $this->assert(0);
     };
 
@@ -1795,8 +1792,7 @@ sub test_Util_createArchive_perlZip {
     eval { require Archive::Zip; 1; } or do {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN test for zip archive:  $mess");
+        $this->expect_failure("CANNOT RUN test for zip archive:  $mess");
         $this->assert(0);
     };
 
