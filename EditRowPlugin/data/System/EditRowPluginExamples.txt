@@ -1,5 +1,3 @@
----+ Example 1
-
 %EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, not started, starting, ongoing, completed | radio, 3,:-),:-I,:-( | date, 20 |" changerows="on" quietsave="on"}%
 | *Nr* | *Project* | *State* | *Progress* | *Timestamp* |
 | 1 | Sliced yoghourt | completed | :-) | 26 Jun 2002 |
@@ -9,7 +7,7 @@
 
 (used to create attachments: screenshot1.png, example5.png)
 
----+ Example 2
+---
 
 %EDITTABLE{ format="| label,12 | textarea, 3x30 |" }%
 | *Model* | *Description* |
@@ -19,7 +17,16 @@
 
 (used to create attachment: example3.png)
 
----+ Example 3
+---
+%EDITTABLE{ format="| text,12 | textarea, 3x30 |" js="assumed"}%
+| *Model* | *Description* |
+| 345TG66 | Short, with sightly concave upper surface, and devilish nuts |
+| 9A-11 | A new model for 2007, but not quite as pretty as the 9A-10 |
+| RR717-D | Solid performer, dependable in vacuum grinders |
+
+(used to create attachment: screenshot2,png)
+
+---
 
 %EDITTABLE{ format="| text,100 | text,100 |" orientrowedit="vertical" headerislabel="on"}%
 | *Line* | *Explanation* |
@@ -30,7 +37,7 @@
 
 (used to create attachment: example4.png)
 
----+ Example 4
+---
 
 %EDITTABLE{ format="| label | text, 40 |" }%
 |*Key*|*Value*|

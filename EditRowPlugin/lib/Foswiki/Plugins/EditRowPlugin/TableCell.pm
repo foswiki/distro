@@ -79,7 +79,7 @@ sub getCellName {
 }
 
 sub render {
-    my ( $this, $opts ) = @_;
+    my ( $this, $opts, $render_opts ) = @_;
 
     my $colDef = $opts->{col_defs}->[ $this->{number} - 1 ] || $defCol;
     my $text = $this->{text};
@@ -91,7 +91,7 @@ sub render {
     
     my $editor = Foswiki::Plugins::EditRowPlugin::Table::getEditor($colDef);
 
-    if ($opts->{for_edit} && $opts->{js} ne 'assumed') {
+    if ($opts->{for_edit} && ($opts->{js} && $opts->{js} ne 'assumed')) {
 	# JS is ignored or preferred, need manual edit controls
 	$text = $editor->htmlEditor($this, $colDef, $opts->{in_row}, defined $text ? $text : '');
 	$text = Foswiki::Plugins::EditRowPlugin::defend($text);
@@ -134,19 +134,21 @@ sub render {
 		    # Because we generate a TML table, we have no way to attach table meta-data
 		    # and row meta-data. So we attach it to the first cell in the table/row, and
 		    # move it to the right place when JS loads.
-		    if ($opts->{first_col}) {
+		    if ($render_opts->{need_tabledata}) {
+			my $tabledata = $this->{row}->{table}->getURLParams();
+			$data->{tabledata} = $tabledata;
+			push( @css_classes, 'erpJS_tabledata' );
+			$render_opts->{need_tabledata} = 0;
+		    }
+		    if ($render_opts->{need_trdata}) {
 			$data->{trdata} = $this->{row}->getURLParams();
 			push( @css_classes, 'erpJS_trdata' );
-			if ($opts->{first_row}) {
-			    my $tabledata = $this->{row}->{table}->getURLParams();
-			    $data->{tabledata} = $tabledata;
-			    push( @css_classes, 'erpJS_tabledata' );
-			}
+			$render_opts->{need_trdata} = 0;
 		    }
 		    # Add the cell data
 		    $data = $this->getURLParams(%$data);
 		    # Note: Any table row that has a cell with erpJS_cell will be made draggable
-		    if ($opts->{js} ne 'ignored') {
+		    if ($opts->{js} && $opts->{js} ne 'ignored') {
 			$sopts->{class} = join(' ', @css_classes) . ' ' . JSON::to_json($data);
 		    }
 		}

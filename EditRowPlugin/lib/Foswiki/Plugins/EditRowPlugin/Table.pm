@@ -260,7 +260,8 @@ sub render {
 	    || (!$editing &&
 		$opts->{with_controls} && $this->{attrs}->{disable} !~ /row/ ) ) );
 
-    $row_opts{first_row} = 1;
+    my %render_opts = (	need_tabledata => 1	);
+
     foreach my $row ( @{ $this->{rows} } ) {
 	my $isLard = ( $row->{isHeader} || $row->{isFooter} );
 	$n++ unless $isLard;
@@ -275,13 +276,13 @@ sub render {
 		push( @out,
 		      $real_row->render({ %row_opts,
 					  for_edit => 1,
-					  orient => $orientation}));
+					  orient => $orientation},
+					\%render_opts));
 	    }
 	}
 	else {
-	    push( @out, $row->render(\%row_opts));
+	    push( @out, $row->render(\%row_opts, \%render_opts));
 	}
-	$row_opts{first_row} = 0 unless $isLard;
     }
     if ($editing) {
 	if ($wholeTable && $this->{attrs}->{js} ne 'assumed') {
@@ -591,7 +592,7 @@ sub moveRow {
 	$this->{rows}->[$i]->{number} = $i + 1;
     }
     $this->{attrs}->{js} = 'rowmoved';
-    return $this->render({with_controls => 1});
+    return $this->render({with_controls => 1}, {});
 }
 
 # Action on edit cancelled

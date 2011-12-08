@@ -125,7 +125,7 @@ sub getURLParams {
 # with_controls - if we want row controls
 # js - assumed, preferred or ignored
 sub render {
-    my ( $this, $opts ) = @_;
+    my ( $this, $opts, $render_opts ) = @_;
     my $id        = $this->getID();
     my $addAnchor = 1;
     my $anchor    = '<a name="' . $this->getAnchor() . '"></a> ';
@@ -148,40 +148,41 @@ sub render {
         my $hdrs = $this->{table}->getLabelRow();
         my $col  = 0;
 	my @rows;
-	my $first_col = 1;
+	$render_opts->{need_trdata} = 1;
         foreach my $cell ( @{ $this->{cols} } ) {
 
             # get the column label
             my $hdr = $hdrs->{cols}->[$col];
             $hdr = $hdr->{text} if $hdr;
-            my $text = $cell->render({
-		col_defs => $opts->{col_defs},
-		in_row => $this,
-		for_edit => 1,
-		first_row => $opts->{first_row},
-		first_col => $first_col} );
+            my $text = $cell->render(
+		{
+		    col_defs => $opts->{col_defs},
+		    in_row => $this,
+		    for_edit => 1,
+		    js => $opts->{js}
+		},
+		$render_opts);
 
             push( @rows, "| $hdr|$text$anchor|$empties" );
             $anchor = '';
             $col++;
-	    $first_col  = 0;
         }
         if ($opts->{with_controls}) {
             push( @rows, "| $buttons ||$empties" );
         }
 	# The edit controls override the with_controls, so simply....
-	return join("\n", @rows);
+	my $s = join("\n", @rows);
+	return $s;
     }
 
     # Not for edit, or orientation horizontal, or JS required
     my $text;
 
     $opts->{in_row} = $this;
-    $opts->{first_col} = 1;
+    $render_opts->{need_trdata} = 1;
     foreach my $cell ( @{ $this->{cols} } ) {
 
-	$text = $cell->render($opts);
-	$opts->{first_col} = 0;
+	$text = $cell->render($opts, $render_opts);
 
 	# Add the row anchor for editing. It's added to the first non-empty
 	# cell or, failing that, the first cell. This is to minimise the
@@ -271,7 +272,8 @@ sub render {
 	    }
 	}
     }
-    return $this->{precruft} . join( '|', @cols ) . $this->{postcruft};
+    my $s = join( '|', @cols );
+    return $this->{precruft} . $s . $this->{postcruft};
 }
 
 1;
