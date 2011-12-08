@@ -11,6 +11,7 @@ our $NO_PREFS_IN_TOPIC = 1;
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
 
+    Foswiki::Func::registerRESTHandler( 'get', \&get );
     Foswiki::Func::registerRESTHandler( 'save', \&save );
 
     return 1;
@@ -46,6 +47,11 @@ sub commonTagsHandler {
 sub save {
     require Foswiki::Plugins::EditRowPlugin::Save;
     Foswiki::Plugins::EditRowPlugin::Save::process(@_);
+}
+
+sub get {
+    require Foswiki::Plugins::EditRowPlugin::Get;
+    Foswiki::Plugins::EditRowPlugin::Get::process(@_);
 }
 
 # Replace content with a marker to prevent it being munged by Foswiki

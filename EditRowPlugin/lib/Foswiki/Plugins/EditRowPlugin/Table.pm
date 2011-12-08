@@ -475,6 +475,42 @@ sub saveCell {
     return $urps->{CELLDATA};
 }
 
+# Get cell, row, column or entire table, depending on params
+sub getCellData {
+    my ($this, $urps) = @_;
+    my $row = $urps->{erp_active_row};
+    my $col = $urps->{erp_active_col};
+    my $d;
+    if (defined $row) {
+	if (defined $col) {
+	    $d = $this->{rows}->[ $row - 1 ]->{cols}->[ $col - 1 ]->{text};
+	} else {
+	    # This entire row
+	    $d = [];
+	    foreach my $col ( @{$this->{rows}->[ $row - 1 ]->{cols}} ) {
+		push(@$d, $col->{text});
+	    }
+	}
+    } elsif (defined $col) {
+	# This entire col
+	$d = [];
+	foreach my $row ( @{$this->{rows}} ) {
+	    push(@$d, $row->{cols}->[ $col - 1]->{text});
+	}
+    } else {
+	# Entire table (row major)
+	$d = [];
+	foreach my $row ( @{$this->{rows}} ) {
+	    my $c = [];
+	    foreach my $col ( @{$row->{cols}} ) {
+		push(@$c, $col->{text});
+	    }
+	    push(@$d, $c);
+	}
+    }
+    return $d;
+}
+
 # Save row (or table)
 sub saveData {
     my ($this, $urps ) = @_;

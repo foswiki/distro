@@ -310,7 +310,8 @@
         // because the row index may change if rows are moved/added/deleted
         submitdata: function(value, settings) {
             var sd = $.extend(
-		{ erp_action: "saveCell"},
+		{ erp_action: "saveCell",
+		  noredirect: 1 },
 		$(this).data('erp_data'),
 		$(this).closest('tr').data('erp_data'),
 		$(this).closest('table').data('erp_data'));

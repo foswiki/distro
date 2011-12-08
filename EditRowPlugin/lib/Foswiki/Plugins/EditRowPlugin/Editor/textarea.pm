@@ -47,7 +47,6 @@ sub jQueryMetadata {
 	$data->{rows} = $1 if $1 > 0;
 	$data->{cols} = $2 if $2 > 0;
     }
-    delete $data->{data}; # data comes from the tag
     delete $data->{size};
     return $data;
 }

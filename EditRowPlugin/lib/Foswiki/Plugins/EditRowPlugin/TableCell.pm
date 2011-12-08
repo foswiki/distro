@@ -91,7 +91,7 @@ sub render {
     
     my $editor = Foswiki::Plugins::EditRowPlugin::Table::getEditor($colDef);
 
-    if ($opts->{for_edit} && ($opts->{js} && $opts->{js} ne 'assumed')) {
+    if ($opts->{for_edit} && $opts->{js} ne 'assumed') {
 	# JS is ignored or preferred, need manual edit controls
 	$text = $editor->htmlEditor($this, $colDef, $opts->{in_row}, defined $text ? $text : '');
 	$text = Foswiki::Plugins::EditRowPlugin::defend($text);
@@ -148,14 +148,11 @@ sub render {
 		    # Add the cell data
 		    $data = $this->getURLParams(%$data);
 		    # Note: Any table row that has a cell with erpJS_cell will be made draggable
-		    if ($opts->{js} && $opts->{js} ne 'ignored') {
+		    if ( $opts->{js} ne 'ignored' ) {
 			$sopts->{class} = join(' ', @css_classes) . ' ' . JSON::to_json($data);
 		    }
 		}
 	    }
-	    #my $a = {};
-	    #$a->{class} = 'erpJS_container' unless $opts->{js} eq 'ignored';
-	    #$text = CGI::div($a, CGI::span( $sopts, " $text "));
 	    $text = CGI::span( $sopts, " $text ");
 	}
     }
@@ -171,7 +168,6 @@ sub getURLParams {
     my ($this, %more) = @_;
     return {
 	%more,
-	noredirect => 1,
 	erp_active_col => $this->{number} };
 }
 

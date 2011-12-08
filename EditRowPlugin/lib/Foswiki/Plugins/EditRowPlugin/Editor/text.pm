@@ -26,7 +26,12 @@ sub jQueryMetadata {
     my ( $cell, $colDef, $text ) = @_;
     my $data = $this->SUPER::jQueryMetadata(@_);
 
-    $data->{data} = $text;
+    # URL of rest handler that provides text
+    $data->{loadurl} = Foswiki::Func::getScriptUrl('EditRowPlugin', 'get', 'rest',
+						   %{$cell->{row}->{table}->getURLParams()},
+						   %{$cell->{row}->getURLParams()},
+						   %{$cell->getURLParams()});
+
     # JEditable "text" type requires "width" not "size"
     $data->{width} = $data->{size} . "em";
     $this->_addSaveButton($data);
