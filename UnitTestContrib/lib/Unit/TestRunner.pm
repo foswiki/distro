@@ -168,26 +168,33 @@ sub start {
     print "\nUnit test run Summary:\n";
     my $total = $passes;
     my $failed;
+    my $expected_failures_total = 0;
+    my $unexpected_passes_total = 0;
     if ( $failed = scalar @{ $this->{unexpected_passes} } ) {
         print "$failed unexpected pass" . ( $failed > 1 ? 'es' : '' ) . ":\n";
         print join( "\n", @{ $this->{unexpected_passes} } );
+        $unexpected_passes_total = $failed;
         $total += $failed;
     }
     if ( $failed = scalar @{ $this->{expected_failures} } ) {
         print "$failed expected failure" . ( $failed > 1 ? 's' : '' ) . ":\n";
         print join( "\n", @{ $this->{expected_failures} } );
+        $expected_failures_total = $failed;
         $total += $failed;
     }
     if ( $failed = scalar @{ $this->{failures} } ) {
+        my $unexpected_total = 0;
+
+        $total += $failed;
         print "\n$failed failure" . ( $failed > 1 ? 's' : '' ) . ":\n";
         print join( "\n---------------------------\n", @{ $this->{failures} } ),
           "\n";
 
-        $total += $failed;
-
-        if ( $total > 11 ) {
-            print
-              "\n---------------------------\n---++ Module Failure summary\n";
+        if ( $total > 0 ) {
+            print <<"HERE";
+----------------------------
+---++ Module Failure summary
+HERE
             foreach my $module (
                 sort {
                     $this->{unexpected_result}
@@ -195,14 +202,36 @@ sub start {
                 } keys( %{ $this->{unexpected_result} } )
               )
             {
-                print "   * $module has "
+                print "$module has "
                   . $this->{unexpected_result}{$module}
                   . " unexpected results (of "
-                  . $this->{tests_per_module}{$module} . ")\n";
+                  . $this->{tests_per_module}{$module} . "):\n";
+                $unexpected_total += $this->{unexpected_result}{$module};
+                foreach my $test ( @{ $this->{unexpected_passes} } ) {
+
+                    # SMELL: we should really re-arrange data structures to
+                    # avoid guessing which module the test belongs to...
+                    if ( $test =~ /^$module\b/ ) {
+                        $this->_print_unexpected_test( $test, 'P' );
+                    }
+                }
+                foreach my $test ( @{ $this->{failures} } ) {
+                    ($test) = split( /\n/, $test );
+
+                    # SMELL: we should really re-arrange data structures to
+                    # avoid guessing which module the test belongs to...
+                    if ( $test =~ /^$module\b/ ) {
+                        $this->_print_unexpected_test( $test, 'F' );
+                    }
+                }
             }
         }
 
-        print "$passes of $total test cases passed\n";
+        my $expected_passes = $total - $expected_failures_total;
+        print <<"HERE";
+$passes of $total test cases passed (expected $expected_passes of $total).
+    $unexpected_passes_total + $failed = $unexpected_total incorrect results from unexpected passes + failures
+HERE
         ::PRINT_TAP_TOTAL();
 
         return $failed;
@@ -211,6 +240,20 @@ sub start {
       . ( $passes == $total ? '' : "/$total" ) . ")\n";
     ::PRINT_TAP_TOTAL();
     return 0;
+}
+
+sub _print_unexpected_test {
+    my ( $this, $test, $sense ) = @_;
+    my $msg    = "   * $test ";
+    my $spaces = 79 - length($msg) - length($sense);
+
+    if ( $spaces > 0 ) {
+        $msg .= ' ' x $spaces;
+    }
+    $msg .= "$sense\n";
+    print $msg;
+
+    return;
 }
 
 sub runOneInNewProcess {
