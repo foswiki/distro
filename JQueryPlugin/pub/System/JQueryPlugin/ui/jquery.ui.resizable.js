@@ -573,8 +573,11 @@ $.ui.plugin.add("resizable", "alsoResize", {
 		};
 
 		if (typeof(o.alsoResize) == 'object' && !o.alsoResize.parentNode) {
+                        /*
 			if (o.alsoResize.length) { o.alsoResize = o.alsoResize[0]; _store(o.alsoResize); }
 			else { $.each(o.alsoResize, function (exp) { _store(exp); }); }
+                        */
+			$.each(o.alsoResize, function (i, exp) { _store(exp); }); 
 		}else{
 			_store(o.alsoResize);
 		}
@@ -610,7 +613,7 @@ $.ui.plugin.add("resizable", "alsoResize", {
 		};
 
 		if (typeof(o.alsoResize) == 'object' && !o.alsoResize.nodeType) {
-			$.each(o.alsoResize, function (exp, c) { _alsoResize(exp, c); });
+			$.each(o.alsoResize, function (i, exp, c) { _alsoResize(exp, c); });
 		}else{
 			_alsoResize(o.alsoResize);
 		}
@@ -630,7 +633,7 @@ $.ui.plugin.add("resizable", "alsoResize", {
 		if (self._revertToRelativePosition) {
 			self._revertToRelativePosition = false;
 			if (typeof(o.alsoResize) == 'object' && !o.alsoResize.nodeType) {
-				$.each(o.alsoResize, function (exp) { _reset(exp); });
+				$.each(o.alsoResize, function (i, exp) { _reset(exp); });
 			}else{
 				_reset(o.alsoResize);
 			}

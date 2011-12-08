@@ -1,4 +1,5 @@
 SUBDIRS=\
+  loader \
   autocomplete \
   bgiframe \
   blockui \

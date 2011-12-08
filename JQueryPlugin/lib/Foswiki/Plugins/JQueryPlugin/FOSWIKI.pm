@@ -66,7 +66,7 @@ sub init {
 'PUBURL, PUBURLPATH, SCRIPTSUFFIX, SCRIPTURL, SCRIPTURLPATH, SERVERTIME, SKIN, SYSTEMWEB, TOPIC, USERNAME, USERSWEB, WEB, WIKINAME, WIKIUSERNAME, NAMEFILTER';
         $prefs .= ', TWISTYANIMATIONSPEED'
           if $Foswiki::cfg{Plugins}{TwistyPlugin}
-              {Enabled};    # can't use context during init
+          {Enabled};    # can't use context during init
     }
 
     # init NAMEFILTER
