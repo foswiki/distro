@@ -67,7 +67,7 @@ loads the =topic= section of this topic, which expands to the topic list.
   "^%URLPARAM{"term" default="does not exist"}%.*"
   type="regex"
   scope="topic"
-  format="{\"label\":\"$topic\", \"webtopic\":\"$web.$topic\"}"
+  format="{\"label\":\"$web.$topic\", \"webtopic\":\"$web.$topic\"}"
   separator=","
   limit="%URLPARAM{"limit" default="10"}%"
   nonoise="on"
@@ -313,7 +313,7 @@ jQuery(function($){
 
 ---+++ Example
 %INCLUDE{"%TOPIC%" section="queryfetcher" ID="jqQueryExample" SOURCE="%TOPIC%" QUERY="parent.name"}%
-<input type="button" class="foswikiButton id="jqQueryExample" value="Click here" /> to get the parent of this topic asynchronously (should be '%QUERY{"parent.name"}%')
+<input type="button" class="foswikiButton" id="jqQueryExample" value="Click here" /> to get the parent of this topic asynchronously (should be '%QUERY{"parent.name"}%')
 
 ---++ Other selectors
 Server sections for some other selectors that are common in wiki applications.
