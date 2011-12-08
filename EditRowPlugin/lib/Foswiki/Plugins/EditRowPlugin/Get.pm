@@ -85,7 +85,11 @@ sub process {
     $response->header(
 	-status  => $status,
 	-type    => 'application/json',
-	-charset => $Foswiki::cfg{Site}{CharSet}
+	-charset => $Foswiki::cfg{Site}{CharSet},
+        # HTTP/1.0
+        -Pragma        => 'no-cache',
+        # HTTP/1.1
+        -Cache_Control => 'no-store,no-cache,must-revalidate,post-check=0,pre-check=0'
 	);
     if (!defined $result) {
 	$result = $mess || '';
