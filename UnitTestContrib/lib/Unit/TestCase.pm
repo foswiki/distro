@@ -458,18 +458,26 @@ sub annotate {
 
 =begin TML
 
----++ ObjectMethod expect_failure()
+---++ ObjectMethod expect_failure($reason)
 
 Flag that the test is expected to fail in the current environment. This
 is used for example on platfroms where tests are known to fail e.g. case
 sensitivity of filenames on Win32.
 
+If supplied, the test is annotated with =$reason= for why the failure is
+expected.
+
 =cut
 
 sub expect_failure {
-    my ($this) = shift;
-    my $tf = (defined $_[0]) ? $_[0] : 1;
-    $this->{expect_failure} = $tf;
+    my ($this, $reason) = shift;
+
+    if ($reason) {
+        $this->annotate($reason);
+    }
+    $this->{expect_failure} = 1;
+
+    return;
 }
 
 =begin TML

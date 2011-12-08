@@ -100,6 +100,279 @@ sub _onceOnlyChecks {
     $didOnlyOnceChecks = 1;
 }
 
+my %foswiki_things = (
+    'MongoDBPlugin' => sub {
+        my ($this) = @_;
+
+        return ( $this->check_plugin_enabled('MongoDBPlugin')
+              || $Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/
+              || $Foswiki::cfg{Store}{QueryAlgorithm}  =~ /MongoDB/ );
+    },
+    'ShortURLs' => sub {
+        return ( exists $Foswiki::cfg{ScriptUrlPaths}{view}
+              && defined $Foswiki::cfg{ScriptUrlPaths}{view}
+              && !( $Foswiki::cfg{ScriptUrlPaths}{view} =~ /view$/ ) );
+    },
+    'unicode' => sub {
+        return ( defined $Foswiki::cfg{Site}{CharSet}
+              && $Foswiki::cfg{Site}{CharSet} =~ /^utf-?\d{1,2}$/i );
+    },
+    'PlatformWindows' => sub {
+        return ( $Foswiki::cfg{OS} eq 'WINDOWS'
+              && ( $Foswiki::cfg{DetailedOS} ne 'cygwin' ) );
+    },
+    'SearchAlgorithmForking' => sub {
+        return ( $Foswiki::cfg{Store}{SearchAlgorithm} eq
+              'Foswiki::Store::SearchAlgorithms::Forking' );
+    }
+);
+
+=begin TML
+
+---++ ObjectMethod check_plugin_enabled($plugin) -> $boolean
+
+Checks to see if =$plugin= is enabled
+
+=cut
+
+sub check_plugin_enabled {
+    my ( $this, $plugin ) = @_;
+
+    # Many tests don't have a $session data member.
+    #return (
+    #    defined $this->{session}
+    #    ? $this->{session}->inContext( $plugin . 'Enabled' )
+    #    : $Foswiki::cfg{Plugins}{$plugin}{Enabled}
+    #);
+    return $Foswiki::cfg{Plugins}{$plugin}{Enabled};
+}
+
+=begin TML
+
+---++ ObjectMethod check_using($what) -> $boolean
+
+Checks to see if the Foswiki session under test is using a named feature(s),
+configuration profile(s) or plugin(s).
+
+See the =%foswiki_things= hash for the range of features/configuration profiles
+which can be checked
+
+   * =$what= - name (or arrayref of names) of feature(s), configuration
+     profile(s) or enabled plugin(s). When an arrayref is passed, =check_using()=
+     returns true if all are in use. Therefore =check_using(['a', 'b'])= is
+     logically equivalent to =check_using('a') && check_using('b')=
+
+Examples:
+<verbatim class="perl">
+# True if MongoDBPlugin is in use (enabled, and/or used as search/query algo)
+$this->check_using( 'MongoDBPlugin' );
+
+# True if both running on a windows OS AND search algo is forking
+$this->check_using( ['PlatformWindows', 'SearchAlgorithmForking'] );
+</verbatim>
+
+=cut
+
+sub check_using {
+    my ( $this, $what ) = @_;
+    my $result;
+
+    if ( ref($what) eq 'ARRAY' ) {
+        my $not_usingsomething;
+
+        foreach my $thing ( @{$what} ) {
+            $not_usingsomething ||= !$this->_check_using($thing);
+        }
+
+        $result = !$not_usingsomething;
+    }
+    else {
+        $result = $this->_check_using($what);
+    }
+
+    return $result;
+}
+
+sub _check_using {
+    my ( $this, $what ) = @_;
+    my $result;
+
+    if ( $what =~ /^[^:]+Plugin$/ ) {
+        $result = $this->check_plugin_enabled($what);
+    }
+    if ( !$result ) {
+        if ( exists $foswiki_things{$what} ) {
+            $result = $foswiki_things{$what}->($this);
+        }
+        else {
+            $this->assert( 0,
+                "Don't know how to check if we're using '$what'" );
+        }
+    }
+
+    return $result;
+}
+
+=begin TML
+
+---++ ObjectMethod check_dependency($what) -> $boolean
+
+Checks to see if a given dependency is present, optionally of a specified version
+
+This is a wrapper to =Foswiki::Configure::Dependency->check()=
+
+   * =$what= - a string (or arrayref of strings) specifying module(s) to check
+     for, optionally of specific version(s). The string(s) should be compatible
+     with BuildContrib's =DEPENDENCIES= file. When an arrayref is passed,
+     returns true if all dependencies are met. Therefore
+     =check_dependency(['a', 'b'])= is logically equivalent to
+     =check_dependency('a') && check_dependency('b')=
+
+Examples:
+<verbatim class="perl">
+$this->check_dependency('JSON');
+$this->check_dependency('CGI,=,3.43'),
+$this->check_dependency(['CGI,=,3.43','Foswiki,<,2.0']),
+</verbatim>
+
+=cut
+
+sub check_dependency {
+    my ( $this, $what ) = @_;
+    my $result;
+
+    if ( ref($what) eq 'ARRAY' ) {
+        my $not_usingsomething;
+
+        foreach my $thing ( @{$what} ) {
+            $not_usingsomething ||= !$this->_check_dependency($thing);
+        }
+
+        $result = !$not_usingsomething;
+    }
+    else {
+        $result = $this->check_dependency($what);
+    }
+
+    return $result;
+}
+
+sub _check_dependency {
+    my ( $this, $what ) = @_;
+    my $result;
+
+    # Eg. Foswiki::Plugins::ZonePlugin,>=3.1,perl
+    # TODO: type?
+    if ( $what =~ /^([^,]+)\s*(,\s*([^,]+,[^,]+))?/ ) {
+        require Foswiki::Configure::Dependency;
+        my ( $module, $version ) = ( $1, $3 );
+        my $type = $module =~ /^(Foswiki|TWiki)\b/ ? 'perl' : 'cpan';
+        my $dep =
+          defined $version
+          ? Foswiki::Configure::Dependency(
+            type    => $type,
+            module  => $module,
+            version => $version
+          )
+          : Foswiki::Configure::Dependency(
+            type   => $type,
+            module => $module
+          );
+
+        ($result) = $dep->check();
+    }
+    else {
+        $this->assert( 0, "Don't know how to check for module '$what'" );
+    }
+
+    return $result;
+}
+
+=begin TML
+
+---++ ObjectMethod expect_failure([$reason,] [%conditions])
+
+Flag that the test is expected to fail in the current environment. This
+is used for example on platfroms where tests are known to fail e.g. case
+sensitivity of filenames on Win32.
+
+   * =$reason=       - Optional. String with reason for why failure is expected.
+   * =%conditions=   - Optional. Hash of conditions for when the failure is
+                       expected. All conditions must be met. Keys:
+      * =using=      - String (or arrayref of strings) of named configuration
+                       profile(s), feature(s) or plugin(s) which must be in use
+                       for the failure to be expected. See =check_using()=
+      * =not_using=  - As with =using=, but inverted sense (expect failure when
+                       NOT using feature(s)/config(s)/plugin(s))
+      * =with_dep=   - String (or arrayref of strings) of module(s), optionally
+                       of specific version(s) which must be present for the
+                       failure to be expected. Same strings as each line in
+                       BuildContrib's DEPENDENCIES. See =check_dependency()=
+
+Examples:
+<verbatim class="perl">
+$this->expect_failure();
+$this->expect_failure('Feature not yet implemented');
+$this->expect_failure( using => 'ShortURLs' );
+$this->expect_failure( with_dep => 'Foswiki,<,1.1' );
+$this->expect_failure(
+    'Requires ADDTOZONE feature',
+    not_using   => 'ZonePlugin'
+    with_dep => 'Foswiki,<,1.1'
+);
+$this->expect_failure(
+    'Javascript and perl/Foswiki have different ideas about true & false',
+    using => 'MongoDBPlugin'
+);
+$this->expect_failure(
+    'Can\'t grep on windows',
+    using => ['PlatformWindows', 'SearchAlgorithmForking']
+);
+$this->expect_failure(
+    'CGI.pm 3.43 causes double-encoding when using utf-8',
+    using => 'unicode',
+    with_dep => 'CGI,=,3.43'
+);
+</verbatim>
+
+=cut
+
+sub expect_failure {
+    my ( $this, @args ) = @_;
+    my $reason = scalar(@args) % 2 ? shift(@args) : undef;
+
+    if ( scalar(@args) ) {
+        my %conditions = @args;
+        my $expect_failure;
+        foreach my $key ( keys %conditions ) {
+            $this->assert_matches( qr/^(using|not_using|with_dep)$/,
+                $key,
+                "Don't know how to apply condition $key in expect_failure()" );
+        }
+        if ( exists $conditions{using} ) {
+            $expect_failure ||= $this->check_using( $conditions{using} );
+        }
+        if ( exists $conditions{with_dep} ) {
+            $expect_failure ||=
+              $this->check_dependency( $conditions{with_dep} );
+        }
+        if ( exists $conditions{not_using} ) {
+            $expect_failure =
+              $this->check_using( $conditions{not_using} )
+              ? 0
+              : $expect_failure;
+        }
+        if ($expect_failure) {
+            $this->SUPER::expect_failure($reason);
+        }
+    }
+    else {
+        $this->SUPER::expect_failure($reason);
+    }
+
+    return;
+}
+
 # Override in subclasses to change the config on a per-testcase basis
 sub loadExtraConfig {
     my $this    = shift;

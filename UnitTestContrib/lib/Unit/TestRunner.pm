@@ -34,6 +34,8 @@ sub new {
             expected_failures => [],
             failures          => [],
             number_of_asserts => 0,
+            unexpected_result => {},
+            tests_per_module  => {}
         },
         $class
     );
@@ -166,29 +168,87 @@ sub start {
     print "\nUnit test run Summary:\n";
     my $total = $passes;
     my $failed;
+    my $expected_failures_total = 0;
+    my $unexpected_passes_total = 0;
     if ( $failed = scalar @{ $this->{unexpected_passes} } ) {
         print "$failed unexpected pass" . ( $failed > 1 ? 'es' : '' ) . ":\n";
         print join( "\n", @{ $this->{unexpected_passes} } );
+        $unexpected_passes_total = $failed;
         $total += $failed;
     }
     if ( $failed = scalar @{ $this->{expected_failures} } ) {
         print "$failed expected failure" . ( $failed > 1 ? 's' : '' ) . ":\n";
         print join( "\n", @{ $this->{expected_failures} } );
+        $expected_failures_total = $failed;
         $total += $failed;
     }
     if ( $failed = scalar @{ $this->{failures} } ) {
+        my $unexpected_total = 0;
+
+        $total += $failed;
         print "\n$failed failure" . ( $failed > 1 ? 's' : '' ) . ":\n";
         print join( "\n---------------------------\n", @{ $this->{failures} } ),
           "\n";
-        $total += $failed;
-        print "$passes of $total test cases passed\n";
+
+        if ( $total > 0 ) {
+            print <<"HERE";
+----------------------------
+---++ Module Failure summary
+HERE
+            foreach my $module (
+                sort {
+                    $this->{unexpected_result}
+                      ->{$a} <=> $this->{unexpected_result}->{$b}
+                } keys( %{ $this->{unexpected_result} } )
+              )
+            {
+                print "$module has "
+                  . $this->{unexpected_result}{$module}
+                  . " unexpected results (of "
+                  . $this->{tests_per_module}{$module} . "):\n";
+                $unexpected_total += $this->{unexpected_result}{$module};
+                foreach my $test ( @{ $this->{unexpected_passes} } ) {
+
+                    # SMELL: we should really re-arrange data structures to
+                    # avoid guessing which module the test belongs to...
+                    if ( $test =~ /^$module\b/ ) {
+                        $this->_print_unexpected_test( $test, 'P' );
+                    }
+                }
+                foreach my $test ( @{ $this->{failures} } ) {
+                    ($test) = split( /\n/, $test );
+
+                    # SMELL: we should really re-arrange data structures to
+                    # avoid guessing which module the test belongs to...
+                    if ( $test =~ /^$module\b/ ) {
+                        $this->_print_unexpected_test( $test, 'F' );
+                    }
+                }
+            }
+        }
+
+        my $expected_passes = $total - $expected_failures_total;
+        print <<"HERE";
+----------------------------
+$passes of $total test cases passed (expected $expected_passes of $total).
+$unexpected_passes_total + $failed = $unexpected_total incorrect results from unexpected passes + failures
+HERE
         ::PRINT_TAP_TOTAL();
+
         return $failed;
     }
     print "All tests passed ($passes"
       . ( $passes == $total ? '' : "/$total" ) . ")\n";
     ::PRINT_TAP_TOTAL();
     return 0;
+}
+
+sub _print_unexpected_test {
+    my ( $this, $test, $sense ) = @_;
+
+    print "   * $sense: $test\n";
+
+    return;
 }
 
 sub runOneInNewProcess {
@@ -234,7 +294,7 @@ sub runOneInNewProcess {
         unlink $tempfilename;
         print "*** Could not spawn new process for $suite: $error\n";
         return
-            'push( @{ $this->{failures} }, "'
+            'push( @{ $this->{failures} }, "' 
           . $suite . '\n'
           . quotemeta($error) . '" );';
     }
@@ -244,7 +304,7 @@ sub runOneInNewProcess {
             print "*** Error trying to run $suite\n";
             unlink $tempfilename;
             return
-                'push( @{ $this->{failures} }, "Process for '
+                'push( @{ $this->{failures} }, "Process for ' 
               . $suite
               . ' returned '
               . $returnCode . '" );';
@@ -392,10 +452,13 @@ sub runOne {
         $action .= "\n# $test\n    ";
         $tester->set_up($test);
         try {
+            $action .= '$this->{tests_per_module}->{\'' . $suite . '\'}++;';
             $tester->$test();
             $action .= '$passes++;';
             if ( $tester->{expect_failure} ) {
                 print "*** Unexpected pass\n";
+                $action .=
+                  '$this->{unexpected_result}->{\'' . $suite . '\'}++;';
                 $action .= 'push( @{ $this->{unexpected_passes} }, "'
                   . quotemeta($test) . '");';
             }
@@ -407,6 +470,8 @@ sub runOne {
                 $action .= 'push( @{ $this->{expected_failures} }, "';
             }
             else {
+                $action .=
+                  '$this->{unexpected_result}->{\'' . $suite . '\'}++;';
                 $action .= 'push( @{ $this->{failures} }, "';
             }
             $action .=
@@ -437,4 +502,3 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
-
