@@ -135,9 +135,10 @@ our %tests_in;
 sub list_tests {
     my ( $this, $suite ) = @_;
     die "No suite" unless $suite;
-    # We cache the test list because the test class is modified when we _gen_verification_functions
-    # and we don't want to list the lambda functions created therein
-    return @{$tests_in{$suite}} if (defined $tests_in{$suite});
+
+# We cache the test list because the test class is modified when we _gen_verification_functions
+# and we don't want to list the lambda functions created therein
+    return @{ $tests_in{$suite} } if ( defined $tests_in{$suite} );
     my @tests;
     my @verifies;
     my $clz = new Devel::Symdump($suite);
@@ -150,13 +151,12 @@ sub list_tests {
         }
     }
     my @fgs = $this->fixture_groups();
+
     # Generate a verify method for each combination of the different
     # fixture methods
     my @setups = ();
-    push(
-        @tests,
-        _gen_verification_functions( \@setups, $suite, \@verifies, @fgs )
-    );
+    push( @tests,
+        _gen_verification_functions( \@setups, $suite, \@verifies, @fgs ) );
     $tests_in{$suite} = \@tests;
     return @tests;
 }
@@ -204,7 +204,7 @@ Fail the test unless the $condition is true. $message is optional.
 
 sub assert {
     my ( $this, $bool, $mess ) = @_;
-    ::TAP($bool, $mess);        #lets hack in perl TAP output
+    ::TAP( $bool, $mess );    #lets hack in perl TAP output
     return 1 if $bool;
     $mess ||= "Assertion failed";
     $mess = join( "\n", @{ $this->{annotations} } ) . "\n" . $mess;
@@ -226,9 +226,8 @@ sub assert_equals {
         $this->assert( $expected eq $got,
             $mess || "Expected:'$expected'\n But got:'$got'\n" );
     }
-    elsif ( defined ($expected) && !defined($got) ) {
-        $this->assert( 0,
-            $mess || "Expected:'$expected'\n But got null\n" );
+    elsif ( defined($expected) && !defined($got) ) {
+        $this->assert( 0, $mess || "Expected:'$expected'\n But got null\n" );
     }
     else {
         $this->assert_null($got);
@@ -258,7 +257,8 @@ Fail the test unless $wot is undef. $message is optional.
 
 sub assert_null {
     my ( $this, $wot, $mess ) = @_;
-    $this->assert( !defined($wot), $mess || (defined($wot) && "Expected null value, got '$wot'") );
+    $this->assert( !defined($wot),
+        $mess || ( defined($wot) && "Expected null value, got '$wot'" ) );
 }
 
 =begin TML
@@ -288,7 +288,7 @@ Fail the test if $got eq $expected. $message is optional.
 
 sub assert_str_not_equals {
     my ( $this, $expected, $got, $mess ) = @_;
-    $this->assert_not_null($expected, "Expected value may not be null");
+    $this->assert_not_null( $expected, "Expected value may not be null" );
     $this->assert_not_null( $got,
         $mess || "Expected:'$expected'\n But got null value\n" );
     $this->assert( $expected ne $got,
@@ -413,7 +413,8 @@ sub assert_deep_equals {
 
     if ( UNIVERSAL::isa( $expected, 'ARRAY' ) ) {
         $this->assert( UNIVERSAL::isa( $got, 'ARRAY' ) );
-        $this->assert_equals( $#$expected, $#$got, 'Different size arrays: '.($mess||'') );
+        $this->assert_equals( $#$expected, $#$got,
+            'Different size arrays: ' . ( $mess || '' ) );
 
         for ( 0 .. $#$expected ) {
             $this->assert_deep_equals( $expected->[$_], $got->[$_], $mess,
@@ -470,7 +471,7 @@ expected.
 =cut
 
 sub expect_failure {
-    my ($this, $reason) = shift;
+    my ( $this, $reason ) = shift;
 
     if ($reason) {
         $this->annotate($reason);
@@ -500,12 +501,15 @@ sub assert_html_equals {
         result   => ''
     };
 
-    $mess ||= "$SEPARATOR_STRING Got as result:\n$a\n$SEPARATOR_STRING (end of result)\n$SEPARATOR_STRING But expected html equal string:\n$e\n$SEPARATOR_STRING (end of expected)";
+    $mess ||=
+"$SEPARATOR_STRING Got as result:\n$a\n$SEPARATOR_STRING (end of result)\n$SEPARATOR_STRING But expected html equal string:\n$e\n$SEPARATOR_STRING (end of expected)";
     $this->assert( $e, "$filename:$line\n$mess" );
     $this->assert( $a, "$filename:$line\n$mess" );
     $differ ||= new Unit::HTMLDiffer();
     if ( $differ->diff( $e, $a, $opts ) ) {
-        $this->assert( 0, "$filename:$line\n$mess\n$SEPARATOR_STRING Diff:\n$opts->{result}\n$SEPARATOR_STRING (end diff)\n" );
+        $this->assert( 0,
+"$filename:$line\n$mess\n$SEPARATOR_STRING Diff:\n$opts->{result}\n$SEPARATOR_STRING (end diff)\n"
+        );
     }
 }
 
@@ -523,7 +527,8 @@ sub assert_html_matches {
 
     $differ ||= new Unit::HTMLDiffer();
 
-    $mess ||= "$SEPARATOR_STRING Got as result:\n$a\n$SEPARATOR_STRING (end of result)\n$SEPARATOR_STRING But expected html match string:\n$e\n$SEPARATOR_STRING (end of expected)";
+    $mess ||=
+"$SEPARATOR_STRING Got as result:\n$a\n$SEPARATOR_STRING (end of result)\n$SEPARATOR_STRING But expected html match string:\n$e\n$SEPARATOR_STRING (end of expected)";
 
     my ( $package, $filename, $line ) = caller(0);
     unless ( $differ->html_matches( $e, $a ) ) {
@@ -540,17 +545,17 @@ The message is optional.
 
 =cut
 
-sub assert_json_equals { 
+sub assert_json_equals {
     my ( $this, $expected, $got, $mess ) = @_;
 
     require JSON;
     my $json = JSON->new->allow_nonref;
 
-    $this->assert_deep_equals(
-        $json->decode( $expected ),
-        $json->decode( $got ),
+    $this->assert_deep_equals( $json->decode($expected),
+        $json->decode($got),
         $mess || "Expected:'$expected'\n But got:'$got'\n" );
-} 
+}
+
 =begin TML
 
 ---+ ObjectMethod captureSTD(\&fn, ...) -> ($stdout, $stderr, $result)
@@ -569,19 +574,18 @@ sub captureSTD {
     my $proc = shift;
 
     require File::Temp;
-    my %tempDirOptions = (
-        CLEANUP => 1
-    );
-    if ($^O eq 'MSWin32') {
+    my %tempDirOptions = ( CLEANUP => 1 );
+    if ( $^O eq 'MSWin32' ) {
+
         #on windows, don't make a big old mess of c:\
         $ENV{TEMP} =~ /(.*)/;
         $tempDirOptions{DIR} = $1;
     }
-    my $tmpdir = File::Temp::tempdir( %tempDirOptions );
+    my $tmpdir     = File::Temp::tempdir(%tempDirOptions);
     my $stdoutfile = "$tmpdir/stdout";
     my $stderrfile = "$tmpdir/stderr";
 
-    my @params   = @_;
+    my @params = @_;
     my $result;
 
     undef $this->{stdout};
@@ -595,13 +599,16 @@ sub captureSTD {
           or die "Can't open temporary STDERR file $stderrfile: $!";
 
         $result = &$proc(@params);
-    } finally {
+    }
+    finally {
         my $f;
-        open($f, '<', $stdoutfile) || die "Capture failed to reopen $stdoutfile";
+        open( $f, '<', $stdoutfile )
+          || die "Capture failed to reopen $stdoutfile";
         local $/;
         $this->{stdout} = <$f>;
         close($f);
-        open($f, '<', $stderrfile) || die "Capture failed to reopen $stderrfile";
+        open( $f, '<', $stderrfile )
+          || die "Capture failed to reopen $stderrfile";
         local $/;
         $this->{stderr} = <$f>;
         close($f);

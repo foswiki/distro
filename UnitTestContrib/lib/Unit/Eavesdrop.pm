@@ -40,9 +40,9 @@ sub new {
 }
 
 sub finish {
-    my $this = shift;
+    my $this     = shift;
     my $baseName = delete $this->{baseName};
-    if ( $baseName ) {
+    if ($baseName) {
         local $^W = 0;
         eval "untie( *$baseName )";
         die $@ if $@;
@@ -86,13 +86,14 @@ sub PRINT {
 
     my $success;
     if ( $this->{principal} ) {
-        $fh = *{ $this->{principal} };
+        $fh      = *{ $this->{principal} };
         $success = print $fh @_;
     }
     else {
         if ($^W) {
-            # A real print would generate a warning from the perspective of the caller
-            my ($package, $filename, $line) = caller;
+
+      # A real print would generate a warning from the perspective of the caller
+            my ( $package, $filename, $line ) = caller;
             my $message = "print on closed filehandle ";
             $message .= $this->{baseName} if defined $this->{baseName};
             $message .= " at $filename line $line\n";
@@ -103,7 +104,7 @@ sub PRINT {
     # This module turns one print into many.
     # It is not practical to undo prints already completed if one of them fails
     # so try to complete the rest of them anyway.
-    # The return value is set conservatively - all prints must succeed 
+    # The return value is set conservatively - all prints must succeed
     # for the result value to indicate success
     foreach my $tee ( @{ $this->{tees} } ) {
         $fh = *{$tee};

@@ -141,7 +141,7 @@ sub _perform_request {
     local *STDOUT;
     open STDOUT, '>', \$out or die "Can't redirect STDOUT to \$out: $!";
     eval {
-        local %ENV = (%$env, FOSWIKI_ACTION => 'test' );
+        local %ENV = ( %$env, FOSWIKI_ACTION => 'test' );
         $Foswiki::engine->run();
     };
 
