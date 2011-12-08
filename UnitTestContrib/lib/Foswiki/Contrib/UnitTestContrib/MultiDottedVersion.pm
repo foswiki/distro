@@ -6,5 +6,4 @@ package Foswiki::Contrib::UnitTestContrib::MultiDottedVersion;
 our $VERSION = '$Rev: 1234 (2010-01-19) $';
 our $RELEASE = "1.23.4";
 
-
 1;

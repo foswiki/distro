@@ -17,12 +17,12 @@ our @ISA = qw( Foswiki::Request );
 
 sub new {
     my $class = shift;
-    my $this = $class->SUPER::new(@_);
+    my $this  = $class->SUPER::new(@_);
 
     # Taint everything
-    foreach my $k (@{$this->{param_list}}) {
-        foreach my $k (@{$this->{param_list}}) {
-            foreach (@{$this->{param}{$k}}) {
+    foreach my $k ( @{ $this->{param_list} } ) {
+        foreach my $k ( @{ $this->{param_list} } ) {
+            foreach ( @{ $this->{param}{$k} } ) {
                 $_ = TAINT($_) if defined $_;
             }
         }
