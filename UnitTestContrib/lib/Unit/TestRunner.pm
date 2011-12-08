@@ -207,7 +207,7 @@ HERE
                   . " unexpected results (of "
                   . $this->{tests_per_module}{$module} . "):\n";
                 $unexpected_total += $this->{unexpected_result}{$module};
-                foreach my $test ( @{ $this->{unexpected_passes} } ) {
+                foreach my $test ( sort( @{ $this->{unexpected_passes} } )) {
 
                     # SMELL: we should really re-arrange data structures to
                     # avoid guessing which module the test belongs to...
@@ -215,7 +215,7 @@ HERE
                         $this->_print_unexpected_test( $test, 'P' );
                     }
                 }
-                foreach my $test ( @{ $this->{failures} } ) {
+                foreach my $test ( sort( @{ $this->{failures} } )) {
                     ($test) = split( /\n/, $test );
 
                     # SMELL: we should really re-arrange data structures to
