@@ -229,8 +229,9 @@ HERE
 
         my $expected_passes = $total - $expected_failures_total;
         print <<"HERE";
+----------------------------
 $passes of $total test cases passed (expected $expected_passes of $total).
-    $unexpected_passes_total + $failed = $unexpected_total incorrect results from unexpected passes + failures
+$unexpected_passes_total + $failed = $unexpected_total incorrect results from unexpected passes + failures
 HERE
         ::PRINT_TAP_TOTAL();
 
@@ -244,14 +245,8 @@ HERE
 
 sub _print_unexpected_test {
     my ( $this, $test, $sense ) = @_;
-    my $msg    = "   * $test ";
-    my $spaces = 79 - length($msg) - length($sense);
 
-    if ( $spaces > 0 ) {
-        $msg .= ' ' x $spaces;
-    }
-    $msg .= "$sense\n";
-    print $msg;
+    print "   * $sense: $test\n";
 
     return;
 }
