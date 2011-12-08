@@ -1,0 +1,98 @@
+%META:TOPICINFO{author="ProjectContributor" date="1319452868" format="1.1" version="5"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+!! %TOPIC%
+%JQPLUGINS{"loader"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+This plugin allows to delay rendering parts of a page that are loaded later on asynchronously
+and patched into the page.
+%ENDSECTION{"summary"}%
+
+%TOC%
+
+---++ Usage
+
+Add the =%<nop>JQREQUIRE{"loader"}%= macro to the page that you want to use this module on.
+Then add the ==jqLoader== css class to the div (or verbatim) element which will serve as
+a container for the content to be loaded. Any ==jqLoader== container requires either
+an ==url== or a ==section== parameter to specify the location from where to load the content.
+
+Parameter are specified using JQueryMetadata, as in 
+
+<verbatim class="html">
+<div class="jqLoader {key:'value', ....}"></div>
+</verbatim>
+
+| *Parameter* | *Description* | *Default* |
+| url | the full url from where the content, e.g. =url:'%SCRIPTURL{"view"}%/MyWeb/MyTopic?section=mysection;skin=text'= | |
+| section | the ... | |
+| mode | specify whether the content is either loaded automatically or by clicking on the container; \
+         possible values: =auto=, =manual= | =auto= |
+| placeholder | the image to be displayed as long as the content hasn't been loaded \
+              | <img src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/spinner.gif' width='16' height='16' /> |
+| effect | the effect used when showing the loaded content; possible values are: show, fade, slide, blind, clip, drop, explode, fold, puff, pulsate, highlight | =fade= |
+| effectspeed | the effect speed in milliseconds used in animated display modes | 500 |
+| effectopts | additional options for the selected =effect=; possible values vary depending on the actual effect being used | |
+| delay | additional time in miliseconds to delay fetching the content from the content; specifying =0= means load the content immediately; any other value will wait that time until issuing the request | 0 |
+| onload | a !JavaScript function called when the content has been loaded | |
+| beforeload | a !JavaScript function called before the content is requested | |
+| finished | a !JavaScript function called when the content has been loaded and displayed on the page | |
+
+The =jqLoader= element is able to receive !JavaScript events and process them accordingly. Similarly these
+events can be used to hook your own callbacks to be processed when they are fired.
+
+| *Event* | *Description* |
+| refresh.jqLoader | when triggered will reload the content from the backend |
+| beforeload.jqLoader | is triggered before requesting the content from the backend (see =beforeload= parameter above) |
+| onload.jqLoader | is triggered when the content has been successfully been loaded (see =onload= parameter above) |
+| finished.jqLoader | is triggered when content has been loaded and finally been displayed on the page (see =finished= parameter above) |
+
+---++ Examples
+
+<verbatim class="tml">
+%JQREQUIRE{"loader"}%
+<verbatim class="jqLoader {section:'recentchanges', effect:'fade'}" id="myLoader">
+%STARTSECTION{"recentchanges"}%<!-- -->
+%SEARCH{
+    "'1'" 
+    web="%BASEWEB%" 
+    type="query" 
+    nonoise="on" 
+    order="modified" 
+    reverse="on"
+    limit="10"
+    format="<p class='foswikiSearchResult'>[[$web.$topic]] $date - $rev - $wikiusername</p>"
+}%
+<!-- -->%ENDSECTION{"recentchanges"}%
+</verbatim>
+</verbatim>
+
+... if installed:
+
+%JQREQUIRE{"loader"}%
+<div class="jqLoader {section:'recentchanges', effect:'%URLPARAM{"effect" default="fade"}%'}" id="myLoader"></div>
+
+<div class="foswikiLeft">
+  <label for="effect"><b>Effect:</b></label>
+  <select id="effect" name="effect" class="foswikiSelect">
+  %FORMAT{
+    "blind, clip, drop, explode, fade, fold, highlight, puff, pulsate, show, slide"
+    type="string"
+    format="<option $percntIF{\"'%URLPARAM{"effect" default="fade"}%'='$item'\" then=\"selected\"}$percnt>$item</option>"
+  }%
+  </select>
+  &nbsp;
+</div>
+%BUTTON{
+  "%MAKETEXT{"Refresh"}%" 
+  icon="arrow_refresh" 
+  onclick="jQuery('#myLoader').trigger('refresh', {effect: jQuery('#effect').val()});return false;"
+}%
+%CLEAR%
+
