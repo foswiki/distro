@@ -13,6 +13,7 @@ lib/Foswiki/Plugins/EditRowPlugin/Editor/select.pm 0644
 lib/Foswiki/Plugins/EditRowPlugin/Editor/text.pm 0644
 lib/Foswiki/Plugins/EditRowPlugin/Editor/textarea.pm 0644
 lib/Foswiki/Plugins/EditRowPlugin/JQuery.pm 0644
+lib/Foswiki/Plugins/EditRowPlugin/Get.pm 0644
 lib/Foswiki/Plugins/EditRowPlugin/Save.pm 0644
 lib/Foswiki/Plugins/EditRowPlugin/Table.pm 0644
 lib/Foswiki/Plugins/EditRowPlugin/TableCell.pm 0644
