@@ -151,8 +151,8 @@ sub verify_view {
         );
         $this->assert( s/([?;&]t=)\d+/${1}0/g,
             'Failed to replace timestamp in page URL with dummy (0)' );
-       # Do *not* assert the removal of SERVERTIME; it is only present
-       # if the JQueryPlugin::FOSWIKI plugin is installed and enabled.
+	# Do *not* assert the removal of SERVERTIME; it is only present
+	# if the JQueryPlugin::FOSWIKI plugin is installed and enabled.
         s/<meta[^>]*?foswiki\.SERVERTIME"[^>]*?>//gi;
 
         # There may not be TWISTY usage; so no need to assert, but IDs need

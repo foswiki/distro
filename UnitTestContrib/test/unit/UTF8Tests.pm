@@ -11,12 +11,16 @@
 # to have to work out how to re-initialise Foswiki for each test)
 #
 package UTF8Tests;
-use FoswikiFnTestCase;
+use strict;
+use warnings;
+use utf8;
+
+use Unicode::UCD();
+use Benchmark qw( :hireswallclock);
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
-
-use Foswiki;
+use Foswiki();
 
 sub DISABLEtest_urlEncodeDecode {
     my $this = shift;
@@ -325,4 +329,129 @@ sub segfaulting_urlDecode {
     return $text;
 }
 
+=begin TML
+On my Debian wheezy perl 5.14 environment the results are:
+    UTF8Tests::test_timing_maths_int_UCD
+Timing += Unicode::UCD::num(n)
+    0.0964899 wallclock secs ( 0.10 usr +  0.00 sys =  0.10 CPU) @ 120000.00/s (n=12000)
+    UTF8Tests::test_timing_maths_int
+Timing += n
+    0.089103 wallclock secs ( 0.09 usr +  0.00 sys =  0.09 CPU) @ 7222222.22/s (n=650000)
+    UTF8Tests::test_timing_maths_real_UCD
+Timing =~ /([\d+.-])/; += Unicode::UCD::num(..)
+    0.10401 wallclock secs ( 0.10 usr +  0.00 sys =  0.10 CPU) @ 50000.00/s (n=5000)
+    UTF8Tests::test_timing_maths_real
+Timing += n.1
+    0.116107 wallclock secs ( 0.11 usr +  0.00 sys =  0.11 CPU) @ 4545454.55/s (n=500000)
+
+So, for an outrageously trivial loop, adding:
+   * pos.ints with UCD is ~ 60 times slower than without
+   * realnums with UCD is ~ 90 times slower than without, but the test is
+     probably disadvantaging UCD with an inefficient implementation
+=cut
+
+sub test_timing_maths_real_UCD {
+    my ($this) = @_;
+
+    if ( defined &Unicode::UCD::num ) {
+        my $numcycles = 5000;
+        my $rev       = 0;
+        my @numbers   = map { $_ + 0.1 } ( 0 .. $numcycles );
+        my $benchmark = timeit(
+            $numcycles,
+            sub {
+                pop(@numbers) =~ /^(|-)?(\d+)(\.(\d+))?$/;
+                my $num = $1 . Unicode::UCD::num($2);
+
+                if ( defined $4 ) {
+                    $num .= '.' . Unicode::UCD::num($4);
+                }
+                $rev += $num;
+            }
+        );
+
+        print "Timing =~ /([\\d+\.-])/; += Unicode::UCD::num(..)\n\t"
+          . timestr($benchmark) . "\n";
+    }
+    else {
+        print STDERR
+"SKIPPED test_timing_maths_int_UCD_regex, you need a newer Unicode::UCD (or perl >= 5.14)\n";
+    }
+
+    return;
+}
+
+sub test_timing_maths_real {
+    my ($this) = @_;
+
+    if ( defined &Unicode::UCD::num ) {
+        my $numcycles = 500000;
+        my $rev       = 0;
+        my @numbers   = map { $_ + 0.1 } ( 0 .. $numcycles );
+        my $benchmark = timeit(
+            $numcycles,
+            sub {
+                $rev += pop(@numbers);
+            }
+        );
+
+        print "Timing += n.1\n\t" . timestr($benchmark) . "\n";
+    }
+    else {
+        print STDERR
+"SKIPPED test_timing_maths_real, you need a newer Unicode::UCD (or perl >= 5.14)\n";
+    }
+
+    return;
+}
+
+sub test_timing_maths_int_UCD {
+    my ($this) = @_;
+
+    if ( defined &Unicode::UCD::num ) {
+        my $numcycles = 12000;
+        my $rev       = 0;
+        my @numbers   = ( 0 .. $numcycles );
+        my $benchmark = timeit(
+            $numcycles,
+            sub {
+                $rev += Unicode::UCD::num( pop(@numbers) );
+            }
+        );
+
+        print "Timing += Unicode::UCD::num(n)\n\t" . timestr($benchmark) . "\n";
+    }
+    else {
+        print STDERR
+"SKIPPED test_timing_maths_int_UCD, you need a newer Unicode::UCD (or perl >= 5.14)\n";
+    }
+
+    return;
+}
+
+sub test_timing_maths_int {
+    my ($this) = @_;
+
+    if ( defined &Unicode::UCD::num ) {
+        my $numcycles = 650000;
+        my $rev       = 0;
+        my @numbers   = ( 0 .. $numcycles );
+        my $benchmark = timeit(
+            $numcycles,
+            sub {
+                $rev += pop(@numbers);
+            }
+        );
+
+        print "Timing += n\n\t" . timestr($benchmark) . "\n";
+    }
+    else {
+        print STDERR
+"SKIPPED test_timing_maths_int, you need a newer Unicode::UCD (or perl >= 5.14)\n";
+    }
+
+    return;
+}
+
+1;
 1;

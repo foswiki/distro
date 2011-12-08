@@ -62,7 +62,7 @@ to add extra stuff to Foswiki::cfg.
 sub loadExtraConfig {
     my $this = shift;
     $this->SUPER::loadExtraConfig(@_);
-
+    
     $Foswiki::cfg{Store}{Implementation}    = "Foswiki::Store::RcsLite";
     $Foswiki::cfg{RCS}{AutoAttachPubFiles}  = 0;
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
