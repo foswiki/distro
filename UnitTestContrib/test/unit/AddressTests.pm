@@ -360,11 +360,10 @@ sub test_nothing {
 sub test_roundtrips {
     my ($this) = @_;
 
-=pod
     $this->gendata( \%test_roundtrip_range );
     my %test_range = $this->gen_roundtrip_range_tests( \%test_roundtrip_range );
-    
-    while ( my ( $testname, $testitem ) = each ( %test_range ) ) {
+
+    while ( my ( $testname, $testitem ) = each(%test_range) ) {
         my %extraopts;
         my $parsedaddrObj;
 
@@ -377,11 +376,11 @@ sub test_roundtrips {
         );
 
         print STDERR "Testing: $testname\n" if TRACE;
-        $this->assert( $parsedaddrObj->equiv( $testitem->{addrObj} ), $testname );
+        $this->assert( $parsedaddrObj->equiv( $testitem->{addrObj} ),
+            $testname );
         $parsedaddrObj->finish();
         $testitem->{addrObj}->finish();
     }
-=cut
 
     return;
 }
@@ -391,22 +390,20 @@ sub gen_testspec_fns {
     my %tests;
 
     while ( my ( $testname, $test ) = each %testspec ) {
-        my $addrObj = Foswiki::Address->new( %{ $test->{atoms} } );
-        my $fn      = __PACKAGE__ . '::test_' . $testname;
-        my %extraopts;
+        my $fn = __PACKAGE__ . '::test_' . $testname;
 
         no strict 'refs';
         *{$fn} = sub {
-
-            my $parsedaddrObj = Foswiki::Address->new(
-                string => $test->{string},
-                %extraopts
-            );
+            my $addrObj = Foswiki::Address->new( %{ $test->{atoms} } );
+            my $parsedaddrObj =
+              Foswiki::Address->new( string => $test->{string} );
 
             if ( $test->{expectfail} ) {
                 $this->expect_failure();
             }
-            print STDERR "Parsing \"$test->{string}\", expecting: " . Data::Dumper->Dump([$parsedaddrObj]) if TRACE;
+            print STDERR "Parsing \"$test->{string}\", expecting: "
+              . Data::Dumper->Dump( [$parsedaddrObj] )
+              if TRACE;
             $this->assert( $parsedaddrObj->equiv($addrObj),
                     'Parsed '
                   . $parsedaddrObj->stringify()
@@ -457,9 +454,12 @@ sub gen_roundtrip_range_tests {
                                         or ( defined $topic ) )
                                   )
                                 {
-                                    if (    defined $tompath
-                                        and ref($tompath) eq 'ARRAY'
-                                        and not scalar( @{$tompath} ) )
+                                    if (
+                                        defined $tompath
+                                        and (  ref($tompath) ne 'ARRAY'
+                                            or not scalar( @{$tompath} )
+                                            or not $topic )
+                                      )
                                     {
                                         $tompath = undef;
                                     }

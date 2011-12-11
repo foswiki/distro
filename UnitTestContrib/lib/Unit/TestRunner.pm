@@ -479,7 +479,14 @@ sub runOne {
               quotemeta($test) . '\\n' . quotemeta( $e->stringify() ) . '" );';
         };
         $tester->tear_down($test);
-        _finish_singletons() if CHECKLEAK;
+        if (CHECKLEAK) {
+            _finish_singletons();
+
+            #require Devel::FindRef;
+            #foreach my $s (@Foswiki::Address::THESE) {
+            #    print STDERR Devel::FindRef::track($s);
+            #}
+        }
     }
     return $action;
 }
