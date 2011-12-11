@@ -509,9 +509,14 @@ sub parse {
         };
     }
     %opts = ( %{ $this->{parseopts} }, %opts );
+    ASSERT(
+        ( !defined $opts{rev} || $opts{rev} =~ /^[-\+]?\d+$/ ),
+        "rev: '" . ( $opts{rev} ? $opts{rev} : 'undef' ) . "' is numeric"
+    ) if DEBUG;
     ASSERT( $opts{isA} or defined $opts{existAs} ) if DEBUG;
-    $path =~ s/(\@([-\+]?\d+))$//;
-    $this->{rev} = $2;
+    if ( $path =~ s/\@([-\+]?\d+)$// ) {
+        $this->{rev} = $1;
+    }
 
     # if necessary, populate webpath from web parameter
     if ( not $opts{webpath} and $opts{web} ) {
@@ -750,11 +755,11 @@ sub _atomiseAsWeb {
 
 sub _atomiseAsTopic {
     my ( $this, $that, $path, $opts ) = @_;
+    ASSERT($path) if DEBUG;
     my @parts = split( /[\.\/]/, $path );
     my $nparts = scalar(@parts);
 
     print STDERR "_atomiseAsTopic(): path: $path, nparts: $nparts\n" if TRACE2;
-    ASSERT($path) if DEBUG;
     if ( $nparts == 1 ) {
         if (    $opts->{webpath}
             and ref( $opts->{webpath} ) eq 'ARRAY'
@@ -876,7 +881,7 @@ sub _atomiseAsTOM {
         $/x
       )
     {
-        my $topic = $2;
+        my $webtopicrev = $2;
         my @tompath;
         my $doneselector;
         my $doneaccessor;
@@ -962,9 +967,9 @@ sub _atomiseAsTOM {
             push( @tompath, $14 );
         }
         $that->{tompath} = \@tompath;
-        if ($topic) {
+        if ($webtopicrev) {
             my $refAddr = Foswiki::Address->new(
-                string  => $topic,
+                string  => $webtopicrev,
                 isA     => 'topic',
                 webpath => $opts->{webpath},
                 web     => $opts->{web}
@@ -974,6 +979,12 @@ sub _atomiseAsTOM {
             $that->{webpath} = $refAddr->{webpath};
             $that->{topic}   = $refAddr->{topic};
             $that->{rev}     = $refAddr->{rev};
+            ASSERT(
+                ( !defined $that->{rev} || $that->{rev} =~ /^[-\+]?\d+$/ ),
+                "rev '"
+                  . ( defined $that->{rev} ? $that->{rev} : 'undef' )
+                  . "' is numeric"
+            ) if DEBUG;
         }
         else {
             $that->{webpath} = $opts->{webpath};
@@ -1473,6 +1484,12 @@ sub isValid {
         else {
             $this->{isA} = {};
         }
+        ASSERT(
+            ( !defined $this->{rev} || $this->{rev} =~ /^[-\+]?\d+$/ ),
+            "rev '"
+              . ( defined $this->{rev} ? $this->{rev} : 'undef' )
+              . "' is numeric"
+        ) if DEBUG;
     }
 
     return $this->{type};
