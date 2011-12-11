@@ -15,7 +15,7 @@ basic types like hashes and arrarys
 =cut
 
 #lets only load the serialiser once per execution
-our %serialisers = ();
+my %serialisers = ();
 
 #should this really be a register/request?
 
@@ -78,6 +78,9 @@ sub getSerialiser {
     my $cereal;
     $cereal = getSerialiser( $session, 'Simplified' ) if $@;
 
+    # Devel::Leak::Object implies we're leaking Eg. Foswiki::Serialise::Embedded
+    # objects here, but they're just singletons we let hang around for minor
+    # perf reasons. See Item11349
     $cereal = $module->new() if ( not defined($cereal) );
     $serialisers{$originalstyle} = $cereal;
     return $cereal;
@@ -117,6 +120,29 @@ sub convertMeta {
     }
 
     return $meta;
+}
+
+=begin TML
+
+---++ StaticMethod finish
+
+Finishes all instantiated serialisers. There should only be at most one of each
+serialiser instantiated at any given time, so you normally wouldn't want to call
+this, except perhaps from the unit test framework; see Item11349.
+
+=cut
+
+sub finish {
+    my ($this) = @_;
+
+    while ( my ( $name, $cereal ) = each %serialisers ) {
+        if ( $cereal->can('finish') ) {
+            $cereal->finish();
+        }
+        delete $serialisers{$name};
+    }
+
+    return;
 }
 
 1;

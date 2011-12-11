@@ -126,7 +126,7 @@ sub statistics {
         my $it   = $root->eachWeb();
         while ( $it->hasNext() ) {
             my $w = $it->next();
-            next unless $Foswiki::WebFilter::user->ok( $session, $w );
+            next unless Foswiki::WebFilter->user()->ok( $session, $w );
             push( @weblist, $w );
         }
     }

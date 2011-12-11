@@ -471,8 +471,8 @@ sub getListOfWebs {
                     while ( $it->hasNext() ) {
                         my $w = $prefix . $it->next();
                         next
-                          unless $Foswiki::WebFilter::user_allowed->ok(
-                            $session, $w );
+                          unless Foswiki::WebFilter->user_allowed()
+                          ->ok( $session, $w );
                         $w = Foswiki::Sandbox::untaint( $w,
                             \&Foswiki::Sandbox::validateWebName );
                         ASSERT($web) if DEBUG;
@@ -503,7 +503,7 @@ sub getListOfWebs {
             while ( $it->hasNext() ) {
                 my $w = $session->{webName} . '/' . $it->next();
                 next
-                  unless $Foswiki::WebFilter::user_allowed->ok( $session, $w );
+                  unless Foswiki::WebFilter->user_allowed()->ok( $session, $w );
                 $w = Foswiki::Sandbox::untaint( $w,
                     \&Foswiki::Sandbox::validateWebName );
                 push( @tmpWebs, $w );

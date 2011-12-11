@@ -500,7 +500,7 @@ sub _renameWeb {
         while ( $it->hasNext() ) {
             my $subweb = $it->next();
             require Foswiki::WebFilter;
-            next unless $Foswiki::WebFilter::public->ok( $session, $subweb );
+            next unless Foswiki::WebFilter->public()->ok( $session, $subweb );
             _leaseContents( $session, $info, $oldWebObject->web . '/' . $subweb,
                 $confirm );
         }
@@ -639,7 +639,7 @@ sub _renameWeb {
     while ( $it->hasNext() ) {
         my $subweb = $it->next();
         require Foswiki::WebFilter;
-        next unless $Foswiki::WebFilter::public->ok( $session, $subweb );
+        next unless Foswiki::WebFilter->public()->ok( $session, $subweb );
         _releaseContents( $session, "$newWeb/$subweb" );
     }
 

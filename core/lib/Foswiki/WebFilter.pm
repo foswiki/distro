@@ -4,6 +4,11 @@ package Foswiki::WebFilter;
 use strict;
 use warnings;
 
+# PH made these lazy getters rather than globals in Item11349
+my $public;
+my $user;
+my $user_allowed;
+
 #TODO: documentme
 #TODO: should this be converted to a FilterIterator?
 
@@ -49,9 +54,35 @@ sub ok {
     return 1;
 }
 
-our $public       = new Foswiki::WebFilter('public');
-our $user         = new Foswiki::WebFilter('user');
-our $user_allowed = new Foswiki::WebFilter('user,allowed');
+sub public {
+    my ($class) = @_;
+
+    if ( !defined $public ) {
+        $public = $class->new('public');
+    }
+
+    return $public;
+}
+
+sub user {
+    my ($class) = @_;
+
+    if ( !defined $public ) {
+        $public = $class->new('user');
+    }
+
+    return $public;
+}
+
+sub user_allowed {
+    my ($class) = @_;
+
+    if ( !defined $public ) {
+        $public = $class->new('user,allowed');
+    }
+
+    return $public;
+}
 
 1;
 __END__
