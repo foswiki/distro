@@ -511,7 +511,9 @@ sub parse {
     %opts = ( %{ $this->{parseopts} }, %opts );
     ASSERT(
         ( !defined $opts{rev} || $opts{rev} =~ /^[-\+]?\d+$/ ),
-        "rev: '" . ( $opts{rev} ? $opts{rev} : 'undef' ) . "' is numeric"
+        "rev: '"
+          . ( defined $opts{rev} ? $opts{rev} : 'undef' )
+          . "' is numeric"
     ) if DEBUG;
     ASSERT( $opts{isA} or defined $opts{existAs} ) if DEBUG;
     if ( $path =~ s/\@([-\+]?\d+)$// ) {
