@@ -31,7 +31,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
-   * Foswiki 1.1.4-RC2 was built 5 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 139 fixes and 27 enhancements. jQuery has been updated to 1.6.4.
+   * Foswiki 1.1.4-RC2 was built 5 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 139 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
 
 ---++ Pre-installed Extensions
 
@@ -130,7 +130,7 @@ users.
 
 ---+++ Major JQuery changes
 
-   * Foswiki has been updated to include JQuery 1.6.4, and this is now the default version of JQuery.  After installing Foswiki 1.1.4, be sure to visit =bin/configure= and verify that the JQuery Plugin is configured to use this version.
+   * Foswiki has been updated to include JQuery 1.7.1, and this is now the default version of JQuery.  After installing Foswiki 1.1.4, be sure to visit =bin/configure= and verify that the JQuery Plugin is configured to use this version.
    * The JQuery Autocomplete plugin has been replaced by the *incompatible* JQueryUI Autocomplete widget.  If your site has implemented forms using the old version of Autocomplete, they will not work until converted to the new API.  See http://foswiki.org/Support/JQueryMigrationGuide
    * The JQuery Textboxtlist plugin has been updated with an incompatible version.  See the above referenced !JQueryMigrationGuide for details.
    * The JQuery Chili syntax highlighting plugin is incompatible with Firefox 7 and Safari Rev. 6-17-2011.
@@ -1122,7 +1122,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10136][Item10136]] | Add module path to the plugin diagnostics - displays only for admin users. |
 | [[%BUGS%/Item10265][Item10265]] | Username field in Login is left-aligned in Internet Explorer |
 | [[%BUGS%/Item10288][Item10288]] | Use of alt-shift-s =save= accesskey while in WYSIWYG fullscreen looses changes |
-| [[%BUGS%/Item10302][Item10302]] | Update to JQuery 1.6.4 and make it the default version |
+| [[%BUGS%/Item10302][Item10302]] | Update to JQuery 1.7.1 and make it the default version |
 | [[%BUGS%/Item10438][Item10438]] | lighttpd incompatibility - found in viewfile, but could be there for other things too |
 | [[%BUGS%/Item10449][Item10449]] | Form with all hidden fields should be hidden in view |
 | [[%BUGS%/Item10468][Item10468]] | Up and Down Arrow-Keys not working with Firefox 4 |
