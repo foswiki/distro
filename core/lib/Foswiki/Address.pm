@@ -1063,106 +1063,108 @@ The output of =stringify()= is understood by =parse()=, and vice versa.
 sub stringify {
     my ( $this, %opts ) = @_;
 
-    ASSERT( $this->{web} or ref( $this->{webpath} ) eq 'ARRAY' ) if DEBUG;
+    ASSERT( $this->isValid(), 'valid address' ) if DEBUG;
 
     # If there's a valid address; and check that we haven't already computed
     # the stringification before with the same opts
     if (
-        $this->isValid()
-        and (
-            not $this->{stringified}
-            or (    $opts{webseparator}
-                and $opts{webseparator} ne $this->{stringifiedwebsep} )
-            or (    $opts{topicseparator}
-                and $opts{topicseparator} ne $this->{stringifiedtopicsep} )
-        )
+        not $this->{stringified}
+        or (    $opts{webseparator}
+            and $opts{webseparator} ne $this->{stringifiedwebsep} )
+        or (    $opts{topicseparator}
+            and $opts{topicseparator} ne $this->{stringifiedtopicsep} )
       )
     {
         $this->{stringifiedwebsep} = $opts{webseparator}
           || '/';
         $this->{stringifiedtopicsep} = $opts{topicseparator}
           || '.';
-        $this->{stringified} =
-          join( $this->{stringifiedwebsep}, @{ $this->{webpath} } );
-        if ( $this->{topic} ) {
-            $this->{stringified} .=
-              $this->{stringifiedtopicsep} . $this->{topic};
-            if ( $this->{tompath} ) {
-                ASSERT( ref( $this->{tompath} ) eq 'ARRAY'
-                      and scalar( @{ $this->{tompath} } ) )
-                  if DEBUG;
-                print STDERR 'tompath:    ' . Dumper( $this->{tompath} )
-                  if TRACEATTACH;
-                print STDERR 'attachment: ' . Dumper( $this->{attachment} )
-                  if TRACEATTACH;
-                ASSERT(
-                         $this->{tompath}->[0] ne 'attachment'
-                      or not $this->{tompath}->[1]
-                      or (  $this->{attachment}
-                        and $this->{attachment} eq $this->{tompath}->[1] )
-                ) if DEBUG;
-                if ( $this->{tompath}->[0] eq 'attachment'
-                    and scalar( @{ $this->{tompath} } ) == 2 )
-                {
-                    $this->{stringified} .= '/' . $this->{tompath}->[1];
-                    if ( defined $this->{rev} ) {
-                        $this->{stringified} .= '@' . $this->{rev};
-                    }
-                }
-                else {
-                    if ( defined $this->{rev} ) {
-                        $this->{stringified} .= '@' . $this->{rev};
-                    }
-                    $this->{stringified} = '\''
-                      . $this->{stringified} . '\'/'
-                      . $this->{tompath}->[0];
-                    if ( $this->{tompath}->[1] ) {
-                        my @path = @{ $this->{tompath} };
-                        my $root = shift(@path);
-
-                        if ( $root eq 'META' and scalar(@path) ) {
-                            $this->{stringified} .= ':' . shift(@path);
+        if ( $this->{webpath} ) {
+            $this->{stringified} =
+              join( $this->{stringifiedwebsep}, @{ $this->{webpath} } );
+            if ( $this->{topic} ) {
+                $this->{stringified} .=
+                  $this->{stringifiedtopicsep} . $this->{topic};
+                if ( $this->{tompath} ) {
+                    ASSERT( ref( $this->{tompath} ) eq 'ARRAY'
+                          and scalar( @{ $this->{tompath} } ) )
+                      if DEBUG;
+                    print STDERR 'tompath:    ' . Dumper( $this->{tompath} )
+                      if TRACEATTACH;
+                    print STDERR 'attachment: ' . Dumper( $this->{attachment} )
+                      if TRACEATTACH;
+                    ASSERT(
+                             $this->{tompath}->[0] ne 'attachment'
+                          or not $this->{tompath}->[1]
+                          or (  $this->{attachment}
+                            and $this->{attachment} eq $this->{tompath}->[1] )
+                    ) if DEBUG;
+                    if ( $this->{tompath}->[0] eq 'attachment'
+                        and scalar( @{ $this->{tompath} } ) == 2 )
+                    {
+                        $this->{stringified} .= '/' . $this->{tompath}->[1];
+                        if ( defined $this->{rev} ) {
+                            $this->{stringified} .= '@' . $this->{rev};
                         }
-                        if ( scalar(@path) ) {
-                            if ( defined $path[0] ) {
-                                $this->{stringified} .= '[';
-                                if ( ref( $path[0] ) eq 'HASH' ) {
-                                    my @selectorparts;
-                                    while ( my ( $key, $value ) =
-                                        each %{ $path[0] } )
-                                    {
-                                        push( @selectorparts,
-                                            $key . '=\'' . $value . '\'' );
-                                    }
-                                    $this->{stringified} .=
-                                      join( ' AND ', @selectorparts );
-                                    shift(@path);
-                                }
-                                else {
-                                    ASSERT( $path[0] =~ /^\d+$/ ) if DEBUG;
-                                    $this->{stringified} .= shift(@path);
-                                }
-                                $this->{stringified} .= ']';
-                            }
-                            else {
-                                shift @path;
+                    }
+                    else {
+                        if ( defined $this->{rev} ) {
+                            $this->{stringified} .= '@' . $this->{rev};
+                        }
+                        $this->{stringified} = '\''
+                          . $this->{stringified} . '\'/'
+                          . $this->{tompath}->[0];
+                        if ( $this->{tompath}->[1] ) {
+                            my @path = @{ $this->{tompath} };
+                            my $root = shift(@path);
+
+                            if ( $root eq 'META' and scalar(@path) ) {
+                                $this->{stringified} .= ':' . shift(@path);
                             }
                             if ( scalar(@path) ) {
-                                ASSERT( scalar(@path) == 1 ) if DEBUG;
-                                $this->{stringified} .= '.' . shift(@path);
+                                if ( defined $path[0] ) {
+                                    $this->{stringified} .= '[';
+                                    if ( ref( $path[0] ) eq 'HASH' ) {
+                                        my @selectorparts;
+                                        while ( my ( $key, $value ) =
+                                            each %{ $path[0] } )
+                                        {
+                                            push( @selectorparts,
+                                                $key . '=\'' . $value . '\'' );
+                                        }
+                                        $this->{stringified} .=
+                                          join( ' AND ', @selectorparts );
+                                        shift(@path);
+                                    }
+                                    else {
+                                        ASSERT( $path[0] =~ /^\d+$/ ) if DEBUG;
+                                        $this->{stringified} .= shift(@path);
+                                    }
+                                    $this->{stringified} .= ']';
+                                }
+                                else {
+                                    shift @path;
+                                }
+                                if ( scalar(@path) ) {
+                                    ASSERT( scalar(@path) == 1 ) if DEBUG;
+                                    $this->{stringified} .= '.' . shift(@path);
+                                }
                             }
+                            ASSERT( not scalar(@path) ) if DEBUG;
                         }
-                        ASSERT( not scalar(@path) ) if DEBUG;
                     }
                 }
+                elsif ( defined $this->{rev} ) {
+                    $this->{stringified} .= '@' . $this->{rev};
+                }
             }
-            elsif ( defined $this->{rev} ) {
-                $this->{stringified} .= '@' . $this->{rev};
+            else {
+                $this->{stringified} .= $this->{stringifiedwebsep};
             }
         }
         else {
-            ASSERT( $this->{webpath} );
-            $this->{stringified} .= $this->{stringifiedwebsep};
+            ASSERT( $this->{root} );
+            $this->{stringified} = '/';
         }
     }
     print STDERR "stringify(): $this->{stringified}\n"
