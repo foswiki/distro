@@ -26,6 +26,7 @@ sub set_up {
     $this->{target_topic} = "$this->{test_topic}Target";
     my $webObject = Foswiki::Meta->new( $this->{session}, $this->{target_web} );
     $webObject->populateNewWeb();
+    $webObject->finish();
 
     Foswiki::Func::getContext()->{view} = 1;
     $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
@@ -44,7 +45,9 @@ sub tear_down {
 
 sub writeTopic {
     my ( $this, $web, $topic, $text ) = @_;
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, $text );
+    my ($meta) = Foswiki::Func::readTopic( $web, $topic );
+
+    $meta->text($text);
     $meta->save();
 
     return;
@@ -240,6 +243,7 @@ HERE
     $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
 
     $text = Foswiki::Func::readTopicText( $web, $topic );
+    $session->finish();
     $this->assert_matches( qr/$comm/, $text, "$web.$topic: $text" );
 
     #uncomment this to debug what the actual output looks like.
@@ -404,6 +408,7 @@ HERE
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
+    $session->finish();
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -449,6 +454,7 @@ HERE
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
+    $session->finish();
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -517,6 +523,7 @@ HERE
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
+    $session->finish();
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -573,6 +580,7 @@ HERE
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
+    $session->finish();
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -627,6 +635,7 @@ HERE
         ( $responseText, $result, $stdout, $stderr ) =
           $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
     };
+    $session->finish();
 
     $this->assert($@);
     $this->assert_matches( qr"AccessControlException", $@ );
@@ -646,6 +655,7 @@ HERE
 
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $session->finish();
     $text =~ s/- \d\d [A-Z][a-z]{2} \d{4}/- DATE/;
     $this->assert_str_equals( <<HERE, $text );
    * Set DENYTOPICCHANGE = WikiGuest
@@ -687,6 +697,7 @@ HERE
           $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
     };
     $this->assert_matches( qr/Status: 404/, $responseText );
+    $session->finish();
 
 }
 
