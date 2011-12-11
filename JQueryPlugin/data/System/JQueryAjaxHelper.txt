@@ -208,7 +208,8 @@ Uses the =[[#Topic_selector][topic]]= server section, defined above.
 </form>
 
 ---++ User selector 
-<div class="foswikiHelp">%X% *Note:* This example obtains user information with the %<nop>USERINFO% macro.   If the wiki is configured to hide user details (=$Foswiki::cfg{AntiSpam}{HideUserDetails}=), then this tool will only list the user's !WikiName unless you are an administrator.</div>
+<div class="foswikiHelp">%X% *Note:* This example obtains user information with the %<nop>USERINFO% macro.   If the wiki is configured to hide user details (=$Foswiki::cfg{AntiSpam}{HideUserDetails}=), then this example will not work unless you are an administrator.</div>
+
 ---+++ Client section
 *INCLUDE Parameters*
    * =INPUT_NAME=: name of text input field
@@ -247,13 +248,11 @@ jQuery(function($){
 <verbatim class="tml">
 %STARTSECTION{"user"}%<literal>%FORMAT{
   "%SEARCH{
-     "name=~'^%URLPARAM{"term" default="does not exist"}%.*'
-     AND ( FirstName OR  META:PREFERENCE[name='GROUP'] )"
-     type="query"
-     scope="text"
-     topic="%URLPARAM{"term" default="does not exist"}%*"
+     "^%URLPARAM{"term" default="does not exist"}%.*"
+     type="regex"
+     scope="topic"
      format="$percntIF{\"'$percntGROUPINFO{\"$topic\" format=\"$dollarname, \" limit=\"1\"}$percnt'=''\"
-          then=\"$topic, \"
+          then=\"$percntUSERINFO{\"$topic\" format=\"$dollarwikiname, \"}$percnt\"
           else=\"$percntGROUPINFO{\"$topic\" format=\"$dollarname, \" limit=\"1\"}$percnt\"
         }$percnt"
      separator=""
