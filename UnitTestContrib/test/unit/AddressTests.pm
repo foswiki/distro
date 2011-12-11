@@ -398,7 +398,6 @@ sub gen_testspec_fns {
         no strict 'refs';
         *{$fn} = sub {
 
-#print STDERR "Parsing \"$test->{string}\", expecting: " . Data::Dumper->Dump([$addrObj]) if TRACE;
             my $parsedaddrObj = Foswiki::Address->new(
                 string => $test->{string},
                 %extraopts
@@ -407,10 +406,11 @@ sub gen_testspec_fns {
             if ( $test->{expectfail} ) {
                 $this->expect_failure();
             }
+            print STDERR "Parsing \"$test->{string}\", expecting: " . Data::Dumper->Dump([$parsedaddrObj]) if TRACE;
             $this->assert( $parsedaddrObj->equiv($addrObj),
-                    'Parsed: '
+                    'Parsed '
                   . $parsedaddrObj->stringify()
-                  . ', not equivalent to: '
+                  . ' from non-equivalent: '
                   . $addrObj->stringify() );
             $this->assert_str_equals( $parsedaddrObj->type(), $test->{type} );
             $parsedaddrObj->finish();
