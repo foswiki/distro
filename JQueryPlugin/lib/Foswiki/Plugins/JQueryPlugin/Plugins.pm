@@ -5,11 +5,11 @@ use strict;
 use warnings;
 use Foswiki::Func;
 
-our @iconSearchPath;
-our %iconCache;
-our %plugins;
-our %themes;
-our $debug;
+my @iconSearchPath;
+my %iconCache;
+my %plugins;
+my %themes;
+my $debug;
 
 =begin TML
 

@@ -75,10 +75,15 @@ sub initPlugin {
 finish up the plugins container
 
 SMELL: I'd prefer a proper finishHandler, alas it does not exist
-
+SMELL: Item11349 - this never gets called from unit tests, see finishPlugin(),
+       added in Item1328 for 1.1.0
 =cut
 
 sub modifyHeaderHandler {
+    Foswiki::Plugins::JQueryPlugin::Plugins::finish();
+}
+
+sub finishPlugin {
     Foswiki::Plugins::JQueryPlugin::Plugins::finish();
 }
 
