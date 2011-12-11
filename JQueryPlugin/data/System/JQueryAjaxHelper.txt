@@ -247,9 +247,11 @@ jQuery(function($){
 <verbatim class="tml">
 %STARTSECTION{"user"}%<literal>%FORMAT{
   "%SEARCH{
-     "^%URLPARAM{"term" default="does not exist"}%.*"
-     type="regex"
-     scope="topic"
+     "name=~'^%URLPARAM{"term" default="does not exist"}%.*'
+     AND ( FirstName OR  META:PREFERENCE[name='GROUP'] )"
+     type="query"
+     scope="text"
+     topic="%URLPARAM{"term" default="does not exist"}%*"
      format="$percntIF{\"'$percntGROUPINFO{\"$topic\" format=\"$dollarname, \" limit=\"1\"}$percnt'=''\"
           then=\"$topic, \"
           else=\"$percntGROUPINFO{\"$topic\" format=\"$dollarname, \" limit=\"1\"}$percnt\"
