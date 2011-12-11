@@ -11,9 +11,8 @@ use Benchmark qw(:hireswallclock);
 use Foswiki::Address();
 use constant TRACE => 0;
 
-my $FoswikiSESSION;
-my $test_web  = 'Temporary' . __PACKAGE__ . 'TestWeb';
-my %testrange = (
+my $test_web             = 'Temporary' . __PACKAGE__ . 'TestWeb';
+my %test_roundtrip_range = (
     webpath => [
         [$test_web],
         [ 'Missing' . $test_web ],
@@ -246,9 +245,6 @@ my %testspec = (
         type   => 'root'
     }
 );
-my %rangetestitems;
-my %spectestitems;
-my $done_init;
 
 sub new {
     my ( $class, @args ) = @_;
@@ -256,7 +252,6 @@ sub new {
 
     $this->{test_web}   = $test_web;
     $this->{test_topic} = 'TestTopic' . $class;
-    $this->gen_testrange_fns();
     $this->gen_testspec_fns();
 
     return $this;
@@ -266,45 +261,16 @@ sub set_up {
     my ($this) = @_;
 
     # We don't want the overhead of creating a new session for each tests
-    if ( not $done_init ) {
-        my $query = Unit::Request->new("");
-        $this->SUPER::set_up();
-        $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    my $query = Unit::Request->new("");
+    $this->SUPER::set_up();
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-        #$this->{session}->finish();
-        $this->{session} =
-          Foswiki->new( $Foswiki::cfg{AdminUserLogin}, $query );
+    $this->{session}->finish() if $this->{session};
+    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin}, $query );
 
-        # SMELL: Why do I need to set this? I don't get our unit tests...
-        #$this->{session}->{webName} = $this->{test_web};
+    ( $this->{test_topicObject} ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
-        $this->{test_topicObject} = Foswiki::Meta->new(
-            $this->{session},    $this->{test_web},
-            $this->{test_topic}, "BLEEGLE\n"
-        );
-
-        $this->gendata( \%testrange );
-        $Foswiki::Plugins::SESSION = $this->{session};
-        $FoswikiSESSION            = $this->{session};
-        $done_init                 = 1;
-    }
-    else {
-        $this->{session} = $FoswikiSESSION;
-
-        #$Foswiki::Plugins::SESSION = $this->{session};
-    }
-
-    #SMELL: Item10943 - the expect failure flag doesn't get reset because
-    #       the test fixture is preserved between tests.  Clear the flag
-    #       as a workaround to the problem
-    #$this->expect_failure(0);
-
-    return;
-}
-
-# We don't want the overhead of creating a new session for each tests, so this
-# does nothing.
-sub tear_down {
     return;
 }
 
@@ -391,62 +357,64 @@ sub test_nothing {
     return;
 }
 
-sub gen_testrange_fns {
+sub test_roundtrips {
     my ($this) = @_;
 
-    if ( not scalar( keys %rangetestitems ) ) {
-        %rangetestitems = ( $this->gen_range_tests( \%testrange ) );
-    }
-    while ( my ( $testname, $testitem ) = each %rangetestitems ) {
-        my $fn = __PACKAGE__ . '::test_' . $testname;
+=pod
+    $this->gendata( \%test_roundtrip_range );
+    my %test_range = $this->gen_roundtrip_range_tests( \%test_roundtrip_range );
+    
+    while ( my ( $testname, $testitem ) = each ( %test_range ) ) {
         my %extraopts;
+        my $parsedaddrObj;
 
         if ( $testitem->{addrObj}->isA('webpath') ) {
             %extraopts = ( existAs => [qw(file topic web)] );
         }
-        no strict 'refs';
-        *{$fn} = sub {
-            my $parsedaddrObj = Foswiki::Address->new(
-                string => $testitem->{addrObj}->stringify(),
-                %extraopts
-            );
+        $parsedaddrObj = Foswiki::Address->new(
+            string => $testitem->{addrObj}->stringify(),
+            %extraopts
+        );
 
-            $this->assert( $parsedaddrObj->equiv( $testitem->{addrObj} ) );
-
-            return;
-        };
-        use strict 'refs';
+        print STDERR "Testing: $testname\n" if TRACE;
+        $this->assert( $parsedaddrObj->equiv( $testitem->{addrObj} ), $testname );
+        $parsedaddrObj->finish();
+        $testitem->{addrObj}->finish();
     }
+=cut
 
     return;
 }
 
 sub gen_testspec_fns {
     my ($this) = @_;
+    my %tests;
 
-    if ( not scalar( keys %spectestitems ) ) {
-        %spectestitems = ( $this->gen_spec_tests( \%testspec ) );
-    }
-    while ( my ( $testname, $testitem ) = each %spectestitems ) {
-        my $fn = __PACKAGE__ . '::test_' . $testname;
+    while ( my ( $testname, $test ) = each %testspec ) {
+        my $addrObj = Foswiki::Address->new( %{ $test->{atoms} } );
+        my $fn      = __PACKAGE__ . '::test_' . $testname;
         my %extraopts;
 
         no strict 'refs';
         *{$fn} = sub {
+
+#print STDERR "Parsing \"$test->{string}\", expecting: " . Data::Dumper->Dump([$addrObj]) if TRACE;
             my $parsedaddrObj = Foswiki::Address->new(
-                string => $testitem->{string},
+                string => $test->{string},
                 %extraopts
             );
 
-            if ( $testitem->{expectfail} ) {
-                $this->assert(
-                    not $parsedaddrObj->equiv( $testitem->{addrObj} ) );
-                $this->assert( $parsedaddrObj->type() ne $testitem->{type} );
+            if ( $test->{expectfail} ) {
+                $this->expect_failure();
             }
-            else {
-                $this->assert( $parsedaddrObj->equiv( $testitem->{addrObj} ) );
-                $this->assert( $parsedaddrObj->type() eq $testitem->{type} );
-            }
+            $this->assert( $parsedaddrObj->equiv($addrObj),
+                    'Parsed: '
+                  . $parsedaddrObj->stringify()
+                  . ', not equivalent to: '
+                  . $addrObj->stringify() );
+            $this->assert_str_equals( $parsedaddrObj->type(), $test->{type} );
+            $parsedaddrObj->finish();
+            $addrObj->finish();
 
             return;
         };
@@ -460,19 +428,14 @@ sub list_tests {
     my ( $this, $suite ) = @_;
     my @testnames;
 
-    if ( not scalar( keys %rangetestitems ) ) {
-        %rangetestitems = $this->gen_range_tests( \%testrange );
-        %spectestitems  = $this->gen_spec_tests( \%testspec );
-    }
-    foreach my $testname ( keys %rangetestitems, keys %spectestitems ) {
+    foreach my $testname ( keys %testspec ) {
         push( @testnames, __PACKAGE__ . '::test_' . $testname );
     }
 
-    #return @testnames, $this->SUPER::list_tests($suite);
     return $this->SUPER::list_tests($suite);
 }
 
-sub gen_range_tests {
+sub gen_roundtrip_range_tests {
     my ( $this, $range ) = @_;
     my %tests;
 
@@ -511,18 +474,21 @@ sub gen_range_tests {
                                     my $string = $addrObj->stringify();
 
                                     if ($string) {
-                                        my $name = 'range_' . $string;
 
-                                        $name =~ s/\//_sl_/g;
-                                        $name =~ s/\./_dt_/g;
-                                        $name =~ s/\@/_at_/g;
-                                        $name =~ s/'/_qt_/g;
-                                        $name =~ s/\[/_ls_/g;
-                                        $name =~ s/\]/_rs_/g;
-                                        $name =~ s/=/_eq_/g;
-                                        $name =~ s/:/_co_/g;
-                                        $name =~ s/\ /_/g;
-                                        $tests{$name} = { addrObj => $addrObj };
+                                       #my $name = 'range_' . $string;
+                                       #
+                                       #$name =~ s/\//_sl_/g;
+                                       #$name =~ s/\./_dt_/g;
+                                       #$name =~ s/\@/_at_/g;
+                                       #$name =~ s/'/_qt_/g;
+                                       #$name =~ s/\[/_ls_/g;
+                                       #$name =~ s/\]/_rs_/g;
+                                       #$name =~ s/=/_eq_/g;
+                                       #$name =~ s/:/_co_/g;
+                                       #$name =~ s/\ /_/g;
+                                       #$tests{$name} = { addrObj => $addrObj };
+                                        $tests{$string} =
+                                          { addrObj => $addrObj };
                                     }
                                 }
                             }
@@ -531,22 +497,6 @@ sub gen_range_tests {
                 }
             }
         }
-    }
-
-    return %tests;
-}
-
-sub gen_spec_tests {
-    my ( $this, $spec ) = @_;
-    my %tests;
-
-    while ( my ( $testname, $test ) = each %{$spec} ) {
-        $tests{$testname} = {
-            addrObj    => Foswiki::Address->new( %{ $test->{atoms} } ),
-            string     => $test->{string},
-            type       => $test->{type},
-            expectfail => $test->{expectfail}
-        };
     }
 
     return %tests;
