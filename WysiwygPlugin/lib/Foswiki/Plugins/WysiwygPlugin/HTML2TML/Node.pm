@@ -1475,7 +1475,7 @@ sub _handleDIV {
     if ( ( $options & $WC::NO_BLOCK_TML )
         || !$this->_isConvertableIndent( $options | $WC::NO_BLOCK_TML ) )
     {
-        return $this->_handleP(@_);
+        return $this->_handleP( $options );
     }
     return ( $WC::BLOCK_TML, $this->_convertIndent($options) );
 }
