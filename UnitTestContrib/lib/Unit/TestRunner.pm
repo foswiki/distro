@@ -207,7 +207,7 @@ HERE
                   . " unexpected results (of "
                   . $this->{tests_per_module}{$module} . "):\n";
                 $unexpected_total += $this->{unexpected_result}{$module};
-                foreach my $test ( sort( @{ $this->{unexpected_passes} } )) {
+                foreach my $test ( sort( @{ $this->{unexpected_passes} } ) ) {
 
                     # SMELL: we should really re-arrange data structures to
                     # avoid guessing which module the test belongs to...
@@ -215,7 +215,7 @@ HERE
                         $this->_print_unexpected_test( $test, 'P' );
                     }
                 }
-                foreach my $test ( sort( @{ $this->{failures} } )) {
+                foreach my $test ( sort( @{ $this->{failures} } ) ) {
                     ($test) = split( /\n/, $test );
 
                     # SMELL: we should really re-arrange data structures to
@@ -454,6 +454,7 @@ sub runOne {
         try {
             $action .= '$this->{tests_per_module}->{\'' . $suite . '\'}++;';
             $tester->$test();
+            _finish_singletons() if CHECKLEAK;
             $action .= '$passes++;';
             if ( $tester->{expect_failure} ) {
                 print "*** Unexpected pass\n";
@@ -478,8 +479,20 @@ sub runOne {
               quotemeta($test) . '\\n' . quotemeta( $e->stringify() ) . '" );';
         };
         $tester->tear_down($test);
+        _finish_singletons() if CHECKLEAK;
     }
     return $action;
+}
+
+sub _finish_singletons {
+
+    # Item11349. This class keeps a bunch of singletons around, which is
+    # the same as a memory leak.
+    if ( eval { require Foswiki::Serialise; 1; }
+        && Foswiki::Serialise->can('finish') )
+    {
+        Foswiki::Serialise->finish();
+    }
 }
 
 1;
