@@ -101,9 +101,11 @@ loads the =topic= section of this topic, which expands to the topic list.
 ---++ Web selector
 Select from a list of webs, using autocomplete
 
-__Note:__ there is currently no way to filter a list of webs in the
-default Foswiki core. To use this example you will have to install
-Foswiki:Extensions.FlexWebListPlugin.
+<div class="foswikiHelp">%X% __Note:__ there is currently no way to filter a list of webs in the
+default Foswiki core. %IF{"context FlexWebListPluginEnabled" then="This
+example uses the FlexWebListPlugin to obtain the list of webs."
+else="!FlexWeblist Plugin is *not* installed.  To use this example you will have to install
+Foswiki:Extensions.FlexWebListPlugin. "}% </div>
 
 ---+++ Client section
 *INCLUDE Parameters*
@@ -138,7 +140,7 @@ Foswiki:Extensions.FlexWebListPlugin.
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <h3 >Select a web:</h3>
-%INCLUDE{"%TOPIC%" section="webselector" INPUT_NAME="newweb"}%
+%IF{"context FlexWebListPluginEnabled" then="$percntINCLUDE{\"%TOPIC%\" section=\"webselector\" INPUT_NAME=\"newweb\"}$percnt" else="Install Foswiki:Extensions.FlexWebListPlugin to use this example"}%
 </div>
 </div>
 </form>
@@ -300,7 +302,7 @@ jQuery(function($){
          function(data) {
              // This is the function that will be executed when the
              // data is fetched
-             alert(\"Value is '\" + data + \"'\");
+             alert(\"%QUERY% is '\" + data + \"'\");
          });
   });
 });
