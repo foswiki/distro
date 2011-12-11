@@ -70,7 +70,10 @@ use Foswiki::Meta();
 #use Data::Dumper;
 use constant TRACE       => 0;    # Don't forget to uncomment dumper
 use constant TRACE2      => 0;
+use constant TRACEVALID  => 0;
 use constant TRACEATTACH => 0;
+
+#our @THESE;
 
 my %atomiseAs = (
     root       => \&_atomiseAsRoot,
@@ -305,7 +308,8 @@ sub new {
         #            tompath => $opts{tompath},
         #            rev     => $opts{rev},
         #        };
-        print STDERR "\$this: " . Dumper( \%opts ) if TRACEATTACH;
+        print STDERR "\$this: " . Data::Dumper->Dump( [ \%opts ] )
+          if TRACEATTACH;
         if ( $opts{attachment} and not $opts{tompath} ) {
             print STDERR "Assigning {tompath} from {attachment}\n"
               if TRACEATTACH;
@@ -333,6 +337,8 @@ sub new {
         #$this->parse( $_[0]->{string} );
         $this = bless( \%opts, $class );
     }
+
+    #push(@THESE, $this);
 
     return $this;
 }
@@ -599,7 +605,7 @@ sub parse {
         }
         $plaus = $plausibletable{$sepident};
         print STDERR "Identity\t$sepident calculated for $path, plaustable: "
-          . Dumper($plaus)
+          . Data::Dumper->Dump( [$plaus] )
           if TRACE;
 
         # Is the identity known?
@@ -658,7 +664,7 @@ sub parse {
                     $typeatoms{$type} =
                       $atomiseAs{$type}->( $this, {}, $path, \%opts );
                     print STDERR "Atomised $path as $type, result: "
-                      . Dumper( $typeatoms{$type} )
+                      . Data::Dumper->Dump( [ $typeatoms{$type} ] )
                       if TRACE;
                     ( $besttype, $score ) =
                       $this->_existScore( $typeatoms{$type}, $type );
@@ -1102,9 +1108,11 @@ sub stringify {
                     ASSERT( ref( $this->{tompath} ) eq 'ARRAY'
                           and scalar( @{ $this->{tompath} } ) )
                       if DEBUG;
-                    print STDERR 'tompath:    ' . Dumper( $this->{tompath} )
+                    print STDERR 'tompath:    '
+                      . Data::Dumper->Dump( [ $this->{tompath} ] )
                       if TRACEATTACH;
-                    print STDERR 'attachment: ' . Dumper( $this->{attachment} )
+                    print STDERR 'attachment: '
+                      . Data::Dumper->Dump( [ $this->{attachment} ] )
                       if TRACEATTACH;
                     ASSERT(
                              $this->{tompath}->[0] ne 'attachment'
@@ -1444,9 +1452,17 @@ sub isValid {
     my ($this) = @_;
 
     if ( not defined $this->{isA} ) {
+        print STDERR "isValid(): we don't know what we are (yet)\n"
+          if TRACEVALID;
         if ( $this->{topic} ) {
+            $this->_trace_have_valid('topic') if TRACEVALID;
+            ASSERT( $this->{topic} !~ /[\/\.]/,
+                "topic '$this->{topic}' contains no path separators" )
+              if DEBUG;
             if ( $this->{webpath} ) {
+                $this->_trace_have_valid('webpath') if TRACEVALID;
                 if ( $this->{attachment} ) {
+                    $this->_trace_is_valid('attachment') if TRACEVALID;
                     $this->{type} = 'attachment';
                 }
                 elsif ( $this->{tompath} ) {
@@ -1461,9 +1477,11 @@ sub isValid {
                     $this->{type} =
                       $pathtypes{ $this->{tompath}->[0] }
                       ->{ scalar( @{ $this->{tompath} } ) };
+                    $this->_trace_is_valid( $this->{type} ) if TRACEVALID;
                 }
                 else {
                     ASSERT( not defined $this->{tompath} ) if DEBUG;
+                    $this->_trace_is_valid('topic') if TRACEVALID;
                     $this->{type} = 'topic';
                 }
             }
@@ -1471,9 +1489,11 @@ sub isValid {
         elsif ( $this->{webpath}
             and not defined $this->{tompath} )
         {
+            $this->_trace_is_valid('webpath') if TRACEVALID;
             $this->{type} = 'webpath';
         }
         elsif ( $this->{root} ) {
+            $this->_trace_is_valid('root') if TRACEVALID;
             $this->{type} = 'root';
         }
         else {
@@ -1484,6 +1504,8 @@ sub isValid {
             $this->{root} = 1;
         }
         else {
+            print STDERR "isValid(): INVALID: " . $this->_trace_stringify($this)
+              if TRACEVALID;
             $this->{isA} = {};
         }
         ASSERT(
@@ -1493,8 +1515,40 @@ sub isValid {
               . "' is numeric"
         ) if DEBUG;
     }
+    print STDERR "isValid(): final type is: $this->{type}\n" if TRACEVALID;
 
     return $this->{type};
+}
+
+sub _trace_stringify {
+    my ( $this, $thing ) = @_;
+
+    if ( ref($thing) ) {
+        require Data::Dumper;
+        $thing = Data::Dumper->Dump( [$thing] );
+    }
+
+    return $thing;
+}
+
+sub _trace_have_valid {
+    my ( $this, $what ) = @_;
+
+    print STDERR "isValid(): have $what => '"
+      . $this->_trace_stringify( $this->{$what} ) . "'\n"
+      if TRACEVALID;
+
+    return;
+}
+
+sub _trace_is_valid {
+    my ( $this, $what ) = @_;
+
+    print STDERR "isValid(): type is $what => '"
+      . $this->_trace_stringify( $this->{$what} ) . "'\n"
+      if TRACEVALID;
+
+    return;
 }
 
 # Internally, this is called so that the next isValid() call will re-evaluate
@@ -1577,8 +1631,8 @@ sub equiv {
     }
     if ( not $equal ) {
         print STDERR "equiv(): NOT equal "
-          . Dumper($this) . " vs "
-          . Dumper($other) . "\n"
+          . Data::Dumper->Dump( [$this] ) . " vs "
+          . Data::Dumper->Dump( [$other] ) . "\n"
           if TRACE;
     }
 
