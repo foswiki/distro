@@ -400,7 +400,6 @@ sub _getIncludeParams {
 
     if ( !Foswiki::Func::topicExists( $includeWeb, $includeTopic ) ) {
         _debug("TablePlugin: included topic $inIncludeTopic does not exist.");
-        die("TablePlugin: included topic $inIncludeTopic does not exist.");
     }
     else {
 
